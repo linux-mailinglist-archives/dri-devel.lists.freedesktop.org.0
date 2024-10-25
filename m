@@ -2,83 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE079AFB56
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 09:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A87C9AFB85
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 09:51:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50A2410EA12;
-	Fri, 25 Oct 2024 07:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44BEA10E2AD;
+	Fri, 25 Oct 2024 07:51:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hKODa1Oi";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="gVS/e2B0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AFE210E2AD;
- Fri, 25 Oct 2024 07:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729842395; x=1761378395;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Mzm/p9vp/1SxZYyxLUIAr3dK4m/QwRpy+mAy/vi+65A=;
- b=hKODa1Oi5vnZpADZqmlQaefcdi4vzZxWqD+KdBeJYCBVsDcc9z5bVBrx
- lm0lQByCRG/2WmaomLavVr3Uy72f8gUOLPfkCR73YMQ6OsoQFghTwJgCz
- LYBGCKFT5ac+rMubDD1v31DXUN2pFM9mLepSd2JEofG4qYWQw+mrzFram
- zpqKIP++x788gBHqpLPqcNb26SUA1pf2nK0L3y9KdwGcm5vZbhZDRlJW5
- H2vbldL1Q4Hqof/r5TaIALk8zX0SoZQk9FVje8pbXnrZ2l1EBvwQ1ljcm
- 8ANB+a6Z92kWkHrCmaMH6vUSBZESOOgqsuGLpAEf2Ug6WJvU+9EXY8MDJ w==;
-X-CSE-ConnectionGUID: 27OlbVaPToKMPx7CNRPMPg==
-X-CSE-MsgGUID: jt+K5vMXRlaPxtaaKR2u6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29446886"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29446886"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2024 00:46:34 -0700
-X-CSE-ConnectionGUID: 4NLKVHg9T6yFez9/u+3hfQ==
-X-CSE-MsgGUID: 8E8OB6zhRpuvXvELpRP+eg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="80948136"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 25 Oct 2024 00:46:24 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 25 Oct 2024 10:46:23 +0300
-Date: Fri, 25 Oct 2024 10:46:23 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- amd-gfx@lists.freedesktop.org, Andy Yan <andy.yan@rock-chips.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Inki Dae <inki.dae@samsung.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Karol Herbst <kherbst@redhat.com>,
- linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-arm-msm@vger.kernel.orga, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org,
- Liviu Dudau <liviu.dudau@arm.com>, Lyude Paul <lyude@redhat.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- nouveau@lists.freedesktop.org, nouveau@lists.freedesktop.orga,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Sandy Huang <hjc@rock-chips.com>, Sean Paul <sean@poorly.run>,
- spice-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- xen-devel@lists.xenproject.org, Xinhui Pan <Xinhui.Pan@amd.com>,
- Zack Rusin <zack.rusin@broadcom.com>
-Subject: Re: [PATCH 0/2] drm: Treewide plane/crtc legacy state sweeping
-Message-ID: <ZxtMz8JP3DbzpMew@intel.com>
-References: <20241002182200.15363-1-ville.syrjala@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2084.outbound.protection.outlook.com [40.107.94.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5CF10E2AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 07:51:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QFObF4mqStO5T5V7PsPgnfTDPtKcTFK7LQju7kpMvCpQjAOhEQbf6ir8fc9zG16OiiiUezj+roRCdF5LhP+dDE8D7rjaWNmJOmHBP+3ZcDSzz4S0BRqXEFV+UKcWE+pN1+gmoppuSvv1ZKv4dkTvtavGggD6UId+/ZZCFZBn0xIpAELP1fYAHJt7PIHgQLyDhZlA+NUMsNwYT0JfRGOYllb2sYIkwq9hsLSCla78/CoDdQdifoQZO/DIWV2gXeijetIM8BRN7zJ8ELRqSHxaivzX9roW3w+TXP4Tz6Lg4Ef3PSRj7bxvjgCYf9CTe4xjB9Q3Uu69xE1hGuaVjfBf7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Soh5htLbmqhnQbUK8LL692N7Mzh4mOjE3biFcwK0Bf8=;
+ b=WriIM16qhA9bo2YIn8b6Jx83yz3Xa6FZKrhj1OTbm1aW8CNFYzo3C0Ww2w0cN7oHqi92JgIct8OLzT0quLiYyvdAg69IDNCkapiW2o4AoMSQCp8qZRGO9n7C3vBQjJQ98743+c8e1iVfRMfEO6TIVOHb+FAHhYeZv6/l6rAYNPcAp+uL5rzs8PAWnmTAWvpgWLVtA0eiqtGjAeTQmdPDSr6a4kXCU7Xps3aeqJNUW9o96vV0E9OjIPOhoGE+il2RVIKlo9Tx2mHEd+ay12KlvMP3Vgt1W7YEtlTmdCBM2cHE/DslsL5/cxj+io/c8fOGC72WdEeYx4h23W+DXQUbog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Soh5htLbmqhnQbUK8LL692N7Mzh4mOjE3biFcwK0Bf8=;
+ b=gVS/e2B0zqrdBbBbWTK0AZCm7l0Ex86lwUcbG7To2uAWLfg6n+ZIfA3GgOLRjyVLWXkxnywoiKWrln3MTXQrFRJjb/0fOkYfgtmXIGf6fWvjC+qZLEgWPnuBimR/L9VkY1yVva76RBQksW+4F7g2ZjGduqhPZ66Kpet58E3sXMdXCEQ9z2pfwFM1gs3PiZsMjgJKNQJpSTgYhg0WLkRCxsw5oIJ5M4rHj7fRifyJaq23MmEe9Fkn49gr2YwZVYa2v24S9Uh+0+U1IuNtcrgvnWmmlB8p39ANwftv+JoW57LFZqsgTmLQ6uGzdh6lDVKhpkuNDdihfg3xOWjGl64pww==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB7914.namprd12.prod.outlook.com (2603:10b6:510:27d::13)
+ by LV2PR12MB5920.namprd12.prod.outlook.com (2603:10b6:408:172::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.20; Fri, 25 Oct
+ 2024 07:51:46 +0000
+Received: from PH7PR12MB7914.namprd12.prod.outlook.com
+ ([fe80::8998:fe5c:833c:f378]) by PH7PR12MB7914.namprd12.prod.outlook.com
+ ([fe80::8998:fe5c:833c:f378%4]) with mapi id 15.20.8093.018; Fri, 25 Oct 2024
+ 07:51:45 +0000
+Message-ID: <46b487ec-e8a6-43fb-85d5-f264618f2e5d@nvidia.com>
+Date: Fri, 25 Oct 2024 15:51:40 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] PCI/VGA: Don't assume only VGA device found is the boot
+ VGA device
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Luke Jones <luke@ljones.dev>, Mario Limonciello <superm1@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+References: <20241014152502.1477809-1-superm1@kernel.org>
+ <20b48c6f-7ea9-4571-a39c-f20a9cf62319@app.fastmail.com>
+ <f56c555f-7313-43ff-abe4-28fb246e31cc@nvidia.com>
+ <CADnq5_OjfJzcOqa=NbWVw5ENvi+nmvNAZX0u_0hOvk3EVoh0bw@mail.gmail.com>
+ <fd7cae9a-5ee1-4e18-915d-4115f0a6a156@nvidia.com>
+ <CADnq5_NTBXPbW+u_AxTewH-aouLNn4gxebpzUSzsyev-VxOtcg@mail.gmail.com>
+Content-Language: en-US
+From: Kai-Heng Feng <kaihengf@nvidia.com>
+In-Reply-To: <CADnq5_NTBXPbW+u_AxTewH-aouLNn4gxebpzUSzsyev-VxOtcg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241002182200.15363-1-ville.syrjala@linux.intel.com>
-X-Patchwork-Hint: comment
+X-ClientProxiedBy: TPYP295CA0054.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:8::6)
+ To PH7PR12MB7914.namprd12.prod.outlook.com
+ (2603:10b6:510:27d::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB7914:EE_|LV2PR12MB5920:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ff924a3-4621-4f99-3edf-08dcf4c9df7e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VDJ5cDZtNzdCelU1Z3VSbUFMbUx3VUVIZ0QvYUg3MlV0cnk1NHJ5WXJOai83?=
+ =?utf-8?B?UjlQYnk4cTJTQllCS2Qya1RHSmt4ZG1yTFFJdzFqNkJDYUhpTTAyQXZiUWgr?=
+ =?utf-8?B?eGt1S3g5UjczRkFDZCsxNzRjVlY5cXM1RS9NRk5sUXgwbnNwdjNVam9JZWdQ?=
+ =?utf-8?B?RUdaMllyMjVrUVhLQlR1KzVIVkNaMk44ZnFYTHIwVmZCZ2FWcEkwbWRHenI5?=
+ =?utf-8?B?NEFyNFl0RVFmUk8vNGo3cVkvblpqZVloUEdZTzRnZUxFeXhiVFFmQmgvdEg1?=
+ =?utf-8?B?NVp5NStuU2dVMmNMak0rSldyU1BGRGJMTXB4elF5Q3Q4ZFlCa0QrOC9ySlU1?=
+ =?utf-8?B?S3c4aFBCNi9WamZTSmdaMEp5bnlXL1djM1lIeFdUUDdpUk1ybmU5TkwvMnVJ?=
+ =?utf-8?B?aTVSTE9JelZtK2pVRnlpRHAzUVJXK0ljWkZTbWsxT2JabjhrdjB6TkVCUkxx?=
+ =?utf-8?B?K3BaTDdiVnd1VWlUTWxSYkJSb2J5ZkNJZi9SdHV2SXlqWXB5TjNHZVI4Tlp5?=
+ =?utf-8?B?eVE5djZpeFEyRm0ydEFDRUREc1UyUkpjWGNxWFJuNXA4cEd0Q2VjNllmMlhi?=
+ =?utf-8?B?U3ZpQmo4QThjRnprTzBscWdpaVlzNnhoVmFxMWYyMGQ3aWUzbVdYYURadENJ?=
+ =?utf-8?B?amtBQ3IwazVQTTRML2dLbHRwdVF1ODZwRzZ6UTI5dEthdC9ISU1oQmcrMFJ2?=
+ =?utf-8?B?c1dxUEdRZVA4bU5sVWJFUG5pQmdBSTBIOTU4Nk1MVFVvYjZpR1JXTnlMV0pU?=
+ =?utf-8?B?eEZEanZlOFBtZS95dHJZc2FqRVUwWlZxZnJQT2xzR3ZSeTdCaHZMQUlDeFpn?=
+ =?utf-8?B?OHc1dzRHdUMyNTgzR0wrOW1aMW1UbEhKSUFLWTJLRzlMYkFWSGdXY3owUFhk?=
+ =?utf-8?B?elB6ZFRSbnNGNnpXcC9EcmNzRWVqM0NkS0h1UHk4T1N1ZFJIM1lhVkhoQVhP?=
+ =?utf-8?B?V0l1Nk5JblpvYkV0cXJwRm1QQm12d2R6S0hySElrS2JRL2FrTGdRSU83cWtS?=
+ =?utf-8?B?N2daR0xJNGZYckxPNXFCandLK3c2Y0kzYmJVNHhIT015WllpZTArTnZKUlkz?=
+ =?utf-8?B?YlczUnV4SXY1a0hGeTkveGtjWnRXMVdWZ0JmTE9pTFVhV3hFMTZjSHU3Ukoz?=
+ =?utf-8?B?dERqWmMxd0Jid3RVUmJoLzc2ZnV5SHB1MlY4L3hpVHBLZXFDcGpmc0UyMVFT?=
+ =?utf-8?B?NWx5ZU1kcktVZ2xKN0MvNjBXbjlzWkxqTXEvOFFYbll0MWFRY1paMXBTenhL?=
+ =?utf-8?B?azZXaFExQlR3cityU3BVY3VaUG1SbVdMaDFlbnNDOTF0ck5lZlhCYWVib1dK?=
+ =?utf-8?B?dXhFL0tLc0duOFFiTi9SWGhJd1RsTEdPZHgvak1LVTBiREFLQ2Z6bjZEaHE1?=
+ =?utf-8?B?M3BKYnF4dWg4eFJCRytpK3Y5Z1ZKL05DOE5qRDY5aHg0cTZrWWFXZFdOVFhp?=
+ =?utf-8?B?N1hUTzVqU0RnMktEWjlEV1NVT01naXJVZVV2ZzcxT3lhMjBVZXZIZHo3NVU5?=
+ =?utf-8?B?ZVpFQ2drbWZCdDAwR0Zlck0rOEw1anJOdW8yWHdocXY2RkJ1dExCWTlPQklI?=
+ =?utf-8?B?VE1IeEFvaXJaQ05ZamlEUTdPTzQxYjZialk4SjdkUnkrMEZCWTQyZitWdXVC?=
+ =?utf-8?B?eU1QTnpQU2N2MHo1U2QvSmxlNzJJWFNoZHhySXpUeUFMQlEzSmhuM25DUWdQ?=
+ =?utf-8?B?cy9wb3h5KzIzSm1CUWhjWk1JdEo1WXlTVGR4MHBjVUQvS2ZkMFlhRnRjVlZa?=
+ =?utf-8?Q?4ZzX8zIOfxJ3FUNcfW5uAs7TEn4RK2C1chgEckY?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB7914.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TzZ6MTR6bGJ1MXdLY0p2WGE0TXBwcEs3TWxRek05ZkhyMDFhK2Jtem9VYTR3?=
+ =?utf-8?B?L1hiejVhd2hZazNtalQ1OUY4OE9SZVZGcWxGWldSWnlFUTZsUDFVQkgrbXFZ?=
+ =?utf-8?B?eXQ0UlVNbDdtSUg2bjMxL3RqWW9hc1BCSWJFK25sQjJHVjRCa04zUXRUb3Zt?=
+ =?utf-8?B?V3ArVEkveHVobTV5VE85TVhyazdzVFpwK2IvZSt4YW4rd09ydUsrblJvSFVa?=
+ =?utf-8?B?OGh0b3NXNnJGaTQrU3NiT0RXL0gzczl2RTBmZ3RFWjJDOVVlSUNuQ1crcE1P?=
+ =?utf-8?B?eFdLc3h6UjdhZVc2RGQxZ1dReUNyL0ZBOXUwNndablJRL25XVFRlY0VCVEVP?=
+ =?utf-8?B?bXlzQ2Rrd2R3ejhaYkJwaGE2Lys2UnZ5cGZqVlZ6NXpEYVlJcFg0V3BqT2NE?=
+ =?utf-8?B?aUV1dTMzb202YjV6czFxWnRWcHpZbURqRnpqVW1BSTlKQmcrWm04bUV1OEJk?=
+ =?utf-8?B?SjZkRmQySCtZNXlJS2t6MmdrV1duUjVndXRGWnNkL2k4VEtzWWJlWVRnNE9k?=
+ =?utf-8?B?U2ZFU0dsKzNmdWxxTTd0cnovUi9Qa3plYXBxRUtzODlYMjh3YVhkQURYRWVR?=
+ =?utf-8?B?VHpMRXZxVDRrZC9lL1ptUndscG1SM1ZYYVA5bVdjbGdCc2RQUUJuTStudVpR?=
+ =?utf-8?B?MUtXeGgxMlAwM0pSYWFpbFpRVkVHczJ4emJ0WG9GT2N1TEVjR1hVcjJCSDky?=
+ =?utf-8?B?WDFsWXhxOTdHWUV4YmZ0YUNRS1B3cEw1L25taEMveXdnczVnVnR0NlVpSUdX?=
+ =?utf-8?B?RDR3MWVBSkVFcmxZSlFnNlJib0dJK0o2cm4vNDBMOXhHbmFNaGtveDRxRm4z?=
+ =?utf-8?B?NHYyL3FuOVVnczFjd1FZUnN0amZiek84QTdWRWR4S29UZHdVRnRjQW82VktE?=
+ =?utf-8?B?dDg1Q0ZUcndTYkIvd2FxYUZtb2RJWCtnVjBaQ2FRM1VSYVd6cUxRVVYrV3h4?=
+ =?utf-8?B?dGhacllCcTJtQnF6L2QwSVBZTHk0bEVtZzZ4K1pVa0VUM2FPRFhnKzY1bGZL?=
+ =?utf-8?B?bk15dGY3bXgxRm9ZdG9tNHFISnkzTUxnczJzMmNTTHJQMU10V3oxczV3MmpZ?=
+ =?utf-8?B?c01WWkZVcGRaTDh4Q0RpL0ZGbVhiUWVkS1hFNFVDUG1JNXlOa3RPeGNuODN6?=
+ =?utf-8?B?eUkxT0l1akxvVHRBQk80SCtHNG9KT08wWTlqUys4Tk15TU5ya1ZKYzZnYWNM?=
+ =?utf-8?B?akVRWGwyNzArSDVGaE9HWlF1ZUlqNzNMRE40dG45R2NERUNwK2NiYkwvenRr?=
+ =?utf-8?B?YXBFQ0RVYTBFMURtZGYrbUU4SUZNd0dIa1U4eXVBMnowZVJZMDYyTlRad2Ix?=
+ =?utf-8?B?SVdXRndvWlR6OUluZUhmeU9ySU9NQURPa1JWVlBlUVlCT3M4L2dkMzNSM0Ux?=
+ =?utf-8?B?eS9HNUJhRXdBeTBMNkxpdkdwUGZmVlZqeXNaWWtHQ0kzSEtwRWJjUmVDT0U3?=
+ =?utf-8?B?VFgzbnRXdUFIZ3cxL2FYU0g4ZEZvdDg4TEVxUGVNZ3NCb1Qwck5XSGFBa0NZ?=
+ =?utf-8?B?aVBoa3daN0tRQXUwbFJTRlRmSkhjK3VSNjdrZExBSHNsU2cvUE5UdUpLeVVz?=
+ =?utf-8?B?dng0Tmt0NmptaTVqbkM1SzN5Zllsc0dYSjRjZU5BV3ZCYVUzU3FzckQyZGly?=
+ =?utf-8?B?aEI0aGlGRTNhQjE1N3RhdDF4K0RYMkhyRit6cldMUmdwWlhQVEFkeDFXK2M3?=
+ =?utf-8?B?UjZZTWN1U2FHL3ZENlo1L1FCTCtnTXBVakRSQ1VwWFJJaEVROEd5ZlBKZEpH?=
+ =?utf-8?B?VXZxOC8yQkxrcDA2RUZjYk80d0RJTGNvdXE2eDArQ0lFZENQTld3S0Y1eDBQ?=
+ =?utf-8?B?QVhIQ0VjaXd1YmJ5cmJnV0R1TVAzTEp1MmM2YlB6NWFxV21rb0xxeHhVVlVr?=
+ =?utf-8?B?UUM0MmpoL05DMmtnV0pQbEQwZG5PUTA3blBDalh0c2ZuL1lDYS9UM1c4ODFz?=
+ =?utf-8?B?MG1VUE94VlRRb010TWNGTUttYXRzdVJkcGN4UTBnRkVWeEtRY0c5RlB2ekll?=
+ =?utf-8?B?WWd2R0RqVlVRMlptcnhOZE04a0VGSm9CemozZG1RWWZmYUxWUFBWSFlOdkVs?=
+ =?utf-8?B?djNyY2VmSFN1Y0tpbHZ3L3k4T0pqdnJOOGtOOFBySjJaaDErbjFnbXJLTlY5?=
+ =?utf-8?Q?K+IvE09dlzEsLy3BeV80ViNCE?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ff924a3-4621-4f99-3edf-08dcf4c9df7e
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB7914.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2024 07:51:45.6331 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4pwMXApkYoFm3u80xYL6ZIRx1DTZVL7UP/nWNQ0MCSydZZ1JbK4wTrUJ7QkmEGtH4nsyZ91DDJKQhkLnEDTTHg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5920
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,180 +170,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 02, 2024 at 09:21:58PM +0300, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> An attempt to hide the drm_plane/crtc legacy state better.
-> 
-> This also highlights the fact that a lot of supposedly
-> atomic drivers are poking around in the legacy crtc state,
-> which is rather questionable. For planes we did force the
-> legacy state to NULL already to force drivers to behave.
-> But even then it seems capable of confusing people with
-> its high profile location directly under drm_plane.
-> 
-> This might end up as some kind of conflict
-> galore, but the alternative would involve trying
-> to wean the atomic drivers off one by one,
-> which would probably take forever. At least with
-> this the issue becomes visible and shouldn't be
-> forgotten as easily.
 
-Ping, anyone have thoughts on this? I'd like to get something
-like this in at some point to make the legacy state (ab)users
-easily visible...
+
+On 2024/10/23 11:27 PM, Alex Deucher wrote:
+> External email: Use caution opening links or attachments
+> 
+> 
+> On Tue, Oct 22, 2024 at 9:27â€¯PM Kai-Heng Feng <kaihengf@nvidia.com> wrote:
+>>
+>>
+>>
+>> On 2024/10/22 9:04 PM, Alex Deucher wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> On Tue, Oct 22, 2024 at 2:31â€¯AM Kai-Heng Feng <kaihengf@nvidia.com> wrote:
+>>>>
+>>>> Hi Luke,
+>>>>
+>>>> On 2024/10/15 4:04 PM, Luke Jones wrote:
+>>>>> On Mon, 14 Oct 2024, at 5:25 PM, Mario Limonciello wrote:
+>>>>>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>>>>>
+>>>>>> The ASUS GA605W has a NVIDIA PCI VGA device and an AMD PCI display device.
+>>>>>>
+>>>>>> ```
+>>>>>> 65:00.0 VGA compatible controller: NVIDIA Corporation AD106M [GeForce
+>>>>>> RTX 4070 Max-Q / Mobile] (rev a1)
+>>>>>> 66:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI]
+>>>>>> Strix [Radeon 880M / 890M] (rev c1)
+>>>>>> ```
+>>>>>>
+>>>>>> The fallback logic in vga_is_boot_device() flags the NVIDIA dGPU as the
+>>>>>> boot VGA device, but really the eDP is connected to the AMD PCI display
+>>>>>> device.
+>>>>>>
+>>>>>> Drop this case to avoid marking the NVIDIA dGPU as the boot VGA device.
+>>>>>>
+>>>>>> Suggested-by: Alex Deucher <alexander.deucher@amd.com>
+>>>>>> Reported-by: Luke D. Jones <luke@ljones.dev>
+>>>>>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3673
+>>>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>>>>> ---
+>>>>>>     drivers/pci/vgaarb.c | 7 -------
+>>>>>>     1 file changed, 7 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>>>>>> index 78748e8d2dba..05ac2b672d4b 100644
+>>>>>> --- a/drivers/pci/vgaarb.c
+>>>>>> +++ b/drivers/pci/vgaarb.c
+>>>>>> @@ -675,13 +675,6 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
+>>>>>>                return true;
+>>>>>>        }
+>>>>>>
+>>>>>> -    /*
+>>>>>> -     * Vgadev has neither IO nor MEM enabled.  If we haven't found any
+>>>>>> -     * other VGA devices, it is the best candidate so far.
+>>>>>> -     */
+>>>>>> -    if (!boot_vga)
+>>>>>> -            return true;
+>>>>>> -
+>>>>>>        return false;
+>>>>>>     }
+>>>>>>
+>>>>>> --
+>>>>>> 2.43.0
+>>>>>
+>>>>> Hi Mario,
+>>>>>
+>>>>> I can verify that this does leave the `boot_vga` attribute set as 0 for the NVIDIA device.
+>>>>
+>>>> Does the following diff work for you?
+>>>> This variant should be less risky for most systems.
+>>>>
+>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>>>> index 78748e8d2dba..3fb734cb9c1b 100644
+>>>> --- a/drivers/pci/vgaarb.c
+>>>> +++ b/drivers/pci/vgaarb.c
+>>>> @@ -675,6 +675,9 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
+>>>>                    return true;
+>>>>            }
+>>>>
+>>>> +       if (vga_arb_integrated_gpu(&pdev->dev))
+>>>> +               return true;
+>>>> +
+>>>
+>>> The problem is that the integrated graphics does not support VGA.
+>>
+>> Right, so the check has to be used much earlier.
+>>
+>> I wonder does the integrated GFX have _DOD/_DOS while the discrete one doesn't?
+>> If that's the case, vga_arb_integrated_gpu() can be used to differentiate which
+>> one is the boot GFX.
+> 
+> I think the problem is that the boot GPU is being conflated with vga
+> arb.  In this case the iGPU has no VGA so has no reason to be involved
+> in vga arb.  Trying to mess with any vga related resources on it could
+> be problematic.  Do higher levels of the stack look at vga arb to
+> determine the "primary" GPU?
+
+Hmm, I wonder if all those heuristic are needed for EFI based system?
+
+Can we assume that what being used by UEFI GOP is the primary GFX device?
+
+Kai-Heng
 
 > 
-> The cc list was getting way out of hand, so I had
-> to trim it a bit. Hopefully I didn't chop off too
-> many names...
+> Alex
 > 
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Alain Volmat <alain.volmat@foss.st.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Alexey Brodkin <abrodkin@synopsys.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: Andy Yan <andy.yan@rock-chips.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: freedreno@lists.freedesktop.org
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: "Heiko Stübner" <heiko@sntech.de>
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Karol Herbst <kherbst@redhat.com>
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: linux-arm-msm@vger.kernel.orga
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: "Maíra Canal" <mairacanal@riseup.net>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: nouveau@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.orga
-> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: spice-devel@lists.freedesktop.org
-> Cc: virtualization@lists.linux.dev
-> Cc: xen-devel@lists.xenproject.org
-> Cc: Xinhui Pan <Xinhui.Pan@amd.com>
-> Cc: Zack Rusin <zack.rusin@broadcom.com>
-> 
-> Ville Syrjälä (2):
->   drm: Move plane->{fb,old_fb,crtc} to legacy sub-structure
->   drm: Move crtc->{x,y,mode,enabled} to legacy sub-structure
-> 
->  .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |  7 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 20 ++---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c       |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c      |  2 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        | 35 ++++----
->  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        | 35 ++++----
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         | 37 ++++-----
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         | 35 ++++----
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 ++--
->  .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  2 +-
->  drivers/gpu/drm/amd/pm/amdgpu_dpm_internal.c  |  4 +-
->  drivers/gpu/drm/arm/hdlcd_drv.c               |  2 +-
->  drivers/gpu/drm/arm/malidp_hw.c               |  2 +-
->  drivers/gpu/drm/armada/armada_crtc.c          | 12 ++-
->  drivers/gpu/drm/ast/ast_dp.c                  |  8 +-
->  drivers/gpu/drm/drm_atomic.c                  |  6 +-
->  drivers/gpu/drm/drm_atomic_helper.c           |  8 +-
->  drivers/gpu/drm/drm_client_modeset.c          | 10 +--
->  drivers/gpu/drm/drm_crtc.c                    | 31 +++----
->  drivers/gpu/drm/drm_crtc_helper.c             | 80 ++++++++++---------
->  drivers/gpu/drm/drm_fb_helper.c               | 12 +--
->  drivers/gpu/drm/drm_framebuffer.c             |  4 +-
->  drivers/gpu/drm/drm_plane.c                   | 69 ++++++++--------
->  drivers/gpu/drm/drm_plane_helper.c            |  6 +-
->  drivers/gpu/drm/drm_vblank.c                  |  2 +-
->  drivers/gpu/drm/exynos/exynos5433_drm_decon.c |  4 +-
->  drivers/gpu/drm/gma500/cdv_intel_display.c    |  2 +-
->  drivers/gpu/drm/gma500/cdv_intel_dp.c         |  6 +-
->  drivers/gpu/drm/gma500/cdv_intel_hdmi.c       |  3 +-
->  drivers/gpu/drm/gma500/cdv_intel_lvds.c       |  6 +-
->  drivers/gpu/drm/gma500/gma_display.c          | 22 ++---
->  drivers/gpu/drm/gma500/oaktrail_crtc.c        |  2 +-
->  drivers/gpu/drm/gma500/psb_intel_display.c    |  2 +-
->  drivers/gpu/drm/gma500/psb_intel_lvds.c       |  6 +-
->  drivers/gpu/drm/gma500/psb_intel_sdvo.c       |  8 +-
->  drivers/gpu/drm/i2c/ch7006_drv.c              |  7 +-
->  drivers/gpu/drm/i2c/sil164_drv.c              |  2 +-
->  .../drm/i915/display/intel_modeset_setup.c    |  4 +-
->  drivers/gpu/drm/imx/lcdc/imx-lcdc.c           | 31 ++++---
->  drivers/gpu/drm/mediatek/mtk_crtc.c           |  6 +-
->  drivers/gpu/drm/meson/meson_overlay.c         |  2 +-
->  drivers/gpu/drm/meson/meson_plane.c           |  8 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 18 +++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  6 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 16 ++--
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |  4 +-
->  drivers/gpu/drm/nouveau/dispnv04/crtc.c       | 25 +++---
->  drivers/gpu/drm/nouveau/dispnv04/cursor.c     |  2 +-
->  drivers/gpu/drm/nouveau/dispnv04/dfp.c        |  2 +-
->  drivers/gpu/drm/nouveau/dispnv04/disp.c       |  4 +-
->  .../gpu/drm/nouveau/dispnv04/tvmodesnv17.c    |  4 +-
->  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c     |  7 +-
->  drivers/gpu/drm/nouveau/nouveau_connector.c   |  6 +-
->  drivers/gpu/drm/qxl/qxl_display.c             |  6 +-
->  drivers/gpu/drm/radeon/atombios_crtc.c        | 28 +++----
->  drivers/gpu/drm/radeon/cik.c                  | 12 +--
->  drivers/gpu/drm/radeon/evergreen.c            | 16 ++--
->  drivers/gpu/drm/radeon/r100.c                 | 16 ++--
->  drivers/gpu/drm/radeon/r600_cs.c              |  2 +-
->  drivers/gpu/drm/radeon/r600_dpm.c             |  4 +-
->  drivers/gpu/drm/radeon/radeon_connectors.c    |  7 +-
->  drivers/gpu/drm/radeon/radeon_cursor.c        | 29 +++----
->  drivers/gpu/drm/radeon/radeon_device.c        |  2 +-
->  drivers/gpu/drm/radeon/radeon_display.c       | 26 +++---
->  drivers/gpu/drm/radeon/radeon_drv.c           |  2 +-
->  drivers/gpu/drm/radeon/radeon_legacy_crtc.c   | 16 ++--
->  .../gpu/drm/radeon/radeon_legacy_encoders.c   |  2 +-
->  drivers/gpu/drm/radeon/radeon_pm.c            |  2 +-
->  drivers/gpu/drm/radeon/rs600.c                | 10 +--
->  drivers/gpu/drm/radeon/rs690.c                | 22 ++---
->  drivers/gpu/drm/radeon/rs780_dpm.c            |  6 +-
->  drivers/gpu/drm/radeon/rv515.c                | 30 +++----
->  drivers/gpu/drm/radeon/rv770.c                |  2 +-
->  drivers/gpu/drm/radeon/si.c                   | 14 ++--
->  .../gpu/drm/renesas/rcar-du/rcar_du_crtc.c    |  2 +-
->  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c |  2 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_vop.c   |  6 +-
->  drivers/gpu/drm/sti/sti_crtc.c                |  4 +-
->  drivers/gpu/drm/sti/sti_cursor.c              |  2 +-
->  drivers/gpu/drm/sti/sti_gdp.c                 |  2 +-
->  drivers/gpu/drm/sti/sti_hqvdp.c               |  2 +-
->  drivers/gpu/drm/sti/sti_tvout.c               |  6 +-
->  drivers/gpu/drm/sti/sti_vid.c                 |  2 +-
->  drivers/gpu/drm/tilcdc/tilcdc_crtc.c          | 10 +--
->  drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
->  drivers/gpu/drm/vboxvideo/vbox_mode.c         |  2 +-
->  drivers/gpu/drm/vc4/vc4_dpi.c                 |  2 +-
->  drivers/gpu/drm/vc4/vc4_plane.c               |  4 +-
->  drivers/gpu/drm/virtio/virtgpu_display.c      |  4 +-
->  drivers/gpu/drm/vkms/vkms_composer.c          |  4 +-
->  drivers/gpu/drm/vkms/vkms_crtc.c              |  2 +-
->  drivers/gpu/drm/vkms/vkms_writeback.c         |  4 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |  8 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           | 18 +++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |  9 ++-
->  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          |  4 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c          |  2 +-
->  drivers/gpu/drm/xen/xen_drm_front_kms.c       |  2 +-
->  include/drm/drm_crtc.h                        | 75 ++++++++---------
->  include/drm/drm_plane.h                       | 52 ++++++------
->  100 files changed, 599 insertions(+), 547 deletions(-)
-> 
-> -- 
-> 2.45.2
+>>
+>> Kai-Heng
+>>
+>>>
+>>> Alex
+>>>
+>>>>            /*
+>>>>             * Vgadev has neither IO nor MEM enabled.  If we haven't found any
+>>>>             * other VGA devices, it is the best candidate so far.
+>>>>
+>>>>
+>>>> Kai-Heng
+>>>>
+>>>>>
+>>>>> Tested-by: Luke D. Jones <luke@ljones.dev>
+>>>>
+>>
 
--- 
-Ville Syrjälä
-Intel
