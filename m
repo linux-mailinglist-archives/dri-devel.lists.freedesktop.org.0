@@ -2,40 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3BCE9AFF6F
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 12:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 946A29AFF85
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 12:07:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 378F310EA62;
-	Fri, 25 Oct 2024 10:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CAA10EA64;
+	Fri, 25 Oct 2024 10:07:00 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cFBFUF+h";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 53C4010EA62
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:03:42 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B36B1339;
- Fri, 25 Oct 2024 03:04:11 -0700 (PDT)
-Received: from [10.1.36.18] (e122027.cambridge.arm.com [10.1.36.18])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A064A3F73B;
- Fri, 25 Oct 2024 03:03:39 -0700 (PDT)
-Message-ID: <5673689c-28cd-4fc5-a627-4858ebe9face@arm.com>
-Date: Fri, 25 Oct 2024 11:03:35 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA57110EA64
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:06:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1729850817;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RLWF1XI1IRMUF9kLoHorE6VU6nobmlHGWPnEZ9LtnxM=;
+ b=cFBFUF+h/ydIIkQ9IUjG8Zheuhc5mR9QppSu3Ea0rYIrpIueYboMtQN7/dbdPLYtSDAY3R
+ GB2ogrp/WS6TMTuq7DgKtlijyHZSHlfJF1H8SQKmixtOv0zpoPGLaE7hnlgJIa9+BEwLju
+ DdqRNXVFcckB3cOQFEQtOBm0TXe0QYc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-686-ukiaRGidM1CvVG_mCLic8A-1; Fri, 25 Oct 2024 06:06:55 -0400
+X-MC-Unique: ukiaRGidM1CvVG_mCLic8A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-43157cff1d1so13499345e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 03:06:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729850814; x=1730455614;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=zy9d6cD2pxsXmiDYe52XZxncVOlsF2DUWlmfP7V1zlc=;
+ b=B3vt/nsterWJHTKRR6DeWVEabmiETzTaRdWjXZEY02IDuDtUhIjWgpjDq878+cyW2q
+ ghLI15oPZn23JFnJfHWpVDxe2X8buYk4jEhqzw3EUsbKxt+ziEDy0rqfGB0iNZtMjdmV
+ tLBHn0iQBewJavanWZ/0zepHr7SDW1ehKhYv4HxdcRTa3IN4+kqgIiK75hxHVoPbZP0s
+ 19G1iX9VSDahv7OFoZZmpuC6aImpPVQq0Og8t57j2FFMKpYqsPjulKUhAOR1PS8XAxrT
+ oa2XscOb3JquTDQ1ujRHj7N1Wl6gkZr5AZXHUAJVCRxwsxS6+Jug8DKrgZJmI5rR8OPl
+ 5YOQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXaW6RfLSAmBSDpXDc7NH7ZLtP9emdfvPtipxwdyAtUIULO59tDdsnkdcUwW6PQIrCHtbTRs8sD7Cw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzz/g5Rh1Bld1ST8I9WQDxmr2gVZUGJLhLum8rR1LUUGi9lLyOD
+ 69nLdnO/ngFS8G8dHgKbX0w4aSOJgNS8iPZ2bWrgBoemgf9XpsVRKb3wPpOasgrTVklZk5o1890
+ A42Z98LHGtZ1kHfgXlO1SNrk75RZXy8J81yAVPLsD7P6p7K28VjwmOot0s05UHuStrg==
+X-Received: by 2002:a05:600c:1d99:b0:431:5f1c:8359 with SMTP id
+ 5b1f17b1804b1-4318415f41fmr69264125e9.15.1729850814507; 
+ Fri, 25 Oct 2024 03:06:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE2nTQwQklAfpLsEicMD9X70tr5FanBA8x8M5m/2RYtiWItp61RQimiawap8ngTujHhoMExZQ==
+X-Received: by 2002:a05:600c:1d99:b0:431:5f1c:8359 with SMTP id
+ 5b1f17b1804b1-4318415f41fmr69263955e9.15.1729850814153; 
+ Fri, 25 Oct 2024 03:06:54 -0700 (PDT)
+Received: from eisenberg.fritz.box
+ (200116b82de5ba00738ac8dadaac7543.dip.versatel-1u1.de.
+ [2001:16b8:2de5:ba00:738a:c8da:daac:7543])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4317dde7b70sm93585205e9.1.2024.10.25.03.06.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2024 03:06:53 -0700 (PDT)
+Message-ID: <7da525c6870619301e226e4830e8355d1419a3e1.camel@redhat.com>
+Subject: Re: [PATCH v2] drm/sched: Mark scheduler work queues with
+ WQ_MEM_RECLAIM
+From: Philipp Stanner <pstanner@redhat.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ dakr@kernel.org, ltuikov89@gmail.com
+Date: Fri, 25 Oct 2024 12:06:53 +0200
+In-Reply-To: <ZxpsAogpxOjU+58p@DUT025-TGLU.fm.intel.com>
+References: <20241023235917.1836428-1-matthew.brost@intel.com>
+ <eb625699d08db636e19c5141f681759849ff4a63.camel@redhat.com>
+ <ZxpsAogpxOjU+58p@DUT025-TGLU.fm.intel.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/panthor: Explicitly set the coherency mode
-To: Akash Goel <akash.goel@arm.com>, boris.brezillon@collabora.com,
- liviu.dudau@arm.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- mihail.atanassov@arm.com, ketil.johnsen@arm.com, florent.tomasin@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
-References: <20241024145432.934086-1-akash.goel@arm.com>
- <20241024145432.934086-3-akash.goel@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20241024145432.934086-3-akash.goel@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,91 +98,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/10/2024 15:54, Akash Goel wrote:
-> This commit fixes the potential misalignment between the value of device
-> tree property "dma-coherent" and default value of COHERENCY_ENABLE
-> register.
-> Panthor driver didn't explicitly program the COHERENCY_ENABLE register
-> with the desired coherency mode. The default value of COHERENCY_ENABLE
-> register is implementation defined, so it may not be always aligned with
-> the "dma-coherent" property value.
-> The commit also checks the COHERENCY_FEATURES register to confirm that
-> the coherency protocol is actually supported or not.
-> 
-> Signed-off-by: Akash Goel <akash.goel@arm.com>
+On Thu, 2024-10-24 at 15:47 +0000, Matthew Brost wrote:
+> On Thu, Oct 24, 2024 at 05:35:47PM +0200, Philipp Stanner wrote:
+> > On Wed, 2024-10-23 at 16:59 -0700, Matthew Brost wrote:
+> > > drm_gpu_scheduler.submit_wq is used to submit jobs, jobs are in
+> > > the
+> > > path
+> > > of dma-fences, and dma-fences are in the path of reclaim. Mark
+> > > scheduler
+> > > work queue with WQ_MEM_RECLAIM to ensure forward progress during
+> > > reclaim; without WQ_MEM_RECLAIM, work queues cannot make forward
+> > > progress during reclaim.
+> > >=20
+> > > v2:
+> > > =C2=A0- Fixes tags (Philipp)
+> > > =C2=A0- Reword commit message (Philipp)
+> > >=20
+> > > Cc: Luben Tuikov <ltuikov89@gmail.com>
+> > > Cc: Danilo Krummrich <dakr@kernel.org>
+> > > Cc: Philipp Stanner <pstanner@redhat.com>
+> > > Cc: stable@vger.kernel.org
+> > > Fixes: 34f50cc6441b ("drm/sched: Use drm sched lockdep map for
+> > > submit_wq")
+> > > Fixes: a6149f039369 ("drm/sched: Convert drm scheduler to use a
+> > > work
+> > > queue rather than kthread")
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > ---
+> > > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 5 +++--
+> > > =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > index 540231e6bac6..df0a5abb1400 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > @@ -1283,10 +1283,11 @@ int drm_sched_init(struct
+> > > drm_gpu_scheduler
+> > > *sched,
+> > > =C2=A0=09=09sched->own_submit_wq =3D false;
+> > > =C2=A0=09} else {
+> > > =C2=A0#ifdef CONFIG_LOCKDEP
+> > > -=09=09sched->submit_wq =3D
+> > > alloc_ordered_workqueue_lockdep_map(name, 0,
+> > > +=09=09sched->submit_wq =3D
+> > > alloc_ordered_workqueue_lockdep_map(name,
+> > > +=09=09=09=09=09=09=09=09=C2=A0
+> > > =C2=A0=C2=A0=C2=A0
+> > > =C2=A0=C2=A0 WQ_MEM_RECLAIM,
+> > > =C2=A0=09=09=09=09=09=09=09=09=C2=A0
+> > > =C2=A0=C2=A0=C2=A0
+> > > =C2=A0=C2=A0 &drm_sched_lockdep_map);
+> > > =C2=A0#else
+> > > -=09=09sched->submit_wq =3D alloc_ordered_workqueue(name,
+> > > 0);
+> > > +=09=09sched->submit_wq =3D alloc_ordered_workqueue(name,
+> > > WQ_MEM_RECLAIM);
+> > > =C2=A0#endif
+> > > =C2=A0=09=09if (!sched->submit_wq)
+> > > =C2=A0=09=09=09return -ENOMEM;
+> >=20
+> >=20
+> > Cool, thx =E2=80=93 looks good from my POV.
+> >=20
+>=20
+> Can I get a RB?
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Oh, sure:
 
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c | 22 +++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  9 +++++++++
->  2 files changed, 30 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 4082c8f2951d..984615f4ed27 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -22,6 +22,24 @@
->  #include "panthor_regs.h"
->  #include "panthor_sched.h"
->  
-> +static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
-> +{
-> +	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
-> +
-> +	if (!ptdev->coherent)
-> +		return 0;
-> +
-> +	/* Check if the ACE-Lite coherency protocol is actually supported by the GPU.
-> +	 * ACE protocol has never been supported for command stream frontend GPUs.
-> +	 */
-> +	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
-> +		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
-> +		return 0;
-> +
-> +	drm_err(&ptdev->base, "Coherency not supported by the device");
-> +	return -ENOTSUPP;
-> +}
-> +
->  static int panthor_clk_init(struct panthor_device *ptdev)
->  {
->  	ptdev->clks.core = devm_clk_get(ptdev->base.dev, NULL);
-> @@ -156,7 +174,9 @@ int panthor_device_init(struct panthor_device *ptdev)
->  	struct page *p;
->  	int ret;
->  
-> -	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
-> +	ret = panthor_gpu_coherency_init(ptdev);
-> +	if (ret)
-> +		return ret;
->  
->  	init_completion(&ptdev->unplug.done);
->  	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 5251d8764e7d..1e24f08a519a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -77,6 +77,12 @@ static const struct panthor_model gpu_models[] = {
->  	 GPU_IRQ_RESET_COMPLETED | \
->  	 GPU_IRQ_CLEAN_CACHES_COMPLETED)
->  
-> +static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
-> +{
-> +	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
-> +		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
-> +}
-> +
->  static void panthor_gpu_init_info(struct panthor_device *ptdev)
->  {
->  	const struct panthor_model *model;
-> @@ -365,6 +371,9 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
->  			      hweight64(ptdev->gpu_info.shader_present));
->  	}
->  
-> +	/* Set the desired coherency mode before the power up of L2 */
-> +	panthor_gpu_coherency_set(ptdev);
-> +
->  	return panthor_gpu_power_on(ptdev, L2, 1, 20000);
->  }
->  
+Reviewed-by: Philipp Stanner <pstanner@redhat.com>
+
+>=20
+> > Since you now sent this patch as a single one, what would be the
+> > preferred merge plan for this? Your XE-Series doesn't depend on
+> > this
+> > IIUC, so should we take this patch here separately into drm-misc-
+> > next?
+> >=20
+>=20
+> Merge this one to drm-misc and we will backport into drm-xe-next.
+
+OK =E2=80=93 feel free to apply it yourself if you want, then we wouldn't n=
+eed
+to synchronize
+
+Philipp
+
+>=20
+> Matt
+>=20
+> >=20
+> > Regards,
+> > P.
+> >=20
+>=20
 
