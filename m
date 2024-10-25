@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702BC9AFC91
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 10:31:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3189AFD00
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 10:47:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3D2410EA26;
-	Fri, 25 Oct 2024 08:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEFC010EA2A;
+	Fri, 25 Oct 2024 08:47:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="cSwwoTeD";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="pBUzlrKo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9EC10EA23
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 08:31:52 +0000 (UTC)
-X-UUID: 922fae2492ab11efb88477ffae1fc7a5-20241025
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA1E10EA2A
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 08:47:02 +0000 (UTC)
+X-UUID: 932ee6e692ab11efbd192953cf12861f-20241025
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=gHwbRt4IaPUH08ICdMZ+woEqrGocbpoaS9nGp6F57ps=; 
- b=cSwwoTeD+7Cz0LJB3Z9idLKBvi9Hla4Ew1hGqJBB1+ahyOe8CMNGOR8YS0cEaT4vU6Dr5scFXKyM0wDfC9HrFn4hY7hXYFKWmaUdyitgTI8GeyO6EpvbFK2tjUeOmSFIhKT0qqjBKGSYp4DtMIin+Nlp+TU/HDZuh/l5vdPz+jA=;
+ bh=Ulm1GdYn5AwzGJrnapuHvHX2NA5N+yc7mcixuW0PsW0=; 
+ b=pBUzlrKoUT13Vi8gE/TvGemhGlY2CmDFP9Of3OO3eaASNxI2ADP0b6MsDd+8mhLWUkW3nXNHDA1IWstFu393/Rjb+3R3B7obVrDJCTYoGF+3PmzC30Wwc1sdn28TZALZUr50c3QnzLuQ1qFwjsgq/ihvAMbazPu+NwQeOGflDW0=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.42, REQID:a437b3e0-6766-43b9-b829-4fe438dc4fb4, IP:0,
+X-CID-O-INFO: VERSION:1.1.42, REQID:034a39fa-362d-475e-8fd7-66b25daa858d, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:b0fcdc3, CLOUDID:d7d7d241-8751-41b2-98dd-475503d45150,
+X-CID-META: VersionHash:b0fcdc3, CLOUDID:bb9d192e-a7a0-4b06-8464-80be82133975,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
- :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 922fae2492ab11efb88477ffae1fc7a5-20241025
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
- mailgw01.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
+ RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 932ee6e692ab11efbd192953cf12861f-20241025
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by
+ mailgw02.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1636173248; Fri, 25 Oct 2024 16:31:46 +0800
+ with ESMTP id 1012490295; Fri, 25 Oct 2024 16:31:47 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.26; Fri, 25 Oct 2024 16:31:45 +0800
 Received: from mszsdclx1211.gcn.mediatek.inc (10.16.7.31) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 25 Oct 2024 16:31:44 +0800
+ 15.2.1118.26 via Frontend Transport; Fri, 25 Oct 2024 16:31:45 +0800
 From: Liankun Yang <liankun.yang@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
  <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
@@ -57,15 +57,29 @@ To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
  <Project_Global_Chrome_Upstream_Group@mediatek.com>
 CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
  <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v2 2/3] drm/mediatek: Fix mode valid issue for dp
-Date: Fri, 25 Oct 2024 16:28:28 +0800
-Message-ID: <20241025083036.8829-3-liankun.yang@mediatek.com>
+Subject: [PATCH v2 3/3] drm/mediatek: Adjust bandwidth limit for DP
+Date: Fri, 25 Oct 2024 16:28:29 +0800
+Message-ID: <20241025083036.8829-4-liankun.yang@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241025083036.8829-1-liankun.yang@mediatek.com>
 References: <20241025083036.8829-1-liankun.yang@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--4.892200-8.000000
+X-TMASE-MatchedRID: eEvvxGbtKJXqDJGloYB7/lu4M/xm4KZeB3WB/vm5tBhvOxpHnc6c8tAO
+ OSAF0cTNjhjs4bjZeL6wUbC8TG29xsME2BsoiKJMQ4srjeRbxTZMkOX0UoduuQqiCYa6w8tvg7c
+ fJQw9FseiXymrvf+Yd78x/CIirHX9UBXVAm5W8RB7k1ZHmKLF7dn+voDzU8zxVz8J52OVy+RtgT
+ FkLUu6pv7wSJO97U5mdL6uYg+Eh8xlZ48frA+isodlc1JaOB1TfS0Ip2eEHnz3IzXlXlpamPoLR
+ 4+zsDTttrrTuahHzlFM7SgCXiCKPg0pokrqu76d3ChfGQlxUCGwlr1AK4SIq6umutRJso5Pd7HY
+ 8VpdQiO3FkU3l1TlG6F3Knlxd+sAvV1+6k7Vw+XyNp7g4PXe0BXsxz6ujBxUq1f8XSkHBUmNJXm
+ EMVvLtpRMZUCEHkRt
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--4.892200-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: FC8D13FAC6F2D1F2D2B6E2E03F161BD2D3BD61356F27743ED310C6690EE78ECF2000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,91 +96,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix dp mode valid issue to avoid abnormal display of limit state.
+By adjusting the order of link training and relocating it to HPD,
+link training can identify the usability of each lane in the current link.
 
-After DP passes link training, it can express the lane count of the
-current link status is good. Calculate the maximum bandwidth supported
-by DP using the current lane count.
+It also supports handling signal instability and weakness due to
+environmental issues, enabling the acquisition of a stable bandwidth
+for the current link. Subsequently, DP work can proceed based on
+the actual maximum bandwidth.
 
-The color format will select the best one based on the bandwidth
-requirements of the current timing mode. If the current timing mode
-uses RGB and meets the DP link bandwidth requirements, RGB will be used.
+It should training in the hpd event thread.
+Check the mode with lane count and link rate of training.
 
-If the timing mode uses RGB but does not meet the DP link bandwidthi
-requirements, it will continue to check whether YUV422 meetsi
-the DP link bandwidth.
-
-FEC overhead is approximately 2.4% from DP 1.4a spec 2.2.1.4.2.
-The down-spread amplitude shall either be disabled (0.0%) or up
-to 0.5% from 1.4a 3.5.2.6. Add up to approximately 3% total overhead.
-
-Because rate is already divided by 10,
-mode->clock does not need to be multiplied by 10.
-
-Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
 Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
 ---
-Change in V2:
-- Adjust the writing style.
-- Add instructions.
+- Adjust DP training timing.
+- Adjust parse capabilities timing.
+- Add power on/off for connect/disconnect
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 28 +++++++++++++++++-----------
- 1 file changed, 17 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dp.c | 37 +++++++++++++++++--------------
+ 1 file changed, 20 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 613e1c842478..ae4807823a5c 100644
+index ae4807823a5c..e87f6f52bcce 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dp.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2328,12 +2328,19 @@ mtk_dp_bridge_mode_valid(struct drm_bridge *bridge,
- {
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
- 	u32 bpp = info->color_formats & DRM_COLOR_FORMAT_YCBCR422 ? 16 : 24;
--	u32 rate = min_t(u32, drm_dp_max_link_rate(mtk_dp->rx_cap) *
--			      drm_dp_max_lane_count(mtk_dp->rx_cap),
--			 drm_dp_bw_code_to_link_rate(mtk_dp->max_linkrate) *
--			 mtk_dp->max_lanes);
-+	u32 lane_count_min = mtk_dp->train_info.lane_count;
-+	u32 rate = drm_dp_bw_code_to_link_rate(mtk_dp->train_info.link_rate) *
-+			 lane_count_min;
+@@ -1873,6 +1873,7 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
+ 	struct mtk_dp *mtk_dp = dev;
+ 	unsigned long flags;
+ 	u32 status;
++	int ret;
  
--	if (rate < mode->clock * bpp / 8)
-+	/*
-+	 *FEC overhead is approximately 2.4% from DP 1.4a spec 2.2.1.4.2.
-+	 *The down-spread amplitude shall either be disabled (0.0%) or up
-+	 *to 0.5% from 1.4a 3.5.2.6. Add up to approximately 3% total overhead.
-+	 *
-+	 *Because rate is already divided by 10,
-+	 *mode->clock does not need to be multiplied by 10
-+	 */
-+	if ((rate * 97 / 100) < (mode->clock * bpp / 8))
- 		return MODE_CLOCK_HIGH;
+ 	if (mtk_dp->need_debounce && mtk_dp->train_info.cable_plugged_in)
+ 		msleep(100);
+@@ -1891,9 +1892,28 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
+ 			memset(&mtk_dp->info.audio_cur_cfg, 0,
+ 			       sizeof(mtk_dp->info.audio_cur_cfg));
  
- 	return MODE_OK;
-@@ -2374,10 +2381,9 @@ static u32 *mtk_dp_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	struct drm_display_info *display_info =
- 		&conn_state->connector->display_info;
--	u32 rate = min_t(u32, drm_dp_max_link_rate(mtk_dp->rx_cap) *
--			      drm_dp_max_lane_count(mtk_dp->rx_cap),
--			 drm_dp_bw_code_to_link_rate(mtk_dp->max_linkrate) *
--			 mtk_dp->max_lanes);
-+	u32 lane_count_min = mtk_dp->train_info.lane_count;
-+	u32 rate = drm_dp_bw_code_to_link_rate(mtk_dp->train_info.link_rate) *
-+			 lane_count_min;
++			mtk_dp->enabled = false;
++			/* power off aux */
++			mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
++			       DP_PWR_STATE_BANDGAP_TPLL,
++			       DP_PWR_STATE_MASK);
++
+ 			mtk_dp->need_debounce = false;
+ 			mod_timer(&mtk_dp->debounce_timer,
+ 				  jiffies + msecs_to_jiffies(100) - 1);
++		} else {
++			mtk_dp_aux_panel_poweron(mtk_dp, true);
++
++			ret = mtk_dp_parse_capabilities(mtk_dp);
++			if (ret)
++				drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
++
++			/* Training */
++			ret = mtk_dp_training(mtk_dp);
++			if (ret)
++				drm_err(mtk_dp->drm_dev, "Training failed, %d\n", ret);
++
++			mtk_dp->enabled = true;
+ 		}
+ 	}
  
- 	*num_input_fmts = 0;
+@@ -2060,16 +2080,6 @@ static const struct drm_edid *mtk_dp_edid_read(struct drm_bridge *bridge,
  
-@@ -2386,8 +2392,8 @@ static u32 *mtk_dp_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	 * datarate of YUV422 and sink device supports YUV422, we output YUV422
- 	 * format. Use this condition, we can support more resolution.
- 	 */
--	if ((rate < (mode->clock * 24 / 8)) &&
--	    (rate > (mode->clock * 16 / 8)) &&
-+	if (((rate * 97 / 100) < (mode->clock * 24 / 8)) &&
-+	    ((rate * 97 / 100) > (mode->clock * 16 / 8)) &&
- 	    (display_info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
- 		input_fmts = kcalloc(1, sizeof(*input_fmts), GFP_KERNEL);
- 		if (!input_fmts)
+ 	drm_edid = drm_edid_read_ddc(connector, &mtk_dp->aux.ddc);
+ 
+-	/*
+-	 * Parse capability here to let atomic_get_input_bus_fmts and
+-	 * mode_valid use the capability to calculate sink bitrates.
+-	 */
+-	if (mtk_dp_parse_capabilities(mtk_dp)) {
+-		drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
+-		drm_edid_free(drm_edid);
+-		drm_edid = NULL;
+-	}
+-
+ 	if (drm_edid) {
+ 		/*
+ 		 * FIXME: get rid of drm_edid_raw()
+@@ -2263,13 +2273,6 @@ static void mtk_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+ 
+ 	mtk_dp_aux_panel_poweron(mtk_dp, true);
+ 
+-	/* Training */
+-	ret = mtk_dp_training(mtk_dp);
+-	if (ret) {
+-		drm_err(mtk_dp->drm_dev, "Training failed, %d\n", ret);
+-		goto power_off_aux;
+-	}
+-
+ 	ret = mtk_dp_video_config(mtk_dp);
+ 	if (ret)
+ 		goto power_off_aux;
 -- 
 2.45.2
 
