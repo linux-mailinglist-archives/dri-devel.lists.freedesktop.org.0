@@ -2,43 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E055F9AFE1E
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 11:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B893A9AFE20
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 11:25:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40ACC10E025;
-	Fri, 25 Oct 2024 09:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 385BC10EA44;
+	Fri, 25 Oct 2024 09:25:48 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KNlGQ73Q";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7BCFF10E025
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 09:24:36 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93DDD339
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 02:25:05 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A91623F528
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 02:24:35 -0700 (PDT)
-Date: Fri, 25 Oct 2024 10:24:32 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Akash Goel <akash.goel@arm.com>, Robin Murphy <robin.murphy@arm.com>,
- steven.price@arm.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mihail.atanassov@arm.com,
- ketil.johnsen@arm.com, florent.tomasin@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
-Subject: Re: [PATCH 1/3] drm/panthor: Update memattr programing to align with
- GPU spec
-Message-ID: <Zxtj0B3BrMYDt9ID@e110455-lin.cambridge.arm.com>
-References: <20241024145432.934086-1-akash.goel@arm.com>
- <20241024145432.934086-2-akash.goel@arm.com>
- <20241024174944.4e811816@collabora.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+ [209.85.128.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B3A710EA44
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 09:25:47 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id
+ 5b1f17b1804b1-43155abaf0bso18801255e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 02:25:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1729848345; x=1730453145; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eydj5w0v0oz6L0j3WA0pwPpofo3U+INxxUSu9UDo48M=;
+ b=KNlGQ73Q6aD5RoWwhLQXvAb+1eEYuYmKIYg5nci9ePofsfuPJBkZF4tRZtYoiA1e/0
+ fosYGf2HgHI++l9m7JjJHGMzvoiLSKrnVAwF7pFxCvn8fU/XuZHnKdzP+onZWFUC8PNy
+ +n7FyOcg7E8khaCSzcdDK9fM0ZSMFo58m4dvsVlVe98C0assNeepzsi5Xc1MEBxHSxaM
+ PxDx/NmeO9omFgBIjcs+cK4BxMiV3HHgy5ZwBwaAOk4vcuZ7FAdp6U0IjQymGnef7Njg
+ NRObz66ls2aN/q/fAVQsFmJs6+JeX7Z7Nabx/7gUK3KF4uLDvezW13uNASC+1UymZr5/
+ vXvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729848345; x=1730453145;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eydj5w0v0oz6L0j3WA0pwPpofo3U+INxxUSu9UDo48M=;
+ b=RNAc4/YYwCwQMMIRimTJ10m6dnV4Sa9Rnn3JzXNm+BqvkNY9P9lF2/uOxH7Igy6JRK
+ Bz2MiFGN9/jTdHow947R8K+FZ7GLxswARLLAwm5q2ZtFY4zcaryE2CE4tyT/TwWzMK49
+ ocrH5xRzywkPfcTReMJhdRmC4RFFdiMxHL6YxC+x2F1hmZNiIuqkN2a8oYXIsTV1j0Qm
+ 4Kbbx3o+QyWeFYZcNMIRR2Ok9ka74g4CDLaWe/dDhCuHqf4AvcjfG0Pp8ThInC3PRgcb
+ uvqKpF2ywPgOI5EK72uNR5f5detLpx1jFqYFUzjzUiMjtSPZHp/7tPsBQeCME7EC6uXy
+ RQ+w==
+X-Gm-Message-State: AOJu0Ywg9gamwJ0XXl4zozdgZdIefejxo3DwyvyDNBJQgg5QoadudJuB
+ IDxYtC66Qj2HW67jTRG1U1wbKGG2UsvSSXYeFMRZ8u2lz5U6jFnL
+X-Google-Smtp-Source: AGHT+IHPZDbhm7xG1S8CG8Z9F8arXS9pTprIhLS887UnFxrR/4XEgJQ6SARsW1ttQYnFfDLZ1aBizg==
+X-Received: by 2002:a05:600c:1e22:b0:430:5846:7582 with SMTP id
+ 5b1f17b1804b1-431841ee1b9mr76346145e9.7.1729848345071; 
+ Fri, 25 Oct 2024 02:25:45 -0700 (PDT)
+Received: from localhost.localdomain ([83.165.96.99])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4319360833asm12242175e9.39.2024.10.25.02.25.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2024 02:25:43 -0700 (PDT)
+From: Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>
+To: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, thomas.zimmermann@suse.de,
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>
+Subject: [PATCH] fbdev: udl: Make CONFIG_FB_DEVICE optional
+Date: Fri, 25 Oct 2024 11:25:38 +0200
+Message-Id: <20241025092538.38339-1-gonzalo.silvalde@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241024174944.4e811816@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,124 +78,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 24, 2024 at 05:49:44PM +0200, Boris Brezillon wrote:
-> +Robin for the MMU details
-> 
-> On Thu, 24 Oct 2024 15:54:30 +0100
-> Akash Goel <akash.goel@arm.com> wrote:
-> 
-> > Mali GPU Arch spec forbids the GPU PTEs to indicate Inner or Outer
-> > shareability when no_coherency protocol is selected. Doing so results in
-> > unexpected or undesired snooping of the CPU caches on some platforms,
-> > such as Juno FPGA, causing functional issues. For example the boot of
-> > MCU firmware fails as GPU ends up reading stale data for the FW memory
-> > pages from the CPU's cache. The FW memory pages are initialized with
-> > uncached mapping when the device is not reported to be dma-coherent.
-> > The shareability bits are set to inner-shareable when IOMMU_CACHE flag
-> > is passed to map_pages() callback and IOMMU_CACHE flag is passed by
-> > Panthor driver when memory needs to be mapped as cached on the GPU side.
-> > 
-> > IOMMU_CACHE seems to imply cache coherent and is probably not fit for
-> > purpose for the memory that is mapped as cached on GPU side but doesn't
-> > need to remain coherent with the CPU.
-> 
-> Yeah, IIRC I've been abusing the _CACHE flag to mean GPU-cached, not
-> cache-coherent. I think it be good to sit down with Rob and add the
-> necessary IOMMU_ flags so we can express all the shareability and
-> cacheability variants we have with the "Mali" MMU. For instance, I
-> think the shareability between MCU/GPU can be expressed properly at the
-> moment, and we unconditionally map things uncached because of that.
+The fb_udl driver currently depends on CONFIG_FB_DEVICE to create sysfs
+entries and access framebuffer device information. This patch wraps the
+relevant code blocks with #ifdef CONFIG_FB_DEVICE, allowing the driver to
+be built and used even if CONFIG_FB_DEVICE is not selected.
 
-Boris, did you mean to say "shareability between MCU/GPU *can't* be expressed
-properly" ? Currently the sentence reads a bit strange, as if there was a
-negation somewhere.
+The sysfs setting only controls access to certain framebuffer attributes
+and is not required for the basic display functionality to work correctly.
+(For information on DisplayLink devices and their Linux support, see:
+https://wiki.archlinux.org/title/DisplayLink).
 
-Our GPU's architecture dictates a lot of coherency attributes, especially at
-the read-write/read-only L1$, so using _CACHE as a flag for something else
-is indeed tempting. We should talk with Rob to see how we can improve things
-here.
+Tested by building with and without CONFIG_FB_DEVICE, both of which
+compiled and ran without issues.
 
-> 
-> > 
-> > This commit updates the programming of MEMATTR register to use
-> > MIDGARD_INNER instead of CPU_INNER when coherency is disabled. That way
-> > the inner-shareability specified in the GPU PTEs would map to Mali's
-> > internal-shareable mode, which is always supported by the GPU regardless
-> > of the coherency protocal and is required by the Userspace driver to
-> > ensure coherency between the shader cores.
-> > 
-> > Signed-off-by: Akash Goel <akash.goel@arm.com>
-> 
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>
+---
+ drivers/video/fbdev/Kconfig |  1 -
+ drivers/video/fbdev/udlfb.c | 41 ++++++++++++++++++++++---------------
+ 2 files changed, 24 insertions(+), 18 deletions(-)
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> 
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_mmu.c | 23 +++++++++++++++--------
-> >  1 file changed, 15 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > index f3ee5d2753f1..f522a116c1b1 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > @@ -1927,7 +1927,7 @@ struct panthor_heap_pool *panthor_vm_get_heap_pool(struct panthor_vm *vm, bool c
-> >  	return pool;
-> >  }
-> >  
-> > -static u64 mair_to_memattr(u64 mair)
-> > +static u64 mair_to_memattr(u64 mair, bool coherent)
-> >  {
-> >  	u64 memattr = 0;
-> >  	u32 i;
-> > @@ -1946,14 +1946,21 @@ static u64 mair_to_memattr(u64 mair)
-> >  				   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER |
-> >  				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(false, false);
-> >  		} else {
-> > -			/* Use SH_CPU_INNER mode so SH_IS, which is used when
-> > -			 * IOMMU_CACHE is set, actually maps to the standard
-> > -			 * definition of inner-shareable and not Mali's
-> > -			 * internal-shareable mode.
-> > -			 */
-> >  			out_attr = AS_MEMATTR_AARCH64_INNER_OUTER_WB |
-> > -				   AS_MEMATTR_AARCH64_SH_CPU_INNER |
-> >  				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(inner & 1, inner & 2);
-> > +			/* Use SH_MIDGARD_INNER mode when device isn't coherent,
-> > +			 * so SH_IS, which is used when IOMMU_CACHE is set, maps
-> > +			 * to Mali's internal-shareable mode. As per the Mali
-> > +			 * Spec, inner and outer-shareable modes aren't allowed
-> > +			 * for WB memory when coherency is disabled.
-> > +			 * Use SH_CPU_INNER mode when coherency is enabled, so
-> > +			 * that SH_IS actually maps to the standard definition of
-> > +			 * inner-shareable.
-> > +			 */
-> > +			if (!coherent)
-> > +				out_attr |= AS_MEMATTR_AARCH64_SH_MIDGARD_INNER;
-> > +			else
-> > +				out_attr |= AS_MEMATTR_AARCH64_SH_CPU_INNER;
-> >  		}
-> >  
-> >  		memattr |= (u64)out_attr << (8 * i);
-> > @@ -2325,7 +2332,7 @@ panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
-> >  		goto err_sched_fini;
-> >  
-> >  	mair = io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg.arm_lpae_s1_cfg.mair;
-> > -	vm->memattr = mair_to_memattr(mair);
-> > +	vm->memattr = mair_to_memattr(mair, ptdev->coherent);
-> >  
-> >  	mutex_lock(&ptdev->mmu->vm.lock);
-> >  	list_add_tail(&vm->node, &ptdev->mmu->vm.list);
-> 
-
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index ea36c6956bf3..9bf6cf74b9cb 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -1588,7 +1588,6 @@ config FB_SMSCUFX
+ config FB_UDL
+ 	tristate "Displaylink USB Framebuffer support"
+ 	depends on FB && USB
+-	depends on FB_DEVICE
+ 	select FB_MODE_HELPERS
+ 	select FB_SYSMEM_HELPERS_DEFERRED
+ 	help
+diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
+index 71ac9e36f67c..de4800f09dc7 100644
+--- a/drivers/video/fbdev/udlfb.c
++++ b/drivers/video/fbdev/udlfb.c
+@@ -341,10 +341,10 @@ static int dlfb_ops_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ 		return -EINVAL;
+ 
+ 	pos = (unsigned long)info->fix.smem_start + offset;
+-
++#ifdef CONFIG_FB_DEVICE
+ 	dev_dbg(info->dev, "mmap() framebuffer addr:%lu size:%lu\n",
+ 		pos, size);
+-
++#endif
+ 	while (size > 0) {
+ 		page = vmalloc_to_pfn((void *)pos);
+ 		if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
+@@ -929,10 +929,10 @@ static int dlfb_ops_open(struct fb_info *info, int user)
+ 		info->fbdefio = fbdefio;
+ 		fb_deferred_io_init(info);
+ 	}
+-
++#ifdef CONFIG_FB_DEVICE
+ 	dev_dbg(info->dev, "open, user=%d fb_info=%p count=%d\n",
+ 		user, info, dlfb->fb_count);
+-
++#endif
+ 	return 0;
+ }
+ 
+@@ -982,9 +982,9 @@ static int dlfb_ops_release(struct fb_info *info, int user)
+ 		kfree(info->fbdefio);
+ 		info->fbdefio = NULL;
+ 	}
+-
++#ifdef CONFIG_FB_DEVICE
+ 	dev_dbg(info->dev, "release, user=%d count=%d\n", user, dlfb->fb_count);
+-
++#endif
+ 	return 0;
+ }
+ 
+@@ -1095,10 +1095,10 @@ static int dlfb_ops_blank(int blank_mode, struct fb_info *info)
+ 	struct dlfb_data *dlfb = info->par;
+ 	char *bufptr;
+ 	struct urb *urb;
+-
++#ifdef CONFIG_FB_DEVICE
+ 	dev_dbg(info->dev, "blank, mode %d --> %d\n",
+ 		dlfb->blank_mode, blank_mode);
+-
++#endif
+ 	if ((dlfb->blank_mode == FB_BLANK_POWERDOWN) &&
+ 	    (blank_mode != FB_BLANK_POWERDOWN)) {
+ 
+@@ -1190,7 +1190,9 @@ static int dlfb_realloc_framebuffer(struct dlfb_data *dlfb, struct fb_info *info
+ 		 */
+ 		new_fb = vmalloc(new_len);
+ 		if (!new_fb) {
++#ifdef CONFIG_FB_DEVICE
+ 			dev_err(info->dev, "Virtual framebuffer alloc failed\n");
++#endif
+ 			return -ENOMEM;
+ 		}
+ 		memset(new_fb, 0xff, new_len);
+@@ -1213,9 +1215,11 @@ static int dlfb_realloc_framebuffer(struct dlfb_data *dlfb, struct fb_info *info
+ 		 */
+ 		if (shadow)
+ 			new_back = vzalloc(new_len);
++#ifdef CONFIG_FB_DEVICE
+ 		if (!new_back)
+ 			dev_info(info->dev,
+ 				 "No shadow/backing buffer allocated\n");
++#endif
+ 		else {
+ 			dlfb_deferred_vfree(dlfb, dlfb->backing_buffer);
+ 			dlfb->backing_buffer = new_back;
+@@ -1247,14 +1251,14 @@ static int dlfb_setup_modes(struct dlfb_data *dlfb,
+ 	struct device *dev = info->device;
+ 	struct fb_videomode *mode;
+ 	const struct fb_videomode *default_vmode = NULL;
+-
++#ifdef CONFIG_FB_DEVICE
+ 	if (info->dev) {
+ 		/* only use mutex if info has been registered */
+ 		mutex_lock(&info->lock);
+ 		/* parent device is used otherwise */
+ 		dev = info->dev;
+ 	}
+-
++#endif
+ 	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
+ 	if (!edid) {
+ 		result = -ENOMEM;
+@@ -1375,10 +1379,10 @@ static int dlfb_setup_modes(struct dlfb_data *dlfb,
+ error:
+ 	if (edid && (dlfb->edid != edid))
+ 		kfree(edid);
+-
++#ifdef CONFIG_FB_DEVICE
+ 	if (info->dev)
+ 		mutex_unlock(&info->lock);
+-
++#endif
+ 	return result;
+ }
+ 
+@@ -1597,8 +1601,10 @@ static int dlfb_parse_vendor_descriptor(struct dlfb_data *dlfb,
+ static int dlfb_usb_probe(struct usb_interface *intf,
+ 			  const struct usb_device_id *id)
+ {
++#ifdef CONFIG_FB_DEVICE
+ 	int i;
+ 	const struct device_attribute *attr;
++#endif
+ 	struct dlfb_data *dlfb;
+ 	struct fb_info *info;
+ 	int retval;
+@@ -1701,7 +1707,7 @@ static int dlfb_usb_probe(struct usb_interface *intf,
+ 			retval);
+ 		goto error;
+ 	}
+-
++#ifdef CONFIG_FB_DEVICE
+ 	for (i = 0; i < ARRAY_SIZE(fb_device_attrs); i++) {
+ 		attr = &fb_device_attrs[i];
+ 		retval = device_create_file(info->dev, attr);
+@@ -1710,17 +1716,16 @@ static int dlfb_usb_probe(struct usb_interface *intf,
+ 				 "failed to create '%s' attribute: %d\n",
+ 				 attr->attr.name, retval);
+ 	}
+-
+ 	retval = device_create_bin_file(info->dev, &edid_attr);
+ 	if (retval)
+ 		dev_warn(info->device, "failed to create '%s' attribute: %d\n",
+ 			 edid_attr.attr.name, retval);
+-
+ 	dev_info(info->device,
+ 		 "%s is DisplayLink USB device (%dx%d, %dK framebuffer memory)\n",
+ 		 dev_name(info->dev), info->var.xres, info->var.yres,
+ 		 ((dlfb->backing_buffer) ?
+ 		 info->fix.smem_len * 2 : info->fix.smem_len) >> 10);
++#endif
+ 	return 0;
+ 
+ error:
+@@ -1737,8 +1742,9 @@ static void dlfb_usb_disconnect(struct usb_interface *intf)
+ {
+ 	struct dlfb_data *dlfb;
+ 	struct fb_info *info;
++#ifdef CONFIG_FB_DEVICE
+ 	int i;
+-
++#endif
+ 	dlfb = usb_get_intfdata(intf);
+ 	info = dlfb->info;
+ 
+@@ -1754,10 +1760,11 @@ static void dlfb_usb_disconnect(struct usb_interface *intf)
+ 	dlfb_free_urb_list(dlfb);
+ 
+ 	/* remove udlfb's sysfs interfaces */
++#ifdef CONFIG_FB_DEVICE
+ 	for (i = 0; i < ARRAY_SIZE(fb_device_attrs); i++)
+ 		device_remove_file(info->dev, &fb_device_attrs[i]);
+ 	device_remove_bin_file(info->dev, &edid_attr);
+-
++#endif
+ 	unregister_framebuffer(info);
+ }
+ 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.39.5
+
