@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C8A9B103B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 22:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D13C9B103F
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 22:44:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81D5610EB81;
-	Fri, 25 Oct 2024 20:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86AF110EB86;
+	Fri, 25 Oct 2024 20:44:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="RMf1+1cU";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="QoeNWVEt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8489810EB82
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 20:44:23 +0000 (UTC)
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com
+ [95.215.58.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D919810EB85
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 20:44:26 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1729889062;
+ t=1729889065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5eq6rCpBAPmzmyxJglOaWNSiBf8ToRPx9PYPV/1RZ4g=;
- b=RMf1+1cUzaAn7JLUa/8/psmRY+Z1jlrGLLsBvMdFK0dgZne5gxZWRpNg4QbaYKIgaarx4O
- pEmqUhjhmwd7obKJTR6jQBYn82Ky73sO2FO7vyiXYVRe0cYEWoL4kD7QZgVbpYCRyE9fJI
- GxMHVIps7t0GYwTK5l7ExPmfbCAASMo=
+ bh=+962+r2Cmig/FghXZjEwbQhCwYeyPYtwliaBbnwkoQA=;
+ b=QoeNWVEt8LiByi9WMf3TXS8kEmo3fnlbfDJ4UlLhi1KXnCSB8EIN96t4ucyc3iPDbEYA9k
+ sjqsMKNMZhlFevVDZ190+PuEStPiQKfCw7/5q3uaLJy7NYx/jiCkDLTIPlqsX2DN8G2bJt
+ BsL8BzOiwVCePd+bKrdYK+Hcq7xymFY=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
@@ -35,10 +35,10 @@ To: Lucas Stach <l.stach@pengutronix.de>,
 Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v2 1/2] drm/etnaviv: Record GPU visible size of GEM BO
- separately
-Date: Sat, 26 Oct 2024 04:43:54 +0800
-Message-Id: <20241025204355.595805-2-sui.jingfeng@linux.dev>
+Subject: [PATCH v2 2/2] drm/etnaviv: Map and unmap GPUVA range with respect to
+ the GPUVA size
+Date: Sat, 26 Oct 2024 04:43:55 +0800
+Message-Id: <20241025204355.595805-3-sui.jingfeng@linux.dev>
 In-Reply-To: <20241025204355.595805-1-sui.jingfeng@linux.dev>
 References: <20241025204355.595805-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -59,84 +59,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GPU visible size of a GEM BO is not necessarily PAGE_SIZE aligned,
-which happens when CPU page size is not equal to GPU page size. Extra
-precious resources such as GPU page tables and GPU TLBs may being paid
-because of this but never get used.
+Etnaviv assumes that GPU page size is 4KiB, however, GPUVA ranges collision
+when using softpin capable GPUs on a non 4KiB CPU page size configuration.
+The root cause is that kernel side BO takes up bigger address space than
+userspace expect, the size of backing memory of GEM buffer objects are
+required to align to the CPU PAGE_SIZE. Therefore, results in userspace
+allocated GPUVA range fails to be inserted to the specified hole exactly.
 
-Track the size of GPU visible part of GEM BO separately, ensure no
-GPUVA range wasting by aligning that size to GPU page size.
+To solve this problem, record the GPU visiable size of a BO firstly, then
+map and unmap the SG entry strictly with respect to the total GPUVA size.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 11 +++++------
- drivers/gpu/drm/etnaviv/etnaviv_gem.h |  5 +++++
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 36 +++++++++------------------
+ 1 file changed, 12 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index 5c0c9d4e3be1..fabcaa3b9b25 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -543,7 +543,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
- 	.vm_ops = &vm_ops,
- };
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+index 1661d589bf3e..a2cd64bd2dc0 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+@@ -70,8 +70,10 @@ static int etnaviv_context_map(struct etnaviv_iommu_context *context,
+ }
  
--static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
-+static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
- 	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
++			     unsigned int va_len,
+ 			     struct sg_table *sgt, int prot)
+-{	struct scatterlist *sg;
++{
++	struct scatterlist *sg;
+ 	unsigned int da = iova;
+ 	unsigned int i;
+ 	int ret;
+@@ -81,14 +83,16 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+ 
+ 	for_each_sgtable_dma_sg(sgt, sg, i) {
+ 		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
+-		size_t bytes = sg_dma_len(sg) + sg->offset;
++		unsigned int da_len = sg_dma_len(sg) + sg->offset;
++		unsigned int bytes = min_t(unsigned int, da_len, va_len);
+ 
+-		VERB("map[%d]: %08x %pap(%zx)", i, iova, &pa, bytes);
++		VERB("map[%d]: %08x %pap(%x)", i, iova, &pa, bytes);
+ 
+ 		ret = etnaviv_context_map(context, da, pa, bytes, prot);
+ 		if (ret)
+ 			goto fail;
+ 
++		va_len -= bytes;
+ 		da += bytes;
+ 	}
+ 
+@@ -104,21 +108,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+ static void etnaviv_iommu_unmap(struct etnaviv_iommu_context *context, u32 iova,
+ 				struct sg_table *sgt, unsigned len)
  {
- 	struct etnaviv_gem_object *etnaviv_obj;
-@@ -570,6 +570,7 @@ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
- 	if (!etnaviv_obj)
- 		return -ENOMEM;
- 
-+	etnaviv_obj->size = ALIGN(size, SZ_4K);
- 	etnaviv_obj->flags = flags;
- 	etnaviv_obj->ops = ops;
- 
-@@ -590,15 +591,13 @@ int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
- 	struct drm_gem_object *obj = NULL;
- 	int ret;
- 
--	size = PAGE_ALIGN(size);
+-	struct scatterlist *sg;
+-	unsigned int da = iova;
+-	int i;
 -
--	ret = etnaviv_gem_new_impl(dev, flags, &etnaviv_gem_shmem_ops, &obj);
-+	ret = etnaviv_gem_new_impl(dev, size, flags, &etnaviv_gem_shmem_ops, &obj);
- 	if (ret)
- 		goto fail;
+-	for_each_sgtable_dma_sg(sgt, sg, i) {
+-		size_t bytes = sg_dma_len(sg) + sg->offset;
+-
+-		etnaviv_context_unmap(context, da, bytes);
+-
+-		VERB("unmap[%d]: %08x(%zx)", i, iova, bytes);
+-
+-		BUG_ON(!PAGE_ALIGNED(bytes));
+-
+-		da += bytes;
+-	}
++	etnaviv_context_unmap(context, iova, len);
  
- 	lockdep_set_class(&to_etnaviv_bo(obj)->lock, &etnaviv_shm_lock_class);
+ 	context->flush_seq++;
+ }
+@@ -131,7 +121,7 @@ static void etnaviv_iommu_remove_mapping(struct etnaviv_iommu_context *context,
+ 	lockdep_assert_held(&context->lock);
  
--	ret = drm_gem_object_init(dev, obj, size);
-+	ret = drm_gem_object_init(dev, obj, PAGE_ALIGN(size));
- 	if (ret)
- 		goto fail;
+ 	etnaviv_iommu_unmap(context, mapping->vram_node.start,
+-			    etnaviv_obj->sgt, etnaviv_obj->base.size);
++			    etnaviv_obj->sgt, etnaviv_obj->size);
+ 	drm_mm_remove_node(&mapping->vram_node);
+ }
  
-@@ -627,7 +626,7 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
- 	struct drm_gem_object *obj;
- 	int ret;
+@@ -305,16 +295,14 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
+ 	node = &mapping->vram_node;
  
--	ret = etnaviv_gem_new_impl(dev, flags, ops, &obj);
-+	ret = etnaviv_gem_new_impl(dev, size, flags, ops, &obj);
- 	if (ret)
- 		return ret;
+ 	if (va)
+-		ret = etnaviv_iommu_insert_exact(context, node,
+-						 etnaviv_obj->base.size, va);
++		ret = etnaviv_iommu_insert_exact(context, node, etnaviv_obj->size, va);
+ 	else
+-		ret = etnaviv_iommu_find_iova(context, node,
+-					      etnaviv_obj->base.size);
++		ret = etnaviv_iommu_find_iova(context, node, etnaviv_obj->size);
+ 	if (ret < 0)
+ 		goto unlock;
  
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-index a42d260cac2c..687555aae807 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-@@ -36,6 +36,11 @@ struct etnaviv_gem_object {
- 	const struct etnaviv_gem_ops *ops;
- 	struct mutex lock;
+ 	mapping->iova = node->start;
+-	ret = etnaviv_iommu_map(context, node->start, sgt,
++	ret = etnaviv_iommu_map(context, node->start, etnaviv_obj->size, sgt,
+ 				ETNAVIV_PROT_READ | ETNAVIV_PROT_WRITE);
  
-+	/*
-+	 * The actual size that is visible to the GPU, not necessarily
-+	 * PAGE_SIZE aligned, but should be aligned to GPU page size.
-+	 */
-+	u32 size;
- 	u32 flags;
- 
- 	struct list_head gem_node;
+ 	if (ret < 0) {
 -- 
 2.34.1
 
