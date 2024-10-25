@@ -2,106 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404C89AFA5B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 08:53:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69219AFA77
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 08:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B16010EA05;
-	Fri, 25 Oct 2024 06:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A39E810EA09;
+	Fri, 25 Oct 2024 06:57:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="j/c0eeh7";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KWa2oYEx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB5210EA05
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 06:52:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1729839167; x=1730443967; i=friedrich.vock@gmx.de;
- bh=/6RwklIZCa9yb5GfzL7m2B0KiifbcKmAP0s9I3PXRj4=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=j/c0eeh7AiRS/4sMhnMsamY73W0qcbET1BHXLE26IWzm+dOyipXr2afDJEJQRysl
- Y/bqSzGq60wY1OSblSs7B7XMA4dU7nasLJ3CQ6jw5VUu148/A+n1iP5NpErYc4es+
- 3827+orC/CWqkMD1/s2fKRrOKjWuLen9FYCx2dKkT2qj6tCPeQcauaeR/BOxX4bVL
- gUJtqW+9KOet4gdXJLvIqv7rfX+YIpOnAPheiAD2ayRApO7dQhXbiYkx6Gj09vEc0
- VW5eL02AGfJiZFpRR8Uqp7ffSuOP+jXEnScIyX5mO+ANSWTeb82A4DHYTLjHI9Wbi
- COKyXwI43bZt4ioWyQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.3] ([109.91.201.165]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MmUHj-1tm7iA0HxJ-00q32s; Fri, 25
- Oct 2024 08:52:47 +0200
-Message-ID: <1ee2453d-f661-4ea6-8b54-3f911b179420@gmx.de>
-Date: Fri, 25 Oct 2024 08:52:45 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dma-buf/dma-fence_array: use kvzalloc
-To: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Richardqi.Liang@amd.com, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20241024124159.4519-1-christian.koenig@amd.com>
- <20241024124159.4519-2-christian.koenig@amd.com>
- <ZxquPRn1QtaVzydE@DUT025-TGLU.fm.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9D510EA0B;
+ Fri, 25 Oct 2024 06:57:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729839462; x=1761375462;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=XuY7zBiw6fNG/tGXHIrMjA2zy7Ao0st8njvENbRLCUg=;
+ b=KWa2oYExJRiYxIEAxIktYfCOF1pGgLHGFm/vPKApAO+ZLQFEW9s6ecbM
+ yW/ZUAusubegZM12nWrvS4uyNlGxcuU9oLDuzEC1+BXUCs1SgcrGoB0Z2
+ sr8zh0AplYtt9oSp7iC/1rsHqvUFWOwO9lSx1EHtubK4Z5x3shmVvrKjx
+ wDwJipS1JuRIyyhW2PrgWlm8+uEHuxPzW9EJDh9sLrqKCk0UdsFJTYFES
+ XZnvGMDG8wIZiknJTkUvfyJYHqYW9aYy3uQ4tqEN36ExX8OWbgjgK24xD
+ tlUI0fqrgL8dv91XpHelxmYhypy8jSaIeBwAal2DV8adDLqQ0nvi6cH5u A==;
+X-CSE-ConnectionGUID: Aip7lev1SRCh2LNFvPSUZg==
+X-CSE-MsgGUID: Y157roJkQk25Hgj+ZosIFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="32360535"
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="32360535"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2024 23:57:41 -0700
+X-CSE-ConnectionGUID: GFCu+phoTUiCmcYuJ4O4YQ==
+X-CSE-MsgGUID: o9IIQ5+YToeueYW4cqN2sg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="111643630"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 24 Oct 2024 23:57:41 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 24 Oct 2024 23:57:40 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 24 Oct 2024 23:57:40 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.40) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 24 Oct 2024 23:57:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UvdY+L6zra5DwuLN0dtphl9LFPfY4nsgEvtNOxyPMRehBRw89m61ZRC8Q1YCw34z7bKQ1KrvvUT5VLCLozIPRZbJYZojC4POUrgA+NgfnIJzok4GUQKyokG/b+E5ccMiUl12mpJBly52uJmaeqs3dFuENB3yD4tgnAzbNJPs/v8jLtPkfc4uKsOmAa1HUxoPqy19agLLqNoC92xw4i2QLyGSY7I6oIwH7vNuAR4YtrvxqfWBKdXDwtMiX5T3Cj8gmSKk8Tt1VXPIwI99W2ZpXbWas6lFXnqDlrkxz79ssbzqNj1FsnXSIga1iAsBy0T4lGZkcDCtMrya0HtFYCWQzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0pqs9/4LG3gD44DEt5Uk7KE1yd5rzA/FMdtbscxM4R8=;
+ b=mBiqPQPUIMnh66cBB9THRcnthYex2Jyen5/hM8Y2ROaTIGrdnO2e5Sq/hMU3kLlCwekn8NJxGpUw0cjYokEKXVw0f3pXJ2dEBh/g2/4e9VY7K3ch7Paa4ksduMj7L6rhE1BFrRJbgi91mMNh9N0TRBq2h54c3V+lFNfNFfD0+hpxUMlPO++lR6YpNc/sOYxt7MprC5aWJtyZFYYXZcb0Sfqf2uH2aOmGA3Tb0Pd9/7Xhv6Z2GNwRbn8mgWnGrapCMKgvPX4+KfdhoMhtlepSJahRVdd6RaZjPih426Npo4HdkolXgZJRyqcHmnsxNMTodk837qj5a3l9jDoYyoaRhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by PH7PR11MB5913.namprd11.prod.outlook.com (2603:10b6:510:137::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.18; Fri, 25 Oct
+ 2024 06:57:37 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b%5]) with mapi id 15.20.8093.014; Fri, 25 Oct 2024
+ 06:57:37 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Bjorn
+ Helgaas" <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+Subject: RE: [PATCH v2 1/5] PCI/P2PDMA: Don't enforce ACS check for functions
+ of same device
+Thread-Topic: [PATCH v2 1/5] PCI/P2PDMA: Don't enforce ACS check for functions
+ of same device
+Thread-Index: AQHbI3yK84LIcNeUG0KOOkjZ4cDCubKS47QAgAKA/4CAANFWAIAAv9ig
+Date: Fri, 25 Oct 2024 06:57:37 +0000
+Message-ID: <IA0PR11MB7185C903E9468C3221615F4FF84F2@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <IA0PR11MB71853199C12F60897CDE80D4F84E2@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <20241024175944.GA965060@bhelgaas>
+In-Reply-To: <20241024175944.GA965060@bhelgaas>
+Accept-Language: en-US
 Content-Language: en-US
-From: Friedrich Vock <friedrich.vock@gmx.de>
-Autocrypt: addr=friedrich.vock@gmx.de; keydata=
- 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
- f7+xmX0X3AMtWz/15Y+7cPO2
-In-Reply-To: <ZxquPRn1QtaVzydE@DUT025-TGLU.fm.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|PH7PR11MB5913:EE_
+x-ms-office365-filtering-correlation-id: e71c240a-0c28-4a1f-6446-08dcf4c24fbd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?F2H8x3XEDWP01Pi89Y2sc7Zw+CYYxfMDdv1ZcIY73tU6/rFuU4bQPdEXLhh6?=
+ =?us-ascii?Q?Rjy+0Rtbm0NZADXBqupPxWWyQEmUF/TKiOu4pMl3hguO50gEItxDb5xnrIg3?=
+ =?us-ascii?Q?U1pskx0FeziRXrPTmY1rTS8U3Tu1dZli6y9HM53Nv6nLsbX+1ymj9zG8209B?=
+ =?us-ascii?Q?Tk+DVRMCL9/DNMA2P+KRgE5cc+Ozsc6Pt0YEPLISt8LPQwJ2wrhCAdZnUIhx?=
+ =?us-ascii?Q?paYMb6R8tZMZQXaxwRAcIO7kMpd+WVC7axnF5oU2EuP6IWibG0BqlsQ89oBK?=
+ =?us-ascii?Q?AmgUXOL+PXEbT5GTBPZtvHpsO8NImBw4HaiRKxUwrITnPqycy7fLHVKrL/th?=
+ =?us-ascii?Q?zWMxoq7V56/ZGIzRALcbXKxaH9DOLNXDX1seMn4OyJe9rypkXofEteUyDtQv?=
+ =?us-ascii?Q?h+ucMOfE9un8Wsk0SnGo7ySpmbrGk1b+5SUeP4lDW4lG52gs6Um0sbqWPmSD?=
+ =?us-ascii?Q?0/ZtcwkoCLj49swV/hnGnowgT6Sj5a2y6kMRYnAWSR7Atd3C88kPZeT1Vk8v?=
+ =?us-ascii?Q?85NxrM2gZfL0odLW5QSZAxrRH6gba/t2qXgw69jcDhamvByVEAxfuxc5Owa7?=
+ =?us-ascii?Q?8Drfinm3P34yMNz1eHMESODoA9vxEIR257fQBOZRhG42XoSj3tuS3sncxSWq?=
+ =?us-ascii?Q?6bpC1mKs3n+a/S6lSOoujWskEzSIdJrwCH2fZdIsWNxYvG+QwcvdFlHE5SbY?=
+ =?us-ascii?Q?A2hr5TODhQhKFJ4p/QgImvSM+4DgRzrIwf7T4l8q3WCoHNwnWG8tMk750ihe?=
+ =?us-ascii?Q?MgqtRuZxPqv1X0lST7ux2/MEGfzWe0YxX1HcCXdVKwQXosWhsHv6Rib8nOE3?=
+ =?us-ascii?Q?nEt6IdUSuFBqx8ppdbBu/sxUyEWNg0OojYRVne32jKzFc/cT+PHhMwInz4Sd?=
+ =?us-ascii?Q?VHBTuXeel/vYgdZi6UZ0za2NsXTMz6enY7k36n/hurK2vzyxxmuT7UVgEfZZ?=
+ =?us-ascii?Q?3d2jF8YxvBOA+xVlAre/t4bCuoFh6w+vv3EOWVHx7BE+s0t7g+VGUQPOHete?=
+ =?us-ascii?Q?9VzWjUs9QLyNCJr4Z6YPxnzoND4+WyNQ7NYzu/eZ5LNl5SQDDgitThVbxjru?=
+ =?us-ascii?Q?55iLV3w8IulKLCf9XX0WwGXT8sW5CpYiqC4wFp6CLn+Z51BLYrI4dj1v2eO1?=
+ =?us-ascii?Q?poMZzrl8hrn6H/p05mcG+uzSX1RGVkx6NT2XdPanqUwe6vse+4OyQQKQ3CSe?=
+ =?us-ascii?Q?rJda9HOnEoiwEuEiXeDMIvhaOlvD/lyX61MXzUSfgwxJuIU4E9MM/9phfQyh?=
+ =?us-ascii?Q?vhTMzc3xHk8dUNwLbDzalQCCzKpqXdQ+Phl8CGj0f0+/2J94AGWskifKYTqF?=
+ =?us-ascii?Q?ZCEjMCUnso4MVlyBGsHv5x2a0+N4WMkJwVAuu+40F7m9y6fRrcztMloReu9z?=
+ =?us-ascii?Q?Eyd62Yg=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0yetdoQG8Jn7f4qzInN5n4IrlWrpuWt+IohXow4EB18klnc5bmse2qNOljwI?=
+ =?us-ascii?Q?xCpZUP/dUFPwnjC20Ah+k1eOKo6kFFcNpzMsDYcqv4O9lnn9A31vvy38rr9k?=
+ =?us-ascii?Q?hZNUHhUnCGttwgxne8UwSwEZS7eI0hm86Fu08LsGgYybvLx3mo3sMl+wTAnI?=
+ =?us-ascii?Q?mY2O68Pr4xbvWWuze3jzcG+k4302/+03Bffy4v+77zOJDOyQTPp47tTcaaXk?=
+ =?us-ascii?Q?fBAxpicMdmC8hlKVZH0lTA1yLCWnd9OoN6PV8rn16/EUN9zegsPXUzT5wJD7?=
+ =?us-ascii?Q?Cr9osRp5p2NC2gOY6k7mpbqArv51TRoELRYHCsjXDZ+cId5B3B/5KmeG8zMp?=
+ =?us-ascii?Q?GpbbbD8G9KJ14b+X56ICN8zSqNGUmzWKCgRApQ62pN1RFGnnTGBLekMYIW9w?=
+ =?us-ascii?Q?opgEkfyehQC0Ia0G00ezo2C32Zb8yWoeOMEz0jHs1uPrXm2x4Mg4ktUujeL3?=
+ =?us-ascii?Q?AidB7YqYeT8iq8P80zM25J5JiTjkDCmVjlKBpUYntgi2Ce1nRAp4YGZXZ082?=
+ =?us-ascii?Q?pEucJ4bZfuIeHh2A7Ywo84r6jO5v/iASx9qhT2d6pkIe6Ss0rJ9MtaDgjYFc?=
+ =?us-ascii?Q?8/n2CRHwo+za1mG6ZAMhtY5api5M5pETlqPB8hnF2Bh50puZfIY6n1C+TE+O?=
+ =?us-ascii?Q?wLFEUTwYFhxMmRzS7MNoSur9rqWVjrhckIArx/0ntEKK0cUwo28jLAKR96aq?=
+ =?us-ascii?Q?kaQCKyJqVByx3Is1R59vUw+79oIo9cip+tK5Wf0bapAYV7MZeyvipKH/kwTB?=
+ =?us-ascii?Q?JOJdVpUp3ICgmE36A/XpzNg0bBZur9bSvmyp+8VNRNEPxa9V8krR28RuaJsI?=
+ =?us-ascii?Q?ms1JHPO9ztON4P3RL+WSCMYu28JIJoWIE6qQsd1JStfmW7RCsGca9kGG8FeX?=
+ =?us-ascii?Q?Pfowu5uF0Sk54xTVUcB280lYK0h0MWyS4OXHeoIhjWfImTW7V0QXqNmWqdWU?=
+ =?us-ascii?Q?tymsMEvcyMf9Ch4zTXBevRNKf1jfOaaSoX078Qv07HglYIdgP22ll06iMAQ4?=
+ =?us-ascii?Q?DnbPUZJQfOEyWQl8IkTWLBLPBisV1deWOQycv4O2LOGAzcPu9clFM4r184N3?=
+ =?us-ascii?Q?/tbjql7OpvBkr9gOHSbsItu6EsBN2o9cwDybs4q8ExprfHy3puD5YZlYanJ/?=
+ =?us-ascii?Q?4wq4aIjVNAALAdslLOIrevKc1wLSWJMPsjxceJc8A7nJwCiBZ9XpYH8DCDbA?=
+ =?us-ascii?Q?43BNvaG53sInS0dXnp6JxEMHdzjVUpjG7IosGRrH3uVa2IAENM9w66Skvjo0?=
+ =?us-ascii?Q?kFRrCG1clHYEzQmwNJxPIUHIfZrPJ41LwtD3Ia4a4a7Cm+jum3eHCr63dcvi?=
+ =?us-ascii?Q?Mpjhtw97l9wbmvE2XX3NoC9pr8hLm4etuHar3ndf5Nrxb5AM9xoC993K5Lg8?=
+ =?us-ascii?Q?mf6sRutaeZhtnPXow+QUjd6CG9tZ3hmlhqFiYZOkVc9cVeMduQs1sQnUl+Yo?=
+ =?us-ascii?Q?DD9vEoJmL9p28+CjA3O8/kitgzkGchEeCIhW119bxNa7PMQ37NZ45p1lvo1b?=
+ =?us-ascii?Q?YQ4sFSD5Fz3ju7gBMxtfZgaT3cPZX4gCkYg76M9qmgIjPEHOSLBiunlqhO/M?=
+ =?us-ascii?Q?y08uw+wBwvDP485BH9dGIxOMZ8nHm4CASC0uQKpK?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:b9FU0+8IJRsQEb4eeD7hqHDp3liLno8Fhj6dhu/r7zT0DFgAPdo
- 5vWN1jB3gEZaSd6WqJP+WG2QKHZLdlGx+7ppqZroCwZiN6qJtrfdknf3SAD8b+G7sNxeA4y
- 2OU0hHSziONGKiwnwfxl55QR+IFgUSSTO72IIFDYBTrMbyMXwCf/L9vvbr1IVIA/hWbDtwH
- 4tr99o1RfB0+NHWFwZ34w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:mF6dlbFMn7I=;iKC5CcxxUGcAFscCuaBOmyZmBU6
- VpdzjhblANvzfE/nX37vKlUvywiPdeGypqJokhF4Dg1CwwykU+xRZF6JypIHRjWfJpC9qA4+W
- EZCSiyvj7iOZKPcV4//e3YkCHO/Va8CoVGrZVCV5Q/5ant7IAb2pCE1OCto8VmIUOkWLRSrjo
- GQ1Mo9SQkTYvAdOwPnEbQMjGLS0vv9Rp1N9f3cES8lrGQNBo01wxTdxdIUgUfrwMgSDKm47wH
- nGtitrz4mc+EoUylRitmxpidu1Ze24baFb+jkhULOzH7CYFNReUW5JEhpnA8K5Hsk3K4Mf3In
- QOr3HWgI0NVJ5OMr0rwKNSP+JC2TXzBv0EPu5NEaDP3ttZ77TaD/nPaBfRcfu984xibg1/7SY
- kbkfC9a4fRdB/KpdL0r6uQ+CbPQ+y+lRNQygPGB91oZVsObXaLuXCmsFcTpd3eOl5H1nz01+C
- KQu4pKbTzv1jZ9xS1a8hcWVp0fMLq8OYScNg9DfAau3FpZ3YyoQbmNZf5CylFlj9Xiy+6YVxS
- n1RJT9II+6ZsN56fxY1Ra9gi/1klUy68w7+DsV2n7BYAIxLmG/FoHksN1qEyW7KbAALARUTiq
- 5I5r2So23Zdop24oAkQgxDXLQdPWBPZrra2V99TeZOyVgb6TB4Cr4O+7Id3/IoRzgecMc5Es+
- sZEli3VES+Sx7myUR9oSy7CV1bhlJ5HJZeaAs1amfLKzhEo8jym8SUa7r2fSegbhQ3/wZS1XK
- Cyr1xbzONPCcGsq3WAiZ7CZEZMTla5W9E7zdqI65VNifHO5x5Cl665dkxdVfqnSMPCKjOfJg8
- stYC9jgAdG5O73c4i5UM6vuBmFXO33g5HHLGIy36AutLI=
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e71c240a-0c28-4a1f-6446-08dcf4c24fbd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2024 06:57:37.8025 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: a8Moj0whTlLLiihqZZd+Ww985AKtMEAPFxXxIok7Dsb1VGgfb8Z1PQLhZkY9tJWFnakPiD7NowDCXlzBhVoSfPshvSWCs4pbL9hbZIWZiZI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5913
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,82 +183,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24.10.24 22:29, Matthew Brost wrote:
-> On Thu, Oct 24, 2024 at 02:41:57PM +0200, Christian K=C3=B6nig wrote:
->> Reports indicates that some userspace applications try to merge more th=
-an
->> 80k of fences into a single dma_fence_array leading to a warning from
->
-> Really, yikes.
+Hi Bjorn,
 
-Not really IME. Unless Christian means some reports I don't have access
-to, the cases where userspace applications tried to do that were really
-just cases where the fence count exploded exponentially because
-dma_fence_unwrap_merge failed to actually merge identical fences (see
-patch 2). At no point have I actually seen apps trying to merge 80k+
-unique fences.
+> Subject: Re: [PATCH v2 1/5] PCI/P2PDMA: Don't enforce ACS check for
+> functions of same device
+>=20
+> On Thu, Oct 24, 2024 at 05:58:48AM +0000, Kasireddy, Vivek wrote:
+> > > Subject: Re: [PATCH v2 1/5] PCI/P2PDMA: Don't enforce ACS check for
+> > > functions of same device
+> > >
+> > > On Sun, Oct 20, 2024 at 10:21:29PM -0700, Vivek Kasireddy wrote:
+> > > > Functions of the same PCI device (such as a PF and a VF) share the
+> > > > same bus and have a common root port and typically, the PF provisio=
+ns
+> > > > resources for the VF. Therefore, they can be considered compatible
+> > > > as far as P2P access is considered.
+>=20
+> I don't understand the "therefore they can be considered compatible"
+> conclusion.  The spec quote below seems like it addresses exactly this
+> situation: it says ACS can control peer-to-peer requests between VFs.
+I am only referring to the specific case where the PF is trying to access (=
+P2P)
+a VF's resource that the PF itself has provisioned. Shouldn't this be consi=
+dered
+a valid access?
 
-Regards,
-Friedrich
+>=20
+> > ...
+> > > I'm not sure what you refer to by "PF provisions resources for the
+> > > VF".  Isn't it *always* the case that the architected PCI
+> > > resources (BARs) are configured by the PF?  It sounds like you're
+> > > referring to something Intel GPU-specific beyond that?
+> >
+> > What I meant to say is that since PF provisions the resources for
+> > the VF in a typical scenario,
+>=20
+> Are you talking about BARs?  As far as I know, the PF BAR assignments
+> always (not just in typical scenarios) determine the VF BAR
+> assignments.
+Right, I am indeed talking about BARs.
 
->
->> kzalloc() that the requested size becomes to big.
->>
->> While that is clearly an userspace bug we should probably handle that c=
-ase
->> gracefully in the kernel.
->>
->> So we can either reject requests to merge more than a reasonable amount=
- of
->> fences (64k maybe?) or we can start to use kvzalloc() instead of kzallo=
-c().
->> This patch here does the later.
->>
->
-> This patch seems reasonable to me if the above use is in fact valid.
->
->> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->> CC: stable@vger.kernel.org
->
-> Fixes tag?
->
-> Patch itself LGTM:
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
->
->> ---
->>   drivers/dma-buf/dma-fence-array.c | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fe=
-nce-array.c
->> index 8a08ffde31e7..46ac42bcfac0 100644
->> --- a/drivers/dma-buf/dma-fence-array.c
->> +++ b/drivers/dma-buf/dma-fence-array.c
->> @@ -119,8 +119,8 @@ static void dma_fence_array_release(struct dma_fenc=
-e *fence)
->>   	for (i =3D 0; i < array->num_fences; ++i)
->>   		dma_fence_put(array->fences[i]);
->>
->> -	kfree(array->fences);
->> -	dma_fence_free(fence);
->> +	kvfree(array->fences);
->> +	kvfree_rcu(fence, rcu);
->>   }
->>
->>   static void dma_fence_array_set_deadline(struct dma_fence *fence,
->> @@ -153,7 +153,7 @@ struct dma_fence_array *dma_fence_array_alloc(int n=
-um_fences)
->>   {
->>   	struct dma_fence_array *array;
->>
->> -	return kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL)=
-;
->> +	return kvzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL=
-);
->>   }
->>   EXPORT_SYMBOL(dma_fence_array_alloc);
->>
->> --
->> 2.34.1
->>
+>=20
+> Or are you referring to some other non-BAR resources?
+>=20
+> > they should be automatically P2PDMA compatible particularly when the
+> > provider is the VF and PF is the client. However, since this cannot
+> > be guaranteed on all the PCI devices out there for various reasons,
+> > my objective is to start including the ones that can be tested and
+> > are known to be compatible (Intel GPUs).
+>=20
+> Regardless of BAR or other VF resources, I don't think VFs are
+> automatically P2PDMA compatible.
+I agree that VFs in general are not automatically P2PDMA compatible
+but a PF and a VF should be considered compatible particularly when the
+provider is a VF and PF is the client.
 
+> For example, PCIe r6.0, sec 6.12.1.2  says:
+>=20
+>   For ACS requirements, single-Function devices that are SR-IOV
+>   capable must be handled as if they were Multi-Function Devices.
+>=20
+>   ...
+>=20
+>   - ACS P2P Request Redirect: must be implemented by Functions that
+>     support peer-to-peer traffic with other Functions. This includes
+>     SR-IOV Virtual Functions (VFs).  ACS P2P Request Redirect is
+>     subject to interaction with the ACS P2P Egress Control and ACS
+>     Direct Translated P2P mechanisms (if implemented). Refer to
+>     Section 6.12.3 for more information.  When ACS P2P Request
+>     Redirect is enabled in a Multi-Function Device that is not an
+>     RCiEP, peer-to-peer Requests (between Functions of the device)
+>     must be redirected Upstream towards the RC.
+>=20
+> Or do you mean something else by "P2PDMA compatible"?
+I am no longer making any generic claims about devices' P2PDMA
+compatibility. Instead, as mentioned above, I am only focused on the
+interactions between a PF (client) and a VF (provider), particularly with
+Intel GPUs.=20
+
+More specifically, I am trying to address a use-case where the VF needs to
+share a buffer with the PF but is unsuccessful because pci_p2pdma_distance_=
+many(
+provider, client, 1, true) fails (due to ACS redirect being set) although
+the buffer is located within a BAR resource that the PF has provisioned
+and has full access to it. Shouldn't this be allowed?
+
+Thanks,
+Vivek
+
+>=20
+> Bjorn
