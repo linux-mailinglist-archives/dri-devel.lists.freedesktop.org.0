@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521109B0434
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9699B041D
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:33:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7150610EAF7;
-	Fri, 25 Oct 2024 13:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8344610EACE;
+	Fri, 25 Oct 2024 13:32:51 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=johanneskirchmair.de header.i=@johanneskirchmair.de header.b="dClucyDY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Fri, 25 Oct 2024 03:56:26 UTC
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC57010E1ED;
- Fri, 25 Oct 2024 03:56:26 +0000 (UTC)
-X-UUID: 629cda28928411efa216b1d71e6e1362-20241025
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38, REQID:ae7975e5-53d8-485d-a6d9-ab93ee85b120, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:25
-X-CID-META: VersionHash:82c5f88, CLOUDID:e6841dc3a29fef6cc4c4d47c9684e538,
- BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:5,IP:nil,URL:0,
- File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:N
- O,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 629cda28928411efa216b1d71e6e1362-20241025
-Received: from node2.com.cn [(10.44.16.197)] by mailgw.kylinos.cn
- (envelope-from <zenghongling@kylinos.cn>) (Generic MTA)
- with ESMTP id 591682689; Fri, 25 Oct 2024 11:51:15 +0800
-Received: from node2.com.cn (localhost [127.0.0.1])
- by node2.com.cn (NSMail) with SMTP id BE1E7B804842;
- Fri, 25 Oct 2024 11:51:15 +0800 (CST)
-X-ns-mid: postfix-671B15B3-636278766
-Received: from localhost.localdomain (unknown [172.25.120.36])
- by node2.com.cn (NSMail) with ESMTPA id 02073B804842;
- Fri, 25 Oct 2024 03:51:12 +0000 (UTC)
-From: Hongling Zeng <zenghongling@kylinos.cn>
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, zhongling0719@126.com,
- Hongling Zeng <zenghongling@kylinos.cn>
-Subject: [PATCH] amdgpu/fence: replace call_rcu by kfree_rcu for simple
- kmem_cache_free callback
-Date: Fri, 25 Oct 2024 11:51:10 +0800
-Message-Id: <20241025035110.10854-1-zenghongling@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 462 seconds by postgrey-1.36 at gabe;
+ Fri, 25 Oct 2024 08:13:49 UTC
+Received: from bulk0.mail-out.lima-city.de (bulk0.mail-out.lima-city.de
+ [91.216.248.212])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3C6210EA23
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 08:13:49 +0000 (UTC)
+From: mailinglist1@johanneskirchmair.de
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=johanneskirchmair.de;
+ s=securedbylima-20161106; t=1729843565;
+ bh=P3R6bpWXHVToa3o5mnFLcdTIAER9hOUy5GkSK3oxbIU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=dClucyDY1RF8+yabq5q7fGMmYV0yilRAK4cAeI6j/16NJ/0+n0VCZ1uDg18uP5/DZ
+ E9YptnsWHT40GY0Oeylm2JwhtJZz8unLpwecO7ppMg+Vw1ND8U0laH6sdlAAhg6YCF
+ qjnfFRZm8I/4Lph4zPSAPiQDmt+7CQtlyx7q7n5s=
+To: aford173@gmail.com
+Cc: johannes.kirchmair@skidata.com, Laurent.pinchart@ideasonboard.com,
+ airlied@gmail.com, alexander.stein@ew.tq-group.com,
+ andrzej.hajda@intel.com, catalin.marinas@arm.com, conor+dt@kernel.org,
+ daniel@ffwll.ch, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, festevam@gmail.com,
+ frieder.schrempf@kontron.de, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ kernel@pengutronix.de, kishon@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, l.stach@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-pm@vger.kernel.org, maarten.lankhorst@linux.intel.com, marex@denx.de,
+ mripard@kernel.org, neil.armstrong@linaro.org, p.zabel@pengutronix.de,
+ rfoss@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+ shawnguo@kernel.org, tzimmermann@suse.de, ulf.hansson@linaro.org,
+ victor.liu@nxp.com, vkoul@kernel.org, will@kernel.org
+Subject: imx8mp: HDMI display blank/black problems
+Date: Fri, 25 Oct 2024 10:05:44 +0200
+Message-Id: <20241025080544.136280-1-mailinglist1@johanneskirchmair.de>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240203165307.7806-1-aford173@gmail.com>
+References: <20240203165307.7806-1-aford173@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Fri, 25 Oct 2024 13:32:50 +0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 25 Oct 2024 13:32:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,54 +67,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since SLOB was removed and since
-commit 6c6c47b063b5 ("mm, slab: call kvfree_rcu_barrier() from kmem_cache=
-_destroy()"),
-it is not necessary to use call_rcu when the callback only performs
-kmem_cache_free. Use kfree_rcu() directly.
+Hey, 
+We had some problems with the hdmi on the imx8mp and wanted to leave, what we found out about it, somewhere for others to find it.
 
-Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+The problem was that our hdmi display sometimes stayed blank after hot plugging and sometimes at startup. On older kernel versions 6.6 we did not have the problem with the not mainlined hdmi patches. 
+We tracked the commit down that introduced the problem for us. It was the following “driver core: Enable fw_devlink=rpm by default”  https://lore.kernel.org/lkml/20231113220948.80089-1-saravanak@google.com/
+So we switched back to FW_DEVLINK_FLAGS_ON via kernel parameter. Don’t really understand what the problem with RPM is.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_fence.c
-index 2f24a6a..d047afe 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-@@ -818,20 +818,6 @@ static bool amdgpu_job_fence_enable_signaling(struct=
- dma_fence *f)
- 	return true;
- }
-=20
--/**
-- * amdgpu_fence_free - free up the fence memory
-- *
-- * @rcu: RCU callback head
-- *
-- * Free up the fence memory after the RCU grace period.
-- */
--static void amdgpu_fence_free(struct rcu_head *rcu)
--{
--	struct dma_fence *f =3D container_of(rcu, struct dma_fence, rcu);
--
--	/* free fence_slab if it's separated fence*/
--	kmem_cache_free(amdgpu_fence_slab, to_amdgpu_fence(f));
--}
-=20
- /**
-  * amdgpu_job_fence_free - free up the job with embedded fence
-@@ -858,7 +844,7 @@ static void amdgpu_job_fence_free(struct rcu_head *rc=
-u)
-  */
- static void amdgpu_fence_release(struct dma_fence *f)
- {
--	call_rcu(&f->rcu, amdgpu_fence_free);
-+	kfree_rcu(f, rcu);
- }
-=20
- /**
---=20
-2.1.0
+So, this information is just for reference. Maybe someone has an idea what is going on here. And how to fix the problem in a more proper way.
 
+Best regards Johannes
