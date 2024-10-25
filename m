@@ -2,83 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81ACA9B0DD0
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 21:00:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 175499B0EF2
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 21:27:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB8510EB76;
-	Fri, 25 Oct 2024 19:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2FFE10E09B;
+	Fri, 25 Oct 2024 19:27:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CAF5XElo";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BjNBGXbf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F11BE10E055;
- Fri, 25 Oct 2024 19:00:28 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49PB1xkB000880;
- Fri, 25 Oct 2024 19:00:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 4m4ynzInmCYuKFAigjMuDiiA5+f08cG6+h6uxFu2fDQ=; b=CAF5XEloBiGlCdWT
- 43VVSPkg0AyqWJnQOh/vSJrU1RwrYawm339SwppcmAta4kUz0sdl7xwIuF+yjbyc
- ggqIqXstjim23jfOP/9qpuJ9sV0xQK4aPbRj/CVHjQwBInSrmz7SXhhkkFVz9q80
- DDavxgl4dE2+h6AE1Ku0smYiscSaO3VjZnEeieBvtVZjLLePGUDMFVGEw9w+fnrV
- NNeve5tK8J+PDuuUwR7MAgt23PFi0jm1I6CWKcCPJByFt8RJHLtT6T1ye4M753Wd
- czGNbPNAv9XbYodzF2PG20LSYGDORMMVm7HkhAGYzRtJfsfts2Kae5hrfdzqyAh7
- MSUJJw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42ga3s1csn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Oct 2024 19:00:23 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49PJ0MHu011047
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Oct 2024 19:00:22 GMT
-Received: from [10.110.83.151] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Oct
- 2024 12:00:21 -0700
-Message-ID: <1dcf786e-463f-4e51-af71-66ee6077b5f1@quicinc.com>
-Date: Fri, 25 Oct 2024 12:00:20 -0700
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E90EB10E09B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 19:27:25 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-539e3f35268so3163299e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 12:27:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1729884444; x=1730489244; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5pwYpRZq9PPWTjqEmVLXgvWDDt4y6jIawQPnKi8Ky4g=;
+ b=BjNBGXbf3maih7NnNwMFmuXmYEzvmPSU7KXz5vyIHck5Rz5Y0QZ3vSTxjsPyTb/0wR
+ /PHPHjJJ0631nnpntnuzU23y/HvDiamzqLHCJpRVfvmpVFEaDfcdO8DwoBbXOlGEucFm
+ cVQiMBDsUyFhFwRVsnUxlGQq2YMzpqRvzF/uYeyzs28uiV3EqIzKXAS0AiRMAO+M1o0c
+ 0Cm+CyGsjzes/OEEXtFbCnqUAOmFE62O63uKmXYlHeDueE0KWOmPeeE3tRuo2obIxpEN
+ SZTb/TAN2BT9m2e9EWlkdNTopw/FUfYx4K74dLBZXr1BuzXw3kvZMmf8hXJdvMwPUqrA
+ 5Yvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729884444; x=1730489244;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5pwYpRZq9PPWTjqEmVLXgvWDDt4y6jIawQPnKi8Ky4g=;
+ b=Otq4vruH+Q+qJS1Tew9wnXu71BheseOcCr4G2xVj94JfL/yTqfJJ8jqZQGZ9yfLo93
+ PRywEG8rlgH6qQfvvegp0uyiXV3uuNIjDkvsiRn4CvdJcWQp+UUx/tuGHPmK4g0f7Tqz
+ 0vV8KJPuL3Y4zUzb4Fn/C7m0ft+JSCY5wx8TWzwIXSSi1+szvggvDlq1KL1pU6cW5Fct
+ B/vC1y31SbLBcNaWkCrpM2bub3b3fWxid/W9dfTkq2EU0KHEBFlxWx8otlB1Ho8B0aK6
+ HfcyFFvkglGbJUJBynx6v1i747tZdG4PIs6qQ2cnvBa+/DPthz7dF196FpuPdthAkpRi
+ 1NEw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV7vqhr/evCrhImzZySNNNkCsGbVCS5/9MmXV9UimWEMw9z03A6mc18m+8X4bPR7taEEWFkTg+82Us=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxus7UjRw44Rj3N6RzCwkVKf+MvCbuLWdpfkHN37T2h+M7KdN4P
+ xaVODTJoGDjGgAVGqKjp3JS8RwgK3DKcOHH8QNv3yqkH+G4PAthBwNyWHSKIJR4aeQvc98qARp0
+ u0VQsjXVMRrzT1IuyFu3n6SLxNfUskO541M3yfg==
+X-Google-Smtp-Source: AGHT+IEU/O6qCLZRAQIxMa9TAuHKrJb2KzdM54UvELz6OzL/NUpAjy4OtKxqFoLA2zXlLI9eK2wTMT28bKNPV/O7PFo=
+X-Received: by 2002:a05:6512:31c6:b0:53b:1fe4:3fb9 with SMTP id
+ 2adb3069b0e04-53b34a2d88emr154603e87.49.1729884443592; Fri, 25 Oct 2024
+ 12:27:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/9] drm/msm/dpu: move pstate->pipe initialization to
- dpu_plane_atomic_check
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
- <20241025-dpu-virtual-wide-v6-2-0310fd519765@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20241025-dpu-virtual-wide-v6-2-0310fd519765@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ZWHZaI5rykXHJ0Ju0Xn8bsZKdz1nYDdx
-X-Proofpoint-GUID: ZWHZaI5rykXHJ0Ju0Xn8bsZKdz1nYDdx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015
- impostorscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
- phishscore=0 lowpriorityscore=0 mlxscore=0 priorityscore=1501 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410250145
+References: <cover.1729738189.git.jahau@rocketmail.com>
+ <594cc48e98b551cfeeba0fb475755a41b83283a0.1729738189.git.jahau@rocketmail.com>
+In-Reply-To: <594cc48e98b551cfeeba0fb475755a41b83283a0.1729738189.git.jahau@rocketmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 25 Oct 2024 21:27:11 +0200
+Message-ID: <CACRpkdYOgymfjOD3cAMXt7u8SH0vvVzwt75gamJvXuyyjdsMPw@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] drm/panel: samsung-s6e88a0-ams427ap24: Add
+ brightness control
+To: Jakob Hauser <jahau@rocketmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,88 +88,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jakob,
 
+thanks for your patch!
 
-On 10/24/2024 5:20 PM, Dmitry Baryshkov wrote:
-> In preparation for virtualized planes support, move pstate->pipe
-> initialization from dpu_plane_reset() to dpu_plane_atomic_check(). In
-> case of virtual planes the plane's pipe will not be known up to the
-> point of atomic_check() callback.
-> 
+On Thu, Oct 24, 2024 at 5:18=E2=80=AFAM Jakob Hauser <jahau@rocketmail.com>=
+ wrote:
+> +static const int s6e88a0_ams427ap24_br_to_cd[NUM_STEPS_CANDELA] =3D {
 
-I had R-bed this in v5. Did anything change in v6?
+(...)
+> +       /* brightness till, candela */
 
-But one comment below.
+Brightness to candela conversion table? Edit comment?
 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 25 +++++++++++--------------
->   1 file changed, 11 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 37faf5b238b0..725c9a5826fd 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -797,13 +797,22 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   	uint32_t max_linewidth;
->   	unsigned int rotation;
->   	uint32_t supported_rotations;
-> -	const struct dpu_sspp_cfg *pipe_hw_caps = pstate->pipe.sspp->cap;
-> -	const struct dpu_sspp_sub_blks *sblk = pstate->pipe.sspp->cap->sblk;
-> +	const struct dpu_sspp_cfg *pipe_hw_caps;
-> +	const struct dpu_sspp_sub_blks *sblk;
->   
->   	if (new_plane_state->crtc)
->   		crtc_state = drm_atomic_get_new_crtc_state(state,
->   							   new_plane_state->crtc);
->   
-> +	pipe->sspp = dpu_rm_get_sspp(&kms->rm, pdpu->pipe);
-> +	r_pipe->sspp = NULL;
+> +static const u8 s6e88a0_ams427ap24_aid[NUM_STEPS_AID][SEQ_LENGTH_AID] =
+=3D {
+
+If you know that the sequence 0xb2, 0x40, 0x08, 0x20 means "set AID"
+(or is it AOR??) you can #define
+
+#define S6E88A0_SET_AID 0xb2
+
+Then make a small buffer:
+
+u8 set_aid[5] =3D { S6E88A0_SET_AID, 0x40, 0x08, 0x20, 0x00, 0x00 };
+
+then you can strip the first three bytes from the entire table,
+just copy in the two relevant bytes into set_aor[]
+and send that.
+
+> +static const u8 s6e88a0_ams427ap24_elvss[NUM_STEPS_ELVSS][SEQ_LENGTH_ELV=
+SS] =3D {
+> +       { 0x28, 0x14 }, /* 10CD ~ 111CD */
+> +       { 0x28, 0x13 }, /* 119CD */
+
+Command 0xb6 is
+#define S6E88A0_SET_LVSS 0xb6
+
+Same comment: just define
+u8 set_lvss[2] =3D {S6E88A0_SET_LVSS, 0x28, 0x00};
+copy the second byte into the command, this becomes
+an array of single bytes.
+
+> +static const u8 s6e88a0_ams427ap24_gamma[NUM_STEPS_CANDELA][SEQ_LENGTH_G=
+AMMA] =3D {
+> +       /* 10CD */
+> +       { 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x8a, 0x8c, 0x8=
+b,
+> +         0x8c, 0x87, 0x89, 0x89, 0x88, 0x87, 0x8c, 0x80, 0x82, 0x88, 0x7=
+b,
+> +         0x72, 0x8c, 0x60, 0x68, 0x8c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0=
+0 },
+
+This array looks fine though, it seems to be all unique gamma calibration.
+
+> +static int s6e88a0_ams427ap24_set_brightness(struct backlight_device *bd=
+)
+> +{
+> +       struct s6e88a0_ams427ap24 *ctx =3D bl_get_data(bd);
+> +       struct mipi_dsi_device *dsi =3D ctx->dsi;
+> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
+> +       struct device *dev =3D &dsi->dev;
+> +       int brightness =3D bd->props.brightness;
+> +       int candela_enum;
+> +       u8 b2[SEQ_LENGTH_AID + 1];
+> +       u8 b6[SEQ_LENGTH_ELVSS + 1];
+> +       u8 ca[SEQ_LENGTH_GAMMA + 1];
+
+Rename them to something like my suggestions so we understand what it is
+all about. It seems the infrastructure for what I suggested is mostly alrea=
+dy
+there.
+
+See comment above how to modify arrays to contain stuff that is always
+the same.
+
+> +       /* get aid */
+> +       b2[0] =3D 0xb2;
+
+Use a define per above.
+
+> +       switch (candela_enum) {
+> +       case CANDELA_10CD ... CANDELA_105CD:
+> +               memcpy(&b2[1], s6e88a0_ams427ap24_aid[candela_enum],
+> +                      SEQ_LENGTH_AID);
+> +               break;
+> +       case CANDELA_111CD ... CANDELA_172CD:
+> +               memcpy(&b2[1], s6e88a0_ams427ap24_aid[CANDELA_111CD],
+> +                      SEQ_LENGTH_AID);
+> +               break;
+> +       case CANDELA_183CD ... CANDELA_300CD:
+> +               memcpy(&b2[1], s6e88a0_ams427ap24_aid[CANDELA_111CD + 1],
+> +                      SEQ_LENGTH_AID);
+> +               break;
+> +       default:
+> +               dev_err(dev, "Failed to get aid data\n");
+> +               return -EINVAL;
+> +       }
 > +
-> +	if (!pipe->sspp)
-> +		return -EINVAL;
-> +
-> +	pipe_hw_caps = pipe->sspp->cap;
-> +	sblk = pipe->sspp->cap->sblk;
-> +
->   	min_scale = FRAC_16_16(1, sblk->maxupscale);
->   	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
->   						  min_scale,
+> +       /* get elvss */
+> +       b6[0] =3D 0xb6;
 
-Do you think it will be better to move the get_sspp() call after the 
-drm_atomic_helper_check_plane_state()?
+Use a define per above.
 
-> @@ -820,7 +829,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
->   	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
->   	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> -	r_pipe->sspp = NULL;
->   
->   	pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
->   	if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
-> @@ -1286,7 +1294,6 @@ static void dpu_plane_reset(struct drm_plane *plane)
->   {
->   	struct dpu_plane *pdpu;
->   	struct dpu_plane_state *pstate;
-> -	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
->   
->   	if (!plane) {
->   		DPU_ERROR("invalid plane\n");
-> @@ -1308,16 +1315,6 @@ static void dpu_plane_reset(struct drm_plane *plane)
->   		return;
->   	}
->   
-> -	/*
-> -	 * Set the SSPP here until we have proper virtualized DPU planes.
-> -	 * This is the place where the state is allocated, so fill it fully.
-> -	 */
-> -	pstate->pipe.sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-> -	pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
-> -	pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> -
-> -	pstate->r_pipe.sspp = NULL;
-> -
->   	__drm_atomic_helper_plane_reset(plane, &pstate->base);
->   }
->   
-> 
+> +       if (candela_enum <=3D CANDELA_111CD) {
+> +               memcpy(&b6[1], s6e88a0_ams427ap24_elvss[0], SEQ_LENGTH_EL=
+VSS);
+> +       } else {
+> +               memcpy(&b6[1], s6e88a0_ams427ap24_elvss[candela_enum - CA=
+NDELA_111CD],
+> +                      SEQ_LENGTH_ELVSS);
+> +       }
+> +
+> +       /* get gamma */
+> +       ca[0] =3D 0xca;
+
+#define S6E88A0_SET_GAMMA 0xca
+
+> +       memcpy(&ca[1], s6e88a0_ams427ap24_gamma[candela_enum], SEQ_LENGTH=
+_GAMMA);
+> +
+> +       /* write: key on, aid, acl off, elvss, gamma, gamma update, key o=
+ff */
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
+
+0xf0 is clearly an unlocking key as per comment in the previous patch.
+
+> +       mipi_dsi_dcs_write_buffer_multi(&dsi_ctx, b2, ARRAY_SIZE(b2));
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x00);
+
+0x55 is MIPI_DCS_WRITE_POWER_SAVE in <video/mipi_display.h>
+
+> +       mipi_dsi_dcs_write_buffer_multi(&dsi_ctx, b6, ARRAY_SIZE(b6));
+> +       mipi_dsi_dcs_write_buffer_multi(&dsi_ctx, ca, ARRAY_SIZE(ca));
+
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x03);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
+
+Clearly this locks the L2 access again.
+
+Yours,
+Linus Walleij
