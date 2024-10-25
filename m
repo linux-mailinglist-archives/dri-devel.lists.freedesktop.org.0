@@ -2,90 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA689B091F
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 18:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008AD9B0976
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 18:14:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9511C10EB11;
-	Fri, 25 Oct 2024 16:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96C5310E3E7;
+	Fri, 25 Oct 2024 16:14:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JyIu1exa";
+	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="kGOqlJ3p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C700910EB11
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 16:04:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1729872272;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dP1l1d3q2dS9FBR6D2BlTz8i/N26swQgIiObmqRvP8Y=;
- b=JyIu1exahJ7Ij7A3Y6U3u50DBsO2Ek47OAeeimT96E8hAIzTPErayldSIq/iJ9ETMBF/Io
- e+EWx35JrryqqmYGm8K4nwfPQcWh6p1SncALT27XCu3E57FWYHkbMHCjo/EbA2+moTJZfc
- DxqDM4nM6oaPFvi2Dgs+UOtxetZ+9PA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-577-HBvpEr0VMBuc2yq7cCw45Q-1; Fri, 25 Oct 2024 12:04:31 -0400
-X-MC-Unique: HBvpEr0VMBuc2yq7cCw45Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-5cb81481a4bso1366803a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 09:04:31 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 443E210E3E7
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 16:14:54 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2fb56cb61baso18208651fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 09:14:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1729872892; x=1730477692;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GN13PFFztO+RVXylp070AHdpchWjZze0aJo+onIOSo0=;
+ b=kGOqlJ3pLoCwxZyvhwIh9nSxZJxO+9hT6teJ/HleZ2IXpVOGpyt5I1kcku2hguiajq
+ 8UBHcr5svkqw9ZxigA970/l4Z6lCXJs/eUimXn0YlVVoL5cv2VA6VP16qhColHHTIUq1
+ Yyli6v56XnRnTtKH65tV7xA+Id3SVE10svOO4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729872270; x=1730477070;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Mq0ZSPaaM4EdprorVscFmQk+8GBA3VtDTMlmBxyEmiI=;
- b=mYCSftgfziC8WgMNIKSeSxsvOhrRUzGtZllXr4skWaKSiuZoymBsS3BjHQhPSLdF/v
- mw4KhnfBTN6qh3qr0rssvKQ/nsbxGVoqeQQiFTVgF/1uEvOnK+plchNbADVMVQwo1X8b
- AhK/I5CoCu74sOQSltqdTEjEEVJ4geIAKwFHwwAE6bqDr3hhWBLFPE6q/CNk/MObGRyu
- WtjL8ml0epy6a4lisuvyKowIOynjqUi+HMQJC4SV3zgzqx0jeDUc5Ay8cP98GypLJYVm
- cf9QKcMJfWPmxt3icbRnYWuvG/3BxzSVQE3KkFMvQYP9OhYXyBe1NJM9RMcOZflwy0vQ
- 9kNg==
+ d=1e100.net; s=20230601; t=1729872892; x=1730477692;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GN13PFFztO+RVXylp070AHdpchWjZze0aJo+onIOSo0=;
+ b=w/YUDkuaTWiRB3pXnqTBaH/SH30MfIkGZx/Uim4diPhrBJ0lGVOTXj799FfmCuTkQt
+ NGgSNL+OkQNJADkQ8DjZbp5rkfZxWOOXNgKZR7R+CyCtK2ZPUcMfClFqn9T/iUZVqhd4
+ ugDlxdar2Oh2sJsmaZCsJ1C0ZzRaAn1qwgbjWEILebi4y+xfHeV3gkmcDypSl0Uz7/mQ
+ r2yD3Nzu9Fc3U3XioaXq3QT7IDUhHdUD/nuU0bHAJHvy1XPs/8/hId8WA/bEr+kGPXkC
+ ikaFYz89nRXfKtKtQRVBTPqs0POAsOoWJXibpw2Guk/1p/VX65Zhw2hrd68TNP6Mf93O
+ p6iw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWmvUwNVPlsonsbljj6EtTnkCY666woL6XNvcpSAZSOdY/HGkSp1ySnQJnzAlMFVMAbMp6Q2cnOf9Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+Nmy32qYZa3y4umP3M5w4zIaNBbvaD2q6wTgSo9H5T20JAJYD
- xTV6BinuGmI0kF4MKwWa+ib+erSPTXHq0K+4HwQ9uxco4NEoGMA3+Xoz+eaSxKi5af1lJkrWmH+
- 1K3cPWnYHkUnazK5Y5cNvCfxVMVdKHztoBoJIqXt6DQrrP9VtPXV3TdNo8wsrQFYPcg==
-X-Received: by 2002:a05:6402:5011:b0:5cb:89d0:d423 with SMTP id
- 4fb4d7f45d1cf-5cba2454282mr4896962a12.12.1729872270038; 
- Fri, 25 Oct 2024 09:04:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEH4gqN9URLnFTdTMFPkxRZysuH2sFVvE3nRndWn31MrN/a9M9J/HlZtU1XnwBkUGH1I+Kq5Q==
-X-Received: by 2002:a05:6402:5011:b0:5cb:89d0:d423 with SMTP id
- 4fb4d7f45d1cf-5cba2454282mr4896933a12.12.1729872269531; 
- Fri, 25 Oct 2024 09:04:29 -0700 (PDT)
-Received: from eisenberg.fritz.box
- (200116b82de5ba00738ac8dadaac7543.dip.versatel-1u1.de.
- [2001:16b8:2de5:ba00:738a:c8da:daac:7543])
+ AJvYcCXVNSfO+/PRapJFjo/K4OYU9O+1E9lFAByvY0TGb7CCGXe7Q1CTQNSstSrQVyiJY4ySF3IrRJ6hxhk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzO+kKybtvfmv5S5FFW+VEmgIDgnzSwnIzFcDRtRnPSJNfyGp3W
+ s9Hr5MrEzl/rwKDagWeZV0kQH8FnKuNkTtEZlbvs87WiTTSF+cGzKIQrVJLmK9Q=
+X-Google-Smtp-Source: AGHT+IG7Ko0ZaVVixb42kGSXnwInD9+MTWs4okp1RbVG6KUd/qf/uSPa2qcn+su4qqA0sbbCFTHNBw==
+X-Received: by 2002:a05:6512:3054:b0:535:6992:f2cb with SMTP id
+ 2adb3069b0e04-53b1a36c6f3mr6404231e87.42.1729872892194; 
+ Fri, 25 Oct 2024 09:14:52 -0700 (PDT)
+Received: from dario-ThinkPad-T14s-Gen-2i.. ([2.196.43.251])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5cbb629c250sm761328a12.27.2024.10.25.09.04.27
+ 5b1f17b1804b1-4318b579613sm51759005e9.38.2024.10.25.09.14.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2024 09:04:28 -0700 (PDT)
-Message-ID: <243743c08eca2da4882d1c5fb3b01b68f044ee4a.camel@redhat.com>
-Subject: Re: [PATCH] drm/sched: warn about drm_sched_job_init()'s partial init
-From: Philipp Stanner <pstanner@redhat.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Luben Tuikov <ltuikov89@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,  Tvrtko Ursulin
- <tursulin@igalia.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Date: Fri, 25 Oct 2024 18:04:27 +0200
-In-Reply-To: <ZxsDRWxVRt2fCKpF@DUT025-TGLU.fm.intel.com>
-References: <20241023141530.113370-2-pstanner@redhat.com>
- <ZxsDRWxVRt2fCKpF@DUT025-TGLU.fm.intel.com>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+ Fri, 25 Oct 2024 09:14:51 -0700 (PDT)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-amarula@amarulasolutions.com,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marek Vasut <marex@denx.de>, Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Stefan Agner <stefan@agner.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2] drm/mxsfb: Remove generic DRM drivers in probe function
+Date: Fri, 25 Oct 2024 18:14:25 +0200
+Message-ID: <20241025161435.4114877-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,84 +87,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2024-10-25 at 02:32 +0000, Matthew Brost wrote:
-> On Wed, Oct 23, 2024 at 04:15:31PM +0200, Philipp Stanner wrote:
-> > drm_sched_job_init()'s name suggests that after the function
-> > succeeded,
-> > parameter "job" will be fully initialized. This is not the case;
-> > some
-> > members are only later set, notably drm_sched_job.sched by
-> > drm_sched_job_arm().
-> >=20
-> > Document that drm_sched_job_init() does not set all struct members.
-> >=20
-> > Document the lifetime of drm_sched_job.sched.
-> >=20
-> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
->=20
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
->=20
+Use aperture helpers to remove all generic graphics drivers before
+loading mxsfb. Makes mxsfb compatible with simpledrm.
 
-Applied to drm-misc-next, thank you.
+Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
-P.
+---
 
+Changes in v2:
+- Use aperture_remove_all_conflicting_devices() instead of
+  drm_aperture_remove_framebuffers().
 
-> > ---
-> > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 4 ++++
-> > =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 8 ++++++++
-> > =C2=A02 files changed, 12 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > b/drivers/gpu/drm/scheduler/sched_main.c
-> > index dab8cca79eb7..8c1c4739f36d 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -771,6 +771,10 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
-> > =C2=A0 * Drivers must make sure drm_sched_job_cleanup() if this functio=
-n
-> > returns
-> > =C2=A0 * successfully, even when @job is aborted before
-> > drm_sched_job_arm() is called.
-> > =C2=A0 *
-> > + * Note that this function does not assign a valid value to each
-> > struct member
-> > + * of struct drm_sched_job. Take a look at that struct's
-> > documentation to see
-> > + * who sets which struct member with what lifetime.
-> > + *
-> > =C2=A0 * WARNING: amdgpu abuses &drm_sched.ready to signal when the
-> > hardware
-> > =C2=A0 * has died, which can mean that there's no valid runqueue for a
-> > @entity.
-> > =C2=A0 * This function returns -ENOENT in this case (which probably
-> > should be -EIO as
-> > diff --git a/include/drm/gpu_scheduler.h
-> > b/include/drm/gpu_scheduler.h
-> > index ab161289d1bf..95e17504e46a 100644
-> > --- a/include/drm/gpu_scheduler.h
-> > +++ b/include/drm/gpu_scheduler.h
-> > @@ -340,6 +340,14 @@ struct drm_sched_fence
-> > *to_drm_sched_fence(struct dma_fence *f);
-> > =C2=A0struct drm_sched_job {
-> > =C2=A0=09struct spsc_node=09=09queue_node;
-> > =C2=A0=09struct list_head=09=09list;
-> > +
-> > +=09/**
-> > +=09 * @sched:
-> > +=09 *
-> > +=09 * The scheduler this job is or will be scheduled on. Gets
-> > set by
-> > +=09 * drm_sched_job_arm(). Valid until
-> > drm_sched_backend_ops.free_job()
-> > +=09 * has finished.
-> > +=09 */
-> > =C2=A0=09struct drm_gpu_scheduler=09*sched;
-> > =C2=A0=09struct drm_sched_fence=09=09*s_fence;
-> > =C2=A0
-> > --=20
-> > 2.47.0
-> >=20
->=20
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index cb5ce4e81fc7..d140984923fd 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -8,6 +8,7 @@
+  * Copyright (C) 2008 Embedded Alley Solutions, Inc All Rights Reserved.
+  */
+ 
++#include <linux/aperture.h>
+ #include <linux/clk.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/io.h>
+@@ -360,6 +361,15 @@ static int mxsfb_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_free;
+ 
++	/*
++	 * Remove early framebuffers (ie. simplefb). The framebuffer can be
++	 * located anywhere in RAM
++	 */
++	ret = aperture_remove_all_conflicting_devices(mxsfb_driver.name);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "can't kick out existing framebuffers\n");
++
+ 	ret = drm_dev_register(drm, 0);
+ 	if (ret)
+ 		goto err_unload;
+-- 
+2.43.0
 
