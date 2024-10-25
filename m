@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D549B0187
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 13:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE259B018B
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 13:45:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1A6A10E051;
-	Fri, 25 Oct 2024 11:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDFA310E1B2;
+	Fri, 25 Oct 2024 11:44:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jgbzywzf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FskVdLwK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 264A110E051
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 11:43:53 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0336A10E1B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 11:44:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729856633; x=1761392633;
+ t=1729856696; x=1761392696;
  h=message-id:date:mime-version:subject:to:references:from:
  in-reply-to:content-transfer-encoding;
- bh=Od1+IiJ7o7Ev9EKjzvRlk+vo7kdEal77LV50Vd1aXoY=;
- b=JgbzywzffVV2bFvyHBVfpZgJgdPrq1C23Qn0AnMF4GXbBgV+FamlVh6V
- gvgyMJQi7dVhaN+0mqXhBampV7swDNjELuJaLb4xTQbCwle0WcbfMRv0i
- ggmBszPbpgj3NFmm3HO5SPDnfz6RN1XXW5/iF795iR+s2CM8bwG/ey84k
- h2Y7Q88WJojd4BHUl3BJHxc5Hg/qA7m/uIS2nAGO0vweeF+4qXSMcyQPg
- troqFGD+D9qIy1hEdc6ccS1317hsFqj4gxOoZJyyMcHBXp9JwdIUOOLlW
- 06rWMI8qPXiIeiqSuoBl/pUIrjtxeax3J8wDGisAerTiaMZJEJ6lurWTb A==;
-X-CSE-ConnectionGUID: 8sYCbvdXTw+HOM4VSI9/+Q==
-X-CSE-MsgGUID: hroMzmBvQ6OZKVH+V4n6Hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="33433687"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="33433687"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2024 04:43:52 -0700
-X-CSE-ConnectionGUID: ha3RT3GHTIW/pMRqCX124g==
-X-CSE-MsgGUID: 3F/VlhyZTIeBh4W1XkCWug==
+ bh=KNtMFSkkMw5Z7wPypV/SsQQ8kRVVuQXMwCoZUfucozA=;
+ b=FskVdLwKizt6mHmuDHOoyY/kqC9pyOGgKw+6h+zVNsMmrProUSueeYY4
+ LqMGO7VhObU19o3eTqesbJgwoBiO2/r/4ZdSAQM+/DBSFcnIAFFnYMwuc
+ GT/WmqlLIbxGTT3pKgVli9sJQWmm2r1LuHBa2Ut4lAalD7PGtYEkL2/93
+ T2CgdCIHUYivRE3oVbn5ZOU3XVi2PhrR0zH9XaUtFLeWouR+koNeQZkGx
+ rezpaq+1t30F/qyNU75vYw6osAj9R53cyxDQRuEVP5mZGe4pWe3nxse9S
+ 5AO6bZCU39+N7CBCafOLeKneGnYo2Ah4xxYS4kMsbQ6LmvGtJ4R1rlkPq Q==;
+X-CSE-ConnectionGUID: VSdv6BZ8SWugd3NhfUlXeg==
+X-CSE-MsgGUID: 2bQMpOuSQlagfWMM3WoTDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="54927915"
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="54927915"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2024 04:44:55 -0700
+X-CSE-ConnectionGUID: e4lmiVdQRd260MRAcDmOYQ==
+X-CSE-MsgGUID: 3QVLhxFxT0uTYxU1TkUuMQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="80905170"
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="85474371"
 Received: from lwesiers-mobl.ger.corp.intel.com (HELO [10.245.115.50])
  ([10.245.115.50])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2024 04:43:52 -0700
-Message-ID: <24c89cd6-666b-4b33-bd92-0644e3f1ed92@linux.intel.com>
-Date: Fri, 25 Oct 2024 13:43:49 +0200
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2024 04:44:55 -0700
+Message-ID: <9e1174db-3404-42bd-a847-cb1e72bc91b7@linux.intel.com>
+Date: Fri, 25 Oct 2024 13:44:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/11] accel/ivpu: Add debug Kconfig option
+Subject: Re: [PATCH] accel/ivpu: Fix NOC firewall interrupt handling
 To: dri-devel@lists.freedesktop.org
-References: <20241017145817.121590-1-jacek.lawrynowicz@linux.intel.com>
- <20241017145817.121590-10-jacek.lawrynowicz@linux.intel.com>
- <c3f3c4a5-0927-0228-1cdf-3f8645a16681@quicinc.com>
+References: <20241017144958.79327-1-jacek.lawrynowicz@linux.intel.com>
+ <96bfcac0-603e-0cc8-b267-e9ba43fe913e@quicinc.com>
 Content-Language: en-US
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
  Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <c3f3c4a5-0927-0228-1cdf-3f8645a16681@quicinc.com>
+In-Reply-To: <96bfcac0-603e-0cc8-b267-e9ba43fe913e@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,40 +74,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 10/19/2024 12:09 AM, Jeffrey Hugo wrote:
-> On 10/17/2024 8:58 AM, Jacek Lawrynowicz wrote:
->> From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+On 10/18/2024 10:44 PM, Jeffrey Hugo wrote:
+> On 10/17/2024 8:49 AM, Jacek Lawrynowicz wrote:
+>> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 >>
->> Add CONFIG_DRM_ACCEL_IVPU_DEBUG option that:
->>   - Adds -DDEBUG that enables printk regardless of the kernel config
->>   - Enables unsafe module params (that are now disabled by default)
+>> The NOC firewall interrupt means that the HW prevented
+>> unauthorized access to a protected resource, so there
+>> is no need to trigger device reset in such case.
 >>
->> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+>> To facilitate security testing add firewall_irq_counter
+>> debugfs file that tracks firewall interrupts.
+>>
+>> Fixes: 8a27ad81f7d3 ("accel/ivpu: Split IP and buttress code")
+>> Cc: <stable@vger.kernel.org> # v6.11+
+>> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 >> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 >> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 >> ---
->>   drivers/accel/ivpu/Kconfig    | 10 ++++++++++
->>   drivers/accel/ivpu/Makefile   |  2 ++
->>   drivers/accel/ivpu/ivpu_drv.c |  2 ++
->>   drivers/accel/ivpu/ivpu_fw.c  |  2 ++
->>   drivers/accel/ivpu/ivpu_pm.c  |  2 ++
->>   5 files changed, 18 insertions(+)
+>>   drivers/accel/ivpu/ivpu_debugfs.c | 9 +++++++++
+>>   drivers/accel/ivpu/ivpu_hw.c      | 1 +
+>>   drivers/accel/ivpu/ivpu_hw.h      | 1 +
+>>   drivers/accel/ivpu/ivpu_hw_ip.c   | 5 ++++-
+>>   4 files changed, 15 insertions(+), 1 deletion(-)
 >>
->> diff --git a/drivers/accel/ivpu/Kconfig b/drivers/accel/ivpu/Kconfig
->> index e4d418b44626e..8858b32e05640 100644
->> --- a/drivers/accel/ivpu/Kconfig
->> +++ b/drivers/accel/ivpu/Kconfig
->> @@ -16,3 +16,13 @@ config DRM_ACCEL_IVPU
->>         and Deep Learning applications.
->>           If "M" is selected, the module will be called intel_vpu.
+>> diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
+>> index 8958145c49adb..8180b95ed69dc 100644
+>> --- a/drivers/accel/ivpu/ivpu_debugfs.c
+>> +++ b/drivers/accel/ivpu/ivpu_debugfs.c
+>> @@ -116,6 +116,14 @@ static int reset_pending_show(struct seq_file *s, void *v)
+>>       return 0;
+>>   }
+>>   +static int firewall_irq_counter_show(struct seq_file *s, void *v)
+>> +{
+>> +    struct ivpu_device *vdev = seq_to_ivpu(s);
 >> +
->> +config DRM_ACCEL_IVPU_DEBUG
->> +    bool "Intel NPU debug mode"
->> +    depends on DRM_ACCEL_IVPU
->> +    default n
+>> +    seq_printf(s, "%d\n", atomic_read(&vdev->hw->firewall_irq_counter));
+>> +    return 0;
+>> +}
+>> +
+>>   static const struct drm_debugfs_info vdev_debugfs_list[] = {
+>>       {"bo_list", bo_list_show, 0},
+>>       {"fw_name", fw_name_show, 0},
+>> @@ -125,6 +133,7 @@ static const struct drm_debugfs_info vdev_debugfs_list[] = {
+>>       {"last_bootmode", last_bootmode_show, 0},
+>>       {"reset_counter", reset_counter_show, 0},
+>>       {"reset_pending", reset_pending_show, 0},
+>> +    {"firewall_irq_counter", firewall_irq_counter_show, 0},
+>>   };
+>>     static int dvfs_mode_get(void *data, u64 *dvfs_mode)
+>> diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
+>> index 09ada8b500b99..4e1054f3466e8 100644
+>> --- a/drivers/accel/ivpu/ivpu_hw.c
+>> +++ b/drivers/accel/ivpu/ivpu_hw.c
+>> @@ -252,6 +252,7 @@ int ivpu_hw_init(struct ivpu_device *vdev)
+>>       platform_init(vdev);
+>>       wa_init(vdev);
+>>       timeouts_init(vdev);
+>> +    atomic_set(&vdev->hw->firewall_irq_counter, 0);
+>>         return 0;
+>>   }
+>> diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
+>> index dc5518248c405..fc4dbfc980c81 100644
+>> --- a/drivers/accel/ivpu/ivpu_hw.h
+>> +++ b/drivers/accel/ivpu/ivpu_hw.h
+>> @@ -51,6 +51,7 @@ struct ivpu_hw_info {
+>>       int dma_bits;
+>>       ktime_t d0i3_entry_host_ts;
+>>       u64 d0i3_entry_vpu_ts;
+>> +    atomic_t firewall_irq_counter;
 > 
-> The default is N, so this is redundant, no?
-> 
-
-Yes, I will remove it.
+> Why atomic?
+ 
+So we don't have to worry about synchronization and barriers.
 
