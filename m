@@ -2,101 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC079B0A08
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 18:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904749B0A12
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 18:37:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB24A10EB1C;
-	Fri, 25 Oct 2024 16:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDE2E10EB1E;
+	Fri, 25 Oct 2024 16:37:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="AX/AvqIH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vRvNwD4c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F62110EB1F
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 16:35:40 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-2fc968b3545so23364281fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 09:35:40 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5330B10EB1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 16:37:12 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-539fbe22ac0so2650508e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 09:37:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1729874138; x=1730478938;
- darn=lists.freedesktop.org; 
+ d=linaro.org; s=google; t=1729874230; x=1730479030; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Eq3fXe6qq3ix8jve6B/lCKB6fSeKNV8aFXZ8E3BzHv4=;
- b=AX/AvqIH5FENwl4p5snuR0ubFxPGEvARQ9pnT8Bc8QikOPlxwJAowK4QQpIt897vIA
- UCZBsRgeeH+zoaCHDaJIl31Aesdr9WdqxcYLbgeCdldqXxOIzGvFnF7SrHXjn/Ggp7ks
- VVRZJp5L4PJa/BqNdWI99wzYYxVlpfzSqpjFw=
+ bh=JOEn92bswQiIh6B0O753YjxjbgH7xEMK7FXjbHm+E6k=;
+ b=vRvNwD4c/AV+nVUCrGOOtWdMs2kh8IbweDaBL+Hp1pO1+8jTevQJxHMxACiX6Bt45N
+ PSq5HifoW24lV78nl3imdJDpRDvdnyzxCFbZhnvffhNYbe+sX+wTYLzD693CXBHQbxet
+ Xb0Q6gXZdq0221dQOt1LIxRwf/f45ht4bBghtHpgO+jt0HcBn8SOJaE6hOT1afQZAsgd
+ EmTP3egqTbpwBKk8wZDGzivzLdjXUaAsbMofgcovma32sVKnw4FC/RZ5g3GYAwo5yF8E
+ 2kwv6CAQaClYi+9XPYDubq8kbqAJabkQimM2a9fzgwGWxCbMdbmF+xO89a0hOFYzqRQY
+ F9Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729874138; x=1730478938;
+ d=1e100.net; s=20230601; t=1729874230; x=1730479030;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Eq3fXe6qq3ix8jve6B/lCKB6fSeKNV8aFXZ8E3BzHv4=;
- b=RhjQwaEehvfNMYGTMPD71ulacfDErZtcN7lFQY6ipjiPARO9ZueFYz67M1rud9nH2h
- E7wGG+FM6LN5nKoAH5Yh7NDA74wLlxlBsxdxHzbfc62FQOdWJo83Gbq0INNVRzKEO6PN
- ZRQbkzlxQi04/5apfM5cUIAE7/cv+d0stqtu3+JzjJP4bcyV6XU6CiCSzE2v+NgmMt3z
- YEnKYAUEAtCIjOVP4GtMhM2MUV7ZmaXad9QqiykQDJWnuOTb3CPfcKUElVW5bvsp1gJV
- 8AbD8VW1DiEKFtlEXXgkfENvgKmLNVdwb1MI3Kn7lpcYlHvPZPEZohkEIj7vY6VsNNX/
- o1AA==
+ bh=JOEn92bswQiIh6B0O753YjxjbgH7xEMK7FXjbHm+E6k=;
+ b=nRnLF9SkKstnZn+EmdzX00sb6VplL6oc3Wfd5KBJHnKFprhY5TyExHkY+15OvkmC3Z
+ RVRAMszis5yV6xgCL0aXRAk0XHbpQaWO2c7VoOIF72eEeD+6bIokVYDYLpCDEj1nr8Gm
+ maqVaD4S8/bZCnqp7uL1dLSxcNcEyTSu5Wqk+8KGAM13UiybVOvVQE60heyhPQ5YIY1E
+ ARvUNwX4w+Is+PZZCMADkw+qyugUyRyEgORYrs8ISKsg0mE8+CW5WnUX17qdtdd8Kw9T
+ Weeu2sgnl81Gs16UcpRQLr9QUXVHK0NP5Mh+mk9huTMrkbYoBJ1LwrZP39caHGVCFf47
+ 21rg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW4y2yFhDzx0UjXCFd29iP8Urq43352m5MDUj8OmPgY6aYvBHcSqHqEd5vd8tjgOiSWW+FBpyGqv/8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzrlIu8C+VLtGnb0JaRDjwXevikqZNIz1AaTzHT37U4dyWymm/4
- ddu7aevAotLsbiyP3a+ZtqAdcak6AE8j6OgB3wHtjOism8IBy/0N/0ROTA5p6leGX9NgwZlZTyI
- yuo/Y
-X-Google-Smtp-Source: AGHT+IHgY9BYK4+WsG6j3kVFFbWnrYvXlvBobcHVjQYTIr0Wvxm1fHDrr9eihDnSusKh2Lw196+nrg==
-X-Received: by 2002:a2e:b88b:0:b0:2fa:d354:1435 with SMTP id
- 38308e7fff4ca-2fc9d1dbb59mr56011861fa.0.1729874138216; 
- Fri, 25 Oct 2024 09:35:38 -0700 (PDT)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com.
- [209.85.208.173]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fcb4508173sm2403081fa.15.2024.10.25.09.35.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Oct 2024 09:35:37 -0700 (PDT)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2f75c56f16aso22250431fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 09:35:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsp+GGEaseaA2vO+RohcJIxdw/clfeYiekgzaNmV4bgQPl8BUHEzN8ujPLzudgv0WweSUDM29wjUk=@lists.freedesktop.org
-X-Received: by 2002:a05:651c:2210:b0:2fa:beb5:11cc with SMTP id
- 38308e7fff4ca-2fc9d582d71mr53240501fa.40.1729874137392; Fri, 25 Oct 2024
- 09:35:37 -0700 (PDT)
+ AJvYcCUaV75alws9wd6X4WXvcDF03uDyGC9YqvyxXuXA0pWx5Q1pVtNbHviyW//+8sbesCF38rWM/UQR9Pc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzChbdaldECg4Tyy7kYbEDwMEu0gvnHygHqcj5NPXLdSfkCFcAB
+ F1TsKC7NYQacJu+MOtNJWVV24Ms9FveZ5qoEvE6hFGBzYHxo18EO2i/8rZkv8XMU792knnO85Se
+ hAmVzcMIuRZZhppvjC0nVogCIU5ciujJ0Oj1mUg==
+X-Google-Smtp-Source: AGHT+IHHe9pruRyF7p97JeWtRJklETd8ZL5WPfRry1VxSwNI6KCKvzhRBrSC7ttvxAMUZC3k8UOafWSQ0/P+03f3fPo=
+X-Received: by 2002:a05:6512:689:b0:539:f995:5b00 with SMTP id
+ 2adb3069b0e04-53b23dcb17bmr3714961e87.7.1729874230297; Fri, 25 Oct 2024
+ 09:37:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240620-igt-v3-0-a9d62d2e2c7e@mediatek.com>
- <20240620-igt-v3-8-a9d62d2e2c7e@mediatek.com>
- <CAD=FV=XTsPBQ7Qp_oQmBXkNY==KQWZdN7VYbuVPoBTHhMvzjUQ@mail.gmail.com>
- <b75276ff8dc2f73818ccd132530c0d3825e17888.camel@mediatek.com>
-In-Reply-To: <b75276ff8dc2f73818ccd132530c0d3825e17888.camel@mediatek.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 25 Oct 2024 09:35:23 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WSD9p61ePKXVOcUBGktRJkUx+KbiJXF-9QUtWE8zDt0A@mail.gmail.com>
-Message-ID: <CAD=FV=WSD9p61ePKXVOcUBGktRJkUx+KbiJXF-9QUtWE8zDt0A@mail.gmail.com>
-Subject: Re: [PATCH v3 08/14] drm/mediatek: Add DRM_MODE_ROTATE_0 to rotation
- property
-To: =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- =?UTF-8?B?QmliYnkgSHNpZWggKOisnea/n+mBoCk=?= <Bibby.Hsieh@mediatek.com>, 
- =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "djkurtz@chromium.org" <djkurtz@chromium.org>, 
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
- =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- =?UTF-8?B?WVQgU2hlbiAo5rKI5bKz6ZyGKQ==?= <Yt.Shen@mediatek.com>, 
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "littlecvr@chromium.org" <littlecvr@chromium.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Hsin-Yi Wang <hsinyi@chromium.org>,
- "zwisler@chromium.org" <zwisler@chromium.org>
+References: <cover.1729738189.git.jahau@rocketmail.com>
+ <bef462116190c26e6339cd58240773f035efcca9.1729738189.git.jahau@rocketmail.com>
+In-Reply-To: <bef462116190c26e6339cd58240773f035efcca9.1729738189.git.jahau@rocketmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 25 Oct 2024 18:36:59 +0200
+Message-ID: <CACRpkdY6w1LmKP+69TDRLJCszPpz_XAM_uoe8oC07MH-9ALAig@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] drm/panel: samsung-s6e88a0-ams427ap24: Add initial
+ driver
+To: Jakob Hauser <jahau@rocketmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,86 +88,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Shawn,
+Hi Jakob,
 
-On Thu, Oct 24, 2024 at 6:32=E2=80=AFPM Shawn Sung (=E5=AE=8B=E5=AD=9D=E8=
-=AC=99)
-<Shawn.Sung@mediatek.com> wrote:
+thanks for your patch!
+
+On Thu, Oct 24, 2024 at 5:18=E2=80=AFAM Jakob Hauser <jahau@rocketmail.com>=
+ wrote:
+
+> This initial part of the panel driver was mostly generated by the
+> "linux-mdss-dsi-panel-driver-generator" tool [1], reading downstream
+> Android kernel file "dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi" [2=
+].
 >
-> Hi Doug,
+> On top of the generic output of the tool, there were a couple of changes
+> applied:
+> - Added mipi_dsi_dcs_set_display_on() to function s6e88a0_ams427ap24_on()=
+,
+>   otherwise the display does not show up.
+> - In functions s6e88a0_ams427ap24_on() and s6e88a0_ams427ap24_off()
+>   changed DSI commands to multi context and used "accum_err" returns.
+> - In functions s6e88a0_ams427ap24_on() and s6e88a0_ams427ap24_off() repla=
+ced
+>   msleep() by mipi_dsi_msleep().
+> - The function s6e88a0_ams427ap24_get_modes() was changed to make use of
+>   drm_connector_helper_get_modes_fixed(). This also required to include
+>   drm/drm_probe_helper.h.
+> - In function s6e88a0_ams427ap24_probe() registring the regulators was ch=
+anged
+>   to devm_regulator_bulk_get_const(). This required to change supplies in=
+ struct
+>   s6e88a0_ams427ap24 to a pointer.
+> - Removed bool "prepared" from struct s6e88a0_ams427ap24 and according pa=
+rts in
+>   functions s6e88a0_ams427ap24_prepare() and s6e88a0_ams427ap24_unprepare=
+().
 >
-> On Thu, 2024-10-24 at 13:47 -0700, Doug Anderson wrote:
-> >
-> > External email : Please do not click links or open attachments until
-> > you have verified the sender or the content.
-> >  Hi,
-> >
-> > On Wed, Jun 19, 2024 at 9:39=E2=80=AFAM Hsiao Chien Sung via B4 Relay
-> > <devnull+shawn.sung.mediatek.com@kernel.org> wrote:
-> > >
-> > > From: Hsiao Chien Sung <shawn.sung@mediatek.com>
-> > >
-> > > Always add DRM_MODE_ROTATE_0 to rotation property to meet
-> > > IGT's (Intel GPU Tools) requirement.
-> > >
-> > > Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> > > Reviewed-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> > > Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC
-> > MT8173.")
-> > > Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
-> > > ---
-> > >  drivers/gpu/drm/mediatek/mtk_ddp_comp.h |  6 +++++-
-> > >  drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 17 +++++------------
-> > >  drivers/gpu/drm/mediatek/mtk_plane.c    |  2 +-
-> > >  3 files changed, 11 insertions(+), 14 deletions(-)
-> >
-> > FWIW, this patch got into ChromeOS's 5.15 branch via stable merge and
-> > apparently broke things. As a short term fix we've reverted it there:
-> >
-> > https://crrev.com/c/5960799
+> [1] https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-gener=
+ator
+> [2] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/d=
+rivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP=
+24_qhd_octa_video.dtsi
 >
-> Thank you for reporting this issue. We are currently investigating the
-> bug.
->
-> Since I am unable to access the Google issue tracker [1], could you
-> please provide more details about this bug? The message in the revert
-> commit mentions "hana/sycamore360" (MT8173) and it appears that there
-> is a rotation issue in tablet mode.
+> Signed-off-by: Jakob Hauser <jahau@rocketmail.com>
 
-Thanks for the followup. I've only been peripherally involved in the
-problem, but I can at least copy the relevant bits over.
+Nice job on this driver so far!
 
-It looks as if the problem is somehow only showing up when running
-Android apps on those devices, so whatever the problem is it's subtle.
-The report says that the apps work OK when the device is in tablet
-mode and in one rotation but the problem shows up when rotated 90
-degrees. The report says that "Screen content appears inverted". To me
-it also sounds _possible_ that the problem is somewhere in our
-userspace.
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
 
-I think Hsin-Yi and Ross are continuing to dig a bit more. Maybe once
-they've dug they can add any details they find or can loop in others
-as it makes sense?
+Why do you need this include? .of_match_table is part of
+<linux/driver.h>
 
+> +static int s6e88a0_ams427ap24_on(struct s6e88a0_ams427ap24 *ctx)
+> +{
+> +       struct mipi_dsi_device *dsi =3D ctx->dsi;
+> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
+> +
+> +       dsi->mode_flags |=3D MIPI_DSI_MODE_LPM;
+> +
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
 
-> > ...apparently the patch is fine on newer kernels so maybe there is a
-> > missing dependency? Hopefully someone on this list can dig into this
-> > and either post the revert to stable 5.15 kernels or suggest
-> > additional backports.
-> >
->
-> There are known issues [2] regarding forward compatibility. Could you
-> confirm whether this patch is unable to resolve the mentioned problem?
-> Thanks.
->
-> [1] https://issuetracker.google.com/issues/369688659
-> [2]
-> https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D896964
+Can we provide #defines for at least some of this magic?
+See other drivers for a very good idea of what some of them mean.
+panel-samsung-s6d27a1.c:#define S6D27A1_PASSWD_L2       0xF0    /*
+Password Command for Level 2 Control */
+panel-samsung-s6d7aa0.c:#define MCS_PASSWD1             0xf0
 
-The patches in [2] look related to alpha blending but I think they are
-seeing issues related to rotation. ...so I'm going to assume it's
-different? I don't have this hardware in front of me, so I'm just
-going by the report.
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0x5a, 0x5a);
 
--Doug
+panel-samsung-s6d7aa0.c:#define MCS_PASSWD3             0xfc
+
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x11);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfd, 0x11);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x13);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfd, 0x18);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x02);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb8, 0x30);
+(...)
+> +       mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+> +       mipi_dsi_msleep(&dsi_ctx, 20);
+> +
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf1, 0x5a, 0x5a);
+
+panel-samsung-s6d7aa0.c:#define MCS_PASSWD2             0xf1
+
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcc, 0x4c);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x03, 0x0d);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf1, 0xa5, 0xa5);
+
+panel-samsung-s6d7aa0.c:#define MCS_PASSWD2             0xf1
+Send in the reverse password: disable access.
+
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca,
+> +                                    0x01, 0x00, 0x01, 0x00, 0x01, 0x00, =
+0x80,
+> +                                    0x80, 0x80, 0x80, 0x80, 0x80, 0x80, =
+0x80,
+> +                                    0x80, 0x80, 0x80, 0x80, 0x80, 0x80, =
+0x80,
+> +                                    0x80, 0x80, 0x80, 0x80, 0x80, 0x80, =
+0x80,
+> +                                    0x80, 0x80, 0x00, 0x00, 0x00);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2,
+> +                                    0x40, 0x08, 0x20, 0x00, 0x08);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x28, 0x0b);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x03);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x00);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
+> +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0xa5, 0xa5);
+
+Send in the reverse password: disable access.
+
+A bit of #defines and comments would make it much more clear what
+is going on.
+
+Yours,
+Linus Walleij
