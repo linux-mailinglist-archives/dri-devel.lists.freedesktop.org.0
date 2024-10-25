@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67FAE9B0AB8
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 19:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9E39B0AC7
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 19:16:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B4AC10EB2A;
-	Fri, 25 Oct 2024 17:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6857610EB2B;
+	Fri, 25 Oct 2024 17:16:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="QZEUeo48";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="am2DU2g5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C53710E3ED
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 17:16:06 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-37d58377339so1728570f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:16:06 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E68E10E3F7
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 17:16:07 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-37d4c1b1455so1467691f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729876565; x=1730481365;
+ d=raspberrypi.com; s=google; t=1729876566; x=1730481366;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=F7a7/HziehwTjKT233D/IuQwrsCio9lv2e2bEhcrly0=;
- b=QZEUeo48xfKbvm/wG5rpTL2AlGQod1L7QwjDhNFeFVPvei3q70kZApuu8nRhfR8ZKb
- j7/Jy/GxXAAASbGaxTWtojYQ25z5/3+1ZJ6QxVyTBrgdjXvrHS3umMOjh2FBWk2GzVq8
- dVWinCtmgZpk/ACij9V7XFd3bo3xrsoMRb5Jpk1pDohsl+luDe408d7lYa/T/wYd37Bl
- c/TNrhrUUSr2Hphj4Nhdcyu9fSoAwSuV5dbEjGpt1J2+Cw4U2UdAviGc0F4ztRYtQwIV
- QtDl45HjuD5K6UVB/UYD6FJfFQp1JokUM9K5SdqLd0uItCQM3TOyJPDiWn2/pc04rkik
- wvZg==
+ :reply-to; bh=uvy6mw3HkfOGNiDeKKmifz1sEp4TpAMlLMBCwtNZJJ8=;
+ b=am2DU2g5/JN3QVNxzA4EFdaIvvE4KUtStEY+B8HEP6or+y0tFcRdZciqplHPdsWLlG
+ JIybjEfVqVUWxHrn2qKhEiHvI9zBILhc+ARezHif1IRpleS4u5TjqTsTkXcbFryEHLBY
+ GkwZVXRTLAh8OW/VGIYSPAKwz13inkoX/A79oj2KHF4JuQLM9QWkS5JZFKoVy026vG7h
+ ptHmwREVJS9ZjqY5TLZ9T54xCzFm3WV7sP7RigKJnjW0ViCgbqcWLhlBgxJEvcFhStFS
+ gXfIhixT4Gcu74wFzTCW+4KzdNZnpVHvq0sPxsOrTFGaqBTn7kakRAhNAiToscxluNKN
+ LfDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729876565; x=1730481365;
+ d=1e100.net; s=20230601; t=1729876566; x=1730481366;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=F7a7/HziehwTjKT233D/IuQwrsCio9lv2e2bEhcrly0=;
- b=cahd11gZuTp3nKyhQjiDfR/pIZdB2Yy56EboFhBtmNTUhDOQioPfqN6WhESX7GTAUs
- WizJhMqXg5D9w1+iZYtBj7WjF3xOwcwu3RCsltaeuIKPO3WLZDT6mdHxpLtNYEOwOGNN
- 6y7UF/TNGTU8/rmOWHD76l4WLy7vQnhCLBn6J6jMnpfcad5BWhlIKdKnlHw3t4p8olgz
- zCArhqwPKu9SnuHxGK2Qm2SvRo62MgM+WzRjH9buo54cVpkuH37vPJ1IGrhz25+9Hxj7
- QyfBunTMzRn2o8bz+8/7xU1/m2N05tLmkAqxSK6STfdA+5T2gf1kwf8/6ySHySrKEnSQ
- rw1Q==
-X-Gm-Message-State: AOJu0YxWFiBFH0aMHkMGQMkcd3YsyYTBFDXgHRWtZvJWzAtVfruhnV1D
- jZReEBQrPecr0lXbTXJV1z8ncT2JtjNfjvvppgZ98BwC/++GCWzHZj0432EKXDo=
-X-Google-Smtp-Source: AGHT+IEFF/mt9prwLkoO/wBDShJYk4RCDN1nX+/N8QkdDrkFHXlIdTeqdVrZSLG6RmWbSoiHWDwtlg==
-X-Received: by 2002:a5d:4106:0:b0:37d:612c:5e43 with SMTP id
- ffacd0b85a97d-3806101335amr193017f8f.0.1729876564669; 
- Fri, 25 Oct 2024 10:16:04 -0700 (PDT)
+ bh=uvy6mw3HkfOGNiDeKKmifz1sEp4TpAMlLMBCwtNZJJ8=;
+ b=DKWdXoJtRa54THn25KkvYvVlrIMFcwFuMZ+ZoXwlrSZ+f2mysVK4Cv5aXoow6RsZGN
+ N2ZML3WFxM1/IcqSqpa3/LfpiN4TQJGEjJQFfmm6p2NBr0D2Xr9nn/wQh8HTgDBxZMHn
+ 5QxggThQFZcMjrpAeF1IU0OJT5ERx8TIQ7zAgfMNnPfRKwppeX/8ObaPEUh8Wr+1aJAY
+ azzjn0pALlOlb6s1kgQq9PQj/+BTjohoU1SJXD9e+/UzRHWdTjojEar6CQahi74jnPn5
+ +Ccmrxk0ZEIJ+yckgL6JeMZaccvotDwMWS2VEjBEzlNygGAuDa/BB6rRCrvme+YdW9qd
+ XsMQ==
+X-Gm-Message-State: AOJu0Yy1ZZMZRXzWZE6TKd6BbHNz6RkkELEO1hwAylBPWr0vNWJiKTuB
+ mNAl1HpEzbBYESgdBeruBjvEzCD/EcZY2IV1sM2Or9cTzuGRj8pmG33Ai//EHEI=
+X-Google-Smtp-Source: AGHT+IHirezA1gYr0G/DUtQrSt/DP/1VMOY/GWyL0+CDPDCZHRfOmDWirKI9sgtwCb0jA2Kn8vQ++g==
+X-Received: by 2002:adf:ea8d:0:b0:37c:ddab:a626 with SMTP id
+ ffacd0b85a97d-380610e69f9mr139123f8f.7.1729876565769; 
+ Fri, 25 Oct 2024 10:16:05 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- ffacd0b85a97d-38058b91f50sm2013649f8f.94.2024.10.25.10.16.03
+ ffacd0b85a97d-38058b91f50sm2013649f8f.94.2024.10.25.10.16.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2024 10:16:04 -0700 (PDT)
+ Fri, 25 Oct 2024 10:16:05 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 25 Oct 2024 18:15:35 +0100
-Subject: [PATCH v2 04/36] dt-bindings: display: Add BCM2712 HVS bindings
+Date: Fri, 25 Oct 2024 18:15:36 +0100
+Subject: [PATCH v2 05/36] dt-bindings: display: Add BCM2712 PixelValve bindings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241025-drm-vc4-2712-support-v2-4-35efa83c8fc0@raspberrypi.com>
+Message-Id: <20241025-drm-vc4-2712-support-v2-5-35efa83c8fc0@raspberrypi.com>
 References: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
 In-Reply-To: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -100,39 +100,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <mripard@kernel.org>
 
-The BCM2712 has a completely different HVS than the previous
-generations, so let's add a new compatible for it.
+The BCM2712 has 3 different pixelvalves that are similar to the ones
+found in the previous generations but with slightly different
+capabilities.
+
+Express that using a new set of compatibles.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml          | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-index 2e8566f47e63..f91c9dce2a44 100644
---- a/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-+++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-@@ -13,6 +13,7 @@ properties:
-   compatible:
-     enum:
-       - brcm,bcm2711-hvs
-+      - brcm,bcm2712-hvs
-       - brcm,bcm2835-hvs
+diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml
+index 4e1ba03f6477..6b5b1d3fbc0b 100644
+--- a/Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml
++++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml
+@@ -20,6 +20,9 @@ properties:
+       - brcm,bcm2711-pixelvalve2
+       - brcm,bcm2711-pixelvalve3
+       - brcm,bcm2711-pixelvalve4
++      - brcm,bcm2712-pixelvalve0
++      - brcm,bcm2712-pixelvalve1
++      - brcm,bcm2712-pixelvalve2
  
    reg:
-@@ -36,7 +37,9 @@ if:
-   properties:
-     compatible:
-       contains:
--        const: brcm,bcm2711-hvs
-+        enum:
-+          - brcm,bcm2711-hvs
-+          - brcm,bcm2712-hvs
- 
- then:
-   required:
+     maxItems: 1
 
 -- 
 2.34.1
