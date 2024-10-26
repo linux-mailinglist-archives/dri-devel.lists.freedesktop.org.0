@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8699B9B17D3
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 14:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2079B1813
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 14:29:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD77B10E011;
-	Sat, 26 Oct 2024 12:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730D710E0A3;
+	Sat, 26 Oct 2024 12:29:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="hq7wgWu+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M966C2s3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52EA810E011
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 12:11:10 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4XbJQj153jzDrNy;
- Sat, 26 Oct 2024 12:11:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1729944669; bh=AQ3/+Vqj28trLqi817dZc3+Hj8cF9me0bw3ppsI5GUI=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=hq7wgWu+2qofBRiHTL5ltlClTVxhevCV7k6HdBvld3J/IHAA4xk/j8C9T2ICpYHkt
- HU65Qsd2YBD27JXG95bxNztTxtrzowLdfhO9Z0JBSa7HsTg3RtCblFIpcwtG8RcqHm
- Y2iTL8e7pYqyssEu8QfbD3Tn544hILkh1h/7b1rQ=
-X-Riseup-User-ID: F93AA77ED5E886C2F4EB654852C2ACF3900CB5B9FF30773A7B45C08DCC7C3760
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XbJQY0lZszFtZ6;
- Sat, 26 Oct 2024 12:11:00 +0000 (UTC)
-Message-ID: <d3e8bb5a-6053-4a2b-a445-0cf4e610f112@riseup.net>
-Date: Sat, 26 Oct 2024 09:10:57 -0300
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AA4C10E0A3
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 12:29:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 72ABDA404FF;
+ Sat, 26 Oct 2024 12:27:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E8BC4CEC6;
+ Sat, 26 Oct 2024 12:29:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729945771;
+ bh=VClkAG3c65E/gr35A/dNFa0Wc2zsZ7kJuGAtv35fRzg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=M966C2s38U2mEEPkXjC/f2JaVJaQHs+2nFHVy2lZ9GlIea9bDTn7rOzCzW67KPUBH
+ H2emhzV1Jj6of1DgHx/1z6kgQwfxE9nWHbmIDsSHL4IZgr6EOkF2kC/1cLGpp0dXmP
+ QBXHTB5xc1nvyjuvc07Yd2q3lmdATdcGr0WeuR6UJMEtNbdUjHM1BgDuxkX2qL+vst
+ dJzp/k3CLwJaexhZs9UP3KS0I8KRu+nxVx1Kyhr0Q7bgHdWt0nwU9VxKQjlItVK7Hy
+ ESw6W6lEb0B5tsVpO49KeaCF0vKpGX2ES94YJl9kT+seVwjBcWerqeb3u6XDl6XwSg
+ w6zGpb13afOhw==
+Date: Sat, 26 Oct 2024 14:29:27 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel@pengutronix.de, 
+ Neil Armstrong <neil.armstrong@linaro.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: panel: add YAML schema for
+ LXD M9189A
+Message-ID: <m2jrr3stleuals5iadxn6yu5j77wxufavvdqo3e7244ckefrk5@kbvo6fbsref2>
+References: <20241025141130.3179166-1-r.czerwinski@pengutronix.de>
+ <20241025141130.3179166-2-r.czerwinski@pengutronix.de>
 MIME-Version: 1.0
-Subject: Re: [PATCH v12 09/15] drm/vkms: Remove useless drm_rotation_simplify
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
- Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com
-References: <ZwzYqihbReaLFn-c@louis-chauvet-laptop>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <ZwzYqihbReaLFn-c@louis-chauvet-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241025141130.3179166-2-r.czerwinski@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,116 +68,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+On Fri, Oct 25, 2024 at 04:11:28PM +0200, Rouven Czerwinski wrote:
 
-On 14/10/24 05:39, Louis Chauvet wrote:
-> On 11/10/24 - 10:53, Maira Canal wrote:
->> Hi Louis,
->>
->> On 10/11/24 06:36, Louis Chauvet wrote:
->>>
->>> Hi all,
->>>
->>> Until this point, this series has not received any major comments since
->>> v9. I will commit patches 1-9 next week if there are no further comments.
->>>
->>
->> Although we are maintainers of VKMS, it isn't recommended that we push
->> our own changes without even the Ack of another person. Please, read the
->> "drm-misc Committer Guidelines" [1].
-> 
-> Hi Maíra, Maxime,
-> 
-> I apologize for this rushed commit request. I sent the initial email with
-> a delay before the commit action because I was not sure about the
-> procedure and wanted to give others a chance to raise any concerns.
-> Unfortunately, I overlooked the need to collect an Ack/Review for each
-> patch, even when there hadn't been any responses for several months. I'm
-> sorry for this oversight.
-> 
->> I can ack patches 05/15, 07/15, and 09/15, but it would be more
->> beneficial for the community if you ask for an ack (from me or from the
->> DRM maintainers, which are always around), instead of saying that you
->> are going to commit the patches without any review.
-> 
-> I will be happy to ask for acknowledgments if needed, but as you mentioned
-> multiple times: nobody is paid to maintain VKMS. Since you did not comment
-> these series since July, when you told me you would review my patches, I
-> assumed it was either okay or you no longer had the time to maintain
-> (which I completely understand).
+A nit, subject: drop second/last, redundant "YAML schema for". The
+"dt-bindings" prefix is already stating that these are bindings in
+schema and YAML.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
-Yeah, I'm a volunteer and no longer have time to maintain VKMS. A couple
-of weeks ago I sent a patch removing myself as VKMS maintainer. This
-doesn't imply that patches can be pushed without review.
+> +++ b/Documentation/devicetree/bindings/display/panel/lxd,m9189a.yaml
+> @@ -0,0 +1,68 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/lxd,m9189a.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: LXD M9189A DSI Display Panel
+> +
+> +maintainers:
+> +  - Rouven Czerwinski <r.czerwinski@pengutronix.de>
+> +
+> +properties:
+> +  compatible:
+> +    const: lxd,m9189a
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  standby-gpios:
+> +    description: GPIO used for the standby pin
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: GPIO used for the reset pin
+> +    maxItems: 1
+> +
+> +  vdd-supply:
+> +    description: Power regulator
+> +
+> +  backlight:
+> +    description: Backlight used by the panel
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +  port: true
 
-We are a community with several active developers. Although I don't have
-time to properly review your patches, you can try to gather other
-developers to review your patches. You can try to use #dri-devel to get
-reviewers.
+This misses it's definition. You should reference proper panel schema in
+top-level.
 
-That said, you can add my ACK to patches 05/15, 07/15, and 09/15 and
-push the patches. I won't ack the YUV patches as I don't feel
-comfortable reviewing/acking those.
+Best regards,
+Krzysztof
 
-Acked-by: Maíra Canal <mairacanal@riseup.net>
-
-BTW if the patches are fixing IGT tests, please update the list of fails
-and skips on DRM CI.
-
-Best Regards,
-- Maíra
-
-> 
-> So, I hereby formally request reviews/ACKs for the following series:
-> 
-> [this series]:https://lore.kernel.org/all/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com/
-> [2]:https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com/
-> [3]:https://lore.kernel.org/all/20240516-writeback_line_by_line-v1-0-7b2e3bf9f1c9@bootlin.com/
-> 
-> (I have to send a v2 for [3] because of rebase conflict, but nothing else
-> changed)
-> 
-> Thanks a lot,
-> Louis Chauvet
->   
->> [1] https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html
->>
->> Best Regards,
->> - Maíra
->>
->>> For patches 10-15, I am currently waiting for feedback from Maxime to
->>> send the next iteration with a fix for kunit tests.
->>>
->>> Thanks,
->>> Louis Chauvet
->>>
->>> On 07/10/24 - 18:10, Louis Chauvet wrote:
->>>> As all the rotation are now supported by VKMS, this simplification does
->>>> not make sense anymore, so remove it.
->>>>
->>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>> ---
->>>>    drivers/gpu/drm/vkms/vkms_plane.c | 7 +------
->>>>    1 file changed, 1 insertion(+), 6 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
->>>> index 8875bed76410..5a028ee96c91 100644
->>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
->>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
->>>> @@ -115,12 +115,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
->>>>    	frame_info->fb = fb;
->>>>    	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
->>>>    	drm_framebuffer_get(frame_info->fb);
->>>> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
->>>> -									  DRM_MODE_ROTATE_90 |
->>>> -									  DRM_MODE_ROTATE_270 |
->>>> -									  DRM_MODE_REFLECT_X |
->>>> -									  DRM_MODE_REFLECT_Y);
->>>> -
->>>> +	frame_info->rotation = new_state->rotation;
->>>>    	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
->>>>    }
->>>>
->>>> -- 
->>>> 2.46.2
->>>>
