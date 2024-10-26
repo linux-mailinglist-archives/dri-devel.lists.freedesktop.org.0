@@ -2,53 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D4789B1490
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 06:11:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0EBC9B14E6
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 06:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEE0410E3FA;
-	Sat, 26 Oct 2024 04:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA43210E40B;
+	Sat, 26 Oct 2024 04:52:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="yY5LA7Ym";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mF2E2RMo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5859110E3FA
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 04:11:46 +0000 (UTC)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 8798288DEE;
- Sat, 26 Oct 2024 06:11:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1729915905;
- bh=eJ85yFlnuXg0KVVwR5mreozVpMTWhG3LBDnLzW1il0k=;
- h=From:To:Cc:Subject:Date:From;
- b=yY5LA7YmQwUluJ/3cWefSWomqonLQ7fDQJcxttkII9oajzhB6y4tFQwTtEyamttRi
- Ku9rY0C68B/aKBrY6YtFen2ujefPQsfwneHII4IK6U84fbvypCsCfmek42zI2PfoS/
- VVSKwixsSO8Ao726EU/SnjQ8MgI5JCZjiAjCqLcDvfM0CbtWvsLjo4G7NoSxjyiRJO
- w0hq7gj+WXBwe1AOj7vztDDpUXqcPlKTc4C2ZfG9rLjOh8tB1nPUB9hGedF1Fi0Gdf
- ddvA/Ae8zZNAe0sdjnEM4eharFP+IkQiRaLj2Syp7PI9XvPhbSAcJXql60zpMQMmJt
- r3eDO0ywf0OUg==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/bridge: tc358767: Improve DPI output pixel clock accuracy
-Date: Sat, 26 Oct 2024 06:11:12 +0200
-Message-ID: <20241026041136.247671-1-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
+ [209.85.128.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7E510E010
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 04:52:47 +0000 (UTC)
+Received: by mail-yw1-f202.google.com with SMTP id
+ 00721157ae682-6e31d9c8efcso50210557b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 21:52:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1729918366; x=1730523166;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:mime-version:message-id:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=/xM391IR48qrcB5QAxis1fqgvS9fSdsN/EpuN4x9UQ0=;
+ b=mF2E2RMok5DgdSIF0vXrvkV+8bQRCo8xNMjCCvGIDgTWBaLSqgMxK0reiyzELqlf7y
+ igJKdPzd3BON56LRLtOBV1ur3l5u18m4TQTmGdhgiPVJwrbM1F2ovw5LXJcWY+dqIehA
+ shMRtwlIgITwMhKVzjfF94CLJudaoj5mSVIUq6PCvEEmcbFmz+TwlmHJj552ym/UOnH/
+ GW81Qb+spMRy9Xt25dycUGS4yRdNBeU82AP563w2oe6Gyf/g/Q4xbQHnkK+3jR1VHb/W
+ px7WrCkOoIcZvzqIsAWBQgfby8OhAGcjk+UEC9XBdS/xYKa5b8ztcir/KQIzb2POjSNj
+ j6hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729918366; x=1730523166;
+ h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/xM391IR48qrcB5QAxis1fqgvS9fSdsN/EpuN4x9UQ0=;
+ b=g94Vvs82hzYTqpqLBe/JKPUjCz4ZDl5KALQx/hVkaF0sNYgRgXsgEX5hafQC6K27IQ
+ 22SRja2oo9STsNUanL3wW3l4cSfkiUHyTeC+rgNA3+RLNxJID6V64QhlCTO0DPnvXMka
+ DCI8yMji7j3z8ho/uxtjJpK55C3xkW7Hd7E3l0r+/FQZWNtxBsBCNDYNvEbETP9gLilL
+ D5Feg1KV1EN7Qs2PdIcHsoWLa0DzrOrt2nr0rx7x3HMA63C4PFssomFq6fpNFi93SaId
+ RYJg5tNU9e+FpKJOKi44PgjJrsi4QFS6Ta57IqYWQB9BA1Y4J/s7S70N0iVxpTU0dzhK
+ 60qA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUhvy7w4CZ7KoB7sECfL/udbAhW/N921CXF+aHCPaR9+w/JwV4IvEnbAVi2Fl9Rj30gsJskaQ7nr1c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwcmojgeZbqUglL6p9VF1QwHkNNFjUFkcGxhFmVFqgf2az4r/ot
+ gjs8gH/TQueRE6zjfpffckpxxOHP6LuqlARzi32gR7eL0wxGDRedOwf3aB01yeM1FCzedGVfV+W
+ GzU7RF06QQAdRBg==
+X-Google-Smtp-Source: AGHT+IGRhPGhaOAsmtwnVFsCBSjW9h81zlh5LCF4eegHPpzOMNumbplBd6lmfCGpHlNLVd/xKdy0TFipMv4YWoE=
+X-Received: from saravanak.san.corp.google.com
+ ([2620:15c:2d:3:999e:1eb9:2ed2:327])
+ (user=saravanak job=sendgmr) by 2002:a25:838d:0:b0:e28:e97f:538d with SMTP id
+ 3f1490d57ef6-e3087c19387mr979276.6.1729918366217; Fri, 25 Oct 2024 21:52:46
+ -0700 (PDT)
+Date: Fri, 25 Oct 2024 21:52:41 -0700
+Message-Id: <20241026045243.452957-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
+Subject: [PATCH v2] driver core: fw_devlink: Stop trying to optimize cycle
+ detection logic
+From: Saravana Kannan <saravanak@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Saravana Kannan <saravanak@google.com>
+Cc: Aradhya Bhatia <aradhya.bhatia@linux.dev>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Devarsh Thakkar <devarsht@ti.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, kernel-team@android.com, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,82 +85,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Pixel PLL is not very capable and may come up with wildly inaccurate
-clock. Since DPI panels are often tolerant to slightly higher pixel clock
-without being operated outside of specification, calculate two Pixel PLL
-settings for DPI output, one for desired output pixel clock and one for
-output pixel clock with 1% increase, and then pick the result which is
-closer to the desired pixel clock and use it as the Pixel PLL settings.
+In attempting to optimize fw_devlink runtime, I introduced numerous cycle
+detection bugs by foregoing cycle detection logic under specific
+conditions. Each fix has further narrowed the conditions for optimization.
 
-For the Chefree CH101 panel with 13 MHz Xtal input clock, the frequency
-without this patch is 65 MHz which is out of the panel specification of
-68.9..73.4 MHz, while with this patch it is 71.5 MHz which is well within
-the specification and far more accurate.
+It's time to give up on these optimization attempts and just run the cycle
+detection logic every time fw_devlink tries to create a device link.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
+The specific bug report that triggered this fix involved a supplier fwnode
+that never gets a device created for it. Instead, the supplier fwnode is
+represented by the device that corresponds to an ancestor fwnode.
+
+In this case, fw_devlink didn't do any cycle detection because the cycle
+detection logic is only run when a device link is created between the
+devices that correspond to the actual consumer and supplier fwnodes.
+
+With this change, fw_devlink will run cycle detection logic even when
+creating SYNC_STATE_ONLY proxy device links from a device that is an
+ancestor of a consumer fwnode.
+
+Reported-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Closes: https://lore.kernel.org/all/1a1ab663-d068-40fb-8c94-f0715403d276@ideasonboard.com/
+Fixes: 6442d79d880c ("driver core: fw_devlink: Improve detection of overlapping cycles")
+Signed-off-by: Saravana Kannan <saravanak@google.com>
 ---
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/bridge/tc358767.c | 28 ++++++++++++++++++++++++++--
- 1 file changed, 26 insertions(+), 2 deletions(-)
+Greg,
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 0d523322fdd8e..7e1a7322cec70 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1682,15 +1682,39 @@ static int tc_dpi_atomic_check(struct drm_bridge *bridge,
- 			       struct drm_connector_state *conn_state)
+I've tested this on my end and it looks ok and nothing fishy is going
+on. You can pick this up once Tomi gives a Tested-by.
+
+Thanks,
+Saravana
+
+v1 -> v2:
+- Removed the RFC tag
+- Remaned the subject. v1 is https://lore.kernel.org/all/20241025223721.184998-1-saravanak@google.com/T/#u
+- Added a NULL check to avoid NULL pointer deref
+
+ drivers/base/core.c | 46 ++++++++++++++++++++-------------------------
+ 1 file changed, 20 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 3b13fed1c3e3..f96f2e4c76b4 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -1990,10 +1990,10 @@ static struct device *fwnode_get_next_parent_dev(const struct fwnode_handle *fwn
+  *
+  * Return true if one or more cycles were found. Otherwise, return false.
+  */
+-static bool __fw_devlink_relax_cycles(struct device *con,
++static bool __fw_devlink_relax_cycles(struct fwnode_handle *con_handle,
+ 				 struct fwnode_handle *sup_handle)
  {
- 	struct tc_data *tc = bridge_to_tc(bridge);
--	int adjusted_clock = 0;
-+	int adjusted_clock_0p = 0;
-+	int adjusted_clock_1p = 0;
-+	int adjusted_clock;
- 	int ret;
+-	struct device *sup_dev = NULL, *par_dev = NULL;
++	struct device *sup_dev = NULL, *par_dev = NULL, *con_dev = NULL;
+ 	struct fwnode_link *link;
+ 	struct device_link *dev_link;
+ 	bool ret = false;
+@@ -2010,22 +2010,22 @@ static bool __fw_devlink_relax_cycles(struct device *con,
  
-+	/*
-+	 * Calculate adjusted clock pixel and find out what the PLL can
-+	 * produce. The PLL is limited, so the clock might be inaccurate.
-+	 */
- 	ret = tc_pxl_pll_calc(tc, clk_get_rate(tc->refclk),
- 			      crtc_state->mode.clock * 1000,
--			      &adjusted_clock, NULL);
-+			      &adjusted_clock_0p, NULL);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Calculate adjusted pixel clock with 1% faster requested pixel
-+	 * clock and find out what the PLL can produce. This may in fact
-+	 * be closer to the expected pixel clock of the output.
-+	 */
-+	ret = tc_pxl_pll_calc(tc, clk_get_rate(tc->refclk),
-+			      crtc_state->mode.clock * 1010,
-+			      &adjusted_clock_1p, NULL);
- 	if (ret)
- 		return ret;
+ 	sup_handle->flags |= FWNODE_FLAG_VISITED;
  
-+	/* Pick the more accurate of the two calculated results. */
-+	if (crtc_state->mode.clock * 1010 - adjusted_clock_1p <
-+	    crtc_state->mode.clock * 1000 - adjusted_clock_0p)
-+		adjusted_clock = adjusted_clock_1p;
-+	else
-+		adjusted_clock = adjusted_clock_0p;
-+
- 	crtc_state->adjusted_mode.clock = adjusted_clock / 1000;
+-	sup_dev = get_dev_from_fwnode(sup_handle);
+-
+ 	/* Termination condition. */
+-	if (sup_dev == con) {
++	if (sup_handle == con_handle) {
+ 		pr_debug("----- cycle: start -----\n");
+ 		ret = true;
+ 		goto out;
+ 	}
  
- 	/* DSI->DPI interface clock limitation: upto 100 MHz */
++	sup_dev = get_dev_from_fwnode(sup_handle);
++	con_dev = get_dev_from_fwnode(con_handle);
+ 	/*
+ 	 * If sup_dev is bound to a driver and @con hasn't started binding to a
+ 	 * driver, sup_dev can't be a consumer of @con. So, no need to check
+ 	 * further.
+ 	 */
+ 	if (sup_dev && sup_dev->links.status ==  DL_DEV_DRIVER_BOUND &&
+-	    con->links.status == DL_DEV_NO_DRIVER) {
++	    con_dev && con_dev->links.status == DL_DEV_NO_DRIVER) {
+ 		ret = false;
+ 		goto out;
+ 	}
+@@ -2034,7 +2034,7 @@ static bool __fw_devlink_relax_cycles(struct device *con,
+ 		if (link->flags & FWLINK_FLAG_IGNORE)
+ 			continue;
+ 
+-		if (__fw_devlink_relax_cycles(con, link->supplier)) {
++		if (__fw_devlink_relax_cycles(con_handle, link->supplier)) {
+ 			__fwnode_link_cycle(link);
+ 			ret = true;
+ 		}
+@@ -2049,7 +2049,7 @@ static bool __fw_devlink_relax_cycles(struct device *con,
+ 	else
+ 		par_dev = fwnode_get_next_parent_dev(sup_handle);
+ 
+-	if (par_dev && __fw_devlink_relax_cycles(con, par_dev->fwnode)) {
++	if (par_dev && __fw_devlink_relax_cycles(con_handle, par_dev->fwnode)) {
+ 		pr_debug("%pfwf: cycle: child of %pfwf\n", sup_handle,
+ 			 par_dev->fwnode);
+ 		ret = true;
+@@ -2067,7 +2067,7 @@ static bool __fw_devlink_relax_cycles(struct device *con,
+ 		    !(dev_link->flags & DL_FLAG_CYCLE))
+ 			continue;
+ 
+-		if (__fw_devlink_relax_cycles(con,
++		if (__fw_devlink_relax_cycles(con_handle,
+ 					      dev_link->supplier->fwnode)) {
+ 			pr_debug("%pfwf: cycle: depends on %pfwf\n", sup_handle,
+ 				 dev_link->supplier->fwnode);
+@@ -2140,25 +2140,19 @@ static int fw_devlink_create_devlink(struct device *con,
+ 		return -EINVAL;
+ 
+ 	/*
+-	 * SYNC_STATE_ONLY device links don't block probing and supports cycles.
+-	 * So, one might expect that cycle detection isn't necessary for them.
+-	 * However, if the device link was marked as SYNC_STATE_ONLY because
+-	 * it's part of a cycle, then we still need to do cycle detection. This
+-	 * is because the consumer and supplier might be part of multiple cycles
+-	 * and we need to detect all those cycles.
++	 * Don't try to optimize by not calling the cycle detection logic under
++	 * certain conditions. There's always some corner case that won't get
++	 * detected.
+ 	 */
+-	if (!device_link_flag_is_sync_state_only(flags) ||
+-	    flags & DL_FLAG_CYCLE) {
+-		device_links_write_lock();
+-		if (__fw_devlink_relax_cycles(con, sup_handle)) {
+-			__fwnode_link_cycle(link);
+-			flags = fw_devlink_get_flags(link->flags);
+-			pr_debug("----- cycle: end -----\n");
+-			dev_info(con, "Fixed dependency cycle(s) with %pfwf\n",
+-				 sup_handle);
+-		}
+-		device_links_write_unlock();
++	device_links_write_lock();
++	if (__fw_devlink_relax_cycles(link->consumer, sup_handle)) {
++		__fwnode_link_cycle(link);
++		flags = fw_devlink_get_flags(link->flags);
++		pr_debug("----- cycle: end -----\n");
++		pr_info("%pfwf: Fixed dependency cycle(s) with %pfwf\n",
++			link->consumer, sup_handle);
+ 	}
++	device_links_write_unlock();
+ 
+ 	if (sup_handle->flags & FWNODE_FLAG_NOT_DEVICE)
+ 		sup_dev = fwnode_get_next_parent_dev(sup_handle);
 -- 
-2.45.2
+2.47.0.163.g1226f6d8fa-goog
 
