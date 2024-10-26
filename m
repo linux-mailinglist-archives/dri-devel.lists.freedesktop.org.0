@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43AC89B1919
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 17:30:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F779B1926
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 17:34:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 895D310E17B;
-	Sat, 26 Oct 2024 15:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D05CD10E043;
+	Sat, 26 Oct 2024 15:34:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="P5lX5iOV";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="VSqE5Ycd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19C5910E17B
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 15:30:00 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1866010E043
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 15:34:04 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4XbNr73dW2z9sds;
- Sat, 26 Oct 2024 15:29:59 +0000 (UTC)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4XbNwq4BL5z9vrF;
+ Sat, 26 Oct 2024 15:34:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1729956599; bh=pYluJ3omqwxgqFAuDuVyD/Sd6a9hO2GIbBm03evzMkM=;
+ t=1729956843; bh=oOBasN7BWJEgqL8ZPbJwa1VW+Hv1/eaT3xvnT7fCnGQ=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=P5lX5iOV60zHPz2UpbtBKNNqnm9m47Z0j/IF7cS5n8e7uOuH0eFUOL6Fc2y9Zk38J
- 8BbulnkN0hTOF+TsT5p7myVKy3LVo9Zy+ilYlE7gbHQ/z6eAODxgPHgVZ9gHo3Ky9Y
- fHIQ6GOdoU9MeQGX3mfZbFQ+WRzhp3NfGWUvtyR4=
-X-Riseup-User-ID: FFBD87AD2E51267661257BB3EE0703F461EECA8382EB83FB8428AA0B3FB6850F
+ b=VSqE5YcdMsiyEjz+oJlmqNn+z89x5X3qpLzGJgjWMGJdpVIS9IbPLXniv0JJNdF1X
+ nsTJ4+vOiObFWbDFV/C1LX4NEqC3vKhFSWW0LOcflY2nXbOnHmQ0FlQotRzq8wtlMI
+ xyE350QXUWZMRWng3QGrK46dv/nKqaOMyi/wjchY=
+X-Riseup-User-ID: 5911B0460AB3700CEAFD7CA77B70E7072B5738275509B3E16B72FA4711D960AF
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XbNqn6JlszFqLF;
- Sat, 26 Oct 2024 15:29:41 +0000 (UTC)
-Message-ID: <575323aa-d322-4d03-8343-15aaaa955437@riseup.net>
-Date: Sat, 26 Oct 2024 12:29:39 -0300
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4XbNwV3mwNzJsb2;
+ Sat, 26 Oct 2024 15:33:46 +0000 (UTC)
+Message-ID: <04289755-6794-4337-aa91-bf4a7754c090@riseup.net>
+Date: Sat, 26 Oct 2024 12:33:44 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 1/5] drm/vkms: Switch to managed for connector
+Subject: Re: [PATCH v4 0/5] drm/vkms: Switch all vkms object to DRM managed
+ objects
 To: Louis Chauvet <louis.chauvet@bootlin.com>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>,
@@ -49,10 +50,9 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  seanpaul@google.com, nicolejadeyee@google.com,
  20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com
 References: <20241010-google-vkms-managed-v4-0-ed04a62ad2e3@bootlin.com>
- <20241010-google-vkms-managed-v4-1-ed04a62ad2e3@bootlin.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20241010-google-vkms-managed-v4-1-ed04a62ad2e3@bootlin.com>
+In-Reply-To: <20241010-google-vkms-managed-v4-0-ed04a62ad2e3@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,83 +72,81 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Louis,
 
-On 10/10/24 14:39, Louis Chauvet wrote:
-> The current VKMS driver uses non-managed function to create connectors. It
-> is not an issue yet, but in order to support multiple devices easily,
-> convert this code to use drm and device managed helpers.
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->   drivers/gpu/drm/vkms/vkms_output.c | 19 +++++++------------
->   1 file changed, 7 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 5128aa3b2eb6..8f7a05b73e1d 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -3,11 +3,11 @@
->   #include "vkms_drv.h"
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_edid.h>
-> +#include <drm/drm_managed.h>
->   #include <drm/drm_probe_helper.h>
->   
->   static const struct drm_connector_funcs vkms_connector_funcs = {
->   	.fill_modes = drm_helper_probe_single_connector_modes,
-> -	.destroy = drm_connector_cleanup,
->   	.reset = drm_atomic_helper_connector_reset,
->   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> @@ -70,17 +70,17 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->   			if (IS_ERR(overlay)) {
->   				DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
->   				ret = PTR_ERR(overlay);
-> -				goto err_crtc;
-> +				goto err_connector;
+How do you feel about adding the patch [1] to this series? This will
+avoid issues when reviewing and pushing the series?
 
-Why did you renamed err_crtc to err_connector? I think err_crtc looks
-correct.
+[1] 
+https://lore.kernel.org/all/20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com/
 
 Best Regards,
 - Maíra
 
->   			}
->   			overlay->base.possible_crtcs = drm_crtc_mask(crtc);
->   		}
->   	}
->   
-> -	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
-> -				 DRM_MODE_CONNECTOR_VIRTUAL);
-> +	ret = drmm_connector_init(dev, connector, &vkms_connector_funcs,
-> +				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
->   	if (ret) {
->   		DRM_ERROR("Failed to init connector\n");
-> -		goto err_crtc;
-> +		goto err_connector;
->   	}
->   
->   	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
-> @@ -89,7 +89,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->   			       DRM_MODE_ENCODER_VIRTUAL, NULL);
->   	if (ret) {
->   		DRM_ERROR("Failed to init encoder\n");
-> -		goto err_encoder;
-> +		return ret;
->   	}
->   	encoder->possible_crtcs = drm_crtc_mask(crtc);
->   
-> @@ -111,12 +111,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->   
->   err_attach:
->   	drm_encoder_cleanup(encoder);
-> -
-> -err_encoder:
-> -	drm_connector_cleanup(connector);
-> -
-> -err_crtc:
-> +err_connector:
->   	drm_crtc_cleanup(crtc);
-> -
->   	return ret;
->   }
+On 10/10/24 14:39, Louis Chauvet wrote:
+> To simplify the memory managment this series replace all manual drm
+> object managment by drm-managed one. This way the VKMS code don't have to
+> manage it directly and the DRM core will handle the object destruction.
 > 
+> No functional changes are intended in this series. This series depends on
+> [2] (for some code cleanup, which conflict with this series).
+> 
+> PATCH 1/5: Migrate connector managment to drmm
+> PATCH 2/5: Migrate encoder managment to drmm
+> PATCH 3/5: Migrate connector management to drm
+> PATCH 4/5: Introduce drmm_writeback helpers
+> PATCH 5/5: Migrate writeback connector management to drm
+> 
+> [2]:https://lore.kernel.org/all/20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com/
+> 
+> For the drmm_writeback helpers, you can find some discussions here [3].
+> 
+> [3]:https://lore.kernel.org/all/20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com/
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+> Changes in v4:
+> - No changes for the managed part
+> - Add the patch to introduce drmm_writeback helpers
+> - Link to v3: https://lore.kernel.org/r/20240912-google-vkms-managed-v3-0-7708d6ad262d@bootlin.com
+> 
+> Changes in v3:
+> - As suggested by Maxime, split the managed and the dynamic allocation
+>    parts in different series
+> - To reduce the diff in this series, extract the "remove crtc index" part,
+>    see https://lore.kernel.org/all/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com/
+> - Link to v2: https://lore.kernel.org/r/20240827-google-vkms-managed-v2-0-f41104553aeb@bootlin.com
+> 
+> Changes in v2:
+> - Applied comments from José
+> - Extract the rename vkms_output -> vkms_crtc to avoid useless changes in
+>    the last commit
+> - Extract the rename to_vkms_crtc_state to
+>    drm_crtc_state_to_vkms_crtc_state to avoid useless changes in last
+>    commit
+> - Extract the drm_mode_crtc_set_gamma_size result check in its own commit
+> - Rebased on drm-misc/drm-misc-next
+> - Link to v1: https://lore.kernel.org/r/20240814-google-vkms-managed-v1-0-7ab8b8921103@bootlin.com
+> 
+> ---
+> Louis Chauvet (5):
+>        drm/vkms: Switch to managed for connector
+>        drm/vkms: Switch to managed for encoder
+>        drm/vkms: Switch to managed for crtc
+>        drm: writeback: Introduce drm managed helpers
+>        drm/vkms: Switch to managed for writeback connector
+> 
+>   drivers/gpu/drm/drm_connector.c       |   4 +
+>   drivers/gpu/drm/drm_writeback.c       | 224 +++++++++++++++++++++++++++++-----
+>   drivers/gpu/drm/vkms/vkms_crtc.c      |  14 +++
+>   drivers/gpu/drm/vkms/vkms_drv.c       |   9 --
+>   drivers/gpu/drm/vkms/vkms_output.c    |  31 ++---
+>   drivers/gpu/drm/vkms/vkms_writeback.c |  13 +-
+>   include/drm/drm_writeback.h           |  10 ++
+>   7 files changed, 238 insertions(+), 67 deletions(-)
+> ---
+> base-commit: 33c255312660653cf54f8019896b5dca28e3c580
+> change-id: 20240521-google-vkms-managed-4aec99461a77
+> prerequisite-message-id: <20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com>
+> prerequisite-patch-id: 920c23497fc5bd2fdf1dded06ce198c227ea0ef9
+> 
+> Best regards,
+
