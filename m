@@ -2,59 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F779B1926
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 17:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D699B1935
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 17:36:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D05CD10E043;
-	Sat, 26 Oct 2024 15:34:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3C0610E2DD;
+	Sat, 26 Oct 2024 15:36:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="VSqE5Ycd";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IEkCmKXd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1866010E043
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 15:34:04 +0000 (UTC)
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4XbNwq4BL5z9vrF;
- Sat, 26 Oct 2024 15:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1729956843; bh=oOBasN7BWJEgqL8ZPbJwa1VW+Hv1/eaT3xvnT7fCnGQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VSqE5YcdMsiyEjz+oJlmqNn+z89x5X3qpLzGJgjWMGJdpVIS9IbPLXniv0JJNdF1X
- nsTJ4+vOiObFWbDFV/C1LX4NEqC3vKhFSWW0LOcflY2nXbOnHmQ0FlQotRzq8wtlMI
- xyE350QXUWZMRWng3QGrK46dv/nKqaOMyi/wjchY=
-X-Riseup-User-ID: 5911B0460AB3700CEAFD7CA77B70E7072B5738275509B3E16B72FA4711D960AF
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4XbNwV3mwNzJsb2;
- Sat, 26 Oct 2024 15:33:46 +0000 (UTC)
-Message-ID: <04289755-6794-4337-aa91-bf4a7754c090@riseup.net>
-Date: Sat, 26 Oct 2024 12:33:44 -0300
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FEC010E0AE
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 15:36:54 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-539f0f9ee49so3162595e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 08:36:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1729957012; x=1730561812; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KWck6eIL58uZzSAub6tD78hTuIVPy9/y+aNlZR8moG0=;
+ b=IEkCmKXdZ+vjTfM/iFPo53cdv88+rH6LfmMSbGKKHoldW37VWuHL6w4crVhHsKrnP+
+ eUGV+B+neoT1vdcsn3KJcAQ/zC/aFDW8DaYs59FqcWOw35qfPW5Y3ua6PrbBNYI5EVgh
+ 5dEjch95XK0+ibX33OfaZfYJclQ9Ey6fjTQmFrNC1e3/KeLGzZTeHjzzkL3EcgsSUOyG
+ WPwGddxWQNddf+Nw5BkP4rPCPSBvtLiZYjkvKY/tcbYEzzVUOcfGYSlTtNUDqi1Xgxyc
+ SzEG+EBhcqYX+U6r/YG88n9aTF2pXjLkPkely/kVpzNrWxvuS5hcFpdHRYSjFOUHIknL
+ /J5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729957012; x=1730561812;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KWck6eIL58uZzSAub6tD78hTuIVPy9/y+aNlZR8moG0=;
+ b=ApZRafJVC6C9KiCsFVmIytgukbuLRQPE2rL1RRhQN5RDt8ucLQ8NT4gTtxqUHZ82+l
+ f0ftUSrmIwteYV9318i6FYsGPyhSOGT09et32LeTWtFvrOa/CKdsMLWyayURDghmhZJu
+ JIPIflbaZ1uwpKnlxNh9F4hrrdopwv0d+FlojxF71NFUe0tPGhDV0k/dOd8bFt3cwUxf
+ ytqllK/tXiuZ+etVHk9FAYYJ66r3oq+j8s09j5BDjolNwZVHmTPantg/qcFEeGl7hebI
+ tsyLhAGrVUmQbKvQM3mQbCn3mxUtE6pzUXawOqtyqgEFE8Yy3SZeeNrZz6AqR00uD7e/
+ mG1w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUpGk400L97db2T0Y4CRF96QLb2HwHEjfmSVHXtjivpBhnXeU+9Rp4wfPxAvEaOy4YAvBPKWrYeYfg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw0tcFJ9zBI/9llW2/okiGpcq/Z8c7UniTMTYyWSl9UfvI5AM++
+ w2fBHQKIcCUljvCgNV4zosvOjt6fXGX3Qy3xcFTExqHsjMUWSc1rNV3vUO8/oHw=
+X-Google-Smtp-Source: AGHT+IEYw0zyqkyjhXmQoZPWSefeN4g3iItCWqhnrUze/+8BNQVvNaHa9jvcY6diKY38/iJBVJWP0A==
+X-Received: by 2002:a05:6512:ba2:b0:539:968a:9196 with SMTP id
+ 2adb3069b0e04-53b34a2d6e3mr1048350e87.48.1729957012345; 
+ Sat, 26 Oct 2024 08:36:52 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53b2e1de0b2sm538020e87.246.2024.10.26.08.36.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Oct 2024 08:36:51 -0700 (PDT)
+Date: Sat, 26 Oct 2024 18:36:49 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: robdclark@gmail.com, sean@poorly.run, konradybcio@kernel.org, 
+ quic_abhinavk@quicinc.com, marijn.suijten@somainline.org, airlied@gmail.com, 
+ simona@ffwll.ch, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/gpu: Fix missing error check for
+ dev_pm_qos_add_request()
+Message-ID: <mq5tggw4x6gsiidxzllay55wlqfvtdvdgwsirty5uqjfuzw3ym@j2vuy22ixffi>
+References: <20241026093738.523882-1-ruanjinjie@huawei.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 0/5] drm/vkms: Switch all vkms object to DRM managed
- objects
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, nicolejadeyee@google.com,
- 20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com
-References: <20241010-google-vkms-managed-v4-0-ed04a62ad2e3@bootlin.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20241010-google-vkms-managed-v4-0-ed04a62ad2e3@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241026093738.523882-1-ruanjinjie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,83 +86,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
-
-How do you feel about adding the patch [1] to this series? This will
-avoid issues when reviewing and pushing the series?
-
-[1] 
-https://lore.kernel.org/all/20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com/
-
-Best Regards,
-- Maíra
-
-On 10/10/24 14:39, Louis Chauvet wrote:
-> To simplify the memory managment this series replace all manual drm
-> object managment by drm-managed one. This way the VKMS code don't have to
-> manage it directly and the DRM core will handle the object destruction.
+On Sat, Oct 26, 2024 at 05:37:38PM +0800, Jinjie Ruan wrote:
+> dev_pm_qos_add_request() can fail, and it returns -EINVAL in case of
+> wrong parameters, return -ENOMEM if there's not enough memory to allocate
+> for data structures, and return -ENODEV if the device has just been
+> removed from the system. If it fails in msm_devfreq_init(), there is
+> no point in going on, also call dev_pm_qos_remove_request() in the next
+> error path is also meaningless
 > 
-> No functional changes are intended in this series. This series depends on
-> [2] (for some code cleanup, which conflict with this series).
-> 
-> PATCH 1/5: Migrate connector managment to drmm
-> PATCH 2/5: Migrate encoder managment to drmm
-> PATCH 3/5: Migrate connector management to drm
-> PATCH 4/5: Introduce drmm_writeback helpers
-> PATCH 5/5: Migrate writeback connector management to drm
-> 
-> [2]:https://lore.kernel.org/all/20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com/
-> 
-> For the drmm_writeback helpers, you can find some discussions here [3].
-> 
-> [3]:https://lore.kernel.org/all/20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com/
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Fixes: 7c0ffcd40b16 ("drm/msm/gpu: Respect PM QoS constraints")
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 > ---
-> Changes in v4:
-> - No changes for the managed part
-> - Add the patch to introduce drmm_writeback helpers
-> - Link to v3: https://lore.kernel.org/r/20240912-google-vkms-managed-v3-0-7708d6ad262d@bootlin.com
+>  drivers/gpu/drm/msm/msm_gpu_devfreq.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 > 
-> Changes in v3:
-> - As suggested by Maxime, split the managed and the dynamic allocation
->    parts in different series
-> - To reduce the diff in this series, extract the "remove crtc index" part,
->    see https://lore.kernel.org/all/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com/
-> - Link to v2: https://lore.kernel.org/r/20240827-google-vkms-managed-v2-0-f41104553aeb@bootlin.com
-> 
-> Changes in v2:
-> - Applied comments from José
-> - Extract the rename vkms_output -> vkms_crtc to avoid useless changes in
->    the last commit
-> - Extract the rename to_vkms_crtc_state to
->    drm_crtc_state_to_vkms_crtc_state to avoid useless changes in last
->    commit
-> - Extract the drm_mode_crtc_set_gamma_size result check in its own commit
-> - Rebased on drm-misc/drm-misc-next
-> - Link to v1: https://lore.kernel.org/r/20240814-google-vkms-managed-v1-0-7ab8b8921103@bootlin.com
-> 
-> ---
-> Louis Chauvet (5):
->        drm/vkms: Switch to managed for connector
->        drm/vkms: Switch to managed for encoder
->        drm/vkms: Switch to managed for crtc
->        drm: writeback: Introduce drm managed helpers
->        drm/vkms: Switch to managed for writeback connector
-> 
->   drivers/gpu/drm/drm_connector.c       |   4 +
->   drivers/gpu/drm/drm_writeback.c       | 224 +++++++++++++++++++++++++++++-----
->   drivers/gpu/drm/vkms/vkms_crtc.c      |  14 +++
->   drivers/gpu/drm/vkms/vkms_drv.c       |   9 --
->   drivers/gpu/drm/vkms/vkms_output.c    |  31 ++---
->   drivers/gpu/drm/vkms/vkms_writeback.c |  13 +-
->   include/drm/drm_writeback.h           |  10 ++
->   7 files changed, 238 insertions(+), 67 deletions(-)
-> ---
-> base-commit: 33c255312660653cf54f8019896b5dca28e3c580
-> change-id: 20240521-google-vkms-managed-4aec99461a77
-> prerequisite-message-id: <20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com>
-> prerequisite-patch-id: 920c23497fc5bd2fdf1dded06ce198c227ea0ef9
-> 
-> Best regards,
 
+I'm sorry, a similar patch has already been sent:
+
+https://patchwork.freedesktop.org/series/140162/
+
+-- 
+With best wishes
+Dmitry
