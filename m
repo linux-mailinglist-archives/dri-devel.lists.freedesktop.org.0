@@ -2,66 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26A39B1917
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 17:27:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AC89B1919
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 17:30:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B00AF10E414;
-	Sat, 26 Oct 2024 15:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 895D310E17B;
+	Sat, 26 Oct 2024 15:30:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c0l4RsQe";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="P5lX5iOV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02AD810E044;
- Sat, 26 Oct 2024 15:27:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729956439; x=1761492439;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=V+nfX3nSzb+YI8uVW+jEb7iJhvqZzOd8oemAUy/jUoc=;
- b=c0l4RsQeGpLPyeGRCCQEEAF8OkKzOOBXRj1lUoAJ4W+KNTxK3FchfaS0
- /90A4mjlK3Fcsj9VzSzpPxHCIA0H4IBoHobnwSAD6LoBi6J5tBg9xGKY5
- 2RZ4c4x3tcRG73AxGRfiOT6StzjK7xWJz7Q4l5kpofeaPlJQRWXf47hUx
- WnGhU+PAQfQ6EjcNvX2EhTmIx0bIETA15/iYjLOFtooKXcH6+/KoGVSYT
- oCfj7uKwrs8pAhv/yVyLcQpSqZWXrOsV8HJ2aR903y7BhdVgZByzbxq7u
- ZSxtpUDJCgk8ztAkysRiBqbKLwprkeVgDiRNBbMV9B7hkdqyLA3d7kcfO w==;
-X-CSE-ConnectionGUID: waSnmJr7Qs6re61SZ/dcZQ==
-X-CSE-MsgGUID: MfqbwbrgSNW1YcEzUlDssg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29565655"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29565655"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2024 08:27:18 -0700
-X-CSE-ConnectionGUID: slJ/ljGlTLStWK+5r8OSWQ==
-X-CSE-MsgGUID: VXy0XeZGQhGQqx3ooyKQ1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; d="scan'208";a="86324174"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2024 08:27:14 -0700
-Date: Sat, 26 Oct 2024 18:27:11 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- jani.nikula@linux.intel.com
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- rodrigo.vivi@intel.com, lina@asahilina.net,
- michal.wajdeczko@intel.com, christian.koenig@amd.com,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- alexander.deucher@amd.com, andrealmeid@igalia.com,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: Re: [PATCH v8 1/4] drm: Introduce device wedged event
-Message-ID: <Zx0KT2QIBQyJC7xB@black.fi.intel.com>
-References: <20241025084817.144621-1-raag.jadav@intel.com>
- <20241025084817.144621-2-raag.jadav@intel.com>
- <87r084r1lp.fsf@intel.com> <ZxuvJ1Hhv4nt9oSH@smile.fi.intel.com>
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19C5910E17B
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 15:30:00 +0000 (UTC)
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4XbNr73dW2z9sds;
+ Sat, 26 Oct 2024 15:29:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1729956599; bh=pYluJ3omqwxgqFAuDuVyD/Sd6a9hO2GIbBm03evzMkM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=P5lX5iOV60zHPz2UpbtBKNNqnm9m47Z0j/IF7cS5n8e7uOuH0eFUOL6Fc2y9Zk38J
+ 8BbulnkN0hTOF+TsT5p7myVKy3LVo9Zy+ilYlE7gbHQ/z6eAODxgPHgVZ9gHo3Ky9Y
+ fHIQ6GOdoU9MeQGX3mfZbFQ+WRzhp3NfGWUvtyR4=
+X-Riseup-User-ID: FFBD87AD2E51267661257BB3EE0703F461EECA8382EB83FB8428AA0B3FB6850F
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XbNqn6JlszFqLF;
+ Sat, 26 Oct 2024 15:29:41 +0000 (UTC)
+Message-ID: <575323aa-d322-4d03-8343-15aaaa955437@riseup.net>
+Date: Sat, 26 Oct 2024 12:29:39 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZxuvJ1Hhv4nt9oSH@smile.fi.intel.com>
+Subject: Re: [PATCH v4 1/5] drm/vkms: Switch to managed for connector
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, nicolejadeyee@google.com,
+ 20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com
+References: <20241010-google-vkms-managed-v4-0-ed04a62ad2e3@bootlin.com>
+ <20241010-google-vkms-managed-v4-1-ed04a62ad2e3@bootlin.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20241010-google-vkms-managed-v4-1-ed04a62ad2e3@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,63 +70,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 25, 2024 at 05:45:59PM +0300, Andy Shevchenko wrote:
-> On Fri, Oct 25, 2024 at 12:08:50PM +0300, Jani Nikula wrote:
-> > On Fri, 25 Oct 2024, Raag Jadav <raag.jadav@intel.com> wrote:
+Hi Louis,
+
+On 10/10/24 14:39, Louis Chauvet wrote:
+> The current VKMS driver uses non-managed function to create connectors. It
+> is not an issue yet, but in order to support multiple devices easily,
+> convert this code to use drm and device managed helpers.
 > 
-> ...
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>   drivers/gpu/drm/vkms/vkms_output.c | 19 +++++++------------
+>   1 file changed, 7 insertions(+), 12 deletions(-)
 > 
-> > > +/*
-> > > + * Available recovery methods for wedged device. To be sent along with device
-> > > + * wedged uevent.
-> > > + */
-> > > +static const char *const drm_wedge_recovery_opts[] = {
-> > > +	[ffs(DRM_WEDGE_RECOVERY_REBIND) - 1]	= "rebind",
-> > > +	[ffs(DRM_WEDGE_RECOVERY_BUS_RESET) - 1]	= "bus-reset",
-> > > +};
-> > > +static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == ffs(DRM_WEDGE_RECOVERY_BUS_RESET));
-> > 
-> > This might work in most cases, but you also might end up finding that
-> > there's an arch and compiler combo out there that just won't be able to
-> > figure out ffs() at compile time, and the array initialization fails.
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 5128aa3b2eb6..8f7a05b73e1d 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -3,11 +3,11 @@
+>   #include "vkms_drv.h"
+>   #include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_edid.h>
+> +#include <drm/drm_managed.h>
+>   #include <drm/drm_probe_helper.h>
+>   
+>   static const struct drm_connector_funcs vkms_connector_funcs = {
+>   	.fill_modes = drm_helper_probe_single_connector_modes,
+> -	.destroy = drm_connector_cleanup,
+>   	.reset = drm_atomic_helper_connector_reset,
+>   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> @@ -70,17 +70,17 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>   			if (IS_ERR(overlay)) {
+>   				DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
+>   				ret = PTR_ERR(overlay);
+> -				goto err_crtc;
+> +				goto err_connector;
+
+Why did you renamed err_crtc to err_connector? I think err_crtc looks
+correct.
+
+Best Regards,
+- Maíra
+
+>   			}
+>   			overlay->base.possible_crtcs = drm_crtc_mask(crtc);
+>   		}
+>   	}
+>   
+> -	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
+> -				 DRM_MODE_CONNECTOR_VIRTUAL);
+> +	ret = drmm_connector_init(dev, connector, &vkms_connector_funcs,
+> +				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
+>   	if (ret) {
+>   		DRM_ERROR("Failed to init connector\n");
+> -		goto err_crtc;
+> +		goto err_connector;
+>   	}
+>   
+>   	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
+> @@ -89,7 +89,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>   			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+>   	if (ret) {
+>   		DRM_ERROR("Failed to init encoder\n");
+> -		goto err_encoder;
+> +		return ret;
+>   	}
+>   	encoder->possible_crtcs = drm_crtc_mask(crtc);
+>   
+> @@ -111,12 +111,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>   
+>   err_attach:
+>   	drm_encoder_cleanup(encoder);
+> -
+> -err_encoder:
+> -	drm_connector_cleanup(connector);
+> -
+> -err_crtc:
+> +err_connector:
+>   	drm_crtc_cleanup(crtc);
+> -
+>   	return ret;
+>   }
 > 
-> We have ilog2() macro for such cases, but it is rather fls() and not ffs(),
-> and I have no idea why ffs() even being used here, especially in the index
-> part of the array assignments. It's unreadable.
-
-I initially had __builtin_ffs() in mind which is even more ugly.
-
-> > If that happens, you'd have to either convert back to an enum (and call
-> > the wedge event function with BIT(DRM_WEDGE_RECOVERY_REBIND) etc.), or
-
-Which would confuse the users since that's not how enums are normally used.
-
-> > make this a array of structs mapping the macro values to strings and
-> > loop over it.
-
-Why not just switch() it?
-
-	for_each_set_bit(opt, &method, size) {
-		switch (BIT(opt)) {
-		case DRM_WEDGE_RECOVERY_REBIND:
-			recovery = "rebind";
-			break;
-		case DRM_WEDGE_RECOVERY_BUS_RESET:
-			recovery = "bus-reset";
-			break;
-		}
-
-		...
-	}
-
-I know we'll have to update it with new additions, but it'd be much simpler,
-atleast compared to introducing and maintaining a new struct.
-
-> > Also, the main point of the static assert was to ensure the array is
-> > updated when a new recovery option is added, and there's no out of
-> > bounds access. That no longer holds, and the static assert is pretty
-> > much useless. You still have to manually find and update this.
-
-With above in place this won't be needed.
-
-Raag
