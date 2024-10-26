@@ -2,82 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EECD9B131C
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 01:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 081DF9B1425
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 04:01:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B542010E076;
-	Fri, 25 Oct 2024 23:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD19B10E2CD;
+	Sat, 26 Oct 2024 02:01:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="YUiv1uDn";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UEMWm671";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAF5610E076;
- Fri, 25 Oct 2024 23:21:48 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49PLC7lg019387;
- Fri, 25 Oct 2024 23:21:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- LT7r2uAEdhKgQKz7P2qb8Qdnb1saW7siQMdR+0nAxaw=; b=YUiv1uDnVPKYUqQP
- NAqfGQBwlTgk6BWs9QJkrN69q7ZTiK1gIniuzfZMilGzf0h3kSTpfEHBOU3dfkDL
- ykeISZgT3rt3aGyNdAXU7AZzW1ZXvQV77p00ZT0Z//24/IP92G7dxjdVRpHJUxyS
- xxYkSp3VefGlIFl3giqd9Lm19bzttCGqn3fV8gPsIOQrtTN1btX5VeG3BsIDQC/n
- 7mPjsSaGpWhVlkyEOzJYkkCCeJkDeFpNDY79eElc1j91dVqXtgcl7K6+cQi6q7CX
- qeiq0Ghe7eaYhwQf6vTvWHDTta90lC6liS0kW4v7ZkzkAX57/Ij2/dINENCavDj4
- Okiz+A==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42em3wjkb2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Oct 2024 23:21:46 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49PNLjxH010780
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Oct 2024 23:21:45 GMT
-Received: from [10.110.83.151] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Oct
- 2024 16:21:44 -0700
-Message-ID: <f0b8d8ad-a752-45c4-a9eb-f481514062c9@quicinc.com>
-Date: Fri, 25 Oct 2024 16:21:43 -0700
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7C510E2CD;
+ Sat, 26 Oct 2024 02:01:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=i+SwFuCkZ2g6wYRWhpHEIR55B4pDdWdZrX87DD4/JQE=; b=UEMWm671vTzrkn1nZv+4vcA8Sh
+ P54g2xfnV6Wl5Vk5d1i7cY9utXf1iC9lb3Vl8O86RqxKffjtscl10ttDzjEwALfWjrXekze6ePyw6
+ MNhwY3WJQOrqrmU+lIrsbnwW39KA+zWK0dsVqwWLez92Ka5aGBjaK/F+LyiMjTL08wogpdJyHDtrK
+ RBCSOPJTKM5SGusJLC3xJ1bZwrpycfn2FosOcc5s2Et6hwuQ01ngRE/NyTOa0e1KKWBnuvLqvdkoq
+ 64e7QdUZQ2Hey2t2BbNHqQ4Edjg6Jv3ZnLBz7sc28miX9MoVSQlYmzpU3BzVeMkAYZWPsyR9jx54M
+ EYiFs6uA==;
+Received: from [189.6.17.125] (helo=[192.168.0.55])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1t4W7g-00FF9G-Og; Sat, 26 Oct 2024 04:01:49 +0200
+Message-ID: <575d66c7-e77d-42ea-acbf-412d6e508a0b@igalia.com>
+Date: Fri, 25 Oct 2024 23:01:40 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/9] drm/msm/dpu: split dpu_plane_atomic_check()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
- <20241025-dpu-virtual-wide-v6-5-0310fd519765@linaro.org>
+Subject: Re: [RFC 1/1] SWDEV476969 - dm: Fail dm_atomic_check if cursor
+ overlay is required at MAX_SURFACES
+To: Zaeem Mohamed <zaeem.mohamed@amd.com>, airlied@gmail.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, daniel@ffwll.ch,
+ harry.wentland@amd.com, Rodrigo.Siqueira@amd.com, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+References: <20241025193727.765195-1-zaeem.mohamed@amd.com>
+ <20241025193727.765195-2-zaeem.mohamed@amd.com>
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20241025-dpu-virtual-wide-v6-5-0310fd519765@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <20241025193727.765195-2-zaeem.mohamed@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 6emYX-LuXbfO9JhD7JSzxkXGS7saOxgE
-X-Proofpoint-ORIG-GUID: 6emYX-LuXbfO9JhD7JSzxkXGS7saOxgE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0
- mlxscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0 clxscore=1015
- priorityscore=1501 mlxlogscore=667 suspectscore=0 bulkscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410250180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,20 +68,95 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 10/24/2024 5:20 PM, Dmitry Baryshkov wrote:
-> Split dpu_plane_atomic_check() function into two pieces:
-> 
-> dpu_plane_atomic_check_nosspp() performing generic checks on the pstate,
-> without touching the associated SSPP blocks,
-> 
-> and
-> 
-> dpu_plane_atomic_check_sspp(), which takes into account used SSPPs.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 178 +++++++++++++++++++-----------
->   1 file changed, 112 insertions(+), 66 deletions(-)
-> 
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+On 25/10/2024 16:37, Zaeem Mohamed wrote:
+> [why]
+> Prevent index-out-of-bounds due to requiring cursor overlay when
+> plane_count is MAX_SURFACES.
+Hi Zaeem,
+
+Thanks for working on this fix.
+>
+> [how]
+> Bounds check on plane_count when requiring overlay cursor.
+I agree. Atomic check makes sense.
+
+1) Since the native cursor mode was previously the unique mode avaliable, I
+wonder if the driver should fall to native cursor mode in favor of the 
+overlay
+planes advertised. I.e. if driver says it supports two overlay planes and
+the userspace requested both, cursor overlay mode should not be available or
+should switch to native cursor mode, as before the introduction of cursor
+overlay mode.
+
+2) Then my second question: can we increase the number of surfaces to 4 
+first to
+accommodate more than one active overlay plane with cursor overly mode 
+enabled.
+If four is still possible, this increase can reduce the number of commit
+failure scenarios and mitigate current userspace issues first. After 
+addressing
+current array-out-of-bounds, follow-up patches can do the proper changes and
+checks.
+
+3) IMHO, the incoherence between MAX_SURFACE_NUM and MAX_SURFACE should be
+addressed before adding debugging points. For example, there are part of the
+DC code using MAX_SURFACE_NUM == MAX_PLANE == 6 to allocate 
+dc_surface_update
+arrays, instead of using MAX_SURFACE value. You can find one of this 
+case here:
+https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/gpu/drm/amd/display/dc/core/dc.c#L4507
+It doesn't make sense to me and it can contribute to an incomplete solution.
+
+Also, please add the references of bugs reported in the amd tracker, so far:
+
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3693
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3594
+> Co-developed-by: Melissa Wen <mwen@igalia.com>
+I don't think I contributed enough to your code to get any credits.
+Thanks, but you can remove my co-dev-by :)
+
+Best Regards,
+
+Melissa
+> Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+> ---
+>   amdgpu_dm/amdgpu_dm.c | 16 +++++++++++++++-
+>   1 file changed, 15 insertions(+), 1 deletion(-)
+>
+> diff --git a/amdgpu_dm/amdgpu_dm.c b/amdgpu_dm/amdgpu_dm.c
+> index df83e7b42b..c2595efb74 100644
+> --- a/amdgpu_dm/amdgpu_dm.c
+> +++ b/amdgpu_dm/amdgpu_dm.c
+> @@ -11676,6 +11676,12 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+>   		 * need to be added for DC to not disable a plane by mistake
+>   		 */
+>   		if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE) {
+> +			if(dc->current_state->stream_status->plane_count >= MAX_SURFACES){
+> +				drm_dbg_driver(crtc->dev,
+> +				       "Can't enable cursor plane with %d planes\n", MAX_SURFACES);
+> +				ret = -EINVAL;
+> +				goto fail;
+> +			}
+>   			ret = drm_atomic_add_affected_planes(state, crtc);
+>   			if (ret)
+>   				goto fail;
+> @@ -11769,8 +11775,16 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+>   
+>   		/* Overlay cusor not subject to native cursor restrictions */
+>   		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
+> -		if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE)
+> +		if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE){
+> +			if(dc->current_state->stream_status->plane_count > MAX_SURFACES){
+> +				drm_dbg_driver(crtc->dev,
+> +				       "Can't enable cursor plane with %d planes\n", MAX_SURFACES);
+> +				ret = -EINVAL;
+> +				goto fail;
+> +			}
+> +			
+>   			continue;
+> +		}
+>   
+>   		/* Check if rotation or scaling is enabled on DCN401 */
+>   		if ((drm_plane_mask(crtc->cursor) & new_crtc_state->plane_mask) &&
+
