@@ -2,75 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D699B1935
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 17:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668249B1891
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 16:21:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3C0610E2DD;
-	Sat, 26 Oct 2024 15:36:55 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IEkCmKXd";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1130110E18E;
+	Sat, 26 Oct 2024 14:21:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FEC010E0AE
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 15:36:54 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-539f0f9ee49so3162595e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 08:36:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729957012; x=1730561812; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=KWck6eIL58uZzSAub6tD78hTuIVPy9/y+aNlZR8moG0=;
- b=IEkCmKXdZ+vjTfM/iFPo53cdv88+rH6LfmMSbGKKHoldW37VWuHL6w4crVhHsKrnP+
- eUGV+B+neoT1vdcsn3KJcAQ/zC/aFDW8DaYs59FqcWOw35qfPW5Y3ua6PrbBNYI5EVgh
- 5dEjch95XK0+ibX33OfaZfYJclQ9Ey6fjTQmFrNC1e3/KeLGzZTeHjzzkL3EcgsSUOyG
- WPwGddxWQNddf+Nw5BkP4rPCPSBvtLiZYjkvKY/tcbYEzzVUOcfGYSlTtNUDqi1Xgxyc
- SzEG+EBhcqYX+U6r/YG88n9aTF2pXjLkPkely/kVpzNrWxvuS5hcFpdHRYSjFOUHIknL
- /J5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729957012; x=1730561812;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KWck6eIL58uZzSAub6tD78hTuIVPy9/y+aNlZR8moG0=;
- b=ApZRafJVC6C9KiCsFVmIytgukbuLRQPE2rL1RRhQN5RDt8ucLQ8NT4gTtxqUHZ82+l
- f0ftUSrmIwteYV9318i6FYsGPyhSOGT09et32LeTWtFvrOa/CKdsMLWyayURDghmhZJu
- JIPIflbaZ1uwpKnlxNh9F4hrrdopwv0d+FlojxF71NFUe0tPGhDV0k/dOd8bFt3cwUxf
- ytqllK/tXiuZ+etVHk9FAYYJ66r3oq+j8s09j5BDjolNwZVHmTPantg/qcFEeGl7hebI
- tsyLhAGrVUmQbKvQM3mQbCn3mxUtE6pzUXawOqtyqgEFE8Yy3SZeeNrZz6AqR00uD7e/
- mG1w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUpGk400L97db2T0Y4CRF96QLb2HwHEjfmSVHXtjivpBhnXeU+9Rp4wfPxAvEaOy4YAvBPKWrYeYfg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0tcFJ9zBI/9llW2/okiGpcq/Z8c7UniTMTYyWSl9UfvI5AM++
- w2fBHQKIcCUljvCgNV4zosvOjt6fXGX3Qy3xcFTExqHsjMUWSc1rNV3vUO8/oHw=
-X-Google-Smtp-Source: AGHT+IEYw0zyqkyjhXmQoZPWSefeN4g3iItCWqhnrUze/+8BNQVvNaHa9jvcY6diKY38/iJBVJWP0A==
-X-Received: by 2002:a05:6512:ba2:b0:539:968a:9196 with SMTP id
- 2adb3069b0e04-53b34a2d6e3mr1048350e87.48.1729957012345; 
- Sat, 26 Oct 2024 08:36:52 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53b2e1de0b2sm538020e87.246.2024.10.26.08.36.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Oct 2024 08:36:51 -0700 (PDT)
-Date: Sat, 26 Oct 2024 18:36:49 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: robdclark@gmail.com, sean@poorly.run, konradybcio@kernel.org, 
- quic_abhinavk@quicinc.com, marijn.suijten@somainline.org, airlied@gmail.com, 
- simona@ffwll.ch, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/gpu: Fix missing error check for
- dev_pm_qos_add_request()
-Message-ID: <mq5tggw4x6gsiidxzllay55wlqfvtdvdgwsirty5uqjfuzw3ym@j2vuy22ixffi>
-References: <20241026093738.523882-1-ruanjinjie@huawei.com>
+X-Greylist: delayed 1126 seconds by postgrey-1.36 at gabe;
+ Sat, 26 Oct 2024 09:56:41 UTC
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB4FB10E013;
+ Sat, 26 Oct 2024 09:56:41 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4XbF093mFGz2Dbwl;
+ Sat, 26 Oct 2024 17:36:25 +0800 (CST)
+Received: from kwepemf500004.china.huawei.com (unknown [7.202.181.242])
+ by mail.maildlp.com (Postfix) with ESMTPS id 74DED1A0171;
+ Sat, 26 Oct 2024 17:37:52 +0800 (CST)
+Received: from lihuafei.huawei.com (10.90.53.74) by
+ kwepemf500004.china.huawei.com (7.202.181.242) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Sat, 26 Oct 2024 17:37:51 +0800
+From: Li Huafei <lihuafei1@huawei.com>
+To: <kherbst@redhat.com>
+CC: <lyude@redhat.com>, <dakr@redhat.com>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <colin.i.king@gmail.com>, <rdunlap@infradead.org>,
+ <bskeggs@redhat.com>, <dri-devel@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <lihuafei1@huawei.com>
+Subject: [PATCH] drm/nouveau/gr/gf100: Fix missing unlock in
+ gf100_gr_chan_new()
+Date: Sun, 27 Oct 2024 01:38:44 +0800
+Message-ID: <20241026173844.2392679-1-lihuafei1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241026093738.523882-1-ruanjinjie@huawei.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.74]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemf500004.china.huawei.com (7.202.181.242)
+X-Mailman-Approved-At: Sat, 26 Oct 2024 14:21:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,25 +58,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 26, 2024 at 05:37:38PM +0800, Jinjie Ruan wrote:
-> dev_pm_qos_add_request() can fail, and it returns -EINVAL in case of
-> wrong parameters, return -ENOMEM if there's not enough memory to allocate
-> for data structures, and return -ENODEV if the device has just been
-> removed from the system. If it fails in msm_devfreq_init(), there is
-> no point in going on, also call dev_pm_qos_remove_request() in the next
-> error path is also meaningless
-> 
-> Fixes: 7c0ffcd40b16 ("drm/msm/gpu: Respect PM QoS constraints")
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->  drivers/gpu/drm/msm/msm_gpu_devfreq.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
+When the call to gf100_grctx_generate() fails, unlock gr->fecs.mutex
+before returning the error.
 
-I'm sorry, a similar patch has already been sent:
+Fixes smatch warning:
 
-https://patchwork.freedesktop.org/series/140162/
+drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:480 gf100_gr_chan_new() warn: inconsistent returns '&gr->fecs.mutex'.
 
+Fixes: ca081fff6ecc ("drm/nouveau/gr/gf100-: generate golden context during first object alloc")
+Signed-off-by: Li Huafei <lihuafei1@huawei.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+index 060c74a80eb1..3ea447f6a45b 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+@@ -443,6 +443,7 @@ gf100_gr_chan_new(struct nvkm_gr *base, struct nvkm_chan *fifoch,
+ 		ret = gf100_grctx_generate(gr, chan, fifoch->inst);
+ 		if (ret) {
+ 			nvkm_error(&base->engine.subdev, "failed to construct context\n");
++			mutex_unlock(&gr->fecs.mutex);
+ 			return ret;
+ 		}
+ 	}
 -- 
-With best wishes
-Dmitry
+2.25.1
+
