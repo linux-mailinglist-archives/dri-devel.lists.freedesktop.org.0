@@ -2,73 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51559B143C
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 04:48:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263879B1492
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 06:16:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F6110E230;
-	Sat, 26 Oct 2024 02:48:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Llf37sAc";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0326110E0D5;
+	Sat, 26 Oct 2024 04:16:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B27C10E230
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 02:48:55 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-e2e340218daso2865719276.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 19:48:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1729910934; x=1730515734; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rLVQ27VOCMknffxx25JGXMV6frMFgYla9aiZWwKdr8U=;
- b=Llf37sAcbM+1m9yFJABxBd05HVullRvlX7w4PPwH4KVJoIV9aXzY+o9KcZCPXOXRaR
- lnUVXaonTNx0riHrfJJwSSjNJzbSheJzRDV35pqT7mdZeMDIHrZr6lgcHX1OQByL+eif
- laAhg5CZ5mPQ3pkyRyTaMHkwmIa3MYgZxeUZ/ycrQJUlnzUY+mPdrUWaUJxP/oZsWUwu
- Oc+j3YN8gGJOOSC1BVjNyPadg2BGCvs+zQXtXmecP6h04ukV/2Sr5RLA2HW/sFXp8xak
- LGXRvwBuSHLuOe+mOa4X8gSt/KNhntZlHbsbf72UY/PogKkFUNa/kUf/K8yfUyTiackt
- iwKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729910934; x=1730515734;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rLVQ27VOCMknffxx25JGXMV6frMFgYla9aiZWwKdr8U=;
- b=j+tWQF10bBNPC2bp0Vz/g2rG/bI0h8mpHABWrrgpGsXXO4QRqFqpfggi0Wsr1D/X7Q
- r6N7gHn9a9XEVyywulu8dx8RPzwRs3na0Lw7XtKoSjOzD/1w93Q1Ss+8m/e6M8MRSep+
- +md6XVkKDIWD5ev1Dw3yyDtbN9lpkVwae1ZwTndd6aw+4bMRcXobTc7/zVD4w48Uwzcx
- tEtxV8Vl5ngjBuv1Kr4VXyDqWU4TGHo2m1g5I/pvgfpY7YtAZ10zx2+tmyLsPLNOB9Z4
- We0xkDjcO13fK5ztJSygRN7ZoEJJqLIEzwyrAD6yfyB7hqB2hR9bGVnkc140+0jk6RTg
- Q/BA==
-X-Gm-Message-State: AOJu0YzZaPdYqWgP3+1epjbSRwVBFhc0DcbUJPtKVu+LoMNhWTBoEY0H
- GmT0HNFyQBpQ4Il0XS6Lj4zV8pk6Kl0PdEgIIPRI6d3ne1frWPKGelgRmhJ3XIZXK+DItHfrOJZ
- 1cee/GhIz1WS+9yeaCkhK7IhjcAE=
-X-Google-Smtp-Source: AGHT+IGNVU+iPCUi/JTPbfDvpTBCoDJRfzPrKIpOWnCAhSH+vWr1EWlM8WbfE/cmUxNAj99fF8PW5SYEvNWg5oPUCBs=
-X-Received: by 2002:a05:690c:ecc:b0:6e2:c13e:20e8 with SMTP id
- 00721157ae682-6e9d8aa778dmr16307017b3.30.1729910934466; Fri, 25 Oct 2024
- 19:48:54 -0700 (PDT)
+X-Greylist: delayed 1173 seconds by postgrey-1.36 at gabe;
+ Sat, 26 Oct 2024 04:16:34 UTC
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3232210E0D5
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 04:16:34 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Xb5Qq0Y9jz1SD8X;
+ Sat, 26 Oct 2024 11:55:31 +0800 (CST)
+Received: from dggpemf100006.china.huawei.com (unknown [7.185.36.228])
+ by mail.maildlp.com (Postfix) with ESMTPS id 501631A0188;
+ Sat, 26 Oct 2024 11:56:58 +0800 (CST)
+Received: from thunder-town.china.huawei.com (10.174.178.55) by
+ dggpemf100006.china.huawei.com (7.185.36.228) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Sat, 26 Oct 2024 11:56:57 +0800
+From: Zhen Lei <thunder.leizhen@huawei.com>
+To: Helge Deller <deller@gmx.de>, <linux-fbdev@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: Zhen Lei <thunder.leizhen@huawei.com>
+Subject: [PATCH] video: sh7760fb: Fix a possible memory leak in
+ sh7760fb_alloc_mem()
+Date: Sat, 26 Oct 2024 11:56:34 +0800
+Message-ID: <20241026035634.467-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.37.3.windows.1
 MIME-Version: 1.0
-References: <20241020083836.175733-1-ryan@testtoast.com>
- <172942408877.2805126.3289122620465684612.b4-ty@linaro.org>
-In-Reply-To: <172942408877.2805126.3289122620465684612.b4-ty@linaro.org>
-From: Hironori KIKUCHI <kikuchan98@gmail.com>
-Date: Sat, 26 Oct 2024 11:48:41 +0900
-Message-ID: <CAG40kxHNTuMEDwRMSNtwaS1RSVrfFE+qyREC4S6MfDyp8iLuCg@mail.gmail.com>
-Subject: Re: [PATCH RESEND] drm: panel: nv3052c: correct spi_device_id for
- RG35XX panel
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, Ryan Walklin <ryan@testtoast.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Chris Morgan <macroalpha82@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Content-Type: multipart/alternative; boundary="000000000000bdfa55062558461c"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemf100006.china.huawei.com (7.185.36.228)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,73 +54,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000bdfa55062558461c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+When information such as info->screen_base is not ready, calling
+sh7760fb_free_mem() does not release memory correctly. Call
+dma_free_coherent() instead.
 
-Hello,
+Fixes: 4a25e41831ee ("video: sh7760fb: SH7760/SH7763 LCDC framebuffer driver")
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ drivers/video/fbdev/sh7760fb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Unfortunately, I've found that the recent Anbernic RG35XX Plus uses a new
-panel labeled `YLM-LBV0345001H-V2`, which is not compatible with the
-`WL-355608-A8` in its initialization sequence.
-Thus, the name `rg35xx-plus-panel` is no longer a unique identifier for the
-panel.
+diff --git a/drivers/video/fbdev/sh7760fb.c b/drivers/video/fbdev/sh7760fb.c
+index 3d2a27fefc874a7..130adef2e468697 100644
+--- a/drivers/video/fbdev/sh7760fb.c
++++ b/drivers/video/fbdev/sh7760fb.c
+@@ -409,12 +409,11 @@ static int sh7760fb_alloc_mem(struct fb_info *info)
+ 		vram = PAGE_SIZE;
+ 
+ 	fbmem = dma_alloc_coherent(info->device, vram, &par->fbdma, GFP_KERNEL);
+-
+ 	if (!fbmem)
+ 		return -ENOMEM;
+ 
+ 	if ((par->fbdma & SH7760FB_DMA_MASK) != SH7760FB_DMA_MASK) {
+-		sh7760fb_free_mem(info);
++		dma_free_coherent(info->device, vram, fbmem, par->fbdma);
+ 		dev_err(info->device, "kernel gave me memory at 0x%08lx, which is"
+ 			"unusable for the LCDC\n", (unsigned long)par->fbdma);
+ 		return -ENOMEM;
+-- 
+2.34.1
 
-I think it should be renamed to `anbernic,wl-355608-a8` to distinguish
-them, and `anbernic,ylm-lbv0345001h-v2` should be added for the new panel.
-
-Best regards,
-kikuchan.
-
-On Sun, Oct 20, 2024 at 8:34=E2=80=AFPM Dmitry Baryshkov <
-dmitry.baryshkov@linaro.org> wrote:
->
-> On Sun, 20 Oct 2024 21:37:41 +1300, Ryan Walklin wrote:
-> > The Anbernic RG35XX devices use an SPI LCD panel from an unknown OEM,
-> > with an NV3052C driver chip.
-> >
-> > As discussed previously, the integrating vendor and device name are
-> > preferred instead of the OEM serial. A previous patch corrected the
-> > device tree binding and of_device_id in the NV3052C driver, however the
-> > spi_device_id also needs correction.
-> >
-> > [...]
->
-> Applied to drm-misc-next, thanks!
->
-> [1/1] drm: panel: nv3052c: correct spi_device_id for RG35XX panel
->       commit: 45608a3eb4902f32010a8328c0a01ccda4b38c9b
->
-> Best regards,
-> --
-> With best wishes
-> Dmitry
->
-
---000000000000bdfa55062558461c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>Unfortunately, I&#39;=
-ve found that the recent Anbernic RG35XX Plus uses a new panel labeled `YLM=
--LBV0345001H-V2`, which is not compatible with the `WL-355608-A8` in its in=
-itialization sequence.</div>Thus, the name `rg35xx-plus-panel` is no longer=
- a unique identifier for the panel.<br><br>I think it should be renamed to =
-`anbernic,wl-355608-a8` to distinguish them, and `anbernic,ylm-lbv0345001h-=
-v2` should be added for the new panel.<br><br>Best regards,<br>kikuchan.<br=
-><br>On Sun, Oct 20, 2024 at 8:34=E2=80=AFPM Dmitry Baryshkov &lt;<a href=
-=3D"mailto:dmitry.baryshkov@linaro.org">dmitry.baryshkov@linaro.org</a>&gt;=
- wrote:<br>&gt;<br>&gt; On Sun, 20 Oct 2024 21:37:41 +1300, Ryan Walklin wr=
-ote:<br>&gt; &gt; The Anbernic RG35XX devices use an SPI LCD panel from an =
-unknown OEM,<br>&gt; &gt; with an NV3052C driver chip.<br>&gt; &gt;<br>&gt;=
- &gt; As discussed previously, the integrating vendor and device name are<b=
-r>&gt; &gt; preferred instead of the OEM serial. A previous patch corrected=
- the<br>&gt; &gt; device tree binding and of_device_id in the NV3052C drive=
-r, however the<br>&gt; &gt; spi_device_id also needs correction.<br>&gt; &g=
-t;<br>&gt; &gt; [...]<br>&gt;<br>&gt; Applied to drm-misc-next, thanks!<br>=
-&gt;<br>&gt; [1/1] drm: panel: nv3052c: correct spi_device_id for RG35XX pa=
-nel<br>&gt; =C2=A0 =C2=A0 =C2=A0 commit: 45608a3eb4902f32010a8328c0a01ccda4=
-b38c9b<br>&gt;<br>&gt; Best regards,<br>&gt; --<br>&gt; With best wishes<br=
->&gt; Dmitry<br>&gt;<br></div>
-
---000000000000bdfa55062558461c--
