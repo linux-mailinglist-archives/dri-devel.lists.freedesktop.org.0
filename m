@@ -2,67 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7B59B16EE
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 12:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1779B172F
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 12:47:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFB4210E013;
-	Sat, 26 Oct 2024 10:11:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9549310E061;
+	Sat, 26 Oct 2024 10:47:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j1ojOyBI";
+	dkim=pass (2048-bit key; unprotected) header.d=rocketmail.com header.i=@rocketmail.com header.b="k0Pzhd2i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F154110E013;
- Sat, 26 Oct 2024 10:11:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729937464; x=1761473464;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8DU14E5D0lWg600MwJ4URtFuPIv26XFVrn6CO/yON44=;
- b=j1ojOyBITwISF5CKMOCbTbb/OK94pVkNC0daNy57wLHD455rxUFLMYkg
- N2kL40XrXIbuhQqyTmPz/Mu5OkucgMRo+f88TAx41RVuzqb/dNXPbXkdd
- 5XnBXQwMY0BsY/6Zy1pkTzBFK/a8Ngq2nefUrASudv0hxDn/uaqA8tFkA
- NGdHkNiGoyuNSAPshT42NLFVk00GxdR+5Pd1yzGQ5Nr/5MlfV32j07OuA
- e7Bzw7atoG+3mUxLf/qzC7a6r8+jxyZv0hOjXhT+sSiUJ1TDUVQv4snoA
- i4almzX0ywtN5MNX+v6LGHN9Ie81sEi4RTqbFP9sZvUIbDp+vsAsUpca8 A==;
-X-CSE-ConnectionGUID: JBzeYvh5QpKZi4Se8GRjkw==
-X-CSE-MsgGUID: Sugp1e8iQemPPH+MKAxccA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29464306"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29464306"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2024 03:11:02 -0700
-X-CSE-ConnectionGUID: w7o/M5n7SL2VFBwPyocUFw==
-X-CSE-MsgGUID: r+fgvL8nRhaZ3YSCRxyh4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; d="scan'208";a="81113883"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 26 Oct 2024 03:10:56 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t4dkz-000ZUo-3D;
- Sat, 26 Oct 2024 10:10:54 +0000
-Date: Sat, 26 Oct 2024 18:10:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
- lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
- lina@asahilina.net, michal.wajdeczko@intel.com, christian.koenig@amd.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- alexander.deucher@amd.com, andrealmeid@igalia.com,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH v8 1/4] drm: Introduce device wedged event
-Message-ID: <202410261754.enck8cc6-lkp@intel.com>
-References: <20241025084817.144621-2-raag.jadav@intel.com>
+Received: from sonic308-17.consmr.mail.ir2.yahoo.com
+ (sonic308-17.consmr.mail.ir2.yahoo.com [77.238.178.145])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21C8E10E061
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 10:47:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rocketmail.com; s=s2048;
+ t=1729939641; bh=ueJONdmNhq1F86xrFH1EE8C1zTVwrsQFqFxRxIzHRYI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
+ b=k0Pzhd2iOKorvd/4bkIbMmp5mwxu6Wk/9U0S2u4h/otf03Apcv7wD/cb7nmZ9bG5Xx8y+aUfDlBCUPSohxEoXMDvawtrO+kFQfHdOAQzaw6hr43C0ECJUSsBGeAlW1t0aV95ErNT59B2rBlFzU+qWZSsm7WEs5NSc3GYYqN6a0bbubl8K2dUX+JiZKYwcnZGmQCcggauuk5er5zJKEJhC1W7y5kM8A6aqM+rcXfdb47k54DLZYZLpGIz/fK7d9SJq4cjV0T1VoYQXleig5CxTf1mz0ooACNP1wxPwbMGCLzKb1cb225f7Ixz4YLgEzU0//4u5EI2LEXtjvzL37zkwg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1729939641; bh=Gdd4qD1MIC3Hq8DK++LzYFgAT2oX1BC4/TkPSsGv5f2=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=TqVSHS1+Z6Ev1M0EVVNw3GSWZK758AggOXLpwbo48i3l8jc3dlrF8eZ4asmMxL+iaajxw1oKFtrfQCrMrmRA6G6a166x89eKg92K6Ver/CX5c9T6KoETKAr0GgtLMle9DhI1D3bU0cG/n9VbrGc1h9f+RG41xEptoXzbpf80SAYeoBiOzJata33H0gRBpyTzEXR9GM5HRjKLPhEHPzBwY4MauefxA81MH5h3QvBXB0hhOawpTFl1mPfYabwjJlj4HoRxUSCbDz1kk40BRW1VW5XbIxl11CBAoWlUp7DgTiOz4LYkVzYGpZ/oIolHshGJZez5pwRaZ3DB2+TfxGq/tg==
+X-YMail-OSG: B9wjYSAVM1ky62Q3wwgkupZDslFZQX8aAALaqVSmtRSCPzbkc8DjUVYtJ0R4ftD
+ r0iRU9fUzfxzq1uhGlbr9wsEzfDsuPItit0fi832REkzuV365bQac2TtO24cv5IBL9mImd9JZiCb
+ cn3e7G.v_1WOphfVaVouHbZIKPmcBID1Wzc1.w6n7Pll4bfGbjMACq4_IddL_hqa1rrpWwkj3Bau
+ uY6wYU3sARlpNWnuzHoryjJeeSyQQtXJnO0Wjmdma.sUF7KWyqK6OzS529avA4aTntRVKSWQF5eq
+ srKaKrs_a.lgxwDUe.DCPahxSa90denyBjP3MLCuLx3wLw74Pw5O8c4dnsqEAIeOUC8kD3tu4Up5
+ TjDDP9pANu6MOi6lBjdiJvjfbQlC0pBiRmlvn5w7rtzrZ8luN8WSspg6tKbIh8KZ5YzhPrDp54qw
+ nNWnrHv_VWbVDaNCwZsIhKaFYETBKR3EQAg0lbpXniI4_qVdKgdui2bAm9rQbjxMlUwEyEI0bMLt
+ lu7cDfgmrhEKWNjhzHboBBkIAFljuRexVnP0lVXEQa9ZtmIfY7FzJtExgyJOLdYSJgR8qGCyrh.F
+ Rd89LfmRlA82.pC2E7PxopyQOz.gRVS0hA2BiM6YWqjzJKhTJpH3Dd0SquLn.g8IfFs9tII2seqq
+ gvjTyqqFclvVb2xBn86lLchO8Be2pTG6JC3hIWqcc1hCdxlvDNvYgKX.Rat2HfWubNxzHrI2cQ9G
+ NIjQDsTWMNUsXjX.33iZTARqJf4Ms_SivgKlbXk3TeLPKxPQt6Uhl6P4zPEgTgeZA4Prq0Go27V6
+ Olvw3hIRnUBgaB1EKwlR8rmePOCkH5KWvoi14gDuoR0LvZmDSmIl6VfxNhNr9anPlC3r.T9MoNne
+ B1mgjM4XPC4.JBVt.dRcuYtQSd5Mr4MqyvCTyAz6OB71L9dkSOlVsY8uRuXIiBORUu9lvU2IgOnE
+ uMtpUTsDTxUZUr4aFGaqK88lb9UxRS6CN46qj0rzaICV6x9W_y.LHmevHpE6pY7gM_Esoo6jdd5Y
+ a2OAIKCft_CixFbjSssAJbSmOG0s_1KBVluSNJqMTQh9mE9i.3AMNDvxBSanJYZq4k6yqkdEtXP4
+ 3wugohsotvs5KVheHlFVfo5AbbqwuKsGKSlQvWvgLExssZy_ZIowt6O2GDwaQB2rUIjlQtuL_.lP
+ lIVALPBDu_WKJSafO8Y6nB.GS9mUtUYsl46l1Mv0vyi5XyIaiGQh9JwjMz5hd_iIAP_UU._0nYSi
+ 0ce4bFphQ0cvTXo.JY0ujz7X8tLMxTPkubW4vv6aL.mBHmgAHeaV8fjQzWoohXJTSOgsdqSfmCtM
+ YrJcs3yemo0iwkLvSg_yuVaAVOxgBJoxQHGgia.dcuPAStXzw9jGAbSRkE7D9B58WE4MRDN_WZvc
+ pxRRuIGkOP8zrHw7NjMvwKyPO7JXHnbdDJmjYYxSpbxZhBfeOU15Zu_NNH53k8AgW1vNiZ5HDnms
+ dTwps4.wxloTSa8HNED2jsfITfcCjs2h7MGA7FfLl38K6SOh0xUAMIOHOE8sJIDa3zKJHkqKYXsW
+ neaT7MgcPxr._fPLHN3si2CtnWa9Ss_KtONk8L6ZnvymWns4Z5h.sxBiY.MJY_FVmUeRsY6IhkGk
+ GJOL7HgAulu71.3UCe0Y_d98hqpv7uHPW8OKX8sHTdxz4uo0JK5u1T2A3rk3xV9NeolbQkxv3RF9
+ ym734ggAt1dtULwVw4ILup5mAGLYSOsR7wBMfVWvlq9ebr2WhOcI0eWuVslCsV5rMS0h02.mtMV1
+ LzexxCcmufNDIIFceZHiuQACnz2zZvjzGSodAAkSxsvqzx3po0noY3lwNWMpP.2JjP_wghv55fBX
+ h8h1t17PhlL9kGMqB0F8jfni8aUFL2Ak4Vuwu.nscXMZDx4CI8Ui5_gBzehaX_Fc1TfKeT00Z9Cj
+ FZuXwa33Gg7uhda3JN7RZUKxl9MzerHaQ_X22N7CzPWK7cHjKaDq20K8RbjWZVpaIRCwSAy4uRlO
+ O8DE1jJTdpJZsFBIO08lDnGIvXGXaecsWZxv57rRSdwbJxtTqkgGDZ5CAHtC7bmkrjeqazY_orUn
+ q6wHFg3TW9lYNO_SniCd.rWVjc35E1Zjw61pCKHcw8UkeFaTxVD1wC8HfZqQtFrQn3XS0xo8_FKi
+ 2ARiTgdYyttxTghA0th3T2YCZC4LNXMuyxHqmZxY7BCro7QvJF_BajdRP6eCziPuRkjFzF97sfuZ
+ tA9EX82dkxX.DVw7DXhbMn7SZK5__Rc573T7v81eaRGY9yqmOWjOujPTRx5FHl0b9bovDz0H1uF.
+ 0gzEtjfJ6fJGytPR9DvVQpoKwZnbix1ucm2BN
+X-Sonic-MF: <jahau@rocketmail.com>
+X-Sonic-ID: 7d63adfd-1c22-41fc-a45b-13f29412d1f5
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic308.consmr.mail.ir2.yahoo.com with HTTP; Sat, 26 Oct 2024 10:47:21 +0000
+Received: by hermes--production-ir2-c694d79d9-qjs6q (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 6b14dd8266d930d0236b828cdbdee198; 
+ Sat, 26 Oct 2024 10:47:18 +0000 (UTC)
+Message-ID: <6e4768d1-929e-4700-82bd-2e247b68de1f@rocketmail.com>
+Date: Sat, 26 Oct 2024 12:47:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241025084817.144621-2-raag.jadav@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/5] drm/panel: samsung-s6e88a0-ams427ap24: Add
+ brightness control
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht
+References: <cover.1729738189.git.jahau@rocketmail.com>
+ <594cc48e98b551cfeeba0fb475755a41b83283a0.1729738189.git.jahau@rocketmail.com>
+ <CACRpkdYOgymfjOD3cAMXt7u8SH0vvVzwt75gamJvXuyyjdsMPw@mail.gmail.com>
+Content-Language: en-US
+From: Jakob Hauser <jahau@rocketmail.com>
+In-Reply-To: <CACRpkdYOgymfjOD3cAMXt7u8SH0vvVzwt75gamJvXuyyjdsMPw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-Mailer: WebService/1.1.22806
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,92 +103,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Raag,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.12-rc4 next-20241025]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/drm-Introduce-device-wedged-event/20241025-165119
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20241025084817.144621-2-raag.jadav%40intel.com
-patch subject: [PATCH v8 1/4] drm: Introduce device wedged event
-config: arm-randconfig-002-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261754.enck8cc6-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261754.enck8cc6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261754.enck8cc6-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/drm_drv.c:36:
-   In file included from include/linux/pseudo_fs.h:4:
-   In file included from include/linux/fs_context.h:14:
-   In file included from include/linux/security.h:33:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/drm_drv.c:81:3: error: expression is not an integer constant expression
-      81 |         [ffs(DRM_WEDGE_RECOVERY_REBIND) - 1]    = "rebind",
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/ffs.h:43:16: note: expanded from macro 'ffs'
-      43 | #define ffs(x) generic_ffs(x)
-         |                ^
-   drivers/gpu/drm/drm_drv.c:82:3: error: expression is not an integer constant expression
-      82 |         [ffs(DRM_WEDGE_RECOVERY_BUS_RESET) - 1] = "bus-reset",
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/ffs.h:43:16: note: expanded from macro 'ffs'
-      43 | #define ffs(x) generic_ffs(x)
-         |                ^
->> drivers/gpu/drm/drm_drv.c:84:15: error: invalid application of 'sizeof' to an incomplete type 'const char *const[]'
-      84 | static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == ffs(DRM_WEDGE_RECOVERY_BUS_RESET));
-         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/gpu/drm/drm_drv.c:528:32: error: invalid application of 'sizeof' to an incomplete type 'const char *const[]'
-     528 |         unsigned int len, opt, size = ARRAY_SIZE(drm_wedge_recovery_opts);
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
-   1 warning and 4 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +81 drivers/gpu/drm/drm_drv.c
-
-    75	
-    76	/*
-    77	 * Available recovery methods for wedged device. To be sent along with device
-    78	 * wedged uevent.
-    79	 */
-    80	static const char *const drm_wedge_recovery_opts[] = {
-  > 81		[ffs(DRM_WEDGE_RECOVERY_REBIND) - 1]	= "rebind",
-    82		[ffs(DRM_WEDGE_RECOVERY_BUS_RESET) - 1]	= "bus-reset",
-    83	};
-  > 84	static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == ffs(DRM_WEDGE_RECOVERY_BUS_RESET));
-    85	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+SGkgTGludXMsDQoNCk9uIDI1LjEwLjI0IDIxOjI3LCBMaW51cyBXYWxsZWlqIHdyb3RlOg0K
+Li4uDQo+IE9uIFRodSwgT2N0IDI0LCAyMDI0IGF0IDU6MTjigK9BTSBKYWtvYiBIYXVzZXIg
+PGphaGF1QHJvY2tldG1haWwuY29tPiB3cm90ZToNCj4+ICtzdGF0aWMgY29uc3QgaW50IHM2
+ZTg4YTBfYW1zNDI3YXAyNF9icl90b19jZFtOVU1fU1RFUFNfQ0FOREVMQV0gPSB7DQo+IA0K
+PiAoLi4uKQ0KPj4gKyAgICAgICAvKiBicmlnaHRuZXNzIHRpbGwsIGNhbmRlbGEgKi8NCj4g
+DQo+IEJyaWdodG5lc3MgdG8gY2FuZGVsYSBjb252ZXJzaW9uIHRhYmxlPyBFZGl0IGNvbW1l
+bnQ/DQoNCkluIHRoZSBkb3duc3RyZWFtIGRyaXZlciB0aGVyZSBpcyBhIHRhYmxlIHdpdGgg
+Zm91ciBjb2x1bW5zOg0KPGlkeD4gPGZyb20+IDx0aWxsPiA8Y2FuZGVsbGE+Lg0KDQpodHRw
+czovL2dpdGh1Yi5jb20vbXNtODkxNi1tYWlubGluZS9saW51eC1kb3duc3RyZWFtL2Jsb2Iv
+R1QtSTkxOTVJL2RyaXZlcnMvdmlkZW8vbXNtL21kc3Mvc2Ftc3VuZy9TNkU4OEEwX0FNUzQy
+N0FQMjQvZHNpX3BhbmVsX1M2RTg4QTBfQU1TNDI3QVAyNF9xaGRfb2N0YV92aWRlby5kdHNp
+I0wzNDEtTDM5Nw0KDQpUaGUgZmlyc3QgY29sdW1uIGlzIGEgY291bnRlciwgdGhlIHNlY29u
+ZCBhbmQgdGhpcmQgaXMgdGhlIA0KZnJvbS10aWxsLXJhbmdlIG9mIGJyaWdodG5lc3Mgc3Rl
+cHMgdGhhdCBjb3JyZXNwb25kIHRvIHRoZSBmb3J0aCBjb2x1bW4gDQpvZiBjYW5kZWxhIGlk
+ZW50aWZpZXIuDQoNCkluIHRoZSBwYXRjaCBoZXJlIEkgb25seSBhZG9wdGVkIHRoZSB0aGly
+ZCBhbmQgZm9ydGggY29sdW1uLCBiZWNhdXNlIHRoZSANCm90aGVycyB3ZXJlIG5vdCBuZWNl
+c3NhcnkuIFRoZSBjb21tZW50ICJicmlnaHRuZXNzIHRpbGwsIGNhbmRlbGEiIHdhcyANCmlu
+dGVuZGVkIHRvIGxhYmVsIHRob3NlIHR3byBjb2x1bW5zLg0KDQpUbyBtYWtlIGl0IG1vcmUg
+Y2xlYXIsIEkgY291bGQgYWRkIHRoZSBrZXl3b3JkICJjb2x1bW5zIiBhbmQgdGhlIGNvbHVt
+biANCiJicmlnaHRuZXNzIGZyb20iLg0KDQogICAgICAgICAvKiBjb2x1bW5zOiBicmlnaHRu
+ZXNzIGZyb20sIGJyaWdodG5lc3MgdGlsbCwgY2FuZGVsYSAqLw0KICAgICAgICAgLyogMCAq
+LyAgICAxMCwgIC8qIDEwQ0QgKi8NCiAgICAgICAgIC8qIDExICovICAgMTEsICAvKiAxMUNE
+ICovDQogICAgICAgICAvKiAxMiAqLyAgIDEyLCAgLyogMTJDRCAqLw0KICAgICAgICAgLyog
+MTMgKi8gICAxMywgIC8qIDEzQ0QgKi8NCiAgICAgICAgIC8qIDE0ICovICAgMTQsICAvKiAx
+NENEICovDQoNCiAgICAgICAgIC4uLg0KDQogICAgICAgICAvKiAzMCAqLyAgIDMwLCAgLyog
+MzlDRCAqLw0KICAgICAgICAgLyogMzEgKi8gICAzMiwgIC8qIDQxQ0QgKi8NCiAgICAgICAg
+IC8qIDMzICovICAgMzQsICAvKiA0NENEICovDQogICAgICAgICAvKiAzNSAqLyAgIDM2LCAg
+LyogNDdDRCAqLw0KDQogICAgICAgICAuLi4NCg0KICAgICAgICAgLyogOTIgKi8gICA5Nywg
+IC8qIDEyNkNEICovDQogICAgICAgICAvKiA5OCAqLyAgIDEwNCwgLyogMTM0Q0QgKi8NCiAg
+ICAgICAgIC8qIDEwNSAqLyAgMTEwLCAvKiAxNDNDRCAqLw0KICAgICAgICAgLyogMTExICov
+ICAxMTgsIC8qIDE1MkNEICovDQoNCiAgICAgICAgIC4uLg0KDQogICAgICAgICAvKiAxODIg
+Ki8gIDIwNSwgLyogMjQ5Q0QgKi8NCiAgICAgICAgIC8qIDIwNiAqLyAgMjM0LCAvKiAyNjVD
+RCAqLw0KICAgICAgICAgLyogMjM1ICovICAyNTQsIC8qIDI4MkNEICovDQogICAgICAgICAv
+KiAyNTUgKi8gIDI1NSwgLyogMzAwQ0QgKi8NCg0KPj4gK3N0YXRpYyBjb25zdCB1OCBzNmU4
+OGEwX2FtczQyN2FwMjRfYWlkW05VTV9TVEVQU19BSURdW1NFUV9MRU5HVEhfQUlEXSA9IHsN
+Cj4gDQo+IElmIHlvdSBrbm93IHRoYXQgdGhlIHNlcXVlbmNlIDB4YjIsIDB4NDAsIDB4MDgs
+IDB4MjAgbWVhbnMgInNldCBBSUQiDQo+IChvciBpcyBpdCBBT1I/PykgeW91IGNhbiAjZGVm
+aW5lDQo+IA0KPiAjZGVmaW5lIFM2RTg4QTBfU0VUX0FJRCAweGIyDQoNClRoYW5rcyB0byBB
+bGV4ZXkgTWluLCB3aG8gbG9va2VkIHRoaXMgdXAsIEkgY2FuIHNheToNCg0KIlRoZSBQV00g
+bWVjaGFuaXNtIHVzZWQgb24gU2Ftc3VuZyBkaXNwbGF5cyBpcyBjYWxsZWQgQU9SIChBTU9M
+RUQgb2ZmIA0KcmF0aW8pLCB0aGUgcmVsYXRlZCBmdW5jdGlvbiBvbiB0aGUga2VybmVsIGRy
+aXZlciBpcyBjYWxsZWQgQUlEIChBTU9MRUQgDQppbXB1bHNpdmUgZHJpdmluZykuIg0KDQpz
+b3VyY2U6IHhkYWZvcnVtcw0KDQpUaGUgZG93bnN0cmVhbSBkcml2ZXIgb2YgYW1zNDI3YXAy
+NCB1c2VzIHRoZSAiYWlkIiBsYWJlbGluZywgdGhlcmVmb3JlIEkgDQpzdGljayB0byB0aGF0
+LiAoSW50ZXJlc3RpbmdseSB0aGUgb2xkZXIgZG93bnN0cmVhbSBkcml2ZXIgYW1zNDI3YXAw
+MSANCnVzZXMgdGhlICJhb3IiIGxhYmVsaW5nLikNCg0KPiBUaGVuIG1ha2UgYSBzbWFsbCBi
+dWZmZXI6DQo+IA0KPiB1OCBzZXRfYWlkWzVdID0geyBTNkU4OEEwX1NFVF9BSUQsIDB4NDAs
+IDB4MDgsIDB4MjAsIDB4MDAsIDB4MDAgfTsNCj4gDQo+IHRoZW4geW91IGNhbiBzdHJpcCB0
+aGUgZmlyc3QgdGhyZWUgYnl0ZXMgZnJvbSB0aGUgZW50aXJlIHRhYmxlLA0KPiBqdXN0IGNv
+cHkgaW4gdGhlIHR3byByZWxldmFudCBieXRlcyBpbnRvIHNldF9hb3JbXQ0KPiBhbmQgc2Vu
+ZCB0aGF0Lg0KDQpPaywgSSdsbCB0cnkgdG8gaW1wbGVtZW50IHRoYXQuIFRoZSBzaXplIG9m
+IHRoZSBzZWNvbmQgYXJyYXkgZGltZW5zaW9uIA0Kb2YgdGhhdCB0YWJsZSB3aWxsIHRoZW4g
+YmVjb21lIFtTRVFfTEVOR1RIX0FJRCAtIDNdLg0KDQouLi4NCg0KPj4gK3N0YXRpYyBpbnQg
+czZlODhhMF9hbXM0MjdhcDI0X3NldF9icmlnaHRuZXNzKHN0cnVjdCBiYWNrbGlnaHRfZGV2
+aWNlICpiZCkNCj4+ICt7DQo+PiArICAgICAgIHN0cnVjdCBzNmU4OGEwX2FtczQyN2FwMjQg
+KmN0eCA9IGJsX2dldF9kYXRhKGJkKTsNCj4+ICsgICAgICAgc3RydWN0IG1pcGlfZHNpX2Rl
+dmljZSAqZHNpID0gY3R4LT5kc2k7DQo+PiArICAgICAgIHN0cnVjdCBtaXBpX2RzaV9tdWx0
+aV9jb250ZXh0IGRzaV9jdHggPSB7IC5kc2kgPSBkc2kgfTsNCj4+ICsgICAgICAgc3RydWN0
+IGRldmljZSAqZGV2ID0gJmRzaS0+ZGV2Ow0KPj4gKyAgICAgICBpbnQgYnJpZ2h0bmVzcyA9
+IGJkLT5wcm9wcy5icmlnaHRuZXNzOw0KPj4gKyAgICAgICBpbnQgY2FuZGVsYV9lbnVtOw0K
+Pj4gKyAgICAgICB1OCBiMltTRVFfTEVOR1RIX0FJRCArIDFdOw0KPj4gKyAgICAgICB1OCBi
+NltTRVFfTEVOR1RIX0VMVlNTICsgMV07DQo+PiArICAgICAgIHU4IGNhW1NFUV9MRU5HVEhf
+R0FNTUEgKyAxXTsNCj4gDQo+IFJlbmFtZSB0aGVtIHRvIHNvbWV0aGluZyBsaWtlIG15IHN1
+Z2dlc3Rpb25zIHNvIHdlIHVuZGVyc3RhbmQgd2hhdCBpdCBpcw0KPiBhbGwgYWJvdXQuIEl0
+IHNlZW1zIHRoZSBpbmZyYXN0cnVjdHVyZSBmb3Igd2hhdCBJIHN1Z2dlc3RlZCBpcyBtb3N0
+bHkgYWxyZWFkeQ0KPiB0aGVyZS4NCg0KVGhlc2UgZGVmaW5lcyBhcmUgaW50ZW5kZWQgdG8g
+YmUgdGhlIHNlcXVlbmNlIGxlbmd0aCBvZiB0aGUgcGF5bG9hZCBmb3IgDQpjb21tYW5kcyBh
+aWQsIGVsdnNzIGFuZCBnYW1tYS4gVGhlIG5hbWluZyBtYWtlcyBzZW5zZSB0byBtZS4NCg0K
+VGhlICIrIDEiIGJlY2FtZSBuZWNlc3NhcnkgYmVjYXVzZSB3aGVuIGNoYW5naW5nIHRoZSBE
+Q1MgY29tbWFuZHMgdG8gDQptdWx0aSB0eXBlIEkgcmFuIGludG8gdGhlIGlzc3VlIHRoYXQg
+dGhlcmUgaXMgb25lIGZvciANCiJtaXBpX2RzaV9kY3Nfd3JpdGVfc2VxIiBhbmQgb25lIGZv
+ciAibWlwaV9kc2lfZGNzX3dyaXRlX2J1ZmZlciIuLi4gYnV0IA0Kbm9uZSBmb3IgIm1pcGlf
+ZHNpX2Rjc193cml0ZSIgOiggU28gSSBoYWQgdG8gY29udmVydCB0aG9zZSBpbnRvIA0KIm1p
+cGlfZHNpX2Rjc193cml0ZV9idWZmZXIiK211bHRpLCB0aHVzIGluY2x1ZGluZyB0aGUgY29t
+bWFuZCByZWdpc3RlciANCnZhbHVlIGludG8gdGhlIHBheWxvYWQgc3RyaW5nLg0KDQouLi4N
+Cg0KPj4gKyAgICAgICBpZiAoY2FuZGVsYV9lbnVtIDw9IENBTkRFTEFfMTExQ0QpIHsNCj4+
+ICsgICAgICAgICAgICAgICBtZW1jcHkoJmI2WzFdLCBzNmU4OGEwX2FtczQyN2FwMjRfZWx2
+c3NbMF0sIFNFUV9MRU5HVEhfRUxWU1MpOw0KPj4gKyAgICAgICB9IGVsc2Ugew0KPj4gKyAg
+ICAgICAgICAgICAgIG1lbWNweSgmYjZbMV0sIHM2ZTg4YTBfYW1zNDI3YXAyNF9lbHZzc1tj
+YW5kZWxhX2VudW0gLSBDQU5ERUxBXzExMUNEXSwNCj4+ICsgICAgICAgICAgICAgICAgICAg
+ICAgU0VRX0xFTkdUSF9FTFZTUyk7DQo+PiArICAgICAgIH0NCj4+ICsNCj4+ICsgICAgICAg
+LyogZ2V0IGdhbW1hICovDQo+PiArICAgICAgIGNhWzBdID0gMHhjYTsNCj4gDQo+ICNkZWZp
+bmUgUzZFODhBMF9TRVRfR0FNTUEgMHhjYQ0KDQpBcyBzdGF0ZWQgaW4gbXkgcmVwbHkgb24g
+cGF0Y2ggMywgSSB3b3VsZCBsaWtlIHRvIGF2b2lkIHRob3NlIGRlZmluZXMgDQpiZWNhdXNl
+IGZpcnN0bHkgdGhlIG5hbWluZyBiZWNvbWVzIGFyYml0cmFyeSBhbmQgc2Vjb25kbHkgaXQg
+c3BvaWxzIHRoZSANCnJlYWRhYmlsaXR5IG9mIHRoZSBsYXJnZXIgRENTIGNvbW1hbmQgYmxv
+Y2tzIGR1ZSB0byBuZWNlc3NhcnkgbGluZSBicmVha3MuDQoNCkluIHRoaXMgc3BlY2lmaWMg
+Y2FzZSBoZXJlIGEgZGVmaW5lIHdvdWxkIG1ha2Ugc2Vuc2UuIEJ1dCBJIGNhbiBoYXJkbHkg
+DQppbXBsZW1lbnQgaXQgaGVyZSB3aXRob3V0IGRvaW5nIGl0IGVsc2V3aGVyZS4gVGhlcmVm
+b3JlIEkgd291bGQgbGlrZSB0byANCmtlZXAgdGhhdCBhcyBpdCBpcy4NCg0KLi4uDQoNCj4+
+ICsgICAgICAgbWlwaV9kc2lfZGNzX3dyaXRlX2J1ZmZlcl9tdWx0aSgmZHNpX2N0eCwgYjIs
+IEFSUkFZX1NJWkUoYjIpKTsNCj4+ICsgICAgICAgbWlwaV9kc2lfZGNzX3dyaXRlX3NlcV9t
+dWx0aSgmZHNpX2N0eCwgMHg1NSwgMHgwMCk7DQo+IA0KPiAweDU1IGlzIE1JUElfRENTX1dS
+SVRFX1BPV0VSX1NBVkUgaW4gPHZpZGVvL21pcGlfZGlzcGxheS5oPg0KDQpJdCdzIHRoZSBv
+bmx5IG9uZSB0aGF0IGNvdWxkIGJlIHVzZWQgZnJvbSA8dmlkZW8vbWlwaV9kaXNwbGF5Lmg+
+Lg0KDQpUaG91Z2ggIk1JUElfRENTX1dSSVRFX1BPV0VSX1NBVkUsIDB4MDAiIGRvZXNuJ3Qg
+c2F5IG11Y2guIEluIHRoZSANCmRvd25zdHJlYW0gZHJpdmVyIHRoZXJlIGFyZSBmb3VyIGxl
+dmVscyBvZiBBQ0w6DQogICAgICAgICAweDU1LCAweDAwIC0+IEFDTCBvZmYNCiAgICAgICAg
+IDB4NTUsIDB4MDEgLT4gZGVmYXVsdCBBQ0wgMTUgJQ0KICAgICAgICAgMHg1NSwgMHgwMiAt
+PiBBQ0wgMzAgJSwgYWxzbyBjb3JyZXNwb25kcyB0byB0aGUgIkFDTCBvbiIgY29tbWFuZA0K
+ICAgICAgICAgMHg1NSwgMHgwMyAtPiBkb2Vzbid0IHNlZW0gdG8gYmUgdXNlZA0KDQpodHRw
+czovL2dpdGh1Yi5jb20vbXNtODkxNi1tYWlubGluZS9saW51eC1kb3duc3RyZWFtL2Jsb2Iv
+R1QtSTkxOTVJL2RyaXZlcnMvdmlkZW8vbXNtL21kc3Mvc2Ftc3VuZy9TNkU4OEEwX0FNUzQy
+N0FQMjQvZHNpX3BhbmVsX1M2RTg4QTBfQU1TNDI3QVAyNF9xaGRfb2N0YV92aWRlby5kdHNp
+I0wyNzUtTDI4MQ0KDQpJIHdvdWxkIHByZWZlciB0byBzdGF5IGF0IDB4NTUgYW5kIGFkZCBj
+b21tZW50ICJhY2wgb2ZmIi4gRW1iZWRkZWQgaW4gYSANCmJsb2NrIG9mIG90aGVyIERDUyBj
+b21tYW5kcyB3aXRoIHBsYWluIGNvbW1hbmQgcmVnaXN0ZXIgdmFsdWVzIGFuZCANCnNpbmds
+ZSBsaW5lIGNvbW1lbnRzIGFwcGVuZGVkLCBhcyBwcm9wb3NlZCBpbiBteSByZXBseSBvbiBw
+YXRjaCAzLCBpdCANCmxvb2tzIG1vcmUgcmVhZGFibGUgYW5kIGRlc2NyaXB0aXZlIGluIHRo
+ZSBjb250ZXh0IG9mIHRoZSBvdGhlciBjb21tYW5kcy4NCg0KS2luZCByZWdhcmRzLA0KSmFr
+b2INCg==
