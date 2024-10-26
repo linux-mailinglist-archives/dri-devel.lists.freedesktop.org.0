@@ -2,55 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CAC9B1910
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 17:22:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A26A39B1917
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 17:27:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 390F510E108;
-	Sat, 26 Oct 2024 15:22:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00AF10E414;
+	Sat, 26 Oct 2024 15:27:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="ksFiG5pd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c0l4RsQe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9C9E10E108
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 15:22:20 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4XbNgJ2GtRz9vvN;
- Sat, 26 Oct 2024 15:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1729956140; bh=7owUxhN9X+jbjacXEfX6CmSMtq7aqDx02jvmRVZiOjA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ksFiG5pdwyiq7az82zeS3MFpCCBdMbyaId1p9GeHIAHLHmTdGUlm9l412MtOZl2WJ
- h0SBg5sjNVqkf7N5eZu1uspcmsha93X6Rca1kMMeNUNWhDTkclYVSpFu8vAQ2TyhtM
- e2FQkZuN4JgM476kwlqOpBLu1TPeoxejqFYR2CvY=
-X-Riseup-User-ID: 1A0D2919C74591BB03443E9DEA64305B47DA0CCFF9C4E536AEC739FA2BE45D4E
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XbNg10VYFzFqLF;
- Sat, 26 Oct 2024 15:22:04 +0000 (UTC)
-Message-ID: <35a5cf2e-caa4-48bf-a5be-3cbae9865f6a@riseup.net>
-Date: Sat, 26 Oct 2024 12:22:02 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02AD810E044;
+ Sat, 26 Oct 2024 15:27:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729956439; x=1761492439;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=V+nfX3nSzb+YI8uVW+jEb7iJhvqZzOd8oemAUy/jUoc=;
+ b=c0l4RsQeGpLPyeGRCCQEEAF8OkKzOOBXRj1lUoAJ4W+KNTxK3FchfaS0
+ /90A4mjlK3Fcsj9VzSzpPxHCIA0H4IBoHobnwSAD6LoBi6J5tBg9xGKY5
+ 2RZ4c4x3tcRG73AxGRfiOT6StzjK7xWJz7Q4l5kpofeaPlJQRWXf47hUx
+ WnGhU+PAQfQ6EjcNvX2EhTmIx0bIETA15/iYjLOFtooKXcH6+/KoGVSYT
+ oCfj7uKwrs8pAhv/yVyLcQpSqZWXrOsV8HJ2aR903y7BhdVgZByzbxq7u
+ ZSxtpUDJCgk8ztAkysRiBqbKLwprkeVgDiRNBbMV9B7hkdqyLA3d7kcfO w==;
+X-CSE-ConnectionGUID: waSnmJr7Qs6re61SZ/dcZQ==
+X-CSE-MsgGUID: MfqbwbrgSNW1YcEzUlDssg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29565655"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29565655"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2024 08:27:18 -0700
+X-CSE-ConnectionGUID: slJ/ljGlTLStWK+5r8OSWQ==
+X-CSE-MsgGUID: VXy0XeZGQhGQqx3ooyKQ1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; d="scan'208";a="86324174"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2024 08:27:14 -0700
+Date: Sat, 26 Oct 2024 18:27:11 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ jani.nikula@linux.intel.com
+Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ rodrigo.vivi@intel.com, lina@asahilina.net,
+ michal.wajdeczko@intel.com, christian.koenig@amd.com,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ alexander.deucher@amd.com, andrealmeid@igalia.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH v8 1/4] drm: Introduce device wedged event
+Message-ID: <Zx0KT2QIBQyJC7xB@black.fi.intel.com>
+References: <20241025084817.144621-1-raag.jadav@intel.com>
+ <20241025084817.144621-2-raag.jadav@intel.com>
+ <87r084r1lp.fsf@intel.com> <ZxuvJ1Hhv4nt9oSH@smile.fi.intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] drm/vkms: Remove index parameter from init_vkms_output
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZxuvJ1Hhv4nt9oSH@smile.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,215 +77,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+On Fri, Oct 25, 2024 at 05:45:59PM +0300, Andy Shevchenko wrote:
+> On Fri, Oct 25, 2024 at 12:08:50PM +0300, Jani Nikula wrote:
+> > On Fri, 25 Oct 2024, Raag Jadav <raag.jadav@intel.com> wrote:
+> 
+> ...
+> 
+> > > +/*
+> > > + * Available recovery methods for wedged device. To be sent along with device
+> > > + * wedged uevent.
+> > > + */
+> > > +static const char *const drm_wedge_recovery_opts[] = {
+> > > +	[ffs(DRM_WEDGE_RECOVERY_REBIND) - 1]	= "rebind",
+> > > +	[ffs(DRM_WEDGE_RECOVERY_BUS_RESET) - 1]	= "bus-reset",
+> > > +};
+> > > +static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == ffs(DRM_WEDGE_RECOVERY_BUS_RESET));
+> > 
+> > This might work in most cases, but you also might end up finding that
+> > there's an arch and compiler combo out there that just won't be able to
+> > figure out ffs() at compile time, and the array initialization fails.
+> 
+> We have ilog2() macro for such cases, but it is rather fls() and not ffs(),
+> and I have no idea why ffs() even being used here, especially in the index
+> part of the array assignments. It's unreadable.
 
-On 10/10/24 14:27, Louis Chauvet wrote:
-> VKMS currently supports only one CRTC, so it make no sense to have this
-> index configurable. To avoid issues, replace this hardcoded index by
-> drm_crtc_mask when applicable.
-> 
-> There is no need to manually set a crtc mask on primary and cursor plane
-> as it is automatically set by drmm_crtc_alloc_with_planes.
-> 
-> In addition, this will remove the use of an uninitialized structure in
-> vkms_add_overlay_plane. This currently works by chance because two things:
-> - vkms_plane_init always set a possible_crtcs value, so the problematic
->    branch is never used;
-> - drm_crtc_mask on an kzalloc'd drm_crtc returns BIT(0), and the VKMS CRTC
->    always have this id.
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
-> Changes in v2:
-> - Applied comments from José
-> - Link to v1: https://lore.kernel.org/r/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com
-> ---
->   drivers/gpu/drm/vkms/vkms_drv.c    |  2 +-
->   drivers/gpu/drm/vkms/vkms_drv.h    |  8 ++----
->   drivers/gpu/drm/vkms/vkms_output.c | 54 ++++++++++++++------------------------
->   drivers/gpu/drm/vkms/vkms_plane.c  |  4 +--
->   4 files changed, 24 insertions(+), 44 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index 2d1e95cb66e5..0f6805b9fe7b 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -174,7 +174,7 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
->   	dev->mode_config.preferred_depth = 0;
->   	dev->mode_config.helper_private = &vkms_mode_config_helpers;
->   
-> -	return vkms_output_init(vkmsdev, 0);
-> +	return vkms_output_init(vkmsdev);
->   }
->   
->   static int vkms_create(struct vkms_config *config)
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 672fe191e239..036101ee4ea1 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -212,21 +212,17 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
->    * vkms_output_init() - Initialize all sub-components needed for a VKMS device.
->    *
->    * @vkmsdev: VKMS device to initialize
-> - * @index: CRTC which can be attached to the planes. The caller must ensure that
-> - *	   @index is positive and less or equals to 31.
->    */
-> -int vkms_output_init(struct vkms_device *vkmsdev, int index);
-> +int vkms_output_init(struct vkms_device *vkmsdev);
->   
->   /**
->    * vkms_plane_init() - Initialize a plane
->    *
->    * @vkmsdev: VKMS device containing the plane
->    * @type: type of plane to initialize
-> - * @index: CRTC which can be attached to the plane. The caller must ensure that
-> - *	   @index is positive and less or equals to 31.
->    */
->   struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> -				   enum drm_plane_type type, int index);
-> +				   enum drm_plane_type type);
->   
->   /* CRC Support */
->   const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 0a5a185aa0b0..5128aa3b2eb6 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -32,29 +32,14 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
->   	.get_modes    = vkms_conn_get_modes,
->   };
->   
-> -static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
-> -				  struct drm_crtc *crtc)
-> -{
-> -	struct vkms_plane *overlay;
-> -
-> -	overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-> -	if (IS_ERR(overlay))
-> -		return PTR_ERR(overlay);
-> -
-> -	if (!overlay->base.possible_crtcs)
-> -		overlay->base.possible_crtcs = drm_crtc_mask(crtc);
-> -
-> -	return 0;
-> -}
-> -
-> -int vkms_output_init(struct vkms_device *vkmsdev, int index)
-> +int vkms_output_init(struct vkms_device *vkmsdev)
->   {
->   	struct vkms_output *output = &vkmsdev->output;
->   	struct drm_device *dev = &vkmsdev->drm;
->   	struct drm_connector *connector = &output->connector;
->   	struct drm_encoder *encoder = &output->encoder;
->   	struct drm_crtc *crtc = &output->crtc;
-> -	struct vkms_plane *primary, *cursor = NULL;
-> +	struct vkms_plane *primary, *overlay, *cursor = NULL;
->   	int ret;
->   	int writeback;
->   	unsigned int n;
-> @@ -65,34 +50,37 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->   	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
->   	 * composition.
->   	 */
-> -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
-> +	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
->   	if (IS_ERR(primary))
->   		return PTR_ERR(primary);
->   
-> -	if (vkmsdev->config->overlay) {
-> -		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
-> -			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
-> -			if (ret)
-> -				return ret;
-> -		}
-> -	}
-> -
->   	if (vkmsdev->config->cursor) {
-> -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
-> +		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
->   		if (IS_ERR(cursor))
->   			return PTR_ERR(cursor);
->   	}
->   
-> -	/* [1]: Allocation of a CRTC, its index will be BIT(0) = 1 */
->   	ret = vkms_crtc_init(dev, crtc, &primary->base, &cursor->base);
->   	if (ret)
->   		return ret;
->   
-> +	if (vkmsdev->config->overlay) {
-> +		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
-> +			overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY);
-> +			if (IS_ERR(overlay)) {
-> +				DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
-> +				ret = PTR_ERR(overlay);
-> +				goto err_crtc;
-> +			}
-> +			overlay->base.possible_crtcs = drm_crtc_mask(crtc);
-> +		}
-> +	}
-> +
->   	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
->   				 DRM_MODE_CONNECTOR_VIRTUAL);
->   	if (ret) {
->   		DRM_ERROR("Failed to init connector\n");
-> -		goto err_connector;
-> +		goto err_crtc;
->   	}
->   
->   	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
-> @@ -103,11 +91,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->   		DRM_ERROR("Failed to init encoder\n");
->   		goto err_encoder;
->   	}
-> -	/*
-> -	 * This is a hardcoded value to select crtc for the encoder.
-> -	 * BIT(0) here designate the first registered CRTC, the one allocated in [1]
-> -	 */
-> -	encoder->possible_crtcs = BIT(0);
-> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
->   
->   	ret = drm_connector_attach_encoder(connector, encoder);
->   	if (ret) {
-> @@ -131,7 +115,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->   err_encoder:
->   	drm_connector_cleanup(connector);
->   
-> -err_connector:
-> +err_crtc:
->   	drm_crtc_cleanup(crtc);
+I initially had __builtin_ffs() in mind which is even more ugly.
 
-Do we really need `drm_crtc_cleanup`? We are allocating the CRTC with
-`drmm_crtc_init_with_planes`.
+> > If that happens, you'd have to either convert back to an enum (and call
+> > the wedge event function with BIT(DRM_WEDGE_RECOVERY_REBIND) etc.), or
 
-The rest looks fine to me.
+Which would confuse the users since that's not how enums are normally used.
 
-Best Regards,
-- Maíra
+> > make this a array of structs mapping the macro values to strings and
+> > loop over it.
 
->   
->   	return ret;
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index e5c625ab8e3e..ad137c9a75f5 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -198,12 +198,12 @@ static const struct drm_plane_helper_funcs vkms_plane_helper_funcs = {
->   };
->   
->   struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> -				   enum drm_plane_type type, int index)
-> +				   enum drm_plane_type type)
->   {
->   	struct drm_device *dev = &vkmsdev->drm;
->   	struct vkms_plane *plane;
->   
-> -	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << index,
-> +	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 0,
->   					   &vkms_plane_funcs,
->   					   vkms_formats, ARRAY_SIZE(vkms_formats),
->   					   NULL, type, NULL);
-> 
-> ---
-> base-commit: 33c255312660653cf54f8019896b5dca28e3c580
-> change-id: 20240906-vkms-remove-index-3a6e04c38e02
-> 
-> Best regards,
+Why not just switch() it?
+
+	for_each_set_bit(opt, &method, size) {
+		switch (BIT(opt)) {
+		case DRM_WEDGE_RECOVERY_REBIND:
+			recovery = "rebind";
+			break;
+		case DRM_WEDGE_RECOVERY_BUS_RESET:
+			recovery = "bus-reset";
+			break;
+		}
+
+		...
+	}
+
+I know we'll have to update it with new additions, but it'd be much simpler,
+atleast compared to introducing and maintaining a new struct.
+
+> > Also, the main point of the static assert was to ensure the array is
+> > updated when a new recovery option is added, and there's no out of
+> > bounds access. That no longer holds, and the static assert is pretty
+> > much useless. You still have to manually find and update this.
+
+With above in place this won't be needed.
+
+Raag
