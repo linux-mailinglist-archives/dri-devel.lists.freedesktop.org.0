@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C2B9B1890
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 16:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCCB19B1885
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 16:12:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2625310E12C;
-	Sat, 26 Oct 2024 14:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9321310E00C;
+	Sat, 26 Oct 2024 14:12:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="VYryn2Ge";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="iixkSaE1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 021DE10EB72
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 18:20:02 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49PC33iq030348;
- Fri, 25 Oct 2024 18:19:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=oAy1YgtvI9kU8j8PJEc4zNG2
- x9Wg7jzn8x8frdfkCN8=; b=VYryn2GeW1q2cbuvLXwTem4c6IMLWuKYTGSL5UIa
- V+kJW+4vKnYB5zmINrbC54hPwSRQTznfTLB29GEuWjK20dpMdo/LAIMqFLxjbj6H
- sYLi6TFGloepIQsK7wMHL/pRD6f5Lg0jeypdxIikHDxpF5ahcCME+2F+LEdbQMqM
- 3y4RQl3KWtqucfQ71u2IB1OLXBTD/KnMjGMJd0lC664MtRcmncY1fP6EWUyf5H8o
- ddx30bBJmhEd5QXsItznPWjYfGMZMQQL3pJVJw05o6O7qUPCwVxV1KutnbAV79JD
- gqIy6szoDjwReNyPiU1VSD47JWGn3xbTDRdcN/pf7mWcUA==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42em3wa2w6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Oct 2024 18:19:56 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49PIJt51016820
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Oct 2024 18:19:55 GMT
-Received: from [10.216.38.148] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Oct
- 2024 11:19:46 -0700
-Content-Type: multipart/alternative;
- boundary="------------tv0rFu0HO0ZhZZs1T6CxipEO"
-Message-ID: <d6e9900b-5cec-466e-9f0e-33af9cdf86d2@quicinc.com>
-Date: Fri, 25 Oct 2024 23:49:42 +0530
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4AD10E00C
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 14:12:05 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4XbM6D1yWSzDqkZ;
+ Sat, 26 Oct 2024 14:12:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1729951924; bh=qEM30XYDrpDsUwIzFV4PL0EydYVRo+dUCtxVjeYNobs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=iixkSaE1nuh7avdj7nIFAe9H5kLOsW1keCHDaDj1uW5BWwQmdYrlJ6tsO663LM7qx
+ uOlHHFlpXpF/PKhV+snhaY/TSs4dDytRMpnNjGGO7EA9Y+0jlouq7p/kWtIkVNDzzm
+ ECLl+DlXcXlZlc0dNPQ2rVIwtYjJdL4IWexAHY8k=
+X-Riseup-User-ID: D4E9C5EEE74691AC48D89A0F32EF5328569794BF9127D938F2125D02D026D240
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4XbM655z4vzJstM;
+ Sat, 26 Oct 2024 14:11:57 +0000 (UTC)
+Message-ID: <40c85513-6c57-4b9c-87f6-2ca56c556462@riseup.net>
+Date: Sat, 26 Oct 2024 11:11:55 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/5] arm64: dts: qcom: Add support for configuring
- channel TRE size
-References: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
- <20241015120750.21217-3-quic_jseerapu@quicinc.com>
- <78a1c5c8-53c8-4144-b311-c34b155ca27c@kernel.org>
- <7e7ksit5ptjrcnct66v75mbxuabnzzloungockdal2dl2y6nn5@ge4mrsjmd746>
- <658c19c7-9eeb-4329-aa96-a4a9b09d7117@kernel.org>
+Subject: Re: [PATCH RESEND v2 2/8] drm/vkms: Add support for ARGB8888 formats
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+References: <20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com>
+ <20241007-b4-new-color-formats-v2-2-d47da50d4674@bootlin.com>
 Content-Language: en-US
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-To: undisclosed-recipients:;
-In-Reply-To: <658c19c7-9eeb-4329-aa96-a4a9b09d7117@kernel.org>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: jN7rhtcKn2HyUg1atIdpw6-sIX7z0PP7
-X-Proofpoint-GUID: jN7rhtcKn2HyUg1atIdpw6-sIX7z0PP7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- priorityscore=1501 impostorscore=0 bulkscore=0 lowpriorityscore=0
- clxscore=1015 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410250140
-X-Mailman-Approved-At: Sat, 26 Oct 2024 14:21:05 +0000
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20241007-b4-new-color-formats-v2-2-d47da50d4674@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,140 +70,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------tv0rFu0HO0ZhZZs1T6CxipEO
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi Louis,
 
+On 07/10/24 13:46, Louis Chauvet wrote:
+> The formats XRGB8888 and ARGB8888 were already supported.
+> Add the support for:
+> - XBGR8888
+> - RGBX8888
+> - BGRX8888
+> - ABGR8888
+> - RGBA8888
+> - BGRA8888
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>   drivers/gpu/drm/vkms/vkms_formats.c | 18 ++++++++++++++++++
+>   drivers/gpu/drm/vkms/vkms_plane.c   |  6 ++++++
+>   2 files changed, 24 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index 8f1bcca38148..b5a38f70c62b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -432,8 +432,14 @@ static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
+>   
+>   
+>   READ_LINE_ARGB8888(XRGB8888_read_line, px, 255, px[2], px[1], px[0])
+> +READ_LINE_ARGB8888(XBGR8888_read_line, px, 255, px[0], px[1], px[2]) > +READ_LINE_ARGB8888(RGBX8888_read_line, px, 255, px[3], px[2], px[1])
 
-On 10/17/2024 12:40 PM, Krzysztof Kozlowski wrote:
-> On 16/10/2024 16:35, Bjorn Andersson wrote:
->>>> @@ -1064,7 +1064,7 @@
->>>>   		};
->>>>   
->>>>   		gpi_dma0: dma-controller@900000 {
->>>> -			#dma-cells = <3>;
->>>> +			#dma-cells = <4>;
->>>>   			compatible = "qcom,sc7280-gpi-dma", "qcom,sm6350-gpi-dma";
->>>>   			reg = <0 0x00900000 0 0x60000>;
->>>>   			interrupts = <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>,
->>>> @@ -1114,8 +1114,8 @@
->>>>   							"qup-memory";
->>>>   				power-domains = <&rpmhpd SC7280_CX>;
->>>>   				required-opps = <&rpmhpd_opp_low_svs>;
->>>> -				dmas = <&gpi_dma0 0 0 QCOM_GPI_I2C>,
->>>> -				       <&gpi_dma0 1 0 QCOM_GPI_I2C>;
->>>> +				dmas = <&gpi_dma0 0 0 QCOM_GPI_I2C 64>,
->>>> +				       <&gpi_dma0 1 0 QCOM_GPI_I2C 64>;
->>> So everywhere is 64, thus this is fixed. Deduce it from the compatible
->>>
->> If I understand correctly, it's a software tunable property, used to
->> balance how many TRE elements that should be preallocated.
->>
->> If so, it would not be a property of the hardware/compatible, but rather
->> a result of profiling and a balance between memory "waste" and
->> performance.
-> In such case I would prefer it being runtime-calculated by the driver,
-> based on frequency or expected bandwidth.
->
-> And in any case if this is about to stay, having here default values
-> means all upstream users don't need it. What's not upstream, does not
-> exist in such context. We don't add features which are not used by upstream.
->
-> Best regards,
-> Krzysztof
+I'm not expert in colors, but is this correct? From what I understand,
+it should be:
 
+READ_LINE_ARGB8888(RGBX8888_read_line, px, px[2], px[1], px[0], 255)
+                                            ^R     ^G     ^B     ^X
 
-Thanks Krzysztof and Bjorn for the review comments.
+> +READ_LINE_ARGB8888(BGRX8888_read_line, px, 255, px[1], px[2], px[3])
 
-I have reverted the changes of supporting channels tre size from DT and 
-will make use of existing channel tre size defined in GPI driver which 
-is 64.
+Again, is this correct?
 
-Regards,
+Best Regards,
+- Maíra
 
-JyothiKumar.
-
->
---------------tv0rFu0HO0ZhZZs1T6CxipEO
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 10/17/2024 12:40 PM, Krzysztof
-      Kozlowski wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:658c19c7-9eeb-4329-aa96-a4a9b09d7117@kernel.org">
-      <pre class="moz-quote-pre" wrap="">On 16/10/2024 16:35, Bjorn Andersson wrote:
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">@@ -1064,7 +1064,7 @@
- 		};
- 
- 		gpi_dma0: dma-controller@900000 {
--			#dma-cells = &lt;3&gt;;
-+			#dma-cells = &lt;4&gt;;
- 			compatible = "qcom,sc7280-gpi-dma", "qcom,sm6350-gpi-dma";
- 			reg = &lt;0 0x00900000 0 0x60000&gt;;
- 			interrupts = &lt;GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH&gt;,
-@@ -1114,8 +1114,8 @@
- 							"qup-memory";
- 				power-domains = &lt;&amp;rpmhpd SC7280_CX&gt;;
- 				required-opps = &lt;&amp;rpmhpd_opp_low_svs&gt;;
--				dmas = &lt;&amp;gpi_dma0 0 0 QCOM_GPI_I2C&gt;,
--				       &lt;&amp;gpi_dma0 1 0 QCOM_GPI_I2C&gt;;
-+				dmas = &lt;&amp;gpi_dma0 0 0 QCOM_GPI_I2C 64&gt;,
-+				       &lt;&amp;gpi_dma0 1 0 QCOM_GPI_I2C 64&gt;;
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">
-So everywhere is 64, thus this is fixed. Deduce it from the compatible
-
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-If I understand correctly, it's a software tunable property, used to
-balance how many TRE elements that should be preallocated.
-
-If so, it would not be a property of the hardware/compatible, but rather
-a result of profiling and a balance between memory "waste" and
-performance.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-In such case I would prefer it being runtime-calculated by the driver,
-based on frequency or expected bandwidth.
-
-And in any case if this is about to stay, having here default values
-means all upstream users don't need it. What's not upstream, does not
-exist in such context. We don't add features which are not used by upstream.
-
-Best regards,
-Krzysztof</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>Thanks <span style="white-space: pre-wrap">Krzysztof and </span><span
-      style="white-space: pre-wrap">Bjorn for the review comments.</span></p>
-    <p><span style="white-space: pre-wrap">I have reverted the changes of supporting channels tre size from DT and will make use of existing channel tre size defined in GPI driver which is 64.</span></p>
-    <p><span style="white-space: pre-wrap">Regards,</span></p>
-    <p><span style="white-space: pre-wrap">JyothiKumar. </span></p>
-    <blockquote type="cite"
-      cite="mid:658c19c7-9eeb-4329-aa96-a4a9b09d7117@kernel.org">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------tv0rFu0HO0ZhZZs1T6CxipEO--
+>   
+>   READ_LINE_ARGB8888(ARGB8888_read_line, px, px[3], px[2], px[1], px[0])
+> +READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
+> +READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
+> +READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
+>   
+>   
+>   READ_LINE_16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0]);
+> @@ -637,8 +643,20 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+>   	switch (format) {
+>   	case DRM_FORMAT_ARGB8888:
+>   		return &ARGB8888_read_line;
+> +	case DRM_FORMAT_ABGR8888:
+> +		return &ABGR8888_read_line;
+> +	case DRM_FORMAT_BGRA8888:
+> +		return &BGRA8888_read_line;
+> +	case DRM_FORMAT_RGBA8888:
+> +		return &RGBA8888_read_line;
+>   	case DRM_FORMAT_XRGB8888:
+>   		return &XRGB8888_read_line;
+> +	case DRM_FORMAT_XBGR8888:
+> +		return &XBGR8888_read_line;
+> +	case DRM_FORMAT_RGBX8888:
+> +		return &RGBX8888_read_line;
+> +	case DRM_FORMAT_BGRX8888:
+> +		return &BGRX8888_read_line;
+>   	case DRM_FORMAT_ARGB16161616:
+>   		return &ARGB16161616_read_line;
+>   	case DRM_FORMAT_XRGB16161616:
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index 67f891e7ac58..941a6e92a040 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -14,7 +14,13 @@
+>   
+>   static const u32 vkms_formats[] = {
+>   	DRM_FORMAT_ARGB8888,
+> +	DRM_FORMAT_ABGR8888,
+> +	DRM_FORMAT_BGRA8888,
+> +	DRM_FORMAT_RGBA8888,
+>   	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_XBGR8888,
+> +	DRM_FORMAT_RGBX8888,
+> +	DRM_FORMAT_BGRX8888,
+>   	DRM_FORMAT_XRGB16161616,
+>   	DRM_FORMAT_ARGB16161616,
+>   	DRM_FORMAT_RGB565,
+> 
