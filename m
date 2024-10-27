@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF599B1C19
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2024 04:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3580D9B1C2F
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2024 05:48:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5966310E088;
-	Sun, 27 Oct 2024 03:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D0F10E1A2;
+	Sun, 27 Oct 2024 04:48:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="RFgLLAxg";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="SJssK9NX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
- [91.218.175.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A60E110E088
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 03:59:13 +0000 (UTC)
-Message-ID: <51f93661-697e-4b0f-b383-fc80ff0b6edd@linux.dev>
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com
+ [91.218.175.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8513E10E041;
+ Sun, 27 Oct 2024 04:48:41 +0000 (UTC)
+Message-ID: <c86f224d-fdd3-4b91-a0d1-0a34e38236f0@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730001551;
+ t=1730004519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rxokjpi64ojG2mVk/2Soqm7JX1QalF+tS1YKzDyo+ko=;
- b=RFgLLAxgzOse5eYUbwD80fB3tX8DbEG6Eg9j8F3lwW7U+Uk1Hlm/tZF+9m/ER+pjlPERGv
- 3WeM5kQ7p2tI9NoaYdi11Xpio49Tups6n4VTiDndW60mpqb8Hi/4dwpuG/tYkoKsi9hHyy
- ABNf1fuWYg4JBfnijZ8g/Ifd8ijSf4c=
-Date: Sun, 27 Oct 2024 11:59:01 +0800
+ bh=/LSorqQbck8YB4T0NmsqrtoTk57hv8mFuEl/XEJMvTs=;
+ b=SJssK9NXel3SGm4jK3DxYAZvL9fP6n6z7iZY+8ah2HX8aDgsP/XlVPECPFMGeqsiiJ1R1x
+ sc7Tz1xQGhfdSoG84+NYX4HPSWEi67IBuNinN0yrSyfn4qxcQwB+c/i9xwxaMTTv+KhjYY
+ NcULPT/HRZXfAHQIhkIFlj/Pk7GXtos=
+Date: Sun, 27 Oct 2024 12:48:29 +0800
 MIME-Version: 1.0
-Subject: Re: drm/etnaviv: always allocate 4K for kernel ringbuffers
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
-References: <20241025151417.2475966-1-l.stach@pengutronix.de>
+Subject: Re: [PATCH 1/3] drm/etnaviv: Track GPU VA size separately
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241004194207.1013744-1-sui.jingfeng@linux.dev>
+ <20241004194207.1013744-2-sui.jingfeng@linux.dev>
+ <b93c08b0bab16c86190ca186f20d2cb036a4b8d0.camel@pengutronix.de>
 Content-Language: en-US, en-AU
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20241025151417.2475966-1-l.stach@pengutronix.de>
+In-Reply-To: <b93c08b0bab16c86190ca186f20d2cb036a4b8d0.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -61,43 +64,151 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-
-On 10/25/24 23:14, Lucas Stach wrote:
-> Since the kernel ringbuffers are allocated from a larger suballocated
-> area, same as the user commandbufs, they don't need to be CPU page
-> sized. Allocate 4KB for the kernel ring buffers, as we never use more
-> than that.
+On 10/7/24 18:12, Lucas Stach wrote:
+> Am Samstag, dem 05.10.2024 um 03:42 +0800 schrieb Sui Jingfeng:
+>> Etnaviv assumes that GPU page size is 4KiB, yet on some systems, the CPU
+>> page size is 16KiB. The size of etnaviv buffer objects will be aligned
+>> to CPU page size on kernel side, however, userspace still assumes the
+>> page size is 4KiB and doing allocation with 4KiB page as unit. This
+>> results in userspace allocated GPU virtual address range collision and
+>> therefore unable to be inserted to the specified hole exactly.
+>>
+>> The root cause is that kernel side BO takes up bigger address space than
+>> userspace assumes when the size of it is not CPU page size aligned. To
+>> Preserve GPU VA continuous as much as possible, track the size that
+>> userspace/GPU think of it is.
+>>
+>> Yes, we still need to overallocate to suit the CPU, but there is no need
+>> to waste GPU VA space anymore.
+>>
+>> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+>> ---
+>>   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 8 +++++---
+>>   drivers/gpu/drm/etnaviv/etnaviv_gem.h | 1 +
+>>   drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 8 ++++----
+>>   3 files changed, 10 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> index 5c0c9d4e3be1..943fc20093e6 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> @@ -543,7 +543,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+>>   	.vm_ops = &vm_ops,
+>>   };
+>>   
+>> -static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
+>> +static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+>>   	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+>>   {
+>>   	struct etnaviv_gem_object *etnaviv_obj;
+>> @@ -570,6 +570,7 @@ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
+>>   	if (!etnaviv_obj)
+>>   		return -ENOMEM;
+>>   
+>> +	etnaviv_obj->user_size = size;
+>>   	etnaviv_obj->flags = flags;
+>>   	etnaviv_obj->ops = ops;
+>>   
+>> @@ -588,11 +589,12 @@ int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
+>>   {
+>>   	struct etnaviv_drm_private *priv = dev->dev_private;
+>>   	struct drm_gem_object *obj = NULL;
+>> +	unsigned int user_size = size;
 > 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+> This still needs to be be aligned to 4K. 
 
-Tested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Yes, extremely correct here, for the perspective of concept.
 
+Have to be GPU page size aligned, because the GPU map 4KiB once a time.
+GPU will access full range of a 4KiB page, and this is out of CPU's
+control.
 
-Tested with on a 16 KiB system, it works fine as before.
+> Userspace may request unaligned buffer sizes 
 
-I notices that most test samples of glmark2 consumes only one page,
-only a few of them consumes more than one page command buffer, can
-up to 20 KiB.
+User-space shall *NOT* request unaligned buffer, since user-space
+*already* made the assumption GPU page is 4KiB. Then it's the user
+space's responsibility that keeping requested buffer aligned.
 
-> ---
->   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+- The kernel space actually can and *should* return aligned size
+   to user-space though.
+
+- Since softpin feature is landed, it becomes evident that kernel
+   space need user-space *report* a correct length of GPUVA.
+
+But I'm fine with the kernel pay some extra price for safe reasons.
+
+Best regards,
+Sui
+
+> and we don't want to risk any confusion about
+> which part is visible to the GPU, so better make sure this size is
+> aligned to the GPU page size.
+> Also, that more personal preference, but I would call this gpu_size or
+> something like that, to avoid any confusion with the user_size in> etnaviv_cmdbuf, where user_size doesn't denote the GPU visible size.
+>
+> Regards,
+> Lucas
 > 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 7c7f97793ddd..7b39786871b3 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -848,8 +848,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->   		priv->shm_gfp_mask |= GFP_DMA32;
->   
->   	/* Create buffer: */
-> -	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
-> -				  PAGE_SIZE);
-> +	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer, SZ_4K);
->   	if (ret) {
->   		dev_err(gpu->dev, "could not create command buffer\n");
->   		goto fail;
+>>   	int ret;
+>>   
+>>   	size = PAGE_ALIGN(size);
+>>   
+>> -	ret = etnaviv_gem_new_impl(dev, flags, &etnaviv_gem_shmem_ops, &obj);
+>> +	ret = etnaviv_gem_new_impl(dev, user_size, flags, &etnaviv_gem_shmem_ops, &obj);
+>>   	if (ret)
+>>   		goto fail;
+>>   
+>> @@ -627,7 +629,7 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
+>>   	struct drm_gem_object *obj;
+>>   	int ret;
+>>   
+>> -	ret = etnaviv_gem_new_impl(dev, flags, ops, &obj);
+>> +	ret = etnaviv_gem_new_impl(dev, size, flags, ops, &obj);
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+>> index a42d260cac2c..c6e27b9abb0c 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+>> @@ -36,6 +36,7 @@ struct etnaviv_gem_object {
+>>   	const struct etnaviv_gem_ops *ops;
+>>   	struct mutex lock;
+>>   
+>> +	u32 user_size;
+>>   	u32 flags;
+>>   
+>>   	struct list_head gem_node;
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+>> index 1661d589bf3e..6fbc62772d85 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+>> @@ -281,6 +281,7 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
+>>   {
+>>   	struct sg_table *sgt = etnaviv_obj->sgt;
+>>   	struct drm_mm_node *node;
+>> +	unsigned int user_size;
+>>   	int ret;
+>>   
+>>   	lockdep_assert_held(&etnaviv_obj->lock);
+>> @@ -303,13 +304,12 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
+>>   	}
+>>   
+>>   	node = &mapping->vram_node;
+>> +	user_size = etnaviv_obj->user_size;
+>>   
+>>   	if (va)
+>> -		ret = etnaviv_iommu_insert_exact(context, node,
+>> -						 etnaviv_obj->base.size, va);
+>> +		ret = etnaviv_iommu_insert_exact(context, node, user_size, va);
+>>   	else
+>> -		ret = etnaviv_iommu_find_iova(context, node,
+>> -					      etnaviv_obj->base.size);
+>> +		ret = etnaviv_iommu_find_iova(context, node, user_size);
+>>   	if (ret < 0)
+>>   		goto unlock;
+>>   
+> 
 
 -- 
 Best regards
