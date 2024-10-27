@@ -2,78 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FAD9B1BDE
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2024 03:04:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF599B1C19
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2024 04:59:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3238310E068;
-	Sun, 27 Oct 2024 02:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5966310E088;
+	Sun, 27 Oct 2024 03:59:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qQlzKhpf";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="RFgLLAxg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBC6610E068
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 02:04:29 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-539eb97f26aso3249926e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2024 19:04:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729994668; x=1730599468; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LGZSUHq/ZmNUpRTh2RnbZ3KXbycvJz8k34ztj3MvaYU=;
- b=qQlzKhpfork1Kh0YwEigCBUXQNWD9MpWG5uLtDCpnuHOA4Csw28KL3eM0NJ2FK0Nvp
- NUCU2ikvUppOfManG36UtcX+8wVYfxeKCAvcV61GRwD1AdZVopD0r6qCrBDugQh7o+3k
- efm8YXcS3z60zyljIOy3NDUTpRv0SoaIDfvPwzlQvqoZhOEmkSHyjnNYq/AOMaLoI+XF
- wYq536sVGNngAKfhe+z4LSHfpv+5ytEbzG680/C7abpiuqyCLQrTnO3CU6KegG3jYYbD
- /GVh+OSMEsvJ9DwrHIeHCtr/l6LPu4MX4hCSwfxgm7Zbpaqzhe6WCq+BXhyTyFcINdFo
- yRgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729994668; x=1730599468;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LGZSUHq/ZmNUpRTh2RnbZ3KXbycvJz8k34ztj3MvaYU=;
- b=F0aStwIqdEfXHCci5OkMJ02Q8AO+HD6GGOs2pJrz7c2WfWOvCCjsk5RGMiw0tMLAQT
- DR9v1IrtghpHF0puhhinoKum0ztwRyRiSK0P+uQBXsm5IvK+g/XmwyPflXjbcVChMKAv
- 2nW1XY4Ozm4L6csDmrqPnsHypXdv0iZrdyydqfbgRl1YBCxL3sU5AsrJ2ypZzl0obUWf
- U/2EgQ9MwSgDKZriAEO5q8CZh086nrUTFCBZymir2ebx0H3aMXQsD4c36nRL3gRScWdO
- MPUdN0Qr0I127Qv9BAK61atgQZF9jjpjzJW/HZwCgIMkfUGIqouN15Jpfgss2K5k2KM3
- i+xg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWfWqBgK/G4HRGL/abDWiOptj5iHJNj31akxwBujUJOnQh0K019eM89HGdK3z7izyhmPxUZxjIvmhs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZzAgKp/PFHT7vA2bXsvJ1UT/RE3/HABGsXNQ//bFVtKHToSIx
- H8zSoQWVfBbK78oWIjF6ruEq19wh1dGuX/pezlCAPDKMED8HfIiedN+2isSQW9g=
-X-Google-Smtp-Source: AGHT+IHPoUUcDRY5D2XJo8f0YTIXfcWPksVBaLDAXMrn0WjwoyAQfwqBD1jOM+o1BPYOuwrQECaMcQ==
-X-Received: by 2002:a05:6512:3f03:b0:52f:ca2b:1d33 with SMTP id
- 2adb3069b0e04-53b348cb983mr1473251e87.20.1729994667621; 
- Sat, 26 Oct 2024 19:04:27 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.90])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53b2e10a915sm644940e87.12.2024.10.26.19.04.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Oct 2024 19:04:26 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>
-Cc: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] drm/msm: Avoid NULL dereference in
- msm_disp_state_print_regs()
-Date: Sun, 27 Oct 2024 04:04:26 +0200
-Message-Id: <172999465408.389213.17351972800864480225.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241014093605.1.Ia1217cecec9ef09eb3c6d125360cc6c8574b0e73@changeid>
-References: <20241014093605.1.Ia1217cecec9ef09eb3c6d125360cc6c8574b0e73@changeid>
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
+ [91.218.175.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A60E110E088
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 03:59:13 +0000 (UTC)
+Message-ID: <51f93661-697e-4b0f-b383-fc80ff0b6edd@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1730001551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rxokjpi64ojG2mVk/2Soqm7JX1QalF+tS1YKzDyo+ko=;
+ b=RFgLLAxgzOse5eYUbwD80fB3tX8DbEG6Eg9j8F3lwW7U+Uk1Hlm/tZF+9m/ER+pjlPERGv
+ 3WeM5kQ7p2tI9NoaYdi11Xpio49Tups6n4VTiDndW60mpqb8Hi/4dwpuG/tYkoKsi9hHyy
+ ABNf1fuWYg4JBfnijZ8g/Ifd8ijSf4c=
+Date: Sun, 27 Oct 2024 11:59:01 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Subject: Re: drm/etnaviv: always allocate 4K for kernel ringbuffers
+To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
+References: <20241025151417.2475966-1-l.stach@pengutronix.de>
+Content-Language: en-US, en-AU
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20241025151417.2475966-1-l.stach@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,22 +59,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On Mon, 14 Oct 2024 09:36:08 -0700, Douglas Anderson wrote:
-> If the allocation in msm_disp_state_dump_regs() failed then
-> `block->state` can be NULL. The msm_disp_state_print_regs() function
-> _does_ have code to try to handle it with:
+
+On 10/25/24 23:14, Lucas Stach wrote:
+> Since the kernel ringbuffers are allocated from a larger suballocated
+> area, same as the user commandbufs, they don't need to be CPU page
+> sized. Allocate 4KB for the kernel ring buffers, as we never use more
+> than that.
 > 
->   if (*reg)
->     dump_addr = *reg;
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+
+Tested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+
+
+Tested with on a 16 KiB system, it works fine as before.
+
+I notices that most test samples of glmark2 consumes only one page,
+only a few of them consumes more than one page command buffer, can
+up to 20 KiB.
+
+> ---
+>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> [...]
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 7c7f97793ddd..7b39786871b3 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -848,8 +848,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>   		priv->shm_gfp_mask |= GFP_DMA32;
+>   
+>   	/* Create buffer: */
+> -	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
+> -				  PAGE_SIZE);
+> +	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer, SZ_4K);
+>   	if (ret) {
+>   		dev_err(gpu->dev, "could not create command buffer\n");
+>   		goto fail;
 
-Applied, thanks!
-
-[3/3] drm/msm: Simplify NULL checking in msm_disp_state_dump_regs()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/74c374648ed0
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Best regards
+Sui
+
