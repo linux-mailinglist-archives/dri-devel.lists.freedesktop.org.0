@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837459B1F2F
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2024 17:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8819B1F32
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2024 17:28:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51D0410E15D;
-	Sun, 27 Oct 2024 16:23:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF0BB10E164;
+	Sun, 27 Oct 2024 16:28:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SjjU2v0D";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d9jtf+x5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C83D710E15D
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 16:23:57 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D1EC7E4;
- Sun, 27 Oct 2024 17:23:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1730046235;
- bh=rqba3ZcyIxIxvJgGj6KmTFTTJcmfH8yh6pSVgGLT9PE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SjjU2v0DqbyGrmmxM1z+oHBRn617efLq/5Tb7yR6cLhc+eNk+JZNTT7mqmNsrvmUT
- 9Y5GmWjHPYmwXvFAh87lA5hiqBei3wPOCfpBvZol85Ehmp+e6OVTCO/HqgTrMsSa8F
- NGwuKlXR76Qy3orTAeowq++F60LRfZO7bo4HrOes=
-Date: Sun, 27 Oct 2024 18:23:50 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-Message-ID: <20241027162350.GA15853@pendragon.ideasonboard.com>
-References: <20241024095539.1637280-1-herve.codina@bootlin.com>
- <20241024095539.1637280-3-herve.codina@bootlin.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3264E10E164
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 16:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730046503; x=1761582503;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=0aXubYe1FaQcPNmFvMSSBox/SiArxW12jDOhwAJzfAs=;
+ b=d9jtf+x5Bi3BovHDd1coi0+D/coVqBMlC+HhzTztfNv4+MbG8HR9viHx
+ 4GJQemCR/LIBTkEppLIHb0bKF/Uylq8s83AwAmYdr7MYOPqVU6C1/56yf
+ nZyBTn1QPGPUEY6jbSOscuaAhVdVKNolt665VRP2NJlEic3oTsDPG/7aR
+ t6yG/JK91nWQxnd6XLASHNpCli+nEvd1R7TKEtUcm8Ey94899I83hXFsb
+ HTUkS14yX0SC8pe6c0MlIVoGwnDUgSG/k5JcZBf6GivxSZM3+CDdCcdHG
+ sfMD1qL5gErFAnCtnvdDO1BeU/WqR/eDq8M2pvAzZ81VSfAU9sYh58bYs w==;
+X-CSE-ConnectionGUID: p1KO0tq/Sre4O0Qj/cPpbw==
+X-CSE-MsgGUID: Y5Z7TSgfToSwvZCvTjrY+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="40272148"
+X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; d="scan'208";a="40272148"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2024 09:28:18 -0700
+X-CSE-ConnectionGUID: DMeHiUY6T3uuJrfiO+OCNw==
+X-CSE-MsgGUID: hnu4janpSDmEEbxsVAn8bA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; d="scan'208";a="112221800"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa002.jf.intel.com with ESMTP; 27 Oct 2024 09:28:16 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t567h-000ape-20;
+ Sun, 27 Oct 2024 16:28:13 +0000
+Date: Mon, 28 Oct 2024 00:27:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
+ linux-fbdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ thomas.zimmermann@suse.de,
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>
+Subject: Re: [PATCH] fbdev: udl: Make CONFIG_FB_DEVICE optional
+Message-ID: <202410280002.AXteAJwc-lkp@intel.com>
+References: <20241025092538.38339-1-gonzalo.silvalde@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241024095539.1637280-3-herve.codina@bootlin.com>
+In-Reply-To: <20241025092538.38339-1-gonzalo.silvalde@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,230 +72,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 24, 2024 at 11:55:38AM +0200, Herve Codina wrote:
-> In some cases observed during ESD tests, the TI SN65DSI83 cannot recover
-> from errors by itself. A full restart of the bridge is needed in those
-> cases to have the bridge output LVDS signals again.
-> 
-> The TI SN65DSI83 has some error detection capabilities. Introduce an
-> error recovery mechanism based on this detection.
-> 
-> The errors detected are signaled through an interrupt. On system where
-> this interrupt is not available, the driver uses a polling monitoring
-> fallback to check for errors. When an error is present, the recovery
-> process is launched.
-> 
-> Restarting the bridge needs to redo the initialization sequence. This
-> initialization sequence has to be done with the DSI data lanes driven in
-> LP11 state. In order to do that, the recovery process resets the entire
-> pipeline.
-> 
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 128 ++++++++++++++++++++++++++
->  1 file changed, 128 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 96e829163d87..22975b60e80f 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -35,9 +35,12 @@
->  #include <linux/of_graph.h>
->  #include <linux/regmap.h>
->  #include <linux/regulator/consumer.h>
-> +#include <linux/timer.h>
-> +#include <linux/workqueue.h>
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_drv.h> /* DRM_MODESET_LOCK_ALL_BEGIN() need drm_drv_uses_atomic_modeset() */
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_panel.h>
-> @@ -147,6 +150,9 @@ struct sn65dsi83 {
->  	struct regulator		*vcc;
->  	bool				lvds_dual_link;
->  	bool				lvds_dual_link_even_odd_swap;
-> +	bool				use_irq;
-> +	struct delayed_work		monitor_work;
-> +	struct work_struct		reset_work;
->  };
->  
->  static const struct regmap_range sn65dsi83_readable_ranges[] = {
-> @@ -321,6 +327,92 @@ static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
->  	return dsi_div - 1;
->  }
->  
-> +static int sn65dsi83_reset_pipeline(struct sn65dsi83 *sn65dsi83)
-> +{
-> +	struct drm_device *dev = sn65dsi83->bridge.dev;
-> +	struct drm_modeset_acquire_ctx ctx;
-> +	struct drm_atomic_state *state;
-> +	int err;
-> +
-> +	/* Use operation done in drm_atomic_helper_suspend() followed by
-> +	 * operation done in drm_atomic_helper_resume() but without releasing
-> +	 * the lock between suspend()/resume()
-> +	 */
-> +
-> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
-> +
-> +	state = drm_atomic_helper_duplicate_state(dev, &ctx);
-> +	if (IS_ERR(state)) {
-> +		err = PTR_ERR(state);
-> +		goto unlock;
-> +	}
-> +
-> +	err = drm_atomic_helper_disable_all(dev, &ctx);
-> +	if (err < 0)
-> +		goto unlock;
-> +
-> +	drm_mode_config_reset(dev);
-> +
-> +	err = drm_atomic_helper_commit_duplicated_state(state, &ctx);
+Hi Gonzalo,
 
-Committing a full atomic state from a bridge driver in an asynchronous
-way seems quite uncharted territory, and it worries me. It's also a very
-heavyweight, you disable all outputs here, instead of focussing on the
-output connected to the bridge. Can you either implement something more
-local, resetting the bridge only, or create a core helper to handle this
-kind of situation, on a per-output basis ?
+kernel test robot noticed the following build warnings:
 
-> +
-> +unlock:
-> +	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
-> +	if (!IS_ERR(state))
-> +		drm_atomic_state_put(state);
-> +	return err;
-> +}
-> +
-> +static void sn65dsi83_reset_work(struct work_struct *ws)
-> +{
-> +	struct sn65dsi83 *ctx = container_of(ws, struct sn65dsi83, reset_work);
-> +	int ret;
-> +
-> +	dev_warn(ctx->dev, "reset pipeline\n");
-> +
-> +	/* Reset the pipeline */
-> +	ret = sn65dsi83_reset_pipeline(ctx);
-> +	if (ret) {
-> +		dev_err(ctx->dev, "reset pipeline failed %pe\n", ERR_PTR(ret));
-> +		return;
-> +	}
-> +}
-> +
-> +static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
-> +{
-> +	unsigned int irq_stat;
-> +	int ret;
-> +
-> +	/*
-> +	 * Schedule a reset in case of:
-> +	 *  - the bridge doesn't answer
-> +	 *  - the bridge signals an error
-> +	 */
-> +
-> +	ret = regmap_read(ctx->regmap, REG_IRQ_STAT, &irq_stat);
-> +	if (ret || irq_stat)
-> +		schedule_work(&ctx->reset_work);
-> +}
-> +
-> +static void sn65dsi83_monitor_work(struct work_struct *work)
-> +{
-> +	struct sn65dsi83 *ctx = container_of(to_delayed_work(work),
-> +					     struct sn65dsi83, monitor_work);
-> +
-> +	sn65dsi83_handle_errors(ctx);
-> +
-> +	schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
-> +}
-> +
-> +static void sn65dsi83_monitor_start(struct sn65dsi83 *ctx)
-> +{
-> +	schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
-> +}
-> +
-> +static void sn65dsi83_monitor_stop(struct sn65dsi83 *ctx)
-> +{
-> +	cancel_delayed_work_sync(&ctx->monitor_work);
-> +}
-> +
->  static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
->  					struct drm_bridge_state *old_bridge_state)
->  {
-> @@ -509,6 +601,15 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
->  	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
->  	if (pval)
->  		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-> +
-> +	if (ctx->use_irq) {
-> +		/* Enable irq to detect errors */
-> +		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, REG_IRQ_GLOBAL_IRQ_EN);
-> +		regmap_write(ctx->regmap, REG_IRQ_EN, 0xff);
-> +	} else {
-> +		/* Use the polling task */
-> +		sn65dsi83_monitor_start(ctx);
-> +	}
->  }
->  
->  static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
-> @@ -517,6 +618,15 @@ static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
->  	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
->  	int ret;
->  
-> +	if (ctx->use_irq) {
-> +		/* Disable irq */
-> +		regmap_write(ctx->regmap, REG_IRQ_EN, 0x0);
-> +		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, 0x0);
-> +	} else {
-> +		/* Stop the polling task */
-> +		sn65dsi83_monitor_stop(ctx);
-> +	}
-> +
->  	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
->  	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
->  	usleep_range(10000, 11000);
-> @@ -673,6 +783,14 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
->  	return 0;
->  }
->  
-> +static irqreturn_t sn65dsi83_irq(int irq, void *data)
-> +{
-> +	struct sn65dsi83 *ctx = data;
-> +
-> +	sn65dsi83_handle_errors(ctx);
-> +	return IRQ_HANDLED;
-> +}
-> +
->  static int sn65dsi83_probe(struct i2c_client *client)
->  {
->  	const struct i2c_device_id *id = i2c_client_get_device_id(client);
-> @@ -686,6 +804,8 @@ static int sn65dsi83_probe(struct i2c_client *client)
->  		return -ENOMEM;
->  
->  	ctx->dev = dev;
-> +	INIT_WORK(&ctx->reset_work, sn65dsi83_reset_work);
-> +	INIT_DELAYED_WORK(&ctx->monitor_work, sn65dsi83_monitor_work);
->  
->  	if (dev->of_node) {
->  		model = (enum sn65dsi83_model)(uintptr_t)
-> @@ -710,6 +830,14 @@ static int sn65dsi83_probe(struct i2c_client *client)
->  	if (IS_ERR(ctx->regmap))
->  		return dev_err_probe(dev, PTR_ERR(ctx->regmap), "failed to get regmap\n");
->  
-> +	if (client->irq) {
-> +		ret = devm_request_threaded_irq(ctx->dev, client->irq, NULL, sn65dsi83_irq,
-> +						IRQF_ONESHOT, dev_name(ctx->dev), ctx);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret, "failed to request irq\n");
-> +		ctx->use_irq = true;
-> +	}
-> +
->  	dev_set_drvdata(dev, ctx);
->  	i2c_set_clientdata(client, ctx);
->  
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-tip/drm-tip linus/master v6.12-rc4 next-20241025]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gonzalo-Silvalde-Blanco/fbdev-udl-Make-CONFIG_FB_DEVICE-optional/20241025-172653
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241025092538.38339-1-gonzalo.silvalde%40gmail.com
+patch subject: [PATCH] fbdev: udl: Make CONFIG_FB_DEVICE optional
+config: i386-randconfig-r121-20241027 (https://download.01.org/0day-ci/archive/20241028/202410280002.AXteAJwc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410280002.AXteAJwc-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410280002.AXteAJwc-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/video/fbdev/udlfb.c:1493:38: warning: 'fb_device_attrs' defined but not used [-Wunused-const-variable=]
+    1493 | static const struct device_attribute fb_device_attrs[] = {
+         |                                      ^~~~~~~~~~~~~~~
+>> drivers/video/fbdev/udlfb.c:1485:35: warning: 'edid_attr' defined but not used [-Wunused-const-variable=]
+    1485 | static const struct bin_attribute edid_attr = {
+         |                                   ^~~~~~~~~
+
+
+vim +/fb_device_attrs +1493 drivers/video/fbdev/udlfb.c
+
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1484  
+598b2eedfc3fbe drivers/video/fbdev/udlfb.c   Bhumika Goyal      2017-08-18 @1485  static const struct bin_attribute edid_attr = {
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1486  	.attr.name = "edid",
+8ef8cc4fca4a92 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1487  	.attr.mode = 0666,
+b9f03a3cd06c6f drivers/video/udlfb.c         Paul Mundt         2011-01-06  1488  	.size = EDID_LENGTH,
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1489  	.read = edid_show,
+8ef8cc4fca4a92 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1490  	.write = edid_store
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1491  };
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1492  
+fa738a5c4b2a6b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16 @1493  static const struct device_attribute fb_device_attrs[] = {
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1494  	__ATTR_RO(metrics_bytes_rendered),
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1495  	__ATTR_RO(metrics_bytes_identical),
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1496  	__ATTR_RO(metrics_bytes_sent),
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1497  	__ATTR_RO(metrics_cpu_kcycles_used),
+926c11151e3b82 drivers/staging/udlfb/udlfb.c Greg Kroah-Hartman 2010-11-18  1498  	__ATTR(metrics_reset, S_IWUSR, NULL, metrics_reset_store),
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1499  };
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1500  
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
