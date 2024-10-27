@@ -2,64 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BA59B20CF
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2024 22:17:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABFF9B2169
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 00:42:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55A5710E03C;
-	Sun, 27 Oct 2024 21:17:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F36B010E07E;
+	Sun, 27 Oct 2024 23:42:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hCpffMJX";
+	dkim=pass (2048-bit key; unprotected) header.d=rocketmail.com header.i=@rocketmail.com header.b="bzCEpCEr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EECB610E03C
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 21:17:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C8C555C5849;
- Sun, 27 Oct 2024 21:16:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59915C4CEE4;
- Sun, 27 Oct 2024 21:17:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730063827;
- bh=8BxbqsTR+nwXPOEVNWoXKCAhMQb8yohDYa2UCOM1Qls=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=hCpffMJXPBcfUUZ0udfUTLotwnU7Z2vHpYusSHQ/Z5KOvtA1mc/fhKWi8Xl7CD+Le
- jg0Wg87iQUb4nEm3fm1Gmb5wMNq2dJXHQG6NadLOjdngppie8HjKzmaxKLqc6zUrx9
- zg9MV1nbbvyO7fKilUFBY6o09XJOGXSqiLcd6DhjS0HBIUSeeAJWBnDaworcxvGezl
- O936Ynf0don4FAxSewNxIps3BCFdkQeDd5elZ7Fs37b6xHpsP+8kGEg+SbhaVsXKWW
- Ohw/gyIIQcegltpZedhM0Rrcj8u+37jQa4BDuZb2mCe8kg3cMfsU4r1LPyPeS8L92t
- 8ngVdrD7Ma0Qw==
-Date: Sun, 27 Oct 2024 16:17:06 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from sonic308-19.consmr.mail.ir2.yahoo.com
+ (sonic308-19.consmr.mail.ir2.yahoo.com [77.238.178.147])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E43C210E07E
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 23:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rocketmail.com; s=s2048;
+ t=1730072542; bh=yJCYqSm7LwGTlChhrqvuB+UmCXNmg0OaNKeo8NprQus=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
+ b=bzCEpCErinkSNWETUhJ5/WGDjfapcpuYTXSVRQc4RVt2nqLkCjPyl+R9QmKo3f6Gnzf3qaVPOnQgXpbY9XmsF37Q8pZTQ6qs2ymR3p0s5FIQt0DwFBjG2s1Nl5nznoP99wq2Ih72NSoZ7R5FCuVdZWJOHiYJYyR/w/jSIl6NaLHfIyxzJPxzVHtO/vmexuikAcnXLZccOnl2y8DAzcNWChSLTIfMoBi7evww+6/1Ds3PZc61nxzDIlDxpSsLQCweyUqy5k/9qik+YzrvdnOWUgRoIEii0UJbv/Z7tpupKCYIFA8L4JUP2JLi4UYiTnLTHKWt8JV5q3G6bdYKmjzdBQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1730072542; bh=IBYGhJHX4HlTDBPjxrly13aeSxR4qWh/ZgKkIhQ3jhj=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=PkI3T0Qe7SzL7jppPbcpI7lMbEQzhm3xMQCdzwq3IE8KoecsK+sAKLPQZgXCV2U7Lyl8jgQGSgWNj9G1SS8I7pmQ6f545sQe+7Ly/T4+lTeAtz4LgF0bmSPEkHNp0lvlC+4z9kCbQvLkmB+Pk5DSvMnxXoC1YBZkTckY0M4mAcecmBreAjkk84J78qUmP9JpsR/1pSjwXU+bmzpxNWL5l4MbGgyZBAT+OxXdDMacT93ktLhgMTJQROYY2dSpcihXVcFt3uQaXiMSgLJm2PWkWs4yajQtZVAObXG1BGd0FhnN7yZn7IE3HrZdDyHN4X1RPzzsIyHSViNnlPjg8eESkw==
+X-YMail-OSG: ZAQA2a0VM1mO_2Ijeb9OPsOsm3XQOlBXBgD2M0FE_IzEdVONseo7P54X2EflOqV
+ e9b42AUE4JBfw2_47039yk7cN2uf7ukCyWrgzQH4GyvjvgLKGGcMvZAlf0SE4ZfXjpzwtTjhGfkG
+ 9WsbF8L5t4swNCffwjQXvhnvjDShlKQOu7J7R3rapAU7C67ZALYI3z7dMK9naM1K8j1TgDmnnVVH
+ Ay5Nm1ryWo2lAD.zV9vsD.PYIPENyY2CdS3SFIBJ3ykztSrsk9VkAW8HdS0_DqG92kQYRKRYkeSs
+ Pos8XdMRdm5iSrUVweNt7W7CJrdeQ1zJAtuHEEnrLniQu1vSTag5OuiOJ7haFHE.QUAO.cMXOW88
+ 0Utwv71eNmy8UKgoKjzlBusnDwOQdrsJ0Q9mA3_fJnfIMJlXgMpks51D4Otre3gf4ldAm6RXfvxz
+ LfatJHdKKTOHsygvWnJZNYTVges.pewpN8v_SzowY_VTDmcBuF_v3pWcCBwzwCRLWVbfO3AChkYV
+ umomggGgHuR5kiItihmNZcZ_4dQN_Isp3F8tJINuf4UiQdj09FZnr_XqIeKsS5.Jt15HCyZ6OuLH
+ 1IiE9e7LGdiZAEoz67VDXq.ezuy_sZ1mAQ1OwTsuHqOf3hMEmvmJ6EiLdLM3W42rVMt7SzMzY7tt
+ fqi.RsnAtw6aQTsBKZt9HUWg6G9LD5UIMDo4910wHOP8TflB48pHOP7MdlU_r4wZmdfHQfb8TDZZ
+ ZCO8Q32HUTaLwcegKhVqWNpWBo2AjQ6XyqOa2w28VuaZfJzz0wxWkOnmUnoMLPIukJN8FoxFwi64
+ Dx7J5XGCILpNA1xWbcYbmDlFyafN2Fw5Tf95KwIki2NRLQAeHVpp7AWLyy9ZiXEK9GeID2_97wPT
+ pkkeOOX1BMqzZ3gz_C_y9jVbnMgu3gxXcCwhjZXCFDcIp2n6_iYQjag20Y9DpTw3TbvnZuapSDJL
+ Yz5gGaw472Pcv8xbVGJtxqhKdGR_mc09Wzbui3A75vDpTeaxavETfMyYJzM8Lc29B4KnAMDsZ1jC
+ jVKBOB_5l1w7Tnm1OulOdr217VHGCrOjUU9ffV4PDcLEOd6scuzB0PMBO2Le7WOZB6X6hPVQrwVM
+ y8wDvgJiJTp.6QtdclaCJoMOd8z78ko35nTFf4XsPN4VNNtDcRB7tuZd0woXbETF1j2A2C7xktnt
+ yHiucJDgb9nlM8x0dfUaaExK780Saj_Dqf8H7_OElQPIhhbWmAfvd_QfCG63h_G1AUzoC6mkCDoS
+ NQPtemXtySRkYtxtA6LNB5zmci1i4m4rUWp.djg180iaPotwTHQSSpQv7w6WXkQYRmkqLZfMkvtj
+ nceLD28R.T6Kl823Vjw4r.oK1MgkO1vtNmJqPS5I3ZlGSWOXnFnD3WflyQ7x3OQ3F30hzqO90Vq3
+ AY94IMPcTZUbpJOu7YVdLSZjjasLVgoyRkRrsVCPo5DwGuH9lo.NucGw8t_1ff5M2SIChCrzTwh2
+ pIQOi0PoTPVGcL3NYOwHYT9Lpbo8tck0iqnJBFfpUVrU3wko.8VPycybG1vyy8MTV4zm5zFagG33
+ rP9m_ew5SIs4ILIWDO0AKKqlz8AcX0FMjIm4CttFHVgjr0SlD_H8LymhZt4QsSDAnWYibUhqyU98
+ DCa2V6Zfgr4J2.g4wUDWNHj1Ud3LbuKiBtGk0TasAejoa1RgG9wGw5aG27KRRDTky4naDHvalyX.
+ NLRIPxagy4M2T351GHxw_gABG19YZ9INdfupGFAL0xN_w3ucbKkHyoP93OPCTM18d_aQAIQ.vHDb
+ c.R72a4in3bTyKEaa.YXm7Tb4p1NxiuZJsW1dXh73IPuzjbUam3CGK9SmOm4of1ZXmiT9MIgyub7
+ QElqH8pM5RY_QdtnBbiygUqxaRJu4EW.G0rcqn6Vzxp.SpBCCGPWeLmYLCLbBfkLZIon1updpeTG
+ 1aP6MN9Qs5dA1Q191tJug1ZNTUW_GHQKopY1_hjU_XY2uSUENNT9lEjoNLmuPULXiabz8KZbR6Bx
+ pM.sz9mCG8laX1XMAdO8wQIQI55XHPk7m9zhqmr5Zmya9wE0.xoR9F0v.WBCeDS_SIW7PXBBZrTx
+ jqt_tmmOmc7r9wZgke0qlwY8yG4byUW_y0nti1wRQbZ19gMgHLgPfEffRCYZzhMTHDqEgTYfvDFv
+ 9hxDRAMgEhT35P7t2qP2P2R4jQbz.7YzY9QsPuqzH4MNsdcrMBNBOPqaoUFcFLGYR.zp5N2ASuSN
+ WQoKuOWqo4sOpFaPKAebRvlZhga7VjpjVGmTIr91sz6jQOCINXm56zWW.Z3gVmr4n47XPPo91vEX
+ cgHjLAFFvrrLEd9KWCxDIjiR7LHyimRzt5HYFi7zDxg--
+X-Sonic-MF: <jahau@rocketmail.com>
+X-Sonic-ID: d810178a-fc4f-4e58-9cf5-ea8200886f27
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic308.consmr.mail.ir2.yahoo.com with HTTP; Sun, 27 Oct 2024 23:42:22 +0000
+Received: by hermes--production-ir2-c694d79d9-qzm27 (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID fc681596c483b48011d8a98a0d7203e6; 
+ Sun, 27 Oct 2024 23:42:17 +0000 (UTC)
+From: Jakob Hauser <jahau@rocketmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht, Jakob Hauser <jahau@rocketmail.com>
+Subject: [PATCH v4 0/5] Add new panel driver Samsung S6E88A0-AMS427AP24
+Date: Mon, 28 Oct 2024 00:42:01 +0100
+Message-Id: <cover.1730070570.git.jahau@rocketmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <cover.1730070570.git.jahau@rocketmail.com>
+References: <cover.1730070570.git.jahau@rocketmail.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: linux-clk@vger.kernel.org, Scott Branden <sbranden@broadcom.com>, 
- Michael Turquette <mturquette@baylibre.com>, Will Deacon <will@kernel.org>, 
- devicetree@vger.kernel.org, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- linux-rpi-kernel@lists.infradead.org, David Airlie <airlied@gmail.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- linux-arm-kernel@lists.infradead.org, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Dom Cobley <popcornmix@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Stephen Boyd <sboyd@kernel.org>, Ray Jui <rjui@broadcom.com>, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
-References: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
-Message-Id: <173006367767.91262.6590539622480558932.robh@kernel.org>
-Subject: Re: [PATCH v2 00/36] drm/vc4: Add support for BCM2712 / Pi5
- display hardware
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,219 +97,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The patchset adds a new driver for Samsung AMS427AP24 panel with S6E88A0
+controller. Patches are based on current branch drm-misc-next.
 
-On Fri, 25 Oct 2024 18:15:31 +0100, Dave Stevenson wrote:
-> This series adds the required DRM, clock, and DT changes
-> required to support the display hardware on Pi5.
-> There are a couple of minor fixes first before the main patches.
-> 
-> Many of the patches were authored by Maxime whilst working
-> for us, however there have been a number of fixes squashed
-> into his original patches as issues have been found. I also
-> reworked the way UBM allocations are done to avoid double
-> buffering of the handles as they are quite a limited resource.
-> 
-> There are 2 variants of the IP. Most Pi5's released to date
-> have used the C1 step of the SoC, whilst the 2GB Pi5 released
-> in August is using the D0 step, as will other boards in future.
-> 
-> Due to various reasons the register map got reworked between
-> the steps, so there is extra code to handle the differences.
-> Which step is in use is read out of the hardware, so they
-> share a compatible string.
-> 
-> Thanks!
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
-> Changes in v2:
-> - Collected Acks and R-b tags
-> - Dropped patch 1 "drm/vc4: Limit max_bpc to 8 on Pi0-3". Already fixed as
->   noted by Maxime.
-> - Fix unintialised var "mux" in vc6_hvs_pv_muxing_commit.
-> - Fixed uninitialised var "reg" in vc4_hvs_cob_init.
-> - Make bcm2712_mop_data and bcm2712_moplet_data static.
-> - Removed the "disable_turbo" line from the struct in
->   raspberrypi_clock_property
-> - I'm confused by the CI error "performing pointer arithmetic on a null
->   pointer has undefined behavior" for PCI_IOBASE as I'm not using it.
-> - Link to v1: https://lore.kernel.org/r/20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com
-> 
-> ---
-> Dave Stevenson (11):
->       drm/vc4: Use of_device_get_match_data to set generation
->       drm/vc4: Fix reading of frame count on GEN5 / Pi4
->       drm/vc4: drv: Add support for 2712 D-step
->       drm/vc4: hvs: Add in support for 2712 D-step.
->       drm/vc4: plane: Add support for 2712 D-step.
->       drm/vc4: hdmi: Support 2712 D-step register map
->       drm/vc4: Enable bg_fill if there are no planes enabled
->       drm/vc4: Drop planes that are completely off-screen or 0 crtc size
->       arm64: dts: broadcom: Add firmware clocks and power nodes to Pi5 DT
->       arm64: dts: broadcom: Add display pipeline support to BCM2712
->       arm64: dts: broadcom: Add DT for D-step version of BCM2712
-> 
-> Dom Cobley (3):
->       clk: bcm: rpi: Add ISP to exported clocks
->       clk: bcm: rpi: Allow cpufreq driver to also adjust gpu clocks
->       clk: bcm: rpi: Enable minimize for all firmware clocks
-> 
-> Maxime Ripard (22):
->       dt-bindings: display: Add BCM2712 HDMI bindings
->       dt-bindings: display: Add BCM2712 HVS bindings
->       dt-bindings: display: Add BCM2712 PixelValve bindings
->       dt-bindings: display: Add BCM2712 MOP bindings
->       dt-bindings: display: Add BCM2712 MOPLET bindings
->       dt-bindings: display: Add BCM2712 KMS driver bindings
->       drm/vc4: drv: Support BCM2712
->       drm/vc4: hvs: Add support for BCM2712 HVS
->       drm/vc4: crtc: Add support for BCM2712 PixelValves
->       drm/vc4: hdmi: Add support for BCM2712 HDMI controllers
->       drm/vc4: txp: Introduce structure to deal with revision differences
->       drm/vc4: txp: Rename TXP data structure
->       drm/vc4: txp: Add byte enable toggle bit
->       drm/vc4: txp: Add horizontal and vertical size offset toggle bit
->       drm/vc4: txp: Handle 40-bits DMA Addresses
->       drm/vc4: txp: Move the encoder type in the variant structure
->       drm/vc4: txp: Add a new TXP encoder type
->       drm/vc4: txp: Add support for BCM2712 MOP
->       drm/vc4: txp: Add BCM2712 MOPLET support
->       drm/vc4: Add additional warn_on for incorrect revisions
->       clk: bcm: rpi: Create helper to retrieve private data
->       clk: bcm: rpi: Add disp clock
-> 
->  .../bindings/display/brcm,bcm2711-hdmi.yaml        |   2 +
->  .../bindings/display/brcm,bcm2835-hvs.yaml         |   5 +-
->  .../bindings/display/brcm,bcm2835-pixelvalve0.yaml |   3 +
->  .../bindings/display/brcm,bcm2835-txp.yaml         |   5 +-
->  .../bindings/display/brcm,bcm2835-vc4.yaml         |   1 +
->  arch/arm64/boot/dts/broadcom/Makefile              |   1 +
->  arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dts |  37 +
->  arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts   |  42 +
->  arch/arm64/boot/dts/broadcom/bcm2712.dtsi          | 188 +++++
->  drivers/clk/bcm/clk-raspberrypi.c                  |  33 +-
->  drivers/gpu/drm/vc4/tests/vc4_mock.c               |   8 +-
->  drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c     | 106 +--
->  drivers/gpu/drm/vc4/vc4_crtc.c                     |  96 ++-
->  drivers/gpu/drm/vc4/vc4_drv.c                      |  19 +-
->  drivers/gpu/drm/vc4/vc4_drv.h                      |  54 +-
->  drivers/gpu/drm/vc4/vc4_hdmi.c                     | 107 ++-
->  drivers/gpu/drm/vc4/vc4_hdmi.h                     |   4 +
->  drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 | 640 +++++++++++++++
->  drivers/gpu/drm/vc4/vc4_hdmi_regs.h                | 217 ++++++
->  drivers/gpu/drm/vc4/vc4_hvs.c                      | 737 ++++++++++++++++--
->  drivers/gpu/drm/vc4/vc4_kms.c                      | 105 ++-
->  drivers/gpu/drm/vc4/vc4_plane.c                    | 866 ++++++++++++++++++++-
->  drivers/gpu/drm/vc4/vc4_regs.h                     | 297 +++++++
->  drivers/gpu/drm/vc4/vc4_txp.c                      |  91 ++-
->  include/soc/bcm2835/raspberrypi-firmware.h         |   1 +
->  25 files changed, 3461 insertions(+), 204 deletions(-)
-> ---
-> base-commit: 3ae80b375739495e36fc6143ff27716fe390a13e
-> change-id: 20241002-drm-vc4-2712-support-9ad3236e3caf
-> 
-> Best regards,
-> --
-> Dave Stevenson <dave.stevenson@raspberrypi.com>
-> 
-> 
-> 
+The discussion in v3 was not finished. I send v4 nonetheless as a new base to
+continue the discussion. I hope that's ok.
 
+Changes in v4:
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+ Patch 3
+ - Removed include <linux/of.h>, it's not needed.
+ - Added comments to the mipi_dsi_dcs_write_seq_multi() lines in function
+   s6e88a0_ams427ap24_on().
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+ Patch 4
+ - New defines for payload data length, thereof a fixed and a variable part.
+ - In the array s6e88a0_ams427ap24_br_to_cd[] made the comment about the
+   columns more clear and added an additional column "brightness from".
+ - Array s6e88a0_ams427ap24_aid[] reduced from five to two columns and
+   s6e88a0_ams427ap24_elvss[] from two to one column. Now they hold the
+   variable data only. I kept s6e88a0_ams427ap24_elvss[] as a two-dimensional
+   array to allow using the same memcopy procedure for all three buffers aid,
+   elvss and gamma in function s6e88a0_ams427ap24_set_brightness().
+ - In function s6e88a0_ams427ap24_set_brightness() initialized prototype
+   payload array for b2 and b6 commands. And in the memcpy commands below
+   used the new defines for the fixed and variable data length.
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+ Patch 5
+ - Added a comment to the mipi_dsi_dcs_write_seq_multi() line, according to the
+   other lines before and after.
 
-  pip3 install dtschema --upgrade
+v1: https://lore.kernel.org/dri-devel/cover.1728582727.git.jahau@rocketmail.com/T/#t
+v2: https://lore.kernel.org/dri-devel/cover.1729630039.git.jahau@rocketmail.com/T/#t
+v3: https://lore.kernel.org/dri-devel/cover.1729738189.git.jahau@rocketmail.com/T/#t
 
+Jakob Hauser (5):
+  dt-bindings: display: panel: Move flip properties to panel-common
+  dt-bindings: display: panel: Add Samsung S6E88A0-AMS427AP24
+  drm/panel: samsung-s6e88a0-ams427ap24: Add initial driver
+  drm/panel: samsung-s6e88a0-ams427ap24: Add brightness control
+  drm/panel: samsung-s6e88a0-ams427ap24: Add flip option
 
-New warnings running 'make CHECK_DTBS=y broadcom/bcm2712-d-rpi-5-b.dtb broadcom/bcm2712-rpi-5-b.dtb' for 20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com:
+ .../bindings/display/panel/panel-common.yaml  |   8 +
+ .../panel/samsung,s6e88a0-ams427ap24.yaml     |  65 ++
+ .../display/panel/samsung,s6e8aa0.yaml        |  10 +-
+ drivers/gpu/drm/panel/Kconfig                 |  10 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../panel/panel-samsung-s6e88a0-ams427ap24.c  | 766 ++++++++++++++++++
+ 6 files changed, 852 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams427ap24.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
 
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: soc@107c000000: firmware: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: soc@107c000000: power: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: soc@107c000000: power: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: soc@107c000000: firmware: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: interrupt-controller@7cd00000: 'interrupt-controller' is a required property
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,bcm2836-l1-intc.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: interrupt-controller@7cd00000: '#interrupt-cells' is a required property
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,bcm2836-l1-intc.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: gpio@7d517c00: 'gpio-line-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/gpio/brcm,brcmstb-gpio.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: intc@7d508380: $nodename:0: 'intc@7d508380' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,l2-intc.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: intc@7d508380: $nodename:0: 'intc@7d508380' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,l2-intc.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: intc@7d508400: $nodename:0: 'intc@7d508400' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,l2-intc.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: intc@7d508400: $nodename:0: 'intc@7d508400' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,l2-intc.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7ef00700: interrupts: [[1], [2], [3], [7], [8]] is too short
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7ef00700: interrupt-names:3: 'wakeup' was expected
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7ef00700: interrupt-names:4: 'hpd-connected' was expected
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7ef00700: interrupt-names: ['cec-tx', 'cec-rx', 'cec-low', 'hpd-connected', 'hpd-removed'] is too short
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7ef00700: interrupts: [[1], [2], [3], [7], [8]] is too short
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7ef00700: interrupt-names:3: 'wakeup' was expected
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7ef00700: interrupt-names:4: 'hpd-connected' was expected
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7ef00700: interrupt-names: ['cec-tx', 'cec-rx', 'cec-low', 'hpd-connected', 'hpd-removed'] is too short
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7ef05700: interrupts: [[11], [12], [13], [14], [15]] is too short
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7ef05700: interrupt-names:3: 'wakeup' was expected
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7ef05700: interrupt-names:4: 'hpd-connected' was expected
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7ef05700: interrupt-names: ['cec-tx', 'cec-rx', 'cec-low', 'hpd-connected', 'hpd-removed'] is too short
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7ef05700: interrupts: [[11], [12], [13], [14], [15]] is too short
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7ef05700: interrupt-names:3: 'wakeup' was expected
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7ef05700: interrupt-names:4: 'hpd-connected' was expected
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7ef05700: interrupt-names: ['cec-tx', 'cec-rx', 'cec-low', 'hpd-connected', 'hpd-removed'] is too short
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: firmware: '#address-cells', '#size-cells', 'dma-ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/arm/bcm/raspberrypi,bcm2835-firmware.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: firmware: '#address-cells', '#size-cells', 'dma-ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/arm/bcm/raspberrypi,bcm2835-firmware.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: /soc@107c000000/power: failed to match any schema with compatible: ['raspberrypi,bcm2835-power']
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: axi: gpu: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /soc@107c000000/power: failed to match any schema with compatible: ['raspberrypi,bcm2835-power']
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: axi: gpu: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hvs@107c580000: interrupts: [[2], [9], [16]] is too long
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hvs@107c580000: clocks: [[18, 4], [18, 16]] is too long
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hvs@107c580000: 'clock-names', 'interrupt-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hvs@107c580000: interrupts: [[2], [9], [16]] is too long
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hvs@107c580000: clocks: [[18, 4], [18, 16]] is too long
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
-arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hvs@107c580000: 'clock-names', 'interrupt-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
-
-
-
-
+-- 
+2.39.5
 
