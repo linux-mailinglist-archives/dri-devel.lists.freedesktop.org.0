@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CBE9B2168
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 00:42:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208249B216B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 00:42:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5A010E20A;
-	Sun, 27 Oct 2024 23:42:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DBC110E221;
+	Sun, 27 Oct 2024 23:42:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rocketmail.com header.i=@rocketmail.com header.b="O6ZmSXJo";
+	dkim=pass (2048-bit key; unprotected) header.d=rocketmail.com header.i=@rocketmail.com header.b="HWahP+/M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic304-23.consmr.mail.ir2.yahoo.com
- (sonic304-23.consmr.mail.ir2.yahoo.com [77.238.179.148])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08B2510E07E
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 23:42:21 +0000 (UTC)
+Received: from sonic302-21.consmr.mail.ir2.yahoo.com
+ (sonic302-21.consmr.mail.ir2.yahoo.com [87.248.110.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31F1D10E213
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 23:42:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rocketmail.com; s=s2048;
- t=1730072539; bh=bEMEzlLeqTyqrTSC3aMnQ9DpUX57joNhMyQhW9NZGr8=;
+ t=1730072544; bh=kM6i2o2nM6RchF+99bF35iyDd+PooEIpo890QP1+Q7I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=O6ZmSXJoJgHYINrD6zDe21/tOv60CNzjAbJ7o/crtb21xzsJGaxKbEG5bHuEoHfxTdiEIJzUwzkRIKjOuvtuB09ZlhAbyzr0fXI0jwIiFgKW3sQc3mxL7B4GEHYo2/VvDeXSPWrnrzRdD4UWwXxHbrNwFYBj6sim8MHjGxWJ7UiKP0acN2uAPGiqvsTGaeshN3CqzeQN9JquWu48p1hfZzmD0709DZEW75pDcTgvyVqO18XxhNZSoupuq32F19lDAT6POVw82jmmOosyL21ifFqrCqqMBGjVKY4DK9hRAz7Ariv/sn2JcoZ+Q3k11+zK4N59nl7XVbjPJbZJMDa0LA==
+ b=HWahP+/MtSUYbw3xFvT74ttA8slBRPIesULiBeqUw7i+0ZR1POEsoTqn7atM16qM43ryUyG11iPwSTTncL+m8X7QTgxYwFbwxjiFawJ4HY4mOHxs3zs+Q5wRipc3uDVyXVaZ1xOtViFS3snYtjZhxX7GWYZG7J9+iuTBLM/cTEcOuc1gaSLX4NK3Zuo66gGREsRIcDisGRV+ll3NKeit602OH8Ji1ivP7zFEsbOJ8LKUZwT6CmOnSoUONailuxq+p+J7XTyrOPCWqsLO8H4RL53SdDUiOFPNVM/8LoeAJyMyiTev8W7EuQsDegX8HbSCGy3kKDneA3X15MqWeRG1XQ==
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1730072539; bh=FCawKbN1H++h+BJ+ngu9VmLy+b1ZLPCLRMk7HCNyxB4=;
+ t=1730072544; bh=qQjTSUITOF4lNQEGQBBTh/UN+ZZBLNoQFZUleXxpbUn=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=IQIfInkCeIKgE36pBnZ0fmyluSimeXZptBBBv+GV+QXBJBJcc+QHF13CP2f16KKktsVrVk4nnq2ENEYQfUrA3MrBPfYHmaZOj0hUA/3WPSGWFjDAfpXbaHdBnV0/vB0NVTpeEOlaRQnaHpabQgTk6a0yxFAXC+4TaeSn8w7KawKfp+Ucyfz7tr1WyesqiPJPUukRsVPFhXU1Z1vNjloNz9iQhsSIk40HtjUWQB8mA6QBulbb+2AIdLSNOG91wulnE8XAy7sQTjntSabM0mj9IzbM4z9Hg0JrEe+epjGBBKTVLbcoP/ku4uPqLylk50fANU+GVTcIqFxbZNNvvJM40w==
-X-YMail-OSG: hypCiWUVM1mYgL.mkDqEhYFqOasE75GnN0kkLUKdW9m8gdhJzGwRTLGdRQUwll_
- EIJzarx9nkMrK8SfK6jm5mpDrWfV3ScBPQJ5E3H_w.jXwMEkzBxSjdDWfiDREvGDT.7Bj8gsp3l1
- U9Unx6mAYsi6kVO.RS.4H72JREe9DZVbJWMeHxkpXioQKASddmGk.2upYZxuCZy8fsQ2j4bCjA.j
- _2FOQURNE.zmcPT4FMIL7juj_JQTJSYMRYEmlFfVj8tJnAd3S_sVOLbMpq6qMGP4y1Ryb5qNb9GN
- ft4D3XMy1WVprpdgn18A3rFrQ8yP5zbNmUttKAJPmghZctxDczA2HYqrPl4zlDzuiOYk8wJC3gTc
- kPSIm7mZzECYqlqlMhFxUyfYaFvcMQJYx9exFA2wmFhUd5R6yFZhll6yVupfFWc1QH3Z9QOUPt0L
- 66CWl1E4YScWYRoFG.w351MLPZr2ZFuE9t1Tsef16vWEKc02kk9H5L4eNoeEj8Toj1mkeCb_UM.Y
- nmoYW8THjawTxlMbMrckolK2idgPsiAfU0M7_r4NE6C.Kj1OagiqotS_SWn.bZC4G7UFOR5k1Qr7
- iHLjH9rHDcNe7SMPC_OjqCuKY9YHyiesz8iehDrk1dkZwT5ROU_Ni5ycmL7H_IlhniBIc7pqH981
- JaNXwN5t24B2vrViEXIvfE5vSoK9Fj4lHn_YAPHNEyokTYXAk0mMFAmP37yEbh6d4hH9WM_9M8eS
- I0ip.smGb8Otu0xB7cBqWAu0iPu5NcWyWP5npSOPP6tMGd2SM6_iJRJ_tIsHi3VgqTKlc8BQ5oYX
- kLQ0bkK0UMosdodgS_gha1g5b50vOApxMydHw4P3YmhrLX7zaUkH00m44Kgyn0eflf3yUf9ziV1O
- 4Q32dzpa8zkGV0Xbn8.DBfhEq5Ky95gexwxbubha1SMINQltBKIXvvfK18LtTOLEDCeX9JLLVc0A
- MP1Eu6eihs5sAGWwUpmNW0WLTg1b9eyd6YgK3uTEgwBA7hV3VxwTepV4b_8qsYGy0Iv6t2LOGEJ0
- ey_daDWJgrZD3V2uXSq1oEXhJxzAgTWYV0wxGraRBwqKl7MsJm4b6yIbl04.YvGuEgbdu65lG0ee
- W5ZneV_8cYcHnUmaOI6krlMxPEUjCzrPdvFOyIaeUJoZxGtDCWYpYOjmKK86sSozxRJ337QkdIcD
- mTLTkb5p_GZyK9CqoqFA30Hp9.gwI71qddKWBTKk2kqVHmbRooYJg1gdXHJ3qHto9RvrCbKsOaAT
- 5ek8bJwl5an8.XPf7En_kC4PER0M67vmkwgpIUU0Nv0yLihqQ1hEijSpZOARkRA5Fzt4sQ7wO4EU
- GBP0ukVV6ueV2Xsx9tr1qbWovbhve2Ip6at0RRI4bYn6hYNTDNfmz5tNElqD.uDTY2_q3zoHyBQH
- Gigqf9To2zTYR2RuNPjNiXMM9DFjAv2r5pPhXkFXZt2Ql7xR6xqlWTDmzyHot_0Qc_zaopYQU5ZC
- FCsw.ANmmk.T3Bys2WJmz1WWj4uf9Kb3L1dtqHlMaU_mbXsBZMi4hyKAEnTZpRJ3jZWozSv2tLCs
- p4tBd4kfYZM2RN6ovx0mSyX8q3J54uKUEeM0PZsz5ztxua4CbU7_xye6PkJRm9czpcl4duzMRw.r
- HdPZqhCzYaetS6uN595E10gXKv.MO4x8MnZVJKW5tK_tR3RSNe4GbJykRGn8yNrl1pBJxPH3LStX
- 3eShFQM0YyerO0JOiVHwqjez7einz86AajPhZwP8nXmtvfvqOAI3XIrkwdui9ZYy3VUydZpkN3WW
- gG.1MRv1zh6w4RX5nHn_2ty3t27hZOCe9BWAYuMeDHdiFDxJn6KVpxK3uB1T4nr64XXeolyIkKoo
- fcNDav_V7YWg4bwNXMc9lCSfVEVDtEOOish4zLf7RI2Cx38Of0Pwz3B2IEJrZJfSuz2IpHCNFqHE
- 8YS0X1geCS80O2UdHUNqOTrGOqmqzsxnFvquPlasfIdQV81nesP9UhZ0Xo3Zy62aLKSzGmYp5.jA
- 3LPLfwLGb3ok9LLSRWXMwtdGQbG2rhuKHY5hQNVzz08y2mnyw9XnaObO6DD3KyNeJ72MONdt9eJe
- LVttuh0jJWMoeCSnjd1pimNa0IINiogASK5iA008RGCWn2XEqFp75l_UFdL4NjX20th6P5Vn1IuH
- hlq6GP6oPVhHWhW18CXYBE72hc_nzz3xgBnTESK6mho6vXSlG0aGg5SPcb0fppMbwf6Nf7dUEw6g
- Rk7W6.ZdW1DG2YdtnGKrkEHp3lCZOR2DGI0Bhuj6YlyNR6LVa7qr0p_1c.v9cBA9UpxW_qtUazTZ
- _LzonG6s6e3Fr6wf54bdBKF1DHpWD153oQyB79UQiAHFUp8TNNe0-
+ b=A8h8RLRq1a+s3Cou6/Ac8r7liSrAL46QWk+YudyY9aoLzGVyScRmHzBEQYwUPybQ0ypHILcLi+AeZ+pYKFJfCj3e+uAwBe+ZjiNl7WMocG+NJReX5TAfY+BFffGviN+Hk8SnaF4lhILNvUiVoWb/nKnHA7Y5TaPy7+ynuHr/+X1trRa2Xuoi3HU2Uw/kR9wfWQgRsJrxrMMRRT0AinHXvv/FBhB7eqqy9wiW7pxQAbPL6PGT3EYcm0+Se00hCiarx7WghgsqXizxMsHPuJ2zurM3Ze1MVvLe1VYCtXC+dnAMXAHK78x0kcwXBCH2DTgdIB9fFC6M5WL2oAbr/XN/fQ==
+X-YMail-OSG: rVvfsI0VM1mC2RwJWLmQRa_oVtvIMGKQrbEjWU4lxCnbewuU31UWgZCu.IP23JD
+ AudoLchvSsHE.VeLn4_xrD8uyGjiT3nyE_e2TDP.T8xfXwiVilnxeSGw0dAB7abu.wUsEMQ8nydK
+ rlyF4CtNxt..b4p1.tdADMVwEXZIvPJPWgoWxeeSQzN41uZJ5OPaRR3WNPWD90N4bAyaizWfkHk4
+ 7Xa4OY.XwdI0rgxcKLeXx8s7IICCBRD4eCA22Qzq_EpSATZ8z.MrPWMV8Qu4WyIh814okOrudqzH
+ .WTp7b.xXEM.k1OgC4sfNSBq4v7XQGYX6z1KfLHd7LaYOprpeJIOqosbC.16eWUKZPudBaHNgT0Z
+ Ab6f8wjIXtSUVytp95VKd5Yk18DKvg_LTaDYkZrItf84B2XmoT6Bw4542ZcCe9E1xZKSjrpziqrO
+ 8XL8ifBi4PspVhoIkkSywO.SKNcqBoMrYmL6afw7Gfx3iAdo2a88NkYABvtGivrGOPAzhXjGbfvN
+ z430hN1t.9BWy.claHx4FIgJRnWuEWFQCH5kHSLVtWYWoTxEhtX0Mcg77LzsJD2ayAJEZa0cQOOb
+ pkJuscy4FaWtpVGwQvi1IbkC6Eg48S.ueTGV7rM09.REVmSLUIIa.pUEQiNEuxwVdnC6MMJSboOw
+ jZWT27BTebmxysWGBztZsqiyRzKH69wPj7IAiF4NfxxVgj1sX.YGJfZq.yM6vSA2cDNi4ebSFs_y
+ Tcsxd.6fLlv4jDtSzo4QeAgchXkW75AHHzuNDAwXyZpoPqBglff9xVAYFcF.weRK5UaVdJLnQKKi
+ Qr5V1KXVZrL9vm.E5XFXF0l6FlyxDlZGKom1QiFz8TthTlMCXAF9sDBzw2guuR12vmnVsu6nAutl
+ 6izQJmggM_sxEv_6bvWdZ76fYumT0ic.6B9Fv3osKvXB0s7VLWWwmdEQhvuiNDM5ui5Pf5FDg2ye
+ UEv._i.uIRHTns.gu9xUmu4WF..oWCWmMRz4Mg1rqDbc0EMGQnC_S1lrRO1jflV_LPbBrABSxWAJ
+ CLXfBaIn_q4JBNWv8hAsGCa2JkvX4Xea636wYf6rCriRonCjESFRW8OgGCZDkEyi4MIKWGIhvO5N
+ 4rHAUuzSorIZUIAQpLf9lcu8wOjGnGZ9W51ZZbmRYZfel4XvcAjfzXvQfn_BaHhSRqBnPdIZbwnJ
+ Ac0_EhZ945ZoIHjui6Sww7AyUMUm4oOyHau_Kn0I.3pp._gajKpgUYf2LRpHuvcXxfYlmV19aIHI
+ dwKohE8aTAiE.MeuTTum4mKIeT5Mr_yJlkiZPAl7JhdIKgfQ08d9F7UaazWsqg.WLwiSgoVH8qzx
+ RwfuejwpeIWil_x7dIKXSZGsGP0rf4.CiN2uDxhFblxQH26tnkV2oXGy0iVnkBMS8tJ9cUbcLt9O
+ lwVmeeC_NO8agXjhpZe4z4GI31x4PW4Nmya5SLzNvB.stmzXjcwcSc55pMvHnWPeRZAk84FOPQyD
+ QBtU6Igq9tm8BCGstIjC31GlIpgiEUAzwhM.riIJkKsKGp8WI_k4EIkGZQK32Bj969tTqQm.gHBU
+ ynKnKT.hx_Kj5wLq3yEGY72vvXIqic4OyunSK.PzLiYH9ZlX3Ml5cDJWE49aag9Q23LEuurWsdSN
+ eBRYrSDzO5u1CtOr2Ayq_.fTB99iFXxkbOzWy9RZVH5cJhQWiaik6SeEmENQGjNhsp9qXw3lVT3F
+ J8B1j2Bo_xbRKu4oXr0HMQjUqoQ6.CnQopWkcIXfukFOvuMX5MD4LNVe2I8ODLftwEKLFZc04NBW
+ Hmngwg0QoWgIGVydppZa2pczvwexwdyQDY1WhFTYuxyuu.pyeQOJrgFyZTf3gDFwxUbJFHAOSLXR
+ fpDNxiAl8HCaUAfK0FtXTG1qHdIFpi7lPrtYk0aYw9e4k7O3mP3N7ph59srrLEtOxgS6nb_y_wp3
+ 37E2qsj7qyt7YD7BZUIBMKqtF1A9e.UDPkFuiZEvFEIz8.rs6nzvZPnH2YoQipaV_KH1lJEyWR9K
+ ugB6kSSDOz2PaFLOVCEEBP9QEDOZt..0oGFSW8N4eUX9HP1VaH3oc2Qmw4eQwtOH3yvy2xOnxSRI
+ BUk2WhLLDwdoKFRYQpTwKB4HehcOIqUgStlwAK547SwiVvPEoE24RgG1uQZf6F8_TQoQnFDe91C.
+ rz1NapfwQ4cPk13uUe19EFSaInbDjqj8cayEK49kwGx02LylBOuNQP9tt3oeJACiToQYO1z5z.K3
+ CFKcUBgDGZp98uheupBHLbzNS5mWdFLirQm5Cm5H.jCZODHzMCpYZaTZSribBFQlgf7XkWd44q7W
+ TKxixtYL5xKk0xawM13cBRb9mx3QQvT6JU7P6BNowPw9HCnZfMA--
 X-Sonic-MF: <jahau@rocketmail.com>
-X-Sonic-ID: c9d8d11e-8e8d-42e4-9c5b-d38efddee023
+X-Sonic-ID: 1ed29228-5fc0-4434-84c9-220ddcf5fead
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic304.consmr.mail.ir2.yahoo.com with HTTP; Sun, 27 Oct 2024 23:42:19 +0000
+ sonic302.consmr.mail.ir2.yahoo.com with HTTP; Sun, 27 Oct 2024 23:42:24 +0000
 Received: by hermes--production-ir2-c694d79d9-qzm27 (Yahoo Inc. Hermes SMTP
  Server) with ESMTPA ID fc681596c483b48011d8a98a0d7203e6; 
- Sun, 27 Oct 2024 23:42:18 +0000 (UTC)
+ Sun, 27 Oct 2024 23:42:19 +0000 (UTC)
 From: Jakob Hauser <jahau@rocketmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
@@ -75,10 +75,10 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  ~postmarketos/upstreaming@lists.sr.ht, Jakob Hauser <jahau@rocketmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v4 1/5] dt-bindings: display: panel: Move flip properties to
- panel-common
-Date: Mon, 28 Oct 2024 00:42:02 +0100
-Message-Id: <e4edd8fc07b89006207f5f8962a816ff7f8f4601.1730070570.git.jahau@rocketmail.com>
+Subject: [PATCH v4 2/5] dt-bindings: display: panel: Add Samsung
+ S6E88A0-AMS427AP24
+Date: Mon, 28 Oct 2024 00:42:03 +0100
+Message-Id: <d60428e7dad57efd42948adfd34b81335dabcd1f.1730070570.git.jahau@rocketmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1730070570.git.jahau@rocketmail.com>
 References: <cover.1730070570.git.jahau@rocketmail.com>
@@ -99,8 +99,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The flip properties were used by "samsung,s6e8aa0.yaml" only so far. By
-introducing "samsung,s6e88a0-ams427ap24.yaml" they become more common.
+Add bindings for Samsung AMS427AP24 panel with S6E88A0 controller.
 
 Signed-off-by: Jakob Hauser <jahau@rocketmail.com>
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
@@ -108,57 +107,81 @@ Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 ---
 Patch is based on current branch drm-misc-next.
 ---
- .../bindings/display/panel/panel-common.yaml           |  8 ++++++++
- .../bindings/display/panel/samsung,s6e8aa0.yaml        | 10 ++--------
- 2 files changed, 10 insertions(+), 8 deletions(-)
+ .../panel/samsung,s6e88a0-ams427ap24.yaml     | 65 +++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams427ap24.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-common.yaml b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-index 0a57a31f4f3d..087415753d60 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-@@ -51,6 +51,14 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/uint32
-     enum: [0, 90, 180, 270]
- 
-+  flip-horizontal:
-+    description: boolean to flip image horizontally
-+    type: boolean
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams427ap24.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams427ap24.yaml
+new file mode 100644
+index 000000000000..db284ba5be20
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams427ap24.yaml
+@@ -0,0 +1,65 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,s6e88a0-ams427ap24.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+  flip-vertical:
-+    description: boolean to flip image vertically
-+    type: boolean
++title: Samsung AMS427AP24 panel with S6E88A0 controller
 +
-   # Display Timings
-   panel-timing:
-     description:
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-index 4601fa460680..19c8cc83db97 100644
---- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-@@ -21,6 +21,8 @@ properties:
- 
-   reset-gpios: true
-   display-timings: true
++maintainers:
++  - Jakob Hauser <jahau@rocketmail.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: samsung,s6e88a0-ams427ap24
++
++  reg:
++    maxItems: 1
++
++  port: true
++  reset-gpios: true
 +  flip-horizontal: true
-+  flip-vertical: true
- 
-   vdd3-supply:
-     description: core voltage supply
-@@ -46,14 +48,6 @@ properties:
-   panel-height-mm:
-     description: physical panel height [mm]
- 
--  flip-horizontal:
--    description: boolean to flip image horizontally
--    type: boolean
--
--  flip-vertical:
--    description: boolean to flip image vertically
--    type: boolean
--
- required:
-   - compatible
-   - reg
++
++  vdd3-supply:
++    description: core voltage supply
++
++  vci-supply:
++    description: voltage supply for analog circuits
++
++required:
++  - compatible
++  - reg
++  - port
++  - reset-gpios
++  - vdd3-supply
++  - vci-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,s6e88a0-ams427ap24";
++            reg = <0>;
++
++            vdd3-supply = <&pm8916_l17>;
++            vci-supply = <&pm8916_l6>;
++            reset-gpios = <&tlmm 25 GPIO_ACTIVE_LOW>;
++            flip-horizontal;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&mdss_dsi0_out>;
++                };
++            };
++        };
++    };
 -- 
 2.39.5
 
