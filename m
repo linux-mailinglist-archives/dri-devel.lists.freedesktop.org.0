@@ -2,51 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3580D9B1C2F
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2024 05:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5179B1C5D
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2024 08:51:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D0F10E1A2;
-	Sun, 27 Oct 2024 04:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD96410E0E0;
+	Sun, 27 Oct 2024 07:51:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="SJssK9NX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZxtvlUVN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com
- [91.218.175.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8513E10E041;
- Sun, 27 Oct 2024 04:48:41 +0000 (UTC)
-Message-ID: <c86f224d-fdd3-4b91-a0d1-0a34e38236f0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730004519;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/LSorqQbck8YB4T0NmsqrtoTk57hv8mFuEl/XEJMvTs=;
- b=SJssK9NXel3SGm4jK3DxYAZvL9fP6n6z7iZY+8ah2HX8aDgsP/XlVPECPFMGeqsiiJ1R1x
- sc7Tz1xQGhfdSoG84+NYX4HPSWEi67IBuNinN0yrSyfn4qxcQwB+c/i9xwxaMTTv+KhjYY
- NcULPT/HRZXfAHQIhkIFlj/Pk7GXtos=
-Date: Sun, 27 Oct 2024 12:48:29 +0800
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] drm/etnaviv: Track GPU VA size separately
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9118010E0E0
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 07:51:16 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-7203c431f93so2642721b3a.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 00:51:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1730015476; x=1730620276; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GgDp36psN/SPpIChNCHkaKRgeI9cFdiVtOP6OhBH41M=;
+ b=ZxtvlUVNcyDc5FU3wfH7RKfIK4mUpi0BroA9y/HRI6gtg2xOP8+Q1QyYbN+xGC8q+d
+ iK/ADB3On3DdELacSlNs/lUl7cuXYHkxhGvgDbNLvI1li8OJoSv29JAzfV/LboCmoWbl
+ G8lx3zFZiqFI3JDy2HGC1xmIe2kFm/kl6cAzkvd8qK4JVoe3590Yzc8QNSsFBXU87Yfm
+ 3yKfFhdGifGY+JpOwS99rFJ18X8xGTGnpJcGS6e9SpE6O7yGC9YFqAKxsmzoGWclwxn0
+ b3jcGQoExHPlwoBhMHcduMnUvp536v6WM+VpGoLLelVVhH2eELTvdG3uWJt4vw02s8zM
+ zjRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730015476; x=1730620276;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GgDp36psN/SPpIChNCHkaKRgeI9cFdiVtOP6OhBH41M=;
+ b=o9LLZOvcU/bmMdnwaUJ9XxxyWwcWahAHOk/T5oN/9ssK34kUypmqJGbP1U89Sz+Dq5
+ Soiz/m+UCnA2wjmd9aV5ILfAu45KAmoaugXHyTwGQpAuBtHnQjnH9QpDcwR8rsuK5Dnp
+ NHx8JpFFoS9cI6GigYIoLlKmtlOpVvxa+zdbuUZcpRZAYjCaT3RXogiqLGuBphXAy3CD
+ qkc9W5ebDO+6jY2w9oDLjaeAdE2N5GgI4SkERebnA6Gv1OMK7UiiTZfLs277/X5Cf0Pm
+ gux7h3V9TgKaaSKB5/ya6xfj4CCRQnVp51NXvDJ6NwnNfC5y5LOp6ZVtQJl5xhgkm9aT
+ HM2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVsYFt5q8iKkF8AIVXDIf2kNh9Vf4aRv70ziz/5At9w31QlaVcps7ry/rGmlmKLGMpjTdOAtcAHgDk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwjTCa8PJmT2hE66RARq3mbjeAV1qPXpatOD59XYekOb9trBEDW
+ NqlWKgq4PEX/MXMPj6gyphKCV1wtbLYnZ9K1bZmSJKu6eV7+tJTJ
+X-Google-Smtp-Source: AGHT+IGG3uZixxU7sLN89Y597B3CDnwHKYItbJPzYAlgedEPwGnEtMW8LACscypW5C35KUqgByz4Ew==
+X-Received: by 2002:a05:6a00:2451:b0:71e:4dc5:259e with SMTP id
+ d2e1a72fcca58-7206306f53dmr7211710b3a.17.1730015475827; 
+ Sun, 27 Oct 2024 00:51:15 -0700 (PDT)
+Received: from fedora.. ([2405:201:d007:50c2:b7e7:6df3:9958:a45d])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7205794f9a1sm3785551b3a.90.2024.10.27.00.51.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 27 Oct 2024 00:51:15 -0700 (PDT)
+From: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, jani.nikula@linux.intel.com
+Cc: skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20241004194207.1013744-1-sui.jingfeng@linux.dev>
- <20241004194207.1013744-2-sui.jingfeng@linux.dev>
- <b93c08b0bab16c86190ca186f20d2cb036a4b8d0.camel@pengutronix.de>
-Content-Language: en-US, en-AU
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <b93c08b0bab16c86190ca186f20d2cb036a4b8d0.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Subject: [PATCH 0/5] drm/edid: Convert cea_ext parsers to use struct cea_db *
+Date: Sun, 27 Oct 2024 13:21:03 +0530
+Message-ID: <20241027075108.14273-1-vamsikrishna.brahmajosyula@gmail.com>
+X-Mailer: git-send-email 2.47.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,155 +81,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Address the following
+	FIXME: convert parsers to use struct cea_db
+in the drm_edid cea_ext parsers.
+1) drm_parse_hdmi_vsdb_video
+2) drm_parse_hdmi_forum_scds
+3) drm_parse_microsoft_vsdb
+4) drm_parse_vcdb
+5) drm_parse_hdr_metadata_block
 
-On 10/7/24 18:12, Lucas Stach wrote:
-> Am Samstag, dem 05.10.2024 um 03:42 +0800 schrieb Sui Jingfeng:
->> Etnaviv assumes that GPU page size is 4KiB, yet on some systems, the CPU
->> page size is 16KiB. The size of etnaviv buffer objects will be aligned
->> to CPU page size on kernel side, however, userspace still assumes the
->> page size is 4KiB and doing allocation with 4KiB page as unit. This
->> results in userspace allocated GPU virtual address range collision and
->> therefore unable to be inserted to the specified hole exactly.
->>
->> The root cause is that kernel side BO takes up bigger address space than
->> userspace assumes when the size of it is not CPU page size aligned. To
->> Preserve GPU VA continuous as much as possible, track the size that
->> userspace/GPU think of it is.
->>
->> Yes, we still need to overallocate to suit the CPU, but there is no need
->> to waste GPU VA space anymore.
->>
->> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->> ---
->>   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 8 +++++---
->>   drivers/gpu/drm/etnaviv/etnaviv_gem.h | 1 +
->>   drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 8 ++++----
->>   3 files changed, 10 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> index 5c0c9d4e3be1..943fc20093e6 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> @@ -543,7 +543,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
->>   	.vm_ops = &vm_ops,
->>   };
->>   
->> -static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
->> +static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
->>   	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
->>   {
->>   	struct etnaviv_gem_object *etnaviv_obj;
->> @@ -570,6 +570,7 @@ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
->>   	if (!etnaviv_obj)
->>   		return -ENOMEM;
->>   
->> +	etnaviv_obj->user_size = size;
->>   	etnaviv_obj->flags = flags;
->>   	etnaviv_obj->ops = ops;
->>   
->> @@ -588,11 +589,12 @@ int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
->>   {
->>   	struct etnaviv_drm_private *priv = dev->dev_private;
->>   	struct drm_gem_object *obj = NULL;
->> +	unsigned int user_size = size;
-> 
-> This still needs to be be aligned to 4K. 
+These patches are pre-requisite to address another FIXME
+/* FIXME: Transition to passing struct cea_db * everywhere. */
+based on feedback from
+https://lore.kernel.org/all/20241011152929.10145-1-vamsikrishna.brahmajosyula@gmail.com/
+which will be sent in subsequent patch series.
 
-Yes, extremely correct here, for the perspective of concept.
+In all the patches in this series,
+db[n] has changed to data[n-1] since db={u8 len, u8 *data}.
 
-Have to be GPU page size aligned, because the GPU map 4KiB once a time.
-GPU will access full range of a 4KiB page, and this is out of CPU's
-control.
+Vamsi Krishna Brahmajosyula (5):
+  drm/edid: convert drm_parse_hdmi_vsdb_video to use struct cea_db *
+  drm/edid: convert drm_parse_hdmi_forum_scds to use struct cea_db *
+  drm/edid: convert drm_parse_microsoft_vsdb to use struct cea_db *
+  drm/edid: convert drm_parse_vcdb to use struct cea_db *
+  drm/edid: convert drm_parse_hdr_metadata_block to use struct cea_db *
 
-> Userspace may request unaligned buffer sizes 
+ drivers/gpu/drm/drm_edid.c | 126 +++++++++++++++++++------------------
+ 1 file changed, 66 insertions(+), 60 deletions(-)
 
-User-space shall *NOT* request unaligned buffer, since user-space
-*already* made the assumption GPU page is 4KiB. Then it's the user
-space's responsibility that keeping requested buffer aligned.
 
-- The kernel space actually can and *should* return aligned size
-   to user-space though.
-
-- Since softpin feature is landed, it becomes evident that kernel
-   space need user-space *report* a correct length of GPUVA.
-
-But I'm fine with the kernel pay some extra price for safe reasons.
-
-Best regards,
-Sui
-
-> and we don't want to risk any confusion about
-> which part is visible to the GPU, so better make sure this size is
-> aligned to the GPU page size.
-> Also, that more personal preference, but I would call this gpu_size or
-> something like that, to avoid any confusion with the user_size in> etnaviv_cmdbuf, where user_size doesn't denote the GPU visible size.
->
-> Regards,
-> Lucas
-> 
->>   	int ret;
->>   
->>   	size = PAGE_ALIGN(size);
->>   
->> -	ret = etnaviv_gem_new_impl(dev, flags, &etnaviv_gem_shmem_ops, &obj);
->> +	ret = etnaviv_gem_new_impl(dev, user_size, flags, &etnaviv_gem_shmem_ops, &obj);
->>   	if (ret)
->>   		goto fail;
->>   
->> @@ -627,7 +629,7 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
->>   	struct drm_gem_object *obj;
->>   	int ret;
->>   
->> -	ret = etnaviv_gem_new_impl(dev, flags, ops, &obj);
->> +	ret = etnaviv_gem_new_impl(dev, size, flags, ops, &obj);
->>   	if (ret)
->>   		return ret;
->>   
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> index a42d260cac2c..c6e27b9abb0c 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> @@ -36,6 +36,7 @@ struct etnaviv_gem_object {
->>   	const struct etnaviv_gem_ops *ops;
->>   	struct mutex lock;
->>   
->> +	u32 user_size;
->>   	u32 flags;
->>   
->>   	struct list_head gem_node;
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
->> index 1661d589bf3e..6fbc62772d85 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
->> @@ -281,6 +281,7 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
->>   {
->>   	struct sg_table *sgt = etnaviv_obj->sgt;
->>   	struct drm_mm_node *node;
->> +	unsigned int user_size;
->>   	int ret;
->>   
->>   	lockdep_assert_held(&etnaviv_obj->lock);
->> @@ -303,13 +304,12 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
->>   	}
->>   
->>   	node = &mapping->vram_node;
->> +	user_size = etnaviv_obj->user_size;
->>   
->>   	if (va)
->> -		ret = etnaviv_iommu_insert_exact(context, node,
->> -						 etnaviv_obj->base.size, va);
->> +		ret = etnaviv_iommu_insert_exact(context, node, user_size, va);
->>   	else
->> -		ret = etnaviv_iommu_find_iova(context, node,
->> -					      etnaviv_obj->base.size);
->> +		ret = etnaviv_iommu_find_iova(context, node, user_size);
->>   	if (ret < 0)
->>   		goto unlock;
->>   
-> 
-
+base-commit: 850925a8133c73c4a2453c360b2c3beb3bab67c9
 -- 
-Best regards
-Sui
+2.47.0
 
