@@ -2,77 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33BD9B2CA1
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A5E9B2CA3
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:20:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD0A710E375;
-	Mon, 28 Oct 2024 10:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4959410E45A;
+	Mon, 28 Oct 2024 10:20:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KmgHNySx";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="S6L8GoTX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
- [209.85.128.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAF7110E375
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4337710E375
  for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:20:27 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-6e330b7752cso35724317b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 03:20:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730110826; x=1730715626; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TU2sdGJHKvD0taxHYBsyanzPD/VqU1wUV5/5j1d0+s8=;
- b=KmgHNySxEzy1EwSmvt4uTnGfuGwqJboXvDAJzIopwP3NwDjziYBtjyDmknuSmdAPS7
- 6jwsg56QJOZF65V31yrpoi0ZqAh9OefDlGZCKYW4W8ZCXbS8T4hBGU1uyeun322ophMd
- cqDKh9atmsisWfWO8PXNIl8921WngDb/eEAs2/qIai97ikHwov1cMbJjHtQ6cNs7TEEZ
- oROvI+Gs/Os0a4RzDQkwlRyn9bR4aJPf6++/3/Fy8lgNPssPPjdrA9yyaKwoUZqYhMse
- gp9Ds9XWOkFalPhrKBG0SoztjGxht7vpCJDErC+8GDPQwSbJwSMvRS1MfcIX438I4Zdq
- BG3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730110826; x=1730715626;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TU2sdGJHKvD0taxHYBsyanzPD/VqU1wUV5/5j1d0+s8=;
- b=Vvrq6Dae8FVklV0L4XihAg+ezJWLsnk9G4HG68vnFmhvsJYzeilYNlI/934zQ8mNbC
- dbT0eHatOCdRxjTYrxAOsncLDJXQEyKOMvHxVEWrbjZDDicT26rKEaZbpy08Jg+jxeH5
- EJtmN+F6GJ6q8VJNlYzrQH70KYy0+0oSnjrE7RNQ9MOP3HYmyOeBnKE0w893qKbjESwD
- kYC8XrexEgdjfCWn1a+XoYOfy7Sw6VXlU0eXmWuyqkAPdYilnPAeqJCV+GRojvDPNH/t
- 9I5kRagjfanivy09v/PZA6cURwRBg0y8d2vWOlfjQUCjth3T7swWtC+pRhaYhj61IUoo
- 3xhw==
-X-Gm-Message-State: AOJu0YwG1Bg2ub9lRDIk5hGoO/60uhoxszAQ38ur3bmEM7eiEcYeXAFA
- kjPECK7Au0rQ0pWJAkRyFMtPwqQOQgcriwB5kFDowmc+3zd/EhLJ/sgB5soN9Qjqz+WJNrFhBz0
- mf5HTm+D7L0eBIwKZwSO1txkhV6NzEqHTeyqpNg==
-X-Google-Smtp-Source: AGHT+IHKdCACUXqx7Rdwg/Prh7fz9WsgaRfTmIR4UCFC4hi7xMX8hmTZVx47XtOQhuApr5txecXLMxKkQJeYoI3DfdM=
-X-Received: by 2002:a05:690c:6303:b0:6e3:c92c:1d57 with SMTP id
- 00721157ae682-6e842f91cf4mr107258157b3.2.1730110826498; Mon, 28 Oct 2024
- 03:20:26 -0700 (PDT)
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4XcTt266QQz9vMZ;
+ Mon, 28 Oct 2024 10:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1730110827; bh=A0GqmnuqlPptcNZg6+u3k/n30Pb95tM6ybSTJvsR02o=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=S6L8GoTXankcL+IvSHq8MOnQa5WqCJaXAc0yVgOHfGrRgTdWoc44M/614Uj58dFID
+ SyBYkeELX8WLpC5JLd9c3qFRPrKQDlbVH2HsTr+IeHPWKXu6ClkPDLA0jpdVtG8BG9
+ 9FVY/znxPwWr6em0YSmKE/YOZ30ZPUVobKkm62Ms=
+X-Riseup-User-ID: ACFA0EC763EE17DF39ECF7ABA89DF4B9B67CC05D073A779B1DFAE844FC37A2DF
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XcTsx13NzzFtfv;
+ Mon, 28 Oct 2024 10:20:20 +0000 (UTC)
+Message-ID: <3b497dee-9371-4d21-a4a6-e75a6e61e364@riseup.net>
+Date: Mon, 28 Oct 2024 07:20:18 -0300
 MIME-Version: 1.0
-References: <20241028023740.19732-1-victor.liu@nxp.com>
-In-Reply-To: <20241028023740.19732-1-victor.liu@nxp.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 28 Oct 2024 12:19:50 +0200
-Message-ID: <CAA8EJprFBbC_=kBHi86j-nE_K68QeG+c2OBzJCbUyNWs5zQK0Q@mail.gmail.com>
-Subject: Re: [PATCH v4 00/13] Add ITE IT6263 LVDS to HDMI converter support
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, quic_jesszhan@quicinc.com, mchehab@kernel.org, 
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
- sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, 
- tomi.valkeinen@ideasonboard.com, quic_bjorande@quicinc.com, 
- geert+renesas@glider.be, arnd@arndb.de, nfraprado@collabora.com, 
- thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
- sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH RESEND v2 2/8] drm/vkms: Add support for ARGB8888 formats
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ arthurgrillo@riseup.net, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+References: <20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com>
+ <20241007-b4-new-color-formats-v2-2-d47da50d4674@bootlin.com>
+ <40c85513-6c57-4b9c-87f6-2ca56c556462@riseup.net> <Zx9eateq0ylJGvS_@fedora>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <Zx9eateq0ylJGvS_@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,71 +69,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Louis,
 
-On Mon, 28 Oct 2024 at 04:37, Liu Ying <victor.liu@nxp.com> wrote:
->
-> Hi,
->
-> This patch series aims to add ITE IT6263 LVDS to HDMI converter on
-> i.MX8MP EVK.  Combined with LVDS receiver and HDMI 1.4a transmitter,
-> the IT6263 supports LVDS input and HDMI 1.4 output by conversion
-> function.  IT6263 product link can be found at [1].
->
-> Patch 1 is a preparation patch to allow display mode of an existing
-> panel to pass the added mode validation logic in patch 3.
->
-> Patch 2 allows i.MX8MP LVDS Display Bridge(LDB) bridge driver to find
-> the next non-panel bridge, that is the IT6263 in this case.
->
-> Patch 3 adds mode validation logic to i.MX8MP LDB bridge driver against
-> "ldb" clock so that it can filter out unsupported display modes read
-> from EDID.
->
-> Patch 4 adds MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG,JEIDA} support, as they
-> are supported by IT6263(with LVDS data bit reversed order).
->
-> Patch 5 makes drm_of.c use MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA,SPWG}.
->
-> Patch 6 supports getting dual-link LVDS pixel order for the sink side as
-> needed by IT6263 driver.
->
-> Patch 7 documents jeida-30 and vesa-30 data mappings in lvds-data-mapping.yaml,
-> as needed by IT6263 DT binding.
->
-> Patch 8 extracts common dual-link LVDS display properties into new
-> lvds-dual-ports.yaml so that IT6263 DT binding can reference it.
->
-> Patch 9 adds DT binding for IT6263.
->
-> Patch 10 adds IT6263 bridge driver.  Only video output is supported.
->
-> Patch 11 adds DT overlays to support NXP adapter cards[2][3] with IT6263
-> populated.
->
-> Patch 12 enables the IT6263 bridge driver in defconfig.
->
-> Patch 13 updates MAINTAINERS to add maintainer for IT6263 driver.
+On 28/10/24 06:50, Louis Chauvet wrote:
+> On 26/10/24 - 11:11, Maíra Canal wrote:
+>> Hi Louis,
+>>
+>> On 07/10/24 13:46, Louis Chauvet wrote:
+>>> The formats XRGB8888 and ARGB8888 were already supported.
+>>> Add the support for:
+>>> - XBGR8888
+>>> - RGBX8888
+>>> - BGRX8888
+>>> - ABGR8888
+>>> - RGBA8888
+>>> - BGRA8888
+>>>
+>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>> ---
+>>>    drivers/gpu/drm/vkms/vkms_formats.c | 18 ++++++++++++++++++
+>>>    drivers/gpu/drm/vkms/vkms_plane.c   |  6 ++++++
+>>>    2 files changed, 24 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+>>> index 8f1bcca38148..b5a38f70c62b 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+>>> @@ -432,8 +432,14 @@ static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
+>>>    READ_LINE_ARGB8888(XRGB8888_read_line, px, 255, px[2], px[1], px[0])
+>>> +READ_LINE_ARGB8888(XBGR8888_read_line, px, 255, px[0], px[1], px[2]) > +READ_LINE_ARGB8888(RGBX8888_read_line, px, 255, px[3], px[2], px[1])
+>>
+>> I'm not expert in colors, but is this correct? From what I understand,
+>> it should be:
+> 
+> Yes, this is correct, READ_LINE_ARGB8888 take the parameters as A, R, G,
+> B, so here 0xFF, px[2], px[1], px[0]
 
-This has pretty complicated structure from the merging point of view.
+Now I wonder if
 
-I propose we take patches 6, 8, 9 (without 30-bit formats, they can be
-dropped while applying), 11, 12 (?) and 13 through drm-misc in one
-batch (once DT maintainers review the binding parts). This looks like
-a minimal set, having no extra dependencies.
+READ_LINE_ARGB8888(XRGB8888_read_line, px, 255, px[2], px[1], px[0])
 
-The second set might be 4, 5 + new patch, re-adding 30-bit formats to
-IT6263 binding (no driver changes are necessary). This can go in
-separately, after an Ack from media maintainers.
+is correct.
 
-Of course both sets can go together if linux-media maintainers reacts
-quickly and ack merging media-formats patch through drm-misc tree.
+Best Regards,
+- Maíra
 
-The rest of the patches don't have such strong dependencies and go in
-once ready / reviewed.
+>   
+>> READ_LINE_ARGB8888(RGBX8888_read_line, px, px[2], px[1], px[0], 255)
+>>                                             ^R     ^G     ^B     ^X
+>>
+>>> +READ_LINE_ARGB8888(BGRX8888_read_line, px, 255, px[1], px[2], px[3])
+>>
+>> Again, is this correct?
+>>
+>> Best Regards,
+>> - Maíra
+>>
+>>>    READ_LINE_ARGB8888(ARGB8888_read_line, px, px[3], px[2], px[1], px[0])
+>>> +READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
+>>> +READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
+>>> +READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
+>>>    READ_LINE_16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0]);
+>>> @@ -637,8 +643,20 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+>>>    	switch (format) {
+>>>    	case DRM_FORMAT_ARGB8888:
+>>>    		return &ARGB8888_read_line;
+>>> +	case DRM_FORMAT_ABGR8888:
+>>> +		return &ABGR8888_read_line;
+>>> +	case DRM_FORMAT_BGRA8888:
+>>> +		return &BGRA8888_read_line;
+>>> +	case DRM_FORMAT_RGBA8888:
+>>> +		return &RGBA8888_read_line;
+>>>    	case DRM_FORMAT_XRGB8888:
+>>>    		return &XRGB8888_read_line;
+>>> +	case DRM_FORMAT_XBGR8888:
+>>> +		return &XBGR8888_read_line;
+>>> +	case DRM_FORMAT_RGBX8888:
+>>> +		return &RGBX8888_read_line;
+>>> +	case DRM_FORMAT_BGRX8888:
+>>> +		return &BGRX8888_read_line;
+>>>    	case DRM_FORMAT_ARGB16161616:
+>>>    		return &ARGB16161616_read_line;
+>>>    	case DRM_FORMAT_XRGB16161616:
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+>>> index 67f891e7ac58..941a6e92a040 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+>>> @@ -14,7 +14,13 @@
+>>>    static const u32 vkms_formats[] = {
+>>>    	DRM_FORMAT_ARGB8888,
+>>> +	DRM_FORMAT_ABGR8888,
+>>> +	DRM_FORMAT_BGRA8888,
+>>> +	DRM_FORMAT_RGBA8888,
+>>>    	DRM_FORMAT_XRGB8888,
+>>> +	DRM_FORMAT_XBGR8888,
+>>> +	DRM_FORMAT_RGBX8888,
+>>> +	DRM_FORMAT_BGRX8888,
+>>>    	DRM_FORMAT_XRGB16161616,
+>>>    	DRM_FORMAT_ARGB16161616,
+>>>    	DRM_FORMAT_RGB565,
+>>>
 
-WDYT?
-
--- 
-With best wishes
-Dmitry
