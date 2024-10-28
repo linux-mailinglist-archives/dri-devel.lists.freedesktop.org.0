@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082039B322D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 14:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC9A9B3235
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 14:53:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E91AD10E4BB;
-	Mon, 28 Oct 2024 13:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 947BE10E4B9;
+	Mon, 28 Oct 2024 13:53:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DoanW/Oh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hCg7qNHs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D8A310E4B9
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 13:53:03 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C27B040011;
- Mon, 28 Oct 2024 13:52:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1730123581;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5+7wd8PyxuRyimR48C6T/jCFU0JMTcGUNxE0eO9eGfY=;
- b=DoanW/Ohv7PqeJ7ygS/HRBxSlD0qWMEgXbZ8kWweXzvbOav/kBKE2WUBPXWCBrVpTjl9xy
- JrwlSvxreDvn7fIjQ71fT7oeKJ6r/zCLi2GTRVIzCT/H6BoF1qLgHNFdW173k88mzHGt1I
- GhQxEKuxPUFE7Zm3haN0HgatsgyuGtqdx7DKheh+0n/AuXuwIhx4FALGB9FfT75FTi3pxr
- 1c7iuEcLXGiEQCNGCyQA5H57WaR/VrCG5fEK1nRpS5OLuMGKXQXjPOPq/v3HEr9JwsGcGV
- PgysevwjZY6xWC3gZ//NEWwPWcuDn0zo/n3tSnWiAN1lS1o/lGZuGjLFt7/LNg==
-Date: Mon, 28 Oct 2024 14:52:59 +0100
-From: Herve Codina <herve.codina@bootlin.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5300F10E4B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 13:53:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 405BEA4211D;
+ Mon, 28 Oct 2024 13:51:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30DDFC4CEC3;
+ Mon, 28 Oct 2024 13:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730123628;
+ bh=gLGvaETaA9KrTuAfxxQEcbnH9db6Vm0fKK6E8dKmtT4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hCg7qNHsNG+9id8JvnXtyCR4XhvwpThytHSJPY8555pmtUyJY82oN17qV0oiS2Wi3
+ mShkHXzSrgVCF4HCJPbndF8hJW6LBbqye6pu136mHnvekw9cJhRj5zXmC3aFBJtXLd
+ myD8Ol92q8TeoD1OyNKgYe57mwWN0NKQl4WSpfobL9Q7D1cuWSqgfIHLL2gGnjoMJC
+ sgcp6k1Xsv6+iuaAVitetIp9tOv7G0RnOI/nJwmvvO7hAMOHpK1M+C+A9ieNZlIW62
+ yaTUlA8Gsz8RwNNJtAUqLRDNTzmWoIbrGxb4fgfD0C2fTLQRL2c8Hb4hJm9x9x911e
+ K2pbyvwSWDObQ==
+Date: Mon, 28 Oct 2024 14:53:45 +0100
+From: Maxime Ripard <mripard@kernel.org>
 To: Marek Vasut <marex@denx.de>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Michael Walle <mwalle@kernel.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-Message-ID: <20241028145259.5d520445@bootlin.com>
-In-Reply-To: <16edb769-a608-4b6a-9391-a63a69df8c8d@denx.de>
-References: <20241024095539.1637280-1-herve.codina@bootlin.com>
- <20241024095539.1637280-3-herve.codina@bootlin.com>
- <78a09625-6bad-4fda-8ee5-92b8dd0de381@denx.de>
- <20241028090220.1fd803ff@bootlin.com>
- <16edb769-a608-4b6a-9391-a63a69df8c8d@denx.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Cc: dri-devel@lists.freedesktop.org, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/bridge: tc358767: Fix odd pixel alignment
+Message-ID: <20241028-resilient-opalescent-bustard-dc747b@houat>
+References: <20241026041019.247606-1-marex@denx.de>
+ <20241028-prophetic-cuttlefish-of-fury-2e0ede@houat>
+ <0b1ffd41-f8e8-4e75-af35-0f410a34b3ae@denx.de>
+ <20241028-mellow-ostrich-of-novelty-dcf6e6@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: herve.codina@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="iorzugrqmmkcysau"
+Content-Disposition: inline
+In-Reply-To: <20241028-mellow-ostrich-of-novelty-dcf6e6@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,39 +66,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
 
-On Mon, 28 Oct 2024 12:47:14 +0100
-Marek Vasut <marex@denx.de> wrote:
+--iorzugrqmmkcysau
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/bridge: tc358767: Fix odd pixel alignment
+MIME-Version: 1.0
 
-> On 10/28/24 9:02 AM, Herve Codina wrote:
-> > Hi Marek,  
-> 
-> Hi,
-> 
-> > On Sat, 26 Oct 2024 00:53:51 +0200
-> > Marek Vasut <marex@denx.de> wrote:
-> >   
-> >> On 10/24/24 11:55 AM, Herve Codina wrote:  
-> >>> In some cases observed during ESD tests, the TI SN65DSI83 cannot recover
-> >>> from errors by itself. A full restart of the bridge is needed in those
-> >>> cases to have the bridge output LVDS signals again.  
-> >>
-> >> I have seen the bridge being flaky sometimes, do you have any more
-> >> details of what is going on when this irrecoverable error occurs ?  
-> > 
-> > The panel attached to the bridge goes and stays black. That's the behavior.
-> > A full reset brings the panel back displaying frames.  
-> Is there some noticeable change in 0xe0/0xe1/0xe5 registers, esp. 0xe5, 
-> do they indicate the error occurred somehow ?
+On Mon, Oct 28, 2024 at 02:52:09PM +0100, Maxime Ripard wrote:
+> On Mon, Oct 28, 2024 at 01:36:58PM +0100, Marek Vasut wrote:
+> > On 10/28/24 10:25 AM, Maxime Ripard wrote:
+> > > On Sat, Oct 26, 2024 at 06:10:01AM +0200, Marek Vasut wrote:
+> > > > Horizontal Timing Control0 Register 1/2 (HTIM01/HTIM02) Register
+> > > > bitfields description state "These bits must be multiple of even
+> > > > pixel". It is not possible to simply align every bitfield to the
+> > > > nearest even pixel, because that would unalign the line width and
+> > > > cause visible distortion. Instead, attempt to re-align the timings
+> > > > such that the hardware requirement is fulfilled without changing
+> > > > the line width if at all possible.
+> > > >=20
+> > > > Warn the user in case a panel with odd active pixel width or full
+> > > > line width is used, this is not possible to support with this one
+> > > > bridge.
+> > > >=20
+> > > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > > ---
+> > > > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> > > > Cc: David Airlie <airlied@gmail.com>
+> > > > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> > > > Cc: Robert Foss <rfoss@kernel.org>
+> > > > Cc: Simona Vetter <simona@ffwll.ch>
+> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > ---
+> > > >   drivers/gpu/drm/bridge/tc358767.c | 63 ++++++++++++++++++++++++++=
++++--
+> > > >   1 file changed, 60 insertions(+), 3 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/br=
+idge/tc358767.c
+> > > > index 0a6894498267e..7968183510e63 100644
+> > > > --- a/drivers/gpu/drm/bridge/tc358767.c
+> > > > +++ b/drivers/gpu/drm/bridge/tc358767.c
+> > > > @@ -901,6 +901,63 @@ static int tc_set_common_video_mode(struct tc_=
+data *tc,
+> > > >   	int vsync_len =3D mode->vsync_end - mode->vsync_start;
+> > > >   	int ret;
+> > > > +	/*
+> > > > +	 * Horizontal Timing Control0 Register 1/2 (HTIM01/HTIM02) Regist=
+er
+> > > > +	 * bitfields description state "These bits must be multiple of ev=
+en
+> > > > +	 * pixel". It is not possible to simply align every bitfield to t=
+he
+> > > > +	 * nearest even pixel, because that would unalign the line width.
+> > > > +	 * Instead, attempt to re-align the timings.
+> > > > +	 */
+> > > > +
+> > > > +	/* Panels with odd active pixel count are not supported by the br=
+idge */
+> > > > +	if (mode->hdisplay & 1)
+> > > > +		dev_warn(tc->dev, "Panels with odd pixel count per active line a=
+re not supported.\n");
+> > > > +
+> > > > +	/* HPW is odd */
+> > > > +	if (hsync_len & 1) {
+> > > > +		/* Make sure there is some margin left */
+> > > > +		if (left_margin >=3D 2) {
+> > > > +			/* Align HPW up */
+> > > > +			hsync_len++;
+> > > > +			left_margin--;
+> > > > +		} else if (right_margin >=3D 2) {
+> > > > +			/* Align HPW up */
+> > > > +			hsync_len++;
+> > > > +			right_margin--;
+> > > > +		} else if (hsync_len > 2) {
+> > > > +			/* Align HPW down as last-resort option */
+> > > > +			hsync_len--;
+> > > > +			left_margin++;
+> > > > +		} else {
+> > > > +			dev_warn(tc->dev, "HPW is odd, not enough margins to compensate=
+=2E\n");
+> > > > +		}
+> > > > +	}
+> > > > +
+> > > > +	/* HBP is odd (HPW is surely even now) */
+> > > > +	if (left_margin & 1) {
+> > > > +		/* Make sure there is some margin left */
+> > > > +		if (right_margin >=3D 2) {
+> > > > +			/* Align HBP up */
+> > > > +			left_margin++;
+> > > > +			right_margin--;
+> > > > +		} else if (hsync_len > 2) {
+> > > > +			/* HPW is surely even and > 2, which means at least 4 */
+> > > > +			hsync_len -=3D 2;
+> > > > +			/*
+> > > > +			 * Subtract 2 from sync pulse and distribute it between
+> > > > +			 * margins. This aligns HBP and keeps HPW aligned.
+> > > > +			 */
+> > > > +			left_margin++;
+> > > > +			right_margin++;
+> > > > +		} else {
+> > > > +			dev_warn(tc->dev, "HBP is odd, not enough pixels to compensate.=
+\n");
+> > > > +		}
+> > > > +	}
+> > > > +
+> > > > +	/* HFP is odd (HBP and HPW is surely even now) */
+> > > > +	if (right_margin & 1)
+> > > > +		dev_warn(tc->dev, "HFP is odd, panels with odd pixel count per f=
+ull line are not supported.\n");
+> > > > +
+> > >=20
+> > > This should all happen in atomic_check, and reject modes that can't
+> > > be supported.
+>=20
+> > No, that would reject panels I need to support and which can be
+> > supported by this bridge.
+>=20
+> Then drop the warnings, either you support it or you don't.
 
-0xe5 register can signal any DSI errors (depending on when the ESD affects
-the DSI bus) even PLL unlock bit was observed set but we didn't see any
-relationship between the bits set in 0xe5 register and the recoverable or
-unrecoverable behavior.
+Oh, and update the commit log, because so far it claims that you can't
+support those panels.
 
-Also, in some cases, reading the register was not even possible (i2c
-transaction nacked).
+Maxime
 
-Best regards,
-Hervé
+--iorzugrqmmkcysau
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZx+XaQAKCRAnX84Zoj2+
+dmkMAX9Oo5JYUYPa78v/1zDHBJKMRthILWmlmyLFSnVHVXDoHiD521hCs4xzEufr
+1jSsmqMBf2nL5jyWRZnQao+I9iJceDfYRRr/nwzUEakJ7S8xdiY6e4ISEJ8i6NzP
+Ax16DlSEiw==
+=mfO5
+-----END PGP SIGNATURE-----
+
+--iorzugrqmmkcysau--
