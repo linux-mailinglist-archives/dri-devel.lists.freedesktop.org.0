@@ -2,48 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA939B3D9F
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 23:19:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CAF9B3E64
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 00:26:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62D3A10E081;
-	Mon, 28 Oct 2024 22:19:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 813EE10E240;
+	Mon, 28 Oct 2024 23:26:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=scrumplex.net header.i=@scrumplex.net header.b="HjSsNePa";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ccgt84oV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 422 seconds by postgrey-1.36 at gabe;
- Mon, 28 Oct 2024 22:19:20 UTC
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E65210E081
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 22:19:20 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4XcngL6bZFz9sqs;
- Mon, 28 Oct 2024 23:12:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=scrumplex.net;
- s=MBO0001; t=1730153535;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=+CDSt8NvW3X63fnOCp45oAeFQC879DnOtBvwF4miD74=;
- b=HjSsNePa1WxywLh3TOUxMYv0u3wbm0O6afDAELh16y98W7mMT1zLJvpQin/qOki723hgf2
- mu7ytheyFmq+FwQm2LnNVbmK1/l7fT/XbnOcGWYaXBZ4gCf1f4BYa7VczkaF/gfZOdebyp
- 5qLLWh8yd/Yq6iZshNyb7Pr7TdZg0tjGazGBR+BKEw2LsUNqKIEFVmzTirRUpjdt0y9ogm
- 2e0Q6belPb5S+QHkbsP/pmVlt6jrtjcbbasqAD+QhkHH8etqcIgaSySmahUJ5CaM8hPySL
- WmRT3/0jFYtj8iDSEP3c7YEL26ZAVlGEY3pL2x/JylcOSRWPnTLeVO7rzZR4Aw==
-From: Sefa Eyeoglu <contact@scrumplex.net>
-To: dri-devel@lists.freedesktop.org
-Cc: Sefa Eyeoglu <contact@scrumplex.net>
-Subject: [PATCH] drm/edid: add non-desktop quirk to XREAL Air/Air 2 Pro
-Date: Mon, 28 Oct 2024 23:10:50 +0100
-Message-ID: <20241028221055.778851-1-contact@scrumplex.net>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAF2610E240;
+ Mon, 28 Oct 2024 23:26:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730157995; x=1761693995;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kaCFeEXIskP9cvkK2CCjL4RXRuBE5hYbX83iXHBAnMw=;
+ b=ccgt84oVU8o6cLqVSR3ozcV/KD+uNeRyvOUEqDMyyDYcxUbsgS7YDram
+ sf9/QbaYQKSNoixrZ5aqFN1cJ/IoICMc1dimQfkd+Z5bl8xFb6Ctba2hu
+ hNs0uGzAxklV1+UtHU7SiI1xlkpKcf9ofp2kzL8TRWreZ9wB/ygvbxa7x
+ PBxw8LcMVbC0EHyhCO1Jhd27JAeOcgtJuykuOpX11cgg73A285ggpJvnq
+ d4MgMB9VbmOnXO8sX2Kx0X8YjH2mpEuAxUI6MlPAhChjdMbWeDbvP/ENV
+ To/uHH/cjPHDTbEuOTnU/G3cr3b0SvVivM5MOFAV1ggL8ZI5kj+tFmIGV g==;
+X-CSE-ConnectionGUID: WK5O+YIiQImkUPSdvhNXLA==
+X-CSE-MsgGUID: Ovpd1fqgSK6sRJjO1fKpRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29918459"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29918459"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2024 16:26:35 -0700
+X-CSE-ConnectionGUID: iTevsw8jQVOvPAbFbvvueQ==
+X-CSE-MsgGUID: UfmgdthaQ8OB0t0zmJlYQA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; d="scan'208";a="81391579"
+Received: from guc-pnp-dev-box-1.fm.intel.com ([10.1.27.7])
+ by fmviesa007.fm.intel.com with ESMTP; 28 Oct 2024 16:26:35 -0700
+From: Zhanjun Dong <zhanjun.dong@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Zhanjun Dong <zhanjun.dong@intel.com>
+Subject: [PATCH v1] FOR-CI: drm/i915/guc: Disable ct receive tasklet during
+ reset preparation
+Date: Mon, 28 Oct 2024 16:26:32 -0700
+Message-Id: <20241028232632.1951286-1-zhanjun.dong@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4XcngL6bZFz9sqs
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,31 +66,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both devices lack a DisplayID 2.0 block and therefore do not advertise
-themselves as HMDs.
+During GuC reset prepare, interrupt is disabled, if the interrupt
+event already happens and is in progress, from interrupt event to
+tasklet get running, there is alway some kind of latency. In long
+latency case, it might have 2 rare race conditions:
+1. Tasklet runs after IRQ flush, add request to queue after worker
+flush started, causes unexpected G2H message request processing,
+while reset prepare code already get context destroyed. Request
+handler will report error about bad context state.
+2. Tasklet runs after intel_guc_submission_reset_prepare,
+ct_try_receive_message start to run, while intel_uc_reset_prepare
+already finished guc sanitize and set ct->enable to false. This will
+causes warning on incorrect ct->enable state.
 
-See https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/53
+Fixed by disable ct receive tasklet during reset preparation to avoid
+the above race condition.
 
-Signed-off-by: Sefa Eyeoglu <contact@scrumplex.net>
+Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 855beafb76ff..bc13f6ef2c5d 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -219,6 +219,10 @@ static const struct edid_quirk {
- 	EDID_QUIRK('V', 'L', 'V', 0x91be, EDID_QUIRK_NON_DESKTOP),
- 	EDID_QUIRK('V', 'L', 'V', 0x91bf, EDID_QUIRK_NON_DESKTOP),
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 9ede6f240d79..f82fec33c432 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -1684,15 +1684,20 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+ 	guc->interrupts.disable(guc);
+ 	__reset_guc_busyness_stats(guc);
  
-+	/* XREAL Air series AR glasses */
-+	EDID_QUIRK('M', 'R', 'G', 0x3132, EDID_QUIRK_NON_DESKTOP),
-+	EDID_QUIRK('M', 'R', 'G', 0x3135, EDID_QUIRK_NON_DESKTOP),
+-	/* Flush IRQ handler */
+-	spin_lock_irq(guc_to_gt(guc)->irq_lock);
+-	spin_unlock_irq(guc_to_gt(guc)->irq_lock);
++	/*
++	 * Disable tasklet until end of prepare, if tasklet is active,
++	 * tasklet_disable will wait until it finished
++	 */
++	tasklet_disable(&guc->ct.receive_tasklet);
+ 
+ 	guc_flush_submissions(guc);
+ 	guc_flush_destroyed_contexts(guc);
+ 	flush_work(&guc->ct.requests.worker);
+ 
+ 	scrub_guc_desc_for_outstanding_g2h(guc);
 +
- 	/* HTC Vive and Vive Pro VR Headsets */
- 	EDID_QUIRK('H', 'V', 'R', 0xaa01, EDID_QUIRK_NON_DESKTOP),
- 	EDID_QUIRK('H', 'V', 'R', 0xaa02, EDID_QUIRK_NON_DESKTOP),
++	/* Enable tasklet at the end, before HW reset */
++	tasklet_enable(&guc->ct.receive_tasklet);
+ }
+ 
+ static struct intel_engine_cs *
 -- 
-2.46.1
+2.34.1
 
