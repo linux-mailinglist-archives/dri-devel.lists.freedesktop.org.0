@@ -2,66 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923649B39DA
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 20:00:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88A89B39F1
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 20:05:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF4ED10E51D;
-	Mon, 28 Oct 2024 19:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0345010E521;
+	Mon, 28 Oct 2024 19:05:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="icPMiGVV";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="deWSFmns";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
- [209.85.166.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21B1910E51A;
- Mon, 28 Oct 2024 19:00:16 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id
- e9e14a558f8ab-3a3bd42955bso18052945ab.1; 
- Mon, 28 Oct 2024 12:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730142015; x=1730746815; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=DrJcv/aH8I8XOoCISZJRfuyHbZe3jDtZgV7phtsunRQ=;
- b=icPMiGVVc6qD+8TUiv26Ar23shNiszXDqG+fiD0tDG7DK7o1DTwFycL58P7yCXmP8B
- Q09x0oj/LjpsuF3+EWMeXeWG8haK3A+CATTc/KYDa0ZymXfu64CLKpnfvrLOM6uuPh8X
- saQSMpNzBqVMXCJA7k/cXRbCkfkje7bCryDzXj0u1rRUWYQfon8n3nhUYwfuZ7AwOl+O
- 0uKEF+S6ou7rfbSAArl4A5w7ZpjF314YHAQvDaUPcgVInb5mVeVop5RyOsV3PH0J7oNX
- x27ZUu+nMhp0KVaZkZ3N9o9DSQesndnGnWpzCDYkKzWR3AeKh/06Auh3II3EW8toBdCY
- wi6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730142015; x=1730746815;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DrJcv/aH8I8XOoCISZJRfuyHbZe3jDtZgV7phtsunRQ=;
- b=k1IfqrzCuk3epim9LuM7THJvgWBzh4BG89asIlmLiY/WniY8BojcLe9ybDVoWGD4HC
- XN26hS90ZHY7qxp8ykPTCcib9UXgS6tbqIUjGbwRTuWrLib58t/vwTJYwX0JA42lYh1Y
- OKwaLLBQ9RbJtdMvZuZtaW4/ZMZmq35o9+gWmHxX6mzoY4YpetbbNLfwU2BlTH2IjhBT
- PV6xAbpdbzz7fle0O14Ive0WygXUETcr89a8SmYEXMim9B4Eb6BTQ9PM4lXBWg51kDny
- nlfmjfPneVtyl9/gbEBw5s+7YOe4svJ3n4QAErKMCAJ5OOiVOCzzJjzu7rZUlIov2nrl
- x6JQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXRHPHdRHWJ7DfUqYqKqbYuxUun5i6ZUbtil+KepuI/5+BeRZATmgIw+YN1Y5gkvdfj7fnXJYZt5LE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwltEy+3Lzmm6IEIfSqshpK2taCXILO4qjFF0wy71RJsWFOxFSz
- LZOkiyNCA7PgBE8UBvBIiKpCmfCFH2AWzpLHxVDl/O70Ym6gKv8sJdzOqvJhk6zPb9UgBuzZnRK
- 3JNMX/dZBHEX5SODC3AOem49XUnc=
-X-Google-Smtp-Source: AGHT+IHYNVJlfW4M0RA04mRZlU54bsrTqTyql/PhULJZPP4lJcsVkBp3FxDhhrl+AlOGnl0NFdP9BBkQaSASwNktjBQ=
-X-Received: by 2002:a92:c266:0:b0:3a4:e9c1:8f75 with SMTP id
- e9e14a558f8ab-3a4ed311732mr73088995ab.24.1730142014993; Mon, 28 Oct 2024
- 12:00:14 -0700 (PDT)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2077.outbound.protection.outlook.com [40.107.223.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0318D10E520;
+ Mon, 28 Oct 2024 19:05:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Kzus8Pb+F5ZFXx9sHHrer27L0ptwljA6onLgYCSchQkzXlTyUD48hhSp1PheVtPhJypOaSAVOEY6uR+06RYqCiRhkaIA+8asUfV8MyAg66//fkWHlxjbDJRWVhzrV5uGsuntbrhr61fZk1koVo74J6QaD4bGhqhgJ/6XUUkM4WduOzm1tOln1clN6d37jLUOIA+7S4QkvBjesgqRXf0al3hD4zjql6YM40nDazpjTNhKJajMUngZEmMCtTpQjh0bAA2+YxLB2CXqhcJXRTxkm1vCNgTYd1xvwhpAxqReawdR93jfyuAucS6CLnuOss/KsbFc+sXYML5zxZ/ZzqcXGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zQeFC2LMXzVk5dmTHM+ZFXEv7/ykwzXSbGdCdKDMwX0=;
+ b=h5R+S98isu5riOTmSIps0wJ3inrj+VGTiBiLC9Y2cP5Bh+XKPyFuLdCI/dBZ5lq1spdncc0Vej11sMxQbELU8G5LBw3o/nlz0iC7eo28gqsfXSpoCTXpfQQQ+fVz2KvbQ4fDYFEH8cSYo9/7GOyd/dsp91HyO8K/y2KoB4a7nD+T3cF7lof7WX6FDJRlPExuldYdUYSXE5Om5JJVi75HXUUjhM+gPwntkoKMpV9/3EupOGrNEPuEMCShE8+p3WVuPHq4iOhzMQGP2cdNmKPXVieIFG/JPsz02Lr/hg6qpF+fQOnOaE5smqZSpY43lTGO6PFPQWsdtZSxj2OLzXEWYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zQeFC2LMXzVk5dmTHM+ZFXEv7/ykwzXSbGdCdKDMwX0=;
+ b=deWSFmnss6OIzurtxUJjjAqXrTQ2bgEDIBkCn8097THqSVcsXya8RKhPkqDdwVm1G6Nev8s//MU5XGk44JF9wPIt5KZtMhLq5E1neUTAiDHwNi+18gX3u0V+MRpUM5FoT0I7WhUYA+bPi0fHDw8qoZ4eZuVW9D64mm9Kyqf3AD0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5311.namprd12.prod.outlook.com (2603:10b6:5:39f::7) by
+ SN7PR12MB7787.namprd12.prod.outlook.com (2603:10b6:806:347::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.16; Mon, 28 Oct
+ 2024 19:04:59 +0000
+Received: from DM4PR12MB5311.namprd12.prod.outlook.com
+ ([fe80::a846:49eb:e660:1b5b]) by DM4PR12MB5311.namprd12.prod.outlook.com
+ ([fe80::a846:49eb:e660:1b5b%4]) with mapi id 15.20.8093.024; Mon, 28 Oct 2024
+ 19:04:59 +0000
+Message-ID: <fc596eeb-0d46-4f9e-93a3-d4ef87e736c5@amd.com>
+Date: Mon, 28 Oct 2024 15:04:57 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 1/1] SWDEV476969 - dm: Fail dm_atomic_check if cursor
+ overlay is required at MAX_SURFACES
+To: Melissa Wen <mwen@igalia.com>, Zaeem Mohamed <zaeem.mohamed@amd.com>,
+ harry.wentland@amd.com, Rodrigo.Siqueira@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, daniel@ffwll.ch, christian.koenig@amd.com,
+ alexander.deucher@amd.com, airlied@gmail.com, Xinhui.Pan@amd.com
+References: <20241025193727.765195-1-zaeem.mohamed@amd.com>
+ <20241025193727.765195-2-zaeem.mohamed@amd.com>
+ <575d66c7-e77d-42ea-acbf-412d6e508a0b@igalia.com>
+Content-Language: en-US
+From: Leo Li <sunpeng.li@amd.com>
+In-Reply-To: <575d66c7-e77d-42ea-acbf-412d6e508a0b@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT3PR01CA0011.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:86::30) To DM4PR12MB5311.namprd12.prod.outlook.com
+ (2603:10b6:5:39f::7)
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 28 Oct 2024 12:00:03 -0700
-Message-ID: <CAF6AEGt7k8zDHsg2Uzx9apzyQMut8XdLXMQSRNn7WArdPUV5Qw@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-next-2024-10-28 for v6.13
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5311:EE_|SN7PR12MB7787:EE_
+X-MS-Office365-Filtering-Correlation-Id: 057bbd88-03ec-4c35-0648-08dcf7836b10
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dWtIeTVsZmtLdmlVVTgzY3BZNUMrNk9TeGpvV2RzMG51VWF4anIxeUJ1RXVK?=
+ =?utf-8?B?dHQvdnRycS9NQ3VkRE9vcDA2dkMzNFMyazZFYzB3Z0VGcU4wVDlkRXp5cXpB?=
+ =?utf-8?B?NDJtOWMzM0hZcWR4RXZRY0h4NEs5OXZvejdkb0ZwdUh3Njdsd0lWOENzZ0RO?=
+ =?utf-8?B?OFFIV1lwbThaMkNoR1BuSkhVeWU5RnhDQ1FPNHl3N3NrMGtWZFpmMU9PMkdN?=
+ =?utf-8?B?UWdxc0IwVjhiRzFGSnF1MVM1ZnZRMmZURGRaalFuMkZFdWwrd3h5aGhxQTQ3?=
+ =?utf-8?B?TmxXeHgzdzlIQUVId1FQbnBQY2JkYWNpeUFMUFJXcXo4RjJaeUJGTEpNQ1BY?=
+ =?utf-8?B?aHV0angrZ2JDbVh4ZEVSeDRFV0h1VWZac2VXZ1VVK3piTmNtaDc5SU1PSnFk?=
+ =?utf-8?B?Z0FBSTZaaG1HT2VQRkU1b1hZaS9SVDFCTDJ4RTNlWDloZTBRUlZVd2YrMW5v?=
+ =?utf-8?B?cFlXZktLUDJ4ZU80WXVlR05oc1R4a0NBWlBUSXM2TUttSG5ERXdxQVVvTlBm?=
+ =?utf-8?B?S1JSZGZKMDJEL1c1UTJ1UTQwdHI3eXRJZ3daamdoN3hrcEd1THZoZU80QTlM?=
+ =?utf-8?B?SHIyR0s3OG5qV2F4K3I2WkpkU0xldTlqS1JwZjN6ZTF1bGQwNGtmd1RNL1hs?=
+ =?utf-8?B?NjJZQnV2REJGSEMxbEdEUjd6cjhDQ2dYU2JvNFRUTjdlSHNGUzRrOWZUK2hU?=
+ =?utf-8?B?b1ptTkIwekhPbEtNaHAyMDd3UlFuYTEvbzNScHBPOXZXaHBnVmhrNjFqWkFY?=
+ =?utf-8?B?QVVxdlB6dk93ZE9KMGNZR1pPSXBaUHl4Mkx2eGhpWXBoSW5pRjJTWTl4Mkp5?=
+ =?utf-8?B?d1RCZ1c3SlF1RUQ2U1VFYXYvcldxWUZPVkpveTNmV0RHeVVaQkJndGREczlv?=
+ =?utf-8?B?a0FtTXRFVkFLT09aeTJrSXRFZ2FyUlRtaTVEd0hxOXBsVkErNmZjQUtkd2Nh?=
+ =?utf-8?B?WXdQWGZ5cHgwNE5TZDk1RzEvci9ZRzAvN0NUNTIwQjdwRWhscysxd1ZHM2F1?=
+ =?utf-8?B?QllFYkpTYmRkdk0wbm5scWVBL01WcTlTeVdOSFRCRUpPUVdRRmZpRmhvRjJY?=
+ =?utf-8?B?NWNYeUxORGhoYU92UXBWbytXQWpEUmdLQnBqaWhicVZkZmVVUllXNG85MUIv?=
+ =?utf-8?B?NzdGOWNXaGVBMFo1ZWJSc09uSXkvWFZBWFdoQmxDN1B0VVozUkloVDJLQk9w?=
+ =?utf-8?B?cGloYWRtK3lCOEhiczdhM0szdTh3Uk80dlV0bStaRGZWeDhjN2QvSG9NeXhD?=
+ =?utf-8?B?cnNqYVB2Q0Qwdi9GdlZvWXNIazNYc0xWMktqNCtFbUNMY1FJckFqTkZQVE0r?=
+ =?utf-8?B?SmVlZVNrd3YrRk9uQlB0RkcvRXd0NkJiVkxSL2lqUFdOall1Z3czYlkxeW1w?=
+ =?utf-8?B?cWVqTUtJcE9yQ0FhOVU4YUdwenBaSEZZRUdVNjQ2OWNlYlNTMVphaUhoenJT?=
+ =?utf-8?B?NmlRaWd4QXBTcWF2Y0owSEk3MkdKU2c4c096eHJxL25YRGRpbnhJc29FSU04?=
+ =?utf-8?B?MHJuRU1NQ0dtd0xKV0RWajVyQ0VzdEdrRkNUeHljdW1UdERjdW1hVHRTb1ZG?=
+ =?utf-8?B?OHFkQjBtelF2YkErbC9Hc3ZHUTF4VEVTT2ZwaUM2aHJZTWMydXNaV3NXbWdu?=
+ =?utf-8?B?ajNqRXV3NGdjTGxFaHM0TVdSRllPK1BETnZIdStqQUY2ak93dGFPUjBWTFhi?=
+ =?utf-8?B?elpNajYzVVZEa2dWOTVvZDhVNzhsK1NPU1ZQa1JCdFBLVFl5TmpHNGJnPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5311.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d0JXVmFzREs2YVI2dnhaZU82VkRCY2IzcTNZdEcxSmNFRG5sWitjSlJER2NQ?=
+ =?utf-8?B?SUV3L21WL1RwcDZmUmVWcnIyQ1YzTm5BM3ZHdU9aenlleWtSaEZPT3ozQWpM?=
+ =?utf-8?B?ejkxU24xRFovQ1FOZG9MS0VrK2ZpaFJDRkZtUkV2WkxFVnUwZHlZcHdmWExM?=
+ =?utf-8?B?V05PVTBLSElHQTc0U2tTWnBQeGs0bC9QTE9RTjJFK3cwTDRCR0VOZkZNWFdN?=
+ =?utf-8?B?b2V0dk5kNUhhSkMydmVrMXFTb0Q5NUNXQ2taVUxwTlM4S1RUK1Jna3NMQTRz?=
+ =?utf-8?B?Rm5BY1VkVlFiVmNPeTg0MTJFcjJ4WkhYWDVUZXRtR3NsMi9pbWdQMm8zOEF0?=
+ =?utf-8?B?TDNBS1ZMYWxHQ1BJaGRJSjNUMWFWandMc1FEVnpXVDhnNCtMSEZHNXhBYVox?=
+ =?utf-8?B?YTAvZU81NFBBTjdGaUdpbW1zUFNHdTdZZUtOM2hTT3MrZjZ6UUpuTXo3Qk82?=
+ =?utf-8?B?dUtKOW9raGJIRjVLOG5aV3QwdVVnb0FYak42WW92U1BDY1dFMjlwVzQ2N0dC?=
+ =?utf-8?B?eGpRcnlVeHhMMTJrcUNjejJpRWNwa3c4bk1lcHBRa0FnQTZGN0JvVXhPMjF0?=
+ =?utf-8?B?clNLTW1TZFBwbTVNOWE4SGdXQ0F5eENzdHlEZGp1THhlZ0U1dUowR2wzYlAr?=
+ =?utf-8?B?MTYxVjc3dDVsbWR6bFBYb0llaXlHalRWRExGZHFsM1cvR2g0S3BIdjJGL1pD?=
+ =?utf-8?B?NzZveUN5WElwbkdaV05FTk90TnFxOEhUQWhGb1VrM3kwcmozUFA1aW54UWlh?=
+ =?utf-8?B?MDl2UXZPRXhPL0haeFZFbkZuNzY0VzhvQ3k2dHNGUitHajZUem5UQmF6S1Z2?=
+ =?utf-8?B?bkl3WXlUbXRTVnBUYlBGVm5HOTcyamhGb3pSV25QL2xub0tsUk5PM3RFMmZu?=
+ =?utf-8?B?OTYrWXhVYy9Wek4zaXFrV0ZpcnB5UGl4Z1gwL3R0bmpaQnpDOEFmVGluWmNI?=
+ =?utf-8?B?MXliMER4R242ZnVBaFc0eUVGSjdjTkdZdU1FRjNoeEdoWFNDZkRZZmhEci9u?=
+ =?utf-8?B?cXowTTB6aEtjMW5rWEhXV2JwWlZZQi90TWVmZDBZWTI5ZzdzN2xDOXBoMVZU?=
+ =?utf-8?B?dENiK0lraFpwT3pJTDR3dE9mMThJNGx1LzEyTDkxK3JIYjFrQ2VJVVNmejJ3?=
+ =?utf-8?B?aFBQSDB1UjhLTmVWeFp3TzBXRU00QXdyNjFpbDV3UndHNUVKYlNyTG9KbG1M?=
+ =?utf-8?B?cFZaZkJabWN1SUh2UGxkRUpPWHhXZDJiS2ozcFRiSEJoOWZZS2hUZ3E0NU0r?=
+ =?utf-8?B?WXVxSEhydHRkaHRFOEoyL3g3VDc0V2ZCdnlxamZCZnQzK1N2cFRzbXI2R2Fr?=
+ =?utf-8?B?WjQzUTZ3aVZOZ0U5RHFQQlBYbFR0b3NNTU5BZFZqeFFwQ3FyVjVvZU0rdGtB?=
+ =?utf-8?B?NmhCMFNLZXZaYWtIQ1lYV1p6SHlVSWQrdVhzRXpNTDViZitsYzdGdGtpM25Y?=
+ =?utf-8?B?V2F2NUNlQ2Mrb0FHMzRzMGN2T0JaRUowZ0ZPcFh2eDhXZG9vRUZNRlh2Zi80?=
+ =?utf-8?B?UlZLdjlHbUdFcmlKUXRXWWpBdlQwZWhHMkdhZDRJYkh3eUhRVGN4OG1jUEd5?=
+ =?utf-8?B?bEZwY3JnOVN2OExyMEI3V0p2T1FqOUNHUzRHN2V4aVdQL3JDV1ZzOTdmajdT?=
+ =?utf-8?B?Wk03MVdBRDRvWE0xZGZSZ2NYQXVhUTE0TVQrUHFvT1VQdVM1TTBtSDB3dWc1?=
+ =?utf-8?B?TGpCUHNjK2U5OEcyellFTk9PTFlUenlrMnBHTGhpZHJURjJPUDE4aGlJU3k0?=
+ =?utf-8?B?emtSWWs1dWh3TUNGcllvT2JEWG4zd0hLLzhZcHN3aCs2OVpDUFFGYjdjUGxz?=
+ =?utf-8?B?V0tmZTlnOG1BZnNxU3doV0o3Z2hKTUFPc1I3eHR4a0JVaEI5S1E2MnMwTDhq?=
+ =?utf-8?B?T0RxQTQyRnE1Q0I0Y2JuR25hbEtzZ2d0c0JwcnVUUmkzdHU0MHFGbCtNUG1y?=
+ =?utf-8?B?R1RUQXg0dmdyMitiTDdCbGg5UmV4WG9nR1RyNHlDUy83OUp2ZEZrZWNQcFIy?=
+ =?utf-8?B?V0xLMWU3VmxyMU5vTzJmTDFnLzdsWjl4MlErOE9qeVJ6WTFtbFNFTFp6bkdW?=
+ =?utf-8?B?cDVobmpmYjNXMUFPTG9kcmt0dXNhUFU0RTlQTGRQTkdKMUxabWVOWERvUjNm?=
+ =?utf-8?Q?fKliVosEXmFuhIVQKDM+/IZM0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 057bbd88-03ec-4c35-0648-08dcf7836b10
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5311.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 19:04:59.0707 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +OpHxw8HLnUw1Hd+7L9bMgEm4JqmkZmWCfo1XQ5oKKOYXivh1rRwc9tEHFvLbUx3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7787
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,241 +163,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
 
-This is the main pull for v6.13.  Further description below.
 
-The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
 
-  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
+On 2024-10-25 22:01, Melissa Wen wrote:
+> 
+> 
+> 
+> On 25/10/2024 16:37, Zaeem Mohamed wrote:
+>> [why]
+>> Prevent index-out-of-bounds due to requiring cursor overlay when
+>> plane_count is MAX_SURFACES.
+> Hi Zaeem,
+> 
+> Thanks for working on this fix.
+>>
+>> [how]
+>> Bounds check on plane_count when requiring overlay cursor.
+> I agree. Atomic check makes sense.
+> 
+> 1) Since the native cursor mode was previously the unique mode avaliable, I
+> wonder if the driver should fall to native cursor mode in favor of the overlay
+> planes advertised. I.e. if driver says it supports two overlay planes and
+> the userspace requested both, cursor overlay mode should not be available or
+> should switch to native cursor mode, as before the introduction of cursor
+> overlay mode.
 
-are available in the Git repository at:
+Hey Melissa,
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2024-10-28
+The overlay cursor implementation today should still do native cursor in all
+cases, except for when it is not possible: if there is a underlying scaled or
+YUV plane.
 
-for you to fetch changes up to d6d1ad32d00714ecf9f1996173c6f98e43c5b022:
+In such cases, we previously rejected the atomic commit, since the hw won't be
+able to produce the rendering intent. Now, we try to accommodate it by using a
+dedicated overlay plane. IOW, fallback to native here is equivalent to an atomic
+reject.
 
-  drm/msm/a6xx: Fix excessive stack usage (2024-10-28 09:31:33 -0700)
+> 
+> 2) Then my second question: can we increase the number of surfaces to 4 first to
+> accommodate more than one active overlay plane with cursor overly mode enabled.
+> If four is still possible, this increase can reduce the number of commit
+> failure scenarios and mitigate current userspace issues first. After addressing
+> current array-out-of-bounds, follow-up patches can do the proper changes and
+> checks.
+> 
 
-----------------------------------------------------------------
-Updates for v6.13
+My initial thought was to merge the proper fix first to address the current
+issues. But if increasing MAX_SURFACES->4 also helps, I don't have a strong
+opinion about it :)
 
-Core:
-- Switch to aperture_remove_all_conflicting_devices()
-- Simplify msm_disp_state_dump_regs()
+I think Zaeem is working on MAX_SURFACES->4 as well, but there's some detangling
+work required in DC to accommodate another OS that dc supports. I have a feeling
+this fix may land earlier than the ->4 patch. (see my patch comments below)
 
-DPU:
-- Add SA8775P support
-- Add (disabled by default) MSM8917, MSM8937, MSM8953 and MSM8996
-  support
-- Enable support for larger framebuffers (required for X.Org working
-  with several outputs)
-- Dropped LM_3, LM_4 (MSM8998, SDM845)
-- Fixed DSPP_3 routing on SDM845
+> 3) IMHO, the incoherence between MAX_SURFACE_NUM and MAX_SURFACE should be
+> addressed before adding debugging points. For example, there are part of the
+> DC code using MAX_SURFACE_NUM == MAX_PLANE == 6 to allocate dc_surface_update
+> arrays, instead of using MAX_SURFACE value. You can find one of this case here:
+> https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/ 
+> gpu/drm/amd/display/dc/core/dc.c#L4507
+> It doesn't make sense to me and it can contribute to an incomplete solution.
 
-DP:
-- Add SA8775P support
+Right, also see below
 
-HDMI:
-- Mark two arrays as const in MSM8998 HDMI PHY driver
+> 
+> Also, please add the references of bugs reported in the amd tracker, so far:
+> 
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3693
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3594
+>> Co-developed-by: Melissa Wen <mwen@igalia.com>
+> I don't think I contributed enough to your code to get any credits.
+> Thanks, but you can remove my co-dev-by :)
+> 
+> Best Regards,
+> 
+> Melissa
+>> Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+>> ---
+>>   amdgpu_dm/amdgpu_dm.c | 16 +++++++++++++++-
+>>   1 file changed, 15 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/amdgpu_dm/amdgpu_dm.c b/amdgpu_dm/amdgpu_dm.c
+>> index df83e7b42b..c2595efb74 100644
+>> --- a/amdgpu_dm/amdgpu_dm.c
+>> +++ b/amdgpu_dm/amdgpu_dm.c
+>> @@ -11676,6 +11676,12 @@ static int amdgpu_dm_atomic_check(struct drm_device 
+>> *dev,
+>>            * need to be added for DC to not disable a plane by mistake
+>>            */
+>>           if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE) {
+>> +            if(dc->current_state->stream_status->plane_count >= MAX_SURFACES){
+>> +                drm_dbg_driver(crtc->dev,
+>> +                       "Can't enable cursor plane with %d planes\n", 
+>> MAX_SURFACES);
+>> +                ret = -EINVAL;
+>> +                goto fail;
+>> +            }
 
-GPU:
-- a7xx preemption support
-- Adreno A663 support
-- Typos fixes, etc
-- Fix excessive stack usage in a6xx GMU
+Hey Zaeem,
 
-----------------------------------------------------------------
-Akhil P Oommen (1):
-      drm/msm/a6xx: Fix excessive stack usage
+I took a tour through DC, and it seems to me that MAX_SURFACE_NUM can be made
+equal to MAX_SURFACES in all cases. I wonder, if we simply replace
+MAX_SURFACE_NUM with MAX_SURFACES = 3, will we still need these explicit fails?
+FWICT, `dc_state_add_plane` should fail for us.
 
-Antonino Maniscalco (12):
-      drm/msm: Fix bv_fence being used as bv_rptr
-      drm/msm/a6xx: Track current_ctx_seqno per ring
-      drm/msm: Add a `preempt_record_size` field
-      drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
-      drm/msm/a6xx: Add a pwrup_list field to a6xx_info
-      drm/msm/a6xx: Implement preemption for a7xx targets
-      drm/msm/a6xx: Sync relevant adreno_pm4.xml changes
-      drm/msm/a6xx: Use posamble to reset counters on preemption
-      drm/msm/a6xx: Add traces for preemption
-      drm/msm/a6xx: Add a flag to allow preemption to submitqueue_create
-      drm/msm/a6xx: Enable preemption for tested a7xx targets
-      Documentation: document adreno preemption
+Thanks,
+Leo
 
-Colin Ian King (1):
-      drm/msm8998: make const arrays ratio_list and band_list static
+>>               ret = drm_atomic_add_affected_planes(state, crtc);
+>>               if (ret)
+>>                   goto fail;
+>> @@ -11769,8 +11775,16 @@ static int amdgpu_dm_atomic_check(struct drm_device 
+>> *dev,
+>>           /* Overlay cusor not subject to native cursor restrictions */
+>>           dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
+>> -        if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE)
+>> +        if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE){
+>> +            if(dc->current_state->stream_status->plane_count > MAX_SURFACES){
+>> +                drm_dbg_driver(crtc->dev,
+>> +                       "Can't enable cursor plane with %d planes\n", 
+>> MAX_SURFACES);
+>> +                ret = -EINVAL;
+>> +                goto fail;
+>> +            }
+>> +
+>>               continue;
+>> +        }
+>>           /* Check if rotation or scaling is enabled on DCN401 */
+>>           if ((drm_plane_mask(crtc->cursor) & new_crtc_state->plane_mask) &&
+> 
 
-Dmitry Baryshkov (22):
-      drm/msm/dpu: make sure phys resources are properly initialized
-      drm/msm/dpu: move CRTC resource assignment to
-dpu_encoder_virt_atomic_check
-      drm/msm/dpu: check for overflow in _dpu_crtc_setup_lm_bounds()
-      drm/msm/hdmi: drop pll_cmp_to_fdata from hdmi_phy_8998
-      drm/msm/dpu: Add support for MSM8953
-      drm/msm/dpu: Add support for MSM8937
-      drm/msm/dpu: Add support for MSM8917
-      drm/msm/dpu: on SDM845 move DSPP_3 to LM_5 block
-      drm/msm/dpu: drop LM_3 / LM_4 on SDM845
-      drm/msm/dpu: drop LM_3 / LM_4 on MSM8998
-      drm/msm/dpu: drop dpu_format_check_modified_format
-      drm/msm/dpu: drop dpu_format_populate_layout from
-dpu_plane_sspp_atomic_update
-      drm/msm/dpu: drop extra aspace checks in dpu_formats
-      drm/msm/dpu: drop msm_format from struct dpu_hw_fmt_layout
-      drm/msm/dpu: pass drm_framebuffer to _dpu_format_get_plane_sizes()
-      drm/msm/dpu: move pitch check to _dpu_format_get_plane_sizes_linear()
-      drm/msm/dpu: split dpu_format_populate_layout
-      drm/msm/dpu: make dpu_format_populate_addrs return void
-      drm/msm/dpu: move layout setup population out of dpu_plane_prepare_fb()
-      drm/msm/dpu: check for the plane pitch overflow
-      drm/msm/dpu: merge MAX_IMG_WIDTH/HEIGHT with DPU_MAX_IMG_WIDTH/HEIGHT
-      drm/msm/dpu: sync mode_config limits to the FB limits in dpu_plane.c
-
-Douglas Anderson (3):
-      drm/msm: Avoid NULL dereference in msm_disp_state_print_regs()
-      drm/msm: Allocate memory for disp snapshot with kvzalloc()
-      drm/msm: Simplify NULL checking in msm_disp_state_dump_regs()
-
-Everest K.C. (1):
-      drm/msm/a6xx: Remove logically deadcode in a6xx_preempt.c
-
-Jessica Zhang (2):
-      drm/msm/dpu: Don't always set merge_3d pending flush
-      drm/msm/dpu: don't always program merge_3d block
-
-Jinjie Ruan (1):
-      drm/msm/adreno: Use IRQF_NO_AUTOEN flag in request_irq()
-
-Jonathan Marek (2):
-      drm/msm/dsi: improve/fix dsc pclk calculation
-      drm/msm/dsi: fix 32-bit signed integer extension in pclk_rate calculation
-
-Konrad Dybcio (1):
-      drm/msm/dpu: Add support for MSM8996
-
-Krzysztof Kozlowski (5):
-      dt-bindings: display/msm: merge SC8280XP DPU into SC7280
-      dt-bindings: display/msm: merge SM8250 DPU into SM8150
-      dt-bindings: display/msm: merge SM8350 DPU into SC7280
-      dt-bindings: display/msm: merge SM8450 DPU into SC7280
-      dt-bindings: display/msm: merge SM8550 DPU into SC7280
-
-Lukasz Luba (1):
-      drm/msm/gpu: Check the status of registration to PM QoS
-
-Mahadevan (4):
-      dt-bindings: display/msm: Document MDSS on SA8775P
-      dt-bindings: display/msm: Document the DPU for SA8775P
-      drm/msm: mdss: Add SA8775P support
-      drm/msm/dpu: Add SA8775P support
-
-Puranam V G Tejaswi (2):
-      drm/msm/a6xx: Add support for A663
-      dt-bindings: display/msm/gmu: Add Adreno 663 GMU
-
-Rob Clark (2):
-      drm/msm/a6xx+: Insert a fence wait before SMMU table update
-      Merge branch 'msm-fixes' into msm-next
-
-Shen Lichuan (1):
-      drm/msm: Fix some typos in comment
-
-Soutrik Mukhopadhyay (2):
-      dt-bindings: display: msm: dp-controller: document SA8775P compatible
-      drm/msm/dp: Add DisplayPort controller for SA8775P
-
-Thomas Zimmermann (1):
-      drm/msm: Use video aperture helpers
-
-Yang Li (1):
-      drm/msm: Remove unneeded semicolon
-
- .../bindings/display/msm/dp-controller.yaml        |   1 +
- .../devicetree/bindings/display/msm/gmu.yaml       |   1 +
- .../bindings/display/msm/qcom,sa8775p-mdss.yaml    | 241 ++++++++++
- .../bindings/display/msm/qcom,sc7280-dpu.yaml      |  10 +-
- .../bindings/display/msm/qcom,sc8280xp-dpu.yaml    | 122 ------
- .../bindings/display/msm/qcom,sm8150-dpu.yaml      |   4 +-
- .../bindings/display/msm/qcom,sm8250-dpu.yaml      |  99 -----
- .../bindings/display/msm/qcom,sm8350-dpu.yaml      | 120 -----
- .../bindings/display/msm/qcom,sm8450-dpu.yaml      | 139 ------
- .../bindings/display/msm/qcom,sm8550-dpu.yaml      | 133 ------
- .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   1 +
- Documentation/gpu/msm-preemption.rst               |  99 +++++
- drivers/gpu/drm/msm/Makefile                       |   1 +
- drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
- drivers/gpu/drm/msm/adreno/a5xx_power.c            |   2 +-
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |  61 ++-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |   4 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   1 +
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 262 +++++++++--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 170 ++++++++
- drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |  67 ++-
- drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 456 +++++++++++++++++++
- drivers/gpu/drm/msm/adreno/adreno_device.c         |   4 +
- drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   2 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  27 +-
- .../drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h   | 210 +++++++++
- .../drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h   | 187 ++++++++
- .../drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h   | 218 +++++++++
- .../drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h    | 338 ++++++++++++++
- .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  12 -
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  14 +-
- .../drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h    | 485 +++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  34 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  68 +--
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   7 +-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  42 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        | 243 ++++-------
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h        |  30 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 109 +++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   9 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   2 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |   2 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |   4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          |   3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  15 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  50 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h          |   3 +
- drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c  |  36 +-
- drivers/gpu/drm/msm/dp/dp_display.c                |   9 +
- drivers/gpu/drm/msm/dsi/dsi_host.c                 |   4 +-
- drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c           |  16 +-
- drivers/gpu/drm/msm/msm_drv.c                      |   4 +
- drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
- drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
- drivers/gpu/drm/msm/msm_gpu_devfreq.c              |   9 +-
- drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
- drivers/gpu/drm/msm/msm_kms.c                      |   4 +-
- drivers/gpu/drm/msm/msm_kms.h                      |   6 -
- drivers/gpu/drm/msm/msm_mdss.c                     |  11 +
- drivers/gpu/drm/msm/msm_ringbuffer.c               |   2 +-
- drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
- drivers/gpu/drm/msm/msm_submitqueue.c              |   7 +
- drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
- .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
- include/uapi/drm/msm_drm.h                         |   5 +-
- 68 files changed, 3275 insertions(+), 1067 deletions(-)
- create mode 100644
-Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
- delete mode 100644
-Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-dpu.yaml
- delete mode 100644
-Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
- delete mode 100644
-Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml
- delete mode 100644
-Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
- delete mode 100644
-Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml
- create mode 100644 Documentation/gpu/msm-preemption.rst
- create mode 100644 drivers/gpu/drm/msm/adreno/a6xx_preempt.c
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
