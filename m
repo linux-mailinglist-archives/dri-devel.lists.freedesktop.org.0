@@ -2,107 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E679B2D09
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:39:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D07E9B2D0C
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:40:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05F4910E467;
-	Mon, 28 Oct 2024 10:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC4B810E46B;
+	Mon, 28 Oct 2024 10:40:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kUlXvH7R";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="EHvTo01w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC4110E46C
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:39:21 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49SAXMET020701
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:39:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- IvU7ZlrjHkB3EzPLVjXtJ5AQLhmlFJL/Cm51xZ+jJsU=; b=kUlXvH7ROgF8wWpO
- BLdgBIYYnFUd5HTp+kThsGnuyDXxXxavDPKSyGEh9/btwaKgZEOyw3GTHsGsMIrE
- qzumdr8gDR5BdMZqg39AiF4gaz7mkJmJ7xvck4zxltVHmIaktSSmgvRoQs10YqsR
- ikOt5aOBMYoc+hIqATR9RJZMNcd5IG/5KuNmUqYbw6Mp4jgn/hUlRsz3caQ2WjHT
- D7sRKonzvDJaTCKjRVtoFrCqB6Oh+ixRlZH1oi2nO3v0NmNuPEkAjFEKq5SK7GVa
- vnHGRHvxUqVTEsdJzZ3f2gsBFW4kLnVKjba+/uDzpqd2cMneRkY5Js2wUiA6sQVZ
- EdefOg==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gskjvf4j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:39:20 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6cbd0a3f253so10961336d6.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 03:39:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730111959; x=1730716759;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IvU7ZlrjHkB3EzPLVjXtJ5AQLhmlFJL/Cm51xZ+jJsU=;
- b=wzQ5da7HDJif44NHn7JlHSwcvDnCRzWn77SJ458XB/s/AV2e5bp2d8v0KCclwKkFtF
- VmosA/JPenO3pk39eG4IEwJMgwiUtnFX8jCh0/N/K+eSbb/vq+r7kL00tPXNHMFT6t41
- 616gCL28S4sA5756wN7eW4kjctQ6u6FIjahnCl9ES2rvWTK41Q29lUM6n69u58jItXCL
- hUsHdbfQHWEHHUSVeywRidxFahyGPsNS+4lnXg7gS0PVOK5pjG87D50fjLiBu9Dg7jbm
- ZMN49YQLjpJpj4vf57sfLqOH3QG45+Fs+LXROdrK2TVPdxnIiLYIp9OQToX+NCV48nNB
- 402Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUf1pOV2jwM7pIy8oJKJgXKB8qDOt2hBPQWG9hMkxauM9Oggloy/a482bKAzWcN/rLSr6gxGJSut1k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxUlBEZT2sQtwzSYTlutQ399VPl6wa6dlVqEVmDIBQcxoIjCGJ9
- CWsS0VUeaBWUghbxSK7zaNvyb6Ej3fQxQNjZQK6Sf2dulfUtJOXA1s1ZdjFdl9QJvnXy+idWGOi
- 8+7wA3tCqq6mlZ5SLeHdQJr0rj8N/NOOIFGjP9sDPbA7Kr8Fpmf2H7L27sCbHm9SaSuw=
-X-Received: by 2002:ad4:5c6f:0:b0:6cb:f0f2:f56c with SMTP id
- 6a1803df08f44-6d1856943c8mr65408906d6.6.1730111959501; 
- Mon, 28 Oct 2024 03:39:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGuXnJ9QctQQKnrr1B9d6Pnh3CdOC3tp1NlBtHDTDJwYz+DKoHJwok6hm3fQ7kNKdJ+ruWTuQ==
-X-Received: by 2002:ad4:5c6f:0:b0:6cb:f0f2:f56c with SMTP id
- 6a1803df08f44-6d1856943c8mr65408636d6.6.1730111959225; 
- Mon, 28 Oct 2024 03:39:19 -0700 (PDT)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a9b3099ddb9sm369502766b.173.2024.10.28.03.39.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Oct 2024 03:39:18 -0700 (PDT)
-Message-ID: <55ca17a3-8ea6-450e-8ec6-9bda97808164@oss.qualcomm.com>
-Date: Mon, 28 Oct 2024 11:39:16 +0100
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B2C710E46B
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:39:59 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 59083240003;
+ Mon, 28 Oct 2024 10:39:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1730111998;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zPDwwNAUYrFyDbDchKGTEAK7o97xBTv4CihEk+m0Cdw=;
+ b=EHvTo01wp1vvvkqSAmZqYFEXN/3d0ip6sbZxcXGkWMhEhi9ccaxufDf/8djnfrj3PFjCOz
+ oymQJg7o31yWwDO/xMc5WcI9XCCW/Jh+r+6nGAYGafFj8GCVNF/xRgI3qx9WAdfoJYulYN
+ WEn/VABn35f0Tm+oVCDu4M2WCRyz7dpLAz10aJPxAqmy8nvWOD4yGKoC6bCjGZPJbH8EN1
+ EtwooqZsNFcNZROyPTcWXzX7mg+4Hw3te3+XyhtCzJTpuQHqASr4/ryuZDjVEycs0v8EqG
+ 8915j+S4kT346lgHioL18hppQOtrBwg0nB1SPcg4dshsN6eGxJHdrQaK2Fe2Gg==
+Date: Mon, 28 Oct 2024 11:39:51 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+Subject: Re: [PATCH RESEND v2 2/8] drm/vkms: Add support for ARGB8888 formats
+Message-ID: <Zx9p96AbSIB7xYTl@louis-chauvet-laptop>
+Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+References: <20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com>
+ <20241007-b4-new-color-formats-v2-2-d47da50d4674@bootlin.com>
+ <40c85513-6c57-4b9c-87f6-2ca56c556462@riseup.net>
+ <Zx9eateq0ylJGvS_@fedora>
+ <3b497dee-9371-4d21-a4a6-e75a6e61e364@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/a6xx: Fix excessive stack usage
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Arnd Bergmann
- <arnd@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
-References: <20241027-stack-size-fix-v1-1-764e2e3566cb@quicinc.com>
- <3fb376b3-2db7-4730-a2e1-958f1ddd9f5c@app.fastmail.com>
- <6b7c2ae7-3210-4d57-a7b0-2efea594b2b9@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <6b7c2ae7-3210-4d57-a7b0-2efea594b2b9@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: Yk6FeZNf8hNVIOkf6rmLsKhUriiyohZt
-X-Proofpoint-ORIG-GUID: Yk6FeZNf8hNVIOkf6rmLsKhUriiyohZt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015
- impostorscore=0 suspectscore=0 phishscore=0 priorityscore=1501
- mlxlogscore=999 bulkscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410280086
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3b497dee-9371-4d21-a4a6-e75a6e61e364@riseup.net>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,53 +88,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.10.2024 10:52 AM, Akhil P Oommen wrote:
-> On 10/28/2024 12:13 AM, Arnd Bergmann wrote:
->> On Sun, Oct 27, 2024, at 18:05, Akhil P Oommen wrote:
->>> Clang-19 and above sometimes end up with multiple copies of the large
->>> a6xx_hfi_msg_bw_table structure on the stack. The problem is that
->>> a6xx_hfi_send_bw_table() calls a number of device specific functions to
->>> fill the structure, but these create another copy of the structure on
->>> the stack which gets copied to the first.
->>>
->>> If the functions get inlined, that busts the warning limit:
->>>
->>> drivers/gpu/drm/msm/adreno/a6xx_hfi.c:631:12: error: stack frame size 
->>> (1032) exceeds limit (1024) in 'a6xx_hfi_send_bw_table' 
->>> [-Werror,-Wframe-larger-than]
->>>
->>> Fix this by kmalloc-ating struct a6xx_hfi_msg_bw_table instead of using
->>> the stack. Also, use this opportunity to skip re-initializing this table
->>> to optimize gpu wake up latency.
->>>
->>> Cc: Arnd Bergmann <arnd@kernel.org>
->>
->> Please change this to "Reported-by:"
+On 28/10/24 - 07:20, Maíra Canal wrote:
+> Hi Louis,
 > 
-> Sure.
+> On 28/10/24 06:50, Louis Chauvet wrote:
+> > On 26/10/24 - 11:11, Maíra Canal wrote:
+> > > Hi Louis,
+> > > 
+> > > On 07/10/24 13:46, Louis Chauvet wrote:
+> > > > The formats XRGB8888 and ARGB8888 were already supported.
+> > > > Add the support for:
+> > > > - XBGR8888
+> > > > - RGBX8888
+> > > > - BGRX8888
+> > > > - ABGR8888
+> > > > - RGBA8888
+> > > > - BGRA8888
+> > > > 
+> > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > > ---
+> > > >    drivers/gpu/drm/vkms/vkms_formats.c | 18 ++++++++++++++++++
+> > > >    drivers/gpu/drm/vkms/vkms_plane.c   |  6 ++++++
+> > > >    2 files changed, 24 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> > > > index 8f1bcca38148..b5a38f70c62b 100644
+> > > > --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> > > > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> > > > @@ -432,8 +432,14 @@ static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
+> > > >    READ_LINE_ARGB8888(XRGB8888_read_line, px, 255, px[2], px[1], px[0])
+> > > > +READ_LINE_ARGB8888(XBGR8888_read_line, px, 255, px[0], px[1], px[2]) > +READ_LINE_ARGB8888(RGBX8888_read_line, px, 255, px[3], px[2], px[1])
+> > > 
+> > > I'm not expert in colors, but is this correct? From what I understand,
+> > > it should be:
+> > 
+> > Yes, this is correct, READ_LINE_ARGB8888 take the parameters as A, R, G,
+> > B, so here 0xFF, px[2], px[1], px[0]
 > 
->>
->> The patch looks correct to me, just one idea for improvement.
->>
->>> b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->>> index 94b6c5cab6f4..b4a79f88ccf4 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->>> @@ -99,6 +99,7 @@ struct a6xx_gmu {
->>>  	struct completion pd_gate;
->>>
->>>  	struct qmp *qmp;
->>> +	struct a6xx_hfi_msg_bw_table *bw_table;
->>>  };
->>
->> I think the bw_table is better just embedded
->> in here rather than referenced as a pointer:
->>
-> There are some low tier chipsets with relatively lower RAM size that
-> doesn't require this table. So, dynamically allocating this here helps
-> to save 640 bytes (minus the overhead of tracking).
+> Now I wonder if
+> 
+> READ_LINE_ARGB8888(XRGB8888_read_line, px, 255, px[2], px[1], px[0])
+> 
+> is correct.
 
-I'd second this, said chipsets often ship with 1-2 GiB of RAM (which
-is still a lot in comparison, but you know.. every little bit counts)
+Why? 
 
-Konrad
+It creates the function `XRGB8888_read_line`, that reads the pixel line, 4 
+bytes by 4 bytes, ignore the alpha value, uses px[2] as R, px[1] 
+as G, px[0] as B.
+
+I just tested with kms_plane (igt version 1.27.1-NO-GIT, fedora), and he 
+seems happy on all the supported formats, including XRGB8888 (XR24):
+
+Testing format XR24(0x34325258) / modifier linear(0x0) on A.0
+Testing format AR24(0x34325241) / modifier linear(0x0) on A.0
+Testing format AB24(0x34324241) / modifier linear(0x0) on A.0
+Testing format XB24(0x34324258) / modifier linear(0x0) on A.0
+Testing format RG24(0x34324752) / modifier linear(0x0) on A.0
+Testing format BG24(0x34324742) / modifier linear(0x0) on A.0
+Testing format XR48(0x38345258) / modifier linear(0x0) on A.0
+Testing format XB48(0x38344258) / modifier linear(0x0) on A.0
+Testing format AR48(0x38345241) / modifier linear(0x0) on A.0
+Testing format AB48(0x38344241) / modifier linear(0x0) on A.0
+Testing format RG16(0x36314752) / modifier linear(0x0) on A.0
+Testing format BG16(0x36314742) / modifier linear(0x0) on A.0
+Testing format NV12(0x3231564e) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format NV12(0x3231564e) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format NV12(0x3231564e) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format NV12(0x3231564e) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format NV12(0x3231564e) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format NV12(0x3231564e) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+Testing format NV16(0x3631564e) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format NV16(0x3631564e) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format NV16(0x3631564e) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format NV16(0x3631564e) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format NV16(0x3631564e) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format NV16(0x3631564e) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+Testing format NV21(0x3132564e) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format NV21(0x3132564e) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format NV21(0x3132564e) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format NV21(0x3132564e) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format NV21(0x3132564e) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format NV21(0x3132564e) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+Testing format NV61(0x3136564e) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format NV61(0x3136564e) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format NV61(0x3136564e) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format NV61(0x3136564e) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format NV61(0x3136564e) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format NV61(0x3136564e) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+Testing format YU12(0x32315559) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format YU12(0x32315559) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format YU12(0x32315559) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format YU12(0x32315559) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format YU12(0x32315559) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format YU12(0x32315559) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+Testing format YU16(0x36315559) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format YU16(0x36315559) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format YU16(0x36315559) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format YU16(0x36315559) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format YU16(0x36315559) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format YU16(0x36315559) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+Testing format YV12(0x32315659) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format YV12(0x32315659) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format YV12(0x32315659) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format YV12(0x32315659) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format YV12(0x32315659) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format YV12(0x32315659) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+Testing format YV16(0x36315659) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format YV16(0x36315659) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format YV16(0x36315659) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format YV16(0x36315659) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format YV16(0x36315659) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format YV16(0x36315659) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+Testing format P010(0x30313050) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format P010(0x30313050) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format P010(0x30313050) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format P010(0x30313050) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format P010(0x30313050) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format P010(0x30313050) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+Testing format P012(0x32313050) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format P012(0x32313050) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format P012(0x32313050) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format P012(0x32313050) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format P012(0x32313050) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format P012(0x32313050) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+Testing format P016(0x36313050) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr limited range) on A.0
+Testing format P016(0x36313050) / modifier linear(0x0) (ITU-R BT.601 YCbCr, YCbCr full range) on A.0
+Testing format P016(0x36313050) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr limited range) on A.0
+Testing format P016(0x36313050) / modifier linear(0x0) (ITU-R BT.709 YCbCr, YCbCr full range) on A.0
+Testing format P016(0x36313050) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr limited range) on A.0
+Testing format P016(0x36313050) / modifier linear(0x0) (ITU-R BT.2020 YCbCr, YCbCr full range) on A.0
+
+
+> Best Regards,
+> - Maíra
+> 
+> > > READ_LINE_ARGB8888(RGBX8888_read_line, px, px[2], px[1], px[0], 255)
+> > >                                             ^R     ^G     ^B     ^X
+> > > 
+> > > > +READ_LINE_ARGB8888(BGRX8888_read_line, px, 255, px[1], px[2], px[3])
+> > > 
+> > > Again, is this correct?
+> > > 
+> > > Best Regards,
+> > > - Maíra
+> > > 
+> > > >    READ_LINE_ARGB8888(ARGB8888_read_line, px, px[3], px[2], px[1], px[0])
+> > > > +READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
+> > > > +READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
+> > > > +READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
+> > > >    READ_LINE_16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0]);
+> > > > @@ -637,8 +643,20 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+> > > >    	switch (format) {
+> > > >    	case DRM_FORMAT_ARGB8888:
+> > > >    		return &ARGB8888_read_line;
+> > > > +	case DRM_FORMAT_ABGR8888:
+> > > > +		return &ABGR8888_read_line;
+> > > > +	case DRM_FORMAT_BGRA8888:
+> > > > +		return &BGRA8888_read_line;
+> > > > +	case DRM_FORMAT_RGBA8888:
+> > > > +		return &RGBA8888_read_line;
+> > > >    	case DRM_FORMAT_XRGB8888:
+> > > >    		return &XRGB8888_read_line;
+> > > > +	case DRM_FORMAT_XBGR8888:
+> > > > +		return &XBGR8888_read_line;
+> > > > +	case DRM_FORMAT_RGBX8888:
+> > > > +		return &RGBX8888_read_line;
+> > > > +	case DRM_FORMAT_BGRX8888:
+> > > > +		return &BGRX8888_read_line;
+> > > >    	case DRM_FORMAT_ARGB16161616:
+> > > >    		return &ARGB16161616_read_line;
+> > > >    	case DRM_FORMAT_XRGB16161616:
+> > > > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> > > > index 67f891e7ac58..941a6e92a040 100644
+> > > > --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> > > > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> > > > @@ -14,7 +14,13 @@
+> > > >    static const u32 vkms_formats[] = {
+> > > >    	DRM_FORMAT_ARGB8888,
+> > > > +	DRM_FORMAT_ABGR8888,
+> > > > +	DRM_FORMAT_BGRA8888,
+> > > > +	DRM_FORMAT_RGBA8888,
+> > > >    	DRM_FORMAT_XRGB8888,
+> > > > +	DRM_FORMAT_XBGR8888,
+> > > > +	DRM_FORMAT_RGBX8888,
+> > > > +	DRM_FORMAT_BGRX8888,
+> > > >    	DRM_FORMAT_XRGB16161616,
+> > > >    	DRM_FORMAT_ARGB16161616,
+> > > >    	DRM_FORMAT_RGB565,
+> > > > 
+> 
