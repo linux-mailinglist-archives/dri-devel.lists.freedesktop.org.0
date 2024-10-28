@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C9C9B2BE5
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 10:50:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0549B2BE2
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 10:50:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 751FF10E381;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A61E10E440;
 	Mon, 28 Oct 2024 09:50:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bTjVV2dS";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Wa5cEUK4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA41610E0F3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA47B10E381
  for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 09:50:39 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2B0C2E0002;
- Mon, 28 Oct 2024 09:50:35 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 23EF3E0007;
+ Mon, 28 Oct 2024 09:50:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1730109037;
+ t=1730109038;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RbdtTtCcCk9RaJY1Kj8VuSOKAfBOoXQ8tDcw4QSkt3I=;
- b=bTjVV2dSpZucobWmf1h9UsPM1359PHCJ3CONTkTqaXtV5nVfmOpmcPAyLo5V/U2+OSSGYq
- iNX22mlAwRU8NNSU3YNHB0+O3DGjU9Dn4ZPWzzPZk8AOFjltty9XHg3NlV2YX/Ut4UpBfr
- Tc8HWIzdzf+fceT4eVottkGiUKO3qlOjoFPqiugk2qcSZJ1li7/TjpYqXQeZ1ZlBKmwDqD
- jZMaXBA0OPrcLAExD1i/aMDPZ8Wp/CD7itf0ekOhre/0rgYdRExOoAVCnt0HHNLweh3oez
- fUAoRX2ojsm5U2zkZK9vZmBhTZk0ZuFUdDni5pJlcDZBeiVINznqzXv0HERJqg==
-Date: Mon, 28 Oct 2024 10:50:34 +0100
+ bh=hbsfqPI/+Pq0sVsIDMdySlzGdjH2/Ya3VyVTgeSvFyE=;
+ b=Wa5cEUK4rELTUuRoJFNkvcp9ZM959c5x73lKCnMLrVVHcTogtVkwqBmXezMIJoHyYn666v
+ fNz80L9Njj/GQQkvRkj71/D0o0L8M2Fo2jEImxODvNc4bB/PZXS1chXGeZlwsMVB4f7nZx
+ Dz9TtODIZC+RRw3nEwyRtt0WBBfuGLnXa5/o23JrU2v3z2t8cUFsWPYP+1kPUET2kxiwS7
+ 2IW7pDLTUYa84jqndr1yjn8ILxkcLJmCgYRTlclpPnrabWKr35YA2DmLDjzGKaN6bl+AxF
+ M00Vm1BgmrMW/pbLUflJiIhZ/cjNZCiNzdQkAcav+/14F58X0fgTlAIJKgQIOg==
+Date: Mon, 28 Oct 2024 10:50:35 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>
 Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
@@ -44,10 +44,10 @@ Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
  miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
-Subject: Re: [PATCH RESEND v2 2/8] drm/vkms: Add support for ARGB8888 formats
-Message-ID: <Zx9eateq0ylJGvS_@fedora>
+ seanpaul@google.com, nicolejadeyee@google.com,
+ 20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com
+Subject: Re: [PATCH v4 1/5] drm/vkms: Switch to managed for connector
+Message-ID: <Zx9eazl8s7o6Mx-T@fedora>
 Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>,
@@ -60,16 +60,16 @@ Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
  dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
  miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
-References: <20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com>
- <20241007-b4-new-color-formats-v2-2-d47da50d4674@bootlin.com>
- <40c85513-6c57-4b9c-87f6-2ca56c556462@riseup.net>
+ seanpaul@google.com, nicolejadeyee@google.com,
+ 20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com
+References: <20241010-google-vkms-managed-v4-0-ed04a62ad2e3@bootlin.com>
+ <20241010-google-vkms-managed-v4-1-ed04a62ad2e3@bootlin.com>
+ <575323aa-d322-4d03-8343-15aaaa955437@riseup.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <40c85513-6c57-4b9c-87f6-2ca56c556462@riseup.net>
+In-Reply-To: <575323aa-d322-4d03-8343-15aaaa955437@riseup.net>
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,90 +86,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/10/24 - 11:11, Maíra Canal wrote:
+On 26/10/24 - 12:29, Maíra Canal wrote:
 > Hi Louis,
 > 
-> On 07/10/24 13:46, Louis Chauvet wrote:
-> > The formats XRGB8888 and ARGB8888 were already supported.
-> > Add the support for:
-> > - XBGR8888
-> > - RGBX8888
-> > - BGRX8888
-> > - ABGR8888
-> > - RGBA8888
-> > - BGRA8888
+> On 10/10/24 14:39, Louis Chauvet wrote:
+> > The current VKMS driver uses non-managed function to create connectors. It
+> > is not an issue yet, but in order to support multiple devices easily,
+> > convert this code to use drm and device managed helpers.
 > > 
 > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > > ---
-> >   drivers/gpu/drm/vkms/vkms_formats.c | 18 ++++++++++++++++++
-> >   drivers/gpu/drm/vkms/vkms_plane.c   |  6 ++++++
-> >   2 files changed, 24 insertions(+)
+> >   drivers/gpu/drm/vkms/vkms_output.c | 19 +++++++------------
+> >   1 file changed, 7 insertions(+), 12 deletions(-)
 > > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> > index 8f1bcca38148..b5a38f70c62b 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> > @@ -432,8 +432,14 @@ static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
-> >   READ_LINE_ARGB8888(XRGB8888_read_line, px, 255, px[2], px[1], px[0])
-> > +READ_LINE_ARGB8888(XBGR8888_read_line, px, 255, px[0], px[1], px[2]) > +READ_LINE_ARGB8888(RGBX8888_read_line, px, 255, px[3], px[2], px[1])
+> > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> > index 5128aa3b2eb6..8f7a05b73e1d 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_output.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> > @@ -3,11 +3,11 @@
+> >   #include "vkms_drv.h"
+> >   #include <drm/drm_atomic_helper.h>
+> >   #include <drm/drm_edid.h>
+> > +#include <drm/drm_managed.h>
+> >   #include <drm/drm_probe_helper.h>
+> >   static const struct drm_connector_funcs vkms_connector_funcs = {
+> >   	.fill_modes = drm_helper_probe_single_connector_modes,
+> > -	.destroy = drm_connector_cleanup,
+> >   	.reset = drm_atomic_helper_connector_reset,
+> >   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> >   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> > @@ -70,17 +70,17 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+> >   			if (IS_ERR(overlay)) {
+> >   				DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
+> >   				ret = PTR_ERR(overlay);
+> > -				goto err_crtc;
+> > +				goto err_connector;
 > 
-> I'm not expert in colors, but is this correct? From what I understand,
-> it should be:
+> Why did you renamed err_crtc to err_connector? I think err_crtc looks
+> correct.
 
-Yes, this is correct, READ_LINE_ARGB8888 take the parameters as A, R, G, 
-B, so here 0xFF, px[2], px[1], px[0]
+I rename it many times during my work, it was never clear for me if 
+"err_crtc" is about an error during the CRTC initialization or a label to 
+clean the crtc.
+
+If for you err_crtc is correct (ie err_<thing> means "cleanup <thing>"), I 
+will switch to this pattern.
+
+Thanks,
+Louis Chauvet
  
-> READ_LINE_ARGB8888(RGBX8888_read_line, px, px[2], px[1], px[0], 255)
->                                            ^R     ^G     ^B     ^X
-> 
-> > +READ_LINE_ARGB8888(BGRX8888_read_line, px, 255, px[1], px[2], px[3])
-> 
-> Again, is this correct?
->
 > Best Regards,
 > - Maíra
 > 
-> >   READ_LINE_ARGB8888(ARGB8888_read_line, px, px[3], px[2], px[1], px[0])
-> > +READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
-> > +READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
-> > +READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
-> >   READ_LINE_16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0]);
-> > @@ -637,8 +643,20 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
-> >   	switch (format) {
-> >   	case DRM_FORMAT_ARGB8888:
-> >   		return &ARGB8888_read_line;
-> > +	case DRM_FORMAT_ABGR8888:
-> > +		return &ABGR8888_read_line;
-> > +	case DRM_FORMAT_BGRA8888:
-> > +		return &BGRA8888_read_line;
-> > +	case DRM_FORMAT_RGBA8888:
-> > +		return &RGBA8888_read_line;
-> >   	case DRM_FORMAT_XRGB8888:
-> >   		return &XRGB8888_read_line;
-> > +	case DRM_FORMAT_XBGR8888:
-> > +		return &XBGR8888_read_line;
-> > +	case DRM_FORMAT_RGBX8888:
-> > +		return &RGBX8888_read_line;
-> > +	case DRM_FORMAT_BGRX8888:
-> > +		return &BGRX8888_read_line;
-> >   	case DRM_FORMAT_ARGB16161616:
-> >   		return &ARGB16161616_read_line;
-> >   	case DRM_FORMAT_XRGB16161616:
-> > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> > index 67f891e7ac58..941a6e92a040 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> > @@ -14,7 +14,13 @@
-> >   static const u32 vkms_formats[] = {
-> >   	DRM_FORMAT_ARGB8888,
-> > +	DRM_FORMAT_ABGR8888,
-> > +	DRM_FORMAT_BGRA8888,
-> > +	DRM_FORMAT_RGBA8888,
-> >   	DRM_FORMAT_XRGB8888,
-> > +	DRM_FORMAT_XBGR8888,
-> > +	DRM_FORMAT_RGBX8888,
-> > +	DRM_FORMAT_BGRX8888,
-> >   	DRM_FORMAT_XRGB16161616,
-> >   	DRM_FORMAT_ARGB16161616,
-> >   	DRM_FORMAT_RGB565,
+> >   			}
+> >   			overlay->base.possible_crtcs = drm_crtc_mask(crtc);
+> >   		}
+> >   	}
+> > -	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
+> > -				 DRM_MODE_CONNECTOR_VIRTUAL);
+> > +	ret = drmm_connector_init(dev, connector, &vkms_connector_funcs,
+> > +				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
+> >   	if (ret) {
+> >   		DRM_ERROR("Failed to init connector\n");
+> > -		goto err_crtc;
+> > +		goto err_connector;
+> >   	}
+> >   	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
+> > @@ -89,7 +89,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+> >   			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> >   	if (ret) {
+> >   		DRM_ERROR("Failed to init encoder\n");
+> > -		goto err_encoder;
+> > +		return ret;
+> >   	}
+> >   	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> > @@ -111,12 +111,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+> >   err_attach:
+> >   	drm_encoder_cleanup(encoder);
+> > -
+> > -err_encoder:
+> > -	drm_connector_cleanup(connector);
+> > -
+> > -err_crtc:
+> > +err_connector:
+> >   	drm_crtc_cleanup(crtc);
+> > -
+> >   	return ret;
+> >   }
 > > 
