@@ -2,79 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3AD39B2D3B
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 994BE9B2D4D
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:50:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 125CB10E46C;
-	Mon, 28 Oct 2024 10:46:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9136610E466;
+	Mon, 28 Oct 2024 10:50:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xAXaQ+g+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VGtDN4rC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B71A210E46C
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:46:14 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-539e4b7409fso4026421e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 03:46:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730112373; x=1730717173; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=CHj4nYgiHaKiW5aEYPKVHro023TFgtEOxg1MzyObDrg=;
- b=xAXaQ+g+8QxBHPK4iso2dQfb22RWk9qTmWst4CifypIYwPw5xOsCc9hoS43peoi/kF
- HUJzljo7J6+DcVyDyH++Qf37P/ooY4S9MGfjRj8M77WvqiwN7vtC805UUNkO74SmZfd+
- 9kFkG1EINrLbVs/cZWiHKTRUI/gCvul3P5T1hQZ+PvTlAPpgfD9uo71emYdEtd4d9S38
- aYw+YXrgkz+QW0FaW42MjbiATt0DfTnXaBbzlsuWWrL/uoltraaDhhGapCazo4hSZdKV
- 3ea1eO5viYFJI5VfFuw+8jdYJcpIpuxY+HVDIGvTxSkvQ9XNyvVQBehguIjrfSx5B6O0
- caLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730112373; x=1730717173;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CHj4nYgiHaKiW5aEYPKVHro023TFgtEOxg1MzyObDrg=;
- b=FwDDPJt8MfrfhzQMI4Ydo/TZEGswuLLQsp8jY+gfKx5M+R8dYm9N0bg7hVG0RBgTWX
- dKl4dF3sm8YG23kKnuSs5M8lTC5xy69waJVLUhIakXIcnpY5vl8r8JJPOAWaL0M9d7lD
- C6I/I6BFSuTV0wfmKw6qN7rAt5c+E4MdoOFgYkDE+2XnJgjbETyZKaHK88KzkSTCkPp/
- jzZPRGgG0ZE0DmcOQBrTXcfGInecPGw0S7hGV3czZ+pMU4MbRzLzgW8oXR2AAUr93vTV
- zCMJ35ZtzhHkFR7vTfwRyYKWSKOS17N6Abz9JBnKCvji3FgCQRcTKrO19qocCBxwvU9V
- mH4g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUXDOJFqEEvg4c2VyAne221TUs0j2pWunipateeTtLgk5FYneKSUzTJZ7b41/nnyjp+mZhsZmTdYCM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7cwr6I3LnvB3sLVHbD6kPGciPv/3GMawELnY+JW5foq8dIsJD
- LBdk/zU5iduNxUYX1M6GadgmYWW0C+F7i30I3wptVknhcALuvFpB+6qI14WHKJA=
-X-Google-Smtp-Source: AGHT+IHmdmeAg2Am8DAe8AvOhZdn+dyWxgaURYqcx9xeJb14r6Mw3+xvZqYxW/k7eyS8xGuqbReo7g==
-X-Received: by 2002:a19:6a12:0:b0:539:fd75:2b6c with SMTP id
- 2adb3069b0e04-53b2375231dmr3431313e87.21.1730112372556; 
- Mon, 28 Oct 2024 03:46:12 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53b2e1cbe9dsm1053140e87.225.2024.10.28.03.46.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2024 03:46:12 -0700 (PDT)
-Date: Mon, 28 Oct 2024 12:46:10 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/9] drm/msm/dpu: move pstate->pipe initialization to
- dpu_plane_atomic_check
-Message-ID: <jk4tfzg3zw4g23pg7rpre2pn32h6h46u2rc5ydnzuwo7mk3mam@ybw64lkaidyb>
-References: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
- <20241025-dpu-virtual-wide-v6-2-0310fd519765@linaro.org>
- <1dcf786e-463f-4e51-af71-66ee6077b5f1@quicinc.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC9310E347
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:50:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4023FA41AE2;
+ Mon, 28 Oct 2024 10:48:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D388C4CEC3;
+ Mon, 28 Oct 2024 10:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730112599;
+ bh=5gcR1znD1cGAtY6UrFbxboTgffk6OVdycQmErW5b3Qg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VGtDN4rCB75s5s0aUagy+xt8qdgqkWDO7bcJSQo6NCniEXIl6De1+xQqmvmZKTMNu
+ 5pVmauCmMVuEgflzUrOepb/hIPUuq75qgoMLTlveFBuqPH96Btsbw0hhIqRvQW0cWi
+ nkB+O7GV66nyRa7n0kUzql9jEPjVoB/Mk+JL/ToAybXnCb+Tm8TWc4Wmts02N7rcjw
+ L3ns2Nn+j8o6kto65VgI862il+H/dP24X51QrlRMsGk3LHOLJcWcM7J3VT3M7a+9Ik
+ bpBkonJL4OdxoMJMg03+WCJfi+QG5W3itXVJomovKxkqYjb+4CV8qhyJXWTjEJl7cX
+ 7AoRu5HYBGSmw==
+Date: Mon, 28 Oct 2024 11:49:57 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc: linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Marek Vasut <marex@denx.de>, Michael Trimarchi <michael@amarulasolutions.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Peng Fan <peng.fan@nxp.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>, Simona Vetter <simona@ffwll.ch>,
+ Stefan Agner <stefan@agner.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-pm@vger.kernel.org
+Subject: Re: [RFC PATCH 00/10] Support simple-framebuffer on imx8m
+Message-ID: <20241028-scrupulous-paper-condor-0742fb@houat>
+References: <20241028102559.1451383-1-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="mpcp65bzqsipkaam"
 Content-Disposition: inline
-In-Reply-To: <1dcf786e-463f-4e51-af71-66ee6077b5f1@quicinc.com>
+In-Reply-To: <20241028102559.1451383-1-dario.binacchi@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,93 +82,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 25, 2024 at 12:00:20PM -0700, Abhinav Kumar wrote:
-> 
-> 
-> On 10/24/2024 5:20 PM, Dmitry Baryshkov wrote:
-> > In preparation for virtualized planes support, move pstate->pipe
-> > initialization from dpu_plane_reset() to dpu_plane_atomic_check(). In
-> > case of virtual planes the plane's pipe will not be known up to the
-> > point of atomic_check() callback.
-> > 
-> 
-> I had R-bed this in v5. Did anything change in v6?
 
-No, nothing. I'm sorry for forgetting to run `b4 trailers -u`.
+--mpcp65bzqsipkaam
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [RFC PATCH 00/10] Support simple-framebuffer on imx8m
+MIME-Version: 1.0
 
-> But one comment below.
-> 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 25 +++++++++++--------------
-> >   1 file changed, 11 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > index 37faf5b238b0..725c9a5826fd 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > @@ -797,13 +797,22 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
-> >   	uint32_t max_linewidth;
-> >   	unsigned int rotation;
-> >   	uint32_t supported_rotations;
-> > -	const struct dpu_sspp_cfg *pipe_hw_caps = pstate->pipe.sspp->cap;
-> > -	const struct dpu_sspp_sub_blks *sblk = pstate->pipe.sspp->cap->sblk;
-> > +	const struct dpu_sspp_cfg *pipe_hw_caps;
-> > +	const struct dpu_sspp_sub_blks *sblk;
-> >   	if (new_plane_state->crtc)
-> >   		crtc_state = drm_atomic_get_new_crtc_state(state,
-> >   							   new_plane_state->crtc);
-> > +	pipe->sspp = dpu_rm_get_sspp(&kms->rm, pdpu->pipe);
-> > +	r_pipe->sspp = NULL;
-> > +
-> > +	if (!pipe->sspp)
-> > +		return -EINVAL;
-> > +
-> > +	pipe_hw_caps = pipe->sspp->cap;
-> > +	sblk = pipe->sspp->cap->sblk;
-> > +
-> >   	min_scale = FRAC_16_16(1, sblk->maxupscale);
-> >   	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
-> >   						  min_scale,
-> 
-> Do you think it will be better to move the get_sspp() call after the
-> drm_atomic_helper_check_plane_state()?
+Hi,
 
-I'd say, it makes no difference. I'll check your suggestion if I have to
-send another iteration.
+On Mon, Oct 28, 2024 at 11:25:23AM +0100, Dario Binacchi wrote:
+> This series is the Linux counterpart of what was sent to U-Boot [1]
+> for the support of the simple-framebuffer for the BSH SMM S2Pro board.
 
-> 
-> > @@ -820,7 +829,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
-> >   	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> >   	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> >   	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > -	r_pipe->sspp = NULL;
-> >   	pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
-> >   	if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
-> > @@ -1286,7 +1294,6 @@ static void dpu_plane_reset(struct drm_plane *plane)
-> >   {
-> >   	struct dpu_plane *pdpu;
-> >   	struct dpu_plane_state *pstate;
-> > -	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
-> >   	if (!plane) {
-> >   		DPU_ERROR("invalid plane\n");
-> > @@ -1308,16 +1315,6 @@ static void dpu_plane_reset(struct drm_plane *plane)
-> >   		return;
-> >   	}
-> > -	/*
-> > -	 * Set the SSPP here until we have proper virtualized DPU planes.
-> > -	 * This is the place where the state is allocated, so fill it fully.
-> > -	 */
-> > -	pstate->pipe.sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-> > -	pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
-> > -	pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > -
-> > -	pstate->r_pipe.sspp = NULL;
-> > -
-> >   	__drm_atomic_helper_plane_reset(plane, &pstate->base);
-> >   }
-> > 
+I'm confused. simple-framebuffer is a mechanism for which the entire
+point is that the kernel doesn't need the driver for.
 
--- 
-With best wishes
-Dmitry
+Why do you need to have patches for bridges and panels for
+simple-framebuffer? They won't be used.
+
+> The need to avoid re-initializing the hardware (power domains,
+> controllers, bridges, display panels) that has already been initialized
+> and kept powered on by the bootloader has required updating more than
+> one YAML file, with the addition of boolean properties to inform the
+> driver that the corresponding hardware has been initialized and left
+> on by the bootloader. All these properties are added on the fly by the
+> bootloader to the various relevant nodes.
+
+So it's not about simple-framebuffer at all, but rather that you don't
+want to re-initialize the hardware that has already been setup?
+
+If so, this isn't how you should do it, but rather:
+https://lore.kernel.org/all/CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5Ra8CxPvJ=9BwmvfU-O0gg@mail.gmail.com/
+
+Maxime
+
+--mpcp65bzqsipkaam
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZx9sUAAKCRAnX84Zoj2+
+dmtQAX9wVFF++uMLanShp1lqMmKbCAPRFsgHbuZ+e7vfogD2WBD/EF768xzbQaKx
+8geIGicBgLRVa5ByCU/nhpBq9G9w4jzWcQ3tuYcJYH2sUP44PdFel9LS9HcmKc2G
+pooK6h9HIg==
+=7XGK
+-----END PGP SIGNATURE-----
+
+--mpcp65bzqsipkaam--
