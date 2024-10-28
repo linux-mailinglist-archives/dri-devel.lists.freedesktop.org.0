@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8969B2CDE
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:27:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785499B2CF4
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:34:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECE4610E460;
-	Mon, 28 Oct 2024 10:27:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 698B610E45E;
+	Mon, 28 Oct 2024 10:34:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dUtFmKEj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HRbDQiu+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28CE910E464
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:27:50 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-6ea07d119b7so5692597b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 03:27:50 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9873010E45E
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:34:15 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53a097aa3daso3485297e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 03:34:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730111269; x=1730716069; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Y1hKAuQ0xQZxoyb/tx5eu57U4G9jLofW7PwvgJ3ryko=;
- b=dUtFmKEj9Bb4X6awU8985LJ18htFcqGltKh4U2RTX4HVR0+jCtZ6/9viYTknaGKC7o
- MxcWsnGbPa/F9cqspKmClpkcgLcwFl5tsEFM1j/BY7jNBE18jGDghLvSsNTF0thGLpzh
- wGpX6sZBakl+6U32YyVSfiVhcrElEBlgFJ4qSWWPTBzz7dGrZBWMDWV3Sd7Xc8c+vLgk
- LaTkSMeJTDpjIwfy5sNQOsW1eIv/tMGEGKm7bMk3B26TekQACqYQjppGWgtNcrdhH8wL
- KRDyJCke7ChAwWBme0FrfHe1Uod8KEImBbO6ZtI7p8wdZEBquwRNz9qaak2kML7+iOGY
- nkOQ==
+ d=gmail.com; s=20230601; t=1730111654; x=1730716454; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=g7nrYUHUQAGlqcSF1DH4MZfbh2UDaXnpWdDb0g1xC7A=;
+ b=HRbDQiu+s1to3QN23g50hAwgq0aHgUvZt7Ma3BSbctQEL0c2K86HDhU0PkfDS1YiwB
+ fLo/uUCRfVQv9IVrMaVsStfbfG6J5DHYQeuUxPnYlvh6HS3sK8Ntd8zDlW8VERMP0ZGj
+ ccy5ziUPCF+Pi2fEUzU/0OnMEnnEVyTohvqjCRiQRAyrmeX9Cp3NA7PSdp9bpBFenwX6
+ L/x4H0RGl0ymtZREtxOO93eg0pE1aqWzQKuSw7T8NWMg0RhNKUjtb9m03dfYh1kuXjE4
+ PEAAKBdZWHFin3+FqG+E2Ww90j8NH72zOfI21lwR7gTGg6AIIPMmjWvoCn3owpzCC6wf
+ u9gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730111269; x=1730716069;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Y1hKAuQ0xQZxoyb/tx5eu57U4G9jLofW7PwvgJ3ryko=;
- b=UY6RzKUjw/L8RmrmPWEkhEzHVnkk2rjcfloy46fTmmgFnXW1JWZTnATpH/pPcS+6UX
- sjs4+fx3nOeNcHGUqxr0ANuE8gORMotrRNoJVPTUSLrrKvQm4oy0sUuqM1QhPMtGtNTL
- U1Q72qNloc7SKh9ohpQ3uGMrPJaHEBm+mftmXWNQL2iGrikuhf8OgFvbaQO6WiomO3D2
- ne7APqcRXFGB1YyWudVgqneZPW3KYK8pIFNVDcNfaYEsCgAL+DcYFBh2ePMYkLR3Fxw3
- jnTzcimzwY6UXKdWXf1sgX+j7fDhMlOvFVuNX9UyBmbkTDvnncNjPTTAaj3zQzX3MGg7
- qgKQ==
+ d=1e100.net; s=20230601; t=1730111654; x=1730716454;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=g7nrYUHUQAGlqcSF1DH4MZfbh2UDaXnpWdDb0g1xC7A=;
+ b=ozQEUWJpu2t9FDv+JouexYP5siRf4gYzoBLMthAuOaRKJEqKQTq4HB5fRKs/pkR2R4
+ oyLHNWjIBcwB4mi1Qa8crjkK2DtqJLnzqIok6nAooHcZg4VQjPuyQhItW1x3HvEO+kxv
+ b4x8e19cw15T9tlwWy17SHjSIhtmbFNZSCXRdQtMa5pzZMNPdmIeuLphuulIr7BufH7Y
+ svXmBqonaIM5UbLReHBjMFpccCvKH/gjQnQkYHU0QnWpHDXbRIZFWmBnfW5PlDAKcgwU
+ Z/WjEo3OMEusL029xJkql5SvGvhmFc1u0zJ805yYqyZ4JQe8oTmpJRuFzmV9lSPpGBDj
+ nhKQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWZVGp0rSFP8/r6vdc4dPfbGzCf0ivg8MOmbhK8zq5D1MiDobW2CMmrtE4uhs9N9vy2/eczKCUYbIo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsqNrUccji6+WCx7ITl5ylyPrpYVF4eam2m1RZTbGcgvTM5wRW
- /yU5VJfk0gQkaeO0Oj3hMlPvv25f78v9xt0lud/h9724/ZDoLR+K8vHeoChftyufpXaOR/KZS5+
- aRt7+hBXmop5g9m3acaN0IxkF4dNZrEJYWhrXBA==
-X-Google-Smtp-Source: AGHT+IGLe+4t7S9ZSveqwANNEzKdjUad0Z1HtQTFx3PEGKze+pVHMLOD52kyDgR3LowLm6wgDiAgoEwd56iMjidmX78=
-X-Received: by 2002:a05:690c:48c1:b0:6dd:beee:9218 with SMTP id
- 00721157ae682-6e9d8b1754amr70515197b3.30.1730111269077; Mon, 28 Oct 2024
- 03:27:49 -0700 (PDT)
+ AJvYcCWq3f6ls6xUyUHhaUDZdWPE2N+M6DqwdTzFcbhUD98u3lr7NxFs7TtG4WvGmIQGueg1c8aeUyBM7Ig=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVLE1UHPkWZlVKYLYntOGQ+cCL1MRbmRI7b58o8V9ukCxDlBgN
+ AssUFzKchkNTL718AbXdTUREcB+k38SJc5wFv3g4uzkv1sR9rAf1
+X-Google-Smtp-Source: AGHT+IHoBe6oO8PYZGl3+qBTM5n53ghlUJDEj0r9DYaH/xfvybkBeP2XPFw42uN0pzrRgBB+YLIjIQ==
+X-Received: by 2002:a05:6512:23a9:b0:536:55cf:3148 with SMTP id
+ 2adb3069b0e04-53b348deb93mr2968873e87.31.1730111653332; 
+ Mon, 28 Oct 2024 03:34:13 -0700 (PDT)
+Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4318b58b7e8sm137070495e9.48.2024.10.28.03.34.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Oct 2024 03:34:12 -0700 (PDT)
+Message-ID: <6a8d4197-26ec-4d57-b5a3-98bc3008dfc2@gmail.com>
+Date: Mon, 28 Oct 2024 11:34:11 +0100
 MIME-Version: 1.0
-References: <20241027-stack-size-fix-v1-1-764e2e3566cb@quicinc.com>
- <j2qapo66f64y7ddqlu63dqvog2fdbhnaq3t24wp2srvdt4v7xl@fyqu4ry4wmts>
- <6fea85fc-ccdc-46ec-b612-3712e9431301@quicinc.com>
-In-Reply-To: <6fea85fc-ccdc-46ec-b612-3712e9431301@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 28 Oct 2024 12:27:38 +0200
-Message-ID: <CAA8EJpodjP3rY0Twe9sP37LWwk5ppP36dyLC9WKD6CTDOtmwzA@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx: Fix excessive stack usage
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
- Justin Stitt <justinstitt@google.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
- Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dma-buf/dma-fence_array: use kvzalloc
+To: Tvrtko Ursulin <tursulin@ursulin.net>, friedrich.vock@gmx.de,
+ Richardqi.Liang@amd.com, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20241024124159.4519-1-christian.koenig@amd.com>
+ <20241024124159.4519-2-christian.koenig@amd.com>
+ <8d7bab43-d561-487d-bdc6-86fc230db655@ursulin.net>
+ <ca23d4c5-74ff-4d1d-ace0-72ecd51aa527@ursulin.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <ca23d4c5-74ff-4d1d-ace0-72ecd51aa527@ursulin.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,71 +88,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Oct 2024 at 12:08, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+Am 25.10.24 um 11:05 schrieb Tvrtko Ursulin:
 >
-> On 10/28/2024 1:56 PM, Dmitry Baryshkov wrote:
-> > On Sun, Oct 27, 2024 at 11:35:47PM +0530, Akhil P Oommen wrote:
-> >> Clang-19 and above sometimes end up with multiple copies of the large
-> >> a6xx_hfi_msg_bw_table structure on the stack. The problem is that
-> >> a6xx_hfi_send_bw_table() calls a number of device specific functions to
-> >> fill the structure, but these create another copy of the structure on
-> >> the stack which gets copied to the first.
-> >>
-> >> If the functions get inlined, that busts the warning limit:
-> >>
-> >> drivers/gpu/drm/msm/adreno/a6xx_hfi.c:631:12: error: stack frame size (1032) exceeds limit (1024) in 'a6xx_hfi_send_bw_table' [-Werror,-Wframe-larger-than]
-> >>
-> >> Fix this by kmalloc-ating struct a6xx_hfi_msg_bw_table instead of using
-> >> the stack. Also, use this opportunity to skip re-initializing this table
-> >> to optimize gpu wake up latency.
-> >>
-> >> Cc: Arnd Bergmann <arnd@kernel.org>
-> >>
-> >> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> >> ---
-> >>  drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  1 +
-> >>  drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 34 ++++++++++++++++++++++------------
-> >>  2 files changed, 23 insertions(+), 12 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> >> index 94b6c5cab6f4..b4a79f88ccf4 100644
-> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> >> @@ -99,6 +99,7 @@ struct a6xx_gmu {
-> >>      struct completion pd_gate;
-> >>
-> >>      struct qmp *qmp;
-> >> +    struct a6xx_hfi_msg_bw_table *bw_table;
-> >>  };
-> >>
-> >>  static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
-> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-> >> index cdb3f6e74d3e..55e51c81be1f 100644
-> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-> >> @@ -630,32 +630,42 @@ static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
-> >>
-> >>  static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
-> >>  {
-> >> -    struct a6xx_hfi_msg_bw_table msg = { 0 };
-> >> +    struct a6xx_hfi_msg_bw_table *msg;
-> >>      struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
-> >>      struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-> >>
-> >> +    if (gmu->bw_table)
-> >> +            goto send;
-> >> +
-> >> +    msg = devm_kzalloc(gmu->dev, sizeof(*msg), GFP_KERNEL);
-> >
-> > Is it necessary after being sent? Isn't it better to just kzalloc() it
-> > and then kfree() it at the end of the function?
+> On 25/10/2024 09:59, Tvrtko Ursulin wrote:
+>>
+>> On 24/10/2024 13:41, Christian König wrote:
+>>> Reports indicates that some userspace applications try to merge more 
+>>> than
+>>> 80k of fences into a single dma_fence_array leading to a warning from
+>>> kzalloc() that the requested size becomes to big.
+>>>
+>>> While that is clearly an userspace bug we should probably handle 
+>>> that case
+>>> gracefully in the kernel.
+>>>
+>>> So we can either reject requests to merge more than a reasonable 
+>>> amount of
+>>> fences (64k maybe?) or we can start to use kvzalloc() instead of 
+>>> kzalloc().
+>>> This patch here does the later.
+>>
+>> Rejecting would potentially be safer, otherwise there is a path for 
+>> userspace to trigger a warn in kvmalloc_node (see 0829b5bcdd3b 
+>> ("drm/i915: 2 GiB of relocations ought to be enough for anybody*")) 
+>> and spam dmesg at will.
 >
-> Keeping it around will help to cut down unnecessary work during
-> subsequent gpu wake ups.
+> Actually that is a WARN_ON_*ONCE* there so maybe not so critical to 
+> invent a limit. Up for discussion I suppose.
+>
+> Regards,
+>
+> Tvrtko
+>
+>>
+>> Question is what limit to set...
 
-Then, I'd say, it is better to make it a part of the a6xx_gpu struct.
+That's one of the reasons why I opted for kvzalloc() initially.
 
+I mean we could use some nice round number like 65536, but that would be 
+totally arbitrary.
 
--- 
-With best wishes
-Dmitry
+Any comments on the other two patches? I need to get them upstream.
+
+Thanks,
+Christian.
+
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>> CC: stable@vger.kernel.org
+>>> ---
+>>>   drivers/dma-buf/dma-fence-array.c | 6 +++---
+>>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-fence-array.c 
+>>> b/drivers/dma-buf/dma-fence-array.c
+>>> index 8a08ffde31e7..46ac42bcfac0 100644
+>>> --- a/drivers/dma-buf/dma-fence-array.c
+>>> +++ b/drivers/dma-buf/dma-fence-array.c
+>>> @@ -119,8 +119,8 @@ static void dma_fence_array_release(struct 
+>>> dma_fence *fence)
+>>>       for (i = 0; i < array->num_fences; ++i)
+>>>           dma_fence_put(array->fences[i]);
+>>> -    kfree(array->fences);
+>>> -    dma_fence_free(fence);
+>>> +    kvfree(array->fences);
+>>> +    kvfree_rcu(fence, rcu);
+>>>   }
+>>>   static void dma_fence_array_set_deadline(struct dma_fence *fence,
+>>> @@ -153,7 +153,7 @@ struct dma_fence_array 
+>>> *dma_fence_array_alloc(int num_fences)
+>>>   {
+>>>       struct dma_fence_array *array;
+>>> -    return kzalloc(struct_size(array, callbacks, num_fences), 
+>>> GFP_KERNEL);
+>>> +    return kvzalloc(struct_size(array, callbacks, num_fences), 
+>>> GFP_KERNEL);
+>>>   }
+>>>   EXPORT_SYMBOL(dma_fence_array_alloc);
+
