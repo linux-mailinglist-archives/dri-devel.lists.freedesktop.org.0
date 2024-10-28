@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011B39B22DF
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 03:39:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64719B22E1
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 03:39:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D25110E318;
-	Mon, 28 Oct 2024 02:39:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F66110E31B;
+	Mon, 28 Oct 2024 02:39:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="FPi8D3yE";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="NM0qdkse";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
- (mail-dbaeur03on2081.outbound.protection.outlook.com [40.107.104.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A57E10E318
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 02:39:04 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+ (mail-am7eur03on2046.outbound.protection.outlook.com [40.107.105.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4525A10E31A
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 02:39:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mRvTYU18YS1Wv/fnmYfxPIqiKyyXXOkeyheknGGJ5ISH6fa3C6VUCkCUyFKN2aUH3H8CMSIQNO+aS5U9XVzIzPq0GfC8ejUdO7zCMp6fePAM+iaSvZEZmHusomxCBD/ooJeFfGzVx1TZaGOhd7pZKudrNVlcHt+G2/aIYDQ4lyWc90pEUHk5c06Kscj128Fp8H7mL8/1nyMLIfzk2p12uUej2RH+YEQjw2zRCglVL6j7NrmPHpblQBa7wB1q+PKA6gZjb2OhBK0MOF9uPLtoO+0vacYjYoCN070oeJFfOS7KAW9TDIJHG5slZzVH2gGrybZwBbCdQ08CFVisfIiWOQ==
+ b=YNYOEkixx2r5yvrVG9LrjgFlD6uxwPP36u94O0f4EwZI9udH7VUjM09K7sTP4hdGNa4BJ5oh0HKx/N093kZqTWdNJKBGzPK5vk9gkYMgeIF5FEp5/PMRoqMMDm44/JNVKSMUVJWQwag8dTEnPi74pj/BO3Eee0wZGjUkV7pLmQ4w5emIt6v10JPelPnHex7j8KxFmzyg8jlRByjOg6gDbJfSl81tNBOk6symEx0MRE0o61nGjAOmxuyfGcqKC2Oo7JIucUhmBmrJvkGTIhN1JNn5h5365HXH83dPm+Xw9xfQ6mdw/y3uMWrmO64JeP+ZEiAKIsWiaoQXW8a8J4OEhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y2JpN6ppELfOvef0lZ0Y7goaV2Ww3X/mKcfanTS1mn0=;
- b=DGqetsVqz3uRl21fx/fopwL2V2chfY0I5xNmfScL0zjmipM13q9BXXhBCM2JzufYdnT3/3atVDoOlG3TppqNRshpnSoNq9TMNRQp4QVgp0xagO4tPxU/HZk8Km2pToBr7lGpUlfuX2zTGb7UKUu/nAen8d9Kb4Rw/65Cb6csgxgvcSDW9BHhsTTQL++AL9ZZISY1M2VCLlrBKVnFoY+Z4o9AYLhDWnsnNXsZzVTSseOjuS+kCPsMDJFhRGex8gBC0sxKR6SXATx+1Q2MSa0aIsM5vNzupIwASPbHZwFAqcGBRN1wwOvmzyw8mwbH7D31eXuWlLBDEV7/LlDx+H1tmw==
+ bh=X0MXb51dWLwzIYBv3HCuE9rQsm7JB2ox21JOfSc/9sE=;
+ b=vmOREsrL5h6nUauAAbT8/QSedTVUAo9jtBRwtWpMl6TS273RWAhDHkLCWxiEvr4ZqjeJjWrSGfXCbdaoAXlwy7LL92q2W1AYlYR1d+hZ1oVLkf5QjcjIyw00PsuVLYHG9AGkOGu7lIjLhk+UKGA1cpNDw2BbH0U96ItG/qnGQUK/9m8eVLdfn6e6xEFpsTa1bSX25ANm+vT3SbOkD/pBbiwVgFTvbUCXFSwa9LYzH8k/eC8fYaFkMI1KsU9SN/vonNsdGhSKuFlWiifVn9bS8YuECaEf4Q5ye+1xVcqcl8OXDFMCTqtzTuLykJG+bZ8EHUIKXJAMs9ZW31dDeA7FIA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y2JpN6ppELfOvef0lZ0Y7goaV2Ww3X/mKcfanTS1mn0=;
- b=FPi8D3yEsHpEA/sGZe+oMZZ7awljH9lPCHX6zCegnNAT7Cm4jfVKX6fJbYQtCYWP0O541ASDrUR9cdgfJm8YJuxdNN9wJoWniUJRS0jIipkinmpyNeFxMbr5lvRm1Bqv4At0kzKy3KvVWfhqg7ez5TftAxQpJY9GLjhSRrek1hxw2+SrkM8WllgNotP6Z63Dju8CljvCYZiEPdC5NBIxEjy2YTH0YJeXJWwzuZpsUb7ddMADITKvJtyVTiGuC3dU23gzrrP88fg1t3zzmIaMwjdyBznFEhLjW7iNPEVja41glhLyIdpQF+57iyW/OxQQ8pZQItdgVWifAsjO/hGwgQ==
+ bh=X0MXb51dWLwzIYBv3HCuE9rQsm7JB2ox21JOfSc/9sE=;
+ b=NM0qdkseoi1R1o89pqcLLz8EKMA75f4dtgmL/43pjEB6bpogUyhTmeOeVWlEnrmc+CZ3LVuDcrgePpOS9TS/ugU/zaQnxRCg+rc3xr6hn9J96hhAQ+yLijDTr1IWPOgmFfwJxs2FqgILX0DMdFsvgDn1A5mgYL4YR2iQ9gJnib1GquyPXB74xT43zxvuil5I3XLaP5OIdRpg5n9+U0F52dGOt98sLUePlH5+KN2mQGTjK9ZyWLWCUcqdJwjaSIeow9FIDK/bNR1iWmEPQ7NTPADW6rF9xAnOd0VARXiBXGleaIcdsCkv5gEzGV8DXuwyLH3f/P9CWY0CWy82hW6Q9g==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by DU2PR04MB8709.eurprd04.prod.outlook.com (2603:10a6:10:2dc::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Mon, 28 Oct
- 2024 02:39:02 +0000
+ 2024 02:39:12 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8093.021; Mon, 28 Oct 2024
- 02:39:01 +0000
+ 02:39:12 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
@@ -57,12 +57,11 @@ Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  quic_bjorande@quicinc.com, geert+renesas@glider.be,
  dmitry.baryshkov@linaro.org, arnd@arndb.de, nfraprado@collabora.com,
  thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v4 07/13] dt-bindings: display: lvds-data-mapping: Add 30-bit
- RGB pixel data mappings
-Date: Mon, 28 Oct 2024 10:37:34 +0800
-Message-Id: <20241028023740.19732-8-victor.liu@nxp.com>
+ sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com
+Subject: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS
+ display common properties
+Date: Mon, 28 Oct 2024 10:37:35 +0800
+Message-Id: <20241028023740.19732-9-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241028023740.19732-1-victor.liu@nxp.com>
 References: <20241028023740.19732-1-victor.liu@nxp.com>
@@ -74,77 +73,76 @@ X-ClientProxiedBy: SI1PR02CA0002.apcprd02.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DU2PR04MB8709:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3fe36d55-a1ab-4580-fd85-08dcf6f9ae9d
+X-MS-Office365-Filtering-Correlation-Id: 65c68bdf-4b61-429d-c027-08dcf6f9b519
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|52116014|366016|376014|7416014|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?y/drqiiD1T34Ykf0EDBza5WchLEUIH1fKNvtvUIrsLDU1W96YoAMepXEcdAB?=
- =?us-ascii?Q?utEO/rYKxBa4fMcA5xuOYitnnZDaohPMtEUI5EObDqhGMfCPnDmy/QGA5GiT?=
- =?us-ascii?Q?vDUFL9SuD9iLAy1S9UZuq2MNIQbiQ606y9GokxfEzd6/sGkLc3GruZUNZ9W8?=
- =?us-ascii?Q?3MBI0DvmwdcIJrNdQu+mGfsxuD8Audf08ce7I7hRqQ3D1VrdelZZLHCPowk8?=
- =?us-ascii?Q?qJwJlpADEoGXW8wjY5ouj0OS+ReM7s3Z3uGECaCxNJ4ShcjH80EA1qntXGc5?=
- =?us-ascii?Q?CXZi1hXfJVYKgoiDJgjy6ZZRWO3zvwo7llsgTVAIuoIATtdBMaL7RWZKaKfO?=
- =?us-ascii?Q?WPQOXF4lmO1NKY3DkTzHPabNRwM0QLSm8gOTgCXvionshE5GDxjrlncszoqW?=
- =?us-ascii?Q?mMdb33QLwgGO5MaN5mSWUpJebbBBFs940VNPqeDHX2MVf5vhARYQgyVAwq6F?=
- =?us-ascii?Q?Uabp2Wz6TY1k9Gf3YUveSQcrxIXuJaOCiCASKz74VerOQIXKL3pEkLZHK3+U?=
- =?us-ascii?Q?Zqf8dj1fexN7IDaOAMPOkX7yU0pE5g0eCfDVSrCJE9ulfUnVRrEThy+Noc0F?=
- =?us-ascii?Q?xTRfzXKs/SLwk0VwiC6HKPDYX2JZbaeJMWVUd6PEhcAuE/8KAIV8u0ZpK7IL?=
- =?us-ascii?Q?kkH9Us9QowyHDUL4EBegue1yMHXvcunfuRvMRI30lugeDOzKcacG5ED1lN4M?=
- =?us-ascii?Q?kIwRe3aGUZIii9ucM2jqJCE7rKew5iBEcp+1ie8kTkCytbX2eG7WaDbcFMzY?=
- =?us-ascii?Q?gxW5pu87cH7u+OlZxVZdNNmnONei95tgTYer41dJy867B7dwvRPh6dUfnQwA?=
- =?us-ascii?Q?VdXJiztgKWhEUDKu54HM1vu9rBbha/W7iHuZDPyQiwAf2n7rvlRY9isyklWD?=
- =?us-ascii?Q?Fy9TG3Ukj2Lb7IFV1cejhcruV9EQ9CfqkcL6dMzvGpmWZieRMgAwtyFncp8k?=
- =?us-ascii?Q?egCEllsG41sOINCi5Y7NUKZSgdiCFhf7laamBtFUzGdFU3o0VyK+U6G1yFyP?=
- =?us-ascii?Q?cycREXDPBwV8IZeSDV8bEjRAd2G6q3+7tetAi3bmE+LpZfbzZJ9cnLo1wSsr?=
- =?us-ascii?Q?TD1G91TYix5X8gL3FxQlsGSYNKBTehIjx3b7XOE8+8mOrQpReTBCyWVA3723?=
- =?us-ascii?Q?yxvSI7EDteTIUJIwleSBa4Igt+3oo7OwWEXqpbcSJ2V8ZBVGK8dcilvl4Shc?=
- =?us-ascii?Q?2auoj3XShRgzIDw7SyWrLG6PhGfFsWruRCdKaEBAaAfBWIMGFWFy10TKFwD/?=
- =?us-ascii?Q?u2iu82FIEMza70EV+qdk5dvceIE2XImCyXWJoMLuVIYXzGIHTB/kVpI/YTuC?=
- =?us-ascii?Q?mte2AQ3YFCkPDHRk/CAz7CuH1RDv6QlpBKEpFvJrSvgWclQ3gp54m6yQ25Te?=
- =?us-ascii?Q?ijDRzO8=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LwTcbiYLiMUHjWwYyXjepMDZj3eaUfQEq6xqVIRZwoT75WKpESSHjRqoGLlz?=
+ =?us-ascii?Q?mOpbmdiog4GXBoAayDUKn3o29bdMeM/Gj6P7wSbQyD5vltf3/fLNP23lyWL7?=
+ =?us-ascii?Q?99EyD96ERlH3T+wRrDCXpEuIl1Csw79e0AloGOF5Z7pj9SoGQZlrOhGvLQ/A?=
+ =?us-ascii?Q?dDv3mbIcnay528UoUvo4jsDybkcKUjTFqCOCN659EOGoh5i0yfLU6+nsA7mW?=
+ =?us-ascii?Q?BiiHYPO0dVHsm084jW/U0ZTZNzF0oMhoM8slv+6RGDloYUnc06uQlWgy+qcC?=
+ =?us-ascii?Q?tpPul8SVRrgBo50LSvDzsd4vc8WrlthFq42DUXHMa0qDS7VKcyJ9w5no059y?=
+ =?us-ascii?Q?nTEiznMOrPW7kPP0HRmxl/IEkmvezDSpVyzXlFU0hcV7kScvmvVVKETA2+VI?=
+ =?us-ascii?Q?3wrbFbzUqMgoewL8cktiKdtBY7UogXtpMh6GnajXUs34RSGNCGnx7zJSu/q3?=
+ =?us-ascii?Q?r0b9acFEN3qBr7g8X1r9prbJuzs+WmeoC51XHRBvlNz1LHJCAu7oTHjpH8eL?=
+ =?us-ascii?Q?iJlPTDAbBYa6ubFHMlIh3gdn1iozxRHRpXd0sIvLlVFzCtOJ8iiTYYXun/y4?=
+ =?us-ascii?Q?t+CMKeuoZOzgYnu58q9V7VM2rWOot0qmxiINrbaiGGOz3tqVPn0+fc3YwlMS?=
+ =?us-ascii?Q?Bz0+cLtVRF3Q80jVq9D4X7cSgV6bOWK8mbfU39aKHZyIseGtpI6AVENIVIfP?=
+ =?us-ascii?Q?Y38EDPpirsHPeUdgudG6GE6gzPY/F7BAqQ1s4DNh0kEJKXzD0yl3MWAkiOGk?=
+ =?us-ascii?Q?w4VIWrOJ8Qboxcm1MInfKdCACuv1o6zy5NknU3BAcJa2E6YB7r8H2vTZJxxo?=
+ =?us-ascii?Q?HShog4LO4evcI8oEM1lSJU8Jhzl8ZyIFBBKzjexAhWfOFdJ3aqPTVIWUW7L0?=
+ =?us-ascii?Q?AzkusxW+XEW3WCxmct33+t8LrmsM/GkI3DBfj09O6HqXxy/ynbD+H+sOT+vc?=
+ =?us-ascii?Q?dV5Iem8hEguTifIkorR06VKrKOCVLJb9GSyQ2orIok5uTqspW0S4p205J8Bz?=
+ =?us-ascii?Q?kfXA4nZjLK4UQPJ67kxZAim6ibdXi5O/NWsrdusdfmaqdbLwvLEwewZ+CVSl?=
+ =?us-ascii?Q?NTa14ZM9GIhZMSHyRPwOqIucj6ZDKhm3qNr//nSRKOF6vyWicBNKaVWmtzuy?=
+ =?us-ascii?Q?AOu4a6ctNS3EoRRGLYTjpVehFnDCA1hlNYStyGsX7R6g2w6CKNz5/1sgbAu5?=
+ =?us-ascii?Q?jU+6ur38NIAXViKe7O+JK6ElksCJdwi8gZ3r9+L/uXw+lP0/QkDm1EebMF6n?=
+ =?us-ascii?Q?BCWhAuuwelsWCUz+ECSMyO0cwuwDJjhEn8eZEFS7Y6Xlq/o3jsjG93f4gEXe?=
+ =?us-ascii?Q?I+th+QBZYJsNZSfggWONHkuz?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(52116014)(366016)(376014)(7416014)(1800799024)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?R+1NhvRh0xE09/iI7DrK9KVFXZfkAuss2klRGQSLtHd+elMC6YMCiNEnqdR4?=
- =?us-ascii?Q?sLloyf8Pn98k7w0xYiD+R7Yep2095Q6OuOw39zWckAYNyjM8yX+ru98AuOHN?=
- =?us-ascii?Q?Y8juzSEIWqe3ePXJume8CyJv2IKEl0Ss6ZD6GlfarNPCXzFmKBUyYCIzT9Yn?=
- =?us-ascii?Q?ZuIqsKWj14kslslvKRxC7d7ippysPXNBa0DrYV2m+IDTPWt8eYYNHnZA1xNr?=
- =?us-ascii?Q?0zhClILGUS/Rh+dL58510rTTJ0yl4vigbgTPWJQxGlbz931A4ckf//s1Qecx?=
- =?us-ascii?Q?iCVyuEOv7jYbFaInXPp/GzDF5Vcxi7eur1Nn5HrNtlML5Ddu8a3OyT+3/ViD?=
- =?us-ascii?Q?s9hDSi4eq2m12a7cWBHUkk6SJ9tEsrQ8r24xETSkgZuT33zoHvQ1YHRDR/ZN?=
- =?us-ascii?Q?avq/vBuvlrh1B5iVI2iUOOU0MOX987O8EtizgJBMpvAcVb5zavt//TZx+RPL?=
- =?us-ascii?Q?5TzFxPqBdV+Z4sYIQaCfVBLJlMLUGpUJgrPGCFctUnjQPIfUlKb1yOYw02ka?=
- =?us-ascii?Q?5ZIX7EB+6UYYVZPjnTv2qB7qX6SmYBp4KSzdtdgbYqiUPaIVe1lMnouHvOQv?=
- =?us-ascii?Q?rzx5IZRVj1AFOsTmtQF092oSkmhqVGD9aj9rM6kZbEEMAHVa6daFte8AtY+q?=
- =?us-ascii?Q?3U9M/G0UCG7grOu5oIwlLK3TV1iaTGqPtUnC2G3cdLeqLqQd/qEnPROSopKZ?=
- =?us-ascii?Q?JbTdt9aJWLfgGxYEe8BC1z183uzaeGLJN4nhpbnxvsI3aw19pP1ZzZMR72si?=
- =?us-ascii?Q?MR1Jsi9Lwuvdp5DU1edOF2wYhSpVdGm1Yq2B/GtTcKKg6X2r40khjgX3WuGA?=
- =?us-ascii?Q?sp5rfMLX7vo5SclLpGQFfHjUCLWN8ZD9sLYYscrVDoTTTjuGDB6rXB+yoy9r?=
- =?us-ascii?Q?SqRzWDYCVDFaxQ0DkwYrcJh/tAFJVDI5ZkmyvBXfRApuj4LV6WtYSq9UIr/m?=
- =?us-ascii?Q?MZ0/zMXfjWi1cESyT6TUGnIZwgDu826/5keodabsvqz6FkU1C9XFuQSSGtdi?=
- =?us-ascii?Q?yieylMfvRu0vdOQM5nxk/IpaJJqDG/mjNMyjR8edtXtiDaCrxP/VZLzJKd3E?=
- =?us-ascii?Q?12rid6khW2Z6LJW/HQcas5vMcPlkUmaZox6D6UnUFQluhUzPh/G9JRsnPUwY?=
- =?us-ascii?Q?mte05QGJwszx9To2AbFhYiFhEWuL7dnMFeF0gwNKhy6ApnO+9M13IHaY8b3t?=
- =?us-ascii?Q?BNeqVVc37IpHem0TWpRQxszZZAMVecLgHsVn8j4LxTyp2PckuHrIncIzIMXj?=
- =?us-ascii?Q?gzFQChVgeOSx72blLU2zz86a7n3WWyNBAhaUlnsw2ibVSuUpCoxM9HEsASyd?=
- =?us-ascii?Q?ffPcem5dTB6/uv6pHlV/xEcy1/KDOk2DPfyodGEkzQVJ4UMH4qsKd/OmPvax?=
- =?us-ascii?Q?3aLtfMADoLHs4Q86nGk3cQ2XS4YgOLHnNd1L67w6J/1+QncsIK4A26vKoaaA?=
- =?us-ascii?Q?5VDb4Ig2el3GllUbHXW88LVeGz7OzMumC/WHRZ2esKQYDSt9dFnggpu9BSLY?=
- =?us-ascii?Q?hmsQF8GrZUXhtsVxXEyInFJvyDTZe5xqD0/0auQHfxHHnx+wugJiP9UOLEpV?=
- =?us-ascii?Q?OcXcECPA2V1M2AUmBY8dkwItp+n8ERh32KkWudyv?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/GZBue8I3eGxfLT8uabOU2T1Y5P0sx8jmwTIVmycpxGh5jVkxzDJwBvFeDZ/?=
+ =?us-ascii?Q?sgvjv+C745sjoQB7J+TbbWpP4+cEB36AcShR+yNmPgE5MNV5xMNnsWWNvaRF?=
+ =?us-ascii?Q?le+P93n9JQ7bvnuXgBMFSSUAgrc/XK1uM2Rs1ZahSd5Fu6fZ66XleLV8B8Bs?=
+ =?us-ascii?Q?2C9PxmZEauUL7Clb4aji+94UBtjsTrb+T7SpFXV2TnocJNsQPqeT0gkg8OgB?=
+ =?us-ascii?Q?zi0OLm4sFGQh5aiaXw7MYxLvrmYgzphMunb4YJUnY2i91kRzWLTW2CFQbIfo?=
+ =?us-ascii?Q?0FgCWjBoRNydlx3FEeA16FYpbAPdmbf22Y65K2L2E30wRxxCxRZi/8lhsesO?=
+ =?us-ascii?Q?RaiIqZcgbqUkfnVfpHk6OMKZYFrv2E9gQ6te24Ak6YF2b2/SnYSCWxT5M/n1?=
+ =?us-ascii?Q?sMqffJhC0wZVxCgFe8e93SDAiS9Stbhs5DnlEnE65jjAr0oB+Prh4ZFXhj0x?=
+ =?us-ascii?Q?PFurSDwYaoCjSBuTH6LHD/11R88ljFVcSP0DcBCBnlaYdp5pLygB5CwLoEwC?=
+ =?us-ascii?Q?I7Ch4nebpyjQr9fBc5MME1twYpOVu/XZa9PfkZFqWwDFwT33snI+yIwrDQRN?=
+ =?us-ascii?Q?ArLt48IQ2XKAkckG+IjGk5MYuGFmhl8r5C7TmfXsNu+1OmySAEzDXjzlGF0M?=
+ =?us-ascii?Q?WM/aZqfRVzXeJh5wzEDryyY2jR80M4/t92soo7rSsvqs/maCPmDQCiuYjRZr?=
+ =?us-ascii?Q?zxv7aD60wKHZ2jQBapOUZNQ89+vfcUQDRoR8ywApxTXC33GGtM4wToS8urzO?=
+ =?us-ascii?Q?qRxecSE8PPQa07zeQ/El+UXRBRavGFjS0VaiHPqi71W886DxBue0M3fk7CUQ?=
+ =?us-ascii?Q?k3ki9eCQgj7p9ZsBzF/h4WGxUnuoGMpD8byl7OeyeEBpLITKexFM6+A7AE8w?=
+ =?us-ascii?Q?LrY16Etp5jxcJyfx2uxr75Igd3baUWd9THNnNsewowoJNVDiUhymEz7kDBt4?=
+ =?us-ascii?Q?Z7PRkzA7IP1YKqf6zI/k3/uJhtsKeGAylWbngyWNZZgU0VnuaCR6RCC1cCIU?=
+ =?us-ascii?Q?ujx9izycK4PpEbBHBuGMq5IDrs8YyyBeZNTOktIAUz+PsbjxvZzTUSrIsD3p?=
+ =?us-ascii?Q?/9Eipda1b6kJU3Ks9IWPUKnZmehbBJq/vWCgqSsf4s02o2R6yoN4O75jlbC7?=
+ =?us-ascii?Q?/4IndSGKQJNt/3yIG7kaER+Nc9Rlw0WFZejtCms3MA3vTVIM7Uglmu8QpPS+?=
+ =?us-ascii?Q?kg1G/ACNOcIBJhmU/XlbaxqJIIzD/XfE0jR86/JQIRhL4m8CzuOgLB/Yi+W+?=
+ =?us-ascii?Q?rjz90V0SWNfxO/1MzchhIH/lkBhmn3rek1vVKBg5UqtYDUSoj5PyzxaMtBg0?=
+ =?us-ascii?Q?gnt/EP0LUU1A6b2wEiflxzxZj5+SlJVTyRDx+r3jkVG5uBGQDR6iTFaAEapS?=
+ =?us-ascii?Q?q63wzCtvaX33Om5NMzrjz3XTj4rzUTwPDR+BSk25J6Rth2Pa77m2ix29cKeE?=
+ =?us-ascii?Q?6dVMOGDcdggyrLeXVIKrKd7s3mncDi/fAzJ+ZYB3On9xW8Y8ZmIMn/qSrlpm?=
+ =?us-ascii?Q?XNKBWjNC7b6DN2PINtXIGN9FfeRWeJ/UV5sgL84tR22v7yvS9nTeJcOSjaeF?=
+ =?us-ascii?Q?uM944AHSNpgtsWf8dnSgwOYEpgvNDrV0GqwsM12L?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fe36d55-a1ab-4580-fd85-08dcf6f9ae9d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65c68bdf-4b61-429d-c027-08dcf6f9b519
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 02:39:01.9335 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 02:39:12.7225 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MTVihxhnGv5xp7Y8WwaMEzWAic8gYKI3PL3kfXlEEi2s2VzKRU8zCNvg3Mq7qpwgxE2o/g1Rqi6gs5lJlF5f3g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: CnoOGy2n8yFWd/lrXQQc61f8HYTiTCSduZbWmmib7cpEw051n1TjhM0tBFYB0RcgT+5vxXwpbKLvlmzi4rtV0A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8709
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -161,83 +159,204 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add "jeida-30" and "vesa-30" data mappings that are compatible with JEIDA
-and VESA respectively.
+Dual-link LVDS displays receive odd pixels and even pixels separately from
+dual LVDS links.  One link receives odd pixels and the other receives even
+pixels.  Some of those displays may also use only one LVDS link to receive
+all pixels, being odd and even agnostic.  Document common properties for
+those displays by extending LVDS display common properties defined in
+lvds.yaml.
 
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
 v4:
-* Collect Krzysztof's A-b tag.
+* Squash change for advantech,idk-2121wr.yaml and
+  panel-simple-lvds-dual-ports.yaml with lvds-dual-ports.yaml.  (Rob)
+* Improve description in lvds-dual-ports.yaml.  (Krzysztof)
 
 v3:
-* New patch.
+* New patch.  (Dmitry)
 
- .../bindings/display/lvds-data-mapping.yaml   | 31 +++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ .../bindings/display/lvds-dual-ports.yaml     | 76 +++++++++++++++++++
+ .../display/panel/advantech,idk-2121wr.yaml   | 14 +---
+ .../panel/panel-simple-lvds-dual-ports.yaml   | 20 +----
+ 3 files changed, 78 insertions(+), 32 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/lvds-data-mapping.yaml b/Documentation/devicetree/bindings/display/lvds-data-mapping.yaml
-index d68982fe2e9b..ab842594feb9 100644
---- a/Documentation/devicetree/bindings/display/lvds-data-mapping.yaml
-+++ b/Documentation/devicetree/bindings/display/lvds-data-mapping.yaml
-@@ -26,12 +26,17 @@ description: |
-   Device compatible with those specifications have been marketed under the
-   FPD-Link and FlatLink brands.
- 
-+  This bindings also supports 30-bit data mapping compatible with JEIDA and
-+  VESA.
+diff --git a/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
+new file mode 100644
+index 000000000000..5f7a30640404
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
+@@ -0,0 +1,76 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/lvds-dual-ports.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
++title: Dual-link LVDS Display Common Properties
++
++maintainers:
++  - Liu Ying <victor.liu@nxp.com>
++
++description: |
++  Common properties for LVDS displays with dual LVDS links. Extend LVDS display
++  common properties defined in lvds.yaml.
++
++  Dual-link LVDS displays receive odd pixels and even pixels separately from
++  the dual LVDS links. One link receives odd pixels and the other receives
++  even pixels. Some of those displays may also use only one LVDS link to
++  receive all pixels, being odd and even agnostic.
++
++allOf:
++  - $ref: lvds.yaml#
++
++properties:
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: the first LVDS input link
++
++        properties:
++          dual-lvds-odd-pixels:
++            type: boolean
++            description: the first LVDS input link for odd pixels
++
++          dual-lvds-even-pixels:
++            type: boolean
++            description: the first LVDS input link for even pixels
++
++        oneOf:
++          - required: [dual-lvds-odd-pixels]
++          - required: [dual-lvds-even-pixels]
++          - properties:
++              dual-lvds-odd-pixels: false
++              dual-lvds-even-pixels: false
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: the second LVDS input link
++
++        properties:
++          dual-lvds-odd-pixels:
++            type: boolean
++            description: the second LVDS input link for odd pixels
++
++          dual-lvds-even-pixels:
++            type: boolean
++            description: the second LVDS input link for even pixels
++
++        oneOf:
++          - required: [dual-lvds-odd-pixels]
++          - required: [dual-lvds-even-pixels]
++          - properties:
++              dual-lvds-odd-pixels: false
++              dual-lvds-even-pixels: false
++
++required:
++  - ports
++
++additionalProperties: true
++
++...
+diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+index 2e8dbdb5a3d5..05ca3b2385f8 100644
+--- a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
++++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+@@ -20,6 +20,7 @@ description: |
+   dual-lvds-odd-pixels or dual-lvds-even-pixels).
+ 
+ allOf:
++  - $ref: /schemas/display/lvds-dual-ports.yaml#
+   - $ref: panel-common.yaml#
+ 
  properties:
-   data-mapping:
-     enum:
-       - jeida-18
-       - jeida-24
-+      - jeida-30
-       - vesa-24
-+      - vesa-30
-     description: |
-       The color signals mapping order.
+@@ -44,22 +45,10 @@ properties:
  
-@@ -60,6 +65,19 @@ properties:
-       DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B7__><__B6__><__B5__><__B4__><
-       DATA3     ><_CTL3_><__B1__><__B0__><__G1__><__G0__><__R1__><__R0__><
+     properties:
+       port@0:
+-        $ref: /schemas/graph.yaml#/$defs/port-base
+-        unevaluatedProperties: false
+-        description: The sink for odd pixels.
+-        properties:
+-          dual-lvds-odd-pixels: true
+-
+         required:
+           - dual-lvds-odd-pixels
  
-+      - "jeida-30" - 30-bit data mapping compatible with JEIDA and VESA. Data
-+        are transferred as follows on 5 LVDS lanes.
-+
-+      Slot          0       1       2       3       4       5       6
-+                ________________                         _________________
-+      Clock                     \_______________________/
-+                  ______  ______  ______  ______  ______  ______  ______
-+      DATA0     ><__G4__><__R9__><__R8__><__R7__><__R6__><__R5__><__R4__><
-+      DATA1     ><__B5__><__B4__><__G9__><__G8__><__G7__><__G6__><__G5__><
-+      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B9__><__B8__><__B7__><__B6__><
-+      DATA3     ><_CTL3_><__B3__><__B2__><__G3__><__G2__><__R3__><__R2__><
-+      DATA4     ><_CTL3_><__B1__><__B0__><__G1__><__G0__><__R1__><__R0__><
-+
-       - "vesa-24" - 24-bit data mapping compatible with the [VESA] specification.
-         Data are transferred as follows on 4 LVDS lanes.
+       port@1:
+-        $ref: /schemas/graph.yaml#/$defs/port-base
+-        unevaluatedProperties: false
+-        description: The sink for even pixels.
+-        properties:
+-          dual-lvds-even-pixels: true
+-
+         required:
+           - dual-lvds-even-pixels
  
-@@ -72,6 +90,19 @@ properties:
-       DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
-       DATA3     ><_CTL3_><__B7__><__B6__><__G7__><__G6__><__R7__><__R6__><
+@@ -75,7 +64,6 @@ required:
+   - height-mm
+   - data-mapping
+   - panel-timing
+-  - ports
  
-+      - "vesa-30" - 30-bit data mapping compatible with VESA. Data are
-+        transferred as follows on 5 LVDS lanes.
-+
-+      Slot          0       1       2       3       4       5       6
-+                ________________                         _________________
-+      Clock                     \_______________________/
-+                  ______  ______  ______  ______  ______  ______  ______
-+      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
-+      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
-+      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
-+      DATA3     ><_CTL3_><__B7__><__B6__><__G7__><__G6__><__R7__><__R6__><
-+      DATA4     ><_CTL3_><__B9__><__B8__><__G9__><__G8__><__R9__><__R8__><
-+
-       Control signals are mapped as follows.
+ examples:
+   - |+
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+index 10ed4b57232b..e80fc7006984 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+@@ -22,6 +22,7 @@ description: |
+   If the panel is more advanced a dedicated binding file is required.
  
-       CTL0: HSync
+ allOf:
++  - $ref: /schemas/display/lvds-dual-ports.yaml#
+   - $ref: panel-common.yaml#
+ 
+ properties:
+@@ -55,28 +56,10 @@ properties:
+ 
+     properties:
+       port@0:
+-        $ref: /schemas/graph.yaml#/$defs/port-base
+-        unevaluatedProperties: false
+-        description: The first sink port.
+-
+-        properties:
+-          dual-lvds-odd-pixels:
+-            type: boolean
+-            description: The first sink port for odd pixels.
+-
+         required:
+           - dual-lvds-odd-pixels
+ 
+       port@1:
+-        $ref: /schemas/graph.yaml#/$defs/port-base
+-        unevaluatedProperties: false
+-        description: The second sink port.
+-
+-        properties:
+-          dual-lvds-even-pixels:
+-            type: boolean
+-            description: The second sink port for even pixels.
+-
+         required:
+           - dual-lvds-even-pixels
+ 
+@@ -88,7 +71,6 @@ unevaluatedProperties: false
+ 
+ required:
+   - compatible
+-  - ports
+   - power-supply
+ 
+ examples:
 -- 
 2.34.1
 
