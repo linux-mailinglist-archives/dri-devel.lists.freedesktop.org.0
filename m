@@ -2,84 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E989B39BF
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 19:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923649B39DA
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 20:00:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A9910E380;
-	Mon, 28 Oct 2024 18:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF4ED10E51D;
+	Mon, 28 Oct 2024 19:00:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="E4cMPAzK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="icPMiGVV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46E6E10E380
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 18:55:04 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-2fc968b3545so45105371fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 11:55:04 -0700 (PDT)
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
+ [209.85.166.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21B1910E51A;
+ Mon, 28 Oct 2024 19:00:16 +0000 (UTC)
+Received: by mail-il1-f182.google.com with SMTP id
+ e9e14a558f8ab-3a3bd42955bso18052945ab.1; 
+ Mon, 28 Oct 2024 12:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1730141700; x=1730746500;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kPm2vEW8xTYHQPK8zA4XdYIjeKKSO98gok6NxNxwW8I=;
- b=E4cMPAzKLT5AS5Lc2ITBLnk6QWqxP76uQQu/ELtP2vtpYe+XycgvSHgea25xkdFOqa
- cnE38UEvFeMKMAVHiINkAw6fDr0hrEAFWnWB9bWgdfz4qxqik6OsSRzzQjwl5PF1cd9i
- H/sHXo0/Q+T5PwBw3nziaMoPZXj2tLpCaDzaU=
+ d=gmail.com; s=20230601; t=1730142015; x=1730746815; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=DrJcv/aH8I8XOoCISZJRfuyHbZe3jDtZgV7phtsunRQ=;
+ b=icPMiGVVc6qD+8TUiv26Ar23shNiszXDqG+fiD0tDG7DK7o1DTwFycL58P7yCXmP8B
+ Q09x0oj/LjpsuF3+EWMeXeWG8haK3A+CATTc/KYDa0ZymXfu64CLKpnfvrLOM6uuPh8X
+ saQSMpNzBqVMXCJA7k/cXRbCkfkje7bCryDzXj0u1rRUWYQfon8n3nhUYwfuZ7AwOl+O
+ 0uKEF+S6ou7rfbSAArl4A5w7ZpjF314YHAQvDaUPcgVInb5mVeVop5RyOsV3PH0J7oNX
+ x27ZUu+nMhp0KVaZkZ3N9o9DSQesndnGnWpzCDYkKzWR3AeKh/06Auh3II3EW8toBdCY
+ wi6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730141700; x=1730746500;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kPm2vEW8xTYHQPK8zA4XdYIjeKKSO98gok6NxNxwW8I=;
- b=bvM0iXAH94koAOeYLTwIGYXzqKe7SOk6ZdQ2wNBw5V2i3pv96k8jIxYo6UA8BT/QKL
- hn6+q/Psuk9zEBNX7CEgIpqaCi79LsvLHtVGP4bhDxgLPZwmf25v6U6SU+KPi6qqZNID
- 2TidASVQ1MB4+1qL8ShIjYsQlcd/8cmgZNRnRmJWuum5uBnx5ehXac8ZWMzQSXu0gtVT
- X0usx/ILDNuhLAF2I3q/uzoS7c9/v1elLEcu5JtWIbLi1UGQtPIT+9mv24+0i0FfZscq
- zZe1Zc5NzinQv7O7kI+71ePTS7N5pz5DF1Luy/W/mOdxeBkJluGoY0JYII7jDjoWBdI9
- R1gQ==
+ d=1e100.net; s=20230601; t=1730142015; x=1730746815;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DrJcv/aH8I8XOoCISZJRfuyHbZe3jDtZgV7phtsunRQ=;
+ b=k1IfqrzCuk3epim9LuM7THJvgWBzh4BG89asIlmLiY/WniY8BojcLe9ybDVoWGD4HC
+ XN26hS90ZHY7qxp8ykPTCcib9UXgS6tbqIUjGbwRTuWrLib58t/vwTJYwX0JA42lYh1Y
+ OKwaLLBQ9RbJtdMvZuZtaW4/ZMZmq35o9+gWmHxX6mzoY4YpetbbNLfwU2BlTH2IjhBT
+ PV6xAbpdbzz7fle0O14Ive0WygXUETcr89a8SmYEXMim9B4Eb6BTQ9PM4lXBWg51kDny
+ nlfmjfPneVtyl9/gbEBw5s+7YOe4svJ3n4QAErKMCAJ5OOiVOCzzJjzu7rZUlIov2nrl
+ x6JQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXAhoOl6geMBKyTMXm+GB6IDWqC7P88cVXSylp+qXTvRDEIX0oWczHYAFc0xCb/5HoDIkL7g/mZuH4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzxm9eUKfbaUxnSPA2CcC0OYjhYI8c/GGQE0ANOxDyWfhgTKSrZ
- vML0kwC+QDnHKqtDLwj3jig8KtO1FYmvRX6Z59EjwNZe6kBPoOdxp0AuuRE+sJap/EiW0Qgc41V
- UoA==
-X-Google-Smtp-Source: AGHT+IGnujn/FvUTR0d5EyWfYHXNmqPzzxI9EJfGlQMJdRMGZmK3BgVvBpW+LDRk71gs6EXhofWiOA==
-X-Received: by 2002:a2e:b895:0:b0:2fa:d354:1435 with SMTP id
- 38308e7fff4ca-2fcbddfa6admr37136111fa.0.1730141700319; 
- Mon, 28 Oct 2024 11:55:00 -0700 (PDT)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com.
- [209.85.208.179]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fcb453e798sm12240361fa.58.2024.10.28.11.54.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Oct 2024 11:54:59 -0700 (PDT)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2fb3debdc09so36137141fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 11:54:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVYw9UeLnJGjGjxCLcNylggZWH0+dHd2/iKMeUqd4Rvb+lA8K+Nw8xMaSoft4A+G61sumi4MCaAqg0=@lists.freedesktop.org
-X-Received: by 2002:a05:651c:150a:b0:2fb:4abb:7001 with SMTP id
- 38308e7fff4ca-2fcbdf61dc4mr37792351fa.2.1730141698498; Mon, 28 Oct 2024
- 11:54:58 -0700 (PDT)
+ AJvYcCXRHPHdRHWJ7DfUqYqKqbYuxUun5i6ZUbtil+KepuI/5+BeRZATmgIw+YN1Y5gkvdfj7fnXJYZt5LE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwltEy+3Lzmm6IEIfSqshpK2taCXILO4qjFF0wy71RJsWFOxFSz
+ LZOkiyNCA7PgBE8UBvBIiKpCmfCFH2AWzpLHxVDl/O70Ym6gKv8sJdzOqvJhk6zPb9UgBuzZnRK
+ 3JNMX/dZBHEX5SODC3AOem49XUnc=
+X-Google-Smtp-Source: AGHT+IHYNVJlfW4M0RA04mRZlU54bsrTqTyql/PhULJZPP4lJcsVkBp3FxDhhrl+AlOGnl0NFdP9BBkQaSASwNktjBQ=
+X-Received: by 2002:a92:c266:0:b0:3a4:e9c1:8f75 with SMTP id
+ e9e14a558f8ab-3a4ed311732mr73088995ab.24.1730142014993; Mon, 28 Oct 2024
+ 12:00:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241026035928.183454-1-tejasvipin76@gmail.com>
-In-Reply-To: <20241026035928.183454-1-tejasvipin76@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 28 Oct 2024 11:54:44 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vps5vWD72O_kYhuKudduYed41+tZrVRB6x+FiaZrm-EA@mail.gmail.com>
-Message-ID: <CAD=FV=Vps5vWD72O_kYhuKudduYed41+tZrVRB6x+FiaZrm-EA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: leadtek-ltk050h3146w: transition to mipi_dsi
- wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 28 Oct 2024 12:00:03 -0700
+Message-ID: <CAF6AEGt7k8zDHsg2Uzx9apzyQMut8XdLXMQSRNn7WArdPUV5Qw@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-next-2024-10-28 for v6.13
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,36 +77,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave, Simona,
 
-On Fri, Oct 25, 2024 at 9:00=E2=80=AFPM Tejas Vipin <tejasvipin76@gmail.com=
-> wrote:
->
-> @@ -418,79 +398,42 @@ static const struct ltk050h3146w_desc ltk050h3146w_=
-data =3D {
->                 MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
->  };
->
-> -static int ltk050h3146w_a2_select_page(struct ltk050h3146w *ctx, int pag=
-e)
-> +static void ltk050h3146w_a2_select_page(struct mipi_dsi_multi_context *d=
-si_ctx, int page)
->  {
-> -       struct mipi_dsi_device *dsi =3D to_mipi_dsi_device(ctx->dev);
-> -       u8 d[3] =3D { 0x98, 0x81, page };
-> +       u8 d[4] =3D { 0xff, 0x98, 0x81, page };
->
-> -       return mipi_dsi_dcs_write(dsi, 0xff, d, ARRAY_SIZE(d));
-> +       mipi_dsi_dcs_write_buffer_multi(dsi_ctx, d, ARRAY_SIZE(d));
+This is the main pull for v6.13.  Further description below.
 
-FWIW: the above might be slightly better as:
+The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
 
-mipi_dsi_dcs_write_seq_multi(dsi_ctx, 0xff, 0x98, 0x81, page);
+  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
 
-That would make it more documenting that the 0xff is the "cmd", has
-fewer lines of code, and also gets the array marked as "static const"
-which might make the compiler slightly more efficient. ;-)
+are available in the Git repository at:
 
-Not really a huge deal, though.
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2024-10-28
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+for you to fetch changes up to d6d1ad32d00714ecf9f1996173c6f98e43c5b022:
+
+  drm/msm/a6xx: Fix excessive stack usage (2024-10-28 09:31:33 -0700)
+
+----------------------------------------------------------------
+Updates for v6.13
+
+Core:
+- Switch to aperture_remove_all_conflicting_devices()
+- Simplify msm_disp_state_dump_regs()
+
+DPU:
+- Add SA8775P support
+- Add (disabled by default) MSM8917, MSM8937, MSM8953 and MSM8996
+  support
+- Enable support for larger framebuffers (required for X.Org working
+  with several outputs)
+- Dropped LM_3, LM_4 (MSM8998, SDM845)
+- Fixed DSPP_3 routing on SDM845
+
+DP:
+- Add SA8775P support
+
+HDMI:
+- Mark two arrays as const in MSM8998 HDMI PHY driver
+
+GPU:
+- a7xx preemption support
+- Adreno A663 support
+- Typos fixes, etc
+- Fix excessive stack usage in a6xx GMU
+
+----------------------------------------------------------------
+Akhil P Oommen (1):
+      drm/msm/a6xx: Fix excessive stack usage
+
+Antonino Maniscalco (12):
+      drm/msm: Fix bv_fence being used as bv_rptr
+      drm/msm/a6xx: Track current_ctx_seqno per ring
+      drm/msm: Add a `preempt_record_size` field
+      drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
+      drm/msm/a6xx: Add a pwrup_list field to a6xx_info
+      drm/msm/a6xx: Implement preemption for a7xx targets
+      drm/msm/a6xx: Sync relevant adreno_pm4.xml changes
+      drm/msm/a6xx: Use posamble to reset counters on preemption
+      drm/msm/a6xx: Add traces for preemption
+      drm/msm/a6xx: Add a flag to allow preemption to submitqueue_create
+      drm/msm/a6xx: Enable preemption for tested a7xx targets
+      Documentation: document adreno preemption
+
+Colin Ian King (1):
+      drm/msm8998: make const arrays ratio_list and band_list static
+
+Dmitry Baryshkov (22):
+      drm/msm/dpu: make sure phys resources are properly initialized
+      drm/msm/dpu: move CRTC resource assignment to
+dpu_encoder_virt_atomic_check
+      drm/msm/dpu: check for overflow in _dpu_crtc_setup_lm_bounds()
+      drm/msm/hdmi: drop pll_cmp_to_fdata from hdmi_phy_8998
+      drm/msm/dpu: Add support for MSM8953
+      drm/msm/dpu: Add support for MSM8937
+      drm/msm/dpu: Add support for MSM8917
+      drm/msm/dpu: on SDM845 move DSPP_3 to LM_5 block
+      drm/msm/dpu: drop LM_3 / LM_4 on SDM845
+      drm/msm/dpu: drop LM_3 / LM_4 on MSM8998
+      drm/msm/dpu: drop dpu_format_check_modified_format
+      drm/msm/dpu: drop dpu_format_populate_layout from
+dpu_plane_sspp_atomic_update
+      drm/msm/dpu: drop extra aspace checks in dpu_formats
+      drm/msm/dpu: drop msm_format from struct dpu_hw_fmt_layout
+      drm/msm/dpu: pass drm_framebuffer to _dpu_format_get_plane_sizes()
+      drm/msm/dpu: move pitch check to _dpu_format_get_plane_sizes_linear()
+      drm/msm/dpu: split dpu_format_populate_layout
+      drm/msm/dpu: make dpu_format_populate_addrs return void
+      drm/msm/dpu: move layout setup population out of dpu_plane_prepare_fb()
+      drm/msm/dpu: check for the plane pitch overflow
+      drm/msm/dpu: merge MAX_IMG_WIDTH/HEIGHT with DPU_MAX_IMG_WIDTH/HEIGHT
+      drm/msm/dpu: sync mode_config limits to the FB limits in dpu_plane.c
+
+Douglas Anderson (3):
+      drm/msm: Avoid NULL dereference in msm_disp_state_print_regs()
+      drm/msm: Allocate memory for disp snapshot with kvzalloc()
+      drm/msm: Simplify NULL checking in msm_disp_state_dump_regs()
+
+Everest K.C. (1):
+      drm/msm/a6xx: Remove logically deadcode in a6xx_preempt.c
+
+Jessica Zhang (2):
+      drm/msm/dpu: Don't always set merge_3d pending flush
+      drm/msm/dpu: don't always program merge_3d block
+
+Jinjie Ruan (1):
+      drm/msm/adreno: Use IRQF_NO_AUTOEN flag in request_irq()
+
+Jonathan Marek (2):
+      drm/msm/dsi: improve/fix dsc pclk calculation
+      drm/msm/dsi: fix 32-bit signed integer extension in pclk_rate calculation
+
+Konrad Dybcio (1):
+      drm/msm/dpu: Add support for MSM8996
+
+Krzysztof Kozlowski (5):
+      dt-bindings: display/msm: merge SC8280XP DPU into SC7280
+      dt-bindings: display/msm: merge SM8250 DPU into SM8150
+      dt-bindings: display/msm: merge SM8350 DPU into SC7280
+      dt-bindings: display/msm: merge SM8450 DPU into SC7280
+      dt-bindings: display/msm: merge SM8550 DPU into SC7280
+
+Lukasz Luba (1):
+      drm/msm/gpu: Check the status of registration to PM QoS
+
+Mahadevan (4):
+      dt-bindings: display/msm: Document MDSS on SA8775P
+      dt-bindings: display/msm: Document the DPU for SA8775P
+      drm/msm: mdss: Add SA8775P support
+      drm/msm/dpu: Add SA8775P support
+
+Puranam V G Tejaswi (2):
+      drm/msm/a6xx: Add support for A663
+      dt-bindings: display/msm/gmu: Add Adreno 663 GMU
+
+Rob Clark (2):
+      drm/msm/a6xx+: Insert a fence wait before SMMU table update
+      Merge branch 'msm-fixes' into msm-next
+
+Shen Lichuan (1):
+      drm/msm: Fix some typos in comment
+
+Soutrik Mukhopadhyay (2):
+      dt-bindings: display: msm: dp-controller: document SA8775P compatible
+      drm/msm/dp: Add DisplayPort controller for SA8775P
+
+Thomas Zimmermann (1):
+      drm/msm: Use video aperture helpers
+
+Yang Li (1):
+      drm/msm: Remove unneeded semicolon
+
+ .../bindings/display/msm/dp-controller.yaml        |   1 +
+ .../devicetree/bindings/display/msm/gmu.yaml       |   1 +
+ .../bindings/display/msm/qcom,sa8775p-mdss.yaml    | 241 ++++++++++
+ .../bindings/display/msm/qcom,sc7280-dpu.yaml      |  10 +-
+ .../bindings/display/msm/qcom,sc8280xp-dpu.yaml    | 122 ------
+ .../bindings/display/msm/qcom,sm8150-dpu.yaml      |   4 +-
+ .../bindings/display/msm/qcom,sm8250-dpu.yaml      |  99 -----
+ .../bindings/display/msm/qcom,sm8350-dpu.yaml      | 120 -----
+ .../bindings/display/msm/qcom,sm8450-dpu.yaml      | 139 ------
+ .../bindings/display/msm/qcom,sm8550-dpu.yaml      | 133 ------
+ .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   1 +
+ Documentation/gpu/msm-preemption.rst               |  99 +++++
+ drivers/gpu/drm/msm/Makefile                       |   1 +
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
+ drivers/gpu/drm/msm/adreno/a5xx_power.c            |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |  61 ++-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |   4 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 262 +++++++++--
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 170 ++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |  67 ++-
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 456 +++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/adreno_device.c         |   4 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  27 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h   | 210 +++++++++
+ .../drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h   | 187 ++++++++
+ .../drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h   | 218 +++++++++
+ .../drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h    | 338 ++++++++++++++
+ .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  12 -
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  14 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h    | 485 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  34 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  68 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   7 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  42 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        | 243 ++++-------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h        |  30 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 109 +++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   9 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   2 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  15 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  50 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h          |   3 +
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c  |  36 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |   9 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |   4 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c           |  16 +-
+ drivers/gpu/drm/msm/msm_drv.c                      |   4 +
+ drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
+ drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c              |   9 +-
+ drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
+ drivers/gpu/drm/msm/msm_kms.c                      |   4 +-
+ drivers/gpu/drm/msm/msm_kms.h                      |   6 -
+ drivers/gpu/drm/msm/msm_mdss.c                     |  11 +
+ drivers/gpu/drm/msm/msm_ringbuffer.c               |   2 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
+ drivers/gpu/drm/msm/msm_submitqueue.c              |   7 +
+ drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
+ .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
+ include/uapi/drm/msm_drm.h                         |   5 +-
+ 68 files changed, 3275 insertions(+), 1067 deletions(-)
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
+ delete mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-dpu.yaml
+ delete mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
+ delete mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml
+ delete mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
+ delete mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml
+ create mode 100644 Documentation/gpu/msm-preemption.rst
+ create mode 100644 drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
