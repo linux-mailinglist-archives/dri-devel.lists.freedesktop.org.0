@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5689B2D63
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:52:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DBD59B2D64
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:52:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A93B10E477;
-	Mon, 28 Oct 2024 10:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59BD910E479;
+	Mon, 28 Oct 2024 10:52:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PX7WjG2E";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I0aCgGXD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94B0810E473;
- Mon, 28 Oct 2024 10:52:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEEAC10E478;
+ Mon, 28 Oct 2024 10:52:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B310C5C5A77;
- Mon, 28 Oct 2024 10:51:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EF7FC4CEE7;
- Mon, 28 Oct 2024 10:52:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1A14F5C5A18;
+ Mon, 28 Oct 2024 10:51:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00300C4CEC3;
+ Mon, 28 Oct 2024 10:52:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730112725;
- bh=awgu0iGo3uoDSu5mVHC0L1PH/1s2sI1wy6Q5lwygyvM=;
+ s=k20201202; t=1730112727;
+ bh=AWjY+Jh4gtpC1T5OPEmBU/M+2xT84tsdA88vaJts8HU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PX7WjG2EQb65tx4JZ+/EjISmEOSLCaG59iP666KjYqqi2w4oSMKjIfrf6H2mkwE78
- TkzhtN+Rtoh7YTvlr5cP7FXTbsuhR4a4exHnHkRcA3dCCDe5NYo6LcXg/TZuMFDEMg
- F030fyJflF1wSHw0r/77X9JX6NpEXmYqaqLXhrZUpyardsUnhEpjH7mFwd/yHBUEEw
- AoN/k9oMyNQm7qfS3eDJyYYIMeWtreRq/aRVar8XrMK5yFIjqYIkKuWtyMpZAX7Qyn
- pkq2KcZ5rf2pEg+EkbSoUioDN55vFyF27mhC3jj4xhhLFUQTGvQLns1EoAZswsS/6e
- RChDO457PvDFA==
+ b=I0aCgGXD4b69btwrFx5cW1WpiCGMiTVRJIsYuf9mLnruQuL8g00YUZXCjyyjxHYMo
+ 6RN69aI2hCp17rc8E4InXWj78V7mvi8OYKtSi/AjD1QgVQ5EOBho2egyZ3pap4erjF
+ JYr5ucVExdS92euVSEdClIqJQMDtB5EyanScJpbwK8kzNKS3NCrs6oKWtPOm/YCQaL
+ NSMXfM508xLUOYEf91Lc6iGES8LPU1xBkv81PvfRqA+VNQEL227p7zE9QkIWgLz3ap
+ xKUB/XdFM6kdxLgM1tZgHgthHwtJT+xu/BN/Fv7NHMRXuI/KYKPZaHgPD840hVFspg
+ ZAeTUW4kG2fiQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>, Alex Zuo <alex.zuo@intel.com>,
+Cc: Nirmoy Das <nirmoy.das@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
  Matthew Brost <matthew.brost@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Badal Nilawar <badal.nilawar@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  Sasha Levin <sashal@kernel.org>, thomas.hellstrom@linux.intel.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ rodrigo.vivi@intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 30/32] drm/xe: Handle unreliable MMIO reads
- during forcewake
-Date: Mon, 28 Oct 2024 06:50:12 -0400
-Message-ID: <20241028105050.3559169-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 31/32] drm/xe/ufence: Prefetch ufence addr to
+ catch bogus address
+Date: Mon, 28 Oct 2024 06:50:13 -0400
+Message-ID: <20241028105050.3559169-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241028105050.3559169-1-sashal@kernel.org>
 References: <20241028105050.3559169-1-sashal@kernel.org>
@@ -73,67 +70,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shuicheng Lin <shuicheng.lin@intel.com>
+From: Nirmoy Das <nirmoy.das@intel.com>
 
-[ Upstream commit 69418db678567bdf9a4992c83d448da462ffa78c ]
+[ Upstream commit 9c1813b3253480b30604c680026c7dc721ce86d1 ]
 
-In some cases, when the driver attempts to read an MMIO register,
-the hardware may return 0xFFFFFFFF. The current force wake path
-code treats this as a valid response, as it only checks the BIT.
-However, 0xFFFFFFFF should be considered an invalid value, indicating
-a potential issue. To address this, we should add a log entry to
-highlight this condition and return failure.
-The force wake failure log level is changed from notice to err
-to match the failure return value.
+access_ok() only checks for addr overflow so also try to read the addr
+to catch invalid addr sent from userspace.
 
-v2 (Matt Brost):
-  - set ret value (-EIO) to kick the error to upper layers
-v3 (Rodrigo):
-  - add commit message for the log level promotion from notice to err
-v4:
-  - update reviewed info
-
-Suggested-by: Alex Zuo <alex.zuo@intel.com>
-Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
+Link: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/1630
+Cc: Francois Dugast <francois.dugast@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Reviewed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Acked-by: Badal Nilawar <badal.nilawar@intel.com>
-Cc: Anshuman Gupta <anshuman.gupta@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241017221547.1564029-1-shuicheng.lin@intel.com
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-(cherry picked from commit a9fbeabe7226a3bf90f82d0e28a02c18e3c67447)
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241016082304.66009-2-nirmoy.das@intel.com
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+(cherry picked from commit 9408c4508483ffc60811e910a93d6425b8e63928)
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_force_wake.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/xe_sync.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_force_wake.c b/drivers/gpu/drm/xe/xe_force_wake.c
-index b263fff152737..7d9fc489dcb81 100644
---- a/drivers/gpu/drm/xe/xe_force_wake.c
-+++ b/drivers/gpu/drm/xe/xe_force_wake.c
-@@ -115,9 +115,15 @@ static int __domain_wait(struct xe_gt *gt, struct xe_force_wake_domain *domain,
- 			     XE_FORCE_WAKE_ACK_TIMEOUT_MS * USEC_PER_MSEC,
- 			     &value, true);
- 	if (ret)
--		xe_gt_notice(gt, "Force wake domain %d failed to ack %s (%pe) reg[%#x] = %#x\n",
--			     domain->id, str_wake_sleep(wake), ERR_PTR(ret),
--			     domain->reg_ack.addr, value);
-+		xe_gt_err(gt, "Force wake domain %d failed to ack %s (%pe) reg[%#x] = %#x\n",
-+			  domain->id, str_wake_sleep(wake), ERR_PTR(ret),
-+			  domain->reg_ack.addr, value);
-+	if (value == ~0) {
-+		xe_gt_err(gt,
-+			  "Force wake domain %d: %s. MMIO unreliable (forcewake register returns 0xFFFFFFFF)!\n",
-+			  domain->id, str_wake_sleep(wake));
-+		ret = -EIO;
-+	}
+diff --git a/drivers/gpu/drm/xe/xe_sync.c b/drivers/gpu/drm/xe/xe_sync.c
+index de80c8b7c8913..9d77f2d4096f5 100644
+--- a/drivers/gpu/drm/xe/xe_sync.c
++++ b/drivers/gpu/drm/xe/xe_sync.c
+@@ -54,8 +54,9 @@ static struct xe_user_fence *user_fence_create(struct xe_device *xe, u64 addr,
+ {
+ 	struct xe_user_fence *ufence;
+ 	u64 __user *ptr = u64_to_user_ptr(addr);
++	u64 __maybe_unused prefetch_val;
  
- 	return ret;
- }
+-	if (!access_ok(ptr, sizeof(*ptr)))
++	if (get_user(prefetch_val, ptr))
+ 		return ERR_PTR(-EFAULT);
+ 
+ 	ufence = kzalloc(sizeof(*ufence), GFP_KERNEL);
 -- 
 2.43.0
 
