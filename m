@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 043FA9B3726
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 17:56:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E00D9B3778
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 18:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78C2210E516;
-	Mon, 28 Oct 2024 16:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D76A10E0BA;
+	Mon, 28 Oct 2024 17:15:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="crWultVX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CWAOt+iN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7260A10E516;
- Mon, 28 Oct 2024 16:56:07 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE5D10E0BA
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 17:15:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 90C32A42A45;
- Mon, 28 Oct 2024 16:54:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7440C4CEC3;
- Mon, 28 Oct 2024 16:56:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 94C2C5C5848;
+ Mon, 28 Oct 2024 17:14:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18F54C4CEC3;
+ Mon, 28 Oct 2024 17:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730134565;
- bh=zFHnF7cGEYGwCxaLixcm3YUBNgWn7en7LiCB5J6XxGU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=crWultVXOmNOEWB7o8sIuKDEqFUlt3r+Br/8GzgAliwpSKBoSujztI2uuYN+2lbtB
- Ewnbd5OGtkZss7AkIZRlt71MQD/mHGyKKxqWn++ikTxS+0TAAo+CVEjSzYq7vkXQcD
- 0nRDB1qdVegbRS2Ukf325gS9bslRdnSiSbBvySxs1lVxoXM2NXh44OofuZegv4oGBI
- AAfEuhcg0IPljWfYhVBMbGPR0MEUeQiVo17bAlmY2ImXM3YTHvmfRm5lXkiz7sMjvx
- Z5IHcbEbhyendDuKBmmhX5jmSiJj6+bq6F7bUfEfBAmQG4exPUGqCXwlS2IYu2/w+s
- uA96h5/dKXs4w==
-Date: Mon, 28 Oct 2024 11:56:04 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-Cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v4 5/7] PCI/IOV: Check that VF BAR fits within the
- reservation
-Message-ID: <20241028165604.GA1105091@bhelgaas>
+ s=k20201202; t=1730135726;
+ bh=SHA60aUVkHc5dOlticmp590SgsHwyopdCX3RsUQYjWU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CWAOt+iNqV10UbkGMm36iAkjcva/IcPN2CiH5/NaihQtNCvt2RzbFu8Z3qJejfR/Q
+ 98AB7CAtGwicrznM29UzZtx5rnNHNFMdA+3xsHywrzFCo1yMoZfBcypBFW3cGCGzX3
+ jp9BqiggK9yw/A9paQ0uxWnhV5vZwe+v/SIAYcfIrWWQ1Omrtgx7Fy/KjGRXcYky9S
+ BaRi3qsuI14JxJiHm6H57dmVXxLmHwbfMfYlKBxnIbs+7CToaZIPAbEOJGmMRXegVS
+ AVuGchll3ZzAwXShS1RXO8r0Ur5pK71nmjuv57v+czwzRxMO6s+DsZVO46wUB0mf/0
+ atZrkOYxqzCsw==
+Date: Mon, 28 Oct 2024 12:15:24 -0500
+From: Rob Herring <robh@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] dt-bindings: mfd: convert zii,rave-sp.txt and
+ child txt to yaml format
+Message-ID: <20241028171524.GA888974-robh@kernel.org>
+References: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241025215038.3125626-6-michal.winiarski@intel.com>
+In-Reply-To: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,60 +67,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 25, 2024 at 11:50:36PM +0200, Michał Winiarski wrote:
-> VF MMIO resource reservation, either created by system firmware and
-> inherited by Linux PCI subsystem or created by the subsystem itself,
-> should contain enough space to fit the BAR of all SR-IOV Virtual
-> Functions that can potentially be created (total VFs supported by the
-> device).
-
-I don't think "VF resource reservation ... should contain enough
-space" is really accurate or actionable.  It would be *nice* if the PF
-BAR is large enough to accommodate the largest supported VF BARs for
-all possible VFs, but if it doesn't, it's not really an error.  It's
-just a reflection of the fact that resource space is limited.
-
-> However, that assumption only holds in an environment where VF BAR size
-> can't be modified.
-
-There's no reason to assume anything about how many VF BARs fit.  The
-existing code should avoid enabling the requested nr_virtfn VFs if the
-PF doesn't have enough space -- I think that's what the "if
-(res->parent)" is supposed to be checking.
-
-The fact that you need a change here makes me suspect that we're
-missing some resource claim (and corresponding res->parent update)
-elsewhere when resizing the VF BAR.
-
-> Add an additional check that verifies that VF BAR for all enabled VFs
-> fits within the underlying reservation resource.
+On Thu, Oct 10, 2024 at 11:42:37AM -0400, Frank Li wrote:
+> Fixed below warnings:
 > 
-> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu: failed to match any schema with compatible: ['zii,rave-sp-rdu2']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu: failed to match any schema with compatible: ['zii,rave-sp-rdu2']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > ---
->  drivers/pci/iov.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+> Changes in v2:
+> - change all maintainer to frank li.
+> - Link to v1: https://lore.kernel.org/r/20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com
 > 
-> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> index 79143c1bc7bb4..5de828e5a26ea 100644
-> --- a/drivers/pci/iov.c
-> +++ b/drivers/pci/iov.c
-> @@ -645,10 +645,14 @@ static int sriov_enable(struct pci_dev *dev, int nr_virtfn)
->  
->  	nres = 0;
->  	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++) {
-> +		int vf_bar_sz = pci_iov_resource_size(dev,
-> +						      pci_resource_to_iov(i));
->  		bars |= (1 << pci_resource_to_iov(i));
->  		res = &dev->resource[pci_resource_to_iov(i)];
-> -		if (res->parent)
-> -			nres++;
-> +		if (!res->parent || vf_bar_sz * nr_virtfn > resource_size(res))
-> +			continue;
-> +
-> +		nres++;
->  	}
->  	if (nres != iov->nres) {
->  		pci_err(dev, "not enough MMIO resources for SR-IOV\n");
-> -- 
-> 2.47.0
-> 
+> ---
+> Frank Li (5):
+>       dt-bindings: input: convert zii,rave-sp-pwrbutton.txt to yaml
+>       dt-bindings: backlight: convert zii,rave-sp-backlight.txt to yaml
+>       dt-bindings: nvmem: convert zii,rave-sp-eeprom.txt to yaml format
+>       dt-bindings: watchdog: convert zii,rave-sp-wdt.txt to yaml format
+>       dt-bindings: mfd: convert zii,rave-sp.txt to yaml format
+
+Applied 1 and 4 since they still haven't been picked up and linux-next 
+is warning due to the whole series not being applied. Once again, these 
+MFD bindings need to go in via 1 tree.
+
+Rob
