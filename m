@@ -2,91 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849FA9B2CC3
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:26:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFB89B2CC8
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:26:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A8FE10E16A;
-	Mon, 28 Oct 2024 10:26:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5D610E45F;
+	Mon, 28 Oct 2024 10:26:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="GbvInU+n";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="WE44lu1l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 752DE10E16A
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:26:11 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-a93c1cc74fdso578201066b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 03:26:11 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ABF410E45F
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:26:19 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a99f646ff1bso523970566b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 03:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1730111170; x=1730715970;
+ d=amarulasolutions.com; s=google; t=1730111177; x=1730715977;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Tjf17nGxadGEosYCdQe1mRaeFLEYOHfj3xwJxxS9C4Y=;
- b=GbvInU+n+6MuCkxAd3QdR4ZldO4t/KbfKbZt5r+sL9j3gKjkz31/vkd1UHWzGZRzhj
- iHpt4e94bDhH5FUhQ8F8wPgGvkah9S0GbvnnRufhkI1j5m/4RdYAwOZufDTRSmzfIy4Z
- 1UYRkoMadyLLl5xmNLABHz9ElGrZLycpsyZwg=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pgo/k+HOa5AvPj9A+1CCmgMfc+PmvaON+Q6yQ1cAi7o=;
+ b=WE44lu1l2nuVwerGYfEc7WvGWmPTsV3b25MUQOeKvRJxduQh9z9X2DiTl53YEUao+O
+ tz3AWwSJD7pt2QkP8Fcahg0o4TCeD8q0SE87bRwlgYVcRnLp1q5o0zDHV2AwzoLqHoH1
+ uD+1LC6ISqlh1V2uWaMb+V+LxkDRcpPDiuUjU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730111170; x=1730715970;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Tjf17nGxadGEosYCdQe1mRaeFLEYOHfj3xwJxxS9C4Y=;
- b=KbQtxa2HQJP3MMpj2rcEQHU7Tg0kEy3qqGsrQ8/o6udtcVFu+vGP5p6NUf/SbBY8Vz
- wGrpyvB1C3VvslWmwBm2Z4ss4lNynU56YLOmnClM6qE+6jhoHCFP+gKeWTKNLE4cLBnQ
- XrKOW0BJJGionL7bZ8Vuf7j6WQVJMhqD3C0EiuyRjw+cBD2t6XdoCsxoRn9qcnMwE9Bj
- JeKsvAFFzjqX0hZy8rvnL2VaJCP3X3PIpfvJsJTu5Trl4k+bMtrCLi5NwuSQOvDqBqlt
- 15wqRAwHswwZrsZih7Iwu9MBjWNwot+Q2vwv5AArnBJxJeAjonTqH4aCa8iTAJFofHDZ
- kBbw==
+ d=1e100.net; s=20230601; t=1730111177; x=1730715977;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pgo/k+HOa5AvPj9A+1CCmgMfc+PmvaON+Q6yQ1cAi7o=;
+ b=fx5a4WumUUqCxn18b2Y4Ggz+xU81N5RSEdvbNf8JFZx8sVib9eSEG8J/bgiKMDj6zR
+ DppP9r4+4P5JG4mDi3IL4kjJ7QegjWjld/ZaybYWIeOwpVVhylVrcSPmcEYEzp4JbOUM
+ kO9SqFYCHj9bOOZ4igB0kSVsX2thljej8lT6KCsmsbQiKeOIdZIKEeRMhGvFZtlg/9AW
+ XYdhdLzrgk5dqSjxGnuWCoZgP1t4as6zPWIjZljexGDhr1wn53nLTE7wyxWhqSGGiYnr
+ h2Pk/WH7kCl2IYfrSexEsWJ5J8VSyfxasmu+8MU9WIdjouRVzhBy5VTx7NuWHByUdHqB
+ m4Lg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVaa/bcx33iA1D+Iw0N5esHMlrYoQv4wK4BNT51YU7yMyE+xsP7P2878Ll96ptieQiFe6wC1vJ6axs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzWPkPJndvg5YsEKdRpqFC/6B5PjhfjgsdMPOYyUz7zXrXZm5G
- Liehxm7qmK8GUs1KSA8q8xJMOqEQRiIHqqK8FVm62FZuXkLWiHa3d1HYw+oDITo=
-X-Google-Smtp-Source: AGHT+IH1B0ko3VIpWkPI4RC1oi+MD1rEEYyYDNnVuUIYAatTCka4T6be6wD1IPac0B/RcE+iH3t9Yg==
-X-Received: by 2002:a17:907:3f23:b0:a8a:8d81:97ac with SMTP id
- a640c23a62f3a-a9de5c9f5f9mr669847666b.4.1730111169568; 
- Mon, 28 Oct 2024 03:26:09 -0700 (PDT)
+ AJvYcCV8E4vPSgefHE7HAv1n+NIhiV3TVHrFlRCrEP9Witfpgof0H5Q3v/iOplxBRH3Sy+5KL21tV6Dba0c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyU09iqrcCD4rFSbBn/Ieh3v1MoOyMRBCcBNXkToy+IyLiKLdgg
+ iN4Z8qBwFPJApirbWszhX5RIVcRNDYms0rd2bzDnHtZUGo3lGAPsM3a4/k0EdEM=
+X-Google-Smtp-Source: AGHT+IE1qExZyTeDCcsOPLbzeTHr0FDTO0+eG+29GGN1U5BkMPni1pRPTaIjSGyhvowARpdu2dlhRg==
+X-Received: by 2002:a17:907:7292:b0:a9a:d23:f8ca with SMTP id
+ a640c23a62f3a-a9de5c92bfcmr611522566b.13.1730111177428; 
+ Mon, 28 Oct 2024 03:26:17 -0700 (PDT)
 Received: from dario-ThinkPad-T14s-Gen-2i.amarulasolutions.com ([2.196.41.121])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a9b1f297b04sm363613966b.134.2024.10.28.03.26.07
+ a640c23a62f3a-a9b1f297b04sm363613966b.134.2024.10.28.03.26.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2024 03:26:09 -0700 (PDT)
+ Mon, 28 Oct 2024 03:26:17 -0700 (PDT)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-amarula@amarulasolutions.com,
  Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
  Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
  Maxime Ripard <mripard@kernel.org>,
  Michael Trimarchi <michael@amarulasolutions.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, Simona Vetter <simona@ffwll.ch>,
- Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-pm@vger.kernel.org
-Subject: [RFC PATCH 00/10] Support simple-framebuffer on imx8m
-Date: Mon, 28 Oct 2024 11:25:23 +0100
-Message-ID: <20241028102559.1451383-1-dario.binacchi@amarulasolutions.com>
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH 05/10] dt-bindings: display: panel: add 'syna,
+ boot-on' property
+Date: Mon, 28 Oct 2024 11:25:28 +0100
+Message-ID: <20241028102559.1451383-6-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241028102559.1451383-1-dario.binacchi@amarulasolutions.com>
+References: <20241028102559.1451383-1-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,53 +91,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series is the Linux counterpart of what was sent to U-Boot [1]
-for the support of the simple-framebuffer for the BSH SMM S2Pro board.
+The property states that the panel display has been initialized and left
+on by the bootloader. This information becomes relevant in the case of
+supporting the simple framebuffer.
 
-The need to avoid re-initializing the hardware (power domains,
-controllers, bridges, display panels) that has already been initialized
-and kept powered on by the bootloader has required updating more than
-one YAML file, with the addition of boolean properties to inform the
-driver that the corresponding hardware has been initialized and left
-on by the bootloader. All these properties are added on the fly by the
-bootloader to the various relevant nodes.
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+---
 
-Support for the simple framebuffer for the dts of imx8mn-bsh-smm-s2/pro
-board has been sent with a separate patch from this series [2].
+ .../devicetree/bindings/display/panel/synaptics,r63353.yaml  | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-[1] https://lore.kernel.org/all/20240913095622.72377-18-dario.binacchi@amarulasolutions.com/T/
-[2] https://lore.kernel.org/imx/20241024102800.3481574-1-dario.binacchi@amarulasolutions.com/T/
-
-
-Dario Binacchi (10):
-  dt-bindings: soc: imx-blk-ctrl: add 'fsl,power-domains-boot-on'
-    property
-  pmdomain: imx8m-blk-ctrl: don't turn on a power domain already on
-  dt-bindings: power: gpcv2: add 'fsl,boot-on' property
-  pmdomain: imx: gpcv2: don't turn on a power domain already on
-  dt-bindings: display: panel: add 'syna,boot-on' property
-  drm/panel: synaptics-r63353: don't re-activate the panel if already
-    setup
-  dt-bindings: bridge: samsung-dsim: add 'samsung,boot-on' property
-  drm: bridge: samsung-dsim: don't re-activate the bridge if already
-    setup
-  dt-bindings: lcdif: add 'fsl,boot-on' property
-  drm/mxsfb: stop controller and drain FIFOs if already initialized
-
- .../display/bridge/samsung,mipi-dsim.yaml     |  5 ++
- .../bindings/display/fsl,lcdif.yaml           |  5 ++
- .../display/panel/synaptics,r63353.yaml       |  5 ++
- .../bindings/power/fsl,imx-gpcv2.yaml         |  6 +++
- .../soc/imx/fsl,imx8mn-disp-blk-ctrl.yaml     |  9 ++++
- drivers/gpu/drm/bridge/samsung-dsim.c         | 13 ++++-
- drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  3 ++
- drivers/gpu/drm/mxsfb/mxsfb_drv.h             |  1 +
- drivers/gpu/drm/mxsfb/mxsfb_kms.c             | 14 ++++-
- .../gpu/drm/panel/panel-synaptics-r63353.c    | 10 +++-
- drivers/pmdomain/imx/gpcv2.c                  | 32 +++++++++++-
- drivers/pmdomain/imx/imx8m-blk-ctrl.c         | 51 ++++++++++++++++++-
- 12 files changed, 148 insertions(+), 6 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml b/Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml
+index 2fd6e0ec3682..987fd6f8b866 100644
+--- a/Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml
++++ b/Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml
+@@ -25,6 +25,11 @@ properties:
+   avdd-supply: true
+   dvdd-supply: true
+ 
++  syna,boot-on:
++    description: |
++      The display has been initialized and left on by the bootloader/firmware.
++    type: boolean
++
+ required:
+   - compatible
+   - reg
 -- 
 2.43.0
 
