@@ -2,109 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC0A9B2CFC
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933219B2D07
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:39:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2731510E464;
-	Mon, 28 Oct 2024 10:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB45110E46A;
+	Mon, 28 Oct 2024 10:39:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aFJMbP0C";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="XiTXvcAQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9357D10E461
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:36:21 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49RMmWoW024458
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:36:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- CH7JmnR4WoQC2OKYDorurQUr/WQqgAw1HO8xagcwjXY=; b=aFJMbP0Cfbwg1eTB
- G+c2VR8vLJLLVh3VXrzSwfBSQFbRRT5WNS/e6H+4Q44FmYNlgwad1A0Uj9nLJA6r
- JkJKukgPK5Qxpwpr2Df9on9/Vdk+ZmPB3XlvJ6jK+DpirQZL5QVawST2MasqCp/H
- WqjijgUc6vXxqqsL1hE7TkjWkpS4zT8z4tHKOyTNQM40oKPS9HVLomUQZF1Z9Xh7
- RB0Ivl7FgIQYMLece03yZBTfrVdaU1oRIujXdYbZSskexk3FdKGxYOwnPb4A55oY
- YkytiJ/EKtdca6Uduf9pxQJ6AygMgd6yBVfNVZnkPXsrZGWChugsXuc7MsXmq1eZ
- eQg8zA==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gr0x4gc9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:36:20 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6cbe40565feso13177626d6.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 03:36:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730111780; x=1730716580;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CH7JmnR4WoQC2OKYDorurQUr/WQqgAw1HO8xagcwjXY=;
- b=dY+PCTDoxO5ICoY4cIe/35xWmrq1D6cTPFEdF7OX/wLfL/b9SVuDNOrjpH8K8SdzmC
- kCVYAaPjZsaVLfiAXiMhCXmFKUMP6kb22aFai8obIxSzZp5CLVfubqx/BDEQPw5La2gd
- g43+343D+d8BSCI7oLNXDhF+DtvIimeBO3ciLAj7BmAt7BlLsq7oufAVTK/Gh4t3/ZA4
- hib2H/9GPP1vyS/cHk7P6U1ZJmXUKMs4iFrO28av9B8IkFurPljLPxZU+vvRVgzPiM7w
- XVoT463NMu1/lNZu4Qniqf5MdhAW5AR+9Sp2K3/tU2LCr4jaN9NEqgMX2XRQuIPI5UoR
- b+QQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU9cyWKGwz4B61rq8XBfpBYltcUknXZcflfbJq6oshZMOevBluxncfueogz/GH4ycKGKBGfxh7Ij5g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDyhpMOQir86OKrTCZcodPfRVnJWno/+bAy5uVtBhX8jXWOeLy
- /V1uSno+BpF9Qy2J/UimnOAYp5WQc/ItdZoNSRk2RqVTlyHZam8R/sXhW5L+Mq4sb9PJV8XMhmQ
- jhl8I2Z/0JktXiNjq1Z57pNobG14hvx6aTv3rsCmQ1v8o+yOMiZOR9yByQzOdv+nyAfk=
-X-Received: by 2002:a05:6214:194b:b0:6cb:f0f2:f56d with SMTP id
- 6a1803df08f44-6d185680265mr57679236d6.4.1730111779788; 
- Mon, 28 Oct 2024 03:36:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IENDTBpL5QFAQCGHq9cO4L85islHNim+U5PehHq1rXAjJQ4OzkNGTFXOdlvbMWSpBERyIw2Zg==
-X-Received: by 2002:a05:6214:194b:b0:6cb:f0f2:f56d with SMTP id
- 6a1803df08f44-6d185680265mr57678966d6.4.1730111779381; 
- Mon, 28 Oct 2024 03:36:19 -0700 (PDT)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a9b1f028f36sm361269866b.63.2024.10.28.03.36.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Oct 2024 03:36:19 -0700 (PDT)
-Message-ID: <b7f72f38-2758-405b-abc7-60b73448d8bb@oss.qualcomm.com>
-Date: Mon, 28 Oct 2024 11:36:15 +0100
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2851410E46A
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:39:17 +0000 (UTC)
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4XcVHm38qZz9s5h;
+ Mon, 28 Oct 2024 10:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1730111956; bh=cCBTFcgdNGAMZZblWNtkIdxE+kJi8dJbK7cWme9wa/0=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=XiTXvcAQ1I96VTEytoO6YeAsPWgVMskWkj3u+RrCdulY4HIb8KidBLegYqxmJVPBX
+ /U+qOOC9YnTlNskn/cG2i+3twxzdbHBu8xOBn4aePefEIkvWOPC8kT4rKV9KmKBgIC
+ RoULkKhbJGvuB7R3mG+gprbq/eP1hsYF8BLy2P1Y=
+X-Riseup-User-ID: 27ADA47FA4B3CE9D1512A9D0F91532677EA1A8C408E6A02B6E69E3D42FC77329
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XcVHf4BSMzFtTK;
+ Mon, 28 Oct 2024 10:39:10 +0000 (UTC)
+Message-ID: <8b45942a-c0e6-4f14-9df6-76a50e507b87@riseup.net>
+Date: Mon, 28 Oct 2024 07:39:08 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/a6xx: Fix excessive stack usage
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Subject: Re: [PATCH RESEND v2 5/8] drm/vkms: Add support for RGB888 formats
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- Arnd Bergmann <arnd@kernel.org>
-References: <20241027-stack-size-fix-v1-1-764e2e3566cb@quicinc.com>
- <j2qapo66f64y7ddqlu63dqvog2fdbhnaq3t24wp2srvdt4v7xl@fyqu4ry4wmts>
- <6fea85fc-ccdc-46ec-b612-3712e9431301@quicinc.com>
- <CAA8EJpodjP3rY0Twe9sP37LWwk5ppP36dyLC9WKD6CTDOtmwzA@mail.gmail.com>
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ arthurgrillo@riseup.net, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+References: <20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com>
+ <20241007-b4-new-color-formats-v2-5-d47da50d4674@bootlin.com>
+ <53d04022-7199-4880-9b41-1ee7abdad997@riseup.net> <Zx9ebXIlkCAKz52F@fedora>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <CAA8EJpodjP3rY0Twe9sP37LWwk5ppP36dyLC9WKD6CTDOtmwzA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: y3bJvYCgAusnSl4_N9IByQVa67cHUARx
-X-Proofpoint-GUID: y3bJvYCgAusnSl4_N9IByQVa67cHUARx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0
- clxscore=1015 bulkscore=0 adultscore=0 impostorscore=0 mlxscore=0
- malwarescore=0 mlxlogscore=999 priorityscore=1501 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410280086
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <Zx9ebXIlkCAKz52F@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,73 +69,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.10.2024 11:27 AM, Dmitry Baryshkov wrote:
-> On Mon, 28 Oct 2024 at 12:08, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+Hi Louis,
+
+On 28/10/24 06:50, Louis Chauvet wrote:
+> On 26/10/24 - 11:51, Maíra Canal wrote:
+>> Hi Louis,
 >>
->> On 10/28/2024 1:56 PM, Dmitry Baryshkov wrote:
->>> On Sun, Oct 27, 2024 at 11:35:47PM +0530, Akhil P Oommen wrote:
->>>> Clang-19 and above sometimes end up with multiple copies of the large
->>>> a6xx_hfi_msg_bw_table structure on the stack. The problem is that
->>>> a6xx_hfi_send_bw_table() calls a number of device specific functions to
->>>> fill the structure, but these create another copy of the structure on
->>>> the stack which gets copied to the first.
->>>>
->>>> If the functions get inlined, that busts the warning limit:
->>>>
->>>> drivers/gpu/drm/msm/adreno/a6xx_hfi.c:631:12: error: stack frame size (1032) exceeds limit (1024) in 'a6xx_hfi_send_bw_table' [-Werror,-Wframe-larger-than]
->>>>
->>>> Fix this by kmalloc-ating struct a6xx_hfi_msg_bw_table instead of using
->>>> the stack. Also, use this opportunity to skip re-initializing this table
->>>> to optimize gpu wake up latency.
->>>>
->>>> Cc: Arnd Bergmann <arnd@kernel.org>
->>>>
->>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>>> ---
->>>>  drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  1 +
->>>>  drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 34 ++++++++++++++++++++++------------
->>>>  2 files changed, 23 insertions(+), 12 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->>>> index 94b6c5cab6f4..b4a79f88ccf4 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->>>> @@ -99,6 +99,7 @@ struct a6xx_gmu {
->>>>      struct completion pd_gate;
->>>>
->>>>      struct qmp *qmp;
->>>> +    struct a6xx_hfi_msg_bw_table *bw_table;
->>>>  };
->>>>
->>>>  static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
->>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->>>> index cdb3f6e74d3e..55e51c81be1f 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->>>> @@ -630,32 +630,42 @@ static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
->>>>
->>>>  static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
->>>>  {
->>>> -    struct a6xx_hfi_msg_bw_table msg = { 0 };
->>>> +    struct a6xx_hfi_msg_bw_table *msg;
->>>>      struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
->>>>      struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
->>>>
->>>> +    if (gmu->bw_table)
->>>> +            goto send;
->>>> +
->>>> +    msg = devm_kzalloc(gmu->dev, sizeof(*msg), GFP_KERNEL);
+>> On 07/10/24 13:46, Louis Chauvet wrote:
+>>> Add the support for:
+>>> - RGB888
+>>> - BGR888
 >>>
->>> Is it necessary after being sent? Isn't it better to just kzalloc() it
->>> and then kfree() it at the end of the function?
+>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>> ---
+>>>    drivers/gpu/drm/vkms/vkms_formats.c | 7 +++++++
+>>>    drivers/gpu/drm/vkms/vkms_plane.c   | 2 ++
+>>>    2 files changed, 9 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+>>> index e34bea5da752..2376ea8661ac 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+>>> @@ -461,6 +461,9 @@ READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
+>>>    READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
+>>>    READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
+>>> +READ_LINE_ARGB8888(RGB888_read_line, px, 255, px[2], px[1], px[0])
+>>> +READ_LINE_ARGB8888(BGR888_read_line, px, 255, px[0], px[1], px[2])
+>>> +
+>>>    READ_LINE_16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0])
+>>>    READ_LINE_16161616(ABGR16161616_read_line, px, px[3], px[0], px[1], px[2])
+>>>    READ_LINE_16161616(XRGB16161616_read_line, px, 0xFFFF, px[2], px[1], px[0])
+>>> @@ -679,6 +682,10 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+>>>    		return &RGBX8888_read_line;
+>>>    	case DRM_FORMAT_BGRX8888:
+>>>    		return &BGRX8888_read_line;
+>>> +	case DRM_FORMAT_RGB888:
+>>> +		return RGB888_read_line;
 >>
->> Keeping it around will help to cut down unnecessary work during
->> subsequent gpu wake ups.
+>> Shouldn't it be &RGB888_read_line?
 > 
-> Then, I'd say, it is better to make it a part of the a6xx_gpu struct.
+> According to [1], &function, function, ***function are understood the
+> same by gcc.
+> 
+> But this is ugly and I will change to use & everywhere, thanks!
 
-I think a6xx_gmu makes more logical sense here.
+I didn't know that, that's interesting. I'd add & just for consistency.
 
-FWIW, the driver allocates both _gmu and _gpu for all GPUs regardless
+Best Regards,
+- Maíra
 
-Konrad
+> 
+> [1]:https://stackoverflow.com/questions/6893285/why-do-function-pointer-definitions-work-with-any-number-of-ampersands-or-as
+> 
+> Thanks,
+> Louis Chauvet
+>   
+>>> +	case DRM_FORMAT_BGR888:
+>>> +		return BGR888_read_line;
+>>
+>> Same.
+>>
+>> Best Regards,
+>> - Maíra
+>>
+>>>    	case DRM_FORMAT_ARGB16161616:
+>>>    		return &ARGB16161616_read_line;
+>>>    	case DRM_FORMAT_ABGR16161616:
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+>>> index a243a706459f..0fa589abc53a 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+>>> @@ -21,6 +21,8 @@ static const u32 vkms_formats[] = {
+>>>    	DRM_FORMAT_XBGR8888,
+>>>    	DRM_FORMAT_RGBX8888,
+>>>    	DRM_FORMAT_BGRX8888,
+>>> +	DRM_FORMAT_RGB888,
+>>> +	DRM_FORMAT_BGR888,
+>>>    	DRM_FORMAT_XRGB16161616,
+>>>    	DRM_FORMAT_XBGR16161616,
+>>>    	DRM_FORMAT_ARGB16161616,
+>>>
+
