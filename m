@@ -2,67 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D8F9B2BE6
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 10:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3993C9B2BEC
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 10:51:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FEA010E0F3;
-	Mon, 28 Oct 2024 09:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6680610E43F;
+	Mon, 28 Oct 2024 09:51:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DVZJ9Jst";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="W6aQO6tI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F14CD10E43F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 09:50:39 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4F142C0006;
- Mon, 28 Oct 2024 09:50:37 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2E2810E43F
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 09:50:42 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7B9FF1C0006;
+ Mon, 28 Oct 2024 09:50:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1730109038;
+ t=1730109041;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jVtYITj5PN/Kac3mgIPDKYehHWrOsM6s1bCh8WXYbSI=;
- b=DVZJ9Jst0qwYgxpdSPalIZWo0gqUHiuDHBLl2lQplQWC4AoAi69a+Fz1ntyS90X9z9uqsq
- 2ByovW8/wIsOnWbTHumouiZlyjvjPrKeEFYqT+metAPddxNwvl+PWB1ZFlt7xcZCz/0+vO
- Qi6bUJfFGb9sjjQApAFgHYuK+/jJyOF0sQCCEpbA+A1KAPGjeBvfHDHuvKMm5ojEPI5wDZ
- u1Vnyu2Y7/9waewOlwgGg6HtQ+ZmLfSWnouqaDS7/c/DW/MnZ4FkNnX8wKfwct/qt5ejec
- gWlUhFO3pwCooGMxVrTaV4jwgFElhvTZFjRCpSgIzLmydrtnqpmwY3v7c3KZQw==
-Date: Mon, 28 Oct 2024 10:50:36 +0100
+ bh=VeaOMU1TZIhIRYQ0x1moayff8wABo4up92bIIy3XXRs=;
+ b=W6aQO6tI46OHCFqyHWD8hWHzWAdWXb2/R+GKXVlXM8fCybdcDK7H92P0HGSvGwhFerZzv2
+ pOFhc6elvWm+QZxoe5sjaxAxMdQ5XVKiFYw5uBYoX9Rezg1aUL32juzhcye7kevGnTsNxQ
+ 0VYtFZke6fB0jeqKNeJQn7CvU3gEZ0j1s23lNpDCMOYxCMaq+TMH0CjIAkl8KM4eam8AJK
+ 8f/u3vda02F90WxEWFSI9C64Xy5aFqWUdjiyKOsOCLNTAx8zeh2uml4xSa9TOC6r8g9caI
+ kqAmx4j0IxRpRoWpVyHcmiTS2h1baay7qTE859fVsSj7dCUimAbMW0iMua+DJQ==
+Date: Mon, 28 Oct 2024 10:50:39 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>
 Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Simona Vetter <simona.vetter@ffwll.ch>,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/vkms: Remove index parameter from init_vkms_output
-Message-ID: <Zx9ebAggGouerl4A@fedora>
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+Subject: Re: [PATCH RESEND v2 4/8] drm/vkms: Add support for RGB565 formats
+Message-ID: <Zx9eby4wpmnYPc7Y@fedora>
 Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Simona Vetter <simona.vetter@ffwll.ch>,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com>
- <35a5cf2e-caa4-48bf-a5be-3cbae9865f6a@riseup.net>
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+References: <20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com>
+ <20241007-b4-new-color-formats-v2-4-d47da50d4674@bootlin.com>
+ <63f0bf12-4df8-48d1-b8c8-2ed27a860937@riseup.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <35a5cf2e-caa4-48bf-a5be-3cbae9865f6a@riseup.net>
+In-Reply-To: <63f0bf12-4df8-48d1-b8c8-2ed27a860937@riseup.net>
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,209 +86,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/10/24 - 12:22, Maíra Canal wrote:
+On 26/10/24 - 11:17, Maíra Canal wrote:
 > Hi Louis,
 > 
-> On 10/10/24 14:27, Louis Chauvet wrote:
-> > VKMS currently supports only one CRTC, so it make no sense to have this
-> > index configurable. To avoid issues, replace this hardcoded index by
-> > drm_crtc_mask when applicable.
-> > 
-> > There is no need to manually set a crtc mask on primary and cursor plane
-> > as it is automatically set by drmm_crtc_alloc_with_planes.
-> > 
-> > In addition, this will remove the use of an uninitialized structure in
-> > vkms_add_overlay_plane. This currently works by chance because two things:
-> > - vkms_plane_init always set a possible_crtcs value, so the problematic
-> >    branch is never used;
-> > - drm_crtc_mask on an kzalloc'd drm_crtc returns BIT(0), and the VKMS CRTC
-> >    always have this id.
+> On 07/10/24 13:46, Louis Chauvet wrote:
+> > The format RGB565 was already supported. Add the support for:
+> > - BGR565
 > > 
 > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > > ---
-> > Changes in v2:
-> > - Applied comments from José
-> > - Link to v1: https://lore.kernel.org/r/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com
-> > ---
-> >   drivers/gpu/drm/vkms/vkms_drv.c    |  2 +-
-> >   drivers/gpu/drm/vkms/vkms_drv.h    |  8 ++----
-> >   drivers/gpu/drm/vkms/vkms_output.c | 54 ++++++++++++++------------------------
-> >   drivers/gpu/drm/vkms/vkms_plane.c  |  4 +--
-> >   4 files changed, 24 insertions(+), 44 deletions(-)
+> >   drivers/gpu/drm/vkms/vkms_formats.c | 25 ++++++++++++++++++++++++-
+> >   drivers/gpu/drm/vkms/vkms_plane.c   |  1 +
+> >   2 files changed, 25 insertions(+), 1 deletion(-)
 > > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> > index 2d1e95cb66e5..0f6805b9fe7b 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> > @@ -174,7 +174,7 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
-> >   	dev->mode_config.preferred_depth = 0;
-> >   	dev->mode_config.helper_private = &vkms_mode_config_helpers;
-> > -	return vkms_output_init(vkmsdev, 0);
-> > +	return vkms_output_init(vkmsdev);
+> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> > index c03a481f5005..e34bea5da752 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> > @@ -249,7 +249,7 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
+> >   	return out_pixel;
 > >   }
-> >   static int vkms_create(struct vkms_config *config)
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> > index 672fe191e239..036101ee4ea1 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> > @@ -212,21 +212,17 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
-> >    * vkms_output_init() - Initialize all sub-components needed for a VKMS device.
-> >    *
-> >    * @vkmsdev: VKMS device to initialize
-> > - * @index: CRTC which can be attached to the planes. The caller must ensure that
-> > - *	   @index is positive and less or equals to 31.
-> >    */
-> > -int vkms_output_init(struct vkms_device *vkmsdev, int index);
-> > +int vkms_output_init(struct vkms_device *vkmsdev);
-> >   /**
-> >    * vkms_plane_init() - Initialize a plane
-> >    *
-> >    * @vkmsdev: VKMS device containing the plane
-> >    * @type: type of plane to initialize
-> > - * @index: CRTC which can be attached to the plane. The caller must ensure that
-> > - *	   @index is positive and less or equals to 31.
-> >    */
-> >   struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> > -				   enum drm_plane_type type, int index);
-> > +				   enum drm_plane_type type);
-> >   /* CRC Support */
-> >   const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-> > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> > index 0a5a185aa0b0..5128aa3b2eb6 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_output.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> > @@ -32,29 +32,14 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
-> >   	.get_modes    = vkms_conn_get_modes,
-> >   };
-> > -static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
-> > -				  struct drm_crtc *crtc)
-> > -{
-> > -	struct vkms_plane *overlay;
-> > -
-> > -	overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-> > -	if (IS_ERR(overlay))
-> > -		return PTR_ERR(overlay);
-> > -
-> > -	if (!overlay->base.possible_crtcs)
-> > -		overlay->base.possible_crtcs = drm_crtc_mask(crtc);
-> > -
-> > -	return 0;
-> > -}
-> > -
-> > -int vkms_output_init(struct vkms_device *vkmsdev, int index)
-> > +int vkms_output_init(struct vkms_device *vkmsdev)
-> >   {
-> >   	struct vkms_output *output = &vkmsdev->output;
-> >   	struct drm_device *dev = &vkmsdev->drm;
-> >   	struct drm_connector *connector = &output->connector;
-> >   	struct drm_encoder *encoder = &output->encoder;
-> >   	struct drm_crtc *crtc = &output->crtc;
-> > -	struct vkms_plane *primary, *cursor = NULL;
-> > +	struct vkms_plane *primary, *overlay, *cursor = NULL;
-> >   	int ret;
-> >   	int writeback;
-> >   	unsigned int n;
-> > @@ -65,34 +50,37 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
-> >   	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
-> >   	 * composition.
-> >   	 */
-> > -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
-> > +	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
-> >   	if (IS_ERR(primary))
-> >   		return PTR_ERR(primary);
-> > -	if (vkmsdev->config->overlay) {
-> > -		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
-> > -			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
-> > -			if (ret)
-> > -				return ret;
-> > -		}
-> > -	}
-> > -
-> >   	if (vkmsdev->config->cursor) {
-> > -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
-> > +		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
-> >   		if (IS_ERR(cursor))
-> >   			return PTR_ERR(cursor);
-> >   	}
-> > -	/* [1]: Allocation of a CRTC, its index will be BIT(0) = 1 */
-> >   	ret = vkms_crtc_init(dev, crtc, &primary->base, &cursor->base);
-> >   	if (ret)
-> >   		return ret;
-> > +	if (vkmsdev->config->overlay) {
-> > +		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
-> > +			overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY);
-> > +			if (IS_ERR(overlay)) {
-> > +				DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
-> > +				ret = PTR_ERR(overlay);
-> > +				goto err_crtc;
-> > +			}
-> > +			overlay->base.possible_crtcs = drm_crtc_mask(crtc);
-> > +		}
-> > +	}
-> > +
-> >   	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
-> >   				 DRM_MODE_CONNECTOR_VIRTUAL);
-> >   	if (ret) {
-> >   		DRM_ERROR("Failed to init connector\n");
-> > -		goto err_connector;
-> > +		goto err_crtc;
-> >   	}
-> >   	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
-> > @@ -103,11 +91,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
-> >   		DRM_ERROR("Failed to init encoder\n");
-> >   		goto err_encoder;
-> >   	}
-> > -	/*
-> > -	 * This is a hardcoded value to select crtc for the encoder.
-> > -	 * BIT(0) here designate the first registered CRTC, the one allocated in [1]
-> > -	 */
-> > -	encoder->possible_crtcs = BIT(0);
-> > +	encoder->possible_crtcs = drm_crtc_mask(crtc);
-> >   	ret = drm_connector_attach_encoder(connector, encoder);
-> >   	if (ret) {
-> > @@ -131,7 +115,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
-> >   err_encoder:
-> >   	drm_connector_cleanup(connector);
-> > -err_connector:
-> > +err_crtc:
-> >   	drm_crtc_cleanup(crtc);
+> > -static struct pixel_argb_u16 argb_u16_from_gray8(u16 gray)
+> > +static struct pixel_argb_u16 argb_u16_from_gray8(u8 gray)
 > 
-> Do we really need `drm_crtc_cleanup`? We are allocating the CRTC with
-> `drmm_crtc_init_with_planes`.
+> Again, fix the issue in the patch that introduce it.
 
-I agree, I'll check the previous discussions I've had on the mailing list, 
-I have a little doubt that someone asked me to re-add this cleaning at 
-some point.
+Will do for the v2!
 
 Thanks,
 Louis Chauvet
-
-> The rest looks fine to me.
->
+ 
 > Best Regards,
 > - Maíra
 > 
-> >   	return ret;
+> >   {
+> >   	return argb_u16_from_u8888(255, gray, gray, gray);
+> >   }
+> > @@ -259,6 +259,26 @@ static struct pixel_argb_u16 argb_u16_from_grayu16(u16 gray)
+> >   	return argb_u16_from_u16161616(0xFFFF, gray, gray, gray);
+> >   }
+> > +static struct pixel_argb_u16 argb_u16_from_BGR565(const __le16 *pixel)
+> > +{
+> > +	struct pixel_argb_u16 out_pixel;
+> > +
+> > +	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+> > +	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+> > +
+> > +	u16 rgb_565 = le16_to_cpu(*pixel);
+> > +	s64 fp_b = drm_int2fixp((rgb_565 >> 11) & 0x1f);
+> > +	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+> > +	s64 fp_r = drm_int2fixp(rgb_565 & 0x1f);
+> > +
+> > +	out_pixel.a = (u16)0xffff;
+> > +	out_pixel.b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
+> > +	out_pixel.g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+> > +	out_pixel.r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+> > +
+> > +	return out_pixel;
+> > +}
+> > +
+> >   VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
+> >   							    const struct conversion_matrix *matrix)
+> >   {
+> > @@ -447,6 +467,7 @@ READ_LINE_16161616(XRGB16161616_read_line, px, 0xFFFF, px[2], px[1], px[0])
+> >   READ_LINE_16161616(XBGR16161616_read_line, px, 0xFFFF, px[0], px[1], px[2])
+> >   READ_LINE(RGB565_read_line, px, __le16, argb_u16_from_RGB565, px)
+> > +READ_LINE(BGR565_read_line, px, __le16, argb_u16_from_BGR565, px)
+> >   READ_LINE(R8_read_line, px, u8, argb_u16_from_gray8, *px)
+> > @@ -668,6 +689,8 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+> >   		return &XBGR16161616_read_line;
+> >   	case DRM_FORMAT_RGB565:
+> >   		return &RGB565_read_line;
+> > +	case DRM_FORMAT_BGR565:
+> > +		return &BGR565_read_line;
+> >   	case DRM_FORMAT_NV12:
+> >   	case DRM_FORMAT_NV16:
+> >   	case DRM_FORMAT_NV24:
 > > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> > index e5c625ab8e3e..ad137c9a75f5 100644
+> > index 1e971c7760d9..a243a706459f 100644
 > > --- a/drivers/gpu/drm/vkms/vkms_plane.c
 > > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> > @@ -198,12 +198,12 @@ static const struct drm_plane_helper_funcs vkms_plane_helper_funcs = {
-> >   };
-> >   struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> > -				   enum drm_plane_type type, int index)
-> > +				   enum drm_plane_type type)
-> >   {
-> >   	struct drm_device *dev = &vkmsdev->drm;
-> >   	struct vkms_plane *plane;
-> > -	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << index,
-> > +	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 0,
-> >   					   &vkms_plane_funcs,
-> >   					   vkms_formats, ARRAY_SIZE(vkms_formats),
-> >   					   NULL, type, NULL);
+> > @@ -26,6 +26,7 @@ static const u32 vkms_formats[] = {
+> >   	DRM_FORMAT_ARGB16161616,
+> >   	DRM_FORMAT_ABGR16161616,
+> >   	DRM_FORMAT_RGB565,
+> > +	DRM_FORMAT_BGR565,
+> >   	DRM_FORMAT_NV12,
+> >   	DRM_FORMAT_NV16,
+> >   	DRM_FORMAT_NV24,
 > > 
-> > ---
-> > base-commit: 33c255312660653cf54f8019896b5dca28e3c580
-> > change-id: 20240906-vkms-remove-index-3a6e04c38e02
-> > 
-> > Best regards,
