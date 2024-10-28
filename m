@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B22E9B3711
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 17:50:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65D99B3724
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 17:54:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C68F810E512;
-	Mon, 28 Oct 2024 16:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8199110E515;
+	Mon, 28 Oct 2024 16:54:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pkI5kqhF";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="fldBw7Bn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 717D410E510;
- Mon, 28 Oct 2024 16:50:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2D672A42A24;
- Mon, 28 Oct 2024 16:48:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EDE5C4CEC7;
- Mon, 28 Oct 2024 16:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730134233;
- bh=pMWXPesuF8JzrcGMxw6QNKDodBCUrn/XJfWhJqOIi/k=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=pkI5kqhFOL4hPrCJsofC2stUnspJjm6zGrt4OxWKdikOpGkx9D4nmXJx4C/VcJftq
- mE/iv5zzaJNUwYeH+8UGSMffivBEWZTqJMxCYzZ/9RFDHN5GNWtEv594Vs8OqFbqFC
- KvHQ6yoKZLdlFCOHSacP0wOL0jLUNBLI+n9RCK3vySApUKgsE0v84V1CxaSLOD4/et
- Cwwgtu2Hp9Ae77Da0pXA4iasz1yvXST1obtG2ttbSY9QAIHmWR8QgQNkU9M3rHvNrv
- o2jLzg4XdR80Z4O+4l7LuGU2IhXufItbN14hvCNEZt4ssz6b4CVBKdRM0a6Jlr6sbV
- SgNclE/avtfMQ==
-Date: Mon, 28 Oct 2024 11:50:31 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-Cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v4 6/7] PCI: Allow drivers to control VF BAR size
-Message-ID: <20241028165031.GA1106195@bhelgaas>
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF1010E515
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 16:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+ :Subject; bh=AVnjKmwmjF//A5bLFbLEWmmqZOfn3gFmKBQroKAL0ZA=; b=fldBw7BnPeCSNn5o
+ 3Hdsm2FFepKFMz/mGu2kQhuaFtwucmyXNPODqNalt4Vv+6SfLggsdXnGchCDnVd738tUDxAJT+UMO
+ qWIm+ugjYnndKkle6NvybE0BBFBFIxrI8Uu/n7BjvywR2NxjsJiHSsRBm79fQkVKbk8OsjiNesOG1
+ AzZ/1f8KKKRWCaKARlKWgswq1REbeQDhgv4fpYnn4JaKVbvgWmSp9iw8lZ9O/Bo6LpsxxeWtLC6wS
+ yxH0p8JiBLUH/qDogfrtGi2vg7mb/hhxYuFnBwRbV90ENZC98UvjShC/GxHY9ilQdKD7g6JqxD+sC
+ K6ES7j7nkriSKwYRlg==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+ (envelope-from <dg@treblig.org>) id 1t5T0o-00E1Zn-1Y;
+ Mon, 28 Oct 2024 16:54:38 +0000
+Date: Mon, 28 Oct 2024 16:54:38 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] drm/vblank: Remove unused
+ drm_crtc_vblank_count_and_time
+Message-ID: <Zx_Bzho9M3bGshLH@gallifrey>
+References: <20241022232934.238124-1-linux@treblig.org>
+ <20241022232934.238124-4-linux@treblig.org>
+ <Zx-4LsWPQEB_1mED@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241025215038.3125626-7-michal.winiarski@intel.com>
+In-Reply-To: <Zx-4LsWPQEB_1mED@intel.com>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 16:53:32 up 173 days,  4:07,  1 user,  load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,55 +63,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 25, 2024 at 11:50:37PM +0200, MichaÅ‚ Winiarski wrote:
-> Drivers could leverage the fact that the VF BAR MMIO reservation is
-> created for total number of VFs supported by the device by resizing the
-> BAR to larger size when smaller number of VFs is enabled.
+* Ville Syrjälä (ville.syrjala@linux.intel.com) wrote:
+> On Wed, Oct 23, 2024 at 12:29:32AM +0100, linux@treblig.org wrote:
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > 
+> > drm_crtc_vblank_count_and_time() was explicitly added by
+> > commit cf6483050e9b ("drm/irq: Add drm_crtc_vblank_count_and_time()")
+> > in 2015, but never used.
 > 
-> Add a pci_iov_vf_bar_set_size() function to control the size and a
-> pci_iov_vf_bar_get_sizes() helper to get the VF BAR sizes that will
-> allow up to num_vfs to be successfully enabled with the current
-> underlying reservation size.
-> ...
+> I see a bunch of places that could trivially use it.
+> That might be the more sensible thing to do so that
+> we keep moving towards using the crtc for everything.
 
-> + * pci_iov_vf_bar_get_sizes - get VF BAR sizes that allow to create up to num_vfs
-> + * @dev: the PCI device
-> + * @resno: the resource number
-> + * @num_vfs: number of VFs
-> + *
-> + * Get the sizes of a VF resizable BAR that can fit up to num_vfs within the
-> + * resource that reserves the MMIO space (originally up to total_VFs) the as
-> + * bitmask defined in the spec (bit 0=1MB, bit 19=512GB).
+Do you intend to send those since you understand it?
 
-This sentence doesn't quite parse; something is missing around "the as".
+> The EXPORT_SYMBOL() looks completely pointless though.
 
-I'm guessing you mean to say something about the return value being a
-bitmask of VF BAR sizes that can be accommodated if num_vfs are
-enabled?  If so, maybe combine it with the following paragraph:
+Hmm, we probably shouldn't change that until something uses it?
 
-> + * Returns 0 if BAR isn't resizable.
-> + *
-> + */
-> +u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resno, int num_vfs)
-> +{
-> +	resource_size_t size;
-> +	u32 sizes;
-> +	int i;
-> +
-> +	sizes = pci_rebar_get_possible_sizes(dev, resno);
-> +	if (!sizes)
-> +		return 0;
-> +
-> +	while (sizes > 0) {
-> +		i = __fls(sizes);
-> +		size = pci_rebar_size_to_bytes(i);
-> +
-> +		if (size * num_vfs <= pci_resource_len(dev, resno))
-> +			break;
-> +
-> +		sizes &= ~BIT(i);
-> +	}
-> +
-> +	return sizes;
-> +}
-> +EXPORT_SYMBOL_GPL(pci_iov_vf_bar_get_sizes);
+Dave
+
+> > 
+> > Remove it, and rework comments that reference it.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> > ---
+> >  drivers/gpu/drm/drm_vblank.c | 44 +++++++-----------------------------
+> >  include/drm/drm_vblank.h     | 10 ++++----
+> >  2 files changed, 12 insertions(+), 42 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> > index 94e45ed6869d..67d6367e9f4b 100644
+> > --- a/drivers/gpu/drm/drm_vblank.c
+> > +++ b/drivers/gpu/drm/drm_vblank.c
+> > @@ -908,10 +908,10 @@ drm_get_last_vbltimestamp(struct drm_device *dev, unsigned int pipe,
+> >   * drm_crtc_accurate_vblank_count() for such use-cases.
+> >   *
+> >   * Note that for a given vblank counter value drm_crtc_handle_vblank()
+> > - * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
+> > - * provide a barrier: Any writes done before calling
+> > - * drm_crtc_handle_vblank() will be visible to callers of the later
+> > - * functions, if the vblank count is the same or a later one.
+> > + * and drm_crtc_vblank_count() provide a barrier:
+> > + * Any writes done before calling drm_crtc_handle_vblank() will be
+> > + * visible to callers of the later functions, if the vblank count is
+> > + * the same or a later one.
+> >   *
+> >   * See also &drm_vblank_crtc.count.
+> >   *
+> > @@ -936,7 +936,6 @@ EXPORT_SYMBOL(drm_crtc_vblank_count);
+> >   * modesetting activity. Returns corresponding system timestamp of the time
+> >   * of the vblank interval that corresponds to the current vblank counter value.
+> >   *
+> > - * This is the legacy version of drm_crtc_vblank_count_and_time().
+> >   */
+> >  static u64 drm_vblank_count_and_time(struct drm_device *dev, unsigned int pipe,
+> >  				     ktime_t *vblanktime)
+> > @@ -959,33 +958,6 @@ static u64 drm_vblank_count_and_time(struct drm_device *dev, unsigned int pipe,
+> >  	return vblank_count;
+> >  }
+> >  
+> > -/**
+> > - * drm_crtc_vblank_count_and_time - retrieve "cooked" vblank counter value
+> > - *     and the system timestamp corresponding to that vblank counter value
+> > - * @crtc: which counter to retrieve
+> > - * @vblanktime: Pointer to time to receive the vblank timestamp.
+> > - *
+> > - * Fetches the "cooked" vblank count value that represents the number of
+> > - * vblank events since the system was booted, including lost events due to
+> > - * modesetting activity. Returns corresponding system timestamp of the time
+> > - * of the vblank interval that corresponds to the current vblank counter value.
+> > - *
+> > - * Note that for a given vblank counter value drm_crtc_handle_vblank()
+> > - * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
+> > - * provide a barrier: Any writes done before calling
+> > - * drm_crtc_handle_vblank() will be visible to callers of the later
+> > - * functions, if the vblank count is the same or a later one.
+> > - *
+> > - * See also &drm_vblank_crtc.count.
+> > - */
+> > -u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
+> > -				   ktime_t *vblanktime)
+> > -{
+> > -	return drm_vblank_count_and_time(crtc->dev, drm_crtc_index(crtc),
+> > -					 vblanktime);
+> > -}
+> > -EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
+> > -
+> >  /**
+> >   * drm_crtc_next_vblank_start - calculate the time of the next vblank
+> >   * @crtc: the crtc for which to calculate next vblank time
+> > @@ -1978,10 +1950,10 @@ EXPORT_SYMBOL(drm_handle_vblank);
+> >   * This is the native KMS version of drm_handle_vblank().
+> >   *
+> >   * Note that for a given vblank counter value drm_crtc_handle_vblank()
+> > - * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
+> > - * provide a barrier: Any writes done before calling
+> > - * drm_crtc_handle_vblank() will be visible to callers of the later
+> > - * functions, if the vblank count is the same or a later one.
+> > + * and drm_crtc_vblank_count() * provide a barrier:
+> > + * Any writes done before calling * drm_crtc_handle_vblank() will be
+> > + * visible to callers of the later functions, if the vblank count is
+> > + * the same or a later one.
+> >   *
+> >   * See also &drm_vblank_crtc.count.
+> >   *
+> > diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
+> > index 151ab1e85b1b..572e54425970 100644
+> > --- a/include/drm/drm_vblank.h
+> > +++ b/include/drm/drm_vblank.h
+> > @@ -141,10 +141,10 @@ struct drm_vblank_crtc {
+> >  	 * Current software vblank counter.
+> >  	 *
+> >  	 * Note that for a given vblank counter value drm_crtc_handle_vblank()
+> > -	 * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
+> > -	 * provide a barrier: Any writes done before calling
+> > -	 * drm_crtc_handle_vblank() will be visible to callers of the later
+> > -	 * functions, iff the vblank count is the same or a later one.
+> > +	 * and drm_crtc_vblank_count() provide a barrier:
+> > +	 * Any writes done before calling drm_crtc_handle_vblank() will be
+> > +	 * visible to callers of the later functions, iff the vblank count is
+> > +	 * the same or a later one.
+> >  	 *
+> >  	 * IMPORTANT: This guarantee requires barriers, therefor never access
+> >  	 * this field directly. Use drm_crtc_vblank_count() instead.
+> > @@ -260,8 +260,6 @@ struct drm_vblank_crtc *drm_crtc_vblank_crtc(struct drm_crtc *crtc);
+> >  int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs);
+> >  bool drm_dev_has_vblank(const struct drm_device *dev);
+> >  u64 drm_crtc_vblank_count(struct drm_crtc *crtc);
+> > -u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
+> > -				   ktime_t *vblanktime);
+> >  int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime);
+> >  void drm_crtc_send_vblank_event(struct drm_crtc *crtc,
+> >  			       struct drm_pending_vblank_event *e);
+> > -- 
+> > 2.47.0
+> 
+> -- 
+> Ville Syrjälä
+> Intel
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
