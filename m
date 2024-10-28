@@ -2,75 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972C79B354A
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 16:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A3B9B3568
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 16:53:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 381F510E509;
-	Mon, 28 Oct 2024 15:49:10 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mzJTfD0E";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B719A10E14F;
+	Mon, 28 Oct 2024 15:53:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F10310E14F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 15:49:08 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-539f72c913aso5719031e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 08:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730130546; x=1730735346; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=KISn4ajEN6jm5LZjsepP2y26q/blNdWSZ5nbOIICJkM=;
- b=mzJTfD0EiTPPv+kWb1J/bkjcwlcgjy3Bo1FX6BqCL9J3uU5tksF3gbHL1LAntx1a+t
- lhL1I4y/yQrp1PQjciqA8xkn3i0MIk66kWF6ZN5vHvK5LaUr0++oP1Ktn7xHt3cmXyQf
- +fRI2S7B/vxIwxIz9tNeDMAP+iNZ9e6zMd2AUWZD01DUrCJWG2halb5CSEU4lBqJ9gnZ
- Xx/qkiCEtVM26WDTfhDtrgxoEqXCBTf/SxrheRKom9K9EaAxydSi+WEBAgggNx4pbziJ
- 0Z99ECS5SxWWbPCF3egY8IksjdVSfgUJDZZprRzRhHZ1M2WgIW/OD1lgZHRq4FLAsZO8
- gnJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730130546; x=1730735346;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KISn4ajEN6jm5LZjsepP2y26q/blNdWSZ5nbOIICJkM=;
- b=jQ4sIPyUcPrhHH7WsRQvDL3Fr0sRhHPxB4aWiyV59JAba5RHW5VhfDQAVi+tcDrQlh
- Bh015G4gtze2iHeK/5vB3kBqWHLLHlLY3GqgJYL0F7+AJvXovtLz6LQwuhU1nfSk5pXs
- lC4ibfk1/VQLhKZ9UTZGzoTgv3avI0QOleBwYKEQ9otzfSSmSyPFnH8NgBhpTjMqk3Qc
- yjI+cbPC07thkSmr8KnJxImXCaHn1T6FWXNEUKdAzfzcOaUu5D3YFYoZPX7JgMD2mswM
- SbVKH01Sqs3S3PezPaVgXEdGy3x9NyZ4aef5hD7m4l+5l0xhuEgKrsmtO0Vi5KNrxWD5
- dWnA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVskMmtz3CWEEafdsd3AhvexH74j7TOA0QXVQ5NQay7VzgLuAcMzZ5FxGrH5s0Sra5kj6bll571OYc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyhful7ANJdKEwO34MVh7Ce75iv332A+onjJyDz4mPXXQKwh1FB
- /6+DpIQ+mFdQzfoV40651hkKatmIXy9cOhUiB162i5VTxhOd3tWughQf+Pv1DbU=
-X-Google-Smtp-Source: AGHT+IFI5tmzS11hemouTLmu6s90tOaOy8jXdLAbgpJykIrY0NOiAIeJNt91xxpzNdrysH+4FtKz/Q==
-X-Received: by 2002:a05:6512:a92:b0:539:fd10:f07b with SMTP id
- 2adb3069b0e04-53b34b39774mr3854774e87.55.1730130546439; 
- Mon, 28 Oct 2024 08:49:06 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53b2e1c7aa8sm1106077e87.187.2024.10.28.08.49.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2024 08:49:05 -0700 (PDT)
-Date: Mon, 28 Oct 2024 17:49:03 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: linux@treblig.org
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] drm/vblank: Remove unused
- drm_crtc_vblank_count_and_time
-Message-ID: <mfyy44dn7rrshmc3m4da5chmt3lthppatv7qpcjhs3fam46zx3@bk2uusqgzplq>
-References: <20241022232934.238124-1-linux@treblig.org>
- <20241022232934.238124-4-linux@treblig.org>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84ACE10E14F
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 15:53:43 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1t5S3c-000401-OB; Mon, 28 Oct 2024 16:53:28 +0100
+Message-ID: <15a386d0093af21447aeb5c2f1ee98d61e89e9b2.camel@pengutronix.de>
+Subject: Re: [PATCH v4] drm/etnaviv: Request pages from DMA32 zone on
+ addressing_limited
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Xiaolei Wang <xiaolei.wang@windriver.com>, sui.jingfeng@linux.dev, 
+ christian.gmeiner@gmail.com, airlied@gmail.com, daniel@ffwll.ch, 
+ linux+etnaviv@armlinux.org.uk
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Mon, 28 Oct 2024 16:53:27 +0100
+In-Reply-To: <20241001233430.4072268-1-xiaolei.wang@windriver.com>
+References: <20241001233430.4072268-1-xiaolei.wang@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241022232934.238124-4-linux@treblig.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,27 +54,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 23, 2024 at 12:29:32AM +0100, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> drm_crtc_vblank_count_and_time() was explicitly added by
-> commit cf6483050e9b ("drm/irq: Add drm_crtc_vblank_count_and_time()")
-> in 2015, but never used.
-> 
-> Remove it, and rework comments that reference it.
+Am Mittwoch, dem 02.10.2024 um 07:34 +0800 schrieb Xiaolei Wang:
+> Remove __GFP_HIGHMEM when requesting a page from DMA32 zone,
+> and since all vivante GPUs in the system will share the same
+> DMA constraints, move the check of whether to get a page from
+> DMA32 to etnaviv_bind().
+>=20
+> Fixes: b72af445cd38 ("drm/etnaviv: request pages from DMA32 zone when nee=
+ded")
+> Suggested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
-Not having the deep knowledge of the drm_vblank code, dropping the
-function unused since 2015 should be fine.
+Thanks, applied to etnaviv/next.
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 > ---
->  drivers/gpu/drm/drm_vblank.c | 44 +++++++-----------------------------
->  include/drm/drm_vblank.h     | 10 ++++----
->  2 files changed, 12 insertions(+), 42 deletions(-)
+> v1:
+>   https://patchwork.kernel.org/project/dri-devel/patch/20240806104733.201=
+8783-1-xiaolei.wang@windriver.com/
+>=20
+> v2:
+>   Modify the issue of not retaining GFP_USER in v1 and update the commit =
+log.
+>=20
+> v3:
+>   Use "priv->shm_gfp_mask =3D GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWA=
+RN;"
+> instead of
+>   "priv->shm_gfp_mask =3D GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWA=
+RN;"
+>=20
+> v4:
+>   drop the HIGHMEM bit only if dma addressing is limited.
+>=20
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 ++++++++++
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  8 --------
+>  2 files changed, 10 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
+viv/etnaviv_drv.c
+> index 6500f3999c5f..19ec67a5a918 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -538,6 +538,16 @@ static int etnaviv_bind(struct device *dev)
+>  	priv->num_gpus =3D 0;
+>  	priv->shm_gfp_mask =3D GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWAR=
+N;
+> =20
+> +	/*
+> +	 * If the GPU is part of a system with DMA addressing limitations,
+> +	 * request pages for our SHM backend buffers from the DMA32 zone to
+> +	 * hopefully avoid performance killing SWIOTLB bounce buffering.
+> +	 */
+> +	if (dma_addressing_limited(dev)) {
+> +		priv->shm_gfp_mask |=3D GFP_DMA32;
+> +		priv->shm_gfp_mask &=3D ~__GFP_HIGHMEM;
+> +	}
+> +
+>  	priv->cmdbuf_suballoc =3D etnaviv_cmdbuf_suballoc_new(drm->dev);
+>  	if (IS_ERR(priv->cmdbuf_suballoc)) {
+>  		dev_err(drm->dev, "Failed to create cmdbuf suballocator\n");
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gpu.c
+> index 7c7f97793ddd..5e753dd42f72 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -839,14 +839,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>  	if (ret)
+>  		goto fail;
+> =20
+> -	/*
+> -	 * If the GPU is part of a system with DMA addressing limitations,
+> -	 * request pages for our SHM backend buffers from the DMA32 zone to
+> -	 * hopefully avoid performance killing SWIOTLB bounce buffering.
+> -	 */
+> -	if (dma_addressing_limited(gpu->dev))
+> -		priv->shm_gfp_mask |=3D GFP_DMA32;
+> -
+>  	/* Create buffer: */
+>  	ret =3D etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
+>  				  PAGE_SIZE);
 
--- 
-With best wishes
-Dmitry
