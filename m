@@ -2,75 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9AB9B3C59
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 21:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DFF9B3C5C
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 21:55:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2B9910E1AE;
-	Mon, 28 Oct 2024 20:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D48510E576;
+	Mon, 28 Oct 2024 20:55:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NZ453pR6";
+	dkim=pass (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="LvLyWoWi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F6710E113;
- Mon, 28 Oct 2024 20:55:00 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-7202e1a0209so357317b3a.0; 
- Mon, 28 Oct 2024 13:55:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730148899; x=1730753699; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SrHVAI6up7gguvzqac0TG9QFerLXr+VuS6wCmQhW7IA=;
- b=NZ453pR6fE4pRhZi6LEn8XJrb1OsVFBZcetRGLcSNXvgAjiIBPw8klwF68NnJ05+0v
- nFP1+fTH1QacTbWRizMB3naWWonpWXi75/2JzecEMlF1D6YBcVbRL6A1oFgnQdty2yKp
- 116lQpMcG0e8w3kJvxBRLYmnP4WR6+EqCMfIbayOWIuFD/LeOfN0NspVA03m4MHdDWsZ
- L1yJhLa9nhO0+2g5yeconiqW4FUksAbXaxK3ycIu+6/+nUlLAXArLjTcd28FWag7jF5P
- Ke7LRkhEVwyEP+UCbbtQlFO4MM5vhAfVYKMXcyl/YW+eWph0NI6GNPhi4LfQSQtHH6ym
- b/2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730148899; x=1730753699;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SrHVAI6up7gguvzqac0TG9QFerLXr+VuS6wCmQhW7IA=;
- b=WOrU2zjYkqlaFkmMC4hZxqupprU5J9ONzSddR8/6FCIG1zXZAAxFJUKwxa3p8y18Xm
- boWg86jsZH85nIA0VSE6myZnt1gYHlioTEUorghcjoDY6Ze0gaC6xbZ/nOuGkEugvO/8
- Ekdo4k912SlqGDwLcNqUGJBPYHF0j1pYAlcIFK2T0dQdlSLy/3c/OT8iZ2dPgkzEwV1s
- 6Wku+Km5OrtdedOah6lsjrLVKUbgSjka24Wy0k5oRsj57aErfcXJm5b42Fk1f5C8oYS1
- nVWyO31Ocab3UyedXZrz0gsu2TQgJ5+S4cUunyNeYN9WHdrdVLMwiygIjU+yWW7/jU3z
- etIA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0xsmKJZlOINiJhMITP4Xg/Td4oClB3b9PiR383/EhlWbJH310UIocJngseOVJDWHA7rrKgBUD0oI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5txwX03Pdt0uuCL+OcrnSt6uSqahvDjHtnJJdKPp5FwpfzIoI
- FNo5gNKF79Xv8vFUB0L5kZnAyx8JN2C00xUuT+zavk46a1Gh+oH3249aqALD0WRfOGrA/ZSjKys
- 6abArkqDUEtLiYJR93SgkEBy+kNc=
-X-Google-Smtp-Source: AGHT+IGL0KecMoHqxlglpS9xJk3IkntuFzNsJW9h8gCrDie3Vc7O9mV+6Bhpm8A79lt+FGEieh6UE/JLiaPmC7HEa08=
-X-Received: by 2002:a05:6a20:394b:b0:1cf:2be2:6526 with SMTP id
- adf61e73a8af0-1d9a8519070mr5784517637.12.1730148899472; Mon, 28 Oct 2024
- 13:54:59 -0700 (PDT)
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5944110E576
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 20:55:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1730148931; x=1730408131;
+ bh=o0OL5D3wRRnScnzyZ9auDpW3UVQiUgrhsjMKbblKCAs=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=LvLyWoWiUh9ggZTBZ8zvQN5/B8ObjInqvBYhRHgkDODoLIPoHwDpmzcKoCLpx7zTj
+ vW8CXBLVD4VHqjrSARPpXxEa8WG7lLfIBOgyu4y17E9N03LO4Nv13G24lyxJcnPB98
+ ojl2y1CTGAOMKBpUfMyVBIySZ4bL9i2t+iJnwOGWHyx4JQrCZgX95OysTKBSF+4cHx
+ UY+VtUJKyZl0Nrlb4xwUNMUqyTMpLTSa4HvWq/wqzglu6ysFWkrVVtEtgMdcSz9PKm
+ dE51KCNUudFfX0gaWEZti32YbEMyrgava2m14Xqz/qHrsNpKUbRq+Mfk8LHr7oX6hx
+ EjNYZ8PFu1/jg==
+Date: Mon, 28 Oct 2024 20:55:28 +0000
+To: Andy Yan <andyshrk@163.com>
+From: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ Daniel Stone <daniel@fooishbar.org>, Dragan Simic <dsimic@manjaro.org>,
+ Diederik de Haas <didi.debian@cknow.org>
+Subject: Re:Re: [PATCH v6] rockchip/drm: vop2: add support for gamma LUT
+Message-ID: <wXgQHAvchmtDzCTJX5pnEcLvGM1Rf2HTeooQ7GwE-6luNP_BLRQ2LW0wWSXcGWgARzDnfhKd1xQXeMMGYSAhIlX9m7pl3CZ6FxM1yc0qslg=@proton.me>
+In-Reply-To: <-rVNN65kgfRzFJBJDIwQF3jNMfXIZFP8GibtUgB_p-eWGLBkNZhYFr-BXEas8IjjofHxWQUqNicUSTp5rb9XmuLi35XsDd0PzJPz79j-M-8=@proton.me>
+References: <20241016223558.673145-2-pZ010001011111@proton.me>
+ <DurUfF_0TBHKv4DHKIP3ggQh_85nRY0usYWn_fu_oJ45txO7dGKv-OK5rl6EDEPmX5l8WzrwPCzAvYz0xFPfeKGyx7enu1g-prsWIpilv88=@proton.me>
+ <2bb58a1c.6287.192d1dc9b2d.Coremail.andyshrk@163.com>
+ <-rVNN65kgfRzFJBJDIwQF3jNMfXIZFP8GibtUgB_p-eWGLBkNZhYFr-BXEas8IjjofHxWQUqNicUSTp5rb9XmuLi35XsDd0PzJPz79j-M-8=@proton.me>
+Feedback-ID: 53478694:user:proton
+X-Pm-Message-ID: c6c0ed3cb59d5081b7c3f97d9c933c5ec18de402
 MIME-Version: 1.0
-References: <20241028185141.3756176-1-jani.nikula@intel.com>
- <20241028185141.3756176-2-jani.nikula@intel.com>
-In-Reply-To: <20241028185141.3756176-2-jani.nikula@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 28 Oct 2024 16:54:47 -0400
-Message-ID: <CADnq5_NTXJt3phcFnhLTEAibou97yWT-RNpLL+z8RsEkhyzraA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] accel/ivpu: remove DRIVER_DATE conditional
- drm_driver init
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- David Airlie <airlied@gmail.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,59 +65,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 28, 2024 at 2:52=E2=80=AFPM Jani Nikula <jani.nikula@intel.com>=
- wrote:
->
-> The ivpu struct drm_driver has conditional initialization based on #ifdef
-> DRIVER_DATE, which is never defined anywhere. Neither are the macros
-> referenced within the block: DRIVER_DATE, DRIVER_MAJOR, DRIVER_MINOR,
-> and DRIVER_PATCHLEVEL. With the struct drm_driver date member going away
-> anyway, just remove the conditional compilation.
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Hi again
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+On Monday, October 28th, 2024 at 5:40 PM, Piotr Zalewski <pZ010001011111@pr=
+oton.me> wrote:
 
+> On Monday, October 28th, 2024 at 7:42 AM, Andy Yan andyshrk@163.com wrote=
+:
+>=20
+> > Hi Piotr=EF=BC=8C
+>=20
+>=20
+> Hi Andy
+>=20
+> > Tested on top of Linux 6.12-rc5 with rk3566-box-demo in a buildroot + w=
+eston environment:
+> > weston --backend=3Ddrm-backend.so -i 0 --continue-without-input
+> > weston-simple-egl
+>=20
+>=20
+> Thank you for testing it!
+>=20
+> > simple-egl will draw a triangle on the desktop.
+> > After the patch applied=EF=BC=8Cthe triangle will flicker again and agi=
+an=E3=80=82
+> > So it break some function=E3=80=82
+>=20
+>=20
+> Did you have gamma on? The screen flickered for me when I ran something
+> writing gamma LUT frequently because of disable step I reckon.
+>=20
+> > I've been quite busy lately, and it will take some time before I can an=
+alyze what the specific reason is.
+>=20
+>=20
+> Np, I will try to reproduce this behavior with weston on Pinetab2 in the
+> meantime.
 >
-> ---
->
-> Note: I prefer to merge this together with the other patches via
-> drm-misc-next.
->
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Oded Gabbay <ogabbay@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/accel/ivpu/ivpu_drv.c | 7 -------
->  1 file changed, 7 deletions(-)
->
-> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.=
-c
-> index e7d8967c02f2..07c7e5a5f22b 100644
-> --- a/drivers/accel/ivpu/ivpu_drv.c
-> +++ b/drivers/accel/ivpu/ivpu_drv.c
-> @@ -456,15 +456,8 @@ static const struct drm_driver driver =3D {
->         .name =3D DRIVER_NAME,
->         .desc =3D DRIVER_DESC,
->
-> -#ifdef DRIVER_DATE
-> -       .date =3D DRIVER_DATE,
-> -       .major =3D DRIVER_MAJOR,
-> -       .minor =3D DRIVER_MINOR,
-> -       .patchlevel =3D DRIVER_PATCHLEVEL,
-> -#else
->         .date =3D UTS_RELEASE,
->         .major =3D 1,
-> -#endif
->  };
->
->  static void ivpu_context_abort_invalid(struct ivpu_device *vdev)
-> --
-> 2.39.5
->
+
+So I got weston (version 13) and ran it as you did, then ran the same
+client. Nothing flickered. Since weston doesn't support gamma control, I
+ran sway in the other tty and set color temperature there with `gammastep
+-O 3000`. Then switched again to weston and color temp. wasn't retained,
+triangle didn't flicker. Then I ran weston-simple-egl under sway (while
+having `gammastep` running and doing gamma lut adjustments every ~5
+seconds) and the triangle didn't flicker too (but there were _expected_
+flickers every ~5 seconds because of gamma adjustments by gammastep).
+
+Best Regards, Piotr Zalewski
