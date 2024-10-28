@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42BCE9B3697
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 17:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 000949B369A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 17:35:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 480AC10E502;
-	Mon, 28 Oct 2024 16:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6067510E373;
+	Mon, 28 Oct 2024 16:35:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="BFlP1loa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h5H9CyHY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com
- [91.218.175.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99A9510E373
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 16:35:03 +0000 (UTC)
-Message-ID: <05117bb4-bf3b-477e-b21e-2160af64ab6a@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730133301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=znXkDjY1xS3DilYPhkg5uzcU1hSWEQ2y8y3HfKsuMXg=;
- b=BFlP1loa0NpZW7BiEqx0ledkPQ83h8Vq73costvrarxHC3ojj4rHto382UbZOTyWdy81KD
- zTay6x58D5lpfgxLLYEI3IJ5N2k2TPd8xvT9u69q9wFTL/JPkA5btwHL+f7EwzocIS5QJ0
- 4uMdalQpCATnO/khn3Hov/nEzVGuq2U=
-Date: Tue, 29 Oct 2024 00:34:51 +0800
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1CF10E373
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 16:35:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 45E5AA429D8;
+ Mon, 28 Oct 2024 16:33:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4354AC4CEC3;
+ Mon, 28 Oct 2024 16:35:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730133333;
+ bh=B+pJhWPiLhnporLquPyi2au3DHThLhnQTOKU50phhKA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=h5H9CyHY+7U9M417dT5UQgoE0GhbLmXiFBB0fYmDKClDxIWeb1sYo0spRU3mLXYPF
+ QqrkVeBxEV7DE0/CiFRJBHzeObzzzIJ3KpGZJaw3QKOa1WJkDVa8Q7VzaWbBDNrFcw
+ RQorsCq5K6NhdWFIbwdgGgmmZ6GSqyaUfACbMjfH9vglAkKUrHeRw1uTsoNirn7LF1
+ sJk9KoWtA2H2n5/60Z/zVxNtuwh+KJE0Z78kRxZyXHc8MkFk7aTBp6VYBUB86kYJAL
+ QCLJlx+8qySvwYe2PjVB4NBv32H3y4wCNADIEzrbORnqWGciwBZ5OxO1THfQpb85go
+ 784NbkD7g4y9A==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lucas Stach <l.stach@pengutronix.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/imx/dcss: include drm/drm_bridge.h header
+Date: Mon, 28 Oct 2024 16:35:07 +0000
+Message-Id: <20241028163527.2425783-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] drm/etnaviv: Fix misunderstanding about the
- scatterlist structure
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241028160555.1006559-1-sui.jingfeng@linux.dev>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20241028160555.1006559-1-sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,94 +65,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dear reviewers
+From: Arnd Bergmann <arnd@arndb.de>
 
-On 2024/10/29 00:05, Sui Jingfeng wrote:
-> The 'offset' data member of the 'struct scatterlist' denotes the offset
-> into a SG entry in bytes. The sg_dma_len() macro could be used to get
-> lengths of SG entries, those lengths are expected to be CPU page size
-> aligned. Since, at least for now, we call drm_prime_pages_to_sg() to
-> convert our various page array into an SG list. We pass the number of
-> CPU page as the third argoument, to tell the size of the backing memory
-> of GEM buffer object.
->
-> drm_prime_pages_to_sg() call sg_alloc_table_from_pages_segment() do the
-> work, sg_alloc_table_from_pages_segment() always hardcode the Offset to
-> ZERO. The sizes of *all* SG enties will be a multiple of CPU page size,
-> that is multiple of PAGE_SIZE.
->
-> If the GPU want to map/unmap a bigger page partially, we should use
-> 'sg_dma_address(sg) + sg->offset' to calculate the destination DMA
-> address, and the size to be map/unmap is 'sg_dma_len(sg) - sg->offset'.
->
-> While the current implement is wrong, but since the 'sg->offset' is
-> alway equal to 0, drm/etnaviv works in practice by good luck. Fix this,
-> to make it looks right at least from the perspective of concept.
->
-> while at it, always fix the absue types:
+Compile-testing random configurations leads to failures in
+dcss-kms.c from a missing declaration:
 
+drivers/gpu/drm/imx/dcss/dcss-kms.c:95:8: error: use of undeclared identifier 'drm_bridge_attach'
+   95 |         ret = drm_bridge_attach(encoder, bridge, NULL,
+      |               ^
+drivers/gpu/drm/imx/dcss/dcss-kms.c:96:5: error: use of undeclared identifier 'DRM_BRIDGE_ATTACH_NO_CONNECTOR'
+   96 |                                 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+      |                                 ^
 
-'absue' -> 'abuse'
+Include the header directly.
 
+Fixes: 004555a18d57 ("drm/imx/dcss: Allow build with COMPILE_TEST=y")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/imx/dcss/dcss-kms.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-By the way, sorry I'm just receive your message from my Thunderbird client.
-
-
-I sent those two patch first, then I run my Thunderbird client.
-
-Not seeing that you have already merged part of my patch, then there will be
-merge conflict I guess.
-
-I think I could wait the next round and respin my patch.
-
-
-> - sg_dma_address returns DMA address, the type is dma_addr_t, not
->    the phys_addr_t, for VRAM there may have another translation between
->    the bus address and the final physical address of VRAM or carved out
->    RAM.
->
-> - The type of sg_dma_len(sg) return is unsigned int, not the size_t.
->    Avoid hint the compiler to do unnecessary integer promotion.
->
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
->   drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> index 1661d589bf3e..4ee9ed96b1d8 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> @@ -80,10 +80,10 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
->   		return -EINVAL;
->   
->   	for_each_sgtable_dma_sg(sgt, sg, i) {
-> -		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
-> -		size_t bytes = sg_dma_len(sg) + sg->offset;
-> +		dma_addr_t pa = sg_dma_address(sg) + sg->offset;
-> +		unsigned int bytes = sg_dma_len(sg) - sg->offset;
->   
-> -		VERB("map[%d]: %08x %pap(%zx)", i, iova, &pa, bytes);
-> +		VERB("map[%d]: %08x %pap(%x)", i, iova, &pa, bytes);
->   
->   		ret = etnaviv_context_map(context, da, pa, bytes, prot);
->   		if (ret)
-> @@ -109,11 +109,11 @@ static void etnaviv_iommu_unmap(struct etnaviv_iommu_context *context, u32 iova,
->   	int i;
->   
->   	for_each_sgtable_dma_sg(sgt, sg, i) {
-> -		size_t bytes = sg_dma_len(sg) + sg->offset;
-> +		unsigned int bytes = sg_dma_len(sg) - sg->offset;
->   
->   		etnaviv_context_unmap(context, da, bytes);
->   
-> -		VERB("unmap[%d]: %08x(%zx)", i, iova, bytes);
-> +		VERB("unmap[%d]: %08x(%x)", i, iova, bytes);
->   
->   		BUG_ON(!PAGE_ALIGNED(bytes));
->   
-
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+index 3ec721afc30c..63a335c62296 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+@@ -5,6 +5,7 @@
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
+ #include <drm/drm_client_setup.h>
+ #include <drm/drm_drv.h>
 -- 
-Best regards,
-Sui
+2.39.5
 
