@@ -2,77 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A409B30DC
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 13:47:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5FA9B31CD
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 14:36:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2581110E4A3;
-	Mon, 28 Oct 2024 12:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DB6710E4AD;
+	Mon, 28 Oct 2024 13:36:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CFE0ZN2A";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="ZeIpOcl9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4159110E4A4
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 12:47:46 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2fb51f39394so41100911fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 05:47:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730119664; x=1730724464; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RAxHdK7Nc18OMO867UdF4uPbQ9YU7Xhpufz5sijgR1M=;
- b=CFE0ZN2ATqcsSQxGyYFP1rkzunwwoTOdIhYFoeWwwog9oR0wvxey0dPSq/hG7l0t4x
- 9ybjSbd+M/g/M+6QgitfYzYzrbZj13MZdJ7fUytNeWNKqa3SpSLAmPVPGsZ9OV0I8nzl
- 1ED1LDVRPool9Xm7AWNS9DdT96YEOESYzkHqLQ+DqIL/7VRAKJA4mQxnL+iyTnK6G1qn
- 44xAXcchLQMJyInrgUPY6gcCE6P6UwVAcdyCgrJcg8HGK3nLagvWOFzaiSpnJ0Nv/5C0
- 5lwtmjDtp2DPQP+Us52wOJqn6MUbrQeChB3MNOuHLWtNhHpxmXrdF0foxFI0y5m/PvXB
- /X8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730119664; x=1730724464;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RAxHdK7Nc18OMO867UdF4uPbQ9YU7Xhpufz5sijgR1M=;
- b=wG7H6J3V+wTXVMn2nzdi3PL6u5jyhaXrfQlE+HvSxX8/9Zg2rcol+n43L2Je4uiwWv
- Vrg/utVqlP1jWZbJNF4lWcOCab6gsJoFht6y77lidC8oIToxRhj1JC1OBi3vKqXYJyN1
- bXE5zUcowJRfO2CLR4bDDsG0bXcQszLcrb9lEFSveqx28m8HhI4ePznJ5Z+vN7K+lfSO
- xI2DkNqbIGrmKSqIVk192IU07CG7XRTMCHQ5h7pwtLreOROzt8ULDyn6vlm9BE12GCe5
- vl6Bb+2aPql8FQMBc6h19v2qBdLVESc7SWt+q5vlSAmpNAzKWEdTjf+kHGLw62+9HK7X
- pXZQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWNqW6e/stVH4mOyoERlAS0raSxQ3VlhMMXKj62/ftgyT2euEmGVYtJK5dlnxfnOyfdiK96y62pzGk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwO2qmIhh2SthQ6cEMKdU0ABpgFyW2fYJgaT5RTl67YyXjt6jkr
- 3zDx4czKTIgCvM1vHff4FiBjmNH2cJXiTjgZeZflT/feNeflbdJw0Y6e63SNWWteE73lc7bE1Zl
- VXDn84YSEO6xANLlDPVazfJlhMhPPcFKvmqcNGQ==
-X-Google-Smtp-Source: AGHT+IGmcTiIlNRg9bE3mhHjf1euDiK5RVv2I8rfuort+Uj/jsAnk0dYe87dqLP1FyJnvDejhjUGho1fBoV/SrdQy8k=
-X-Received: by 2002:a2e:be20:0:b0:2fb:3a12:a582 with SMTP id
- 38308e7fff4ca-2fcbe004c83mr29806141fa.23.1730119664333; Mon, 28 Oct 2024
- 05:47:44 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C51CD10E4AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 13:36:41 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 05B858857C;
+ Mon, 28 Oct 2024 14:36:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1730122600;
+ bh=VwBscVaP+Tl0PUd7Qv9uXhxuPpHLh55BjcCxcLFQHg8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ZeIpOcl9Gj39DAbSx6IR/hhGF4J7TZ8wyFCZE9GixsVFJ/17a/wcF/+38wWc+n5qU
+ ZrLYKu8uzDWX2yGaQSmJR8MbAK5sgrySV+aPMj669CCsp9ys8D/JQ9afmXIJgO3H1/
+ 7HfFWuLWOSabbmwgIRAHRjw3j3VDYKJCeLBNijZObwkuhisvueCe1ojuDQWrfiPmEF
+ NcHz0EbXLdaVL14iCMDRdKLa8o/N8qN41lQMVIfqIaK4ycs4a9Y8ad1eVmjN41jYmV
+ y73/0P4v0YVLydHHwcmauZZ0OZ9kEMXn4BKaEzi91QkcwUPisuZ4VTZfuVb/PpqVl3
+ Qy4Kzvr1Tnuxw==
+Message-ID: <0b1ffd41-f8e8-4e75-af35-0f410a34b3ae@denx.de>
+Date: Mon, 28 Oct 2024 13:36:58 +0100
 MIME-Version: 1.0
-References: <cover.1730070570.git.jahau@rocketmail.com>
- <1491f275e9956b2da1f1e2580abd54f4e459c7d2.1730070570.git.jahau@rocketmail.com>
-In-Reply-To: <1491f275e9956b2da1f1e2580abd54f4e459c7d2.1730070570.git.jahau@rocketmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 28 Oct 2024 13:47:33 +0100
-Message-ID: <CACRpkdY-5G0uui1xKnKFbxVs6couGUy14CH+KrHH=j5LfDsb_g@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] drm/panel: samsung-s6e88a0-ams427ap24: Add flip
- option
-To: Jakob Hauser <jahau@rocketmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/bridge: tc358767: Fix odd pixel alignment
+To: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20241026041019.247606-1-marex@denx.de>
+ <20241028-prophetic-cuttlefish-of-fury-2e0ede@houat>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20241028-prophetic-cuttlefish-of-fury-2e0ede@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,45 +68,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 28, 2024 at 12:42=E2=80=AFAM Jakob Hauser <jahau@rocketmail.com=
-> wrote:
-
-> The way of implementing a flip option follows the existing
-> panel-samsung-s6e8aa0.c [1][2][3].
->
-> The value to flip the screen is taken from a downstream kernel file of
-> a similar but older panel [4]. The mipi clock [5] for the new panel
-> samsung-s6e88a0-ams427ap24 matches 461 MHz and a hardware read-out of the
-> 0xcb values corresponds to revision R01 of that older panel [6]. Although
-> for samsung-s6e88a0-ams427ap24 that's in non-flipped state while in this
-> older driver it seems to be the other way around. Further up there is a
-> hint [7] basically saying for revision R01 to change the first word of th=
-e
-> 0xcb command from 0x06 to 0x0e, which is actually setting BIT(3) of that
-> word. This causes a horizontal flip.
->
-> [1] https://github.com/torvalds/linux/blob/v6.11/drivers/gpu/drm/panel/pa=
-nel-samsung-s6e8aa0.c#L103
-> [2] https://github.com/torvalds/linux/blob/v6.11/drivers/gpu/drm/panel/pa=
-nel-samsung-s6e8aa0.c#L207-L211
-> [3] https://github.com/torvalds/linux/blob/v6.11/drivers/gpu/drm/panel/pa=
-nel-samsung-s6e8aa0.c#L954-L974
-> [4] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/bl=
-ob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c
-> [5] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/bl=
-ob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c#L20=
-27-L2028
-> [6] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/bl=
-ob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c#L13=
-7-L151
-> [7] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/bl=
-ob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c#L66=
--L74
->
-> Signed-off-by: Jakob Hauser <jahau@rocketmail.com>
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij
+On 10/28/24 10:25 AM, Maxime Ripard wrote:
+> On Sat, Oct 26, 2024 at 06:10:01AM +0200, Marek Vasut wrote:
+>> Horizontal Timing Control0 Register 1/2 (HTIM01/HTIM02) Register
+>> bitfields description state "These bits must be multiple of even
+>> pixel". It is not possible to simply align every bitfield to the
+>> nearest even pixel, because that would unalign the line width and
+>> cause visible distortion. Instead, attempt to re-align the timings
+>> such that the hardware requirement is fulfilled without changing
+>> the line width if at all possible.
+>>
+>> Warn the user in case a panel with odd active pixel width or full
+>> line width is used, this is not possible to support with this one
+>> bridge.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> ---
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Cc: Jonas Karlman <jonas@kwiboo.se>
+>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> Cc: Robert Foss <rfoss@kernel.org>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: dri-devel@lists.freedesktop.org
+>> ---
+>>   drivers/gpu/drm/bridge/tc358767.c | 63 +++++++++++++++++++++++++++++--
+>>   1 file changed, 60 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+>> index 0a6894498267e..7968183510e63 100644
+>> --- a/drivers/gpu/drm/bridge/tc358767.c
+>> +++ b/drivers/gpu/drm/bridge/tc358767.c
+>> @@ -901,6 +901,63 @@ static int tc_set_common_video_mode(struct tc_data *tc,
+>>   	int vsync_len = mode->vsync_end - mode->vsync_start;
+>>   	int ret;
+>>   
+>> +	/*
+>> +	 * Horizontal Timing Control0 Register 1/2 (HTIM01/HTIM02) Register
+>> +	 * bitfields description state "These bits must be multiple of even
+>> +	 * pixel". It is not possible to simply align every bitfield to the
+>> +	 * nearest even pixel, because that would unalign the line width.
+>> +	 * Instead, attempt to re-align the timings.
+>> +	 */
+>> +
+>> +	/* Panels with odd active pixel count are not supported by the bridge */
+>> +	if (mode->hdisplay & 1)
+>> +		dev_warn(tc->dev, "Panels with odd pixel count per active line are not supported.\n");
+>> +
+>> +	/* HPW is odd */
+>> +	if (hsync_len & 1) {
+>> +		/* Make sure there is some margin left */
+>> +		if (left_margin >= 2) {
+>> +			/* Align HPW up */
+>> +			hsync_len++;
+>> +			left_margin--;
+>> +		} else if (right_margin >= 2) {
+>> +			/* Align HPW up */
+>> +			hsync_len++;
+>> +			right_margin--;
+>> +		} else if (hsync_len > 2) {
+>> +			/* Align HPW down as last-resort option */
+>> +			hsync_len--;
+>> +			left_margin++;
+>> +		} else {
+>> +			dev_warn(tc->dev, "HPW is odd, not enough margins to compensate.\n");
+>> +		}
+>> +	}
+>> +
+>> +	/* HBP is odd (HPW is surely even now) */
+>> +	if (left_margin & 1) {
+>> +		/* Make sure there is some margin left */
+>> +		if (right_margin >= 2) {
+>> +			/* Align HBP up */
+>> +			left_margin++;
+>> +			right_margin--;
+>> +		} else if (hsync_len > 2) {
+>> +			/* HPW is surely even and > 2, which means at least 4 */
+>> +			hsync_len -= 2;
+>> +			/*
+>> +			 * Subtract 2 from sync pulse and distribute it between
+>> +			 * margins. This aligns HBP and keeps HPW aligned.
+>> +			 */
+>> +			left_margin++;
+>> +			right_margin++;
+>> +		} else {
+>> +			dev_warn(tc->dev, "HBP is odd, not enough pixels to compensate.\n");
+>> +		}
+>> +	}
+>> +
+>> +	/* HFP is odd (HBP and HPW is surely even now) */
+>> +	if (right_margin & 1)
+>> +		dev_warn(tc->dev, "HFP is odd, panels with odd pixel count per full line are not supported.\n");
+>> +
+> 
+> This should all happen in atomic_check, and reject modes that can't be supported.
+No, that would reject panels I need to support and which can be 
+supported by this bridge.
