@@ -2,34 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003A59B3573
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 16:56:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134BD9B3579
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 16:56:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AD5410E504;
-	Mon, 28 Oct 2024 15:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B32110E503;
+	Mon, 28 Oct 2024 15:56:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABEE510E504
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 15:56:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8457510E503
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 15:56:28 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1t5S65-0004NU-9n; Mon, 28 Oct 2024 16:56:01 +0100
-Message-ID: <436b5d7896951199b7a6bed5e8b432221c878a4c.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: Fix missing mutex_destroy()
+ id 1t5S6T-0004Rl-NZ; Mon, 28 Oct 2024 16:56:25 +0100
+Message-ID: <44d32006d33987027c09b4a025ef39436dbbd9ad.camel@pengutronix.de>
+Subject: Re: [PATCH v2 1/5] drm/etnaviv: hold GPU lock across perfmon sampling
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Mon, 28 Oct 2024 16:56:00 +0100
-In-Reply-To: <20240825121452.363342-1-sui.jingfeng@linux.dev>
-References: <20240825121452.363342-1-sui.jingfeng@linux.dev>
+To: etnaviv@lists.freedesktop.org
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, dri-devel@lists.freedesktop.org, 
+ kernel@pengutronix.de, patchwork-lst@pengutronix.de
+Date: Mon, 28 Oct 2024 16:56:25 +0100
+In-Reply-To: <20240705200013.2656275-1-l.stach@pengutronix.de>
+References: <20240705200013.2656275-1-l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -54,104 +52,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Sonntag, dem 25.08.2024 um 20:14 +0800 schrieb Sui Jingfeng:
-> Currently, the calling of mutex_destroy() is ignored on error handling
-> code path. It is safe for now, since mutex_destroy() actually does
-> nothing in non-debug builds. But the mutex_destroy() is used to mark
-> the mutex uninitialized on debug builds, and any subsequent use of the
-> mutex is forbidden.
+Am Freitag, dem 05.07.2024 um 22:00 +0200 schrieb Lucas Stach:
+> The perfmon sampling mutates shared GPU state (e.g. VIVS_HI_CLOCK_CONTROL
+> to select the pipe for the perf counter reads). To avoid clashing with
+> other functions mutating the same state (e.g. etnaviv_gpu_update_clock)
+> the perfmon sampling needs to hold the GPU lock.
 >=20
-> It also could lead to problems if mutex_destroy() gets extended, add
-> missing mutex_destroy() to eliminate potential concerns.
->=20
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Fixes: 68dc0b295dcb ("drm/etnaviv: use 'sync points' for performance moni=
+tor requests")
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-Thanks, applied to etnaviv/next.
+Series applied to etnaviv/next.
 
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c | 3 +++
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c    | 1 +
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c    | 1 +
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c    | 5 +++++
->  drivers/gpu/drm/etnaviv/etnaviv_mmu.c    | 2 +-
->  5 files changed, 11 insertions(+), 1 deletion(-)
+> v2: new patch
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c b/drivers/gpu/drm/e=
-tnaviv/etnaviv_cmdbuf.c
-> index 721d633aece9..1edc02022be4 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-> @@ -79,6 +79,9 @@ void etnaviv_cmdbuf_suballoc_destroy(struct etnaviv_cmd=
-buf_suballoc *suballoc)
->  {
->  	dma_free_wc(suballoc->dev, SUBALLOC_SIZE, suballoc->vaddr,
->  		    suballoc->paddr);
-> +
-> +	mutex_destroy(&suballoc->lock);
-> +
->  	kfree(suballoc);
->  }
-> =20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.c
-> index 6500f3999c5f..7844cd961a29 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -564,6 +564,7 @@ static int etnaviv_bind(struct device *dev)
->  out_destroy_suballoc:
->  	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
->  out_free_priv:
-> +	mutex_destroy(&priv->gem_lock);
->  	kfree(priv);
->  out_put:
->  	drm_dev_put(drm);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
-viv/etnaviv_gem.c
-> index fe665ca20c02..b68e3b235a7d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -515,6 +515,7 @@ void etnaviv_gem_free_object(struct drm_gem_object *o=
-bj)
->  	etnaviv_obj->ops->release(etnaviv_obj);
->  	drm_gem_object_release(obj);
-> =20
-> +	mutex_destroy(&etnaviv_obj->lock);
->  	kfree(etnaviv_obj);
->  }
-> =20
 > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
 viv/etnaviv_gpu.c
-> index af52922ff494..d6acc4c68102 100644
+> index 7c7f97793ddd..2bd14d3501e2 100644
 > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1929,8 +1929,13 @@ static int etnaviv_gpu_platform_probe(struct platf=
-orm_device *pdev)
-> =20
->  static void etnaviv_gpu_platform_remove(struct platform_device *pdev)
+> @@ -1330,6 +1330,8 @@ static void sync_point_perfmon_sample_pre(struct et=
+naviv_gpu *gpu,
 >  {
-> +	struct etnaviv_gpu *gpu =3D dev_get_drvdata(&pdev->dev);
+>  	u32 val;
+> =20
+> +	mutex_lock(&gpu->lock);
 > +
->  	component_del(&pdev->dev, &gpu_ops);
->  	pm_runtime_disable(&pdev->dev);
+>  	/* disable clock gating */
+>  	val =3D gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
+>  	val &=3D ~VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
+> @@ -1341,6 +1343,8 @@ static void sync_point_perfmon_sample_pre(struct et=
+naviv_gpu *gpu,
+>  	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
+> =20
+>  	sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_PRE);
 > +
-> +	mutex_destroy(&gpu->lock);
-> +	mutex_destroy(&gpu->sched_lock);
+> +	mutex_unlock(&gpu->lock);
 >  }
 > =20
->  static int etnaviv_gpu_rpm_suspend(struct device *dev)
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etna=
-viv/etnaviv_mmu.c
-> index e3be16165c86..ed6c42384856 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> @@ -361,7 +361,7 @@ static void etnaviv_iommu_context_free(struct kref *k=
-ref)
->  		container_of(kref, struct etnaviv_iommu_context, refcount);
+>  static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
+> @@ -1350,13 +1354,9 @@ static void sync_point_perfmon_sample_post(struct =
+etnaviv_gpu *gpu,
+>  	unsigned int i;
+>  	u32 val;
 > =20
->  	etnaviv_cmdbuf_suballoc_unmap(context, &context->cmdbuf_mapping);
+> -	sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_POST);
 > -
-> +	mutex_destroy(&context->lock);
->  	context->global->ops->free(context);
+> -	for (i =3D 0; i < submit->nr_pmrs; i++) {
+> -		const struct etnaviv_perfmon_request *pmr =3D submit->pmrs + i;
+> +	mutex_lock(&gpu->lock);
+> =20
+> -		*pmr->bo_vma =3D pmr->sequence;
+> -	}
+> +	sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_POST);
+> =20
+>  	/* disable debug register */
+>  	val =3D gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
+> @@ -1367,6 +1367,14 @@ static void sync_point_perfmon_sample_post(struct =
+etnaviv_gpu *gpu,
+>  	val =3D gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
+>  	val |=3D VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
+>  	gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, val);
+> +
+> +	mutex_unlock(&gpu->lock);
+> +
+> +	for (i =3D 0; i < submit->nr_pmrs; i++) {
+> +		const struct etnaviv_perfmon_request *pmr =3D submit->pmrs + i;
+> +
+> +		*pmr->bo_vma =3D pmr->sequence;
+> +	}
 >  }
->  void etnaviv_iommu_context_put(struct etnaviv_iommu_context *context)
+> =20
+> =20
 
