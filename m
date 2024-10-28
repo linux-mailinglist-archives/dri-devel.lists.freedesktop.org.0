@@ -2,65 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3449B3039
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 13:28:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD749B2F23
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 12:48:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1C510E48F;
-	Mon, 28 Oct 2024 12:28:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1C9C10E36B;
+	Mon, 28 Oct 2024 11:48:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="orzRqYij";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="h6jF0L4v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2915810E48F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 12:28:31 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 0A47B87CF8;
- Mon, 28 Oct 2024 13:28:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1730118509;
- bh=lbIBJtNPtwzKp6VYJYAkIeGvwBMCtVZsgtDqZb/GSJo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=orzRqYij4JYCILKsboGT3VaiovSla6EKxN5eRq5zBc03tH3V+ShkUUdC/fNTvonLN
- EnHsTwk4S7nPSh/guflDdIKiPHYilE/OudfMrGKzlt2SKQr2mYz/WImtan3HVkkJQp
- faW5mQoZeTUOeESygsaxojQYThdbi+k69mKkSFNijuU9CMGGlaHLEWiIg+dBcerSU+
- wlBP6z0NcJmlMC01DfGEmnkcXGrNa5bVQmy1tylU79YXp26Oup9B3lReJ4TZcWwPda
- yXSUUnxKXB6QeDSe1TNAxjHabTTT66RQR/gkoai2xRLZY0XMF/YdLOMqwHovAgAo3M
- SgQ6k5sKEsYsw==
-Message-ID: <16edb769-a608-4b6a-9391-a63a69df8c8d@denx.de>
-Date: Mon, 28 Oct 2024 12:47:14 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E603110E36B
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 11:48:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1730116097;
+ bh=rtzWl0DqUOxZtMFod1NvwFkwb1mOHuMP4rMK2gTEJdc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=h6jF0L4vRz0KBK/6v0si1JCx8IT/ic4VTlKzaWJaP3HisDX7rpRb/WeiEJjCRRusi
+ Ttkp65geur/EsmIvFnEUCPl9OC5GFRX12cGpnXFrNkDWCaE/co2/C9lN/uS7MgY2MT
+ H5OYYmPH+Drf4Q777etOOboH0BCElONGwFn8iRkoC7diTIWsLDeRC8RKOR5Fxr6Z7b
+ 1l7ZysfWwLzlOmpnURX2Nvobzc9FIJBNqHcKfaJSdRCUeI9TbeYESrYI1vjalUM0Px
+ r9Vk86PTZErKBrv+weBEariYCXPfzPZiTGTbXJtWb/b9J3dDlbQLCcw0l60hxZHi5f
+ BUvPq9Ic7zFXg==
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4D00217E14FB;
+ Mon, 28 Oct 2024 12:48:17 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com
+Subject: [PATCH v2 0/3] drm/panthor: Fix group state reporting
+Date: Mon, 28 Oct 2024 12:48:12 +0100
+Message-ID: <20241028114815.3793855-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Michael Walle <mwalle@kernel.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20241024095539.1637280-1-herve.codina@bootlin.com>
- <20241024095539.1637280-3-herve.codina@bootlin.com>
- <78a09625-6bad-4fda-8ee5-92b8dd0de381@denx.de>
- <20241028090220.1fd803ff@bootlin.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20241028090220.1fd803ff@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,23 +60,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/28/24 9:02 AM, Herve Codina wrote:
-> Hi Marek,
+Hello,
 
-Hi,
+What initially started as a simple fix to avoid queueing jobs to a group
+that can't be scheduled has turned into a series of three patches
+improving the group state reporting. Two of them are actual fixes, the
+last one is an improvement to properly report innocence/guiltiness of
+a group when a group becomes unusable. With this new
+GROUP_STATE_INNOCENT, we can distinguish between
+GL_INNOCENT_CONTEXT_RESET and GL_GUILT_CONTEXT_RESET (see this mesa
+MR for more details [1]).
 
-> On Sat, 26 Oct 2024 00:53:51 +0200
-> Marek Vasut <marex@denx.de> wrote:
-> 
->> On 10/24/24 11:55 AM, Herve Codina wrote:
->>> In some cases observed during ESD tests, the TI SN65DSI83 cannot recover
->>> from errors by itself. A full restart of the bridge is needed in those
->>> cases to have the bridge output LVDS signals again.
->>
->> I have seen the bridge being flaky sometimes, do you have any more
->> details of what is going on when this irrecoverable error occurs ?
-> 
-> The panel attached to the bridge goes and stays black. That's the behavior.
-> A full reset brings the panel back displaying frames.
-Is there some noticeable change in 0xe0/0xe1/0xe5 registers, esp. 0xe5, 
-do they indicate the error occurred somehow ?
+Regards,
+
+Boris
+
+[1]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/31868
+
+Boris Brezillon (3):
+  drm/panthor: Fail job creation when the group is dead
+  drm/panthor: Report group as timedout when we fail to properly suspend
+  drm/panthor: Report innocent group kill
+
+ drivers/gpu/drm/panthor/panthor_drv.c   |  2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c | 36 ++++++++++++++++++++++---
+ include/uapi/drm/panthor_drm.h          |  9 +++++++
+ 3 files changed, 42 insertions(+), 5 deletions(-)
+
+-- 
+2.46.2
+
