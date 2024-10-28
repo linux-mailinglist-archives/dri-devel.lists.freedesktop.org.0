@@ -2,74 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545119B31FB
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 14:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316889B3205
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 14:45:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEE3B10E4B2;
-	Mon, 28 Oct 2024 13:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE0010E4C2;
+	Mon, 28 Oct 2024 13:45:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tP+olFZj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R28GZEZ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8205B89091
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 13:43:58 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-2fb3110b964so33874091fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 06:43:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730123037; x=1730727837; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/fMezR/kOH2DQBT9AoD8Am6CVmqlmYght41fc7YQIn4=;
- b=tP+olFZj/kQ812QlRgM1GvM/LQsgFCIKngZgMGNR3iAv9qgK33bILVhbHi+aTnjBe2
- bykk2fsSASJwp2oLyHTxo4JsFGJ0bQpEgrmLrMOXEkt3qz5EKxqIhaUDeQF5726wXi6w
- 9jhofClllGFlF7qQr5eGKR6eyyRJuBvb3ZAiDq/q2LrNZG3ZYPP4z4ilDKijWWKxMeGk
- VDSeef6UlaH2Tt30khwpUSgqbpHIKpXqeIOAoIOvmASi98KrWIF77qEg6vGIURXLqFID
- WDQIIGuYh0zuvK2iPVYYE9ERDfkyk9CKaAfrREL/iMbK1tyhJwxyQukPZY08dXQkTCMg
- A8Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730123037; x=1730727837;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/fMezR/kOH2DQBT9AoD8Am6CVmqlmYght41fc7YQIn4=;
- b=PJ7T7uEWcFubSuijkjlIVHB9SryBRWzmLL4bdvQTyYTd3UHEcml85KSahk4AfbiLjA
- KCjwbabXZXzqvdWsatzWX2rYD2nxSICKoQfD+W6aIpPlPhxEPn916zLg7JK29FPu756a
- Cd8+f7pYfQox2IVVEddbC5k3ENWnyjZ8TXBpEF3K1yfMMMyUN3b3G8Iff0/R0YKQUB6s
- ANn3PID/XJkdFRxwipSVE0NITUswCG88vJTTkTGueO5iIJTyU/WXRBp6onvbJQaWIU9s
- 80g7n/z1Fit3J3Aq9uSQJ7BeQ82415n441qncq5tvmAdYPBhEVG5K2ejVns4EPzlugVs
- 9jXg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVnpaxrxKPqJTm+zfCVJsc0EN1r738fQfXoYwXkHm7yLei15QrcNiNuLLMhd54gtz9QIbDNlCS2pc8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwsMnMbEDtrwtRSRGCOAKi+Y8M9YKAf7o9lDfAYAk5WBe3+x4cb
- U5zDr3pv9W3kmmUT6OR4RaQ7RvqVcs21e+X32QPc/wGkKXLEicPzzWsVDVHof3w=
-X-Google-Smtp-Source: AGHT+IFDCzKfy9vb0H+t7XlbkzhNd21X/z+Uek3eGFqV/jEyV6gcWxJNF6Q+5QcV2YXLsDKfxar/4Q==
-X-Received: by 2002:a2e:a590:0:b0:2f6:5921:f35b with SMTP id
- 38308e7fff4ca-2fcbe0055ffmr39731081fa.27.1730123036398; 
- Mon, 28 Oct 2024 06:43:56 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fcb4612a5asm11513551fa.122.2024.10.28.06.43.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2024 06:43:55 -0700 (PDT)
-Date: Mon, 28 Oct 2024 15:43:52 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: linux@treblig.org, nouveau@lists.freedesktop.org, 
- Ben Skeggs <bskeggs@redhat.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: encoder_slave: Remove unused encoder functions
-Message-ID: <im7gtswtfo6c24waourrtaoeazxuk5paeqblzig73knks735b2@dsj2svieqmur>
-References: <20241025203920.244116-1-linux@treblig.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0511289EAE
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 13:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730123115; x=1761659115;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=NZMeTc4NBcdWPmOpSj5v7mg8vX2JelBmKRfkSt7Ffwk=;
+ b=R28GZEZ5vjyKpQU7mYw5WafrU5B4Ym1RaqkNCmBHL+RdjTD1Tgrw3PDk
+ JlVMwrMIvfXf2ltyzJRRTZm4yyLtFOfmQOY4iS2M316Ek4L3AHilC8Oav
+ qDj+UZPRcOGq2+VmObfJBQYKYr0G1RMuQ7AG2Q7TVLE4J2GwiYfj9SfFz
+ TmtMWIZoaijrlIZxU8BMELMpMMzxhfV8rcfBUW13uPIVUbxDk89KSZvOb
+ lxIEc+LtnUrpWPLgWQisV/+l7ryutt73rMLOtXpEojqM5dn9aLPnTouXT
+ ZeT6N2v4Ttd1M8+wxHjdjy44Q83xIwSnxpVXAuRgDIzQn3Vlp65E/jHyU w==;
+X-CSE-ConnectionGUID: SZgSf3ajS4KBrOKfi+wnhQ==
+X-CSE-MsgGUID: uxU5xXsVQwWp47FKRqc53A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29678037"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29678037"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2024 06:45:15 -0700
+X-CSE-ConnectionGUID: LkyKNHPzQHaKjy0wmC2SzQ==
+X-CSE-MsgGUID: POAbQg99SvC9s0O7gnBgMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; d="scan'208";a="81945457"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.21])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2024 06:45:10 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, "Syrjala, Ville"
+ <ville.syrjala@intel.com>
+Cc: skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] drm/edid: convert drm_parse_hdmi_vsdb_video to use
+ struct cea_db *
+In-Reply-To: <20241027075108.14273-2-vamsikrishna.brahmajosyula@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241027075108.14273-1-vamsikrishna.brahmajosyula@gmail.com>
+ <20241027075108.14273-2-vamsikrishna.brahmajosyula@gmail.com>
+Date: Mon, 28 Oct 2024 15:45:07 +0200
+Message-ID: <87cyjkpcik.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241025203920.244116-1-linux@treblig.org>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,126 +74,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 25, 2024 at 09:39:20PM +0100, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> drm_i2c_encoder_commit(), drm_i2c_encoder_mode_set() and
-> drm_i2c_encoder_prepare() have been unused since 2016's
-> commit 7bc61cc5df80 ("drm/arcpgu: Accommodate adv7511 switch to DRM
-> bridge").
-> 
-> Remove them.
-> That change makes drm_i2c_encoder_dpms() unused.
-> Remove it.
-> 
-> Remove the comments about those functions wrapping a couple of
-> pointers in drm_encoder_slave_funcs.  I can see sil164, ch7006, and nv17
-> set those fields, and I can see some nouveau code that calls them
-> directly; so i don't think we can remove the fields.
-> (Although it's not clear to me if the sil164 or ch7006 code
-> can ever get called).
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  drivers/gpu/drm/drm_encoder_slave.c | 26 --------------------------
->  include/drm/drm_encoder_slave.h     | 11 ++---------
->  2 files changed, 2 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_encoder_slave.c b/drivers/gpu/drm/drm_encoder_slave.c
-> index e464429d32df..0c994a4ef9ae 100644
-> --- a/drivers/gpu/drm/drm_encoder_slave.c
-> +++ b/drivers/gpu/drm/drm_encoder_slave.c
-> @@ -125,12 +125,6 @@ get_slave_funcs(struct drm_encoder *enc)
->  	return to_encoder_slave(enc)->slave_funcs;
->  }
+On Sun, 27 Oct 2024, Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com> wrote:
+> @@ -6320,19 +6321,20 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
 >  
-> -void drm_i2c_encoder_dpms(struct drm_encoder *encoder, int mode)
-> -{
-> -	get_slave_funcs(encoder)->dpms(encoder, mode);
-> -}
-> -EXPORT_SYMBOL(drm_i2c_encoder_dpms);
-
-I think it might be better to convert nouveau to use these functions
-instead of open-coding them. Another option might be to make nouveau use
-normal drm_bridge interface to talk to i2c encoders and drop the custom
-interface.
-
-Ben, WDYT?
-
-> -
->  bool drm_i2c_encoder_mode_fixup(struct drm_encoder *encoder,
->  		const struct drm_display_mode *mode,
->  		struct drm_display_mode *adjusted_mode)
-> @@ -142,26 +136,6 @@ bool drm_i2c_encoder_mode_fixup(struct drm_encoder *encoder,
->  }
->  EXPORT_SYMBOL(drm_i2c_encoder_mode_fixup);
->  
-> -void drm_i2c_encoder_prepare(struct drm_encoder *encoder)
-> -{
-> -	drm_i2c_encoder_dpms(encoder, DRM_MODE_DPMS_OFF);
-> -}
-> -EXPORT_SYMBOL(drm_i2c_encoder_prepare);
-> -
-> -void drm_i2c_encoder_commit(struct drm_encoder *encoder)
-> -{
-> -	drm_i2c_encoder_dpms(encoder, DRM_MODE_DPMS_ON);
-> -}
-> -EXPORT_SYMBOL(drm_i2c_encoder_commit);
-> -
-> -void drm_i2c_encoder_mode_set(struct drm_encoder *encoder,
-> -		struct drm_display_mode *mode,
-> -		struct drm_display_mode *adjusted_mode)
-> -{
-> -	get_slave_funcs(encoder)->mode_set(encoder, mode, adjusted_mode);
-> -}
-> -EXPORT_SYMBOL(drm_i2c_encoder_mode_set);
-> -
->  enum drm_connector_status drm_i2c_encoder_detect(struct drm_encoder *encoder,
->  	    struct drm_connector *connector)
+>  /* HDMI Vendor-Specific Data Block (HDMI VSDB, H14b-VSDB) */
+>  static void
+> -drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const u8 *db)
+> +drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const struct cea_db *db)
 >  {
-> diff --git a/include/drm/drm_encoder_slave.h b/include/drm/drm_encoder_slave.h
-> index 49172166a164..3089db10b6fd 100644
-> --- a/include/drm/drm_encoder_slave.h
-> +++ b/include/drm/drm_encoder_slave.h
-> @@ -58,8 +58,7 @@ struct drm_encoder_slave_funcs {
->  	void (*destroy)(struct drm_encoder *encoder);
+>  	struct drm_display_info *info = &connector->display_info;
+>  	u8 len = cea_db_payload_len(db);
+> +	const u8 *data = cea_db_data(db);
 >  
->  	/**
-> -	 * @dpms: Analogous to &drm_encoder_helper_funcs @dpms callback. Wrapped
-> -	 * by drm_i2c_encoder_dpms().
-> +	 * @dpms: Analogous to &drm_encoder_helper_funcs @dpms callback.
->  	 */
->  	void (*dpms)(struct drm_encoder *encoder, int mode);
+>  	info->is_hdmi = true;
 >  
-> @@ -88,7 +87,7 @@ struct drm_encoder_slave_funcs {
->  			  struct drm_display_mode *mode);
->  	/**
->  	 * @mode_set: Analogous to &drm_encoder_helper_funcs @mode_set
-> -	 * callback. Wrapped by drm_i2c_encoder_mode_set().
-> +	 * callback.
->  	 */
->  	void (*mode_set)(struct drm_encoder *encoder,
->  			 struct drm_display_mode *mode,
-> @@ -223,15 +222,9 @@ void drm_i2c_encoder_destroy(struct drm_encoder *encoder);
->   * Wrapper fxns which can be plugged in to drm_encoder_helper_funcs:
->   */
+> -	info->source_physical_address = (db[4] << 8) | db[5];
+> +	info->source_physical_address = (data[3] << 8) | data[4];
 >  
-> -void drm_i2c_encoder_dpms(struct drm_encoder *encoder, int mode);
->  bool drm_i2c_encoder_mode_fixup(struct drm_encoder *encoder,
->  		const struct drm_display_mode *mode,
->  		struct drm_display_mode *adjusted_mode);
-> -void drm_i2c_encoder_prepare(struct drm_encoder *encoder);
-> -void drm_i2c_encoder_commit(struct drm_encoder *encoder);
-> -void drm_i2c_encoder_mode_set(struct drm_encoder *encoder,
-> -		struct drm_display_mode *mode,
-> -		struct drm_display_mode *adjusted_mode);
->  enum drm_connector_status drm_i2c_encoder_detect(struct drm_encoder *encoder,
->  	    struct drm_connector *connector);
->  void drm_i2c_encoder_save(struct drm_encoder *encoder);
-> -- 
-> 2.47.0
-> 
+>  	if (len >= 6)
+> -		info->dvi_dual = db[6] & 1;
+> +		info->dvi_dual = data[5] & 1;
+
+Just commenting on one hunk, because it's a good example of the whole
+series I think.
+
+The above is nice, because it improves the offset vs. length
+comparisons. Many of the old checks like above look like off-by-ones,
+when indexing from the beginning of the data block, not from the
+beginning of payload, and cea_db_payload_len() excludes the first byte.
+
+The main problem is that the specs are written with indexing from the
+beginning of the data block. For example, HDMI 1.4 table 8-16 defining
+the HDMI VSDB says source physical address is at byte offsets 4 and 5,
+and dvi dual flag at byte offset 6. That will no longer be the case in
+code. It gets tricky to review when you have to keep adjusting the
+offsets in your head. (I don't remember if there are specs that specify
+the offsets starting from the "actual" payload after all the meta stuff
+has been removed.)
+
+Now, if we accept having to do that mental acrobatics, why stop there?
+You also have extended tags (first payload byte is the tag), as well as
+vendor tags (first three payload bytes are the OUI). It begs the
+question whether there should be higher level data and length helpers
+that identify and remove the tags (including extended tags and OUI
+stuff). For example, the actual data for HDMI VSDB starts at payload
+offset 3, as the first three bytes are the HDMI OUI.
+
+What to do? Ville, thoughts?
+
+
+BR,
+Jani.
+
 
 -- 
-With best wishes
-Dmitry
+Jani Nikula, Intel
