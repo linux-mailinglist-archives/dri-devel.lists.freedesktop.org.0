@@ -2,95 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBBF9B2C09
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 10:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33DFF9B2C4B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:05:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D060510E44A;
-	Mon, 28 Oct 2024 09:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADACC10E455;
+	Mon, 28 Oct 2024 10:05:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="Z944a2DO";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="C+UY0K0I";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aaOhBppD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-b6-smtp.messagingengine.com
- (fout-b6-smtp.messagingengine.com [202.12.124.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4BD010E44A
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 09:53:38 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal
- [10.202.2.50])
- by mailfout.stl.internal (Postfix) with ESMTP id 7AD6D11400FC;
- Mon, 28 Oct 2024 05:53:37 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
- by phl-compute-10.internal (MEProxy); Mon, 28 Oct 2024 05:53:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1730109217;
- x=1730195617; bh=+exzClQswDanihSowa8oY8xkwPi84cs3lQgzY4bgZBg=; b=
- Z944a2DO2QsMhWE4pQ+z141hUSa5OGqwvzJSx6ux6nsEV/tx7Vly2RL+TsECrlzC
- d8px0wrAExvDqjEJ3mGGIZ3QxKz5kQ88Y/5Faaje0ujI9eCA++ToahDUcPGjUOU5
- UQvCWdXl9AlQZw6T1MfQRmbkkEgsJ3FpMBPTI5eFROtZdCiTi6bfMx8Rd6sRF6d1
- Y0zr/usCRq2gROIrLMSlNgD5kScVkZX279VPkjW/yMlHD6bMEA1gITQSidILqlH2
- Wo5IargGKSfSDUd21IKqFddiGsLJJR99GyCtBQmjN9cmTq2uBJywFe16nJ+K+QIL
- SiWOBiBkecnL7J3M70zvUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730109217; x=
- 1730195617; bh=+exzClQswDanihSowa8oY8xkwPi84cs3lQgzY4bgZBg=; b=C
- +UY0K0IkWxlgl18/OocpNy0hFM7+Pfp+mqnWaS3r0ToCsDHjyfMUgPj6AZsQccrA
- FP3hYbgFZqsfFpt+AWpJGh9eAv+bhGOyMXlFRvCkef/eJ7E0+P9+v/LMdgHfdjYs
- Rf4l2cQX9J+J2240uG1b8C+3+n35WQK6KovszVSB7U62pQS3rvtlgCodjDiKYJCK
- wY8MItMdPxUDevDNd65DMDY9wwecjMDmERDaWAFkLWq7UGe9RCpvOwDIVUDy287P
- ftbVviTaqo99eNDSvbKQr1eMjzF9BJsNpLUlxDp+W6QcOG+tIl493f25o/z8kTri
- CMhmpEF7KG97XH32gk/ZQ==
-X-ME-Sender: <xms:IV8fZz6jSB5azzmFk99blo7JUCmDB45BajZchNnGlAmxkrNVwlth5w>
- <xme:IV8fZ45RtbCG3icYMS3tCL9YfyxRSu8pPH3a0icPRM-n25i70IoHyWXvz_ps6OPMV
- OhZwQnsySdVjI-mF0g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdejkedgtdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
- necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
- guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
- gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepkedp
- mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshhfrhestggrnhgsrdgruhhughdroh
- hrghdrrghupdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthho
- pehstghhnhgvlhhlvgeslhhinhhugidrihgsmhdrtghomhdprhgtphhtthhopegurhhiqd
- guvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohep
- rghirhhlihgvugesrhgvughhrghtrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrg
- hnnhesshhushgvrdguvgdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghr
- rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhnvgigthesvhhgvghrrd
- hkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:IV8fZ6elwW4-bSIJfKGxoRiQjlUFy3avmJngN65hgqNs11M6KX593Q>
- <xmx:IV8fZ0L-HvAaoLOrncFnLR0Ybt6LUp4Zq4yHbLrlZiHUFLl0shJl-g>
- <xmx:IV8fZ3JSvfLwSXmSj0lRctzm6j_HA1_Jt945ErDcqB-iaoXX7M1P6Q>
- <xmx:IV8fZ9wirdCdBVR6Kykn74fUfhjNvdd3NcNfEDGx0oEFhMwvhlSwWA>
- <xmx:IV8fZ0pbbm_NUyMIhsxDzRXZPTZ3WXorJU3rjzBV5mudN0jjACb5GE2C>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id F05DB2220071; Mon, 28 Oct 2024 05:53:36 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E57510E455;
+ Mon, 28 Oct 2024 10:05:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B5CAC5C5A2A;
+ Mon, 28 Oct 2024 10:05:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E927C4CEC3;
+ Mon, 28 Oct 2024 10:05:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730109951;
+ bh=Z2fr1jJxkc2nUFejeQVSYNaVA/Ey1sprE8dbblumJVU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aaOhBppDvy01NoN85ZBGyg7R9bgjbbNHd4ZXHKnG8ehSDkfnYt/1UXzrme1sAUxnq
+ 3FHCpVXmGmvwdkzsimAutjlw3P9mE+f7JnSxV79dEFVlx11rDEq7Ebvc7uPMxMsTRH
+ tUhZ3zPo9VmkJm2zP4zG4iAH2AcMlK39dZJsf5ca0QSzF95x/8bq2N9/Won3Xgwuhd
+ mcKIjNcLmvlMW4Ygz4UmhUNChHC4wPut7umYjDwvWG3cVNHVEK9Dkl7K27NLFd4bT0
+ zYBzKutajMYcOLdqhT7mYVLgTAjKDE0aLjJefVlsHMa6Q0bpPvwJDhDUWfqC6BbTOg
+ gUkurUyWh/9TQ==
+Date: Mon, 28 Oct 2024 11:05:48 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Tejun Heo <tj@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Andrew Morton <akpm@linux-foundation.org>,
+ Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org, 
+ linux-mm@kvack.org
+Subject: Re: [PATCH 0/7] kernel/cgroups: Add "dev" memory accounting cgroup.
+Message-ID: <20241028-meaty-mega-nuthatch-3d74b1@houat>
+References: <20241023075302.27194-1-maarten.lankhorst@linux.intel.com>
+ <ZxlRLMwkabTaOrjc@slm.duckdns.org>
+ <20241024-beautiful-spaniel-of-youth-f75b61@houat>
+ <Zxp-nLXOJXoSy8BN@slm.duckdns.org>
 MIME-Version: 1.0
-Date: Mon, 28 Oct 2024 09:53:16 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Stephen Rothwell" <sfr@canb.auug.org.au>,
- "Dave Airlie" <airlied@redhat.com>
-Cc: DRI <dri-devel@lists.freedesktop.org>, "Arnd Bergmann" <arnd@kernel.org>, 
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- linux-next <linux-next@vger.kernel.org>,
- "Niklas Schnelle" <schnelle@linux.ibm.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-Message-Id: <dae4e7b9-fe13-45a7-bae3-3629ff708a25@app.fastmail.com>
-In-Reply-To: <20241028133441.7b92ee4f@canb.auug.org.au>
-References: <20241028133441.7b92ee4f@canb.auug.org.au>
-Subject: Re: linux-next: manual merge of the drm tree with the asm-generic tree
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="t7lydr677wzslm3o"
+Content-Disposition: inline
+In-Reply-To: <Zxp-nLXOJXoSy8BN@slm.duckdns.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,17 +66,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 28, 2024, at 02:34, Stephen Rothwell wrote:
 
->  -	} else {
->  +	} else if (IS_ENABLED(CONFIG_HAS_IOPORT)) {
->   		ioaddr = VBE_DISPI_IOPORT_INDEX;
->   		iosize = 2;
-> - 		if (!request_region(ioaddr, iosize, "bochs-drm")) {
-> + 		if (!devm_request_region(&pdev->dev, ioaddr, iosize, "bochs-drm")) {
->   			DRM_ERROR("Cannot request ioports\n");
->   			return -EBUSY;
+--t7lydr677wzslm3o
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/7] kernel/cgroups: Add "dev" memory accounting cgroup.
+MIME-Version: 1.0
 
-Looks good to me, thanks!
+On Thu, Oct 24, 2024 at 07:06:36AM -1000, Tejun Heo wrote:
+> Hello,
+>=20
+> On Thu, Oct 24, 2024 at 09:20:43AM +0200, Maxime Ripard wrote:
+> ...
+> > > Yeah, let's not use "dev" name for this. As Waiman pointed out, it co=
+nflicts
+> > > with the devices controller from cgroup1. While cgroup1 is mostly
+> > > deprecated, the same features are provided through BPF in systemd usi=
+ng the
+> > > same terminologies, so this is going to be really confusing.
+> >=20
+> > Yeah, I agree. We switched to dev because we want to support more than
+> > just DRM, but all DMA-able memory. We have patches to support for v4l2
+> > and dma-buf heaps, so using the name DRM didn't feel great either.
+> >=20
+> > Do you have a better name in mind? "device memory"? "dma memory"?
+>=20
+> Maybe just dma (I think the term isn't used heavily anymore, so the word =
+is
+> kinda open)? But, hopefully, others have better ideas.
+>=20
+> > > What happened with Tvrtko's weighted implementation? I've seen many p=
+roposed
+> > > patchsets in this area but as far as I could see none could establish
+> > > consensus among GPU crowd and that's one of the reasons why nothing e=
+ver
+> > > landed. Is the aim of this patchset establishing such consensus?
+> >=20
+> > Yeah, we have a consensus by now I think. Valve, Intel, Google, and Red
+> > Hat have been involved in that series and we all agree on the implement=
+ation.
+>=20
+> That's great to hear.
+>=20
+> > Tvrtko aims at a different feature set though: this one is about memory
+> > allocation limits, Tvrtko's about scheduling.
+> >=20
+> > Scheduling doesn't make much sense for things outside of DRM (and even
+> > for a fraction of all DRM devices), and it's pretty much orthogonal. So
+> > i guess you can expect another series from Tvrtko, but I don't think
+> > they should be considered equivalent or dependent on each other.
+>=20
+> Yeah, I get that this is about memory and that is about processing capaci=
+ty,
+> so the plan is going for separate controllers for each? Or would it be
+> better to present both under the same controller interface? Even if they'=
+re
+> going to be separate controllers, we at least want to be aligned on how
+> devices and their configurations are presented in the two controllers.
 
-      Arnd
+It's still up in the air, I think.
+
+My personal opinion is that there's only DRM (and accel) devices that
+really care about scheduling constraints anyway, so it wouldn't (have
+to) be as generic as this one.
+
+And if we would call it dma, then the naming becomes a bit weird since
+DMA doesn't have much to do with scheduling.
+
+But I guess it's just another instance of the "naming is hard" problem :)
+
+Maxime
+
+--t7lydr677wzslm3o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZx9h9gAKCRAnX84Zoj2+
+dlU+AYCxActcJs1M7HcXNvi88y4oVEf4bnodKMwcVHc/s5JEvI4cja+MhosCF+3b
+uptlsFIBgKwWkcuonwZQCL1tmx5YQCFFg4+etI8Oz58IK+o0xVJKfuYCyXvSKQzs
+7Ws0CK5uUQ==
+=O7zl
+-----END PGP SIGNATURE-----
+
+--t7lydr677wzslm3o--
