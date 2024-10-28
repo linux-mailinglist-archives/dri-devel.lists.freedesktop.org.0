@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38DC9B3599
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 17:01:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8529B35BB
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 17:06:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECE7610E50E;
-	Mon, 28 Oct 2024 16:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA0710E505;
+	Mon, 28 Oct 2024 16:06:12 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="UKLLVBEt";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9014B10E4FC
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 16:01:38 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1t5SBR-0005EW-Qz; Mon, 28 Oct 2024 17:01:33 +0100
-Message-ID: <5ec01e85f58ee1ac1604e029a71175cd733a3cd9.camel@pengutronix.de>
-Subject: Re: [PATCH 3/3] drm/etnaviv: Print an error message if inserting
- IOVA range fails
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Mon, 28 Oct 2024 17:01:33 +0100
-In-Reply-To: <fb5ae5769442f4c84098acd674d423cd3f00bc66.camel@pengutronix.de>
-References: <20241004194207.1013744-1-sui.jingfeng@linux.dev>
- <20241004194207.1013744-4-sui.jingfeng@linux.dev>
- <fb5ae5769442f4c84098acd674d423cd3f00bc66.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com
+ [91.218.175.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 267A110E4FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 16:06:09 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1730131566;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/zD5LNzI7jNYc5R6fYyO0FnToFM91b5X4KSLN/CxbiE=;
+ b=UKLLVBEt8ozNUooEbsYp0mcQHO4AfYPCRLjLSMc0AQ6cMLhCHXMejlYCjTlj+KobSjOcQx
+ rUOERdGZ+324zXBWgYX6ZQoObtIy+vDmDgv0qb81b5jfXHBKv1KuAW6vRpJv9eO20bL7u9
+ vfvwPic/XhUmhlvxKND480qOliwX33Y=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: [PATCH 1/2] drm/etnaviv: Fix misunderstanding about the scatterlist
+ structure
+Date: Tue, 29 Oct 2024 00:05:54 +0800
+Message-Id: <20241028160555.1006559-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,53 +56,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sui,
+The 'offset' data member of the 'struct scatterlist' denotes the offset
+into a SG entry in bytes. The sg_dma_len() macro could be used to get
+lengths of SG entries, those lengths are expected to be CPU page size
+aligned. Since, at least for now, we call drm_prime_pages_to_sg() to
+convert our various page array into an SG list. We pass the number of
+CPU page as the third argoument, to tell the size of the backing memory
+of GEM buffer object.
 
-Am Montag, dem 07.10.2024 um 12:20 +0200 schrieb Lucas Stach:
-> Am Samstag, dem 05.10.2024 um 03:42 +0800 schrieb Sui Jingfeng:
-> > Print an error message to help debug when such an issue happen, since i=
-t's
-> > not so obvious.
-> >=20
-> > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->=20
-> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
->=20
-What happened to this patch? It's not part of the updated series
-anymore. Even though the problem at hand is solved right now, I still
-think this patch is useful  to have.
+drm_prime_pages_to_sg() call sg_alloc_table_from_pages_segment() do the
+work, sg_alloc_table_from_pages_segment() always hardcode the Offset to
+ZERO. The sizes of *all* SG enties will be a multiple of CPU page size,
+that is multiple of PAGE_SIZE.
 
-Regards,
-Lucas
+If the GPU want to map/unmap a bigger page partially, we should use
+'sg_dma_address(sg) + sg->offset' to calculate the destination DMA
+address, and the size to be map/unmap is 'sg_dma_len(sg) - sg->offset'.
 
-> > ---
-> > v0 -> v1: Use dev_err_ratelimited() to prevent spamming the logs
-> >=20
-> > v0 is at https://lore.kernel.org/dri-devel/20240930221706.399139-1-sui.=
-jingfeng@linux.dev/
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/et=
-naviv/etnaviv_mmu.c
-> > index a52ec5eb0e3d..37866ed05c13 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> > @@ -300,8 +300,12 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_con=
-text *context,
-> >  		ret =3D etnaviv_iommu_insert_exact(context, node, user_size, va);
-> >  	else
-> >  		ret =3D etnaviv_iommu_find_iova(context, node, user_size);
-> > -	if (ret < 0)
-> > +	if (ret < 0) {
-> > +		dev_err_ratelimited(context->global->dev,
-> > +				    "Insert iova failed: 0x%llx(0x%x)\n",
-> > +				    va, user_size);
-> >  		goto unlock;
-> > +	}
-> > =20
-> >  	mapping->iova =3D node->start;
-> >  	ret =3D etnaviv_iommu_map(context, node->start, user_size, sgt,
->=20
+While the current implement is wrong, but since the 'sg->offset' is
+alway equal to 0, drm/etnaviv works in practice by good luck. Fix this,
+to make it looks right at least from the perspective of concept.
+
+while at it, always fix the absue types:
+
+- sg_dma_address returns DMA address, the type is dma_addr_t, not
+  the phys_addr_t, for VRAM there may have another translation between
+  the bus address and the final physical address of VRAM or carved out
+  RAM.
+
+- The type of sg_dma_len(sg) return is unsigned int, not the size_t.
+  Avoid hint the compiler to do unnecessary integer promotion.
+
+Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+index 1661d589bf3e..4ee9ed96b1d8 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+@@ -80,10 +80,10 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+ 		return -EINVAL;
+ 
+ 	for_each_sgtable_dma_sg(sgt, sg, i) {
+-		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
+-		size_t bytes = sg_dma_len(sg) + sg->offset;
++		dma_addr_t pa = sg_dma_address(sg) + sg->offset;
++		unsigned int bytes = sg_dma_len(sg) - sg->offset;
+ 
+-		VERB("map[%d]: %08x %pap(%zx)", i, iova, &pa, bytes);
++		VERB("map[%d]: %08x %pap(%x)", i, iova, &pa, bytes);
+ 
+ 		ret = etnaviv_context_map(context, da, pa, bytes, prot);
+ 		if (ret)
+@@ -109,11 +109,11 @@ static void etnaviv_iommu_unmap(struct etnaviv_iommu_context *context, u32 iova,
+ 	int i;
+ 
+ 	for_each_sgtable_dma_sg(sgt, sg, i) {
+-		size_t bytes = sg_dma_len(sg) + sg->offset;
++		unsigned int bytes = sg_dma_len(sg) - sg->offset;
+ 
+ 		etnaviv_context_unmap(context, da, bytes);
+ 
+-		VERB("unmap[%d]: %08x(%zx)", i, iova, bytes);
++		VERB("unmap[%d]: %08x(%x)", i, iova, bytes);
+ 
+ 		BUG_ON(!PAGE_ALIGNED(bytes));
+ 
+-- 
+2.34.1
 
