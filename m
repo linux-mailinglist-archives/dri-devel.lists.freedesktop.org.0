@@ -2,50 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7A59B37A1
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 18:28:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2F79B38F8
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 19:19:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC14C10E078;
-	Mon, 28 Oct 2024 17:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB0710E35E;
+	Mon, 28 Oct 2024 18:19:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="vdWtJHnL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nDF74+/0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
- [95.215.58.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C53FC10E00E
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 17:27:56 +0000 (UTC)
-Message-ID: <4823fcb2-09a0-4668-86fd-f345a900c4e2@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730136473;
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0359410E35E
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 18:19:52 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E565B1C0004;
+ Mon, 28 Oct 2024 18:19:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1730139591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vBDzbhX/4JRNYtY1tJljv+6aFQjq5c0O+TlEFUm+jCY=;
- b=vdWtJHnLWYx1ivD4zdmhr/oyaiYTeHE30atLrZZnKNDc8A4YydU5lsh0T5pllWj4c9e4+2
- +Qk6nm7UFrnbiZN5XkgZIwB2BmvJSR8jdpQ3rYkth1LY1PedCdiynTzcAjw4CGrStMTjDB
- i2v8nDew/If/faqbLjd5y8X05WY3M1w=
-Date: Tue, 29 Oct 2024 01:27:30 +0800
+ bh=b/kO4kEXCHHF3kJ5Bu3ijehycRJX0SWC+3a8OLL3WQ8=;
+ b=nDF74+/0gi1F49A5sbYDgWy8Q/KuHjQwDnQsNkE7mBITemNslObdEXWgXlD603+Umh48Hs
+ glP6DmvnjHLdFFfyPigYgyFHxGMgE9kLTFW2i8oqrqEXae+CE6kLfsNOXECLKzWnHJwfrM
+ 92hl2sMAfXuzi8qH9foB+qhB1RGT8MDTu0WdjcErJKWbFwz6zDqLTpIpZxfvUyNsn/2BlG
+ qJNBBqbNfr1DqiYuu+biLD218A4EsBrOmJEVl5nhFhPLRKZgwlu9dhXVUeQ3y3iqSHW7IU
+ 6W1OSHfOi836/w0GQ2M2RUKLCWk5K2slZqPiV7aJ9e+WV6AD92Mby8dq4TvL3g==
+Date: Mon, 28 Oct 2024 19:19:48 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+Message-ID: <20241028191948.5fd1bd6d@bootlin.com>
+In-Reply-To: <c9c5064e-e780-4bfe-b85d-7930df7a5443@denx.de>
+References: <20241024095539.1637280-1-herve.codina@bootlin.com>
+ <20241024095539.1637280-3-herve.codina@bootlin.com>
+ <78a09625-6bad-4fda-8ee5-92b8dd0de381@denx.de>
+ <20241028090220.1fd803ff@bootlin.com>
+ <16edb769-a608-4b6a-9391-a63a69df8c8d@denx.de>
+ <20241028145259.5d520445@bootlin.com>
+ <c9c5064e-e780-4bfe-b85d-7930df7a5443@denx.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] drm/etnaviv: Fix misunderstanding about the
- scatterlist structure
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241028160555.1006559-1-sui.jingfeng@linux.dev>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20241028160555.1006559-1-sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: herve.codina@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,112 +77,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, 28 Oct 2024 15:47:25 +0100
+Marek Vasut <marex@denx.de> wrote:
 
+> On 10/28/24 2:52 PM, Herve Codina wrote:
+> > Hi Marek,  
+> 
+> Hi,
+> 
+> >>> On Sat, 26 Oct 2024 00:53:51 +0200
+> >>> Marek Vasut <marex@denx.de> wrote:
+> >>>      
+> >>>> On 10/24/24 11:55 AM, Herve Codina wrote:  
+> >>>>> In some cases observed during ESD tests, the TI SN65DSI83 cannot recover
+> >>>>> from errors by itself. A full restart of the bridge is needed in those
+> >>>>> cases to have the bridge output LVDS signals again.  
+> >>>>
+> >>>> I have seen the bridge being flaky sometimes, do you have any more
+> >>>> details of what is going on when this irrecoverable error occurs ?  
+> >>>
+> >>> The panel attached to the bridge goes and stays black. That's the behavior.
+> >>> A full reset brings the panel back displaying frames.  
+> >> Is there some noticeable change in 0xe0/0xe1/0xe5 registers, esp. 0xe5,
+> >> do they indicate the error occurred somehow ?  
+> > 
+> > 0xe5 register can signal any DSI errors (depending on when the ESD affects
+> > the DSI bus) even PLL unlock bit was observed set but we didn't see any
+> > relationship between the bits set in 0xe5 register and the recoverable or
+> > unrecoverable behavior.
+> > 
+> > Also, in some cases, reading the register was not even possible (i2c
+> > transaction nacked).  
+> Oh, wow, I haven't seen that one before. But this is really useful 
+> information, can you please add it into the commit message for V2 ?
 
-On 2024/10/29 00:05, Sui Jingfeng wrote:
-> The 'offset' data member of the 'struct scatterlist' denotes the offset
-> into a SG entry in bytes. The sg_dma_len() macro could be used to get
-> lengths of SG entries, those lengths are expected to be CPU page size
-> aligned. Since, at least for now, we call drm_prime_pages_to_sg() to
-> convert our various page array into an SG list. We pass the number of
-> CPU page as the third argoument, to tell the size of the backing memory
-> of GEM buffer object.
->
-> drm_prime_pages_to_sg() call sg_alloc_table_from_pages_segment() do the
-> work, sg_alloc_table_from_pages_segment() always hardcode the Offset to
-> ZERO. The sizes of *all* SG enties will be a multiple of CPU page size,
-> that is multiple of PAGE_SIZE.
->
-> If the GPU want to map/unmap a bigger page partially, we should use
-> 'sg_dma_address(sg) + sg->offset' to calculate the destination DMA
-> address, and the size to be map/unmap is 'sg_dma_len(sg) - sg->offset'.
->
-> While the current implement is wrong, but since the 'sg->offset' is
-> alway equal to 0, drm/etnaviv works in practice by good luck. Fix this,
-> to make it looks right at least from the perspective of concept.
->
-> while at it, always fix the absue types:
->
-> - sg_dma_address returns DMA address, the type is dma_addr_t, not
->    the phys_addr_t, for VRAM there may have another translation between
->    the bus address and the final physical address of VRAM or carved out
->    RAM.
->
-> - The type of sg_dma_len(sg) return is unsigned int, not the size_t.
->    Avoid hint the compiler to do unnecessary integer promotion.
->
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
->   drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> index 1661d589bf3e..4ee9ed96b1d8 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> @@ -80,10 +80,10 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
->   		return -EINVAL;
->   
->   	for_each_sgtable_dma_sg(sgt, sg, i) {
-> -		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
-> -		size_t bytes = sg_dma_len(sg) + sg->offset;
+Yes, I will add this information in v2.
 
+Best regards,
+Hervé
 
-Wow, I know what's want here now.
-
-What's you want here is to let the GPU map the entire page, not partially mapping just implemented.
-
-But the area doesn't belong to us isn't right? Could lead to GPU out-of-bound access?
-
-
- From the perfect mapping perspective, we should just map from where the
-sg_dma_address(sg) tell us, just use the sg_dma_len(sg) as length.
-
-
-> +		dma_addr_t pa = sg_dma_address(sg) + sg->offset;
-> +		unsigned int bytes = sg_dma_len(sg) - sg->offset;
-
-Neither 'sg_dma_len(sg) + sg->offset' nor 'sg_dma_len(sg) - sg->offset' is correct.
-
-Considering that when we are PRIME sharing buffer with another driver or
-sharing buffer with the CPU.
-
-If CPU stores the data at the middle position(say 2KiB of 4KiB),
-then we have to tell the GPU fetch the data from the 2KiB of 4KiB,
-not the 0 KiB of 4KiB. Seems quite difficult.
-  
-It could lead to concurrency problem of CPU put data at
-'sg_dma_address(sg) + sg->offset', and GPU fetch the data
-from sg_dma_address(sg) if 'sg->offset != 0'
-
-So have the 'sg->offset != 0' is a bad idea. So, let's ignore
-this and force 'sg->offset = 0' everywhere.
-
-Thanks.
-
->   
-> -		VERB("map[%d]: %08x %pap(%zx)", i, iova, &pa, bytes);
-> +		VERB("map[%d]: %08x %pap(%x)", i, iova, &pa, bytes);
->   
->   		ret = etnaviv_context_map(context, da, pa, bytes, prot);
->   		if (ret)
-> @@ -109,11 +109,11 @@ static void etnaviv_iommu_unmap(struct etnaviv_iommu_context *context, u32 iova,
->   	int i;
->   
->   	for_each_sgtable_dma_sg(sgt, sg, i) {
-> -		size_t bytes = sg_dma_len(sg) + sg->offset;
-> +		unsigned int bytes = sg_dma_len(sg) - sg->offset;
->   
->   		etnaviv_context_unmap(context, da, bytes);
->   
-> -		VERB("unmap[%d]: %08x(%zx)", i, iova, bytes);
-> +		VERB("unmap[%d]: %08x(%x)", i, iova, bytes);
->   
->   		BUG_ON(!PAGE_ALIGNED(bytes));
->   
 
 -- 
-Best regards,
-Sui
-
+Hervé Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
