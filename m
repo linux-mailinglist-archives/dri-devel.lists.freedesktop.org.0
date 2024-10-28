@@ -2,75 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3993C9B2BEC
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 10:51:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7A09B2C34
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:02:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6680610E43F;
-	Mon, 28 Oct 2024 09:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B653110E446;
+	Mon, 28 Oct 2024 10:02:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="W6aQO6tI";
+	dkim=pass (1024-bit key; unprotected) header.d=qq.com header.i=@qq.com header.b="uUGoTT8n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2E2810E43F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 09:50:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7B9FF1C0006;
- Mon, 28 Oct 2024 09:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1730109041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VeaOMU1TZIhIRYQ0x1moayff8wABo4up92bIIy3XXRs=;
- b=W6aQO6tI46OHCFqyHWD8hWHzWAdWXb2/R+GKXVlXM8fCybdcDK7H92P0HGSvGwhFerZzv2
- pOFhc6elvWm+QZxoe5sjaxAxMdQ5XVKiFYw5uBYoX9Rezg1aUL32juzhcye7kevGnTsNxQ
- 0VYtFZke6fB0jeqKNeJQn7CvU3gEZ0j1s23lNpDCMOYxCMaq+TMH0CjIAkl8KM4eam8AJK
- 8f/u3vda02F90WxEWFSI9C64Xy5aFqWUdjiyKOsOCLNTAx8zeh2uml4xSa9TOC6r8g9caI
- kqAmx4j0IxRpRoWpVyHcmiTS2h1baay7qTE859fVsSj7dCUimAbMW0iMua+DJQ==
-Date: Mon, 28 Oct 2024 10:50:39 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
+X-Greylist: delayed 734 seconds by postgrey-1.36 at gabe;
+ Mon, 28 Oct 2024 10:02:21 UTC
+Received: from out203-205-221-164.mail.qq.com (out203-205-221-164.mail.qq.com
+ [203.205.221.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2159510E446;
+ Mon, 28 Oct 2024 10:02:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1730109738; bh=xeyQ4CVlwUPQjV1gtHpbGii9ZeSWJyc+nho/aGfUvpc=;
+ h=From:To:Cc:Subject:Date;
+ b=uUGoTT8nOEkYUu1QLaP3qK050tw4qC+XPpiO+UijjRvkiNgWuSMI9xZi5uobnZHJp
+ pVBVDzjxsm3Qc5qS72qsKSL6x6V0dXaRSM1CKqPzpaM1tO0skvtWkgSedtVLPKK4sj
+ 93Hz7gDnOm1T7/PWDxQ9HvjJc6wS+AzUkgoXFWms=
+Received: from localhost.localdomain ([111.48.58.10])
+ by newxmesmtplogicsvrsza15-1.qq.com (NewEsmtp) with SMTP
+ id ACF3628A; Mon, 28 Oct 2024 17:43:15 +0800
+X-QQ-mid: xmsmtpt1730108595tmhr2h2n9
+Message-ID: <tencent_46D189AD021D29866D1A9806B47AB013700A@qq.com>
+X-QQ-XMAILINFO: M0yQCYO1Pk4BB9UWeDIUyjZs3jTlXV1Ox3W3489j2qduakf8YQmQky95WNP7w3
+ kEHZJj3Swch0FXjcS5ciAQqliZAwisS8ib0v4l5b3DUHTMd94sPA9rtLDNodoek0O8Jrd8oEqaLo
+ ExFEQ4QQIPxKCFuQBaQsKFs/hRIeCI6aiSwU1E8vutZ+QZmVNSkCwd+jugg8H3qZKE/9mLiKxAst
+ KtB0lB2YA0wsY5n3L7hWDP0N39u+2zgCrW7cfVmyHfHRXijzrfjWiVH/n6/P+YYgc6zyJg7TS1uL
+ OpxreeJs6/tG+g5BcGTTyZrjDZS3ynmd+LiDBwtuIMtYptjcDm8lEUrrUsPwHC+vVwqOIlNhP0wN
+ tv8GtoQtJTQ+RRcxKebED7AnFpgYFung3bSpUFfS+gOfJywifJBp7UqgXyS8HQ5lUOwOc7nJOhdP
+ ASpS8U6x/y6ZW6tlNZnHMRzwvJ1mjL9grTjqiymxBTvaO6/5lCy8LH8NBfmCqo22HLavODtKmdBb
+ EpAdxq+TAN8v8ORiBVcaJyZ2QiN86d8TjGIugczIrewM5bC6vRhoF09Z4A3H9f6XHQorOBqoAi12
+ CQpwhCYJLXMjMvSkW7N+AU/LHgvZUN01y9rNfofyeSQ7A34+vsmit1jxVqk8IH4Ok6MTqYcGhdwT
+ XZP2ddKuDj0EDJ6wtJ3O7JjDc3rD/LIJRLrBstwOeExuOevfPaR8jgbGWm4kkyzcss6QjmAM9UH3
+ pN52Otdku4RRkyRwxFhfwGUGC3YZssJ3kg8vWwIq4b1YKCtjMdiLwm76TDvBogw/E1ZTpF35trkY
+ yLknEV0AyxEQqwnDIJJAFljlQs7wkRfZfqAkayQN9PV5d8Qprs1H8+pkqaUkJU2LL71VUkwKyRdU
+ RJr0Z1vF4BNVjSJH1DPKFFnzK6FPIBStBBF/UOp+0ymBAb9omPafA=
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+From: 1064094935@qq.com
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas <thomas.hellstrom@linux.intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
-Subject: Re: [PATCH RESEND v2 4/8] drm/vkms: Add support for RGB565 formats
-Message-ID: <Zx9eby4wpmnYPc7Y@fedora>
-Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
-References: <20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com>
- <20241007-b4-new-color-formats-v2-4-d47da50d4674@bootlin.com>
- <63f0bf12-4df8-48d1-b8c8-2ed27a860937@riseup.net>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, pengfuyuan <pengfuyuan@kylinos.cn>
+Subject: [PATCH] drm/xe/hdcp: Fix logic errors
+Date: Mon, 28 Oct 2024 17:43:14 +0800
+X-OQ-MSGID: <20241028094314.524356-1-1064094935@qq.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <63f0bf12-4df8-48d1-b8c8-2ed27a860937@riseup.net>
-X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,92 +75,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/10/24 - 11:17, Maíra Canal wrote:
-> Hi Louis,
-> 
-> On 07/10/24 13:46, Louis Chauvet wrote:
-> > The format RGB565 was already supported. Add the support for:
-> > - BGR565
-> > 
-> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > ---
-> >   drivers/gpu/drm/vkms/vkms_formats.c | 25 ++++++++++++++++++++++++-
-> >   drivers/gpu/drm/vkms/vkms_plane.c   |  1 +
-> >   2 files changed, 25 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> > index c03a481f5005..e34bea5da752 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> > @@ -249,7 +249,7 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
-> >   	return out_pixel;
-> >   }
-> > -static struct pixel_argb_u16 argb_u16_from_gray8(u16 gray)
-> > +static struct pixel_argb_u16 argb_u16_from_gray8(u8 gray)
-> 
-> Again, fix the issue in the patch that introduce it.
+From: pengfuyuan <pengfuyuan@kylinos.cn>
 
-Will do for the v2!
+Here the gsc struct null pointer check should use '||' instead of '&&'.
 
-Thanks,
-Louis Chauvet
+Fix the following patches:
+    drm/xe/hdcp: Check GSC structure validity
+
+Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
+---
+ drivers/gpu/drm/xe/display/xe_hdcp_gsc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c b/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c
+index 6619a40aed15..f4332f06b6c8 100644
+--- a/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c
++++ b/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c
+@@ -42,7 +42,7 @@ bool intel_hdcp_gsc_check_status(struct xe_device *xe)
+ 	struct xe_gsc *gsc = &gt->uc.gsc;
+ 	bool ret = true;
  
-> Best Regards,
-> - Maíra
-> 
-> >   {
-> >   	return argb_u16_from_u8888(255, gray, gray, gray);
-> >   }
-> > @@ -259,6 +259,26 @@ static struct pixel_argb_u16 argb_u16_from_grayu16(u16 gray)
-> >   	return argb_u16_from_u16161616(0xFFFF, gray, gray, gray);
-> >   }
-> > +static struct pixel_argb_u16 argb_u16_from_BGR565(const __le16 *pixel)
-> > +{
-> > +	struct pixel_argb_u16 out_pixel;
-> > +
-> > +	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
-> > +	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
-> > +
-> > +	u16 rgb_565 = le16_to_cpu(*pixel);
-> > +	s64 fp_b = drm_int2fixp((rgb_565 >> 11) & 0x1f);
-> > +	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
-> > +	s64 fp_r = drm_int2fixp(rgb_565 & 0x1f);
-> > +
-> > +	out_pixel.a = (u16)0xffff;
-> > +	out_pixel.b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
-> > +	out_pixel.g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
-> > +	out_pixel.r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
-> > +
-> > +	return out_pixel;
-> > +}
-> > +
-> >   VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
-> >   							    const struct conversion_matrix *matrix)
-> >   {
-> > @@ -447,6 +467,7 @@ READ_LINE_16161616(XRGB16161616_read_line, px, 0xFFFF, px[2], px[1], px[0])
-> >   READ_LINE_16161616(XBGR16161616_read_line, px, 0xFFFF, px[0], px[1], px[2])
-> >   READ_LINE(RGB565_read_line, px, __le16, argb_u16_from_RGB565, px)
-> > +READ_LINE(BGR565_read_line, px, __le16, argb_u16_from_BGR565, px)
-> >   READ_LINE(R8_read_line, px, u8, argb_u16_from_gray8, *px)
-> > @@ -668,6 +689,8 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
-> >   		return &XBGR16161616_read_line;
-> >   	case DRM_FORMAT_RGB565:
-> >   		return &RGB565_read_line;
-> > +	case DRM_FORMAT_BGR565:
-> > +		return &BGR565_read_line;
-> >   	case DRM_FORMAT_NV12:
-> >   	case DRM_FORMAT_NV16:
-> >   	case DRM_FORMAT_NV24:
-> > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> > index 1e971c7760d9..a243a706459f 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> > @@ -26,6 +26,7 @@ static const u32 vkms_formats[] = {
-> >   	DRM_FORMAT_ARGB16161616,
-> >   	DRM_FORMAT_ABGR16161616,
-> >   	DRM_FORMAT_RGB565,
-> > +	DRM_FORMAT_BGR565,
-> >   	DRM_FORMAT_NV12,
-> >   	DRM_FORMAT_NV16,
-> >   	DRM_FORMAT_NV24,
-> > 
+-	if (!gsc && !xe_uc_fw_is_enabled(&gsc->fw)) {
++	if (!gsc || !xe_uc_fw_is_enabled(&gsc->fw)) {
+ 		drm_dbg_kms(&xe->drm,
+ 			    "GSC Components not ready for HDCP2.x\n");
+ 		return false;
+-- 
+2.25.1
+
