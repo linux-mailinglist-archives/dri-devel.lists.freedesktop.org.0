@@ -2,86 +2,207 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6009B216E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 00:42:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE8A9B21FC
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 02:27:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD43910E226;
-	Sun, 27 Oct 2024 23:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CC1710E307;
+	Mon, 28 Oct 2024 01:27:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rocketmail.com header.i=@rocketmail.com header.b="Ux2O67mz";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="jvmHv6cu";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="vTk6JLDT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic305-21.consmr.mail.ir2.yahoo.com
- (sonic305-21.consmr.mail.ir2.yahoo.com [77.238.177.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 527FE10E221
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2024 23:42:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rocketmail.com; s=s2048;
- t=1730072544; bh=z8nBSKxFFHJVB9C4KSDm0bQHQ+p/cM57cnvkv4CUKnE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=Ux2O67mzpIwzxfzD6WyV3CH22+ahmiBt5vYapjiyhwWmYY+THzbyMiz/XJ1GK19Sj/tBodNQStTzUTQ6Oz9bhu5SgB7SCpEf9TqTw/NRk1GsPN12s8pYmjnjAI++i4Z9x61A6mwnmRotQkc7ly9yWLLAT4ZfxVpgdrSiD69pEJAIpRcDKdRZa4zCquM3FBN84xX18iyk0QlhnRPZPtVm1Wsl/nGadpR6fmMLHE8W6ju4RS54l6tWxCON7nKHg7Ny+EAaFeBIDJizZsATHVDw39VvRR2YL6EBiVN81hTrYN2R+JpoGGVUlZVv/aYIclJ1MqM3upnBnAwEd/DWWtyqVw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1730072544; bh=gxLRuGayVAMva4euPL3gga+XiaX5v68JN7ftwcLvzyb=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=NYL/NzBaO0Z9oGV9a/CNWL65q6RcuVArFuz9RiORcZsgBMJb3q/9KmtCd0/Ecyxa2IsRfF5mDJXh5M9ssA/6Ca3+WHM7waLuNg+EzIP0Y+UTc8384alqN8kF1/tCPI1NHuUAjg1qdinVJ0rJDym9iiyYONT9M6Ck+eaZNOaGwA3D2XqBMpVh+NpoY4oNiilKxAmjew3cO1kuE23WSNS9u2cOvTh8mFUwCM8O7KM2LFHptuOsG8opfvSpq5sEpwqUPZQXWyHyY4+uZWXY7C84M6Ot02cvFG0fpZEiyZyliy3N/Kim0CqIevhd2dGomSw3PlLyJNEV0XbfHJe7yWCezA==
-X-YMail-OSG: zSdI2toVM1mxu35LhC6.SslXaWpq_i4Y5bA6oC6fYhwMFoBRteL0F4D1Jic3gJl
- i9570qQCr_h3QFDVjI6szZcXLHqUO7hVQ1dQ3nPQvS5Fddtn7D0woI.cJaShKyE57iNcrIZZ6rUD
- K4603EuVaO5X7_ptjsTJDL5pzmhSX7loYBX.OWwulWmmhY2ed58ZfXcCMtiEn9zVfej.saFRZ34z
- ufCI4lP_k0b6WIRgCOPMpJz0rnV3wSoBJx5f4VGT.gjfsJTLvyHVEoMSodAuaBRb8EqyYn9UsmOy
- JTNItyVhxKDhxE31d_9F6IkZHqh03D5PbyWPmkQO849gdzFF4KUnAPXByW6mDQ2hvD9xM5WfN4By
- mnFU00h4kVXa88yN5LbN0D91YQ0BNlnM51GS0ow6XWe0aB7oxMEiPLA1SLKyuQESrE6npI1OwKwK
- 0vgZ9rwJZlx5v6.yvHpP6wMNGBNuPcs8TsYwrsc7TU3AD6YDbv0.eHKdlIqxIa2SxEmtDyEBgydO
- sFTwfcOhURlpcilIUty0ePcSD70HZ1346lDJ2N7gm_yG2gfXB.12Hs8PHLbYzbKfRMhY_F65gElm
- nydCYLpuKMbnNKu9dT_BXwmVI7qBRTJl7T2kzIgJ8tCS.Qt15wADHAavl1Mj7n1lJWkRifMhM2hz
- 1.nISx0K1LYp8aClhQ5VrlC69dc1aMOCk.42WA_zWA7wMmYap_5xEdlDbuKLfBsTdpWstO7R5rmb
- HTn0WKTr_lcTqCT8vMpRJaPTAUgJTvGobNa_Sm61hy61v3panZop6I6AfPQy3DVBaJC4vH21vmLy
- O.Cl5XBRgEYtHaMlIcCQuF6i7bVv2DHX7q2k8vD5EJzMMjV0MsHtw.fELPNe56H2Q9oYf1kLUvl_
- vqgo9q4jBZOyhW9KQaNkQWJotZyhYVPqpqaORnd0gUIN.q3faRIW_BwDo8o7pYcDgmvrf_sZw7QS
- BkYUxRKPdST_Me2MDaeVpHrx9yBNSXi.ag4i2qVDrumDNv2JML9SJp5k5gmyZ24QVz_3s09b5qF0
- V8Edp097IDTde7bbWqcVgG9XpD.nYbEpVgFMP6hRVfdMg5MxIRkxjr71D613ZqQF8FH8yyUznLgy
- HoLzFnf6FblmGxZrpevf5mfKd9baS_VbchaGU9tO_cMPJeRP.GLuYO1rvz9o6Y4JHTej541SoQAg
- Pyw5nbxD7d4asETTYng4b9ek_zjyMt44O4BovYGxY6rbL4KbDx8eOHii_eO4OKlVKMpGk6wE4hBs
- SDBIZ1akJgLfQ5nmtWJlWKKCzYo25D8Sokfx.pXKBuVU3HX2.q93oqpMzvlCkutNN237QxE2byZy
- MdVKaFQYWuYDlzLxIWFlede.DlDbCidn4WbkPTnUkFwNrMcyc6l0Qxu3YRqtHGlIJ.4HtZq8j3ZO
- EfWmmIS3rnKRxBr1dQbKiIkLjIL3G1r29Zud2tEFbj.e3u8MuetFDj_Q25QOPIBDcReKtJgOBU_b
- 4URhsLHRYPcH_kMYo503gljPUYixcA3ztQ8K3cPWDY1D3mJxr93K8D9f8Gsvke5dfMr23hsr9LfG
- MUUJnlg3d_aOiPQIbpOjMLHWTzntWesCs3MCJTzuZqBOzJK4UKBVcb0UjAX_8op_txYrlAOn0N2V
- ALVju6.w8OFWEMjv.ywXO3UH2kbazt2GGti9YkgnjyZz7z3WaAEnkGAxB6nZZ0dIdRtX.SWVY2qW
- TIAaLFutilnUVZY5oSWVmMH9UKMxKDiiZOoaEHRwUVUZVGhZwvr2Elpk9skbUjaLY1G_tPJ9y05g
- CgNCAHLb6wWuybz6OTrtOQ7HsGKw8cjOizGdAK7mSAzhPz.g4pk_VzVm7yVnYIaM.jd8fhXPGyGu
- yQ2VtNzrtZypNQdOzYV4JJFkzvVn7st_0UkaJLIRJfEohqPdjq_Yr_ep2nMApjI_JWsilLzKJFAX
- kURRFkeEIUEdOp.YCa65u_PXydtkGzj7XeGvsSYYlkV1_hruhhT_e_AuXKl3bK89eBFkRcIfAPAd
- SCNoLumXHJB5Emc7iUrEi_gUzakg2Ds_voRAoPxB0B4X2TrzlfyQZTK0bjAFdets9Za31EyroNfw
- 5N0pW6qDsThBQyA4SKYq.Uk_epA9YurgiPoNPMzC2NP8kymA9mDLz11EUFGSo9OBtIqfVwxgeyun
- R7lrKawHm32vzMWFuOgc4NsrOwoC5sD83BbsyYfUj3SBcETFeMpuz57aicImbODgLMD74jRgcVX1
- 35vlL887eoJnBcIGFzUDLG3LGGGp82yOfJRAMdSUKriPrReCN2gv0US_jNXAExYzC9oR0zRymRkE
- 11H.a8xW6upnsSz4lzPzpf8E42jYr4PQmouScz0S26YFsMS_2wg19PDQ-
-X-Sonic-MF: <jahau@rocketmail.com>
-X-Sonic-ID: c4f486ca-a70b-41f1-9e63-fa74cc22709d
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic305.consmr.mail.ir2.yahoo.com with HTTP; Sun, 27 Oct 2024 23:42:24 +0000
-Received: by hermes--production-ir2-c694d79d9-qzm27 (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID fc681596c483b48011d8a98a0d7203e6; 
- Sun, 27 Oct 2024 23:42:23 +0000 (UTC)
-From: Jakob Hauser <jahau@rocketmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, Jakob Hauser <jahau@rocketmail.com>
-Subject: [PATCH v4 5/5] drm/panel: samsung-s6e88a0-ams427ap24: Add flip option
-Date: Mon, 28 Oct 2024 00:42:06 +0100
-Message-Id: <1491f275e9956b2da1f1e2580abd54f4e459c7d2.1730070570.git.jahau@rocketmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <cover.1730070570.git.jahau@rocketmail.com>
-References: <cover.1730070570.git.jahau@rocketmail.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9007410E307
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 01:27:28 +0000 (UTC)
+X-UUID: c8bf9bc694cb11efb88477ffae1fc7a5-20241028
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=TOWCXDNayuOI0zxd5Y3u0rFA+SsKsRHA+OlmNl9SnKg=; 
+ b=jvmHv6cufxdGgUDZreEw9PYu2sYF4R7QWpWCEQQF8u6MILYPohGXiXRtuWhk47Sw2q9l4qoT1kNKgcepKXa+xs00ZG7LwcDo1lJ4Zj6gCamYniW0DA8NnMYmh9WdxB6p/BZn0vmlzcElhY0oH3yPeUDnLPiYg+14nirxcRfwIRU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.42, REQID:a4fa0dca-1ae0-433a-9565-d11c80fa9c3d, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:b0fcdc3, CLOUDID:b0f8e941-8751-41b2-98dd-475503d45150,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+ l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+ :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: c8bf9bc694cb11efb88477ffae1fc7a5-20241028
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 556575314; Mon, 28 Oct 2024 09:27:23 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 28 Oct 2024 09:27:22 +0800
+Received: from HK2PR02CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 28 Oct 2024 09:27:22 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bjEL5cHc/+WfXeafwuQ6RQeEzKvsWRGs3gROb3tF1JkoBfYJP1jDKrMQdg9EQeM2rQPk0dZQv2kFAqj2lahzythzgv9EzNpwDsGn//QhGnyEq4jqcOlyHyzVzHjbADEiYcH58bHmkYlcAXebqhI8uM02sv16/e8ixdBBd9vuLktYCQtV8DlCC02oymklTlVOcJotVJBCeI6Eu65xfr6wIqf+AqFDRA1APDalAu5J1zLav2VDuDFEHE+1XohOQ1D8JTaCkYBjH/3dphypDgAz451Cxqgv2d10cVYhpBW9DLvPvqtt6l8nliLOTVPSczRJK5Ihq2dFfDtKSmeQTyQbSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vLd5gVO9gBFX4PX7GdwcMcrKPwWbAK6DQWa38ESk9bQ=;
+ b=vljiFrW38inTWpXizzjvP6hOJO5GLr6ZNmz2CKJuYgg7o+vGODgnSG0CvM97de+CS1NJo0w85YLRv1yqffmqfU9XWd+TEgDpTQOdKYPQVKgKIMV0yewpGIIIFwZGCv+pIU5+94UrtPfRt0xag8AxzlF9drMRYnTHqXO8KhwBeMdviFcHfUnC3xjGzZEAwHfl+RIGCxASuaAiZSZ4O4NopDyRpikwCUFAo8ZTYrdoC50RPsayfzVFIwmo3Z5FokB2NCaSxGPxX/EmycRgC5Y0m1hNWN8rlj+L2HdQ05VxUBnWzw6AaDxN7pJi1u1K+e80Gt2DzdUI3/Mwa06rIqfdEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vLd5gVO9gBFX4PX7GdwcMcrKPwWbAK6DQWa38ESk9bQ=;
+ b=vTk6JLDTMzPFd9Dr0prNBD3ZDN4y3CbM0YYV+O+sfx4XJhqe0k9KuhJA+fAT1PYTM6XLsrVxfcK+bkDiGD4PsruKPNtmr1Lx7YxuHS37behtX8KZRg5lVuyD3oHjSnrM4RdaD1t7AtstJJfIZqgak9hQ2GpIMefw729bckDgkaU=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by TYUPR03MB7031.apcprd03.prod.outlook.com (2603:1096:400:35a::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Mon, 28 Oct
+ 2024 01:27:19 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%7]) with mapi id 15.20.8093.021; Mon, 28 Oct 2024
+ 01:27:19 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "mchehab@kernel.org"
+ <mchehab@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "matthias.bgg@gmail.com"
+ <matthias.bgg@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ =?utf-8?B?U2h1LWhzaWFuZyBZYW5nICjmpYroiJLnv5Qp?=
+ <Shu-hsiang.Yang@mediatek.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "yunkec@chromium.org" <yunkec@chromium.org>, "linaro-mm-sig@lists.linaro.org"
+ <linaro-mm-sig@lists.linaro.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, =?utf-8?B?WWF5YSBDaGFuZyAo5by16ZuF5riFKQ==?=
+ <Yaya.Chang@mediatek.com>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?utf-8?B?VGVkZHkgQ2hlbiAo6Zmz5Lm+5YWDKQ==?= <Teddy.Chen@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "hidenorik@chromium.org"
+ <hidenorik@chromium.org>, =?utf-8?B?U2h1bi1ZaSBXYW5nICjnjovpoIblhIQp?=
+ <Shun-Yi.Wang@mediatek.com>
+Subject: Re: [PATCH v1 03/10] media: platform: mediatek: add isp_7x seninf unit
+Thread-Topic: [PATCH v1 03/10] media: platform: mediatek: add isp_7x seninf
+ unit
+Thread-Index: AQHbGj1K7oS5BpZAxk+Yfu5zQIUxBLKbfJSA
+Date: Mon, 28 Oct 2024 01:27:19 +0000
+Message-ID: <e1af452761d6e33d54f9d77bf088997fb5d13f9a.camel@mediatek.com>
+References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
+ <20241009111551.27052-4-Shu-hsiang.Yang@mediatek.com>
+In-Reply-To: <20241009111551.27052-4-Shu-hsiang.Yang@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYUPR03MB7031:EE_
+x-ms-office365-filtering-correlation-id: dfdd3c41-f9cf-419c-09f4-08dcf6efaa85
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?V1BYdzU1WXJXQWNMbHlaN095cG1UL3NQLzBJb0pLMThRUTJQR0NjYUw2cGV4?=
+ =?utf-8?B?VHlhSTlJV0R3dmNFYVNGa3JEbVJHSGlDL3VnL1pYUk9BVGRLY2hyWnZoQnh0?=
+ =?utf-8?B?dzd5akZpMngvL3k2Z0ZPVkIwQ01rRitKcmViSE5UTFV3aVFiNjZYbFJiaks4?=
+ =?utf-8?B?OFEzM1NxMkJIUTN3M29Ud0lOMm1iaGJ1R3p2WUF6Sm9QSUxBRmJSalQwTTZz?=
+ =?utf-8?B?bWNOZ3owWTRjMG5QbDdDWFE5MlQzQkkyQjJnN0lUNDNZUG0wRG1qend0V3RS?=
+ =?utf-8?B?UkNleG9mNGw2YzljMUhDNlFUTnNvczNmdVlvem1KQzB2VHhSdFhTK29DU3Zr?=
+ =?utf-8?B?TGVxdzUxQ0lmZkZnd0JWdkxubngzZGx1TzcvUTJyek9RSTJtVE45eE9vMjg3?=
+ =?utf-8?B?YkhDN0dpUk9EN29GUWpSbFdlaFhYZ3MyR21sdzJzT1pZcGdmbnpyNzk5QVlw?=
+ =?utf-8?B?bWNIUDRRTmhKcmFFNjlEYldBWnhNajg5T0dzYXYyZG5VUHUxNWdrYU1UaHN1?=
+ =?utf-8?B?NkhabVk1dVJlSldpVDdHTW1WQUo5cVhiTTlWd1lVbGdERHNIV1Q1NmVTWHQ3?=
+ =?utf-8?B?OHBKRUxRcVc4NldQTFdodFdFTzA0NmVTUXFiL1JGSzhjaDByNmR0NjQ1dnVY?=
+ =?utf-8?B?ZUlna0FLa0RlVktzbkVHVkhOdS9jeGl1WUd4MlJhTUsvamN5ZHYySWs0Mmsx?=
+ =?utf-8?B?U1dXU1RBZkwxYlBZUVpVL050bnl6V3JoUWc4OE94OUxJVmtwUFYrcSswZWY2?=
+ =?utf-8?B?ZUJQbDRVM2ZkSU01WFZKMUNnV01weEN2Vjh0Y0M2SXJvWFViczBndHhQVyt6?=
+ =?utf-8?B?c1ZaWG9BbDVqbmsxOC9BS0E0ZnBybTcvZGU1bzVaVEhUbGg1Y0NZWGJoMm8z?=
+ =?utf-8?B?R1JlczVDOCtkcXRtUHprSEk0Rnl6VEF2Zmg5MC9VclpHMldyVmNjNDYwUVpB?=
+ =?utf-8?B?NnlrQVZQcHF2bGVaUlAxYi9WVEpNZEhET1U5N3ZKZVM4MjBXSS9XL1Raa01h?=
+ =?utf-8?B?eUpKUnpFL0Y4aEFXR25XQjlzdkQ1cnh5a0Y2VDRkUDg4M2JYREhTWGJnU09P?=
+ =?utf-8?B?ZHZPUHRUM1VWR1MxN0VJVE5YdThYWk9mOE0xZGZEZEkvNHcwcm9WSDVJaTVW?=
+ =?utf-8?B?VHZYcG9tNTJzZTFXY3V4RUIwV2Y1OEFyVUFNY3ZiR2JrUkFQcStsTjdFTEpB?=
+ =?utf-8?B?Ly9FU3MrQ3k3ZUJ1ajk4a09qZW82ZGRVcHc3ZFFYakV5YXh1MUJHWTdGVmlh?=
+ =?utf-8?B?bmNMaFJBeDhXWkhUQysvYm9IbjBwbEpSSUVTbVRMQW5qWVBMa0ZNVTZ3RU5K?=
+ =?utf-8?B?eDZJUitXcnRzNG1ka0MzRndZSTR4Vi9EMUlIMUpnUlpiRndrdS9KL21zcHVp?=
+ =?utf-8?B?ZVVHcDVhRXhXWlZCRmcvR3dIa09RMU9rY0pPd2xZQno2eUVWQTR3RzhmV1h3?=
+ =?utf-8?B?Y3o0ZlNTa3YwSE9zTUR1VFhTVDJCcFA1RzduYTBEemFpZzhZbmdqK2pXdnRQ?=
+ =?utf-8?B?MWNRVVNQSDZnK3owQzYxd082TDVPNWVta0lLU3VrSzl3WkM2dEFyM3YwZzVC?=
+ =?utf-8?B?bTRNVU5FcjAyNnRqM21HSStIT083YUVDOHJHZnNjbDNoQUZjbUU4MmJIeEJv?=
+ =?utf-8?B?YlgvWDZ5dlRpRkd1cVRjR2hVbk56N2Jpc3VwNWRiZnUrMGRMQkIrKzBQSDVT?=
+ =?utf-8?B?Q01saktFcHN2WFZReTQwWEFvUXZYS1JVS240SC90aEFuWlhMK0xJVDlRc1ZL?=
+ =?utf-8?B?K1ZEdHh0bm84THduQ05saUQzVDFmbUdUMUl4Z3A5bzBEcW1oU01lUUEyUXRo?=
+ =?utf-8?Q?hE43V14IIvqJPYva3afMvYXO03wMt05nYDSag=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Mi8vdWNYT3RldlRGYWM2NmgzcXdETjgrOHZDWjB6aGlZcXhFUWRWNDhTWjVI?=
+ =?utf-8?B?Z2tnWjNTTVk0SDg5S2luN3djVHNpb2FnTHg0ZlBuQ1hHZkJnT2xGb0VpYWI2?=
+ =?utf-8?B?d3RVRW5VVGJMMUhoQVNzeHVXSGlpQXVmM2JpWm1RMWpoYy9VcmJPY1NibWZ2?=
+ =?utf-8?B?Q2VxOFVpMFhWakRlTmtIQWU0eURUUkZMdnpSV1ptdG9SQ1ZJNlhvTERPT2N3?=
+ =?utf-8?B?eHVIc0hUNGJpdHN2Ni9RYUtsd3diMGh6R21obG1QVjhhL3huckFYS3d0RE1W?=
+ =?utf-8?B?VXRVNVQ2K2hZcVRmUEx1R0VDR3NBOWNVd1JPSVhoVUFWVUlmV3pYR0loN2FQ?=
+ =?utf-8?B?b1p3TnhVdW9LQ2t4ajgrenRxL0hJakljakRCdlZYM1k1MC8ycUtUQ0Y1R1Zk?=
+ =?utf-8?B?OUJrcTdQTWZzVUZzbHE1VXEzZkdIdjk0U08vUno3aE9TNkZtNDJWVGFZSkdK?=
+ =?utf-8?B?MFU0VXN4LzIxTkw4eStYTFNGYXRTb3ZOTnRvOHprUWh6enhXN1RyZ3lUbVE2?=
+ =?utf-8?B?VUF4eFp5NW5RbFFDd1JaQzhaRXlnU0VCcFc5Z3JOVnprQ2ZzUmczWlpCWlhh?=
+ =?utf-8?B?Z1R5d2lyakRQOTdIRG1RbGFtSHRxcTZlTVZoTm5EV05WR1VjTk9KSXRRUGI3?=
+ =?utf-8?B?VG94RnpTQVFLRDU5OGtWYjVXZFlncFdLc3pUNnBFc1pGZmwrdzJ4KzdxaGJw?=
+ =?utf-8?B?QlJZYm5nU01HK1JlaG5LdHFwNW5BSXJVRXlnZ2hrdWhNZkFyZTVmTzFvK21l?=
+ =?utf-8?B?cGtNb250SHF1MkVGL1dIQ2hMSzU1VHBIOWZkK1hreURDRHFZQ2xJelpJMDNk?=
+ =?utf-8?B?NmRUUWpNQ2FjcERVb2l2NG9mbDdjenlla3AyNkduMlhLampIOGFlL1hwc3po?=
+ =?utf-8?B?TVBUb0xScnExcDNzWkFoM3VzV3A0TngrYkR2R3ptcmZWUGR4TVFuZXY2dE1T?=
+ =?utf-8?B?akJXWGxCZkozQVllRVljais4QTJPUHNnN0JWelNITEt6RS9IVFErTFc3RDYx?=
+ =?utf-8?B?RnYxK0hJZ0JFQW8vWGZzaWNYb3FoZzJrcmNPYXRWTjhsUUhFSHNDTDRwODk1?=
+ =?utf-8?B?RDlUZGtneHVQdXBKY044aGdwNy9relQ3Wk4ybm5zbnVOV1UvVVNxOVZOaVVj?=
+ =?utf-8?B?U0RVbUJMVlJSaDFIcjBjTHlXcjQ2WTFyYzhNb2ppMTVYU0dTSjM5Snlkck80?=
+ =?utf-8?B?cUI3Vm8vaVpsdCt3V0xic3JscHBRMlU3dldSaTRqRS8rNHNXMlljNzZKeFQ4?=
+ =?utf-8?B?Q2xUU1BWWHIxdFhLVW9JR24rOWwzMDFGL2N0bFpubGROcUR6N3ZTeHdMWTBP?=
+ =?utf-8?B?MGlGaUJERnpYZWs4RE43T0d4K1V1VmptL3BkZ1JBaGpkaGt4UlNWd08wTVF2?=
+ =?utf-8?B?UThhL05QOTVjd0JNZlZCMm5ucG1KNWxmN3h2R0hKR3NDd25ONndRb3FSempq?=
+ =?utf-8?B?MFJSbWhLcGYxZHZMNmg1VVhtWlpDNHJTZXRzbzBKcTkrMVJmVWZIWXdmc1Rz?=
+ =?utf-8?B?RzFZd09McDNFZnhOWmVqUUh6N28ybWJFSGV4TTd5WG5mZjg2TEVzZzkyQm5v?=
+ =?utf-8?B?SU1DeUhOa3Q3bjR5eFBLVVN3N2E5TndrTEUzaFl5bEI3QXVXWWFpRjVjV2Vu?=
+ =?utf-8?B?cG9aYnRlbDIvZ09OVzEzc3crbm5xY3NEcXRHM1czQnFWZ3A1aS9tUWVXMjhN?=
+ =?utf-8?B?eUZVd1krdFZHVHNPaVROUWVXZmk3UDRLV2J1d0Q1KysvR3lUdWY0ZllyQkRT?=
+ =?utf-8?B?ZU1kaUFoUklJL1JBelZCZytzbHFuNXZMZEJpRFB4SlU1c3UreG9lWHNxM0NO?=
+ =?utf-8?B?L2VrZTFJd0ZLR0xXRkRCMHlOZWdJdHZPeVNVOUJ2RzczTys0MFhnUXdlNlFp?=
+ =?utf-8?B?Z0tJVDRkVzE2UDI4OGMxNWxSL0EyRTlvejZONGZJWVBhdGdjcGV5UlBFOHNw?=
+ =?utf-8?B?K2tpZm5CVEttbGlMR2F5WW43cnBNUWFUZlhxekUyRC90U2ZpOVplc3Q1emJZ?=
+ =?utf-8?B?N25DZC8xdm5TaVB5amlPZFZqeWJUdmFDVTZaT2YvdmpZUjJEQUd1K1VpYWYv?=
+ =?utf-8?B?dHVzTTVDR3U1Q1pNRUVESndGQjc1Ly9BWE9EMzMwOVdkb252S25OTzVKcWVp?=
+ =?utf-8?Q?8DwizWpN8hI9NsWkA+50aK8yH?=
+Content-ID: <919F22995986C6409FCCB9BEF66F61E6@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfdd3c41-f9cf-419c-09f4-08dcf6efaa85
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2024 01:27:19.7703 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g+mAB7kjkJkRD82an6H4McnfdCoVD9UNcjtd0GeoIMuDCPHAMtcTWDahP++hHkLUxONEQrgZbsUb9h6IHqH5Tg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYUPR03MB7031
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_001_1241362922.426759447"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,69 +218,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The way of implementing a flip option follows the existing
-panel-samsung-s6e8aa0.c [1][2][3].
+--__=_Part_Boundary_001_1241362922.426759447
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The value to flip the screen is taken from a downstream kernel file of
-a similar but older panel [4]. The mipi clock [5] for the new panel
-samsung-s6e88a0-ams427ap24 matches 461 MHz and a hardware read-out of the
-0xcb values corresponds to revision R01 of that older panel [6]. Although
-for samsung-s6e88a0-ams427ap24 that's in non-flipped state while in this
-older driver it seems to be the other way around. Further up there is a
-hint [7] basically saying for revision R01 to change the first word of the
-0xcb command from 0x06 to 0x0e, which is actually setting BIT(3) of that
-word. This causes a horizontal flip.
+SGksIFNodS1oc2lhbmc6DQoNCk9uIFdlZCwgMjAyNC0xMC0wOSBhdCAxOToxNSArMDgwMCwgU2h1
+LWhzaWFuZyBZYW5nIHdyb3RlOg0KPiBJbnRyb2R1Y2VzIHRoZSBkcml2ZXIgb2YgdGhlIE1lZGlh
+VGVrIFNlbnNvciBJbnRlcmZhY2UsDQo+IGZvY3VzaW5nIG9uIGludGVncmF0aW9uIHdpdGggdGhl
+IE1lZGlhVGVrIElTUCBDQU1TWVMuIFRoZQ0KPiBzZW5pbmYgZGV2aWNlIGJyaWRnZXMgY2FtZXJh
+IHNlbnNvcnMgYW5kIHRoZSBJU1Agc3lzdGVtLA0KPiBwcm92aWRpbmcgbWFuYWdlbWVudCBmb3Ig
+c2Vuc29yIGRhdGEgcm91dGluZyBhbmQgcHJvY2Vzc2luZy4NCj4gS2V5IGZlYXR1cmVzIGluY2x1
+ZGUgVjRMMiBmcmFtZXdvcmsgY29udHJvbCwgYW5kIGR5bmFtaWMNCj4gaGFuZGxpbmcgb2Ygc3Ry
+ZWFtIGNvbmZpZ3VyYXRpb25zIGFuZCB2aXJ0dWFsIGNoYW5uZWxzLg0KPiANCj4gU2lnbmVkLW9m
+Zi1ieTogU2h1LWhzaWFuZyBZYW5nIDxTaHUtaHNpYW5nLllhbmdAbWVkaWF0ZWsuY29tPg0KPiAt
+LS0NCg0KW3NuaXBdDQoNCj4gKw0KPiArZW51bSB7DQo+ICsJQ0xLX0NBTV9TRU5JTkYgPSAwLA0K
+DQpDTEtfQ0FNX1NFTklORiBpcyB1c2VsZXNzLCBzbyBkcm9wIGl0Lg0KDQpSZWdhcmRzLA0KQ0sN
+Cg0KPiArCUNMS19UT1BfU0VOSU5GLA0KPiArCUNMS19UT1BfU0VOSU5GMSwNCj4gKwlDTEtfVE9Q
+X1NFTklORjIsDQo+ICsJQ0xLX1RPUF9TRU5JTkYzLA0KPiArCUNMS19UT1BfU0VOSU5GNCwNCj4g
+KwlDTEtfVE9QX1NFTklORjUsDQo+ICsJQ0xLX1RPUF9TRU5JTkZfRU5ELA0KPiArCUNMS19UT1Bf
+Q0FNVE0gPSBDTEtfVE9QX1NFTklORl9FTkQsDQo+ICsJQ0xLX01BWENOVCwNCj4gK307DQo+ICsN
+Cg==
 
-[1] https://github.com/torvalds/linux/blob/v6.11/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c#L103
-[2] https://github.com/torvalds/linux/blob/v6.11/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c#L207-L211
-[3] https://github.com/torvalds/linux/blob/v6.11/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c#L954-L974
-[4] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/blob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c
-[5] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/blob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c#L2027-L2028
-[6] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/blob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c#L137-L151
-[7] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/blob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c#L66-L74
+--__=_Part_Boundary_001_1241362922.426759447
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Jakob Hauser <jahau@rocketmail.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
----
-Changes in v4:
- - Added a comment to the mipi_dsi_dcs_write_seq_multi() line, according to the
-   other lines before and after.
----
- drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGksJiMzMjtTaHUtaHNpYW5nOg0KDQpPbiYjMzI7V2Vk
+LCYjMzI7MjAyNC0xMC0wOSYjMzI7YXQmIzMyOzE5OjE1JiMzMjsrMDgwMCwmIzMyO1NodS1oc2lh
+bmcmIzMyO1lhbmcmIzMyO3dyb3RlOg0KJmd0OyYjMzI7SW50cm9kdWNlcyYjMzI7dGhlJiMzMjtk
+cml2ZXImIzMyO29mJiMzMjt0aGUmIzMyO01lZGlhVGVrJiMzMjtTZW5zb3ImIzMyO0ludGVyZmFj
+ZSwNCiZndDsmIzMyO2ZvY3VzaW5nJiMzMjtvbiYjMzI7aW50ZWdyYXRpb24mIzMyO3dpdGgmIzMy
+O3RoZSYjMzI7TWVkaWFUZWsmIzMyO0lTUCYjMzI7Q0FNU1lTLiYjMzI7VGhlDQomZ3Q7JiMzMjtz
+ZW5pbmYmIzMyO2RldmljZSYjMzI7YnJpZGdlcyYjMzI7Y2FtZXJhJiMzMjtzZW5zb3JzJiMzMjth
+bmQmIzMyO3RoZSYjMzI7SVNQJiMzMjtzeXN0ZW0sDQomZ3Q7JiMzMjtwcm92aWRpbmcmIzMyO21h
+bmFnZW1lbnQmIzMyO2ZvciYjMzI7c2Vuc29yJiMzMjtkYXRhJiMzMjtyb3V0aW5nJiMzMjthbmQm
+IzMyO3Byb2Nlc3NpbmcuDQomZ3Q7JiMzMjtLZXkmIzMyO2ZlYXR1cmVzJiMzMjtpbmNsdWRlJiMz
+MjtWNEwyJiMzMjtmcmFtZXdvcmsmIzMyO2NvbnRyb2wsJiMzMjthbmQmIzMyO2R5bmFtaWMNCiZn
+dDsmIzMyO2hhbmRsaW5nJiMzMjtvZiYjMzI7c3RyZWFtJiMzMjtjb25maWd1cmF0aW9ucyYjMzI7
+YW5kJiMzMjt2aXJ0dWFsJiMzMjtjaGFubmVscy4NCiZndDsmIzMyOw0KJmd0OyYjMzI7U2lnbmVk
+LW9mZi1ieTomIzMyO1NodS1oc2lhbmcmIzMyO1lhbmcmIzMyOyZsdDtTaHUtaHNpYW5nLllhbmdA
+bWVkaWF0ZWsuY29tJmd0Ow0KJmd0OyYjMzI7LS0tDQoNCltzbmlwXQ0KDQomZ3Q7JiMzMjsrDQom
+Z3Q7JiMzMjsrZW51bSYjMzI7ew0KJmd0OyYjMzI7K0NMS19DQU1fU0VOSU5GJiMzMjs9JiMzMjsw
+LA0KDQpDTEtfQ0FNX1NFTklORiYjMzI7aXMmIzMyO3VzZWxlc3MsJiMzMjtzbyYjMzI7ZHJvcCYj
+MzI7aXQuDQoNClJlZ2FyZHMsDQpDSw0KDQomZ3Q7JiMzMjsrQ0xLX1RPUF9TRU5JTkYsDQomZ3Q7
+JiMzMjsrQ0xLX1RPUF9TRU5JTkYxLA0KJmd0OyYjMzI7K0NMS19UT1BfU0VOSU5GMiwNCiZndDsm
+IzMyOytDTEtfVE9QX1NFTklORjMsDQomZ3Q7JiMzMjsrQ0xLX1RPUF9TRU5JTkY0LA0KJmd0OyYj
+MzI7K0NMS19UT1BfU0VOSU5GNSwNCiZndDsmIzMyOytDTEtfVE9QX1NFTklORl9FTkQsDQomZ3Q7
+JiMzMjsrQ0xLX1RPUF9DQU1UTSYjMzI7PSYjMzI7Q0xLX1RPUF9TRU5JTkZfRU5ELA0KJmd0OyYj
+MzI7K0NMS19NQVhDTlQsDQomZ3Q7JiMzMjsrfTsNCiZndDsmIzMyOysNCg0KPC9wcmU+DQo8L3A+
+PC9ib2R5PjwvaHRtbD48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48cHJlPioqKioqKioqKioqKiog
+TUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioqKioqKioqKioqKioqKioqKg0KVGhl
+IGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdlIChpbmNsdWRpbmcg
+YW55IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2
+aWxlZ2VkLCBvciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUgdW5kZXIgYXBwbGlj
+YWJsZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNvbnZleWVkIG9ubHkgdG8gdGhlIGRl
+c2lnbmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9uLCANCmRpc3RyaWJ1
+dGlvbiwgcHJpbnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5nIG9mIHRoaXMgZS1tYWlsIChpbmNs
+dWRpbmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHN0
+cmljdGx5IHByb2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3ZnVsLiBJZiB5b3UgYXJlIG5vdCBh
+biBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWwsIG9yIGJlbGlldmUgDQp0aGF0IHlv
+dSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBz
+ZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUg
+YW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNo
+bWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50
+IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwh
+LS19LS0+
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-index 4b8aa088f445..e92e95158d1f 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-@@ -38,6 +38,7 @@ struct s6e88a0_ams427ap24 {
- 	struct mipi_dsi_device *dsi;
- 	struct regulator_bulk_data *supplies;
- 	struct gpio_desc *reset_gpio;
-+	bool flip_horizontal;
- };
- 
- static const struct regulator_bulk_data s6e88a0_ams427ap24_supplies[] = {
-@@ -550,6 +551,10 @@ static int s6e88a0_ams427ap24_on(struct s6e88a0_ams427ap24 *ctx)
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcc, 0x4c); // pixel clock divider pol.
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x03, 0x0d); // unknown
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf1, 0xa5, 0xa5); // level 3 key off
-+
-+	if (ctx->flip_horizontal)
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcb, 0x0e); // flip display
-+
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5); // level 1 key off
- 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0xa5, 0xa5); // level 2 key off
- 
-@@ -710,6 +715,8 @@ static int s6e88a0_ams427ap24_probe(struct mipi_dsi_device *dsi)
- 		       DRM_MODE_CONNECTOR_DSI);
- 	ctx->panel.prepare_prev_first = true;
- 
-+	ctx->flip_horizontal = device_property_read_bool(dev, "flip-horizontal");
-+
- 	ret = s6e88a0_ams427ap24_register_backlight(ctx);
- 	if (ret < 0)
- 		return ret;
--- 
-2.39.5
+--__=_Part_Boundary_001_1241362922.426759447--
 
