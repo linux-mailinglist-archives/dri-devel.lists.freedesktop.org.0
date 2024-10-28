@@ -2,152 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88A89B39F1
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 20:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775399B3A7A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 20:31:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0345010E521;
-	Mon, 28 Oct 2024 19:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D319C10E53A;
+	Mon, 28 Oct 2024 19:31:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="deWSFmns";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="rgV/OaSb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2077.outbound.protection.outlook.com [40.107.223.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0318D10E520;
- Mon, 28 Oct 2024 19:05:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Kzus8Pb+F5ZFXx9sHHrer27L0ptwljA6onLgYCSchQkzXlTyUD48hhSp1PheVtPhJypOaSAVOEY6uR+06RYqCiRhkaIA+8asUfV8MyAg66//fkWHlxjbDJRWVhzrV5uGsuntbrhr61fZk1koVo74J6QaD4bGhqhgJ/6XUUkM4WduOzm1tOln1clN6d37jLUOIA+7S4QkvBjesgqRXf0al3hD4zjql6YM40nDazpjTNhKJajMUngZEmMCtTpQjh0bAA2+YxLB2CXqhcJXRTxkm1vCNgTYd1xvwhpAxqReawdR93jfyuAucS6CLnuOss/KsbFc+sXYML5zxZ/ZzqcXGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zQeFC2LMXzVk5dmTHM+ZFXEv7/ykwzXSbGdCdKDMwX0=;
- b=h5R+S98isu5riOTmSIps0wJ3inrj+VGTiBiLC9Y2cP5Bh+XKPyFuLdCI/dBZ5lq1spdncc0Vej11sMxQbELU8G5LBw3o/nlz0iC7eo28gqsfXSpoCTXpfQQQ+fVz2KvbQ4fDYFEH8cSYo9/7GOyd/dsp91HyO8K/y2KoB4a7nD+T3cF7lof7WX6FDJRlPExuldYdUYSXE5Om5JJVi75HXUUjhM+gPwntkoKMpV9/3EupOGrNEPuEMCShE8+p3WVuPHq4iOhzMQGP2cdNmKPXVieIFG/JPsz02Lr/hg6qpF+fQOnOaE5smqZSpY43lTGO6PFPQWsdtZSxj2OLzXEWYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zQeFC2LMXzVk5dmTHM+ZFXEv7/ykwzXSbGdCdKDMwX0=;
- b=deWSFmnss6OIzurtxUJjjAqXrTQ2bgEDIBkCn8097THqSVcsXya8RKhPkqDdwVm1G6Nev8s//MU5XGk44JF9wPIt5KZtMhLq5E1neUTAiDHwNi+18gX3u0V+MRpUM5FoT0I7WhUYA+bPi0fHDw8qoZ4eZuVW9D64mm9Kyqf3AD0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5311.namprd12.prod.outlook.com (2603:10b6:5:39f::7) by
- SN7PR12MB7787.namprd12.prod.outlook.com (2603:10b6:806:347::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.16; Mon, 28 Oct
- 2024 19:04:59 +0000
-Received: from DM4PR12MB5311.namprd12.prod.outlook.com
- ([fe80::a846:49eb:e660:1b5b]) by DM4PR12MB5311.namprd12.prod.outlook.com
- ([fe80::a846:49eb:e660:1b5b%4]) with mapi id 15.20.8093.024; Mon, 28 Oct 2024
- 19:04:59 +0000
-Message-ID: <fc596eeb-0d46-4f9e-93a3-d4ef87e736c5@amd.com>
-Date: Mon, 28 Oct 2024 15:04:57 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 1/1] SWDEV476969 - dm: Fail dm_atomic_check if cursor
- overlay is required at MAX_SURFACES
-To: Melissa Wen <mwen@igalia.com>, Zaeem Mohamed <zaeem.mohamed@amd.com>,
- harry.wentland@amd.com, Rodrigo.Siqueira@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, daniel@ffwll.ch, christian.koenig@amd.com,
- alexander.deucher@amd.com, airlied@gmail.com, Xinhui.Pan@amd.com
-References: <20241025193727.765195-1-zaeem.mohamed@amd.com>
- <20241025193727.765195-2-zaeem.mohamed@amd.com>
- <575d66c7-e77d-42ea-acbf-412d6e508a0b@igalia.com>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8668710E53A
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 19:31:45 +0000 (UTC)
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Xck684vnHzDqSH;
+ Mon, 28 Oct 2024 19:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1730143905; bh=cjdbZV5ZPfheGFbVrkdDtNRq2JcwEKKbOMHwK5Kq7Ug=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=rgV/OaSbta7GShv7nwZ2whXBakzHb2SBzHiY+9J9Tp06+k1EU7YGZVQ3lPu+4GgP6
+ 2lQv2nIc9+aab1wv0QFWxqPCDQvzROojMMJ3V2qWPrjjJ7i2GHMIoVmfYTlZyGuQE6
+ 3vt2jTnGAlBI2YaSlH/jtcMNAYdblZ+mnCID8tEE=
+X-Riseup-User-ID: F22E330D62DAD2F355815919666460B5781E5B3DA059EB560FC67CC1611AE6F8
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Xck614SnJzFsg9;
+ Mon, 28 Oct 2024 19:31:37 +0000 (UTC)
+Message-ID: <5aa5af69-948e-4fdd-b69e-7b8874930178@riseup.net>
+Date: Mon, 28 Oct 2024 16:31:34 -0300
+MIME-Version: 1.0
+Subject: Re: [PATCH v12 09/15] drm/vkms: Remove useless drm_rotation_simplify
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com
+References: <ZwzYqihbReaLFn-c@louis-chauvet-laptop>
+ <d3e8bb5a-6053-4a2b-a445-0cf4e610f112@riseup.net> <Zx9eazDt3f2meyht@fedora>
+ <6278651d-b61d-49d2-8151-7ab4ca03971c@riseup.net>
+ <Zx9u9K129dWhfzPQ@louis-chauvet-laptop>
 Content-Language: en-US
-From: Leo Li <sunpeng.li@amd.com>
-In-Reply-To: <575d66c7-e77d-42ea-acbf-412d6e508a0b@igalia.com>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <Zx9u9K129dWhfzPQ@louis-chauvet-laptop>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0011.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:86::30) To DM4PR12MB5311.namprd12.prod.outlook.com
- (2603:10b6:5:39f::7)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5311:EE_|SN7PR12MB7787:EE_
-X-MS-Office365-Filtering-Correlation-Id: 057bbd88-03ec-4c35-0648-08dcf7836b10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dWtIeTVsZmtLdmlVVTgzY3BZNUMrNk9TeGpvV2RzMG51VWF4anIxeUJ1RXVK?=
- =?utf-8?B?dHQvdnRycS9NQ3VkRE9vcDA2dkMzNFMyazZFYzB3Z0VGcU4wVDlkRXp5cXpB?=
- =?utf-8?B?NDJtOWMzM0hZcWR4RXZRY0h4NEs5OXZvejdkb0ZwdUh3Njdsd0lWOENzZ0RO?=
- =?utf-8?B?OFFIV1lwbThaMkNoR1BuSkhVeWU5RnhDQ1FPNHl3N3NrMGtWZFpmMU9PMkdN?=
- =?utf-8?B?UWdxc0IwVjhiRzFGSnF1MVM1ZnZRMmZURGRaalFuMkZFdWwrd3h5aGhxQTQ3?=
- =?utf-8?B?TmxXeHgzdzlIQUVId1FQbnBQY2JkYWNpeUFMUFJXcXo4RjJaeUJGTEpNQ1BY?=
- =?utf-8?B?aHV0angrZ2JDbVh4ZEVSeDRFV0h1VWZac2VXZ1VVK3piTmNtaDc5SU1PSnFk?=
- =?utf-8?B?Z0FBSTZaaG1HT2VQRkU1b1hZaS9SVDFCTDJ4RTNlWDloZTBRUlZVd2YrMW5v?=
- =?utf-8?B?cFlXZktLUDJ4ZU80WXVlR05oc1R4a0NBWlBUSXM2TUttSG5ERXdxQVVvTlBm?=
- =?utf-8?B?S1JSZGZKMDJEL1c1UTJ1UTQwdHI3eXRJZ3daamdoN3hrcEd1THZoZU80QTlM?=
- =?utf-8?B?SHIyR0s3OG5qV2F4K3I2WkpkU0xldTlqS1JwZjN6ZTF1bGQwNGtmd1RNL1hs?=
- =?utf-8?B?NjJZQnV2REJGSEMxbEdEUjd6cjhDQ2dYU2JvNFRUTjdlSHNGUzRrOWZUK2hU?=
- =?utf-8?B?b1ptTkIwekhPbEtNaHAyMDd3UlFuYTEvbzNScHBPOXZXaHBnVmhrNjFqWkFY?=
- =?utf-8?B?QVVxdlB6dk93ZE9KMGNZR1pPSXBaUHl4Mkx2eGhpWXBoSW5pRjJTWTl4Mkp5?=
- =?utf-8?B?d1RCZ1c3SlF1RUQ2U1VFYXYvcldxWUZPVkpveTNmV0RHeVVaQkJndGREczlv?=
- =?utf-8?B?a0FtTXRFVkFLT09aeTJrSXRFZ2FyUlRtaTVEd0hxOXBsVkErNmZjQUtkd2Nh?=
- =?utf-8?B?WXdQWGZ5cHgwNE5TZDk1RzEvci9ZRzAvN0NUNTIwQjdwRWhscysxd1ZHM2F1?=
- =?utf-8?B?QllFYkpTYmRkdk0wbm5scWVBL01WcTlTeVdOSFRCRUpPUVdRRmZpRmhvRjJY?=
- =?utf-8?B?NWNYeUxORGhoYU92UXBWbytXQWpEUmdLQnBqaWhicVZkZmVVUllXNG85MUIv?=
- =?utf-8?B?NzdGOWNXaGVBMFo1ZWJSc09uSXkvWFZBWFdoQmxDN1B0VVozUkloVDJLQk9w?=
- =?utf-8?B?cGloYWRtK3lCOEhiczdhM0szdTh3Uk80dlV0bStaRGZWeDhjN2QvSG9NeXhD?=
- =?utf-8?B?cnNqYVB2Q0Qwdi9GdlZvWXNIazNYc0xWMktqNCtFbUNMY1FJckFqTkZQVE0r?=
- =?utf-8?B?SmVlZVNrd3YrRk9uQlB0RkcvRXd0NkJiVkxSL2lqUFdOall1Z3czYlkxeW1w?=
- =?utf-8?B?cWVqTUtJcE9yQ0FhOVU4YUdwenBaSEZZRUdVNjQ2OWNlYlNTMVphaUhoenJT?=
- =?utf-8?B?NmlRaWd4QXBTcWF2Y0owSEk3MkdKU2c4c096eHJxL25YRGRpbnhJc29FSU04?=
- =?utf-8?B?MHJuRU1NQ0dtd0xKV0RWajVyQ0VzdEdrRkNUeHljdW1UdERjdW1hVHRTb1ZG?=
- =?utf-8?B?OHFkQjBtelF2YkErbC9Hc3ZHUTF4VEVTT2ZwaUM2aHJZTWMydXNaV3NXbWdu?=
- =?utf-8?B?ajNqRXV3NGdjTGxFaHM0TVdSRllPK1BETnZIdStqQUY2ak93dGFPUjBWTFhi?=
- =?utf-8?B?elpNajYzVVZEa2dWOTVvZDhVNzhsK1NPU1ZQa1JCdFBLVFl5TmpHNGJnPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5311.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d0JXVmFzREs2YVI2dnhaZU82VkRCY2IzcTNZdEcxSmNFRG5sWitjSlJER2NQ?=
- =?utf-8?B?SUV3L21WL1RwcDZmUmVWcnIyQ1YzTm5BM3ZHdU9aenlleWtSaEZPT3ozQWpM?=
- =?utf-8?B?ejkxU24xRFovQ1FOZG9MS0VrK2ZpaFJDRkZtUkV2WkxFVnUwZHlZcHdmWExM?=
- =?utf-8?B?V05PVTBLSElHQTc0U2tTWnBQeGs0bC9QTE9RTjJFK3cwTDRCR0VOZkZNWFdN?=
- =?utf-8?B?b2V0dk5kNUhhSkMydmVrMXFTb0Q5NUNXQ2taVUxwTlM4S1RUK1Jna3NMQTRz?=
- =?utf-8?B?Rm5BY1VkVlFiVmNPeTg0MTJFcjJ4WkhYWDVUZXRtR3NsMi9pbWdQMm8zOEF0?=
- =?utf-8?B?TDNBS1ZMYWxHQ1BJaGRJSjNUMWFWandMc1FEVnpXVDhnNCtMSEZHNXhBYVox?=
- =?utf-8?B?YTAvZU81NFBBTjdGaUdpbW1zUFNHdTdZZUtOM2hTT3MrZjZ6UUpuTXo3Qk82?=
- =?utf-8?B?dUtKOW9raGJIRjVLOG5aV3QwdVVnb0FYak42WW92U1BDY1dFMjlwVzQ2N0dC?=
- =?utf-8?B?eGpRcnlVeHhMMTJrcUNjejJpRWNwa3c4bk1lcHBRa0FnQTZGN0JvVXhPMjF0?=
- =?utf-8?B?clNLTW1TZFBwbTVNOWE4SGdXQ0F5eENzdHlEZGp1THhlZ0U1dUowR2wzYlAr?=
- =?utf-8?B?MTYxVjc3dDVsbWR6bFBYb0llaXlHalRWRExGZHFsM1cvR2g0S3BIdjJGL1pD?=
- =?utf-8?B?NzZveUN5WElwbkdaV05FTk90TnFxOEhUQWhGb1VrM3kwcmozUFA1aW54UWlh?=
- =?utf-8?B?MDl2UXZPRXhPL0haeFZFbkZuNzY0VzhvQ3k2dHNGUitHajZUem5UQmF6S1Z2?=
- =?utf-8?B?bkl3WXlUbXRTVnBUYlBGVm5HOTcyamhGb3pSV25QL2xub0tsUk5PM3RFMmZu?=
- =?utf-8?B?OTYrWXhVYy9Wek4zaXFrV0ZpcnB5UGl4Z1gwL3R0bmpaQnpDOEFmVGluWmNI?=
- =?utf-8?B?MXliMER4R242ZnVBaFc0eUVGSjdjTkdZdU1FRjNoeEdoWFNDZkRZZmhEci9u?=
- =?utf-8?B?cXowTTB6aEtjMW5rWEhXV2JwWlZZQi90TWVmZDBZWTI5ZzdzN2xDOXBoMVZU?=
- =?utf-8?B?dENiK0lraFpwT3pJTDR3dE9mMThJNGx1LzEyTDkxK3JIYjFrQ2VJVVNmejJ3?=
- =?utf-8?B?aFBQSDB1UjhLTmVWeFp3TzBXRU00QXdyNjFpbDV3UndHNUVKYlNyTG9KbG1M?=
- =?utf-8?B?cFZaZkJabWN1SUh2UGxkRUpPWHhXZDJiS2ozcFRiSEJoOWZZS2hUZ3E0NU0r?=
- =?utf-8?B?WXVxSEhydHRkaHRFOEoyL3g3VDc0V2ZCdnlxamZCZnQzK1N2cFRzbXI2R2Fr?=
- =?utf-8?B?WjQzUTZ3aVZOZ0U5RHFQQlBYbFR0b3NNTU5BZFZqeFFwQ3FyVjVvZU0rdGtB?=
- =?utf-8?B?NmhCMFNLZXZaYWtIQ1lYV1p6SHlVSWQrdVhzRXpNTDViZitsYzdGdGtpM25Y?=
- =?utf-8?B?V2F2NUNlQ2Mrb0FHMzRzMGN2T0JaRUowZ0ZPcFh2eDhXZG9vRUZNRlh2Zi80?=
- =?utf-8?B?UlZLdjlHbUdFcmlKUXRXWWpBdlQwZWhHMkdhZDRJYkh3eUhRVGN4OG1jUEd5?=
- =?utf-8?B?bEZwY3JnOVN2OExyMEI3V0p2T1FqOUNHUzRHN2V4aVdQL3JDV1ZzOTdmajdT?=
- =?utf-8?B?Wk03MVdBRDRvWE0xZGZSZ2NYQXVhUTE0TVQrUHFvT1VQdVM1TTBtSDB3dWc1?=
- =?utf-8?B?TGpCUHNjK2U5OEcyellFTk9PTFlUenlrMnBHTGhpZHJURjJPUDE4aGlJU3k0?=
- =?utf-8?B?emtSWWs1dWh3TUNGcllvT2JEWG4zd0hLLzhZcHN3aCs2OVpDUFFGYjdjUGxz?=
- =?utf-8?B?V0tmZTlnOG1BZnNxU3doV0o3Z2hKTUFPc1I3eHR4a0JVaEI5S1E2MnMwTDhq?=
- =?utf-8?B?T0RxQTQyRnE1Q0I0Y2JuR25hbEtzZ2d0c0JwcnVUUmkzdHU0MHFGbCtNUG1y?=
- =?utf-8?B?R1RUQXg0dmdyMitiTDdCbGg5UmV4WG9nR1RyNHlDUy83OUp2ZEZrZWNQcFIy?=
- =?utf-8?B?V0xLMWU3VmxyMU5vTzJmTDFnLzdsWjl4MlErOE9qeVJ6WTFtbFNFTFp6bkdW?=
- =?utf-8?B?cDVobmpmYjNXMUFPTG9kcmt0dXNhUFU0RTlQTGRQTkdKMUxabWVOWERvUjNm?=
- =?utf-8?Q?fKliVosEXmFuhIVQKDM+/IZM0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 057bbd88-03ec-4c35-0648-08dcf7836b10
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5311.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 19:04:59.0707 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +OpHxw8HLnUw1Hd+7L9bMgEm4JqmkZmWCfo1XQ5oKKOYXivh1rRwc9tEHFvLbUx3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7787
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,134 +72,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Louis,
 
-
-
-On 2024-10-25 22:01, Melissa Wen wrote:
-> 
-> 
-> 
-> On 25/10/2024 16:37, Zaeem Mohamed wrote:
->> [why]
->> Prevent index-out-of-bounds due to requiring cursor overlay when
->> plane_count is MAX_SURFACES.
-> Hi Zaeem,
-> 
-> Thanks for working on this fix.
+On 28/10/24 08:01, Louis Chauvet wrote:
+> On 28/10/24 - 07:17, Maíra Canal wrote:
+>> Hi Louis,
 >>
->> [how]
->> Bounds check on plane_count when requiring overlay cursor.
-> I agree. Atomic check makes sense.
-> 
-> 1) Since the native cursor mode was previously the unique mode avaliable, I
-> wonder if the driver should fall to native cursor mode in favor of the overlay
-> planes advertised. I.e. if driver says it supports two overlay planes and
-> the userspace requested both, cursor overlay mode should not be available or
-> should switch to native cursor mode, as before the introduction of cursor
-> overlay mode.
-
-Hey Melissa,
-
-The overlay cursor implementation today should still do native cursor in all
-cases, except for when it is not possible: if there is a underlying scaled or
-YUV plane.
-
-In such cases, we previously rejected the atomic commit, since the hw won't be
-able to produce the rendering intent. Now, we try to accommodate it by using a
-dedicated overlay plane. IOW, fallback to native here is equivalent to an atomic
-reject.
-
-> 
-> 2) Then my second question: can we increase the number of surfaces to 4 first to
-> accommodate more than one active overlay plane with cursor overly mode enabled.
-> If four is still possible, this increase can reduce the number of commit
-> failure scenarios and mitigate current userspace issues first. After addressing
-> current array-out-of-bounds, follow-up patches can do the proper changes and
-> checks.
-> 
-
-My initial thought was to merge the proper fix first to address the current
-issues. But if increasing MAX_SURFACES->4 also helps, I don't have a strong
-opinion about it :)
-
-I think Zaeem is working on MAX_SURFACES->4 as well, but there's some detangling
-work required in DC to accommodate another OS that dc supports. I have a feeling
-this fix may land earlier than the ->4 patch. (see my patch comments below)
-
-> 3) IMHO, the incoherence between MAX_SURFACE_NUM and MAX_SURFACE should be
-> addressed before adding debugging points. For example, there are part of the
-> DC code using MAX_SURFACE_NUM == MAX_PLANE == 6 to allocate dc_surface_update
-> arrays, instead of using MAX_SURFACE value. You can find one of this case here:
-> https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/ 
-> gpu/drm/amd/display/dc/core/dc.c#L4507
-> It doesn't make sense to me and it can contribute to an incomplete solution.
-
-Right, also see below
-
-> 
-> Also, please add the references of bugs reported in the amd tracker, so far:
-> 
-> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3693
-> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3594
->> Co-developed-by: Melissa Wen <mwen@igalia.com>
-> I don't think I contributed enough to your code to get any credits.
-> Thanks, but you can remove my co-dev-by :)
-> 
-> Best Regards,
-> 
-> Melissa
->> Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
->> ---
->>   amdgpu_dm/amdgpu_dm.c | 16 +++++++++++++++-
->>   1 file changed, 15 insertions(+), 1 deletion(-)
+>> On 28/10/24 06:50, Louis Chauvet wrote:
+>>> On 26/10/24 - 09:10, Maíra Canal wrote:
+>>>> Hi Louis,
+>>>>
+>>>> On 14/10/24 05:39, Louis Chauvet wrote:
+>>>>> On 11/10/24 - 10:53, Maira Canal wrote:
+>>>>>> Hi Louis,
+>>>>>>
+>>>>>> On 10/11/24 06:36, Louis Chauvet wrote:
+>>>>>>>
+>>>>>>> Hi all,
+>>>>>>>
+>>>>>>> Until this point, this series has not received any major comments since
+>>>>>>> v9. I will commit patches 1-9 next week if there are no further comments.
+>>>>>>>
+>>>>>>
+>>>>>> Although we are maintainers of VKMS, it isn't recommended that we push
+>>>>>> our own changes without even the Ack of another person. Please, read the
+>>>>>> "drm-misc Committer Guidelines" [1].
+>>>>>
+>>>>> Hi Maíra, Maxime,
+>>>>>
+>>>>> I apologize for this rushed commit request. I sent the initial email with
+>>>>> a delay before the commit action because I was not sure about the
+>>>>> procedure and wanted to give others a chance to raise any concerns.
+>>>>> Unfortunately, I overlooked the need to collect an Ack/Review for each
+>>>>> patch, even when there hadn't been any responses for several months. I'm
+>>>>> sorry for this oversight.
+>>>>>
+>>>>>> I can ack patches 05/15, 07/15, and 09/15, but it would be more
+>>>>>> beneficial for the community if you ask for an ack (from me or from the
+>>>>>> DRM maintainers, which are always around), instead of saying that you
+>>>>>> are going to commit the patches without any review.
+>>>>>
+>>>>> I will be happy to ask for acknowledgments if needed, but as you mentioned
+>>>>> multiple times: nobody is paid to maintain VKMS. Since you did not comment
+>>>>> these series since July, when you told me you would review my patches, I
+>>>>> assumed it was either okay or you no longer had the time to maintain
+>>>>> (which I completely understand).
+>>>>
+>>>> Yeah, I'm a volunteer and no longer have time to maintain VKMS. A couple
+>>>> of weeks ago I sent a patch removing myself as VKMS maintainer. This
+>>>> doesn't imply that patches can be pushed without review.
+>>>
+>>> I will acked-by and push your patch, it will be an easy "first commit". If
+>>> I do something wrong during the process, please tell me.
+>>>
+>>> Thanks for this precision, I understood this, and I will not push without
+>>> reviews, don't worry!
+>>>
+>>> Thanks a lot for all your reviews!
+>>>> We are a community with several active developers. Although I don't have
+>>>> time to properly review your patches, you can try to gather other
+>>>> developers to review your patches. You can try to use #dri-devel to get
+>>>> reviewers.
+>>>
+>>> Thanks for the tip, I will do this!
+>>>
+>>>> That said, you can add my ACK to patches 05/15, 07/15, and 09/15 and
+>>>> push the patches. I won't ack the YUV patches as I don't feel
+>>>> comfortable reviewing/acking those.
+>>>
+>>> Perfect for the patches 1..9, it will be a very nice step forward and will
+>>> reduce my conflicts a lot with the rest of my work!
+>>>>> Acked-by: Maíra Canal <mairacanal@riseup.net>
+>>>>
+>>>> BTW if the patches are fixing IGT tests, please update the list of fails
+>>>> and skips on DRM CI.
+>>>
+>>> For this, how should I do? Commit the series and wait for the bot results?
+>>> Run tests on my computer (I only have a x86 VM)? Is there some doc
+>>> somewhere?
 >>
->> diff --git a/amdgpu_dm/amdgpu_dm.c b/amdgpu_dm/amdgpu_dm.c
->> index df83e7b42b..c2595efb74 100644
->> --- a/amdgpu_dm/amdgpu_dm.c
->> +++ b/amdgpu_dm/amdgpu_dm.c
->> @@ -11676,6 +11676,12 @@ static int amdgpu_dm_atomic_check(struct drm_device 
->> *dev,
->>            * need to be added for DC to not disable a plane by mistake
->>            */
->>           if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE) {
->> +            if(dc->current_state->stream_status->plane_count >= MAX_SURFACES){
->> +                drm_dbg_driver(crtc->dev,
->> +                       "Can't enable cursor plane with %d planes\n", 
->> MAX_SURFACES);
->> +                ret = -EINVAL;
->> +                goto fail;
->> +            }
-
-Hey Zaeem,
-
-I took a tour through DC, and it seems to me that MAX_SURFACE_NUM can be made
-equal to MAX_SURFACES in all cases. I wonder, if we simply replace
-MAX_SURFACE_NUM with MAX_SURFACES = 3, will we still need these explicit fails?
-FWICT, `dc_state_add_plane` should fail for us.
-
-Thanks,
-Leo
-
->>               ret = drm_atomic_add_affected_planes(state, crtc);
->>               if (ret)
->>                   goto fail;
->> @@ -11769,8 +11775,16 @@ static int amdgpu_dm_atomic_check(struct drm_device 
->> *dev,
->>           /* Overlay cusor not subject to native cursor restrictions */
->>           dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
->> -        if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE)
->> +        if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE){
->> +            if(dc->current_state->stream_status->plane_count > MAX_SURFACES){
->> +                drm_dbg_driver(crtc->dev,
->> +                       "Can't enable cursor plane with %d planes\n", 
->> MAX_SURFACES);
->> +                ret = -EINVAL;
->> +                goto fail;
->> +            }
->> +
->>               continue;
->> +        }
->>           /* Check if rotation or scaling is enabled on DCN401 */
->>           if ((drm_plane_mask(crtc->cursor) & new_crtc_state->plane_mask) &&
+>> Check [1] for instructions on how to run the CI on GitLab.
+>>
+>> [1] https://docs.kernel.org/gpu/automated_testing.html
 > 
+> Thanks for the link!
+> 
+> I am stuck at the first step, do I need to ask some right to create a repo
+> on git.freedesktop.org? I don't see any button to create a repo, and I
+> can't fork any existing kernel repo.
+
+Check [1]. For more fd.o infra questions, you can ask on #freedesktop 
+(the answer will probably be quicker).
+
+[1] https://gitlab.freedesktop.org/freedesktop/freedesktop/-/wikis/home
+
+Best Regards,
+- Maíra
+
+> 
+> I also asked the access to CI-OK.
+> 
+> Thanks,
+> Louis Chauvet
+>   
+>> Best Regards,
+>> - Maíra
+>>
+>>>
+>>> Thanks a lot,
+>>> Louis Chauvet
+>>>
+>>>> Best Regards,
+>>>> - Maíra
+>>>>
+>>>>>
+>>>>> So, I hereby formally request reviews/ACKs for the following series:
+>>>>>
+>>>>> [this series]:https://lore.kernel.org/all/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com/
+>>>>> [2]:https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com/
+>>>>> [3]:https://lore.kernel.org/all/20240516-writeback_line_by_line-v1-0-7b2e3bf9f1c9@bootlin.com/
+>>>>>
+>>>>> (I have to send a v2 for [3] because of rebase conflict, but nothing else
+>>>>> changed)
+>>>>>
+>>>>> Thanks a lot,
+>>>>> Louis Chauvet
+>>>>>> [1] https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html
+>>>>>>
+>>>>>> Best Regards,
+>>>>>> - Maíra
+>>>>>>
+>>>>>>> For patches 10-15, I am currently waiting for feedback from Maxime to
+>>>>>>> send the next iteration with a fix for kunit tests.
+>>>>>>>
+>>>>>>> Thanks,
+>>>>>>> Louis Chauvet
+>>>>>>>
+>>>>>>> On 07/10/24 - 18:10, Louis Chauvet wrote:
+>>>>>>>> As all the rotation are now supported by VKMS, this simplification does
+>>>>>>>> not make sense anymore, so remove it.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>>>>>>> ---
+>>>>>>>>      drivers/gpu/drm/vkms/vkms_plane.c | 7 +------
+>>>>>>>>      1 file changed, 1 insertion(+), 6 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+>>>>>>>> index 8875bed76410..5a028ee96c91 100644
+>>>>>>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+>>>>>>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+>>>>>>>> @@ -115,12 +115,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>>>>>>>>      	frame_info->fb = fb;
+>>>>>>>>      	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+>>>>>>>>      	drm_framebuffer_get(frame_info->fb);
+>>>>>>>> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
+>>>>>>>> -									  DRM_MODE_ROTATE_90 |
+>>>>>>>> -									  DRM_MODE_ROTATE_270 |
+>>>>>>>> -									  DRM_MODE_REFLECT_X |
+>>>>>>>> -									  DRM_MODE_REFLECT_Y);
+>>>>>>>> -
+>>>>>>>> +	frame_info->rotation = new_state->rotation;
+>>>>>>>>      	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> -- 
+>>>>>>>> 2.46.2
+>>>>>>>>
+>>
 
