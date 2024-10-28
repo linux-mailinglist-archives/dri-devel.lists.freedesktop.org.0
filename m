@@ -2,88 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781AF9B2C53
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:08:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81029B2C80
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 11:13:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1870F10E457;
-	Mon, 28 Oct 2024 10:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6E3F10E458;
+	Mon, 28 Oct 2024 10:13:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WpXAxDHH";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="ATZmbN9y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE1B10E454;
- Mon, 28 Oct 2024 10:08:02 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49RNnA4K017530;
- Mon, 28 Oct 2024 10:07:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- u6w09vuiLva5b8cnrEum/UWUMtRM/0/5HzAWBBqc9eQ=; b=WpXAxDHHSWUl947b
- jXMxOO5ewytWmwojDUfj5Y3opOccO99hO7nPOk2mVAYMUdGuyTMk8rwVGv0OTLCT
- 70EvAsHyy8dxdWRWNa8gEoGt8BljfGwFFX2sBN1VQj0146YeVLwZJ1WcLEKSl9ne
- t5aV0xbnjudpUTa/vRhBbhxxe99dbqP0NwLNv0dNpWuKossxZqkmkyB7SY+f8yYj
- g+biBBf6A5cDvoT4x+oJFpdKtuvYFvADskZ03kR9FfNHMGx1pu/wjqOBd28CEKqj
- 7zdUoWM1dUMosZv39FVXuC1ULCwDc/uJIEVrTe1ufLkXSK/F0htY9UJkRiqWC22A
- E/bDew==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42grt6vd4r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Oct 2024 10:07:53 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49SA7qfZ025319
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Oct 2024 10:07:52 GMT
-Received: from [10.216.3.65] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 28 Oct
- 2024 03:07:46 -0700
-Message-ID: <6fea85fc-ccdc-46ec-b612-3712e9431301@quicinc.com>
-Date: Mon, 28 Oct 2024 15:37:44 +0530
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DFCF10E458
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 10:13:55 +0000 (UTC)
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4XcTkV3cyBz9vB8;
+ Mon, 28 Oct 2024 10:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1730110434; bh=YtL7XBpxJk6ROHIqvUfHeTpLoBni23YAgmaSPnpnFrM=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=ATZmbN9yJgeJoNwb5uFNFJBJGiXahaiJ+vLZ78IB9dBFBq/1KGN4hJ7JZ5v2bWcKJ
+ wkDj0FAHAEYD1/ZbPO5iVJCBEqNqnQ0Jl6JozjTUOQVJHNfFpWqGySJi1B4s/TCaL2
+ yPJYlnkKUUwbF9w2A4ygAFWJXhOYDq3CEOq87sFM=
+X-Riseup-User-ID: 34E57D653E943C86F088611FC6F853262CC686371EA5F3C86E0378228CA93968
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XcTk62JbLzFv8y;
+ Mon, 28 Oct 2024 10:13:34 +0000 (UTC)
+Message-ID: <c3f35eb2-2197-46f6-838d-c1e832d1750c@riseup.net>
+Date: Mon, 28 Oct 2024 07:13:31 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/a6xx: Fix excessive stack usage
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, "Bill
- Wendling" <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
- Arnd Bergmann <arnd@kernel.org>
-References: <20241027-stack-size-fix-v1-1-764e2e3566cb@quicinc.com>
- <j2qapo66f64y7ddqlu63dqvog2fdbhnaq3t24wp2srvdt4v7xl@fyqu4ry4wmts>
+Subject: Re: [PATCH v12 08/15] drm/vkms: Re-introduce line-per-line
+ composition algorithm
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
+ <20241007-yuv-v12-8-01c1ada6fec8@bootlin.com>
+ <be1a9147-efbd-4c98-a0a4-7cf5a730fc70@riseup.net> <Zx9eblYbZsFqn-hX@fedora>
 Content-Language: en-US
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <j2qapo66f64y7ddqlu63dqvog2fdbhnaq3t24wp2srvdt4v7xl@fyqu4ry4wmts>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: yM4lroPHSvQX2DwzVgWCZySGtX_3rfx5
-X-Proofpoint-GUID: yM4lroPHSvQX2DwzVgWCZySGtX_3rfx5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0
- adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0
- priorityscore=1501 phishscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410280083
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <Zx9eblYbZsFqn-hX@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,119 +72,324 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/28/2024 1:56 PM, Dmitry Baryshkov wrote:
-> On Sun, Oct 27, 2024 at 11:35:47PM +0530, Akhil P Oommen wrote:
->> Clang-19 and above sometimes end up with multiple copies of the large
->> a6xx_hfi_msg_bw_table structure on the stack. The problem is that
->> a6xx_hfi_send_bw_table() calls a number of device specific functions to
->> fill the structure, but these create another copy of the structure on
->> the stack which gets copied to the first.
->>
->> If the functions get inlined, that busts the warning limit:
->>
->> drivers/gpu/drm/msm/adreno/a6xx_hfi.c:631:12: error: stack frame size (1032) exceeds limit (1024) in 'a6xx_hfi_send_bw_table' [-Werror,-Wframe-larger-than]
->>
->> Fix this by kmalloc-ating struct a6xx_hfi_msg_bw_table instead of using
->> the stack. Also, use this opportunity to skip re-initializing this table
->> to optimize gpu wake up latency.
->>
->> Cc: Arnd Bergmann <arnd@kernel.org>
->>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
->>  drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  1 +
->>  drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 34 ++++++++++++++++++++++------------
->>  2 files changed, 23 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->> index 94b6c5cab6f4..b4a79f88ccf4 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->> @@ -99,6 +99,7 @@ struct a6xx_gmu {
->>  	struct completion pd_gate;
->>  
->>  	struct qmp *qmp;
->> +	struct a6xx_hfi_msg_bw_table *bw_table;
->>  };
->>  
->>  static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> index cdb3f6e74d3e..55e51c81be1f 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> @@ -630,32 +630,42 @@ static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
->>  
->>  static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
->>  {
->> -	struct a6xx_hfi_msg_bw_table msg = { 0 };
->> +	struct a6xx_hfi_msg_bw_table *msg;
->>  	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
->>  	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
->>  
->> +	if (gmu->bw_table)
->> +		goto send;
->> +
->> +	msg = devm_kzalloc(gmu->dev, sizeof(*msg), GFP_KERNEL);
-> 
-> Is it necessary after being sent? Isn't it better to just kzalloc() it
-> and then kfree() it at the end of the function?
+Hi Louis,
 
-Keeping it around will help to cut down unnecessary work during
-subsequent gpu wake ups.
+On 28/10/24 06:50, Louis Chauvet wrote:
+> On 26/10/24 - 11:26, Maíra Canal wrote:
+>> Hi Louis,
+>>
+>> On 07/10/24 13:10, Louis Chauvet wrote:
+>>> Re-introduce a line-by-line composition algorithm for each pixel format.
+>>> This allows more performance by not requiring an indirection per pixel
+>>> read. This patch is focused on readability of the code.
+>>>
+>>> Line-by-line composition was introduced by [1] but rewritten back to
+>>> pixel-by-pixel algorithm in [2]. At this time, nobody noticed the impact
+>>> on performance, and it was merged.
+>>>
+>>> This patch is almost a revert of [2], but in addition efforts have been
+>>> made to increase readability and maintainability of the rotation handling.
+>>> The blend function is now divided in two parts:
+>>> - Transformation of coordinates from the output referential to the source
+>>> referential
+>>> - Line conversion and blending
+>>>
+>>> Most of the complexity of the rotation management is avoided by using
+>>> drm_rect_* helpers. The remaining complexity is around the clipping, to
+>>> avoid reading/writing outside source/destination buffers.
+>>>
+>>> The pixel conversion is now done line-by-line, so the read_pixel_t was
+>>> replaced with read_pixel_line_t callback. This way the indirection is only
+>>> required once per line and per plane, instead of once per pixel and per
+>>> plane.
+>>>
+>>> The read_line_t callbacks are very similar for most pixel format, but it
+>>> is required to avoid performance impact. Some helpers for color
+>>> conversion were introduced to avoid code repetition:
+>>> - *_to_argb_u16: perform colors conversion. They should be inlined by the
+>>>     compiler, and they are used to avoid repetition between multiple variants
+>>>     of the same format (argb/xrgb and maybe in the future for formats like
+>>>     bgr formats).
+>>>
+>>> This new algorithm was tested with:
+>>> - kms_plane (for color conversions)
+>>> - kms_rotation_crc (for rotations of planes)
+>>> - kms_cursor_crc (for translations of planes)
+>>> - kms_rotation (for all rotations and formats combinations) [3]
+>>> The performance gain was mesured with kms_fb_stress [4] with some
+>>> modification to fix the writeback format.
+>>>
+>>> The performance improvement is around 5 to 10%.
+>>>
+>>> [1]: commit 8ba1648567e2 ("drm: vkms: Refactor the plane composer to accept
+>>>        new formats")
+>>>        https://lore.kernel.org/all/20220905190811.25024-7-igormtorrente@gmail.com/
+>>> [2]: commit 322d716a3e8a ("drm/vkms: isolate pixel conversion
+>>>        functionality")
+>>>        https://lore.kernel.org/all/20230418130525.128733-2-mcanal@igalia.com/
+>>> [3]: https://lore.kernel.org/igt-dev/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com/
+>>> [4]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
+>>>
+>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>>>
+>>> # Conflicts:
+>>> #	drivers/gpu/drm/vkms/vkms_composer.c
+> 
+> I jut noticed this, I will remove it...
+> 
+>>> ---
+>>>    drivers/gpu/drm/vkms/vkms_composer.c | 234 ++++++++++++++++++++++++++++-------
+>>>    drivers/gpu/drm/vkms/vkms_drv.h      |  28 +++--
+>>>    drivers/gpu/drm/vkms/vkms_formats.c  | 224 ++++++++++++++++++++-------------
+>>>    drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
+>>>    drivers/gpu/drm/vkms/vkms_plane.c    |   5 +-
+>>>    5 files changed, 344 insertions(+), 149 deletions(-)
+>>>
+>>
+>> [...]
+>>
+>>> -static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+>>> +static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
+>>>    {
+>>> -	__le16 *pixel = (__le16 *)in_pixel;
+>>> +	struct pixel_argb_u16 out_pixel;
+>>>    	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+>>>    	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+>>> @@ -226,40 +194,120 @@ static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pi
+>>>    	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+>>>    	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+>>> -	out_pixel->a = (u16)0xffff;
+>>> -	out_pixel->r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+>>> -	out_pixel->g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+>>> -	out_pixel->b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
+>>> +	out_pixel.a = (u16)0xffff;
+>>> +	out_pixel.r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+>>> +	out_pixel.g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+>>> +	out_pixel.b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
+>>> +
+>>> +	return out_pixel;
+>>>    }
+>>> -/**
+>>> - * vkms_compose_row - compose a single row of a plane
+>>> - * @stage_buffer: output line with the composed pixels
+>>> - * @plane: state of the plane that is being composed
+>>> - * @y: y coordinate of the row
+>>> +/*
+>>> + * The following functions are read_line function for each pixel format supported by VKMS.
+>>> + *
+>>> + * They read a line starting at the point @x_start,@y_start following the @direction. The result
+>>> + * is stored in @out_pixel and in the format ARGB16161616.
+>>> + *
+>>> + * These functions are very repetitive, but the innermost pixel loops must be kept inside these
+>>> + * functions for performance reasons. Some benchmarking was done in [1] where having the innermost
+>>> + * loop factored out of these functions showed a slowdown by a factor of three.
+>>>     *
+>>> - * This function composes a single row of a plane. It gets the source pixels
+>>> - * through the y coordinate (see get_packed_src_addr()) and goes linearly
+>>> - * through the source pixel, reading the pixels and converting it to
+>>> - * ARGB16161616 (see the pixel_read() callback). For rotate-90 and rotate-270,
+>>> - * the source pixels are not traversed linearly. The source pixels are queried
+>>> - * on each iteration in order to traverse the pixels vertically.
+>>> + * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
+>>>     */
+>>> -void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
+>>> +
+>>> +static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
+>>> +			       enum pixel_read_direction direction, int count,
+>>> +			       struct pixel_argb_u16 out_pixel[])
+>>>    {
+>>> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+>>> -	struct vkms_frame_info *frame_info = plane->frame_info;
+>>> -	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
+>>> -	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+>>> +	struct pixel_argb_u16 *end = out_pixel + count;
+>>> +	u8 *src_pixels;
+>>> +
+>>> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+>>> +
+>>> +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+>>> +
+>>> +	while (out_pixel < end) {
+>>> +		u8 *px = (u8 *)src_pixels;
+>>
+>> Why are you converting u8* to u8*? There are repetitions of this pattern
+>> in this patch.
+> 
+> I think it was to be consistent between all the conversion functions. They
+> are exactly the same, so having the casting (even useless one) at the same
+> place may help to understand the code.
+> 
+> I will remove this cast if you prefer.
 
--Akhil.
+I only suggested to remove as we are going to delete this function when
+we push [1]. So, I believe it's better to add as little code as
+possible.
+
+[1] 
+https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com/
+
+Best Regards,
+- Maíra
 
 > 
->> +	if (!msg)
->> +		return -ENOMEM;
->> +
->>  	if (adreno_is_a618(adreno_gpu))
->> -		a618_build_bw_table(&msg);
->> +		a618_build_bw_table(msg);
->>  	else if (adreno_is_a619(adreno_gpu))
->> -		a619_build_bw_table(&msg);
->> +		a619_build_bw_table(msg);
->>  	else if (adreno_is_a640_family(adreno_gpu))
->> -		a640_build_bw_table(&msg);
->> +		a640_build_bw_table(msg);
->>  	else if (adreno_is_a650(adreno_gpu))
->> -		a650_build_bw_table(&msg);
->> +		a650_build_bw_table(msg);
->>  	else if (adreno_is_7c3(adreno_gpu))
->> -		adreno_7c3_build_bw_table(&msg);
->> +		adreno_7c3_build_bw_table(msg);
->>  	else if (adreno_is_a660(adreno_gpu))
->> -		a660_build_bw_table(&msg);
->> +		a660_build_bw_table(msg);
->>  	else if (adreno_is_a690(adreno_gpu))
->> -		a690_build_bw_table(&msg);
->> +		a690_build_bw_table(msg);
->>  	else if (adreno_is_a730(adreno_gpu))
->> -		a730_build_bw_table(&msg);
->> +		a730_build_bw_table(msg);
->>  	else if (adreno_is_a740_family(adreno_gpu))
->> -		a740_build_bw_table(&msg);
->> +		a740_build_bw_table(msg);
->>  	else
->> -		a6xx_build_bw_table(&msg);
->> +		a6xx_build_bw_table(msg);
->> +
->> +	gmu->bw_table = msg;
->>  
->> -	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_BW_TABLE, &msg, sizeof(msg),
->> +send:
->> +	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_BW_TABLE, gmu->bw_table, sizeof(*(gmu->bw_table)),
->>  		NULL, 0);
->>  }
->>  
+>>> +		*out_pixel = argb_u16_from_u8888(px[3], px[2], px[1], px[0]);
+>>> +		out_pixel += 1;
+>>> +		src_pixels += step;
+>>> +	}
+>>> +}
+>>> +
+>>> +static void XRGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
+>>> +			       enum pixel_read_direction direction, int count,
+>>> +			       struct pixel_argb_u16 out_pixel[])
+>>> +{
+>>> +	struct pixel_argb_u16 *end = out_pixel + count;
+>>> +	u8 *src_pixels;
+>>> +
+>>> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+>>> +
+>>> +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+>>> +
+>>> +	while (out_pixel < end) {
+>>> +		u8 *px = (u8 *)src_pixels;
+>>> +		*out_pixel = argb_u16_from_u8888(255, px[2], px[1], px[0]);
+>>> +		out_pixel += 1;
+>>> +		src_pixels += step;
+>>> +	}
+>>> +}
+>>> +
+>>> +static void ARGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
+>>> +				   int y_start, enum pixel_read_direction direction, int count,
+>>> +				   struct pixel_argb_u16 out_pixel[])
+>>> +{
+>>> +	struct pixel_argb_u16 *end = out_pixel + count;
+>>> +	u8 *src_pixels;
+>>> +
+>>> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+>>> +
+>>> +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+>>> +
+>>> +	while (out_pixel < end) {
+>>> +		u16 *px = (u16 *)src_pixels;
+>>> +		*out_pixel = argb_u16_from_u16161616(px[3], px[2], px[1], px[0]);
+>>> +		out_pixel += 1;
+>>> +		src_pixels += step;
+>>> +	}
+>>> +}
+>>> +
+>>> +static void XRGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
+>>> +				   int y_start, enum pixel_read_direction direction, int count,
+>>> +				   struct pixel_argb_u16 out_pixel[])
+>>> +{
+>>> +	struct pixel_argb_u16 *end = out_pixel + count;
+>>> +	u8 *src_pixels;
+>>> +
+>>> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+>>> +
+>>> +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+>>> +
+>>> +	while (out_pixel < end) {
+>>> +		__le16 *px = (__le16 *)src_pixels;
+>>> +		*out_pixel = argb_u16_from_le16161616(cpu_to_le16(0xFFFF), px[2], px[1], px[0]);
+>>> +		out_pixel += 1;
+>>> +		src_pixels += step;
+>>> +	}
+>>> +}
+>>> +
+>>> +static void RGB565_read_line(const struct vkms_plane_state *plane, int x_start,
+>>> +			     int y_start, enum pixel_read_direction direction, int count,
+>>> +			     struct pixel_argb_u16 out_pixel[])
+>>> +{
+>>> +	struct pixel_argb_u16 *end = out_pixel + count;
+>>> +	u8 *src_pixels;
+>>> +
+>>> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+>>> -	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+>>> -		int x_pos = get_x_position(frame_info, limit, x);
+>>> +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+>>> -		if (drm_rotation_90_or_270(frame_info->rotation))
+>>> -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
+>>> -				+ frame_info->fb->format->cpp[0] * y;
+>>> +	while (out_pixel < end) {
+>>> +		__le16 *px = (__le16 *)src_pixels;
+>>> -		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
+>>> +		*out_pixel = argb_u16_from_RGB565(px);
+>>> +		out_pixel += 1;
+>>> +		src_pixels += step;
+>>>    	}
+>>>    }
+>>> @@ -359,25 +407,25 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+>>>    }
+>>>    /**
+>>> - * get_pixel_read_function() - Retrieve the correct read_pixel function for a specific
+>>> + * get_pixel_read_line_function() - Retrieve the correct read_line function for a specific
+>>>     * format. The returned pointer is NULL for unsupported pixel formats. The caller must ensure that
+>>>     * the pointer is valid before using it in a vkms_plane_state.
+>>>     *
+>>>     * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
+>>>     */
+>>> -pixel_read_t get_pixel_read_function(u32 format)
+>>> +pixel_read_line_t get_pixel_read_line_function(u32 format)
+>>>    {
+>>>    	switch (format) {
+>>>    	case DRM_FORMAT_ARGB8888:
+>>> -		return &ARGB8888_to_argb_u16;
+>>> +		return &ARGB8888_read_line;
+>>>    	case DRM_FORMAT_XRGB8888:
+>>> -		return &XRGB8888_to_argb_u16;
+>>> +		return &XRGB8888_read_line;
+>>>    	case DRM_FORMAT_ARGB16161616:
+>>> -		return &ARGB16161616_to_argb_u16;
+>>> +		return &ARGB16161616_read_line;
+>>>    	case DRM_FORMAT_XRGB16161616:
+>>> -		return &XRGB16161616_to_argb_u16;
+>>> +		return &XRGB16161616_read_line;
+>>>    	case DRM_FORMAT_RGB565:
+>>> -		return &RGB565_to_argb_u16;
+>>> +		return &RGB565_read_line;
+>>>    	default:
+>>>    		/*
+>>>    		 * This is a bug in vkms_plane_atomic_check(). All the supported
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+>>> index 3ecea4563254..8d2bef95ff79 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_formats.h
+>>> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
+>>> @@ -5,7 +5,7 @@
+>>>    #include "vkms_drv.h"
+>>> -pixel_read_t get_pixel_read_function(u32 format);
+>>> +pixel_read_line_t get_pixel_read_line_function(u32 format);
+>>>    pixel_write_t get_pixel_write_function(u32 format);
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+>>> index 10e9b23dab28..8875bed76410 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+>>> @@ -112,7 +112,6 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>>>    	frame_info = vkms_plane_state->frame_info;
+>>>    	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
+>>>    	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
+>>> -	memcpy(&frame_info->rotated, &new_state->dst, sizeof(struct drm_rect));
 >>
->> ---
->> base-commit: 74c374648ed08efb2ef339656f2764c28c046956
->> change-id: 20241024-stack-size-fix-28af7abd3fab
->>
->> Best regards,
->> -- 
->> Akhil P Oommen <quic_akhilpo@quicinc.com>
->>
+>> If you won't use rotated anymore, delete it from the struct.
 > 
+> It is already done in this patch.
+> 
+> Thanks for your reviews,
+> Louis Chauvet
+> 
+>> Best Regards,
+>> - Maíra
+>>
+>>>    	frame_info->fb = fb;
+>>>    	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+>>>    	drm_framebuffer_get(frame_info->fb);
+>>> @@ -122,10 +121,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>>>    									  DRM_MODE_REFLECT_X |
+>>>    									  DRM_MODE_REFLECT_Y);
+>>> -	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
+>>> -			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+>>> -	vkms_plane_state->pixel_read = get_pixel_read_function(fmt);
+>>> +	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
+>>>    }
+>>>    static int vkms_plane_atomic_check(struct drm_plane *plane,
+>>>
 
