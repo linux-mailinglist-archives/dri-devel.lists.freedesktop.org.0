@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B749B36D5
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 17:40:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B22E9B3711
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 17:50:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D99FB10E50F;
-	Mon, 28 Oct 2024 16:40:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C68F810E512;
+	Mon, 28 Oct 2024 16:50:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="YDPMWx+V";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pkI5kqhF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59AAF10E50F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 16:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=protonmail; t=1730133652; x=1730392852;
- bh=YnLp2twzv2TNQbo4aCFZTZoiRr0XaMjJP+UKxGSJsRk=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=YDPMWx+VopN7IYplxBpOGlkFuWwiT0GjcLnCz/I7w3zK8cYhr/x9MRkDkWtFKNbt0
- GuokZV2xiVMslVNXUso5BClJwe29PB0anTiGBGDxkAH4/4g/0Pdq/ZQYpn1tbsis8d
- Jh/j1593zuLLkEzL9LtnyXZiyk1dsrdn/4GOXE9o+SzVZclfjLV25zyy4eABWHjZXo
- ReRwqZJjW7aUN0dQyecLkqMMwEg4saP5paeE4yNMUL+uPOQp2W+WM/cuuDVY7VukL/
- p2OCHCd9MA/8rzOp1+hz9J9t+5YSuQPGA8qkRUx2Kdddk4PakB/P4Ex23rK+F2UQDU
- rqdNzkUVc3Qdw==
-Date: Mon, 28 Oct 2024 16:40:46 +0000
-To: Andy Yan <andyshrk@163.com>
-From: Piotr Zalewski <pZ010001011111@proton.me>
-Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- Daniel Stone <daniel@fooishbar.org>, Dragan Simic <dsimic@manjaro.org>,
- Diederik de Haas <didi.debian@cknow.org>
-Subject: Re:Re: [PATCH v6] rockchip/drm: vop2: add support for gamma LUT
-Message-ID: <-rVNN65kgfRzFJBJDIwQF3jNMfXIZFP8GibtUgB_p-eWGLBkNZhYFr-BXEas8IjjofHxWQUqNicUSTp5rb9XmuLi35XsDd0PzJPz79j-M-8=@proton.me>
-In-Reply-To: <2bb58a1c.6287.192d1dc9b2d.Coremail.andyshrk@163.com>
-References: <20241016223558.673145-2-pZ010001011111@proton.me>
- <DurUfF_0TBHKv4DHKIP3ggQh_85nRY0usYWn_fu_oJ45txO7dGKv-OK5rl6EDEPmX5l8WzrwPCzAvYz0xFPfeKGyx7enu1g-prsWIpilv88=@proton.me>
- <2bb58a1c.6287.192d1dc9b2d.Coremail.andyshrk@163.com>
-Feedback-ID: 53478694:user:proton
-X-Pm-Message-ID: 70c53b22f6b3d3f24ee6b0df1f6f75d1e7f29476
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 717D410E510;
+ Mon, 28 Oct 2024 16:50:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2D672A42A24;
+ Mon, 28 Oct 2024 16:48:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EDE5C4CEC7;
+ Mon, 28 Oct 2024 16:50:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730134233;
+ bh=pMWXPesuF8JzrcGMxw6QNKDodBCUrn/XJfWhJqOIi/k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=pkI5kqhFOL4hPrCJsofC2stUnspJjm6zGrt4OxWKdikOpGkx9D4nmXJx4C/VcJftq
+ mE/iv5zzaJNUwYeH+8UGSMffivBEWZTqJMxCYzZ/9RFDHN5GNWtEv594Vs8OqFbqFC
+ KvHQ6yoKZLdlFCOHSacP0wOL0jLUNBLI+n9RCK3vySApUKgsE0v84V1CxaSLOD4/et
+ Cwwgtu2Hp9Ae77Da0pXA4iasz1yvXST1obtG2ttbSY9QAIHmWR8QgQNkU9M3rHvNrv
+ o2jLzg4XdR80Z4O+4l7LuGU2IhXufItbN14hvCNEZt4ssz6b4CVBKdRM0a6Jlr6sbV
+ SgNclE/avtfMQ==
+Date: Mon, 28 Oct 2024 11:50:31 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v4 6/7] PCI: Allow drivers to control VF BAR size
+Message-ID: <20241028165031.GA1106195@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241025215038.3125626-7-michal.winiarski@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,33 +70,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, October 28th, 2024 at 7:42 AM, Andy Yan <andyshrk@163.com> wrote=
-:
+On Fri, Oct 25, 2024 at 11:50:37PM +0200, Michał Winiarski wrote:
+> Drivers could leverage the fact that the VF BAR MMIO reservation is
+> created for total number of VFs supported by the device by resizing the
+> BAR to larger size when smaller number of VFs is enabled.
+> 
+> Add a pci_iov_vf_bar_set_size() function to control the size and a
+> pci_iov_vf_bar_get_sizes() helper to get the VF BAR sizes that will
+> allow up to num_vfs to be successfully enabled with the current
+> underlying reservation size.
+> ...
 
-> Hi Piotr=EF=BC=8C
+> + * pci_iov_vf_bar_get_sizes - get VF BAR sizes that allow to create up to num_vfs
+> + * @dev: the PCI device
+> + * @resno: the resource number
+> + * @num_vfs: number of VFs
+> + *
+> + * Get the sizes of a VF resizable BAR that can fit up to num_vfs within the
+> + * resource that reserves the MMIO space (originally up to total_VFs) the as
+> + * bitmask defined in the spec (bit 0=1MB, bit 19=512GB).
 
-Hi Andy
+This sentence doesn't quite parse; something is missing around "the as".
 
-> Tested on top of Linux 6.12-rc5 with rk3566-box-demo in a buildroot + wes=
-ton environment:
-> weston --backend=3Ddrm-backend.so -i 0 --continue-without-input
-> weston-simple-egl
+I'm guessing you mean to say something about the return value being a
+bitmask of VF BAR sizes that can be accommodated if num_vfs are
+enabled?  If so, maybe combine it with the following paragraph:
 
-Thank you for testing it!
-
-> simple-egl will draw a triangle on the desktop.
-> After the patch applied=EF=BC=8Cthe triangle will flicker again and agian=
-=E3=80=82
-> So it break some function=E3=80=82
-
-Did you have gamma on? The screen flickered for me when I ran something=20
-writing gamma LUT frequently because of disable step I reckon.
-
-> I've been quite busy lately, and it will take some time before I can anal=
-yze what the specific reason is.
-
-Np, I will try to reproduce this behavior with weston on Pinetab2 in the
-meantime.
-
-Best Regards, Piotr Zalewski
-
+> + * Returns 0 if BAR isn't resizable.
+> + *
+> + */
+> +u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resno, int num_vfs)
+> +{
+> +	resource_size_t size;
+> +	u32 sizes;
+> +	int i;
+> +
+> +	sizes = pci_rebar_get_possible_sizes(dev, resno);
+> +	if (!sizes)
+> +		return 0;
+> +
+> +	while (sizes > 0) {
+> +		i = __fls(sizes);
+> +		size = pci_rebar_size_to_bytes(i);
+> +
+> +		if (size * num_vfs <= pci_resource_len(dev, resno))
+> +			break;
+> +
+> +		sizes &= ~BIT(i);
+> +	}
+> +
+> +	return sizes;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_iov_vf_bar_get_sizes);
