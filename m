@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416789B30BB
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 13:46:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 998789B30D6
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 13:47:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE0FE10E49E;
-	Mon, 28 Oct 2024 12:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B03910E4A0;
+	Mon, 28 Oct 2024 12:47:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JR5Dn2e1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cK6LDV7g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFF5610E4A7
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 12:46:25 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-539f72c913aso5383845e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 05:46:25 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5A310E4A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 12:47:22 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2fb3c3d5513so36271751fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 05:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730119584; x=1730724384; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1730119640; x=1730724440; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+aSTTKcsEues9Slud5u2I4oUCfkMRIvmSj7eb96RQ74=;
- b=JR5Dn2e1O6SWjkdgqdvm9iXB+WNG83UfskhPih5tW85Kh/rIC4GsjL5iOS0JuIFmzs
- sSSFAbpLfBqA2l1cro7znFlKv2vHqqNuV1Ou34mFtDxEX82VCiK6ITWwZ82I6ZnUEwn9
- oZGXFZYWbsKVggsVBO+a6dPP7HxlnwpT7kCd9JNARkzrM17PDY+nCOuwaGI//++Cb+X1
- YI5nnRwgeaNzcw+WNB1It61OVxUq5YOdntXVV48u2L1ehKSkOS4SmdZeuzk+75wXmvuz
- HewSiCx9VBzPcweNhondvG3xuUeeOStPtHj9kJ5m4hDChU7oYAQH9s4GLNkartww2Hi7
- nrfw==
+ bh=DeYQ+dNxtG99x0aQLlVj5mjHlCA8mn9SpdtFx66tefw=;
+ b=cK6LDV7gjnp+vX5yw/mr67C7lNwwCmjSGTGLSCBqCewWnYD/s7pYZQNzeJlHpFV1Rk
+ WHkTi/CGiwtJy0bI1UaGZqWlNjUabWeMJN+h//o/b6MMrOIRVud1XYd+bHeb47VbYYPX
+ Fdwq9ZedjShKJ9pyw61zdPwkTMj/gOgBYXtNKECyQyxwwEsHIi2+51xljk4wSgfLCwTU
+ smCFpbsWokoxS6qqFrLABAQokwCDLDoauLbdmLdZXgLt2CPgGXFiRco3pmOb2uyByFYD
+ e5jc7PbMpyer8y2nCrB2R1u0JtzlSLHfzewNKvC25JY7RN7gCNeoPSp8Owv4lFKlyWqv
+ GT4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730119584; x=1730724384;
+ d=1e100.net; s=20230601; t=1730119640; x=1730724440;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+aSTTKcsEues9Slud5u2I4oUCfkMRIvmSj7eb96RQ74=;
- b=rbwV3Cxt8o6pV8Y2iBYXt93+ZUdO2zt7riH6/pfMbV22KbWMeusZ2Jwuyg7e9EK8md
- CZlvZMoYMqh4ka1KFshsrgD+TyCyT8Xc8eyqgsb7OPMD2NJGTO+c2Ldo6OgvaicS8oI5
- RKHpD7V2OqBsuE8S33tMk4hxkB5UaXp/tS3WTxNGGJkrQLbrwdXG5eanMqt2HhfqO3I6
- V0dvPIuzT+u6Y6dJ1IJarEx5untbgluESaoxWumGGHASeyXSDOPSJnVvDjWQKO7mhvLG
- CY40WFlWx4IgvZLwm/6Q0z3J9q9fh5anm59cD2KamhJQVHWdbWJs+iijF7GS7Y52hqXY
- /tig==
+ bh=DeYQ+dNxtG99x0aQLlVj5mjHlCA8mn9SpdtFx66tefw=;
+ b=vMWB+RsUB5h2LM1lAYP4jGRauE6Vf1H3cmSPY81ShVh8DTqdkRqJI8Sf3tAmZ2axdi
+ ruD/ygPHBJV/OgZW+HO4oPclSaH9ceAScMmXG4n249v7zid4Ymm7ZRuiuoiNfz8sZiKu
+ s9OqjoL38Yt31qWTkiWBaV2Jut93mmpMokmNqLAwTFyfYz8thzk0r/oI/Jq54giJJ6A+
+ Ffy/WbTduoRfE3dhtS82vlBeYQwDTHAJmpQlq6Sp62pVJrFpGnsayS1ih2OyguI2IX3I
+ crX5mGph07kBtj8EuAlfE979vHJjjRx3LkJcwP5l1zPAX9Bn60I/+E/rJDsvmULtLoBe
+ I5HA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW+vj3rtU/RkBVTQDFtvUynGFen0cqRlNDoilSr6s5+au6Qkd78YS/YOhrejd06/iKqemY2quK8EzY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxAl4hSYEmdR3WEfpNCUEHq8h3n7q6cppNRXZYo8WV2MTkg2nLe
- NcMk3ChVV7BOfmenv1RInSCvd9TdWUIR6zit84tXuePRlATQdCXv8n4ec6Ro2AT3o63QuMppAA7
- jiW8d1aav7ekg8BmRB/b16gtt1fYhsuvRIFMIgw==
-X-Google-Smtp-Source: AGHT+IHKBOt7btwvvrMi093N8L0HSsxQd++C6ep3baxxUYVZr5QdfiIpCSS/MoaRNRGceN2TTToscxI5mPA8SlKe6OY=
-X-Received: by 2002:a05:6512:318d:b0:539:f65b:401 with SMTP id
- 2adb3069b0e04-53b34c463d9mr2861815e87.57.1730119583728; Mon, 28 Oct 2024
- 05:46:23 -0700 (PDT)
+ AJvYcCVtwELSXsW1AmkH1wxp3BqL9X01w3pS0r6zamAhyHxgLWwF281q66nQ2EvdMNnnHK+aR+VdWQbd/K0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyR5/UB7+uywWnDZlF+wAIIrzn11YJXxYN5i9xxSxZXue0ppKap
+ dm9Esu/I+rJcJwRCC5xfxv+k9RaPTMwFxAV23vRzYQ/19pYOJYgenOutJHeTgTb5h8GRP+YcxRa
+ MnHEBbAjtvRhSIuzE9nNWdDbAde2PFFtnxGJThA==
+X-Google-Smtp-Source: AGHT+IHOLCFQLPNhZz+uFzdwwXch/oc0CkWdrvmLFctGLdK8llDYUMinPepdGvS7x3K/TdVsln9gijrEdwd/6GxRpNo=
+X-Received: by 2002:a2e:1319:0:b0:2fb:60a0:f4e1 with SMTP id
+ 38308e7fff4ca-2fcbdfe8db2mr27240591fa.24.1730119640455; Mon, 28 Oct 2024
+ 05:47:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1730070570.git.jahau@rocketmail.com>
- <d92ef0036b66520bb6d1ec908165e776cf30c303.1730070570.git.jahau@rocketmail.com>
-In-Reply-To: <d92ef0036b66520bb6d1ec908165e776cf30c303.1730070570.git.jahau@rocketmail.com>
+ <30c154954a4e0f75d90f6ef6f393a5ba8b3ffea9.1730070570.git.jahau@rocketmail.com>
+In-Reply-To: <30c154954a4e0f75d90f6ef6f393a5ba8b3ffea9.1730070570.git.jahau@rocketmail.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 28 Oct 2024 13:46:11 +0100
-Message-ID: <CACRpkdZSxvLri-9CQQMuFP-Q4UswoJq4YDySWR0GXz0=+xcLiw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] drm/panel: samsung-s6e88a0-ams427ap24: Add initial
- driver
+Date: Mon, 28 Oct 2024 13:47:09 +0100
+Message-ID: <CACRpkdZfJqhUFrpv7BmMiuQYJJ8dveJyaKVh9dpVYbz-QDnKGg@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] drm/panel: samsung-s6e88a0-ams427ap24: Add
+ brightness control
 To: Jakob Hauser <jahau@rocketmail.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
@@ -91,48 +91,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Mon, Oct 28, 2024 at 12:42=E2=80=AFAM Jakob Hauser <jahau@rocketmail.com=
 > wrote:
 
-> This initial part of the panel driver was mostly generated by the
-> "linux-mdss-dsi-panel-driver-generator" tool [1], reading downstream
-> Android kernel file "dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi" [2=
-].
+> The tables for brightness to candela, aid and elvss were taken from downs=
+tream
+> kernel file "dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi" [1][2][3].
 >
-> On top of the generic output of the tool, there were a couple of changes
-> applied:
-> - Added mipi_dsi_dcs_set_display_on() to function s6e88a0_ams427ap24_on()=
-,
->   otherwise the display does not show up.
-> - In functions s6e88a0_ams427ap24_on() and s6e88a0_ams427ap24_off()
->   changed DSI commands to multi context and used "accum_err" returns.
-> - In functions s6e88a0_ams427ap24_on() and s6e88a0_ams427ap24_off() repla=
-ced
->   msleep() by mipi_dsi_msleep().
-> - The function s6e88a0_ams427ap24_get_modes() was changed to make use of
->   drm_connector_helper_get_modes_fixed(). This also required to include
->   drm/drm_probe_helper.h.
-> - In function s6e88a0_ams427ap24_probe() registring the regulators was ch=
-anged
->   to devm_regulator_bulk_get_const(). This required to change supplies in=
- struct
->   s6e88a0_ams427ap24 to a pointer.
-> - Removed bool "prepared" from struct s6e88a0_ams427ap24 and according pa=
-rts in
->   functions s6e88a0_ams427ap24_prepare() and s6e88a0_ams427ap24_unprepare=
-().
-> - Removed include <linux/of.h>, it's not needed.
-> - Added comments to the mipi_dsi_dcs_write_seq_multi() lines in function
->   s6e88a0_ams427ap24_on().
+> The gamma table gets generated in "ss_dsi_smart_dimming_S6E88A0_AMS427AP2=
+4.c" [4]
+> with hard-coded starting values. The function smart_dimming_init() [5] go=
+es
+> through the v{*}_adjustments, generate_gray_scale and gamma_init procedur=
+e.
+> Instead of calculating it manually, it's easier to compile a custom downs=
+tream
+> kernel with SMART_DIMMING_DEBUG enabled and read out dmesg early at boot.
 >
-> [1] https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-gener=
-ator
+> Selection of the values for aid and elvss are again according to downstre=
+am
+> file "dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi" [6][7].
+>
+> The set of write commands is guided by downstream file "ss_dsi_panel_comm=
+on.c" [8]
+> followed by "ss_dsi_panel_S6E88A0_AMS427AP24.c" [9].
+>
+> The dsi mode flag MIPI_DSI_MODE_VIDEO_NO_HFP prevents screen flickering w=
+hile
+> changing the brightness.
+>
+> [1] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/d=
+rivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP=
+24_qhd_octa_video.dtsi#L341-L397
 > [2] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/d=
 rivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP=
-24_qhd_octa_video.dtsi
+24_qhd_octa_video.dtsi#L214-L254
+> [3] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/d=
+rivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP=
+24_qhd_octa_video.dtsi#L301-L320
+> [4] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/d=
+rivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/ss_dsi_smart_dimming_S6E88=
+A0_AMS427AP24.c
+> [5] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/d=
+rivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/ss_dsi_smart_dimming_S6E88=
+A0_AMS427AP24.c#L1816-L1900
+> [6] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/d=
+rivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP=
+24_qhd_octa_video.dtsi#L256-L268
+> [7] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/d=
+rivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP=
+24_qhd_octa_video.dtsi#L322-L334
+> [8] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/d=
+rivers/video/msm/mdss/samsung/ss_dsi_panel_common.c#L1389-L1517
+> [9] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/d=
+rivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/ss_dsi_panel_S6E88A0_AMS42=
+7AP24.c#L666-L678
 >
 > Signed-off-by: Jakob Hauser <jahau@rocketmail.com>
-
-Comments instead of #defines?
-
-OK then, it's readable too.
+> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
