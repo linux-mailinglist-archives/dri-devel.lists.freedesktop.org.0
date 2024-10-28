@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316889B3205
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 14:45:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D009B3224
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 14:52:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE0010E4C2;
-	Mon, 28 Oct 2024 13:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E25C10E4BC;
+	Mon, 28 Oct 2024 13:52:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R28GZEZ5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uIwz3ov9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0511289EAE
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 13:45:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730123115; x=1761659115;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=NZMeTc4NBcdWPmOpSj5v7mg8vX2JelBmKRfkSt7Ffwk=;
- b=R28GZEZ5vjyKpQU7mYw5WafrU5B4Ym1RaqkNCmBHL+RdjTD1Tgrw3PDk
- JlVMwrMIvfXf2ltyzJRRTZm4yyLtFOfmQOY4iS2M316Ek4L3AHilC8Oav
- qDj+UZPRcOGq2+VmObfJBQYKYr0G1RMuQ7AG2Q7TVLE4J2GwiYfj9SfFz
- TmtMWIZoaijrlIZxU8BMELMpMMzxhfV8rcfBUW13uPIVUbxDk89KSZvOb
- lxIEc+LtnUrpWPLgWQisV/+l7ryutt73rMLOtXpEojqM5dn9aLPnTouXT
- ZeT6N2v4Ttd1M8+wxHjdjy44Q83xIwSnxpVXAuRgDIzQn3Vlp65E/jHyU w==;
-X-CSE-ConnectionGUID: SZgSf3ajS4KBrOKfi+wnhQ==
-X-CSE-MsgGUID: uxU5xXsVQwWp47FKRqc53A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29678037"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29678037"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2024 06:45:15 -0700
-X-CSE-ConnectionGUID: LkyKNHPzQHaKjy0wmC2SzQ==
-X-CSE-MsgGUID: POAbQg99SvC9s0O7gnBgMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; d="scan'208";a="81945457"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.21])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2024 06:45:10 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, "Syrjala, Ville"
- <ville.syrjala@intel.com>
-Cc: skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] drm/edid: convert drm_parse_hdmi_vsdb_video to use
- struct cea_db *
-In-Reply-To: <20241027075108.14273-2-vamsikrishna.brahmajosyula@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241027075108.14273-1-vamsikrishna.brahmajosyula@gmail.com>
- <20241027075108.14273-2-vamsikrishna.brahmajosyula@gmail.com>
-Date: Mon, 28 Oct 2024 15:45:07 +0200
-Message-ID: <87cyjkpcik.fsf@intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3D4910E4B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 13:52:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 20F22A41903;
+ Mon, 28 Oct 2024 13:50:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E33BC4CEC3;
+ Mon, 28 Oct 2024 13:52:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730123528;
+ bh=0wNjqv0ym0irSoWGdsBqYkqo3fWgWY7OGoig5WHCR/I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uIwz3ov9+H/dO5cRPpJSy8qfXTbCBQ0IMYXbNYWALlidad3+8mEAh1eonzDessjQ+
+ tYW2vQiDJa6Puyq48vBwjkmTigbof4W//hZOVEwe+6be2lK/8+tT+zwn0wUDiYEmKa
+ IRc5GiHnMn6y7lyfWVTqCYllINaROFWeCu7k0xI8PJaJ/m1t6EV53ormYgwoNLmXPb
+ C1rAQxM3txMXKnOTMXLHYDCZB5odDZ9DL+9bzXTWxByhaxDkl4cyTLU8qe59a8F06T
+ zkUjLFpN1SBegizTrzqwigNA0BMprI5bDIS4+ETicC7bTcnHHIQ0SXmKjNNU9Tnl05
+ W84sAecpk2/sQ==
+Date: Mon, 28 Oct 2024 14:52:05 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Cc: dri-devel@lists.freedesktop.org, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/bridge: tc358767: Fix odd pixel alignment
+Message-ID: <20241028-mellow-ostrich-of-novelty-dcf6e6@houat>
+References: <20241026041019.247606-1-marex@denx.de>
+ <20241028-prophetic-cuttlefish-of-fury-2e0ede@houat>
+ <0b1ffd41-f8e8-4e75-af35-0f410a34b3ae@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="la4rc4tc4ypp3emp"
+Content-Disposition: inline
+In-Reply-To: <0b1ffd41-f8e8-4e75-af35-0f410a34b3ae@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,58 +65,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 27 Oct 2024, Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com> wrote:
-> @@ -6320,19 +6321,20 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
->  
->  /* HDMI Vendor-Specific Data Block (HDMI VSDB, H14b-VSDB) */
->  static void
-> -drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const u8 *db)
-> +drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const struct cea_db *db)
->  {
->  	struct drm_display_info *info = &connector->display_info;
->  	u8 len = cea_db_payload_len(db);
-> +	const u8 *data = cea_db_data(db);
->  
->  	info->is_hdmi = true;
->  
-> -	info->source_physical_address = (db[4] << 8) | db[5];
-> +	info->source_physical_address = (data[3] << 8) | data[4];
->  
->  	if (len >= 6)
-> -		info->dvi_dual = db[6] & 1;
-> +		info->dvi_dual = data[5] & 1;
 
-Just commenting on one hunk, because it's a good example of the whole
-series I think.
+--la4rc4tc4ypp3emp
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/bridge: tc358767: Fix odd pixel alignment
+MIME-Version: 1.0
 
-The above is nice, because it improves the offset vs. length
-comparisons. Many of the old checks like above look like off-by-ones,
-when indexing from the beginning of the data block, not from the
-beginning of payload, and cea_db_payload_len() excludes the first byte.
+On Mon, Oct 28, 2024 at 01:36:58PM +0100, Marek Vasut wrote:
+> On 10/28/24 10:25 AM, Maxime Ripard wrote:
+> > On Sat, Oct 26, 2024 at 06:10:01AM +0200, Marek Vasut wrote:
+> > > Horizontal Timing Control0 Register 1/2 (HTIM01/HTIM02) Register
+> > > bitfields description state "These bits must be multiple of even
+> > > pixel". It is not possible to simply align every bitfield to the
+> > > nearest even pixel, because that would unalign the line width and
+> > > cause visible distortion. Instead, attempt to re-align the timings
+> > > such that the hardware requirement is fulfilled without changing
+> > > the line width if at all possible.
+> > >=20
+> > > Warn the user in case a panel with odd active pixel width or full
+> > > line width is used, this is not possible to support with this one
+> > > bridge.
+> > >=20
+> > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > ---
+> > > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> > > Cc: David Airlie <airlied@gmail.com>
+> > > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> > > Cc: Robert Foss <rfoss@kernel.org>
+> > > Cc: Simona Vetter <simona@ffwll.ch>
+> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > ---
+> > >   drivers/gpu/drm/bridge/tc358767.c | 63 ++++++++++++++++++++++++++++=
++--
+> > >   1 file changed, 60 insertions(+), 3 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/brid=
+ge/tc358767.c
+> > > index 0a6894498267e..7968183510e63 100644
+> > > --- a/drivers/gpu/drm/bridge/tc358767.c
+> > > +++ b/drivers/gpu/drm/bridge/tc358767.c
+> > > @@ -901,6 +901,63 @@ static int tc_set_common_video_mode(struct tc_da=
+ta *tc,
+> > >   	int vsync_len =3D mode->vsync_end - mode->vsync_start;
+> > >   	int ret;
+> > > +	/*
+> > > +	 * Horizontal Timing Control0 Register 1/2 (HTIM01/HTIM02) Register
+> > > +	 * bitfields description state "These bits must be multiple of even
+> > > +	 * pixel". It is not possible to simply align every bitfield to the
+> > > +	 * nearest even pixel, because that would unalign the line width.
+> > > +	 * Instead, attempt to re-align the timings.
+> > > +	 */
+> > > +
+> > > +	/* Panels with odd active pixel count are not supported by the brid=
+ge */
+> > > +	if (mode->hdisplay & 1)
+> > > +		dev_warn(tc->dev, "Panels with odd pixel count per active line are=
+ not supported.\n");
+> > > +
+> > > +	/* HPW is odd */
+> > > +	if (hsync_len & 1) {
+> > > +		/* Make sure there is some margin left */
+> > > +		if (left_margin >=3D 2) {
+> > > +			/* Align HPW up */
+> > > +			hsync_len++;
+> > > +			left_margin--;
+> > > +		} else if (right_margin >=3D 2) {
+> > > +			/* Align HPW up */
+> > > +			hsync_len++;
+> > > +			right_margin--;
+> > > +		} else if (hsync_len > 2) {
+> > > +			/* Align HPW down as last-resort option */
+> > > +			hsync_len--;
+> > > +			left_margin++;
+> > > +		} else {
+> > > +			dev_warn(tc->dev, "HPW is odd, not enough margins to compensate.\=
+n");
+> > > +		}
+> > > +	}
+> > > +
+> > > +	/* HBP is odd (HPW is surely even now) */
+> > > +	if (left_margin & 1) {
+> > > +		/* Make sure there is some margin left */
+> > > +		if (right_margin >=3D 2) {
+> > > +			/* Align HBP up */
+> > > +			left_margin++;
+> > > +			right_margin--;
+> > > +		} else if (hsync_len > 2) {
+> > > +			/* HPW is surely even and > 2, which means at least 4 */
+> > > +			hsync_len -=3D 2;
+> > > +			/*
+> > > +			 * Subtract 2 from sync pulse and distribute it between
+> > > +			 * margins. This aligns HBP and keeps HPW aligned.
+> > > +			 */
+> > > +			left_margin++;
+> > > +			right_margin++;
+> > > +		} else {
+> > > +			dev_warn(tc->dev, "HBP is odd, not enough pixels to compensate.\n=
+");
+> > > +		}
+> > > +	}
+> > > +
+> > > +	/* HFP is odd (HBP and HPW is surely even now) */
+> > > +	if (right_margin & 1)
+> > > +		dev_warn(tc->dev, "HFP is odd, panels with odd pixel count per ful=
+l line are not supported.\n");
+> > > +
+> >=20
+> > This should all happen in atomic_check, and reject modes that can't
+> > be supported.
 
-The main problem is that the specs are written with indexing from the
-beginning of the data block. For example, HDMI 1.4 table 8-16 defining
-the HDMI VSDB says source physical address is at byte offsets 4 and 5,
-and dvi dual flag at byte offset 6. That will no longer be the case in
-code. It gets tricky to review when you have to keep adjusting the
-offsets in your head. (I don't remember if there are specs that specify
-the offsets starting from the "actual" payload after all the meta stuff
-has been removed.)
+> No, that would reject panels I need to support and which can be
+> supported by this bridge.
 
-Now, if we accept having to do that mental acrobatics, why stop there?
-You also have extended tags (first payload byte is the tag), as well as
-vendor tags (first three payload bytes are the OUI). It begs the
-question whether there should be higher level data and length helpers
-that identify and remove the tags (including extended tags and OUI
-stuff). For example, the actual data for HDMI VSDB starts at payload
-offset 3, as the first three bytes are the HDMI OUI.
+Then drop the warnings, either you support it or you don't.
 
-What to do? Ville, thoughts?
+Maxime
 
+--la4rc4tc4ypp3emp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-BR,
-Jani.
+-----BEGIN PGP SIGNATURE-----
 
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZx+XAQAKCRAnX84Zoj2+
+dg/dAYDdAqjcnq9Ud7Vz1uWHNUpfiRGiuHZMTX0OID9YW3x98XxleRqRTsbv8vCt
+8lUFeagBfAqUJrPjlLDYN47CGCi60wyo7CW6vwqfN0l9qnjJTxD1x71FtRC8OOWW
+r/tExmwMTA==
+=alpV
+-----END PGP SIGNATURE-----
 
--- 
-Jani Nikula, Intel
+--la4rc4tc4ypp3emp--
