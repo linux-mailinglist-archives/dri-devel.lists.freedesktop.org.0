@@ -2,41 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01609B3929
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 19:29:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5743B9B399D
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 19:51:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0424E10E1F5;
-	Mon, 28 Oct 2024 18:29:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57A3710E242;
+	Mon, 28 Oct 2024 18:51:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="VBWZosyv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dx9Td8fN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com
- [91.218.175.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2E4F10E1F5
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 18:29:30 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730140168;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=ydnssr3n8sPSW3dssobBGKzcYiq5vxNbU7RccfcxEns=;
- b=VBWZosyv1D9zdSYBIq/GDrG/p9LrQjXfyaOauVc60S3bgMXnbF1JLOwXcCJq1ED/KAcT0X
- 0FLUkxdYU1pZl03Xtuy3aszxLgJIFSKmMVAU3TGvAU1nGt4T17utH60uAFIrvBgcBwjgH0
- CaXDYxNw7M9CI8FeML5yWtMLwwfDxzs=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org (open list:LIBRARY CODE),
- dri-devel@lists.freedesktop.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH] lib/scatterlist: Use sg_phys() helper
-Date: Tue, 29 Oct 2024 02:29:20 +0800
-Message-Id: <20241028182920.1025819-1-sui.jingfeng@linux.dev>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84CF110E242;
+ Mon, 28 Oct 2024 18:51:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730141511; x=1761677511;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uBlUnvzp1AbBOJrFVlJAunOvF7oh9ITKUSDVP8d4eOo=;
+ b=dx9Td8fNHeo3eC0E45vH9eReGr4SB9zTmiu3zaUYLBwGTr/EJrvC074x
+ 2d4pHUY9Nx1AbClU3pAWoaHH/NAej4pzUt6qBY6nvwRJ0QKGhImHujfTf
+ AudBks1ubK9zX2oZ/OV51ks0UsUKgZK5P90OlgTQJlaYCwb5JhxvIn2qr
+ AdTjpeZ8QrPku6hVyML9qtSedGOof3Bjudfp62N7f+rf9g++FOHu3g3lN
+ l5NkN+swIcJhunW2uDXJFE4sMz7NwbTXi8w7qwDUc5TsRlE1THW2tWmTL
+ 7+YZtfL7u5nliP3BIm46tB21biX9tR4Ky3sLo0U8KKA+fsofiMDL2PEQ7 A==;
+X-CSE-ConnectionGUID: gdvULlvSTkil+O/dV2V3oQ==
+X-CSE-MsgGUID: xrjeQtIgRvGG5wvZloWyww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29210276"
+X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; d="scan'208";a="29210276"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2024 11:51:51 -0700
+X-CSE-ConnectionGUID: Pw7BRuqqTJ6hPkUw+Im0hw==
+X-CSE-MsgGUID: ESEBidY/Seqiyd2S7ijMYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; d="scan'208";a="86497284"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.21])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2024 11:51:47 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Cc: jani.nikula@intel.com,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, xen-devel@lists.xenproject.org
+Subject: [PATCH v2 1/3] drm/xen: remove redundant initialization info print
+Date: Mon, 28 Oct 2024 20:51:39 +0200
+Message-Id: <20241028185141.3756176-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,35 +73,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This shorten the length of code in horizential direction, therefore is
-easier to read.
+drm_dev_register() already prints the same information on successful
+init. Remove the redundant prints.
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+
 ---
- lib/scatterlist.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/lib/scatterlist.c b/lib/scatterlist.c
-index 473b2646f71c..5bb6b8aff232 100644
---- a/lib/scatterlist.c
-+++ b/lib/scatterlist.c
-@@ -474,14 +474,14 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
- 		return -EOPNOTSUPP;
+Note: I prefer to merge this together with the next patch via
+drm-misc-next.
+
+Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: xen-devel@lists.xenproject.org
+---
+ drivers/gpu/drm/xen/xen_drm_front.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/xen/xen_drm_front.c b/drivers/gpu/drm/xen/xen_drm_front.c
+index aab79c5e34c2..931d855bfbe8 100644
+--- a/drivers/gpu/drm/xen/xen_drm_front.c
++++ b/drivers/gpu/drm/xen/xen_drm_front.c
+@@ -525,11 +525,6 @@ static int xen_drm_drv_init(struct xen_drm_front_info *front_info)
+ 	if (ret)
+ 		goto fail_register;
  
- 	if (sgt_append->prv) {
--		unsigned long next_pfn = (page_to_phys(sg_page(sgt_append->prv)) +
--			sgt_append->prv->offset + sgt_append->prv->length) / PAGE_SIZE;
-+		unsigned long next_pfn;
+-	DRM_INFO("Initialized %s %d.%d.%d %s on minor %d\n",
+-		 xen_drm_driver.name, xen_drm_driver.major,
+-		 xen_drm_driver.minor, xen_drm_driver.patchlevel,
+-		 xen_drm_driver.date, drm_dev->primary->index);
+-
+ 	return 0;
  
- 		if (WARN_ON(offset))
- 			return -EINVAL;
- 
- 		/* Merge contiguous pages into the last SG */
- 		prv_len = sgt_append->prv->length;
-+		next_pfn = (sg_phys(sgt_append->prv) + prv_len) / PAGE_SIZE;
- 		if (page_to_pfn(pages[0]) == next_pfn) {
- 			last_pg = pfn_to_page(next_pfn - 1);
- 			while (n_pages && pages_are_mergeable(pages[0], last_pg)) {
+ fail_register:
 -- 
-2.34.1
+2.39.5
 
