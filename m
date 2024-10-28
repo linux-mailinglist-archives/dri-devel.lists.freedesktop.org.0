@@ -2,68 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1ABB9B3B28
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 21:14:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98C59B3BB3
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 21:32:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA97C10E383;
-	Mon, 28 Oct 2024 20:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51F6A10E21E;
+	Mon, 28 Oct 2024 20:32:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="D8d5fJF9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="njavdh9u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13C8710E383
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 20:14:20 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-2e2e6a1042dso3658021a91.2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 13:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1730146460; x=1730751260;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/wMdSkztU7T8mABeBV/Ugq2DWDFLQWJ8jdwvrOSXq3Q=;
- b=D8d5fJF9TxiyX6u3ZDAYQ6DWu5VItiRAfGNFLYHtF/qzB55KoAcQxtoWDtOHYhdLK6
- /WSRjXr3WYS2T4yfa0Xlxk/pQ+ZFk+rRf9IIHd1CAHqdZ3QxSpsWsED23AXyV79mxOQK
- DunvajiZfhR3Yof0zVl0uLXa4uHpipeOay0Hk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730146460; x=1730751260;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/wMdSkztU7T8mABeBV/Ugq2DWDFLQWJ8jdwvrOSXq3Q=;
- b=eF0aPbWarYUTM5+5OKhqDBe+JbWWlx5yMTiEDXOmKnG7HSugAzynNbP2R1LzL2gNtw
- FQ32g7bRgQHcIxp+ltBKorRhnmLzxIYTRUuAr/ulmgMg4FdRtdq8TD10XWp7t9m/WYHN
- CkresaEZI4ZtTn7E5ms9shFFQLX6QUFwfx1/cKyrneTIjllAICf0rLtkAVPyJFcKdy1X
- OBODxbq21d6610LuEu46ea8f+nN7/rEJHS1hcOn9IGhht3zJxB+sVwqyflorxYfVyiSS
- 4BrU6mk2sJEPQBb5Cago/PIrJY75roxfSLLL+ci7b287vRkYMMmmBbwNERKR25fVaYeo
- VAFg==
-X-Gm-Message-State: AOJu0YxixU1mbRHcQHGe42bzHcjs/QchXv7EIuT7KeIGRky+dfCIODm3
- CigTE3L39orgEW4TnvmGoqGgg5PouDh4f394dsi+huLLeMCBSkdLuYQp3JER1GFccQVluHQWadr
- Ai5lqSb8tpxVqL6EP7UEcXyJ1if4GHMVLfJwvcQPKEslRuj7YgbDrx4ksaUaIKCYN2ka0vsX/YY
- ytMRKYBsUeDEOVnR9955cuTtoGy9M0czSsB4X6mxisPCgRobKdmg==
-X-Google-Smtp-Source: AGHT+IGMKRkh1mfkyIAomTjiVrDwn/ikKJvhf1fL4ocakF+mISLornbXgrVop4rTyTuPg0lormM4Pw==
-X-Received: by 2002:a17:90b:1d91:b0:2e5:e269:1b5a with SMTP id
- 98e67ed59e1d1-2e8f11e9145mr9557699a91.41.1730146459578; 
- Mon, 28 Oct 2024 13:14:19 -0700 (PDT)
-Received: from mtt-opossum.dhcp.broadcom.net ([192.19.144.250])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2e8e374998fsm7784248a91.45.2024.10.28.13.14.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2024 13:14:19 -0700 (PDT)
-From: Ian Forbes <ian.forbes@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: bcm-kernel-feedback-list@broadcom.com, ian.forbes@broadcom.com,
- zack.rusin@broadcom.com, martin.krastev@broadcom.com,
- maaz.mombasawala@broadcom.com
-Subject: [PATCH] drm/vmwgfx: Add common resolutions to the connector mode list
-Date: Mon, 28 Oct 2024 15:14:12 -0500
-Message-Id: <20241028201412.576163-1-ian.forbes@broadcom.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5ED10E21E
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 20:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730147565; x=1761683565;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GXke4S11OGUxM+oXTk5LOHFA3kzYd2kP62er2e1iwlQ=;
+ b=njavdh9uh+JDE/1B5JBBVq5VKjQOSPorKWUxiq2eep3MDJfvDDXoI4kE
+ mLEDkcMWzIINabYlENVRC+pAseVX87fd+scuBqYBAs2VgnYSmDdP8830g
+ itWxNQ6DD55VvbRM4XG+q9jDGx46jvj2tQuiTY5dgpIhTZqQ84Vdv9Rdb
+ tD+vKyjljyykB0nSsrvCtiZ6JzhM55w1OyQtnH2WEz7+jB41p1p6LwASO
+ tnXolmRJ/KyTRLWo8r2V3s/fUqyM2vCw3t8zRMNiIzfeg5j8lySzmoyhy
+ VYI+pd3AI/Dr0p7rR2D2BdRA7giCrj+Zmc66Mvo3wU+Ep/CrcZmd5Kx03 Q==;
+X-CSE-ConnectionGUID: 3Aoshf83RYeXfbfbnC/X6g==
+X-CSE-MsgGUID: RcI45bLnRtm73H+luti/rg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="41126942"
+X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; d="scan'208";a="41126942"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2024 13:32:25 -0700
+X-CSE-ConnectionGUID: mq1v9KTKR4O+iffjbSkq9A==
+X-CSE-MsgGUID: 8efRSY0JSr+enrf6CYiT8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; d="scan'208";a="82148253"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa007.jf.intel.com with ESMTP; 28 Oct 2024 13:32:23 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t5WPU-000cqq-1O;
+ Mon, 28 Oct 2024 20:32:20 +0000
+Date: Tue, 29 Oct 2024 04:31:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
+ linux-fbdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ thomas.zimmermann@suse.de,
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>
+Subject: Re: [PATCH] fbdev: udl: Make CONFIG_FB_DEVICE optional
+Message-ID: <202410290452.XKXQkwp1-lkp@intel.com>
+References: <20241025092538.38339-1-gonzalo.silvalde@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241025092538.38339-1-gonzalo.silvalde@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,76 +72,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We replaced our custom list of resolutions with the noedid list, which is
-based on the VESA DMT standard, in the referenced fixes commit. The reason
-for this was that the user can technically set any resolution they want by
-using Autofit or the vmwgfxctl utility.
+Hi Gonzalo,
 
-Unfortunately the Autofit feature is a global setting that is applied to
-all VMs running in Workstation and some users preferred to set the mode
-manually on certain VMs. Additionally the DMT standard does not include a
-number of modern resolutions as it was last updated in 2013 and has since
-been superseded.
+kernel test robot noticed the following build warnings:
 
-This commit adds back some of the removed modes and adds some additional
-common ones.
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-tip/drm-tip linus/master v6.12-rc5 next-20241028]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Fixes: 935f795045a6 ("drm/vmwgfx: Refactor drm connector probing for display modes")
-Closes: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2081803
-Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 31 ++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gonzalo-Silvalde-Blanco/fbdev-udl-Make-CONFIG_FB_DEVICE-optional/20241025-172653
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241025092538.38339-1-gonzalo.silvalde%40gmail.com
+patch subject: [PATCH] fbdev: udl: Make CONFIG_FB_DEVICE optional
+config: riscv-randconfig-r073-20241029 (https://download.01.org/0day-ci/archive/20241029/202410290452.XKXQkwp1-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290452.XKXQkwp1-lkp@intel.com/reproduce)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index f39bf992364d..879b78543dee 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -2681,6 +2681,16 @@ enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
- 	return MODE_OK;
- }
- 
-+/*
-+ * Common modes not present in the VESA DMT standard or assigned a VIC.
-+ */
-+static struct {
-+	int width;
-+	int height;
-+} common_modes[] = {	{2560, 1440}, // QHD
-+			{3440, 1440}, // UWQHD
-+			{3840, 2400}}; // WQUXGA
-+
- /**
-  * vmw_connector_get_modes - implements drm_connector_helper_funcs.get_modes callback
-  *
-@@ -2725,7 +2735,26 @@ int vmw_connector_get_modes(struct drm_connector *connector)
- 		max_height = min(dev_priv->stdu_max_height, max_height);
- 	}
- 
--	num_modes = 1 + drm_add_modes_noedid(connector, max_width, max_height);
-+	num_modes = 1;
-+
-+	mode = drm_display_mode_from_cea_vic(dev, 97); // 4K UHD 16:9
-+	if (mode) {
-+		drm_mode_probed_add(connector, mode);
-+		num_modes++;
-+	}
-+
-+	for (int i = 0; i < ARRAY_SIZE(common_modes); i++) {
-+		mode = drm_cvt_mode(dev, common_modes[i].width,
-+				    common_modes[i].height,
-+				    60, true, false, false);
-+		if (mode) {
-+			mode->type |= DRM_MODE_TYPE_DRIVER;
-+			drm_mode_probed_add(connector, mode);
-+			num_modes++;
-+		}
-+	}
-+
-+	num_modes += drm_add_modes_noedid(connector, max_width, max_height);
- 
- 	return num_modes;
- }
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410290452.XKXQkwp1-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/video/fbdev/udlfb.c:19:
+   In file included from include/linux/usb.h:16:
+   In file included from include/linux/interrupt.h:22:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/video/fbdev/udlfb.c:1485:35: warning: unused variable 'edid_attr' [-Wunused-const-variable]
+    1485 | static const struct bin_attribute edid_attr = {
+         |                                   ^~~~~~~~~
+>> drivers/video/fbdev/udlfb.c:1493:38: warning: unused variable 'fb_device_attrs' [-Wunused-const-variable]
+    1493 | static const struct device_attribute fb_device_attrs[] = {
+         |                                      ^~~~~~~~~~~~~~~
+   3 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +/edid_attr +1485 drivers/video/fbdev/udlfb.c
+
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1484  
+598b2eedfc3fbe drivers/video/fbdev/udlfb.c   Bhumika Goyal      2017-08-18 @1485  static const struct bin_attribute edid_attr = {
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1486  	.attr.name = "edid",
+8ef8cc4fca4a92 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1487  	.attr.mode = 0666,
+b9f03a3cd06c6f drivers/video/udlfb.c         Paul Mundt         2011-01-06  1488  	.size = EDID_LENGTH,
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1489  	.read = edid_show,
+8ef8cc4fca4a92 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1490  	.write = edid_store
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1491  };
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1492  
+fa738a5c4b2a6b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16 @1493  static const struct device_attribute fb_device_attrs[] = {
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1494  	__ATTR_RO(metrics_bytes_rendered),
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1495  	__ATTR_RO(metrics_bytes_identical),
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1496  	__ATTR_RO(metrics_bytes_sent),
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1497  	__ATTR_RO(metrics_cpu_kcycles_used),
+926c11151e3b82 drivers/staging/udlfb/udlfb.c Greg Kroah-Hartman 2010-11-18  1498  	__ATTR(metrics_reset, S_IWUSR, NULL, metrics_reset_store),
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1499  };
+7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1500  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
