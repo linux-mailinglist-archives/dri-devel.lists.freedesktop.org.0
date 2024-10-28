@@ -2,76 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0522E9B2BF4
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 10:51:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB159B2C00
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2024 10:52:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E51D510E44C;
-	Mon, 28 Oct 2024 09:51:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FDD910E453;
+	Mon, 28 Oct 2024 09:52:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="PIdfLF6x";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="iS3C3XX8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5167410E442
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2024 09:50:43 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B2DCE1BF209;
- Mon, 28 Oct 2024 09:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1730109041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HMje/jaMOBOoFF5sU1fzBOV+Al4oCoFrkcWCIyXxAMc=;
- b=PIdfLF6xV2QjEBH9FyJ/Z/waKAEdyYQeDZdYj0CHhgAeh3Fm02NSySlyHgVKlEIllLCEUy
- 4tYdBuPpBbzSmgNYz7tTV1vRSc3wCGyAlIoOrj9yMMSC9FPI8seDyr+cBnbQxA5nvXNprj
- 0dxcqprRg2KA2al2amKwyO3Mwgi7l7jzAvkuZg87DXhMXjR2oB0ay+XqhE+be9BsUvdoC1
- KV6aQEzH0l6QKZb90OmeHKTcxHt2TiMKbkmE1rxi/ZAVwRX49Ck9C2/QxZNNTJz8W3Kcgb
- ZSuroVB7kactx9+d5z4U6mP5wDU/LISDZeidM6aSor7LNah7dRlTZMs69JAz+A==
-Date: Mon, 28 Oct 2024 10:50:39 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
-Subject: Re: [PATCH RESEND v2 3/8] drm/vkms: Add support for ARGB16161616
- formats
-Message-ID: <Zx9ebwyYnUDs7a-A@fedora>
-Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- 20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
-References: <20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com>
- <20241007-b4-new-color-formats-v2-3-d47da50d4674@bootlin.com>
- <d61fc345-df97-498b-ab2a-49541d88354a@riseup.net>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 316F010E454;
+ Mon, 28 Oct 2024 09:52:53 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49RMuLuk022812;
+ Mon, 28 Oct 2024 09:52:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ UkTxf4gaD036X0C6z7xJty9Jiq0rYK5X0z2wJjj4Rhs=; b=iS3C3XX8BTpl06zk
+ 0o5qPYFsIRWeMvJp2fGsw24Za5j+LO3Y3y8t0BQGsJ/gAFZl/sQqHo4/vLW8gUYB
+ pAGev9niTlTnBNuhe3EkDr1nRCS+MyT03owpE2QGVAgCytyugPLxUFVZ1ntnr3JP
+ 2axj+zGnYwfDZ/XqG94yAzTH2QNsV5Q5/50HsAzRLpxby4ErA+BSxGOtL27dq05M
+ GC1Af5fxrtA05YsLzgYvpJxzgpDy9WYXjP+KNcDn+c1BEvihwl3YN9POzBQuAgcY
+ Qvy4UvqjkLaGpe3bT2ywBlLt2iLgJcMPeV3Xpdy+q+yoXsoH1raFfo4LQvcA835h
+ y3Fk+Q==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gqe5vd7b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Oct 2024 09:52:44 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49S9qg0d025032
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Oct 2024 09:52:42 GMT
+Received: from [10.216.3.65] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 28 Oct
+ 2024 02:52:37 -0700
+Message-ID: <6b7c2ae7-3210-4d57-a7b0-2efea594b2b9@quicinc.com>
+Date: Mon, 28 Oct 2024 15:22:35 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d61fc345-df97-498b-ab2a-49541d88354a@riseup.net>
-X-GND-Sasl: louis.chauvet@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm/a6xx: Fix excessive stack usage
+To: Arnd Bergmann <arnd@kernel.org>, Rob Clark <robdclark@gmail.com>, "Sean
+ Paul" <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Abhinav
+ Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Dave Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>, Nick
+ Desaulniers <ndesaulniers@google.com>, "Bill Wendling" <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <llvm@lists.linux.dev>
+References: <20241027-stack-size-fix-v1-1-764e2e3566cb@quicinc.com>
+ <3fb376b3-2db7-4730-a2e1-958f1ddd9f5c@app.fastmail.com>
+Content-Language: en-US
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <3fb376b3-2db7-4730-a2e1-958f1ddd9f5c@app.fastmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: RLGzJP7jIKKYA0-T9wAJAa24yIyjvz53
+X-Proofpoint-ORIG-GUID: RLGzJP7jIKKYA0-T9wAJAa24yIyjvz53
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0
+ phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ priorityscore=1501 impostorscore=0 mlxscore=0 clxscore=1015
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410280080
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,84 +98,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/10/24 - 11:15, Maíra Canal wrote:
-> Hi Louis,
+On 10/28/2024 12:13 AM, Arnd Bergmann wrote:
+> On Sun, Oct 27, 2024, at 18:05, Akhil P Oommen wrote:
+>> Clang-19 and above sometimes end up with multiple copies of the large
+>> a6xx_hfi_msg_bw_table structure on the stack. The problem is that
+>> a6xx_hfi_send_bw_table() calls a number of device specific functions to
+>> fill the structure, but these create another copy of the structure on
+>> the stack which gets copied to the first.
+>>
+>> If the functions get inlined, that busts the warning limit:
+>>
+>> drivers/gpu/drm/msm/adreno/a6xx_hfi.c:631:12: error: stack frame size 
+>> (1032) exceeds limit (1024) in 'a6xx_hfi_send_bw_table' 
+>> [-Werror,-Wframe-larger-than]
+>>
+>> Fix this by kmalloc-ating struct a6xx_hfi_msg_bw_table instead of using
+>> the stack. Also, use this opportunity to skip re-initializing this table
+>> to optimize gpu wake up latency.
+>>
+>> Cc: Arnd Bergmann <arnd@kernel.org>
 > 
-> On 07/10/24 13:46, Louis Chauvet wrote:
-> > The formats XRGB16161616 and ARGB16161616 were already supported.
-> > Add the support for:
-> > - ABGR16161616
-> > - XBGR16161616
-> > 
-> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > ---
-> >   drivers/gpu/drm/vkms/vkms_formats.c | 11 ++++++++---
-> >   drivers/gpu/drm/vkms/vkms_plane.c   |  2 ++
-> >   2 files changed, 10 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> > index b5a38f70c62b..c03a481f5005 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> > @@ -441,9 +441,10 @@ READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
-> >   READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
-> >   READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
-> > -
-> > -READ_LINE_16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0]);
-> > -READ_LINE_16161616(XRGB16161616_read_line, px, 0xFFFF, px[2], px[1], px[0]);
+> Please change this to "Reported-by:"
+
+Sure.
+
 > 
-> Please, correct the error in the patch that introduced. Don't fix it in
-> an unrelated patch.
-
-Thanks! 
- 
-> > +READ_LINE_16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0])
-> > +READ_LINE_16161616(ABGR16161616_read_line, px, px[3], px[0], px[1], px[2])
-> > +READ_LINE_16161616(XRGB16161616_read_line, px, 0xFFFF, px[2], px[1], px[0])
+> The patch looks correct to me, just one idea for improvement.
 > 
-> Please, be consistent in the use of decimal numbers and hexadecimal
-> number. If you prefer to use hexadecimal, don't use 255, use 0xFF.
-
-I will change everything to hexadecimal for the v2.
- 
-> > +READ_LINE_16161616(XBGR16161616_read_line, px, 0xFFFF, px[0], px[1], px[2])
+>> b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+>> index 94b6c5cab6f4..b4a79f88ccf4 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+>> @@ -99,6 +99,7 @@ struct a6xx_gmu {
+>>  	struct completion pd_gate;
+>>
+>>  	struct qmp *qmp;
+>> +	struct a6xx_hfi_msg_bw_table *bw_table;
+>>  };
 > 
-> Are you using tests to check the new formats?
-
-I need to check which ones, but I think yes.
-
-Thanks,
-Louis Chauvet
-
-> Best Regards,
-> - Maíra
+> I think the bw_table is better just embedded
+> in here rather than referenced as a pointer:
 > 
-> >   READ_LINE(RGB565_read_line, px, __le16, argb_u16_from_RGB565, px)
-> > @@ -659,8 +660,12 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
-> >   		return &BGRX8888_read_line;
-> >   	case DRM_FORMAT_ARGB16161616:
-> >   		return &ARGB16161616_read_line;
-> > +	case DRM_FORMAT_ABGR16161616:
-> > +		return &ABGR16161616_read_line;
-> >   	case DRM_FORMAT_XRGB16161616:
-> >   		return &XRGB16161616_read_line;
-> > +	case DRM_FORMAT_XBGR16161616:
-> > +		return &XBGR16161616_read_line;
-> >   	case DRM_FORMAT_RGB565:
-> >   		return &RGB565_read_line;
-> >   	case DRM_FORMAT_NV12:
-> > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> > index 941a6e92a040..1e971c7760d9 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> > @@ -22,7 +22,9 @@ static const u32 vkms_formats[] = {
-> >   	DRM_FORMAT_RGBX8888,
-> >   	DRM_FORMAT_BGRX8888,
-> >   	DRM_FORMAT_XRGB16161616,
-> > +	DRM_FORMAT_XBGR16161616,
-> >   	DRM_FORMAT_ARGB16161616,
-> > +	DRM_FORMAT_ABGR16161616,
-> >   	DRM_FORMAT_RGB565,
-> >   	DRM_FORMAT_NV12,
-> >   	DRM_FORMAT_NV16,
-> > 
+There are some low tier chipsets with relatively lower RAM size that
+doesn't require this table. So, dynamically allocating this here helps
+to save 640 bytes (minus the overhead of tracking).
+
+-Akhil
+
+>> +	if (gmu->bw_table)
+>> +		goto send;
+>> +
+>> +	msg = devm_kzalloc(gmu->dev, sizeof(*msg), GFP_KERNEL);
+>> +	if (!msg)
+>> +		return -ENOMEM;
+> 
+> It looked like it's always allocated here when the device
+> is up, so you can avoid the extra overhead for keeping
+> track of the allocation.
+> 
+>       Arnd
+
