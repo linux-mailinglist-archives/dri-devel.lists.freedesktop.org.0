@@ -2,86 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A7D9B5389
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 21:28:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906FC9B53F1
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 21:38:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7CFC10E6FC;
-	Tue, 29 Oct 2024 20:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F176410E6F8;
+	Tue, 29 Oct 2024 20:38:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jx/sTk/v";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ya5wx5nD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 818F510E6FA
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 20:28:36 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-539e13375d3so6675546e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 13:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730233715; x=1730838515; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=SEtPoch1KoR98uLkD2M/MwAujNigB9ri8LwRUBc+TqU=;
- b=jx/sTk/vAOkPqyXxdyGh0c09inmDjcG1OMm/zfRJyzCjxLyKV6y3V8sg/6ZeX4KRqj
- 64bOG7y9P2GAuBJhDtk9+lrU/iX5cjHzzpu+zKaBBmBcy8erPdzghbxV4UgrjKV0hWy1
- bX0Es1xF0BlZGF7j+tVfmQyt0IIqpRhIbTShoaYf4uZhxxm81lrOyYHVBvXKNiT1jaav
- Aq1yH15bestuNOz1fgYKD9+iqFEtTdvTyq0iGeFZP0Swzy7okr7g+il0t6qnu2xLAFTw
- ocIJZOarMxTyEoU2iQVc5i1ZOhjimoQADstLqhHLN7HNNDCBKzUuBOqXhNcQEiwKM2UC
- tj1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730233715; x=1730838515;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SEtPoch1KoR98uLkD2M/MwAujNigB9ri8LwRUBc+TqU=;
- b=wkBSMI7hfpaLcdpDluhOfUz0ht5xFycmmqG59uX+kDw6q1lS65piTuk7pntOxmboe4
- N2+ES43ybkh/ykMv5qIfvpNg4+on8UYDfgJd+qsS9L6tpfx2iHg9pkmjnx23PLfMINat
- KAcCt6lJNBi1u8qm60FNrhlZnJQAV08gvFVmer7DDN1czdTD1xo4hNUxYyp/NbF71F8e
- O9xc2Pqx1nGczNgWjfcS3XG7p/1vZFkMnGbnjRajFrfHt7f2OzAVX380rsDMXKCBTQ1l
- PErs511fWeiCzO/RfoxjKbbY8r4V90d4fq+LZakh7wwZdYUV/T/WDsv4+upThamBhU0B
- 8PMw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXTsXM8jnDlEmbJCwO5hVU+uG3cSQiuCcNkX/voeuZ7/0cfdy+5JO/7DX83SGoOCq/FUAgKZzfU9Ac=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxqW5DsQSbWWBDwNuds65z1lT1O5/7g9zd/XBsllTcCxMhcBJnF
- kP3cbx5V0Q7L32/s9GF1ix8pTgTAzVWQ3tPZInEVxw5AB+0y/XY+tWk2GqZ+YOE=
-X-Google-Smtp-Source: AGHT+IERcizDS9gxoPr08iGXhgpfd8+mcHYlosMRiOwuvcl9jqLkC4m+bfUVOpVFHaRSyvQMCWY9Zw==
-X-Received: by 2002:a05:6512:1310:b0:535:d4e6:14e2 with SMTP id
- 2adb3069b0e04-53b348f1399mr7054410e87.36.1730233714555; 
- Tue, 29 Oct 2024 13:28:34 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53bb81a597fsm46449e87.96.2024.10.29.13.28.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2024 13:28:34 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 29 Oct 2024 22:28:26 +0200
-Subject: [PATCH v2 3/3] drm/msm/dp: tidy up platform data names
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A04510E3AD;
+ Tue, 29 Oct 2024 20:38:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730234312; x=1761770312;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=6okHm/7AGGiIgVtiEfCGzhiqT2UdVm/K9eRG9HnO6hU=;
+ b=Ya5wx5nDf2b7YWAx22LT4WgaAUe/cAbiKmcYao91PSzrgTebcoM5YYEV
+ ClY5XNw8WNWvs43jS9fkNjiQ5oVugH0BGk/HmFtAwX3z3+OahL4iBPvDG
+ Mdue5QiXwp4mmys/YmvqACMKXWpy8+IYNY2vMxeOi5vVOyElH4x5urbXj
+ lv/spN1py0qzu1hR7xlBRZW+MJdALTaaS7nCo+G/TAhy2n2suc2RGfAcj
+ 8NAEgO8nixPHO2YpTh7WR/Rlxi3uHYbyNbp3pYLh0fDqLe6OhOIZFFYxG
+ GEcKGE4IBzCEPa4PXhRbShPv6JHLaEzdNwppYfkl+hGbtbN4kdE5eGcyE g==;
+X-CSE-ConnectionGUID: zu/Ke2ciT66rmRN6rKPoqA==
+X-CSE-MsgGUID: axrBxF/dRxy1pBbgz1sEeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="40518711"
+X-IronPort-AV: E=Sophos;i="6.11,243,1725346800"; d="scan'208";a="40518711"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2024 13:38:31 -0700
+X-CSE-ConnectionGUID: Nsb/u+yvSCeXr6hmL5ZO2A==
+X-CSE-MsgGUID: Wum6oC0bTZC6i0saa0y+hQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="86830630"
+Received: from kfilipek-mobl.ger.corp.intel.com (HELO [10.245.119.69])
+ ([10.245.119.69])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2024 13:38:28 -0700
+Message-ID: <84a9090c-a226-4c74-b4a5-2449558a3b9f@linux.intel.com>
+Date: Tue, 29 Oct 2024 21:38:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] accel/ivpu: remove DRIVER_DATE conditional
+ drm_driver init
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20241028185141.3756176-1-jani.nikula@intel.com>
+ <20241028185141.3756176-2-jani.nikula@intel.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20241028185141.3756176-2-jani.nikula@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241029-msm-dp-rename-v2-3-13c5c03fad44@linaro.org>
-References: <20241029-msm-dp-rename-v2-0-13c5c03fad44@linaro.org>
-In-Reply-To: <20241029-msm-dp-rename-v2-0-13c5c03fad44@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4881;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=0CfbxTye5gSogyDuujv60SUYTMbj7IHTroKhJCVLqZY=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnIUVsQmH5ZyvBTVveOX4cpYYZmmle+02lT6ir+
- LVDzfff9taJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZyFFbAAKCRCLPIo+Aiko
- 1U93B/9aUs8eRWL0sH+TrGv6cp4qJ4qgz5KlVwtLFTcx0c1vWf2ymgh2i5qdzkCQKXKX7jpzBEM
- P6rEmCdUBf+qStZ214uuiq+SrpAVndKKqlbRCway/G4Jynbul0P3KptzufTPAEbz39JzXEbFvVh
- V+OS7amu4cGdjEnf14moA6HSGl82rOauaXzZJe5FzzCx7nL5i3XTN2bnYJEH+j2rqDad1fiWg6i
- zO2PR/jZh4ChFnMp2e0bWg/ca4yG0YpWd5nFmqykGNtICOsnf0z0fs1CTj8XAYnG9/OK02yXNGb
- 3X/5RUhfPLXO2iekx3tSsiOPF/JH68lDxRjJYegZDSZMyqnF
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,105 +80,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Follow the established symbol name pattern and rename platform data
-structures.
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 38 ++++++++++++++++++-------------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 5cc349f672c0..aba925aab7ad 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -118,7 +118,7 @@ struct msm_dp_desc {
- 	bool wide_bus_supported;
- };
- 
--static const struct msm_dp_desc sa8775p_dp_descs[] = {
-+static const struct msm_dp_desc msm_dp_desc_sa8775p[] = {
- 	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
- 	{ .io_start = 0x0af5c000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
- 	{ .io_start = 0x22154000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
-@@ -126,25 +126,25 @@ static const struct msm_dp_desc sa8775p_dp_descs[] = {
- 	{}
- };
- 
--static const struct msm_dp_desc sc7180_dp_descs[] = {
-+static const struct msm_dp_desc msm_dp_desc_sc7180[] = {
- 	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
- 	{}
- };
- 
--static const struct msm_dp_desc sc7280_dp_descs[] = {
-+static const struct msm_dp_desc msm_dp_desc_sc7280[] = {
- 	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
- 	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
- 	{}
- };
- 
--static const struct msm_dp_desc sc8180x_dp_descs[] = {
-+static const struct msm_dp_desc msm_dp_desc_sc8180x[] = {
- 	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
- 	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
- 	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
- 	{}
- };
- 
--static const struct msm_dp_desc sc8280xp_dp_descs[] = {
-+static const struct msm_dp_desc msm_dp_desc_sc8280xp[] = {
- 	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
- 	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
- 	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
-@@ -156,12 +156,12 @@ static const struct msm_dp_desc sc8280xp_dp_descs[] = {
- 	{}
- };
- 
--static const struct msm_dp_desc sm8650_dp_descs[] = {
-+static const struct msm_dp_desc msm_dp_desc_sm8650[] = {
- 	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
- 	{}
- };
- 
--static const struct msm_dp_desc x1e80100_dp_descs[] = {
-+static const struct msm_dp_desc msm_dp_desc_x1e80100[] = {
- 	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
- 	{ .io_start = 0x0ae98000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
- 	{ .io_start = 0x0ae9a000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
-@@ -170,18 +170,18 @@ static const struct msm_dp_desc x1e80100_dp_descs[] = {
- };
- 
- static const struct of_device_id msm_dp_dt_match[] = {
--	{ .compatible = "qcom,sa8775p-dp", .data = &sa8775p_dp_descs },
--	{ .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_descs },
--	{ .compatible = "qcom,sc7280-dp", .data = &sc7280_dp_descs },
--	{ .compatible = "qcom,sc7280-edp", .data = &sc7280_dp_descs },
--	{ .compatible = "qcom,sc8180x-dp", .data = &sc8180x_dp_descs },
--	{ .compatible = "qcom,sc8180x-edp", .data = &sc8180x_dp_descs },
--	{ .compatible = "qcom,sc8280xp-dp", .data = &sc8280xp_dp_descs },
--	{ .compatible = "qcom,sc8280xp-edp", .data = &sc8280xp_dp_descs },
--	{ .compatible = "qcom,sdm845-dp", .data = &sc7180_dp_descs },
--	{ .compatible = "qcom,sm8350-dp", .data = &sc7180_dp_descs },
--	{ .compatible = "qcom,sm8650-dp", .data = &sm8650_dp_descs },
--	{ .compatible = "qcom,x1e80100-dp", .data = &x1e80100_dp_descs },
-+	{ .compatible = "qcom,sa8775p-dp", .data = &msm_dp_desc_sa8775p },
-+	{ .compatible = "qcom,sc7180-dp", .data = &msm_dp_desc_sc7180 },
-+	{ .compatible = "qcom,sc7280-dp", .data = &msm_dp_desc_sc7280 },
-+	{ .compatible = "qcom,sc7280-edp", .data = &msm_dp_desc_sc7280 },
-+	{ .compatible = "qcom,sc8180x-dp", .data = &msm_dp_desc_sc8180x },
-+	{ .compatible = "qcom,sc8180x-edp", .data = &msm_dp_desc_sc8180x },
-+	{ .compatible = "qcom,sc8280xp-dp", .data = &msm_dp_desc_sc8280xp },
-+	{ .compatible = "qcom,sc8280xp-edp", .data = &msm_dp_desc_sc8280xp },
-+	{ .compatible = "qcom,sdm845-dp", .data = &msm_dp_desc_sc7180 },
-+	{ .compatible = "qcom,sm8350-dp", .data = &msm_dp_desc_sc7180 },
-+	{ .compatible = "qcom,sm8650-dp", .data = &msm_dp_desc_sm8650 },
-+	{ .compatible = "qcom,x1e80100-dp", .data = &msm_dp_desc_x1e80100 },
- 	{}
- };
- 
-
--- 
-2.39.5
+On 10/28/2024 7:51 PM, Jani Nikula wrote:
+> The ivpu struct drm_driver has conditional initialization based on #ifdef
+> DRIVER_DATE, which is never defined anywhere. Neither are the macros
+> referenced within the block: DRIVER_DATE, DRIVER_MAJOR, DRIVER_MINOR,
+> and DRIVER_PATCHLEVEL. With the struct drm_driver date member going away
+> anyway, just remove the conditional compilation.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> 
+> ---
+> 
+> Note: I prefer to merge this together with the other patches via
+> drm-misc-next.
+> 
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>  drivers/accel/ivpu/ivpu_drv.c | 7 -------
+>  1 file changed, 7 deletions(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+> index e7d8967c02f2..07c7e5a5f22b 100644
+> --- a/drivers/accel/ivpu/ivpu_drv.c
+> +++ b/drivers/accel/ivpu/ivpu_drv.c
+> @@ -456,15 +456,8 @@ static const struct drm_driver driver = {
+>  	.name = DRIVER_NAME,
+>  	.desc = DRIVER_DESC,
+>  
+> -#ifdef DRIVER_DATE
+> -	.date = DRIVER_DATE,
+> -	.major = DRIVER_MAJOR,
+> -	.minor = DRIVER_MINOR,
+> -	.patchlevel = DRIVER_PATCHLEVEL,
+> -#else
+>  	.date = UTS_RELEASE,
+>  	.major = 1,
+> -#endif
+>  };
+>  
+>  static void ivpu_context_abort_invalid(struct ivpu_device *vdev)
 
