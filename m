@@ -2,186 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F079B439F
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 09:01:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A93D9B43B5
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 09:03:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D83110E5C9;
-	Tue, 29 Oct 2024 08:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 102A010E5C6;
+	Tue, 29 Oct 2024 08:03:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="RQle4OfS";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="P6AbcodS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com
- (mail-am7eur03on2074.outbound.protection.outlook.com [40.107.105.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3FBD10E5C6
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 08:01:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CRlVvsgXM2U0x4f2wYrlGi8caE4KvLWrI8X18vW0QOnEw/bLB2LwoEUlu06NYJSsK17t66YP7UpIIs80n7ICflte9Pj/0tbjxK97bYip9N7c5e0m22u/9BBABE2JWgtnkCTnI/7WXkrmV8z5yAzhCs8M3v+1HnH9s981MYCPPbrGOxUCfnQ+fqHu8tUwc1D1G060Bkeq1gVozy0SbQ9ZN2xPGi28mx3VAPKZtzIeQtgyjMz7OjUYzikGw0JtgHbt7vOpdcsxvdcNg5+6q3vAey1oXDaoTxYGh7d1hLcHJWzJSMBJZPMDno1T/UuLboCiXYP9oxEtTzKq95P1dvWy7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=McXZpMH3TRJYhTsAbgj2DFFlts3hrdtt9Jw3sx9KEjg=;
- b=j76kb5cbwp5L7lgdego7zi0VlhAuxefOn0fEq1/I0VvnqQEAxpAdZ1ADk28SMBCJLL3QZPMkn2MfFbxifqZwSWgf2VYlioYMxhafO82JCffdHEKgVxld4FFs+pvh1RoIcJVH9hj9C07tJG27rPSUrFJvK3UGJhbCYyLSrLuETZkw3IYM1r9/nUBQICl0z1mQVOI4tiYeyUCdUZJsGi/0L5XyXXRZ90je2Q/bT/IHP0Et5g0RI/qXrQ4Q3eLXrqbbbm+iuDCiOtWTV76RaS0n3pgobItbPEboUbxQlhAH+cbqaqzhtB9g/ZelW0DkSrID9Snv8WQDiFk1rhVZATxqdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=McXZpMH3TRJYhTsAbgj2DFFlts3hrdtt9Jw3sx9KEjg=;
- b=RQle4OfSXh2IxkAmjqxJwFXeDuV/CBXan6rahjg6A2WiymoZ0I+BQHBkR6a03gSO5AyG/Fa7ReoQOhhocJTxbJE22rpFeZ/1ALz2SAe/hKjbT/nA1uLJM/AWhKwvenXDVRZmqWZZ0eGGJZZyZnCReE1OXBiuRsKA6rbeJLtZIUXfCKR0fFsz4TH+DRg8yxJXf13rxlTBa+kwAUediBv8HAXWqrNvrQn/7hfOPx7P8Z846Inc2pI25JNey9AvslcBAh+Xs0K+pf0GLV034hpaT7rR93/FJ6+90L0LXj4vlyibPo0h7xysotDTwYJAQV+1RnwB/Tz7QOG5zEgfrSNgFg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DB9PR04MB10010.eurprd04.prod.outlook.com (2603:10a6:10:4ee::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.21; Tue, 29 Oct
- 2024 08:01:21 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8093.023; Tue, 29 Oct 2024
- 08:01:21 +0000
-Message-ID: <69cfeb75-696e-43c4-ad27-aaf9ad3c6c78@nxp.com>
-Date: Tue, 29 Oct 2024 16:01:42 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS
- display common properties
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
- <simona@ffwll.ch>, "robh@kernel.org" <robh@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "quic_jesszhan@quicinc.com" <quic_jesszhan@quicinc.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "will@kernel.org" <will@kernel.org>,
- "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
- "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
- "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
- "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "arnd@arndb.de" <arnd@arndb.de>,
- "nfraprado@collabora.com" <nfraprado@collabora.com>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>, "marex@denx.de" <marex@denx.de>
-References: <20241028023740.19732-1-victor.liu@nxp.com>
- <20241028023740.19732-9-victor.liu@nxp.com>
- <TY3PR01MB11346FDF74840ADF7273A218D864B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <TY3PR01MB11346FDF74840ADF7273A218D864B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4B5B410E5C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 08:03:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=W7fl6tPKUP3PNS39xplVVTQNOAUHDu587Ad1ST5tRwc=; b=P
+ 6AbcodSv8Gi9j9eM2qtewc+EDzp+pJ6WwzIC5MuIZAT7YWgyk0pZAf7qBHGqcXwJ
+ X3q4AqRKCtGvRawp/0blHcmEmA+n6cov2AEwTqBtAO0UxZM50E2GPnJVecpCcT+l
+ YNU6p5glYNBY/KVBFQzBrageC/KjYTbYmQ13IlkkWc=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-117 (Coremail) ; Tue, 29 Oct 2024 16:02:33 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Tue, 29 Oct 2024 16:02:33 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
+Cc: "Herve Codina" <herve.codina@bootlin.com>, 
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, 
+ "Neil Armstrong" <neil.armstrong@linaro.org>, 
+ "Robert Foss" <rfoss@kernel.org>, "Jonas Karlman" <jonas@kwiboo.se>, 
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, 
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, 
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, 
+ "Maxime Ripard" <mripard@kernel.org>, 
+ "Thomas Zimmermann" <tzimmermann@suse.de>, 
+ "Rob Herring" <robh@kernel.org>, 
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, 
+ "Conor Dooley" <conor+dt@kernel.org>, "Marek Vasut" <marex@denx.de>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ "Luca Ceresoli" <luca.ceresoli@bootlin.com>, 
+ "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>
+Subject: Re:Re: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <20241027162350.GA15853@pendragon.ideasonboard.com>
+References: <20241024095539.1637280-1-herve.codina@bootlin.com>
+ <20241024095539.1637280-3-herve.codina@bootlin.com>
+ <20241027162350.GA15853@pendragon.ideasonboard.com>
+X-NTES-SC: AL_Qu2YAv2Tt0Eu5SSdbOlS/DNR+6hBMKv32aNaoMQOZ8UqqTHC6CwvbV1SBFDxyvp1VsZNkGpbVTLN9+eLJobj
+Content-Transfer-Encoding: base64
 Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: SG2PR02CA0119.apcprd02.prod.outlook.com
- (2603:1096:4:92::35) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DB9PR04MB10010:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c2441e7-8a55-4ae7-f605-08dcf7efe00a
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?V0w2RDlES1JMNU9XekU0N2IyTHEySHppbmpJZ1lKUUduNDRRZ2RrWFQzNWFL?=
- =?utf-8?B?cGh3SW13OGNwTFpJZFJKZG4xNWpKTVhnY2VSbmUzNEp1RTh4QkwyZ2p4UVJ3?=
- =?utf-8?B?TnZFMDBRNEtDVHRJOEFJVGhmZEp0NU16WnIxR3JxQ1dxd1lTQ3pxVTB6QXNT?=
- =?utf-8?B?Nm5jQXZXeWJmczdEb2hCdUloKzE2UkJhKzlOMi9DaU5BVWtzZXd1ZVlqaWVp?=
- =?utf-8?B?dlZYZXQ5MU5RZ1BXT3VKalhVaGtCNWwwU0dYZDNGcU9lV1J0cmhLYzBYYVlF?=
- =?utf-8?B?WGFrWHFWUWtVUVViOUFWZXk3WWo2enlLdVk1RndKT3EyL0hqcnJjMEppM3hC?=
- =?utf-8?B?RlJzMUFLVW01WldTbmJDTDIrRXZQR01tR1BVSUR1bXBQZWdPQThSTDlwWnl5?=
- =?utf-8?B?ZEtLVTRYd1lEQnZpMFFnNkhSamFSR0V1cGRsS1IyYUV6UWhyNmFocWMxWHBD?=
- =?utf-8?B?c1loSjFOZTZySDBxUUVTeDM4Z3E5SHE4WU9pZUJGckFzY1hlaXZRbTUvNEd4?=
- =?utf-8?B?dWVWNUZtbDREL29ldllDMkF5a0ZmZTFId1gycjRLQ2ozM1psZEhjQitvaEYw?=
- =?utf-8?B?UmoxbUdGMEZ4amdrM1FzRFdRNk9xcWNEUHZlckJaR0hvblMzanZDNS9USGYz?=
- =?utf-8?B?cGxUdnQ5WnRXNU9UUVBPRmFnY2NLTzczR2N6Q0VIZllXMWZHVVJWSWdVaHUx?=
- =?utf-8?B?ZXBabG1IM0dsQmlMTjR1RWRrR09NV2lVSVR3azZrcWJsZjBlUUlvaklZc2tk?=
- =?utf-8?B?d0k0KzhERVJpaEVKbXNUR0tZSVZSNEJ3a0VFWmxxZGthVGxDZmlmbHhwREZj?=
- =?utf-8?B?T1NFY3NqQVIwTFUvUXRJN0o1Q2laSUkwbEFJNFNtRGM3dTNTdnhyUmRSRFNT?=
- =?utf-8?B?Rm1kOWlhai9xRVFXOUNDVHptRWJ3K1loZzhMR2JwZkxmOEpzZm1FazhNT3NJ?=
- =?utf-8?B?ay9iTmpIK0dsakhVVlJHcG9nNVg1eE9IQWNmZng4MTh4dEJNbkhUTnBuMkFw?=
- =?utf-8?B?Znh4b3ZlbzUydWhvdFNyL2dPTDEwWk9tUWhYOU1kUHVYbFJzU2xEZGFoRTRv?=
- =?utf-8?B?NkMvSVJhdkUyUGYxRDRDVEdiai9wRjVCTEVSWkVXbjBkRlozN1l0eURETjA2?=
- =?utf-8?B?MlNyVXNQYy9MVFR3N0t2THl6bEErWUpRVUhiR1MzVVU0SnlIbFA0YUhKQTRP?=
- =?utf-8?B?YWplSUMxamI3blZQOFBPSG0zV0NRVTNzTzVQMUJzbnBCUDU2cTQycnpEa0E5?=
- =?utf-8?B?WTV0Y0E0L3R4R21UQk1vY3BtMElsVTNEdUtyZnI4N3Jndjd1NVFTV1hGZzFy?=
- =?utf-8?B?M0Y2bTBDTE1HWEora1Z2WjFvUUZnazJsT093aTYva3dBbE11VDJDaEFGMFRv?=
- =?utf-8?B?ZlFZOGZCbG85dkF4SStUaFZjeWxPaTBrblpqNEtaMm5ldTh2Y1lZYWNtNjQr?=
- =?utf-8?B?VWxTM0trV25XNXdKUWtOUjAwM3dlQjIrOThPT096Sit2MFErdk95ZS9uNEZp?=
- =?utf-8?B?S2lxbS9kNVI0UTV1aEVkdWwwaTI0dEdTNERqbXFWME1zUGZyQ01vVTI2Q21J?=
- =?utf-8?B?OUNVOGlrVEU2dW9JM3BXRE1TejJpeVJpMy9lYm9GeXpIMzJmbUNHckc0WGZ4?=
- =?utf-8?B?dDdLbDV5TFRMNlVEbXpXbHVsczBLZnZZVkw1MzhCa2ZxWWNsQ1h3dmRwclBk?=
- =?utf-8?Q?E0AdYBYvmybS9v2PPFKs?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dU0xUWVrbmZ3dlRKT2ljUmFqZmh4eFBoWEQ1Rk9RRElQV1ZjbGtSd3ZuRkhY?=
- =?utf-8?B?L05oK1ZVaUowWmVsZmUwdkhoOFQ1K0N3cWR2RlFOdmYvN3I3dkFwZHFOdlJP?=
- =?utf-8?B?L3g5KzNTNm8wQU0ycDFVeXprcG1OcGozZkZROWRoSE9QcVJ4emVzc1d1bzFm?=
- =?utf-8?B?V0NyMFg1QWpNbk04QzIxUkZMQ1RzaXhSOVRQV3FYUEUybHRacmJSV3hIQ1E1?=
- =?utf-8?B?RHpWMzduWUdETEJ6YmdLZ0o2Ym1od3M4Q3h6c1hDSGJKaXNDays3MWc1eXg2?=
- =?utf-8?B?MzVCZlVNUVFKVU84MTFBSHQ2MEFwZGlEL3ROOUlMWmJzOUdDL0xnV2h4Yzc5?=
- =?utf-8?B?UFNqbjhFNmhzY1R3VEUwcDBjVnRMd29qVnR2YVl3UlExWjBMU1ZaVzlQMnYy?=
- =?utf-8?B?T2JjQkNxYXFIcHdET1IxVWxPT0lDSTZVZ1VuVWtmd0F4MkJvYkMxOEJpMjFR?=
- =?utf-8?B?Wm16T3FVSXpBRzFBV3dDeEVDVE9Qb21SS2hrSG0zZ1huUjlLMHRMTmdMcEpY?=
- =?utf-8?B?eG52VW90QXVmSm1yWXBEbFRBYTJFN0p0aCtNak5OVkM5RVg4RkRQckhRYTV0?=
- =?utf-8?B?UWNLL0RucElBZzU0WlRZdm0rSVdJdU1aUVBLZStLbnM2UGNEQVRGUFBYbm45?=
- =?utf-8?B?bW85WnEybTg5YXpuZ2NzZlA2aHlTK1Uxa0djekdOSzlnUnp2cTlOS3U5MHdq?=
- =?utf-8?B?MkxpUEZmZnJvakZlekpHYXd5U0Fwc2h0cG9EYzFlVlZwSjBEZUZ5eGpQLzJl?=
- =?utf-8?B?LzVyWjBuaVkrZ053NWZHRC9VWEQrS0RVVVMydTBlakp6a0dYWDRqWFVmUTQv?=
- =?utf-8?B?S2pGVXhrNVUxdlVHUjFaWGpwR2N0b0I0L0kzckpnb0JLZnJrbkttOGI5Z0Yz?=
- =?utf-8?B?aFRhMFFBZTMwZ3VqVUxWNzRxN2hDMDRoV2VHdDIyYmFrektrTEpzeHQvdWYz?=
- =?utf-8?B?OXJMY3Q2UlNUdDVTZ1hNVWNjbE4wWUUrb0gxK1dPNGhjT2JKQTZZb3dUOXNP?=
- =?utf-8?B?RDhMcGthY0NZcFhtTkFiMU9GQWo1U295YzZHVzNrVTM3MXhzTlg4NmkvSkE1?=
- =?utf-8?B?L1l0NW41aExMTkRLRENXaXUyQ1FkSkRScHlwUCtubXFleFJpZFNhbDJhMVRu?=
- =?utf-8?B?ZjdnQ2tHc0syVEkrSEJhRDdXTjVwcUkxWE9naUZNVldNN3ZUR2JLTFZBK0FJ?=
- =?utf-8?B?TzYvU3lEc1RmYmoxTEF4NGNJSHFvOElSa0xiTC8zR3FKT2tzQkN2eCtaWTFz?=
- =?utf-8?B?b05pcUZERVhUc1BnRzlQYmhPSHZLamhnc2pCV2E2Wjc3NWhuZlFiekdOdXZy?=
- =?utf-8?B?Y2daSkdDZmtIN2pPSnczZjhHMnRMNXh0S290NjNnWHFTMVJ4WFVXNlQ0V2cw?=
- =?utf-8?B?dmpiYzhnN1NBaUZFTS9HUmpsQ0ZBSDZUZldsaTI5Rk1ycUcvcUVTQ0xOK0lK?=
- =?utf-8?B?emxUQUVBN2RFbEovWUxFQ3RxdkVPTFV2czBhT3BEZnNVenVSVjdoVnUvS2hy?=
- =?utf-8?B?YTgvWWMrbm9uZmVPeS9DeUMrZVJTb0RDMkozRC9XbmVjWG5uclpqVVVnK1dh?=
- =?utf-8?B?K2JESEd4MFRWbldHNGFlRGhQRHZyZUcxSnlzczZtWE1yTUFybkVjNGFjcWN1?=
- =?utf-8?B?b3Z2S25qMlFVa0RpT0QvK0twWndnQTJ2aDI1QlpJZkhBbytUSWhFSHNkRjJN?=
- =?utf-8?B?OG03ZVlEZjV0RlRLQW1MT3N4RjRjMEtLenRPUytwOTU4VTR0eGlvbUNpWk16?=
- =?utf-8?B?d0h2MXdXTjFBRE9TUnBnb1NOWjRhbHcrcHFvYXRUYjVRSlVDQ0pkZVlTT1Zm?=
- =?utf-8?B?bmtvQll6OThYVnFMemJQTmZ4Y01xOGMydWR0aVZyNE9wNitOTktFajhhOFBJ?=
- =?utf-8?B?TjVOWjJTVEYzWDhpejFHVTJEL2czWklMSHIwNmFGS2lVemVqWG1tRDZIbDhw?=
- =?utf-8?B?ODVZZGxuRDFKUmVPSEFGZEIrTzhNWDU5NmxZZTh3UjdKSWc4dEc1bVpMVTZF?=
- =?utf-8?B?czlnaTNDRVVyWTc4UEwyR1RZamhJRURoYXZBMzNmZ25MdjlJOTUzcmNEV2xK?=
- =?utf-8?B?WGllT2JXei80dUxBbEY3S0NLZXhadWRyQWR4bHY5VmFMNmpMVkJ1VmlOTTRH?=
- =?utf-8?Q?BKytABARulDlJ+aabOt7vy4iP?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c2441e7-8a55-4ae7-f605-08dcf7efe00a
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2024 08:01:20.9489 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EbNGPoPI4kZ+q6n/nmhMLz1kXVfVhtSQuZV3BbxWRKhqh57t7RHOQiLZhb/is845h1+7NO2bv8FWRUX8lkw85Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB10010
+Message-ID: <2ee13136.7f7c.192d74c4778.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: dSgvCgD3X5uZliBn5d4ZAA--.2172W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gOHXmcgkQp5kAABs8
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -197,285 +77,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/29/2024, Biju Das wrote:
-> Hi Liu Ying,
-
-Hi Biju,
-
-> 
->> -----Original Message-----
->> From: Liu Ying <victor.liu@nxp.com>
->> Sent: 28 October 2024 02:38
->> Subject: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS display common properties
->>
->> Dual-link LVDS displays receive odd pixels and even pixels separately from dual LVDS links.  One link
->> receives odd pixels and the other receives even pixels.  Some of those displays may also use only one
->> LVDS link to receive all pixels, being odd and even agnostic.  Document common properties for those
->> displays by extending LVDS display common properties defined in lvds.yaml.
->>
->> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Signed-off-by: Liu Ying <victor.liu@nxp.com>
->> ---
->> v4:
->> * Squash change for advantech,idk-2121wr.yaml and
->>   panel-simple-lvds-dual-ports.yaml with lvds-dual-ports.yaml.  (Rob)
->> * Improve description in lvds-dual-ports.yaml.  (Krzysztof)
->>
->> v3:
->> * New patch.  (Dmitry)
->>
->>  .../bindings/display/lvds-dual-ports.yaml     | 76 +++++++++++++++++++
->>  .../display/panel/advantech,idk-2121wr.yaml   | 14 +---
->>  .../panel/panel-simple-lvds-dual-ports.yaml   | 20 +----
->>  3 files changed, 78 insertions(+), 32 deletions(-)  create mode 100644
->> Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
->> b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
->> new file mode 100644
->> index 000000000000..5f7a30640404
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
->> @@ -0,0 +1,76 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/lvds-dual-ports.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Dual-link LVDS Display Common Properties
->> +
->> +maintainers:
->> +  - Liu Ying <victor.liu@nxp.com>
->> +
->> +description: |
->> +  Common properties for LVDS displays with dual LVDS links. Extend LVDS
->> +display
->> +  common properties defined in lvds.yaml.
->> +
->> +  Dual-link LVDS displays receive odd pixels and even pixels separately
->> + from  the dual LVDS links. One link receives odd pixels and the other
->> + receives  even pixels. Some of those displays may also use only one
->> + LVDS link to  receive all pixels, being odd and even agnostic.
->> +
->> +allOf:
->> +  - $ref: lvds.yaml#
->> +
->> +properties:
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: the first LVDS input link
->> +
->> +        properties:
->> +          dual-lvds-odd-pixels:
->> +            type: boolean
->> +            description: the first LVDS input link for odd pixels
->> +
->> +          dual-lvds-even-pixels:
->> +            type: boolean
->> +            description: the first LVDS input link for even pixels
-> 
-> 
-> port@0 we know it is first link
-> port@1 we know it is second link.
-> dual-lvds-odd-pixels: We know it is for odd pixels.
-> dual-lvds-even-pixels: We know it is for odd pixels.
-> 
-> Not sure, whether we can give common description and avoid the duplicate
-> from port@1 ??
-
-Yes, it'd better to use patternProperties. Thanks.
-
---8<--
-    patternProperties:                                                           
-      '^port@[01]$':                                                             
-        $ref: /schemas/graph.yaml#/$defs/port-base                               
-        unevaluatedProperties: false                                             
-        description: |                                                           
-          port@0 is for the first LVDS input link.                               
-          port@1 is for the second LVDS input link.                              
-                                                                                 
-        properties:                                                              
-          dual-lvds-odd-pixels:                                                  
-            type: boolean                                                        
-            description: LVDS input link for odd pixels                          
-                                                                                 
-          dual-lvds-even-pixels:                                                 
-            type: boolean                                                        
-            description: LVDS input link for even pixels                         
-                                                                                 
-        oneOf:                                                                   
-          - required: [dual-lvds-odd-pixels]                                     
-          - required: [dual-lvds-even-pixels]                                    
-          - properties:                                                          
-              dual-lvds-odd-pixels: false                                        
-              dual-lvds-even-pixels: false                                       
-                                                                                 
-    anyOf:                                                                       
-      - required:                                                                
-          - port@0                                                               
-      - required:                                                                
-          - port@1
---8<--
-
-> 
-> 
->> +
->> +        oneOf:
->> +          - required: [dual-lvds-odd-pixels]
->> +          - required: [dual-lvds-even-pixels]
->> +          - properties:
->> +              dual-lvds-odd-pixels: false
->> +              dual-lvds-even-pixels: false
-> 
-> Why this is false here? oneOf is not sufficient?
-
-The 'false' is used when this LVDS link works alone
-as a single LVDS link, being odd and even agnostic.
-
-The 'oneOf' allows a LVDS link to be defined as a single
-LVDS link or one link of dual LVDS links.
-
-> 
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: the second LVDS input link
->> +
->> +        properties:
->> +          dual-lvds-odd-pixels:
->> +            type: boolean
->> +            description: the second LVDS input link for odd pixels
->> +
->> +          dual-lvds-even-pixels:
->> +            type: boolean
->> +            description: the second LVDS input link for even pixels
->> +
->> +        oneOf:
->> +          - required: [dual-lvds-odd-pixels]
->> +          - required: [dual-lvds-even-pixels]
->> +          - properties:
->> +              dual-lvds-odd-pixels: false
->> +              dual-lvds-even-pixels: false
-> 
-> Same as above??
-> 
-> Cheers,
-> Biju
-> 
->> +
->> +required:
->> +  - ports
->> +
->> +additionalProperties: true
->> +
->> +...
->> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
->> b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
->> index 2e8dbdb5a3d5..05ca3b2385f8 100644
->> --- a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
->> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121
->> +++ wr.yaml
->> @@ -20,6 +20,7 @@ description: |
->>    dual-lvds-odd-pixels or dual-lvds-even-pixels).
->>
->>  allOf:
->> +  - $ref: /schemas/display/lvds-dual-ports.yaml#
->>    - $ref: panel-common.yaml#
->>
->>  properties:
->> @@ -44,22 +45,10 @@ properties:
->>
->>      properties:
->>        port@0:
->> -        $ref: /schemas/graph.yaml#/$defs/port-base
->> -        unevaluatedProperties: false
->> -        description: The sink for odd pixels.
->> -        properties:
->> -          dual-lvds-odd-pixels: true
->> -
->>          required:
->>            - dual-lvds-odd-pixels
->>
->>        port@1:
->> -        $ref: /schemas/graph.yaml#/$defs/port-base
->> -        unevaluatedProperties: false
->> -        description: The sink for even pixels.
->> -        properties:
->> -          dual-lvds-even-pixels: true
->> -
->>          required:
->>            - dual-lvds-even-pixels
->>
->> @@ -75,7 +64,6 @@ required:
->>    - height-mm
->>    - data-mapping
->>    - panel-timing
->> -  - ports
->>
->>  examples:
->>    - |+
->> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
->> b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
->> index 10ed4b57232b..e80fc7006984 100644
->> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
->> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-
->> +++ dual-ports.yaml
->> @@ -22,6 +22,7 @@ description: |
->>    If the panel is more advanced a dedicated binding file is required.
->>
->>  allOf:
->> +  - $ref: /schemas/display/lvds-dual-ports.yaml#
->>    - $ref: panel-common.yaml#
->>
->>  properties:
->> @@ -55,28 +56,10 @@ properties:
->>
->>      properties:
->>        port@0:
->> -        $ref: /schemas/graph.yaml#/$defs/port-base
->> -        unevaluatedProperties: false
->> -        description: The first sink port.
->> -
->> -        properties:
->> -          dual-lvds-odd-pixels:
->> -            type: boolean
->> -            description: The first sink port for odd pixels.
->> -
->>          required:
->>            - dual-lvds-odd-pixels
->>
->>        port@1:
->> -        $ref: /schemas/graph.yaml#/$defs/port-base
->> -        unevaluatedProperties: false
->> -        description: The second sink port.
->> -
->> -        properties:
->> -          dual-lvds-even-pixels:
->> -            type: boolean
->> -            description: The second sink port for even pixels.
->> -
->>          required:
->>            - dual-lvds-even-pixels
->>
->> @@ -88,7 +71,6 @@ unevaluatedProperties: false
->>
->>  required:
->>    - compatible
->> -  - ports
->>    - power-supply
->>
->>  examples:
->> --
->> 2.34.1
-> 
-
--- 
-Regards,
-Liu Ying
-
+CkhpIGFsbO+8jAoKQXQgMjAyNC0xMC0yOCAwMDoyMzo1MCwgIkxhdXJlbnQgUGluY2hhcnQiIDxs
+YXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgo+T24gVGh1LCBPY3QgMjQs
+IDIwMjQgYXQgMTE6NTU6MzhBTSArMDIwMCwgSGVydmUgQ29kaW5hIHdyb3RlOgo+PiBJbiBzb21l
+IGNhc2VzIG9ic2VydmVkIGR1cmluZyBFU0QgdGVzdHMsIHRoZSBUSSBTTjY1RFNJODMgY2Fubm90
+IHJlY292ZXIKPj4gZnJvbSBlcnJvcnMgYnkgaXRzZWxmLiBBIGZ1bGwgcmVzdGFydCBvZiB0aGUg
+YnJpZGdlIGlzIG5lZWRlZCBpbiB0aG9zZQo+PiBjYXNlcyB0byBoYXZlIHRoZSBicmlkZ2Ugb3V0
+cHV0IExWRFMgc2lnbmFscyBhZ2Fpbi4KPj4gCj4+IFRoZSBUSSBTTjY1RFNJODMgaGFzIHNvbWUg
+ZXJyb3IgZGV0ZWN0aW9uIGNhcGFiaWxpdGllcy4gSW50cm9kdWNlIGFuCj4+IGVycm9yIHJlY292
+ZXJ5IG1lY2hhbmlzbSBiYXNlZCBvbiB0aGlzIGRldGVjdGlvbi4KPj4gCj4+IFRoZSBlcnJvcnMg
+ZGV0ZWN0ZWQgYXJlIHNpZ25hbGVkIHRocm91Z2ggYW4gaW50ZXJydXB0LiBPbiBzeXN0ZW0gd2hl
+cmUKPj4gdGhpcyBpbnRlcnJ1cHQgaXMgbm90IGF2YWlsYWJsZSwgdGhlIGRyaXZlciB1c2VzIGEg
+cG9sbGluZyBtb25pdG9yaW5nCj4+IGZhbGxiYWNrIHRvIGNoZWNrIGZvciBlcnJvcnMuIFdoZW4g
+YW4gZXJyb3IgaXMgcHJlc2VudCwgdGhlIHJlY292ZXJ5Cj4+IHByb2Nlc3MgaXMgbGF1bmNoZWQu
+Cj4+IAo+PiBSZXN0YXJ0aW5nIHRoZSBicmlkZ2UgbmVlZHMgdG8gcmVkbyB0aGUgaW5pdGlhbGl6
+YXRpb24gc2VxdWVuY2UuIFRoaXMKPj4gaW5pdGlhbGl6YXRpb24gc2VxdWVuY2UgaGFzIHRvIGJl
+IGRvbmUgd2l0aCB0aGUgRFNJIGRhdGEgbGFuZXMgZHJpdmVuIGluCj4+IExQMTEgc3RhdGUuIElu
+IG9yZGVyIHRvIGRvIHRoYXQsIHRoZSByZWNvdmVyeSBwcm9jZXNzIHJlc2V0cyB0aGUgZW50aXJl
+Cj4+IHBpcGVsaW5lLgo+PiAKPj4gU2lnbmVkLW9mZi1ieTogSGVydmUgQ29kaW5hIDxoZXJ2ZS5j
+b2RpbmFAYm9vdGxpbi5jb20+Cj4+IC0tLQo+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS1z
+bjY1ZHNpODMuYyB8IDEyOCArKysrKysrKysrKysrKysrKysrKysrKysrKwo+PiAgMSBmaWxlIGNo
+YW5nZWQsIDEyOCBpbnNlcnRpb25zKCspCj4+IAo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS90aS1zbjY1ZHNpODMuYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242
+NWRzaTgzLmMKPj4gaW5kZXggOTZlODI5MTYzZDg3Li4yMjk3NWI2MGU4MGYgMTAwNjQ0Cj4+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242NWRzaTgzLmMKPj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS90aS1zbjY1ZHNpODMuYwo+PiBAQCAtMzUsOSArMzUsMTIgQEAKPj4g
+ICNpbmNsdWRlIDxsaW51eC9vZl9ncmFwaC5oPgo+PiAgI2luY2x1ZGUgPGxpbnV4L3JlZ21hcC5o
+Pgo+PiAgI2luY2x1ZGUgPGxpbnV4L3JlZ3VsYXRvci9jb25zdW1lci5oPgo+PiArI2luY2x1ZGUg
+PGxpbnV4L3RpbWVyLmg+Cj4+ICsjaW5jbHVkZSA8bGludXgvd29ya3F1ZXVlLmg+Cj4+ICAKPj4g
+ICNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19oZWxwZXIuaD4KPj4gICNpbmNsdWRlIDxkcm0vZHJt
+X2JyaWRnZS5oPgo+PiArI2luY2x1ZGUgPGRybS9kcm1fZHJ2Lmg+IC8qIERSTV9NT0RFU0VUX0xP
+Q0tfQUxMX0JFR0lOKCkgbmVlZCBkcm1fZHJ2X3VzZXNfYXRvbWljX21vZGVzZXQoKSAqLwo+PiAg
+I2luY2x1ZGUgPGRybS9kcm1fbWlwaV9kc2kuaD4KPj4gICNpbmNsdWRlIDxkcm0vZHJtX29mLmg+
+Cj4+ICAjaW5jbHVkZSA8ZHJtL2RybV9wYW5lbC5oPgo+PiBAQCAtMTQ3LDYgKzE1MCw5IEBAIHN0
+cnVjdCBzbjY1ZHNpODMgewo+PiAgCXN0cnVjdCByZWd1bGF0b3IJCSp2Y2M7Cj4+ICAJYm9vbAkJ
+CQlsdmRzX2R1YWxfbGluazsKPj4gIAlib29sCQkJCWx2ZHNfZHVhbF9saW5rX2V2ZW5fb2RkX3N3
+YXA7Cj4+ICsJYm9vbAkJCQl1c2VfaXJxOwo+PiArCXN0cnVjdCBkZWxheWVkX3dvcmsJCW1vbml0
+b3Jfd29yazsKPj4gKwlzdHJ1Y3Qgd29ya19zdHJ1Y3QJCXJlc2V0X3dvcms7Cj4+ICB9Owo+PiAg
+Cj4+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHJlZ21hcF9yYW5nZSBzbjY1ZHNpODNfcmVhZGFibGVf
+cmFuZ2VzW10gPSB7Cj4+IEBAIC0zMjEsNiArMzI3LDkyIEBAIHN0YXRpYyB1OCBzbjY1ZHNpODNf
+Z2V0X2RzaV9kaXYoc3RydWN0IHNuNjVkc2k4MyAqY3R4KQo+PiAgCXJldHVybiBkc2lfZGl2IC0g
+MTsKPj4gIH0KPj4gIAo+PiArc3RhdGljIGludCBzbjY1ZHNpODNfcmVzZXRfcGlwZWxpbmUoc3Ry
+dWN0IHNuNjVkc2k4MyAqc242NWRzaTgzKQo+PiArewo+PiArCXN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYgPSBzbjY1ZHNpODMtPmJyaWRnZS5kZXY7Cj4+ICsJc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVp
+cmVfY3R4IGN0eDsKPj4gKwlzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGU7Cj4+ICsJaW50
+IGVycjsKPj4gKwo+PiArCS8qIFVzZSBvcGVyYXRpb24gZG9uZSBpbiBkcm1fYXRvbWljX2hlbHBl
+cl9zdXNwZW5kKCkgZm9sbG93ZWQgYnkKPj4gKwkgKiBvcGVyYXRpb24gZG9uZSBpbiBkcm1fYXRv
+bWljX2hlbHBlcl9yZXN1bWUoKSBidXQgd2l0aG91dCByZWxlYXNpbmcKPj4gKwkgKiB0aGUgbG9j
+ayBiZXR3ZWVuIHN1c3BlbmQoKS9yZXN1bWUoKQo+PiArCSAqLwo+PiArCj4+ICsJRFJNX01PREVT
+RVRfTE9DS19BTExfQkVHSU4oZGV2LCBjdHgsIDAsIGVycik7Cj4+ICsKPj4gKwlzdGF0ZSA9IGRy
+bV9hdG9taWNfaGVscGVyX2R1cGxpY2F0ZV9zdGF0ZShkZXYsICZjdHgpOwo+PiArCWlmIChJU19F
+UlIoc3RhdGUpKSB7Cj4+ICsJCWVyciA9IFBUUl9FUlIoc3RhdGUpOwo+PiArCQlnb3RvIHVubG9j
+azsKPj4gKwl9Cj4+ICsKPj4gKwllcnIgPSBkcm1fYXRvbWljX2hlbHBlcl9kaXNhYmxlX2FsbChk
+ZXYsICZjdHgpOwo+PiArCWlmIChlcnIgPCAwKQo+PiArCQlnb3RvIHVubG9jazsKPj4gKwo+PiAr
+CWRybV9tb2RlX2NvbmZpZ19yZXNldChkZXYpOwo+PiArCj4+ICsJZXJyID0gZHJtX2F0b21pY19o
+ZWxwZXJfY29tbWl0X2R1cGxpY2F0ZWRfc3RhdGUoc3RhdGUsICZjdHgpOwo+Cj5Db21taXR0aW5n
+IGEgZnVsbCBhdG9taWMgc3RhdGUgZnJvbSBhIGJyaWRnZSBkcml2ZXIgaW4gYW4gYXN5bmNocm9u
+b3VzCj53YXkgc2VlbXMgcXVpdGUgdW5jaGFydGVkIHRlcnJpdG9yeSwgYW5kIGl0IHdvcnJpZXMg
+bWUuIEl0J3MgYWxzbyBhIHZlcnkKPmhlYXZ5d2VpZ2h0LCB5b3UgZGlzYWJsZSBhbGwgb3V0cHV0
+cyBoZXJlLCBpbnN0ZWFkIG9mIGZvY3Vzc2luZyBvbiB0aGUKPm91dHB1dCBjb25uZWN0ZWQgdG8g
+dGhlIGJyaWRnZS4gQ2FuIHlvdSBlaXRoZXIgaW1wbGVtZW50IHNvbWV0aGluZyBtb3JlCj5sb2Nh
+bCwgcmVzZXR0aW5nIHRoZSBicmlkZ2Ugb25seSwgb3IgY3JlYXRlIGEgY29yZSBoZWxwZXIgdG8g
+aGFuZGxlIHRoaXMKPmtpbmQgb2Ygc2l0dWF0aW9uLCBvbiBhIHBlci1vdXRwdXQgYmFzaXMgPwoK
+SWYgd2UgY291bGQgc2ltdWxhdGUgYSBob3RwbHVn77yIZGlzY29ubmVjdGVkIHRoZW4gY29ubmVj
+dGVk77yJIGV2ZW50IHRvIHVzZXIgc3BhY2UgYW5kCmxldCB1c2Vyc3BhY2UgZG8gdGhlIGRpc2Fi
+bGUvZW5hYmxlIG9mIHRoZSBvdXRwdXQgcGlwZWxpbmUsICB3b3VsZCB0aGluZ3MgYmUgc2ltcGxl
+cj8KCgo+Cj4+ICsKPj4gK3VubG9jazoKPj4gKwlEUk1fTU9ERVNFVF9MT0NLX0FMTF9FTkQoZGV2
+LCBjdHgsIGVycik7Cj4+ICsJaWYgKCFJU19FUlIoc3RhdGUpKQo+PiArCQlkcm1fYXRvbWljX3N0
+YXRlX3B1dChzdGF0ZSk7Cj4+ICsJcmV0dXJuIGVycjsKPj4gK30KPj4gKwo+PiArc3RhdGljIHZv
+aWQgc242NWRzaTgzX3Jlc2V0X3dvcmsoc3RydWN0IHdvcmtfc3RydWN0ICp3cykKPj4gK3sKPj4g
+KwlzdHJ1Y3Qgc242NWRzaTgzICpjdHggPSBjb250YWluZXJfb2Yod3MsIHN0cnVjdCBzbjY1ZHNp
+ODMsIHJlc2V0X3dvcmspOwo+PiArCWludCByZXQ7Cj4+ICsKPj4gKwlkZXZfd2FybihjdHgtPmRl
+diwgInJlc2V0IHBpcGVsaW5lXG4iKTsKPj4gKwo+PiArCS8qIFJlc2V0IHRoZSBwaXBlbGluZSAq
+Lwo+PiArCXJldCA9IHNuNjVkc2k4M19yZXNldF9waXBlbGluZShjdHgpOwo+PiArCWlmIChyZXQp
+IHsKPj4gKwkJZGV2X2VycihjdHgtPmRldiwgInJlc2V0IHBpcGVsaW5lIGZhaWxlZCAlcGVcbiIs
+IEVSUl9QVFIocmV0KSk7Cj4+ICsJCXJldHVybjsKPj4gKwl9Cj4+ICt9Cj4+ICsKPj4gK3N0YXRp
+YyB2b2lkIHNuNjVkc2k4M19oYW5kbGVfZXJyb3JzKHN0cnVjdCBzbjY1ZHNpODMgKmN0eCkKPj4g
+K3sKPj4gKwl1bnNpZ25lZCBpbnQgaXJxX3N0YXQ7Cj4+ICsJaW50IHJldDsKPj4gKwo+PiArCS8q
+Cj4+ICsJICogU2NoZWR1bGUgYSByZXNldCBpbiBjYXNlIG9mOgo+PiArCSAqICAtIHRoZSBicmlk
+Z2UgZG9lc24ndCBhbnN3ZXIKPj4gKwkgKiAgLSB0aGUgYnJpZGdlIHNpZ25hbHMgYW4gZXJyb3IK
+Pj4gKwkgKi8KPj4gKwo+PiArCXJldCA9IHJlZ21hcF9yZWFkKGN0eC0+cmVnbWFwLCBSRUdfSVJR
+X1NUQVQsICZpcnFfc3RhdCk7Cj4+ICsJaWYgKHJldCB8fCBpcnFfc3RhdCkKPj4gKwkJc2NoZWR1
+bGVfd29yaygmY3R4LT5yZXNldF93b3JrKTsKPj4gK30KPj4gKwo+PiArc3RhdGljIHZvaWQgc242
+NWRzaTgzX21vbml0b3Jfd29yayhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspCj4+ICt7Cj4+ICsJ
+c3RydWN0IHNuNjVkc2k4MyAqY3R4ID0gY29udGFpbmVyX29mKHRvX2RlbGF5ZWRfd29yayh3b3Jr
+KSwKPj4gKwkJCQkJICAgICBzdHJ1Y3Qgc242NWRzaTgzLCBtb25pdG9yX3dvcmspOwo+PiArCj4+
+ICsJc242NWRzaTgzX2hhbmRsZV9lcnJvcnMoY3R4KTsKPj4gKwo+PiArCXNjaGVkdWxlX2RlbGF5
+ZWRfd29yaygmY3R4LT5tb25pdG9yX3dvcmssIG1zZWNzX3RvX2ppZmZpZXMoMTAwMCkpOwo+PiAr
+fQo+PiArCj4+ICtzdGF0aWMgdm9pZCBzbjY1ZHNpODNfbW9uaXRvcl9zdGFydChzdHJ1Y3Qgc242
+NWRzaTgzICpjdHgpCj4+ICt7Cj4+ICsJc2NoZWR1bGVfZGVsYXllZF93b3JrKCZjdHgtPm1vbml0
+b3Jfd29yaywgbXNlY3NfdG9famlmZmllcygxMDAwKSk7Cj4+ICt9Cj4+ICsKPj4gK3N0YXRpYyB2
+b2lkIHNuNjVkc2k4M19tb25pdG9yX3N0b3Aoc3RydWN0IHNuNjVkc2k4MyAqY3R4KQo+PiArewo+
+PiArCWNhbmNlbF9kZWxheWVkX3dvcmtfc3luYygmY3R4LT5tb25pdG9yX3dvcmspOwo+PiArfQo+
+PiArCj4+ICBzdGF0aWMgdm9pZCBzbjY1ZHNpODNfYXRvbWljX3ByZV9lbmFibGUoc3RydWN0IGRy
+bV9icmlkZ2UgKmJyaWRnZSwKPj4gIAkJCQkJc3RydWN0IGRybV9icmlkZ2Vfc3RhdGUgKm9sZF9i
+cmlkZ2Vfc3RhdGUpCj4+ICB7Cj4+IEBAIC01MDksNiArNjAxLDE1IEBAIHN0YXRpYyB2b2lkIHNu
+NjVkc2k4M19hdG9taWNfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4+ICAJcmVn
+bWFwX3JlYWQoY3R4LT5yZWdtYXAsIFJFR19JUlFfU1RBVCwgJnB2YWwpOwo+PiAgCWlmIChwdmFs
+KQo+PiAgCQlkZXZfZXJyKGN0eC0+ZGV2LCAiVW5leHBlY3RlZCBsaW5rIHN0YXR1cyAweCUwMnhc
+biIsIHB2YWwpOwo+PiArCj4+ICsJaWYgKGN0eC0+dXNlX2lycSkgewo+PiArCQkvKiBFbmFibGUg
+aXJxIHRvIGRldGVjdCBlcnJvcnMgKi8KPj4gKwkJcmVnbWFwX3dyaXRlKGN0eC0+cmVnbWFwLCBS
+RUdfSVJRX0dMT0JBTCwgUkVHX0lSUV9HTE9CQUxfSVJRX0VOKTsKPj4gKwkJcmVnbWFwX3dyaXRl
+KGN0eC0+cmVnbWFwLCBSRUdfSVJRX0VOLCAweGZmKTsKPj4gKwl9IGVsc2Ugewo+PiArCQkvKiBV
+c2UgdGhlIHBvbGxpbmcgdGFzayAqLwo+PiArCQlzbjY1ZHNpODNfbW9uaXRvcl9zdGFydChjdHgp
+Owo+PiArCX0KPj4gIH0KPj4gIAo+PiAgc3RhdGljIHZvaWQgc242NWRzaTgzX2F0b21pY19kaXNh
+YmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4+IEBAIC01MTcsNiArNjE4LDE1IEBAIHN0
+YXRpYyB2b2lkIHNuNjVkc2k4M19hdG9taWNfZGlzYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJp
+ZGdlLAo+PiAgCXN0cnVjdCBzbjY1ZHNpODMgKmN0eCA9IGJyaWRnZV90b19zbjY1ZHNpODMoYnJp
+ZGdlKTsKPj4gIAlpbnQgcmV0Owo+PiAgCj4+ICsJaWYgKGN0eC0+dXNlX2lycSkgewo+PiArCQkv
+KiBEaXNhYmxlIGlycSAqLwo+PiArCQlyZWdtYXBfd3JpdGUoY3R4LT5yZWdtYXAsIFJFR19JUlFf
+RU4sIDB4MCk7Cj4+ICsJCXJlZ21hcF93cml0ZShjdHgtPnJlZ21hcCwgUkVHX0lSUV9HTE9CQUws
+IDB4MCk7Cj4+ICsJfSBlbHNlIHsKPj4gKwkJLyogU3RvcCB0aGUgcG9sbGluZyB0YXNrICovCj4+
+ICsJCXNuNjVkc2k4M19tb25pdG9yX3N0b3AoY3R4KTsKPj4gKwl9Cj4+ICsKPj4gIAkvKiBQdXQg
+dGhlIGNoaXAgaW4gcmVzZXQsIHB1bGwgRU4gbGluZSBsb3csIGFuZCBhc3N1cmUgMTBtcyByZXNl
+dCBsb3cgdGltaW5nLiAqLwo+PiAgCWdwaW9kX3NldF92YWx1ZV9jYW5zbGVlcChjdHgtPmVuYWJs
+ZV9ncGlvLCAwKTsKPj4gIAl1c2xlZXBfcmFuZ2UoMTAwMDAsIDExMDAwKTsKPj4gQEAgLTY3Myw2
+ICs3ODMsMTQgQEAgc3RhdGljIGludCBzbjY1ZHNpODNfaG9zdF9hdHRhY2goc3RydWN0IHNuNjVk
+c2k4MyAqY3R4KQo+PiAgCXJldHVybiAwOwo+PiAgfQo+PiAgCj4+ICtzdGF0aWMgaXJxcmV0dXJu
+X3Qgc242NWRzaTgzX2lycShpbnQgaXJxLCB2b2lkICpkYXRhKQo+PiArewo+PiArCXN0cnVjdCBz
+bjY1ZHNpODMgKmN0eCA9IGRhdGE7Cj4+ICsKPj4gKwlzbjY1ZHNpODNfaGFuZGxlX2Vycm9ycyhj
+dHgpOwo+PiArCXJldHVybiBJUlFfSEFORExFRDsKPj4gK30KPj4gKwo+PiAgc3RhdGljIGludCBz
+bjY1ZHNpODNfcHJvYmUoc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCkKPj4gIHsKPj4gIAljb25z
+dCBzdHJ1Y3QgaTJjX2RldmljZV9pZCAqaWQgPSBpMmNfY2xpZW50X2dldF9kZXZpY2VfaWQoY2xp
+ZW50KTsKPj4gQEAgLTY4Niw2ICs4MDQsOCBAQCBzdGF0aWMgaW50IHNuNjVkc2k4M19wcm9iZShz
+dHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50KQo+PiAgCQlyZXR1cm4gLUVOT01FTTsKPj4gIAo+PiAg
+CWN0eC0+ZGV2ID0gZGV2Owo+PiArCUlOSVRfV09SSygmY3R4LT5yZXNldF93b3JrLCBzbjY1ZHNp
+ODNfcmVzZXRfd29yayk7Cj4+ICsJSU5JVF9ERUxBWUVEX1dPUksoJmN0eC0+bW9uaXRvcl93b3Jr
+LCBzbjY1ZHNpODNfbW9uaXRvcl93b3JrKTsKPj4gIAo+PiAgCWlmIChkZXYtPm9mX25vZGUpIHsK
+Pj4gIAkJbW9kZWwgPSAoZW51bSBzbjY1ZHNpODNfbW9kZWwpKHVpbnRwdHJfdCkKPj4gQEAgLTcx
+MCw2ICs4MzAsMTQgQEAgc3RhdGljIGludCBzbjY1ZHNpODNfcHJvYmUoc3RydWN0IGkyY19jbGll
+bnQgKmNsaWVudCkKPj4gIAlpZiAoSVNfRVJSKGN0eC0+cmVnbWFwKSkKPj4gIAkJcmV0dXJuIGRl
+dl9lcnJfcHJvYmUoZGV2LCBQVFJfRVJSKGN0eC0+cmVnbWFwKSwgImZhaWxlZCB0byBnZXQgcmVn
+bWFwXG4iKTsKPj4gIAo+PiArCWlmIChjbGllbnQtPmlycSkgewo+PiArCQlyZXQgPSBkZXZtX3Jl
+cXVlc3RfdGhyZWFkZWRfaXJxKGN0eC0+ZGV2LCBjbGllbnQtPmlycSwgTlVMTCwgc242NWRzaTgz
+X2lycSwKPj4gKwkJCQkJCUlSUUZfT05FU0hPVCwgZGV2X25hbWUoY3R4LT5kZXYpLCBjdHgpOwo+
+PiArCQlpZiAocmV0KQo+PiArCQkJcmV0dXJuIGRldl9lcnJfcHJvYmUoZGV2LCByZXQsICJmYWls
+ZWQgdG8gcmVxdWVzdCBpcnFcbiIpOwo+PiArCQljdHgtPnVzZV9pcnEgPSB0cnVlOwo+PiArCX0K
+Pj4gKwo+PiAgCWRldl9zZXRfZHJ2ZGF0YShkZXYsIGN0eCk7Cj4+ICAJaTJjX3NldF9jbGllbnRk
+YXRhKGNsaWVudCwgY3R4KTsKPj4gIAo+Cj4tLSAKPlJlZ2FyZHMsCj4KPkxhdXJlbnQgUGluY2hh
+cnQK
