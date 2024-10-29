@@ -2,117 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEED49B42FD
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 08:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8CF9B42FF
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 08:22:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB1610E5BB;
-	Tue, 29 Oct 2024 07:21:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE37810E5BE;
+	Tue, 29 Oct 2024 07:22:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j6sItWqc";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PScTcT0F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 716D010E5BB
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 07:21:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6CCEDA417B4;
- Tue, 29 Oct 2024 07:19:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B7BAC4CECD;
- Tue, 29 Oct 2024 07:21:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730186475;
- bh=7uzAarjS0Dn2DTyPSovradqYE05Wen8ZCSz2SsXfBQQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=j6sItWqcq7R2uMjcS2UsufpkCMJ93wg2aHHyGFhhwjZDG+xnjnxe4w0W8Y65RYtw9
- nvr1alvwGsKwhbEkukGtRL1QyBZX94ljUIFrxlqv3Xzm9KhDLCc8Usm53tj8lcgrMV
- yzs7O0AJeicdZU4QSQmY09H8DU9u/bCA23BwtCc6dub7OtIz7cvYsROrjM2BI2BoxJ
- Qi5kwbdF8r0WC9jssuNOUTMPDAsgXvI9nD/fAdPyNkKL1LNB4SOZ7dXX2I/BttWR8+
- GFPAQ78ah7ZErZk3LrLUYrouBpkTE9HHxLKvR2DiWBa2Qf4eg6k3IqyizHi5/0CXeb
- Lkttqj5aE2/4Q==
-Message-ID: <c0b9157c-48cd-41a7-ab38-c0334f1e5af7@kernel.org>
-Date: Tue, 29 Oct 2024 08:21:04 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA0F10E5BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 07:22:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1730186548;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+eJlJWx0o+S3hy8FSjyW4hnsYUq2K24oIV4Np3ZiJY0=;
+ b=PScTcT0F3N5LUL18veHbpNtqhf4p0eX2wRmfxNXaOrpgyoeA3excQU51o7ZEqgIbi9Hknm
+ Y+F8uUYnDrsseKXCbuYlePq76RZXm14MdpuSsrjKznmzGD8JjM757xjfJaDU+kv+e16IEq
+ iUdOTuYxCkUBEE6F9fMQ3Ji0QB5Fl24=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-134-6T7SfDNvMr6_i2X2Ynnh6Q-1; Tue, 29 Oct 2024 03:22:26 -0400
+X-MC-Unique: 6T7SfDNvMr6_i2X2Ynnh6Q-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7b17e90d16fso865872885a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 00:22:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730186546; x=1730791346;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+eJlJWx0o+S3hy8FSjyW4hnsYUq2K24oIV4Np3ZiJY0=;
+ b=O85UCLn7ftSI0PSBlrZ5SKgCfjTanzs4pz7OITj+ItukKDr1DqrAwwbkdm+eBmBNE7
+ TejkjczJBTDEm55NXXrYU7Dsbli10GgBE7UXph1KpZo1k56g6cctF1cofY7ITv0M0ery
+ +Q8rHceJBEF8RSZxxS0ge3FCm9wFFh64nBWBOAwBrmleyMTRgy40IBTOaf8K4KiaP1Qs
+ +yt6y1IwF6c8vC00k5V5gCF9Xkv3E77ZRP4kCaoA9m6P65XrcCsHjbrvnsg9E7FJlE2y
+ B2IibX/AWJGJIi22pgo8TTlbAXD9Mx8Ab2G8cki+Pb+GZGvNMYGnK/ugtFGSUQoo6GU2
+ gJJg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVYRNyKHGHokj3r/4jGHLW2OgEc/KRoXGjNUPKDCiwIyAl0YSU/+kJndSoIMWc9M/sE5TCWKYjpe9o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yymr2PXgI8ya0kbttMOe1rRqv9/zNaw6DaRD41sbijlSyl9hEsG
+ iGy/FsAuS1/YcoWICRsJmNuu4T/Dp9MY6SvwEaOXVpwLiSKUjSNgUU89KJBQFgZuBd+wYTIxj59
+ sbMVois+TBFrru2SwdzXIr49yiiUYFuZnpFi8gf8ZAg2UXaWBvbkylYf9m88oeFzH4Q==
+X-Received: by 2002:a05:620a:412:b0:7a9:b268:3655 with SMTP id
+ af79cd13be357-7b193f3ef0emr1553199985a.43.1730186545709; 
+ Tue, 29 Oct 2024 00:22:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFuzF1VpV8Pm0/hZoVzcLXTYTD8LRpSZD+0iSpTjIGH7zqB9Cd9GNtN0rMMwIIAW8RusLy5Gw==
+X-Received: by 2002:a05:620a:412:b0:7a9:b268:3655 with SMTP id
+ af79cd13be357-7b193f3ef0emr1553197385a.43.1730186545252; 
+ Tue, 29 Oct 2024 00:22:25 -0700 (PDT)
+Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com.
+ [149.14.88.26]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7b18d358713sm394529485a.126.2024.10.29.00.22.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Oct 2024 00:22:24 -0700 (PDT)
+Message-ID: <a936d96485fbd8401439a0939abb15f140ed5018.camel@redhat.com>
+Subject: Re: [PATCH 1/2] drm/sched: add WARN_ON and BUG_ON to drm_sched_fini
+From: Philipp Stanner <pstanner@redhat.com>
+To: Danilo Krummrich <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ ltuikov89@gmail.com, Matthew Brost <matthew.brost@intel.com>
+Date: Tue, 29 Oct 2024 08:22:22 +0100
+In-Reply-To: <6b656a2e199d1fa1d33684572a93e327cba0ae83.camel@redhat.com>
+References: <20240918133956.26557-1-christian.koenig@amd.com>
+ <8a0e7e0b0d2ef05954240434759ca79f25328b73.camel@redhat.com>
+ <e2231195-8fed-4b25-8852-589794665e70@gmail.com>
+ <2f0b15d47576f25b65927de6c039a6d9839dbb81.camel@redhat.com>
+ <cef7c754-df50-409b-a7ee-4c184afafa5c@gmail.com>
+ <ZvKgAbiydG8Y9Z3F@phenom.ffwll.local>
+ <a2ef4cdfeb31ad95de9311274de73a51cdc54a97.camel@redhat.com>
+ <64c478a7-0afb-4b9b-8a7a-6e204a79cc20@gmail.com> <Zw0xHB_UNOvRq0L7@pollux>
+ <6b656a2e199d1fa1d33684572a93e327cba0ae83.camel@redhat.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] Re: [PATCH v18 3/8] dt-bindings: display: bridge: Add
- Cadence MHDP8501
-To: Sandor Yu <sandor.yu@nxp.com>
-Cc: "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>,
- "vkoul@kernel.org" <vkoul@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- dl-linux-imx <linux-imx@nxp.com>, Oliver Brown <oliver.brown@nxp.com>,
- "alexander.stein@ew.tq-group.com" <alexander.stein@ew.tq-group.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>
-References: <cover.1730172244.git.Sandor.yu@nxp.com>
- <e11ba0cf836d6f27935f58b7987e792026ab0233.1730172244.git.Sandor.yu@nxp.com>
- <c664wq5wzzvivvkpedkicz6ku55epoa75oyycm3hohoms46yi5@myn542dqlpmu>
- <PAXPR04MB9448D20D5EDE86DEF060222CF44B2@PAXPR04MB9448.eurprd04.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <PAXPR04MB9448D20D5EDE86DEF060222CF44B2@PAXPR04MB9448.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,48 +102,502 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/10/2024 08:17, Sandor Yu wrote:
->>
->> On Tue, Oct 29, 2024 at 02:02:11PM +0800, Sandor Yu wrote:
->>> +  interrupts:
->>> +    items:
->>> +      - description: Hotplug cable plugin.
->>> +      - description: Hotplug cable plugout.
->>> +
->>> +  interrupt-names:
->>> +    items:
->>> +      - const: plug_in
->>> +      - const: plug_out
->>> +
->>> +  data-lanes:
->>> +    $ref: /schemas/media/video-interfaces.yaml#/properties/data-lanes
->>> +    minItems: 4
->>> +    maxItems: 4
->>> +    description: Lane reordering for HDMI or DisplayPort interface.
->>
->> Please look how existing bindings do it. data-lanes is a property of port.
->> Otherwise why would you like this to be applied to the input?
-> 
-> 'lane reordering' is a feature of the MHDP IP, and different boards have different mappings. 
+Christian, Sima?
 
-Yeah, and?
+Matthew? (+CC)
 
-> 
-> Benjamin comments in v16, the imx8mq-zii-ultra board's lane mapping differs from the default in my driver, 
-> so we need to treat it as an input.
+Opinions on the below?
 
-But HDMI is not your input port. At least that's what few lines below!
-This is confusing.
+tl;dr:
+I still think it's a good thing to detectably block in
+drm_sched_fini(), or at the very least drm_sched_flush(), because then
+you'll find out that the driver is broken and can repair it.
 
-> 
-> As data-lanes is a property of port, so there is no exist property could be reused,
+P.
 
-data-lanes, really, what is the problem here?
 
-> How about revert 'data-lanes' back to my previous implementation of 'lane-mapping'?
-
-No.
-
-Best regards,
-Krzysztof
+On Fri, 2024-10-18 at 14:07 +0200, Philipp Stanner wrote:
+> On Mon, 2024-10-14 at 16:56 +0200, Danilo Krummrich wrote:
+> > On Fri, Sep 27, 2024 at 11:04:48AM +0200, Christian K=C3=B6nig wrote:
+> > > Am 25.09.24 um 16:53 schrieb Philipp Stanner:
+> > > > On Tue, 2024-09-24 at 13:18 +0200, Simona Vetter wrote:
+> > > > > On Mon, Sep 23, 2024 at 05:24:10PM +0200, Christian K=C3=B6nig
+> > > > > wrote:
+> > > > > > Am 20.09.24 um 15:26 schrieb Philipp Stanner:
+> > > > > > > On Fri, 2024-09-20 at 12:33 +0200, Christian K=C3=B6nig wrote=
+:
+> > > > > > > > Am 20.09.24 um 10:57 schrieb Philipp Stanner:
+> > > > > > > > > On Wed, 2024-09-18 at 15:39 +0200, Christian K=C3=B6nig
+> > > > > > > > > wrote:
+> > > > > > > > > > Tearing down the scheduler with jobs still on the
+> > > > > > > > > > pending
+> > > > > > > > > > list
+> > > > > > > > > > can
+> > > > > > > > > > lead to use after free issues. Add a warning if
+> > > > > > > > > > drivers try
+> > > > > > > > > > to
+> > > > > > > > > > destroy a scheduler which still has work pushed to
+> > > > > > > > > > the HW.
+> > > > > > > > > Did you have time yet to look into my proposed
+> > > > > > > > > waitque-
+> > > > > > > > > solution?
+> > > > > > > > I don't remember seeing anything. What have I missed?
+> > > > > > > https://lore.kernel.org/all/20240903094446.29797-2-pstanner@r=
+edhat.com/
+> > > > > > Mhm, I didn't got that in my inbox for some reason.
+> > > > > >=20
+> > > > > > Interesting approach, I'm just not sure if we can or should
+> > > > > > wait in
+> > > > > > drm_sched_fini().
+> > > > We do agree that jobs still pending when drm_sched_fini()
+> > > > starts
+> > > > is
+> > > > always a bug, right?
+> > >=20
+> > > Correct, the question is how to avoid that.
+> > >=20
+> > > > If so, what are the disadvantages of waiting in
+> > > > drm_sched_fini()?
+> > > > We
+> > > > could block buggy drivers as I see it. Which wouldn't be good,
+> > > > but
+> > > > could then be fixed on drivers' site.
+> > >=20
+> > > Sima explained that pretty well: Don't block in fops->close, do
+> > > that in
+> > > fops->flush instead.
+> >=20
+> > I agree that we shouldn't block in close(), but this effectively
+> > means that we
+> > need to reference count the scheduler, right?
+> >=20
+> > Otherwise, if we allow to just skip / interrupt the teardown, we
+> > can
+> > still leak
+> > memory.
+>=20
+> Having thought about it, I agree with Danilo. Having something that
+> shall wait on green light, but can be interrupted, is no guarantee
+> and
+> therefore not a feasible solution.
+>=20
+> To break down the solution space, these seem to be our options:
+> =C2=A0=C2=A0 1. We have something (either drm_sched_fini() or a helper, e=
+.g.,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_flush()) that definitely blocks =
+until the pending
+> list
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 has become empty.
+> =C2=A0=C2=A0 2. We have jobs reference-count the scheduler, so the latter=
+ can
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 outlive the driver and will be freed some =
+time later.
+>=20
+> Can anyone think of a third solution?
+>=20
+>=20
+> Solution #1 has the problem of obviously blocking unconditionally if
+> the driver didn't make sure that all fences will be signaled within
+> reasonable time. In my opinion, this would actually be an advantage,
+> because it will be *very* noticable and force users to repair their
+> driver. The driver *has* to guarantee that all fences will be
+> signaled.
+> If the driver has to do fishy things, having the blocking outsourced
+> to
+> the helper drm_sched_flush() would allow them to circumvent that.
+>=20
+> Solution #2 has the problem of backend_ops.free_job() potentially
+> using
+> driver-data after the driver is gone, causing UAF. So with this
+> solutions all drivers would have to be aware of the issue and handle
+> it
+> through one of DRMs primitives dedicated to such problems.
+>=20
+>=20
+> Currently, all drivers either work around the problem internally or
+> simply ignore it, it seems.
+>=20
+> So I'd argue that both solutions are an improvement over the existing
+> situation. My preference would be #1.
+>=20
+>=20
+> Opinions?
+>=20
+> P.
+>=20
+> >=20
+> > >=20
+> > > One issue this solves is that when you send a SIGTERM the tear
+> > > down
+> > > handling
+> > > first flushes all the FDs and then closes them.
+> > >=20
+> > > So if flushing the FDs blocks because the process initiated
+> > > sending
+> > > a
+> > > terabyte of data over a 300bps line (for example) you can still
+> > > throw a
+> > > SIGKILL and abort that as well.
+> > >=20
+> > > If you would block in fops-close() that SIGKILL won't have any
+> > > effect any
+> > > more because by the time close() is called the process is gone
+> > > and
+> > > signals
+> > > are already blocked.
+> > >=20
+> > > And yes when I learned about that issue I was also buffed that
+> > > handling like
+> > > this in the UNIX design is nearly 50 years old and still applies
+> > > to
+> > > today.
+> > > > > > Probably better to make that a separate function, something
+> > > > > > like
+> > > > > > drm_sched_flush() or similar.
+> > > > We could do that. Such a function could then be called by
+> > > > drivers
+> > > > which
+> > > > are not sure whether all jobs are done before they start
+> > > > tearing
+> > > > down.
+> > >=20
+> > > Yes exactly that's the idea. And give that flush function a
+> > > return
+> > > code so
+> > > that it can return -EINTR.
+> > >=20
+> > > > > Yeah I don't think we should smash this into drm_sched_fini
+> > > > > unconditionally. I think conceptually there's about three
+> > > > > cases:
+> > > > >=20
+> > > > > - Ringbuffer schedules. Probably want everything as-is,
+> > > > > because
+> > > > > =C2=A0=C2=A0 drm_sched_fini is called long after all the entities=
+ are
+> > > > > gone in
+> > > > > =C2=A0=C2=A0 drm_device cleanup.
+> > > > >=20
+> > > > > - fw scheduler hardware with preemption support. There we
+> > > > > probably
+> > > > > want to
+> > > > > =C2=A0=C2=A0 nuke the context by setting the tdr timeout to zero =
+(or
+> > > > > maybe just
+> > > > > as
+> > > > > =C2=A0=C2=A0 long as context preemption takes to be efficient), a=
+nd
+> > > > > relying on
+> > > > > the
+> > > > > =C2=A0=C2=A0 normal gpu reset flow to handle things.
+> > > > > drm_sched_entity_flush
+> > > > > kinda
+> > > > > =C2=A0=C2=A0 does this, except not really and it's a lot more foc=
+used
+> > > > > on
+> > > > > the
+> > > > > =C2=A0=C2=A0 ringbuffer context. So maybe we want a new
+> > > > > drm_sched_entity_kill.
+> > > > >=20
+> > > > > =C2=A0=C2=A0 For this case calling drm_sched_fini() after the 1:1
+> > > > > entity
+> > > > > is gone
+> > > > > =C2=A0=C2=A0 should not find any linger jobs, it would actually b=
+e a
+> > > > > bug
+> > > > > somewhere if
+> > > > > =C2=A0=C2=A0 there's a job lingering. Maybe a sanity check that t=
+here's
+> > > > > not just
+> > > > > no
+> > > > > =C2=A0=C2=A0 jobs lingering, but also no entity left would be goo=
+d
+> > > > > here?
+> > > > The check for lingering ones is in Christian's patch here IISC.
+> > > > At which position would you imagine the check for the entity
+> > > > being
+> > > > performed?
+> > > >=20
+> > > > > - fw scheduler without preemption support. There we kinda
+> > > > > need
+> > > > > the
+> > > > > =C2=A0=C2=A0 drm_sched_flush, except blocking in fops->close is n=
+ot
+> > > > > great. So
+> > > > > instead
+> > > > > =C2=A0=C2=A0 I think the following is better:
+> > > > > =C2=A0=C2=A0 1. drm_sched_entity_stopped, which only stops new
+> > > > > submissions (for
+> > > > > =C2=A0=C2=A0 paranoia) but doesn't tear down the entity
+> > > > Who would call that function?
+> > > > Drivers using it voluntarily could just as well stop accepting
+> > > > new jobs
+> > > > from userspace to their entities, couldn't they?
+> > > >=20
+> > > > > =C2=A0=C2=A0 2. drm_dev_get
+> > > > > =C2=A0=C2=A0 3. launch a worker which does a) drm_sched_flush (or
+> > > > > =C2=A0=C2=A0 drm_sched_entity_flush or whatever we call it) b)
+> > > > > drm_sched_entity_fini
+> > > > > =C2=A0=C2=A0 + drm_sched_fini c) drm_dev_put
+> > > > >=20
+> > > > > =C2=A0=C2=A0 Note that semantically this implements the refcount =
+in the
+> > > > > other
+> > > > > path
+> > > > > =C2=A0=C2=A0 from Phillip:
+> > > > >=20
+> > > > > https://lore.kernel.org/all/20240903094531.29893-2-pstanner@redha=
+t.com/
+> > > > > =C2=A0=C2=A0 Except it doesn't impose refcount on everyone else w=
+ho
+> > > > > doesn't need
+> > > > > it,
+> > > > > =C2=A0=C2=A0 and it doesn't even impose refcounting on drivers th=
+at do
+> > > > > need it
+> > > > > =C2=A0=C2=A0 because we use drm_sched_flush and a worker to achie=
+ve the
+> > > > > same.
+> > > > I indeed wasn't happy with the refcount approach for that
+> > > > reason,
+> > > > agreed.
+> > > >=20
+> > > > > Essentially helper functions for the common use-cases instead
+> > > > > of
+> > > > > trying to
+> > > > > solve them all by putting drm_sched_flush as a potentially
+> > > > > very
+> > > > > blocking
+> > > > > function into drm_sched_fini.
+> > > > I'm still not able to see why it blocking would be undesired =E2=80=
+=93
+> > > > as
+> > > > far
+> > > > as I can see, it is only invoked on driver teardown, so not
+> > > > during
+> > > > active operation. Teardown doesn't happen that often, and it
+> > > > can
+> > > > (if
+> > > > implemented correctly) only block until the driver's code has
+> > > > signaled
+> > > > the last fences. If that doesn't happen, the block would reveal
+> > > > a
+> > > > bug.
+> > > >=20
+> > > > But don't get me wrong: I don't want to *push* this solution. I
+> > > > just
+> > > > want to understand when it could become a problem.
+> > > >=20
+> > > >=20
+> > > > Wouldn't an explicitly blocking, separate function like
+> > > > drm_sched_flush() or drm_sched_fini_flush() be a small, doable
+> > > > step
+> > > > towards the right direction?
+> > >=20
+> > > I think that this is the right thing to do, yes.
+> > >=20
+> > > > > > > > > > When there are still entities with jobs the
+> > > > > > > > > > situation
+> > > > > > > > > > is
+> > > > > > > > > > even
+> > > > > > > > > > worse
+> > > > > > > > > > since the dma_fences for those jobs can never
+> > > > > > > > > > signal
+> > > > > > > > > > we can
+> > > > > > > > > > just
+> > > > > > > > > > choose between potentially locking up core memory
+> > > > > > > > > > management and
+> > > > > > > > > > random memory corruption. When drivers really mess
+> > > > > > > > > > it
+> > > > > > > > > > up
+> > > > > > > > > > that
+> > > > > > > > > > well
+> > > > > > > > > > let them run into a BUG_ON().
+> > > > > > > > > >=20
+> > > > > > > > > > Signed-off-by: Christian
+> > > > > > > > > > K=C3=B6nig<christian.koenig@amd.com>
+> > > > > > > > > > ---
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/scheduler/sched=
+_main.c | 19
+> > > > > > > > > > ++++++++++++++++++-
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A01 file changed, 18 insertions(+=
+), 1 deletion(-)
+> > > > > > > > > >=20
+> > > > > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > > > index f093616fe53c..8a46fab5cdc8 100644
+> > > > > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > > > @@ -1333,17 +1333,34 @@ void drm_sched_fini(struct
+> > > > > > > > > > drm_gpu_scheduler
+> > > > > > > > > > *sched)
+> > > > > > > > > I agree with Sima that it should first be documented
+> > > > > > > > > in
+> > > > > > > > > the
+> > > > > > > > > function's
+> > > > > > > > > docstring what the user is expected to have done
+> > > > > > > > > before
+> > > > > > > > > calling the
+> > > > > > > > > function.
+> > > > > > > > Good point, going to update the documentation as well.
+> > > > > > > Cool thing, thx.
+> > > > > > > Would be great if everything (not totally trivial)
+> > > > > > > necessary to
+> > > > > > > be done
+> > > > > > > before _fini() is mentioned.
+> > > > > > >=20
+> > > > > > > One could also think about providing a hint at how the
+> > > > > > > driver can
+> > > > > > > do
+> > > > > > > that. AFAICS the only way for the driver to ensure that
+> > > > > > > is
+> > > > > > > to
+> > > > > > > maintain
+> > > > > > > its own, separate list of submitted jobs.
+> > > > > > Even with a duplicated pending list it's actually currently
+> > > > > > impossible to do
+> > > > > > this fully cleanly.
+> > > > > >=20
+> > > > > > The problem is that the dma_fence object gives no guarantee
+> > > > > > when
+> > > > > > callbacks
+> > > > > > are processed, e.g. they can be both processed from
+> > > > > > interrupt
+> > > > > > context as
+> > > > > > well as from a CPU which called dma_fence_is_signaled().
+> > > > > >=20
+> > > > > > So when a driver (or drm_sched_fini) waits for the last
+> > > > > > submitted
+> > > > > > fence it
+> > > > > > actually can be that the drm_sched object still needs to do
+> > > > > > some
+> > > > > > processing.
+> > > > > > See the hack in amdgpu_vm_tlb_seq() for more background on
+> > > > > > the
+> > > > > > problem.
+> > > > Oh dear ^^'
+> > > > We better work towards fixing that centrally
+> > > >=20
+> > > > Thanks,
+> > > > P.
+> > > >=20
+> > > >=20
+> > > > > So I thought this should be fairly easy because of the sched
+> > > > > hw/public
+> > > > > fence split: If we wait for both all jobs to finish and for
+> > > > > all
+> > > > > the
+> > > > > sched
+> > > > > work/tdr work to finish, and we make sure there's no entity
+> > > > > existing
+> > > > > that's not yet stopped we should catch them all?
+> > >=20
+> > > Unfortunately not.
+> > >=20
+> > > Even when you do a dma_fence_wait() on the last submission it can
+> > > still be
+> > > that another CPU is executing the callbacks to wake up the
+> > > scheduler work
+> > > item and cleanup the job.
+> > >=20
+> > > That's one of the reasons why I think the design of keeping the
+> > > job
+> > > alive is
+> > > so extremely awkward. The dma_fence as representation of the hw
+> > > submission
+> > > has a much better defined state machine and lifetime.
+> > >=20
+> > > Regards,
+> > > Christian.
+> > >=20
+> > > > > =C2=A0 Or at least I think
+> > > > > it's
+> > > > > a bug if any other code even tries to touch the hw fence.
+> > > > >=20
+> > > > > If you have any other driver code which relies on the rcu
+> > > > > freeing
+> > > > > then I
+> > > > > think that's just a separate concern and we can ignore that
+> > > > > here
+> > > > > since the
+> > > > > fences themselves will till get rcu-delay freed even if
+> > > > > drm_sched_fini has
+> > > > > finished.
+> > > > > -Sima
+> > > > >=20
+> > > > > > Regards,
+> > > > > > Christian.
+> > > > > >=20
+> > > > > > > P.
+> > > > > > >=20
+> > > > > > > > Thanks,
+> > > > > > > > Christian.
+> > > > > > > >=20
+> > > > > > > > > P.
+> > > > > > > > >=20
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_wqueue_stop(sched);
+> > > > > > > > > > + /*
+> > > > > > > > > > + * Tearing down the scheduler wile there are still
+> > > > > > > > > > unprocessed jobs can
+> > > > > > > > > > + * lead to use after free issues in the scheduler
+> > > > > > > > > > fence.
+> > > > > > > > > > + */
+> > > > > > > > > > + WARN_ON(!list_empty(&sched->pending_list));
+> > > > > > > > > > +
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D DRM_SCHED_PRIORITY_=
+KERNEL; i < sched-
+> > > > > > > > > > > num_rqs;
+> > > > > > > > > > i++)
+> > > > > > > > > > {
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq =3D sc=
+hed-
+> > > > > > > > > > > sched_rq[i];
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 spin_lock(&rq->lock);
+> > > > > > > > > > - list_for_each_entry(s_entity, &rq-
+> > > > > > > > > > > entities,
+> > > > > > > > > > list)
+> > > > > > > > > > + list_for_each_entry(s_entity, &rq-
+> > > > > > > > > > > entities,
+> > > > > > > > > > list) {
+> > > > > > > > > > + /*
+> > > > > > > > > > + * The justification for this
+> > > > > > > > > > BUG_ON()
+> > > > > > > > > > is
+> > > > > > > > > > that tearing
+> > > > > > > > > > + * down the scheduler while jobs
+> > > > > > > > > > are
+> > > > > > > > > > pending
+> > > > > > > > > > leaves
+> > > > > > > > > > + * dma_fences unsignaled. Since we
+> > > > > > > > > > have
+> > > > > > > > > > dependencies
+> > > > > > > > > > + * from the core memory management
+> > > > > > > > > > to
+> > > > > > > > > > eventually signal
+> > > > > > > > > > + * dma_fences this can trivially
+> > > > > > > > > > lead to
+> > > > > > > > > > a
+> > > > > > > > > > system wide
+> > > > > > > > > > + * stop because of a locked up
+> > > > > > > > > > memory
+> > > > > > > > > > management.
+> > > > > > > > > > + */
+> > > > > > > > > > + BUG_ON(spsc_queue_count(&s_entity-
+> > > > > > > > > > > job_queue));
+> > > > > > > > > > +
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 /*
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * Prevents reinsertion and mar=
+ks
+> > > > > > > > > > job_queue
+> > > > > > > > > > as idle,
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * it will removed from rq in
+> > > > > > > > > > drm_sched_entity_fini
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * eventually
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 */
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 s_entity->stopped =3D true;
+> > > > > > > > > > + }
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock(&rq->lock);
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 kfree(sched->sched_rq[i]);
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 }
+> >=20
+>=20
 
