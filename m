@@ -2,61 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9179B4A46
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 13:56:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DA99B4A73
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 14:01:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 831E210E655;
-	Tue, 29 Oct 2024 12:56:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE57A10E262;
+	Tue, 29 Oct 2024 13:01:35 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aGM1KrZ5";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 979 seconds by postgrey-1.36 at gabe;
- Tue, 29 Oct 2024 12:56:26 UTC
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
- [45.249.212.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D581910E652
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 12:56:26 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.235])
- by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4Xd8wG14Lzz4f3nJK
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 20:39:42 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
- by mail.maildlp.com (Postfix) with ESMTP id 9F9681A0568
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 20:40:00 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.84.45.119])
- by APP4 (Coremail) with SMTP id gCh0CgBHIoad1yBnMcIcAQ--.55694S4;
- Tue, 29 Oct 2024 20:40:00 +0800 (CST)
-From: Yang Yingliang <yangyingliang@huaweicloud.com>
-To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch,
- angelogioacchino.delregno@somainline.org, sam@ravnborg.org,
- marijn.suijten@somainline.org
-Cc: dri-devel@lists.freedesktop.org, yangyingliang@huawei.com,
- bobo.shaobowang@huawei.com
-Subject: [PATCH] drm/panel: novatek-nt35950: fix return value check in
- nt35950_probe()
-Date: Tue, 29 Oct 2024 20:39:57 +0800
-Message-ID: <20241029123957.1588-1-yangyingliang@huaweicloud.com>
-X-Mailer: git-send-email 2.46.0.windows.1
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23CA310E262
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 13:01:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1730206892;
+ bh=77VPiqN6kINGku2BeJcX3ZcjNS93IWLEBLl2XeaOOn0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=aGM1KrZ5kGsMwAedCTtrHIqZ8CECe3MCA5++0Wg01NTCVdQLUd+XkYS1t0ZhAxpu0
+ 73QbWOaIcWj5DYwVdy984cfjE5qu+sHyiAT3R1qVSGPfP8onQ3GxaCxc12Avm+vzr2
+ p8tRCvl6VTV6IG5G2WtKr1+6z1h38f9XOzQjqQ/EBr9ZvAk+KXo60iPLBgFfk45t+f
+ Zi09v5OERn8f9bwx3kGlJhdSqbi78NyZa9tysnvq42BQHqOf0vZ0D4TAil+o8NQl+D
+ rX7tWXi1lWTYG2/8R+egrqswevlhzUVqCqBzJfD5Jr0DDHL5yCtnmBz0YkdIf039xW
+ 9xbRlcurxbYQw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 716E917E35FA;
+ Tue, 29 Oct 2024 14:01:32 +0100 (CET)
+Date: Tue, 29 Oct 2024 14:01:25 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Erik Faye-Lund <erik.faye-lund@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, kernel@collabora.com
+Subject: Re: [PATCH] drm/panthor: use defines for sync flags
+Message-ID: <20241029140125.0607c26f@collabora.com>
+In-Reply-To: <20241029094629.1019295-1-erik.faye-lund@collabora.com>
+References: <20241029094629.1019295-1-erik.faye-lund@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgBHIoad1yBnMcIcAQ--.55694S4
-X-Coremail-Antispam: 1UD129KBjvdXoW7JryDWry8Jw47Jry3ur4Durg_yoWkZFb_CF
- WrXFnrXrWUJF17WF92y3WUZr9FkFs09FZ7Cw4Iy34fC3W7Crn0qry09rn7Zry7WF48trn8
- A3W8ArWS9Fy7GjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbI8YFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20E
- Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
- A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x02
- 67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
- 0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
- x7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
- 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAa
- w2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
- Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
- 6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
- kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
- xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
- xUOBMKDUUUU
-X-CM-SenderInfo: 51dqw5xlqjzxhdqjqx5xdzvxpfor3voofrz/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,34 +62,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yang Yingliang <yangyingliang@huawei.com>
+On Tue, 29 Oct 2024 10:46:29 +0100
+Erik Faye-Lund <erik.faye-lund@collabora.com> wrote:
 
-mipi_dsi_device_register_full() never returns NULL pointer, it
-will return ERR_PTR() when it fails, so replace the check with
-IS_ERR().
+> Enums are always signed, and assigning 1u << 31 to it invokes
+> implementation defined behavior. It's not a great idea to depend on this
+> in the UAPI, and it turns out no other UAPI does either.
+> 
+> So let's do what other UAPI does, and use defines instead. This way we
+> won't get unexpected issues if compiling user-space with a compiler with
+> a different implementation-defined behavior here.
 
-Fixes: 623a3531e9cf ("drm/panel: Add driver for Novatek NT35950 DSI DriverIC panels")
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/gpu/drm/panel/panel-novatek-nt35950.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Can we do the same for all flag definitions in this header
+(drm_panthor_vm_bind_op_flags, drm_panthor_vm_bind_flags,
+drm_panthor_bo_flags and drm_panthor_group_state_flags) to keep things
+consistent, and avoid the same situation when we reach the last bit on
+those too?
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-index b036208f9356..08b22b592ab0 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-@@ -481,9 +481,9 @@ static int nt35950_probe(struct mipi_dsi_device *dsi)
- 			return dev_err_probe(dev, -EPROBE_DEFER, "Cannot get secondary DSI host\n");
- 
- 		nt->dsi[1] = mipi_dsi_device_register_full(dsi_r_host, info);
--		if (!nt->dsi[1]) {
-+		if (IS_ERR(nt->dsi[1])) {
- 			dev_err(dev, "Cannot get secondary DSI node\n");
--			return -ENODEV;
-+			return PTR_ERR(nt->dsi[1]);
- 		}
- 		num_dsis++;
- 	}
--- 
-2.33.0
+> ---
+>  include/uapi/drm/panthor_drm.h | 44 +++++++++++++++++++++-------------
+>  1 file changed, 28 insertions(+), 16 deletions(-)
+> 
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index 87c9cb555dd1d..a2e348f901376 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -209,27 +209,39 @@ struct drm_panthor_obj_array {
+>  	{ .stride = sizeof((ptr)[0]), .count = (cnt), .array = (__u64)(uintptr_t)(ptr) }
+>  
+>  /**
+> - * enum drm_panthor_sync_op_flags - Synchronization operation flags.
+> + * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK
+> + *
+> + * Synchronization handle type mask.
+>   */
+> -enum drm_panthor_sync_op_flags {
+> -	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK: Synchronization handle type mask. */
+> -	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK = 0xff,
+> +#define DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK              0xff
+>  
+> -	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ: Synchronization object type. */
+> -	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ = 0,
+> +/**
+> + * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ
+> + *
+> + * Synchronization object type.
+> + */
+> +#define DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ           0
+>  
+> -	/**
+> -	 * @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ: Timeline synchronization
+> -	 * object type.
+> -	 */
+> -	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ = 1,
+> +/**
+> + * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ
+> + *
+> + * Timeline synchronization object type.
+> + */
+> +#define DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ  1
+>  
+> -	/** @DRM_PANTHOR_SYNC_OP_WAIT: Wait operation. */
+> -	DRM_PANTHOR_SYNC_OP_WAIT = 0 << 31,
+> +/**
+> + * DRM_PANTHOR_SYNC_OP_WAIT
+> + *
+> + * Wait operation.
+> + */
+> +#define DRM_PANTHOR_SYNC_OP_WAIT    (0 << 31)
+>  
+> -	/** @DRM_PANTHOR_SYNC_OP_SIGNAL: Signal operation. */
+> -	DRM_PANTHOR_SYNC_OP_SIGNAL = (int)(1u << 31),
+> -};
+> +/**
+> + * DRM_PANTHOR_SYNC_OP_SIGNAL
+> + *
+> + * Signal operation.
+> + */
+> +#define DRM_PANTHOR_SYNC_OP_SIGNAL  (1u << 31)
+>  
+>  /**
+>   * struct drm_panthor_sync_op - Synchronization operation.
 
