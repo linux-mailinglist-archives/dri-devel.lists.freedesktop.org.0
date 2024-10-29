@@ -2,49 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9F79B522C
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 19:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490869B51A6
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 19:14:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 000AD10E0B9;
-	Tue, 29 Oct 2024 18:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50A2A10E1E0;
+	Tue, 29 Oct 2024 18:14:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kemnade.info header.i=@kemnade.info header.b="OtcjIpzE";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="B6OVgNrG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2656 seconds by postgrey-1.36 at gabe;
- Tue, 29 Oct 2024 18:53:45 UTC
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56DD710E0B9
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 18:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID;
- bh=iT1KZstrKnsyqYo4dg3x0+KOMpIG9DHct4TKVU+Hs3Y=; b=OtcjIpzEOO5bIe4gAfLT5afCNt
- 8vvMDAm8BhZplOlA4E5itIHKdRjAhF95wte24BJT6A97atK3LXtUcgH+h7egt+YrexjOfKhEh+PbL
- wDFJLiAo7RJKAIKUm32mfdkLNpKQmqee2ckHjJNcrQ946OZqMvgiOcLkGYY7zIAfu3yygi9+lRGt2
- YEpMFibNW6QuQzMXWMwK0bejU1V/EG0rKbXmhruHQHDEu8lRDafJLVAxq+rbXE8jZMzcN9X88ti9J
- RuhSK2FwjrnhDctFLQb9JaCFeEara1/zXkwqUsUT4O+rHwFm1UuFCK6B/89W6Lg41/M6kvsADya+H
- KuqqEptw==;
-Date: Tue, 29 Oct 2024 19:09:19 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: shawnguo@kernel.org, marex@denx.de, a.fatoum@pengutronix.de,
- kernel@pengutronix.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Fabio Estevam <festevam@denx.de>
-Subject: Re: [PATCH v2 2/3] dt-bindings: lcdif: Expand the imx6sl/imx6sll
- fallbacks
-Message-ID: <20241029190919.4c615621@akair>
-In-Reply-To: <20241029120236.299040-2-festevam@gmail.com>
-References: <20241029120236.299040-1-festevam@gmail.com>
- <20241029120236.299040-2-festevam@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483DE10E1E0;
+ Tue, 29 Oct 2024 18:14:27 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T9YSIU000668;
+ Tue, 29 Oct 2024 18:14:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ TtAKUgNx8KC6SxCbiVhWSUNYzjfeXXUCQiAhyDYtJ9s=; b=B6OVgNrGbLQldUD0
+ fjCvg27BihYcxKKR0gq/F+EjiBlhbhUXp0eS8HLgN8WXTX0x6rfJH29kiGw5IyjH
+ cU6S7q42MmAE0+6m5VSDZCEYS6gFrCSzoChWqUnN9eLATFmzjy65kA4LaU2XqXUl
+ lEUSoanpvQBh8mn7IpSvJvfs1V1UrAOZTRAvdn/1ssZa/yn3P5nJxUHNb1NeZJrz
+ Z1aqKm+CCdriLgSpDT1N6GiE60RmcahwWxU3yK2sGe+uV1X/F5+bzkKLJcfqW70b
+ cJNu2GvGOB34zXs7wd6EeEvsmTqVG2bWde2qoy8xEZ4Ua4WBdRgQFV7/DwDa4mZ3
+ /Nvs7g==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42grt71932-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Oct 2024 18:14:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49TIENt5012749
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Oct 2024 18:14:23 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 29 Oct
+ 2024 11:14:21 -0700
+Message-ID: <b37a40b7-e675-4cbe-9330-58b082010848@quicinc.com>
+Date: Tue, 29 Oct 2024 11:14:21 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] drm/msm/dp: tidy up platform data names
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20241028-msm-dp-rename-v1-0-a2564e9457b0@linaro.org>
+ <20241028-msm-dp-rename-v1-3-a2564e9457b0@linaro.org>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20241028-msm-dp-rename-v1-3-a2564e9457b0@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 784-KYbpJq8zJj2VBKr9xN_rUKEp6jsC
+X-Proofpoint-GUID: 784-KYbpJq8zJj2VBKr9xN_rUKEp6jsC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0
+ adultscore=0 clxscore=1011 impostorscore=0 malwarescore=0
+ priorityscore=1501 phishscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410290136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,67 +93,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Tue, 29 Oct 2024 09:02:35 -0300
-schrieb Fabio Estevam <festevam@gmail.com>:
 
-> From: Fabio Estevam <festevam@denx.de>
+
+On 10/28/2024 4:49 AM, Dmitry Baryshkov wrote:
+> Follow the established symbol name pattern and rename platform data
+> structures.
 > 
-> imx6sl.dtsi and imx6sll.dtsi have the following lcdif entries:
-> 
-> compatible = "fsl,imx6sl-lcdif", "fsl,imx28-lcdif";
-> 
-> This causes dt-schema warnings as the current binding only
-> allow 'fsl,imx6sx-lcdif' as fallback.
-> 
-> ['fsl,imx6sl-lcdif', 'fsl,imx28-lcdif'] is too long
-> ['fsl,imx6sll-lcdif', 'fsl,imx28-lcdif'] is too long
-> 
-> The imx6sx-lcdif programming model has more advanced features, such
-> as overlay plane and the CRC32 support than the imx28-lcdif IP.
-> 
-> Expand the imx6sl/imx6sll lcdif fallbacks to accept a less specific
-> fsl,imx28-lcdif fallback:
-> 
-> compatible = "fsl,imx6sl-lcdif", "fsl,imx6sx-lcdif",
-> "fsl,imx28-lcdif";
-> 
-> This helps keeping DT compatibility as well as using the more advanced
-> lcdif features found on imx6sl and imx6sll. 
-> 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-> Changes since v1:
-> - Newly introduced.
+>   drivers/gpu/drm/msm/dp/dp_display.c | 38 ++++++++++++++++++-------------------
+>   1 file changed, 19 insertions(+), 19 deletions(-)
 > 
->  .../devicetree/bindings/display/fsl,lcdif.yaml     | 14
-> +++++++++++++- 1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml index
-> 836955de3bc9..08ce19638fbd 100644 ---
-> a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml +++
-> b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml @@ -32,11
-> +32,23 @@ properties:
->                - fsl,imx8mn-lcdif
->                - fsl,imx8mq-lcdif
->            - const: fsl,imx6sx-lcdif
-> +      - items:
-> +          - const: fsl,imx6sl-lcdif
-> +          - const: fsl,imx6sx-lcdif
-> +          - const: fsl,imx28-lcdif
-> +      - items:
-> +          - const: fsl,imx6sll-lcdif
-> +          - const: fsl,imx6sx-lcdif
-> +          - const: fsl,imx28-lcdif
-> +      - items:
-> +          - enum:
-> +              - fsl,imx6sl-lcdif
-> +              - fsl,imx6sll-lcdif
-> +          - const: fsl,imx28-lcdif
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 5cc349f672c0..aba925aab7ad 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -118,7 +118,7 @@ struct msm_dp_desc {
+>   	bool wide_bus_supported;
+>   };
+>   
 
-What do we need this for? Either imx6sx-lcdif is a useful fallback
-compatible or not.  But not sometimes. Looking at the kernel driver: It
-is. So IMHO only the three element variants should be allowed.
-
-Regards,
-Andreas
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
