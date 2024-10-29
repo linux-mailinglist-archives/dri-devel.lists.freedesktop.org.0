@@ -2,65 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042D19B4C5F
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 15:43:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B389B4C75
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 15:48:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 689A410E678;
-	Tue, 29 Oct 2024 14:43:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC5910E284;
+	Tue, 29 Oct 2024 14:48:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ZF9oIPEH";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="QS0t9JAU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
- [209.85.128.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75D4210E678
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 14:43:17 +0000 (UTC)
-Received: by mail-yw1-f202.google.com with SMTP id
- 00721157ae682-6ea33140094so9572127b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 07:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1730212996; x=1730817796;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=dj4222UWLlaZLx+ULyXfsziRLNJhiLUYJXCgh1KNHNM=;
- b=ZF9oIPEHFgR9mfFdDspX49Ir2GqNJz/AsHjvlStL/j/+lL1L9x7UDcrqGfHQqHEBld
- jfNDzYRGQPqfF/drqNzGx7DUoa+h6EXN0fWqd6CXFqIg3lEDOaXmA7ofqOoFUOzhLOYq
- 1RpiZDXstp11L5lUkaw2xQwSgDFsKBhHcKoVkl2OTpofo2DZ2xILYFb7sZObJxUYnAoo
- kNg2j2yh37AnCppC7Gj/78Vhn7Y1TnSux+zn7rbW1X/w9qQpurW5ygCaUkE9sLle88nN
- FRx/Bi/ASkOqYkTKwUraAsV3DWNy/13HWzwVMrrHkvSElwb5RNe6o/mCIL4+Oh5Q7nOL
- e25A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730212996; x=1730817796;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dj4222UWLlaZLx+ULyXfsziRLNJhiLUYJXCgh1KNHNM=;
- b=BPbxHXLCtsmC89LcdPJu/8CF0ma4ema+nvr2xHIrjNzki74v5+0h4rZiKGNUsYdi1+
- s75fgvc3GJV9GKADf6+T+0v0ewh4WVCiQPxiE6Nuv/a9IFDj8wIs8JKhnnLjVFY71ij2
- UON6CNY73A3LpEUUbE1q8veiY58vO7TzyuZ0I8HnZBT9z9kt9a5dp9nRvyBPLVIOb+cB
- tZ+4rXOtJf+iaTttfsoBCASNngNVGKglQdN+jEl6b5Obam/28kQUUc7vUoYp/uH3pszb
- F23zGO+6J7uRrl6aERN0hd17jU748+agHM1QgAtNQ/8FHmJ8w/2x/QQxd23dLfBKPOuD
- oxeA==
-X-Gm-Message-State: AOJu0Yy0V+eBo/aT7WENdlfomOtKEuKNRZfTBRSF0oaXuMwIZucI8LjI
- 8MNRkjBF4ahp2dGrJYe8qbOn/X3DUu+5TWAXng0vr9HLi5RXDu4tl/F4WDJC9tplTGeS1CdL8EN
- iDmdICrwkyoE1sfCj6gJFP678WVl41Yak9YbzsubgqZTu6fqGySJqgMAMx7sLGzGYorYrSdjr5e
- eeHcdB07apcIXvMRgQNGq4sipNwNZuGWuTyGI5VCu/BGcLIcwOlyAfB766M3Rg
-X-Google-Smtp-Source: AGHT+IEAQyTTcGNOrGT0TEAunoruECqoXoFwMhg6pzFZhklm1Q0LngXiZJ/AE5LUiy/seSnB+AE9AsDe6077zVI=
-X-Received: from robbarnes3.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:6451])
- (user=robbarnes job=sendgmr) by 2002:a05:690c:7447:b0:6db:c3b8:c4ce with SMTP
- id 00721157ae682-6e9d8b42f2emr8350377b3.7.1730212995848; Tue, 29 Oct 2024
- 07:43:15 -0700 (PDT)
-Date: Tue, 29 Oct 2024 14:43:05 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
-Message-ID: <20241029144305.2911711-1-robbarnes@google.com>
-Subject: [PATCH libdrm] modetest: Make modetest availble to vendor on Android
-From: Rob Barnes <robbarnes@google.com>
-To: dri-devel@lists.freedesktop.org
-Cc: sukoo@google.com, Rob Barnes <robbarnes@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B60810E284;
+ Tue, 29 Oct 2024 14:48:22 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T91Ow1025858;
+ Tue, 29 Oct 2024 14:47:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ +wv4O0Y5GVDH3vUrfYUR55hgvLmKzOGrUOAzL5LkrYY=; b=QS0t9JAUBHqWH02u
+ dNtVrgHN86w5CLnNDffItzpLyqgQwNrWLXukh7717iCujg+qac7U0LQNgx8UjmfO
+ pNppyLoV0BiCWiWYeQfbQSkEueNjqhpwe3ymQ/5JtmI+7D7lNEAuLZkjWYt7Bad3
+ FIWANrEtgFCEbNhs18Z88h7B0VJOTTZcagFhIXvQ7W0zo2pKEUeoAojfMPClCC3w
+ ++dX6DXZS2K0/yun7AKEtrTTvl9CbZw4Czd+v0b3ypA1OiaF5hQ72P40HQv1u1dm
+ mFSANVwhc7kKC3bU9wQWN7RlliJHoMkvZAvlxYf4h1W0oqtV7QsYssccuvYBrg1q
+ QDJmNA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gsq8gr78-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Oct 2024 14:47:56 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49TEltNx020912
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Oct 2024 14:47:55 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 29 Oct
+ 2024 07:47:54 -0700
+Message-ID: <5dd216a0-0c99-6dd5-f06d-60c7c6da1b31@quicinc.com>
+Date: Tue, 29 Oct 2024 08:47:54 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2 3/3] drm: remove driver date from struct drm_driver and
+ all drivers
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>
+CC: Javier Martinez Canillas <javierm@redhat.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Simon Ser <contact@emersion.fr>, David Airlie
+ <airlied@gmail.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, Simona Vetter
+ <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ <amd-gfx@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <nouveau@lists.freedesktop.org>, <xen-devel@lists.xenproject.org>
+References: <20241028185141.3756176-1-jani.nikula@intel.com>
+ <20241028185141.3756176-3-jani.nikula@intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20241028185141.3756176-3-jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 1zozjE_Cu_2BsSxN4CNnC4fCdn0_-mvH
+X-Proofpoint-ORIG-GUID: 1zozjE_Cu_2BsSxN4CNnC4fCdn0_-mvH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0
+ adultscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=982 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1011 spamscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2410290113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,48 +101,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make modetest available to vendors on Android. libdrm_util and
-libdrm_test_headers is also made available to vendors since these are
-depenencies of modetest. This results in the module target
-modetest.vendor being availble to vendor modules.
+On 10/28/2024 12:51 PM, Jani Nikula wrote:
+> We stopped using the driver initialized date in commit 7fb8af6798e8
+> ("drm: deprecate driver date") and (eventually) started returning "0"
+> for drm_version ioctl instead.
+> 
+> Finish the job, and remove the unused date member from struct
+> drm_driver, its initialization from drivers, along with the common
+> DRIVER_DATE macros.
+> 
+> v2: Also update drivers/accel (kernel test robot)
+> 
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> Acked-by: Simon Ser <contact@emersion.fr>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Signed-off-by: Rob Barnes <robbarnes@google.com>
----
- tests/Android.bp          | 1 +
- tests/modetest/Android.bp | 1 +
- tests/util/Android.bp     | 1 +
- 3 files changed, 3 insertions(+)
-
-diff --git a/tests/Android.bp b/tests/Android.bp
-index cdc6c2cf..7eb3e3a9 100644
---- a/tests/Android.bp
-+++ b/tests/Android.bp
-@@ -3,4 +3,5 @@ subdirs = ["*"]
- cc_library_headers {
-     name: "libdrm_test_headers",
-     export_include_dirs: ["."],
-+    vendor_available: true,
- }
-diff --git a/tests/modetest/Android.bp b/tests/modetest/Android.bp
-index 02688da2..f60c7ac7 100644
---- a/tests/modetest/Android.bp
-+++ b/tests/modetest/Android.bp
-@@ -9,4 +9,5 @@ cc_binary {
- 
-     shared_libs: ["libdrm"],
-     static_libs: ["libdrm_util"],
-+    vendor_available: true,
- }
-diff --git a/tests/util/Android.bp b/tests/util/Android.bp
-index 36d18206..9c1698e3 100644
---- a/tests/util/Android.bp
-+++ b/tests/util/Android.bp
-@@ -32,4 +32,5 @@ cc_library_static {
-     shared_libs: ["libdrm"],
-     header_libs: ["libdrm_test_headers"],
-     export_header_lib_headers: ["libdrm_test_headers"],
-+    vendor_available: true,
- }
--- 
-2.47.0.163.g1226f6d8fa-goog
-
+For QAIC -
+Acked-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
