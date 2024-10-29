@@ -2,55 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A279B4771
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 11:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15AD9B480C
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 12:13:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC2E610E623;
-	Tue, 29 Oct 2024 10:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11E9D10E625;
+	Tue, 29 Oct 2024 11:13:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="k9f2Uy9g";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="DNJe13Eh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E19B710E623
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 10:53:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=BvJMMRt1z7kOyyvUn0nECg1A2DXOBDb3fSwEgftGhmw=; b=k9f2Uy9gWUB5eCdim9JMZ+MTD6
- HVfwvaQMkcTHuSbNymaBzvVxjQ+dB8fOTIilSEbe4cxFaN6mModmS7x9GTvlhcYoggQ+UgvP/J7q5
- lgXJPvwf4g+HvKJ1rguObeY5P7pIQdCIuPOTlmYgrGyp2Fu2WDJmT64+NE9Q81QbuHDhIIEixidMC
- m6hFYRatEvAO1Stcr9s1srYuX34B2HuuMxUdJOlNczaCJIPmUtiEeZ18kPJhK3Pw10cAnLXDdSt70
- SeMaflTKW3r4EmrJmmUkbtUedENrwcfybKBXNtjD5YPQGTOwAkBW9NGPJ6QqlhNeP6lvtM7Nd64Ws
- CCGXwGKA==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1t5jr9-00Gada-Sk; Tue, 29 Oct 2024 11:53:48 +0100
-Message-ID: <078957ad-bd7d-41b3-88d5-4c09824f134a@igalia.com>
-Date: Tue, 29 Oct 2024 07:53:40 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/v3d: Drop allocation of object without mountpoint
-To: Matthias Brugger <mbrugger@suse.com>, matthias.bgg@kernel.org,
- Melissa Wen <mwen@igalia.com>,
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E179D10E625
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 11:13:15 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-2e2cc469c62so3797436a91.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 04:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1730200395; x=1730805195;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0505nJjQERl8lxM/9PvfVg4f+qO1mzi84QJZy2KWoxQ=;
+ b=DNJe13EhsVmHcNuLLeO7+kPOc1q5EhpfRTBrXXAFgHPv7vHxjmwQcT8SKEgp7IM6q8
+ mPS7x3cr5YoJJ8rGA3fn76QD2qtmyYuYwbRntIzjvVn7LdfzGs91Aw8CyZ070sjR6CfO
+ aPBmQ61a4A0F4LZ9Vg9lHtvAHS2VeeKoJaMSc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730200395; x=1730805195;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0505nJjQERl8lxM/9PvfVg4f+qO1mzi84QJZy2KWoxQ=;
+ b=ecKs4k3GSRbyeCHHZoS3ez5i8iUtIP3OKqzD5P1MQ9j2omO4RAlNFvJNVYOoJDeDGB
+ lRzIZOEdO4AIECjSiRqOdUqkmolGhcCnDP48fn43u9Z9RZiiRTjK5lPH/659XWAr1NV0
+ z34KeHnxHQy9dx5JpYjt639HFUc60tUIi3gh9M5P+m3/6mvjOBczfo/Jn1R1616jVMUx
+ aArEXLBFnBfRzCVard+jlB7wF8GyFZa81SbjlwZDlTjG9gxug8HdgnzsCyt8zr7oKk4d
+ m43UKSrnEcLXl76QM9zLYBmivUE4x5KxLfCj9BBA8KCxzr2d1Xsk0IkIpsk3Y21GWvxC
+ Glgw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXUwfQ8XEEKYqgz6WnwiokPB5x3jYGJlYcFe6oMdhLq2yte/uVHGwTOAx1djhsN2JjAriBXSphnfMM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzl5bHNQaa5Yac0uWtfMRLSQF1Lt01T1JZyzFZW5CzeiksBrXvu
+ cvRlcEp/NbLELXp+Xiebs/aVBXS1cp92K0x879mwDNySer5VFcURaIiAmsNTvQ==
+X-Google-Smtp-Source: AGHT+IGrd9l1GlM2L8PMQ11t9vsR3WqEyNxK+9h4vC9b0I7xJAWHJVP8EBwRriK40RxJRSAsNNrEQQ==
+X-Received: by 2002:a17:90a:68ce:b0:2e2:a8dd:9bb5 with SMTP id
+ 98e67ed59e1d1-2e8f105e834mr12056484a91.12.1730200395327; 
+ Tue, 29 Oct 2024 04:13:15 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com
+ ([2401:fa00:1:10:1fef:f494:7cba:476])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2e8e3572e69sm9280776a91.16.2024.10.29.04.13.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Oct 2024 04:13:14 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20241028-v3d-v1-1-907bee355edf@gmail.com>
- <38486268-ad83-4719-8ad5-ead05935d02d@igalia.com>
- <49593924-4e4a-4341-9a10-5733a9be082b@suse.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <49593924-4e4a-4341-9a10-5733a9be082b@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [PATCH] drm/mediatek: Drop dependency on ARM
+Date: Tue, 29 Oct 2024 19:13:07 +0800
+Message-ID: <20241029111309.737263-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,98 +84,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthias,
+The recent attempt to make the MediaTek DRM driver build for non-ARM
+compile tests made the driver unbuildable for arm64 platforms. Since
+this is used on both ARM and arm64 platforms, just drop the dependency
+on ARM.
 
-On 29/10/24 05:43, Matthias Brugger wrote:
-> Hi Maria,
-> 
-> On 29/10/2024 01:41, Maíra Canal wrote:
->> Hi Matthias,
->>
->> Thanks for your patch!
->>
->> On 28/10/24 11:27, matthias.bgg@kernel.org wrote:
->>> From: Matthias Brugger <matthias.bgg@gmail.com>
->>>
->>> Function drm_gem_shmem_create_with_mnt() creates an object
->>> without using the mountpoint if gemfs is NULL.
->>>
->>> Drop the else branch calling drm_gem_shmem_create().
->>>
->>> Signed-off-by: Matthias Brugger <matthias.bgg@gmail.com>
->>> ---
->>>   drivers/gpu/drm/v3d/v3d_bo.c | 7 +------
->>>   1 file changed, 1 insertion(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
->>> index 
->>> 7055f7c7bcfe5700aee10b09ecc0005197323b01..f6df9e0947b6ee06043cdbb42c4f98a71bdeba4d 100644
->>> --- a/drivers/gpu/drm/v3d/v3d_bo.c
->>> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
->>> @@ -157,13 +157,8 @@ struct v3d_bo *v3d_bo_create(struct drm_device 
->>> *dev, struct drm_file *file_priv,
->>>       struct v3d_bo *bo;
->>>       int ret;
->>> -    /* Let the user opt out of allocating the BOs with THP */
->>> -    if (v3d->gemfs)
->>> -        shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
->>> +    shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
->>>                                 v3d->gemfs);
->>
->> Please, run scripts/checkpatch.pl before sending the patch.
->>
-> 
-> I did with b4 prep --check which gave no errors, just double checked with:
-> $ ./scripts/checkpatch.pl 0001-drm-v3d-Drop-allocation-of-object- 
-> without-mountpoint.patch
-> total: 0 errors, 0 warnings, 14 lines checked
-> 
-> 0001-drm-v3d-Drop-allocation-of-object-without-mountpoint.patch has no 
-> obvious style problems and is ready for submission.
-> 
-> I suppose you want line "v3d->gemfs" to get an extra tab, correct?
+Fixes: d2db0b8fd70b ("drm/mediatek: Allow build with COMPILE_TEST=y")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+It looks like the culprit commit was merged through the drm-misc tree.
+So please merge this on top ASAP.
 
-Yes. A tip is running checkpatch.pl with the flag --strict.
+ drivers/gpu/drm/mediatek/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-$ ./scripts/checkpatch.pl --strict -g HEAD
-CHECK: Alignment should match open parenthesis
-#28: FILE: drivers/gpu/drm/v3d/v3d_bo.c:161:
-+	shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
-  							  v3d->gemfs);
-
-total: 0 errors, 0 warnings, 1 checks, 14 lines checked
-
-NOTE: For some of the reported defects, checkpatch may be able to
-       mechanically convert to the typical style using --fix or 
---fix-inplace.
-
-Commit d2ba234a691f ("drm/v3d: Drop allocation of object without 
-mountpoint") has style problems, please review.
-
-NOTE: If any of the errors are false positives, please report
-       them to the maintainer, see CHECKPATCH in MAINTAINERS.
-
-Best Regards,
-- Maíra
-
-> 
-> Regards,
-> Matthias
-> 
->> Best Regards,
->> - Maíra
->>
->>> -    else
->>> -        shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
->>> -
->>>       if (IS_ERR(shmem_obj))
->>>           return ERR_CAST(shmem_obj);
->>>       bo = to_v3d_bo(&shmem_obj->base);
->>>
->>> ---
->>> base-commit: dec9255a128e19c5fcc3bdb18175d78094cc624d
->>> change-id: 20241028-v3d-1d2546ed92d7
->>>
->>> Best regards,
->>
+diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
+index 2e0e7c4079b6..f496e6cfdfe0 100644
+--- a/drivers/gpu/drm/mediatek/Kconfig
++++ b/drivers/gpu/drm/mediatek/Kconfig
+@@ -2,7 +2,7 @@
+ config DRM_MEDIATEK
+ 	tristate "DRM Support for Mediatek SoCs"
+ 	depends on DRM
+-	depends on (ARCH_MEDIATEK && ARM) || COMPILE_TEST
++	depends on ARCH_MEDIATEK || COMPILE_TEST
+ 	depends on COMMON_CLK
+ 	depends on HAVE_ARM_SMCCC || COMPILE_TEST
+ 	depends on OF
+-- 
+2.47.0.163.g1226f6d8fa-goog
 
