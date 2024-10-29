@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63A89B482B
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 12:23:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68A69B4837
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 12:24:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 611F410E62F;
-	Tue, 29 Oct 2024 11:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 132A110E630;
+	Tue, 29 Oct 2024 11:24:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=erik.faye-lund@collabora.com header.b="GxY7fYel";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d8ANdNQd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B803610E152
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 11:22:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1730200971; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=M/YXkNSekdWtjQOx9xWba/yRcFA9dZiW/xbUbDqfYEW0kewPrJwh/7lhViqCJsaQnkMGw3WhpaYi0PHCdZ6PsEDXO6kgQVz/T3nqCgKWPzX6ccSq//3fJrQprL9HhmlMMrwuuEM22AdO97n2JZvukL/ZBypQyACxnOMPkHCVUxE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1730200971;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=63uqfVLYYayNBvJEIoYogcy2jvvKTIQK12xtHviD8X0=; 
- b=fltZONsG3ZcWyh6LZFsbinjSUv1vgMdlqhCmW38GJ378ujR9i+cupVaHUx2JFZZMO0W8cVWO5ACdjfC+Ba5dBNXAsfFBAlTnpeR4dPwXYStv4ylUDAhB/qGsLab/PWhdmjj5IpjyMNpMVc5tEoK+t9fSckqiC9CDQOyOWo2tmrY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=erik.faye-lund@collabora.com;
- dmarc=pass header.from=<erik.faye-lund@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1730200971; 
- s=zohomail; d=collabora.com; i=erik.faye-lund@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=63uqfVLYYayNBvJEIoYogcy2jvvKTIQK12xtHviD8X0=;
- b=GxY7fYelyy1V73w9lrRYZqD7Yd2Mp5b+fuwWBw0X8AR3EkfXHtti2dPsGX8HQH7Y
- h6XDEizBSpKMCNmZ5UEMq3T9s60XKXhgkGOPZtISqQ2lXgduvJuMOHtl3Gf/DlXCxG7
- F9yIl48rJGynbRO5DvgKls+zCAUSW55PhOSY4/vc=
-Received: by mx.zohomail.com with SMTPS id 1730200970627340.98927256099466;
- Tue, 29 Oct 2024 04:22:50 -0700 (PDT)
-Message-ID: <3992ad8a3e1f6dabde46ba0d5428c793dcf49647.camel@collabora.com>
-Subject: Re: [PATCH] drm/panthor: use defines for sync flags
-From: Erik Faye-Lund <erik.faye-lund@collabora.com>
-To: Liviu Dudau <liviu.dudau@arm.com>
-Cc: dri-devel@lists.freedesktop.org, Boris Brezillon	
- <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, Robin
- Murphy <robin.murphy@arm.com>, Mihail Atanassov <mihail.atanassov@arm.com>,
- kernel@collabora.com
-Date: Tue, 29 Oct 2024 12:22:46 +0100
-In-Reply-To: <ZyC1y1dSh1sgalLL@e110455-lin.cambridge.arm.com>
-References: <20241029094629.1019295-1-erik.faye-lund@collabora.com>
- <ZyC1y1dSh1sgalLL@e110455-lin.cambridge.arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.1 (by Flathub.org) 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C4510E630
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 11:24:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 494725C5B59;
+ Tue, 29 Oct 2024 11:24:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F1AEC4CEE3;
+ Tue, 29 Oct 2024 11:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730201094;
+ bh=jIWGiu86I9tdXQhkhV8+srxBOHqcwMnyFOpLP5Qz8dw=;
+ h=From:Date:Subject:To:Cc:From;
+ b=d8ANdNQd6t/M1XAzOxB96oltciCJj94k6NWJ7cQi8FwGAEUpPDTPrvlZgG3wizdJL
+ 1X0OGykFgTLBEurvnlYw+P5gLydUvoHeRh1wC3IcDyJPx6O2m510/chrxrFau13pVx
+ ultLHjcYUsy6XYR2A2Vfx4XRaiDYbqkrU3Qy/QqOWxrgTP+uFUZYEem4XBDsSlniCZ
+ ZdozpNpsqKnH5+oumaRVdnmIExItPz5ptcSb5LPdDUSF6J0Jpdo7fsYP0U5rghXM+S
+ 6YWTa07Jg4YwiQ0GrGivE3E7ztPx1HWBzj+l/RBYvGHm3mTtGoQIQC0YHWunQXiKfZ
+ z/z9N/Dt5DMlA==
+From: matthias.bgg@kernel.org
+Date: Tue, 29 Oct 2024 12:24:29 +0100
+Subject: [PATCH v2] drm/v3d: Drop allocation of object without mountpoint
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241029-v3d-v2-1-c0d3dd328d1b@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAO3FIGcC/1WMQQ6CMBBFr0JmbU07UBFX3oOwQGaASYSa1jQY0
+ rtb2bl8P/+9HQJ74QC3YgfPUYK4NQOeChjmfp1YCWUG1FgZjVcVS1KG0FYXpgaphvx8eR5lOyp
+ tl3mW8Hb+c0Sj+a3/fjTKqEbXD+bSWqbxPi29PM+DW6BLKX0BORLU45YAAAA=
+X-Change-ID: 20241028-v3d-1d2546ed92d7
+To: Melissa Wen <mwen@igalia.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Matthias Brugger <matthias.bgg@gmail.com>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,105 +64,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2024-10-29 at 10:15 +0000, Liviu Dudau wrote:
-> On Tue, Oct 29, 2024 at 10:46:29AM +0100, Erik Faye-Lund wrote:
-> > Enums are always signed, and assigning 1u << 31 to it invokes
-> > implementation defined behavior. It's not a great idea to depend on
-> > this
-> > in the UAPI, and it turns out no other UAPI does either.
-> >=20
-> > So let's do what other UAPI does, and use defines instead. This way
-> > we
-> > won't get unexpected issues if compiling user-space with a compiler
-> > with
-> > a different implementation-defined behavior here.
->=20
-> You're missing the signoff.
->=20
+From: Matthias Brugger <matthias.bgg@gmail.com>
 
-Whoops, apologies.
+Function drm_gem_shmem_create_with_mnt() creates an object
+without using the mountpoint if gemfs is NULL.
 
-Signed-off-by: Erik Faye-Lund <erik.faye-lund@collabora.com>
+Drop the else branch calling drm_gem_shmem_create().
 
-I'll add it for the next iteration, if needed.
+Signed-off-by: Matthias Brugger <matthias.bgg@gmail.com>
+---
+Changes in v2:
+- Fix indentation
+- Link to v1: https://lore.kernel.org/r/20241028-v3d-v1-1-907bee355edf@gmail.com
+---
+ drivers/gpu/drm/v3d/v3d_bo.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-
-> > ---
-> > =C2=A0include/uapi/drm/panthor_drm.h | 44 +++++++++++++++++++++--------=
+diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+index 7055f7c7bcfe5700aee10b09ecc0005197323b01..73ab7dd31b17b249b7688dcc9833fd161211b6d9 100644
+--- a/drivers/gpu/drm/v3d/v3d_bo.c
++++ b/drivers/gpu/drm/v3d/v3d_bo.c
+@@ -157,13 +157,8 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
+ 	struct v3d_bo *bo;
+ 	int ret;
+ 
+-	/* Let the user opt out of allocating the BOs with THP */
+-	if (v3d->gemfs)
+-		shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
+-							  v3d->gemfs);
+-	else
+-		shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
 -
-> > ----
-> > =C2=A01 file changed, 28 insertions(+), 16 deletions(-)
-> >=20
-> > diff --git a/include/uapi/drm/panthor_drm.h
-> > b/include/uapi/drm/panthor_drm.h
-> > index 87c9cb555dd1d..a2e348f901376 100644
-> > --- a/include/uapi/drm/panthor_drm.h
-> > +++ b/include/uapi/drm/panthor_drm.h
-> > @@ -209,27 +209,39 @@ struct drm_panthor_obj_array {
-> > =C2=A0	{ .stride =3D sizeof((ptr)[0]), .count =3D (cnt), .array =3D
-> > (__u64)(uintptr_t)(ptr) }
-> > =C2=A0
-> > =C2=A0/**
-> > - * enum drm_panthor_sync_op_flags - Synchronization operation
-> > flags.
-> > + * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK
-> > + *
-> > + * Synchronization handle type mask.
-> > =C2=A0 */
-> > -enum drm_panthor_sync_op_flags {
-> > -	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK: Synchronization
-> > handle type mask. */
-> > -	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK =3D 0xff,
-> > +#define DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0xff
-> > =C2=A0
-> > -	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ:
-> > Synchronization object type. */
-> > -	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ =3D 0,
-> > +/**
-> > + * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ
-> > + *
-> > + * Synchronization object type.
-> > + */
-> > +#define DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0
-> > =C2=A0
-> > -	/**
-> > -	 * @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ:
-> > Timeline synchronization
-> > -	 * object type.
-> > -	 */
-> > -	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ =3D 1,
-> > +/**
-> > + * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ
-> > + *
-> > + * Timeline synchronization object type.
-> > + */
-> > +#define DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ=C2=A0 1
-> > =C2=A0
-> > -	/** @DRM_PANTHOR_SYNC_OP_WAIT: Wait operation. */
-> > -	DRM_PANTHOR_SYNC_OP_WAIT =3D 0 << 31,
-> > +/**
-> > + * DRM_PANTHOR_SYNC_OP_WAIT
-> > + *
-> > + * Wait operation.
-> > + */
-> > +#define DRM_PANTHOR_SYNC_OP_WAIT=C2=A0=C2=A0=C2=A0 (0 << 31)
-> > =C2=A0
-> > -	/** @DRM_PANTHOR_SYNC_OP_SIGNAL: Signal operation. */
-> > -	DRM_PANTHOR_SYNC_OP_SIGNAL =3D (int)(1u << 31),
-> > -};
-> > +/**
-> > + * DRM_PANTHOR_SYNC_OP_SIGNAL
-> > + *
-> > + * Signal operation.
-> > + */
-> > +#define DRM_PANTHOR_SYNC_OP_SIGNAL=C2=A0 (1u << 31)
-> > =C2=A0
-> > =C2=A0/**
-> > =C2=A0 * struct drm_panthor_sync_op - Synchronization operation.
-> > --=20
-> > 2.45.2
-> >=20
->=20
++	shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
++						  v3d->gemfs);
+ 	if (IS_ERR(shmem_obj))
+ 		return ERR_CAST(shmem_obj);
+ 	bo = to_v3d_bo(&shmem_obj->base);
+
+---
+base-commit: dec9255a128e19c5fcc3bdb18175d78094cc624d
+change-id: 20241028-v3d-1d2546ed92d7
+
+Best regards,
+-- 
+Matthias Brugger <matthias.bgg@gmail.com>
 
