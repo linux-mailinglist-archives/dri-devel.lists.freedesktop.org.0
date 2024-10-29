@@ -2,91 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8CF9B42FF
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 08:22:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23189B4325
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 08:33:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE37810E5BE;
-	Tue, 29 Oct 2024 07:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB9010E5BD;
+	Tue, 29 Oct 2024 07:33:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PScTcT0F";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="djnurheo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA0F10E5BD
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 07:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1730186548;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+eJlJWx0o+S3hy8FSjyW4hnsYUq2K24oIV4Np3ZiJY0=;
- b=PScTcT0F3N5LUL18veHbpNtqhf4p0eX2wRmfxNXaOrpgyoeA3excQU51o7ZEqgIbi9Hknm
- Y+F8uUYnDrsseKXCbuYlePq76RZXm14MdpuSsrjKznmzGD8JjM757xjfJaDU+kv+e16IEq
- iUdOTuYxCkUBEE6F9fMQ3Ji0QB5Fl24=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-134-6T7SfDNvMr6_i2X2Ynnh6Q-1; Tue, 29 Oct 2024 03:22:26 -0400
-X-MC-Unique: 6T7SfDNvMr6_i2X2Ynnh6Q-1
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7b17e90d16fso865872885a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 00:22:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730186546; x=1730791346;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+eJlJWx0o+S3hy8FSjyW4hnsYUq2K24oIV4Np3ZiJY0=;
- b=O85UCLn7ftSI0PSBlrZ5SKgCfjTanzs4pz7OITj+ItukKDr1DqrAwwbkdm+eBmBNE7
- TejkjczJBTDEm55NXXrYU7Dsbli10GgBE7UXph1KpZo1k56g6cctF1cofY7ITv0M0ery
- +Q8rHceJBEF8RSZxxS0ge3FCm9wFFh64nBWBOAwBrmleyMTRgy40IBTOaf8K4KiaP1Qs
- +yt6y1IwF6c8vC00k5V5gCF9Xkv3E77ZRP4kCaoA9m6P65XrcCsHjbrvnsg9E7FJlE2y
- B2IibX/AWJGJIi22pgo8TTlbAXD9Mx8Ab2G8cki+Pb+GZGvNMYGnK/ugtFGSUQoo6GU2
- gJJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVYRNyKHGHokj3r/4jGHLW2OgEc/KRoXGjNUPKDCiwIyAl0YSU/+kJndSoIMWc9M/sE5TCWKYjpe9o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yymr2PXgI8ya0kbttMOe1rRqv9/zNaw6DaRD41sbijlSyl9hEsG
- iGy/FsAuS1/YcoWICRsJmNuu4T/Dp9MY6SvwEaOXVpwLiSKUjSNgUU89KJBQFgZuBd+wYTIxj59
- sbMVois+TBFrru2SwdzXIr49yiiUYFuZnpFi8gf8ZAg2UXaWBvbkylYf9m88oeFzH4Q==
-X-Received: by 2002:a05:620a:412:b0:7a9:b268:3655 with SMTP id
- af79cd13be357-7b193f3ef0emr1553199985a.43.1730186545709; 
- Tue, 29 Oct 2024 00:22:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFuzF1VpV8Pm0/hZoVzcLXTYTD8LRpSZD+0iSpTjIGH7zqB9Cd9GNtN0rMMwIIAW8RusLy5Gw==
-X-Received: by 2002:a05:620a:412:b0:7a9:b268:3655 with SMTP id
- af79cd13be357-7b193f3ef0emr1553197385a.43.1730186545252; 
- Tue, 29 Oct 2024 00:22:25 -0700 (PDT)
-Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com.
- [149.14.88.26]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7b18d358713sm394529485a.126.2024.10.29.00.22.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2024 00:22:24 -0700 (PDT)
-Message-ID: <a936d96485fbd8401439a0939abb15f140ed5018.camel@redhat.com>
-Subject: Re: [PATCH 1/2] drm/sched: add WARN_ON and BUG_ON to drm_sched_fini
-From: Philipp Stanner <pstanner@redhat.com>
-To: Danilo Krummrich <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- ltuikov89@gmail.com, Matthew Brost <matthew.brost@intel.com>
-Date: Tue, 29 Oct 2024 08:22:22 +0100
-In-Reply-To: <6b656a2e199d1fa1d33684572a93e327cba0ae83.camel@redhat.com>
-References: <20240918133956.26557-1-christian.koenig@amd.com>
- <8a0e7e0b0d2ef05954240434759ca79f25328b73.camel@redhat.com>
- <e2231195-8fed-4b25-8852-589794665e70@gmail.com>
- <2f0b15d47576f25b65927de6c039a6d9839dbb81.camel@redhat.com>
- <cef7c754-df50-409b-a7ee-4c184afafa5c@gmail.com>
- <ZvKgAbiydG8Y9Z3F@phenom.ffwll.local>
- <a2ef4cdfeb31ad95de9311274de73a51cdc54a97.camel@redhat.com>
- <64c478a7-0afb-4b9b-8a7a-6e204a79cc20@gmail.com> <Zw0xHB_UNOvRq0L7@pollux>
- <6b656a2e199d1fa1d33684572a93e327cba0ae83.camel@redhat.com>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Received: from OS0P286CU011.outbound.protection.outlook.com
+ (mail-japanwestazon11010006.outbound.protection.outlook.com [52.101.228.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19D2210E5BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 07:33:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qrGYYCHn5HCLLVHzVLlPUTSXPc3Ksp9fdryV6UXwLd1P34d6Lb7rDd4KQhh1Q+I5BEqnoprdq6gVbQtYIF2S/XqHNLMP2qcNNh0C7BtNHvgVhajHjqxMf0K7YBKb3zrlKFxLLIwtCXPyY5nnl8aFEHmcMfZSP8AczuxJccjyiUPYduBaKH6IEkAYS33qG/HHLUeKO7YWL19gt0pvHNVo4T7k20k57bzdc/C53pzdmdpVIqcwPwOKpmxsuMJEQnat5cz8hFEtJjJmBXr68mgywkkxpawSZQL8RnbSDyDOTUH8nHSNs0MQ5s7eK3bHe+XiSFwaL6mI9v1GFHwHY5YlMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vP/25vMSS/FqBQhOL7sM6GKLRD7KcunjE0SeZkjjgEY=;
+ b=Ml8vkQbp9i9zBi0KViSPVtttmQQgGePeWQDpXNm/azHDUecJczdkSkYMcgrchsX9l86JTZe4j7MDp7cm9CR6BR2d6svLxDZeTM0hBC9FQ5IlLEKs/54iaKP24Jv/FGZongGl/ibhsmkztRiYMKRMZ2F/t9OyIVfEREVvjQEuxolP5X9Wmb+qTOGSqN2+FcSa1sba4+Ckoe5xS+xNczEzbq//isO8L+SSuySeSLM6DCYLw0+n2Br+jcUs7Qa0iYdtnmnSbjeoiGwbp6HQcria9W3UqE9AHGJ6kI0mvXJLsgbaKCs01zcHCtOCDwHQI06istJDTzE3/LYlroYiCOtnDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vP/25vMSS/FqBQhOL7sM6GKLRD7KcunjE0SeZkjjgEY=;
+ b=djnurheoNtnj7peo8HTOTEfPieEyEsGcnWZEnvThb+/wlRRWKBSh9Svbdt1IY+o6ivxCCxvsqE/nbkKZq00eLXrl5AIzzHzVnTV4+k40C30HcjV0gm4XNjY+9JIjAj5UAYo8Zpv8/DlKMSfb1+fN8w9nCHfg34JOAYZeOFb3SGs=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYWPR01MB12060.jpnprd01.prod.outlook.com (2603:1096:400:443::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Tue, 29 Oct
+ 2024 07:33:00 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%3]) with mapi id 15.20.8093.025; Tue, 29 Oct 2024
+ 07:33:00 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Liu Ying <victor.liu@nxp.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+CC: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, "rfoss@kernel.org"
+ <rfoss@kernel.org>, laurent.pinchart <laurent.pinchart@ideasonboard.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>, "jernej.skrabec@gmail.com"
+ <jernej.skrabec@gmail.com>, "maarten.lankhorst@linux.intel.com"
+ <maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
+ <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>, 
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "quic_jesszhan@quicinc.com" <quic_jesszhan@quicinc.com>, "mchehab@kernel.org"
+ <mchehab@kernel.org>, "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>, "kernel@pengutronix.de"
+ <kernel@pengutronix.de>, "festevam@gmail.com" <festevam@gmail.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org"
+ <will@kernel.org>, "sakari.ailus@linux.intel.com"
+ <sakari.ailus@linux.intel.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+ "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
+ "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>, "arnd@arndb.de"
+ <arnd@arndb.de>, "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>, Prabhakar Mahadev Lad
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, "sam@ravnborg.org"
+ <sam@ravnborg.org>, "marex@denx.de" <marex@denx.de>
+Subject: RE: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS
+ display common properties
+Thread-Topic: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS
+ display common properties
+Thread-Index: AQHbKOKZPN4b66+xp0G7h8Y65TjgzbKdVYDg
+Date: Tue, 29 Oct 2024 07:33:00 +0000
+Message-ID: <TY3PR01MB11346FDF74840ADF7273A218D864B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20241028023740.19732-1-victor.liu@nxp.com>
+ <20241028023740.19732-9-victor.liu@nxp.com>
+In-Reply-To: <20241028023740.19732-9-victor.liu@nxp.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB12060:EE_
+x-ms-office365-filtering-correlation-id: be011ab7-5f73-4b05-d9e8-08dcf7ebeab4
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|376014|7416014|366016|38070700018; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?93ZngSJnTI3GGMJnPa5vitW/yg8Q3OJQVhYZayT+0PDf/+ToFfPyXxa2PZ+l?=
+ =?us-ascii?Q?j5HgZoyVBO22nEKgG80n+6gTWfe3iiuMAZYxH6ZkWNG5FfQbhaMChL9jqVsq?=
+ =?us-ascii?Q?LLxlKFlGO/SKb2ZXVHCj/TRCVAnRclcSLwUe9V6fphjIy+rNrFXkAvbIBZ07?=
+ =?us-ascii?Q?Vv57YahCkCV0TrBWWAtEjOqXEpxw5/cvpQ3Em/w+b1ZlGTrz882qUUDBXH2X?=
+ =?us-ascii?Q?k9jH3OyHYihM1o4tqdaVd9Y7BNQJ9VYogkOxB8DpiPHbrbA127LZFarmXv3j?=
+ =?us-ascii?Q?QX3g7FV+CYwGz4oye9X0af5usmIV9kUD6pD8huAhJGoiFOVZxuZaBjnMA5+Z?=
+ =?us-ascii?Q?+wqgTVio9LKP7sNOTjejvH2WUW/eQx8KMIXHBgU9tkwepw5vS8qJ6YMymEHq?=
+ =?us-ascii?Q?Tjbh0LEVOCPZi3dmtCO6HqlOTol9r2yDo3K2E/fNf82kXx28nm6brnGnKLjG?=
+ =?us-ascii?Q?fSsgEG8cmjdtJw8Qj5VCu06tChS4YZSNMUoxAAyhhZHFcePNU+YLx1noyU1o?=
+ =?us-ascii?Q?+ohna2AnPGJW47cSzTYh9GCzCPk6KQAL4lyOpddhC+6944oNj6QGsuwd8Bzk?=
+ =?us-ascii?Q?nf4iefnWIF91jISDDrhAGRakjNnHfWtl/nPZwx5In0hsgqE9rLKE+43FTLRr?=
+ =?us-ascii?Q?yxpSQ4tnqmmBAbe/GOseAJVZUuQ+A23xxiXv3XayVdYYLUv7f15J0OklSD/n?=
+ =?us-ascii?Q?M4MTYfpqEK8iBhjzY7JFjvf5P0wXDgJh9q++LYqOcE5G6n4ZRpelezsUw0rj?=
+ =?us-ascii?Q?48RhO0G8RF5FcsaK7IoKG1IOp4CNoZrOb8IY1oG3HgstZxd8ztgapc9l4uga?=
+ =?us-ascii?Q?k0FNMdTW+B/rTfDsERIiMintslhpFx6bKe3Jqyh6ievW1DGWyZUPEcaMvCYo?=
+ =?us-ascii?Q?lnnapwqQ/PRF71rV3NaBjcdYdYx4lnAp9i6haKZ6ZYHtW+W69gGNlg5o37AY?=
+ =?us-ascii?Q?AZ4dsqBgD2vrXRCO1V0irzipg3F9I6HjaewaoXi4bLDS/0h2o0xbQDFGvfPA?=
+ =?us-ascii?Q?abnzfdTpnAwnBLmRqIn5XYb4KmOEWEVt+zpX5P45txxbM7eGkyhw//OOWD4Q?=
+ =?us-ascii?Q?jbnV/mSobLVma0EFP8hOQIPyjUr/x91oDqrx+xHgopF3+bBcCawl72cKrw2g?=
+ =?us-ascii?Q?jiIZeFERQfDLJ8WBSnwPVdfjbl0xTQ0pXvcvPRCnnZCnX66ZiHPgXy7A4fJ7?=
+ =?us-ascii?Q?OQeb/WfhTSE8lBT6wb59elaOzmIMCZopAcJyhmBaykikgo8qL+xpdJmV5DqI?=
+ =?us-ascii?Q?6a2pKHwI0L08P5E83qGc1fjbY7D1wa0D3jXOgZ2dlaLqfiaIQdNq63Rw0KGA?=
+ =?us-ascii?Q?4axkpTIwDwrbYBlaf7plW0bp?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ZDUphBYafA0lEmcJz//DdKxGo2PrkXwrYhyvkISleIGocAbXp2eSTA3aUPy/?=
+ =?us-ascii?Q?39gTsFh79AI29WZKWxvWEJQd7ALuCmN+tlDNxHjBZZwW/E6kbRgMiFXWNZP3?=
+ =?us-ascii?Q?4LCdfGlW9rbc5JCfJMhPiYY9kmCptr4h2FAFCdJOA98AiClY9ORr9XO2tHZ7?=
+ =?us-ascii?Q?Nx+Cz2lf98FpzAN5FZr/7coiicijkrx6EyZTTrZVgH4gyPqCGeToLc6EGKWV?=
+ =?us-ascii?Q?rpBBOpUbz6jB6Zm/zA9txDUVEcEMZxJIE3diNUXdZnsRYbunyMe2qCFYWdiQ?=
+ =?us-ascii?Q?jYlBjDc5LnMw14N3FtbF117UZx5n95fWVigzGUYJ6+N4BDD2THOVgbz48/FR?=
+ =?us-ascii?Q?as8QqwE1PZ0A/R4aBBY9wghIKGrAKwhXQR2cwUelkrxUUu84zZggAKAmmCV7?=
+ =?us-ascii?Q?kYitJm1N3DBO/CL5J9MwH7AXAUTG6JRgA/GIzpE/XSLSbK76dAht/0qNB66s?=
+ =?us-ascii?Q?gLxlviPcPHTS1DJitg+WbY7Kqtft5KepVwj4kLF1PM0ArBWxSUewV5fkq+bn?=
+ =?us-ascii?Q?mYZ2Wmu9pPqPHHH6BqfGJJ4rO8rpBvyhpbPbyf454htTlLdqeOxe6sxSHt8z?=
+ =?us-ascii?Q?h7fQQ7XsjJ/PyzfTJGAYTByZmHaPqGmZ3VI2VtnOX1d95BJip+5JQO1DfSn5?=
+ =?us-ascii?Q?2EU291LPKGnc0KLNlHtygYj8ilgZreZlZk2+o6E6r7Bo00vXBXqJz+jTs/a4?=
+ =?us-ascii?Q?QOerwpvyW3zhz41rM7RBfwXENqt8v+6jDPewQ2iWyTSX5unbsug8uhGVDpEa?=
+ =?us-ascii?Q?ctw0EZHQ9KEcfngHKHmHSXerTnSvJNcFiHrTPaSL+i8+cx8Dw/oqb7p7sixh?=
+ =?us-ascii?Q?tsoJMSHH8iVXbAs0vytc2Qb5lWME+ji7lpLRA/11T+Wv1fJGVMUsa9/APlkO?=
+ =?us-ascii?Q?2ZtfCWu8K1MDC3gVz185ac5A4SptjC2BZ+WkyDDDtYKzESNrKhWtwmxT5msc?=
+ =?us-ascii?Q?k1GQ24XdZLmghmfCy5u4jJ/0VmgoRpBNmVUvK2rq27p1rntZRwzBlTf9OK3n?=
+ =?us-ascii?Q?znLQvtmpn/iUOYdZgTYX6yNfuiQeCoYF/7Xt4OQEExN4RxJT9XDWtQnkhVLq?=
+ =?us-ascii?Q?omxZEaJAcUpBedADGTkGdY3Wmdx3vUhT/80zc6F32+HIRc5Rv2v0Cg3wheOB?=
+ =?us-ascii?Q?nXkpilrW+FIGsMTQhYfvySIXiQiYzmBjXWj/f5X2fRsT+waCsmLqnq8tdGwT?=
+ =?us-ascii?Q?wC2CxJNNdx44Wdy25DwXeeiXmOAzKb+mvwHrzvJdUGzkG5dcgmMGg6K2PxMO?=
+ =?us-ascii?Q?PQNOwt0y6u7tlunR0P7mhchmQoR8BAatxki5MMI42CQIwm3PbNssJc81DhKc?=
+ =?us-ascii?Q?r83GgQy9S9vUq1EZUBQzE0/RySeNckIehhXG/6ipelBmGad/cLoN4iD4Cd7B?=
+ =?us-ascii?Q?MZoH5cdFQ/J4XJO7eIdMqDJq6rMX4to2gAVl1CbpUh4NzPP81V3gwqag7gIC?=
+ =?us-ascii?Q?zxFauOJOJ9BTpjTFjuImmfoljPQX92Tq/2AlBsOtqzDwN1xX1WX4L0HAXi8X?=
+ =?us-ascii?Q?ftzHQ3Qnr50qOR8O1v9nSG+xdR9YKH1QWusVsEnmw4plYvHKI59RJvfbUrLH?=
+ =?us-ascii?Q?0iM2eJtXUNuCXKhoCF6etpZBKAzCKMmWZdu8iuwE?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be011ab7-5f73-4b05-d9e8-08dcf7ebeab4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Oct 2024 07:33:00.6270 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: P74OpCIt8IXLsQv6ONK+34n9ggA/tBppeGouBSJBu1upee0aKUXh9TVvqUj6rCSpVncIHwXeY0lVj/Ah3xwDpx2Fem+1xKSXc8+mpcQpu7I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB12060
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,502 +179,246 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Christian, Sima?
+Hi Liu Ying,
 
-Matthew? (+CC)
+> -----Original Message-----
+> From: Liu Ying <victor.liu@nxp.com>
+> Sent: 28 October 2024 02:38
+> Subject: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS d=
+isplay common properties
+>=20
+> Dual-link LVDS displays receive odd pixels and even pixels separately fro=
+m dual LVDS links.  One link
+> receives odd pixels and the other receives even pixels.  Some of those di=
+splays may also use only one
+> LVDS link to receive all pixels, being odd and even agnostic.  Document c=
+ommon properties for those
+> displays by extending LVDS display common properties defined in lvds.yaml=
+.
+>=20
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v4:
+> * Squash change for advantech,idk-2121wr.yaml and
+>   panel-simple-lvds-dual-ports.yaml with lvds-dual-ports.yaml.  (Rob)
+> * Improve description in lvds-dual-ports.yaml.  (Krzysztof)
+>=20
+> v3:
+> * New patch.  (Dmitry)
+>=20
+>  .../bindings/display/lvds-dual-ports.yaml     | 76 +++++++++++++++++++
+>  .../display/panel/advantech,idk-2121wr.yaml   | 14 +---
+>  .../panel/panel-simple-lvds-dual-ports.yaml   | 20 +----
+>  3 files changed, 78 insertions(+), 32 deletions(-)  create mode 100644
+> Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/lvds-dual-ports.ya=
+ml
+> b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
+> new file mode 100644
+> index 000000000000..5f7a30640404
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
+> @@ -0,0 +1,76 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/lvds-dual-ports.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Dual-link LVDS Display Common Properties
+> +
+> +maintainers:
+> +  - Liu Ying <victor.liu@nxp.com>
+> +
+> +description: |
+> +  Common properties for LVDS displays with dual LVDS links. Extend LVDS
+> +display
+> +  common properties defined in lvds.yaml.
+> +
+> +  Dual-link LVDS displays receive odd pixels and even pixels separately
+> + from  the dual LVDS links. One link receives odd pixels and the other
+> + receives  even pixels. Some of those displays may also use only one
+> + LVDS link to  receive all pixels, being odd and even agnostic.
+> +
+> +allOf:
+> +  - $ref: lvds.yaml#
+> +
+> +properties:
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: the first LVDS input link
+> +
+> +        properties:
+> +          dual-lvds-odd-pixels:
+> +            type: boolean
+> +            description: the first LVDS input link for odd pixels
+> +
+> +          dual-lvds-even-pixels:
+> +            type: boolean
+> +            description: the first LVDS input link for even pixels
 
-Opinions on the below?
 
-tl;dr:
-I still think it's a good thing to detectably block in
-drm_sched_fini(), or at the very least drm_sched_flush(), because then
-you'll find out that the driver is broken and can repair it.
+port@0 we know it is first link
+port@1 we know it is second link.
+dual-lvds-odd-pixels: We know it is for odd pixels.
+dual-lvds-even-pixels: We know it is for odd pixels.
 
-P.
+Not sure, whether we can give common description and avoid the duplicate
+from port@1 ??
 
 
-On Fri, 2024-10-18 at 14:07 +0200, Philipp Stanner wrote:
-> On Mon, 2024-10-14 at 16:56 +0200, Danilo Krummrich wrote:
-> > On Fri, Sep 27, 2024 at 11:04:48AM +0200, Christian K=C3=B6nig wrote:
-> > > Am 25.09.24 um 16:53 schrieb Philipp Stanner:
-> > > > On Tue, 2024-09-24 at 13:18 +0200, Simona Vetter wrote:
-> > > > > On Mon, Sep 23, 2024 at 05:24:10PM +0200, Christian K=C3=B6nig
-> > > > > wrote:
-> > > > > > Am 20.09.24 um 15:26 schrieb Philipp Stanner:
-> > > > > > > On Fri, 2024-09-20 at 12:33 +0200, Christian K=C3=B6nig wrote=
-:
-> > > > > > > > Am 20.09.24 um 10:57 schrieb Philipp Stanner:
-> > > > > > > > > On Wed, 2024-09-18 at 15:39 +0200, Christian K=C3=B6nig
-> > > > > > > > > wrote:
-> > > > > > > > > > Tearing down the scheduler with jobs still on the
-> > > > > > > > > > pending
-> > > > > > > > > > list
-> > > > > > > > > > can
-> > > > > > > > > > lead to use after free issues. Add a warning if
-> > > > > > > > > > drivers try
-> > > > > > > > > > to
-> > > > > > > > > > destroy a scheduler which still has work pushed to
-> > > > > > > > > > the HW.
-> > > > > > > > > Did you have time yet to look into my proposed
-> > > > > > > > > waitque-
-> > > > > > > > > solution?
-> > > > > > > > I don't remember seeing anything. What have I missed?
-> > > > > > > https://lore.kernel.org/all/20240903094446.29797-2-pstanner@r=
-edhat.com/
-> > > > > > Mhm, I didn't got that in my inbox for some reason.
-> > > > > >=20
-> > > > > > Interesting approach, I'm just not sure if we can or should
-> > > > > > wait in
-> > > > > > drm_sched_fini().
-> > > > We do agree that jobs still pending when drm_sched_fini()
-> > > > starts
-> > > > is
-> > > > always a bug, right?
-> > >=20
-> > > Correct, the question is how to avoid that.
-> > >=20
-> > > > If so, what are the disadvantages of waiting in
-> > > > drm_sched_fini()?
-> > > > We
-> > > > could block buggy drivers as I see it. Which wouldn't be good,
-> > > > but
-> > > > could then be fixed on drivers' site.
-> > >=20
-> > > Sima explained that pretty well: Don't block in fops->close, do
-> > > that in
-> > > fops->flush instead.
-> >=20
-> > I agree that we shouldn't block in close(), but this effectively
-> > means that we
-> > need to reference count the scheduler, right?
-> >=20
-> > Otherwise, if we allow to just skip / interrupt the teardown, we
-> > can
-> > still leak
-> > memory.
+> +
+> +        oneOf:
+> +          - required: [dual-lvds-odd-pixels]
+> +          - required: [dual-lvds-even-pixels]
+> +          - properties:
+> +              dual-lvds-odd-pixels: false
+> +              dual-lvds-even-pixels: false
+
+Why this is false here? oneOf is not sufficient?
+
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: the second LVDS input link
+> +
+> +        properties:
+> +          dual-lvds-odd-pixels:
+> +            type: boolean
+> +            description: the second LVDS input link for odd pixels
+> +
+> +          dual-lvds-even-pixels:
+> +            type: boolean
+> +            description: the second LVDS input link for even pixels
+> +
+> +        oneOf:
+> +          - required: [dual-lvds-odd-pixels]
+> +          - required: [dual-lvds-even-pixels]
+> +          - properties:
+> +              dual-lvds-odd-pixels: false
+> +              dual-lvds-even-pixels: false
+
+Same as above??
+
+Cheers,
+Biju
+
+> +
+> +required:
+> +  - ports
+> +
+> +additionalProperties: true
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,id=
+k-2121wr.yaml
+> b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.ya=
+ml
+> index 2e8dbdb5a3d5..05ca3b2385f8 100644
+> --- a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121w=
+r.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121
+> +++ wr.yaml
+> @@ -20,6 +20,7 @@ description: |
+>    dual-lvds-odd-pixels or dual-lvds-even-pixels).
 >=20
-> Having thought about it, I agree with Danilo. Having something that
-> shall wait on green light, but can be interrupted, is no guarantee
-> and
-> therefore not a feasible solution.
+>  allOf:
+> +  - $ref: /schemas/display/lvds-dual-ports.yaml#
+>    - $ref: panel-common.yaml#
 >=20
-> To break down the solution space, these seem to be our options:
-> =C2=A0=C2=A0 1. We have something (either drm_sched_fini() or a helper, e=
-.g.,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_flush()) that definitely blocks =
-until the pending
-> list
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 has become empty.
-> =C2=A0=C2=A0 2. We have jobs reference-count the scheduler, so the latter=
- can
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 outlive the driver and will be freed some =
-time later.
+>  properties:
+> @@ -44,22 +45,10 @@ properties:
 >=20
-> Can anyone think of a third solution?
+>      properties:
+>        port@0:
+> -        $ref: /schemas/graph.yaml#/$defs/port-base
+> -        unevaluatedProperties: false
+> -        description: The sink for odd pixels.
+> -        properties:
+> -          dual-lvds-odd-pixels: true
+> -
+>          required:
+>            - dual-lvds-odd-pixels
 >=20
+>        port@1:
+> -        $ref: /schemas/graph.yaml#/$defs/port-base
+> -        unevaluatedProperties: false
+> -        description: The sink for even pixels.
+> -        properties:
+> -          dual-lvds-even-pixels: true
+> -
+>          required:
+>            - dual-lvds-even-pixels
 >=20
-> Solution #1 has the problem of obviously blocking unconditionally if
-> the driver didn't make sure that all fences will be signaled within
-> reasonable time. In my opinion, this would actually be an advantage,
-> because it will be *very* noticable and force users to repair their
-> driver. The driver *has* to guarantee that all fences will be
-> signaled.
-> If the driver has to do fishy things, having the blocking outsourced
-> to
-> the helper drm_sched_flush() would allow them to circumvent that.
+> @@ -75,7 +64,6 @@ required:
+>    - height-mm
+>    - data-mapping
+>    - panel-timing
+> -  - ports
 >=20
-> Solution #2 has the problem of backend_ops.free_job() potentially
-> using
-> driver-data after the driver is gone, causing UAF. So with this
-> solutions all drivers would have to be aware of the issue and handle
-> it
-> through one of DRMs primitives dedicated to such problems.
+>  examples:
+>    - |+
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple=
+-lvds-dual-ports.yaml
+> b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-=
+ports.yaml
+> index 10ed4b57232b..e80fc7006984 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-d=
+ual-ports.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-
+> +++ dual-ports.yaml
+> @@ -22,6 +22,7 @@ description: |
+>    If the panel is more advanced a dedicated binding file is required.
 >=20
+>  allOf:
+> +  - $ref: /schemas/display/lvds-dual-ports.yaml#
+>    - $ref: panel-common.yaml#
 >=20
-> Currently, all drivers either work around the problem internally or
-> simply ignore it, it seems.
+>  properties:
+> @@ -55,28 +56,10 @@ properties:
 >=20
-> So I'd argue that both solutions are an improvement over the existing
-> situation. My preference would be #1.
+>      properties:
+>        port@0:
+> -        $ref: /schemas/graph.yaml#/$defs/port-base
+> -        unevaluatedProperties: false
+> -        description: The first sink port.
+> -
+> -        properties:
+> -          dual-lvds-odd-pixels:
+> -            type: boolean
+> -            description: The first sink port for odd pixels.
+> -
+>          required:
+>            - dual-lvds-odd-pixels
 >=20
+>        port@1:
+> -        $ref: /schemas/graph.yaml#/$defs/port-base
+> -        unevaluatedProperties: false
+> -        description: The second sink port.
+> -
+> -        properties:
+> -          dual-lvds-even-pixels:
+> -            type: boolean
+> -            description: The second sink port for even pixels.
+> -
+>          required:
+>            - dual-lvds-even-pixels
 >=20
-> Opinions?
+> @@ -88,7 +71,6 @@ unevaluatedProperties: false
 >=20
-> P.
+>  required:
+>    - compatible
+> -  - ports
+>    - power-supply
 >=20
-> >=20
-> > >=20
-> > > One issue this solves is that when you send a SIGTERM the tear
-> > > down
-> > > handling
-> > > first flushes all the FDs and then closes them.
-> > >=20
-> > > So if flushing the FDs blocks because the process initiated
-> > > sending
-> > > a
-> > > terabyte of data over a 300bps line (for example) you can still
-> > > throw a
-> > > SIGKILL and abort that as well.
-> > >=20
-> > > If you would block in fops-close() that SIGKILL won't have any
-> > > effect any
-> > > more because by the time close() is called the process is gone
-> > > and
-> > > signals
-> > > are already blocked.
-> > >=20
-> > > And yes when I learned about that issue I was also buffed that
-> > > handling like
-> > > this in the UNIX design is nearly 50 years old and still applies
-> > > to
-> > > today.
-> > > > > > Probably better to make that a separate function, something
-> > > > > > like
-> > > > > > drm_sched_flush() or similar.
-> > > > We could do that. Such a function could then be called by
-> > > > drivers
-> > > > which
-> > > > are not sure whether all jobs are done before they start
-> > > > tearing
-> > > > down.
-> > >=20
-> > > Yes exactly that's the idea. And give that flush function a
-> > > return
-> > > code so
-> > > that it can return -EINTR.
-> > >=20
-> > > > > Yeah I don't think we should smash this into drm_sched_fini
-> > > > > unconditionally. I think conceptually there's about three
-> > > > > cases:
-> > > > >=20
-> > > > > - Ringbuffer schedules. Probably want everything as-is,
-> > > > > because
-> > > > > =C2=A0=C2=A0 drm_sched_fini is called long after all the entities=
- are
-> > > > > gone in
-> > > > > =C2=A0=C2=A0 drm_device cleanup.
-> > > > >=20
-> > > > > - fw scheduler hardware with preemption support. There we
-> > > > > probably
-> > > > > want to
-> > > > > =C2=A0=C2=A0 nuke the context by setting the tdr timeout to zero =
-(or
-> > > > > maybe just
-> > > > > as
-> > > > > =C2=A0=C2=A0 long as context preemption takes to be efficient), a=
-nd
-> > > > > relying on
-> > > > > the
-> > > > > =C2=A0=C2=A0 normal gpu reset flow to handle things.
-> > > > > drm_sched_entity_flush
-> > > > > kinda
-> > > > > =C2=A0=C2=A0 does this, except not really and it's a lot more foc=
-used
-> > > > > on
-> > > > > the
-> > > > > =C2=A0=C2=A0 ringbuffer context. So maybe we want a new
-> > > > > drm_sched_entity_kill.
-> > > > >=20
-> > > > > =C2=A0=C2=A0 For this case calling drm_sched_fini() after the 1:1
-> > > > > entity
-> > > > > is gone
-> > > > > =C2=A0=C2=A0 should not find any linger jobs, it would actually b=
-e a
-> > > > > bug
-> > > > > somewhere if
-> > > > > =C2=A0=C2=A0 there's a job lingering. Maybe a sanity check that t=
-here's
-> > > > > not just
-> > > > > no
-> > > > > =C2=A0=C2=A0 jobs lingering, but also no entity left would be goo=
-d
-> > > > > here?
-> > > > The check for lingering ones is in Christian's patch here IISC.
-> > > > At which position would you imagine the check for the entity
-> > > > being
-> > > > performed?
-> > > >=20
-> > > > > - fw scheduler without preemption support. There we kinda
-> > > > > need
-> > > > > the
-> > > > > =C2=A0=C2=A0 drm_sched_flush, except blocking in fops->close is n=
-ot
-> > > > > great. So
-> > > > > instead
-> > > > > =C2=A0=C2=A0 I think the following is better:
-> > > > > =C2=A0=C2=A0 1. drm_sched_entity_stopped, which only stops new
-> > > > > submissions (for
-> > > > > =C2=A0=C2=A0 paranoia) but doesn't tear down the entity
-> > > > Who would call that function?
-> > > > Drivers using it voluntarily could just as well stop accepting
-> > > > new jobs
-> > > > from userspace to their entities, couldn't they?
-> > > >=20
-> > > > > =C2=A0=C2=A0 2. drm_dev_get
-> > > > > =C2=A0=C2=A0 3. launch a worker which does a) drm_sched_flush (or
-> > > > > =C2=A0=C2=A0 drm_sched_entity_flush or whatever we call it) b)
-> > > > > drm_sched_entity_fini
-> > > > > =C2=A0=C2=A0 + drm_sched_fini c) drm_dev_put
-> > > > >=20
-> > > > > =C2=A0=C2=A0 Note that semantically this implements the refcount =
-in the
-> > > > > other
-> > > > > path
-> > > > > =C2=A0=C2=A0 from Phillip:
-> > > > >=20
-> > > > > https://lore.kernel.org/all/20240903094531.29893-2-pstanner@redha=
-t.com/
-> > > > > =C2=A0=C2=A0 Except it doesn't impose refcount on everyone else w=
-ho
-> > > > > doesn't need
-> > > > > it,
-> > > > > =C2=A0=C2=A0 and it doesn't even impose refcounting on drivers th=
-at do
-> > > > > need it
-> > > > > =C2=A0=C2=A0 because we use drm_sched_flush and a worker to achie=
-ve the
-> > > > > same.
-> > > > I indeed wasn't happy with the refcount approach for that
-> > > > reason,
-> > > > agreed.
-> > > >=20
-> > > > > Essentially helper functions for the common use-cases instead
-> > > > > of
-> > > > > trying to
-> > > > > solve them all by putting drm_sched_flush as a potentially
-> > > > > very
-> > > > > blocking
-> > > > > function into drm_sched_fini.
-> > > > I'm still not able to see why it blocking would be undesired =E2=80=
-=93
-> > > > as
-> > > > far
-> > > > as I can see, it is only invoked on driver teardown, so not
-> > > > during
-> > > > active operation. Teardown doesn't happen that often, and it
-> > > > can
-> > > > (if
-> > > > implemented correctly) only block until the driver's code has
-> > > > signaled
-> > > > the last fences. If that doesn't happen, the block would reveal
-> > > > a
-> > > > bug.
-> > > >=20
-> > > > But don't get me wrong: I don't want to *push* this solution. I
-> > > > just
-> > > > want to understand when it could become a problem.
-> > > >=20
-> > > >=20
-> > > > Wouldn't an explicitly blocking, separate function like
-> > > > drm_sched_flush() or drm_sched_fini_flush() be a small, doable
-> > > > step
-> > > > towards the right direction?
-> > >=20
-> > > I think that this is the right thing to do, yes.
-> > >=20
-> > > > > > > > > > When there are still entities with jobs the
-> > > > > > > > > > situation
-> > > > > > > > > > is
-> > > > > > > > > > even
-> > > > > > > > > > worse
-> > > > > > > > > > since the dma_fences for those jobs can never
-> > > > > > > > > > signal
-> > > > > > > > > > we can
-> > > > > > > > > > just
-> > > > > > > > > > choose between potentially locking up core memory
-> > > > > > > > > > management and
-> > > > > > > > > > random memory corruption. When drivers really mess
-> > > > > > > > > > it
-> > > > > > > > > > up
-> > > > > > > > > > that
-> > > > > > > > > > well
-> > > > > > > > > > let them run into a BUG_ON().
-> > > > > > > > > >=20
-> > > > > > > > > > Signed-off-by: Christian
-> > > > > > > > > > K=C3=B6nig<christian.koenig@amd.com>
-> > > > > > > > > > ---
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/scheduler/sched=
-_main.c | 19
-> > > > > > > > > > ++++++++++++++++++-
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A01 file changed, 18 insertions(+=
-), 1 deletion(-)
-> > > > > > > > > >=20
-> > > > > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > > index f093616fe53c..8a46fab5cdc8 100644
-> > > > > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > > @@ -1333,17 +1333,34 @@ void drm_sched_fini(struct
-> > > > > > > > > > drm_gpu_scheduler
-> > > > > > > > > > *sched)
-> > > > > > > > > I agree with Sima that it should first be documented
-> > > > > > > > > in
-> > > > > > > > > the
-> > > > > > > > > function's
-> > > > > > > > > docstring what the user is expected to have done
-> > > > > > > > > before
-> > > > > > > > > calling the
-> > > > > > > > > function.
-> > > > > > > > Good point, going to update the documentation as well.
-> > > > > > > Cool thing, thx.
-> > > > > > > Would be great if everything (not totally trivial)
-> > > > > > > necessary to
-> > > > > > > be done
-> > > > > > > before _fini() is mentioned.
-> > > > > > >=20
-> > > > > > > One could also think about providing a hint at how the
-> > > > > > > driver can
-> > > > > > > do
-> > > > > > > that. AFAICS the only way for the driver to ensure that
-> > > > > > > is
-> > > > > > > to
-> > > > > > > maintain
-> > > > > > > its own, separate list of submitted jobs.
-> > > > > > Even with a duplicated pending list it's actually currently
-> > > > > > impossible to do
-> > > > > > this fully cleanly.
-> > > > > >=20
-> > > > > > The problem is that the dma_fence object gives no guarantee
-> > > > > > when
-> > > > > > callbacks
-> > > > > > are processed, e.g. they can be both processed from
-> > > > > > interrupt
-> > > > > > context as
-> > > > > > well as from a CPU which called dma_fence_is_signaled().
-> > > > > >=20
-> > > > > > So when a driver (or drm_sched_fini) waits for the last
-> > > > > > submitted
-> > > > > > fence it
-> > > > > > actually can be that the drm_sched object still needs to do
-> > > > > > some
-> > > > > > processing.
-> > > > > > See the hack in amdgpu_vm_tlb_seq() for more background on
-> > > > > > the
-> > > > > > problem.
-> > > > Oh dear ^^'
-> > > > We better work towards fixing that centrally
-> > > >=20
-> > > > Thanks,
-> > > > P.
-> > > >=20
-> > > >=20
-> > > > > So I thought this should be fairly easy because of the sched
-> > > > > hw/public
-> > > > > fence split: If we wait for both all jobs to finish and for
-> > > > > all
-> > > > > the
-> > > > > sched
-> > > > > work/tdr work to finish, and we make sure there's no entity
-> > > > > existing
-> > > > > that's not yet stopped we should catch them all?
-> > >=20
-> > > Unfortunately not.
-> > >=20
-> > > Even when you do a dma_fence_wait() on the last submission it can
-> > > still be
-> > > that another CPU is executing the callbacks to wake up the
-> > > scheduler work
-> > > item and cleanup the job.
-> > >=20
-> > > That's one of the reasons why I think the design of keeping the
-> > > job
-> > > alive is
-> > > so extremely awkward. The dma_fence as representation of the hw
-> > > submission
-> > > has a much better defined state machine and lifetime.
-> > >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > > > =C2=A0 Or at least I think
-> > > > > it's
-> > > > > a bug if any other code even tries to touch the hw fence.
-> > > > >=20
-> > > > > If you have any other driver code which relies on the rcu
-> > > > > freeing
-> > > > > then I
-> > > > > think that's just a separate concern and we can ignore that
-> > > > > here
-> > > > > since the
-> > > > > fences themselves will till get rcu-delay freed even if
-> > > > > drm_sched_fini has
-> > > > > finished.
-> > > > > -Sima
-> > > > >=20
-> > > > > > Regards,
-> > > > > > Christian.
-> > > > > >=20
-> > > > > > > P.
-> > > > > > >=20
-> > > > > > > > Thanks,
-> > > > > > > > Christian.
-> > > > > > > >=20
-> > > > > > > > > P.
-> > > > > > > > >=20
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_wqueue_stop(sched);
-> > > > > > > > > > + /*
-> > > > > > > > > > + * Tearing down the scheduler wile there are still
-> > > > > > > > > > unprocessed jobs can
-> > > > > > > > > > + * lead to use after free issues in the scheduler
-> > > > > > > > > > fence.
-> > > > > > > > > > + */
-> > > > > > > > > > + WARN_ON(!list_empty(&sched->pending_list));
-> > > > > > > > > > +
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D DRM_SCHED_PRIORITY_=
-KERNEL; i < sched-
-> > > > > > > > > > > num_rqs;
-> > > > > > > > > > i++)
-> > > > > > > > > > {
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq =3D sc=
-hed-
-> > > > > > > > > > > sched_rq[i];
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 spin_lock(&rq->lock);
-> > > > > > > > > > - list_for_each_entry(s_entity, &rq-
-> > > > > > > > > > > entities,
-> > > > > > > > > > list)
-> > > > > > > > > > + list_for_each_entry(s_entity, &rq-
-> > > > > > > > > > > entities,
-> > > > > > > > > > list) {
-> > > > > > > > > > + /*
-> > > > > > > > > > + * The justification for this
-> > > > > > > > > > BUG_ON()
-> > > > > > > > > > is
-> > > > > > > > > > that tearing
-> > > > > > > > > > + * down the scheduler while jobs
-> > > > > > > > > > are
-> > > > > > > > > > pending
-> > > > > > > > > > leaves
-> > > > > > > > > > + * dma_fences unsignaled. Since we
-> > > > > > > > > > have
-> > > > > > > > > > dependencies
-> > > > > > > > > > + * from the core memory management
-> > > > > > > > > > to
-> > > > > > > > > > eventually signal
-> > > > > > > > > > + * dma_fences this can trivially
-> > > > > > > > > > lead to
-> > > > > > > > > > a
-> > > > > > > > > > system wide
-> > > > > > > > > > + * stop because of a locked up
-> > > > > > > > > > memory
-> > > > > > > > > > management.
-> > > > > > > > > > + */
-> > > > > > > > > > + BUG_ON(spsc_queue_count(&s_entity-
-> > > > > > > > > > > job_queue));
-> > > > > > > > > > +
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 /*
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * Prevents reinsertion and mar=
-ks
-> > > > > > > > > > job_queue
-> > > > > > > > > > as idle,
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * it will removed from rq in
-> > > > > > > > > > drm_sched_entity_fini
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * eventually
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 */
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 s_entity->stopped =3D true;
-> > > > > > > > > > + }
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock(&rq->lock);
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 kfree(sched->sched_rq[i]);
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 }
-> >=20
->=20
+>  examples:
+> --
+> 2.34.1
 
