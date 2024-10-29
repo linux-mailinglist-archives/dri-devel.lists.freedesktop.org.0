@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6849B4DF3
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 16:29:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 250659B4DF4
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 16:29:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 285A910E684;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25F0510E2A2;
 	Tue, 29 Oct 2024 15:29:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YieOf0lQ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Rc2Y9mWv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF20510E683
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 15:29:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4186E10E2A2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 15:29:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1730215754;
- bh=9Vzc5cjseL09Uwc9IZorIUMr2qOPWNxYj54sxB69S/c=;
+ s=mail; t=1730215755;
+ bh=FxOUJtCQ+n7DIYEzUNQj5cfDzP5GIdWINDU5tFcG694=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YieOf0lQggtc+9IgrUfGNFu7JJaaHVovtc0/jXpYMI5ddOLsi1L6/O3cxuSGZwZlJ
- HS01jiwXEzEJU42nRGptqPs/hDaUjVlGBs+9hlGJ62F2PwzfYB8aWzMAWWwPnLLKLr
- vScSfMVM3luiQG6tELwtOdDiFByEzvOAUKW9IHKFKgx1wkl9P3lDc/WpjIjLE7O95+
- mA8lg7jl9QReQUe7Vr6qPnzozmYYWGydWAMzwd/KWh+Hj5c6UdVO1OI03SxwWi5j52
- wCL4adQjMtUfXnsbKnq/FjUlnBSPzIy47PBMWsrugX/Bt/JYN6etY+uAhLHElwGBWl
- KnadCZeMaIO5g==
+ b=Rc2Y9mWvCe1m8+dSfpub2SRSYZFS+NUPIzMtrdwsN6WrWUv7PZKXwNKpJk8aSDpre
+ +abAwFS/hymu37Rq8nMyb8THvSoOCcQJdDa/c189oM1ATWLzGTQekd39tXTPz70Uyn
+ n5tJ/+wWo7iInqnhYYIAVTT/1eBbtOoqwvfjj4t+Oi7TX4Kl/hfM5nivG+sVLmDS6H
+ xwwuo7u1iiimmFc4mDLko6sOBjqYucKabPAf8av6N1Eiz06GuIsMbVa3J9eoSXWfdu
+ iY1BdCw1GqoNk5wKY1onNNX6qMNyKyCZsQGbgoh2Yk4mkBBk4BeslFvsqM+i4y6hO5
+ EoYuO3lty8yzw==
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 34B3617E3661;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A7A5417E3663;
  Tue, 29 Oct 2024 16:29:14 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -39,9 +39,10 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
  kernel@collabora.com
-Subject: [PATCH v3 1/3] drm/panthor: Fail job creation when the group is dead
-Date: Tue, 29 Oct 2024 16:29:10 +0100
-Message-ID: <20241029152912.270346-2-boris.brezillon@collabora.com>
+Subject: [PATCH v3 2/3] drm/panthor: Report group as timedout when we fail to
+ properly suspend
+Date: Tue, 29 Oct 2024 16:29:11 +0100
+Message-ID: <20241029152912.270346-3-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241029152912.270346-1-boris.brezillon@collabora.com>
 References: <20241029152912.270346-1-boris.brezillon@collabora.com>
@@ -62,40 +63,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Userspace can use GROUP_SUBMIT errors as a trigger to check the group
-state and recreate the group if it became unusable. Make sure we
-report an error when the group became unusable.
+If we don't do that, the group is considered usable by userspace, but
+all further GROUP_SUBMIT will fail with -EINVAL.
 
 Changes in v3:
-- None
+- Add R-bs
 
 Changes in v2:
-- Add R-bs
+- New patch
 
 Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/panthor/panthor_sched.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index eb9f6635cc12..eda8fbb276b3 100644
+index eda8fbb276b3..ef4bec7ff9c7 100644
 --- a/drivers/gpu/drm/panthor/panthor_sched.c
 +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -3688,6 +3688,11 @@ panthor_job_create(struct panthor_file *pfile,
- 		goto err_put_job;
- 	}
+@@ -602,10 +602,11 @@ struct panthor_group {
+ 	 * @timedout: True when a timeout occurred on any of the queues owned by
+ 	 * this group.
+ 	 *
+-	 * Timeouts can be reported by drm_sched or by the FW. In any case, any
+-	 * timeout situation is unrecoverable, and the group becomes useless.
+-	 * We simply wait for all references to be dropped so we can release the
+-	 * group object.
++	 * Timeouts can be reported by drm_sched or by the FW. If a reset is required,
++	 * and the group can't be suspended, this also leads to a timeout. In any case,
++	 * any timeout situation is unrecoverable, and the group becomes useless. We
++	 * simply wait for all references to be dropped so we can release the group
++	 * object.
+ 	 */
+ 	bool timedout;
  
-+	if (!group_can_run(job->group)) {
-+		ret = -EINVAL;
-+		goto err_put_job;
-+	}
+@@ -2687,6 +2688,12 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
+ 		csgs_upd_ctx_init(&upd_ctx);
+ 		while (slot_mask) {
+ 			u32 csg_id = ffs(slot_mask) - 1;
++			struct panthor_csg_slot *csg_slot = &sched->csg_slots[csg_id];
 +
- 	if (job->queue_idx >= job->group->queue_count ||
- 	    !job->group->queues[job->queue_idx]) {
- 		ret = -EINVAL;
++			/* We consider group suspension failures as fatal and flag the
++			 * group as unusable by setting timedout=true.
++			 */
++			csg_slot->group->timedout = true;
+ 
+ 			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
+ 						CSG_STATE_TERMINATE,
 -- 
 2.46.2
 
