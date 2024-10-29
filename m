@@ -2,83 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC969B4B0D
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 14:39:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD209B4B15
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 14:41:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B739910E65E;
-	Tue, 29 Oct 2024 13:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4757C10E65C;
+	Tue, 29 Oct 2024 13:41:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OuN/UwAU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XY50Bt7I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DBDC10E1BE
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 13:39:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1730209146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=d9Bml+ipcFmRE9LbTe8J9ZN0xa8/xqfAjwsu2bf7Us8=;
- b=OuN/UwAUtse/f1lXZoJuCyW6eelab8C2cATv9/o41ueQT+l9i+J4WawDLUL7XZxbTj7lqp
- KocVHsqfQ66SQc3+14RG6Xrhqlfjx4d/BTeE2JH2HH7n3gn7FIrL4+2XhGwexQHEtwuWD9
- GfbhmlfHdLRgrKeZ3QdQdHaICSzzea4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-74-J923qYf8Na6QBfO0DbAn1g-1; Tue, 29 Oct 2024 09:39:04 -0400
-X-MC-Unique: J923qYf8Na6QBfO0DbAn1g-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-37d43e7acd9so2726224f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 06:39:03 -0700 (PDT)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A540210E65B;
+ Tue, 29 Oct 2024 13:41:52 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-72088a79f57so149345b3a.3; 
+ Tue, 29 Oct 2024 06:41:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1730209312; x=1730814112; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p4568fy1CyLu7ue9QZlYfB1BmFVst9PUnOLzhnVMfc4=;
+ b=XY50Bt7Iwvu4JL7vhtPpStlBFWKXMd/m4Bg8r8LQnU8IYBqooeTxCpsWtrkfXSLVXV
+ DWvjvlGtCZhfUJBYTKPkOrRGz6WYH2j90EaW3sr0JQhOdg/115h2gXO2mw6SpsdtD/Fu
+ qGgOw/5cKC23tkMHfgFPFyTJhZaI1X/dGCsTfqsenqmGXqMA0MK8hLIAgP/1lxzzeIDB
+ 3DjeL/pYdpP4AhGYVOzFaFa6Qzk7fA7cdy8RKygMy9Cp73kK8qXFUAvjKERmWWhwmIjY
+ W4Z4mkTu8XMVM+kYY3RKPaSITRNOuEFGW6GOQOqCVbsxFVLt8M4MM2X3WIVGQ/w63AGS
+ uYzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730209143; x=1730813943;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=d9Bml+ipcFmRE9LbTe8J9ZN0xa8/xqfAjwsu2bf7Us8=;
- b=crJi03RnYF4SQA9K2KEDklYIh8EqCs3HJunyOBG7sLdT1fnZw7iA33/AABT1Ra4J9+
- Ol3QmxjkWnUbOGM+usFmk7ATfwVB9NWl3l9wt5lKsPJL+Kq8bZdyEq8nakfctTnH3ITw
- nmxHp/d3SxZ0ut1CV3woXzUgC0AkW0un9CuzGm8IcvNOhf0F/LzNeBczGf4TS3q+vpkl
- QR1AdWW3NerTYqeaoVSOxDZESLQ0c2I/e2ebiu9e6j5Hk4gNT4EVwQvwa3GOpOdxrBCp
- c8jHBm8myDuXoqFIXQ05cIqfu1zbjQCkNiGI3k5pxqENM1XaF2kqE2co5kUjT7N0rJR1
- HIJQ==
-X-Gm-Message-State: AOJu0Yzq2fMaCUtaapNOcjvA50tOJWCYuFqfb2dbH+C7E7JSE/NYxypT
- FTjD6n5RO4cZIVXkgJohGMs8syWg7cjruYaVFLULTBxDgooC2JPgEnbcu415mbsE+JwfzNaE19a
- MhbsulRUAu/F8F3nUdH4Nt9Z2Ek7sQzA9c1o+97v4p3ZemLYR3VP07TGW3OS3K4eLug==
-X-Received: by 2002:a5d:42cb:0:b0:37d:4d3f:51e6 with SMTP id
- ffacd0b85a97d-38061128d8dmr9109495f8f.14.1730209142664; 
- Tue, 29 Oct 2024 06:39:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGnNYQdmX/Cf1HAHGYsP3YDXheGvJlNwRqZ9MpjvXIiGh8raR74zxJw+aczFFjgNuCclCWScw==
-X-Received: by 2002:a5d:42cb:0:b0:37d:4d3f:51e6 with SMTP id
- ffacd0b85a97d-38061128d8dmr9109470f8f.14.1730209142246; 
- Tue, 29 Oct 2024 06:39:02 -0700 (PDT)
-Received: from eisenberg.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38058b713f0sm12525299f8f.75.2024.10.29.06.39.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2024 06:39:01 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <pstanner@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/sched: Document purpose of drm_sched_{start,stop}
-Date: Tue, 29 Oct 2024 14:38:20 +0100
-Message-ID: <20241029133819.78696-2-pstanner@redhat.com>
-X-Mailer: git-send-email 2.47.0
+ d=1e100.net; s=20230601; t=1730209312; x=1730814112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p4568fy1CyLu7ue9QZlYfB1BmFVst9PUnOLzhnVMfc4=;
+ b=AMcNildcPviUVQfM2KQeTM6mGKh4BpgaYJ8WazJ7PR9I+KtGxJYR3TMUKSvUp2r1ga
+ 9zuAYYeX63z1s2mN5Qq1YZwaMynyEWxmGlWGq9CPQMLsPYIAO/V2Y4kUT1HG7OymR+OS
+ Nk0JaHd3aUXDDsDwTOVjO302Le61XGTo/HWF+Cx1mzVBer7knqwTazGgBU+yDf/kivKj
+ X2lUpB9NLp5LtPmHncqWNBiF505PGU6U4QaLc3QBkVRBIHtwEirUy6d8udmnty+hFsEl
+ 0Cz5nDlswkghBKx+f3ccdmemCDl4560Ce3AiY9GR2DAN+C+ug53kQOiW6t9aiK0Omlsk
+ wbCA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUEfCpa1eM3Gv2MV4lJk3AXsJAXZzHtc8Uxd/U4gQ4hhSPUAgavak2N9Pl/6jFFmqDcBFoI1cqj@lists.freedesktop.org,
+ AJvYcCW6s5yypsPhIAoEJ2AHqMoNhzrbX3f4QDPLhI/UduiDSszpA15wU8cIh610AeLhxBB3CrnevpJVgNCA@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyvkDb2fs2YMXc/aATFY4N2qJDzPZ2olTf5SxAO4giJtSQFCHRK
+ +FCB6hXICI2U6G61p8mnmEmz99mVUDabOeLnDf6ut9mZyzdffdcUd5KhIGKJQrQ7rIi32DrLTzy
+ 3sNmp5c/dlDsXOY9tCxyqLVGmaE8=
+X-Google-Smtp-Source: AGHT+IFUBsAPh3iVaLPACK1QaY6fyD7GQy1DyI+2ph/A/x3BuCmAIUM7Q46z+qAua5Rfh34UsSxy0OmVdBsf5SeHV7U=
+X-Received: by 2002:a05:6a00:2d25:b0:71e:658f:c43d with SMTP id
+ d2e1a72fcca58-72062ed3c37mr7171390b3a.2.1730209312110; Tue, 29 Oct 2024
+ 06:41:52 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20241027140537.503264-1-prosunofficial@gmail.com>
+In-Reply-To: <20241027140537.503264-1-prosunofficial@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 29 Oct 2024 09:41:40 -0400
+Message-ID: <CADnq5_M4QwRfROybHrQfNuiXNhHH7VFAUVZMWkriwZs7K4KLUQ@mail.gmail.com>
+Subject: Re: [PATCH linux-next] drm/amdgpu: use string choice helpers
+To: R Sundar <prosunofficial@gmail.com>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, simona@ffwll.ch, tao.zhou1@amd.com,
+ kevinyang.wang@amd.com, 
+ Hawking.Zhang@amd.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ luben.tuikov@amd.com, kernel test robot <lkp@intel.com>,
+ Julia Lawall <julia.lawall@inria.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,53 +85,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_start()'s and drm_sched_stop()'s names suggest that those
-functions might be intended for actively starting and stopping the
-scheduler on initialization and teardown.
+On Sun, Oct 27, 2024 at 10:18=E2=80=AFAM R Sundar <prosunofficial@gmail.com=
+> wrote:
+>
+> Use string choice helpers for better readability.
 
-They are, however, only used on timeout handling (reset recovery). The
-docstrings should reflect that to prevent confusion.
+I personally find this less readable, but if this is the preferred
+method going forward, I'm fine to take the patch.
 
-Document those functions' purpose.
+Alex
 
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index eaef20f41786..59fd49fc790e 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -601,6 +601,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
-  * callers responsibility to release it manually if it's not part of the
-  * pending list any more.
-  *
-+ * This function is typically used for reset recovery (see the docu of
-+ * drm_sched_backend_ops.timedout_job() for details). Do not call it for
-+ * scheduler teardown, i.e., before calling drm_sched_fini().
-  */
- void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
- {
-@@ -673,7 +676,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
- 	 */
- 	cancel_delayed_work(&sched->work_tdr);
- }
--
- EXPORT_SYMBOL(drm_sched_stop);
- 
- /**
-@@ -681,6 +683,10 @@ EXPORT_SYMBOL(drm_sched_stop);
-  *
-  * @sched: scheduler instance
-  *
-+ * This function is typically used for reset recovery (see the docu of
-+ * drm_sched_backend_ops.timedout_job() for details). Do not call it for
-+ * scheduler startup. The scheduler itself is fully operational after
-+ * drm_sched_init() succeeded.
-  */
- void drm_sched_start(struct drm_gpu_scheduler *sched)
- {
--- 
-2.47.0
-
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> Closes: https://lore.kernel.org/r/202410161814.I6p2Nnux-lkp@intel.com/
+> Signed-off-by: R Sundar <prosunofficial@gmail.com>
+> ---
+>
+> reported in linux repository.
+>
+> tree:  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
+ master
+>
+> cocci warnings: (new ones prefixed by >>)
+> >> drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c:145:8-12: opportunity for s=
+tr_read_write(read)
+>
+> vim +145 drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c
+>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_eeprom.c
+> index 35fee3e8cde2..8cd69836dd99 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c
+> @@ -200,7 +200,7 @@ static int amdgpu_eeprom_xfer(struct i2c_adapter *i2c=
+_adap, u32 eeprom_addr,
+>                 dev_err_ratelimited(&i2c_adap->dev,
+>                                     "maddr:0x%04X size:0x%02X:quirk max_%=
+s_len must be > %d",
+>                                     eeprom_addr, buf_size,
+> -                                   read ? "read" : "write", EEPROM_OFFSE=
+T_SIZE);
+> +                                   str_read_write(read), EEPROM_OFFSET_S=
+IZE);
+>                 return -EINVAL;
+>         }
+>
+> --
+> 2.34.1
+>
