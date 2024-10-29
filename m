@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A049B45C0
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 10:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DAA99B45EC
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 10:46:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8BC610E5F3;
-	Tue, 29 Oct 2024 09:30:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F94710E26F;
+	Tue, 29 Oct 2024 09:46:55 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YcrHjNIQ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E32EF10E5F3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 09:30:45 +0000 (UTC)
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:14])
- by gauss.telenet-ops.be (Postfix) with ESMTPS id 4Xd4kC2pYyz4x4jt
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 10:30:43 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:f139:988f:a76d:7a3f])
- by xavier.telenet-ops.be with cmsmtp
- id W9Wd2D0085E9xN5019Wdvx; Tue, 29 Oct 2024 10:30:43 +0100
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1t5iYN-005noj-La;
- Tue, 29 Oct 2024 10:30:36 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1t5iYe-002W9M-Qx;
- Tue, 29 Oct 2024 10:30:36 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Dave Airlie <airlied@redhat.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Gustavo Sousa <gustavo.sousa@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- David Airlie <airlied@gmail.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-next@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH drm-next] drm/xe/xe2: Remove duplicate XE2LPM_* register
- definitions
-Date: Tue, 29 Oct 2024 10:30:33 +0100
-Message-Id: <20241029093033.600098-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C86BD10E26F
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 09:46:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1730195212;
+ bh=jO/0ofNBaKCWq+EL2FSBDH6ILVmBeRvWwrD8+aFAWuo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=YcrHjNIQPMjMTbEjP/AoJq5Cbg/N6MHWQAgZPGgahh+wUiszB6wGKYRzpIY/P48Dy
+ fiC6D/871Xbac+v+9jKEZ5+do41mwbKunzUQYFYV20tVPRcAQMcaukrRjHKyOBkX4z
+ xK9hLfFzYETSCtgoHtdmMTHe655aI8410DoK6U5+VoljmWh0RRj4ZsTv+EJYe96ERc
+ jMRyQ82kwdNf6sRoc52Xx2a1rW/tdmgUbF/bLj01VwVKaTQGYPkCSMxDrOo8BjGKHl
+ 6hFQLtufjyqo6dVNauYqHskxQw4D5vMd0xbnt7563KrM7evi/86grex3t2Gu7Mhl4y
+ RigmH+/92kdiQ==
+Received: from kusma-desktop.localdomain (ip109-169-110-64.brdy.online
+ [109.169.110.64])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kusma)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id EF56717E120E;
+ Tue, 29 Oct 2024 10:46:51 +0100 (CET)
+From: Erik Faye-Lund <erik.faye-lund@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, kernel@collabora.com,
+ Erik Faye-Lund <erik.faye-lund@collabora.com>
+Subject: [PATCH] drm/panthor: use defines for sync flags
+Date: Tue, 29 Oct 2024 10:46:29 +0100
+Message-ID: <20241029094629.1019295-1-erik.faye-lund@collabora.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,36 +61,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Merging commits e1f813947ccf2326 ("drm/xe/xe2: Extend performance tuning
-to media GT") and 876253165f3eaaac ("drm/xe/xe2: Add performance tuning
-for L3 cache flushing") with their upstream counterparts
-6ef5a04221aaeb85 and 3bf90935aafc750c accidentally left multiple
-identical copies of the XE2LPM_L3SQCREG2, XE2LPM_L3SQCREG3, and
-XE2LPM_SCRATCH3_LBCF register definitions.
+Enums are always signed, and assigning 1u << 31 to it invokes
+implementation defined behavior. It's not a great idea to depend on this
+in the UAPI, and it turns out no other UAPI does either.
 
-Fixes: 26bb2dc102783fef ("Merge tag 'drm-xe-next-2024-10-10' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-next")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+So let's do what other UAPI does, and use defines instead. This way we
+won't get unexpected issues if compiling user-space with a compiler with
+a different implementation-defined behavior here.
 ---
- drivers/gpu/drm/xe/regs/xe_gt_regs.h | 6 ------
- 1 file changed, 6 deletions(-)
+ include/uapi/drm/panthor_drm.h | 44 +++++++++++++++++++++-------------
+ 1 file changed, 28 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/regs/xe_gt_regs.h b/drivers/gpu/drm/xe/regs/xe_gt_regs.h
-index d428d04164d9d3df..42dc55cb23f4a334 100644
---- a/drivers/gpu/drm/xe/regs/xe_gt_regs.h
-+++ b/drivers/gpu/drm/xe/regs/xe_gt_regs.h
-@@ -410,12 +410,6 @@
+diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+index 87c9cb555dd1d..a2e348f901376 100644
+--- a/include/uapi/drm/panthor_drm.h
++++ b/include/uapi/drm/panthor_drm.h
+@@ -209,27 +209,39 @@ struct drm_panthor_obj_array {
+ 	{ .stride = sizeof((ptr)[0]), .count = (cnt), .array = (__u64)(uintptr_t)(ptr) }
  
- #define XE2LPM_SCRATCH3_LBCF			XE_REG_MCR(0xb654)
+ /**
+- * enum drm_panthor_sync_op_flags - Synchronization operation flags.
++ * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK
++ *
++ * Synchronization handle type mask.
+  */
+-enum drm_panthor_sync_op_flags {
+-	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK: Synchronization handle type mask. */
+-	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK = 0xff,
++#define DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK              0xff
  
--#define XE2LPM_L3SQCREG2			XE_REG_MCR(0xb604)
--
--#define XE2LPM_L3SQCREG3			XE_REG_MCR(0xb608)
--
--#define XE2LPM_SCRATCH3_LBCF			XE_REG_MCR(0xb654)
--
- #define XE2LPM_L3SQCREG5			XE_REG_MCR(0xb658)
+-	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ: Synchronization object type. */
+-	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ = 0,
++/**
++ * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ
++ *
++ * Synchronization object type.
++ */
++#define DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ           0
  
- #define XE2_TDF_CTRL				XE_REG(0xb418)
+-	/**
+-	 * @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ: Timeline synchronization
+-	 * object type.
+-	 */
+-	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ = 1,
++/**
++ * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ
++ *
++ * Timeline synchronization object type.
++ */
++#define DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ  1
+ 
+-	/** @DRM_PANTHOR_SYNC_OP_WAIT: Wait operation. */
+-	DRM_PANTHOR_SYNC_OP_WAIT = 0 << 31,
++/**
++ * DRM_PANTHOR_SYNC_OP_WAIT
++ *
++ * Wait operation.
++ */
++#define DRM_PANTHOR_SYNC_OP_WAIT    (0 << 31)
+ 
+-	/** @DRM_PANTHOR_SYNC_OP_SIGNAL: Signal operation. */
+-	DRM_PANTHOR_SYNC_OP_SIGNAL = (int)(1u << 31),
+-};
++/**
++ * DRM_PANTHOR_SYNC_OP_SIGNAL
++ *
++ * Signal operation.
++ */
++#define DRM_PANTHOR_SYNC_OP_SIGNAL  (1u << 31)
+ 
+ /**
+  * struct drm_panthor_sync_op - Synchronization operation.
 -- 
-2.34.1
+2.45.2
 
