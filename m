@@ -2,96 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD1C9B5C2E
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 08:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C6A9B5E0E
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 09:41:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05FE010E2A6;
-	Wed, 30 Oct 2024 07:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6F510E128;
+	Wed, 30 Oct 2024 08:41:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gzkCd5FC";
+	dkim=pass (2048-bit key; unprotected) header.d=mandelbit.com header.i=@mandelbit.com header.b="Yn7q5Kvm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A417710E296;
- Wed, 30 Oct 2024 07:02:58 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49TLipI4001060;
- Wed, 30 Oct 2024 07:02:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- s23tqQyzpVVdNyZHuQNiSwIPGeoBVfPbBXg4onrEcUI=; b=gzkCd5FC+4qqnwX1
- JeZcmB12dLWsqbQVVa7RS7PyqGVx1iLwO9Yxnzqw6Vst/wb9UuCp0L5zQ6D6pUFB
- sAji5H8uZnjEOmHMfuuXGB4LAJIcxHOIo7F695lKLt9bxfIT5k3M7MHxb0zWXWV1
- m9YM4V0tCQBlSPg4hW4pfCgqmb11aeEIHGfAjnsOGYJYfjHCE0/p6SwAnNkHS4o3
- Uo1v5ibf5M7N/yy6ef5589lAeHUJ2eVdibawquJrEDtjnY6xCsvXBWEo2LqVsd7A
- 7pCk/VG43uIJu0m44af0Bz9tHegIXfQXRQSoNXZMCk+ldq5qyPAdoV64QdKeBaLu
- Qpd18A==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42grn531th-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Oct 2024 07:02:51 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49U72pvQ009408
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Oct 2024 07:02:51 GMT
-Received: from [10.213.111.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 30 Oct
- 2024 00:02:44 -0700
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Date: Wed, 30 Oct 2024 12:32:03 +0530
-Subject: [PATCH v3 2/2] arm64: dts: qcom: sa8775p-ride: Enable Adreno 663 GPU
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA59910E1A6
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 23:32:27 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-431695fa98bso57108035e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 16:32:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mandelbit.com; s=google; t=1730244746; x=1730849546;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lStBLLzkZ4IOiXePrysaFTO8S5eHIYxzOD5lofFbrsc=;
+ b=Yn7q5KvmN9aRhV1EsHajHk7HFH05X08+y+aGVzH+CxBJJckezPVHCe5aCujTDLE3iE
+ fvY7j6pEyxaW8r1cSKYuSjObc0DclnNoYu9ifoszxm4gsz548cAyUAfkd+sT6s/k4UjG
+ 0FU0bODmzaxhTDFEkpxl+z7nEWxBbAFgwxnRaEwb2uhxZgCIf7qt045KAyZrglRTWihI
+ d33xEhRcFaufsSWLeBukcEgV/LUGP839sTGFoqqJGEuuyf7GY01+IpCPDPozIqK7zG76
+ JU14lCaX397wiH6qVTt/sKI5pepDaBK6PiKjDRBVCKAWPXGLkAmmzlEQJ/F15AtlkLF1
+ TgQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730244746; x=1730849546;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lStBLLzkZ4IOiXePrysaFTO8S5eHIYxzOD5lofFbrsc=;
+ b=CMd3UM4E6ZZqaYwK5Xi0dqlpshmGY+gx6qbz00gF2E7WgCv3RuDSUf/5nMafDTvE45
+ rL3aWYsyZdM3YfCetoVaZmKl8nMvxUCA3+e4L6Om1zKxJW9rqd+vepnkZiS/F+EM/+o3
+ E7Fc0+kFuE99NbyDCRzXG1gPrnCjjTXIicmcNDsLlbA3PEwQ6kaI1zKHZ+oQyCuAYySo
+ +X3fU3nMu6ysfOEYB5l4dfTvY1WjbyhpY12RadFehm1yIhubkqabTWoUeBX+czVsINLN
+ MTFkC3WYPeVBZn9K8N9iNAZAn2+Ouy2XaRWm9/e+DV9rGLg05j30eQ4Z7NeuNgJejCJX
+ uRQA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWvjr+DMMv/RZa0xujkQRQOiFDEYaYW0N3yfwmjH32BQghIfCuEIDcr8tT6EBhHyBC/b2qVdEDg7TU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzs70kWN5xAC7yKalSE4z52FJg3pmqrq4M+RC0uC1Me5cUarkV0
+ QSb+GGoABiS53vnDj3puQDk0Ekx9WAujeDi6o5vze1kfH333ir9ex9gtFq5a5Kt85hUxf/9H3Jt
+ 8DHg=
+X-Google-Smtp-Source: AGHT+IFN08GgIIYQERPKFyJ+37fpuAaUFrLVX8d6AuuDSZctnK3MH0jcrfXMRdO8stPaqw7wQC8yUA==
+X-Received: by 2002:a05:600c:3b9c:b0:42f:7c9e:1f96 with SMTP id
+ 5b1f17b1804b1-4319ac6fc1cmr134931455e9.1.1730244746154; 
+ Tue, 29 Oct 2024 16:32:26 -0700 (PDT)
+Received: from serenity.mandelbit.com ([2001:67c:2fbc:1:c559:9886:6c0b:569f])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-431bd97d77dsm3515305e9.22.2024.10.29.16.32.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Oct 2024 16:32:25 -0700 (PDT)
+From: Antonio Quartulli <antonio@mandelbit.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ mario.limonciello@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Antonio Quartulli <antonio@mandelbit.com>
+Subject: [PATCH] amdgpu: prevent NULL pointer dereference if ATIF is not
+ supported
+Date: Wed, 30 Oct 2024 00:32:32 +0100
+Message-ID: <20241029233232.27692-1-antonio@mandelbit.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20241030-a663-gpu-support-v3-2-bdf1d9ce6021@quicinc.com>
-References: <20241030-a663-gpu-support-v3-0-bdf1d9ce6021@quicinc.com>
-In-Reply-To: <20241030-a663-gpu-support-v3-0-bdf1d9ce6021@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Connor Abbott <cwabbott0@gmail.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>, Puranam V G Tejaswi
- <quic_pvgtejas@quicinc.com>, Akhil P Oommen <quic_akhilpo@quicinc.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730271752; l=851;
- i=quic_akhilpo@quicinc.com; s=20240726; h=from:subject:message-id;
- bh=jl3C/K5zNs5Qz73iOQT3bnzXc+XGYQDniyPGtEtpHRk=;
- b=QoJYQ8RbW/+IIzDsYJDxaKrsD5pK9zdaqAVQXr+oHQZs3a967xaKcDVIn2ZI8Y0B/reOmCb1q
- TBHMjBOvIopD/ENhuL8vnCTcdhPcP6yMJaMytAAiFRoqApsznocL++j
-X-Developer-Key: i=quic_akhilpo@quicinc.com; a=ed25519;
- pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 20JNOFAimu6eWBSS5q0NZcMQNwXLMudx
-X-Proofpoint-ORIG-GUID: 20JNOFAimu6eWBSS5q0NZcMQNwXLMudx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=999
- malwarescore=0 clxscore=1015 bulkscore=0 suspectscore=0 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410300054
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 30 Oct 2024 08:41:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,38 +85,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+acpi_evaluate_object() may return AE_NOT_FOUND (failure), which
+would result in dereferencing buffer.pointer (obj) while being NULL.
 
-Enable GPU for sa8775p-ride platform and provide path for zap
-shader.
+Bail out also when status is AE_NOT_FOUND with a proper error message.
 
-Signed-off-by: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This fixes 1 FORWARD_NULL issue reported by Coverity
+Report: CID 1600951:  Null pointer dereferences  (FORWARD_NULL)
+
+Signed-off-by: Antonio Quartulli <antonio@mandelbit.com>
 ---
- arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-index 0c1b21def4b6..4901163df8f3 100644
---- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-@@ -407,6 +407,14 @@ queue3 {
- 	};
- };
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+index cce85389427f..f10c3261a4ab 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+@@ -172,10 +172,13 @@ static union acpi_object *amdgpu_atif_call(struct amdgpu_atif *atif,
+ 				      &buffer);
+ 	obj = (union acpi_object *)buffer.pointer;
  
-+&gpu {
-+	status = "okay";
-+};
-+
-+&gpu_zap_shader {
-+	firmware-name = "qcom/sa8775p/a663_zap.mbn";
-+};
-+
- &i2c11 {
- 	clock-frequency = <400000>;
- 	pinctrl-0 = <&qup_i2c11_default>;
-
+-	/* Fail if calling the method fails and ATIF is supported */
+-	if (ACPI_FAILURE(status) && status != AE_NOT_FOUND) {
+-		DRM_DEBUG_DRIVER("failed to evaluate ATIF got %s\n",
+-				 acpi_format_exception(status));
++	/* Fail if calling the method fails */
++	if (ACPI_FAILURE(status)) {
++		if (status != AE_NOT_FOUND)
++			DRM_DEBUG_DRIVER("failed to evaluate ATIF got %s\n",
++					 acpi_format_exception(status));
++		else
++			DRM_DEBUG_DRIVER("ATIF not supported\n");
+ 		kfree(obj);
+ 		return NULL;
+ 	}
 -- 
 2.45.2
 
