@@ -2,68 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1265A9B469D
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 11:21:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7329B46A4
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 11:22:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AECC10E613;
-	Tue, 29 Oct 2024 10:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3614210E618;
+	Tue, 29 Oct 2024 10:22:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=helen.koike@collabora.com header.b="K4Ngk/wp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TNMOOYQ+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 284FE10E612;
- Tue, 29 Oct 2024 10:21:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1730197297; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KYcsLYoQ/2GXGGmh9lStLA1zFi6RRLeT0UP0w+X2T5mH+/QxDbRHm3geTQS12Vp9CPOzRsNfzQ0hsdqLf5vgN1GMMZ+C+SSLmnNiFLtvsdPzhIotwpqgg6G6aMNJD8ZbeKs0oaV7O4exNOrF5t4JpPnp19OrkTtpBeO99TsZxAw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1730197297;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=U5Ti6h7kQHUkNr5lbUtKe3L2IZY7J0SKjp+bvuGgbOw=; 
- b=WeQc3IOH7NXn5f0ESH9MDd3rBsozGvIJtVLaTnEFoBrkSIa+eMHLadoRk6zwO3M7cfWbxk5FF2RfT5u73mdXGiXA9fIaRwaPMbs5bF2fEMDKZznnb8jnUmhlkh+Fe/0JwtR+AVglWldc6Fson6IfPU5qcdmmR/VqZbrmRUwlhMA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=helen.koike@collabora.com;
- dmarc=pass header.from=<helen.koike@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1730197297; 
- s=zohomail; d=collabora.com; i=helen.koike@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=U5Ti6h7kQHUkNr5lbUtKe3L2IZY7J0SKjp+bvuGgbOw=;
- b=K4Ngk/wpeI5Z1EHhC5BeBokxllNfm/O/cg8Fej9yEqTIKgrNOnPvUql/Fu+UeXv2
- 5gAXFm+mqQLZLGKav2C4qXWefTn3NMtRl7Xn6gDePlI8ZqFoUeN9HOS/LJ7Hgal1+nU
- tPZTVarO2s3t7FfGy0hhzsJEbDzrE9IY6/kqFlq8=
-Received: from mail.zoho.com by mx.zohomail.com
- with SMTP id 1730197295528634.2252561603951;
- Tue, 29 Oct 2024 03:21:35 -0700 (PDT)
-Date: Tue, 29 Oct 2024 07:21:35 -0300
-From: Helen Mae Koike Fornazier <helen.koike@collabora.com>
-To: "Vignesh Raman" <vignesh.raman@collabora.com>
-Cc: "dri-devel" <dri-devel@lists.freedesktop.org>,
- "daniels" <daniels@collabora.com>, "airlied" <airlied@gmail.com>,
- "daniel" <daniel@ffwll.ch>, "robdclark" <robdclark@gmail.com>,
- "guilherme.gallo" <guilherme.gallo@collabora.com>,
- "sergi.blanch.torne" <sergi.blanch.torne@collabora.com>,
- "deborah.brouwer" <deborah.brouwer@collabora.com>,
- "dmitry.baryshkov" <dmitry.baryshkov@linaro.org>,
- "quic_abhinavk" <quic_abhinavk@quicinc.com>,
- "linux-arm-msm" <linux-arm-msm@vger.kernel.org>,
- "intel-gfx" <intel-gfx@lists.freedesktop.org>,
- "virtualization" <virtualization@lists.linux.dev>,
- "linux-kernel" <linux-kernel@vger.kernel.org>
-Message-ID: <192d7cb9143.f422e0dc1041966.5693553392946213419@collabora.com>
-In-Reply-To: <20241022094509.85510-2-vignesh.raman@collabora.com>
-References: <20241022094509.85510-1-vignesh.raman@collabora.com>
- <20241022094509.85510-2-vignesh.raman@collabora.com>
-Subject: Re: [PATCH v2 1/2] drm/ci: add dedede
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40C4D10E615
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 10:22:47 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-20cbcd71012so55665565ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 03:22:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1730197367; x=1730802167; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=01Umf8iUVZfC58kdjKuuiE82OEKV9wbOQ6pjiqKLUv8=;
+ b=TNMOOYQ+lsc2F3nEAc44bato+cyP7IhlcKDQ7P5alecDLNMFHy0cMWv1QY2TN9cNo/
+ KNeVdlMK4Rec6dsKH9MTbuKZkmgRSVc3D7zLtGI4oBiasPrcOAnB89QIbyWlIEPwGh+u
+ ftnAbXKElho9SVGRzPr2j6ZebDRfGaAw25BaZEprgtaTXysNAOAtAyfkgLp7tGB9gN8Q
+ wYPVj9lRTpFz+DjcPpjYMWtDq8dseEUaLLVd9Wh2x+ZssUXzoYdXG8k00DyiacALW0P2
+ mokdZ2sSrOsSaN/77oOo8OWY/ybB/6uN4+BuPZCiUF4Jpb45qDEu3Yb7PuUS/xXWvZxc
+ t8tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730197367; x=1730802167;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=01Umf8iUVZfC58kdjKuuiE82OEKV9wbOQ6pjiqKLUv8=;
+ b=T2uzhSQ9f4PJf81MT8mnMqNZH4k+57W3C7W7rFDSV1fla/Dy2+mr3TGzzl8amSpkSu
+ YDRpePTRWO4f7fUyQCZRZ7JdNfMonI3yMdmAgMcxH8cnwLDqYtq46eAkCPgDTzqOEXEs
+ 4R1AzEAGqIlaMErB5NsDkJCeSHOtYLJegc9UI592QbuvvVAJKW6D1SVZB9Cl6F4hTe/D
+ PiuqboKY4YCDObPoizfLCEEcROuekg8rVpdSzPN50lZzQqe5Y8xDPdah+hi0NbNL5mwK
+ qIjU6H7tzbyCWwVfZykcR6h2Vpy4nnQBG00oePkF5YbbeO+X5XpjNPV+0tZSHZzVxj3g
+ efqQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWSA/GGwxiaP5Trmpy2qeDfXn8PpIGh928P3F3qy9Ib3i9NxPB+vrPpr5SkT4sXXvHhAuK8WWDzZ7k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwpfoSwGQae2yNqVcTtI2uuwOEHWDgAZYVDcxLkNHmWS9mQJLII
+ GH/X1Bg8/zU1O0otNKcQI/9ogva7TY1U0tGPCbQHHhOdWFXgM2yg
+X-Google-Smtp-Source: AGHT+IElqNym4BeJPNCJTlbSlHkx0TRDzfK6WFA45y6XkQcbHMPJugv4gb8Tn9WYSnPeio2CIZlTCg==
+X-Received: by 2002:a17:903:228a:b0:20c:83e7:ca4f with SMTP id
+ d9443c01a7336-210c6bfd3afmr147760185ad.26.1730197366561; 
+ Tue, 29 Oct 2024 03:22:46 -0700 (PDT)
+Received: from gye-ThinkPad-T590.. ([39.120.225.141])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-210bbf6dd62sm63475445ad.95.2024.10.29.03.22.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Oct 2024 03:22:46 -0700 (PDT)
+From: Gyeyoung Baek <gye976@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Gyeyoung Baek <gye976@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] Fix unused variable warning in 'drm_print.h'
+Date: Tue, 29 Oct 2024 19:22:34 +0900
+Message-Id: <20241029102234.187480-1-gye976@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,161 +84,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+previous code can make unused variable warning,
+
+e.g. when CONFIG_DRM_USE_DYNAMIC_DEBUG is set,
+this outputs the following build error.
+
+drivers/gpu/drm/drm_print.c: In function ‘__drm_printfn_dbg’:
+drivers/gpu/drm/drm_print.c:218:33: error: unused variable ‘category’ [-Werror=unused-variable]
+  218 |         enum drm_debug_category category = p->category;
 
 
 
+so i simply add '(void)(category);' to remove unused variable warning,
+by referring to "https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html".
 
----- On Tue, 22 Oct 2024 06:45:04 -0300 Vignesh Raman  wrote ---
+Signed-off-by: Gyeyoung Baek <gye976@gmail.com>
+---
+ include/drm/drm_print.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- > Add job that executes the IGT test suite for acer-cb317-1h-c3z6-dedede. 
- > dedede boards use 64 bit Intel Jasper Lake processors. 
- >  
- > Signed-off-by: Vignesh Raman vignesh.raman@collabora.com> 
-
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-Thanks
-Helen
-
- > --- 
- >  
- > v2: 
- >  - Add gitlab issue link for flake tests. 
- >  
- > --- 
- >  drivers/gpu/drm/ci/test.yml                   |  9 ++++ 
- >  drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt  | 51 +++++++++++++++++++ 
- >  drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt | 13 +++++ 
- >  drivers/gpu/drm/ci/xfails/i915-jsl-skips.txt  | 20 ++++++++ 
- >  4 files changed, 93 insertions(+) 
- >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt 
- >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt 
- >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-jsl-skips.txt 
- >  
- > diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml 
- > index 09d8447840e9..d0bfe6aab58a 100644 
- > --- a/drivers/gpu/drm/ci/test.yml 
- > +++ b/drivers/gpu/drm/ci/test.yml 
- > @@ -286,6 +286,15 @@ i915:tgl: 
- >  GPU_VERSION: tgl 
- >  RUNNER_TAG: mesa-ci-x86-64-lava-acer-cp514-2h-1130g7-volteer 
- >  
- > +i915:jsl: 
- > +  extends: 
- > +    - .i915 
- > +  parallel: 4 
- > +  variables: 
- > +    DEVICE_TYPE: acer-cb317-1h-c3z6-dedede 
- > +    GPU_VERSION: jsl 
- > +    RUNNER_TAG: mesa-ci-x86-64-lava-acer-cb317-1h-c3z6-dedede 
- > + 
- >  .amdgpu: 
- >  extends: 
- >  - .lava-igt:x86_64 
- > diff --git a/drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt b/drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt 
- > new file mode 100644 
- > index 000000000000..ed9f7b576843 
- > --- /dev/null 
- > +++ b/drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt 
- > @@ -0,0 +1,51 @@ 
- > +core_setmaster@master-drop-set-user,Fail 
- > +i915_module_load@load,Fail 
- > +i915_module_load@reload,Fail 
- > +i915_module_load@reload-no-display,Fail 
- > +i915_module_load@resize-bar,Fail 
- > +i915_pm_rpm@gem-execbuf-stress,Timeout 
- > +i915_pm_rpm@module-reload,Fail 
- > +kms_flip@plain-flip-fb-recreate,Fail 
- > +kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail 
- > +kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail 
- > +kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-downscaling,Fail 
- > +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-linear-to-16bpp-linear-downscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-linear-to-16bpp-linear-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-linear-to-32bpp-linear-downscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-linear-to-32bpp-linear-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-xtile-to-16bpp-xtile-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-xtile-to-32bpp-xtile-downscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-xtile-to-32bpp-xtile-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-downscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-downscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilegen12rcccs-upscaling,Fail 
- > +kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling,Fail 
- > +kms_lease@lease-uevent,Fail 
- > +kms_pm_rpm@legacy-planes,Timeout 
- > +kms_pm_rpm@legacy-planes-dpms,Timeout 
- > +kms_pm_rpm@modeset-stress-extra-wait,Timeout 
- > +kms_pm_rpm@universal-planes,Timeout 
- > +kms_pm_rpm@universal-planes-dpms,Timeout 
- > +kms_rotation_crc@multiplane-rotation,Fail 
- > +kms_rotation_crc@multiplane-rotation-cropping-bottom,Fail 
- > +kms_rotation_crc@multiplane-rotation-cropping-top,Fail 
- > +perf@i915-ref-count,Fail 
- > +perf_pmu@busy-accuracy-50,Fail 
- > +perf_pmu@module-unload,Fail 
- > +perf_pmu@most-busy-idle-check-all,Fail 
- > +perf_pmu@rc6,Crash 
- > +sysfs_heartbeat_interval@long,Timeout 
- > +sysfs_heartbeat_interval@off,Timeout 
- > +sysfs_preempt_timeout@off,Timeout 
- > +sysfs_timeslice_duration@off,Timeout 
- > +xe_module_load@force-load,Fail 
- > +xe_module_load@load,Fail 
- > +xe_module_load@many-reload,Fail 
- > +xe_module_load@reload,Fail 
- > +xe_module_load@reload-no-display,Fail 
- > diff --git a/drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt b/drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt 
- > new file mode 100644 
- > index 000000000000..5c3ef4486b9d 
- > --- /dev/null 
- > +++ b/drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt 
- > @@ -0,0 +1,13 @@ 
- > +# Board Name: acer-cb317-1h-c3z6-dedede 
- > +# Bug Report: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12475 
- > +# Failure Rate: 100 
- > +# IGT Version: 1.28-ga73311079 
- > +# Linux Version: 6.12.0-rc1 
- > +kms_flip@flip-vs-panning-interruptible 
- > + 
- > +# Board Name: acer-cb317-1h-c3z6-dedede 
- > +# Bug Report: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12476 
- > +# Failure Rate: 100 
- > +# IGT Version: 1.28-ga73311079 
- > +# Linux Version: 6.12.0-rc1 
- > +kms_universal_plane@cursor-fb-leak 
- > diff --git a/drivers/gpu/drm/ci/xfails/i915-jsl-skips.txt b/drivers/gpu/drm/ci/xfails/i915-jsl-skips.txt 
- > new file mode 100644 
- > index 000000000000..1a3d87c0ca6e 
- > --- /dev/null 
- > +++ b/drivers/gpu/drm/ci/xfails/i915-jsl-skips.txt 
- > @@ -0,0 +1,20 @@ 
- > +# Suspend to RAM seems to be broken on this machine 
- > +.*suspend.* 
- > + 
- > +# Skip driver specific tests 
- > +^amdgpu.* 
- > +^msm.* 
- > +nouveau_.* 
- > +^panfrost.* 
- > +^v3d.* 
- > +^vc4.* 
- > +^vmwgfx* 
- > + 
- > +# GEM tests takes ~1000 hours, so skip it 
- > +gem_.* 
- > + 
- > +# trap_err 
- > +i915_pm_rc6_residency.* 
- > + 
- > +# Hangs the machine and timeout occurs 
- > +i915_pm_rpm@system-hibernate* 
- > -- 
- > 2.43.0 
- >  
- > 
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index d2676831d765..6a5dc1f73ff2 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -157,7 +157,7 @@ static inline bool drm_debug_enabled_raw(enum drm_debug_category category)
+  * a descriptor, and only enabled callsites are reachable.  They use
+  * the private macro to avoid re-testing the enable-bit.
+  */
+-#define __drm_debug_enabled(category)	true
++#define __drm_debug_enabled(category)	({ (void)(category); true; })
+ #define drm_debug_enabled(category)	drm_debug_enabled_instrumented(category)
+ #else
+ #define __drm_debug_enabled(category)	drm_debug_enabled_raw(category)
+-- 
+2.34.1
 
