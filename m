@@ -2,82 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B71C9B527F
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 20:11:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E279B528C
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 20:16:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 080BB10E6E7;
-	Tue, 29 Oct 2024 19:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FCBF10E6E8;
+	Tue, 29 Oct 2024 19:16:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gicpirwV";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mDxF8U+K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F44810E6E6;
- Tue, 29 Oct 2024 19:11:54 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T9F0g9030224;
- Tue, 29 Oct 2024 19:11:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- hKZ1W2Q6Ohe+iy8lwWtdNha9VAS1B9CoWmDwCMc6Gzw=; b=gicpirwV9QfjKSpq
- VnmpXbUI82zGhk8W6ZephPNn8bQqzEb0DpGY6oDCX21NVa5q3Pd78abGe4xVBFwt
- PClS2/Xrxsms9MpU/8F9DVLB6/xZEqMJ0i25Uuk7/f01rVRWcS+uhCk0FA8f1WWw
- 7sCJjds55VIGEDbiKvW5d99P5aVGgEarHyX/FyXRjnfFC8VHEKiG3Myu7owO7iXu
- HD97PQvZJSVEmkCbMkIlZCQLU5JaO6+DMLMhFChpo0NCGYq3DLEec+sAnrfYlACx
- WFx8X/XicBA3vQ7xbEP7KMC21AnTQB+7S+h039TKwGCFtfJiFP+EAj+7Q4xivcgw
- Q2/Szw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gqcqsk4n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Oct 2024 19:11:49 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49TJBm99010188
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Oct 2024 19:11:48 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 29 Oct
- 2024 12:11:47 -0700
-Message-ID: <ee312695-e309-4d56-8d3f-0fbffd923177@quicinc.com>
-Date: Tue, 29 Oct 2024 12:11:46 -0700
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1D7110E6E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 19:16:47 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-20e6981ca77so62743005ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 12:16:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1730229407; x=1730834207; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=HYm6/tVCLa0IRn8QK44VqcJkbGs60MVOw3b3ZJUZb70=;
+ b=mDxF8U+KQMfuFa9CtNtcPq6ECl8ynpd4f3+QvTqJKaazSIp+aB4hd2j9tO/9UeJ1aP
+ RkZCbHN3oy0+hiKMzxHnD1rYOLXJZs7CWguMcmhnVtk+zn4NplUp6OE89wesxSRTdz8W
+ 3gOpS3fs9r82QwPLeDPjX0pKbttQoJOw1psazIpdrREXt+yCdLSzhN0SK2c82iXHQCja
+ VCptEyZedul9HMyKwi7Gam8fcTXrnwitxN4bjMAL8DbrI7aZ3D56GBxlMu/zoHsxq36T
+ 0IIpErBVz9FggmcFblZYzIYmEE4WiFmlVa+U4KKkQz6Mx4Z3DHlgmnv7Y6E/qnaPt3HO
+ 4HEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730229407; x=1730834207;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HYm6/tVCLa0IRn8QK44VqcJkbGs60MVOw3b3ZJUZb70=;
+ b=AgdBSCyelzryQq1AfUMafENII2ahMintBhMrfKjsBF17U8RpLC871Jw+uO5ZD0vyNE
+ uz0B9j6H5MaOF+1jE0Y+a4qwaX6u3S+TxXbBmodzLiW7KqPcnJ8BqBGiM3RO3ljbyBCT
+ W/ez3ULhJAxEl7R7T2cTtCtwyniiL7Cy6s0NGDX0zvsDh+P4sbswcd0eK2aNjkB9VLLC
+ YMGVNfwRgQQ5k6J+0vXJHlSO55EhBN1BCsLvXW5oxDj8qOp5HTN8EVikuGN1WsgUfqAo
+ TP6anDg7OlJojyqBKWKEGZ/hFST1oTUeEzWn5s9GOlJa/zj2goH12a+ccpbX4xS2kJoc
+ CpLw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVUZzVaSp+tlaTihtGxx7ynd/O91zGw5nwCYAkC7ph4iZGZhLy0Pi/EpI4r3hQ4UD6LwoNt7q+ipqs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3IP8aq4n5pGN1FemPKPo5XDsriboinQ1lRqQBaDOkuAR2khlb
+ 0W+wcuxePWRSo2P32tYBrO16r1Q+HGOBhkmuGhgRcYRmFNeFPsdrZ8nLMg==
+X-Google-Smtp-Source: AGHT+IFflxdhOOdhlw0WMMCci3BlMlyqQZ2ZA9xv59ogXANUwG9RzYtz7JlPEFXLPDfj8fEW5WQ+0w==
+X-Received: by 2002:a17:902:f686:b0:20b:8ef3:67a with SMTP id
+ d9443c01a7336-210c68744a1mr195187515ad.7.1730229407280; 
+ Tue, 29 Oct 2024 12:16:47 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:190a:1425:254d:1e7a])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-7edc8661061sm7842346a12.17.2024.10.29.12.16.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Oct 2024 12:16:46 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: shawnguo@kernel.org
+Cc: marex@denx.de, a.fatoum@pengutronix.de, andreas@kemnade.info,
+ kernel@pengutronix.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Fabio Estevam <festevam@denx.de>
+Subject: [PATCH v3 1/3] dt-bindings: lcdif: Document a imx6sx-lcdif fallback
+Date: Tue, 29 Oct 2024 16:16:38 -0300
+Message-Id: <20241029191640.379315-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/dpu: Cast an operand to u64 to prevent potential
- overflow in _dpu_core_perf_calc_clk()
-To: Gax-c <zichenxie0106@gmail.com>, <robdclark@gmail.com>,
- <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <quic_kalyant@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20241029162645.9060-1-zichenxie0106@gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20241029162645.9060-1-zichenxie0106@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: R_KkRa4z2sVCGGIw-yhzmA2lpp1Vh2DJ
-X-Proofpoint-GUID: R_KkRa4z2sVCGGIw-yhzmA2lpp1Vh2DJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 adultscore=0 spamscore=0
- phishscore=0 impostorscore=0 clxscore=1011 priorityscore=1501 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410290144
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,48 +83,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Fabio Estevam <festevam@denx.de>
 
+imx6sx.dtsi has the following lcdif entries:
 
-On 10/29/2024 9:26 AM, Gax-c wrote:
-> From: Zichen Xie <zichenxie0106@gmail.com>
-> 
-> There may be a potential integer overflow issue in
-> _dpu_core_perf_calc_clk(). crtc_clk is defined as u64, while
-> mode->vtotal, mode->hdisplay, and drm_mode_vrefresh(mode) are defined as
-> a smaller data type. The result of the calculation will be limited to
-> "int" in this case without correct casting. In screen with high
-> resolution and high refresh rate, integer overflow may happen.
-> So, we recommend adding an extra cast to prevent potential
-> integer overflow.
-> 
+compatible = "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
 
-You could just say "cast crtc_clk calculation to u64 in 
-_dpu_core_perf_calc_clk()" in the subject to be more specific about 
-which operand you are referring to.
+This causes the following dt-schema warning:
 
+['fsl,imx6sx-lcdif', 'fsl,imx28-lcdif'] is too long
 
-> Fixes: c33b7c0389e1 ("drm/msm/dpu: add support for clk and bw scaling for display")
-> Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> index 68fae048a9a8..260accc151d4 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> @@ -80,7 +80,7 @@ static u64 _dpu_core_perf_calc_clk(const struct dpu_perf_cfg *perf_cfg,
->   
->   	mode = &state->adjusted_mode;
->   
-> -	crtc_clk = mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
-> +	crtc_clk = (u64)mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
->   
->   	drm_atomic_crtc_for_each_plane(plane, crtc) {
->   		pstate = to_dpu_plane_state(plane->state);
+To keep DT compatibility, document 'fsl,imx28-lcdif' as a possible
+'fsl,imx6sx-lcdif' fallback.
 
-Change looks valid to me, so with the subject fixed a bit:
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+Changes since v2:
+- Only document fsl,imx6sx-lcdif with a fallback.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+ Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+index 8e3a98aeec32..ad0cca562463 100644
+--- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
++++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+@@ -19,7 +19,6 @@ properties:
+       - enum:
+           - fsl,imx23-lcdif
+           - fsl,imx28-lcdif
+-          - fsl,imx6sx-lcdif
+           - fsl,imx8mp-lcdif
+           - fsl,imx93-lcdif
+       - items:
+@@ -32,6 +31,10 @@ properties:
+               - fsl,imx8mn-lcdif
+               - fsl,imx8mq-lcdif
+           - const: fsl,imx6sx-lcdif
++      - items:
++          - enum:
++              - fsl,imx6sx-lcdif
++          - const: fsl,imx28-lcdif
+ 
+   reg:
+     maxItems: 1
+-- 
+2.34.1
 
