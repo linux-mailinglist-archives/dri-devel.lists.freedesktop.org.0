@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5754B9B5293
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 20:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351D59B52E2
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2024 20:43:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6C8210E6EC;
-	Tue, 29 Oct 2024 19:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2334410E6F0;
+	Tue, 29 Oct 2024 19:43:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DPBH9646";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xfck8RqT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3AEB10E6EC
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 19:16:55 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id
- 41be03b00d2f7-7edb3f93369so3773976a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 12:16:55 -0700 (PDT)
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E47410E060;
+ Tue, 29 Oct 2024 19:42:59 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id
+ 5614622812f47-3e619057165so3157332b6e.1; 
+ Tue, 29 Oct 2024 12:42:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730229415; x=1730834215; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zYKmKtE2fVCas74ElHJ9fhZLrtmW93dELAHBPhCA8b0=;
- b=DPBH9646qOMgqdbgr8/GSPPbzqaHRI8PIW66DC/1b36DXjWt3zFVG0+yGtz9ST3mIG
- CG/aLV5cL39Y0ey7XSetnHzeEW45Yrh4AQGZOlIU2eVY7biZYugYOuIHMrSsWKKTf3xb
- qG7GEUVe9r7EcF1hvSPhb/tc6v/3QmvLdVEBdR821dppdkzcSKlwRNHmBjN9/5x41HMZ
- 4fN8j8FxUHpuQTsQjArEb71ySLkENBZnTeoOJnMtygCEKhH5X06sqTaaT4xrGfW1wB2x
- 2VsDTfCxJudbGd4LO+Av7B14L1srJaku0hSqAx1RdK2THWK6gRSGjBONYPoXb/YQYsp9
- oSyQ==
+ d=gmail.com; s=20230601; t=1730230978; x=1730835778; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TaIdkluJRQnGuMAA898Bqtz2g8g1yMGAe+YroMJ3Fzk=;
+ b=Xfck8RqT1rIoa2QTSqKY3VIMzNS8nctc5sLHEANwmRAg1AKJSWqKGcFvkJz4vzWWo3
+ mxqy+7L533eDtvZwElpRo4Id2pt8kuuqIxEz/CZDBhzmct9tx4ZQMQqsjQZSFpFuUrQB
+ BvLtKyqvZpin6AnyYn9dtqHnZtyB9cwvreobErsJePd9AE5YdLTesNAAFj3v5RrRjwRP
+ gqS4IRZUaSZ9h6IwVmCK5aS6voFcZermVZYga8I+z41WVpBZ6R1tHnTpNddVBbzalQZE
+ TAsAp/Nu9oAL1jOLxDYidPgu4SBjZoSTconu52iconQyCEnNIbl5f8o+R++RKgUJtOeG
+ 8EFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730229415; x=1730834215;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zYKmKtE2fVCas74ElHJ9fhZLrtmW93dELAHBPhCA8b0=;
- b=UzcO4kXvzNctuB8gd/7PmWIRzZukd5IaDRqTQNg24eZLxRpcq3bDEr7tlDrJ1Ne4xI
- MaP5x5SsY3Au6oOySXA2p9ZHO1CFH0mQG459kfmXW01qGgaWWATp8XqQp0GAgr18+VzV
- azO4jlTWf6GhsHSSBVyTeEnmzNBj7cKgf9b9oK8DRhRLXditIFLvx2u71QjJR9L9ylqq
- Q2oIfBcf88fhwP8N0V/mCbSknrWxa7zf/q3Oe8vA8bmJo9el/tdfOQhQ29RzMxFo0C7T
- J2jqVEK44Dc53xqjzCJcLtErgpytTKxpHTvC2kqyrtnhzFQP5vJpxz7aClafpzolpeYM
- b85g==
+ d=1e100.net; s=20230601; t=1730230978; x=1730835778;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TaIdkluJRQnGuMAA898Bqtz2g8g1yMGAe+YroMJ3Fzk=;
+ b=g4/VIwahc5g4uSloRmhjfgW2An2G3EeYjGg9ELMILMcgKQeREMdqyA66ySAaGgASGT
+ 7mf17AqtFae5P7pzxc7ZoslNhx8tvUpUpdXGFkBfiE9oGzp0q47KxC1YiNq6R0t1kjda
+ 00VOnKai+YiqJJFDVTkoh02WzcNrjNyIbY+m6sA/z6aCUUp2QFTMOAf8mR5S2xQw0Ac6
+ TGr+qo0tJgIRTzCKIMzPhwsEQEzQNOj90V/8caIK+l/3LafXqozZb/irrgXB3vgBTQax
+ Go1XRdXCRd3tWSR+cFnBtktmuASk1higCzZvVCp2YT/arXAPW8+J1PL/SgMNaQ7F0kq1
+ N6Vg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUQIO9VJDc7g8o5ipt0OxrDnU23BS0dbIYbRXmGioEMYdttboKmKcREW3nICkNd6Fk8cPx5D64sxnY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTxsyWlY0pBwwg3pHmPbAMncaiUr7Qt2qqgft/xwaKW6ZejeqK
- jkY87dAmkBug2gHAJsfHhFbsLQURpK5uiu7MlV3btryloCNwDIh4l0Gaig==
-X-Google-Smtp-Source: AGHT+IFTWq5E2+C67K9DtUnmc5ZutA88kE0YA5e/SigUzJXK7DIsERXz99OcPpiFqA+Gv4FpUe17bA==
-X-Received: by 2002:a05:6a21:58b:b0:1d9:762a:98ba with SMTP id
- adf61e73a8af0-1d9a83c9c31mr17108740637.16.1730229415320; 
- Tue, 29 Oct 2024 12:16:55 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:190a:1425:254d:1e7a])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-7edc8661061sm7842346a12.17.2024.10.29.12.16.51
+ AJvYcCWurjPUhDQ4BXa8zZ1S04/1RkU0VeecekCBt2fcDf/zNBhoA9V1Tlh+neNU9AAWl4ywsERnUGULsLwZ@lists.freedesktop.org,
+ AJvYcCXrw3ILTOSUSG2Tu51nCTEFcmo1TxIr6c0GFt+GRm2L6R+gvPyGyVa4h1grilQATbjk0UAzgO8/nuE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyQp869EKjmirISLdt+w5KSca8h7kOvwbXLA9FhK9jVjvuYtWuH
+ 5UFkngTLxaG1AJdMvkni4XFUoE4vUr/h1daqULVhigUKsnzmc82j
+X-Google-Smtp-Source: AGHT+IH8Y6mHGJESumZCtyH9ApNxBWJ7xnyPC3msCvWWq8Jvmf+vsM+TIkPiDmEpzNu1wHSKaSg/mg==
+X-Received: by 2002:a05:6358:d38f:b0:1c5:e2eb:5aad with SMTP id
+ e5c5f4694b2df-1c5e2eb5bcfmr138356255d.20.1730230977077; 
+ Tue, 29 Oct 2024 12:42:57 -0700 (PDT)
+Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu.
+ [130.126.255.54]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6d1798a839bsm44970316d6.36.2024.10.29.12.42.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2024 12:16:54 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: shawnguo@kernel.org
-Cc: marex@denx.de, a.fatoum@pengutronix.de, andreas@kemnade.info,
- kernel@pengutronix.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v3 3/3] ARM: dts: imx6sl: Provide a more specific lcdif
- compatible
-Date: Tue, 29 Oct 2024 16:16:40 -0300
-Message-Id: <20241029191640.379315-3-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241029191640.379315-1-festevam@gmail.com>
-References: <20241029191640.379315-1-festevam@gmail.com>
+ Tue, 29 Oct 2024 12:42:56 -0700 (PDT)
+From: Gax-c <zichenxie0106@gmail.com>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
+ quic_kalyant@quicinc.com
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Zichen Xie <zichenxie0106@gmail.com>
+Subject: [PATCH v2] drm/msm/dpu: cast crtc_clk calculation to u64 in
+ _dpu_core_perf_calc_clk()
+Date: Tue, 29 Oct 2024 14:42:10 -0500
+Message-Id: <20241029194209.23684-1-zichenxie0106@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,50 +85,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabio Estevam <festevam@denx.de>
+From: Zichen Xie <zichenxie0106@gmail.com>
 
-The LCDIF IP on i.MX6SL and i.MX6SLL is compatible with i.MX6SX.
+There may be a potential integer overflow issue in
+_dpu_core_perf_calc_clk(). crtc_clk is defined as u64, while
+mode->vtotal, mode->hdisplay, and drm_mode_vrefresh(mode) are defined as
+a smaller data type. The result of the calculation will be limited to
+"int" in this case without correct casting. In screen with high
+resolution and high refresh rate, integer overflow may happen.
+So, we recommend adding an extra cast to prevent potential
+integer overflow.
 
-Provide a more specific "fsl,imx6sx-lcdif" compatible and still keep
-"fsl,imx28-lcdif" for DT compatibility.
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
+Fixes: c33b7c0389e1 ("drm/msm/dpu: add support for clk and bw scaling for display")
+Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
-Changes since v2:
-- None.
+v2: Adjust subject.
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- arch/arm/boot/dts/nxp/imx/imx6sl.dtsi  | 3 ++-
- arch/arm/boot/dts/nxp/imx/imx6sll.dtsi | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi b/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi
-index 6aa61235e39e..840e19b2ca0f 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi
-@@ -773,7 +773,8 @@ epdc: epdc@20f4000 {
- 			};
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+index 68fae048a9a8..260accc151d4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+@@ -80,7 +80,7 @@ static u64 _dpu_core_perf_calc_clk(const struct dpu_perf_cfg *perf_cfg,
  
- 			lcdif: lcdif@20f8000 {
--				compatible = "fsl,imx6sl-lcdif", "fsl,imx28-lcdif";
-+				compatible = "fsl,imx6sl-lcdif", "fsl,imx6sx-lcdif",
-+					     "fsl,imx28-lcdif";
- 				reg = <0x020f8000 0x4000>;
- 				interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
- 				clocks = <&clks IMX6SL_CLK_LCDIF_PIX>,
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi b/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi
-index 85fe2a4ab97a..eff83f5e5535 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi
-@@ -648,7 +648,8 @@ pxp: pxp@20f0000 {
- 			};
+ 	mode = &state->adjusted_mode;
  
- 			lcdif: lcd-controller@20f8000 {
--				compatible = "fsl,imx6sll-lcdif", "fsl,imx28-lcdif";
-+				compatible = "fsl,imx6sll-lcdif", "fsl,imx6sx-lcdif",
-+					     "fsl,imx28-lcdif";
- 				reg = <0x020f8000 0x4000>;
- 				interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
- 				clocks = <&clks IMX6SLL_CLK_LCDIF_PIX>,
+-	crtc_clk = mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
++	crtc_clk = (u64)mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
+ 
+ 	drm_atomic_crtc_for_each_plane(plane, crtc) {
+ 		pstate = to_dpu_plane_state(plane->state);
 -- 
-2.34.1
+2.25.1
 
