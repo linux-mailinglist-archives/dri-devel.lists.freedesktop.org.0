@@ -2,51 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2159B577B
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 00:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715A59B58F2
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 02:07:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3110310E3CE;
-	Tue, 29 Oct 2024 23:48:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 268DF10E723;
+	Wed, 30 Oct 2024 01:07:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="kGhLa/it";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="R9llZ6AT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0823210E3CE
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 23:48:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=dVXmpPydpCBDKRSRi23AjHI0LcnEE/ZcNFXMhp9UcJY=; b=kGhLa/itrt4XfnPp
- fpe8Y96xjiq0Ekymx3ldS0oLhGbJ2ruuIZQu5OIydCOOr3iUY1eue6M3zzQODSswoyRSAJJllijYI
- 4vqa6O8dK20s58G8NfHYY+rEicKrotxU1HHSw69u0ac8CNB3Lw2iEecuhQNkzy9yGfnle+QcxigzJ
- IcKQXVia41wKmCtSO9TeurX41fXe4NqdbRKRROnlzqBkOt50naaS75uWNpYynJ8rwEd2xdOs4a+W6
- Iba+uJqPMpprGnF0h5pPj0doom8QlRVunoLtrVLaVgkBnI/Q67FRI+Y33cjxwxwQO6vljwvOtid/b
- CnbLf1NAaE2wMl2n9Q==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1t5vwV-00EMRW-3D;
- Tue, 29 Oct 2024 23:48:08 +0000
-Date: Tue, 29 Oct 2024 23:48:07 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] drm/client: Remove unused drm_client_modeset_check
-Message-ID: <ZyF0Nz89DpjdaQw9@gallifrey>
-References: <20241022232934.238124-1-linux@treblig.org>
- <20241022232934.238124-6-linux@treblig.org>
- <zvhtltfbu6dpwri7yuwwrpnno6g2hu7tv2q7ua73epfj6gi5e6@x2snh7otbalb>
- <Zx-XK7XTJLOpzpvT@gallifrey>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2325110E723;
+ Wed, 30 Oct 2024 01:07:50 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49TKRPmh012841;
+ Wed, 30 Oct 2024 01:07:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=4W4RiRXPI3/u9cd+TQ3a5K
+ jFeAh3VtcAoOhqF4AgpK4=; b=R9llZ6ATLzU5aoFlqx0ONbYADA47fkJFTpsuo/
+ Nc7+JsUUWuCNXmmkoWE1onpx9MVNOW+GIS5SpQgeGKHlZgnak8bixb2KOhjHrS71
+ bQwKKWGXu8T0prAX3JVSbEmnMIbKOOiz5PN9oZmT3Ngw1+LryO42Aw2ehlNxVYJ5
+ 1Z27oLh6kJzWpyNxeEcpmZdtt4C5oCYBfVdbRzlHjZH/D/wYuwBb+lYyOTJycz94
+ ly6b8TuF7POalgiE5UEoVZlhEsCLhwRrCIUHOS7D0EAa/up4J1mJ9toSf5X+w0Bz
+ 2VoRa+2TnGTD31DXZjF9wJuwl+QQ4o4rUQj7bF5lrbtAqiKA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42k6rpgh7y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Oct 2024 01:07:43 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49U17g6H014328
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Oct 2024 01:07:42 GMT
+Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 29 Oct 2024 18:07:42 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ <freedreno@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <robdclark@gmail.com>, <swboyd@chromium.org>, <airlied@gmail.com>,
+ <dmitry.baryshkov@linaro.org>, <quic_jesszhan@quicinc.com>,
+ <lyude@redhat.com>, <simona@ffwll.ch>, <linux-i2c@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH] i2c: skip of_i2c_register_device() for invalid child nodes
+Date: Tue, 29 Oct 2024 18:07:22 -0700
+Message-ID: <20241030010723.3520941-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <Zx-XK7XTJLOpzpvT@gallifrey>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 23:47:40 up 174 days, 11:01,  1 user,  load average: 0.16, 0.05, 0.01
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: aIoafsZEh5UdIL9g_gMRhUSRNXWQyrgE
+X-Proofpoint-GUID: aIoafsZEh5UdIL9g_gMRhUSRNXWQyrgE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0
+ clxscore=1011 mlxlogscore=999 priorityscore=1501 spamscore=0
+ malwarescore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2409260000 definitions=main-2410300007
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,101 +89,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Dr. David Alan Gilbert (linux@treblig.org) wrote:
-> * Dmitry Baryshkov (dmitry.baryshkov@linaro.org) wrote:
-> > On Wed, Oct 23, 2024 at 12:29:34AM +0100, linux@treblig.org wrote:
-> > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> > > 
-> > > drm_client_modeset_check() was explicitly added in 2020 by
-> > > commit 64593f2a6fc9 ("drm/client: Add drm_client_modeset_check()")
-> > > but has never been used.
-> > > 
-> > > Remove it.
-> > 
-> > If you are removing it, it makes more sense to revert the mentioned
-> > commit completely, dropping the third argument of
-> > drm_client_modeset_commit_atomic().
-> 
-> Sure, I can look at that; and resend this series also without 4/5 which
-> people still wanted.
-> What about 3/5 - that's the only one that's not reviewed either way?
+of_i2c_register_devices() adds all child nodes of a given i2c bus
+however in certain device trees of_alias_from_compatible() and
+of_property_read_u32() can fail as the child nodes of the device
+might not be valid i2c client devices. One such example is the
+i2c aux device for the DRM MST toplogy manager which uses the
+display controller device node to add the i2c adaptor [1] leading
+to an error spam like below
 
-I've just sent the v2 with this as a revert and the contentious pair dropped.
+i2c i2c-20: of_i2c: register /soc@0/display-subsystem@ae00000/display-controller@ae01000/ports
+i2c i2c-20: of_i2c: modalias failure on /soc@0/display-subsystem@ae00000/display-controller@ae01000/ports
+i2c i2c-20: Failed to create I2C device for /soc@0/display-subsystem@ae00000/display-controller@ae01000/ports
+i2c i2c-20: of_i2c: register /soc@0/display-subsystem@ae00000/display-controller@ae01000/opp-table
+i2c i2c-20: of_i2c: invalid reg on /soc@0/display-subsystem@ae00000/display-controller@ae01000/opp-table
+i2c i2c-20: Failed to create I2C device for /soc@0/display-subsystem@ae00000/display-controller@ae01000/opp-table
 
-Dave
+Add protection against invalid child nodes before trying to register
+i2c devices for all child nodes.
 
-> Dave
-> 
-> > > 
-> > > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> > > ---
-> > >  drivers/gpu/drm/drm_client_modeset.c | 24 ------------------------
-> > >  include/drm/drm_client.h             |  1 -
-> > >  2 files changed, 25 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> > > index cee5eafbfb81..69e1ce4d18cd 100644
-> > > --- a/drivers/gpu/drm/drm_client_modeset.c
-> > > +++ b/drivers/gpu/drm/drm_client_modeset.c
-> > > @@ -1126,30 +1126,6 @@ static int drm_client_modeset_commit_legacy(struct drm_client_dev *client)
-> > >  	return ret;
-> > >  }
-> > >  
-> > > -/**
-> > > - * drm_client_modeset_check() - Check modeset configuration
-> > > - * @client: DRM client
-> > > - *
-> > > - * Check modeset configuration.
-> > > - *
-> > > - * Returns:
-> > > - * Zero on success or negative error code on failure.
-> > > - */
-> > > -int drm_client_modeset_check(struct drm_client_dev *client)
-> > > -{
-> > > -	int ret;
-> > > -
-> > > -	if (!drm_drv_uses_atomic_modeset(client->dev))
-> > > -		return 0;
-> > > -
-> > > -	mutex_lock(&client->modeset_mutex);
-> > > -	ret = drm_client_modeset_commit_atomic(client, true, true);
-> > > -	mutex_unlock(&client->modeset_mutex);
-> > > -
-> > > -	return ret;
-> > > -}
-> > > -EXPORT_SYMBOL(drm_client_modeset_check);
-> > > -
-> > >  /**
-> > >   * drm_client_modeset_commit_locked() - Force commit CRTC configuration
-> > >   * @client: DRM client
-> > > diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-> > > index 560aae47e06d..e1fd32adb3e9 100644
-> > > --- a/include/drm/drm_client.h
-> > > +++ b/include/drm/drm_client.h
-> > > @@ -176,7 +176,6 @@ int drm_client_modeset_create(struct drm_client_dev *client);
-> > >  void drm_client_modeset_free(struct drm_client_dev *client);
-> > >  int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width, unsigned int height);
-> > >  bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation);
-> > > -int drm_client_modeset_check(struct drm_client_dev *client);
-> > >  int drm_client_modeset_commit_locked(struct drm_client_dev *client);
-> > >  int drm_client_modeset_commit(struct drm_client_dev *client);
-> > >  int drm_client_modeset_dpms(struct drm_client_dev *client, int mode);
-> > > -- 
-> > > 2.47.0
-> > > 
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
-> > 
-> -- 
->  -----Open up your eyes, open up your mind, open up your code -------   
-> / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-> \        dave @ treblig.org |                               | In Hex /
->  \ _________________________|_____ http://www.treblig.org   |_______/
-> 
+[1] : https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/display/drm_dp_mst_topology.c#L5985
+
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/i2c/i2c-core-of.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
+index a6c407d36800..62a2603c3092 100644
+--- a/drivers/i2c/i2c-core-of.c
++++ b/drivers/i2c/i2c-core-of.c
+@@ -86,6 +86,8 @@ void of_i2c_register_devices(struct i2c_adapter *adap)
+ {
+ 	struct device_node *bus, *node;
+ 	struct i2c_client *client;
++	u32 addr;
++	char temp[16];
+ 
+ 	/* Only register child devices if the adapter has a node pointer set */
+ 	if (!adap->dev.of_node)
+@@ -101,6 +103,10 @@ void of_i2c_register_devices(struct i2c_adapter *adap)
+ 		if (of_node_test_and_set_flag(node, OF_POPULATED))
+ 			continue;
+ 
++		if (of_property_read_u32(node, "reg", &addr) ||
++		    of_alias_from_compatible(node, temp, sizeof(temp)))
++			continue;
++
+ 		client = of_i2c_register_device(adap, node);
+ 		if (IS_ERR(client)) {
+ 			dev_err(&adap->dev,
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+2.34.1
+
