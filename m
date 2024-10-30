@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C319B6667
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 15:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2A09B66D0
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 16:02:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4CBD10E034;
-	Wed, 30 Oct 2024 14:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E4A010E2B7;
+	Wed, 30 Oct 2024 15:02:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="hChgAx3v";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ehmsR2nH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com
- [95.215.58.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C9A410E034
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 14:49:36 +0000 (UTC)
-Message-ID: <230b5910-6790-44cb-90ed-222bee89054d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730299774;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=H1w/iqqQqeWdeidkDYmAvBZgSRrIyIu8DOwMPAJKc5Y=;
- b=hChgAx3vpxAGTC+OhSh6VQuCWJeMJr+0JC1YgvQs6qW6kvU5WF6nXBZ98DDucWqYkFvPkT
- F8TPGR9+POiRaVmvmQnWW3KABiWHhd2eHu0ra11vSqHySg4IdE4cMK03hMllBb4rkXzCm/
- urjRWKw09rxXAhEPe72OlmQuYLc7t+M=
-Date: Wed, 30 Oct 2024 22:49:16 +0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24ABA10E2B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 15:02:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1730300554;
+ bh=HZrp2ukAXbRuLKNcPC95VuLCzOUZEpCHLZJc7XTbmpo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ehmsR2nH9fAd8dzLoLSZIgI5L0HWNgc7tT/BeCtP4nOMX106nL6Dip0rplHmiQOW0
+ Y/BqpR13ssDuEhD58+MjcJeFA43mmfKQT1suiUsX+OS5tYU/Hocj4o5kwv4xLY5E71
+ 1u2pgP770doeRwvPQKqwmxtzCxN1BjaydAfu7AelfXaR4oysiCW0202wVUzMO+uR5n
+ 8+UnO6zgWafuRgUyRo/t+oIPIFzCIfqi+msDKa0CXsBRWiycha+qCfj7+g2tzYjnLo
+ TJhID9PEIGBpXFzX3BhWs/uBwpTV1fWEmt9jyFCMEmNDx5xhsVRR5bai87mN0cpCtv
+ M26hhaTfsC6aw==
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 76D9117E3633;
+ Wed, 30 Oct 2024 16:02:34 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+	kernel@collabora.com
+Subject: [PATCH v3] drm/panthor: Fix firmware initialization on systems with a
+ page size > 4k
+Date: Wed, 30 Oct 2024 16:02:31 +0100
+Message-ID: <20241030150231.768949-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
- parent to aux bridge
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Abel Vesa <abel.vesa@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
- <172951608323.1285208.3162107667310691864.b4-ty@linaro.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <172951608323.1285208.3162107667310691864.b4-ty@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,32 +61,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The system and GPU MMU page size might differ, which becomes a
+problem for FW sections that need to be mapped at explicit addresses
+since our PAGE_SIZE alignment might cover a VA range that's
+expected to be used for another section.
 
-On 2024/10/21 21:08, Neil Armstrong wrote:
-> Hi,
->
-> On Fri, 18 Oct 2024 15:49:34 +0300, Abel Vesa wrote:
->> The assignment of the of_node to the aux bridge needs to mark the
->> of_node as reused as well, otherwise resource providers like pinctrl will
->> report a gpio as already requested by a different device when both pinconf
->> and gpios property are present.
->> Fix that by using the device_set_of_node_from_dev() helper instead.
->>
->>
->> [...]
-> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
+Make sure we never map more than we need.
 
+Changes in v3:
+- Add R-bs
 
-It's quite impolite to force push patches that still under reviewing,
-this prevent us to know what exactly its solves.
+Changes in v2:
+- Plan for per-VM page sizes so the MCU VM and user VM can
+  have different pages sizes
 
-This also prevent us from finding a better solution.
+Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_fw.c  |  4 ++--
+ drivers/gpu/drm/panthor/panthor_gem.c | 11 ++++++++---
+ drivers/gpu/drm/panthor/panthor_mmu.c | 16 +++++++++++++---
+ drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
+ 4 files changed, 24 insertions(+), 8 deletions(-)
 
-> [1/1] drm/bridge: Fix assignment of the of_node of the parent to aux bridge
->        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/85e444a68126a631221ae32c63fce882bb18a262
->
+diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+index 631f639b8b86..ecca5565ce41 100644
+--- a/drivers/gpu/drm/panthor/panthor_fw.c
++++ b/drivers/gpu/drm/panthor/panthor_fw.c
+@@ -500,6 +500,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+ 					 struct panthor_fw_binary_iter *iter,
+ 					 u32 ehdr)
+ {
++	ssize_t vm_pgsz = panthor_vm_page_size(ptdev->fw->vm);
+ 	struct panthor_fw_binary_section_entry_hdr hdr;
+ 	struct panthor_fw_section *section;
+ 	u32 section_size;
+@@ -528,8 +529,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+ 		return -EINVAL;
+ 	}
+ 
+-	if ((hdr.va.start & ~PAGE_MASK) != 0 ||
+-	    (hdr.va.end & ~PAGE_MASK) != 0) {
++	if (!IS_ALIGNED(hdr.va.start, vm_pgsz) || !IS_ALIGNED(hdr.va.end, vm_pgsz)) {
+ 		drm_err(&ptdev->base, "Firmware corrupted, virtual addresses not page aligned: 0x%x-0x%x\n",
+ 			hdr.va.start, hdr.va.end);
+ 		return -EINVAL;
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index c60b599665d8..8244a4e6c2a2 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -44,8 +44,7 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
+ 			to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm)))
+ 		goto out_free_bo;
+ 
+-	ret = panthor_vm_unmap_range(vm, bo->va_node.start,
+-				     panthor_kernel_bo_size(bo));
++	ret = panthor_vm_unmap_range(vm, bo->va_node.start, bo->va_node.size);
+ 	if (ret)
+ 		goto out_free_bo;
+ 
+@@ -95,10 +94,16 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+ 	}
+ 
+ 	bo = to_panthor_bo(&obj->base);
+-	size = obj->base.size;
+ 	kbo->obj = &obj->base;
+ 	bo->flags = bo_flags;
+ 
++	/* The system and GPU MMU page size might differ, which becomes a
++	 * problem for FW sections that need to be mapped at explicit address
++	 * since our PAGE_SIZE alignment might cover a VA range that's
++	 * expected to be used for another section.
++	 * Make sure we never map more than we need.
++	 */
++	size = ALIGN(size, panthor_vm_page_size(vm));
+ 	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
+ 	if (ret)
+ 		goto err_put_obj;
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index aa12ed2acfcf..8ca85526491e 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -826,6 +826,14 @@ void panthor_vm_idle(struct panthor_vm *vm)
+ 	mutex_unlock(&ptdev->mmu->as.slots_lock);
+ }
+ 
++u32 panthor_vm_page_size(struct panthor_vm *vm)
++{
++	const struct io_pgtable *pgt = io_pgtable_ops_to_pgtable(vm->pgtbl_ops);
++	u32 pg_shift = ffs(pgt->cfg.pgsize_bitmap) - 1;
++
++	return 1u << pg_shift;
++}
++
+ static void panthor_vm_stop(struct panthor_vm *vm)
+ {
+ 	drm_sched_stop(&vm->sched, NULL);
+@@ -1025,12 +1033,13 @@ int
+ panthor_vm_alloc_va(struct panthor_vm *vm, u64 va, u64 size,
+ 		    struct drm_mm_node *va_node)
+ {
++	ssize_t vm_pgsz = panthor_vm_page_size(vm);
+ 	int ret;
+ 
+-	if (!size || (size & ~PAGE_MASK))
++	if (!size || !IS_ALIGNED(size, vm_pgsz))
+ 		return -EINVAL;
+ 
+-	if (va != PANTHOR_VM_KERNEL_AUTO_VA && (va & ~PAGE_MASK))
++	if (va != PANTHOR_VM_KERNEL_AUTO_VA && !IS_ALIGNED(va, vm_pgsz))
+ 		return -EINVAL;
+ 
+ 	mutex_lock(&vm->mm_lock);
+@@ -2366,11 +2375,12 @@ panthor_vm_bind_prepare_op_ctx(struct drm_file *file,
+ 			       const struct drm_panthor_vm_bind_op *op,
+ 			       struct panthor_vm_op_ctx *op_ctx)
+ {
++	ssize_t vm_pgsz = panthor_vm_page_size(vm);
+ 	struct drm_gem_object *gem;
+ 	int ret;
+ 
+ 	/* Aligned on page size. */
+-	if ((op->va | op->size) & ~PAGE_MASK)
++	if (!IS_ALIGNED(op->va | op->size, vm_pgsz))
+ 		return -EINVAL;
+ 
+ 	switch (op->flags & DRM_PANTHOR_VM_BIND_OP_TYPE_MASK) {
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+index 6788771071e3..8d21e83d8aba 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.h
++++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+@@ -30,6 +30,7 @@ panthor_vm_get_bo_for_va(struct panthor_vm *vm, u64 va, u64 *bo_offset);
+ 
+ int panthor_vm_active(struct panthor_vm *vm);
+ void panthor_vm_idle(struct panthor_vm *vm);
++u32 panthor_vm_page_size(struct panthor_vm *vm);
+ int panthor_vm_as(struct panthor_vm *vm);
+ int panthor_vm_flush_all(struct panthor_vm *vm);
+ 
 -- 
-Best regards,
-Sui
+2.46.2
 
