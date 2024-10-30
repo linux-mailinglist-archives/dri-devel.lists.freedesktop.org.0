@@ -2,160 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693319B5BBE
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 07:33:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF5A9B5BF3
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 07:45:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7AB810E200;
-	Wed, 30 Oct 2024 06:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A872910E20F;
+	Wed, 30 Oct 2024 06:45:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="ju4jhjPb";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qy2ImM4v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2083.outbound.protection.outlook.com [40.107.22.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04E1710E085
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 06:33:34 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F1F710E085;
+ Wed, 30 Oct 2024 06:45:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730270751; x=1761806751;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=IZzml8KKRrgmpU8uBExfKVgBq3T03ewMXlyMJ7vd5Dw=;
+ b=Qy2ImM4vEhVb+e7wIY014ZY43rI1cv7i2BHCOY5V4xMB5pbqT7v5hsGB
+ FgrTQiGl7JtoYjGPbsAKULn3YcJHsLIrbYN4xnZRWiba2TUI6KB6m/MRc
+ u5+o7oGnDH9B03HCxtksHRe8y44T+L9OWtY51x9HRXxHUKX53KC7qJMh5
+ NpJR0PU0sgrz6jx9MfIei9gedNPsYtUWPEoP0S9qa1/Ln1M+BQYzzQs4A
+ E7RIK8jSmlxM3F20eo4pWWPSgpMIfTgJIPuJLHyj4JeLezFyhZ6a+ziSi
+ 6KY5KEBVbefaiEZRNN6JY2Lea+9LloMPkHh3NNbzcRO6uq9Wh/ZRafSmt g==;
+X-CSE-ConnectionGUID: kfMPeotsThOQ4DGsO4Jlew==
+X-CSE-MsgGUID: fcWyKKG7TROLU9B/QsnDoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="29375360"
+X-IronPort-AV: E=Sophos;i="6.11,244,1725346800"; d="scan'208";a="29375360"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2024 23:45:47 -0700
+X-CSE-ConnectionGUID: b4h0dKK4TamY+aNs/isUJQ==
+X-CSE-MsgGUID: lV4G1YAOTTy8TVjJ+e6taw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,244,1725346800"; d="scan'208";a="82536110"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 29 Oct 2024 23:45:47 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 29 Oct 2024 23:45:46 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 29 Oct 2024 23:45:46 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 29 Oct 2024 23:45:46 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hdvLOWdQSY31MhQDODa2mnTJy+CveNopWX3S0lvFGwLIfVn6eSUk3rwwnCAi06RDzD+oO9tTT8H6CJ4xuNPsvWE6HAOv8FZ0BENvFVgS40XmIYNKXpIr30GQJFEcJjZDaM6tPYLBxw3/b9cnqTo1ejeagBDhks9N067mEVEcorqxTWnldYv/AqxIwBfUT/Ci+hW2/QvOZPU7GpopvMNiY60v6GSIgdyOyX/Lqc71a3nPNji9oyDsYB64VLsy4pJCs3eBxSR4YYr81T188iBwxL9n80ny19R1CgyofXrpDyFeGVpGeZBP7+oxuSQ7ZDPfqcDRYJRVcZzleA41/gyd6w==
+ b=Ub5iHwUk64KGCW1ecB4T2ff5+gEPTU6sMFZ3EBYfHfavpguYs1ZFI5eBUxvg0+AtwzkD7XjI1yBG09M2O3EYIF0mTqLZrIZvLtWaNApFgkOQN1rzGaS/xmFB+brne0jnT3Z8x+JPbLSsUVB8mZf1NDCvhNYL1leoLifdwXCPxnX5WJxYKoRbCjbZgr0/WhnSVNvec9tr2lOQjZfUO3qCFC7SIRhe5mG03e00pAN98mZPiTJof8GV6OSdsEEC3sSFq2dksLGWkRFhaJYQiJ6iyTHDWaS6JgE8E8tuRV687zzv0TKQT3/9nBz+TQ0+sKOmt/O6uds5o4LtYKv5FdcyKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EWRWV31rUEHBSxplWxP8YIA/nU0Syh12BBe88X4saH4=;
- b=MrwZNb1s/E6mt0wL7jGhr1DTCDwxazXzteF2/EnvKFojV1AAT8nxYsnhS8g4kMDuwvVLxJf53EOW5gfWIzin4OLn8JyfESrm9wxmQ59zfE6Fdsu6GGsTpwbl3POL/UteHYq7dg9k9ugpwCYyJIbGZBgrHY+48A1im3NwYj8hsgwy8/8e7H0wlCneM4ZaK68b4xONwIJ9bSYSPMz7NqMcMwfw8wRQndw6lDt1IbExgGqOD5qkn9j05nxLpqnQMeVKboJY+92KTSsVm+aHZRwbyS/hRghfNcg79ai+5gMC62tAfDqMHj13Iu39XZ/mGCo5aHRczLnoK9jFaQHZTLcLrg==
+ bh=J4IilFGHcbx4P8+0/TWtYMnARla7LJrhIxSb7z0mOdk=;
+ b=dEcGRBxy++/+soEJXAFm94r4OlIETglcryOL9YLZW+DhJ6HuaeUezLsPL8wMfoeOCRD2K+KlGpYcEt17FMVF4U606hoBTKox8noKzy0kHdwblNwS5BQ3n+YYhSa5TZW26VndYOyKSyew+SSu0VXxnZg6rsl+KGMX6j0/XHhGgFSdwhNgJqZ/xMIFmi3fZoBS1RYD4wV5seiJoIYZkpgQkxQogU+RyGBtcrBQYeY5/hhyxUUMaT02I9bQ1/5T9P+oMjFbWOQN98WF2XuRUky5eyyLM7y6vunC17td5Zffz7oRlwcWkLZeJMYBx8KnCmo7W4yeLyS68SqoWAE+XLb3ZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EWRWV31rUEHBSxplWxP8YIA/nU0Syh12BBe88X4saH4=;
- b=ju4jhjPbQ2MSlyxvYoa9cxMsS1cbPO3MF6QTiVrFoCYaxO324Q2VxmXGqfvF/gwyICgrrseNnKynZZoTBavYmk2669DXlbkum2CKeun78O8x1ftXZICNuMZrukp+AIIq8JGXp3b6js3sISAn71kqSS8XDZF6FaeEec0iPFrecos4bfJoA1nU5R6ZnHyL5wR2wsmLDsBGEXgvolhToVWSSWsU+K8eDSy6lw04wIJs/5NubTHE8XXcgX8c41esvVCmtHvgjKVS5l/1/v7KN6hytnzWP91W/Qpkfz0DLjxvMA1rVsc04mD1wqZY7faasPLbEDOWocS6y7u0qdV483oZfg==
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
- by VI1PR04MB9858.eurprd04.prod.outlook.com (2603:10a6:800:1d4::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Wed, 30 Oct
- 2024 06:33:30 +0000
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::51ae:5f12:9744:1abc%6]) with mapi id 15.20.8093.027; Wed, 30 Oct 2024
- 06:33:30 +0000
-From: Sandor Yu <sandor.yu@nxp.com>
-To: Martin Kepplinger-Novakovic <martink@posteo.de>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "airlied@gmail.com"
- <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>, "s.hauer@pengutronix.de"
- <s.hauer@pengutronix.de>, "festevam@gmail.com" <festevam@gmail.com>,
- "vkoul@kernel.org" <vkoul@kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-phy@lists.infradead.org"
- <linux-phy@lists.infradead.org>, "mripard@kernel.org" <mripard@kernel.org>
-CC: "kernel@pengutronix.de" <kernel@pengutronix.de>, dl-linux-imx
- <linux-imx@nxp.com>, Oliver Brown <oliver.brown@nxp.com>,
- "alexander.stein@ew.tq-group.com" <alexander.stein@ew.tq-group.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: RE: [EXT] Re: [PATCH v16 0/8] Initial support Cadence
- MHDP8501(HDMI/DP) for i.MX8MQ
-Thread-Topic: [EXT] Re: [PATCH v16 0/8] Initial support Cadence
- MHDP8501(HDMI/DP) for i.MX8MQ
-Thread-Index: AQHazHqxRxzIDDTrDE+6s0iXa6XM7LKeGD8AgAF4IzA=
-Date: Wed, 30 Oct 2024 06:33:30 +0000
-Message-ID: <PAXPR04MB9448C598AEB4F9356D33DC3AF4542@PAXPR04MB9448.eurprd04.prod.outlook.com>
-References: <cover.1719903904.git.Sandor.yu@nxp.com>
- <3b247041c89791c80a69b16f3f3b80c3b8bbeefd.camel@posteo.de>
-In-Reply-To: <3b247041c89791c80a69b16f3f3b80c3b8bbeefd.camel@posteo.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB9448:EE_|VI1PR04MB9858:EE_
-x-ms-office365-filtering-correlation-id: d2149b1a-dcb4-4444-0489-08dcf8acc54a
-x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|7416014|366016|376014|1800799024|38070700018|921020; 
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?TRFbwTKxNsA0UuarC4qmGhu6vdjKl+EFZdKlPc3LHpfG2Cq/JxwaDiL/wf?=
- =?iso-8859-1?Q?S800n8iTTFpg87AmZf+fnfOodV4cvrbnwo0Ffw1Aw2oOiodKkvmJwt/7Vw?=
- =?iso-8859-1?Q?pIOc768uXVAAa3gKbcw0Y3OGpETKuj+On792PW35S2RbtLLLSiI3bbTt23?=
- =?iso-8859-1?Q?g916fp1OIAjKTzR/6Idz6DqeEEgKdXsjXCcfX52y6WL/4SG0Tp2qlIMzLe?=
- =?iso-8859-1?Q?+aKUZvuGsZKOUtyXd4Ri1wes0r8isoN4/sK6v8mp+txv8naBBKsCeEnDcQ?=
- =?iso-8859-1?Q?R0ypkALVrHujBxqWYE7x7pKnPBV0ZOQhgQlzACMihls0AKHkAEWYYRS1zP?=
- =?iso-8859-1?Q?Se8Nna8u+IRFyBhiqWk+TsjvEAAWbA1nT0W4A6OH7vfZ8JGgP9K1A0qyyB?=
- =?iso-8859-1?Q?9JFE2O2RXQKJJR+vpBAFF1BKXmjJrsK/Msoik9pP+cbFt2t5KpZF3n69hR?=
- =?iso-8859-1?Q?YHNZZwbic9EbqjovsWH/AAjVfD8VBYv3sB5kz8/BCG3RUxT6+I6Wpj5v20?=
- =?iso-8859-1?Q?lDB4HHcEWfUQz9ty7DqTbHRWInbuvHhgK4Asp2uYpreE/o/Of8Qpp5BDFw?=
- =?iso-8859-1?Q?25rkgkDrPTjknol/eNuuCOJ4DxgIpkW2SHLuJIq3XFnv009n+hzt0UfotD?=
- =?iso-8859-1?Q?W3jv8bshHwTPb3fSX7QC/HEOS+cKu5f8k0Ensemg3o1KNtXT+fkwHANakY?=
- =?iso-8859-1?Q?Px9Sr/fS5Kr6UB1iEEJhN2kbZrSQ+iyVzJlvh/jfJ/0hGox79K0dWTK7dC?=
- =?iso-8859-1?Q?PSr0uPKFKtpVyo65e1ygZVooz7rLGmoZ0Oqhor87rGf2nxAvGg5d+Wk6fT?=
- =?iso-8859-1?Q?Yliy3jQarDn41mhjrrlX5u/L/V9asfE45L0dqhrTeSsUvTx3LMh/e4k72B?=
- =?iso-8859-1?Q?emp4xeuyUACmtSqcfMkENslD1xsWwzVhxroTMmBxr5RFOlGNYQDtC2be4k?=
- =?iso-8859-1?Q?jaDrl8g7pbVPVakLIMqj7lfcbIPCdrSYlNuH0NXMutZZEVV4dN7Tm9s4F0?=
- =?iso-8859-1?Q?u2zGcAE3EYSPCoXpPcNBG71K0oAjL4/3FmXUrngcwPIKvS+gvPEd/YyTxM?=
- =?iso-8859-1?Q?zT6OpWUvxhQ/KSVsBeiDZKY0jZ9MflQz+Ar6Ojk2L6H5rOkYfgPcQiESz3?=
- =?iso-8859-1?Q?T2JEnXv/qu4dkLTQPePFDcaWE3HV7u/ePLzwN/IIZ9WArZWRgK+0KZgt3b?=
- =?iso-8859-1?Q?rKziWyb0Za8Wwg7xU4cXBtWTN7XthT47glAozG1TObk4iYfQK2YE1dR52i?=
- =?iso-8859-1?Q?c9T8oHhQxACW0hoklgSrCxk3To5witrqDeuaFQMOMG7yfzldUmxIRVOIPR?=
- =?iso-8859-1?Q?aJqRwVXitji3T00O/5jzONV00rysPk2vjJuaZ75o2OBGaLaaScm3JGQaKb?=
- =?iso-8859-1?Q?QaOxX/u2Ij9+KAHwpNFd1zOwk7sHEPmRaQNqd1X8dLnUFtXKlpzxDjAVKb?=
- =?iso-8859-1?Q?xXxZywHGSjXceHE9?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR04MB9448.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(366016)(376014)(1800799024)(38070700018)(921020);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?lhr724LzM+zx+WlpZDIXGadLf+IymZQuli9xd1WI8WiarG3bRChKWeJ+DQ?=
- =?iso-8859-1?Q?09dd/XWqQlSTZdCTwiqgUYJSsoQD/vxYAM/Mwjkw1Dn/M3VHp+O9WI4wYe?=
- =?iso-8859-1?Q?G1va/6aqwF8oOEUrq8zvBEMbZbYp9xNWToY7teh98fEJCqRLOTV/R+fQiC?=
- =?iso-8859-1?Q?/bmBA/Ph3ZZJQVM6keCWaHCHtDnYQoIDFkzfzTkePZAx7Y6qJJAOfSy9zi?=
- =?iso-8859-1?Q?4eu7+2viF1bWwjbkPPxVkQUg0XasAaEd0jIwkP2oWZBP741DhYdsiv5vsv?=
- =?iso-8859-1?Q?RHpqb0pE5kaOwONYHaBrHISG2LgyjKW5DNwZ6h4WO/+GTzlb4x8A3sd9OQ?=
- =?iso-8859-1?Q?XrXV6Oa9n7M5KzB/VSI0qlVOfqXhuEPuoyOTofGFRSI4dG6159uR9/SNit?=
- =?iso-8859-1?Q?bgk0Edql1a6WGwSu4dm6WhyWfNjH7IG/7Xao3bJbdvE+IWsn0q7IW4/9S9?=
- =?iso-8859-1?Q?/j4N/mYaXxtzFcjYJgkYz8xWz0VEidBEuEoeJgI4snblCvfO0VeLhhbWFK?=
- =?iso-8859-1?Q?H4Qgx7lPjdIthFxWqyVfrjLudbVXT6ex/i1YNSTdmIJrWS9JdszPuMxA3M?=
- =?iso-8859-1?Q?0rZnvAi4GgpCqo+CJu6aZc8cW5XjVKlrWRpB/mo0xkgXzv24W84IQZHZay?=
- =?iso-8859-1?Q?Uo6ePIqskVHzRb0XEcv8AGZ2IFBh4Aaupl2Yoa0z4YTNivZS8WIu2KGXrF?=
- =?iso-8859-1?Q?UCAqu5e+pt9Z2oPKmROj5RCanJGlIO/+8sCjomKSofB4hyXev7BihtsF4F?=
- =?iso-8859-1?Q?7Rp300Hy/UKYTIavxJ3I+70XzEv9+dpXgkanbm/xCoRz90EpE0HJv+mBH/?=
- =?iso-8859-1?Q?JawtFYZ0xO37vyf99agA8U2KE4nHL6IrxPJ2fqy/kib2uWzBx/4kABoTUu?=
- =?iso-8859-1?Q?CO6VETry1uO1LVtbwNrloiwycJGhSKExib4JEO1GITP1BUdRQuIg1BZgyL?=
- =?iso-8859-1?Q?3wKwuUh8TP2HGP5CZSGNko6KMCEo2GhjLcHFbLVmPsWBEwNrjiYM5o1HOF?=
- =?iso-8859-1?Q?9pJMKS/2I2DdVdgC1eHn84jLFlc42sT4hYe5ZPMxDtYDQPfUJxuCiXYE5w?=
- =?iso-8859-1?Q?4J1oz27GH0rzIlxnNmwYL87w6GKrr5iDYNN56F3Tk5bg4Uvdj7eGO/PYHO?=
- =?iso-8859-1?Q?Qkw7kXD7SqnRsx9g2l2/zXu+H4SkquksijXp5/47i12EElXcY20oIjiQgP?=
- =?iso-8859-1?Q?jPYIGTfUFOwgzGzaCU9xYIz7GEAqYIAUFW/wmpGtoL3mwi0W0H3BD/lLOp?=
- =?iso-8859-1?Q?Nccno95gB6vlPdIy+egy4716s5WjDn53YQV0L7tnKo8DYceie1Akb8m7op?=
- =?iso-8859-1?Q?l52KrSrazzloqvtna1GJOnjSa8FkjagMPtLnyNeN+YJ5IC/SYg31Mx7Qhp?=
- =?iso-8859-1?Q?8OljOA589TnLlErHGSo7zHoALAM4beUT9IjxqNvsMd0sPnPprDZOHRrddO?=
- =?iso-8859-1?Q?+uc4VWjSCSQkk+w22xco1BxatsqgOmjcfsp5yBlCgxs7xBrQmLxX62zrun?=
- =?iso-8859-1?Q?OHSF2jYjbwzrBJ0n/1cJiv5r3YZFMWyxk0fS2KUa2TlHf2cvHS1pmc8pvB?=
- =?iso-8859-1?Q?YoVtY2ECh9H0RLeVyC5O5fFlMnhvZGiartLze6f/atLXzB++nG+fq7vpFz?=
- =?iso-8859-1?Q?6Z3bRPHBd+R3A=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by DM4PR11MB6479.namprd11.prod.outlook.com (2603:10b6:8:8c::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.32; Wed, 30 Oct
+ 2024 06:45:39 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.8093.025; Wed, 30 Oct 2024
+ 06:45:39 +0000
+Date: Wed, 30 Oct 2024 14:45:30 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-fsdevel@vger.kernel.org>, <oliver.sang@intel.com>
+Subject: [linux-next:fs-next] [fs]  0eccf222d7: Oops:general_protection_fault,
+ probably_for_non-canonical_address#:#[##]PREEMPT_SMP_KASAN_PTI
+Message-ID: <202410301313.50e4d05c-oliver.sang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SI2P153CA0010.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:140::13) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|DM4PR11MB6479:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9f531d9-fc0a-445f-3180-08dcf8ae7755
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7Vm7bhC59T0Ub2quzfq0tY5sneW0wD3uem9JTbmBswM7MvBmURyR9lEucysP?=
+ =?us-ascii?Q?PGadUWOZ//C1l/JV92Phubdrf3ZW8Y5zMvmj13FeRbSjtFh2/qiCODzDoLW6?=
+ =?us-ascii?Q?x8x3kNEHeCetIc+ugGzk7s7n2QtEqSGhpgv4/onRxTGebj4AAzjFUkiZ2nYc?=
+ =?us-ascii?Q?C1j6xCpnDTowldm0qd5XMABCVzgwipOc3J1QORwx8BTu1ZA7uAWVT5zHEtMU?=
+ =?us-ascii?Q?E2RmzE2UrRbDPbAVID3aGx3PI0er/4hhbKLDoKPksFKrZUbuB9t5zAjlepfs?=
+ =?us-ascii?Q?IMXQeSE9JJG/sjkSaonBlcRR6AUcgTfp1ou119mCCjd5jz5mvD/yVs7YmhA5?=
+ =?us-ascii?Q?YX145lAXnOqvjIB0aqwtBmLFAr4Nfb/GhNvIoNyXMPt9IQu/sec4AnOE+nz2?=
+ =?us-ascii?Q?0UqS4mhthrZyN8YRSxGrfxxpXPT+0xJ62f9PzmmNA9lKeK5sGDvTMCx/U8wb?=
+ =?us-ascii?Q?26VrMkssDPeZicdowVwcgy307xMSmbZWzXjDFL/JO2+am6nx6H7FHPDznd2V?=
+ =?us-ascii?Q?ZP35/x5a8Tg797gy3jrz63Y51S7qHu4xtMaN+sf20sjr+sQnMiA6kiuBKZkS?=
+ =?us-ascii?Q?K81ymBPKGdq5y84udZkbLhjEBxs867cE9Q/Gn/hIiGtZEUBMKufxFXqQdRue?=
+ =?us-ascii?Q?+kAGjffJi5jp8gV6IvKfqVaifL7bOUa2zB+0oVybhyTfAYFkzQtv62IeW6Cr?=
+ =?us-ascii?Q?vdNWJLwunwRXzTaBLG6a43dT/ZyjtyXqSVqns8HY7mUIDiuydS20I0VWxqXV?=
+ =?us-ascii?Q?Sry41G8mDfAVJEzP4jEpG9+wajAFwluLlYtwLL4Upby07BLuMPhUcBagWtXK?=
+ =?us-ascii?Q?feRYN4/zLdwrtJn2XKFk7cZvVhmys0/oZP5wiXbW9QLtt+jF1z1cp3WB+L+e?=
+ =?us-ascii?Q?T1kq6AD2J5b0hYHYkzeduea7G0oRh6YZmBMKtee7LkdD2K1EytPr2y54H/9t?=
+ =?us-ascii?Q?JqaxtbbgrragMIrOsI9y7Yg5u+bAVqzBVUey6Kjh+jpzrdRa5GOtmwCYk/Jq?=
+ =?us-ascii?Q?PzZ3d51AMm3CBDLvx3DRoKUgfaq8puQs+3OxHEX2tno6K1zegBD42pyatiVV?=
+ =?us-ascii?Q?COxwf3Ml3797zXlEiqLOaUmw9DQkHmBFvZgBRCULQlg8IuVeo2Vl9cWq5hrS?=
+ =?us-ascii?Q?bNpsWYgdiDXiGqM4TUKxfg9JQCeT9AJ2OFfE6LAiw63HQW6hzMIxd3h/uSSZ?=
+ =?us-ascii?Q?mUci7odSYyCSChcMlB3jX+eYbSQ0ZhJvaLMXr0CxBwAu5h22Eme5kJle+207?=
+ =?us-ascii?Q?1mgJlDrwTtt6K6S4UYdFwWlv8sncvC2yCBJqIpI4Pg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV3PR11MB8603.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?14VbFEJjVIYm633hXYooXjGxWm++OowUZ+VARO0Lui9y/6Xnr4nYdL8e3Z6/?=
+ =?us-ascii?Q?3035Vz1I23YLfINDWeyvLNdsnwIUgS7+vUp5LZxE6wHzWlWrFGNtRIbWka6i?=
+ =?us-ascii?Q?4SZO++h1ej7DRESw1H1vZoGZcN7oxOBdpVVZD96JpW5l6heC6yIadAwTr6ao?=
+ =?us-ascii?Q?JCWnkOE4VqHt1v44Hs3lLkVd4Dhyjm9oQTCXbjPmnf9JzIUP3ORrztwK7JUD?=
+ =?us-ascii?Q?IZiEh9swgq+V7FbRJk6q0tSBU+DJRvNc01fm26lNRnJoMXcqf0FnLxnn+lck?=
+ =?us-ascii?Q?JJ1/shCTk8EnyvX6FEnYVRqm1FKHaEDwOZb2KSHFYxEpzrnRRiM3h0mx+6Rg?=
+ =?us-ascii?Q?6q19zN/xsiebiOGsgoisiM/LHjW45rxZfB7kTPwBfFQ4CgDdCx6HHsuvzZlF?=
+ =?us-ascii?Q?/c3TihSllvUFMRWBv2Ra7tJvww3FUvSNIe5YOBelc1R2UxDfx8KESZA9Wj+u?=
+ =?us-ascii?Q?HPEe2mKvtDeLZFI8TveG/+jeSQ9CytEUht250ZHbnXedotEWRJnDTLV/RX/k?=
+ =?us-ascii?Q?5Zv+k7xVm/qJLs++ZG4ANhBK0rcmi5KbJgevL97oEBXQXf6BuxNuTFLLoc0R?=
+ =?us-ascii?Q?+q2SEPmbha0JN/6nspivwV9anmwuZ7gloogc51PkcwU78++9jhRljh2KVGJU?=
+ =?us-ascii?Q?osALqxg01E+IVK10tOcp3qTsCepW3PNdnu9Who1b3XjGO814fNt7MnBDxX4S?=
+ =?us-ascii?Q?+HX/wNeHBNb9VStBnvKgACurXRy1I04tJPw7BYSPzU+thH0pJbDJ3AXSQnN/?=
+ =?us-ascii?Q?kZV1IKQ25K/+cNA8T171WE4lueMVQtNyX18gPu3eKlFvClxXr7VCp4NfI61b?=
+ =?us-ascii?Q?ga7qMHhhzUTVWiOH+ljypTHbqByozY4lrFKJcfFWJ5tlDhH8ZdHkHe2sR6xD?=
+ =?us-ascii?Q?TuW+aHP1JrUT0SNo8i17nLX/6XGs0K2oAydJUC59fz/GN2jSsfBbNI5OJsqz?=
+ =?us-ascii?Q?I7cqNN5lJdl7w3d2lNzBsv/YuVCoClxX9+V7XFUEbu9uieEtKVYaHK5I4jzV?=
+ =?us-ascii?Q?QZKaJxcKEbuoZKv/shfHlO9Z5D3q0i9YB8MG6UeFlxMv8qJSM3+3o46ON0n8?=
+ =?us-ascii?Q?Jv0phNndGrEILnilUjgtfgUNiQ2INBG0ibZDOUMeTPfsveeuaL3ya1bz4QyS?=
+ =?us-ascii?Q?4FDi87xLMAcRmlsQpP+PIvNcPEeGLg5aXiy5jR6saV1xSI+zTz+DggR7snDP?=
+ =?us-ascii?Q?0E7xc8vJHu7nlXSPe12ecK7jjsKtBozSqjimCM3vKIo+ufDTsDsHneyVHTg9?=
+ =?us-ascii?Q?1uDE40LWeqU5FlbWZ6C2se4zfW8PQJssY1IBoxVc59NioxYYeJaE28eUgc04?=
+ =?us-ascii?Q?gUbPA+B6rLV1R6dK3ET6oH2dlQlxA4aRX8bVWnqU31Y784xvhMWEWWqPuJnN?=
+ =?us-ascii?Q?O4MBwU5KB1DEmNTXWK4Hgk0zLHMs2Jkjg5hvwZNv7s/4COjuHt69dqQmUy9R?=
+ =?us-ascii?Q?mIQYM0mZADMLUSlvKu9cC9CwAIR+mQxDewh2piKSYb00M3y23/C4NZ/vlV6Y?=
+ =?us-ascii?Q?SMag4Uf8z5aDHexnLzvqeS5Yp/lk7lV9JlibRrAV9PZ2YKxJEigRLtL4XEnl?=
+ =?us-ascii?Q?9bNZtev2BQtfe7tNtZtNoYiJPOshREE51S8tGyEWlIEnFEFsrgDJ7Mmn60DP?=
+ =?us-ascii?Q?VQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9f531d9-fc0a-445f-3180-08dcf8ae7755
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2149b1a-dcb4-4444-0489-08dcf8acc54a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2024 06:33:30.7580 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QuaK//jnMPYxbT6FFkALppOCyLVmdrvjE5gQyae6NurwPtlAvVCP3I1hV3tsk9H6Pk+PB+mzn3iKEjNLKWoClA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB9858
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2024 06:45:39.3170 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +snYK1n8OI4g+6AK6HAx2PSYYLMY6dvOjmb8Qj7GK12GHLwRf95WQrFEQXvH4zBuxsXdsxzHpMQJjWJ9yl9azQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6479
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,324 +173,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->=20
-> Am Dienstag, dem 02.07.2024 um 20:22 +0800 schrieb Sandor Yu:
-> > This patchset sits on top
-> > Dmitry's 'make use of the HDMI connector infrastructure' patchset
-> > ([2]).
-> >
-> > The patch set initial support Cadence MHDP8501(HDMI/DP) DRM bridge
-> > driver and Cadence HDP-TX PHY(HDMI/DP) driver for Freescale i.MX8MQ.
-> >
-> > The patch set compose of DRM bridge drivers and PHY driver.
-> >
-> > Both of them need by patch #1 and #2 to pass build.
-> >
-> > DRM bridges driver patches:
-> >   #1: drm: bridge: Cadence: Creat mhdp helper driver
-> >   #2: phy: Add HDMI configuration options
-> >   #3: dt-bindings: display: bridge: Add Cadence MHDP8501
-> >   #4: drm: bridge: Cadence: Add MHDP8501 DP/HDMI driver
-> >
-> > PHY driver patches:
-> >   #1: drm: bridge: Cadence: Creat mhdp helper driver
-> >   #2: phy: Add HDMI configuration options
-> >   #5: dt-bindings: phy: Add Freescale iMX8MQ DP and HDMI PHY
-> >   #6: phy: freescale: Add DisplayPort/HDMI Combo-PHY driver for
-> > i.MX8MQ
-> >
-> > i.MX8M/TQMa8Mx DT patches:
-> >   #7: Add DT nodes for DCSS/HDMI pipeline
-> >   #8: Enable HDMI for TQMa8Mx/MBa8Mx
-> >
-> > [2]
-> > https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpat=
-c
-> >
-> hwork.freedesktop.org%2Fseries%2F130888%2F&data=3D05%7C02%7CSandor.
-> yu%40
-> >
-> nxp.com%7C1de0bcd26e364c67de8908dcf7efc1de%7C686ea1d3bc2b4c6fa9
-> 2cd99c5
-> >
-> c301635%7C0%7C0%7C638657856327615887%7CUnknown%7CTWFpbGZsb
-> 3d8eyJWIjoiM
-> >
-> C4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7
-> C%7C%7C
-> >
-> &sdata=3D8cvug9CMLQNCPpOm8eFw3uaszeUN7hZijPSBP2IX17U%3D&reserve
-> d=3D0
-> >
-> > v15->v16:
-> > Patch #2:
-> > - Remove pixel_clk_rate, bpc and color_space fields from struct
-> >   phy_configure_opts_hdmi, they were replaced by
-> >   unsigned long long tmds_char_rate.
-> > - Remove r-b and a-c tags because this patch have important change.
-> > Patch #4:
-> > - Add DRM_BRIDGE_OP_HDMI flags for HDMI driver,
-> > - Introduce the hdmi info frame helper functions,
-> >   added hdmi_clear_infoframe(), hdmi_write_infoframe() and
-> >   hdmi_tmds_char_rate_valid() according Dmitry's patch
-> >   'make use of the HDMI connector infrastructure' patchset ([2]).
-> > - mode_fixup() is replaced by atomic_check().
-> > - Fix video mode 4Kp30 did not work on some displays that support
-> >   LTE_340Mcsc_scramble.
-> > - updated for tmds_char_rate added in patch #2.
-> > Patch #6:
-> > - updated for tmds_char_rate added in patch #2.
-> >
-> > v14->v15:
-> > Patch #6 + #7:
-> > -  Merged PHY driver into a single combo PHY driver Patch #7 + #8:
-> > - Add DT patches for a running HDMI setup
-> >
-> > v13->v14:
-> > Patch #4:
-> > - Rebase to next-20240219, replace get_edid function by edid_read
-> >   function as commits d807ad80d811b ("drm/bridge: add ->edid_read
-> >   hook and drm_bridge_edid_read()") and 27b8f91c08d99 ("drm/bridge:
-> >   remove ->get_edid callback") had change the API.
-> >
-> > v12->v13:
-> > Patch #4:
-> > - Explicitly include linux/platform_device.h for cdns-mhdp8501-core.c
-> > - Fix build warning
-> > - Order bit bpc and color_space in descending shit.
-> > Patch #7:
-> > - Fix build warning
-> >
-> > v11->v12:
-> > Patch #1:
-> > - Move status initialize out of mbox_mutex.
-> > - Reorder API functions in alphabetical.
-> > - Add notes for malibox access functions.
-> > - Add year 2024 to copyright.
-> > Patch #4:
-> > - Replace DRM_INFO with dev_info or dev_warn.
-> > - Replace DRM_ERROR with dev_err.
-> > - Return ret when cdns_mhdp_dpcd_read failed in function
-> > cdns_dp_aux_transferi().
-> > - Remove unused parmeter in function cdns_dp_get_msa_misc
-> >   and use two separate variables for color space and bpc.
-> > - Add year 2024 to copyright.
-> > Patch #6:
-> > - Return error code to replace -1 for function wait_for_ack().
-> > - Set cdns_phy->power_up =3D false in phy_power_down function.
-> > - Remove "RATE_8_1 =3D 810000", it is not used in driver.
-> > - Add year 2024 to copyright.
-> > Patch #7:
-> > - Adjust clk disable order.
-> > - Return error code to replace -1 for function wait_for_ack().
-> > - Use bool for variable pclk_in.
-> > - Add year 2024 to copyright.
-> >
-> > v10->v11:
-> > - rewrite cdns_mhdp_set_firmware_active() in mhdp8546 core driver, use
-> > cdns_mhdp_mailbox_send() to replace cdns_mhdp_mailbox_write() same
-> as
-> > the other mailbox access functions.
-> > - use static for cdns_mhdp_mailbox_write() and
-> > cdns_mhdp_mailbox_read()
-> > and remove them from EXPORT_SYMBOL_GPL().
-> > - remove MODULE_ALIAS() from mhdp8501 driver.
-> >
-> > v9->v10:
-> > - Create mhdp helper driver to replace macro functions, move all mhdp
-> > mailbox access functions and common functions into the helper driver.
-> > Patch #1:drm: bridge: Cadence: Creat mhdp helper driver it is totaly
-> > different with v9.
-> >
-> > v8->v9:
-> > - Remove compatible string "cdns,mhdp8501" that had removed
-> >   from dt-bindings file in v8.
-> > - Add Dmitry's R-b tag to patch #2
-> > - Add Krzysztof's R-b tag to patch #3
-> >
-> > v7->v8:
-> > MHDP8501 HDMI/DP:
-> > - Correct DT node name to "display-bridge".
-> > - Remove "cdns,mhdp8501" from mhdp8501 dt-binding doc.
-> >
-> > HDMI/DP PHY:
-> > - Introduced functions `wait_for_ack` and `wait_for_ack_clear` to
-> > handle
-> >   waiting with acknowledgment bits set and cleared respectively.
-> > - Use FIELD_PRE() to set bitfields for both HDMI and DP PHY.
-> >
-> > v6->v7:
-> > MHDP8501 HDMI/DP:
-> > - Combine HDMI and DP driver into one mhdp8501 driver.
-> >   Use the connector type to load the corresponding functions.
-> > - Remove connector init functions.
-> > - Add <linux/hdmi.h> in phy_hdmi.h to reuse 'enum hdmi_colorspace'.
-> >
-> > HDMI/DP PHY:
-> > - Lowercase hex values
-> > - Fix parameters indent issue on some functions
-> > - Replace 'udelay' with 'usleep_range'
-> >
-> > v5->v6:
-> > HDMI/DP bridge driver
-> > - 8501 is the part number of Cadence MHDP on i.MX8MQ.
-> >   Use MHDP8501 to name hdmi/dp drivers and files.
-> > - Add compatible "fsl,imx8mq-mhdp8501-dp" for i.MX8MQ DP driver
-> > - Add compatible "fsl,imx8mq-mhdp8501-hdmi" for i.MX8MQ HDMI driver
-> > - Combine HDMI and DP dt-bindings into one file cdns,mhdp8501.yaml
-> > - Fix HDMI scrambling is not enable issue when driver working in
-> > 4Kp60
-> >   mode.
-> > - Add HDMI/DP PHY API mailbox protect.
-> >
-> > HDMI/DP PHY driver:
-> > - Rename DP and HDMI PHY files and move to folder phy/freescale/
-> > - Remove properties num_lanes and link_rate from DP PHY driver.
-> > - Combine HDMI and DP dt-bindings into one file fsl,imx8mq-dp-hdmi-
-> > phy.yaml
-> > - Update compatible string to "fsl,imx8mq-dp-phy".
-> > - Update compatible string to "fsl,imx8mq-hdmi-phy".
-> >
-> > v4->v5:
-> > - Drop "clk" suffix in clock name.
-> > - Add output port property in the example of hdmi/dp.
-> >
-> > v3->v4:
-> > dt-bindings:
-> > - Correct dt-bindings coding style and address review comments.
-> > - Add apb_clk description.
-> > - Add output port for HDMI/DP connector
-> > PHY:
-> > - Alphabetically sorted in Kconfig and Makefile for DP and HDMI PHY
-> > - Remove unused registers define from HDMI and DP PHY drivers.
-> > - More description in phy_hdmi.h.
-> > - Add apb_clk to HDMI and DP phy driver.
-> > HDMI/DP:
-> > - Use get_unaligned_le32() to replace hardcode type conversion
-> >   in HDMI AVI infoframe data fill function.
-> > - Add mailbox mutex lock in HDMI/DP driver for phy functions
-> >   to reslove race conditions between HDMI/DP and PHY drivers.
-> > - Add apb_clk to both HDMI and DP driver.
-> > - Rename some function names and add prefix with "cdns_hdmi/cdns_dp".
-> > - Remove bpc 12 and 16 optional that not supported.
-> >
-> > v2->v3:
-> > Address comments for dt-bindings files.
-> > - Correct dts-bindings file names
-> >   Rename phy-cadence-hdptx-dp.yaml to cdns,mhdp-imx8mq-dp.yaml
-> >   Rename phy-cadence-hdptx-hdmi.yaml to
-> cdns,mhdp-imx8mq-hdmi.yaml
-> > - Drop redundant words and descriptions.
-> > - Correct hdmi/dp node name.
-> >
-> > v2 is a completely different version compared to v1.
-> > Previous v1 can be available here [1].
-> >
-> > v1->v2:
-> > - Reuse Cadence mailbox access functions from mhdp8546 instead of
-> >   rockchip DP.
-> > - Mailbox access functions be convert to marco functions
-> >   that will be referenced by HDP-TX PHY(HDMI/DP) driver too.
-> > - Plain bridge instead of component driver.
-> > - Standalone Cadence HDP-TX PHY(HDMI/DP) driver.
-> > - Audio driver are removed from the patch set, it will be add in
-> > another
-> >   patch set later.
-> >
-> > [1]
-> > https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpat=
-c
-> >
-> hwork.kernel.org%2Fproject%2Flinux-rockchip%2Fcover%2Fcover.159098288
-> 1
-> > .git.Sandor.yu%40nxp.com%2F&data=3D05%7C02%7CSandor.yu%40nxp.com%
-> 7C1de0b
-> >
-> cd26e364c67de8908dcf7efc1de%7C686ea1d3bc2b4c6fa92cd99c5c301635%
-> 7C0%7C0
-> > %7C638657856327659846%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4w
-> LjAwMDAiLCJQ
-> >
-> IjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&sdata=3DjY
-> pCSiHd
-> > TJTBTxeb76u5Rm4O6MCi9SLIadz92ZONLmk%3D&reserved=3D0
-> >
-> > Alexander Stein (2):
-> >   arm64: dts: imx8mq: Add DCSS + HDMI/DP display pipeline
-> >   arm64: dts: imx8mq: tqma8mq-mba8mx: Enable HDMI support
-> >
-> > Sandor Yu (6):
-> >   drm: bridge: Cadence: Create mhdp helper driver
-> >   phy: Add HDMI configuration options
-> >   dt-bindings: display: bridge: Add Cadence MHDP8501
-> >   drm: bridge: Cadence: Add MHDP8501 DP/HDMI driver
-> >   dt-bindings: phy: Add Freescale iMX8MQ DP and HDMI PHY
-> >   phy: freescale: Add DisplayPort/HDMI Combo-PHY driver for i.MX8MQ
-> >
-> >  .../display/bridge/cdns,mhdp8501.yaml         |=A0 104 ++
-> >  .../bindings/phy/fsl,imx8mq-dp-hdmi-phy.yaml  |=A0=A0 51 +
-> >  .../dts/freescale/imx8mq-tqma8mq-mba8mx.dts   |=A0=A0 20 +
-> >  arch/arm64/boot/dts/freescale/imx8mq.dtsi     |=A0=A0 68 +
-> >  arch/arm64/boot/dts/freescale/mba8mx.dtsi     |=A0=A0 11 +
-> >  drivers/gpu/drm/bridge/cadence/Kconfig        |=A0=A0 20 +
-> >  drivers/gpu/drm/bridge/cadence/Makefile       |=A0=A0=A0 3 +
-> >  .../gpu/drm/bridge/cadence/cdns-mhdp-helper.c |=A0 304 ++++
-> >  .../drm/bridge/cadence/cdns-mhdp8501-core.c   |=A0 330 ++++
-> >  .../drm/bridge/cadence/cdns-mhdp8501-core.h   |=A0 367 +++++
-> >  .../gpu/drm/bridge/cadence/cdns-mhdp8501-dp.c |=A0 700 +++++++++
-> >  .../drm/bridge/cadence/cdns-mhdp8501-hdmi.c   |=A0 595 ++++++++
-> >  .../drm/bridge/cadence/cdns-mhdp8546-core.c   |=A0 403 +----
-> >  .../drm/bridge/cadence/cdns-mhdp8546-core.h   |=A0=A0 44 +-
-> >  drivers/phy/freescale/Kconfig                 |=A0=A0 10 +
-> >  drivers/phy/freescale/Makefile                |=A0=A0=A0 1 +
-> >  drivers/phy/freescale/phy-fsl-imx8mq-hdptx.c  | 1340
-> > +++++++++++++++++
-> >  include/drm/bridge/cdns-mhdp-helper.h         |=A0=A0 97 ++
-> >  include/linux/phy/phy-hdmi.h                  |=A0=A0 20 +
-> >  include/linux/phy/phy.h                       |=A0=A0=A0 7 +-
-> >  20 files changed, 4120 insertions(+), 375 deletions(-)  create mode
-> > 100644
-> > Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
-> >  create mode 100644
-> Documentation/devicetree/bindings/phy/fsl,imx8mq-
-> > dp-hdmi-phy.yaml
-> >  create mode 100644
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp-helper.c
-> >  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-
-> > core.c
-> >  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-
-> > core.h
-> >  create mode 100644
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-dp.c
-> >  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-
-> > hdmi.c
-> >  create mode 100644 drivers/phy/freescale/phy-fsl-imx8mq-hdptx.c
-> >  create mode 100644 include/drm/bridge/cdns-mhdp-helper.h
-> >  create mode 100644 include/linux/phy/phy-hdmi.h
-> >
->=20
-> I ran this on top of a v6.11 kernel on imx8mq (type-c dp) and got -22 at =
-the
-> link-training command.
->=20
-> I'll try to test v18 later and can post my tree, but wanted to drop this =
-here in
-> case any bell rings already and so that you are aware that I want to test=
- this.
->=20
-> thanks for keeping so patient with this,
->=20
-Here is the firmware version register dump in my board, Please check it in =
-your board.
-If the version is different.
-You might need to update the firmware.
 
-root@imx8mqevk:~# /unit_tests/memtool -32 0x32c0001c 4
-Reading 0x4 count starting at address 0x32C0001C
-0x32C0001C:  000000CF 00000087 000000D3 00000050
 
-B.R
-Sandor
+Hello,
 
->                               martin
+for this commit but in linux-next/fs-next branch, we notice crash issue in
+vm/booting tests
+
+kernel test robot noticed "Oops:general_protection_fault,probably_for_non-canonical_address#:#[##]PREEMPT_SMP_KASAN_PTI" on:
+
+commit: 0eccf222d798166ce42a4ed0da91a0cb14945c7a ("fs: port files to file_ref")
+https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git fs-next
+
+in testcase: boot
+
+config: x86_64-rhel-8.3-kselftests
+compiler: gcc-12
+test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
++----------------------------------------------------------------------------------------------+------------+------------+
+|                                                                                              | 08ef26ea9a | 0eccf222d7 |
++----------------------------------------------------------------------------------------------+------------+------------+
+| boot_successes                                                                               | 18         | 0          |
+| boot_failures                                                                                | 0          | 18         |
+| Oops:general_protection_fault,probably_for_non-canonical_address#:#[##]PREEMPT_SMP_KASAN_PTI | 0          | 18         |
+| KASAN:null-ptr-deref_in_range[#-#]                                                           | 0          | 18         |
+| RIP:hook_file_free_security                                                                  | 0          | 18         |
+| Kernel_panic-not_syncing:Fatal_exception                                                     | 0          | 18         |
++----------------------------------------------------------------------------------------------+------------+------------+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202410301313.50e4d05c-oliver.sang@intel.com
+
+
+[    3.605271][    T1] pci_bus 0000:00: resource 8 [mem 0x440000000-0x4bfffffff window]
+[    3.608369][    T1] pci 0000:00:01.0: PIIX3: Enabling Passive Release
+[    3.609815][    T1] pci 0000:00:00.0: Limiting direct PCI/PCI transfers
+[    3.611533][    T1] PCI: CLS 0 bytes, default 64
+[    3.615146][   T30] Trying to unpack rootfs image as initramfs...
+[    3.622946][    T9] Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] PREEMPT SMP KASAN PTI
+[    3.623645][    T9] KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+[    3.623645][    T9] CPU: 0 UID: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.12.0-rc2-00003-g0eccf222d798 #1
+[    3.623645][    T9] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[    3.623645][    T9] Workqueue: events delayed_fput
+[ 3.623645][ T9] RIP: 0010:hook_file_free_security (kbuild/src/consumer/security/landlock/fs.c:1662) 
+[ 3.623645][ T9] Code: b6 14 11 38 d0 7c 04 84 d2 75 2f 48 63 05 21 1f ae 02 48 01 c3 48 b8 00 00 00 00 00 fc ff df 48 8d 7b 08 48 89 fa 48 c1 ea 03 <80> 3c 02 00 75 1f 48 8b 7b 08 5b e9 25 d1 ff ff 48 c7 c7 e4 0c a1
+All code
+========
+   0:	b6 14                	mov    $0x14,%dh
+   2:	11 38                	adc    %edi,(%rax)
+   4:	d0 7c 04 84          	sarb   -0x7c(%rsp,%rax,1)
+   8:	d2 75 2f             	shlb   %cl,0x2f(%rbp)
+   b:	48 63 05 21 1f ae 02 	movslq 0x2ae1f21(%rip),%rax        # 0x2ae1f33
+  12:	48 01 c3             	add    %rax,%rbx
+  15:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  1c:	fc ff df 
+  1f:	48 8d 7b 08          	lea    0x8(%rbx),%rdi
+  23:	48 89 fa             	mov    %rdi,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+  2a:*	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)		<-- trapping instruction
+  2e:	75 1f                	jne    0x4f
+  30:	48 8b 7b 08          	mov    0x8(%rbx),%rdi
+  34:	5b                   	pop    %rbx
+  35:	e9 25 d1 ff ff       	jmpq   0xffffffffffffd15f
+  3a:	48                   	rex.W
+  3b:	c7                   	.byte 0xc7
+  3c:	c7                   	(bad)  
+  3d:	e4 0c                	in     $0xc,%al
+  3f:	a1                   	.byte 0xa1
+
+Code starting with the faulting instruction
+===========================================
+   0:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+   4:	75 1f                	jne    0x25
+   6:	48 8b 7b 08          	mov    0x8(%rbx),%rdi
+   a:	5b                   	pop    %rbx
+   b:	e9 25 d1 ff ff       	jmpq   0xffffffffffffd135
+  10:	48                   	rex.W
+  11:	c7                   	.byte 0xc7
+  12:	c7                   	(bad)  
+  13:	e4 0c                	in     $0xc,%al
+  15:	a1                   	.byte 0xa1
+[    3.623645][    T9] RSP: 0000:ffffc9000009fc38 EFLAGS: 00010202
+[    3.623645][    T9] RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 1ffffffff414219c
+[    3.623645][    T9] RDX: 0000000000000001 RSI: ffffffffa11601e0 RDI: 0000000000000008
+[    3.623645][    T9] RBP: ffff888100438bf8 R08: ffffffff9d900c82 R09: fffffbfff4398cdc
+[    3.623645][    T9] R10: ffffffffa1cc66e7 R11: ffffffffa30a4960 R12: 0000000000000000
+[    3.623645][    T9] R13: ffff88810627a240 R14: ffff88810627a228 R15: ffff88810627a1c0
+[    3.623645][    T9] FS:  0000000000000000(0000) GS:ffff8883aee00000(0000) knlGS:0000000000000000
+[    3.623645][    T9] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    3.623645][    T9] CR2: ffff88843ffff000 CR3: 000000021e27e000 CR4: 00000000000406f0
+[    3.623645][    T9] Call Trace:
+[    3.623645][    T9]  <TASK>
+[ 3.623645][ T9] ? die_addr (kbuild/src/consumer/arch/x86/kernel/dumpstack.c:421 kbuild/src/consumer/arch/x86/kernel/dumpstack.c:460) 
+[ 3.623645][ T9] ? exc_general_protection (kbuild/src/consumer/arch/x86/kernel/traps.c:751 kbuild/src/consumer/arch/x86/kernel/traps.c:693) 
+[ 3.623645][ T9] ? asm_exc_general_protection (kbuild/src/consumer/arch/x86/include/asm/idtentry.h:617) 
+[ 3.623645][ T9] ? mntput_no_expire (kbuild/src/consumer/include/linux/rcupdate.h:347 kbuild/src/consumer/include/linux/rcupdate.h:880 kbuild/src/consumer/fs/namespace.c:1411) 
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20241030/202410301313.50e4d05c-oliver.sang@intel.com
+
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
