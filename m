@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7BC9B630D
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 13:26:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5B59B6310
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 13:26:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7237E10E08D;
-	Wed, 30 Oct 2024 12:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72BB210E099;
+	Wed, 30 Oct 2024 12:26:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fHp+Lzdj";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oSXkNXnF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A576110E08D
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 12:26:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE6D210E099
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 12:26:50 +0000 (UTC)
 Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
  [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 432F61083;
- Wed, 30 Oct 2024 13:26:21 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC8FB1083;
+ Wed, 30 Oct 2024 13:26:45 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1730291182;
- bh=C3H8s2PGsMMiN19Wbmgdjk6CP+0ff1UypI9GmyShyKc=;
+ s=mail; t=1730291206;
+ bh=GSfoZQlqZ6IOr+xb9j1QNSrmb3GGQ0WH2j4qboNNjrs=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=fHp+Lzdj+mYz50Jyess3c5qCEy30NbGSZ2JoJkYFouQZEThFajTyfC52kpA58zMFt
- IhCy/d4GTk+tTRkm4WCOTs/44mNydMyCBwfcGYpgVd/hQVBN/zsWPPva2JahyNn/7G
- +OFrALlzia2vf/fhj/hAWkQr1ab7f9K7Vjk1NS/E=
-Message-ID: <5b2b636e-f361-457e-8d19-9be6c237ef66@ideasonboard.com>
-Date: Wed, 30 Oct 2024 14:26:21 +0200
+ b=oSXkNXnFfg9ZSAmqxPdCBTc9dRqD41SxSyIia/a2y18R5VrZRKKO/9tVhsYSwzz5C
+ W911Eam6W9SrM2j9lVoueYJwX9s1oZe6RoLoQoA70+bREqs5wvVZ5qJbzQ3JCTYpmz
+ QTO/ipdb3CDtgNbGmO/sCY5pMEeLn4B1AVv7XhQw=
+Message-ID: <ba258236-cf0e-40dc-bab1-4c06ee989824@ideasonboard.com>
+Date: Wed, 30 Oct 2024 14:26:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm: xlnx: zynqmp_dpsub: fix hotplug detection
+Subject: Re: [PATCH v2] drm: xlnx: zynqmp_disp: layer may be null while
+ releasing
 To: Steffen Dirkwinkel <lists@steffen.cc>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, stable@vger.kernel.org,
- Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
-References: <f7fbd696-d739-457b-bebb-571b32ecc1d6@ideasonboard.com>
- <20241028134218.54727-1-lists@steffen.cc>
+References: <79aca344-b27e-4b77-aa92-6e4c079486e0@ideasonboard.com>
+ <20241028133941.54264-1-lists@steffen.cc>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -88,7 +89,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20241028134218.54727-1-lists@steffen.cc>
+In-Reply-To: <20241028133941.54264-1-lists@steffen.cc>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,44 +109,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 28/10/2024 15:42, Steffen Dirkwinkel wrote:
+On 28/10/2024 15:39, Steffen Dirkwinkel wrote:
 > From: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
 > 
-> drm_kms_helper_poll_init needs to be called after zynqmp_dpsub_kms_init.
-> zynqmp_dpsub_kms_init creates the connector and without it we don't
-> enable hotplug detection.
+> layer->info can be null if we have an error on the first layer in
+> zynqmp_disp_create_layers
 > 
-> Fixes: eb2d64bfcc17 ("drm: xlnx: zynqmp_dpsub: Report HPD through the bridge")
-> Cc: stable@vger.kernel.org
+> Fixes: 1836fd5ed98d ("drm: xlnx: zynqmp_dpsub: Minimize usage of global flag")
 > Signed-off-by: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
 > ---
->   drivers/gpu/drm/xlnx/zynqmp_kms.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/xlnx/zynqmp_disp.c | 3 +++
+>   1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index bd1368df7870..311397cee5ca 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> @@ -509,12 +509,12 @@ int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
->   	if (ret)
->   		return ret;
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> index 9368acf56eaf..e4e0e299e8a7 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> @@ -1200,6 +1200,9 @@ static void zynqmp_disp_layer_release_dma(struct zynqmp_disp *disp,
+>   {
+>   	unsigned int i;
 >   
-> -	drm_kms_helper_poll_init(drm);
-> -
->   	ret = zynqmp_dpsub_kms_init(dpsub);
->   	if (ret < 0)
->   		goto err_poll_fini;
->   
-> +	drm_kms_helper_poll_init(drm);
+> +	if (!layer->info)
+> +		return;
 > +
->   	/* Reset all components and register the DRM device. */
->   	drm_mode_config_reset(drm);
+>   	for (i = 0; i < layer->info->num_channels; i++) {
+>   		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
 >   
+
 
 Thanks, will apply to drm-misc-next.
-
-Btw, don't send a fixed version with the same version number as the last 
-one. Tools get confused...
 
   Tomi
 
