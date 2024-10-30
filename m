@@ -2,79 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E5C9B5FA9
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 11:03:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DF09B6009
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 11:25:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A897E10E770;
-	Wed, 30 Oct 2024 10:03:28 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="o46SgvNj";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37C9B10E772;
+	Wed, 30 Oct 2024 10:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 863D710E770
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 10:03:27 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-539e7e73740so5448494e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 03:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730282605; x=1730887405; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Hv/gBvIOihm88jcP9baIrEbE/iwIamkmlzhg/EmCDXI=;
- b=o46SgvNj9ekZojMypJsAgSi5sX2Zz57QBQhLVtOm/yABm3QERYNQU4tW5QFJ7ALYxJ
- eMeMomEBipAZp3FTyL8MPCMSLb6nGg6e48nrlyz5Ea21PMCP4YzjGbklTxvaKtKEBN9e
- 6cm5wK2M5CMfKXjrDITQbUj1kd4+f3YczkLy2EvYXrXeGFuesiM1ER0r+G+L19HTxjgO
- MQ3zLF7sOaMeC8SwO/Xs3f3vhdN5burQrq6aCDrnvl75Zwf4gWlkN9C3h9eSuW0ygLYi
- zrnd1/3BO6hlbxMWw4ih0aPvGxFQVhgDCbT8ffqnJlI1Cqvnyimra2jAVDGBchxh6RQH
- GhSA==
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98B9610E772
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 10:25:54 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-6e35bf59cf6so7309427b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 03:25:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730282605; x=1730887405;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Hv/gBvIOihm88jcP9baIrEbE/iwIamkmlzhg/EmCDXI=;
- b=ljpGLewcyZWXI2zsuZLUriKI10c/fAqJmDlWwx+hbPVuhDT3cpuq03aHuNRv/ix+hy
- UWJUIpkDFVDsODq50u7YcWoh41k1+hbMcNw7IgvluXBLXB30sdX/fr85QB5tYgsJYxtp
- 3JqD2MVutepKsfYsNV6meDYpHPwAx4v7UXV9iJHtH0WVr5YMlR7mwER0Pc5hO2wuzabx
- cDAHXUoaizPQEfImpE4Q2EMGlI918Zbv+kJap+mND62WP5pUo7OgJxfw6KhPZO5iPenq
- t/BRiCRnA+gMZX9aioT1EWjwA3rkvBCMdPxyIog8T3ndHlx9HT2kWqkSBpO2194HRqM1
- lyMA==
+ d=1e100.net; s=20230601; t=1730283953; x=1730888753;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zTVtYSQqbvyHjwx/lkmZrqb0a0XoJO0seA6apsOTsAU=;
+ b=dNgpabfvswzPSb4nohLP7H1T+MRXMvGI0yZOe8Xfm+mMsiTKKag/KYw+edixj2L5tk
+ 6XGo1U0KFXva7kQWYhnqrIMhYDn4XhjW7RcPg9rf+CHhNIQC27Qlu21jyzbkSdi3yEAm
+ fo6RX3WAbHyaSJGkraTrcP/5gPBdPWN8+1ep8lRPbK2DCjtyu4jS5QGSEfWJtquRal+z
+ QTJQjGM7t6ttpEwlsLBNjDYMiZG8Qux4C0JDKJzPLSZOIjVlSgoxg1ko1Xv6tz7M31Ii
+ t8euRslzee6hxcqKxrZJxOnuFAzQ41/wTE4jTAdU6B2nlUvy9ybA2PF+U/htWDnJJ9M0
+ cGww==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU5j5mGANok6JX3165RCsxyosyWHaufTRWKdz9dSqYZ5Kk0LdwraBeXmnJ9oT/mozfDwYBUco+UYys=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyaG33uB1NQlTJB3Xe21OPDu7OxmkuiGM1YX/+bLiB6ZMMeErkx
- 8LRCUfiWvYf0RXS7678EcrBVIUybO4R1a0A0BBDLu/dLQ1EjY13yBpSabV/k4WU=
-X-Google-Smtp-Source: AGHT+IGc1/N3seaHX8png3PY60rDjSKWV998xm7xnAOmUc6yHmzuKnSin7MD3bzyPJHDQEXHLHAzrw==
-X-Received: by 2002:a05:6512:3d89:b0:539:ee0a:4f8f with SMTP id
- 2adb3069b0e04-53b7ed18669mr1374900e87.44.1730282605029; 
- Wed, 30 Oct 2024 03:03:25 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53bc0d80e1dsm204898e87.305.2024.10.30.03.03.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Oct 2024 03:03:23 -0700 (PDT)
-Date: Wed, 30 Oct 2024 12:03:22 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 8/9] drm/msm/dpu: allow using two SSPP blocks for a
- single plane
-Message-ID: <6hyyi3sfi4b4iaia4asbckfjq5743rslfwkgtggfpdjeziku4g@4vpuvhfudgiz>
-References: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
- <20241025-dpu-virtual-wide-v6-8-0310fd519765@linaro.org>
- <e09a547a-c123-489e-b993-a246ebe32513@quicinc.com>
+ AJvYcCVtG6porT1WaMbknsopsUevK3+IkmB2uhVEZS5vRqmrUBmyH0BiGanYc3cs5RSi7C/T+Hr/0TCL6QM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yww6hDu2uWiQWFa/OUZ24UogoMLDlJwmt9KnXOEEyYmSRa6bXWn
+ /rpNuotXGq746ulM40x5Ezsi1ir6sl1rHWFL4an/CTh2ghvkyS99wENXVaEV
+X-Google-Smtp-Source: AGHT+IETx4FqXwCXXbBQIsJQdloiI6bjQW7hpri/2S0gsyH/4gHij83Z8oW2Gj+wYOcM7K93RIYl+Q==
+X-Received: by 2002:a05:690c:4a07:b0:6d4:72b7:177e with SMTP id
+ 00721157ae682-6ea3e7527e1mr11766667b3.5.1730283953119; 
+ Wed, 30 Oct 2024 03:25:53 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com.
+ [209.85.128.173]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6e9c6bde218sm23574267b3.53.2024.10.30.03.25.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Oct 2024 03:25:52 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-6e39bf12830so6411577b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 03:25:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW3O3vPfW5tCtGutCC1cvD4j3eIuhlnowwuDQLC5vw8m7RczsAridxpXL45gtKeG5plasjoqNJLx7M=@lists.freedesktop.org
+X-Received: by 2002:a05:690c:c84:b0:6e2:611:7abd with SMTP id
+ 00721157ae682-6ea2c218013mr45054217b3.20.1730283952632; Wed, 30 Oct 2024
+ 03:25:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e09a547a-c123-489e-b993-a246ebe32513@quicinc.com>
+References: <2024101837-crushed-emphasis-b496@gregkh>
+ <20241020143629.GC28934@pendragon.ideasonboard.com>
+ <2024102119-oversweet-labored-aa07@gregkh>
+ <CAMuHMdUWAQKRy6F-zyCK6efhSYDRo2Go-f-=t2kRnPQoNdw0og@mail.gmail.com>
+ <2024102137-repost-visiting-323d@gregkh>
+ <CAMuHMdWOLD13hzERAgaH5zg5FsVZZZnQoFdkRzv+E6r6BTAixA@mail.gmail.com>
+ <CAMuHMdXXokfQziiE9_5oYpcUsWVn6i-0v__D0U1cbRkV4K9jqA@mail.gmail.com>
+ <CAD=FV=VHxvbofWmq6bPVcVokn4kqZ9Bckytw5cv-xYFEGpEtcg@mail.gmail.com>
+ <CAMuHMdXAKH224=fFjohM0Kg702bc7xP+rErtiNDAu+LgFBhX2Q@mail.gmail.com>
+ <CAD=FV=UOqoRSwPxn9BFwmVTGhQptTyS0u8EEjYp0NA8ojOBqdA@mail.gmail.com>
+ <mmmy4mmk435m6i4ic7aelkggzklrwv34vi7yam6mmasadffv2l@fi6ralq5e6vv>
+In-Reply-To: <mmmy4mmk435m6i4ic7aelkggzklrwv34vi7yam6mmasadffv2l@fi6ralq5e6vv>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 30 Oct 2024 11:25:40 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV3sEPW+k_ObTxQiLPdSsNpMRKwtUvtRt_6njy=WW4N4Q@mail.gmail.com>
+Message-ID: <CAMuHMdV3sEPW+k_ObTxQiLPdSsNpMRKwtUvtRt_6njy=WW4N4Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix multiple instances
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Doug Anderson <dianders@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Linus Walleij <linus.walleij@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,297 +97,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 29, 2024 at 03:07:30PM -0700, Abhinav Kumar wrote:
-> 
-> 
-> On 10/24/2024 5:20 PM, Dmitry Baryshkov wrote:
-> > Virtual wide planes give high amount of flexibility, but it is not
-> > always enough:
-> > 
-> > In parallel multirect case only the half of the usual width is supported
-> > for tiled formats. Thus the whole width of two tiled multirect
-> > rectangles can not be greater than max_linewidth, which is not enough
-> > for some platforms/compositors.
-> > 
-> > Another example is as simple as wide YUV plane. YUV planes can not use
-> > multirect, so currently they are limited to max_linewidth too.
-> > 
-> > Now that the planes are fully virtualized, add support for allocating
-> > two SSPP blocks to drive a single DRM plane. This fixes both mentioned
-> > cases and allows all planes to go up to 2*max_linewidth (at the cost of
-> > making some of the planes unavailable to the user).
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 163 ++++++++++++++++++++++--------
-> >   1 file changed, 119 insertions(+), 44 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > index 125db3803cf5..ad6cc469f475 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > @@ -20,7 +20,6 @@
-> >   #include "msm_drv.h"
-> >   #include "msm_mdss.h"
-> >   #include "dpu_kms.h"
-> > -#include "dpu_formats.h"
-> >   #include "dpu_hw_sspp.h"
-> >   #include "dpu_hw_util.h"
-> >   #include "dpu_trace.h"
-> > @@ -888,6 +887,28 @@ static int dpu_plane_atomic_check_nosspp(struct drm_plane *plane,
-> >   	return 0;
-> >   }
-> > +static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
-> > +						   struct dpu_sw_pipe_cfg *pipe_cfg,
-> > +						   const struct msm_format *fmt,
-> > +						   uint32_t max_linewidth)
-> > +{
-> > +	if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
-> > +	    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect))
-> > +		return false;
-> > +
-> > +	if (pipe_cfg->rotation & DRM_MODE_ROTATE_90)
-> > +		return false;
-> > +
-> > +	if (MSM_FORMAT_IS_YUV(fmt))
-> > +		return false;
-> > +
-> > +	if (MSM_FORMAT_IS_UBWC(fmt) &&
-> > +	    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth / 2)
-> > +		return false;
-> > +
-> > +	return true;
-> > +}
-> 
-> Dont we also need to check for
-> 
-> if (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
-> 		     !test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features))?
-> 	return false;
+Hi Dmitry,
 
-In the patch I was checking that after a call to this function, but
-maybe you are right. Especially since I was checking only the pipe, not
-the r_pipe.
+On Mon, Oct 28, 2024 at 2:34=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+> On Tue, Oct 22, 2024 at 07:37:01AM -0700, Doug Anderson wrote:
+> > On Tue, Oct 22, 2024 at 12:12=E2=80=AFAM Geert Uytterhoeven
+> > <geert@linux-m68k.org> wrote:
+> > > > > > > > However, using i2c_client->adapter->nr instead of ida_alloc=
+()
+> > > > > > > > in the TI driver does sound like a good idea to me...
+> > > > > > >
+> > > > > > > Great!
+> > > > >
+> > > > > > With the I2C adapter numbers, that becomes:
+> > > > > >
+> > > > > >     /sys/bus/auxiliary/devices
+> > > > > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.gpio.1
+> > > > > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.pwm.1
+> > > > > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.aux.1
+> > > > > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.bridge.1
+> > > > > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.gpio.4
+> > > > > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.pwm.4
+> > > > > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.aux.4
+> > > > > >     =E2=94=94=E2=94=80=E2=94=80 ti_sn65dsi86.bridge.4
+> > > > > >
+> > > > > > > adapter->nr instead like other aux subsystems already do.
+> > > > >
+> > > > > Unfortunately the devil is in the details, as usual: there can be
+> > > > > multiple instances of the sn65dsi86 bridge on a single I2C bus,
+> > > > > so adapter->nr is not guaranteed to generate a unique name.
+> > > >
+> > > > In the case of sn65dsi86 I think we'd actually be OK. The TI bridge
+> > > > chip is always at bus address 0x2d so you can't have more than one =
+on
+> > > > the same bus. Unless you added something funky atop it (like a mux =
+of
+> > > > some sort) you might be OK.
+> > >
+> > > It's 0x2c on mine ;-)
+> > >
+> > >     8.5.1 Local I2C Interface Overview
+> > >     The 7-bit device address for SN65DSI86 is factory preset to 01011=
+0X
+> > >     with the least significant bit being determined by the ADDR contr=
+ol
+> > >     input.
+> >
+> > Doh! I missed that in my search of the doc. I guess because they
+> > decided to specify the address in binary in that part so my searching
+> > for both the 7-bit and 8-bit I2C address didn't trigger. Oh well.
+> >
+> > > > > Changing the auxiliary bus to use the parent's name instead of th=
+e
+> > > > > module name, as suggested by Laurent, would fix that.
+> > > >
+> > > > Right. On my system dev_name() of the sn65dsi86 device is "2-002d".=
+ If
+> > > > we had a second on i2c bus 4, we'd have:
+> > > >
+> > > >     /sys/bus/auxiliary/devices
+> > > >     =E2=94=9C=E2=94=80=E2=94=80 2-002d.gpio.0
+> > > >     =E2=94=9C=E2=94=80=E2=94=80 2-002d.pwm.0
+> > > >     =E2=94=9C=E2=94=80=E2=94=80 2-002d.aux.0
+> > > >     =E2=94=9C=E2=94=80=E2=94=80 2-002d.bridge.0
+> > > >     =E2=94=9C=E2=94=80=E2=94=80 4-002d.gpio.0
+> > > >     =E2=94=9C=E2=94=80=E2=94=80 4-002d.pwm.0
+> > > >     =E2=94=9C=E2=94=80=E2=94=80 4-002d.aux.0
+> > > >     =E2=94=94=E2=94=80=E2=94=80 4-002d.bridge.0
+> > > >
+> > > > ...and I think that's guaranteed to be unique because all the i2c
+> > > > devices are flat in "/sys/bus/i2c/devices".
+> > >
+> > > Correct.
+> >
+> > So given everything, using the dev_name() of the "parent" sounds
+> > pretty good and seems like it addresses everyone's concerns. Was there
+> > a part of the conversation where someone pointed out problems with it
+> > that I missed? Is the next step to post a patch implementing that?
+> > It'll change sysfs paths and dev names for everyone using AUX bus, but
+> > presumably that's OK?
+>
+> It also requires changing in the way the auxiliary_match_id() works.
+> Currently matching is done using modname + ID.
 
-> 
-> > +
-> >   static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
-> >   				       struct drm_atomic_state *state,
-> >   				       const struct drm_crtc_state *crtc_state)
-> > @@ -901,7 +922,6 @@ static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
-> >   	const struct msm_format *fmt;
-> >   	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
-> >   	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
-> > -	uint32_t max_linewidth;
-> >   	uint32_t supported_rotations;
-> >   	const struct dpu_sspp_cfg *pipe_hw_caps;
-> >   	const struct dpu_sspp_sub_blks *sblk;
-> > @@ -923,8 +943,6 @@ static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
-> >   	fmt = msm_framebuffer_format(new_plane_state->fb);
-> > -	max_linewidth = pdpu->catalog->caps->max_linewidth;
-> > -
-> >   	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0;
-> >   	if (pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION))
-> > @@ -940,41 +958,6 @@ static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
-> >   		return ret;
-> >   	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
-> > -		/*
-> > -		 * In parallel multirect case only the half of the usual width
-> > -		 * is supported for tiled formats. If we are here, we know that
-> > -		 * full width is more than max_linewidth, thus each rect is
-> > -		 * wider than allowed.
-> > -		 */
-> > -		if (MSM_FORMAT_IS_UBWC(fmt) &&
-> > -		    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
-> > -			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, tiled format\n",
-> > -					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> > -			return -E2BIG;
-> > -		}
-> > -
-> > -		if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
-> > -		    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect) ||
-> > -		    (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
-> > -		     !test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features)) ||
-> > -		    pipe_cfg->rotation & DRM_MODE_ROTATE_90 ||
-> > -		    MSM_FORMAT_IS_YUV(fmt)) {
-> > -			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, can't use split source\n",
-> > -					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> > -			return -E2BIG;
-> > -		}
-> > -
-> > -		/*
-> > -		 * Use multirect for wide plane. We do not support dynamic
-> > -		 * assignment of SSPPs, so we know the configuration.
-> > -		 */
-> > -		pipe->multirect_index = DPU_SSPP_RECT_0;
-> > -		pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> > -
-> > -		r_pipe->sspp = pipe->sspp;
-> > -		r_pipe->multirect_index = DPU_SSPP_RECT_1;
-> > -		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> > -
-> >   		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg, fmt,
-> >   						  &crtc_state->adjusted_mode);
-> >   		if (ret)
-> > @@ -995,16 +978,16 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
-> >   	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
-> >   	struct dpu_sw_pipe *pipe = &pstate->pipe;
-> >   	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
-> > +	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
-> > +	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
-> >   	const struct drm_crtc_state *crtc_state = NULL;
-> >   	if (new_plane_state->crtc)
-> >   		crtc_state = drm_atomic_get_new_crtc_state(state,
-> >   							   new_plane_state->crtc);
-> > -	if (pdpu->pipe != SSPP_NONE) {
-> > -		pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-> > -		r_pipe->sspp = NULL;
-> > -	}
-> > +	pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-> > +	r_pipe->sspp = NULL;
-> >   	if (!pipe->sspp)
-> >   		return -EINVAL;
-> > @@ -1021,6 +1004,49 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
-> >   	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> >   	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > +	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
-> > +		uint32_t max_linewidth = dpu_kms->catalog->caps->max_linewidth;
-> > +		const struct msm_format *fmt;
-> > +
-> > +		fmt = msm_framebuffer_format(new_plane_state->fb);
-> > +
-> > +		/*
-> > +		 * In parallel multirect case only the half of the usual width
-> > +		 * is supported for tiled formats. If we are here, we know that
-> > +		 * full width is more than max_linewidth, thus each rect is
-> > +		 * wider than allowed.
-> > +		 */
-> > +		if (MSM_FORMAT_IS_UBWC(fmt) &&
-> > +		    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
-> > +			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, tiled format\n",
-> > +					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> > +			return -E2BIG;
-> > +		}
-> > +
-> > +		if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
-> > +		    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect) ||
-> > +		    (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
-> > +		     !test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features)) ||
-> > +		    pipe_cfg->rotation & DRM_MODE_ROTATE_90 ||
-> > +		    MSM_FORMAT_IS_YUV(fmt)) {
-> > +			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, can't use split source\n",
-> > +					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> > +			return -E2BIG;
-> > +		}
-> 
-> Dont the above two conditions translate to
-> !dpu_plane_is_multirect_parallel_capable()?
+Right, so just using the parent's name instead of modname won't work,
+as the former is not a fixed string.
 
+> So, maybe using MODNAME.NAME.parent-name.ID is better (e.g.
+> ti_sn65dsi86.gpio.2-002d.1). It will still require changes to the
+> match_id function, but they won't be that intrusive (one just has to
+> skip two parts of the name instead of skipping just one).
 
-Good idea, I'll change that.
+IMHO this is becoming too complex. What if the parent's name contains
+a period?
 
-> 
-> I think once we have a unified plane atomic check and not a separate one for
-> virtual planes (we had to add one to support the modparam), some duplication
-> will go away but till then I think this is the best we can do.
-> 
-> 
-> > +
-> > +		/*
-> > +		 * Use multirect for wide plane. We do not support dynamic
-> > +		 * assignment of SSPPs, so we know the configuration.
-> > +		 */
-> > +		r_pipe->sspp = pipe->sspp;
-> > +
-> > +		pipe->multirect_index = DPU_SSPP_RECT_0;
-> > +		pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> > +
-> > +		r_pipe->multirect_index = DPU_SSPP_RECT_1;
-> > +		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> > +	}
-> > +
-> >   	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
-> >   }
-> > @@ -1054,8 +1080,16 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
-> >   		return 0;
-> >   	}
-> > -	/* force resource reallocation if the format of FB has changed */
-> > +	/*
-> > +	 * Force resource reallocation if the format of FB or src/dst have
-> > +	 * changed. We might need to allocate different SSPP or SSPPs for this
-> > +	 * plane than the one used previously.
-> > +	 */
-> >   	if (!old_plane_state || !old_plane_state->fb ||
-> > +	    old_plane_state->src_w != plane_state->src_w ||
-> > +	    old_plane_state->src_h != plane_state->src_h ||
-> > +	    old_plane_state->src_w != plane_state->src_w ||
-> > +	    old_plane_state->crtc_h != plane_state->crtc_h ||
-> >   	    msm_framebuffer_format(old_plane_state->fb) !=
-> >   	    msm_framebuffer_format(plane_state->fb))
-> >   		crtc_state->planes_changed = true;
-> > @@ -1075,7 +1109,10 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
-> >   	struct dpu_plane_state *pstate;
-> >   	struct dpu_sw_pipe *pipe;
-> >   	struct dpu_sw_pipe *r_pipe;
-> > +	struct dpu_sw_pipe_cfg *pipe_cfg;
-> > +	struct dpu_sw_pipe_cfg *r_pipe_cfg;
-> >   	const struct msm_format *fmt;
-> > +	uint32_t max_linewidth;
-> >   	if (plane_state->crtc)
-> >   		crtc_state = drm_atomic_get_new_crtc_state(state,
-> > @@ -1084,6 +1121,8 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
-> >   	pstate = to_dpu_plane_state(plane_state);
-> >   	pipe = &pstate->pipe;
-> >   	r_pipe = &pstate->r_pipe;
-> > +	pipe_cfg = &pstate->pipe_cfg;
-> > +	r_pipe_cfg = &pstate->r_pipe_cfg;
-> >   	pipe->sspp = NULL;
-> >   	r_pipe->sspp = NULL;
-> > @@ -1098,10 +1137,46 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
-> >   	reqs.rot90 = drm_rotation_90_or_270(plane_state->rotation);
-> > +	max_linewidth = dpu_kms->catalog->caps->max_linewidth;
-> > +
-> >   	pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> >   	if (!pipe->sspp)
-> >   		return -ENODEV;
-> > +	if (drm_rect_width(&r_pipe_cfg->src_rect) == 0) {
-> > +		pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> > +		pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > +
-> > +		r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> > +		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > +
-> > +		r_pipe->sspp = NULL;
-> > +	} else {
-> > +		if (dpu_plane_is_multirect_parallel_capable(pipe, pipe_cfg, fmt, max_linewidth) &&
-> > +		    dpu_plane_is_multirect_parallel_capable(r_pipe, r_pipe_cfg, fmt, max_linewidth) &&
-> > +		    (test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) ||
-> > +		     test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features))) {
-> > +			r_pipe->sspp = pipe->sspp;
-> > +
-> > +			pipe->multirect_index = DPU_SSPP_RECT_0;
-> > +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> > +
-> > +			r_pipe->multirect_index = DPU_SSPP_RECT_1;
-> > +			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-> > +		} else {
-> > +			/* multirect is not possible, use two SSPP blocks */
-> > +			r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> > +			if (!r_pipe->sspp)
-> > +				return -ENODEV;
-> > +
-> > +			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> > +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > +
-> > +			r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> > +			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > +		}
-> > +	}
-> > +
-> >   	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
-> >   }
-> > 
+So just using ida_alloc() in the caller seems like the most
+straight-forward solution.
 
--- 
-With best wishes
-Dmitry
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
