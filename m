@@ -2,62 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3FD9B6EB2
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 22:20:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24BA9B6FA9
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 23:07:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E3410E805;
-	Wed, 30 Oct 2024 21:20:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09B2910E808;
+	Wed, 30 Oct 2024 22:07:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=deltatee.com header.i=@deltatee.com header.b="Hn4eDVf8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pymgKQqx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 406FE10E0FD;
- Wed, 30 Oct 2024 21:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
- MIME-Version:Date:Message-ID:content-disposition;
- bh=Teay/SDFVQ3KrSrIP+rOxfqoHOvTS5vn0M/5NXbwQys=; b=Hn4eDVf8odnXEa3gXEbm04F6LU
- djR9gKjO57ul/d3FtdsFm/fG2y2ekwz4pJcTFtb+motJr/NBt6KmqAcxV1KLt9avHA0NOCJn3ZQSG
- r6jMjNFU9Gl1dPQdEIyeQBvvfO0FzNk+n7yvYYeX6zX4w9+Zk6e9fUyfJZRQDVT0ENZjJq1iyauLk
- 4WUBCye/WmytimX1SwUvQ/abqFWff76EZkjWUJfB40m2CiYFAQ4QHHdjNvfd3Shc7WQyJX7Df+rF2
- 0LDZaEyjmQt5/wRxxvWuw0CGBAoMcpQPWC0xG8j7oN5MsD4x44FzNPKvN+E9m0/M8lM2lKrzgWvDq
- 7MUw87PA==;
-Received: from d104-157-31-28.abhsia.telus.net ([104.157.31.28]
- helo=[192.168.1.250]) by ale.deltatee.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
- (envelope-from <logang@deltatee.com>) id 1t6G6q-004Cg7-17;
- Wed, 30 Oct 2024 15:20:09 -0600
-Message-ID: <7e146e2f-5d7c-4f28-b801-360795b4cae7@deltatee.com>
-Date: Wed, 30 Oct 2024 15:20:02 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Bjorn Helgaas <helgaas@kernel.org>,
- "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE14E10E806;
+ Wed, 30 Oct 2024 22:07:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D1679A435A6;
+ Wed, 30 Oct 2024 22:05:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2195DC4CECE;
+ Wed, 30 Oct 2024 22:07:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730326060;
+ bh=FGBXaMTs0zoZtuIJw76pQkmdmDElPzZuxay8K6IRs+M=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=pymgKQqxDWszTJEoGeU8SOxQXzSUDVj057M2/sGjtLFYJttHMz/9aSEyG9uEWshEx
+ BZOsy13EfwLb3MxEWqHyDkKiERyJ7dN/vrGPYzUfkAIISMXHt65w6YgmNg3PWBRi3M
+ jo4aN5OxjQ9jf+Nqo3Dd6a3LL+gTrg4tYNFL/yNQjWtny7MhIoBc11YHSs4a8nXt0i
+ Ya2zIbvL8QOMwLzkZrrxkXkBLOLjS/gs0Ps8vu7HAzSG5YOAMfF5E11fIMtqnQGoDq
+ ugDndL4kZm7pvqCaoQAiBV9DY3wxrlMa/cHBqAqpxeNXoqMo5nlRXkwyB/BaYRXNlx
+ gwGxXiMQUL2yA==
+Date: Wed, 30 Oct 2024 17:07:38 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
  Bjorn Helgaas <bhelgaas@google.com>,
  "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-References: <20241030184641.GA1210322@bhelgaas>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20241030184641.GA1210322@bhelgaas>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 104.157.31.28
-X-SA-Exim-Rcpt-To: helgaas@kernel.org, vivek.kasireddy@intel.com,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- bhelgaas@google.com, linux-pci@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on ale.deltatee.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=ham autolearn_force=no version=4.0.0
 Subject: Re: [PATCH v2 1/5] PCI/P2PDMA: Don't enforce ACS check for functions
  of same device
-X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Message-ID: <20241030220738.GA1221922@bhelgaas>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7e146e2f-5d7c-4f28-b801-360795b4cae7@deltatee.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,17 +60,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Oct 30, 2024 at 03:20:02PM -0600, Logan Gunthorpe wrote:
+> On 2024-10-30 12:46, Bjorn Helgaas wrote:
+> > On Fri, Oct 25, 2024 at 06:57:37AM +0000, Kasireddy, Vivek wrote:
+> > In the PCIe world, I don't think a TLP can "loop back" to another
+> > function on the same device.
+> 
+> I'm not sure if the spec says anything that specifically denies this.
 
+I'm not a hardware guy and I don't know if there's a direct statement
+about it, but if a Downstream Port supports ACS, it must support ACS
+P2P Request Redirect (PCIe r6.0, sec 6.12.1.1), which specifically
+applies to peer-to-peer TLPs.
 
-On 2024-10-30 12:46, Bjorn Helgaas wrote:
-> On Fri, Oct 25, 2024 at 06:57:37AM +0000, Kasireddy, Vivek wrote:
-> In the PCIe world, I don't think a TLP can "loop back" to another
-> function on the same device.
+If peer-to-peer TLPs appear on the link, the Downstream Port will see
+them and act on them, e.g., either route them upstream (if P2P Request
+Redirect is enabled) or back downstream.  I don't think the VF could
+act on them directly via a loopback path because that would lead to
+duplicate writes and duplicate Completions for reads.
 
-I'm not sure if the spec says anything that specifically denies this.
-But it seems to me that it would be possible for a multifunction device
-to handle a transfer to a neighbouring function internally and not
-actually involve the PCIe fabric. This seems like something we'd want to
-support if and when such a device were to be created.
+> But it seems to me that it would be possible for a multifunction device
+> to handle a transfer to a neighbouring function internally and not
+> actually involve the PCIe fabric. This seems like something we'd want to
+> support if and when such a device were to be created.
 
-Logan
+If peer-to-peer transactions are handled internally, an SR-IOV device
+other than an RCiEP is required to support ACS with P2P Egress Control
+(sec 7.7.11) and P2P Request Redirect (sec 7.7.11.2).
+
+Bjorn
