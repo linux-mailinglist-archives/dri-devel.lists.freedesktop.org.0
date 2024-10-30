@@ -2,78 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715A59B58F2
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 02:07:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AA09B593E
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 02:41:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 268DF10E723;
-	Wed, 30 Oct 2024 01:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51A2810E72E;
+	Wed, 30 Oct 2024 01:41:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="R9llZ6AT";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="mpIuWVwV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2325110E723;
- Wed, 30 Oct 2024 01:07:50 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49TKRPmh012841;
- Wed, 30 Oct 2024 01:07:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=4W4RiRXPI3/u9cd+TQ3a5K
- jFeAh3VtcAoOhqF4AgpK4=; b=R9llZ6ATLzU5aoFlqx0ONbYADA47fkJFTpsuo/
- Nc7+JsUUWuCNXmmkoWE1onpx9MVNOW+GIS5SpQgeGKHlZgnak8bixb2KOhjHrS71
- bQwKKWGXu8T0prAX3JVSbEmnMIbKOOiz5PN9oZmT3Ngw1+LryO42Aw2ehlNxVYJ5
- 1Z27oLh6kJzWpyNxeEcpmZdtt4C5oCYBfVdbRzlHjZH/D/wYuwBb+lYyOTJycz94
- ly6b8TuF7POalgiE5UEoVZlhEsCLhwRrCIUHOS7D0EAa/up4J1mJ9toSf5X+w0Bz
- 2VoRa+2TnGTD31DXZjF9wJuwl+QQ4o4rUQj7bF5lrbtAqiKA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42k6rpgh7y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Oct 2024 01:07:43 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49U17g6H014328
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Oct 2024 01:07:42 GMT
-Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 29 Oct 2024 18:07:42 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-CC: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- <freedreno@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <robdclark@gmail.com>, <swboyd@chromium.org>, <airlied@gmail.com>,
- <dmitry.baryshkov@linaro.org>, <quic_jesszhan@quicinc.com>,
- <lyude@redhat.com>, <simona@ffwll.ch>, <linux-i2c@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH] i2c: skip of_i2c_register_device() for invalid child nodes
-Date: Tue, 29 Oct 2024 18:07:22 -0700
-Message-ID: <20241030010723.3520941-1-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2062.outbound.protection.outlook.com [40.107.102.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63AEA10E72B;
+ Wed, 30 Oct 2024 01:41:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Da5LoA5H2N3V5MuRv6iUt1IHXKsQ4RLeWQuUUfJF9mJzjCgR1v0RFKtK+WaX93mvFcQI6eYLU3RmNehS8InQ72q3YjMn/0SObHTLGK/Cy+vpCaaZp+i/VfwLUNZIap3Aec+3sTcoHuYvrQh/rLpUhU7ZpcOJ5szUiftU+SHEIXk54TkbeqGhFH8yTfg9atV7rs8bjOg25c3rZ9uRnG7T7tNAhf1n0cOKbe4jSuxzXPvcsL2cXelqPNTNLv0euyf+XGD/70VEEXxCEU88r04efzOpaKVFfThHQvGd2XBv8Y35eA3Sz7baaBLEzppewvC8qylN/ic9Gng57fyb1Le7hw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=roFLcDCHW17prPBTJsp14TozwXnEZV25chNzCFaaOHY=;
+ b=VKG1zWecyEFffWgy49fxYX302PF1rin/4F1hDwLYkIQfmIbHo6aJ4Xy7SlbQTfnclLQdsRgFrTwtN/g5O+6ufh8Jj945obL1SEOTjmT8o6Bp3nHPuQjN7tYEeeGJnnrj19VRfr6KlUv2aVVQ/m8ZvEbbkglzl70DctLo7BUr+NgoRi3UJbw+JuSMbCxYvTuyyNUSTvmsC4rQt2YWAtJNV9/bpldSqnWalSxbcUVAxA050cfksO5qg3P2YvbrDl27v83Gw8W7/UnXDn0nYgGCq1qEZIRg222tAFXPnZyXOu/08pZnXsFx00KRgA3eWaU5YZRuPl9ojeLjMMRRiKFhgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=roFLcDCHW17prPBTJsp14TozwXnEZV25chNzCFaaOHY=;
+ b=mpIuWVwVZk9DeKhucLah/wZy6SOlR8bKq+FRbmd2Ijh5JbpMMiFFSTJr2Tfxx0yhoiLisYhKbP0ZYbU+JFIF8Nw68b6LFdxVYnYxMR8pkPmYli0cQu1L7xJLtpNRZXshRMb/w4d9NfbTYMLWE9Nw2J4ElodT8uWH1KdvA5V/js4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by MN0PR12MB5883.namprd12.prod.outlook.com (2603:10b6:208:37b::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.18; Wed, 30 Oct
+ 2024 01:41:25 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.8114.015; Wed, 30 Oct 2024
+ 01:41:24 +0000
+Message-ID: <08add1ec-ceae-4f74-83b0-72d0df510950@amd.com>
+Date: Tue, 29 Oct 2024 20:41:22 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] amdgpu: prevent NULL pointer dereference if ATIF is not
+ supported
+To: Antonio Quartulli <antonio@mandelbit.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241029233232.27692-1-antonio@mandelbit.com>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20241029233232.27692-1-antonio@mandelbit.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1P222CA0014.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:22c::23) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: aIoafsZEh5UdIL9g_gMRhUSRNXWQyrgE
-X-Proofpoint-GUID: aIoafsZEh5UdIL9g_gMRhUSRNXWQyrgE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0
- clxscore=1011 mlxlogscore=999 priorityscore=1501 spamscore=0
- malwarescore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0
- suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410300007
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|MN0PR12MB5883:EE_
+X-MS-Office365-Filtering-Correlation-Id: 203a093a-f7ad-469b-01fc-08dcf883f6fc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bGNPMEdxeDg0L0J1VExMRVNBQjkvSEJ1R0RoRVd2ZFZDK2N2bE5xbEFYcFJt?=
+ =?utf-8?B?YWZORGJxamxlVWFBeFN2SEtvQjI0WlYxYWZnRmZWU3VDV2RBM1ZGYXdvMmV2?=
+ =?utf-8?B?SkdxVHAvVEZiTXNGY2FaQWlTMldvcEQxd2pSOFJiSjh0dy93a3NjMnN6bGdy?=
+ =?utf-8?B?ZUxTcnJ5Z1RDOG9hODVGQ1M4cjBWNzE5eUtaVm5DYUhRb2J2SVpVUytlNHFB?=
+ =?utf-8?B?YkFSRlhXaTVZOTAxS2Z5UUNFUTBIdTYyWksyd0VsMWdieWN1NTN0eWRxeWs3?=
+ =?utf-8?B?a24wU1hnZVlRdGs0aThyeTcxdXhIb0QwV083N05EUzZGOWlRVWdVWk9TNmVv?=
+ =?utf-8?B?NXV6V0p4aG9KdE5xUVJJcCs2UUVFTEF2RUJScS9Qai8rY0lwYzZGY0hSK0l2?=
+ =?utf-8?B?TGQ4MTB2dXZyRWlpVGZQem1odDNHUUNjNzBvVWFHL0wrd0krSkF1TlhFMXRS?=
+ =?utf-8?B?SmFtaGRBbTd4ZVZseUlOeHlaeWowMnM3YkEwYzU5ZVlyQXdQMHErQkFIM3ZS?=
+ =?utf-8?B?ZXhkZjYzQklpWGVSZ1g2OTBFZEhlMGZWOWc4V0VzdjdVTVdxbVU1ekQwNElI?=
+ =?utf-8?B?SlNCOVdUQ1UyRUYrazBHVy9rYmpzZHRXRVU5VDgyOEdYZUM5VDJ5RTA3WCtB?=
+ =?utf-8?B?TlgrcXdsdjMrR2lMZzMvMWZOSzVyaENJa1NzaVM0T0FDUHhGdEx4UWh4SlpJ?=
+ =?utf-8?B?OXIxTkdxeEFBOHgvSDlaYzY1REpvUklWRmVmWVlOZ3lyS3ZkSGpkVlRRNHN0?=
+ =?utf-8?B?bHlNYzZ0by9xUTI4aXg3eUk3UmFFSEE4Um5DQk42cW8wWmkrR3FKM3FseHc0?=
+ =?utf-8?B?enZaeFRpZ2xTSE9NM2JqYjJCVmZCSUxrQmNoeUFLL1oxTXFlYmVRVy9vR3ZQ?=
+ =?utf-8?B?a3RJQmc3Qi9jakRuMWQzRkI0eUR4bFdYV01mOVlnUk5vcDEwaDJVM2Z0cVNS?=
+ =?utf-8?B?dFNEK3VWaDB1b01iVFNvRG1Xd1ppd1ZmM1luOUcxN3JtN1VhT2I5bkJpK2Nz?=
+ =?utf-8?B?RmZmUUgrM2k0M0JZK3ZlaXQveHZMYmNmNkxTeUFTUmNnNmpEaXZWazU3UUdM?=
+ =?utf-8?B?Wi90QlBraWlPeWtSL2Z0Mk5kSXRHUXpSWEh5REhvOUJWMmlpRGtVejZpN3cr?=
+ =?utf-8?B?UmZMN0daNllQd0lvdWZLR0M2N3JFeStZN0FDQWp0bmZYUjRYL2lzQ0lXZzZL?=
+ =?utf-8?B?dEhVMk9vcVh1UEZqTm5oWkQzbC9QTFRSSXJnb2Zra25jZVEwN1VDc1ZLRTZ6?=
+ =?utf-8?B?c21Rb0NEbHBsL3NvWmpSVmtncm0rM1VjZC9jRGR2NENSRFM5NWl0Z0kzbU5M?=
+ =?utf-8?B?TEhoY3dhbWI5ZEZiVGE4cytGNFAzYlhKR0ZvNGdMNGZYdFMrU25oclR6T2JT?=
+ =?utf-8?B?dHR6WWp2cSt3WkdzbjNNeEpCbmt6cC9zaHVoaGo5MXd5MDhJTE9ubDZYOG5P?=
+ =?utf-8?B?NU5LU3ZlSjh2YTVCMitTeldvejRNbWdaaDF5YlNENWpLR01DL1JpTy9PaElR?=
+ =?utf-8?B?eERFUnMzSmxxaUlXQ2JrWUlCVGhRRU9HNHN3REJZSnFXSVdaTkF6MW5uZUhy?=
+ =?utf-8?B?RURCQ2ovb3dtalpTUDlnSld5K2hQSEIzK1lGNGMvVTcwVWJodXFJZGR5TXV1?=
+ =?utf-8?B?YTVGUFFKZDRKancrNWNINTl1Zk9Wd1hRV29YUkh6VXlXVk15WFBoYjNNTndY?=
+ =?utf-8?B?ejBVT1NzaEFFZFI2RVNIUVk1aitmRVZ3dVVvTll4Q216MVZXbldjZ05VZHNU?=
+ =?utf-8?Q?BZuB7niOuh7rOzdXwhRJG7wkYetBi+hBpArikbh?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjEwNHI1dUNUZ1BtU0lJeFVTdStiS1A5eEdDZU1lK2R2V09XaFU2NE4ybzBv?=
+ =?utf-8?B?WDc4U0F5cCtBYWlXVzZENlZNR2RWS2ZseHB4TXFKakt6cWRZeVRoM1p1SExR?=
+ =?utf-8?B?R0hGT2FvMStIaW5JeGNLakd4djVpbXdzMGMvUjB0NGFJSmwrdDZEc2o4Y0Rm?=
+ =?utf-8?B?RDBYY3NIaG1NekV6RFZqT002aktpdUFydkdLeGhtNXdLZVZvbHQxbzA3ekRk?=
+ =?utf-8?B?dG9rK0tXN25yZ0NaQWdpNHN0YmU5cEtpWC9zOVpTWGEzTjAwcG8zQlJreDEw?=
+ =?utf-8?B?YmFlL05SN1B3WlFVRVdKcHFhVkgwemowTS94TGVack44Y1l1bUJKQm1NZEE2?=
+ =?utf-8?B?b0UzUVNlK1FhMzFsbTVPS3c3Y2w0QUxIY2tBMFg2bytNeG5URFU0Y25TNFMv?=
+ =?utf-8?B?WU1kNGcySVk0SU9HYnVGQ1NveGk0a3RiK3k3NHdFNE83dzRDRnJCY2dKVkMy?=
+ =?utf-8?B?QjltMFc1SWVodjVVRzVuQ3FJb2doNlIxcHFiNC9vcW9CL1hkVGorSmxMdXJx?=
+ =?utf-8?B?SUlGUTJWbit3S1NWU2h3SURrVmJFcE9TS3FORVZpNnRjZzgzRUY4Sk80bm5I?=
+ =?utf-8?B?SXRQd1p4ZTJ5djF5eXR0ODAzdmp2dUltcUtUYmw0V2pBQ3lsajZQU2o5bTlv?=
+ =?utf-8?B?RTNFdjN1S1VGSGZtc3VQa1gzc2laUzFmWVBLQS9VVzlXeTMwRjlrWXVTa3Br?=
+ =?utf-8?B?K3RhTVdlakpNQ3FVK2YyWU1xNGFRTjJneVpST2NkSElLd0FPSE9vVSt5VVFm?=
+ =?utf-8?B?RE1OYkVDSW5uUkg5M0VhUVdhdTAxOFQ1c1VkZnJjK2FBTFZJYVRieVF2YWMy?=
+ =?utf-8?B?bFM2V2hNcXM3b2FYZjZsNXR6TzdVbUQ0dEUvR2JlTGplWSttbEN1cG1qMDlM?=
+ =?utf-8?B?R0liUmx2MGlPTEY0QnRuZWlOYlV6N21zcnNmUkFIdWs1a1lZNmk2MlRGQmdh?=
+ =?utf-8?B?K2lzUER1L3hWYWlUTFRmaXdRcmZjZzFKandkaS9wMkFRcHAzYzBUOVBNM215?=
+ =?utf-8?B?UVFpTUx3WVYyM1gvYjFsVnhLNGplcTNXV1dIQ3VwRXZyZllvQXBqWU9maFdR?=
+ =?utf-8?B?cmU3UXkvNlNMVzJ4dU9GVzdFbXRmYWdSWHE3SENkMDlHWXAvd2M4Q3ZKa3lq?=
+ =?utf-8?B?ZzVCaHZoMHVrRitGcTZqUU1UYzdQRkszWTRkc0dQUHFZNjVrd3ZMVS83QlJz?=
+ =?utf-8?B?bFUvWklQQ3YyQkhHQ2toYlpFdkRDdEVnaTVBS0NzbHpwL2JDakU5cUhzWHlu?=
+ =?utf-8?B?eWJ1NkxpakJwYW8rZ1NaMGJETzVtTXIvODRkQmdWbmdSUHNvM2dweXg4WFJT?=
+ =?utf-8?B?blp0SDdZU2VQN083K1RMaTV0TUxLMnk2bEhTeFFVSzFjUm1LOVdnUDFOMFJa?=
+ =?utf-8?B?ZGhndDQ2NmZSUkdMRXFabEF2aEt6NDRpVmZjVkVwejl5OTZvMC9TTER6VU40?=
+ =?utf-8?B?cXRQRkZ4L2lxMlphQ2Frcy9RZHN3TDNZaTFZYitBNHVrZHNiUXFaVUtmdkls?=
+ =?utf-8?B?ODE1V3lnSDZBOFFKRDBtMVpUd2IrMStLZDRrNEkzNkkxOVhjWkoxWWlibEF6?=
+ =?utf-8?B?RzhCdTJnNEpjZ0JPQTNNWHpkQ0dIdWVoZXF3WTEzQ1phOEVza2NYZlcrejE1?=
+ =?utf-8?B?Z3Nlb01JaWtMTWRuYnN5bU1XZC9xL3JoRXhubVJBYTVFM1crdDZlVzl5T1Na?=
+ =?utf-8?B?OElHUk9RWHU1NXFzbE04YjdSS0FIYmNNRk41MlFVOHVkc2tEYk00Q0ZxVUZj?=
+ =?utf-8?B?Y2lwZzUvK0JHaDRVbHBVRnFlUjNiTjZGS3k5UGVyc2tYUW9oNk1ZYzJTTGZ0?=
+ =?utf-8?B?K2dqYUloRjlDUmdLZ2NBWmc3Slp2Q2ZwNGFYTGl5anJySzRCazFnZUtCV2dZ?=
+ =?utf-8?B?MUtoT2hxRGF3RzVMSXhnWG9TZHZjSmdnSUd3YlY5alFNRWtKcUNoeWtwUWg3?=
+ =?utf-8?B?WVkwZ29MUStjeVpsYXQzWVAwS0RWREtjY3hmTjVZUTJFTk41TEEzOW43Wjlm?=
+ =?utf-8?B?L0FodmFwdTI5SERaVWVmaUcycmRWblVoRXI5WENRZ2lQQnRpZWZxZDRud2ZG?=
+ =?utf-8?B?TmM4S0dqcmQremhmWnB6YktjcFdoYzZGcFQ1SmgvLzRzOTFMT3dRWUtYS3NN?=
+ =?utf-8?Q?ECopr9GszbASYcyUzVSYBEyWk?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 203a093a-f7ad-469b-01fc-08dcf883f6fc
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2024 01:41:24.9344 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dqnF4lLZCqqgq+jVFF1dsQFyQJ4aBhRXfyyv3qJhpLp04ckU9k/BE1xQdmcX7XoAAHhzz8SOSDv8vJuREzgcTQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5883
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,55 +161,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-of_i2c_register_devices() adds all child nodes of a given i2c bus
-however in certain device trees of_alias_from_compatible() and
-of_property_read_u32() can fail as the child nodes of the device
-might not be valid i2c client devices. One such example is the
-i2c aux device for the DRM MST toplogy manager which uses the
-display controller device node to add the i2c adaptor [1] leading
-to an error spam like below
+On 10/29/2024 18:32, Antonio Quartulli wrote:
+> acpi_evaluate_object() may return AE_NOT_FOUND (failure), which
+> would result in dereferencing buffer.pointer (obj) while being NULL.
+> 
+> Bail out also when status is AE_NOT_FOUND with a proper error message.
+> 
+> This fixes 1 FORWARD_NULL issue reported by Coverity
+> Report: CID 1600951:  Null pointer dereferences  (FORWARD_NULL)
+> 
+> Signed-off-by: Antonio Quartulli <antonio@mandelbit.com>
 
-i2c i2c-20: of_i2c: register /soc@0/display-subsystem@ae00000/display-controller@ae01000/ports
-i2c i2c-20: of_i2c: modalias failure on /soc@0/display-subsystem@ae00000/display-controller@ae01000/ports
-i2c i2c-20: Failed to create I2C device for /soc@0/display-subsystem@ae00000/display-controller@ae01000/ports
-i2c i2c-20: of_i2c: register /soc@0/display-subsystem@ae00000/display-controller@ae01000/opp-table
-i2c i2c-20: of_i2c: invalid reg on /soc@0/display-subsystem@ae00000/display-controller@ae01000/opp-table
-i2c i2c-20: Failed to create I2C device for /soc@0/display-subsystem@ae00000/display-controller@ae01000/opp-table
+I'm not really sure how realistic this failure is.  Can you share the 
+full call trace that Coverity identified?
 
-Add protection against invalid child nodes before trying to register
-i2c devices for all child nodes.
+amdgpu_atif_pci_probe_handle() will check whether the handle is 
+available in the first place.  We'll never this this far if that failed.
 
-[1] : https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/display/drm_dp_mst_topology.c#L5985
-
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/i2c/i2c-core-of.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
-index a6c407d36800..62a2603c3092 100644
---- a/drivers/i2c/i2c-core-of.c
-+++ b/drivers/i2c/i2c-core-of.c
-@@ -86,6 +86,8 @@ void of_i2c_register_devices(struct i2c_adapter *adap)
- {
- 	struct device_node *bus, *node;
- 	struct i2c_client *client;
-+	u32 addr;
-+	char temp[16];
- 
- 	/* Only register child devices if the adapter has a node pointer set */
- 	if (!adap->dev.of_node)
-@@ -101,6 +103,10 @@ void of_i2c_register_devices(struct i2c_adapter *adap)
- 		if (of_node_test_and_set_flag(node, OF_POPULATED))
- 			continue;
- 
-+		if (of_property_read_u32(node, "reg", &addr) ||
-+		    of_alias_from_compatible(node, temp, sizeof(temp)))
-+			continue;
-+
- 		client = of_i2c_register_device(adap, node);
- 		if (IS_ERR(client)) {
- 			dev_err(&adap->dev,
--- 
-2.34.1
+Because of that I don't follow how this could return AE_NOT_FOUND.
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 11 +++++++----
+>   1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> index cce85389427f..f10c3261a4ab 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> @@ -172,10 +172,13 @@ static union acpi_object *amdgpu_atif_call(struct amdgpu_atif *atif,
+>   				      &buffer);
+>   	obj = (union acpi_object *)buffer.pointer;
+>   
+> -	/* Fail if calling the method fails and ATIF is supported */
+> -	if (ACPI_FAILURE(status) && status != AE_NOT_FOUND) {
+> -		DRM_DEBUG_DRIVER("failed to evaluate ATIF got %s\n",
+> -				 acpi_format_exception(status));
+> +	/* Fail if calling the method fails */
+> +	if (ACPI_FAILURE(status)) {
+> +		if (status != AE_NOT_FOUND)
+> +			DRM_DEBUG_DRIVER("failed to evaluate ATIF got %s\n",
+> +					 acpi_format_exception(status));
+> +		else
+> +			DRM_DEBUG_DRIVER("ATIF not supported\n");
+>   		kfree(obj);
+>   		return NULL;
+>   	}
 
