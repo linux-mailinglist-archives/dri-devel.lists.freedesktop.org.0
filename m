@@ -2,59 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB359B7DC7
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 16:07:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4E69B8038
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 17:35:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7954010E8CA;
-	Thu, 31 Oct 2024 15:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED2B10E2DD;
+	Thu, 31 Oct 2024 16:35:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="VkQyjN8W";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=metux@gmx.de header.b="oV989kEi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com
- [91.218.175.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A51210E115
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 15:07:03 +0000 (UTC)
-Message-ID: <751a4ab5-acbf-4e57-8cf4-51ab10206cc9@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730387220;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w4U6SCFjDt3RFRuNzC5QvY8+3i7nEcu3/ZcBbDN5c4g=;
- b=VkQyjN8WNBI0oCCjXz7F5Wp+EptgxTa3J6nnBjquraUwZAfRGV6npP7KRjnrzGC5S+YpNc
- +sPNwwkDQLuts1YhSWuwfwyU38Mzgqj1rHgzyY8hsT79Oij0b1AMVi7c6JlWF7jr8LJRmX
- AIOove+nInVVaCXBnxug+gsjRaMQBek=
-Date: Thu, 31 Oct 2024 23:06:38 +0800
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8174010E05C
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 11:15:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1730286945; x=1730891745; i=metux@gmx.de;
+ bh=mlDftfx0K4BOCP97UClfQEOO1aAHQKqEtrb3HZcbogc=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=oV989kEiNWeJh8gP21cTVDoFmxCiTpBKcteuNrFpD3JzsOYLqTWquNReAO7JXDVQ
+ bkZ3MPce8pPgAhfADVFEJL9FKgxbrDc5yJ43s86N64sXLcwlq+YnaaOCjqnaTViY3
+ kBITyvP0TEl0z4Q9D08feJUaFpsv8Yf12Fw9IXMWYeXH4u3LSwHcInzvocIuJR79v
+ +enfEhcMlD5BKwtCntlEMyFYoFC0engUUEV8B/K78sCTexSVDh9QOEkYwOO0BA9fi
+ EUZCCBznDJflQsg44b6oKhjb67KRqb+9kmgKo3oVp1RhZVVdtiZBz/0WsmL2dxv71
+ vTjQhfnY+nrr5HZmHg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.178] ([95.114.207.188]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N8ob6-1ttH783dA6-010bqc; Wed, 30
+ Oct 2024 12:15:45 +0100
+Message-ID: <35deac48-4220-4889-833d-1b57b417e968@gmx.de>
+Date: Wed, 30 Oct 2024 12:16:22 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
- parent to aux bridge
-To: neil.armstrong@linaro.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Abel Vesa <abel.vesa@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
- <172951608323.1285208.3162107667310691864.b4-ty@linaro.org>
- <230b5910-6790-44cb-90ed-222bee89054d@linux.dev>
- <c2a4cc3a-2ffc-46f3-8636-238cd561f7aa@linaro.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <c2a4cc3a-2ffc-46f3-8636-238cd561f7aa@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Requirements to merge new heaps in the kernel
+To: Maxime Ripard <mripard@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20241022-macaw-of-spectacular-joy-8dcefa@houat>
+Content-Language: tl
+From: metux <metux@gmx.de>
+In-Reply-To: <20241022-macaw-of-spectacular-joy-8dcefa@houat>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:OXs7H1W+UFRu0PC7wfyzXJLH0EbhAYeRDPBvuzLGrQSDhISLPnc
+ 6WC52Fn3eaU5BOifJojQ5t94gaHu+qcA18UYcIpyEL8UepofSNlbxFDRp11lMQbDFgiV39Q
+ Io0EklDI6cb1kgk464W+PyGSnP2NLEyYWE1Do/VIteND7LFfreTb+5i7upH9CA4v7jqqsoF
+ bnawMxSDiyUs5pnwlo0RQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:H52CPmlmabM=;0t4AdGqQVW+nDR/Ok80kPjqEzjN
+ QuuzM3Vi+5o+idAGY13wmHfnHzZSup/mnzbiCmHCVbO8P8Wde1B1Pz/Ua4nE2mVFt5egDIkNS
+ LONeHuphdvVv3VbLQmU6Cr7NBAsRO6E7s3l41kJyE8h46n0vPAqzgIYOX5gYkfS/d0ksXfg9m
+ lLNU5x3/VuYSgEc4jJNHM0nmUlLR9hukOKJvLs5exWCyYKwUZyvsl5VNAvxdFdzNp8JNhkK7H
+ hw0IX+TXumArBdWNV7q3FkR9SkLTZJYVQw40MQDECd+jvVEgsUvxdU9sCYm4oOSWs7e+uBAb2
+ 9kENftMqlViJiW9iWD2tr3xgb62e7CiWM3LM/VaAQXaxTvy8obzv0rycQ1mtEQDderVW8Hf92
+ Svhcrdwm10FEwpHV3OmuAkcFsxIgg2gXiY7IbZH8ap/Y+7CL/Fyi92Eav3MuziyBLshiqo8gY
+ lKXOJaXT5cVRzg1K6sb/OquoLR4G8tTUNB1cYOr9sreWhdH2BrRkAGuIjGW/ElF9uV5aki7T7
+ RVDSf4Ab0XQ/0YmEGz9eA+W7hscr3tVrIIGiQnsITW0ayMvlYbV2sqoiMCEb7v8qj5Jgd+n5H
+ DcnKjcDbRD3D8E2klbPeRzRd1j/6qYzRKDS3EVLiXB5T1JxRYQzK4y00PLfrt+LyLcVAvkQZh
+ QI3ig7AFdZ+9eFqDP7YIrT9b0wTViSoxFzcU0yaC9NkPuHaqYazGZiXyK82v8+j+b/qfeR3Yi
+ zSmnj0ZtTrgumeNsiCqt3SVcZq70czr5rLPpPmft3gOTrXu1mdpahcWwDT8nF2k8uNTnwA3mS
+ eYjxZzA5Aq9U+UR9jGjNSd86lyeQpt0GkF53wIPhNBotw=
+X-Mailman-Approved-At: Thu, 31 Oct 2024 16:35:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,72 +85,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dears maintainers
+On 22.10.24 10:38, Maxime Ripard wrote:
 
-On 2024/10/31 20:31, Neil Armstrong wrote:
-> On 30/10/2024 15:49, Sui Jingfeng wrote:
->> Hi,
->>
->> On 2024/10/21 21:08, Neil Armstrong wrote:
->>> Hi,
->>>
->>> On Fri, 18 Oct 2024 15:49:34 +0300, Abel Vesa wrote:
->>>> The assignment of the of_node to the aux bridge needs to mark the
->>>> of_node as reused as well, otherwise resource providers like 
->>>> pinctrl will
->>>> report a gpio as already requested by a different device when both 
->>>> pinconf
->>>> and gpios property are present.
->>>> Fix that by using the device_set_of_node_from_dev() helper instead.
->>>>
->>>>
->>>> [...]
->>> Thanks, Applied to 
->>> https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
->>
->>
->> It's quite impolite to force push patches that still under reviewing,
->> this prevent us to know what exactly its solves.
+Hi,
+
+> I'm still interested in merging a carve-out driver[1], since it seems to=
+ be
+> in every vendor BSP and got asked again last week.
 >
-> It's quite explicit.
->
->>
->> This also prevent us from finding a better solution.
->
-> Better solution of ? This needed to be fixed and backported to stable,
+> I remember from our discussion that for new heap types to be merged, we
+> needed a kernel use-case. Looking back, I'm not entirely sure how one
+> can provide that given that heaps are essentially facilities for
+> user-space.
 
-We were thinking about
+For those who didn't follow your work, could you please give a short
+intro what's that all about ?
 
-1) if possible to add a proper DT binding for those drives.
+If I understand you correctly, you'd like the infrastructure of
+kmalloc() et al for things / memory regions that aren't the usual heap,
+right ?
 
-Or alternatively, as Laurent pointed out that
+What's the practical use case ? GPU memory ? Shared memory between
+nodes in a multi-CPU / cluster machine ?
 
-2) Invent some extra techniques to move the idr allocation
-    procedure back to the AUX bus core. Make the core maintained
-    device ID happens can help to reduce some boilerplate.
-
-And those really deserve yet an another deeper thinking? no?
-    
-
-> if there's desire to redesign the driver, then it should be discussed 
-> in a separate thread.
->
-No, please don't misunderstanding. We are admire your work
-and we both admit that this patch is a valid fix.
-
-But I think Johan do need more times to understand what exactly
-the real problem is. We do need times to investigate new method.
-This bug can be a good chance to verify/test new ideas,
-at the least, allow us to talk and to discussion.
+Is it related to NUMA ?
 
 
->>
->>> [1/1] drm/bridge: Fix assignment of the of_node of the parent to aux 
->>> bridge
->>> https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/85e444a68126a631221ae32c63fce882bb18a262
->>>
->
--- 
-Best regards,
-Sui
-
+thx
+=2D-mtx
