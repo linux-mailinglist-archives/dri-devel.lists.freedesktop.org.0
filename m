@@ -2,50 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB2A09B66D0
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 16:02:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FAE9B671A
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 16:14:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E4A010E2B7;
-	Wed, 30 Oct 2024 15:02:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAD6F88EA1;
+	Wed, 30 Oct 2024 15:14:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ehmsR2nH";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dc+6jQKl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24ABA10E2B7
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 15:02:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9674A88EA1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 15:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1730300554;
- bh=HZrp2ukAXbRuLKNcPC95VuLCzOUZEpCHLZJc7XTbmpo=;
- h=From:To:Cc:Subject:Date:From;
- b=ehmsR2nH9fAd8dzLoLSZIgI5L0HWNgc7tT/BeCtP4nOMX106nL6Dip0rplHmiQOW0
- Y/BqpR13ssDuEhD58+MjcJeFA43mmfKQT1suiUsX+OS5tYU/Hocj4o5kwv4xLY5E71
- 1u2pgP770doeRwvPQKqwmxtzCxN1BjaydAfu7AelfXaR4oysiCW0202wVUzMO+uR5n
- 8+UnO6zgWafuRgUyRo/t+oIPIFzCIfqi+msDKa0CXsBRWiycha+qCfj7+g2tzYjnLo
- TJhID9PEIGBpXFzX3BhWs/uBwpTV1fWEmt9jyFCMEmNDx5xhsVRR5bai87mN0cpCtv
- M26hhaTfsC6aw==
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ s=mail; t=1730301245;
+ bh=XDyPHnPK/41K24Mu77jy/av5KyboXA4GUK7JOhfY4QA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=dc+6jQKl4pbMnIJ0Is6cu76vG33iBRCDCKosNKfr2HEWKUCu1i3sT+BnrA+isyFqt
+ Kam+YwAYb6YFC9Wv8Csb1Ju3uhpUy2zJZdM0Y4LrNmS5DZ0JB7Ln89fe7Y5CHGLtfQ
+ wDrAvxAJVkaeTIMZLB4r/iYWC+lt6uMt0uCPBypavyqy8xDWDWcVS5nH0ijVvFWt6b
+ LwUnSroqJ0dWB7fYedbVyLO0X+cNC8mIXB1KxGyARJav0MOgL/i6TvanZ+zGbwCYpB
+ hyVaAEwLXYcViQludKYRuFA4vAltAkhjFvlUN+ougwWseXl2ga5xhbSCoWc6vYAB+V
+ zC/yBPjIzYcZQ==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 76D9117E3633;
- Wed, 30 Oct 2024 16:02:34 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7BB7A17E3636;
+ Wed, 30 Oct 2024 16:14:04 +0100 (CET)
+Date: Wed, 30 Oct 2024 16:13:58 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
-	kernel@collabora.com
-Subject: [PATCH v3] drm/panthor: Fix firmware initialization on systems with a
- page size > 4k
-Date: Wed, 30 Oct 2024 16:02:31 +0100
-Message-ID: <20241030150231.768949-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.46.2
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, AngeloGioacchino Del
+ Regno <angelogioacchino.delregno@collabora.com>, Liviu Dudau
+ <liviu.dudau@arm.com>, =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?=
+ <peron.clem@gmail.com>, Heiko Stuebner <heiko@sntech.de>, Grant Likely
+ <grant.likely@linaro.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm/panthor: Fix OPP refcnt leaks in devfreq
+ initialisation
+Message-ID: <20241030161358.3b78b423@collabora.com>
+In-Reply-To: <20241003133037.3398144-2-adrian.larumbe@collabora.com>
+References: <20241003133037.3398144-1-adrian.larumbe@collabora.com>
+ <20241003133037.3398144-2-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,146 +70,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The system and GPU MMU page size might differ, which becomes a
-problem for FW sections that need to be mapped at explicit addresses
-since our PAGE_SIZE alignment might cover a VA range that's
-expected to be used for another section.
+On Thu,  3 Oct 2024 14:30:29 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Make sure we never map more than we need.
+> Make sure in case of errors between the first fetch of an OPP in
+> panthor_devfreq_init and its successive put, the error path decrements its
+> reference count to avoid OPP object leaks when removing the device.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> Fixes: fac9b22df4b1 ("drm/panthor: Add the devfreq logical block")
 
-Changes in v3:
-- Add R-bs
+It doesn't apply on top of drm-misc-fixes. Could you send a v3 based
+on drm-misc-fixes please?
 
-Changes in v2:
-- Plan for per-VM page sizes so the MCU VM and user VM can
-  have different pages sizes
-
-Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c  |  4 ++--
- drivers/gpu/drm/panthor/panthor_gem.c | 11 ++++++++---
- drivers/gpu/drm/panthor/panthor_mmu.c | 16 +++++++++++++---
- drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
- 4 files changed, 24 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 631f639b8b86..ecca5565ce41 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -500,6 +500,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
- 					 struct panthor_fw_binary_iter *iter,
- 					 u32 ehdr)
- {
-+	ssize_t vm_pgsz = panthor_vm_page_size(ptdev->fw->vm);
- 	struct panthor_fw_binary_section_entry_hdr hdr;
- 	struct panthor_fw_section *section;
- 	u32 section_size;
-@@ -528,8 +529,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
- 		return -EINVAL;
- 	}
- 
--	if ((hdr.va.start & ~PAGE_MASK) != 0 ||
--	    (hdr.va.end & ~PAGE_MASK) != 0) {
-+	if (!IS_ALIGNED(hdr.va.start, vm_pgsz) || !IS_ALIGNED(hdr.va.end, vm_pgsz)) {
- 		drm_err(&ptdev->base, "Firmware corrupted, virtual addresses not page aligned: 0x%x-0x%x\n",
- 			hdr.va.start, hdr.va.end);
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index c60b599665d8..8244a4e6c2a2 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -44,8 +44,7 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
- 			to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm)))
- 		goto out_free_bo;
- 
--	ret = panthor_vm_unmap_range(vm, bo->va_node.start,
--				     panthor_kernel_bo_size(bo));
-+	ret = panthor_vm_unmap_range(vm, bo->va_node.start, bo->va_node.size);
- 	if (ret)
- 		goto out_free_bo;
- 
-@@ -95,10 +94,16 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
- 	}
- 
- 	bo = to_panthor_bo(&obj->base);
--	size = obj->base.size;
- 	kbo->obj = &obj->base;
- 	bo->flags = bo_flags;
- 
-+	/* The system and GPU MMU page size might differ, which becomes a
-+	 * problem for FW sections that need to be mapped at explicit address
-+	 * since our PAGE_SIZE alignment might cover a VA range that's
-+	 * expected to be used for another section.
-+	 * Make sure we never map more than we need.
-+	 */
-+	size = ALIGN(size, panthor_vm_page_size(vm));
- 	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
- 	if (ret)
- 		goto err_put_obj;
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index aa12ed2acfcf..8ca85526491e 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -826,6 +826,14 @@ void panthor_vm_idle(struct panthor_vm *vm)
- 	mutex_unlock(&ptdev->mmu->as.slots_lock);
- }
- 
-+u32 panthor_vm_page_size(struct panthor_vm *vm)
-+{
-+	const struct io_pgtable *pgt = io_pgtable_ops_to_pgtable(vm->pgtbl_ops);
-+	u32 pg_shift = ffs(pgt->cfg.pgsize_bitmap) - 1;
-+
-+	return 1u << pg_shift;
-+}
-+
- static void panthor_vm_stop(struct panthor_vm *vm)
- {
- 	drm_sched_stop(&vm->sched, NULL);
-@@ -1025,12 +1033,13 @@ int
- panthor_vm_alloc_va(struct panthor_vm *vm, u64 va, u64 size,
- 		    struct drm_mm_node *va_node)
- {
-+	ssize_t vm_pgsz = panthor_vm_page_size(vm);
- 	int ret;
- 
--	if (!size || (size & ~PAGE_MASK))
-+	if (!size || !IS_ALIGNED(size, vm_pgsz))
- 		return -EINVAL;
- 
--	if (va != PANTHOR_VM_KERNEL_AUTO_VA && (va & ~PAGE_MASK))
-+	if (va != PANTHOR_VM_KERNEL_AUTO_VA && !IS_ALIGNED(va, vm_pgsz))
- 		return -EINVAL;
- 
- 	mutex_lock(&vm->mm_lock);
-@@ -2366,11 +2375,12 @@ panthor_vm_bind_prepare_op_ctx(struct drm_file *file,
- 			       const struct drm_panthor_vm_bind_op *op,
- 			       struct panthor_vm_op_ctx *op_ctx)
- {
-+	ssize_t vm_pgsz = panthor_vm_page_size(vm);
- 	struct drm_gem_object *gem;
- 	int ret;
- 
- 	/* Aligned on page size. */
--	if ((op->va | op->size) & ~PAGE_MASK)
-+	if (!IS_ALIGNED(op->va | op->size, vm_pgsz))
- 		return -EINVAL;
- 
- 	switch (op->flags & DRM_PANTHOR_VM_BIND_OP_TYPE_MASK) {
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
-index 6788771071e3..8d21e83d8aba 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.h
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.h
-@@ -30,6 +30,7 @@ panthor_vm_get_bo_for_va(struct panthor_vm *vm, u64 va, u64 *bo_offset);
- 
- int panthor_vm_active(struct panthor_vm *vm);
- void panthor_vm_idle(struct panthor_vm *vm);
-+u32 panthor_vm_page_size(struct panthor_vm *vm);
- int panthor_vm_as(struct panthor_vm *vm);
- int panthor_vm_flush_all(struct panthor_vm *vm);
- 
--- 
-2.46.2
+> ---
+>  drivers/gpu/drm/panthor/panthor_devfreq.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/=
+panthor/panthor_devfreq.c
+> index 9d0f891b9b53..ce0ac4563f65 100644
+> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
+> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> @@ -197,7 +197,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+>  	if (ret && ret !=3D -ENODEV) {
+>  		if (ret !=3D -EPROBE_DEFER)
+>  			DRM_DEV_ERROR(dev, "Couldn't retrieve/enable sram supply\n");
+> -		return ret;
+> +		goto opp_err;
+>  	}
+> =20
+>  	/*
+> @@ -207,7 +207,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+>  	ret =3D dev_pm_opp_set_opp(dev, opp);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
+> -		return ret;
+> +		goto opp_err;
+>  	}
+> =20
+>  	dev_pm_opp_put(opp);
+> @@ -242,6 +242,10 @@ int panthor_devfreq_init(struct panthor_device *ptde=
+v)
+>  		DRM_DEV_INFO(dev, "Failed to register cooling device\n");
+> =20
+>  	return 0;
+> +
+> +opp_err:
+> +	dev_pm_opp_put(opp);
+> +	return ret;
+>  }
+> =20
+>  int panthor_devfreq_resume(struct panthor_device *ptdev)
 
