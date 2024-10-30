@@ -2,73 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C713C9B5994
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 02:49:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDE39B59B6
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 03:01:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E97210E274;
-	Wed, 30 Oct 2024 01:49:22 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Wk5+Yl6K";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E5F010E3D7;
+	Wed, 30 Oct 2024 02:01:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8325A10E274
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 01:49:21 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-6e5cec98cceso51064087b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 18:49:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730252960; x=1730857760; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vQfV3QO9KjfChtLzJsZNfhkclfq5Ha2/eewFg3kibJg=;
- b=Wk5+Yl6KlvBz8IdcDOvMscGNLFpURfPRZ9hUuvT17x+V2dxvR+H/asxViqtq307Q3y
- p0E1NU7LUwctRorI4xHM5TTLl7wBfTg+qOdom33mH3wZWYPVZru63CGCdMNFudHThwtw
- 5p3SnK693kfuTb+iddc5aNLh5r2duxPyEjcVn6KJI4RkLaKbUXBjz3epNmG360WjtJI5
- QTxO/aHfhyD2IGvX37Q1sIwKeYtQC9veheyhJ0tgR6IYwho7tGTb4CJb5UdfYjzt/71r
- CCXl3VVJITX7WQSJ9qdELxtwOqrwPxDcHH+VCF07go9tPoV1r9mcFDApU4DIqcSkTUn1
- VLGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730252960; x=1730857760;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vQfV3QO9KjfChtLzJsZNfhkclfq5Ha2/eewFg3kibJg=;
- b=E+pO1WBRuQl9CRViCuYv+yrw6Veoha0NY8Ft43cLtlrebpXG73bYQIU0qwLyS8Sosg
- VNpPkZK05dn+0g7n3NWTpxe0V9528tO3hjCLDvhjCb2YDSfsMBMxCVF6CZ/h51PcxhEc
- YisXWKcHXxNLTZ0PVqrr5SOurhTukdS7DJrlsMC9l5RLvbeE8rDHWp1PU/wxjHWPMPGs
- mXTaUqPM2S0eA3/gEDFGmKd0zRsP2HkbIuVYIAno3/ENU+o885LhTJuCx5n1BnhHLF4k
- BYN6615Rb3oy1ksWc2K/V9otEmRSI1PK+HrtDj6InYbxHdbGJdej/MW4Y5IhzRF4703e
- uq4A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV8DAYZ8+9gSMakcIDLWphTWx9uBSY0noXjNAjJS45ynVd7Pz0MTrMNRgOEd5XE4ysE8du1ztgLTec=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwjyvGKlAG/KDq89T/NwORKqj10g8UI4vX8O1kX631ChTfblw2g
- k4jWnUVN0YOGVqrIP+ukoTVCjBPi3enLiZf9iIzeZ8YuKuKAj8Fbk8yfr6WqaR2iqu03eDCtwnv
- irgm5ywM42qC49lbgGomQX62RJ0AKK/1h30RDcQ==
-X-Google-Smtp-Source: AGHT+IFAd9OlkY1/IfgnYCIVx3fRmdHwRO/F3PUZW4uFE6vgj8FUomr2ncttaV4zBKegVHV0ggfRqOb9u7zb2JD2Bls=
-X-Received: by 2002:a05:690c:87:b0:6db:b5b2:53c with SMTP id
- 00721157ae682-6e9d8ab3cbcmr150957977b3.32.1730252960419; Tue, 29 Oct 2024
- 18:49:20 -0700 (PDT)
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C02210E3D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 02:01:31 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4XdVgd1nzKz1jw8D;
+ Wed, 30 Oct 2024 09:59:57 +0800 (CST)
+Received: from kwepemg200008.china.huawei.com (unknown [7.202.181.35])
+ by mail.maildlp.com (Postfix) with ESMTPS id B14381A0188;
+ Wed, 30 Oct 2024 10:01:28 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemg200008.china.huawei.com (7.202.181.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 30 Oct 2024 10:01:27 +0800
+Message-ID: <560d2026-5785-b6b1-eb7d-3afed714d47f@huawei.com>
+Date: Wed, 30 Oct 2024 10:01:27 +0800
 MIME-Version: 1.0
-References: <20241022124148.1952761-1-shiyongbang@huawei.com>
- <20241022124148.1952761-2-shiyongbang@huawei.com>
- <wu2kwdqce7jovidzxhublmpgdhzq4uby65quo7ks44tfjhtgd2@qtfogva3exyg>
- <c418e93a-7305-4ca6-85c1-42bd458f4e7b@huawei.com>
-In-Reply-To: <c418e93a-7305-4ca6-85c1-42bd458f4e7b@huawei.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 30 Oct 2024 03:49:11 +0200
-Message-ID: <CAA8EJppvnAcj5ESHe3t2QBvTGZTpiUUS3K+tJ+4_3Pkuijga0g@mail.gmail.com>
-Subject: Re: [PATCH V2 drm-dp 1/4] drm/hisilicon/hibmc: add dp aux in hibmc
-To: Yongbang Shi <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, 
- liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com, 
- libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v4] drm/ttm/tests: Fix memory leak in
+ ttm_tt_simple_create()
+Content-Language: en-US
+To: <christian.koenig@amd.com>, <ray.huang@amd.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <karolina.stolarek@intel.com>, <Arunpravin.PaneerSelvam@amd.com>,
+ <thomas.hellstrom@linux.intel.com>, <asomalap@amd.com>,
+ <quic_jjohnson@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20241026020758.3846669-1-ruanjinjie@huawei.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20241026020758.3846669-1-ruanjinjie@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.109.254]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemg200008.china.huawei.com (7.202.181.35)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,32 +60,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 29 Oct 2024 at 16:15, Yongbang Shi <shiyongbang@huawei.com> wrote:
->
-> > On Tue, Oct 22, 2024 at 08:41:45PM +0800, Yongbang Shi wrote:
-> >> From: baihan li <libaihan@huawei.com>
+Gentle ping.
 
-> >> +}
-> >> +
-> >> +enum dpcd_revision {
-> >> +    DPCD_REVISION_10 = 0x10,
-> >> +    DPCD_REVISION_11,
-> >> +    DPCD_REVISION_12,
-> >> +    DPCD_REVISION_13,
-> >> +    DPCD_REVISION_14,
-> > Any reason for ignoring defines in drm_dp.h?
->
-> Hi Dmitry,
-> I tried it but still can't find it, if you know, can you tell me which macro I can use?
-
-# define DP_DPCD_REV_10                     0x10
-# define DP_DPCD_REV_11                     0x11
-etc
-
-> Thanks,
-> Baihan
-
-
--- 
-With best wishes
-Dmitry
+On 2024/10/26 10:07, Jinjie Ruan wrote:
+> modprobe ttm_device_test and then rmmod ttm_device_test, the following
+> memory leaks occurs:
+> 
+> The ttm->pages allocated in ttm_tt_init() is not freed after calling
+> ttm_tt_simple_create(), which cause the memory leak:
+> 
+> 	unreferenced object 0xffffff80caf27750 (size 8):
+> 	  comm "kunit_try_catch", pid 2242, jiffies 4295055735
+> 	  hex dump (first 8 bytes):
+> 	    c0 1e 3d c3 fe ff ff ff                          ..=.....
+> 	  backtrace (crc 3d11615a):
+> 	    [<000000007f57312a>] kmemleak_alloc+0x34/0x40
+> 	    [<000000008c6c4c7e>] __kmalloc_node_noprof+0x304/0x3e4
+> 	    [<00000000679c1182>] __kvmalloc_node_noprof+0x1c/0x144
+> 	    [<000000006aed0a3d>] ttm_tt_init+0x138/0x28c [ttm]
+> 	    [<000000005c331998>] drm_gem_shmem_free+0x60/0x534 [drm_shmem_helper]
+> 	    [<0000000022b4f375>] kunit_try_run_case+0x13c/0x3ac
+> 	    [<00000000c525d725>] kunit_generic_run_threadfn_adapter+0x80/0xec
+> 	    [<000000002db94a1f>] kthread+0x2e8/0x374
+> 	    [<000000002c457ad7>] ret_from_fork+0x10/0x20
+> 	......
+> 
+> Fix it by calling ttm_tt_fini() in the exit function.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: e6f7c641fae3 ("drm/ttm/tests: Add tests for ttm_tt")
+> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+> v4:
+> - Split out to be alone.
+> v3:
+> - s/fllowing/following/
+> v2:
+> - Add Reviewed-by.
+> ---
+>  drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+> index b91c13f46225..9ff216ec58ef 100644
+> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+> @@ -54,6 +54,7 @@ static struct ttm_tt *ttm_tt_simple_create(struct ttm_buffer_object *bo, u32 pag
+>  
+>  static void ttm_tt_simple_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
+>  {
+> +	ttm_tt_fini(ttm);
+>  	kfree(ttm);
+>  }
+>  
