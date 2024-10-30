@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268EA9B6977
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 17:45:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 840E59B69AE
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 17:55:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 262E510E10C;
-	Wed, 30 Oct 2024 16:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 676F310E7DA;
+	Wed, 30 Oct 2024 16:55:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="nFJ/Pnzu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FNX5OTQM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com
- [91.218.175.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6A210E10C
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 16:45:40 +0000 (UTC)
-Message-ID: <f2119a4d-7ba3-4f11-91d7-54aac51ef950@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730306737;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2IImZ1cZVsIXJIGIFBIuoTjHne0xPtt9XDcxUzdxcbs=;
- b=nFJ/PnzuiZtjPkvI0PKl64gdNlEDUbL7oSAq78a1QvDclqZGoe1La2Ah6XdSp1vzNooun7
- bCwWvVAvHmL8gchTeI60zfM3b/WoGPP/2zLD0EmFLUI0Odu5eYChun3lBUKye2a73LAIIs
- yadQopyWqNnFMUSZFHBPqPAtYd1KtN8=
-Date: Thu, 31 Oct 2024 00:45:24 +0800
-MIME-Version: 1.0
-Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
- parent to aux bridge
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6BA910E7D8;
+ Wed, 30 Oct 2024 16:55:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 097E0A42FC1;
+ Wed, 30 Oct 2024 16:53:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41D4AC4CECE;
+ Wed, 30 Oct 2024 16:55:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730307303;
+ bh=FRMaysyJlopNPUOC0Ykzd1k5bKHrzJM5YjN8B17Xt+E=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=FNX5OTQM9O2wnnn6qBm4s0oPfWxcycl7RBrr1C7l68NDY/KX5AKcmjeUaIlBlcu5b
+ z2rht4MLV5uHortvCwP9YWy5mZOsHJHKF8yi6X49/gnxf56iJByiGbf8bEqmGkYmyN
+ MVv6yvRBQp5vZv7OQpFImdV/Wp7MO00y1F8hBh3SXCmTS95wiQXNYdr/Ah84tV8ppc
+ HIQI/m70v6NJsOSd3wCEZTjWlB0MCPqZbE85RECgpvGdq+AT5JZwWwinCXNVXb9lmx
+ npIoa5F2FT0tLRTmn4rmyXpLXImk087P0iqJEjhEU4XPugI6spd0nt2QT/nGsuGYZI
+ 1Dx/MkcknjlLQ==
+Date: Wed, 30 Oct 2024 11:55:01 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Johan Hovold <johan@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
- <ux2lfkaeoyakulhllitxraduqjldtxrcmpgsis3us7msixiguq@ff5gfhtkakh2>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <ux2lfkaeoyakulhllitxraduqjldtxrcmpgsis3us7msixiguq@ff5gfhtkakh2>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+ Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v4 5/7] PCI/IOV: Check that VF BAR fits within the
+ reservation
+Message-ID: <20241030165501.GA1205366@bhelgaas>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <zbazqug3u77eiydb7p6p6gexwowrjcdl52cszczuww4xow7ebc@tke7k5hewrn5>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,60 +71,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Oct 30, 2024 at 12:43:19PM +0100, Michał Winiarski wrote:
+> On Mon, Oct 28, 2024 at 11:56:04AM -0500, Bjorn Helgaas wrote:
+> > On Fri, Oct 25, 2024 at 11:50:36PM +0200, Michał Winiarski wrote:
+> > > VF MMIO resource reservation, either created by system firmware and
+> > > inherited by Linux PCI subsystem or created by the subsystem itself,
+> > > should contain enough space to fit the BAR of all SR-IOV Virtual
+> > > Functions that can potentially be created (total VFs supported by the
+> > > device).
+> > 
+> > I don't think "VF resource reservation ... should contain enough
+> > space" is really accurate or actionable.  It would be *nice* if the PF
+> > BAR is large enough to accommodate the largest supported VF BARs for
+> > all possible VFs, but if it doesn't, it's not really an error.  It's
+> > just a reflection of the fact that resource space is limited.
+> 
+> From PCI perspective, you're right, IOV resources are optional, and it's
+> not really an error for PF device itself.
+> From IOV perspective - we do need those resources to be able to create
+> VFs.
+> 
+> All I'm trying to say here, is that the context of the change is the
+> "success" case, where the VF BAR reservation was successfully assigned,
+> and the PF will be able to create VFs.
+> The case where there were not enough resources for VF BAR (and PF won't
+> be able to create VFs) remains unchanged.
+> 
+> > > However, that assumption only holds in an environment where VF BAR size
+> > > can't be modified.
+> > 
+> > There's no reason to assume anything about how many VF BARs fit.  The
+> > existing code should avoid enabling the requested nr_virtfn VFs if the
+> > PF doesn't have enough space -- I think that's what the "if
+> > (res->parent)" is supposed to be checking.
+> > 
+> > The fact that you need a change here makes me suspect that we're
+> > missing some resource claim (and corresponding res->parent update)
+> > elsewhere when resizing the VF BAR.
+> 
+> My understanding is that res->parent is only expressing that the
+> resource is assigned.
+> We don't really want to change that, the resource is still there and is
+> assigned - we just want to make sure that VF enabling fails if the
+> caller wants to enable more VFs than possible for current resource size.
+> 
+> Let's use an example. A device with a single BAR.
+> initial_vf_bar_size = X
+> total_vfs = 4
+> supported_vf_resizable_bar_sizes = X, 2X, 4X
 
-On 2024/10/18 23:43, Dmitry Baryshkov wrote:
-> On Fri, Oct 18, 2024 at 03:49:34PM +0300, Abel Vesa wrote:
->> The assignment of the of_node to the aux bridge needs to mark the
->> of_node as reused as well, otherwise resource providers like pinctrl will
->> report a gpio as already requested by a different device when both pinconf
->> and gpios property are present.
->> Fix that by using the device_set_of_node_from_dev() helper instead.
->>
->> Fixes: 6914968a0b52 ("drm/bridge: properly refcount DT nodes in aux bridge drivers")
->> Cc: stable@vger.kernel.org      # 6.8
->> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
->> ---
->> Changes in v2:
->> - Re-worded commit to be more explicit of what it fixes, as Johan suggested
->> - Used device_set_of_node_from_dev() helper, as per Johan's suggestion
->> - Added Fixes tag and cc'ed stable
->> - Link to v1: https://lore.kernel.org/r/20241017-drm-aux-bridge-mark-of-node-reused-v1-1-7cd5702bb4f2@linaro.org
->> ---
->>   drivers/gpu/drm/bridge/aux-bridge.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In addition, IIUC we're assuming the PF BAR size is 4X, since the
+conclusion is that 4 VF BARs of size X fill it completely.
 
+> With that - the initial underlying resource looks like this:
+>             +----------------------+
+>             |+--------------------+|
+>             ||                    ||
+>             |+--------------------+|
+>             |+--------------------+|
+>             ||                    ||
+>             |+--------------------+|
+>             |+--------------------+|
+>             ||                    ||
+>             |+--------------------+|
+>             |+--------------------+|
+>             ||                    ||
+>             |+--------------------+|
+>             +----------------------+
+> Its size is 4X, and it contains BAR for 4 VFs.
+> "resource_size >= vf_bar_size * num_vfs" is true for any num_vfs
+> Let's assume that there are enough resources to assign it.
+> 
+> Patch 4/7 allows to resize the entire resource (in addition to changing
+> the VF BAR size), which means that after calling:
+> pci_resize_resource() with size = 2X, the underlying resource will look
+> like this:
+>             +----------------------+ 
+>             |+--------------------+| 
+>             ||                    || 
+>             ||                    || 
+>             ||                    || 
+>             ||                    || 
+>             |+--------------------+| 
+>             |+--------------------+| 
+>             ||                    || 
+>             ||                    || 
+>             ||                    || 
+>             ||                    || 
+>             |+--------------------+| 
+>             |+--------------------+| 
+>             ||                    || 
+>             ||                    || 
+>             ||                    || 
+>             ||                    || 
+>             |+--------------------+| 
+>             |+--------------------+| 
+>             ||                    || 
+>             ||                    || 
+>             ||                    || 
+>             ||                    || 
+>             |+--------------------+| 
+>             +----------------------+ 
+> Its size is 8X, and it contains BAR for 4 VFs.
+> "resource_size >= vf_bar_size * num_vfs" is true for any num_vfs
 
-Technically speaking, your driver just move the burden to its caller.
-Because this driver requires its user call drm_aux_bridge_register()
-to create an AUX child device manually, you need it call ida_alloc()
-to generate a unique id.
+With the assumption that the PF BAR size is 4X, these VFs would no
+longer fit.  I guess that's basically what you say here:
 
-Functions symbols still have to leak to other subsystems, which is
-not really preserve coding sharing.
+> It does require an extra 4X of MMIO resources, so this can fail in
+> resource constrained environment, even though the original 4X resource
+> was able to be assigned.
+> 
+> The following patch 6/7 allows to change VF BAR size without touching
+> the underlying reservation size.
+> After calling pci_iov_vf_bar_set_size() to 4X and enabling a single VF,
+> the underlying resource will look like this:
+>             +----------------------+ 
+>             |+--------------------+| 
+>             ||░░░░░░░░░░░░░░░░░░░░|| 
+>             ||░░░░░░░░░░░░░░░░░░░░|| 
+>             ||░░░░░░░░░░░░░░░░░░░░|| 
+>             ||░░░░░░░░░░░░░░░░░░░░|| 
+>             ||░░░░░░░░░░░░░░░░░░░░|| 
+>             ||░░░░░░░░░░░░░░░░░░░░|| 
+>             ||░░░░░░░░░░░░░░░░░░░░|| 
+>             ||░░░░░░░░░░░░░░░░░░░░|| 
+>             ||░░░░░░░░░░░░░░░░░░░░|| 
+>             ||░░░░░░░░░░░░░░░░░░░░|| 
+>             |+--------------------+| 
+>             +----------------------+ 
+> Its size is 4X, but since pci_iov_vf_bar_set_size() was called, it is no
+> longer able to accomodate 4 VFs.
+> "resource_size >= vf_bar_size * num_vfs" is only true for num_vfs = 1
+> and any attempts to create more than 1 VF should fail.
+> We don't need to worry about being MMIO resource constrained, no extra
+> MMIO resources are needed.
 
-What's worse, the action that allocating unique device id traditionally
-is the duty of driver core. Why breaks (so called) perfect device driver
-model by moving that out of core. Especially in the DT world that the
-core knows very well how to populate device instance and manage the
-reference counter.
+IIUC this series only resizes VF BARs.  Those VF BARs are carved out
+of a PF BAR, and this series doesn't touch the PF BAR resizing path.
+I guess the driver might be able to increase the PF BAR size if
+necessary, and then increase the VF BAR size.
 
-HPD handling is traditionally belongs to connector, create standalone
-driver like this one *abuse* to both Maxime's simple bridge driver and
-Laurent's display-connector bridge driver or drm_bridge_connector or
-whatever. Why those work can't satisfy you? At least, their drivers
-are able to passing the mode setting states to the next bridge.
+It sounds like this patch is really a bug fix independent of VF BAR
+resizing.  If we currently allow enabling more VFs than will fit in a
+PF BAR, that sounds like a bug.
 
-Basically those AUX drivers implementation abusing the definition of
-bridge, abusing the definition of connector and abusing the DT.
-Its just manually populate instances across drivers.
+So if we try to enable too many VFs, sriov_enable() should fail.  I
+still don't see why this check should change the res->parent test,
+though.
 
-  
-
--- 
-Best regards,
-Sui
-
+> > > Add an additional check that verifies that VF BAR for all enabled VFs
+> > > fits within the underlying reservation resource.
+> > > 
+> > > Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> > > ---
+> > >  drivers/pci/iov.c | 8 ++++++--
+> > >  1 file changed, 6 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+> > > index 79143c1bc7bb4..5de828e5a26ea 100644
+> > > --- a/drivers/pci/iov.c
+> > > +++ b/drivers/pci/iov.c
+> > > @@ -645,10 +645,14 @@ static int sriov_enable(struct pci_dev *dev, int nr_virtfn)
+> > >  
+> > >  	nres = 0;
+> > >  	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> > > +		int vf_bar_sz = pci_iov_resource_size(dev,
+> > > +						      pci_resource_to_iov(i));
+> > >  		bars |= (1 << pci_resource_to_iov(i));
+> > >  		res = &dev->resource[pci_resource_to_iov(i)];
+> > > -		if (res->parent)
+> > > -			nres++;
+> > > +		if (!res->parent || vf_bar_sz * nr_virtfn > resource_size(res))
+> > > +			continue;
+> > > +
+> > > +		nres++;
+> > >  	}
+> > >  	if (nres != iov->nres) {
+> > >  		pci_err(dev, "not enough MMIO resources for SR-IOV\n");
+> > > -- 
+> > > 2.47.0
+> > > 
