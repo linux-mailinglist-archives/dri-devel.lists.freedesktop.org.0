@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1369B6CED
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 20:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA38B9B6CEF
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 20:39:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6510810E7F2;
-	Wed, 30 Oct 2024 19:33:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1720E10E7F5;
+	Wed, 30 Oct 2024 19:39:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="dedHyQO5";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BaG/8wNw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
- [209.85.219.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 048F110E7F2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 19:33:46 +0000 (UTC)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-e290d5f83bcso168495276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 12:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1730316826; x=1730921626;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fhmsmA2FnGb81grQ3R8WFDgWo+odUWhPVYZ39p/9D6E=;
- b=dedHyQO5FWsODVeszD3QQiPxUfEkxdPf3dVY6NYlSs7JVrCt6a+dstYyfNb/8Dp054
- jXIioEbMDDR0dAucLCyDR7PwGRxg6c+SuNfsKRXV2TW9mIOaJCHqJlAeRQdnjzguzRhc
- eKWQbVC0NU7m8rwHs3pVUgJOOZE6n9E0D2sHU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730316826; x=1730921626;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fhmsmA2FnGb81grQ3R8WFDgWo+odUWhPVYZ39p/9D6E=;
- b=i3iQIvzdaoN55vMxBdm5aKnuzh67FUNqBehrQenkzd74jWxdo/s33kEwgFAJHrWa9r
- gADC8Ci3xJ78xbmmzAYLaDi3FN+Ch4hK8HYT1jbt4m3ZvIif0aaJVgcAZxFBbZUEcxo9
- A57R43OjnbQdzezhlmvtiOs5mWK/6wHh8Kk2VZ3rhplc5QEbeOcllGSIMSBufW9jzZ5l
- WCcOjsfHaHkBtWD2cJ0M+G2B3BDeMy9zTiqLRBC8ZDwA9u8raHw17B7UQJvpSAOwT+SX
- 2JLP9qNTW6sGSgskN5e7mTQ95rsGdAsx4uAB3q5WtBfNk6sk0ZkmLVviEeTH6QhHo0ac
- bhvQ==
-X-Gm-Message-State: AOJu0YzLO51H7D08zZZyhmZjrkHAo8C+VCA0IBUuFcwtOCCE3VfsJeSZ
- Tg1T6BslT4PfKwKfsQFRXhDp+sCpqQp9zCjbfBLrdVVXqfih3UwsGL0FG0mksWsACNhqpk/9Or8
- M8TmhLM36Rv8v6L93gFJEU1gxT0WBEDrq04vB
-X-Google-Smtp-Source: AGHT+IFaVfOEyEsfCZNTqT3MTY2NIQ+Z6UHu/m0REHbYQrHMZhFrrSZyr2gJ9ST7g1An3lf7yW6lvhL7cxVuld3xbeM=
-X-Received: by 2002:a05:6902:2607:b0:e30:cc81:1695 with SMTP id
- 3f1490d57ef6-e30cc811738mr5615799276.42.1730316825837; Wed, 30 Oct 2024
- 12:33:45 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0823610E7F5
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 19:39:37 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 307FBA8F;
+ Wed, 30 Oct 2024 20:39:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1730317172;
+ bh=0hN4Dxbc88JoFnTjDC6D8vcsDV41vBFTbn2UWygs4+w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BaG/8wNwxN5d0Z4/fRu0OKDMasM9ukvWucJhfwfasHvt3WCt9fQRc3mShkBSBVMmR
+ uPFy+wL8R+2tpswHO2hn6kzkuF1g9/P80W3doG654t+RgUTHm6mPjQhWfoTVyXH54x
+ qXvEJQrBg7UEVjsL5FbcbUVQQiXapjxsAr+iDdcQ=
+Date: Wed, 30 Oct 2024 21:39:28 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abel Vesa <abel.vesa@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Johan Hovold <johan@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
+ parent to aux bridge
+Message-ID: <20241030193928.GC920@pendragon.ideasonboard.com>
+References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
+ <ux2lfkaeoyakulhllitxraduqjldtxrcmpgsis3us7msixiguq@ff5gfhtkakh2>
+ <f2119a4d-7ba3-4f11-91d7-54aac51ef950@linux.dev>
 MIME-Version: 1.0
-References: <20241028201412.576163-1-ian.forbes@broadcom.com>
-In-Reply-To: <20241028201412.576163-1-ian.forbes@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Wed, 30 Oct 2024 15:33:34 -0400
-Message-ID: <CABQX2QO0_7Qgrcy0wT_ncQdgs=g2t-z-YAbHDhEPJ4H=tqaXcQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Add common resolutions to the connector mode
- list
-To: Ian Forbes <ian.forbes@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f2119a4d-7ba3-4f11-91d7-54aac51ef950@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,97 +66,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 28, 2024 at 4:14=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com=
-> wrote:
->
-> We replaced our custom list of resolutions with the noedid list, which is
-> based on the VESA DMT standard, in the referenced fixes commit. The reaso=
-n
-> for this was that the user can technically set any resolution they want b=
-y
-> using Autofit or the vmwgfxctl utility.
->
-> Unfortunately the Autofit feature is a global setting that is applied to
-> all VMs running in Workstation and some users preferred to set the mode
-> manually on certain VMs. Additionally the DMT standard does not include a
-> number of modern resolutions as it was last updated in 2013 and has since
-> been superseded.
->
-> This commit adds back some of the removed modes and adds some additional
-> common ones.
->
-> Fixes: 935f795045a6 ("drm/vmwgfx: Refactor drm connector probing for disp=
-lay modes")
-> Closes: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2081803
-> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 31 ++++++++++++++++++++++++++++-
->  1 file changed, 30 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_kms.c
-> index f39bf992364d..879b78543dee 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> @@ -2681,6 +2681,16 @@ enum drm_mode_status vmw_connector_mode_valid(stru=
-ct drm_connector *connector,
->         return MODE_OK;
->  }
->
-> +/*
-> + * Common modes not present in the VESA DMT standard or assigned a VIC.
-> + */
-> +static struct {
-> +       int width;
-> +       int height;
-> +} common_modes[] =3D {   {2560, 1440}, // QHD
-> +                       {3440, 1440}, // UWQHD
-> +                       {3840, 2400}}; // WQUXGA
+On Thu, Oct 31, 2024 at 12:45:24AM +0800, Sui Jingfeng wrote:
+> Hi,
+> 
+> On 2024/10/18 23:43, Dmitry Baryshkov wrote:
+> > On Fri, Oct 18, 2024 at 03:49:34PM +0300, Abel Vesa wrote:
+> >> The assignment of the of_node to the aux bridge needs to mark the
+> >> of_node as reused as well, otherwise resource providers like pinctrl will
+> >> report a gpio as already requested by a different device when both pinconf
+> >> and gpios property are present.
+> >> Fix that by using the device_set_of_node_from_dev() helper instead.
+> >>
+> >> Fixes: 6914968a0b52 ("drm/bridge: properly refcount DT nodes in aux bridge drivers")
+> >> Cc: stable@vger.kernel.org      # 6.8
+> >> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> >> ---
+> >> Changes in v2:
+> >> - Re-worded commit to be more explicit of what it fixes, as Johan suggested
+> >> - Used device_set_of_node_from_dev() helper, as per Johan's suggestion
+> >> - Added Fixes tag and cc'ed stable
+> >> - Link to v1: https://lore.kernel.org/r/20241017-drm-aux-bridge-mark-of-node-reused-v1-1-7cd5702bb4f2@linaro.org
+> >> ---
+> >>   drivers/gpu/drm/bridge/aux-bridge.c | 3 ++-
+> >>   1 file changed, 2 insertions(+), 1 deletion(-)
+> >>
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Technically speaking, your driver just move the burden to its caller.
+> Because this driver requires its user call drm_aux_bridge_register()
+> to create an AUX child device manually, you need it call ida_alloc()
+> to generate a unique id.
 
-"static const" and maybe a better name would be vmw_extra_modes.
+There's a relevant discussion for a ti-sn65dsi86 patch, see
+https://lore.kernel.org/r/20241030102846.GB14276@pendragon.ideasonboard.com
 
-> +
->  /**
->   * vmw_connector_get_modes - implements drm_connector_helper_funcs.get_m=
-odes callback
->   *
-> @@ -2725,7 +2735,26 @@ int vmw_connector_get_modes(struct drm_connector *=
-connector)
->                 max_height =3D min(dev_priv->stdu_max_height, max_height)=
-;
->         }
->
-> -       num_modes =3D 1 + drm_add_modes_noedid(connector, max_width, max_=
-height);
-> +       num_modes =3D 1;
+I agree it shouldn't be the responsibility of each caller to generate
+unique IDs.
 
-If you could move it either under the drm_mode_probed_add or just
-assign it at declaration that'd be a little better than what looks
-almost like a random assignment now. BTW, preferred mode it might make
-sense to just remove vmw_guess_mode_timing and use drm_cvt_mode
-instead.
+> Functions symbols still have to leak to other subsystems, which is
+> not really preserve coding sharing.
+> 
+> What's worse, the action that allocating unique device id traditionally
+> is the duty of driver core. Why breaks (so called) perfect device driver
+> model by moving that out of core. Especially in the DT world that the
+> core knows very well how to populate device instance and manage the
+> reference counter.
+> 
+> HPD handling is traditionally belongs to connector, create standalone
+> driver like this one *abuse* to both Maxime's simple bridge driver and
+> Laurent's display-connector bridge driver or drm_bridge_connector or
+> whatever. Why those work can't satisfy you? At least, their drivers
+> are able to passing the mode setting states to the next bridge.
+> 
+> Basically those AUX drivers implementation abusing the definition of
+> bridge, abusing the definition of connector and abusing the DT.
+> Its just manually populate instances across drivers.
 
-> +
-> +       mode =3D drm_display_mode_from_cea_vic(dev, 97); // 4K UHD 16:9
-> +       if (mode) {
-> +               drm_mode_probed_add(connector, mode);
-> +               num_modes++;
-> +       }
-> +
-> +       for (int i =3D 0; i < ARRAY_SIZE(common_modes); i++) {
-> +               mode =3D drm_cvt_mode(dev, common_modes[i].width,
-> +                                   common_modes[i].height,
-> +                                   60, true, false, false);
-> +               if (mode) {
-> +                       mode->type |=3D DRM_MODE_TYPE_DRIVER;
-> +                       drm_mode_probed_add(connector, mode);
-> +                       num_modes++;
-> +               }
-> +       }
+-- 
+Regards,
 
-Apart from those minor things, it looks great. We should probably
-update the drm_add_modes_noedid to include the newer modes, but that
-list is already pretty long so it might make sense to just include the
-modes we really care about like you have here.
-
-z
+Laurent Pinchart
