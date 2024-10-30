@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5B59B6310
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 13:26:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA009B6314
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 13:30:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72BB210E099;
-	Wed, 30 Oct 2024 12:26:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 432EB10E799;
+	Wed, 30 Oct 2024 12:30:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oSXkNXnF";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pa/qy1E4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE6D210E099
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 12:26:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A65B10E799
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 12:30:23 +0000 (UTC)
 Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
  [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC8FB1083;
- Wed, 30 Oct 2024 13:26:45 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8AA051083;
+ Wed, 30 Oct 2024 13:30:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1730291206;
- bh=GSfoZQlqZ6IOr+xb9j1QNSrmb3GGQ0WH2j4qboNNjrs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oSXkNXnFfg9ZSAmqxPdCBTc9dRqD41SxSyIia/a2y18R5VrZRKKO/9tVhsYSwzz5C
- W911Eam6W9SrM2j9lVoueYJwX9s1oZe6RoLoQoA70+bREqs5wvVZ5qJbzQ3JCTYpmz
- QTO/ipdb3CDtgNbGmO/sCY5pMEeLn4B1AVv7XhQw=
-Message-ID: <ba258236-cf0e-40dc-bab1-4c06ee989824@ideasonboard.com>
-Date: Wed, 30 Oct 2024 14:26:46 +0200
+ s=mail; t=1730291419;
+ bh=ax3BM6l4Yla/lY9UnazzdU5p6XWuA40aFii9GjRu8y8=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=pa/qy1E4vKkbbGvYtMImDrKVGofB8eGlhpMwHcWI7kkk5QsheeV8FPh5XlbeuzOAD
+ +TPmUySO6ai5clZ0vvCaX5ZDbKOZ5W/me8LIQsKdb4zoFvzDPTRnUbFgel09cLg5G/
+ hy51lBz5lWwsNhSGTW1bA35WHy9y/21dbPzpGMJo=
+Message-ID: <ba1eb42c-118f-4afb-bf14-befad68a5945@ideasonboard.com>
+Date: Wed, 30 Oct 2024 14:30:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm: xlnx: zynqmp_disp: layer may be null while
- releasing
-To: Steffen Dirkwinkel <lists@steffen.cc>, dri-devel@lists.freedesktop.org,
+Subject: Re: [PATCH v6 0/8] drm: zynqmp_dp: IRQ cleanups and debugfs support
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ David Airlie <airlied@gmail.com>, Michal Simek <michal.simek@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, "Sagar, Vishal" <vishal.sagar@amd.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Cc: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <79aca344-b27e-4b77-aa92-6e4c079486e0@ideasonboard.com>
- <20241028133941.54264-1-lists@steffen.cc>
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org
+References: <20240809193600.3360015-1-sean.anderson@linux.dev>
+ <5e9769dd-459a-4ff3-aebb-bb7057192733@linux.dev>
+ <a023bd66-8f42-4f27-9aa2-5097b2574562@ideasonboard.com>
+ <e959a01f-b466-4076-8219-a6c83a7194c0@linux.dev>
+ <07766e5e-6009-4b8e-8a50-30ba0fe763f5@linux.dev>
+ <20cf573c-d05f-444c-9463-f342a750f6cb@ideasonboard.com>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -89,9 +92,9 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20241028133941.54264-1-lists@steffen.cc>
+In-Reply-To: <20cf573c-d05f-444c-9463-f342a750f6cb@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,37 +110,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Sean,
 
-On 28/10/2024 15:39, Steffen Dirkwinkel wrote:
-> From: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
+On 28/10/2024 17:04, Tomi Valkeinen wrote:
+> Hi,
 > 
-> layer->info can be null if we have an error on the first layer in
-> zynqmp_disp_create_layers
+> On 25/10/2024 17:58, Sean Anderson wrote:
+>> Hi Tomi,
+>>
+>> On 10/3/24 10:53, Sean Anderson wrote:
+>>> On 10/2/24 10:50, Tomi Valkeinen wrote:
+>>>> Hi,
+>>>>
+>>>> On 01/10/2024 21:31, Sean Anderson wrote:
+>>>>> On 8/9/24 15:35, Sean Anderson wrote:
+>>>>>> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
+>>>>>> that's done, it adds debugfs support. The intent is to enable 
+>>>>>> compliance
+>>>>>> testing or to help debug signal-integrity issues.
+>>>>
+>>>> I think the patches 1-7 look fine, and I think I can pick those 
+>>>> already to drm-misc if you're ok with that.
+>>>>
+>>>> I'm a bit unsure about patch 8, probably mainly because I don't have 
+>>>> experience with the compliance testing.
+>>>>
+>>>> How have you tested this? With some DP analyzer/tester, I presume?
+>>>
+>>> For my test setup I used an oscilloscope hooked up to the displayport
+>>> output using a fixture that broke the signals out to SMA. Since the
+>>> oscilloscope cannot emulate a sink, I first had the output connected to
+>>> a monitor. Then I disabled HPD and reconnected the output to my fixture.
+>>> This process is described in more detail in the documentation.
+>>>
+>>>> I think none of this (patch 8) is needed by almost anybody.
+>>>
+>>> Well, I found it very useful for debugging a signal integrity issue I
+>>> was having. Once I could have a look at the signals it was very clear
+>>> what the problem was.
+>>>
+>>>> Even among zynqmp_dp developers I assume it's very rare to have the
+>>>> hardware for this. I wonder if it would make sense to have the debugfs
+>>>> and related code behind a compile option (which would be nice as the
+>>>> code wouldn't even compiled in), or maybe a module parameter (which
+>>>> would be nice as then "anyone" can easily enable it for compliance
+>>>> testing). What do you think?
+>>>
+>>> Other drivers with these features just enabled it unconditionally, so I
+>>> didn't bother with any special config.
+>>>
+>>>> I also somehow recall that there was some discussion earlier about
+>>>> how/if other drivers support compliance testing. But I can't find the
+>>>> discussion. Do you remember if there was such discussion, and what was
+>>>> the conclusion? With a quick look, everything in the debugfs looks
+>>>> generic, not xilinx specific.
+>>>
+>>> The last it got discussed was back in [1], but I never got any further
+>>> response. I agree that some of this is generic, and could probably be
+>>> reworked into some internal helpers. But I don't have the bandwidth at
+>>> the moment to do that work.
+>>>
+>>> --Sean
+>>>
+>>> [1] http://lore.kernel.org/dri-devel/ 
+>>> cda22b0c-8d7c-4ce2-9a7c-3b5ab540fa1f@linux.dev
+>>
+>> Does this all make sense to you? At the moment I don't believe I have any
+>> changes I need to resend for (although this series is archived in 
+>> patchwork [1]
+>> for some reason).
+>>
+>> --Sean
+>>
+>> [1] https://patchwork.kernel.org/project/dri-devel/list/? 
+>> series=878338&archive=both
 > 
-> Fixes: 1836fd5ed98d ("drm: xlnx: zynqmp_dpsub: Minimize usage of global flag")
-> Signed-off-by: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
-> ---
->   drivers/gpu/drm/xlnx/zynqmp_disp.c | 3 +++
->   1 file changed, 3 insertions(+)
+> I was hoping to get tested-by from amd, as I can't test this properly, 
+> but it's probably pointless to wait.
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index 9368acf56eaf..e4e0e299e8a7 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -1200,6 +1200,9 @@ static void zynqmp_disp_layer_release_dma(struct zynqmp_disp *disp,
->   {
->   	unsigned int i;
->   
-> +	if (!layer->info)
-> +		return;
-> +
->   	for (i = 0; i < layer->info->num_channels; i++) {
->   		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
->   
+> The biggest hesitation I have is what I mentioned earlier: this adds a 
+> lot of code which is not for normal use. It would be nice to split this 
+> into a separate file, maybe behind a compile option, but I fear that'll 
+> require a more restructuring of the driver.
+> 
+> So, I think it's fine, I'll apply this tomorrow.
+> 
+>   Tomi
+> 
 
-
-Thanks, will apply to drm-misc-next.
+Thanks, pushed.
 
   Tomi
 
