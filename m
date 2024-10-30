@@ -2,116 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16429B5ED8
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 10:30:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E5C9B5FA9
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 11:03:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DE9C10E76B;
-	Wed, 30 Oct 2024 09:30:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A897E10E770;
+	Wed, 30 Oct 2024 10:03:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="tXEWaHQW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="o46SgvNj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF87310E76B
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 09:30:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1730280629; x=1730885429; i=deller@gmx.de;
- bh=5zhNhKn2OwZBHVJqWu/+nl/eKNwuU2Z98DH7DMslhX4=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=tXEWaHQWSO2Yqj7A0xdLpD1dAICreq7qG/ftuzm6SPFWwqOiIsSuC2k02qTSO2qD
- h8U8PsUiJWnT11w2nRss8mkU4CE/XIWgTGf3LESZ05eYQ2SH2hNUCcyCSdXr/ilQx
- HU4t5gLR334ETiy7DPEkYl/ItTPLqht4IFR8wQPmQoF1li4bC6fzrQpklm2SLS/F/
- SV2pZOIzArqhdqx1hs85EZjat7xz8CYO0d6fWsf19oXRcqmjHAB+Try9N6xAgFpfv
- BONhD1kACFyC4pO/wr9I1R27b4TfkfE1PbLmzUmyqOvxShvzmH6YfXFnbpClXhl6a
- 3r+CJkU8rOkBD5SrlQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mdeb5-1terki1q77-00hHQD; Wed, 30
- Oct 2024 10:30:29 +0100
-Message-ID: <3f655f6f-58a7-4526-91ae-6dc4793eeefb@gmx.de>
-Date: Wed, 30 Oct 2024 10:30:28 +0100
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 863D710E770
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 10:03:27 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-539e7e73740so5448494e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 03:03:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1730282605; x=1730887405; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Hv/gBvIOihm88jcP9baIrEbE/iwIamkmlzhg/EmCDXI=;
+ b=o46SgvNj9ekZojMypJsAgSi5sX2Zz57QBQhLVtOm/yABm3QERYNQU4tW5QFJ7ALYxJ
+ eMeMomEBipAZp3FTyL8MPCMSLb6nGg6e48nrlyz5Ea21PMCP4YzjGbklTxvaKtKEBN9e
+ 6cm5wK2M5CMfKXjrDITQbUj1kd4+f3YczkLy2EvYXrXeGFuesiM1ER0r+G+L19HTxjgO
+ MQ3zLF7sOaMeC8SwO/Xs3f3vhdN5burQrq6aCDrnvl75Zwf4gWlkN9C3h9eSuW0ygLYi
+ zrnd1/3BO6hlbxMWw4ih0aPvGxFQVhgDCbT8ffqnJlI1Cqvnyimra2jAVDGBchxh6RQH
+ GhSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730282605; x=1730887405;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Hv/gBvIOihm88jcP9baIrEbE/iwIamkmlzhg/EmCDXI=;
+ b=ljpGLewcyZWXI2zsuZLUriKI10c/fAqJmDlWwx+hbPVuhDT3cpuq03aHuNRv/ix+hy
+ UWJUIpkDFVDsODq50u7YcWoh41k1+hbMcNw7IgvluXBLXB30sdX/fr85QB5tYgsJYxtp
+ 3JqD2MVutepKsfYsNV6meDYpHPwAx4v7UXV9iJHtH0WVr5YMlR7mwER0Pc5hO2wuzabx
+ cDAHXUoaizPQEfImpE4Q2EMGlI918Zbv+kJap+mND62WP5pUo7OgJxfw6KhPZO5iPenq
+ t/BRiCRnA+gMZX9aioT1EWjwA3rkvBCMdPxyIog8T3ndHlx9HT2kWqkSBpO2194HRqM1
+ lyMA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU5j5mGANok6JX3165RCsxyosyWHaufTRWKdz9dSqYZ5Kk0LdwraBeXmnJ9oT/mozfDwYBUco+UYys=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyaG33uB1NQlTJB3Xe21OPDu7OxmkuiGM1YX/+bLiB6ZMMeErkx
+ 8LRCUfiWvYf0RXS7678EcrBVIUybO4R1a0A0BBDLu/dLQ1EjY13yBpSabV/k4WU=
+X-Google-Smtp-Source: AGHT+IGc1/N3seaHX8png3PY60rDjSKWV998xm7xnAOmUc6yHmzuKnSin7MD3bzyPJHDQEXHLHAzrw==
+X-Received: by 2002:a05:6512:3d89:b0:539:ee0a:4f8f with SMTP id
+ 2adb3069b0e04-53b7ed18669mr1374900e87.44.1730282605029; 
+ Wed, 30 Oct 2024 03:03:25 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53bc0d80e1dsm204898e87.305.2024.10.30.03.03.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Oct 2024 03:03:23 -0700 (PDT)
+Date: Wed, 30 Oct 2024 12:03:22 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 8/9] drm/msm/dpu: allow using two SSPP blocks for a
+ single plane
+Message-ID: <6hyyi3sfi4b4iaia4asbckfjq5743rslfwkgtggfpdjeziku4g@4vpuvhfudgiz>
+References: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
+ <20241025-dpu-virtual-wide-v6-8-0310fd519765@linaro.org>
+ <e09a547a-c123-489e-b993-a246ebe32513@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: udl: Make CONFIG_FB_DEVICE optional
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20241025092538.38339-1-gonzalo.silvalde@gmail.com>
- <7aabca78-dd34-4819-8a63-105d1a4cb4ba@gmx.de>
- <7e33bfa5-1444-4152-b240-946a51e12b26@suse.de>
- <5b4bfeaf-d9b4-4196-b1e8-ef58b1b6607e@gmx.de>
- <46712e5b-701b-41c5-82f0-d6b41f5947af@suse.de>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <46712e5b-701b-41c5-82f0-d6b41f5947af@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:pEhUbw9mVNsZOjOPnkSclHePrkLYU+6R5Ve+YD9iAQnWIj1pfSC
- Jd2iw/UPmH6TBkUezWSIgInCTaS+Z92J0TM0YWsaq1/iZG7hs/HnN2AhX4HPYQH0qPMhl/A
- yv8tpYgg9YAVjFiwrE1UpiW1FowqZvHNFS9ooJAwtg4QGuJHkvRmePG/kKg5B3MbRVtdBDB
- MZrwLx97nd8NUAsoasjyA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:+hZVqUByNyA=;jORM4Om3CY4XR4GQRNVszJ+lHZq
- 1wo489zvJ6ve2GNrsHEX6LyS/N5+pPMVOXi3WUB07tp144/oGUHcIFXSFgYEzhCftueoiuY1Q
- gu6+a6O1k2Mt17lMrQl6wFkVeqQo0r10RJjQ5OCLMfNbJA1JZJeuNSSO6WhZI0I/IoBp42RUn
- Pc9+XdeNHNYFH4DJ+f1z0zkkd+WwmRug4odR+zg4beUaQyzQdOFYYf1UPIxhaWOeG4TJ7Xlbi
- uxHtceqktBYdTnBLRy1hl638hhMpaECBtNos6CtEk1VaSUmM8IMPCmx9PDgb7r5UqKP7InAX/
- KHZ9FICec0ItDZBUnK4WKJiuFMyr5pzbjy6ORM+tjBcRUPL8BxhhOLvKGi8bNRkxaoBVMvSzi
- 2gJZLcm90X5AAtp5K9XTntCfLSqH9fLUedrRXTGgdBVdqR+HexNwRc6XxTohhudrg9C55jGdf
- ge8Ctr4xfUjJoCWieYD/CN2hx3BKwvk2e0W8XWhmGAXR0ePzxQq+IsYNGchhsuwDHmPZq8UJI
- ij4JDtQ9Mxp/1Vu+ypVZzo1dIMIu2CCQKoGaC7YQXFb5D0t2ALJjnPwT/KBuLyNJIFGW8xbZu
- CrTnZuGTZEaMfokrdxJZ4VIwX7l+lSMUWwYC51lYE2gnlyaU1drTQQteSBhCLnB+Oge1ETumm
- jyJj8KP92IynHL8glxTEG1oZZjp7SpbClD20WUHZpTnSyDMoz7xv/SL1sG6Lwh/ziO84iQcST
- +tzGDBmFT48GHyoRCFGsYWfwRhjsA1boJmOAJS5fg9GeaioYbwHhgdtg0ZPm4Iqop4RrB+I/a
- glhNw4tPiVE1eOSNyrwLHaFA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e09a547a-c123-489e-b993-a246ebe32513@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,121 +90,297 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/30/24 09:33, Thomas Zimmermann wrote:
-> Hi
->
-> Am 29.10.24 um 21:42 schrieb Helge Deller:
->> Hi Thomas,
->>
->> On 10/28/24 09:41, Thomas Zimmermann wrote:
->>> Am 25.10.24 um 17:37 schrieb Helge Deller:
->>>> On 10/25/24 11:25, Gonzalo Silvalde Blanco wrote:
->>>>> The fb_udl driver currently depends on CONFIG_FB_DEVICE to create sy=
-sfs
->>>>> entries and access framebuffer device information. This patch wraps =
-the
->>>>> relevant code blocks with #ifdef CONFIG_FB_DEVICE, allowing the driv=
-er to
->>>>> be built and used even if CONFIG_FB_DEVICE is not selected.
->>>>>
->>>>> The sysfs setting only controls access to certain framebuffer attrib=
-utes
->>>>> and is not required for the basic display functionality to work corr=
-ectly.
->>>>> (For information on DisplayLink devices and their Linux support, see=
-:
->>>>> https://wiki.archlinux.org/title/DisplayLink).
->>>>>
->>>>> Tested by building with and without CONFIG_FB_DEVICE, both of which
->>>>> compiled and ran without issues.
->>>>
->>>> Gonzalo, I don't like this patch very much.
->>>>
->>>> It adds lots of #ifdefs around functions like dev_dbg().
->>>> Instead of ifdefs, aren't there other possibilities, e.g.
->>>> using fb_dbg() if appropriate?
->>>> Or using any other generic dbg() info or simply dropping the line?
->>>
->>> I talked Gonzalo into sending this patch. I think dev_dbg() calls
->>> should be replaced with fb_dbg(), same for _info() and _err(). That's
->>> probably worth doing anyway.
->>
->> Yes, but I doubt every of those calls can be replaced...
->>
->>>> But more important:
->>>> This is a fbdev driver and currently depends on CONFIG_FB_DEVICE.
->>>> If I'm right, the only reason to disable CONFIG_FB_DEVICE is if
->>>> you want fbdev output at bootup, but otherwise just want to use DRM.
->>>
->>> It's unrelated to booting. CONFIG_FB_DEVICE enables/disables
->>> userspace interfaces (/dev/fb*, /sys/graphics/fb*). Even without,
->>> there's still fbcon that runs on top of the fbdev driver.
->>
->> Sure, I meant that if people enable a fdev driver, they most likely
->> want /dev/fb as well ..... unless they want to use mostly DRM drivers.
->>
->>>> But then, doesn't there exist a native DRM driver for this graphics
->>>> card which can be used instead?
->>>> If so, I suggest to not change this fbdev driver at all.
->>>
->>> Or can we talk about removing udlfb entirely? I tried before, but
->>> there was one person still using it. [1] He had concerns about udl's
->>> (the DRM driver) stability. I think DRM's udl has matured enough and
->>> is in better shape than udlfb. Maybe we can try again.> [1] https://lo=
-re.kernel.org/dri-devel/20201130125200.10416-1-tzimmermann@suse.de/
->>
->> The stability was one of the issues, but IMHO the *main* issue he menti=
-ons is this:
->>
->> The framebuffer driver is faster, it keeps back buffer and updates only
->> data that differ between the front and back buffer. The DRM driver does=
-n't
->> have such optimization, it will update everything in a given rectangle =
--
->> this increases USB traffic and makes video playback more jerky.
->
-> If that was a problem, it has long been solved. [1][2] The DRM udl drive=
-r keeps a backbuffer in system memory. The DRM API provides built-in damag=
-e handling, so that clients can mark the framebuffer regions that have bee=
-n written. Udl will only update the regions that have been modified.
->
-> For fbdev support specifically, the fbdev code mmaps the drivers interna=
-l backbuffer to userspace and does deferred I/O and damage handling on the=
-se pages. Hence, there's only one transfer over USB with no internal copyi=
-ng. There used to be more internal copying, but that is gone. [3]
+On Tue, Oct 29, 2024 at 03:07:30PM -0700, Abhinav Kumar wrote:
+> 
+> 
+> On 10/24/2024 5:20 PM, Dmitry Baryshkov wrote:
+> > Virtual wide planes give high amount of flexibility, but it is not
+> > always enough:
+> > 
+> > In parallel multirect case only the half of the usual width is supported
+> > for tiled formats. Thus the whole width of two tiled multirect
+> > rectangles can not be greater than max_linewidth, which is not enough
+> > for some platforms/compositors.
+> > 
+> > Another example is as simple as wide YUV plane. YUV planes can not use
+> > multirect, so currently they are limited to max_linewidth too.
+> > 
+> > Now that the planes are fully virtualized, add support for allocating
+> > two SSPP blocks to drive a single DRM plane. This fixes both mentioned
+> > cases and allows all planes to go up to 2*max_linewidth (at the cost of
+> > making some of the planes unavailable to the user).
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 163 ++++++++++++++++++++++--------
+> >   1 file changed, 119 insertions(+), 44 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > index 125db3803cf5..ad6cc469f475 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > @@ -20,7 +20,6 @@
+> >   #include "msm_drv.h"
+> >   #include "msm_mdss.h"
+> >   #include "dpu_kms.h"
+> > -#include "dpu_formats.h"
+> >   #include "dpu_hw_sspp.h"
+> >   #include "dpu_hw_util.h"
+> >   #include "dpu_trace.h"
+> > @@ -888,6 +887,28 @@ static int dpu_plane_atomic_check_nosspp(struct drm_plane *plane,
+> >   	return 0;
+> >   }
+> > +static int dpu_plane_is_multirect_parallel_capable(struct dpu_sw_pipe *pipe,
+> > +						   struct dpu_sw_pipe_cfg *pipe_cfg,
+> > +						   const struct msm_format *fmt,
+> > +						   uint32_t max_linewidth)
+> > +{
+> > +	if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
+> > +	    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect))
+> > +		return false;
+> > +
+> > +	if (pipe_cfg->rotation & DRM_MODE_ROTATE_90)
+> > +		return false;
+> > +
+> > +	if (MSM_FORMAT_IS_YUV(fmt))
+> > +		return false;
+> > +
+> > +	if (MSM_FORMAT_IS_UBWC(fmt) &&
+> > +	    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth / 2)
+> > +		return false;
+> > +
+> > +	return true;
+> > +}
+> 
+> Dont we also need to check for
+> 
+> if (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
+> 		     !test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features))?
+> 	return false;
 
-Sounds good.
-Maybe you should ask Mikulas if it helps him?
+In the patch I was checking that after a call to this function, but
+maybe you are right. Especially since I was checking only the pipe, not
+the r_pipe.
 
-> [1] https://patchwork.freedesktop.org/patch/501943/
-> [2] https://patchwork.freedesktop.org/patch/506133/
-> [3] https://patchwork.freedesktop.org/patch/590306/?series=3D131037&rev=
-=3D4
->
->>
->> That's exactly the main concern I'm regularily bringing up and which
->> IMHO is the main reason we still have many fbdev drivers.
->> You added support for some of those graphics cards with native DRM
->> drivers, but all of them are unaccelerated. This hurts a lot on old
->> machines and as such specific cards are ugly slowly with DRM.
->> A good example for this is the kvm drm graphics driver which is sluggis=
-h
->> and slow when using KVM.
->>
->> I'm happy to get rid of the fbdev drivers, but for that DRM really need=
-s
->> to allow some sort of native fillrect, copyarea and imageblt operations=
- so
->> that we can get performance back on the old cards when implementing the=
-m
->> as DRM driver.
->
-> This is unrelated to udl.
+> 
+> > +
+> >   static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
+> >   				       struct drm_atomic_state *state,
+> >   				       const struct drm_crtc_state *crtc_state)
+> > @@ -901,7 +922,6 @@ static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
+> >   	const struct msm_format *fmt;
+> >   	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+> >   	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+> > -	uint32_t max_linewidth;
+> >   	uint32_t supported_rotations;
+> >   	const struct dpu_sspp_cfg *pipe_hw_caps;
+> >   	const struct dpu_sspp_sub_blks *sblk;
+> > @@ -923,8 +943,6 @@ static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
+> >   	fmt = msm_framebuffer_format(new_plane_state->fb);
+> > -	max_linewidth = pdpu->catalog->caps->max_linewidth;
+> > -
+> >   	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0;
+> >   	if (pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION))
+> > @@ -940,41 +958,6 @@ static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
+> >   		return ret;
+> >   	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
+> > -		/*
+> > -		 * In parallel multirect case only the half of the usual width
+> > -		 * is supported for tiled formats. If we are here, we know that
+> > -		 * full width is more than max_linewidth, thus each rect is
+> > -		 * wider than allowed.
+> > -		 */
+> > -		if (MSM_FORMAT_IS_UBWC(fmt) &&
+> > -		    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+> > -			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, tiled format\n",
+> > -					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> > -			return -E2BIG;
+> > -		}
+> > -
+> > -		if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
+> > -		    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect) ||
+> > -		    (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
+> > -		     !test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features)) ||
+> > -		    pipe_cfg->rotation & DRM_MODE_ROTATE_90 ||
+> > -		    MSM_FORMAT_IS_YUV(fmt)) {
+> > -			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, can't use split source\n",
+> > -					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> > -			return -E2BIG;
+> > -		}
+> > -
+> > -		/*
+> > -		 * Use multirect for wide plane. We do not support dynamic
+> > -		 * assignment of SSPPs, so we know the configuration.
+> > -		 */
+> > -		pipe->multirect_index = DPU_SSPP_RECT_0;
+> > -		pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
+> > -
+> > -		r_pipe->sspp = pipe->sspp;
+> > -		r_pipe->multirect_index = DPU_SSPP_RECT_1;
+> > -		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
+> > -
+> >   		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg, fmt,
+> >   						  &crtc_state->adjusted_mode);
+> >   		if (ret)
+> > @@ -995,16 +978,16 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >   	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
+> >   	struct dpu_sw_pipe *pipe = &pstate->pipe;
+> >   	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+> > +	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+> > +	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+> >   	const struct drm_crtc_state *crtc_state = NULL;
+> >   	if (new_plane_state->crtc)
+> >   		crtc_state = drm_atomic_get_new_crtc_state(state,
+> >   							   new_plane_state->crtc);
+> > -	if (pdpu->pipe != SSPP_NONE) {
+> > -		pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
+> > -		r_pipe->sspp = NULL;
+> > -	}
+> > +	pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
+> > +	r_pipe->sspp = NULL;
+> >   	if (!pipe->sspp)
+> >   		return -EINVAL;
+> > @@ -1021,6 +1004,49 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >   	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> >   	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > +	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
+> > +		uint32_t max_linewidth = dpu_kms->catalog->caps->max_linewidth;
+> > +		const struct msm_format *fmt;
+> > +
+> > +		fmt = msm_framebuffer_format(new_plane_state->fb);
+> > +
+> > +		/*
+> > +		 * In parallel multirect case only the half of the usual width
+> > +		 * is supported for tiled formats. If we are here, we know that
+> > +		 * full width is more than max_linewidth, thus each rect is
+> > +		 * wider than allowed.
+> > +		 */
+> > +		if (MSM_FORMAT_IS_UBWC(fmt) &&
+> > +		    drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+> > +			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, tiled format\n",
+> > +					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> > +			return -E2BIG;
+> > +		}
+> > +
+> > +		if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
+> > +		    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect) ||
+> > +		    (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
+> > +		     !test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features)) ||
+> > +		    pipe_cfg->rotation & DRM_MODE_ROTATE_90 ||
+> > +		    MSM_FORMAT_IS_YUV(fmt)) {
+> > +			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, can't use split source\n",
+> > +					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> > +			return -E2BIG;
+> > +		}
+> 
+> Dont the above two conditions translate to
+> !dpu_plane_is_multirect_parallel_capable()?
 
-No, it's not.
-The udl fbdev driver implements those functions (like the other fbdev driv=
-ers)
-and as such fbcon on top of udl is accelerated, while fbcon on drm drivers
-is unaccelerated.
 
-Helge
+Good idea, I'll change that.
+
+> 
+> I think once we have a unified plane atomic check and not a separate one for
+> virtual planes (we had to add one to support the modparam), some duplication
+> will go away but till then I think this is the best we can do.
+> 
+> 
+> > +
+> > +		/*
+> > +		 * Use multirect for wide plane. We do not support dynamic
+> > +		 * assignment of SSPPs, so we know the configuration.
+> > +		 */
+> > +		r_pipe->sspp = pipe->sspp;
+> > +
+> > +		pipe->multirect_index = DPU_SSPP_RECT_0;
+> > +		pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
+> > +
+> > +		r_pipe->multirect_index = DPU_SSPP_RECT_1;
+> > +		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
+> > +	}
+> > +
+> >   	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
+> >   }
+> > @@ -1054,8 +1080,16 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
+> >   		return 0;
+> >   	}
+> > -	/* force resource reallocation if the format of FB has changed */
+> > +	/*
+> > +	 * Force resource reallocation if the format of FB or src/dst have
+> > +	 * changed. We might need to allocate different SSPP or SSPPs for this
+> > +	 * plane than the one used previously.
+> > +	 */
+> >   	if (!old_plane_state || !old_plane_state->fb ||
+> > +	    old_plane_state->src_w != plane_state->src_w ||
+> > +	    old_plane_state->src_h != plane_state->src_h ||
+> > +	    old_plane_state->src_w != plane_state->src_w ||
+> > +	    old_plane_state->crtc_h != plane_state->crtc_h ||
+> >   	    msm_framebuffer_format(old_plane_state->fb) !=
+> >   	    msm_framebuffer_format(plane_state->fb))
+> >   		crtc_state->planes_changed = true;
+> > @@ -1075,7 +1109,10 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+> >   	struct dpu_plane_state *pstate;
+> >   	struct dpu_sw_pipe *pipe;
+> >   	struct dpu_sw_pipe *r_pipe;
+> > +	struct dpu_sw_pipe_cfg *pipe_cfg;
+> > +	struct dpu_sw_pipe_cfg *r_pipe_cfg;
+> >   	const struct msm_format *fmt;
+> > +	uint32_t max_linewidth;
+> >   	if (plane_state->crtc)
+> >   		crtc_state = drm_atomic_get_new_crtc_state(state,
+> > @@ -1084,6 +1121,8 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+> >   	pstate = to_dpu_plane_state(plane_state);
+> >   	pipe = &pstate->pipe;
+> >   	r_pipe = &pstate->r_pipe;
+> > +	pipe_cfg = &pstate->pipe_cfg;
+> > +	r_pipe_cfg = &pstate->r_pipe_cfg;
+> >   	pipe->sspp = NULL;
+> >   	r_pipe->sspp = NULL;
+> > @@ -1098,10 +1137,46 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+> >   	reqs.rot90 = drm_rotation_90_or_270(plane_state->rotation);
+> > +	max_linewidth = dpu_kms->catalog->caps->max_linewidth;
+> > +
+> >   	pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> >   	if (!pipe->sspp)
+> >   		return -ENODEV;
+> > +	if (drm_rect_width(&r_pipe_cfg->src_rect) == 0) {
+> > +		pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > +		pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > +
+> > +		r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > +		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > +
+> > +		r_pipe->sspp = NULL;
+> > +	} else {
+> > +		if (dpu_plane_is_multirect_parallel_capable(pipe, pipe_cfg, fmt, max_linewidth) &&
+> > +		    dpu_plane_is_multirect_parallel_capable(r_pipe, r_pipe_cfg, fmt, max_linewidth) &&
+> > +		    (test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) ||
+> > +		     test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features))) {
+> > +			r_pipe->sspp = pipe->sspp;
+> > +
+> > +			pipe->multirect_index = DPU_SSPP_RECT_0;
+> > +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
+> > +
+> > +			r_pipe->multirect_index = DPU_SSPP_RECT_1;
+> > +			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
+> > +		} else {
+> > +			/* multirect is not possible, use two SSPP blocks */
+> > +			r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> > +			if (!r_pipe->sspp)
+> > +				return -ENODEV;
+> > +
+> > +			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > +
+> > +			r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > +			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > +		}
+> > +	}
+> > +
+> >   	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
+> >   }
+> > 
+
+-- 
+With best wishes
+Dmitry
