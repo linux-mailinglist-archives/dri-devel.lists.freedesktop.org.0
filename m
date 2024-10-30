@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6824F9B6018
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 11:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57A89B601D
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 11:30:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ACA210E775;
-	Wed, 30 Oct 2024 10:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079F910E777;
+	Wed, 30 Oct 2024 10:30:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V9oUKfl3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iPBom++I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7126610E775
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 10:28:54 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2FF1A8F;
- Wed, 30 Oct 2024 11:28:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1730284130;
- bh=2m9U0YPyqIjiMux/kzHNN8MUjFxqTrUHxENOWudqImM=;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E217110E777
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 10:30:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id EA55A5C3178;
+ Wed, 30 Oct 2024 10:29:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27E7CC4CEE3;
+ Wed, 30 Oct 2024 10:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730284211;
+ bh=fEyGQG5p+/Axzk94LPtg9MyYLs8WiA+7sDPOBdC8nuY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V9oUKfl3sIB+kSqLHoxezWGdbKNSlzWNzU0CMhVya0AcOmZB/EgGemyImMbtojmRy
- +sSIkQOU4a6vd4hTb7gOwLFs7XZiDRLS++XNvNc7KKFTJa8/kxruuhLkdQ4g1QL4mn
- ry6RGG4MOdXgDb07CDp/etOd3nZsBYjZHjfk0vqo=
-Date: Wed, 30 Oct 2024 12:28:46 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Doug Anderson <dianders@chromium.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix multiple instances
-Message-ID: <20241030102846.GB14276@pendragon.ideasonboard.com>
-References: <2024102119-oversweet-labored-aa07@gregkh>
- <CAMuHMdUWAQKRy6F-zyCK6efhSYDRo2Go-f-=t2kRnPQoNdw0og@mail.gmail.com>
- <2024102137-repost-visiting-323d@gregkh>
- <CAMuHMdWOLD13hzERAgaH5zg5FsVZZZnQoFdkRzv+E6r6BTAixA@mail.gmail.com>
- <CAMuHMdXXokfQziiE9_5oYpcUsWVn6i-0v__D0U1cbRkV4K9jqA@mail.gmail.com>
- <CAD=FV=VHxvbofWmq6bPVcVokn4kqZ9Bckytw5cv-xYFEGpEtcg@mail.gmail.com>
- <CAMuHMdXAKH224=fFjohM0Kg702bc7xP+rErtiNDAu+LgFBhX2Q@mail.gmail.com>
- <CAD=FV=UOqoRSwPxn9BFwmVTGhQptTyS0u8EEjYp0NA8ojOBqdA@mail.gmail.com>
- <mmmy4mmk435m6i4ic7aelkggzklrwv34vi7yam6mmasadffv2l@fi6ralq5e6vv>
- <CAMuHMdV3sEPW+k_ObTxQiLPdSsNpMRKwtUvtRt_6njy=WW4N4Q@mail.gmail.com>
+ b=iPBom++Ip3zXbNr4S9qX5JpImsDxqHoTocohiCaoOx5wNTJbiARb4bC/qMG+xkcKl
+ 4bo9Z5yrvUKpiXeTjblCmlZFumY+okw/Vt7mCFA55EdghPH5Za2gM3Pd4VOqUoihoM
+ RC1xYCQrttOvZlsb/YnO8yx8rwmJMkz4dkArPco2y1Naytv1uKPyxf+rLmFiNnWqL4
+ hLvcUJg2ZZj271QMiXn3eMmS3Gk3eUI74tYuVqsgFHmT1D26eR4bwwRZoXeSi29m2C
+ o24VUlOK0cedEcwP3X/B28lsMehPiZZsJvfrGYvPA5SwkdJ/67vIoYA0QMo/YjPKne
+ u3uClG+jbjG3A==
+Date: Wed, 30 Oct 2024 11:30:09 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, 
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, quic_jesszhan@quicinc.com, mchehab@kernel.org, 
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
+ sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
+ tomi.valkeinen@ideasonboard.com, 
+ quic_bjorande@quicinc.com, geert+renesas@glider.be, dmitry.baryshkov@linaro.org,
+ arnd@arndb.de, nfraprado@collabora.com, thierry.reding@gmail.com, 
+ prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, marex@denx.de,
+ biju.das.jz@bp.renesas.com
+Subject: Re: [PATCH v4 03/13] drm/bridge: fsl-ldb: Use clk_round_rate() to
+ validate "ldb" clock rate
+Message-ID: <20241030-hypersonic-tremendous-tuatara-2bbeb0@houat>
+References: <20241028023740.19732-1-victor.liu@nxp.com>
+ <20241028023740.19732-4-victor.liu@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="jdfa4z4pqzuvoooj"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdV3sEPW+k_ObTxQiLPdSsNpMRKwtUvtRt_6njy=WW4N4Q@mail.gmail.com>
+In-Reply-To: <20241028023740.19732-4-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,98 +75,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 30, 2024 at 11:25:40AM +0100, Geert Uytterhoeven wrote:
-> On Mon, Oct 28, 2024 at 2:34 PM Dmitry Baryshkov wrote:
-> > On Tue, Oct 22, 2024 at 07:37:01AM -0700, Doug Anderson wrote:
-> > > On Tue, Oct 22, 2024 at 12:12 AM Geert Uytterhoeven wrote:
-> > > > > > > > > However, using i2c_client->adapter->nr instead of ida_alloc()
-> > > > > > > > > in the TI driver does sound like a good idea to me...
-> > > > > > > >
-> > > > > > > > Great!
-> > > > > >
-> > > > > > > With the I2C adapter numbers, that becomes:
-> > > > > > >
-> > > > > > >     /sys/bus/auxiliary/devices
-> > > > > > >     ├── ti_sn65dsi86.gpio.1
-> > > > > > >     ├── ti_sn65dsi86.pwm.1
-> > > > > > >     ├── ti_sn65dsi86.aux.1
-> > > > > > >     ├── ti_sn65dsi86.bridge.1
-> > > > > > >     ├── ti_sn65dsi86.gpio.4
-> > > > > > >     ├── ti_sn65dsi86.pwm.4
-> > > > > > >     ├── ti_sn65dsi86.aux.4
-> > > > > > >     └── ti_sn65dsi86.bridge.4
-> > > > > > >
-> > > > > > > > adapter->nr instead like other aux subsystems already do.
-> > > > > >
-> > > > > > Unfortunately the devil is in the details, as usual: there can be
-> > > > > > multiple instances of the sn65dsi86 bridge on a single I2C bus,
-> > > > > > so adapter->nr is not guaranteed to generate a unique name.
-> > > > >
-> > > > > In the case of sn65dsi86 I think we'd actually be OK. The TI bridge
-> > > > > chip is always at bus address 0x2d so you can't have more than one on
-> > > > > the same bus. Unless you added something funky atop it (like a mux of
-> > > > > some sort) you might be OK.
-> > > >
-> > > > It's 0x2c on mine ;-)
-> > > >
-> > > >     8.5.1 Local I2C Interface Overview
-> > > >     The 7-bit device address for SN65DSI86 is factory preset to 010110X
-> > > >     with the least significant bit being determined by the ADDR control
-> > > >     input.
-> > >
-> > > Doh! I missed that in my search of the doc. I guess because they
-> > > decided to specify the address in binary in that part so my searching
-> > > for both the 7-bit and 8-bit I2C address didn't trigger. Oh well.
-> > >
-> > > > > > Changing the auxiliary bus to use the parent's name instead of the
-> > > > > > module name, as suggested by Laurent, would fix that.
-> > > > >
-> > > > > Right. On my system dev_name() of the sn65dsi86 device is "2-002d". If
-> > > > > we had a second on i2c bus 4, we'd have:
-> > > > >
-> > > > >     /sys/bus/auxiliary/devices
-> > > > >     ├── 2-002d.gpio.0
-> > > > >     ├── 2-002d.pwm.0
-> > > > >     ├── 2-002d.aux.0
-> > > > >     ├── 2-002d.bridge.0
-> > > > >     ├── 4-002d.gpio.0
-> > > > >     ├── 4-002d.pwm.0
-> > > > >     ├── 4-002d.aux.0
-> > > > >     └── 4-002d.bridge.0
-> > > > >
-> > > > > ...and I think that's guaranteed to be unique because all the i2c
-> > > > > devices are flat in "/sys/bus/i2c/devices".
-> > > >
-> > > > Correct.
-> > >
-> > > So given everything, using the dev_name() of the "parent" sounds
-> > > pretty good and seems like it addresses everyone's concerns. Was there
-> > > a part of the conversation where someone pointed out problems with it
-> > > that I missed? Is the next step to post a patch implementing that?
-> > > It'll change sysfs paths and dev names for everyone using AUX bus, but
-> > > presumably that's OK?
-> >
-> > It also requires changing in the way the auxiliary_match_id() works.
-> > Currently matching is done using modname + ID.
-> 
-> Right, so just using the parent's name instead of modname won't work,
-> as the former is not a fixed string.
-> 
-> > So, maybe using MODNAME.NAME.parent-name.ID is better (e.g.
-> > ti_sn65dsi86.gpio.2-002d.1). It will still require changes to the
-> > match_id function, but they won't be that intrusive (one just has to
-> > skip two parts of the name instead of skipping just one).
-> 
-> IMHO this is becoming too complex. What if the parent's name contains
-> a period?
-> 
-> So just using ida_alloc() in the caller seems like the most
-> straight-forward solution.
 
-Why would we duplicate that in every user, when it should really be the
-responsibility of the bus ? We need a better solution.
+--jdfa4z4pqzuvoooj
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 03/13] drm/bridge: fsl-ldb: Use clk_round_rate() to
+ validate "ldb" clock rate
+MIME-Version: 1.0
 
--- 
-Regards,
+On Mon, Oct 28, 2024 at 10:37:30AM +0800, Liu Ying wrote:
+> Multiple display modes could be read from a display device's EDID.
+> Use clk_round_rate() to validate the "ldb" clock rate for each mode
+> in drm_bridge_funcs::mode_valid() to filter unsupported modes out.
+>=20
+> Also, since this driver doesn't directly reference pixel clock, use
+> clk_round_rate() to validate the pixel clock rate against the "ldb"
+> clock if the "ldb" clock and the pixel clock are sibling in clock
+> tree.  This is not done in display controller driver because
+> drm_crtc_helper_funcs::mode_valid() may not decide to do the
+> validation or not if multiple encoders are connected to the CRTC,
+> e.g., i.MX93 LCDIF may connect with MIPI DSI controller, LDB and
+> parallel display output simultaneously.
+>=20
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> Note that this patch depends on a patch in shawnguo/imx/fixes:
+> https://patchwork.kernel.org/project/linux-arm-kernel/patch/2024101703114=
+6.157996-1-marex@denx.de/
 
-Laurent Pinchart
+I still believe that the root cause of this issue is your clock tree and
+driver setup, and since I've asked for explanations and didn't get any,
+I don't really see how we can move forward here.
+
+Maxime
+
+--jdfa4z4pqzuvoooj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZyIKrAAKCRAnX84Zoj2+
+dk5eAYDDyKjKmenLlLXrE7PF5+02MCRjxjyPZUPeFcxn9WqZwrqLx6hAeRNfTD1I
+fBz39NEBgPedANzTVocrGaKTqjaLuKN1UWpfFGVqf9OjORjTtsRTq+Rg7VBMH8ER
+7Vm4WtqjxQ==
+=QcTM
+-----END PGP SIGNATURE-----
+
+--jdfa4z4pqzuvoooj--
