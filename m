@@ -2,70 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EC49B5BFE
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 07:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599789B5C2A
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2024 08:02:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9A1E10E217;
-	Wed, 30 Oct 2024 06:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A119510E02E;
+	Wed, 30 Oct 2024 07:02:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IPqnASwg";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="eIDSyPEa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
- [209.85.216.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C939E10E217
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2024 06:49:08 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id
- 98e67ed59e1d1-2e2eba31d3aso4494634a91.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2024 23:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730270948; x=1730875748; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=g1QvxUmXWeKxvEL2k5Sf0XB0155cpa70LB5E4HbGTTc=;
- b=IPqnASwgDmaKBr/kMqQyABSRXz+p0VrJ7tRqbj6u9IMVmwwLXKEdvA+aXK44fROoeE
- X96CeXwQ7AETsQRe9Q/sqfHioY8sCe698RPYJ3L/glkxOWGK0a1HbLx2pCanrMkTwrew
- Az5E4wIFs8H50WIW/repG33AvtoJ1moIiyVLDGw1Xjim26gqf0k3gFDO9XYYc1S1GHr5
- ms73w/+1uve4oKgQ9ban6NwI6iX1eOOQQ+T3MhEBh2SiYqAv3Dv+CmMmY/Xhitay1zEr
- aEQz90McsxpHshiSL+UEN51FFKVOUFoLYtx53DI4corLRIUhKjZhdtY9HbeB8rb+8yg6
- j/+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730270948; x=1730875748;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=g1QvxUmXWeKxvEL2k5Sf0XB0155cpa70LB5E4HbGTTc=;
- b=wkOdhe86IxR+VYvr62R+jhC0wpwLDVGk+3gfcYxJxS3qqlmXx+PwiOBVg9Kt/I9bEw
- uNh2QdYxqlwPE88E2FDGnnel+MdtdgMBHYOPNVn/xdqMVj7RP96cSrpIdJFVV9qKu76+
- tJp9hmLpHPgUn5GEHG+6q1tCDlXgQwmWGRvy3MA5OXvuoD875MqtXvPG+n6LtlbS0vWW
- toQ2Z3rbU3Jup+FpVwT1tHerce94ZuEZqQ+tFJe8ZtrFhSNkYuW0jIb74Mw/hThr2IVH
- oiHV3m+myfKMVQfBCWXhRTbkBbl1tbEDR3clDTz0s4AwqpnAYG7qpQ+p1OREzqDlwuxZ
- jeFg==
-X-Gm-Message-State: AOJu0YxFAqPpq9Qv0DRTwBoRJj/zTrrlJ7j/JyAFmvQ4dZ2tleVxCwGl
- qOkKsxIIOxIVLCDknvJYrlpmLS8VCWKQ3zTFGYf4Dm4IbMuZSmYN
-X-Google-Smtp-Source: AGHT+IGeeX6tlLELS4LC5m1oeR6KbY5EW00IpuH+lUL9rB6Sj2dEw30McrgidrmkIVOU+SIh7wpGSA==
-X-Received: by 2002:a17:90a:9312:b0:2e2:a8e0:85fa with SMTP id
- 98e67ed59e1d1-2e8f1057e59mr15767410a91.8.1730270948108; 
- Tue, 29 Oct 2024 23:49:08 -0700 (PDT)
-Received: from tom-QiTianM540-A739.. ([106.39.42.118])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2e92fa63967sm860530a91.32.2024.10.29.23.49.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2024 23:49:07 -0700 (PDT)
-From: Qiu-ji Chen <chenqiuji666@gmail.com>
-To: mripard@kernel.org, dave.stevenson@raspberrypi.com,
- kernel-list@raspberrypi.com, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- baijiaju1990@gmail.com, Qiu-ji Chen <chenqiuji666@gmail.com>,
- stable@vger.kernel.org
-Subject: [PATCH v2] drm/vc4: Fix atomicity violation in vc4_crtc_send_vblank()
-Date: Wed, 30 Oct 2024 14:48:52 +0800
-Message-Id: <20241030064852.6154-1-chenqiuji666@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 631A210E02E;
+ Wed, 30 Oct 2024 07:02:49 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49TM0ebj012773;
+ Wed, 30 Oct 2024 07:02:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=/g/BCeSyts2ynUtbS5uAaJ
+ lBY7+gxxbs+JXVEycwaMs=; b=eIDSyPEaZZcYyWl/6pKz1MPw3hgOTlBEOMjn9+
+ WuBR5EBsgYVLmm5Ra4p9prNJmSqVmyOhuJj21FJ+UM4z1vdW0UOTbsTwOMlc3zRH
+ JpopOd6rViqm/+twvwJQagD2fWhG1Ab+5dLJiSFluOUKD2pqospAwQYScKJnrLtV
+ Azg34g6JZuHeI6hfRjg2GxQ4X/GDCx3027+zdST2Mth2oLhVUc6HXkRwA13rqkaH
+ wn62GWFuHBAfOmu6dTHt3RxgdeCP593ap8KqUylcXhfnRKC5TJ6YkWyRt1QCfZlW
+ AuTqmGEIWZGIJ7TDAw6aKewU4WUg6WuFLWxQUTxjKGzDOSfA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42grguk1g5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Oct 2024 07:02:42 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49U72bxQ019577
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Oct 2024 07:02:41 GMT
+Received: from [10.213.111.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 30 Oct
+ 2024 00:02:32 -0700
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Subject: [PATCH v3 0/2] DRM/MSM: Support for Adreno 663 GPU
+Date: Wed, 30 Oct 2024 12:32:01 +0530
+Message-ID: <20241030-a663-gpu-support-v3-0-bdf1d9ce6021@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOnZIWcC/23OwW7DIAwG4FeJOI8JbEKgp73HtAMB0/rQJIMk2
+ lT13UdbbdK0Hf/f8mdfRKXCVMWhu4hCO1eepxbwqRPxFKYjSU4tC1BglNeDDNaiPC6brNuyzGW
+ VozZDHx04q6xoa0uhzB938vWt5RPXdS6f9wu7vrXfmPuL7VoqCX2mgBmTNenlfePIU3yO81ncu
+ B1+CK0A/iGgEehSQAdorB9+E9fHi4VaW3l9/CnGUEm2+ZnXQ5ds0iEhJKUGbShmn7X3Vg8Ybfa
+ ODMZ+bLcbdv0C3b6D00EBAAA=
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
+ Dybcio" <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Connor Abbott <cwabbott0@gmail.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, Puranam V G Tejaswi
+ <quic_pvgtejas@quicinc.com>, Akhil P Oommen <quic_akhilpo@quicinc.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730271752; l=2737;
+ i=quic_akhilpo@quicinc.com; s=20240726; h=from:subject:message-id;
+ bh=HBHqqFJwlLZrnHKzABOXS58x4463lPh4o709iKwhKMo=;
+ b=b+O+SWbc5uNySP8IKgSjq59mK1j53b1d4Qv2fmU0O7EZJ1aWkNpmv7wFP2se/3uwfBvU5harC
+ B7jjQeoW9PIBM/eZ4bXvp8OrK2qoSvWuWsaaOq7GDVwHRhAEQz+BSJL
+X-Developer-Key: i=quic_akhilpo@quicinc.com; a=ed25519;
+ pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 3jArTnuVb_XlOuygw0eKXEAfGdlT_19q
+X-Proofpoint-GUID: 3jArTnuVb_XlOuygw0eKXEAfGdlT_19q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015
+ lowpriorityscore=0 adultscore=0 mlxscore=0 bulkscore=0 suspectscore=0
+ phishscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2410300054
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,70 +109,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-An atomicity violation occurs when the vc4_crtc_send_vblank function 
-executes simultaneously with modifications to crtc->state->event. Consider 
-a scenario where crtc->state->event is non-null, allowing it to pass the 
-validity check. However, at the same time, crtc->state->event might be set 
-to null. In this case, the validity check in vc4_crtc_send_vblank might act
-on the old crtc->state->event (before locking), allowing invalid values to 
-pass the validity check, which could lead to a null pointer dereference.
+This series adds support for Adreno 663 gpu found in SA8775P chipsets.
+The closest gpu which is currently supported in drm-msm is A660.
+Following are the major differences with that:
+	1. gmu/zap firmwares
+	2. Recommended to disable Level2 swizzling
 
-In the drm_device structure, it is mentioned: "@event_lock: Protects
-@vblank_event_list and event delivery in general." I believe that the
-validity check and the subsequent null assignment operation are part
-of the event delivery process, and all of these should be protected by
-the event_lock. If there is no lock protection before the validity
-check, it is possible for a null crtc->state->event to be passed into
-the drm_crtc_send_vblank_event() function, leading to a null pointer
-dereference error.
+Verified kmscube/weston/glmark2-es2 with the below Mesa change [1].
+This series is rebased on top of msm-next.
 
-We have observed its callers and found that they are from the
-drm_crtc_helper_funcs driver interface. We believe that functions
-within driver interfaces can be concurrent, potentially causing a data
-race on crtc->state->event.
+Since they are already picked up, I have dropped the patches for msm-next
+in this revision. Remaining 2 devicetree patches are for Bjorn.
 
-To address this issue, it is recommended to include the validity check of
-crtc->state and crtc->state->event within the locking section of the
-function. This modification ensures that the values of crtc->state->event
-and crtc->state do not change during the validation process, maintaining
-their valid conditions.
+Devicetree changes have a runtime dependency on the Display DT change [2].
 
-This possible bug is found by an experimental static analysis tool
-developed by our team. This tool analyzes the locking APIs
-to extract function pairs that can be concurrently executed, and then
-analyzes the instructions in the paired functions to identify possible
-concurrency bugs including data races and atomicity violations.
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/31211
+[2] https://patchwork.freedesktop.org/patch/620500/?series=140216
 
-Fixes: 68e4a69aec4d ("drm/vc4: crtc: Create vblank reporting function")
-Cc: stable@vger.kernel.org
-Signed-off-by: Qiu-ji Chen <chenqiuji666@gmail.com>
+To: Rob Clark <robdclark@gmail.com>
+To: Sean Paul <sean@poorly.run>
+To: Konrad Dybcio <konradybcio@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>
+To: Connor Abbott <cwabbott0@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+
+-Akhil
+
 ---
-V2: 
-The description of the patch has been modified to make it clearer.
-Thanks to Simona Vetter for suggesting this improvement.
----
- drivers/gpu/drm/vc4/vc4_crtc.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Changes in v3:
+- Rebased on the latest msm-next tip
+- Added R-b tags from Dmitry
+- Dropped patch #1 and #2 from v2 revision since they are already
+picked up in msm-next
+- Link to v2: https://lore.kernel.org/r/20241022-a663-gpu-support-v2-0-38da38234697@quicinc.com
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 8b5a7e5eb146..98885f519827 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -575,10 +575,12 @@ void vc4_crtc_send_vblank(struct drm_crtc *crtc)
- 	struct drm_device *dev = crtc->dev;
- 	unsigned long flags;
- 
--	if (!crtc->state || !crtc->state->event)
-+	spin_lock_irqsave(&dev->event_lock, flags);
-+	if (!crtc->state || !crtc->state->event) {
-+		spin_unlock_irqrestore(&dev->event_lock, flags);
- 		return;
-+	}
- 
--	spin_lock_irqsave(&dev->event_lock, flags);
- 	drm_crtc_send_vblank_event(crtc, crtc->state->event);
- 	crtc->state->event = NULL;
- 	spin_unlock_irqrestore(&dev->event_lock, flags);
+Changes in v2:
+- Fixed ubwc configuration (dimtry)
+- Split out platform dt patch (dimtry)
+- Fix formatting in the dt patch (dimtry)
+- Updated Opp table to include all levels
+- Updated bw IB votes to match downstream
+- Rebased on top of msm-next tip
+- Link to v1: https://lore.kernel.org/r/20240918-a663-gpu-support-v1-0-25fea3f3d64d@quicinc.com
+
+---
+Puranam V G Tejaswi (2):
+      arm64: dts: qcom: sa8775p: Add gpu and gmu nodes
+      arm64: dts: qcom: sa8775p-ride: Enable Adreno 663 GPU
+
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi |  8 +++
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi      | 94 ++++++++++++++++++++++++++++++
+ 2 files changed, 102 insertions(+)
+---
+base-commit: d6d1ad32d00714ecf9f1996173c6f98e43c5b022
+change-id: 20240917-a663-gpu-support-b1475c828606
+
+Best regards,
 -- 
-2.34.1
+Akhil P Oommen <quic_akhilpo@quicinc.com>
 
