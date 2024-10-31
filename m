@@ -2,77 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B319B7EF1
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 16:48:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FC59B7EF2
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 16:48:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D67810E8DE;
-	Thu, 31 Oct 2024 15:48:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA0010E8D1;
+	Thu, 31 Oct 2024 15:48:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="garY7Ysy";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="hHSxl4eB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D69010E8DE
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 15:48:30 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-20bb39d97d1so9908935ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 08:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730389710; x=1730994510; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=NjC3nMAIlVM1q3lt2DpIHub8eL6Pw0tLQHd/8IGv3WE=;
- b=garY7YsyBoYCmIz+IzUie+Aq+TuRchRiIMpTr0Qj6K8VomZlNEYaL2TPmujRDAQEhN
- sWx3gGoB8FFZX2cSF/5iTT2NCEwtKXP1fGE5CzHHB0/fkLJEGV8JD93vxyLE0jGCRBs0
- uca3W4wdd8VOO7chs3UQCxL3KcWccTW+YU10+NHP6xIWWuM2swoenWTEXggrjWZuIPrz
- GT8HH4GN4tcXC74Sl/239qHL442hHPO/Ry6dGxhWgs1GKKdg84qQ1dTJkYrjOqs1IMEH
- n+73nQ8W4g6HisxuxPRqlioIKhJDw5Zp3fbCxkdokO1x7fKJyBUT4VuFDHC2jt2AFqQn
- mD/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730389710; x=1730994510;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NjC3nMAIlVM1q3lt2DpIHub8eL6Pw0tLQHd/8IGv3WE=;
- b=d8VNHxVGX2gBJrCEFuVT797Va/WdDXkeel9AfkMZhshs++3po0YVRvbo7uqfTLbrAu
- M5kqBiUMLevlXz922Ak/LBAS/CWpyRHebYRnd42Rz5wC5KpaP5ox/ZkwwRuxD1VFs2lP
- cQqukrAmzzM7K9u7HfY+e7MSf+zjvV6QCAEXxjt3W8vJRlfL20qXIt+GUAsFLJYzzYo8
- rElkKOZdeD+GPs8UCy1xTNXsUr+CdysZ6ISyAAE7ZAmDX3/h8sDU3wGWtkqiexBJEkmN
- ytv4x9qkxjL87sf7dZZDzfgh3Ku5LkwCYXKeJCn57DxYHBhZgoEpfIt3CGTN74bBl5eg
- vQAw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWBoyrmJTUuheJdqRcUsJ1Mi3XJiiLo8d/A7xUy94NUZM2XnVKtas3hiphVzrD+HTephKpnCcUpZ/4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyWeY3Yt/PggbYqjvo1JttqtIBvr0ObhyuQB6JVNr3mIZBGqVaN
- V33gWK/tzAn8X31gDZxHZHuIu7o+aySLSR0Nj6Nz+LOyRfe+HTrINJ+tX4qPDZBAfrCN5ZpLGDY
- TG7vKPJqDmmeMQ8Bl6pofFXymBowAniQ3yty+ZQ==
-X-Google-Smtp-Source: AGHT+IHSfDKRii2NwhyNl5yN1Hcn8F5/2hI6zBGdTVZhAkhVitVIhKYO47+S571JKu4USELXFc3aJNzy7hxcwlEDOmc=
-X-Received: by 2002:a17:902:e54b:b0:20c:8b02:f9f7 with SMTP id
- d9443c01a7336-210f7711e6amr85424115ad.60.1730389709967; Thu, 31 Oct 2024
- 08:48:29 -0700 (PDT)
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 124D810E8D1;
+ Thu, 31 Oct 2024 15:48:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1730389711; x=1730994511; i=markus.elfring@web.de;
+ bh=GUkc+8RtKgct7Ds7007ROrUDlEaBE1pheQ4JLEh1vQc=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=hHSxl4eBGwxPkinGGhMBcvDfO3gmITWzyeW+Rnb0BhMWV7cNEpV3RxfeU4+QBnEF
+ qEJJsXu8OBfEC0zPbm9X7Nc0Os9ypCC5X3hEd0F++ujKDy2TY5ptbH4zrfd3Jw8YR
+ lmK3Ll78hghm20H6Gs9nVNsKdKDYDly5bsKNvY/ivzmGfG9QUfBqOcuDepe58q7fv
+ 60dDsvF+27IBGfPvGzt9ddLemm+0XFeGQG7RRM3eKNa2bl3CbPCNXhPv8qRTEM6Xm
+ 3GD3zBTdaK0Plj67J0pbyZ4EnvfJfiMOVHvSTOHVtQLmAY7VrVL2hUWtR4RLPQYme
+ jJh2ASgVK/8VdgX/Sg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MALeR-1sz5Qi0eAV-005zOr; Thu, 31
+ Oct 2024 16:48:31 +0100
+Message-ID: <7d4df724-5b83-4e0f-8fa1-c1eaa77827c2@web.de>
+Date: Thu, 31 Oct 2024 16:48:29 +0100
 MIME-Version: 1.0
-References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
- <ZxYBa11Ig_HHQngV@hovoldconsulting.com>
-In-Reply-To: <ZxYBa11Ig_HHQngV@hovoldconsulting.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 31 Oct 2024 17:48:24 +0200
-Message-ID: <CAA8EJpopyzeVXMzZAiakEmJ9S=29FKt43AHypSYyOuo_NbSJbw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
- parent to aux bridge
-To: Johan Hovold <johan@kernel.org>
-Cc: Abel Vesa <abel.vesa@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: Antonio Quartulli <antonio@mandelbit.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20241031152848.4716-1-antonio@mandelbit.com>
+Subject: Re: [PATCH v2] amdgpu: prevent NULL pointer dereference if ATIF is
+ not supported
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241031152848.4716-1-antonio@mandelbit.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:oFvdSBs0i2J2tNH0lC2KClHbAr9sjTfhbq8SdyVrZ51wHeM6wuu
+ Gnb5U5Cp4CrLPuIhy64Wdor4jWXM5wM8dgm+aupVdBgfoGNyIRDQy6s4Pa/v5FOb4rXYg+n
+ bxHHisnM6wdMzXi9lIHFzP7r2LpzacKS+r2FbYRgl8En/GmyOD1ZsqX2/4+IXYjX+nFcV8b
+ gw/X9uL9KJHcQSg3qs+Rg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:3zpQau4nCug=;KYT02Py5jdhE7pWn7ip55fHqLMc
+ 4TLIQCYYfm0ZFqvSNVlQG5dvTd61jT7ly/I2WFM4hzKHZ8+x4cej9k1dLYHa65vScx7+IKeEP
+ JyQcTC/ojQCXzEy+SKIeVq4S0VxRQLfxRR2dZAGeg/HJ/Djmj+2ZOWBCu2MaRehhKiTX8XUUF
+ aJqREMeNCnz6bzqlpwYOdT8YIyPdb9OF56hcONymSY4bvF4SIwSORoTWc9srPKzoMNvTOe9SA
+ MF11gSDO+awVwQwDyVYrD/viRSF/8lFYofmVl6ML03CVvjbxg93cDXcRyQhcYZRWXhlM33T1h
+ 1SPs1MRzn+DlkUBNvO7rON/dtSzQPNWQIotdx8mmbYF3CIX6UVRrsVYtJ+kUCzzI+R4YKYuxR
+ Nh4uSk9g2Kwib+Ni9uVaKY+1luy9u+ff56ThBvcMrzIAe5na7T8o+tgOvv6po4WNrGM7UTWG4
+ TO/cEYN+Avm8Q4PfzUSP8/6bxQufn3XBB6ZITdMrmhHCgW8aGiGnRm6O45tzP/axitIol0tk6
+ zasoZPmiovRz5GOsdvsWF2BDUcMwoJAzvtqecwkJ32t+gvZmUdznfFaHagVHHiTv33HFx9iqq
+ NdhLvWu5ekLQ7Wn9qD71qv6Kp1BJ3vVxF9/B6cNQgCZhqOgKUtwpF/NP2MezHW0khNdjowqTF
+ TSo/luESv0afm4v/O7+lbZBEEMEOZlJa45m+W2xQk/IbqJMCZZhLQgNI/b4oRBuTEaE1iGQ8b
+ eTGcc6EC9tB+GaY3Um7fMvP8V0tAjUoVQtEEfTjjzvL2umFD9cKsJ/+kjDhMyZQy9cWSy3KKA
+ +RoSU61OvQZDgL4pX+fkY1dg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,51 +83,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 21 Oct 2024 at 10:23, Johan Hovold <johan@kernel.org> wrote:
+=E2=80=A6
+> Although this case may be unrealistic for the current code, it is
+> still better to protect against possible bugs.
 >
-> On Fri, Oct 18, 2024 at 03:49:34PM +0300, Abel Vesa wrote:
-> > The assignment of the of_node to the aux bridge needs to mark the
-> > of_node as reused as well, otherwise resource providers like pinctrl will
-> > report a gpio as already requested by a different device when both pinconf
-> > and gpios property are present.
->
-> I don't think you need a gpio property for that to happen, right? And
-> this causes probe to fail IIRC?
+> Bail out also when status is AE_NOT_FOUND.
+=E2=80=A6
 
-No, just having a pinctrl property in the bridge device is enough.
-Without this fix when the aux subdevice is being bound to the driver,
-the pinctrl_bind_pins() will attempt to bind pins, which are already
-in use by the actual bridge device.
-
->
-> > Fix that by using the device_set_of_node_from_dev() helper instead.
-> >
-> > Fixes: 6914968a0b52 ("drm/bridge: properly refcount DT nodes in aux bridge drivers")
->
-> This is not the commit that introduced the issue.
->
-> > Cc: stable@vger.kernel.org      # 6.8
->
-> I assume there are no existing devicetrees that need this since then we
-> would have heard about it sooner. Do we still need to backport it?
->
-> When exactly are you hitting this?
->
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> > ---
-> > Changes in v2:
-> > - Re-worded commit to be more explicit of what it fixes, as Johan suggested
-> > - Used device_set_of_node_from_dev() helper, as per Johan's suggestion
-> > - Added Fixes tag and cc'ed stable
-> > - Link to v1: https://lore.kernel.org/r/20241017-drm-aux-bridge-mark-of-node-reused-v1-1-7cd5702bb4f2@linaro.org
->
-> Patch itself looks good now.
->
-> Johan
+How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
+=E2=80=9CCc=E2=80=9D) accordingly?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.12-rc5#n145
 
 
-
--- 
-With best wishes
-Dmitry
+Regards,
+Markus
