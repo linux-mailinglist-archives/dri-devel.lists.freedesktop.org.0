@@ -2,109 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D584F9B7940
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 12:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 143AA9B79BA
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 12:34:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23AB210E860;
-	Thu, 31 Oct 2024 11:01:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C279610E0A1;
+	Thu, 31 Oct 2024 11:34:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ljones.dev header.i=@ljones.dev header.b="KPafeO0p";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="ARvn1g4T";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fnf/3hqB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 529 seconds by postgrey-1.36 at gabe;
- Thu, 31 Oct 2024 11:01:06 UTC
-Received: from fhigh-b5-smtp.messagingengine.com
- (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93C8210E860
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 11:01:06 +0000 (UTC)
-Received: from phl-compute-08.internal (phl-compute-08.phl.internal
- [10.202.2.48])
- by mailfhigh.stl.internal (Postfix) with ESMTP id E2AB025400C4;
- Thu, 31 Oct 2024 06:52:16 -0400 (EDT)
-Received: from phl-imap-01 ([10.202.2.91])
- by phl-compute-08.internal (MEProxy); Thu, 31 Oct 2024 06:52:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm1; t=1730371936;
- x=1730458336; bh=h1DcXwp3ose9PAVevSGggMI/uLCHuHYOrWE9mX99Mfk=; b=
- KPafeO0pz/TGBLYkVAPr0VS0FFHrmIIpCpB0PCuLjG6u5m3VAZaKl5JVhAHg283J
- nIFKqjmSyG0Y5G34A8mX/rh0U6Rs5108FxmznHJyJYpXWbmiLiQ3HWcOAHfGJXjF
- v85gLi2LoLgDIb1zaGx28/iiyLdJxwKOJ5hjX4Rat0qJKzFkefC0Y0+owsvklCXx
- ZJ58JcyZiKHi297/TS0xLRw56uHIIQlAFjSNhCbL/JI7r68VN173DbFXhW5WBett
- 33QXGH8S3PZfW2DUS97mCpy4CyhcxfS+PCZT/h2WC+7yN54n0x0dn1FaROj4Lrdc
- flxoskAljWqcngR8jHnIEA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730371936; x=
- 1730458336; bh=h1DcXwp3ose9PAVevSGggMI/uLCHuHYOrWE9mX99Mfk=; b=A
- Rvn1g4T4qHNkrbz5VEBFZApqTbUZQo+p0DbHJxEKXH0nEqXs0UMcvt+a/6Zomacg
- jgn5UHtQLM5AhAyBZXrkD1rC9ai6WiHnak6N/DHq8z9bFxm6GMrCtl3AL9eTHp7I
- SBL9eQm3/m7t8ILhvaj+zz9DBypcJILQCTh9EeV87VdFxQcXwNJkku86KFuIWOIH
- Zf3RQ4RbJtkCDYJpK6lyvfTZrxAD3AAM/phUCTDJ/ADJUkaoBw7QcS7giUlpwUvW
- O4uHMWCUpzZTnRPCeJaP5urolKwKlv8n0gYEsTA1uWduhwuUT141VgfFyw3cZj0J
- IcEhtKro96BKx3Ekg7IhQ==
-X-ME-Sender: <xms:YGEjZ2rh0Nf6aWubaTlrxh2B3KcQSll3O_L8dwPiiVmHTrDk-gWspA>
- <xme:YGEjZ0pSI5DsV-1mO2yKFBpFJMX09HBTLSmcNI7EIW3j-HcoWFGQjYfzV4BFvmBOl
- ggZUbZVj32oK_Kr25A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdekhedgudelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
- necuhfhrohhmpedfnfhukhgvucflohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrdguvg
- hvqeenucggtffrrghtthgvrhhnpeekieeftdeltdevudeukeefleejjeeitedttdfhteek
- jefhteduhffhjefhfeejjeenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrgh
- dpghhithhlrggsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
- rghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghpthhtoheple
- dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlvgigrghnuggvrhdruggvuhgt
- hhgvrhesrghmugdrtghomhdprhgtphhtthhopehmrghrihhordhlihhmohhntghivghllh
- hosegrmhgurdgtohhmpdhrtghpthhtoheprghlvgiguggvuhgthhgvrhesghhmrghilhdr
- tghomhdprhgtphhtthhopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhmpdhrtghpth
- htohepshhuphgvrhhmudeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggv
- vhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehkrg
- hihhgvnhhgfhesnhhvihguihgrrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhn
- vghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqphgtih
- esvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:YGEjZ7PdkBqBZi6Ut36ao10uaBpJkWRw-ICwMRCaXMyKjP7P673P1g>
- <xmx:YGEjZ16jxFb0cNMT-71ch1wQzROEdFTp0EpOndt9SSjjcaXulIxWuA>
- <xmx:YGEjZ17Ha_fTcvN2-Ox7MjfTqc-9GA_sdquqZCwO-YUlQ-ojNUjJyQ>
- <xmx:YGEjZ1jzkP02oADOVz2V62snVHa-Q_ju1TZcunE1kUGVkl3u-P3shg>
- <xmx:YGEjZwYDjtsWZyNwI2c7aRq-ecHfmrw4ZtNsbqjm-fUfN4MrRTui4m8X>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 6F9523360079; Thu, 31 Oct 2024 06:52:16 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC7C10E0A1;
+ Thu, 31 Oct 2024 11:34:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730374443; x=1761910443;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=rad7u463xWi2MhcMG4ACZLpipTH5MAEkEWxnR7IUYzI=;
+ b=fnf/3hqBrUp7nek6inX+8wAcZ7PhWFb3xgK/ElS/+Ww1eFDMcHmXKE6/
+ MMsrR8Hjr2TerIiRr5CYRa/x7LLKMiZ7Z+AjEAmHx1bZeXVfeTuq7bj+c
+ io9E1ysWlQKzfS9cm27UIt9wUL0zPjugBnm58VXI/XFitA8W92KyT5yjh
+ +ww3X6z4Ty9/zk3gXf3QfLCw6Q1GGAoFy8VlGzN5+dNg5qtpy3TB5+p7m
+ 9PUy7N83MGlifYJTr1H2WqDvhSFtfqmNHojtmFdWhaKdXrvaeY3DOeqUt
+ 4TS6xu0noTOqvwNF2NTxqELr5PM/JfoZVzl2Pp8Cau2HVEETHqRmixID/ Q==;
+X-CSE-ConnectionGUID: hE68/RwJQmSfT8PohQG5dQ==
+X-CSE-MsgGUID: G66Ka3hySrSswn/oA3O4mw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="17748624"
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; d="scan'208";a="17748624"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2024 04:34:02 -0700
+X-CSE-ConnectionGUID: n9sV0ysrS3+sj260hNjB0A==
+X-CSE-MsgGUID: H+CxxR49Tbedvhi14tGNmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; d="scan'208";a="87202121"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.204])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2024 04:33:58 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Sergey
+ Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [RFC][PATCH] drm: i915: do not NULL deref hdmi attached_connector
+In-Reply-To: <20241031105145.2140590-1-senozhatsky@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241031105145.2140590-1-senozhatsky@chromium.org>
+Date: Thu, 31 Oct 2024 13:33:55 +0200
+Message-ID: <87y124jyl8.fsf@intel.com>
 MIME-Version: 1.0
-Date: Thu, 31 Oct 2024 11:51:56 +0100
-From: "Luke Jones" <luke@ljones.dev>
-To: "Kai-Heng Feng" <kaihengf@nvidia.com>,
- "Alex Deucher" <alexdeucher@gmail.com>
-Cc: "Mario Limonciello" <superm1@kernel.org>,
- "Bjorn Helgaas" <bhelgaas@google.com>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list" <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "Mario Limonciello" <mario.limonciello@amd.com>,
- "Alex Deucher" <alexander.deucher@amd.com>
-Message-Id: <52d9ff04-ef07-4251-b540-e3d3cdcd4c75@app.fastmail.com>
-In-Reply-To: <33d7c0ca-8459-4b85-a0e6-97f2e1e8db91@nvidia.com>
-References: <20241014152502.1477809-1-superm1@kernel.org>
- <20b48c6f-7ea9-4571-a39c-f20a9cf62319@app.fastmail.com>
- <f56c555f-7313-43ff-abe4-28fb246e31cc@nvidia.com>
- <CADnq5_OjfJzcOqa=NbWVw5ENvi+nmvNAZX0u_0hOvk3EVoh0bw@mail.gmail.com>
- <fd7cae9a-5ee1-4e18-915d-4115f0a6a156@nvidia.com>
- <CADnq5_NTBXPbW+u_AxTewH-aouLNn4gxebpzUSzsyev-VxOtcg@mail.gmail.com>
- <46b487ec-e8a6-43fb-85d5-f264618f2e5d@nvidia.com>
- <CADnq5_Mh7B8Kk144terpvV9kf2Z4xcQ0nhVakHOcDdwgd3Y1Fg@mail.gmail.com>
- <33d7c0ca-8459-4b85-a0e6-97f2e1e8db91@nvidia.com>
-Subject: Re: [PATCH] PCI/VGA: Don't assume only VGA device found is the boot
- VGA device
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,245 +73,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Oct 2024, at 1:58 AM, Kai-Heng Feng wrote:
-> On 2024/10/25 8:55 PM, Alex Deucher wrote:
->> External email: Use caution opening links or attachments
->>=20
->>=20
->> On Fri, Oct 25, 2024 at 3:51=E2=80=AFAM Kai-Heng Feng <kaihengf@nvidi=
-a.com> wrote:
->>>
->>>
->>>
->>> On 2024/10/23 11:27 PM, Alex Deucher wrote:
->>>> External email: Use caution opening links or attachments
->>>>
->>>>
->>>> On Tue, Oct 22, 2024 at 9:27=E2=80=AFPM Kai-Heng Feng <kaihengf@nvi=
-dia.com> wrote:
->>>>>
->>>>>
->>>>>
->>>>> On 2024/10/22 9:04 PM, Alex Deucher wrote:
->>>>>> External email: Use caution opening links or attachments
->>>>>>
->>>>>>
->>>>>> On Tue, Oct 22, 2024 at 2:31=E2=80=AFAM Kai-Heng Feng <kaihengf@n=
-vidia.com> wrote:
->>>>>>>
->>>>>>> Hi Luke,
->>>>>>>
->>>>>>> On 2024/10/15 4:04 PM, Luke Jones wrote:
->>>>>>>> On Mon, 14 Oct 2024, at 5:25 PM, Mario Limonciello wrote:
->>>>>>>>> From: Mario Limonciello <mario.limonciello@amd.com>
->>>>>>>>>
->>>>>>>>> The ASUS GA605W has a NVIDIA PCI VGA device and an AMD PCI dis=
-play device.
->>>>>>>>>
->>>>>>>>> ```
->>>>>>>>> 65:00.0 VGA compatible controller: NVIDIA Corporation AD106M [=
-GeForce
->>>>>>>>> RTX 4070 Max-Q / Mobile] (rev a1)
->>>>>>>>> 66:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/=
-ATI]
->>>>>>>>> Strix [Radeon 880M / 890M] (rev c1)
->>>>>>>>> ```
->>>>>>>>>
->>>>>>>>> The fallback logic in vga_is_boot_device() flags the NVIDIA dG=
-PU as the
->>>>>>>>> boot VGA device, but really the eDP is connected to the AMD PC=
-I display
->>>>>>>>> device.
->>>>>>>>>
->>>>>>>>> Drop this case to avoid marking the NVIDIA dGPU as the boot VG=
-A device.
->>>>>>>>>
->>>>>>>>> Suggested-by: Alex Deucher <alexander.deucher@amd.com>
->>>>>>>>> Reported-by: Luke D. Jones <luke@ljones.dev>
->>>>>>>>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3673
->>>>>>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>>>>>>> ---
->>>>>>>>>      drivers/pci/vgaarb.c | 7 -------
->>>>>>>>>      1 file changed, 7 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
->>>>>>>>> index 78748e8d2dba..05ac2b672d4b 100644
->>>>>>>>> --- a/drivers/pci/vgaarb.c
->>>>>>>>> +++ b/drivers/pci/vgaarb.c
->>>>>>>>> @@ -675,13 +675,6 @@ static bool vga_is_boot_device(struct vga=
-_device *vgadev)
->>>>>>>>>                 return true;
->>>>>>>>>         }
->>>>>>>>>
->>>>>>>>> -    /*
->>>>>>>>> -     * Vgadev has neither IO nor MEM enabled.  If we haven't =
-found any
->>>>>>>>> -     * other VGA devices, it is the best candidate so far.
->>>>>>>>> -     */
->>>>>>>>> -    if (!boot_vga)
->>>>>>>>> -            return true;
->>>>>>>>> -
->>>>>>>>>         return false;
->>>>>>>>>      }
->>>>>>>>>
->>>>>>>>> --
->>>>>>>>> 2.43.0
->>>>>>>>
->>>>>>>> Hi Mario,
->>>>>>>>
->>>>>>>> I can verify that this does leave the `boot_vga` attribute set =
-as 0 for the NVIDIA device.
->>>>>>>
->>>>>>> Does the following diff work for you?
->>>>>>> This variant should be less risky for most systems.
->>>>>>>
->>>>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
->>>>>>> index 78748e8d2dba..3fb734cb9c1b 100644
->>>>>>> --- a/drivers/pci/vgaarb.c
->>>>>>> +++ b/drivers/pci/vgaarb.c
->>>>>>> @@ -675,6 +675,9 @@ static bool vga_is_boot_device(struct vga_de=
-vice *vgadev)
->>>>>>>                     return true;
->>>>>>>             }
->>>>>>>
->>>>>>> +       if (vga_arb_integrated_gpu(&pdev->dev))
->>>>>>> +               return true;
->>>>>>> +
->>>>>>
->>>>>> The problem is that the integrated graphics does not support VGA.
->>>>>
->>>>> Right, so the check has to be used much earlier.
->>>>>
->>>>> I wonder does the integrated GFX have _DOD/_DOS while the discrete=
- one doesn't?
->>>>> If that's the case, vga_arb_integrated_gpu() can be used to differ=
-entiate which
->>>>> one is the boot GFX.
->>>>
->>>> I think the problem is that the boot GPU is being conflated with vga
->>>> arb.  In this case the iGPU has no VGA so has no reason to be invol=
-ved
->>>> in vga arb.  Trying to mess with any vga related resources on it co=
-uld
->>>> be problematic.  Do higher levels of the stack look at vga arb to
->>>> determine the "primary" GPU?
->>>
->>> Hmm, I wonder if all those heuristic are needed for EFI based system?
->>>
->>> Can we assume that what being used by UEFI GOP is the primary GFX de=
-vice?
->>=20
->> Yes, I believe so.  The SBIOS should use the GOP device as determined
->> by the user preference.  I.e.., in the bios configuration you can
->> generally select iGPU or PEG for the primary display.
+On Thu, 31 Oct 2024, Sergey Senozhatsky <senozhatsky@chromium.org> wrote:
+> 	*** RFC ***
 >
-> UEFI spec, 10.3.3.1 ACPI _ADR Device Path
+> intel_ddi_init() may skip connector initialization, for instance,
+> both intel_ddi_init_dp_connector() and intel_ddi_init_hdmi_connector()
+> are optional.  This leads to situation that ->attached_connector may
+> be NULL for some connectors.  For instance, on my setup 'DDI A/PHY A'
+> and 'DDI TC1/PHY TC1' are not initialized.
 >
-> "The _ADR device path is used to contain video output device attribute=
-s to=20
-> support the Graphics Output Protocol. The device path can contain mult=
-iple _ADR=20
-> entries if multiple video output devices are displaying the same outpu=
-t."
+> However, functions like intel_dp_dual_mode_set_tmds_output() and
+> friends don't take this into consideration.  This leads to NULL
+> ptr-derefs:
 >
-> Luke, can you please see what are the _ADR values of the iGPU and dGPU=
-?=20
-> Maybe we=20
-> can find which one was used by GOP this way.
+> KASAN: null-ptr-deref in range [0x0000000000000848-0x000000000000084f]
+> RIP: 0010:intel_hdmi_encoder_shutdown+0x105/0x230
+> Call Trace:
+> <TASK>
+> i915_driver_shutdown+0x2d8/0x490
+> pci_device_shutdown+0x83/0x150
+> device_shutdown+0x4ad/0x660
+> __se_sys_reboot+0x29c/0x4d0
+> do_syscall_64+0x60/0x90
+>
+> Add a new helper to avoid NULL ->attached_connector derefs and
+> switch some intel_hdmi function to it.  I'm not sure if we need
+> to switch all or just intel_dp_dual_mode_set_tmds_output() (I
+> have only seen this one doing NULL derefs so far).
 
-I'm not sure what I'm looking at here, but initial search shows:
+I think the question is, what are we doing running this code if the
+connector initialization was skipped?
 
-                Device (VGA)
-                {
-                    Name (_ADR, Zero)  // _ADR: Address
-                    Name (DOSA, Zero)
-                    Method (_DOS, 1, NotSerialized)  // _DOS: Disable Ou=
-tput Switching
-                    {
-                        DOSA =3D Arg0
-                    }
-
-                    Method (_DOD, 0, NotSerialized)  // _DOD: Display Ou=
-tput Devices
-                    {
-                        M460 ("PLA-ASL-\\_SB.PCI0.GPPA.VGA._DOD\n", Zero=
-, Zero, Zero, Zero, Zero, Zero)
-                        Return (Package (0x07)
-                        {
-                            0x00010110,=20
-                            0x00010210,=20
-                            0x00010220,=20
-                            0x00010230,=20
-                            0x00010240,=20
-                            0x00031000,=20
-                            0x00032000
-                        })
-                    }
-
-                    Device (LCD)
-                    {
-                        Name (_ADR, 0x0110)  // _ADR: Address
-                        Name (BCLB, Package (0x34)
-                        {
-
-https://gitlab.com/asus-linux/reverse-engineering/-/blob/master/uncatego=
-rized/GA605WI/dsdt.dsl?ref_type=3Dheads#L4666
-
-And:
-
-            Method (_DOD, 0, NotSerialized)  // _DOD: Display Output Dev=
-ices
-            {
-                Return (Package (0x01)
-                {
-                    0x8000A450
-                })
-            }
-
-            Device (LCD0)
-            {
-                Method (_ADR, 0, Serialized)  // _ADR: Address
-                {
-                    Return (0x8000A450)
-                }
-
-https://gitlab.com/asus-linux/reverse-engineering/-/blob/master/uncatego=
-rized/GA605WI/ssdt1.dsl?ref_type=3Dheads#L411
-
-The links are direct to the lines I thought were relevant in the dumped =
-DSDT.
-
-Luke.
+BR,
+Jani.
 
 >
-> Kai-Heng
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> ---
+>  drivers/gpu/drm/i915/display/intel_hdmi.c | 27 ++++++++++++++++++-----
+>  1 file changed, 22 insertions(+), 5 deletions(-)
 >
->>=20
->> Alex
->>=20
->>>
->>> Kai-Heng
->>>
->>>>
->>>> Alex
->>>>
->>>>>
->>>>> Kai-Heng
->>>>>
->>>>>>
->>>>>> Alex
->>>>>>
->>>>>>>             /*
->>>>>>>              * Vgadev has neither IO nor MEM enabled.  If we hav=
-en't found any
->>>>>>>              * other VGA devices, it is the best candidate so fa=
-r.
->>>>>>>
->>>>>>>
->>>>>>> Kai-Heng
->>>>>>>
->>>>>>>>
->>>>>>>> Tested-by: Luke D. Jones <luke@ljones.dev>
->>>>>>>
->>>>>
->>>
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index e1a1351bc94f..c089dd20972b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -1256,12 +1256,19 @@ static void hsw_set_infoframes(struct intel_encoder *encoder,
+>  			      &crtc_state->infoframes.drm);
+>  }
+>  
+> +static struct i2c_adapter *to_ddc(struct intel_hdmi *hdmi)
+> +{
+> +	if (hdmi->attached_connector)
+> +		return hdmi->attached_connector->base.ddc;
+> +	return NULL;
+> +}
+> +
+>  void intel_dp_dual_mode_set_tmds_output(struct intel_hdmi *hdmi, bool enable)
+>  {
+>  	struct intel_display *display = to_intel_display(hdmi);
+> -	struct i2c_adapter *ddc = hdmi->attached_connector->base.ddc;
+> +	struct i2c_adapter *ddc = to_ddc(hdmi);
+>  
+> -	if (hdmi->dp_dual_mode.type < DRM_DP_DUAL_MODE_TYPE2_DVI)
+> +	if (!ddc || hdmi->dp_dual_mode.type < DRM_DP_DUAL_MODE_TYPE2_DVI)
+>  		return;
+>  
+>  	drm_dbg_kms(display->drm, "%s DP dual mode adaptor TMDS output\n",
+> @@ -1275,7 +1282,7 @@ static int intel_hdmi_hdcp_read(struct intel_digital_port *dig_port,
+>  				unsigned int offset, void *buffer, size_t size)
+>  {
+>  	struct intel_hdmi *hdmi = &dig_port->hdmi;
+> -	struct i2c_adapter *ddc = hdmi->attached_connector->base.ddc;
+> +	struct i2c_adapter *ddc = to_ddc(hdmi);
+>  	int ret;
+>  	u8 start = offset & 0xff;
+>  	struct i2c_msg msgs[] = {
+> @@ -1292,6 +1299,10 @@ static int intel_hdmi_hdcp_read(struct intel_digital_port *dig_port,
+>  			.buf = buffer
+>  		}
+>  	};
+> +
+> +	if (!ddc)
+> +		return -EINVAL;
+> +
+>  	ret = i2c_transfer(ddc, msgs, ARRAY_SIZE(msgs));
+>  	if (ret == ARRAY_SIZE(msgs))
+>  		return 0;
+> @@ -1302,11 +1313,14 @@ static int intel_hdmi_hdcp_write(struct intel_digital_port *dig_port,
+>  				 unsigned int offset, void *buffer, size_t size)
+>  {
+>  	struct intel_hdmi *hdmi = &dig_port->hdmi;
+> -	struct i2c_adapter *ddc = hdmi->attached_connector->base.ddc;
+> +	struct i2c_adapter *ddc = to_ddc(hdmi);
+>  	int ret;
+>  	u8 *write_buf;
+>  	struct i2c_msg msg;
+>  
+> +	if (!ddc)
+> +		return -EINVAL;
+> +
+>  	write_buf = kzalloc(size + 1, GFP_KERNEL);
+>  	if (!write_buf)
+>  		return -ENOMEM;
+> @@ -1335,9 +1349,12 @@ int intel_hdmi_hdcp_write_an_aksv(struct intel_digital_port *dig_port,
+>  {
+>  	struct intel_display *display = to_intel_display(dig_port);
+>  	struct intel_hdmi *hdmi = &dig_port->hdmi;
+> -	struct i2c_adapter *ddc = hdmi->attached_connector->base.ddc;
+> +	struct i2c_adapter *ddc = to_ddc(hdmi);
+>  	int ret;
+>  
+> +	if (!ddc)
+> +		return -EINVAL;
+> +
+>  	ret = intel_hdmi_hdcp_write(dig_port, DRM_HDCP_DDC_AN, an,
+>  				    DRM_HDCP_AN_LEN);
+>  	if (ret) {
+
+-- 
+Jani Nikula, Intel
