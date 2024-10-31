@@ -2,83 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD979B7A7F
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 13:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F409B7A8E
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 13:31:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED7610E2D8;
-	Thu, 31 Oct 2024 12:29:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA53110E412;
+	Thu, 31 Oct 2024 12:31:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dDjocsqS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pWzIEYkg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 040AF10E2D8
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 12:29:27 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4316f3d3c21so6906395e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 05:29:26 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5608310E412
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 12:31:50 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-37d533b5412so551661f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 05:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730377765; x=1730982565; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1730377909; x=1730982709; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=UQjZxBSmS0nagomVi07puYwXxun+vOekud8EvxwhAn4=;
- b=dDjocsqSO8DNT1cjP+yAracOXIkztUqZffty2xMfq1rsaa2wqD05WsAHzT+St5S32j
- dE+0x5aDPAK+DrLtY5UrIZPAF8x37BMpZqd0M6zCmIvzGTIpnMV9lKTXMxzQUtw39FFz
- LEpYhQibaM0otCYhZY7skXYkadT3U9SLDfZd7dURZS367byLCvFp+Nkh5iH7xRgfWx/g
- B+K+wNB/j47f6usr32WHcdoszRTMKq2IYcq5GFzOXdu361WPwKSMyXj/SyDBfpKoYUEn
- fpIsbpAjXjCsIKym+QOjCZe1LWrY9TDWNnOOspQCjjCo/uPocyHrWyuZ+CZnoGv/DtQE
- 0TsA==
+ :reply-to; bh=TtULGftwvkV6PBeqGDEzspAud7gcNgJ/xN3Giran/QY=;
+ b=pWzIEYkgxLzGF9lgwWZzJy4oFWTnOPPmoCnA1EDG8Fl8WVbsoBWtDUIJ1ctfKk6rRd
+ ZU2yDjVDD0eGJJEmVSI5a4MYmd/q1wm9GEnCqpcCjVs2zQwO5hvMz58h/rAyCPp8KK/r
+ UF+c4b4O0jdrpevmxkyGGr+1SFadwP4dEjsTq5N3p1+glwcOvaggg0cCnpNZJZzYJoNL
+ uNtA3iH+lC8EYtS8jBZ+qlu9scTe0JgUcyFi+XOqD+VK1cukeqbjQm94Lb+ZWfxjenL3
+ h5OcEdmKuSr5cEWTOXcI7dZ+Bd/NTP7d4SJaG5owwhkKGAs9u9pbb7mwsp8owwCZ/L5V
+ 0wQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730377765; x=1730982565;
+ d=1e100.net; s=20230601; t=1730377909; x=1730982709;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=UQjZxBSmS0nagomVi07puYwXxun+vOekud8EvxwhAn4=;
- b=hn9rlL3weVG6lWtQGITZrQljbkx6YqP0eNZezulWIbb1C0nrtcyyCg0thQfR8ZZ6j7
- oQ9ipRuvQNOupyMOvr/UPoMiKaY5bPoNZ9kMFTJQIEPmvUBzEiKFrnaUU7sBB11Qob7Z
- JBqsT3XdkaSx4uVb8n0ENylWo74bEDt+HrLjB1+Em28/Y/SaTGZmb3XrC45mRohTOtCy
- gGZ/vYc1/kgDj5gD3yf5CP4q4I8aoCSJlxfgjaVAyR5IjMNnBceIwwBWKWYv67o0IP5q
- dZPH2i0Oa21XwCcIQQnR7sGc9CmVhGLJ2TzuJ1ZrE0I2gxfQov5f/tDq7jiPy5qUJXUJ
- /K6A==
+ bh=TtULGftwvkV6PBeqGDEzspAud7gcNgJ/xN3Giran/QY=;
+ b=vtriX+UINh/He7fnJNbGVXjp8y8Ai8l3iK0zvqZef63+iYlLkjgJuVcYZ2QkWdm4Jg
+ TRSXJvhpF3vpm+Fd90LHn1Kpt+y4gC9d1ikEk9ZfF8uuQ5rev/39gy20d+E1pI/gBlf2
+ ABMLAakX+nh63/T2NIeD2aPL/p5iJdVMpVwtWZKDuiUltOxf4uwNte7gGgri0soHTSJn
+ mGhOZkiFoTDcCzNGO7IZu3lsIbHj5RI2bHzKyaIJkQH4kvO12rkuLct6xWryuEYeBzcb
+ XtNK/eZ4it1zYPLcXYJaYVi16pS7y3EQ3IzHfbSAhZ7p+JEV7tZC6KSGgSjaQpB/nkWC
+ oVQw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXFmVA1SwiNbZ7f7M4hdbzUkCHgnRmT4sMaCeQdodDp1pNo6btibejckCzo1R0x4dabOSnAZyF8WS0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMGRPeZEdQbJAhrio8kMAbI25XXwTJ/zMHpqfRDinFwxuD0NIw
- nRJ07oGYkBTpnja7yiEBEYN8/1E6t91mdoLtwJBh6Mj7JTTa4UfAr0+36S470nw=
-X-Google-Smtp-Source: AGHT+IGV3ikK4LIVn2AEbWDsvCMNTGZrNaaz9Bv2gNUYQPFFcoac/gExNqwApmsNW+NykCyyZ64SOA==
-X-Received: by 2002:a05:600c:a01:b0:42c:ba83:3f01 with SMTP id
- 5b1f17b1804b1-431bb984e8cmr62424155e9.8.1730377765149; 
- Thu, 31 Oct 2024 05:29:25 -0700 (PDT)
+ AJvYcCWaS6D9ORsiltM6sV4gbBszWxLg997Ubljf3CssN690JeFkfCHDnuKh8/tqOC8czwgIQDfiBFPdjUE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxM8SL1Yxgs/bvvtobFDklm/geJxAyK4hZt7AcbN7DBhM4tbJXp
+ LxPcd9Z0W82VbKsMp2mScuRzdo2Z8DS1mrafE5DS8iwsn1vQjje4z5IXlUl8gQA=
+X-Google-Smtp-Source: AGHT+IGkHR0OvxDEr7PMMN5pZS2wB+wRi7rYAoUIxvk8EKhcVrYCEcy8oIPQET5ElU3EYFZKT+iwFQ==
+X-Received: by 2002:adf:f1cd:0:b0:374:c8a0:5d05 with SMTP id
+ ffacd0b85a97d-3806121ff99mr13664108f8f.50.1730377908520; 
+ Thu, 31 Oct 2024 05:31:48 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:de28:ccc7:fdcf:6514?
  ([2a01:e0a:982:cbb0:de28:ccc7:fdcf:6514])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4327d5ab305sm24596425e9.7.2024.10.31.05.29.24
+ 5b1f17b1804b1-4327d5230d5sm24947215e9.0.2024.10.31.05.31.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Oct 2024 05:29:24 -0700 (PDT)
-Message-ID: <eb0c7296-ed5d-4bf3-8fab-130216a6d87b@linaro.org>
-Date: Thu, 31 Oct 2024 13:29:23 +0100
+ Thu, 31 Oct 2024 05:31:48 -0700 (PDT)
+Message-ID: <c2a4cc3a-2ffc-46f3-8636-238cd561f7aa@linaro.org>
+Date: Thu, 31 Oct 2024 13:31:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
  parent to aux bridge
 To: Sui Jingfeng <sui.jingfeng@linux.dev>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Johan Hovold <johan@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
+ Abel Vesa <abel.vesa@linaro.org>
+Cc: Johan Hovold <johan@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
 References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
- <ux2lfkaeoyakulhllitxraduqjldtxrcmpgsis3us7msixiguq@ff5gfhtkakh2>
- <f2119a4d-7ba3-4f11-91d7-54aac51ef950@linux.dev>
+ <172951608323.1285208.3162107667310691864.b4-ty@linaro.org>
+ <230b5910-6790-44cb-90ed-222bee89054d@linux.dev>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -105,7 +106,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <f2119a4d-7ba3-4f11-91d7-54aac51ef950@linux.dev>
+In-Reply-To: <230b5910-6790-44cb-90ed-222bee89054d@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,93 +125,37 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/10/2024 17:45, Sui Jingfeng wrote:
+On 30/10/2024 15:49, Sui Jingfeng wrote:
 > Hi,
 > 
-> On 2024/10/18 23:43, Dmitry Baryshkov wrote:
->> On Fri, Oct 18, 2024 at 03:49:34PM +0300, Abel Vesa wrote:
+> On 2024/10/21 21:08, Neil Armstrong wrote:
+>> Hi,
+>>
+>> On Fri, 18 Oct 2024 15:49:34 +0300, Abel Vesa wrote:
 >>> The assignment of the of_node to the aux bridge needs to mark the
 >>> of_node as reused as well, otherwise resource providers like pinctrl will
 >>> report a gpio as already requested by a different device when both pinconf
 >>> and gpios property are present.
 >>> Fix that by using the device_set_of_node_from_dev() helper instead.
 >>>
->>> Fixes: 6914968a0b52 ("drm/bridge: properly refcount DT nodes in aux bridge drivers")
->>> Cc: stable@vger.kernel.org      # 6.8
->>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
->>> ---
->>> Changes in v2:
->>> - Re-worded commit to be more explicit of what it fixes, as Johan suggested
->>> - Used device_set_of_node_from_dev() helper, as per Johan's suggestion
->>> - Added Fixes tag and cc'ed stable
->>> - Link to v1: https://lore.kernel.org/r/20241017-drm-aux-bridge-mark-of-node-reused-v1-1-7cd5702bb4f2@linaro.org
->>> ---
->>>   drivers/gpu/drm/bridge/aux-bridge.c | 3 ++-
->>>   1 file changed, 2 insertions(+), 1 deletion(-)
 >>>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> [...]
+>> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
 > 
 > 
-> Technically speaking, your driver just move the burden to its caller.
-> Because this driver requires its user call drm_aux_bridge_register()
-> to create an AUX child device manually, you need it call ida_alloc()
-> to generate a unique id.
-> 
-> Functions symbols still have to leak to other subsystems, which is
-> not really preserve coding sharing.
+> It's quite impolite to force push patches that still under reviewing,
+> this prevent us to know what exactly its solves.
 
-???
+It's quite explicit.
 
 > 
-> What's worse, the action that allocating unique device id traditionally
-> is the duty of driver core. Why breaks (so called) perfect device driver
-> model by moving that out of core. Especially in the DT world that the
-> core knows very well how to populate device instance and manage the
-> reference counter.
+> This also prevent us from finding a better solution.
 
-This has nothing to do with DT, auxiliary device is a nice way to actually
-use the driver model to handle devices sub-functions without overloading
-drivers. It's still young and we need to collectively solve some issues,
-but it's now agreed auxiliary device helps designing multi-functions drivers.
+Better solution of ? This needed to be fixed and backported to stable,
+if there's desire to redesign the driver, then it should be discussed in a separate thread.
 
 > 
-> HPD handling is traditionally belongs to connector, create standalone
-> driver like this one *abuse* to both Maxime's simple bridge driver and
-> Laurent's display-connector bridge driver or drm_bridge_connector or
-> whatever. Why those work can't satisfy you? At least, their drivers
-> are able to passing the mode setting states to the next bridge.
-
-HPD handling is now shared along all the bridges, because it corresponds
-to a reality.
-
-It simply takes in account complex uses-cases like Type-C Altmode where
-we need to describe the connection between the DP controller and the
-Type-C retimers/muxes and properly propagate HPD events to synchronize
-all the chain.
-
-> 
-> Basically those AUX drivers implementation abusing the definition of
-> bridge, abusing the definition of connector and abusing the DT.
-> Its just manually populate instances across drivers.
-
-It abuses nothing, the DT representation of the full signal path
-in the Type-C complex was required by DT bindings maintainers.
-
-The fact we can describe an element of the Type-C Altmode DP
-path is very handy, and we have the full control of the data
-path unlike x86 platforms where all this handling is hidden in
-closed firmwares.
-
-If you have an issue with the aux-bridge design please open a separate
-thread, because the actual patch has nothing to do with aux devices or DRM
-bridge implementation.
-
-Please do not respond to this thread except concerning this fix.
-
-Neil
-
-> 
-> 
-> 
+>> [1/1] drm/bridge: Fix assignment of the of_node of the parent to aux bridge
+>>        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/85e444a68126a631221ae32c63fce882bb18a262
+>>
 
