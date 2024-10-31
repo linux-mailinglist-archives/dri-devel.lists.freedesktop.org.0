@@ -2,51 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74219B7CE7
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 15:32:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00829B7D23
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 15:42:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F08C510E8AD;
-	Thu, 31 Oct 2024 14:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F5A10E8B0;
+	Thu, 31 Oct 2024 14:42:05 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="S7mBTRpr";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0762A10E8AD
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 14:32:27 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.162.254])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4XfRJC0kFMzQsFk;
- Thu, 31 Oct 2024 22:31:23 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id DF83F180103;
- Thu, 31 Oct 2024 22:32:23 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Thu, 31 Oct 2024 22:32:22 +0800
-Message-ID: <6faaca60-a706-4727-bcb7-0dc85635b157@huawei.com>
-Date: Thu, 31 Oct 2024 22:32:21 +0800
-MIME-Version: 1.0
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2043.outbound.protection.outlook.com [40.107.212.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67AAA10E8AF;
+ Thu, 31 Oct 2024 14:42:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zOORrC3xb1kYJH5UxVj2AahHEIqk2oPp3LCgkcGOFhFO94U/amAI5MVEg8PwVtqcxgvy+c0KKq6C9KdS69AH0fRJO1eRBGNrcl07eCEmxEbKMtgFjNXz8w9w232tNbY6iKwnE8DWyylOvtPtQ9PLT8e7GvtxYIj4aEzvEMhJC7m7PP4UKKIvukCg6rDGju66TTQUcN0uQlqQaxi58IqYRALEUmwh8xVN9uGlKtTCd6wIsZ5PbaPfkJsqfnhmjj0B80RcLOISYdELd0SS+e+9dmk2+G7gVL4tTSOb3Ex6pOuv4do4p2Fme2uViFJqolSuN83rUAZfIedDlMcr8IFB6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=woKEP+nf1YVqK7n/VIQ4uurt0r/HG9gNsZ1eHAddlgw=;
+ b=QdmW8X0c7HCMpjHlv6dx3K931+I4sW9Usq7u5G5omkcHLqauEOsx08n3m5KMOTBAJOZjAKBcyQL6td/OpVkQLyAyybOHuf6J04vhTsWuOk5mOwbr31MUc8dmVxSvCUmq0r7giPCgK+j0eJon7MhvRiONjI6MVIQ9ZXPfeqJay8SS3IjLb8zOpLtRPiZjbHQuh3RV0XWvZ2zu9+MaDYpGO6St44vNyp0il70aHkuLLJrk9jVMaPChaoKgHWwKkRxcFWuCZ4PdIs2x+rcV/yZfo0ffEjkAGAIoYSx9XCU31+JLPsGmfr66cR2Lb1RPojFNgdW/5Hn/QtExNLTiGKC/zw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=woKEP+nf1YVqK7n/VIQ4uurt0r/HG9gNsZ1eHAddlgw=;
+ b=S7mBTRprnKEOfWLp3nOUrmNsOH19OKffMSTXASov7+341IVPUdYtY5NZvLx1TClqOl+gzJd+LxkjfNI9Q7QDxh4MP59iB7oZ1S7HgZFJTYJkRODaeelMIaTbjyRVW8meujkbVYzmLelLY+OBbuxX1m1kKgNZQb2K9DKvX9EhkLE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DS0PR12MB6464.namprd12.prod.outlook.com (2603:10b6:8:c4::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8093.32; Thu, 31 Oct 2024 14:42:00 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.8114.015; Thu, 31 Oct 2024
+ 14:42:00 +0000
+Message-ID: <32298ecd-7b7c-4e19-8481-f35249d6e076@amd.com>
+Date: Thu, 31 Oct 2024 09:41:57 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in
- hibmc
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
- <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <shiyongbang@huawei.com>
-References: <20241022124148.1952761-1-shiyongbang@huawei.com>
- <20241022124148.1952761-3-shiyongbang@huawei.com>
- <k5d3ny7dl4tgsy2y2kagz3d3s5rg74qaazck3xxbqpwlrjjd2i@e4dohu4uuwsr>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <k5d3ny7dl4tgsy2y2kagz3d3s5rg74qaazck3xxbqpwlrjjd2i@e4dohu4uuwsr>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+Subject: Re: [PATCH] amdgpu: prevent NULL pointer dereference if ATIF is not
+ supported
+To: Antonio Quartulli <antonio@mandelbit.com>
+Cc: amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241029233232.27692-1-antonio@mandelbit.com>
+ <08add1ec-ceae-4f74-83b0-72d0df510950@amd.com>
+ <77ba52f4-dcdc-4fdd-97b7-0163e54e8836@mandelbit.com>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <77ba52f4-dcdc-4fdd-97b7-0163e54e8836@mandelbit.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR03CA0018.namprd03.prod.outlook.com
+ (2603:10b6:806:20::23) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB6464:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f5b8727-1aa9-4da1-cc5f-08dcf9ba2d4e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Zm9XeXRhWlNRT1ROdUVTbndFUGlKY2xmczlGN1JZaWFXZk1LWTE2QU9rOUZq?=
+ =?utf-8?B?T2I5NEJlNDJJOE0weFljcTQ0bGxwbThrZU9jdkxXOFRYdEd6YVNYbysrY2hz?=
+ =?utf-8?B?MVY2c09md3ZJRTZSNGpHdjNkV0ZIZnY0ZU4xNWwrYXRKTlNzeXgzTWpJdkd1?=
+ =?utf-8?B?S09taW9UbGg5Tm5UYTFOZkhxYS9FTFVkb0crcnZ5MU9yUjB3MXFwZ1Y1VjNa?=
+ =?utf-8?B?d2dYd01YUUFqVHVSaTNBOU5FYkhzcWNQa3BHQVl3aU9VU1YyeXFrcWdnTm5u?=
+ =?utf-8?B?R1ZIbUN3YmdmY2hlNjJYcnQzTi9oZnFTQjhBZVhvK1FLSTh2Q1FRVVZENWpP?=
+ =?utf-8?B?OWwzcUpEN0w2emp4WjBKQ1JLa0NKZ21xOXZyeVpSaU14TkVTWmp4Y3BNUVRQ?=
+ =?utf-8?B?YzBteTg3N1VvcmxkaGlVTmI0dnRIUGJ6Q3kwVEErNUE0MjFTWlZLM0lGcnI1?=
+ =?utf-8?B?QjRpajFrelpna1E3QTh2NlgxeTdBNFRZZGtKQkNxSnB6MVBxVXBYNzRZS294?=
+ =?utf-8?B?ajU1OHhYdEl0UnhPRVVwekIwcWRScnN0R2VEZ3F2NUowSU56RllEN3JzUHFE?=
+ =?utf-8?B?UTd2akYyZnlYcnY2NzdjcGpaUkY2WXpJZE9jYmNCcUorczRscnpWT200V1dX?=
+ =?utf-8?B?bk9WemVTdEhVT2RPT0U4aHN6UXBoNUVONlc5TnBjd3V4aHhYMzFiVTgwWjNW?=
+ =?utf-8?B?T0VkenlNNHIyWHhhQkpmRGI3K0tkRjZrY1dnRldqTHZtaW5kUXU2OE5pb3U1?=
+ =?utf-8?B?ejBENXB2TERIdlJQSDJwcnpSRXk2VFllaHJFTXdyT0VxL1RENDllMWxXN0dR?=
+ =?utf-8?B?Tnh6TEtqSnk0V1FDTzJKK2E3a1hZZ0FEVFF4RkwwK2dyVXdDdzQ2dXFNTFNU?=
+ =?utf-8?B?Qi9sREFPdWNMekhmYVYxRE9qUzFFa0M3VGdtS3FpSnFVZXU3RGxmNWNhZEFF?=
+ =?utf-8?B?K2NLejRLTWd4SG9QUVZlODBGUmw5elNNcDZLOSt5T0EzQ0VoOGxTSEhrWHM5?=
+ =?utf-8?B?bVBaN09IOWROdlpFcVhoQzdOSWVhbWRtbHh4MG9TbEg2cThpL0xmbG5qWm4w?=
+ =?utf-8?B?aHNkUk54NVdEWmJzY3M0MzFtcHcxQWs1bFJKWndvQjhwZmJBLzAwY3EvVnIz?=
+ =?utf-8?B?MkdtSDN2U3dlK2s3MWpDcmhtWUFBeFF3TWlZVTRjM2JOYlhKTlJ4OUlwSEZ2?=
+ =?utf-8?B?dnRrbTZJSEQ4SmNlNVpQYlhqMEsySWRXcTI3d2drSTEyNk9RVlNPZDZaTkxi?=
+ =?utf-8?B?ZFdGRzR2eVgrQkgzWW1lb3VrYU1IcUQwSGhiZWUwaDhFUEpmQnZ6VEIrUm03?=
+ =?utf-8?B?Tk85UnM5aFQxY2JQVEpoNk9QdmZBZ1RMNjQ2OThwbDl1dndvamRuajh5dUlE?=
+ =?utf-8?B?MWRXQU5JZ2ZvT1lqNmhsMzNOa2E0VzIyeDRhUmdTdS81Smh6N2FqT29pNktZ?=
+ =?utf-8?B?bDhRYkFsb29ueXhqOEt6eVhWL25vZW9EV1g1UjlMbS9MVjZvNGZtejF1bjhQ?=
+ =?utf-8?B?NXJHVjNZcHBZODI0UmdJam1HU1JTeTE2dEZRTVBDV2UrRFN2N2svcnB4dUxY?=
+ =?utf-8?B?Tm5yTDJTb05RVzhCTXIxaE05S0FsQzg0SWJRUXlITU1HQ2hlUitxYUpvNFBV?=
+ =?utf-8?B?Lzd4RUJXYUZFWmdDZllSdThWcHpULzlOT2xIQWdWb0lUUWI1b1dOR2NqNHdh?=
+ =?utf-8?B?NFpVNnowS2hVaXEzd01nSWFOekJiSGd0REdqL05WQWhvYjBYNVJieEgvS25r?=
+ =?utf-8?Q?4HHpoBq3RpDut7yYsw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TUllR0g5M0VIWG9reDdoMTkzU25IYjhsZWMyOWZsanN2RW9oRlNwQ3VNcFNi?=
+ =?utf-8?B?eGx2RDRCOHl5SzVKUE56OEVMRjN2TElLMFVDUEJGZGppZmJ2bHBCYTVudm84?=
+ =?utf-8?B?ZDdmUlRCUFF1YUZHSlZmMUd4QzdGaUFvSTRNMzZuVWtBQ2xTUnpKckNKckFZ?=
+ =?utf-8?B?Uys5OTgwNjdsb0RoNFNYS3c4TXZlREdxQXROMXRBRUx1YkFWTXJ6NE5hWGZs?=
+ =?utf-8?B?R0pIL1JlQVFzemdIbmtPWGJQUVNIdU42NStBOWU3akp3VHFndVhPNTRVRE1q?=
+ =?utf-8?B?MUdrWUhYY01FNWx4ZFdjbXRvTUtHN2JXYW9EbE1NUE9ZVkxtOHJnallydnJH?=
+ =?utf-8?B?U1MxWDdaSUJFNjNXU1R5TzQ1SW9wWXoyeUNYenk3RVRIT0o0Q21ZU2VQalUz?=
+ =?utf-8?B?OHdNcWhUS1hQZDRCSUNwMmdBOG5DWkRQR0FqVVdhYnZQb2xWSGlubG5XcEpG?=
+ =?utf-8?B?VmJ1OEE4dSt5QlVlZEg4UlVtS0ZWbXAycHZvQWdlOGdia21ORHlRbU5ubzFJ?=
+ =?utf-8?B?anFKZ1dyZjh2dVg2OWNoUG1HNG9BdXFlNExZZGtlS3F1TFczNVNDNGRSRkZp?=
+ =?utf-8?B?M0xuMTQ0TVB4dXR1UDdiS1BPRUcxUUJKQkhYbzhVckdkNndPSTZjTjA2cVV6?=
+ =?utf-8?B?cFZMQWJ2OFpHeGFUQWNIbHhPZDlLdHlEM3gzNnF3MTJkakVPYlhVeUZTVXQx?=
+ =?utf-8?B?Ymp0SWJVMlUrUE5zeTUydm5ldGJGbE9uMWozamU3UlU0L1Nmay9Ub3ptb0Np?=
+ =?utf-8?B?Qm83akswaEZ4bHBKeE1DMmlCY2Z2aGEyNisyVFZFblZOdW9EekhiLzJKUUZ4?=
+ =?utf-8?B?RHRYZVQ2dnkyd0FITUowSklmTEI3aXhERHRGcUtJOEdmZ0U5a2E0YVF4R1h6?=
+ =?utf-8?B?QlBJNGZNODRIb244VHVzQ2dRY21DZEZESWhJUldpd0E1RVhRVXhQZlpZMTRy?=
+ =?utf-8?B?b1BEbklhNU9wZGR3VmppWklxS1hxeVlZS1dWbFBEZ296K3VCN2FNV20zM0dJ?=
+ =?utf-8?B?TmR0TXZuQ2dCZms0WWdhVUd0c0xvN3pUQmlrbVhxYWY4OGFLRW05SjRDRGZL?=
+ =?utf-8?B?Z0MrSkRsNWprczc2MzFqU2tmUVlnQnV3ejJVRCthT2FvNXg1NXNDVjB3cGlu?=
+ =?utf-8?B?Uy9wYllIS0kyaUx6V21XeVhpWFVaWjFYWVVBZ25MeEpHNnVBbTd4YUVGNWQ3?=
+ =?utf-8?B?bTR5QVpRTnN2QWZWU2kwUXQ2SDZiSDBPbWJZanVSb0lRTFZ6eE55TCsrRXpV?=
+ =?utf-8?B?VlZKZjBVWDlTWW9EY0xPU1gyblQ4dVdwRHNVMVpBcGlyQlU4VW1LcFd5ZElV?=
+ =?utf-8?B?b2ZvMEVMSkNvd05HelMwTW96S0o1RzJ4R1NyZnc0T0hrTUF1RDJWL0JGZ1FE?=
+ =?utf-8?B?bDB1ZmRGUGVCV3p5T1lZS0YxY28xWTZoLzYxbHhib2hIMEhNSVVhK0o1RzQy?=
+ =?utf-8?B?b0F6WXBiQUtMM2JiQ0tjeTlHM00yYTlPWDFiVGFwbmI0R3F6UElXaytwalBK?=
+ =?utf-8?B?QTNYdjhPU1lrSmxFRjY0MHpQWXREb3VwcS9qa0VrNWI0OFRHRW40NUludTRU?=
+ =?utf-8?B?dzNwSExHM2t0alAyK1dJVkZDeEFFbnpRRGxUNHI4N1dVL1RQaG5HWFljTjlT?=
+ =?utf-8?B?QmswTE1mOGpuZjRIajZiRi9mRzk4alN2dFRTWndncFhGUFoyMzRuU3k3WnVW?=
+ =?utf-8?B?Vm1RMTVCT2F3cEY3YmpTN21qTG9WbEJqUlpLa3V4dTgrSWN1Z3dZbTQrSmhq?=
+ =?utf-8?B?WERtdE4rOXJpUkhzTFNvMUE5OWpvT1lJQnJ3SHBkZUJTTUJNSEtoUTd3ZURT?=
+ =?utf-8?B?a2poZnVkTG5ZRFZFWTF5S1B1ZFlNWit2ZDZGa1hmd0J2YzEyM2JMVXF3MTNo?=
+ =?utf-8?B?UFk0enoxZzdCaFBjendUSUljZm1yM2xyQno3UFh1RWEvaXVvTjJlS3pHQVJl?=
+ =?utf-8?B?VVl3enN4U0FaR3g3cGZlcENIZ2plYXhKSElPNGNuckVFeWt4bURqSmJpRzF3?=
+ =?utf-8?B?a0IyWjFHOGw0d2pLTzVLdVdpbHBzLzRhYTdpVFk0bUsyWUpoNVhxaHhDSm1U?=
+ =?utf-8?B?NWZiTEgwYkhadDhXS1UvRHJnTVJ6LzBuTE03cGpGaEExb2RvQk1QZVdINk41?=
+ =?utf-8?Q?411X6zP8FLdiN3g69ODMJjgWj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f5b8727-1aa9-4da1-cc5f-08dcf9ba2d4e
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2024 14:42:00.0896 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Dbsq9x4hgjnkT0z+aB53rMbDQPbm1ttqzEOKvF0pPcsj1QSO7CyGf19KCbPVlEN4OvcLA4+26I0dy/pPoF6zTQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6464
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,442 +163,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On Tue, Oct 22, 2024 at 08:41:46PM +0800, Yongbang Shi wrote:
->> From: baihan li <libaihan@huawei.com>
+On 10/30/2024 16:06, Antonio Quartulli wrote:
+> Hi Mario,
+> 
+> On 30/10/2024 02:41, Mario Limonciello wrote:
+>> On 10/29/2024 18:32, Antonio Quartulli wrote:
+>>> acpi_evaluate_object() may return AE_NOT_FOUND (failure), which
+>>> would result in dereferencing buffer.pointer (obj) while being NULL.
+>>>
+>>> Bail out also when status is AE_NOT_FOUND with a proper error message.
+>>>
+>>> This fixes 1 FORWARD_NULL issue reported by Coverity
+>>> Report: CID 1600951:  Null pointer dereferences  (FORWARD_NULL)
+>>>
+>>> Signed-off-by: Antonio Quartulli <antonio@mandelbit.com>
 >>
->> Add link training process functions in this moduel.
-> We should probably have a bounty for a developer who finally writes a
-> generic DP link training helpers.
->
->> Signed-off-by: baihan li <libaihan@huawei.com>
-> Missing SoB
->
->> ---
->> ChangeLog:
->> v1 -> v2:
->>    - using drm_dp_* functions implement dp link training process, suggested by Jani Nikula.
->>    - fix build errors reported by kernel test robot <lkp@intel.com>
->>      Closes: https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
->>    v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
->> ---
->>   drivers/gpu/drm/hisilicon/hibmc/Makefile     |   2 +-
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c | 344 +++++++++++++++++++
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h |  25 ++
->>   3 files changed, 370 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
->>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h
+>> I'm not really sure how realistic this failure is.  Can you share the 
+>> full call trace that Coverity identified?
+> 
+> I just checked Coverity Scan and it only says:
+> 
+>      5. Condition status, taking true branch.
+>      6. Condition status != 5U /* (acpi_status)(5 | 0) */, taking false 
+> branch.
+> 
+> The above points are related to:
+> 
+>      if (ACPI_FAILURE(status) && status != AE_NOT_FOUND)
+> 
+> It doesn't show how acpi_evaluate_object() is expected to return 
+> AE_NOT_FOUND.
+> 
+> This said, if you think this case is unrealistic, why do you check for 
+> "status != AE_NOT_FOUND" at all?
+> 
+> At this point maybe it would make more sense to simply drop this check 
+> and always bail out with the current error message.
+> 
+> Basically a patch with the following only:
+> 
+> -       /* Fail if calling the method fails and ATIF is supported */
+> -       if (ACPI_FAILURE(status) && status != AE_NOT_FOUND) {
+> +       /* Fail if calling the method fails */
+> +       if (ACPI_FAILURE(status)) {
+> 
+> This way we don't make a fuzz for a possibly unrealistic case, while 
+> still protecting against bugs and null-dereferences.
+
+Yeah I think that's a good idea.  Can you respin it as a v2?
+
+> 
+> 
+> Regards,
+> 
 >>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> index 8770ec6dfffd..94d77da88bbf 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> @@ -1,5 +1,5 @@
->>   # SPDX-License-Identifier: GPL-2.0-only
->>   hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
->> -	       dp/dp_aux.o
->> +	       dp/dp_aux.o dp/dp_link.o
->>   
->>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
->> new file mode 100644
->> index 000000000000..b02a536e0689
->> --- /dev/null
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
->> @@ -0,0 +1,344 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +// Copyright (c) 2024 Hisilicon Limited.
->> +
->> +#include <linux/delay.h>
->> +#include <drm/drm_device.h>
->> +#include <drm/drm_print.h>
->> +#include "dp_comm.h"
->> +#include "dp_reg.h"
->> +#include "dp_link.h"
->> +#include "dp_aux.h"
->> +
->> +const u8 link_rate_map[] = {DP_LINK_BW_1_62, DP_LINK_BW_2_7,
->> +			    DP_LINK_BW_5_4, DP_LINK_BW_8_1};
->> +
->> +static int dp_link_training_configure(struct dp_dev *dp)
->> +{
->> +	u8 buf[2];
->> +	int ret;
->> +
->> +	/* DP 2 lane */
->> +	dp_write_bits(dp->base + DP_PHYIF_CTRL0, DP_CFG_LANE_DATA_EN,
->> +		      dp->link.cap.lanes == DP_LANE_NUM_2 ? 0x3 : 0x1);
->> +	dp_write_bits(dp->base + DP_DPTX_GCTL0, DP_CFG_PHY_LANE_NUM,
->> +		      dp->link.cap.lanes == DP_LANE_NUM_2 ? 0x1 : 0);
->> +
->> +	/* enhanced frame */
->> +	dp_write_bits(dp->base + DP_VIDEO_CTRL, DP_CFG_STREAM_FRAME_MODE, 0x1);
->> +
->> +	/* set rate and lane count */
->> +	buf[0] = dp_get_link_rate(dp->link.cap.link_rate);
->> +	buf[1] = DP_LANE_COUNT_ENHANCED_FRAME_EN | dp->link.cap.lanes;
->> +	ret = drm_dp_dpcd_write(&dp->aux, DP_LINK_BW_SET, buf, sizeof(buf));
->> +	if (ret != sizeof(buf)) {
->> +		drm_err(dp->dev, "dp aux write link rate and lanes failed, ret: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	/* set 8b/10b and downspread */
->> +	buf[0] = 0x10;
->> +	buf[1] = 0x1;
->> +	ret = drm_dp_dpcd_write(&dp->aux, DP_DOWNSPREAD_CTRL, buf, sizeof(buf));
->> +	if (ret != sizeof(buf))
->> +		drm_err(dp->dev, "dp aux write 8b/10b and downspread failed, ret: %d\n", ret);
->> +
->> +	ret = drm_dp_read_dpcd_caps(&dp->aux, dp->dpcd);
->> +	if (ret)
->> +		drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
->> +
->> +	return ret;
->> +}
->> +
->> +static int dp_link_pattern2dpcd(struct dp_dev *dp, enum dp_pattern_e pattern)
->> +{
->> +	switch (pattern) {
->> +	case DP_PATTERN_NO:
->> +		return DP_TRAINING_PATTERN_DISABLE;
->> +	case DP_PATTERN_TPS1:
->> +		return DP_TRAINING_PATTERN_1;
->> +	case DP_PATTERN_TPS2:
->> +		return DP_TRAINING_PATTERN_2;
->> +	case DP_PATTERN_TPS3:
->> +		return DP_TRAINING_PATTERN_3;
->> +	case DP_PATTERN_TPS4:
->> +		return DP_TRAINING_PATTERN_4;
->> +	default:
->> +		drm_err(dp->dev, "dp link unknown pattern %d\n", pattern);
->> +		return -EINVAL;
-> Why do you need the extra defines / wrappers? Can you use
-> DP_TRAINING_PATTERN_foo directly?
->
->> +	}
->> +}
->> +
->> +static int dp_link_set_pattern(struct dp_dev *dp, enum dp_pattern_e pattern)
->> +{
->> +	int ret;
->> +	u8 buf;
->> +
->> +	ret = dp_link_pattern2dpcd(dp, pattern);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	buf = (u8)ret;
->> +	if (pattern != DP_TRAINING_PATTERN_DISABLE && pattern != DP_TRAINING_PATTERN_4) {
->> +		buf |= DP_LINK_SCRAMBLING_DISABLE;
->> +		dp_write_bits(dp->base + DP_PHYIF_CTRL0, DP_CFG_SCRAMBLE_EN, 0x1);
->> +	} else {
->> +		dp_write_bits(dp->base + DP_PHYIF_CTRL0, DP_CFG_SCRAMBLE_EN, 0);
->> +	}
->> +
->> +	dp_write_bits(dp->base + DP_PHYIF_CTRL0, DP_CFG_PAT_SEL, pattern);
->> +
->> +	ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_PATTERN_SET, &buf, sizeof(buf));
->> +	if (ret != sizeof(buf))
->> +		drm_err(dp->dev, "dp aux write training pattern set failed\n");
->> +
->> +	return 0;
->> +}
->> +
->> +static int dp_link_training_cr_pre(struct dp_dev *dp)
->> +{
->> +	u8 *train_set = dp->link.train_set;
->> +	int ret;
->> +	u8 i;
->> +
->> +	ret = dp_link_training_configure(dp);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret = dp_link_set_pattern(dp, DP_PATTERN_TPS1);
->> +	if (ret)
->> +		return ret;
->> +
->> +	for (i = 0; i < dp->link.cap.lanes; i++)
->> +		train_set[i] = DP_TRAIN_VOLTAGE_SWING_LEVEL_2;
->> +
->> +	ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, train_set, dp->link.cap.lanes);
->> +	if (ret != dp->link.cap.lanes)
->> +		drm_err(dp->dev, "dp aux write training lane set failed\n");
->> +
->> +	return 0;
->> +}
->> +
->> +static bool dp_link_get_adjust_train(struct dp_dev *dp, u8 lane_status[DP_LINK_STATUS_SIZE])
->> +{
->> +	u8 pre_emph[DP_LANE_NUM_MAX] = {0};
->> +	u8 voltage[DP_LANE_NUM_MAX] = {0};
->> +	bool changed = false;
->> +	u8 train_set;
->> +	u8 lane;
->> +
->> +	/* not support level 3 */
-> ??
->
->> +	for (lane = 0; lane < dp->link.cap.lanes; lane++) {
->> +		voltage[lane] = drm_dp_get_adjust_request_voltage(lane_status, lane);
->> +		pre_emph[lane] = drm_dp_get_adjust_request_pre_emphasis(lane_status, lane);
->> +	}
->> +
->> +	for (lane = 0; lane < dp->link.cap.lanes; lane++) {
->> +		train_set = voltage[lane] | pre_emph[lane];
->> +		if (dp->link.train_set[lane] != train_set) {
->> +			changed = true;
->> +			dp->link.train_set[lane] = train_set;
->> +		}
->> +	}
->> +
->> +	return changed;
->> +}
->> +
->> +u8 dp_get_link_rate(u8 index)
->> +{
->> +	return link_rate_map[index];
->> +}
-> Use the array directly
-
-Hi Dmitry,
-Because we need to use this global array in other files, and I don't want to extern it directly.
-Thanks,
-Baihan
-
-
->> +
->> +static int dp_link_reduce_rate(struct dp_dev *dp)
->> +{
->> +	if (dp->link.cap.link_rate > 0) {
->> +		dp->link.cap.link_rate--;
->> +		return 0;
->> +	}
->> +
->> +	drm_err(dp->dev, "dp link training reduce rate failed, already lowest rate\n");
->> +
->> +	return -EFAULT;
-> EFAULT => "Bad address". Probably the error code should be slightly
-> different.
->
->> +}
->> +
->> +static int dp_link_reduce_lane(struct dp_dev *dp)
->> +{
->> +	if (dp->link.cap.lanes == DP_LANE_NUM_1) {
->> +		drm_err(dp->dev, "dp link training reduce lane failed, already reach minimum\n");
->> +		return -EFAULT;
->> +	}
->> +
->> +	/* currently only 1 lane */
-> You've probably meant "1 or 2 lanes". Still a switchcase might be
-> better.
->
->> +	dp->link.cap.lanes = DP_LANE_NUM_1;
->> +
->> +	return 0;
->> +}
->> +
->> +static int dp_link_training_cr(struct dp_dev *dp)
->> +{
->> +	u8 lane_status[DP_LINK_STATUS_SIZE] = {0};
->> +	bool level_changed;
->> +	u32 voltage_tries;
->> +	u32 cr_tries;
->> +	u32 max_cr;
->> +	int ret;
->> +
->> +	/*
->> +	 * DP 1.4 spec define 10 for maxtries value, for pre DP 1.4 version set a limit of 80
->> +	 * (4 voltage levels x 4 preemphasis levels x 5 identical voltage retries)
->> +	 */
->> +	max_cr = dp->link.cap.rx_dpcd_revision >= DPCD_REVISION_14 ? 10 : 80;
->> +
->> +	voltage_tries = 1;
->> +	for (cr_tries = 0; cr_tries < max_cr; cr_tries++) {
->> +		drm_dp_link_train_clock_recovery_delay(&dp->aux, dp->dpcd);
->> +
->> +		ret = drm_dp_dpcd_read_link_status(&dp->aux, lane_status);
->> +		if (ret != DP_LINK_STATUS_SIZE) {
->> +			drm_err(dp->dev, "Get lane status failed\n");
->> +			return ret;
->> +		}
->> +
->> +		if (drm_dp_clock_recovery_ok(lane_status, dp->link.cap.lanes)) {
->> +			drm_info(dp->dev, "dp link training cr done\n");
->> +			dp->link.status.clock_recovered = true;
->> +			return 0;
->> +		}
->> +
->> +		if (voltage_tries == 5) {
->> +			drm_info(dp->dev, "same voltage tries 5 times\n");
->> +			dp->link.status.clock_recovered = false;
->> +			return 0;
->> +		}
->> +
->> +		level_changed = dp_link_get_adjust_train(dp, lane_status);
->> +		ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, dp->link.train_set,
->> +					dp->link.cap.lanes);
->> +		if (ret != dp->link.cap.lanes) {
->> +			drm_err(dp->dev, "Update link training failed\n");
->> +			return ret;
->> +		}
->> +
->> +		voltage_tries = level_changed ? 1 : voltage_tries + 1;
->> +	}
->> +
->> +	drm_err(dp->dev, "dp link training clock recovery %u timers failed\n", max_cr);
->> +	dp->link.status.clock_recovered = false;
->> +
->> +	return 0;
->> +}
->> +
->> +static int dp_link_training_channel_eq(struct dp_dev *dp)
->> +{
->> +	u8 lane_status[DP_LINK_STATUS_SIZE] = {0};
->> +	enum dp_pattern_e tps;
->> +	u8 eq_tries;
->> +	int ret;
->> +
->> +	if (dp->link.cap.is_tps4)
->> +		tps = DP_PATTERN_TPS4;
->> +	else if (dp->link.cap.is_tps3)
->> +		tps = DP_PATTERN_TPS3;
->> +	else
->> +		tps = DP_PATTERN_TPS2;
->> +
->> +	ret = dp_link_set_pattern(dp, tps);
->> +	if (ret)
->> +		return ret;
->> +
->> +	for (eq_tries = 0; eq_tries < EQ_MAX_RETRY; eq_tries++) {
->> +		drm_dp_link_train_channel_eq_delay(&dp->aux, dp->dpcd);
->> +
->> +		ret = drm_dp_dpcd_read_link_status(&dp->aux, lane_status);
->> +		if (ret != DP_LINK_STATUS_SIZE) {
->> +			drm_err(dp->dev, "get lane status failed\n");
->> +			break;
->> +		}
->> +
->> +		if (!drm_dp_clock_recovery_ok(lane_status, dp->link.cap.lanes)) {
->> +			drm_info(dp->dev, "clock recovery check failed\n");
->> +			drm_info(dp->dev, "cannot continue channel equalization\n");
->> +			dp->link.status.clock_recovered = false;
->> +			break;
->> +		}
->> +
->> +		if (drm_dp_channel_eq_ok(lane_status, dp->link.cap.lanes)) {
->> +			dp->link.status.channel_equalized = true;
->> +			drm_info(dp->dev, "dp link training eq done\n");
->> +			break;
->> +		}
->> +
->> +		dp_link_get_adjust_train(dp, lane_status);
->> +		ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
->> +					dp->link.train_set, dp->link.cap.lanes);
->> +		if (ret != dp->link.cap.lanes) {
->> +			drm_err(dp->dev, "Update link training failed\n");
->> +			break;
->> +		}
->> +	}
->> +
->> +	if (eq_tries == EQ_MAX_RETRY)
->> +		drm_err(dp->dev, "channel equalization failed %u times\n", eq_tries);
->> +
->> +	dp_link_set_pattern(dp, DP_PATTERN_NO);
->> +
->> +	return ret < 0 ? ret : 0;
->> +}
->> +
->> +static int dp_link_downgrade_training_cr(struct dp_dev *dp)
->> +{
->> +	if (dp_link_reduce_rate(dp))
->> +		return dp_link_reduce_lane(dp);
->> +
->> +	return 0;
->> +}
->> +
->> +static int dp_link_downgrade_training_eq(struct dp_dev *dp)
->> +{
->> +	if ((dp->link.status.clock_recovered && !dp->link.status.channel_equalized)) {
->> +		if (!dp_link_reduce_lane(dp))
->> +			return 0;
->> +	}
->> +
->> +	return dp_link_reduce_rate(dp);
->> +}
->> +
->> +int dp_link_training(struct dp_dev *dp)
->> +{
->> +	struct hibmc_dp_link *link = &dp->link;
->> +	int ret;
->> +
->> +	while (true) {
->> +		ret = dp_link_training_cr_pre(dp);
->> +		if (ret)
->> +			goto err;
->> +
->> +		ret = dp_link_training_cr(dp);
->> +		if (ret)
->> +			goto err;
->> +
->> +		if (!link->status.clock_recovered) {
->> +			ret = dp_link_downgrade_training_cr(dp);
->> +			if (ret)
->> +				goto err;
->> +			continue;
->> +		}
->> +
->> +		ret = dp_link_training_channel_eq(dp);
->> +		if (ret)
->> +			goto err;
->> +
->> +		if (!link->status.channel_equalized) {
->> +			ret = dp_link_downgrade_training_eq(dp);
->> +			if (ret)
->> +				goto err;
->> +			continue;
->> +		}
->> +
->> +		return 0;
->> +	}
->> +
->> +err:
->> +	dp_link_set_pattern(dp, DP_PATTERN_NO);
->> +
->> +	return ret;
->> +}
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h
->> new file mode 100644
->> index 000000000000..38877d8f473b
->> --- /dev/null
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h
->> @@ -0,0 +1,25 @@
->> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->> +/* Copyright (c) 2024 Hisilicon Limited. */
->> +
->> +#ifndef DP_LINK_H
->> +#define DP_LINK_H
->> +
->> +#include "dp_comm.h"
->> +
->> +#define DP_LANE_NUM_MAX		2
->> +#define DP_LANE_STATUS_SIZE	1
->> +#define DP_LANE_NUM_1		0x1
->> +#define DP_LANE_NUM_2		0x2
->> +
->> +enum dp_pattern_e {
->> +	DP_PATTERN_NO = 0,
->> +	DP_PATTERN_TPS1,
->> +	DP_PATTERN_TPS2,
->> +	DP_PATTERN_TPS3,
->> +	DP_PATTERN_TPS4,
->> +};
->> +
->> +int dp_link_training(struct dp_dev *dp);
->> +u8 dp_get_link_rate(u8 index);
->> +
->> +#endif
->> -- 
->> 2.33.0
+>> amdgpu_atif_pci_probe_handle() will check whether the handle is 
+>> available in the first place.  We'll never this this far if that failed.
 >>
+>> Because of that I don't follow how this could return AE_NOT_FOUND.
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 11 +++++++----
+>>>   1 file changed, 7 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/ 
+>>> drm/amd/amdgpu/amdgpu_acpi.c
+>>> index cce85389427f..f10c3261a4ab 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+>>> @@ -172,10 +172,13 @@ static union acpi_object 
+>>> *amdgpu_atif_call(struct amdgpu_atif *atif,
+>>>                         &buffer);
+>>>       obj = (union acpi_object *)buffer.pointer;
+>>> -    /* Fail if calling the method fails and ATIF is supported */
+>>> -    if (ACPI_FAILURE(status) && status != AE_NOT_FOUND) {
+>>> -        DRM_DEBUG_DRIVER("failed to evaluate ATIF got %s\n",
+>>> -                 acpi_format_exception(status));
+>>> +    /* Fail if calling the method fails */
+>>> +    if (ACPI_FAILURE(status)) {
+>>> +        if (status != AE_NOT_FOUND)
+>>> +            DRM_DEBUG_DRIVER("failed to evaluate ATIF got %s\n",
+>>> +                     acpi_format_exception(status));
+>>> +        else
+>>> +            DRM_DEBUG_DRIVER("ATIF not supported\n");
+>>>           kfree(obj);
+>>>           return NULL;
+>>>       }
+>>
+> 
+
