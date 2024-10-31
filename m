@@ -2,74 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53579B803A
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 17:35:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D2E9B7E89
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 16:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EA1510E8EA;
-	Thu, 31 Oct 2024 16:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B99610E8CE;
+	Thu, 31 Oct 2024 15:31:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mandelbit.com header.i=@mandelbit.com header.b="Nk6JI7vt";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="g3TCnlZo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3362310E8CF
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 15:28:59 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4315eac969aso6669965e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 08:28:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mandelbit.com; s=google; t=1730388537; x=1730993337;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rpxd1Wa3OWeEEx8H8WR2xSUmackvwxeKQOHoyz3QWko=;
- b=Nk6JI7vtY7//FfDQv018KqIrkLNltblRK+iK77C7Psd57uZfsxgAnTr5c+lgZfr4ko
- fKERdiry+YYt4mR7bipLeWOHbtQNqNrBvBlUqlrvdgdCscHfyrIs3sO9qi/XP6nIVjqi
- BlldnCeNYKTVydc27uQhoDIyPeDAlMXRLFsmFCW3VqL+kBMvoe95pTxRlxZPj2Ldp5UD
- DVXfYUgMfkiDcIEhd8Ql/3LPwz6/s9lgg5ZmmpllLX9T9Ue3R8H5sCyxj86KxNRFk+bR
- /v+JOcBQLbwTdaHGCRepekkkQpapiF6wy8Yr0PjJlcHyMOG+YhnjFVsszflj57G4ljdu
- pBLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730388537; x=1730993337;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rpxd1Wa3OWeEEx8H8WR2xSUmackvwxeKQOHoyz3QWko=;
- b=eIEQ2LeLqAvEVaBDF1JjwnIvafCfC20Aca9auW80ub8GAFIRWjVSoJw6E+FG9hLLge
- wuhYck8DylPkpPix3HrKRqQvoJpdslR3CGNbOLt2WjVvOHmR3KzsHPCK6Y/vdm+nQ23i
- iV+c6YbnxL8gN+larKKClJRP2jCSUc88AHMhmAcVcM/XpZrPPUM93AxgS/keOQjTHFx4
- Pj4TZFbIlGVjWPE0dYzOw61WFKwdK5e2hyFR7GuG4N38JmpYpB/AZp8P0T51RqzXjzEF
- Ulq9xqFfevVENs1bxzBN8L8IA7FRX2IPBkF+EkDUlsRkf9p0SGOkb5RLwOzR6QxCGD5N
- csEg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXqrCOd2BCmONyoibk96Fmgf+3cxf9G5aUPH2g0PaNGKO4pCgkijBXvNt3duXfhKR1vZhpdsY+6dDA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxBCxl1MurlB52evIV1QOhxaE30sEf0QAAEKzzWK9aNQ+kN1jQ7
- 82nDxKyy2Boog41HSKXk7ZOqR26Jymz6IThn9kxatpjx8Zgx7cIsNgCE6Sfqp8hoYUDrFgTyk6g
- X
-X-Google-Smtp-Source: AGHT+IFoBxKsLoz39uPKBv9j+HXWXkAGIl612NqZQoe4p4s5DLp2XLQRN53tAbxQ8nsfJYMNkdC38w==
-X-Received: by 2002:a05:600c:3b2a:b0:428:b4a:7001 with SMTP id
- 5b1f17b1804b1-432830a19b6mr3477095e9.15.1730388537243; 
- Thu, 31 Oct 2024 08:28:57 -0700 (PDT)
-Received: from serenity.mandelbit.com ([2001:67c:2fbc:1:634e:2582:d0aa:ee79])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-381c1189118sm2449976f8f.116.2024.10.31.08.28.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Oct 2024 08:28:56 -0700 (PDT)
-From: Antonio Quartulli <antonio@mandelbit.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- mario.limonciello@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Antonio Quartulli <antonio@mandelbit.com>
-Subject: [PATCH v2] amdgpu: prevent NULL pointer dereference if ATIF is not
- supported
-Date: Thu, 31 Oct 2024 16:28:48 +0100
-Message-ID: <20241031152848.4716-1-antonio@mandelbit.com>
-X-Mailer: git-send-email 2.45.2
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
+ [95.215.58.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 133E510E8CE
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 15:31:52 +0000 (UTC)
+Message-ID: <664a1251-203d-4d29-86c4-6edd36c23eb9@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1730388710;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1FsbTOlKbKVtI/UbvwBD7+VePpEQEZip+EtLwmeq1hc=;
+ b=g3TCnlZooYIDOinnZd6O2mliVhJVxCI4EWURNoQ5SGuegjVoMZka6XQCMwC2VcreiTLoSY
+ eKw6S5DC7gG6/cOqbaMg/J77oLm0vCF3h59a+2MNz0fRnrk7nVaSayVvXfKy1mZFGA99pq
+ rbDWupTLmeS5G5KTPttnp5qQ+7mK8/A=
+Date: Thu, 31 Oct 2024 23:31:41 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 31 Oct 2024 16:35:40 +0000
+Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
+ parent to aux bridge
+To: Johan Hovold <johan@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Abel Vesa <abel.vesa@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
+ <172951608323.1285208.3162107667310691864.b4-ty@linaro.org>
+ <230b5910-6790-44cb-90ed-222bee89054d@linux.dev>
+ <c2a4cc3a-2ffc-46f3-8636-238cd561f7aa@linaro.org>
+ <ZyOOEGsnjYreKQN8@hovoldconsulting.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <ZyOOEGsnjYreKQN8@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,37 +70,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-acpi_evaluate_object() may return AE_NOT_FOUND (failure), which
-would result in dereferencing buffer.pointer (obj) while being NULL.
+Hi,
 
-Although this case may be unrealistic for the current code, it is
-still better to protect against possible bugs.
+On 2024/10/31 22:02, Johan Hovold wrote:
+> On Thu, Oct 31, 2024 at 01:31:47PM +0100, Neil Armstrong wrote:
+>> On 30/10/2024 15:49, Sui Jingfeng wrote:
+>>> On 2024/10/21 21:08, Neil Armstrong wrote:
+>>>> On Fri, 18 Oct 2024 15:49:34 +0300, Abel Vesa wrote:
+>>>>> The assignment of the of_node to the aux bridge needs to mark the
+>>>>> of_node as reused as well, otherwise resource providers like pinctrl will
+>>>>> report a gpio as already requested by a different device when both pinconf
+>>>>> and gpios property are present.
+>>>>> Fix that by using the device_set_of_node_from_dev() helper instead.
+>>>>>
+>>>>>
+>>>>> [...]
+>>>> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
+>>>
+>>> It's quite impolite to force push patches that still under reviewing,
+>>> this prevent us to know what exactly its solves.
+>> It's quite explicit.
+> It's still disrespectful and prevents reviewers' work from being
+> acknowledged as I told you off-list when you picked up the patch.
+>
+> You said it would not happen again, and I had better things to do so I
+> let this one pass, but now it seems you insist that you did nothing
+> wrong here.
+>
+> We do development in public and we should have had that discussion in
+> public, if only so that no one thinks I'm ok with this.
 
-Bail out also when status is AE_NOT_FOUND.
 
-This fixes 1 FORWARD_NULL issue reported by Coverity
-Report: CID 1600951:  Null pointer dereferences  (FORWARD_NULL)
+Yeah, extremely correct, Johan!
 
-Signed-off-by: Antonio Quartulli <antonio@mandelbit.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+While I am really don't know why a child device have to
+share the referencing of the OF device node with its parent device?
+Is possible to pass a child device node via the platform data to reference?
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-index cce85389427f..b8d4e07d2043 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-@@ -172,8 +172,8 @@ static union acpi_object *amdgpu_atif_call(struct amdgpu_atif *atif,
- 				      &buffer);
- 	obj = (union acpi_object *)buffer.pointer;
- 
--	/* Fail if calling the method fails and ATIF is supported */
--	if (ACPI_FAILURE(status) && status != AE_NOT_FOUND) {
-+	/* Fail if calling the method fails */
-+	if (ACPI_FAILURE(status)) {
- 		DRM_DEBUG_DRIVER("failed to evaluate ATIF got %s\n",
- 				 acpi_format_exception(status));
- 		kfree(obj);
+I means that, in DT systems, the child device can easily
+have(find) its own device node to attached.
+I'm imagining that it probably should be belong to the USB
+connector device node or something like that.
+
+Sorry, I'm confused. I understand that you also might be busy.
+I think I probably should go back alone to think for a while.
+
+
+> Johan
+
 -- 
-2.45.2
+Best regards,
+Sui
 
