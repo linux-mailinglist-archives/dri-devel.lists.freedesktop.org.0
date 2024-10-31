@@ -2,82 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268D09B838B
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 20:37:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFF09B839A
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 20:46:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9576110E923;
-	Thu, 31 Oct 2024 19:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7898010E91E;
+	Thu, 31 Oct 2024 19:46:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gq1/jWPT";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WrZ3Vj8u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAD9210E920
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 19:37:53 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2fb59652cb9so13075291fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 12:37:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730403472; x=1731008272; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xY8BKpUlX8dbSzUZiaXQFiaPQ0R16ABPPrXeZ4QjIzY=;
- b=gq1/jWPTOIP3GL8YPuj6b6bUdz9AceH5DnH10oHOSYLiHn9Od6i3djKGsnWW8JCzjF
- NsF0iX2QD81B9kbJQTkQlfRWZnVxgDMJN0V4IUPlrWoq7Eh1vsaNA08g0d3oeH+kXekM
- N+8Jx5FJaOKYAR0hI1IAVUHBm3EGerDC8GOXTr+mMhgD3gvaEAcPU4NZ9Jpj9t7tPbGX
- C0cEgEweXaiYoDUBI5sBzVlTkn0bTOesJUbaCUuZecJg3Bry9nQqzwdimjuco7mhCgKb
- TIZKlMdkvgwvWfEmXsAdGdJ73ohGbv+if8auVZsf0halaCKjPHOu+ABAWmJFodF+z6qc
- jfEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730403472; x=1731008272;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xY8BKpUlX8dbSzUZiaXQFiaPQ0R16ABPPrXeZ4QjIzY=;
- b=oOPfa392y65ENgWPicN0GHlH+WVQIcgpKlHUi/Q/cXo6hsGyMbZDQvk6KXlrVR6o2q
- Xsl3GVUDO1ius1PrNn7UuL7a9k2/DKMBOQPUJrpN4WhhTD5uHmu8YuDnqivaNoWE7Ssr
- i5fZxJc16aH6plVGMaRrkDpowLH25NktwEnWDOEvUf4NxvdXUs43W5Mj/J770Xg/XQSp
- 06yr+dwhoL8icOdz4MXpnWCaV1MHxAtmttkQShvxksLvjbsGuucKtgLUVlvW3uf3SHHv
- d9ckmi7gt/hU55B462nFFEGf0gMzd0Wz9O7NIcmP4Zec19LfeBIXIB2J+PZCpZohPsnD
- hIKg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWInHUKPxO+1Fw3o7nEc6uyPTkLYvZTHV/NoB1ioQ2LpSxP4qDtOtvcNaNNld8u4YoGu6IxAyiO7FI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwK3dvwC9saNBsMasT9eCn5RukSwAgPKxcZ1poCiuwKmMxLtuHZ
- P19/qwqZJdPb2Dh4+AZeybrGk/5Vp3LRbEv1H8CyBEECPs7uRQ9S+KYHkqPuzTo=
-X-Google-Smtp-Source: AGHT+IEEfUmTLPeg9xVuEZGEbyZoSx7BjCxMcZYz1YD+L+1zvJUGzjkwJa62fHfBLyTlAdyjmcsXwg==
-X-Received: by 2002:a05:651c:2229:b0:2fb:6027:7c0a with SMTP id
- 38308e7fff4ca-2fdec4ca559mr25802861fa.8.1730403471954; 
- Thu, 31 Oct 2024 12:37:51 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fdef8c390csm3099771fa.112.2024.10.31.12.37.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Oct 2024 12:37:50 -0700 (PDT)
-Date: Thu, 31 Oct 2024 21:37:48 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, stable@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: it6505: Fix inverted reset polarity
-Message-ID: <5eic3qpeocp54my5clu3umigog6fe5zs5drpbyzpholmalcmcw@mh25vgvxd5tx>
-References: <20241029095411.657616-1-wenst@chromium.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8EF510E91B;
+ Thu, 31 Oct 2024 19:46:54 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49VAASK4009583;
+ Thu, 31 Oct 2024 19:46:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ KpvpFB+byk8ASN4RFV2qVrBXqc1NDy5kC27SN7oPziU=; b=WrZ3Vj8u4RK0Pe5o
+ P9vlbAd5Q3jpfceJ4wDqlAozdmjoDwJkNWsNAed5StH9qj8UglqdZ2Plw6dXWe7r
+ EFo1paAAmAqIeC3rIfqg/O3lu48eqsBycEfTIBKS3Y6xJGVB4YJiFQ4jxzvVzpq/
+ 3m7uViF/oC0DPcEKzEd8vFS0/XyHCQjBeU61CS9E0H+VIvUrTVlP1VAqjLNVBVNz
+ DJDfpwqCOyQ8zOHzfoinNyDD03KUNCltaTVdoZUPWWjJreL/VFOXNgpRFqSeCOe/
+ KwMupO6vDq0PgTL4g7mJ7NTtods8WerbXQuZbl6sUnQQvpCcYH9cL2WopEZcw/9K
+ uuDswA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42kjm1d3r6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Oct 2024 19:46:48 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49VJklL4004678
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Oct 2024 19:46:47 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 31 Oct
+ 2024 12:46:43 -0700
+Message-ID: <6e0a6c0e-dbc1-4c96-acc0-9dad891ea136@quicinc.com>
+Date: Thu, 31 Oct 2024 12:46:42 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241029095411.657616-1-wenst@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 06/23] drm/msm/dpu: fill CRTC resources in dpu_crtc.c
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, "Sean
+ Paul" <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ "David Airlie" <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+CC: <quic_ebharadw@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20241016-concurrent-wb-v3-0-a33cf9b93835@quicinc.com>
+ <20241016-concurrent-wb-v3-6-a33cf9b93835@quicinc.com>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20241016-concurrent-wb-v3-6-a33cf9b93835@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 6pjUxv6tKr_rTyz6XTXnuVJyhRKjuKkf
+X-Proofpoint-ORIG-GUID: 6pjUxv6tKr_rTyz6XTXnuVJyhRKjuKkf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ priorityscore=1501 malwarescore=0 lowpriorityscore=0 adultscore=0
+ mlxscore=0 mlxlogscore=999 spamscore=0 suspectscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410310149
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,36 +98,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 29, 2024 at 05:54:10PM +0800, Chen-Yu Tsai wrote:
-> The IT6505 bridge chip has a active low reset line. Since it is a
-> "reset" and not an "enable" line, the GPIO should be asserted to
-> put it in reset and deasserted to bring it out of reset during
-> the power on sequence.
+
+
+On 10/16/2024 6:21 PM, Jessica Zhang wrote:
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
-> The polarity was inverted when the driver was first introduced, likely
-> because the device family that was targeted had an inverting level
-> shifter on the reset line.
+> Stop poking into CRTC state from dpu_encoder.c, fill CRTC HW resources
+> from dpu_crtc_assign_resources().
 > 
-> The MT8186 Corsola devices already have the IT6505 in their device tree,
-> but the whole display pipeline is actually disabled and won't be enabled
-> until some remaining issues are sorted out. The other known user is
-> the MT8183 Kukui / Jacuzzi family; their device trees currently do not
-> have the IT6505 included.
-> 
-> Fix the polarity in the driver while there are no actual users.
-> 
-> Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> [quic_abhinavk@quicinc.com: cleaned up formatting]
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->  drivers/gpu/drm/bridge/ite-it6505.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 32 ++++++++++++++++++++++++++---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 24 ++--------------------
+>   2 files changed, 31 insertions(+), 25 deletions(-)
+> 
 
-The datasheet describes the pin as Active LOW, so the change seems to be
-correct.
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
--- 
-With best wishes
-Dmitry
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
