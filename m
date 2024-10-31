@@ -2,70 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2349B837A
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 20:32:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3499B8384
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 20:37:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7519110E916;
-	Thu, 31 Oct 2024 19:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0B3C10E918;
+	Thu, 31 Oct 2024 19:37:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VBFnUGOG";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="dGGYCdjW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B52410E916
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 19:32:54 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-53a097aa3daso1290083e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 12:32:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730403172; x=1731007972; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=jcv819KyGF7gb7Milxae3g5KBBPuhxN7NjyGwjKfWLU=;
- b=VBFnUGOGo5Vx0QRHFS02kr94QLJ2qG+YHOkYM7+G3InB9wXZRVX7oU+1C626E5DvFi
- JB029jVoTtUa4+3PYteKxZy4hPJObzrZWq6KsGyCSEa5WERdKV7unwW2GEROfr+vFqa6
- fug0pV6qwqhjGOqJSM1jlP6hoeT3btvKLBaq89UGn0KfnJSBgXFqGMAkRjbb8qOexTCs
- GwhnR9/JQwENL3kXPSncNp6AZMc/wAN1UJRL7emhbCrTibqZfHbVgfw9TJ/EmyK6UVBr
- H3mnGwFbe1SpSqi0JNZ2MjdieQoBvl3QSdBib5fayP+YDCkP3+9HMDbHstRx94ORmWBD
- +SoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730403172; x=1731007972;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jcv819KyGF7gb7Milxae3g5KBBPuhxN7NjyGwjKfWLU=;
- b=FkfCtkrCF1fm+2+uaz9HV51eU3i3qEF5Xm+bLQqEhZW6gpb+esw7i5b35NIAFe2t4g
- pRVdZ1ayRppV6fuoW86Y8jbuuEBJ+u5A+u1QH0VNzZRQ/hGYZHQarDtWM1Wf3jM+drZP
- 2xkbthS7D/2ggXC5kuSNDGZmyIUbmiOZy3l1+pdhQrTPwgsCesz77KgB9H63lael6ZKi
- DGW6j8waRWgf6r7UhHXUaKss0KP+q4+rSouEAl7gyS4KSORWwOm7AIJLKIVpZDNjDjjB
- jImj/BGt+BdaScygpGYtiGJj21XClpTXCImhJT4Ci96aduf+o+1D6TMlf6FxpI1AxdXa
- zYyA==
-X-Gm-Message-State: AOJu0YwdP2s9prynlKYAL1Mc0ODh4zIuC1GowhwKrNCA8avSDgkujjce
- co4wXg5EmK+miHMYybgtNnxcPooUDo3OA9s8w/6JSfQqtSlxCqHDLNvlxpReVxs=
-X-Google-Smtp-Source: AGHT+IHJprEln6M+XsL54JaXRSFRk2Lz1FfBJ2GTsM+1MhZcz+bSNqK0YPKdx4trYZ+bl12MmRiwAw==
-X-Received: by 2002:ac2:4c46:0:b0:52b:de5b:1b30 with SMTP id
- 2adb3069b0e04-53d65e1a5e7mr686686e87.44.1730403172530; 
- Thu, 31 Oct 2024 12:32:52 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53c7bde0c34sm303481e87.269.2024.10.31.12.32.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Oct 2024 12:32:51 -0700 (PDT)
-Date: Thu, 31 Oct 2024 21:32:48 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Barnes <robbarnes@google.com>
-Cc: dri-devel@lists.freedesktop.org, sukoo@google.com
-Subject: Re: [PATCH libdrm] modetest: Make modetest availble to vendor on
- Android
-Message-ID: <upxsvozu33vh2jpliq7kigp6a62vkibrohi3f7e4arfptptard@44afro6gchfs>
-References: <20241029144305.2911711-1-robbarnes@google.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7496F10E917;
+ Thu, 31 Oct 2024 19:37:19 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49V8OqWF012768;
+ Thu, 31 Oct 2024 19:37:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ bIxwLsSg+CYH3T0ktKQwywNRP1Ozo2e29WPTyMrAnfE=; b=dGGYCdjWX4TlRuFo
+ 3BaN779XFxkcwhwzyZicrqtXZnRsxv7OrvQp+et9St8ZGpR9ShyoBm3s8oD5A6sM
+ /xzFPC7Nwuct/1iM600XcBN7jejwaDrhYvCepB/VBQY/8AY/5vfmUByr0C526pq3
+ gmAQj1/j2Tiatuv9Pk7RgfP5qr/E+5FqL7rf96Wu7HkIRkh/gxHuGEtTLzgeu0cf
+ +b8B7PYoytE16S3BG27b8r70b7qEbId2i5+uqzUU5rEhUFarfBoDoJAYFZYUvvJR
+ Hke7jeabwGWIzTyR5k99IIQIH05cmpDKSNBS0ngP7m7IpXZQf1KLPePe9lx3rH2l
+ pg51Tw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42k6rpq113-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Oct 2024 19:37:08 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49VJb7sQ020699
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Oct 2024 19:37:07 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 31 Oct
+ 2024 12:37:04 -0700
+Message-ID: <3afded46-7aef-4444-9b61-b97f71d0e5fc@quicinc.com>
+Date: Thu, 31 Oct 2024 12:37:03 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241029144305.2911711-1-robbarnes@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 05/23] drm/msm/dpu: move resource allocation to CRTC
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, "Sean
+ Paul" <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ "David Airlie" <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+CC: <quic_ebharadw@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20241016-concurrent-wb-v3-0-a33cf9b93835@quicinc.com>
+ <20241016-concurrent-wb-v3-5-a33cf9b93835@quicinc.com>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20241016-concurrent-wb-v3-5-a33cf9b93835@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: cg68pWYdBUYYZT7pKzCXxlv2bltUcJXi
+X-Proofpoint-GUID: cg68pWYdBUYYZT7pKzCXxlv2bltUcJXi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0
+ clxscore=1015 mlxlogscore=999 priorityscore=1501 spamscore=0
+ malwarescore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2409260000 definitions=main-2410310148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,22 +98,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 29, 2024 at 02:43:05PM +0000, Rob Barnes wrote:
-> Make modetest available to vendors on Android. libdrm_util and
-> libdrm_test_headers is also made available to vendors since these are
-> depenencies of modetest. This results in the module target
-> modetest.vendor being availble to vendor modules.
+
+
+On 10/16/2024 6:21 PM, Jessica Zhang wrote:
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
-> Signed-off-by: Rob Barnes <robbarnes@google.com>
+> All resource allocation is centered around the LMs. Then other blocks
+> (except DSCs) are allocated basing on the LMs that was selected, and LM
+> powers up the CRTC rather than the encoder.
+> 
+> Moreover if at some point the driver supports encoder cloning,
+> allocating resources from the encoder will be incorrect, as all clones
+> will have different encoder IDs, while LMs are to be shared by these
+> encoders.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> [quic_abhinavk@quicinc.com: Refactored resource allocation for CDM]
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> [quic_jesszhan@quicinc.com: Changed to grabbing exising global state]
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->  tests/Android.bp          | 1 +
->  tests/modetest/Android.bp | 1 +
->  tests/util/Android.bp     | 1 +
->  3 files changed, 3 insertions(+)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  86 ++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 201 +++++++++++-----------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  19 +++
+>   3 files changed, 183 insertions(+), 123 deletions(-)
 > 
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+<Snip>
 
--- 
-With best wishes
-Dmitry
+> -	/* See dpu_encoder_get_topology, we only support 2:2:1 topology */
+> +	/* We only support 2 DSC mode (with 2 LM and 1 INTF) */
+>   	if (dpu_enc->dsc)
+> -		num_dsc = 2;
+> +		topology->num_dsc += 2;
+>   
+> -	return (num_dsc > 0) && (num_dsc > intf_count);
+> -}
+
+I dont recall the context of replacing num_dsc = 2 with num_dsc += 2
+and its not documented.
+
+<Snip>
+
+> +	/* We only support 2 DSC mode (with 2 LM and 1 INTF) */
+> +	if (dpu_enc->dsc)
+> +		num_dsc += 2;
+>   
+> -	return topology;
+> +	return (num_dsc > 0) && (num_dsc > num_intf);
+>   }
+>   
+
+Same here
+
+This should not break anything with current code. We could land it the 
+way it is as this was the version which was last tested and post a 
+follow up if this was not right. Something to be documented though, hope 
+this note serves that purpose. Rest of the change LGTM,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
