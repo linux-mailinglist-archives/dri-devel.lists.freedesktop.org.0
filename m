@@ -2,60 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EAE9B7C56
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 15:05:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69439B7C67
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 15:07:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C115810E8A1;
-	Thu, 31 Oct 2024 14:05:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26E1510E8A3;
+	Thu, 31 Oct 2024 14:07:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BTD3lW8f";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="amrSdQ4v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47BC010E8A1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 14:05:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id BD858A431C4;
- Thu, 31 Oct 2024 14:03:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 129CBC4FF0D;
- Thu, 31 Oct 2024 14:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730383555;
- bh=tqhdXipXaApdyzH7wbucKGPUec8wdzKCSf8PtkJTxso=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BTD3lW8fWB74a1NtwyhYLGCCzQo3c0W2TfXSAtMh9Bnh4z9Oj1I8vdc28lu9B6MRS
- MQR7yy1N7WVEz+rmypsGxHSSDIlevHnq7EeTDlzHTvovlPGAK8l3dEVkgIuz5HJGgp
- 46835ueeXuOZlqP2uEDIDGtrdUqplEEvmrQl3lng5yEZsTXGiDwFBQ8IMaxOrO/DfJ
- seH4cP++XQK4QU83l7G+uPD+J10Lecd3P6+BslCMw1+4sSXhHzn1FphODY4lEe90Xb
- edVruSFjliiI877b5B6BvS0mL84DHhLfJ1tsrgAxJAjppK4smpL6K9WMKuV+8voGO2
- ircghHwu0/29g==
-Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan@kernel.org>) id 1t6Vo8-000000004NO-3f8I;
- Thu, 31 Oct 2024 15:05:52 +0100
-Date: Thu, 31 Oct 2024 15:05:52 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
+ [95.215.58.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6843810E8A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 14:07:48 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1730383666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BoHAg1qZYHX6lePa8/xhJEWiDV/Xqyk+i/wwaWiTk98=;
+ b=amrSdQ4vTWalw+ipnhMrH/fVousg6iNhB05fsg39QegkSui6545BLh9vUwtK+k8sBCSTOT
+ Z7sIxb+NHD8Fd6/qVZ9GL5ifUyKe4VabUXMdB2YR/8+GfeheTtN3poEoDSgYcf6T4AhrjL
+ yJQQ5tgRpk0WpxDORQYC19ZmE3lgmbc=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
- parent to aux bridge
-Message-ID: <ZyOOwEPB9NLNtL4N@hovoldconsulting.com>
-References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
- <ZxYBa11Ig_HHQngV@hovoldconsulting.com>
+ Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: [PATCH] drm/prime: drm_prime_sg_to_dma_addr_array(): Return -EINVAL
+ on error
+Date: Thu, 31 Oct 2024 22:07:30 +0800
+Message-Id: <20241031140730.2406181-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZxYBa11Ig_HHQngV@hovoldconsulting.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,30 +55,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 21, 2024 at 09:23:24AM +0200, Johan Hovold wrote:
-> On Fri, Oct 18, 2024 at 03:49:34PM +0300, Abel Vesa wrote:
-> > The assignment of the of_node to the aux bridge needs to mark the
-> > of_node as reused as well, otherwise resource providers like pinctrl will
-> > report a gpio as already requested by a different device when both pinconf
-> > and gpios property are present.
-> 
-> I don't think you need a gpio property for that to happen, right? And
-> this causes probe to fail IIRC?
-> 
-> > Fix that by using the device_set_of_node_from_dev() helper instead.
-> > 
-> > Fixes: 6914968a0b52 ("drm/bridge: properly refcount DT nodes in aux bridge drivers")
-> 
-> This is not the commit that introduced the issue.
-> 
-> > Cc: stable@vger.kernel.org      # 6.8
-> 
-> I assume there are no existing devicetrees that need this since then we
-> would have heard about it sooner. Do we still need to backport it?
-> 
-> When exactly are you hitting this?
+'-EINVAL' stands for invalid argument, while '-1' will accidently be
+interpreted as '-EPERM' by the potential upper caller. Which does not
+describe the error case accurately, since such an error can happens when
+the caller pass a smaller number than actually needed size to describe
+the array passed-in. Such an error is invalid argument.
 
-Abel, even if Neil decided to give me the finger here, please answer the
-above so that it's recorded in the archives at least.
+Take drm/vmwgfx driver as an example, the function call trace is:
 
-Johan
+|- ttm_bo_vmap()
+|-- ttm_tt_populate()
+|--- bdev->funcs->ttm_tt_populate()
+|----- vmw_ttm_populate()
+|------ drm_prime_sg_to_dma_addr_array()
+
+While ttm_bo_vmap() requires its callees return '-EINVAL' on invalid range,
+similier for other users or call path. Let's meet the requirement.
+
+Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+---
+ drivers/gpu/drm/drm_prime.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 0e3f8adf162f..3f1d516a90b6 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -1055,7 +1055,7 @@ int drm_prime_sg_to_dma_addr_array(struct sg_table *sgt, dma_addr_t *addrs,
+ 
+ 	for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
+ 		if (WARN_ON(a - addrs >= max_entries))
+-			return -1;
++			return -EINVAL;
+ 		*a++ = sg_page_iter_dma_address(&dma_iter);
+ 	}
+ 	return 0;
+-- 
+2.34.1
+
