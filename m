@@ -2,107 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41369B827B
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 19:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB339B8285
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 19:23:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 599B010E435;
-	Thu, 31 Oct 2024 18:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9EE910E903;
+	Thu, 31 Oct 2024 18:23:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="leGacqkN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zYGDUFaE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC2F010E435
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 18:20:51 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-e28fea0f5b8so1131520276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 11:20:51 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17CE410E90C
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 18:23:12 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-6ea0b25695dso9933287b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 11:23:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730398851; x=1731003651; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1730398991; x=1731003791; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WLDUJfbR6R9Q78ZWppjQCRBcAEdo3kQLDzuM0lwJU0g=;
- b=leGacqkNg53fc1cV/7eV6eXM7Qs44ikKCsTTA/Aew+q7YreA2NgOduipHCSgDLH/Ef
- 8FLjFQaCpbySWJQviMMjzFPWmJw783bYK8y0nDAcWA//cOt6ghyuWaH3vBUWQpZ47OLM
- jxl0DCxgJSh/EqjHj3pt7tj/A636dn9izTqCqscwozKZn6J4/pSruZFxDAWJHZMNFmfF
- 1NJ4mpuMdtCUkqYb6XrsJ8X3bovis8QIOtJuCGY9RmnuSdhdsm2niS864tG0HFZelSS8
- ecEcARFHlK/FpYV6HIlQNDqvo2OqS4HnpgJ2eACcoAEhQ0M0yO3cLTRqxQXCoX1i8LQw
- CP6w==
+ bh=oyFaR/Nqjo7VFSddLUYVyYGruB0Du5lv6wuap1vCS68=;
+ b=zYGDUFaEQ7/ec/8jTyKQZXpc3DRNFR5GpFQfjKN4sWfYW1T9hmW0H/XuxgGSEhxhac
+ 0umYKKjlX/NbO4kqqcz4avVYwYFH54WkESh75fL1Cf/88jp6azzbUWqBaHSSRD3+0MEK
+ 9T5+8Y2KFBgChkq2Gfv3hxKHMrmWXpFPtp1fsJjiJleHOLdFO2s1Ro28fF32aQzKBe07
+ Xl05gzFP5M6D/6nkmVp9ORaG6LTRQi9iDS7AXG8N+bim1JLVYQx7NM0Bx0TgPOpdkvbJ
+ K1iyg2ejtcjzSaWtY31ywdY8yHrrrEzVL3KSGj15bB/OFAq4FmBcUFXrb4u4ctpuRBu1
+ uzrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730398851; x=1731003651;
+ d=1e100.net; s=20230601; t=1730398991; x=1731003791;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=WLDUJfbR6R9Q78ZWppjQCRBcAEdo3kQLDzuM0lwJU0g=;
- b=e+OhdKLPEpFjm1zTBxGY7r1+ZRqAS7v0xZdoZrdQlYGLNxyh09SkjbMeD8ctRMLEM9
- ZW/Ho5MMEHP2pCRYNCHzCW0GQ5hDowu/ceka3SNM3NP2mbP4s5P/Vnpp22B6UP4kP8+a
- iMcVYP1dHyxn+69gP7QRUB5kKUA6+NgWPFfS23v+vfIow6CT8vZwboGHYuil0FexuErx
- qdemLYA8NMJ+41HNNlHSYqA/kKFT+rTIB8oiv8l4Uylap00LSiBSCRREP3vet4WK0PmQ
- kOyLSv06e6ifcQpJ3vM+bhfFgHrhbBMjCcKRoGbdyyg3N9ZGbNvLQTP3H3OFGra+0Nae
- fyEQ==
+ bh=oyFaR/Nqjo7VFSddLUYVyYGruB0Du5lv6wuap1vCS68=;
+ b=Rk1huX2aI30zSXaw0rKVPCa6T3N7awPAB1Y2f74R75qNjUoTzVYVyLZ0ueOcepp2Sj
+ OZFCv1fG9h246zIRh3aN9JNNKYPO8A4plKhkPHpL4qjMC4SluWjnmXy8Xrjtes9Ibih3
+ DJTvSebFudAoXQGkzIX8H7/lMlSFv8bSQ4KUb8oPT/iKFWXFc6dzDywUNtAlRXX3dQ10
+ eNuaBK5a4zuR4LZFMg85E4n1Bl1C7eCmQaS363lrpedG0fWjaTAnfJHBqAezJWe4e20y
+ qi0X/H6gzXrtNiDpFKxWSyoMJIN5aMZbMeOmuSwviAY9O8gx9pNo7qbW1LBzBZTNiK6r
+ rcxg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVSBMJ+W48kqoYSizQ90Dj50qnU+CJFJD+oX5hj/xdi0PMFcsHyxMkRlkK0tP+X2YwXBwWWkqTXsl0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwzZgJXuPNli0QDflt/LSScRrGkTdNIgpBCaXZybhELd0HNRW3/
- pIWjpOP1mCh33+Yd7BZ5BEfxbfzNmi21kRS8j7Sfq+9wu4F8XgAI5Umwx5O+2ab1dLSNbJj3en0
- JhGNO6vvf4w0n1K5Lhe3Txov4Jk/jQtn2kHLsbQ==
-X-Google-Smtp-Source: AGHT+IFAsMwssl3CsGQHQvM8bMdP93YVWcDHIhkTXiHlpvS1lZLveTm8hn3cb6TISveDQA5kxCdXkhevk4P4DApB+UQ=
-X-Received: by 2002:a05:690c:fd5:b0:6e3:116c:ec0c with SMTP id
- 00721157ae682-6e9d8aa40bcmr195925997b3.30.1730398850667; Thu, 31 Oct 2024
- 11:20:50 -0700 (PDT)
+ AJvYcCVOTUmFpn2e0bcxeO0PWouRYiSbQZuIkM2mugQR0FleurI4Lm5BmxkUWD+qBA1jTT89hWF0zOVxidE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yza2IGc71N1GPRFaqSBWS4OY0SJ6b4vEAgjJFhFaIfAhSUNztCa
+ AdQBFzJSwTrIddQxktHT2c0ReLD/9Xj4h1eqarXaFhnwIJS3JawYv7okOfs2GYSiO0N9qRkn4J5
+ z+AqsfI+4jcDmHUCz4sVT3eyXEMp/Y5DxDXVz1g==
+X-Google-Smtp-Source: AGHT+IFq8R0CLiSKN/KyW3w8yrGdFcwHeCP7az6vUpHoYzraiFHMKDOSyj3hQcHE8V/hDNjDyyFp/YsnTwuwz+WSQKo=
+X-Received: by 2002:a05:690c:fc2:b0:6e2:a962:d7ec with SMTP id
+ 00721157ae682-6e9d88e8babmr217442787b3.6.1730398991054; Thu, 31 Oct 2024
+ 11:23:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241028023740.19732-1-victor.liu@nxp.com>
- <CAA8EJprFBbC_=kBHi86j-nE_K68QeG+c2OBzJCbUyNWs5zQK0Q@mail.gmail.com>
- <TY3PR01MB11346F956733032EC10E997AF864A2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <5ycxltnw3vhik3iype6ncuh4nelwwtom745o5dlf32qyiqh5bv@yjj5l6kb2psm>
- <1e8526e5-d9b7-42ac-9db3-13b42ccc4fbe@nxp.com>
- <CAA8EJppAnfiVqNYN6CxaU1Q5fMwDgWhSsPU9qQz7KHb6px=grA@mail.gmail.com>
- <TY3PR01MB113467D658D6680491662BA3586542@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB113467D658D6680491662BA3586542@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20241030010723.3520941-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <20241030010723.3520941-1-quic_abhinavk@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 31 Oct 2024 20:20:39 +0200
-Message-ID: <CAA8EJpryBmTXb53M1i5o9u+94du48AZnDeFQqXZtgxvOuoYR9A@mail.gmail.com>
-Subject: Re: [PATCH v4 00/13] Add ITE IT6263 LVDS to HDMI converter support
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Liu Ying <victor.liu@nxp.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>, 
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>, 
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
- "robh@kernel.org" <robh@kernel.org>, 
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "quic_jesszhan@quicinc.com" <quic_jesszhan@quicinc.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>, 
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>, 
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>, 
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "will@kernel.org" <will@kernel.org>, 
- "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
- "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, 
- "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>, 
- "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>, 
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "arnd@arndb.de" <arnd@arndb.de>, 
- "nfraprado@collabora.com" <nfraprado@collabora.com>, 
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>, 
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- "sam@ravnborg.org" <sam@ravnborg.org>, "marex@denx.de" <marex@denx.de>
+Date: Thu, 31 Oct 2024 20:23:00 +0200
+Message-ID: <CAA8EJppKou84MZm0JS_4bPveMO2UxpMs5ejCoL7OMWd-umtDmQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] i2c: skip of_i2c_register_device() for invalid child
+ nodes
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ freedreno@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, robdclark@gmail.com, swboyd@chromium.org, 
+ airlied@gmail.com, quic_jesszhan@quicinc.com, lyude@redhat.com, 
+ simona@ffwll.ch, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -119,118 +81,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 30 Oct 2024 at 11:02, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+On Wed, 30 Oct 2024 at 03:07, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
-> Hi Dmitry Baryshkov,
+> of_i2c_register_devices() adds all child nodes of a given i2c bus
+> however in certain device trees of_alias_from_compatible() and
+> of_property_read_u32() can fail as the child nodes of the device
+> might not be valid i2c client devices. One such example is the
+> i2c aux device for the DRM MST toplogy manager which uses the
+> display controller device node to add the i2c adaptor [1] leading
+> to an error spam like below
 >
-> > -----Original Message-----
-> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Sent: 30 October 2024 03:17
-> > Subject: Re: [PATCH v4 00/13] Add ITE IT6263 LVDS to HDMI converter support
-> >
-> > On Tue, 29 Oct 2024 at 04:41, Liu Ying <victor.liu@nxp.com> wrote:
-> > >
-> > > On 10/28/2024, Dmitry Baryshkov wrote:
-> > > > On Mon, Oct 28, 2024 at 11:12:00AM +0000, Biju Das wrote:
-> > > >> Hi Dmitry, Liu,
-> > > >>
-> > > >>> -----Original Message-----
-> > > >>> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > >>> Sent: 28 October 2024 10:20
-> > > >>> Subject: Re: [PATCH v4 00/13] Add ITE IT6263 LVDS to HDMI
-> > > >>> converter support
-> > > >>>
-> > > >>> Hi,
-> > > >>>
-> > > >>> On Mon, 28 Oct 2024 at 04:37, Liu Ying <victor.liu@nxp.com> wrote:
-> > > >>>>
-> > > >>>> Hi,
-> > > >>>>
-> > > >>>> This patch series aims to add ITE IT6263 LVDS to HDMI converter
-> > > >>>> on i.MX8MP EVK.  Combined with LVDS receiver and HDMI 1.4a
-> > > >>>> transmitter, the IT6263 supports LVDS input and HDMI 1.4 output
-> > > >>>> by conversion function.  IT6263 product link can be found at [1].
-> > > >>>>
-> > > >>>> Patch 1 is a preparation patch to allow display mode of an
-> > > >>>> existing panel to pass the added mode validation logic in patch 3.
-> > > >>>>
-> > > >>>> Patch 2 allows i.MX8MP LVDS Display Bridge(LDB) bridge driver to
-> > > >>>> find the next non-panel bridge, that is the IT6263 in this case.
-> > > >>>>
-> > > >>>> Patch 3 adds mode validation logic to i.MX8MP LDB bridge driver
-> > > >>>> against "ldb" clock so that it can filter out unsupported display
-> > > >>>> modes read from EDID.
-> > > >>>>
-> > > >>>> Patch 4 adds MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG,JEIDA} support,
-> > > >>>> as they are supported by IT6263(with LVDS data bit reversed order).
-> > > >>>>
-> > > >>>> Patch 5 makes drm_of.c use MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA,SPWG}.
-> > > >>>>
-> > > >>>> Patch 6 supports getting dual-link LVDS pixel order for the sink
-> > > >>>> side as needed by IT6263 driver.
-> > > >>>>
-> > > >>>> Patch 7 documents jeida-30 and vesa-30 data mappings in
-> > > >>>> lvds-data-mapping.yaml, as needed by IT6263 DT binding.
-> > > >>>>
-> > > >>>> Patch 8 extracts common dual-link LVDS display properties into
-> > > >>>> new lvds-dual-ports.yaml so that IT6263 DT binding can reference it.
-> > > >>>>
-> > > >>>> Patch 9 adds DT binding for IT6263.
-> > > >>>>
-> > > >>>> Patch 10 adds IT6263 bridge driver.  Only video output is supported.
-> > > >>>>
-> > > >>>> Patch 11 adds DT overlays to support NXP adapter cards[2][3] with
-> > > >>>> IT6263 populated.
-> > > >>>>
-> > > >>>> Patch 12 enables the IT6263 bridge driver in defconfig.
-> > > >>>>
-> > > >>>> Patch 13 updates MAINTAINERS to add maintainer for IT6263 driver.
-> > > >>>
-> > > >>> This has pretty complicated structure from the merging point of view.
-> > > >>>
-> > > >>> I propose we take patches 6, 8, 9 (without 30-bit formats, they
-> > > >>> can be dropped while applying), 11, 12
-> > > >>> (?) and 13 through drm-misc in one batch (once DT maintainers
-> > > >>> review the binding parts). This looks like a minimal set, having no extra dependencies.
-> > > >>
-> > > >>>
-> > > >>> The second set might be 4, 5 + new patch, re-adding 30-bit formats
-> > > >>> to
-> > > >>> IT6263 binding (no driver changes are necessary). This can go in
-> > > >>> separately, after an Ack from media maintainers.
-> > > >>>
-> > > >>> Of course both sets can go together if linux-media maintainers
-> > > >>> reacts quickly and ack merging media- formats patch through drm-misc tree.
-> > >
-> > > I'm fine with merging the two sets through drm-misc tree as long as
-> > > linux-media and dri-devel maintainers accept this.  Up to them.
-> > >
-> > > >>>
-> > > >>> The rest of the patches don't have such strong dependencies and go in once ready / reviewed.
-> > > >>>
-> > > >>> WDYT?
-> > > >>
-> > > >> I guess, 6,8,9(without 30-bit formats), 10, 12 and 13.
-> > > >>
-> > > >> 11 may have dependency on 1, 2 and 3 as it is SoC specific.
-> > > >
-> > > > Yes, of course, 10, not 11.
-> > > >
-> > > >> Then 4, 5 + new patch, re-adding 30-bit formats to IT6263 binding.
-> > >
-> > > I think it would be good to directly support 30-bit formats in
-> > > IT6263 DT binding, not re-add them to it.  This way, we'll have one
-> > > version of the binding, not two.  So, a better first set would contain
-> > > patch 6, 7(one existing A-b from Krzysztof), 8, 9, 10, 12 and 13.
-> >
-> > I'm not sure that 7 can go without an ack from linux-media maintainers.
+> i2c i2c-20: of_i2c: register /soc@0/display-subsystem@ae00000/display-controller@ae01000/ports
+> i2c i2c-20: of_i2c: modalias failure on /soc@0/display-subsystem@ae00000/display-controller@ae01000/ports
+> i2c i2c-20: Failed to create I2C device for /soc@0/display-subsystem@ae00000/display-controller@ae01000/ports
+> i2c i2c-20: of_i2c: register /soc@0/display-subsystem@ae00000/display-controller@ae01000/opp-table
+> i2c i2c-20: of_i2c: invalid reg on /soc@0/display-subsystem@ae00000/display-controller@ae01000/opp-table
+> i2c i2c-20: Failed to create I2C device for /soc@0/display-subsystem@ae00000/display-controller@ae01000/opp-table
 >
-> You mean in describing jeida-30 and vesa-30 format in
-> patch#7, is valid only if patch#4 is ok with media people
-> or they provide an ack for patch#7 to take it through drm tree?
+> Add protection against invalid child nodes before trying to register
+> i2c devices for all child nodes.
+>
+> [1] : https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/display/drm_dp_mst_topology.c#L5985
+>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/i2c/i2c-core-of.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
+> index a6c407d36800..62a2603c3092 100644
+> --- a/drivers/i2c/i2c-core-of.c
+> +++ b/drivers/i2c/i2c-core-of.c
+> @@ -86,6 +86,8 @@ void of_i2c_register_devices(struct i2c_adapter *adap)
+>  {
+>         struct device_node *bus, *node;
+>         struct i2c_client *client;
+> +       u32 addr;
+> +       char temp[16];
+>
+>         /* Only register child devices if the adapter has a node pointer set */
+>         if (!adap->dev.of_node)
+> @@ -101,6 +103,10 @@ void of_i2c_register_devices(struct i2c_adapter *adap)
+>                 if (of_node_test_and_set_flag(node, OF_POPULATED))
+>                         continue;
+>
+> +               if (of_property_read_u32(node, "reg", &addr) ||
+> +                   of_alias_from_compatible(node, temp, sizeof(temp)))
+> +                       continue;
 
-The former one. I'd prefer an ack from linux-media maintainers to
-accept bindings based on those names.
+I think just of_property_read_u32() should be enough to skip
+non-I2C-device children. If of_alias_from_compatible() fails, it is a
+legit error.
+
+> +
+>                 client = of_i2c_register_device(adap, node);
+>                 if (IS_ERR(client)) {
+>                         dev_err(&adap->dev,
+> --
+> 2.34.1
+>
+
 
 -- 
 With best wishes
