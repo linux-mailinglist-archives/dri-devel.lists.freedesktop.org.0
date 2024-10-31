@@ -2,78 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B039B822F
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 19:06:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41369B827B
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 19:20:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DDC710E909;
-	Thu, 31 Oct 2024 18:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 599B010E435;
+	Thu, 31 Oct 2024 18:20:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DmRPKB6H";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="leGacqkN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F08A10E907
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 18:06:20 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D27A120011;
- Thu, 31 Oct 2024 18:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1730397979;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o4Wn/46pVuuaTENAL8EOOI2/SmJ1WAof8XzHSYEsemM=;
- b=DmRPKB6HIga9I8eQcU5I/3LLbAxC+8brWGgG/Od8P/wMszB6O9g57flE58ZYpsRBnca+ZY
- INy78ekCs1Keli9uH78rZxhAUsXa1sKJfuBLuWs1VlkBWePEMNDWUsMNxeWYzGfp94+IAS
- rn9Uep0ADNWxLYVuXsB/UUmwxZOYseu+YPdVz7jDs/CxSd/sRzI+ar8DgDlx6QHelfW5zF
- vYs7pP3KT09G+WwZf/3b5SBg92zfCNPqwqBkgBl6alwOpdbrpz+TXwpaxNX0+1bB66wGA5
- SPBK3raoKRKec+z3VRrQSEyYcK+QDjSCVUZWqx7REMEi1eiAtN9lypSSG5A4+g==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Thu, 31 Oct 2024 19:06:07 +0100
-Subject: [PATCH v13 7/7] drm/vkms: Add support for DRM_FORMAT_R*
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
+ [209.85.219.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC2F010E435
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 18:20:51 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id
+ 3f1490d57ef6-e28fea0f5b8so1131520276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 11:20:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1730398851; x=1731003651; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=WLDUJfbR6R9Q78ZWppjQCRBcAEdo3kQLDzuM0lwJU0g=;
+ b=leGacqkNg53fc1cV/7eV6eXM7Qs44ikKCsTTA/Aew+q7YreA2NgOduipHCSgDLH/Ef
+ 8FLjFQaCpbySWJQviMMjzFPWmJw783bYK8y0nDAcWA//cOt6ghyuWaH3vBUWQpZ47OLM
+ jxl0DCxgJSh/EqjHj3pt7tj/A636dn9izTqCqscwozKZn6J4/pSruZFxDAWJHZMNFmfF
+ 1NJ4mpuMdtCUkqYb6XrsJ8X3bovis8QIOtJuCGY9RmnuSdhdsm2niS864tG0HFZelSS8
+ ecEcARFHlK/FpYV6HIlQNDqvo2OqS4HnpgJ2eACcoAEhQ0M0yO3cLTRqxQXCoX1i8LQw
+ CP6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730398851; x=1731003651;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WLDUJfbR6R9Q78ZWppjQCRBcAEdo3kQLDzuM0lwJU0g=;
+ b=e+OhdKLPEpFjm1zTBxGY7r1+ZRqAS7v0xZdoZrdQlYGLNxyh09SkjbMeD8ctRMLEM9
+ ZW/Ho5MMEHP2pCRYNCHzCW0GQ5hDowu/ceka3SNM3NP2mbP4s5P/Vnpp22B6UP4kP8+a
+ iMcVYP1dHyxn+69gP7QRUB5kKUA6+NgWPFfS23v+vfIow6CT8vZwboGHYuil0FexuErx
+ qdemLYA8NMJ+41HNNlHSYqA/kKFT+rTIB8oiv8l4Uylap00LSiBSCRREP3vet4WK0PmQ
+ kOyLSv06e6ifcQpJ3vM+bhfFgHrhbBMjCcKRoGbdyyg3N9ZGbNvLQTP3H3OFGra+0Nae
+ fyEQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVSBMJ+W48kqoYSizQ90Dj50qnU+CJFJD+oX5hj/xdi0PMFcsHyxMkRlkK0tP+X2YwXBwWWkqTXsl0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwzZgJXuPNli0QDflt/LSScRrGkTdNIgpBCaXZybhELd0HNRW3/
+ pIWjpOP1mCh33+Yd7BZ5BEfxbfzNmi21kRS8j7Sfq+9wu4F8XgAI5Umwx5O+2ab1dLSNbJj3en0
+ JhGNO6vvf4w0n1K5Lhe3Txov4Jk/jQtn2kHLsbQ==
+X-Google-Smtp-Source: AGHT+IFAsMwssl3CsGQHQvM8bMdP93YVWcDHIhkTXiHlpvS1lZLveTm8hn3cb6TISveDQA5kxCdXkhevk4P4DApB+UQ=
+X-Received: by 2002:a05:690c:fd5:b0:6e3:116c:ec0c with SMTP id
+ 00721157ae682-6e9d8aa40bcmr195925997b3.30.1730398850667; Thu, 31 Oct 2024
+ 11:20:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241031-yuv-v13-7-c67a337301ae@bootlin.com>
-References: <20241031-yuv-v13-0-c67a337301ae@bootlin.com>
-In-Reply-To: <20241031-yuv-v13-0-c67a337301ae@bootlin.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, rdunlap@infradead.org, 
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
- 20241031-yuv-v13-0-bd5463126faa@bootlin.com, 
- Pekka Paalanen <pekka.paalanen@collabora.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6382;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=6P9xgPCLCn1gF47vP1Q/qpB7fXcZkuf7C7x8fmcRBzQ=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnI8cP4dvN76fN6xEFIWCu8xg/bjkbtaiO2qslL
- lpHgNXjWiCJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZyPHDwAKCRAgrS7GWxAs
- 4pCTEAC65VaSi2wZd6K8QhpGEv+Pen4ly3ebwzJm8y8X7GyJlYkdgTshvbR6/THXmc9enl0BflT
- J0sLGrSA6WnFZgEuxfcPUzXYTxBdyjFvH3YCbYa+0EF5brYP+/ZYxivgn22P3Z/DCRkB3RHSTaF
- lkIzeCkoNiKMXcfEarPf8XlYgqQ3ieAj0xaS7DiqliGOUXj5thq++1hIYZ42kjzlFrnASVJQMlW
- RUvvSscwFJ4VeyjhweoQPOOv62A7SQmdRsQe0x8rt1QC6KMX0YUUuU534LXtPB86HXHLawC1cLc
- xWjasjZXUGcsdVldhjelw/pgLqluHzw8tdDKrxyEFmOOD5fm6Oi1PHDXulF9hR11Js/96oPKo7O
- G7JUX7ZJk7nFSvnml7LcblX+/20e0Wyv8wX7LhKZyXvj29hc/kqbYalUGxkG7h4befDygWfv1WQ
- rgGYDcEpUQF7WmIxgQw6hYyaLY9u4uvzGWP2T3E+YCA02Hfj/oNmu6++euii4DrplDSfpkd5hzs
- DmzOlV8HAz0O9gUTLFEr65Sw3iYzXA6UhZm6OL7Mv9TudwNQ9ZIayJrIIhVqv5cSvR5VxzzFTiI
- 0h4eeiTRzMtm06SrgvKof8Mkcu9HcQV2pDh+Y5i8o95b9Z2uZzigO0JxwdbHe5qK4gOx7ZZ7lzE
- TuVdDbml2DJ2QaA==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-Sasl: louis.chauvet@bootlin.com
+References: <20241028023740.19732-1-victor.liu@nxp.com>
+ <CAA8EJprFBbC_=kBHi86j-nE_K68QeG+c2OBzJCbUyNWs5zQK0Q@mail.gmail.com>
+ <TY3PR01MB11346F956733032EC10E997AF864A2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <5ycxltnw3vhik3iype6ncuh4nelwwtom745o5dlf32qyiqh5bv@yjj5l6kb2psm>
+ <1e8526e5-d9b7-42ac-9db3-13b42ccc4fbe@nxp.com>
+ <CAA8EJppAnfiVqNYN6CxaU1Q5fMwDgWhSsPU9qQz7KHb6px=grA@mail.gmail.com>
+ <TY3PR01MB113467D658D6680491662BA3586542@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB113467D658D6680491662BA3586542@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 31 Oct 2024 20:20:39 +0200
+Message-ID: <CAA8EJpryBmTXb53M1i5o9u+94du48AZnDeFQqXZtgxvOuoYR9A@mail.gmail.com>
+Subject: Re: [PATCH v4 00/13] Add ITE IT6263 LVDS to HDMI converter support
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Liu Ying <victor.liu@nxp.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "rfoss@kernel.org" <rfoss@kernel.org>, 
+ "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>, 
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, 
+ "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "robh@kernel.org" <robh@kernel.org>, 
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+ "quic_jesszhan@quicinc.com" <quic_jesszhan@quicinc.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>, 
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>, 
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "festevam@gmail.com" <festevam@gmail.com>, 
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "will@kernel.org" <will@kernel.org>, 
+ "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+ "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, 
+ "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>, 
+ "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>, 
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "arnd@arndb.de" <arnd@arndb.de>, 
+ "nfraprado@collabora.com" <nfraprado@collabora.com>, 
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>, 
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ "sam@ravnborg.org" <sam@ravnborg.org>, "marex@denx.de" <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,179 +119,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This add the support for:
-- R1/R2/R4/R8
+On Wed, 30 Oct 2024 at 11:02, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+>
+> Hi Dmitry Baryshkov,
+>
+> > -----Original Message-----
+> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Sent: 30 October 2024 03:17
+> > Subject: Re: [PATCH v4 00/13] Add ITE IT6263 LVDS to HDMI converter support
+> >
+> > On Tue, 29 Oct 2024 at 04:41, Liu Ying <victor.liu@nxp.com> wrote:
+> > >
+> > > On 10/28/2024, Dmitry Baryshkov wrote:
+> > > > On Mon, Oct 28, 2024 at 11:12:00AM +0000, Biju Das wrote:
+> > > >> Hi Dmitry, Liu,
+> > > >>
+> > > >>> -----Original Message-----
+> > > >>> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > >>> Sent: 28 October 2024 10:20
+> > > >>> Subject: Re: [PATCH v4 00/13] Add ITE IT6263 LVDS to HDMI
+> > > >>> converter support
+> > > >>>
+> > > >>> Hi,
+> > > >>>
+> > > >>> On Mon, 28 Oct 2024 at 04:37, Liu Ying <victor.liu@nxp.com> wrote:
+> > > >>>>
+> > > >>>> Hi,
+> > > >>>>
+> > > >>>> This patch series aims to add ITE IT6263 LVDS to HDMI converter
+> > > >>>> on i.MX8MP EVK.  Combined with LVDS receiver and HDMI 1.4a
+> > > >>>> transmitter, the IT6263 supports LVDS input and HDMI 1.4 output
+> > > >>>> by conversion function.  IT6263 product link can be found at [1].
+> > > >>>>
+> > > >>>> Patch 1 is a preparation patch to allow display mode of an
+> > > >>>> existing panel to pass the added mode validation logic in patch 3.
+> > > >>>>
+> > > >>>> Patch 2 allows i.MX8MP LVDS Display Bridge(LDB) bridge driver to
+> > > >>>> find the next non-panel bridge, that is the IT6263 in this case.
+> > > >>>>
+> > > >>>> Patch 3 adds mode validation logic to i.MX8MP LDB bridge driver
+> > > >>>> against "ldb" clock so that it can filter out unsupported display
+> > > >>>> modes read from EDID.
+> > > >>>>
+> > > >>>> Patch 4 adds MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG,JEIDA} support,
+> > > >>>> as they are supported by IT6263(with LVDS data bit reversed order).
+> > > >>>>
+> > > >>>> Patch 5 makes drm_of.c use MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA,SPWG}.
+> > > >>>>
+> > > >>>> Patch 6 supports getting dual-link LVDS pixel order for the sink
+> > > >>>> side as needed by IT6263 driver.
+> > > >>>>
+> > > >>>> Patch 7 documents jeida-30 and vesa-30 data mappings in
+> > > >>>> lvds-data-mapping.yaml, as needed by IT6263 DT binding.
+> > > >>>>
+> > > >>>> Patch 8 extracts common dual-link LVDS display properties into
+> > > >>>> new lvds-dual-ports.yaml so that IT6263 DT binding can reference it.
+> > > >>>>
+> > > >>>> Patch 9 adds DT binding for IT6263.
+> > > >>>>
+> > > >>>> Patch 10 adds IT6263 bridge driver.  Only video output is supported.
+> > > >>>>
+> > > >>>> Patch 11 adds DT overlays to support NXP adapter cards[2][3] with
+> > > >>>> IT6263 populated.
+> > > >>>>
+> > > >>>> Patch 12 enables the IT6263 bridge driver in defconfig.
+> > > >>>>
+> > > >>>> Patch 13 updates MAINTAINERS to add maintainer for IT6263 driver.
+> > > >>>
+> > > >>> This has pretty complicated structure from the merging point of view.
+> > > >>>
+> > > >>> I propose we take patches 6, 8, 9 (without 30-bit formats, they
+> > > >>> can be dropped while applying), 11, 12
+> > > >>> (?) and 13 through drm-misc in one batch (once DT maintainers
+> > > >>> review the binding parts). This looks like a minimal set, having no extra dependencies.
+> > > >>
+> > > >>>
+> > > >>> The second set might be 4, 5 + new patch, re-adding 30-bit formats
+> > > >>> to
+> > > >>> IT6263 binding (no driver changes are necessary). This can go in
+> > > >>> separately, after an Ack from media maintainers.
+> > > >>>
+> > > >>> Of course both sets can go together if linux-media maintainers
+> > > >>> reacts quickly and ack merging media- formats patch through drm-misc tree.
+> > >
+> > > I'm fine with merging the two sets through drm-misc tree as long as
+> > > linux-media and dri-devel maintainers accept this.  Up to them.
+> > >
+> > > >>>
+> > > >>> The rest of the patches don't have such strong dependencies and go in once ready / reviewed.
+> > > >>>
+> > > >>> WDYT?
+> > > >>
+> > > >> I guess, 6,8,9(without 30-bit formats), 10, 12 and 13.
+> > > >>
+> > > >> 11 may have dependency on 1, 2 and 3 as it is SoC specific.
+> > > >
+> > > > Yes, of course, 10, not 11.
+> > > >
+> > > >> Then 4, 5 + new patch, re-adding 30-bit formats to IT6263 binding.
+> > >
+> > > I think it would be good to directly support 30-bit formats in
+> > > IT6263 DT binding, not re-add them to it.  This way, we'll have one
+> > > version of the binding, not two.  So, a better first set would contain
+> > > patch 6, 7(one existing A-b from Krzysztof), 8, 9, 10, 12 and 13.
+> >
+> > I'm not sure that 7 can go without an ack from linux-media maintainers.
+>
+> You mean in describing jeida-30 and vesa-30 format in
+> patch#7, is valid only if patch#4 is ok with media people
+> or they provide an ack for patch#7 to take it through drm tree?
 
-R1 format was tested with [1] and [2].
-
-[1]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
-[2]: https://lore.kernel.org/igt-dev/20240306-b4-kms_tests-v1-0-8fe451efd2ac@bootlin.com/
-
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/vkms/vkms_formats.c | 110 +++++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/vkms/vkms_plane.c   |   4 ++
- 2 files changed, 113 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 90adcc924c31..3db7fe1ae844 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -249,6 +249,16 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
- 	return out_pixel;
- }
- 
-+static struct pixel_argb_u16 argb_u16_from_gray8(u8 gray)
-+{
-+	return argb_u16_from_u8888(255, gray, gray, gray);
-+}
-+
-+static struct pixel_argb_u16 argb_u16_from_grayu16(u16 gray)
-+{
-+	return argb_u16_from_u16161616(0xFFFF, gray, gray, gray);
-+}
-+
- VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
- 							    const struct conversion_matrix *matrix)
- {
-@@ -286,7 +296,7 @@ EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-  * The following functions are read_line function for each pixel format supported by VKMS.
-  *
-  * They read a line starting at the point @x_start,@y_start following the @direction. The result
-- * is stored in @out_pixel and in the format ARGB16161616.
-+ * is stored in @out_pixel and in a 64 bits format, see struct pixel_argb_u16.
-  *
-  * These functions are very repetitive, but the innermost pixel loops must be kept inside these
-  * functions for performance reasons. Some benchmarking was done in [1] where having the innermost
-@@ -295,6 +305,96 @@ EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-  * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
-  */
- 
-+static void Rx_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	struct pixel_argb_u16 *end = out_pixel + count;
-+	int bits_per_pixel = drm_format_info_bpp(plane->frame_info->fb->format, 0);
-+	u8 *src_pixels;
-+	int rem_x, rem_y;
-+
-+	WARN_ONCE(drm_format_info_block_height(plane->frame_info->fb->format, 0) != 1,
-+		  "%s() only support formats with block_h == 1", __func__);
-+
-+	packed_pixels_addr(plane->frame_info, x_start, y_start, 0, &src_pixels, &rem_x, &rem_y);
-+	int bit_offset = (8 - bits_per_pixel) - rem_x * bits_per_pixel;
-+	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
-+	int mask = (0x1 << bits_per_pixel) - 1;
-+	int lum_per_level = 0xFFFF / mask;
-+
-+	if (direction == READ_LEFT_TO_RIGHT || direction == READ_RIGHT_TO_LEFT) {
-+		int restart_bit_offset;
-+		int step_bit_offset;
-+
-+		if (direction == READ_LEFT_TO_RIGHT) {
-+			restart_bit_offset = 8 - bits_per_pixel;
-+			step_bit_offset = -bits_per_pixel;
-+		} else {
-+			restart_bit_offset = 0;
-+			step_bit_offset = bits_per_pixel;
-+		}
-+
-+		while (out_pixel < end) {
-+			u8 val = ((*src_pixels) >> bit_offset) & mask;
-+
-+			*out_pixel = argb_u16_from_grayu16((int)val * lum_per_level);
-+
-+			bit_offset += step_bit_offset;
-+			if (bit_offset < 0 || 8 <= bit_offset) {
-+				bit_offset = restart_bit_offset;
-+				src_pixels += step;
-+			}
-+			out_pixel += 1;
-+		}
-+	} else if (direction == READ_TOP_TO_BOTTOM || direction == READ_BOTTOM_TO_TOP) {
-+		while (out_pixel < end) {
-+			u8 val = (*src_pixels >> bit_offset) & mask;
-+			*out_pixel = argb_u16_from_grayu16((int)val * lum_per_level);
-+			src_pixels += step;
-+			out_pixel += 1;
-+		}
-+	}
-+}
-+
-+static void R1_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R2_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R8_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	struct pixel_argb_u16 *end = out_pixel + count;
-+	u8 *src_pixels;
-+	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
-+
-+	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
-+
-+	while (out_pixel < end) {
-+		*out_pixel = argb_u16_from_gray8(*src_pixels);
-+		src_pixels += step;
-+		out_pixel += 1;
-+	}
-+}
-+
- static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
- 			       enum pixel_read_direction direction, int count,
- 			       struct pixel_argb_u16 out_pixel[])
-@@ -606,6 +706,14 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 	case DRM_FORMAT_YVU422:
- 	case DRM_FORMAT_YVU444:
- 		return &planar_yuv_read_line;
-+	case DRM_FORMAT_R1:
-+		return &R1_read_line;
-+	case DRM_FORMAT_R2:
-+		return &R2_read_line;
-+	case DRM_FORMAT_R4:
-+		return &R4_read_line;
-+	case DRM_FORMAT_R8:
-+		return &R8_read_line;
- 	default:
- 		/*
- 		 * This is a bug in vkms_plane_atomic_check(). All the supported
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 8f764a108b00..67f891e7ac58 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -30,6 +30,10 @@ static const u32 vkms_formats[] = {
- 	DRM_FORMAT_YVU420,
- 	DRM_FORMAT_YVU422,
- 	DRM_FORMAT_YVU444,
-+	DRM_FORMAT_R1,
-+	DRM_FORMAT_R2,
-+	DRM_FORMAT_R4,
-+	DRM_FORMAT_R8,
- };
- 
- static struct drm_plane_state *
+The former one. I'd prefer an ack from linux-media maintainers to
+accept bindings based on those names.
 
 -- 
-2.46.2
-
+With best wishes
+Dmitry
