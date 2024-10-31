@@ -2,62 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9A3F9B8066
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 17:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDA59B806E
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 17:45:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCA4C10E8ED;
-	Thu, 31 Oct 2024 16:42:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B1DE10E418;
+	Thu, 31 Oct 2024 16:45:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ChAAW7w1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Nj+Bsm6B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DECDC10E8ED
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 16:42:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 49DFBA4449B;
- Thu, 31 Oct 2024 16:40:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B93C4DDFE;
- Thu, 31 Oct 2024 16:33:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730392418;
- bh=cRqp5Dj5S3H85dcH2UYBCVC3a46bB8FUl4uywK4ZmjQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ChAAW7w1SFQ2sdQrQTh/ESg33bAT4JCN3urBYczD83+2MIjv4+Fw1PfRRPY4GxLL1
- dtPO8yl+Qec6+kDpHYB3kc41IoBZey0b9cQEFSgYMiTywCuZtOul4Hpbaj2mn07TgD
- fiznwabdzOz5yKPKvio3/6P9WqMYhS6e8apZBNOn8tZq4CNPZREDc0qYxDM7Sltdjt
- gBlUjOxV5keDIBO7lJerRaOwmiljmJYftnovNTz5qipxQsU2IAe+OqswiLcanl35tE
- Ru+g0j6JokVa4ZXzKPvm1CsMH2RkOUZZQhgIAJmNd/mZuZCk1Z3cmkairc4nPdjUR6
- SAVxmQU1MzlYA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan@kernel.org>) id 1t6Y75-000000007IP-42FB;
- Thu, 31 Oct 2024 17:33:36 +0100
-Date: Thu, 31 Oct 2024 17:33:35 +0100
-From: Johan Hovold <johan@kernel.org>
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE1D910E418
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 16:45:00 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-2fb4af0b6beso18062011fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 09:45:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1730393099; x=1730997899; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kt+ok40lFX13Yzdkxs+h8BxbfiG8swFfP1jVOHqPZHk=;
+ b=Nj+Bsm6BxGU8gnBzosCZfSjwX+iDJD4I9QmqsfGxZ7iBzeI/4IoFSYWGiVtcgom5sy
+ niP4cXUUeaqrg1uqcG3PWWskQWi8tM3Aa9ZT4TzDY4pT2OFQZ6ug1vnzlcd27JSujnKH
+ cZELpWyLEPYkswjYX7svaIRN/ciMTF0c7Bq/i+nctTqFhvcLSh7npMq0YXMWZ8JjYIs6
+ W2mttKTetsYuO0UTETKSqncGBJ1R0OawUI17N8HLiyZKRzTI8AZduuSbQXl6IA2yFf+G
+ CixvMQZ/MyYBo0gTSCY8EoAPjxVK7OD1GBDrtlU47ZkWtOz5KyqS5JtR9Bjl4vIrW7lY
+ pj3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730393099; x=1730997899;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kt+ok40lFX13Yzdkxs+h8BxbfiG8swFfP1jVOHqPZHk=;
+ b=jO7RxVUdlm0jbTFWCMSkXCQGk9erAoxjzjXphi3EdlB7pXZAkkxp9cc8fporueLRqf
+ Y3Ft9XdNPPPTA02vRmHeweWcsYwRGrkU1/o5L1RP9hSNehjXPAA5UBGx7QLDDxQFaQly
+ dUhosV0d0DGyFzLGaHvTE5y+PLBuaSqqFWccyetnHG+l5S0EcV7WsMYmTq0UHVMW67WD
+ dz8aI/Q7IsF+A+nLNt3YKkKLjy6fIYQM9lDx7mlw+RLAEPhn+VQzjzdRqObylWc9CodY
+ 5YFeFSqNsItvHLDQsprAd15w1m+iQ28Yw8w/pWvvH+HNZwoIgHZ5TNZahRfL28jMKNo0
+ SNxg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVyl1vDU4z8MdpGOT/+abP7uQaMV/PVeUzgfkk2FUHozBZ7wBuUv8lG09/kpLchriKFi/nKYfFBoeQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyIINKNlbMsq2gLfjjQ6dSSscFZailFTAHS7YsMuWrgB9p8Ad3P
+ 2W8zNONtj8DAtViFJzJiK0EPEKChHOoaOP4h7jbPGJbwkKbGqwIV2sHOKdnhlIs=
+X-Google-Smtp-Source: AGHT+IHRQwOGhSkkEBtHlVJ+MZMA/jBWeUH8G5Fmi2dhuQ2z772Z0F7QMIMohuXdOiHSqhRBM4/r/w==
+X-Received: by 2002:a2e:bc27:0:b0:2fb:5bd:8ff2 with SMTP id
+ 38308e7fff4ca-2fedb7a2d4fmr5016331fa.16.1730393098676; 
+ Thu, 31 Oct 2024 09:44:58 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2fdef3bbea1sm2684791fa.24.2024.10.31.09.44.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Oct 2024 09:44:57 -0700 (PDT)
+Date: Thu, 31 Oct 2024 18:44:55 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abel Vesa <abel.vesa@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
- parent to aux bridge
-Message-ID: <ZyOxX31QV2GA8Ef8@hovoldconsulting.com>
-References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
- <ZxYBa11Ig_HHQngV@hovoldconsulting.com>
- <ZyOOwEPB9NLNtL4N@hovoldconsulting.com>
- <ZyOsuTr4XBU3ogRx@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Johan Hovold <johan@kernel.org>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH RFC 2/4] drm/nouveau/dp: Use the generic helper to
+ control LTTPR transparent mode
+Message-ID: <hh26gzyjhygphlrmhh2zkskoz7vezkgdepbx7fnzgfch75simf@hmr5ezp4khwi>
+References: <20241031-drm-dp-msm-add-lttpr-transparent-mode-set-v1-0-cafbb9855f40@linaro.org>
+ <20241031-drm-dp-msm-add-lttpr-transparent-mode-set-v1-2-cafbb9855f40@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZyOsuTr4XBU3ogRx@linaro.org>
+In-Reply-To: <20241031-drm-dp-msm-add-lttpr-transparent-mode-set-v1-2-cafbb9855f40@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,38 +100,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 31, 2024 at 06:13:45PM +0200, Abel Vesa wrote:
-> On 24-10-31 15:05:52, Johan Hovold wrote:
-> > On Mon, Oct 21, 2024 at 09:23:24AM +0200, Johan Hovold wrote:
-> > > On Fri, Oct 18, 2024 at 03:49:34PM +0300, Abel Vesa wrote:
-
-> > > > Cc: stable@vger.kernel.org      # 6.8
+On Thu, Oct 31, 2024 at 05:12:46PM +0200, Abel Vesa wrote:
+> LTTPRs operating modes are defined by the DisplayPort standard and the
+> generic framework now provides a helper to switch between them.
+> So use the drm generic helper instead as it makes the code a bit cleaner.
 > 
-> > > I assume there are no existing devicetrees that need this since then we
-> > > would have heard about it sooner. Do we still need to backport it?
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_dp.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 > 
-> None of the DTs I managed to scan seem to have this problem.
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
+> index bcda0105160f1450df855281e0d932606a5095dd..80264e6186246903fa037861fe37493646de0c6e 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_dp.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
+> @@ -80,15 +80,12 @@ nouveau_dp_probe_dpcd(struct nouveau_connector *nv_connector,
+>  		int nr = drm_dp_lttpr_count(outp->dp.lttpr.caps);
+>  
+>  		if (nr) {
+> -			drm_dp_dpcd_writeb(aux, DP_PHY_REPEATER_MODE,
+> -						DP_PHY_REPEATER_MODE_TRANSPARENT);
+> +			drm_dp_lttpr_set_transparent_mode(aux, true);
+>  
+>  			if (nr > 0) {
+> -				ret = drm_dp_dpcd_writeb(aux, DP_PHY_REPEATER_MODE,
+> -							      DP_PHY_REPEATER_MODE_NON_TRANSPARENT);
+> +				ret = drm_dp_lttpr_set_transparent_mode(aux, false);
+>  				if (ret != 1) {
+> -					drm_dp_dpcd_writeb(aux, DP_PHY_REPEATER_MODE,
+> -								DP_PHY_REPEATER_MODE_TRANSPARENT);
+> +					drm_dp_lttpr_set_transparent_mode(aux, true);
+>  				} else {
+>  					outp->dp.lttpr.nr = nr;
+>  				}
+
+Could you please extract this true-false-true dance to a new helper too?
+This way Intel driver can use the simple helper, the rest of the drivers
+can benefit having the common code.
+
 > 
-> Maybe backporting it is not worth it then.
-
-Thanks for confirming. Which (new) driver and DT are you seeing this
-with?
-
-> > > When exactly are you hitting this?
+> -- 
+> 2.34.1
 > 
-> Here is one of the examples.
-> 
-> [    5.768283] x1e80100-tlmm f100000.pinctrl: error -EINVAL: pin-185 (aux_bridge.aux_bridge.3)
-> [    5.768289] x1e80100-tlmm f100000.pinctrl: error -EINVAL: could not request pin 185 (GPIO_185) from group gpio185 on device f100000.pinctrl
-> [    5.768293] aux_bridge.aux_bridge aux_bridge.aux_bridge.3: Error applying setting, reverse things back
 
-I meant with which driver and DT you hit this with.
-
-> > Abel, even if Neil decided to give me the finger here, please answer the
-> > above so that it's recorded in the archives at least.
-
-> Sorry for not replying in time before the patch was merge.
-
-That's not your fault.
-
-Johan
+-- 
+With best wishes
+Dmitry
