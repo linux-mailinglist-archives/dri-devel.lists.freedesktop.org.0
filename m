@@ -2,77 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234479B7B1E
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 13:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2118D9B7BE6
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 14:41:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3DDD10E0A3;
-	Thu, 31 Oct 2024 12:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B1E10E88F;
+	Thu, 31 Oct 2024 13:41:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WDowDk4u";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iYIDbIRU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EAAB10E0A3;
- Thu, 31 Oct 2024 12:53:46 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-37d41894a32so521762f8f.1; 
- Thu, 31 Oct 2024 05:53:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730379224; x=1730984024; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EZp81MB3h2HjKJgH4YH8v1deDEcr2tOUk1Lful773Kg=;
- b=WDowDk4utyq/BKH2w9EsW09CKp0bC3fPbIk2Uop/c/MmwkVFrUMzskqK+ma36q8CVM
- pQTJo0z8NgK6dY1bMF2LEhZ7sD5QnJbK2xKa74zT2BlOSb5gSZLyzKeS5o4Fk0Kwm24l
- Rga2oVzmIu4AUlV0DVLVyGLAzdV/iVOPY6VmFOibY81N6ZDt6MYYYIL+4mJuXphjQ8Y2
- wJn5UQ/6lpMyndmpDc2+OVltyRbd1MRkOPe8hIqi5XBV4NFGS8yOPOlYXMtpUcF3QMbw
- AMKBNDRIudkk59J750Gy6p2WrO4sWPtXxNRr5mfFdOhOZUkAfi7wyZZ6Isv9JJA++l4E
- RfKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730379224; x=1730984024;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EZp81MB3h2HjKJgH4YH8v1deDEcr2tOUk1Lful773Kg=;
- b=D1xZm3m9H8uCLi6UJP1iynal7llxSFVgS2jBzCCgHbDUwCbJfIPz7Sfabd98uax/+3
- Ruuy7Zo465zGwPaNFWfQHjIHU8YKwCGtDftW3XhviPhUCAg6Cbd0PJYtoE/H1cEJWSRc
- rHl1sGy3+yUouhpeL1lnCglsID7THT6JtnowHOT3/Ui6iaXWzqTlP4+dak85x777Y2O2
- g16ch3mc+hTnTa9KaJ1HcYJXeG9LOwH+MUAPVyiqE+/dlE+AhSFCypamXG4x+PyJZkqT
- d2uCQMjAyAxSLgg7/F+fjqyrIm3/nLLYeTOGvpTPBQVXgYSZX1KybnGjoQAv9p88Nk1l
- rlCg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUR8b7l8hK0rcIFoBmE/fIuWAf3DrJdL2LX7oOLPuQZiET9noZ7tNdvbj7/7Gtv6dlOS6zcRUaNDQx9@lists.freedesktop.org,
- AJvYcCVzVmr17FhHbkJThwhJ2rmqZyhUP5vKUeDjTz6hL/JQCQRSzv9bd5okQHV/w1MHQmoI+9tnADuE@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzcGKOgdqVQYrjf0N3oCOXA0xWaakYYZUirB5UzNgfehjmfdyKS
- 34hUZBair+cnR7zgeJeL+5tthNg10AindXKhFn/avIsg0aZJ+6FD
-X-Google-Smtp-Source: AGHT+IG82UQg2DDX39kTAFe33aOhlQeI87elE/0EV3r0yQzUR9g5uDsPKJ+A2EHCSRpwNqIEkfRtLw==
-X-Received: by 2002:a05:6000:1547:b0:374:cee6:c298 with SMTP id
- ffacd0b85a97d-381c149f634mr1906089f8f.21.1730379224084; 
- Thu, 31 Oct 2024 05:53:44 -0700 (PDT)
-Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-431bd8e853esm56812505e9.8.2024.10.31.05.53.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Oct 2024 05:53:43 -0700 (PDT)
-Message-ID: <a4b907e6-2a23-4e22-bc26-607f05c91821@gmail.com>
-Date: Thu, 31 Oct 2024 13:53:42 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E73310E88F;
+ Thu, 31 Oct 2024 13:41:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730382105; x=1761918105;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=yqRpyqv/BaHvdtzDi5nTauq7celDweVL23RuUu8Ekkg=;
+ b=iYIDbIRURerMJA/rs3xg8zaBkPu95bp//jg7qFmkuh0csGZVH1gmvtPO
+ KJ1Jz01bQVS5Y4/MsEetDxxNs8kxjyXJiOIhi/BSNX1egIpIj2DRrjkbm
+ t+wOxf9dEgdfaCcUdEVxoxf6kB04QP2yA8Cd55Fy9IV4ZSORyM1WZV2MQ
+ VGFAP0x5b4RK+r3dNGo4v3eOuB4Rx1OsP/gxw8lNfxhlxyelf37tARaeV
+ 97xGvSZTid4P/ZWnWshiBqW5ZeN77H9ZB2K/r93wMgWSsKc1SDc4ShddG
+ bPxfG/77LjIA1kvSV5FSN0TyaCVqX0XBnhdUZ42dTplouYDwa7ntBIqRr w==;
+X-CSE-ConnectionGUID: rljNKUBUSfCiorAHxIoxZQ==
+X-CSE-MsgGUID: O9/OjgzCRv2/Sr/sgLtgXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30283859"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="30283859"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2024 06:41:44 -0700
+X-CSE-ConnectionGUID: 0Ucz+OJDQaifcCRHm0s+eg==
+X-CSE-MsgGUID: drZH38MTQKiRecziz/B3ag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="87419171"
+Received: from fpallare-mobl3.ger.corp.intel.com (HELO [10.245.245.197])
+ ([10.245.245.197])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2024 06:41:40 -0700
+Message-ID: <deeef745-f3fb-4e85-a9d0-e8d38d43c1cf@linux.intel.com>
+Date: Thu, 31 Oct 2024 14:41:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/5] drm/amdgpu: track bo memory stats at runtime
-To: Yunxiang Li <Yunxiang.Li@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- tvrtko.ursulin@igalia.com
-Cc: Alexander.Deucher@amd.com
-References: <20241025174113.554-1-Yunxiang.Li@amd.com>
- <20241025174113.554-6-Yunxiang.Li@amd.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PULL] drm-misc-next
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20241025174113.554-6-Yunxiang.Li@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,623 +77,373 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 25.10.24 um 19:41 schrieb Yunxiang Li:
-> Before, every time fdinfo is queried we try to lock all the BOs in the
-> VM and calculate memory usage from scratch. This works okay if the
-> fdinfo is rarely read and the VMs don't have a ton of BOs. If either of
-> these conditions is not true, we get a massive performance hit.
->
-> In this new revision, we track the BOs as they change states. This way
-> when the fdinfo is queried we only need to take the status lock and copy
-> out the usage stats with minimal impact to the runtime performance.
->
-> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  14 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c  |  10 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  | 107 +++--------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |   5 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     |   2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c      | 189 +++++++++++++++-----
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h      |  12 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c   |   1 +
->   8 files changed, 199 insertions(+), 141 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> index b144404902255..1d8a0ff3c8604 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> @@ -36,6 +36,7 @@
->   #include "amdgpu_gem.h"
->   #include "amdgpu_dma_buf.h"
->   #include "amdgpu_xgmi.h"
-> +#include "amdgpu_vm.h"
->   #include <drm/amdgpu_drm.h>
->   #include <drm/ttm/ttm_tt.h>
->   #include <linux/dma-buf.h>
-> @@ -190,6 +191,13 @@ static void amdgpu_dma_buf_unmap(struct dma_buf_attachment *attach,
->   	}
->   }
->   
-> +static void amdgpu_dma_buf_release(struct dma_buf *buf)
-> +{
-> +	struct amdgpu_bo *bo = gem_to_amdgpu_bo(buf->priv);
-> +	amdgpu_vm_bo_update_shared(bo, -1);
-> +	drm_gem_dmabuf_release(buf);
+Hi Dave, Simona,
 
-Please run checkpatch.pl on the patch. As far as I can see it would 
-complain about the coding style here (empty line between declaration and 
-code).
+drm-misc-next-2024-10-31:
+drm-misc-next for v6.13:
 
-Not much of an issue but we would like to prevent upstream from 
-complaining about such things.
+All of the previous pull request, with MORE!
 
-> +}
-> +
->   /**
->    * amdgpu_dma_buf_begin_cpu_access - &dma_buf_ops.begin_cpu_access implementation
->    * @dma_buf: Shared DMA buffer
-> @@ -237,7 +245,7 @@ const struct dma_buf_ops amdgpu_dmabuf_ops = {
->   	.unpin = amdgpu_dma_buf_unpin,
->   	.map_dma_buf = amdgpu_dma_buf_map,
->   	.unmap_dma_buf = amdgpu_dma_buf_unmap,
-> -	.release = drm_gem_dmabuf_release,
-> +	.release = amdgpu_dma_buf_release,
->   	.begin_cpu_access = amdgpu_dma_buf_begin_cpu_access,
->   	.mmap = drm_gem_dmabuf_mmap,
->   	.vmap = drm_gem_dmabuf_vmap,
-> @@ -265,8 +273,10 @@ struct dma_buf *amdgpu_gem_prime_export(struct drm_gem_object *gobj,
->   		return ERR_PTR(-EPERM);
->   
->   	buf = drm_gem_prime_export(gobj, flags);
-> -	if (!IS_ERR(buf))
-> +	if (!IS_ERR(buf)) {
->   		buf->ops = &amdgpu_dmabuf_ops;
-> +		amdgpu_vm_bo_update_shared(bo, +1);
-> +	}
->   
->   	return buf;
->   }
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> index 7a9573958d87c..e0e09f7b39d10 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> @@ -60,7 +60,7 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->   	struct amdgpu_fpriv *fpriv = file->driver_priv;
->   	struct amdgpu_vm *vm = &fpriv->vm;
->   
-> -	struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST + 1] = { };
-> +	struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST] = { };
->   	ktime_t usage[AMDGPU_HW_IP_NUM];
->   	const char *pl_name[] = {
->   		[TTM_PL_VRAM] = "vram",
-> @@ -70,13 +70,7 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->   	unsigned int hw_ip, i;
->   	int ret;
->   
-> -	ret = amdgpu_bo_reserve(vm->root.bo, false);
-> -	if (ret)
-> -		return;
-> -
-> -	amdgpu_vm_get_memory(vm, stats, ARRAY_SIZE(stats));
-> -	amdgpu_bo_unreserve(vm->root.bo);
-> -
-> +	amdgpu_vm_get_memory(vm, stats);
->   	amdgpu_ctx_mgr_usage(&fpriv->ctx_mgr, usage);
->   
->   	/*
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 2436b7c9ad12b..98563124ff99c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -1156,7 +1156,7 @@ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
->   		return;
->   
->   	abo = ttm_to_amdgpu_bo(bo);
-> -	amdgpu_vm_bo_invalidate(abo, evict);
-> +	amdgpu_vm_bo_move(abo, new_mem, evict);
->   
->   	amdgpu_bo_kunmap(abo);
->   
-> @@ -1169,86 +1169,6 @@ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
->   			     old_mem ? old_mem->mem_type : -1);
->   }
->   
-> -void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
-> -			  struct amdgpu_mem_stats *stats,
-> -			  unsigned int sz)
-> -{
-> -	const unsigned int domain_to_pl[] = {
-> -		[ilog2(AMDGPU_GEM_DOMAIN_CPU)]	    = TTM_PL_SYSTEM,
-> -		[ilog2(AMDGPU_GEM_DOMAIN_GTT)]	    = TTM_PL_TT,
-> -		[ilog2(AMDGPU_GEM_DOMAIN_VRAM)]	    = TTM_PL_VRAM,
-> -		[ilog2(AMDGPU_GEM_DOMAIN_GDS)]	    = AMDGPU_PL_GDS,
-> -		[ilog2(AMDGPU_GEM_DOMAIN_GWS)]	    = AMDGPU_PL_GWS,
-> -		[ilog2(AMDGPU_GEM_DOMAIN_OA)]	    = AMDGPU_PL_OA,
-> -		[ilog2(AMDGPU_GEM_DOMAIN_DOORBELL)] = AMDGPU_PL_DOORBELL,
-> -	};
-> -	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
-> -	struct ttm_resource *res = bo->tbo.resource;
-> -	struct drm_gem_object *obj = &bo->tbo.base;
-> -	uint64_t size = amdgpu_bo_size(bo);
-> -	unsigned int type;
-> -
-> -	if (!res) {
-> -		/*
-> -		 * If no backing store use one of the preferred domain for basic
-> -		 * stats. We take the MSB since that should give a reasonable
-> -		 * view.
-> -		 */
-> -		BUILD_BUG_ON(TTM_PL_VRAM < TTM_PL_TT ||
-> -			     TTM_PL_VRAM < TTM_PL_SYSTEM);
-> -		type = fls(bo->preferred_domains & AMDGPU_GEM_DOMAIN_MASK);
-> -		if (!type)
-> -			return;
-> -		type--;
-> -		if (drm_WARN_ON_ONCE(&adev->ddev,
-> -				     type >= ARRAY_SIZE(domain_to_pl)))
-> -			return;
-> -		type = domain_to_pl[type];
-> -	} else {
-> -		type = res->mem_type;
-> -	}
-> -
-> -	/* Squash some into 'cpu' to keep the legacy userspace view. */
-> -	switch (type) {
-> -	case TTM_PL_VRAM:
-> -	case TTM_PL_TT:
-> -	case TTM_PL_SYSTEM:
-> -		break;
-> -	default:
-> -		type = TTM_PL_SYSTEM;
-> -		break;
-> -	}
-> -
-> -	if (drm_WARN_ON_ONCE(&adev->ddev, type >= sz))
-> -		return;
-> -
-> -	/* DRM stats common fields: */
-> -
-> -	if (drm_gem_object_is_shared_for_memory_stats(obj))
-> -		stats[type].drm.shared += size;
-> -	else
-> -		stats[type].drm.private += size;
-> -
-> -	if (res) {
-> -		stats[type].drm.resident += size;
-> -
-> -		if (!dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_BOOKKEEP))
-> -			stats[type].drm.active += size;
-> -		else if (bo->flags & AMDGPU_GEM_CREATE_DISCARDABLE)
-> -			stats[type].drm.purgeable += size;
-> -	}
-> -
-> -	/* amdgpu specific stats: */
-> -
-> -	if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) {
-> -		stats[TTM_PL_VRAM].requested += size;
-> -		if (type != TTM_PL_VRAM)
-> -			stats[TTM_PL_VRAM].evicted += size;
-> -	} else if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_GTT) {
-> -		stats[TTM_PL_TT].requested += size;
-> -	}
-> -}
-> -
->   /**
->    * amdgpu_bo_release_notify - notification about a BO being released
->    * @bo: pointer to a buffer object
-> @@ -1463,6 +1383,31 @@ u64 amdgpu_bo_gpu_offset_no_check(struct amdgpu_bo *bo)
->   	return amdgpu_gmc_sign_extend(offset);
->   }
->   
-> +uint32_t amdgpu_bo_get_preferred_placement(struct amdgpu_bo *bo) {
-> +	uint32_t domain = bo->preferred_domains & AMDGPU_GEM_DOMAIN_MASK;
-> +	if (!domain)
-> +		return TTM_PL_SYSTEM;
-> +
-> +	switch (ilog2(domain)) {
-> +		case AMDGPU_GEM_DOMAIN_CPU:
-> +			return TTM_PL_SYSTEM;
-> +		case AMDGPU_GEM_DOMAIN_GTT:
-> +			return TTM_PL_TT;
-> +		case AMDGPU_GEM_DOMAIN_VRAM:
-> +			return TTM_PL_VRAM;
-> +		case AMDGPU_GEM_DOMAIN_GDS:
-> +			return AMDGPU_PL_GDS;
-> +		case AMDGPU_GEM_DOMAIN_GWS:
-> +			return AMDGPU_PL_GWS;
-> +		case AMDGPU_GEM_DOMAIN_OA:
-> +			return AMDGPU_PL_OA;
-> +		case AMDGPU_GEM_DOMAIN_DOORBELL:
-> +			return AMDGPU_PL_DOORBELL;
-> +		default:
-> +			return TTM_PL_SYSTEM;
+Core Changes:
+- Update documentation for scheduler start/stop and job init.
+- Add dedede and sm8350-hdk hardware to ci runs.
 
-If I'm not completely mistaken that won't work like that.
+Driver Changes:
+- Small fixes and cleanups to panfrost, omap, nouveau, ivpu, zynqmp, v3d,
+   panthor docs, and leadtek-ltk050h3146w.
+- Crashdump support for qaic.
+- Support DP compliance in zynqmp.
+- Add Samsung S6E88A0-AMS427AP24 panel.
+The following changes since commit 134e71bd1edcc7252b64ca31efe88edfef86d784:
 
-The AMDGPU_GEM_DOMAIN_* defines are masks and not shifts.
+   drm/sched: Further optimise drm_sched_entity_push_job (2024-10-17 
+12:20:06 +0200)
 
-> +	}
-> +}
-> +
->   /**
->    * amdgpu_bo_get_preferred_domain - get preferred domain
->    * @adev: amdgpu device object
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> index be6769852ece4..bd58a8b0ece66 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> @@ -30,6 +30,7 @@
->   
->   #include <drm/amdgpu_drm.h>
->   #include "amdgpu.h"
-> +#include "amdgpu_ttm.h"
->   #include "amdgpu_res_cursor.h"
+are available in the Git repository at:
 
-Why is that necessary?
+   https://gitlab.freedesktop.org/drm/misc/kernel.git 
+tags/drm-misc-next-2024-10-31
 
->   
->   #ifdef CONFIG_MMU_NOTIFIER
-> @@ -300,9 +301,7 @@ int amdgpu_bo_sync_wait_resv(struct amdgpu_device *adev, struct dma_resv *resv,
->   int amdgpu_bo_sync_wait(struct amdgpu_bo *bo, void *owner, bool intr);
->   u64 amdgpu_bo_gpu_offset(struct amdgpu_bo *bo);
->   u64 amdgpu_bo_gpu_offset_no_check(struct amdgpu_bo *bo);
-> -void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
-> -			  struct amdgpu_mem_stats *stats,
-> -			  unsigned int size);
-> +uint32_t amdgpu_bo_get_preferred_placement(struct amdgpu_bo *bo);
->   uint32_t amdgpu_bo_get_preferred_domain(struct amdgpu_device *adev,
->   					    uint32_t domain);
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> index 2852a6064c9ac..a9088e864fde4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> @@ -26,8 +26,8 @@
->   
->   #include <linux/dma-direction.h>
->   #include <drm/gpu_scheduler.h>
-> +#include <drm/ttm/ttm_placement.h>
->   #include "amdgpu_vram_mgr.h"
-> -#include "amdgpu.h"
+for you to fetch changes up to 2e0757012cf4f3c29a671f0981f9aa853a96def6:
 
-Looks like a valuable cleanup, but should probably a separate patch.
+   drm/sched: Document purpose of drm_sched_{start,stop} (2024-10-31 
+12:48:49 +0100)
 
->   
->   #define AMDGPU_PL_GDS		(TTM_PL_PRIV + 0)
->   #define AMDGPU_PL_GWS		(TTM_PL_PRIV + 1)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 9fab64edd0530..abd35c18ddaa8 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -36,6 +36,7 @@
->   #include <drm/ttm/ttm_tt.h>
->   #include <drm/drm_exec.h>
->   #include "amdgpu.h"
-> +#include "amdgpu_vm.h"
->   #include "amdgpu_trace.h"
->   #include "amdgpu_amdkfd.h"
->   #include "amdgpu_gmc.h"
-> @@ -310,6 +311,94 @@ static void amdgpu_vm_bo_reset_state_machine(struct amdgpu_vm *vm)
->   	spin_unlock(&vm->status_lock);
->   }
->   
-> +/**
-> + * amdgpu_vm_update_shared - helper to update shared memory stat
-> + * @base: base structure for tracking BO usage in a VM
-> + * @sign: if we should add (+1) or subtract (-1) from the shared stat
-> + *
-> + * Takes the vm status_lock and updates the shared memory stat. If the basic
-> + * stat changed (e.g. buffer was moved) amdgpu_vm_update_stats need to be called
-> + * as well.
-> + */
-> +static void amdgpu_vm_update_shared(struct amdgpu_vm_bo_base *base, int sign)
-> +{
-> +	struct amdgpu_vm *vm = base->vm;
-> +	struct amdgpu_bo *bo = base->bo;
-> +	struct ttm_resource *res;
-> +	int64_t size;
-> +	uint32_t type;
-> +
-> +	if (!vm || !bo)
-> +		return;
-> +
-> +	size = sign * amdgpu_bo_size(bo);
-> +	if ((res = bo->tbo.resource))
-> +		type = res->mem_type;
-> +	else
-> +		type = amdgpu_bo_get_preferred_placement(bo);
+----------------------------------------------------------------
+drm-misc-next for v6.13:
 
-As discussed with Tvrtko that won't work like this.
+All of the previous pull request, with MORE!
 
-Either use the preferred placement or the actual backing store, but 
-don't use a fallback here.
+Core Changes:
+- Update documentation for scheduler start/stop and job init.
+- Add dedede and sm8350-hdk hardware to ci runs.
 
-> +	if (type >= __AMDGPU_PL_LAST)
-> +		return;
-> +
-> +	spin_lock(&vm->status_lock);
-> +	vm->stats[type].drm.shared += size;
-> +	vm->stats[type].drm.private -= size;
-> +	spin_unlock(&vm->status_lock);
-> +}
-> +
-> +/**
-> + * amdgpu_vm_update_stats - helper to update normal memory stat
-> + * @base: base structure for tracking BO usage in a VM
-> + * @new_res:  if not NULL, the ttm_resource to use for the purpose of accounting
-> + * (i.e. ignore the one in the BO)
-> + * @sign: if we should add (+1) or subtract (-1) from the stat
-> + *
-> + * Takes the vm status_lock and updates the basic memory stat. If the shared
-> + * stat changed (e.g. buffer was exported) amdgpu_vm_update_shared need to be
-> + * called as well.
-> + */
-> +void amdgpu_vm_update_stats(struct amdgpu_vm_bo_base *base,
-> +			    struct ttm_resource *new_res, int sign)
-> +{
-> +	struct amdgpu_vm *vm = base->vm;
-> +	struct amdgpu_bo *bo = base->bo;
-> +	struct ttm_resource *res;
-> +	int64_t size;
-> +	uint32_t type;
-> +	bool shared;
-> +
-> +	if (!vm || !bo)
-> +		return;
-> +
-> +	size = sign * amdgpu_bo_size(bo);
-> +	res = new_res ? new_res : bo->tbo.resource;
-> +	type = res ? res->mem_type : amdgpu_bo_get_preferred_placement(bo);
+Driver Changes:
+- Small fixes and cleanups to panfrost, omap, nouveau, ivpu, zynqmp, v3d,
+   panthor docs, and leadtek-ltk050h3146w.
+- Crashdump support for qaic.
+- Support DP compliance in zynqmp.
+- Add Samsung S6E88A0-AMS427AP24 panel.
 
-Same here. Don't use the preferred domain as fallback.
+----------------------------------------------------------------
+Adrián Larumbe (1):
+       Documentation/gpu: Fix Panthor documentation build warnings
 
-> +	shared = drm_gem_object_is_shared_for_memory_stats(&bo->tbo.base);
-> +
-> +	if (type >= __AMDGPU_PL_LAST)
-> +		return;
-> +
-> +	spin_lock(&vm->status_lock);
-> +
-> +	if (shared)
-> +		vm->stats[type].drm.shared += size;
-> +	else
-> +		vm->stats[type].drm.private += size;
-> +	if (res)
-> +		vm->stats[type].drm.resident += size;
-> +	if (bo->flags & AMDGPU_GEM_CREATE_DISCARDABLE)
-> +		vm->stats[type].drm.purgeable += size;
-> +
-> +	if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) {
-> +		vm->stats[TTM_PL_VRAM].requested += size;
-> +		if (type != TTM_PL_VRAM)
-> +			vm->stats[TTM_PL_VRAM].evicted += size;
+Alex Lanzano (2):
+       dt-bindings: display: Add Sharp Memory LCD bindings
+       drm/tiny: Add driver for Sharp Memory LCD
 
-That check is probably not correct. We have BOs which can be placed in 
-both VRAM and GTT.
+Alexander Stein (1):
+       drm: fsl-dcu: Use dev_err_probe
 
-> +	} else if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_GTT) {
-> +			vm->stats[TTM_PL_TT].requested += size;
-> +	}
-> +
-> +	spin_unlock(&vm->status_lock);
-> +}
-> +
->   /**
->    * amdgpu_vm_bo_base_init - Adds bo to the list of bos associated with the vm
->    *
-> @@ -332,6 +421,7 @@ void amdgpu_vm_bo_base_init(struct amdgpu_vm_bo_base *base,
->   		return;
->   	base->next = bo->vm_bo;
->   	bo->vm_bo = base;
-> +	amdgpu_vm_update_stats(base, NULL, +1);
->   
->   	if (!amdgpu_vm_is_bo_always_valid(vm, bo))
->   		return;
-> @@ -1082,53 +1172,11 @@ int amdgpu_vm_update_range(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->   	return r;
->   }
->   
-> -static void amdgpu_vm_bo_get_memory(struct amdgpu_bo_va *bo_va,
-> -				    struct amdgpu_mem_stats *stats,
-> -				    unsigned int size)
-> -{
-> -	struct amdgpu_vm *vm = bo_va->base.vm;
-> -	struct amdgpu_bo *bo = bo_va->base.bo;
-> -
-> -	if (!bo)
-> -		return;
-> -
-> -	/*
-> -	 * For now ignore BOs which are currently locked and potentially
-> -	 * changing their location.
-> -	 */
-> -	if (!amdgpu_vm_is_bo_always_valid(vm, bo) &&
-> -	    !dma_resv_trylock(bo->tbo.base.resv))
-> -		return;
-> -
-> -	amdgpu_bo_get_memory(bo, stats, size);
-> -	if (!amdgpu_vm_is_bo_always_valid(vm, bo))
-> -		dma_resv_unlock(bo->tbo.base.resv);
-> -}
-> -
->   void amdgpu_vm_get_memory(struct amdgpu_vm *vm,
-> -			  struct amdgpu_mem_stats *stats,
-> -			  unsigned int size)
-> +			  struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST])
->   {
-> -	struct amdgpu_bo_va *bo_va, *tmp;
-> -
->   	spin_lock(&vm->status_lock);
-> -	list_for_each_entry_safe(bo_va, tmp, &vm->idle, base.vm_status)
-> -		amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> -
-> -	list_for_each_entry_safe(bo_va, tmp, &vm->evicted, base.vm_status)
-> -		amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> -
-> -	list_for_each_entry_safe(bo_va, tmp, &vm->relocated, base.vm_status)
-> -		amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> -
-> -	list_for_each_entry_safe(bo_va, tmp, &vm->moved, base.vm_status)
-> -		amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> -
-> -	list_for_each_entry_safe(bo_va, tmp, &vm->invalidated, base.vm_status)
-> -		amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> -
-> -	list_for_each_entry_safe(bo_va, tmp, &vm->done, base.vm_status)
-> -		amdgpu_vm_bo_get_memory(bo_va, stats, size);
-> +	memcpy(stats, vm->stats, sizeof(*stats) * __AMDGPU_PL_LAST);
->   	spin_unlock(&vm->status_lock);
->   }
->   
-> @@ -2071,6 +2119,7 @@ void amdgpu_vm_bo_del(struct amdgpu_device *adev,
->   			if (*base != &bo_va->base)
->   				continue;
->   
-> +			amdgpu_vm_update_stats(*base, NULL, -1);
->   			*base = bo_va->base.next;
->   			break;
->   		}
-> @@ -2136,6 +2185,22 @@ bool amdgpu_vm_evictable(struct amdgpu_bo *bo)
->   	return true;
->   }
->   
-> +/**
-> + * amdgpu_vm_bo_update_shared - called when bo gets shared/unshared
-> + *
-> + * @bo: amdgpu buffer object
-> + * @sign: if we should add (+1) or subtract (-1) the memory stat
-> + *
-> + * Update the per VM stats for all the vm
-> + */
-> +void amdgpu_vm_bo_update_shared(struct amdgpu_bo *bo, int sign)
-> +{
-> +	struct amdgpu_vm_bo_base *bo_base;
-> +
-> +	for (bo_base = bo->vm_bo; bo_base; bo_base = bo_base->next)
-> +		amdgpu_vm_update_shared(bo_base, sign);
-> +}
-> +
->   /**
->    * amdgpu_vm_bo_invalidate - mark the bo as invalid
->    *
-> @@ -2169,6 +2234,28 @@ void amdgpu_vm_bo_invalidate(struct amdgpu_bo *bo, bool evicted)
->   	}
->   }
->   
-> +/**
-> + * amdgpu_vm_bo_move - handle BO move
-> + *
-> + * @bo: amdgpu buffer object
-> + * @new_mem: the new placement of the BO move
-> + * @evicted: is the BO evicted
-> + *
-> + * Update the memory stats for the new placement and mark @bo as invalid.
-> + */
-> +void amdgpu_vm_bo_move(struct amdgpu_bo *bo, struct ttm_resource *new_mem,
-> +		       bool evicted)
-> +{
-> +	struct amdgpu_vm_bo_base *bo_base;
-> +
-> +	for (bo_base = bo->vm_bo; bo_base; bo_base = bo_base->next) {
-> +		amdgpu_vm_update_stats(bo_base, bo->tbo.resource, -1);
-> +		amdgpu_vm_update_stats(bo_base, new_mem, +1);
-> +	}
-> +
-> +	amdgpu_vm_bo_invalidate(bo, evicted);
-> +}
-> +
->   /**
->    * amdgpu_vm_get_block_size - calculate VM page table size as power of two
->    *
-> @@ -2585,6 +2672,18 @@ void amdgpu_vm_release_compute(struct amdgpu_device *adev, struct amdgpu_vm *vm)
->   	vm->is_compute_context = false;
->   }
->   
-> +static int amdgpu_vm_stats_is_zero(struct amdgpu_vm *vm)
-> +{
-> +	int is_zero = 1;
-> +	for (int i = 0; i < __AMDGPU_PL_LAST; ++i) {
-> +		is_zero = drm_memory_stats_is_zero(&vm->stats[i].drm) &&
-> +			  vm->stats->evicted == 0 && vm->stats->requested == 0;
-> +		if (!is_zero)
-> +			break;
+Andrzej Kacprowski (1):
+       accel/ivpu: Remove copy engine support
 
-Just make that an "if (...) return false", no need for the local variable.
+Arnd Bergmann (2):
+       drm/imx: parallel-display: add legacy bridge Kconfig dependency
+       drm/imx: legacy-bridge: add MODULE_DESCRIPTION
 
-Regards,
-Christian.
+Chen Ni (1):
+       drm/fsl-dcu: Remove redundant dev_err()
 
-> +	}
-> +	return is_zero;
-> +}
-> +
->   /**
->    * amdgpu_vm_fini - tear down a vm instance
->    *
-> @@ -2656,6 +2755,8 @@ void amdgpu_vm_fini(struct amdgpu_device *adev, struct amdgpu_vm *vm)
->   		}
->   	}
->   
-> +	if (!amdgpu_vm_stats_is_zero(vm))
-> +		dev_err(adev->dev, "VM memory stats is non-zero when fini\n");
->   }
->   
->   /**
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> index 6a1b344e15e1b..03589559641c4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> @@ -35,6 +35,7 @@
->   #include "amdgpu_sync.h"
->   #include "amdgpu_ring.h"
->   #include "amdgpu_ids.h"
-> +#include "amdgpu_ttm.h"
->   
->   struct drm_exec;
->   
-> @@ -345,6 +346,9 @@ struct amdgpu_vm {
->   	/* Lock to protect vm_bo add/del/move on all lists of vm */
->   	spinlock_t		status_lock;
->   
-> +	/* Memory statistics for this vm, protected by the status_lock */
-> +	struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST];
-> +
->   	/* Per-VM and PT BOs who needs a validation */
->   	struct list_head	evicted;
->   
-> @@ -525,6 +529,11 @@ int amdgpu_vm_bo_update(struct amdgpu_device *adev,
->   			bool clear);
->   bool amdgpu_vm_evictable(struct amdgpu_bo *bo);
->   void amdgpu_vm_bo_invalidate(struct amdgpu_bo *bo, bool evicted);
-> +void amdgpu_vm_update_stats(struct amdgpu_vm_bo_base *base,
-> +			    struct ttm_resource *new_res, int sign);
-> +void amdgpu_vm_bo_update_shared(struct amdgpu_bo *bo, int sign);
-> +void amdgpu_vm_bo_move(struct amdgpu_bo *bo, struct ttm_resource *new_mem,
-> +		       bool evicted);
->   uint64_t amdgpu_vm_map_gart(const dma_addr_t *pages_addr, uint64_t addr);
->   struct amdgpu_bo_va *amdgpu_vm_bo_find(struct amdgpu_vm *vm,
->   				       struct amdgpu_bo *bo);
-> @@ -575,8 +584,7 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
->   void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
->   				struct amdgpu_vm *vm);
->   void amdgpu_vm_get_memory(struct amdgpu_vm *vm,
-> -			  struct amdgpu_mem_stats *stats,
-> -			  unsigned int size);
-> +			  struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST]);
->   
->   int amdgpu_vm_pt_clear(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->   		       struct amdgpu_bo_vm *vmbo, bool immediate);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-> index f78a0434a48fa..384526d10a3bc 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-> @@ -537,6 +537,7 @@ static void amdgpu_vm_pt_free(struct amdgpu_vm_bo_base *entry)
->   	if (!entry->bo)
->   		return;
->   
-> +	amdgpu_vm_update_stats(entry, NULL, -1);
->   	entry->bo->vm_bo = NULL;
->   	ttm_bo_set_bulk_move(&entry->bo->tbo, NULL);
->   
+Cristian Ciocaltea (3):
+       drm/bridge: synopsys: Add DW HDMI QP TX Controller support library
+       dt-bindings: display: rockchip: Add schema for RK3588 HDMI TX 
+Controller
+       drm/rockchip: Add basic RK3588 HDMI output support
 
+Dmitry Baryshkov (7):
+       drm/fbdev: fix drm_fb_helper_deferred_io() build failure
+       drm/display: bridge_connector: handle ycbcr_420_allowed
+       drm/atomic: add interlaced and ycbcr_420 flags to connector's 
+state dump
+       drm/bridge: display-connector: allow YCbCr 420 for HDMI and DP
+       drm/bridge: aux: allow interlaced and YCbCr 420 output
+       drm/msm/dp: migrate the ycbcr_420_allowed to drm_bridge
+       drm/bridge: dw-hdmi: set bridge's ycbcr_420_allowed flag
+
+Dr. David Alan Gilbert (1):
+       drm/omap: Clean up deadcode functions
+
+Dzmitry Sankouski (1):
+       drm/panel: s6e3ha8: add static modifier to supply list
+
+Jakob Hauser (5):
+       dt-bindings: display: panel: Move flip properties to panel-common
+       dt-bindings: display: panel: Add Samsung S6E88A0-AMS427AP24
+       drm/panel: samsung-s6e88a0-ams427ap24: Add initial driver
+       drm/panel: samsung-s6e88a0-ams427ap24: Add brightness control
+       drm/panel: samsung-s6e88a0-ams427ap24: Add flip option
+
+Javier Carrasco (6):
+       drm/bridge: dpc3433: Constify struct regmap_config
+       drm/fsl-dcu: Constify struct regmap_config
+       drm/mediatek: dp: Constify struct regmap_config
+       drm/meson: Constify struct regmap_config
+       drm/panel: ili9322: Constify struct regmap_bus
+       drm/sprd: Constify struct regmap_bus
+
+Jean Delvare (1):
+       drm/display: Drop obsolete dependency on COMPILE_TEST
+
+Jeffrey Hugo (1):
+       accel/qaic: Add crashdump to Sahara
+
+Karol Wachowski (9):
+       accel/ivpu: Do not fail when more than 1 tile is fused
+       accel/ivpu: Defer MMU root page table allocation
+       accel/ivpu: Clear CDTAB entry in case of failure
+       accel/ivpu: Unmap partially mapped BOs in case of errors
+       accel/ivpu: Use xa_alloc_cyclic() instead of custom function
+       accel/ivpu: Make command queue ID allocated on XArray
+       accel/ivpu: Don't allocate preemption buffers when MIP is disabled
+       accel/ivpu: Increase DMA address range
+       accel/ivpu: Move secondary preemption buffer allocation to DMA range
+
+Krzysztof Kozlowski (3):
+       drm/meson: drop unused static dw_hdmi_dwc_write_bits
+       dt-bindings: display: bridge: tc358768: switch to bus-width
+       drm/bridge: tc358768: switch to bus-width
+
+Li Huafei (1):
+       drm/nouveau/gr/gf100: Fix missing unlock in gf100_gr_chan_new()
+
+Liu Ying (1):
+       drm/bridge: ite-it66121: Drop hdmi_avi_infoframe_init() function call
+
+Maciej Falkowski (1):
+       accel/ivpu: Add debug Kconfig option
+
+Manikandan Muralidharan (2):
+       dt-bindings: display: panel-simple: Document support for 
+Microchip AC69T88A
+       drm/panel: simple: Add Microchip AC69T88A LVDS Display panel
+
+Marek Vasut (1):
+       drm/bridge: tc358767: Fix use of unadjusted mode in the driver
+
+Matthias Brugger (1):
+       drm/v3d: Drop allocation of object without mountpoint
+
+Matthias Schiffer (1):
+       drm: fsl-dcu: enable PIXCLK on LS1021A
+
+Philipp Stanner (3):
+       drm/sched: memset() 'job' in drm_sched_job_init()
+       drm/sched: warn about drm_sched_job_init()'s partial init
+       drm/sched: Document purpose of drm_sched_{start,stop}
+
+Randy Dunlap (1):
+       drm/fbdev-dma: remove obsolete kernel-doc references
+
+Ryan Walklin (1):
+       drm: panel: nv3052c: correct spi_device_id for RG35XX panel
+
+Sean Anderson (8):
+       drm: zynqmp_kms: Unplug DRM device before removal
+       drm: zynqmp_dp: Add locking
+       drm: zynqmp_dp: Don't retrain the link in our IRQ
+       drm: zynqmp_dp: Convert to a hard IRQ
+       drm: zynqmp_dp: Use AUX IRQs instead of polling
+       drm: zynqmp_dp: Split off several helper functions
+       drm: zynqmp_dp: Take dp->lock in zynqmp_dp_hpd_work_func
+       drm: zynqmp_dp: Add debugfs interface for compliance testing
+
+Simon Horman (1):
+       accel/qaic: Pass string literal as format argument of 
+alloc_workqueue()
+
+Steffen Dirkwinkel (2):
+       drm: xlnx: zynqmp_disp: layer may be null while releasing
+       drm: xlnx: zynqmp_dpsub: fix hotplug detection
+
+Steven Price (1):
+       drm/panfrost: Remove unused id_mask from struct panfrost_model
+
+Tejas Vipin (1):
+       drm/panel: leadtek-ltk050h3146w: transition to mipi_dsi wrapped 
+functions
+
+Thomas Zimmermann (11):
+       drm/i915: Select DRM_CLIENT_SELECTION
+       drm/xe: Select DRM_CLIENT_SELECTION
+       drm/fbdev-dma: Select FB_DEFERRED_IO
+       drm/fbdev: Select fbdev I/O helpers from modules that require them
+       drm/client: Move client event handlers to drm_client_event.c
+       drm/client: Move suspend/resume into DRM client callbacks
+       drm/amdgpu: Suspend and resume internal clients with client helpers
+       drm/nouveau: Suspend and resume clients with client helpers
+       drm/radeon: Suspend and resume clients with client helpers
+       drm/client: Make client support optional
+       drm/client: Add client-lib module
+
+Vignesh Raman (2):
+       drm/ci: add dedede
+       drm/ci: add sm8350-hdk
+
+Ville Syrjälä (4):
+       drm/imx/dcss: Fix 64bit divisions
+       drm/imx/dcss: Allow build with COMPILE_TEST=y
+       drm/mediatek: Allow build with COMPILE_TEST=y
+       drm/meson: Allow build with COMPILE_TEST=y
+
+Wadim Egorov (2):
+       dt-bindings: display: bridge: sil,sii9022: Add bus-width
+       drm/bridge: sii902x: Set input bus format based on bus-width
+
+  .../bindings/display/bridge/sil,sii9022.yaml       |  15 +-
+  .../bindings/display/bridge/toshiba,tc358768.yaml  |   4 +
+  .../bindings/display/panel/panel-common.yaml       |   8 +
+  .../bindings/display/panel/panel-simple.yaml       |   2 +
+  .../display/panel/samsung,s6e88a0-ams427ap24.yaml  |  65 ++
+  .../bindings/display/panel/samsung,s6e8aa0.yaml    |  10 +-
+  .../rockchip/rockchip,rk3588-dw-hdmi-qp.yaml       | 188 +++++
+  .../bindings/display/sharp,ls010b7dh04.yaml        |  92 +++
+  Documentation/gpu/drivers.rst                      |   2 +
+  Documentation/gpu/drm-client.rst                   |   3 +
+  Documentation/gpu/drm-kms-helpers.rst              |   9 -
+  Documentation/gpu/drm-usage-stats.rst              |   1 +
+  Documentation/gpu/panthor.rst                      |   2 +-
+  Documentation/gpu/zynqmp.rst                       | 149 ++++
+  MAINTAINERS                                        |   7 +
+  drivers/accel/ivpu/Kconfig                         |   9 +
+  drivers/accel/ivpu/Makefile                        |   2 +
+  drivers/accel/ivpu/ivpu_drv.c                      |  31 +-
+  drivers/accel/ivpu/ivpu_drv.h                      |  16 +-
+  drivers/accel/ivpu/ivpu_fw.c                       |   8 +-
+  drivers/accel/ivpu/ivpu_hw.c                       |  10 +-
+  drivers/accel/ivpu/ivpu_hw_btrs.c                  |  12 +-
+  drivers/accel/ivpu/ivpu_job.c                      | 148 ++--
+  drivers/accel/ivpu/ivpu_job.h                      |   2 +
+  drivers/accel/ivpu/ivpu_jsm_msg.c                  |   8 +-
+  drivers/accel/ivpu/ivpu_mmu.c                      |  97 +--
+  drivers/accel/ivpu/ivpu_mmu.h                      |   4 +-
+  drivers/accel/ivpu/ivpu_mmu_context.c              | 158 ++--
+  drivers/accel/ivpu/ivpu_mmu_context.h              |   9 +-
+  drivers/accel/ivpu/ivpu_pm.c                       |   2 +
+  drivers/accel/qaic/qaic_drv.c                      |   4 +-
+  drivers/accel/qaic/sahara.c                        | 388 +++++++++-
+  drivers/gpu/drm/Kconfig                            |  41 +-
+  drivers/gpu/drm/Makefile                           |  20 +-
+  drivers/gpu/drm/amd/amdgpu/Kconfig                 |   1 +
+  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  22 +-
+  drivers/gpu/drm/bridge/aux-bridge.c                |   4 +
+  drivers/gpu/drm/bridge/aux-hpd-bridge.c            |   4 +
+  drivers/gpu/drm/bridge/display-connector.c         |   4 +
+  drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c     |   1 +
+  drivers/gpu/drm/bridge/ite-it66121.c               |   2 -
+  drivers/gpu/drm/bridge/sii902x.c                   |  24 +-
+  drivers/gpu/drm/bridge/synopsys/Kconfig            |   8 +
+  drivers/gpu/drm/bridge/synopsys/Makefile           |   2 +
+  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       | 647 ++++++++++++++++
+  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h       | 834 
+++++++++++++++++++++
+  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |   3 +
+  drivers/gpu/drm/bridge/tc358767.c                  |   2 +-
+  drivers/gpu/drm/bridge/tc358768.c                  |   4 +-
+  drivers/gpu/drm/bridge/ti-dlpc3433.c               |   2 +-
+  drivers/gpu/drm/ci/arm64.config                    |   7 +-
+  drivers/gpu/drm/ci/build.sh                        |   1 +
+  drivers/gpu/drm/ci/test.yml                        |  25 +
+  drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt       |  51 ++
+  drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt      |  13 +
+  drivers/gpu/drm/ci/xfails/i915-jsl-skips.txt       |  20 +
+  drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt |  15 +
+  .../gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt    |   6 +
+  drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt | 211 ++++++
+  drivers/gpu/drm/display/Kconfig                    |   2 +-
+  drivers/gpu/drm/display/drm_bridge_connector.c     |   6 +-
+  drivers/gpu/drm/drm_atomic.c                       |   2 +
+  drivers/gpu/drm/drm_client.c                       | 121 ---
+  drivers/gpu/drm/drm_client_event.c                 | 197 +++++
+  drivers/gpu/drm/drm_client_setup.c                 |   3 +
+  drivers/gpu/drm/drm_debugfs.c                      |   1 -
+  drivers/gpu/drm/drm_drv.c                          |   2 +-
+  drivers/gpu/drm/drm_fb_helper.c                    |   2 +
+  drivers/gpu/drm/drm_fbdev_client.c                 |  30 +-
+  drivers/gpu/drm/drm_file.c                         |   2 +-
+  drivers/gpu/drm/drm_internal.h                     |   8 +
+  drivers/gpu/drm/drm_modeset_helper.c               |  14 +-
+  drivers/gpu/drm/drm_probe_helper.c                 |   2 +-
+  drivers/gpu/drm/fsl-dcu/Kconfig                    |   1 +
+  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c          |  23 +-
+  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h          |   3 +
+  drivers/gpu/drm/fsl-dcu/fsl_tcon.c                 |   2 +-
+  drivers/gpu/drm/i915/Kconfig                       |   1 +
+  .../gpu/drm/i915/display/intel_display_driver.c    |   2 +-
+  drivers/gpu/drm/imx/dcss/Kconfig                   |   2 +-
+  drivers/gpu/drm/imx/dcss/dcss-scaler.c             |   4 +-
+  drivers/gpu/drm/imx/ipuv3/Kconfig                  |   1 +
+  drivers/gpu/drm/mediatek/Kconfig                   |   4 +-
+  drivers/gpu/drm/mediatek/mtk_dp.c                  |   2 +-
+  drivers/gpu/drm/meson/Kconfig                      |   2 +-
+  drivers/gpu/drm/meson/meson_drv.c                  |   2 +-
+  drivers/gpu/drm/meson/meson_dw_hdmi.c              |  14 -
+  drivers/gpu/drm/msm/Kconfig                        |   1 +
+  drivers/gpu/drm/msm/dp/dp_display.c                |   4 +-
+  drivers/gpu/drm/msm/dp/dp_drm.c                    |  10 +-
+  drivers/gpu/drm/msm/dp/dp_drm.h                    |   7 +-
+  drivers/gpu/drm/nouveau/nouveau_display.c          |   8 +-
+  drivers/gpu/drm/nouveau/nouveau_vga.c              |   2 +-
+  drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c     |   1 +
+  drivers/gpu/drm/omapdrm/dss/dispc.c                | 146 ----
+  drivers/gpu/drm/omapdrm/dss/dss.h                  |  13 -
+  drivers/gpu/drm/panel/Kconfig                      |  10 +
+  drivers/gpu/drm/panel/Makefile                     |   1 +
+  drivers/gpu/drm/panel/panel-ilitek-ili9322.c       |   2 +-
+  drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c | 339 ++++-----
+  drivers/gpu/drm/panel/panel-newvision-nv3052c.c    |   2 +-
+  drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c      |   2 +-
+  .../drm/panel/panel-samsung-s6e88a0-ams427ap24.c   | 766 
++++++++++++++++++++
+  drivers/gpu/drm/panel/panel-simple.c               |  28 +
+  drivers/gpu/drm/panfrost/panfrost_gpu.c            |   1 -
+  drivers/gpu/drm/radeon/radeon_device.c             |  19 +-
+  drivers/gpu/drm/radeon/radeon_fbdev.c              |   6 -
+  drivers/gpu/drm/radeon/radeon_mode.h               |   3 -
+  drivers/gpu/drm/rockchip/Kconfig                   |   9 +
+  drivers/gpu/drm/rockchip/Makefile                  |   1 +
+  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c     | 424 +++++++++++
+  drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |   2 +
+  drivers/gpu/drm/rockchip/rockchip_drm_drv.h        |   1 +
+  drivers/gpu/drm/scheduler/sched_main.c             |  20 +-
+  drivers/gpu/drm/sprd/sprd_dsi.c                    |   2 +-
+  drivers/gpu/drm/tiny/Kconfig                       |  21 +
+  drivers/gpu/drm/tiny/Makefile                      |   1 +
+  drivers/gpu/drm/tiny/sharp-memory.c                | 671 ++++++++++++++++
+  drivers/gpu/drm/v3d/v3d_bo.c                       |   9 +-
+  drivers/gpu/drm/xe/Kconfig                         |   1 +
+  drivers/gpu/drm/xlnx/zynqmp_disp.c                 |   3 +
+  drivers/gpu/drm/xlnx/zynqmp_dp.c                   | 843 
++++++++++++++++++++--
+  drivers/gpu/drm/xlnx/zynqmp_kms.c                  |   6 +-
+  include/drm/bridge/dw_hdmi_qp.h                    |  32 +
+  include/drm/drm_bridge.h                           |   5 +
+  include/drm/drm_client.h                           |  41 +-
+  include/drm/drm_client_event.h                     |  27 +
+  include/drm/drm_fb_helper.h                        |   4 +
+  include/drm/gpu_scheduler.h                        |   8 +
+  include/uapi/drm/ivpu_accel.h                      |   6 +-
+  130 files changed, 6423 insertions(+), 979 deletions(-)
+  create mode 100644 
+Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams427ap24.yaml
+  create mode 100644 
+Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+  create mode 100644 
+Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+  create mode 100644 Documentation/gpu/zynqmp.rst
+  create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+  create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h
+  create mode 100644 drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt
+  create mode 100644 drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt
+  create mode 100644 drivers/gpu/drm/ci/xfails/i915-jsl-skips.txt
+  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt
+  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt
+  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt
+  create mode 100644 drivers/gpu/drm/drm_client_event.c
+  create mode 100644 
+drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
+  create mode 100644 drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+  create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
+  create mode 100644 include/drm/bridge/dw_hdmi_qp.h
+  create mode 100644 include/drm/drm_client_event.h
