@@ -2,83 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9989B84B9
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 21:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307179B84C0
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2024 21:57:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA13910E92A;
-	Thu, 31 Oct 2024 20:56:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1E210E92B;
+	Thu, 31 Oct 2024 20:57:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gnhMAKa6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i6Pnv9e0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F38AF10E92A
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 20:56:23 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-53a007743e7so1560192e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 13:56:23 -0700 (PDT)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1325C10E92B
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 20:57:26 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id
+ 41be03b00d2f7-7edb3f93369so995825a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 13:57:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730408182; x=1731012982; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=wcGe16S8C8s7dwE7spgvv4ewwqDlWbIAjr6C3TYG2q0=;
- b=gnhMAKa6slDRxcoamOr6dGfkgaezzKZeN0b2jRQC5BdLBc5n5VMG//IGL1vWcIKiqx
- VpYtscmhLrOKHHL0dYv3ov3Lo+83lC8iZB1DwzIj6FIqR+dGSSCIqS1DJI950AnqFz+I
- O+ilUgbuegVrB/7B83HP+DC/BSnt9ZzeDv1zx0eUG786aenb9P7d1zB1IX4tzkvera88
- BFk7kBpbu63oxWCsT5hfWbOiItwz7SM/zHVz3ZB3l+D4eyAAOTLT/nm5QQuxjsPbsuqj
- 2ckQEGpyKJsL68Us+k7qWTIyAHL/mDzYchrmibLmD+ct3nShJ/0po30NsozXf9bH5VMA
- Qr7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730408182; x=1731012982;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1730408245; x=1731013045; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wcGe16S8C8s7dwE7spgvv4ewwqDlWbIAjr6C3TYG2q0=;
- b=l4Pz3UHKUZkq9v8tRH6Q+Tdpjr7YbJDTWQFowmwC2zNtqBQYwfbDqa0Jfjopi0oY2n
- eaRnPdVGmEzrYX78d5us2Gf9uRPbTBNmgMfkTNSjPj8s8Q/lYM/VyjoUekaw0/FW2DlD
- dMHt8iFEfVhaf68mvQQ/+Lx/LfqqIJg1Zhz0D5wiKRgkYTBgWkEisx/08zooX433hyET
- QdO7CnnL45PXjIKqvQMYVtyPwJSoljYiFLVjz5dwn7q4tmw/WYpO4rWEdU3brbzD4QY2
- Jmz7DtjEnTIbhrOZ8hHjDPD/fC2+MNkqZpttC7+QHk2/RiFOxxo/0/MyaRIb6Yd98yhq
- 9W0w==
+ bh=qqfmQwWGNi5gSLmw1HABwNExxBu+L4ODwUKeBji42II=;
+ b=i6Pnv9e0IzxVP/fHGVDA+G/rMpcDgK5kjbHPpUYyljblD/ohYzEdmT9MwkIHZ+22MA
+ w+lohb7STn7y4+oJstcEZe8CP5cx0F8EC7B1+cVna+V4j1fb0MaHodbf9+ovjDGlL33h
+ Pdt2XZSi4mmH2jR+1oBnAHQtZW1E588Vz0lqfLKVPU2mLWQU+pmebqcxDz4RaRLxXo1g
+ bDvRhhe83+3AD/KFDx4ZXx+zwqKd7YOZHdemfmhtOnOvtbqY/UeX5/du8aCUTK0P91rG
+ 7RETlpJwxKRgQ33D6p+f7FECBUR/njxsmY2m8wcKbMwEAZMLbV/s46w/BletXpGVtkPq
+ GAvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730408245; x=1731013045;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qqfmQwWGNi5gSLmw1HABwNExxBu+L4ODwUKeBji42II=;
+ b=noHGYZ61vy+LZSk4xHuHo7QZVkBRT9ALnaLa0VRpdNs4SeYUAGCWXqsHHjg/soOqNX
+ A+CnVoxLqvvCdZHREbu1lOLLbwOLpMzk/Y0Om/ojw/WDd2S5ICSj1DH7h10qyNubBWgR
+ pqn3OdUXa/+WNpgS7h+gunAtBoNrvjmUJfoKHi9qJPfebDZ5PSbInJ9LVUHK2O/jeum1
+ 86x+NNXKkBYA77FCpt7sMzyRgl0N7vo4XG+ZYRtrk/SDumsBLWizKS2THjBmHT4fnYjt
+ zM+NpKCIDPK//Ii5o+DfjcvUe0eUyz1FU1004tNNzpFqY0E+pPMX5dxFOEruaYm+0XHO
+ K0MQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXYg4OvM4Vbc6sua7QiJjW5VAokRp8VED6SMv5S3yfBC1kXt4LI92/wAakPXyQdYwQyx8RhLddQA60=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzxlCTQ/FNCQoFJ1b5BS6wHTWUQVnkVvdLhqRubZq2BO3LNXv7S
- PESfZKkcikUW5Iw3JAxhJHllKaS6SWiX93iDt75vKVy4g4IfkjXvklNX8IPJqx8=
-X-Google-Smtp-Source: AGHT+IH1Dxv4hPTZoRhxByuTLT7M0QZnSUS3wobA+1jRRApV2idHM9Yb0PVuIF7o5aoJiS6cP3lHOQ==
-X-Received: by 2002:a2e:4c12:0:b0:2f6:6074:db71 with SMTP id
- 38308e7fff4ca-2fdec5f831amr20876381fa.17.1730408182016; 
- Thu, 31 Oct 2024 13:56:22 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fdef8a66b8sm3316571fa.78.2024.10.31.13.56.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Oct 2024 13:56:20 -0700 (PDT)
-Date: Thu, 31 Oct 2024 22:56:18 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sandor Yu <Sandor.yu@nxp.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- airlied@gmail.com, 
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
- shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
- vkoul@kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, mripard@kernel.org,
- kernel@pengutronix.de, linux-imx@nxp.com, oliver.brown@nxp.com, 
- alexander.stein@ew.tq-group.com, sam@ravnborg.org
-Subject: Re: [PATCH v18 3/8] dt-bindings: display: bridge: Add Cadence MHDP8501
-Message-ID: <xmfohy6lpyfdc33gqt7vyagfqfhqwyb67id6gla6ydmah6ryuu@jll5fz2wx7dg>
-References: <cover.1730172244.git.Sandor.yu@nxp.com>
- <e11ba0cf836d6f27935f58b7987e792026ab0233.1730172244.git.Sandor.yu@nxp.com>
- <22f3pkf63uphnx3opld6ibkhptbtxqoguqgu6iswb6w4hzkxxd@pwbdwjdodcnc>
+ AJvYcCV2PfyVK4OQZASOPMzdXofvSN1Op5fNMP5c2osdc2EhFhUbfm8xblDvjfh43OXSetIMMGrOmSfoDjE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzy1bclSJm8UeBWKnerrH0tkhK+WenqIWNYHzNEG151BBga5TKS
+ K3vnNbrSP0nIjZTG7BM7JSQ0J0DRbU4mBV68ccLSj7bFF7oSwCX/e93WtVR6Nc60eku5jNqCwur
+ QYZFFnXWQpxgKW4rsj1WTIbKnBz8eD439OMg=
+X-Google-Smtp-Source: AGHT+IFIw26pXtZcuM6AN/ZqMYbGVsCgRkzH5TP7hpaJgtgceL/sAoqy9JWxKl/WqX4itdzDFO11igw7MP0bP5zmrpA=
+X-Received: by 2002:a17:90b:5306:b0:2e2:c15f:1ffe with SMTP id
+ 98e67ed59e1d1-2e94bdf49acmr1809259a91.0.1730408245293; Thu, 31 Oct 2024
+ 13:57:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <22f3pkf63uphnx3opld6ibkhptbtxqoguqgu6iswb6w4hzkxxd@pwbdwjdodcnc>
+References: <20241020204156.113853-1-christian.gmeiner@gmail.com>
+ <8f050428-53b0-401f-a60f-3d4732c0a75f@igalia.com>
+In-Reply-To: <8f050428-53b0-401f-a60f-3d4732c0a75f@igalia.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Thu, 31 Oct 2024 21:57:13 +0100
+Message-ID: <CAH9NwWd8iWALZbVkcPUsMGWNZSgh-8ARgyHSTULJpOqVj+88zw@mail.gmail.com>
+Subject: Re: [PATCH] drm/v3d: Add DRM_IOCTL_V3D_PERFMON_SET_GLOBAL
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
+Cc: Melissa Wen <mwen@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ kernel-dev@igalia.com, 
+ Christian Gmeiner <cgmeiner@igalia.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,85 +85,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 31, 2024 at 09:55:45PM +0200, Dmitry Baryshkov wrote:
-> On Tue, Oct 29, 2024 at 02:02:11PM +0800, Sandor Yu wrote:
-> > Add bindings for Cadence MHDP8501 DisplayPort/HDMI bridge.
-> > 
-> > Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> > ---
-> > v17->v18:
-> > - remove lane-mapping and replace it with data-lanes
-> > - remove r-b tag as property changed.
-> > 
-> > v16->v17:
-> > - Add lane-mapping property
-> > 
-> > v9->v16:
-> >  *No change
-> > 
-> >  .../display/bridge/cdns,mhdp8501.yaml         | 112 ++++++++++++++++++
-> >  1 file changed, 112 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
-> > new file mode 100644
-> > index 0000000000000..e4b900ecf1ac9
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
-> > @@ -0,0 +1,112 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/bridge/cdns,mhdp8501.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Cadence MHDP8501 DP/HDMI bridge
-> > +
-> > +maintainers:
-> > +  - Sandor Yu <Sandor.yu@nxp.com>
-> > +
-> > +description:
-> > +  Cadence MHDP8501 DisplayPort/HDMI interface.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - fsl,imx8mq-mhdp8501
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +    description: MHDP8501 DP/HDMI APB clock.
-> > +
-> > +  phys:
-> > +    maxItems: 1
-> > +    description:
-> > +      phandle to the DP/HDMI PHY
-> > +
-> > +  interrupts:
-> > +    items:
-> > +      - description: Hotplug cable plugin.
-> > +      - description: Hotplug cable plugout.
-> > +
-> > +  interrupt-names:
-> > +    items:
-> > +      - const: plug_in
-> > +      - const: plug_out
-> > +
-> > +  data-lanes:
-> > +    $ref: /schemas/media/video-interfaces.yaml#/properties/data-lanes
-> > +    minItems: 4
-> > +    maxItems: 4
-> > +    description: Lane reordering for HDMI or DisplayPort interface.
-> 
-> So, HDMI or DP port? I don't think the format is actually the same, so
-> it is either-or.
+Hi Ma=C3=ADra,
 
-Please ignore this, I've misread the text.
+>
+> I have one major issue with this approach: I don't think we should
+> introduce a `global_perfmon` in `struct v3d_perfmon_info`. `struct
+> v3d_perfmon_info` was created to store information about the counters,
+> such as total number of perfcnts supported and the description of the
+> counters.
+>
 
+Ah okay.. got the idea of global_perfmon.
 
--- 
-With best wishes
-Dmitry
+>
+> I believe you should use `active_perfmon` in your implementation and
+> don't create `global_perfmon`. This is going to make the code less
+> tricky to understand and it's going to make sure that the hardware inner
+> working is transparent in software.
+>
+>
+> Only one perfmon can be active in a given moment of time, therefore,
+> let's use `active_perfmon` to represent it.
+>
+
+Relying solely on active_perfmon makes the code hard to follow. I need at
+least a flag to indicate whether we are in global perfmon mode.
+
+> I couple more things came to my attention. First, I don't think we need
+> to limit the creation of other perfmons. We can create perfmons and
+> don't use it for a while. We only need to make sure that the user can't
+> attach perfmons to jobs, when the global perfmon is enabled.
+>
+> For sure, if we go through this strategy, there is no need to have a
+> count of all the perfmons that V3D has.
+>
+
+That is a fantastic idea.
+
+> I would prefer to treat the global perfmon as a state. Ideally, we would
+> enable and disable this state through the IOCTL.
+>
+> One last thing is: don't forget to stop the perfmons when you don't use
+> it anymore :)
+>
+
+I've sent v2 of this patch and hope I've addressed all your comments.
+
+--=20
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
