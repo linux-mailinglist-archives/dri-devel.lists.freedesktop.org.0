@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029CE9B87A1
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 01:25:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23D49B87A3
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 01:25:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE4C10E15A;
-	Fri,  1 Nov 2024 00:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6CA110E116;
+	Fri,  1 Nov 2024 00:25:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nrcaQfHg";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cFmEwYnR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB2510E116
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 00:25:15 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-539f2b95775so1688696e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 17:25:15 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 049A010E116
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 00:25:18 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-53c779ef19cso1814657e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2024 17:25:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730420713; x=1731025513; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1730420716; x=1731025516; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=YdWiUnW6vTgN40+31xk3R74ZtFvE1HPhsssihDLePE8=;
- b=nrcaQfHg6YuC/0tvY8HvkWGFOtWjVaSetx+o7jyirX6QZE5Yb00f2OprHUpD7M/9lS
- r1zhEXWF2fAoxCtkg1yq8RQoVcJNWJnk7jBSneRITPe+L1jMGfUhqmYrfx/heGnKeKG/
- SbbFsdFV5k21WJW3rFAAOFNIfgIWaW8AahLVwls7JZ+IvMUSkXnBY1ZFmVb5Qw3ZSOqz
- fqkEswIe4uJEk6qDqxhXt9LhZAbshFInc5OROkUt14EcnL7vHqy6D+PA2wep1A4HB2pg
- Kyq/Juq8b/MO028XqbzgHt59dRvCWJx9iAW976M3EwQQMPLvxMT7Cb0v0cN9bymjvaDi
- Rkyg==
+ :reply-to; bh=Oz8IVPHbbVKsM7ENVrxAMUhoPK6SMfJXrPI8pxkC7X8=;
+ b=cFmEwYnRYwAxkryr6w0G2XX4VDe78PPfwNar+0TBMoPtYtE1tZINW82dgGE1IBGOkE
+ YM61zrjGos+luj/Jz+11TZ+UQo5iQO8LhAnPCK5sw1CUGY5TsYSpyrv1ewnxsA/gn0Mj
+ gNspf1iI5G+TqHHM2FmnG8Cn7YYFwlqwvP/qus8lvXyz+6gG2QPTKq2CM8/8vdsKom7V
+ lYSKAFiwD/laRdTCC9bEQbJyuPDtAYUb9wexiDpn/0TXiHV5JAtg/Oteq79kTP709bNx
+ J7LfzcV9gKQU3Wno7vedOL3RzGIKoUGRCTHlTn4C1VzlajTRWINfVGtETUU4v1x3BSDD
+ i72g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730420713; x=1731025513;
+ d=1e100.net; s=20230601; t=1730420716; x=1731025516;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YdWiUnW6vTgN40+31xk3R74ZtFvE1HPhsssihDLePE8=;
- b=Blz1W4PINVHjX0hLbWcI3zPCW6hsFJ/02z0uq0yYtyE13vuyfUd2JCcEAO7FoNRqv8
- dmJ9v9zAgQGThJZpFtlgOeh92bFUk0JBiE7/WXMc3lfhsgTmXINR9LJcK41/0kYJ94sJ
- wuecZFk8v4/UB0cMFthcBJg62wGHLJSdgb6JHqCtQHR8WfK6aTS5SyMoWwi7fhMA+EgG
- /VuC6r2oBPwvt1PvUVG3E+9Z6BL+Ay68MIFvsFNuGITOIUi90p2YmG32A7QSZA1gmruh
- I/C32F30fqit0pgT2Whr5DHPOFrvlJWgNUOjLS/HaS4zTD/EXGBp23vUu0EmAzGVPMSd
- GjHg==
-X-Gm-Message-State: AOJu0YyZw9aMmDMVqPU/NeBL8j3TySuUCLb8Nupzd7SzEg0JG1vf3fhy
- zBZKR5/DY3ljeT78KSpraFKcQ9AiGlWdUY65EIHQ9Z6H2upgyord3M7xGAk7j/Q=
-X-Google-Smtp-Source: AGHT+IGbq8fCpRY1c1bmmg92095C0kqytUrIWwSrZUXkLxY5mzg2koxLARty7zdJQk9WrWqL2+9CxQ==
-X-Received: by 2002:a05:6512:ba0:b0:53c:74a7:43de with SMTP id
- 2adb3069b0e04-53d65df2488mr1464938e87.29.1730420713436; 
- Thu, 31 Oct 2024 17:25:13 -0700 (PDT)
+ bh=Oz8IVPHbbVKsM7ENVrxAMUhoPK6SMfJXrPI8pxkC7X8=;
+ b=Sj+CQlpMUI15rPDNAsceSJVsscOEcLwhnTDFCHI9LGCRhK0ZeuBxIVbHa+PeN4Lu0A
+ YNHKnW6JSBN1u5HKSga8DSUqwZtwwv3MiH+jFqfm1Rc8EwQwBO40BFB4PTsNcJ9BDF9i
+ 9EpSuqx81MKRiSG4c+ml/gV8BrMLpabuxXVisgSNjcthCQmvbiO+habCcRDoSRcKOO0u
+ LjnRVgqY4mNQ/V+qntvuDSp1zEWtbllyzcZT9hcNJTth1yxcwckSA1ak5ORr6fMMICMB
+ o69FQI/Q7C3LyHKKlOU9dRPPT/r+hUfuSZ94lkXlM5zfDhb6ghx5DFg1uVDRBfeO5a9l
+ jReA==
+X-Gm-Message-State: AOJu0YxYZAi9/QOHNuccLgpaDTSwMVNCPyDHn0qyqkcLWhZxv/hztbre
+ bPgrS8Chp0nNVuBNB+ZqIADv9YnVex+IadyOSh3y03uj6Vi39In1TycqngXbqR4=
+X-Google-Smtp-Source: AGHT+IHcnRqxSLmcfcXWYuLKSdTWcQFnoMfz9gg3tI8jWHEyOYxomQLugov09w4G+e8FKbd9IggEGQ==
+X-Received: by 2002:a05:6512:2214:b0:539:fb49:c489 with SMTP id
+ 2adb3069b0e04-53c79e16c2emr2460125e87.9.1730420716030; 
+ Thu, 31 Oct 2024 17:25:16 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53c7bcce489sm371153e87.127.2024.10.31.17.25.10
+ 2adb3069b0e04-53c7bcce489sm371153e87.127.2024.10.31.17.25.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Oct 2024 17:25:12 -0700 (PDT)
+ Thu, 31 Oct 2024 17:25:14 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 01 Nov 2024 02:25:05 +0200
-Subject: [PATCH v2 2/6] drm/sun4i: use drm_hdmi_connector_mode_valid()
+Date: Fri, 01 Nov 2024 02:25:06 +0200
+Subject: [PATCH v2 3/6] drm/vc4: use drm_hdmi_connector_mode_valid()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241101-hdmi-mode-valid-v2-2-a6478fd20fa6@linaro.org>
+Message-Id: <20241101-hdmi-mode-valid-v2-3-a6478fd20fa6@linaro.org>
 References: <20241101-hdmi-mode-valid-v2-0-a6478fd20fa6@linaro.org>
 In-Reply-To: <20241101-hdmi-mode-valid-v2-0-a6478fd20fa6@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -76,16 +76,16 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1574;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1347;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=7WdeDK9PVMnPHS0xN6wrfKPJv4ESCzGwmvZnGPcMZ/4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnJB/hVs8ck2mIuOojDf5BsZyDpCAOCNbvDgTjB
- eEdeVyvSe6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZyQf4QAKCRCLPIo+Aiko
- 1bLuB/9NYYP+2gWguXV7p7pxvci6OEsal/Vmy8LRfAO4mZDqwSPpZaLvK3tQVnCC2tplz45RV62
- KH7xpFWZe4L9XV8JIyduCPu3BEZe8cdEHSNio4pUw2nXKz8fuaj/73N0DEwpQF87bixbIKyB11p
- EjmlZKOFvHTJ7yeuUgUUiKM6X+RDLGiXX/Qof/VMIgQjhJT0Q4qmUg2B351WDikp1lpmyRxfTpd
- eX0xqtaokT6BLTm64axs7FFb8od8hvVrsfpfiH3FuPtsW6Ca6XVMAIb4t7YNGUs/h7Ob4NcwJJ8
- xbghQayNSZROF+m19E/pCBd8Dbmht0Ig9PpLzYlQ1LJDdDRt
+ bh=j8Ztg9arYN1ELRagVfF2elNxB8pJWUt6BffPwIK5vkY=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnJB/hBB9KzuzMuq6rZPVIIyhq0/H5DKznjnvjc
+ mWPqbE1GVqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZyQf4QAKCRCLPIo+Aiko
+ 1SHmB/wLX9KwONfQBArsPgo8Qz/Mgw1Z4L54OL1ZshkDnVR+j6A1CHLrTiAn9haUM9+bgg1kAdT
+ mJ5lQ2iexzQSb+vqQ6TPriswRPmiJPhsRJ8Hrt/j7l7zjpf00cpdDUCc0xX4hq2FGgi2OnwrGH9
+ 8t/FOZqEZsmzrkkDf5Brms3bEZHmxOsYdt9C3Cr+6DGf/B41PgSXAgbp4X64iQN1BlkEly/Otaj
+ vLINazwB3mxY9sN4JmhaZfrTWHNbe/39wV4Y7rA7ZCZ696ZvbGQULrGumY5jceHeqNseiYK8cB1
+ UvP4ZZBU5mNKzwSAMaXF0LHzTr5DeBG8s4VVaM5S3ylORuQO
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,39 +109,31 @@ module-specific copy.
 Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index b3649449de3026784ae2f3466906403a0b6e3b47..54b72fe220afacc208b3fd48d5160031127ea14a 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -205,16 +205,6 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	return 0;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 62b82b1eeb3694d1685969c49b2760cbbddc840e..486e513b898d7f761e8615f2afc193ca44b23200 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1752,7 +1752,6 @@ vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
+ 			    const struct drm_display_mode *mode)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+-	unsigned long long rate;
+ 
+ 	if (vc4_hdmi->variant->unsupported_odd_h_timings &&
+ 	    !(mode->flags & DRM_MODE_FLAG_DBLCLK) &&
+@@ -1760,8 +1759,7 @@ vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
+ 	     (mode->hsync_end % 2) || (mode->htotal % 2)))
+ 		return MODE_H_ILLEGAL;
+ 
+-	rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
+-	return vc4_hdmi_connector_clock_valid(&vc4_hdmi->connector, mode, rate);
++	return drm_hdmi_connector_mode_valid(&vc4_hdmi->connector, mode);
  }
  
--static enum drm_mode_status
--sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
--				struct drm_display_mode *mode)
--{
--	unsigned long long rate = drm_hdmi_compute_mode_clock(mode, 8,
--							      HDMI_COLORSPACE_RGB);
--
--	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
--}
--
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -269,7 +259,7 @@ static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
- 
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
--	.mode_valid	= sun4i_hdmi_connector_mode_valid,
-+	.mode_valid	= drm_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
- 
+ static const struct drm_encoder_helper_funcs vc4_hdmi_encoder_helper_funcs = {
 
 -- 
 2.39.5
