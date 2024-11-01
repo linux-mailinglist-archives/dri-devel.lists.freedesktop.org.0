@@ -2,76 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702209B8C15
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 08:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69EF9B8CE1
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 09:19:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C48010E21A;
-	Fri,  1 Nov 2024 07:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE3810E0E0;
+	Fri,  1 Nov 2024 08:19:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="RvrLxcN5";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Gqgw7vnA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0D0wII3W";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gqgw7vnA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0D0wII3W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
- [209.85.210.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2035010E21A
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 07:33:18 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id
- 46e09a7af769-7181c0730ddso648951a34.2
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 00:33:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1730446397; x=1731051197;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=L0cXB2oLG+I0p8wPr8eMU8Ys0SYe6ZSBDu+SHl0SmyM=;
- b=RvrLxcN5a7iM5XI+Nepi8ENCqnTSSVAXLdN46+bCifjcDaeYES9Tx6xeJL36EWs0lB
- JFr6/Js05wwgZ1c7GBBx6aIflsZl691/kmJgGpVdb1pMJ9fS4Wd+yt6EoJQKHCo1jeMJ
- NxFE5o1eZrYdoAcoplvdac5FUHeNaF4/yn0o0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730446397; x=1731051197;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=L0cXB2oLG+I0p8wPr8eMU8Ys0SYe6ZSBDu+SHl0SmyM=;
- b=QXs1RWAhckmfHuzwPW4qCH6zOP6KEcqlhcRqJ9jyik0Hb8YTLV0OwH8HxyWLtB4hdL
- 5B6Y8373/gmjqNOYVUnxr8Tw/dILN/O2XAeel+icpa0CDti5TWpmLCKCE0uZUFzuxD8O
- IIYO/2m0VHJS69NZJ5uBx6nYVq40B0sUqcTPqkL872NA87fStaTcn+pBChWhyhpGtntK
- M/fsByNy0/7xFASWciOdW5meKgHZuZ2M73gAO97lY5K7TfNznM6wJfidiYydJ6pPopEi
- U1Wfx4rBWdq6wFszfg4O5RqYGh/7vtsBotaOTQ2i/yrR3oO3uPAk5XtlV+SgyNIkMw+I
- FWhQ==
-X-Gm-Message-State: AOJu0YyNXnlTpyAEzAWONM74VExNjzzkaaUR0W0qQxZtDjDYIC8jLUea
- ChNLwKvc3FITZWarsBHlCdtSZIb7AWBrjO7u230LfD8UBVl7Wse/imTXBEkykQ==
-X-Google-Smtp-Source: AGHT+IF7PmhAZPjT6v19uhaxDIcL8ZqQPNKppM7diN4JF6fjnpDhQzbGaadEPd6E9VLB8W0ZrCAg1A==
-X-Received: by 2002:a05:6830:43a3:b0:713:ce15:d4d3 with SMTP id
- 46e09a7af769-71867f1bcfdmr20115290a34.1.1730446397237; 
- Fri, 01 Nov 2024 00:33:17 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com
- ([2401:fa00:1:10:8ad8:6f24:a74a:4668])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-7ee45297636sm2003601a12.12.2024.11.01.00.33.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Nov 2024 00:33:16 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Chen-Yu Tsai <wenst@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-In-Reply-To: <20241029111309.737263-1-wenst@chromium.org>
-References: <20241029111309.737263-1-wenst@chromium.org>
-Subject: Re: [PATCH] drm/mediatek: Drop dependency on ARM
-Message-Id: <173044639489.1615222.7952709085038498555.b4-ty@chromium.org>
-Date: Fri, 01 Nov 2024 15:33:14 +0800
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31B1110E0E0
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 08:19:25 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 818F521CC4;
+ Fri,  1 Nov 2024 08:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1730449163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0E7fd5qsqCk48gjzGghBrw3NvcCrYTJndGsrk6dTQdw=;
+ b=Gqgw7vnALpJA7oIfeFKQiZEu2myb0onpjQefr/hF9mg6nW0P6SVRwih9NJtcj1ShaA2xhl
+ 8eW1udUg6zMEhbiIJ125luW6il+dvf7U/StwQLPcwsbydqCNzdkJ28QpaJoWkqVIWHpjUr
+ RBntqjbUVPS+xJCAB4pjDSDKQpLSBXQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1730449163;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0E7fd5qsqCk48gjzGghBrw3NvcCrYTJndGsrk6dTQdw=;
+ b=0D0wII3WFYmXTHSZWwGaZlhRTS5iiI57jVjc/ZjpDeqUI1NC7Nbx2KTb9eMNX2GitOdjou
+ F/Hx8xyAQ0Fu4vCg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Gqgw7vnA;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0D0wII3W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1730449163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0E7fd5qsqCk48gjzGghBrw3NvcCrYTJndGsrk6dTQdw=;
+ b=Gqgw7vnALpJA7oIfeFKQiZEu2myb0onpjQefr/hF9mg6nW0P6SVRwih9NJtcj1ShaA2xhl
+ 8eW1udUg6zMEhbiIJ125luW6il+dvf7U/StwQLPcwsbydqCNzdkJ28QpaJoWkqVIWHpjUr
+ RBntqjbUVPS+xJCAB4pjDSDKQpLSBXQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1730449163;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0E7fd5qsqCk48gjzGghBrw3NvcCrYTJndGsrk6dTQdw=;
+ b=0D0wII3WFYmXTHSZWwGaZlhRTS5iiI57jVjc/ZjpDeqUI1NC7Nbx2KTb9eMNX2GitOdjou
+ F/Hx8xyAQ0Fu4vCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5EA3413722;
+ Fri,  1 Nov 2024 08:19:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id gA6eFQuPJGeeKAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 01 Nov 2024 08:19:23 +0000
+Message-ID: <fe074ca8-b330-42b3-ab1c-83cfab3a7ded@suse.de>
+Date: Fri, 1 Nov 2024 09:19:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: udl: Make CONFIG_FB_DEVICE optional
+To: Helge Deller <deller@gmx.de>,
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20241025092538.38339-1-gonzalo.silvalde@gmail.com>
+ <7aabca78-dd34-4819-8a63-105d1a4cb4ba@gmx.de>
+ <7e33bfa5-1444-4152-b240-946a51e12b26@suse.de>
+ <5b4bfeaf-d9b4-4196-b1e8-ef58b1b6607e@gmx.de>
+ <46712e5b-701b-41c5-82f0-d6b41f5947af@suse.de>
+ <3f655f6f-58a7-4526-91ae-6dc4793eeefb@gmx.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <3f655f6f-58a7-4526-91ae-6dc4793eeefb@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+X-Rspamd-Queue-Id: 818F521CC4
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; TO_DN_SOME(0.00)[];
+ ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_TO(0.00)[gmx.de,gmail.com,vger.kernel.org,lists.freedesktop.org];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TAGGED_RCPT(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCPT_COUNT_THREE(0.00)[4];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, bootlin.com:url, suse.de:dkim, suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,21 +157,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
-On Tue, 29 Oct 2024 19:13:07 +0800, Chen-Yu Tsai wrote:
-> The recent attempt to make the MediaTek DRM driver build for non-ARM
-> compile tests made the driver unbuildable for arm64 platforms. Since
-> this is used on both ARM and arm64 platforms, just drop the dependency
-> on ARM.
-> 
-> 
+Am 30.10.24 um 10:30 schrieb Helge Deller:
 
-Applied, thanks!
+>>>
+>>> I'm happy to get rid of the fbdev drivers, but for that DRM really 
+>>> needs
+>>> to allow some sort of native fillrect, copyarea and imageblt 
+>>> operations so
+>>> that we can get performance back on the old cards when implementing 
+>>> them
+>>> as DRM driver.
+>>
+>> This is unrelated to udl.
+>
+> No, it's not.
+> The udl fbdev driver implements those functions (like the other fbdev 
+> drivers)
+> and as such fbcon on top of udl is accelerated, while fbcon on drm 
+> drivers
+> is unaccelerated.
 
-[1/1] drm/mediatek: Drop dependency on ARM
-      commit: 89115aeecf38bfee3c5e79561b5c34a256e1a06a
+Udlfb uses the regular software implementations to draw into its shadow 
+buffer. It then schedules an update to copy the update over USB to the 
+adapter's internal framebuffer memory. [1] Udl uses exactly the same 
+code pattern and most of the involved helpers. [2]
 
-Best regards,
+[1] 
+https://elixir.bootlin.com/linux/v6.11.5/source/drivers/video/fbdev/udlfb.c#L1145
+[2] 
+https://elixir.bootlin.com/linux/v6.11.5/source/drivers/gpu/drm/drm_fbdev_shmem.c#L39
+
+Best regards
+Thomas
+
+>
+> Helge
+
 -- 
-Chen-Yu Tsai <wenst@chromium.org>
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
