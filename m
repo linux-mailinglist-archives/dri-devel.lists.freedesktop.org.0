@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620F49B9A08
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 22:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63399B9A09
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 22:18:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE7510EA04;
-	Fri,  1 Nov 2024 21:18:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3857110EA06;
+	Fri,  1 Nov 2024 21:18:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="WPkYuP0b";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="HFRdfjjL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
- [209.85.128.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B39210E0BC
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 21:18:38 +0000 (UTC)
-Received: by mail-yw1-f202.google.com with SMTP id
- 00721157ae682-6e370139342so53102207b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 14:18:38 -0700 (PDT)
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com
+ [209.85.219.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E59410EA06
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 21:18:40 +0000 (UTC)
+Received: by mail-yb1-f201.google.com with SMTP id
+ 3f1490d57ef6-e29205f6063so4276381276.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 14:18:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1730495917; x=1731100717;
+ d=google.com; s=20230601; t=1730495919; x=1731100719;
  darn=lists.freedesktop.org; 
- h=cc:to:from:subject:mime-version:message-id:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=RKAUdhOSS2JqfDDbXfpdKgYJP1GP/t8//+MWRIuse6M=;
- b=WPkYuP0b6cwWrC2EOdlxlFFsBPOBGo124IVHM047zkfCrl2GDIRJl2OwHGjhGi/a0z
- bTJCsvkCtp9vO2TYZzstrre7hIWpPX+cjjJYVtSZEWKojLCLAhThlLKvZVoumn0U+ubs
- j7/Inn3eAftLs1oWe5kPJSSYi0UZThv0p+07mNnD4i4wG6UMlKj0gEg8CjDZNMtvaVan
- qSQRVuJGTDxSvNCDLyo1L9EUxz2p6o9uitq3tkRNtzaeMkxYhwepSbjjs9xvigt5wSrD
- diZ3tvrnI925EDq/kpKI1qB6Ex++DvtnfLV/qY6vpxotX5PebtFqRZFrrzlhtKFNdR38
- Xdsg==
+ h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=7PJ/2oZM0NegT7a5kDJ3aS9OgH6F8LEnJac0dVeN2cw=;
+ b=HFRdfjjLUP8XUbpygtutgxDZyauU7wrtOWaNN2o2Ydsld2xFRGYuzq+gl62c97TmT4
+ OeuGEWTAzualIWTqsQHJQ6K0aVOfw9AMU4Dj2r2VxhcaiJmkIMRcDBzgw2cLk9fNu7d3
+ tlwB+sHNIJTRJLEOjWAf0RrVRAqpF320N2Jc6U+U7BPjkMAFqMw+kRT1Uc+1jUE0gKad
+ MfrvmnBoZSW1xsICc6eptJ/1SsosQEQThM4441fQ08hxJvjH5iqH7EfZkLEMhpH7vOTU
+ GycAsiMXNJ3yK7c0V/HywNY3kXDDRcdomaMTIYqAmpYMdFgiDQKDbBVRi79DF86tF6rj
+ lcvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730495917; x=1731100717;
- h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RKAUdhOSS2JqfDDbXfpdKgYJP1GP/t8//+MWRIuse6M=;
- b=hX/+IefR9kpoRU9PdiAMkV9DhSBqzVO0IXgJM4SkBry5F+Awy/4wf+hbBNv8n42wAg
- fmpI/g3QCQ7AeNGJOYOWUT/tFafZX6ObXTBYv/wTL5P4auJPDb4VTzEBIBOGtuQnEKVK
- Wxj04ne787+2VYOPEsYi5U15P7q7kFJXgPzItkS4uu9qNZxVOgkFFeZtoCBscgfmg3k2
- AUUQBZSaXL6LQOcP13va8tZ5N+npmxAAoK0yE34fyfmFAioDDDIk3nefyBtZnFEQ8O/C
- QbgopXgk1iK54toYE/HYadKW+WcuMNuZWaRO/2ISBG8N+1KAfM5JzTY7IR/tv6uKLvBb
- tBgQ==
+ d=1e100.net; s=20230601; t=1730495919; x=1731100719;
+ h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7PJ/2oZM0NegT7a5kDJ3aS9OgH6F8LEnJac0dVeN2cw=;
+ b=QGvpetvE9Pj05QqccNj158b2nH7P/bJyJHRlYeUBa6LC4/Pbf+KfarxCLPRgSFTWsd
+ X9NNJ0ko6jhfp+z9woUM4QKKGfcHqiHj9JCQ9/3LHBbsSYuMirdy7vwRzmU49yaIeSuc
+ L1/WmZtwO6G+DlpoCun2ycj2Yd/tSylPhxeMxImHXhG1znFOKu823qi0IQ0FbAwksGvW
+ Rle3FO3jPmt/QiA+fs6fIUEEP+37Bf2qIGXpoZ8H3rV319vvTUBuV1MBEe6ukofcjugn
+ vB1LsUmyOWh92lFf+MKqybOYzRqjPwEWgL8+cYDOievSBzasjvAIS5FanOSUNPPpS3js
+ ymVw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXw1j1X5cP7X/m6PHH8CJwkciTQ7FpCskhUJznKtAeyB7kqTPu9AZWKk3zE88IVv798qpCv0RgdhK4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzvwpAXTn38pGGGEA1ne6T/hu/nU9xp6PaxJVwHFNcLrzJZ8Ehc
- SU5zltCs+5KxgcNgYXKLwmWWA4PBlYsUYFVRSf0hSv7iDlp6wuSkj5Ymbd9ObPfD0KVKjrEaqEM
- X8kQI3g==
-X-Google-Smtp-Source: AGHT+IHmvQkUsmaHvVLtx8/JrbsBlfHJP8YWtWyFWTuZIqJiUwu2npKVN3KrokNzcinZhefYCbmDQ5uspY8X
+ AJvYcCVVqNhm5B7H++mS32tzQlwcvrjSrIiFiyvcAsg1O37FEvCEWnDqvpJeNcJat31mmxAnoRcb1YmVcjk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQNBQX9/NDZchgYa9qapMT+HnhF0zAfx+W26/kteViG0OG56vL
+ kz2mvFeIDkPgXyebATIewYmm1FxZfRZj9rmgqgSyNdR6KFfk/2i2lUE+hY4Gpxb/3mf5ZI1uGle
+ OummhDw==
+X-Google-Smtp-Source: AGHT+IF5V1HJGBWziiGDeXXMkzf2czx8Sfxn3tBr/5H0nwa1W8aFmG7SyX3wNTs33/2yNGg5OwGEuXPobUmv
 X-Received: from irogers.svl.corp.google.com
  ([2620:15c:2c5:11:f2e6:5ab5:a95f:35cb])
- (user=irogers job=sendgmr) by 2002:a25:83c3:0:b0:e30:c79e:16bc with SMTP id
- 3f1490d57ef6-e30c79e1861mr13963276.8.1730495916629; Fri, 01 Nov 2024 14:18:36
+ (user=irogers job=sendgmr) by 2002:a25:a1e9:0:b0:e30:b93a:b3e4 with SMTP id
+ 3f1490d57ef6-e33025549e4mr5858276.4.1730495919069; Fri, 01 Nov 2024 14:18:39
  -0700 (PDT)
-Date: Fri,  1 Nov 2024 14:18:27 -0700
-Message-Id: <20241101211830.1298073-1-irogers@google.com>
+Date: Fri,  1 Nov 2024 14:18:28 -0700
+In-Reply-To: <20241101211830.1298073-1-irogers@google.com>
+Message-Id: <20241101211830.1298073-2-irogers@google.com>
 Mime-Version: 1.0
+References: <20241101211830.1298073-1-irogers@google.com>
 X-Mailer: git-send-email 2.47.0.199.ga7371fff76-goog
-Subject: [PATCH v4 1/4] proc_pid_fdinfo.5: Reduce indent for most of the page
+Subject: [PATCH v4 2/4] proc_pid_fdinfo.5: Make pid clearer in the name and
+ 1st paragraph
 From: Ian Rogers <irogers@google.com>
 To: Alejandro Colomar <alx@kernel.org>,
  "G . Branden Robinson" <g.branden.robinson@gmail.com>
@@ -84,226 +87,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When /proc/pid/fdinfo was part of proc.5 man page the indentation made
-sense. As a standalone man page the indentation doesn't need to be so
-far over to the right. Remove the initial tagged pragraph, move the
-"since Linux 2.6.22" to a new history subsection.
+Previously the pid was highlighted through being a tagged paragraph
+but not mentioned in the description. Add italics to the path
+emphasizing pid and then change the first sentence to include pid in
+the definition.
 
 Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
 Signed-off-by: Ian Rogers <irogers@google.com>
 ---
-v4. Move since to history from Alejandro Colomar's <alx@kernel.org> review
-    comment.
-
----
- man/man5/proc_pid_fdinfo.5 | 51 +++++++++++++++++++-------------------
- 1 file changed, 25 insertions(+), 26 deletions(-)
+ man/man5/proc_pid_fdinfo.5 | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-index 1e23bbe02..ad739bd84 100644
+index ad739bd84..be1675b69 100644
 --- a/man/man5/proc_pid_fdinfo.5
 +++ b/man/man5/proc_pid_fdinfo.5
-@@ -8,8 +8,6 @@
+@@ -6,10 +6,11 @@
+ .\"
+ .TH proc_pid_fdinfo 5 (date) "Linux man-pages (unreleased)"
  .SH NAME
- /proc/pid/fdinfo/ \- information about file descriptors
+-/proc/pid/fdinfo/ \- information about file descriptors
++.IR /proc/ pid /fdinfo " \- information about file descriptors"
  .SH DESCRIPTION
--.TP
--.IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
- This is a subdirectory containing one entry for each file which the
- process has open, named by its file descriptor.
+-This is a subdirectory containing one entry for each file which the
+-process has open, named by its file descriptor.
++This subdirectory contains one entry for each file that process
++.IR pid
++has open, named by its file descriptor.
  The files in this directory are readable only by the owner of the process.
-@@ -17,9 +15,9 @@ The contents of each file can be read to obtain information
+ The contents of each file can be read to obtain information
  about the corresponding file descriptor.
- The content depends on the type of file referred to by the
- corresponding file descriptor.
--.IP
-+.P
- For regular files and directories, we see something like:
--.IP
-+.P
- .in +4n
- .EX
- .RB "$" " cat /proc/12015/fdinfo/4"
-@@ -28,7 +26,7 @@ flags:  01002002
- mnt_id: 21
- .EE
- .in
--.IP
-+.P
- The fields are as follows:
- .RS
- .TP
-@@ -51,7 +49,6 @@ this field incorrectly displayed the setting of
- at the time the file was opened,
- rather than the current setting of the close-on-exec flag.
- .TP
--.I
- .I mnt_id
- This field, present since Linux 3.15,
- .\" commit 49d063cb353265c3af701bab215ac438ca7df36d
-@@ -59,13 +56,13 @@ is the ID of the mount containing this file.
- See the description of
- .IR /proc/ pid /mountinfo .
- .RE
--.IP
-+.P
- For eventfd file descriptors (see
- .BR eventfd (2)),
- we see (since Linux 3.8)
- .\" commit cbac5542d48127b546a23d816380a7926eee1c25
- the following fields:
--.IP
-+.P
- .in +4n
- .EX
- pos:	0
-@@ -74,16 +71,16 @@ mnt_id:	10
- eventfd\-count:               40
- .EE
- .in
--.IP
-+.P
- .I eventfd\-count
- is the current value of the eventfd counter, in hexadecimal.
--.IP
-+.P
- For epoll file descriptors (see
- .BR epoll (7)),
- we see (since Linux 3.8)
- .\" commit 138d22b58696c506799f8de759804083ff9effae
- the following fields:
--.IP
-+.P
- .in +4n
- .EX
- pos:	0
-@@ -93,7 +90,7 @@ tfd:        9 events:       19 data: 74253d2500000009
- tfd:        7 events:       19 data: 74253d2500000007
- .EE
- .in
--.IP
-+.P
- Each of the lines beginning
- .I tfd
- describes one of the file descriptors being monitored via
-@@ -110,13 +107,13 @@ descriptor.
- The
- .I data
- field is the data value associated with this file descriptor.
--.IP
-+.P
- For signalfd file descriptors (see
- .BR signalfd (2)),
- we see (since Linux 3.8)
- .\" commit 138d22b58696c506799f8de759804083ff9effae
- the following fields:
--.IP
-+.P
- .in +4n
- .EX
- pos:	0
-@@ -125,7 +122,7 @@ mnt_id:	10
- sigmask:	0000000000000006
- .EE
- .in
--.IP
-+.P
- .I sigmask
- is the hexadecimal mask of signals that are accepted via this
- signalfd file descriptor.
-@@ -135,12 +132,12 @@ and
- .BR SIGQUIT ;
- see
- .BR signal (7).)
--.IP
-+.P
- For inotify file descriptors (see
- .BR inotify (7)),
- we see (since Linux 3.8)
- the following fields:
--.IP
-+.P
- .in +4n
- .EX
- pos:	0
-@@ -150,7 +147,7 @@ inotify wd:2 ino:7ef82a sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8
- inotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:27261900802dfd73
- .EE
- .in
--.IP
-+.P
- Each of the lines beginning with "inotify" displays information about
- one file or directory that is being monitored.
- The fields in this line are as follows:
-@@ -168,19 +165,19 @@ The ID of the device where the target file resides (in hexadecimal).
- .I mask
- The mask of events being monitored for the target file (in hexadecimal).
- .RE
--.IP
-+.P
- If the kernel was built with exportfs support, the path to the target
- file is exposed as a file handle, via three hexadecimal fields:
- .IR fhandle\-bytes ,
- .IR fhandle\-type ,
- and
- .IR f_handle .
--.IP
-+.P
- For fanotify file descriptors (see
- .BR fanotify (7)),
- we see (since Linux 3.8)
- the following fields:
--.IP
-+.P
- .in +4n
- .EX
- pos:	0
-@@ -190,7 +187,7 @@ fanotify flags:0 event\-flags:88002
- fanotify ino:19264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:4f261900a82dfd73
- .EE
- .in
--.IP
-+.P
- The fourth line displays information defined when the fanotify group
- was created via
- .BR fanotify_init (2):
-@@ -210,7 +207,7 @@ argument given to
- .BR fanotify_init (2)
- (expressed in hexadecimal).
- .RE
--.IP
-+.P
- Each additional line shown in the file contains information
- about one of the marks in the fanotify group.
- Most of these fields are as for inotify, except:
-@@ -228,16 +225,16 @@ The events mask for this mark
- The mask of events that are ignored for this mark
- (expressed in hexadecimal).
- .RE
--.IP
-+.P
- For details on these fields, see
- .BR fanotify_mark (2).
--.IP
-+.P
- For timerfd file descriptors (see
- .BR timerfd (2)),
- we see (since Linux 3.17)
- .\" commit af9c4957cf212ad9cf0bee34c95cb11de5426e85
- the following fields:
--.IP
-+.P
- .in +4n
- .EX
- pos:    0
-@@ -296,5 +293,7 @@ fields contain the values that
- .BR timerfd_gettime (2)
- on this file descriptor would return.)
- .RE
-+.SH HISTORY
-+Since Linux 2.6.22.
- .SH SEE ALSO
- .BR proc (5)
 -- 
 2.47.0.199.ga7371fff76-goog
 
