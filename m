@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D59009B981F
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 20:12:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C649B9821
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 20:12:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20BE510E9F6;
-	Fri,  1 Nov 2024 19:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A80310E9F9;
+	Fri,  1 Nov 2024 19:12:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="LEsK36u9";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="wrlVYoi8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com
  [209.85.128.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD0F10E9F6
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 19:12:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 318F510E9F9
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 19:12:05 +0000 (UTC)
 Received: by mail-yw1-f201.google.com with SMTP id
- 00721157ae682-6e3d660a1afso48184857b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 12:12:03 -0700 (PDT)
+ 00721157ae682-6e35199eb2bso45436347b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 12:12:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1730488322; x=1731093122;
+ d=google.com; s=20230601; t=1730488324; x=1731093124;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=GTmM4lMLfU7fGWgK3OZ9YV6wKdDzMuf6g9cMhIBqTuY=;
- b=LEsK36u9si6gEsEQTKC+qyYbcAPIwHqVQiBrNybSQAkrROJoKBHg2cpcNE6gaORzvt
- 2orkTKHgB3ULkLUqt6O39F4V1uoA1N+DKsQ7ouhA3T9mk3r3K9EaD+xVmipWYhokNgzK
- NCxv9YkBbfktHyoV2xF7gu3x5AkmkJiSwH5gHDcOb5gjNsOrq9vK5fGiKx54CYjV3i0+
- TC1XCyrl1OJXvZeW1dJ5jXzrXPsLp3RVKHe9/mSKUYAObMFdvH49e1X57R6abCgTG5e2
- DNPo+2VYy3c8Wz7Yx7wVNhxmRg4h0MLYgWQVyD4JItTt1CYyNSS2S2o35TCcKDMIUmlK
- 7NUw==
+ bh=Gkz28xMAWt/2KXNBG3XjAFk4KTwZpcO3i3iJdGxkSFg=;
+ b=wrlVYoi8ymwVla7JU03jZM974N9//GkDirs/8pgs+8rUGwvU+vXxf762BuOmK33VZc
+ 7k6wCU1cZ2cr7di1cqFsEPHGDWqlhMtpiCpt2Qit4IHdmt83wQs9qxspTWRXnhMFKZCu
+ pKpLpjMoGR0VV52eH7QPHU7iElmecKQ4iqId476orsjT8Ew10rgmAXNcpUothpof0uL/
+ kj07geTNIQseqc1La+Rpwt3jRSZIHxVfrCvOYrXXy6QjVDeVj0h7ZHdnRhLb83KIGOkp
+ OlOfpdfSmMC9Euu+OljMctyORBqidfdtxXIlSXBxy8LoIRDpxt0l/w4ATYyAL/0OfKcU
+ 80uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730488322; x=1731093122;
+ d=1e100.net; s=20230601; t=1730488324; x=1731093124;
  h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GTmM4lMLfU7fGWgK3OZ9YV6wKdDzMuf6g9cMhIBqTuY=;
- b=EwoQbk4BGp14i1P/W3Upv3QzqSb346H/s7ZgiEv9GzbJywgzsAjiT8vOl7EOxvelQj
- thCuMk03McfzAfEOjePHso34smnk0AQUyO2nLYj3Q/twIVuRN2w02gvpxUddkx9sjHed
- gPdHo9D5tbG8qA56aiItj+gqhr+mU2s+MtZi+nCISIZlWHgMM9XyzuoBxpEbtnS6r6C7
- phhG957MdlyTyNvBSh9DmyzSne6iWBar7XBHq+gqkp7j7vf9d/U/M5kqsb40Zn1ShrV9
- aOlcqNwuASpA9DQlZlS8V+q11IiI0K8s0kp7LGc5RFigxeTIT1cfJcMJlAi35mgeg3cP
- J6zQ==
+ bh=Gkz28xMAWt/2KXNBG3XjAFk4KTwZpcO3i3iJdGxkSFg=;
+ b=OqhDlRASGkmGtroWcJ5pYkSCQwJACicRdTCXDMPj+x9rlyO7UOdxwohBfEs15NToRN
+ SlrEUNl4sWBStv6fQk2CsirstcbGgWLukUdkj+Swm3KMuh+OAHMeyr/3A0irS78uf59p
+ Rq5mqFEn91gGDCDH6dZfbWL2bphtkQaTZPSolwdqByrVo7/PFM/kAiPJErkQWkqSY46F
+ M6iYORA5dBwvCa0EhaIU8pc3bRWpxQ79+kxx5tQ+cVjN7c7ZR44Js//+DfeE5fWRawZP
+ 6HNDmV0p/fev/dBN9cPIsXChr9gNp0xyCYZ9QIxlfFp+dKqNU/7232lzqkb+1B1j4GEu
+ zQQw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWlDBTl/sTUhB+pJ0u10/tI77GbF099wGlilO4uDVq5X4ZdnOYlkz1sPd7t/Z3C+g/jJA2Esq4fhXE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/U63tLPfCqEI13GQWFvuf2yahMfUjXlwX1T0P2hhQHyKn0uHR
- ZHp74eNOTFkDRWNzXJdPq9kzDSQzJwPGAraU7kGYJL4iQnu0ZKhi4+szl5b0SSQnjh20gftCUmF
- 4Zebk9g==
-X-Google-Smtp-Source: AGHT+IEFgEJ9V+dh83TejHj9KUuGhQ2RdYn3JAxq+LxsKxbpt4nL0i5Wq1qyj0+MuSpB5JhnuJSnp05GuRfa
+ AJvYcCWjVXG8Dh9+XQsqrwqO5e91dKOLidVk0L/zOQFUQAWeQqdc6SaHaPacHBo62JT5k2HRikCKuEvAPBw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzNUdZVuPVbAhDrV0scogMwjVT+eXdJk6O9l+Qgifc8T6YRor97
+ FiB7adM2ic9J/kIBqlr6moDUppCq5szJAwtaWQOyLvrWJgTH8QYCIqOr++2u77Gt8aiKIHBKiln
+ JIFUFrA==
+X-Google-Smtp-Source: AGHT+IFNeLRXXudDwC0gCZ6v3ZzzirUae1o9p+zQDA9iH2FxOAlGCG5xI1JIXPP3rrEcjJqvieuCor38xzmk
 X-Received: from irogers.svl.corp.google.com
  ([2620:15c:2c5:11:f2e6:5ab5:a95f:35cb])
- (user=irogers job=sendgmr) by 2002:a05:690c:6c8c:b0:6e3:1702:b3e6 with SMTP
- id 00721157ae682-6ea64b8c450mr305747b3.4.1730488322219; Fri, 01 Nov 2024
- 12:12:02 -0700 (PDT)
-Date: Fri,  1 Nov 2024 12:11:54 -0700
+ (user=irogers job=sendgmr) by 2002:a05:690c:6482:b0:6c1:298e:5a7 with SMTP id
+ 00721157ae682-6ea64bed332mr945727b3.5.1730488324379; Fri, 01 Nov 2024
+ 12:12:04 -0700 (PDT)
+Date: Fri,  1 Nov 2024 12:11:55 -0700
 In-Reply-To: <20241101191156.1272730-1-irogers@google.com>
-Message-Id: <20241101191156.1272730-2-irogers@google.com>
+Message-Id: <20241101191156.1272730-3-irogers@google.com>
 Mime-Version: 1.0
 References: <20241101191156.1272730-1-irogers@google.com>
 X-Mailer: git-send-email 2.47.0.199.ga7371fff76-goog
-Subject: [PATCH v3 2/4] proc_pid_fdinfo.5: Make pid clearer in the name and
- 1st paragraph
+Subject: [PATCH v3 3/4] proc_pid_fdinfo.5: Add subsection headers for
+ different fd types
 From: Ian Rogers <irogers@google.com>
 To: Alejandro Colomar <alx@kernel.org>,
  "G . Branden Robinson" <g.branden.robinson@gmail.com>
@@ -87,37 +87,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously the pid was highlighted through being a tagged paragraph
-but not mentioned in the description. Add italics to the path
-emphasizing pid and then change the first sentence to include pid in
-the definition.
+Make the sections about eventfd, epoll, signalfd, inotify, fanotify,
+timerfd better separated with a clearer subsection header.
 
-Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
 Signed-off-by: Ian Rogers <irogers@google.com>
 ---
- man/man5/proc_pid_fdinfo.5 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ man/man5/proc_pid_fdinfo.5 | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-index 87e6dbe56..935b54b4c 100644
+index 935b54b4c..290cae6a6 100644
 --- a/man/man5/proc_pid_fdinfo.5
 +++ b/man/man5/proc_pid_fdinfo.5
-@@ -6,11 +6,12 @@
- .\"
- .TH proc_pid_fdinfo 5 (date) "Linux man-pages (unreleased)"
- .SH NAME
--/proc/pid/fdinfo/ \- information about file descriptors
-+.IR /proc/ pid /fdinfo " \- information about file descriptors"
- .SH DESCRIPTION
- Since Linux 2.6.22,
--this is a subdirectory containing one entry for each file which the
--process has open, named by its file descriptor.
-+this subdirectory contains one entry for each file that process
-+.IR pid
-+has open, named by its file descriptor.
- The files in this directory are readable only by the owner of the process.
- The contents of each file can be read to obtain information
- about the corresponding file descriptor.
+@@ -58,6 +58,7 @@ is the ID of the mount containing this file.
+ See the description of
+ .IR /proc/ pid /mountinfo .
+ .RE
++.SS eventfd
+ .P
+ For eventfd file descriptors (see
+ .BR eventfd (2)),
+@@ -76,6 +77,7 @@ eventfd\-count:               40
+ .P
+ .I eventfd\-count
+ is the current value of the eventfd counter, in hexadecimal.
++.SS epoll
+ .P
+ For epoll file descriptors (see
+ .BR epoll (7)),
+@@ -109,6 +111,7 @@ descriptor.
+ The
+ .I data
+ field is the data value associated with this file descriptor.
++.SS signalfd
+ .P
+ For signalfd file descriptors (see
+ .BR signalfd (2)),
+@@ -134,6 +137,7 @@ and
+ .BR SIGQUIT ;
+ see
+ .BR signal (7).)
++.SS inotify
+ .P
+ For inotify file descriptors (see
+ .BR inotify (7)),
+@@ -174,6 +178,7 @@ file is exposed as a file handle, via three hexadecimal fields:
+ .IR fhandle\-type ,
+ and
+ .IR f_handle .
++.SS fanotify
+ .P
+ For fanotify file descriptors (see
+ .BR fanotify (7)),
+@@ -230,6 +235,7 @@ The mask of events that are ignored for this mark
+ .P
+ For details on these fields, see
+ .BR fanotify_mark (2).
++.SS timerfd
+ .P
+ For timerfd file descriptors (see
+ .BR timerfd (2)),
 -- 
 2.47.0.199.ga7371fff76-goog
 
