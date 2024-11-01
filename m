@@ -2,60 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12709B9382
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 15:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58169B9394
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 15:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5757110E1D2;
-	Fri,  1 Nov 2024 14:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB79610E2E6;
+	Fri,  1 Nov 2024 14:46:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MWSY2wEu";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mqdClHgj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 315FF10E1D2
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 14:43:24 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7B5A3A2;
- Fri,  1 Nov 2024 15:43:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1730472198;
- bh=DZWLfHW2eJhePPE3Q0nswhlD0ECMPDjCzq0Ko2Z40oY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MWSY2wEuc6Qj4FjBO1cBCoPs8MjJsah9QmCwk1mYCY9KoN9I2sQ1ACQPh9nnYAIF4
- XZI7POtpBEFYQMIMKaRhw6/NII7D3A0NpY0kmHqscG5E/j11ZbdJhvWZsMTs0qX+Jg
- U0kWOWPi7wXFI6a3uSYYB8XQ01MXInSjzYigHdP0=
-Date: Fri, 1 Nov 2024 16:43:15 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, Johan Hovold <johan@kernel.org>,
- neil.armstrong@linaro.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Abel Vesa <abel.vesa@linaro.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
- parent to aux bridge
-Message-ID: <20241101144315.GK2473@pendragon.ideasonboard.com>
-References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
- <172951608323.1285208.3162107667310691864.b4-ty@linaro.org>
- <230b5910-6790-44cb-90ed-222bee89054d@linux.dev>
- <c2a4cc3a-2ffc-46f3-8636-238cd561f7aa@linaro.org>
- <751a4ab5-acbf-4e57-8cf4-51ab10206cc9@linux.dev>
- <ZyOvAqnuxbNnGWli@hovoldconsulting.com>
- <30fefafc-d19a-40cb-bcb1-3c586ba8e67e@linux.dev>
- <20241101092049.GJ2473@pendragon.ideasonboard.com>
- <CAA8EJprEDV2JViB9kQS2H1p=NgF+PcataEejC97DBo=aU5g5kw@mail.gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41D2310E2E4;
+ Fri,  1 Nov 2024 14:46:25 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A17oRcv031368;
+ Fri, 1 Nov 2024 14:46:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ vSZh/VL+eZxY4KjJ6Qd3gyTjkbotFVi8Wrc40OfL8bs=; b=mqdClHgjQ1i1X9/I
+ ZrTbqWoepHTMz/9qfZXOqrp3FuKFT4fgFGiONmA+973Ra5aQpt37cLzoHYveyCPT
+ oivkRml7HNRWIgxMdXcZokWfnYXHKBCvROYLBbMaJ30u7w22GDBUhRPkBzsTO56d
+ LE5B9GWKC85QBdj+nhYgxHRvwDlltejQN6NCZ8H4x8vZVXW5QVQXY5JbMZPhsEuS
+ N6M/hr4xPDIeY4EhdCxF/fyXuG8qo4b/djOO2vayvP25NFxs9SmaGvCOy05K2adx
+ AmJxlUylF/UHe1w3gsXFHsH/cLBFmOnOhcLSJrbEYnSw90gU4GVRcDliF74F6kKf
+ ifhNzg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42mtxw1b0s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Nov 2024 14:46:12 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A1EkB5f003553
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 1 Nov 2024 14:46:11 GMT
+Received: from [10.206.104.82] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 1 Nov 2024
+ 07:46:05 -0700
+Message-ID: <bf997a81-45e9-43f6-ad65-5eff16101891@quicinc.com>
+Date: Fri, 1 Nov 2024 20:16:02 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAA8EJprEDV2JViB9kQS2H1p=NgF+PcataEejC97DBo=aU5g5kw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] arm64: dts: qcom: sa8775p: Add gpu and gmu nodes
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
+ <konradybcio@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Connor Abbott <cwabbott0@gmail.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>,
+ Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+References: <20241030-a663-gpu-support-v3-0-bdf1d9ce6021@quicinc.com>
+ <20241030-a663-gpu-support-v3-1-bdf1d9ce6021@quicinc.com>
+ <14a7bfdb-7106-4317-a54a-e0101c41cba1@oss.qualcomm.com>
+Content-Language: en-US
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <14a7bfdb-7106-4317-a54a-e0101c41cba1@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: iqI3yyRpzU3I5Dq18L23u_DPl-9cfksw
+X-Proofpoint-ORIG-GUID: iqI3yyRpzU3I5Dq18L23u_DPl-9cfksw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0
+ clxscore=1015 priorityscore=1501 adultscore=0 spamscore=0 malwarescore=0
+ impostorscore=0 mlxscore=0 phishscore=0 mlxlogscore=999 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2411010106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,49 +103,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 01, 2024 at 12:27:15PM +0200, Dmitry Baryshkov wrote:
-> On Fri, 1 Nov 2024 at 11:20, Laurent Pinchart wrote:
-> > On Fri, Nov 01, 2024 at 11:49:07AM +0800, Sui Jingfeng wrote:
-> > > On 2024/11/1 00:23, Johan Hovold wrote:
-> > > > On Thu, Oct 31, 2024 at 11:06:38PM +0800, Sui Jingfeng wrote:
-> > > >
-> > > >> But I think Johan do need more times to understand what exactly
-> > > >> the real problem is. We do need times to investigate new method.
-> > > > No, I know perfectly well what the (immediate) problem is here (I was
-> > > > the one adding support for the of_node_reused flag some years back).
-> > > >
-> > > > I just wanted to make sure that the commit message was correct and
-> > > > complete before merging (and also to figure out whether this particular
-> > > > patch needed to be backported).
-> > >
-> > > Well under such a design, having the child device sharing the 'OF' device
-> > > node with it parent device means that one parent device can *only*
-> > > create one AUX bridge child device.
-> > >
-> > > Since If you create two or more child AUX bridge, *all* of them will
-> > > call devm_drm_of_get_bridge(&auxdev->dev, auxdev->dev.of_node, 0, 0),
-> > > then we will *contend* the same next bridge resource.
-> > >
-> > > Because of the 'auxdev->dev.of_node' is same for all its instance.
-> > > While other display bridges seems don't has such limitations.
-> >
-> > Brainstorming a bit, I wonder if we could create a swnode for the
-> > auxiliary device, instead of reusing the parent's OF node.
+On 11/1/2024 2:00 AM, Konrad Dybcio wrote:
+> On 30.10.2024 8:02 AM, Akhil P Oommen wrote:
+>> From: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+>>
+>> Add gpu and gmu nodes for sa8775p chipset. As of now all
+>> SKUs have the same GPU fmax, so there is no requirement of
+>> speed bin support.
+>>
+>> Signed-off-by: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>  arch/arm64/boot/dts/qcom/sa8775p.dtsi | 94 +++++++++++++++++++++++++++++++++++
+>>  1 file changed, 94 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+>> index e8dbc8d820a6..c6cb18193787 100644
+>> --- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+>> @@ -3072,6 +3072,100 @@ tcsr_mutex: hwlock@1f40000 {
+>>  			#hwlock-cells = <1>;
+>>  		};
+>>  
+>> +		gpu: gpu@3d00000 {
+>> +			compatible = "qcom,adreno-663.0", "qcom,adreno";
 > 
-> This will break bridge lookup which is performed by following the OF
-> graph links. So the aux bridges should use corresponding of_node or
-> fwnode.
+> Is the patchlevel zero for this SKU?
 
-We can also expand the lookup infrastructure and handle more platform
-integration and driver architecture options. I'm not sure how it would
-look like, but all these are in-kernel APIs, so they can be extended and
-modified if needed.
+Yes. There is only a single revision implemented downstream.
 
-> > This would
-> > require switching the DRM OF-based APIs to fwnode, but that's easy and
-> > mostly a mechanical change.
 
--- 
-Regards,
+> 
+> 
+>> +			reg = <0x0 0x03d00000 0x0 0x40000>,
+>> +			      <0x0 0x03d9e000 0x0 0x1000>,
+>> +			      <0x0 0x03d61000 0x0 0x800>;
+>> +			reg-names = "kgsl_3d0_reg_memory",
+>> +				    "cx_mem",
+>> +				    "cx_dbgc";
+>> +			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
+>> +			iommus = <&adreno_smmu 0 0xc00>,
+>> +				 <&adreno_smmu 1 0xc00>;
+>> +			operating-points-v2 = <&gpu_opp_table>;
+>> +			qcom,gmu = <&gmu>;
+>> +			interconnects = <&gem_noc MASTER_GFX3D QCOM_ICC_TAG_ALWAYS
+>> +					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
+>> +			interconnect-names = "gfx-mem";
+>> +			#cooling-cells = <2>;
+> 
+> You might want to hook this up to a thermal-zone right away
 
-Laurent Pinchart
+I am checking with our Thermal team on this. Will get back shortly.
+
+-Akhil.
+
+> 
+> Konrad
+
