@@ -2,48 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7259B9760
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 19:24:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD3C9B9761
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 19:24:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9870710E9EE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBE1510E9EF;
 	Fri,  1 Nov 2024 18:24:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="b3q7wTKX";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Wfz/pUwM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 327C510E9ED;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD11310E9EE;
  Fri,  1 Nov 2024 18:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
- Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=J2THoAE38i/SY5H7J+EKG3Am7KaMgQ90RGTrVSMS9k8=; b=b3q7wTKXmOvzn75MQYxs12XTb8
- xH3xYcKk+Mr3vzTKmv0yp48aV7Y+tAxSDnk3yY39MGUPCYILY4JRco45pqLGsng5MUuKViWZ7foOd
- /D3PUe+qzDVlJp8yTgKppQm9YJkbtPGjVv7OwA3WGeDZGtZuLggIsmJ+nCC67Y2d7GSpgVCLCAlRa
- HD3dL1RJr9d2mt8V555a/3+nHalfdfWPqBihEpMnFtYwx7ZznwgLTIqaCrJDRjl50XLYJtYu0J6YR
- X+xcHoPBAIkjZl1rnIWbAlL1WF3p0jrabafU+ioDpyVLraR4aM9w0uyYZdhrH9Ju0/eQQGwceUbyS
- vWAwBwBQ==;
+ s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
+ Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=NJ2HTplSW4KwnXcLWKk3RlCjYiAPM3moOM2p6p61nbM=; b=Wfz/pUwMiF+BndkF0k3J32+OLP
+ TOWTgToX6zRjB250vlrB80A8BQo2l3GfvA1QABpgXdsGNyZOVQrhfk/R5jXG5EaPVI/3g0s4ueSxR
+ uloPxwNWJ4PSjLCAD/W/Lfh1wctsD0VZ2axNSR7t7mDdavc8p53tEMncvUmwG+baoTBDWovQB2JSS
+ 32vxN75lK8gif52j7YOmUn0QInkRLXhjTz2zrI+BBEyHNvhPH8dqJwt/ZJNg6eMxHfmzzCh9f6Xeq
+ JquaI6IzPaKt5MchNsjSwkXBvBfjWodRi2iZLMtyHPpRUYL8af66LlzoQjaQ3y7HY/emPn+a+3pks
+ CLs2mOgA==;
 Received: from [189.78.222.89] (helo=[192.168.15.100])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1t6wJX-000XDx-PK; Fri, 01 Nov 2024 19:24:04 +0100
+ id 1t6wJd-000XDx-Ie; Fri, 01 Nov 2024 19:24:09 +0100
 From: =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH RESEND v9 0/2] drm/atomic: Ease async flip restrictions
-Date: Fri, 01 Nov 2024 15:23:46 -0300
-Message-Id: <20241101-tonyk-async_flip-v9-0-681814efbfbe@igalia.com>
+Date: Fri, 01 Nov 2024 15:23:47 -0300
+Subject: [PATCH RESEND v9 1/2] drm/atomic: Let drivers decide which planes
+ to async flip
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIALIcJWcC/3WNsQ6CMBRFf4W82ZpSMFAnB1kddDTEtKWFF7ElL
- SESwr/bdHc89+aeu0HQHnWAc7aB1wsGdDYCP2SgBmF7TbCLDIyyMqeUkdnZ9U1EWK16mREnUrN
- aGc2VKZSAOJu8NvhNyifcm0dzu0Ib8wHD7Pyanhae2v/ShRNKylMhc1nzqpLdBXsxojgq94F23
- /cfd+4eM7kAAAA=
-X-Change-ID: 20241002-tonyk-async_flip-828cfe9cf3ca
+Message-Id: <20241101-tonyk-async_flip-v9-1-681814efbfbe@igalia.com>
+References: <20241101-tonyk-async_flip-v9-0-681814efbfbe@igalia.com>
+In-Reply-To: <20241101-tonyk-async_flip-v9-0-681814efbfbe@igalia.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -74,66 +71,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Currently, DRM atomic uAPI allows only primary planes to be flipped
+asynchronously. However, each driver might be able to perform async
+flips in other different plane types. To enable drivers to set their own
+restrictions on which type of plane they can or cannot flip, use the
+existing atomic_async_check() from struct drm_plane_helper_funcs to
+enhance this flexibility, thus allowing different plane types to be able
+to do async flips as well.
 
-As per my previous patchsets, the goal of this work is to find a nice way to
-allow amdgpu to perform async page flips in the overlay plane as well, not
-only on the primary one. Currently, when using the atomic uAPI, this is the only
-type of plane allowed to do async flips, and every driver accepts it.
+In order to prevent regressions and such, we keep the current policy: we
+skip the driver check for the primary plane, because it is always
+allowed to do async flips on it.
 
-In my last version, I had created a static field `bool async_flip` for
-drm_planes. When creating new planes, drivers could tell if such plane was
-allowed or not to do async flips. This would be latter checked on the atomic
-uAPI whenever the DRM_MODE_PAGE_FLIP_ASYNC was present.
-
-However, Dmitry Baryshkov raised a valid point about getting confused with the 
-existing atomic_async_check() code, giving that is a function to do basically
-what I want: to let drivers tell DRM whether a giving plane can do async flips
-or not. It turns out atomic_async_check() is implemented by drivers to deal with
-the legacy cursor update, so it's not wired with the atomic uAPI because is
-something that precedes such API.
-
-So my new proposal is to just reuse this same function in the atomic uAPI path.
-The plane restrictions defined at atomic_async_check() should work in this
-codepath as well. And I will be able to allow overlays planes by modifying
-amdgpu_dm_plane_atomic_async_check(), and anyone else have a proper place to
-play with async plane restrictions as well.
-
-One note is that currently we always allow async flips for primary planes,
-regardless of the drivers, but not every atomic_async_check() implementation
-allows primary planes (because they were writing targeting cursor planes
-anyway...). To avoid regressions, my patch only calls atomic_async_check() for
-non primary planes, and always allows primary ones.
-
-Thoughts?
-
-Changelog
- v8: https://lore.kernel.org/lkml/20240806135300.114469-1-andrealmeid@igalia.com/
- - Rebased on top of 6.12-rc1 (drm/drm-next)
-
-Changelog
- v7: https://lore.kernel.org/dri-devel/20240618030024.500532-1-andrealmeid@igalia.com/
- - Complete rewrite
-
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
-Changes in v10:
-- EDITME: describe what is new in this series revision.
-- EDITME: use bulletpoints and terse descriptions.
-- Link to v9: https://lore.kernel.org/r/20241002-tonyk-async_flip-v9-0-453b1b8977bd@igalia.com
-
+Changes from v8:
+- Rebased on top of 6.12-rc1
 ---
-André Almeida (2):
-      drm/atomic: Let drivers decide which planes to async flip
-      drm/amdgpu: Enable async flip on overlay planes
+ drivers/gpu/drm/drm_atomic_uapi.c | 39 +++++++++++++++++++++++++++++----------
+ 1 file changed, 29 insertions(+), 10 deletions(-)
 
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |  3 +-
- drivers/gpu/drm/drm_atomic_uapi.c                  | 39 ++++++++++++++++------
- 2 files changed, 30 insertions(+), 12 deletions(-)
----
-base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
-change-id: 20241002-tonyk-async_flip-828cfe9cf3ca
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 370dc676e3aa543c9827b50df20df78f02b738c9..a0120df4b63e6b3419b53eb3d3673882559501c6 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -27,8 +27,9 @@
+  * Daniel Vetter <daniel.vetter@ffwll.ch>
+  */
+ 
+-#include <drm/drm_atomic_uapi.h>
+ #include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_atomic_uapi.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_drv.h>
+@@ -1063,6 +1064,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+ 		struct drm_plane *plane = obj_to_plane(obj);
+ 		struct drm_plane_state *plane_state;
+ 		struct drm_mode_config *config = &plane->dev->mode_config;
++		const struct drm_plane_helper_funcs *plane_funcs = plane->helper_private;
+ 
+ 		plane_state = drm_atomic_get_plane_state(state, plane);
+ 		if (IS_ERR(plane_state)) {
+@@ -1070,15 +1072,32 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+ 			break;
+ 		}
+ 
+-		if (async_flip &&
+-		    (plane_state->plane->type != DRM_PLANE_TYPE_PRIMARY ||
+-		     (prop != config->prop_fb_id &&
+-		      prop != config->prop_in_fence_fd &&
+-		      prop != config->prop_fb_damage_clips))) {
+-			ret = drm_atomic_plane_get_property(plane, plane_state,
+-							    prop, &old_val);
+-			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
+-			break;
++		if (async_flip) {
++			/* check if the prop does a nop change */
++			if ((plane_state->plane->type != DRM_PLANE_TYPE_PRIMARY) ||
++			    (prop != config->prop_fb_id &&
++			     prop != config->prop_in_fence_fd &&
++			     prop != config->prop_fb_damage_clips)) {
++				ret = drm_atomic_plane_get_property(plane, plane_state,
++								    prop, &old_val);
++				ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
++				break;
++			}
++
++			/* ask the driver if this non-primary plane is supported */
++			if (plane->type != DRM_PLANE_TYPE_PRIMARY) {
++				ret = -EINVAL;
++
++				if (plane_funcs && plane_funcs->atomic_async_check)
++					ret = plane_funcs->atomic_async_check(plane, state);
++
++				if (ret) {
++					drm_dbg_atomic(prop->dev,
++						       "[PLANE:%d] does not support async flips\n",
++						       obj->id);
++					break;
++				}
++			}
+ 		}
+ 
+ 		ret = drm_atomic_plane_set_property(plane,
 
-Best regards,
 -- 
-André Almeida <andrealmeid@igalia.com>
+2.47.0
 
