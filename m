@@ -2,130 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06E29B9A33
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 22:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5180F9B9A38
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 22:27:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F355C10EA0C;
-	Fri,  1 Nov 2024 21:26:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0F4210EA0E;
+	Fri,  1 Nov 2024 21:27:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="0XXDCu5y";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GihzYnT4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2067.outbound.protection.outlook.com [40.107.212.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9B810EA0B;
- Fri,  1 Nov 2024 21:26:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VkuMH1IkezBte+b6Mx22DHEfLFPj9OnzNehGEFdj5emLl90lSOzYtokWmDs+Lw9HNCaGbRl2Zwe7Keob/oEe9DEl1bM4vUtWPzNaWfYD9jPZysUJ9TPIqtRzt1vVkKuR77EMvwJO/FaMnuY5cYhlkn5N2uNtRE+20v1n9Dw/Py9piYFBkyoxlIa5YVhTbFNL8tIkyAKKVV4gHgepwcRDxqORvfV7QuwK8ugpNTs68L482CU5NPqGCt7Pepy+eumeT9xqqNmJOdw+qrR1TOPiHOyUgc3OI5WMlqDm4z0rD6GJgpZxMX2eAFEMwX+Hx+ZTCNgLs6c/rdUr8FGlb1DPmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p2z21Hi2qWYtxRK9sYER/PAOxJYqAgew+zLxAx2gjYE=;
- b=tQ8ItKbAl3D+ixaq290AfMpuXkV+uumvhQ9g882EfKD4uyqkcht3FEWcv174L+410K3u/kNLvcG61PyxX3u8ESbWRQP1es2xCFlAHUAHk+dpm/S7yXCH/qLp3+CbnAa+txJhTZUZiR9TsksD2TtcoxrXd56zdacOKWOZlyGNPVg99Du4dMtBuT5HTC87uCMlobLFKBy53mTZDSjfjFEbnIOxa9n/ET3mCC1Ck6Ue6jabIDB6+TqXhDLHB9rK+zqAsNZfFr8S5B8a5SWdKLs8CfoHslu3hGRkOdkWnOxrWj7tQVZY8Hu1nLhANUnu3si/gMOUmv0rrmpBu7JQkjuGzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p2z21Hi2qWYtxRK9sYER/PAOxJYqAgew+zLxAx2gjYE=;
- b=0XXDCu5yIvQ5bbdsmq62zaoNsydL5y8DV/3BVtB9W2L1q1quFGHChOg3IS+pogy0EILXToxUcIAjc/osd0QbCuRnIK5gd/RRAArdvQmTr6Zqk0jsSgI93MRMUqGR5zzvAHGB6ViZRfR4gcItPfcuPkJ3WqxOI4SPdkUW5XBZK2w=
-Received: from BY5PR16CA0008.namprd16.prod.outlook.com (2603:10b6:a03:1a0::21)
- by SN7PR12MB8436.namprd12.prod.outlook.com (2603:10b6:806:2e3::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.25; Fri, 1 Nov
- 2024 21:26:03 +0000
-Received: from SJ1PEPF00002327.namprd03.prod.outlook.com
- (2603:10b6:a03:1a0:cafe::f2) by BY5PR16CA0008.outlook.office365.com
- (2603:10b6:a03:1a0::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.26 via Frontend
- Transport; Fri, 1 Nov 2024 21:26:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00002327.mail.protection.outlook.com (10.167.242.90) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8114.16 via Frontend Transport; Fri, 1 Nov 2024 21:26:03 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 1 Nov
- 2024 16:26:02 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 1 Nov
- 2024 16:26:02 -0500
-Received: from jzuo-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Fri, 1 Nov 2024 16:26:01 -0500
-From: Fangzhi Zuo <Jerry.Zuo@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <lyude@redhat.com>,
- <jani.nikula@intel.com>, <imre.deak@intel.com>, <simona@ffwll.ch>,
- <wayne.lin@amd.com>
-CC: <harry.wentland@amd.com>, <rodrigo.siqueira@amd.com>, Fangzhi Zuo
- <Jerry.Zuo@amd.com>
-Subject: [PATCH v2 2/2] drm/display/dsc: MST DSC Interface Change
-Date: Fri, 1 Nov 2024 17:24:17 -0400
-Message-ID: <20241101212546.4060-3-Jerry.Zuo@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241101212546.4060-1-Jerry.Zuo@amd.com>
-References: <20241101212546.4060-1-Jerry.Zuo@amd.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 228A110E0BC;
+ Fri,  1 Nov 2024 21:27:40 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A1Cx45V002451;
+ Fri, 1 Nov 2024 21:27:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ v6IZWq5OP5Tf1Al6WKnmNeD53xkWwU5WOlN695SJ/Eg=; b=GihzYnT4d+Mz3rXp
+ /oHoKxfx5RlW0J7ZwZ5hOs67cn8+cZk/JId9pc9rhzOCo7e3u+DaA5QTrzduedXV
+ k0VxzXm6y6VwFcTR1Q4tejRwtaFwoVDA0CTPxWEQOtMXs7xWROOddMzm/dbtMTEV
+ OepAagQWT4UtDVxayawsx73fJlDeV1mocTQBwAFSgoOkqRropuqLm/RzmSp2YnD5
+ 9JsAYrwbxcmLGGHaa6lR+iRO/icjaoaVNs9Hb8XD3PTWz7OTKm8QcBHlXWKodtxB
+ s3dRpOWv0Og816Itpx6/H25vYNftR0aNT3KlWDqyCJPlyv6zoSOOmbd1cUa0A7ec
+ PvnGGA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42kmn5ghtd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Nov 2024 21:27:37 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A1LRan2001411
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 1 Nov 2024 21:27:36 GMT
+Received: from [10.110.96.174] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 1 Nov 2024
+ 14:27:34 -0700
+Message-ID: <3fc7d18e-8c05-4dfa-95d2-930347c7358e@quicinc.com>
+Date: Fri, 1 Nov 2024 14:27:33 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB05.amd.com: Jerry.Zuo@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002327:EE_|SN7PR12MB8436:EE_
-X-MS-Office365-Filtering-Correlation-Id: 54851fd8-09e4-4100-203b-08dcfabbc9de
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mqUpm0vda65oiQzsEdirzckTCBZDhrhTcp3C/Ez56VEzorjb26TEpNBy5Zdt?=
- =?us-ascii?Q?3aOpp7fOEYcR/233egfijciELlY1uJ7Dv0WoOpg4Y61+/50AJmCqSKd+A8HN?=
- =?us-ascii?Q?Mxz/Gv34G1RLqcLT9jcjXLBFBwk7CKAwVBSIpp6siSa1UwYQa3lqiWPXUuXW?=
- =?us-ascii?Q?0JakGhFQ81pwbZciGZby74OLRXlFsZBGf13bFfjsVdBYPnSxWB77zsfOm4F9?=
- =?us-ascii?Q?ma0o9xJ78DLiI37jRjMihf5fZP6h6WnQRJz/xLNTip4fNpErL5xZyF16mNQd?=
- =?us-ascii?Q?v46FTfnEmXxWk/QywxPzx5UElfCjkd/dtG48LtqVg0NI2GIn8yx+vehU5ESe?=
- =?us-ascii?Q?TDxV+FjGORc2QYlB2sCM2AEQTRT9D7BHFH/0yMjdwntcJ5pO83b2Y/Or8azg?=
- =?us-ascii?Q?/JwZXyg59JLJIWnCF/AqEZuK6EuZUpAvvJ5Q4S/NSTpPOhMIlgGJUZqn6asM?=
- =?us-ascii?Q?1LWWCSnOK46GPIBD7DJTDLizoUxUJqEkOAvCAaHpLna3jNZlFX/Ay6fupAC6?=
- =?us-ascii?Q?bK2JtR48yHFXKgSCTq29DDUS1GTjdhzx4cxSUdy3fQCMmycWqzae0S9LNXkM?=
- =?us-ascii?Q?CP9lxD3FcOiRaQA8lqP7hjAazUKvlNEQVerS/Wh9PstN+udwaCn106eDNFWx?=
- =?us-ascii?Q?ngJPubQHVF8N//4Nch60agKT7EevIgKFS3fFMQg8vs1StLG8Z9nw+GqEhaIK?=
- =?us-ascii?Q?LJFdUCERGUmeFHbXfwuwmCiX8aveBXo4H9e85qiGp+37btUoDyo23YNbu9TS?=
- =?us-ascii?Q?wdvEkdbUt2lju9s0vhqcUbQwktSKU24Ljmf1bsNZOBimuPFdXXoncVwokend?=
- =?us-ascii?Q?mSoMZXPuVabs2eBQwH1pHb7vodRJhRHBTi/s8Bi7N62Xtj2wQXKqedSS80yK?=
- =?us-ascii?Q?qf1ad6hXaxMzsGvqVU4sKen5J8JTw0mJH+9ad4ExmmpgO4qIbH3959DUObqo?=
- =?us-ascii?Q?8s7+qwuwEoEkW4noJSm45xWZEr6NhpOhZTAjbjJ+PFlDbVjNMxnX/4sBwYfT?=
- =?us-ascii?Q?r/WLn8mMXPmh9qrs+V7cGxY/RoMg9aqHHblleTBUGv0PA0uZKbgKmyASyIS0?=
- =?us-ascii?Q?Ox4BigbdJgLWodsjAEyLCf1e+oKVZVTxYZGWVebB4Ig42meS/VOM0zdpy5So?=
- =?us-ascii?Q?7Wcycc8LCJ4P7Y1VB5egBm4TYPY/9PVJPLgW5coeXLZLioYlxsl/p4NgfMuI?=
- =?us-ascii?Q?+xgfU4FlFr2twA2gMzSpp1/hNphaFpSb9oTSQX/Kok2BgYw8yD+OHg+30Yt3?=
- =?us-ascii?Q?ojqFkpN0qexcM1V9BcK5sUNTIKodG+/5098bJ1W76vcMx/nevrtzsF2xnLkP?=
- =?us-ascii?Q?L8x8p3x9gAUmq25Gq6mVEqdZa99wPavX48ZJFEAdo9xqvG8JwrNW9u3kfR0N?=
- =?us-ascii?Q?n7+IEclSS0vmyAOqbfN9spBOEaCj2qjp4Z2gYRPod0CvbX04YA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2024 21:26:03.0811 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54851fd8-09e4-4100-203b-08dcfabbc9de
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00002327.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8436
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 7/9] drm/msm/dpu: add support for virtual planes
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
+ Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
+ <20241025-dpu-virtual-wide-v6-7-0310fd519765@linaro.org>
+ <e0f84f35-6d98-45c3-857c-c273820fab69@quicinc.com>
+ <xxxedwb2t6xhfzmhpom6dirs2ur2qvmruimdxgvdkh7gmey5tr@qotm7xvbsg5a>
+ <14531af0-29c3-40eb-bf52-8202ba155d0b@quicinc.com>
+ <CAA8EJppCppQ_jJu4o62prW-Yp2E3WBfqdYgdJs-KB8kgghj0fg@mail.gmail.com>
+ <0550a9d0-dfb6-472d-a0c2-68fab78c3afb@quicinc.com>
+ <hjymywkecsbccjq4gzcdwfqp2tss7i7jtbmsg2q4nvy7uapsn4@t5orck7ion7w>
+ <0afc409e-63af-4106-8af1-9d21f7ca62dd@quicinc.com>
+ <bupwpod53noqukg7u4msstifr6m5h4uddnl3k7242hgj5otqfp@rp6dievmkg7c>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <bupwpod53noqukg7u4msstifr6m5h4uddnl3k7242hgj5otqfp@rp6dievmkg7c>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: i7-Jp2V8rohrSLFGMibptUz6H_bfEfrL
+X-Proofpoint-GUID: i7-Jp2V8rohrSLFGMibptUz6H_bfEfrL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ lowpriorityscore=0 impostorscore=0 phishscore=0 mlxlogscore=999
+ priorityscore=1501 mlxscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411010154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,352 +101,369 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[why]
-Starting from dp2 where dsc passthrough is introduced, it is required to identify
-the dsc passthrough aux, apart from dsc decompression aux. Existing drm_dp_mst_port function
-that returns dsc_aux alone is not sufficient.
 
-[how]
-1. Interface change in drm_dp_mst_dsc_aux_for_port, and dependency changes for each vendor.
-2. Rename passthrough_aux with dsc_passthrough_aux to align with the name of dsc_aux.
 
-Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
-Signed-off-by: Wayne Lin <wayne.lin@amd.com>
----
- .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  2 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 20 +++++------
- .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 30 ++++++++--------
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 34 +++++++++----------
- drivers/gpu/drm/i915/display/intel_dp.c       |  2 +-
- drivers/gpu/drm/i915/display/intel_dp_mst.c   |  3 +-
- include/drm/display/drm_dp_mst_helper.h       |  6 ++--
- 7 files changed, 48 insertions(+), 49 deletions(-)
+On 11/1/2024 1:53 PM, Dmitry Baryshkov wrote:
+> On Fri, Nov 01, 2024 at 01:37:03PM -0700, Abhinav Kumar wrote:
+>>
+>>
+>> On 10/31/2024 2:03 PM, Dmitry Baryshkov wrote:
+>>> On Thu, Oct 31, 2024 at 01:06:34PM -0700, Abhinav Kumar wrote:
+>>>>
+>>>>
+>>>> On 10/31/2024 8:11 AM, Dmitry Baryshkov wrote:
+>>>>> Hi Abhinav,
+>>>>>
+>>>>> On Wed, 30 Oct 2024 at 21:26, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On 10/30/2024 3:48 AM, Dmitry Baryshkov wrote:
+>>>>>>> On Tue, Oct 29, 2024 at 02:30:12PM -0700, Abhinav Kumar wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 10/24/2024 5:20 PM, Dmitry Baryshkov wrote:
+>>>>>>>>> Only several SSPP blocks support such features as YUV output or scaling,
+>>>>>>>>> thus different DRM planes have different features.  Properly utilizing
+>>>>>>>>> all planes requires the attention of the compositor, who should
+>>>>>>>>> prefer simpler planes to YUV-supporting ones. Otherwise it is very easy
+>>>>>>>>> to end up in a situation when all featureful planes are already
+>>>>>>>>> allocated for simple windows, leaving no spare plane for YUV playback.
+>>>>>>>>>
+>>>>>>>>> To solve this problem make all planes virtual. Each plane is registered
+>>>>>>>>> as if it supports all possible features, but then at the runtime during
+>>>>>>>>> the atomic_check phase the driver selects backing SSPP block for each
+>>>>>>>>> plane.
+>>>>>>>>>
+>>>>>>>>> As the planes are attached to the CRTC and not the encoder, the SSPP
+>>>>>>>>> blocks are also allocated per CRTC ID (all other resources are currently
+>>>>>>>>> allocated per encoder ID). This also matches the hardware requirement,
+>>>>>>>>> where both rectangles of a single SSPP can only be used with the LM
+>>>>>>>>> pair.
+>>>>>>>>>
+>>>>>>>>> Note, this does not provide support for using two different SSPP blocks
+>>>>>>>>> for a single plane or using two rectangles of an SSPP to drive two
+>>>>>>>>> planes. Each plane still gets its own SSPP and can utilize either a solo
+>>>>>>>>> rectangle or both multirect rectangles depending on the resolution.
+>>>>>>>>>
+>>>>>>>>> Note #2: By default support for virtual planes is turned off and the
+>>>>>>>>> driver still uses old code path with preallocated SSPP block for each
+>>>>>>>>> plane. To enable virtual planes, pass 'msm.dpu_use_virtual_planes=1'
+>>>>>>>>> kernel parameter.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>>>>>> ---
+>>>>>>>>>       drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  50 +++++++
+>>>>>>>>>       drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c   |  10 +-
+>>>>>>>>>       drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h   |   4 +
+>>>>>>>>>       drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 237 ++++++++++++++++++++++++++----
+>>>>>>>>>       drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  16 ++
+>>>>>>>>>       drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c    |  68 +++++++++
+>>>>>>>>>       drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h    |  27 ++++
+>>>>>>>>>       7 files changed, 383 insertions(+), 29 deletions(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>>>>>>>>> index 58595dcc3889..a7eea094aa14 100644
+>>>>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>>>>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>>>>>>>>> @@ -1166,6 +1166,49 @@ static bool dpu_crtc_needs_dirtyfb(struct drm_crtc_state *cstate)
+>>>>>>>>>        return false;
+>>>>>>>>>       }
+>>>>>>>>> +static int dpu_crtc_reassign_planes(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state)
+>>>>>>>>> +{
+>>>>>>>>> +   int total_planes = crtc->dev->mode_config.num_total_plane;
+>>>>>>>>> +   struct drm_atomic_state *state = crtc_state->state;
+>>>>>>>>> +   struct dpu_global_state *global_state;
+>>>>>>>>> +   struct drm_plane_state **states;
+>>>>>>>>> +   struct drm_plane *plane;
+>>>>>>>>> +   int ret;
+>>>>>>>>> +
+>>>>>>>>> +   global_state = dpu_kms_get_global_state(crtc_state->state);
+>>>>>>>>> +   if (IS_ERR(global_state))
+>>>>>>>>> +           return PTR_ERR(global_state);
+>>>>>>>>> +
+>>>>>>>>> +   dpu_rm_release_all_sspp(global_state, crtc);
+>>>>>>>>> +
+>>>>>>>>> +   if (!crtc_state->enable)
+>>>>>>>>> +           return 0;
+>>>>>>>>> +
+>>>>>>>>> +   states = kcalloc(total_planes, sizeof(*states), GFP_KERNEL);
+>>>>>>>>> +   if (!states)
+>>>>>>>>> +           return -ENOMEM;
+>>>>>>>>> +
+>>>>>>>>> +   drm_atomic_crtc_state_for_each_plane(plane, crtc_state) {
+>>>>>>>>> +           struct drm_plane_state *plane_state =
+>>>>>>>>> +                   drm_atomic_get_plane_state(state, plane);
+>>>>>>>>> +
+>>>>>>>>> +           if (IS_ERR(plane_state)) {
+>>>>>>>>> +                   ret = PTR_ERR(plane_state);
+>>>>>>>>> +                   goto done;
+>>>>>>>>> +           }
+>>>>>>>>> +
+>>>>>>>>> +           states[plane_state->normalized_zpos] = plane_state;
+>>>>>>>>> +   }
+>>>>>>>>> +
+>>>>>>>>> +   ret = dpu_assign_plane_resources(global_state, state, crtc, states, total_planes);
+>>>>>>>>> +
+>>>>>>>>> +done:
+>>>>>>>>> +   kfree(states);
+>>>>>>>>> +   return ret;
+>>>>>>>>> +
+>>>>>>>>> +   return 0;
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>>       static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>>>>>>>>>                struct drm_atomic_state *state)
+>>>>>>>>>       {
+>>>>>>>>> @@ -1181,6 +1224,13 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>>>>>>>>>        bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
+>>>>>>>>> +   if (dpu_use_virtual_planes &&
+>>>>>>>>> +       (crtc_state->planes_changed || crtc_state->zpos_changed)) {
+>>>>>>>>> +           rc = dpu_crtc_reassign_planes(crtc, crtc_state);
+>>>>>>>>> +           if (rc < 0)
+>>>>>>>>> +                   return rc;
+>>>>>>>>> +   }
+>>>>>>>>
+>>>>>>>> planes_changed is set only for format changes . Will it cover all
+>>>>>>>> needs_modeset cases?
+>>>>>>>>
+>>>>>>>> OR do we also need to set planes_changed when
+>>>>>>>> drm_atomic_crtc_needs_modeset()?
+>>>>>>>>
+>>>>>>>> Unless I am missing something, I think we have to otherwise sspp
+>>>>>>>> reallocation wont happen in modeset cases.
+>>>>>>>
+>>>>>>> I was depending on the planes being included in the state by the client.
+>>>>>>> I don't think we really care about the modeset per se. We care about
+>>>>>>> plane size changes. And changing the size means that the plane is
+>>>>>>> included into the commit.
+>>>>>>>
+>>>>>>
+>>>>>> The global state mapping for SSPPs has to be cleared across modesets
+>>>>>> IMO. This is no different from us calling dpu_rm_release() today in
+>>>>>> dpu_encoder_virt_atomic_check(). I just am not sure whether
+>>>>>> planes_changed will cover all modeset conditions.
+>>>>>
+>>>>> We clear other resources, because they depend on the CRTC resolution.
+>>>>> Planes do not. Well, not until the quadpipe is in play.
+>>>>> SSPPs (currently) should be reallocated only if the _plane_'s
+>>>>> resolution change. If we have a modeset which involves CRTC resolution
+>>>>> change, but not the plane's size change, there is no need to
+>>>>> reallocate SSPPs.
+>>>>>
+>>>>
+>>>> In dpu_encoder_helper_phys_cleanup(), the SSPPs attached to all LMs are
+>>>> removed so clearing all the hardware. If the global state is still going to
+>>>> retain the older configuration not reflecting this clear, it seems incorrect
+>>>> to me. Thats why I was thinking of clearing all the SSPP mapping in
+>>>> disable() or in the modeset prior to the disable as technically thats being
+>>>> done in HW today anyway.
+>>>>
+>>>> During the next atomic check, the planes in the crtc's current state will
+>>>> get re-attached and programmed to the blend stages. So this clearing of
+>>>> global state is reflecting the current state of the corresponding hardware.
+>>>
+>>> The global state tracks resource allocation. If we clear the resources
+>>> in the disable() path, we have no way to know which SSPP blocks were
+>>> assigned to us in the corresponding enable() call path. There is no
+>>> guarantee that there will be an atomic_check() between disable() and
+>>> enable().
+>>>
+>>
+>> So I had suggested clearing in disable() because we did not come to an
+>> agreement to doing it in atomic_check() just a few comments earlier.
+>>
+>> Doing it in disable() is not right. I agree with that part now as we should
+>> not be touching the state after atomic_check() phase.
+>>
+>> That brings me back to my original question. With the planes_changed check
+>> in atomic_check how can we guarantee that global state SSPP allocation is
+>> freed and allocated again across a disable() / enable() cycle? Can you pls
+>> confirm whether this is happening or not across a hotplug and suspend/resume
+>> cycle?
+> 
+> disable() / enable() on which object? Because CRTC, if it
+> needs_modeset() || crtc_needs_disable() absolutely can go through a
+> disable / enable cycle, it doesn't require SSPP reallocation at all.
+> 
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-index db56b0aa5454..0da703f4ccac 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-@@ -1370,7 +1370,7 @@ static int dp_dsc_fec_support_show(struct seq_file *m, void *data)
- 			 * enable DSC on the sink device or on MST branch
- 			 * its connected to.
- 			 */
--			if (aconnector->dsc_aux) {
-+			if (aconnector->mst_output_port->dsc_aux) {
- 				is_fec_supported = true;
- 				is_dsc_supported = true;
- 			}
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 069e0195e50a..2e5e490f9027 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -810,20 +810,20 @@ bool dm_helpers_dp_write_dsc_enable(
- 	uint8_t ret = 0;
- 
- 	if (stream->signal == SIGNAL_TYPE_DISPLAY_PORT_MST) {
--		if (!aconnector->dsc_aux)
-+		if (!aconnector->mst_output_port->dsc_aux)
- 			return false;
- 
- 		// apply w/a to synaptics
- 		if (needs_dsc_aux_workaround(aconnector->dc_link) &&
- 		    (aconnector->mst_downstream_port_present.byte & 0x7) != 0x3)
- 			return write_dsc_enable_synaptics_non_virtual_dpcd_mst(
--				aconnector->dsc_aux, stream, enable_dsc);
-+				aconnector->mst_output_port->dsc_aux, stream, enable_dsc);
- 
- 		port = aconnector->mst_output_port;
- 
- 		if (enable) {
--			if (port->passthrough_aux) {
--				ret = drm_dp_dpcd_write(port->passthrough_aux,
-+			if (port->dsc_passthrough_aux) {
-+				ret = drm_dp_dpcd_write(port->dsc_passthrough_aux,
- 							DP_DSC_ENABLE,
- 							&enable_passthrough, 1);
- 				drm_dbg_dp(dev,
-@@ -831,24 +831,24 @@ bool dm_helpers_dp_write_dsc_enable(
- 					   ret);
- 			}
- 
--			ret = drm_dp_dpcd_write(aconnector->dsc_aux,
-+			ret = drm_dp_dpcd_write(aconnector->mst_output_port->dsc_aux,
- 						DP_DSC_ENABLE, &enable_dsc, 1);
- 			drm_dbg_dp(dev,
- 				   "MST_DSC Sent DSC decoding enable to %s port, ret = %u\n",
--				   (port->passthrough_aux) ? "remote RX" :
-+				   (port->dsc_passthrough_aux) ? "remote RX" :
- 				   "virtual dpcd",
- 				   ret);
- 		} else {
--			ret = drm_dp_dpcd_write(aconnector->dsc_aux,
-+			ret = drm_dp_dpcd_write(aconnector->mst_output_port->dsc_aux,
- 						DP_DSC_ENABLE, &enable_dsc, 1);
- 			drm_dbg_dp(dev,
- 				   "MST_DSC Sent DSC decoding disable to %s port, ret = %u\n",
--				   (port->passthrough_aux) ? "remote RX" :
-+				   (port->dsc_passthrough_aux) ? "remote RX" :
- 				   "virtual dpcd",
- 				   ret);
- 
--			if (port->passthrough_aux) {
--				ret = drm_dp_dpcd_write(port->passthrough_aux,
-+			if (port->dsc_passthrough_aux) {
-+				ret = drm_dp_dpcd_write(port->dsc_passthrough_aux,
- 							DP_DSC_ENABLE,
- 							&enable_passthrough, 1);
- 				drm_dbg_dp(dev,
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index a08e8a0b696c..5d2653e1a5f6 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -183,8 +183,8 @@ amdgpu_dm_mst_connector_early_unregister(struct drm_connector *connector)
- 		dc_sink_release(dc_sink);
- 		aconnector->dc_sink = NULL;
- 		aconnector->edid = NULL;
--		aconnector->dsc_aux = NULL;
--		port->passthrough_aux = NULL;
-+		aconnector->mst_output_port->dsc_aux = NULL;
-+		aconnector->mst_output_port->dsc_passthrough_aux = NULL;
- 	}
- 
- 	aconnector->mst_status = MST_STATUS_DEFAULT;
-@@ -237,7 +237,7 @@ static bool validate_dsc_caps_on_connector(struct amdgpu_dm_connector *aconnecto
- 	u8 dsc_branch_dec_caps_raw[3] = { 0 };	// DSC branch decoder caps 0xA0 ~ 0xA2
- 	u8 *dsc_branch_dec_caps = NULL;
- 
--	aconnector->dsc_aux = drm_dp_mst_dsc_aux_for_port(port);
-+	drm_dp_mst_dsc_aux_for_port(port);
- 
- 	/*
- 	 * drm_dp_mst_dsc_aux_for_port() will return NULL for certain configs
-@@ -250,19 +250,19 @@ static bool validate_dsc_caps_on_connector(struct amdgpu_dm_connector *aconnecto
- 	 */
- 	if (!aconnector->dsc_aux && !port->parent->port_parent &&
- 	    needs_dsc_aux_workaround(aconnector->dc_link))
--		aconnector->dsc_aux = &aconnector->mst_root->dm_dp_aux.aux;
-+		aconnector->mst_output_port->dsc_aux = &aconnector->mst_root->dm_dp_aux.aux;
- 
- 	/* synaptics cascaded MST hub case */
- 	if (is_synaptics_cascaded_panamera(aconnector->dc_link, port))
--		aconnector->dsc_aux = port->mgr->aux;
-+		aconnector->mst_output_port->dsc_aux = port->mgr->aux;
- 
--	if (!aconnector->dsc_aux)
-+	if (!aconnector->mst_output_port->dsc_aux)
- 		return false;
- 
--	if (drm_dp_dpcd_read(aconnector->dsc_aux, DP_DSC_SUPPORT, dsc_caps, 16) < 0)
-+	if (drm_dp_dpcd_read(aconnector->mst_output_port->dsc_aux, DP_DSC_SUPPORT, dsc_caps, 16) < 0)
- 		return false;
- 
--	if (drm_dp_dpcd_read(aconnector->dsc_aux,
-+	if (drm_dp_dpcd_read(aconnector->mst_output_port->dsc_aux,
- 			DP_DSC_BRANCH_OVERALL_THROUGHPUT_0, dsc_branch_dec_caps_raw, 3) == 3)
- 		dsc_branch_dec_caps = dsc_branch_dec_caps_raw;
- 
-@@ -279,10 +279,10 @@ static bool retrieve_downstream_port_device(struct amdgpu_dm_connector *aconnect
- {
- 	union dp_downstream_port_present ds_port_present;
- 
--	if (!aconnector->dsc_aux)
-+	if (!aconnector->mst_output_port->dsc_aux)
- 		return false;
- 
--	if (drm_dp_dpcd_read(aconnector->dsc_aux, DP_DOWNSTREAMPORT_PRESENT, &ds_port_present, 1) < 0) {
-+	if (drm_dp_dpcd_read(aconnector->mst_output_port->dsc_aux, DP_DOWNSTREAMPORT_PRESENT, &ds_port_present, 1) < 0) {
- 		DRM_INFO("Failed to read downstream_port_present 0x05 from DFP of branch device\n");
- 		return false;
- 	}
-@@ -501,8 +501,8 @@ dm_dp_mst_detect(struct drm_connector *connector,
- 		dc_sink_release(aconnector->dc_sink);
- 		aconnector->dc_sink = NULL;
- 		aconnector->edid = NULL;
--		aconnector->dsc_aux = NULL;
--		port->passthrough_aux = NULL;
-+		aconnector->mst_output_port->dsc_aux = NULL;
-+		aconnector->mst_output_port->dsc_passthrough_aux = NULL;
- 
- 		amdgpu_dm_set_mst_status(&aconnector->mst_status,
- 			MST_REMOTE_EDID | MST_ALLOCATE_NEW_PAYLOAD | MST_CLEAR_ALLOCATED_PAYLOAD,
-@@ -1302,7 +1302,7 @@ static bool is_dsc_need_re_compute(
- 			continue;
- 
- 		aconnector = (struct amdgpu_dm_connector *) stream->dm_stream_context;
--		if (!aconnector || !aconnector->dsc_aux)
-+		if (!aconnector || !aconnector->mst_output_port->dsc_aux)
- 			continue;
- 
- 		stream_on_link[new_stream_on_link_num] = aconnector;
-@@ -1787,13 +1787,13 @@ enum dc_status dm_dp_mst_is_port_support_mode(
- 	}
- 
- 	/*DSC necessary case*/
--	if (!aconnector->dsc_aux)
-+	if (!aconnector->mst_output_port->dsc_aux)
- 		return DC_FAIL_BANDWIDTH_VALIDATE;
- 
- 	if (is_dsc_common_config_possible(stream, &bw_range)) {
- 
- 		/*capable of dsc passthough. dsc bitstream along the entire path*/
--		if (aconnector->mst_output_port->passthrough_aux) {
-+		if (aconnector->mst_output_port->dsc_passthrough_aux) {
- 			if (bw_range.min_kbps > end_to_end_bw_in_kbps) {
- 				DRM_DEBUG_DRIVER("MST_DSC dsc passthrough and decode at endpoint"
- 						 "Max dsc compression bw can't fit into end-to-end bw\n");
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index a4551c17a07f..483b623961e7 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -2259,7 +2259,7 @@ void drm_dp_mst_connector_early_unregister(struct drm_connector *connector,
- 		    port->aux.name, connector->kdev->kobj.name);
- 	drm_dp_aux_unregister_devnode(&port->aux);
- 	port->dsc_aux = NULL;
--	port->passthrough_aux = NULL;
-+	port->dsc_passthrough_aux = NULL;
- }
- EXPORT_SYMBOL(drm_dp_mst_connector_early_unregister);
- 
-@@ -5447,7 +5447,8 @@ int drm_dp_mst_add_affected_dsc_crtcs(struct drm_atomic_state *state, struct drm
- 		if (!crtc)
- 			continue;
- 
--		if (!drm_dp_mst_dsc_aux_for_port(pos->port))
-+		drm_dp_mst_dsc_aux_for_port(pos->port);
-+		if (!pos->port->dsc_aux)
- 			continue;
- 
- 		crtc_state = drm_atomic_get_crtc_state(mst_state->base.state, crtc);
-@@ -6019,16 +6020,13 @@ EXPORT_SYMBOL(drm_dp_mst_aux_for_parent);
-  * Depending on the situation, DSC may be enabled via the endpoint aux,
-  * the immediately upstream aux, or the connector's physical aux.
-  *
-- * This is both the correct aux to read DSC_CAPABILITY and the
-- * correct aux to write DSC_ENABLED.
-- *
-- * This operation can be expensive (up to four aux reads), so
-- * the caller should cache the return.
-- *
-  * Returns:
-- * NULL if DSC cannot be enabled on this port, otherwise the aux device
-+ * port->dsc_aux - point for dsc decompression
-+ *   null if dsc decompression point not found
-+ * port->dsc_passthrough_aux - point for dsc passthrough
-+ *   null no dsc passthrough support found
-  */
--struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
-+void drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
- {
- 	struct drm_dp_mst_topology_mgr *mgr = port->mgr;
- 	struct drm_dp_mst_port *immediate_upstream_port = NULL;
-@@ -6041,17 +6039,17 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
- 	u8 fec_cap;
- 
- 	if (!port)
--		return NULL;
-+		return;
- 
- 	port->dsc_aux = NULL;
--	port->passthrough_aux = NULL;
-+	port->dsc_passthrough_aux = NULL;
- 
- 	/* Policy start */
- 	if (!drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
- 		drm_err(mgr->dev,
- 			"MST_DSC Can't determine dsc aux for port %p which is not connected to end device\n",
- 			port);
--		return NULL;
-+		return;
- 	}
- 
- 	if (port->parent->port_parent)
-@@ -6079,12 +6077,12 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
- 		goto out_dsc_fail;
- 	}
- 
--	/* Consider passthrough as the first option for dsc_aux/passthrough_aux */
-+	/* Consider passthrough as the first option for dsc_aux/dsc_passthrough_aux */
- 	if (endpoint_dsc & DP_DSC_DECOMPRESSION_IS_SUPPORTED &&
- 			upstream_dsc & DP_DSC_PASSTHROUGH_IS_SUPPORTED) {
- 		dsc_port = port;
- 		port->dsc_aux = &port->aux;
--		port->passthrough_aux = upstream_aux;
-+		port->dsc_passthrough_aux = upstream_aux;
- 		drm_info(mgr->dev, "MST_DSC dsc passthrough to endpoint\n");
- 	}
- 
-@@ -6147,11 +6145,11 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
- 		goto out_dsc_fail;
- 	}
- 
--	return port->dsc_aux;
-+	return;
- 
- out_dsc_fail:
- 	port->dsc_aux = NULL;
--	port->passthrough_aux = NULL;
--	return NULL;
-+	port->dsc_passthrough_aux = NULL;
-+	return;
- }
- EXPORT_SYMBOL(drm_dp_mst_dsc_aux_for_port);
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 90fa73575feb..4520456a6680 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -3228,7 +3228,7 @@ intel_dp_sink_set_dsc_passthrough(const struct intel_connector *connector,
- {
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
- 	struct drm_dp_aux *aux = connector->port ?
--				 connector->port->passthrough_aux : NULL;
-+				 connector->port->dsc_passthrough_aux : NULL;
- 
- 	if (!aux)
- 		return;
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 15541932b809..73cb1c673525 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -1699,7 +1699,8 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
- 
- 	intel_dp_init_modeset_retry_work(intel_connector);
- 
--	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
-+	drm_dp_mst_dsc_aux_for_port(port);
-+	intel_connector->dp.dsc_decompression_aux = port->dsc_aux;
- 	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
- 	intel_connector->dp.dsc_hblank_expansion_quirk =
- 		detect_dsc_hblank_expansion_quirk(intel_connector);
-diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-index 672e8f6b5655..630ecf872e68 100644
---- a/include/drm/display/drm_dp_mst_helper.h
-+++ b/include/drm/display/drm_dp_mst_helper.h
-@@ -82,7 +82,7 @@ struct drm_dp_mst_branch;
-  * by &drm_dp_mst_topology_mgr.base.lock.
-  * @dsc_aux: aux to which DSC decompression request should be sent,
-  * only set if DSC decompression is possible.
-- * @passthrough_aux: parent aux to which DSC pass-through requests should be
-+ * @dsc_passthrough_aux: parent aux to which DSC pass-through requests should be
-  * sent, only set if DSC pass-through is possible.
-  * @parent: branch device parent of this port
-  * @connector: DRM connector this port is connected to. Protected by
-@@ -138,7 +138,7 @@ struct drm_dp_mst_port {
- 	struct drm_dp_mst_branch *mstb;
- 	struct drm_dp_aux aux; /* i2c bus for this port? */
- 	struct drm_dp_aux *dsc_aux;
--	struct drm_dp_aux *passthrough_aux;
-+	struct drm_dp_aux *dsc_passthrough_aux;
- 	struct drm_dp_mst_branch *parent;
- 
- 	struct drm_connector *connector;
-@@ -959,7 +959,7 @@ bool drm_dp_mst_port_is_logical(struct drm_dp_mst_port *port)
- }
- 
- struct drm_dp_aux *drm_dp_mst_aux_for_parent(struct drm_dp_mst_port *port);
--struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port);
-+void drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port);
- 
- static inline struct drm_dp_mst_topology_state *
- to_drm_dp_mst_topology_state(struct drm_private_state *state)
--- 
-2.43.0
+This is the part I am failing to understand. So as I wrote above, across 
+a disable() / enable() cycle the SSPPs are cleared from the LMs and 
+re-attached on the commit which enables() the CRTC back.
 
+All that I am saying is that the global state SSPP mapping to the 
+crtc_id should also reflect this clearing. Otherwise this will lead to a 
+mismatch of states.
+
+
+> But maybe it's easier to just have drm_atomic_crtc_needs_modeset(). Will
+> that make it better for you?
+> 
+
+Yes this is exactly what I had requested in my first response on this 
+thread.
+
+>>
+>>
+>>>>
+>>>>>>
+>>>>>> Were you able to confirm whether the mapping gets cleared across
+>>>>>> hotplugs or suspend/resumes? If so, it would confirm whether
+>>>>>> planes_changed covers these aspects. Although, I think clearing should
+>>>>>> be more explicit.
+>>>>>
+>>>>> I will check that tomorrow.
+>>>>>
+>>>>>> Another option could be for you to call dpu_rm_release_all_sspp() in
+>>>>>> dpu_crtc_disable(). So that across a disable and enable we have a clear
+>>>>>> mapping table. WDYT?
+>>>>>
+>>>>> Absolutely no. The RM state should only be changed when other object's
+>>>>> state change - in atomic_check(). After that it is mostly r/o.
+>>>>> enabling/disabling the resource shouldn't change resource assignment
+>>>>> at all.
+>>>>>
+>>
+>> Ack but please check above.
+>>
+>>>>>>
+>>>>>>>>
+>>>>>>>> Overall, mainly we want to make sure SSPPs are re-assigned when:
+>>>>>>>>
+>>>>>>>
+>>>>>>> 0) plane size changes
+>>>>>>>>> 1) format changes (RGB to YUV and vice-versa)
+>>>>>>>> 2) Any modesets
+>>>>>>>
+>>>>>>> No
+>>>>>>
+>>>>>> I am not able to follow why this is different from any global state
+>>>>>> mapping of other HW blocks that we do across modesets.
+>>>>>
+>>>>> DIfferent lifecycle requirements, I'd say.
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>>> 3) Any disable/enable without modeset like connectors changed as SSPPs are
+>>>>>>>> changing outputs there.
+>>>>>>>
+>>>>>>> Absolutely no, the logic should be the same as active vs enabled for
+>>>>>>> CRTCs. Realloc resources only if the plane itself gets disabled or
+>>>>>>> enabled. In all other cases the set of SSPP blocks should stay
+>>>>>>> untouched.
+>>>>>>>
+>>>>>>
+>>>>>> I am going to re-visit this later perhaps but if we incorporate my above
+>>>>>> suggestion of clearing the mapping in disable() I will be partially
+>>>>>> satisfied.
+>>>>>
+>>>>> No, resource mapping can not be cleaned in disable(). We do not do
+>>>>> that for any other resource kind.
+>>>>>
+>>>>
+>>>> That gets handled with the needs_modeset part today which is calling the
+>>>> dpu_rm_release().
+>>>
+>>> In atomic_check() path, not in the disable() path.
+>>>
+>>>>
+>>>>>>
+>>>>>>>>
+>>>>>>>> If we are covered for all these, let me know.
+>>>>>>>>
+>>>>>>>>> +
+>>>>>>>>>        if (!crtc_state->enable || !drm_atomic_crtc_effectively_active(crtc_state)) {
+>>>>>>>>>                DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
+>>>>>>>>>                                crtc->base.id, crtc_state->enable,
+>>>>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>>>>>>>> index 15679dd50c66..70757d876cc3 100644
+>>>>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>>>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>>>>>>>> @@ -51,6 +51,9 @@
+>>>>>>>>>       #define DPU_DEBUGFS_DIR "msm_dpu"
+>>>>>>>>>       #define DPU_DEBUGFS_HWMASKNAME "hw_log_mask"
+>>>>>>>>> +bool dpu_use_virtual_planes;
+>>>>>>>>> +module_param(dpu_use_virtual_planes, bool, 0);
+>>>>>>>>> +
+>>>>>>>>>       static int dpu_kms_hw_init(struct msm_kms *kms);
+>>>>>>>>>       static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms);
+>>>>>>>>> @@ -814,8 +817,11 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
+>>>>>>>>>                          type, catalog->sspp[i].features,
+>>>>>>>>>                          catalog->sspp[i].features & BIT(DPU_SSPP_CURSOR));
+>>>>>>>>> -           plane = dpu_plane_init(dev, catalog->sspp[i].id, type,
+>>>>>>>>> -                                  (1UL << max_crtc_count) - 1);
+>>>>>>>>> +           if (dpu_use_virtual_planes)
+>>>>>>>>> +                   plane = dpu_plane_init_virtual(dev, type, (1UL << max_crtc_count) - 1);
+>>>>>>>>> +           else
+>>>>>>>>> +                   plane = dpu_plane_init(dev, catalog->sspp[i].id, type,
+>>>>>>>>> +                                          (1UL << max_crtc_count) - 1);
+>>>>>>>>>                if (IS_ERR(plane)) {
+>>>>>>>>>                        DPU_ERROR("dpu_plane_init failed\n");
+>>>>>>>>>                        ret = PTR_ERR(plane);
+>>>>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+>>>>>>>>> index 935ff6fd172c..479d4c172290 100644
+>>>>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+>>>>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+>>>>>>>>> @@ -54,6 +54,8 @@
+>>>>>>>>>       #define ktime_compare_safe(A, B) \
+>>>>>>>>>        ktime_compare(ktime_sub((A), (B)), ktime_set(0, 0))
+>>>>>>>>> +extern bool dpu_use_virtual_planes;
+>>>>>>>>> +
+>>>>>>>>>       struct dpu_kms {
+>>>>>>>>>        struct msm_kms base;
+>>>>>>>>>        struct drm_device *dev;
+>>>>>>>>> @@ -128,6 +130,8 @@ struct dpu_global_state {
+>>>>>>>>>        uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
+>>>>>>>>>        uint32_t dsc_to_enc_id[DSC_MAX - DSC_0];
+>>>>>>>>>        uint32_t cdm_to_enc_id;
+>>>>>>>>> +
+>>>>>>>>> +   uint32_t sspp_to_crtc_id[SSPP_MAX - SSPP_NONE];
+>>>>>>>>>       };
+>>>>>>>>
+>>>>>>>> This is the part which now looks odd and can be managed with rebase I guess.
+>>>>>>>>
+>>>>>>>> Are you planning to pull in the move resource allocation to crtc_id changes
+>>>>>>>> first before this part? IOW, rebase this change on top of that?
+>>>>>>>
+>>>>>>> No. I do not. If you remember, several revisions ago the enc_id ->
+>>>>>>> crtc_id was a part of the series, but we both agreed to drop it since it
+>>>>>>> was not required for virtual planes. As such, I plan to land this one
+>>>>>>> first (yes, having some of the resources tracked basing on enc_id and
+>>>>>>> SSPP is tracked basing on crtc_id).
+>>>>>>>
+>>>>>>
+>>>>>> Yes, I am not asking whether you will be absorbing those changes into
+>>>>>> this series. Even I would not suggest doing that.
+>>>>>>
+>>>>>> I was asking whether you will merge the crtc_id based tracking first and
+>>>>>> then apply this on top of that and not the other way around.
+>>>>>>
+>>>>>> Because with this specific line I am certain it will conflict as both
+>>>>>> the series touch struct dpu_global_state.
+>>>>>
+>>>>> They touch different parts of it. So I'd prefer to land this one first
+>>>>> and then land using crtc_id for mapping.
+>>>>>
+>>>>
+>>>> I am okay to fixup any other issues which arise later on because we have the
+>>>> modparam protection anyway but I think validating suspend/resume and hotplug
+>>>> to ensure no black screens is required. If those two cases work fine on your
+>>>> end, we can proceed.
+>>>
+>>> I have been validating these changes with hotplug events, yes. I wasn't
+>>> checking the suspend/resume, but that's broken anyway, until we land
+>>> https://patchwork.freedesktop.org/patch/606931/?series=135908&rev=2
+>>>
+>>
+>> Can you pls confirm once whether the global state mapping gets freed across
+>> crtc disable/enable cycle with the planes_changed check? I think it has to.
+> 
+> I think you are asking the question from the wrong side. What kind of
+> commit leads to that CRTC disable/enable cycle?
+> 
+
+A commit which requires modeset?
+
+>>
+>> Other items are closed so snipping out below.
+> 
