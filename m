@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4A19B95C4
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 17:44:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C399B9603
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 17:58:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE0D10E9DF;
-	Fri,  1 Nov 2024 16:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE4CB10E9E1;
+	Fri,  1 Nov 2024 16:57:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eQ+iv6hm";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="d1cXjxzK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FCF210E9E2
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 16:44:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7196910E9E1
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 16:57:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=SzEBSUiqX9q6QOwH+3lfpF0a+846J9p9dlVHwog/yj4=; b=eQ+iv6hmi1RyhhdT/7e0AJyq0B
- jnteK/4rybFsrn3485KaB8QP2pVyhzHadOOUIz/oxg3ZidSZ7ij8xA+/uIxEuPw12rRql3VrwOjcE
- W+G2UjuHUX5HL9dKwAZKKp1xHKX4lQIJ6e06etrULMGih7yS61+d6YlpnPOCf+AAEv9TZmd5TwEwe
- oonSy4aLoCg4zwQRF3Wrb+PAmlz3jrLapEt6eklaoa6t4W7rEa6FpBnZO5YlLzn0vvyJAfiWQK0uS
- 6r+04wDfA8S/4kJpypl+TGZtiAFIVCN45jmmjHOOVwP6/RWoivCXcWlWNHt++4t4lzcMQmgJvTfvO
- ApQitRBA==;
+ bh=QmeuZbhj6lC4GdqAZ3mOlOVzHqfnX+iXpQ+XjcOOq+Y=; b=d1cXjxzKKBdnY22DrVcOvY8alL
+ sfpQ/8NTFP3a9dpohbtQlkQduFk/c5sUqOAFfYz7W4eUbeI7ouLgHGz9g6si1DWS6tAhtFJFCL6jo
+ J1C0qHwUnL3Hkni5JJyaXBG8i4V1lCLEvoUQ3BpfZK+wAfYHdxBEb4pr1mF8cm7c7g324FkNWSgDu
+ WFXi7i85RR7lGkqsH3KxSwJkNQBmhGRCbqYWPA9ju5P3c6hElOGH42E7KpFxxqVdUAuCcEKMXM7V8
+ eifJbrDoDUGye4XBp00gzzdtGJuBgLFpJXYpaLIDll8PpILDZ02WJ0c8fCuPK5WVH/e3YZ5VzAvBi
+ 9A5YDWsQ==;
 Received: from [187.36.213.55] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1t6ul5-000V38-3t; Fri, 01 Nov 2024 17:44:24 +0100
+ id 1t6uxz-000VPu-9o; Fri, 01 Nov 2024 17:57:44 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Jonathan Corbet <corbet@lwn.net>,
  Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
@@ -42,12 +42,10 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  kernel-dev@igalia.com, =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH v4 5/5] mm: huge_memory: Use strscpy() instead of strcpy()
-Date: Fri,  1 Nov 2024 13:38:46 -0300
-Message-ID: <20241101164313.1073238-7-mcanal@igalia.com>
+Subject: [PATCH v5 0/5] mm: add more kernel parameters to control mTHP
+Date: Fri,  1 Nov 2024 13:54:04 -0300
+Message-ID: <20241101165719.1074234-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241101164313.1073238-2-mcanal@igalia.com>
-References: <20241101164313.1073238-2-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -66,40 +64,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace strcpy() with strscpy() in mm/huge_memory.c
+This series introduces four patches related to the kernel parameters
+controlling mTHP and a fifth patch replacing `strcpy()` for `strscpy()`
+in the file `mm/huge_memory.c`.
 
-strcpy() has been deprecated because it is generally unsafe, so help to
-eliminate it from the kernel source.
+The first patch is a straightforward documentation update, correcting
+the format of the kernel parameter ``thp_anon=``.
 
-Link: https://github.com/KSPP/linux/issues/88
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Lance Yang <ioworker0@gmail.com>
----
- mm/huge_memory.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The second, third, and fourth patches focus on controlling THP support for
+shmem via the kernel command line. The second patch introduces a parameter to
+control the global default huge page allocation policy for the internal
+shmem mount. The third patch moves a piece of code to a shared header to ease
+the implementation of the fourth patch. Finally, the fourth patch implements
+a parameter similar to ``thp_anon=``, but for shmem.
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index a6edbd8c4f49..1ebe18ec4560 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -969,7 +969,7 @@ static int __init setup_thp_anon(char *str)
- 
- 	if (!str || strlen(str) + 1 > PAGE_SIZE)
- 		goto err;
--	strcpy(str_dup, str);
-+	strscpy(str_dup, str);
- 
- 	always = huge_anon_orders_always;
- 	madvise = huge_anon_orders_madvise;
-@@ -4167,7 +4167,7 @@ static ssize_t split_huge_pages_write(struct file *file, const char __user *buf,
- 
- 		tok = strsep(&buf, ",");
- 		if (tok) {
--			strcpy(file_path, tok);
-+			strscpy(file_path, tok);
- 		} else {
- 			ret = -EINVAL;
- 			goto out;
+The goal of these changes is to simplify the configuration of systems that
+rely on mTHP support for shmem. For instance, a platform with a GPU that
+benefits from huge pages may want to enable huge pages for shmem. Having
+these kernel parameters streamlines the configuration process and ensures
+consistency across setups.
+
+Let me know your thoughts.
+
+v1 -> v2: https://lore.kernel.org/linux-mm/20241027175743.1056710-1-mcanal@igalia.com/T/
+
+* [1/3] s/fix the format/fix the doc in the commit's subject (Barry Song & David Hildenbrand)
+* [1/3] Add Barry's A-b to PATCH 1/3 (Barry Song)
+* [1/3] s/64KB/64K (David Hildenbrand)
+* [1/3] Add David's A-b to PATCH 1/3 (David Hildenbrand)
+* [2/3] Create the function `shmem_valid_huge()` to reduce code-duplication (Baolin Wang)
+* [3/4] New PATCH: generalize the function `setup_thp_anon()` and add it to common file
+* [4/4] Fix typo in the documentation: s/shmem_anon/thp_shmem (Barry Song)
+* [4/4] Reduce code-duplication (Barry Song)
+
+v2 -> v3: https://lore.kernel.org/linux-mm/20241029002324.1062723-1-mcanal@igalia.com/T/
+
+* [2/4] Apply Wang's suggestion (Baolin Wang)
+* [3/4] Delete PATCH 3/4 from v2 and implement ``thp_shmem=`` just like in v1 (Barry Song)
+* [4/4] New PATCH: "mm: huge_memory: Use strscpy() instead of strcpy()"
+
+v3 -> v4: https://lore.kernel.org/linux-mm/20241030130308.1066299-1-mcanal@igalia.com/T/
+
+* [2/5] Improve commit message by including details about the use of the kernel parameter (Andrew Morton)
+* [2/5] Add Baolin's R-b to PATCH 2/5 (Baolin Wang)
+* [2/5] Add David's R-b to PATCH 2/5 (David Hildenbrand)
+* [3/5] New PATCH: "mm: move ``get_order_from_str()`` to internal.h" (Barry Song & David Hildenbrand)
+* [4/5] Improve commit message by including details about the use of the kernel parameter (Andrew Morton)
+* [5/5] Add Lance's R-b to PATCH 5/5 (Lance Yang)
+
+v4 -> v5: https://lore.kernel.org/linux-mm/20241101164313.1073238-2-mcanal@igalia.com/T/
+
+* [3/5] Don't use personal e-mail address (Maíra Canal)
+
+Best Regards,
+- Maíra
+
+Maíra Canal (5):
+  mm: fix docs for the kernel parameter ``thp_anon=``
+  mm: shmem: control THP support through the kernel command line
+  mm: move ``get_order_from_str()`` to internal.h
+  mm: shmem: override mTHP shmem default with a kernel parameter
+  mm: huge_memory: Use strscpy() instead of strcpy()
+
+ .../admin-guide/kernel-parameters.txt         |  19 +-
+ Documentation/admin-guide/mm/transhuge.rst    |  25 ++-
+ mm/huge_memory.c                              |  42 ++---
+ mm/internal.h                                 |  22 +++
+ mm/shmem.c                                    | 177 +++++++++++++++---
+ 5 files changed, 234 insertions(+), 51 deletions(-)
+
 -- 
 2.46.2
 
