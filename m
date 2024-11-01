@@ -2,63 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AC89B909A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 12:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072079B90B6
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 12:54:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16CF110E9B8;
-	Fri,  1 Nov 2024 11:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 820C410E9A6;
+	Fri,  1 Nov 2024 11:54:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MV2hDc+M";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fyl3yIsK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBC6810E9B8;
- Fri,  1 Nov 2024 11:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730461676; x=1761997676;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=X8S0eKO7OEtk7uEtze88lcEDfJiOg0jgEvrEfL3DSlw=;
- b=MV2hDc+M5zeqihaYuC89a1h5CxyugfRmJo1vAT0jOqhomSH/Pk3fHnep
- Bt4VQXK3tTZpa4gPD4aDKZ7xtLqMhsWGhKO50jNjn77vqiUTqC1mHkg5a
- ugUs1sWwd/vXeUj6sh+QpXoX/4AaSdFsfzs1sJgTdVOkYZMxi67O4dD26
- gUlYb8/QlDBCHStuH3gQtTz6OZvShXd2OUz5nRWImRiKCVuJmyWjAKBOR
- v8k2YCrtt1UMon+bHgjmcP+mfh1mRs1LqeA49iJcyK8yTDgOdD+r7tiys
- hoJ0H4yQC0TNuERPFS+AAmSeVGonS697jnBq4EHYn+6vGKEC2pqWO6k+7 A==;
-X-CSE-ConnectionGUID: AAqS/qFESxKyoK7i76wYbQ==
-X-CSE-MsgGUID: AcCeTGQDS3y6onoiJeMdtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41324558"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="41324558"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2024 04:47:55 -0700
-X-CSE-ConnectionGUID: 59GjTT1xTN2SzKDIjFD+3g==
-X-CSE-MsgGUID: TrgEMChUT5S95L+20ptetA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; d="scan'208";a="82626598"
-Received: from carterle-desk.ger.corp.intel.com (HELO fedora..)
- ([10.245.246.239])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2024 04:47:53 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v12 8/8] drm/xe: Increase the XE_PL_TT watermark
-Date: Fri,  1 Nov 2024 12:47:19 +0100
-Message-ID: <20241101114719.3225-9-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241101114719.3225-1-thomas.hellstrom@linux.intel.com>
-References: <20241101114719.3225-1-thomas.hellstrom@linux.intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 245BD10E9A6
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 11:54:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6D16FA43592;
+ Fri,  1 Nov 2024 11:52:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA1A3C4CECD;
+ Fri,  1 Nov 2024 11:54:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730462086;
+ bh=RKKjaRT+TZqTjTNYJpQRRQla0KpA6rUkiKLNa5Za6jM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Fyl3yIsKzmdaDBfHqMByrFzmiPgh/aFJwAuRsQGSy7+4zPF3jWywWPOAxG0nus5CB
+ LJxMNeegqqs7xYA5fi8NkJh+eO9g2yTw2USFMDhF/PYJSAgxGDkmhPkPNZLu5ZDLDa
+ t7AdNvdn2Jg9M5XUZbR04fsBdsxxPVqdQ7Byw+GjK+UKM2oizoL3Zu9qpxRQp1BzR3
+ CgksJaAM7nKj8PzfhRNlqu/PEgFsKgHpPcUPlxFtp1RIbUJWXq1sbKE0rXdYnzcvQ1
+ uDWVH53Vi/4mSKlryP9ogtRQgTzsBEjGy+JEJIpEWuZ1WEm6ZGUrK/GvsqjIFuSz8t
+ TKmg0tPAHlLjA==
+Date: Fri, 1 Nov 2024 11:54:40 +0000
+From: Will Deacon <will@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
+ linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
+ patches@lists.linux.dev, Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] iommu/io-pgtable-arm: Remove split on unmap behavior
+Message-ID: <20241101115439.GA8518@willie-the-truck>
+References: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
+ <20241024130550.GE30704@willie-the-truck>
+ <20241024134411.GA6956@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241024134411.GA6956@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,43 +63,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The XE_PL_TT watermark was set to 50% of system memory.
-The idea behind that was unclear since the net effect is that
-TT memory will be evicted to TTM_PL_SYSTEM memory if that
-watermark is exceeded, requiring PPGTT rebinds and dma
-remapping. But there is no similar watermark for TTM_PL_1SYSTEM
-memory.
+Hi Jason,
 
-The TTM functionality that tries to swap out system memory to
-shmem objects if a 50% limit of total system memory is reached
-is orthogonal to this, and with the shrinker added, it's no
-longer in effect.
+On Thu, Oct 24, 2024 at 10:44:11AM -0300, Jason Gunthorpe wrote:
+> On Thu, Oct 24, 2024 at 02:05:53PM +0100, Will Deacon wrote:
+> 
+> > My recollection is hazy, but I seem to remember VFIO using the largest
+> > page sizes in the IOMMU 'pgsize_bitmap' for map() requests but then
+> > using the smallest page size for unmap() requests, so you'd end up
+> > cracking block mappings when tearing down a VM with assigne devices.
+> >
+> > Is this what you're referring to when you say?
+> 
+> Sounds like it, but I'm really hazy on the long ago history here.
+> 
+> >   > Long ago VFIO could trigger a path like this, today I know of no user of
+> >   > this functionality.
+> > 
+> > If so, please can you provide a reference to the patch that moved VFIO
+> > off that problematic behaviour?
+> 
+> Looking more deeply, I'm not really sure VFIO ever required this.
+> 
+> vfio commit 166fd7d94afd ("vfio: hugepage support for
+> vfio_iommu_type1") is the thing that added the huge page support, and
+> it called map like:
+> 
+> +               ret = iommu_map(iommu->domain, iova,
+> +                               (phys_addr_t)pfn << PAGE_SHIFT,
+> +                               npage << PAGE_SHIFT, prot);
+> 
+> But then the unmap path still looked like:
+> 
+> +               unmapped = iommu_unmap(iommu->domain, iova, PAGE_SIZE);
+> +               unlocked += vfio_unpin_pages(phys >> PAGE_SHIFT,
+> +                                            unmapped >> PAGE_SHIFT,
+> +                                            dma->prot, false);
+> 
+> So at that time it was relying on the "unmap smaller gives the larger
+> size" trick that we see Intel and AMD implementing today. No
+> requirement for split, but the ARM split code could be triggered.
 
-Replace the 50% TTM_PL_TT limit with a 100% limit, in effect
-allowing all graphics memory to be bound to the device unless it
-has been swapped out by the shrinker.
+Urgh, I'm not sure I was ever fully aware of that "trick". That's really
+horrible!
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_ttm_sys_mgr.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+> Next came the introduction of VFIO_TYPE1v2_IOMMU which eliminated the
+> ability for userspace to request splitting a mapping. Userspace can
+> only unmap what userspace maps. commit 1ef3e2bc0422
+> ("vfio/iommu_type1: Multi-IOMMU domain support")
+> 
+>     To do this, our DMA tracking needs to change.  We currently try to
+>     coalesce user mappings into as few tracking entries as possible.  The
+>     problem then becomes that we lose granularity of user mappings.  We've
+>     never guaranteed that a user is able to unmap at a finer granularity
+>     than the original mapping, but we must honor the granularity of the
+>     original mapping.  This coalescing code is therefore removed, allowing
+>     only unmaps covering complete maps.  The change in accounting is
+>     fairly small here, a typical QEMU VM will start out with roughly a
+>     dozen entries, so it's arguable if this coalescing was ever needed.
+> 
+> That blocked any requirement for splitting driven by the uAPI. Noting
+> uAPI based splitting never worked right and AFAICT AMD didn't
+> implement split at the time.
+> 
+> Finally, commit 6fe1010d6d9c ("vfio/type1: DMA unmap chunking")
+> changed the unmap loop to this:
+> 
+> -               unmapped = iommu_unmap(domain->domain, iova, PAGE_SIZE);
+> +               /*
+> +                * To optimize for fewer iommu_unmap() calls, each of which
+> +                * may require hardware cache flushing, try to find the
+> +                * largest contiguous physical memory chunk to unmap.
+> +                */
+> +               for (len = PAGE_SIZE;
+> +                    !domain->fgsp && iova + len < end; len += PAGE_SIZE) {
+> +                       next = iommu_iova_to_phys(domain->domain, iova + len);
+> +                       if (next != phys + len)
+> +                               break;
+> +               }
+> +
+> +               unmapped = iommu_unmap(domain->domain, iova, len);
+> 
+> fgsp=true is only possible on AMD, and this loop effectively
+> guarantees that the iommu driver will never see a partial huge page
+> unmap as the size is discovered via iommu_iova_to_phys() before
+> calling unmap.
 
-diff --git a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-index 9844a8edbfe1..d38b91872da3 100644
---- a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-+++ b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
-@@ -108,9 +108,8 @@ int xe_ttm_sys_mgr_init(struct xe_device *xe)
- 	u64 gtt_size;
- 
- 	si_meminfo(&si);
-+	/* Potentially restrict amount of TT memory here. */
- 	gtt_size = (u64)si.totalram * si.mem_unit;
--	/* TTM limits allocation of all TTM devices by 50% of system memory */
--	gtt_size /= 2;
- 
- 	man->use_tt = true;
- 	man->func = &xe_ttm_sys_mgr_func;
--- 
-2.46.2
+Talking to Robin, he reminded me of:
 
+7c6d90e2bb1a ("iommu/io-pgtable-arm: Fix iova_to_phys for block entries")
+
+which looks like it fixes a bug which would've defeated the VFIO chunking
+in your snippet above.
+
+But we're all good now, so I'm in favour of dropping this. Let's just
+cram some of this history into the commit message so we know why we're
+happy to do so.
+
+Lemme go look at the actual diff now...
+
+Cheers,
+
+Will
