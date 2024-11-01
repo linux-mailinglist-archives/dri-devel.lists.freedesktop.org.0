@@ -2,54 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A712E9B91F0
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 14:24:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6B29B922E
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 14:40:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3701710E2D7;
-	Fri,  1 Nov 2024 13:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB9F10E2DB;
+	Fri,  1 Nov 2024 13:40:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BW90yfi5";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="JbBiIhfy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52BDC10E2D7
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 13:24:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B4E7FA4372A;
- Fri,  1 Nov 2024 13:22:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CF1CC4CECD;
- Fri,  1 Nov 2024 13:24:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730467485;
- bh=kOPe53k3pne06Tgy9gvWlTsoJZ6eLug2mHwnHOd1KC0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BW90yfi5VjHVGsx+qjjfpfbR/939M3+2W+t0zwt7buqUP0Ccd6n/ZHArIRu07gRUI
- lN2TYl8hLpIZhdF5gmFUJ8gPtUQtFP5eHsdkLYLDJTjjNz7XqK5sfH3kSvLQHi6XY3
- ybIQpcfOzWwcNotk2dPw3bXLhIj9nbjtzJyknYpsLYT5OQA1u4qzGAMLoyTV947myL
- i1fA4ZYvxsxI2pD3UV2OO1SIutLgjPMlniZLu5IfzQpiR/FIyeClkqcZXR1lCmXF0Z
- PQZYpDVod+b1gv4IwWE8eCl3GWFNH2gU4K8hBqt4ztmnB38yilZdEkxkGV0S5eF1Fk
- IZuRbRBhe8aAQ==
-Date: Fri, 1 Nov 2024 14:24:37 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Ian Rogers <irogers@google.com>
-Cc: "G . Branden Robinson" <g.branden.robinson@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-Message-ID: <20241101132437.ahn7xdgvmqamatce@devuan>
-References: <20241015211719.1152862-1-irogers@google.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="rrjrdqy252cemugf"
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2075.outbound.protection.outlook.com [40.107.243.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A94FB10E2DB
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 13:40:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JCk04U1dN/AMsIn0sYHHgpiScHb7rdayPuPA6qo1wC/likW9uObFXsqpaffqS8Dlinn/K2sRHo/ol8FRgXLm+HDdfsEjlVLR9CSIF06wa60eMH2chGXPTJcU+Q/w+wYkPYEC31rWHHdyBUkjxvmdVLs25bbDmtweuWES2seWOloTxtPgvow03OzeIZ3FRspiC0wgMhLEv1KW3uuN5JuH13TrXn91y8EseU+zOblLGKMng2JgepR/F5l82ooKvMb/VK+J2bGJXlyfIAx6oiJH5UlOjRzHNHXUbybyz3kIddRwpSjvjw+X7gflZee5WkqOCIRVGWJdiLEFhn1Hc2w8ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sbJldVtD0UTzSyeSORjqKJs5VMu/WuEyrg6iefWHtGA=;
+ b=D0bPlioV+BWJWN0ysFJAvrZeuuh23/l8blTRbyFm9c7c7WhzMsHSe5ahNkPNympGSoj4a0xwyuFAzVq+wDjRKQgpvzacznkBA5mC+3vzoW9tp0N6qDBOlhY0g+/XlCFVmOBVE68v4cmIRhG/G3M4E3maHU+5LhRtYu25pdnStz/25neDMDQhjW0NKuF2OM9b0JnLspHfJLMfUPzOafbwNE/BQpJ/j8xpffZ4//UxRjgoTTPLnWxh3o1Ou36OmZ+fD/zRXVEG/2dFEmp3UvC3Vk7OwAUCZIuzuz2n5u9SYZSS7r34F8+XHD9XseEccGiTzhharLK3fEJ5Ga4Z97/HMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sbJldVtD0UTzSyeSORjqKJs5VMu/WuEyrg6iefWHtGA=;
+ b=JbBiIhfyAgrKLb5/0WFgmPzRF/beRlJUXM43/HFe6wWWBdMarQatAXeOmywPClwuRdvqJvubJKyuZfx5dy/M2YG4yQsgkd/hqKcMi9n1bhRMBh+yrO17E+icc6Ijuf6JH6/jaNejSXDywZF3vmeQ7/Fwt22Ibli5JxH+iyvq83EAiWc8sfV4Zrd2Y9vFbP6moUhGXrJTAF3eWnLd5L8Yt99Qmdr/Ofhd5gaDu2WEfJvhaaOnvBEEL2xA9K3dBcOS3YoDR0ZeS1qgw7TYgIev57DzS/WuAI8/sHl44GGHXWP6bfv3+tq7DDQFybM6upgG0TSFERnrpf8xOes64iiAdA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by SA1PR12MB8966.namprd12.prod.outlook.com (2603:10b6:806:385::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.34; Fri, 1 Nov
+ 2024 13:40:07 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8093.018; Fri, 1 Nov 2024
+ 13:40:06 +0000
+Date: Fri, 1 Nov 2024 10:40:05 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
+ patches@lists.linux.dev, Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] iommu/io-pgtable-arm: Remove split on unmap behavior
+Message-ID: <20241101134005.GA109739@nvidia.com>
+References: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241015211719.1152862-1-irogers@google.com>
+In-Reply-To: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
+X-ClientProxiedBy: BL1PR13CA0328.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::33) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SA1PR12MB8966:EE_
+X-MS-Office365-Filtering-Correlation-Id: ddd6f1c8-1e8e-47f7-57bb-08dcfa7ab272
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0m4XCnAEM/N+uOP8lHPjlwMHEMTqiRKZrAnv/4zOlKgqL+aMqevcfO0/i5Fi?=
+ =?us-ascii?Q?uEer524X4mr3kHOKy5ZnJWaXE4jQDRA0hmYwPPJ56JTdiL1vwgCLrkjXZ0bT?=
+ =?us-ascii?Q?QW41Qu5KCMfUgHYtRVB3nQOKKX51Kfj82RJXUI4Dl6RuBfUePX2XBjsoSLoP?=
+ =?us-ascii?Q?n9HowyQih7Q+l6TecFM27z7ddKndEeVDxe4xsYQTM8GcLHlMQUOx9u2ldFMd?=
+ =?us-ascii?Q?w9WKrEiFbKCjVOJCSRlwHpD4X1Pky7xTn8FNpW+OGjYTBbrD17Ow7+q2YvS7?=
+ =?us-ascii?Q?ocwHOOrS490y9awueEaibI+uuswbKVBbdMtokoiBlps7+A/TpMk92mZ0cfE8?=
+ =?us-ascii?Q?T35FLCl70s7RjUEHYvkAzDajEUuYUqvzOlHhC120r/JAuzogzUur0elgV4sr?=
+ =?us-ascii?Q?DPj+LPUXhFyAp3jBPBeMbzHhrHpqu//Amh3ZZ5HZ7hT9a/y3hXg3sCB+QnhX?=
+ =?us-ascii?Q?5DNPryDQMSOfdidzjSP4JTeO7xHgHpVowh0fRkVS5vHWyZQ2YERhxAhfUawx?=
+ =?us-ascii?Q?a8P+OT44WnfCP8bq72Q/VBsiQqylW8PAuyIeY3xOlxnZnZLnFpU0EGCxz4kx?=
+ =?us-ascii?Q?cIADYAfhTfq+M5NLYcDHxPIaqLrLRaKaKSFIvm5VWYEWUPXhtYPi4VOdtUJE?=
+ =?us-ascii?Q?44oh6+q9ZI3TxFJnrZKT0vbKQ3iRzawEFtdRC6Fw63Uo1MYNl9UFek+Xz7lU?=
+ =?us-ascii?Q?VWNLljAAXOirkw4HVIsAmVqC8hnC8IleMtZzVY/L8F3MZ3ja8HUlwmkANssk?=
+ =?us-ascii?Q?elR34BAi4sPwP7gXpLiqJvb3oxDi+HwsCVFAO0oQtzOpTKqa8K1jVNoyx/QV?=
+ =?us-ascii?Q?F4jXU8ZHg7m1dxzHRZ7iKz5uDNzygwb4RLsvR9c902KXuyto4TIKl798YuR2?=
+ =?us-ascii?Q?SLkHfKYc7KdJG5e3IeAGbNhE4+pYtDrbZMw7AsEE4RnpnNtZJZK7XkBV+Uhw?=
+ =?us-ascii?Q?Po26OQBoFSiH2izj14vPFi1SCJUVBXSkffynbKHwJAXnF0PknBzCyzlFc7w8?=
+ =?us-ascii?Q?Yvb9zqOOmLou8QC3F1Qs60GKcoBvoOHbJTAD5q5dFKgmLHTHshgyAQO1+cw6?=
+ =?us-ascii?Q?oz97eNSDiL0DPuOSq+CFDFKvzCUnNvKHBkcf8M6/Wu1Zc1naQB/ITSCR3OC9?=
+ =?us-ascii?Q?8X4EVWdHG7F8QlPpY/C7QJaIQYv32xaMcBtEhi3Z91IGhnv4t+DNFDPpZFxs?=
+ =?us-ascii?Q?zaYGxgcWqajzfBVjqFyBn2qsOo5LNYIgvZxGoukMwAjqS7ZXYXuOlxXB/y0j?=
+ =?us-ascii?Q?P1mDOLiKLSk6gqGa2lFTra+hWr2uPvw8EI1FCJL+izPyB34vBLU6uXRLhEcp?=
+ =?us-ascii?Q?5vbMPqHkB5b3HGPKKke6ARXS?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?B9/DZtcTEDxRabtA683QF/PiXPSSyxIyMRGtwNCPHGT/ds65s5Cmw7xFHbd9?=
+ =?us-ascii?Q?n5v+MDlOZXWxgU7rYOFtr3IXo0VhnwbKdNVt/pdOMTggSSWqDIgLV7m2wl5o?=
+ =?us-ascii?Q?V+IryL51/0PTYOM5gu5u3BZBwRwa/1EcUYnzUl60L6EGn32MuV8KqvnjRduF?=
+ =?us-ascii?Q?hPQ0a3GPKUj6NxdFZ7xdKLd8JXLU2iSml9ZFoWhwFoeqZ1kkfkzQBITGqwwR?=
+ =?us-ascii?Q?bbzTy4L7ixTNrvf4+yvQuG9KBTuEODijQsS36xbEnXQA2Kc9Qj7I/Qx9rSKo?=
+ =?us-ascii?Q?MtuQv/+hzRheMy9+9tbQfA4T1hRrA8IyEBtVgG+JcasxK5dIySAt2IvIYHU0?=
+ =?us-ascii?Q?eLiSl7Rq9lh0C8sj/ikAorfGKUcsnhK99z7srJD058thv13PKIArgwMSS0ms?=
+ =?us-ascii?Q?n7iMw/8q+8i4NL+pGwNDkNaKu08Ts9zw+Nb05GRSWsoD66n/BcI41XNwrB/z?=
+ =?us-ascii?Q?hiImd15wRl9dt61ZxB237hXNykQV5ohldqGfTtyEv7sF7ZvNxm7cZK/zl19a?=
+ =?us-ascii?Q?zbGsOb+tWkSsl4pwYbMn5vqkGM/N2XX6KZ3XVUEbhbBUsMHVvxSYQiTNVAdG?=
+ =?us-ascii?Q?n/9hibkdzDmZc5J6zajz/oIscft0rvsZ7e/mmZW8DhE0TJm0wfM4tnvezQpD?=
+ =?us-ascii?Q?RYL98QxfoGClbjltKsjzF1pph50G/0nIaM0iHUg87Wvm1WaFwE8A6kW5o1tU?=
+ =?us-ascii?Q?xDr2py9aWtD09DrOyHC8WrCUeumJXiOo9FAmFgBbq+9MLRhi0STmkTxLvEHX?=
+ =?us-ascii?Q?3VymoXEryfrcmEIN6gfwL59tu88IPDHpttXDoGGkUPH3Sgtb1MtG3pzeapoQ?=
+ =?us-ascii?Q?Zin1eVnfjsv3O/xZt6Dto5YFHxvq0qBdP6NObZE4hC0nWnP0h4iUJGhyFt6E?=
+ =?us-ascii?Q?OLABRCir48HpJLUgXG7/VKEqp1ol/mzXsahkoqmU+fPCrTRHoYQQDzBbef2b?=
+ =?us-ascii?Q?+GgmHLtEXpfUSytvRoIrc0vmwpkRUGmwqpLGoRTDUGzxOGJBBqf+Cos9k19l?=
+ =?us-ascii?Q?iR2xNXkMzTwQo2p+qqFxB85mpf2nIg36XK4vb6+jrP9JUcHes4zcE3ISqt54?=
+ =?us-ascii?Q?8wjF6qDv8addgcY6REbHdHWdvcQpdHVCo5Z1DCtPuKxLdtB/fk26Fkll7vWc?=
+ =?us-ascii?Q?VHvkB+NTTMuGo9ELVucqpeu3fXCG7yBJZ3ZvuMY+/G1cd3Rpc7WYhvg7xiDA?=
+ =?us-ascii?Q?I1yimU+BN/W44tCAr64eer2hu5HZYN65cNKybsg9g2K89LoLtebmcYTeg09P?=
+ =?us-ascii?Q?2WMKfh0R9yCtr4i+1D3VtA5EMnSC933FqCefl94nCrUmytzajD51797qzRq8?=
+ =?us-ascii?Q?J8OvJJEsSyyVxHhtg+RZS5+CXBFsQ+1cH79uQaJu6lnM0aA9nIXesS84PR3g?=
+ =?us-ascii?Q?9a1N9HNSMFRth8d/Jw+LBzcLVs2kcEVwZaCnMuTxdj4zeZtfUMvCa8Y5wBMP?=
+ =?us-ascii?Q?Fj1tz0wS062sxt+d6yvqIEkp5Vowv7/Dr0xF3fevMmKVB5jtTqSSLS0rSgeh?=
+ =?us-ascii?Q?vowN9IJlWIBEBBqdN1+OmurdrZuNlUBSc+XK+h6sZsntOkHedcd3zhPtIYWk?=
+ =?us-ascii?Q?Mlj9K3Q28hXbrAHnnrI7/7FTMyRtYuLgeSwemgqJ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ddd6f1c8-1e8e-47f7-57bb-08dcfa7ab272
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2024 13:40:06.8271 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FBg4gAtWIwdV0rWRJ8aqJ9V/OztHRpBjVvrlIt0LbD/RS3sMw69WYnEQmaP6LoEx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8966
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,290 +145,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---rrjrdqy252cemugf
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-MIME-Version: 1.0
-
-On Tue, Oct 15, 2024 at 02:17:17PM -0700, Ian Rogers wrote:
-> When /proc/pid/fdinfo was part of proc.5 man page the indentation made
-> sense. As a standalone man page the indentation doesn't need to be so
-> far over to the right. Remove the initial tagged pragraph and move the
-> styling to the initial summary description.
->=20
-> Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
-> Signed-off-by: Ian Rogers <irogers@google.com>
+On Fri, Oct 18, 2024 at 02:19:26PM -0300, Jason Gunthorpe wrote:
+> Of the page table implementations (AMD v1/2, VT-D SS, ARM32, DART)
+> arm_lpae is unique in how it handles partial unmap of large IOPTEs.
+> 
+> All other drivers will unmap the large IOPTE and return it's length.  For
+> example if a 2M IOPTE is present and the first 4K is requested to be
+> unmapped then unmap will remove the whole 2M and report 2M as the result.
+> 
+> arm_lpae instead replaces the IOPTE with a table of smaller IOPTEs, unmaps
+> the 4K and returns 4k. This is actually an illegal/non-hitless operation
+> on at least SMMUv3 because of the BBM level 0 rules.
+> 
+> Long ago VFIO could trigger a path like this, today I know of no user of
+> this functionality.
+> 
+> Given it doesn't work fully correctly on SMMUv3 and would create
+> portability problems if any user depends on it, remove the unique support
+> in arm_lpae and align with the expected iommu interface.
+> 
+> Outside the iommu users, this will potentially effect io_pgtable users of
+> ARM_32_LPAE_S1, ARM_32_LPAE_S2, ARM_64_LPAE_S1, ARM_64_LPAE_S2, and
+> ARM_MALI_LPAE formats.
+> 
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  man/man5/proc_pid_fdinfo.5 | 66 ++++++++++++++++++--------------------
->  1 file changed, 32 insertions(+), 34 deletions(-)
->=20
-> diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-> index 1e23bbe02..8678caf4a 100644
-> --- a/man/man5/proc_pid_fdinfo.5
-> +++ b/man/man5/proc_pid_fdinfo.5
-> @@ -6,20 +6,19 @@
->  .\"
->  .TH proc_pid_fdinfo 5 (date) "Linux man-pages (unreleased)"
->  .SH NAME
-> -/proc/pid/fdinfo/ \- information about file descriptors
-> +.IR /proc/ pid /fdinfo " \- information about file descriptors"
+>  drivers/iommu/io-pgtable-arm.c | 72 +++-------------------------------
+>  1 file changed, 6 insertions(+), 66 deletions(-)
 
-I wouldn't add formatting here for now.  That's something I prefer to be
-cautious about, and if we do it, we should do it in a separate commit.
+Updated commit message - Will let me know if you want me to resend
+with this, or any changes:
 
->  .SH DESCRIPTION
-> -.TP
-> -.IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
-> -This is a subdirectory containing one entry for each file which the
-> -process has open, named by its file descriptor.
-> -The files in this directory are readable only by the owner of the proces=
-s.
-> -The contents of each file can be read to obtain information
-> -about the corresponding file descriptor.
-> -The content depends on the type of file referred to by the
-> -corresponding file descriptor.
-> -.IP
-> +Since Linux 2.6.22,
+iommu/io-pgtable-arm: Remove split on unmap behavior
 
-You could move this information to a HISTORY section.
+A minority of page table implementations (arm_lpae, armv7) are unique in
+how they handle partial unmap of large IOPTEs.
 
-> +this subdirectory contains one entry for each file that process
-> +.I pid
-> +has open, named by its file descriptor.  The files in this directory
+Other implementations will unmap the large IOPTE and return it's
+length. For example if a 2M IOPTE is present and the first 4K is requested
+to be unmapped then unmap will remove the whole 2M and report 2M as the
+result.
 
-Please don't reflow existing text.  Please read about semantic newlines
-in man-pages(7):
+arm_lpae instead replaces the IOPTE with a table of smaller IOPTEs, unmaps
+the 4K and returns 4k. This is actually an illegal/non-hitless operation
+on at least SMMUv3 because of the BBM level 0 rules.
 
-$ MANWIDTH=3D72 man man-pages | sed -n '/Use semantic newlines/,/^$/p'
-   Use semantic newlines
-     In  the  source of a manual page, new sentences should be started
-     on new lines, long sentences should be split into lines at clause
-     breaks (commas, semicolons, colons, and so on), and long  clauses
-     should be split at phrase boundaries.  This convention, sometimes
-     known  as  "semantic newlines", makes it easier to see the effect
-     of patches, which often operate at the level of  individual  sen=E2=80=
-=90
-     tences, clauses, or phrases.
+Will says this was done to support VFIO, but upon deeper analysis this was
+never strictly necessary:
 
-Have a lovely day!
-Alex
+ https://lore.kernel.org/all/20241024134411.GA6956@nvidia.com/
 
-> +are readable only by the owner of the process.  The contents of each
-> +file can be read to obtain information about the corresponding file
-> +descriptor.  The content depends on the type of file referred to by
-> +the corresponding file descriptor.
-> +.P
->  For regular files and directories, we see something like:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  .RB "$" " cat /proc/12015/fdinfo/4"
-> @@ -28,7 +27,7 @@ flags:  01002002
->  mnt_id: 21
->  .EE
->  .in
-> -.IP
-> +.P
->  The fields are as follows:
->  .RS
->  .TP
-> @@ -51,7 +50,6 @@ this field incorrectly displayed the setting of
->  at the time the file was opened,
->  rather than the current setting of the close-on-exec flag.
->  .TP
-> -.I
->  .I mnt_id
->  This field, present since Linux 3.15,
->  .\" commit 49d063cb353265c3af701bab215ac438ca7df36d
-> @@ -59,13 +57,13 @@ is the ID of the mount containing this file.
->  See the description of
->  .IR /proc/ pid /mountinfo .
->  .RE
-> -.IP
-> +.P
->  For eventfd file descriptors (see
->  .BR eventfd (2)),
->  we see (since Linux 3.8)
->  .\" commit cbac5542d48127b546a23d816380a7926eee1c25
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:	0
-> @@ -74,16 +72,16 @@ mnt_id:	10
->  eventfd\-count:               40
->  .EE
->  .in
-> -.IP
-> +.P
->  .I eventfd\-count
->  is the current value of the eventfd counter, in hexadecimal.
-> -.IP
-> +.P
->  For epoll file descriptors (see
->  .BR epoll (7)),
->  we see (since Linux 3.8)
->  .\" commit 138d22b58696c506799f8de759804083ff9effae
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:	0
-> @@ -93,7 +91,7 @@ tfd:        9 events:       19 data: 74253d2500000009
->  tfd:        7 events:       19 data: 74253d2500000007
->  .EE
->  .in
-> -.IP
-> +.P
->  Each of the lines beginning
->  .I tfd
->  describes one of the file descriptors being monitored via
-> @@ -110,13 +108,13 @@ descriptor.
->  The
->  .I data
->  field is the data value associated with this file descriptor.
-> -.IP
-> +.P
->  For signalfd file descriptors (see
->  .BR signalfd (2)),
->  we see (since Linux 3.8)
->  .\" commit 138d22b58696c506799f8de759804083ff9effae
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:	0
-> @@ -125,7 +123,7 @@ mnt_id:	10
->  sigmask:	0000000000000006
->  .EE
->  .in
-> -.IP
-> +.P
->  .I sigmask
->  is the hexadecimal mask of signals that are accepted via this
->  signalfd file descriptor.
-> @@ -135,12 +133,12 @@ and
->  .BR SIGQUIT ;
->  see
->  .BR signal (7).)
-> -.IP
-> +.P
->  For inotify file descriptors (see
->  .BR inotify (7)),
->  we see (since Linux 3.8)
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:	0
-> @@ -150,7 +148,7 @@ inotify wd:2 ino:7ef82a sdev:800001 mask:800afff igno=
-red_mask:0 fhandle\-bytes:8
->  inotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandle\=
--bytes:8 fhandle\-type:1 f_handle:27261900802dfd73
->  .EE
->  .in
-> -.IP
-> +.P
->  Each of the lines beginning with "inotify" displays information about
->  one file or directory that is being monitored.
->  The fields in this line are as follows:
-> @@ -168,19 +166,19 @@ The ID of the device where the target file resides =
-(in hexadecimal).
->  .I mask
->  The mask of events being monitored for the target file (in hexadecimal).
->  .RE
-> -.IP
-> +.P
->  If the kernel was built with exportfs support, the path to the target
->  file is exposed as a file handle, via three hexadecimal fields:
->  .IR fhandle\-bytes ,
->  .IR fhandle\-type ,
->  and
->  .IR f_handle .
-> -.IP
-> +.P
->  For fanotify file descriptors (see
->  .BR fanotify (7)),
->  we see (since Linux 3.8)
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:	0
-> @@ -190,7 +188,7 @@ fanotify flags:0 event\-flags:88002
->  fanotify ino:19264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle\-=
-bytes:8 fhandle\-type:1 f_handle:4f261900a82dfd73
->  .EE
->  .in
-> -.IP
-> +.P
->  The fourth line displays information defined when the fanotify group
->  was created via
->  .BR fanotify_init (2):
-> @@ -210,7 +208,7 @@ argument given to
->  .BR fanotify_init (2)
->  (expressed in hexadecimal).
->  .RE
-> -.IP
-> +.P
->  Each additional line shown in the file contains information
->  about one of the marks in the fanotify group.
->  Most of these fields are as for inotify, except:
-> @@ -228,16 +226,16 @@ The events mask for this mark
->  The mask of events that are ignored for this mark
->  (expressed in hexadecimal).
->  .RE
-> -.IP
-> +.P
->  For details on these fields, see
->  .BR fanotify_mark (2).
-> -.IP
-> +.P
->  For timerfd file descriptors (see
->  .BR timerfd (2)),
->  we see (since Linux 3.17)
->  .\" commit af9c4957cf212ad9cf0bee34c95cb11de5426e85
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:    0
-> --=20
-> 2.47.0.rc1.288.g06298d1525-goog
->=20
+In summary, historical VFIO supported the AMD behavior of unmapping the
+whole large IOPTE and returning the size, even if asked to unmap a
+portion. The driver would see this as a request to split a large IOPTE.
+Modern VFIO always unmaps entire large IOPTEs (except on AMD) and drivers
+don't see an IOPTE split.
 
---=20
-<https://www.alejandro-colomar.es/>
+Given it doesn't work fully correctly on SMMUv3 and relying on ARM unique
+behavior would create portability problems across IOMMU drivers, retire
+this functionality.
 
---rrjrdqy252cemugf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmck1pUACgkQnowa+77/
-2zI8FQ/8D9EPYu4wju/TAVHgaKGIEfcv/qsDaMh52KMkW/6Lkj81laXLzfEk5zPw
-yMYKELHyhvNZe8ZjL94BKFRmX1wE4MJBtMy/a8FVwIGdsY3+Odla55NMWlj6pk9Z
-OH3c3QaSP9US1OdSoXf61bt3v6nwL3pyUtoCm5ZMGRmCIOy4rLZnWhfAwBexL0jE
-/EM56KjB0aENn8wLOtgz+vNuPVrXQHMIQ9b/+p3Ymu1gPi8Jpou2Cmzk3smnYnQi
-B0sgaAkVXnUJwhmCH7hwzuVXrKkHzOMbVrfgJzU7ONOXPJyn7LBdMF2oR9/BzpcG
-Jgn2UJ7n+hffD35M10MzdW5HFgPo/NTdWEp4SCaZE0u2Lg2PUJUl3nnsmFm56Jqb
-VNqdF9aMdYT/WNJhZY/QpDjkZwXeo3xd4uLWaxImzx3IYkQMsiQ178hNKPYu3j/V
-qG8AhgHnyHTGUBDGKZazKB+sZgXKLyfORuFE0KqvJi34ZzCxZ/tPX5szJYyd5iR5
-O0HUDeCrwmFRnxFqlGnJD43uuVrPq/tVoMN8xTVbRRoKmTlidhZHUaz5+jOjjRBI
-s1p4fppcGF3aFTeslQsT3umhKtE8U1xYOqYdk96JpVsznjU/je073TQeiT2eaMSH
-YecF07tEWELQiWbr79B/hQ+1Doi8vhseJPb15kl7OuXTzNfUZqQ=
-=KPYY
------END PGP SIGNATURE-----
-
---rrjrdqy252cemugf--
+Outside the iommu users, this will potentially effect io_pgtable users of
+ARM_32_LPAE_S1, ARM_32_LPAE_S2, ARM_64_LPAE_S1, ARM_64_LPAE_S2, and
+ARM_MALI_LPAE formats.
