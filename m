@@ -2,47 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA469B8FD0
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 11:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E309B8FDD
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 11:59:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9F9E10E99D;
-	Fri,  1 Nov 2024 10:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17FAB10E99F;
+	Fri,  1 Nov 2024 10:59:55 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X3OoCmMC";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D7D10E99D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 10:55:54 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.162.254])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XfyQ64rGQzdkdZ;
- Fri,  1 Nov 2024 18:53:18 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 372D91800F2;
- Fri,  1 Nov 2024 18:55:53 +0800 (CST)
-Received: from localhost.huawei.com (10.169.71.169) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Fri, 1 Nov 2024 18:55:51 +0800
-From: Yongbang Shi <shiyongbang@huawei.com>
-To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>
-CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
- <lidongming5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH V3 drm-dp 4/4] drm/hisilicon/hibmc: add dp module in hibmc
-Date: Fri, 1 Nov 2024 18:50:28 +0800
-Message-ID: <20241101105028.2177274-5-shiyongbang@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20241101105028.2177274-1-shiyongbang@huawei.com>
-References: <20241101105028.2177274-1-shiyongbang@huawei.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33EE210E99F
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 10:59:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730458794; x=1761994794;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=ue70Ww36EcBDEZaGYurD6rsjfoEbrn4L9zEF9CmzN+A=;
+ b=X3OoCmMCw6rPyNlaRp01QQB9vEYTO8kUp+ec3HEMTyQF9KuLrfWEIShp
+ 3y8qV6/Ux6trmd9ve9HFOQYqwAKr1cOULSmHs+azvER05yqvxGCn2N6zf
+ q9OPEO56VYHW7do8eIIXrT7A8OWeRT51Cat+F3wzLuPDEP3e6nv6CKGuY
+ +Vs0ZsMPLwdkmMhEz1KGUqXaAZdfOOfd85xaP709lE6DSd1Vv6A0y3sQr
+ LqxqpKvUTeZEC/9WljOkFHOxKZoF85KHJKj2e8FQLQv158HhfhiMFMLn2
+ L9vUV7whfjbRVtG4j9Ytj93DjN8nJ+78HBUy3t5RHzyS2FS/AFI6rOp9v A==;
+X-CSE-ConnectionGUID: u+c2nZ4wRkqyuwrdT+EM/w==
+X-CSE-MsgGUID: CbNqJGq3S8umHHt+8jjC8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="29651783"
+X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; d="scan'208";a="29651783"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2024 03:59:53 -0700
+X-CSE-ConnectionGUID: 6ur4aUqYSmO1fR4NBhLZlw==
+X-CSE-MsgGUID: tT97F7GiSFm1AAgVezXLiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; d="scan'208";a="83365995"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.234])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2024 03:59:41 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Phong LE <ple@baylibre.com>, Inki Dae
+ <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
+ Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Russell King
+ <linux@armlinux.org.uk>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?=
+ <heiko@sntech.de>, Andy
+ Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH RFC v2 6/7] drm/display/hdmi: implement connector update
+ functions
+In-Reply-To: <20241101-drm-bridge-hdmi-connector-v2-6-739ef9addf9e@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241101-drm-bridge-hdmi-connector-v2-0-739ef9addf9e@linaro.org>
+ <20241101-drm-bridge-hdmi-connector-v2-6-739ef9addf9e@linaro.org>
+Date: Fri, 01 Nov 2024 12:59:38 +0200
+Message-ID: <871pzvjk2t.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.169.71.169]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,406 +91,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: baihan li <libaihan@huawei.com>
+On Fri, 01 Nov 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> The HDMI Connectors need to perform a variety of tasks when the HDMI
+> connector state changes. Such tasks include setting or invalidating CEC
+> address, notifying HDMI codec driver, updating scrambler data, etc.
+>
+> Implementing such tasks in a driver-specific callbacks is error prone.
+> Start implementing the generic helper function (currently handling only
+> the HDMI Codec framework) to be used by driver utilizing HDMI Connector
+> framework.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 56 +++++++++++++++++++++++++
+>  include/drm/display/drm_hdmi_state_helper.h     |  4 ++
+>  2 files changed, 60 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> index feb7a3a759811aed70c679be8704072093e2a79b..dc9d0cc162b2197dcbadda26686a9c5652e74107 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -748,3 +748,59 @@ drm_atomic_helper_connector_hdmi_clear_audio_infoframe(struct drm_connector *con
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_clear_audio_infoframe);
+> +
+> +/**
+> + * __drm_atomic_helper_connector_hdmi_update_edid - Update the HDMI Connector basing on passed EDID
+> + * @connector: A pointer to the HDMI connector
+> + * @drm_edid: EDID to process
+> + *
+> + * This function should be called as a part of the .detect() / .detect_ctx()
+> + * and .force() callbacks, updating the HDMI-specific connector's data. The
+> + * function consumes passed EDID, there is no need to free it afterwards. Most
+> + * of the drivers should be able to use
+> + * @drm_atomic_helper_connector_hdmi_update() instead.
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int
+> +__drm_atomic_helper_connector_hdmi_update_edid(struct drm_connector *connector,
+> +					       const struct drm_edid *drm_edid)
+> +{
+> +	drm_edid_connector_update(connector, drm_edid);
+> +	drm_edid_free(drm_edid);
 
-To support DP interface displaying in hibmc driver. Add
-a encoder and connector for DP modual.
+Not fond of splitting resource management responsibilities
+asymmetrically like this.
 
-Signed-off-by: baihan li <libaihan@huawei.com>
-Signed-off-by: yongbang shi <shiyongbang@huawei.com>
----
-ChangeLog:
-v2 -> v3:
-  - fix build errors reported by kernel test robot <lkp@intel.com>
-    Closes: https://lore.kernel.org/oe-kbuild-all/202410251136.1m7BlR68-lkp@intel.com/
-v1 -> v2:
-  - deleting struct dp_mode and dp_mode_cfg function, suggested by Dmitry Baryshkov.
-  - modifying drm_simple_encoder_init function, suggested by Dmitry Baryshkov.
-  - refactoring struct hibmc_connector, suggested by Dmitry Baryshkov.
-  - withdrawing the modification in hibmc_kms_init, suggested by Dmitry Baryshkov.
-  v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
----
- drivers/gpu/drm/hisilicon/hibmc/Makefile      |   2 +-
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 128 ++++++++++++++++++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  16 +++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  21 +--
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |  41 +++---
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |  20 +--
- 6 files changed, 188 insertions(+), 40 deletions(-)
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+> +
+> +	if (!drm_edid) {
+> +		drm_connector_hdmi_codec_plugged_notify(connector, false);
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-index 214228052ccf..95a4ed599d98 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
-+++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
- hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
--	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o
-+	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o hibmc_drm_dp.o
- 
- obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-new file mode 100644
-index 000000000000..1e0f2ef39ba6
---- /dev/null
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-@@ -0,0 +1,128 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+// Copyright (c) 2024 Hisilicon Limited.
-+
-+#include <linux/io.h>
-+
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_edid.h>
-+
-+#include "hibmc_drm_drv.h"
-+#include "dp/dp_hw.h"
-+
-+static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
-+{
-+	int count;
-+
-+	count = drm_add_modes_noedid(connector, connector->dev->mode_config.max_width,
-+				     connector->dev->mode_config.max_height);
-+	drm_set_preferred_mode(connector, 1024, 768); // temporary implementation
-+
-+	return count;
-+}
-+
-+static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
-+	.get_modes = hibmc_dp_connector_get_modes,
-+};
-+
-+static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static int hibmc_dp_prepare(struct hibmc_dp *dp, struct drm_display_mode *mode)
-+{
-+	int ret;
-+
-+	hibmc_dp_display_en(dp, false);
-+
-+	ret = hibmc_dp_mode_set(dp, mode);
-+	if (ret)
-+		drm_err(dp->drm_dev, "hibmc dp mode set failed: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static void hibmc_dp_encoder_enable(struct drm_encoder *drm_encoder,
-+				    struct drm_atomic_state *state)
-+{
-+	struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
-+	struct drm_display_mode *mode = &drm_encoder->crtc->state->mode;
-+
-+	if (hibmc_dp_prepare(dp, mode))
-+		return;
-+
-+	hibmc_dp_display_en(dp, true);
-+}
-+
-+static void hibmc_dp_encoder_disable(struct drm_encoder *drm_encoder,
-+				     struct drm_atomic_state *state)
-+{
-+	struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
-+
-+	hibmc_dp_display_en(dp, false);
-+}
-+
-+static const struct drm_encoder_helper_funcs hibmc_dp_encoder_helper_funcs = {
-+	.atomic_enable = hibmc_dp_encoder_enable,
-+	.atomic_disable = hibmc_dp_encoder_disable,
-+};
-+
-+void hibmc_dp_uninit(struct hibmc_drm_private *priv)
-+{
-+	hibmc_dp_hw_uninit(&priv->dp);
-+}
-+
-+int hibmc_dp_init(struct hibmc_drm_private *priv)
-+{
-+	struct drm_device *dev = &priv->dev;
-+	struct drm_crtc *crtc = &priv->crtc;
-+	struct hibmc_dp *dp = &priv->dp;
-+	struct drm_connector *connector = &dp->connector;
-+	struct drm_encoder *encoder = &dp->encoder;
-+	int ret;
-+
-+	dp->mmio = priv->mmio;
-+	dp->drm_dev = dev;
-+
-+	ret = hibmc_dp_hw_init(&priv->dp);
-+	if (ret) {
-+		drm_err(dev, "hibmc dp hw init failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	hibmc_dp_display_en(&priv->dp, false);
-+
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+	ret = drmm_encoder_init(dev, encoder, NULL, DRM_MODE_ENCODER_TMDS, NULL);
-+	if (ret) {
-+		drm_err(dev, "init dp encoder failed: %d\n", ret);
-+		goto err_init;
-+	}
-+
-+	drm_encoder_helper_add(encoder, &hibmc_dp_encoder_helper_funcs);
-+
-+	ret = drm_connector_init(dev, connector, &hibmc_dp_conn_funcs,
-+				 DRM_MODE_CONNECTOR_DisplayPort);
-+	if (ret) {
-+		drm_err(dev, "init dp connector failed: %d\n", ret);
-+		goto err_init;
-+	}
-+
-+	drm_connector_helper_add(connector, &hibmc_dp_conn_helper_funcs);
-+
-+	drm_connector_attach_encoder(connector, encoder);
-+
-+	return 0;
-+
-+err_init:
-+	hibmc_dp_hw_uninit(&priv->dp);
-+
-+	return ret;
-+}
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 9f9b19ea0587..f98ac94a18b9 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -27,6 +27,10 @@
- #include "hibmc_drm_drv.h"
- #include "hibmc_drm_regs.h"
- 
-+#define DP_HOST_SERDES_CTRL		0x1f001c
-+#define DP_HOST_SERDES_CTRL_VAL		0x8A00
-+#define DP_HOST_SERDES_CTRL_MASK	0x7FFFE
-+
- DEFINE_DRM_GEM_FOPS(hibmc_fops);
- 
- static irqreturn_t hibmc_interrupt(int irq, void *arg)
-@@ -116,6 +120,14 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
- 		return ret;
- 	}
- 
-+	/* if DP existed, init DP */
-+	if ((readl(priv->mmio + DP_HOST_SERDES_CTRL) &
-+	     DP_HOST_SERDES_CTRL_MASK) == DP_HOST_SERDES_CTRL_VAL) {
-+		ret = hibmc_dp_init(priv);
-+		if (ret)
-+			drm_err(dev, "failed to init dp: %d\n", ret);
-+	}
-+
- 	ret = hibmc_vdac_init(priv);
- 	if (ret) {
- 		drm_err(dev, "failed to init vdac: %d\n", ret);
-@@ -239,6 +251,7 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
- 
- static int hibmc_unload(struct drm_device *dev)
- {
-+	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	drm_atomic_helper_shutdown(dev);
-@@ -247,6 +260,9 @@ static int hibmc_unload(struct drm_device *dev)
- 
- 	pci_disable_msi(to_pci_dev(dev->dev));
- 
-+	if (priv->dp.encoder.possible_crtcs)
-+		hibmc_dp_uninit(priv);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 6b566f3aeecb..1b78d313a6c2 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -19,10 +19,12 @@
- #include <linux/i2c.h>
- 
- #include <drm/drm_framebuffer.h>
-+#include "dp/dp_hw.h"
- 
--struct hibmc_connector {
--	struct drm_connector base;
--
-+struct hibmc_vdac {
-+	struct drm_device *dev;
-+	struct drm_encoder encoder;
-+	struct drm_connector connector;
- 	struct i2c_adapter adapter;
- 	struct i2c_algo_bit_data bit_data;
- };
-@@ -35,13 +37,13 @@ struct hibmc_drm_private {
- 	struct drm_device dev;
- 	struct drm_plane primary_plane;
- 	struct drm_crtc crtc;
--	struct drm_encoder encoder;
--	struct hibmc_connector connector;
-+	struct hibmc_dp dp;
-+	struct hibmc_vdac vdac;
- };
- 
--static inline struct hibmc_connector *to_hibmc_connector(struct drm_connector *connector)
-+static inline struct hibmc_vdac *to_hibmc_vdac(struct drm_connector *connector)
- {
--	return container_of(connector, struct hibmc_connector, base);
-+	return container_of(connector, struct hibmc_vdac, connector);
- }
- 
- static inline struct hibmc_drm_private *to_hibmc_drm_private(struct drm_device *dev)
-@@ -57,6 +59,9 @@ void hibmc_set_current_gate(struct hibmc_drm_private *priv,
- int hibmc_de_init(struct hibmc_drm_private *priv);
- int hibmc_vdac_init(struct hibmc_drm_private *priv);
- 
--int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_connector *connector);
-+int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_vdac *connector);
-+
-+int hibmc_dp_init(struct hibmc_drm_private *priv);
-+void hibmc_dp_uninit(struct hibmc_drm_private *priv);
- 
- #endif
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
-index e6e48651c15c..99b3b77b5445 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
-@@ -25,8 +25,8 @@
- 
- static void hibmc_set_i2c_signal(void *data, u32 mask, int value)
- {
--	struct hibmc_connector *hibmc_connector = data;
--	struct hibmc_drm_private *priv = to_hibmc_drm_private(hibmc_connector->base.dev);
-+	struct hibmc_vdac *vdac = data;
-+	struct hibmc_drm_private *priv = to_hibmc_drm_private(vdac->connector.dev);
- 	u32 tmp_dir = readl(priv->mmio + GPIO_DATA_DIRECTION);
- 
- 	if (value) {
-@@ -45,8 +45,8 @@ static void hibmc_set_i2c_signal(void *data, u32 mask, int value)
- 
- static int hibmc_get_i2c_signal(void *data, u32 mask)
- {
--	struct hibmc_connector *hibmc_connector = data;
--	struct hibmc_drm_private *priv = to_hibmc_drm_private(hibmc_connector->base.dev);
-+	struct hibmc_vdac *vdac = data;
-+	struct hibmc_drm_private *priv = to_hibmc_drm_private(vdac->connector.dev);
- 	u32 tmp_dir = readl(priv->mmio + GPIO_DATA_DIRECTION);
- 
- 	if ((tmp_dir & mask) != mask) {
-@@ -77,22 +77,21 @@ static int hibmc_ddc_getscl(void *data)
- 	return hibmc_get_i2c_signal(data, I2C_SCL_MASK);
- }
- 
--int hibmc_ddc_create(struct drm_device *drm_dev,
--		     struct hibmc_connector *connector)
-+int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_vdac *vdac)
- {
--	connector->adapter.owner = THIS_MODULE;
--	snprintf(connector->adapter.name, I2C_NAME_SIZE, "HIS i2c bit bus");
--	connector->adapter.dev.parent = drm_dev->dev;
--	i2c_set_adapdata(&connector->adapter, connector);
--	connector->adapter.algo_data = &connector->bit_data;
--
--	connector->bit_data.udelay = 20;
--	connector->bit_data.timeout = usecs_to_jiffies(2000);
--	connector->bit_data.data = connector;
--	connector->bit_data.setsda = hibmc_ddc_setsda;
--	connector->bit_data.setscl = hibmc_ddc_setscl;
--	connector->bit_data.getsda = hibmc_ddc_getsda;
--	connector->bit_data.getscl = hibmc_ddc_getscl;
--
--	return i2c_bit_add_bus(&connector->adapter);
-+	vdac->adapter.owner = THIS_MODULE;
-+	snprintf(vdac->adapter.name, I2C_NAME_SIZE, "HIS i2c bit bus");
-+	vdac->adapter.dev.parent = drm_dev->dev;
-+	i2c_set_adapdata(&vdac->adapter, vdac);
-+	vdac->adapter.algo_data = &vdac->bit_data;
-+
-+	vdac->bit_data.udelay = 20;
-+	vdac->bit_data.timeout = usecs_to_jiffies(2000);
-+	vdac->bit_data.data = vdac;
-+	vdac->bit_data.setsda = hibmc_ddc_setsda;
-+	vdac->bit_data.setscl = hibmc_ddc_setscl;
-+	vdac->bit_data.getsda = hibmc_ddc_getsda;
-+	vdac->bit_data.getscl = hibmc_ddc_getscl;
-+
-+	return i2c_bit_add_bus(&vdac->adapter);
- }
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index 409c551c92af..05e19ea4c9f9 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -24,11 +24,11 @@
- 
- static int hibmc_connector_get_modes(struct drm_connector *connector)
- {
--	struct hibmc_connector *hibmc_connector = to_hibmc_connector(connector);
-+	struct hibmc_vdac *vdac = to_hibmc_vdac(connector);
- 	const struct drm_edid *drm_edid;
- 	int count;
- 
--	drm_edid = drm_edid_read_ddc(connector, &hibmc_connector->adapter);
-+	drm_edid = drm_edid_read_ddc(connector, &vdac->adapter);
- 
- 	drm_edid_connector_update(connector, drm_edid);
- 
-@@ -51,9 +51,9 @@ static int hibmc_connector_get_modes(struct drm_connector *connector)
- 
- static void hibmc_connector_destroy(struct drm_connector *connector)
- {
--	struct hibmc_connector *hibmc_connector = to_hibmc_connector(connector);
-+	struct hibmc_vdac *vdac = to_hibmc_vdac(connector);
- 
--	i2c_del_adapter(&hibmc_connector->adapter);
-+	i2c_del_adapter(&vdac->adapter);
- 	drm_connector_cleanup(connector);
- }
- 
-@@ -93,20 +93,20 @@ static const struct drm_encoder_helper_funcs hibmc_encoder_helper_funcs = {
- int hibmc_vdac_init(struct hibmc_drm_private *priv)
- {
- 	struct drm_device *dev = &priv->dev;
--	struct hibmc_connector *hibmc_connector = &priv->connector;
--	struct drm_encoder *encoder = &priv->encoder;
-+	struct hibmc_vdac *vdac = &priv->vdac;
-+	struct drm_encoder *encoder = &vdac->encoder;
- 	struct drm_crtc *crtc = &priv->crtc;
--	struct drm_connector *connector = &hibmc_connector->base;
-+	struct drm_connector *connector = &vdac->connector;
- 	int ret;
- 
--	ret = hibmc_ddc_create(dev, hibmc_connector);
-+	ret = hibmc_ddc_create(dev, vdac);
- 	if (ret) {
- 		drm_err(dev, "failed to create ddc: %d\n", ret);
- 		return ret;
- 	}
- 
- 	encoder->possible_crtcs = drm_crtc_mask(crtc);
--	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
-+	ret = drmm_encoder_init(dev, encoder, NULL, DRM_MODE_ENCODER_DAC, NULL);
- 	if (ret) {
- 		drm_err(dev, "failed to init encoder: %d\n", ret);
- 		return ret;
-@@ -117,7 +117,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 	ret = drm_connector_init_with_ddc(dev, connector,
- 					  &hibmc_connector_funcs,
- 					  DRM_MODE_CONNECTOR_VGA,
--					  &hibmc_connector->adapter);
-+					  &vdac->adapter);
- 	if (ret) {
- 		drm_err(dev, "failed to init connector: %d\n", ret);
- 		return ret;
+Is it a good idea to tie connection status to EDID presence at the
+helper level? Nearly the same, but still orthogonal.
+
+> +
+> +		// TODO: also handle CEC and scramber, HDMI sink disconnected.
+> +
+> +		return 0;
+> +	}
+> +
+> +	drm_connector_hdmi_codec_plugged_notify(connector, true);
+> +
+> +	// TODO: also handle CEC and scramber, HDMI sink is now connected.
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_update_edid);
+
+Feels wrong to export and document double underscored functions to
+actually be used.
+
+> +
+> +/**
+> + * drm_atomic_helper_connector_hdmi_update - Update the HDMI Connector after reading the EDID
+> + * @connector: A pointer to the HDMI connector
+> + *
+> + * This function should be called as a part of the .detect() / .detect_ctx()
+> + * and .force() callbacks, updating the HDMI-specific connector's data.
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int
+> +drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector)
+> +{
+> +	const struct drm_edid *drm_edid = drm_edid_read(connector);
+> +
+> +	return __drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
+> +}
+> +EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update);
+> diff --git a/include/drm/display/drm_hdmi_state_helper.h b/include/drm/display/drm_hdmi_state_helper.h
+> index 2d45fcfa461985065a5e5ad67eddc0b1c556d526..ea0980aa25cbbfdd36f44201888c139b0ee943da 100644
+> --- a/include/drm/display/drm_hdmi_state_helper.h
+> +++ b/include/drm/display/drm_hdmi_state_helper.h
+> @@ -20,4 +20,8 @@ int drm_atomic_helper_connector_hdmi_clear_audio_infoframe(struct drm_connector
+>  int drm_atomic_helper_connector_hdmi_update_infoframes(struct drm_connector *connector,
+>  						       struct drm_atomic_state *state);
+>  
+> +int __drm_atomic_helper_connector_hdmi_update_edid(struct drm_connector *connector,
+> +						   const struct drm_edid *drm_edid);
+> +int drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector);
+> +
+>  #endif // DRM_HDMI_STATE_HELPER_H_
+
 -- 
-2.33.0
-
+Jani Nikula, Intel
