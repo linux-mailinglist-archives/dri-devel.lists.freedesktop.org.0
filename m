@@ -2,49 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E203E9B9806
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 20:01:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA659B980A
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 20:05:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE89510E106;
-	Fri,  1 Nov 2024 19:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64E8810E00A;
+	Fri,  1 Nov 2024 19:05:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="fAXYiPIV";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CHpiXHZV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch
- [185.70.40.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F12B10E106
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 19:01:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=protonmail; t=1730487682; x=1730746882;
- bh=oJt81DfNMQkPUfCllJhpsatp8+oK6o66pCiri/PUlbI=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
- List-Unsubscribe:List-Unsubscribe-Post;
- b=fAXYiPIVnXdClG+hTBvTvpfVJP3aqEPJBH3RbMQHSejgOdRW+XtPfslHHdHed7ECV
- eQssC/Sl4vZrd3dNg8fXxYETlSfpmxc0KEkNbpF5hq57rBsFAcWbWoPppthl3zBfeC
- /zZ8WB9DkVxMKqC4ia/7YX6kblm1d3poUREqRsEPUCim7fdvw74asvqo63vFeZNOlX
- fyDZnE0/PanUdclXEGtzvBx5FwFHBNo/hr3MpHeFkU/WL1lUx0tmTPworQk/Y1k2To
- PIFqQ0rBW75fItRlP4cGana188BiCkJCj4l7zNemPo5SHiuGmGfdLPeIPeMyyzKMBG
- 4LnG12y6ERTuA==
-Date: Fri, 01 Nov 2024 19:01:17 +0000
-To: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-From: Piotr Zalewski <pZ010001011111@proton.me>
-Cc: skhan@linuxfoundation.org, Piotr Zalewski <pZ010001011111@proton.me>,
- Daniel Stone <daniel@fooishbar.org>, Dragan Simic <dsimic@manjaro.org>,
- Diederik de Haas <didi.debian@cknow.org>
-Subject: [PATCH v7] rockchip/drm: vop2: add support for gamma LUT
-Message-ID: <20241101185545.559090-3-pZ010001011111@proton.me>
-Feedback-ID: 53478694:user:proton
-X-Pm-Message-ID: 8105bcb26d9ee1e8fc8c4740bb094692b4abe417
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FC8010E00A
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 19:05:02 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-5cb6704ff6bso3023750a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 12:05:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1730487900; x=1731092700; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Po6d0vKxLdO7pwjS43uJ8mMLBhaRpS3FlzyZbdeogh0=;
+ b=CHpiXHZVCSESSvcADeYCVzJzXSkpq9DKlpt+W6XascqQTHmKunWVvCJjclykvCWvwN
+ eo8yOGka1qpdJ7Nj0EGri2CKTGYLjST9+AR1xnhhm9X811noLSg3PgfLwoNoi+I0NoUS
+ GQeCSCfKHSjXMf+k+oXf5PTZUpS6mP2HhEidDWW4l1J3Ky7+68aDVdvTJPoYzEw8vLpf
+ bTSoKKnTtHMsOZvgz46RNEFLw/Qloaw9fHrY4Br0h+mZ3k84U7Kz6eB1RwaopyyJEcmi
+ ifo95SpUsrPuP4rbs8Ek30byh5alcA1CS0KBAxYjT0iIu+GcLb2bXX+76pfVHzAMwZKL
+ ws8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730487900; x=1731092700;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Po6d0vKxLdO7pwjS43uJ8mMLBhaRpS3FlzyZbdeogh0=;
+ b=ZpQvR1RWlirP57wxIrTYrKPAkKD49NdmLMhwjEia38h8O7xly4gl2FfTiSsFoo3n3T
+ GwWi1bgg/sOUtLGLg5n7iNq1KKl+CtEn2RAnQKXPKikPoWZmtupuWnhsxSzwl1eRIjyZ
+ GYkptAmrlMto4Cr9Oi7G/SXT+fQQXdBBAWpxfcLefyibpi9bzBiUeEorfoXc3B+u4pWk
+ LIBSn156zjhhhLIJIPq+6NuNnuw8+gJ2NLkkmRnLn90XAUu96JqcvuVwnXjMsO+cs5K8
+ 9tgws4oEJb3cOyMFmu5jLnKkBrJRpx659BabnuvI/Kb4kRcn3n9PmltRX4J/urwfsyQm
+ 7otw==
+X-Gm-Message-State: AOJu0Yx/bxcQBR7/0Mglf7fnh5V/vcg3p1C9pEaSNwmay/a47bU2LrTH
+ qBBadsBpjPCRCqD6j7zXSjKIvzcjW2/DdNDQrHWrlN4qsYXfqLeSIfGh+HJu7wJODrjMSCnZLUa
+ o/Z/9RIChT/aUvyE30zxnYqYy/wzpMJ7m
+X-Google-Smtp-Source: AGHT+IH6PM1liYSO7moMOes+IZEnj/BLvyNO2FkOyxZ2n3b7UwW3d7ynYQOX7iVUFj4chQM+C+t8umkIqIo9sBEzB9E=
+X-Received: by 2002:a05:6402:13cc:b0:5cb:6672:fbbe with SMTP id
+ 4fb4d7f45d1cf-5ceb9381fa8mr3529903a12.30.1730487900038; Fri, 01 Nov 2024
+ 12:05:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 2 Nov 2024 05:04:48 +1000
+Message-ID: <CAPM=9tywoHB87EmV5CYripW2A2gVBg2dMTM-+gv_xbxOK3EQ=Q@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.12-rc6
+To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,440 +72,204 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for gamma LUT in VOP2 driver. The implementation was inspired
-by one found in VOP1 driver. Blue and red channels in gamma LUT register
-write were swapped with respect to how gamma LUT values are written in
-VOP1. Gamma LUT port selection was added before the write of new gamma LUT
-table.
+Hi Linus,
 
-If the current SoC is rk356x, check if no other CRTC has gamma LUT enabled
-in atomic_check (only one video port can use gamma LUT at a time) and
-disable gamma LUT before the LUT table write.
+Regular fixes pull, nothing too out of the ordinary, the mediatek
+fixes came in a batch that I might have preferred a bit earlier but
+all seem fine, otherwise regular xe/amdgpu and a few misc ones.
 
-If the current SoC isn't rk356x, "seamless" gamma lut update is performed
-similarly to how it was done in the case of RK3399 in VOP1[1]. In seamless
-update gamma LUT disable before the write isn't necessary, check if no
-other CRTC has gamma LUT enabled is also not necessary, different register
-is being used to select gamma LUT port[2] and after setting DSP_LUT_EN bit,
-GAMMA_UPDATE_EN bit is set[3].
+Dave.
 
-Gamma size is set and drm color management is enabled for each video port's
-CRTC except ones which have no associated device.
+drm-fixes-2024-11-02:
+drm fixes for 6.12-rc6
 
-Patch was tested on RK3566 (Pinetab2). When using userspace tools
-which set eg. constant color temperature no issues were noticed. When
-using userspace tools which adjust eg. color temperature the slight screen
-flicker is visible probably because of gamma LUT disable needed in the
-case of RK356x before gamma LUT write.
+xe:
+- Fix missing HPD interrupt enabling, bringing one PM refactor with it
+- Workaround LNL GGTT invalidation not being visible to GuC
+- Avoid getting jobs stuck without a protecting timeout
 
-Compare behaviour of eg.:
-```
-gammastep -O 3000
-```
+ivpu:
+- Fix firewall IRQ handling
 
-To eg.:
-```
-gammastep -l 53:23 -t 6000:3000
-```
+panthor:
+- Fix firmware initialization wrt page sizes
+- Fix handling and reporting of dead job groups
 
-In latter case color temperature is slowly adjusted at the beginning which
-causes screen to slighly flicker. Then it adjusts every few seconds which
-also causes slight screen flicker.
+sched:
+- Guarantee forward progress via WC_MEM_RECLAIM
 
-[1] https://lists.infradead.org/pipermail/linux-rockchip/2021-October/02813=
-2.html
-[2] https://lore.kernel.org/linux-rockchip/48249708-8c05-40d2-a5d8-23de960c=
-5a77@rock-chips.com/
-[3] https://github.com/radxa/kernel/blob/linux-6.1-stan-rkr1/drivers/gpu/dr=
-m/rockchip/rockchip_drm_vop2.c#L3437
+tests:
+- Fix memory leak in drm_display_mode_from_cea_vic()
 
-Helped-by: Daniel Stone <daniel@fooishbar.org>
-Helped-by: Dragan Simic <dsimic@manjaro.org>
-Helped-by: Diederik de Haas <didi.debian@cknow.org>
-Helped-by: Andy Yan <andy.yan@rock-chips.com>
-Signed-off-by: Piotr Zalewski <pZ010001011111@proton.me>
----
+amdgpu:
+- DCN 3.5 fix
+- Vangogh SMU KASAN fix
+- SMU 13 profile reporting fix
 
-Notes:
-    Changes in v7:
-        - Code styling changes only [6].
+mediatek:
+- Fix degradation problem of alpha blending
+- Fix color format MACROs in OVL
+- Fix get efuse issue for MT8188 DPTX
+- Fix potential NULL dereference in mtk_crtc_destroy()
+- Correct dpi power-domains property
+- Add split subschema property constraints
+The following changes since commit 81983758430957d9a5cb3333fe324fd70cf63e7e:
 
-    Changes in v6:
-        - Move gamma lut write to atomic_flush[4].
-        - In atomic_check if any other than the currently updated CRTC has
-          gamma lut enabled, return -EINVAL [5] (perform a check only if
-          device is rk356x).
-        - Instead of checking for rk3588 to determine seamless gamma
-          update availability check for rk3566/rk3568.
-        - remove null check in vop2_create_crtcs
-        - Move some code to separate functions to increase readability.
+  Linux 6.12-rc5 (2024-10-27 12:52:02 -1000)
 
-    Changes in v5:
-        - Do not trigger full modeset in case seamless gamma lut update
-          isn't possible (eg. rk356x case). It was discovered that with
-          full modeset, userspace tools which adjust color temperature with
-          high frequency cause screen to go black and reduce overall
-          performance. Instead, revert to previous behaviour of lut update
-          happening in atomic_begin or (in case there is a modeset) in
-          atomic_enable. Also, add unrelated to modeset trigger
-          changes/improvements from v4 on top. Improve code readability
-          too.
+are available in the Git repository at:
 
-    Changes in v4:
-        - rework the implementation to better utilize DRM atomic updates[2]
-        - handle the RK3588 case[2][3]
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-11-02
 
-    Changes in v3:
-        - v3 is patch v2 "resend", by mistake the incremental patch was
-        sent in v2
+for you to fetch changes up to f99c7cca2f712d11a67148cfbe463fdefeb82dc5:
 
-    Changes in v2:
-        - Apply code styling corrections[1]
-        - Move gamma LUT write inside the vop2 lock
+  Merge tag 'drm-xe-fixes-2024-10-31' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+(2024-11-02 04:44:27 +1000)
 
-    Link to v6: https://lore.kernel.org/linux-rockchip/20241016223558.67314=
-5-2-pZ010001011111@proton.me/
-    Link to v5: https://lore.kernel.org/linux-rockchip/20241014222022.57181=
-9-4-pZ010001011111@proton.me/
-    Link to v4: https://lore.kernel.org/linux-rockchip/20240815124306.18928=
-2-2-pZ010001011111@proton.me/
-    Link to v3: https://lore.kernel.org/linux-rockchip/TkgKVivuaLFLILPY-n3i=
-Zo_8KF-daKdqdu-0_e0HP-5Ar_8DAL
-DeNWog2suwWKjX7eomcbGET0KZe7DlzdhK2YM6CbLbeKeFZr-MJzJMtw0=3D@proton.me/
-    Link to v2: https://lore.kernel.org/linux-rockchip/Hk03HDb6wSSHWtEFZHUy=
-e06HR0-9YzP5nCHx9A8_kHzWSZawDr
-U1o1pjEGkCOJFoRg0nTB4BWEv6V0XBOjF4-0Mj44lp2TrjaQfnytzp-Pk=3D@proton.me/
-    Link to v1: https://lore.kernel.org/linux-rockchip/ZVMxgcrtgHui9fJpnhbN=
-6TSPhofHbbXElh241lImrzzTUl-8We
-jGpaR8CPzYhBgoqe_xj7N6En8Ny7Z-gsCr0kaFs7apwjYV1MBJJLmLHxs=3D@proton.me/
+----------------------------------------------------------------
+drm fixes for 6.12-rc6
 
-    [1] https://lore.kernel.org/linux-rockchip/d019761504b540600d9fc7a585d6=
-f95f@manjaro.org
-    [2] https://lore.kernel.org/linux-rockchip/CAPj87rOM=3Dj0zmuWL9frGKV1xz=
-PbJrk=3DQ9ip7F_HAPYnbCqPouw@mail.g
-mail.com
-    [3] https://lore.kernel.org/linux-rockchip/7d998e4c-e1d3-4e8b-af76-c5bc=
-83b43647@rock-chips.com
-    [4] https://lore.kernel.org/linux-rockchip/7b45f190.452f.1928e41b746.Co=
-remail.andyshrk@163.com/
-    [5] https://lore.kernel.org/linux-rockchip/CAPj87rOdQPsuH9qB_ZLfC9S=3Dc=
-O2noNi1mOGW0ZmQ6SHCugb9=3Dw@mail.g
-mail.com/
-    [6] https://lore.kernel.org/linux-rockchip/6a92e23a.56c.192d5ae32d5.Cor=
-email.andyshrk@163.com/
+xe:
+- Fix missing HPD interrupt enabling, bringing one PM refactor with it
+- Workaround LNL GGTT invalidation not being visible to GuC
+- Avoid getting jobs stuck without a protecting timeout
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 190 +++++++++++++++++++
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |   5 +
- 2 files changed, 195 insertions(+)
+ivpu:
+- Fix firewall IRQ handling
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm=
-/rockchip/rockchip_drm_vop2.c
-index 9873172e3fd3..58439ee8a52c 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -278,6 +278,15 @@ static u32 vop2_readl(struct vop2 *vop2, u32 offset)
- =09return val;
- }
-=20
-+static u32 vop2_vp_read(struct vop2_video_port *vp, u32 offset)
-+{
-+=09u32 val;
-+
-+=09regmap_read(vp->vop2->map, vp->data->offset + offset, &val);
-+
-+=09return val;
-+}
-+
- static void vop2_win_write(const struct vop2_win *win, unsigned int reg, u=
-32 v)
- {
- =09regmap_field_write(win->reg[reg], v);
-@@ -998,6 +1007,67 @@ static void vop2_disable(struct vop2 *vop2)
- =09clk_disable_unprepare(vop2->hclk);
- }
-=20
-+static bool vop2_vp_dsp_lut_is_enabled(struct vop2_video_port *vp)
-+{
-+=09u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
-+
-+=09return dsp_ctrl & RK3568_VP_DSP_CTRL__DSP_LUT_EN;
-+}
-+
-+static void vop2_vp_dsp_lut_disable(struct vop2_video_port *vp)
-+{
-+=09u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
-+
-+=09dsp_ctrl &=3D ~RK3568_VP_DSP_CTRL__DSP_LUT_EN;
-+=09vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
-+}
-+
-+static bool vop2_vp_dsp_lut_poll_disabled(struct vop2_video_port *vp)
-+{
-+=09u32 dsp_ctrl;
-+=09int ret =3D readx_poll_timeout(vop2_vp_dsp_lut_is_enabled, vp, dsp_ctrl=
-,
-+=09=09=09=09!dsp_ctrl, 5, 30 * 1000);
-+=09if (ret) {
-+=09=09drm_err(vp->vop2->drm, "display LUT RAM enable timeout!\n");
-+=09=09return false;
-+=09}
-+
-+=09return true;
-+}
-+
-+static void vop2_vp_dsp_lut_enable(struct vop2_video_port *vp)
-+{
-+=09u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
-+
-+=09dsp_ctrl |=3D RK3568_VP_DSP_CTRL__DSP_LUT_EN;
-+=09vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
-+}
-+
-+static void vop2_vp_dsp_lut_update_enable(struct vop2_video_port *vp)
-+{
-+=09u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
-+
-+=09dsp_ctrl |=3D RK3588_VP_DSP_CTRL__GAMMA_UPDATE_EN;
-+=09vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
-+}
-+
-+static inline bool vop2_supports_seamless_gamma_lut_update(struct vop2 *vo=
-p2)
-+{
-+=09return (vop2->data->soc_id !=3D 3566 && vop2->data->soc_id !=3D 3568);
-+}
-+
-+static bool vop2_gamma_lut_in_use(struct vop2 *vop2, struct vop2_video_por=
-t *vp)
-+{
-+=09const int nr_vps =3D vop2->data->nr_vps;
-+=09int gamma_en_vp_id;
-+
-+=09for (gamma_en_vp_id =3D 0; gamma_en_vp_id < nr_vps; gamma_en_vp_id++)
-+=09=09if (vop2_vp_dsp_lut_is_enabled(&vop2->vps[gamma_en_vp_id]))
-+=09=09=09break;
-+
-+=09return gamma_en_vp_id !=3D nr_vps && gamma_en_vp_id !=3D vp->id;
-+}
-+
- static void vop2_crtc_atomic_disable(struct drm_crtc *crtc,
- =09=09=09=09     struct drm_atomic_state *state)
- {
-@@ -1482,6 +1552,79 @@ static bool vop2_crtc_mode_fixup(struct drm_crtc *cr=
-tc,
- =09return true;
- }
-=20
-+static void vop2_crtc_write_gamma_lut(struct vop2 *vop2, struct drm_crtc *=
-crtc)
-+{
-+=09const struct vop2_video_port *vp =3D to_vop2_video_port(crtc);
-+=09const struct vop2_video_port_data *vp_data =3D &vop2->data->vp[vp->id];
-+=09struct drm_color_lut *lut =3D crtc->state->gamma_lut->data;
-+=09unsigned int i, bpc =3D ilog2(vp_data->gamma_lut_len);
-+=09u32 word;
-+
-+=09for (i =3D 0; i < crtc->gamma_size; i++) {
-+=09=09word =3D (drm_color_lut_extract(lut[i].blue, bpc) << (2 * bpc)) |
-+=09=09    (drm_color_lut_extract(lut[i].green, bpc) << bpc) |
-+=09=09    drm_color_lut_extract(lut[i].red, bpc);
-+
-+=09=09writel(word, vop2->lut_regs + i * 4);
-+=09}
-+}
-+
-+static void vop2_crtc_atomic_set_gamma_seamless(struct vop2 *vop2,
-+=09=09=09=09=09struct vop2_video_port *vp,
-+=09=09=09=09=09struct drm_crtc *crtc)
-+{
-+=09vop2_writel(vop2, RK3568_LUT_PORT_SEL, FIELD_PREP(
-+=09=09RK3588_LUT_PORT_SEL__GAMMA_AHB_WRITE_SEL,
-+=09=09vp->id));
-+=09vop2_vp_dsp_lut_enable(vp);
-+=09vop2_crtc_write_gamma_lut(vop2, crtc);
-+=09vop2_vp_dsp_lut_update_enable(vp);
-+}
-+
-+static void vop2_crtc_atomic_set_gamma_rk356x(struct vop2 *vop2,
-+=09=09=09=09=09struct vop2_video_port *vp,
-+=09=09=09=09=09struct drm_crtc *crtc)
-+{
-+=09vop2_vp_dsp_lut_disable(vp);
-+=09vop2_cfg_done(vp);
-+=09if (!vop2_vp_dsp_lut_poll_disabled(vp))
-+=09=09return;
-+
-+=09vop2_writel(vop2, RK3568_LUT_PORT_SEL, vp->id);
-+=09vop2_crtc_write_gamma_lut(vop2, crtc);
-+=09vop2_vp_dsp_lut_enable(vp);
-+}
-+
-+static void vop2_crtc_atomic_try_set_gamma(struct vop2 *vop2,
-+=09=09=09=09=09struct vop2_video_port *vp,
-+=09=09=09=09=09struct drm_crtc *crtc,
-+=09=09=09=09=09struct drm_crtc_state *crtc_state)
-+{
-+
-+=09if (!vop2->lut_regs || !crtc_state->color_mgmt_changed)
-+=09=09return;
-+
-+=09if (!crtc_state->gamma_lut) {
-+=09=09vop2_vp_dsp_lut_disable(vp);
-+=09=09return;
-+=09}
-+
-+=09if (vop2_supports_seamless_gamma_lut_update(vop2))
-+=09=09vop2_crtc_atomic_set_gamma_seamless(vop2, vp, crtc);
-+=09else
-+=09=09vop2_crtc_atomic_set_gamma_rk356x(vop2, vp, crtc);
-+}
-+
-+static inline void vop2_crtc_atomic_try_set_gamma_locked(struct vop2 *vop2=
-,
-+=09=09=09=09=09struct vop2_video_port *vp,
-+=09=09=09=09=09struct drm_crtc *crtc,
-+=09=09=09=09=09struct drm_crtc_state *crtc_state)
-+{
-+=09vop2_lock(vop2);
-+=09vop2_crtc_atomic_try_set_gamma(vop2, vp, crtc, crtc_state);
-+=09vop2_unlock(vop2);
-+}
-+
- static void vop2_dither_setup(struct drm_crtc *crtc, u32 *dsp_ctrl)
- {
- =09struct rockchip_crtc_state *vcstate =3D to_rockchip_crtc_state(crtc->st=
-ate);
-@@ -2057,11 +2200,40 @@ static void vop2_crtc_atomic_enable(struct drm_crtc=
- *crtc,
-=20
- =09vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
-=20
-+=09vop2_crtc_atomic_try_set_gamma(vop2, vp, crtc, crtc_state);
-+
- =09drm_crtc_vblank_on(crtc);
-=20
- =09vop2_unlock(vop2);
- }
-=20
-+static int vop2_crtc_atomic_check_gamma(struct vop2_video_port *vp,
-+=09=09=09=09=09struct drm_crtc *crtc,
-+=09=09=09=09=09struct drm_atomic_state *state,
-+=09=09=09=09=09struct drm_crtc_state *crtc_state)
-+{
-+=09struct vop2 *vop2 =3D vp->vop2;
-+=09unsigned int len;
-+
-+=09if (!vp->vop2->lut_regs || !crtc_state->color_mgmt_changed ||
-+=09    !crtc_state->gamma_lut)
-+=09=09return 0;
-+
-+=09len =3D drm_color_lut_size(crtc_state->gamma_lut);
-+=09if (len !=3D crtc->gamma_size) {
-+=09=09drm_dbg(vop2->drm, "Invalid LUT size; got %d, expected %d\n",
-+=09=09=09=09      len, crtc->gamma_size);
-+=09=09return -EINVAL;
-+=09}
-+
-+=09if (!vop2_supports_seamless_gamma_lut_update(vop2) && vop2_gamma_lut_in=
-_use(vop2, vp)) {
-+=09=09drm_info(vop2->drm, "Gamma LUT can be enabled for only one CRTC at a=
- time\n");
-+=09=09return -EINVAL;
-+=09}
-+
-+=09return 0;
-+}
-+
- static int vop2_crtc_atomic_check(struct drm_crtc *crtc,
- =09=09=09=09  struct drm_atomic_state *state)
- {
-@@ -2069,6 +2241,11 @@ static int vop2_crtc_atomic_check(struct drm_crtc *c=
-rtc,
- =09struct drm_plane *plane;
- =09int nplanes =3D 0;
- =09struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state(sta=
-te, crtc);
-+=09int ret;
-+
-+=09ret =3D vop2_crtc_atomic_check_gamma(vp, crtc, state, crtc_state);
-+=09if (ret)
-+=09=09return ret;
-=20
- =09drm_atomic_crtc_state_for_each_plane(plane, crtc_state)
- =09=09nplanes++;
-@@ -2456,6 +2633,7 @@ static void vop2_setup_dly_for_windows(struct vop2 *v=
-op2)
- =09vop2_writel(vop2, RK3568_SMART_DLY_NUM, sdly);
- }
-=20
-+
- static void vop2_crtc_atomic_begin(struct drm_crtc *crtc,
- =09=09=09=09   struct drm_atomic_state *state)
- {
-@@ -2487,7 +2665,14 @@ static void vop2_crtc_atomic_begin(struct drm_crtc *=
-crtc,
- static void vop2_crtc_atomic_flush(struct drm_crtc *crtc,
- =09=09=09=09   struct drm_atomic_state *state)
- {
-+=09struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state(sta=
-te, crtc);
- =09struct vop2_video_port *vp =3D to_vop2_video_port(crtc);
-+=09struct vop2 *vop2 =3D vp->vop2;
-+
-+=09// NOTE: in case of modeset gamma lut update
-+=09// already happened in atomic enable
-+=09if (!drm_atomic_crtc_needs_modeset(crtc_state))
-+=09=09vop2_crtc_atomic_try_set_gamma_locked(vop2, vp, crtc, crtc_state);
-=20
- =09vop2_post_config(crtc);
-=20
-@@ -2790,7 +2975,12 @@ static int vop2_create_crtcs(struct vop2 *vop2)
- =09=09}
-=20
- =09=09drm_crtc_helper_add(&vp->crtc, &vop2_crtc_helper_funcs);
-+=09=09if (vop2->lut_regs) {
-+=09=09=09const struct vop2_video_port_data *vp_data =3D &vop2_data->vp[vp-=
->id];
-=20
-+=09=09=09drm_mode_crtc_set_gamma_size(&vp->crtc, vp_data->gamma_lut_len);
-+=09=09=09drm_crtc_enable_color_mgmt(&vp->crtc, 0, false, vp_data->gamma_lu=
-t_len);
-+=09=09}
- =09=09init_completion(&vp->dsp_hold_completion);
- =09}
-=20
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm=
-/rockchip/rockchip_drm_vop2.h
-index 615a16196aff..510dda6f9092 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-@@ -394,6 +394,7 @@ enum dst_factor_mode {
- #define RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN=09=09BIT(15)
-=20
- #define RK3568_VP_DSP_CTRL__STANDBY=09=09=09BIT(31)
-+#define RK3568_VP_DSP_CTRL__DSP_LUT_EN=09=09=09BIT(28)
- #define RK3568_VP_DSP_CTRL__DITHER_DOWN_MODE=09=09BIT(20)
- #define RK3568_VP_DSP_CTRL__DITHER_DOWN_SEL=09=09GENMASK(19, 18)
- #define RK3568_VP_DSP_CTRL__DITHER_DOWN_EN=09=09BIT(17)
-@@ -408,6 +409,8 @@ enum dst_factor_mode {
- #define RK3568_VP_DSP_CTRL__CORE_DCLK_DIV=09=09BIT(4)
- #define RK3568_VP_DSP_CTRL__OUT_MODE=09=09=09GENMASK(3, 0)
-=20
-+#define RK3588_VP_DSP_CTRL__GAMMA_UPDATE_EN=09=09BIT(22)
-+
- #define RK3588_VP_CLK_CTRL__DCLK_OUT_DIV=09=09GENMASK(3, 2)
- #define RK3588_VP_CLK_CTRL__DCLK_CORE_DIV=09=09GENMASK(1, 0)
-=20
-@@ -460,6 +463,8 @@ enum dst_factor_mode {
- #define RK3588_DSP_IF_POL__DP1_PIN_POL=09=09=09GENMASK(14, 12)
- #define RK3588_DSP_IF_POL__DP0_PIN_POL=09=09=09GENMASK(10, 8)
-=20
-+#define RK3588_LUT_PORT_SEL__GAMMA_AHB_WRITE_SEL=09GENMASK(13, 12)
-+
- #define RK3568_VP0_MIPI_CTRL__DCLK_DIV2_PHASE_LOCK=09BIT(5)
- #define RK3568_VP0_MIPI_CTRL__DCLK_DIV2=09=09=09BIT(4)
-=20
---=20
-2.47.0
+panthor:
+- Fix firmware initialization wrt page sizes
+- Fix handling and reporting of dead job groups
 
+sched:
+- Guarantee forward progress via WC_MEM_RECLAIM
 
+tests:
+- Fix memory leak in drm_display_mode_from_cea_vic()
+
+amdgpu:
+- DCN 3.5 fix
+- Vangogh SMU KASAN fix
+- SMU 13 profile reporting fix
+
+mediatek:
+- Fix degradation problem of alpha blending
+- Fix color format MACROs in OVL
+- Fix get efuse issue for MT8188 DPTX
+- Fix potential NULL dereference in mtk_crtc_destroy()
+- Correct dpi power-domains property
+- Add split subschema property constraints
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu/smu13: fix profile reporting
+
+Andrzej Kacprowski (1):
+      accel/ivpu: Fix NOC firewall interrupt handling
+
+Boris Brezillon (3):
+      drm/panthor: Fix firmware initialization on systems with a page size > 4k
+      drm/panthor: Fail job creation when the group is dead
+      drm/panthor: Report group as timedout when we fail to properly suspend
+
+Dan Carpenter (2):
+      drm/mediatek: Fix potential NULL dereference in mtk_crtc_destroy()
+      drm/tegra: Fix NULL vs IS_ERR() check in probe()
+
+Dave Airlie (4):
+      Merge tag 'drm-misc-fixes-2024-10-31' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.12-2024-10-31' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'mediatek-drm-fixes-20241028' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-fixes
+      Merge tag 'drm-xe-fixes-2024-10-31' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+
+Hsin-Te Yuan (1):
+      drm/mediatek: Fix color format MACROs in OVL
+
+Imre Deak (2):
+      drm/xe/display: Separate the d3cold and non-d3cold runtime PM handling
+      drm/xe/display: Add missing HPD interrupt enabling during
+non-d3cold RPM resume
+
+Jason-JH.Lin (5):
+      drm/mediatek: ovl: Fix XRGB format breakage for blend_modes
+unsupported SoCs
+      drm/mediatek: ovl: Refine ignore_pixel_alpha comment and placement
+      drm/mediatek: ovl: Remove the color format comment for ovl_fmt_convert()
+      drm/mediatek: ovl: Add blend_modes to driver data
+      drm/mediatek: Add blend_modes to mtk_plane_init() for different SoCs
+
+Jinjie Ruan (3):
+      drm/tests: helpers: Add helper for drm_display_mode_from_cea_vic()
+      drm/connector: hdmi: Fix memory leak in drm_display_mode_from_cea_vic()
+      drm/tests: hdmi: Fix memory leaks in drm_display_mode_from_cea_vic()
+
+Liankun Yang (1):
+      drm/mediatek: Fix get efuse issue for MT8188 DPTX
+
+Maarten Lankhorst (1):
+      drm/xe: Remove runtime argument from display s/r functions
+
+Macpaul Lin (1):
+      dt-bindings: display: mediatek: dpi: correct power-domains property
+
+Matthew Brost (3):
+      drm/sched: Mark scheduler work queues with WQ_MEM_RECLAIM
+      drm/xe: Add mmio read before GGTT invalidate
+      drm/xe: Don't short circuit TDR on jobs not started
+
+Moudy Ho (1):
+      dt-bindings: display: mediatek: split: add subschema property constraints
+
+Ovidiu Bunea (1):
+      Revert "drm/amd/display: update DML2 policy
+EnhancedPrefetchScheduleAccelerationFinal DCN35"
+
+Thomas Zimmermann (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+Tvrtko Ursulin (1):
+      drm/amd/pm: Vangogh: Fix kernel memory out of bounds write
+
+ .../bindings/display/mediatek/mediatek,dpi.yaml    | 24 +++---
+ .../bindings/display/mediatek/mediatek,split.yaml  | 19 +++++
+ drivers/accel/ivpu/ivpu_debugfs.c                  |  9 +++
+ drivers/accel/ivpu/ivpu_hw.c                       |  1 +
+ drivers/accel/ivpu/ivpu_hw.h                       |  1 +
+ drivers/accel/ivpu/ivpu_hw_ip.c                    |  5 +-
+ drivers/gpu/drm/amd/display/dc/dml2/dml2_policy.c  |  1 +
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |  4 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  6 +-
+ drivers/gpu/drm/mediatek/mtk_crtc.c                |  4 +-
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c            |  2 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h            | 10 +++
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h            |  2 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c            | 74 ++++++++++++++-----
+ drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    |  7 ++
+ drivers/gpu/drm/mediatek/mtk_dp.c                  | 85 +++++++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_ethdr.c               |  7 ++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h               |  1 +
+ drivers/gpu/drm/mediatek/mtk_plane.c               | 15 ++--
+ drivers/gpu/drm/mediatek/mtk_plane.h               |  4 +-
+ drivers/gpu/drm/panthor/panthor_fw.c               |  4 +-
+ drivers/gpu/drm/panthor/panthor_gem.c              | 11 ++-
+ drivers/gpu/drm/panthor/panthor_mmu.c              | 16 +++-
+ drivers/gpu/drm/panthor/panthor_mmu.h              |  1 +
+ drivers/gpu/drm/panthor/panthor_sched.c            | 20 ++++-
+ drivers/gpu/drm/scheduler/sched_main.c             |  5 +-
+ drivers/gpu/drm/tegra/drm.c                        |  4 +-
+ drivers/gpu/drm/tests/drm_connector_test.c         | 24 +++---
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  8 +-
+ drivers/gpu/drm/tests/drm_kunit_helpers.c          | 42 +++++++++++
+ drivers/gpu/drm/xe/display/xe_display.c            | 71 +++++++++++-------
+ drivers/gpu/drm/xe/display/xe_display.h            |  8 +-
+ drivers/gpu/drm/xe/xe_ggtt.c                       | 10 +++
+ drivers/gpu/drm/xe/xe_guc_submit.c                 | 18 +++--
+ drivers/gpu/drm/xe/xe_pm.c                         |  6 +-
+ include/drm/drm_kunit_helpers.h                    |  4 +
+ 36 files changed, 412 insertions(+), 121 deletions(-)
