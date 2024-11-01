@@ -2,82 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 037149B94D3
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 17:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C710B9B9527
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 17:22:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D153B10E15F;
-	Fri,  1 Nov 2024 16:00:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7211510E2F7;
+	Fri,  1 Nov 2024 16:22:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="MFAlVqSH";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fZHq+tz3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F63210E15F
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 16:00:53 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-37d51055097so1332534f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 09:00:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1730476852; x=1731081652; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=KYqd6sY/o2ysYuNR1j+SafoMA71bgV0zKTYA4WAwzK4=;
- b=MFAlVqSHPf9zjeJn30qgPctjL7k9Ewo79RL1NQ0MKxUwBfGwBpdD2flad5yp4to7Hx
- RcJg2QlIuRzs/WgLEKhnjg9uslHtcTZIooog2RyHkP55x57hfJlZuGNM5vkIkZGU1BiV
- 3kGwEoy9hScSz3u0ZlUjDtKbp1a7qvqYj6vbu4GZ+DPPNzUtFwGvOpI2lDl3afrU0nBY
- Gbd3SVJKTiXbGxg6JxBhClpRxh5wksjGOVudTReRTbLUTsJXFZIdSSDhuxq3RG+/wZtO
- 9pdvABbFhEBHbcXeW5jv8SC2kXnty+QJXjibxrM54xkXJQ3hvz+BcmJlatJZG9+iUnIQ
- nb/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730476852; x=1731081652;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KYqd6sY/o2ysYuNR1j+SafoMA71bgV0zKTYA4WAwzK4=;
- b=rhGKfVtcKjF0oBipx94YeHOdbK0gnn70zyN5y3S0asTqgZxXSg5sCb8sqVHZAM0zGq
- q7NRr8Hvvw2QN4WzuDRs9P7kZBnjwWZiM0xHz40W6Va0S2TV6mpLPprOHUue9LEMtPHn
- ihlENMzQb2hBJEsOU15vCZCMkxbIGRTWE0EcCmHyV3DNEVGQKGAlCSSFxllJAZvfGSZl
- +oeOW/+lnQI7nS90bzlojl20LEsxxEIlbPTgY878HvzlekejzEwSaD6TqrZV/Pxn7AjN
- b3s8Zu0XUorGtHpfdyiYVgTKn5xSdAWH32uzDxcol3yEhO+LpzD6Pkjg+cpJ6x+H2zEh
- KlFw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVlAuVHs6MQhEGOsANo0l70MQzGaYtmHZrDvI+dfQpKg39sbM313wo7xMgKMfKSQU8VqQLnyRyojYk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyQxyd21e1wKW5nf2le7LFYBQC1TIfLuDgAgglC8fFeQng249NS
- /h1MysuFrYqNtin2huIJbFTGD5IHDXeO6RMWo/EeL8dWF6JV0UY4/jnn2WVtF9I=
-X-Google-Smtp-Source: AGHT+IF+31UkaQD4Bk2fch44Q3qhLJYU672Ie9wm0eb8mrfqiYkGyMRSjiGLJiq4SX/KWz14kzhHDQ==
-X-Received: by 2002:a05:6000:1a8c:b0:37d:48ee:d6fc with SMTP id
- ffacd0b85a97d-381c7a3a486mr2824859f8f.7.1730476851641; 
- Fri, 01 Nov 2024 09:00:51 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.50])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-381c10b7b8csm5613158f8f.5.2024.11.01.09.00.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Nov 2024 09:00:51 -0700 (PDT)
-Date: Fri, 1 Nov 2024 17:00:49 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] drm/log: Implement suspend/resume
-Message-ID: <ZyT7MScAsHxkACfD@pathway.suse.cz>
-References: <20241023121145.1321921-1-jfalempe@redhat.com>
- <20241023121145.1321921-6-jfalempe@redhat.com>
- <Zxpa2zt1P9Avy4Pm@pathway.suse.cz>
- <27c1a6bf-d1e4-469f-a0d4-3e74ab0d0a07@redhat.com>
- <a6c00956-3733-43a1-9538-aa2758d2b4a3@redhat.com>
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2080.outbound.protection.outlook.com [40.107.101.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 253C210E036;
+ Fri,  1 Nov 2024 16:22:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vqLaHFtD3iTSbGZeXFRTHi41oozX47XowXL2KHZNmx0J1o5wabJD6vuU2oTnNs5PEB9G9Qc3DS0YkRzdshQFwlvvPs8yUrKbvT1n21/l9MUj/+q0CGmPBCsrU6SkBC0YoL4Dd3L4T0TQdRFYaZbfPimYqXr/8CrYW9LcyfKqGrJVTKJ4QyLTKq4lFnW/qB/AFe05EhzSmll3iI5rKIbI0VehQZP7rrnxx3kI+6Yh846TFiCDfRLMjGlDdtktHdQYooDuuqZzbX4692s8G/f88JQZTeTa2WJGXJxtaugRoL2cd98Z/kmcwFQX/37RrLfVF5joRUUq72k+P5QS2zzCWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6uAjelOB4VOxy+rlR6xS9XziakUJvp2uotBbcWKDXtg=;
+ b=tdKxL8KSgANomUoq/01IsJcO94KjgcE50XXt9X+PcCGVmQqmdDJskWLO/OsJ1qHHZVcqZGffMspjyd4l91K+6orodX75bm+vTtwzOhCkcmznqo4gTYhanTc65cH2ehv9+kVOKNsUK62g2YyRVJ9/wWR/90jOeQLoSwRTcwili7S4WdTSD18cQ0ZgfncIQ/JC6ddHCDW7jNVfhPIc/NTfgYyr6iBTYXBF2pncf+zivxSUylePlJadkZl8kbk32Jtq+w6R3LXnGKNTUZpzIiuN44bpJtDinuYJ0D5SWyLXR/hpcO5oLEsgDgMiOL4SOoKWeO9Mk8e6y1TAOq+VR5d49w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6uAjelOB4VOxy+rlR6xS9XziakUJvp2uotBbcWKDXtg=;
+ b=fZHq+tz3Gw43b/c/DM8lTbhrOcD4GAxg2ikCJQaT/l711T1QB1eazlJ5W0gixDn2CfTejlueBqnBMo+0x2XyiiR8Td34b6EotkhVJk5jYwKkh3Yi2OMv0iafwjqMyBoHVROoM7MOSw43afSgnq8Qg0ZvYpRvCvk+T3Xsrbj6SWw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by MN2PR12MB4343.namprd12.prod.outlook.com (2603:10b6:208:26f::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Fri, 1 Nov
+ 2024 16:22:13 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.8114.015; Fri, 1 Nov 2024
+ 16:22:13 +0000
+Message-ID: <af5edb6c-3075-420e-b52f-05844c728180@amd.com>
+Date: Fri, 1 Nov 2024 11:22:11 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] amdgpu: prevent NULL pointer dereference if ATIF is
+ not supported
+To: Antonio Quartulli <antonio@mandelbit.com>
+Cc: Xinhui.Pan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241031152848.4716-1-antonio@mandelbit.com>
+ <00e9b1f0-7bc1-418c-8e67-e8f1893be665@amd.com>
+ <34c84c6a-9b0d-4d04-9ce3-edf1bb850b2c@mandelbit.com>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <34c84c6a-9b0d-4d04-9ce3-edf1bb850b2c@mandelbit.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN4PR0501CA0036.namprd05.prod.outlook.com
+ (2603:10b6:803:40::49) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a6c00956-3733-43a1-9538-aa2758d2b4a3@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|MN2PR12MB4343:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2a85ae4-6038-4f3f-3bd7-08dcfa9157a4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L0R3ME1Jc0VYZ3BXMloxcFVRVms0c1dFamVkSXB3VGFWc291WEZoeG02YzV0?=
+ =?utf-8?B?Y3JScy9zdXZjZlZFa25ROUdKVTBnSlZJZHhNM0FlSUZVMUtRU1ZLalg5WUx4?=
+ =?utf-8?B?RzM3YWhzRld2R0l4ZkZqbitIdlpIZnp5U25UMGFzZnI5cW5Bb2RMRmhzK1Fq?=
+ =?utf-8?B?M0swQTZMQmZTQnJlVkl2L0xxd3B0Zm9pR2x1akxmVGd2YW8yWE5YaTd6UmVL?=
+ =?utf-8?B?Qzg3aUNLSHRPcTFvdUJxZGszdVQyOFYrcmlDS0s5OW03OThKaklDc2FNR1Br?=
+ =?utf-8?B?c3VUSlFVdzN3T0Z4aHhPQ3VIU1ZLc1Rmc0I2eXUxMDB1OHFTM1JVR3gyZGtR?=
+ =?utf-8?B?c1VvbENndnByaGJyVWlURmhEU1R3eTVDYkY1RmhwelN5cTAwZGkwaWFQMllw?=
+ =?utf-8?B?QkdFbjJXOExoQnFCV0ZPd2ViZzRDL3E0Zjg5bk9JYTk3REw0cmxId2RvYmts?=
+ =?utf-8?B?OFdkWFRRSkNST3BEbVhOWm01MkJzTmpZSlRoZnZUQjhwWWJFakxJNEI3M3lw?=
+ =?utf-8?B?T0VERCtrZkxJeHJvV1gzeS8wUDIySWRYNTRVVDZYNGZ2d3RpUnRnUVV0QmQ1?=
+ =?utf-8?B?T3lxOCtrQndoN0ZDck1TZnVHSDVsTzAvOHBXNmtTUUwzeUdNUjlpYzNNOFlI?=
+ =?utf-8?B?VGhPNC9ibDc5bXpnaWN1bnpvV0QwQnJ4b2UrdU4zWmJwMGxNM3AwekNNZHpU?=
+ =?utf-8?B?emZydnJNaVJibm5MenpMKytNbTYyTlJ6SkNkT043N3RMcmtBTHg0dU5FUUdG?=
+ =?utf-8?B?R2FNQldZbExIaWlGWG5UVG5LN3p3aCtYcy96RFduaWQ2R1hlek1rUXQyQ1V5?=
+ =?utf-8?B?Rzk5eWVPL0xkdVRnK0ZyOGIxcTFkaTJtN1pUL0x2T0hSc3gyZFZQU2owMFhj?=
+ =?utf-8?B?VmlVbllIeHFPUWd2SzBvcEI3YlFUaWt1T25XeUxoNHhzM0RxOHNpUzdyaDVB?=
+ =?utf-8?B?aWdxdDRMRVdMbWMxQTdDSVJrR0RWSEZPU2YzNVR0M2E0QWhkWDNZdzQvWkMw?=
+ =?utf-8?B?eThraWxmcjEwRGxTNG1IS0lNYWkwQjBmT2pKdVEzY3phc0pCVGNVUjI0NStR?=
+ =?utf-8?B?WkZTYVdhd05wdCs0NnluUjVNYk1IOGh4NFFBbU5SQ2cyL1VWdC9IUG02YXcw?=
+ =?utf-8?B?UnQ1SXFaQml1SEI1cmNOVEtRY2czeXNqVGdNeVRSR2hGY3pvcXF1TGtmRDRy?=
+ =?utf-8?B?aUZUWVg5RkRzd1pESkhFcmZBMEdUVlY4b0dXM1UzN2xCU2xJL0RaZmNrQStT?=
+ =?utf-8?B?WmNGTmt0Q0M1RXVURWNpY1Z0alVmUFJYWU0veTZ2M3doUFQ2T0Y2NEcvTkNr?=
+ =?utf-8?B?TmF4TDltcGhqR0lHeVY3cXdKZVRtOXh4eEd4b2x3MjZTUlJIcGQ2T1BVTkZz?=
+ =?utf-8?B?aHowTWh6UVFZMFU4M1g2NlZmWTI5UGZHQTdrb2x4eWFlSG1ha0x0YkRIQWhw?=
+ =?utf-8?B?RzhoMnM4Wm9lMW1ocEtBZnBwaDJiOWRndnh1UkFCNXQ2QkFEK1hiTEdqZS9R?=
+ =?utf-8?B?QWM4akJ1dk9YRjhvcHJqK3JqeUtaTTN6Vmxpd01QTDNqeGFEL3JoOGNOT0s5?=
+ =?utf-8?B?M0taU05wcS9QQ1p2WEdLOEtyVFA3L0xjZmJHckxGK3FXMGJlTjhLOFV5alc4?=
+ =?utf-8?B?ajNELzZjL1NDVFQ3Njl0bmpqV3ZDRlFjQTRtUUVNZUY4ejVZTC85VUI4bEYw?=
+ =?utf-8?B?emhsVnQ3K3BaSjUrajZRcUpiUVFCb0MrVDRPZHFwcFI5WklnRUdNUUdQWVNo?=
+ =?utf-8?Q?1uYgnPkzaWtx8SeX8o=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDlKSjJRNm1oL3V2eEo0aElkQk1yOFBUaFdrOFB4U0IyWnVMNlByUnphaFJT?=
+ =?utf-8?B?Y1FGdnlrT0FlK3pTU3ZCaEtzajRQMTRxQnp2V3ZodVVlNUlOaWV2SHBCMHJL?=
+ =?utf-8?B?L2d1dE5VeXJrQ1Y2R25MNUN3bVMvZGh6WWRZZ3haWkgvekVIOWo1ck0xdHBH?=
+ =?utf-8?B?NlRPUWowenRkd2xvK0R3dkdMeU9veU8ySFhYdDZxbllRQ3VuRktYU0FKMUZE?=
+ =?utf-8?B?bmI1NytKaUdNbnNhQXp1MEFUVmV2TjdHaWh6R2ZubmtSdVljNGR4VzNKeGxz?=
+ =?utf-8?B?cXlLOGRPeW5vTlhSelFtWlhxWFB2ZVVQcHI3a0FvRHF3c3B2RW5oK25jL0Vt?=
+ =?utf-8?B?TEhzV0lmc2ZPRk1pclhjbTViVUhUMlk0MEkzRUc4SlI5ODErNk1HTW5kNVB4?=
+ =?utf-8?B?NVBkSE1FMU9qMk9rU1JtN2xlQUJYVUw5ZFZCMXQxVU1uUXBDemhxNlBzN0pJ?=
+ =?utf-8?B?bzZLOHNiRE5ua2lIV1Q1clc1cHdRa3UwaXk1NHJBM0VMNW1CeFY1SEhSUVV4?=
+ =?utf-8?B?bWd1KytlQ0xrcGlEeWg2aXFwaytYQm1vQ0Q0QUxqVDRsQ1ducnJCN1lYZkRs?=
+ =?utf-8?B?dy93YzZMOVBNTTQzNjBRT1NiZVdta3VQNGwzM0lOeXhheHl6V0NoelIyZzJl?=
+ =?utf-8?B?a2dkSTNXUE12eXlSZ09WRDFSUFJGOGdFNDl1NkRtT3NZRU5ianpSNFpyNjl3?=
+ =?utf-8?B?UHNSUFIrcWp2WVdPelJNc3ZtOWlCS0c2Rkk1ZDRHWGxBU21wdHMwZmdYcVNE?=
+ =?utf-8?B?ZVRnMWgydUVqZThBM29ET0NSUnNweGhIM2tUWTBIdy9LVk1CS0Z2cTQxWEVB?=
+ =?utf-8?B?Y2thelZJTXNQa28rRm1Bc3Q5VnM5eml0cXF2ZnF2NmU5UWErN3A5WStyWEww?=
+ =?utf-8?B?UlJXWDJPbnYyUlZNNnVuTnpzbTN0K040enkvU1RMZE9LUHR5bFpERUcvdGJo?=
+ =?utf-8?B?MFlJTHVaQm1CZW1waXVmenF3YUFIWmJWRDcySXdCc00zTllHZFRRa2pwb0xt?=
+ =?utf-8?B?S2Z5aTNBdkpzK253ZEg0MG45TEgxRjdabTd3R2NHVHhqNWEzNU1SOTcwdHk2?=
+ =?utf-8?B?U0t6eG9YNkdSNlpsams2MGN0Ny9sU3dUbGhoRDhmUkxSUHl3eFZ4SlNINUlu?=
+ =?utf-8?B?bmk4TTF1NDZJb25HMFFHL3JxdHRMNk5wcXJDTDJ6MGFIR2ZhZkJzTUlCSjJ1?=
+ =?utf-8?B?czVzZ05tamlNNEdXbm11bGtiYTBIOS9nQUxqaTJlTjc1QlVmcGF0bkxpVVUz?=
+ =?utf-8?B?bHRkZ2lJcDBwSTFkMHpWKzhidm1lbnJLV0VqSTJEQWcyRGxveGNsdUdPU3hx?=
+ =?utf-8?B?ZVdmUXhaUjBFcTF3czdDdENhTnZsQWpxODBUUmNUWWZqYmRJcUxjYXNqU0Nn?=
+ =?utf-8?B?dmxhZWRvNjl5SVU1dGE3L21kRzY2Tm9pQ3Z1NEw0VkQ3Q2JVYzhUVkNRODBs?=
+ =?utf-8?B?TU5Dc1F5djlUQTJsNXVDOThPQ0JmUWc4NzMwNDZIMitDZGxqQjVnZ3JUcE9a?=
+ =?utf-8?B?YzRMQXhUTWJNUk5aZFZYcWozNGN1MldFVElVUUZtS09YbGFRTmp0aGZ3czdN?=
+ =?utf-8?B?bFBTeVdqQnlMajNyT1hMcytpZ2w3ZUZUVlQwWVcxQU1jcUtwcWljd1JFb2ly?=
+ =?utf-8?B?VHpVTEdENUFYZWYvNXhyZWxFWG45MGEyUFkxa0JHYkk3cDVYNzdNRDg2Sm1E?=
+ =?utf-8?B?akZGSXFlTkxRWjNxY3hOUGlsS1lwRTIvYVNxYWVML09tTFFtR0Ixa3llbWF3?=
+ =?utf-8?B?dlRYM2kzaVo1N1ltOUhSbzVkdDVpQ2ZBaWJ1VkY0M2hkZnc0VWtWQzhxSnlG?=
+ =?utf-8?B?cHRPTzFldkRPYnc3UWNqei9kR083TFBSVWNPRGxzNm51S1VMR1JZNWI0NlhF?=
+ =?utf-8?B?YVZrM0JWcW9kMm83MmVWZE5EV1NyczdhWGJMYzdxL2REbmpneGlKSldoUlNi?=
+ =?utf-8?B?SWZCR1poSnF5bVRrZ3JnaUtDMW1TK1ZKYkpPL25MNHVHWkF4UVUzekduaUlm?=
+ =?utf-8?B?L29UN1k3K25GL3lZSHU2Yk5wcitCQVg5dUV2TnZES0dQY3Bxa0F0VnVPZmsx?=
+ =?utf-8?B?SnlEM3h5YTk0NlFUby9JRVhzZzJqclhiZHBuUm5Sd1M2dTZscUlDQjFKRE9W?=
+ =?utf-8?Q?kMwdgWzLdjXw3l8jg4AHq4QIB?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2a85ae4-6038-4f3f-3bd7-08dcfa9157a4
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2024 16:22:12.9307 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vBLEU8Q5NhU1hyfpo1FNtTTdTtVyeXAU/2DuAKcOYEpdr1ugb7NLWpu2dgba9/x0BOowxJfNGpOut3H+HWyGeA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4343
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,79 +163,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 2024-10-25 11:46:16, Jocelyn Falempe wrote:
-> On 25/10/2024 01:11, Jocelyn Falempe wrote:
-> > On 24/10/2024 16:34, Petr Mladek wrote:
-> > > On Wed 2024-10-23 14:00:13, Jocelyn Falempe wrote:
-> > > > The console is already suspended in printk.c.
-> > > 
-> > > Does this mean that drm_log_client_suspend() is called
-> > > after suspend_console(), please?
-> > 
-> > To be honest, I wasn't able to tell which one is called first, and if
-> > the order is enforced (I didn't check if drivers can be suspended in
-> > parallel, or if it's all sequential)..
-> > 
-> > I then checked if it's possible to suspend the console, but didn't found
-> > an easy API to do so, so I went with this lazy patch, just ensuring
-> > we're not writing to a suspended graphic driver.
+On 10/31/2024 15:50, Antonio Quartulli wrote:
+> On 31/10/2024 20:37, Mario Limonciello wrote:
+>> On 10/31/2024 10:28, Antonio Quartulli wrote:
+>>> acpi_evaluate_object() may return AE_NOT_FOUND (failure), which
+>>> would result in dereferencing buffer.pointer (obj) while being NULL.
+>>>
+>>> Although this case may be unrealistic for the current code, it is
+>>> still better to protect against possible bugs.
+>>>
+>>> Bail out also when status is AE_NOT_FOUND.
+>>>
+>>> This fixes 1 FORWARD_NULL issue reported by Coverity
+>>> Report: CID 1600951:  Null pointer dereferences  (FORWARD_NULL)
+>>>
+>>> Signed-off-by: Antonio Quartulli <antonio@mandelbit.com>
+>>
+>> Can you please dig up the right Fixes: tag?
 > 
-> I've run some tests on my hardware, and the console is suspended before the
-> graphic driver:
+> Fixes: c9b7c809b89f ("drm/amd: Guard against bad data for ATIF ACPI 
+> method")
 > 
-> [   56.409604] printk: Suspending console(s) (use no_console_suspend to
-> debug)
-> [   56.411430] serial 00:05: disabled
-> [   56.421877] sd 0:0:0:0: [sda] Synchronizing SCSI cache
-> [   56.421954] sd 4:0:0:0: [sdb] Synchronizing SCSI cache
-> [   56.422545] ata1.00: Entering standby power mode
-> [   56.422793] DRM log suspend
+> Your commit :)
 > 
-> But because there is the "no_console_suspend" parameter, and we should make
-> sure to not draw when the graphic driver is suspended, I think this patch is
-> needed, and good enough.
-> I will just rephrase the commit message, to make it clear, that some message
-> won't be drawn, only if "no_console_suspend" is set.
+> Should I send v3 with the Fixes tag in it?
 
-Ah, I forgot about the "no_console_suspend" parameter. The problem
-with this patch is that it would quietly drop all pending messages.
+Don't worry about it, I'll pick it up while we commit it.
 
-drm_log_write_thread() does not have any return value.
-nbcon_emit_next_record() would assume that the message was printed.
-And the kthread would continue emitting next message...
+Thanks!
 
-In compare, CON_SUSPENDED would cause that console_is_usable()
-returns false. As a result, nbcon_kthread_func() would not try
-to emit any message and go into a sleep.
+> 
+> Interestingly, this pattern of checking for AE_NOT_FOUND is shared by 
+> other functions, however, they don't try to dereference the pointer to 
+> the buffer before the return statement (which caused the Coverity report).
+> It's the caller that checks if the return value is NULL or not.
+> 
+> For this function it was the same, until you added this extra check on 
+> obj->type, without checking if obj was NULL or not.
+> 
+> If we want to keep the original pattern and continue checking for 
+> AE_NOT_FOUND, we could rather do:
+> 
+> -       if (obj->type != ACPI_TYPE_BUFFER) {
+> +       if (obj && obj->type != ACPI_TYPE_BUFFER) {
+> 
+> But this feel more like "bike shed color picking" than anything else :)
+> Anyway, up to you Mario, I am open to change the patch again if the 
+> latter pattern is more preferable.
+> 
+> Regards,
+> 
+>>
+>> Besides that, LGTM.
+>>
+>> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+>>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/ 
+>>> drm/amd/amdgpu/amdgpu_acpi.c
+>>> index cce85389427f..b8d4e07d2043 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+>>> @@ -172,8 +172,8 @@ static union acpi_object *amdgpu_atif_call(struct 
+>>> amdgpu_atif *atif,
+>>>                         &buffer);
+>>>       obj = (union acpi_object *)buffer.pointer;
+>>> -    /* Fail if calling the method fails and ATIF is supported */
+>>> -    if (ACPI_FAILURE(status) && status != AE_NOT_FOUND) {
+>>> +    /* Fail if calling the method fails */
+>>> +    if (ACPI_FAILURE(status)) {
+>>>           DRM_DEBUG_DRIVER("failed to evaluate ATIF got %s\n",
+>>>                    acpi_format_exception(status));
+>>>           kfree(obj);
+>>
+> 
 
-If we set CON_SUSPENDED then the pending messages will get printed
-after the resume. If we use this patch, the messages would get lost.
-
-
-This is why I am not happy with this patch. I would prefer to
-block the console. I see three better solutions:
-
-  1. Set CON_SUSPENDED from drm_log_client_suspend even when
-     "no_console_suspend" is used.
-
-     It is a bit dirty and might cause some confusion.
-
-
-  2. Add a new flag, e.g. CON_BLOCKED or CON_DRIVER_BLOCKED,
-     which might be used for this purpose.
-
-
-  3. Allow con->write_thread() to return an error code.
-
-     The question is how exactly the error should be handled.
-     The kthread would not know when the printing might succeed
-     again.
-
-
-I personally prefer the 2nd variant.
-
-
-Best Regards,
-Petr
-
-PS: I am sorry for the late reply. I had vacation...
