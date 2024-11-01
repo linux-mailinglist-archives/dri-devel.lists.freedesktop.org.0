@@ -2,152 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C710B9B9527
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 17:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7289F9B9540
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 17:25:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7211510E2F7;
-	Fri,  1 Nov 2024 16:22:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6C910E2FA;
+	Fri,  1 Nov 2024 16:25:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fZHq+tz3";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KkkA25H/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2080.outbound.protection.outlook.com [40.107.101.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 253C210E036;
- Fri,  1 Nov 2024 16:22:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vqLaHFtD3iTSbGZeXFRTHi41oozX47XowXL2KHZNmx0J1o5wabJD6vuU2oTnNs5PEB9G9Qc3DS0YkRzdshQFwlvvPs8yUrKbvT1n21/l9MUj/+q0CGmPBCsrU6SkBC0YoL4Dd3L4T0TQdRFYaZbfPimYqXr/8CrYW9LcyfKqGrJVTKJ4QyLTKq4lFnW/qB/AFe05EhzSmll3iI5rKIbI0VehQZP7rrnxx3kI+6Yh846TFiCDfRLMjGlDdtktHdQYooDuuqZzbX4692s8G/f88JQZTeTa2WJGXJxtaugRoL2cd98Z/kmcwFQX/37RrLfVF5joRUUq72k+P5QS2zzCWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6uAjelOB4VOxy+rlR6xS9XziakUJvp2uotBbcWKDXtg=;
- b=tdKxL8KSgANomUoq/01IsJcO94KjgcE50XXt9X+PcCGVmQqmdDJskWLO/OsJ1qHHZVcqZGffMspjyd4l91K+6orodX75bm+vTtwzOhCkcmznqo4gTYhanTc65cH2ehv9+kVOKNsUK62g2YyRVJ9/wWR/90jOeQLoSwRTcwili7S4WdTSD18cQ0ZgfncIQ/JC6ddHCDW7jNVfhPIc/NTfgYyr6iBTYXBF2pncf+zivxSUylePlJadkZl8kbk32Jtq+w6R3LXnGKNTUZpzIiuN44bpJtDinuYJ0D5SWyLXR/hpcO5oLEsgDgMiOL4SOoKWeO9Mk8e6y1TAOq+VR5d49w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6uAjelOB4VOxy+rlR6xS9XziakUJvp2uotBbcWKDXtg=;
- b=fZHq+tz3Gw43b/c/DM8lTbhrOcD4GAxg2ikCJQaT/l711T1QB1eazlJ5W0gixDn2CfTejlueBqnBMo+0x2XyiiR8Td34b6EotkhVJk5jYwKkh3Yi2OMv0iafwjqMyBoHVROoM7MOSw43afSgnq8Qg0ZvYpRvCvk+T3Xsrbj6SWw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by MN2PR12MB4343.namprd12.prod.outlook.com (2603:10b6:208:26f::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Fri, 1 Nov
- 2024 16:22:13 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.8114.015; Fri, 1 Nov 2024
- 16:22:13 +0000
-Message-ID: <af5edb6c-3075-420e-b52f-05844c728180@amd.com>
-Date: Fri, 1 Nov 2024 11:22:11 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] amdgpu: prevent NULL pointer dereference if ATIF is
- not supported
-To: Antonio Quartulli <antonio@mandelbit.com>
-Cc: Xinhui.Pan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241031152848.4716-1-antonio@mandelbit.com>
- <00e9b1f0-7bc1-418c-8e67-e8f1893be665@amd.com>
- <34c84c6a-9b0d-4d04-9ce3-edf1bb850b2c@mandelbit.com>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <34c84c6a-9b0d-4d04-9ce3-edf1bb850b2c@mandelbit.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN4PR0501CA0036.namprd05.prod.outlook.com
- (2603:10b6:803:40::49) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99F3C10E2F9;
+ Fri,  1 Nov 2024 16:25:27 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A1CZRRg002303;
+ Fri, 1 Nov 2024 16:25:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 4QWx/7MUGYS6k2cD1W8BMEcfbzad37g6V5wvlkxyisc=; b=KkkA25H/GpanQOaE
+ 7XRfHjuafIqbuwXCM4S9peLl/e1VFXiUiOzzi7W7KL+35MX1I89QbTLlImMuue8o
+ GFyWcAklb6+A47uJltZfahxQT0DOFL5JDLF3dp1esuAITbZUz8hJRILjDuYayJ2A
+ RUYHwcuIpSPoj1WVPiP1k8gUKEVojAiRMaDhZWcbanD7KwjyPemxCzDfcD5ZdNJc
+ P91yVG3E8JBLV6A7qePwfNUfzUjYUvv2Ut/q0t5AT+qn9bRNrt5E5WLyAAsrFwUW
+ RN/hzoAv3jrGgtjLshybBAH+S5CSNvnOWnfOF0YG15nHL9EPFigKGQUkyfB6uP8g
+ T/w+GA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42kmn5fwjw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Nov 2024 16:25:22 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A1GPLBZ011343
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 1 Nov 2024 16:25:21 GMT
+Received: from [10.206.104.82] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 1 Nov 2024
+ 09:25:05 -0700
+Message-ID: <c5e868e1-2dae-466c-a6fc-ef0f247fa0ce@quicinc.com>
+Date: Fri, 1 Nov 2024 21:54:56 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|MN2PR12MB4343:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2a85ae4-6038-4f3f-3bd7-08dcfa9157a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L0R3ME1Jc0VYZ3BXMloxcFVRVms0c1dFamVkSXB3VGFWc291WEZoeG02YzV0?=
- =?utf-8?B?Y3JScy9zdXZjZlZFa25ROUdKVTBnSlZJZHhNM0FlSUZVMUtRU1ZLalg5WUx4?=
- =?utf-8?B?RzM3YWhzRld2R0l4ZkZqbitIdlpIZnp5U25UMGFzZnI5cW5Bb2RMRmhzK1Fq?=
- =?utf-8?B?M0swQTZMQmZTQnJlVkl2L0xxd3B0Zm9pR2x1akxmVGd2YW8yWE5YaTd6UmVL?=
- =?utf-8?B?Qzg3aUNLSHRPcTFvdUJxZGszdVQyOFYrcmlDS0s5OW03OThKaklDc2FNR1Br?=
- =?utf-8?B?c3VUSlFVdzN3T0Z4aHhPQ3VIU1ZLc1Rmc0I2eXUxMDB1OHFTM1JVR3gyZGtR?=
- =?utf-8?B?c1VvbENndnByaGJyVWlURmhEU1R3eTVDYkY1RmhwelN5cTAwZGkwaWFQMllw?=
- =?utf-8?B?QkdFbjJXOExoQnFCV0ZPd2ViZzRDL3E0Zjg5bk9JYTk3REw0cmxId2RvYmts?=
- =?utf-8?B?OFdkWFRRSkNST3BEbVhOWm01MkJzTmpZSlRoZnZUQjhwWWJFakxJNEI3M3lw?=
- =?utf-8?B?T0VERCtrZkxJeHJvV1gzeS8wUDIySWRYNTRVVDZYNGZ2d3RpUnRnUVV0QmQ1?=
- =?utf-8?B?T3lxOCtrQndoN0ZDck1TZnVHSDVsTzAvOHBXNmtTUUwzeUdNUjlpYzNNOFlI?=
- =?utf-8?B?VGhPNC9ibDc5bXpnaWN1bnpvV0QwQnJ4b2UrdU4zWmJwMGxNM3AwekNNZHpU?=
- =?utf-8?B?emZydnJNaVJibm5MenpMKytNbTYyTlJ6SkNkT043N3RMcmtBTHg0dU5FUUdG?=
- =?utf-8?B?R2FNQldZbExIaWlGWG5UVG5LN3p3aCtYcy96RFduaWQ2R1hlek1rUXQyQ1V5?=
- =?utf-8?B?Rzk5eWVPL0xkdVRnK0ZyOGIxcTFkaTJtN1pUL0x2T0hSc3gyZFZQU2owMFhj?=
- =?utf-8?B?VmlVbllIeHFPUWd2SzBvcEI3YlFUaWt1T25XeUxoNHhzM0RxOHNpUzdyaDVB?=
- =?utf-8?B?aWdxdDRMRVdMbWMxQTdDSVJrR0RWSEZPU2YzNVR0M2E0QWhkWDNZdzQvWkMw?=
- =?utf-8?B?eThraWxmcjEwRGxTNG1IS0lNYWkwQjBmT2pKdVEzY3phc0pCVGNVUjI0NStR?=
- =?utf-8?B?WkZTYVdhd05wdCs0NnluUjVNYk1IOGh4NFFBbU5SQ2cyL1VWdC9IUG02YXcw?=
- =?utf-8?B?UnQ1SXFaQml1SEI1cmNOVEtRY2czeXNqVGdNeVRSR2hGY3pvcXF1TGtmRDRy?=
- =?utf-8?B?aUZUWVg5RkRzd1pESkhFcmZBMEdUVlY4b0dXM1UzN2xCU2xJL0RaZmNrQStT?=
- =?utf-8?B?WmNGTmt0Q0M1RXVURWNpY1Z0alVmUFJYWU0veTZ2M3doUFQ2T0Y2NEcvTkNr?=
- =?utf-8?B?TmF4TDltcGhqR0lHeVY3cXdKZVRtOXh4eEd4b2x3MjZTUlJIcGQ2T1BVTkZz?=
- =?utf-8?B?aHowTWh6UVFZMFU4M1g2NlZmWTI5UGZHQTdrb2x4eWFlSG1ha0x0YkRIQWhw?=
- =?utf-8?B?RzhoMnM4Wm9lMW1ocEtBZnBwaDJiOWRndnh1UkFCNXQ2QkFEK1hiTEdqZS9R?=
- =?utf-8?B?QWM4akJ1dk9YRjhvcHJqK3JqeUtaTTN6Vmxpd01QTDNqeGFEL3JoOGNOT0s5?=
- =?utf-8?B?M0taU05wcS9QQ1p2WEdLOEtyVFA3L0xjZmJHckxGK3FXMGJlTjhLOFV5alc4?=
- =?utf-8?B?ajNELzZjL1NDVFQ3Njl0bmpqV3ZDRlFjQTRtUUVNZUY4ejVZTC85VUI4bEYw?=
- =?utf-8?B?emhsVnQ3K3BaSjUrajZRcUpiUVFCb0MrVDRPZHFwcFI5WklnRUdNUUdQWVNo?=
- =?utf-8?Q?1uYgnPkzaWtx8SeX8o=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDlKSjJRNm1oL3V2eEo0aElkQk1yOFBUaFdrOFB4U0IyWnVMNlByUnphaFJT?=
- =?utf-8?B?Y1FGdnlrT0FlK3pTU3ZCaEtzajRQMTRxQnp2V3ZodVVlNUlOaWV2SHBCMHJL?=
- =?utf-8?B?L2d1dE5VeXJrQ1Y2R25MNUN3bVMvZGh6WWRZZ3haWkgvekVIOWo1ck0xdHBH?=
- =?utf-8?B?NlRPUWowenRkd2xvK0R3dkdMeU9veU8ySFhYdDZxbllRQ3VuRktYU0FKMUZE?=
- =?utf-8?B?bmI1NytKaUdNbnNhQXp1MEFUVmV2TjdHaWh6R2ZubmtSdVljNGR4VzNKeGxz?=
- =?utf-8?B?cXlLOGRPeW5vTlhSelFtWlhxWFB2ZVVQcHI3a0FvRHF3c3B2RW5oK25jL0Vt?=
- =?utf-8?B?TEhzV0lmc2ZPRk1pclhjbTViVUhUMlk0MEkzRUc4SlI5ODErNk1HTW5kNVB4?=
- =?utf-8?B?NVBkSE1FMU9qMk9rU1JtN2xlQUJYVUw5ZFZCMXQxVU1uUXBDemhxNlBzN0pJ?=
- =?utf-8?B?bzZLOHNiRE5ua2lIV1Q1clc1cHdRa3UwaXk1NHJBM0VMNW1CeFY1SEhSUVV4?=
- =?utf-8?B?bWd1KytlQ0xrcGlEeWg2aXFwaytYQm1vQ0Q0QUxqVDRsQ1ducnJCN1lYZkRs?=
- =?utf-8?B?dy93YzZMOVBNTTQzNjBRT1NiZVdta3VQNGwzM0lOeXhheHl6V0NoelIyZzJl?=
- =?utf-8?B?a2dkSTNXUE12eXlSZ09WRDFSUFJGOGdFNDl1NkRtT3NZRU5ianpSNFpyNjl3?=
- =?utf-8?B?UHNSUFIrcWp2WVdPelJNc3ZtOWlCS0c2Rkk1ZDRHWGxBU21wdHMwZmdYcVNE?=
- =?utf-8?B?ZVRnMWgydUVqZThBM29ET0NSUnNweGhIM2tUWTBIdy9LVk1CS0Z2cTQxWEVB?=
- =?utf-8?B?Y2thelZJTXNQa28rRm1Bc3Q5VnM5eml0cXF2ZnF2NmU5UWErN3A5WStyWEww?=
- =?utf-8?B?UlJXWDJPbnYyUlZNNnVuTnpzbTN0K040enkvU1RMZE9LUHR5bFpERUcvdGJo?=
- =?utf-8?B?MFlJTHVaQm1CZW1waXVmenF3YUFIWmJWRDcySXdCc00zTllHZFRRa2pwb0xt?=
- =?utf-8?B?S2Z5aTNBdkpzK253ZEg0MG45TEgxRjdabTd3R2NHVHhqNWEzNU1SOTcwdHk2?=
- =?utf-8?B?U0t6eG9YNkdSNlpsams2MGN0Ny9sU3dUbGhoRDhmUkxSUHl3eFZ4SlNINUlu?=
- =?utf-8?B?bmk4TTF1NDZJb25HMFFHL3JxdHRMNk5wcXJDTDJ6MGFIR2ZhZkJzTUlCSjJ1?=
- =?utf-8?B?czVzZ05tamlNNEdXbm11bGtiYTBIOS9nQUxqaTJlTjc1QlVmcGF0bkxpVVUz?=
- =?utf-8?B?bHRkZ2lJcDBwSTFkMHpWKzhidm1lbnJLV0VqSTJEQWcyRGxveGNsdUdPU3hx?=
- =?utf-8?B?ZVdmUXhaUjBFcTF3czdDdENhTnZsQWpxODBUUmNUWWZqYmRJcUxjYXNqU0Nn?=
- =?utf-8?B?dmxhZWRvNjl5SVU1dGE3L21kRzY2Tm9pQ3Z1NEw0VkQ3Q2JVYzhUVkNRODBs?=
- =?utf-8?B?TU5Dc1F5djlUQTJsNXVDOThPQ0JmUWc4NzMwNDZIMitDZGxqQjVnZ3JUcE9a?=
- =?utf-8?B?YzRMQXhUTWJNUk5aZFZYcWozNGN1MldFVElVUUZtS09YbGFRTmp0aGZ3czdN?=
- =?utf-8?B?bFBTeVdqQnlMajNyT1hMcytpZ2w3ZUZUVlQwWVcxQU1jcUtwcWljd1JFb2ly?=
- =?utf-8?B?VHpVTEdENUFYZWYvNXhyZWxFWG45MGEyUFkxa0JHYkk3cDVYNzdNRDg2Sm1E?=
- =?utf-8?B?akZGSXFlTkxRWjNxY3hOUGlsS1lwRTIvYVNxYWVML09tTFFtR0Ixa3llbWF3?=
- =?utf-8?B?dlRYM2kzaVo1N1ltOUhSbzVkdDVpQ2ZBaWJ1VkY0M2hkZnc0VWtWQzhxSnlG?=
- =?utf-8?B?cHRPTzFldkRPYnc3UWNqei9kR083TFBSVWNPRGxzNm51S1VMR1JZNWI0NlhF?=
- =?utf-8?B?YVZrM0JWcW9kMm83MmVWZE5EV1NyczdhWGJMYzdxL2REbmpneGlKSldoUlNi?=
- =?utf-8?B?SWZCR1poSnF5bVRrZ3JnaUtDMW1TK1ZKYkpPL25MNHVHWkF4UVUzekduaUlm?=
- =?utf-8?B?L29UN1k3K25GL3lZSHU2Yk5wcitCQVg5dUV2TnZES0dQY3Bxa0F0VnVPZmsx?=
- =?utf-8?B?SnlEM3h5YTk0NlFUby9JRVhzZzJqclhiZHBuUm5Sd1M2dTZscUlDQjFKRE9W?=
- =?utf-8?Q?kMwdgWzLdjXw3l8jg4AHq4QIB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2a85ae4-6038-4f3f-3bd7-08dcfa9157a4
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2024 16:22:12.9307 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vBLEU8Q5NhU1hyfpo1FNtTTdTtVyeXAU/2DuAKcOYEpdr1ugb7NLWpu2dgba9/x0BOowxJfNGpOut3H+HWyGeA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4343
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] dt-bindings: opp: Add v2-qcom-adreno vendor
+ bindings
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ "Abhinav Kumar" <quic_abhinavk@quicinc.com>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20241021-gpu-acd-v2-0-9c25a62803bc@quicinc.com>
+ <20241021-gpu-acd-v2-2-9c25a62803bc@quicinc.com>
+ <mz4zpcr4tqh2w7vt75f4ofxjzfve54ozzgpdbi2jjzk5pdxbk7@t36tlt3mmprt>
+ <d858dadb-4098-4c9f-b4f0-393dc988db5f@quicinc.com>
+ <4426b4kybtac6rc4twa5pgm3hvlegofemvqjcrvh6ni7f5z2h6@5dnlv3hgywh5>
+Content-Language: en-US
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <4426b4kybtac6rc4twa5pgm3hvlegofemvqjcrvh6ni7f5z2h6@5dnlv3hgywh5>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: TGlv0mkW86Mz3fw9HgDqilPDJ4q9NQOF
+X-Proofpoint-GUID: TGlv0mkW86Mz3fw9HgDqilPDJ4q9NQOF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ lowpriorityscore=0 impostorscore=0 phishscore=0 mlxlogscore=999
+ priorityscore=1501 mlxscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411010119
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,81 +104,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/31/2024 15:50, Antonio Quartulli wrote:
-> On 31/10/2024 20:37, Mario Limonciello wrote:
->> On 10/31/2024 10:28, Antonio Quartulli wrote:
->>> acpi_evaluate_object() may return AE_NOT_FOUND (failure), which
->>> would result in dereferencing buffer.pointer (obj) while being NULL.
+On 10/25/2024 11:58 AM, Dmitry Baryshkov wrote:
+> On Thu, Oct 24, 2024 at 12:56:58AM +0530, Akhil P Oommen wrote:
+>> On 10/22/2024 11:19 AM, Krzysztof Kozlowski wrote:
+>>> On Mon, Oct 21, 2024 at 05:23:43PM +0530, Akhil P Oommen wrote:
+>>>> Add a new schema which extends opp-v2 to support a new vendor specific
+>>>> property required for Adreno GPUs found in Qualcomm's SoCs. The new
+>>>> property called "qcom,opp-acd-level" carries a u32 value recommended
+>>>> for each opp needs to be shared to GMU during runtime.
+>>>>
+>>>> Cc: Rob Clark <robdclark@gmail.com>
+>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>>> ---
+>>>>  .../bindings/opp/opp-v2-qcom-adreno.yaml           | 96 ++++++++++++++++++++++
+>>>>  1 file changed, 96 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..6d50c0405ef8
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+>>>> @@ -0,0 +1,96 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/opp/opp-v2-qcom-adreno.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Qualcomm Adreno compatible OPP supply
+>>>> +
+>>>> +description:
+>>>> +  Adreno GPUs present in Qualcomm's Snapdragon chipsets uses an OPP specific
+>>>> +  ACD related information tailored for the specific chipset. This binding
+>>>> +  provides the information needed to describe such a hardware value.
+>>>> +
+>>>> +maintainers:
+>>>> +  - Rob Clark <robdclark@gmail.com>
+>>>> +
+>>>> +allOf:
+>>>> +  - $ref: opp-v2-base.yaml#
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    items:
+>>>> +      - const: operating-points-v2-adreno
+>>>> +      - const: operating-points-v2
+>>>> +
+>>>> +patternProperties:
+>>>> +  '^opp-?[0-9]+$':
 >>>
->>> Although this case may be unrealistic for the current code, it is
->>> still better to protect against possible bugs.
->>>
->>> Bail out also when status is AE_NOT_FOUND.
->>>
->>> This fixes 1 FORWARD_NULL issue reported by Coverity
->>> Report: CID 1600951:  Null pointer dereferences  (FORWARD_NULL)
->>>
->>> Signed-off-by: Antonio Quartulli <antonio@mandelbit.com>
+>>> '-' should not be optional. opp1 is not expected name.
 >>
->> Can you please dig up the right Fixes: tag?
+>> Agree. Will change this to '^opp-[0-9]+$'
+>>
+>>>
+>>>> +    type: object
+>>>> +    additionalProperties: false
+>>>> +
+>>>> +    properties:
+>>>> +      opp-hz: true
+>>>> +
+>>>> +      opp-level: true
+>>>> +
+>>>> +      opp-peak-kBps: true
+>>>> +
+>>>> +      opp-supported-hw: true
+>>>> +
+>>>> +      qcom,opp-acd-level:
+>>>> +        description: |
+>>>> +          A positive value representing the ACD (Adaptive Clock Distribution,
+>>>> +          a fancy name for clk throttling during voltage droop) level associated
+>>>> +          with this OPP node. This value is shared to a co-processor inside GPU
+>>>> +          (called Graphics Management Unit a.k.a GMU) during wake up. It may not
+>>>> +          be present for some OPPs and GMU will disable ACD while transitioning
+>>>> +          to that OPP. This value encodes a voltage threshold and few other knobs
+>>>> +          which are identified by characterization of the SoC. So, it doesn't have
+>>>> +          any unit.
+>>>
+>>> Thanks for explanation and other updates. I am still not happy with this
+>>> property. I do not see reason why DT should encode magic values in a
+>>> quite generic piece of code. This creates poor ABI, difficult to
+>>> maintain or understand.
+>>>
+>>
+>> Configuring GPU ACD block with its respective value is a requirement for each OPP.
+>> So OPP node seems like the natural place for this data.
+>>
+>> If it helps to resolve your concerns, I can elaborate the documentation with
+>> details on the GMU HFI interface where this value should be passed on to the
+>> hardware. Also replace "few other knobs" with "Delay cycles & Calibration margin"
+>> in the above doc.
 > 
-> Fixes: c9b7c809b89f ("drm/amd: Guard against bad data for ATIF ACPI 
-> method")
-> 
-> Your commit :)
-> 
-> Should I send v3 with the Fixes tag in it?
+> Usually the preference for DT is to specify data in a sensible way
+> rather than just the values being programmed to the register. Is it
+> possible to implement this approach for ACD values?
 
-Don't worry about it, I'll pick it up while we commit it.
+I am still checking about this. Will get back.
 
-Thanks!
+-Akhil
 
 > 
-> Interestingly, this pattern of checking for AE_NOT_FOUND is shared by 
-> other functions, however, they don't try to dereference the pointer to 
-> the buffer before the return statement (which caused the Coverity report).
-> It's the caller that checks if the return value is NULL or not.
-> 
-> For this function it was the same, until you added this extra check on 
-> obj->type, without checking if obj was NULL or not.
-> 
-> If we want to keep the original pattern and continue checking for 
-> AE_NOT_FOUND, we could rather do:
-> 
-> -       if (obj->type != ACPI_TYPE_BUFFER) {
-> +       if (obj && obj->type != ACPI_TYPE_BUFFER) {
-> 
-> But this feel more like "bike shed color picking" than anything else :)
-> Anyway, up to you Mario, I am open to change the patch again if the 
-> latter pattern is more preferable.
-> 
-> Regards,
-> 
->>
->> Besides that, LGTM.
->>
->> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
->>
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>  
 >>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/ 
->>> drm/amd/amdgpu/amdgpu_acpi.c
->>> index cce85389427f..b8d4e07d2043 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
->>> @@ -172,8 +172,8 @@ static union acpi_object *amdgpu_atif_call(struct 
->>> amdgpu_atif *atif,
->>>                         &buffer);
->>>       obj = (union acpi_object *)buffer.pointer;
->>> -    /* Fail if calling the method fails and ATIF is supported */
->>> -    if (ACPI_FAILURE(status) && status != AE_NOT_FOUND) {
->>> +    /* Fail if calling the method fails */
->>> +    if (ACPI_FAILURE(status)) {
->>>           DRM_DEBUG_DRIVER("failed to evaluate ATIF got %s\n",
->>>                    acpi_format_exception(status));
->>>           kfree(obj);
->>
 > 
 
