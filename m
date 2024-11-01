@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE4E9B8E89
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 11:04:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DA49B8E8C
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 11:04:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C357F10E42C;
-	Fri,  1 Nov 2024 10:04:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA85A10E834;
+	Fri,  1 Nov 2024 10:04:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jJpaPK5J";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EdoxWvjL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5EC310E42C
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 10:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KcBKVA3P3us9yCSAuJYdZ3kBwWfL0seMrbogM04O8Bg=; b=jJpaPK5JS4X/e2ThD4y/L/sODr
- vTK/YJ6Q1MnGr1zzKEfLRdtfmxXSYeEzJOFj0andOXWnxjJ7SoUvFA7RwOCIxOpYvB5Pkj6ZZyd0Z
- vOg95kwf0Rf0vzAJekmpddSQbSpmd5idyLqhWMFURUzXmkYcMJ/TiZwLfymk0yauU8HAll0MsOC+k
- HbvsyQ6NJt/+vQp+Kr+exmMwZIFopGky8Bd8itb8oMrIF4T01Um56TrRzH5QAZ3HiXfcZE+FwLh4I
- nvH2ePTExByl3kMY9z7VOPzvnfCjQpHwyM0Ve4jOlVs8S435Lpfk1aH/l548xy2RD1K7cDSVcFEKJ
- qZBaWsIQ==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1t6oVy-000O9S-3P; Fri, 01 Nov 2024 11:04:22 +0100
-Message-ID: <3a433ba3-2c61-45ac-9204-62216677c23d@igalia.com>
-Date: Fri, 1 Nov 2024 07:04:13 -0300
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF83F10E834
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 10:04:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 572A5A41A45
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 10:02:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B6197C4CECD
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 10:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730455487;
+ bh=ExCz1r6ef+EANIv06xlZ973J3oSuTMnVxu2ZEmxXMkc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=EdoxWvjLtsgU4cLacaGPKWU8UxVJ7xbf8PsqAeUUqlnmtPvdx55zALwLhXMnpXB8R
+ oNC4vj/Dfmg/8cY+Z2Jk0HUuOOgBNRkPTc5Ja/BuAynzdbT3/gmCgT4iF6xokTTUwZ
+ WuiqDE+YieGxsuadSOQuorsvomBYC3i54K597RoK0AkSlRmda+c6YjqOBKaO3h+kPU
+ tcaJpkw3/3esZ1WOPRljPA6sLr1twA2bq5hBSmDW0x9VcmyEUwOuQvKMoP+BmDA8zf
+ cf4c0EcXxlnHyfPm7VOwNpHFpDTN7SYP/b1dBYLbBjx4s93uheKWzt5JuHCHVqFAGO
+ y0AXo7kvp+Huw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id A632BC53BC9; Fri,  1 Nov 2024 10:04:47 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206225] nouveau: Screen distortion and lockup on resume
+Date: Fri, 01 Nov 2024 10:04:47 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: lukasz.wojnilowicz@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-206225-2300-RnaBHcwJgG@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206225-2300@https.bugzilla.kernel.org/>
+References: <bug-206225-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vkms: Drop unnecessary call to drm_crtc_cleanup()
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- louis.chauvet@bootlin.com
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241031183835.3633-1-jose.exposito89@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20241031183835.3633-1-jose.exposito89@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,45 +74,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi José,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D206225
 
-On 31/10/24 15:38, José Expósito wrote:
-> CRTC creation uses drmm_crtc_init_with_planes(), which automatically
-> handles cleanup. However, an unnecessary call to drm_crtc_cleanup() is
-> still present in the vkms_output_init() error path.
-> 
-> Fixes: 99cc528ebe92 ("drm/vkms: Use drmm_crtc_init_with_planes()")
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+lukasz.wojnilowicz@gmail.com changed:
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |lukasz.wojnilowicz@gmail.co
+                   |                            |m
 
-Best Regards,
-- Maíra
+--- Comment #13 from lukasz.wojnilowicz@gmail.com ---
+We have 2024 and https://nouveau.freedesktop.org/KernelModuleParameters.html
+(updated in 2024) still recommends using nouveau.config=3DPCRYPT=3D0 instea=
+d of
+nouveau.config=3Dcipher=3D0.
 
-> ---
->   drivers/gpu/drm/vkms/vkms_output.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 0a5a185aa0b0..25a99fde126c 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -92,7 +92,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->   				 DRM_MODE_CONNECTOR_VIRTUAL);
->   	if (ret) {
->   		DRM_ERROR("Failed to init connector\n");
-> -		goto err_connector;
-> +		return ret;
->   	}
->   
->   	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
-> @@ -131,8 +131,5 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->   err_encoder:
->   	drm_connector_cleanup(connector);
->   
-> -err_connector:
-> -	drm_crtc_cleanup(crtc);
-> -
->   	return ret;
->   }
+I believe that correct names can be taken at
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
+vers/gpu/drm/nouveau/nvkm/engine
+from the directory names.
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
