@@ -2,104 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6E49B8EFB
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 11:19:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC639B8F25
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 11:27:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03FA610E98F;
-	Fri,  1 Nov 2024 10:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A3310E993;
+	Fri,  1 Nov 2024 10:27:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PnQVsbPO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="luimrJye";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E68910E98F
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 10:19:29 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-539e13375d3so2016033e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 03:19:29 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F6B910E993
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 10:27:27 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-6e38ebcc0abso20996007b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 03:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730456367; x=1731061167; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=SSyJnhqtzNGB7l1kz5uHZfxocs7V67foS6FdivcD7DM=;
- b=PnQVsbPOsYRff3CIsFy+OIoYTjndc5k4hwbR5hNhRXwj614Ply+kw2wJwU3L3vhsA7
- agtRicwSrF9YJ4TB7YlEicnQ171HiXl3RPW1xNeCCmpKjVZ3R3oRGiu1ZVQowJlReQrC
- SHgauAFMWClphAO/XV14/Al3lAhv/+6jvzW1t1dHYkD03Z6vjv0QwVcbCQnN7x9tGbNn
- 8YqhRvOicuJA/kxBE5AYsj/vnOQdtKC+TTQjRu2RvIWgoPP8JRWHbiEwKBZDbaOwcskX
- 9lOFVx52T4y3Fm+qqu5lPK/3ZZX6Dm4g3dawwVs0xxsFHyHDHtdOp5yYPWtEYGKxWAs3
- 02DQ==
+ d=linaro.org; s=google; t=1730456846; x=1731061646; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ss7HqrCAEiDCK7gqRMfrbIK/DUBAZAaK1W9KPoORIq8=;
+ b=luimrJyevJYHLaMBLCnLEWBVqWAQizB2rUnUQpZcF/JUbgch2mvwmv5IGiQxkhXWyu
+ xy5gD4r0xEjnxmXEvV7+54MYcSm70U2UD5Sbm1vVaVa0iieScd5xPzdVAHFHst/2Lmme
+ UX7Ww/d5ZzSiGh2qIeLD96b5Ebc4bnOKqWV39W59p+EtCoBkHUhKPKZEUOQCnicfdrGi
+ nnTxmrZW5AaChVUeIN3SUCR98AAg1cLToYCYKMruy7PCMoJ5Q/3BPmeHz41bD9BcSDWe
+ MFtTbHevUKXTATEu1oR16eRw5ACW6Wbo0pEIWgKPMZTR1JEemzk/S/lq0qwLHNNIcdaN
+ gTPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730456367; x=1731061167;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SSyJnhqtzNGB7l1kz5uHZfxocs7V67foS6FdivcD7DM=;
- b=pe7sl8dUL0rLLZGjBASPLWnZ9OsgREiTDXBCtxj7m2ncHEuaXZubJ/C0HpvZPewgMY
- 19Gsb493lh2M+oxgiVEUsN5lVAxyyUQAsGw68s1hJFZd3Kh1Yp/bHu2KjJN+KDeNRcOc
- CvkMnjJoAN8gnmFWGYR1f9InbZalH9qFg5iSnHGwBl6BXG+g05R3IvwMTN+Poy2pju4O
- a3ELFcGZAvsVnXkmDbxLavLJz3yL1JHr0U6ufqxRFasp/U62nuYa0wRFZekqcok+2i5U
- J7++Uqi9j3WXi5lXmpzSiCzyk+y8Vb/7aCiVwi88fSVCVSoqmk11PfGa8y46N5TM13FE
- nhVA==
-X-Gm-Message-State: AOJu0YyMMuR586kFqxthgbFYPNcDFrGmL5pCnlzdAV0z1isqMaPp27qn
- 8vBMMaJIndGsM6GZ04RO4lfAykF9CdvRyZTCEFpHlLMb1kHy7QfliDBfAkW0yWg=
-X-Google-Smtp-Source: AGHT+IGhSWfH6euhYW2znlkFK+r3govgY1LuFIe7fOuMV+C37e3QgH0MbPED7GtFqocAeau78Vvz7w==
-X-Received: by 2002:a2e:4c12:0:b0:2f6:6074:db71 with SMTP id
- 38308e7fff4ca-2fdec5f831amr26624951fa.17.1730456367449; 
- Fri, 01 Nov 2024 03:19:27 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fdef5d6ef4sm5197031fa.48.2024.11.01.03.19.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Nov 2024 03:19:25 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 01 Nov 2024 12:19:08 +0200
-Subject: [PATCH RFC v2 7/7] drm/bridge_connector: hook
- __drm_atomic_helper_connector_hdmi_update_edid()
+ d=1e100.net; s=20230601; t=1730456846; x=1731061646;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ss7HqrCAEiDCK7gqRMfrbIK/DUBAZAaK1W9KPoORIq8=;
+ b=kzwGlPxD6G9G4WPd4E8E6eYP5AmTG3jEYcaBPohnhSpvwnGfAAxMwrUCesVwDEXrkz
+ 4UPphHGpuZu8Cuyeczo0cw02Hx2Vg6fV5p2rp57yRpggTu5EfFf53aae7YALgAvFJUNW
+ 3WGxoS6jvnZk4w49+3lwpJPvRgvmwTRYCbIu2QBstaLRzGJ6a3PDQSJjMhw9sgdj0hFs
+ BYQ1QNsehXUW1BKsEn3YlQVygoUs+DihAG25a3JiS/x+PYoRYwm9lVCvUYxOcydO+L2s
+ MQo+rh08tA2mtruDP+FUxMdWQqdIykJgr6a2WTPk3fO94w7JjdIhlNhGThkJJeIIl/5z
+ uSPA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXd2BD3QS8awXwhNhJJrwhxn8lnsTzK1eeJOcns/sQW+3/a4gZg++zBOd/vQY5K8UExoxyRCFoDGyc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw/bzRkavAdgLV4v0WA92Yjm2lBULK3NR/WC4+Uo/AZr85k6kpU
+ 5+9oUxkAPEiSDfrOnObQLpUqj1SQY8Cut0rNlkzW1XsXlfY0mT7PY7bi2C2Y0BN8aHEceLe9qoG
+ bbBS2rtoGwCkKfBSY5ffDPpMZOZE6pEKO0jf1Vg==
+X-Google-Smtp-Source: AGHT+IHqsmm863M+Us1qtGisvRlwff+vHDuYIqJfop4OczcmkVIeT6lVuYCgjUig4zLqPpFZkem2bNxaAPeuwbz870I=
+X-Received: by 2002:a05:690c:fcb:b0:6e2:e22:12d9 with SMTP id
+ 00721157ae682-6e9d8aa1115mr220680307b3.35.1730456846182; Fri, 01 Nov 2024
+ 03:27:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241101-drm-bridge-hdmi-connector-v2-7-739ef9addf9e@linaro.org>
-References: <20241101-drm-bridge-hdmi-connector-v2-0-739ef9addf9e@linaro.org>
-In-Reply-To: <20241101-drm-bridge-hdmi-connector-v2-0-739ef9addf9e@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
+ <172951608323.1285208.3162107667310691864.b4-ty@linaro.org>
+ <230b5910-6790-44cb-90ed-222bee89054d@linux.dev>
+ <c2a4cc3a-2ffc-46f3-8636-238cd561f7aa@linaro.org>
+ <751a4ab5-acbf-4e57-8cf4-51ab10206cc9@linux.dev>
+ <ZyOvAqnuxbNnGWli@hovoldconsulting.com>
+ <30fefafc-d19a-40cb-bcb1-3c586ba8e67e@linux.dev>
+ <20241101092049.GJ2473@pendragon.ideasonboard.com>
+In-Reply-To: <20241101092049.GJ2473@pendragon.ideasonboard.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 1 Nov 2024 12:27:15 +0200
+Message-ID: <CAA8EJprEDV2JViB9kQS2H1p=NgF+PcataEejC97DBo=aU5g5kw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
+ parent to aux bridge
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, Johan Hovold <johan@kernel.org>,
+ neil.armstrong@linaro.org, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-rockchip@lists.infradead.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4075;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Pbf6ekV+i45DFn0vAhN81yq5JTl3TzjpRpOOR4scnrw=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnJKsZAyyzFUbIF1GNuLd1ZpLZ1B2KWEi1m5jD4
- rBI+bHjpFKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZySrGQAKCRCLPIo+Aiko
- 1bv9B/9aAzBx6TyAdD0HiTY84ACPnO30AoIMqz4lY2qeZr1j/AXgrWjWY+hZqDi6N6X6s8F7ArV
- QOhiCSvJ/wBqX2oIw4oG6kn/StwLHzUzjvdq5q4vVKjwGKIh6cc8LzyoJi5L1/eI7L59vUDpn0U
- qHPk1TWzpjbuGNKpe/rT/Ds0c7458AmhADW48RgNU0NAjvbZYvcLT1IKTfs0ZTNtJlqnZnGSnA4
- KD+5OOhfX5lF5o9KH9K9DnZFeaL7wehWOzHLWlqjaWakWwIgCQzluX4lK5NCstgZnkT9XyOHW0q
- YWrQ6YVSm+zTkO8F578PtuXJBzB9WY50mHLRzLH1cDQL1qdN
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Abel Vesa <abel.vesa@linaro.org>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,127 +93,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend drm_bridge_connector code to read the EDID and use it to update
-connector status if the bridge chain implements HDMI bridge. Performing
-it from the generic location minimizes individual bridge's code and
-enforces standard behaviour from all corresponding drivers.
+On Fri, 1 Nov 2024 at 11:20, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Fri, Nov 01, 2024 at 11:49:07AM +0800, Sui Jingfeng wrote:
+> >
+> > On 2024/11/1 00:23, Johan Hovold wrote:
+> > > On Thu, Oct 31, 2024 at 11:06:38PM +0800, Sui Jingfeng wrote:
+> > >
+> > >> But I think Johan do need more times to understand what exactly
+> > >> the real problem is. We do need times to investigate new method.
+> > > No, I know perfectly well what the (immediate) problem is here (I was
+> > > the one adding support for the of_node_reused flag some years back).
+> > >
+> > > I just wanted to make sure that the commit message was correct and
+> > > complete before merging (and also to figure out whether this particular
+> > > patch needed to be backported).
+> >
+> > Well under such a design, having the child device sharing the 'OF' device
+> > node with it parent device means that one parent device can *only*
+> > create one AUX bridge child device.
+> >
+> > Since If you create two or more child AUX bridge, *all* of them will
+> > call devm_drm_of_get_bridge(&auxdev->dev, auxdev->dev.of_node, 0, 0),
+> > then we will *contend* the same next bridge resource.
+> >
+> > Because of the 'auxdev->dev.of_node' is same for all its instance.
+> > While other display bridges seems don't has such limitations.
+>
+> Brainstorming a bit, I wonder if we could create a swnode for the
+> auxiliary device, instead of reusing the parent's OF node.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/display/drm_bridge_connector.c | 65 ++++++++++++++++++++------
- 1 file changed, 51 insertions(+), 14 deletions(-)
+This will break bridge lookup which is performed by following the OF
+graph links. So the aux bridges should use corresponding of_node or
+fwnode.
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 12ab9f14cc8a8672478ae2804c9a68d766d88ea5..4069e0f972d5fcabf7e07238583fc9ea89ab113f 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -17,6 +17,7 @@
- #include <drm/drm_edid.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/display/drm_hdmi_state_helper.h>
- 
-@@ -175,17 +176,53 @@ static void drm_bridge_connector_disable_hpd(struct drm_connector *connector)
-  * Bridge Connector Functions
-  */
- 
-+static const struct drm_edid *
-+drm_bridge_connector_read_edid(struct drm_connector *connector,
-+			       enum drm_connector_status status)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	const struct drm_edid *drm_edid;
-+	struct drm_bridge *bridge;
-+
-+	bridge = bridge_connector->bridge_edid;
-+	if (!bridge)
-+		return NULL;
-+
-+	if (status != connector_status_connected)
-+		return NULL;
-+
-+	drm_edid = drm_bridge_edid_read(bridge, connector);
-+	if (!drm_edid_valid(drm_edid)) {
-+		drm_edid_free(drm_edid);
-+		return NULL;
-+	}
-+
-+	return drm_edid;
-+}
-+
- static enum drm_connector_status
- drm_bridge_connector_detect(struct drm_connector *connector, bool force)
- {
- 	struct drm_bridge_connector *bridge_connector =
- 		to_drm_bridge_connector(connector);
- 	struct drm_bridge *detect = bridge_connector->bridge_detect;
-+	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
- 	enum drm_connector_status status;
- 
- 	if (detect) {
- 		status = detect->funcs->detect(detect);
- 
-+		if (hdmi) {
-+			const struct drm_edid *drm_edid = drm_bridge_connector_read_edid(connector,
-+											 status);
-+			int ret;
-+
-+			ret = __drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
-+			if (ret)
-+				drm_warn(connector->dev, "updating EDID failed with %d\n", ret);
-+		}
-+
- 		drm_bridge_connector_hpd_notify(connector, status);
- 	} else {
- 		switch (connector->connector_type) {
-@@ -246,29 +283,29 @@ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
- static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
- 					       struct drm_bridge *bridge)
- {
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
- 	enum drm_connector_status status;
- 	const struct drm_edid *drm_edid;
--	int n;
- 
- 	status = drm_bridge_connector_detect(connector, false);
- 	if (status != connector_status_connected)
--		goto no_edid;
-+		return 0;
- 
--	drm_edid = drm_bridge_edid_read(bridge, connector);
--	if (!drm_edid_valid(drm_edid)) {
-+	/* In HDMI setup the EDID has been read and handled as a part of .detect() */
-+	if (!hdmi) {
-+		drm_edid = drm_bridge_connector_read_edid(connector, status);
-+		if (!drm_edid) {
-+			drm_edid_connector_update(connector, NULL);
-+			return 0;
-+		}
-+
-+		drm_edid_connector_update(connector, drm_edid);
- 		drm_edid_free(drm_edid);
--		goto no_edid;
- 	}
- 
--	drm_edid_connector_update(connector, drm_edid);
--	n = drm_edid_connector_add_modes(connector);
--
--	drm_edid_free(drm_edid);
--	return n;
--
--no_edid:
--	drm_edid_connector_update(connector, NULL);
--	return 0;
-+	return drm_edid_connector_add_modes(connector);
- }
- 
- static int drm_bridge_connector_get_modes(struct drm_connector *connector)
+> This would
+> require switching the DRM OF-based APIs to fwnode, but that's easy and
+> mostly a mechanical change.
 
 -- 
-2.39.5
-
+With best wishes
+Dmitry
