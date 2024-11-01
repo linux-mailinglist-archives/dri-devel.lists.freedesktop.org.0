@@ -2,84 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4789B99AD
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 21:53:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620F49B9A08
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2024 22:18:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 227C710EA03;
-	Fri,  1 Nov 2024 20:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE7510EA04;
+	Fri,  1 Nov 2024 21:18:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vDhT7uMB";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="WPkYuP0b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACAC810EA00
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 20:53:36 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-539e5c15fd3so2200000e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 13:53:36 -0700 (PDT)
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
+ [209.85.128.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B39210E0BC
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2024 21:18:38 +0000 (UTC)
+Received: by mail-yw1-f202.google.com with SMTP id
+ 00721157ae682-6e370139342so53102207b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 14:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730494415; x=1731099215; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=LZLbIGLPg0ZdooBd6dWnB50gFBerap6ZdDDe0MlSll8=;
- b=vDhT7uMB9oE5A2f1qXCmA0IwEABRHAZr5fbAI8fWmQwdXvbc6tJ2D1o1oi3WbNYP2S
- vqPRh5xEy/onq0qY/9/p+xZ7/1QWRkx8f2gjWEdNnUYCE9dQBdTPwCm5OURIGYOrnWL7
- myGvhGeqa9ceGBe46k5VsqbiHCinurKDaA+QHfblya6SygMdNB0lDgIewdA/5Z0egneU
- hDrvqyzxeakyTiU0GSNckm/1ACXlTFIwWOCNBreMIDKqmAFTbMwLzvFONAiMR3/d+yF7
- yygy6CJw1CiZpmSWY1q2ITAQlwPAKmvvo/vDySOAmDivcY6oImCNbCXquqh1+zn1ej7U
- N6ww==
+ d=google.com; s=20230601; t=1730495917; x=1731100717;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:mime-version:message-id:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=RKAUdhOSS2JqfDDbXfpdKgYJP1GP/t8//+MWRIuse6M=;
+ b=WPkYuP0b6cwWrC2EOdlxlFFsBPOBGo124IVHM047zkfCrl2GDIRJl2OwHGjhGi/a0z
+ bTJCsvkCtp9vO2TYZzstrre7hIWpPX+cjjJYVtSZEWKojLCLAhThlLKvZVoumn0U+ubs
+ j7/Inn3eAftLs1oWe5kPJSSYi0UZThv0p+07mNnD4i4wG6UMlKj0gEg8CjDZNMtvaVan
+ qSQRVuJGTDxSvNCDLyo1L9EUxz2p6o9uitq3tkRNtzaeMkxYhwepSbjjs9xvigt5wSrD
+ diZ3tvrnI925EDq/kpKI1qB6Ex++DvtnfLV/qY6vpxotX5PebtFqRZFrrzlhtKFNdR38
+ Xdsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730494415; x=1731099215;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LZLbIGLPg0ZdooBd6dWnB50gFBerap6ZdDDe0MlSll8=;
- b=wMFbDIUros+h/Iv+3/I3ENgCxWqXNT6eQjjIgzeQCR3Tzb/ZyDHiI2AaWrC84BFtdE
- DgkuSUazcfM9bMwrvXze97Nb926QOT9maF6j5xIfM4sYOJAlvv8OnTagA5Ve+ITZ2lyj
- gqHovTkwSEmSGUAtKAanL/1KVTjXTRHAtyjHmEXy5OPhrG9DWiF3X3bxOLJw5JTuSlQU
- Rrd0sUl+VEuLbRhAmRWZECqlHnpRr1MBplp/UGg6Z36d24M602treVJtHHJIpORJa0Ul
- WFU+moS0P0iS9T8CuaRKHYEWbRDJTZ30iFVjSud1t0z+npreuuUyhEFr/EY2/0Opeteg
- oGHg==
+ d=1e100.net; s=20230601; t=1730495917; x=1731100717;
+ h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RKAUdhOSS2JqfDDbXfpdKgYJP1GP/t8//+MWRIuse6M=;
+ b=hX/+IefR9kpoRU9PdiAMkV9DhSBqzVO0IXgJM4SkBry5F+Awy/4wf+hbBNv8n42wAg
+ fmpI/g3QCQ7AeNGJOYOWUT/tFafZX6ObXTBYv/wTL5P4auJPDb4VTzEBIBOGtuQnEKVK
+ Wxj04ne787+2VYOPEsYi5U15P7q7kFJXgPzItkS4uu9qNZxVOgkFFeZtoCBscgfmg3k2
+ AUUQBZSaXL6LQOcP13va8tZ5N+npmxAAoK0yE34fyfmFAioDDDIk3nefyBtZnFEQ8O/C
+ QbgopXgk1iK54toYE/HYadKW+WcuMNuZWaRO/2ISBG8N+1KAfM5JzTY7IR/tv6uKLvBb
+ tBgQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUVqkIZjCglS+lGO60+57s971UbykWjak50sKf/GQT+wvMXaXoG0MvFZP9rDzto1z//en+SPM105Tg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyeT7C9sbvsAjzF340pINCUlgtiHE4z8rPQnSz1pK+5PfEemGs6
- imrddR0Iw3irxP9n+uxApLUE/AUFBP7RMAc47LCUflGDLuXOarOB9em637xQUTE=
-X-Google-Smtp-Source: AGHT+IHt6ih4287VbFvjN2ZMIO9oC6CLgNjTgOaM+Uume8lezqmwsD98Znc8+uazoFCTDNrgQRk3WQ==
-X-Received: by 2002:a05:6512:10c7:b0:539:fcb2:2ff4 with SMTP id
- 2adb3069b0e04-53b34b373dcmr10907565e87.53.1730494414517; 
- Fri, 01 Nov 2024 13:53:34 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53c7bde3ab6sm667242e87.281.2024.11.01.13.53.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Nov 2024 13:53:33 -0700 (PDT)
-Date: Fri, 1 Nov 2024 22:53:30 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ AJvYcCXw1j1X5cP7X/m6PHH8CJwkciTQ7FpCskhUJznKtAeyB7kqTPu9AZWKk3zE88IVv798qpCv0RgdhK4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvwpAXTn38pGGGEA1ne6T/hu/nU9xp6PaxJVwHFNcLrzJZ8Ehc
+ SU5zltCs+5KxgcNgYXKLwmWWA4PBlYsUYFVRSf0hSv7iDlp6wuSkj5Ymbd9ObPfD0KVKjrEaqEM
+ X8kQI3g==
+X-Google-Smtp-Source: AGHT+IHmvQkUsmaHvVLtx8/JrbsBlfHJP8YWtWyFWTuZIqJiUwu2npKVN3KrokNzcinZhefYCbmDQ5uspY8X
+X-Received: from irogers.svl.corp.google.com
+ ([2620:15c:2c5:11:f2e6:5ab5:a95f:35cb])
+ (user=irogers job=sendgmr) by 2002:a25:83c3:0:b0:e30:c79e:16bc with SMTP id
+ 3f1490d57ef6-e30c79e1861mr13963276.8.1730495916629; Fri, 01 Nov 2024 14:18:36
+ -0700 (PDT)
+Date: Fri,  1 Nov 2024 14:18:27 -0700
+Message-Id: <20241101211830.1298073-1-irogers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.199.ga7371fff76-goog
+Subject: [PATCH v4 1/4] proc_pid_fdinfo.5: Reduce indent for most of the page
+From: Ian Rogers <irogers@google.com>
+To: Alejandro Colomar <alx@kernel.org>,
+ "G . Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
  dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 7/9] drm/msm/dpu: add support for virtual planes
-Message-ID: <bupwpod53noqukg7u4msstifr6m5h4uddnl3k7242hgj5otqfp@rp6dievmkg7c>
-References: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
- <20241025-dpu-virtual-wide-v6-7-0310fd519765@linaro.org>
- <e0f84f35-6d98-45c3-857c-c273820fab69@quicinc.com>
- <xxxedwb2t6xhfzmhpom6dirs2ur2qvmruimdxgvdkh7gmey5tr@qotm7xvbsg5a>
- <14531af0-29c3-40eb-bf52-8202ba155d0b@quicinc.com>
- <CAA8EJppCppQ_jJu4o62prW-Yp2E3WBfqdYgdJs-KB8kgghj0fg@mail.gmail.com>
- <0550a9d0-dfb6-472d-a0c2-68fab78c3afb@quicinc.com>
- <hjymywkecsbccjq4gzcdwfqp2tss7i7jtbmsg2q4nvy7uapsn4@t5orck7ion7w>
- <0afc409e-63af-4106-8af1-9d21f7ca62dd@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0afc409e-63af-4106-8af1-9d21f7ca62dd@quicinc.com>
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-man@vger.kernel.org, Ian Rogers <irogers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,352 +84,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 01, 2024 at 01:37:03PM -0700, Abhinav Kumar wrote:
-> 
-> 
-> On 10/31/2024 2:03 PM, Dmitry Baryshkov wrote:
-> > On Thu, Oct 31, 2024 at 01:06:34PM -0700, Abhinav Kumar wrote:
-> > > 
-> > > 
-> > > On 10/31/2024 8:11 AM, Dmitry Baryshkov wrote:
-> > > > Hi Abhinav,
-> > > > 
-> > > > On Wed, 30 Oct 2024 at 21:26, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> > > > > 
-> > > > > 
-> > > > > 
-> > > > > On 10/30/2024 3:48 AM, Dmitry Baryshkov wrote:
-> > > > > > On Tue, Oct 29, 2024 at 02:30:12PM -0700, Abhinav Kumar wrote:
-> > > > > > > 
-> > > > > > > 
-> > > > > > > On 10/24/2024 5:20 PM, Dmitry Baryshkov wrote:
-> > > > > > > > Only several SSPP blocks support such features as YUV output or scaling,
-> > > > > > > > thus different DRM planes have different features.  Properly utilizing
-> > > > > > > > all planes requires the attention of the compositor, who should
-> > > > > > > > prefer simpler planes to YUV-supporting ones. Otherwise it is very easy
-> > > > > > > > to end up in a situation when all featureful planes are already
-> > > > > > > > allocated for simple windows, leaving no spare plane for YUV playback.
-> > > > > > > > 
-> > > > > > > > To solve this problem make all planes virtual. Each plane is registered
-> > > > > > > > as if it supports all possible features, but then at the runtime during
-> > > > > > > > the atomic_check phase the driver selects backing SSPP block for each
-> > > > > > > > plane.
-> > > > > > > > 
-> > > > > > > > As the planes are attached to the CRTC and not the encoder, the SSPP
-> > > > > > > > blocks are also allocated per CRTC ID (all other resources are currently
-> > > > > > > > allocated per encoder ID). This also matches the hardware requirement,
-> > > > > > > > where both rectangles of a single SSPP can only be used with the LM
-> > > > > > > > pair.
-> > > > > > > > 
-> > > > > > > > Note, this does not provide support for using two different SSPP blocks
-> > > > > > > > for a single plane or using two rectangles of an SSPP to drive two
-> > > > > > > > planes. Each plane still gets its own SSPP and can utilize either a solo
-> > > > > > > > rectangle or both multirect rectangles depending on the resolution.
-> > > > > > > > 
-> > > > > > > > Note #2: By default support for virtual planes is turned off and the
-> > > > > > > > driver still uses old code path with preallocated SSPP block for each
-> > > > > > > > plane. To enable virtual planes, pass 'msm.dpu_use_virtual_planes=1'
-> > > > > > > > kernel parameter.
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > > > > ---
-> > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  50 +++++++
-> > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c   |  10 +-
-> > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h   |   4 +
-> > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 237 ++++++++++++++++++++++++++----
-> > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  16 ++
-> > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c    |  68 +++++++++
-> > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h    |  27 ++++
-> > > > > > > >      7 files changed, 383 insertions(+), 29 deletions(-)
-> > > > > > > > 
-> > > > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > > > > index 58595dcc3889..a7eea094aa14 100644
-> > > > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > > > > @@ -1166,6 +1166,49 @@ static bool dpu_crtc_needs_dirtyfb(struct drm_crtc_state *cstate)
-> > > > > > > >       return false;
-> > > > > > > >      }
-> > > > > > > > +static int dpu_crtc_reassign_planes(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state)
-> > > > > > > > +{
-> > > > > > > > +   int total_planes = crtc->dev->mode_config.num_total_plane;
-> > > > > > > > +   struct drm_atomic_state *state = crtc_state->state;
-> > > > > > > > +   struct dpu_global_state *global_state;
-> > > > > > > > +   struct drm_plane_state **states;
-> > > > > > > > +   struct drm_plane *plane;
-> > > > > > > > +   int ret;
-> > > > > > > > +
-> > > > > > > > +   global_state = dpu_kms_get_global_state(crtc_state->state);
-> > > > > > > > +   if (IS_ERR(global_state))
-> > > > > > > > +           return PTR_ERR(global_state);
-> > > > > > > > +
-> > > > > > > > +   dpu_rm_release_all_sspp(global_state, crtc);
-> > > > > > > > +
-> > > > > > > > +   if (!crtc_state->enable)
-> > > > > > > > +           return 0;
-> > > > > > > > +
-> > > > > > > > +   states = kcalloc(total_planes, sizeof(*states), GFP_KERNEL);
-> > > > > > > > +   if (!states)
-> > > > > > > > +           return -ENOMEM;
-> > > > > > > > +
-> > > > > > > > +   drm_atomic_crtc_state_for_each_plane(plane, crtc_state) {
-> > > > > > > > +           struct drm_plane_state *plane_state =
-> > > > > > > > +                   drm_atomic_get_plane_state(state, plane);
-> > > > > > > > +
-> > > > > > > > +           if (IS_ERR(plane_state)) {
-> > > > > > > > +                   ret = PTR_ERR(plane_state);
-> > > > > > > > +                   goto done;
-> > > > > > > > +           }
-> > > > > > > > +
-> > > > > > > > +           states[plane_state->normalized_zpos] = plane_state;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   ret = dpu_assign_plane_resources(global_state, state, crtc, states, total_planes);
-> > > > > > > > +
-> > > > > > > > +done:
-> > > > > > > > +   kfree(states);
-> > > > > > > > +   return ret;
-> > > > > > > > +
-> > > > > > > > +   return 0;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >      static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
-> > > > > > > >               struct drm_atomic_state *state)
-> > > > > > > >      {
-> > > > > > > > @@ -1181,6 +1224,13 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
-> > > > > > > >       bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
-> > > > > > > > +   if (dpu_use_virtual_planes &&
-> > > > > > > > +       (crtc_state->planes_changed || crtc_state->zpos_changed)) {
-> > > > > > > > +           rc = dpu_crtc_reassign_planes(crtc, crtc_state);
-> > > > > > > > +           if (rc < 0)
-> > > > > > > > +                   return rc;
-> > > > > > > > +   }
-> > > > > > > 
-> > > > > > > planes_changed is set only for format changes . Will it cover all
-> > > > > > > needs_modeset cases?
-> > > > > > > 
-> > > > > > > OR do we also need to set planes_changed when
-> > > > > > > drm_atomic_crtc_needs_modeset()?
-> > > > > > > 
-> > > > > > > Unless I am missing something, I think we have to otherwise sspp
-> > > > > > > reallocation wont happen in modeset cases.
-> > > > > > 
-> > > > > > I was depending on the planes being included in the state by the client.
-> > > > > > I don't think we really care about the modeset per se. We care about
-> > > > > > plane size changes. And changing the size means that the plane is
-> > > > > > included into the commit.
-> > > > > > 
-> > > > > 
-> > > > > The global state mapping for SSPPs has to be cleared across modesets
-> > > > > IMO. This is no different from us calling dpu_rm_release() today in
-> > > > > dpu_encoder_virt_atomic_check(). I just am not sure whether
-> > > > > planes_changed will cover all modeset conditions.
-> > > > 
-> > > > We clear other resources, because they depend on the CRTC resolution.
-> > > > Planes do not. Well, not until the quadpipe is in play.
-> > > > SSPPs (currently) should be reallocated only if the _plane_'s
-> > > > resolution change. If we have a modeset which involves CRTC resolution
-> > > > change, but not the plane's size change, there is no need to
-> > > > reallocate SSPPs.
-> > > > 
-> > > 
-> > > In dpu_encoder_helper_phys_cleanup(), the SSPPs attached to all LMs are
-> > > removed so clearing all the hardware. If the global state is still going to
-> > > retain the older configuration not reflecting this clear, it seems incorrect
-> > > to me. Thats why I was thinking of clearing all the SSPP mapping in
-> > > disable() or in the modeset prior to the disable as technically thats being
-> > > done in HW today anyway.
-> > > 
-> > > During the next atomic check, the planes in the crtc's current state will
-> > > get re-attached and programmed to the blend stages. So this clearing of
-> > > global state is reflecting the current state of the corresponding hardware.
-> > 
-> > The global state tracks resource allocation. If we clear the resources
-> > in the disable() path, we have no way to know which SSPP blocks were
-> > assigned to us in the corresponding enable() call path. There is no
-> > guarantee that there will be an atomic_check() between disable() and
-> > enable().
-> > 
-> 
-> So I had suggested clearing in disable() because we did not come to an
-> agreement to doing it in atomic_check() just a few comments earlier.
-> 
-> Doing it in disable() is not right. I agree with that part now as we should
-> not be touching the state after atomic_check() phase.
-> 
-> That brings me back to my original question. With the planes_changed check
-> in atomic_check how can we guarantee that global state SSPP allocation is
-> freed and allocated again across a disable() / enable() cycle? Can you pls
-> confirm whether this is happening or not across a hotplug and suspend/resume
-> cycle?
+When /proc/pid/fdinfo was part of proc.5 man page the indentation made
+sense. As a standalone man page the indentation doesn't need to be so
+far over to the right. Remove the initial tagged pragraph, move the
+"since Linux 2.6.22" to a new history subsection.
 
-disable() / enable() on which object? Because CRTC, if it
-needs_modeset() || crtc_needs_disable() absolutely can go through a
-disable / enable cycle, it doesn't require SSPP reallocation at all.
+Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
+Signed-off-by: Ian Rogers <irogers@google.com>
+---
+v4. Move since to history from Alejandro Colomar's <alx@kernel.org> review
+    comment.
 
-But maybe it's easier to just have drm_atomic_crtc_needs_modeset(). Will
-that make it better for you?
+---
+ man/man5/proc_pid_fdinfo.5 | 51 +++++++++++++++++++-------------------
+ 1 file changed, 25 insertions(+), 26 deletions(-)
 
-> 
-> 
-> > > 
-> > > > > 
-> > > > > Were you able to confirm whether the mapping gets cleared across
-> > > > > hotplugs or suspend/resumes? If so, it would confirm whether
-> > > > > planes_changed covers these aspects. Although, I think clearing should
-> > > > > be more explicit.
-> > > > 
-> > > > I will check that tomorrow.
-> > > > 
-> > > > > Another option could be for you to call dpu_rm_release_all_sspp() in
-> > > > > dpu_crtc_disable(). So that across a disable and enable we have a clear
-> > > > > mapping table. WDYT?
-> > > > 
-> > > > Absolutely no. The RM state should only be changed when other object's
-> > > > state change - in atomic_check(). After that it is mostly r/o.
-> > > > enabling/disabling the resource shouldn't change resource assignment
-> > > > at all.
-> > > > 
-> 
-> Ack but please check above.
-> 
-> > > > > 
-> > > > > > > 
-> > > > > > > Overall, mainly we want to make sure SSPPs are re-assigned when:
-> > > > > > > 
-> > > > > > 
-> > > > > > 0) plane size changes
-> > > > > > > > 1) format changes (RGB to YUV and vice-versa)
-> > > > > > > 2) Any modesets
-> > > > > > 
-> > > > > > No
-> > > > > 
-> > > > > I am not able to follow why this is different from any global state
-> > > > > mapping of other HW blocks that we do across modesets.
-> > > > 
-> > > > DIfferent lifecycle requirements, I'd say.
-> > > > 
-> > > > > 
-> > > > > > 
-> > > > > > > 3) Any disable/enable without modeset like connectors changed as SSPPs are
-> > > > > > > changing outputs there.
-> > > > > > 
-> > > > > > Absolutely no, the logic should be the same as active vs enabled for
-> > > > > > CRTCs. Realloc resources only if the plane itself gets disabled or
-> > > > > > enabled. In all other cases the set of SSPP blocks should stay
-> > > > > > untouched.
-> > > > > > 
-> > > > > 
-> > > > > I am going to re-visit this later perhaps but if we incorporate my above
-> > > > > suggestion of clearing the mapping in disable() I will be partially
-> > > > > satisfied.
-> > > > 
-> > > > No, resource mapping can not be cleaned in disable(). We do not do
-> > > > that for any other resource kind.
-> > > > 
-> > > 
-> > > That gets handled with the needs_modeset part today which is calling the
-> > > dpu_rm_release().
-> > 
-> > In atomic_check() path, not in the disable() path.
-> > 
-> > > 
-> > > > > 
-> > > > > > > 
-> > > > > > > If we are covered for all these, let me know.
-> > > > > > > 
-> > > > > > > > +
-> > > > > > > >       if (!crtc_state->enable || !drm_atomic_crtc_effectively_active(crtc_state)) {
-> > > > > > > >               DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
-> > > > > > > >                               crtc->base.id, crtc_state->enable,
-> > > > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > > > > > > > index 15679dd50c66..70757d876cc3 100644
-> > > > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > > > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > > > > > > > @@ -51,6 +51,9 @@
-> > > > > > > >      #define DPU_DEBUGFS_DIR "msm_dpu"
-> > > > > > > >      #define DPU_DEBUGFS_HWMASKNAME "hw_log_mask"
-> > > > > > > > +bool dpu_use_virtual_planes;
-> > > > > > > > +module_param(dpu_use_virtual_planes, bool, 0);
-> > > > > > > > +
-> > > > > > > >      static int dpu_kms_hw_init(struct msm_kms *kms);
-> > > > > > > >      static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms);
-> > > > > > > > @@ -814,8 +817,11 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
-> > > > > > > >                         type, catalog->sspp[i].features,
-> > > > > > > >                         catalog->sspp[i].features & BIT(DPU_SSPP_CURSOR));
-> > > > > > > > -           plane = dpu_plane_init(dev, catalog->sspp[i].id, type,
-> > > > > > > > -                                  (1UL << max_crtc_count) - 1);
-> > > > > > > > +           if (dpu_use_virtual_planes)
-> > > > > > > > +                   plane = dpu_plane_init_virtual(dev, type, (1UL << max_crtc_count) - 1);
-> > > > > > > > +           else
-> > > > > > > > +                   plane = dpu_plane_init(dev, catalog->sspp[i].id, type,
-> > > > > > > > +                                          (1UL << max_crtc_count) - 1);
-> > > > > > > >               if (IS_ERR(plane)) {
-> > > > > > > >                       DPU_ERROR("dpu_plane_init failed\n");
-> > > > > > > >                       ret = PTR_ERR(plane);
-> > > > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> > > > > > > > index 935ff6fd172c..479d4c172290 100644
-> > > > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> > > > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> > > > > > > > @@ -54,6 +54,8 @@
-> > > > > > > >      #define ktime_compare_safe(A, B) \
-> > > > > > > >       ktime_compare(ktime_sub((A), (B)), ktime_set(0, 0))
-> > > > > > > > +extern bool dpu_use_virtual_planes;
-> > > > > > > > +
-> > > > > > > >      struct dpu_kms {
-> > > > > > > >       struct msm_kms base;
-> > > > > > > >       struct drm_device *dev;
-> > > > > > > > @@ -128,6 +130,8 @@ struct dpu_global_state {
-> > > > > > > >       uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
-> > > > > > > >       uint32_t dsc_to_enc_id[DSC_MAX - DSC_0];
-> > > > > > > >       uint32_t cdm_to_enc_id;
-> > > > > > > > +
-> > > > > > > > +   uint32_t sspp_to_crtc_id[SSPP_MAX - SSPP_NONE];
-> > > > > > > >      };
-> > > > > > > 
-> > > > > > > This is the part which now looks odd and can be managed with rebase I guess.
-> > > > > > > 
-> > > > > > > Are you planning to pull in the move resource allocation to crtc_id changes
-> > > > > > > first before this part? IOW, rebase this change on top of that?
-> > > > > > 
-> > > > > > No. I do not. If you remember, several revisions ago the enc_id ->
-> > > > > > crtc_id was a part of the series, but we both agreed to drop it since it
-> > > > > > was not required for virtual planes. As such, I plan to land this one
-> > > > > > first (yes, having some of the resources tracked basing on enc_id and
-> > > > > > SSPP is tracked basing on crtc_id).
-> > > > > > 
-> > > > > 
-> > > > > Yes, I am not asking whether you will be absorbing those changes into
-> > > > > this series. Even I would not suggest doing that.
-> > > > > 
-> > > > > I was asking whether you will merge the crtc_id based tracking first and
-> > > > > then apply this on top of that and not the other way around.
-> > > > > 
-> > > > > Because with this specific line I am certain it will conflict as both
-> > > > > the series touch struct dpu_global_state.
-> > > > 
-> > > > They touch different parts of it. So I'd prefer to land this one first
-> > > > and then land using crtc_id for mapping.
-> > > > 
-> > > 
-> > > I am okay to fixup any other issues which arise later on because we have the
-> > > modparam protection anyway but I think validating suspend/resume and hotplug
-> > > to ensure no black screens is required. If those two cases work fine on your
-> > > end, we can proceed.
-> > 
-> > I have been validating these changes with hotplug events, yes. I wasn't
-> > checking the suspend/resume, but that's broken anyway, until we land
-> > https://patchwork.freedesktop.org/patch/606931/?series=135908&rev=2
-> > 
-> 
-> Can you pls confirm once whether the global state mapping gets freed across
-> crtc disable/enable cycle with the planes_changed check? I think it has to.
-
-I think you are asking the question from the wrong side. What kind of
-commit leads to that CRTC disable/enable cycle?
-
-> 
-> Other items are closed so snipping out below.
-
+diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
+index 1e23bbe02..ad739bd84 100644
+--- a/man/man5/proc_pid_fdinfo.5
++++ b/man/man5/proc_pid_fdinfo.5
+@@ -8,8 +8,6 @@
+ .SH NAME
+ /proc/pid/fdinfo/ \- information about file descriptors
+ .SH DESCRIPTION
+-.TP
+-.IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
+ This is a subdirectory containing one entry for each file which the
+ process has open, named by its file descriptor.
+ The files in this directory are readable only by the owner of the process.
+@@ -17,9 +15,9 @@ The contents of each file can be read to obtain information
+ about the corresponding file descriptor.
+ The content depends on the type of file referred to by the
+ corresponding file descriptor.
+-.IP
++.P
+ For regular files and directories, we see something like:
+-.IP
++.P
+ .in +4n
+ .EX
+ .RB "$" " cat /proc/12015/fdinfo/4"
+@@ -28,7 +26,7 @@ flags:  01002002
+ mnt_id: 21
+ .EE
+ .in
+-.IP
++.P
+ The fields are as follows:
+ .RS
+ .TP
+@@ -51,7 +49,6 @@ this field incorrectly displayed the setting of
+ at the time the file was opened,
+ rather than the current setting of the close-on-exec flag.
+ .TP
+-.I
+ .I mnt_id
+ This field, present since Linux 3.15,
+ .\" commit 49d063cb353265c3af701bab215ac438ca7df36d
+@@ -59,13 +56,13 @@ is the ID of the mount containing this file.
+ See the description of
+ .IR /proc/ pid /mountinfo .
+ .RE
+-.IP
++.P
+ For eventfd file descriptors (see
+ .BR eventfd (2)),
+ we see (since Linux 3.8)
+ .\" commit cbac5542d48127b546a23d816380a7926eee1c25
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -74,16 +71,16 @@ mnt_id:	10
+ eventfd\-count:               40
+ .EE
+ .in
+-.IP
++.P
+ .I eventfd\-count
+ is the current value of the eventfd counter, in hexadecimal.
+-.IP
++.P
+ For epoll file descriptors (see
+ .BR epoll (7)),
+ we see (since Linux 3.8)
+ .\" commit 138d22b58696c506799f8de759804083ff9effae
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -93,7 +90,7 @@ tfd:        9 events:       19 data: 74253d2500000009
+ tfd:        7 events:       19 data: 74253d2500000007
+ .EE
+ .in
+-.IP
++.P
+ Each of the lines beginning
+ .I tfd
+ describes one of the file descriptors being monitored via
+@@ -110,13 +107,13 @@ descriptor.
+ The
+ .I data
+ field is the data value associated with this file descriptor.
+-.IP
++.P
+ For signalfd file descriptors (see
+ .BR signalfd (2)),
+ we see (since Linux 3.8)
+ .\" commit 138d22b58696c506799f8de759804083ff9effae
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -125,7 +122,7 @@ mnt_id:	10
+ sigmask:	0000000000000006
+ .EE
+ .in
+-.IP
++.P
+ .I sigmask
+ is the hexadecimal mask of signals that are accepted via this
+ signalfd file descriptor.
+@@ -135,12 +132,12 @@ and
+ .BR SIGQUIT ;
+ see
+ .BR signal (7).)
+-.IP
++.P
+ For inotify file descriptors (see
+ .BR inotify (7)),
+ we see (since Linux 3.8)
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -150,7 +147,7 @@ inotify wd:2 ino:7ef82a sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8
+ inotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:27261900802dfd73
+ .EE
+ .in
+-.IP
++.P
+ Each of the lines beginning with "inotify" displays information about
+ one file or directory that is being monitored.
+ The fields in this line are as follows:
+@@ -168,19 +165,19 @@ The ID of the device where the target file resides (in hexadecimal).
+ .I mask
+ The mask of events being monitored for the target file (in hexadecimal).
+ .RE
+-.IP
++.P
+ If the kernel was built with exportfs support, the path to the target
+ file is exposed as a file handle, via three hexadecimal fields:
+ .IR fhandle\-bytes ,
+ .IR fhandle\-type ,
+ and
+ .IR f_handle .
+-.IP
++.P
+ For fanotify file descriptors (see
+ .BR fanotify (7)),
+ we see (since Linux 3.8)
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -190,7 +187,7 @@ fanotify flags:0 event\-flags:88002
+ fanotify ino:19264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:4f261900a82dfd73
+ .EE
+ .in
+-.IP
++.P
+ The fourth line displays information defined when the fanotify group
+ was created via
+ .BR fanotify_init (2):
+@@ -210,7 +207,7 @@ argument given to
+ .BR fanotify_init (2)
+ (expressed in hexadecimal).
+ .RE
+-.IP
++.P
+ Each additional line shown in the file contains information
+ about one of the marks in the fanotify group.
+ Most of these fields are as for inotify, except:
+@@ -228,16 +225,16 @@ The events mask for this mark
+ The mask of events that are ignored for this mark
+ (expressed in hexadecimal).
+ .RE
+-.IP
++.P
+ For details on these fields, see
+ .BR fanotify_mark (2).
+-.IP
++.P
+ For timerfd file descriptors (see
+ .BR timerfd (2)),
+ we see (since Linux 3.17)
+ .\" commit af9c4957cf212ad9cf0bee34c95cb11de5426e85
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:    0
+@@ -296,5 +293,7 @@ fields contain the values that
+ .BR timerfd_gettime (2)
+ on this file descriptor would return.)
+ .RE
++.SH HISTORY
++Since Linux 2.6.22.
+ .SH SEE ALSO
+ .BR proc (5)
 -- 
-With best wishes
-Dmitry
+2.47.0.199.ga7371fff76-goog
+
