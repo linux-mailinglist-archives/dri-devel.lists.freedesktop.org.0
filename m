@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F44E9BA2AE
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 23:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B943B9BA2B4
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 23:14:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C05FB10E1AE;
-	Sat,  2 Nov 2024 22:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7088C10E314;
+	Sat,  2 Nov 2024 22:14:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IUJ5lSbi";
+	dkim=pass (2048-bit key; secure) header.d=debian.org header.i=@debian.org header.b="siV35kK1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
- [209.85.167.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E76210E308
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 10:38:43 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id
- 5614622812f47-3e5f6e44727so1697269b6e.0
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Nov 2024 03:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730543923; x=1731148723; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=k/ZWk9DDmTrPA9Bmswxbiav7q4dUci0lNhwSdMNy9Po=;
- b=IUJ5lSbimLUCqoBwph6qLdgLc04R1gz70rec10YR2AvycLmblJ3mZ+/7v3oe95DcOj
- 96SqF4ID+fk/OLYRIPDcYiNqiMK57+wVaXUZykkHJTS/oFh0qI7Zy0NDy/DqODyZHQpC
- XDxANBnLLTK1UByBzX4ojPBsF1L/F029PgLATWV6xUqSIYtesE/K/QZkBoCsz7fE7I2i
- vEjO6dzn5ebIZ5P5JJQeHE0n3k2BcB1BWz3FUnHUv8b8jX+S1HwLxzkE4VuK7AmMCcas
- ySUIVbgaIKD3jmnzRkxAmzzRTcA0nQ05DQ2RecotlK1afGNv6wVgGMLo+SQ5jmvOINwL
- O53g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730543923; x=1731148723;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=k/ZWk9DDmTrPA9Bmswxbiav7q4dUci0lNhwSdMNy9Po=;
- b=YjKuYs4yoPu9XlXPffDGS4rJTqHdLRsULOK9BqJFU2ejD2m3EfCxVv6G5fwPgc+0YM
- IAfWv860LcjvFSKvSRPMzIHH+vGWxbWrmCl1HVPx4Kl33/h0NdAWx6LMmgJ+QJrpPpnK
- EcSwgRKlw9GXyOF34jVHGTJx6s8nApRl7e9oj0RRgcWnAmppX0RogB+FfzkvcjTTHaRj
- h2P6yjU4Q/E3cVbDaDTVmVTVC9fagQXUdTpGkCaGbqKdscOdpSzDnkmlqCLnERJGxCE9
- XoW7fOyu/oJLJazFHAuV4X4mJj9gpkVJAMn7g5NcIp45dShtvG7w7hkPyE53EBJtronR
- DyHQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXU6phhEscoq/HEfciYqiLo7I21A81EzUorFJOuWbDehXQPDZ4pNSzCG2SP872cofJn6xZLiYqn2JE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzxhi0pY/eYEGm8vpG4WWKVpmD6Iuo7ckfXS8laGRC1M8KGr270
- gdFn4PrCdIsnXXLlBZntdwGgy2Firs/o6NEjiRGBp/PIunmOG5zE
-X-Google-Smtp-Source: AGHT+IHrk6/Q5n2E+je2c41WlxltR+FCVn8JFH147Ayi2cb5tVwj+WI6Q57hGT3UkY8Rx4u714ZQ4A==
-X-Received: by 2002:a05:6808:2e93:b0:3e7:5b07:6a with SMTP id
- 5614622812f47-3e75b07017amr5014623b6e.22.1730543922530; 
- Sat, 02 Nov 2024 03:38:42 -0700 (PDT)
-Received: from illithid ([2600:1700:957d:1d70::49])
- by smtp.gmail.com with ESMTPSA id
- 5614622812f47-3e66123f363sm1185127b6e.37.2024.11.02.03.38.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Nov 2024 03:38:41 -0700 (PDT)
-Date: Sat, 2 Nov 2024 05:38:39 -0500
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To: Ian Rogers <irogers@google.com>
-Cc: Alejandro Colomar <alx@kernel.org>, David Airlie <airlied@gmail.com>,
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 574E010E148
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 19:07:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org; 
+ s=smtpauto.stravinsky;
+ h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=gRdoADem0zi3UiPGufevBBdXeee4wC93CBeg2OV7GkM=; b=siV35kK1g1+QJ3GQvf6cmw53CE
+ FRCDIEOreFqbmhbkCLZsSHAm4yeYhjJ5gKOWRUahEOiLnDvibrxUNzV2LLRsf89e8yRVbDTzIaBI8
+ moOd8grqJqCQ6pEEO3yVxO1PmGYeEyXxwZBuXUdeICBocNDgVNiGssk7VPockapDNesdotdwBNpmt
+ BJXcpNbaTTj1LfSn45EjlIYHYje4DY6AinU7TN+K9g2TigsS2ug4Lld7Ddo76dK93TAuvTTlzy6In
+ MmEtnJ9oo3AOruesWjn9+hoH79ncjg2n1+czjydf8jl0P4jCF/1RnBGrwco7fqljjWYcecGeEs/UN
+ c72enfNA==;
+Received: from authenticated user by stravinsky.debian.org with esmtpsa
+ (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.94.2) (envelope-from <cjwatson@debian.org>)
+ id 1t7JSZ-00AqcD-D6; Sat, 02 Nov 2024 19:06:55 +0000
+Received: from ns1.rosewood.vpn.ucam.org ([172.20.153.2] helo=riva.ucam.org)
+ by riva.rosewood.vpn.ucam.org with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <cjwatson@debian.org>) id 1t7JSY-0044X1-0k;
+ Sat, 02 Nov 2024 19:06:54 +0000
+Date: Sat, 2 Nov 2024 19:06:53 +0000
+From: Colin Watson <cjwatson@debian.org>
+To: "G. Branden Robinson" <cjwatson@debian.org>
+Cc: Alejandro Colomar <alx@kernel.org>, Ian Rogers <irogers@google.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-man@vger.kernel.org, groff@gnu.org
+Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
+ page
+Message-ID: <ZyZ4Tfxfr7M-EqUo@riva.ucam.org>
+Mail-Followup-To: Alejandro Colomar <alx@kernel.org>,
+ Ian Rogers <irogers@google.com>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-man@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] proc_pid_fdinfo.5: Add DRM subsection
-Message-ID: <20241102103839.fv3qvp2ltgzzvlr5@illithid>
-References: <20241101191156.1272730-1-irogers@google.com>
- <20241101191156.1272730-4-irogers@google.com>
+ linux-man@vger.kernel.org, groff@gnu.org
+References: <20241015211719.1152862-1-irogers@google.com>
+ <20241101132437.ahn7xdgvmqamatce@devuan>
+ <CAP-5=fXo5XjxUXshm9eRX-hCcC5VWOv0C5LBZ3Z0_wQb+rdnsw@mail.gmail.com>
+ <20241101200729.6wgyksuwdtsms3eu@devuan>
+ <20241102100837.anfonowxfx4ekn3d@illithid>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="554cw2lezzhi6vpu"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241101191156.1272730-4-irogers@google.com>
+In-Reply-To: <20241102100837.anfonowxfx4ekn3d@illithid>
+X-Debian-User: cjwatson
 X-Mailman-Approved-At: Sat, 02 Nov 2024 22:14:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,173 +84,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, Nov 02, 2024 at 05:08:37AM -0500, G. Branden Robinson wrote:
+> On GNU/Linux systems, the only man page indexer I know of is Colin
+> Watson's man-db--specifically, its mandb(8) program.  But it's nicely
+> designed so that the "topic and summary description extraction" task is
+> delegated to a standalone tool, lexgrog(1), and we can use that.
+> 
+> $ lexgrog /tmp/proc_pid_fdinfo_mini.5
+> /tmp/proc_pid_fdinfo_mini.5: parse failed
+> 
+> Oh, damn.  I wasn't expecting that.  Maybe this is what defeats Michael
+> Kerrisk's scraper with respect to groff's man pages.[1]
 
---554cw2lezzhi6vpu
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 4/4] proc_pid_fdinfo.5: Add DRM subsection
-MIME-Version: 1.0
+How embarrassing.  Could somebody please file a bug on
+https://gitlab.com/man-db/man-db/-/issues to remind me to fix that?  (Of
+course there'll be a lead time for fixes to get into distributions.)
 
-Hi Ian,
+> Well, I can find a silver lining here, because it gives me an even
+> better reason than I had to pitch an idea I've been kicking around for a
+> while.  Why not enhance groff man(7) to support a mode where _it_ will
+> spit out the "Name"/"NAME" section, and only that, _for_ you?
+> 
+> This would be as easy as checking for an option, say '-d EXTRACT=Name',
+> and having the package's "TH" and "SH" macro definitions divert
+> (literally, with the `di` request) everything _except_ the section of
+> interest to a diversion that is then never called/output.  (This is
+> similar to an m4 feature known as the "black hole diversion".)
+> 
+> All of the features necessary to implement this[2] were part of troff as
+> far as back as the birth of the man(7) package itself.  It's not clear
+> to me why it wasn't done back in the 1980s.
+> 
+> lexgrog(1) itself will of course have to stay around for years to come,
+> but this could take a significant distraction off of Colin's plate--I
+> believe I have seen him grumble about how much *roff syntax he has to
+> parse to have the feature be workable, and that's without upstart groff
+> maintainers exploring up to every boundary that existed even in 1979 and
+> cheerfully exercising their findings in man pages.
 
-At 2024-11-01T12:11:56-0700, Ian Rogers wrote:
-[...]
-> +.EX
-> +pos:    0
-> +flags:  02100002
-> +mnt_id: 26
-> +ino:    284
-> +drm-driver:     i915
-> +drm-client-id:  39
-> +drm-pdev:       0000:00:02.0
-> +drm-total-system0:      6044 KiB
-> +drm-shared-system0:     0
-> +drm-active-system0:     0
-> +drm-resident-system0:   6044 KiB
-> +drm-purgeable-system0:  1688 KiB
-> +drm-total-stolen-system0:       0
-> +drm-shared-stolen-system0:      0
-> +drm-active-stolen-system0:      0
-> +drm-resident-stolen-system0:    0
-> +drm-purgeable-stolen-system0:   0
-> +drm-engine-render:      346249 ns
-> +drm-engine-copy:        0 ns
-> +drm-engine-video:       0 ns
-> +drm-engine-capacity-video:      2
-> +drm-engine-video-enhance:       0 ns
-> +.EE
-> +.TP
-> +.IR drm-driver: " .+  (mandatory)"
-> +The name this driver registered.
-> +.TP
-> +.IR drm-pdev: " <aaaa:bb:cc.d>"
-> +For PCI devices this should contain the PCI slot address of the device
-> +in question.
-> +.TP
-> +.IR drm-client-id: " [0-9]+"
-> +Unique value relating to the open DRM file descriptor used to
-> +distinguish duplicated and shared file descriptors.
-> +.P
-> +GPUs usually contain multiple execution engines. Each shall be given a
-> +stable and unique name (<engine_name>), with possible values
-> +documented in the driver specific documentation.
-> +.TP
-> +.IR drm-engine-<engine_name>: " [0-9]+ ns"
-> +GPU engine utilization, time spent busy executing workloads for this cli=
-ent.
-[...]
+lexgrog(1) is a useful (if oddly-named, sorry) debugging tool, but if
+you focus on that then you'll end up with a design that's not very
+useful.  What really matters is indexing the whole system's manual
+pages, and mandb(8) does not do that by invoking lexgrog(1) one page at
+a time, but rather by running more or less the same code in-process.  I
+already know that getting acceptable performance for this requires care,
+as illustrated by one of the NEWS entries for man-db 2.10.0:
 
-In my opinion the use of <bracketed_notation> like that is not idiomatic
-in man pages.  (We sometimes see it anyway, because for a long time
-"rock star programmers" have treated the neglect of man page idioms as a
-competitive sport.[1])
+ * Significantly improve `mandb(8)` and `man -K` performance in the common
+   case where pages are of moderate size and compressed using `zlib`: `mandb
+   -c` goes from 344 seconds to 10 seconds on a test system.
 
-Also the mixture of regex notation with <bracketed_notation> is a little
-bewildering (again, my opinion).
+... so I'm prepared to bet that forking nroff one page at a time will be
+unacceptably slow.  (This also combines with the fact that man-db
+applies some sandboxing when it's calling nroff just in case it might
+happen that a moderately-sized C++ project has less than 100% perfect
+security when doing text processing, which I'm sure everyone agrees
+would never happen.)
 
-I would recast these to use bold for the literal bits, italics for the
-variable parts, roman for nonliteral syntax, and, for this page, lean
-completely into the use of EREs.
+If it were possible to run nroff over a whole batch of pages and get
+output for each of them in one go, then maaaaybe.  man-db would need a
+reliable way to associate each line (or sometimes multiple lines) of
+output with each source file, and of course care would be needed around
+error handling and so on.  I can see the appeal, in terms of processing
+the actual language rather than a pile of hacks that try to guess what
+to do with it - but on the other hand this starts to feel like a much
+less natural fit for the way nroff is run in every other situation,
+where you're processing one document at a time.
 
-groff_man_style(7) offers suggestions:
+Cheers,
 
-   Font style macros
-=2E..
-              Use bold for literal portions of syntax synopses, for
-              command=E2=80=90line options in running text, and for literals
-              that are major topics of the subject under discussion; for
-              example, this page uses bold for macro, string, and
-              register names.  In an .EX/.EE example of interactive I/O
-              (such as a shell session), set only user input in bold.
-=2E..
-              Use italics for file and path names, for environment
-              variables, for C data types, for enumeration or
-              preprocessor constants in C, for variant (user=E2=80=90
-              replaceable) portions of syntax synopses, for the first
-              occurrence (only) of a technical concept being introduced,
-              for names of journals and of literary works longer than an
-              article, and anywhere a parameter requiring replacement by
-              the user is encountered.  An exception involves variant
-              text in a context already typeset in italics, such as file
-              or path names with replaceable components; in such cases,
-              follow the convention of mathematical typography: set the
-              file or path name in italics as usual but use roman for
-              the variant part (see .IR and .RI below), and italics
-              again in running roman text when referring to the variant
-              material.
-=2E..
-       Observe what is not prescribed for setting in bold or italics
-       above: elements of =E2=80=9Csynopsis language=E2=80=9D such as ellip=
-ses and
-       brackets around options; proper names and adjectives; titles of
-       anything other than major works of literature; identifiers for
-       standards documents or technical reports such as CSTR #54,
-       RFC 1918, Unicode 13.0, or POSIX.1=E2=80=902017; acronyms; and
-       occurrences after the first of a technical term.
-
-So I might write these more like the following.
-
-=2EP
-We use extended regular expressions to represent the expected parameter
-values;
-see
-=2EBR regex (7). \" `BR` for Linux man-pages documents only
-=2ETP
-=2EBR drm\-driver: " .+"\c
-=2EI " (mandatory)"
-The name this driver registered.
-=2ETP
-=2EBR drm\-pdev: " [0-9A-F]{4}:[0-9A-F]{2}:[0-9A-F]{2}.[0-9A-F]"
-For PCI devices this should contain the PCI slot address of the device
-in question.
-=2ETP
-=2EBR drm\-client\-id: " [0-9]+"
-Unique value relating to the open DRM file descriptor used to
-distinguish duplicated and shared file descriptors.
-=2EP
-GPUs usually contain multiple execution engines.
-Each shall be given a
-stable and unique
-=2EIR engine-name ,
-with possible values documented in driver-specific documentation.
-=2ETP
-=2EBI drm\-engine\- engine-name :\c
-\& [0-9]+ ns
-GPU engine utilization:
-time spent busy executing workloads for this client.
-
-I also (1) used the `\c` escape sequence to fit three different font
-styles into a paragraph tag; and (2) escaped literal hyphens.
-
-Regards,
-Branden
-
-[1] I give you the Worst Man Page in the World.
-
-    https://gitlab.com/procps-ng/procps/blob/7ac9a0e1f5606696dc799b773d5ec7=
-0183ca91a3/ps/ps.1
-
-    Fortunately the procps-ng maintainers eventually rewrote it.
-
---554cw2lezzhi6vpu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmcmAScACgkQ0Z6cfXEm
-bc6FyhAArhPCoDcGbr4qZXkTeFtQzbsVWT+LAgQPsbzDSRulHcOyRYqiosrjGVDo
-sooTFzFrPusklFvLAeG4KQIeHgPRF9b2HgEXQcbUS2e6fy4p1qa/9bSlsazl1cPw
-v99bJgnvKSjVWxLCslb9o0mSGeemiusTwb8ncC4ZVVqjKsLNHlRQ4bQ4+vG4PyeM
-jX07pv3yEybOY4yaEvmFj/aBOWbY6CSJCQ+xQYtyYKcJ7ywXHpxh0uqHxsc5EGk9
-VRA/0b7VT88E1BeB2TTZtjb9NWRVX49JrZCtJFLllzCOn4+LtwrGL5mWQyLV0BaZ
-dWP1QhejnaL/F+UeAmKNdTXIucecvzNlp00iggWYfwxPEJCiFFC7tzgML78ypI77
-N7j/NJdluMGivipgQtPIdIAfyEfwq7Qd0P64soJD3lkChX+RbkyNZKhkdQ4ncim5
-JfMf/oj0lTMsiTVQrvUge/Ru48yQgPCaa7eT4DhcUN1pTORWKqTFZN/+Z0UZR7au
-EL1wSR3pVSHOoqPHh31R/xM+W8fuh6Ri+GTJvz0g8Hy4IaWRYhuGr1XWHGrtoKT8
-CBBjYZzKm+Mh+l5ZoccElOaDYAKTXQRSrVRBbyGggM3/H36futr/WgSQycmr05e5
-KGZFv6fTvqxpBXFKiWidvr+tLb5w5ls4V1spZSdEbgbpi7/BM4E=
-=wUZx
------END PGP SIGNATURE-----
-
---554cw2lezzhi6vpu--
+-- 
+Colin Watson (he/him)                              [cjwatson@debian.org]
