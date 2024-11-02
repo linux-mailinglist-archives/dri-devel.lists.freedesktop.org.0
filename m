@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C53E9BA295
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 22:45:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559869BA296
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 22:46:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C817010E21E;
-	Sat,  2 Nov 2024 21:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C279610E235;
+	Sat,  2 Nov 2024 21:46:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HKghWJ/H";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JiiPgUm8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8612610E21E
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 21:45:21 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-5c903f5bd0eso5329471a12.3
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Nov 2024 14:45:21 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2ED310E235
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 21:46:36 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a86e9db75b9so461332366b.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Nov 2024 14:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730583920; x=1731188720; darn=lists.freedesktop.org;
- h=content-transfer-encoding:autocrypt:subject:from:cc:to
- :content-language:user-agent:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Bf4vSox3tmK+BK/1n0C2aOQApIyr9rpMRtqkl2ON57M=;
- b=HKghWJ/HF1lzf5FDW3lvLy3+Y9kLvTVwb4Vj2oHY56bFzdnD27DqTNZTnB4OH4j8FR
- fDpWcfTeqaeqqKHdS/cVCZ7lyKUxf1u4i+2yQ6bBMqXbAcvKrLeRJEQZkc48s0fGp7hg
- RbTs1txi2WNJeRlutONioEqEDiOhxIRt4npVJMR5/cGSZT+c84g9s4Q081gy8ojsGSEz
- H1mTnX8UpGdNoH2BZ0Air9+nvFdjRHaK2DPe3zXijEJZiUk69TrxHScpWSIHaG/rs9XL
- Twklg9LGmaVGs74Hm03guu/dtQjIsN2oXgo0epgAkoR//uQWwRI3aq/NtarW53fnDkkv
- m3aQ==
+ d=gmail.com; s=20230601; t=1730583995; x=1731188795; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :references:cc:to:from:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=A+g2rUtrq4K4ttP0uYoloAGy4GhsQtwQ8IziC3FEUvE=;
+ b=JiiPgUm8l5LjHeD+f3pVdL8e79PX1wm2KVe6sK1KTRjxGPfvhNZsXpNwNJSVg6e4H4
+ jBsTWBJmLBG9KS494pNEt1nsMYO2E1qnhAmw+aDndFERiGdiVVNOiAFUkiStY9nvA7MR
+ K1SRLM1xIiHU6tGGFHLPVL1viH9Ro6LF9mjdCokn0W732qIIMfgqhoRD80d1247w9Wr7
+ PcwHaYJ5lQrRYUra3sly1Xt2/VWDSVBr98BQzmXoMHs5pSo9FQ1wPPAMd/6o5y1N01H5
+ VuOeRros9nWR9f4rvBSQIJeEaIJSRSJMc3qsH65NAL/bEsO4Yqt4d76lixTGZt9iX39y
+ cmAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730583920; x=1731188720;
- h=content-transfer-encoding:autocrypt:subject:from:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Bf4vSox3tmK+BK/1n0C2aOQApIyr9rpMRtqkl2ON57M=;
- b=AfwwRydhWUJfS29tXXJLqwXrSM3Fv9WiLAkrMC03fdhaPcTxSHs/ZNrg6Wr3J/2Ees
- CQuNESwu09rjdydJwQx7GVe/bHALCghnWd0ohyn9Vls51it3QwKg01BJZaFjxuhFzLV1
- e/5tyLLdUJyCynEvn/lK8rQPH0UnOnhqd19q8sxWlfv2QPF91VRDh/3faeZCi3Ei5K7C
- LC5IzswIfzuaj/Pv6g9UCJQGYaFF6Ni22mpwgFaMD1ZJcmt+qW4EMC5ZRuzTpO9MjSZL
- Q6mww/pLBq8Nox65m4ZVuQQsgvh4jSjHKycEJItWnDdSZJnBUT3kQURKfW6T9eWYyZT8
- ipzg==
-X-Gm-Message-State: AOJu0YxBdWbE65BNBk4C60ySfaoPPUiL1wf2LA1MOQLUW8VNhw/DWNkR
- nIrHTsx2S0603/7Kx1WHmHzoIEiJs+fu1bB7yCUfyHlfAsNsWDBB
-X-Google-Smtp-Source: AGHT+IEyimcR7EO2sIS0p0EsdjOaM4XYrFwsx+ul6Lau+UCF0bIH8kxg29Ri8fBCyYurhHuhfvjPHQ==
-X-Received: by 2002:a17:906:c154:b0:a9a:38e6:2fdf with SMTP id
- a640c23a62f3a-a9e50ba7dc2mr1159010366b.64.1730583919659; 
- Sat, 02 Nov 2024 14:45:19 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1730583995; x=1731188795;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :references:cc:to:from:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=A+g2rUtrq4K4ttP0uYoloAGy4GhsQtwQ8IziC3FEUvE=;
+ b=dNPJCWU+b7OAlDItHux8cKJynkY147w3YCscMTJVyLG2UOslEcQshAHDpzC8PxZKfY
+ zAmYWTlb9sibW91tUIE6wTwVij8TArx4gKASD+xu1eV7kCQTrjCtxfyRVyKT2Egw4omz
+ fn0vWL0rjg0L3MozcbUkSOkx7hos4ae0WLgcO6gwf6645gj8YX3qA+fxkQATXoPvhAOD
+ XdG26a/33L9Bw2iP0/PU8NaSKWwgbPWBSX2FF5V8oOsRG1B7py/cw3JtthTiFvxe/8pk
+ gp1KYiUUDsfVXH+ZyDzb/52FcEVQQ8mU174Uq2BaEKP3lm/aHIi6w1TIrpzOSWIu5zg3
+ 7E0w==
+X-Gm-Message-State: AOJu0Yx7G9TXsMEymGhWt43qwgXGA5c1ju0lb1/bRNewTpRm9kWq7F5S
+ piRlfI/ZSUrjdXKNWpp0+hXB2VGYgW8ErwdlX9PmOO9M+krumLH/
+X-Google-Smtp-Source: AGHT+IHT1GPb4eb1Gm6Pd/aRec2QHGpROBbVgLwcCddjBRZYRovKVHUfATeuTnPcQDsVHhCmtPXiLQ==
+X-Received: by 2002:a17:907:724d:b0:a9a:80f9:d4e0 with SMTP id
+ a640c23a62f3a-a9e5097277emr723932366b.34.1730583994769; 
+ Sat, 02 Nov 2024 14:46:34 -0700 (PDT)
 Received: from ?IPV6:2a02:3100:a029:9600:b581:b80a:431b:19ed?
  (dynamic-2a02-3100-a029-9600-b581-b80a-431b-19ed.310.pool.telefonica.de.
  [2a02:3100:a029:9600:b581:b80a:431b:19ed])
  by smtp.googlemail.com with ESMTPSA id
- a640c23a62f3a-a9e564940e9sm354559766b.12.2024.11.02.14.45.18
+ a640c23a62f3a-a9e5668497csm348193366b.220.2024.11.02.14.46.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Nov 2024 14:45:18 -0700 (PDT)
-Message-ID: <a6c85d91-9809-430e-99e6-00ec894ac517@gmail.com>
-Date: Sat, 2 Nov 2024 22:45:18 +0100
+ Sat, 02 Nov 2024 14:46:33 -0700 (PDT)
+Message-ID: <5090bc78-f765-4d2b-af83-c64f894df156@gmail.com>
+Date: Sat, 2 Nov 2024 22:46:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+Subject: [PATCH v2 1/3] drm/sysfs: Drop unused drm_class_device_(un)register
+From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Oded Gabbay <ogabbay@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -68,8 +70,8 @@ To: Oded Gabbay <ogabbay@kernel.org>,
  Hans de Goede <hdegoede@redhat.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH v2 0/3] drm: Series with core improvements/refactorings
+References: <a6c85d91-9809-430e-99e6-00ec894ac517@gmail.com>
+Content-Language: en-US
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -113,6 +115,7 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
+In-Reply-To: <a6c85d91-9809-430e-99e6-00ec894ac517@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -130,25 +133,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Series with DRM core improvements/refactorings.
+Only user of these functions was TTM code which dropped sysfs interfaces
+in commit ed89fff97382 ("drm/ttm: drop sysfs directory"). So remove
+these now unused functions.
 
-v2:
-- Improve commit descriptions
-- Partially split patches
-- Remove patches from the series which need more clarification
-
-Heiner Kallweit (3):
-  drm/sysfs: Drop unused drm_class_device_(un)register
-  drm/sysfs: Remove device type drm_sysfs_device_minor
-  drm/sysfs: Constify struct drm_sysfs_device_connector
-
- drivers/gpu/drm/drm_sysfs.c | 39 +------------------------------------
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/gpu/drm/drm_sysfs.c | 32 --------------------------------
  include/drm/drm_sysfs.h     |  3 ---
- 2 files changed, 1 insertion(+), 41 deletions(-)
+ 2 files changed, 35 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index fb3bbb6ad..3bc90fe5c 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -548,35 +548,3 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+ 	put_device(kdev);
+ 	return ERR_PTR(r);
+ }
+-
+-/**
+- * drm_class_device_register - register new device with the DRM sysfs class
+- * @dev: device to register
+- *
+- * Registers a new &struct device within the DRM sysfs class. Essentially only
+- * used by ttm to have a place for its global settings. Drivers should never use
+- * this.
+- */
+-int drm_class_device_register(struct device *dev)
+-{
+-	if (!drm_class || IS_ERR(drm_class))
+-		return -ENOENT;
+-
+-	dev->class = drm_class;
+-	return device_register(dev);
+-}
+-EXPORT_SYMBOL_GPL(drm_class_device_register);
+-
+-/**
+- * drm_class_device_unregister - unregister device with the DRM sysfs class
+- * @dev: device to unregister
+- *
+- * Unregisters a &struct device from the DRM sysfs class. Essentially only used
+- * by ttm to have a place for its global settings. Drivers should never use
+- * this.
+- */
+-void drm_class_device_unregister(struct device *dev)
+-{
+-	return device_unregister(dev);
+-}
+-EXPORT_SYMBOL_GPL(drm_class_device_unregister);
+diff --git a/include/drm/drm_sysfs.h b/include/drm/drm_sysfs.h
+index 96a5d8584..929d957e4 100644
+--- a/include/drm/drm_sysfs.h
++++ b/include/drm/drm_sysfs.h
+@@ -7,9 +7,6 @@ struct device;
+ struct drm_connector;
+ struct drm_property;
+ 
+-int drm_class_device_register(struct device *dev);
+-void drm_class_device_unregister(struct device *dev);
+-
+ void drm_sysfs_hotplug_event(struct drm_device *dev);
+ void drm_sysfs_connector_hotplug_event(struct drm_connector *connector);
+ void drm_sysfs_connector_property_event(struct drm_connector *connector,
 -- 
 2.47.0
-
-
 
 
