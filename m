@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7609BA297
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 22:47:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D2A9BA298
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 22:48:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6F3410E312;
-	Sat,  2 Nov 2024 21:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BAE510E23F;
+	Sat,  2 Nov 2024 21:48:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EKFL9ajj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kM/TNnO7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F90710E23F
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 21:47:28 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a99eb8b607aso368550166b.2
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Nov 2024 14:47:28 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C93010E23F
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 21:48:45 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-5c957d8bce2so1611266a12.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Nov 2024 14:48:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730584046; x=1731188846; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1730584124; x=1731188924; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :references:cc:to:from:subject:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=THq4UY707sPbt8T/yvPZDWrjL5RllwmOO/4ANna77XA=;
- b=EKFL9ajjqkD4PTua5K3w5KuGHEOOzbTBq6H13kHp/8ofOW6V+YlqX1ZNHUFbXy8HuO
- QTozOYg+vV3LkLeVlCL7I0SFQLX16q90i5hNHb1WnsWz+CSo4Czye+sGOtglEL1M552P
- S/TaPhOgKsFmLqxbhmkMez/Pptsi+AFEd/6KEYkVjJTnL9VfAT3CKjA4kfkNjyhOOGY8
- JLQLgCHHkMVl7r+d6PGkRDCe1aO+rX+AoKupB6hyvtDWFr7nSqh4UnQudtj38DEhM9iN
- ZD+2OdwcuinyQ/e2l5Lq/3KXei81qa0qe+qlBgSS61pgOiHePE0nVPRFOQ0TxPVRiJ8D
- QEwg==
+ bh=F+cQuMPHnFKLQq2oofuhrwR0RfVkYFzuEHqqDzj6+VU=;
+ b=kM/TNnO77MVO5STx1wAULes/FWdvwGwFJZs61CT7tFekl6AN5Vc7c0+UULKiEXLZB7
+ VkkhIVlkcnBugmkzkdfhoqaL9l/WV4DX7ly5Yukk+q0+hYCA7shnrAsGmpWD5hYdU5vb
+ /y+6IEAtmR7pGlMiRMu/d/o/WJTsUdvtb95EGRYsukM8QIik9rZX73OTrEVwsTcRmRai
+ u7KQN7+iPP4yunX/BaQfjc0lZNadoibYFJ1AwFfBxISrIFJRtpnlO3WTMUF+bYX9x3zM
+ opkzR+IPqkv5vC19svpDFTeJ1hoOqBK3ae6Sg/ECPuPg3kjlJgWjBt6f5aKO9izouvDm
+ BeGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730584046; x=1731188846;
+ d=1e100.net; s=20230601; t=1730584124; x=1731188924;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :references:cc:to:from:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=THq4UY707sPbt8T/yvPZDWrjL5RllwmOO/4ANna77XA=;
- b=VbjMP//ZexeqNYFwUH8mjdjMWhIkU8P/4AbQjRENrJzJTe+PlVMeHv/On9G41VFGd2
- +ZeWTXjTBbmPJIuGBy9pkKN96hlbjo2KfanQyjiVOpwaRoPg9kzDO5f8wvLO5IFCtoVZ
- 1aXtmFNjt3Cyl/YIviyPzj8TEu9LD2hf5+Km0LZxoID1XBy5SENBFbMt6kMoXi9OSn84
- i/WjaiZrps426GK7QnGh3QiF0A5Zq4v9wG7ExX6q33wATl41K630VvUU6idiOJuAQC9+
- 2yYCGJGg/kPLQtbMpeOCfMHRU6tiga9+JGIMFYNKNIVowyaFxcFYcH0wTzgDdMVpCCyT
- 8WBA==
-X-Gm-Message-State: AOJu0YwcXQclSlKT24dNhaATnjc4jaHjXx6G4SeNaNhpBKgEmgob/YKW
- IcLjg7EQW8PVzY8UscL19ylpr2vn8qWneFXQaGKt7ST6t/w8NvsW
-X-Google-Smtp-Source: AGHT+IGUFDk2guClmnF9kjnVpqMvhPrkTOgErgeEASmpslpabfJKjjbf787eWJ2BI5XeXYGiKHM39g==
-X-Received: by 2002:a17:907:8686:b0:a99:4615:f58c with SMTP id
- a640c23a62f3a-a9de5d6eb9emr2875779066b.2.1730584046431; 
- Sat, 02 Nov 2024 14:47:26 -0700 (PDT)
+ bh=F+cQuMPHnFKLQq2oofuhrwR0RfVkYFzuEHqqDzj6+VU=;
+ b=IzaF7I9OccX18rlQjfsNFhB8sCXW7QOdMHaEyR+cc9qmuI9GVm7xlESad59Za3wf9X
+ 0vtuXveSMJGzISko8k5ZnWJgOl+I1g2ro0eGKSVgYHg73DxdwtmUAJNAXAS055Ji8O2O
+ 4nrdYC+BLBRasFR+NVuNq5dHW0B8mBGnJ7X9OuIGqnv3l1iNPxTiSan4SLlrqWCFjMza
+ PJDL39QhacUq11qnBuUYYsOSUqK5zq8UF3Z2Z9cLWcbsMTd6T2588DRatuuI7pCxu3ot
+ 2KX8y1ERAPUa1b2OfMkYv9xuAiGkCoO+Z1Aai6Dwx9i+fqJ7AnfrXNcQUUxAwahadG0k
+ PADw==
+X-Gm-Message-State: AOJu0Yww6jf2j5NlJKhCXHVw67vh15ai5SPe1B/M4gCjNMx6I6TG0qrt
+ YKmDkLdNFMIAMleyG/5BzXnUI5rxLrXv6xtsOtRIl6LXisvHuyKm
+X-Google-Smtp-Source: AGHT+IGWVCDWRrRZaFaY2L5AULjCybTGt7FChdQ5ps496Ir6jHykWKH8+BTfp4szWUfoF3CYfFhqHQ==
+X-Received: by 2002:a05:6402:22d1:b0:5c9:4631:c47e with SMTP id
+ 4fb4d7f45d1cf-5ceb9264360mr6701110a12.13.1730584123704; 
+ Sat, 02 Nov 2024 14:48:43 -0700 (PDT)
 Received: from ?IPV6:2a02:3100:a029:9600:b581:b80a:431b:19ed?
  (dynamic-2a02-3100-a029-9600-b581-b80a-431b-19ed.310.pool.telefonica.de.
  [2a02:3100:a029:9600:b581:b80a:431b:19ed])
  by smtp.googlemail.com with ESMTPSA id
- a640c23a62f3a-a9e565df93csm346460966b.122.2024.11.02.14.47.24
+ 4fb4d7f45d1cf-5ceac74c9acsm2801816a12.5.2024.11.02.14.48.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Nov 2024 14:47:26 -0700 (PDT)
-Message-ID: <57e2153a-4128-4bdb-8e15-59dfe3dd8a9e@gmail.com>
-Date: Sat, 2 Nov 2024 22:47:25 +0100
+ Sat, 02 Nov 2024 14:48:43 -0700 (PDT)
+Message-ID: <49a43f15-4a2e-4a9b-885b-0bb809969abe@gmail.com>
+Date: Sat, 2 Nov 2024 22:48:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH v2 2/3] drm/sysfs: Remove device type drm_sysfs_device_minor
+Subject: [PATCH v2 3/3] drm/sysfs: Constify struct drm_sysfs_device_connector
 From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Oded Gabbay <ogabbay@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -133,38 +133,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only user of this device type was struct dev_pm_ops of drm_class which
-was removed in d14d2a8453d6 ("drm: Remove dev_pm_ops from drm_class").
-So remove this now unused device type.
+Constify struct drm_sysfs_device_connector to eliminate the risk of code
+trying to change it.
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- drivers/gpu/drm/drm_sysfs.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/gpu/drm/drm_sysfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index 3bc90fe5c..82e2d0c0d 100644
+index 82e2d0c0d..c6b95fa06 100644
 --- a/drivers/gpu/drm/drm_sysfs.c
 +++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -50,10 +50,6 @@
+@@ -50,7 +50,7 @@
   * drm_connector_unregister().
   */
  
--static struct device_type drm_sysfs_device_minor = {
--	.name = "drm_minor"
--};
--
- static struct device_type drm_sysfs_device_connector = {
+-static struct device_type drm_sysfs_device_connector = {
++static const struct device_type drm_sysfs_device_connector = {
  	.name = "drm_connector",
  };
-@@ -531,7 +527,6 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
  
- 		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
- 		kdev->class = drm_class;
--		kdev->type = &drm_sysfs_device_minor;
- 	}
- 
- 	kdev->parent = minor->dev->dev;
 -- 
 2.47.0
 
