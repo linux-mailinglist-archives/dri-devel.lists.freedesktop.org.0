@@ -2,83 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68F29B9B98
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 01:40:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79339B9B9F
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 01:47:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0E9910E07E;
-	Sat,  2 Nov 2024 00:40:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D03E510E0FE;
+	Sat,  2 Nov 2024 00:47:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="hsSJy6KS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gDwMM43W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABF6810E07E;
- Sat,  2 Nov 2024 00:40:53 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A1JGIC8004719;
- Sat, 2 Nov 2024 00:40:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- S1N0C5/naHD+KMeBpxDCt10SYR7Nu7wUABrDfLhFiNM=; b=hsSJy6KSyu+s/Rwl
- 7XLuK31o8GjXPIAm3tTmw46BXLzkIN4QtxHoSMqylX0EXzAb8v3eE9RZc0evsfeV
- tgBX7yCtMpumYohqHilWIiujsvC8tfUwgTQTHH077VCTQljMxW3Laz/m9OUR/vbv
- 2Y+NZFBBujlJZhyozmxukZ7tkf7qRjGPq67l5k2+sEDu+lYAwD8Iyd2mp9E/kEXW
- zvsnCENZjlAwbqAfR+oqPh9tAuHtj4lOxD6ZW+V+PtHQzYGo0mTvxiGLLftk7ySB
- C3xoSG8G5I0rlzxPPqO3DAzcHbnAHA01cyMZILrUq+Qg66zolamtjTS/wm5jFPdY
- JPLO1A==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42m65pe0vp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 02 Nov 2024 00:40:49 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A20enAQ017417
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 2 Nov 2024 00:40:49 GMT
-Received: from [10.110.96.174] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 1 Nov 2024
- 17:40:47 -0700
-Message-ID: <bb5bd688-34dc-4c9e-8abf-d1395f3a385e@quicinc.com>
-Date: Fri, 1 Nov 2024 17:40:46 -0700
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E912F10E0FE;
+ Sat,  2 Nov 2024 00:47:35 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-20bb39d97d1so23596325ad.2; 
+ Fri, 01 Nov 2024 17:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1730508455; x=1731113255; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rKbz4vSUus6EYp9VxKs8/XhL54cjrUbDh/ERsiQ6PtM=;
+ b=gDwMM43WJCKfCQGgExYl4UnpvVF7OjmgY5nSQx0fDttdDfwQySG+gVAxuUJtS3XQZP
+ H1LvFWuVYqOAHl+J8Ggz0ZIq7QXiXatOJe44q0BIAQ50Kpp6n5/zjMg412I8LFZOdP7e
+ Caj9ihvSt9a8qWuoAEeZwrlCe+DnOYFzK5WTSsCl+0qQ/4ytRt//FpZrFb6ArWyXCulU
+ KK1El8Hj3jZ5nbijiKwepBIhFd7eeIvvnBL8wFxRmqJudgYYMcsNiiba8xfrA56at1r0
+ A+9u0bKnvAzsYqORnFQZqSFXvOZTlLse9ts2IuBdhcGFcDMELYGEbdQ51StxG8eMz2Tb
+ EE7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730508455; x=1731113255;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rKbz4vSUus6EYp9VxKs8/XhL54cjrUbDh/ERsiQ6PtM=;
+ b=qRM7cCL60MjVaHOJspoUWMvF/79U1lGJWVIlGjfrmboZGUaP9wAOzM3Ci+ggvcKXif
+ xf88e1LpmwLUpVEWijVTfzd7UTjIZooObZWxgzGCRF0fpq6x1m87ZdkCan0PrVV1d3r/
+ 5ARgX/ut47es7RmMje98ueZD+D9QpPfKaiOjE9Vqwp8gwNDaLfvSAzy2bQAYpEI6uwc/
+ 3MeogfPGG6r7S/G60Zhh0b+fjoidw/LA/sD7rMBVWjeygBxifZHEUEG/nnR044lZiO4N
+ iGhP6/3sK96xfoveWOa2QJhMjV5s1Nyke4Ma0xp88bXjPFvN8q1WcW2Muzv9FB45H6pp
+ 0Y2w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVSCgsZtAXczUW9nEBUM77ZYUSaCSjdO0oemEa9sAk1hzPdSOQOIZXrVC4KFUdjZZfIfkxmUIp5/f0=@lists.freedesktop.org,
+ AJvYcCXAXzDdSTDcf7yYlTWxaJjQE8DdECpW7U4f16drF6GN2rL8BmfQT1mtDpdQeD6o68mqWh6erqfSBJ4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwC/9CJotkdnWAkaC/Nt06V67t4DOQeueUUGjz0qNceAxd4LJeG
+ 9ci4UwX0FEYUfcsx+5BbRmZOBto3TDXF4so2r5hSsPti1jPnZhuo
+X-Google-Smtp-Source: AGHT+IGfT+QrJhbzaGTno6I8tz8KNSs8v9qGiYh0kUt05lcdKhZ8kcN06zRDkuNtCztnf0KF3rr1yw==
+X-Received: by 2002:a17:902:ce83:b0:20c:d578:d712 with SMTP id
+ d9443c01a7336-210f770832bmr161707145ad.59.1730508455235; 
+ Fri, 01 Nov 2024 17:47:35 -0700 (PDT)
+Received: from gye-ThinkPad-T590.. ([59.16.200.168])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2e92fa0f6edsm5642971a91.1.2024.11.01.17.47.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Nov 2024 17:47:34 -0700 (PDT)
+From: Gyeyoung Baek <gye976@gmail.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Gyeyoung Baek <gye976@gmail.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] drm/xe: Fix build error for XE_IOCTL_DBG macro
+Date: Sat,  2 Nov 2024 09:47:22 +0900
+Message-Id: <20241102004722.124772-1-gye976@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/hdmi: mark interlace_allowed as true
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20241019-msm-hdmi-interlaced-v1-1-03bf85133445@linaro.org>
- <52229a96-64b0-48d0-9868-31be42b12db1@quicinc.com>
- <CAA8EJpps+spdowEbDoO2zNfyn+DnWwPgnZiFMw13ZE=iAnJEnA@mail.gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpps+spdowEbDoO2zNfyn+DnWwPgnZiFMw13ZE=iAnJEnA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: yhWfHnEOW5gm7o8OfA1GYCFMVeoJk1PG
-X-Proofpoint-GUID: yhWfHnEOW5gm7o8OfA1GYCFMVeoJk1PG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- phishscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
- mlxlogscore=999 suspectscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411020002
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,75 +88,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+if CONFIG_DRM_USE_DYNAMIC_DEBUG is set,
+'drm_dbg' function is replaced with '__dynamic_func_call_cls',
+which is replaced with a do while statement.
+so in the previous code, there are the following build errors.
 
+include/linux/dynamic_debug.h:221:58: error: expected expression before ‘do’
+  221 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+      |                                                          ^~
+include/linux/dynamic_debug.h:248:9: note: in expansion of macro ‘__dynamic_func_call_cls’
+  248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+      |         ^~~~~~~~~~~~~~~~~~~~~~~
+include/drm/drm_print.h:425:9: note: in expansion of macro ‘_dynamic_func_call_cls’
+  425 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+      |         ^~~~~~~~~~~~~~~~~~~~~~
+include/drm/drm_print.h:504:9: note: in expansion of macro ‘drm_dev_dbg’
+  504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+      |         ^~~~~~~~~~~
+include/drm/drm_print.h:522:33: note: in expansion of macro ‘drm_dbg_driver’
+  522 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+      |                                 ^~~~~~~~~~~~~~
+drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro ‘drm_dbg’
+   14 |         ((cond) && (drm_dbg(&(xe)->drm, \
+      |                     ^~~~~~~
+drivers/gpu/drm/xe/xe_bo.c:2029:13: note: in expansion of macro ‘XE_IOCTL_DBG’
+ 2029 |         if (XE_IOCTL_DBG(xe, !gem_obj))
 
-On 11/1/2024 3:26 PM, Dmitry Baryshkov wrote:
-> On Fri, 1 Nov 2024 at 23:41, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 10/18/2024 2:10 PM, Dmitry Baryshkov wrote:
->>> The MSM HDMI driver supports interlaced modes. Set the corresponding
->>> flag to allow interlaced modes on the corresponding connectors.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 1 +
->>>    1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
->>> index 4a5b5112227f..643c152e6380 100644
->>> --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
->>> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
->>> @@ -336,6 +336,7 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
->>>        bridge->funcs = &msm_hdmi_bridge_funcs;
->>>        bridge->ddc = hdmi->i2c;
->>>        bridge->type = DRM_MODE_CONNECTOR_HDMIA;
->>> +     bridge->interlace_allowed = true;
->>>        bridge->ops = DRM_BRIDGE_OP_HPD |
->>>                DRM_BRIDGE_OP_DETECT |
->>>                DRM_BRIDGE_OP_EDID;
->>>
->>
->> I had quite a bit of discussion on this internally because this spans
->> quite a few generations of chipsets.
->>
->> On very old hardware, even before msm8996, there was dedicated hardware
->> de-interlacer. But even on msm8996 or other HDMI supported chipsets
->> where the handling of if (mode->flags & DRM_MODE_FLAG_INTERLACE) is
->> present, these were because its carry forward of older interface code.
->>
->> The way we handle interlaced formats today, is software needs to handle
->> the part of dividing height / 2 and width * 2 and adjust the source crop
->> if necessary. This part has moved to userspace for recent chips.
->>
->> Othwerise, we will need to add this part in the dpu driver to adjust
->> this. I am not seeing this part there yet. So may I know how you
->> validated this change? Something similar to :
->>
->> https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/LE.UM.1.3.r3.25/drivers/gpu/drm/msm/sde/sde_plane.c#L1340
->>
->> If we add this part first to dpu code, then we can mark interlace_allowed.
-> 
-> I think you are mixing the interlaced formats and interlaced output.
-> The code that you have pointed to is related to hardware deinterlacing
-> - in other words taking the interlaced framebuffer and outputting it
-> to the progressive display.
-> 
-> The interlace_allowed flag controls a different feature - filtering of
-> the internalced modes (aka 576i, 1080i, etc). In this case we are
-> using progressive frames, but the HDMI outputs a picture as two
-> separate fields. I have validated this by outputting image (modetest)
-> to the external HDMI display on IFC6410 and on DB820c boards.
-> 
+the problem is that,
+XE_IOCTL_DBG uses this function for conditional expr.
 
-Yes I did think that this was to show interlaced content but that being 
-said, I traced through the HDMI code a bit, it does have support for 
-changing the HDMI timing but without the support of dpu, progressive 
-content really cannot be converted to interlaced. So I think the HDMI 
-pieces there were supposed to go along with the rest of the dpu pipeline 
-that is the entire pipeline shows out interlaced content. But dpu 
-support for giving out interlaced content is not there, so this hdmi 
-piece by itself is not complete enough to mark interlace_allowed as true.
+so I fix the expr to be compatible with the do while statement,
+by referring to "https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html".
 
+v2: I modified this to print when only cond is true.
+v3: Modify to evaluate cond only once.
+
+Signed-off-by: Gyeyoung Baek <gye976@gmail.com>
+---
+ drivers/gpu/drm/xe/xe_macros.h | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/xe/xe_macros.h b/drivers/gpu/drm/xe/xe_macros.h
+index daf56c846d03..b956acbe4000 100644
+--- a/drivers/gpu/drm/xe/xe_macros.h
++++ b/drivers/gpu/drm/xe/xe_macros.h
+@@ -10,9 +10,11 @@
+ 
+ #define XE_WARN_ON WARN_ON
+ 
+-#define XE_IOCTL_DBG(xe, cond) \
+-	((cond) && (drm_dbg(&(xe)->drm, \
+-			    "Ioctl argument check failed at %s:%d: %s", \
+-			    __FILE__, __LINE__, #cond), 1))
+-
+-#endif
++#define XE_IOCTL_DBG(xe, cond) ({					\
++	int cond__ = !!(cond);						\
++	if (cond__)                                           		\
++		drm_dbg(&(xe)->drm,                                    	\
++			"Ioctl argument check failed at %s:%d: %s",	\
++			__FILE__, __LINE__, #cond);                    	\
++	cond__;                                                        	\
++})
+-- 
+2.34.1
 
