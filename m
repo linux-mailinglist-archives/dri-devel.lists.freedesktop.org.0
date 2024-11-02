@@ -2,79 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82309B9BC7
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 02:04:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2269B9BCD
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 02:08:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18E1510E225;
-	Sat,  2 Nov 2024 01:04:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6469010E233;
+	Sat,  2 Nov 2024 01:08:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="x176JOo6";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="W4l/RreN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 092AF10E225
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 01:04:44 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-539e3f35268so3240530e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 18:04:44 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2E3F10E213
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 01:08:15 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-539e690479cso2669583e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 18:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730509483; x=1731114283; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=sqErCMUF8gr+Z0iKwC2J15lI04+BWiUakafnHcS72HQ=;
- b=x176JOo62Cd/tpRrgb/QmQf4O0TGuxmhklU6xuKR4y1OHhVYyk4OAEhYvNrfMMr7OR
- KTL8XkyInDN6p0PMnRn2ICwprJNVmXpc0EPNj4qTdK55SeaL1oJVBFRJorGoRrmbG1jd
- t6lFS46c0dbGL0WnqKnkoUTerE8JGK7UX2kvMmDi2MA3Lk/q4+AbgMKJ+PaJ83Ls3SM9
- D0ntP+wYwb7di6SD37jKiT2c81f7+PAzmNeVdCkQCqoKdSBcmWwiD1qRvo1CrVGNkIID
- 6e1GsOW8bV9XQnB3MV9icoVlGJhTnvLDximg3yQ3doG+IyHZBu/E9nRGvHHcuA0h5wxy
- Kkdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730509483; x=1731114283;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1730509694; x=1731114494; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sqErCMUF8gr+Z0iKwC2J15lI04+BWiUakafnHcS72HQ=;
- b=tdm/5Ph4M2y7RCO4cDRcn+0apfjVAWAvv1Y0w8SRCHfInhXLdFUzvxg0Zhk5iUke5H
- KN3gbysxr/0C0VamIUeE5itr8QvuqpYTWjyqcI4HS+ukEtVTOYCSZTDUOQaCpkKq/K2u
- KvkkFvrkd+F3y97zrT6cOGpM5n4GZytHfhEcwXLvYmbjHiaib9R40lbenZmI/FXWn6KU
- KhikWUh1RYZrIdfU4V/3Sd7Xa9Jm+vgZ9di0YlyAcOdFcijX0DpNYNGHfyZrsIrvmdHX
- l2eS9u5k3VGBaGZUZ/I7k8ngsi1fhABjfaRkAIUrKUNRliiBxHnIFqsI2RmWPlcig8tm
- 7DlQ==
+ bh=yNi7KL5oTvSaRVd2CVSk0POLJY7+DXarGDd2A7rzOBY=;
+ b=W4l/RreNdwoyd8LNlUjBePoEaTs+6bALBt9tPEZgpT4tubbaWhGLBFICXc+CdBEpBQ
+ v3PzMOIKZ94FXmmViHzgjm7fcsLat75RnirAM7QCHpNRa5juvRirAEEPFncogw9VEsO8
+ zMm7jl5dW6nI31YW64e2Evmj0kikeTm1aDmx6YDJvoFngTDBFInaAB2V/1qJrUQZ0Nuk
+ zAT1tm1l5Ljh+0nibcQbGBNUmP5GGyNY4rsMNyg+PhIygo0gYpNwUQJ9LFY3tuSJWhv3
+ X27KB4Dh9XdbA98sF6ecaLZKQKAPKGZyBUDQ+PUDQiBMi61g7Uq1El/cgci//8eRZkLR
+ U3vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730509694; x=1731114494;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yNi7KL5oTvSaRVd2CVSk0POLJY7+DXarGDd2A7rzOBY=;
+ b=V4sEqGh3Vs2Oe3FsSNkDwqkAQWdWZOR3IsLkUVnqzt+X0DtwGujnGsXXeNg31P2nSO
+ Q7gSr0m4Bl0zMPvXmp4qtwWwYpFdgqhR1OavasC8Fi2MUHbCdEGboY7dsX5qNeSzj9gg
+ H5EMrkEulYVYyNefONAM0wFn6/9wMRW/IHJztezYTiBqlfhM2hGzx37AIFdXchKhRPpu
+ X4pSuJFbx3emiDZKm2JqNqAR5ff9PLco2iE6spcxI137fyy8N7y4InPBxTbUcBdbf/Ja
+ t1Mm4XX0G3V/HpfNUSQq6HV/co/iU+etHBQ2YHlCT+/7d0R/0EvhSdfInvX0hstWp/Vh
+ 5brg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXlsZfmITwc5EfaGzOZD7Y9JXaUzy+8oGLEXH9Lp3qg77b5wbRaCfSYQzsZxzgFWzj9RauJna7Q59k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPc9ueUERPbQuIb2ODSV/4sqj8suconGeZCEdwFP+vtUg3476O
- bXGfOsgpbBGv/3xIwVncvuCsISv/l7X4IGoaGo4gQRAjI+EKglVEtqcCIyNLBJg=
-X-Google-Smtp-Source: AGHT+IHprjXq36nNEExyCP3aSwaMNPwiLueb3h6RaUfM0RL73CJVzxQCx4hYdyGZXzORZZQQIB9mRA==
-X-Received: by 2002:a05:6512:3d05:b0:536:55cf:3148 with SMTP id
- 2adb3069b0e04-53d65df8d2bmr2881920e87.31.1730509482550; 
- Fri, 01 Nov 2024 18:04:42 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ AJvYcCXutoEOg9aSSSZkSWlPkwHVrJ0unSg6AS4oWdrmkTc7ToBM7i4vCLC22ppPS5DQ664maOpCzx5B2L4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxwYLSOPNNXS9UNfUs2MBem2X/g2VRKq0B1cTLNdyhEIGBvcCaX
+ 5PuaCeUmq3W6XllHnBRTPAXetSY8GPioA/JE+I7vYGkl9WZ0fgN8mm6OsCS0pH8=
+X-Google-Smtp-Source: AGHT+IHM740K9855r2HwwbYCwldEiJj9hjIN3g4eSOoQ52s3xQKsJW/CUnRxXysFTMeDEvNAcLKIsg==
+X-Received: by 2002:a05:6512:b98:b0:533:43e2:6ac4 with SMTP id
+ 2adb3069b0e04-53d65e1730cmr2518003e87.49.1730509693778; 
+ Fri, 01 Nov 2024 18:08:13 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.90])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53c7bcce3a9sm713069e87.150.2024.11.01.18.04.40
+ 2adb3069b0e04-53c7bcce6b5sm718678e87.122.2024.11.01.18.08.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Nov 2024 18:04:41 -0700 (PDT)
-Date: Sat, 2 Nov 2024 03:04:38 +0200
+ Fri, 01 Nov 2024 18:08:12 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/hdmi: mark interlace_allowed as true
-Message-ID: <ut5jr7chk7ea2szrar7vyj7dfo3uww4ac3m3xs3wioznrhwbzv@co6wovw5dphu>
-References: <20241019-msm-hdmi-interlaced-v1-1-03bf85133445@linaro.org>
- <52229a96-64b0-48d0-9868-31be42b12db1@quicinc.com>
- <CAA8EJpps+spdowEbDoO2zNfyn+DnWwPgnZiFMw13ZE=iAnJEnA@mail.gmail.com>
- <bb5bd688-34dc-4c9e-8abf-d1395f3a385e@quicinc.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 0/4] drm/msm/mdss: rework UBWC registers programming
+Date: Sat,  2 Nov 2024 03:08:09 +0200
+Message-Id: <173050960724.2285086.13238539859529430953.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20240921-msm-mdss-ubwc-v1-0-411dcf309d05@linaro.org>
+References: <20240921-msm-mdss-ubwc-v1-0-411dcf309d05@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bb5bd688-34dc-4c9e-8abf-d1395f3a385e@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,83 +88,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 01, 2024 at 05:40:46PM -0700, Abhinav Kumar wrote:
-> 
-> 
-> On 11/1/2024 3:26 PM, Dmitry Baryshkov wrote:
-> > On Fri, 1 Nov 2024 at 23:41, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> > > 
-> > > 
-> > > 
-> > > On 10/18/2024 2:10 PM, Dmitry Baryshkov wrote:
-> > > > The MSM HDMI driver supports interlaced modes. Set the corresponding
-> > > > flag to allow interlaced modes on the corresponding connectors.
-> > > > 
-> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > ---
-> > > >    drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 1 +
-> > > >    1 file changed, 1 insertion(+)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> > > > index 4a5b5112227f..643c152e6380 100644
-> > > > --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> > > > +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> > > > @@ -336,6 +336,7 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
-> > > >        bridge->funcs = &msm_hdmi_bridge_funcs;
-> > > >        bridge->ddc = hdmi->i2c;
-> > > >        bridge->type = DRM_MODE_CONNECTOR_HDMIA;
-> > > > +     bridge->interlace_allowed = true;
-> > > >        bridge->ops = DRM_BRIDGE_OP_HPD |
-> > > >                DRM_BRIDGE_OP_DETECT |
-> > > >                DRM_BRIDGE_OP_EDID;
-> > > > 
-> > > 
-> > > I had quite a bit of discussion on this internally because this spans
-> > > quite a few generations of chipsets.
-> > > 
-> > > On very old hardware, even before msm8996, there was dedicated hardware
-> > > de-interlacer. But even on msm8996 or other HDMI supported chipsets
-> > > where the handling of if (mode->flags & DRM_MODE_FLAG_INTERLACE) is
-> > > present, these were because its carry forward of older interface code.
-> > > 
-> > > The way we handle interlaced formats today, is software needs to handle
-> > > the part of dividing height / 2 and width * 2 and adjust the source crop
-> > > if necessary. This part has moved to userspace for recent chips.
-> > > 
-> > > Othwerise, we will need to add this part in the dpu driver to adjust
-> > > this. I am not seeing this part there yet. So may I know how you
-> > > validated this change? Something similar to :
-> > > 
-> > > https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/LE.UM.1.3.r3.25/drivers/gpu/drm/msm/sde/sde_plane.c#L1340
-> > > 
-> > > If we add this part first to dpu code, then we can mark interlace_allowed.
-> > 
-> > I think you are mixing the interlaced formats and interlaced output.
-> > The code that you have pointed to is related to hardware deinterlacing
-> > - in other words taking the interlaced framebuffer and outputting it
-> > to the progressive display.
-> > 
-> > The interlace_allowed flag controls a different feature - filtering of
-> > the internalced modes (aka 576i, 1080i, etc). In this case we are
-> > using progressive frames, but the HDMI outputs a picture as two
-> > separate fields. I have validated this by outputting image (modetest)
-> > to the external HDMI display on IFC6410 and on DB820c boards.
-> > 
-> 
-> Yes I did think that this was to show interlaced content but that being
-> said, I traced through the HDMI code a bit, it does have support for
-> changing the HDMI timing but without the support of dpu, progressive content
-> really cannot be converted to interlaced. So I think the HDMI pieces there
-> were supposed to go along with the rest of the dpu pipeline that is the
-> entire pipeline shows out interlaced content. But dpu support for giving out
-> interlaced content is not there, so this hdmi piece by itself is not
-> complete enough to mark interlace_allowed as true.
 
-I could not find corresponding bits in the original fbdev or SDE
-drivers. My quick tests showed the correct context, but most likely I
-need to revertify that. Unfortunately next week I won't be able to run
-the tests, so this gets into the 6.14 area.
+On Sat, 21 Sep 2024 11:17:28 +0300, Dmitry Baryshkov wrote:
+> Current way of programming of the UBWC-related registers has been
+> inherited from vendor's drivers. The ubwc_static was supposed to contain
+> raw data to be programmed to the hardware, but was later repurposed to
+> define of the bits. As it can be seen by the commit 3e30296b374a
+> ("drm/msm: fix the highest_bank_bit for sc7180") sometimes this data
+> gets out of sync.
+> 
+> [...]
 
+Applied, thanks!
+
+[1/4] drm/msm: move MDSS registers to separate header file
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/92de8137d619
+[2/4] drm/msm/mdss: use register definitions instead of hand-coding them
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/d742f7e06840
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
