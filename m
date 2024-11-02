@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2269B9BCD
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 02:08:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E393C9B9BCF
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2024 02:08:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6469010E233;
-	Sat,  2 Nov 2024 01:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3AB10E22F;
+	Sat,  2 Nov 2024 01:08:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="W4l/RreN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wVV9coUt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2E3F10E213
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 01:08:15 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-539e690479cso2669583e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 18:08:15 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B04A10E226
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 01:08:17 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-539eb97f26aso312339e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2024 18:08:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730509694; x=1731114494; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1730509695; x=1731114495; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yNi7KL5oTvSaRVd2CVSk0POLJY7+DXarGDd2A7rzOBY=;
- b=W4l/RreNdwoyd8LNlUjBePoEaTs+6bALBt9tPEZgpT4tubbaWhGLBFICXc+CdBEpBQ
- v3PzMOIKZ94FXmmViHzgjm7fcsLat75RnirAM7QCHpNRa5juvRirAEEPFncogw9VEsO8
- zMm7jl5dW6nI31YW64e2Evmj0kikeTm1aDmx6YDJvoFngTDBFInaAB2V/1qJrUQZ0Nuk
- zAT1tm1l5Ljh+0nibcQbGBNUmP5GGyNY4rsMNyg+PhIygo0gYpNwUQJ9LFY3tuSJWhv3
- X27KB4Dh9XdbA98sF6ecaLZKQKAPKGZyBUDQ+PUDQiBMi61g7Uq1El/cgci//8eRZkLR
- U3vA==
+ bh=fQ73LcOfKQHGeSfhVnzEL1HHx0W3Qb8KYGmPSTFzc30=;
+ b=wVV9coUt0swv8+7ienz3SE8VKAGj1sO2/q1qXgCUyxtk4z8lFrDNVWR2oQrZ4khB2h
+ lhJYcFd3DPbF3a8X4lLdkoSo3zXoD9VUVjZUIcY06QYLfOZHc1P3Je3OWbmvTR7M7O1s
+ OvdQeu/kVh1ulUJsyNprsnqjEg1oSzP1dcuXIfF0KPaONSaVY6cfNdowfqLZy5M4fX6+
+ DZzyen/pGRtMWcCqxFPQtoEQUwk5A5DDyEsrfT4MCiVYwYUSCtEaIxSp86ocawDvGy2N
+ ArYS8bSlhxoJINKRXzwPAkdi1Atl3nc75RbS089Vvnreiv4eCSKfQzBcJBPMSF+yQxGk
+ Dn5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730509694; x=1731114494;
+ d=1e100.net; s=20230601; t=1730509695; x=1731114495;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yNi7KL5oTvSaRVd2CVSk0POLJY7+DXarGDd2A7rzOBY=;
- b=V4sEqGh3Vs2Oe3FsSNkDwqkAQWdWZOR3IsLkUVnqzt+X0DtwGujnGsXXeNg31P2nSO
- Q7gSr0m4Bl0zMPvXmp4qtwWwYpFdgqhR1OavasC8Fi2MUHbCdEGboY7dsX5qNeSzj9gg
- H5EMrkEulYVYyNefONAM0wFn6/9wMRW/IHJztezYTiBqlfhM2hGzx37AIFdXchKhRPpu
- X4pSuJFbx3emiDZKm2JqNqAR5ff9PLco2iE6spcxI137fyy8N7y4InPBxTbUcBdbf/Ja
- t1Mm4XX0G3V/HpfNUSQq6HV/co/iU+etHBQ2YHlCT+/7d0R/0EvhSdfInvX0hstWp/Vh
- 5brg==
+ bh=fQ73LcOfKQHGeSfhVnzEL1HHx0W3Qb8KYGmPSTFzc30=;
+ b=K6bIc7o5N7ocDZ3yqjjhd9cHAgJcmrSqnXuWR6UMfQllqKEvm0gElMOavy0AGXYEwI
+ q0gn5lqxZCH3mRZwvUvW+vTe3fHXwjQvfr0QD76JK9P45J88UbEbXT19zczhRU4953Mi
+ JrIeb4OvkrrAkZ1HY/1c9+3w4xajVlgpnNJibsthVyn/3QYh6YiVGF4et8gN86lMmqpe
+ SFEgn0Mfg1jQAXKr+2BQ31LjXQ4aNuYhoWtaC04oW3AkUGmSifyw4EfrGvp9v8QTMxMg
+ v90r8W50K1JybRhx5j5C0Oor6RtB/DlH+ML+xqgV5xFpnYk1tWDFOXveUrTAjk81y5e/
+ BMSQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXutoEOg9aSSSZkSWlPkwHVrJ0unSg6AS4oWdrmkTc7ToBM7i4vCLC22ppPS5DQ664maOpCzx5B2L4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxwYLSOPNNXS9UNfUs2MBem2X/g2VRKq0B1cTLNdyhEIGBvcCaX
- 5PuaCeUmq3W6XllHnBRTPAXetSY8GPioA/JE+I7vYGkl9WZ0fgN8mm6OsCS0pH8=
-X-Google-Smtp-Source: AGHT+IHM740K9855r2HwwbYCwldEiJj9hjIN3g4eSOoQ52s3xQKsJW/CUnRxXysFTMeDEvNAcLKIsg==
-X-Received: by 2002:a05:6512:b98:b0:533:43e2:6ac4 with SMTP id
- 2adb3069b0e04-53d65e1730cmr2518003e87.49.1730509693778; 
- Fri, 01 Nov 2024 18:08:13 -0700 (PDT)
+ AJvYcCWqbATUUI1t+sgj4lSRwzvFtntgVcSdUdgCtlg420fu3ARAqR1UqLHk+9nRfuODgGnvs9tMu1TMEd4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxxWn4PXLhJ9UwHOcizsHafABRxZk22r7VRZsH2E3HE8uG1UX3W
+ 67lFXnAAna6+5yOZ/h0gJa/dcE8A+vB+tDIIAYDZHpEDjeLPojY5d4Vx060yeCM=
+X-Google-Smtp-Source: AGHT+IHgtubYy+4UJyb+Qi1jP+QjT2/Oa51KR/0SwdWfoTIIE/48Rgn4AUpWinMbyqlRwrE/EnDG7w==
+X-Received: by 2002:a19:7404:0:b0:53d:6b77:4fc6 with SMTP id
+ 2adb3069b0e04-53d6b775575mr59549e87.43.1730509695326; 
+ Fri, 01 Nov 2024 18:08:15 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.90])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53c7bcce6b5sm718678e87.122.2024.11.01.18.08.11
+ 2adb3069b0e04-53c7bcce6b5sm718678e87.122.2024.11.01.18.08.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Nov 2024 18:08:12 -0700 (PDT)
+ Fri, 01 Nov 2024 18:08:14 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 0/4] drm/msm/mdss: rework UBWC registers programming
-Date: Sat,  2 Nov 2024 03:08:09 +0200
-Message-Id: <173050960724.2285086.13238539859529430953.b4-ty@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 0/9] drm/msm/dpu: support virtual wide planes
+Date: Sat,  2 Nov 2024 03:08:10 +0200
+Message-Id: <173050960724.2285086.13738775113532570270.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20240921-msm-mdss-ubwc-v1-0-411dcf309d05@linaro.org>
-References: <20240921-msm-mdss-ubwc-v1-0-411dcf309d05@linaro.org>
+In-Reply-To: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
+References: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -89,22 +89,38 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Sat, 21 Sep 2024 11:17:28 +0300, Dmitry Baryshkov wrote:
-> Current way of programming of the UBWC-related registers has been
-> inherited from vendor's drivers. The ubwc_static was supposed to contain
-> raw data to be programmed to the hardware, but was later repurposed to
-> define of the bits. As it can be seen by the commit 3e30296b374a
-> ("drm/msm: fix the highest_bank_bit for sc7180") sometimes this data
-> gets out of sync.
+On Fri, 25 Oct 2024 03:20:07 +0300, Dmitry Baryshkov wrote:
+> As promised in the basic wide planes support ([1]) here comes a series
+> supporting 2*max_linewidth for all the planes.
+> 
+> Note: Unlike v1 and v2 this series finally includes support for
+> additional planes - having more planes than the number of SSPP blocks.
+> 
+> Note: this iteration features handling of rotation and reflection of the
+> wide plane. However rot90 is still not tested: it is enabled on sc7280
+> and it only supports UBWC (tiled) framebuffers, it was quite low on my
+> priority list.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/4] drm/msm: move MDSS registers to separate header file
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/92de8137d619
-[2/4] drm/msm/mdss: use register definitions instead of hand-coding them
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/d742f7e06840
+After additional consideration, apply only basic patches, leaving the virtual
+planes enablement into the 6.14 material in order to be able to get more
+testing for those patches.
+
+[1/9] drm/msm/dpu: use drm_rect_fp_to_int()
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/50024444c44c
+[2/9] drm/msm/dpu: move pstate->pipe initialization to dpu_plane_atomic_check
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/31f7148fd370
+[3/9] drm/msm/dpu: drop virt_formats from SSPP subblock configuration
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/b96ca23fdd03
+[4/9] drm/msm/dpu: move scaling limitations out of the hw_catalog
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/8f15005783b8
+[5/9] drm/msm/dpu: split dpu_plane_atomic_check()
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/dbbf57dfd04e
+[6/9] drm/msm/dpu: move rot90 checking to dpu_plane_atomic_check_sspp()
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/ab52d2717ac0
 
 Best regards,
 -- 
