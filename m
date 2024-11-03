@@ -2,54 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F31B9BA7A0
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 20:21:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E87659BA7CA
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 21:02:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D870D10E0B9;
-	Sun,  3 Nov 2024 19:21:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QpGVCBwm";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B10A310E0AA;
+	Sun,  3 Nov 2024 20:02:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7B5910E0B9
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Nov 2024 19:21:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=J/6SU1HJ8xE7gPw4eHrRzj+Uzo984l9Ml8YmT7mOWCA=; b=QpGVCBwm70MpQzjYakqZLSCsNt
- +t1aWpO8cdnbYHVG2oeBbo6ElQG8g7GGGpoBl1z2GUf8gHqYZTz4tb7k7pLIkppGRhEmhTlAKNhhG
- CLBvZmqFzPn/kYFUsY27ca0XNI7v/OTT35gJ8xsLN31DXkQuXV7oxrNEaT++JDNiZKZv2eZbviCS0
- TW0nih8DzCTOAW5oCPRtQyjzTyvNAhkyyZLSTolEE/FqVYLs5nizPE8ZYk8TZVkYU6WMZ3oZoK5O+
- g+e0sefYbeU/f+MgBaAKLeHL9F8+z9MaeJbgmMQJKn1Ftpw9urwwmIwlorfqx1QkaiNyDXITUPJ1G
- Ch1kwS5A==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1t7gAE-001Eiu-Bf; Sun, 03 Nov 2024 20:21:30 +0100
-Message-ID: <4c3eeaf2-218a-451b-aa51-f0e9f4bef0d6@igalia.com>
-Date: Sun, 3 Nov 2024 16:21:22 -0300
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E307610E0AA;
+ Sun,  3 Nov 2024 20:02:05 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-20cdbe608b3so34483735ad.1; 
+ Sun, 03 Nov 2024 12:02:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730664125; x=1731268925;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VjfQvqCHHfDeXG4GMQuNHaE4bkPmkI1XqjnN8lstP2Q=;
+ b=B9ksgQUWMm4edPb2eWP6UTUv+MzvLGDVmUC3e8+x6/2O0PaExYdslBKyp2XfAyLDwK
+ d2tPQv1UX5lcoDIFkidplm6HegmiK4sWmWjxGiZq5N2UzqofKQDiUBQWHzEMu0d13QuC
+ tBEAW8zrf+/Garr8IAgE4kW2pRqGATzRohQ+JFR3iCnbB+bnv02TFC87M5fCs+I0+PjI
+ Swx+iYdaBEh06JBGLULHkp+NwcubvvEPk40yOecsjBumkRtq9YzUDvD3Txd0T+NpjzhS
+ kjmKsvBZksbyTFlkkidKhJJRrxrH3Krq8FxWklLDaqVbZiAbKmvxZazWADI8St38TXxQ
+ 2cFA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWyBAoB8U3GdDAVPzw9ejiBsgEdqbwunAjftlAleHuQuN7n1NivlAsBOPTBs9wcx/YC0GCGFuo7@lists.freedesktop.org,
+ AJvYcCXqLhaR3s/2h/fBh1wfOBcgjzYbbIeiCmWs5BtU5GjxAZUpOtFo4c2Ip1tswX1TgEeoUxP4d4tZce6O@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyNUAqSSNb/F+IPxzIVzGiBfZwSBpp+bngzeShQobURFajlMWJC
+ EBWKRTPEW/g1XO3YajkGQjUDFMzoZBxKtm5d9LtxXuCKvI2r2nxD
+X-Google-Smtp-Source: AGHT+IHAS+v1ffLBb+GI+ZNM4/mlV92TQI2AYHoaDbWsFSd1zPZgooqCqKQWbVDQVnW3KjMuxbyzsA==
+X-Received: by 2002:a17:902:ce91:b0:20b:6624:70b2 with SMTP id
+ d9443c01a7336-210f75154e9mr256357005ad.19.1730664125219; 
+ Sun, 03 Nov 2024 12:02:05 -0800 (PST)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-21105707059sm49877745ad.81.2024.11.03.12.02.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 03 Nov 2024 12:02:04 -0800 (PST)
+Date: Mon, 4 Nov 2024 05:02:03 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Tudor Ambarus <tudor.ambarus@linaro.org>,
+ Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
+ Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+ "David E. Box" <david.e.box@linux.intel.com>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>, Frederic Barrat <fbarrat@linux.ibm.com>,
+ Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Logan Gunthorpe <logang@deltatee.com>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-cxl@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ linux-mtd@lists.infradead.org, platform-driver-x86@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-hyperv@vger.kernel.org
+Subject: Re: [PATCH v2 00/10] sysfs: constify struct bin_attribute (Part 1)
+Message-ID: <20241103200203.GA183945@rocinante>
+References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/v3d: Add DRM_IOCTL_V3D_PERFMON_SET_GLOBAL
-To: Christian Gmeiner <christian.gmeiner@gmail.com>,
- Melissa Wen <mwen@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, Christian Gmeiner <cgmeiner@igalia.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241031205140.541907-1-christian.gmeiner@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20241031205140.541907-1-christian.gmeiner@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,155 +109,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+Hello,
 
-Thanks for your patch! Just some small nits.
-
-On 31/10/24 17:51, Christian Gmeiner wrote:
-> From: Christian Gmeiner <cgmeiner@igalia.com>
+> struct bin_attribute contains a bunch of pointer members, which when
+> overwritten by accident or malice can lead to system instability and
+> security problems.
+> Moving the definitions of struct bin_attribute to read-only memory
+> makes these modifications impossible.
+> The same change has been performed for many other structures in the
+> past. (struct class, struct ctl_table...)
 > 
-> Add a new ioctl, DRM_IOCTL_V3D_PERFMON_SET_GLOBAL, to allow
-> configuration of a global performance monitor (perfmon).
-> Use the global perfmon for all jobs to ensure consistent
-> performance tracking across submissions.
-
-I'd mention how this feature can be useful for user-space (for example,
-the implementation of a Perfetto datasource).
-
+> For the structure definitions throughout the core to be moved to
+> read-only memory the following steps are necessary.
 > 
-> Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+> 1) Change all callbacks invoked from the sysfs core to only pass const
+>    pointers
+> 2) Adapt the sysfs core to only work in terms of const pointers
+> 3) Adapt the sysfs core APIs to allow const pointers
+> 4) Change all structure definitions through the core to const
 > 
-> ---
-> Changes in v2:
-> - Reworked commit message.
-> - Removed num_perfmon counter for tracking perfmon allocations.
-> - Allowing allocation of perfmons when the global perfmon is active.
-> - Return -EAGAIN for submissions with a per job perfmon if the global perfmon is active.
-> ---
->   drivers/gpu/drm/v3d/v3d_drv.c     |  1 +
->   drivers/gpu/drm/v3d/v3d_drv.h     |  8 ++++++++
->   drivers/gpu/drm/v3d/v3d_perfmon.c | 34 +++++++++++++++++++++++++++++++
->   drivers/gpu/drm/v3d/v3d_sched.c   | 14 ++++++++++---
->   drivers/gpu/drm/v3d/v3d_submit.c  | 10 +++++++++
->   include/uapi/drm/v3d_drm.h        | 15 ++++++++++++++
->   6 files changed, 79 insertions(+), 3 deletions(-)
+> This series provides the foundation for step 1) above.
+> It converts some callbacks in a single step to const and provides a
+> foundation for those callbacks where a single step is not possible.
 > 
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index d7ff1f5fa481..3c89f0daa5b8 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -214,6 +214,7 @@ static const struct drm_ioctl_desc v3d_drm_ioctls[] = {
->   	DRM_IOCTL_DEF_DRV(V3D_PERFMON_GET_VALUES, v3d_perfmon_get_values_ioctl, DRM_RENDER_ALLOW),
->   	DRM_IOCTL_DEF_DRV(V3D_SUBMIT_CPU, v3d_submit_cpu_ioctl, DRM_RENDER_ALLOW | DRM_AUTH),
->   	DRM_IOCTL_DEF_DRV(V3D_PERFMON_GET_COUNTER, v3d_perfmon_get_counter_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(V3D_PERFMON_SET_GLOBAL, v3d_perfmon_set_global_ioctl, DRM_RENDER_ALLOW),
->   };
->   
->   static const struct drm_driver v3d_drm_driver = {
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-> index cf4b23369dc4..a0d920ec2b1d 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> @@ -179,6 +179,12 @@ struct v3d_dev {
->   		u32 num_allocated;
->   		u32 pages_allocated;
->   	} bo_stats;
-> +
-> +	/* To support a performance analysis tool in user space, we require
-> +	 * a single, globally configured performance monitor (perfmon) for
-> +	 * all jobs.
-> +	 */
-> +	struct v3d_perfmon *global_perfmon;
->   };
->   
->   static inline struct v3d_dev *
-> @@ -584,6 +590,8 @@ int v3d_perfmon_get_values_ioctl(struct drm_device *dev, void *data,
->   				 struct drm_file *file_priv);
->   int v3d_perfmon_get_counter_ioctl(struct drm_device *dev, void *data,
->   				  struct drm_file *file_priv);
-> +int v3d_perfmon_set_global_ioctl(struct drm_device *dev, void *data,
-> +				 struct drm_file *file_priv);
->   
->   /* v3d_sysfs.c */
->   int v3d_sysfs_init(struct device *dev);
-> diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
-> index 156be13ab2ef..bf42303c292b 100644
-> --- a/drivers/gpu/drm/v3d/v3d_perfmon.c
-> +++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
-> @@ -312,6 +312,9 @@ static int v3d_perfmon_idr_del(int id, void *elem, void *data)
->   	if (perfmon == v3d->active_perfmon)
->   		v3d_perfmon_stop(v3d, perfmon, false);
->   
-> +	/* If the global perfmon is being destroyed, set it to NULL */
-> +	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
-> +
->   	v3d_perfmon_put(perfmon);
->   
->   	return 0;
-> @@ -451,3 +454,34 @@ int v3d_perfmon_get_counter_ioctl(struct drm_device *dev, void *data,
->   
->   	return 0;
->   }
+> Patches 1-5 change the bin_attribute callbacks of 'struct
+> attribute_group'. The remaining ones touch 'struct bin_attribute' itself.
+> 
+> The techniques employed by this series can later be reused for the
+> same change for other sysfs attributes.
+> 
+> This series is intended to be merged through the driver core tree.
 
-[...]
+This is very nice.  Thank you!
 
-> index 87fc5bb0a61e..709724fe28e6 100644
-> --- a/include/uapi/drm/v3d_drm.h
-> +++ b/include/uapi/drm/v3d_drm.h
-> @@ -43,6 +43,7 @@ extern "C" {
->   #define DRM_V3D_PERFMON_GET_VALUES                0x0a
->   #define DRM_V3D_SUBMIT_CPU                        0x0b
->   #define DRM_V3D_PERFMON_GET_COUNTER               0x0c
-> +#define DRM_V3D_PERFMON_SET_GLOBAL                0x0d
->   
->   #define DRM_IOCTL_V3D_SUBMIT_CL           DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_SUBMIT_CL, struct drm_v3d_submit_cl)
->   #define DRM_IOCTL_V3D_WAIT_BO             DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_WAIT_BO, struct drm_v3d_wait_bo)
-> @@ -61,6 +62,8 @@ extern "C" {
->   #define DRM_IOCTL_V3D_SUBMIT_CPU          DRM_IOW(DRM_COMMAND_BASE + DRM_V3D_SUBMIT_CPU, struct drm_v3d_submit_cpu)
->   #define DRM_IOCTL_V3D_PERFMON_GET_COUNTER DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_PERFMON_GET_COUNTER, \
->   						   struct drm_v3d_perfmon_get_counter)
-> +#define DRM_IOCTL_V3D_PERFMON_SET_GLOBAL  DRM_IOW(DRM_COMMAND_BASE + DRM_V3D_PERFMON_SET_GLOBAL, \
-> +						   struct drm_v3d_perfmon_set_global)
->   
->   #define DRM_V3D_SUBMIT_CL_FLUSH_CACHE             0x01
->   #define DRM_V3D_SUBMIT_EXTENSION		  0x02
-> @@ -765,6 +768,18 @@ struct drm_v3d_perfmon_get_counter {
->   	__u8 reserved[7];
->   };
->   
-> +#define DRM_V3D_PERFMON_CLEAR_GLOBAL    0x0001
-> +
-> +/*
+For PCI changes:
+  Acked-by: Krzysztof Wilczyński <kw@linux.com>
 
-Please, use kernel-doc [1]. So, here is /**
+This reminded me of an old discussions with Greg and Bjorn about how to set
+size correctly for our ROM and BAR sysfs objects.  Nice to see a very nice
+approach here, indeed.
 
-[1] https://docs.kernel.org/doc-guide/kernel-doc.html
-
-> + * struct drm_v3d_perfmon_set_global - ioctl to define a
-
-The colunm width is 80.
-
-> + * global performance counter that is used if a job has
-
-s/counter/monitor
-
-> + * not assigned one on its own.
-
-This description isn't really precise. When the global performance
-monitor is enabled, the job perfmon doesn't matter. Currently, we don't
-even allow a job perfmon to be submitted, but if we did, the global
-perfmon would be used even if the job had a perfmon.
-
-Best Regards,
-- Maíra
-
-> + */
-> +struct drm_v3d_perfmon_set_global {
-> +	__u32 flags;
-> +	__u32 id;
-> +};
-> +
->   #if defined(__cplusplus)
->   }
->   #endif
-
+	Krzysztof
