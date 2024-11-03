@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9946C9BA6D7
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E99A9BA6D6
 	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 18:04:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AF3610E286;
-	Sun,  3 Nov 2024 17:04:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33B2F10E27D;
+	Sun,  3 Nov 2024 17:04:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="SyRnyZMY";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="MrPXyPkE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5A210E276;
- Sun,  3 Nov 2024 17:04:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1E9110E276;
+ Sun,  3 Nov 2024 17:04:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
- s=mail; t=1730653481;
- bh=GMdVqpFwoDETa/zGkV60zA/YyucohMN7ciiORB0dDFM=;
+ s=mail; t=1730653480;
+ bh=nl79rluqUz7qDqQxR9i496RKtXejrl6t02e4QH5qPJI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=SyRnyZMYYiuvS05pAbdP2BNw8Ha3Wp0EjLxI/8VZebe+J32OJzQ0FfngSr11pbc3S
- 3hLaAVDffCbL3wYrk/f1ofcjd6D+cxYnSPaa7E742CRmKRTph9QuWBX2pSm+y7iW5V
- 1DVHDyNnW5ZmICuH8Tv9nJe+/D6n4jWkebWhVEBk=
+ b=MrPXyPkEuWuLaArcS1YGVn5YlgOUjnhynRsRbFHftaoVetXelMVaxQkJe+EiL6woE
+ S+0agGULjab2y5uR+7KKalE5m4IP94H8VkjxsjakcHAZy5VaYR9a0QZZyYQRSiHv+/
+ ysKDYkOHxRTXhv0Lf2m/q/BbJ0blHSQyXutxkMIo=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 03 Nov 2024 17:03:37 +0000
-Subject: [PATCH v2 08/10] sysfs: implement all BIN_ATTR_* macros in terms
- of __BIN_ATTR()
+Date: Sun, 03 Nov 2024 17:03:38 +0000
+Subject: [PATCH v2 09/10] sysfs: bin_attribute: add const read/write
+ callback variants
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241103-sysfs-const-bin_attr-v2-8-71110628844c@weissschuh.net>
+Message-Id: <20241103-sysfs-const-bin_attr-v2-9-71110628844c@weissschuh.net>
 References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 In-Reply-To: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -74,11 +74,11 @@ Cc: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=2547;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=4652;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=GMdVqpFwoDETa/zGkV60zA/YyucohMN7ciiORB0dDFM=;
- b=G1PulaFbJ1PZH7AnZk220ddkyci6/SVWNb+Rtvwc4kmmjYqzz3Epr6UCHfWP8qbRyhd/TurKs
- If4brtJxns8CxxC6suNmBgy57hhP6OtLmxJDPf6RSsE1N5AsLzcns6R
+ bh=nl79rluqUz7qDqQxR9i496RKtXejrl6t02e4QH5qPJI=;
+ b=zRu/d/VZWP3doJBfzxqs7giw29YYNYi0iPXD2I6CuiN9W2SIlp8gheE3GiOLS245JLYo+Bia3
+ qTMMFVAORK0D7GC1EfyiEnv7178teL6JXj2G6JdQ8X2UySjLYA2oPsa
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,69 +96,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The preparations for the upcoming constification of struct bin_attribute
-requires some logic in the structure definition macros.
-To avoid duplication of that logic in multiple macros, reimplement all
-other macros in terms of __BIN_ATTR().
+To make it possible to put struct bin_attribute into read-only memory,
+the sysfs core has to stop passing mutable pointers to the read() and
+write() callbacks.
+As there are numerous implementors of these callbacks throughout the
+tree it's not possible to change all of them at once.
+To enable a step-by-step transition, add new variants of the read() and
+write() callbacks which differ only in the constness of the struct
+bin_attribute argument.
+
+As most binary attributes are defined through macros, extend these
+macros to transparently handle both variants of callbacks to minimize
+the churn during the transition.
+As soon as all handlers are switch to the const variant, the non-const
+one can be removed together with the transition machinery.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- include/linux/sysfs.h | 27 ++++++++-------------------
- 1 file changed, 8 insertions(+), 19 deletions(-)
+ fs/sysfs/file.c       | 22 +++++++++++++++++-----
+ include/linux/sysfs.h | 25 +++++++++++++++++++++++--
+ 2 files changed, 40 insertions(+), 7 deletions(-)
 
+diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
+index 6d39696b43069010b0ad0bdaadcf9002cb70c92c..785408861c01c89fc84c787848243a13c1338367 100644
+--- a/fs/sysfs/file.c
++++ b/fs/sysfs/file.c
+@@ -91,9 +91,12 @@ static ssize_t sysfs_kf_bin_read(struct kernfs_open_file *of, char *buf,
+ 			count = size - pos;
+ 	}
+ 
+-	if (!battr->read)
++	if (!battr->read && !battr->read_new)
+ 		return -EIO;
+ 
++	if (battr->read_new)
++		return battr->read_new(of->file, kobj, battr, buf, pos, count);
++
+ 	return battr->read(of->file, kobj, battr, buf, pos, count);
+ }
+ 
+@@ -152,9 +155,12 @@ static ssize_t sysfs_kf_bin_write(struct kernfs_open_file *of, char *buf,
+ 	if (!count)
+ 		return 0;
+ 
+-	if (!battr->write)
++	if (!battr->write && !battr->write_new)
+ 		return -EIO;
+ 
++	if (battr->write_new)
++		return battr->write_new(of->file, kobj, battr, buf, pos, count);
++
+ 	return battr->write(of->file, kobj, battr, buf, pos, count);
+ }
+ 
+@@ -323,13 +329,19 @@ int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
+ 	const struct kernfs_ops *ops;
+ 	struct kernfs_node *kn;
+ 
++	if (battr->read && battr->read_new)
++		return -EINVAL;
++
++	if (battr->write && battr->write_new)
++		return -EINVAL;
++
+ 	if (battr->mmap)
+ 		ops = &sysfs_bin_kfops_mmap;
+-	else if (battr->read && battr->write)
++	else if ((battr->read || battr->read_new) && (battr->write || battr->write_new))
+ 		ops = &sysfs_bin_kfops_rw;
+-	else if (battr->read)
++	else if (battr->read || battr->read_new)
+ 		ops = &sysfs_bin_kfops_ro;
+-	else if (battr->write)
++	else if (battr->write || battr->write_new)
+ 		ops = &sysfs_bin_kfops_wo;
+ 	else
+ 		ops = &sysfs_file_kfops_empty;
 diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-index cb2a5e277c2384f2e8add8fbf2907e8a819576ec..d17c473c1ef292875475bf3bdf62d07241c13882 100644
+index d17c473c1ef292875475bf3bdf62d07241c13882..d713a6445a6267145a7014f308df3bb25b8c3287 100644
 --- a/include/linux/sysfs.h
 +++ b/include/linux/sysfs.h
-@@ -333,17 +333,11 @@ struct bin_attribute {
+@@ -305,8 +305,12 @@ struct bin_attribute {
+ 	struct address_space *(*f_mapping)(void);
+ 	ssize_t (*read)(struct file *, struct kobject *, struct bin_attribute *,
+ 			char *, loff_t, size_t);
++	ssize_t (*read_new)(struct file *, struct kobject *, const struct bin_attribute *,
++			    char *, loff_t, size_t);
+ 	ssize_t (*write)(struct file *, struct kobject *, struct bin_attribute *,
+ 			 char *, loff_t, size_t);
++	ssize_t (*write_new)(struct file *, struct kobject *,
++			     const struct bin_attribute *, char *, loff_t, size_t);
+ 	loff_t (*llseek)(struct file *, struct kobject *, const struct bin_attribute *,
+ 			 loff_t, int);
+ 	int (*mmap)(struct file *, struct kobject *, const struct bin_attribute *attr,
+@@ -325,11 +329,28 @@ struct bin_attribute {
+  */
+ #define sysfs_bin_attr_init(bin_attr) sysfs_attr_init(&(bin_attr)->attr)
+ 
++typedef ssize_t __sysfs_bin_rw_handler_new(struct file *, struct kobject *,
++					   const struct bin_attribute *, char *, loff_t, size_t);
++
+ /* macros to create static binary attributes easier */
+ #define __BIN_ATTR(_name, _mode, _read, _write, _size) {		\
+ 	.attr = { .name = __stringify(_name), .mode = _mode },		\
+-	.read	= _read,						\
+-	.write	= _write,						\
++	.read = _Generic(_read,						\
++		__sysfs_bin_rw_handler_new * : NULL,			\
++		default : _read						\
++	),								\
++	.read_new = _Generic(_read,					\
++		__sysfs_bin_rw_handler_new * : _read,			\
++		default : NULL						\
++	),								\
++	.write = _Generic(_write,					\
++		__sysfs_bin_rw_handler_new * : NULL,			\
++		default : _write					\
++	),								\
++	.write_new = _Generic(_write,					\
++		__sysfs_bin_rw_handler_new * : _write,			\
++		default : NULL						\
++	),								\
  	.size	= _size,						\
  }
  
--#define __BIN_ATTR_RO(_name, _size) {					\
--	.attr	= { .name = __stringify(_name), .mode = 0444 },		\
--	.read	= _name##_read,						\
--	.size	= _size,						\
--}
-+#define __BIN_ATTR_RO(_name, _size)					\
-+	__BIN_ATTR(_name, 0444, _name##_read, NULL, _size)
- 
--#define __BIN_ATTR_WO(_name, _size) {					\
--	.attr	= { .name = __stringify(_name), .mode = 0200 },		\
--	.write	= _name##_write,					\
--	.size	= _size,						\
--}
-+#define __BIN_ATTR_WO(_name, _size)					\
-+	__BIN_ATTR(_name, 0200, NULL, _name##_write, _size)
- 
- #define __BIN_ATTR_RW(_name, _size)					\
- 	__BIN_ATTR(_name, 0644, _name##_read, _name##_write, _size)
-@@ -364,11 +358,8 @@ struct bin_attribute bin_attr_##_name = __BIN_ATTR_WO(_name, _size)
- struct bin_attribute bin_attr_##_name = __BIN_ATTR_RW(_name, _size)
- 
- 
--#define __BIN_ATTR_ADMIN_RO(_name, _size) {					\
--	.attr	= { .name = __stringify(_name), .mode = 0400 },		\
--	.read	= _name##_read,						\
--	.size	= _size,						\
--}
-+#define __BIN_ATTR_ADMIN_RO(_name, _size)				\
-+	__BIN_ATTR(_name, 0400, _name##_read, NULL, _size)
- 
- #define __BIN_ATTR_ADMIN_RW(_name, _size)					\
- 	__BIN_ATTR(_name, 0600, _name##_read, _name##_write, _size)
-@@ -379,10 +370,8 @@ struct bin_attribute bin_attr_##_name = __BIN_ATTR_ADMIN_RO(_name, _size)
- #define BIN_ATTR_ADMIN_RW(_name, _size)					\
- struct bin_attribute bin_attr_##_name = __BIN_ATTR_ADMIN_RW(_name, _size)
- 
--#define __BIN_ATTR_SIMPLE_RO(_name, _mode) {				\
--	.attr	= { .name = __stringify(_name), .mode = _mode },	\
--	.read	= sysfs_bin_attr_simple_read,				\
--}
-+#define __BIN_ATTR_SIMPLE_RO(_name, _mode)				\
-+	__BIN_ATTR(_name, _mode, sysfs_bin_attr_simple_read, NULL, 0)
- 
- #define BIN_ATTR_SIMPLE_RO(_name)					\
- struct bin_attribute bin_attr_##_name = __BIN_ATTR_SIMPLE_RO(_name, 0444)
 
 -- 
 2.47.0
