@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D3E9BA6DC
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 18:04:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6971C9BA6D9
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 18:04:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34C7110E290;
-	Sun,  3 Nov 2024 17:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B18810E287;
+	Sun,  3 Nov 2024 17:04:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="gAex2VJy";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="H75YdV+k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9A1A10E287;
- Sun,  3 Nov 2024 17:04:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E071710E277;
+ Sun,  3 Nov 2024 17:04:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1730653482;
- bh=omnzY7OVUHnekZ/bUX8pXaM2rzeR5oe1Izmsxqjd69Q=;
+ bh=zDhPVchfMys7HnsVtwZsrXjRXhl5fZsRZ1XGARPtegE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=gAex2VJyMV+OiFkklrV8IrICkrh78EMUGYE6sgF6izsK/E9bdOLP+ue1pMfx65KEP
- daDJhG0bHjOZvxSIVoZOVufQPlLYRdXOaAnYLf8bMNfx7N7rX5CM0q0eWD9GRIOclJ
- PZ80lLezOY62im86G8xcV8ntzX7D+eMJVrF5nUUY=
+ b=H75YdV+k9aKMbCg3vYqkrITc/NSui5xg9ZVSt864cTzcQxw90svfufktDmLA8a2lW
+ /dbglWlZm61tUtLow1Q3tyjkRdeCmG3i5aMEWTFNazRPqYODgYZJAsPEMnIPlThVwG
+ y4spMmomoO7OqL8jTcXa0IsoXpoF9GwL6a0t8T0c=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 03 Nov 2024 17:03:32 +0000
-Subject: [PATCH v2 03/10] PCI/sysfs: Calculate bin_attribute size through
+Date: Sun, 03 Nov 2024 17:03:33 +0000
+Subject: [PATCH v2 04/10] nvmem: core: calculate bin_attribute size through
  bin_size()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241103-sysfs-const-bin_attr-v2-3-71110628844c@weissschuh.net>
+Message-Id: <20241103-sysfs-const-bin_attr-v2-4-71110628844c@weissschuh.net>
 References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 In-Reply-To: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -74,11 +74,11 @@ Cc: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=2359;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=1407;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=omnzY7OVUHnekZ/bUX8pXaM2rzeR5oe1Izmsxqjd69Q=;
- b=QEHmCC4IyJCPeU5OBXq34EhCHkpPKQglOlOaOSow6b0xRNSB6n8UoneN+GL6/CGyBOY6ZhYUm
- LOb4xWNOB8AC0VTvIPxtVY0ZKdQGGSIFQEaRXg1966rzLgUpCbB+31p
+ bh=zDhPVchfMys7HnsVtwZsrXjRXhl5fZsRZ1XGARPtegE=;
+ b=LIJoZnee0F8KxWypgifoxx5C03UWzUsfKRD3mTuXEg8GZQDzU4bKngbG7gE6mho+vvHyDPpYb
+ T0csHWK0CZAA7NKHFKir+h35XqhjNK7+x/o8Rk9YXpQi/8Q7SU3s9Ua
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,73 +101,43 @@ size. Instead use the new, dedicated bin_size() one.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/pci/pci-sysfs.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ drivers/nvmem/core.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 5d0f4db1cab78674c5e5906f321bf7a57b742983..040f01b2b999175e8d98b05851edc078bbabbe0d 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -818,21 +818,20 @@ static struct bin_attribute *pci_dev_config_attrs[] = {
- 	NULL,
- };
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index 33ffa2aa4c1152398ec66b8dd7b30384c5346a6e..63370c76394ee9b8d514da074779617cef67c311 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -303,11 +303,19 @@ static umode_t nvmem_bin_attr_is_visible(struct kobject *kobj,
+ 	struct device *dev = kobj_to_dev(kobj);
+ 	struct nvmem_device *nvmem = to_nvmem_device(dev);
  
--static umode_t pci_dev_config_attr_is_visible(struct kobject *kobj,
--					      struct bin_attribute *a, int n)
-+static size_t pci_dev_config_attr_bin_size(struct kobject *kobj,
-+					   const struct bin_attribute *a,
-+					   int n)
- {
- 	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
- 
--	a->size = PCI_CFG_SPACE_SIZE;
- 	if (pdev->cfg_size > PCI_CFG_SPACE_SIZE)
--		a->size = PCI_CFG_SPACE_EXP_SIZE;
+-	attr->size = nvmem->size;
 -
--	return a->attr.mode;
-+		return PCI_CFG_SPACE_EXP_SIZE;
-+	return PCI_CFG_SPACE_SIZE;
+ 	return nvmem_bin_attr_get_umode(nvmem);
  }
  
- static const struct attribute_group pci_dev_config_attr_group = {
- 	.bin_attrs = pci_dev_config_attrs,
--	.is_bin_visible = pci_dev_config_attr_is_visible,
-+	.bin_size = pci_dev_config_attr_bin_size,
- };
- 
- /*
-@@ -1330,21 +1329,26 @@ static umode_t pci_dev_rom_attr_is_visible(struct kobject *kobj,
- 					   struct bin_attribute *a, int n)
- {
- 	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
--	size_t rom_size;
- 
- 	/* If the device has a ROM, try to expose it in sysfs. */
--	rom_size = pci_resource_len(pdev, PCI_ROM_RESOURCE);
--	if (!rom_size)
-+	if (!pci_resource_end(pdev, PCI_ROM_RESOURCE))
- 		return 0;
- 
--	a->size = rom_size;
--
- 	return a->attr.mode;
- }
- 
-+static size_t pci_dev_rom_attr_bin_size(struct kobject *kobj,
-+					const struct bin_attribute *a, int n)
++static size_t nvmem_bin_attr_size(struct kobject *kobj,
++				  const struct bin_attribute *attr,
++				  int i)
 +{
-+	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
++	struct device *dev = kobj_to_dev(kobj);
++	struct nvmem_device *nvmem = to_nvmem_device(dev);
 +
-+	return pci_resource_len(pdev, PCI_ROM_RESOURCE);
++	return nvmem->size;
 +}
 +
- static const struct attribute_group pci_dev_rom_attr_group = {
- 	.bin_attrs = pci_dev_rom_attrs,
- 	.is_bin_visible = pci_dev_rom_attr_is_visible,
-+	.bin_size = pci_dev_rom_attr_bin_size,
+ static umode_t nvmem_attr_is_visible(struct kobject *kobj,
+ 				     struct attribute *attr, int i)
+ {
+@@ -383,6 +391,7 @@ static const struct attribute_group nvmem_bin_group = {
+ 	.bin_attrs	= nvmem_bin_attributes,
+ 	.attrs		= nvmem_attrs,
+ 	.is_bin_visible = nvmem_bin_attr_is_visible,
++	.bin_size	= nvmem_bin_attr_size,
+ 	.is_visible	= nvmem_attr_is_visible,
  };
  
- static ssize_t reset_store(struct device *dev, struct device_attribute *attr,
 
 -- 
 2.47.0
