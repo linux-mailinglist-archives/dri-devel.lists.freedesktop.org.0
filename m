@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CE39BA3DD
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 05:06:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFFE9BA3E0
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 05:09:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFBD910E343;
-	Sun,  3 Nov 2024 04:06:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F42410E344;
+	Sun,  3 Nov 2024 04:09:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HSur5ad/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cAuk/xY0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC0910E343
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Nov 2024 04:06:56 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-2fb3ce15172so40693531fa.0
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Nov 2024 21:06:56 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC17D10E344
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Nov 2024 04:09:55 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-53c73f01284so3560793e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Nov 2024 21:09:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730606814; x=1731211614; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1730606994; x=1731211794; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=cy0z+aQNkehhhbSQRmRRmE0gCBkzzV+Ayu57unzxkC8=;
- b=HSur5ad/hmbqJQ4uolCUWzzsO+aatri5xZkSaSlGzSDP5hej5Dgcv3vdqv21xGOKK4
- QK98bTvQLzS93e9TJBKIuhxQ5mhlTmOFh/AhMSAgVinb6N1nWIv7CsZ2a2sVKJwhYKhp
- 6SC16/itMR3gtCrEfo6jsYF0rtFjh/iUmqJzH187oYOQebiffTSfAffIMcOTK+88bUvf
- VgGdTT5Qzq57tLQWJwxHIQoUFeWPzBtSak3io4+WIfbZWUJD1zNVVZbwWEM6O6NRzI+o
- XWTgTycYlikwrv+EEmgZSsevA5oS0d3lvFKEAZ8a+C8OzBomQ4wJtAYh2UMrbzEM+/+Y
- E+4g==
+ bh=xIWYWvAkJ2aE7RZ1rvyuSIZgd8qFpP+Ykb7LuggVSmo=;
+ b=cAuk/xY0qHvdl6Czmn+nWy2295Zc7iQs3002JTdxwxdic8Osewx4Yj1lYKnyggS+Zo
+ ByY46mcZ2m5yRxdUHDpZWArAb1y3B92O0x3jnVd1uZpkYNBMkcpdt441P/29CCkA91Ff
+ wgrx2PUiOLhxdCbwe4EWxZaO7vVvb5rodARkfBEZkMJgGJFE0inGxV1U7Mz4Y/aclD24
+ LaVIHdUbNW3F0VMwPCAHabrXA048BBUTQJC9vSrVCsCpyDa2yxfNNcMS7UTwi31fHvBC
+ koRbAbxY0MUtXvuaiEh/OYYQv73iaLGIYTRuB/7mYQFR+h0WERArQc4CN+fjKkZJApRy
+ fNkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730606814; x=1731211614;
+ d=1e100.net; s=20230601; t=1730606994; x=1731211794;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cy0z+aQNkehhhbSQRmRRmE0gCBkzzV+Ayu57unzxkC8=;
- b=bw5qi4sA1x6b5i+jqWJU8PVKo5dTHWSerEpoDKbo2DLefBTYro5xyOhNA/vQ9qMOf5
- uFH9obosut5A9YICi8RdveMxOCo36qh7QC2WnYYyr+VnQgWvCHOw5Cms+bCB336Mww3p
- k2wOtVNy0AmkniA8tJTrOvkxdDOoo70qEALaahOD9Cl8cERY4FyviyAeyV7y9dU2UGEN
- x1GXQYCu+xzTHckxDh4iqUhvy1OlH8QNiU9by9c9kEHIY46YNpLyCcrMfx+Y4ez4LTpy
- rse4JNMbgacg4n+v81iadvzixdxdFobN/11gWYmhIk9LTT8WaYPLPpc4IaeuHnug2PfL
- S7hA==
+ bh=xIWYWvAkJ2aE7RZ1rvyuSIZgd8qFpP+Ykb7LuggVSmo=;
+ b=dzwkHSoKbDsjoEainR0veSSVWS4B4hWmzBezerL7EdojalraSP/92Jmn+UTKY+mUka
+ dqxkCV2KJ8E4UtLIf/6q+B5qaxwQT7YbBzxkorkfKL6es8SClXOChPb7sIdBFqIyzaJ1
+ 2IGXemq1lAk7Xcl6mpkEvcNIyDKuWA1nAyzMIJXmSMBfyamIvnEh0OtRNnLYxLxI2lg4
+ aghfcM+yFyQA8ZTjhqk+IETkPFExySdsh7TM70eR2SwPLpXC1669kXtOtoW639uxNDOP
+ fPR3mA+stQH2GeoR1IADS0zePqRkw4QybtvjRjfKabanNcDnA/0DV33e7xU4qCdF7Cyi
+ Kpow==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVvxesU5xTX9Wu7RUV6RSRaMEO9ydn3s827Ku2c0MDxeByssHSckiKiWNNqbb0TNivhmJlMagXs+So=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxEXcgIpcrAhMZHtComciwby9XDxlmfcdZKy/+tw2mEMgjxalyc
- aglcBTGyJi6aXGOmyUeJ4uea9U4KOYapHgA7GbwelM9RJY49o6NKdwAgFibdN7s=
-X-Google-Smtp-Source: AGHT+IGCYpKMLARN+3yA+XLWYJ/apVT2qwppwA4y2XC5HHSH42TKJZSUoTKzJA+nw+2OeAF6X1CoZw==
-X-Received: by 2002:a2e:bd12:0:b0:2fb:579a:fff with SMTP id
- 38308e7fff4ca-2fedb3ed34amr28821081fa.8.1730606813804; 
- Sat, 02 Nov 2024 21:06:53 -0700 (PDT)
+ AJvYcCWUnEWQQn5U0PQ4DiCqgnAwS6iA0p7kG7aQbpKIwGqO9PMdqoyha5Zmj5Ofczx0AUPT6GLoU1nucsA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwzwSqESSKdT9x2hLrvUSNBIz1pnktDijopay3GGxzXDd3XN0aO
+ golnGyJYc4zJXYfiARy+BBOFcHvIVoGV45nygJnl9DRxl0a+/w80MuNbeOa1pb8=
+X-Google-Smtp-Source: AGHT+IEzmPfxRRXfx5MvBSfpXK5zv9R3PXE1Y9UM44fyL+N0Vaqawowno2b6f0hSBK8UnFCOcH0h+g==
+X-Received: by 2002:a05:6512:b81:b0:53a:a26:5690 with SMTP id
+ 2adb3069b0e04-53c79e4c5e5mr5896519e87.34.1730606993700; 
+ Sat, 02 Nov 2024 21:09:53 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fdef8a6309sm11533831fa.93.2024.11.02.21.06.51
+ 2adb3069b0e04-53c7bc9c179sm1146254e87.91.2024.11.02.21.09.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Nov 2024 21:06:52 -0700 (PDT)
-Date: Sun, 3 Nov 2024 06:06:50 +0200
+ Sat, 02 Nov 2024 21:09:52 -0700 (PDT)
+Date: Sun, 3 Nov 2024 06:09:49 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Heiner Kallweit <hkallweit1@gmail.com>
 Cc: Oded Gabbay <ogabbay@kernel.org>, 
@@ -65,15 +65,15 @@ Cc: Oded Gabbay <ogabbay@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>, 
  "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 3/3] drm/sysfs: Constify struct
- drm_sysfs_device_connector
-Message-ID: <qtkegznpsqjs6aaezyjzzpei5vx7pds2dbxupuhm5dqq4hr2py@6woffieufk64>
+Subject: Re: [PATCH v2 2/3] drm/sysfs: Remove device type
+ drm_sysfs_device_minor
+Message-ID: <2drlfbotxzbllvfxdsfevm6sso2uxt7vbaxw64ayjdogvhldwo@7hldzd2f6jg5>
 References: <a6c85d91-9809-430e-99e6-00ec894ac517@gmail.com>
- <49a43f15-4a2e-4a9b-885b-0bb809969abe@gmail.com>
+ <57e2153a-4128-4bdb-8e15-59dfe3dd8a9e@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <49a43f15-4a2e-4a9b-885b-0bb809969abe@gmail.com>
+In-Reply-To: <57e2153a-4128-4bdb-8e15-59dfe3dd8a9e@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,14 +89,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 02, 2024 at 10:48:42PM +0100, Heiner Kallweit wrote:
-> Constify struct drm_sysfs_device_connector to eliminate the risk of code
-> trying to change it.
+On Sat, Nov 02, 2024 at 10:47:25PM +0100, Heiner Kallweit wrote:
+> Only user of this device type was struct dev_pm_ops of drm_class which
+> was removed in d14d2a8453d6 ("drm: Remove dev_pm_ops from drm_class").
+> So remove this now unused device type.
 > 
 > Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 > ---
->  drivers/gpu/drm/drm_sysfs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/drm_sysfs.c | 5 -----
+>  1 file changed, 5 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
