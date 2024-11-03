@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048359BA6CF
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 18:04:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A01A9BA6CE
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 18:04:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E8310E271;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CEFC10E273;
 	Sun,  3 Nov 2024 17:04:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="LVkLlDoy";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="jCGf7P5s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E523010E271;
- Sun,  3 Nov 2024 17:04:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7FFF10E25E;
+ Sun,  3 Nov 2024 17:04:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
- s=mail; t=1730653478;
- bh=vLmXHFQrVeANwVFZr7GPEQiJDwV80UwagiHdL+WieYg=;
- h=From:Subject:Date:To:Cc:From;
- b=LVkLlDoyAjxSEKNfss+XSXyWYJJQzcZv2JQqsJCbi9rUIOTJ4RL7OxwixFQenCjjd
- rlVUh9qqiGz1yV+aWCGMfosXXIgbUe7lyF1Ond/E8etyVdz8oI4rmOCryfvOvF9wdn
- hyWkvUc8pYcWGzPC5QJ3hJWaxe+zEoDAAboNa6yg=
+ s=mail; t=1730653474;
+ bh=iCkq/n0ScNs19XGEBHP6SQ4H+TMRU4fkw8iLrhzrW/Q=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=jCGf7P5s53Ta360TJbHbjEX0UBWW3nHAglDu578tyRJB0eZgE5NN8zYQ0kFtr1Svt
+ pCp484/NqdkNGcCiZ9riHzuo/LXlzlPqaqdK9SPb5smzV52zn2yNPWdP3DIa10iyOa
+ KeTiE8N08tCGK9uD6gJjB4S2MSPfd5jAPy1fJsj8=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH v2 00/10] sysfs: constify struct bin_attribute (Part 1)
-Date: Sun, 03 Nov 2024 17:03:29 +0000
-Message-Id: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
+Date: Sun, 03 Nov 2024 17:03:30 +0000
+Subject: [PATCH v2 01/10] sysfs: explicitly pass size to
+ sysfs_add_bin_file_mode_ns()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAOGsJ2cC/22NQQ6CMBBFr2JmbU1bQasr72GIKTC1synaKSgh3
- N2KJm5cvp/89yZgjIQMx9UEEQdi6kIGvV5B4224oqA2M2ipCyW1ETyyY9F0gZOoKVxsSlFYKc1
- hVxjVyhry9RbR0XPRnqsPR7z32Z5+oydOXRyX9KDe67eyVf8rgxJSaG2UdXbvZFmeHkjM3Pjeb
- wImqOZ5fgH1E5+t0gAAAA==
-X-Change-ID: 20241028-sysfs-const-bin_attr-a00896481d0b
+Message-Id: <20241103-sysfs-const-bin_attr-v2-1-71110628844c@weissschuh.net>
+References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
+In-Reply-To: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  "Rafael J. Wysocki" <rafael@kernel.org>, 
  Bjorn Helgaas <bhelgaas@google.com>, 
@@ -76,11 +74,11 @@ Cc: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=3861;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=3118;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=vLmXHFQrVeANwVFZr7GPEQiJDwV80UwagiHdL+WieYg=;
- b=Bvbt1J2LqQ69JnMU1VrxxAk0oh5wwQXMdeGiNk0LKpzFZww+HQ7ZSL0xtSH7vjejf+nvXyav9
- 7mYQXMoReN6DBjpqywBjK9Kq5FxOhy2hVOb+j2ENGg6yuLHGvmQRl99
+ bh=iCkq/n0ScNs19XGEBHP6SQ4H+TMRU4fkw8iLrhzrW/Q=;
+ b=sZzl6wOvr0Sxq3DUY1GJqR+qhFx4JBDN7tgJGJz8989wTSFCjglU0coA3+lhHK8A4oBqQa8cP
+ HbptlDNYnPABVHa2o+5ifoWR29tK6teGa/60gJsy0hPwKXqLXrvxd4C
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,87 +96,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-struct bin_attribute contains a bunch of pointer members, which when
-overwritten by accident or malice can lead to system instability and
-security problems.
-Moving the definitions of struct bin_attribute to read-only memory
-makes these modifications impossible.
-The same change has been performed for many other structures in the
-past. (struct class, struct ctl_table...)
-
-For the structure definitions throughout the core to be moved to
-read-only memory the following steps are necessary.
-
-1) Change all callbacks invoked from the sysfs core to only pass const
-   pointers
-2) Adapt the sysfs core to only work in terms of const pointers
-3) Adapt the sysfs core APIs to allow const pointers
-4) Change all structure definitions through the core to const
-
-This series provides the foundation for step 1) above.
-It converts some callbacks in a single step to const and provides a
-foundation for those callbacks where a single step is not possible.
-
-Patches 1-5 change the bin_attribute callbacks of 'struct
-attribute_group'. The remaining ones touch 'struct bin_attribute' itself.
-
-The techniques employed by this series can later be reused for the
-same change for other sysfs attributes.
-
-This series is intended to be merged through the driver core tree.
+Upcoming changes to the sysfs core require the size of the created file
+to be overridable by the caller.
+Add a parameter to enable this.
+For now keep using attr->size in all cases.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-Changes in v2:
-- Drop RFC state
-- Refuse registration of attributes with both read/read_new or
-  write/write_new
-- Remove don't drop llseek() callback, as it is actually used.
-  Instead also migrate it to "const".
-- _Generic machinery: Simplify and make more robust against misuse
-- Link to v1: https://lore.kernel.org/r/20241031-sysfs-const-bin_attr-v1-0-2281afa7f055@weissschuh.net
+ fs/sysfs/file.c  | 8 ++++----
+ fs/sysfs/group.c | 3 ++-
+ fs/sysfs/sysfs.h | 2 +-
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
----
-Thomas Weißschuh (10):
-      sysfs: explicitly pass size to sysfs_add_bin_file_mode_ns()
-      sysfs: introduce callback attribute_group::bin_size
-      PCI/sysfs: Calculate bin_attribute size through bin_size()
-      nvmem: core: calculate bin_attribute size through bin_size()
-      sysfs: treewide: constify attribute callback of bin_is_visible()
-      sysfs: treewide: constify attribute callback of bin_attribute::mmap()
-      sysfs: treewide: constify attribute callback of bin_attribute::llseek()
-      sysfs: implement all BIN_ATTR_* macros in terms of __BIN_ATTR()
-      sysfs: bin_attribute: add const read/write callback variants
-      driver core: Constify attribute arguments of binary attributes
+diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
+index d1995e2d6c943a644ff9f34cf2488864d57daf81..6d39696b43069010b0ad0bdaadcf9002cb70c92c 100644
+--- a/fs/sysfs/file.c
++++ b/fs/sysfs/file.c
+@@ -315,7 +315,7 @@ int sysfs_add_file_mode_ns(struct kernfs_node *parent,
+ }
+ 
+ int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
+-		const struct bin_attribute *battr, umode_t mode,
++		const struct bin_attribute *battr, umode_t mode, size_t size,
+ 		kuid_t uid, kgid_t gid, const void *ns)
+ {
+ 	const struct attribute *attr = &battr->attr;
+@@ -340,7 +340,7 @@ int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
+ #endif
+ 
+ 	kn = __kernfs_create_file(parent, attr->name, mode & 0777, uid, gid,
+-				  battr->size, ops, (void *)attr, ns, key);
++				  size, ops, (void *)attr, ns, key);
+ 	if (IS_ERR(kn)) {
+ 		if (PTR_ERR(kn) == -EEXIST)
+ 			sysfs_warn_dup(parent, attr->name);
+@@ -580,8 +580,8 @@ int sysfs_create_bin_file(struct kobject *kobj,
+ 		return -EINVAL;
+ 
+ 	kobject_get_ownership(kobj, &uid, &gid);
+-	return sysfs_add_bin_file_mode_ns(kobj->sd, attr, attr->attr.mode, uid,
+-					   gid, NULL);
++	return sysfs_add_bin_file_mode_ns(kobj->sd, attr, attr->attr.mode,
++					  attr->size, uid, gid, NULL);
+ }
+ EXPORT_SYMBOL_GPL(sysfs_create_bin_file);
+ 
+diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
+index d22ad67a0f3291f4702f494939528d5d13c31fae..45b2e92941da1f49dcc71af3781317c61480c956 100644
+--- a/fs/sysfs/group.c
++++ b/fs/sysfs/group.c
+@@ -87,6 +87,7 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
+ 	if (grp->bin_attrs) {
+ 		for (i = 0, bin_attr = grp->bin_attrs; *bin_attr; i++, bin_attr++) {
+ 			umode_t mode = (*bin_attr)->attr.mode;
++			size_t size = (*bin_attr)->size;
+ 
+ 			if (update)
+ 				kernfs_remove_by_name(parent,
+@@ -104,7 +105,7 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
+ 
+ 			mode &= SYSFS_PREALLOC | 0664;
+ 			error = sysfs_add_bin_file_mode_ns(parent, *bin_attr,
+-							   mode, uid, gid,
++							   mode, size, uid, gid,
+ 							   NULL);
+ 			if (error)
+ 				break;
+diff --git a/fs/sysfs/sysfs.h b/fs/sysfs/sysfs.h
+index 3f28c9af57562f61a00a47935579f0939cbfd4dc..8e012f25e1c06e802c3138cc2715b46c1f67fa48 100644
+--- a/fs/sysfs/sysfs.h
++++ b/fs/sysfs/sysfs.h
+@@ -31,7 +31,7 @@ int sysfs_add_file_mode_ns(struct kernfs_node *parent,
+ 		const struct attribute *attr, umode_t amode, kuid_t uid,
+ 		kgid_t gid, const void *ns);
+ int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
+-		const struct bin_attribute *battr, umode_t mode,
++		const struct bin_attribute *battr, umode_t mode, size_t size,
+ 		kuid_t uid, kgid_t gid, const void *ns);
+ 
+ /*
 
- arch/alpha/kernel/pci-sysfs.c           |  6 +--
- drivers/base/node.c                     |  4 +-
- drivers/base/topology.c                 |  4 +-
- drivers/cxl/port.c                      |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c |  2 +-
- drivers/infiniband/hw/qib/qib_sysfs.c   |  2 +-
- drivers/misc/ocxl/sysfs.c               |  2 +-
- drivers/mtd/spi-nor/sysfs.c             |  2 +-
- drivers/nvmem/core.c                    | 16 ++++--
- drivers/pci/p2pdma.c                    |  2 +-
- drivers/pci/pci-sysfs.c                 | 42 ++++++++-------
- drivers/pci/vpd.c                       |  2 +-
- drivers/platform/x86/amd/hsmp.c         |  2 +-
- drivers/platform/x86/intel/pmt/class.c  |  2 +-
- drivers/platform/x86/intel/sdsi.c       |  2 +-
- drivers/scsi/scsi_sysfs.c               |  2 +-
- drivers/uio/uio_hv_generic.c            |  2 +-
- drivers/usb/core/sysfs.c                |  2 +-
- fs/sysfs/file.c                         | 30 +++++++----
- fs/sysfs/group.c                        |  5 +-
- fs/sysfs/sysfs.h                        |  2 +-
- include/linux/sysfs.h                   | 94 ++++++++++++++++++++-------------
- 22 files changed, 138 insertions(+), 91 deletions(-)
----
-base-commit: 3e5e6c9900c3d71895e8bdeacfb579462e98eba1
-change-id: 20241028-sysfs-const-bin_attr-a00896481d0b
-
-Best regards,
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
+2.47.0
 
