@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450FB9BA6CC
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 18:04:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D3E9BA6DC
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 18:04:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 043A110E25E;
-	Sun,  3 Nov 2024 17:04:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34C7110E290;
+	Sun,  3 Nov 2024 17:04:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="jnQwjCqu";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="gAex2VJy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09B4310E271;
- Sun,  3 Nov 2024 17:04:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9A1A10E287;
+ Sun,  3 Nov 2024 17:04:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
- s=mail; t=1730653475;
- bh=vzqsMVfnVQ7g+xXQgYvHKh8WFOGMi08tymfd1lvAle8=;
+ s=mail; t=1730653482;
+ bh=omnzY7OVUHnekZ/bUX8pXaM2rzeR5oe1Izmsxqjd69Q=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=jnQwjCquAR0qBDmeS/BwDJVhGZ6sUlQQGbmFuOa4A9M2739yz7dkzMP816T+fVMTN
- habdRX2zL4MWpQPB/EZc2fhWd6l5iWr1VitiXAmds7L0pbHnrrKO6nxJP5pGMDdPpU
- 9SGYolS2xrGzTPAPqNh3lGCxTyletOjJlUB8aEf0=
+ b=gAex2VJyMV+OiFkklrV8IrICkrh78EMUGYE6sgF6izsK/E9bdOLP+ue1pMfx65KEP
+ daDJhG0bHjOZvxSIVoZOVufQPlLYRdXOaAnYLf8bMNfx7N7rX5CM0q0eWD9GRIOclJ
+ PZ80lLezOY62im86G8xcV8ntzX7D+eMJVrF5nUUY=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 03 Nov 2024 17:03:31 +0000
-Subject: [PATCH v2 02/10] sysfs: introduce callback attribute_group::bin_size
+Date: Sun, 03 Nov 2024 17:03:32 +0000
+Subject: [PATCH v2 03/10] PCI/sysfs: Calculate bin_attribute size through
+ bin_size()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241103-sysfs-const-bin_attr-v2-2-71110628844c@weissschuh.net>
+Message-Id: <20241103-sysfs-const-bin_attr-v2-3-71110628844c@weissschuh.net>
 References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 In-Reply-To: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -73,11 +74,11 @@ Cc: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=2296;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=2359;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=vzqsMVfnVQ7g+xXQgYvHKh8WFOGMi08tymfd1lvAle8=;
- b=+c8c3AK6YNFtR/f5MlFDxfac5E4AdcTfe/LYH8cKiLv+aN2C4MrR8vpsa2SsTXy5NHtfEpdBh
- t4Y6vgc31e8BINAGXwLU2VEDayYxRmKzGs5LRvtEfi4Ux875Z1qlOu8
+ bh=omnzY7OVUHnekZ/bUX8pXaM2rzeR5oe1Izmsxqjd69Q=;
+ b=QEHmCC4IyJCPeU5OBXq34EhCHkpPKQglOlOaOSow6b0xRNSB6n8UoneN+GL6/CGyBOY6ZhYUm
+ LOb4xWNOB8AC0VTvIPxtVY0ZKdQGGSIFQEaRXg1966rzLgUpCbB+31p
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,64 +96,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several drivers need to dynamically calculate the size of an binary
-attribute. Currently this is done by assigning attr->size from the
-is_bin_visible() callback.
-
-This has drawbacks:
-* It is not documented.
-* A single attribute can be instantiated multiple times, overwriting the
-  shared size field.
-* It prevents the structure to be moved to read-only memory.
-
-Introduce a new dedicated callback to calculate the size of the
-attribute.
+Stop abusing the is_bin_visible() callback to calculate the attribute
+size. Instead use the new, dedicated bin_size() one.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- fs/sysfs/group.c      | 2 ++
- include/linux/sysfs.h | 8 ++++++++
- 2 files changed, 10 insertions(+)
+ drivers/pci/pci-sysfs.c | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
-index 45b2e92941da1f49dcc71af3781317c61480c956..8b01a7eda5fb3239e138372417d01967c7a3f122 100644
---- a/fs/sysfs/group.c
-+++ b/fs/sysfs/group.c
-@@ -98,6 +98,8 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
- 				if (!mode)
- 					continue;
- 			}
-+			if (grp->bin_size)
-+				size = grp->bin_size(kobj, *bin_attr, i);
- 
- 			WARN(mode & ~(SYSFS_PREALLOC | 0664),
- 			     "Attribute %s: Invalid permissions 0%o\n",
-diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-index c4e64dc112063f7cb89bf66059d0338716089e87..4746cccb95898b24df6f53de9421ea7649b5568f 100644
---- a/include/linux/sysfs.h
-+++ b/include/linux/sysfs.h
-@@ -87,6 +87,11 @@ do {							\
-  *		SYSFS_GROUP_VISIBLE() when assigning this callback to
-  *		specify separate _group_visible() and _attr_visible()
-  *		handlers.
-+ * @bin_size:
-+ *		Optional: Function to return the size of a binary attribute
-+ *		of the group. Will be called repeatedly for each binary
-+ *		attribute in the group. Overwrites the size field embedded
-+ *		inside the attribute itself.
-  * @attrs:	Pointer to NULL terminated list of attributes.
-  * @bin_attrs:	Pointer to NULL terminated list of binary attributes.
-  *		Either attrs or bin_attrs or both must be provided.
-@@ -97,6 +102,9 @@ struct attribute_group {
- 					      struct attribute *, int);
- 	umode_t			(*is_bin_visible)(struct kobject *,
- 						  struct bin_attribute *, int);
-+	size_t			(*bin_size)(struct kobject *,
-+					    const struct bin_attribute *,
-+					    int);
- 	struct attribute	**attrs;
- 	struct bin_attribute	**bin_attrs;
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index 5d0f4db1cab78674c5e5906f321bf7a57b742983..040f01b2b999175e8d98b05851edc078bbabbe0d 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -818,21 +818,20 @@ static struct bin_attribute *pci_dev_config_attrs[] = {
+ 	NULL,
  };
+ 
+-static umode_t pci_dev_config_attr_is_visible(struct kobject *kobj,
+-					      struct bin_attribute *a, int n)
++static size_t pci_dev_config_attr_bin_size(struct kobject *kobj,
++					   const struct bin_attribute *a,
++					   int n)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
+ 
+-	a->size = PCI_CFG_SPACE_SIZE;
+ 	if (pdev->cfg_size > PCI_CFG_SPACE_SIZE)
+-		a->size = PCI_CFG_SPACE_EXP_SIZE;
+-
+-	return a->attr.mode;
++		return PCI_CFG_SPACE_EXP_SIZE;
++	return PCI_CFG_SPACE_SIZE;
+ }
+ 
+ static const struct attribute_group pci_dev_config_attr_group = {
+ 	.bin_attrs = pci_dev_config_attrs,
+-	.is_bin_visible = pci_dev_config_attr_is_visible,
++	.bin_size = pci_dev_config_attr_bin_size,
+ };
+ 
+ /*
+@@ -1330,21 +1329,26 @@ static umode_t pci_dev_rom_attr_is_visible(struct kobject *kobj,
+ 					   struct bin_attribute *a, int n)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
+-	size_t rom_size;
+ 
+ 	/* If the device has a ROM, try to expose it in sysfs. */
+-	rom_size = pci_resource_len(pdev, PCI_ROM_RESOURCE);
+-	if (!rom_size)
++	if (!pci_resource_end(pdev, PCI_ROM_RESOURCE))
+ 		return 0;
+ 
+-	a->size = rom_size;
+-
+ 	return a->attr.mode;
+ }
+ 
++static size_t pci_dev_rom_attr_bin_size(struct kobject *kobj,
++					const struct bin_attribute *a, int n)
++{
++	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
++
++	return pci_resource_len(pdev, PCI_ROM_RESOURCE);
++}
++
+ static const struct attribute_group pci_dev_rom_attr_group = {
+ 	.bin_attrs = pci_dev_rom_attrs,
+ 	.is_bin_visible = pci_dev_rom_attr_is_visible,
++	.bin_size = pci_dev_rom_attr_bin_size,
+ };
+ 
+ static ssize_t reset_store(struct device *dev, struct device_attribute *attr,
 
 -- 
 2.47.0
