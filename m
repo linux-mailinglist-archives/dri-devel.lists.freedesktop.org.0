@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AEF49BAE93
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 09:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAAF29BAE92
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 09:51:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B455010E393;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74F5610E392;
 	Mon,  4 Nov 2024 08:51:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c4vm7f1c";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jIPJQErn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3469810E294
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Nov 2024 20:04:10 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id
- 4fb4d7f45d1cf-5ceb75f9631so3215553a12.0
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Nov 2024 12:04:10 -0800 (PST)
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+ [209.85.218.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 535FD10E294
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Nov 2024 20:04:43 +0000 (UTC)
+Received: by mail-ej1-f65.google.com with SMTP id
+ a640c23a62f3a-a86e9db75b9so566878966b.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Nov 2024 12:04:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730664248; x=1731269048; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1730664282; x=1731269082; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gR268y83eL4SoUEdjawan5CDepkw/mnuHvTL4r2CJLk=;
- b=c4vm7f1cJUeaXoNyXGcC8L9tYGEjbMGpWRxyPUq1A8ECFb9/6EPZPurtQP82UZCovQ
- M6jTSrn+SBRExTby9rKo9k/EYNb5/2S0c0/CWg1fmlDGyHTjNtF5g3oAiLCnco9qEc9A
- tyEYD2vMYzlkn9oVeXSR69g/mAmL/X8zL06JhsrF1PWduxuA7vIjZlPw1MTuHol+fpo4
- 07j0g5k6r9Js2DnEx0c6WkqThCoqkSYw1C1EpN+0QlPvoq6U9KuNThBNIyRs3Qt1sTX1
- TcUTHLJfZ7Kf//5s9NalL27MTGKDbnZr8xKJwhTAqn5y+LyaN7b9wtme9kXFWWZUHiif
- CbMA==
+ bh=Ed1fUs9cipLw4D2Cdk2KunVDPlAIArUaJR4k7ylfCoc=;
+ b=jIPJQErnUMJ/MgC0LojLdVrytGbHC0futEi6Qz6n5c0b3nnyXtDudE5NDHi+EdIFaE
+ RXJ7IRAXpJ3cf3yaQBehsuMmmlHq5EN99nKvczZJgVvrU4jsUpEAfrnmV+qojH6WWjLh
+ udXZJNAP/OgiLg6zHO6qxUGU0xVIEjyXDmSKn2CosUnEf4y8lh0p+fP7aidPHgoDTC/L
+ oW7k1Qmc6L50q51INAJGXP+HKcmIgyuKlolRhLueXfJzbIDrLxaRvfWen6+BYhp4qgAp
+ dW1sP7WRGiBFFhuPicyGPPVtbyuMjBsISJLicMPPfDZlFEmRhkHoQsHYfRSs1zsdG9tx
+ CKLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730664248; x=1731269048;
+ d=1e100.net; s=20230601; t=1730664282; x=1731269082;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=gR268y83eL4SoUEdjawan5CDepkw/mnuHvTL4r2CJLk=;
- b=RQcd9O9bFKXcXDDa53i6X8cCofsDmFV9Xj9jnw+Qc5IbWsauMgNBfa5cx+TszYxFv3
- l00Dla6+pa+wBuUxoXqPg//11QZkVCU6ZLZLGWYDkcEEAajc2HDrCxnioWtmL7iJTmh1
- Nc3TqcVu7tcheypZ0NaJFaFXnih8XTjOQRORZ2dIm80tkpimuXnU9sCCXqJ3sbDXUy9K
- /Z84MUKKi9HnYJGTVgqHELdITl1BgjIru7EgdSA6VCScWR/ddG6Akb7+5MauOvdSl5fp
- SWdKodH+RomWeUvudPSorxt/P/BC4Zh0+fijv/hE/PpVhQyvMxoO+zJX2lUvNP/eNBVe
- 7EoA==
+ bh=Ed1fUs9cipLw4D2Cdk2KunVDPlAIArUaJR4k7ylfCoc=;
+ b=wUhfUuwZHplcWOsg33OGZzOam3Bixc/+EXVEXLFCpHzHRX8Uubrv+sabieyOSw5I33
+ 1Q9ujHLnvfZIsCL2nVras6+H6r5acLdGJueqjuLDbV0f2YuM0WKxYQt+DzW6d2Ue4TUy
+ 6KMb79of45ACC7agcOqEpk2L+ZRWGuh7hvxzI/aioYBxXeoKJsnSoiYgNXBjb0ufgj6M
+ sRSBt0AmnskTQGVWBj02IeulTmvzRTbih8pTBom3SlcjRblIMdEDyMOnt1R/+33bPgJ6
+ mdR+zYnn/c78OlsLAm+btsm6MzmquZyREUEImXUJS17Rwc4VUiZldgSNjYyIL1syzmJl
+ iDjQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVWUq2EQqfUD65JLykHP1odA77Uyk6aTlynTj4I3l9xlBewa2Tqq+yOb3y51kxqcTOquubwju7iQeQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxTOB2HH/lCxPCc0AkDNFOwqlEV5SxTFh4jYpaAm1ONgDmz2m1Y
- lmpvIYzkJNOdq/CFGO65E4P/Tx5SFfiWMtTZlfwPTG+Z9RB1ZsQZTj3h36PakUsHGFJmCVYWcaR
- 7CtsFrqADqTetjLPMSp9AphYUnMs=
-X-Google-Smtp-Source: AGHT+IGDRuhuq0N0cX8s7NHM21xtEJEGeWQ1015fSdIqrmyEUo1+bkLUpOXABC1DR1rL1Qb78zb58kMK2UI8U3k/OGk=
-X-Received: by 2002:a05:6402:51ce:b0:5ce:d397:9ef with SMTP id
- 4fb4d7f45d1cf-5ced3970c66mr2005372a12.27.1730664248190; Sun, 03 Nov 2024
- 12:04:08 -0800 (PST)
+ AJvYcCWQWTllJC0W37GpAVMKmn/v8bbC40BfiMGiZ5N7ScWNGj31Hp11QB5rKLK+FjnuTLdE2n0SXTqEbJo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw/IEqGRgGJILQqaKUOxCLkCKgPHJ0Min+480ilXIVZrcnW6/LH
+ D3catTRpI+2WJ0RQsAL6ett6m5KYTdVd0cowc/E5HzDPcjCLacvGLVXNDDXkS5F7IaKvY+MGpOu
+ AMOPDDbKLfd28LTmxNqre8R45kBg=
+X-Google-Smtp-Source: AGHT+IGvMeMZZG5WnvX923vw8VNvJWy6oEdmgmCRS89qoZP6PnjmWLuG26fUriBqj/Om2jcfxIJqkPNPiqQApr3B5Iw=
+X-Received: by 2002:a17:907:6d17:b0:a99:fd2c:4f06 with SMTP id
+ a640c23a62f3a-a9e50ca30f3mr1506324966b.65.1730664281457; Sun, 03 Nov 2024
+ 12:04:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20241101235453.63380-1-alexei.starovoitov@gmail.com>
- <20241101235453.63380-2-alexei.starovoitov@gmail.com>
-In-Reply-To: <20241101235453.63380-2-alexei.starovoitov@gmail.com>
+ <20241101235453.63380-3-alexei.starovoitov@gmail.com>
+In-Reply-To: <20241101235453.63380-3-alexei.starovoitov@gmail.com>
 From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date: Sun, 3 Nov 2024 14:03:32 -0600
-Message-ID: <CAP01T76==8ABkB8ptWZZkwnTcfPHWzXUQ3oOjEiQOvod=WL2ZA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 1/2] drm, bpf: Move drm_mm.c to lib to be used by
- bpf arena
+Date: Sun, 3 Nov 2024 14:04:05 -0600
+Message-ID: <CAP01T76dWp7=Ci5o=PLfv-4nA_DPxwCxoGeeJzAUbi5F6WJ4Lg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 2/2] bpf: Switch bpf arena to use drm_mm instead
+ of maple_tree
 To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
 Cc: bpf@vger.kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
@@ -87,13 +87,11 @@ On Fri, 1 Nov 2024 at 18:55, Alexei Starovoitov
 >
 > From: Alexei Starovoitov <ast@kernel.org>
 >
-> Move drm_mm.c to lib. The next commit will use drm_mm to manage
-> memory regions in bpf arena. Move drm_mm_print to
-> drivers/gpu/drm/drm_print.c, since it's not a core functionality
-> of drm_mm and it depeneds on drm_printer while drm_mm is
-> generic and usuable as-is by other subsystems.
-> Also add __maybe_unused to suppress compiler warnings.
-> Update MAINTAINERS file as well.
+> bpf arena is moving towards non-sleepable allocations in tracing
+> context while maple_tree does kmalloc/kfree deep inside. Hence switch
+> bpf arena to drm_mm algorithm that works with externally provided
+> drm_mm_node-s. This patch kmalloc/kfree-s drm_mm_node-s, but the next
+> patch will switch to bpf_mem_alloc and preallocated drm_mm_node-s.
 >
 > Signed-off-by: Alexei Starovoitov <ast@kernel.org>
 > ---
