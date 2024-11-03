@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B1539BA56D
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 13:38:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DB09BA5FC
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 15:49:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6137C10E004;
-	Sun,  3 Nov 2024 12:38:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B88DC10E14A;
+	Sun,  3 Nov 2024 14:49:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AX+I5GiQ";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="K3/cR13p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 667A910E004;
- Sun,  3 Nov 2024 12:38:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730637498; x=1762173498;
- h=message-id:subject:from:to:cc:date:
- content-transfer-encoding:mime-version;
- bh=bU4fKySm1biDz5zmusm+2eXhSVGLV8JBn+X9xHaNk+w=;
- b=AX+I5GiQqm3FBHSKoVqVac1fUXRN+urW2yGffzKFuUKAcvyvKEBUGGjK
- 2/7mFgBKUHb61+p3R8oYxWtwWczyt5r9DKps0fTR6YhCYNOAW4JFYBoAY
- q67buebNZtM5wU3eZAOICLqzKVzuUafRynZoxrcAsAvik0FjCuwQppG7n
- pOtewDmywvl4fdTB4mVPGbHr0ebf26cXWy397Lhc91/u7NTnLxXEvk22A
- n2a+6kyxLBGwgn6iGnlVOQmG+w2waZcLSqoa8t4JIGnAgU7K5d9LEj+cf
- SXtchZ2JGRcihUtm2A8MOQU7oUaO3f3SLNVFZvmGkuIcUIEH4Wy9XlC+h w==;
-X-CSE-ConnectionGUID: /zfQCMYfSIumZFwqkXt6Zg==
-X-CSE-MsgGUID: RXxI4iqSRTqu9HOYFoc3hQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30519121"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="30519121"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2024 04:38:15 -0800
-X-CSE-ConnectionGUID: 8gvFAGFLRwmOFTXrDsBicA==
-X-CSE-MsgGUID: tXaUNw4uQpiWR/VV5cYYXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,255,1725346800"; d="scan'208";a="88215514"
-Received: from mwiniars-desk2.ger.corp.intel.com (HELO [10.245.246.3])
- ([10.245.246.3])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2024 04:38:14 -0800
-Message-ID: <ce4c83dfa93e22487ed80e855318cd8f92a054f2.camel@linux.intel.com>
-Subject: Merging the xe / ttm shrinker series?
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Sun, 03 Nov 2024 13:38:11 +0100
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88CAC10E14A;
+ Sun,  3 Nov 2024 14:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+ :Subject; bh=Lb2ng7/SixEzOHLmaoTedF/AVYgSm6k/zzQSWP85gl8=; b=K3/cR13pAWd0yOw7
+ sdLeIVszlvV+fbSKXFtUPUa4Z1mNRU/1VcnyxXwIsGsjn8iNLFd5yhv/IhMuTt5F2QjA1oWVhcwWv
+ kg9RgDX+VXYtjZ0jsqOjVw5Y8Xt9fFRYisxT5AkmB7D46pOXUePaPcxkD+WSOh1hH4B6kZR/xSMcA
+ 7nJy+WOo0UqjecwcLM29oL8rKVIB1cOeJtQudZlyjYYJFarMq+paDAqP1vLpDlt0V0sJuJKeK667r
+ 71zPlvajXbK7P+xzKIJ5cwzOwGnypaRa9EeIgm5eb7B1Ure/R5R+6v0NUDwXZuj1rn0Wi/GIp5eEX
+ G89wurU1zmtaYrpZAg==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+ by mx.treblig.org with esmtp (Exim 4.96)
+ (envelope-from <linux@treblig.org>) id 1t7bv7-00FAyz-1F;
+ Sun, 03 Nov 2024 14:49:37 +0000
+From: linux@treblig.org
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, "Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] drm/i915/gt: Remove unused
+ execlists_unwind_incomplete_requests
+Date: Sun,  3 Nov 2024 14:49:36 +0000
+Message-ID: <20241103144936.238116-1-linux@treblig.org>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,12 +56,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Christian,
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-The TTM shrinker series is now at v12 with all patches R-B:d.
+execlists_unwind_incomplete_requests() is unused since 2021's
+commit eb5e7da736f3 ("drm/i915/guc: Reset implementation for new GuC
+interface")
 
-Ack to merge through drm-xe-next?
+Remove it.
 
-Thanks,
-Thomas
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ drivers/gpu/drm/i915/gt/intel_engine.h               | 3 ---
+ drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 9 ---------
+ 2 files changed, 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+index 40269e4c1e31..325da0414d94 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+@@ -126,9 +126,6 @@ execlists_active(const struct intel_engine_execlists *execlists)
+ 	return active;
+ }
+ 
+-struct i915_request *
+-execlists_unwind_incomplete_requests(struct intel_engine_execlists *execlists);
+-
+ static inline u32
+ intel_read_status_page(const struct intel_engine_cs *engine, int reg)
+ {
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 72090f52fb85..4a80ffa1b962 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -405,15 +405,6 @@ __unwind_incomplete_requests(struct intel_engine_cs *engine)
+ 	return active;
+ }
+ 
+-struct i915_request *
+-execlists_unwind_incomplete_requests(struct intel_engine_execlists *execlists)
+-{
+-	struct intel_engine_cs *engine =
+-		container_of(execlists, typeof(*engine), execlists);
+-
+-	return __unwind_incomplete_requests(engine);
+-}
+-
+ static void
+ execlists_context_status_change(struct i915_request *rq, unsigned long status)
+ {
+-- 
+2.47.0
 
