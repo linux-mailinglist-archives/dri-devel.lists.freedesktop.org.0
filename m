@@ -2,74 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9285F9BA37F
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 02:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB74E9BA3D9
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 05:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 069D810E009;
-	Sun,  3 Nov 2024 01:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBE9010E0C6;
+	Sun,  3 Nov 2024 04:05:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=debian.org header.i=@debian.org header.b="u6nDwis5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mKzyDr2m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF32E10E009
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Nov 2024 01:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org; 
- s=smtpauto.stravinsky;
- h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=SULx6WWex0zzFL0T/OSMqTCr1B9gJbo9/bk9Ij2EfwI=; b=u6nDwis57Rnxvgsa2eYvT8mt1a
- CGT3O9g8y6unsU9cd4hiWHI3Nlu833C1T/dYb3EpnmzKMaFy2KqBRFx+UbhDOYqpDMzdOyYAsbHG/
- NgFx4MTzGto8f97RMXUV8CJP750z/pJ0PkhKhLuw2uZ1ZaLkuy0LBmUzxtF77FsY+JwhJjv/GGYOe
- OvEvgkC1Zgu6VpSY1cFFicdCPQ+3aLJxbQYK9QkeY1AhEcweXthomy2CzbdGVuoGubyO8AD+K4+Ti
- DPDhHkiO//LXPOhNVe/sVzeG1kY2G/j9tzdrKmB92JCN6XHdcWH3FsB6WeDOAiaD3Jh5tuM25P2TB
- 3iAFAsHg==;
-Received: from authenticated user by stravinsky.debian.org with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.94.2) (envelope-from <cjwatson@debian.org>)
- id 1t7PpZ-00B5DZ-Hg; Sun, 03 Nov 2024 01:55:06 +0000
-Received: from ns1.rosewood.vpn.ucam.org ([172.20.153.2] helo=riva.ucam.org)
- by riva.rosewood.vpn.ucam.org with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <cjwatson@debian.org>) id 1t7PpX-004umt-2m;
- Sun, 03 Nov 2024 01:55:03 +0000
-Date: Sun, 3 Nov 2024 01:55:02 +0000
-From: Colin Watson <cjwatson@debian.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Alejandro Colomar <alx@kernel.org>, Ian Rogers <irogers@google.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com
+ [209.85.160.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A73A10E0C6
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Nov 2024 04:05:20 +0000 (UTC)
+Received: by mail-oa1-f48.google.com with SMTP id
+ 586e51a60fabf-2887326be3dso1418433fac.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Nov 2024 21:05:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1730606719; x=1731211519; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q3NbQqHGavlGKaUtOquClqL6oZ5jwUgWkkB2nQy7c60=;
+ b=mKzyDr2m1BnRypAXiTUSYBs6LWsOLqsNjkp++AQmClF6nZs7Kpdky7CW7yCqAzfW0/
+ hdLI6WIPFIT480iKRhZOFWwPwg0xv7gKappTwrFzmjK4zV87ESw9+a7/eTaIvg+qxirf
+ yBHnePK1sjgB/C5nQztE9gvuRuj6M7WD207QFEnADRkh5LUqW3r1vr0FX623z0ZzcXUP
+ kDivnF+1MMFgk/OGBDoxhrrsBeUS0MC7HV7U0ow6hXdhAhB60vR/vDM79eDsUOhAo6pY
+ 1LKoLqeqkBmPsvlIr4CREKp3tzvGNlbkRyJOg/bNwJxAh9diaevcvRbT4zELchwzkf3H
+ ILNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730606719; x=1731211519;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Q3NbQqHGavlGKaUtOquClqL6oZ5jwUgWkkB2nQy7c60=;
+ b=gTgzeARLaRdAjnXSRWgJIHgoXVzjmcFosycHhILADA5cROXoeUvEAuTl+Vv+6s/CS/
+ 9pIFvTiQDOM979hsaepmh5UUzwCk0M9W+K9hvbue9bByRUPiSFJQyq+H2XxZU/Zy7OA+
+ NCaiLe/DRZHgY9h/Nf4JeI/SMLk9MxmLb5FNSRu7kgrA38RT/VVOqQ+HlFSAKEvZ1CDb
+ RgStbzgsIUBEC8uQBa/cjCE64YzGeoKlvuPdjMuDjMdZ+Ls7xit2KUd/OC9aFbFHr5Eo
+ oh4GGXoaEligCpQENRTA9/XDw9NH2uMdXiMD66EPY2RwkmyFgvw/lHhyddp02nxZIA1K
+ 6hEw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0VusOqNPE/54Tso2k5bXIer09It6jGUYWJU8VfQhW25YrOLdwNll9RnjS6AkugQzT/mvzqBATKy4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1JABAbU3KK/9AQkqIa8wZO+iigB9/A5CJSaOsSxqTAqmVSKpd
+ D7ZEGngjdwWmG6GEJ0yQCYKxNjqxEvGpR4IaIZR9SrO58TDCpvHS
+X-Google-Smtp-Source: AGHT+IH1IuMJjXidoZxnvbOq8EhauNN2fyc1gFkAHH1Y5mnVtlVIMI/Co/2ogwXyqrLdvm8tOuNG6w==
+X-Received: by 2002:a05:6870:498f:b0:277:eea4:a436 with SMTP id
+ 586e51a60fabf-2948442b3e7mr9572727fac.7.1730606719281; 
+ Sat, 02 Nov 2024 21:05:19 -0700 (PDT)
+Received: from illithid ([2600:1700:957d:1d70::49])
+ by smtp.gmail.com with ESMTPSA id
+ 586e51a60fabf-294874880c7sm2151154fac.22.2024.11.02.21.05.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 02 Nov 2024 21:05:17 -0700 (PDT)
+Date: Sat, 2 Nov 2024 23:05:14 -0500
+From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Ian Rogers <irogers@google.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-man@vger.kernel.org, groff@gnu.org
+ linux-man@vger.kernel.org, cjwatson@debian.org, groff@gnu.org
 Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
  page
-Message-ID: <ZybX9q_zReTgdMxU@riva.ucam.org>
-Mail-Followup-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>,
- Alejandro Colomar <alx@kernel.org>, Ian Rogers <irogers@google.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-man@vger.kernel.org, groff@gnu.org
+Message-ID: <20241103040514.6wo54kf7smiqf4yg@illithid>
 References: <20241015211719.1152862-1-irogers@google.com>
  <20241101132437.ahn7xdgvmqamatce@devuan>
  <CAP-5=fXo5XjxUXshm9eRX-hCcC5VWOv0C5LBZ3Z0_wQb+rdnsw@mail.gmail.com>
  <20241101200729.6wgyksuwdtsms3eu@devuan>
  <20241102100837.anfonowxfx4ekn3d@illithid>
- <ZyZ4Tfxfr7M-EqUo@riva.ucam.org>
- <20241103005023.kdv5bkpqkpmsom5g@illithid>
+ <20241102103937.ose4y72a7yl3dcmz@devuan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pscddhjqsar3tshn"
 Content-Disposition: inline
-In-Reply-To: <20241103005023.kdv5bkpqkpmsom5g@illithid>
-X-Debian-User: cjwatson
+In-Reply-To: <20241102103937.ose4y72a7yl3dcmz@devuan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,69 +95,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 02, 2024 at 07:50:23PM -0500, G. Branden Robinson wrote:
-> At 2024-11-02T19:06:53+0000, Colin Watson wrote:
-> > How embarrassing.  Could somebody please file a bug on
-> > https://gitlab.com/man-db/man-db/-/issues to remind me to fix that?
-> 
-> Done; <https://gitlab.com/man-db/man-db/-/issues/46>.
 
-Thanks, working on it.
+--pscddhjqsar3tshn
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
+ page
+MIME-Version: 1.0
 
-> > I already know that getting acceptable performance for
-> > this requires care, as illustrated by one of the NEWS entries for
-> > man-db 2.10.0:
-> > 
-> >  * Significantly improve `mandb(8)` and `man -K` performance in the
-> >    common case where pages are of moderate size and compressed using
-> >    `zlib`: `mandb -c` goes from 344 seconds to 10 seconds on a test
-> >    system.
-> > 
-> > ... so I'm prepared to bet that forking nroff one page at a time will
-> > be unacceptably slow.
-> 
-> Probably, but there is little reason to run nroff that way (as of groff
-> 1.23).  It already works well, but I have ideas for further hardening
-> groff's man(7) and mdoc(7) packages such that they return to a
-> well-defined state when changing input documents.
+Hi Alex,
 
-Being able to keep track of which output goes with which input pages is
-critical to the indexer, though (as you acknowledge later in your
-reply).  It can't just throw the whole lot at nroff and call it a day.
+At 2024-11-02T11:39:37+0100, Alejandro Colomar wrote:
+> And diffs are a real win for text.  Thus, semantic newlines are a real
+> win for text.  "Write poems, not prose."  (Any chance we may get that
+> warning added to groff(1)?  :D)
 
-One other thing: mandb/lexgrog also looks for preprocessing filter hints
-in pages (`'\" te` and the like).  This is obscure, to be sure, but
-either a replacement would need to do the same thing or we'd need to be
-certain that it's no longer required.
+Yes, but I've kicked it out to groff 1.25 because a gift-wrapped
+opportunity came along.  We get to retire a warning category and its
+number.
 
-> > and of course care would be needed around error handling and so on.
-> 
-> I need to give this thought, too.  What sorts of error scenarios do you
-> foresee?  GNU troff itself, if it can't open a file to be formatted,
-> reports an error diagnostic and continues to the next `argv` string
-> until it reaches the end of input.
+groff(7) [1.23.0]:
 
-That might be sufficient, or man-db might need to be able to detect
-which pages had errors.  I'm not currently sure.
+Warnings
+...
+       el             16   The el request was encountered with no prior
+                           corresponding ie request.
 
-> > but on the other hand this starts to feel like a much less natural fit
-> > for the way nroff is run in every other situation, where you're
-> > processing one document at a time.
-> 
-> This I disagree with.  Or perhaps more precisely, it's another example
-> of the exception (man(1)) swallowing the rule (nroff/troff).  nroff and
-> troff were written as Unix filters; they read the standard input stream
-> (and/or argument list)[1], do some processing, and write to standard
-> output.[2]
-> 
-> Historically, troff (or one of its preprocessors) was commonly used with
-> multiple input files to catenate them.
+groff 1.24.0 [in preparation] NEWS:
 
-But this application is not conceptually like catenation (even if it
-might be possible to implement it that way).  The collection of all
-manual pages on a system is not like one long document that happens to
-be split over multiple files, certainly not from an indexer's point of
-view.
+*  The "el" warning category has been withdrawn.  If enabled (which it
+   was not by default), the formatter would emit a diagnostic if it
+   inferred an imbalance between `ie` and `el` requests.  Unfortunately
+   its technique wasn't reliable and sometimes spuriously issued these
+   warnings, and making it perfectly reliable did not look tractable.
+   We recommend using brace escape sequences `\{` and `\}` to ensure
+   that your control flow structures remain maintainable.
 
--- 
-Colin Watson (he/him)                              [cjwatson@debian.org]
+This was a 35-year-old bug (or incomplete feature) in GNU troff that as
+far as I know first came to attention 10 years ago when the
+then-Heirloom Doctools maintainer pointed out an incompatibility between
+AT&T troff (from which Heirloom Doctools descends) and GNU troff.
+
+https://savannah.gnu.org/bugs/?45502
+
+More recently, Paul Eggert scored big-time grognard points by actually
+depending on the AT&T troff behavior in the zic(8) man page.
+
+https://savannah.gnu.org/bugs/?65474
+
+We therefore _had_ to fix it.
+
+The consequence is that the warning category `el` and bit 4 in the
+warning mask integer are undefined for groff 1.24.
+
+This was irresistible serendipity, because this warning category was (1)
+not enabled by default and (2) probably used only by people who wouldn't
+object to style warnings anyway.
+
+In groff 1.25, I want to revive bit 4 as new warning category `style`.
+
+Ending sentences before the end of a text line is something we can warn
+about as discussed a while back, and I plan to do so.
+
+https://lists.gnu.org/archive/html/groff/2022-06/msg00052.html
+
+I've been collecting specimens of other contemplated style warnings.
+
+https://savannah.gnu.org/bugs/?62776
+
+Regards,
+Branden
+
+--pscddhjqsar3tshn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmcm9nIACgkQ0Z6cfXEm
+bc5ZnRAAqhIZQOmVX214qFJPNcP4uF/DYd1DJjyabBQb/MwJd/KVO1kM/n2bsaAG
+F/alGpXKF+6oJ2mlz05zkC/I0qMQ7JxB6jDxtSRTivQyT2zf0pHFIZTrOj/7Po5S
+SnmRJk354RKLXJF6JtjG6Wtymyg/hbnQEMzOCl8c6p46vwcg7b+cK8G5G5dsZRKY
+bH1pjEPunVQEFeQKnVTmulirbSYduhWk07q2j6VMM8E3JaX2zSSQf4EyHutCTGoP
+VztycC1344QDk2w00PdgDAEKLIclzTQpttqatlCy2rBcLhAvDrimeqmA7H4weQlo
+xrJNz7mxYYGdEGJiFdBpRygvdmkAvbqVpPn8hbv0Y8cFSnisnHdMfWluaVEnSCm8
+hYRDHcRx7ZwQeP/d+AL8B9uHQrLoA53iZLqt6RnzZZyRqae8L0ayTQnoRjGVACDR
+XGFhl85oisMEd4eJeMihq2qV60UXz2tUWFpd9BApWdtj7ySKKe0Ul+0BOesXnJw9
+5abyFC6NTt/FlhUJRi85GR97AavxYLwPGOjkDOiqf3pelY0JrF4QmS3dH2I2zIka
++DslpTR0aEyWNwUsNxIACSmvmE4UXKKoYX1fqGpAwUlPXssRsz283TGSlxUdSisK
+f2aND1zHzp/1WFkK2FQ5fCPmC/7BX+wslaVFrMBan/9QTRDcvDc=
+=GEH3
+-----END PGP SIGNATURE-----
+
+--pscddhjqsar3tshn--
