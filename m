@@ -2,43 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE7E9BA31B
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 00:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5491F9BA329
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2024 01:05:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F2410E139;
-	Sat,  2 Nov 2024 23:47:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16ABB10E322;
+	Sun,  3 Nov 2024 00:05:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=debian.org header.i=@debian.org header.b="AlG2mx3S";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ki2TOEFy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 957CC10E139
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2024 23:47:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org; 
- s=smtpauto.stravinsky;
- h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=eoGhU4EOnnVch2ZqousEJe/1GDqYRsVtfFAZpWXwzv0=; b=AlG2mx3SsFA1RWNC+Z2sgikSKv
- y7RaposLnPon6AMwqXzk/VWaNBSXd7tux4PJaJqH0yT9AppLSuFoOXbUd2bpvrtpv+cIyI9TvkwfI
- 4eRl8OphQOD7zcnxAFb1vvoqYMRMMfHnmr3m9WLAav+1rrlfco+glkszlZlBBqZMGgQq4lKerjuYZ
- fWmVVMbI2gyXtpQemhU7J4xmTTGuM7qGg7yb96ELoDQZF/CbC729qpQe9TgBpoUNFsa+DTL0yiT16
- FDjKOglGcJt8OfNzp2CeWtodXlUWc5ZDWbY+DZQ9PXDgw0axJcw3iuQhwD1Pb5Q5xv0FSthyc09lh
- O/0gDTpA==;
-Received: from authenticated user by stravinsky.debian.org with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.94.2) (envelope-from <cjwatson@debian.org>)
- id 1t7Npt-00B0e0-Bw; Sat, 02 Nov 2024 23:47:17 +0000
-Received: from ns1.rosewood.vpn.ucam.org ([172.20.153.2] helo=riva.ucam.org)
- by riva.rosewood.vpn.ucam.org with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <cjwatson@debian.org>) id 1t7Npr-004e0o-2B;
- Sat, 02 Nov 2024 23:47:15 +0000
-Date: Sat, 2 Nov 2024 23:47:14 +0000
-From: Colin Watson <cjwatson@debian.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA6D010E322
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Nov 2024 00:05:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 3A0BFA40A02;
+ Sun,  3 Nov 2024 00:03:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F4113C4CEC3;
+ Sun,  3 Nov 2024 00:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730592341;
+ bh=X5vxJaTvJikAKbAwxGZnw3p3dVIi34zzs8gIjU+lzfQ=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=Ki2TOEFyihTYjXG3FqLyIFOBcSa3ONl/yzIEt29v7wSsXShGeEAjpqdhx8jaMHmyG
+ 3iYB1MV2auZMhPj3KOTYEjkdr3nu4e8St7/u75FxFp1wJPqYJ1EHxRA+oiS++2STE/
+ HerpLXdSnKLAD6SLOWGhO+jRzhLytUesXZMXQifRIFzgdVg9RRuvfZhYgjzBiGp+mY
+ yGON29bJnqDJfyweZXnaWUANutIvWcGCYHkqzKSu0WTz/wiSB/21sSqizvSBqKaftA
+ My4sKLz3CylMc3MAOOleTS6iq8dzVIsvRrvgssADgMEDUyxNEbeeWnnf2kjSqlQXeK
+ ezA0Kiup4er1Q==
+Date: Sun, 3 Nov 2024 01:05:34 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: "G. Branden Robinson" <g.branden.robinson@gmail.com>,
  Ian Rogers <irogers@google.com>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -49,17 +43,7 @@ Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>,
  linux-man@vger.kernel.org, groff@gnu.org
 Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
  page
-Message-ID: <Zya6ApewCZQNEfJb@riva.ucam.org>
-Mail-Followup-To: Alejandro Colomar <alx@kernel.org>,
- "G. Branden Robinson" <g.branden.robinson@gmail.com>,
- Ian Rogers <irogers@google.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-man@vger.kernel.org, groff@gnu.org
+Message-ID: <20241103000534.th3jq7umwojlxnma@devuan>
 References: <20241015211719.1152862-1-irogers@google.com>
  <20241101132437.ahn7xdgvmqamatce@devuan>
  <CAP-5=fXo5XjxUXshm9eRX-hCcC5VWOv0C5LBZ3Z0_wQb+rdnsw@mail.gmail.com>
@@ -67,11 +51,12 @@ References: <20241015211719.1152862-1-irogers@google.com>
  <20241102100837.anfonowxfx4ekn3d@illithid>
  <20241102103937.ose4y72a7yl3dcmz@devuan>
  <20241102213620.kfccilxvhihwmnld@devuan>
+ <Zya6ApewCZQNEfJb@riva.ucam.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="i3ludjwuiw6stzos"
 Content-Disposition: inline
-In-Reply-To: <20241102213620.kfccilxvhihwmnld@devuan>
-X-Debian-User: cjwatson
+In-Reply-To: <Zya6ApewCZQNEfJb@riva.ucam.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,20 +72,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 02, 2024 at 10:36:20PM +0100, Alejandro Colomar wrote:
-> This is quite naive, and will not work with pages that define their own
-> stuff, since this script is not groff(1).  But it should be as fast as
-> is possible, which is what Colin wants, is as simple as it can be (and
-> thus relatively safe), and should work with most pages (as far as
-> indexing is concerned, probably all?).
 
-I seem to be being invoked here for something I actually don't think I
-want at all, which suggests that wires have been crossed somewhere.  Can
-you explain why I'd want to replace some part of a fairly well-optimized
-and established C program with a shell pipeline?  I'm pretty certain it
-would not be faster, at least.
+--i3ludjwuiw6stzos
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
+ page
+MIME-Version: 1.0
 
-Thanks,
+Hi Colin,
 
--- 
-Colin Watson (he/him)                              [cjwatson@debian.org]
+On Sat, Nov 02, 2024 at 11:47:14PM +0000, Colin Watson wrote:
+> On Sat, Nov 02, 2024 at 10:36:20PM +0100, Alejandro Colomar wrote:
+> > This is quite naive, and will not work with pages that define their own
+> > stuff, since this script is not groff(1).  But it should be as fast as
+> > is possible, which is what Colin wants, is as simple as it can be (and
+> > thus relatively safe), and should work with most pages (as far as
+> > indexing is concerned, probably all?).
+>=20
+> I seem to be being invoked here for something I actually don't think I
+> want at all, which suggests that wires have been crossed somewhere.  Can
+> you explain why I'd want to replace some part of a fairly well-optimized
+> and established C program with a shell pipeline?  I'm pretty certain it
+> would not be faster, at least.
+
+Are you sure?  With a small tweak, I get the following comparison:
+
+	alx@devuan:~/src/linux/man-pages/man-pages/main$ time lexgrog man/*/* | wc
+	lexgrog: can't resolve man7/groff_man.7
+	  12475   99295  919842
+
+	real	0m6.166s
+	user	0m5.132s
+	sys	0m1.336s
+	alx@devuan:~/src/linux/man-pages/man-pages/main$ time mansect NAME man/ \
+		| groff -man -Tutf8 | wc
+	   9830   27109  689478
+
+	real	0m0.156s
+	user	0m0.219s
+	sys	0m0.019s
+
+Yes, I'm working with uncompressed pages.  We'd need to add support for
+handling compressed pages.  Also, we'd need to compare the performance
+of lexgrog(1) with compressed pages.  But for a starter, this suggests
+some good performance.
+
+(I say with a small tweak, because the version I've posted uses
+ xargs -L1, but I've tested for performance without the -L1, which is
+ the main bottleneck.  It has no consequences for the NAME.  I need to
+ work out some nasty details with sed -n1 for the generic version,
+ though.)
+
+
+Have a lovely night!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--i3ludjwuiw6stzos
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmcmvk0ACgkQnowa+77/
+2zIVBQ/+M4vyNTsIIasXmnS0QmfHen3e3ZHObA0oc1BCMV5O/+ynHO9fSP+w1DLT
+Ow/NdXxf4PgwcFT5hd3CP8FQ3cM/7gRWVLj5NdUye2woXX7yXsK5tJYxWjuuZ4Q4
+PMOViijTHlPyCeow0Eqs5lO9Dkx3E587HxaMi/J7V8ZG4PcwdbrOVt7OvL2Mibmu
+nQEuExn67XKbQboefN7qnaqh6WbXOnL+kYbf+z68k12oXql8+7noIngQxCUrskqH
+EwcRkTA9/xga3qQpFPOVaVSkqH/seBHbq+NvhQivD0uZAi9keMdjYmj/0W+TqgLk
+de67IWDlfIEZjBafp2m+Yy4SZUG9krS7RnMEyd/0nLw6H+udxdPtGOngGX2kzB0g
+bAIcflfFiNUSa4IHp42U4Dis717LiT4CiGY76w6wmXXQsrIadzunYdaodNcKmLkp
+tIxKaqLHMXSyg9Nfg+BmvYpQvWiM1QjjvgsN4Urhj8LjZDqvtIkAxRt8kuqmLdFo
+2FSL1X2jVhvgiZLEbqNn8JT4Uzbx2aP1cbz8g9zFpxaT2Lao5rS6CtJp1AiEtTUe
+K3Ox3GieCNoByrogRRYIZmuClBKfta3+oo5C05LkGRcCTWAbcKyJFTxdcJglyJHp
+O+xQNxIQYTiex258tsSimWX7s1VVR9Z1D2YlFFs0Z4sPlxDEuFk=
+=jwrY
+-----END PGP SIGNATURE-----
+
+--i3ludjwuiw6stzos--
