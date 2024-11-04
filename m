@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E7A9BB5CF
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 14:21:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CF59BB5E2
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 14:24:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA2BD10E2CE;
-	Mon,  4 Nov 2024 13:21:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80BEC10E08D;
+	Mon,  4 Nov 2024 13:24:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GrB7PcYM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l7suH2EI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AEF910E2CE
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 13:21:54 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-2e2bb1efe78so2914893a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2024 05:21:54 -0800 (PST)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1627110E08D
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 13:24:56 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-2e34a089cd3so3344258a91.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2024 05:24:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730726514; x=1731331314; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1730726695; x=1731331495; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8Fwlr0AaF9wjPiXZcT4v/0uyS6FKcGIJwRpciZvewDA=;
- b=GrB7PcYMH6kD5dAknGLacEVlWjD4vhonY5SHBjcsYsP+4P+eFKXfDGMqy/MEuM8SPe
- 7tFexu0oiyxLilU/5ZgCCAcj3ja1oySf3O56DdKQeUdo8xwkvDKoORKuS5BajanNsWzF
- LTGucbz1freoaPk51DxJR2eFhnIfKMyw4dtuAoh7+mDPrF6yR+J8knFGL0BNqXvWlwgA
- lC156M6/L2wj9fcOdH3abI3UTuju3Xe17hF2FhRPlqqY+7AWB8TOR35jW9JqMx3y80tu
- F/cRG2uK2BN0FjLSFMK4JPSpqND8u0pJ/5d7aZLWOokfnoPe+DylhoDtHRpgjJ7RFmzD
- 1sgw==
+ bh=wyMarYMRnwtVEOuz49gw8N4olzvNdp83WA83rnbeLrI=;
+ b=l7suH2EIoycFHhmAJdDdTyG+Q3LaLVp7Jxf/+IuDfRrGTRB3pqx8GcG8bmZwnRdbX4
+ xhyU/H9G6EMdCWAjan4Zo0A84YyQ94xLP/UzaNs5H6leeUHhVkX6ENjInIhDn3wV31FU
+ Izm1sdPQmPtdeijSAYLzYKfzJwFPMQ19fiwC4JVzmjVStzF1RX2ltn01p7NNE2vbNBvn
+ Xf3ke4cCPQ1tjh9gb0Vjw8IbRKJ8yvII9UV/gHHLZd5UEw2crLn2lfxH8xLoj3U9gsph
+ M47PPRe99yeI0n+cFJ3VhItcAnw7k8zygl59z4/0TJ4cW0GF6jUXIlGLPKoZSGNBeM6z
+ T1JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730726514; x=1731331314;
+ d=1e100.net; s=20230601; t=1730726695; x=1731331495;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8Fwlr0AaF9wjPiXZcT4v/0uyS6FKcGIJwRpciZvewDA=;
- b=Z9A744cumDs0HMoq9/1w+Q4QpcITesU+ybG8ZZdsj7kz6eYGuVTFXvjLNVKx59Fs7x
- yw+xOxjmNtl9oIOkGYgp0v8XqgDqmLO4RmIhqDv7R2d5xpMcf4rj7hUrX6OU3it1i4wU
- 7SjaEtapH/8zNc/F6ODW3n9fHb6JZU7dEt7cmC4iz/i3a5ePZkqbrIeugnxXii6Qdxyj
- 45B5B2Xxary5N2bixBr3CfaCJSAuXQNp/nGVQH65PfvQ0bRvpjTlVp3oKva+2pvQEmNL
- AmkpjM6ItEp6da2UoJ51AcbA2EiMzSxki8HpnogELLwhgVIXGmcqYBB5242RlSRqDm43
- HT2A==
+ bh=wyMarYMRnwtVEOuz49gw8N4olzvNdp83WA83rnbeLrI=;
+ b=tzb/kFnTF7fAodZlqxET87YaR2bfTH9YApiFUEWfm/WdV2Qrzsnia4y237FPF7EokZ
+ pmLvv1SDQ2z6YI8sZ3qE5ZTsqI6MgaB6/XbQrYzv5MjyxaojjbISDWz/LrB12C7wSh5p
+ FnulEvS95CW/pb5kT1AJ70VdAFbQ2HxRxDMLRPzg7TSh9FBCfP0KEi5WdwE0e5Pa7cWO
+ XFFXfwWUXW288t09oolZIhwYGLjr85jcvTypK0lJHUdVZLCjBsQgdzkqzmXDCPyWrGHv
+ z9aJU5AxQff5172hnKFbzYlp+i3ToxJQsLCWE4gUI57j+kqqFmO5jk8NblQN5pRZtQ7N
+ wGPg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxtemkelbt3CXrJTyKc1wnVDeNoDiSlBMYRQYoGe7+fcCH3g7CcL8BwrbfKFq3W0y+zTPjk8VDSgQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyeLd3Sh3IXEmS6ndcdnZ+M5tm3THhT7KkRSEH+650WRen/YSar
- dw+qIFLGDhMl6FZcbjXHwwmYpkheI37yTcdgJXK/5gL3S+J0/9eXo1Fxmm4d4D1FBAZSYiSPmw5
- et2yJ85X0ThtMLwLHHfO0Cx0Q674=
-X-Google-Smtp-Source: AGHT+IHZjkq3Ie2iIyfuGufHHiIKI5Xxv0rEb6DJ4QCDY+AvB4y4PBqvaVcW2foSo8pwydHzUkD95Y0rng/FXH8j0iw=
-X-Received: by 2002:a17:90b:278c:b0:2e3:bc3e:feef with SMTP id
- 98e67ed59e1d1-2e93e0589dcmr22420715a91.3.1730726513505; Mon, 04 Nov 2024
- 05:21:53 -0800 (PST)
+ AJvYcCWb9OHnhqc+SAejh7MZ2CKsZg6maNYyZ/Erc+WawwyfuVetYcqa/HxhoxSwicoApGAKsm1LwD8ZufA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUrTTbm9c+dS0bLrEegXkQJdYChx6aYd1PHXGCRqPb8TIcXyhM
+ wGiYRQJBpqjLwN83ikLEPoyLagJk7t8Y/SQ3aDj9uh9o78dVzGypi+K4wayZYBaLxyVby8gi7qD
+ VSjskZGJXQl8LBLaOxS72Ju0IREw=
+X-Google-Smtp-Source: AGHT+IFmj6tQvhRV7bo1U++FmRbmp5zJMc0V86u/uFsYr5oXIU3pXxUqBf1Q9vQIcVZR5UoPjNgknGCYVZY6pFjhG3Q=
+X-Received: by 2002:a17:90a:b30e:b0:2e2:daab:cc69 with SMTP id
+ 98e67ed59e1d1-2e8f105e941mr33220797a91.12.1730726695528; Mon, 04 Nov 2024
+ 05:24:55 -0800 (PST)
 MIME-Version: 1.0
 References: <20241031205140.541907-1-christian.gmeiner@gmail.com>
- <4c3eeaf2-218a-451b-aa51-f0e9f4bef0d6@igalia.com>
-In-Reply-To: <4c3eeaf2-218a-451b-aa51-f0e9f4bef0d6@igalia.com>
+ <fe4056fd-6bb5-435f-aef3-176e301824ef@igalia.com>
+In-Reply-To: <fe4056fd-6bb5-435f-aef3-176e301824ef@igalia.com>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 4 Nov 2024 14:21:42 +0100
-Message-ID: <CAH9NwWcehP+9bekxMoxF3QdO_7j5zwNLuCmHNvd-JCCV_x85jA@mail.gmail.com>
+Date: Mon, 4 Nov 2024 14:24:44 +0100
+Message-ID: <CAH9NwWde9aUwdzZ33qaS5-8OSJ+SNVxiBJpx1OK+a_DYH=TtmQ@mail.gmail.com>
 Subject: Re: [PATCH v2] drm/v3d: Add DRM_IOCTL_V3D_PERFMON_SET_GLOBAL
 To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
 Cc: Melissa Wen <mwen@igalia.com>,
@@ -87,12 +87,6 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Ma=C3=ADra,
 
->
-> Thanks for your patch! Just some small nits.
->
-
-Thanks for your review.
-
 > On 31/10/24 17:51, Christian Gmeiner wrote:
 > > From: Christian Gmeiner <cgmeiner@igalia.com>
 > >
@@ -100,13 +94,6 @@ Thanks for your review.
 > > configuration of a global performance monitor (perfmon).
 > > Use the global perfmon for all jobs to ensure consistent
 > > performance tracking across submissions.
->
-> I'd mention how this feature can be useful for user-space (for example,
-> the implementation of a Perfetto datasource).
->
-
-That's a great idea .. will be done in V3.
-
 > >
 > > Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
 > >
@@ -127,54 +114,9 @@ erfmon is active.
 > >   include/uapi/drm/v3d_drm.h        | 15 ++++++++++++++
 > >   6 files changed, 79 insertions(+), 3 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_dr=
-v.c
-> > index d7ff1f5fa481..3c89f0daa5b8 100644
-> > --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> > +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> > @@ -214,6 +214,7 @@ static const struct drm_ioctl_desc v3d_drm_ioctls[]=
- =3D {
-> >       DRM_IOCTL_DEF_DRV(V3D_PERFMON_GET_VALUES, v3d_perfmon_get_values_=
-ioctl, DRM_RENDER_ALLOW),
-> >       DRM_IOCTL_DEF_DRV(V3D_SUBMIT_CPU, v3d_submit_cpu_ioctl, DRM_RENDE=
-R_ALLOW | DRM_AUTH),
-> >       DRM_IOCTL_DEF_DRV(V3D_PERFMON_GET_COUNTER, v3d_perfmon_get_counte=
-r_ioctl, DRM_RENDER_ALLOW),
-> > +     DRM_IOCTL_DEF_DRV(V3D_PERFMON_SET_GLOBAL, v3d_perfmon_set_global_=
-ioctl, DRM_RENDER_ALLOW),
-> >   };
-> >
-> >   static const struct drm_driver v3d_drm_driver =3D {
-> > diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_dr=
-v.h
-> > index cf4b23369dc4..a0d920ec2b1d 100644
-> > --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> > +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> > @@ -179,6 +179,12 @@ struct v3d_dev {
-> >               u32 num_allocated;
-> >               u32 pages_allocated;
-> >       } bo_stats;
-> > +
-> > +     /* To support a performance analysis tool in user space, we requi=
-re
-> > +      * a single, globally configured performance monitor (perfmon) fo=
-r
-> > +      * all jobs.
-> > +      */
-> > +     struct v3d_perfmon *global_perfmon;
-> >   };
-> >
-> >   static inline struct v3d_dev *
-> > @@ -584,6 +590,8 @@ int v3d_perfmon_get_values_ioctl(struct drm_device =
-*dev, void *data,
-> >                                struct drm_file *file_priv);
-> >   int v3d_perfmon_get_counter_ioctl(struct drm_device *dev, void *data,
-> >                                 struct drm_file *file_priv);
-> > +int v3d_perfmon_set_global_ioctl(struct drm_device *dev, void *data,
-> > +                              struct drm_file *file_priv);
-> >
-> >   /* v3d_sysfs.c */
-> >   int v3d_sysfs_init(struct device *dev);
+>
+> [...]
+>
 > > diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3=
 d_perfmon.c
 > > index 156be13ab2ef..bf42303c292b 100644
@@ -196,65 +138,36 @@ e *dev, void *data,
 > >
 > >       return 0;
 > >   }
->
-> [...]
->
-> > index 87fc5bb0a61e..709724fe28e6 100644
-> > --- a/include/uapi/drm/v3d_drm.h
-> > +++ b/include/uapi/drm/v3d_drm.h
-> > @@ -43,6 +43,7 @@ extern "C" {
-> >   #define DRM_V3D_PERFMON_GET_VALUES                0x0a
-> >   #define DRM_V3D_SUBMIT_CPU                        0x0b
-> >   #define DRM_V3D_PERFMON_GET_COUNTER               0x0c
-> > +#define DRM_V3D_PERFMON_SET_GLOBAL                0x0d
-> >
-> >   #define DRM_IOCTL_V3D_SUBMIT_CL           DRM_IOWR(DRM_COMMAND_BASE +=
- DRM_V3D_SUBMIT_CL, struct drm_v3d_submit_cl)
-> >   #define DRM_IOCTL_V3D_WAIT_BO             DRM_IOWR(DRM_COMMAND_BASE +=
- DRM_V3D_WAIT_BO, struct drm_v3d_wait_bo)
-> > @@ -61,6 +62,8 @@ extern "C" {
-> >   #define DRM_IOCTL_V3D_SUBMIT_CPU          DRM_IOW(DRM_COMMAND_BASE + =
-DRM_V3D_SUBMIT_CPU, struct drm_v3d_submit_cpu)
-> >   #define DRM_IOCTL_V3D_PERFMON_GET_COUNTER DRM_IOWR(DRM_COMMAND_BASE +=
- DRM_V3D_PERFMON_GET_COUNTER, \
-> >                                                  struct drm_v3d_perfmon=
-_get_counter)
-> > +#define DRM_IOCTL_V3D_PERFMON_SET_GLOBAL  DRM_IOW(DRM_COMMAND_BASE + D=
-RM_V3D_PERFMON_SET_GLOBAL, \
-> > +                                                struct drm_v3d_perfmon=
-_set_global)
-> >
-> >   #define DRM_V3D_SUBMIT_CL_FLUSH_CACHE             0x01
-> >   #define DRM_V3D_SUBMIT_EXTENSION              0x02
-> > @@ -765,6 +768,18 @@ struct drm_v3d_perfmon_get_counter {
-> >       __u8 reserved[7];
-> >   };
-> >
-> > +#define DRM_V3D_PERFMON_CLEAR_GLOBAL    0x0001
 > > +
-> > +/*
+> > +int v3d_perfmon_set_global_ioctl(struct drm_device *dev, void *data,
+> > +                              struct drm_file *file_priv)
+> > +{
+> > +     struct v3d_file_priv *v3d_priv =3D file_priv->driver_priv;
+> > +     struct drm_v3d_perfmon_set_global *req =3D data;
+> > +     struct v3d_dev *v3d =3D to_v3d_dev(dev);
+> > +     struct v3d_perfmon *perfmon;
+> > +
+> > +     if (req->flags & ~DRM_V3D_PERFMON_CLEAR_GLOBAL)
+> > +             return -EINVAL;
+> > +
+> > +     perfmon =3D v3d_perfmon_find(v3d_priv, req->id);
+> > +     if (!perfmon)
+> > +             return -EINVAL;
+> > +
+> > +     /* If the request is to clear the global performance monitor */
+> > +     if (req->flags & DRM_V3D_PERFMON_CLEAR_GLOBAL) {
+> > +             if (!v3d->global_perfmon)
+> > +                     return -EINVAL;
+> > +
+> > +             xchg(&v3d->global_perfmon, NULL);
 >
-> Please, use kernel-doc [1]. So, here is /**
->
-> [1] https://docs.kernel.org/doc-guide/kernel-doc.html
->
-> > + * struct drm_v3d_perfmon_set_global - ioctl to define a
->
-> The colunm width is 80.
->
-> > + * global performance counter that is used if a job has
->
-> s/counter/monitor
->
-> > + * not assigned one on its own.
->
-> This description isn't really precise. When the global performance
-> monitor is enabled, the job perfmon doesn't matter. Currently, we don't
-> even allow a job perfmon to be submitted, but if we did, the global
-> perfmon would be used even if the job had a perfmon.
+> I'm reading the userspace code now and I think you need to call
+> `v3d_perfmon_stop` here to make sure that the active perfmon is no
+> longer the global perfmon.
 >
 
-I have rephrased this comment and should be more precise now.
+I will add a `v3d_perfmon_stop` call to `v3d_perfmon_destroy_ioctl` as it
+seems a much better place.
 
 --=20
 greets
