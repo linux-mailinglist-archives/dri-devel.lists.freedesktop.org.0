@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DDFA9BACBD
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 07:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8135E9BACC6
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 07:44:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B31B510E27B;
-	Mon,  4 Nov 2024 06:44:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD5AC10E385;
+	Mon,  4 Nov 2024 06:44:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sXZmhw1a";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NSFXhfW1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 338D110E07F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6EB010E0FC
  for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 06:44:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 230B65C4D9F;
- Mon,  4 Nov 2024 06:43:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 85A10C4CED6;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 13D3E5C51B3;
+ Mon,  4 Nov 2024 06:43:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A8BF0C4CED0;
  Mon,  4 Nov 2024 06:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730702646;
- bh=V5YudWXnJ7rHUTU5EwXOV89odpcktqY9hIsiJyNOono=;
+ s=k20201202; t=1730702647;
+ bh=O5YKofAFuVF+x8OXZQSiNKkX3T3r8k4gh/EML2qF2tM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=sXZmhw1axFGapV0gBXqiy/0zoNM3gw4ZIZVXAJiJ6hrUmaEUABUrGJTPov9f2EthO
- TJunML8LsKCU/tXLP4+Yj1eval5qqSrfpRwo8Skkc85x6ZB0CVqvLzcO+nJEXLmFTM
- CX0Ngd5EmHdYWzZtxVoX6t9v0y5U4FdoXi5QDhKnICh+TSICxPtQZtKaoHwsDh/VoM
- vQmW2OPP5wwV2zMjBmLY4mDIe+9lbGTmNnvgHKoHC8ny5GwbLyR+gQcUJZ+DUslQD9
- cyh14shLX0isbX4fBLU18WDPhCqImpEClEGvnbT5PmOZ84YLo1ZdS5DOn6Hp4s7Rbb
- cvIA3m3u99G8A==
+ b=NSFXhfW1N3OXH8zXMWrIa+5aUgeTjrcTy1z6yHPdLhS2RiEdDdxsAAb47Bx2CCRT9
+ 2t0IeFPbYOdLAmXyo6KKrZAu6M5fAcP45oThKhA9b8I7Ct+AcHNoC2a+JHFHEIZLO9
+ wyqlW3tvSormXJ2N3OXAETgrCKWOy8g547edRabniFLwXM3BCSuQ2BkN5cIXH5w+PB
+ gm/nvKMBfx02x/d0EGZOBC0HPxTQ3AIMQL3mO/265gTmb1Mngv6lr1g0oWdB9nbJpU
+ JC4NaJi2uji9vRC32vLvyetRQKFzWXf6FKpkMZOk8EILc9gSr18Fn/qsqFEqrmCJDm
+ Jm2+GK01E3e2g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 771B5D111AD;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5B2D111B0;
  Mon,  4 Nov 2024 06:44:06 +0000 (UTC)
 From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
-Date: Mon, 04 Nov 2024 14:43:34 +0800
-Subject: [PATCH v7 04/10] drm/bridge: it6505: Change definition
- MAX_HDCP_DOWN_STREAM_COUNT
+Date: Mon, 04 Nov 2024 14:43:35 +0800
+Subject: [PATCH v7 05/10] drm/bridge: it6505: fix HDCP Bstatus check
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241104-v7-upstream-v7-4-8b71fd0f1d2d@ite.com.tw>
+Message-Id: <20241104-v7-upstream-v7-5-8b71fd0f1d2d@ite.com.tw>
 References: <20241104-v7-upstream-v7-0-8b71fd0f1d2d@ite.com.tw>
 In-Reply-To: <20241104-v7-upstream-v7-0-8b71fd0f1d2d@ite.com.tw>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -59,11 +58,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Hermes Wu <Hermes.wu@ite.com.tw>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730702658; l=994;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730702658; l=1572;
  i=Hermes.wu@ite.com.tw; s=20241101; h=from:subject:message-id;
- bh=LXCX7YKUcq6qewqH/z3sJdCcnXEOYr4Q2Lg8igxzYE4=;
- b=P+iT0z0dBfYBkX5Foabrt2Xum8ijPioFa24M1Oq18B9ckRPVR4m58R+9YzsklK5GGvUZOw1dP
- H4tv1W844lmCwy5UwPKTAyMMfgrzVVgvuOgd1bnjoQZcwY2Oj70Bvww
+ bh=rnu9ObSyBuaI0l/D8L5MOJqyYmO7JqMRz5DsnO06FUA=;
+ b=C/uXvsj0MrjbvoKC8toRcltBDTz9x/TPWWQjr1q+eFOMvG6C0z9DHyvDOPRmPFzCkygCco2x0
+ SZzTAThliZeA7E8XyFk/QUX8pQTAA5n9F8V0PNuJp+s1DRDZc/iu4J+
 X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
  pk=FOYYbsP2Nlw6mjB3rLFYSLmAiENzj4AWQly5XTcDuMM=
 X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241101 with
@@ -87,31 +86,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-A HDCP source device shall support max downstream to 127 devices.
-Change definition MAX_HDCP_DOWN_STREAM_COUNT to 127
-
-KSVs shall save for DRM blocked devices check.
-This results in struct it6505 growth by ~0.5 KiB.
+When HDCP is activated,
+a DisplayPort source receiving CP_IRQ from the sink
+shall check Bstatus from DPCD and process the corresponding value
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
 ---
- drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index ba37974967767a17b7025595f6864f057174efb9..9a90a36d0421422038b04ad00b2cb2e326a9cab4 100644
+index 9a90a36d0421422038b04ad00b2cb2e326a9cab4..760eab0b868874f96ccd4d5ec3e2f2d4ffb1e41c 100644
 --- a/drivers/gpu/drm/bridge/ite-it6505.c
 +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -298,7 +298,7 @@
- #define MAX_LANE_COUNT 4
- #define MAX_LINK_RATE HBR
- #define AUTO_TRAIN_RETRY 3
--#define MAX_HDCP_DOWN_STREAM_COUNT 10
-+#define MAX_HDCP_DOWN_STREAM_COUNT 127
- #define MAX_CR_LEVEL 0x03
- #define MAX_EQ_LEVEL 0x03
- #define AUX_WAIT_TIMEOUT_MS 15
+@@ -2323,14 +2323,20 @@ static int it6505_process_hpd_irq(struct it6505 *it6505)
+ 	DRM_DEV_DEBUG_DRIVER(dev, "dp_irq_vector = 0x%02x", dp_irq_vector);
+ 
+ 	if (dp_irq_vector & DP_CP_IRQ) {
+-		it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CPIRQ,
+-				HDCP_TRIGGER_CPIRQ);
+-
+ 		bstatus = it6505_dpcd_read(it6505, DP_AUX_HDCP_BSTATUS);
+ 		if (bstatus < 0)
+ 			return bstatus;
+ 
+ 		DRM_DEV_DEBUG_DRIVER(dev, "Bstatus = 0x%02x", bstatus);
++
++		/*Check BSTATUS when recive CP_IRQ */
++		if (bstatus & DP_BSTATUS_R0_PRIME_READY &&
++		    it6505->hdcp_status == HDCP_AUTH_GOING)
++			it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CPIRQ,
++					HDCP_TRIGGER_CPIRQ);
++		else if (bstatus & (DP_BSTATUS_REAUTH_REQ | DP_BSTATUS_LINK_FAILURE) &&
++			 it6505->hdcp_status == HDCP_AUTH_DONE)
++			it6505_start_hdcp(it6505);
+ 	}
+ 
+ 	ret = drm_dp_dpcd_read_link_status(&it6505->aux, link_status);
 
 -- 
 2.34.1
