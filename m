@@ -2,85 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73DFB9BB74A
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 15:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795049BB75B
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 15:18:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC81A10E023;
-	Mon,  4 Nov 2024 14:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83E1910E028;
+	Mon,  4 Nov 2024 14:18:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="c0PPblBs";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZFl3mqvP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 494D110E023
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 14:15:41 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-37d47b38336so3192753f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2024 06:15:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1730729739; x=1731334539; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=NU79Kil2FkJdGGfsE/UuFxB2i6vVhYYTYqxwIZYYOOQ=;
- b=c0PPblBsBL2joBDSoBidsC+XDflrqjvlKrsPmKfDTmA1nL6Zv6mn+4b0RfT0Sz209s
- 4mo1RpIbx365BIgNojecLgJl9IBbtXzVFU9D6BaCvDjLmQP1KSWfqteZd4ZQZ8YoacHl
- AGSg63uutljt3z65bh+uLYplQaU05mn5r0lk/R3JjMXUsfVkU4NCtDgljQBONJ+89AQg
- J1NAIQnxSmyFmzd5a6x+fUfh5H2JWpz1JWR3Zi93mQ3h8Jg7BWb7X3uQPbT54O+xcLWy
- JQBSEmX9+00jaczhJ5fTGmfoOIEOeXboTj/0uJDfJpS+tE36d4N6J4FhikzPbYVoQxmC
- Qm5w==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39DE910E028
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 14:18:11 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4BtpVK022281
+ for <dri-devel@lists.freedesktop.org>; Mon, 4 Nov 2024 14:18:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ u1v/WVvHGAo0bVyM2Taoht+/F9lPQwBWyf6U4K1s2Xk=; b=ZFl3mqvPbcrqu5Fm
+ /tdQBLyc1RjQhobSxIgv3AoflRkDcnVMqMoINj4uQJrMxqktvTB6rn27n9CmqOur
+ Czq75fWmigZZLMbsJ3t53Gt3ZlRiL4Oif9NVq9/u6JkNSNGmiNGPPnnGG0k9LB3L
+ aGAlhLDddL7oTD+Wd3bunyRsHIPHHWHYvqvo4O143vt5SH/0Zt1aaDCu3Rp+Xvgn
+ /vCyTIy46BxEQR+9JKGPTpu7VgLGNVhjhD4A++Ad3Qv8iQ4d55wwJvkZeaRBNg/j
+ 85kvTB7L9V3m5tKT7c0vJWwULTmzd5GWtwwZnvcq1U17sJpeNR3iBxRltqp/3bLo
+ nn1YmA==
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42ndc6vfwp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2024 14:18:10 +0000 (GMT)
+Received: by mail-il1-f198.google.com with SMTP id
+ e9e14a558f8ab-3a4dc12d939so8643065ab.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2024 06:18:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730729739; x=1731334539;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NU79Kil2FkJdGGfsE/UuFxB2i6vVhYYTYqxwIZYYOOQ=;
- b=sMHaAbpf8QVgKHBip9VTmrdLH5PAilGkTfiDy5rKOueK/ERoN4UCORdT7raFmEAq5D
- NnKZfmw+ENVV0q9uracgivxtnkJzEkkANJGGc4FJk2v2ke12c2hkfq22VflRyRBTw3OX
- PeTIDvONxYce0jzpzCmgxDieVr35LiTJESKELZK3pOoLSleHqUbo/P4OyYYFmAQy7mWO
- m1yqMNtxW9OIMRJXG90TItyV05tV3zuQ4IPyxfV3GWUVnQzlrRG7vsFEomSfJUg9ku5u
- uAP8DHzV5ZlNCI1CEEn973JUAP/qicuUiUu4CWeMxLN5prjQn4PsBGs3I3/Nq3wnWkz1
- hmvw==
+ d=1e100.net; s=20230601; t=1730729889; x=1731334689;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=u1v/WVvHGAo0bVyM2Taoht+/F9lPQwBWyf6U4K1s2Xk=;
+ b=B6aW3A6UNTMYRnHON/JIt0fACv0LFa6/7t4seBMlwDshmyIbfgk+X2PqfQ4DiG9KYJ
+ 8LURfdhje7u5P816PO87tKFNINokLEv08+FXDflnMETeeumIk8u8AbH0rp9wTqS/8DWT
+ eIgA0QtF3XchSE64Ihtipop+xomfR/2pUeaiXTFdoa8pDXRk1CqX/hDV2Z22H5eC/632
+ nY+FBhnICf6k2unMgL2z0f1iJxbbp6fjxoVglY17fXv09YlAv89oqbZ0anmGMdbkH22w
+ IIdGg0dGemHRsb3DflNho9MJRAQJ2AUEDve43/7pUmPFNr7adGk/lOyKpOeu3RYSGWod
+ hdKQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXdnd4TSMu/wvNRVM7RJ36xj1GeS26A4o9IYdX/MmryByDeM4fna1m9DNJOYlKhn9Vz+voZUZhlaHk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqSLBtowjyBfJ8UzettpN+uH2kA2Ny83NMxigueEc9dcDy/oAJ
- FvUYT80budrxDFwN2XDS5FCGss6AFahDUnbIrpwJ1CuuatTSpKUWzFMutxz3Bm0=
-X-Google-Smtp-Source: AGHT+IG7mlyU7oOO3XUXb2qoKVnfOPe7DTSkNDY8M0ibJiNqB6GPG5O8vddk4VZPk8E9QsQ4xHl8ZA==
-X-Received: by 2002:adf:f7ca:0:b0:37d:34f6:92a with SMTP id
- ffacd0b85a97d-38061220071mr22566149f8f.51.1730729738071; 
- Mon, 04 Nov 2024 06:15:38 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.50])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-381c116bb6asm13323778f8f.110.2024.11.04.06.15.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Nov 2024 06:15:37 -0800 (PST)
-Date: Mon, 4 Nov 2024 15:15:35 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] drm/log: Implement suspend/resume
-Message-ID: <ZyjXB52dbhjZEHp6@pathway.suse.cz>
-References: <20241023121145.1321921-1-jfalempe@redhat.com>
- <20241023121145.1321921-6-jfalempe@redhat.com>
- <Zxpa2zt1P9Avy4Pm@pathway.suse.cz>
- <27c1a6bf-d1e4-469f-a0d4-3e74ab0d0a07@redhat.com>
- <a6c00956-3733-43a1-9538-aa2758d2b4a3@redhat.com>
- <ZyT7MScAsHxkACfD@pathway.suse.cz>
- <d5c8ea70-8596-42a1-8688-0f6131187b73@redhat.com>
- <84o72vcm46.fsf@jogness.linutronix.de>
+ AJvYcCVV+sMQkK7lJ/NACp+nel3NZ5YfpvAMla5aUv2+J4Ps3c5MeNsIZv4jyXzVj2kClNml62gLi60oxSY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxdUetnWO6AboBLBZ/l2KCnFfS62ioQxNHYwk/OkeZj6q7OyD9n
+ eSIDP0ypN3O/7t/RDRROXq34G61z0mNhtgM2TvXCVm6/1L3rEBTS7xbtCcCM+NF1/87pjEwySqP
+ 5NXm/R/+c03XPNPWVy7+JEqgrEj+rJSZ79dtnTYKavXT+ijmqt85i0m4jDF05wtT0h9Q=
+X-Received: by 2002:a92:c561:0:b0:3a3:af94:4610 with SMTP id
+ e9e14a558f8ab-3a4ed314920mr76086045ab.7.1730729889319; 
+ Mon, 04 Nov 2024 06:18:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFCE3MSfa+IhWcVZ63OZ1NsqKoHNMmvePwJ57m9ObdgTyluZNlPMfMOzkM+3rGnAfblsK0Ltg==
+X-Received: by 2002:a92:c561:0:b0:3a3:af94:4610 with SMTP id
+ e9e14a558f8ab-3a4ed314920mr76085745ab.7.1730729888716; 
+ Mon, 04 Nov 2024 06:18:08 -0800 (PST)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a9e566442easm555348766b.166.2024.11.04.06.18.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Nov 2024 06:18:07 -0800 (PST)
+Message-ID: <e1871824-78c8-436f-a41c-16ac1614004a@oss.qualcomm.com>
+Date: Mon, 4 Nov 2024 15:18:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <84o72vcm46.fsf@jogness.linutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 1/3] drm/msm/adreno: Add support for ACD
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
+ <20241012-gpu-acd-v1-1-1e5e91aa95b6@quicinc.com>
+ <1543ae2a-76ff-4b36-adae-37076e48b7f8@oss.qualcomm.com>
+ <20241021220914.vrxiyeoxjyxweovu@hu-akhilpo-hyd.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241021220914.vrxiyeoxjyxweovu@hu-akhilpo-hyd.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: ozdqSfq12swhrbA0B3HGhytqVU8aSVc-
+X-Proofpoint-GUID: ozdqSfq12swhrbA0B3HGhytqVU8aSVc-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=999 adultscore=0 clxscore=1015 mlxscore=0
+ phishscore=0 impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411040124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,45 +122,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 2024-11-04 11:52:33, John Ogness wrote:
-> On 2024-11-04, Jocelyn Falempe <jfalempe@redhat.com> wrote:
-> > I looked at what serial drivers are doing, because they can also have 
-> > their clock gated in suspend.
-> >
-> > Would calling console_stop() in the suspend and console_start() in 
-> > resume work ?
+On 22.10.2024 12:09 AM, Akhil P Oommen wrote:
+> On Mon, Oct 21, 2024 at 11:38:41AM +0200, Konrad Dybcio wrote:
+>> On 11.10.2024 10:29 PM, Akhil P Oommen wrote:
+>>> ACD a.k.a Adaptive Clock Distribution is a feature which helps to reduce
+>>> the power consumption. In some chipsets, it is also a requirement to
+>>> support higher GPU frequencies. This patch adds support for GPU ACD by
+>>> sending necessary data to GMU and AOSS. The feature support for the
+>>> chipset is detected based on devicetree data.
+>>>
+>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>> ---
+>>
+>> [...]
+>>
+>>> +
+>>> +	/* Initialize qmp node to talk to AOSS */
+>>> +	gmu->qmp = qmp_get(gmu->dev);
+>>> +	if (IS_ERR(gmu->qmp)) {
+>>> +		cmd->enable_by_level = 0;
+>>> +		return dev_err_probe(gmu->dev, PTR_ERR(gmu->qmp), "Failed to initialize qmp\n");
+>>> +	}
+>>
+>> I'm still in favor of keeping qmp_get where it currently is, so that
+>> probe can fail/defer faster
 > 
-> Yes. That is what it is for.
+> Sorry, I somehow missed this email from you until now.
+> 
+> If it fails, then it probably doesn't matter if it is a bit late. But for defer, isn't there
+> some optimizations to track the dependency from devicetree data? I am
+> not entirely sure!
 
-It seems that you are right. I have never really investigated the purpose
-of this API /o\
+There's devlink for clocks/supplies etc, it doesn't apply universally
+for all phandle references IIUC.
 
-One problem with this API is that it does not check whether the
-console is registered. I wonder whether it might cause problems.
+> 
+> Since qmp node is related to ACD, I felt it is better to:
+>   1. Keep all acd probe related code in a single place.
+>   2. Be more opportunistic in skipping qmp_get() wherever possible.
+> 
+> But if you still have strong opinion on this, I can move it back in the
+> next revision (v3).
 
-For example, we should not set the CON_ENABLE flag when the console is not
-registered. Doing so would cause register_console() to always enable
-the console, even when it is not preferred.
+I suppose the answer is yes, I have a strong opinion :D
 
-Additionally, nbcon_kthread_wake() uses con->rcuwait, which is initialized
-by nbcon_alloc() called from register_console(). Fortunately, nbcon_alloc()
-is always called even if the console is not enabled in the end, but this
-might change in the future and cause subtle errors.
-
-[ After even more thinking ]
-
-I wonder whether console_start()/console_stop() should really
-manipulate CON_ENABLE flag. It might be historical solution when
-@console_suspended was a global variable.
-
-But it has changed with the commit 9e70a5e109a4a2336 ("printk: Add
-per-console suspended state").
-
-It might make more sense when console_start()/console_stop()
-manipulates CON_SUSPENDED flag. Then it would make sense
-to rename them suspend_this_console()/resume_this_console().
-
-What do you think?
-
-Best Regards,
-Petr
+Konrad
