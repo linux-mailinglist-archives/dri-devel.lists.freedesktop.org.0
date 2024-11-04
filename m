@@ -2,49 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FE19BAE95
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 09:52:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9809BAD0E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 08:22:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E429910E394;
-	Mon,  4 Nov 2024 08:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4F6A10E217;
+	Mon,  4 Nov 2024 07:21:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="nF3ibdzt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kqTZ5esY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-111.freemail.mail.aliyun.com
- (out30-111.freemail.mail.aliyun.com [115.124.30.111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25BEE10E11D
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 02:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1730687614; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
- bh=v1/peVX+FsyEZ3e/HuCFZ4YVCmzU5pF7SqzFiNM/ok0=;
- b=nF3ibdzt8SMIifbblHV5nAEq1IPJGB0e3080baIMIKgofLaEDiXfz9FvbU1GEVVgBOVqPqZBq+zPzpT7RPSPPDF4zo+kzpgHPpwHedzaGGBm0i41ddD4CPZa28CL94YXlobDBzH4e4hq3EYUNYnkt3RjVgXAXs51BHVQIUwz6To=
-Received: from 30.74.144.113(mailfrom:baolin.wang@linux.alibaba.com
- fp:SMTPD_---0WIZh3ES_1730687612 cluster:ay36) by smtp.aliyun-inc.com;
- Mon, 04 Nov 2024 10:33:33 +0800
-Message-ID: <ea5546e6-1c80-45fd-b58e-6739a5a6f357@linux.alibaba.com>
-Date: Mon, 4 Nov 2024 10:33:32 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87EA910E217
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 07:21:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730704916; x=1762240916;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=vVvC//hm2Qb9JX4BN8wiAIzh4mvzc75vswlBe2pSDsk=;
+ b=kqTZ5esY93q9TrkOjyuOjs7DmH7vy6KF1QYVGgaYmsZw670GCkNksRoZ
+ 6r9NglskKCjQ7a9yE/L/57paHOmJOG8qATTp3vedtdpqZWCaubtVxwBsD
+ 7DA661PxcW3GctPaNjgUdOuzB1i9+fqneXeDY56tpz1zlbx4J/ljDIfDc
+ r9LTK49jordZJTeijgCMk7G/uzVecsTuTlm8AsrZ7UobAnaJcgYSYIj9g
+ 1rUflXPb/F2DQzNU7NH7DX8KcS7ZBhS5rNW8zdTOUSvHWv1OdccMetgkU
+ JLgC9W5oV8fHlc+P/hcq64o051szkRaW1U5qt4YyqhEBtGM9U8vDrTgkg A==;
+X-CSE-ConnectionGUID: fCS0UAh9RXS9vzk76k0/XQ==
+X-CSE-MsgGUID: wV4KkbitTxG1xaZark9rkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="34177763"
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; d="scan'208";a="34177763"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2024 23:21:56 -0800
+X-CSE-ConnectionGUID: gOTNyNwWQyioP4BtnfK/IA==
+X-CSE-MsgGUID: MZev9TICTqKf9KSMkCwTBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; d="scan'208";a="83452794"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa009.jf.intel.com with ESMTP; 03 Nov 2024 23:21:52 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t7rPJ-000kal-2E;
+ Mon, 04 Nov 2024 07:21:49 +0000
+Date: Mon, 4 Nov 2024 15:21:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
+ tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, kong.kongxinwei@hisilicon.com
+Cc: oe-kbuild-all@lists.linux.dev, liangjian010@huawei.com,
+ chenjianmin@huawei.com, lidongming5@huawei.com,
+ shiyongbang@huawei.com, libaihan@huawei.com, shenjian15@huawei.com,
+ shaojijie@huawei.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3 drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in
+ hibmc
+Message-ID: <202411041559.WIfxRN6n-lkp@intel.com>
+References: <20241101105028.2177274-3-shiyongbang@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/5] mm: shmem: override mTHP shmem default with a
- kernel parameter
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- Hugh Dickins <hughd@google.com>, Barry Song <baohua@kernel.org>,
- David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Lance Yang <ioworker0@gmail.com>
-Cc: linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com
-References: <20241101165719.1074234-2-mcanal@igalia.com>
- <20241101165719.1074234-6-mcanal@igalia.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20241101165719.1074234-6-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 04 Nov 2024 08:51:53 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241101105028.2177274-3-shiyongbang@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,163 +77,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Yongbang,
 
+kernel test robot noticed the following build warnings:
 
-On 2024/11/2 00:54, Maíra Canal wrote:
-> Add the ``thp_shmem=`` kernel command line to allow specifying the
-> default policy of each supported shmem hugepage size. The kernel parameter
-> accepts the following format:
-> 
-> thp_shmem=<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
-> 
-> For example,
-> 
-> thp_shmem=16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never;4M-8M:within_size
-> 
-> Some GPUs may benefit from using huge pages. Since DRM GEM uses shmem
-> to allocate anonymous pageable memory, it’s essential to control the huge
-> page allocation policy for the internal shmem mount. This control can be
-> achieved through the ``transparent_hugepage_shmem=`` parameter.
-> 
-> Beyond just setting the allocation policy, it’s crucial to have granular
-> control over the size of huge pages that can be allocated. The GPU may
-> support only specific huge page sizes, and allocating pages larger/smaller
-> than those sizes would be ineffective.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> ---
->   .../admin-guide/kernel-parameters.txt         |  10 ++
->   Documentation/admin-guide/mm/transhuge.rst    |  17 +++
->   mm/shmem.c                                    | 105 +++++++++++++++++-
->   3 files changed, 131 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index acabb04d0dd4..b48d744d99b0 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6700,6 +6700,16 @@
->   			Force threading of all interrupt handlers except those
->   			marked explicitly IRQF_NO_THREAD.
->   
-> +	thp_shmem=	[KNL]
-> +			Format: <size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
-> +			Control the default policy of each hugepage size for the
-> +			internal shmem mount. <policy> is one of policies available
-> +			for the shmem mount ("always", "inherit", "never", "within_size",
-> +			and "advise").
-> +			It can be used multiple times for multiple shmem THP sizes.
-> +			See Documentation/admin-guide/mm/transhuge.rst for more
-> +			details.
-> +
->   	topology=	[S390,EARLY]
->   			Format: {off | on}
->   			Specify if the kernel should make use of the cpu
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index 9c6f6da612c4..5034915f4e8e 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -332,6 +332,23 @@ allocation policy for the internal shmem mount by using the kernel parameter
->   seven valid policies for shmem (``always``, ``within_size``, ``advise``,
->   ``never``, ``deny``, and ``force``).
->   
-> +In the same manner as ``thp_anon`` controls each supported anonymous THP
-> +size, ``thp_shmem`` controls each supported shmem THP size. ``thp_shmem``
-> +has the same format as ``thp_anon``, but also supports the policy
-> +``within_size``.
-> +
-> +``thp_shmem=`` may be specified multiple times to configure all THP sizes
-> +as required. If ``thp_shmem=`` is specified at least once, any shmem THP
-> +sizes not explicitly configured on the command line are implicitly set to
-> +``never``.
-> +
-> +``transparent_hugepage_shmem`` setting only affects the global toggle. If
-> +``thp_shmem`` is not specified, PMD_ORDER hugepage will default to
-> +``inherit``. However, if a valid ``thp_shmem`` setting is provided by the
-> +user, the PMD_ORDER hugepage policy will be overridden. If the policy for
-> +PMD_ORDER is not defined within a valid ``thp_shmem``, its policy will
-> +default to ``never``.
-> +
->   Hugepages in tmpfs/shmem
->   ========================
->   
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index dfcc88ec6e34..d2bf98aece40 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -136,6 +136,7 @@ static unsigned long huge_shmem_orders_always __read_mostly;
->   static unsigned long huge_shmem_orders_madvise __read_mostly;
->   static unsigned long huge_shmem_orders_inherit __read_mostly;
->   static unsigned long huge_shmem_orders_within_size __read_mostly;
-> +static bool shmem_orders_configured __initdata;
->   #endif
->   
->   #ifdef CONFIG_TMPFS
-> @@ -5027,7 +5028,8 @@ void __init shmem_init(void)
->   	 * Default to setting PMD-sized THP to inherit the global setting and
->   	 * disable all other multi-size THPs.
->   	 */
-> -	huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
-> +	if (!shmem_orders_configured)
-> +		huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
->   #endif
->   	return;
->   
-> @@ -5195,6 +5197,107 @@ static int __init setup_transparent_hugepage_shmem(char *str)
->   }
->   __setup("transparent_hugepage_shmem=", setup_transparent_hugepage_shmem);
->   
-> +static char str_dup[PAGE_SIZE] __initdata;
-> +static int __init setup_thp_shmem(char *str)
-> +{
-> +	char *token, *range, *policy, *subtoken;
-> +	unsigned long always, inherit, madvise, within_size;
-> +	char *start_size, *end_size;
-> +	int start, end, nr;
-> +	char *p;
-> +
-> +	if (!str || strlen(str) + 1 > PAGE_SIZE)
-> +		goto err;
-> +	strscpy(str_dup, str);
-> +
-> +	always = huge_shmem_orders_always;
-> +	inherit = huge_shmem_orders_inherit;
-> +	madvise = huge_shmem_orders_madvise;
-> +	within_size = huge_shmem_orders_within_size;
-> +	p = str_dup;
-> +	while ((token = strsep(&p, ";")) != NULL) {
-> +		range = strsep(&token, ":");
-> +		policy = token;
-> +
-> +		if (!policy)
-> +			goto err;
-> +
-> +		while ((subtoken = strsep(&range, ",")) != NULL) {
-> +			if (strchr(subtoken, '-')) {
-> +				start_size = strsep(&subtoken, "-");
-> +				end_size = subtoken;
-> +
-> +				start = get_order_from_str(start_size,
-> +							   THP_ORDERS_ALL_FILE_DEFAULT);
-> +				end = get_order_from_str(end_size,
-> +							 THP_ORDERS_ALL_FILE_DEFAULT);
-> +			} else {
-> +				start_size = end_size = subtoken;
-> +				start = end = get_order_from_str(subtoken,
-> +								 THP_ORDERS_ALL_FILE_DEFAULT);
-> +			}
-> +
-> +			if (start == -EINVAL) {
-> +				pr_err("invalid size %s in thp_shmem boot parameter\n",
-> +				       start_size);
-> +				goto err;
-> +			}
-> +
-> +			if (end == -EINVAL) {
-> +				pr_err("invalid size %s in thp_shmem boot parameter\n",
-> +				       end_size);
-> +				goto err;
-> +			}
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.12-rc6 next-20241101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I have the same feeling that these are redundant checks. Otherwise look 
-good to me.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+url:    https://github.com/intel-lab-lkp/linux/commits/Yongbang-Shi/drm-hisilicon-hibmc-add-dp-aux-in-hibmc/20241101-185648
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241101105028.2177274-3-shiyongbang%40huawei.com
+patch subject: [PATCH V3 drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in hibmc
+config: csky-randconfig-r121-20241103 (https://download.01.org/0day-ci/archive/20241104/202411041559.WIfxRN6n-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241104/202411041559.WIfxRN6n-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:12:10: sparse: sparse: symbol 'link_rate_map' was not declared. Should it be static?
+
+vim +/link_rate_map +12 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+
+    11	
+  > 12	const u8 link_rate_map[] = {DP_LINK_BW_1_62, DP_LINK_BW_2_7,
+    13				    DP_LINK_BW_5_4, DP_LINK_BW_8_1};
+    14	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
