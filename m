@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4C99BBEFD
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 21:48:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7FB9BBF0D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 21:53:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8040510E4CA;
-	Mon,  4 Nov 2024 20:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6AC610E0EC;
+	Mon,  4 Nov 2024 20:53:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qRa8bjlJ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Cex94fSH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EB6010E0EC;
- Mon,  4 Nov 2024 20:48:21 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 94634526;
- Mon,  4 Nov 2024 21:48:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1730753292;
- bh=Z8UDWsXrUthXbSmeoHROE3eOTBPFWR2aQNgiSEx7+/c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qRa8bjlJHdsP4URju4XjamGR0cDwZ/9WMzT8jEelFrDm9iZpi4jSd77MULcNMOshM
- XvAvmNfy2uIGTWhDgBpFnntaekTXQT0zoToLaqMUVabgjysmMdBGv/tLosSIqq0qhP
- hp3zyDEN+kILVwxwmfHEXveT4u7wp0Swhgnv511c=
-Date: Mon, 4 Nov 2024 22:48:14 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Phong LE <ple@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH] drm: Use of_property_present() for non-boolean properties
-Message-ID: <20241104204814.GC27775@pendragon.ideasonboard.com>
-References: <20241104190636.274926-1-robh@kernel.org>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3158A10E0E3;
+ Mon,  4 Nov 2024 20:53:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=lKRMqSRXhZhQYwWjC1ENLPJFMwrROYi/BPiNAXWtjBg=; b=Cex94fSHmswdP5+z/xU0dsFgb1
+ NB4yHtqdKIXC9Rz6SCbdUDkCp8tezJMrDoZhb1MJfyp1ZLFNXSatLUYACSDfdJO1yZY/zIuwUfYUc
+ XzZfY03sus86hu+INRn07YuoBr1HYtpmo026qfq8LHTdJKyXMhKQHTja84IzRrKchCeaoSYwqjx1S
+ xhEDDrkt/ewa5hN/5eG+xJqsynrs3Kj4HvdF09NQ9qJiTOXRfI2A1oZM85zFYLTRQWIcbcpA35BtS
+ 8L2xvnF1gp31cZ1nrT6LIf1g4mxj88COZlHmdhlFYCPY4Igve6eB9aA4bT7AiJ2iEasxB+n5xGqwH
+ s8Tt+ikg==;
+Received: from [177.172.124.78] (helo=[192.168.15.100])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1t844C-001pbo-TO; Mon, 04 Nov 2024 21:52:53 +0100
+Message-ID: <00a99b3e-3fad-42fb-8dc8-4f45d158c4c1@igalia.com>
+Date: Mon, 4 Nov 2024 17:52:43 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241104190636.274926-1-robh@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v9 1/2] drm/atomic: Let drivers decide which planes
+ to async flip
+To: Christopher Snowhill <chris@kode54.net>
+Cc: kernel-dev@igalia.com, Simon Ser <contact@emersion.fr>,
+ Thomas Zimmermann <tzimmermann@suse.de>, joshua@froggi.es,
+ ville.syrjala@linux.intel.com, Daniel Stone <daniel@fooishbar.org>,
+ Xaver Hugl <xaver.hugl@gmail.com>, Harry Wentland <harry.wentland@amd.com>,
+ Simona Vetter <simona@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Leo Li <sunpeng.li@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xinhui Pan
+ <Xinhui.Pan@amd.com>, dmitry.baryshkov@linaro.org
+References: <20241101-tonyk-async_flip-v9-0-681814efbfbe@igalia.com>
+ <20241101-tonyk-async_flip-v9-1-681814efbfbe@igalia.com>
+ <D5CC3U00B7CG.IGKCIES8PC2J@kode54.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <D5CC3U00B7CG.IGKCIES8PC2J@kode54.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,80 +74,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+Hi Christopher,
 
-Thank you for the patch.
-
-On Mon, Nov 04, 2024 at 01:06:35PM -0600, Rob Herring (Arm) wrote:
-> The use of of_property_read_bool() for non-boolean properties is
-> deprecated in favor of of_property_present() when testing for property
-> presence.
+Em 03/11/2024 03:36, Christopher Snowhill escreveu:
+> On Fri Nov 1, 2024 at 11:23 AM PDT, André Almeida wrote:
+>> Currently, DRM atomic uAPI allows only primary planes to be flipped
+>> asynchronously. However, each driver might be able to perform async
+>> flips in other different plane types. To enable drivers to set their own
+>> restrictions on which type of plane they can or cannot flip, use the
+>> existing atomic_async_check() from struct drm_plane_helper_funcs to
+>> enhance this flexibility, thus allowing different plane types to be able
+>> to do async flips as well.
+>>
+>> In order to prevent regressions and such, we keep the current policy: we
+>> skip the driver check for the primary plane, because it is always
+>> allowed to do async flips on it.
+>>
+>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
 > 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> Should I do a R-b too? 
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+If you can review the code, it's always really appreciated.
 
-> ---
->  drivers/gpu/drm/bridge/ite-it66121.c | 2 +-
->  drivers/gpu/drm/bridge/sii902x.c     | 2 +-
->  drivers/gpu/drm/drm_panel.c          | 2 +-
->  drivers/gpu/drm/msm/dsi/dsi_host.c   | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+> The changes looked sound enough for me to feel
+> like testing it as well. Tested Borderlands Game of the Year Enhanced on
+> my RX 7700 XT at maximum settings at 1080p165, and the tearing support in
+> labwc allowed it to reach over 700fps. No problems from the hardware
+> cursor.
+
+Thanks for testing and reporting!
+
 > 
-> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-> index 925e42f46cd8..0eae7c01b975 100644
-> --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> @@ -1480,7 +1480,7 @@ static int it66121_audio_codec_init(struct it66121_ctx *ctx, struct device *dev)
->  
->  	dev_dbg(dev, "%s\n", __func__);
->  
-> -	if (!of_property_read_bool(dev->of_node, "#sound-dai-cells")) {
-> +	if (!of_property_present(dev->of_node, "#sound-dai-cells")) {
->  		dev_info(dev, "No \"#sound-dai-cells\", no audio\n");
->  		return 0;
->  	}
-> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-> index 7f91b0db161e..f73e1174a5ad 100644
-> --- a/drivers/gpu/drm/bridge/sii902x.c
-> +++ b/drivers/gpu/drm/bridge/sii902x.c
-> @@ -850,7 +850,7 @@ static int sii902x_audio_codec_init(struct sii902x *sii902x,
->  	u8 lanes[4];
->  	int num_lanes, i;
->  
-> -	if (!of_property_read_bool(dev->of_node, "#sound-dai-cells")) {
-> +	if (!of_property_present(dev->of_node, "#sound-dai-cells")) {
->  		dev_dbg(dev, "%s: No \"#sound-dai-cells\", no audio\n",
->  			__func__);
->  		return 0;
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index 19ab0a794add..46d61cc871ca 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -413,7 +413,7 @@ bool drm_is_panel_follower(struct device *dev)
->  	 * don't bother trying to parse it here. We just need to know if the
->  	 * property is there.
->  	 */
-> -	return of_property_read_bool(dev->of_node, "panel");
-> +	return of_property_present(dev->of_node, "panel");
->  }
->  EXPORT_SYMBOL(drm_is_panel_follower);
->  
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 185d7de0bf37..78cac4ecc58f 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1831,7 +1831,7 @@ static int dsi_host_parse_dt(struct msm_dsi_host *msm_host)
->  		msm_dsi->te_source = devm_kstrdup(dev, te_source, GFP_KERNEL);
->  	ret = 0;
->  
-> -	if (of_property_read_bool(np, "syscon-sfpb")) {
-> +	if (of_property_present(np, "syscon-sfpb")) {
->  		msm_host->sfpb = syscon_regmap_lookup_by_phandle(np,
->  					"syscon-sfpb");
->  		if (IS_ERR(msm_host->sfpb)) {
-
--- 
-Regards,
-
-Laurent Pinchart
+> Tested-by: Christopher Snowhill <chris@kode54.net>
+> 
