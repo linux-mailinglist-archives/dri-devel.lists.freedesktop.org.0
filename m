@@ -2,47 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7BB9BAAEF
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 03:39:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0387F9BAB1F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 04:13:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F039110E357;
-	Mon,  4 Nov 2024 02:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5261410E23B;
+	Mon,  4 Nov 2024 03:13:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="DFqwdvXk";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eo7uqwmW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC32910E357;
- Mon,  4 Nov 2024 02:39:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=+gndMI+0kZSU1Kvygt+/YQjL5w9rqPYbq+F/LgysxHc=; b=DFqwdvXkdrE5mLFh
- H/yBZ7Hc/dLLYRfnVmu8/bv58+d7dRpgQa74HlJ/L7D2ZawFRr0B0Wdbe7VDFXmlvNXhV6gipeYQQ
- MafOZGSsE3r0dBbO+FZfQrOwWyFzA8x2btckqyxpnTj41ECJhfAKir03prZLM2OEtvpom7iR5fm8r
- liLEIyqbQChn77u/odT7hQrLMAVNGWmVydemEw7v8jz7EWAkmfOA4fKsI53Ux8wJSvnr+p5Ch7VmT
- ChAvhqitEwW1nuEoxWqr05dy5l4d79R82JtfmZZJYdvBDORuD5CMPUQQrU7PbC9d66fyPokRd0fm+
- 9G/Ta0No9mZqtYuHGA==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
- by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1t7n02-00FECw-0v;
- Mon, 04 Nov 2024 02:39:26 +0000
-From: linux@treblig.org
-To: alexander.deucher@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
- Rodrigo.Siqueira@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- chaitanya.dhere@amd.com, jun.lei@amd.com
-Cc: airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 5/5] drm/amd/display: Remove unused dcn_find_dcfclk_suits_all
-Date: Mon,  4 Nov 2024 02:38:52 +0000
-Message-ID: <20241104023852.492497-6-linux@treblig.org>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241104023852.492497-1-linux@treblig.org>
-References: <20241104023852.492497-1-linux@treblig.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFCAE10E23B
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 03:13:46 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-2e3686088c3so2712602a91.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Nov 2024 19:13:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1730690026; x=1731294826; darn=lists.freedesktop.org;
+ h=message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=curM5JHWqTItwQpvFipVaydSvgK/Mn5omBdYFQcRouI=;
+ b=eo7uqwmW5tnqnXhHzsSid+A6mKxJGyCmkPp0uw6QbqzMPPf4EOZM1fvA0BjT+Uypkm
+ RGS+BAb4H/PJz7bjaTcgoVaMYXymGSL4WWKPHln+YQiYFj8E3HqkKtQfmSHVT/j18BOg
+ UppxQ1Uz0PcmGuO5f/8sMleoXnMNkVHSvZVVC7Y7tw5LxFhAw6ne+XJiJ+ZT1n7/kFPQ
+ eyDWJen2GSg9ZYKze/GjcjhZeNmdqNShGbDS3B9/dzemNggeN7z5Mf3qCX5PlXU/l6+I
+ HhRjTMHyq41hn4G9GyQMJk3mhCEho2c9cjNjUPV0Jy3DWnk41GBctOHsJF3Ry+vRCRQB
+ S17g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730690026; x=1731294826;
+ h=message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=curM5JHWqTItwQpvFipVaydSvgK/Mn5omBdYFQcRouI=;
+ b=tx/LCaK7CI2hOC0Y/MZWo8Y0IXaOu5Y59uz/5+uBF85bVciJkjqcJyQLfYsrugtb6x
+ oT/sozQH0QDmChA8Kzagaqoemx9945msD/dnmfdMZTDERiQnLxA7ABJnrZKQnN3EZlHv
+ TOnnBSxO7wOpmk6LX8IJI5KLh4KUKf4cXxpPSInu9WzmnAtWTOGxBKIA5drc9gKCyoQw
+ V2lwDscs5nJzajk15r3xR265abtrFiFLMQ1f3K24Z9MUCgIddOlXBxPae10/ffKTGvS7
+ hlFe8ScEfhDMBAxsKsruaqJtf0RBI/DdnNsD5djS2NYteYPIQMe3FLISe9geg48+KG69
+ xRVw==
+X-Gm-Message-State: AOJu0Yy6jqufkIRcn6e4C7xz50qig4K24CQrcR/1/xIur4Ora5mehsYE
+ jcGXCKbUSg2KLjH34ZHxGbngq4Mof5jhPxdm9smKJesZE2tOJx/E
+X-Google-Smtp-Source: AGHT+IFn83lnoK/EDpxaIBt/m8+SjryQFVCLNbxO0iVVPjdnvAIpUl7UK+AHchKjQELZWRaTXP9FsQ==
+X-Received: by 2002:a17:90a:4811:b0:2e2:8349:239d with SMTP id
+ 98e67ed59e1d1-2e92cf2ce03mr20646493a91.28.1730690026083; 
+ Sun, 03 Nov 2024 19:13:46 -0800 (PST)
+Received: from daeinki-virtual-machine.localdomain ([58.124.60.88])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2e92fc0084asm8783053a91.51.2024.11.03.19.13.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 03 Nov 2024 19:13:45 -0800 (PST)
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	linux-samsung-soc@vger.kernel.org
+Subject: [GIT PULL] exynos-drm-next
+Date: Mon,  4 Nov 2024 12:13:41 +0900
+Message-Id: <20241104031341.36549-1-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,178 +76,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+Hi Dave and Daniel,
 
-dcn_find_dcfclk_suits_all() last use was removed by 2018's
-commit 4fd994c448a3 ("drm/amd/display: Start using the new pp_smu
-interface")
+   Add Decon support for Exynos7870 SoC, several fixups and cleanup.
 
-Remove it, and the dcn_find_normalized_clock_vdd_Level helper it used.
+Please kindly let me know if there is any problem.
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- .../drm/amd/display/dc/dml/calcs/dcn_calcs.c  | 132 ------------------
- .../gpu/drm/amd/display/dc/inc/dcn_calcs.h    |   4 -
- 2 files changed, 136 deletions(-)
+Thanks,
+Inki Dae
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c b/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c
-index 39525721c976..f1235bf9a596 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c
-@@ -1312,138 +1312,6 @@ bool dcn_validate_bandwidth(
- 		return false;
- }
- 
--static unsigned int dcn_find_normalized_clock_vdd_Level(
--	const struct dc *dc,
--	enum dm_pp_clock_type clocks_type,
--	int clocks_in_khz)
--{
--	int vdd_level = dcn_bw_v_min0p65;
--
--	if (clocks_in_khz == 0)/*todo some clock not in the considerations*/
--		return vdd_level;
--
--	switch (clocks_type) {
--	case DM_PP_CLOCK_TYPE_DISPLAY_CLK:
--		if (clocks_in_khz > dc->dcn_soc->max_dispclk_vmax0p9*1000) {
--			vdd_level = dcn_bw_v_max0p91;
--			BREAK_TO_DEBUGGER();
--		} else if (clocks_in_khz > dc->dcn_soc->max_dispclk_vnom0p8*1000) {
--			vdd_level = dcn_bw_v_max0p9;
--		} else if (clocks_in_khz > dc->dcn_soc->max_dispclk_vmid0p72*1000) {
--			vdd_level = dcn_bw_v_nom0p8;
--		} else if (clocks_in_khz > dc->dcn_soc->max_dispclk_vmin0p65*1000) {
--			vdd_level = dcn_bw_v_mid0p72;
--		} else
--			vdd_level = dcn_bw_v_min0p65;
--		break;
--	case DM_PP_CLOCK_TYPE_DISPLAYPHYCLK:
--		if (clocks_in_khz > dc->dcn_soc->phyclkv_max0p9*1000) {
--			vdd_level = dcn_bw_v_max0p91;
--			BREAK_TO_DEBUGGER();
--		} else if (clocks_in_khz > dc->dcn_soc->phyclkv_nom0p8*1000) {
--			vdd_level = dcn_bw_v_max0p9;
--		} else if (clocks_in_khz > dc->dcn_soc->phyclkv_mid0p72*1000) {
--			vdd_level = dcn_bw_v_nom0p8;
--		} else if (clocks_in_khz > dc->dcn_soc->phyclkv_min0p65*1000) {
--			vdd_level = dcn_bw_v_mid0p72;
--		} else
--			vdd_level = dcn_bw_v_min0p65;
--		break;
--
--	case DM_PP_CLOCK_TYPE_DPPCLK:
--		if (clocks_in_khz > dc->dcn_soc->max_dppclk_vmax0p9*1000) {
--			vdd_level = dcn_bw_v_max0p91;
--			BREAK_TO_DEBUGGER();
--		} else if (clocks_in_khz > dc->dcn_soc->max_dppclk_vnom0p8*1000) {
--			vdd_level = dcn_bw_v_max0p9;
--		} else if (clocks_in_khz > dc->dcn_soc->max_dppclk_vmid0p72*1000) {
--			vdd_level = dcn_bw_v_nom0p8;
--		} else if (clocks_in_khz > dc->dcn_soc->max_dppclk_vmin0p65*1000) {
--			vdd_level = dcn_bw_v_mid0p72;
--		} else
--			vdd_level = dcn_bw_v_min0p65;
--		break;
--
--	case DM_PP_CLOCK_TYPE_MEMORY_CLK:
--		{
--			unsigned factor = (ddr4_dram_factor_single_Channel * dc->dcn_soc->number_of_channels);
--
--			if (clocks_in_khz > dc->dcn_soc->fabric_and_dram_bandwidth_vmax0p9*1000000/factor) {
--				vdd_level = dcn_bw_v_max0p91;
--				BREAK_TO_DEBUGGER();
--			} else if (clocks_in_khz > dc->dcn_soc->fabric_and_dram_bandwidth_vnom0p8*1000000/factor) {
--				vdd_level = dcn_bw_v_max0p9;
--			} else if (clocks_in_khz > dc->dcn_soc->fabric_and_dram_bandwidth_vmid0p72*1000000/factor) {
--				vdd_level = dcn_bw_v_nom0p8;
--			} else if (clocks_in_khz > dc->dcn_soc->fabric_and_dram_bandwidth_vmin0p65*1000000/factor) {
--				vdd_level = dcn_bw_v_mid0p72;
--			} else
--				vdd_level = dcn_bw_v_min0p65;
--		}
--		break;
--
--	case DM_PP_CLOCK_TYPE_DCFCLK:
--		if (clocks_in_khz > dc->dcn_soc->dcfclkv_max0p9*1000) {
--			vdd_level = dcn_bw_v_max0p91;
--			BREAK_TO_DEBUGGER();
--		} else if (clocks_in_khz > dc->dcn_soc->dcfclkv_nom0p8*1000) {
--			vdd_level = dcn_bw_v_max0p9;
--		} else if (clocks_in_khz > dc->dcn_soc->dcfclkv_mid0p72*1000) {
--			vdd_level = dcn_bw_v_nom0p8;
--		} else if (clocks_in_khz > dc->dcn_soc->dcfclkv_min0p65*1000) {
--			vdd_level = dcn_bw_v_mid0p72;
--		} else
--			vdd_level = dcn_bw_v_min0p65;
--		break;
--
--	default:
--		 break;
--	}
--	return vdd_level;
--}
--
--unsigned int dcn_find_dcfclk_suits_all(
--	const struct dc *dc,
--	struct dc_clocks *clocks)
--{
--	unsigned vdd_level, vdd_level_temp;
--	unsigned dcf_clk;
--
--	/*find a common supported voltage level*/
--	vdd_level = dcn_find_normalized_clock_vdd_Level(
--		dc, DM_PP_CLOCK_TYPE_DISPLAY_CLK, clocks->dispclk_khz);
--	vdd_level_temp = dcn_find_normalized_clock_vdd_Level(
--		dc, DM_PP_CLOCK_TYPE_DISPLAYPHYCLK, clocks->phyclk_khz);
--
--	vdd_level = dcn_bw_max(vdd_level, vdd_level_temp);
--	vdd_level_temp = dcn_find_normalized_clock_vdd_Level(
--		dc, DM_PP_CLOCK_TYPE_DPPCLK, clocks->dppclk_khz);
--	vdd_level = dcn_bw_max(vdd_level, vdd_level_temp);
--
--	vdd_level_temp = dcn_find_normalized_clock_vdd_Level(
--		dc, DM_PP_CLOCK_TYPE_MEMORY_CLK, clocks->fclk_khz);
--	vdd_level = dcn_bw_max(vdd_level, vdd_level_temp);
--	vdd_level_temp = dcn_find_normalized_clock_vdd_Level(
--		dc, DM_PP_CLOCK_TYPE_DCFCLK, clocks->dcfclk_khz);
--
--	/*find that level conresponding dcfclk*/
--	vdd_level = dcn_bw_max(vdd_level, vdd_level_temp);
--	if (vdd_level == dcn_bw_v_max0p91) {
--		BREAK_TO_DEBUGGER();
--		dcf_clk = dc->dcn_soc->dcfclkv_max0p9*1000;
--	} else if (vdd_level == dcn_bw_v_max0p9)
--		dcf_clk =  dc->dcn_soc->dcfclkv_max0p9*1000;
--	else if (vdd_level == dcn_bw_v_nom0p8)
--		dcf_clk =  dc->dcn_soc->dcfclkv_nom0p8*1000;
--	else if (vdd_level == dcn_bw_v_mid0p72)
--		dcf_clk =  dc->dcn_soc->dcfclkv_mid0p72*1000;
--	else
--		dcf_clk =  dc->dcn_soc->dcfclkv_min0p65*1000;
--
--	DC_LOG_BANDWIDTH_CALCS("\tdcf_clk for voltage = %d\n", dcf_clk);
--	return dcf_clk;
--}
--
- void dcn_bw_update_from_pplib_fclks(
- 	struct dc *dc,
- 	struct dm_pp_clock_levels_with_voltage *fclks)
-diff --git a/drivers/gpu/drm/amd/display/dc/inc/dcn_calcs.h b/drivers/gpu/drm/amd/display/dc/inc/dcn_calcs.h
-index 55529c5f471c..d19a595c2be4 100644
---- a/drivers/gpu/drm/amd/display/dc/inc/dcn_calcs.h
-+++ b/drivers/gpu/drm/amd/display/dc/inc/dcn_calcs.h
-@@ -624,10 +624,6 @@ bool dcn_validate_bandwidth(
- 		struct dc_state *context,
- 		bool fast_validate);
- 
--unsigned int dcn_find_dcfclk_suits_all(
--	const struct dc *dc,
--	struct dc_clocks *clocks);
--
- void dcn_get_soc_clks(
- 		struct dc *dc,
- 		int *min_fclk_khz,
--- 
-2.47.0
 
+The following changes since commit bcfe43f0ea77c42c2154fb79b99b7d1d82ac3231:
+
+  drm/imx/dcss: include drm/drm_bridge.h header (2024-11-01 13:46:25 +1000)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-next-for-v6.13
+
+for you to fetch changes up to 53f4b30b05b2a9db6988cb71a785837ee64d2524:
+
+  drm/exynos: exynos7_drm_decon: add driver data and support for Exynos7870 (2024-11-04 10:50:46 +0900)
+
+----------------------------------------------------------------
+New feature
+- Add Decon driver support for Exynos7870 SoC
+  . This patch adds driver data and support for Exynos7870 SoC
+    in the Exynos7 Decon driver
+
+Bug fixups for exynos7_drm_decon.c module
+- Properly clear channels during bind
+  . This patch implements shadow protection/unprotection to clear
+    DECON channels properly, preventing kernel panic
+- Fix ideal_clk by converting it to HZ
+  . This patch corrects the clkdiv values by converting ideal_clk to Hz
+    for consistency
+- Fix uninitialized crtc reference in functions
+  . This patch modifies functions to accept a pointer to
+    the decon_context struct to avoid uninitialized references
+
+Cleanups
+- Remove unused prototype for crtc
+  . This patch removes unused prototypes
+      exynos_drm_crtc_wait_pending_update
+      exynos_drm_crtc_finish_update
+- And just typo fixup
+
+----------------------------------------------------------------
+Kaustabh Chakraborty (4):
+      drm/exynos: exynos7_drm_decon: fix uninitialized crtc reference in functions
+      drm/exynos: exynos7_drm_decon: fix ideal_clk by converting it to Hz
+      drm/exynos: exynos7_drm_decon: properly clear channels during bind
+      drm/exynos: exynos7_drm_decon: add driver data and support for Exynos7870
+
+Kwanghoon Son (1):
+      drm/exynos: remove unused prototype for crtc
+
+Shen Lichuan (1):
+      drm/exynos: gsc: Fix typo in comment
+
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c | 122 +++++++++++++++++++----------
+ drivers/gpu/drm/exynos/exynos_drm_crtc.h   |   3 -
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c    |   2 +-
+ drivers/gpu/drm/exynos/regs-decon7.h       |  15 ++--
+ 4 files changed, 87 insertions(+), 55 deletions(-)
