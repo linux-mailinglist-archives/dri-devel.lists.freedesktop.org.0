@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE6A9BAB4F
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 04:29:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A276E9BAB51
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 04:29:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32F4910E35E;
-	Mon,  4 Nov 2024 03:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18C7110E362;
+	Mon,  4 Nov 2024 03:29:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="REVl1M+x";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="DBJ6qr7y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR03-VI1-obe.outbound.protection.outlook.com
  (mail-vi1eur03on2076.outbound.protection.outlook.com [40.107.103.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37AFA10E35D
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 03:29:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0A3310E362
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 03:29:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x2q0tSE9F8lWSVUwVubrRQr42ZUsFdiMhVV4IoeYlKeDe4ca2qyKVeJXaqaalQrB8avaxo+pnHO7aqHKRNVYApbkOPsgeMBxKwnibPFhkppRaTfOLZckvHgagLXBVRJiYrYoBboc1IIuiI304XddzmhN9TiG71ywiRMWkxLP0hQC5K33yjOUztakCEIs4fulTU+RE8knNtcRkfQ2nJgjT5/j8Yd9xsG89R1g+wYSyXtRxHo9WsB4Z7w5q0WKWwTlPcgmoFLZyOpRy+RlkLHY8aIcE4Jna9F+QhdbZ4+jJiGkrZ3Iv38DHQnWZmyeN4bKsJf0XzWCmwhSs3jk/+HsHQ==
+ b=xY+eH9CTRjcEvmJb6kA95Asb4sAO1yQIZsGCSwD/U0gIuDJCmWbmhWuK38EgfmzlVDLl/CPkicBcIJVQ2MkY4LOfuqZL3/Yo+ssDknI2Bt+Xg9y0A2A13re7FOsVRx62NS7tnM/cX5i4j1fis9yZd2CQZUwOcNzV3iX3nMnekOrMEKnAn4WJjLNuNqIMSzufK+rAEsxx4bHGBBP2xVcvPxtoecpyAeROcZNoaqHiaIjBVdV8RlAtzicBsVyJcUze60qoWX5HW8Psu0aHR7VeGwpw9pQ1aAtb2bPwtGYKDLiuk07505LDSWz4xjebTQ5XYPQplR8ho0rjxU/2eAyi0g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bOJ6hUZBUjjiafj1p+dZhh6hiR6sWQVveCsXDuD/myo=;
- b=xC5Z8/ru0zVnAtS+qMI3h3DRoAab/tcmHC3wPO1S2E02gfH0hRipRovzCVNIWAIpiGFEwfvJ1hzXXPzgql9wclqEoWb/yLOAnjnsVF+i7jAZ+faqZejWd2rO/Wxal9a/aBIw2DyaV2jHagsUjI+6rX+blbgmkaoKyr7VAXTsu/EbzTwRuNZ2tXXilPeujymQrVbjRKe7oj+5bdePh6IF2YzHYit43CDls5bvgLgYaF/Ou5iJWTvMtDNcHwmNaYnPEwtsbHrZqG2aDCzyg7DTXbO7tC3UnXv37wTqR7apax7pkyx6oZNUCePyMvpHhmKD4x25uNyUUIMvtuL66mn9fQ==
+ bh=JL0mXb0RyUjCaD9mY1QBYGt4lvdZd3+bt8lh5XEh3j0=;
+ b=XKHA4DPRz7FLhuso4xIvvC0A3sNF5C3zXd6s7HGAoaFuDUTg5V1MQKWpW0y2llzvcECUVtFDX84PuHd35BdOsBXA6zJcC5KCMQtVcxk/h7O0h5t+rzg+Wy58pq0mxsqzCMjLSv0I6wLr6Xv4NDl00kp4DK+T/o8KIvW2okU3htU04aKyW87jQpFGp6JoQdr18JoQABBfGmzRYb5Wx+j+oKGjfoQzVqP9b6qU67gLJ4T6zH8fl2frPFX5qy7rzatpUU2/vQEvBk0OxLmz7+ORYBtuBrdxRGvWOH9Ko8ItENGaaitA5t0J40yEtlC7iw9rjHA2WsfSZc0LKYAARi1KvA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bOJ6hUZBUjjiafj1p+dZhh6hiR6sWQVveCsXDuD/myo=;
- b=REVl1M+xgeBcxZBNJ+GXV8EUwR6eoLa6f3W7yGOI/JTxcFtlI1zbQ6b10Rm8yx90qZ5TGcEmlJsuN5/XYctWUBiAac3u78O6BUO2CiPiJNXmYO4+zxIxyXh+xJI7c1X5S6pn+Hi6wPy3ChNYWdojUoiQ1soov3o7DvSwrU/jKqGKJNpszQQzg01srNflB+JO/m/kEcB3mCp3GzQoQdea4foyvb/lkG+Nunke5yGz+e9UBojo83D4wTqi19g5otRXui/ZmckNS8P1rpxIOFTlACOIwxxgTd1izH8DixeKzktkgYjWFcRRb41Jn+ZshGWAn60Dy3oF+yY6yJtJ/fLd7A==
+ bh=JL0mXb0RyUjCaD9mY1QBYGt4lvdZd3+bt8lh5XEh3j0=;
+ b=DBJ6qr7y1HaNiTYbdygyQ+vB4oZ7ka/bTcQR+qXZuUmUYh2XxBrBWydkjG3bNXImCmw/BeDxnk0yrqlwiH2hK+o6Xby8bP4P8PYXSdmKsPAhtQ70nBmFeOTZ7IU4QmuAMpBvekBTVuHUySpmN2x0cSvw2vDJs5BEujBeQDKNNx+QK+1sKtG464HYcDEgmpjFXiQGu3jaXXmtex8qqoUgP4EVdilupnOF5N0hCGt1mvs21mDVWI1BIYztNgm6uaAe2i57znKNd9ZLMO5SZ5M+/9p/ThYztqXm+SswGUnavGBuh5vwEngzNQxd8BcBSWKPaZ5lKkrB0J3dG3I5hbGcHA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by PA1PR04MB10602.eurprd04.prod.outlook.com (2603:10a6:102:490::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Mon, 4 Nov
- 2024 03:29:06 +0000
+ 2024 03:29:17 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8114.028; Mon, 4 Nov 2024
- 03:29:06 +0000
+ 03:29:17 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
@@ -58,9 +58,10 @@ Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  dmitry.baryshkov@linaro.org, arnd@arndb.de, nfraprado@collabora.com,
  thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
  sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com
-Subject: [PATCH v5 04/13] media: uapi: Add MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG, JEIDA}
-Date: Mon,  4 Nov 2024 11:27:57 +0800
-Message-Id: <20241104032806.611890-5-victor.liu@nxp.com>
+Subject: [PATCH v5 05/13] drm: of: Get MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA,
+ SPWG} LVDS data mappings
+Date: Mon,  4 Nov 2024 11:27:58 +0800
+Message-Id: <20241104032806.611890-6-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241104032806.611890-1-victor.liu@nxp.com>
 References: <20241104032806.611890-1-victor.liu@nxp.com>
@@ -72,77 +73,77 @@ X-ClientProxiedBy: SGXP274CA0016.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::28)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA1PR04MB10602:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f09f0ef-0c4e-458a-ed85-08dcfc80d640
+X-MS-Office365-Filtering-Correlation-Id: 64ef8586-0fbb-421e-40dd-08dcfc80dcc6
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|7416014|376014|52116014|1800799024|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?J2DY6qMQmXbVe2uND5UAn8A5hnmOkAUSuMgNXCuBwmmT+LM9/K0MsG/nZAo5?=
- =?us-ascii?Q?h/xJLtXM9R6P3hcqydFV8Q0ln/aKuu6T8EGuJYxQ315EmhZBIgYnrAv3eQOy?=
- =?us-ascii?Q?et8QlQfqL4puJ8BJNdZ1dl99ahJsoYCplbl9/nFetNfO86Y4KxvGwXOU0p2t?=
- =?us-ascii?Q?ZbR6DntcuQ+a5hjXXkX+CKQ1/MyDKH7FZwbkkeIY0Yd6/MM3wz+AqsFYMCJA?=
- =?us-ascii?Q?2zVZ18nM5lFS+wHDyV6nedYM/WhHZhyXVctjxeV8nrsrngYPZ9wkWKiTgNQM?=
- =?us-ascii?Q?/Eo+F+Oo1IzBnZbkcASRbmUVKWe1UB/A6P+z+1T4SHM1Ajkt46cLUKwL1gSj?=
- =?us-ascii?Q?Jis67z1/Qy1yaY4zw58LOJXzKbfwlOK6rt8uOgaapsW0FkhR9sJVkxd1ho84?=
- =?us-ascii?Q?VbADPjxnB5Q0qF9iCBr1szFElW6JkZVhg/7coi8UJMXoLt8kyfiE0X8wdy8c?=
- =?us-ascii?Q?LIXp7ZxUShsMEgvJ3mePLiR0E1+e4uzSpIBehadsiSVJi7Vi2J05XKuBIc6W?=
- =?us-ascii?Q?wERw9MP9vOGo9vRi9y7t8ng05Oom4LfSVqSJ8OX7tgBk7424p5S/rayCACw9?=
- =?us-ascii?Q?47OzXW10tEFwbyTomiCHnORo/TiRfBkz75CYyWz+nQ3XVhaWOJFmB5hgX+fB?=
- =?us-ascii?Q?P5XVxUfEmaIAVms6EdLDoyu9FpsvDZSzjmBwpM1DzK0VZ3GOfFAbCRktXDMH?=
- =?us-ascii?Q?vFaatTUFW8dyA8k4ebNLekNxxJC/XVusIBMQ6qSP9lnGyDuOuqt7Q7Zld5cf?=
- =?us-ascii?Q?U4Wd4OvpTGAksIrr9xGCFZuhqLGO03401PbePUfkiJ2E+cy5MyA7SdSvsoe/?=
- =?us-ascii?Q?CoTdpJM2YXPuse9m13TfPEKIud+UxW3rajBjPZndppJz69WsdaIjYmRW09YK?=
- =?us-ascii?Q?b/s8ci+m6bx+b/FBkxWYy6NFQU0Y7KzFZTug9CVfuDMmUowGpfwGZDF03r+J?=
- =?us-ascii?Q?TumFiveNXOWGlINy1+9dki51CL+/Vv9aNuutJ+qSgM88MSDxKgy7vfI5aZLB?=
- =?us-ascii?Q?xZv8i2NFP74MAahi9kxusr0RXeBMf8fC1QLImOPSK9SKj6ONdBNwwg48kqog?=
- =?us-ascii?Q?qc+51L7yExJY+pnUa7UPCI+4HD4ubOiwaQZexYSuYZ2GBk+uQQhB51nvPVk4?=
- =?us-ascii?Q?v0+g9qwLX/RPxyeHULyKzdjzDVyuZLfVjlhjjMPChBDhC5GacWvbCaOYE8KQ?=
- =?us-ascii?Q?oQLCeEZJ7+AzhcKznFueEDBkiII7HSgDTWhQ862FIsmDadzKto6E6jq1HKFC?=
- =?us-ascii?Q?2gXT9QX0trI9yQuQSxA+0Sm2pD8dXlICByHK4ihECxLb7eBvmesCIwpZ0E3o?=
- =?us-ascii?Q?KCXzTxRs1p3sLgbOJkcZ4fMLLML/yApl1nl+VC79+a7k/pMCerXZUvKOPj5T?=
- =?us-ascii?Q?FO4PGTA=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DtHfB3m34MVaZSH86xEwIcE2S23D07wK0t0Y/R3C9uXk5Ms/9UvEnDe7RgyF?=
+ =?us-ascii?Q?ewvd0AQ/j2uyjjhcnlSPc1VZlUxNLtwstxaZHpRzFwRDoawgDML0rFMa/7aE?=
+ =?us-ascii?Q?XpCs6ArMZ6nMU/qnjVS3xWDp0FALCmVoufclkP7TNFY7Pbh0KIVmOb8a1O2c?=
+ =?us-ascii?Q?XlnAJZ0pIqi9rCgfJrkq5iih0plLi2fVpaV8Bi0pQOh9n3014l7/jyN5lqwk?=
+ =?us-ascii?Q?71utYrHFapXn1QZWkIKJIQoWgBJ5hqf6w9YEY2Hf71gVbqElDGLF5zfdjaLL?=
+ =?us-ascii?Q?0A0KhCZwwXw5cTbya1u63JegwFEfSdN966iNGZbyPmP5gqXNXiNVOBqPJ2ot?=
+ =?us-ascii?Q?cy85ljXKkmG5/p+PDnFjK1tu3oO+d+HDH7oDqzyNVYMzO69E2tqplR3BehAM?=
+ =?us-ascii?Q?CEpnil9jvtjrl79ouX3dbdufwhjGOEqrLjsvxz+Zp7983XYa6B0MRYVmVeH5?=
+ =?us-ascii?Q?cGCyq87YknEOuhB7GEuwn7Onv0fKjEU/g53Oba1EUOOayYuyTxlw1DyBhVj7?=
+ =?us-ascii?Q?HfkzIcHjl46JCcUrCImnzTzI+yv9iGbv5/AfnHLjTreixp4MyOG6nTuOhbui?=
+ =?us-ascii?Q?KNIh2j2T34Prd7wch09uHSFyD+wIGsHpd9t+IGVC/VtFLqT2yI7UdJ3E0q5Y?=
+ =?us-ascii?Q?uOa+P+XJSeFipRjzq5ExOoZz9G9zOKGEbP9qL3AgquHrgWhjSkEMYGiwXmmx?=
+ =?us-ascii?Q?qcb0nQtUYerkge+TKbIPJMv3e7848lOYm3TBKQ7SjS8fK8fz8FpdG3fTsxvZ?=
+ =?us-ascii?Q?F3aCcfiQe+HWO1zoFUP5gAW2Gsfth0c5xFMlME+DZXJxaTlsdst1umCNAExf?=
+ =?us-ascii?Q?3EaEowLG06l2k6wXw7QGXs86d0IUKIgw2g9ysOAdOM+RS70pG1wa+HZOKTxZ?=
+ =?us-ascii?Q?P4R2hmS4YvV0+2AJpBmeomry9DyOsbAMSbRrxO8TbVMM1Hea59JHrHY0yb/k?=
+ =?us-ascii?Q?ePEiymKDZKi2HHP1vv5YtxFIs72Tu1n44VhA+NdCi3idDKQ26P1QNRVnOlkN?=
+ =?us-ascii?Q?sFOHCTr3tKopIFOXMQuDZzEAqsa4S2jRGCPatClyRjjGyPtE0ebv3oTumvDF?=
+ =?us-ascii?Q?THDg3B+3HK7dlOtsdEgo1vDVXN89kBG/231MC7o3SWw0xmj54OZSZsXjoEbs?=
+ =?us-ascii?Q?sBvKYXUAIM+N+em0vv1t17VY37Pzso1YAsZTTTVnLG8eKv1r9luX4v+SiPi7?=
+ =?us-ascii?Q?SJkU7WRD7rEXfggc9F64WNiewjKj2vyI9f1W9sy2aEnjMpLVJ3vXDBwu1vmu?=
+ =?us-ascii?Q?Vew3Mj5VxKPyM0UASiXZOGXh4j6xtTQ4nTbFRre2CgonajO/lR+2Yia4iKEs?=
+ =?us-ascii?Q?JeAQmly64tYYjYufoTUkZ4Ej9CejDU3mGBTsiLjy5XU71LUOyhRFjUVVcie/?=
+ =?us-ascii?Q?dtzdbcQ=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(376014)(52116014)(1800799024)(366016)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RwHgj1lsG/XkmQXxBUxEECcTLGPkUCgaxPV0CU3QFH4Wv9Mq1FoRiyLPk7Uc?=
- =?us-ascii?Q?Cy7EbVkG55/AMHuMvf6HPlVmJF5O0x8irZoFWRR0WNQErh2me/kCZJcuirZE?=
- =?us-ascii?Q?dZPU34oDngIA5Z2u33sx4KmRFahL7rzZg3lYJG6S/a+XKJnr7Ttum0rNMQue?=
- =?us-ascii?Q?FJRkNUCuiPGiCiYa8u/jIlifsS/hOn/a3yMjLf8yagjOYVUD4dM1oaqNcrN9?=
- =?us-ascii?Q?XH4HX3HH92rRDwrcMbTbOV0XSGCTqlswzUzhrwxZB3JuQteR1Ku1hMZdG9M5?=
- =?us-ascii?Q?2Zj9qH+hCvfRdWMf4Q2h72j3h6+LjqG5yOCe6Q5BIB/d69DWFutBP79CRwQ8?=
- =?us-ascii?Q?FvTiL3JzP2SE6648/xd9NI3Zp6jeOvQzhPM6pVJM+HuBqrzbSVfOt1EZ3vf4?=
- =?us-ascii?Q?u5a74/ESGbbrMM/xa/A7LZN5aQFZtuO07XB/Y/Nl5q8wWl/2qUmrAWXXUSlk?=
- =?us-ascii?Q?82W4/Too6JBC0NgbIXA20JVjFsvwTN58iOzpAAecuCT3F/myCBcNdlkrSvRM?=
- =?us-ascii?Q?wGtSDe1OyobHIi3DPqaNmZcrlStbgWVnLwMc9TG1OTyvMMNAEAwfTyKNMFOm?=
- =?us-ascii?Q?I/9sw9fvAJ1Mx8CbRabaySvrIJluEAPqtReHnEoMaeOrFz3pNVFQolZQ+EnB?=
- =?us-ascii?Q?fVb1uMriVEmQMIwE8BdPCbcMulUpyCmtBrLBPrMtGxt5lpHWwTEbQMeUSO96?=
- =?us-ascii?Q?kbNihfpp55AeD4EbudFyx3/OsjgqVwW20qRxivJmCtACTHA3J0Tj9Rdk6cdf?=
- =?us-ascii?Q?7pQxonVN7m37LFJEY/Ej9v8nHvyL/j4PYUjpGYVQ/s0F9vdaSkijdSSEvkqa?=
- =?us-ascii?Q?Rd6aUZC/9AwpjkNF/RR67NGBz4p0c860FAk/XQ0tMdk4L9lVF5lkhviYr2yH?=
- =?us-ascii?Q?YNN2Xy/CZOan0zl+e55BEwzaifQu8XuQ2c7eMJnc43MqL3ipjercHh3D/up0?=
- =?us-ascii?Q?VaUsBldWYQvS5lTodnbnB30Rzmos6z2AWpB/CMkre+fPndk/5rTNbj7vtSCu?=
- =?us-ascii?Q?tdGMb8Wt6qiEaVizHwN9dFZdtTbdHaBXOs/i4ZFIX1K8ksVHsq+T5ppOLmLz?=
- =?us-ascii?Q?zqCYioSJsi+zKYM7J9fnIDge9HhLrfl27q8g1aDBW0XuvJ3rvMvVq3fVKVIV?=
- =?us-ascii?Q?x3AskkHilF8C+obO+YFdXlKiuRC4dNja+JKL5iAYfaW4vPocWqNEB/vO2jyB?=
- =?us-ascii?Q?bG1vmvG/WPNMHIInq7YE1IacP1LQHrymRu+0EG3JNZLQ1fcZ+gk20A9gAuKk?=
- =?us-ascii?Q?hmtwuo8N/KuTHMOZW8H1a3wuYdNeyHLwfKIv2gdVXgEYvnZDKPWmtzo2LcOz?=
- =?us-ascii?Q?QoTscBD55qE536TWzskR0bVgvIyXFj2eHmfy8fhNY5NMdmyBo9c/cJh+jCOD?=
- =?us-ascii?Q?NykR8KThuzX+2EJeG0y+oDZqJr2ipy3mbJb70PN8RJzeDmbpTzX589H7nlN4?=
- =?us-ascii?Q?igdttetDTT3mTknB9TF5txkMrUTbVIkbNNfELiicygcUjl9hHGUD9tl5paNL?=
- =?us-ascii?Q?dHN0FyxsT4HTzXsg9OoLHrq+h1/tV48wCNubeeCeiKfMvqsNAfT7NlZvup0S?=
- =?us-ascii?Q?AHrDzOcx0nhm1LthCwr5xAF6PPViLmesnbV5EQBQ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+nz46/KhMKHCJPVYBm84Q2USbpnKFMa/vGU1F2Ik8oOU1/07BdWQv2gD0vpe?=
+ =?us-ascii?Q?KAuaAJqEgwyDnQHPxjxS5wcz/6wYsQ8k5nEy9d4OkzanyvcDQkJns+lXom4p?=
+ =?us-ascii?Q?KMgh7qgx/VRJyN6XbR+4dxmVo3lGyZ6BjXRl72Nq73OiyMD5LaC8QXJ4iyym?=
+ =?us-ascii?Q?EYdsZHbmQzR6QQBLXAbkwpmoqiBWc8f9jaNIyf5ZkFUN5uJe/BZzHgkRi3hq?=
+ =?us-ascii?Q?2OTZDrC/bnp+n/1SJUqKdMQglVo5CKetp4lyLgT7KI+UlXnRbbF4v7dj4A+m?=
+ =?us-ascii?Q?/O/Zr1C35mNbmRmcp9nBnF2g7udkvMlIJ9rPG2viTdGvjzQkfVrSk4rXvSFQ?=
+ =?us-ascii?Q?/pqLsZXq5Xakcrjq8JCv+CA61UPYGnGl6IYzMy9vy24birhunYx1HPlSetj0?=
+ =?us-ascii?Q?a9PY4ehGUf/VtDet6VzCJxmUJLkaorFTUgEtqURNad9d1zwz+8wzVWa6Fb5j?=
+ =?us-ascii?Q?VV9fBvH4omo35JEbrmzNt2QqREtLl/y8qUhxVgq/s2q2MTcPtMS4MlsuErAz?=
+ =?us-ascii?Q?ZJNGy2MldkXkYZK4Xla4hNsGYwvdbX4LYd7ZZK7eTL0JOthrAvGweM5Qsab+?=
+ =?us-ascii?Q?39qg0HL8wkDHAgvXK8PC30Gtx0dz1KGhfbURsJK5CnUqz8EwvYrzP46GXaPS?=
+ =?us-ascii?Q?90GWidiR9FXSdOYwXDmuIUAO7t3qkJt9HX6UPh9neBwlQHdq4YH7/DeNilhn?=
+ =?us-ascii?Q?fsocDk93FkBC933fxLFq1w89TjlMAE//M7j8NAHc7wOyl/3CKEHvHsx+tgrF?=
+ =?us-ascii?Q?3G5OdS49QN4Od27JDTRJkAF14/Bt/HVNk9mlPhoJkt8JbEHhihJs+iibBsPS?=
+ =?us-ascii?Q?O2XCy7YhAhd1FS+pvuIx6SElUnTR03Jz+yVTPNNooWclkUz6NbbJH1WL6pi5?=
+ =?us-ascii?Q?PcDQJEFmXRo4pJiKBZZJh3Pe4qQBT9MqSxDR4PfhUPRPNjJb+diJ0XA4OxbA?=
+ =?us-ascii?Q?lNC3YUXi2LyZjEd2XA/XDts+jbstK8FNAGotCaYNHxIsleb+P79RjITsMCet?=
+ =?us-ascii?Q?vD5B5ooMypkASjHiYWWi5KIYGovOYKOkMpYN/OwN9EM5PiuQIajqPsskHOjf?=
+ =?us-ascii?Q?s9JVId8IKV3VIRb8DWwh0UOsOXfpBfAdYCNl5K9eMxojSHSMCPM6hEFDhbo/?=
+ =?us-ascii?Q?lMz2t2jRKqwMu12hkrx18oJ73jODzbE4v5A0nE610B7ctAkzcb88UU42Bf+v?=
+ =?us-ascii?Q?OOv/OM8KFWZoDAJkRha49VW62PcnaIL3mN8/5uRXbRC5YhkHMmR1PgFRrvWW?=
+ =?us-ascii?Q?RW2CIgXs192DnRpbb/o3vS3xersuqprMcm6yMDLhQYDZKWNtA35mg1ZEBMkV?=
+ =?us-ascii?Q?uPzoyDzRaycz+Bwx2lyOEAoPLtoyMhbOHPScGxc0QeEBcYrASq2EImNMuzNN?=
+ =?us-ascii?Q?1xo6NeILQGNFlhONZvpqJ+TE/C/vSWUSswa6s0WYDKycx1KxTsuK28GSbcI8?=
+ =?us-ascii?Q?NBjRKr2/q1L7VziCb16Yvz9uHyclJdlv+3TDrTc9IwISCxEeuCV1mGJE6XQH?=
+ =?us-ascii?Q?lSzM0LMSi9VLMkaIstUgH//5sUTVTztpxHSsxeI9Buw7LkSYcyd8XfZmoQ+G?=
+ =?us-ascii?Q?rFyn+FKUVOJ3i+2FutN3ym+mVf0QA9o/k6v9J/J2?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f09f0ef-0c4e-458a-ed85-08dcfc80d640
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64ef8586-0fbb-421e-40dd-08dcfc80dcc6
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 03:29:06.4193 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 03:29:17.2486 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SoWushPs1X6U6s+JvI3DJoe1jXM+nvoklNX6qwiN/BIh0jHTf94OyK754OIy+e08I7w70G04FPW1pgMRMh42Og==
+X-MS-Exchange-CrossTenant-UserPrincipalName: SDvq1XXfaZKvx2V/3OKpLZGYHKy2x6OBd2XVqGOYn8iUA0nIiJ/tHkn0tSQLkJJY9khTXUXbZMi8VuGOZR6V6Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10602
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -159,376 +160,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add two media bus formats that identify 30-bit RGB pixels transmitted
-by a LVDS link with five differential data pairs, serialized into 7
-time slots, using standard SPWG/VESA or JEIDA data mapping.
+Add MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA,SPWG} support in
+drm_of_lvds_get_data_mapping() function implementation so that function
+callers may get the two LVDS data mappings.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
 v5:
 * No change.
 
 v4:
-* No change.
+* Collect Dmitry's R-b tag.
 
 v3:
 * New patch.
 
- .../media/v4l/subdev-formats.rst              | 156 +++++++++++++++++-
- include/uapi/linux/media-bus-format.h         |   4 +-
- 2 files changed, 157 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_of.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-index d2a6cd2e1eb2..2a94371448dc 100644
---- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-@@ -2225,7 +2225,7 @@ The following table list existing packed 48bit wide RGB formats.
-     \endgroup
+diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+index 177b600895d3..89863a35c731 100644
+--- a/drivers/gpu/drm/drm_of.c
++++ b/drivers/gpu/drm/drm_of.c
+@@ -410,7 +410,9 @@ EXPORT_SYMBOL_GPL(drm_of_lvds_get_dual_link_pixel_order);
+  * Return:
+  * * MEDIA_BUS_FMT_RGB666_1X7X3_SPWG - data-mapping is "jeida-18"
+  * * MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA - data-mapping is "jeida-24"
++ * * MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA - data-mapping is "jeida-30"
+  * * MEDIA_BUS_FMT_RGB888_1X7X4_SPWG - data-mapping is "vesa-24"
++ * * MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG - data-mapping is "vesa-30"
+  * * -EINVAL - the "data-mapping" property is unsupported
+  * * -ENODEV - the "data-mapping" property is missing
+  */
+@@ -427,8 +429,12 @@ int drm_of_lvds_get_data_mapping(const struct device_node *port)
+ 		return MEDIA_BUS_FMT_RGB666_1X7X3_SPWG;
+ 	if (!strcmp(mapping, "jeida-24"))
+ 		return MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
++	if (!strcmp(mapping, "jeida-30"))
++		return MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA;
+ 	if (!strcmp(mapping, "vesa-24"))
+ 		return MEDIA_BUS_FMT_RGB888_1X7X4_SPWG;
++	if (!strcmp(mapping, "vesa-30"))
++		return MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG;
  
- On LVDS buses, usually each sample is transferred serialized in seven
--time slots per pixel clock, on three (18-bit) or four (24-bit)
-+time slots per pixel clock, on three (18-bit) or four (24-bit) or five (30-bit)
- differential data pairs at the same time. The remaining bits are used
- for control signals as defined by SPWG/PSWG/VESA or JEIDA standards. The
- 24-bit RGB format serialized in seven time slots on four lanes using
-@@ -2246,11 +2246,12 @@ JEIDA defined bit mapping will be named
-       - Code
-       -
-       -
--      - :cspan:`3` Data organization
-+      - :cspan:`4` Data organization
-     * -
-       -
-       - Timeslot
-       - Lane
-+      - 4
-       - 3
-       - 2
-       - 1
-@@ -2262,6 +2263,7 @@ JEIDA defined bit mapping will be named
-       - 0
-       -
-       -
-+      -
-       - d
-       - b\ :sub:`1`
-       - g\ :sub:`0`
-@@ -2270,6 +2272,7 @@ JEIDA defined bit mapping will be named
-       - 1
-       -
-       -
-+      -
-       - d
-       - b\ :sub:`0`
-       - r\ :sub:`5`
-@@ -2278,6 +2281,7 @@ JEIDA defined bit mapping will be named
-       - 2
-       -
-       -
-+      -
-       - d
-       - g\ :sub:`5`
-       - r\ :sub:`4`
-@@ -2286,6 +2290,7 @@ JEIDA defined bit mapping will be named
-       - 3
-       -
-       -
-+      -
-       - b\ :sub:`5`
-       - g\ :sub:`4`
-       - r\ :sub:`3`
-@@ -2294,6 +2299,7 @@ JEIDA defined bit mapping will be named
-       - 4
-       -
-       -
-+      -
-       - b\ :sub:`4`
-       - g\ :sub:`3`
-       - r\ :sub:`2`
-@@ -2302,6 +2308,7 @@ JEIDA defined bit mapping will be named
-       - 5
-       -
-       -
-+      -
-       - b\ :sub:`3`
-       - g\ :sub:`2`
-       - r\ :sub:`1`
-@@ -2310,6 +2317,7 @@ JEIDA defined bit mapping will be named
-       - 6
-       -
-       -
-+      -
-       - b\ :sub:`2`
-       - g\ :sub:`1`
-       - r\ :sub:`0`
-@@ -2319,6 +2327,7 @@ JEIDA defined bit mapping will be named
-       - 0x1011
-       - 0
-       -
-+      -
-       - d
-       - d
-       - b\ :sub:`1`
-@@ -2327,6 +2336,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 1
-       -
-+      -
-       - b\ :sub:`7`
-       - d
-       - b\ :sub:`0`
-@@ -2335,6 +2345,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 2
-       -
-+      -
-       - b\ :sub:`6`
-       - d
-       - g\ :sub:`5`
-@@ -2343,6 +2354,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 3
-       -
-+      -
-       - g\ :sub:`7`
-       - b\ :sub:`5`
-       - g\ :sub:`4`
-@@ -2351,6 +2363,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 4
-       -
-+      -
-       - g\ :sub:`6`
-       - b\ :sub:`4`
-       - g\ :sub:`3`
-@@ -2359,6 +2372,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 5
-       -
-+      -
-       - r\ :sub:`7`
-       - b\ :sub:`3`
-       - g\ :sub:`2`
-@@ -2367,6 +2381,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 6
-       -
-+      -
-       - r\ :sub:`6`
-       - b\ :sub:`2`
-       - g\ :sub:`1`
-@@ -2377,6 +2392,7 @@ JEIDA defined bit mapping will be named
-       - 0x1012
-       - 0
-       -
-+      -
-       - d
-       - d
-       - b\ :sub:`3`
-@@ -2385,6 +2401,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 1
-       -
-+      -
-       - b\ :sub:`1`
-       - d
-       - b\ :sub:`2`
-@@ -2393,6 +2410,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 2
-       -
-+      -
-       - b\ :sub:`0`
-       - d
-       - g\ :sub:`7`
-@@ -2401,6 +2419,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 3
-       -
-+      -
-       - g\ :sub:`1`
-       - b\ :sub:`7`
-       - g\ :sub:`6`
-@@ -2409,6 +2428,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 4
-       -
-+      -
-       - g\ :sub:`0`
-       - b\ :sub:`6`
-       - g\ :sub:`5`
-@@ -2417,6 +2437,7 @@ JEIDA defined bit mapping will be named
-       -
-       - 5
-       -
-+      -
-       - r\ :sub:`1`
-       - b\ :sub:`5`
-       - g\ :sub:`4`
-@@ -2425,10 +2446,141 @@ JEIDA defined bit mapping will be named
-       -
-       - 6
-       -
-+      -
-+      - r\ :sub:`0`
-+      - b\ :sub:`4`
-+      - g\ :sub:`3`
-+      - r\ :sub:`2`
-+    * .. _MEDIA-BUS-FMT-RGB101010-1X7X5-SPWG:
-+
-+      - MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG
-+      - 0x1026
-+      - 0
-+      -
-+      - d
-+      - d
-+      - d
-+      - b\ :sub:`1`
-+      - g\ :sub:`0`
-+    * -
-+      -
-+      - 1
-+      -
-+      - b\ :sub:`9`
-+      - b\ :sub:`7`
-+      - d
-+      - b\ :sub:`0`
-+      - r\ :sub:`5`
-+    * -
-+      -
-+      - 2
-+      -
-+      - b\ :sub:`8`
-+      - b\ :sub:`6`
-+      - d
-+      - g\ :sub:`5`
-+      - r\ :sub:`4`
-+    * -
-+      -
-+      - 3
-+      -
-+      - g\ :sub:`9`
-+      - g\ :sub:`7`
-+      - b\ :sub:`5`
-+      - g\ :sub:`4`
-+      - r\ :sub:`3`
-+    * -
-+      -
-+      - 4
-+      -
-+      - g\ :sub:`8`
-+      - g\ :sub:`6`
-+      - b\ :sub:`4`
-+      - g\ :sub:`3`
-+      - r\ :sub:`2`
-+    * -
-+      -
-+      - 5
-+      -
-+      - r\ :sub:`9`
-+      - r\ :sub:`7`
-+      - b\ :sub:`3`
-+      - g\ :sub:`2`
-+      - r\ :sub:`1`
-+    * -
-+      -
-+      - 6
-+      -
-+      - r\ :sub:`8`
-+      - r\ :sub:`6`
-+      - b\ :sub:`2`
-+      - g\ :sub:`1`
-       - r\ :sub:`0`
-+    * .. _MEDIA-BUS-FMT-RGB101010-1X7X5-JEIDA:
-+
-+      - MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA
-+      - 0x1027
-+      - 0
-+      -
-+      - d
-+      - d
-+      - d
-+      - b\ :sub:`5`
-+      - g\ :sub:`4`
-+    * -
-+      -
-+      - 1
-+      -
-+      - b\ :sub:`1`
-+      - b\ :sub:`3`
-+      - d
-       - b\ :sub:`4`
-+      - r\ :sub:`9`
-+    * -
-+      -
-+      - 2
-+      -
-+      - b\ :sub:`0`
-+      - b\ :sub:`2`
-+      - d
-+      - g\ :sub:`9`
-+      - r\ :sub:`8`
-+    * -
-+      -
-+      - 3
-+      -
-+      - g\ :sub:`1`
-       - g\ :sub:`3`
-+      - b\ :sub:`9`
-+      - g\ :sub:`8`
-+      - r\ :sub:`7`
-+    * -
-+      -
-+      - 4
-+      -
-+      - g\ :sub:`0`
-+      - g\ :sub:`2`
-+      - b\ :sub:`8`
-+      - g\ :sub:`7`
-+      - r\ :sub:`6`
-+    * -
-+      -
-+      - 5
-+      -
-+      - r\ :sub:`1`
-+      - r\ :sub:`3`
-+      - b\ :sub:`7`
-+      - g\ :sub:`6`
-+      - r\ :sub:`5`
-+    * -
-+      -
-+      - 6
-+      -
-+      - r\ :sub:`0`
-       - r\ :sub:`2`
-+      - b\ :sub:`6`
-+      - g\ :sub:`5`
-+      - r\ :sub:`4`
- 
- .. raw:: latex
- 
-diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-index d4c1d991014b..ff62056feed5 100644
---- a/include/uapi/linux/media-bus-format.h
-+++ b/include/uapi/linux/media-bus-format.h
-@@ -34,7 +34,7 @@
- 
- #define MEDIA_BUS_FMT_FIXED			0x0001
- 
--/* RGB - next is	0x1026 */
-+/* RGB - next is	0x1028 */
- #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
-@@ -68,6 +68,8 @@
- #define MEDIA_BUS_FMT_ARGB8888_1X32		0x100d
- #define MEDIA_BUS_FMT_RGB888_1X32_PADHI		0x100f
- #define MEDIA_BUS_FMT_RGB101010_1X30		0x1018
-+#define MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG	0x1026
-+#define MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA	0x1027
- #define MEDIA_BUS_FMT_RGB666_1X36_CPADLO	0x1020
- #define MEDIA_BUS_FMT_RGB888_1X36_CPADLO	0x1021
- #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
+ 	return -EINVAL;
+ }
 -- 
 2.34.1
 
