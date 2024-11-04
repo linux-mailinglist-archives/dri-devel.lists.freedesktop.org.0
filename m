@@ -2,96 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6B69BB7F4
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 15:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 099B29BB84C
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 15:55:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E310A10E466;
-	Mon,  4 Nov 2024 14:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D458310E0AC;
+	Mon,  4 Nov 2024 14:55:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dsZ99HrP";
+	dkim=pass (1024-bit key; unprotected) header.d=ispras.ru header.i=@ispras.ru header.b="FqwULYlI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFF9E10E45B
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 14:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1730730980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cYv5vbThzgM6TqwmtQ00YHFrZj4olBrKvIHPrLfcMxM=;
- b=dsZ99HrPKjaDQaYrg6EmwuDw9fKMX9ZhaBODNcMOZtxHLrqIVQXrnQ3H6RxmqskfvcDncd
- M4Y+J98ERiUEZQCU2fJ+JOZvkkokRYmM5LFOZnsR3d00zkKXfGXutFFBVjwQ69beSWLlRI
- UApj8ijz8oMRWMkyIqa813ECEQzMDLQ=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-508-iD-tXTzaPo-XOXHuh956rw-1; Mon, 04 Nov 2024 09:36:19 -0500
-X-MC-Unique: iD-tXTzaPo-XOXHuh956rw-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-539f067414fso2482200e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2024 06:36:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730730978; x=1731335778;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cYv5vbThzgM6TqwmtQ00YHFrZj4olBrKvIHPrLfcMxM=;
- b=wHXAAQn+wogpMe5EaI8ma9H61xBUZ/lbvpqjBbvFejM3nlzwcm02VuiYFgn1mFew68
- d5zVCX1KxAO8GxsFvAqWak2Juazxchju49GzbSqDlgE7o5wRIWEP7mjhbOi8Gs1rDeE9
- Cfjsjq4GfxsQa+0OJyu7MJcMXccBco9KIvo6/8oVgCKTOg5AWn5/WisTRPB9R+KRmLWw
- sznfQQu63OwPrhyQLOnZZYqlx6AXb5J+5rncfgARj20JZkbLMSVosvyhyfrC9PA2i6ey
- hF0+oo55sCBvDYtwRIaRUg8oeiB+6s18rf+sBWQsQqWpnhk+QocAjz/G8NboQuFESXDd
- r+sQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW5jjZk6IuAS0Kfasgm2DdY9qgLRCeRilQMCpPkQ+VlZlVELA81mtCzjW7lqlWpC6SddSCMkmqFOtA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyOPzSmuFJ5j1x8HyLjimlIfwBbbGcmeOpkpPhHkLZpc4EDrpXW
- 977rcRLqKGeWOrrTWBY6ADrZMCehxfi5GTaaeXe2KwoxtBlNYBdBagGl4hNt5mwmdkqM+jz8oTf
- UCNA8oA5ZobN2I5j0juSDjJPJVBLEfrMeHszpdZ6JLvvoC9mjCGlUmVbGswni45k2Kw==
-X-Received: by 2002:a05:6512:10cb:b0:52e:f2a6:8e1a with SMTP id
- 2adb3069b0e04-53b348d8f8dmr14808737e87.29.1730730976569; 
- Mon, 04 Nov 2024 06:36:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGZ97CKyrAMWrqbI1YmP6iHAxPErbFd+1wOPyRpIRe9ENekBpxVLZS5MNlcxqS2cN4d8fsTKw==
-X-Received: by 2002:a05:6512:10cb:b0:52e:f2a6:8e1a with SMTP id
- 2adb3069b0e04-53b348d8f8dmr14808716e87.29.1730730976065; 
- Mon, 04 Nov 2024 06:36:16 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-381c10e74casm13314836f8f.65.2024.11.04.06.36.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Nov 2024 06:36:15 -0800 (PST)
-Message-ID: <0d478a44-ae01-46a8-b4e7-a28c480e23be@redhat.com>
-Date: Mon, 4 Nov 2024 15:36:14 +0100
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BFFC10E0AC;
+ Mon,  4 Nov 2024 14:55:41 +0000 (UTC)
+Received: from fedor-21d0 (unknown [5.228.116.177])
+ by mail.ispras.ru (Postfix) with ESMTPSA id EDEAC4076195;
+ Mon,  4 Nov 2024 14:55:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru EDEAC4076195
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1730732138;
+ bh=CSbvc+gThKkBZ6ST0m7Xg9yF/waamWCgdZJDDqCcszU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FqwULYlIsQwt9sR/7oxHCSMAeLjwsdslWD/2WwY6beRZ2tQUaT8cNUhzWHqaKBwMp
+ DuEVezOKbzAtX8NJEEr0ZdEuBensR4iOp5SQRHTBFErouDq6iFnlbf6vDtuL3NkE/c
+ YFeeZT3goxzKermyi2KtNZdLd1bhbRi+zYwNxlLk=
+Date: Mon, 4 Nov 2024 17:55:28 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ stable@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Wayne Lin <wayne.lin@amd.com>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ lvc-project@linuxtesting.org, Alexey Khoroshilov <khoroshilov@ispras.ru>, 
+ Mario Limonciello <mario.limonciello@amd.com>, Jonathan Gray <jsg@jsg.id.au>
+Subject: Re: [PATCH 0/1] On DRM -> stable process
+Message-ID: <20241104-61da90a19c561bb5ed63141b-pchelkin@ispras.ru>
+References: <20241029133141.45335-1-pchelkin@ispras.ru>
+ <ZyDvOdEuxYh7jK5l@sashalap>
+ <20241029-3ca95c1f41e96c39faf2e49a-pchelkin@ispras.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/6] drm/log: Implement suspend/resume
-To: Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241023121145.1321921-1-jfalempe@redhat.com>
- <20241023121145.1321921-6-jfalempe@redhat.com>
- <Zxpa2zt1P9Avy4Pm@pathway.suse.cz>
- <27c1a6bf-d1e4-469f-a0d4-3e74ab0d0a07@redhat.com>
- <a6c00956-3733-43a1-9538-aa2758d2b4a3@redhat.com>
- <ZyT7MScAsHxkACfD@pathway.suse.cz>
- <d5c8ea70-8596-42a1-8688-0f6131187b73@redhat.com>
- <84o72vcm46.fsf@jogness.linutronix.de> <ZyjXB52dbhjZEHp6@pathway.suse.cz>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <ZyjXB52dbhjZEHp6@pathway.suse.cz>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241029-3ca95c1f41e96c39faf2e49a-pchelkin@ispras.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,66 +65,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/11/2024 15:15, Petr Mladek wrote:
-> On Mon 2024-11-04 11:52:33, John Ogness wrote:
->> On 2024-11-04, Jocelyn Falempe <jfalempe@redhat.com> wrote:
->>> I looked at what serial drivers are doing, because they can also have
->>> their clock gated in suspend.
->>>
->>> Would calling console_stop() in the suspend and console_start() in
->>> resume work ?
->>
->> Yes. That is what it is for.
+On Tue, 29. Oct 18:12, Fedor Pchelkin wrote:
+> On Tue, 29. Oct 10:20, Sasha Levin wrote:
+> > On Tue, Oct 29, 2024 at 04:31:40PM +0300, Fedor Pchelkin wrote:
+> > > BTW, a question to the stable-team: what Git magic (3-way-merge?) let the
+> > > duplicate patch be applied successfully? The patch context in stable trees
+> > > was different to that moment so should the duplicate have been expected to
+> > > fail to be applied?
+> > 
+> > Just plain git... Try it yourself :)
+> > 
+> > $ git checkout 282f0a482ee6
+> > HEAD is now at 282f0a482ee61 drm/amd/display: Skip Recompute DSC Params if no Stream on Link
+> > 
+> > $ git cherry-pick 7c887efda1
 > 
-> It seems that you are right. I have never really investigated the purpose
-> of this API /o\
+> 7c887efda1 is the commit backported to linux-6.1.y. Of course it will apply
+> there.
 > 
-Thanks, I will send a v6 with that change.
+> What I mean is that the upstream commit for 7c887efda1 is 8151a6c13111b465dbabe07c19f572f7cbd16fef.
+> 
+> And cherry-picking 8151a6c13111b465dbabe07c19f572f7cbd16fef to linux-6.1.y
+> on top of 282f0a482ee6 will not result in duplicating the change, at least
+> with my git configuration.
+> 
+> I just don't understand how a duplicating if-statement could be produced in
+> result of those cherry-pick'ings and how the content of 7c887efda1 was
+> generated.
+> 
+> $ git checkout 282f0a482ee6
+> HEAD is now at 282f0a482ee6 drm/amd/display: Skip Recompute DSC Params if no Stream on Link
+> 
+> $ git cherry-pick 8151a6c13111b465dbabe07c19f572f7cbd16fef
+> Auto-merging drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> HEAD detached at 282f0a482ee6
+> You are currently cherry-picking commit 8151a6c13111.
+>   (all conflicts fixed: run "git cherry-pick --continue")
+>   (use "git cherry-pick --skip" to skip this patch)
+>   (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+> The previous cherry-pick is now empty, possibly due to conflict resolution.
+> If you wish to commit it anyway, use:
+> 
+>     git commit --allow-empty
+> 
+> Otherwise, please use 'git cherry-pick --skip'
 
-> One problem with this API is that it does not check whether the
-> console is registered. I wonder whether it might cause problems.
+Sasha,
 
-At least for drm_log, register_console() will always be called before.
-> 
-> For example, we should not set the CON_ENABLE flag when the console is not
-> registered. Doing so would cause register_console() to always enable
-> the console, even when it is not preferred.
-> 
-> Additionally, nbcon_kthread_wake() uses con->rcuwait, which is initialized
-> by nbcon_alloc() called from register_console(). Fortunately, nbcon_alloc()
-> is always called even if the console is not enabled in the end, but this
-> might change in the future and cause subtle errors.
-> 
-> [ After even more thinking ]
-> 
-> I wonder whether console_start()/console_stop() should really
-> manipulate CON_ENABLE flag. It might be historical solution when
-> @console_suspended was a global variable.
-> 
-> But it has changed with the commit 9e70a5e109a4a2336 ("printk: Add
-> per-console suspended state").
-> 
-> It might make more sense when console_start()/console_stop()
-> manipulates CON_SUSPENDED flag. Then it would make sense
-> to rename them suspend_this_console()/resume_this_console().
-> 
-> What do you think?
+my concern is that maybe there is some issue with the scripts used for the
+preparation of backport patches.
 
-Maybe when registering the console, having a flag to say "I want this 
-console to be suspended with the console subsystem" or "I want to handle 
-suspend/resume on my own, and call the relevant functions" would be better ?
+There are two different upstream commits performing the exact same change:
+- 50e376f1fe3bf571d0645ddf48ad37eb58323919
+- 8151a6c13111b465dbabe07c19f572f7cbd16fef
 
-That would avoid having the same console being suspended/resumed twice, 
-and making clear what to expect.
+50e376f1fe3bf571d0645ddf48ad37eb58323919 was backported to stable kernels
+at first. After that, attempts to backport 8151a6c13111b465dbabe07c19f572f7cbd16fef
+to those stables should be expected to fail, no? Git would have complained
+about this - the patch was already applied.
 
-Of course "no_console_suspend" won't really work for drivers handling 
-suspend/resume themselves.
+It is just strange that the (exact same) change made by the commits is
+duplicated by backporting tools. As it is not the first case where DRM
+patches are involved per Greg's statement [1], I wonder if something can be
+done on stable-team's side to avoid such odd behavior in future.
 
--- 
+[1]: https://lore.kernel.org/stable/20241007035711.46624-1-jsg@jsg.id.au/T/#u
 
-Jocelyn
-> 
-> Best Regards,
-> Petr
-> 
-
+--
+Thanks,
+Fedor
