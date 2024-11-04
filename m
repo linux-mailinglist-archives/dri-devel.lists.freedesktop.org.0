@@ -2,45 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678779BB4CD
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 13:41:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3629BB4D7
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 13:42:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B101010E404;
-	Mon,  4 Nov 2024 12:41:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D604810E409;
+	Mon,  4 Nov 2024 12:42:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tKWGsS9e";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="d9qLtqC5";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="aGU92Whb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B17AC10E404
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 12:41:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8048BA42EF1;
- Mon,  4 Nov 2024 12:39:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9655C4CED2;
- Mon,  4 Nov 2024 12:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730724069;
- bh=HUZRVqiCqIrgTa00GuAmGvhav56zInoweQzJ+8ji5V4=;
- h=From:To:Cc:Subject:Date:From;
- b=tKWGsS9erAqZ/C1fDYLoPetAt0+dBpZyYQlmWDxjix8nF8MOd619CMpc2S3tXpYga
- rrOs+mLQ6hM7tk7lRXYx1sZWEbVYYWohx2LW7B2MtRiUkOaFDb9El5gACfbxrc4n//
- oH39A3FAsdiYa8LddiA61uttrfVi2QY6af0mVIS62egEm9KQmc6hH7SRRVfngU0CqT
- dEhRw8zgbBxNGk+B04WRMvc1InAju1uyUXtuT2Kaoad9lbH0nax+VQMZHERntiDsy+
- +Lsmy9KkfpReixwfB09FkdRYmrfrht7YY1rNrvreLaTRjuq+7r4QQx8+TUoojK2hJs
- PrtF1Djn1aD+w==
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Subject: [GIT PULL] mediatek drm next for 6.13
-Date: Mon,  4 Nov 2024 12:41:03 +0000
-Message-Id: <20241104124103.8041-1-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.34.1
+Received: from fout-b7-smtp.messagingengine.com
+ (fout-b7-smtp.messagingengine.com [202.12.124.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D3E210E409
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 12:42:44 +0000 (UTC)
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal
+ [10.202.2.50])
+ by mailfout.stl.internal (Postfix) with ESMTP id 5A82B114010A;
+ Mon,  4 Nov 2024 07:42:43 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+ by phl-compute-10.internal (MEProxy); Mon, 04 Nov 2024 07:42:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1730724163;
+ x=1730810563; bh=v587H4AT/xkyw5xEGYTsDbmep2Q/ZXljfom78DGKkPk=; b=
+ d9qLtqC5l0hBlxErLDVhQYk7t/MRDXtfzk1oI96W6p5rVsLl8nY9+v/qphyy2hvH
+ rLAo36N+brlXs1xl8GgTlVq16YV6AxcLCPMyCWvOPDtvyQ21Z+G9yEIrvUrzdL0h
+ 3IIDvyg5YzwepQfQkCIAqAriiKi8XobI4iMPdpRuPouJ7HtAXD3sUjKHuq/k0u03
+ RN9Ip4+sM3xDGvzbak5Zb5G8ufUHkfJODa4ALST/14vo9PHLvhcNHrOPWI4khyhR
+ TnHz0XA2kYVSeeG2P52WfODNmwzZU9aqmhhqYx+jWxCkcEHeCK188ojYcjG7gj4B
+ KAntiVZKDp7TsOviD+BZOQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730724163; x=
+ 1730810563; bh=v587H4AT/xkyw5xEGYTsDbmep2Q/ZXljfom78DGKkPk=; b=a
+ GU92Whb2QY0NHFcgFhQI4HTXF9gYjzK0fcztD55fcgjeST7ZY8J8iqFT+t0S6yKB
+ hP7TA18gZZdC3twKtb1drwdPRJmAin+SqMt+wI5fhzDmIG8u4ynsqlNpW1/c1QiP
+ 1kImbxH8QpDykCZv5LTUt3xplS7BalIO/Z4r/b/LiIK3nkUAH2cjtnEuAb0y2dUS
+ 4oVaUdqFbhogiU3UuajROUDC1nz/qSsEFy/KVKw5wuksdpCNPTkmmSQqW+J6mS7B
+ /xa5jjPqhoT65N+QJ1jPb1FNmtzm7u8fflroWUq2H2+auqYvrbMCXUWM0SJy3YGf
+ DhCZhUGCiHhInJouplz8A==
+X-ME-Sender: <xms:QsEoZ4SUHYlk_XCkwwl29CeKo8JFYtZHUJr-O1zXM2fWcR_VXv_3tg>
+ <xme:QsEoZ1zwrJ4WUSXpw1c3eONX8heNWIR03HweklQxnJPHZPjBRQZkOuP1_Yq82uCA4
+ nXd5XyocZ78yJo5tio>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeliedggedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+ rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+ htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
+ necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
+ guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
+ gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudel
+ pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtg
+ hhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehf
+ vghsthgvvhgrmhesghhmrghilhdrtghomhdprhgtphhtthhopegrrhhnugeskhgvrhhnvg
+ hlrdhorhhgpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghp
+ thhtohepshhhrgifnhhguhhosehkvghrnhgvlhdrohhrghdprhgtphhtthhopegumhhith
+ hrhidrsggrrhihshhhkhhovheslhhinhgrrhhordhorhhgpdhrtghpthhtohepmhgrrghr
+ thgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtth
+ hopehvihhllhgvrdhshihrjhgrlhgrsehlihhnuhigrdhinhhtvghlrdgtohhm
+X-ME-Proxy: <xmx:QsEoZ11XxUNsFEyXAGgXYjlepuRSzArr5-7LOdQqNzlK5seUEEFZuA>
+ <xmx:QsEoZ8AsI5zybqXaKdo16RUETP_zhWH6vmy-wAB1LHNWv0FoGMSZzw>
+ <xmx:QsEoZxhSchLa9tkfxqj27_SJNgD0QKi6XpXcu1KL1KVsEDo3g8NA5Q>
+ <xmx:QsEoZ4ogdY9mULhAyeQR4tUN9idY0nOgIgCF4qRzn0Y7Q6Nk_gNtnQ>
+ <xmx:Q8EoZ6YyjU_EjNPNSoL5tL8GZRoepVzNsOns-NnLuRpqOeFgKOOy3rhu>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id 281A72220072; Mon,  4 Nov 2024 07:42:42 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Mon, 04 Nov 2024 13:42:21 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+ "Laurentiu Palcu" <laurentiu.palcu@oss.nxp.com>
+Cc: "Arnd Bergmann" <arnd@kernel.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ =?UTF-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ "Lucas Stach" <l.stach@pengutronix.de>, "Dave Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Shawn Guo" <shawnguo@kernel.org>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+ "Fabio Estevam" <festevam@gmail.com>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Message-Id: <cc09326a-2d76-4783-a6b9-fcfa9a704cec@app.fastmail.com>
+In-Reply-To: <ix34xln3tl6l2h3jt7t4bhrydxfmh2m53dkl5rugxj335p7hgb@kfauvwrusipr>
+References: <20241028163527.2425783-1-arnd@kernel.org>
+ <2byo7263izup45hcdyoxr57sh2dzdasnwotpfqnayqe6znvzjt@adou6qmyhq6y>
+ <ix34xln3tl6l2h3jt7t4bhrydxfmh2m53dkl5rugxj335p7hgb@kfauvwrusipr>
+Subject: Re: [PATCH] drm/imx/dcss: include drm/drm_bridge.h header
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,63 +116,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dave & Daniel:
+On Mon, Nov 4, 2024, at 13:24, Dmitry Baryshkov wrote:
+> On Mon, Nov 04, 2024 at 02:10:54PM +0200, Laurentiu Palcu wrote:
+>> On Mon, Oct 28, 2024 at 04:35:07PM +0000, Arnd Bergmann wrote:
+>>> Fixes: 004555a18d57 ("drm/imx/dcss: Allow build with COMPILE_TEST=y")
+>>
+> I can pick it up.
+>
+> However I think it is:
+>
+> Fixes: e7033bdfd43b ("drm/imx/dcss: use drm_bridge_connector API")
 
-This includes:
+It's probably both commits. My randconfig builds showed it only
+failing on x86, which means that it was still working by
+accident on all builds that include ARCH_MXC && ARM64, between
+the two commits. The commit you pointed out should have added
+the #include, but that seems to come indirectly from
+include/drm/drm_of on all arm64 builds.
 
-1. Add support for OF graphs
-2. Fix child node refcount handling and use scoped
+> With that
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Regards,
-Chun-Kuang.
+Thanks,
 
-The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
-
-  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.13
-
-for you to fetch changes up to fd620fc25d88a1e490eaa9f72bc31962be1b4741:
-
-  drm/mediatek: Switch to for_each_child_of_node_scoped() (2024-11-04 12:23:15 +0000)
-
-----------------------------------------------------------------
-Mediatek DRM Next for Linux 6.13
-
-1. Add support for OF graphs
-2. Fix child node refcount handling and use scoped
-
-----------------------------------------------------------------
-AngeloGioacchino Del Regno (2):
-      dt-bindings: display: mediatek: Add OF graph support for board path
-      drm/mediatek: Implement OF graphs support for display paths
-
-Javier Carrasco (2):
-      drm/mediatek: Fix child node refcount handling in early exit
-      drm/mediatek: Switch to for_each_child_of_node_scoped()
-
- .../bindings/display/mediatek/mediatek,aal.yaml    |  40 ++++
- .../bindings/display/mediatek/mediatek,ccorr.yaml  |  21 ++
- .../bindings/display/mediatek/mediatek,color.yaml  |  22 ++
- .../bindings/display/mediatek/mediatek,dither.yaml |  22 ++
- .../bindings/display/mediatek/mediatek,dpi.yaml    |  25 +-
- .../bindings/display/mediatek/mediatek,dsc.yaml    |  24 ++
- .../bindings/display/mediatek/mediatek,dsi.yaml    |  27 ++-
- .../bindings/display/mediatek/mediatek,ethdr.yaml  |  22 ++
- .../bindings/display/mediatek/mediatek,gamma.yaml  |  19 ++
- .../bindings/display/mediatek/mediatek,merge.yaml  |  23 ++
- .../bindings/display/mediatek/mediatek,od.yaml     |  22 ++
- .../bindings/display/mediatek/mediatek,ovl-2l.yaml |  22 ++
- .../bindings/display/mediatek/mediatek,ovl.yaml    |  22 ++
- .../display/mediatek/mediatek,postmask.yaml        |  21 ++
- .../bindings/display/mediatek/mediatek,rdma.yaml   |  22 ++
- .../bindings/display/mediatek/mediatek,ufoe.yaml   |  21 ++
- drivers/gpu/drm/mediatek/mtk_disp_drv.h            |   1 +
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    |  43 +++-
- drivers/gpu/drm/mediatek/mtk_dpi.c                 |  21 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c             | 256 ++++++++++++++++++++-
- drivers/gpu/drm/mediatek/mtk_drm_drv.h             |   2 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c                 |  14 +-
- 22 files changed, 685 insertions(+), 27 deletions(-)
+      Arnd
