@@ -2,64 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1299BB048
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 10:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681659BB04A
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 10:54:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACBA410E128;
-	Mon,  4 Nov 2024 09:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4BBA10E3C0;
+	Mon,  4 Nov 2024 09:53:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Or2091ec";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LCiSwvcl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D12710E128
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 09:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730714025; x=1762250025;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=nN5JdRqbpR09wpFxPWggsKdndZS4TPirUIMk8hnY/ZQ=;
- b=Or2091ecCyxXfJeAJtyDBqnIRi0ahlSA8oGyvXSwv65YYEHqpuUhQZWb
- PSE7dnLt7Di8/FL/q5h3SmdplT6I1AVM5JErCW6f8y7qKtWx2iZWM2oWX
- cIIhNan/q/7/bHnNpz40rEfSBTc83FpP3BUk59UqwJ2Gs/C5chbQ+ORX9
- +NHLbT/7/PUaOUHyoWaYve+zEnzVGerG/PW/k4i0SIC7/H5htrHYfWzrx
- Lzw5OSfkhORVu+N5YnqWlmF2iGzuPpCGvBa/SM6F6mU/dMVYBjSWHgbpR
- nCZH/9oz7TXNtdIAk8+oT3rrBce2V4vUHQpJy5l4HOEV8OwxnyMIH1NMj Q==;
-X-CSE-ConnectionGUID: fept9+hNRIC2Nq+jJqu67Q==
-X-CSE-MsgGUID: BAed0awQTy+O8IMm3bk+ZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="30511360"
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; d="scan'208";a="30511360"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2024 01:53:45 -0800
-X-CSE-ConnectionGUID: 1t3aNrHfRiuq2heJrRwIBw==
-X-CSE-MsgGUID: Q6v2o3hKTJOAHXOSjEmGrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; d="scan'208";a="83717292"
-Received: from carterle-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.33])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2024 01:53:41 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ian Forbes <ian.forbes@broadcom.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>
-Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Alex Deucher
- <alexander.deucher@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Karol Herbst <kherbst@redhat.com>
-Subject: Re: [PATCH v4] drm/edid: add CTA Video Format Data Block support
-In-Reply-To: <CAO6MGtg-+btwUk9ZkJj7Zreyk_VfyDtsc_4k05rCv+vFJRSJVQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240909171228.148383-1-hamza.mahfooz@amd.com>
- <CAO6MGtg-+btwUk9ZkJj7Zreyk_VfyDtsc_4k05rCv+vFJRSJVQ@mail.gmail.com>
-Date: Mon, 04 Nov 2024 11:53:38 +0200
-Message-ID: <87wmhjiau5.fsf@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD24010E3BE
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 09:53:56 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A3Nj8UF022012
+ for <dri-devel@lists.freedesktop.org>; Mon, 4 Nov 2024 09:53:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 48BbhzMG6nJlrKXOIqS7msafjr/+9ztjQ+P//OS3fys=; b=LCiSwvcltpIsTr4J
+ yevfNJVC/ZLqCrYRj0AKP/nrsvkIIrcChljyktNYe+TSomgSkFAXJP6H4PILuhcv
+ HFxOtIcXnm08CXdeUD8+vJNNZozBIAY2Y9B+scea5HmYpDfGG9Nk3BkgN6jcghs0
+ 2wyy/cyl77dYrvYGGrW8ISDs1cXIsBzbv9N0awOBBL2V99Wgm2s7kPPe/fsOPhrC
+ nYc0u+cUS8/XwI9LSK1X6E08wyIPjHDdAwwYlWrh/oQXwc+lCzma3cYPNVDBhhIN
+ SqlcD9Avl/vqLSdVG0lGvlxpwbXThypxW7Ou2i9U28fGRYXjTKeITvPpoh26Zq65
+ pZr4FA==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42ncyxuqsm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2024 09:53:55 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-6cbf4770c18so15526866d6.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2024 01:53:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730714035; x=1731318835;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=48BbhzMG6nJlrKXOIqS7msafjr/+9ztjQ+P//OS3fys=;
+ b=sRAuSS38eOUxp2sRG32UaSyvEydpl13oY52zTyfqwRC5AL2zOAxB1/sYKWiA1/UZWg
+ ykgp0h0LU6OhOpHqCRrRCzHKIF0Cqy7VvSvg+y/Lw6/YNl+kqryiE9gJTyRlPKl+GDZh
+ VTL1BOzN9g4bIEqjYe+eKmaSweb1Z4CfGj/rQ6PWfLqHbzkrh7xocO+rDv2+CtAenKZK
+ KH6E0iGgRjGGRTU/GP8G7HnRLFqO5HQQBljeF3VkaVVR8yAzozUK/bCBQKc4IoIJzill
+ lC1Cjqkdn7e/vsKjUeglGIVzM8jfs9BsjEWrWfTUxobw6XUzOUHF9ae67iSPKcjYEOtI
+ gN1g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXAPv/cm12gZKT+/gaWkulhwlEwyAHQoFfEnKhY+EGBwFeIa3Ekb7B/+pjjVPW0FjHbNljDi9HaPkQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzILs+9FCkCXKwemDp7IbdTTJnoMRMwUdeSkXK7JRlIPgMI2YG7
+ mSWN8hdZm2yX/QR5motWtWGxBbqTvGMz90A+Yhsl/yfcjDjVklhD0Hw4hAgkMxS4CTzAaPv/SpI
+ XcBNrQui2qHUMjSYwGjeBlP6odqBabtMNMouR5Gaql+xKHHNEM4k3WbhovehmBwJGEqg=
+X-Received: by 2002:a05:620a:4443:b0:7b1:1313:cf42 with SMTP id
+ af79cd13be357-7b193f73494mr2113115285a.14.1730714034916; 
+ Mon, 04 Nov 2024 01:53:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFtxe5uqc7MvnqsqyGo/b1+j/YoMPpCIwglJ2JELVbc+hCFY6xRwAJFk2Rx8PoXnp6hGWQDww==
+X-Received: by 2002:a05:620a:4443:b0:7b1:1313:cf42 with SMTP id
+ af79cd13be357-7b193f73494mr2113113585a.14.1730714034624; 
+ Mon, 04 Nov 2024 01:53:54 -0800 (PST)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a9e564940basm538280066b.17.2024.11.04.01.53.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Nov 2024 01:53:54 -0800 (PST)
+Message-ID: <07c5dbf2-8ce7-42fa-a511-3dc22f525325@oss.qualcomm.com>
+Date: Mon, 4 Nov 2024 10:53:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm: Check return value of of_dma_configure()
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241104090738.529848-1-sui.jingfeng@linux.dev>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241104090738.529848-1-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 8f0s5jkGa2hltb_eYlUesffQ1Y4fSngH
+X-Proofpoint-GUID: 8f0s5jkGa2hltb_eYlUesffQ1Y4fSngH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0
+ malwarescore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 phishscore=0 adultscore=0 mlxlogscore=999
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411040087
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,32 +109,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 01 Nov 2024, Ian Forbes <ian.forbes@broadcom.com> wrote:
-> We'd like to use the OVT modes for vmwgfx. Can you export the main OVT
-> function so it matches the CVT one? Something like this:
->
-> struct drm_display_mode *drm_ovt_mode(struct drm_device *dev, int rid,
-> int vrefresh);
->
-> On Mon, Sep 9, 2024 at 12:17=E2=80=AFPM Hamza Mahfooz <hamza.mahfooz@amd.=
-com> wrote:
->>
->> +
->> +/* OVT Algorthim as specified in CTA-861-I */
->> +static struct drm_display_mode *
->> +calculate_ovt_mode(struct drm_connector *connector, const struct cta_ri=
-d *rid,
->> +                  u16 vrate)
->
-> Also all instances of CEA should probably be replaced with CTA, not
-> necessarily in this series, but they changed their name ~10 years ago.
+On 4.11.2024 10:07 AM, Sui Jingfeng wrote:
+> Because the of_dma_configure() will returns '-EPROBE_DEFER' if the probe
+> procedure of the specific platform IOMMU driver is not finished yet. It
+> can also return other error code for various reasons.
+> 
+> Stop pretending that it will always suceess, quit if it fail.
+> 
+> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> ---
 
-Yeah. I've gradually done some renames, but it would be good for
-consistency for someone to finish the job.
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel
+Konrad
