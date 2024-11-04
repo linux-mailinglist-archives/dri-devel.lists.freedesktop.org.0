@@ -2,51 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7897E9BB368
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 12:32:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4F29BB3B5
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 12:45:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87A3710E3D8;
-	Mon,  4 Nov 2024 11:32:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eMIpvvSl";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B04CA10E030;
+	Mon,  4 Nov 2024 11:45:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 973B010E3D8
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 11:32:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E32215C5535;
- Mon,  4 Nov 2024 11:31:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 891D9C4CED1;
- Mon,  4 Nov 2024 11:32:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730719964;
- bh=8ZO8QMi8eDQyeTvFBdXQdNHTOJOfrtdUJdubuiwZ26E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eMIpvvSlZ8E4uxwZ7RDJG/WK491fOg5D1/i7OF8DAZMparvrwh25tgA94GY1Kvi0a
- t8TVXxZfxukkgbQszt9zut5dFN6DkJA3yGO0A9NYJIVCH7nogxxgEpEyMNHGhFY3VR
- 0co6qii2nN7EhEGZcSGisc+1zvNrlLGAnoTr+SVonFeO7N5Uo5g885gGZg6wy+ezQg
- BLsGOKpWXVSR8wS2wTG6Sdh4Js7Hrh3eDOF/51e3083RdUBcZQPbTHhgoHrum0M1wW
- g+V+XsUY+35ZgGm6tZvBFewKdmu/BspsFIy9/BTHHEUxATypIUSYqmu3VZc8R8jpRc
- lSRPC1aMRuYnQ==
-Date: Mon, 4 Nov 2024 11:32:39 +0000
-From: Will Deacon <will@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
- linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
- patches@lists.linux.dev, Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] iommu/io-pgtable-arm: Remove split on unmap behavior
-Message-ID: <20241104113237.GA11481@willie-the-truck>
-References: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
- <20241101134005.GA109739@nvidia.com>
+Received: from lechuck.jsg.id.au (jsg.id.au [193.114.144.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71B0910E030;
+ Mon,  4 Nov 2024 11:45:01 +0000 (UTC)
+Received: from largo.jsg.id.au (largo.jsg.id.au [192.168.1.44])
+ by lechuck.jsg.id.au (OpenSMTPD) with ESMTPS id 5347ec6d
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Mon, 4 Nov 2024 22:44:58 +1100 (AEDT)
+Received: from localhost (largo.jsg.id.au [local])
+ by largo.jsg.id.au (OpenSMTPD) with ESMTPA id f89660fd;
+ Mon, 4 Nov 2024 22:44:58 +1100 (AEDT)
+Date: Mon, 4 Nov 2024 22:44:58 +1100
+From: Jonathan Gray <jsg@jsg.id.au>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: alan.previn.teres.alexis@intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/pxp: fix non-optimised !CONFIG_DRM_I915_PXP build
+Message-ID: <ZyizusZMV_HhFJtH@largo.jsg.id.au>
+References: <20241103110230.11035-1-jsg@jsg.id.au> <87r07ri9rn.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241101134005.GA109739@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <87r07ri9rn.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,45 +47,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 01, 2024 at 10:40:05AM -0300, Jason Gunthorpe wrote:
-> On Fri, Oct 18, 2024 at 02:19:26PM -0300, Jason Gunthorpe wrote:
-> > Of the page table implementations (AMD v1/2, VT-D SS, ARM32, DART)
-> > arm_lpae is unique in how it handles partial unmap of large IOPTEs.
-> > 
-> > All other drivers will unmap the large IOPTE and return it's length.  For
-> > example if a 2M IOPTE is present and the first 4K is requested to be
-> > unmapped then unmap will remove the whole 2M and report 2M as the result.
-> > 
-> > arm_lpae instead replaces the IOPTE with a table of smaller IOPTEs, unmaps
-> > the 4K and returns 4k. This is actually an illegal/non-hitless operation
-> > on at least SMMUv3 because of the BBM level 0 rules.
-> > 
-> > Long ago VFIO could trigger a path like this, today I know of no user of
-> > this functionality.
-> > 
-> > Given it doesn't work fully correctly on SMMUv3 and would create
-> > portability problems if any user depends on it, remove the unique support
-> > in arm_lpae and align with the expected iommu interface.
-> > 
-> > Outside the iommu users, this will potentially effect io_pgtable users of
-> > ARM_32_LPAE_S1, ARM_32_LPAE_S2, ARM_64_LPAE_S1, ARM_64_LPAE_S2, and
-> > ARM_MALI_LPAE formats.
-> > 
-> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> > Cc: Steven Price <steven.price@arm.com>
-> > Cc: Liviu Dudau <liviu.dudau@arm.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > ---
-> >  drivers/iommu/io-pgtable-arm.c | 72 +++-------------------------------
-> >  1 file changed, 6 insertions(+), 66 deletions(-)
+On Mon, Nov 04, 2024 at 12:16:44PM +0200, Jani Nikula wrote:
+> On Sun, 03 Nov 2024, Jonathan Gray <jsg@jsg.id.au> wrote:
+> > intel_pxp_gsccs_is_ready_for_sessions() is gated by CONFIG_DRM_I915_PXP
+> > but called from intel_pxp.c which isn't.  Provide a fallback inline
+> > function to fix the non-optimised build.
 > 
-> Updated commit message - Will let me know if you want me to resend
-> with this, or any changes:
+> What does this have to do with optimization? Isn't the build just plain
+> broken for PXP=n?
 
-Thanks! Please send a new version with this text, the WARN we discussed
-in the other part of the thread and also attacking the v7s code.
+With clang/lld 16 on OpenBSD with PXP=n, intel_pxp.o with -O0 has an
+undefined reference to intel_pxp_gsccs_is_ready_for_sessions,
+with -O1 and -O2 it doesn't and the kernel links.
 
-Cheers,
-
-Will
+> 
+> BR,
+> Jani.
+> 
+> 
+> >
+> > Fixes: 99afb7cc8c44 ("drm/i915/pxp: Add ARB session creation and cleanup")
+> > Signed-off-by: Jonathan Gray <jsg@jsg.id.au>
+> > ---
+> >  drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h | 8 ++++++--
+> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
+> > index 9aae779c4da3..b93488e99685 100644
+> > --- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
+> > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
+> > @@ -16,26 +16,30 @@ struct intel_pxp;
+> >  #define GSC_PENDING_RETRY_PAUSE_MS 50
+> >  #define GSCFW_MAX_ROUND_TRIP_LATENCY_MS (GSC_HECI_REPLY_LATENCY_MS + \
+> >  					 (GSC_PENDING_RETRY_MAXCOUNT * GSC_PENDING_RETRY_PAUSE_MS))
+> >  
+> >  #ifdef CONFIG_DRM_I915_PXP
+> >  void intel_pxp_gsccs_fini(struct intel_pxp *pxp);
+> >  int intel_pxp_gsccs_init(struct intel_pxp *pxp);
+> > +bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp);
+> >  
+> >  int intel_pxp_gsccs_create_session(struct intel_pxp *pxp, int arb_session_id);
+> >  void intel_pxp_gsccs_end_arb_fw_session(struct intel_pxp *pxp, u32 arb_session_id);
+> >  
+> >  #else
+> >  static inline void intel_pxp_gsccs_fini(struct intel_pxp *pxp)
+> >  {
+> >  }
+> >  
+> >  static inline int intel_pxp_gsccs_init(struct intel_pxp *pxp)
+> >  {
+> >  	return 0;
+> >  }
+> >  
+> > -#endif
+> > +static inline bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp)
+> > +{
+> > +	return false;
+> > +}
+> >  
+> > -bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp);
+> > +#endif
+> >  
+> >  #endif /*__INTEL_PXP_GSCCS_H__ */
+> 
+> -- 
+> Jani Nikula, Intel
+> 
