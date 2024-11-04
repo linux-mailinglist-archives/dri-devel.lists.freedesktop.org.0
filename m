@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02AF69BB2C7
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 12:16:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6223F9BB2CA
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 12:16:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37A1D10E3D5;
-	Mon,  4 Nov 2024 11:16:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D894110E3D6;
+	Mon,  4 Nov 2024 11:16:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="WZDz9AaA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e5/Mmyf5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A4410E3D5
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 11:16:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=y9ExVeNjKF0SfMQEmzTjWWX5US8Priue+XLniaZh+Qs=; b=WZDz9AaASfdZwB+BONRbuqU3Wv
- QNpbAAt+sTh/U7VGjUC7WCNg/pCt4bq6dqjddhX15WsAKGPT0XTFc9mggSyeJofShH3kNxIHSMDR7
- NyyVndtl8U9meMwJeff94rSB9tqQ0VQw7FYmJiv7TJuVYlqZ7q37NhUNc4VBajprhXAl9An00HU9a
- PhkS85FDtvp9p4DH1e30Ibe0V3bgPblSlcOh9MZnUD+gefH2t8n9ZXRShMEGxsbYyWCSZDdypIQyM
- Hj0zggcvqYoBJeAYCdX4uXsmFwFblS1R1iZ/AAFxCL5jvCysNYQPBRZzEQkrCgMcGTfRyLA0GdK4z
- 90eb4IsA==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1t7v46-001WwT-Gt; Mon, 04 Nov 2024 12:16:10 +0100
-Message-ID: <06b96a7f-c9bb-4a65-8077-ba10e0ea1e7d@igalia.com>
-Date: Mon, 4 Nov 2024 08:16:02 -0300
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 181A210E3D6
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 11:16:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1730719010;
+ bh=9BP+eWaq1O97MOubpRPLduCs3ZPH8Qsc0wSP9LJs5e4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=e5/Mmyf5uo6G1GNKyO/Spwr1ya/OiCEB/sKm3TxUN8bhm0lUxzFyhAQ5ukPA2pHWH
+ bhjWfsXVza98aciYSxxXyZWv06TbTB/AG0y2Aak5+OUDBLdpxBXtckd5tOe1A/cMcK
+ cwYUYraLc8uWruUCwDd+FSaKOk5ontgPvqamPiGh6w2eIof8soRWoqF0g5VNMhzkFn
+ GkwlotH4UAfQ/8Te4dygy1I2KEAfaKc33dPMSKnmSeHzPdGuS5biHWY85/ROG3qEg5
+ RdBOHK9XEzii2Ai3hL7VY5hGlHTTeJVHfu0EtwT3ZnYxCnvMblp8lsT/tr5obMAhHq
+ yL821Nok73CNg==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 00EB517E35E0;
+ Mon,  4 Nov 2024 12:16:49 +0100 (CET)
+Date: Mon, 4 Nov 2024 12:16:46 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Akash Goel <akash.goel@arm.com>
+Cc: liviu.dudau@arm.com, steven.price@arm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ mihail.atanassov@arm.com, ketil.johnsen@arm.com, florent.tomasin@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
+Subject: Re: [PATCH 3/3] drm/panthor: Prevent potential overwrite of buffer
+ objects
+Message-ID: <20241104121646.687cae93@collabora.com>
+In-Reply-To: <40c9a0a3-81e4-4ecc-b9a0-d55523f5f594@arm.com>
+References: <20241024145432.934086-1-akash.goel@arm.com>
+ <20241024145432.934086-4-akash.goel@arm.com>
+ <20241024173935.6430159e@collabora.com>
+ <40c9a0a3-81e4-4ecc-b9a0-d55523f5f594@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/5] mm: move ``get_order_from_str()`` to internal.h
-To: Baolin Wang <baolin.wang@linux.alibaba.com>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- Hugh Dickins <hughd@google.com>, Barry Song <baohua@kernel.org>,
- David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Lance Yang <ioworker0@gmail.com>
-Cc: linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com
-References: <20241101165719.1074234-2-mcanal@igalia.com>
- <20241101165719.1074234-5-mcanal@igalia.com>
- <9d5ce0af-6fca-422f-b1f8-650879f8ff5a@linux.alibaba.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <9d5ce0af-6fca-422f-b1f8-650879f8ff5a@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,95 +68,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Baolin,
+Hi Akash,
 
-On 03/11/24 23:25, Baolin Wang wrote:
-> 
-> 
-> On 2024/11/2 00:54, Maíra Canal wrote:
->> In order to implement a kernel parameter similar to ``thp_anon=`` for
->> shmem, we'll need the function ``get_order_from_str()``.
->>
->> Instead of duplicating the function, move the function to a shared
->> header, in which both mm/shmem.c and mm/huge_memory.c will be able to
->> use it.
->>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   mm/huge_memory.c | 38 +++++++++++++++-----------------------
->>   mm/internal.h    | 22 ++++++++++++++++++++++
->>   2 files changed, 37 insertions(+), 23 deletions(-)
->>
->> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->> index f92068864469..a6edbd8c4f49 100644
->> --- a/mm/huge_memory.c
->> +++ b/mm/huge_memory.c
->> @@ -958,26 +958,6 @@ static int __init setup_transparent_hugepage(char 
->> *str)
->>   }
->>   __setup("transparent_hugepage=", setup_transparent_hugepage);
->> -static inline int get_order_from_str(const char *size_str)
->> -{
->> -    unsigned long size;
->> -    char *endptr;
->> -    int order;
->> -
->> -    size = memparse(size_str, &endptr);
->> -
->> -    if (!is_power_of_2(size))
->> -        goto err;
->> -    order = get_order(size);
->> -    if (BIT(order) & ~THP_ORDERS_ALL_ANON)
->> -        goto err;
->> -
->> -    return order;
->> -err:
->> -    pr_err("invalid size %s in thp_anon boot parameter\n", size_str);
->> -    return -EINVAL;
->> -}
->> -
->>   static char str_dup[PAGE_SIZE] __initdata;
->>   static int __init setup_thp_anon(char *str)
->>   {
->> @@ -1007,10 +987,22 @@ static int __init setup_thp_anon(char *str)
->>                   start_size = strsep(&subtoken, "-");
->>                   end_size = subtoken;
->> -                start = get_order_from_str(start_size);
->> -                end = get_order_from_str(end_size);
->> +                start = get_order_from_str(start_size, 
->> THP_ORDERS_ALL_ANON);
->> +                end = get_order_from_str(end_size, THP_ORDERS_ALL_ANON);
->>               } else {
->> -                start = end = get_order_from_str(subtoken);
->> +                start_size = end_size = subtoken;
->> +                start = end = get_order_from_str(subtoken,
->> +                                 THP_ORDERS_ALL_ANON);
->> +            }
->> +
->> +            if (start == -EINVAL) {
->> +                pr_err("invalid size %s in thp_anon boot 
->> parameter\n", start_size);
->> +                goto err;
->> +            }
->> +
->> +            if (end == -EINVAL) {
->> +                pr_err("invalid size %s in thp_anon boot 
->> parameter\n", end_size);
->> +                goto err;
->>               }
-> 
-> There are already checks for ‘start’ and ‘end’ below, and will print 
-> error messages if error occurs. So I suspect whether these repeated 
-> checks and error infor are helpful.
+On Thu, 31 Oct 2024 21:42:27 +0000
+Akash Goel <akash.goel@arm.com> wrote:
 
-The idea is to explicitly show to the user which part of the kernel
-parameter is broke. Instead of saying that something is broken, it is
-going to return that, for example, "33K" is invalid.
+> I assume you also reckon that there is a potential problem here for arm64.
 
-Best Regards,
-- Maíra
+It impacts any system that's not IO-coherent I would say, and this
+comment seems to prove this is a known issue [3].
 
 > 
-> Anyway, I don't have a strong preference.
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Fully agree with your suggestion that the handling needs to be at the 
+> drm_gem_shmem level. I was not sure if we really need to do anything, as 
+> I didn't observe any overwrite issue during the testing. So thought 
+> better to limit the change to Panthor and get some feedback.
 
+Actually, I wonder if PowerVR isn't papering over the same issue with
+[1], so it looks like at least two drivers would benefit from a fix at
+the drm_gem_shmem level.
+
+> 
+> shmem calls 'flush_dcache_folio()' after clearing the pages but that 
+> just clears the 'PG_dcache_clean' bit and CPU cache is not cleaned 
+> immediately.
+> 
+> I realize that this patch is not foolproof, as Userspace can try to 
+> populate the BO from CPU side before mapping it on the GPU side.
+> 
+> Not sure if we also need to consider the case when shmem pages are 
+> swapped out. Don't know if there could be a similar situation of dirty 
+> cachelines after the swap in.
+
+I think we do. We basically need to flush CPU caches any time
+pages are [re]allocated, because the shmem layer will either zero-out
+(first allocation) or populate (swap-in) in that path, and in both
+cases, it involves a CPU copy to a cached mapping.
+
+> 
+> Also not sure if dma_sync_sgtable_for_device() can be called from 
+> drm_gem_shmem_get_pages() as the sg_table won't be available at that point.
+
+Okay, that's indeed an issue. Maybe we should tie the sgt allocation to
+the pages allocation, as I can't think of a case where we would
+allocate pages without needing the sg table that goes with it. And if
+there are driver that want the sgt to be lazily allocated, we can
+always add a drm_gem_shmem_object::lazy_sgt_alloc flag.
+
+Regards,
+
+Boris
+
+[1]https://elixir.bootlin.com/linux/v6.11.6/source/drivers/gpu/drm/imagination/pvr_gem.c#L363
+[2]https://elixir.bootlin.com/linux/v6.11.6/source/drivers/gpu/drm/drm_gem_shmem_helper.c#L177
+[3]https://elixir.bootlin.com/linux/v6.11.6/source/drivers/gpu/drm/drm_gem_shmem_helper.c#L185
