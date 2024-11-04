@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24C49BBE7B
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 21:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 394159BBE7D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 21:04:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 564BC10E4C3;
-	Mon,  4 Nov 2024 20:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4B1B10E4C7;
+	Mon,  4 Nov 2024 20:04:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="tsNzNLon";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="jnbYpCw5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
- [91.218.175.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1EB10E4C4
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 20:04:11 +0000 (UTC)
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com
+ [91.218.175.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7AC10E4C7
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2024 20:04:14 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730750649;
+ t=1730750653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6+Cctltnj8jUTfRPzXWg7X11ZIlWeCkuZhPa7klvD+M=;
- b=tsNzNLonLnVwGYjHKHR5pndwa0CTcCHa1fkmIv1OZoDAGgf2SOAzTYcs1AW9APE7KXii7X
- rywSqhbS0+AEi2917D4rrYRiSnWpUHUXJlU5aNJHsE3DnmEpVI9sxJ8x3dE01Gxe7gCX2b
- ebJRVJE19zFB/IS3KSC1VwpJUZ+xfmQ=
+ bh=x4hWc+SA0LxPrteqt2eM979LtFoCBRYmizsNb23n6NU=;
+ b=jnbYpCw5slmXV2Kk/8PUqpn99ukY281IhV6AHXiVEbq5bf0tho+OMsHp7YxK8h7VvnAVnA
+ ETa1b1ev0UZeeUTKgr1gqLVE8mSYc0osesM441O75Tpyu3lsiAme2BFudMuq+iU7gxcgij
+ oq9oKyI5y20t9ycx+5s0brbe7A/bYkw=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
@@ -35,9 +35,10 @@ To: Lucas Stach <l.stach@pengutronix.de>,
 Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [etnaviv-next v2 1/3] drm/etnaviv: Drop offset in page manipulation
-Date: Tue,  5 Nov 2024 04:03:52 +0800
-Message-Id: <20241104200354.656525-2-sui.jingfeng@linux.dev>
+Subject: [etnaviv-next v2 2/3] drm/etnaviv: Fix the debug log of the
+ etnaviv_iommu_map()
+Date: Tue,  5 Nov 2024 04:03:53 +0800
+Message-Id: <20241104200354.656525-3-sui.jingfeng@linux.dev>
 In-Reply-To: <20241104200354.656525-1-sui.jingfeng@linux.dev>
 References: <20241104200354.656525-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -58,36 +59,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The 'offset' data member of the 'struct scatterlist' denotes the offset
-into a SG entry in bytes. But under drm subsystem, there has nearly NO
-drivers that actually tough the 'offset' data member of SG anymore.
-Especially for drivers that could contact with drm/etnaviv. This means
-that all DMA addresses that sg_dma_address() gives us will be PAGE_SIZE
-aligned, in other words, sg->offset will  always equal to 0.
+The value of the 'iova' variable is the base GPU virtual address that is
+going to be mapped, its value won't get updated when etnaviv_context_map()
+is running under the "for_each_sgtable_dma_sg(sgt, sg, i) {}" loop.
 
-Drop those compulations about the offset of SG entries can save some
-extra overhead.
+Replace it with the 'da' variable, reflect the actual status that GPUVA
+is being mapped.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-index 8f33f111f9e8..ddb536d84c58 100644
+index ddb536d84c58..05021848126e 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-@@ -82,8 +82,8 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context,
- 		return -EINVAL;
- 
- 	for_each_sgtable_dma_sg(sgt, sg, i) {
--		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
--		unsigned int da_len = sg_dma_len(sg) + sg->offset;
-+		phys_addr_t pa = sg_dma_address(sg);
-+		unsigned int da_len = sg_dma_len(sg);
+@@ -86,7 +86,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context,
+ 		unsigned int da_len = sg_dma_len(sg);
  		unsigned int bytes = min_t(unsigned int, da_len, va_len);
  
- 		VERB("map[%d]: %08x %pap(%x)", i, iova, &pa, bytes);
+-		VERB("map[%d]: %08x %pap(%x)", i, iova, &pa, bytes);
++		VERB("map[%d]: %08x %pap(%x)", i, da, &pa, bytes);
+ 
+ 		ret = etnaviv_context_map(context, da, pa, bytes, prot);
+ 		if (ret)
 -- 
 2.34.1
 
