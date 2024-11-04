@@ -2,202 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531569BB856
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 15:57:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347609BB8A9
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 16:12:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7DF610E44B;
-	Mon,  4 Nov 2024 14:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3AC410E45C;
+	Mon,  4 Nov 2024 15:12:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AZWK+WhC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Jr16vx1x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1753910E46A;
- Mon,  4 Nov 2024 14:57:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730732244; x=1762268244;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=O3dJir/KSdlul1WDSa0ZEXg0XB4G6gZesm0ZOB1r3M4=;
- b=AZWK+WhC3pnACV6p7Nm3d+Sq9tUwwpFdmSn81gjG8+gm+kVgNAtUKI4x
- z75k8swDUb494Cl9dO1kWhpa4vhZ1RMMq/apA509FF7HMB7KL7tUocoQt
- KK5RkoBr4UjS/tIHTO780/BqXax7eeQw6MuRHsLuzwjFJv+4yU+/4WjQ8
- iZQp/0WuqvldBOKgioTFVcgMORh61AuItv1D20wQQD+tabSEbOPtZRoF+
- 5Da4KBYZS58o7xFX1BTl2axPvsP3b6eCki7AdX6HYT2kJQfJM1gq2oftA
- Fd46Pu/LMeb6nmnZ/smgD/gUJvyCcUFuBc4Yp+YhHszSg9obJyrOPaJPi g==;
-X-CSE-ConnectionGUID: tlusFGOATUe9ILhRuCm7ew==
-X-CSE-MsgGUID: n4zZJhbdSi2XjVRfKJBpmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30284813"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="30284813"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2024 06:57:21 -0800
-X-CSE-ConnectionGUID: TrS2NTCrRIChl9Ysb0Bklg==
-X-CSE-MsgGUID: 0u7Un4bCTHW45Zjmg6pMzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; d="scan'208";a="83198288"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 04 Nov 2024 06:57:18 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 4 Nov 2024 06:57:09 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 4 Nov 2024 06:57:09 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.175)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 4 Nov 2024 06:57:08 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aF9gHprkjrW931VLb7NYk4ztMX12dEcgrtJlL0d07if41jIAdJlEuhep6AszQjuHXMx1j502knXhi4cIbJYF4groqcBbc6YnUc/PpHuP/Db7bsxUcUbSP9uxp4GMcyMwmDPNPTE/NetOcOzN7gUJxgaTYdDmrPRfCLzlNlbPnepo3iqBj0i0+bRK7ESL3eTm7WDrOTPaY1eWJJHfsYdk3y5aO7g1+c+jOo9Mk8s8sNt3/uslno4cxu5XeCRvF43IwmVGIujGuo0C3BDDtIXiI23GORePxF4n9Kpbg8Lb6IE6KiGIehHsQN2uCpqdHwJVwOVD0gjdx92s7m0XvdGMew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5SsjHU4oKkp3cEqMwqLGTXX+kXj1c66K5N47hwN1nz4=;
- b=ygEZEWxmmqoTHztbcu9TWXJBhqOF93ZO1vF1u+665fJBs4i2n4uhU7COpFI4HBRP6ypoWhOi6F8Kh/50r2J1HDYFgmSVbBZTTyBvL/nqkY6+mNlTwdMaMEm4QkxqI5N9BG4DaYMZB+4RNSgM/SS/b5bCzWKJd9CT8b4fj11DjXi8WNF47W1340LMOvTV97PCj0iI4pyHw1OfA8hxGPQDOInck/DTG5bwVRZyHAJsYTcNHRcRdc5nj/xZgqXKGQWba3mSUHrddTG/6TPj0ARjd4yoKWSbcKS19YfazBiA0rMYktp/8cJM5ghOk3Oxywe0Jt9EesSPorPy2tEMcdMKIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by BL3PR11MB6506.namprd11.prod.outlook.com (2603:10b6:208:38d::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.31; Mon, 4 Nov
- 2024 14:57:06 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::cf7d:9363:38f4:8c57]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::cf7d:9363:38f4:8c57%3]) with mapi id 15.20.8114.028; Mon, 4 Nov 2024
- 14:57:06 +0000
-Date: Mon, 4 Nov 2024 08:56:56 -0600
-From: Ira Weiny <ira.weiny@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang
- <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
- "Vishal Verma" <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- "Alex Deucher" <alexander.deucher@amd.com>, Christian
- =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Xinhui Pan
- <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Dennis Dalessandro
- <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, Tudor Ambarus <tudor.ambarus@linaro.org>,
- Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
- <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, "Naveen Krishna
- Chatradhi" <naveenkrishna.chatradhi@amd.com>, Carlos Bilbao
- <carlos.bilbao.osdev@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Ilpo
- =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, "David E. Box"
- <david.e.box@linux.intel.com>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Richard Henderson
- <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, "Frederic
- Barrat" <fbarrat@linux.ibm.com>, Andrew Donnellan <ajd@linux.ibm.com>, "Arnd
- Bergmann" <arnd@arndb.de>, Logan Gunthorpe <logang@deltatee.com>, "K. Y.
- Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, "Wei
- Liu" <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
-CC: Dan Williams <dan.j.williams@intel.com>, <linux-kernel@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-rdma@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
- <platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
- <linux-usb@vger.kernel.org>, <linux-alpha@vger.kernel.org>,
- <linuxppc-dev@lists.ozlabs.org>, <linux-hyperv@vger.kernel.org>, Thomas
- =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH v2 05/10] sysfs: treewide: constify attribute callback of
- bin_is_visible()
-Message-ID: <6728e0b819e9_14084029463@iweiny-mobl.notmuch>
-References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
- <20241103-sysfs-const-bin_attr-v2-5-71110628844c@weissschuh.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241103-sysfs-const-bin_attr-v2-5-71110628844c@weissschuh.net>
-X-ClientProxiedBy: MW4PR04CA0269.namprd04.prod.outlook.com
- (2603:10b6:303:88::34) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6276110E034;
+ Mon,  4 Nov 2024 15:12:36 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-2e2ee0a47fdso755639a91.2; 
+ Mon, 04 Nov 2024 07:12:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1730733156; x=1731337956; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KviHfL3GhPgk1194ewkZ7Elw3O84xMVSBocbCkmPTLs=;
+ b=Jr16vx1x6MQ+gwtnq0S3iv3NkvhrEIn42kPcK8JUsjMBB+6reYe8IEWCV6YdiPT1H7
+ JWapc9JdcnRXcWO6eD3u/SMV4O09811dZNXqAR91Krn4mKNu+ZT0Z7hPyOivTqQLAPyZ
+ kUWDQVy95dTKE4hnJQtVvVxQjFmLhvNYoLiUGZ+QflTFgugzi3PosgtlSPt5appUhQyw
+ IyFPAl8gwQ9gHD3nKjZ2xI216iu6FZuIe5GjN1PRiwZl7G040yiQveo7MLSvhNaqtXGb
+ h5XJ+uISbzBmZ0th68+1W+DxTrGRwYJgTA9qGyKya7p/2PTcyl4rPYCDEPsSUjZDHR9e
+ VtOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730733156; x=1731337956;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KviHfL3GhPgk1194ewkZ7Elw3O84xMVSBocbCkmPTLs=;
+ b=FTX3KtE9rCE1zHUeGmc+K2DdtH7T9hnGIyn+0NPDpZQz6O6uVg5o40XKpFWr8ujISO
+ DTHUvKAgRhxrIAVaGmCD+2Vm/UEwhZRIDu0HGvTwiKwYtHcYmA5UbeiSpGC7LNk+1XZO
+ T/6xtB8sY8BRC9I4ekMIIWjl4iCqhSBBqYFcT0yVq3IkiJVR6ifm0D0M7/WwC8ssHrgS
+ nnrPO7attyE/Gse8bGjEV57SJU8FaKSiAHmCsH1CW8DjXO12Jr2VHQqj1gfNWzizvwOc
+ BXEXgTKv9RkHoVj3pcMVOdbvDsi5p4eqC43NXOaJIgvPTJ9Mu43jQKU3sgUAQ5Lv+mS6
+ R1HA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW6d6YqSv233pvHxyPbqz2b1T+BnBpj82bSuyk6sklOl/OlSecXVCiLVv41T7gzv+jEQoUQmh27OyeE@lists.freedesktop.org,
+ AJvYcCWcEqahR4u3I/dtsUKUMD1njQND9y/oL3HI3wbOJKSaCZQ8HCA5spWAzzOQfi3XSBPA+h9fqD1l@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyAOF0+fHxMjjoi2TXnKx9yBomnNjggRzh1tEhx4GpWCd+Q6MLG
+ Le9scsFVBZyfq56t+8d9kOiOwjkOa/i8t0SGLWVaiZvN/7wFQh9iMhUf3sJQ0+vO4NR54vs0iDp
+ HQYMUjyiDuICTHjKksFx1lUWLMrgPWg==
+X-Google-Smtp-Source: AGHT+IH6q+c/r/8XZVBV6BuFehgtpcxWK806Z2lT5bLMqawbzEthFokNLqHNCackCtMD0b/aN73UxVUip01R2w8zoec=
+X-Received: by 2002:a17:90b:3b48:b0:2e2:c423:8e16 with SMTP id
+ 98e67ed59e1d1-2e8f0f4ccbdmr16257661a91.1.1730733155852; Mon, 04 Nov 2024
+ 07:12:35 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|BL3PR11MB6506:EE_
-X-MS-Office365-Filtering-Correlation-Id: 394334bb-617c-406a-4a05-08dcfce0f2f6
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?vJKBUHqLzVwEAEzq733lKf0tp5JwYIBdn0zPoaIPb5prUy9Ut/DhlGgd1e?=
- =?iso-8859-1?Q?ojol/tDSApvJaNPVmBdxq0RoifhlZleKhKnT5adclLryOVD1C7aZcIV8Fz?=
- =?iso-8859-1?Q?GkWVSelyWa2nXLUenHYPPYyg72c3zm66Tq7sFNTf2zDHSicZE8+ZMoC1uP?=
- =?iso-8859-1?Q?tr7iYkaTXug76dxMXnWUevfPZwDZ6SgEvh8ujFUcJlxL4FYxHJTxXlINkd?=
- =?iso-8859-1?Q?W7uxw3WHfulGPuacTuHy82LGmhUHVcKPInMQQNcls1WzH1Q+Yz2j5dJ4Ra?=
- =?iso-8859-1?Q?f3KNxfzIJ5LI7u6KxqB4i7gL0WuzyqbJL0+u+Uy+62CtwlYX4cBlH35+bA?=
- =?iso-8859-1?Q?PV1TOc5t+1a63dHHk09S/Ey3vXvZC2rNS2ea8cdRFhyMTL0v6gy/iJ8N4C?=
- =?iso-8859-1?Q?azAWQ85pDDitoJa5PDKO/4ZoRMwV6llBTNG0SecOcN2XRL18f4d5EHZuNl?=
- =?iso-8859-1?Q?H9MgQubBw71XF0VrDDqfHDKpsuN2f7Obq18lVKod4fkghmIaD9cqEuiYJv?=
- =?iso-8859-1?Q?j033A+Kxpaz3NY+qCRErT+Rl76NjmccrSi93ZQ6Bn81N9uU5Amu6lmlP4k?=
- =?iso-8859-1?Q?QhqAdiGv9ofOYBocsd2nzSP4kAstMB3eSa0wl6ZIZywqJP1J/3S/EwGLsB?=
- =?iso-8859-1?Q?Z8YRBTlX3InZJ0okavTOSn5ZZttvM0i4BUPBjsf+6LS/PbmwUV7QOCeqpx?=
- =?iso-8859-1?Q?ps+FRQQLlYrX5r3t0Hl2ThfTAC0Od6wRgLMb8uHlUD7VHgWAjjpTmtw7Ik?=
- =?iso-8859-1?Q?eCMg8Yb6UA6e4rY2ecZyh191/giB8v85xm856PKX+8stZEbrkNmHM43Lk+?=
- =?iso-8859-1?Q?zwVjYuhVTJUQhvYz+ch0+k6dB6fnCf6ryCEHMwJcp4o3I2vQMC7meRjB4c?=
- =?iso-8859-1?Q?hc02ynucy2pbsLAukNQWhkceAnT4SUUSSWJO5Zr0xgvKocuCAKxcaYFiO8?=
- =?iso-8859-1?Q?EY1PaYi26o3q7Oy2GKCEC1g0TPktx/4BzljYs9cOjqbqt4GsagfeMUgbtw?=
- =?iso-8859-1?Q?j2lVq7YGSFccWvyWv5i7LykNLVQtC0A/m6W4dd5bP8tn9/VVzWbZnK2lFm?=
- =?iso-8859-1?Q?wW/1g6OSre3NLjQsNwgb9/AhusfJpDN0jnirMkjK6cBCSt/KUggKqE3EVt?=
- =?iso-8859-1?Q?nBJKJSnPfBi5KS3BWBis/UfGy00nzDgR1zIFXbyzi+tixBejf/kBDfEfgB?=
- =?iso-8859-1?Q?FHlzK+GmGm+VsR4AcpYhZrBPZOUPPugyiD+ZOhc+MvvOr9Ib4z75hIvhhb?=
- =?iso-8859-1?Q?ypyRIDv0Xy/HpBcQCDCUIWfY/s6TTV5AlW7/aowCCZFSIhmfTReDgtj25H?=
- =?iso-8859-1?Q?bgS0Zk7kTzcdkx15x+e820vAOdh/5baD7S+i5lsHp11JLJVqPUrQeNykQP?=
- =?iso-8859-1?Q?4Su3fUfYSFJrX+X5+wMJflvyUwMaInzyWHga35oBlUh9+T4Vc+0rY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?GARdDiJWX5sL1joXISNrkwxtLuwdL8g8wiIIyjdGRlZDwQC6AlSkvunnYB?=
- =?iso-8859-1?Q?qfQ/DE2dKXkItT/Tueu0VxJwRiicYRdxsgrEFtmuKZguIF8cTt99UQhblj?=
- =?iso-8859-1?Q?468ZCVrpADOJ/Zq4P147/4xS7L/jc6y8PLM4adpodgNVoyqNx2mOxnueAP?=
- =?iso-8859-1?Q?nb5FHRDJyBW74y1S4LcVehsIUIjBwyt57HPDTKcPSVgYwASzofggwHdfXr?=
- =?iso-8859-1?Q?wEDOdmyCyVfpE7ddTyu/YLNfUb3Vskd0b+1ShxuhvKqdzRW1atWjV9JcIB?=
- =?iso-8859-1?Q?7UhsttQeav9ujn+m+zrH/xNsHFALF3noifVararFVO9ULptYXkUvdjQKoA?=
- =?iso-8859-1?Q?B7pv/4IYWil7gBsw7GAUx821yTNFBxrvIBYHs8veqSEWZ3MjabdPzoM/df?=
- =?iso-8859-1?Q?Fp4jozEUKdFqddvdPbliGynZeLKOEINQQuoKNcxVJEXnk+jLE7/B0sFuX+?=
- =?iso-8859-1?Q?o9/PBAqt+kWRk44n4CLu58azUk/mTkEPXa7ZBqaY27xlcBNAF0l+OgxfdO?=
- =?iso-8859-1?Q?jUuzEQDiR1a/UdJejJFYoHUv33A4ExyOiFTCuLlrahAM9lwOjzZNoD6GSg?=
- =?iso-8859-1?Q?SE+JbPrDgiismuzjFjN+Mx3/rtwSbEdQDqtVN7g+w2/o6BOM18pFzGfyYF?=
- =?iso-8859-1?Q?uNsXSgSdlvitB4zej8pFraj5iL5NhFMPWo6jiXdULDdEb5UqJDboVNIhEJ?=
- =?iso-8859-1?Q?oeeVMNRyKxv0Va6vHZl2rzagzCW0lt4Ox4AE0+Pf/vFvdvfnM51CczptkS?=
- =?iso-8859-1?Q?nCifu1oMecL/+qglga8zNGsZA8/kGGQP5Duwj6kLcBp+FipZ6DTI7216rY?=
- =?iso-8859-1?Q?f5okT4PwD4co0Vt0qVLhpv9lHHEfB/b25axl0bipXV/k+GLzlpIfSGHSzS?=
- =?iso-8859-1?Q?vYZokP3ETM83bf5WFjeuAunPcxGDnbrV6fM0AKDZGVF9H3c6WtmHG1/Xw1?=
- =?iso-8859-1?Q?cPi9KWN7oiEJ46Q9gmUeVb6+bS3KHDunvVPCPeRdxv5wr0cFSfz0qmQMc9?=
- =?iso-8859-1?Q?zvKtOpou8wsD60F+TfLPCWeAtATSU4svUk8sSHTuV004qnI794piWie6Ky?=
- =?iso-8859-1?Q?QY5bIHXGVXM/9KU2eQJMEcjSePTHtnBdlcl7tdExkQxX4QlzM37NNQMkjE?=
- =?iso-8859-1?Q?NxIAI+WI02XQ7MiIFviqNrbu5a2f5uYb2TURz3n+a7stwyDKfrgiGvg9jc?=
- =?iso-8859-1?Q?9tccF2aTZLCzlRn876lNJGmgs7AahkV0tGCW5HXZ270scxzdlutZAvRvz+?=
- =?iso-8859-1?Q?/TWZhs3nP/dFSAMGJh6OjZn1u/GPNIo0zm6duwi6NQx7o4iVAlQpiIlJew?=
- =?iso-8859-1?Q?u2cDM+7DWOwT71fXysa5fVHErH0H2ZpXC0YMFSLQS+wXnzgT9TtIjmx92e?=
- =?iso-8859-1?Q?Xpsoqc3MTgc+blggAqjtup6rlxz0x1EjuVZZ7FA619YzD+lD5SnKcd8BzZ?=
- =?iso-8859-1?Q?Ua9NP3wVQaCX1M3nQ2invGtYKa7Z5olVSh3qKU+P/MH4wkuuCopIy+XCcC?=
- =?iso-8859-1?Q?lrPa8pYWDAy81twDg8oSmbVHw/2L5yF9ImN37/364/fnwEUzKF9XJ8l7N1?=
- =?iso-8859-1?Q?qnSKPx24dBn/fxB5ZepBmNrNt3/AAllvcs6HYVYthwnCIqb3ADNwvqBixR?=
- =?iso-8859-1?Q?t11PxE+OBNEsUvTgQ8k20eKRHWo9ucIcHm?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 394334bb-617c-406a-4a05-08dcfce0f2f6
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 14:57:06.1368 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fk1dpWhHGyReCgCtYvz28Nh10DH2ABl39CsVZtuijEtq6iDAADmiWcbYxY135NfbpszdLILdTdSQ7mlpu9RstQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6506
-X-OriginatorOrg: intel.com
+References: <20241029133141.45335-1-pchelkin@ispras.ru>
+ <ZyDvOdEuxYh7jK5l@sashalap>
+ <20241029-3ca95c1f41e96c39faf2e49a-pchelkin@ispras.ru>
+ <20241104-61da90a19c561bb5ed63141b-pchelkin@ispras.ru>
+In-Reply-To: <20241104-61da90a19c561bb5ed63141b-pchelkin@ispras.ru>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 4 Nov 2024 10:12:24 -0500
+Message-ID: <CADnq5_OR9T5Ocxu6pRu38uzdmcV7_um_6aK4vYefhMiZ0gJJSA@mail.gmail.com>
+Subject: Re: [PATCH 0/1] On DRM -> stable process
+To: Fedor Pchelkin <pchelkin@ispras.ru>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ stable@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, Wayne Lin <wayne.lin@amd.com>,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ lvc-project@linuxtesting.org, Alexey Khoroshilov <khoroshilov@ispras.ru>, 
+ Mario Limonciello <mario.limonciello@amd.com>, Jonathan Gray <jsg@jsg.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -213,44 +94,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Weiﬂschuh wrote:
-> The is_bin_visible() callbacks should not modify the struct
-> bin_attribute passed as argument.
-> Enforce this by marking the argument as const.
-> 
-> As there are not many callback implementers perform this change
-> throughout the tree at once.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
-> ---
->  drivers/cxl/port.c                      |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c |  2 +-
->  drivers/infiniband/hw/qib/qib_sysfs.c   |  2 +-
->  drivers/mtd/spi-nor/sysfs.c             |  2 +-
->  drivers/nvmem/core.c                    |  3 ++-
->  drivers/pci/pci-sysfs.c                 |  2 +-
->  drivers/pci/vpd.c                       |  2 +-
->  drivers/platform/x86/amd/hsmp.c         |  2 +-
->  drivers/platform/x86/intel/sdsi.c       |  2 +-
->  drivers/scsi/scsi_sysfs.c               |  2 +-
->  drivers/usb/core/sysfs.c                |  2 +-
->  include/linux/sysfs.h                   | 30 +++++++++++++++---------------
->  12 files changed, 27 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/cxl/port.c b/drivers/cxl/port.c
-> index 9dc394295e1fcd1610813837b2f515b66995eb25..24041cf85cfbe6c54c467ac325e48c775562b938 100644
-> --- a/drivers/cxl/port.c
-> +++ b/drivers/cxl/port.c
-> @@ -173,7 +173,7 @@ static ssize_t CDAT_read(struct file *filp, struct kobject *kobj,
->  static BIN_ATTR_ADMIN_RO(CDAT, 0);
->  
->  static umode_t cxl_port_bin_attr_is_visible(struct kobject *kobj,
-> -					    struct bin_attribute *attr, int i)
-> +					    const struct bin_attribute *attr, int i)
->  {
->  	struct device *dev = kobj_to_dev(kobj);
->  	struct cxl_port *port = to_cxl_port(dev);
+On Mon, Nov 4, 2024 at 9:55=E2=80=AFAM Fedor Pchelkin <pchelkin@ispras.ru> =
+wrote:
+>
+> On Tue, 29. Oct 18:12, Fedor Pchelkin wrote:
+> > On Tue, 29. Oct 10:20, Sasha Levin wrote:
+> > > On Tue, Oct 29, 2024 at 04:31:40PM +0300, Fedor Pchelkin wrote:
+> > > > BTW, a question to the stable-team: what Git magic (3-way-merge?) l=
+et the
+> > > > duplicate patch be applied successfully? The patch context in stabl=
+e trees
+> > > > was different to that moment so should the duplicate have been expe=
+cted to
+> > > > fail to be applied?
+> > >
+> > > Just plain git... Try it yourself :)
+> > >
+> > > $ git checkout 282f0a482ee6
+> > > HEAD is now at 282f0a482ee61 drm/amd/display: Skip Recompute DSC Para=
+ms if no Stream on Link
+> > >
+> > > $ git cherry-pick 7c887efda1
+> >
+> > 7c887efda1 is the commit backported to linux-6.1.y. Of course it will a=
+pply
+> > there.
+> >
+> > What I mean is that the upstream commit for 7c887efda1 is 8151a6c13111b=
+465dbabe07c19f572f7cbd16fef.
+> >
+> > And cherry-picking 8151a6c13111b465dbabe07c19f572f7cbd16fef to linux-6.=
+1.y
+> > on top of 282f0a482ee6 will not result in duplicating the change, at le=
+ast
+> > with my git configuration.
+> >
+> > I just don't understand how a duplicating if-statement could be produce=
+d in
+> > result of those cherry-pick'ings and how the content of 7c887efda1 was
+> > generated.
+> >
+> > $ git checkout 282f0a482ee6
+> > HEAD is now at 282f0a482ee6 drm/amd/display: Skip Recompute DSC Params =
+if no Stream on Link
+> >
+> > $ git cherry-pick 8151a6c13111b465dbabe07c19f572f7cbd16fef
+> > Auto-merging drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.=
+c
+> > HEAD detached at 282f0a482ee6
+> > You are currently cherry-picking commit 8151a6c13111.
+> >   (all conflicts fixed: run "git cherry-pick --continue")
+> >   (use "git cherry-pick --skip" to skip this patch)
+> >   (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+> > The previous cherry-pick is now empty, possibly due to conflict resolut=
+ion.
+> > If you wish to commit it anyway, use:
+> >
+> >     git commit --allow-empty
+> >
+> > Otherwise, please use 'git cherry-pick --skip'
+>
+> Sasha,
+>
+> my concern is that maybe there is some issue with the scripts used for th=
+e
+> preparation of backport patches.
+>
+> There are two different upstream commits performing the exact same change=
+:
+> - 50e376f1fe3bf571d0645ddf48ad37eb58323919
+> - 8151a6c13111b465dbabe07c19f572f7cbd16fef
 
-For CXL
+There were cases where I needed to cherry-pick fixes from -next to
+-fixes.  In the past I had not used -x when cherry-picking because I
+got warnings about references to commits that were not yet in
+mainline.  I have since started using -x when cherry-picking things
+from -next to -fixes.
 
-Acked-by: Ira Weiny <ira.weiny@intel.com>
+Alex
+
+>
+> 50e376f1fe3bf571d0645ddf48ad37eb58323919 was backported to stable kernels
+> at first. After that, attempts to backport 8151a6c13111b465dbabe07c19f572=
+f7cbd16fef
+> to those stables should be expected to fail, no? Git would have complaine=
+d
+> about this - the patch was already applied.
+>
+> It is just strange that the (exact same) change made by the commits is
+> duplicated by backporting tools. As it is not the first case where DRM
+> patches are involved per Greg's statement [1], I wonder if something can =
+be
+> done on stable-team's side to avoid such odd behavior in future.
+>
+> [1]: https://lore.kernel.org/stable/20241007035711.46624-1-jsg@jsg.id.au/=
+T/#u
+>
+> --
+> Thanks,
+> Fedor
