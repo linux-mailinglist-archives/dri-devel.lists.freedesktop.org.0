@@ -2,168 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9399BC012
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 22:30:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8639BC01D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2024 22:32:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8381010E4D4;
-	Mon,  4 Nov 2024 21:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82A2A10E4D5;
+	Mon,  4 Nov 2024 21:32:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mVwPfe8t";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EAuterMa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB8BF10E4D4;
- Mon,  4 Nov 2024 21:30:13 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B800210E4D5;
+ Mon,  4 Nov 2024 21:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730755813; x=1762291813;
+ t=1730755966; x=1762291966;
  h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=6DS8Bu4zfIfy9CWYLJGtQ8Ezqy3xV/R67KR96HEpqPA=;
- b=mVwPfe8tzqXFfKIwYDkIU38GgouDrPe04D5nucwxfkOJqopsbMEtxlYS
- nHpO8aULDwE8DZEB6t3yRRRH6EevXYd+fyVyGhZEooyFD3gCTJn4dL2xt
- tsRCnjOg9M8jCqib7B3f6ks7Z8x78NQMhxK6ySBT89xHo+n0wODwITIz6
- bQP3cSNxMPtB/UhY69tQtLkEUm2aJvlq9o4NSR+kBhsCQLq8KPtf3CMV4
- gSDAUAKJclDkD6MQy3w+x6vyspq14LxrMsoxGyxvsR0Y8VStdhh3cwgTv
- Ki05ijtxgqJV7AC3xYk85HwKn/VQ4JwShybf+gIIg7BAsa414l4ofyWw6 Q==;
-X-CSE-ConnectionGUID: HAMNxGHMRgiuj/ke09wVZw==
-X-CSE-MsgGUID: h8NPN249SuaMFXJfeqFjtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30419284"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="30419284"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2024 13:30:13 -0800
-X-CSE-ConnectionGUID: XkPC36TvSI+NYKH7PsV7lQ==
-X-CSE-MsgGUID: q8ZuwqSNQWeBlLhF7OvajA==
+ in-reply-to:mime-version;
+ bh=KuhuCrkfVx3YmJvvkvcdn1jymczq5dQAzxIf2poTaXU=;
+ b=EAuterMatcnvr9uw1VYiSdBu3TYyXnBfMDB42YezUsUm+40l4MOxviEZ
+ lDNjgWlR1Ymloh/kiQTPoU5PziQ5hFs/FO51USzTp3aC+okpHYOyMfAUV
+ LQtqDgjqqQ6R2uIpxUukvnEbmV5duQ5Eq1NtAP98swEUDyKTMAXF9zU6R
+ Jsl+0H7UvuqLTj0RwY4B6aMG3HZuWEuek0/EwAxKf4nkfc3uNpbqfoHxu
+ EQ/Svo2xuFscx768MZlnZZ/gwpRf/TI0/B5/gISu/48qKTplZQr9uyfq8
+ GH/BqKFVUDscTIhchYaFZULrh0wkWnzfz1Q+eUkAfVVaIyMRMIe47hTcp w==;
+X-CSE-ConnectionGUID: 2wFxnTviRwGHg2tq28JyWQ==
+X-CSE-MsgGUID: fOCyoYTKQqWl/2ruqPqc+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30638305"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="30638305"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2024 13:32:45 -0800
+X-CSE-ConnectionGUID: epdVtY3hQpCXRHpd0UpVEQ==
+X-CSE-MsgGUID: a4nJKToQShyAGQuYZ1i2ww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,258,1725346800"; d="scan'208";a="88599255"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 04 Nov 2024 13:30:13 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.11,258,1725346800"; d="scan'208";a="84208047"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 04 Nov 2024 13:32:46 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 4 Nov 2024 13:30:12 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ 15.1.2507.39; Mon, 4 Nov 2024 13:32:44 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 4 Nov 2024 13:30:12 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Mon, 4 Nov 2024 13:32:44 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.176)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 4 Nov 2024 13:30:12 -0800
+ 15.1.2507.39; Mon, 4 Nov 2024 13:32:44 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y4xXlBtkOo+rWlQjz76YmCaJm59M5Xm8HLIm9KaRjyOC+0ReSlo6Z5OglEgCBeqs9AK90Qpqz7/uzRJC75ILNTLPYw6NYCI3stl8J8/3K+1PsQd54t+tLw9xbObOkv7XciXlaM5OuQApLoMfAmf8p12H2PzcX102OQo56SdzHEG5jiQHCb+a9zM0+n8erHfeUX8uWOqTyAR6PjEGlSo1sGwmO+rFbi4GZWxaFUL8akqkUMLClKH1MMl2Xy5oZqldRwnZotDb4PxYwR/mtL0v2QMDnmB6/TC8nz95kp6guK+nrWRiB0gXGrlCmORGDmwu7CDD7C/+pi0Ld9znBGjCrg==
+ b=GbraKozjzkoUQ1prK+ucQmKc1oUEh4NUBE5TAcxz9H0A76C/SzzyK36/XNvoLby8n0VnE/FHLEwRpqoeGrIzRc03u3refdkrYVITYZ6URiC3Vp+c79BRptB0aR1VDXOwW7IPoYYGRtwXxhbXcEl6RHBFC39nTjh3Rxf2sCbcpXIMgQZXfROISSz2GXy9izPmIKvMqjuTaIsQACrLORpsIe51TRDdGUJ2dc+gOU69ZtqM2F5f89RG7XKonDBWbloR5owkLVl6hi3FXq8S7JCQfVkPTv89RUGnCQNajXU5zKSxhevDh079fUM32SKZCuWBYRlQzMHIdmBUYI3AkuaNSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EHUqXuf8zNSDI3WphWkf+yrBr7jLRNJ5I59o6ahz0NU=;
- b=qmcDSZCVWgAj6cQ2P3mxlYoVreScfsGSrH62C7ZYX2BET3k8HAg6qP3qWDoiv5j51yj1ywwoayL+MPImm6pH/jtPi3krXDPQV0PGCQXBzLqV2wNIhyT5bvGH8ywLuwjZl8lBxH8dShJeq2QSt2MhMiXyE4fZ2fQPm2MN0PR7tJQp1GlBXU+lfKR4SK4uE1TMchxfNokpe/oV9xJrMUWvumbd4W0A1aqVjfn4XOu2RYGoFA13bYGCpZ7hmnJ+BCdPEb6fxa5fz7FPxntv8zS/bypMfUkxNwvq+/JjzTx7Aaza20BQ1OlBymJQXQt1vbFfmW0GznQRaPUlcqPAq4I/NA==
+ bh=K36wwWifNnC4Ilx5rfrDRS0t4KRhiDT/3iSDHbmQGks=;
+ b=GU12hKznb198Drv+fnH5PktTbqXwq5xJGd45pWISIydfEVlj7IF1I3zMGSVlDMuCEe5khs2hoAmu47OqKJQKwcvhjwYyEpp1jEKJkSM4T4bLcc1b0J9ngY6A+ZKx9jVgaK7jMxI7FkfqK/lg3JCskN8s18+qZx97RAm56MdBZF6Sask1nzfZNaLllLwYmdcnuKbzMJZ8krGMrP+lvORZ65hKeMmmXKxFiW2U2UB8tGwvPtjWU58HE+8v4kUhhQ8yISX15NmYnNi4hVHsufpZemjWUfIApwKdXzY2L6EXR8aGCjFUrIgQjpAgKd/Ly8u3Ee/sD4jEebw8L2ycYo1gxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by PH8PR11MB8064.namprd11.prod.outlook.com (2603:10b6:510:253::8)
+Received: from BYAPR11MB2854.namprd11.prod.outlook.com (2603:10b6:a02:c9::12)
+ by LV1PR11MB8790.namprd11.prod.outlook.com (2603:10b6:408:2b1::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Mon, 4 Nov
- 2024 21:30:10 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.8114.028; Mon, 4 Nov 2024
- 21:30:10 +0000
-Date: Mon, 4 Nov 2024 13:30:41 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <matthew.auld@intel.com>
-Subject: Re: [PATCH v6 2/8] drm/ttm: Add ttm_bo_access
-Message-ID: <Zyk9AUmjSimlG4OL@lstrano-desk.jf.intel.com>
-References: <20241031181048.2948948-1-matthew.brost@intel.com>
- <20241031181048.2948948-3-matthew.brost@intel.com>
- <ZyQWF/k9VFo99tDB@lstrano-desk.jf.intel.com>
- <eb0b672c-3300-4501-96c4-bc310b80f63e@gmail.com>
-Content-Type: text/plain; charset="iso-8859-1"
+ 2024 21:32:40 +0000
+Received: from BYAPR11MB2854.namprd11.prod.outlook.com
+ ([fe80::8a98:4745:7147:ed42]) by BYAPR11MB2854.namprd11.prod.outlook.com
+ ([fe80::8a98:4745:7147:ed42%7]) with mapi id 15.20.8114.020; Mon, 4 Nov 2024
+ 21:32:40 +0000
+Date: Mon, 4 Nov 2024 16:32:35 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: <linux@treblig.org>
+CC: <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+ <tursulin@ursulin.net>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/i915/gt: Remove unused
+ execlists_unwind_incomplete_requests
+Message-ID: <Zyk9c9qDN4jqr757@intel.com>
+References: <20241103144936.238116-1-linux@treblig.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <eb0b672c-3300-4501-96c4-bc310b80f63e@gmail.com>
-X-ClientProxiedBy: MW4PR04CA0379.namprd04.prod.outlook.com
- (2603:10b6:303:81::24) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+In-Reply-To: <20241103144936.238116-1-linux@treblig.org>
+X-ClientProxiedBy: MW4PR04CA0367.namprd04.prod.outlook.com
+ (2603:10b6:303:81::12) To BYAPR11MB2854.namprd11.prod.outlook.com
+ (2603:10b6:a02:c9::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH8PR11MB8064:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5287c97a-a381-4d31-34e8-08dcfd17dc6a
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2854:EE_|LV1PR11MB8790:EE_
+X-MS-Office365-Filtering-Correlation-Id: a03a9186-4dbc-4b39-cd62-08dcfd18358d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?zoaVu+8phJ1plW4lEBxqPuPYr+jlzi4hpNJZYo1bVm4xc7j5Eeirw8fQbT?=
- =?iso-8859-1?Q?rDnmifGcgwUdte7nQbUrjMXHwMVG0sUwp+sX/z3PNIJIX3VxOdUa60caO1?=
- =?iso-8859-1?Q?SKX8sxF42lmBAuKqqCg3NqCNPn+PLM1JkwIwZUUkII8kkgj6H2rPxhXZgY?=
- =?iso-8859-1?Q?QLrMOjd/vBlFi/0UM4bhRddcLT4G+Fv/lYbYXrCfwesFxCaUZCfx6EcHeu?=
- =?iso-8859-1?Q?1Ra8T6ZQ341kJ3LdiVUW+jkddvhRlm2cuSaMD8GNi5cnFh1DQEJVfUbMzG?=
- =?iso-8859-1?Q?/Ae1hLH50Lx19i4lobW62E+nITI+Gnyi2TzVrTAkURcb8+D51qC9frgbas?=
- =?iso-8859-1?Q?YoveVVP7YDHAEXsseRegifd99/66WHsJDqFk3V8WoanCy3RvAC7+iye0Ej?=
- =?iso-8859-1?Q?ICQ6VK+D5G0rxaAXTEhtFW6MohBxdUVKbNEGXN0AIk8krn/xXcf79j9TfC?=
- =?iso-8859-1?Q?/ZgZQOCAgnmT/LS0+K5sl0nJcp96kol9Ga58cRah9yTbuRmtvLUlNQoYV7?=
- =?iso-8859-1?Q?kAmt4AeuD/dCx9R+BKX1REoTITFJRDi6VdbSUEZZtKAaIf76Gr4vL1AzMK?=
- =?iso-8859-1?Q?cfgCgf3OaHxSoG0evBFUUJO3QdFP8mKLW2WbV2ezS2JIvvqxlf32ToZyDZ?=
- =?iso-8859-1?Q?5GweoLEGHmdE+qqm4Ww68fUVnrBeLCAjxbhSf9nLF8axwuCI+p4a30v1uC?=
- =?iso-8859-1?Q?EUkfZGZPg2F+6VSL/4HZeOWJ8Gpt8AZHrov9wWXqn4wdPh2FPWqUdD82kF?=
- =?iso-8859-1?Q?NlC7dNH6jtYf9PUN1VspaH+UbZOthgO5COJdYuo30nzE24FYWVL7I7MNES?=
- =?iso-8859-1?Q?p/vtZx7zWEIPq1paQdH6Z96/8mauvyVPjxnnoPZSXW56BEIF9anwO1laFE?=
- =?iso-8859-1?Q?jL9zasBwqqcbf5MRcsujCno9fkqUlIDdECXJ++gXIggKbunpcVWJAm4fS3?=
- =?iso-8859-1?Q?xNZIDycRtOKzEdFHcIqe4dByDIaV1VSLAe2QNBzaC6uGmKE+/VGUSt3g/s?=
- =?iso-8859-1?Q?KjIN57zGwodzvLwKhjszNeJ8W7W6hLYzdf8JYEyISOuu3a4p5sC3oR6Z2V?=
- =?iso-8859-1?Q?aoyA9hJXEWZyUrWJlTiDv3BuSeuJRt+5Upg81/a1YVtXxRSDIrAkA4mdzX?=
- =?iso-8859-1?Q?dgpfxag8HGioQWaPbYxgPubaSNhWd4qAg5lVlH4+TJEWq239HLHYFuFzmp?=
- =?iso-8859-1?Q?fnlWsXGJ5fjfpmTy+ACkak4QgRJsr3LxAZMHrFEg/Gdx/v+hHFeACt1V6A?=
- =?iso-8859-1?Q?5mE1j2VxYgfMewP91pMUCyYP9a5RA61fKfMKwEiqCLIo+yXinfLxfCmcmk?=
- =?iso-8859-1?Q?CqdKgvzPoKW07+GZ3KUj6da4QZ22PANwC8l6zUpBMayf/aI=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?kFOHyDmm3Y82AJgLR+iiZsm0CBbeZ165PU4PXidrb+lc5NOIFMMLMw691gH6?=
+ =?us-ascii?Q?pSrYxCyM2GSXmwjGuO4ClopLQ8Zb+ILayqAe9yYKhyWv94YUSSvYKAm0OzGe?=
+ =?us-ascii?Q?rp3jSfS9fQuO6a6LGCaZCGnd1Als8UvDBSzPIyFnsHaVSBpn7o2qase9GjmD?=
+ =?us-ascii?Q?MYz8tV5rY7nSBvHh+7LJI3IhRKflQxvHi7FCK5K8bv90lGJJTwpiBcRd7OWO?=
+ =?us-ascii?Q?xc3XdDKMQOKsDlH9JBWEbbEmBkS4Va65dka7DI6tMLsKtAW31bhpi6AeIj8d?=
+ =?us-ascii?Q?ycK2IEFW8jB04Yet0okPKF2ASYA1A6vs52n1O8/LVxna72fAjgbiQkJS7Wh6?=
+ =?us-ascii?Q?pc9U1yCSrJSD7ThvpMpSiIumRr/+5UK/Su8iUuTXA8C1A9ePwvkmD1T6+i/u?=
+ =?us-ascii?Q?WPCIEDh8COPFOYqvL/ML9pImOxlivTNc/Zheek5zfvm/cPKHZzxlmiTsf3Jh?=
+ =?us-ascii?Q?FHlgNWbgAFejHbquCnbchaHsoB+AVL9i49lZTmhKQbbn2E/XAakrDUW8LKzn?=
+ =?us-ascii?Q?1qp3HUYvcIsNJpcNe59QtKSG8cRjg+ysel8XMABMcOLcJO1h0xFgiyc6Dp1n?=
+ =?us-ascii?Q?nFesbQq7OuIHSetVLkofVn3zsxnFBs96VwMbaKvBlwUsmncf5TIMR0w04pOj?=
+ =?us-ascii?Q?PJeRmwkf5D7ZaYBfXTVs9ddrJHgh7nMoIDNOnpEMrx0TprMKNyZLXuv7r7Xx?=
+ =?us-ascii?Q?BVeTby0Hlg6KAeaErT132QqHVgXOnnMQ2HyzTpYLSs6tM4zflZz5493gXK5M?=
+ =?us-ascii?Q?1CS3z+29ouV2meMWZXmAMGsJH/vZE8D5g2gd4gwTB1Hp7HSgkbsqbIQxzxsJ?=
+ =?us-ascii?Q?9iHaxSPRURTvJndktv4+0h63SoK19aIQtMAGha7QORQYxjy+Klm9AadzcKcc?=
+ =?us-ascii?Q?ahcOlOzuwspWDcGPt0hChvli2xyWN5wfrboFTRio8urQcnYC6RgTaCvBQJJU?=
+ =?us-ascii?Q?mprpT7JCt/VQgtKhbR6ebX083vWaU+HzyUvGC4pXA9q2OrijLG8dFlQK3yiR?=
+ =?us-ascii?Q?dz+Zflw9T4ft2eBVAOJe93OF1oW9audhlhwTPkbPZCxDbwrdGOBSPwNODAXb?=
+ =?us-ascii?Q?qf9nDwFzlH2ASyKvgYgPlFV3TRVb7vTfSwiZoaxmOLggMMT1cZYXpzVeRfC6?=
+ =?us-ascii?Q?8R+XNUXeIasnyIlu1PTSJoBNSzpZucJtWg1NI4flbXkqS9h18uflWo0T6Tn5?=
+ =?us-ascii?Q?nRn1/0u85lmkwH05u9nROLWGLDFcGZVPnmnhifo3Q6JK1gtXIBxyjqwCAp6Q?=
+ =?us-ascii?Q?ThGY6phuJBeplLO7HaKsvfRekb1ek7atvJ8iefuOdwf77lnKVvqmwVoj79Wc?=
+ =?us-ascii?Q?t3QpxOUjx6lrbPy1veKW7ga9?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB2854.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?EyQ5iabR14ApvZr/iWj9QmeZUUZ2mBNrhDp5zPNGduEZB1F1gxu9ZjTOTZ?=
- =?iso-8859-1?Q?P8Naw8ezl5U2kSgaqmW1lQtH+xLz/JzVgtuXKCFegPBZ2X7zYb28V6gJZP?=
- =?iso-8859-1?Q?L/lKuTS3ag87tLaUhIO/J3n0v2I6z8px7wdjGIwU4bfHp2nJLu93dwShnl?=
- =?iso-8859-1?Q?kVS14vkC42rEjDpZABy6uOQe41GaoVUiN1fKYAaT+KTFU2cLcpKbJSfphJ?=
- =?iso-8859-1?Q?wS/g/sIq0qDjuaV65CyBCHvQqc9m3wFnrL2TGj/DTV39ghmOCk4ozIIFX7?=
- =?iso-8859-1?Q?7GoCJ60JPP+wzD+8PGV+BVHCNz3GVmOryei5r/o6FDNBlWQgYSFUhY7H3B?=
- =?iso-8859-1?Q?nJv8eOQt1qAHA33rE842nzhZUqJUQDCCNDHPWpmaPUNkuy07inugqg3kWc?=
- =?iso-8859-1?Q?ZunNG+WZB39kV88w1kC+9BgLXpYLQSaug2TltZvvudkbc4TCar9l2TB0Hm?=
- =?iso-8859-1?Q?58b2SV5dC8iI435b/rS36TmpNZaK0vTuwpsHjzarb+t8Lh2vGB7MAzYT79?=
- =?iso-8859-1?Q?BUhDInS55mWyPGz0g1q6pY5yGH6BK/Ya2YYcGb/DvcJz/4B4Lbcs2Nbt+C?=
- =?iso-8859-1?Q?zoubWB+0mxTpCKFWJ2Cb5AE8hUNuoZDpkHy5k3owzrJKL1RMZHS+G4YY/+?=
- =?iso-8859-1?Q?lzrvdpiiw1fFuqIP/QUcVic6AwWlhuAmvG42Yl0ineRS19LYYwYQ6jKFF6?=
- =?iso-8859-1?Q?b7MYtSqkzFyviBZUjWux8Kwb91ZwEjImnuJ1TbjA7/KcNbOHyZXLL5Ih1g?=
- =?iso-8859-1?Q?iltf9ucYHmzK+EG1psdBFaeBX1eXVFEbFlOcnsbVVY08B+Eiw4spYmUVrq?=
- =?iso-8859-1?Q?PcoAuDZnL8cgoayRYGZallv7d/wI401g/JTePcwh3AkIcZajJNWcWQpB4h?=
- =?iso-8859-1?Q?uAeLtvslxbWXu3zOhF/jtNu2weVqOQT0M8O3paIWjqErBAmT94CcgnSBUL?=
- =?iso-8859-1?Q?auHTtvozH6dd57bmpz3IMNQfR6RStzO+upPZiLlc2DTQo21MfNWwj3Yd3s?=
- =?iso-8859-1?Q?uIzUQqDQyL6XnStZG7W1Xl0VTVNI8jPrPzW137VSd/jBs7Eak09fFMYLoU?=
- =?iso-8859-1?Q?19UNV89VFZMlWgDbS7f66v8G+vjSRB/R+QvFd7MUsHjp7w2xM0H+aZ83lN?=
- =?iso-8859-1?Q?gfMzhcF9fkUr/YW8wRuP8HXmN0Rfh37IPpgXruc0TdGLAzKRXlfM81SAue?=
- =?iso-8859-1?Q?SzYZ52R1tqDNkHQVY6HIkX5KFrlN9LQRJwZ3Btlo/eQR6+h/bNoaGC7zvp?=
- =?iso-8859-1?Q?gueMqKpy29oOhuYERyroH2J84HcmRg9lOxbB2XhYkEikjDe5vLp2w57OJ7?=
- =?iso-8859-1?Q?dD91Gdm5JWMuMIvM0uTr/y9k58kD6Zbaz7EzBtQY5Jmj2BE1mwPz55uuD+?=
- =?iso-8859-1?Q?gCSaMdeD03ja/T107bMNyogPGA2XdIFJkCQ6LyVMN+/9ZVSfQ0YZlgjkG5?=
- =?iso-8859-1?Q?ivU6riF+kIeBGHFl9kBUTtu96N9qftqq9Csy65pFRETuxbFpsQAkFVmPK7?=
- =?iso-8859-1?Q?4GclRNVu/uVmcru5GzgD3CyCtVMnIZxFU525SqsUShi8LTQgdh9z9Ql4s3?=
- =?iso-8859-1?Q?ul7vDvCCene/Aqc6T+0XI0NmQlc3mAeABzKUtjL3ES7nrbrt/zQbk+kW3P?=
- =?iso-8859-1?Q?6eNjFGbFLKvSjNOGz8Ws1ipzvKxQCZ/ucdPXeXVbchDiqPP6p1/qWi3w?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5287c97a-a381-4d31-34e8-08dcfd17dc6a
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?z5ksq6YHFiROC+zPZxR8XPuG0iLwJWBEFYthZZ6sEkfJldPZqDBtYWQishg4?=
+ =?us-ascii?Q?eEMM5NAhtCQnoaCMlz89me54IbsqEY2axkFM5NthZluvQybm/L6ur17oaLSz?=
+ =?us-ascii?Q?ZkyOwVvysgf60MhZzKNUGxdOzfFUtF/LTpM+UETLukmPNWM6A+/D/aw7Dh/n?=
+ =?us-ascii?Q?vKLjBj8el4DzOH157XinukIpT5QdIw6tSHUNYqYVeGxtzUBra+ihPCIJ5miu?=
+ =?us-ascii?Q?fyP2xXhI1t27G7495ci3KTcjZPa1WRC3etALuQ+d6omshRuu+IMxcAK+htNf?=
+ =?us-ascii?Q?HQBIWcqvAoaCIcsqDILgKJIZjyzMt8EfzgDIlEqOwUyEONOxkUZoRPpDlrIf?=
+ =?us-ascii?Q?Zk3U1GsBNW7H3E7vhmBc+eWdyYaoaj/cwvM7e012zg2TKLvev1YlffC+Olk5?=
+ =?us-ascii?Q?usNqQp8lcDnXVmxepiRTrUuqEzu+8OnXaWFMYIcot4vFesv0S2XxmJQhLdpG?=
+ =?us-ascii?Q?XvjZRqoIyOYN4DYCpxdmrDfcapdd5CnK8pcqu0Y/VjfZKq8TdAbyFYalOx4M?=
+ =?us-ascii?Q?S0MevpIgVpH186CVvrrOYbKVl6hOaQwEuV2eXQKXJpofNbzcphQMAlS6KkRl?=
+ =?us-ascii?Q?xm/MlFeTMwtA8psaqgW5w+NWL+RKOCAKSk2ggCoZzzAzkoGJ6ed4a9IbfrEU?=
+ =?us-ascii?Q?tTh0bijH1D3erbbxAmBqgHa4sCJUycwJUUk3m98XGI+tkd7tHLDCiB9V+zGD?=
+ =?us-ascii?Q?zrx1DMxS5zQx4s6O1SVJEjrNzZsV/7iqgRDdUUkgqWytQGdf7QmxIaXg9L/L?=
+ =?us-ascii?Q?pjafbf4NFv/UfuTbXSf8SCGcwPfuACJhDmBf5kPOgMq/EAfMQFoVA1p8YTi+?=
+ =?us-ascii?Q?nxeCHP7KaSNRvdi29IodZWaOuZg8i37iWfOqE4v02S8yxQyKLUA4rzWvqQjQ?=
+ =?us-ascii?Q?Qii1GGs2dusMYMrQAi/HCa0CsYjqNW87wTnM8DYe2dkmuJV/55NUwHbH1MLj?=
+ =?us-ascii?Q?tcryXNuIJX3NsIPCnE2LbFBGp/q+4u+uH/0inFMwwNa/fiU5PT0DlUgfDjM0?=
+ =?us-ascii?Q?TUG+0VAWKrv1BiAcqbV5NFecMH6dRLgKL/9r3C9z4OQUFjbJxMjOaMvgnZPH?=
+ =?us-ascii?Q?ZXOkyZOknYgNKjRk8VLpq1RyKrkA0/En0huZbKR6oKTBxdOkVULKyqHTuZK1?=
+ =?us-ascii?Q?78oB8q0wU8bZwj6/2dh7WP+GzGWDSjyow1zShXxn92qOVTtKSqt+UXKVehoO?=
+ =?us-ascii?Q?cehvbTP+G53DdJtjCkV7DOPQRQj5CfIN+a8K2aq9+tw2Q4HUD+jxDz3ceutk?=
+ =?us-ascii?Q?lMVSiziwb3X1FzjLtAZ0e9JvN7QCY8VNFw2tvN1E/uN1HQ4kd7zDebzuzTSh?=
+ =?us-ascii?Q?ajvcDcX6H1gl1F2aiUjDjpbPkWCjd5kJsRFqlMJ8JAgdwwTAw/bSm9uWOFKY?=
+ =?us-ascii?Q?OXmtbIXdhhW5kkvxdEgOseI+OhcVasCuHoRL0VRCPLryEFLCNQnqgpeYOarE?=
+ =?us-ascii?Q?EMMTIsNxeq6iMrIGwG6uFYqWYziQufbK8TEdwd38jf98816q4WR3RklNRgbb?=
+ =?us-ascii?Q?gZXH6mPt1fGw1xTT8+NHQI5C0TiLlTtRFXI9ZotT+WMms2hRGXZmH6iFp8+s?=
+ =?us-ascii?Q?4chK5RDHjTjgdODrvZCOsimzN1H+fagKNB7929zS5B/9wGQz0Gq5yD0xf4j6?=
+ =?us-ascii?Q?6w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a03a9186-4dbc-4b39-cd62-08dcfd18358d
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2854.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 21:30:10.5497 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 21:32:40.1920 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w6xOfXJxPY0Bc0TWNquOUuSm1IUoWv/yUBLXnnNBy6ZicWv7JK1bzRHKfpJS7XsOh2Z2xOuA/AXc8V2VnuACTg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8064
+X-MS-Exchange-CrossTenant-UserPrincipalName: NtZl8F5z98g7mbg/lRnyahIsaZYPNqZIL1kO3OGjfNlzwtzNhzrhWgZ9ZTbazhjWNpnWq1i7PqLkS5tMk4i78g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR11MB8790
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -180,255 +178,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 04, 2024 at 08:47:01PM +0100, Christian König wrote:
-> Am 01.11.24 um 00:43 schrieb Matthew Brost:
-> > On Thu, Oct 31, 2024 at 11:10:42AM -0700, Matthew Brost wrote:
-> > > Non-contiguous VRAM cannot easily be mapped in TTM nor can non-visible
-> > > VRAM easily be accessed. Add ttm_bo_access, which is similar to
-> > > ttm_bo_vm_access, to access such memory.
-> > > 
-> > > v4:
-> > >   - Fix checkpatch warnings (CI)
-> > > v5:
-> > >   - Fix checkpatch warnings (CI)
-> > > v6:
-> > >   - Fix kernel doc (Auld)
-> > > 
-> > Christian - Do you mind if I merge patch along with the rest of the
-> > series to drm-xe-next?
+On Sun, Nov 03, 2024 at 02:49:36PM +0000, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
 > 
-> I don't see the original patch anywhere in my inbox, please make sure to CC
-> me while sending things out.
+> execlists_unwind_incomplete_requests() is unused since 2021's
+> commit eb5e7da736f3 ("drm/i915/guc: Reset implementation for new GuC
+> interface")
 > 
-
-I think I had you on an earlier revision but used the wrong alias to send out
-this latest one. I will be sure to include you on future patches.
-
-Would you like to continue the discussion here, or should I send out a fresh
-revision with you included and an updated commit message?
-
-> Apart from that I absolutely don't see any justification for this patch. You
-> move stuff into ttm_bo_util.c which not even remotely belongs in there.
+> Remove it.
 > 
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-The justification is that EuDebugger requires essentially the same functionality
-as ptrace -> vm_access. This patch simply adds a helper to achieve this. There
-is no functional change to the existing code.
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Regarding the statement about ttm_bo_util.c, that seems quite aggressive. It is
-a TTM BO helper function, so it could logically belong in either ttm_bo.c or
-ttm_bo_util.c. A BO helper definitely shouldn't call into ttm_bo_vm.c, nor
-should it reside there. Perhaps I chose the wrong ttm_bo* file? I apologize for
-that. It would be helpful to know why you think this is the wrong place so I can
-better understand your expectations for TTM.
+and pushed to drm-intel-gt-next
 
-Matt
+thanks for the patch.
 
-> Regards,
-> Christian.
+> ---
+>  drivers/gpu/drm/i915/gt/intel_engine.h               | 3 ---
+>  drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 9 ---------
+>  2 files changed, 12 deletions(-)
 > 
-> > 
-> > Matt
-> > 
-> > > Reported-by: Christoph Manszewski <christoph.manszewski@intel.com>
-> > > Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > Tested-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> > > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> > > ---
-> > >   drivers/gpu/drm/ttm/ttm_bo_util.c | 86 +++++++++++++++++++++++++++++++
-> > >   drivers/gpu/drm/ttm/ttm_bo_vm.c   | 65 +----------------------
-> > >   include/drm/ttm/ttm_bo.h          |  2 +
-> > >   3 files changed, 89 insertions(+), 64 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > index d939925efa81..77e760ea7193 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > > @@ -919,3 +919,89 @@ s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
-> > >   	return progress;
-> > >   }
-> > > +
-> > > +static int ttm_bo_access_kmap(struct ttm_buffer_object *bo,
-> > > +			      unsigned long offset,
-> > > +			      void *buf, int len, int write)
-> > > +{
-> > > +	unsigned long page = offset >> PAGE_SHIFT;
-> > > +	unsigned long bytes_left = len;
-> > > +	int ret;
-> > > +
-> > > +	/* Copy a page at a time, that way no extra virtual address
-> > > +	 * mapping is needed
-> > > +	 */
-> > > +	offset -= page << PAGE_SHIFT;
-> > > +	do {
-> > > +		unsigned long bytes = min(bytes_left, PAGE_SIZE - offset);
-> > > +		struct ttm_bo_kmap_obj map;
-> > > +		void *ptr;
-> > > +		bool is_iomem;
-> > > +
-> > > +		ret = ttm_bo_kmap(bo, page, 1, &map);
-> > > +		if (ret)
-> > > +			return ret;
-> > > +
-> > > +		ptr = (void *)ttm_kmap_obj_virtual(&map, &is_iomem) + offset;
-> > > +		WARN_ON_ONCE(is_iomem);
-> > > +		if (write)
-> > > +			memcpy(ptr, buf, bytes);
-> > > +		else
-> > > +			memcpy(buf, ptr, bytes);
-> > > +		ttm_bo_kunmap(&map);
-> > > +
-> > > +		page++;
-> > > +		buf += bytes;
-> > > +		bytes_left -= bytes;
-> > > +		offset = 0;
-> > > +	} while (bytes_left);
-> > > +
-> > > +	return len;
-> > > +}
-> > > +
-> > > +/**
-> > > + * ttm_bo_access - Helper to access a buffer object
-> > > + *
-> > > + * @bo: ttm buffer object
-> > > + * @offset: access offset into buffer object
-> > > + * @buf: pointer to caller memory to read into or write from
-> > > + * @len: length of access
-> > > + * @write: write access
-> > > + *
-> > > + * Utility function to access a buffer object. Useful when buffer object cannot
-> > > + * be easily mapped (non-contiguous, non-visible, etc...).
-> > > + *
-> > > + * Returns:
-> > > + * @len if successful, negative error code on failure.
-> > > + */
-> > > +int ttm_bo_access(struct ttm_buffer_object *bo, unsigned long offset,
-> > > +		  void *buf, int len, int write)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	if (len < 1 || (offset + len) > bo->base.size)
-> > > +		return -EIO;
-> > > +
-> > > +	ret = ttm_bo_reserve(bo, true, false, NULL);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	switch (bo->resource->mem_type) {
-> > > +	case TTM_PL_SYSTEM:
-> > > +		fallthrough;
-> > > +	case TTM_PL_TT:
-> > > +		ret = ttm_bo_access_kmap(bo, offset, buf, len, write);
-> > > +		break;
-> > > +	default:
-> > > +		if (bo->bdev->funcs->access_memory)
-> > > +			ret = bo->bdev->funcs->access_memory
-> > > +				(bo, offset, buf, len, write);
-> > > +		else
-> > > +			ret = -EIO;
-> > > +	}
-> > > +
-> > > +	ttm_bo_unreserve(bo);
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +EXPORT_SYMBOL(ttm_bo_access);
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > index 2c699ed1963a..20b1e5f78684 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > @@ -366,45 +366,6 @@ void ttm_bo_vm_close(struct vm_area_struct *vma)
-> > >   }
-> > >   EXPORT_SYMBOL(ttm_bo_vm_close);
-> > > -static int ttm_bo_vm_access_kmap(struct ttm_buffer_object *bo,
-> > > -				 unsigned long offset,
-> > > -				 uint8_t *buf, int len, int write)
-> > > -{
-> > > -	unsigned long page = offset >> PAGE_SHIFT;
-> > > -	unsigned long bytes_left = len;
-> > > -	int ret;
-> > > -
-> > > -	/* Copy a page at a time, that way no extra virtual address
-> > > -	 * mapping is needed
-> > > -	 */
-> > > -	offset -= page << PAGE_SHIFT;
-> > > -	do {
-> > > -		unsigned long bytes = min(bytes_left, PAGE_SIZE - offset);
-> > > -		struct ttm_bo_kmap_obj map;
-> > > -		void *ptr;
-> > > -		bool is_iomem;
-> > > -
-> > > -		ret = ttm_bo_kmap(bo, page, 1, &map);
-> > > -		if (ret)
-> > > -			return ret;
-> > > -
-> > > -		ptr = (uint8_t *)ttm_kmap_obj_virtual(&map, &is_iomem) + offset;
-> > > -		WARN_ON_ONCE(is_iomem);
-> > > -		if (write)
-> > > -			memcpy(ptr, buf, bytes);
-> > > -		else
-> > > -			memcpy(buf, ptr, bytes);
-> > > -		ttm_bo_kunmap(&map);
-> > > -
-> > > -		page++;
-> > > -		buf += bytes;
-> > > -		bytes_left -= bytes;
-> > > -		offset = 0;
-> > > -	} while (bytes_left);
-> > > -
-> > > -	return len;
-> > > -}
-> > > -
-> > >   int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
-> > >   		     void *buf, int len, int write)
-> > >   {
-> > > @@ -412,32 +373,8 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
-> > >   	unsigned long offset = (addr) - vma->vm_start +
-> > >   		((vma->vm_pgoff - drm_vma_node_start(&bo->base.vma_node))
-> > >   		 << PAGE_SHIFT);
-> > > -	int ret;
-> > > -
-> > > -	if (len < 1 || (offset + len) > bo->base.size)
-> > > -		return -EIO;
-> > > -	ret = ttm_bo_reserve(bo, true, false, NULL);
-> > > -	if (ret)
-> > > -		return ret;
-> > > -
-> > > -	switch (bo->resource->mem_type) {
-> > > -	case TTM_PL_SYSTEM:
-> > > -		fallthrough;
-> > > -	case TTM_PL_TT:
-> > > -		ret = ttm_bo_vm_access_kmap(bo, offset, buf, len, write);
-> > > -		break;
-> > > -	default:
-> > > -		if (bo->bdev->funcs->access_memory)
-> > > -			ret = bo->bdev->funcs->access_memory(
-> > > -				bo, offset, buf, len, write);
-> > > -		else
-> > > -			ret = -EIO;
-> > > -	}
-> > > -
-> > > -	ttm_bo_unreserve(bo);
-> > > -
-> > > -	return ret;
-> > > +	return ttm_bo_access(bo, offset, buf, len, write);
-> > >   }
-> > >   EXPORT_SYMBOL(ttm_bo_vm_access);
-> > > diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> > > index 5804408815be..8ea11cd8df39 100644
-> > > --- a/include/drm/ttm/ttm_bo.h
-> > > +++ b/include/drm/ttm/ttm_bo.h
-> > > @@ -421,6 +421,8 @@ void ttm_bo_unpin(struct ttm_buffer_object *bo);
-> > >   int ttm_bo_evict_first(struct ttm_device *bdev,
-> > >   		       struct ttm_resource_manager *man,
-> > >   		       struct ttm_operation_ctx *ctx);
-> > > +int ttm_bo_access(struct ttm_buffer_object *bo, unsigned long offset,
-> > > +		  void *buf, int len, int write);
-> > >   vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
-> > >   			     struct vm_fault *vmf);
-> > >   vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
-> > > -- 
-> > > 2.34.1
-> > > 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+> index 40269e4c1e31..325da0414d94 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> @@ -126,9 +126,6 @@ execlists_active(const struct intel_engine_execlists *execlists)
+>  	return active;
+>  }
+>  
+> -struct i915_request *
+> -execlists_unwind_incomplete_requests(struct intel_engine_execlists *execlists);
+> -
+>  static inline u32
+>  intel_read_status_page(const struct intel_engine_cs *engine, int reg)
+>  {
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index 72090f52fb85..4a80ffa1b962 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -405,15 +405,6 @@ __unwind_incomplete_requests(struct intel_engine_cs *engine)
+>  	return active;
+>  }
+>  
+> -struct i915_request *
+> -execlists_unwind_incomplete_requests(struct intel_engine_execlists *execlists)
+> -{
+> -	struct intel_engine_cs *engine =
+> -		container_of(execlists, typeof(*engine), execlists);
+> -
+> -	return __unwind_incomplete_requests(engine);
+> -}
+> -
+>  static void
+>  execlists_context_status_change(struct i915_request *rq, unsigned long status)
+>  {
+> -- 
+> 2.47.0
 > 
