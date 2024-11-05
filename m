@@ -2,186 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 348679BC6FC
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 08:28:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19069BC719
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 08:32:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6985710E40B;
-	Tue,  5 Nov 2024 07:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 419FA10E28F;
+	Tue,  5 Nov 2024 07:32:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X27zcYSn";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VLtjAOTB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA71010E28F;
- Tue,  5 Nov 2024 07:28:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730791717; x=1762327717;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=SW6QItFINA4jatfGS3xS9L337ZF9MPUosXMJq+rKCqU=;
- b=X27zcYSn57TLcBJWfoxCPJ+tMqSZbCyaSNYpSM0wq4yuWnMwjGZVDgGH
- xM8UhaMxfF//grMiA9RFmf3n1KNX9Z+sqF964rNb93i8hFza0uRxpsNSH
- /3HN5BJa5iu6egMKg9XJ6eEaeRZ7bRyD2uYp3PytUTh0clC7X3g+bOFsn
- gOK7WCvSxg7SbiBebvrJ+N1ZDmJq5DfueyF7mM3f3FgCxkHi0Wz8ZjUo0
- C47xEkNjD60UfJ3wa41ETgMqjnVqo4dOoUjqW0jTFEl2Tq6HmleCYP89B
- wlSPwsa647z4R7vv5hdij1fMbC2M5m04EieiAPMYGOMzYGHWcSZ9PxmmU Q==;
-X-CSE-ConnectionGUID: UvbOocpqSAW3zMXkcl/Qdw==
-X-CSE-MsgGUID: usojLaS8TsePWDcTND0oOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30745209"
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; d="scan'208";a="30745209"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2024 23:28:37 -0800
-X-CSE-ConnectionGUID: Hq0hi+IVRrCeT25RDsZyCw==
-X-CSE-MsgGUID: esaPTqruRS6kET77dn4ILg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; d="scan'208";a="84242156"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 04 Nov 2024 23:28:37 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 4 Nov 2024 23:28:36 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 4 Nov 2024 23:28:36 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.43) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 4 Nov 2024 23:28:36 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2052.outbound.protection.outlook.com [40.107.93.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39C9910E28F
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 07:32:33 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ym/2A3S95oAE1dfW5w1vJnsMx78PKx4emTsHKclV3/T6FnkUqPBOvIDO2nWhAyX/5DbI3i9D9sIuq5BVfK2AIHKnQPJJ5iKwHfln9jhpyEZxssOYxUpVP2Eux8/JSm4mVCLksGhzHNuChxKL7UDfi/onsKXynwEftyEwsXMotQHa9DQ9rY9H0MeVvCLy3eUKY0TTIVFLQRcJEQyQGJSCfY7KYll4+mqYMHzDoJFf0U/47AAOOCHbsDqURqHxwOgTqrhD7oSLteACzyrL2UbQu5ZNlLWVP8NbeFsNZ/2Nfsh8zDfsKXEH+LwXHCfCskk41E8oHIDG45tE1QcT7VQvyA==
+ b=B4YuX/g+DwpLVW1hO7DcADmHkCYZavUDRYRIOyg/1TNcvGazXCOLJcYtZxgXROurYlOnSBBEa1WXAAzF8FN/eOQh/DvefQzstZww/HzHt1i4TxoODic9iR0cjd136pgBdoCbNX2AuKTLAnUwSCJbjcTWcdCq75USv8IY77IqG7LVnLnMZE9dmxhFWSVTcNKI5S/7Zvvjls6D+H76SvbGaHOdEG49r9PtN5mjMSUQopVXRua8yM5+Z0A1+Z7GmEYBOtkwQLLO/djXRXTh1c7FhMWfM4NsS4J8YPtMsKh/O39UCRxsO4bJ8zR/49+O35MgXM45jokBNeByR/OrJIOo7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0YEz8ggfiQWX43sS83d9hGXJ2TILe0efsyzpIfWnfKQ=;
- b=Gq6DcqpKkAQ04NhTbH0K59BVkfIxNebvAdcXXhpNcHCw/CaPdhqD3oIRbris42Zi6reYW3Diu8O2KtWnOSx+NeAphuJzycUDPfUsGck5QDOHyCURwim8K6vqGlGvbmBB2IJPuwwaoKFporcRWctJvxFjF3HdyPVfvF20l2CRaBMUUWZyNT7ET6bVLcPDxFUfPzoNmi0JKgPA3c/Vwg2tljOKkjy6FBabkMEkr4ELHpLnLUrf0dTmsziR2ACBrpRCCzeubC7EOimnESA5pTQKXX9YNIJyMjsUyybOp5VzZ1vXHrH9uQm4T3fltH1Cp4SUeg04jJNdGfcj+BFqHATQFw==
+ bh=AJmVvOwkvVO5+gvcWeL3A6Z0ztFJyITJbRJjH8OBUVw=;
+ b=f46SpF8N/yBVJGO4RupxB2tc2z21pRrkFgCddWeApjEJVbeV5EvQpuXAnd4tWJW0ZDA1vZdqC01mOoiEP98mr4zBZ4fzKZzERNggN9lO5mUv5DVq2Iieedzwr6tb4JsGfpuloP6pxNUIZDteFkH4ldhK/T/yMTlaK/IMDSG4HlOK2PMlE//7q2BsQhRJlC1Ov2/3Xv5TTAuS9hjhMg6j/pAFJfxiCVYcjQ5ER6BzkPLtDjcgrSeOhlWkZUQPczA3C68GRyowCVzj/x1fWEnIi+288cQKusMUYwYBuCigfoYsVvNBlm+2/zP0bpb+lgUiCbCFTB5YLPqGwKKBGxUJ1w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AJmVvOwkvVO5+gvcWeL3A6Z0ztFJyITJbRJjH8OBUVw=;
+ b=VLtjAOTB2Vn5dV15h1llSHi7BD8uf3Y5bXgntFgo96cU6uix9K8rTWXKLn/QIifGYTkILuI1RnvbA+3umgaeBcROBvYbqOyMSBdTi7FvoC5SHxQX1u6iX9tDnqKsLnUIe12Q6AdCV9fV9JOaRNLxHqTomJ2RwrxoWKXJ9EOCTow=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by CY8PR11MB7923.namprd11.prod.outlook.com (2603:10b6:930:7e::16)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SN7PR12MB6814.namprd12.prod.outlook.com (2603:10b6:806:266::6)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Tue, 5 Nov
- 2024 07:28:34 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.8114.028; Tue, 5 Nov 2024
- 07:28:34 +0000
-Date: Tue, 5 Nov 2024 01:28:31 -0600
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Gyeyoung Baek <gye976@gmail.com>
-CC: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4] drm/xe: Fix build error for XE_IOCTL_DBG macro
-Message-ID: <p3vspkvcm7nq3gankpblloudrumenpcuflhu5fpdse75kcyyk6@w7adi7togz4j>
-References: <20241102022204.155039-1-gye976@gmail.com>
- <hdffht6z6a6dnap7kpbg6w5hyiftgahpiyhidvgga4qjeiw5xz@wu3ca5tvfj3l>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <hdffht6z6a6dnap7kpbg6w5hyiftgahpiyhidvgga4qjeiw5xz@wu3ca5tvfj3l>
-X-ClientProxiedBy: MW4PR02CA0001.namprd02.prod.outlook.com
- (2603:10b6:303:16d::21) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+ 2024 07:32:27 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.8114.028; Tue, 5 Nov 2024
+ 07:32:26 +0000
+Content-Type: multipart/alternative;
+ boundary="------------lXHe1ecFNCLrywzQNJljPjPz"
+Message-ID: <301110a2-c004-4385-9231-b9354904b5e0@amd.com>
+Date: Tue, 5 Nov 2024 08:32:19 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/syncobj: ensure progress for syncobj queries
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: boris.brezillon@collabora.com,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Chunming Zhou <david1.zhou@amd.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ faith.ekstrand@collabora.com, simona@ffwll.ch
+References: <20241022161825.228278-1-olvaffe@gmail.com>
+ <900f8658-726c-4034-90ff-398e6c57ec47@amd.com>
+ <CAPaKu7QwSq7a-ipSOdETFEBGMu4J4ud1SqxDfPp8bNMjCMM5RQ@mail.gmail.com>
+ <CAPaKu7TB30wvDvMW2FcYNcxjfDkOje358JNnRr2jJf=99-h-rg@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAPaKu7TB30wvDvMW2FcYNcxjfDkOje358JNnRr2jJf=99-h-rg@mail.gmail.com>
+X-ClientProxiedBy: FR0P281CA0051.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:48::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|CY8PR11MB7923:EE_
-X-MS-Office365-Filtering-Correlation-Id: ffd968b2-e7ed-43e6-5bc2-08dcfd6b74c6
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB6814:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6af48de7-b47c-46ec-6323-08dcfd6bff5a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ODVCVmtpYVFIRnlzK3loeDZrUklsNCtZL29WeDB3UENrSDRYOUdnWGJraFUy?=
- =?utf-8?B?dHBGTlZzbk1ubjBDbHB4SGh6ZzRlTFVscTgreGRObldiNUlRK2FDN3NnM1B3?=
- =?utf-8?B?NEdWamQ0UE1UZUordGF5RkpCVXB2ek5pUFA5YXYwREpXRHkwUU5Sb3Nvdm81?=
- =?utf-8?B?ZnpaK1o5NS9rby9vTEJvaGg4RVYvQ2Fkek9WTnBFcC91OGxuVFBWbGorWVlU?=
- =?utf-8?B?blRLVC94NXgwM0lQcXd0TXNYcjVmWHpvcGxjaGhxK0hrdm9sSTVTcWIzZWVE?=
- =?utf-8?B?N2NIRk9oZ3M2QnIzNjlGWllYdzFyUlhvQVUvUWd2dUR3UGpiMlFJTWhPS0pP?=
- =?utf-8?B?emkxeHp4NGxPR2pFVzJPZEVlQUVHbm9wZUxDVGlpSTNKNUJtUUxwQmx1ajNY?=
- =?utf-8?B?Q29WRjdUeTV2SndicjlWUUpRT0lDMXdKb1VZMHQ0R2VxbU5kSUVTbDRHd2Rn?=
- =?utf-8?B?ZUFBWnowSzY5Wi96dFZ1eGFrYlZXQmZHbng5b1B1TmtEZ1ZlWlIxVnc3c0dV?=
- =?utf-8?B?VC8xa3JyaUltQ1hVUUJoNmpQcmVuRVkxakZ2NE1CQUhNSE1iYWtJallvNDk2?=
- =?utf-8?B?ZFhFcDdZaUJGbXI4Nm1NZ1BlWVNUL1k4U0dranZiVkFyRVJZdWRTbUIrSDdh?=
- =?utf-8?B?WWovWlQrRUtiV1FEeDNWRDdNWVc2ZU02T2J5d0Y5cHBLdVFZV0VYb0N4RlFN?=
- =?utf-8?B?aXdTckNZa3VhWmhYTEM3WFZDSFRkM1UwQlUweWRkWUhqNmJYTjBlUHJHN1M0?=
- =?utf-8?B?bXVpNDllRWhkeVZEWFl2MGJYNjZWbHd4TkZPRXdkYXVhSGdETTZQbjdyblYz?=
- =?utf-8?B?VytNYW8yVEdKZmNzZ1c1M1hTcmhieFlheEU2YjBYWFR1N1dHckU1TGFEODYv?=
- =?utf-8?B?OFRFd1JMRUFDUUFwNVFDQVY3VUtKWnJMb0pZdTEwY1Z2anlPTGdnU3MwVFNl?=
- =?utf-8?B?d3VNVUNFcmVuY2NUQU9DMEdDRVhEVjR3TDRLRFVXUjlyT1BtYjBNVXhHS20w?=
- =?utf-8?B?SnhOdWMweVNmeEJzZ2FYVi9JbURmR29GZE1XRUErRTY3NisreTRqekZUVTFC?=
- =?utf-8?B?YjhsRWtiWXBhY0Nhb2NPVXp0Z0F6NXVheDRsMWxvL0cvdHlHbFo1VTVqZlQr?=
- =?utf-8?B?L0NTZHhSZU5HMjZybnpNNTNjdlNyNWhTc3J0LzdEbFdkcGw3TC9aTzFncnox?=
- =?utf-8?B?WldzMHBobXMzK2tOQ2tZamxuUUN1bUFKemszSC81U2owYnAvejFqMGJTaFhU?=
- =?utf-8?B?WE1PMUQ4Zk5LV2xLTE5UVE93dnI3enlMK0dBZXRNTzBnV2l4M2NsOWJYU1ZG?=
- =?utf-8?B?bG9WZzNETW1DTDc5ODEzdzNlYjdBZWNMMjlLNlZxdWhBM1RWSEczZDRFQjh0?=
- =?utf-8?B?a1l5TytnQVZhL2c1a2xCL0Z2a3FmTnIxOGIzQi8xQVFUaEF0ZTBNSEdJWGpB?=
- =?utf-8?B?YkVjZTJlVTFlTi96WHdwUFBpMlk1YjNRaWxQdW1zZ0o2QWcrREg1aDNDcG5r?=
- =?utf-8?B?TDMrYWtKVzh3ZHkrNy9IcVBwY2RqSXZ1dkRvZkY4QWlzL01ObXJkdGdpTmRh?=
- =?utf-8?B?c3lRTzBsN240OTRUOEVyamZPTG1IdVNsNUg0VTFmYVZSanlkbTRRSkVyQ3pX?=
- =?utf-8?B?UTEzeHY1THlIM0ExbmVHL0Q5UmZaT3JCaUNTa0d6VUxwTXhUSUFoMERtbGd1?=
- =?utf-8?B?MWtDdFZ6L3FaUFpCa0E2eGZ2N0xpNUV1R1dmSWJwN1pPLzZTVkEvNUxLT2NL?=
- =?utf-8?Q?a0v4iStesu+FF42KtmVNhEeV2x9hhki4AZxlkI5?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|8096899003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aHd4MWFOenhGWHdSMDg4dEVrOVp6akFMZFc3ODR2NjllZm45WjFDeng2akVS?=
+ =?utf-8?B?MjRDbXE0V250czI4NUF6N3dMQ2djVWRpT3puaXJKWHpsSnJURDVHeCsxVkkx?=
+ =?utf-8?B?LytXaUt1aHRjOXZ0MUZ3YXJUVHErMFY1alZHWHlITjd1UkhJTlRnTm1PeHZU?=
+ =?utf-8?B?Nlh1cGZaZGNsemwzMm1ITEJRU0RWc1R6b1dUV1BCdm5YSU1TdjVKWm1TeVZ1?=
+ =?utf-8?B?WFZzZzFmUG8vOU51T3N2YkJLZThpOG9yN3Bad3d6Sk9TS0hJQ1pBWnhLVW5r?=
+ =?utf-8?B?RUZrQ1NheVlOMHBiOFNvMmxTUE04alhWa0w3WDRPQ0JXelEzV21WTkJ5aFAw?=
+ =?utf-8?B?cklFcUVSV3lRd0p0SEVZR3lpQk83QnRhWHlRdHRCZmlnY3lPL0F4aDFEa21P?=
+ =?utf-8?B?TkRDY2w2T01HZkhHRjlVTmt1L2N3UmlEcVd4c2tQNVNJY2dQVTRoSDNFVFRM?=
+ =?utf-8?B?S0xCeDY3dlMwdkszY2R6QUhVbWl6WExyQU5aVytTNHVMaW5ZZ3RIN1FlZ0pa?=
+ =?utf-8?B?citUc0tmYkQrME1vMWZWaW9BcS9uV2taYWFTSDVtSVhQQlloOHptdWVqVmM5?=
+ =?utf-8?B?TDhpeStWMEZWUG5TOTcyT2UvQVN5WmpVYjE5VEpnMXU0WHI4QUl2UUVIYm0z?=
+ =?utf-8?B?MGVkeXVyQjNOQld1MEJYWFI1aWs5ck1jUSt6SENQSUpiRGRQYzFTYkkyRkpo?=
+ =?utf-8?B?TmFldGU4M0ZTZ2ZZbE45Y1F5Rkd5a1N4dERIOGpRd2l4WlFGQ3UySGw1UjB5?=
+ =?utf-8?B?ZHVVMzhCaUtOWi9YeVliYjJjYzFMdlV5UFhBcWhjOTJ5aDllVVVIcHMvVDky?=
+ =?utf-8?B?RkFCZDNpaDN2NVRMWHptUkJrTXV5TExiMmNZR0ptKzFJbmxPZ2ozSEtVUnFF?=
+ =?utf-8?B?YXQySHZmMTNRUHVGak5TRDlJa0ZLTWk4Y0lPaDZTa29aOENOdEhvazEyclpV?=
+ =?utf-8?B?anVIMklYZlZlZ2M0YVRReE4rdTYvY2x1NU9TNXdoQU9xbHRReDVkdkw1Unpa?=
+ =?utf-8?B?MS9uM1A1WG9CNmtQUitOWVNJRG9WbVFSQW05R1RQNTc0VmY0UHJvUmhJQktY?=
+ =?utf-8?B?TGpVZzR4M3JQM09FUGVqendVc01CMTU3MjF1SFVoWS9BYk15VVRSbTRrUGxT?=
+ =?utf-8?B?WnRidGU4VmFIRm5CdWJ0Vys1dWFadHVMaVgwWWV4ZXBob21Pdm5nUUxPaDNL?=
+ =?utf-8?B?Tkl2a1N4YUNsbWtTRWVuSzE3Wk5DN1BLYUUxeGNCMVZPVXBIZG1rZmVpbUc3?=
+ =?utf-8?B?b2pyWUJZaTBtRHR1MW1LNmgrYlNEVmxOcHVvUzlVaHlhN0EvcjZFMmNVdGRD?=
+ =?utf-8?B?MTZpclRzZXJ4bWtYSThCMlZ2WVE2TFhDMXRaajJJdm9VNCt1aFdXOTByZ1h3?=
+ =?utf-8?B?UmRqcnZNNkNwbUc5V0RuK096Qjd1Y0htdUx4RStSdjdoVGRoaUxwc3Uvejdj?=
+ =?utf-8?B?cjFybkRWc3BBc3R2RHFCa1E5U1RjK3RuYmU3RTY4b2UvV25YZytNM25kU1p6?=
+ =?utf-8?B?TGtra0k2SFY4VXRtM29yWVhIaGJVRkpWT2hJLzlDRDZCczFycGhBL3pnMWZm?=
+ =?utf-8?B?Vjc2QUVRU0k5TzhvUlZVZU5yUDIvalhpNEhubWFMeHBIM0VHVnpOWHpGQnl2?=
+ =?utf-8?B?Mnk5VW14QVFPN0dxdXdDOVZtNFJYNFVJSmE5TCtVZkREdDJlL0pJMXE0TVBK?=
+ =?utf-8?Q?GeV02j+82YbR478GKyzN?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7416014); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(8096899003); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cG01Y2tlM3lzelFKcVU4U1h6Sk9sYTdwMkg1SDJBOHA5L1AzWHJsYzdPTXFs?=
- =?utf-8?B?UGJMYml1Q2ZHWFNZZVdzRXZKVlFDZXlaZXExNVF4aGp2QUlsS1ZCdTF5Q29Y?=
- =?utf-8?B?SzNyczhFV09Oc2V6UHdJS3BkY3lVQ2FsLzRGQmo1SU9kSEhMNXlpeUQ2R1ZU?=
- =?utf-8?B?akJncDhmYmV3cTBnT0t4R1dlNUZOcURKMW9vVU9CTHJGRnJLLzRlWTBNRzB5?=
- =?utf-8?B?SWFvK2UzakcvcytRSDV3OXFtMjZVNWhxKys1Y1NNK3dSYnE5QnM4ajlBdEdX?=
- =?utf-8?B?OWl6UzZIZTJFWS9YL3I0b0d1ZkQ0b0NwRWlzMGtIT0FhUXZjRCtINkNibm0r?=
- =?utf-8?B?WFc5Mk5TUTM5NkFTY2ZzZzZSby94SjJMVlNzNTQ0QlA0WlFaL3JFOTdGMk1a?=
- =?utf-8?B?YVBqcmpqcVJYOVJPR083VzBFemtkZ3g2RitQNEYyb25YNzBXak9uNnVVa3la?=
- =?utf-8?B?MlBPd09xaVg1V3k4R1FheUNRZU8wOXcra2lTSTdSS0NmQ0pQWnk4MFc2YVpj?=
- =?utf-8?B?eXVmZTVYL0lPSzRmNEN2RlpWWEVhVm1Ua3Q5TDJ4bjRIZ3ROc2JGczcwcytT?=
- =?utf-8?B?SGhjWU82YnNEQzZ4aGZFTWwwN2VoQ1V0eDdJNE5rREFMZHkxWnZMRERTL1VR?=
- =?utf-8?B?bzFVSVVqNHF4cFNTbzZNTWlKb1RramVSQTVLb2Vlc2pqZ01laXRDT0MvbnRw?=
- =?utf-8?B?YU42TnZDS0FXU2ZVdHdZWWNUWWtRUEZISlJBb0Ftc3d6b2lJMXZvM2lQdGJV?=
- =?utf-8?B?NS9XTkRkVlFtbTY3VGdESGVKR0JzWHgrN2E0OUdzUEFSS0grNVZVSE5WL1J1?=
- =?utf-8?B?RE1Dak01aXhiTkZFYTVCM21sS0tHTUxLQXlDSE1iVnBYaXpYdzB0Zzd4TjF4?=
- =?utf-8?B?NllPYmpCU1pVVHBMTm9WU2g2MzFXanZEM3dnNzIzK2VVSU81ZU5ESTFmSEJy?=
- =?utf-8?B?cDhSM3c1dE00eE9WSXlHa2hhQzJWVFFQUHBzWUNhaHo5L3R6N0xaNEY5V1I5?=
- =?utf-8?B?MFdpRkNabC9maENtd255Wk93S1lleEFKZTJVK1N0bWxlWWgxSVBrV25hU0RW?=
- =?utf-8?B?bHppQ1dPRkhJRWlZL0xoT3NFUFN5Z2xDYlRmQzNDVkN3c0RHdmcrYnpZMXZm?=
- =?utf-8?B?ZVJiYjkyRWZUYkh5azNPZElYeEdqbklqdmVlY2Y1eWZkRTNHSWNIYTJPKzlU?=
- =?utf-8?B?S2JYK2hGQkRRcVVKVWJmNy8yTGk1ekp4dkVFalpRWHExR2w5T1ovMC8rVUR6?=
- =?utf-8?B?bThMV1RaOXlaaVdRcjJpSHpyU2MweC82aEU1VDh1SGJ3U29CT1BrTmd5cEV4?=
- =?utf-8?B?WnJNTVJEYVZqT2MwSlYxQXVyVlZnU2pnY2c1V2VGeEtjZ3ZJcHAvWUVvWXZl?=
- =?utf-8?B?NWJ0bk0rbkVjV3lEV2dVUkUxSjJqWXUzd0hhemJQNU90SE0rcGVZOGVkRWRF?=
- =?utf-8?B?enV0ZTMrYjNqREw4VzU3bFZXdW91bkRPb3BtbkVIdGt2VHdCa1lVb2ZScTA4?=
- =?utf-8?B?TG1GejdRMzdlbVBReE9iZDR0RUxENWdtZU1FSHJSODE5OFlUWE1Rb2RGK0ZK?=
- =?utf-8?B?bWdGNXQzSUtBMlgyamtwWXFlSVhyMnI1a0FYcXBaM1J0Vi9rVkxiS3hCbTYw?=
- =?utf-8?B?VnREMURPaEVsS0x2R1MzUEpnTVRkQkNZMmlmUkpJcWNFVnJONFNvZUIrQytE?=
- =?utf-8?B?OEdmWWZYUU5QMExWVVFCYXF3NzVCRHM3MXY3bzE1WU5Oa29KaE4vR2tBLy9x?=
- =?utf-8?B?NHdXM2FVMTFURlZqc2U0UUh0RXNZSlhxb0t5dVVyeGNiK256UDk5U0hiQXNX?=
- =?utf-8?B?ZGp2Y0YzSGNNdkpmMzR3ZWZlTWlNVnltZ08ya2R1UENnUWN1VGRsMDROL0RX?=
- =?utf-8?B?ZVQrYXB1SGVzdlBGb0NOa2thdEJtTXpxZkNWRmdtS0J4ODFYWDhSTEZIQ2pO?=
- =?utf-8?B?S0lFOHI1clJUYXlhbkEyNVI3SkFsbHAyRXEyRW9Wd1RRbE42eFdFUWEvNWtB?=
- =?utf-8?B?WGZSeVd3VGowWXp2R2tjS1kxUW9WaE12ZDBDQ2lBTVZEY0lXbFkraFNLMVhF?=
- =?utf-8?B?UkI4Nys4VWhCVWNIbEltQzdaZ3hjZ0dSdGVKSkp3QTRLVEprVzRndlE2dHkz?=
- =?utf-8?B?QUtoenlBTHlqTWJadlE2eEhJRy85d1cvMzlYb2ZaNUFBYksrQWp3T0cwMlZJ?=
- =?utf-8?B?eGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffd968b2-e7ed-43e6-5bc2-08dcfd6b74c6
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUV1c0RIMzNici8zMU1TU1pHQ29ENkNUWk1SNWtQZzN2VlVpUXI5L2ZwbE5J?=
+ =?utf-8?B?ODVQWUVBbWpUbkZDKzB4SkE4L0ZLSzY3UzhjSXg1ODlIWnVweE51aUNVY1Z5?=
+ =?utf-8?B?NlRmanFxNEZxWlNpSXNkVUloRFRubHlHN0dwWjJLVjMvOVlEelhIdXRaRzdW?=
+ =?utf-8?B?U1QvM1lybXA3Z2FvQS9YT29HSHptc2JXbGFZNHBmNU00ZUh6bFhsUFpnaEN6?=
+ =?utf-8?B?MnhOMi9qVnBBN09yTEJzMkNPQUVRbVFWUlUzQ25BNSs4RlRNazgrVFhzRFlN?=
+ =?utf-8?B?VEp5UHVCbWlrV04rT2V0Nno5WTRkdGM3bHBvQk1EaGh2UWcxMTU0U3N2ZWZ3?=
+ =?utf-8?B?Y2JVMFl0Zm5KQ1JIRGVtb1FiWmxJa2hsaXFlcU1MT1l4NUNEV1UzUkVRYjNY?=
+ =?utf-8?B?WnF4emkwZDZZNnNuS0hZS2MyTk50alJlQTZOUGxKemZuOWhQYUJ4MlNtUDJD?=
+ =?utf-8?B?Y0Z6VUErbjFvL1FVT2NKczk4UHFxVGo1ZGJvNndROExUTzBhZ093RklwaHhx?=
+ =?utf-8?B?T0ZYUnlTMzJqSDdrUy92YzJycHZNS2YrV0djNFlLZGg1YXNieU5oZ2dXa2d3?=
+ =?utf-8?B?RXlhcUwreExqNkZDZWU4UlRMRC9tTml6ajdOdWt4bkFsa3FURklpTGFmeDB1?=
+ =?utf-8?B?NHhVVVpZTjhjQ095ajRSR0NlMG5EcDNsM09jdGpzNVhSajBzQ085MDc5WFBp?=
+ =?utf-8?B?REI4QUtCK0RyandjWmF6aExRR0pDSDJIdDZ6N3F2SXdQMGwxWnF3VHFyV1JO?=
+ =?utf-8?B?TXZNYmZhRXczWWJiSkxGOWk3TnF2VEYzSW5yMDB1MGs2VFNjamNwVHAzKzNL?=
+ =?utf-8?B?RmZJelY1bG82N0U2OFZBOUdHeUdkTzVmdWo1cjR1RURxVEUvOXdiTDA0dzVo?=
+ =?utf-8?B?azhVWVh2OFFzMGlrWnNMa2p2cjlUSmY1YjlsL2tFanZlV2lycEZSSEN3ZjBm?=
+ =?utf-8?B?VFZiL0JmSFBESHBmN3JNUnNXaGZURnczMzN1TXZxWjh3QzdiK01xeEhPTzFZ?=
+ =?utf-8?B?ZzFQV1BLWUh5ViszODl5enY0c2pRYkpDOWczOHI3UTB2SjN4MU90MnUxVThv?=
+ =?utf-8?B?OEVTeXluMzhSRlAxN3RJN2E3UEhYaFRHS0VIZHpLRUV4NlV0amRQdUZvc3pU?=
+ =?utf-8?B?bGhHaGNyV0dNT1V5VklJSWV4SFZYQ2craCtFUjVZRjBTOTJ5S05IRlFMV01F?=
+ =?utf-8?B?ZFRFNm5vK0YrSVdUQkxJdkp1NExqWUNYMFpNRWgwdUQyQkxmRnRiTm9hMERZ?=
+ =?utf-8?B?WkF2MlBDaytEellNVGgrQUVPb0RhYVVhaDVZMW1wb3FlY1J2a1lBTXljbWs5?=
+ =?utf-8?B?akJFekNLTU5kTkMwZEZwckQwUjN2TEpsMVZyZWIzalY4RnhjN0xpUjdZRjQv?=
+ =?utf-8?B?RGM1OXh4ejl4QmFhRjhGMzNjMEJ6L2VZd1dMOHRXbS95YWZNbnM0Y1lDYkpn?=
+ =?utf-8?B?WFFOcmY1blVHTGx0d1RiUFRGd3ZtN2R5VGpYMlJzM1RzZ1I4b25KRDlseFNP?=
+ =?utf-8?B?Q011Y0JGVHFpQXJjZW01Ryt5QmtveDRqTHNqTnhlNWdpaStIbGpyZm92NGI3?=
+ =?utf-8?B?YmFCN055cm11dGdYWmpmODNRejN6OWpOWjlhYythWDNyUStHWVBRdDFGcGNK?=
+ =?utf-8?B?bFluTXpJTURRa0ZjaitoWnhkbkQ4Sitpbnh5U29JemlBaHFJeGVTZzZJR1Ns?=
+ =?utf-8?B?QXU4Vnczakx4c2traUxDMVdQVkZZcHdGNk1ibEhLVDkzK0dSK1dFaWJ6NlBQ?=
+ =?utf-8?B?VjU4M2ttaUkrVlhYa3c5VEd0ZVMxbUM1YzFPc1hueWFBVHJXRjNNK1gya0ov?=
+ =?utf-8?B?dkc1OEpQRXhTWnlUM2VlTW1Za3FlUWpvL3pkRDlBNStlOVJPdHdOR0pQemZt?=
+ =?utf-8?B?eE5qdTFDODBaMzhLSUVXWWY3alFqUWZzMk1GSERXSEVBT0RpUnNBMDBTcHR5?=
+ =?utf-8?B?WjhNV0xycDU4dk9ZMmhHVno5R3VSMTcyZUZ3bTFYN1Nua1NlekZVWGtkOWw1?=
+ =?utf-8?B?bWJMOHhtWSsvUjNUU2RFQ3loVUtNQks4NmlzbDhoWm5IR0FzcEZMMXA4eTdu?=
+ =?utf-8?B?SGgwQlBMNEVUVlJFaFMvOENTWjM1MzI3eVlPL2Nra3hIaVRsWXNWYy8wQmYw?=
+ =?utf-8?Q?v/VeFvpovpRhjgV6gHNsboOpt?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6af48de7-b47c-46ec-6323-08dcfd6bff5a
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 07:28:34.4008 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 07:32:26.8304 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LcveEHywBAQM4DnG/wTsWa/I10xYNp5vSG7K8IVzMTMIHjDyQhLHz6G8/vahlOwmPowfieWnQIz71T42JHQIT88td0jqgCaec30fHB0JEKg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7923
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: RANYRsBUlhnOC7tLMunsWlAmcO5yoUmqs5U9smkWxomC15Mfmw4cx+RYkATnK07A
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6814
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -197,60 +168,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 04, 2024 at 12:04:30PM -0600, Lucas De Marchi wrote:
->On Sat, Nov 02, 2024 at 11:22:03AM +0900, Gyeyoung Baek wrote:
->>if CONFIG_DRM_USE_DYNAMIC_DEBUG is set,
->>'drm_dbg' function is replaced with '__dynamic_func_call_cls',
->>which is replaced with a do while statement.
->>so in the previous code, there are the following build errors.
->>
->>include/linux/dynamic_debug.h:221:58: error: expected expression before ‘do’
->> 221 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
->>     |                                                          ^~
->>include/linux/dynamic_debug.h:248:9: note: in expansion of macro ‘__dynamic_func_call_cls’
->> 248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
->>     |         ^~~~~~~~~~~~~~~~~~~~~~~
->>include/drm/drm_print.h:425:9: note: in expansion of macro ‘_dynamic_func_call_cls’
->> 425 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
->>     |         ^~~~~~~~~~~~~~~~~~~~~~
->>include/drm/drm_print.h:504:9: note: in expansion of macro ‘drm_dev_dbg’
->> 504 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
->>     |         ^~~~~~~~~~~
->>include/drm/drm_print.h:522:33: note: in expansion of macro ‘drm_dbg_driver’
->> 522 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
->>     |                                 ^~~~~~~~~~~~~~
->>drivers/gpu/drm/xe/xe_macros.h:14:21: note: in expansion of macro ‘drm_dbg’
->>  14 |         ((cond) && (drm_dbg(&(xe)->drm, \
->>     |                     ^~~~~~~
->>drivers/gpu/drm/xe/xe_bo.c:2029:13: note: in expansion of macro ‘XE_IOCTL_DBG’
->>2029 |         if (XE_IOCTL_DBG(xe, !gem_obj))
->>
->>the problem is that,
->>XE_IOCTL_DBG uses this function for conditional expr.
->>
->>so I fix the expr to be compatible with the do while statement,
->>by referring to "https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html".
->>
->>v2: I modified this to print when only cond is true.
->>v3: Modify to evaluate cond only once.
->>v4: There was a mistake in v3, send this again.
->>
->>Signed-off-by: Gyeyoung Baek <gye976@gmail.com>
->
->
->Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
->
->I will apply this to drm-xe-next once we have CI back.
+--------------lXHe1ecFNCLrywzQNJljPjPz
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-there were some checkpatch issues about mixing tabs and spaces. Next
-time please double check the checkpatch output. I also reworded the
-commit message a little bit to follow an imperative mood as outlined at
-https://www.kernel.org/doc/html/v4.10/process/submitting-patches.html#describe-your-changes
+Am 04.11.24 um 22:32 schrieb Chia-I Wu:
+> On Tue, Oct 22, 2024 at 10:24 AM Chia-I Wu<olvaffe@gmail.com>  wrote:
+>> On Tue, Oct 22, 2024 at 9:53 AM Christian König
+>> <christian.koenig@amd.com>  wrote:
+>>> Am 22.10.24 um 18:18 schrieb Chia-I Wu:
+>>>> Userspace might poll a syncobj with the query ioctl.  Call
+>>>> dma_fence_enable_sw_signaling to ensure dma_fence_is_signaled returns
+>>>> true in finite time.
+>>> Wait a second, just querying the fence status is absolutely not
+>>> guaranteed to return true in finite time. That is well documented on the
+>>> dma_fence() object.
+>>>
+>>> When you want to poll on signaling from userspace you really need to
+>>> call poll or the wait IOCTL with a zero timeout. That will also return
+>>> immediately but should enable signaling while doing that.
+>>>
+>>> So just querying the status should absolutely *not* enable signaling.
+>>> That's an intentional separation.
+>> I think it depends on what semantics DRM_IOCTL_SYNCOBJ_QUERY should have.
 
-Applied to drm-xe-next. Thanks.
+Well that's what I pointed out. The behavior of the QUERY IOCTL is based 
+on the behavior of the dma_fence and the later is documented to do 
+exactly what it currently does.
 
-Lucas De Marchi
+>> If DRM_IOCTL_SYNCOBJ_QUERY is mainly for vulkan timeline semaphores,
+>> it is a bit heavy if userspace has to do a
+>> DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT before a query.
 
->
->thanks
->Lucas De Marchi
+Maybe you misunderstood me, you *only* have to call 
+DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT and *not* _QUERY.
+
+The underlying dma_fence_wait_timeout() function is extra optimized so 
+that zero timeout has only minimal overhead.
+
+This overhead is actually lower than _QUERY because that one actually 
+queries the driver for the current status while _WAIT just assumes that 
+the driver will signal the fence when ready from an interrupt.
+
+> I filed a Mesa issue,
+> https://gitlab.freedesktop.org/mesa/mesa/-/issues/12094, and Faith
+> suggested a kernel-side fix as well.  Should we reconsider this?
+
+Wait a second, you might have an even bigger misconception here. The 
+difference between waiting and querying is usually intentional!
+
+This is done so that for example on mobile devices you don't need to 
+enable device interrupts, but rather query in defined intervals.
+
+This is a very common design pattern and while I don't know the wording 
+of the Vulkan timeline extension it's quite likely that this is the 
+intended use case.
+
+Regards,
+Christian.
+--------------lXHe1ecFNCLrywzQNJljPjPz
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 04.11.24 um 22:32 schrieb Chia-I Wu:<br>
+    <blockquote type="cite" cite="mid:CAPaKu7TB30wvDvMW2FcYNcxjfDkOje358JNnRr2jJf=99-h-rg@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">On Tue, Oct 22, 2024 at 10:24 AM Chia-I Wu <a class="moz-txt-link-rfc2396E" href="mailto:olvaffe@gmail.com">&lt;olvaffe@gmail.com&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">On Tue, Oct 22, 2024 at 9:53 AM Christian König
+<a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a> wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+Am 22.10.24 um 18:18 schrieb Chia-I Wu:
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">Userspace might poll a syncobj with the query ioctl.  Call
+dma_fence_enable_sw_signaling to ensure dma_fence_is_signaled returns
+true in finite time.
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">
+Wait a second, just querying the fence status is absolutely not
+guaranteed to return true in finite time. That is well documented on the
+dma_fence() object.
+
+When you want to poll on signaling from userspace you really need to
+call poll or the wait IOCTL with a zero timeout. That will also return
+immediately but should enable signaling while doing that.
+
+So just querying the status should absolutely *not* enable signaling.
+That's an intentional separation.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">I think it depends on what semantics DRM_IOCTL_SYNCOBJ_QUERY should have.</pre>
+      </blockquote>
+    </blockquote>
+    <br>
+    Well that's what I pointed out. The behavior of the QUERY IOCTL is
+    based on the behavior of the dma_fence and the later is documented
+    to do exactly what it currently does.<br>
+    <br>
+    <blockquote type="cite" cite="mid:CAPaKu7TB30wvDvMW2FcYNcxjfDkOje358JNnRr2jJf=99-h-rg@mail.gmail.com">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">If DRM_IOCTL_SYNCOBJ_QUERY is mainly for vulkan timeline semaphores,
+it is a bit heavy if userspace has to do a
+DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT before a query.</pre>
+      </blockquote>
+    </blockquote>
+    <br>
+    Maybe you misunderstood me, you *only* have to call
+    DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT and *not* _QUERY.<br>
+    <br>
+    The underlying dma_fence_wait_timeout() function is extra optimized
+    so that zero timeout has only minimal overhead.<br>
+    <br>
+    This overhead is actually lower than _QUERY because that one
+    actually queries the driver for the current status while _WAIT just
+    assumes that the driver will signal the fence when ready from an
+    interrupt.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:CAPaKu7TB30wvDvMW2FcYNcxjfDkOje358JNnRr2jJf=99-h-rg@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">
+I filed a Mesa issue,
+<a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/mesa/mesa/-/issues/12094">https://gitlab.freedesktop.org/mesa/mesa/-/issues/12094</a>, and Faith
+suggested a kernel-side fix as well.  Should we reconsider this?
+</pre>
+    </blockquote>
+    <br>
+    Wait a second, you might have an even bigger misconception here. The
+    difference between waiting and querying is usually intentional!<br>
+    <br>
+    This is done so that for example on mobile devices you don't need to
+    enable device interrupts, but rather query in defined intervals.<br>
+    <br>
+    This is a very common design pattern and while I don't know the
+    wording of the Vulkan timeline extension it's quite likely that this
+    is the intended use case.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+  </body>
+</html>
+
+--------------lXHe1ecFNCLrywzQNJljPjPz--
