@@ -2,63 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8CC9BCA71
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 11:28:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A6F9BCAF9
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 11:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 991C110E426;
-	Tue,  5 Nov 2024 10:28:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC0A710E2D5;
+	Tue,  5 Nov 2024 10:50:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QAgJMEcG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FdHe775n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 545BF10E426
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 10:28:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6159BA42D81
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 10:26:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 18B81C4CECF
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 10:28:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730802504;
- bh=2TOMjaOPcCZNpkMYThZTbMqsPu3uSUnadImT+0bSw3k=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=QAgJMEcGySCzGaNpDYGLATZ56iZyWyYvhp5gRKXCZdAB1tuBc2ioQCjCJD6GM+zmr
- sRJTMIAMayYQ1Fl96fU3p8ZkTYscP6m0azDChF7Fo2cycGzrfwVtfJJtxXRWgtjLu/
- ksa3cI/cg7hQN+RHzstazeWEOgW0R9T5LnFLH71NSnFrFCrxz18omAva7mzgXo97hW
- VgjsYZFlv0Tp/SqebugQ9KbhnqCQtqBymzfmstPaQFuLtt36Qw29f7MIVay9sj+fMy
- RpC9uPnoc+40mL7/oiUtwhZTXYvm2gBtxnti/d8C+JcnD75EHEZosV0+f/B17P1QBA
- SgJI6isKpbpOg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 0E693C53BC5; Tue,  5 Nov 2024 10:28:24 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 219468] Screen flickering on Radeon 680M - 6.12
-Date: Tue, 05 Nov 2024 10:28:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: leejm516@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219468-2300-C8VdAfAAXy@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219468-2300@https.bugzilla.kernel.org/>
-References: <bug-219468-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB7110E2D5
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 10:50:26 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-e2e444e355fso4815429276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2024 02:50:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1730803825; x=1731408625; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=tcLHhgY/7JDthrxKCQ/K4USCyZ0HCKKxDBN31BvrBJA=;
+ b=FdHe775nkxfcaPUH51j9wYUXcJPAvf3tQSXfal6ihGVRmoSobgr1bGYZH+l5qOY56m
+ HvvsXfnTpCqQ3UQ9rZqWKlOSEhRsIBrVPIWVtfmbSk0BeagGi+HIGYLAJPdY2eQDSnB7
+ 4wH5wAFmio94ca1js9nba6v3qtQJeFS2xGbmChJnof4rtSJrx2T/pLvLDrttvtYkdVUB
+ nW6Bq32jrPOgu7gXFVyO67slUkzb4HgZOpGTRcWL15f17HZccvFTFPLFY9HmMCCA/BXC
+ axnVDv9acV1W2yMtrKF72DxxAuChHR2lzMGaTPwe2YJpD2BR+HPSvid+GiX8/c/tpJ4+
+ 3R+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730803825; x=1731408625;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tcLHhgY/7JDthrxKCQ/K4USCyZ0HCKKxDBN31BvrBJA=;
+ b=wwb5fXcicTwi2Ttpwu5zjierOV2GEx/DKDB6tFY4KSA+fk+B25Cw+jAMWKH9aKp9JF
+ a+r98ubfPL5/xw6tuwPKIgi0VZ6XvM6s3qxJV7OetOygZWXlsOBJX1ze2mdYloRD3wVu
+ Kia3YoyqILQKW6it0yuSIy2DG9UNi40FdtzkKiwu4/O/mH1Jw2T01cSqKWk5XDT+9ptm
+ l5WwHXkR2o1+eHsFLE+73T9o1qKmybKhbjC9sIeZGoMtck2NXApJx6UJ1NtpABsiBccu
+ 8SuBfZYrK5o/FL6Top+GkEwvsd5jQNPvXLaqKOFc18IBsbR0LJQJAEnFmNvDW8+woRBa
+ H58g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUrsjYqasElW2uBvUFKJNssozMT++7vlIfem+FTZooaNjv6VolYT6D7ompDvhNkGBtVHWRJPQlN7Hc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxFTvZGzNq9m9aD7fB2yDvDkldj4Gt4vIpPKZrGQ3LpeEKvZSNy
+ vp36AW02s9IqzDukgK+zrGCqludAt7pPOM538/Kz0i0oifPRLA5qE0JkbwO7EdOu/JZedp/6o0D
+ orJChiWTU/a+9X8lfIhSsXSdwYOgU6TynkrnVCg==
+X-Google-Smtp-Source: AGHT+IGvKG/7lB41w2cTCGY4XF224YUlYXy4b7EKwqjtZf9lwXlgT73R+wocm5vnvPHixEYI8CaW/u9+yC/WMUo4CTM=
+X-Received: by 2002:a25:2e44:0:b0:e30:c87a:f391 with SMTP id
+ 3f1490d57ef6-e3301836a58mr12105098276.27.1730803825206; Tue, 05 Nov 2024
+ 02:50:25 -0800 (PST)
 MIME-Version: 1.0
+References: <20241101105028.2177274-1-shiyongbang@huawei.com>
+ <20241101105028.2177274-4-shiyongbang@huawei.com>
+ <3ke3n6mkxdcllgjohhudv6xi6csnqzpahaocpofmn26l6jdu6c@xpy2z7yeiijq>
+ <35cf8895-fbc5-4ab4-bd52-d322990cefde@huawei.com>
+In-Reply-To: <35cf8895-fbc5-4ab4-bd52-d322990cefde@huawei.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 5 Nov 2024 10:50:14 +0000
+Message-ID: <CAA8EJpoU9Pq4ZpvXj1hzpAgm+Vb002Q=AdTKo2ix4dcAaHNe4Q@mail.gmail.com>
+Subject: Re: [PATCH V3 drm-dp 3/4] drm/hisilicon/hibmc: add dp hw moduel in
+ hibmc
+To: Yongbang Shi <shiyongbang@huawei.com>
+Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, 
+ liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com, 
+ libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,100 +85,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219468
+On Tue, 5 Nov 2024 at 06:06, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>
+> > On Fri, Nov 01, 2024 at 06:50:27PM +0800, Yongbang Shi wrote:
+> >> From: baihan li <libaihan@huawei.com>
+> >>
+> >> Build a dp level that hibmc driver can enable dp by
+> >> calling their functions.
+> >>
+> >> Signed-off-by: baihan li <libaihan@huawei.com>
+> >> Signed-off-by: yongbang shi <shiyongbang@huawei.com>
+> >> ---
+> >> ChangeLog:
+> >> v2 -> v3:
+> >>    - fix build errors reported by kernel test robot <lkp@intel.com>
+> >>      Closes: https://lore.kernel.org/oe-kbuild-all/202410250931.UDQ9s66H-lkp@intel.com/
+> >> v1 -> v2:
+> >>    - changed some defines and functions to former patch, suggested by Dmitry Baryshkov.
+> >>    - sorting the headers including in dp_hw.h and hibmc_drm_drv.c files, suggested by Dmitry Baryshkov.
+> >>    - deleting struct dp_mode and dp_mode_cfg function, suggested by Dmitry Baryshkov.
+> >>    - fix build errors reported by kernel test robot <lkp@intel.com>
+> >>      Closes: https://lore.kernel.org/oe-kbuild-all/202410040328.VeVxM9yB-lkp@intel.com/
+> >>    v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
+> >> ---
+> >>   drivers/gpu/drm/hisilicon/hibmc/Makefile    |   2 +-
+> >>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c  | 237 ++++++++++++++++++++
+> >>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h  |  31 +++
+> >>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h |  41 ++++
+> >>   4 files changed, 310 insertions(+), 1 deletion(-)
+> >>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+> >>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+> >>
+> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> >> index 94d77da88bbf..214228052ccf 100644
+> >> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> >> @@ -1,5 +1,5 @@
+> >>   # SPDX-License-Identifier: GPL-2.0-only
+> >>   hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
+> >> -           dp/dp_aux.o dp/dp_link.o
+> >> +           dp/dp_aux.o dp/dp_link.o dp/dp_hw.o
+> >>
+> >>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
+> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+> >> new file mode 100644
+> >> index 000000000000..214897798bdb
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+> >> @@ -0,0 +1,237 @@
+> >> +// SPDX-License-Identifier: GPL-2.0-or-later
+> >> +// Copyright (c) 2024 Hisilicon Limited.
+> >> +
+> >> +#include <linux/io.h>
+> >> +#include <linux/delay.h>
+> >> +#include "dp_config.h"
+> >> +#include "dp_comm.h"
+> >> +#include "dp_reg.h"
+> >> +#include "dp_hw.h"
+> >> +#include "dp_link.h"
+> >> +#include "dp_aux.h"
+> >> +
+> >> +static int hibmc_dp_link_init(struct dp_dev *dp)
+> >> +{
+> >> +    dp->link.cap.lanes = 2;
+> >> +    dp->link.train_set = devm_kzalloc(dp->dev->dev,
+> >> +                                      dp->link.cap.lanes * sizeof(u8), GFP_KERNEL);
+> > Can you replace it just with an array, removing a need for an additional
+> > allocation?
+> >
+> >> +    if (!dp->link.train_set)
+> >> +            return -ENOMEM;
+> >> +
+> >> +    dp->link.cap.link_rate = 1;
+> > Ok, this is why I don't link using indices for link rates. Which rate is
+> > this? Unlike cap.lanes this is pure magic number. I think it should be
+> > handled other way around: store actual link rate and convert to the
+> > register value when required.
+> >
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static void hibmc_dp_set_tu(struct dp_dev *dp, struct drm_display_mode *mode)
+> >> +{
+> >> +    u32 tu_symbol_frac_size;
+> >> +    u32 tu_symbol_size;
+> >> +    u32 rate_ks;
+> >> +    u8 lane_num;
+> >> +    u32 value;
+> >> +    u32 bpp;
+> >> +
+> >> +    lane_num = dp->link.cap.lanes;
+> >> +    if (lane_num == 0) {
+> >> +            drm_err(dp->dev, "set tu failed, lane num cannot be 0!\n");
+> >> +            return;
+> >> +    }
+> >> +
+> >> +    bpp = DP_BPP;
+> > Where is this defined? Is it hibmc-specific or a generic value?
+> >
+> >> +    rate_ks = hibmc_dp_get_link_rate(dp->link.cap.link_rate) * DP_LINK_RATE_CAL;
+> > same question
+>
+> Hi Dmitry,
+> Thanks for your detailed suggestions and questions. These two are defined in dp_config.h.
 
---- Comment #3 from Joungmin Lee (leejm516@gmail.com) ---
-System info from inxi=20
+Please move defines to the corresponding patch, when the values are
+being used. Also if these defines are HIBMC-specific, please use the
+corresponding prefix (when one sees DP_foo they expect a constant
+defined in the standard, not a driver-specific value).
 
-----
 
-System:
-  Host: leej-zenbook Kernel: 6.12.0-rc6-1-llvm-241014 arch: x86_64 bits: 64
-    compiler: clang v: 19.1.3 clocksource: tsc avail: acpi_pm
-    parameters: BOOT_IMAGE=3D/root/boot/vmlinuz-linux-6.12.0-rc6-1-llvm-241=
-014
-    root=3DUUID=3Dff2c684d-f559-4a51-9ae2-b27098fadb5f rw rootflags=3Dsubvo=
-l=3Droot
-    loglevel=3D3 quiet splash
-  Desktop: KDE Plasma v: 6.2.2 tk: Qt v: N/A wm: kwin_wayland dm: SDDM
-    Distro: Arch Linux
-Machine:
-  Type: Laptop System: ASUSTeK product: Zenbook 15 UM3504DA_UM3504DA v: 1.0
-    serial: RBN0CX03S725478
-  Mobo: ASUSTeK model: UM3504DA v: 1.0 serial: RB46NBCX002FT6MB
-    uuid: dda31f15-6388-bd4b-b4ea-cc1e6f3dd3e9 UEFI: American Megatrends LL=
-C.
-    v: UM3504DA.312 date: 05/13/2024
-CPU:
-  Info: model: AMD Ryzen 7 7735U with Radeon Graphics socket: FP7 bits: 64
-    type: MT MCP arch: Zen 3+ gen: 3 level: v3 note: check built: 2022
-    process: TSMC n6 (7nm) family: 0x19 (25) model-id: 0x44 (68) stepping: 1
-    microcode: 0xA404102
-  Topology: cpus: 1x dies: 1 clusters: 1 cores: 8 threads: 16 tpc: 2
-    smt: enabled cache: L1: 512 KiB desc: d-8x32 KiB; i-8x32 KiB L2: 4 MiB
-    desc: 8x512 KiB L3: 16 MiB desc: 1x16 MiB
-  Speed (MHz): avg: 400 min/max: 400/4819 boost: enabled
-    base/boost: 2700/4800 scaling: driver: amd-pstate-epp governor: powersa=
-ve
-    volts: 1.2 V ext-clock: 100 MHz cores: 1: 400 2: 400 3: 400 4: 400 5: 4=
-00
-    6: 400 7: 400 8: 400 9: 400 10: 400 11: 400 12: 400 13: 400 14: 400
-    15: 400 16: 400 bogomips: 86261
-  Flags: avx avx2 ht lm nx pae sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3 svm
-  Vulnerabilities:
-  Type: gather_data_sampling status: Not affected
-  Type: itlb_multihit status: Not affected
-  Type: l1tf status: Not affected
-  Type: mds status: Not affected
-  Type: meltdown status: Not affected
-  Type: mmio_stale_data status: Not affected
-  Type: reg_file_data_sampling status: Not affected
-  Type: retbleed status: Not affected
-  Type: spec_rstack_overflow status: Vulnerable: Safe RET, no microcode
-  Type: spec_store_bypass mitigation: Speculative Store Bypass disabled via
-    prctl
-  Type: spectre_v1 mitigation: usercopy/swapgs barriers and __user pointer
-    sanitization
-  Type: spectre_v2 mitigation: Retpolines; IBPB: conditional; IBRS_FW;
-    STIBP: always-on; RSB filling; PBRSB-eIBRS: Not affected; BHI: Not
-    affected
-  Type: srbds status: Not affected
-  Type: tsx_async_abort status: Not affected
-Graphics:
-  Device-1: Advanced Micro Devices [AMD/ATI] Rembrandt [Radeon 680M]
-    vendor: ASUSTeK driver: amdgpu v: kernel arch: RDNA-2 code: Navi-2x
-    process: TSMC n7 (7nm) built: 2020-22 pcie: gen: 4 speed: 16 GT/s
-    lanes: 16 ports: active: eDP-1 empty: DP-1, DP-2, DP-3, DP-4, DP-5, DP-=
-6,
-    HDMI-A-1, Writeback-1 bus-ID: 73:00.0 chip-ID: 1002:1681 class-ID: 0300
-    temp: 44.0 C
-  Device-2: Shinetech USB2.0 FHD UVC WebCam driver: uvcvideo type: USB
-    rev: 2.0 speed: 480 Mb/s lanes: 1 mode: 2.0 bus-ID: 5-1:2 chip-ID:
-3277:0033
-    class-ID: fe01 serial: 200901010001
-  Display: unspecified server: X.Org v: 24.1.4 with: Xwayland v: 24.1.4
-    compositor: kwin_wayland driver: X: loaded: amdgpu unloaded: modesetting
-    alternate: fbdev,vesa dri: radeonsi gpu: amdgpu display-ID: :1 screens:=
- 1
-  Screen-1: 0 s-res: 2880x1620 s-dpi: 96 s-size: 762x429mm (30.00x16.89")
-    s-diag: 874mm (34.43")
-  Monitor-1: eDP-1 model: Samsung 0x4180 built: 2021 res: 2880x1620 hz: 120
-    dpi: 213 gamma: 1.2 size: 344x194mm (13.54x7.64") diag: 395mm (15.5")
-    ratio: 16:9 modes: max: 2880x1620 min: 640x480
-  API: EGL v: 1.5 hw: drv: amd radeonsi platforms: device: 0 drv: radeonsi
-    device: 1 drv: swrast gbm: drv: radeonsi surfaceless: drv: radeonsi x11:
-    drv: radeonsi inactive: wayland
-  API: OpenGL v: 4.6 compat-v: 4.5 vendor: amd mesa v: 24.2.6-arch1.1
-    glx-v: 1.4 direct-render: yes renderer: AMD Radeon Graphics (radeonsi
-    rembrandt LLVM 18.1.8 DRM 3.59 6.12.0-rc6-1-llvm-241014)
-    device-ID: 1002:1681 memory: 500 MiB unified: no
-  API: Vulkan v: 1.3.295 layers: N/A device: 0 type: integrated-gpu name: A=
-MD
-    Radeon Graphics (RADV REMBRANDT) driver: mesa radv v: 24.2.6-arch1.1
-    device-ID: 1002:1681 surfaces: xcb,xlib
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+With best wishes
+Dmitry
