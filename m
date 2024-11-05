@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5256F9BC407
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 04:47:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0219BC4BA
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 06:33:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10F3D10E1B5;
-	Tue,  5 Nov 2024 03:47:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CED10E2CA;
+	Tue,  5 Nov 2024 05:33:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dB2yrUAI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dWjXBoyg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B1C110E1B5
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 03:47:05 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06DD910E2CA
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 05:33:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730778425; x=1762314425;
+ t=1730784831; x=1762320831;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=2JD/SF3RDU/EAWXGkUkiGo50LDNAryP1U70AYzXZvO0=;
- b=dB2yrUAIXsjqSI2UC7LFdcSwUp3uLFEAMXu25/e72SBN2Uw1FX0Y4KH9
- Rx2RydBBc5bWXyXSLBMLVfmXPefsGZSRQbCajBN6WNLSbbUxN9MrKzAvb
- j+h6nvGRBR1xWgODin3N5CuWV/tg4VJILtQ0szuzFn38YqvsrgrPQFjFX
- Lg4NsN5aEoeqRyB53Sgosb8uHnGu17SUByDSAxoM5mMBvWNBNR8r9bwBl
- g34AIpW+1HoI9j6bz8cRmh7FOSf/F4QC+Zs5eZqecGDdehx0VNZBLECur
- 2rG8369RIfGw6aiKdBPnWUxiYPjWx3qfUKXmf9ESgrFxtKlYa4E7jU2Ud w==;
-X-CSE-ConnectionGUID: v/EIs23FSeev22PxqPg88g==
-X-CSE-MsgGUID: I2sLlfeEQ7uHxvrQtdVlKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="29924995"
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; d="scan'208";a="29924995"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2024 19:47:04 -0800
-X-CSE-ConnectionGUID: l5goev/0QASn+AOycwOZzg==
-X-CSE-MsgGUID: dmiN3I2oQNi4+gFw6oTIJw==
+ bh=gmZTemamg+uRTTCOPBTd06AyJjplmSENIS5ZeSNo/WY=;
+ b=dWjXBoygBC561FuK+SwGN5cknf/iAXxZdl0s76YMbKDkr9GOdBuNhXv2
+ zgxfNKMSJFQaFFZ7CuPXGLvJyXifnOsfIWY3DVWCyQXtat+1TqhMGRUE/
+ ioYviDRYYNOXZh5yf6OfvjaBg5Ub+jqRVNQ7zbbgM/w5BtFVYHQZWQwMs
+ lIpR5MCGOebraf7APAqjXe6iDc1cAKwrtv9JnydkZf/KMzjswImUu1qXr
+ 934htwQsTVwAQvF48el+EQRFqno9wEt+c1lUxBXzio7kfipK1gtUszqBF
+ tnm2yd2u9xInrXa884KTK6E10TTuZPK6zCMg/G+O1etgktEw2iOBDpl+2 A==;
+X-CSE-ConnectionGUID: scS0svnNRmW/+lUCUeB3Mw==
+X-CSE-MsgGUID: UAyrRzlRQhWensExUCO8Pw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30622055"
+X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; d="scan'208";a="30622055"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2024 21:33:50 -0800
+X-CSE-ConnectionGUID: Y12mQembSlSR785+eKKPcw==
+X-CSE-MsgGUID: Ib2OJmGxRgWFwHmH6AEfjg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; d="scan'208";a="88366034"
+X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; d="scan'208";a="83992278"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by fmviesa005.fm.intel.com with ESMTP; 04 Nov 2024 19:47:01 -0800
+ by orviesa006.jf.intel.com with ESMTP; 04 Nov 2024 21:33:48 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t8AWx-000lZl-1v;
- Tue, 05 Nov 2024 03:46:59 +0000
-Date: Tue, 5 Nov 2024 11:46:27 +0800
+ (envelope-from <lkp@intel.com>) id 1t8CBd-000lfl-2K;
+ Tue, 05 Nov 2024 05:33:05 +0000
+Date: Tue, 5 Nov 2024 13:32:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, iommu@lists.linux.dev,
- Joerg Roedel <joro@8bytes.org>, linux-arm-kernel@lists.infradead.org,
- Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Boris Brezillon <bbrezillon@kernel.org>,
- dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
- patches@lists.linux.dev, Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2 3/3] iommu: Add a kdoc to iommu_unmap()
-Message-ID: <202411051125.mlgeWlEm-lkp@intel.com>
-References: <3-v2-fd55d00a60b2+c69-arm_no_split_jgg@nvidia.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, andrii@kernel.org,
+ memxor@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org, kernel-team@fb.com
+Subject: Re: [PATCH bpf-next 2/2] bpf: Switch bpf arena to use drm_mm instead
+ of maple_tree
+Message-ID: <202411051357.3XLBnPy3-lkp@intel.com>
+References: <20241101235453.63380-3-alexei.starovoitov@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3-v2-fd55d00a60b2+c69-arm_no_split_jgg@nvidia.com>
+In-Reply-To: <20241101235453.63380-3-alexei.starovoitov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,62 +73,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+Hi Alexei,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 8e929cb546ee42c9a61d24fae60605e9e3192354]
+[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gunthorpe/iommu-io-pgtable-arm-Remove-split-on-unmap-behavior/20241105-014356
-base:   8e929cb546ee42c9a61d24fae60605e9e3192354
-patch link:    https://lore.kernel.org/r/3-v2-fd55d00a60b2%2Bc69-arm_no_split_jgg%40nvidia.com
-patch subject: [PATCH v2 3/3] iommu: Add a kdoc to iommu_unmap()
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241105/202411051125.mlgeWlEm-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/drm-bpf-Move-drm_mm-c-to-lib-to-be-used-by-bpf-arena/20241102-075645
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241101235453.63380-3-alexei.starovoitov%40gmail.com
+patch subject: [PATCH bpf-next 2/2] bpf: Switch bpf arena to use drm_mm instead of maple_tree
+config: i386-randconfig-003-20241104 (https://download.01.org/0day-ci/archive/20241105/202411051357.3XLBnPy3-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411051125.mlgeWlEm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411051357.3XLBnPy3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411051125.mlgeWlEm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411051357.3XLBnPy3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iommu/iommu.c:2605: warning: Function parameter or struct member 'size' not described in 'iommu_unmap'
->> drivers/iommu/iommu.c:2605: warning: Excess function parameter 'len' description in 'iommu_unmap'
+   ld: lib/drm_mm.o: in function `show_leaks':
+>> lib/drm_mm.c:135: undefined reference to `__drm_err'
+>> ld: lib/drm_mm.c:129: undefined reference to `__drm_err'
 
 
-vim +2605 drivers/iommu/iommu.c
+vim +135 lib/drm_mm.c
 
-add02cfdc9bc29 drivers/iommu/iommu.c Joerg Roedel    2017-08-23  2588  
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2589  /**
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2590   * iommu_unmap() - Remove mappings from a range of IOVA
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2591   * @domain: Domain to manipulate
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2592   * @iova: IO virtual address to start
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2593   * @len: Length of the range starting from @iova
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2594   *
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2595   * iommu_unmap() will remove a translation created by iommu_map(). It cannot
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2596   * subdivide a mapping created by iommu_map(), so it should be called with IOVA
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2597   * ranges that match what was passed to iommu_map(). The range can aggregate
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2598   * contiguous iommu_map() calls so long as no individual range is split.
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2599   *
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2600   * Returns: Number of bytes of IOVA unmapped. iova + res will be the point
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2601   * unmapping stopped.
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2602   */
-add02cfdc9bc29 drivers/iommu/iommu.c Joerg Roedel    2017-08-23  2603  size_t iommu_unmap(struct iommu_domain *domain,
-add02cfdc9bc29 drivers/iommu/iommu.c Joerg Roedel    2017-08-23  2604  		   unsigned long iova, size_t size)
-add02cfdc9bc29 drivers/iommu/iommu.c Joerg Roedel    2017-08-23 @2605  {
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2606  	struct iommu_iotlb_gather iotlb_gather;
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2607  	size_t ret;
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2608  
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2609  	iommu_iotlb_gather_init(&iotlb_gather);
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2610  	ret = __iommu_unmap(domain, iova, size, &iotlb_gather);
-aae4c8e27bd756 drivers/iommu/iommu.c Tom Murphy      2020-08-17  2611  	iommu_iotlb_sync(domain, &iotlb_gather);
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2612  
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2613  	return ret;
-add02cfdc9bc29 drivers/iommu/iommu.c Joerg Roedel    2017-08-23  2614  }
-cefc53c7f49424 drivers/base/iommu.c  Joerg Roedel    2010-01-08  2615  EXPORT_SYMBOL_GPL(iommu_unmap);
-1460432cb513f0 drivers/iommu/iommu.c Alex Williamson 2011-10-21  2616  
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  117  
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  118  static void show_leaks(struct drm_mm *mm)
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  119  {
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  120  	struct drm_mm_node *node;
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  121  	char *buf;
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  122  
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  123  	buf = kmalloc(BUFSZ, GFP_KERNEL);
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  124  	if (!buf)
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  125  		return;
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  126  
+2bc98c86517b08 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-12-22  127  	list_for_each_entry(node, drm_mm_nodes(mm), node_list) {
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  128  		if (!node->stack) {
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31 @129  			DRM_ERROR("node [%08llx + %08llx]: unknown owner\n",
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  130  				  node->start, node->size);
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  131  			continue;
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  132  		}
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  133  
+0f68d45ef41abb drivers/gpu/drm/drm_mm.c Imran Khan   2021-11-08  134  		stack_depot_snprint(node->stack, buf, BUFSZ, 0);
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31 @135  		DRM_ERROR("node [%08llx + %08llx]: inserted at\n%s",
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  136  			  node->start, node->size, buf);
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  137  	}
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  138  
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  139  	kfree(buf);
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  140  }
+5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  141  
 
 -- 
 0-DAY CI Kernel Test Service
