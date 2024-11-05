@@ -2,86 +2,183 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896D79BD055
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 16:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F069BD0B2
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 16:38:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C4610E5CD;
-	Tue,  5 Nov 2024 15:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C50110E00C;
+	Tue,  5 Nov 2024 15:38:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S9Iq4Wg+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LrmACWkT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 714C510E406;
- Tue,  5 Nov 2024 15:26:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DDE0EA43422;
- Tue,  5 Nov 2024 15:24:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55F5CC4CECF;
- Tue,  5 Nov 2024 15:26:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730820411;
- bh=OyFK8z5qd2PX1b2mFjzhp33XMWRNRnaVbtklFXmouuA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=S9Iq4Wg+y13VlLFXaCQFBHoEgqCWwKO3J18E6ea4A9GXtutCKimycjyX2UFxyAhoF
- V4zfgXb+m4cZ7L2DVprXpqm4toiyK4X3fHoT0bFJC1hfvM+d29JMkfSCUtDadGZ1mM
- gT0lycJy0BIpkCVswsVeI1OtIeIJ6mh/cAV5ueBJEksXiYYTLfI2txEbP+TVdv+InM
- k+R+IoMimw7bxRmY3j+VQL++psf2Y8wUojmN2FH2obDVCN3oClU+GQmcZHilH7wLQo
- Uq5K49ASfVd1DC1B9B9WpCVygRAayMBQMhrPc0fqW+EnQJzM392ryKWN7Ckjb77xSI
- s/iv9g17O3mZw==
-Date: Tue, 5 Nov 2024 09:26:50 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>,
- Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
- Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
- "David E. Box" <david.e.box@linux.intel.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Frederic Barrat <fbarrat@linux.ibm.com>,
- Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
- Logan Gunthorpe <logang@deltatee.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- Dan Williams <dan.j.williams@intel.com>,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-cxl@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-mtd@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-alpha@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v2 05/10] sysfs: treewide: constify attribute callback of
- bin_is_visible()
-Message-ID: <20241105152650.GA1472729@bhelgaas>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 993D310E00C;
+ Tue,  5 Nov 2024 15:38:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730821089; x=1762357089;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=EVy3ALWU8B4y22wD9qR3fIHoZ9LXqEF8FGmObkHIs+Y=;
+ b=LrmACWkT01SoRa/+dv538nqI3wUPZ24kBoULdkL/i/xbG3LE4UKfQ2fg
+ TU6Lc/uWnta8Rweffdy1rTVyth/5j0Y+vfo2zB3fygJOL/jfYOwEIiJSO
+ j/vJKQmDzilIODJGX5XnUOgNpWBG1HblnT9HPyqQiFcJLUOFNtvAXTNcX
+ 2d2/HDO028UNYi2prhCsaoW4vDE85T3NaoHPWyLEIKkDDNFdU9mjHZnOX
+ /ER8wQgetZpGGwCYmi2UYSIFmHXdIIr0/uLa1oKWH/8363LzI0EDfVUh9
+ p/mDEyxHL9bG8vQnvLFWt6GJOlAbKU9bf903o79bfJmTt9oHDyiGuLu+8 A==;
+X-CSE-ConnectionGUID: FgYQss9QRY6Nzso4B1TJRw==
+X-CSE-MsgGUID: cYy28juWQ5eCaN1fB3RBzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="33415903"
+X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; d="scan'208";a="33415903"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2024 07:38:09 -0800
+X-CSE-ConnectionGUID: upOPEi9DRY6aGtmn72fsVg==
+X-CSE-MsgGUID: kY9p9gDRTXeve8tJDO10KQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; d="scan'208";a="114860164"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 05 Nov 2024 07:38:09 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 5 Nov 2024 07:38:08 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 5 Nov 2024 07:38:08 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 5 Nov 2024 07:38:08 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=blSJiHxqopJLAI7xksLVd8+1zPL3H13OEfQ2MN6vivea9/7p20WUY8lPruV4dt9Z8eClbfTyEiGpNMYioZi0ihaxxzXMO3K+ccAKFwleYKFcAY2gA7As5TRXQId5u5hGDt1MhionclFx8XO9t4+e1wenbNVLkkLC14Sx36czOEigv9qJv1qJLQtK/TXOrYnjXxwxZDu/R7sQseP58w+VIH3KOUAce861Wk5ySCrM9mN4T4Y/fpy+zmA/IRb5rQGa8ozHgz3Ub0M6ZRQMi4PieDvyp8FsPqgZUtgNo9/KiopfibHcc7fmzwRObSc7Jh6ExfTQJKp4CBHnF8XnO3jCzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZQ6dAQ9YOsLSUDCJvuI/ZH9JoOs+HAcHaqJ1jqpmAX4=;
+ b=eVj3nvAxsOq2MaVIc0r2tPeM7u9tt89nZYu3uFc7S5S7RiCPy7kXrWSKW1HYMk/hDx1N/SDH9zag9E5kB4hS+SBorI7MuiK2DkMVSWEP+YLq8OI8FUQWEXsSq+lalCSHKOybyZTTJihLv5XeN2BdhIZf3zUHFd6HqGGB428uh4p0XStMz+Dn9Q4vVZzmWdMVwqK/tNT20sViMEUUIcB9m9xfltWruUozEsXztMz0y/wtnZSYPIICikgffRhxXRG/pWvga0qTaLjH0Kz85jpL5wJbJTfcwED+X1voFPPggzYf0Wta0axM+J/7jrZXy+alBO1fwGAA8AwNHyid5vx4tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA1PR11MB8200.namprd11.prod.outlook.com (2603:10b6:208:454::6)
+ by PH0PR11MB7712.namprd11.prod.outlook.com (2603:10b6:510:290::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.31; Tue, 5 Nov
+ 2024 15:38:06 +0000
+Received: from IA1PR11MB8200.namprd11.prod.outlook.com
+ ([fe80::b6d:5228:91bf:469e]) by IA1PR11MB8200.namprd11.prod.outlook.com
+ ([fe80::b6d:5228:91bf:469e%6]) with mapi id 15.20.8114.028; Tue, 5 Nov 2024
+ 15:38:06 +0000
+Message-ID: <9339ed5a-bc5e-4329-bf2e-77bd53eae3c3@intel.com>
+Date: Tue, 5 Nov 2024 10:38:03 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/i915/guc: Flush ct receive tasklet during reset
+ preparation
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: John Harrison <John.C.Harrison@Intel.com>
+References: <20241030223846.2272374-1-zhanjun.dong@intel.com>
+ <d48da820-a9b6-4bf1-95c2-984d900a2700@intel.com>
+Content-Language: en-US
+From: "Dong, Zhanjun" <zhanjun.dong@intel.com>
+In-Reply-To: <d48da820-a9b6-4bf1-95c2-984d900a2700@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241103-sysfs-const-bin_attr-v2-5-71110628844c@weissschuh.net>
+X-ClientProxiedBy: BY1P220CA0021.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:5c3::16) To IA1PR11MB8200.namprd11.prod.outlook.com
+ (2603:10b6:208:454::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR11MB8200:EE_|PH0PR11MB7712:EE_
+X-MS-Office365-Filtering-Correlation-Id: c0ebcba6-2648-4aac-5f71-08dcfdafd7bc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NjZhK3krbkE0OFFiOTNqRmZkenBlQStNQ0lPUkU2RlRaZG5tWUpGa2JlRnJt?=
+ =?utf-8?B?WXBOU3VtOXRRVDVQMlBYZXhtNWhTQWlZT0JDdHRBOGV4ZEkwb2JUUkxQb3Bi?=
+ =?utf-8?B?UFZQemR5cTQ5YjArL256OWE5ak02TmlDclNtTG1kRDBRcUV0MEJrcmlYVkpn?=
+ =?utf-8?B?b0MvVndwdnhEbHRFWk9rYVVyQnBPRXRBL3RFMElXZVIveGZJM0ptK1RRWk5R?=
+ =?utf-8?B?S1pLNzIzU3NqWXUxNlZMWHZ6TS95eWlYaEdiRWZlM3BUMTBNMGV2T052S3Ew?=
+ =?utf-8?B?NWcwZlhKSm1vVVRMOVRRQ2VKcFRnYzQ1Y1J2dWpLMklQWGhXU1Q0c29lOUpG?=
+ =?utf-8?B?dG11ZUQ3NE14dG1FMzFsMVpxNDZsZTFOMERja2IzeHZaeEo4ZGJjSlVPSzRL?=
+ =?utf-8?B?NU8vc2daZkszb3FQYjIrbDkxME45WUlseDRsM3pnSDRaTnRJSE5pcTYxcG9h?=
+ =?utf-8?B?citQWDJTNFU0RGIyZ0hsZUtSamxNSzd1bVZvUGQweUdpR2Vqckk3UFQ0ZGU3?=
+ =?utf-8?B?cGE4Lzd1SGcvcmtja3hQMVI1ZlVHRmJ1L3kxRHBwbzFBL2sxdVZrME5icnhh?=
+ =?utf-8?B?TVpKK2Exd0orSSs5VlRJc2NWRDIyalZNL2NrR3FyRGVVQjhCY09XSjlndmM5?=
+ =?utf-8?B?U240REV4SW5kaEpydXhVcGdUWmtzZkdDK1N5c1dDTWppbzJNUTg5dk84bFQr?=
+ =?utf-8?B?MTZ5MzR3eXNnRkpLckNWd1JEL0ZlZ0F1Zmc4NGpIaVhWeThPNGJuQUhWNHQ1?=
+ =?utf-8?B?YVJkbGl0K1JvTmlQNjhMcVlDc29WVzlyWlZIdlZuNlNNR2NLRlBteFRFSngz?=
+ =?utf-8?B?L0Z3OHZRME9jMlI3Zzh6Q0tBaEZkWjhjZkN1bXJFdXlzYWRMeEhQbU8zWDVE?=
+ =?utf-8?B?NWtzd2U1cnh5VUtpRVpJejJOVVp2bGpJNzNkekRIa2srMkJld3Qwd2lBUWlj?=
+ =?utf-8?B?QjlnWDhkMWxVMlNkMGhTR2JjWnZQb3BudlhMbyswR2RCMFJmcE9DeCsrTlpk?=
+ =?utf-8?B?cm1vWElWOEtmN0NmbVRhTjQyL1ZidE1QK3NnN2JvdzltZzZOOGJQZGwyTk51?=
+ =?utf-8?B?QXVveGZhZ3RVZ1ZDK0JpMlJQSDk2ODVGaDVPbmNaQkJQYmFRWnV2eEo5L2xl?=
+ =?utf-8?B?YkpaV3JIT01UVGFpbkFSNitwWDRvSE5KdDFCL3BsWVZWODFCWkthc1B3Q2dj?=
+ =?utf-8?B?YXRUVFI0cWlCcko3cjQyUTY2Qk56S2drNjExb3IyWXQ2NFgraXZkdEdUVUlm?=
+ =?utf-8?B?OSsrOW5RNUROS0VWdTJFc2lhamN1TlEyS0ExWTJwUFhQSVlLN1NEVGJvR1Fk?=
+ =?utf-8?B?MCtBaEdtd3NaNUhqb21MNjZleXpKMUxKb3B5SjZRSkdBa0VabjBYekovNy85?=
+ =?utf-8?B?azFBdVhiWkVkQzgzK1pUa3NDbHRxZkFYUnN5cElUeXMvUEowUTZkdGRjTE5j?=
+ =?utf-8?B?NFZpU1hmbXFhSzBPbDk3b2VSVVRxbnM0NkFMREw4Nld2RWowVTJJQWNiaUx5?=
+ =?utf-8?B?RnBSTHFTYjE0MGhnT3VDMDdxcFM0Zk9oaktyZmdVbjM5MTRSdk1KZ244aUJP?=
+ =?utf-8?B?UTUwSFdqVXVaRlpDbklib09La2JWQ291eG9kTW9IWnY2V2UzaGxxdWt5am9q?=
+ =?utf-8?B?Wms1SVVrWlBXTENaaWFkM25sbVU3SWJnZDFiY0lyZ05CS1UyNDVZaVRWRUd6?=
+ =?utf-8?B?ejRqMWlScWdKUG4xTGQxTjh2cnhyLysyeXl1L3lwQVQwNm9ESlBPMDJVeWox?=
+ =?utf-8?Q?X80okCAGaYo8BzZuJwSceUTRUnEpF2VrDY/lfA7?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA1PR11MB8200.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0plUnByV241MkhLQUFmZnRQRnlOdXlTR295YjVUdkJYb0FhV2FRQXZtL3V4?=
+ =?utf-8?B?NWhpaGJIa050Ulp5eUNIWXdRd3lMaWttbTl6Nzgwc2pSUzRScExERUgwZVp0?=
+ =?utf-8?B?Z1pCaFplblVMOTYwMVdRWkN5Nmt2VnNLRGJsZFI0UkJ1VVVUZzJkdWxiOHVN?=
+ =?utf-8?B?L2o0eDFhczdJT04vUkpXQ1A2elJCUkh1QUxMa3VDTGsyQWNHMWZZOUZ6RGUv?=
+ =?utf-8?B?OVVueVlhK1Vmei9vWEZFRFlnVEl2UTg4VGVTMlBneEhnTG41U0VScjdJY0ww?=
+ =?utf-8?B?R21TRlZFR2FVZ3ZCNUxLdmxrelQwemJhN0Z3eUV3VGlJN0JVYkEzenZZeWpH?=
+ =?utf-8?B?Y1YzZ1NCd281RW1tY291TjZIMzVWaTdicy95L0VKYm5Jbmo2YU9LT0JuK0t1?=
+ =?utf-8?B?K0xZVksrVVpTQnB0WGdESTN0WU42ZW9EcWVVZ09Nd1h0aWxuVXQ2SDNJS3cz?=
+ =?utf-8?B?cDJhdGpaZHE2eVRrR0RLVG81bVZ2c3BmVXQ4Z0dteVNXQkFnUG1Wa0s5bmFG?=
+ =?utf-8?B?V01vL3NQazNZWnpzNk5zajVFQ0t1SFV4WUN3WTZmWTEvb2tpSmFwS0ZtcjBS?=
+ =?utf-8?B?Rk9iMnZkVURpYzY3MXUwSEROenlWR25BdnVYc3cyejZjT01XUWVtd3lJNSt3?=
+ =?utf-8?B?MTR2OTFRSTlLbTdEQlVNM3hBd3k2SXFuMHlZYWV5N3lCOUZDQnl5TlBDYU03?=
+ =?utf-8?B?QS9lOUVGYUxkUXVPWHVmQ1NCNklRelZnbUQyOVc5QVpMSkR0dFhPa3JFSDB5?=
+ =?utf-8?B?L2l4OEw1cnNEb0lxNVRUTnFZaWlOMEpQZ2Q0ekdSb0phT0pXV2YzaU1KUElV?=
+ =?utf-8?B?WFVPcHZ5WXJocDRXbEQxMDJ6L3pVUlcvMjNHaXJnWjRPSHBXcHhkZHVLSnVu?=
+ =?utf-8?B?dWNoNXdMVURJZk4zWEN0MWoxMkZGTjV6UUVnRllWYzN0NWxBazd5c2RJQjRE?=
+ =?utf-8?B?QVRvcXhyZU9LS2crOGxJd1J0UlBHMnoxTHphYmlQckVyZFF1MEFsT1Jra2Nz?=
+ =?utf-8?B?T2Z6TGtJR2E2WDBvK01Dd0hVTWI4RDJacjFGcHZZNDd5OE95NmpUVnFENnZJ?=
+ =?utf-8?B?UmI1UStpcGlhbk9ZWmZzK2lOY2o5TGpBOENIQ2J2VjMrd1RaTFlVd3BFczUr?=
+ =?utf-8?B?bi80K0dOVXJxbStwSnNMdkJNaUNmcWpyZ1pRUDY0bE9UZlJlV1NNdFZ2YTNK?=
+ =?utf-8?B?bEtGbXpCUkJCd0hvdkxTSmhBTjQxSXFGY0tuQ3ZjWFExQTNPOHlIaEEzOWgw?=
+ =?utf-8?B?aGtCWXVSWnF4QUUydTFoNEFvdTZSWVhqcldjakZrTndXZjdIZjRqTytRWDdn?=
+ =?utf-8?B?L01sNDM0VmswOVJBb3l6ZFJMTWNSZWN2TXBpUzY4VTRSVkdVak5ZSUNsd3d0?=
+ =?utf-8?B?bWp2L1RnaW1aaFlwdzNWclZHMW1HWEdOZlJzWThzeDRSRHNSQStvcXcrN3Zs?=
+ =?utf-8?B?R0lNYVdkZUxKWVV2TDlDTWZ6WWhlR2R4SkVxWjhSTlkzZHZRZURvU3ZHNFZN?=
+ =?utf-8?B?QllRMkF5SExBNm5DN3pOMno2NjdHTk53c2JZcVRDdm1DdjBzLzdiUGlvNEVj?=
+ =?utf-8?B?dG5EVTdYYklLNUpTcG5kWi9UYklzU3U3TzVpbGxvS0h3YlJDZ2ltZFMzaUtH?=
+ =?utf-8?B?M25zL1BkZmEyUG52YTVYc0VTY041NG1aUHFsdUhFQ1QzQlE4b0thRWJaUis1?=
+ =?utf-8?B?Ym1pb3d5U3B0dXJtRjM2WmtNUW9VZ3F3aVZaVXZESkFiMHdueVdWdjB3MVhv?=
+ =?utf-8?B?d2V0T1JBejc1NHYwYWtJbWtKdThqVHM1RWFTMUdRSHVvRG5NYVgxMXA5STJ2?=
+ =?utf-8?B?QTFwb2RORnJiYmdOWXJJTk1HQkNOMWNFcUIwaEt1ZnZjVGdzYjcxbjdVZnF0?=
+ =?utf-8?B?TTVkaXlXUVN4WWtXSFBOa3B5RjgxazZVcnp2WGlFS2pQR2NsbzI2TjFZbmYy?=
+ =?utf-8?B?cEFRSGNKSlJZOU90OXhVZnAxdTBueXVjbWZRNmdXVnNwZ3VXNW9RVUhqYjhI?=
+ =?utf-8?B?dlFPVzgrZ0ZXejFaSUxhbDRkaHpSdnBxNlJoVEEzSjFHS1BVYk05T2ZGSDND?=
+ =?utf-8?B?emo3bGxHQzVJU3FvaGZ5bnpJZTNUZ2JyMi9lMmpFcTdsS2w0cUloWllYN2xm?=
+ =?utf-8?Q?seCLeQdy/7ofXjCcC5/hVBUb1?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0ebcba6-2648-4aac-5f71-08dcfdafd7bc
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB8200.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 15:38:06.2177 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lHzypya1M/7tkkNL2adtJzQdu1ugrgD5LH/dZc9SaLYvF9LyD9EUAazAIetD3EwCcd7oFfpvA7yb1H2m4mF3iQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7712
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,228 +194,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 03, 2024 at 05:03:34PM +0000, Thomas Weißschuh wrote:
-> The is_bin_visible() callbacks should not modify the struct
-> bin_attribute passed as argument.
-> Enforce this by marking the argument as const.
-> 
-> As there are not many callback implementers perform this change
-> throughout the tree at once.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>	# drivers/pci
 
-> ---
->  drivers/cxl/port.c                      |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c |  2 +-
->  drivers/infiniband/hw/qib/qib_sysfs.c   |  2 +-
->  drivers/mtd/spi-nor/sysfs.c             |  2 +-
->  drivers/nvmem/core.c                    |  3 ++-
->  drivers/pci/pci-sysfs.c                 |  2 +-
->  drivers/pci/vpd.c                       |  2 +-
->  drivers/platform/x86/amd/hsmp.c         |  2 +-
->  drivers/platform/x86/intel/sdsi.c       |  2 +-
->  drivers/scsi/scsi_sysfs.c               |  2 +-
->  drivers/usb/core/sysfs.c                |  2 +-
->  include/linux/sysfs.h                   | 30 +++++++++++++++---------------
->  12 files changed, 27 insertions(+), 26 deletions(-)
+On 2024-11-04 6:20 p.m., Daniele Ceraolo Spurio wrote:
 > 
-> diff --git a/drivers/cxl/port.c b/drivers/cxl/port.c
-> index 9dc394295e1fcd1610813837b2f515b66995eb25..24041cf85cfbe6c54c467ac325e48c775562b938 100644
-> --- a/drivers/cxl/port.c
-> +++ b/drivers/cxl/port.c
-> @@ -173,7 +173,7 @@ static ssize_t CDAT_read(struct file *filp, struct kobject *kobj,
->  static BIN_ATTR_ADMIN_RO(CDAT, 0);
->  
->  static umode_t cxl_port_bin_attr_is_visible(struct kobject *kobj,
-> -					    struct bin_attribute *attr, int i)
-> +					    const struct bin_attribute *attr, int i)
->  {
->  	struct device *dev = kobj_to_dev(kobj);
->  	struct cxl_port *port = to_cxl_port(dev);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-> index 0b28b2cf1517d130da01989df70b9dff6433edc4..c1c329eb920b52af100a93bdf00df450e25608c4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-> @@ -3999,7 +3999,7 @@ static umode_t amdgpu_flash_attr_is_visible(struct kobject *kobj, struct attribu
->  }
->  
->  static umode_t amdgpu_bin_flash_attr_is_visible(struct kobject *kobj,
-> -						struct bin_attribute *attr,
-> +						const struct bin_attribute *attr,
->  						int idx)
->  {
->  	struct device *dev = kobj_to_dev(kobj);
-> diff --git a/drivers/infiniband/hw/qib/qib_sysfs.c b/drivers/infiniband/hw/qib/qib_sysfs.c
-> index 53ec7510e4ebfb144e79884ca7dd7d0c873bd8a7..ba2cd68b53e6c240f1afc65c64012c75ccf488e0 100644
-> --- a/drivers/infiniband/hw/qib/qib_sysfs.c
-> +++ b/drivers/infiniband/hw/qib/qib_sysfs.c
-> @@ -283,7 +283,7 @@ static struct bin_attribute *port_ccmgta_attributes[] = {
->  };
->  
->  static umode_t qib_ccmgta_is_bin_visible(struct kobject *kobj,
-> -				 struct bin_attribute *attr, int n)
-> +				 const struct bin_attribute *attr, int n)
->  {
->  	struct qib_pportdata *ppd = qib_get_pportdata_kobj(kobj);
->  
-> diff --git a/drivers/mtd/spi-nor/sysfs.c b/drivers/mtd/spi-nor/sysfs.c
-> index 96064e4babf01f6950c81586764386e7671cbf97..5e9eb268073d18e0a46089000f18a3200b4bf13d 100644
-> --- a/drivers/mtd/spi-nor/sysfs.c
-> +++ b/drivers/mtd/spi-nor/sysfs.c
-> @@ -87,7 +87,7 @@ static umode_t spi_nor_sysfs_is_visible(struct kobject *kobj,
->  }
->  
->  static umode_t spi_nor_sysfs_is_bin_visible(struct kobject *kobj,
-> -					    struct bin_attribute *attr, int n)
-> +					    const struct bin_attribute *attr, int n)
->  {
->  	struct spi_device *spi = to_spi_device(kobj_to_dev(kobj));
->  	struct spi_mem *spimem = spi_get_drvdata(spi);
-> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-> index 63370c76394ee9b8d514da074779617cef67c311..73e44d724f90f4cd8fe8cafb9fa0c0fb23078e61 100644
-> --- a/drivers/nvmem/core.c
-> +++ b/drivers/nvmem/core.c
-> @@ -298,7 +298,8 @@ static umode_t nvmem_bin_attr_get_umode(struct nvmem_device *nvmem)
->  }
->  
->  static umode_t nvmem_bin_attr_is_visible(struct kobject *kobj,
-> -					 struct bin_attribute *attr, int i)
-> +					 const struct bin_attribute *attr,
-> +					 int i)
->  {
->  	struct device *dev = kobj_to_dev(kobj);
->  	struct nvmem_device *nvmem = to_nvmem_device(dev);
-> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> index 040f01b2b999175e8d98b05851edc078bbabbe0d..13912940ed2bb66c0086e5bea9a3cb6417ac14dd 100644
-> --- a/drivers/pci/pci-sysfs.c
-> +++ b/drivers/pci/pci-sysfs.c
-> @@ -1326,7 +1326,7 @@ static struct bin_attribute *pci_dev_rom_attrs[] = {
->  };
->  
->  static umode_t pci_dev_rom_attr_is_visible(struct kobject *kobj,
-> -					   struct bin_attribute *a, int n)
-> +					   const struct bin_attribute *a, int n)
->  {
->  	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
->  
-> diff --git a/drivers/pci/vpd.c b/drivers/pci/vpd.c
-> index e4300f5f304f3ca55a657fd25a1fa5ed919737a7..a469bcbc0da7f7677485c7f999f8dfb58b8ae8a3 100644
-> --- a/drivers/pci/vpd.c
-> +++ b/drivers/pci/vpd.c
-> @@ -325,7 +325,7 @@ static struct bin_attribute *vpd_attrs[] = {
->  };
->  
->  static umode_t vpd_attr_is_visible(struct kobject *kobj,
-> -				   struct bin_attribute *a, int n)
-> +				   const struct bin_attribute *a, int n)
->  {
->  	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
->  
-> diff --git a/drivers/platform/x86/amd/hsmp.c b/drivers/platform/x86/amd/hsmp.c
-> index 8fcf38eed7f00ee01aade6e3e55e20402458d5aa..8f00850c139fa8d419bc1c140c1832bf84b2c3bd 100644
-> --- a/drivers/platform/x86/amd/hsmp.c
-> +++ b/drivers/platform/x86/amd/hsmp.c
-> @@ -620,7 +620,7 @@ static int hsmp_get_tbl_dram_base(u16 sock_ind)
->  }
->  
->  static umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
-> -					 struct bin_attribute *battr, int id)
-> +					 const struct bin_attribute *battr, int id)
->  {
->  	if (plat_dev.proto_ver == HSMP_PROTO_VER6)
->  		return battr->attr.mode;
-> diff --git a/drivers/platform/x86/intel/sdsi.c b/drivers/platform/x86/intel/sdsi.c
-> index 9d137621f0e6e7a23be0e0bbc6175c51c403169f..33f33b1070fdc949c1373251c3bca4234d9da119 100644
-> --- a/drivers/platform/x86/intel/sdsi.c
-> +++ b/drivers/platform/x86/intel/sdsi.c
-> @@ -541,7 +541,7 @@ static struct bin_attribute *sdsi_bin_attrs[] = {
->  };
->  
->  static umode_t
-> -sdsi_battr_is_visible(struct kobject *kobj, struct bin_attribute *attr, int n)
-> +sdsi_battr_is_visible(struct kobject *kobj, const struct bin_attribute *attr, int n)
->  {
->  	struct device *dev = kobj_to_dev(kobj);
->  	struct sdsi_priv *priv = dev_get_drvdata(dev);
-> diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
-> index 32f94db6d6bf5d2bd289c1a121da7ffc6a7cb2ff..f3a1ecb42128a2b221ca5c362e041eb59dba0f20 100644
-> --- a/drivers/scsi/scsi_sysfs.c
-> +++ b/drivers/scsi/scsi_sysfs.c
-> @@ -1274,7 +1274,7 @@ static umode_t scsi_sdev_attr_is_visible(struct kobject *kobj,
->  }
->  
->  static umode_t scsi_sdev_bin_attr_is_visible(struct kobject *kobj,
-> -					     struct bin_attribute *attr, int i)
-> +					     const struct bin_attribute *attr, int i)
->  {
->  	struct device *dev = kobj_to_dev(kobj);
->  	struct scsi_device *sdev = to_scsi_device(dev);
-> diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
-> index 61b6d978892c799e213018bed22d9fb12a19d429..b4cba23831acd2d7d395b9f7683cd3ee3a8623c8 100644
-> --- a/drivers/usb/core/sysfs.c
-> +++ b/drivers/usb/core/sysfs.c
-> @@ -925,7 +925,7 @@ static struct bin_attribute *dev_bin_attrs[] = {
->  };
->  
->  static umode_t dev_bin_attrs_are_visible(struct kobject *kobj,
-> -		struct bin_attribute *a, int n)
-> +		const struct bin_attribute *a, int n)
->  {
->  	struct device *dev = kobj_to_dev(kobj);
->  	struct usb_device *udev = to_usb_device(dev);
-> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-> index 4746cccb95898b24df6f53de9421ea7649b5568f..d1b22d56198b55ee39fe4c4fc994f5b753641992 100644
-> --- a/include/linux/sysfs.h
-> +++ b/include/linux/sysfs.h
-> @@ -101,7 +101,7 @@ struct attribute_group {
->  	umode_t			(*is_visible)(struct kobject *,
->  					      struct attribute *, int);
->  	umode_t			(*is_bin_visible)(struct kobject *,
-> -						  struct bin_attribute *, int);
-> +						  const struct bin_attribute *, int);
->  	size_t			(*bin_size)(struct kobject *,
->  					    const struct bin_attribute *,
->  					    int);
-> @@ -199,22 +199,22 @@ struct attribute_group {
->   * attributes, the group visibility is determined by the function
->   * specified to is_visible() not is_bin_visible()
->   */
-> -#define DEFINE_SYSFS_BIN_GROUP_VISIBLE(name)                             \
-> -	static inline umode_t sysfs_group_visible_##name(                \
-> -		struct kobject *kobj, struct bin_attribute *attr, int n) \
-> -	{                                                                \
-> -		if (n == 0 && !name##_group_visible(kobj))               \
-> -			return SYSFS_GROUP_INVISIBLE;                    \
-> -		return name##_attr_visible(kobj, attr, n);               \
-> +#define DEFINE_SYSFS_BIN_GROUP_VISIBLE(name)                                   \
-> +	static inline umode_t sysfs_group_visible_##name(                      \
-> +		struct kobject *kobj, const struct bin_attribute *attr, int n) \
-> +	{                                                                      \
-> +		if (n == 0 && !name##_group_visible(kobj))                     \
-> +			return SYSFS_GROUP_INVISIBLE;                          \
-> +		return name##_attr_visible(kobj, attr, n);                     \
->  	}
->  
-> -#define DEFINE_SIMPLE_SYSFS_BIN_GROUP_VISIBLE(name)                   \
-> -	static inline umode_t sysfs_group_visible_##name(             \
-> -		struct kobject *kobj, struct bin_attribute *a, int n) \
-> -	{                                                             \
-> -		if (n == 0 && !name##_group_visible(kobj))            \
-> -			return SYSFS_GROUP_INVISIBLE;                 \
-> -		return a->mode;                                       \
-> +#define DEFINE_SIMPLE_SYSFS_BIN_GROUP_VISIBLE(name)                         \
-> +	static inline umode_t sysfs_group_visible_##name(                   \
-> +		struct kobject *kobj, const struct bin_attribute *a, int n) \
-> +	{                                                                   \
-> +		if (n == 0 && !name##_group_visible(kobj))                  \
-> +			return SYSFS_GROUP_INVISIBLE;                       \
-> +		return a->mode;                                             \
->  	}
->  
->  #define SYSFS_GROUP_VISIBLE(fn) sysfs_group_visible_##fn
 > 
-> -- 
-> 2.47.0
 > 
+> On 10/30/2024 3:38 PM, Zhanjun Dong wrote:
+>> GuC to host communication is interrupt driven, the handling has 3
+>> parts: interrupt context, tasklet and request queue worker.
+>> During GuC reset prepare, interrupt is disabled before destroy
+>> contexts steps start. The IRQ and worker flushed to finish
+>> in progress message handling if there are. The tasklet flush is
+>> missing, it might causes 2 race conditions:
+>> 1. Tasklet runs after IRQ flushed, add request to queue after worker
+>> flush started, causes unexpected G2H message request processing,
+>> meanwhile, reset prepare code already get the context destroyed.
+>> This will causes error reported about bad context state.
+>> 2. Tasklet runs after intel_guc_submission_reset_prepare,
+>> ct_try_receive_message start to run, while intel_uc_reset_prepare
+>> already finished guc sanitize and set ct->enable to false. This will
+>> causes warning on incorrect ct->enable state.
+>>
+>> Add the missing tasklet flush to flush all 3 parts.
+>>
+>> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+>> Cc: John Harrison <John.C.Harrison@Intel.com>
+>> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/ 
+>> drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> index 9ede6f240d79..353a9167c9a4 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> @@ -1688,6 +1688,10 @@ void intel_guc_submission_reset_prepare(struct 
+>> intel_guc *guc)
+>>       spin_lock_irq(guc_to_gt(guc)->irq_lock);
+>>       spin_unlock_irq(guc_to_gt(guc)->irq_lock);
+>> +    /* Flush tasklet */
+>> +    tasklet_disable(&guc->ct.receive_tasklet);
+>> +    tasklet_enable(&guc->ct.receive_tasklet);
+>> +
+> 
+> It looks like we might have the same problem around suspend/resume, 
+> because AFAICS the tasklet is never stopped anywhere except driver 
+> unload. Maybe it's worth adding the tasklet disabling/enabling to the 
+> interrupt disabling/enabling functions, i.e. guc->interrupts.disable/ 
+> enable(), so it's automatically called any time we want to disable GuC 
+> interrupts? not a blocker.
+> 
+> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> 
+> Daniele
+> 
+Thanks Daniele for review.
+
+I like the idea to put tasklet disabling/enabling to the
+ > interrupt disabling/enabling functions. Let me do some investigation 
+on suspend/resume workflow and run some test first. It might take some time.
+This patch might fix multiple issues, I would like to get it merged 
+after we got positive CI.Full result.
+
+Regards,
+Zhanjun Dong
+
+>>       guc_flush_submissions(guc);
+>>       guc_flush_destroyed_contexts(guc);
+>>       flush_work(&guc->ct.requests.worker);
+> 
+
