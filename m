@@ -2,74 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A6F9BCAF9
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 11:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55B89BCAFE
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 11:51:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC0A710E2D5;
-	Tue,  5 Nov 2024 10:50:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D12610E558;
+	Tue,  5 Nov 2024 10:51:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FdHe775n";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="shgka0iH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
- [209.85.219.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB7110E2D5
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 10:50:26 +0000 (UTC)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-e2e444e355fso4815429276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2024 02:50:26 -0800 (PST)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF83810E123
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 10:51:23 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-6ea5f68e17aso51176867b3.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2024 02:51:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1730803825; x=1731408625; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=tcLHhgY/7JDthrxKCQ/K4USCyZ0HCKKxDBN31BvrBJA=;
- b=FdHe775nkxfcaPUH51j9wYUXcJPAvf3tQSXfal6ihGVRmoSobgr1bGYZH+l5qOY56m
- HvvsXfnTpCqQ3UQ9rZqWKlOSEhRsIBrVPIWVtfmbSk0BeagGi+HIGYLAJPdY2eQDSnB7
- 4wH5wAFmio94ca1js9nba6v3qtQJeFS2xGbmChJnof4rtSJrx2T/pLvLDrttvtYkdVUB
- nW6Bq32jrPOgu7gXFVyO67slUkzb4HgZOpGTRcWL15f17HZccvFTFPLFY9HmMCCA/BXC
- axnVDv9acV1W2yMtrKF72DxxAuChHR2lzMGaTPwe2YJpD2BR+HPSvid+GiX8/c/tpJ4+
- 3R+g==
+ d=linaro.org; s=google; t=1730803883; x=1731408683; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8wFnUnciKF2xxhdw0g9UlvzkYqa9uqspkupSHos0NsU=;
+ b=shgka0iHIdk1NVQ+U8317hQjo11PtPZsPdq74HyJzaFjB7K16BoM6mVZ0+26gLG5aX
+ Zy/7aacEMMy8EGJxrv0QrYXjZt1dfldU6ozcw2FwOM6EpzmNM19xXgxxg7oNbCmZUvkY
+ 7iRIRcKzTRHiYcEyBOmBLL26H6mijfx+ZzpLCoPu/kLCsRcKRE2m0dlqYxiwolPfSWzH
+ bw/pqga/1TclbpQRSs5+AP4r2XAYpGgi2sc+P5aRJDTQy2OtvcJaKKI+3tVUK67axTd6
+ CK5TgRSFbxlozjoHn3WWIE3op/9q9I2G6Lch/+iEdzqJziyEfrahFnv19JpDcMqre8wc
+ aAyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730803825; x=1731408625;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tcLHhgY/7JDthrxKCQ/K4USCyZ0HCKKxDBN31BvrBJA=;
- b=wwb5fXcicTwi2Ttpwu5zjierOV2GEx/DKDB6tFY4KSA+fk+B25Cw+jAMWKH9aKp9JF
- a+r98ubfPL5/xw6tuwPKIgi0VZ6XvM6s3qxJV7OetOygZWXlsOBJX1ze2mdYloRD3wVu
- Kia3YoyqILQKW6it0yuSIy2DG9UNi40FdtzkKiwu4/O/mH1Jw2T01cSqKWk5XDT+9ptm
- l5WwHXkR2o1+eHsFLE+73T9o1qKmybKhbjC9sIeZGoMtck2NXApJx6UJ1NtpABsiBccu
- 8SuBfZYrK5o/FL6Top+GkEwvsd5jQNPvXLaqKOFc18IBsbR0LJQJAEnFmNvDW8+woRBa
- H58g==
+ d=1e100.net; s=20230601; t=1730803883; x=1731408683;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8wFnUnciKF2xxhdw0g9UlvzkYqa9uqspkupSHos0NsU=;
+ b=MZvIowZVSnnWl9OrxkoKIpnppXs9+ng0qvZhZfdfaoWaUGOLCjr9RxPEL+4wfidwPn
+ DKj7nMU3+smzSeDcEtAKJ5D5fQwrS2xiryMh9cSDxXYC+c8/zdLRlNIJnKG8Kifmgr2f
+ ABzdX0suRslc2vjZpbS+PVJLmSPwcli1NnL+Xwo4KKhnGr/on/EvhWW5oWT3czuV54X2
+ tKmJvy7JXeepjJiISl5LDTj3RSPM6Qf0YP5ZckMwdlil2EecMf+XEq+VCdwKTg4TcL7s
+ Tje92gRf5P8wApEN9C8bFNSQtiniz8BFMFHLJ+kubxjEItbLdk+ZHrBtpMsfqLzsmFUy
+ hjiQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUrsjYqasElW2uBvUFKJNssozMT++7vlIfem+FTZooaNjv6VolYT6D7ompDvhNkGBtVHWRJPQlN7Hc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFTvZGzNq9m9aD7fB2yDvDkldj4Gt4vIpPKZrGQ3LpeEKvZSNy
- vp36AW02s9IqzDukgK+zrGCqludAt7pPOM538/Kz0i0oifPRLA5qE0JkbwO7EdOu/JZedp/6o0D
- orJChiWTU/a+9X8lfIhSsXSdwYOgU6TynkrnVCg==
-X-Google-Smtp-Source: AGHT+IGvKG/7lB41w2cTCGY4XF224YUlYXy4b7EKwqjtZf9lwXlgT73R+wocm5vnvPHixEYI8CaW/u9+yC/WMUo4CTM=
-X-Received: by 2002:a25:2e44:0:b0:e30:c87a:f391 with SMTP id
- 3f1490d57ef6-e3301836a58mr12105098276.27.1730803825206; Tue, 05 Nov 2024
- 02:50:25 -0800 (PST)
+ AJvYcCVbPz30zY89SNPXCzZaf/OCg7ZQil7WtKf5HJE3DVQRvBr4UQ299Wo6lfIqVxsjR7W0H4TCK9Hgh8Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUioPG5aDwro8ON05BPWnI1kQZvun9o/UWkB5rSkkOIHNBiVhA
+ 6M8jx6YZUj9C627/TBUvX8AzIWEBqMMyA2V7A6boPpBXK+NS/Rn6q2j8eSWhKslE+UhgKl/JYP/
+ tWRn5YeQvtt4frjLE5xJsljXp89LENXePv9Ct3w==
+X-Google-Smtp-Source: AGHT+IHQFSqhKmwFB8KvMA0OA0g7K5yjBP9Ct2aeaH6/E5BqOA7hhimk5zgheZN6yBg6rUs9bzLqJRTFRGU/Y2suREU=
+X-Received: by 2002:a05:690c:dc7:b0:6e7:d974:8d05 with SMTP id
+ 00721157ae682-6e9d88cf98bmr365969057b3.4.1730803882742; Tue, 05 Nov 2024
+ 02:51:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20241101105028.2177274-1-shiyongbang@huawei.com>
- <20241101105028.2177274-4-shiyongbang@huawei.com>
- <3ke3n6mkxdcllgjohhudv6xi6csnqzpahaocpofmn26l6jdu6c@xpy2z7yeiijq>
- <35cf8895-fbc5-4ab4-bd52-d322990cefde@huawei.com>
-In-Reply-To: <35cf8895-fbc5-4ab4-bd52-d322990cefde@huawei.com>
+References: <20241101-tonyk-async_flip-v9-0-681814efbfbe@igalia.com>
+ <20241101-tonyk-async_flip-v9-1-681814efbfbe@igalia.com>
+ <D5CC3U00B7CG.IGKCIES8PC2J@kode54.net>
+ <00a99b3e-3fad-42fb-8dc8-4f45d158c4c1@igalia.com>
+ <D5E5ZXW1K0A7.1VT1XCR1HIEST@kode54.net>
+In-Reply-To: <D5E5ZXW1K0A7.1VT1XCR1HIEST@kode54.net>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 5 Nov 2024 10:50:14 +0000
-Message-ID: <CAA8EJpoU9Pq4ZpvXj1hzpAgm+Vb002Q=AdTKo2ix4dcAaHNe4Q@mail.gmail.com>
-Subject: Re: [PATCH V3 drm-dp 3/4] drm/hisilicon/hibmc: add dp hw moduel in
- hibmc
-To: Yongbang Shi <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, 
- liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com, 
- libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Tue, 5 Nov 2024 10:51:11 +0000
+Message-ID: <CAA8EJpoEEo5tB00Yqoi7V2U=pRud1W44W3V8bJnr3N468EhQOw@mail.gmail.com>
+Subject: Re: [PATCH RESEND v9 1/2] drm/atomic: Let drivers decide which planes
+ to async flip
+To: Christopher Snowhill <chris@kode54.net>
+Cc: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+ kernel-dev@igalia.com, Simon Ser <contact@emersion.fr>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, joshua@froggi.es,
+ ville.syrjala@linux.intel.com, 
+ Daniel Stone <daniel@fooishbar.org>, Xaver Hugl <xaver.hugl@gmail.com>, 
+ Harry Wentland <harry.wentland@amd.com>, Simona Vetter <simona@ffwll.ch>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,118 +96,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 5 Nov 2024 at 06:06, Yongbang Shi <shiyongbang@huawei.com> wrote:
+On Tue, 5 Nov 2024 at 10:15, Christopher Snowhill <chris@kode54.net> wrote:
 >
-> > On Fri, Nov 01, 2024 at 06:50:27PM +0800, Yongbang Shi wrote:
-> >> From: baihan li <libaihan@huawei.com>
-> >>
-> >> Build a dp level that hibmc driver can enable dp by
-> >> calling their functions.
-> >>
-> >> Signed-off-by: baihan li <libaihan@huawei.com>
-> >> Signed-off-by: yongbang shi <shiyongbang@huawei.com>
-> >> ---
-> >> ChangeLog:
-> >> v2 -> v3:
-> >>    - fix build errors reported by kernel test robot <lkp@intel.com>
-> >>      Closes: https://lore.kernel.org/oe-kbuild-all/202410250931.UDQ9s66H-lkp@intel.com/
-> >> v1 -> v2:
-> >>    - changed some defines and functions to former patch, suggested by Dmitry Baryshkov.
-> >>    - sorting the headers including in dp_hw.h and hibmc_drm_drv.c files, suggested by Dmitry Baryshkov.
-> >>    - deleting struct dp_mode and dp_mode_cfg function, suggested by Dmitry Baryshkov.
-> >>    - fix build errors reported by kernel test robot <lkp@intel.com>
-> >>      Closes: https://lore.kernel.org/oe-kbuild-all/202410040328.VeVxM9yB-lkp@intel.com/
-> >>    v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
-> >> ---
-> >>   drivers/gpu/drm/hisilicon/hibmc/Makefile    |   2 +-
-> >>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c  | 237 ++++++++++++++++++++
-> >>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h  |  31 +++
-> >>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h |  41 ++++
-> >>   4 files changed, 310 insertions(+), 1 deletion(-)
-> >>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> >>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> >>
-> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> >> index 94d77da88bbf..214228052ccf 100644
-> >> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> >> @@ -1,5 +1,5 @@
-> >>   # SPDX-License-Identifier: GPL-2.0-only
-> >>   hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
-> >> -           dp/dp_aux.o dp/dp_link.o
-> >> +           dp/dp_aux.o dp/dp_link.o dp/dp_hw.o
-> >>
-> >>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> >> new file mode 100644
-> >> index 000000000000..214897798bdb
-> >> --- /dev/null
-> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> >> @@ -0,0 +1,237 @@
-> >> +// SPDX-License-Identifier: GPL-2.0-or-later
-> >> +// Copyright (c) 2024 Hisilicon Limited.
-> >> +
-> >> +#include <linux/io.h>
-> >> +#include <linux/delay.h>
-> >> +#include "dp_config.h"
-> >> +#include "dp_comm.h"
-> >> +#include "dp_reg.h"
-> >> +#include "dp_hw.h"
-> >> +#include "dp_link.h"
-> >> +#include "dp_aux.h"
-> >> +
-> >> +static int hibmc_dp_link_init(struct dp_dev *dp)
-> >> +{
-> >> +    dp->link.cap.lanes = 2;
-> >> +    dp->link.train_set = devm_kzalloc(dp->dev->dev,
-> >> +                                      dp->link.cap.lanes * sizeof(u8), GFP_KERNEL);
-> > Can you replace it just with an array, removing a need for an additional
-> > allocation?
+> On Mon Nov 4, 2024 at 12:52 PM PST, Andr=C3=A9 Almeida wrote:
+> > Hi Christopher,
 > >
-> >> +    if (!dp->link.train_set)
-> >> +            return -ENOMEM;
-> >> +
-> >> +    dp->link.cap.link_rate = 1;
-> > Ok, this is why I don't link using indices for link rates. Which rate is
-> > this? Unlike cap.lanes this is pure magic number. I think it should be
-> > handled other way around: store actual link rate and convert to the
-> > register value when required.
+> > Em 03/11/2024 03:36, Christopher Snowhill escreveu:
+> > > On Fri Nov 1, 2024 at 11:23 AM PDT, Andr=C3=A9 Almeida wrote:
+> > >> Currently, DRM atomic uAPI allows only primary planes to be flipped
+> > >> asynchronously. However, each driver might be able to perform async
+> > >> flips in other different plane types. To enable drivers to set their=
+ own
+> > >> restrictions on which type of plane they can or cannot flip, use the
+> > >> existing atomic_async_check() from struct drm_plane_helper_funcs to
+> > >> enhance this flexibility, thus allowing different plane types to be =
+able
+> > >> to do async flips as well.
+> > >>
+> > >> In order to prevent regressions and such, we keep the current policy=
+: we
+> > >> skip the driver check for the primary plane, because it is always
+> > >> allowed to do async flips on it.
+> > >>
+> > >> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> > >
+> > > Should I do a R-b too?
 > >
-> >> +
-> >> +    return 0;
-> >> +}
-> >> +
-> >> +static void hibmc_dp_set_tu(struct dp_dev *dp, struct drm_display_mode *mode)
-> >> +{
-> >> +    u32 tu_symbol_frac_size;
-> >> +    u32 tu_symbol_size;
-> >> +    u32 rate_ks;
-> >> +    u8 lane_num;
-> >> +    u32 value;
-> >> +    u32 bpp;
-> >> +
-> >> +    lane_num = dp->link.cap.lanes;
-> >> +    if (lane_num == 0) {
-> >> +            drm_err(dp->dev, "set tu failed, lane num cannot be 0!\n");
-> >> +            return;
-> >> +    }
-> >> +
-> >> +    bpp = DP_BPP;
-> > Where is this defined? Is it hibmc-specific or a generic value?
-> >
-> >> +    rate_ks = hibmc_dp_get_link_rate(dp->link.cap.link_rate) * DP_LINK_RATE_CAL;
-> > same question
+> > If you can review the code, it's always really appreciated.
 >
-> Hi Dmitry,
-> Thanks for your detailed suggestions and questions. These two are defined in dp_config.h.
+> I mean, I did review your changes, they looked good to me. I just didn't
+> know the protocol for reporting review in addition to testing.
 
-Please move defines to the corresponding patch, when the values are
-being used. Also if these defines are HIBMC-specific, please use the
-corresponding prefix (when one sees DP_foo they expect a constant
-defined in the standard, not a driver-specific value).
+Please respond with the R-B tag. Also ideally the Tested-by should
+contain the reference to a platform which was used to test it.
+
+>
+> >
+> > > The changes looked sound enough for me to feel
+> > > like testing it as well. Tested Borderlands Game of the Year Enhanced=
+ on
+> > > my RX 7700 XT at maximum settings at 1080p165, and the tearing suppor=
+t in
+> > > labwc allowed it to reach over 700fps. No problems from the hardware
+> > > cursor.
+> >
+> > Thanks for testing and reporting!
+> >
+> > >
+> > > Tested-by: Christopher Snowhill <chris@kode54.net>
+> > >
+>
 
 
-
--- 
+--=20
 With best wishes
 Dmitry
