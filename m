@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AB19BD447
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 19:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C4C9BD450
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 19:14:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC3110E5F2;
-	Tue,  5 Nov 2024 18:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA30A10E5F3;
+	Tue,  5 Nov 2024 18:13:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cuy7307N";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t/Y+TCUd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B69410E5F2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 18:13:11 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADDA510E5F3
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 18:13:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 038AA5C53E2;
- Tue,  5 Nov 2024 18:12:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8D4DC4CECF;
- Tue,  5 Nov 2024 18:13:06 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id C4FB5A43801;
+ Tue,  5 Nov 2024 18:12:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75ADFC4CECF;
+ Tue,  5 Nov 2024 18:13:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730830390;
- bh=pxqB7qCPgf6SdrFqZG7JzmVzNL3Eokwf44mDjUQzHfY=;
+ s=k20201202; t=1730830436;
+ bh=j/hVO0QTQ7lh4OLZKHXt9OfuNaNn7hMoHNsw5w3AxGA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cuy7307NTZAW7l+Q8xtduxKrBLrSSffzLiuD9yd/Evp64dVBZJ+Yv8depWaLxk8dU
- 7f7cKZeUP7FO2Sx7nQRC/0esYs/0R9cdKlFSp2PjHiwxBievF4nwZJZ+aRrx5gTWGe
- ZhSuvZXPjkrW+fzjwSQO6nVqE2Bzo6qemZSLV2L6gNnwXmREKWZSVvD1HQRP1STjS2
- Qp+HGKOTtMpl1H5yC4BoSFZhB1aTrL/IPwIhorI5HadxPaDhVZ1ZvkXVKZDwXdgkDb
- uFiJGIeoPns0ZSRFi6IEJa12b6ulyKiaguMvMgy+uiaLFQd2ZcsOtPDVkBzjgZJrjL
- oHszmpQmgCyRQ==
-Date: Tue, 5 Nov 2024 18:13:04 +0000
+ b=t/Y+TCUd+UCPFyz/QmYOaNyOrEY1F37aPU3mTkW94gcgl6YKusgTFEavVQPhoeeIv
+ 1g25+SjPc863n/03n17Q8U9+vubjmu/gxSHJ0FwrPO41zjM8FNNp/gP6dEqmG2n2er
+ 9KW3n3/R4c6vJ6TiAAjCbiqNirR7q4OgkSP0BBfkg+Xvp50q9Z6R92N4hnJtltMI75
+ ssHBAEY7YDX0LcU08JrKl6NgWaUBPwVHaIqAiXKsce8YC8up4aOciVTBdIPAsHEtd2
+ AXxX75o5LueqSOLgkNBl21uKzU1/+LmOy1z8R6Upf1iga/VyFvU/LwZF8e2frzRNN+
+ REGnoAwCz4KmQ==
+Date: Tue, 5 Nov 2024 18:13:50 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Matt Coster <matt.coster@imgtec.com>
 Cc: Frank Binns <frank.binns@imgtec.com>, David Airlie <airlied@gmail.com>,
@@ -45,16 +45,16 @@ Cc: Frank Binns <frank.binns@imgtec.com>, David Airlie <airlied@gmail.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, Randolph Sapp <rs@ti.com>,
  Darren Etheridge <detheridge@ti.com>
-Subject: Re: [PATCH 01/21] dt-bindings: gpu: img: More explicit compatible
- strings
-Message-ID: <20241105-matron-gangway-64e78576ec47@spud>
+Subject: Re: [PATCH 03/21] dt-bindings: gpu: img: Power domain details
+Message-ID: <20241105-endearing-huddling-30728a002321@spud>
 References: <20241105-sets-bxs-4-64-patch-v1-v1-0-4ed30e865892@imgtec.com>
- <20241105-sets-bxs-4-64-patch-v1-v1-1-4ed30e865892@imgtec.com>
+ <20241105-sets-bxs-4-64-patch-v1-v1-3-4ed30e865892@imgtec.com>
+ <20241105-disarm-baggie-e2563299a24f@spud>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HC9jzF+yIAdMYD3B"
+ protocol="application/pgp-signature"; boundary="h6DOoDpaBp8hRAn5"
 Content-Disposition: inline
-In-Reply-To: <20241105-sets-bxs-4-64-patch-v1-v1-1-4ed30e865892@imgtec.com>
+In-Reply-To: <20241105-disarm-baggie-e2563299a24f@spud>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,98 +71,105 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---HC9jzF+yIAdMYD3B
+--h6DOoDpaBp8hRAn5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 05, 2024 at 03:58:07PM +0000, Matt Coster wrote:
-> The current compatible strings are not specific enough to constrain the
-> hardware in devicetree. For example, the current "img,img-axe" string
-> refers to the entire family of Series AXE GPUs. The more specific
-> "img,img-axe-1-16m" string refers to the AXE-1-16M GPU which, unlike the
-> rest of its family, only uses a single power domain.
+On Tue, Nov 05, 2024 at 06:05:54PM +0000, Conor Dooley wrote:
+> On Tue, Nov 05, 2024 at 03:58:09PM +0000, Matt Coster wrote:
+> > The single existing GPU (AXE-1-16M) only requires a single power domain.
+> > Subsequent patches will add support for BXS-4-64 MC1, which has two pow=
+er
+> > domains. Add infrastructure now to allow for this.
+> >=20
+> > Signed-off-by: Matt Coster <matt.coster@imgtec.com>
+> > ---
+> >  .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 29 ++++++++++++++=
++++++++-
+> >  1 file changed, 28 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.ya=
+ml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> > index 6924831d3e9dd9b2b052ca8f9d7228ff25526532..55f422be1bc5b7564e3e81f=
+24c4b93857f3e12fe 100644
+> > --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> > +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> > @@ -49,7 +49,16 @@ properties:
+> >      maxItems: 1
+> > =20
+> >    power-domains:
+> > -    maxItems: 1
+> > +    minItems: 1
+> > +    maxItems: 2
+> > +
+> > +  power-domain-names:
+> > +    oneOf:
+> > +      - items:
+> > +          - const: a
+> > +      - items:
+> > +          - const: a
+> > +          - const: b
 
-That's not true, you could apply the rules using the ti,am62-gpu
-compatible, no?
+Additionally, a & b? Are those actually the names for the power domains?
 
-> Work is currently underway to add support for volcanic-based Imagination
-> GPUs; also add a generic top-level "img,img-rogue" compatible string to
-> allow for simpler differentiation in devicetrees.
+> > =20
+> >  required:
+> >    - compatible
+> > @@ -57,10 +66,27 @@ required:
+> >    - clocks
+> >    - clock-names
+> >    - interrupts
+> > +  - power-domains
+> > +  - power-domain-names
+>=20
+> A new required property is an ABI break. Please explain why this is
+> acceptable in your commit message.
+>=20
+> > =20
+> >  additionalProperties: false
+> > =20
+> >  allOf:
+> > +  # Cores with a single power domain
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            anyOf:
+> > +              - const: img,img-axe-1-16m
+> > +    then:
+> > +      properties:
+> > +        power-domains:
+> > +          minItems: 1
+> > +          maxItems: 1
+> > +        power-domain-names:
+> > +          items:
+> > +            - const: a
+> >    # Vendor integrations using a single clock domain
+> >    - if:
+> >        properties:
+> > @@ -90,4 +116,5 @@ examples:
+> >          clock-names =3D "core";
+> >          interrupts =3D <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+> >          power-domains =3D <&k3_pds 187 TI_SCI_PD_EXCLUSIVE>;
+> > +        power-domain-names =3D "a";
+> >      };
+> >=20
+> > --=20
+> > 2.47.0
+> >=20
 
-This makes no sense, how does adding another fallback compatible make
-it simpler? I have to assume that this means there will be geothermally
-powered axes in the future and you want to tell the difference between
-them and those pesky rogue axes that chop the heads off of naughty
-children?
 
->=20
-> Make these changes now before introducing more compatible strings to keep
-> the legacy versions to a minimum.
->=20
-> Signed-off-by: Matt Coster <matt.coster@imgtec.com>
-> ---
->  .../devicetree/bindings/gpu/img,powervr-rogue.yaml    | 19 +++++++++++++=
-+-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml=
- b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> index 256e252f8087fa0d6081f771a01601d34b66fe19..ef7070daf213277d0190fe319=
-e202fdc597337d4 100644
-> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> @@ -12,10 +12,19 @@ maintainers:
-> =20
->  properties:
->    compatible:
-> -    items:
-> -      - enum:
-> -          - ti,am62-gpu
-> -      - const: img,img-axe # IMG AXE GPU model/revision is fully discove=
-rable
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - ti,am62-gpu
-> +          - const: img,img-axe-1-16m
-> +          - const: img,img-rogue
-> +
-> +      # This legacy combination of compatible strings was introduced ear=
-ly on before the more
-> +      # specific GPU identifiers were used. Keep it around here for comp=
-atibility, but never use
-> +      # "img,img-axe" in new devicetrees.
-> +      - items:
-> +          - const: ti,am62-gpu
-> +          - const: img,img-axe
-> =20
->    reg:
->      maxItems: 1
-> @@ -64,7 +73,7 @@ examples:
->      #include <dt-bindings/soc/ti,sci_pm_domain.h>
-> =20
->      gpu@fd00000 {
-> -        compatible =3D "ti,am62-gpu", "img,img-axe";
-> +        compatible =3D "ti,am62-gpu", "img,img-axe-1-16m", "img,img-rogu=
-e";
->          reg =3D <0x0fd00000 0x20000>;
->          clocks =3D <&k3_clks 187 0>;
->          clock-names =3D "core";
->=20
-> --=20
-> 2.47.0
->=20
 
---HC9jzF+yIAdMYD3B
+--h6DOoDpaBp8hRAn5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHQEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZypgMAAKCRB4tDGHoIJi
-0nC4AQC4AzHjeKvDrm+ExJzNjJmg5LhdaVii97hh964tmhK59QD4jl8H5QIn/+vE
-4NZXGn3q7P2E/PvGBSyFkSd9XRUHBw==
-=IOI3
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZypgXgAKCRB4tDGHoIJi
+0tmqAP9uwcomPx5whZkcSbKHa8dRJnwZZX53eRiq8F+FqIWxuAD6A6vFpCuNo4V0
+stf8zberB2p7Bwefhwsl5aJGNmHl/QY=
+=EWBb
 -----END PGP SIGNATURE-----
 
---HC9jzF+yIAdMYD3B--
+--h6DOoDpaBp8hRAn5--
