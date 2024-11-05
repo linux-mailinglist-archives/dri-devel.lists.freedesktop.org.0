@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D679BCCC8
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 13:32:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FDCD9BCD04
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 13:51:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6A5A10E2F3;
-	Tue,  5 Nov 2024 12:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41B3A10E061;
+	Tue,  5 Nov 2024 12:51:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="hA7w8m2x";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Rm1k8vVN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9BD1210E2F3
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 12:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=OWyriM+3/blbjVLY5+oEe8o7/tf1VoT5Kih67DFYnqM=; b=h
- A7w8m2xgcx6sAp3tH4yUZVNZ1P8a5bPe45AOZTIERbgNTOuElO6A6GXHewujNf2J
- q0wf/i7sj+fL0uG7z8h+JJRLFNILczsLfxYa+xuoJgfVRI9EUh9ooKGnCe402yOQ
- QSJQ0/aUBlRQJSf6O6Sb7MzmZOI5oxrr84k5EUXXG0=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-141 (Coremail) ; Tue, 5 Nov 2024 20:30:55 +0800 (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Tue, 5 Nov 2024 20:30:55 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Piotr Zalewski" <pZ010001011111@proton.me>
-Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- skhan@linuxfoundation.org, "Daniel Stone" <daniel@fooishbar.org>, 
- "Dragan Simic" <dsimic@manjaro.org>, 
- "Diederik de Haas" <didi.debian@cknow.org>
-Subject: Re:[PATCH v7] rockchip/drm: vop2: add support for gamma LUT
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20241101185545.559090-3-pZ010001011111@proton.me>
-References: <20241101185545.559090-3-pZ010001011111@proton.me>
-X-NTES-SC: AL_Qu2YAvSbtkAu4ymdYOkZnEobh+Y5UcK2s/ki2YFXN5k0sibz6BkccnB8E3HH4sO2JgqSvxeyWSJl28JgcIV6XKN8wRB9hENfF8X7hcPXUq0F
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF4910E061
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 12:51:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1730811089;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4qZIiHm0ama7KMOdEhG12GBEN3YN2U7MriBJ2ZH+vvU=;
+ b=Rm1k8vVNEcov+dUf+QS88Hi158NzZGcgVpWMiEhmhvOu9qfyN0fcS5MMMW2llkzurywdfs
+ ju80HTwkidt5RsrwwELGwQTlKqVKeNt+Y9/Ho5mG/4yweTYmq2tf+Wc1pVFF7vhodqrN8u
+ UYd4d1EmNTysyh56Kik/Xmo522JcBvA=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-677-V7OqT96nOWq-E28owUraBg-1; Tue,
+ 05 Nov 2024 07:51:26 -0500
+X-MC-Unique: V7OqT96nOWq-E28owUraBg-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id C922A1977029; Tue,  5 Nov 2024 12:51:23 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.51])
+ by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 9198719560AD; Tue,  5 Nov 2024 12:51:19 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
+ Petr Mladek <pmladek@suse.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH v6 0/6] drm/log: Introduce a new boot logger to draw the kmsg
+ on the screen
+Date: Tue,  5 Nov 2024 13:42:20 +0100
+Message-ID: <20241105125109.226866-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Message-ID: <13b9cf0b.b341.192fc4e7fda.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: jSgvCgDXP4oEECpnvIMfAA--.6392W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMxaOXmcqB5x69AABss
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,136 +74,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIFBpb3RyLAoKQXQgMjAyNC0xMS0wMiAwMzowMToxNywgIlBpb3RyIFphbGV3c2tpIiA8cFow
-MTAwMDEwMTExMTFAcHJvdG9uLm1lPiB3cm90ZToKPkFkZCBzdXBwb3J0IGZvciBnYW1tYSBMVVQg
-aW4gVk9QMiBkcml2ZXIuIFRoZSBpbXBsZW1lbnRhdGlvbiB3YXMgaW5zcGlyZWQKPmJ5IG9uZSBm
-b3VuZCBpbiBWT1AxIGRyaXZlci4gQmx1ZSBhbmQgcmVkIGNoYW5uZWxzIGluIGdhbW1hIExVVCBy
-ZWdpc3Rlcgo+d3JpdGUgd2VyZSBzd2FwcGVkIHdpdGggcmVzcGVjdCB0byBob3cgZ2FtbWEgTFVU
-IHZhbHVlcyBhcmUgd3JpdHRlbiBpbgo+Vk9QMS4gR2FtbWEgTFVUIHBvcnQgc2VsZWN0aW9uIHdh
-cyBhZGRlZCBiZWZvcmUgdGhlIHdyaXRlIG9mIG5ldyBnYW1tYSBMVVQKPnRhYmxlLgo+Cj5JZiB0
-aGUgY3VycmVudCBTb0MgaXMgcmszNTZ4LCBjaGVjayBpZiBubyBvdGhlciBDUlRDIGhhcyBnYW1t
-YSBMVVQgZW5hYmxlZAo+aW4gYXRvbWljX2NoZWNrIChvbmx5IG9uZSB2aWRlbyBwb3J0IGNhbiB1
-c2UgZ2FtbWEgTFVUIGF0IGEgdGltZSkgYW5kCj5kaXNhYmxlIGdhbW1hIExVVCBiZWZvcmUgdGhl
-IExVVCB0YWJsZSB3cml0ZS4KPgo+SWYgdGhlIGN1cnJlbnQgU29DIGlzbid0IHJrMzU2eCwgInNl
-YW1sZXNzIiBnYW1tYSBsdXQgdXBkYXRlIGlzIHBlcmZvcm1lZAo+c2ltaWxhcmx5IHRvIGhvdyBp
-dCB3YXMgZG9uZSBpbiB0aGUgY2FzZSBvZiBSSzMzOTkgaW4gVk9QMVsxXS4gSW4gc2VhbWxlc3MK
-PnVwZGF0ZSBnYW1tYSBMVVQgZGlzYWJsZSBiZWZvcmUgdGhlIHdyaXRlIGlzbid0IG5lY2Vzc2Fy
-eSwgY2hlY2sgaWYgbm8KPm90aGVyIENSVEMgaGFzIGdhbW1hIExVVCBlbmFibGVkIGlzIGFsc28g
-bm90IG5lY2Vzc2FyeSwgZGlmZmVyZW50IHJlZ2lzdGVyCj5pcyBiZWluZyB1c2VkIHRvIHNlbGVj
-dCBnYW1tYSBMVVQgcG9ydFsyXSBhbmQgYWZ0ZXIgc2V0dGluZyBEU1BfTFVUX0VOIGJpdCwKPkdB
-TU1BX1VQREFURV9FTiBiaXQgaXMgc2V0WzNdLgo+Cj5HYW1tYSBzaXplIGlzIHNldCBhbmQgZHJt
-IGNvbG9yIG1hbmFnZW1lbnQgaXMgZW5hYmxlZCBmb3IgZWFjaCB2aWRlbyBwb3J0J3MKPkNSVEMg
-ZXhjZXB0IG9uZXMgd2hpY2ggaGF2ZSBubyBhc3NvY2lhdGVkIGRldmljZS4KPgo+UGF0Y2ggd2Fz
-IHRlc3RlZCBvbiBSSzM1NjYgKFBpbmV0YWIyKS4gV2hlbiB1c2luZyB1c2Vyc3BhY2UgdG9vbHMK
-PndoaWNoIHNldCBlZy4gY29uc3RhbnQgY29sb3IgdGVtcGVyYXR1cmUgbm8gaXNzdWVzIHdlcmUg
-bm90aWNlZC4gV2hlbgo+dXNpbmcgdXNlcnNwYWNlIHRvb2xzIHdoaWNoIGFkanVzdCBlZy4gY29s
-b3IgdGVtcGVyYXR1cmUgdGhlIHNsaWdodCBzY3JlZW4KPmZsaWNrZXIgaXMgdmlzaWJsZSBwcm9i
-YWJseSBiZWNhdXNlIG9mIGdhbW1hIExVVCBkaXNhYmxlIG5lZWRlZCBpbiB0aGUKPmNhc2Ugb2Yg
-UkszNTZ4IGJlZm9yZSBnYW1tYSBMVVQgd3JpdGUuCj4KPkNvbXBhcmUgYmVoYXZpb3VyIG9mIGVn
-LjoKPmBgYAo+Z2FtbWFzdGVwIC1PIDMwMDAKPmBgYAo+Cj5UbyBlZy46Cj5gYGAKPmdhbW1hc3Rl
-cCAtbCA1MzoyMyAtdCA2MDAwOjMwMDAKPmBgYAo+Cj5JbiBsYXR0ZXIgY2FzZSBjb2xvciB0ZW1w
-ZXJhdHVyZSBpcyBzbG93bHkgYWRqdXN0ZWQgYXQgdGhlIGJlZ2lubmluZyB3aGljaAo+Y2F1c2Vz
-IHNjcmVlbiB0byBzbGlnaGx5IGZsaWNrZXIuIFRoZW4gaXQgYWRqdXN0cyBldmVyeSBmZXcgc2Vj
-b25kcyB3aGljaAo+YWxzbyBjYXVzZXMgc2xpZ2h0IHNjcmVlbiBmbGlja2VyLgo+Cj5bMV0gaHR0
-cHM6Ly9saXN0cy5pbmZyYWRlYWQub3JnL3BpcGVybWFpbC9saW51eC1yb2NrY2hpcC8yMDIxLU9j
-dG9iZXIvMDI4MTMyLmh0bWwKPlsyXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yb2Nr
-Y2hpcC80ODI0OTcwOC04YzA1LTQwZDItYTVkOC0yM2RlOTYwYzVhNzdAcm9jay1jaGlwcy5jb20v
-Cj5bM10gaHR0cHM6Ly9naXRodWIuY29tL3JhZHhhL2tlcm5lbC9ibG9iL2xpbnV4LTYuMS1zdGFu
-LXJrcjEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMjTDM0MzcK
-Pgo+SGVscGVkLWJ5OiBEYW5pZWwgU3RvbmUgPGRhbmllbEBmb29pc2hiYXIub3JnPgo+SGVscGVk
-LWJ5OiBEcmFnYW4gU2ltaWMgPGRzaW1pY0BtYW5qYXJvLm9yZz4KPkhlbHBlZC1ieTogRGllZGVy
-aWsgZGUgSGFhcyA8ZGlkaS5kZWJpYW5AY2tub3cub3JnPgo+SGVscGVkLWJ5OiBBbmR5IFlhbiA8
-YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj5TaWduZWQtb2ZmLWJ5OiBQaW90ciBaYWxld3NraSA8
-cFowMTAwMDEwMTExMTFAcHJvdG9uLm1lPgoKICAgIFJldmlld2VkLWJ5OiBBbmR5IFlhbiA8YW5k
-eXNocmtAMTYzLmNvbT4KCj4tLS0KPgo+Tm90ZXM6Cj4gICAgQ2hhbmdlcyBpbiB2NzoKPiAgICAg
-ICAgLSBDb2RlIHN0eWxpbmcgY2hhbmdlcyBvbmx5IFs2XS4KPgo+ICAgIENoYW5nZXMgaW4gdjY6
-Cj4gICAgICAgIC0gTW92ZSBnYW1tYSBsdXQgd3JpdGUgdG8gYXRvbWljX2ZsdXNoWzRdLgo+ICAg
-ICAgICAtIEluIGF0b21pY19jaGVjayBpZiBhbnkgb3RoZXIgdGhhbiB0aGUgY3VycmVudGx5IHVw
-ZGF0ZWQgQ1JUQyBoYXMKPiAgICAgICAgICBnYW1tYSBsdXQgZW5hYmxlZCwgcmV0dXJuIC1FSU5W
-QUwgWzVdIChwZXJmb3JtIGEgY2hlY2sgb25seSBpZgo+ICAgICAgICAgIGRldmljZSBpcyByazM1
-NngpLgo+ICAgICAgICAtIEluc3RlYWQgb2YgY2hlY2tpbmcgZm9yIHJrMzU4OCB0byBkZXRlcm1p
-bmUgc2VhbWxlc3MgZ2FtbWEKPiAgICAgICAgICB1cGRhdGUgYXZhaWxhYmlsaXR5IGNoZWNrIGZv
-ciByazM1NjYvcmszNTY4Lgo+ICAgICAgICAtIHJlbW92ZSBudWxsIGNoZWNrIGluIHZvcDJfY3Jl
-YXRlX2NydGNzCj4gICAgICAgIC0gTW92ZSBzb21lIGNvZGUgdG8gc2VwYXJhdGUgZnVuY3Rpb25z
-IHRvIGluY3JlYXNlIHJlYWRhYmlsaXR5Lgo+Cj4gICAgQ2hhbmdlcyBpbiB2NToKPiAgICAgICAg
-LSBEbyBub3QgdHJpZ2dlciBmdWxsIG1vZGVzZXQgaW4gY2FzZSBzZWFtbGVzcyBnYW1tYSBsdXQg
-dXBkYXRlCj4gICAgICAgICAgaXNuJ3QgcG9zc2libGUgKGVnLiByazM1NnggY2FzZSkuIEl0IHdh
-cyBkaXNjb3ZlcmVkIHRoYXQgd2l0aAo+ICAgICAgICAgIGZ1bGwgbW9kZXNldCwgdXNlcnNwYWNl
-IHRvb2xzIHdoaWNoIGFkanVzdCBjb2xvciB0ZW1wZXJhdHVyZSB3aXRoCj4gICAgICAgICAgaGln
-aCBmcmVxdWVuY3kgY2F1c2Ugc2NyZWVuIHRvIGdvIGJsYWNrIGFuZCByZWR1Y2Ugb3ZlcmFsbAo+
-ICAgICAgICAgIHBlcmZvcm1hbmNlLiBJbnN0ZWFkLCByZXZlcnQgdG8gcHJldmlvdXMgYmVoYXZp
-b3VyIG9mIGx1dCB1cGRhdGUKPiAgICAgICAgICBoYXBwZW5pbmcgaW4gYXRvbWljX2JlZ2luIG9y
-IChpbiBjYXNlIHRoZXJlIGlzIGEgbW9kZXNldCkgaW4KPiAgICAgICAgICBhdG9taWNfZW5hYmxl
-LiBBbHNvLCBhZGQgdW5yZWxhdGVkIHRvIG1vZGVzZXQgdHJpZ2dlcgo+ICAgICAgICAgIGNoYW5n
-ZXMvaW1wcm92ZW1lbnRzIGZyb20gdjQgb24gdG9wLiBJbXByb3ZlIGNvZGUgcmVhZGFiaWxpdHkK
-PiAgICAgICAgICB0b28uCj4KPiAgICBDaGFuZ2VzIGluIHY0Ogo+ICAgICAgICAtIHJld29yayB0
-aGUgaW1wbGVtZW50YXRpb24gdG8gYmV0dGVyIHV0aWxpemUgRFJNIGF0b21pYyB1cGRhdGVzWzJd
-Cj4gICAgICAgIC0gaGFuZGxlIHRoZSBSSzM1ODggY2FzZVsyXVszXQo+Cj4gICAgQ2hhbmdlcyBp
-biB2MzoKPiAgICAgICAgLSB2MyBpcyBwYXRjaCB2MiAicmVzZW5kIiwgYnkgbWlzdGFrZSB0aGUg
-aW5jcmVtZW50YWwgcGF0Y2ggd2FzCj4gICAgICAgIHNlbnQgaW4gdjIKPgo+ICAgIENoYW5nZXMg
-aW4gdjI6Cj4gICAgICAgIC0gQXBwbHkgY29kZSBzdHlsaW5nIGNvcnJlY3Rpb25zWzFdCj4gICAg
-ICAgIC0gTW92ZSBnYW1tYSBMVVQgd3JpdGUgaW5zaWRlIHRoZSB2b3AyIGxvY2sKPgo+ICAgIExp
-bmsgdG8gdjY6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjQxMDE2
-MjIzNTU4LjY3MzE0NS0yLXBaMDEwMDAxMDExMTExQHByb3Rvbi5tZS8KPiAgICBMaW5rIHRvIHY1
-OiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yb2NrY2hpcC8yMDI0MTAxNDIyMjAyMi41
-NzE4MTktNC1wWjAxMDAwMTAxMTExMUBwcm90b24ubWUvCj4gICAgTGluayB0byB2NDogaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtcm9ja2NoaXAvMjAyNDA4MTUxMjQzMDYuMTg5MjgyLTIt
-cFowMTAwMDEwMTExMTFAcHJvdG9uLm1lLwo+ICAgIExpbmsgdG8gdjM6IGh0dHBzOi8vbG9yZS5r
-ZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwL1RrZ0tWaXZ1YUxGTElMUFktbjNpWm9fOEtGLWRhS2Rx
-ZHUtMF9lMEhQLTVBcl84REFMCj5EZU5Xb2cyc3V3V0tqWDdlb21jYkdFVDBLWmU3RGx6ZGhLMllN
-NkNiTGJlS2VGWnItTUp6Sk10dzA9QHByb3Rvbi5tZS8KPiAgICBMaW5rIHRvIHYyOiBodHRwczov
-L2xvcmUua2VybmVsLm9yZy9saW51eC1yb2NrY2hpcC9IazAzSERiNndTU0hXdEVGWkhVeWUwNkhS
-MC05WXpQNW5DSHg5QThfa0h6V1NaYXdEcgo+VTFvMXBqRUdrQ09KRm9SZzBuVEI0QldFdjZWMFhC
-T2pGNC0wTWo0NGxwMlRyamFRZm55dHpwLVBrPUBwcm90b24ubWUvCj4gICAgTGluayB0byB2MTog
-aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtcm9ja2NoaXAvWlZNeGdjcnRnSHVpOWZKcG5o
-Yk42VFNQaG9mSGJiWEVsaDI0MWxJbXJ6elRVbC04V2UKPmpHcGFSOENQelloQmdvcWVfeGo3TjZF
-bjhOeTdaLWdzQ3Iwa2FGczdhcHdqWVYxTUJKSkxtTEh4cz1AcHJvdG9uLm1lLwo+Cj4gICAgWzFd
-IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwL2QwMTk3NjE1MDRiNTQwNjAw
-ZDlmYzdhNTg1ZDZmOTVmQG1hbmphcm8ub3JnCj4gICAgWzJdIGh0dHBzOi8vbG9yZS5rZXJuZWwu
-b3JnL2xpbnV4LXJvY2tjaGlwL0NBUGo4N3JPTT1qMHptdVdMOWZyR0tWMXh6UGJKcms9UTlpcDdG
-X0hBUFluYkNxUG91d0BtYWlsLmcKPm1haWwuY29tCj4gICAgWzNdIGh0dHBzOi8vbG9yZS5rZXJu
-ZWwub3JnL2xpbnV4LXJvY2tjaGlwLzdkOTk4ZTRjLWUxZDMtNGU4Yi1hZjc2LWM1YmM4M2I0MzY0
-N0Byb2NrLWNoaXBzLmNvbQo+ICAgIFs0XSBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1y
-b2NrY2hpcC83YjQ1ZjE5MC40NTJmLjE5MjhlNDFiNzQ2LkNvcmVtYWlsLmFuZHlzaHJrQDE2My5j
-b20vCj4gICAgWzVdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwL0NBUGo4
-N3JPZFFQc3VIOXFCX1pMZkM5Uz1jTzJub05pMW1PR1cwWm1RNlNIQ3VnYjk9d0BtYWlsLmcKPm1h
-aWwuY29tLwo+ICAgIFs2XSBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yb2NrY2hpcC82
-YTkyZTIzYS41NmMuMTkyZDVhZTMyZDUuQ29yZW1haWwuYW5keXNocmtAMTYzLmNvbS8KPgo+IGRy
-aXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5jIHwgMTkwICsrKysrKysr
-KysrKysrKysrKysKPiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIu
-aCB8ICAgNSArCj4gMiBmaWxlcyBjaGFuZ2VkLCAxOTUgaW5zZXJ0aW9ucygrKQo+Cj5kaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIuYwo+aW5kZXggOTg3MzE3MmUz
-ZmQzLi41ODQzOWVlOGE1MmMgMTAwNjQ0Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
-cm9ja2NoaXBfZHJtX3ZvcDIuYwo+KysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tj
-aGlwX2RybV92b3AyLmMKPkBAIC0yNzgsNiArMjc4LDE1IEBAIHN0YXRpYyB1MzIgdm9wMl9yZWFk
-bChzdHJ1Y3Qgdm9wMiAqdm9wMiwgdTMyIG9mZnNldCkKPiAJcmV0dXJuIHZhbDsKPiB9Cj4gCj4r
-c3RhdGljIHUzMiB2b3AyX3ZwX3JlYWQoc3RydWN0IHZvcDJfdmlkZW9fcG9ydCAqdnAsIHUzMiBv
-ZmZzZXQpCj4rewo+Kwl1MzIgdmFsOwo+Kwo+KwlyZWdtYXBfcmVhZCh2cC0+dm9wMi0+bWFwLCB2
-cC0+ZGF0YS0+b2Zmc2V0ICsgb2Zmc2V0LCAmdmFsKTsKPisKPisJcmV0dXJuIHZhbDsKPit9Cj4r
-Cj4gc3RhdGljIHZvaWQgdm9wMl93aW5fd3JpdGUoY29uc3Qgc3RydWN0IHZvcDJfd2luICp3aW4s
-IHVuc2lnbmVkIGludCByZWcsIHUzMiB2KQo+IHsKPiAJcmVnbWFwX2ZpZWxkX3dyaXRlKHdpbi0+
-cmVnW3JlZ10sIHYpOwo+QEAgLTk5OCw2ICsxMDA3LDY3IEBAIHN0YXRpYyB2b2lkIHZvcDJfZGlz
-YWJsZShzdHJ1Y3Qgdm9wMiAqdm9wMikKPiAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKHZvcDItPmhj
-bGspOwo+IH0KPiAKPitzdGF0aWMgYm9vbCB2b3AyX3ZwX2RzcF9sdXRfaXNfZW5hYmxlZChzdHJ1
-Y3Qgdm9wMl92aWRlb19wb3J0ICp2cCkKPit7Cj4rCXUzMiBkc3BfY3RybCA9IHZvcDJfdnBfcmVh
-ZCh2cCwgUkszNTY4X1ZQX0RTUF9DVFJMKTsKPisKPisJcmV0dXJuIGRzcF9jdHJsICYgUkszNTY4
-X1ZQX0RTUF9DVFJMX19EU1BfTFVUX0VOOwo+K30KPisKPitzdGF0aWMgdm9pZCB2b3AyX3ZwX2Rz
-cF9sdXRfZGlzYWJsZShzdHJ1Y3Qgdm9wMl92aWRlb19wb3J0ICp2cCkKPit7Cj4rCXUzMiBkc3Bf
-Y3RybCA9IHZvcDJfdnBfcmVhZCh2cCwgUkszNTY4X1ZQX0RTUF9DVFJMKTsKPisKPisJZHNwX2N0
-cmwgJj0gflJLMzU2OF9WUF9EU1BfQ1RSTF9fRFNQX0xVVF9FTjsKPisJdm9wMl92cF93cml0ZSh2
-cCwgUkszNTY4X1ZQX0RTUF9DVFJMLCBkc3BfY3RybCk7Cj4rfQo+Kwo+K3N0YXRpYyBib29sIHZv
-cDJfdnBfZHNwX2x1dF9wb2xsX2Rpc2FibGVkKHN0cnVjdCB2b3AyX3ZpZGVvX3BvcnQgKnZwKQo+
-K3sKPisJdTMyIGRzcF9jdHJsOwo+KwlpbnQgcmV0ID0gcmVhZHhfcG9sbF90aW1lb3V0KHZvcDJf
-dnBfZHNwX2x1dF9pc19lbmFibGVkLCB2cCwgZHNwX2N0cmwsCj4rCQkJCSFkc3BfY3RybCwgNSwg
-MzAgKiAxMDAwKTsKPisJaWYgKHJldCkgewo+KwkJZHJtX2Vycih2cC0+dm9wMi0+ZHJtLCAiZGlz
-cGxheSBMVVQgUkFNIGVuYWJsZSB0aW1lb3V0IVxuIik7Cj4rCQlyZXR1cm4gZmFsc2U7Cj4rCX0K
-PisKPisJcmV0dXJuIHRydWU7Cj4rfQo+Kwo+K3N0YXRpYyB2b2lkIHZvcDJfdnBfZHNwX2x1dF9l
-bmFibGUoc3RydWN0IHZvcDJfdmlkZW9fcG9ydCAqdnApCj4rewo+Kwl1MzIgZHNwX2N0cmwgPSB2
-b3AyX3ZwX3JlYWQodnAsIFJLMzU2OF9WUF9EU1BfQ1RSTCk7Cj4rCj4rCWRzcF9jdHJsIHw9IFJL
-MzU2OF9WUF9EU1BfQ1RSTF9fRFNQX0xVVF9FTjsKPisJdm9wMl92cF93cml0ZSh2cCwgUkszNTY4
-X1ZQX0RTUF9DVFJMLCBkc3BfY3RybCk7Cj4rfQo+Kwo+K3N0YXRpYyB2b2lkIHZvcDJfdnBfZHNw
-X2x1dF91cGRhdGVfZW5hYmxlKHN0cnVjdCB2b3AyX3ZpZGVvX3BvcnQgKnZwKQo+K3sKPisJdTMy
-IGRzcF9jdHJsID0gdm9wMl92cF9yZWFkKHZwLCBSSzM1NjhfVlBfRFNQX0NUUkwpOwo+Kwo+Kwlk
-c3BfY3RybCB8PSBSSzM1ODhfVlBfRFNQX0NUUkxfX0dBTU1BX1VQREFURV9FTjsKPisJdm9wMl92
-cF93cml0ZSh2cCwgUkszNTY4X1ZQX0RTUF9DVFJMLCBkc3BfY3RybCk7Cj4rfQo+KwoK
+drm_log is a simple logger that uses the drm_client API to print the kmsg boot log on the screen.
+This is not a full replacement to fbcon, as it will only print the kmsg.
+It will never handle user input, or a terminal because this is better done in userspace.
+
+If you're curious on how it looks like, I've put a small demo here:
+https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
+
+Design decisions:
+  * It uses the drm_client API, so it should work on all drm drivers from the start.
+  * It doesn't scroll the message, that way it doesn't need to redraw the whole screen for each new message.
+    It also means it doesn't have to keep drawn messages in memory, to redraw them when scrolling.
+  * It uses the new non-blocking console API, so it should work well with PREEMPT_RT
+ 
+v2:
+ * Use vmap_local() api, with that change, I've tested it successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
+ * Stop drawing when the drm_master is taken. This avoid wasting CPU cycle if the buffer is not visible.
+ * Use deferred probe. Only do the probe the first time there is a log to draw. With this, if you boot with quiet, drm_log won't do any modeset.
+ * Add color support for the timestamp prefix, like what dmesg does.
+ * Add build dependency on  disabling the fbdev emulation, as they are both drm_client, and there is no way to choose which one gets the focus.
+
+v3:
+ * Remove the work thread and circular buffer, and use the new write_thread() console API.
+ * Register a console for each drm driver.
+
+v4:
+ * Can be built as a module, even if that's not really useful.
+ * Rebased on top of "drm: Introduce DRM client library" series from Thomas Zimmermann.
+ * Add a Kconfig menu to choose between drm client.
+ * Add suspend/resume callbacks.
+ * Add integer scaling support.
+ 
+v5:
+ * Build drm_log in drm_client_lib module, to avoid circular dependency.
+ * Export drm_draw symbols, so they can be used if drm_client_lib is built as module.
+ * Change scale parameter to unsigned int (Jani Nikula)
+
+v6:
+ * Use console_stop() and console_start() in the suspend/resume callback (Petr Mladek).
+ * rebase and solve conflict with "drm/panic: Add ABGR2101010 support"
+
+Jocelyn Falempe (6):
+  drm/panic: Move drawing functions to drm_draw
+  drm/log: Introduce a new boot logger to draw the kmsg on the screen
+  drm/log: Do not draw if drm_master is taken
+  drm/log: Color the timestamp, to improve readability
+  drm/log: Implement suspend/resume
+  drm/log: Add integer scaling support
+
+ drivers/gpu/drm/Kconfig            |  51 ++++
+ drivers/gpu/drm/Makefile           |   2 +
+ drivers/gpu/drm/drm_client_setup.c |  18 +-
+ drivers/gpu/drm/drm_draw.c         | 233 ++++++++++++++++
+ drivers/gpu/drm/drm_draw.h         |  56 ++++
+ drivers/gpu/drm/drm_log.c          | 420 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_log.h          |  11 +
+ drivers/gpu/drm/drm_panic.c        | 257 ++----------------
+ 8 files changed, 811 insertions(+), 237 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_draw.c
+ create mode 100644 drivers/gpu/drm/drm_draw.h
+ create mode 100644 drivers/gpu/drm/drm_log.c
+ create mode 100644 drivers/gpu/drm/drm_log.h
+
+
+base-commit: d78f0ee0406803cda8801fd5201746ccf89e5e4a
+-- 
+2.47.0
+
