@@ -2,83 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 803BF9BD154
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 16:59:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB2A09BD16C
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 17:01:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA9C10E5E5;
-	Tue,  5 Nov 2024 15:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0098310E5E9;
+	Tue,  5 Nov 2024 16:01:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="r8DzNp6P";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rhw5jwaW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
- [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F3A810E5DB
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 15:58:50 +0000 (UTC)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A58CTKb021812;
- Tue, 5 Nov 2024 15:58:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=P
- zi2n5rq5qaQP6xCE9EQoWu5ATUTL3MLo4MRNMqXSk0=; b=r8DzNp6Plg1bnMTz6
- KSloRvcwzqJno0HdZQEPOKLQHld/WAS7n+ZT8BAm33oz4m2D2sEXbp04pKtigNc1
- T1XLm8TQn6Q4ZLET94fA0rXQz1QD0XKgVcl9VDr7tIewRuXo2BsziT95SLxyDfi+
- aXtAVzG/zY6p4LletTFt/nHFSvyu9j1HKht/3cZDTTJjA8Zcs9w7DK1htEEkjMrI
- KPNGlBbcTnMy0101spApam1mW4qacol7V+YwTg4ttRjiNytpWKEGULY+AxL5tzsf
- uYhhSw78EUTPOekvG+LSyIuB9pXqoG5/XC1GDKZ9DnDlk26HBWon1mn2ljOkuXDo
- F/W6Q==
-Received: from hhmail05.hh.imgtec.org
- (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 42nd212ju3-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Tue, 05 Nov 2024 15:58:40 +0000 (GMT)
-Received: from
- 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
- (172.25.16.114) by HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Tue, 5 Nov 2024 15:58:39 +0000
-From: Matt Coster <matt.coster@imgtec.com>
-Date: Tue, 5 Nov 2024 15:58:27 +0000
-Subject: [PATCH 21/21] arm64: dts: ti: k3-j721s2: Add GPU node
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20241105-sets-bxs-4-64-patch-v1-v1-21-4ed30e865892@imgtec.com>
-References: <20241105-sets-bxs-4-64-patch-v1-v1-0-4ed30e865892@imgtec.com>
-In-Reply-To: <20241105-sets-bxs-4-64-patch-v1-v1-0-4ed30e865892@imgtec.com>
-To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97E4510E5E9
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 16:01:51 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BAB31874;
+ Tue,  5 Nov 2024 17:01:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1730822501;
+ bh=jV0ZsDeRx2PgG5eWTadzFaxOSxD1QREaoh8NhIiUtnc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rhw5jwaWZpBtZ801zchegwjm59zZWvCec4AuS28/Q5PCsO/aGbaNpEj5P1sSbm1UZ
+ 7RvUZZhG4prUTPDnREh3jreMoJ6FBOlwR1b6pfKs5YbsILAqQywWAtwjvwCz38UHF5
+ 2kyM7zLLNZFDACTMx6osQTOD3sviAx8FAU5RHzQw=
+Date: Tue, 5 Nov 2024 18:01:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>, "Vignesh
- Raghavendra" <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- Randolph Sapp <rs@ti.com>, Darren Etheridge <detheridge@ti.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1576;
- i=matt.coster@imgtec.com; h=from:subject:message-id;
- bh=H8DIARHN5LAhn899AhP+EfNJuCgcAkEDx/aJO8V/l9U=;
- b=owGbwMvMwCFWuUfy8817WRsYT6slMaRrOcy/tSIl2eOW2/xHuTbqlRpc2gol/n0l+jVaK9blT
- fuZqXG3o5SFQYyDQVZMkWXHCssVan/UtCRu/CqGmcPKBDKEgYtTACbido/hf+D5a+F8zl9zFe7o
- vnCa7NVxfv06I8vsj9MrItvfLInIL2b4H/I9f56zcx+Pijh7ijN70j5bB/982XrZd/UdK8222Qe
- yAwA=
-X-Developer-Key: i=matt.coster@imgtec.com; a=openpgp;
- fpr=05A40CFCE7269D61D97100A1747F0A9036F90DFA
-X-Originating-IP: [172.25.16.114]
-X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Authority-Analysis: v=2.4 cv=Q9aA4J2a c=1 sm=1 tr=0 ts=672a40b0 cx=c_pps
- a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
- a=hzDjp0mCheYA:10 a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=sozttTNsAAAA:8
- a=r_1tXGB3AAAA:8 a=rLJv8WYccUdZFC7c5UsA:9
- a=QEXdDO2ut3YA:10 a=S-JV1fTmrHgA:10 a=j2-svP0xy3wA:10
- a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: LOeMeKqUdp1x6fjOdbEc-ZDE_Y0zQzjx
-X-Proofpoint-ORIG-GUID: LOeMeKqUdp1x6fjOdbEc-ZDE_Y0zQzjx
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Archit Taneja <architt@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] drm: adv7511: Fix use-after-free in
+ adv7533_attach_dsi()
+Message-ID: <20241105160138.GB6317@pendragon.ideasonboard.com>
+References: <20241105111228.112813-1-biju.das.jz@bp.renesas.com>
+ <20241105111228.112813-2-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241105111228.112813-2-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,46 +66,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The J721S2 binding is based on the TI downstream binding in 54b0f2a00d92
-("arm64: dts: ti: k3-j721s2-main: add gpu node") from [1] but with updated
-compatible strings.
+Hi Biju,
 
-The clock[2] and power[3] indices were verified from docs, but the
-source of the interrupt index remains elusive.
+Thank you for the patch.
 
-References for indices: clocks[1], interrupts[2], power[3].
+On Tue, Nov 05, 2024 at 11:12:18AM +0000, Biju Das wrote:
+> The host_node pointer assigned and freed in adv7533_parse_dt()
+> and later adv7533_attach_dsi() uses the same. Fix this issue
+> by freeing the host_node in adv7533_attach_dsi() instead of
+> adv7533_parse_dt().
+> 
+> Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> Changes in v2:
+>  - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
+>  - Dropped Archit Taneja invalid Mail address
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7533.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> index 4481489aaf5e..3e57ba838e5e 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> @@ -133,6 +133,7 @@ int adv7533_patch_cec_registers(struct adv7511 *adv)
+>  
+>  int adv7533_attach_dsi(struct adv7511 *adv)
+>  {
+> +	struct device_node *np __free(device_node) = adv->host_node;
 
-[1]: https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel
-[2]: https://downloads.ti.com/tisci/esd/latest/5_soc_doc/j721s2/clocks.html
-[3]: https://downloads.ti.com/tisci/esd/latest/5_soc_doc/j721s2/devices.html
+This raises so many red flags. The function will free the node while the
+adv->host_node variable still points to it, opening the door to
+use-after-free. Furthermore, there's nothing in the function name that
+hints it will do this, callers can get surprised by this behaviour.
 
-Signed-off-by: Matt Coster <matt.coster@imgtec.com>
----
- arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+I'm sure you can do better than this and fix the problem with readable
+code, not cryptic and error-prone constructs :-)
 
-diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
-index 9ed6949b40e9dfafdaf6861944b0b128b053a44f..b2441ac9847d7e64d847a5cc220d1a79d0254bc9 100644
---- a/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
-@@ -2047,4 +2047,16 @@ watchdog8: watchdog@23f0000 {
- 		/* reserved for MAIN_R5F1_1 */
- 		status = "reserved";
- 	};
-+
-+	gpu: gpu@4e20000000 {
-+		compatible = "ti,j721s2-gpu", "img,img-bxs-4-64", "img,img-rogue";
-+		reg = /bits/ 64 <0x4e20000000 0x80000>;
-+		clocks = <&k3_clks 130 1>;
-+		clock-names = "core";
-+		interrupts = <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&k3_pds 130 TI_SCI_PD_EXCLUSIVE>,
-+				<&k3_pds 373 TI_SCI_PD_EXCLUSIVE>;
-+		power-domain-names = "a", "b";
-+		dma-coherent;
-+	};
- };
+>  	struct device *dev = &adv->i2c_main->dev;
+>  	struct mipi_dsi_host *host;
+>  	struct mipi_dsi_device *dsi;
+> @@ -181,8 +182,6 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
+>  	if (!adv->host_node)
+>  		return -ENODEV;
+>  
+> -	of_node_put(adv->host_node);
+> -
+>  	adv->use_timing_gen = !of_property_read_bool(np,
+>  						"adi,disable-timing-generator");
+>  
 
 -- 
-2.47.0
+Regards,
 
+Laurent Pinchart
