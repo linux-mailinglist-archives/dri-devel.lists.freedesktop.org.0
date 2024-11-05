@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9A79BCEF8
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 15:19:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C5C9BCEFE
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 15:19:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93ADD10E5B6;
-	Tue,  5 Nov 2024 14:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D854910E10B;
+	Tue,  5 Nov 2024 14:19:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gE6oQ7H0";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="WK8KsgU1";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zgzRxGZP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC22110E10B
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 14:19:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id AB1C3A4329C;
- Tue,  5 Nov 2024 14:17:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33020C4CECF;
- Tue,  5 Nov 2024 14:19:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730816342;
- bh=yDEteXzj+wkANYRbZ2/8j1vE3zjlLibNLSifgq7pYSk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gE6oQ7H0EUgsS1B6FvmY2KI383i+2h3gtC3TXwM/hyZ0xw/jiwV5FyvyD1m9etQGV
- 3j9AMRtvabcHfLWYJBuk+JdihA33Tklk5w5lY0qIafeZNQeEzk6N5yXLOc0OG1kHO9
- F++j/XhFppmDr230G6um/9knosDBrT9peFmEsx9HKbJYZ8lsBieNbgUmMDgh+7+nag
- t9ULd3afMcwLEH44KhOPTfXspCyEqp++CTFLGtkzSX6hkYIlYrav0qz1gjgw0GtlL+
- CNDV5LKXUJ8a3dkvA6J8dkHD7zmglXr5LkhCz5GIbQtZ9iYdESgzbHTpQd6RoNGAqe
- Evcp5MLdH8RNg==
-Date: Tue, 5 Nov 2024 08:19:00 -0600
-From: Rob Herring <robh@kernel.org>
-To: Hironori KIKUCHI <kikuchan98@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: display: panel: Rename
- rg35xx-plus-panel back to WL-355608-A8
-Message-ID: <20241105141900.GA3110982-robh@kernel.org>
-References: <20241105055239.1577275-1-kikuchan98@gmail.com>
- <20241105055239.1577275-2-kikuchan98@gmail.com>
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76C1710E10B
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 14:19:34 +0000 (UTC)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1730816371;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D3f0JmLHkvF+6wnB/S3LI0uD2ynto7nK8TgQHv09rcI=;
+ b=WK8KsgU1/QBerDp5/7zg7F6Ow7NvKYSDCCXSpKzLEZrGJXa+8OtLdIA3nF3Kq9FH/YZCan
+ GxDtdGAJLBFZX2cj7Y47+dOZ7D4ekDsO+/ppRpNYi48PyrSXWQ5ImQBWcwYSKtI+U+TSRv
+ XU9UxlorSkZNEej27Ay1jhojthlZJLsAD6Jk+os4kS/eXhB6aG4i7UbDV+uU0K9JjJJYYy
+ WcPrzlrbbNSt/ACopLR4EfpKqIXZSIs4G7xwztsnw/Ohio+oCWeKYEbrCHC8lgfs9n6U/I
+ kfV5nsyI5fE4BEtcxIJjRCeMqEGAc3uOR2tLcNcE5iGo2KGIfx1pKqor8aS5hw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1730816371;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D3f0JmLHkvF+6wnB/S3LI0uD2ynto7nK8TgQHv09rcI=;
+ b=zgzRxGZPqQir4mOgbd+OBFSjO59uQulWnQJVxsEWyBYwgkds1QLqoxWg+HRX8SINQU0bQh
+ lPi6fcDxz9t4UDDg==
+To: Petr Mladek <pmladek@suse.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Javier Martinez Canillas
+ <javierm@redhat.com>, "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Caleb Connolly
+ <caleb.connolly@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 5/6] drm/log: Implement suspend/resume
+In-Reply-To: <ZyoNZfLT6tlVAWjO@pathway.suse.cz>
+References: <20241023121145.1321921-1-jfalempe@redhat.com>
+ <20241023121145.1321921-6-jfalempe@redhat.com>
+ <Zxpa2zt1P9Avy4Pm@pathway.suse.cz>
+ <27c1a6bf-d1e4-469f-a0d4-3e74ab0d0a07@redhat.com>
+ <a6c00956-3733-43a1-9538-aa2758d2b4a3@redhat.com>
+ <ZyT7MScAsHxkACfD@pathway.suse.cz>
+ <d5c8ea70-8596-42a1-8688-0f6131187b73@redhat.com>
+ <84o72vcm46.fsf@jogness.linutronix.de> <ZyjXB52dbhjZEHp6@pathway.suse.cz>
+ <84ikt3c8uy.fsf@jogness.linutronix.de> <ZyoNZfLT6tlVAWjO@pathway.suse.cz>
+Date: Tue, 05 Nov 2024 15:25:31 +0106
+Message-ID: <844j4lepak.fsf@jogness.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241105055239.1577275-2-kikuchan98@gmail.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,67 +75,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 05, 2024 at 02:52:29PM +0900, Hironori KIKUCHI wrote:
-> A panel assembly is changed in the recent revision of Anbernic RG35XX
-> Plus, so the `anbernic,rg35xx-plus-panel` identifier is neither suitable
-> nor unique for the panel anymore.
-> 
-> Fortunately, the panel can be distinguished by a label printed on the
-> FPC cable, so use the label "WL-355608-A8" as an identifier instead.
-> 
-> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
-> ---
->  ...rg35xx-plus-panel.yaml => anbernic,wl-355608-a8.yaml} | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->  rename Documentation/devicetree/bindings/display/panel/{anbernic,rg35xx-plus-panel.yaml => anbernic,wl-355608-a8.yaml} (83%)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-panel.yaml b/Documentation/devicetree/bindings/display/panel/anbernic,wl-355608-a8.yaml
-> similarity index 83%
-> rename from Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-panel.yaml
-> rename to Documentation/devicetree/bindings/display/panel/anbernic,wl-355608-a8.yaml
-> index 1d67492ebd3..5e8afbea690 100644
-> --- a/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-panel.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/anbernic,wl-355608-a8.yaml
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->  %YAML 1.2
->  ---
-> -$id: http://devicetree.org/schemas/display/panel/anbernic,rg35xx-plus-panel.yaml#
-> +$id: http://devicetree.org/schemas/display/panel/anbernic,wl-355608-a8.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: Anbernic RG35XX series (WL-355608-A8) 3.5" 640x480 24-bit IPS LCD panel
-> @@ -16,13 +16,14 @@ allOf:
->  properties:
->    compatible:
->      oneOf:
-> -      - const: anbernic,rg35xx-plus-panel
-> +      - const: anbernic,wl-355608-a8
->        - items:
->            - enum:
->                - anbernic,rg35xx-2024-panel
->                - anbernic,rg35xx-h-panel
->                - anbernic,rg35xx-sp-panel
-> -          - const: anbernic,rg35xx-plus-panel
-> +              - anbernic,rg35xx-plus-panel
-> +          - const: anbernic,wl-355608-a8
->  
->    reg:
->      maxItems: 1
-> @@ -47,7 +48,7 @@ examples:
->          #size-cells = <0>;
->  
->          panel@0 {
-> -            compatible = "anbernic,rg35xx-plus-panel";
-> +            compatible = "anbernic,wl-355608-a8";
+On 2024-11-05, Petr Mladek <pmladek@suse.com> wrote:
+> Observation:
+>
+>   + CON_ENABLED is not needed for the original purpose. Only enabled
+>     consoles are added into @console_list.
+>
+>   + CON_ENABLED is still used to explicitely block the console driver
+>     during suspend by console_stop()/console_start() in serial_core.c.
+>
+>     It is not bad. But it is a bit confusing because we have
+>     CON_SUSPENDED flag now and this is about suspend/resume.
 
-This is an ABI break. You can't just change compatibles.
+Also note that CON_ENABLED is used to gate ->unblank(). It should
+probably consider CON_SUSPENDED as well.
 
-The old panel should correspond to the existing compatible. Add a new 
-compatible for the new panel. The names might not be ideal, but you are 
-stuck with them.
+>   + CON_SUSPENDED is per-console flag but it is set synchronously
+>     for all consoles.
+>
+>     IMHO, a global variable would make more sense for the big hammer
+>     purpose.
+>
+>
+> Big question:
+>
+>   Does the driver really needs to call console_stop()/console_start()
+>   when there is the big hammer?
+>
+>   I would preserve it because it makes the design more robust.
 
-There's exceptions if things are new and not yet in use, but you have to 
-explain that in the commit msg.
+Agreed. They serve different purposes.
 
-Rob
+console_stop()/console_start() is a method for _drivers_ to communicate
+that they must not be called because their hardware is not
+available/functioning.
+
+console_suspend()/console_resume() is a method for the _system_ to
+communicate that consoles should be silent because they are annoying or
+we do not trust that they won't cause problems.
+
+>   Anyway, the driver-specific handling looks like the right solution.
+>   The big hammer feels like a workaround.
+
+Agreed. Do the 6 call sites even really need the big hammer? I am
+guessing yes because there are probably console drivers that do not use
+console_stop()/console_start() in their suspend/resume and thus rely on
+the whole subsystem being disabled.
+
+> Reasonable semantic:
+>
+>   1. Rename:
+>
+> 	console_suspend() -> console_suspend_all()
+> 	console_resume()  -> console_resume_all()
+>
+>      and manipulate a global @consoles_suspended variable agagin.
+>      It is the big hammer API.
+
+Agreed. As a global variable, it can still rely on SRCU for
+synchronization.
+
+>   2. Rename:
+>
+> 	console_stop(con)  -> console_suspend(con)
+> 	console_start(con) -> console_resume(con)
+>
+>      and manipulare the per-console CON_SUSPENDED flag here.
+
+Agreed.
+
+>    3. Get rid of the ambiguous CON_ENABLED flag. It won't longer
+>       have any purpose.
+>
+>       Except that it is also used to force console registration.
+>       But it can be done a better way, e.g. by introducing
+>       register_console_force() API.
+
+Agreed.
+
+John
