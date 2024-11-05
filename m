@@ -2,50 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4D59BCDC8
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 14:29:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51229BCE14
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 14:38:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 398F089F41;
-	Tue,  5 Nov 2024 13:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50E0410E2D8;
+	Tue,  5 Nov 2024 13:38:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="EeX+x2dV";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nOuwBvL5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8cUUe5jS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nOuwBvL5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8cUUe5jS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E4FC89F41
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 13:29:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=Rni1On+4mOltPkVhnP9DXSxhrFHE3c1gu9PqntacxGw=; b=EeX+x2dVtB5Y5gUz
- M57DLCynM4e4fGecj9gyPr31qs0VhBEkxm3oSlszwPnWdtN4jV4jU3EhGglkddUh/TkuOfOybpLrr
- kq2KR2h/TNshQIdstteci+vqCAa3HWx4BkkjRqw70LFnANzGtQBwucbp4zRsSXDutw6QGE1eyz6K4
- P3JgyKt4u6xLCm6qRcyQZs+kjpSHakN4fgVmJAfkhQZu7SKe2u6UHhRD/nlLhl1RDR9twty97izRd
- 5YNi9CIf6BxzBZemqQxuXc6IPZwyM0fouFOl+kAUW/BlOySMIOxmBfRHaNZgu0Im+VX4vJrwqrEkE
- FIPX7T5Y3vkq0aMc5w==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1t8JcF-00FY1n-26;
- Tue, 05 Nov 2024 13:29:03 +0000
-Date: Tue, 5 Nov 2024 13:29:03 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7206310E2D8
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 13:38:54 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1D3621FBB7;
+ Tue,  5 Nov 2024 13:38:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1730813933; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jDTbP3fOcL51JRwWKzuxSqaxfANeDb0GcrNEPDR3wvk=;
+ b=nOuwBvL5K/lCDQnI/N1/mRbLRzzhXWQgb5qAwOeEznFiYqssnz3sJYjP8pB/2ZJbzI0Mw8
+ ub1PS+e2pktR/zrDZKDC1CUJ7M3i3ACQEhtTedIS0UP9MW+s1gaaZYc4KAgi7L9nPQGdVG
+ yA7zgD9MXR21iPh+6ntx7SA/OFAXFwQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1730813933;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jDTbP3fOcL51JRwWKzuxSqaxfANeDb0GcrNEPDR3wvk=;
+ b=8cUUe5jSnqRzmRedg+YtmtB63W+fe91HG+PCahBKHkNSXve8vY3mP4rIVS+LmRPR1Fleu2
+ M0vnLYsCggVYFLAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1730813933; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jDTbP3fOcL51JRwWKzuxSqaxfANeDb0GcrNEPDR3wvk=;
+ b=nOuwBvL5K/lCDQnI/N1/mRbLRzzhXWQgb5qAwOeEznFiYqssnz3sJYjP8pB/2ZJbzI0Mw8
+ ub1PS+e2pktR/zrDZKDC1CUJ7M3i3ACQEhtTedIS0UP9MW+s1gaaZYc4KAgi7L9nPQGdVG
+ yA7zgD9MXR21iPh+6ntx7SA/OFAXFwQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1730813933;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jDTbP3fOcL51JRwWKzuxSqaxfANeDb0GcrNEPDR3wvk=;
+ b=8cUUe5jSnqRzmRedg+YtmtB63W+fe91HG+PCahBKHkNSXve8vY3mP4rIVS+LmRPR1Fleu2
+ M0vnLYsCggVYFLAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC5BF1394A;
+ Tue,  5 Nov 2024 13:38:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id C/ubKOwfKmcuEQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 05 Nov 2024 13:38:52 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
 To: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/rockchip: cdn-dp: Remove unused functions
-Message-ID: <Zyodn5bfqtqoMTJ3@gallifrey>
-References: <20241005232551.307399-1-linux@treblig.org>
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, groeck@chromium.org, zyw@rock-chips.com
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, stable@vger.kernel.org
+Subject: [PATCH] drm/rockchip: cdn-dp: Use drm_connector_helper_hpd_irq_event()
+Date: Tue,  5 Nov 2024 14:38:16 +0100
+Message-ID: <20241105133848.480407-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20241005232551.307399-1-linux@treblig.org>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 13:28:51 up 181 days, 42 min,  1 user,  load average: 0.04, 0.01,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[rock-chips.com,sntech.de,linux.intel.com,kernel.org,gmail.com,ffwll.ch,chromium.org];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[14];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
+ suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,103 +112,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* linux@treblig.org (linux@treblig.org) wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> cdn_dp_get_event and cdn_dp_dpcd_write were added in 2017 by commit
-> 1a0f7ed3abe2 ("drm/rockchip: cdn-dp: add cdn DP support for rk3399")
-> 
-> but unused.
-> Remove them.
-> (Build tested only on x86-64)
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+The code for detecting and updating the connector status in
+cdn_dp_pd_event_work() has a number of problems.
 
-Ping.
+- It does not aquire the locks to call the detect helper and update
+the connector status. These are struct drm_mode_config.connection_mutex
+and struct drm_mode_config.mutex.
 
-Dave
+- It does not use drm_helper_probe_detect(), which helps with the
+details of locking and detection.
 
-> ---
->  drivers/gpu/drm/rockchip/cdn-dp-reg.c | 39 ---------------------------
->  drivers/gpu/drm/rockchip/cdn-dp-reg.h |  2 --
->  2 files changed, 41 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.c b/drivers/gpu/drm/rockchip/cdn-dp-reg.c
-> index 33fb4d05c506..a57cda971f20 100644
-> --- a/drivers/gpu/drm/rockchip/cdn-dp-reg.c
-> +++ b/drivers/gpu/drm/rockchip/cdn-dp-reg.c
-> @@ -244,40 +244,6 @@ int cdn_dp_dpcd_read(struct cdn_dp_device *dp, u32 addr, u8 *data, u16 len)
->  	return ret;
->  }
->  
-> -int cdn_dp_dpcd_write(struct cdn_dp_device *dp, u32 addr, u8 value)
-> -{
-> -	u8 msg[6], reg[5];
-> -	int ret;
-> -
-> -	msg[0] = 0;
-> -	msg[1] = 1;
-> -	msg[2] = (addr >> 16) & 0xff;
-> -	msg[3] = (addr >> 8) & 0xff;
-> -	msg[4] = addr & 0xff;
-> -	msg[5] = value;
-> -	ret = cdn_dp_mailbox_send(dp, MB_MODULE_ID_DP_TX, DPTX_WRITE_DPCD,
-> -				  sizeof(msg), msg);
-> -	if (ret)
-> -		goto err_dpcd_write;
-> -
-> -	ret = cdn_dp_mailbox_validate_receive(dp, MB_MODULE_ID_DP_TX,
-> -					      DPTX_WRITE_DPCD, sizeof(reg));
-> -	if (ret)
-> -		goto err_dpcd_write;
-> -
-> -	ret = cdn_dp_mailbox_read_receive(dp, reg, sizeof(reg));
-> -	if (ret)
-> -		goto err_dpcd_write;
-> -
-> -	if (addr != (reg[2] << 16 | reg[3] << 8 | reg[4]))
-> -		ret = -EINVAL;
-> -
-> -err_dpcd_write:
-> -	if (ret)
-> -		DRM_DEV_ERROR(dp->dev, "dpcd write failed: %d\n", ret);
-> -	return ret;
-> -}
-> -
->  int cdn_dp_load_firmware(struct cdn_dp_device *dp, const u32 *i_mem,
->  			 u32 i_size, const u32 *d_mem, u32 d_size)
->  {
-> @@ -400,11 +366,6 @@ int cdn_dp_event_config(struct cdn_dp_device *dp)
->  	return ret;
->  }
->  
-> -u32 cdn_dp_get_event(struct cdn_dp_device *dp)
-> -{
-> -	return readl(dp->regs + SW_EVENTS0);
-> -}
-> -
->  int cdn_dp_get_hpd_status(struct cdn_dp_device *dp)
->  {
->  	u8 status;
-> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.h b/drivers/gpu/drm/rockchip/cdn-dp-reg.h
-> index 441248b7a79e..68c3dbff1123 100644
-> --- a/drivers/gpu/drm/rockchip/cdn-dp-reg.h
-> +++ b/drivers/gpu/drm/rockchip/cdn-dp-reg.h
-> @@ -459,9 +459,7 @@ int cdn_dp_load_firmware(struct cdn_dp_device *dp, const u32 *i_mem,
->  int cdn_dp_set_firmware_active(struct cdn_dp_device *dp, bool enable);
->  int cdn_dp_set_host_cap(struct cdn_dp_device *dp, u8 lanes, bool flip);
->  int cdn_dp_event_config(struct cdn_dp_device *dp);
-> -u32 cdn_dp_get_event(struct cdn_dp_device *dp);
->  int cdn_dp_get_hpd_status(struct cdn_dp_device *dp);
-> -int cdn_dp_dpcd_write(struct cdn_dp_device *dp, u32 addr, u8 value);
->  int cdn_dp_dpcd_read(struct cdn_dp_device *dp, u32 addr, u8 *data, u16 len);
->  int cdn_dp_get_edid_block(void *dp, u8 *edid,
->  			  unsigned int block, size_t length);
-> -- 
-> 2.46.2
-> 
+- It uses the connector's status field to determine a change to
+the connector status. The epoch_counter field is the correct one. The
+field signals a change even if the connector status' value did not
+change.
+
+Replace the code with a call to drm_connector_helper_hpd_irq_event(),
+which fixes all these problems.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 81632df69772 ("drm/rockchip: cdn-dp: do not use drm_helper_hpd_irq_event")
+Cc: Chris Zhong <zyw@rock-chips.com>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: "Heiko Stübner" <heiko@sntech.de>
+Cc: Andy Yan <andy.yan@rock-chips.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: <stable@vger.kernel.org> # v4.11+
+---
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index b04538907f95..f576b1aa86d1 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -947,9 +947,6 @@ static void cdn_dp_pd_event_work(struct work_struct *work)
+ {
+ 	struct cdn_dp_device *dp = container_of(work, struct cdn_dp_device,
+ 						event_work);
+-	struct drm_connector *connector = &dp->connector;
+-	enum drm_connector_status old_status;
+-
+ 	int ret;
+ 
+ 	mutex_lock(&dp->lock);
+@@ -1009,11 +1006,7 @@ static void cdn_dp_pd_event_work(struct work_struct *work)
+ 
+ out:
+ 	mutex_unlock(&dp->lock);
+-
+-	old_status = connector->status;
+-	connector->status = connector->funcs->detect(connector, false);
+-	if (old_status != connector->status)
+-		drm_kms_helper_hotplug_event(dp->drm_dev);
++	drm_connector_helper_hpd_irq_event(&dp->connector);
+ }
+ 
+ static int cdn_dp_pd_event(struct notifier_block *nb,
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+2.47.0
+
