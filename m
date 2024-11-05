@@ -2,70 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B479BE031
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 09:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B502C9BE033
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 09:18:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10B6010E675;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FB2710E676;
 	Wed,  6 Nov 2024 08:18:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=thalesgroup.com header.i=@thalesgroup.com header.b="aRNhYknY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UDHTjPjR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
- Tue, 05 Nov 2024 14:44:38 UTC
-Received: from esa.hc1631-21.eu.iphmx.com (esa.hc1631-21.eu.iphmx.com
- [23.90.122.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 364CA10E5C0;
- Tue,  5 Nov 2024 14:44:38 +0000 (UTC)
-X-CSE-ConnectionGUID: Vq02H0HXRLq7ZZzlilO7wA==
-X-CSE-MsgGUID: MEilz9DuT0eaTuihfmGHxA==
-Authentication-Results: ob1.hc1631-21.eu.iphmx.com;
- dkim=pass (signature verified)
- header.i=@thalesgroup.com
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="21627455"
-X-IronPort-AV: E=Sophos;i="6.10,215,1719871200"; d="scan'208";a="21627455"
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D278B10E5FA
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 18:19:00 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-20c8b557f91so60044225ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2024 10:19:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=thalesgroup.com; i=@thalesgroup.com; s=bbmfo20230504;
- t=1730817448; h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=o9Vc5ob2XHcxtObi7LqU5Blt1DnixNEvcsEGSma0b9s=;
- b=aRNhYknYPOD3sgaqivT6XFdeZPAHTO6tsJ6O8vXCC0ERGwcxu3qQfZ4W
- fNTBq6ds2arMl8TyOqYq+6y7atS8R4eAUQPQ1mp+O1QMlQ64WA+3hZU5j
- T8CujKGqZs8YjHEQSvOwsiqRzw/EL8ruPunnvKxq0mn2FFpBgmyIBfFYS
- yjMBWbocQraHvI7+cEu6xfvHiNhIhX7mK0hPzBYCrLb/N/5a/i0LGvp3x
- eA7jbzwRXyHpVitjGZb2/u3lDGCLMnNyetYyh02xW5gworxfaXGlFUio5
- wFtpTe1GCcr9beaG1nf237vXLVcMw70pZe+6bDqwgX+BsiGfUnt1MRGod Q==;
-X-CSE-ConnectionGUID: NpaAbpEEQfKN9Cfjfv13MQ==
-X-CSE-MsgGUID: AzbzTHI8TmKWilH2n4Zeng==
-X-CSE-ConnectionGUID: jZ31JfBtQsi7KpjpS38rQQ==
-X-CSE-MsgGUID: lV6Tz9o0Rj2ASal+F0ozYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="33983816"
-X-IronPort-AV: E=Sophos;i="6.11,260,1725314400"; d="scan'208";a="33983816"
-From: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>
-To: Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>
-CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, LENAIN Simon
- <simon.lenain@thalesgroup.com>, BARBEAU Etienne
- <etienne.barbeau@thalesgroup.com>, LEJEUNE Sebastien
- <sebastien.lejeune@thalesgroup.com>
-Subject: [PATCH] drm/etnaviv: add optional reset support
-Thread-Topic: [PATCH] drm/etnaviv: add optional reset support
-Thread-Index: AdsvjVFvm5nmXEwsR6+Q63EAaSdekw==
-Date: Tue, 5 Nov 2024 14:37:26 +0000
-Message-ID: <0825fa6ad3954cda970b42c25b45fb0d@thalesgroup.com>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-nodisclaimer: 0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ d=gmail.com; s=20230601; t=1730830740; x=1731435540; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gFcn89fIoB6eD8igdjIgNFL2KkUGAKDd0Xov8oHjAXc=;
+ b=UDHTjPjREOimlU+9ad8+jL67AHGd5ulhs1cDGd8ziEg+Fva2uRV61MqSZD4zkuMVKk
+ 7L8lw2DhhytMnjrYZmi3/lobRiH/RfWj98vgZegzCyllOBhhlvv84vG7balxOcU2vMAd
+ ZUH6HRimGWL3Ru/JWJjUocpdMqIc615LRUHtaD/ijcpBnt3gQ2MYDotIYRu/gYXjv5fW
+ tlqGf2tRkKCi1W4MiwKXaDGjbs8JiSst8OPlYIG4+pcx5nhYhdbUuPOQs5F0JedEyHns
+ r3xlrlG/UPj1Jz/PoZ7xFyexdyOnXVC3mt2im6eBT1Kne/0r8ybB0llPUFH64qUMsRZ4
+ D6kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730830740; x=1731435540;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gFcn89fIoB6eD8igdjIgNFL2KkUGAKDd0Xov8oHjAXc=;
+ b=XerS/7OG0l0GMfHIY9khe6zsHWqtqRCFSYiV/BwUJZscUGMyUdkUYXtzVfjBYohCAR
+ R6ohDH+jbPqY37IoPMvJoBX9wqER4pYmfcTfeyIbIATV26LIclqgzXVe9H/LGZpQhX1g
+ feluXEV71iQ13XR7mHCTRzWg2W/I7d1wfq21ugoMRp+6oBSHSq4wMH75P9B9Lq1otQMC
+ P2fsTfbcNXgN0nj+KzlzgOqmsY2ZTy42MgERmZliHo9S6/sPH3ji7Hlc04eVjl5RFHNJ
+ Ycynzn3m5ASyOLra9M4VxVaO1BjU3iRzW+aK3IHWvgfFAsW/BFP3LxmuRXoiBNKmAcr2
+ uccg==
+X-Gm-Message-State: AOJu0YwupmsXBMw8FxSXOoAnc5sjRPPqtcvp9qSeO5HcAaNjauP/4T3s
+ XCik8VwyiBMHpC0JCbXsvVZr2c4Ol6k0P4S1Ce4af8Mz2oH9PKiZ
+X-Google-Smtp-Source: AGHT+IEdjJFisK8cPYnddVc07XFagAr0tosxVTWcS5kPRCLoXBKMcfxPfCn7QDkgIIIcEpVfjlfxlA==
+X-Received: by 2002:a17:903:1c2:b0:20c:a175:1943 with SMTP id
+ d9443c01a7336-210c6c6d9a5mr505410645ad.40.1730830740228; 
+ Tue, 05 Nov 2024 10:19:00 -0800 (PST)
+Received: from Emma ([2401:4900:1c97:5a7:5054:ff:fe53:2787])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-211057a2eaasm81208945ad.159.2024.11.05.10.18.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Nov 2024 10:18:59 -0800 (PST)
+From: Karan Sanghavi <karansanghvi98@gmail.com>
+Date: Tue, 05 Nov 2024 18:18:42 +0000
+Subject: [PATCH] drm:sprd: Correct left shift operator evaluating constant
+ expression
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241105-coverity1511468wrongoperator-v1-1-06c7513c3efc@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAIFhKmcC/x3MPQ6DMAxA4asgz41kpwEhroI6pMGlXmLkIH6Eu
+ Hujjt/w3gWFTbjA0FxgvEkRzRX0aCB9Y57ZyVQNHn0gwtYl3WqxntQSha7fTfOsC1tc1ZxHeuI
+ 7TcEHhLpYjD9y/Pfj675/980BHW4AAAA=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Karan Sanghavi <karansanghvi98@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730830736; l=1441;
+ i=karansanghvi98@gmail.com; s=20241017; h=from:subject:message-id;
+ bh=wvRSAYs3rsDyEyx2uErygYM6LqQrDkxqRE+1X+C/K8A=;
+ b=CgjOZ0VtIDWUoRD0Yf5FbUnA+DHoIVLNVlo427a5rDs+icdBvp3hgYaZkHdPJhljSvJ4rbQVc
+ f3sn+bRSmulBmqq40nd9nHxjZxNGqTJ+DM2dz1H46kWlCI69d0HdsoT
+X-Developer-Key: i=karansanghvi98@gmail.com; a=ed25519;
+ pk=UAcbefT1C06npNVDJHdgpPqTm4WE9IhaA1fmJb3A37Y=
 X-Mailman-Approved-At: Wed, 06 Nov 2024 08:18:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,121 +97,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add optional reset support which is mentioned in vivante,gc.yaml to
-allow the driver to work on SoCs whose reset signal is asserted by default
-Avoid enabling the interrupt until everything is ready
+The left shift operation followed by a mask with 0xf will
+always result in 0. To correctly evaluate the expression for
+the bitwise OR operation, use a right shift instead.
 
-Signed-off-by: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>
-Reviewed-by: LENAIN Simon <simon.lenain@thalesgroup.com>
+Reported by Coverity Scan CID: 1511468
+
+Signed-off-by: Karan Sanghavi <karansanghvi98@gmail.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 29 +++++++++++++++++++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  2 ++
- 2 files changed, 31 insertions(+)
+Coverity Scan Message:
+CID 1511468: (#1 of 1): Wrong operator used (CONSTANT_EXPRESSION_RESULT)
+operator_confusion: (pll->kint << 4) & 15 is always 0 regardless of the 
+values of its operands. This occurs as the bitwise second operand of "|"
+---
+ drivers/gpu/drm/sprd/megacores_pll.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnavi=
-v/etnaviv_gpu.c
-index 7c7f97793ddd..f698fec50343 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-  * Copyright (C) 2015-2018 Etnaviv Project
-+ * Copyright (C) 2024 Thales
-  */
-=20
- #include <linux/clk.h>
-@@ -13,6 +14,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/reset.h>
- #include <linux/thermal.h>
-=20
- #include "etnaviv_cmdbuf.h"
-@@ -1629,8 +1631,24 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu=
- *gpu)
- 	if (ret)
- 		goto disable_clk_core;
-=20
-+	/* 32 core clock cycles (slowest clock) required before deassertion. */
-+	/* 1 microsecond might match all implementations */
-+	usleep_range(1, 2);
-+
-+	ret =3D reset_control_deassert(gpu->rst);
-+	if (ret)
-+		goto disable_clk_shader;
-+
-+	/* 128 core clock cycles (slowest clock) required before any activity on =
-AHB. */
-+	/* 1 microsecond might match all implementations */
-+	usleep_range(1, 2);
-+
-+	enable_irq(gpu->irq);
-+
- 	return 0;
-=20
-+disable_clk_shader:
-+	clk_disable_unprepare(gpu->clk_shader);
- disable_clk_core:
- 	clk_disable_unprepare(gpu->clk_core);
- disable_clk_bus:
-@@ -1643,6 +1661,8 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu =
-*gpu)
-=20
- static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
- {
-+	disable_irq(gpu->irq);
-+	reset_control_assert(gpu->rst);
- 	clk_disable_unprepare(gpu->clk_shader);
- 	clk_disable_unprepare(gpu->clk_core);
- 	clk_disable_unprepare(gpu->clk_bus);
-@@ -1876,6 +1896,9 @@ static int etnaviv_gpu_platform_probe(struct platform=
-_device *pdev)
- 	if (gpu->irq < 0)
- 		return gpu->irq;
-=20
-+	/* Avoid enabling the interrupt until everything is ready */
-+	irq_set_status_flags(gpu->irq, IRQ_NOAUTOEN);
-+
- 	err =3D devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
- 			       dev_name(gpu->dev), gpu);
- 	if (err) {
-@@ -1883,6 +1906,12 @@ static int etnaviv_gpu_platform_probe(struct platfor=
-m_device *pdev)
- 		return err;
- 	}
-=20
-+	/* Get Reset: */
-+	gpu->rst =3D devm_reset_control_get_optional(&pdev->dev, NULL);
-+	if (IS_ERR(gpu->rst))
-+		return dev_err_probe(dev, PTR_ERR(gpu->rst),
-+				     "failed to get reset\n");
-+
- 	/* Get Clocks: */
- 	gpu->clk_reg =3D devm_clk_get_optional(&pdev->dev, "reg");
- 	DBG("clk_reg: %p", gpu->clk_reg);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnavi=
-v/etnaviv_gpu.h
-index 31322195b9e4..8c181191755e 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -1,6 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-  * Copyright (C) 2015-2018 Etnaviv Project
-+ * Copyright (C) 2024 Thales
-  */
-=20
- #ifndef __ETNAVIV_GPU_H__
-@@ -157,6 +158,7 @@ struct etnaviv_gpu {
- 	struct clk *clk_reg;
- 	struct clk *clk_core;
- 	struct clk *clk_shader;
-+	struct reset_control *rst;
-=20
- 	unsigned int freq_scale;
- 	unsigned int fe_waitcycles;
---=20
-2.19.1
+diff --git a/drivers/gpu/drm/sprd/megacores_pll.c b/drivers/gpu/drm/sprd/megacores_pll.c
+index 3091dfdc11e3..43c10a5fc441 100644
+--- a/drivers/gpu/drm/sprd/megacores_pll.c
++++ b/drivers/gpu/drm/sprd/megacores_pll.c
+@@ -94,7 +94,7 @@ static void dphy_set_pll_reg(struct dphy_pll *pll, struct regmap *regmap)
+ 	reg_val[3] = pll->vco_band | (pll->sdm_en << 1) | (pll->refin << 2);
+ 	reg_val[4] = pll->kint >> 12;
+ 	reg_val[5] = pll->kint >> 4;
+-	reg_val[6] = pll->out_sel | ((pll->kint << 4) & 0xf);
++	reg_val[6] = pll->out_sel | ((pll->kint >> 4) & 0xf);
+ 	reg_val[7] = 1 << 4;
+ 	reg_val[8] = pll->det_delay;
+ 
+
+---
+base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
+change-id: 20241105-coverity1511468wrongoperator-20130bcd4240
+
+Best regards,
+-- 
+Karan Sanghavi <karansanghvi98@gmail.com>
 
