@@ -2,68 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827429BD987
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 00:16:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579FC9BD999
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 00:19:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8774A10E0AB;
-	Tue,  5 Nov 2024 23:15:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D40E10E056;
+	Tue,  5 Nov 2024 23:19:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iczZty3b";
+	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="nt0T/hQA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCB210E056;
- Tue,  5 Nov 2024 23:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730848556; x=1762384556;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=D47dKifSHDD99D2CuON8tyRur2IA3Z6+FyrpQvYEM5g=;
- b=iczZty3bW+MaC+Jd8ei/rBJPP77GqyPk8oviPRwvu9KNY6keAVvCj3QW
- DRbmrwEJMXj3nF8YXxxVMAKIK3FG4XX6rRSNCk781LWfCtM9CXbJk5o4F
- EVWstvw7IpuvVHndCZYwNEKPS5210BHA5jZIvjMbeWEON4nAH+y1XxIRm
- k8A17EnIXWbFXtDwsWyooZt0GKkGV9LZ7G4vKZNoY6VwOqtI1xcVXM4Pi
- /XMD2B/d7buZWvj+HxviQ6YGuwrR2KA1g0MnDyctY2jWvU4rlNjJdkptC
- ahTrsuf5c1PRfSwzg6SQ7YgfOW6hLOGIptGYJkkLw8Ewi4qJSUWxbQl0/ w==;
-X-CSE-ConnectionGUID: CZUbSOXyQ8KvpbKW0Z5Pdg==
-X-CSE-MsgGUID: oKz+bc7ESJuWzP0VX/3VJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="34551657"
-X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; d="scan'208";a="34551657"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2024 15:15:55 -0800
-X-CSE-ConnectionGUID: KRcCQQRQRrC6Ji9s4zSxVw==
-X-CSE-MsgGUID: xuMliGkySpegZc8x053Ttw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; d="scan'208";a="88765889"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by fmviesa004.fm.intel.com with ESMTP; 05 Nov 2024 15:15:52 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t8Sm5-000mZb-1j;
- Tue, 05 Nov 2024 23:15:49 +0000
-Date: Wed, 6 Nov 2024 07:15:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- LENAIN Simon <simon.lenain@thalesgroup.com>,
- BARBEAU Etienne <etienne.barbeau@thalesgroup.com>,
- LEJEUNE Sebastien <sebastien.lejeune@thalesgroup.com>
-Subject: Re: [PATCH] drm/etnaviv: add optional reset support
-Message-ID: <202411060619.P5NY0vzY-lkp@intel.com>
-References: <0825fa6ad3954cda970b42c25b45fb0d@thalesgroup.com>
+Received: from TY3P286CU002.outbound.protection.outlook.com
+ (mail-japaneastazon11010022.outbound.protection.outlook.com [52.101.229.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9748C10E056
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 23:19:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=m5NzGf087saNHeMzwqZeGeLiUz4bZl76fdbuqusoUHrpsqcs7vrEAY711yHyfjYoOeFFBkjw6TgQ4HSDHPc54YisDOS0xpOu3Th500pe5mlsYbTDYoHwCQBrmoMJ2xHYTgCkMJnu+trcQwh3LbBxHRvIDSAqo/4l/0PxQNipbiLn9D51HpLN7mbhr17H9NKOY0moUSnEDYi8gbI50/WguKcAyoGz60g5YizfFdIRYRGT0taWmhRiNY4632PN+yXNyhL4bi4e7gdnV+2fXvbq6ESgsw+bLok1GIqXTRajZPFTS9sUS/3GVK9k2NCZ1yDVh+5MK+je5eCDKmMz29np2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GF3DZWbG4u+K0x60bgkYWt86d0SG7gw9ToxS7V4VSeg=;
+ b=f1ORJQ4MMCw8nSQIrnpuIdgEcgA7ps9cFQWYV/qQxm5SZJJ1r3SEk3gMQvCss56RNk1cV9zkVsPa3j1L+4zBAQCh263yHxovlwCAtuQN257tgZEaLdk10to2De99+UZoI+1dsJbpWLFLArK51C1BeVkH16+QTzSjfm9o9p2Sd7TfmQAtOV9oPAfv2d8CkSLd/BOub1wzfzouOjUAn7sARUZtLls0InPo5PefTBEEPoQkCN0qtfx1OHcc1Ve7TIv+DXJMAiryBoKAxbaBixS+Ix6xO7MD8DKUw1cYiynUq33x/pJL4Nj8dbxMgyLhUUUHY3GknECNyDCx24WPQNTarQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GF3DZWbG4u+K0x60bgkYWt86d0SG7gw9ToxS7V4VSeg=;
+ b=nt0T/hQAucujXMGeO6yTs6rZuim8nVaTQ6k4Bey7QZ0qdFtVYacyjfJ8oB7bkC6scPmcxXul//PB+Es/y/GCASrDuSiuG9KJppDiEPP+lFXr66jb/JQKhSa29db8XHSfLdfUC4HT8e5lBeqNytHFO7lJbnWnIiFZYHXIXhUEodg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB10415.jpnprd01.prod.outlook.com
+ (2603:1096:400:247::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19; Tue, 5 Nov
+ 2024 23:19:26 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%6]) with mapi id 15.20.8114.031; Tue, 5 Nov 2024
+ 23:19:26 +0000
+Message-ID: <875xp19sle.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Rob Herring <robh@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Thierry Reding <treding@nvidia.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6] gpu: drm: replace of_graph_get_next_endpoint()
+In-Reply-To: <87frob3neo.wl-kuninori.morimoto.gx@renesas.com>
+References: <87frob3neo.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 5 Nov 2024 23:19:25 +0000
+X-ClientProxiedBy: TYBP286CA0017.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:404:ce::29) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0825fa6ad3954cda970b42c25b45fb0d@thalesgroup.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB10415:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0d0cce3c-e9d4-4c46-b9e7-08dcfdf04a57
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|52116014|376014|7416014|366016|921020|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BQB0vSoLgTznfZKW+1cBWxhvLjwgswkTfqamQ5fal7fspcF93wwEA+TyDdDu?=
+ =?us-ascii?Q?H8uh5mkOYBzWlb+4AYm0FazSRAoAulFZ8JhTe+wpt3zGE6P4386YWmx5XnBL?=
+ =?us-ascii?Q?h2baSqLqNA1nqKkz4qu5U018NveB2IOef8UHEUxEevZGDKLRPSRLH7gntrYJ?=
+ =?us-ascii?Q?ll8OubSWGtKspiYkIeA0oxBabpzfZuvVQM7Uh7WxapEpyhHBzI3pqX4udqeg?=
+ =?us-ascii?Q?0b2yEx3eKhG8fQks7JgGxa8/vToPpTj11gOQ4HMdD2IWWH894wKRqD9NJ3EW?=
+ =?us-ascii?Q?bGz/h6JqWAdcjAes7oa3/kCUBJBTVwswdn7MuLbkesGWosN2KVIDAHogaDsK?=
+ =?us-ascii?Q?DCcZds6b9uNmcNi97EonUYRWfxkH6Ax6JV4xsRfY1vc9ZcPkaWZZTRsUcl9p?=
+ =?us-ascii?Q?Y5yDABIweoQtZlQMN2Nmw2HGEg+lyxE2+3eHh2WRUoAT0sROuLIZRGNIEOIm?=
+ =?us-ascii?Q?WRVQXUOhH78bYh4qGXrLSmxv0Uv5skzfkq0WJqywvbO1f66F2kkSdJUdUMrR?=
+ =?us-ascii?Q?VMjt2/dvJHAAOnwYkKfMq8VadbayvnQSFY+Tvwo78p0IemY5qXNWHAr2mGvt?=
+ =?us-ascii?Q?YthYxCXhP1/E12uVxnQ7fyBqNdElrfE7J4J1P6BxVQM75RGqsL/ZuiyOtV2k?=
+ =?us-ascii?Q?jvDxG0h++I1sKJmYRvMEzyq47oiIPUQoCxdQeFCYqHOsr4GxmfrmeJfYAWhg?=
+ =?us-ascii?Q?bp75RkEQBRcledYRBqJSay6y03RuNHs9fea0bT3pz4CmDqe1Htirnyvo+vDt?=
+ =?us-ascii?Q?c+g02/uKo7/EE7lSqIpNLEtZV0oM6pNbw4LknFkl82JTWN83RxPaGp6x2JDY?=
+ =?us-ascii?Q?0ZjBt0W/eNXaWK1Pq1OQQQ4pejd2/Sy/8/3/vdeydeIjO2luiAJgELILAoF9?=
+ =?us-ascii?Q?z8hYSVi3rZIAFhsnej0H5LaEdStO7yfd2Tq456IS515T1Kx+sOXWVyTPCTBr?=
+ =?us-ascii?Q?naJiLqfuKpnpfPdZc8EfXpyfrcfFZwnc51EN9kFxjCbH1FVWx2cIcnEngqKv?=
+ =?us-ascii?Q?/zhazQFV3FzfNIhMqmUAzRSLWDq99zoxBBw9OH/iE3StsG8cMshfFlzdoU5M?=
+ =?us-ascii?Q?Wkf1tWH4HFG8dqQeBKwQOwEvzEvSuwk205TGnXPNLnEtLeMXIpCFWnq+Pyh+?=
+ =?us-ascii?Q?WNIbw4N+GwVBwSqzmU9cL5JiV7nC3Q+ss1odLDeAUDg7M7br0KHvqz9rbWl3?=
+ =?us-ascii?Q?1ABqwf3VyIogzBRY/e/7xyQq6UFKF4L666ZqDqyFTFQuHAnNcEqQ8RE/oElp?=
+ =?us-ascii?Q?NXYGywTclQG6DXIdbLsPMO/cPqumG2IOhSNO7ZFQIXB5QQEmWlkf9fcc3r7l?=
+ =?us-ascii?Q?aI0WgRLMXJCl0CC6xe9nORRJSE93iXGFTkxXQb6mwyDG4dvyUmH65KYAA26m?=
+ =?us-ascii?Q?E9xHBExH0h0T9wH6w2ZR57dt+auV4U4tlYWtt3136HM0T0O7UA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(52116014)(376014)(7416014)(366016)(921020)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?auX1W5NZDAd+Dzsh7ivLMWvjHTxFUrbjT0h7cOIXx4AwhoCU2nejH7FDlG/7?=
+ =?us-ascii?Q?Y6cSGK8xvk+63saML13URBBvIfqEVvbVf9NkdS69aOyTSeH0ZRBsdO3Q3OYp?=
+ =?us-ascii?Q?afzNWdc5J+cuZcmSEx+zKbUYJBdjcgbK6qSW+QtFA4MLmu+BGCJ5meQSs0Hk?=
+ =?us-ascii?Q?x3CLuspNO6bvis1ErFWAxippBiwY5UCmAJxdyUbpAB3Mvalt3K35yJ69CSY3?=
+ =?us-ascii?Q?pHEv+E6P48mhq1DoO6iRFnK+fYTjnHcyOK/WquCr8XBBEIunwgAvESX8eA2M?=
+ =?us-ascii?Q?yUM8h1bYwTsz1UipJ7NF1GeMo3Wk16OADqvLnPOfiRisC9Kla1zccAeZaCYq?=
+ =?us-ascii?Q?Q36GEt1A3n3D7/SKo63p1re855wivaiXMtNGdackPm+32Hb9ez6zpl91rnN7?=
+ =?us-ascii?Q?qhHcPMJaw9ztAFwiJZMob9XrssBWC56sVl5uhyX4UO7idmfm+2InUyxbpHOR?=
+ =?us-ascii?Q?KMgd58CUPP8b3iX8NgULKiemkKhbzc3aeekCplfzCFjFfd/OY5LMR8USxg+E?=
+ =?us-ascii?Q?UeXnGSmX/SubneWcs4BeMkTnc1Zh1MlSt1bJ/++6nDb6AX//NXVOgDGr8lzW?=
+ =?us-ascii?Q?CtHIsIBKVpir1ErqRt8TinkMfTV7/NSZwZTZl76I/16SpWIRlpbO6Yl9oktj?=
+ =?us-ascii?Q?uIsgF+M9DCmtDNjjVMCVw9nGdpXzoYlVcyB9T9pHwJFPqYPpKE78OHYUv8Bc?=
+ =?us-ascii?Q?vI/+y6oEBlOIEIZulhvCHCyVXnCYk7L7JVNvhi4F2FNmaPZeqmjXvikKp2go?=
+ =?us-ascii?Q?di+Po3gawuupDgY6Jf0h91K9YuhJVOSTiYku7VsVWOGZDsYl7dAphalG8mLD?=
+ =?us-ascii?Q?jdmjBCL59epBdTVfgo10Olc9fOQpfcHzTJT/NHI2N2s9VnGNastlbIiaT8eT?=
+ =?us-ascii?Q?mtGEJugyuKf4GWtchEVkwrt5+V7lzqTqm8vHn3D+bYPoPIGU/u/uPtHrvZaL?=
+ =?us-ascii?Q?9k5xDvujGabT5AG5us3WPGW4ML669drQ/YJf7VNlSIrj6NiB9bCg6JqGAqZi?=
+ =?us-ascii?Q?B7vKoVFWwSpc5FwQT3eVbz7HsD4iAdfDQSW6dvtsUriNxg/vwg2CT7D1/sju?=
+ =?us-ascii?Q?LnG7niW5F5NEhCUdI8uE8l742MoqD/m0mvBSSZzXCLEVZEZuV7xDMTqoF1cD?=
+ =?us-ascii?Q?xAT86ADHXwyH6hk0ryjS3MtrSmRPNixh+bdYtDiGjGFnzvaQnnNdzztb7Ltp?=
+ =?us-ascii?Q?IedEXLsZJo6IYZfiFnFbDOkXpG33anUiL8IxGPO2/Qwa3oF9sEkh8fxQ13P2?=
+ =?us-ascii?Q?+QucqjO2BtETpcxbAo9/UUNzbpKf94aHWpGTJvdHXAWU21QFfgYyVLxuAfl1?=
+ =?us-ascii?Q?eoWYk8a+HlPYtEpXhn+DPBF+a1s62DExPwgaCNx/0/+oTLQZOa1j+MVNC+71?=
+ =?us-ascii?Q?edQwPjz9DXpHNCAqK3mICTQfJWhdQOrbSKX5lj+uuMLUWEzWHH2yjQsagvTq?=
+ =?us-ascii?Q?x6TsXG60tmbVz5NznJDbwNF0pThoIPiHqgFGzqFCa37gRfPEncr5sZvtpDd6?=
+ =?us-ascii?Q?s5JsjlATrNLQunvvdkDhEWWwX07Bd9hamgRRWuqSG4uyzhqj6h5Q4QMP354B?=
+ =?us-ascii?Q?YtmVdzmXGFPQwPP6bE8rayCCKQKmXE9jtsd+5mQ7j4dnS1DtNJOGE4+is48a?=
+ =?us-ascii?Q?M7WBvtfB8Gq1hH0UUo5YXTg=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d0cce3c-e9d4-4c46-b9e7-08dcfdf04a57
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 23:19:26.2089 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P4afcywYESrhKB9vuLnshfW0l9pjDWKk4jfgJO0ruS0K/VV1SK16KYHbesLfeIBqcT48Wp28b8rLeEb3F4XaMioYo+F5Fhkx2k1R5I8o4WkMdLO63R+cEKGbA7XzpdeG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10415
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,136 +156,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi LECOINTRE,
 
-kernel test robot noticed the following build errors:
+Hi DRM Maintainers
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.12-rc6]
-[cannot apply to next-20241105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> From DT point of view, in general, drivers should be asking for a
+> specific port number because their function is fixed in the binding.
+> 
+> of_graph_get_next_endpoint() doesn't match to this concept.
+> 
+> Simply replace
+> 
+> 	- of_graph_get_next_endpoint(xxx, NULL);
+> 	+ of_graph_get_endpoint_by_regs(xxx, 0, -1);
+> 
+> Link: https://lore.kernel.org/r/20240202174941.GA310089-robh@kernel.org
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+(snip)
+>  drivers/gpu/drm/drm_of.c                              | 4 +++-
+>  drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c | 2 +-
+>  drivers/gpu/drm/tiny/arcpgu.c                         | 2 +-
 
-url:    https://github.com/intel-lab-lkp/linux/commits/LECOINTRE-Philippe/drm-etnaviv-add-optional-reset-support/20241105-224118
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/0825fa6ad3954cda970b42c25b45fb0d%40thalesgroup.com
-patch subject: [PATCH] drm/etnaviv: add optional reset support
-config: i386-buildonly-randconfig-004-20241106 (https://download.01.org/0day-ci/archive/20241106/202411060619.P5NY0vzY-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060619.P5NY0vzY-lkp@intel.com/reproduce)
+Who can be a MAINTAINER of this patch/file/dir ?
+I'm keeping posting this patch but nothing happen during almost this
+half year...
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060619.P5NY0vzY-lkp@intel.com/
+Thank you for your help !!
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/etnaviv/etnaviv_gpu.c:11:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1900:2: error: call to undeclared function 'irq_set_status_flags'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1900 |         irq_set_status_flags(gpu->irq, IRQ_NOAUTOEN);
-         |         ^
->> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1900:33: error: use of undeclared identifier 'IRQ_NOAUTOEN'
-    1900 |         irq_set_status_flags(gpu->irq, IRQ_NOAUTOEN);
-         |                                        ^
-   1 warning and 2 errors generated.
-
-
-vim +/irq_set_status_flags +1900 drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-
-  1874	
-  1875	static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
-  1876	{
-  1877		struct device *dev = &pdev->dev;
-  1878		struct etnaviv_gpu *gpu;
-  1879		int err;
-  1880	
-  1881		gpu = devm_kzalloc(dev, sizeof(*gpu), GFP_KERNEL);
-  1882		if (!gpu)
-  1883			return -ENOMEM;
-  1884	
-  1885		gpu->dev = &pdev->dev;
-  1886		mutex_init(&gpu->lock);
-  1887		mutex_init(&gpu->sched_lock);
-  1888	
-  1889		/* Map registers: */
-  1890		gpu->mmio = devm_platform_ioremap_resource(pdev, 0);
-  1891		if (IS_ERR(gpu->mmio))
-  1892			return PTR_ERR(gpu->mmio);
-  1893	
-  1894		/* Get Interrupt: */
-  1895		gpu->irq = platform_get_irq(pdev, 0);
-  1896		if (gpu->irq < 0)
-  1897			return gpu->irq;
-  1898	
-  1899		/* Avoid enabling the interrupt until everything is ready */
-> 1900		irq_set_status_flags(gpu->irq, IRQ_NOAUTOEN);
-  1901	
-  1902		err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
-  1903				       dev_name(gpu->dev), gpu);
-  1904		if (err) {
-  1905			dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
-  1906			return err;
-  1907		}
-  1908	
-  1909		/* Get Reset: */
-  1910		gpu->rst = devm_reset_control_get_optional(&pdev->dev, NULL);
-  1911		if (IS_ERR(gpu->rst))
-  1912			return dev_err_probe(dev, PTR_ERR(gpu->rst),
-  1913					     "failed to get reset\n");
-  1914	
-  1915		/* Get Clocks: */
-  1916		gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
-  1917		DBG("clk_reg: %p", gpu->clk_reg);
-  1918		if (IS_ERR(gpu->clk_reg))
-  1919			return PTR_ERR(gpu->clk_reg);
-  1920	
-  1921		gpu->clk_bus = devm_clk_get_optional(&pdev->dev, "bus");
-  1922		DBG("clk_bus: %p", gpu->clk_bus);
-  1923		if (IS_ERR(gpu->clk_bus))
-  1924			return PTR_ERR(gpu->clk_bus);
-  1925	
-  1926		gpu->clk_core = devm_clk_get(&pdev->dev, "core");
-  1927		DBG("clk_core: %p", gpu->clk_core);
-  1928		if (IS_ERR(gpu->clk_core))
-  1929			return PTR_ERR(gpu->clk_core);
-  1930		gpu->base_rate_core = clk_get_rate(gpu->clk_core);
-  1931	
-  1932		gpu->clk_shader = devm_clk_get_optional(&pdev->dev, "shader");
-  1933		DBG("clk_shader: %p", gpu->clk_shader);
-  1934		if (IS_ERR(gpu->clk_shader))
-  1935			return PTR_ERR(gpu->clk_shader);
-  1936		gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
-  1937	
-  1938		/* TODO: figure out max mapped size */
-  1939		dev_set_drvdata(dev, gpu);
-  1940	
-  1941		/*
-  1942		 * We treat the device as initially suspended.  The runtime PM
-  1943		 * autosuspend delay is rather arbitary: no measurements have
-  1944		 * yet been performed to determine an appropriate value.
-  1945		 */
-  1946		pm_runtime_use_autosuspend(gpu->dev);
-  1947		pm_runtime_set_autosuspend_delay(gpu->dev, 200);
-  1948		pm_runtime_enable(gpu->dev);
-  1949	
-  1950		err = component_add(&pdev->dev, &gpu_ops);
-  1951		if (err < 0) {
-  1952			dev_err(&pdev->dev, "failed to register component: %d\n", err);
-  1953			return err;
-  1954		}
-  1955	
-  1956		return 0;
-  1957	}
-  1958	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards
+---
+Kuninori Morimoto
