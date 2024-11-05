@@ -2,154 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFB59BD55E
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 19:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568329BD56D
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 19:53:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C26710E604;
-	Tue,  5 Nov 2024 18:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C470610E422;
+	Tue,  5 Nov 2024 18:53:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="oP+gtUqz";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="FMc3lHWZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2072.outbound.protection.outlook.com [40.107.237.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46B3D10E425;
- Tue,  5 Nov 2024 18:52:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rkZL6Q7zeZ1xVO9nedlsfq3mC0aUQQi6jg7irBXHRJYmFexP3tWU0V5BfqioUihzdJTTgDmmng+FikkkqDsirJV3zKuRoPJAxLyXs/OyWrj6EXqz8Ec8YXUjQOKISWoNikxgQpIF5jcHEiwE6eIsd97U32nkZt4oTQiRE21vf8ZmGYQle3yY4kSyBx6HWbmt4pRB/0A7aGg43cuQFYMXGZwSFl1mslgGP8RIQZo13rqsmXkt0eDBxoT5RWzJ/n0qI+TbaJAV0dnCGlaALRjrXcbclL6IsHuxNBTtet1ahc4btsWICrKke8ETbpEbnbcWuPO6uLuvF8xqaLz9vvB9uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JvBubuWNQmBugH+V/RWH48Q993XXvcS7C7lF6Wu9woQ=;
- b=FQeXvGB+9ot07NJDn8R6gMjAUtiFSFdFZjeDqyuoxldTtDgXez/DX2JyRbGMbeKBGcjZ+Nh7NYYS6REQrJ2dx9bxomn2l0gq7Vc/8DyPj94xMt4AccaUvFUi6BvZIZtaeDaUdYDlbbDzWU45uTNNmn+v4PfiLMYHWnVMBSlGmZFQfrGOe2kPi31osTiXh75jhgY2QXMqB2u6jjiTRk/Zq/R7qki+FSM6ihvkb49yUYE91SQTGrizPXTw30OPZxj/OVKyTX7szsQZ3t+7NqquWmwDGGIyVkz3j7w89m0YJJ8nG4eA5iWov8ztAuz54Y4eId0M7fKJJ3p7tWsbVR2M8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JvBubuWNQmBugH+V/RWH48Q993XXvcS7C7lF6Wu9woQ=;
- b=oP+gtUqzAoiTmyjuftSCDmtlRN2hzkjNtmZSPXhwPM+B1zCeqG4gKVpJxuMp+XHPfPnaAHbEHjCGwI/nggDPCPUO8HHZ1D5W2laoCKh0k15VxBgdpvF6MAXyPIrTfFUtTJKfnhuImG1205rB5FpBT3aXPsq1JTMkuKyktWJM3qM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW6PR12MB8733.namprd12.prod.outlook.com (2603:10b6:303:24c::8)
- by IA0PR12MB9010.namprd12.prod.outlook.com (2603:10b6:208:48e::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19; Tue, 5 Nov
- 2024 18:52:03 +0000
-Received: from MW6PR12MB8733.namprd12.prod.outlook.com
- ([fe80::71a6:a9da:c464:fa2e]) by MW6PR12MB8733.namprd12.prod.outlook.com
- ([fe80::71a6:a9da:c464:fa2e%4]) with mapi id 15.20.8114.028; Tue, 5 Nov 2024
- 18:52:03 +0000
-Message-ID: <7889ad4f-7eae-47b7-b385-d2c3eb67dd3c@amd.com>
-Date: Tue, 5 Nov 2024 11:51:55 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm/amd/display: Fix Power Gating Configuration
-To: Zicheng Qu <quzicheng@huawei.com>
-Cc: tanghui20@huawei.com, zhangqiao22@huawei.com, judy.chenhui@huawei.com,
- harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, Alvin.Lee2@amd.com, chiahsuan.chung@amd.com,
- alex.hung@amd.com, wenjing.liu@amd.com, Dillon.Varone@amd.com,
- george.shen@amd.com, mwen@igalia.com, yi-lchen@amd.com,
- martin.leung@amd.com, yongqiang.sun@amd.com, tony.cheng@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20241105140256.2465614-1-quzicheng@huawei.com>
-Content-Language: en-US
-From: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
-In-Reply-To: <20241105140256.2465614-1-quzicheng@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQZPR01CA0093.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:84::23) To MW6PR12MB8733.namprd12.prod.outlook.com
- (2603:10b6:303:24c::8)
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA9F10E422
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 18:53:34 +0000 (UTC)
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4XjctQ07rNz9tdc;
+ Tue,  5 Nov 2024 18:53:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1730832814; bh=6ljX9U/oCIrj6sN6rt3396uJD5R9MIyLGfVfs4qKv8s=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=FMc3lHWZ+VHOAe7dgv2EffQg4T8Bb2t7xatE+57r7GAPEPMst0RUCzPmHq5hZcZFi
+ AUco+FNn1NSm+2BdO9Ossw7vTKI9rCMshHLSd3KcjXYb5qIbfVkjoJedS6KuBD7MTC
+ mHpvEeL0DObDCNROGUiLlq7/E5MiNYb2n+cozoEg=
+X-Riseup-User-ID: 953CBDCB8C950B9BB1BC602DE866E04B27B7D58F7349F4488D9CF49322AFFFDC
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XjctM5mjLzFtkM;
+ Tue,  5 Nov 2024 18:53:31 +0000 (UTC)
+Message-ID: <b71c0324-ece6-4bee-9e64-561185fb1e21@riseup.net>
+Date: Tue, 5 Nov 2024 15:53:29 -0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW6PR12MB8733:EE_|IA0PR12MB9010:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12b727d8-0b98-44d3-22a1-08dcfdcaefce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TlhHS1RqdEtvUHVLN3FLTllScW9UQ0loc3pSR3lUSGo3TWVJT1RsR1ZOSCtF?=
- =?utf-8?B?YVVVQW5qZnR4VStXZmw4Y2UwbEFXdC9aYzVuVlhoR3FZdVlyUDMxbHpNbi9T?=
- =?utf-8?B?cXVLVER3ZkhUZzhtL2lWNU5jdExHQzhGOU9mcmFLSkpRN0NzbXRMK254QnNl?=
- =?utf-8?B?cGZ5bVBZUjI3cXZkZ3hHaE5rK2N1UjY3RVQrbHo4NDVOOFBwaCtwQlI1MWtz?=
- =?utf-8?B?blRxOXVSeXd4SkwwN1lubWpJNy80M1ZxaWxuYmQzMzk2VTV1Z2lIN1N3R0tp?=
- =?utf-8?B?V2RIVTVraXJ0ZkxCL2tJZ0FqbWo5dFZjVFJUdkw0UUlXUGl5Ym95VGlLUVJS?=
- =?utf-8?B?UGVyRXIranNYWTUvRmRoeHZoKy9aWGhqd3M2YzYzb2Zud2ZCQjJObVZ6NUNZ?=
- =?utf-8?B?N0dJMWhOcTlOd3JiaWFMWWpXOGRkUFhndVhnZzlSekEyK1RpRXFKUER6WHZh?=
- =?utf-8?B?Uk1JNmVzTWdsVkhxb1o4K2VqaTQvbVIzZ3FHeUU3bWczNitiTnpxd2NFbllp?=
- =?utf-8?B?a05LTmVFYXRCUUtwQzNiYzk0M1Q1ZmswYmhxTGovVkdqOE8zVVZxUlNvaWVD?=
- =?utf-8?B?OGlQVkkrblZVQjVZa0RsaDNnY0V1ZloxZnlvOHV1T1ZpNFFVaENGam5CaWI2?=
- =?utf-8?B?OEtzUnhEQTlCcTlkUFlmVm1KRzFNQ2l1RGtHWXRYSE1lTHJ2ZXFmMzRrMlFI?=
- =?utf-8?B?VWswZnptKzRkTlJCUzRtelg2Nk1raFgxaHFRdWQvb3REVHlENE4ydUl3UlR0?=
- =?utf-8?B?U25uMTEvUVVMdWNrSCtKTVNhRFB2cE5mb211SGZ4cmxZa3VsRWIrR3lmZFZq?=
- =?utf-8?B?Q2VENW5GYnZHS0E2TGsrbEw3SWNmbnBtbGJwOTJqMnI5ZVphV0Z5MFJyemNE?=
- =?utf-8?B?YzRNNXVQcEo5K2tJYWFtRTFyaE5CM2o1OUZhM1l3M00wcWFCWGRyWXRHUWNL?=
- =?utf-8?B?UlVkWisrckpxVXIyK04zUWNMbUFFSHBjcG0vZnVhL2ozVFQ3ZUNPVjZGWTl6?=
- =?utf-8?B?dVZpMldNM2RubXc3bFhubkdISGI2WHMzblpMTGZIaFVSanR5SG9yYzJwdnRX?=
- =?utf-8?B?RGVjdjFrYUY0RllTeDNBaXFGVW5mVmxSYW5YbGhMRnV6NGFDUGF5QUxRd0xy?=
- =?utf-8?B?VTlRR0RQMHV2LzlEcTRyOE5abHA4SWtBeHhxK0prVklPalhtQXBKcm1IdkJB?=
- =?utf-8?B?blhXcnBEWGFOb1RMdFAxT3VPMzAyVmZUUTIzeXdoR3lqK0RBb21Fd3B2K3M4?=
- =?utf-8?B?NWlMR3cxVFZNRnovelhnQU1rMFBSeFJZR2xjdXNFcFB0R1RhTDI2Rkp4Z3pM?=
- =?utf-8?B?d1VQUDMvc3RZMnRDanlaNDkxMkdob2g4dmhhYnhiUHZQaHVZY3NsRlF3SXJJ?=
- =?utf-8?B?NGVoSFdybmFlNFM1elliK25SK3UvUHdEUytiZVVtVHM1VHFieXhlODBDK2t2?=
- =?utf-8?B?TUErbnc3VEY2Z2ZwOVJpRm1TV0hTSEFMbEt6b0pJUmROdFBIZy81OWhWdkpV?=
- =?utf-8?B?TndTU1FEVlpBK3NOUEZzNWxHTE9tanNHVnBvbXp3d212cnRYVEkvTnJVWEJa?=
- =?utf-8?B?YkFWZ204QVFJWlRnK3I1ZWJsS3d6WmxOb0pkRGVDZGo3V2t6aWVPNmE1YllR?=
- =?utf-8?B?V3J6MmtiOEN6ZWxya3UrMlNBaDlBU0JXTkhsNWw5TUJHU2U0T01Vb29GNjBq?=
- =?utf-8?B?T05VbVAzZkNhbm1sSExWUmhYc09lRm5QL3pSdGlTbldzNFA1Z1ZIaUdTL1VQ?=
- =?utf-8?Q?0tj8HtD8Yb3N+bb7+S4cSBqc8yvjp0L8J4JmgvE?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW6PR12MB8733.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZWFISVN2bGVpOW0xbk1aWDVwUzVQWE9YZmlOYnd4MEpwZVZqbEZKQm9WaVZW?=
- =?utf-8?B?b1F2djNHSXRvUFNza01OVlY1RWFTa3l1MEdPa0hHME55eGJkTFI1aFFiU2JN?=
- =?utf-8?B?bFMxSE9PMFJHNnlHamhzcUpLMDZxV2RSZzUxdTZ3dmRPUWVHM2pncVZibjJx?=
- =?utf-8?B?VEkzQlJ6UTZEYXJ3RWMwMitWVlpkaHpTeTJDdCtWR3FQOGpacU9aMDlEL3N3?=
- =?utf-8?B?RkRWQ090NmtLVXZSdS9oY0kxdmF2NERGSys5RHdUMUlzMCtVaUJvU2wvK09h?=
- =?utf-8?B?eDFLT25UNWdFUHR3T1hmV1FxVVJpclpLRHIxZzI2TlVqVjZDajNDZmsxVmo4?=
- =?utf-8?B?YVEyR1hkVVpsak8vdXBrNVBjQnp4UGcrUEwwcW9UQlgxN085UzRjdU1jKzlZ?=
- =?utf-8?B?ak1uOWVYYTc2T0JCMjFvSDRqbmFZWW1sOENlRnIvbVFQNE8wNmliTW1iNWht?=
- =?utf-8?B?Q2cycUxkTlhlSGhGSGdMbXlJSlU3elRJU3NvL1FmOUtiWXNpb2lKekR5c1JY?=
- =?utf-8?B?SWdLcFpDK0pKTFRDSE9zL0ExTVZvcStLaDNlb25SbnU1MnJTb0x1UURTbFly?=
- =?utf-8?B?N1FYNW1VSkJTMEtlNXZTa05XRWNqRHBNTUNaTTlKOG5FNFVmZi9ZNU1QeVlw?=
- =?utf-8?B?VTN0WmphSTdieFQ4c0lqeDE5RWg4aHNFNHlyU1FTQkNDNVYzeUtZd1RYUHpP?=
- =?utf-8?B?TXZ4SmxkRkFrZVNpckRmUFh0ZXZjcllLeklxeWZ3QncrRlBVYzZOYWdHSXdy?=
- =?utf-8?B?Vlg4RDZBU2Z0Rm03RmJaZ0l4dDFFUFEycitvN3l1S2RJY004ekJRdGs0NlNE?=
- =?utf-8?B?T1RWQk1XZVlGVExzSE5wL3hpWE54ckJ5M1RQZFJtbE9UK29OUUhBR1ptbXpx?=
- =?utf-8?B?SDFFUkZkNDUvcXZHajRZNnRwbW1WdnFoby9Xb0N4Y0o3eUdCazVsbitjcVU1?=
- =?utf-8?B?cTVMYlJHYi9EVG9WZ09obXFmbHdEdWpEK0xzdW9VVWhtWEc4M0pqWHlhbWMw?=
- =?utf-8?B?aTFidXlpRjROcUVJTFZnMlhuUWtEQ2xIZzVpd29wYnN2bFJFcGh2Q241MFJF?=
- =?utf-8?B?Zk02RTgzaTJ5eEEzTXJOTHUzOE01VUFBZE9EVFBIeTBOQ2JuRE9sVUVJY0FR?=
- =?utf-8?B?RXBVZ1lYNzY0SmNDOUtQak0ybGFtVDU4UzBzZitKOW04TEJtelZVLzZPQ2w0?=
- =?utf-8?B?ZEV0YzdSU3loUHdKK29Ha2Q5TUYzbTdQR1MzZ2JhZHZ4OHpnOFBhVGYrTFQ3?=
- =?utf-8?B?bmdENEJ2UHZzWVlmZEt1QW9qdlZRRGo5d2pMTy9EM3BMRXUxb2xxSzRvQXRZ?=
- =?utf-8?B?TVc2QndSNlJGS2NjUVFLcDh1bzRvOVBsOU9BNlExOENaVlc0akE4OFFQUjI4?=
- =?utf-8?B?NTJVSVpYTTBONEF5N3pVdWw5Ujh3TGpNU2JhWnRXa2gzdGxGRVFZanhmOXJ6?=
- =?utf-8?B?TjlnQVdIM3J4M3pxMW9kTU1PZVhod3hRNEdlNERQZklXK25SQWl1QnEvVjRx?=
- =?utf-8?B?eHJSbzdheWltSnFzcWpIcDRGUk1VbTZGL2h2VDlSa293YWg0S2Z5TXc1WFlz?=
- =?utf-8?B?UUVXNnJYOU5FV1FNKytYcjBhOGE2UjBQby9jWjJsaThGLzlldS9XZUlTVWd1?=
- =?utf-8?B?dmR2MmIveGRRanluSnF2eFo4dFZzZnhGOEpFV0dOUmVIaU5XM2RPZFhtSVBK?=
- =?utf-8?B?QW5XWlJXTDRvS2tXQVU1eDBBYWRsbjZwNWZ0S0JlK1pvcDRrUHpBa1MxcnFq?=
- =?utf-8?B?U3lrMzZhWGIxdGVWYnVPOTVFams0Qy9lOGZ2RlNWWEpkenczWlo5Wlk0aUda?=
- =?utf-8?B?c241N1E0MzF0L3hCa2w1VFBmaVNUb0lDRURLLzg3ZHQwdDdWRXpHVG5QaDFR?=
- =?utf-8?B?TktTWHYrUVlLMC9BSUhNSWwrcUZTUVliT3p2UVozSnYzTWdCanRoS2syazRw?=
- =?utf-8?B?MW51ejQzRWd5KzAxcWRpSnoyQ2lucEVyNnVvNnMzNlRVQlgwNXZ5VU8vYkQ1?=
- =?utf-8?B?VVV0UDRiNlhXU21oMjhna0J3ZmdRYndyU3FoS0FlVG1ONEI3bDFxckU2SW1t?=
- =?utf-8?B?UnZHT3pYcGxvQXFndU9kckVzckdsaFJGWTFZSnRPQy8zNGt1OThqMnRuSk00?=
- =?utf-8?Q?7ApNEp56r/NOxHXCVnmusMfXP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12b727d8-0b98-44d3-22a1-08dcfdcaefce
-X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8733.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 18:52:03.0168 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F9A9tMWGdeOjg5TbMnqgHGoy4DXHhSUAgjn6zxYTvHZNgWjRVqrDlQjFdVql0KX4V1lB6pT58oB6W0+u7z9BIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9010
+Subject: Re: [PATCH] drm/vkms: avoid race-condition between flushing and
+ destroying
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230729225008.30455-1-mairacanal@riseup.net>
+ <Zyok0NQpido1Wqya@louis-chauvet-laptop>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <Zyok0NQpido1Wqya@louis-chauvet-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,35 +64,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Louis,
 
-
-On 11/5/24 7:02 AM, Zicheng Qu wrote:
-> Hi all,
+On 05/11/24 10:59, Louis Chauvet wrote:
+> On 29/07/23 - 19:49, Maíra Canal wrote:
+>> After we flush the workqueue at the commit tale, we need to make sure
+>> that no work is queued until we destroy the state. Currently, new work
+>> can be queued in the workqueue, even after the commit tale, as the
+>> vblank thread is still running.
+>>
+>> Therefore, to avoid a race-condition that will lead to the trigger of a
+>> WARN_ON() at the function vkms_atomic_crtc_destroy_state(), add a mutex
+>> to protect the sections where the queue is manipulated.
+>>
+>> This way we can make sure that no work will be added to the workqueue
+>> between flushing the queue (at the commit tail) and destroying the
+>> state.
+>>
+>> Signed-off-by: Maíra Canal <mairacanal@riseup.net>
 > 
-> I am submitting two patches to correct power gating configurations in
-> the AMD display driver.
+> Hi Maìra,
 > 
-> 1. Patch 1/2 (Fixes: 46825fcfbe16): Corrects DOMAIN10_PG_CONFIG to use
-> DOMAIN10_POWER_FORCEON.
-> 2. Patch 2/2 (Fixes: 46825fcfbe16): Corrects DOMAIN11_PG_CONFIG to use
-> DOMAIN11_POWER_FORCEON.
->
-
-Hi Zicheng,
-
-Do you have more details about the issue? Could you describe the bug 
-that you are fixing?
-
-Thanks
-Siqueira
-
-> Thanks for reviewing!
+> Thanks for pointing to this patch, it does not apply on drm-misc-next, but
+> it was simple to manually rebase (see [0]).
 > 
-> Zicheng Qu (2):
->    drm/amd/display: Fix incorrect power gating configuration for DOMAIN10
->    drm/amd/display: Fix incorrect power gating configuration for DOMAIN11
+> I think it should solve the issue, and the CI seems to agree.
 > 
->   drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> But it seems to be imperfect, as it introduce a warning on mutex unlock
+> imbalance [1] (not always reproducable). It is better than a kernel crash
+> already.
 > 
+
+Yeah, I think it needs improvement indeed. Usually, unbalanced mutexes
+aren't a good idea.
+
+> Do you want/have time to continue this fix?
+
+I don't plan to keep working in the patch. Feel free to pick the idea
+and implement a proper fix.
+
+Best Regards,
+- Maíra
+
+> 
+> [0]:https://gitlab.freedesktop.org/louischauvet/kernel/-/commit/017210f48c809730296d1f562e615b666fdbcfdc
+> [1]:https://gitlab.freedesktop.org/louischauvet/kernel/-/jobs/66118565/viewer#L803
+> 
+> Thanks,
+> Louis Chauvet
+> 
+>> ---
+>>   drivers/gpu/drm/vkms/vkms_crtc.c | 10 +++++++++-
+>>   drivers/gpu/drm/vkms/vkms_drv.c  |  1 +
+>>   drivers/gpu/drm/vkms/vkms_drv.h  |  8 ++++++++
+>>   3 files changed, 18 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+>> index 3c5ebf106b66..e5ec21a0da05 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+>> @@ -49,7 +49,9 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+>>   		state->crc_pending = true;
+>>   		spin_unlock(&output->composer_lock);
+>>
+>> +		mutex_lock(&state->queue_lock);
+>>   		ret = queue_work(output->composer_workq, &state->composer_work);
+>> +		mutex_unlock(&state->queue_lock);
+>>   		if (!ret)
+>>   			DRM_DEBUG_DRIVER("Composer worker already queued\n");
+>>   	}
+>> @@ -129,6 +131,7 @@ vkms_atomic_crtc_duplicate_state(struct drm_crtc *crtc)
+>>
+>>   	__drm_atomic_helper_crtc_duplicate_state(crtc, &vkms_state->base);
+>>
+>> +	mutex_init(&vkms_state->queue_lock);
+>>   	INIT_WORK(&vkms_state->composer_work, vkms_composer_worker);
+>>
+>>   	return &vkms_state->base;
+>> @@ -142,6 +145,9 @@ static void vkms_atomic_crtc_destroy_state(struct drm_crtc *crtc,
+>>   	__drm_atomic_helper_crtc_destroy_state(state);
+>>
+>>   	WARN_ON(work_pending(&vkms_state->composer_work));
+>> +	mutex_unlock(&vkms_state->queue_lock);
+>> +
+>> +	mutex_destroy(&vkms_state->queue_lock);
+>>   	kfree(vkms_state->active_planes);
+>>   	kfree(vkms_state);
+>>   }
+>> @@ -155,8 +161,10 @@ static void vkms_atomic_crtc_reset(struct drm_crtc *crtc)
+>>   		vkms_atomic_crtc_destroy_state(crtc, crtc->state);
+>>
+>>   	__drm_atomic_helper_crtc_reset(crtc, &vkms_state->base);
+>> -	if (vkms_state)
+>> +	if (vkms_state) {
+>> +		mutex_init(&vkms_state->queue_lock);
+>>   		INIT_WORK(&vkms_state->composer_work, vkms_composer_worker);
+>> +	}
+>>   }
+>>
+>>   static const struct drm_crtc_funcs vkms_crtc_funcs = {
+>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+>> index dd0af086e7fa..9212686ca88a 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+>> @@ -84,6 +84,7 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+>>   		struct vkms_crtc_state *vkms_state =
+>>   			to_vkms_crtc_state(old_crtc_state);
+>>
+>> +		mutex_lock(&vkms_state->queue_lock);
+>>   		flush_work(&vkms_state->composer_work);
+>>   	}
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+>> index c7ae6c2ba1df..83767692469a 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+>> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+>> @@ -89,6 +89,14 @@ struct vkms_crtc_state {
+>>   	struct vkms_writeback_job *active_writeback;
+>>   	struct vkms_color_lut gamma_lut;
+>>
+>> +	/* protects the access to the workqueue
+>> +	 *
+>> +	 * we need to hold this lock between flushing the workqueue and
+>> +	 * destroying the state to avoid work to be queued by the worker
+>> +	 * thread
+>> +	 */
+>> +	struct mutex queue_lock;
+>> +
+>>   	/* below four are protected by vkms_output.composer_lock */
+>>   	bool crc_pending;
+>>   	bool wb_pending;
+>> --
+>> 2.41.0
+>>
 
