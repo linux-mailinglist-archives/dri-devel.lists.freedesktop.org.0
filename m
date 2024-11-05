@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E138A9BC5CE
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 07:42:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 636469BC62F
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 07:58:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB66010E27A;
-	Tue,  5 Nov 2024 06:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C77C510E1BD;
+	Tue,  5 Nov 2024 06:57:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="DS1U727c";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OL2Jl9NH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 524 seconds by postgrey-1.36 at gabe;
- Tue, 05 Nov 2024 06:42:40 UTC
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F203410E117;
- Tue,  5 Nov 2024 06:42:40 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40D4110E1BD;
+ Tue,  5 Nov 2024 06:57:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id C027FA4216B;
+ Tue,  5 Nov 2024 06:55:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED70DC4CECF;
+ Tue,  5 Nov 2024 06:57:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1730789873;
+ bh=ZicFVzCAyAFd8O++kgwqNs2srV+tu6OcfDWzbCh+PLY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OL2Jl9NHeOaYSKo1ZmaacuRsI9yF04ia7wa/ohx7HyUN+Ec88CaVktvCHoeDHbDeu
+ prCV59YJ4XI3UnDrLwkNXL8go1+GNEXc/J+yrfS4tfM0BC82NStS6G/b3KS0j94we4
+ TY+VJJ0647OkPJXidt/oVYe0wJTQoMtamZ38SWT8=
+Date: Tue, 5 Nov 2024 07:57:36 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Fedor Pchelkin <pchelkin@ispras.ru>
+Cc: Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, Wayne Lin <wayne.lin@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
+ Alexey Khoroshilov <khoroshilov@ispras.ru>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Jonathan Gray <jsg@jsg.id.au>
+Subject: Re: [PATCH 0/1] On DRM -> stable process
+Message-ID: <2024110521-mummify-unloved-4f5d@gregkh>
+References: <20241029133141.45335-1-pchelkin@ispras.ru>
+ <ZyDvOdEuxYh7jK5l@sashalap>
+ <20241029-3ca95c1f41e96c39faf2e49a-pchelkin@ispras.ru>
+ <20241104-61da90a19c561bb5ed63141b-pchelkin@ispras.ru>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1730788434;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aTAKhxSFE8FvW11nxBit6CA7OkWpY8iwgm9r8H8Xrpg=;
- b=DS1U727cQQMKiGKjgi2ySybSh4sSk1DLW74/mB4SFQndpIqZSVN9n2j3+nXkmTPOuBRegb
- aA5s0UDKAOW3aMIUF2+0upqJriMxm2OMYgf4bfFIIe/IPGnUJlG7nJlsJHkzxI/rWNpVDU
- EfN5SJha5Nr6CjWfQIjbQYpVToL8XtrOAT6bIrMeKjRy4wBXxi8+uETESOSHISskujzuLC
- f1NWpEGJe3wnaTf6M9QZ9ZIurGL82YDS9nEj25ywbtKmQWwvVg91CtFjgtZ/lWovt0YqKM
- Heqy5jDSjKvF/hrql62SqOniX0/mTOU4GuHVWnlSxmMkVd1w9CGi6HClfE2OAQ==
-Date: Tue, 05 Nov 2024 07:33:53 +0100
-From: Dragan Simic <dsimic@manjaro.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Phong LE <ple@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH] drm: Use of_property_present() for non-boolean properties
-In-Reply-To: <20241104190636.274926-1-robh@kernel.org>
-References: <20241104190636.274926-1-robh@kernel.org>
-Message-ID: <16acf71de2a7d23f979ce286b2d8f606@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241104-61da90a19c561bb5ed63141b-pchelkin@ispras.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,81 +68,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Rob,
+On Mon, Nov 04, 2024 at 05:55:28PM +0300, Fedor Pchelkin wrote:
+> On Tue, 29. Oct 18:12, Fedor Pchelkin wrote:
+> > On Tue, 29. Oct 10:20, Sasha Levin wrote:
+> > > On Tue, Oct 29, 2024 at 04:31:40PM +0300, Fedor Pchelkin wrote:
+> > > > BTW, a question to the stable-team: what Git magic (3-way-merge?) let the
+> > > > duplicate patch be applied successfully? The patch context in stable trees
+> > > > was different to that moment so should the duplicate have been expected to
+> > > > fail to be applied?
+> > > 
+> > > Just plain git... Try it yourself :)
+> > > 
+> > > $ git checkout 282f0a482ee6
+> > > HEAD is now at 282f0a482ee61 drm/amd/display: Skip Recompute DSC Params if no Stream on Link
+> > > 
+> > > $ git cherry-pick 7c887efda1
+> > 
+> > 7c887efda1 is the commit backported to linux-6.1.y. Of course it will apply
+> > there.
+> > 
+> > What I mean is that the upstream commit for 7c887efda1 is 8151a6c13111b465dbabe07c19f572f7cbd16fef.
+> > 
+> > And cherry-picking 8151a6c13111b465dbabe07c19f572f7cbd16fef to linux-6.1.y
+> > on top of 282f0a482ee6 will not result in duplicating the change, at least
+> > with my git configuration.
+> > 
+> > I just don't understand how a duplicating if-statement could be produced in
+> > result of those cherry-pick'ings and how the content of 7c887efda1 was
+> > generated.
+> > 
+> > $ git checkout 282f0a482ee6
+> > HEAD is now at 282f0a482ee6 drm/amd/display: Skip Recompute DSC Params if no Stream on Link
+> > 
+> > $ git cherry-pick 8151a6c13111b465dbabe07c19f572f7cbd16fef
+> > Auto-merging drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> > HEAD detached at 282f0a482ee6
+> > You are currently cherry-picking commit 8151a6c13111.
+> >   (all conflicts fixed: run "git cherry-pick --continue")
+> >   (use "git cherry-pick --skip" to skip this patch)
+> >   (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+> > The previous cherry-pick is now empty, possibly due to conflict resolution.
+> > If you wish to commit it anyway, use:
+> > 
+> >     git commit --allow-empty
+> > 
+> > Otherwise, please use 'git cherry-pick --skip'
+> 
+> Sasha,
+> 
+> my concern is that maybe there is some issue with the scripts used for the
+> preparation of backport patches.
+> 
+> There are two different upstream commits performing the exact same change:
+> - 50e376f1fe3bf571d0645ddf48ad37eb58323919
+> - 8151a6c13111b465dbabe07c19f572f7cbd16fef
+> 
+> 50e376f1fe3bf571d0645ddf48ad37eb58323919 was backported to stable kernels
+> at first. After that, attempts to backport 8151a6c13111b465dbabe07c19f572f7cbd16fef
+> to those stables should be expected to fail, no? Git would have complained
+> about this - the patch was already applied.
+> 
+> It is just strange that the (exact same) change made by the commits is
+> duplicated by backporting tools. As it is not the first case where DRM
+> patches are involved per Greg's statement [1], I wonder if something can be
+> done on stable-team's side to avoid such odd behavior in future.
 
-On 2024-11-04 20:06, Rob Herring (Arm) wrote:
-> The use of of_property_read_bool() for non-boolean properties is
-> deprecated in favor of of_property_present() when testing for property
-> presence.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+No, all of this mess needs to be fixed up on the drm developer's side,
+they are the ones doing this type of crazy "let's commit the same patch
+to multiple branches and then reference a commit that will show up at an
+unknown time in the future and hope for the best!" workflow.
 
-Looking good to me, thanks for the patch!
+I'm amazed it works at all, they get to keep fixing up this mess as this
+is entirely self-inflicted.
 
-Reviewed-by: Dragan Simic <dsimic@manjaro.org>
-
-> ---
->  drivers/gpu/drm/bridge/ite-it66121.c | 2 +-
->  drivers/gpu/drm/bridge/sii902x.c     | 2 +-
->  drivers/gpu/drm/drm_panel.c          | 2 +-
->  drivers/gpu/drm/msm/dsi/dsi_host.c   | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c
-> b/drivers/gpu/drm/bridge/ite-it66121.c
-> index 925e42f46cd8..0eae7c01b975 100644
-> --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> @@ -1480,7 +1480,7 @@ static int it66121_audio_codec_init(struct
-> it66121_ctx *ctx, struct device *dev)
-> 
->  	dev_dbg(dev, "%s\n", __func__);
-> 
-> -	if (!of_property_read_bool(dev->of_node, "#sound-dai-cells")) {
-> +	if (!of_property_present(dev->of_node, "#sound-dai-cells")) {
->  		dev_info(dev, "No \"#sound-dai-cells\", no audio\n");
->  		return 0;
->  	}
-> diff --git a/drivers/gpu/drm/bridge/sii902x.c 
-> b/drivers/gpu/drm/bridge/sii902x.c
-> index 7f91b0db161e..f73e1174a5ad 100644
-> --- a/drivers/gpu/drm/bridge/sii902x.c
-> +++ b/drivers/gpu/drm/bridge/sii902x.c
-> @@ -850,7 +850,7 @@ static int sii902x_audio_codec_init(struct sii902x 
-> *sii902x,
->  	u8 lanes[4];
->  	int num_lanes, i;
-> 
-> -	if (!of_property_read_bool(dev->of_node, "#sound-dai-cells")) {
-> +	if (!of_property_present(dev->of_node, "#sound-dai-cells")) {
->  		dev_dbg(dev, "%s: No \"#sound-dai-cells\", no audio\n",
->  			__func__);
->  		return 0;
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index 19ab0a794add..46d61cc871ca 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -413,7 +413,7 @@ bool drm_is_panel_follower(struct device *dev)
->  	 * don't bother trying to parse it here. We just need to know if the
->  	 * property is there.
->  	 */
-> -	return of_property_read_bool(dev->of_node, "panel");
-> +	return of_property_present(dev->of_node, "panel");
->  }
->  EXPORT_SYMBOL(drm_is_panel_follower);
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 185d7de0bf37..78cac4ecc58f 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1831,7 +1831,7 @@ static int dsi_host_parse_dt(struct msm_dsi_host
-> *msm_host)
->  		msm_dsi->te_source = devm_kstrdup(dev, te_source, GFP_KERNEL);
->  	ret = 0;
-> 
-> -	if (of_property_read_bool(np, "syscon-sfpb")) {
-> +	if (of_property_present(np, "syscon-sfpb")) {
->  		msm_host->sfpb = syscon_regmap_lookup_by_phandle(np,
->  					"syscon-sfpb");
->  		if (IS_ERR(msm_host->sfpb)) {
+greg k-h
