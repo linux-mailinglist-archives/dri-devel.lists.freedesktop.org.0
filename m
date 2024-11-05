@@ -2,85 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C519BCF60
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 15:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177519BCFAD
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 15:47:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58E8910E5C3;
-	Tue,  5 Nov 2024 14:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9632410E5C6;
+	Tue,  5 Nov 2024 14:47:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XhqxTyL1";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="2yUACbod";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B57B10E5C5
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 14:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1730817123;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Dg9BO0Q1/nEs6vwNdPbv/d00ohV0KHxJ+ggBYEXN+fc=;
- b=XhqxTyL1+N1y1N6Ru3/5e7VW06aP9KU2ZfZH1Nqk0DNypejBxmNSi4Xm/4jkZmn0su5dBK
- EzSbVDOuHW8AmzmijWUAf9jwWCkOr40509QrpBhBWNhPAXgov32psPV7MdvAOnL5iWt0X1
- QGooEbrVIGwYwvd0fHxszkiPDnUmj/A=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-217-SSZtKxjVOQ6HkQ-L6AS5pA-1; Tue, 05 Nov 2024 09:31:59 -0500
-X-MC-Unique: SSZtKxjVOQ6HkQ-L6AS5pA-1
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7ac9b08cb77so1080399485a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2024 06:31:59 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF03F10E5C7
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 14:47:16 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-539e681ba70so22528e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2024 06:47:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1730818035; x=1731422835;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/cagGAnxZqWV5y2Ato7lEE3OEZ0Tp2aD2OKM7V42p+E=;
+ b=2yUACbodFYbuW3NPe4PM0dX5e9XBH+4AZCA0nA6Fih/9LK3JW0zrpbKuJ8e+HnmnN0
+ 4TllX4LK+iiwebU2Emzpx2zYjyiQRHikzDOZD1SzQ41nHDLAzLXUT97x3kA5Y+vXvaSU
+ 8U+gef5+pft70alUwtlBHNoeQrXCbTK3zZ7n8diyK9VZy10I4AmdFad8gPwxFz53lMct
+ Ii9bErknK33C/5WHALtPal7Vz4C9shfWRQ/jGRQrtYMPfQrJlHBmC7pTRcu03c4Hr8D6
+ hu3CW4tWu47RFWTsN4Oq9PnfLOSFY8TDeoDm0vHXsRKptMjq6dbdNH5S9xA06p3yBlKz
+ B2hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730817118; x=1731421918;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Dg9BO0Q1/nEs6vwNdPbv/d00ohV0KHxJ+ggBYEXN+fc=;
- b=OzJIpH+KvoETCQ5crkD9ryilTwtDv72+HiEXnMwr6/wHsMYuqbwBbwJaj2QDOrYhsi
- 9tQ3Gk4kjWPIRUIuDdO43H+gnRF0xZ/sjHko0ol+X9e29AWDxudhdU5Vmm8SFpQbfkWU
- p8GMvv4INpgsn53lJRdAQNBLZcivYCjuTPX1lRelYWkFntT5JSwvIXeuPF13gL3265q3
- 7OPXpRI9+7RhC3gOwgdporRRoyEyoPrpkMVLVWujSi5MlAuQsXAek+mSuM4DQN89sH50
- CmbS4iiFfN8qe3JPPqqzpLsVCE5rbN3T4BYLnG1IAF/xsSuEkSyrCjC/jDjowilUXgbk
- +ViQ==
+ d=1e100.net; s=20230601; t=1730818035; x=1731422835;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/cagGAnxZqWV5y2Ato7lEE3OEZ0Tp2aD2OKM7V42p+E=;
+ b=xNAcwltyhQWj40xtFNcNS7qd0IXv49VeCKMi4RBd3o+IfPQmNDESLeBHvLqXDYMZsb
+ SFnZx5AoKdrKgySfmlsaqUayn8UXLKa0T0+gvC5gM6U0Ua86jdzrCWLxMamyEPSvTPEd
+ 5k1i1GIg39Drctr4YhqJfrR2k3Tz5gQ10p7m+r0q9hcI9FAWv+DBlgh+Q9HCeHM3GU/N
+ qt2NqSm/v8x4Z4rqmFZqKYUT04/t7sycl8TldjE881n8KQ0WPUJPHEA2Rab7Fqhv3Kh1
+ 9F71TM7vweCbgKXcGbZ4m2jNX2xhqFpW2n72+WeGggIrfnLs0pd1Kr7xxtEyYvY7XOGV
+ EKhg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUgyIpNc/Wg6VckNoAaDu/KFXxPmvvd8W9ZJBwGgAZiQzGhkfJTgcvX9ZAXEKJukv0Dcx+oSVLLxbs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx6yw1fvhRKbHzrqhFFQUs0im0+s5ukURp5x3xf0t90CZ1qvaop
- wTQGIVw/dVAuHJIgkZdEmDVNwej7BUzHCe2Zhl8MJnF1226f4fP2Iyz+dBK2eDPzugTRQ5ZdXan
- Xa05donFMD4PRaLjAR08f8ZFHrXGbAh0K1cVbRpeS3JJ+2aMYin6pyXbjbZuSaKdj5A==
-X-Received: by 2002:a05:620a:2444:b0:7b1:440a:fdf2 with SMTP id
- af79cd13be357-7b2f24dd30bmr3019847285a.20.1730817118000; 
- Tue, 05 Nov 2024 06:31:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEEHOkartUQ0kZG50rozwCxh7PXfh3AA+n6uCFPIpb+yp8pRTKY9/YC6WDS0pWDiPw7O6nJyA==
-X-Received: by 2002:a05:620a:2444:b0:7b1:440a:fdf2 with SMTP id
- af79cd13be357-7b2f24dd30bmr3019843085a.20.1730817117550; 
- Tue, 05 Nov 2024 06:31:57 -0800 (PST)
-Received: from eisenberg.muc.redhat.com (nat-pool-muc-u.redhat.com.
- [149.14.88.27]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7b2f39f8fffsm524903685a.29.2024.11.05.06.31.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Nov 2024 06:31:56 -0800 (PST)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <pstanner@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@igalia.com>
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/sched: Improve teardown documentation
-Date: Tue,  5 Nov 2024 15:31:38 +0100
-Message-ID: <20241105143137.71893-2-pstanner@redhat.com>
-X-Mailer: git-send-email 2.47.0
+ AJvYcCW0eBXZQB86n/TLkjNqrGwYaqiRhK7Z3tq8zw4JY3jteK6zUljDHxxQKsEeDJWMSQp8Jx0g9T99r04=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwxGypurkgOWgitmTqXdVtUk1IZn/s+ynkdI3896qiQp0tHYyry
+ 9Ba3/mnclRcX0J9/rLnBSm6rLgXRZT91Luqo3rQqe7yCtneIwsQpvyBd4/fo/WoXA0xZs44jaId
+ PC7Fj5C0Nb+86fm45HNFZm8GBCYSNdnuuUXeb
+X-Gm-Gg: ASbGncswNSgl9VXKIce/BjLVemBEmT7FQ4TRmpLVuPNJl7HpN4ASbfsTodf1uTFi0cU
+ JyW9ayhuaKE9O12qLLoDULoyLDQmhmLAQAvotnjoJ56e831SzjKaQZIGNys0=
+X-Google-Smtp-Source: AGHT+IGCupuoPoa9Be9DIeC1oLOgRsCVHzJMID/6QbIJuejsA52V25UUPkdSQbFWB5lj7opODxhrEwcgb4shAr5+SOU=
+X-Received: by 2002:a05:6512:2243:b0:530:ae18:810e with SMTP id
+ 2adb3069b0e04-53d78c99ab2mr385358e87.5.1730818034320; Tue, 05 Nov 2024
+ 06:47:14 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20241105-panthor-flush-page-fixes-v1-1-829aaf37db93@google.com>
+ <Zynr3DIY8u2c7wrB@e110455-lin.cambridge.arm.com>
+In-Reply-To: <Zynr3DIY8u2c7wrB@e110455-lin.cambridge.arm.com>
+From: Jann Horn <jannh@google.com>
+Date: Tue, 5 Nov 2024 15:46:37 +0100
+Message-ID: <CAG48ez1YjoQMe-daQ8NSqN46STGw1UWygzU2-qo75FLBDBqaow@mail.gmail.com>
+Subject: Re: [PATCH] drm/panthor: Be stricter about IO mapping flags
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,91 +85,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If jobs are still enqueued in struct drm_gpu_scheduler.pending_list
-when drm_sched_fini() gets called, those jobs will be leaked since that
-function stops both job-submission and (automatic) job-cleanup. It is,
-thus, up to the driver to take care of preventing leaks.
+On Tue, Nov 5, 2024 at 10:56=E2=80=AFAM Liviu Dudau <liviu.dudau@arm.com> w=
+rote:
+> On Tue, Nov 05, 2024 at 12:17:13AM +0100, Jann Horn wrote:
+> > The current panthor_device_mmap_io() implementation has two issues:
+> >
+> > 1. For mapping DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET,
+> >    panthor_device_mmap_io() bails if VM_WRITE is set, but does not clea=
+r
+> >    VM_MAYWRITE. That means userspace can use mprotect() to make the map=
+ping
+> >    writable later on. This is a classic Linux driver gotcha.
+> >    I don't think this actually has any impact in practice:
+> >    When the GPU is powered, writes to the FLUSH_ID seem to be ignored; =
+and
+> >    when the GPU is not powered, the dummy_latest_flush page provided by=
+ the
+> >    driver is deliberately designed to not do any flushes, so the only t=
+hing
+> >    writing to the dummy_latest_flush could achieve would be to make *mo=
+re*
+> >    flushes happen.
+> >
+> > 2. panthor_device_mmap_io() does not block MAP_PRIVATE mappings (which =
+are
+> >    mappings without the VM_SHARED flag).
+> >    MAP_PRIVATE in combination with VM_MAYWRITE indicates that the VMA h=
+as
+> >    copy-on-write semantics, which for VM_PFNMAP are semi-supported but
+> >    fairly cursed.
+> >    In particular, in such a mapping, the driver can only install PTEs
+> >    during mmap() by calling remap_pfn_range() (because remap_pfn_range(=
+)
+> >    wants to **store the physical address of the mapped physical memory =
+into
+> >    the vm_pgoff of the VMA**); installing PTEs later on with a fault
+> >    handler (as panthor does) is not supported in private mappings, and =
+so
+> >    if you try to fault in such a mapping, vmf_insert_pfn_prot() splats =
+when
+> >    it hits a BUG() check.
+> >
+> > Fix it by clearing the VM_MAYWRITE flag (userspace writing to the FLUSH=
+_ID
+> > doesn't make sense) and requiring VM_SHARED (copy-on-write semantics fo=
+r
+> > the FLUSH_ID don't make sense).
+> >
+> > Reproducers for both scenarios are in the notes of my patch on the mail=
+ing
+> > list; I tested that these bugs exist on a Rock 5B machine.
+> >
+> > Note that I only compile-tested the patch, I haven't tested it; I don't
+> > have a working kernel build setup for the test machine yet. Please test=
+ it
+> > before applying it.
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
+> > Signed-off-by: Jann Horn <jannh@google.com>
+> > ---
+> > First testcase (can write to the FLUSH_ID):
+> >
+> > ```
+> >
+>
+> There is a missing line here, I guess is something like
+>
+> #define SYSCHK(x) ({  \
 
-The related function drm_sched_wqueue_stop() also prevents automatic job
-cleanup.
+Oops. Yes, sorry, the tool that I stored this comment message in
+interpreted all lines starting with "#" as comments... the proper
+versions:
 
-Those pitfals are not reflected in the documentation, currently.
+First testcase (can write to the FLUSH_ID):
 
-Explicitly inform about the leak problem in the docstring of
-drm_sched_fini().
+```
+#include <err.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <sys/mman.h>
 
-Additionally, detail the purpose of drm_sched_wqueue_{start,stop} and
-hint at the consequences for automatic cleanup.
+#define SYSCHK(x) ({          \
+  typeof(x) __res =3D (x);      \
+  if (__res =3D=3D (typeof(x))-1) \
+    err(1, "SYSCHK(" #x ")"); \
+  __res;                      \
+})
 
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
-Hi,
+#define GPU_PATH "/dev/dri/by-path/platform-fb000000.gpu-card"
+#define DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET (1ull << 56)
 
-in our discussion about my proposed waitque-cleanup for this problem
-Sima suggested [1] that we document the problems first and by doing so get
-to a consenus what the problems actually are and how we could solve
-them.
+int main(void) {
+  int fd =3D SYSCHK(open(GPU_PATH, O_RDWR));
 
-This is my proposal for documenting the leaks on teardown. Feedback very
-welcome.
+  // sanity-check that PROT_WRITE+MAP_SHARED fails
+  void *mmap_write_res =3D mmap(NULL, 0x1000, PROT_READ|PROT_WRITE,
+      MAP_SHARED, fd, DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET);
+  if (mmap_write_res =3D=3D MAP_FAILED) {
+    perror("mmap() with PROT_WRITE+MAP_SHARED failed as expected");
+  } else {
+    errx(1, "mmap() with PROT_WRITE+MAP_SHARED worked???");
+  }
 
-P.
+  // make a PROT_READ+MAP_SHARED mapping, and upgrade it to writable
+  void *mmio_page =3D SYSCHK(mmap(NULL, 0x1000, PROT_READ, MAP_SHARED,
+      fd, DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET));
+  SYSCHK(mprotect(mmio_page, 0x1000, PROT_READ|PROT_WRITE));
 
-[1] https://lore.kernel.org/dri-devel/ZtidJ8S9THvzkQ-6@phenom.ffwll.local/
----
- drivers/gpu/drm/scheduler/sched_main.c | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+  volatile uint32_t *flush_counter =3D (volatile uint32_t*)mmio_page;
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index e97c6c60bc96..3dfa9db89484 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1333,6 +1333,19 @@ EXPORT_SYMBOL(drm_sched_init);
-  * @sched: scheduler instance
-  *
-  * Tears down and cleans up the scheduler.
-+ *
-+ * This stops submission of new jobs to the hardware through
-+ * drm_sched_backend_ops.run_job(). Consequently, drm_sched_backend_ops.free_job()
-+ * will not be called for all jobs still in drm_gpu_scheduler.pending_list.
-+ * There is no solution for this currently. Thus, it is up to the driver to make
-+ * sure that
-+ *  a) drm_sched_fini() is only called after for all submitted jobs
-+ *     drm_sched_backend_ops.free_job() has been called or that
-+ *  b) the jobs for which drm_sched_backend_ops.free_job() has not been called
-+ *     after drm_sched_fini() ran are freed manually.
-+ *
-+ * FIXME: Take care of the above problem and prevent this function from leaking
-+ * the jobs in drm_gpu_scheduler.pending_list under any circumstances.
-  */
- void drm_sched_fini(struct drm_gpu_scheduler *sched)
- {
-@@ -1428,8 +1441,10 @@ EXPORT_SYMBOL(drm_sched_wqueue_ready);
- 
- /**
-  * drm_sched_wqueue_stop - stop scheduler submission
-- *
-  * @sched: scheduler instance
-+ *
-+ * Stops the scheduler from pulling new jobs from entities. It also stops
-+ * freeing jobs automatically through drm_sched_backend_ops.free_job().
-  */
- void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched)
- {
-@@ -1441,8 +1456,12 @@ EXPORT_SYMBOL(drm_sched_wqueue_stop);
- 
- /**
-  * drm_sched_wqueue_start - start scheduler submission
-- *
-  * @sched: scheduler instance
-+ *
-+ * Restarts the scheduler after drm_sched_wqueue_stop() has stopped it.
-+ *
-+ * This function is not necessary for 'conventional' startup. The scheduler is
-+ * fully operational after drm_sched_init() succeeded.
-  */
- void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched)
- {
--- 
-2.47.0
+  uint32_t last_old =3D -1;
+  while (1) {
+    uint32_t old_val =3D *flush_counter;
+    *flush_counter =3D 1111;
+    uint32_t new_val =3D *flush_counter;
+    if (old_val !=3D last_old)
+      printf("flush counter: old=3D%u, new=3D%u\n", old_val, new_val);
+    last_old =3D old_val;
+  }
+}
+```
 
+Second testcase (triggers BUG() splat):
+```
+#include <err.h>
+#include <fcntl.h>
+#include <stddef.h>
+#include <sys/mman.h>
+
+#define SYSCHK(x) ({          \
+  typeof(x) __res =3D (x);      \
+  if (__res =3D=3D (typeof(x))-1) \
+    err(1, "SYSCHK(" #x ")"); \
+  __res;                      \
+})
+
+#define GPU_PATH "/dev/dri/by-path/platform-fb000000.gpu-card"
+#define DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET (1ull << 56)
+
+int main(void) {
+  int fd =3D SYSCHK(open(GPU_PATH, O_RDWR));
+
+  // make a PROT_READ+**MAP_PRIVATE** mapping
+  void *ptr =3D SYSCHK(mmap(NULL, 0x1000, PROT_READ, MAP_PRIVATE,
+      fd, DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET));
+
+  // trigger a read fault
+  *(volatile char *)ptr;
+}
+```
