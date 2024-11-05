@@ -2,59 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3043D9BC90E
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 10:23:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B619BC983
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 10:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6E3510E53C;
-	Tue,  5 Nov 2024 09:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7BE710E402;
+	Tue,  5 Nov 2024 09:47:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Il/WSb0d";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KuUvxrCs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDECE10E53C;
- Tue,  5 Nov 2024 09:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730798623; x=1762334623;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=HrFfloj1xugxvZpzacbzjtJX6bmlKgbMu1czX0iKU1I=;
- b=Il/WSb0dB4YvICAaZ18qni6Bo6MlMNgB9n6vUo3qyD4oe4pnRhkiJcII
- 8BJsl1ddjPgV1n1kUo722kiTlpPjgYIyv4Rzfi8BE8ptP2xq9b/mueXrz
- 92uLNebtOOM/qnGhL2GHJiPEfM8R3qcA918kdF5ojIjPZlmKI4KnhNx6o
- ketjt2jGNJzhkzB33Fr/nBPUWibYFpzvLAhKVOxx6puWj9UXZitEBN3Qv
- x4qypBJ8fJDhbns6jlUFCwXnuBaumz5vtLPMvJNMSZJaXqbpESnopS4UZ
- PaQZRg0Mk5xhnSvfkda3elzGohmUgv6KfFLcdOQIyx8KeQeb1OJM5jkAn w==;
-X-CSE-ConnectionGUID: vf7ex8G5TS6LHglLd71crw==
-X-CSE-MsgGUID: VPMV3SqMRTSu9Aut4euZXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="41127044"
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; d="scan'208";a="41127044"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2024 01:23:42 -0800
-X-CSE-ConnectionGUID: 8B9n3gkNRmStzabaZMAj4w==
-X-CSE-MsgGUID: u77hMLFGTZK0xzHjIsLsxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; d="scan'208";a="114725940"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.82])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2024 01:23:39 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jonathan Gray <jsg@jsg.id.au>, alan.previn.teres.alexis@intel.com
-Cc: joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- tursulin@ursulin.net, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/pxp: fix non-optimised !CONFIG_DRM_I915_PXP build
-In-Reply-To: <20241103110230.11035-1-jsg@jsg.id.au>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241103110230.11035-1-jsg@jsg.id.au>
-Date: Tue, 05 Nov 2024 11:23:36 +0200
-Message-ID: <87msieghk7.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C98F210E402
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 09:47:17 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB00421C;
+ Tue,  5 Nov 2024 10:47:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1730800029;
+ bh=M0Ut8meL8KY2e62RU+oXfUnPjesd+j3sK9bZgAHcSnY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KuUvxrCsOWLFOWrpuYLTa6ONwajPti3MPpaqogjxRB28dmnc/lEu2WFkSg6pzty52
+ e5uyjWS5qTNVoHlFudoM9Fmz4vgVh4P9ue1K5FqHuGtJNRqUYjLjvpsQy7lc8fX9KN
+ u0EDNXsfRZGr6PxrpvBGQ9m/N/qFow+c9cSo3IsE=
+Date: Tue, 5 Nov 2024 11:47:08 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+Message-ID: <20241105094708.GK27775@pendragon.ideasonboard.com>
+References: <20241024095539.1637280-1-herve.codina@bootlin.com>
+ <20241024095539.1637280-3-herve.codina@bootlin.com>
+ <20241027162350.GA15853@pendragon.ideasonboard.com>
+ <20241028091331.6f67e29e@bootlin.com>
+ <20241028112857.GF24052@pendragon.ideasonboard.com>
+ <20241028-nebulous-yellow-dragon-2cfb5f@houat>
+ <20241028132858.GE6081@pendragon.ideasonboard.com>
+ <20241028-great-charming-flounder-23fc9b@houat>
+ <20241028140913.GG6081@pendragon.ideasonboard.com>
+ <20241105091503.48f69586@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241105091503.48f69586@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,57 +75,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 03 Nov 2024, Jonathan Gray <jsg@jsg.id.au> wrote:
-> intel_pxp_gsccs_is_ready_for_sessions() is gated by CONFIG_DRM_I915_PXP
-> but called from intel_pxp.c which isn't.  Provide a fallback inline
-> function to fix the non-optimised build.
->
-> Fixes: 99afb7cc8c44 ("drm/i915/pxp: Add ARB session creation and cleanup")
-> Signed-off-by: Jonathan Gray <jsg@jsg.id.au>
+On Tue, Nov 05, 2024 at 09:15:03AM +0100, Herve Codina wrote:
+> On Mon, 28 Oct 2024 16:09:13 +0200 Laurent Pinchart wrote:
+> > On Mon, Oct 28, 2024 at 02:55:47PM +0100, Maxime Ripard wrote:
+> > > On Mon, Oct 28, 2024 at 03:28:58PM +0200, Laurent Pinchart wrote:  
+> > > > On Mon, Oct 28, 2024 at 01:21:45PM +0100, Maxime Ripard wrote:  
+> > > > > On Mon, Oct 28, 2024 at 01:28:57PM +0200, Laurent Pinchart wrote:  
+> > > > > > On Mon, Oct 28, 2024 at 09:13:31AM +0100, Herve Codina wrote:  
+> > > > > > > On Sun, 27 Oct 2024 18:23:50 +0200 Laurent Pinchart wrote:
+> > > > > > > 
+> > > > > > > [...]  
+> > > > > > > > > +static int sn65dsi83_reset_pipeline(struct sn65dsi83 *sn65dsi83)
+> > > > > > > > > +{
+> > > > > > > > > +	struct drm_device *dev = sn65dsi83->bridge.dev;
+> > > > > > > > > +	struct drm_modeset_acquire_ctx ctx;
+> > > > > > > > > +	struct drm_atomic_state *state;
+> > > > > > > > > +	int err;
+> > > > > > > > > +
+> > > > > > > > > +	/* Use operation done in drm_atomic_helper_suspend() followed by
+> > > > > > > > > +	 * operation done in drm_atomic_helper_resume() but without releasing
+> > > > > > > > > +	 * the lock between suspend()/resume()
+> > > > > > > > > +	 */
+> > > > > > > > > +
+> > > > > > > > > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+> > > > > > > > > +
+> > > > > > > > > +	state = drm_atomic_helper_duplicate_state(dev, &ctx);
+> > > > > > > > > +	if (IS_ERR(state)) {
+> > > > > > > > > +		err = PTR_ERR(state);
+> > > > > > > > > +		goto unlock;
+> > > > > > > > > +	}
+> > > > > > > > > +
+> > > > > > > > > +	err = drm_atomic_helper_disable_all(dev, &ctx);
+> > > > > > > > > +	if (err < 0)
+> > > > > > > > > +		goto unlock;
+> > > > > > > > > +
+> > > > > > > > > +	drm_mode_config_reset(dev);
+> > > > > > > > > +
+> > > > > > > > > +	err = drm_atomic_helper_commit_duplicated_state(state, &ctx);    
+> > > > > > > > 
+> > > > > > > > Committing a full atomic state from a bridge driver in an asynchronous
+> > > > > > > > way seems quite uncharted territory, and it worries me. It's also a very
+> > > > > > > > heavyweight, you disable all outputs here, instead of focussing on the
+> > > > > > > > output connected to the bridge. Can you either implement something more
+> > > > > > > > local, resetting the bridge only, or create a core helper to handle this
+> > > > > > > > kind of situation, on a per-output basis ?  
+> > > > > > > 
+> > > > > > > A full restart of the bridge (power off/on) is needed and so we need to
+> > > > > > > redo the initialization sequence. This initialization sequence has to be
+> > > > > > > done with the DSI data lanes (bridge inputs) driven in LP11 state and so
+> > > > > > > without any video stream. Only focussing on bridge outputs will not be
+> > > > > > > sufficient. That's why I brought the pipeline down and restarted it.  
+> > > > > > 
+> > > > > > Fair point.
+> > > > > >   
+> > > > > > > Of course, I can copy/paste sn65dsi83_reset_pipeline() to a core helper
+> > > > > > > function. Is drm_atomic_helper_reset_all() could be a good candidate?  
+> > > > > > 
+> > > > > > The helper should operate on a single output, unrelated outputs should
+> > > > > > not be affected.  
+> > > > > 
+> > > > > Also, you don't want to reset anything, you just want the last commit to
+> > > > > be replayed.  
+> > > > 
+> > > > I'm not sure about that. If the last commit is just a page flip, that
+> > > > won't help, will it ?  
+> > > 
+> > > The alternative would be that you start anew with a blank state, which
+> > > effectively drops every configuration that has been done by userspace.
+> > > This is terrible.
+> > > 
+> > > And a page flip wouldn't have affected the connector and
+> > > connector->state would still be to the last state that affected it, so
+> > > it would work.  
+> > 
+> > Ah right, you didn't mean replaying the last commit then, but first
+> > disabling the output and then restoring the current state ? That should
+> > work.
+> 
+> Thanks for the feedback.
+> 
+> If I understand correctly, I should try to disable the output.
+> What is the 'output' exactly, the connector?
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Yes, the output maps to the connector.
 
-> ---
->  drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-> index 9aae779c4da3..b93488e99685 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-> @@ -16,26 +16,30 @@ struct intel_pxp;
->  #define GSC_PENDING_RETRY_PAUSE_MS 50
->  #define GSCFW_MAX_ROUND_TRIP_LATENCY_MS (GSC_HECI_REPLY_LATENCY_MS + \
->  					 (GSC_PENDING_RETRY_MAXCOUNT * GSC_PENDING_RETRY_PAUSE_MS))
->  
->  #ifdef CONFIG_DRM_I915_PXP
->  void intel_pxp_gsccs_fini(struct intel_pxp *pxp);
->  int intel_pxp_gsccs_init(struct intel_pxp *pxp);
-> +bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp);
->  
->  int intel_pxp_gsccs_create_session(struct intel_pxp *pxp, int arb_session_id);
->  void intel_pxp_gsccs_end_arb_fw_session(struct intel_pxp *pxp, u32 arb_session_id);
->  
->  #else
->  static inline void intel_pxp_gsccs_fini(struct intel_pxp *pxp)
->  {
->  }
->  
->  static inline int intel_pxp_gsccs_init(struct intel_pxp *pxp)
->  {
->  	return 0;
->  }
->  
-> -#endif
-> +static inline bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp)
-> +{
-> +	return false;
-> +}
->  
-> -bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp);
-> +#endif
->  
->  #endif /*__INTEL_PXP_GSCCS_H__ */
+> How can I disable it? Can you give me some pointers?
+
+By creating a commit that disables it :-) Conceptually that's about
+setting the same properties you would from userspace. Maybe look at
+drm_atomic_helper_disable_all() to see if you can make a version that
+operates on a single output.
+
+> Further more, is disabling the "output" disable the whole path where the
+> bridge is located?
+
+It should yes.
+
+> I mean, I need to power off/on the bridge and re-init it with its input DSI
+> lines in LP11.
 
 -- 
-Jani Nikula, Intel
+Regards,
+
+Laurent Pinchart
