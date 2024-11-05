@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C874B9BD456
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 19:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA149BD454
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2024 19:14:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41BFE10E5F7;
-	Tue,  5 Nov 2024 18:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A94BC10E5F6;
+	Tue,  5 Nov 2024 18:14:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="jfKbGY+Y";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ix3xOg95";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-CO1-obe.outbound.protection.outlook.com
  (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09B8010E41D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3553710E5F6
  for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2024 18:14:32 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GDMxhwEzLh/5pUVrDVRbCDjJiMnnxjUrKaD3iLnFou+V2akgJgVU1XQJONVXw4pQ8Out3GzvkgZ6GMGlIVwIqGxzyoRn/ewWeEUOZfO12SFhiSwxT2x/U6gCKHimhHiDIXcx8zXxCIdpJ6k+vMjwIoXd0De8eGszQpRu4pnuRq8wrE7iX3/3WpWGDgcncu6QrHFH2wV8FsE/Wl38XaPDuT91e1QEwbYWIaFD0sgM/4ryVXpnFu7aXY5l4KD5WAJmBvIiAvLsXnCgg79XP8Qqsj0DSGK5LQcnB52P+T4DO1GNSaHtUW1H+okHkNTFJKVD7a0S9aztc+FKE5Ym8GAksA==
+ b=Q+vuUKAisc3Qvt65gYbca/pp1VkLcdrJ2qrjrrF6LAricMe5eZz3QOqin3sAGuAoTW0WT2mGac2AuI8SzzErtWONbkHqmO4j2EIAHB4jJAT1yrw5f4GS8lFUbH3wY4GU/ewOi5iuGP21EiMRmUhm9EASffjQhRVaqtWGUUwyiKJOSPPf9/F01XltILfR2wJWbA8RgcU027d+tACLaTBJ5x4+mM448V1FCmIWIcRioyTbsFO8Ga7FsY7E/Ac2Mffwuuqk1KXQMNUnm63wI9ssdRVChQlOri1ByE9vopVA0shV95nwmFZhnZ9EoGhAhMkAsQQ/qSDGCAmygQBDI3fYGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jIANugGwnks22NqB2MR2YkkiCEPRDteg9Ba1oy9SDAU=;
- b=sfGUYHSeyF0jODt/AHSLh49qsNqQ/413b4phEF86FDM/QPX5JFsxZcBTIAocsDQF5CAyNqtOYCvG6Ukkr2T0HcyTL3xCXBG6IPfHYeT8taHHLBZaAulj5DcO6Y4s2NiyxzZDwXtcldKrWjl4GiOVTtBbuWd3JXdEIVyMdewOUasdEAd0lGwsVAnP7aRSMTxAlD48Aw3u78skfz90nmE5ZRJ64TZ9vReSrXtIJZDefPbiMwRd4poEIFkYbyuwnJoepSC/NBBWZRyAYgGFl4dR0Y9TWrS053qEML1VkGSoy+MIVaPB8GegGLH+nZFkpxLcRtNx7ONnD8IEZ5v2FZklPQ==
+ bh=nSsxSmPxlksAOVGjYdQmoHC2LN7QlKhIRFvU/0aUrDE=;
+ b=CMODATzuOphn/4KhGkurmO4OVXKAPCQXKMu6JXFeIdTQW4Y3oZRZ5m1nStSInb2TjRNKjWEU2yAmTO+BODflK7tHsvaT+rd4/BpW4APUOvYprwdyzVst+ITjkbG4TCn5X7EnwSSnMtBXtB3aZDiAD3ZgLQy/oVP+cpVkanb6sBUXNYgnUsNpGcKiXvFhmGz3OAG/HkMVYcF0RtJ0g2HGAOtgx/brtYHA8IJcbFFgwiYx194SufYgGGzRA/lrFbN+T5TM2rB8SBFYWON5TLG0AakKgdn04yiH1iso5imG3wu9ybRtENvuE/5HXFrCVNpn+5EvKqPDTFBwIe7pemitoQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jIANugGwnks22NqB2MR2YkkiCEPRDteg9Ba1oy9SDAU=;
- b=jfKbGY+Yq8hTV1JDouK1v70d5+mg7OuAqu6nYDgOEtsuNMnFb0gxplkfwn3GRwCuyx+0kBruSKAgC+XKfnGURUECLsHD/GCSNxYHhnLq4NVbZbS4JJ0ZasvJFE9OEcVxmQqad5+HGXAh6EluAVs0HdNfneB2Yo83GEKoMdo8b7LzQZCUL7rx0Nxaw2r2slghltpFlNQvx3lHV3ATp8Tiqa2Bv46Z5SUtysZ3KEGMTHOQDij2Zrteed+8+C3rEUP/tclEbJcD2K/z8dGgunWbegeHBOq+14X4qVyxtfH5+4D9gX/lITL2O8LKiduRMpiLP+nplKA90n7YYpwthN9FgQ==
+ bh=nSsxSmPxlksAOVGjYdQmoHC2LN7QlKhIRFvU/0aUrDE=;
+ b=ix3xOg95VV7fD34FVsFNxiNYrCYqM11njBLw/YSxT5wXr3ghNDukiuRw767X4Lo71qP2wRsuAdjmb5qa3nyZDdUznvuWqFWVciMmjv1SyHI/YlNiwb4KcVpQnHsckXB3EmlGbXErBcM87fLFfj+AX+74K2+p6n8sjRX4CafKLZHF+64KlR+H9nfpqMyeggurI8+UZfj1jfjGxI/wZhkm1/Se9NSJjXqFxS4+kG6J4b+ZYPhixoTR7Jv7V4p7Kbh9wO7Gu7rsnb5Qoz+J3wXunPIb6F0Sh1jYwszXvLVfwk0fyngHmbu3Up7lYs+6t3S3Cv0cFEY5CkGxM11xXnKZIQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
@@ -49,86 +49,87 @@ To: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
 Cc: Boris Brezillon <boris.brezillon@collabora.com>,
  dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
  patches@lists.linux.dev, Steven Price <steven.price@arm.com>
-Subject: [PATCH v3 1/3] iommu/io-pgtable-arm: Remove split on unmap behavior
-Date: Tue,  5 Nov 2024 14:14:24 -0400
-Message-ID: <1-v3-b3a5b5937f56+7bb-arm_no_split_jgg@nvidia.com>
+Subject: [PATCH v3 2/3] iommu/io-pgtable-arm-v7s: Remove split on unmap
+ behavior
+Date: Tue,  5 Nov 2024 14:14:25 -0400
+Message-ID: <2-v3-b3a5b5937f56+7bb-arm_no_split_jgg@nvidia.com>
 In-Reply-To: <0-v3-b3a5b5937f56+7bb-arm_no_split_jgg@nvidia.com>
 References: 
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN2PR05CA0052.namprd05.prod.outlook.com
- (2603:10b6:208:236::21) To CH3PR12MB8659.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR05CA0054.namprd05.prod.outlook.com
+ (2603:10b6:208:236::23) To CH3PR12MB8659.namprd12.prod.outlook.com
  (2603:10b6:610:17c::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|IA0PR12MB7508:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8264e3de-73e4-49d6-e7a1-08dcfdc5af89
+X-MS-Office365-Filtering-Correlation-Id: 8a7b208d-38aa-4d57-2897-08dcfdc5af95
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1P4glLet5wBtg0Tb4Na6agMq+CMnMJOGeSTONbnJ8UWptdjNoWlivnarY92w?=
- =?us-ascii?Q?CwbuYguJch/g2jErpWQCIheqXLixnt0eLl8qUZFcQNWq5txoa4H4AGuxLcby?=
- =?us-ascii?Q?qd84gn02+ELPn57BLEHwFC5Ju0IclI6lmTHxexjl2Ut2ZJ29ZnC4N1mbGzub?=
- =?us-ascii?Q?coUmqvcxQXpheDNlIhk2destXMVAkgvJRJ+dL4bIpQuH2n8k4tSKixw6Uj4Q?=
- =?us-ascii?Q?1NcdZUAN6CLUIpnPIdS5bTYjJr506kpS206O54DfqGvysLyfeBLSp6wAXAu7?=
- =?us-ascii?Q?e2g4NgLOsnlAwdzeCqQnl44NG3T/C8ejGmL1gI6zAKx3Y430gU5+n63K+Bri?=
- =?us-ascii?Q?HOMot/q/WtsMa3hbxknp6sD/FQPKuHY1ijJ6iJruVM5nYkQaZ1DXV0yQB3B9?=
- =?us-ascii?Q?ElO55NGdf9vENTJ2swaSh/TIKC7OGc3YfNJCDGjS86H/X84hza45MhQvJCzA?=
- =?us-ascii?Q?DZGKoL32xRvcg7MzO6b2Xx2lQs1N1RUbGrFucWCLjuK9R5tUgaUIoqM7lcTo?=
- =?us-ascii?Q?wb9/p1W802qxhCJwGy9ossUtzgowJk1OePKeXQd4y2xN82gYpC+tZvtMkQPP?=
- =?us-ascii?Q?7hL0wOxV/j+pP8cDNr1Dlj2HRjRlRFGo/cvtAzUEsY3LgV15Wg5yrrL9MDIB?=
- =?us-ascii?Q?1TOkqJINNVN//DsqAUsA0lnH1ZhHZdMxgm0LxF2Pq+GIPBYfS78fF0GB8b9K?=
- =?us-ascii?Q?oAFnWn/LNm0h5gDq0lxSZZm8zk6YuMcPaCdmteaNmWrBKFW4lCj0JaXKeGbx?=
- =?us-ascii?Q?3rXYqgDxBdNkM+l/8JCnfueDVVfCyd5KoOKNdYTTz8zw86sPZ/L2tk5hHoJW?=
- =?us-ascii?Q?4VESz23iYx4XIv1cXkANroSqp5Bp2r7MBzJlBitH9cgkh88ZpC2x+wiV/Zhw?=
- =?us-ascii?Q?iJepxi5r9yyqQW6H2k/a1otoeySWeMOZGFPd7MQtq4+MMGlnCLp0AnEm8fks?=
- =?us-ascii?Q?YhcfCOOzTNU8HoUjZf95Y4zitX7w9apbZxIsZBtCWzlukl/Wk7oqWMdf123n?=
- =?us-ascii?Q?XGQ/8QEbwvdjL+6svO8mBjAp/ZjyGxM47tmzzl/KEr5n+hs6cjeKOoU2LK11?=
- =?us-ascii?Q?B+NwwO25/gXJrXTwkGXrkyoNZBQ6Aw3QazqK56VvwRiDU3jIYSlBBH5o9Jv/?=
- =?us-ascii?Q?5abh0dm8ytV8mBDlEZvU1puGvzIkooZ1ukzNOqpETEeVyz0EjvOfaRqnNFFj?=
- =?us-ascii?Q?w7Q5FVhmYx+caL0gAQ37GsZLN+BQKPetEoX5ve+w1J97n1qWnoFd8yOWMYZA?=
- =?us-ascii?Q?R6bZjoD4CYnHURQmfymzVy6TDjFlGacEFC8Qxlhaxa8RpvTVQHEwoUep0N9h?=
- =?us-ascii?Q?TtIJqcn2RW3KIdo3YQe4DpUb?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?okNpcY9dailgwi/fcAMGhW25C78owI2s5Lcl0614gGiJEeOkeuUr2q2EOTMQ?=
+ =?us-ascii?Q?yC180xVHHepgGjGDFSss7uACRKIPxBVSQPGm8kxkY2iLpAzUuAaNyRlAxQkU?=
+ =?us-ascii?Q?wniXlc34xrawfAkc5T8kDTke57KiJ4B0UtiSmrNuEzsklOQmPKQBAoDWQRyF?=
+ =?us-ascii?Q?J2ARmEGhqLcJw+x5eUNTmjvqw2AqFAcQhNwYFkv0B4iepTle94uqLxop9jCq?=
+ =?us-ascii?Q?zEhfbWhEx4oK3lEjmFEJT5c2JHlNV5OBeabnuRDaWbPkh+10nEDzD1GB3ljR?=
+ =?us-ascii?Q?pVlTBBmqrzAkaZ6OUwkU+qdNHbAIZN8RaPSdP/4b8zZc61zPTXOUh8g1gBMk?=
+ =?us-ascii?Q?k/QmGBubuSerTFP85ppc5CaPo0zkoArWDruUlvZS3azAoKo35nKcMGt3oRen?=
+ =?us-ascii?Q?l9qQJfpqa8MZ0mRoNucpALxqKXnRgDwqKFRzENr6CTGLV+JnGuH9qJep2gQ7?=
+ =?us-ascii?Q?YlZgfrrlVQ3KTRhU121AdvBmo4QiBoIlaT4fWdlhLFDkJq1k56HeM2BmhU2i?=
+ =?us-ascii?Q?aY8n/ys3ugB/uNyIxBFD40MHTAmfQAWe89NyuC9D3FYjoFs37FlZKYP89wx6?=
+ =?us-ascii?Q?b46S81bQpWsJa0i9owcqf6EEXOm+Sseuj/CKqO1jlOcfwDpvajSutHIHjzP3?=
+ =?us-ascii?Q?OJGKO23ysdp6hsYBec0om2kY3mZyIKWTiwurSSO/OY3evNQZ3UJqfO1sufCy?=
+ =?us-ascii?Q?x08lKaIfbwL4H3iprZ/U+mJcOD2kPdjaVcy0Y5oL+EYkwo4AfyV0H10knFCn?=
+ =?us-ascii?Q?aOn0eqSNDbxp3d3rbxqPEEQ2rfHWI9V5DXMPrKPJuq7nWyY6npQj7yfCuGk8?=
+ =?us-ascii?Q?gcqBafLH1wK3IdfxLfz68fqNB/LtjrxxSWjvD8/NavXBLqtNKtTX7uCdli1f?=
+ =?us-ascii?Q?siwFxrMU5IFSE2/IP5dUH9B53EIdSOnhD1SHBc4bY9FdAUNCYiq5Qn3KP+M6?=
+ =?us-ascii?Q?KbDE7OFg65yX5XDqBEuGGqn+T4J8airHttkbAAJOFehfa8mrwAfKRF8gNKhx?=
+ =?us-ascii?Q?6Y2g3jeuZ9RV/WGcCfQCA5tvts+y80yj31rVd6YcUK1YcAwtI5BWeN+fitXr?=
+ =?us-ascii?Q?2k4JApaywca/dJbd9462l8JJdF/lbAtT7rkLsJOO7bZsjQLBYodnVMHmWzVZ?=
+ =?us-ascii?Q?CrSZsL5re1S/vYatbv3cFX3W7aXJgO8BiQPj5IZan52GCLb8WKEhgRSlJ2ly?=
+ =?us-ascii?Q?1dMDTlnB3ovty9YihMoQSUYvQahy2fo2uOXVWtA1hpChad7B9g7Omvk9+a8T?=
+ =?us-ascii?Q?euqiPKjyHvRlCatUL03MNIRvS+py0eUtaBeIVWPioyUfj7FV+pthIM5myY9l?=
+ =?us-ascii?Q?AwpmZm7TSVjQSbMiNmV8pNgn?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MUY+6Ayw3GnUAd9yp/J2W/UAf22kcg0c7JBHHuadxV/fHaroCES5XAR7ywyt?=
- =?us-ascii?Q?KUKK1PiRNQL4X2RSugF7OFBLMjTOXychklnkPj1KJIcp0c9kVL4OQC0kkQDM?=
- =?us-ascii?Q?xWKzUh8m/8yr0Id/2XB+eyl+nN30RfryQpFo9IcaS1U4Fw3lNjbwKJVPoY7W?=
- =?us-ascii?Q?1ENLO2XWBpYQcuHb1z7tBtei+lEXJeBqMqL8CKwf2wefhoIFPBTAFW0O1xlN?=
- =?us-ascii?Q?yxUB5uO9s+wGDkp31939s4OVh2ZQ5gmuK0Az+sPAHvIcUuAx9RwrHLcDnkKb?=
- =?us-ascii?Q?2HwBqnE54mE94vHRpBm3IxV5rySP58djIm2OGuE4yKSAPT6LRluB/a5SOXjz?=
- =?us-ascii?Q?7Hf6HZUjrzFwuUfLfxN1pAINv7Uphd43MMJlJ27hPd+xq3XGOkrLtBzbthPK?=
- =?us-ascii?Q?kEiauiAhq8EYATd3O7B8zGtn8LTDgMb8q+aq9oVX/WV+TubA9PxkXezQBQtS?=
- =?us-ascii?Q?uw24AvB0MeA/1Yn7+GR+K7n3FQ29ysAMSZ4eIXjXl3RBgAsLpGMzlpUGYXR3?=
- =?us-ascii?Q?MTZR4SiQdauUVApclTS93k3N13cktdTFQ4yT1ZQ4XlMeJVDU64CEFJ+wPw9B?=
- =?us-ascii?Q?cBqFe3PUFrukZR6UoAUyipXxRBPiuiLCDvz3lmoVrVRqhhQa3fJw/rtR/fhx?=
- =?us-ascii?Q?Oxvqzs0AJOudYD2cRCnIy+pE50Wyu0mObEmqzJBNrHy0/eVVEt60AeEjf7U3?=
- =?us-ascii?Q?jhG2xvktsMcSUdlE6jFY8Qdag5WekCBZExzjM9ietBU6v0xgioqIgBBqnLqM?=
- =?us-ascii?Q?Rh4LuId03r1gND9MovuTbwUeQsOoRVAdNLb5cGvq98sq/T7XwbFlr5jLx9Tx?=
- =?us-ascii?Q?zWmFpNWB2ONb1deQYBjKdPFs805yO9wqrIJqa1IT/NYH4D1OL6WS3QR4knGu?=
- =?us-ascii?Q?xRlcNnwEDyFgoGZTHb8XeX4ytvs2qYPqrl+JW/eOXtXs967h7yFqz6w1aBIW?=
- =?us-ascii?Q?12OLpNcA7GdiEcKVCVM8/bPZaBNcf1WObazo7hQ+5BAXGbCwl1X4u9ZQnwtD?=
- =?us-ascii?Q?DRjwLfe7FzoNMt2mzGH6U0vh0HH0Ioiaevk3Z3mNAX5kyv2S7GFefjnweD5N?=
- =?us-ascii?Q?+CZCeoX8ahP5pHvfb+lFVGg1X25yjOCq/E7iwDb/VDhTj3zTij5MMPdFUN5T?=
- =?us-ascii?Q?i3TBkth4Ud62ydnHqnMsBDXz2H4QFlBJM/bwlQFX7G7zqXtBLWxKf2KxaSPu?=
- =?us-ascii?Q?Si6gLlMln+ApqVyeQlZTQyQJnub4HcFXrEujNiURQX9Z9Nv8uEqOG1mwZ6Bs?=
- =?us-ascii?Q?nbJaf9OsG2m1Ur4R4y81dj29ubVsU7dzILeX37l8RKvihjPNiTQuyvElXl5A?=
- =?us-ascii?Q?LRRiXmPgu0RfDnZsoLQiwBlLSqkH5gArnCHZ+Z/ed6wTwYzUAYjz223p9Aqe?=
- =?us-ascii?Q?SWY/JkUgy6DvgtGgIA0ePHAX4Fqn417u6wbh5SmqgbguIzEpdRlBIVIfShRx?=
- =?us-ascii?Q?ChbarxYE7oQA9kAAOc5A395VZMttRrunE4TOsinK6866F22BCjfHb/PJXJTa?=
- =?us-ascii?Q?CSJjFkHitiyghw8I0WRWTYWZd34k8Q9wNCNv42jrLxYNveoNfXSw+TLPJwm9?=
- =?us-ascii?Q?Jq8bSMIoBOajCeAhD0uXk1GXC4fcHXcRbVAOJQaG?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sFwDArlOtGr2PbxTse1Y4t1GPmxFnmrOICsK7o5zHSctcklKfbaYrJdASiVr?=
+ =?us-ascii?Q?7WxpvPSBWfKHJOMy5zvC+S0WIc2QEZjFYuwT8katJxQ8KihmQGWaFeH9hH4l?=
+ =?us-ascii?Q?PdDM7Mizsym6Dmn6lIipw25AMeLm3vio7A7PsZYMdNXab1VubFxOkMY7EWoD?=
+ =?us-ascii?Q?bOATbhuxSEgYS9ApA+rIzFv4VkUFR+PhLEMcKRrYq68zZu4KO6NArusdf83K?=
+ =?us-ascii?Q?9BjCX652oy5Yl/dEsG6Xq1VYr1nIt2GOdmncBiFUdxy+mQ8Oup6m9uSm8S/S?=
+ =?us-ascii?Q?lSicWoOWoFubzlYvXXhVx/jjRdd5JIl4yjXrtdZnmArIilZp7v14BIowabLE?=
+ =?us-ascii?Q?fz1SqVs+ieX7nCmVK4Vkc/Zrs6SLTsjhRZizFjk0eJYyp92f0lBwlAQgRSyb?=
+ =?us-ascii?Q?9yyafhM791R1XDo2lkKCiDbUxMzxwABTGeghTZNExSTMhRBvutA2IHgW39QE?=
+ =?us-ascii?Q?U8g1xh5xeDoWYYQceuoAso9MGj4+wdvrTDtejHbx++mjkdlmSbBd6ZEmQ/2i?=
+ =?us-ascii?Q?B+F8n0xqKgNJU5BnB7n6SBxny91xne6cCDotqaZMF4EYkgkVFdjo6m/rsZLB?=
+ =?us-ascii?Q?XT+jS+T/WKLgsiyf297MFfn0jeovHurtiYzgK30CY1Lfwz+ia+JtInDZpR5E?=
+ =?us-ascii?Q?IHFnJcR+e5CSV9/Nad6B7ltHRr8xjVEwnZ/L/4r5SH3TTJIFTUy/cs8gXjiI?=
+ =?us-ascii?Q?U81VtGKU2Bt0F0wQi5C0ZZpEpuOrV15M4FcobZlFpu8NXSX/hPmrHmJOAADf?=
+ =?us-ascii?Q?R/ht3+omlI+RJoW0+AZGqpVPQcf8983GTJRKqzVyLFlqEzEgAVyVnw2/fv03?=
+ =?us-ascii?Q?Di0FPIsG7QjEakVywNjIQ9LJbfnXoBiMIBJtFMHTK9J6hCy+TJyyIKKHngSs?=
+ =?us-ascii?Q?OYDXKltRaX3dQaqBLtViti2fgG1sfPGZhhARkWLviHzLDQJySZCmc2X55Nk6?=
+ =?us-ascii?Q?u4dOnfmUhI3WEm45jUU8bRgBJLji9F7fDPnqfOPBYL01Fhn/SSHojLcN2mNL?=
+ =?us-ascii?Q?8TXpHaunMFbkJZJZ/viicUAI70AsNhbp4amGu1Pm6GItu+Vi87Gu7TJTlXi2?=
+ =?us-ascii?Q?xSz+R40rgDaWxe3AnOhwDXeHH8169qAvG/J151qI3/92LbiNFqmnfBDTpCAa?=
+ =?us-ascii?Q?EGtgjyicSkPRh77sybA0+UfcfJgI/Lzd1wuPlmbxym3KQ4bRRfmr64vqv3eV?=
+ =?us-ascii?Q?e7Hq0rXsOF3za5js8xALdTG+0oUkBFz557Z2GRNM8wxDREqviikrZJp348jv?=
+ =?us-ascii?Q?RMNoNkDtamaXRJaCZsdV4pRdEV/58CNP3KhOMCmkoNEzMF41kS5UIWgx+D1M?=
+ =?us-ascii?Q?BGDt4tA4YFXARQWuoxL+wFbSbJwXQn/CRYJMowo1veEyv9uEIogu8WqzxKZz?=
+ =?us-ascii?Q?Qhfd5IK+9ing0tHjbz80vJuAOG6+7B/XDmSRTGnVF0anY39ulloL/vtWbN1S?=
+ =?us-ascii?Q?CrwoEhJfz7lH6K3RFto2vNOiHsUaGr/6qm6vn4x/5eVAIFmQ044Uei0gQnvs?=
+ =?us-ascii?Q?1mOhGM92/BEGwcWdUVvPHASQEwqqQG9jh2rX8wYZpQZW9FP8JqPEm0wOwadp?=
+ =?us-ascii?Q?KKYFqLimXbCRTzvL8rpMnYALPM9nDgsMPJVA6C2U?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8264e3de-73e4-49d6-e7a1-08dcfdc5af89
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a7b208d-38aa-4d57-2897-08dcfdc5af95
 X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 18:14:27.6525 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 18:14:27.7746 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7T/RSCxsZyB8hZ8Ha3tA0z/1jzrD3ESLFouvLwOw/vVXuFPw43bxwEd3ZnHuGUTZ
+X-MS-Exchange-CrossTenant-UserPrincipalName: YopAym4rrJD1iEjhynvnVj0GgYoJ18v1bPB/YPQHcnAqIWQMYI4mjEKAWpL3oaze
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7508
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -153,145 +154,238 @@ length. For example if a 2M IOPTE is present and the first 4K is requested
 to be unmapped then unmap will remove the whole 2M and report 2M as the
 result.
 
-arm_lpae instead replaces the IOPTE with a table of smaller IOPTEs, unmaps
-the 4K and returns 4k. This is actually an illegal/non-hitless operation
-on at least SMMUv3 because of the BBM level 0 rules.
+armv7 instead will break up contiguous entries and replace an entry with a
+whole table so it can unmap the requested 4k.
 
-Will says this was done to support VFIO, but upon deeper analysis this was
-never strictly necessary:
+This seems copied from the arm_lpae implementation, which was analyzed
+here:
 
  https://lore.kernel.org/all/20241024134411.GA6956@nvidia.com/
 
-In summary, historical VFIO supported the AMD behavior of unmapping the
-whole large IOPTE and returning the size, even if asked to unmap a
-portion. The driver would see this as a request to split a large IOPTE.
-Modern VFIO always unmaps entire large IOPTEs (except on AMD) and drivers
-don't see an IOPTE split.
+Bring consistency to the implementations and remove this unused
+functionality.
 
-Given it doesn't work fully correctly on SMMUv3 and relying on ARM unique
-behavior would create portability problems across IOMMU drivers, retire
-this functionality.
+There are no uses outside iommu, this effects the ARM_V7S drivers
+msm_iommu, mtk_iommu, and arm-smmmu.
 
-Outside the iommu users, this will potentially effect io_pgtable users of
-ARM_32_LPAE_S1, ARM_32_LPAE_S2, ARM_64_LPAE_S1, ARM_64_LPAE_S2, and
-ARM_MALI_LPAE formats.
-
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/iommu/io-pgtable-arm.c | 81 +---------------------------------
- 1 file changed, 2 insertions(+), 79 deletions(-)
+ drivers/iommu/io-pgtable-arm-v7s.c | 146 +----------------------------
+ 1 file changed, 5 insertions(+), 141 deletions(-)
 
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index 0e67f1721a3d98..4e7689f5f12b4c 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -569,66 +569,6 @@ static void arm_lpae_free_pgtable(struct io_pgtable *iop)
+diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
+index 06ffc683b28fee..9ae8cb8999ef51 100644
+--- a/drivers/iommu/io-pgtable-arm-v7s.c
++++ b/drivers/iommu/io-pgtable-arm-v7s.c
+@@ -166,7 +166,6 @@ struct arm_v7s_io_pgtable {
+ 
+ 	arm_v7s_iopte		*pgd;
+ 	struct kmem_cache	*l2_tables;
+-	spinlock_t		split_lock;
+ };
+ 
+ static bool arm_v7s_pte_is_cont(arm_v7s_iopte pte, int lvl);
+@@ -363,25 +362,6 @@ static arm_v7s_iopte arm_v7s_prot_to_pte(int prot, int lvl,
+ 	return pte;
+ }
+ 
+-static int arm_v7s_pte_to_prot(arm_v7s_iopte pte, int lvl)
+-{
+-	int prot = IOMMU_READ;
+-	arm_v7s_iopte attr = pte >> ARM_V7S_ATTR_SHIFT(lvl);
+-
+-	if (!(attr & ARM_V7S_PTE_AP_RDONLY))
+-		prot |= IOMMU_WRITE;
+-	if (!(attr & ARM_V7S_PTE_AP_UNPRIV))
+-		prot |= IOMMU_PRIV;
+-	if ((attr & (ARM_V7S_TEX_MASK << ARM_V7S_TEX_SHIFT)) == 0)
+-		prot |= IOMMU_MMIO;
+-	else if (pte & ARM_V7S_ATTR_C)
+-		prot |= IOMMU_CACHE;
+-	if (pte & ARM_V7S_ATTR_XN(lvl))
+-		prot |= IOMMU_NOEXEC;
+-
+-	return prot;
+-}
+-
+ static arm_v7s_iopte arm_v7s_pte_to_cont(arm_v7s_iopte pte, int lvl)
+ {
+ 	if (lvl == 1) {
+@@ -398,23 +378,6 @@ static arm_v7s_iopte arm_v7s_pte_to_cont(arm_v7s_iopte pte, int lvl)
+ 	return pte;
+ }
+ 
+-static arm_v7s_iopte arm_v7s_cont_to_pte(arm_v7s_iopte pte, int lvl)
+-{
+-	if (lvl == 1) {
+-		pte &= ~ARM_V7S_CONT_SECTION;
+-	} else if (lvl == 2) {
+-		arm_v7s_iopte xn = pte & BIT(ARM_V7S_CONT_PAGE_XN_SHIFT);
+-		arm_v7s_iopte tex = pte & (ARM_V7S_CONT_PAGE_TEX_MASK <<
+-					   ARM_V7S_CONT_PAGE_TEX_SHIFT);
+-
+-		pte ^= xn | tex | ARM_V7S_PTE_TYPE_CONT_PAGE;
+-		pte |= (xn >> ARM_V7S_CONT_PAGE_XN_SHIFT) |
+-		       (tex >> ARM_V7S_CONT_PAGE_TEX_SHIFT) |
+-		       ARM_V7S_PTE_TYPE_PAGE;
+-	}
+-	return pte;
+-}
+-
+ static bool arm_v7s_pte_is_cont(arm_v7s_iopte pte, int lvl)
+ {
+ 	if (lvl == 1 && !ARM_V7S_PTE_IS_TABLE(pte, lvl))
+@@ -591,77 +554,6 @@ static void arm_v7s_free_pgtable(struct io_pgtable *iop)
  	kfree(data);
  }
  
--static size_t arm_lpae_split_blk_unmap(struct arm_lpae_io_pgtable *data,
--				       struct iommu_iotlb_gather *gather,
--				       unsigned long iova, size_t size,
--				       arm_lpae_iopte blk_pte, int lvl,
--				       arm_lpae_iopte *ptep, size_t pgcount)
+-static arm_v7s_iopte arm_v7s_split_cont(struct arm_v7s_io_pgtable *data,
+-					unsigned long iova, int idx, int lvl,
+-					arm_v7s_iopte *ptep)
+-{
+-	struct io_pgtable *iop = &data->iop;
+-	arm_v7s_iopte pte;
+-	size_t size = ARM_V7S_BLOCK_SIZE(lvl);
+-	int i;
+-
+-	/* Check that we didn't lose a race to get the lock */
+-	pte = *ptep;
+-	if (!arm_v7s_pte_is_cont(pte, lvl))
+-		return pte;
+-
+-	ptep -= idx & (ARM_V7S_CONT_PAGES - 1);
+-	pte = arm_v7s_cont_to_pte(pte, lvl);
+-	for (i = 0; i < ARM_V7S_CONT_PAGES; i++)
+-		ptep[i] = pte + i * size;
+-
+-	__arm_v7s_pte_sync(ptep, ARM_V7S_CONT_PAGES, &iop->cfg);
+-
+-	size *= ARM_V7S_CONT_PAGES;
+-	io_pgtable_tlb_flush_walk(iop, iova, size, size);
+-	return pte;
+-}
+-
+-static size_t arm_v7s_split_blk_unmap(struct arm_v7s_io_pgtable *data,
+-				      struct iommu_iotlb_gather *gather,
+-				      unsigned long iova, size_t size,
+-				      arm_v7s_iopte blk_pte,
+-				      arm_v7s_iopte *ptep)
 -{
 -	struct io_pgtable_cfg *cfg = &data->iop.cfg;
--	arm_lpae_iopte pte, *tablep;
--	phys_addr_t blk_paddr;
--	size_t tablesz = ARM_LPAE_GRANULE(data);
--	size_t split_sz = ARM_LPAE_BLOCK_SIZE(lvl, data);
--	int ptes_per_table = ARM_LPAE_PTES_PER_TABLE(data);
--	int i, unmap_idx_start = -1, num_entries = 0, max_entries;
+-	arm_v7s_iopte pte, *tablep;
+-	int i, unmap_idx, num_entries, num_ptes;
 -
--	if (WARN_ON(lvl == ARM_LPAE_MAX_LEVELS))
--		return 0;
--
--	tablep = __arm_lpae_alloc_pages(tablesz, GFP_ATOMIC, cfg, data->iop.cookie);
+-	tablep = __arm_v7s_alloc_table(2, GFP_ATOMIC, data);
 -	if (!tablep)
 -		return 0; /* Bytes unmapped */
 -
--	if (size == split_sz) {
--		unmap_idx_start = ARM_LPAE_LVL_IDX(iova, lvl, data);
--		max_entries = ptes_per_table - unmap_idx_start;
--		num_entries = min_t(int, pgcount, max_entries);
--	}
+-	num_ptes = ARM_V7S_PTES_PER_LVL(2, cfg);
+-	num_entries = size >> ARM_V7S_LVL_SHIFT(2);
+-	unmap_idx = ARM_V7S_LVL_IDX(iova, 2, cfg);
 -
--	blk_paddr = iopte_to_paddr(blk_pte, data);
--	pte = iopte_prot(blk_pte);
+-	pte = arm_v7s_prot_to_pte(arm_v7s_pte_to_prot(blk_pte, 1), 2, cfg);
+-	if (num_entries > 1)
+-		pte = arm_v7s_pte_to_cont(pte, 2);
 -
--	for (i = 0; i < ptes_per_table; i++, blk_paddr += split_sz) {
+-	for (i = 0; i < num_ptes; i += num_entries, pte += size) {
 -		/* Unmap! */
--		if (i >= unmap_idx_start && i < (unmap_idx_start + num_entries))
+-		if (i == unmap_idx)
 -			continue;
 -
--		__arm_lpae_init_pte(data, blk_paddr, pte, lvl, 1, &tablep[i]);
+-		__arm_v7s_set_pte(&tablep[i], pte, num_entries, cfg);
 -	}
 -
--	pte = arm_lpae_install_table(tablep, ptep, blk_pte, data);
+-	pte = arm_v7s_install_table(tablep, ptep, blk_pte, cfg);
 -	if (pte != blk_pte) {
--		__arm_lpae_free_pages(tablep, tablesz, cfg, data->iop.cookie);
--		/*
--		 * We may race against someone unmapping another part of this
--		 * block, but anything else is invalid. We can't misinterpret
--		 * a page entry here since we're never at the last level.
--		 */
--		if (iopte_type(pte) != ARM_LPAE_PTE_TYPE_TABLE)
+-		__arm_v7s_free_table(tablep, 2, data);
+-
+-		if (!ARM_V7S_PTE_IS_TABLE(pte, 1))
 -			return 0;
 -
--		tablep = iopte_deref(pte, data);
--	} else if (unmap_idx_start >= 0) {
--		for (i = 0; i < num_entries; i++)
--			io_pgtable_tlb_add_page(&data->iop, gather, iova + i * size, size);
--
--		return num_entries * size;
+-		tablep = iopte_deref(pte, 1, data);
+-		return __arm_v7s_unmap(data, gather, iova, size, 2, tablep);
 -	}
 -
--	return __arm_lpae_unmap(data, gather, iova, size, pgcount, lvl, tablep);
+-	io_pgtable_tlb_add_page(&data->iop, gather, iova, size);
+-	return size;
 -}
 -
- static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
- 			       struct iommu_iotlb_gather *gather,
- 			       unsigned long iova, size_t size, size_t pgcount,
-@@ -678,12 +618,8 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+ static size_t __arm_v7s_unmap(struct arm_v7s_io_pgtable *data,
+ 			      struct iommu_iotlb_gather *gather,
+ 			      unsigned long iova, size_t size, int lvl,
+@@ -694,11 +586,8 @@ static size_t __arm_v7s_unmap(struct arm_v7s_io_pgtable *data,
+ 	 * case in a lock for the sake of correctness and be done with it.
+ 	 */
+ 	if (num_entries <= 1 && arm_v7s_pte_is_cont(pte[0], lvl)) {
+-		unsigned long flags;
+-
+-		spin_lock_irqsave(&data->split_lock, flags);
+-		pte[0] = arm_v7s_split_cont(data, iova, idx, lvl, ptep);
+-		spin_unlock_irqrestore(&data->split_lock, flags);
++		WARN_ONCE(true, "Unmap of a partial large IOPTE is not allowed");
++		return 0;
+ 	}
  
- 		return i * size;
- 	} else if (iopte_leaf(pte, lvl, iop->fmt)) {
+ 	/* If the size matches this level, we're in the right place */
+@@ -721,12 +610,8 @@ static size_t __arm_v7s_unmap(struct arm_v7s_io_pgtable *data,
+ 		}
+ 		return size;
+ 	} else if (lvl == 1 && !ARM_V7S_PTE_IS_TABLE(pte[0], lvl)) {
 -		/*
 -		 * Insert a table at the next level to map the old region,
 -		 * minus the part we want to unmap
 -		 */
--		return arm_lpae_split_blk_unmap(data, gather, iova, size, pte,
--						lvl + 1, ptep, pgcount);
+-		return arm_v7s_split_blk_unmap(data, gather, iova, size, pte[0],
+-					       ptep);
 +		WARN_ONCE(true, "Unmap of a partial large IOPTE is not allowed");
 +		return 0;
  	}
  
  	/* Keep on walkin' */
-@@ -1347,19 +1283,6 @@ static int __init arm_lpae_run_tests(struct io_pgtable_cfg *cfg)
- 			iova += SZ_1G;
- 		}
+@@ -811,8 +696,6 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+ 	if (!data)
+ 		return NULL;
  
--		/* Partial unmap */
--		size = 1UL << __ffs(cfg->pgsize_bitmap);
--		if (ops->unmap_pages(ops, SZ_1G + size, size, 1, NULL) != size)
--			return __FAIL(ops, i);
+-	spin_lock_init(&data->split_lock);
+-
+ 	/*
+ 	 * ARM_MTK_TTBR_EXT extend the translation table base support larger
+ 	 * memory address.
+@@ -936,7 +819,7 @@ static int __init arm_v7s_do_selftests(void)
+ 		.quirks = IO_PGTABLE_QUIRK_ARM_NS,
+ 		.pgsize_bitmap = SZ_4K | SZ_64K | SZ_1M | SZ_16M,
+ 	};
+-	unsigned int iova, size, iova_start;
++	unsigned int iova, size;
+ 	unsigned int i, loopnr = 0;
+ 	size_t mapped;
+ 
+@@ -988,25 +871,6 @@ static int __init arm_v7s_do_selftests(void)
+ 		loopnr++;
+ 	}
+ 
+-	/* Partial unmap */
+-	i = 1;
+-	size = 1UL << __ffs(cfg.pgsize_bitmap);
+-	while (i < loopnr) {
+-		iova_start = i * SZ_16M;
+-		if (ops->unmap_pages(ops, iova_start + size, size, 1, NULL) != size)
+-			return __FAIL(ops);
 -
 -		/* Remap of partial unmap */
--		if (ops->map_pages(ops, SZ_1G + size, size, size, 1,
+-		if (ops->map_pages(ops, iova_start + size, size, size, 1,
 -				   IOMMU_READ, GFP_KERNEL, &mapped))
--			return __FAIL(ops, i);
+-			return __FAIL(ops);
 -
--		if (ops->iova_to_phys(ops, SZ_1G + size + 42) != (size + 42))
--			return __FAIL(ops, i);
+-		if (ops->iova_to_phys(ops, iova_start + size + 42)
+-		    != (size + 42))
+-			return __FAIL(ops);
+-		i++;
+-	}
 -
- 		/* Full unmap */
- 		iova = 0;
- 		for_each_set_bit(j, &cfg->pgsize_bitmap, BITS_PER_LONG) {
+ 	/* Full unmap */
+ 	iova = 0;
+ 	for_each_set_bit(i, &cfg.pgsize_bitmap, BITS_PER_LONG) {
 -- 
 2.43.0
 
