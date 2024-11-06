@@ -2,54 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E639BF663
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 20:24:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C709BF677
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 20:29:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69E7810E00A;
-	Wed,  6 Nov 2024 19:24:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70A0610E76D;
+	Wed,  6 Nov 2024 19:29:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XchAZfD/";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="h2LGBACt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67E2B10E00A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 19:24:46 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 670FF670;
- Wed,  6 Nov 2024 20:24:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1730921076;
- bh=gN1WBAeIRYyA3wcA9u8mu17uJqkcrBC8yalU/0GVTmo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XchAZfD/j01QCYbfeuDW3PN1jkTYMvcY6Tmu9vhl4Znhul4EiTkzwJpF5Ngdelj3g
- AaJQ9GTKIPBeXS2Fk6BsAwhkjc96ZnKAFb3+Wr/zhD6iReCbrv7Z+DCR5b/AFk7b5N
- GuiWkD1hTniQ1l+6hnadgCL3HErjhPSpAJradydg=
-Date: Wed, 6 Nov 2024 21:24:38 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
- Hien Huynh <hien.huynh.px@renesas.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] drm: adv7511: Drop dsi single lane support
-Message-ID: <20241106192438.GA21454@pendragon.ideasonboard.com>
-References: <20241106184935.294513-1-biju.das.jz@bp.renesas.com>
- <20241106184935.294513-4-biju.das.jz@bp.renesas.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D37310E1DB
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 19:29:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1730921274; x=1731526074; i=w_armin@gmx.de;
+ bh=KPIsoyhsws8Agp7wgFRMdaTpDymEbvSb3Owgwg6CKMI=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=h2LGBACtvj9fuTu8QJu3YKOjKAS2hewAVTTkd9mZmaplCDT2J9hvpF/GtT49QeKg
+ Bt4vp6fMC2gSsYxfdqC05RHmq+I9OJ53K6olZLIzYc8oF3BOSjocR+HWABgQPdyMI
+ uV+5SFihSVbovJy+fuaKWC1V5sgRRwRbGw/bnuWabCT6vdvpD+yVPp6iO5bVFlfAg
+ +ZGwJZy/1bUp8Uax4ZS5K5Au27cfgCjGWUGMTQRjWXfew9D2ZIiRZuO47D52Y8nv1
+ 5kYvQkAvqhbzYzSeqHFJkHGzaNsPyX12fxVzRgKvBEcxbQ8A9cEedXNLJ2JDTh51e
+ zyyJZ4ZtvPpzMPCH/g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MG9kC-1t3KhK2USC-003gaQ; Wed, 06
+ Nov 2024 20:27:54 +0100
+Message-ID: <da774e71-39f3-43ec-a366-c8c893132447@gmx.de>
+Date: Wed, 6 Nov 2024 20:27:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241106184935.294513-4-biju.das.jz@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/10] sysfs: introduce callback
+ attribute_group::bin_size
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Tudor Ambarus <tudor.ambarus@linaro.org>,
+ Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
+ Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "David E. Box" <david.e.box@linux.intel.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>, Frederic Barrat <fbarrat@linux.ibm.com>,
+ Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Logan Gunthorpe <logang@deltatee.com>, "K. Y. Srinivasan"
+ <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
+Cc: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-cxl@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, linux-mtd@lists.infradead.org,
+ platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org
+References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
+ <20241103-sysfs-const-bin_attr-v2-2-71110628844c@weissschuh.net>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20241103-sysfs-const-bin_attr-v2-2-71110628844c@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:44YqvEvciDnAZyVj6z6AwMwirIfHL0Pzp3XFOKxQKNiQ7tHWySC
+ RxktlrVaqsSUg5C4VvLrzKpoqlhjiHyHgejaek9khmsio9KiFm5QCv2KXv29eAcNsGR1hIr
+ /Q5ILnqj229v3epEt6qEr+soHYvezbTam1hICVuVYB5Diy3yXhaNodiu0nfX7EP/suGwHuw
+ I6p5H1JUB0YrJzn4YZJQA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:BJYO93jXrqs=;fzmEJQpCL0PeqA4I2iYLeQ+/FRA
+ MPq/2bbvr2WJqMuneUG6luVuj1km+05i2j/1x0NELfvZ4gM4s6XaNM8HLcODqZ2YvwqbRoHUl
+ 2LVK+ozUvLuqixPcgAE0TpsTj6BsJuZZF8Prk152h36LGoBr9+Kd/R2q2Uj14uYLPmyWZJ52T
+ GNvCa+TOfxV6zDxmDel4X7SRWzgnowuH/BIW3mUXHAYAVu4fYedW6ndnVbIfGQolflbLgQgyW
+ 8mV+C1e27T4QNjbRbp0K+rJqERUl44Twyy7xGukU3hzMv86Q7mhlxLrkLCQS08ejnbvx9vsKG
+ 6r01C9bdsfdQTjc8ugjkhVZo1cVoiz+0Idhzkx2HFzevnqowukNVKHY0CWZ4djGA/wxza8ihC
+ eNcKow0sVo9h8op9VF3+dQKYJlpKJzp7n2geJP8QZL0kSe6bjfmj/6AvUYeZ5S5Mj+GvK8pW+
+ Hx13JZYdjPEwoso2V+ubjtHLhHFhZCY3jh0/lw4JBQ9TuoNEMuaERqMypNT2JoPC/SM1qDBVx
+ oZvDgRCLkXEbhhDGTdGaeM4aGZm9w0xjx7OOl3y478J0h8vJWzK2lZcJ9OCtdTCOBJ3TKK51o
+ j2XTpAkas1ObXtSswmUtpY/4NVAGbjFlT/VOYp0mdC+F4L90W0AmQwAT/dp7ljfoSSkZT4/zA
+ tnfMmwR7alN2DKWZGMREmp8dtIWDzl/LkYsX5xsPiTm6gHpOZxc0s4oUuYnkXDbW9UIZGBd7l
+ 8FMWWaPCemeDgSDhQn2reHRR1YW+K4+d53fVkZQszw1C38L00qMcKo7qliwnTIDdOaJvrPrQg
+ Ne8RWTGaSm1RVKwc8Z2xLPwg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,60 +118,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Am 03.11.24 um 18:03 schrieb Thomas Wei=C3=9Fschuh:
 
-Thank you for the patch.
+> Several drivers need to dynamically calculate the size of an binary
+> attribute. Currently this is done by assigning attr->size from the
+> is_bin_visible() callback.
 
-On Wed, Nov 06, 2024 at 06:49:30PM +0000, Biju Das wrote:
-> As per [1], ADV7535/7533 support only 2-, 3-, or 4-lane. Drop
-> unsupported 1-lane.
-> 
-> [1]
-> https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
+Hi,
 
-No need for a line break, this should be
+i really like your idea of introducing this new callback, it will be very
+useful for the wmi-bmof driver :).
 
-[1] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
+Thanks,
+Armin Wolf
 
-> 
-> Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
-> Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
-
-Reported-by is supposed to be immediately followed by a Closes: tag.
-
-With those fixed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> This has drawbacks:
+> * It is not documented.
+> * A single attribute can be instantiated multiple times, overwriting the
+>    shared size field.
+> * It prevents the structure to be moved to read-only memory.
+>
+> Introduce a new dedicated callback to calculate the size of the
+> attribute.
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
 > ---
-> Changes in v3:
->  - Updated commit header and description
->  - Updated fixes tag
->  - Dropped single lane support
-> Changes in v2:
->  - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
->  - Dropped Archit Taneja invalid Mail address
-> ---
->  drivers/gpu/drm/bridge/adv7511/adv7533.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> index de55d687245a..ec360f8b7509 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> @@ -173,7 +173,7 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
->  
->  	of_property_read_u32(np, "adi,dsi-lanes", &num_lanes);
->  
-> -	if (num_lanes < 1 || num_lanes > 4)
-> +	if (num_lanes < 2 || num_lanes > 4)
->  		return -EINVAL;
->  
->  	adv->num_dsi_lanes = num_lanes;
-
--- 
-Regards,
-
-Laurent Pinchart
+>   fs/sysfs/group.c      | 2 ++
+>   include/linux/sysfs.h | 8 ++++++++
+>   2 files changed, 10 insertions(+)
+>
+> diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
+> index 45b2e92941da1f49dcc71af3781317c61480c956..8b01a7eda5fb3239e1383724=
+17d01967c7a3f122 100644
+> --- a/fs/sysfs/group.c
+> +++ b/fs/sysfs/group.c
+> @@ -98,6 +98,8 @@ static int create_files(struct kernfs_node *parent, st=
+ruct kobject *kobj,
+>   				if (!mode)
+>   					continue;
+>   			}
+> +			if (grp->bin_size)
+> +				size =3D grp->bin_size(kobj, *bin_attr, i);
+>
+>   			WARN(mode & ~(SYSFS_PREALLOC | 0664),
+>   			     "Attribute %s: Invalid permissions 0%o\n",
+> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
+> index c4e64dc112063f7cb89bf66059d0338716089e87..4746cccb95898b24df6f53de=
+9421ea7649b5568f 100644
+> --- a/include/linux/sysfs.h
+> +++ b/include/linux/sysfs.h
+> @@ -87,6 +87,11 @@ do {							\
+>    *		SYSFS_GROUP_VISIBLE() when assigning this callback to
+>    *		specify separate _group_visible() and _attr_visible()
+>    *		handlers.
+> + * @bin_size:
+> + *		Optional: Function to return the size of a binary attribute
+> + *		of the group. Will be called repeatedly for each binary
+> + *		attribute in the group. Overwrites the size field embedded
+> + *		inside the attribute itself.
+>    * @attrs:	Pointer to NULL terminated list of attributes.
+>    * @bin_attrs:	Pointer to NULL terminated list of binary attributes.
+>    *		Either attrs or bin_attrs or both must be provided.
+> @@ -97,6 +102,9 @@ struct attribute_group {
+>   					      struct attribute *, int);
+>   	umode_t			(*is_bin_visible)(struct kobject *,
+>   						  struct bin_attribute *, int);
+> +	size_t			(*bin_size)(struct kobject *,
+> +					    const struct bin_attribute *,
+> +					    int);
+>   	struct attribute	**attrs;
+>   	struct bin_attribute	**bin_attrs;
+>   };
+>
