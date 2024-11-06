@@ -2,64 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEA49BE13D
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 09:43:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D65BD9BE240
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 10:20:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7E3D10E68E;
-	Wed,  6 Nov 2024 08:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDBE610E1AA;
+	Wed,  6 Nov 2024 09:20:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hLmnbg+x";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aY0jI94Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0134E10E68E
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 08:43:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730882602; x=1762418602;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=2FaB9DZ+5bt0vHcem3FiA70mddNIj2sFcK506ZwMn/Q=;
- b=hLmnbg+xuE+p5i4UrDdaXcesY6QdwzJEabK+GcFnmVwYMM+V0C7TW+0F
- EyHTSIsmglWlRxM/EQH2SIjR3KN2HP3iZm0IntdVONmA6wsrSPgkMPiKg
- bOzt94u98n6YhaF3aZJV9jFkVO2WRu3xJTGxirxn+PuKesa8Ga+zVAUk9
- FVFIBS8MYW5JE76epZCt3ftYb2Aq7TbJ6dPGSzMD0OpHiWEbwy+iRPE6I
- lTD6kjNVOS5Soj4n876N6V3PhFEyEH4yA+MMOgfHgSHLqY8F7qcN1fzRX
- o/nNRBcutN8hOeMMV3HNLUwjBv47IRgGNnlt1H7bgMO9scryl0uIXxVvy A==;
-X-CSE-ConnectionGUID: LDLAXhCSTPKNRd52B2XbnA==
-X-CSE-MsgGUID: O2XD4r6BTZSi6z5Th8pb7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="30889104"
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="30889104"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2024 00:43:21 -0800
-X-CSE-ConnectionGUID: FQSFjxl3TY2wyKbOXhKltw==
-X-CSE-MsgGUID: IM4k9HfgRNW2rIV3li9lkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="115233886"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by orviesa002.jf.intel.com with ESMTP; 06 Nov 2024 00:43:18 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t8bdD-000n6B-37;
- Wed, 06 Nov 2024 08:43:15 +0000
-Date: Wed, 6 Nov 2024 16:43:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, iommu@lists.linux.dev,
- Joerg Roedel <joro@8bytes.org>, linux-arm-kernel@lists.infradead.org,
- Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Boris Brezillon <bbrezillon@kernel.org>,
- dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
- patches@lists.linux.dev, Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v3 2/3] iommu/io-pgtable-arm-v7s: Remove split on unmap
- behavior
-Message-ID: <202411061634.3EtgZij8-lkp@intel.com>
-References: <2-v3-b3a5b5937f56+7bb-arm_no_split_jgg@nvidia.com>
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8938C10E1AA
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 09:20:15 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-431695fa98bso50554505e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Nov 2024 01:20:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1730884814; x=1731489614; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=nFpPn0d2yFLk+e22ei9wc3wv5WH7ZWHa4AxPfroJzYQ=;
+ b=aY0jI94YM3CtIq9UI0bfld6NQVMtqcZxy0ivmJnzmWqIpaFg6ceKSu49NfM7Je7BR4
+ GB8yiDFamo/D6n874fkS9pZmnfhmvsRlpawdJUPrOq50sUtFulynhff+l3ZTEhtvjX2V
+ V3bfh7bdBxk1tI4/mnCZHzGlL68VswjoSUTEcvIU0qYEjPU2Xc/ka09rxUt/8wl9NgGo
+ h6vrQRoIbhbsflkEhlhUAxW5nChHckyDqLxZ1+zsonozxjULZKB5z25lwq+LPYGqc03v
+ cKfQUXT0FkkYQBPGakw2/ee5Jph8+i7jExjH4c/psSArlJf+IbSPaHQG3TtXkYbi5VMR
+ xVDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730884814; x=1731489614;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nFpPn0d2yFLk+e22ei9wc3wv5WH7ZWHa4AxPfroJzYQ=;
+ b=VoSUhIcPqB/UslREUmLd0PCDGHsTY1CUzuWxXIPW45P/uPe/6MOPxTYz+4xdJz1KxT
+ tVhnSweMspHBnh0S4g82OFrwb36ZJ2ukdbchD9YByCNnolbNwemVRnO7H269zilyLA6k
+ vqIIRiuc76SQAPkktN0cLJKyJHS6xY0gO79RBU+9vDArf2jWkKUpIhKgOVeVjV+8qe1Y
+ zBAJ4hUXqITmoFuHNoJ+ebnwFlEkIlbfFpjgVCNRZNKOZkPMt+5r44IKGNJPpqKyeuel
+ RKbuCljI9/jBSYmatfgfXnXEJmSMHbs4GnUawz8dXFruxL8sHMTLwYE7UfPcZ884r10j
+ BCgg==
+X-Gm-Message-State: AOJu0Yy4X1PRbqCKyoMQ0dWYB001yQ5NDMksEQ4lYK2Il89Nw1PcIWmJ
+ 7sN8JYwMXo8ZH9lAxsfCtGCJfyJSlBlgtcNFuaBLkaj724A6IBegk0xJI6pPTnI=
+X-Google-Smtp-Source: AGHT+IEYpLtbvoq+DLNXwR3nRAmR6avtTq4h+YsWpETFhBlqaeNqXWJjhte4lroosj4mGd9kd6ILbg==
+X-Received: by 2002:a05:600c:4fd3:b0:431:60d0:9088 with SMTP id
+ 5b1f17b1804b1-4319ac9acedmr359810715e9.13.1730884813855; 
+ Wed, 06 Nov 2024 01:20:13 -0800 (PST)
+Received: from [127.0.0.1] ([89.101.134.25]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-432aa6da939sm15286495e9.31.2024.11.06.01.20.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Nov 2024 01:20:13 -0800 (PST)
+Date: Wed, 06 Nov 2024 09:20:12 +0000
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+CC: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Liu Ying <victor.liu@nxp.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ quic_jesszhan@quicinc.com, mchehab@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ catalin.marinas@arm.com, will@kernel.org, sakari.ailus@linux.intel.com,
+ hverkuil@xs4all.nl, tomi.valkeinen@ideasonboard.com,
+ quic_bjorande@quicinc.com, geert+renesas@glider.be, arnd@arndb.de,
+ nfraprado@collabora.com, thierry.reding@gmail.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, marex@denx.de,
+ biju.das.jz@bp.renesas.com
+Subject: =?US-ASCII?Q?Re=3A_=28subset=29_=5BPATCH_v5_00/13=5D_Add_ITE?=
+ =?US-ASCII?Q?_IT6263_LVDS_to_HDMI_converter_support?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <20241105-succinct-pygmy-dingo-4db79c@houat>
+References: <20241104032806.611890-1-victor.liu@nxp.com>
+ <173080602214.231309.12977765173766280536.b4-ty@linaro.org>
+ <20241105-secret-seriema-of-anger-7acfdf@houat>
+ <CD810D31-F9C5-499D-86CF-B94BEF82449A@linaro.org>
+ <20241105-succinct-pygmy-dingo-4db79c@houat>
+Message-ID: <7C2A2BDC-07E8-4ED7-B65B-BD7E4E5DC53F@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2-v3-b3a5b5937f56+7bb-arm_no_split_jgg@nvidia.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,56 +101,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+On 5 November 2024 17:39:40 GMT, Maxime Ripard <mripard@kernel=2Eorg> wrote=
+:
+>On Tue, Nov 05, 2024 at 05:33:21PM +0000, Dmitry Baryshkov wrote:
+>> On 5 November 2024 16:13:26 GMT, Maxime Ripard <mripard@kernel=2Eorg> w=
+rote:
+>> >On Tue, Nov 05, 2024 at 01:28:48PM +0200, Dmitry Baryshkov wrote:
+>> >> On Mon, 04 Nov 2024 11:27:53 +0800, Liu Ying wrote:
+>> >> > This patch series aims to add ITE IT6263 LVDS to HDMI converter on
+>> >> > i=2EMX8MP EVK=2E  Combined with LVDS receiver and HDMI 1=2E4a tran=
+smitter,
+>> >> > the IT6263 supports LVDS input and HDMI 1=2E4 output by conversion
+>> >> > function=2E  IT6263 product link can be found at [1]=2E
+>> >> >=20
+>> >> > Patch 1 is a preparation patch to allow display mode of an existin=
+g
+>> >> > panel to pass the added mode validation logic in patch 3=2E
+>> >> >=20
+>> >> > [=2E=2E=2E]
+>> >>=20
+>> >> Applied to drm-misc-next, thanks!
+>> >>=20
+>> >> [04/13] media: uapi: Add MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG, JEIDA}
+>> >>         commit: 5205b63099507a84458075c3ca7e648407e6c8cc
+>> >
+>> >Where's the immutable branch Laurent asked for?
+>>=20
+>> The patch set has been picked up after getting an Ack from Sakari,
+>> before Laurent's email=2E I am sorry if I rushed it in=2E
+>
+>I mean, this was less than a day after you've asked that question
+>yourself=2E Waiting less than a day for a mail to be answered seems a bit
+>short, especially when there's no rush to merge these patches in the
+>first place=2E
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8e929cb546ee42c9a61d24fae60605e9e3192354]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gunthorpe/iommu-io-pgtable-arm-Remove-split-on-unmap-behavior/20241106-021511
-base:   8e929cb546ee42c9a61d24fae60605e9e3192354
-patch link:    https://lore.kernel.org/r/2-v3-b3a5b5937f56%2B7bb-arm_no_split_jgg%40nvidia.com
-patch subject: [PATCH v3 2/3] iommu/io-pgtable-arm-v7s: Remove split on unmap behavior
-config: arm-randconfig-004-20241106 (https://download.01.org/0day-ci/archive/20241106/202411061634.3EtgZij8-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061634.3EtgZij8-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411061634.3EtgZij8-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/iommu/io-pgtable-arm-v7s.c:823:18: warning: variable 'loopnr' set but not used [-Wunused-but-set-variable]
-     823 |         unsigned int i, loopnr = 0;
-         |                         ^
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+Point noted=2E I should have been more patient=2E As a lame excuse I could=
+ point out that the patch has been up for review / comments for quite a whi=
+le, etc, etc, but this is really lame=2E=20
 
 
-vim +/loopnr +823 drivers/iommu/io-pgtable-arm-v7s.c
 
-e5fc9753b1a831 Robin Murphy    2016-01-26  810  
-e5fc9753b1a831 Robin Murphy    2016-01-26  811  static int __init arm_v7s_do_selftests(void)
-e5fc9753b1a831 Robin Murphy    2016-01-26  812  {
-e5fc9753b1a831 Robin Murphy    2016-01-26  813  	struct io_pgtable_ops *ops;
-e5fc9753b1a831 Robin Murphy    2016-01-26  814  	struct io_pgtable_cfg cfg = {
-e5fc9753b1a831 Robin Murphy    2016-01-26  815  		.tlb = &dummy_tlb_ops,
-e5fc9753b1a831 Robin Murphy    2016-01-26  816  		.oas = 32,
-e5fc9753b1a831 Robin Murphy    2016-01-26  817  		.ias = 32,
-4f41845b340783 Will Deacon     2019-06-25  818  		.coherent_walk = true,
-4f41845b340783 Will Deacon     2019-06-25  819  		.quirks = IO_PGTABLE_QUIRK_ARM_NS,
-e5fc9753b1a831 Robin Murphy    2016-01-26  820  		.pgsize_bitmap = SZ_4K | SZ_64K | SZ_1M | SZ_16M,
-e5fc9753b1a831 Robin Murphy    2016-01-26  821  	};
-76b8c2705cdd26 Jason Gunthorpe 2024-11-05  822  	unsigned int iova, size;
-e5fc9753b1a831 Robin Murphy    2016-01-26 @823  	unsigned int i, loopnr = 0;
+>
+>Maxime
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
