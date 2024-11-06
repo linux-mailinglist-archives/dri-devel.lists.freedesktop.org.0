@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9029BEF18
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 14:33:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1420E9BEF1C
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 14:34:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C66010E6E6;
-	Wed,  6 Nov 2024 13:33:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79C0B10E6E8;
+	Wed,  6 Nov 2024 13:34:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="LeRUpQNY";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YS1eG0Gt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com
- [91.218.175.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AFA510E6E8
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 13:33:38 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1730900016;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=L0Hs6MfDCm9OBvKWZZJPXB/waj4QxbzOt9Cz60jbht4=;
- b=LeRUpQNYFntxZ+/Nas9OV9ZCgqsiaBopA9T6kwwlVsGNY7e1+NIIFQWDTdcaRDu9qyf6ih
- w32tggnc5H2JES/qBsegQYw7JjbB3qsl3Pe0ToX/p8Tk51LfXoFKVroIcwN2K0WOJY01lc
- a3wcNKIQxJ/IDoxtK2cYh3niQWjxQuwJiDsoQpY200HRyjoDOAseFIJppgiqyyQvI292e2
- FEOb/J/BnmRdoRGOt5AAZzBxBvHt1XW7HIJJtWjGVbXl4RwUZovFtWBGl7ppBcaBiaA7Ma
- 28nvs1fC+duP1hADHeC1H/nebhqJRclV4Apz6f9D51wkHChYLzV2bzs0Vcgvkw==
-Content-Type: multipart/signed;
- boundary=941c37924af32141fe5e0f79007b5e08666732b6921ee74e1ee56a0ed058;
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Date: Wed, 06 Nov 2024 14:33:25 +0100
-Message-Id: <D5F4UD59MUJG.2HFCTRSPELO98@cknow.org>
-Cc: <andy.yan@rock-chips.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <andrzej.hajda@intel.com>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <quentin.schulz@cherry.de>, "Heiko Stuebner" <heiko.stuebner@cherry.de>
-Subject: Re: [PATCH 3/3] drm/rockchip: Add MIPI DSI2 glue driver for RK3588
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Heiko Stuebner" <heiko@sntech.de>
-References: <20241106123304.422854-1-heiko@sntech.de>
- <20241106123304.422854-4-heiko@sntech.de>
-In-Reply-To: <20241106123304.422854-4-heiko@sntech.de>
-X-Migadu-Flow: FLOW_OUT
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 219DF10E6E8
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 13:34:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1730900047;
+ bh=Yoiib6vdS/6XzN748mEm3NNl4q2ZfiIBbJS6Rd27i68=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=YS1eG0GtUvzbbS4IBnQChLBo/+zO4bierMMTnvDriQBpvvug/5UWq5dPazREfgcMl
+ +zv+tpMZPy8zlxAip5qkEnH2fN5LTWs9aH3oYVBicE/a4lnCG5XjLH6HN3az6dICI2
+ z+KOHQvcw9Fuhlou8fh5HXjLzRtPok2INiS3PWTbyK7UMh+Mq9L+V9okSi+tovJg2Q
+ ssUpboxoL8rqHyGX6KK3WIWYMAxAacU10LQQQyRRVQ8/Gc1VbWLNxUk+No1pBHLP+n
+ RDffxRKkIYgMX1L34oPzpAVhqLie7LEz7z4Jx04SmMNfALXsqjsMFzTkJNDliNTsua
+ KkUfuhT7c5bng==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 63DFA17E3638;
+ Wed,  6 Nov 2024 14:34:07 +0100 (CET)
+Date: Wed, 6 Nov 2024 14:34:02 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jann Horn <jannh@google.com>
+Subject: Re: [PATCH] drm/panthor: Lock XArray when getting entries for heap
+ and VM
+Message-ID: <20241106143402.4bbaea96@collabora.com>
+In-Reply-To: <20d75e2c-c5a5-48c3-ac99-a9e15f19b872@arm.com>
+References: <20241106120748.290697-1-liviu.dudau@arm.com>
+ <20d75e2c-c5a5-48c3-ac99-a9e15f19b872@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,177 +66,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---941c37924af32141fe5e0f79007b5e08666732b6921ee74e1ee56a0ed058
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Wed, 6 Nov 2024 13:17:29 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-On Wed Nov 6, 2024 at 1:33 PM CET, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@cherry.de>
->
-> This adds the glue code for the MIPI DSI2 bridge on Rockchip SoCs and
-> enables its use on the RK3588.
->
-> Right now the DSI2 controller is always paired with a DC-phy based on a
-> Samsung IP, so the interface values are set statically for now.
-> This stays true for the upcoming RK3576 as well.
->
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
-> ---
->  drivers/gpu/drm/rockchip/Kconfig              |  10 +
->  drivers/gpu/drm/rockchip/Makefile             |   1 +
->  .../gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  | 524 ++++++++++++++++++
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   2 +
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |   1 +
->  5 files changed, 538 insertions(+)
->  create mode 100644 drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
->
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/=
-Kconfig
-> index 448fadd4ba15..99d4b260de85 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -10,6 +10,7 @@ config DRM_ROCKCHIP
->  	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
->  	select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
->  	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
-> +	select DRM_DW_MIPI_DSI2 if ROCKCHIP_DW_MIPI_DSI2
->  	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
->  	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
->  	select SND_SOC_HDMI_CODEC if ROCKCHIP_CDN_DP && SND_SOC
-> @@ -81,6 +82,15 @@ config ROCKCHIP_DW_MIPI_DSI
->  	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
->  	  select this option.
-> =20
-> +config ROCKCHIP_DW_MIPI_DSI2
-> +	bool "Rockchip specific extensions for Synopsys DW MIPI DSI"
-> +	select GENERIC_PHY_MIPI_DPHY
-> +	help
-> +	  This selects support for Rockchip SoC specific extensions
-> +	  for the Synopsys DesignWare dsi driver. If you want to
-> +	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
-> +	  select this option.
+> On 06/11/2024 12:07, Liviu Dudau wrote:
+> > Similar to cac075706f29 ("drm/panthor: Fix race when converting
+> > group handle to group object") we need to use the XArray's internal
+> > locking when retrieving a pointer from there for heap and vm.
+> > 
+> > Reported-by: Jann Horn <jannh@google.com>
+> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> > Cc: Steven Price <steven.price@arm.com>
+> > Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_heap.c | 15 +++++++++++++--
+> >  drivers/gpu/drm/panthor/panthor_mmu.c  |  2 ++
+> >  2 files changed, 15 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
+> > index 3796a9eb22af2..fe0bcb6837f74 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_heap.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+> > @@ -351,6 +351,17 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
+> >  	return ret;
+> >  }
+> >  
+> > +static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
+> > +{
+> > +	struct panthor_heap *heap;
+> > +
+> > +	xa_lock(&pool->xa);
+> > +	heap = xa_load(&pool->xa, id);
+> > +	xa_unlock(&pool->va);
+> > +
+> > +	return heap;
+> > +}  
+> 
+> This locking doesn't actually achieve anything - XArray already deals
+> with the concurrency (with RCU), and if we're doing nothing more than an
+> xa_load() then we don't need (extra) locking (unless using the __
+> prefixed functions).
+> 
+> And, as Boris has pointed out, pool->lock is held. As you mention in
+> your email the missing bit might be panthor_heap_pool_release() - if
+> it's not holding a lock then the heap could be freed immediately after
+> panthor_heap_from_id() returns (even with the above change).
 
-The commit message and the cover letter talk about RK3588 (and RK3576),
-so this seems like a copy-n-paste error (from DSI '1')?
-I'd also prefer 'dsi' to be in capitals (thus 'DSI').
+Hm, if we call panthor_heap_from_id(), that means we have a heap pool to
+pass, and incidentally, we're supposed to hold a ref on this pool. So I
+don't really see how the heap pool can go away, unless someone messed
+up with the refcounting in the meantime.
 
-> +
->  config ROCKCHIP_INNO_HDMI
->  	bool "Rockchip specific extensions for Innosilicon HDMI"
->  	select DRM_DISPLAY_HDMI_HELPER
-> diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip=
-/Makefile
-> index 3eab662a5a1d..2b867cebbc12 100644
-> --- a/drivers/gpu/drm/rockchip/Makefile
-> +++ b/drivers/gpu/drm/rockchip/Makefile
-> @@ -13,6 +13,7 @@ rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) +=3D cdn-dp-core.=
-o cdn-dp-reg.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI) +=3D dw_hdmi-rockchip.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI_QP) +=3D dw_hdmi_qp-rockchip.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI) +=3D dw-mipi-dsi-rockchip.o
-> +rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI2) +=3D dw-mipi-dsi2-rockchip.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_INNO_HDMI) +=3D inno_hdmi.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_LVDS) +=3D rockchip_lvds.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_RGB) +=3D rockchip_rgb.o
-> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c b/drivers/g=
-pu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-> new file mode 100644
-> index 000000000000..42a7a80e2138
-> --- /dev/null
-> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-> @@ -0,0 +1,524 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright (C) 2024 Rockchip Electronics Co.Ltd
-> + * Author:
-> + *      Guochun Huang <hero.huang@rock-chips.com>
-> + *      Heiko Stuebner <heiko.stuebner@cherry.de>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/component.h>
-> +#include <linux/gpio.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/math64.h>
-> +#include <linux/media-bus-format.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/of_gpio.h>
-> +#include <linux/of_platform.h>
+> 
+> Steve
+> 
+> > +
+> >  /**
+> >   * panthor_heap_return_chunk() - Return an unused heap chunk
+> >   * @pool: The pool this heap belongs to.
+> > @@ -375,7 +386,7 @@ int panthor_heap_return_chunk(struct panthor_heap_pool *pool,
+> >  		return -EINVAL;
+> >  
+> >  	down_read(&pool->lock);
+> > -	heap = xa_load(&pool->xa, heap_id);
+> > +	heap = panthor_heap_from_id(pool, heap_id);
+> >  	if (!heap) {
+> >  		ret = -EINVAL;
+> >  		goto out_unlock;
+> > @@ -438,7 +449,7 @@ int panthor_heap_grow(struct panthor_heap_pool *pool,
+> >  		return -EINVAL;
+> >  
+> >  	down_read(&pool->lock);
+> > -	heap = xa_load(&pool->xa, heap_id);
+> > +	heap = panthor_heap_from_id(pool, heap_id);
+> >  	if (!heap) {
+> >  		ret = -EINVAL;
+> >  		goto out_unlock;
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index 8ca85526491e6..8b5cda9d21768 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -1580,7 +1580,9 @@ panthor_vm_pool_get_vm(struct panthor_vm_pool *pool, u32 handle)
+> >  {
+> >  	struct panthor_vm *vm;
+> >  
+> > +	xa_lock(&pool->xa);
+> >  	vm = panthor_vm_get(xa_load(&pool->xa, handle));
+> > +	xa_unlock(&pool->va);
+> >  
+> >  	return vm;
+> >  }  
+> 
 
-In commit 722d4f06e560 ("drm: Explicitly include correct DT includes")
-several changes were made to header includes.
-One of the things I noticed is that ``of_device.h`` often was removed
-and ``of.h`` added.
-Thus are the above headers as they should be or should they be updated
-like was done in commit 722d4f06e560?
-
-> +#include <linux/pm_runtime.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/reset.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/phy/phy.h>
-> +
-> +#include <drm/bridge/dw_mipi_dsi2.h>
-> +
-> +#include <drm/display/drm_dsc.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_crtc_helper.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_panel.h>
-> +#include <video/mipi_display.h>
-> +#include <video/videomode.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#include <uapi/linux/videodev2.h>
-> +
-> +#include "rockchip_drm_drv.h"
-> +#include "rockchip_drm_vop.h"
-> +
-> +#define PSEC_PER_SEC			1000000000000LL
-> +
-> +struct dsigrf_reg {
-> +	u16 offset;
-> +	u16 lsb;
-> +	u16 msb;
-> +};
-> +
-> +enum grf_reg_fields {
-> +	TXREQCLKHS_EN,
-> +	GATING_EN,
-> +	IPI_SHUTDN,
-> +	IPI_COLORM,
-> +	IPI_COLOR_DEPTH,
-> +	IPI_FORMAT,
-> +	MAX_FIELDS,
-> +};
-> +
-> +#define IPI_DEPTH_5_6_5_BITS		0x02
-> +#define IPI_DEPTH_6_BITS		0x03
-> +#define IPI_DEPTH_8_BITS		0x05
-> +#define IPI_DEPTH_10_BITS		0x06
-
-Possibly dumb remark (sorry):
-drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c also defines these
-values, so wouldn't it be better if they're defined in 1 place?
-
-Cheers,
-  Diederik
-
---941c37924af32141fe5e0f79007b5e08666732b6921ee74e1ee56a0ed058
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZytwKgAKCRDXblvOeH7b
-biV/AP4zAYHiHOY+G+ZWghI6d64xjETs3tPKgVHZL09dfdL/JwD/TSO6qqGeYLHi
-B98Lhvs7MDrWNaq9pz6STkXM4wXDRQQ=
-=9pLY
------END PGP SIGNATURE-----
-
---941c37924af32141fe5e0f79007b5e08666732b6921ee74e1ee56a0ed058--
