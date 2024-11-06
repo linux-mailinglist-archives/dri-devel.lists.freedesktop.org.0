@@ -2,124 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D269BDB67
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 02:47:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217719BDBDF
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 03:10:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22A010E11C;
-	Wed,  6 Nov 2024 01:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC2F10E647;
+	Wed,  6 Nov 2024 02:09:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="OUUhdFEr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gj28V6pB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2055.outbound.protection.outlook.com [40.107.95.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE2BE10E11C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 01:47:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e0JD6egENSVZzIV7sFEvGXFQTzPBg9XSxy+Vf/9bE57cGIZbvSyAJa99TGPMi8oba6g8GV+As/dO56FiSX2A+NcMMAsJrgRGY8ICMSCnISAPAmdthwtLTn1QhSqw78SXsRnAj6Liyyj3dxF8O66r44qs+GBmiEx6Vc77H5xQzyiIHxn5gcwdBnuvv0ZUvPQmybk2p8wwrp1FTuD4meXRMUDETQsbNRSdIAbwpKEyLA4CT7nyozZ1pRNCa2MZ87v+ceZseMCL4SlnTz1PEebl3U/0ZQkJDz8ajzNicJNhLCKJfLpH/Mj0365xxsLqCwRyq5KyJx7O2l1DCshqWR6BIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W0v38AYgJrRjpH9nvqYQpNewiDwRZ7f2lh4fJCTPAvw=;
- b=RBa36eZrKRiNvu9F+SkGLVujQkQNHcxtf83ZJ1lkJiPlo1jgSxWsCzXmpe1BcGmuHnzGRIzwnogrhUqNKLFdyQ+H+VKue0kT5DGnUBKzDSK1TnkDKTTdi/yj+jnwAKAeN58io9DK6Fi0Ayue4ctUgwFPS9juuIjtODcUcNOMk8LsSrOJ9R2MxSMl6gLt1wQUQaPtW1adpdC9tf7HueDO2xZgdOmKDGbbV+HzMEmTPWmpcBuZQpXG2IpLjJA1Cnfqf5ZfTNg2lnv9npvPMWD+CuTh15jpwLR3HZKKVQKXkybfxX2CqpWHf/a6woG98LgoHk6XKTExqcmtrCeLojwhtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W0v38AYgJrRjpH9nvqYQpNewiDwRZ7f2lh4fJCTPAvw=;
- b=OUUhdFErvQFy9PqB1w8v9xHH6T+H2K3lxXyi+zUwoTTbYz4cF/HiPm0SDpwkjZrO3rRF8fMCUhWNhXO6bJEFRSUV/0nHje/kx3gmBSu/CcTj1HY9Ke0Wstqhxch/13BebSygHNMzsI76eO3DFXZUqCc8T00zTACEGhVVR2FqzCE=
-Received: from BN1PR13CA0028.namprd13.prod.outlook.com (2603:10b6:408:e2::33)
- by MN2PR12MB4486.namprd12.prod.outlook.com (2603:10b6:208:263::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Wed, 6 Nov
- 2024 01:47:05 +0000
-Received: from BL6PEPF0001AB54.namprd02.prod.outlook.com
- (2603:10b6:408:e2:cafe::f0) by BN1PR13CA0028.outlook.office365.com
- (2603:10b6:408:e2::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.18 via Frontend
- Transport; Wed, 6 Nov 2024 01:47:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB54.mail.protection.outlook.com (10.167.241.6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8137.17 via Frontend Transport; Wed, 6 Nov 2024 01:47:05 +0000
-Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 5 Nov
- 2024 19:47:00 -0600
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>, Simona Vetter
- <simona.vetter@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>, "Rodrigo
- Siqueira" <rodrigo.siqueira@amd.com>, Harry Wentland
- <harry.wentland@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>, Karol Herbst
- <kherbst@redhat.com>, "Ian Forbes" <ian.forbes@broadcom.com>
-Subject: [PATCH] drm/edid: add CTA Video Format Data Block support
-Date: Tue, 5 Nov 2024 20:46:38 -0500
-Message-ID: <20241106014638.350678-1-hamza.mahfooz@amd.com>
-X-Mailer: git-send-email 2.46.1
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2CCE10E647;
+ Wed,  6 Nov 2024 02:09:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id DC7F2A41BD8;
+ Wed,  6 Nov 2024 02:08:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD45C4CECF;
+ Wed,  6 Nov 2024 02:09:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1730858996;
+ bh=kOLAwUvIL2dyE5vEwHs72gGgdtVM5z29R9bEbSjh1Gc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=gj28V6pBFzRLTdbWqDuG46lHT6zLWxWyLLydVidhG6tLDGbNhvajy86KINRZWBo1r
+ coj8YGqZBvzvKUL9Pn5VyYfvLhVn34bYAYwAjOtlcoCeFY6siJmgs4yatPBP9lqZMn
+ PNtKGGR2wNne5BVpKO7a7vsXRkMaiqtWKZYEj+bAQkSqYbVWzS7c3RzULCIDuEH8N3
+ Et/eN6O0qBGCoi7OQdklKl+TY328Om594wLu3nXBjrnIumRBBiXqM83k7XZxzJEwHL
+ 89F6Bzs/IBGCGfGBJ16bkrZTXyifRi/odXHHkVIUEqGIrk/qMTlIs1Gqkz3LlwdtCX
+ K0R51BwsMGbVg==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org,
+	tvrtko.ursulin@igalia.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Evan Quan <evan.quan@amd.com>, Wenyou Yang <WenYou.Yang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "drm/amd/pm: Vangogh: Fix kernel memory out of bounds
+ write" failed to apply to v6.6-stable tree
+Date: Tue,  5 Nov 2024 21:09:52 -0500
+Message-ID: <20241106020953.174611-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+X-Patchwork-Hint: ignore
+X-stable: review
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB54:EE_|MN2PR12MB4486:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b7ee9c8-71b3-4bce-a506-08dcfe04eaef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|1800799024|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Qdr2dRsANadNmacWePErWRTeAKwBscfFtcksW819tkUZny+FmcOtqLycPb4Y?=
- =?us-ascii?Q?HS8LWpZnrq31QOlo//7gM+u/nKXCLeCqeAsATx2wYskd0l9f2v+o98yeTsR2?=
- =?us-ascii?Q?j6eRlth5bpcRVOX7wTOBLMQv5NzZ742cpYkz4b+Uy4YOUvGzWyYPTlrmBn94?=
- =?us-ascii?Q?+M0Ot03Kfp+kmAa9IFQx5Anhl1arq4Huiou2E5u2V9yDsMFC5xZ48I2cUW5U?=
- =?us-ascii?Q?AKYjqQUrx2cf8iavHMPWqqE4gAenMCeNLJF4d5oSP9kSXA0Tt0oOwXbxFng0?=
- =?us-ascii?Q?fdL6dKPLC32u1pD7fLloRzSrAQUxy1y3RWQ4lmfECk9v00HFt7bO4rT3D5Ko?=
- =?us-ascii?Q?drSBx3Kcw8uZeWUgHdgvAruhjbC+aqxapQjwO+1SYG/7xE1u58M6CZdyHDcu?=
- =?us-ascii?Q?mp1TyfzK2Tjw4KFaetsz9Rfp/67Lzb63ipzshC4u28eXbLklURh9lS+BZk+B?=
- =?us-ascii?Q?1Ttx23JOkm7N+BsDMuMjy5oxoSjmNKRSnAnGFknNqzPPy+5mTEzpIvcXXtUU?=
- =?us-ascii?Q?6W1FvJJcmatOk5mjLezic/XeySP5sh+XXaKh2xsNrk1AHnFG10e36LRf5aLv?=
- =?us-ascii?Q?aTBmdU+eV2sWtuO4Yq5AUYoDSQqiIL9prVYC39pFv6CmYckb5nL1eLZ1TKfG?=
- =?us-ascii?Q?BTSjSWG03TrxDRAYuTLese+CViq0n/owmpzciFXPbNJPmKvNU2T85q4HyWDu?=
- =?us-ascii?Q?2cbXvng5Sy//71e9QZs6cp/bKB5Bfj8XdjtIJnMjiWfXbDv73gqQ74AicBcm?=
- =?us-ascii?Q?iKjivrKnt9gdT1PO5gB4cMu28tsIRTsrNnfpBUHb4F0FTG1DCawKu1Q0OrFX?=
- =?us-ascii?Q?xxTV2I0YIIK41Y6o4pFk93NHlE2yZirXlnGNHpIzDpx/OZsfk5ZfNPHBvoSY?=
- =?us-ascii?Q?ctjPtmD7RYePx8ai+vfbExDiwNj6JnL8Br1k6M7Tp/O+lQq+SLwOMXONqlmT?=
- =?us-ascii?Q?Klz4y0dh3s/U7AVMuAPfzCikXHwEFWGBJ/Sg0jzqH0Jz1GFCC2Lqv+W0ewxx?=
- =?us-ascii?Q?VgyXQ42Ck+2d56Jrj0iQMU808F5v1JlnXk7aAGd9ohs6KJRKO2uuO4oMwVhw?=
- =?us-ascii?Q?yPRRyREhdamAYsFzTqGWXxeqp98wWyhNXcPsnOX8iNR+vP+att/E9gsfgLNX?=
- =?us-ascii?Q?DhRIN4W7bRqEd3CI25i10oTsGyGP+/2CozI36jeUBnL1+nzfqhVmDSbyRMzh?=
- =?us-ascii?Q?iS6e4Lr9DbPrJvEs6McSVDliuJF274AQSAdtNEtWsE+94zZNJECnxVeHIY/T?=
- =?us-ascii?Q?qrCZEDeTka5oTWks6PKbFLfOJwsbzqPKhfdxuDQgweoGr9fAdvYxsVgTKwUh?=
- =?us-ascii?Q?VqVyUmQEvSJKcz85ghG9/j0kqLqF91OttZteFAGX2LkUV9GPw3P7UHq6lfgY?=
- =?us-ascii?Q?PTO0nYY9SbJKNQqcv+S78G4MtAz7SntfRPbj8+iMkcUXhAugRA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2024 01:47:05.2790 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b7ee9c8-71b3-4bce-a506-08dcfe04eaef
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB54.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4486
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,556 +61,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Video Format Data Blocks (VFDBs) contain the necessary information that
-needs to be fed to the Optimized Video Timings (OVT) Algorithm.
-Also, we require OVT support to cover modes that aren't supported by
-earlier standards (e.g. CVT). So, parse all of the relevant VFDB data
-and feed it to the OVT Algorithm, to extract all of the missing OVT
-modes.
+The patch below does not apply to the v6.6-stable tree.
+If someone wants it applied there, or to any other stable or longterm
+tree, then please email the backport, including the original git commit
+id to <stable@vger.kernel.org>.
 
-Cc: Ian Forbes <ian.forbes@broadcom.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Suggested-by: Karol Herbst <kherbst@redhat.com>
-Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Thanks,
+Sasha
+
+------------------ original commit in Linus's tree ------------------
+
+From 4aa923a6e6406b43566ef6ac35a3d9a3197fa3e8 Mon Sep 17 00:00:00 2001
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Date: Fri, 25 Oct 2024 15:56:39 +0100
+Subject: [PATCH] drm/amd/pm: Vangogh: Fix kernel memory out of bounds write
+
+KASAN reports that the GPU metrics table allocated in
+vangogh_tables_init() is not large enough for the memset done in
+smu_cmn_init_soft_gpu_metrics(). Condensed report follows:
+
+[   33.861314] BUG: KASAN: slab-out-of-bounds in smu_cmn_init_soft_gpu_metrics+0x73/0x200 [amdgpu]
+[   33.861799] Write of size 168 at addr ffff888129f59500 by task mangoapp/1067
+...
+[   33.861808] CPU: 6 UID: 1000 PID: 1067 Comm: mangoapp Tainted: G        W          6.12.0-rc4 #356 1a56f59a8b5182eeaf67eb7cb8b13594dd23b544
+[   33.861816] Tainted: [W]=WARN
+[   33.861818] Hardware name: Valve Galileo/Galileo, BIOS F7G0107 12/01/2023
+[   33.861822] Call Trace:
+[   33.861826]  <TASK>
+[   33.861829]  dump_stack_lvl+0x66/0x90
+[   33.861838]  print_report+0xce/0x620
+[   33.861853]  kasan_report+0xda/0x110
+[   33.862794]  kasan_check_range+0xfd/0x1a0
+[   33.862799]  __asan_memset+0x23/0x40
+[   33.862803]  smu_cmn_init_soft_gpu_metrics+0x73/0x200 [amdgpu 13b1bc364ec578808f676eba412c20eaab792779]
+[   33.863306]  vangogh_get_gpu_metrics_v2_4+0x123/0xad0 [amdgpu 13b1bc364ec578808f676eba412c20eaab792779]
+[   33.864257]  vangogh_common_get_gpu_metrics+0xb0c/0xbc0 [amdgpu 13b1bc364ec578808f676eba412c20eaab792779]
+[   33.865682]  amdgpu_dpm_get_gpu_metrics+0xcc/0x110 [amdgpu 13b1bc364ec578808f676eba412c20eaab792779]
+[   33.866160]  amdgpu_get_gpu_metrics+0x154/0x2d0 [amdgpu 13b1bc364ec578808f676eba412c20eaab792779]
+[   33.867135]  dev_attr_show+0x43/0xc0
+[   33.867147]  sysfs_kf_seq_show+0x1f1/0x3b0
+[   33.867155]  seq_read_iter+0x3f8/0x1140
+[   33.867173]  vfs_read+0x76c/0xc50
+[   33.867198]  ksys_read+0xfb/0x1d0
+[   33.867214]  do_syscall_64+0x90/0x160
+...
+[   33.867353] Allocated by task 378 on cpu 7 at 22.794876s:
+[   33.867358]  kasan_save_stack+0x33/0x50
+[   33.867364]  kasan_save_track+0x17/0x60
+[   33.867367]  __kasan_kmalloc+0x87/0x90
+[   33.867371]  vangogh_init_smc_tables+0x3f9/0x840 [amdgpu]
+[   33.867835]  smu_sw_init+0xa32/0x1850 [amdgpu]
+[   33.868299]  amdgpu_device_init+0x467b/0x8d90 [amdgpu]
+[   33.868733]  amdgpu_driver_load_kms+0x19/0xf0 [amdgpu]
+[   33.869167]  amdgpu_pci_probe+0x2d6/0xcd0 [amdgpu]
+[   33.869608]  local_pci_probe+0xda/0x180
+[   33.869614]  pci_device_probe+0x43f/0x6b0
+
+Empirically we can confirm that the former allocates 152 bytes for the
+table, while the latter memsets the 168 large block.
+
+Root cause appears that when GPU metrics tables for v2_4 parts were added
+it was not considered to enlarge the table to fit.
+
+The fix in this patch is rather "brute force" and perhaps later should be
+done in a smarter way, by extracting and consolidating the part version to
+size logic to a common helper, instead of brute forcing the largest
+possible allocation. Nevertheless, for now this works and fixes the out of
+bounds write.
+
+v2:
+ * Drop impossible v3_0 case. (Mario)
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Fixes: 41cec40bc9ba ("drm/amd/pm: Vangogh: Add new gpu_metrics_v2_4 to acquire gpu_metrics")
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Evan Quan <evan.quan@amd.com>
+Cc: Wenyou Yang <WenYou.Yang@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Link: https://lore.kernel.org/r/20241025145639.19124-1-tursulin@igalia.com
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+(cherry picked from commit 0880f58f9609f0200483a49429af0f050d281703)
+Cc: stable@vger.kernel.org # v6.6+
 ---
-v3: move ovt stuff above add_cea_modes() and break up
-    calculate_ovt_mode() to make it easier to read.
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-v4: fix 32 bit build and constify read-only vars.
-
-v5: Implement suggestions from:
-    https://lore.kernel.org/dri-devel/87plpbk92h.fsf@intel.com/
-    and export drm_ovt_mode().
----
- drivers/gpu/drm/drm_edid.c | 465 +++++++++++++++++++++++++++++++++++++
- include/drm/drm_edid.h     |   3 +
- 2 files changed, 468 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 855beafb76ff..e5e34397be00 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -31,6 +31,7 @@
- #include <linux/bitfield.h>
- #include <linux/byteorder/generic.h>
- #include <linux/cec.h>
-+#include <linux/gcd.h>
- #include <linux/hdmi.h>
- #include <linux/i2c.h>
- #include <linux/kernel.h>
-@@ -741,6 +742,87 @@ static const struct minimode extra_modes[] = {
- 	{ 2048, 1536, 60, 0 },
- };
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+index 22737b11b1bfb..1fe020f1f4dbe 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+@@ -242,7 +242,9 @@ static int vangogh_tables_init(struct smu_context *smu)
+ 		goto err0_out;
+ 	smu_table->metrics_time = 0;
  
-+struct cta_rid {
-+	u16 hactive;
-+	u16 vactive;
-+	u8 hratio;
-+	u8 vratio;
-+};
-+
-+/* CTA-861-I Table 11 - Resolution Identification (RID) */
-+static const struct cta_rid rids[] = {
-+	[0]  = { 0, 0, 0, 0 },
-+	[1]  = { 1280, 720, 16, 9 },
-+	[2]  = { 1280, 720, 64, 27 },
-+	[3]  = { 1680, 720, 64, 27 },
-+	[4]  = { 1920, 1080, 16, 9 },
-+	[5]  = { 1920, 1080, 64, 27 },
-+	[6]  = { 2560, 1080, 64, 27 },
-+	[7]  = { 3840, 1080, 32, 9 },
-+	[8]  = { 2560, 1440, 16, 9 },
-+	[9]  = { 3440, 1440, 64, 27 },
-+	[10] = { 5120, 1440, 32, 9 },
-+	[11] = { 3840, 2160, 16, 9 },
-+	[12] = { 3840, 2160, 64, 27 },
-+	[13] = { 5120, 2160, 64, 27 },
-+	[14] = { 7680, 2160, 32, 9 },
-+	[15] = { 5120, 2880, 16, 9 },
-+	[16] = { 5120, 2880, 64, 27 },
-+	[17] = { 6880, 2880, 64, 27 },
-+	[18] = { 10240, 2880, 32, 9 },
-+	[19] = { 7680, 4320, 16, 9 },
-+	[20] = { 7680, 4320, 64, 27 },
-+	[21] = { 10240, 4320, 64, 27 },
-+	[22] = { 15360, 4320, 32, 9 },
-+	[23] = { 11520, 6480, 16, 9 },
-+	[24] = { 11520, 6480, 64, 27 },
-+	[25] = { 15360, 6480, 64, 27 },
-+	[26] = { 15360, 8640, 16, 9 },
-+	[27] = { 15360, 8640, 64, 27 },
-+	[28] = { 20480, 8640, 64, 27 },
-+};
-+
-+/* CTA-861-I Table 12 - AVI InfoFrame Video Format Frame Rate */
-+static const u16 video_format_frame_rates[] = {
-+	/* Frame Rate 0-7 */
-+	0, 24, 25, 30, 48, 50, 60, 100,
-+	/* Frame Rate 8-15 */
-+	120, 144, 200, 240, 300, 360, 400, 480,
-+};
-+
-+/* CTA-861-I Table 13 - RID To VIC Mapping */
-+static const u8 rid_to_vic[][8] = {
-+	[0]  = {},
-+	[1]  = { 60, 61, 62, 108, 19, 4, 41, 47 },
-+	[2]  = { 65, 66, 67, 109, 68, 69, 70, 71 },
-+	[3]  = { 79, 80, 81, 110, 82, 83, 84, 85 },
-+	[4]  = { 32, 33, 34, 111, 31, 16, 64, 63 },
-+	[5]  = { 72, 73, 74, 112, 75, 76, 77, 78 },
-+	[6]  = { 86, 87, 88, 113, 89, 90, 91, 92 },
-+	[7]  = {},
-+	[8]  = {},
-+	[9]  = {},
-+	[10] = {},
-+	[11] = { 93, 94, 95, 114, 96, 97, 117, 118 },
-+	[12] = { 103, 104, 105, 116, 106, 107, 119, 120 },
-+	[13] = { 121, 122, 123, 124, 125, 126, 127, 193 },
-+	[14] = {},
-+	[15] = {},
-+	[16] = {},
-+	[17] = {},
-+	[18] = {},
-+	[19] = { 194, 195, 196, 197, 198, 199, 200, 201 },
-+	[20] = { 202, 203, 204, 205, 206, 207, 208, 209 },
-+	[21] = { 210, 211, 212, 213, 214, 215, 216, 217 },
-+	[22] = {},
-+	[23] = {},
-+	[24] = {},
-+	[25] = {},
-+	[26] = {},
-+	[27] = {},
-+	[28] = {},
-+};
-+
- /*
-  * From CEA/CTA-861 spec.
-  *
-@@ -4131,6 +4213,7 @@ static int add_detailed_modes(struct drm_connector *connector,
- #define CTA_DB_VIDEO			2
- #define CTA_DB_VENDOR			3
- #define CTA_DB_SPEAKER			4
-+#define CTA_DB_VIDEO_FORMAT		6
- #define CTA_DB_EXTENDED_TAG		7
- 
- /* CTA-861-H Table 62 - CTA Extended Tag Codes */
-@@ -4972,6 +5055,16 @@ struct cea_db {
- 	u8 data[];
- } __packed;
- 
-+struct cta_vfd {
-+	u8 rid;
-+	u8 fr_fact;
-+	bool bfr50;
-+	bool fr24;
-+	bool bfr60;
-+	bool fr144;
-+	bool fr48;
-+};
-+
- static int cea_db_tag(const struct cea_db *db)
- {
- 	return db->tag_length >> 5;
-@@ -5250,6 +5343,376 @@ static int edid_hfeeodb_extension_block_count(const struct edid *edid)
- 	return cta[4 + 2];
- }
- 
-+/* CTA-861 Video Format Descriptor (CTA VFD) */
-+static void parse_cta_vfd(struct cta_vfd *vfd, const u8 *data, int vfd_len)
-+{
-+	vfd->rid = data[0] & 0x3f;
-+	vfd->bfr50 = data[0] & 0x80;
-+	vfd->fr24 = data[0] & 0x40;
-+	vfd->bfr60 = vfd_len > 1 ? (data[1] & 0x80) : true;
-+	vfd->fr144 = vfd_len > 1 ? (data[1] & 0x40) : false;
-+	vfd->fr_fact = vfd_len > 1 ? (data[1] & 0x3f) : 0x3;
-+	vfd->fr48 = vfd_len > 2 ? (data[2] & 0x1) : false;
-+}
-+
-+static bool vfd_has_fr(const struct cta_vfd *vfd, int rate)
-+{
-+	static const u8 factors[] = {
-+		1, 2, 4, 8, 12, 16
-+	};
-+	int factor = 0;
-+	int i;
-+
-+	switch (rate) {
-+	case 24:
-+		return vfd->fr24;
-+	case 48:
-+		return vfd->fr48;
-+	case 144:
-+		return vfd->fr144;
-+	}
-+
-+	if (!(rate % 25)) {
-+		if (!vfd->bfr50)
-+			return false;
-+
-+		factor = rate / 25;
-+	} else if (!(rate % 30)) {
-+		if (!vfd->bfr60)
-+			return false;
-+
-+		factor = rate / 30;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(factors); i++)
-+		if (factor == factors[i] && (vfd->fr_fact & (1 << i)))
-+			return true;
-+
-+	return false;
-+}
-+
-+#define OVT_PIXEL_CLOCK_GRANULARITY	1000		/* Hz */
-+#define OVT_MIN_HTOTAL_GRANULARITY	8		/* pixels */
-+#define OVT_MIN_VBLANK_DURATION	460000000	/* ps */
-+#define OVT_MIN_VBLANK_LINES		20
-+#define OVT_MIN_VSYNC_LEADING_EDGE	400		/* us */
-+#define OVT_MIN_VSYNC_LE_LINES		14
-+#define OVT_MIN_CLOCK_RATE_420		590000000	/* Hz */
-+#define OVT_PIXEL_FACTOR_420		2
-+#define OVT_MIN_HBLANK_444		80		/* pixels */
-+#define OVT_MIN_HBLANK_420		128		/* pixels */
-+#define OVT_MAX_CHUNK_RATE		650000000	/* Hz */
-+#define OVT_AUDIO_PACKET_RATE		195000		/* Hz */
-+#define OVT_AUDIO_PACKET_SIZE		32
-+#define OVT_LINE_OVERHEAD		32
-+#define OVT_HSYNC_WIDTH		32
-+#define OVT_VSYNC_WIDTH		8
-+
-+static u32 calculate_ovt_min_vtotal(const struct cta_rid *rid, u64 max_vrate,
-+				    u32 vtotal_granularity)
-+{
-+	u64 max_active_time;
-+	u32 min_line_time;
-+	u32 min_vblank;
-+	u32 min_vtotal;
-+
-+	/* step 2 */
-+	max_active_time = div64_u64(1000000000000, max_vrate) -
-+		(u64)OVT_MIN_VBLANK_DURATION;
-+
-+	min_line_time = div_u64(max_active_time, rid->vactive);
-+
-+	min_vblank = max_t(u64, (u64)OVT_MIN_VBLANK_LINES,
-+			   DIV64_U64_ROUND_UP(OVT_MIN_VBLANK_DURATION,
-+					      min_line_time));
-+
-+	min_vtotal = rid->vactive + min_vblank;
-+
-+	if (min_vtotal % vtotal_granularity)
-+		min_vtotal += vtotal_granularity - (min_vtotal %
-+						    vtotal_granularity);
-+
-+	return min_vtotal;
-+}
-+
-+static u32 calculate_ovt_min_htotal(const struct cta_rid *rid,
-+				    const u32 max_vrate,
-+				    const u32 min_vtotal,
-+				    u32 *min_hblank,
-+				    u32 *htotal_granularity)
-+{
-+	u32 max_audio_packets_per_line;
-+	u32 htotal_granularity_chunk;
-+	u64 min_pixel_clock_rate;
-+	u32 min_line_rate;
-+	u32 min_htotal;
-+
-+	/* step 3 */
-+	min_line_rate = max_vrate * min_vtotal;
-+
-+	max_audio_packets_per_line = DIV_ROUND_UP(OVT_AUDIO_PACKET_RATE,
-+						  min_line_rate);
-+
-+	/* step 4 */
-+	*min_hblank = OVT_LINE_OVERHEAD + OVT_AUDIO_PACKET_SIZE *
-+		max_audio_packets_per_line;
-+
-+	min_htotal = rid->hactive + max(OVT_MIN_HBLANK_444, *min_hblank);
-+
-+	min_pixel_clock_rate = max_vrate * min_htotal * min_vtotal;
-+
-+	htotal_granularity_chunk =
-+		roundup_pow_of_two(DIV64_U64_ROUND_UP(min_pixel_clock_rate,
-+						      OVT_MAX_CHUNK_RATE));
-+
-+	*htotal_granularity = max(OVT_MIN_HTOTAL_GRANULARITY,
-+				  htotal_granularity_chunk);
-+
-+	if (min_htotal % *htotal_granularity)
-+		min_htotal += *htotal_granularity - (min_htotal %
-+						     *htotal_granularity);
-+
-+	return min_htotal;
-+}
-+
-+static u64 calculate_ovt_pixel_clock_rate(const struct cta_rid *rid,
-+					  const u32 max_vrate,
-+					  const u32 min_hblank,
-+					  u32 min_htotal,
-+					  u32 min_vtotal,
-+					  const u32 htotal_granularity,
-+					  const u32 vtotal_granularity,
-+					  u32 *htotal, u32 *vtotal)
-+{
-+	u32 resolution_granularity;
-+	u64 pixel_clock_rate;
-+	u64 min_resolution;
-+	u64 rem;
-+	u32 h;
-+	u64 r;
-+	u32 v;
-+
-+	resolution_granularity = OVT_PIXEL_CLOCK_GRANULARITY /
-+		gcd(OVT_PIXEL_CLOCK_GRANULARITY, max_vrate);
-+
-+	do {
-+		/* step 5 */
-+		min_resolution = 0;
-+		v = min_vtotal;
-+
-+		goto loop_end;
-+
-+		while (!min_resolution || r <= min_resolution) {
-+			goto inner_loop_end;
-+
-+			while (rem || div64_u64(max_vrate * r, (h & ~(h - 1))) >
-+			       OVT_MAX_CHUNK_RATE) {
-+				h += htotal_granularity;
-+				r = (u64)h * (u64)v;
-+inner_loop_end:
-+				div64_u64_rem(r, resolution_granularity, &rem);
-+			}
-+
-+			if (!min_resolution || r < min_resolution) {
-+				*htotal = h;
-+				*vtotal = v;
-+				min_resolution = r;
-+			}
-+
-+			v += vtotal_granularity;
-+
-+loop_end:
-+			h = min_htotal;
-+			r = (u64)h * (u64)v;
-+		}
-+
-+		pixel_clock_rate = max_vrate * min_resolution;
-+
-+		/* step 6 */
-+		min_htotal = rid->hactive + max(OVT_MIN_HBLANK_420,
-+						OVT_PIXEL_FACTOR_420 *
-+						min_hblank);
-+
-+	} while (pixel_clock_rate >= OVT_MIN_CLOCK_RATE_420 &&
-+		 *htotal < min_htotal);
-+
-+	return pixel_clock_rate;
-+}
-+
-+static const struct cta_rid *find_rid(u8 rid)
-+{
-+	if (!rid || rid >= ARRAY_SIZE(rids))
-+		return NULL;
-+
-+	return &rids[rid];
-+}
-+
-+/* OVT Algorthim as specified in CTA-861-I */
-+struct drm_display_mode *drm_ovt_mode(struct drm_device *dev, int r_id,
-+				      int vrefresh)
-+{
-+	const struct cta_rid *rid = find_rid(r_id);
-+	struct drm_display_mode *mode;
-+	u32 vtotal_granularity = 1;
-+	u32 htotal_granularity;
-+	u32 max_vrate = vrefresh;
-+	u64 pixel_clock_rate;
-+	u32 vsync_position;
-+	u32 min_hblank;
-+	u32 min_htotal;
-+	u32 min_vtotal;
-+	u32 htotal;
-+	u32 vtotal;
-+
-+	if (!rid)
-+		return NULL;
-+
-+	/* step 1 */
-+	switch (vrefresh) {
-+	case 24:
-+	case 25:
-+		max_vrate = 30;
-+		fallthrough;
-+	case 30:
-+		vtotal_granularity = 20;
-+		break;
-+	case 48:
-+	case 50:
-+		max_vrate = 60;
-+		fallthrough;
-+	case 60:
-+		vtotal_granularity = 20;
-+		break;
-+	case 100:
-+		max_vrate = 120;
-+		fallthrough;
-+	case 120:
-+		vtotal_granularity = 5;
-+		break;
-+	case 200:
-+		max_vrate = 240;
-+		fallthrough;
-+	case 240:
-+		vtotal_granularity = 5;
-+		break;
-+	case 300:
-+		max_vrate = 360;
-+		fallthrough;
-+	case 360:
-+		vtotal_granularity = 5;
-+		break;
-+	case 400:
-+		max_vrate = 480;
-+		fallthrough;
-+	case 480:
-+		vtotal_granularity = 5;
-+		break;
-+	}
-+
-+	min_vtotal = calculate_ovt_min_vtotal(rid, max_vrate,
-+					      vtotal_granularity);
-+
-+	min_htotal = calculate_ovt_min_htotal(rid, max_vrate, min_vtotal,
-+					      &min_hblank, &htotal_granularity);
-+
-+	pixel_clock_rate = calculate_ovt_pixel_clock_rate(rid, max_vrate,
-+							  min_hblank,
-+							  min_htotal,
-+							  min_vtotal,
-+							  htotal_granularity,
-+							  vtotal_granularity,
-+							  &htotal, &vtotal);
-+
-+	/* step 7 */
-+	vtotal = vtotal * max_vrate / (u32)vrefresh;
-+
-+	/* step 8 */
-+	vsync_position = max(OVT_MIN_VSYNC_LE_LINES,
-+			     DIV64_U64_ROUND_UP((u64)OVT_MIN_VSYNC_LE_LINES *
-+						pixel_clock_rate,
-+						(u64)htotal * (u64)1000000));
-+
-+	mode = drm_mode_create(dev);
-+
-+	if (!mode)
-+		return NULL;
-+
-+	/* step 10 */
-+	mode->clock = div_u64(pixel_clock_rate, 1000);
-+	mode->hdisplay = rid->hactive;
-+	mode->hsync_start = htotal - OVT_HSYNC_WIDTH * 2;
-+	mode->hsync_end = mode->hsync_start + OVT_HSYNC_WIDTH;
-+	mode->htotal = htotal;
-+
-+	mode->vdisplay = rid->vactive;
-+	mode->vsync_start = vtotal - vsync_position;
-+	mode->vsync_end = mode->vsync_start + OVT_VSYNC_WIDTH;
-+	mode->vtotal = vtotal;
-+
-+	return mode;
-+}
-+
-+static u8 find_vic(u8 rid, int rate_idx)
-+{
-+	if (video_format_frame_rates[rate_idx] > 120 || !find_rid(rid))
-+		return 0;
-+
-+	return rid_to_vic[rid][rate_idx - 1];
-+}
-+
-+/* CTA-861 Video Format Data Block (CTA VFDB) */
-+static int add_modes_from_vfdb(struct drm_connector *connector,
-+			       const struct cea_db *db)
-+{
-+	const struct drm_display_info *info = &connector->display_info;
-+	int vfdb_len = cea_db_payload_len(db);
-+	struct drm_display_mode *mode;
-+	struct cta_vfd vfd;
-+	int num_modes = 0;
-+	int rate_idx;
-+	int vfd_len;
-+	int rate;
-+	int i;
-+
-+	if (!vfdb_len)
-+		return 0;
-+
-+	vfd_len = (db->data[0] & 0x3);
-+
-+	if (!vfd_len)
-+		return 0;
-+
-+	vfd_len++;
-+	vfdb_len--;
-+	vfdb_len -= (vfdb_len % vfd_len);
-+
-+	for (i = 0; i < vfdb_len; i += vfd_len) {
-+		parse_cta_vfd(&vfd, &db->data[i + 1], vfd_len);
-+
-+		for (rate_idx = 1; rate_idx <
-+		     ARRAY_SIZE(video_format_frame_rates); rate_idx++) {
-+			rate = video_format_frame_rates[rate_idx];
-+
-+			if (!vfd_has_fr(&vfd, rate) || find_vic(vfd.rid,
-+								rate_idx))
-+				continue;
-+
-+			mode = drm_ovt_mode(connector->dev, vfd.rid, rate);
-+
-+			if (!mode)
-+				continue;
-+
-+			mode->height_mm = info->height_mm;
-+			mode->width_mm = info->width_mm;
-+
-+			drm_mode_probed_add(connector, mode);
-+			num_modes++;
-+		}
-+	}
-+
-+	return num_modes;
-+}
-+
- /*
-  * CTA-861 YCbCr 4:2:0 Capability Map Data Block (CTA Y420CMDB)
-  *
-@@ -5318,6 +5781,8 @@ static int add_cea_modes(struct drm_connector *connector,
- 			/* Add 4:2:0(only) modes present in EDID */
- 			modes += do_y420vdb_modes(connector, vdb420,
- 						  cea_db_payload_len(db) - 1);
-+		} else if (cea_db_tag(db) == CTA_DB_VIDEO_FORMAT) {
-+			modes += add_modes_from_vfdb(connector, db);
- 		}
- 	}
- 	cea_db_iter_end(&iter);
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index eaac5e665892..78831207ec65 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -450,6 +450,9 @@ struct drm_display_mode *
- drm_display_mode_from_cea_vic(struct drm_device *dev,
- 			      u8 video_code);
- 
-+struct drm_display_mode *drm_ovt_mode(struct drm_device *dev, int rid,
-+				      int vrefresh);
-+
- /* Interface based on struct drm_edid */
- const struct drm_edid *drm_edid_alloc(const void *edid, size_t size);
- const struct drm_edid *drm_edid_dup(const struct drm_edid *drm_edid);
+-	smu_table->gpu_metrics_table_size = max(sizeof(struct gpu_metrics_v2_3), sizeof(struct gpu_metrics_v2_2));
++	smu_table->gpu_metrics_table_size = sizeof(struct gpu_metrics_v2_2);
++	smu_table->gpu_metrics_table_size = max(smu_table->gpu_metrics_table_size, sizeof(struct gpu_metrics_v2_3));
++	smu_table->gpu_metrics_table_size = max(smu_table->gpu_metrics_table_size, sizeof(struct gpu_metrics_v2_4));
+ 	smu_table->gpu_metrics_table = kzalloc(smu_table->gpu_metrics_table_size, GFP_KERNEL);
+ 	if (!smu_table->gpu_metrics_table)
+ 		goto err1_out;
 -- 
-2.46.1
+2.43.0
+
+
+
 
