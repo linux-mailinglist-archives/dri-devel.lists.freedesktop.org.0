@@ -2,61 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36C09BEFB8
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 15:01:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB599BEFFE
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 15:22:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D68D710E6EB;
-	Wed,  6 Nov 2024 14:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 782EC10E2F4;
+	Wed,  6 Nov 2024 14:22:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ltzbE/mM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XWmkzm1A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3515510E6EB;
- Wed,  6 Nov 2024 14:01:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F05610E2DF;
+ Wed,  6 Nov 2024 14:22:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730901681; x=1762437681;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=6lNBYHuWW5YGLSo/N/LKc+bGU/faWnuLbkJj6VdZZMA=;
- b=ltzbE/mMR/7D9NuOs9H5qRJSabuQPZn6PjGiiCSzOKqxzwMBRNrN4VCX
- 89ZzFeREKBtDCYBdSRfVSgxtlBkeAxNB21SDU2/5X9UKkHXKJhO7PHLri
- gVIZR/c7rjdP4b1WOItg16F6RCP0LTh518X/CuGAtLXl/vmTegFEEpMZT
- aRy8B2ZTU7WixhvO7IvI278ymFa6nlSlZqpvr+fr5A7ElsiLrlF8s9EOi
- yGtMYDJel2AlMHK826Nt9I3TXauq2jItKE0Dg1lzeyugvrY7ChQ1JUTKg
- vMIC6w8TdxYbBsDCyEKS3Rqm2J7oNMQAccmhLo/9IgCvZbh5XTqlZoN9i Q==;
-X-CSE-ConnectionGUID: gHgceschQoqUXROifDy5LA==
-X-CSE-MsgGUID: sfDw3fblTNm8wBfKk2aPdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30469881"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="30469881"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2024 06:01:20 -0800
-X-CSE-ConnectionGUID: QzDEpOWNTn+4ClQRcrxx9Q==
-X-CSE-MsgGUID: L3Pz2k4cTP26WlGGaoEJXQ==
+ t=1730902941; x=1762438941;
+ h=from:date:to:cc:subject:in-reply-to:message-id:
+ references:mime-version:content-id;
+ bh=blyV21pOL2y4toKMXZqzAR7kHNfiD1J9G7pj6duc0Xs=;
+ b=XWmkzm1AUvbFUHfLkJH5j8u4ikyHBxXFlEDTv3JVn3pGHVaSfUAgQmaN
+ 76fPjmJ1aXtfTJ5ODNYwiy0wPwWatSUGerCb656Dz1WtB/xP1IcZTpmLT
+ 8qor4fhIUR9Ka/8HMNAbrYG0mXMgmcfmnt3Hl+NqdsO27nQZphevLSHie
+ Awr/aqmY5UibFop/x+TdxqxPX3ZqIz6sLS9ZxFs7BvaqM68yGIkbaO0XM
+ z3Tx9IWFQ2IRO6mpnLTqoRqX5WQGLgYEPJ/MlFNCE3/3YA9Jy8Qn46xtR
+ pXbBfO85JU1AHjytOn1D3xzqMLWdDqtxKA+DM3v/LnEUfiADOW3PjgMOy Q==;
+X-CSE-ConnectionGUID: kpKrMJ9+SASdPk0kGb5z4A==
+X-CSE-MsgGUID: mu9yhAoZTnq5K6lqvaUMjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30883641"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="30883641"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2024 06:22:21 -0800
+X-CSE-ConnectionGUID: UwKRJ8uRSZ+2+qrrIYU1Xw==
+X-CSE-MsgGUID: qzYBqoG/RmmQbgpoe8GEFQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="84652370"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 06 Nov 2024 06:00:54 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 06 Nov 2024 16:00:52 +0200
-Date: Wed, 6 Nov 2024 16:00:52 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Arun R Murthy <arun.r.murthy@intel.com>
-Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/4] drm/plane: Add new plane property IN_FORMATS_ASYNC
-Message-ID: <Zyt2lLQZca4FzbXo@intel.com>
-References: <20241105102608.3912133-1-arun.r.murthy@intel.com>
- <20241105102608.3912133-2-arun.r.murthy@intel.com>
+X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; d="scan'208";a="89689153"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.110])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2024 06:22:15 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 6 Nov 2024 16:22:11 +0200 (EET)
+To: =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>
+cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
+ =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Michal Wajdeczko <michal.wajdeczko@intel.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v4 3/7] PCI: Add a helper to convert between standard
+ and IOV resources
+In-Reply-To: <20241025215038.3125626-4-michal.winiarski@intel.com>
+Message-ID: <10b4f173-619a-9913-99de-5d08b3fc854c@linux.intel.com>
+References: <20241025215038.3125626-1-michal.winiarski@intel.com>
+ <20241025215038.3125626-4-michal.winiarski@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241105102608.3912133-2-arun.r.murthy@intel.com>
-X-Patchwork-Hint: comment
+Content-Type: multipart/mixed; BOUNDARY="8323328-462573539-1730902526=:928"
+Content-ID: <adfb3f5d-d535-38e5-e92a-584ac4f25d5d@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,198 +82,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 05, 2024 at 03:56:05PM +0530, Arun R Murthy wrote:
-> There exists a property IN_FORMATS which exposes the plane supported
-> modifiers/formats to the user. In some platforms when asynchronous flips
-> are used all of modifiers/formats mentioned in IN_FORMATS are not
-> supported. This patch adds a new plane property IN_FORMATS_ASYNC to
-> expose the async flips supported modifiers/formats so that user can use
-> this information ahead and done flips with unsupported
-> formats/modifiers. This will save flips failures.
-> 
-> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323328-462573539-1730902526=:928
+Content-Type: text/plain; CHARSET=ISO-8859-2
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <d0ba6583-b7ea-d045-07b3-24d2b563b362@linux.intel.com>
+
+On Fri, 25 Oct 2024, Micha=B3 Winiarski wrote:
+
+> There are multiple places where conversions between IOV resources and
+> standard resources are done.
+>=20
+> Extract the logic to pci_resource_to_iov() and pci_resource_from_iov()
+> helpers.
+>=20
+> Suggested-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+> Signed-off-by: Micha=B3 Winiarski <michal.winiarski@intel.com>
 > ---
->  drivers/gpu/drm/drm_mode_config.c |  7 +++
->  drivers/gpu/drm/drm_plane.c       | 73 +++++++++++++++++++++++++++++++
->  include/drm/drm_mode_config.h     |  6 +++
->  include/drm/drm_plane.h           | 10 +++++
->  4 files changed, 96 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-> index 37d2e0a4ef4b..cff189a2e751 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -379,6 +379,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
->  		return -ENOMEM;
->  	dev->mode_config.size_hints_property = prop;
->  
-> +	prop = drm_property_create(dev,
-> +				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
-> +				   "IN_FORMATS_ASYNC", 0);
-> +	if (!prop)
-> +		return -ENOMEM;
-> +	dev->mode_config.async_modifiers_property = prop;
-> +
->  	return 0;
+>  drivers/pci/iov.c       | 20 ++++++++++----------
+>  drivers/pci/pci.h       | 18 ++++++++++++++++++
+>  drivers/pci/setup-bus.c |  2 +-
+>  3 files changed, 29 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+> index 6bdc9950b9787..eedc1df56c49e 100644
+> --- a/drivers/pci/iov.c
+> +++ b/drivers/pci/iov.c
+> @@ -151,7 +151,7 @@ resource_size_t pci_iov_resource_size(struct pci_dev =
+*dev, int resno)
+>  =09if (!dev->is_physfn)
+>  =09=09return 0;
+> =20
+> -=09return dev->sriov->barsz[resno - PCI_IOV_RESOURCES];
+> +=09return dev->sriov->barsz[pci_resource_from_iov(resno)];
 >  }
->  
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index a28b22fdd7a4..01b8e6932fda 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -141,6 +141,12 @@
->   *     various bugs in this area with inconsistencies between the capability
->   *     flag and per-plane properties.
->   *
-> + * IN_FORMATS_ASYNC:
-> + *     Blob property which contains the set of buffer format and modifier
-> + *     pairs supported by this plane for asynchronous flips. The blob is a struct
-> + *     drm_format_modifier_blob. Without this property the plane doesn't
-> + *     support buffers with modifiers. Userspace cannot change this property.
-> + *
->   * SIZE_HINTS:
->   *     Blob property which contains the set of recommended plane size
->   *     which can used for simple "cursor like" use cases (eg. no scaling).
-> @@ -249,6 +255,70 @@ static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane
->  	return 0;
+> =20
+>  static void pci_read_vf_config_common(struct pci_dev *virtfn)
+> @@ -322,12 +322,12 @@ int pci_iov_add_virtfn(struct pci_dev *dev, int id)
+>  =09virtfn->multifunction =3D 0;
+> =20
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
+> +=09=09res =3D &dev->resource[pci_resource_to_iov(i)];
+>  =09=09if (!res->parent)
+>  =09=09=09continue;
+>  =09=09virtfn->resource[i].name =3D pci_name(virtfn);
+>  =09=09virtfn->resource[i].flags =3D res->flags;
+> -=09=09size =3D pci_iov_resource_size(dev, i + PCI_IOV_RESOURCES);
+> +=09=09size =3D pci_iov_resource_size(dev, pci_resource_to_iov(i));
+>  =09=09virtfn->resource[i].start =3D res->start + size * id;
+>  =09=09virtfn->resource[i].end =3D virtfn->resource[i].start + size - 1;
+>  =09=09rc =3D request_resource(res, &virtfn->resource[i]);
+> @@ -624,8 +624,8 @@ static int sriov_enable(struct pci_dev *dev, int nr_v=
+irtfn)
+> =20
+>  =09nres =3D 0;
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> -=09=09bars |=3D (1 << (i + PCI_IOV_RESOURCES));
+> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
+> +=09=09bars |=3D (1 << pci_resource_to_iov(i));
+> +=09=09res =3D &dev->resource[pci_resource_to_iov(i)];
+>  =09=09if (res->parent)
+>  =09=09=09nres++;
+>  =09}
+> @@ -786,8 +786,8 @@ static int sriov_init(struct pci_dev *dev, int pos)
+> =20
+>  =09nres =3D 0;
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
+> -=09=09res_name =3D pci_resource_name(dev, i + PCI_IOV_RESOURCES);
+> +=09=09res =3D &dev->resource[pci_resource_to_iov(i)];
+> +=09=09res_name =3D pci_resource_name(dev, pci_resource_to_iov(i));
+> =20
+>  =09=09/*
+>  =09=09 * If it is already FIXED, don't change it, something
+> @@ -844,7 +844,7 @@ static int sriov_init(struct pci_dev *dev, int pos)
+>  =09dev->is_physfn =3D 0;
+>  failed:
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> -=09=09res =3D &dev->resource[i + PCI_IOV_RESOURCES];
+> +=09=09res =3D &dev->resource[pci_resource_to_iov(i)];
+>  =09=09res->flags =3D 0;
+>  =09}
+> =20
+> @@ -906,7 +906,7 @@ static void sriov_restore_state(struct pci_dev *dev)
+>  =09pci_write_config_word(dev, iov->pos + PCI_SRIOV_CTRL, ctrl);
+> =20
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++)
+> -=09=09pci_update_resource(dev, i + PCI_IOV_RESOURCES);
+> +=09=09pci_update_resource(dev, pci_resource_to_iov(i));
+> =20
+>  =09pci_write_config_dword(dev, iov->pos + PCI_SRIOV_SYS_PGSIZE, iov->pgs=
+z);
+>  =09pci_iov_set_numvfs(dev, iov->num_VFs);
+> @@ -972,7 +972,7 @@ void pci_iov_update_resource(struct pci_dev *dev, int=
+ resno)
+>  {
+>  =09struct pci_sriov *iov =3D dev->is_physfn ? dev->sriov : NULL;
+>  =09struct resource *res =3D dev->resource + resno;
+> -=09int vf_bar =3D resno - PCI_IOV_RESOURCES;
+> +=09int vf_bar =3D pci_resource_from_iov(resno);
+>  =09struct pci_bus_region region;
+>  =09u16 cmd;
+>  =09u32 new;
+> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+> index 48d345607e57e..1f8d88f0243b7 100644
+> --- a/drivers/pci/pci.h
+> +++ b/drivers/pci/pci.h
+> @@ -584,6 +584,15 @@ static inline bool pci_resource_is_iov(int resno)
+>  {
+>  =09return resno >=3D PCI_IOV_RESOURCES && resno <=3D PCI_IOV_RESOURCE_EN=
+D;
 >  }
->  
-> +static int create_in_format_async_blob(struct drm_device *dev, struct drm_plane *plane)
+> +static inline int pci_resource_to_iov(int resno)
 > +{
-> +	const struct drm_mode_config *config = &dev->mode_config;
-> +	struct drm_property_blob *blob;
-> +	struct drm_format_modifier *async_mod;
-> +	size_t blob_size, async_formats_size, async_modifiers_size;
-> +	struct drm_format_modifier_blob *blob_data;
-> +	unsigned int i, j;
+> +=09return resno + PCI_IOV_RESOURCES;
+> +}
 > +
-> +	async_formats_size = sizeof(__u32) * plane->async_format_count;
-> +	if (WARN_ON(!async_formats_size)) {
-> +		/* 0 formats are never expected */
-> +		return 0;
-> +	}
-> +
-> +	async_modifiers_size =
-> +		sizeof(struct drm_format_modifier) * plane->async_modifier_count;
-> +
-> +	blob_size = sizeof(struct drm_format_modifier_blob);
-> +	/* Modifiers offset is a pointer to a struct with a 64 bit field so it
-> +	 * should be naturally aligned to 8B.
-> +	 */
-> +	BUILD_BUG_ON(sizeof(struct drm_format_modifier_blob) % 8);
-> +	blob_size += ALIGN(async_formats_size, 8);
-> +	blob_size += async_modifiers_size;
-> +
-> +	blob = drm_property_create_blob(dev, blob_size, NULL);
-> +	if (IS_ERR(blob))
-> +		return -1;
-> +
-> +	blob_data = blob->data;
-> +	blob_data->version = FORMAT_BLOB_CURRENT;
-> +	blob_data->count_formats = plane->async_format_count;
-> +	blob_data->formats_offset = sizeof(struct drm_format_modifier_blob);
-> +	blob_data->count_modifiers = plane->async_modifier_count;
-> +
-> +	blob_data->modifiers_offset =
-> +		ALIGN(blob_data->formats_offset + async_formats_size, 8);
-> +
-> +	memcpy(formats_ptr(blob_data), plane->async_format_types, async_formats_size);
-> +
-> +	async_mod = modifiers_ptr(blob_data);
-> +	for (i = 0; i < plane->async_modifier_count; i++) {
-> +		for (j = 0; j < plane->async_format_count; j++) {
-> +			if (!plane->funcs->format_mod_supported ||
-> +			    plane->funcs->format_mod_supported(plane,
-> +							       plane->async_format_types[j],
-> +							       plane->async_modifiers[i])) {
-> +				async_mod->formats |= 1ULL << j;
-> +			}
-> +		}
-> +
-> +		async_mod->modifier = plane->async_modifiers[i];
-> +		async_mod->offset = 0;
-> +		async_mod->pad = 0;
-> +		async_mod++;
-> +	}
-> +
-> +	drm_object_attach_property(&plane->base, config->async_modifiers_property,
-> +				   blob->base.id);
-> +
-> +	return 0;
+> +static inline int pci_resource_from_iov(int resno)
+> +{
+> +=09return resno - PCI_IOV_RESOURCES;
 > +}
 
-That is a verbatim copy of the existing code. Please refactor the
-current code so that it can be reused.
+to/from feels wrong way around for me. What is named as "PCI resource from=
+=20
+IOV" converts from PCI resource indexing to IOV compatible indexing, and=20
+vice versa.
 
-> +
->  /**
->   * DOC: hotspot properties
->   *
-> @@ -472,6 +542,9 @@ static int __drm_universal_plane_init(struct drm_device *dev,
->  	if (format_modifier_count)
->  		create_in_format_blob(dev, plane);
->  
-> +	if (plane->async_modifier_count)
-> +		create_in_format_async_blob(dev, plane);
-> +
->  	return 0;
+>  extern const struct attribute_group sriov_pf_dev_attr_group;
+>  extern const struct attribute_group sriov_vf_dev_attr_group;
+>  #else
+> @@ -608,6 +617,15 @@ static inline bool pci_resource_is_iov(int resno)
+>  {
+>  =09return false;
 >  }
->  
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index 271765e2e9f2..0c116d6dfd27 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -936,6 +936,12 @@ struct drm_mode_config {
->  	 */
->  	struct drm_property *modifiers_property;
->  
-> +	/**
-> +	 * @async_modifiers_property: Plane property to list support modifier/format
-> +	 * combination for asynchronous flips.
-> +	 */
-> +	struct drm_property *async_modifiers_property;
+> +static inline int pci_resource_to_iov(int resno)
+> +{
+> +=09return -ENODEV;
+> +}
 > +
->  	/**
->  	 * @size_hints_property: Plane SIZE_HINTS property.
->  	 */
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index dd718c62ac31..d9571265251a 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -658,11 +658,21 @@ struct drm_plane {
->  	 */
->  	bool format_default;
->  
-> +	/** @format_types: array of formats supported by this plane */
-> +	uint32_t *async_format_types;
-> +	/** @format_count: Size of the array pointed at by @format_types. */
-> +	unsigned int async_format_count;
-> +
->  	/** @modifiers: array of modifiers supported by this plane */
->  	uint64_t *modifiers;
->  	/** @modifier_count: Size of the array pointed at by @modifier_count. */
->  	unsigned int modifier_count;
->  
-> +	/** @modifiers: array of modifiers supported by this plane */
-> +	uint64_t *async_modifiers;
-> +	/** @modifier_count: Size of the array pointed at by @modifier_count. */
-> +	unsigned int async_modifier_count;
+> +static inline int pci_resource_from_iov(int resno)
+> +{
+> +=09return -ENODEV;
+> +}
 
-I'm not sure adding any of this is really useful. I think we could
-just add a new .format_mod_supported_async() hook instead (which
-could be implemented in terms of the current thing + something like
-https://patchwork.freedesktop.org/patch/619047/?series=139807&rev=3
+These seem dangerous as the errors are not checked by the callers. Perhaps=
+=20
+put something like BUG_ON(1) there instead as it really is something that=
+=20
+should never be called for real if CONFIG_PCI_IOV is not enabled, they are=
+=20
+just to make compiler happy without #ifdefs in C code.
 
-That would also be more flexible since it can allow specific
-format+modifier combinations to be either accepted or rejected.
+--=20
+ i.
 
-> +
->  	/**
->  	 * @crtc:
->  	 *
-> -- 
-> 2.25.1
-
--- 
-Ville Syrjälä
-Intel
+>  #endif /* CONFIG_PCI_IOV */
+> =20
+>  #ifdef CONFIG_PCIE_PTM
+> diff --git a/drivers/pci/setup-bus.c b/drivers/pci/setup-bus.c
+> index ba293df10c050..c5ad7c4ad6eb1 100644
+> --- a/drivers/pci/setup-bus.c
+> +++ b/drivers/pci/setup-bus.c
+> @@ -1778,7 +1778,7 @@ static int iov_resources_unassigned(struct pci_dev =
+*dev, void *data)
+>  =09bool *unassigned =3D data;
+> =20
+>  =09for (i =3D 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> -=09=09struct resource *r =3D &dev->resource[i + PCI_IOV_RESOURCES];
+> +=09=09struct resource *r =3D &dev->resource[pci_resource_to_iov(i)];
+>  =09=09struct pci_bus_region region;
+> =20
+>  =09=09/* Not assigned or rejected by kernel? */
+>=20
+--8323328-462573539-1730902526=:928--
