@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D816D9BDBE4
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 03:10:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4539BDBF5
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 03:11:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5833710E64B;
-	Wed,  6 Nov 2024 02:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D19C10E64D;
+	Wed,  6 Nov 2024 02:11:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TR/W5rJB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PgSz+eL1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E77810E64A;
- Wed,  6 Nov 2024 02:10:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69DA810E64C;
+ Wed,  6 Nov 2024 02:11:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 29030A41BD8;
- Wed,  6 Nov 2024 02:08:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D244C4CECF;
- Wed,  6 Nov 2024 02:10:08 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9A6B3A41BD8;
+ Wed,  6 Nov 2024 02:09:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DEFBC4CED1;
+ Wed,  6 Nov 2024 02:11:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730859009;
- bh=JTUr1Gm+x2wnMS4e/VgV7frMfSYXZgyw4iuSRBJeMGw=;
+ s=k20201202; t=1730859083;
+ bh=3kEhtOmblVvUNtD4XPHUPCIhjUg4Z8gzRsPWYugazGk=;
  h=From:To:Cc:Subject:Date:From;
- b=TR/W5rJB6VaO5B+/Tf+Pm+Dn5WvZi843z7Sx9zc+Sf5V8vgkRGLW1uScZU7cmE8ts
- DXvSn0t9ub6EmOZlL17jVov+lY2YZdmtWwubedlyLxyacEqYuJZUidyWmhTCBMqBCD
- EZ58FqDKur/Ib3RmUFGhaQBrIpOkf6Xq38TCMpdyHJ8gWX2pEQLeWKcDcp9pXFSxOZ
- Bv03jLe1HEP7o0rXCux4Qym6YfXBISun+RqFL0YPtktg+EfN2O2LzsHx/9L17UgjSy
- YlaSHQynKbZwEfaYKsHIP33lpR+04DTvt9Hg89xx1sfpaGR4BKR/2byWS7a+ss0nyI
- /gSZYxLtwV08w==
+ b=PgSz+eL1tk3yM67wr967jKDMVj4iRMw3wvi8BWmTRpRNqpV8XlsZmiKJ27emVJQhT
+ +WHB6LFK1LctXPh+9pVhc6QweebDoVr8Gae4mBx9xTgqvw8NC56oxBPp6ZJRJxd/vp
+ b6NJGDgoqr0QjCZQ3ZS7U87U53eD01QzLMa/jga6LMtKyzP5ZjfAz3K2ZXpiPE6OvA
+ mjcUDpfDvjkVnSp8MvZAUPHZ+GWnT8Ch6ysmwmWf11ABPLnsg1voN6ngisEWULo5IT
+ T0UBoFs/KHsLslns0wyh5BL2DFRhFNEBxwKasBXx2wzasZZQYG/aclnN2jMW6XWmrf
+ wCW1uqw5MT/eg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	Ovidiu.Bunea@amd.com
@@ -41,9 +41,9 @@ Cc: Mario Limonciello <mario.limonciello@amd.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Subject: FAILED: Patch "Revert "drm/amd/display: update DML2 policy
  EnhancedPrefetchScheduleAccelerationFinal DCN35"" failed to apply to
- v6.6-stable tree
-Date: Tue,  5 Nov 2024 21:10:06 -0500
-Message-ID: <20241106021006.177847-1-sashal@kernel.org>
+ v6.1-stable tree
+Date: Tue,  5 Nov 2024 21:11:18 -0500
+Message-ID: <20241106021119.182168-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -64,7 +64,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The patch below does not apply to the v6.6-stable tree.
+The patch below does not apply to the v6.1-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
