@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70289BEC61
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 14:04:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4609BED39
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 14:10:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C73210E281;
-	Wed,  6 Nov 2024 13:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D683610E1F0;
+	Wed,  6 Nov 2024 13:10:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iF+f2JrO";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="LkuJUNU7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57EE10E281
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 13:04:44 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B6BA475;
- Wed,  6 Nov 2024 14:04:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1730898275;
- bh=682rZ4W8M3E5mVOEB3/2mrEAAw15OgHnlpXKz526rA0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iF+f2JrOf8LKiTjHV1UChMRbmf6ckq9rA1BPUFp1xg1DRGXF+rkuI5950BTGfwpL+
- Yu4AWc7mmgpAU2nekPMMSN1CPfv8fof6p/lUxd1J/aU5O1aWQByo6hUgRFK9fVFltt
- vI+mieU5JY7lKw6pBcmWAlmuai8Wap7Qb23EoTFI=
-Date: Wed, 6 Nov 2024 15:04:37 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: CK Hu =?utf-8?B?KOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Shu-hsiang Yang =?utf-8?B?KOaliuiIkue/lCk=?= <Shu-hsiang.Yang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "yunkec@chromium.org" <yunkec@chromium.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Yaya Chang =?utf-8?B?KOW8tembhea4hSk=?= <Yaya.Chang@mediatek.com>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Teddy Chen =?utf-8?B?KOmZs+S5vuWFgyk=?= <Teddy.Chen@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "hidenorik@chromium.org" <hidenorik@chromium.org>,
- Shun-Yi Wang =?utf-8?B?KOeOi+mghuWEhCk=?= <Shun-Yi.Wang@mediatek.com>
-Subject: Re: [PATCH v1 10/10] uapi: linux: add mediatek isp_7x camsys user api
-Message-ID: <20241106130437.GA16791@pendragon.ideasonboard.com>
-References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
- <20241009111551.27052-11-Shu-hsiang.Yang@mediatek.com>
- <ff96b314cdd3d52a14a5e91f79ec3097d04c4380.camel@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ff96b314cdd3d52a14a5e91f79ec3097d04c4380.camel@mediatek.com>
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com
+ [91.218.175.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 279A310E1F0
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 13:10:12 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1730898609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mqH/9btvqwX3RdcLHRb09L6d7Cq1aZ/kH5G2l32Sges=;
+ b=LkuJUNU78bIk0+BAeK4MxgN59BaYxOyzLuk75rbocDpCPlA5UyoZ3S0X379tEPyOXh6eq1
+ A7pnrO43z5yWKoskI/7yIutQJ0sdzksW6YP3TWmVTzbqrwFnMRIe4xlS7Cjc+ZtcrY4oOI
+ oWt3Hp2Nmf1F1VFJs9/sew/v4EsYNGBY5p2D3OzjV4tcU3c+2f+SPq3Mwba271qCdqiWEX
+ kEq8Ix+UBq3zEcwmbb4qlu8ZzLldNAUYANIBRJA8delJKr92HFFeRW+Z/+w3gv44krsHyS
+ +Dn+m4MMnp8MOSOITunVsO9jebmSi0FVvT5hwQe+89pwLyn1T42l+Agrp063Sw==
+Content-Type: multipart/signed;
+ boundary=873c8ffaadf467f71a296828b2ff627c9b24ebf6d8e6d5229ed746de4cfd;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Wed, 06 Nov 2024 14:09:56 +0100
+Message-Id: <D5F4CDTI0BHA.3MIQH9MJ4OY3K@cknow.org>
+Cc: <andy.yan@rock-chips.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <quentin.schulz@cherry.de>, "Heiko Stuebner" <heiko.stuebner@cherry.de>
+Subject: Re: [PATCH 1/3] drm/bridge/synopsys: Add MIPI DSI2 host controller
+ bridge
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Heiko Stuebner" <heiko@sntech.de>
+References: <20241106123304.422854-1-heiko@sntech.de>
+ <20241106123304.422854-2-heiko@sntech.de>
+In-Reply-To: <20241106123304.422854-2-heiko@sntech.de>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,53 +67,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 14, 2024 at 05:56:40AM +0000, CK Hu (胡俊光) wrote:
-> Hi, Shu-hsiang:
-> 
-> On Wed, 2024-10-09 at 19:15 +0800, Shu-hsiang Yang wrote:
-> > Add UAPI for MediaTek ISP platform, providing user-space
-> > interfaces for the new camsys driver.
-> > 
-> > Signed-off-by: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>
-> > ---
-> 
-> [snip]
-> 
-> > +
-> > +/* MTK ISP camsys controls */
-> > +#define V4L2_CID_MTK_CAM_USED_ENGINE_LIMIT	(V4L2_CID_USER_MTK_CAM_BASE + 1)
-> > +#define V4L2_CID_MTK_CAM_BIN_LIMIT		(V4L2_CID_USER_MTK_CAM_BASE + 2)
-> > +#define V4L2_CID_MTK_CAM_FRZ_LIMIT		(V4L2_CID_USER_MTK_CAM_BASE + 3)
-> > +#define V4L2_CID_MTK_CAM_RESOURCE_PLAN_POLICY	(V4L2_CID_USER_MTK_CAM_BASE + 4)
-> > +#define V4L2_CID_MTK_CAM_USED_ENGINE		(V4L2_CID_USER_MTK_CAM_BASE + 5)
-> > +#define V4L2_CID_MTK_CAM_BIN			(V4L2_CID_USER_MTK_CAM_BASE + 6)
-> > +#define V4L2_CID_MTK_CAM_FRZ			(V4L2_CID_USER_MTK_CAM_BASE + 7)
-> > +#define V4L2_CID_MTK_CAM_USED_ENGINE_TRY	(V4L2_CID_USER_MTK_CAM_BASE + 8)
-> > +#define V4L2_CID_MTK_CAM_BIN_TRY		(V4L2_CID_USER_MTK_CAM_BASE + 9)
-> > +#define V4L2_CID_MTK_CAM_FRZ_TRY		(V4L2_CID_USER_MTK_CAM_BASE + 10)
-> > +#define V4L2_CID_MTK_CAM_PIXEL_RATE		(V4L2_CID_USER_MTK_CAM_BASE + 11)
-> > +#define V4L2_CID_MTK_CAM_FEATURE		(V4L2_CID_USER_MTK_CAM_BASE + 12)
-> > +#define V4L2_CID_MTK_CAM_SYNC_ID		(V4L2_CID_USER_MTK_CAM_BASE + 13)
-> > +#define V4L2_CID_MTK_CAM_RAW_PATH_SELECT	(V4L2_CID_USER_MTK_CAM_BASE + 14)
-> > +#define V4L2_CID_MTK_CAM_HSF_EN			(V4L2_CID_USER_MTK_CAM_BASE + 15)
-> > +#define V4L2_CID_MTK_CAM_PDE_INFO		(V4L2_CID_USER_MTK_CAM_BASE + 16)
-> > +#define V4L2_CID_MTK_CAM_MSTREAM_EXPOSURE	(V4L2_CID_USER_MTK_CAM_BASE + 17)
-> > +#define V4L2_CID_MTK_CAM_RAW_RESOURCE_CALC	(V4L2_CID_USER_MTK_CAM_BASE + 18)
-> > +#define V4L2_CID_MTK_CAM_TG_FLASH_CFG		(V4L2_CID_USER_MTK_CAM_BASE + 19)
-> > +#define V4L2_CID_MTK_CAM_RAW_RESOURCE_UPDATE	(V4L2_CID_USER_MTK_CAM_BASE + 20)
-> > +#define V4L2_CID_MTK_CAM_CAMSYS_HW_MODE		(V4L2_CID_USER_MTK_CAM_BASE + 21)
-> > +
-> 
-> Please give introduction of how to use these user space interface.
+--873c8ffaadf467f71a296828b2ff627c9b24ebf6d8e6d5229ed746de4cfd
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-I'm very, very *not* thrilled by all this. It looks like a big pile of
-hacks really. Every single parameter used by those controls needs to be
-clearly documented, including explaining how they are used, in order for
-us to review the API. I suspect that many of the parameters should
-instead be handled through the ISP parameters buffers, or be controlled
-from standard V4L2 APIs.
+On Wed Nov 6, 2024 at 1:33 PM CET, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@cherry.de>
+>
+> Add a Synopsys Designware MIPI DSI host DRM bridge driver for their
+> DSI2 host controller, based on the Rockchip version from the driver
+> rockchip/dw-mipi-dsi2.c in their vendor-kernel with phy & bridge APIs.
+>
+> While the driver is heavily modelled after the previous IP, the register
+> set of this DSI2 controller is completely different and there are also
+> additional properties like the variable-width phy interface.
+>
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/Kconfig       |    6 +
+>  drivers/gpu/drm/bridge/synopsys/Makefile      |    1 +
+>  .../gpu/drm/bridge/synopsys/dw-mipi-dsi2.c    | 1034 +++++++++++++++++
+>  include/drm/bridge/dw_mipi_dsi2.h             |   94 ++
+>  4 files changed, 1135 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
+>  create mode 100644 include/drm/bridge/dw_mipi_dsi2.h
+>
+> diff --git a/drivers/gpu/drm/bridge/synopsys/Kconfig b/drivers/gpu/drm/br=
+idge/synopsys/Kconfig
+> index ca416dab156d..f3ab2f985f8c 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/Kconfig
+> +++ b/drivers/gpu/drm/bridge/synopsys/Kconfig
+> @@ -59,3 +59,9 @@ config DRM_DW_MIPI_DSI
+>  	select DRM_KMS_HELPER
+>  	select DRM_MIPI_DSI
+>  	select DRM_PANEL_BRIDGE
+> +
+> +config DRM_DW_MIPI_DSI2
+> +	tristate
+> +	select DRM_KMS_HELPER
+> +	select DRM_MIPI_DSI
+> +	select DRM_PANEL_BRIDGE
+> diff --git a/drivers/gpu/drm/bridge/synopsys/Makefile b/drivers/gpu/drm/b=
+ridge/synopsys/Makefile
+> index 9869d9651ed1..9dc376d220ad 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/Makefile
+> +++ b/drivers/gpu/drm/bridge/synopsys/Makefile
+> @@ -8,3 +8,4 @@ obj-$(CONFIG_DRM_DW_HDMI_CEC) +=3D dw-hdmi-cec.o
+>  obj-$(CONFIG_DRM_DW_HDMI_QP) +=3D dw-hdmi-qp.o
+> =20
+>  obj-$(CONFIG_DRM_DW_MIPI_DSI) +=3D dw-mipi-dsi.o
+> +obj-$(CONFIG_DRM_DW_MIPI_DSI2) +=3D dw-mipi-dsi2.o
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c b/drivers/gpu=
+/drm/bridge/synopsys/dw-mipi-dsi2.c
+> new file mode 100644
+> index 000000000000..43738fe3cb93
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
+> @@ -0,0 +1,1034 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright (c) 2024, Fuzhou Rockchip Electronics Co., Ltd
+> + *
+> + * Modified by Heiko Stuebner <heiko.stuebner@cherry.de>
+> + * This generic Synopsys DesignWare MIPI DSI2 host driver is based on th=
+e
+> + * Rockchip version from rockchip/dw-mipi-dsi2.c converted to use bridge=
+ APIs.
+> + */
+> +
+> +#include <linux/clk.h>
+> ...
+> +#include <drm/drm_print.h>
+> +
+> +#define UPDATE(v, h, l)			(((v) << (l)) & GENMASK((h), (l)))
+> +
+> +#define DSI2_PWR_UP			0x000c
+> ...
+> +#define DSI2_MAX_REGISGER		DSI2_INT_FORCE_CRI
+> +
+> +#define MODE_STATUS_TIMEOUT_US		10000
+> +#define CMD_PKT_STATUS_TIMEOUT_US	20000
+> +
+> +enum vid_mode_type {
+> +	VID_MODE_TYPE_NON_BURST_SYNC_PULSES,
+> +	VID_MODE_TYPE_NON_BURST_SYNC_EVENTS,
+> +	VID_MODE_TYPE_BURST,
+> +};
+> +
+> +enum mode_ctrl {
+> +	IDLE_MODE,
+> +	AUTOCALC_MODE,
+> +	COMMAND_MODE,
+> +	VIDEO_MODE,
+> +	DATA_STREAM_MODE,
+> +	VIDE_TEST_MODE,
 
--- 
-Regards,
+VIDEO_TEST_MODE ?
 
-Laurent Pinchart
+> +	DATA_STREAM_TEST_MODE,
+> +};
+
+Cheers,
+  Diederik
+
+--873c8ffaadf467f71a296828b2ff627c9b24ebf6d8e6d5229ed746de4cfd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZytqqwAKCRDXblvOeH7b
+bjmoAP9MLtB4FYAubhN6YhCwXOuRPEOkgaaAYMSx9yyaDve7AQD/ZW+XkKIpIBLO
+zh+URJXh2/F28IGFhm1AJitdlC6rFQg=
+=9ZqU
+-----END PGP SIGNATURE-----
+
+--873c8ffaadf467f71a296828b2ff627c9b24ebf6d8e6d5229ed746de4cfd--
