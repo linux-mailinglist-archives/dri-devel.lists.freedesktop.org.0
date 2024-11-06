@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799679BE4A8
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 11:48:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DB39BE4A9
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 11:48:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E85F110E6B6;
-	Wed,  6 Nov 2024 10:48:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB3210E6B7;
+	Wed,  6 Nov 2024 10:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="iwmaAYVc";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Fl1PBQ8v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
  [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D3110E1D7
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 10:48:44 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EB5D560004;
- Wed,  6 Nov 2024 10:48:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF8B10E1D7
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 10:48:45 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B00336000E;
+ Wed,  6 Nov 2024 10:48:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1730890123;
+ t=1730890124;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BCLa0tO35kgSJnAc+IEReJ7llWiZ9cXdN6mBzaWALkE=;
- b=iwmaAYVcgo+NHt/egv/3PkjhMCjvpztcz+EeVbCapBLbwFRLH5OqjT5Mzck1Y4H40/HLn+
- fpfr3r9+z4vLBtlm58VyKfv+PDXdiJk+gyFZ9npIM4jpZXbgM7bZ93d4wAmG3Lpp8yyM4O
- 70zcbYFYoFL1LFWWLNWf3Cj/63Sd0AsTmVQg9rCdadKkkJ91ZKBVf5Q7yMfq9B/8cbVKjg
- SYDc90FGwNBWEuz6yAEcFSYt5l2huPNwLlZm5VlrrpXaIJbFL87vItKN/mrOZVW6bRnCOR
- QU6IcbukSn9avYdZ/YpOeBfDn2yjml+3yg8y440KeAxG8E9OBBmspsthqC7kjg==
+ bh=6pRM5jscZII9GohdxbWbdZ5ZoYRQpxbmot/dqfyy/mM=;
+ b=Fl1PBQ8vf8xbrbvYM3xWTxSpEI3DdCvhNIBTbOYp6R+eDrsVaCDOKt0Jox0oPfimU1B9YA
+ pHfLSpEqovaIxofsgJhE/kStmQesRRrZ0t/Pkptx6G3Uw4xLiTPe0CXzwD4C7H0dsR7/Y6
+ qi89zz5Y3iHIs+mDjaicJW1eeYQeGDzVj7hbBvDspF6VZg5nuR5TEksv97XYsCvG7n3yXd
+ qTicJU3CcnPNi6EO8gP0kxj9vMtjnTdTJ/YtBcGqYe8jJTyMdO+/L/d71J8lmwKWod57eL
+ ANYApORKl9n8h07Ab2yZpYzTsbZBgcDUvkwCqzdpiYbM9ClTo6iBsepwJHBi4Q==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 06 Nov 2024 11:48:25 +0100
-Subject: [PATCH v2 2/4] drm/atomic-helper: improve CRTC enabled/connectors
- mismatch logging message
+Date: Wed, 06 Nov 2024 11:48:26 +0100
+Subject: [PATCH v2 3/4] drm/mode_object: add
+ drm_mode_object_read_refcount()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241106-drm-small-improvements-v2-2-f6e2aef86719@bootlin.com>
+Message-Id: <20241106-drm-small-improvements-v2-3-f6e2aef86719@bootlin.com>
 References: <20241106-drm-small-improvements-v2-0-f6e2aef86719@bootlin.com>
 In-Reply-To: <20241106-drm-small-improvements-v2-0-f6e2aef86719@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -63,32 +63,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This message reports a mismatch between new_crtc_state->enable and
-has_connectors, which should be either both true or both false. However it
-does not mention which one is true and which is false, which can be useful
-for debugging. Add the value of both avriables to the log message.
+Add a wrapper to kref_read() just like the ones already in place for
+kref_get() and kref_put(). This will be used for sanity checks on object
+lifetime.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_mode_object.c | 20 ++++++++++++++++++++
+ include/drm/drm_mode_object.h     |  1 +
+ 2 files changed, 21 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 43cdf39019a44537794cc5a519d139b0cb77073c..3c3bdef9bcf3c4ffcd861744f6607f317ab0c041 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -666,8 +666,9 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
- 		}
+diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+index df4cc0e8e263d5887a799cf1a61d998234be7158..f990cc7e9b5d3bda3453123593314fa1ea2bf923 100644
+--- a/drivers/gpu/drm/drm_mode_object.c
++++ b/drivers/gpu/drm/drm_mode_object.c
+@@ -217,6 +217,26 @@ void drm_mode_object_get(struct drm_mode_object *obj)
+ }
+ EXPORT_SYMBOL(drm_mode_object_get);
  
- 		if (new_crtc_state->enable != has_connectors) {
--			drm_dbg_atomic(dev, "[CRTC:%d:%s] enabled/connectors mismatch\n",
--				       crtc->base.id, crtc->name);
-+			drm_dbg_atomic(dev, "[CRTC:%d:%s] enabled/connectors mismatch (%d/%d)\n",
-+				       crtc->base.id, crtc->name,
-+				       new_crtc_state->enable, has_connectors);
++/**
++ * drm_mode_object_get - read the refcount for a mode object
++ * @obj: DRM mode object
++ *
++ * This function returns the current object's refcount if it is a
++ * refcounted modeset object, or 0 on any other object.
++ */
++unsigned int drm_mode_object_read_refcount(struct drm_mode_object *obj)
++{
++	unsigned int refcount = 0;
++
++	if (obj->free_cb) {
++		refcount = kref_read(&obj->refcount);
++		DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, refcount);
++	}
++
++	return refcount;
++}
++EXPORT_SYMBOL(drm_mode_object_read_refcount);
++
+ /**
+  * drm_object_attach_property - attach a property to a modeset object
+  * @obj: drm modeset object
+diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
+index c68edbd126d04d51221f50aa2b4166475543b59f..3d2c739e703888bf4520c61594d480f128d50e56 100644
+--- a/include/drm/drm_mode_object.h
++++ b/include/drm/drm_mode_object.h
+@@ -123,6 +123,7 @@ struct drm_mode_object *drm_mode_object_find(struct drm_device *dev,
+ 					     uint32_t id, uint32_t type);
+ void drm_mode_object_get(struct drm_mode_object *obj);
+ void drm_mode_object_put(struct drm_mode_object *obj);
++unsigned int drm_mode_object_read_refcount(struct drm_mode_object *obj);
  
- 			return -EINVAL;
- 		}
+ int drm_object_property_set_value(struct drm_mode_object *obj,
+ 				  struct drm_property *property,
 
 -- 
 2.34.1
