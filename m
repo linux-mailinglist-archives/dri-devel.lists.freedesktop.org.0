@@ -2,80 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C3B9BF301
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 17:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9189BF315
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 17:19:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC2510E169;
-	Wed,  6 Nov 2024 16:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8330710E2E8;
+	Wed,  6 Nov 2024 16:19:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="SqaY7mdW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NkZnLSUR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF7DE10E169
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 16:15:23 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id
- 6a1803df08f44-6cbd12b38b4so40521216d6.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Nov 2024 08:15:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1730909722; x=1731514522; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=6nSgGdK6NvqqFV9LyhiXVQ/e823UrG8JIi5eQbgWpwM=;
- b=SqaY7mdWpyWKFbWBmlVNowz6AvEsKUMdwMEdkMSFq6SLlN746rKJ4zLKp2wZ/ludC4
- JM/r9cfTMH1tXeg3i/7ZEB9QgwGjKL46goVpoeJCn+SyPTzkBK69n/DL9mxgDMrm++vB
- BU8TEMVhdRCPseOqhX3sljl8zOZQ7e94nO+4zar1fwbQDzP1+WjpX/FdOYPshYO3nsTt
- qYkrkLzcx4JRzjOKYY891XCQ53iPlEYu/MF1VwSWffhd89SX+jgzdzmARWRmwpoUa/sm
- 2qLr8oC8Ier8nYD/hWF4hvHWroxiIAYaovEQkT1w9GnR7zXY0jm6fV+zmFMpl3NAWh89
- Et8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730909722; x=1731514522;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6nSgGdK6NvqqFV9LyhiXVQ/e823UrG8JIi5eQbgWpwM=;
- b=V81I6aAfnKCG93TDXPAv1oCyzRX9Cc/lPmhmVNAnMISxOhvIVe3FfHhpRg4fVWKGYi
- vorgP1NTP0OnsD6DQkYmU36ZD1VBvJAQMSQ0/S897SpFPfdBS2tT07ditH+rV04Xk5F/
- A9sO7GpCKE/CJVq3XH8kyGfpozIsyXnmEF+M0Tnvp/X6B7hLOlKg+OIdNqeeFcd+YJtt
- FMSKZ2R7J1ZkgCWS5AeKFfau/8gnQ9JNgreDXFjK03OYXDwwBkMfu2cWVpVUmJ/q0Q7f
- g0DyPb9ON7sGrVJ3cAcw/sWkQn9kuQn+RteXzlXgNds8uTgNmU5x0CRgnT/9dF4cdKLa
- FSgQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUv/9waZ1bLN6kNIaPYY4brPXIkMKPtL09fDIBDMh/i3LdSNvL6R441vtQlb00ofjD5BzbL+uk9kAw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkplS0V/7Rd/TEQIcwTBg4Y/kqRzBgAV1KNkUnkEnKzSGPllrs
- F856YUpkqJ5vKtKyZiKLWrLLMgP1npeB0ujDI7HRIt0SFnJcC4NUorVumkNp670=
-X-Google-Smtp-Source: AGHT+IEwombH/Npcr6xgQKI4hUOBNWDndBBc7puCreP3V/CqgxTRomKyutXho3m/FUi9CO1Dgd2M5Q==
-X-Received: by 2002:a05:6214:2c13:b0:6cb:f654:55ac with SMTP id
- 6a1803df08f44-6d185683569mr561328396d6.11.1730909722261; 
- Wed, 06 Nov 2024 08:15:22 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.128.5]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7b2f39ebaadsm644777685a.2.2024.11.06.08.15.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Nov 2024 08:15:21 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1t8igi-00000002BDj-3v7y;
- Wed, 06 Nov 2024 12:15:20 -0400
-Date: Wed, 6 Nov 2024 12:15:20 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Will Deacon <will@kernel.org>
-Cc: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
- linux-arm-kernel@lists.infradead.org,
- Robin Murphy <robin.murphy@arm.com>, catalin.marinas@arm.com,
- kernel-team@android.com, Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
- patches@lists.linux.dev, Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v3 0/3] Remove split on unmap behavior
-Message-ID: <20241106161520.GJ35848@ziepe.ca>
-References: <0-v3-b3a5b5937f56+7bb-arm_no_split_jgg@nvidia.com>
- <173090505900.4167208.10850898110820689849.b4-ty@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B42C10E2E8
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 16:19:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730909965; x=1762445965;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=syEZ0PUhB/s8AY7uLWeu+hDKYqIIr8eprxynDeL1Ahk=;
+ b=NkZnLSURELpI5T5F2U3cjvblm2FSMoGhqPwwK/Yl8hGsbjXQwtNCawbt
+ n7sd3XI/CEJS5jZfJzKimMi6ZX2JDW0bnCvnUh/kjf+DW3DqpW+STAifw
+ oHP3kPjdMF+q2zVDNbC/8Qpeg4Nz+OishY5s7o1z052nR+yCR1uzbHEY5
+ zJjdwSQlLsjm6MbcGqjlxLc35LkS9PhgJw6xG6xE3y0NTdo8v2uldrHa2
+ P2Pjxb1xkYbsBfXXQKV/DsXNoH0PQ0oopyZI5kde9M/YAX0toXCwYvV4P
+ rcro7OdrA9VN73iOr+DlDQMrnnzQaYn33xQskgE6avpsruRa2rlTIYoQd A==;
+X-CSE-ConnectionGUID: 2kdGi6EITxu27NcOgtcD3w==
+X-CSE-MsgGUID: kmED28sLQMSznpRr/VLyhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30934263"
+X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; d="scan'208";a="30934263"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2024 08:19:24 -0800
+X-CSE-ConnectionGUID: lhPZUfgZRP+LsZXDQg+Ong==
+X-CSE-MsgGUID: l2Tmkid3R9mXOwIn9SXByg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; d="scan'208";a="88587679"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by fmviesa003.fm.intel.com with ESMTP; 06 Nov 2024 08:19:22 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t8ika-000p7A-0d;
+ Wed, 06 Nov 2024 16:19:20 +0000
+Date: Thu, 7 Nov 2024 00:19:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v2 3/4] drm/mode_object: add
+ drm_mode_object_read_refcount()
+Message-ID: <202411070038.tZJzI7NC-lkp@intel.com>
+References: <20241106-drm-small-improvements-v2-3-f6e2aef86719@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <173090505900.4167208.10850898110820689849.b4-ty@kernel.org>
+In-Reply-To: <20241106-drm-small-improvements-v2-3-f6e2aef86719@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,48 +77,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 06, 2024 at 03:53:23PM +0000, Will Deacon wrote:
-> On Tue, 05 Nov 2024 14:14:23 -0400, Jason Gunthorpe wrote:
-> > This is the result of the discussion on removing split. We agreed that
-> > split is not required, and no application should ask for anything that
-> > would not unmap a full large IOPTE.
-> > 
-> > Instead of split the two ARM drivers will now WARN_ON and return 0. This
-> > is in contrast to what several other drivers do of removing the whole
-> > IOPTE and returning 0.
-> > 
-> > [...]
-> 
-> Applied to iommu (arm/smmu), thanks!
-> 
-> [1/3] iommu/io-pgtable-arm: Remove split on unmap behavior
->       https://git.kernel.org/iommu/c/33729a5fc0ca
-> [2/3] iommu/io-pgtable-arm-v7s: Remove split on unmap behavior
->       https://git.kernel.org/iommu/c/fd50651636fb
-> [3/3] iommu: Add a kdoc to iommu_unmap()
->       https://git.kernel.org/iommu/c/6ac7dffe7cca
+Hi Luca,
 
-Thanks, can you add this hunk to fix the W=1 warning?
+kernel test robot noticed the following build warnings:
 
---- a/drivers/iommu/io-pgtable-arm-v7s.c
-+++ b/drivers/iommu/io-pgtable-arm-v7s.c
-@@ -820,7 +820,7 @@ static int __init arm_v7s_do_selftests(void)
-                .pgsize_bitmap = SZ_4K | SZ_64K | SZ_1M | SZ_16M,
-        };
-        unsigned int iova, size;
--       unsigned int i, loopnr = 0;
-+       unsigned int i;
-        size_t mapped;
- 
-        selftest_running = true;
-@@ -868,7 +868,6 @@ static int __init arm_v7s_do_selftests(void)
-                        return __FAIL(ops);
- 
-                iova += SZ_16M;
--               loopnr++;
-        }
- 
-        /* Full unmap */
+[auto build test WARNING on 42f7652d3eb527d03665b09edac47f85fb600924]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-drm_mode_object-fix-typo-in-kerneldoc/20241106-185032
+base:   42f7652d3eb527d03665b09edac47f85fb600924
+patch link:    https://lore.kernel.org/r/20241106-drm-small-improvements-v2-3-f6e2aef86719%40bootlin.com
+patch subject: [PATCH v2 3/4] drm/mode_object: add drm_mode_object_read_refcount()
+config: arc-randconfig-002-20241106 (https://download.01.org/0day-ci/archive/20241107/202411070038.tZJzI7NC-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070038.tZJzI7NC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070038.tZJzI7NC-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_mode_object.c:228: warning: expecting prototype for drm_mode_object_get(). Prototype was for drm_mode_object_read_refcount() instead
 
 
-Jason
+vim +228 drivers/gpu/drm/drm_mode_object.c
+
+   219	
+   220	/**
+   221	 * drm_mode_object_get - read the refcount for a mode object
+   222	 * @obj: DRM mode object
+   223	 *
+   224	 * This function returns the current object's refcount if it is a
+   225	 * refcounted modeset object, or 0 on any other object.
+   226	 */
+   227	unsigned int drm_mode_object_read_refcount(struct drm_mode_object *obj)
+ > 228	{
+   229		unsigned int refcount = 0;
+   230	
+   231		if (obj->free_cb) {
+   232			refcount = kref_read(&obj->refcount);
+   233			DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, refcount);
+   234		}
+   235	
+   236		return refcount;
+   237	}
+   238	EXPORT_SYMBOL(drm_mode_object_read_refcount);
+   239	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
