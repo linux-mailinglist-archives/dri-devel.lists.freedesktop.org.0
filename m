@@ -2,59 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1809BE01B
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 09:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CEA49BE13D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 09:43:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C39E10E665;
-	Wed,  6 Nov 2024 08:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7E3D10E68E;
+	Wed,  6 Nov 2024 08:43:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lHZakwe0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hLmnbg+x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE85A10E65C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 08:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1730880882;
- bh=uK95tkMa35y5aQq89p/rmF8He4kCyBKWeb+76t+rttg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lHZakwe0jH930HXxOLFpzC0wfWWTo7/KTo35+mlDnFyyiNeKum8U/rDdUojwDeJwE
- XH6tpuusiWAzEY3jOAeiFd+RjXZNPEuKKP3m+EqllffiF56STSJPjpkEWyr9Fau097
- LYndAa4PJ9TdjzbQKbyJo7GBxjP5/JegUaPIqo1GF/ZFarLUQrziRGZsrRaD5FveON
- f7xGa4gaaiVD72UgZJwfGjIWsanaZzL+XTynHuvSnxaIZP444oTgpKvlSywlOplqfp
- VL6YldBfXe3uiISHPjV7xLeVjAMo+BwzDwAm7i6J3VBkTihMBJ91ZXAKtA9mEW1tsm
- axvMhrT90hzSw==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D7A2117E1220;
- Wed,  6 Nov 2024 09:14:41 +0100 (CET)
-Date: Wed, 6 Nov 2024 09:14:36 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Chunming Zhou <david1.zhou@amd.com>, Lionel Landwerlin
- <lionel.g.landwerlin@intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, faith.ekstrand@collabora.com, simona@ffwll.ch
-Subject: Re: [PATCH v2] drm/syncobj: ensure progress for syncobj queries
-Message-ID: <20241106091436.48687e86@collabora.com>
-In-Reply-To: <CAPaKu7Tbp1_sd7Eqj7tkWBJBVPSZYo6uYD+7jwP=CwM5YYauFg@mail.gmail.com>
-References: <20241022161825.228278-1-olvaffe@gmail.com>
- <900f8658-726c-4034-90ff-398e6c57ec47@amd.com>
- <CAPaKu7QwSq7a-ipSOdETFEBGMu4J4ud1SqxDfPp8bNMjCMM5RQ@mail.gmail.com>
- <CAPaKu7TB30wvDvMW2FcYNcxjfDkOje358JNnRr2jJf=99-h-rg@mail.gmail.com>
- <301110a2-c004-4385-9231-b9354904b5e0@amd.com>
- <CAPaKu7Tbp1_sd7Eqj7tkWBJBVPSZYo6uYD+7jwP=CwM5YYauFg@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0134E10E68E
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 08:43:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730882602; x=1762418602;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2FaB9DZ+5bt0vHcem3FiA70mddNIj2sFcK506ZwMn/Q=;
+ b=hLmnbg+xuE+p5i4UrDdaXcesY6QdwzJEabK+GcFnmVwYMM+V0C7TW+0F
+ EyHTSIsmglWlRxM/EQH2SIjR3KN2HP3iZm0IntdVONmA6wsrSPgkMPiKg
+ bOzt94u98n6YhaF3aZJV9jFkVO2WRu3xJTGxirxn+PuKesa8Ga+zVAUk9
+ FVFIBS8MYW5JE76epZCt3ftYb2Aq7TbJ6dPGSzMD0OpHiWEbwy+iRPE6I
+ lTD6kjNVOS5Soj4n876N6V3PhFEyEH4yA+MMOgfHgSHLqY8F7qcN1fzRX
+ o/nNRBcutN8hOeMMV3HNLUwjBv47IRgGNnlt1H7bgMO9scryl0uIXxVvy A==;
+X-CSE-ConnectionGUID: LDLAXhCSTPKNRd52B2XbnA==
+X-CSE-MsgGUID: O2XD4r6BTZSi6z5Th8pb7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="30889104"
+X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="30889104"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2024 00:43:21 -0800
+X-CSE-ConnectionGUID: FQSFjxl3TY2wyKbOXhKltw==
+X-CSE-MsgGUID: IM4k9HfgRNW2rIV3li9lkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="115233886"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa002.jf.intel.com with ESMTP; 06 Nov 2024 00:43:18 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t8bdD-000n6B-37;
+ Wed, 06 Nov 2024 08:43:15 +0000
+Date: Wed, 6 Nov 2024 16:43:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, iommu@lists.linux.dev,
+ Joerg Roedel <joro@8bytes.org>, linux-arm-kernel@lists.infradead.org,
+ Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
+ patches@lists.linux.dev, Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v3 2/3] iommu/io-pgtable-arm-v7s: Remove split on unmap
+ behavior
+Message-ID: <202411061634.3EtgZij8-lkp@intel.com>
+References: <2-v3-b3a5b5937f56+7bb-arm_no_split_jgg@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2-v3-b3a5b5937f56+7bb-arm_no_split_jgg@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,104 +75,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 5 Nov 2024 09:56:22 -0800
-Chia-I Wu <olvaffe@gmail.com> wrote:
+Hi Jason,
 
-> On Mon, Nov 4, 2024 at 11:32=E2=80=AFPM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
-> >
-> > Am 04.11.24 um 22:32 schrieb Chia-I Wu:
-> >
-> > On Tue, Oct 22, 2024 at 10:24=E2=80=AFAM Chia-I Wu <olvaffe@gmail.com> =
-wrote:
-> >
-> > On Tue, Oct 22, 2024 at 9:53=E2=80=AFAM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >
-> > Am 22.10.24 um 18:18 schrieb Chia-I Wu:
-> >
-> > Userspace might poll a syncobj with the query ioctl.  Call
-> > dma_fence_enable_sw_signaling to ensure dma_fence_is_signaled returns
-> > true in finite time.
-> >
-> > Wait a second, just querying the fence status is absolutely not
-> > guaranteed to return true in finite time. That is well documented on the
-> > dma_fence() object.
-> >
-> > When you want to poll on signaling from userspace you really need to
-> > call poll or the wait IOCTL with a zero timeout. That will also return
-> > immediately but should enable signaling while doing that.
-> >
-> > So just querying the status should absolutely *not* enable signaling.
-> > That's an intentional separation.
-> >
-> > I think it depends on what semantics DRM_IOCTL_SYNCOBJ_QUERY should hav=
-e.
-> >
-> >
-> > Well that's what I pointed out. The behavior of the QUERY IOCTL is base=
-d on the behavior of the dma_fence and the later is documented to do exactl=
-y what it currently does.
-> >
-> > If DRM_IOCTL_SYNCOBJ_QUERY is mainly for vulkan timeline semaphores,
-> > it is a bit heavy if userspace has to do a
-> > DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT before a query.
-> >
-> >
-> > Maybe you misunderstood me, you *only* have to call DRM_IOCTL_SYNCOBJ_T=
-IMELINE_WAIT and *not* _QUERY.
-> >
-> > The underlying dma_fence_wait_timeout() function is extra optimized so =
-that zero timeout has only minimal overhead.
-> >
-> > This overhead is actually lower than _QUERY because that one actually q=
-ueries the driver for the current status while _WAIT just assumes that the =
-driver will signal the fence when ready from an interrupt. =20
->=20
-> The context here is that vkGetSemaphoreCounterValue calls QUERY to get
-> the timeline value.  WAIT does not replace QUERY.
->=20
-> Taking a step back, in the binary (singled/unsignaled) case, a WAIT
-> with zero timeout can get the up-to-date status.  But in the timeline
-> case, there is no direct way to get the up-to-date status if QUERY
-> must strictly be a wrapper for dma_fence_is_signaled.  It comes back
-> to what was QUERY designed for and can we change it?
->=20
->=20
-> >
-> > I filed a Mesa issue,
-> > https://gitlab.freedesktop.org/mesa/mesa/-/issues/12094, and Faith
-> > suggested a kernel-side fix as well.  Should we reconsider this?
-> >
-> >
-> > Wait a second, you might have an even bigger misconception here. The di=
-fference between waiting and querying is usually intentional!
-> >
-> > This is done so that for example on mobile devices you don't need to en=
-able device interrupts, but rather query in defined intervals.
-> >
-> > This is a very common design pattern and while I don't know the wording=
- of the Vulkan timeline extension it's quite likely that this is the intend=
-ed use case. =20
-> Yeah, there are Vulkan CTS tests that query timeline semaphores
-> repeatedly for progress.  Those tests can fail because mesa translates
-> the queries directly to the QUERY ioctl.
->=20
-> As things are, enable_signaling is a requirement to query up-to-date
-> status no matter the syncobj is binary or a timeline.
+kernel test robot noticed the following build warnings:
 
-I kinda agree with Chia-I here. What's the point of querying a timeline
-syncobj if what we get in return is an outdated sync point? I get that
-the overhead of enabling signalling exists, but if we stand on this
-position, that means the QUERY ioctl is not suitable for
-vkGetSemaphoreCounterValue() unless we first add a
-WAIT(sync_point=3D0,timeout=3D0) to make sure signalling is enabled on all
-fences contained by the dma_fence_chain backing the timeline syncobj.
-And this has to be done for each vkGetSemaphoreCounterValue(), because
-new sync points don't have signalling enabled by default.
+[auto build test WARNING on 8e929cb546ee42c9a61d24fae60605e9e3192354]
 
-At the very least, we should add a new DRM_SYNCOBJ_QUERY_FLAGS_ flag
-(DRM_SYNCOBJ_QUERY_FLAGS_REFRESH_STATE?) to combine the
-enable_signalling and query operations in a single ioctl. If we go
-for this approach, that means mesa has to support both cases, and pick
-the most optimal one if the kernel supports it.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gunthorpe/iommu-io-pgtable-arm-Remove-split-on-unmap-behavior/20241106-021511
+base:   8e929cb546ee42c9a61d24fae60605e9e3192354
+patch link:    https://lore.kernel.org/r/2-v3-b3a5b5937f56%2B7bb-arm_no_split_jgg%40nvidia.com
+patch subject: [PATCH v3 2/3] iommu/io-pgtable-arm-v7s: Remove split on unmap behavior
+config: arm-randconfig-004-20241106 (https://download.01.org/0day-ci/archive/20241106/202411061634.3EtgZij8-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061634.3EtgZij8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411061634.3EtgZij8-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/iommu/io-pgtable-arm-v7s.c:823:18: warning: variable 'loopnr' set but not used [-Wunused-but-set-variable]
+     823 |         unsigned int i, loopnr = 0;
+         |                         ^
+   1 warning generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+
+vim +/loopnr +823 drivers/iommu/io-pgtable-arm-v7s.c
+
+e5fc9753b1a831 Robin Murphy    2016-01-26  810  
+e5fc9753b1a831 Robin Murphy    2016-01-26  811  static int __init arm_v7s_do_selftests(void)
+e5fc9753b1a831 Robin Murphy    2016-01-26  812  {
+e5fc9753b1a831 Robin Murphy    2016-01-26  813  	struct io_pgtable_ops *ops;
+e5fc9753b1a831 Robin Murphy    2016-01-26  814  	struct io_pgtable_cfg cfg = {
+e5fc9753b1a831 Robin Murphy    2016-01-26  815  		.tlb = &dummy_tlb_ops,
+e5fc9753b1a831 Robin Murphy    2016-01-26  816  		.oas = 32,
+e5fc9753b1a831 Robin Murphy    2016-01-26  817  		.ias = 32,
+4f41845b340783 Will Deacon     2019-06-25  818  		.coherent_walk = true,
+4f41845b340783 Will Deacon     2019-06-25  819  		.quirks = IO_PGTABLE_QUIRK_ARM_NS,
+e5fc9753b1a831 Robin Murphy    2016-01-26  820  		.pgsize_bitmap = SZ_4K | SZ_64K | SZ_1M | SZ_16M,
+e5fc9753b1a831 Robin Murphy    2016-01-26  821  	};
+76b8c2705cdd26 Jason Gunthorpe 2024-11-05  822  	unsigned int iova, size;
+e5fc9753b1a831 Robin Murphy    2016-01-26 @823  	unsigned int i, loopnr = 0;
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
