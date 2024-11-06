@@ -2,222 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A9C9BF18B
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 16:25:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E96C9BF186
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 16:24:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1746910E2EC;
-	Wed,  6 Nov 2024 15:25:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99F1F10E212;
+	Wed,  6 Nov 2024 15:24:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="fb5emkFN";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="uSmJTpO/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f4tjlr2l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFABC10E2EC;
- Wed,  6 Nov 2024 15:25:20 +0000 (UTC)
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A6CiPpU008266;
- Wed, 6 Nov 2024 15:19:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-id:content-transfer-encoding:content-type:date:from
- :in-reply-to:message-id:mime-version:references:subject:to; s=
- corp-2023-11-20; bh=pQL4VDqnj/mM/gg3zdxodDnFci1Cc+DEAXoQYM7CwaU=; b=
- fb5emkFNakiAaDb5TuPQgWi1W4Ey8Yssu4LrCsAaqKPwAY7xdGkmHxirK9TffsBn
- BSqUHye25inCL78XhoTy+B3ab+7Op89sowZAQJTrJ6QWuDHVLlnPFziU9BXYPSTF
- XztH01hH0BmfsmNV5lNZyapH8i0PxxfPOto6qkVrWuuh/8GGCeqnKix2+ubAH7Sx
- YMRwVBDXXqP5tVXR8WeLfcb/9bRGUfNXQPgPs7pHSDJqb7UuQDvqnKeOzSiiSKu+
- c3r91aU/vJk8g5NBm4OMXcQ/Qn3gexkfKUvep3vu3tUsN7+0ENjraPuOGpQy2tq0
- 6Or/Goq2tr+vlzzomlkx+Q==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42nc4c05y6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 06 Nov 2024 15:19:38 +0000 (GMT)
-Received: from pps.filterd
- (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 4A6EY6FS005147; Wed, 6 Nov 2024 15:19:37 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam04lp2048.outbound.protection.outlook.com [104.47.74.48])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 42p87c2akq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 06 Nov 2024 15:19:37 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 436A410E212;
+ Wed,  6 Nov 2024 15:24:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730906675; x=1762442675;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=L5lOxODCP9gJT7GokPf0smLDHBwT8XwnMp+943S+omY=;
+ b=f4tjlr2lUqXMWyIDJegJIi57fFSQq3B1VJwwYqGF2ezkM1IOIrwl1bN9
+ db6ul1cmTE/o5TM1DPtsTPr5VdnQPdVWslvcgRatmO2rMg9Jp2dPEB039
+ tXDqoSumdif6xCxcFwSQ8K5tBze6EERhrWpPb9MO/7bqFUNSWJ8IIUVdG
+ FyppwgnVrMoEaoR4/9yiHRD/5Gk34C6/JaLCou8jwj08L8GqXuudwqgLG
+ j27gCnpB4ukLY8aJBJ6j2AbT8VrgTOBQItAgt42NRlVf95Hmju3z4/4hD
+ 3pBeFap6BCnTArQDZxiUdni41Tc2M1s3BhpZk8ItPP8+De1juzHFO9VJp Q==;
+X-CSE-ConnectionGUID: o9vwVJGIQ/epX97W4neYIQ==
+X-CSE-MsgGUID: ZIhB0FnpRPCDGP8sx21pfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30562533"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="30562533"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2024 07:24:34 -0800
+X-CSE-ConnectionGUID: FJwR0ZIlSmi73Q8hV/Rl5w==
+X-CSE-MsgGUID: xDVB2ic7QAObGSXbUOcsbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; d="scan'208";a="84769404"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 06 Nov 2024 07:24:34 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 6 Nov 2024 07:24:34 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 6 Nov 2024 07:24:34 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.174)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 6 Nov 2024 07:24:33 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=khU8ZTDbmMaZdlruuHYUnl6L8CLbs93kS/tfkDM6RRDeLtCbnYK9o4BBx421ENwWGqoBMVyWRUEvCubzoxp5LfxKBTXbgbQxAkuyxCjMl/kTHrtZUXhYoqLEIuwatRk5dujSdwVzOiEpzRQxAZb+uqeVs0xWXgtofHeFW2uQKeasNpCp5+MKaFG1saMZF8BQ24vVicxQAmkTaVgLHc0RYMYwJ42nEIsvOqwO+0yZxL23jgsNlLxbrYUa3szHrg7PdjhhyO/UsoSBYOmY+jxJQPV07VuJN8zXgageJ83wKQEiTc8MItEXtJGCOPI+1m2ftA8+uNB2lKxXWQvnxMEx/w==
+ b=kLjK9WFwHEg1MbrSDkRqmoProgKjQYFx5GT1hysDlge+ZERe8SrxB0BW9bFnKSIv4qF+wW0Cd1IN/cT3IVUYWlN9PikuAB+a+MLu4hTrI0OkW7X/NqQ1q0n7sRra+dE62SAlCVWL+ug8B0Af3exmHlITs+fkVK/oobPBdvMMOsy6Kr+36uv7/j1Oyzp0TIisd6xEZJLqGBijnWhouPkLydNgaOBa3DWpjgqfipnz9sNy2bexjess36pDMKdAHAYs7HfZFJLBEp1S3fTCbR9jooYD4W2zOvlkHh5OfH8cpbd3o8sKcW/5TU9eXeyTDIxMpWsjxAFtqzVrtV+J477OYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pQL4VDqnj/mM/gg3zdxodDnFci1Cc+DEAXoQYM7CwaU=;
- b=wC1aXKLPS84J2tnWwu38dAoyLbWTdS8PzGspAlWFo0yN/q7520fq7zC/YB7YbHxUxzSxU5q86suY+quD/TRE6jL0jglGUu71gQm4BAYJA4jmicgbvN52IPL8kD1KJKrx5GJVC5kio04iOhWgV9BmgUaSJG/goRRt+8u7oZCNf4wNkVlOD7ET4W2svIcwS0BZo36ZTz2kggcT9iLydnlAb/wHOooQ3Y8VN+Ta23SohT1uzo2bkAHiC5hgptVNtGQWKQhw5BwaGbHPhK+XPq6DgFhC7KtarqvEg/YI6Z1eHsRa03dg/zDPd3iAxc5Lgp8A+K0XLZxYP5huPMm+J3rvUA==
+ bh=myYQI+LZh/1uG35bI0cmE6NqIHGhMxMHQ6CnhiKoPWY=;
+ b=Tsm9sqiStootOTueuIuvgGALBVEoW89LN5KguFwRQ1l3C8gLSQ1uLjhM1DBLu7eX9cs+WGnJHqvjOh6Y+FpjhfJhFazFaIYqqjxMM8Ux/XeMuTQg5YpaBgFCC6xLzSu1FOnEQRnmHQ16Y9wieK+HNnW2xqi+iYOhRZpzLt+bwdf+MEIgrGDuRnUsHr8N5ZmTf476zBro9iqMvcBHrWeJMlix1Ojypeaj1Oc2JejqD6g89j49NtsjI0xmZpWjFty1cXsIscgyjNSbZmtp+6gdXmDa3NfxZscHYe2FojJIHUt7rJ4svtYUcOjJGhsijqiX+c+trh/ks6TMKtHSZeQNXA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pQL4VDqnj/mM/gg3zdxodDnFci1Cc+DEAXoQYM7CwaU=;
- b=uSmJTpO/HEPQe/RNVX5bGtJ2xZ9lyfm9mxbs4/+OS/wF9dKKN9p6TZNmjRQT8oZ6RtoDzwQ498lM3v8PCtJgD786Ea7mIw568Pum0PxYibc0u4brbDuL0Tz7WBuQUd4a/F1nFqSOffhEVWgL/IO7SfVhX9pOYUNzWnCJvvuNXzQ=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by SN4PR10MB5653.namprd10.prod.outlook.com (2603:10b6:806:20c::6)
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SA1PR11MB8796.namprd11.prod.outlook.com (2603:10b6:806:467::5)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.29; Wed, 6 Nov
- 2024 15:19:33 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::743a:3154:40da:cf90%4]) with mapi id 15.20.8114.031; Wed, 6 Nov 2024
- 15:19:33 +0000
-From: Chuck Lever III <chuck.lever@oracle.com>
-To: Yu Kuai <yukuai1@huaweicloud.com>
-CC: Greg KH <gregkh@linuxfoundation.org>, linux-stable
- <stable@vger.kernel.org>,
- "harry.wentland@amd.com" <harry.wentland@amd.com>,
- "sunpeng.li@amd.com" <sunpeng.li@amd.com>, "Rodrigo.Siqueira@amd.com"
- <Rodrigo.Siqueira@amd.com>, "alexander.deucher@amd.com"
- <alexander.deucher@amd.com>, "christian.koenig@amd.com"
- <christian.koenig@amd.com>, "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Al Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Liam
- Howlett <liam.howlett@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Sasha Levin <sashal@kernel.org>,
- "srinivasan.shanmugam@amd.com" <srinivasan.shanmugam@amd.com>,
- "chiahsuan.chung@amd.com" <chiahsuan.chung@amd.com>, "mingo@kernel.org"
- <mingo@kernel.org>, "mgorman@techsingularity.net"
- <mgorman@techsingularity.net>, "yukuai3@huawei.com" <yukuai3@huawei.com>,
- "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
- "zhangpeng.00@bytedance.com" <zhangpeng.00@bytedance.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux FS Devel
- <linux-fsdevel@vger.kernel.org>, "maple-tree@lists.infradead.org"
- <maple-tree@lists.infradead.org>, linux-mm <linux-mm@kvack.org>,
- "yi.zhang@huawei.com" <yi.zhang@huawei.com>,
- yangerkun <yangerkun@huawei.com>
-Subject: Re: [PATCH 6.6 00/28] fix CVE-2024-46701
-Thread-Topic: [PATCH 6.6 00/28] fix CVE-2024-46701
-Thread-Index: AQHbJhfg+I/QGRtH80+9+XvDi7dLrbKp2oMAgACX0AA=
-Date: Wed, 6 Nov 2024 15:19:33 +0000
-Message-ID: <7AB98056-93CC-4DE5-AD42-49BA582D3BEF@oracle.com>
-References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
- <2024110625-earwig-deport-d050@gregkh>
-In-Reply-To: <2024110625-earwig-deport-d050@gregkh>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3776.700.51.11.1)
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|SN4PR10MB5653:EE_
-x-ms-office365-filtering-correlation-id: 2d0ff02f-cab9-456d-2f64-08dcfe766af9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?RkRBZVRNSVlVOGF1WlM0bGdEN2prMmdkQUtOY2ZZSjRsSEJLVStIWHM3R0xK?=
- =?utf-8?B?dWprZ3dPQlJKbUg1aE1LcFU2N3V2TmQ4M2pNVk9PYzNJT0UrOUN2K2FLa1hu?=
- =?utf-8?B?SG1yWEVLNG1Td0dWMFlVTVBTVGFvOHE5SkhrV2srWlJ1TC9uVm5BOHRDL0FW?=
- =?utf-8?B?Rk9BcG5NTkYzajJ1RGFYRzJWbHdjUHBDa0M3ekxxR29nUnpsNHUxNTRnczVY?=
- =?utf-8?B?V2Z6VUpyT1p0eENhdjZ5b0VQWmIwWjM1TElVT2FsR1RnT2hqRFMwbnUyS2Rt?=
- =?utf-8?B?bC83NVJDNG53ZmhRa2FIczB1NWJ5N0tzRTFIa2JhdTg2UjM1V0lEdkZIQWJ2?=
- =?utf-8?B?M3BjVThMOVRVUjMvSWxyVzR5VjJia09TdExBUkhKSEd6dHJ0N0tzeTh6ZGkv?=
- =?utf-8?B?MjRVSVUrcEtjZWpZUk94YzUwSFZTVEpsQWkxTmlzZE4zZUNmOVFxR1RJMkha?=
- =?utf-8?B?dE1QNXk3S0E3SEo4YnJKelEvWW1kajlTMC9oRENyRmVGK1ltdGxKUlFDWncz?=
- =?utf-8?B?VkJFNVhETkVOM3VhRUowaVF1RE44VFFuMlFXTDRlVyttWEJyZzB1aS9CT3hT?=
- =?utf-8?B?Zk1DaDN0NDBpOXg3cXBkczJSUkhlb2Fnd1N2SHQrTHBCZUlRRXY4ZWJ0ZHhh?=
- =?utf-8?B?UlNjQm1mcnJpU2RIMXluMW9pdVcrVWJBRkhmNjhYcXd4RmJibTl2ZERGNXE3?=
- =?utf-8?B?QUdIZWNvclRhbENvNGtJZUt2TVplekJGUnBRdUxKL2JoM3dzSW9sMmFtVng4?=
- =?utf-8?B?Z0xab2kzZXJUbTUxSyt5M3JPVWFEUmFhd2hYaVRiRjFOM0F6emRUUmo2K1lO?=
- =?utf-8?B?b1NOQVh1RkVzYkVsRGxiME9SUU9iSVdvN05wOWg5eVhRQ0REOHlBWWpUL3RY?=
- =?utf-8?B?K3RsTWJ2Z2V4Yk14MU4zbkRNK3kvVDFUeXI4S0I4dUczdEoyOEVZM3ZRTmlo?=
- =?utf-8?B?R3BYVDlYYldNVWNuMGNjbmNiUWs4V3RBaS9XWE4yZ3k3d2hIVW9oOFE2MTly?=
- =?utf-8?B?amlCeEgxZXkzZktvNFVZMmRFQ3h0clNOWjJOa1lQbnZ6b3B5ZUlOTVFwb2lU?=
- =?utf-8?B?QXpkUjgyeXhRWUo4OGM2R1U3R1VKU0JkOWJZRkhQcng4VXlJa0VHSlMvb3lE?=
- =?utf-8?B?NS8zRDQ3aG5yNWJ1anpRMDZvN25SMjJkcEQwS3pEdkMrTFhocGUyMTA0dHlK?=
- =?utf-8?B?cEJ1a3ZiMGhtTE1qR1UyQ01PbmVJRFBhNTV1SmR6ZFBRYzIrOXdOam9pUG5w?=
- =?utf-8?B?SVJNSkptdlVnNnJYb1FxYWVBaG9tR1ZrOC9GcjlLU1RMalZmVzZoVXlTNkty?=
- =?utf-8?B?VS9nOVZSMThDdjF6UWZPWmNSWGVYRlpzOWFCV2thTzhhRzlWUGJ2K0lTR3Fh?=
- =?utf-8?B?SzI3c0VaT2xCbUJHNVNWZ2Z6eUw5enBKSVprMW8yd0JUT0VIUnAwWW1hYXky?=
- =?utf-8?B?QnlGRVpPQlhlQjJJY0tCeThtSlpUU1haellQbFVLTlo3eUZjUXlRQklwcXRt?=
- =?utf-8?B?MTU2QWk3MFV3NXhON2J5dlg4U29kWC90d3Z5TTVDNnIvdlpLMzBBMTZ4QjNS?=
- =?utf-8?B?d2Y5YWtJUVE1NmxRZUVZMy9GMGZ4dVRQVHpDbDU1QmxDK1dTb0ppZHl2VFBx?=
- =?utf-8?B?MnRIQllVdFE1RDcxWjZOQnB2L0NuZXRKWXNhVVY4OWRueWgwak9Lb0x2ZGl2?=
- =?utf-8?B?bSt0d3ZxemhiR3QyRWZKUlhodEhFbmVSTmxYTVBvUDBXbDBVbEkzVVhpYlRo?=
- =?utf-8?B?VjVaSHlEaUhsb3ZaQ3psbGNTaUptRmhzZldMa1FDOEQ2dDBRTzBNb3BxYVVk?=
- =?utf-8?B?WTIyb1dOQTREWGJtVXcwWGNBWTdXNDRscXpucFQ1cGlCQkZ0RjdGZUsrYjln?=
- =?utf-8?Q?siyjcPGJfuLmd?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN0PR10MB5128.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YjBPSTZsVXRkRXhRRFVTZnhlVzdBdVlBSUpPMlhOcXVPOS9ES2NOWWNXVlpo?=
- =?utf-8?B?SUk0REZmOHQwUjRLa2ZvdG8xcCt1cEQ1WCt1VVlPZXpVNlYyQ1RHK24ySzM5?=
- =?utf-8?B?UXFpZFdHd0tQaU5Tak16dUJRL1A2azJKc05ZYnNmRE5qajhBVnZmMjYzbC9p?=
- =?utf-8?B?NGRjYXYvdGN1ZWhvUk1VNnN5YmpRSjVUZkJ1dHUyNlQzMWswZTZ0dVU4Tjg2?=
- =?utf-8?B?c21KVDQvSzZ5VG81QU1sdlQ0RVpKMlhsR1dsNjZnbm9GeHRLaVVvS3JzYzBJ?=
- =?utf-8?B?NDBRcVV2ZU1yRUVBTmNiOXJielFvSFppSVh3NDJrQTU5M2pPMnl3OHF3MWda?=
- =?utf-8?B?UEJZZENhVm80c20wdlZMK294emNyNDVqdm9aZDZwM0pVUENBbVRIVnVHSktR?=
- =?utf-8?B?c05mdGVVSmJOdEhoZjNiUkVZdE1YdEJnRGtBdURQc0JxR0F5TDVwWHZQd0NN?=
- =?utf-8?B?SC9ubjBDU3gvQlo4SFpBdFEwVk8rWEh6UDlOQ05JTmh2UEsxRDhhdEFGL2tp?=
- =?utf-8?B?QXZBZEJCL0VBU1BVcll4L2dDczhUL0dPMjF6OFZXRktmbE5ZL3hUc1Y5ZTlj?=
- =?utf-8?B?dDcrMEIwYkdFRnZVRmkwZjlVL1lJMm1IRDc1ZWxwcjdOWGJIOUM0dGxONTFv?=
- =?utf-8?B?U2JRU2RhaGUrYkVITU00LzNWRFUyb1dWdThOR1VIVW0zakZIK2oxT2NlcDhx?=
- =?utf-8?B?dTdTdnVveW9VeWZJSWJJV04yNCtlbFNMcUZWU01lQTEwd24yUWVPWWQ0RmpT?=
- =?utf-8?B?ejNwd25FN0dMTDJXb0ZkV1p4dGJqVFlrUjFRTHdEdjlzRDV6ZDBqMzQ3Sk1T?=
- =?utf-8?B?eWxMaEZMY1owdndxSGJOazh0NEtUTWNNOGltVGxHVCtRWlQxWDE3WThvUkhU?=
- =?utf-8?B?dUZUSEVCMEpBbmlZVDBueGF1bmJtMFZBTURnRnkvZmtVQ25XTVhlYWFQWVJP?=
- =?utf-8?B?dW45azBRYXNpc3owYm55dDduUmpoMGF3N2ZrN0MxdStxaWVibnFYRTh6R1Ni?=
- =?utf-8?B?TEpSaHNCZjFwM1duaHhuWElJNXZNSUVZU256Wjd4cGxYZ2dqaXkxelJjUFJU?=
- =?utf-8?B?VG9GZ2dOMHBSVEFJUGhsRENrL0NDTDZmNURCR01PYys2MHpkRnZsVGdidjJO?=
- =?utf-8?B?OWZLMHZFL092cWxhbkNpN2hiWGNTNXl2bXBlb2pUWmFmb09RQTFtQzFNUGFI?=
- =?utf-8?B?TS95VXpsakhHYUE4ZUxTY1pScU9FaUF2RzJYSkJONTRnemhERzhIL2Z6NUg5?=
- =?utf-8?B?SVVnenFzQ1hWUmJZYWhaRTRlL29lRlR3dXVvV0prYzJwOTliNThsZzBsaU9o?=
- =?utf-8?B?elRiSWFXWUJ4OFlWTkdST3VaMFR1WmNIVHlvQlp3K2owUml4UHZrc0VSVGJ2?=
- =?utf-8?B?YVZjQm9yMHAxeEhLWmpPL1V4bzVJN01KZXlZY3lHRnpZSi9KWkU1Znlzc1h3?=
- =?utf-8?B?NVBsZzFDa3RmY1V1SHRmM1RyelkyNHYvNzdTQ0x3aUNBRk5yNzE2NG45SXh4?=
- =?utf-8?B?ZGV4TmErb2x4akM2TFhqRWg3MGNlVWFBQmJ0cnpiNWs0RHhpUGpSYXh6K3kr?=
- =?utf-8?B?bnpyY3ZPcFFKZU1IWDBZUkxlSVI2SXczUWl3NTQrTW5aTVQ1cHlEcmk1VTYx?=
- =?utf-8?B?WURzL2hsTVZxV2NEK0R1RVpQY0M1eUh0S3NtR0xBNU51SHRsMkhqWlpoaHcr?=
- =?utf-8?B?dHNibnIyZ3JoWloxZ2tpK0kxZGw1UHk4TWV2emJEbHFGNERrVEpMSG9jdStZ?=
- =?utf-8?B?a0lKVWJpdGlTSUh3MEtDbnIxVDZOUjg0emRIZkZxdmpKbDZjZGFnY0RDd3o2?=
- =?utf-8?B?b0hUaVZpN1hKK3BnOTJnY2VyYS9JaHZSTk5NeUF0QmNmZ21xU09vZ3lDRW5t?=
- =?utf-8?B?OTQxSTI0SHZ6QjhTUzRsc1EzUXNLQ1I1V1FFRExDalVONUVzOGdEeDd0UTNn?=
- =?utf-8?B?WjJVbWFUQXpOVk4vODZqSGQ1WUdQWXdGY0s2ajhHdWtmd0VTdkZsWGtqQWp1?=
- =?utf-8?B?WG1sc045ZEhsb1RjQ214MGZtM1J2YXpDU0pMckFOY09JUjdmc3NxSFpObDl3?=
- =?utf-8?B?bit1aVh1Nyt2alBUUmIyODM0WHpvQ29hOC8yNjliSlpKbmhoRTk4dnE1MU9h?=
- =?utf-8?B?UGYyUzcxRGFFdU1NVGpuS1dyVDZNcU9vUkxHcTZ0a1hvSmNqQWhremVCeG1J?=
- =?utf-8?B?aVE9PQ==?=
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Wed, 6 Nov
+ 2024 15:24:29 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.8114.028; Wed, 6 Nov 2024
+ 15:24:29 +0000
+Date: Wed, 6 Nov 2024 07:25:00 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+CC: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Huang Rui <ray.huang@amd.com>,
+ <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <matthew.auld@intel.com>
+Subject: Re: [PATCH v6 2/8] drm/ttm: Add ttm_bo_access
+Message-ID: <ZyuKTFxCD0SusZpt@lstrano-desk.jf.intel.com>
+References: <20241031181048.2948948-1-matthew.brost@intel.com>
+ <20241031181048.2948948-3-matthew.brost@intel.com>
+ <ZyQWF/k9VFo99tDB@lstrano-desk.jf.intel.com>
+ <ZykFrJIx9M204Weg@intel.com>
+ <02ec3d6a-4727-4535-a384-4c6789fa4ef4@gmail.com>
+ <ZylBWVjlW+GDYy5M@lstrano-desk.jf.intel.com>
+ <c76830ae-c6f9-47a2-8087-32d9f7c3df2c@amd.com>
+ <ZyplgNBaZ93UUdxY@lstrano-desk.jf.intel.com>
+ <88ceb558-89d1-4d10-be8a-9ce2f3178fa5@amd.com>
 Content-Type: text/plain; charset="utf-8"
-Content-ID: <7018CB106F97C843B387AA18DEACDBD8@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <88ceb558-89d1-4d10-be8a-9ce2f3178fa5@amd.com>
+X-ClientProxiedBy: SJ0PR05CA0124.namprd05.prod.outlook.com
+ (2603:10b6:a03:33d::9) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: cJSy9q38QrZrClVkgj9EpRm0YA81BYs+WIWTFZ9TdgbCxoM5F9czfgLjcJKkhGW0KCQldUXw1UMBfoRtdpQnc1ltSg4dtHIEQtZwCNWrakJ6+5yMS5APcMoPjamBTmweCIGWFMxFuNjS8nxFb36PueAnGvZtF/nFyCUJziJosX5S16UVc95hNSVurcoJ+ZSLUMdky2FK1LEGiiuRAphVsG/9m6lU6BSctB9GHuKtPUNYmMbSWgX2VNFkpHRTDK+jyIGKq/D6B9UTHf2DNXk6eEdOw/5CRmTVoaDZ3kR+lfk+59YFiQ28RJyqCYaZSqgC9D3sfbFKcyknL0YQzyqk1ZlcUNFvMxZqFL0cQbSd1ntP06xJJnFtiQ8fBCVv16qlRwfEN82cX54OhUUmwIfuSODMsO/BRZej/cedrYNtKpy4GI4KwhFnqgNrw0L0QZz8JHtv0q0WsHV1qU/6kSrrYBhsxkvYnzN7dnKVHsqtUp5/Z2pY1D8yRgCKp7I1CBa/yHqfFBsbTBoBWYCFn6HSWervyJNwPt4yaXTxJrstACyEFybEFGIE9gywgifZ/zQ5yhfibtgH1/ejjmBBACXd2/IpyyGOu8CRmHJw9Vjeh4Q=
-X-OriginatorOrg: oracle.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA1PR11MB8796:EE_
+X-MS-Office365-Filtering-Correlation-Id: cccc94b1-dccd-4d6a-1297-08dcfe771aff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Mi84b3U1dHVtY0N2dFF6b2pmOUlITG00SnVQSHVKVldyVzdGT3JhMmsra0cy?=
+ =?utf-8?B?aW05d2JHS1A4cnpxWS8yN2VveWhidUp0cXpOem9yeDFLSW9CSm9KdGt2bVJz?=
+ =?utf-8?B?TElsenNpZjVoRUZkYXBJRFM1TFZTRnY0eUZxTUxKU0JkdUVyVzNzVmVIb1pZ?=
+ =?utf-8?B?dWgxZ2pjaWYvRXp0QUpsSXdSMXR6OHJnbGtUT2U2SlNzaG1SdFdsLzd6Mi9m?=
+ =?utf-8?B?ZlVrdnFiU0VmVDJ5NHRLWU1WNUZBeGJ2blcwMkFud05NeWRTZWVDNCtiLzJa?=
+ =?utf-8?B?OHhnSlhSTlQyVHZxaE9OYWhFck5GdDB5MnJtT2Z1Q1c3clZNbVVKdkpzZ2VH?=
+ =?utf-8?B?dTJmVXJWb2puazFFWHJXWVVLLzNoYWtsOGVGczJ3TmpmUGtwOXMxMis2eWdR?=
+ =?utf-8?B?dFJLQ0NDWTUxc29rZkgzMlY0TWNWRENYdkczakQvVWdhZDVFQysxSXNjZFpI?=
+ =?utf-8?B?c2g3SXUrUW5JckY1SUsvQlN4Qlk3RjFnNkxMaFlVbW1sNS9VNHUyNngwVzRz?=
+ =?utf-8?B?c3BHaHg1RkdxdzZ2NExBc0JWSzMvbU1PV3NEdFovV0FJcUFqa1l3OXBxbWxR?=
+ =?utf-8?B?RDJjR2VVMnZ0dys2b0U1dW5NUnhYSWZpNDVhbEk0ZXJselFaQjVPek5xWFJo?=
+ =?utf-8?B?amFZVTAwVjlHRlE5RWNWbDRVS1VZNGx1M0JjbnYwUzh3RlljSzB2SDQvL0Nt?=
+ =?utf-8?B?c2dBMGZyOXVYNmpXaithd1V5a3B5UjkvK09nTDRPUE9IeUxkeXBrVnFRREVP?=
+ =?utf-8?B?UmZmNmdIZHFTYUtScW9jbDFQenFWdUcwU202VlBuLzYzNUFyVzIzWGtsaElT?=
+ =?utf-8?B?MkZmdVJ4SzFMNVpLSGZlQUMwZnhyVFIrQVliTXdmcGhzcHE5UEY0ZkZSZGoz?=
+ =?utf-8?B?YlB4N09zWnpxVjR5TXNvMTJjMlgwc1lZSndxcTh2ejlBdDVZaVRYY2U2d2Rt?=
+ =?utf-8?B?WHA4blplM3lhVFlLd0o3ME5QVkVBL24rM3RTMHZCK1dXYjRZV0Zvd01KL3hm?=
+ =?utf-8?B?bjBNR3MwMU1vY1ZNR1o3YVpVUDQ2K3krcGNLRk9ackZ6TTROUFl2ejE0Mm4r?=
+ =?utf-8?B?cVFFYjJTNjNFdXhBR005RHRvKy95YlBBTHJscWRIclF1M04zTVVwUitwVFJq?=
+ =?utf-8?B?aFAyendVQVJzazhwdkY5SjVXWnBIQlFJY0NzdSt6S1NuQ202L2gvbXRWTzh1?=
+ =?utf-8?B?UFJUSTZuWnJDY0NEUmpNeTVZSVJjdXE5dDVyRzRMemh2TFA3TlAwRE1wcE1B?=
+ =?utf-8?B?YzFqOWxCVFpPQmlpUDZJdnZyYlNjekM3c3dteVN0TjZnY0xwdEtkUCtRY1Qy?=
+ =?utf-8?B?VStPbFFjdEgrM01FMURFMUlDSHBWc2djMFFyVENXaVJFQzRHK2xOTS9iOSt0?=
+ =?utf-8?B?S3NVU1BrVGc0WUxVSmpDc2tuaW96MFBPeThCK2MrSjMrbWZNd3hrWi9ZKzhj?=
+ =?utf-8?B?dXNWQUtBTVRFR1NtdEJkMGhpdHBnbTVhZ0NWQWFVZm5sWVgxdUNiaHJEa3Zi?=
+ =?utf-8?B?ZmdSMmRrYzluVWxicXFWaVJsbTV3NGVqZlhpSjdBWm1XcEx1NlkwMG1hVEky?=
+ =?utf-8?B?RWdrcEtlc1dVNTNQVEF2Z1NUYk1tNUJWcGZzVENWMFRDZ1hja2pkVmNvMGxO?=
+ =?utf-8?B?RXR2WEZhTmxUNE1QWEFWRU1jeXZYWVptd1N2QU9Da0JBZ1JZVkMrVHI5WlND?=
+ =?utf-8?B?YU1jbVJvKzkvYmRSUTdsVDI2bGFZZWdzTlZTRk9HMmxXcHhRSmdrY1I0YXp1?=
+ =?utf-8?Q?n0XVsF9drNH8c4sATo=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmJueWdBVEVVaExJdTk0NVI4Y0FVcllVMlhMM0VmdTZ2RXljUW1KbDRJU1Iy?=
+ =?utf-8?B?V1Frb3VldnRoN0tzZDVmeThlWGRMVm5tSGdHTExab04wRmQ2UWUvS2RaWUdO?=
+ =?utf-8?B?SjBpN2I0Uk82YTZPMEpUTWd6emExRk5XaDhFWjdmb1lyb21SWmZmY0wvazNp?=
+ =?utf-8?B?bWNJUWJNTk5oNmNoa2UycFJGRnVYS3pEelNFMWhuUUd2RjY5WEhsTG1OdVg0?=
+ =?utf-8?B?SzRXblBMY3VMRWdDOUZWd1N6aFBXS2ZDVXBCQml6T0lrcFVSTWh5UWN5d2dm?=
+ =?utf-8?B?YldIVXVwcWNQR25Ra1lxZW53d2QzaXJubzk5cTQ5VnZYTFVORHlqVUw2eWJF?=
+ =?utf-8?B?SldIUmRtRWlPYitLdDN6a2NSMlUxcVo0S3FSR3J0OFZIb2FnSktBdEd4RjlE?=
+ =?utf-8?B?eGJjV3ZOa0tyV1pNaG1iR2ZZRUNVMFRoZzdXeWRWQUFjTm1BOHhaZnpERUdZ?=
+ =?utf-8?B?NVNwZ1RyOTZ1TUhUSmpSLzFIWEVpaTA1TTRQbE1mMHE2NmVkUWhTSGNPczU2?=
+ =?utf-8?B?aS82Qzl6L3RiNEVjNXRuYmlOUXROUVNzQklpaG1sRGNyQW9OVENtTG85TnNZ?=
+ =?utf-8?B?Qjl4VnhkbHBiNFRueTFpMTBIL3lhSWl1cGwrNGI1bFdIWmFETi9rWHg5K3FT?=
+ =?utf-8?B?UGdQbm42QXdnTWFXT0gvVVpndlZIRWVnZmM4T3o2YUlMa3FYS3MwblNkNmcv?=
+ =?utf-8?B?S0FucldDMnB6NDMvNDNCTGw2cXhtSmlreEF2bnZaUjE2TzVxYTVYTTM2QjlI?=
+ =?utf-8?B?VkJZMWZHdVRPbkFOQ2RhSjkwNS9jempteG1lWS9ETnZOTmZhMU9DUldQQWZj?=
+ =?utf-8?B?b1M4eFlaUzFpMnNsWE9HdVV2cGc0UGNhcEN6RGtXUlpPREkvZzREVGJiUHIx?=
+ =?utf-8?B?eTdvNUlWdUdjT1d2dkd4eENrMitBN2NIQitaZG9EMUY0Mjg5NTQ3RStsK0pm?=
+ =?utf-8?B?MmM2RjE4dlo1djEzQzdHVTlLaEtqNnpRS3VVT093Y1M4Q0NTU0cwN0Y0L0p4?=
+ =?utf-8?B?blRUZktqeDF4dmtqOUU4L1QzNjlCNGxVMXNiYVhrTWptN1BOL2NKQW9sdGNn?=
+ =?utf-8?B?bjBvN29CQzM4S2NCdEZxUUUyMlN6bWRBaW5LNUwrZXRyUU9YY0FEMWg1Zi9Y?=
+ =?utf-8?B?VVMxVG1lS0J0TGloSHAwNDlyLzN4OWRZM3c1MDdxaHE3eGlhZWI1b1pPendo?=
+ =?utf-8?B?N3dscXpiaHJXT2VjOStrWjRmbEd0SjNlMnlCaG9lWjNTSWVwd00rZktkTHpP?=
+ =?utf-8?B?cnZ5cUFyQjVJQU81ZWtqQ2RnRDcrTnZtVXNvTFVHKzNrN1lXenhUNk5ZTGo1?=
+ =?utf-8?B?V0xsRWR4dmIvdW1XcDdPMkhETUU1SXJhRlRTKzRxTlovdmluVDZqMlEvSW05?=
+ =?utf-8?B?czBWNGdybmJrRlA3TkhTb2EzWlR3Y0Z4aWwxd2RuOElQcDVWeXpESEFTOWNz?=
+ =?utf-8?B?YTgvMlFNUllJN0NLdEp1bml1MEI2MVhQK0xWU2dKQXBkU1BnaytUTlFISVE2?=
+ =?utf-8?B?ZDBDNWV2b0dNME1KQm1Fb0RTZkRTVVdDdDYyWGJ2RHNkVXNwMzBXODVKMTFY?=
+ =?utf-8?B?aE1YM1ByS0JPTFN1TVJLeUVQUldjZllIa1FrSmNhNGxPM2Z0SHhEM3lyRGRF?=
+ =?utf-8?B?R1hqTVlVanlHTWExTnNGOVpoZnZWVXUxMnhRdnFsd3lvcTZaSFlSbWthYmEz?=
+ =?utf-8?B?dUpEQVMvTkFCdVpYaGxYazlwQkZtRGYxQXJKY20xMWd5SHJ3aDl2WnFsdnF6?=
+ =?utf-8?B?VU9MM2FMMURZQlA3TWdHUXVTWTJsWHlqSDNKN2RuMnQ0dEV6eFgzSURMeWkw?=
+ =?utf-8?B?cjBITnhrVnBPNUFUTE14OWhWSFY2Rkd5SDMyYkUwRXM2S3R1U3FmNHczaDRM?=
+ =?utf-8?B?SHpPSXNzanNOTXVvT0piNFZCdWxtQ0J2OU9mckh2ZEVKQ0JkSkd0aFdoSmQx?=
+ =?utf-8?B?TFh6MUMyQTRhNVl0SGdwZWU3K0JkNnhucmE0V3N2YjF1YUswM3huRTNXb2l1?=
+ =?utf-8?B?bGVzdFZOWitiVVRYamJiVXhwNDJwUndqOU1VVVlwQlc3MkhsbWpHTW5jWGpE?=
+ =?utf-8?B?NHAxVGlObFB5MmJyZ0NwRkZ6STZEUytoUVY2ZHpmZmRhSEdCRkVla0YrWnFs?=
+ =?utf-8?B?VzZCMkR4YUZzRzRKeE9WbUxiY2xGVVFZMXQ2UUt6djFENFlnZHNOT2RCdUFF?=
+ =?utf-8?B?L1E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cccc94b1-dccd-4d6a-1297-08dcfe771aff
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d0ff02f-cab9-456d-2f64-08dcfe766af9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2024 15:19:33.3983 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: muE3Ba2ZXXWIWQcJXWJbeie0qqU4JQBpQwhRi827Ytl7nDNMU09CaeHzAnXKzZnvrFpcuC0zTL+dZRvTOul1sg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5653
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-11-06_08,2024-11-06_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- adultscore=0 spamscore=0
- mlxlogscore=999 phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
- definitions=main-2411060119
-X-Proofpoint-ORIG-GUID: YHMzDYOC9hHvGWnfJc32YUsx3XuvV0A-
-X-Proofpoint-GUID: YHMzDYOC9hHvGWnfJc32YUsx3XuvV0A-
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2024 15:24:28.9561 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BMSksfHbKUXpzaX11gOiabzeSs+ddyW8b1K/Ur1Im73GAl0n5BjfmB+3As4vxumMDNA7pQzbVwJyqha8MH8Fyg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8796
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -233,38 +202,316 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gT24gTm92IDYsIDIwMjQsIGF0IDE6MTbigK9BTSwgR3JlZyBLSCA8Z3JlZ2toQGxpbnV4
-Zm91bmRhdGlvbi5vcmc+IHdyb3RlOg0KPiANCj4gT24gVGh1LCBPY3QgMjQsIDIwMjQgYXQgMDk6
-MTk6NDFQTSArMDgwMCwgWXUgS3VhaSB3cm90ZToNCj4+IEZyb206IFl1IEt1YWkgPHl1a3VhaTNA
-aHVhd2VpLmNvbT4NCj4+IA0KPj4gRml4IHBhdGNoIGlzIHBhdGNoIDI3LCByZWxpZWQgcGF0Y2hl
-cyBhcmUgZnJvbToNCg0KSSBhc3N1bWUgcGF0Y2ggMjcgaXM6DQoNCmxpYmZzOiBmaXggaW5maW5p
-dGUgZGlyZWN0b3J5IHJlYWRzIGZvciBvZmZzZXQgZGlyDQoNCmh0dHBzOi8vbG9yZS5rZXJuZWwu
-b3JnL3N0YWJsZS8yMDI0MTAyNDEzMjIyNS4yMjcxNjY3LTEyLXl1a3VhaTFAaHVhd2VpY2xvdWQu
-Y29tLw0KDQpJIGRvbid0IHRoaW5rIHRoZSBNYXBsZSB0cmVlIHBhdGNoZXMgYXJlIGEgaGFyZA0K
-cmVxdWlyZW1lbnQgZm9yIHRoaXMgZml4LiBBbmQgbm90ZSB0aGF0IGxpYmZzIGRpZA0Kbm90IHVz
-ZSBNYXBsZSB0cmVlIG9yaWdpbmFsbHkgYmVjYXVzZSBJIHdhcyB0b2xkDQphdCB0aGF0IHRpbWUg
-dGhhdCBNYXBsZSB0cmVlIHdhcyBub3QgeWV0IG1hdHVyZS4NCg0KU28sIGEgYmV0dGVyIGFwcHJv
-YWNoIG1pZ2h0IGJlIHRvIGZpdCB0aGUgZml4DQpvbnRvIGxpbnV4LTYuNi55IHdoaWxlIHN0aWNr
-aW5nIHdpdGggeGFycmF5Lg0KDQpUaGlzIGlzIHRoZSBmaXJzdCBJJ3ZlIGhlYXJkIG9mIHRoaXMg
-Q1ZFLiBJdA0Kd291bGQgaGVscCBpZiB0aGUgcGF0Y2ggYXV0aG9ycyBnb3Qgc29tZQ0Kbm90aWZp
-Y2F0aW9uIHdoZW4gdGhlc2UgYXJlIGZpbGVkLg0KDQoNCj4+IC0gcGF0Y2hlcyBmcm9tIHNldCBb
-MV0gdG8gYWRkIGhlbHBlcnMgdG8gbWFwbGVfdHJlZSwgdGhlIGxhc3QgcGF0Y2ggdG8NCj4+IGlt
-cHJvdmUgZm9yaygpIHBlcmZvcm1hbmNlIGlzIG5vdCBiYWNrcG9ydGVkOw0KPiANCj4gU28gdGhp
-bmdzIHNsb3dlZCBkb3duPw0KPiANCj4+IC0gcGF0Y2hlcyBmcm9tIHNldCBbMl0gdG8gY2hhbmdl
-IG1hcGxlX3RyZWUsIGFuZCBmb2xsb3cgdXAgZml4ZXM7DQo+PiAtIHBhdGNoZXMgZnJvbSBzZXQg
-WzNdIHRvIGNvbnZlcnQgb2Zmc2V0X2N0eCBmcm9tIHhhcnJheSB0byBtYXBsZV90cmVlOw0KPj4g
-DQo+PiBQbGVhc2Ugbm90aWNlIHRoYXQgSSdtIG5vdCBhbiBleHBlcnQgaW4gdGhpcyBhcmVhLCBh
-bmQgSSdtIGFmcmFpZCB0bw0KPj4gbWFrZSBtYW51YWwgY2hhbmdlcy4gVGhhdCdzIHdoeSBwYXRj
-aCAxNiByZXZlcnQgdGhlIGNvbW1pdCB0aGF0IGlzDQo+PiBkaWZmZXJlbnQgZnJvbSBtYWlubGlu
-ZSBhbmQgd2lsbCBjYXVzZSBjb25mbGljdCBiYWNrcG9ydGluZyBuZXcgcGF0Y2hlcy4NCj4+IHBh
-dGNoIDI4IHBpY2sgdGhlIG9yaWdpbmFsIG1haW5saW5lIHBhdGNoIGFnYWluLg0KPj4gDQo+PiAo
-QW5kIHRoaXMgaXMgd2hhdCB3ZSBkaWQgdG8gZml4IHRoZSBDVkUgaW4gZG93bnN0cmVhbSBrZXJu
-ZWxzKS4NCj4+IA0KPj4gWzFdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDIzMTAyNzAz
-Mzg0NS45MDYwOC0xLXpoYW5ncGVuZy4wMEBieXRlZGFuY2UuY29tLw0KPj4gWzJdIGh0dHBzOi8v
-bG9yZS5rZXJuZWwub3JnL2FsbC8yMDIzMTEwMTE3MTYyOS4zNjEyMjk5LTItTGlhbS5Ib3dsZXR0
-QG9yYWNsZS5jb20vVC8NCj4+IFszXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMTcwODIw
-MDgzNDMxLjYzMjguMTYyMzMxNzg4NTIwODU4OTE0NTMuc3RnaXRAOTEuMTE2LjIzOC4xMDQuaG9z
-dC5zZWN1cmVzZXJ2ZXIubmV0Lw0KPiANCj4gVGhpcyBzZXJpZXMgbG9va3Mgcm91Z2guICBJIHdh
-bnQgdG8gaGF2ZSB0aGUgbWFpbnRhaW5lcnMgb2YgdGhlc2UNCj4gZmlsZXMvc3Vic3lzdGVtcyB0
-byBhY2sgdGhpcyBiZWZvcmUgYmVpbmcgYWJsZSB0byB0YWtlIHRoZW0uDQo+IA0KPiB0aGFua3Ms
-DQo+IA0KPiBncmVnIGstaA0KDQotLQ0KQ2h1Y2sgTGV2ZXINCg0KDQo=
+On Wed, Nov 06, 2024 at 10:48:45AM +0100, Christian König wrote:
+> Am 05.11.24 um 19:35 schrieb Matthew Brost:
+> > [SNIP]
+> > > Well we spend quite some time removing single page mappings from device
+> > > drivers.
+> > > 
+> > > The only remaining use case of ttm_bo_kmap() with just one page is the
+> > > ttm_bo_vm_access_kmap() function and I was really hoping to make that one
+> > > TTM internal at some point.
+> > > 
+> > This is still static, right? I suppose this exposes this to the outside
+> > world though in another place. I asume there is a reason we can't use
+> > vmap in ttm_bo_vm_access?
+> 
+> Well no, the point is we don't want to.
+> 
+> There is a huge push from upstream to avoid using kmap/vmap if possible.
+> 
+> > > > > You need a really good justification to bring that back.
+> > > > > 
+> > > > The use case is EuDebugger requires essentially the same functionality
+> > > > as ptrace -> vm_access.
+> > > Then why don't you use ptrace in the first place?
+> > > 
+> > I think the debugger speaks in GPU address space thus needs to access
+> > via the GPU VM -> BO, userptrs.
+> 
+> Exactly that is strictly forbidden. You can't access userptrs through this.
+> 
+
+My mistake for mentioning userptr—I clearly caused confusion. This patch
+itself has nothing to do with userptr; it is accessing a BO. In Xe, a
+userptr doesn't have a BO, unlike in AMDGPU, where you have BOs for
+userptrs.
+
+The above use case was an example of modifying a GPU program with
+breakpoints, speaking in GPU address space rather than CPU address
+space. Hence, we cannot use ptrace. Userptr is a possible example, but
+that access path in the code is different and, again, has nothing to do
+with BO access in this patch.
+
+> That's one of the major reasons why upstream has pushed back on using kmap
+> so massively.
+
+Userptr access is not part of this patch—it will be a separate code
+path, so this seemingly does not apply.
+
+> 
+> Can you fully describe your use case? In other words what exactly is your
+> debugger trying to do?
+
+See above; I hope I've made this clearer.
+
+Also, I'm not really an expert on Eudebug, as I haven't been involved in
+the development aside from reviewing its interaction with the core of
+Xe. Any further explanation would likely require me to loop in a
+colleague.
+
+> 
+> > > > TTM mapping non-contiguous VRAM doesn't work unless I'm blind. User BOs
+> > > > which the EuDebugger accesses can be non-contiguous, hence the new
+> > > > helper.
+> > > Then why don't you handle that inside the driver in the first place instead
+> > > of going through a TTM midlayer?
+> > > 
+> > Well common code always seems like a good idea to me. Can do this if you
+> > insist though.
+> > 
+> > What if I change my new helper ttm_bo_access to be based on vmap for
+> > SYSTEM / TT but honestly that seems wasteful too for a temporary
+> > access mapping.
+> 
+> Well, I think we need to take a step back. The major question is what is
+> your use case and is that use case valid or causes security concerns.
+> 
+> For example userptrs are imported anonymous pages the GPU has a DMA mapping
+> for. Re-mapping them into an user address space for debugging or even
+> accessing them through the ptrace interface is strictly forbidden.
+> 
+> We already had people trying to do exactly that and it ended not well at
+> all.
+> 
+
+Again, if we can focus on what this patch is doing—accessing a BO, not a
+userptr—I think that will help progress here.
+
+To bring things together: "There is a huge push from upstream to avoid
+using kmap/vmap if possible." How would you suggest accessing a BO then?
+kmap/vmap are used everywhere in the DRM subsystem to access BOs, so I’m
+failing to see the problem with adding a simple helper based on existing
+code.
+
+Matt
+
+> Regards,
+> Christian.
+> 
+> > 
+> > With this, I strongly prefer the code as is.
+> > 
+> > Matt
+> > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > Matt
+> > > > 
+> > > > > Regards,
+> > > > > Christian.
+> > > > > 
+> > > > > > > Matt
+> > > > > > > 
+> > > > > > > > Reported-by: Christoph Manszewski<christoph.manszewski@intel.com>
+> > > > > > > > Suggested-by: Thomas Hellström<thomas.hellstrom@linux.intel.com>
+> > > > > > > > Signed-off-by: Matthew Brost<matthew.brost@intel.com>
+> > > > > > > > Tested-by: Mika Kuoppala<mika.kuoppala@linux.intel.com>
+> > > > > > > > Reviewed-by: Matthew Auld<matthew.auld@intel.com>
+> > > > > > > > ---
+> > > > > > > >     drivers/gpu/drm/ttm/ttm_bo_util.c | 86 +++++++++++++++++++++++++++++++
+> > > > > > > >     drivers/gpu/drm/ttm/ttm_bo_vm.c   | 65 +----------------------
+> > > > > > > >     include/drm/ttm/ttm_bo.h          |  2 +
+> > > > > > > >     3 files changed, 89 insertions(+), 64 deletions(-)
+> > > > > > > > 
+> > > > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > > > > > index d939925efa81..77e760ea7193 100644
+> > > > > > > > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > > > > > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > > > > > @@ -919,3 +919,89 @@ s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
+> > > > > > > >     	return progress;
+> > > > > > > >     }
+> > > > > > > > +
+> > > > > > > > +static int ttm_bo_access_kmap(struct ttm_buffer_object *bo,
+> > > > > > > > +			      unsigned long offset,
+> > > > > > > > +			      void *buf, int len, int write)
+> > > > > > > > +{
+> > > > > > > > +	unsigned long page = offset >> PAGE_SHIFT;
+> > > > > > > > +	unsigned long bytes_left = len;
+> > > > > > > > +	int ret;
+> > > > > > > > +
+> > > > > > > > +	/* Copy a page at a time, that way no extra virtual address
+> > > > > > > > +	 * mapping is needed
+> > > > > > > > +	 */
+> > > > > > > > +	offset -= page << PAGE_SHIFT;
+> > > > > > > > +	do {
+> > > > > > > > +		unsigned long bytes = min(bytes_left, PAGE_SIZE - offset);
+> > > > > > > > +		struct ttm_bo_kmap_obj map;
+> > > > > > > > +		void *ptr;
+> > > > > > > > +		bool is_iomem;
+> > > > > > > > +
+> > > > > > > > +		ret = ttm_bo_kmap(bo, page, 1, &map);
+> > > > > > > > +		if (ret)
+> > > > > > > > +			return ret;
+> > > > > > > > +
+> > > > > > > > +		ptr = (void *)ttm_kmap_obj_virtual(&map, &is_iomem) + offset;
+> > > > > > > > +		WARN_ON_ONCE(is_iomem);
+> > > > > > > > +		if (write)
+> > > > > > > > +			memcpy(ptr, buf, bytes);
+> > > > > > > > +		else
+> > > > > > > > +			memcpy(buf, ptr, bytes);
+> > > > > > > > +		ttm_bo_kunmap(&map);
+> > > > > > > > +
+> > > > > > > > +		page++;
+> > > > > > > > +		buf += bytes;
+> > > > > > > > +		bytes_left -= bytes;
+> > > > > > > > +		offset = 0;
+> > > > > > > > +	} while (bytes_left);
+> > > > > > > > +
+> > > > > > > > +	return len;
+> > > > > > > > +}
+> > > > > > > > +
+> > > > > > > > +/**
+> > > > > > > > + * ttm_bo_access - Helper to access a buffer object
+> > > > > > > > + *
+> > > > > > > > + * @bo: ttm buffer object
+> > > > > > > > + * @offset: access offset into buffer object
+> > > > > > > > + * @buf: pointer to caller memory to read into or write from
+> > > > > > > > + * @len: length of access
+> > > > > > > > + * @write: write access
+> > > > > > > > + *
+> > > > > > > > + * Utility function to access a buffer object. Useful when buffer object cannot
+> > > > > > > > + * be easily mapped (non-contiguous, non-visible, etc...).
+> > > > > > > > + *
+> > > > > > > > + * Returns:
+> > > > > > > > + * @len if successful, negative error code on failure.
+> > > > > > > > + */
+> > > > > > > > +int ttm_bo_access(struct ttm_buffer_object *bo, unsigned long offset,
+> > > > > > > > +		  void *buf, int len, int write)
+> > > > > > > > +{
+> > > > > > > > +	int ret;
+> > > > > > > > +
+> > > > > > > > +	if (len < 1 || (offset + len) > bo->base.size)
+> > > > > > > > +		return -EIO;
+> > > > > > > > +
+> > > > > > > > +	ret = ttm_bo_reserve(bo, true, false, NULL);
+> > > > > > > > +	if (ret)
+> > > > > > > > +		return ret;
+> > > > > > > > +
+> > > > > > > > +	switch (bo->resource->mem_type) {
+> > > > > > > > +	case TTM_PL_SYSTEM:
+> > > > > > > > +		fallthrough;
+> > > > > > > > +	case TTM_PL_TT:
+> > > > > > > > +		ret = ttm_bo_access_kmap(bo, offset, buf, len, write);
+> > > > > > > > +		break;
+> > > > > > > > +	default:
+> > > > > > > > +		if (bo->bdev->funcs->access_memory)
+> > > > > > > > +			ret = bo->bdev->funcs->access_memory
+> > > > > > > > +				(bo, offset, buf, len, write);
+> > > > > > > > +		else
+> > > > > > > > +			ret = -EIO;
+> > > > > > > > +	}
+> > > > > > > > +
+> > > > > > > > +	ttm_bo_unreserve(bo);
+> > > > > > > > +
+> > > > > > > > +	return ret;
+> > > > > > > > +}
+> > > > > > > > +EXPORT_SYMBOL(ttm_bo_access);
+> > > > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > > > > > > > index 2c699ed1963a..20b1e5f78684 100644
+> > > > > > > > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > > > > > > > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > > > > > > > @@ -366,45 +366,6 @@ void ttm_bo_vm_close(struct vm_area_struct *vma)
+> > > > > > > >     }
+> > > > > > > >     EXPORT_SYMBOL(ttm_bo_vm_close);
+> > > > > > > > -static int ttm_bo_vm_access_kmap(struct ttm_buffer_object *bo,
+> > > > > > > > -				 unsigned long offset,
+> > > > > > > > -				 uint8_t *buf, int len, int write)
+> > > > > > > > -{
+> > > > > > > > -	unsigned long page = offset >> PAGE_SHIFT;
+> > > > > > > > -	unsigned long bytes_left = len;
+> > > > > > > > -	int ret;
+> > > > > > > > -
+> > > > > > > > -	/* Copy a page at a time, that way no extra virtual address
+> > > > > > > > -	 * mapping is needed
+> > > > > > > > -	 */
+> > > > > > > > -	offset -= page << PAGE_SHIFT;
+> > > > > > > > -	do {
+> > > > > > > > -		unsigned long bytes = min(bytes_left, PAGE_SIZE - offset);
+> > > > > > > > -		struct ttm_bo_kmap_obj map;
+> > > > > > > > -		void *ptr;
+> > > > > > > > -		bool is_iomem;
+> > > > > > > > -
+> > > > > > > > -		ret = ttm_bo_kmap(bo, page, 1, &map);
+> > > > > > > > -		if (ret)
+> > > > > > > > -			return ret;
+> > > > > > > > -
+> > > > > > > > -		ptr = (uint8_t *)ttm_kmap_obj_virtual(&map, &is_iomem) + offset;
+> > > > > > > > -		WARN_ON_ONCE(is_iomem);
+> > > > > > > > -		if (write)
+> > > > > > > > -			memcpy(ptr, buf, bytes);
+> > > > > > > > -		else
+> > > > > > > > -			memcpy(buf, ptr, bytes);
+> > > > > > > > -		ttm_bo_kunmap(&map);
+> > > > > > > > -
+> > > > > > > > -		page++;
+> > > > > > > > -		buf += bytes;
+> > > > > > > > -		bytes_left -= bytes;
+> > > > > > > > -		offset = 0;
+> > > > > > > > -	} while (bytes_left);
+> > > > > > > > -
+> > > > > > > > -	return len;
+> > > > > > > > -}
+> > > > > > > > -
+> > > > > > > >     int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+> > > > > > > >     		     void *buf, int len, int write)
+> > > > > > > >     {
+> > > > > > > > @@ -412,32 +373,8 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+> > > > > > > >     	unsigned long offset = (addr) - vma->vm_start +
+> > > > > > > >     		((vma->vm_pgoff - drm_vma_node_start(&bo->base.vma_node))
+> > > > > > > >     		 << PAGE_SHIFT);
+> > > > > > > > -	int ret;
+> > > > > > > > -
+> > > > > > > > -	if (len < 1 || (offset + len) > bo->base.size)
+> > > > > > > > -		return -EIO;
+> > > > > > > > -	ret = ttm_bo_reserve(bo, true, false, NULL);
+> > > > > > > > -	if (ret)
+> > > > > > > > -		return ret;
+> > > > > > > > -
+> > > > > > > > -	switch (bo->resource->mem_type) {
+> > > > > > > > -	case TTM_PL_SYSTEM:
+> > > > > > > > -		fallthrough;
+> > > > > > > > -	case TTM_PL_TT:
+> > > > > > > > -		ret = ttm_bo_vm_access_kmap(bo, offset, buf, len, write);
+> > > > > > > > -		break;
+> > > > > > > > -	default:
+> > > > > > > > -		if (bo->bdev->funcs->access_memory)
+> > > > > > > > -			ret = bo->bdev->funcs->access_memory(
+> > > > > > > > -				bo, offset, buf, len, write);
+> > > > > > > > -		else
+> > > > > > > > -			ret = -EIO;
+> > > > > > > > -	}
+> > > > > > > > -
+> > > > > > > > -	ttm_bo_unreserve(bo);
+> > > > > > > > -
+> > > > > > > > -	return ret;
+> > > > > > > > +	return ttm_bo_access(bo, offset, buf, len, write);
+> > > > > > > >     }
+> > > > > > > >     EXPORT_SYMBOL(ttm_bo_vm_access);
+> > > > > > > > diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+> > > > > > > > index 5804408815be..8ea11cd8df39 100644
+> > > > > > > > --- a/include/drm/ttm/ttm_bo.h
+> > > > > > > > +++ b/include/drm/ttm/ttm_bo.h
+> > > > > > > > @@ -421,6 +421,8 @@ void ttm_bo_unpin(struct ttm_buffer_object *bo);
+> > > > > > > >     int ttm_bo_evict_first(struct ttm_device *bdev,
+> > > > > > > >     		       struct ttm_resource_manager *man,
+> > > > > > > >     		       struct ttm_operation_ctx *ctx);
+> > > > > > > > +int ttm_bo_access(struct ttm_buffer_object *bo, unsigned long offset,
+> > > > > > > > +		  void *buf, int len, int write);
+> > > > > > > >     vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
+> > > > > > > >     			     struct vm_fault *vmf);
+> > > > > > > >     vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+> > > > > > > > -- 
+> > > > > > > > 2.34.1
+> > > > > > > > 
