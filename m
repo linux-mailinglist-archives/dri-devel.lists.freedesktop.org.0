@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4017C9BE2AB
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 10:35:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8F99BE2AD
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 10:35:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E33310E69B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 164F010E696;
 	Wed,  6 Nov 2024 09:35:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="SICmbXUZ";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="YzEjalcc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3FD410E1DA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3DC710E2E5
  for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 09:35:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
  t=1730885735; x=1762421735;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=zRwVKxY/ljPw+PWBx03TIerZJoDRcw2Ws1V9+SjbY18=;
- b=SICmbXUZvm/kRzmb+G7xIUKxp/wB73L6TGN0RqH8GOh4IweeQSt85jIE
- 05FKKtZLlrS74RN/11LbWtzsgZyRrBopr4a0cbeUJTmvmTzpcGXaAy2Pc
- fKj/QM2/0a4eK5Ld8milgV58zp5S2rNUrzuj+SuvV3f56ZM0jeJJT1P+U
- EhhEuLO487VvHK8/Rk+SmHj1+XgXnis+I5vJo+padAzLNlky7U2Dr4Hza
- c8xlSjNTQbVDiiC5xR4VgBBv7xl8SCUdU7G997Ljkkqs7PDftBEAoFPT7
- qGW1W0RM+0C9yAgLlCVdD+ULAIyH5qmdiCOLwk+S3U+RVFkGZLqZ33Wrg w==;
-X-CSE-ConnectionGUID: 0kVQr9qhRguhY/PD4s+80w==
-X-CSE-MsgGUID: 0myGpt/KRoWHTHzzZOyhBQ==
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="33940994"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ZJZ/DGAiZ8EFB89FUOY0RrQq5fJ8wgWrZftdSh9uqkc=;
+ b=YzEjalccdqRC6IgBLIUw6btHpBQFGrKCH3J4//bikrDsYRij8xG2UfSv
+ qlCOyRrdJMhccen6DPzWue5It8FtI8ko/zOYDv0e076N0dOlsZATPriY6
+ OOeR5m8ZWkoHzQaQpmlOcFL9Msq83Yq04buMKPNvCx5DZicqflhExR4hQ
+ SSZjGNaSB7xH++LAy+PMmIunJYlO54CknjDJmwXn5FuBVuA67qKFLK7uO
+ 1HBfbvuyDbAVD22rPyQX6ZdHrPp3tBPwAY3SrTT5dVEzhs2LgxvWvi15D
+ 7pte0kzoyBpBny545lbTfr/X/PTrKuFDzG7Lwt2HBMQLpCprn2enuRqag w==;
+X-CSE-ConnectionGUID: GdrssbasS4SjtXCG3mVUjg==
+X-CSE-MsgGUID: sDh8V2GURKispYfstt8BHA==
+X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="33940995"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
  06 Nov 2024 02:35:34 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 6 Nov 2024 02:34:53 -0700
+ 15.1.2507.35; Wed, 6 Nov 2024 02:35:02 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 6 Nov 2024 02:34:44 -0700
+ 15.1.2507.35 via Frontend Transport; Wed, 6 Nov 2024 02:34:53 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
@@ -54,11 +54,14 @@ To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <dharma.b@microchip.com>, <arnd@arndb.de>, <dri-devel@lists.freedesktop.org>, 
  <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>
-CC: <manikandan.m@microchip.com>
-Subject: [PATCH v5 0/4] MIPI DSI Controller support for SAM9X75 series
-Date: Wed, 6 Nov 2024 15:04:25 +0530
-Message-ID: <20241106093429.157131-1-manikandan.m@microchip.com>
+CC: <manikandan.m@microchip.com>, Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v5 1/4] dt-bindings: display: bridge: add sam9x75-mipi-dsi
+ binding
+Date: Wed, 6 Nov 2024 15:04:26 +0530
+Message-ID: <20241106093429.157131-2-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241106093429.157131-1-manikandan.m@microchip.com>
+References: <20241106093429.157131-1-manikandan.m@microchip.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -77,29 +80,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series adds support for the Microchip's MIPI DSI Controller
-wrapper driver that uses the Synopsys DesignWare MIPI DSI host controller
-bridge for SAM9X75 SoC series.
+Add the 'sam9x75-mipi-dsi' compatible binding, which describes the
+Microchip's specific wrapper for the Synopsys DesignWare MIPI DSI HOST
+Controller for the sam9x75 series System-on-Chip (SoC) devices.
 
-Changelogs are available in respective patches.
+Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+---
+changes in v5:
+- Add reviewed-by tag
 
-Manikandan Muralidharan (4):
-  dt-bindings: display: bridge: add sam9x75-mipi-dsi binding
-  drm/bridge: add Microchip DSI controller support for sam9x7 SoC series
-  MAINTAINERS: add SAM9X7 SoC's Microchip's MIPI DSI host wrapper driver
-  ARM: configs: at91: Enable Microchip's MIPI DSI Host Controller
-    support
+changes in v4:
+- Removed 'microchip,sfr' phandle property since
+regmap to SFR node can be obtained using its compatible
+string
 
- .../bridge/microchip,sam9x75-mipi-dsi.yaml    | 109 ++++
- MAINTAINERS                                   |   7 +
- arch/arm/configs/at91_dt_defconfig            |   1 +
- drivers/gpu/drm/bridge/Kconfig                |   8 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c     | 545 ++++++++++++++++++
- 6 files changed, 671 insertions(+)
+changes in v3:
+- Describe the clocks used
+
+changes in v2:
+- List the clocks with description
+- remove describing 'remove-endpoint' properties
+- remove unused label, node and fix example DT indentation
+- cosmetic fixes
+---
+ .../bridge/microchip,sam9x75-mipi-dsi.yaml    | 109 ++++++++++++++++++
+ 1 file changed, 109 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml
- create mode 100644 drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml
+new file mode 100644
+index 000000000000..d2ae6250e1f1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml
+@@ -0,0 +1,109 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/microchip,sam9x75-mipi-dsi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip SAM9X75 MIPI DSI Controller
++
++maintainers:
++  - Manikandan Muralidharan <manikandan.m@microchip.com>
++
++description:
++  Microchip specific extensions or wrapper to the Synopsys Designware MIPI DSI.
++  The MIPI Display Serial Interface (DSI) Host Controller implements all
++  protocol functions defined in the MIPI DSI Specification.The DSI Host
++  provides an interface between the LCD Controller (LCDC) and the MIPI D-PHY,
++  allowing communication with a DSI-compliant display.
++
++allOf:
++  - $ref: /schemas/display/dsi-controller.yaml#
++
++properties:
++  compatible:
++    const: microchip,sam9x75-mipi-dsi
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description:
++          Peripheral Bus Clock between LCDC and MIPI DPHY
++      - description:
++          MIPI DPHY Interface reference clock for PLL block
++
++  clock-names:
++    items:
++      - const: pclk
++      - const: refclk
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          DSI Input port node, connected to the LCDC RGB output port.
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          DSI Output port node, connected to a panel or a bridge input port.
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - ports
++
++unevaluatedProperties: false
++
++examples:
++  - |
++     #include <dt-bindings/clock/at91.h>
++     #include <dt-bindings/gpio/gpio.h>
++
++     dsi@f8054000 {
++       compatible = "microchip,sam9x75-mipi-dsi";
++       reg = <0xf8054000 0x200>;
++       clocks = <&pmc PMC_TYPE_PERIPHERAL 54>, <&pmc PMC_TYPE_GCK 55>;
++       clock-names = "pclk", "refclk";
++
++       #address-cells = <1>;
++       #size-cells = <0>;
++
++       ports {
++         #address-cells = <1>;
++         #size-cells = <0>;
++
++         port@0 {
++           reg = <0>;
++           dsi_in: endpoint {
++             remote-endpoint = <&hlcdc_panel_output>;
++           };
++         };
++
++         port@1 {
++           reg = <1>;
++           dsi_out: endpoint {
++             remote-endpoint = <&mipi_in_panel>;
++           };
++         };
++       };
++     };
++...
 -- 
 2.25.1
 
