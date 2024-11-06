@@ -2,82 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641B09BF610
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 20:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E639BF663
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 20:24:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69D8310E76B;
-	Wed,  6 Nov 2024 19:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E7810E00A;
+	Wed,  6 Nov 2024 19:24:47 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XchAZfD/";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69DE310E76B
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 19:06:58 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-290c69be014so82605fac.3
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Nov 2024 11:06:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730920017; x=1731524817;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1ZfJuo7pugYHJJaS8IJNytNUoBp8GBDpjZKB6B7LHdk=;
- b=K46PHG6X2pLxsQvu9uyYNRwNAB2Bj9CMvmaRqH341B6Wx2WG1qTroipGgrryfP7k7c
- SUfICnGMJ1ss6xoAKoz8JyBqV7GYfEfd4x6TcRcdhF4kzQPrSX2gYIM8q3uq4eW0QlHv
- YdHtizEcT82vUiASxx2vlhHFF2XUcvHn9BQPmxIFjc9/69FbhsR7EdwVQYlU1ytMBFWy
- gEzzN50vZ3UXhkBuhBdEnwhDfGH+SGyIEQb6jagbBuAPCwGFTE+vzich/Hm1QGtGwnjf
- YVM3Ip9D2sN0mpaT460A/hdzDW8Imbt4mKxXVdjWNoEYQINDZuJQgd6SkmZ7oZsDcP86
- oePQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW24/Oy+40JcckQ3aD23wSkBpockCmRjWCr1yKlnycqq6Ys+0A29GpvaVAQZyl03VjGQvCfInMt+aY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyP/cG3uko3Fg3YkOPs609SEfALefIZcTAnIe9eb2tqI2/3Mdwj
- FDXxb8l2hfLKogU6oy0gMd/2GiAHmVOh6hQoRQwdfS6EueUJn4ELxAp38dre
-X-Google-Smtp-Source: AGHT+IHgE7j6dkS9N+e+h/lSSKsAEXludTHwZUQn/nNO2jVsSRi30vL1XdKJgr05NCVB3nVxPsJNRg==
-X-Received: by 2002:a05:6871:ea0e:b0:259:88b4:976 with SMTP id
- 586e51a60fabf-2949f04a931mr17853740fac.43.1730920016709; 
- Wed, 06 Nov 2024 11:06:56 -0800 (PST)
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com.
- [209.85.167.172]) by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-29487429433sm4458523fac.6.2024.11.06.11.06.55
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Nov 2024 11:06:55 -0800 (PST)
-Received: by mail-oi1-f172.google.com with SMTP id
- 5614622812f47-3e60966297fso111310b6e.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Nov 2024 11:06:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWxqtDBRTorUNC8+ggCG2UXozjHiSl/QGxs1MptrPphJ9iQqLOP6F25YfQj7KNJBEqtr57rHeesfAI=@lists.freedesktop.org
-X-Received: by 2002:a05:6808:130a:b0:3e3:a99a:433f with SMTP id
- 5614622812f47-3e758c5a52bmr17620319b6e.13.1730920015121; Wed, 06 Nov 2024
- 11:06:55 -0800 (PST)
-MIME-Version: 1.0
-References: <20241106184935.294513-1-biju.das.jz@bp.renesas.com>
- <20241106184935.294513-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20241106184935.294513-3-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 Nov 2024 20:06:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWwf4iqUsOA+XajoAcN081GG95muA3m_ZxRp-BemSmajQ@mail.gmail.com>
-Message-ID: <CAMuHMdWwf4iqUsOA+XajoAcN081GG95muA3m_ZxRp-BemSmajQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] dt-bindings: display: adi,adv7533: Drop single
- lane support
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E2B10E00A
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 19:24:46 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 670FF670;
+ Wed,  6 Nov 2024 20:24:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1730921076;
+ bh=gN1WBAeIRYyA3wcA9u8mu17uJqkcrBC8yalU/0GVTmo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XchAZfD/j01QCYbfeuDW3PN1jkTYMvcY6Tmu9vhl4Znhul4EiTkzwJpF5Ngdelj3g
+ AaJQ9GTKIPBeXS2Fk6BsAwhkjc96ZnKAFb3+Wr/zhD6iReCbrv7Z+DCR5b/AFk7b5N
+ GuiWkD1hTniQ1l+6hnadgCL3HErjhPSpAJradydg=
+Date: Wed, 6 Nov 2024 21:24:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, 
- linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ Hien Huynh <hien.huynh.px@renesas.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] drm: adv7511: Drop dsi single lane support
+Message-ID: <20241106192438.GA21454@pendragon.ideasonboard.com>
+References: <20241106184935.294513-1-biju.das.jz@bp.renesas.com>
+ <20241106184935.294513-4-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241106184935.294513-4-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,37 +67,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Biju,
 
-On Wed, Nov 6, 2024 at 7:49=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
-> wrote:
+Thank you for the patch.
+
+On Wed, Nov 06, 2024 at 06:49:30PM +0000, Biju Das wrote:
 > As per [1], ADV7535/7533 support only 2-, 3-, or 4-lane. Drop
-> unsupported 1-lane from bindings.
->
+> unsupported 1-lane.
+> 
 > [1]
-> https://www.analog.com/media/en/technical-documentation/data-sheets/ADV75=
-35.pdf
+> https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
 
-The above is for ADV7535. Fortunately
-https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7533=
-.pdf
-agrees ;-)
+No need for a line break, this should be
 
+[1] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
+
+> 
 > Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
+> Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
+
+Reported-by is supposed to be immediately followed by a Closes: tag.
+
+With those fixed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> Changes in v3:
+>  - Updated commit header and description
+>  - Updated fixes tag
+>  - Dropped single lane support
+> Changes in v2:
+>  - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
+>  - Dropped Archit Taneja invalid Mail address
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7533.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> index de55d687245a..ec360f8b7509 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> @@ -173,7 +173,7 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
+>  
+>  	of_property_read_u32(np, "adi,dsi-lanes", &num_lanes);
+>  
+> -	if (num_lanes < 1 || num_lanes > 4)
+> +	if (num_lanes < 2 || num_lanes > 4)
+>  		return -EINVAL;
+>  
+>  	adv->num_dsi_lanes = num_lanes;
 
-With the description updated:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+-- 
+Regards,
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
