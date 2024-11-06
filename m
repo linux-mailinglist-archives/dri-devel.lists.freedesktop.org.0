@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DB39BE4A9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 11:48:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A780B9BE4AA
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 11:48:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB3210E6B7;
-	Wed,  6 Nov 2024 10:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 566E710E6B9;
+	Wed,  6 Nov 2024 10:48:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Fl1PBQ8v";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kaUmYTxC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
  [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF8B10E1D7
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 10:48:45 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B00336000E;
- Wed,  6 Nov 2024 10:48:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48F6D10E6B6
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 10:48:46 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6DAC160003;
+ Wed,  6 Nov 2024 10:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1730890124;
+ t=1730890125;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6pRM5jscZII9GohdxbWbdZ5ZoYRQpxbmot/dqfyy/mM=;
- b=Fl1PBQ8vf8xbrbvYM3xWTxSpEI3DdCvhNIBTbOYp6R+eDrsVaCDOKt0Jox0oPfimU1B9YA
- pHfLSpEqovaIxofsgJhE/kStmQesRRrZ0t/Pkptx6G3Uw4xLiTPe0CXzwD4C7H0dsR7/Y6
- qi89zz5Y3iHIs+mDjaicJW1eeYQeGDzVj7hbBvDspF6VZg5nuR5TEksv97XYsCvG7n3yXd
- qTicJU3CcnPNi6EO8gP0kxj9vMtjnTdTJ/YtBcGqYe8jJTyMdO+/L/d71J8lmwKWod57eL
- ANYApORKl9n8h07Ab2yZpYzTsbZBgcDUvkwCqzdpiYbM9ClTo6iBsepwJHBi4Q==
+ bh=ZWsYONnEgvEeIa9tipWPBTuf84MWmW0KPLgHIvkZDok=;
+ b=kaUmYTxCnAY2Yaz8+lF+h/n9rzbIibLHfOtbjYi0RxCWz7kJHEgqIzosrye/v3wAiLSPLW
+ gO9t/5T1tl6xNTSs2mPVzehbbookhUgglKSomQsH7cMyi+oTmW7jhhYhmKo8xYKRGsT7vQ
+ lM81A82fyV1da9oFru9YDUO9/fIIOVB1h++XisPbFFxHmc9O7c78qxbpzwbYSCYbVD2/kV
+ 3yUPLJw07eInHnS1s2gLJ8F2QK8kmW01qB5Gwy/2GOIb6wVy9EB0EzHSXbB4/F5kwkSvTO
+ rAdLAmsK2Beluk6zyorHqG8v54mwsNjHmEUwfihpS+VpYxgbzWfK5mVI2gC+Tg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 06 Nov 2024 11:48:26 +0100
-Subject: [PATCH v2 3/4] drm/mode_object: add
- drm_mode_object_read_refcount()
+Date: Wed, 06 Nov 2024 11:48:27 +0100
+Subject: [PATCH v2 4/4] drm/connector: warn when cleaning up a refcounted
+ connector
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241106-drm-small-improvements-v2-3-f6e2aef86719@bootlin.com>
+Message-Id: <20241106-drm-small-improvements-v2-4-f6e2aef86719@bootlin.com>
 References: <20241106-drm-small-improvements-v2-0-f6e2aef86719@bootlin.com>
 In-Reply-To: <20241106-drm-small-improvements-v2-0-f6e2aef86719@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -63,59 +63,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a wrapper to kref_read() just like the ones already in place for
-kref_get() and kref_put(). This will be used for sanity checks on object
-lifetime.
+Calling drm_connector_cleanup() should only be done via the free_cb =>
+.destroy path, which cleans up the struct drm_connector only when the
+refcount drops to zero.
+
+A cleanup done with a refcount higher than 0 can result from buggy code,
+e.g. by doing cleanup directly in the drivers teardown code. Serious
+trouble can happen if this happens, so warn about it.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/drm_mode_object.c | 20 ++++++++++++++++++++
- include/drm/drm_mode_object.h     |  1 +
- 2 files changed, 21 insertions(+)
+ drivers/gpu/drm/drm_connector.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-index df4cc0e8e263d5887a799cf1a61d998234be7158..f990cc7e9b5d3bda3453123593314fa1ea2bf923 100644
---- a/drivers/gpu/drm/drm_mode_object.c
-+++ b/drivers/gpu/drm/drm_mode_object.c
-@@ -217,6 +217,26 @@ void drm_mode_object_get(struct drm_mode_object *obj)
- }
- EXPORT_SYMBOL(drm_mode_object_get);
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index fc35f47e2849ed6786d6223ac9c69e1c359fc648..e0bf9c490af43055de4caaee1580a4befbd608c5 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -624,6 +624,12 @@ void drm_connector_cleanup(struct drm_connector *connector)
+ 	struct drm_device *dev = connector->dev;
+ 	struct drm_display_mode *mode, *t;
  
-+/**
-+ * drm_mode_object_get - read the refcount for a mode object
-+ * @obj: DRM mode object
-+ *
-+ * This function returns the current object's refcount if it is a
-+ * refcounted modeset object, or 0 on any other object.
-+ */
-+unsigned int drm_mode_object_read_refcount(struct drm_mode_object *obj)
-+{
-+	unsigned int refcount = 0;
++	/*
++	 * Cleanup must happen when the last ref is put, via the
++	 * drm_connector_free() callback.
++	 */
++	WARN_ON(drm_mode_object_read_refcount(&connector->base) != 0);
 +
-+	if (obj->free_cb) {
-+		refcount = kref_read(&obj->refcount);
-+		DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, refcount);
-+	}
-+
-+	return refcount;
-+}
-+EXPORT_SYMBOL(drm_mode_object_read_refcount);
-+
- /**
-  * drm_object_attach_property - attach a property to a modeset object
-  * @obj: drm modeset object
-diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
-index c68edbd126d04d51221f50aa2b4166475543b59f..3d2c739e703888bf4520c61594d480f128d50e56 100644
---- a/include/drm/drm_mode_object.h
-+++ b/include/drm/drm_mode_object.h
-@@ -123,6 +123,7 @@ struct drm_mode_object *drm_mode_object_find(struct drm_device *dev,
- 					     uint32_t id, uint32_t type);
- void drm_mode_object_get(struct drm_mode_object *obj);
- void drm_mode_object_put(struct drm_mode_object *obj);
-+unsigned int drm_mode_object_read_refcount(struct drm_mode_object *obj);
- 
- int drm_object_property_set_value(struct drm_mode_object *obj,
- 				  struct drm_property *property,
+ 	/* The connector should have been removed from userspace long before
+ 	 * it is finally destroyed.
+ 	 */
 
 -- 
 2.34.1
