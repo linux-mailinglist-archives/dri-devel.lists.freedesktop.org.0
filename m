@@ -2,44 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5189BF59D
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 19:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796389BF5A2
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 19:50:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA9F410E75B;
-	Wed,  6 Nov 2024 18:49:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E886210E765;
+	Wed,  6 Nov 2024 18:50:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C203810E760
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 18:49:56 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.11,263,1725289200"; d="scan'208";a="228050036"
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7509610E760
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 18:50:03 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.11,263,1725289200"; d="scan'208";a="224061197"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 07 Nov 2024 03:49:55 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 07 Nov 2024 03:50:02 +0900
 Received: from localhost.localdomain (unknown [10.226.93.42])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6FD024007212;
- Thu,  7 Nov 2024 03:49:48 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 05E7E4005440;
+ Thu,  7 Nov 2024 03:49:54 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
- stable@vger.kernel.org
-Subject: [PATCH v3 2/3] dt-bindings: display: adi,
- adv7533: Drop single lane support
-Date: Wed,  6 Nov 2024 18:49:29 +0000
-Message-ID: <20241106184935.294513-3-biju.das.jz@bp.renesas.com>
+ Hien Huynh <hien.huynh.px@renesas.com>, stable@vger.kernel.org
+Subject: [PATCH v3 3/3] drm: adv7511: Drop dsi single lane support
+Date: Wed,  6 Nov 2024 18:49:30 +0000
+Message-ID: <20241106184935.294513-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241106184935.294513-1-biju.das.jz@bp.renesas.com>
 References: <20241106184935.294513-1-biju.das.jz@bp.renesas.com>
@@ -61,34 +58,40 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 As per [1], ADV7535/7533 support only 2-, 3-, or 4-lane. Drop
-unsupported 1-lane from bindings.
+unsupported 1-lane.
 
 [1]
 https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
 
 Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
+Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
 Cc: stable@vger.kernel.org
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v3:
- * New patch.
+Changes in v3:
+ - Updated commit header and description
+ - Updated fixes tag
+ - Dropped single lane support
+Changes in v2:
+ - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
+ - Dropped Archit Taneja invalid Mail address
 ---
- .../devicetree/bindings/display/bridge/adi,adv7533.yaml         | 2 +-
+ drivers/gpu/drm/bridge/adv7511/adv7533.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-index df20a3c9c744..ec89115c74e4 100644
---- a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-@@ -90,7 +90,7 @@ properties:
-   adi,dsi-lanes:
-     description: Number of DSI data lanes connected to the DSI host.
-     $ref: /schemas/types.yaml#/definitions/uint32
--    enum: [ 1, 2, 3, 4 ]
-+    enum: [ 2, 3, 4 ]
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+index de55d687245a..ec360f8b7509 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+@@ -173,7 +173,7 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
  
-   "#sound-dai-cells":
-     const: 0
+ 	of_property_read_u32(np, "adi,dsi-lanes", &num_lanes);
+ 
+-	if (num_lanes < 1 || num_lanes > 4)
++	if (num_lanes < 2 || num_lanes > 4)
+ 		return -EINVAL;
+ 
+ 	adv->num_dsi_lanes = num_lanes;
 -- 
 2.43.0
 
