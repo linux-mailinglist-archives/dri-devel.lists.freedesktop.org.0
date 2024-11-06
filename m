@@ -2,41 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46929BEE6A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 14:17:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A909BEE6E
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 14:17:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC5FB10E1D6;
-	Wed,  6 Nov 2024 13:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D255E10E6E2;
+	Wed,  6 Nov 2024 13:17:40 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YpcLQYW9";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 17E9910E1D6
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 13:17:33 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 693DF339;
- Wed,  6 Nov 2024 05:18:03 -0800 (PST)
-Received: from [10.57.91.71] (unknown [10.57.91.71])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D2403F66E;
- Wed,  6 Nov 2024 05:17:31 -0800 (PST)
-Message-ID: <20d75e2c-c5a5-48c3-ac99-a9e15f19b872@arm.com>
-Date: Wed, 6 Nov 2024 13:17:29 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Lock XArray when getting entries for heap
- and VM
-To: Liviu Dudau <liviu.dudau@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E660D10E6E2
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 13:17:38 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93DAA475;
+ Wed,  6 Nov 2024 14:17:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1730899049;
+ bh=WYVykGgIGWOZakRTXDQpTktNipc2LJjx08BB+EWVg18=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YpcLQYW9ZGo2RrRHelMkVOI0dVW0NEdHFn7+fSkfhem+XpEQVQ1PPtsF2pmCmbLvJ
+ NGANXu00iNoF3Zu+bPWuWtXugx41qCAfQMfVCFbXxWxEu7MPHY1MkcVaXaJIeiw8QI
+ gLM3t9nzYcFpgMYonmEPmxJfHllv1yqa6B/QR8/Q=
+Date: Wed, 6 Nov 2024 15:17:31 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jann Horn <jannh@google.com>
-References: <20241106120748.290697-1-liviu.dudau@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20241106120748.290697-1-liviu.dudau@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Archit Taneja <architt@codeaurora.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "biju.das.au" <biju.das.au@gmail.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Hien Huynh <hien.huynh.px@renesas.com>
+Subject: Re: [PATCH v2 2/2] drm: adv7511: Fix out-of-bounds array in
+ clock_div_by_lanes
+Message-ID: <20241106131731.GG9369@pendragon.ideasonboard.com>
+References: <20241105111228.112813-1-biju.das.jz@bp.renesas.com>
+ <20241105111228.112813-3-biju.das.jz@bp.renesas.com>
+ <20241105160612.GC6317@pendragon.ideasonboard.com>
+ <TY3PR01MB1134619B30EB1894710AB669D86532@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB1134619B30EB1894710AB669D86532@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,85 +70,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/11/2024 12:07, Liviu Dudau wrote:
-> Similar to cac075706f29 ("drm/panthor: Fix race when converting
-> group handle to group object") we need to use the XArray's internal
-> locking when retrieving a pointer from there for heap and vm.
+On Wed, Nov 06, 2024 at 10:20:43AM +0000, Biju Das wrote:
+> Hi Laurent Pinchart,
 > 
-> Reported-by: Jann Horn <jannh@google.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Steven Price <steven.price@arm.com>
-> Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_heap.c | 15 +++++++++++++--
->  drivers/gpu/drm/panthor/panthor_mmu.c  |  2 ++
->  2 files changed, 15 insertions(+), 2 deletions(-)
+> Thanks for the feedback.
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-> index 3796a9eb22af2..fe0bcb6837f74 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> @@ -351,6 +351,17 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
->  	return ret;
->  }
->  
-> +static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
-> +{
-> +	struct panthor_heap *heap;
-> +
-> +	xa_lock(&pool->xa);
-> +	heap = xa_load(&pool->xa, id);
-> +	xa_unlock(&pool->va);
-> +
-> +	return heap;
-> +}
+> > -----Original Message-----
+> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Sent: 05 November 2024 16:06
+> > Subject: Re: [PATCH v2 2/2] drm: adv7511: Fix out-of-bounds array in clock_div_by_lanes
+> > 
+> > Hi Biju,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Tue, Nov 05, 2024 at 11:12:19AM +0000, Biju Das wrote:
+> > > Fix out-of-bounds array in adv7511_dsi_config_timing_gen(), when dsi
+> > > lanes = 1.
+> > 
+> > Does the hardware support using the internal timing generator with a single lane ? If so
+> 
+> As per the binding documentation [1], ADV7535 supports single lane.
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml?h=next-20241106
+> 
+> > adv7511_dsi_config_timing_gen() should be fixed, otherwise that should be explained in the commit
+> 
+> On RZ/G2L SMARC EVK platform, lanes=2,3,4 works ok, But with setting lanes=1, video is unstable
+> by trying with clock_divider as 6,7 and 8 by updating the array and also disabling internal timing generator.
 
-This locking doesn't actually achieve anything - XArray already deals
-with the concurrency (with RCU), and if we're doing nothing more than an
-xa_load() then we don't need (extra) locking (unless using the __
-prefixed functions).
+Is that an issue specific to that board, or to the chip in general ? If
+it's specific to the board, disabling 1 lane usage for everybody in the
+driver isn't the right option.
 
-And, as Boris has pointed out, pool->lock is held. As you mention in
-your email the missing bit might be panthor_heap_pool_release() - if
-it's not holding a lock then the heap could be freed immediately after
-panthor_heap_from_id() returns (even with the above change).
+> > message, and mentioned with a comment in adv7533_parse_dt(). I would also print an error message in
+> > that case.
+> 
+> OK, this can be done.
+> 
+> > If the internal timing generator can't be used with a single lane, the DT bindings should also be
+> > updated to document that.
+> 
+> Even single lane with or without internal timing generator does not work on RZ/G2L.
+> 
+> So, any users of ADV 7535 tested single lane??
+> 
+> > > Fixes: 78fa479d703c ("drm/bridge: adv7533: Use internal timing
+> > > generator")
+> > > Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > > Changes in v2:
+> > >  - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
+> > >  - Dropped Archit Taneja invalid Mail address
+> > > ---
+> > >  drivers/gpu/drm/bridge/adv7511/adv7533.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> > > b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> > > index 3e57ba838e5e..0c2236e53af5 100644
+> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> > > @@ -185,6 +185,9 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
+> > >  	adv->use_timing_gen = !of_property_read_bool(np,
+> > >  						"adi,disable-timing-generator");
+> > >
+> > > +	if (adv->use_timing_gen && num_lanes == 1)
+> > > +		return -EINVAL;
+> > > +
+> > >  	/* TODO: Check if these need to be parsed by DT or not */
+> > >  	adv->rgb = true;
+> > >  	adv->embedded_sync = false;
 
-Steve
+-- 
+Regards,
 
-> +
->  /**
->   * panthor_heap_return_chunk() - Return an unused heap chunk
->   * @pool: The pool this heap belongs to.
-> @@ -375,7 +386,7 @@ int panthor_heap_return_chunk(struct panthor_heap_pool *pool,
->  		return -EINVAL;
->  
->  	down_read(&pool->lock);
-> -	heap = xa_load(&pool->xa, heap_id);
-> +	heap = panthor_heap_from_id(pool, heap_id);
->  	if (!heap) {
->  		ret = -EINVAL;
->  		goto out_unlock;
-> @@ -438,7 +449,7 @@ int panthor_heap_grow(struct panthor_heap_pool *pool,
->  		return -EINVAL;
->  
->  	down_read(&pool->lock);
-> -	heap = xa_load(&pool->xa, heap_id);
-> +	heap = panthor_heap_from_id(pool, heap_id);
->  	if (!heap) {
->  		ret = -EINVAL;
->  		goto out_unlock;
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 8ca85526491e6..8b5cda9d21768 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1580,7 +1580,9 @@ panthor_vm_pool_get_vm(struct panthor_vm_pool *pool, u32 handle)
->  {
->  	struct panthor_vm *vm;
->  
-> +	xa_lock(&pool->xa);
->  	vm = panthor_vm_get(xa_load(&pool->xa, handle));
-> +	xa_unlock(&pool->va);
->  
->  	return vm;
->  }
-
+Laurent Pinchart
