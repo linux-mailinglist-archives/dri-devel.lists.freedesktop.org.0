@@ -2,170 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE9B9BF450
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 18:32:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC419BF45B
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 18:33:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B6FC10E2F9;
-	Wed,  6 Nov 2024 17:32:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0A6910E730;
+	Wed,  6 Nov 2024 17:33:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="EtfIRESE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lBsJ1S83";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYVP286CU001.outbound.protection.outlook.com
- (mail-japaneastazon11011060.outbound.protection.outlook.com [52.101.125.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6FBE10E2F9
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 17:32:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z8kcGmK6txpBLRs3brrTcg8/29wts9zIuv7tb0rF6lYsKP/i++qBVwr54fIALxckmYZ6JnXD9qfJKXc1LYj/hi8PTwRu2apH5ORQ2nrrdy7viu4aLaIWiHFkw7rMP2vLhaHIGl2iRDl/4c6GTBx/kUL0W7XaZF3W1QU/FFgp3Nr48ZYk7tiaX1a/WerqiK5d4xPZeRD/nDdRoyXjesVv//zOSqcb2u0oPgK0B8WD1CEaS+r3sDi79VaSxrDPXiSN+B0EdY1j5aBD1+zk46bC224KPTCRdu/IdKS+7eeF56fAlKQAa4oHlF9wOBizeRTnQ1K5J56A8L09iOvwA7EhBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8nH+oUh+IKlJluMJMG6rukTnJ5uRp3f/Yh2KwOJXJso=;
- b=GS1inf9I8na/I9TrnXlm2nnNUPeZc6GdVe+8MVsF9DSNltjpLV+o0iQeLv/vw4rCmysW5iVj33juu2dhgUCbhOmvh+ynQYPxb4735ngZ4uTnVx2omLTfZyGkFgf2OjoUPxPFxBbGMgSRVfpSw5Z96yEz11lZL/myNgiLC14gu7JMUnGtg/6iP2K8UYPqa1aqrcR4+dhOqQX3wxVvMJEKCbsxPbqxRajimFqU0jQYFKyHTfQPBp8d4k5vrDEG4pR4Yj2DJzZ7/aSjoOUugSh9FFqEHKMTsTCTrNss17rCWnd+gARNzo25xcpZIMPOqWllxnOHZxA+eGTgTRNtih5BQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8nH+oUh+IKlJluMJMG6rukTnJ5uRp3f/Yh2KwOJXJso=;
- b=EtfIRESE8vz+74+9FWjLnvWDY5GDDNdBZa6Ay18CryRSAqWmIKCS7R4U9+uhzH67wieLjmKJFCzuRXo69UZ5BqpE9Eq4c7+39V+Df6as2I6TsdrtOV76LiF0MQFeqrq4ApeXY5s0FbuedQR1Quh9s5skE5xee8vARhbLab4C10Q=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYWPR01MB11378.jpnprd01.prod.outlook.com (2603:1096:400:3f6::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19; Wed, 6 Nov
- 2024 17:32:04 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%3]) with mapi id 15.20.8137.018; Wed, 6 Nov 2024
- 17:32:03 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: laurent.pinchart <laurent.pinchart@ideasonboard.com>
-CC: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Archit Taneja
- <architt@codeaurora.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
- <biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, Hien Huynh <hien.huynh.px@renesas.com>
-Subject: RE: [PATCH v2 2/2] drm: adv7511: Fix out-of-bounds array in
- clock_div_by_lanes
-Thread-Topic: [PATCH v2 2/2] drm: adv7511: Fix out-of-bounds array in
- clock_div_by_lanes
-Thread-Index: AQHbL3OqGwvURGtuf0yMs4E9+5ouCbKo2l0AgAGpbTA=
-Date: Wed, 6 Nov 2024 17:32:03 +0000
-Message-ID: <TY3PR01MB113466AB53869B3D19421793186532@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20241105111228.112813-1-biju.das.jz@bp.renesas.com>
- <20241105111228.112813-3-biju.das.jz@bp.renesas.com>
- <20241105160612.GC6317@pendragon.ideasonboard.com>
-In-Reply-To: <20241105160612.GC6317@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB11378:EE_
-x-ms-office365-filtering-correlation-id: e8356711-fa9a-4727-5e97-08dcfe88ed6e
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|7416014|376014|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?QU5lZHBXZjJHOHo4RW1nQ3EzRWZpTWtZdjNXd01hSzN5OVBYaTZFbW9yOEpp?=
- =?utf-8?B?aTVWT1dvT0NNeHpwd3gyZTAxVWErK2hkak13SEVHVGcyZ1Q1bCtPSjhvWHZN?=
- =?utf-8?B?alorQVB5SFAwRU5ObHYzQ1BxZkV3WVZ5RlIvTGF3aTAwSEMrd080VklxTDU2?=
- =?utf-8?B?NmRCMUtEQlFBUndkTWVQM1l4VkRrbVdmLzlrQXBtMUdONC9yVmlGY1pSVjdU?=
- =?utf-8?B?Z1BUbW9kN3FUa211MXBXenJReUtaZUF4czZ3M2ZMTVE0K0VIa2hoTURPNTY1?=
- =?utf-8?B?VDdIS1NOOUVVeHBuQnRFMDNSaXNNam9VMENvYkdoemFxaTErYTNma2tNK0Uw?=
- =?utf-8?B?UWIrT1kvakIxR2VTQ2tUc2VKM0lwTTZSVnQ2d2dFM3pSMVV4RXVrQXNYVUo3?=
- =?utf-8?B?enFzNFB3Q3pzNWY4eVAzUzZwSkVoMDUvcXpKYXlwektnL053OCtBQ3NaMlNa?=
- =?utf-8?B?RG0relhCRXJjNmtVSXZ2Yk1PSm9kT1FMd3N1L2YwNS9UOWpXMUJEYm9zY3BP?=
- =?utf-8?B?d2pkN2dLcXdtaWZ1WVFUaWVmUDU5VzRGTlZQUFdzT25XUS9BaFQwOXhaczI3?=
- =?utf-8?B?VFVoRlNJaFJoTS84dVVSZ00xUXdGbUUraEdkaEdER1dUb1N5MTgrV3VWd2N5?=
- =?utf-8?B?cVFMYmhFYytUVWkrWC93WDRQZFo2TFpsWm5IMnc0RXduT21BdzM1UUxxTkQv?=
- =?utf-8?B?ZzMzZ25aZXFkSWROeUxsbWYzRGhnUzEzNzFqZUpPQWFKb0ZEYU9qYXF0U25q?=
- =?utf-8?B?SUN2Q3MrL3ZzZFUxQ05TbW5LZnY1YUx6RVNDdDdCdEFwMFI3WFZvakZSU2NL?=
- =?utf-8?B?c0VOcTlaUURrQ2ZibkJVZERYSTZFcTE4N0JUQTlkZmJsOURMWnY2dStibi9Z?=
- =?utf-8?B?VjlNN0ZYZXpiWGdKSE94cFdPREpDSitIdjVpdWVmWEthSUV3S0FyL3hRUmhP?=
- =?utf-8?B?WDQ2cm5jd3Q0cXVjaUZjWlFmRTg0VVJna2IxSDVrOFZ2cHA1dDZUT1psclpy?=
- =?utf-8?B?azlLVnFlSFhsUzV4bXNYcUtoZDQybkxZRWVKM0FpZklPbXRsYWY5Y1EzNEw4?=
- =?utf-8?B?cnhqWmYwY2h3WVBwb013a1NEUDdsY3BjVHBxWnlrdkJnNzg4UnV2Si9uNnlp?=
- =?utf-8?B?NXNBSVk2NW9waE1LamQxQkRidWlUZERic3NrdktvM20zS3JrRHoyT2draUth?=
- =?utf-8?B?QU95cHBxVGh6M3l2NS96NkhzWXBSeFF1NEFCZEtzVjc1aUNSQk1uKzc4VEV2?=
- =?utf-8?B?clZPVG9yY2JCM3ByeTN0YUNOa2JsRzNNYlU0QWJLQVV4dGR1TzR2R09ISEhn?=
- =?utf-8?B?Zmw0eE96QXNmNDd4UDhuc0YzVExTbVlOc2lmV3dFS1JxVllTd3YvOWIrY0JS?=
- =?utf-8?B?TnVta3BqcnAvVitIZWM3Z081Q1VQTmYxc3dWb2psMFNrT0ZHK3RZa3cyNGdo?=
- =?utf-8?B?VEpWdEl6akIvRStuSWtLSzlJK2xpK2NhYjl6WklEQVNqVW5NZElxSDVKQzc5?=
- =?utf-8?B?M2RUR2x0WUJqTTdBMC9SVE1YKzAwMFBBRG01YU8zekRvWWU3L2ZYVFd5NVZi?=
- =?utf-8?B?SlE4Z3pVSUR3MkZHSEoyRmxCZmpGRFFyVm9yOVQybzEvZUYvendEeXFkOUda?=
- =?utf-8?B?Q1FDckJLSmQyL0hhaUtoNzZUMElkKzlxdCtLRk5JNkl6RTBWcUw1R2g3YnVu?=
- =?utf-8?B?WDRPbGdFMk4wK2FqVFJwR2ZRSXlrREs2dXlTSURNTm0rQjNsWWdQVzJ5aGk5?=
- =?utf-8?B?RW1RNTFzVHdJUkJJQTJzVHpseithWFJBU1lKeVFqeTV1OENtcytKUGdzN1pW?=
- =?utf-8?B?OStpU0kvK05WNUxVRUkyeXNXYXZiQ3RMYytwUzFUeXE4MzBVUXpQcEo1eS93?=
- =?utf-8?Q?s1MysOO4pk/nW?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RVExWjhLRndoZjQwNGVwYW1YckNIYzZTWkMrWGVYNjdtSlR0NDVwSUNudlFy?=
- =?utf-8?B?RVN4SWF5cExnOVhENG9mTlNpR0p5M2lkMzR0UzQ5TUo0UnVmeWc3NXZpcHJH?=
- =?utf-8?B?bVc0YnFacEltVWpMZjljN21SY3l1T3dvM014Z1NaQ0hjU1ZkektMajNGQjBQ?=
- =?utf-8?B?M0dERUt3WVQ5K3VNbkRUYUY5WWZELzZDbkpTZTBmVlhQeEJxVnlEdlh5dFpr?=
- =?utf-8?B?VkpnUTBFbENsK05oajhVRC9yaTJJbE5uZytJcTNQUkxoREtkNFEwZjNiL1F1?=
- =?utf-8?B?QVJQMG5ESjV4Tk1EMkttOFZtdGxXWVJJRzdYWkU1WGsxTUZvY1NGL2JZdFJt?=
- =?utf-8?B?eGZma1ZvT0xSb2FqRUtUUElUYjdKSFFGRWNObHdtNVFMSTd4U3pkRDlJS2Rn?=
- =?utf-8?B?ZDRLdTNmUzRkaFdxSElheTl2d1U2SnFuRlVjRzJQc3V5QmowNmFKZWxIa3hD?=
- =?utf-8?B?UlRBMjc1MTB0ejhqTjFhcnJXRTVmcFpNU2JQYkIxRU1xeWpsUHVZZ3pwSnox?=
- =?utf-8?B?R0orVGxrbGZxSlRpNWphNDZqaXVUeVZ3RlNpQmRoRnV3aDZXMTZyd0djdVA0?=
- =?utf-8?B?ZEtMQjlodUNjOVVHeEJUSklheERWNDNCeWo2bXIyV3dxbW50SVRvbml4RGJC?=
- =?utf-8?B?dkt1UXZwcitQRW9na1FpdlRBQ05NQWpVQ0pmYnNkUmFuNk1IK0I5eE9kQ3kw?=
- =?utf-8?B?NlZrOUcvRW1pSEVNREV5UjRsK2FPajVtbnMxOEY4dWQ4WWRBTEplWXpKb1RD?=
- =?utf-8?B?ZGxxdE1DNnNTNnl2eSt4UFVZYk84WWR0Qzd4TlRpblI1VU56NGZKVGNMQ1VD?=
- =?utf-8?B?Znk2aDI1V3R4TXJsOHkwR1NqVndrTGh2Z1lkUkFVOGl5ZEZHVkN2dTA1bllq?=
- =?utf-8?B?WHVpUVpxSDBVSHhGekZmbTI0bEJtRi9EOC9aUVFsWktGemlteG11R0hKQ1NQ?=
- =?utf-8?B?VVIyblEraEtaeCt1TVVDQXByMEdFcjQ2c1FXQWd6akNoNUJiY2hES0FKMWZr?=
- =?utf-8?B?WHhacTFSakp2WCtmbDJROUxtZGtsT1dWdldjQzRnZlBpN2tGVmY2Qy9sSXhZ?=
- =?utf-8?B?RGUvOVJMSUN5OUNvZ2kwdXhiVmw5cWc1dEMxV1JlbHZCVWg4RkZzb3c3UjFw?=
- =?utf-8?B?cXR0MGZTTkFkRWxDek1NSG9UcWpGaU80VVJ1cjhGUU1NOC9OWFJKTjY3Ny80?=
- =?utf-8?B?MWV5ZEkwRUpIbWVtU0V6YThEWkVaeXZ2YmNrYS92SlZIZVZKNElWdGUzOVli?=
- =?utf-8?B?SXVvblRFVkF6Nm1XU0k4YWk0WWdQZGNFaXA2eWIzU3ZzTkVxZGJIMUVpQVJo?=
- =?utf-8?B?dldPSktBV1I5bkt5SU00RzNnWHRPeUk5S2VRdEdhQWZxQ2Yyb0tVTVRZME5K?=
- =?utf-8?B?N080ZS94R3BORlhielVFRHFYc1d4THFxM3hPUXBycGwrcFR1RFRlZU4xUEEz?=
- =?utf-8?B?eEF6ZUFzNk1jdzE3SjduWnNNbHdGVjN0L0JzK3BReWkyOGpwSDI3ZzZVN2Ix?=
- =?utf-8?B?a291dW5qaUQ5R2laRFhVeXBzVGZlY1lFYkJESnZxclVzUjBGaTJOYzAxR1pG?=
- =?utf-8?B?ajdESWZoUmJFb1JvVEYvOFBvZnNCaElydmdJMW8vemR2T1Y5TElJNUtSTUNR?=
- =?utf-8?B?TmxKWkFQaG9RQWtydmVFTHF3ZHhXN0pkN1pxbGE5WXh3TDhlYXJxaHNFcDh6?=
- =?utf-8?B?MEFBVHZ6UXYxSDBxdGNrZWVzRlRpWUcwbUxQQk9ucjUzK2xCRzVHMW03KzdT?=
- =?utf-8?B?OTBoaFp0MmF2Q29uRU8xZE4rdnlVNGxwaDd5SUFaNUJkN0Qvb1dGQkJUSDUv?=
- =?utf-8?B?N2JRTmZsRk1tby9ZeXFsWkZiTEVickVWc0VPbnRoL3VqSHJnem42cDMrd0RO?=
- =?utf-8?B?V3BEMlhyZi9PbWRkWURXTVFRVHJNdnV6N01qSzJmODhqd1Fmb1lDWGJ3S2JH?=
- =?utf-8?B?b1ZrZXowa2RUQTdFeWdoWnR3U05LbzNvVU5tN1lsWFB4ZG9jZjAra25UNURC?=
- =?utf-8?B?QUtYdHIxRmJ1U0o5Ykt1U3kxVy9sWktNNnR0Qk1CZkIvVDdhazZERUVFQi9O?=
- =?utf-8?B?aEhjd3BpcFpnckIvd0ZZVkRTNjE0MjZIa3YvbUdBUHRKUmZISi9UUzhWU1Fu?=
- =?utf-8?B?MlhPTmVjdWVZVERyY1ZuOFBqT0tjbXE0eWNMMTdoaFgzemgrOTZ1OVZUd0dD?=
- =?utf-8?B?YWc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3743C10E730
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 17:33:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1730914413; x=1762450413;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Chz4JO/i/KXWFxZlHZEPivlsDrtw0pBtXxdY60/ftKM=;
+ b=lBsJ1S83SQZsK6dWguzdH1ghqY7976OLCR0agNfgdKzZENdRwhK+mftj
+ KNUu3/hDHvG0YHHpLgu2ZEfkLzdpBnJzKBhLpCelSHS4mBNSkKQm1p9bm
+ fPE+Nj7PS1Me+qjNDL4sITn9XiTTZFqU5RtKEnD1hNdDNOohPHXuEt75n
+ bqGD3oEAarT2vtJP8g2R98OvRJxXeBs10s8EDOBKfNqeQaVzYIc8Qk9RG
+ /7HS4yFtUajSZGqWhYTl7TmlHkDHt/rky102zbzXI7lyOYKP9lWhpg7uZ
+ eD0FkUWRNkievTQhIA58Kj8cEDdxCy+0k6SHpg+Y43GUuNsf0gOOAQ66c A==;
+X-CSE-ConnectionGUID: R9m5zLN+RyKIev/Ij0Z7TQ==
+X-CSE-MsgGUID: wPvaWQGJRaeW095Nf30ZaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="42128639"
+X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; d="scan'208";a="42128639"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2024 09:33:32 -0800
+X-CSE-ConnectionGUID: UXDqz9giQ8m1mzwGnH9tvg==
+X-CSE-MsgGUID: ZaXmnvq0SrOn429yUdP70Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; d="scan'208";a="89199145"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by fmviesa005.fm.intel.com with ESMTP; 06 Nov 2024 09:33:27 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t8juI-000pE6-1r;
+ Wed, 06 Nov 2024 17:33:26 +0000
+Date: Thu, 7 Nov 2024 01:32:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Liviu Dudau <liviu.dudau@arm.com>, Boris Brezillon <bbrezillon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jann Horn <jannh@google.com>
+Subject: Re: [PATCH] drm/panthor: Lock XArray when getting entries for heap
+ and VM
+Message-ID: <202411070140.L4JAwkvX-lkp@intel.com>
+References: <20241106120748.290697-1-liviu.dudau@arm.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8356711-fa9a-4727-5e97-08dcfe88ed6e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2024 17:32:03.1935 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Td9zdT35jBoM6nk3sAA4jlJQ4Jzq/F4YUKtctl+hDcgGmZU8QxwJYhgmPOLugdICjeIBApGKiE/21CORRIqLRcPlTUpw7J4lmkmd2/SzdSQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11378
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241106120748.290697-1-liviu.dudau@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,31 +76,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGF1cmVudCBQaW5jaGFydCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBG
-cm9tOiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+
-DQo+IFNlbnQ6IDA1IE5vdmVtYmVyIDIwMjQgMTY6MDYNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2
-MiAyLzJdIGRybTogYWR2NzUxMTogRml4IG91dC1vZi1ib3VuZHMgYXJyYXkgaW4gY2xvY2tfZGl2
-X2J5X2xhbmVzDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gVGhhbmsgeW91IGZvciB0aGUgcGF0Y2gu
-DQo+IA0KPiBPbiBUdWUsIE5vdiAwNSwgMjAyNCBhdCAxMToxMjoxOUFNICswMDAwLCBCaWp1IERh
-cyB3cm90ZToNCj4gPiBGaXggb3V0LW9mLWJvdW5kcyBhcnJheSBpbiBhZHY3NTExX2RzaV9jb25m
-aWdfdGltaW5nX2dlbigpLCB3aGVuIGRzaQ0KPiA+IGxhbmVzID0gMS4NCj4gDQo+IERvZXMgdGhl
-IGhhcmR3YXJlIHN1cHBvcnQgdXNpbmcgdGhlIGludGVybmFsIHRpbWluZyBnZW5lcmF0b3Igd2l0
-aCBhIHNpbmdsZSBsYW5lID8gSWYgc28NCj4gYWR2NzUxMV9kc2lfY29uZmlnX3RpbWluZ19nZW4o
-KSBzaG91bGQgYmUgZml4ZWQsIG90aGVyd2lzZSB0aGF0IHNob3VsZCBiZSBleHBsYWluZWQgaW4g
-dGhlIGNvbW1pdA0KPiBtZXNzYWdlLCBhbmQgbWVudGlvbmVkIHdpdGggYSBjb21tZW50IGluIGFk
-djc1MzNfcGFyc2VfZHQoKS4gSSB3b3VsZCBhbHNvIHByaW50IGFuIGVycm9yIG1lc3NhZ2UgaW4N
-Cj4gdGhhdCBjYXNlLg0KPiANCj4gSWYgdGhlIGludGVybmFsIHRpbWluZyBnZW5lcmF0b3IgY2Fu
-J3QgYmUgdXNlZCB3aXRoIGEgc2luZ2xlIGxhbmUsIHRoZSBEVCBiaW5kaW5ncyBzaG91bGQgYWxz
-byBiZQ0KPiB1cGRhdGVkIHRvIGRvY3VtZW50IHRoYXQuDQoNCkFzIHBlciBbMV0sIGxhbmVzID0g
-MSBpcyBub3Qgc3VwcG9ydGVkIGluIEFEVjc1MzUvQURWNzUzMy4gDQoNCkkgd2lsbCB1cGRhdGUg
-dGhlIGNvZGUgYW5kIGJpbmRpbmcgdG8gcmVtb3ZlIGxhbmVzPTEgc3VwcG9ydC4NCg0KWzFdDQpo
-dHRwczovL3d3dy5hbmFsb2cuY29tL21lZGlhL2VuL3RlY2huaWNhbC1kb2N1bWVudGF0aW9uL2Rh
-dGEtc2hlZXRzL0FEVjc1MzUucGRmDQoNCkNoZWVycywNCkJpanUNCg0KPiANCj4gPiBGaXhlczog
-NzhmYTQ3OWQ3MDNjICgiZHJtL2JyaWRnZTogYWR2NzUzMzogVXNlIGludGVybmFsIHRpbWluZw0K
-PiA+IGdlbmVyYXRvciIpDQo+ID4gUmVwb3J0ZWQtYnk6IEhpZW4gSHV5bmggPGhpZW4uaHV5bmgu
-cHhAcmVuZXNhcy5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMgPGJpanUuZGFzLmp6
-QGJwLnJlbmVzYXMuY29tPg0KPiA+IC0tLQ0KPiA+IENoYW5nZXMgaW4gdjI6DQo+ID4gIC0gQWRk
-ZWQgdGhlIHRhZyAiQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmciIGluIHRoZSBzaWduLW9mZiBh
-cmVhLg0KPiA+ICAtIERyb3BwZWQgQXJjaGl0IFRhbmVqYSBpbnZhbGlkIE1haWwgYWRkcmVzcw0K
-PiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUzMy5jIHwg
-MyArKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQ0KPiA+DQo=
+Hi Liviu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.12-rc6 next-20241106]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Liviu-Dudau/drm-panthor-Lock-XArray-when-getting-entries-for-heap-and-VM/20241106-200841
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241106120748.290697-1-liviu.dudau%40arm.com
+patch subject: [PATCH] drm/panthor: Lock XArray when getting entries for heap and VM
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20241107/202411070140.L4JAwkvX-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070140.L4JAwkvX-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070140.L4JAwkvX-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/panthor/panthor_heap.c:354:57: warning: 'struct pathor_heap_pool' declared inside parameter list will not be visible outside of this definition or declaration
+     354 | static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
+         |                                                         ^~~~~~~~~~~~~~~~
+   In file included from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/huge_mm.h:8,
+                    from include/linux/mm.h:1120,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/iommu.h:10,
+                    from include/linux/io-pgtable.h:6,
+                    from drivers/gpu/drm/panthor/panthor_device.h:10,
+                    from drivers/gpu/drm/panthor/panthor_heap.c:9:
+   drivers/gpu/drm/panthor/panthor_heap.c: In function 'panthor_heap_from_id':
+>> drivers/gpu/drm/panthor/panthor_heap.c:358:22: error: invalid use of undefined type 'struct pathor_heap_pool'
+     358 |         xa_lock(&pool->xa);
+         |                      ^~
+   include/linux/xarray.h:536:45: note: in definition of macro 'xa_lock'
+     536 | #define xa_lock(xa)             spin_lock(&(xa)->xa_lock)
+         |                                             ^~
+   drivers/gpu/drm/panthor/panthor_heap.c:359:29: error: invalid use of undefined type 'struct pathor_heap_pool'
+     359 |         heap = xa_load(&pool->xa, id);
+         |                             ^~
+   drivers/gpu/drm/panthor/panthor_heap.c:360:24: error: invalid use of undefined type 'struct pathor_heap_pool'
+     360 |         xa_unlock(&pool->va);
+         |                        ^~
+   include/linux/xarray.h:537:47: note: in definition of macro 'xa_unlock'
+     537 | #define xa_unlock(xa)           spin_unlock(&(xa)->xa_lock)
+         |                                               ^~
+   drivers/gpu/drm/panthor/panthor_heap.c: In function 'panthor_heap_return_chunk':
+>> drivers/gpu/drm/panthor/panthor_heap.c:389:37: error: passing argument 1 of 'panthor_heap_from_id' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     389 |         heap = panthor_heap_from_id(pool, heap_id);
+         |                                     ^~~~
+         |                                     |
+         |                                     struct panthor_heap_pool *
+   drivers/gpu/drm/panthor/panthor_heap.c:354:75: note: expected 'struct pathor_heap_pool *' but argument is of type 'struct panthor_heap_pool *'
+     354 | static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
+         |                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/gpu/drm/panthor/panthor_heap.c: In function 'panthor_heap_grow':
+   drivers/gpu/drm/panthor/panthor_heap.c:452:37: error: passing argument 1 of 'panthor_heap_from_id' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     452 |         heap = panthor_heap_from_id(pool, heap_id);
+         |                                     ^~~~
+         |                                     |
+         |                                     struct panthor_heap_pool *
+   drivers/gpu/drm/panthor/panthor_heap.c:354:75: note: expected 'struct pathor_heap_pool *' but argument is of type 'struct panthor_heap_pool *'
+     354 | static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
+         |                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/seq_file.h:11,
+                    from include/drm/drm_debugfs.h:36,
+                    from drivers/gpu/drm/panthor/panthor_mmu.c:5:
+   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_vm_pool_get_vm':
+>> drivers/gpu/drm/panthor/panthor_mmu.c:1585:26: error: 'struct panthor_vm_pool' has no member named 'va'; did you mean 'xa'?
+    1585 |         xa_unlock(&pool->va);
+         |                          ^~
+   include/linux/xarray.h:537:47: note: in definition of macro 'xa_unlock'
+     537 | #define xa_unlock(xa)           spin_unlock(&(xa)->xa_lock)
+         |                                               ^~
+
+
+vim +358 drivers/gpu/drm/panthor/panthor_heap.c
+
+   353	
+ > 354	static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
+   355	{
+   356		struct panthor_heap *heap;
+   357	
+ > 358		xa_lock(&pool->xa);
+   359		heap = xa_load(&pool->xa, id);
+   360		xa_unlock(&pool->va);
+   361	
+   362		return heap;
+   363	}
+   364	
+   365	/**
+   366	 * panthor_heap_return_chunk() - Return an unused heap chunk
+   367	 * @pool: The pool this heap belongs to.
+   368	 * @heap_gpu_va: The GPU address of the heap context.
+   369	 * @chunk_gpu_va: The chunk VA to return.
+   370	 *
+   371	 * This function is used when a chunk allocated with panthor_heap_grow()
+   372	 * couldn't be linked to the heap context through the FW interface because
+   373	 * the group requesting the allocation was scheduled out in the meantime.
+   374	 */
+   375	int panthor_heap_return_chunk(struct panthor_heap_pool *pool,
+   376				      u64 heap_gpu_va,
+   377				      u64 chunk_gpu_va)
+   378	{
+   379		u64 offset = heap_gpu_va - panthor_kernel_bo_gpuva(pool->gpu_contexts);
+   380		u32 heap_id = (u32)offset / panthor_heap_ctx_stride(pool->ptdev);
+   381		struct panthor_heap_chunk *chunk, *tmp, *removed = NULL;
+   382		struct panthor_heap *heap;
+   383		int ret;
+   384	
+   385		if (offset > U32_MAX || heap_id >= MAX_HEAPS_PER_POOL)
+   386			return -EINVAL;
+   387	
+   388		down_read(&pool->lock);
+ > 389		heap = panthor_heap_from_id(pool, heap_id);
+   390		if (!heap) {
+   391			ret = -EINVAL;
+   392			goto out_unlock;
+   393		}
+   394	
+   395		chunk_gpu_va &= GENMASK_ULL(63, 12);
+   396	
+   397		mutex_lock(&heap->lock);
+   398		list_for_each_entry_safe(chunk, tmp, &heap->chunks, node) {
+   399			if (panthor_kernel_bo_gpuva(chunk->bo) == chunk_gpu_va) {
+   400				removed = chunk;
+   401				list_del(&chunk->node);
+   402				heap->chunk_count--;
+   403				break;
+   404			}
+   405		}
+   406		mutex_unlock(&heap->lock);
+   407	
+   408		if (removed) {
+   409			panthor_kernel_bo_destroy(chunk->bo);
+   410			kfree(chunk);
+   411			ret = 0;
+   412		} else {
+   413			ret = -EINVAL;
+   414		}
+   415	
+   416	out_unlock:
+   417		up_read(&pool->lock);
+   418		return ret;
+   419	}
+   420	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
