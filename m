@@ -2,44 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796389BF5A2
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 19:50:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785329BF5CD
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 19:58:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E886210E765;
-	Wed,  6 Nov 2024 18:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBE4D10E760;
+	Wed,  6 Nov 2024 18:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7509610E760
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 18:50:03 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.11,263,1725289200"; d="scan'208";a="224061197"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 07 Nov 2024 03:50:02 +0900
-Received: from localhost.localdomain (unknown [10.226.93.42])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 05E7E4005440;
- Thu,  7 Nov 2024 03:49:54 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DC21B10E760
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 18:58:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 490F7497;
+ Wed,  6 Nov 2024 10:58:48 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 067FE3F528;
+ Wed,  6 Nov 2024 10:58:16 -0800 (PST)
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
- Hien Huynh <hien.huynh.px@renesas.com>, stable@vger.kernel.org
-Subject: [PATCH v3 3/3] drm: adv7511: Drop dsi single lane support
-Date: Wed,  6 Nov 2024 18:49:30 +0000
-Message-ID: <20241106184935.294513-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241106184935.294513-1-biju.das.jz@bp.renesas.com>
-References: <20241106184935.294513-1-biju.das.jz@bp.renesas.com>
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jann Horn <jannh@google.com>
+Subject: [PATCH v2] drm/panthor: Lock XArray when getting entries for the VM
+Date: Wed,  6 Nov 2024 18:58:06 +0000
+Message-ID: <20241106185806.389089-1-liviu.dudau@arm.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,41 +48,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per [1], ADV7535/7533 support only 2-, 3-, or 4-lane. Drop
-unsupported 1-lane.
+Similar to cac075706f29 ("drm/panthor: Fix race when converting
+group handle to group object") we need to use the XArray's internal
+locking when retrieving a vm pointer from there.
 
-[1]
-https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
+v2: Removed part of the patch that was trying to protect fetching
+the heap pointer from XArray, as that operation is protected by
+the @pool->lock.
 
-Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
-Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Fixes: 647810ec2476 ("drm/panthor: Add the MMU/VM logical block")
+Reported-by: Jann Horn <jannh@google.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>
+Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
 ---
-Changes in v3:
- - Updated commit header and description
- - Updated fixes tag
- - Dropped single lane support
-Changes in v2:
- - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
- - Dropped Archit Taneja invalid Mail address
----
- drivers/gpu/drm/bridge/adv7511/adv7533.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panthor/panthor_mmu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-index de55d687245a..ec360f8b7509 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-@@ -173,7 +173,7 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 8ca85526491e6..46b84a557d9cc 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -1580,7 +1580,9 @@ panthor_vm_pool_get_vm(struct panthor_vm_pool *pool, u32 handle)
+ {
+ 	struct panthor_vm *vm;
  
- 	of_property_read_u32(np, "adi,dsi-lanes", &num_lanes);
++	xa_lock(&pool->xa);
+ 	vm = panthor_vm_get(xa_load(&pool->xa, handle));
++	xa_unlock(&pool->xa);
  
--	if (num_lanes < 1 || num_lanes > 4)
-+	if (num_lanes < 2 || num_lanes > 4)
- 		return -EINVAL;
- 
- 	adv->num_dsi_lanes = num_lanes;
+ 	return vm;
+ }
 -- 
-2.43.0
+2.47.0
 
