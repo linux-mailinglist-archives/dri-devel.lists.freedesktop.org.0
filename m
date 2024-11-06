@@ -2,62 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4D99BF54E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 19:33:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02FB9BF599
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 19:49:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9187F10E75A;
-	Wed,  6 Nov 2024 18:33:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j2kbkIVV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A8C010E22E;
+	Wed,  6 Nov 2024 18:49:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8E410E75A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 18:33:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6E3C5A4424E;
- Wed,  6 Nov 2024 18:31:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0069C4CEC6;
- Wed,  6 Nov 2024 18:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730918020;
- bh=y2p9ZXBMTA9Kxb0m1NNUcP0JaTs+i1CzMOB0sUQFJ88=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=j2kbkIVVWaM3yO7REJyQCuGZCGdvolulDmtWYZJ0519Ine255Oc+aU0EfsQBl5qnz
- ZhVvIX8tYeXL5CG1bDHiVCtWL6JSaB9HWVHfUZgUiwPJfC3+tN7AjLZr7YrAWJ+9zX
- huQL2/Vw2aWIHmrd1fWltvMnj2gEnIql62lTQCRJnygS54B5HtRx26fqV7u5QrhlRE
- nqXaQ+4jXROb6fWlsgz5HtTGJ6fPPGDPclGFwzEWUO6JQ/QMcXNJw4QeoYDHK+2QlK
- Y9qWRWt5TDUSMbESUMfXKUu6tXKgV3nzYV8Se/Bv1/RUunU692C2eKh45GN3w2Mxqd
- NfilyF32y3EWg==
-Date: Wed, 6 Nov 2024 18:33:34 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Frank Binns <Frank.Binns@imgtec.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8FFB610E22E
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 18:49:46 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.11,263,1725289200"; d="scan'208";a="224061184"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie5.idc.renesas.com with ESMTP; 07 Nov 2024 03:49:45 +0900
+Received: from localhost.localdomain (unknown [10.226.93.42])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id ADCEA40065AD;
+ Thu,  7 Nov 2024 03:49:37 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- Randolph Sapp <rs@ti.com>, Darren Etheridge <detheridge@ti.com>
-Subject: Re: [PATCH 08/21] dt-bindings: gpu: img: Add BXS-4-64 devicetree
- bindings
-Message-ID: <20241106-motivator-mama-5a9d8d14aece@spud>
-References: <20241105-sets-bxs-4-64-patch-v1-v1-0-4ed30e865892@imgtec.com>
- <20241105-sets-bxs-4-64-patch-v1-v1-8-4ed30e865892@imgtec.com>
- <20241105-sulfite-justness-d7b7fb98905c@spud>
- <fd3d9f34-0e8f-44a1-ac21-2ee0c49d65fa@imgtec.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 0/3]  drm: adv7511: ADV7535 fixes
+Date: Wed,  6 Nov 2024 18:49:27 +0000
+Message-ID: <20241106184935.294513-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uwRbB0EuidyiYIep"
-Content-Disposition: inline
-In-Reply-To: <fd3d9f34-0e8f-44a1-ac21-2ee0c49d65fa@imgtec.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,47 +54,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch series aims to fix 2 bugs in ADV7535 driver
+1) use-after-free bug in adv7533_attach_dsi()
+2) Drop unsupported single lane.
 
---uwRbB0EuidyiYIep
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes in v3:
+ - Replace __free construct with readable of_node_put().
+ - Dropped single lane support from bindings and driver.
+changes in v2:
+ - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
+ - Dropped invalid Mail address Archit Taneja <architt@codeaurora.org>.
 
-On Wed, Nov 06, 2024 at 10:18:10AM +0000, Matt Coster wrote:
-> On 05/11/2024 18:03, Conor Dooley wrote:
-> > On Tue, Nov 05, 2024 at 03:58:14PM +0000, Matt Coster wrote:
-> >> +    / {
-> >> +        #address-cells =3D <2>;
-> >> +        #size-cells =3D <2>;
-> >> +        interrupt-controller;
-> >> +        #interrupt-cells =3D <3>;
-> >> +
-> >> +        gpu@4e20000000 {
-> >> +            compatible =3D "ti,j721s2-gpu", "img,img-bxs-4-64", "img,=
-img-rogue";
-> >> +            reg =3D /bits/ 64 <0x4e2000 0000 0x80000>;
-> >=20
-> > Can you format this normally please? Drop the #address/size-cells down
-> > to 1 if you're against having 0x0s.
->=20
-> Sure. I thought /bits/ was the "new" way of doing things, but I'm not
-> really bothered either way.
+Biju Das (3):
+  drm: adv7511: Fix use-after-free in adv7533_attach_dsi()
+  dt-bindings: display: adi,adv7533: Drop single lane support
+  drm: adv7511: Drop dsi single lane support
 
-Maybe in other cases, I've never seen it for reg. The dts coding style
-examples even have 0x0s in them. For other properties, sure this might
-be the "new" way of doing it but not for reg, probably in part because
-it makes it difficult to see if the number matches the number of cells
-in #address/size-cells.
+ .../devicetree/bindings/display/bridge/adi,adv7533.yaml      | 2 +-
+ drivers/gpu/drm/bridge/adv7511/adv7533.c                     | 5 ++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
---uwRbB0EuidyiYIep
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.43.0
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZyu2fgAKCRB4tDGHoIJi
-0kWlAP9yWsCojC2B4lhypgsjcV7rscFmE6WzqejRkjQrCUmWsgD/bTWjxUFQ+uvC
-x36sUGD0EDrdVAQB+gNiLRi+EDhv7Ag=
-=VsBN
------END PGP SIGNATURE-----
-
---uwRbB0EuidyiYIep--
