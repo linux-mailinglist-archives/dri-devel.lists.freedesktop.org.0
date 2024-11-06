@@ -2,56 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BCD9BE4E9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 11:55:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B769BE580
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 12:27:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C527E10E6B2;
-	Wed,  6 Nov 2024 10:55:55 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WlLAc+In";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41C9710E1CE;
+	Wed,  6 Nov 2024 11:27:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFBBB10E6B2
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 10:55:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730890553; x=1762426553;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=6q7sgTYxQRgA9QPt05CvYZG30tLcNj75A+bn169rni8=;
- b=WlLAc+InAc39lHo5gJQFvbjnHkI7IfsB2IIuPCC03BZMvDzjV3Arm3nE
- k2MzGK6UVidDuEHYn9ug8RfqyYRb88tCeVhU4MGFnbRtQAqVkRTo5JbMX
- X9B2unvYI3EOquG4oHo7FwAD7oKiARLnHPpSSkBhMVzV6n32hdP7Tslhp
- buaVDR7QeGUmcy6LKeuv5D5z6SfxG/RE0FeCD2CpXxDyTlPJeTuvBcv4p
- i4isamp+nsBZRFkNqOTGVJq3Ld8hJaKty+tcJqILpjoD6dzVkVk91xx7V
- 7qsDgvubKYFA4adwBfqVrMHnTtsfFfU4f1LbbH5ZxhPoCS6t1Fm302wOy g==;
-X-CSE-ConnectionGUID: M1Bve05WR3KG1vXZkrY2Jg==
-X-CSE-MsgGUID: phkOdW4iSUqKgqFzQT+EEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="42081294"
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="42081294"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2024 02:55:53 -0800
-X-CSE-ConnectionGUID: 5mr3BCv5TMqdlFbsYAnVMw==
-X-CSE-MsgGUID: PUt/0mEWSVSJNR/zWkcVuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="84114826"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2024 02:55:51 -0800
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- stable@vger.kernel.org, Karol Wachowski <karol.wachowski@linux.intel.com>
-Subject: [PATCH] accel/ivpu: Fix Qemu crash when running in passthrough
-Date: Wed,  6 Nov 2024 11:55:49 +0100
-Message-ID: <20241106105549.2757115-1-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.45.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0C41810E1CE
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 11:27:45 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F3551063;
+ Wed,  6 Nov 2024 03:28:14 -0800 (PST)
+Received: from [10.57.91.71] (unknown [10.57.91.71])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 230B03F6A8;
+ Wed,  6 Nov 2024 03:27:43 -0800 (PST)
+Message-ID: <41c73be0-8d9a-4d81-bc51-933ec0bbcbc5@arm.com>
+Date: Wed, 6 Nov 2024 11:27:42 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Be stricter about IO mapping flags
+To: Jann Horn <jannh@google.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20241105-panthor-flush-page-fixes-v1-1-829aaf37db93@google.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20241105-panthor-flush-page-fixes-v1-1-829aaf37db93@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,32 +49,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Restore PCI state after putting the NPU in D0.
-Restoring state before powering up the device caused a Qemu crash
-if NPU was running in passthrough mode and recovery was performed.
+On 04/11/2024 23:17, Jann Horn wrote:
+> The current panthor_device_mmap_io() implementation has two issues:
+> 
+> 1. For mapping DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET,
+>    panthor_device_mmap_io() bails if VM_WRITE is set, but does not clear
+>    VM_MAYWRITE. That means userspace can use mprotect() to make the mapping
+>    writable later on. This is a classic Linux driver gotcha.
+>    I don't think this actually has any impact in practice:
+>    When the GPU is powered, writes to the FLUSH_ID seem to be ignored; and
+>    when the GPU is not powered, the dummy_latest_flush page provided by the
+>    driver is deliberately designed to not do any flushes, so the only thing
+>    writing to the dummy_latest_flush could achieve would be to make *more*
+>    flushes happen.
+> 
+> 2. panthor_device_mmap_io() does not block MAP_PRIVATE mappings (which are
+>    mappings without the VM_SHARED flag).
+>    MAP_PRIVATE in combination with VM_MAYWRITE indicates that the VMA has
+>    copy-on-write semantics, which for VM_PFNMAP are semi-supported but
+>    fairly cursed.
+>    In particular, in such a mapping, the driver can only install PTEs
+>    during mmap() by calling remap_pfn_range() (because remap_pfn_range()
+>    wants to **store the physical address of the mapped physical memory into
+>    the vm_pgoff of the VMA**); installing PTEs later on with a fault
+>    handler (as panthor does) is not supported in private mappings, and so
+>    if you try to fault in such a mapping, vmf_insert_pfn_prot() splats when
+>    it hits a BUG() check.
+> 
+> Fix it by clearing the VM_MAYWRITE flag (userspace writing to the FLUSH_ID
+> doesn't make sense) and requiring VM_SHARED (copy-on-write semantics for
+> the FLUSH_ID don't make sense).
+> 
+> Reproducers for both scenarios are in the notes of my patch on the mailing
+> list; I tested that these bugs exist on a Rock 5B machine.
+> 
+> Note that I only compile-tested the patch, I haven't tested it; I don't
+> have a working kernel build setup for the test machine yet. Please test it
+> before applying it.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
+> Signed-off-by: Jann Horn <jannh@google.com>
 
-Fixes: 3534eacbf101 ("accel/ivpu: Fix PCI D0 state entry in resume")
-Cc: <stable@vger.kernel.org> # v6.8+
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_pm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 59d3170f5e354..5aac3d64045d3 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -73,8 +73,8 @@ static int ivpu_resume(struct ivpu_device *vdev)
- 	int ret;
- 
- retry:
--	pci_restore_state(to_pci_dev(vdev->drm.dev));
- 	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D0);
-+	pci_restore_state(to_pci_dev(vdev->drm.dev));
- 
- 	ret = ivpu_hw_power_up(vdev);
- 	if (ret) {
--- 
-2.45.1
+Thanks,
+Steve
 
