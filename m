@@ -2,64 +2,183 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF43E9BF7FB
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 21:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB5D9BF88B
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 22:33:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C64B710E2FE;
-	Wed,  6 Nov 2024 20:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 810EF10E775;
+	Wed,  6 Nov 2024 21:33:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ed71qbVY";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="DAhbLulk";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="TKWjMMjF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB6410E2FE
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 20:26:37 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a99e3b3a411so230676066b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Nov 2024 12:26:37 -0800 (PST)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3546310E1E4;
+ Wed,  6 Nov 2024 14:44:19 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A6Ci5bN012886;
+ Wed, 6 Nov 2024 14:43:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2023-11-20; bh=9RyE9P3GaTIotvb8ev
+ 0hOJy7/Ni7cr8UqPNPRU2qkaI=; b=DAhbLulkqblAVXshYhXS0QjweQ6oFkAl4D
+ GnyTGyM6PGno9dq4UsZMe0Po5Ds7c/jArTo1hfss2hE2BRnUP/5dXSmg1tHloWdk
+ mQJaGe/uqF+4d4fT7xUeUMr64Bl7iGmcQ2/0oFlf3DbNu1yFbfvrUaRl8BZs6Dgv
+ WvZmpHqFAbUdkWfHmog+UNVvMT8aaqBPN7NBY/bf+9vBFHVcM+cUsizmzZEtSs6d
+ TDlrVGzlCCbqFBI8vlJryZoiCc9ETu+OOEP1ewLLbghAsBRk0DSUCxknEPmlQ24o
+ wIDbJ6O7+gbca0xs7YeCBPImqVGdPIUMcm8pBWYmwRafOdtse6IA==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42nav282mw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 06 Nov 2024 14:43:11 +0000 (GMT)
+Received: from pps.filterd
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 4A6DNlMK008500; Wed, 6 Nov 2024 14:43:10 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2044.outbound.protection.outlook.com [104.47.55.44])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 42nah8m0kp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 06 Nov 2024 14:43:10 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=O4LJZ++gqHMRCTkjA5c2N/VLIGMDvqdZcX4wvDXNOPLS54Mpjs1G+vM44wk/PiVzDLMSzBiNNGRX1sH3tdNm9lYT4zhkrepnmraODKAguukzgA9GSu3fY+RoTH5nC1bqD0gOmp5byNgzc9Mdl8FSRU9Z6ebSj/+YCUhBeT50fSV0osXPSYJpa8VuY/f72/zUuu2ywsuim4FMJXn5gDsOCMq6ewZvUFHGVwNttP4hheXpWXGNoHWkSKMAPE57PK+aU/lKj/LhVrQoOaxjhEicthJJSty/CIWoaFhH3ZwzyHGema/7o0vYsuaNbN4mx3YK8HyfFj9ulOdoxP3DKUj/8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9RyE9P3GaTIotvb8ev0hOJy7/Ni7cr8UqPNPRU2qkaI=;
+ b=LuBusThFJmjIZwZR+IljS87+BbG/fsWmU5W+T/w0ti1IuN1rucXvINa+csUeimRM77yMY1KxwsbxYyGBbKX5pPqySYfeTo5E4vYRv8NFxOkF9eo97VYs6c2/FFgJmOl3Rqj96Cljl6gU0PbkksJDiS4XH5Vo4JQ3PqoYxG49m42t1Xx2IwMCThYZ0MHBxJ7C0KzoOYL6ukjd0qyA4Jl5WG4rS5Fp8zhj6ngzzcCiXVTU4FBcqMt6jaohbDSecNnfXkHIWGDe7H+jxW+Y1UNYsYcFD/iYAFoCdJzp8DNgJHRz/ePibIPwY9fCeUeMhg8vknvCV/oy0/jJK4pa5mNwkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730924795; x=1731529595; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nE7pg97kJS+UKy8tmC6WjbMT6eaNhgvCVvMShzZXymY=;
- b=ed71qbVYOaHGB6r8Ih1OhJcTsZmqqmCHITDzcrCSEv3snZ3z2kkTMYgw4uMitRp1Ot
- EXJKmKwra8LCFT5sprhpMgxajMmAWyU8JACElQ0/ekwLd6sdfX+CHRaDVM9M5GvfuAf4
- fa+4eLfiq+VF5v7Q+HisqFg24WoXmpK5QUuRThV2C9EvIN99kFdNBtq4HCJyCKsApEK0
- 9hHAuuVeyoJhY4nQSahJPY/e+4eefKlKTMLj+6wb7tzbQIYLcN7ZcCkU9cLnKUvy8a0M
- WSIvD30Gn5xI+YwEbSkMeBwpQo8/siAXpJhzIGIOwC/P3k47LLfM4JatAI0rLAwnKqfr
- limQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730924795; x=1731529595;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nE7pg97kJS+UKy8tmC6WjbMT6eaNhgvCVvMShzZXymY=;
- b=SBdTDjTKlo56FJ7TCeSWbUH2CT3zBi28KufTHVIKxNNsiyrjv96ud8qwEruAhKeq1l
- zOeky+9zqkjtS2CFtShPyuMq7T18EdCHGOVgMlnZPolzzbjtis1V8aXkdGnL718kTDpC
- ZopM/uE0OMW9ULhebOu6AvxcUrIKB5SXiAVtOqbdiPSILY+HzamOQEfe89Iy9tPrsJW3
- 9qwf/nZg/w16kVzEv9k+Gw4eo/OqbsD8d8UKkXxhqGGWKu9N+FlnTqJa/RySDuuIZiLi
- 3Ej5of7nvNfFobabzsEcoZJ6PXmx+27YsqNpflkqQx4ohXstiadcdEjIxTbLCiczOkYm
- oqEg==
-X-Gm-Message-State: AOJu0Yx+3y81pyp5YdXp7v7ymqDPO6LbhBqY5z4psVMMjQhd9vhtfc+t
- didVIU90yU4Awi3kA1+Vusf9hujZMCQEJyxrGUeAV4awFr34HSqc5vG2FIFRcARq6Q3mkqY+Bui
- 31MtzePX/9Uuyeplg1QzikNNSjV0jSBK3
-X-Google-Smtp-Source: AGHT+IGLJGFWjwKcGl3z1qe8cxMGaYYgSbKdtNqN6930Bq2Nmk9UdEHMlH70M0E0Qbv3V/eJSwnQmgJpokytcEZCTO0=
-X-Received: by 2002:a17:906:da8e:b0:a9e:c440:2c9f with SMTP id
- a640c23a62f3a-a9ed4d44edemr54995166b.19.1730924795061; Wed, 06 Nov 2024
- 12:26:35 -0800 (PST)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9RyE9P3GaTIotvb8ev0hOJy7/Ni7cr8UqPNPRU2qkaI=;
+ b=TKWjMMjF+wUifkrkL8fn5xw48r+3P9pM8QdRkIvuAp+o+Oq/C+IxV1NJT/kcpkz68mcvL5+sNWV3ZXHDHUP/p3MpDmnc4iExC566B3U8BFN5UHEOvmvSw2SNlsplfyyHkZ2e6aEnnk7As5aqUvg9+2vwrDkteyZkvYWCc8S8La8=
+Received: from BYAPR10MB3366.namprd10.prod.outlook.com (2603:10b6:a03:14f::25)
+ by BN0PR10MB5095.namprd10.prod.outlook.com (2603:10b6:408:123::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19; Wed, 6 Nov
+ 2024 14:43:07 +0000
+Received: from BYAPR10MB3366.namprd10.prod.outlook.com
+ ([fe80::baf2:dff1:d471:1c9]) by BYAPR10MB3366.namprd10.prod.outlook.com
+ ([fe80::baf2:dff1:d471:1c9%7]) with mapi id 15.20.8137.018; Wed, 6 Nov 2024
+ 14:43:07 +0000
+Date: Wed, 6 Nov 2024 14:43:03 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Yu Kuai <yukuai1@huaweicloud.com>
+Cc: stable@vger.kernel.org, gregkh@linuxfoundation.org, harry.wentland@amd.com,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ viro@zeniv.linux.org.uk, brauner@kernel.org, Liam.Howlett@oracle.com,
+ akpm@linux-foundation.org, hughd@google.com, willy@infradead.org,
+ sashal@kernel.org, srinivasan.shanmugam@amd.com,
+ chiahsuan.chung@amd.com, mingo@kernel.org, mgorman@techsingularity.net,
+ yukuai3@huawei.com, chengming.zhou@linux.dev,
+ zhangpeng.00@bytedance.com, chuck.lever@oracle.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ maple-tree@lists.infradead.org, linux-mm@kvack.org,
+ yi.zhang@huawei.com, yangerkun@huawei.com
+Subject: Re: [PATCH 6.6 00/28] fix CVE-2024-46701
+Message-ID: <e7942272-9157-4baf-a3e4-ac5957f33cc8@lucifer.local>
+References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
+X-ClientProxiedBy: LO4P123CA0413.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:189::22) To BYAPR10MB3366.namprd10.prod.outlook.com
+ (2603:10b6:a03:14f::25)
 MIME-Version: 1.0
-References: <CAPM=9tzJ4-ERDxvuwrCyUPY0=+P44orhp1kLWVGL7MCfpQjMEQ@mail.gmail.com>
- <20241031-discerning-groovy-galago-6cf46f@houat>
-In-Reply-To: <20241031-discerning-groovy-galago-6cf46f@houat>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 7 Nov 2024 06:26:23 +1000
-Message-ID: <CAPM=9tw0y+jHYpRDfQftpKnj5EnkLv_vyGC2bjYc9mmxBkEJqg@mail.gmail.com>
-Subject: Re: lockdep and ww mutex debug interactions in hdmi tests
-To: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3366:EE_|BN0PR10MB5095:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69d4f13f-805a-42d1-6036-08dcfe7153f8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JLSF6PXT3Eka+ePTyd8ZwODcwZE05L0wbZ/Qj1qcsqlMKuNt14NstvnhGRmC?=
+ =?us-ascii?Q?48bKu6J4sSMDc9uXfAk4qaSmarM5mvKgjy+QtTQqs161z/geTkdTIoAGmhH4?=
+ =?us-ascii?Q?/OpKquGErmEnP4e3Ce5rlrKfVghYDhhAQWNx7CriAA7lH5Ivs3WXAvN6+qCe?=
+ =?us-ascii?Q?ITesjm+FV1yhDZyuIjHr0lC/TpNNwQMqUSn5tyRTD9fCTj9LdCOZx2kZ5wFn?=
+ =?us-ascii?Q?T18FMdSoXol4J4uaxyi7HKarrpMxaU0f9clJEbUAcF8u7ees0Nx7AUol9BPC?=
+ =?us-ascii?Q?Oenx66BnOJie/sC2ObA7P6mGSyZpH3qAJhS4ATwonIqk46otFSY5K5EUwljD?=
+ =?us-ascii?Q?F7vEHDSpQV4ipT+j1viFvwZ/F2Cc5h8DuIY0v88ABodQ6mW2S+I4h9UZqEOR?=
+ =?us-ascii?Q?5xHstJBBA+uT4YEz0aMbrCKjCPLLnTlH0/AF1rCj6yaUYyVUHnryEYjkZdAn?=
+ =?us-ascii?Q?2D8rXZTQ85+sIKxfErAk5Qs8CYTscB9x893JOi4IF0MgkQElF42MXGXcm0jK?=
+ =?us-ascii?Q?ZeNIeKkZMCPFhuwTPgz1TB1slSRCZrNjdJ3/bYdqJgbqSdEe1zP6QaAvo7zs?=
+ =?us-ascii?Q?26IJZjPrEE1diTRLX0r9uK+Aoz9lw+VdS3FQ9Spvxy3eQzmJGHftrLeFxXvl?=
+ =?us-ascii?Q?vEWmSEWNMo7WbeHorX9nywvHFTGWYDTW6Ml9S4AjCuT5MjrnooDqZvepixHm?=
+ =?us-ascii?Q?ACkAc0K4r4rmh1hRSjtgj9yiiBoDFAeQGny9O9AEulzITpCz419m/OYBebx4?=
+ =?us-ascii?Q?+eXAIidhHWBERgEj/wHUAlegbSqMAT0SzIpd0hiU9all7N4z4OAFrHeDXO/7?=
+ =?us-ascii?Q?o8rb0pLJ4VKarxrHTpD0+NOtSQJ9/V42zHFJwLy6WxJepi5RePlOqifF1pnA?=
+ =?us-ascii?Q?zQbmluVJ1KBkelnPRwzY1LkeRTfeH8Or12OUmxBs1zy0P5F5yv/ZlC4k2WKx?=
+ =?us-ascii?Q?XXvmnEaJuxE7++kuYAVCEpvqTXtyq274WZa8G2Y0s9MfYu5GT7vNrEXw8O1g?=
+ =?us-ascii?Q?Xt/PvgzoV/04OzPWp45eCMEOhsXi0GbH3XHAHIQ/0VK2rZxc2r2CjXobDgl4?=
+ =?us-ascii?Q?gsSmc2PxFISxmpZyYriC9X1UMNpyIx2ywBc8CT97ZXcMQoJixU2G2s+dGOcY?=
+ =?us-ascii?Q?UARu8a58+nhBltK/2rN6AUYZ5SLM7VCefVBXJagAByJBRZOGE0ksC+gPCobr?=
+ =?us-ascii?Q?YS0tBknBOf1eR3FyWl/zIbaLw3n913jVi+EZaIhXTxOmKwUnFUK+cx/KqK+f?=
+ =?us-ascii?Q?lXy21z1wlNJOo488I9i4dKeYTiGyqt+p8yhA49yCYtc2N9qRWdtAom04S/OS?=
+ =?us-ascii?Q?Rce9CQfvhaxi3rQWvgY7neEC?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB3366.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kh6ejUS6qtvV1rb0KhCQ1EmgdHrTl6yAPMO2rrTDuXpIKdZlbEjwaAWaeO3A?=
+ =?us-ascii?Q?F9KJArUPbTl7mZavYwidsglQ1Y16/FPOUoTTXTSEV9zdArZdbg6FlXAgZEkN?=
+ =?us-ascii?Q?UVrt9TtMQd0Dk09vpYlONlwuaH5K1vGuICWSh5aGUFhce0+VmBIeflaKJWgo?=
+ =?us-ascii?Q?B3irZuldoy47W7209PnZXjHnsWeC+hjki2vD83Le8oLvby65NNSZCT4CThuw?=
+ =?us-ascii?Q?Fh6bcUkJqcUfD3V+Jq7+ey+YG850vYZFvcvUMnRroPeiC/DpqhPfDHGwfSdm?=
+ =?us-ascii?Q?BTbedYQiK64BpeuCiOyPuQPJmxzjf3u+1GRfPoDmq2yOgQmNztD89y/22tlt?=
+ =?us-ascii?Q?fStIAD55pwc0RBSF0e5BgUAeo0V5d8O3BYkO6CVRyrjTL6iTvCylTySeMdgH?=
+ =?us-ascii?Q?G/HETXjs+5G91c6thO1GQ3tZ6qOWEU4fiTMHP2O/AZ5h1OhxWQqNKVMFgn1y?=
+ =?us-ascii?Q?xVaFV04ZkMDPnncMjgKtlEOq08/CYfuRBRDCRedMSqVUAbze3/xovRizNrdd?=
+ =?us-ascii?Q?zT1QJUHRlOTwmI0ss6e5vMlmOY52BZSzDKBqAzEMYk4yux/rUCQ6ZrPG3jBY?=
+ =?us-ascii?Q?YVAz0Cm57tyq0FhXIGXdI6/ibP1RrlbCeR2BgP8fxgTGizchCy7g7RnmhOFu?=
+ =?us-ascii?Q?4jZaMLJAavCYsyrdw0iYTtyDSbbY8zLG1KBttP92/nbmt0TZ/PxTTJe9Q9CE?=
+ =?us-ascii?Q?YU9YUZpN/icYo9Lf/15eMVrX9PzAcgBpTeyNVFiAODpHHzuuFlaCtzSaIUc1?=
+ =?us-ascii?Q?nZDJX8KyJtGPO0zwLX+GieLirtKo7BpaFX8ZUkGdPhIm4ApPcOLUUBse8FKr?=
+ =?us-ascii?Q?/KKE9xZ5/R/IBlwwcDFgIpp8xA5sLCl8IzkeKkPMlSUhxMXgRuytbSfF61fy?=
+ =?us-ascii?Q?+8A3oBPKSL0BJt4UQhhPMM9UuS0SGRgN1Kd4ykpJGJRFzUa+cfsH4I3q5E2+?=
+ =?us-ascii?Q?kqB9eO4kD4fYSpUk9tYTRU95TO0DJHKx+/1nbmNX4V25Mmr/9q3YNt1dhdDA?=
+ =?us-ascii?Q?I/ID8zQ374wcRgnOCpwbGmz+onzIjRJGbhH8llRM7jijMHSM0MxJV97HHFWu?=
+ =?us-ascii?Q?kXyIaGjsMTAUegkoXts0lmfCGG4xN0K5cpazF21fO38aLWS0/rsBwBsV/t4W?=
+ =?us-ascii?Q?LIM1FrKgRWl64x5Ke3OWR+LH/Jf3YjCzcm7izjcs/abDU3TA4lQAlWHJEYoT?=
+ =?us-ascii?Q?MBMYcjVmd97NZhUWhAfmh+mh/ud8pyntLI75lRcUpQim+tJm24wN6Hu41bGg?=
+ =?us-ascii?Q?SAWWtaXEGJwbeW63RwVhb83DOJ1Su7f1gQtQ5QCvJa7aarls+RfVayasW+IE?=
+ =?us-ascii?Q?RaPeQEEkWiMOvLEOPe7CMLkH31JleDr7Jq+TWCgm/smE7C1vruh/Bu4fnleQ?=
+ =?us-ascii?Q?kDpH1tVeC4dXcT4y/CVCQm5Rcqh9SVUUm/f+ZWpe9GxzziXyCThMzpYZ/iZY?=
+ =?us-ascii?Q?k2WpRp7vOMpYpYeqHmhAm/wj/WMDZHvBQ2Bj4sI0x80tp8tlSlYoMGUd6mOn?=
+ =?us-ascii?Q?qZjc1d4PxlA6gFn/g4uA3MUImgbefHGDV+g8PAOqh52ANwR9i3RUmy+KEOOH?=
+ =?us-ascii?Q?752LymJxDgZ7USV6ClPlts3aHKnUTuBVYUdlChwM1J69YsRv5wxcXH9CuJ8s?=
+ =?us-ascii?Q?yw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: CtMeLBtbC6uk9F0g98V1Rum7ljPPyl0c/lq1BOd+jOtWzapwIiooMq29sQLNPQUh8iXMFCCIWM1mRSOy/QdfJhpsEnKhI8/oDgEqTU3+gT8PMAsmF24tVlTrMXGsCCGPbkknRUI50Y72ye3vah71K4ULT4ifWTpZCAfjmtcB8mc8/O852LI22V9VSBJr2J8yv4U8IhU59wQW5bjN7TBYWHJDN+H3PMvg07Bv4mC1cHpmU3L6bA+U6AxfaklPFcFm7ROO1URnlkEXkIzFxDRDxbaYOd3jA8PWBfnyxI6pGIVWdl0XZEUessgdFlwIIegfURTlijhvD2twZ10CpOhRSOXWMfVDyjcMEVyxYypoH3HH89e9QIpRPVju+peXPiyN89tIiLjMAEjUN1/jARWYgc773QWAcD3IbC6mbV7/IK10wVKNox0UQmBn9XXIOyGkiwI2Rws6dMiNj6qmN4uS5nH90BAnIGq/hX+vUfJ7/lSfe8SowKIeUU9JGjzn22Fp/UOdVb+cd0gfrjeHMBPt7+61Ou9d+1pPi+WMoImDm51JeaNQMeRH1RdIRGlnz7NicwW9+vU2RWqAn5trReUeMwALUbXJwOxL8iyL8IkhmZQ=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69d4f13f-805a-42d1-6036-08dcfe7153f8
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3366.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2024 14:43:07.6858 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oBuMzia9b9OwPo17MU6hKv8J9nB2s7dGAw/CMvAwNG92qYYvtPym1jT8D7dnBc/KPfz3NWht3ydFKbp4vpCCyKSuqnL8ZgO3TxXHdIZxatY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5095
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-06_08,2024-11-06_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ bulkscore=0 spamscore=0
+ adultscore=0 phishscore=0 suspectscore=0 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
+ definitions=main-2411060115
+X-Proofpoint-GUID: _itB63oUZ2IRkngYfqTUN9IJeQVkldN1
+X-Proofpoint-ORIG-GUID: _itB63oUZ2IRkngYfqTUN9IJeQVkldN1
+X-Mailman-Approved-At: Wed, 06 Nov 2024 21:33:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,151 +194,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Nov 2024 at 23:57, Maxime Ripard <mripard@kernel.org> wrote:
+NACK.
+
+Do this some other way that isn't a terrible mess.
+
+You've reverted my CRITICAL fix, then didn't cc- me so I'm grumpy.
+
+Even if you bizarrely brought it back later.
+
+Don't fail to cc- people you revert in future, please, especially in
+stable. It's not only discourteous it's also an actual security risk.
+
+Thanks.
+
+Also this commit log is ridiculous, you don't even explain WHAT ON EARTH
+YOU ARE DOING HERE. It's not just good enough to reference a CVE and expect
+us to go research this for you, especially one you've 'addressed' in this
+totally bizarre fashion.
+
+On Thu, Oct 24, 2024 at 09:19:41PM +0800, Yu Kuai wrote:
+> From: Yu Kuai <yukuai3@huawei.com>
 >
-> Hi,
+> Fix patch is patch 27, relied patches are from:
 >
-> On Wed, Oct 30, 2024 at 05:03:50AM +1000, Dave Airlie wrote:
-> > Hi,
-> >
-> > I mentioned this internally, but wanted to get it on the list,
-> >
-> > I ran the hdmi kunit tests with LOCKDEP and WW_MUTEX_SLOWPATH enabled
-> > and hit some issues.
-> >
-> > With the slowpath we get the occasional EDEADLK to test the paths are
-> > doing things right, I think you should handle EDEADLK in the tests
-> > with a retry loop.
+>  - patches from set [1] to add helpers to maple_tree, the last patch to
+> improve fork() performance is not backported;
+>  - patches from set [2] to change maple_tree, and follow up fixes;
+>  - patches from set [3] to convert offset_ctx from xarray to maple_tree;
 >
-> Thanks for the report, I've just sent a patch fixing this.
+> Please notice that I'm not an expert in this area, and I'm afraid to
+> make manual changes. That's why patch 16 revert the commit that is
+> different from mainline and will cause conflict backporting new patches.
+> patch 28 pick the original mainline patch again.
 
-The patch fixes the EDEADLK but not the lockdep
+This is... what? :/
 
-[   50.785446] KTAP version 1
-[   50.785461] 1..2
-[   50.786298]     KTAP version 1
-[   50.786305]     # Subtest: drm_atomic_helper_connector_hdmi_check
-[   50.786308]     # module: drm_hdmi_state_helper_test
-[   50.786312]     1..22
+You have to fix conflicts, that's part of what backporting involves.
 
-[   50.788096] ======================================================
-[   50.788101] WARNING: possible circular locking dependency detected
-[   50.788107] 6.12.0-rc6+ #47 Tainted: G                 N
-[   50.788112] ------------------------------------------------------
-[   50.788117] kunit_try_catch/1500 is trying to acquire lock:
-[   50.788123] ffff9976410cc4f0 (&dev->mode_config.mutex){+.+.}-{3:3},
-at: drm_test_check_broadcast_rgb_auto_cea_mode+0xaf/0x4c0
-[drm_hdmi_state_helper_test]
-[   50.788141]
-               but task is already holding lock:
-[   50.788146] ffff9976be5550f0 (crtc_ww_class_acquire){+.+.}-{0:0},
-at: drm_kunit_helper_acquire_ctx_alloc+0x4d/0xc0 [drm_kunit_helpers]
-[   50.788159]
-               which lock already depends on the new lock.
-
-[   50.788165]
-               the existing dependency chain (in reverse order) is:
-[   50.788171]
-               -> #1 (crtc_ww_class_acquire){+.+.}-{0:0}:
-[   50.788179]        drm_modeset_acquire_init+0xd7/0x110 [drm]
-[   50.788235]
-drm_helper_probe_single_connector_modes+0x4c/0x600 [drm_kms_helper]
-[   50.788266]        set_connector_edid.isra.0+0x4f/0xc0
-[drm_hdmi_state_helper_test]
-[   50.788275]
-drm_atomic_helper_connector_hdmi_init+0x240/0x400
-[drm_hdmi_state_helper_test]
-[   50.788285]
-drm_test_check_broadcast_rgb_auto_cea_mode+0x27/0x4c0
-[drm_hdmi_state_helper_test]
-[   50.788296]        kunit_try_run_case+0x62/0xd0 [kunit]
-[   50.788304]        kunit_generic_run_threadfn_adapter+0x1e/0x40 [kunit]
-[   50.788313]        kthread+0xef/0x120
-[   50.788318]        ret_from_fork+0x31/0x50
-[   50.788324]        ret_from_fork_asm+0x1a/0x30
-[   50.788329]
-               -> #0 (&dev->mode_config.mutex){+.+.}-{3:3}:
-[   50.788337]        __lock_acquire+0x1391/0x2190
-[   50.788343]        lock_acquire+0xcc/0x2d0
-[   50.788348]        __mutex_lock+0x8d/0xbf0
-[   50.788353]
-drm_test_check_broadcast_rgb_auto_cea_mode+0xaf/0x4c0
-[drm_hdmi_state_helper_test]
-[   50.788363]        kunit_try_run_case+0x62/0xd0 [kunit]
-[   50.788371]        kunit_generic_run_threadfn_adapter+0x1e/0x40 [kunit]
-[   50.788380]        kthread+0xef/0x120
-[   50.788384]        ret_from_fork+0x31/0x50
-[   50.788388]        ret_from_fork_asm+0x1a/0x30
-[   50.788393]
-               other info that might help us debug this:
-
-[   50.788400]  Possible unsafe locking scenario:
-
-[   50.788405]        CPU0                    CPU1
-[   50.788409]        ----                    ----
-[   50.788413]   lock(crtc_ww_class_acquire);
-[   50.788418]                                lock(&dev->mode_config.mutex);
-[   50.788424]                                lock(crtc_ww_class_acquire);
-[   50.788431]   lock(&dev->mode_config.mutex);
-[   50.788435]
-                *** DEADLOCK ***
-
-[   50.788441] 1 lock held by kunit_try_catch/1500:
-[   50.788445]  #0: ffff9976be5550f0
-(crtc_ww_class_acquire){+.+.}-{0:0}, at:
-drm_kunit_helper_acquire_ctx_alloc+0x4d/0xc0 [drm_kunit_helpers]
-[   50.788459]
-               stack backtrace:
-[   50.788464] CPU: 5 UID: 0 PID: 1500 Comm: kunit_try_catch Tainted:
-G                 N 6.12.0-rc6+ #47
-[   50.788473] Tainted: [N]=TEST
-[   50.788476] Hardware name: Gigabyte Technology Co., Ltd. Z390 I
-AORUS PRO WIFI/Z390 I AORUS PRO WIFI-CF, BIOS F8 11/05/2021
-[   50.788485] Call Trace:
-[   50.788488]  <TASK>
-[   50.788492]  dump_stack_lvl+0x6c/0xa0
-[   50.788498]  print_circular_bug.cold+0x178/0x1be
-[   50.788506]  check_noncircular+0x10f/0x120
-[   50.788511]  ? stack_trace_save+0x3e/0x50
-[   50.788520]  __lock_acquire+0x1391/0x2190
-[   50.788528]  lock_acquire+0xcc/0x2d0
-[   50.788533]  ?
-drm_test_check_broadcast_rgb_auto_cea_mode+0xaf/0x4c0
-[drm_hdmi_state_helper_test]
-[   50.788544]  ? lock_is_held_type+0xd9/0x130
-[   50.788552]  __mutex_lock+0x8d/0xbf0
-[   50.788556]  ?
-drm_test_check_broadcast_rgb_auto_cea_mode+0xaf/0x4c0
-[drm_hdmi_state_helper_test]
-[   50.788566]  ? _raw_spin_unlock_irqrestore+0x39/0x70
-[   50.788573]  ? kunit_add_action+0xd1/0x140 [kunit]
-[   50.788581]  ?
-drm_test_check_broadcast_rgb_auto_cea_mode+0xaf/0x4c0
-[drm_hdmi_state_helper_test]
-[   50.788592]  ? __pfx_action_drm_release_context+0x10/0x10 [drm_kunit_helpers]
-[   50.788599]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kunit]
-[   50.788608]  ? kunit_add_action_or_reset+0x18/0x40 [kunit]
-[   50.788618]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kunit]
-[   50.788627]  ?
-drm_test_check_broadcast_rgb_auto_cea_mode+0xaf/0x4c0
-[drm_hdmi_state_helper_test]
-[   50.788637]  drm_test_check_broadcast_rgb_auto_cea_mode+0xaf/0x4c0
-[drm_hdmi_state_helper_test]
-[   50.788647]  ? lockdep_hardirqs_on+0x7c/0x100
-[   50.788654]  kunit_try_run_case+0x62/0xd0 [kunit]
-[   50.788662]  ? lockdep_hardirqs_on+0x7c/0x100
-[   50.788668]  ? _raw_spin_unlock_irqrestore+0x39/0x70
-[   50.788675]  kunit_generic_run_threadfn_adapter+0x1e/0x40 [kunit]
-[   50.788684]  kthread+0xef/0x120
-[   50.788688]  ? __pfx_kthread+0x10/0x10
-[   50.788693]  ret_from_fork+0x31/0x50
-[   50.788698]  ? __pfx_kthread+0x10/0x10
-[   50.788703]  ret_from_fork_asm+0x1a/0x30
-[   50.788711]  </TASK>
-
+Yeah, rethink your whole approach, thanks.
 
 >
-> The vc4 have the same issue though, and I haven't been able to fix all
-> of them yet.
+> (And this is what we did to fix the CVE in downstream kernels).
 >
-> Maxime
+> [1] https://lore.kernel.org/all/20231027033845.90608-1-zhangpeng.00@bytedance.com/
+> [2] https://lore.kernel.org/all/20231101171629.3612299-2-Liam.Howlett@oracle.com/T/
+> [3] https://lore.kernel.org/all/170820083431.6328.16233178852085891453.stgit@91.116.238.104.host.secureserver.net/
+>
+> Andrew Morton (1):
+>   lib/maple_tree.c: fix build error due to hotfix alteration
+>
+> Chuck Lever (5):
+>   libfs: Re-arrange locking in offset_iterate_dir()
+>   libfs: Define a minimum directory offset
+>   libfs: Add simple_offset_empty()
+>   maple_tree: Add mtree_alloc_cyclic()
+>   libfs: Convert simple directory offsets to use a Maple Tree
+>
+> Liam R. Howlett (12):
+>   maple_tree: remove unnecessary default labels from switch statements
+>   maple_tree: make mas_erase() more robust
+>   maple_tree: move debug check to __mas_set_range()
+>   maple_tree: add end of node tracking to the maple state
+>   maple_tree: use cached node end in mas_next()
+>   maple_tree: use cached node end in mas_destroy()
+>   maple_tree: clean up inlines for some functions
+>   maple_tree: separate ma_state node from status
+>   maple_tree: remove mas_searchable()
+>   maple_tree: use maple state end for write operations
+>   maple_tree: don't find node end in mtree_lookup_walk()
+>   maple_tree: mtree_range_walk() clean up
+>
+> Lorenzo Stoakes (1):
+>   maple_tree: correct tree corruption on spanning store
+>
+> Peng Zhang (7):
+>   maple_tree: add mt_free_one() and mt_attr() helpers
+>   maple_tree: introduce {mtree,mas}_lock_nested()
+>   maple_tree: introduce interfaces __mt_dup() and mtree_dup()
+>   maple_tree: skip other tests when BENCH is enabled
+>   maple_tree: preserve the tree attributes when destroying maple tree
+>   maple_tree: add test for mtree_dup()
+>   maple_tree: avoid checking other gaps after getting the largest gap
+>
+> Yu Kuai (1):
+>   Revert "maple_tree: correct tree corruption on spanning store"
+>
+> yangerkun (1):
+>   libfs: fix infinite directory reads for offset dir
+>
+>  fs/libfs.c                                  |  129 ++-
+>  include/linux/fs.h                          |    6 +-
+>  include/linux/maple_tree.h                  |  356 +++---
+>  include/linux/mm_types.h                    |    3 +-
+>  lib/maple_tree.c                            | 1096 +++++++++++++------
+>  lib/test_maple_tree.c                       |  218 ++--
+>  mm/internal.h                               |   10 +-
+>  mm/shmem.c                                  |    4 +-
+>  tools/include/linux/spinlock.h              |    1 +
+>  tools/testing/radix-tree/linux/maple_tree.h |    2 +-
+>  tools/testing/radix-tree/maple.c            |  390 ++++++-
+>  11 files changed, 1564 insertions(+), 651 deletions(-)
+>
+> --
+> 2.39.2
+>
