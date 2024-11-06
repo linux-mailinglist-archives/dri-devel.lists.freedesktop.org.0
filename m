@@ -2,57 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795929BE97E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 13:34:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCDC9BEA5A
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 13:44:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA1E10E6CB;
-	Wed,  6 Nov 2024 12:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFD210E057;
+	Wed,  6 Nov 2024 12:44:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="fyO7NeNG";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="0p4IDd1f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 953FA10E6CB
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 12:34:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7/ZEDihFIX308g1CuDZfXMZzFY8GhxEmWOvERKr2jmM=; b=fyO7NeNG3WGSWqFqO6oJtRxoLu
- fIM3XUWdLsZxUx79QefhPrTgjZ77DG/kHQoVJzkJl/qFxEfmHxu22SI23BPpkcnRuZIj576uF7kmw
- fPPCrsBv65rn4er54LJx0lZVvKN8BCk0EDgA4JLHnKZ2FRB6P39KV52AdDAVhNTbdaBQlwvDVVUN4
- 0eI9kMb8aPkpcl6ae9hcuE7Gk4+36eve0XOjyzZChN4NvdTEbJolVVEY3vN4OcUGDLhXpI8Eo/LRC
- ifI9ar3CvOxQtehiFUncrwLpuSp1a7Y/PVDWtYK/TSaJIjXhjumdnsZRySZJBMLQcxtWdLbgCxA4F
- 9vzsHHVA==;
-Received: from i53875b28.versanet.de ([83.135.91.40]
- helo=localhost.localdomain)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1t8fEq-00076s-9k; Wed, 06 Nov 2024 13:34:20 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: heiko@sntech.de
-Cc: andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- quentin.schulz@cherry.de, Heiko Stuebner <heiko.stuebner@cherry.de>
-Subject: [PATCH 3/3] drm/rockchip: Add MIPI DSI2 glue driver for RK3588
-Date: Wed,  6 Nov 2024 13:33:04 +0100
-Message-ID: <20241106123304.422854-4-heiko@sntech.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241106123304.422854-1-heiko@sntech.de>
-References: <20241106123304.422854-1-heiko@sntech.de>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2073.outbound.protection.outlook.com [40.107.92.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0AE410E057
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 12:44:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TTC0BL78rp7UCv86l5J59g5Ex65w4Tjc1itMQELVw3p1MKWz0yEo0/t062Vt9xeWMBiuXISWhsV6+Ke2j1mQOs5wpQNN5yNxZOHpdIhV5CuN54w+psf4wBR15VXuNN+YWH9FpY2Rubs4TL5LfG5OF1IQcINbFYAWJ7udZdvbt9Rtm1XPbYL5X+DzQxf+1lFCqR17iUnlZO9U03Ghyx2TNBydDmVJXZm9dSUSlydOcSOQO/ojavt08E0UBFG2duiFW8c5omd/1A/njZkeRKIJmuz6GRQ0FHPdbGEfJ0e5SsUfmcA0BNKxp8LpX6f3VWKd/lEL7UxzVhcvsdF3lYt8IQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QLfLG+DRXQsobGO+qMbMRidZd09MK1wnkXNUJ3/iG6I=;
+ b=GO6Slt9CBfPnoL0TEMIfFKm9Y95/NX8iJWQFPaXzVN08lwkpo44wy8Oir6VfDV++HWZtAvacrl/jFYVNsNokmSPWPwmaE47GdZhXy6v1AiQG18xWB7WMQOqDJtK1ci9M4pDGWbmX3Av/nI+vBcpqcx6Ujp4miTCfsqaT2a3X6H7t7EIG3XNhDG+ybVWYrwsx02INTfV1ClJI8NkGh9WH4dXI1lneGlms59iHcake0g1TyKdRYmPMUx5emM7nIoOrwAAMCjS/O7m2PEQh4hTBB3Lxy+Ch5tMRbqVMzoGW2d9ThvMggssf2hAKDby7UawXVZP+3j8NvMrCvvXgcq1X2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QLfLG+DRXQsobGO+qMbMRidZd09MK1wnkXNUJ3/iG6I=;
+ b=0p4IDd1fV4grcTR0ebIRtDVyXqU6AeEobL9VLEBUSAUlkdP2oldFCng0DOEG998iuWXUvCS0TRxYCtyD1hSL2qLfIej9VOmDyu9GgippF1shIrsJt5QY4FMPFw4DlKvGm/53+tQUIIw26ns5SSI/5wfReeTmlnwr0UWFujjX6fk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA1PR12MB9470.namprd12.prod.outlook.com (2603:10b6:806:459::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19; Wed, 6 Nov
+ 2024 12:44:26 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.8114.028; Wed, 6 Nov 2024
+ 12:44:26 +0000
+Content-Type: multipart/alternative;
+ boundary="------------I5dDGjM8EjDioEO5qtTyoSjb"
+Message-ID: <048c2dca-48fd-4627-ba0c-bc9daa17ac29@amd.com>
+Date: Wed, 6 Nov 2024 13:44:20 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/syncobj: ensure progress for syncobj queries
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Chia-I Wu <olvaffe@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Chunming Zhou <david1.zhou@amd.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ faith.ekstrand@collabora.com, simona@ffwll.ch
+References: <20241022161825.228278-1-olvaffe@gmail.com>
+ <900f8658-726c-4034-90ff-398e6c57ec47@amd.com>
+ <CAPaKu7QwSq7a-ipSOdETFEBGMu4J4ud1SqxDfPp8bNMjCMM5RQ@mail.gmail.com>
+ <CAPaKu7TB30wvDvMW2FcYNcxjfDkOje358JNnRr2jJf=99-h-rg@mail.gmail.com>
+ <301110a2-c004-4385-9231-b9354904b5e0@amd.com>
+ <CAPaKu7Tbp1_sd7Eqj7tkWBJBVPSZYo6uYD+7jwP=CwM5YYauFg@mail.gmail.com>
+ <20241106091436.48687e86@collabora.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20241106091436.48687e86@collabora.com>
+X-ClientProxiedBy: FR3P281CA0155.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a2::16) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB9470:EE_
+X-MS-Office365-Filtering-Correlation-Id: f97b7d50-d0d2-41ef-65fc-08dcfe60bfad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|7416014|8096899003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?a0xqQ0hBdTYwRFVQYlRndkd4T0laOWs1V2tvTmFua3pJam5wb0xCSXc5KzFI?=
+ =?utf-8?B?Y0JsdjUwODVGUXh4bGxDdS85ZGJuelVwTlM1ZmRSb3Z1QTFPZ1JzWldOZXJL?=
+ =?utf-8?B?M0dhenBNZVl3cithSXhWbUk3M3ZhZWd5V3ErVTlUeVk4UnZWZDYvOEg0Tm5a?=
+ =?utf-8?B?ZWJodEJ2WmU2aVhzaVdLYVJQdHc4L0FIa3ZEV1VWaUZzYk5jVERWZVZRM0Ny?=
+ =?utf-8?B?ZVZTTW1XYmh3YUF4RzlGRjk1UldLUWowcEh3ZlNoM09wbVZSdHcwSWZzb1Vm?=
+ =?utf-8?B?V21KVElPZE0rbFVWYThKVTZYcGltR3ZBU2UvdTNjc3NqMG9hMGJwU3BRWUlT?=
+ =?utf-8?B?aFVMeEcxak1nV291elpVYUdvckcxNm5MbVBVb2V5b0xOcXdaWmpGRE51TUZB?=
+ =?utf-8?B?RDgyanMvNEhlOHE3bFlzSUlRVkZ6R1N5NG1yYmtadnRZdkxaMmZDN0EyVFpM?=
+ =?utf-8?B?YVBWMFpVNTBxZWIxUUF1WDJKdVl4bm5hQmgrZEFKZENkZWxJK2w4WmNUb1la?=
+ =?utf-8?B?dnlVMmFUVk5PWmRvT3ZNc1ZIS01ONUx1R2RpRXMxYU1vSU42ZklFd3o5TUtU?=
+ =?utf-8?B?dGEwVTFabFZnQVdFMzdvdFhrWmpCcDMxTkduTnppTzFWbkVqOGxzVk9pSjlT?=
+ =?utf-8?B?ZGllWjFwOTQ2TFpSN0hmRGNRdXJQeFYzeUlTWS9WNTA4S29LM0NVeU94aFU4?=
+ =?utf-8?B?Ym4vNGNxdWFycUEwZTM2WmZWTkRlK2xtR2ZJcE90amJtZ3VRRHFQUXdKWjBF?=
+ =?utf-8?B?SGVmT3RZRTRoWEdGQi9oUVNxbGNBNUthUXNoZWtmdE9vTTNiNWM5OVdvTEE2?=
+ =?utf-8?B?SlJnM0tWVXAwMU4zU21pRDdrQWVpaEptV2RPZUJLaVZ3a1hSL1RLbFdhY2Ra?=
+ =?utf-8?B?R2RYSGJYQVhTU3VjUmxMM0xKM0NVdU91SWx6RXVHaHlCWXdYRmhxN1RGbDEw?=
+ =?utf-8?B?RlcrRnlHU2FjWjZudjdtWHdjdXlISTJLdDVoc2NhVUVKVi9ISGQ5VTA0Vzlt?=
+ =?utf-8?B?VWpoa1ZoZEdRbGJDYzRmWStHWVN3OEpsTHZLaHp3bEl6TVFrL1VyREVMSEEy?=
+ =?utf-8?B?RXVPU28xenZRbEtLdWRidk4weVlXNTdpZjlQT2RteW1zUUZDV0ZEYVU5aFd0?=
+ =?utf-8?B?a2NpTjk2bHVrRUhBcjE5WVRYbEVRZlVsOVZlVDJlckJSdUM4Y3d4N21WUnM0?=
+ =?utf-8?B?VWJDVmwrdktMU2hxRXZwUFpNK29RRTBDcHFUZkhDejVDSndkN2c0T3JnaitW?=
+ =?utf-8?B?ZzU1V1NORWZ5MFhiaVdXOS9taklRQW5hVkxzSUdsQ3Q2Nm1OYXRNaVZRZXZH?=
+ =?utf-8?B?d3pjNTQzZHR6aGtkRkdpWHhEM0FWcHQ3WFhobitCdDFZNE10UmMxNjJ0Sm0y?=
+ =?utf-8?B?b1B0UG1IemJCeGJNSTVwbFZHdldXNWxsVk54bmpqS3lnaDg0VTFDTWhsUE1T?=
+ =?utf-8?B?RkcxTmV1ZkdTdzVSeTljOU05c0JxOGF2S01UaVoyckh3b3ZqbHh0Q0FBZjNW?=
+ =?utf-8?B?S1hLdStpbU1XSi85Q0NpSWk1NmxDdllzTkdTV21vcHdPWjRyMUxxaHhaQzBR?=
+ =?utf-8?B?R0lFSmxTbFJBRTVhN043M1JGMG1aSmhqQURiaFhVbzhGL05NVmxEMUkvSjhH?=
+ =?utf-8?B?bXNXb3RaSjZFdjNUTEN0dTVCSFp5bDhhUmpucG15WExKUU1SalRPMGtyS2dE?=
+ =?utf-8?Q?6XiyoBcbNbANgv67V7DD?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(8096899003); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?amFmUkFwSnVPdVpZT2M1Z2RoaktWVllGUUloSXc1bGsrZkdvT1dsZXlEZGZQ?=
+ =?utf-8?B?Y1lodmhidVNaZlFIOUVkd3pxWEF6c0MySzVLNm56eElTTzdGZm9oZXVEZUpo?=
+ =?utf-8?B?VC85ZzNBOVVDVEVGVFl5Z2ZhOFYrMUFCOTg0N3ZWNktFREYzRUdVME1nTWJh?=
+ =?utf-8?B?UmE2Q3NaS3VHbERLU1QrY2lqemVUVlN2Z2txTFhFaVVxbGx4R1NDbDMwR1Rv?=
+ =?utf-8?B?bXQ2d3pQUUpaTTFLUkFTV3FvMkZ3eDhBL1djbXhyVndySHIrSjc2T1RNcEk5?=
+ =?utf-8?B?NU9ybjZqUXJUcFQ3NzcxL2NORzBoV0tYeTYwdWNxb1FoOURUQndjTlppM0ls?=
+ =?utf-8?B?Q3hSRFV2V29MNXREV2xsWGZIaG4xZTdXZjNSOUU4UzBoWHdQWFUrTXd4eG9s?=
+ =?utf-8?B?aXJIQUEzV1dUMTBaYzJxL3EvYWVjSDJjRlMvdENCYmdGeE9EVEtEeFhnNkd6?=
+ =?utf-8?B?MFFDL2pJa2w0ZWVydHJNSmVzWndibk0rTkdSWU9DR28zeW5WSW9qVUVBSXJJ?=
+ =?utf-8?B?N3F6K1o4bVlGdlFOM243UG1zeFNpYndwejJjbGdaN1BEeFk3b3ZzNVlJZ1Rm?=
+ =?utf-8?B?NXg3SzRqRnlpYjlkd2lHZ3A5OFdzZFZadkE1clpwRVdGd2lxbDd5ZXR1Zmk1?=
+ =?utf-8?B?dDdGRG8wTFpVSHpNamYwanhWclIvaWV1Z2I0VHEwT3lWS0dNQUozbVVVSTBS?=
+ =?utf-8?B?TTJoSHlidG5zaHkyTENJWE42T3dtRWlCUE5haGMrOGR0WWZIQzcxTjJna2lY?=
+ =?utf-8?B?WW0yRGUxaXorc3NIQVBQb3hyNnVzY25QRS9YK1YyNkJoM0w1WHBaSytBaXBD?=
+ =?utf-8?B?MDFCNkltam9XMzNXNnJCM0lveUtRY29raHF4MzlScGhvTGFrZHU4eWw0RkMv?=
+ =?utf-8?B?OWx1Z0RXL1M4UVpQQ3UwamNmc0FTSm5BaW9kTHd1WFA0VlFEVWFyaHh3bC9N?=
+ =?utf-8?B?bzJEd3RJUUp2SldUQ3FQYmFvVllxbU9vR1Q5YTR3eUw3VmFmNkgrY0RWUUhx?=
+ =?utf-8?B?ZnJjQXJHeURCSlRBSFhFMjF0Z3lwSG11Qnh4RUtxN0gydzFjZXc0eExCblIv?=
+ =?utf-8?B?Umh0NExiSUhMSkQxZmNDc0dUV0txc3JMclpRWUZJc0lLVmFIYmdrMkRMcHlE?=
+ =?utf-8?B?U25XVHVZdm0vY25RVG40NGIzdnlCK2twTktNVlprdnlROURXUDlsRExIL0hh?=
+ =?utf-8?B?czAyaENLNXg5RmlYbGhSVVdoRjU1QmlaTmZPeDBJTWdDYmlRU3BxdUFPN09l?=
+ =?utf-8?B?N3VxUG0xUTRqTnROakpKaTBYOERoUk1ubmVFUGtzdEVMZ1lUU0psbGVOeXFQ?=
+ =?utf-8?B?eittWkNBamM2a0tzMnAyWlF4V0xWNWZWWEJkWCtnNXZ1TW5LVGJtQTUxcHky?=
+ =?utf-8?B?SXlHM2IrdXNTb1AreERWLzZLN2t5ZmYxbU16Um9SVHF1RzJucGo0K0dOUDRG?=
+ =?utf-8?B?MUEvSmkwRDBqSDY3elk2aVFVUDQ4bWZLakxBYzBLMVM3ZE81alljU3BnNU9Y?=
+ =?utf-8?B?cjltRVc0MERXclJKcXNIeW5UdlBmd0IvUFlKK2hLSG10R0R0WDVseVlaMUdR?=
+ =?utf-8?B?UXlOeEtFTHJJYkQ3QWpvUUswRDJYcVRWdnh3eHgzdi9jcERiejU1UmRUa3By?=
+ =?utf-8?B?ZVNGK1Z2OGF2c29lcHdGa21FeXZrZ2tnT0xnSURsZWoxRmFNMUh2STVXYXEr?=
+ =?utf-8?B?cWNrRmdqcGRwS0lPYmRXWEM1UXk3WVRyZERWbVczR2V0MFZ3VzZqdHZWRElB?=
+ =?utf-8?B?a3VjQVdtQ0xzNjhzWnFkSjRNc0FndnJtSjVKbmRkRnVDaFpuZlAwOVI5RGts?=
+ =?utf-8?B?djlGVWdFeTBNSEVtcE5YQWNEN2l3N2pCVFNnWW0vMjY5WXJOQU5sTG5hZDV1?=
+ =?utf-8?B?eXppbHJLOTJMa3puSjVBdFAzVjRNeVFRT0NiTHdCTmVWU3ZUaDZyeUhoYnZp?=
+ =?utf-8?B?TWp0a3NOaXpDbStLT0h0Y2xOeVRzNU5iTFlwWExnMGFUajE0RG8yZ242Skdx?=
+ =?utf-8?B?dEhKMlNCSE82b0owblJ1WnZKOFFsbGgvMW5xVTVabktLalFJMHowd2k5d0J5?=
+ =?utf-8?B?blQ2VnZ1OGkxRithaThXaDNuLzQ5ME9VS1JKd1NsZHp6RUF1c3dDL3QyUDdN?=
+ =?utf-8?Q?LvUVJiqBfYsUduWskzQMQoIdh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f97b7d50-d0d2-41ef-65fc-08dcfe60bfad
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2024 12:44:26.7344 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eqE/J8455cmigMLVqicZaZtj8xhcGUGdUoylfQmjVhqBFO83mzQ7NXjnB/mQpwIq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9470
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,620 +171,284 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Heiko Stuebner <heiko.stuebner@cherry.de>
+--------------I5dDGjM8EjDioEO5qtTyoSjb
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This adds the glue code for the MIPI DSI2 bridge on Rockchip SoCs and
-enables its use on the RK3588.
+Am 06.11.24 um 09:14 schrieb Boris Brezillon:
+> On Tue, 5 Nov 2024 09:56:22 -0800
+> Chia-I Wu<olvaffe@gmail.com>  wrote:
+>
+>> On Mon, Nov 4, 2024 at 11:32 PM Christian König
+>> <christian.koenig@amd.com>  wrote:
+>>> Am 04.11.24 um 22:32 schrieb Chia-I Wu:
+>>>
+>>> On Tue, Oct 22, 2024 at 10:24 AM Chia-I Wu<olvaffe@gmail.com>  wrote:
+>>>
+>>> On Tue, Oct 22, 2024 at 9:53 AM Christian König
+>>> <christian.koenig@amd.com>  wrote:
+>>>
+>>> Am 22.10.24 um 18:18 schrieb Chia-I Wu:
+>>>
+>>> Userspace might poll a syncobj with the query ioctl.  Call
+>>> dma_fence_enable_sw_signaling to ensure dma_fence_is_signaled returns
+>>> true in finite time.
+>>>
+>>> Wait a second, just querying the fence status is absolutely not
+>>> guaranteed to return true in finite time. That is well documented on the
+>>> dma_fence() object.
+>>>
+>>> When you want to poll on signaling from userspace you really need to
+>>> call poll or the wait IOCTL with a zero timeout. That will also return
+>>> immediately but should enable signaling while doing that.
+>>>
+>>> So just querying the status should absolutely *not* enable signaling.
+>>> That's an intentional separation.
+>>>
+>>> I think it depends on what semantics DRM_IOCTL_SYNCOBJ_QUERY should have.
+>>>
+>>>
+>>> Well that's what I pointed out. The behavior of the QUERY IOCTL is based on the behavior of the dma_fence and the later is documented to do exactly what it currently does.
+>>>
+>>> If DRM_IOCTL_SYNCOBJ_QUERY is mainly for vulkan timeline semaphores,
+>>> it is a bit heavy if userspace has to do a
+>>> DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT before a query.
+>>>
+>>>
+>>> Maybe you misunderstood me, you *only* have to call DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT and *not* _QUERY.
+>>>
+>>> The underlying dma_fence_wait_timeout() function is extra optimized so that zero timeout has only minimal overhead.
+>>>
+>>> This overhead is actually lower than _QUERY because that one actually queries the driver for the current status while _WAIT just assumes that the driver will signal the fence when ready from an interrupt.
+>> The context here is that vkGetSemaphoreCounterValue calls QUERY to get
+>> the timeline value.  WAIT does not replace QUERY.
 
-Right now the DSI2 controller is always paired with a DC-phy based on a
-Samsung IP, so the interface values are set statically for now.
-This stays true for the upcoming RK3576 as well.
+Oh, that is a really good argument.
 
-Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
----
- drivers/gpu/drm/rockchip/Kconfig              |  10 +
- drivers/gpu/drm/rockchip/Makefile             |   1 +
- .../gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  | 524 ++++++++++++++++++
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   2 +
- drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |   1 +
- 5 files changed, 538 insertions(+)
- create mode 100644 drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
+>> Taking a step back, in the binary (singled/unsignaled) case, a WAIT
+>> with zero timeout can get the up-to-date status.  But in the timeline
+>> case, there is no direct way to get the up-to-date status if QUERY
+>> must strictly be a wrapper for dma_fence_is_signaled.  It comes back
+>> to what was QUERY designed for and can we change it?
 
-diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-index 448fadd4ba15..99d4b260de85 100644
---- a/drivers/gpu/drm/rockchip/Kconfig
-+++ b/drivers/gpu/drm/rockchip/Kconfig
-@@ -10,6 +10,7 @@ config DRM_ROCKCHIP
- 	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
- 	select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
- 	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
-+	select DRM_DW_MIPI_DSI2 if ROCKCHIP_DW_MIPI_DSI2
- 	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
- 	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
- 	select SND_SOC_HDMI_CODEC if ROCKCHIP_CDN_DP && SND_SOC
-@@ -81,6 +82,15 @@ config ROCKCHIP_DW_MIPI_DSI
- 	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
- 	  select this option.
- 
-+config ROCKCHIP_DW_MIPI_DSI2
-+	bool "Rockchip specific extensions for Synopsys DW MIPI DSI"
-+	select GENERIC_PHY_MIPI_DPHY
-+	help
-+	  This selects support for Rockchip SoC specific extensions
-+	  for the Synopsys DesignWare dsi driver. If you want to
-+	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
-+	  select this option.
-+
- config ROCKCHIP_INNO_HDMI
- 	bool "Rockchip specific extensions for Innosilicon HDMI"
- 	select DRM_DISPLAY_HDMI_HELPER
-diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip/Makefile
-index 3eab662a5a1d..2b867cebbc12 100644
---- a/drivers/gpu/drm/rockchip/Makefile
-+++ b/drivers/gpu/drm/rockchip/Makefile
-@@ -13,6 +13,7 @@ rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) += cdn-dp-core.o cdn-dp-reg.o
- rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI) += dw_hdmi-rockchip.o
- rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI_QP) += dw_hdmi_qp-rockchip.o
- rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI) += dw-mipi-dsi-rockchip.o
-+rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI2) += dw-mipi-dsi2-rockchip.o
- rockchipdrm-$(CONFIG_ROCKCHIP_INNO_HDMI) += inno_hdmi.o
- rockchipdrm-$(CONFIG_ROCKCHIP_LVDS) += rockchip_lvds.o
- rockchipdrm-$(CONFIG_ROCKCHIP_RGB) += rockchip_rgb.o
-diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-new file mode 100644
-index 000000000000..42a7a80e2138
---- /dev/null
-+++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-@@ -0,0 +1,524 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2024 Rockchip Electronics Co.Ltd
-+ * Author:
-+ *      Guochun Huang <hero.huang@rock-chips.com>
-+ *      Heiko Stuebner <heiko.stuebner@cherry.de>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/component.h>
-+#include <linux/gpio.h>
-+#include <linux/iopoll.h>
-+#include <linux/math64.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/of_gpio.h>
-+#include <linux/of_platform.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/reset.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/phy/phy.h>
-+
-+#include <drm/bridge/dw_mipi_dsi2.h>
-+
-+#include <drm/display/drm_dsc.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_panel.h>
-+#include <video/mipi_display.h>
-+#include <video/videomode.h>
-+#include <drm/drm_connector.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
-+
-+#include <uapi/linux/videodev2.h>
-+
-+#include "rockchip_drm_drv.h"
-+#include "rockchip_drm_vop.h"
-+
-+#define PSEC_PER_SEC			1000000000000LL
-+
-+struct dsigrf_reg {
-+	u16 offset;
-+	u16 lsb;
-+	u16 msb;
-+};
-+
-+enum grf_reg_fields {
-+	TXREQCLKHS_EN,
-+	GATING_EN,
-+	IPI_SHUTDN,
-+	IPI_COLORM,
-+	IPI_COLOR_DEPTH,
-+	IPI_FORMAT,
-+	MAX_FIELDS,
-+};
-+
-+#define IPI_DEPTH_5_6_5_BITS		0x02
-+#define IPI_DEPTH_6_BITS		0x03
-+#define IPI_DEPTH_8_BITS		0x05
-+#define IPI_DEPTH_10_BITS		0x06
-+
-+struct rockchip_dw_dsi2_chip_data {
-+	u32 reg;
-+	const struct dsigrf_reg *grf_regs;
-+	unsigned long long max_bit_rate_per_lane;
-+};
-+
-+struct dw_mipi_dsi2_rockchip {
-+	struct device *dev;
-+	struct rockchip_encoder encoder;
-+	void __iomem *base;
-+	struct clk *pclk;
-+	struct clk *sys_clk;
-+
-+	unsigned int lane_mbps; /* per lane */
-+	u32 format;
-+
-+	struct regmap *grf_regmap;
-+	struct phy *phy;
-+	union phy_configure_opts phy_opts;
-+
-+	struct dw_mipi_dsi2 *dmd;
-+	struct dw_mipi_dsi2_plat_data pdata;
-+	const struct rockchip_dw_dsi2_chip_data *cdata;
-+};
-+
-+static inline struct dw_mipi_dsi2_rockchip *to_dsi2(struct drm_encoder *encoder)
-+{
-+	struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
-+
-+	return container_of(rkencoder, struct dw_mipi_dsi2_rockchip, encoder);
-+}
-+
-+static void grf_field_write(struct dw_mipi_dsi2_rockchip *dsi2, enum grf_reg_fields index,
-+			    unsigned int val)
-+{
-+	const struct dsigrf_reg *field = &dsi2->cdata->grf_regs[index];
-+
-+	if (!field)
-+		return;
-+
-+	regmap_write(dsi2->grf_regmap, field->offset,
-+		     (val << field->lsb) | (GENMASK(field->msb, field->lsb) << 16));
-+}
-+
-+static int dw_mipi_dsi2_phy_init(void *priv_data)
-+{
-+	return 0;
-+}
-+
-+static void dw_mipi_dsi2_phy_power_on(void *priv_data)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+	int ret;
-+
-+	ret = phy_set_mode(dsi2->phy, PHY_MODE_MIPI_DPHY);
-+	if (ret) {
-+		dev_err(dsi2->dev, "Failed to set phy mode: %d\n", ret);
-+		return;
-+	}
-+
-+	phy_configure(dsi2->phy, &dsi2->phy_opts);
-+	phy_power_on(dsi2->phy);
-+}
-+
-+static void dw_mipi_dsi2_phy_power_off(void *priv_data)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+
-+	phy_power_off(dsi2->phy);
-+}
-+
-+static int
-+dw_mipi_dsi2_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
-+			   unsigned long mode_flags, u32 lanes, u32 format,
-+			   unsigned int *lane_mbps)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+	u64 max_lane_rate, target_phyclk;
-+	unsigned int lane_rate_kbps;
-+	int bpp;
-+
-+	max_lane_rate = dsi2->cdata->max_bit_rate_per_lane;
-+
-+	dsi2->format = format;
-+	bpp = mipi_dsi_pixel_format_to_bpp(format);
-+	if (bpp < 0) {
-+		dev_err(dsi2->dev, "failed to get bpp for pixel format %d\n", format);
-+		return bpp;
-+	}
-+
-+	lane_rate_kbps = mode->clock * bpp / lanes;
-+
-+	/*
-+	 * Set BW a little larger only in video burst mode in
-+	 * consideration of the protocol overhead and HS mode
-+	 * switching to BLLP mode, take 1 / 0.9, since Mbps must
-+	 * big than bandwidth of RGB
-+	 */
-+	if (mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
-+		lane_rate_kbps = (lane_rate_kbps * 10) / 9;
-+
-+	if (lane_rate_kbps > max_lane_rate) {
-+		dev_err(dsi2->dev, "DPHY clock frequency is out of range\n");
-+		return -ERANGE;
-+	}
-+
-+	dsi2->lane_mbps = lane_rate_kbps / 1000;
-+	*lane_mbps = dsi2->lane_mbps;
-+
-+	if (dsi2->phy) {
-+		target_phyclk = DIV_ROUND_CLOSEST_ULL(lane_rate_kbps * lanes * 1000, bpp);
-+		phy_mipi_dphy_get_default_config(target_phyclk, bpp, lanes,
-+						 &dsi2->phy_opts.mipi_dphy);
-+	}
-+
-+	return 0;
-+}
-+
-+static void dw_mipi_dsi2_phy_get_iface(void *priv_data, struct dw_mipi_dsi2_phy_iface *iface)
-+{
-+	/* PPI width is fixed to 16 bits in DCPHY */
-+	iface->ppi_width = 16;
-+	iface->phy_type = DW_MIPI_DSI2_DPHY;
-+}
-+
-+static int
-+dw_mipi_dsi2_phy_get_timing(void *priv_data, unsigned int lane_mbps,
-+			    struct dw_mipi_dsi2_phy_timing *timing)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+	struct phy_configure_opts_mipi_dphy *cfg = &dsi2->phy_opts.mipi_dphy;
-+	unsigned long long tmp, ui;
-+	unsigned long long hstx_clk;
-+
-+	hstx_clk = DIV_ROUND_CLOSEST_ULL(dsi2->lane_mbps * USEC_PER_SEC, 16);
-+
-+	ui = ALIGN(PSEC_PER_SEC, hstx_clk);
-+	do_div(ui, hstx_clk);
-+
-+	/* PHY_LP2HS_TIME = (TLPX + THS-PREPARE + THS-ZERO) / Tphy_hstx_clk */
-+	tmp = cfg->lpx + cfg->hs_prepare + cfg->hs_zero;
-+	tmp = DIV_ROUND_CLOSEST_ULL(tmp << 16, ui);
-+	timing->data_lp2hs = tmp;
-+
-+	/* PHY_HS2LP_TIME = (THS-TRAIL + THS-EXIT) / Tphy_hstx_clk */
-+	tmp = cfg->hs_trail + cfg->hs_exit;
-+	tmp = DIV_ROUND_CLOSEST_ULL(tmp << 16, ui);
-+	timing->data_hs2lp = tmp;
-+
-+	return 0;
-+}
-+
-+static const struct dw_mipi_dsi2_phy_ops dw_mipi_dsi2_rockchip_phy_ops = {
-+	.init = dw_mipi_dsi2_phy_init,
-+	.power_on = dw_mipi_dsi2_phy_power_on,
-+	.power_off = dw_mipi_dsi2_phy_power_off,
-+	.get_interface = dw_mipi_dsi2_phy_get_iface,
-+	.get_lane_mbps = dw_mipi_dsi2_get_lane_mbps,
-+	.get_timing = dw_mipi_dsi2_phy_get_timing,
-+};
-+
-+static void dw_mipi_dsi2_encoder_atomic_enable(struct drm_encoder *encoder,
-+					       struct drm_atomic_state *state)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = to_dsi2(encoder);
-+	u32 color_depth;
-+
-+	switch (dsi2->format) {
-+	case MIPI_DSI_FMT_RGB666:
-+	case MIPI_DSI_FMT_RGB666_PACKED:
-+		color_depth = IPI_DEPTH_6_BITS;
-+		break;
-+	case MIPI_DSI_FMT_RGB565:
-+		color_depth = IPI_DEPTH_5_6_5_BITS;
-+		break;
-+	case MIPI_DSI_FMT_RGB888:
-+		color_depth = IPI_DEPTH_8_BITS;
-+		break;
-+	default:
-+		/* Should've been caught by atomic_check */
-+		WARN_ON(1);
-+		return;
-+	}
-+
-+	grf_field_write(dsi2, IPI_COLOR_DEPTH, color_depth);
-+}
-+
-+static int
-+dw_mipi_dsi2_encoder_atomic_check(struct drm_encoder *encoder,
-+				  struct drm_crtc_state *crtc_state,
-+				  struct drm_connector_state *conn_state)
-+{
-+	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
-+	struct dw_mipi_dsi2_rockchip *dsi2 = to_dsi2(encoder);
-+	struct drm_connector *connector = conn_state->connector;
-+	struct drm_display_info *info = &connector->display_info;
-+
-+	switch (dsi2->format) {
-+	case MIPI_DSI_FMT_RGB666:
-+	case MIPI_DSI_FMT_RGB666_PACKED:
-+		s->output_mode = ROCKCHIP_OUT_MODE_P666;
-+		break;
-+	case MIPI_DSI_FMT_RGB565:
-+		s->output_mode = ROCKCHIP_OUT_MODE_P565;
-+		break;
-+	case MIPI_DSI_FMT_RGB888:
-+		s->output_mode = ROCKCHIP_OUT_MODE_P888;
-+		break;
-+	default:
-+		WARN_ON(1);
-+		return -EINVAL;
-+	}
-+
-+	if (info->num_bus_formats)
-+		s->bus_format = info->bus_formats[0];
-+	else
-+		s->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+
-+	s->output_type = DRM_MODE_CONNECTOR_DSI;
-+	s->bus_flags = info->bus_flags;
-+	s->color_space = V4L2_COLORSPACE_DEFAULT;
-+
-+	return 0;
-+}
-+
-+static const struct drm_encoder_helper_funcs
-+dw_mipi_dsi2_encoder_helper_funcs = {
-+	.atomic_enable = dw_mipi_dsi2_encoder_atomic_enable,
-+	.atomic_check = dw_mipi_dsi2_encoder_atomic_check,
-+};
-+
-+static int rockchip_dsi2_drm_create_encoder(struct dw_mipi_dsi2_rockchip *dsi2,
-+					    struct drm_device *drm_dev)
-+{
-+	struct drm_encoder *encoder = &dsi2->encoder.encoder;
-+	int ret;
-+
-+	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm_dev,
-+							     dsi2->dev->of_node);
-+
-+	ret = drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_DSI);
-+	if (ret) {
-+		dev_err(dsi2->dev, "Failed to initialize encoder with drm\n");
-+		return ret;
-+	}
-+
-+	drm_encoder_helper_add(encoder, &dw_mipi_dsi2_encoder_helper_funcs);
-+
-+	return 0;
-+}
-+
-+static int dw_mipi_dsi2_rockchip_bind(struct device *dev, struct device *master,
-+				      void *data)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-+	struct drm_device *drm_dev = data;
-+	int ret;
-+
-+	ret = rockchip_dsi2_drm_create_encoder(dsi2, drm_dev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to create drm encoder\n");
-+
-+	rockchip_drm_encoder_set_crtc_endpoint_id(&dsi2->encoder,
-+						  dev->of_node, 0, 0);
-+
-+	ret = dw_mipi_dsi2_bind(dsi2->dmd, &dsi2->encoder.encoder);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to bind\n");
-+
-+	return 0;
-+}
-+
-+static void dw_mipi_dsi2_rockchip_unbind(struct device *dev, struct device *master,
-+					 void *data)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-+
-+	dw_mipi_dsi2_unbind(dsi2->dmd);
-+}
-+
-+static const struct component_ops dw_mipi_dsi2_rockchip_ops = {
-+	.bind	= dw_mipi_dsi2_rockchip_bind,
-+	.unbind	= dw_mipi_dsi2_rockchip_unbind,
-+};
-+
-+static int dw_mipi_dsi2_rockchip_host_attach(void *priv_data,
-+					     struct mipi_dsi_device *device)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+	int ret;
-+
-+	ret = component_add(dsi2->dev, &dw_mipi_dsi2_rockchip_ops);
-+	if (ret)
-+		return dev_err_probe(dsi2->dev, ret, "Failed to register component\n");
-+
-+	return 0;
-+}
-+
-+static int dw_mipi_dsi2_rockchip_host_detach(void *priv_data,
-+					     struct mipi_dsi_device *device)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+
-+	component_del(dsi2->dev, &dw_mipi_dsi2_rockchip_ops);
-+
-+	return 0;
-+}
-+
-+static const struct dw_mipi_dsi2_host_ops dw_mipi_dsi2_rockchip_host_ops = {
-+	.attach = dw_mipi_dsi2_rockchip_host_attach,
-+	.detach = dw_mipi_dsi2_rockchip_host_detach,
-+};
-+
-+static __maybe_unused int dw_mipi_dsi2_runtime_suspend(struct device *dev)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-+
-+	clk_disable_unprepare(dsi2->pclk);
-+	clk_disable_unprepare(dsi2->sys_clk);
-+
-+	return 0;
-+}
-+
-+static __maybe_unused int dw_mipi_dsi2_runtime_resume(struct device *dev)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-+
-+	clk_prepare_enable(dsi2->pclk);
-+	clk_prepare_enable(dsi2->sys_clk);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops dw_mipi_dsi2_rockchip_pm_ops = {
-+	SET_RUNTIME_PM_OPS(dw_mipi_dsi2_runtime_suspend,
-+			   dw_mipi_dsi2_runtime_resume, NULL)
-+};
-+
-+static int dw_mipi_dsi2_rockchip_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np = dev->of_node;
-+	const struct rockchip_dw_dsi2_chip_data *cdata =
-+						of_device_get_match_data(dev);
-+	struct dw_mipi_dsi2_rockchip *dsi2;
-+	struct resource *res;
-+	int i;
-+
-+	dsi2 = devm_kzalloc(dev, sizeof(*dsi2), GFP_KERNEL);
-+	if (!dsi2)
-+		return -ENOMEM;
-+
-+	dsi2->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(dsi2->base))
-+		return dev_err_probe(dev, PTR_ERR(dsi2->base), "Unable to get dsi registers\n");
-+
-+	i = 0;
-+	while (cdata[i].reg) {
-+		if (cdata[i].reg == res->start) {
-+			dsi2->cdata = &cdata[i];
-+			break;
-+		}
-+
-+		i++;
-+	}
-+
-+	if (!dsi2->cdata)
-+		return dev_err_probe(dev, -EINVAL, "No dsi-config for %s node\n", np->name);
-+
-+	dsi2->pclk = devm_clk_get(dev, "pclk");
-+	if (IS_ERR(dsi2->pclk))
-+		return dev_err_probe(dev, PTR_ERR(dsi2->pclk), "Unable to get pclk\n");
-+
-+	dsi2->sys_clk = devm_clk_get(dev, "sys");
-+	if (IS_ERR(dsi2->sys_clk))
-+		return dev_err_probe(dev, PTR_ERR(dsi2->sys_clk), "Unable to get sys_clk\n");
-+
-+	dsi2->grf_regmap = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,grf");
-+	if (IS_ERR(dsi2->grf_regmap))
-+		return dev_err_probe(dsi2->dev, PTR_ERR(dsi2->grf_regmap), "Unable to get grf\n");
-+
-+	dsi2->phy = devm_phy_optional_get(dev, "dcphy");
-+	if (IS_ERR(dsi2->phy))
-+		return dev_err_probe(dev, PTR_ERR(dsi2->phy), "failed to get mipi phy\n");
-+
-+	dsi2->dev = dev;
-+	dsi2->pdata.base = dsi2->base;
-+	dsi2->pdata.max_data_lanes = 4;
-+	dsi2->pdata.phy_ops = &dw_mipi_dsi2_rockchip_phy_ops;
-+	dsi2->pdata.host_ops = &dw_mipi_dsi2_rockchip_host_ops;
-+	dsi2->pdata.priv_data = dsi2;
-+	platform_set_drvdata(pdev, dsi2);
-+
-+	dsi2->dmd = dw_mipi_dsi2_probe(pdev, &dsi2->pdata);
-+	if (IS_ERR(dsi2->dmd))
-+		return dev_err_probe(dev, PTR_ERR(dsi2->dmd), "Failed to probe dw_mipi_dsi2\n");
-+
-+	return 0;
-+}
-+
-+static void dw_mipi_dsi2_rockchip_remove(struct platform_device *pdev)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = platform_get_drvdata(pdev);
-+
-+	dw_mipi_dsi2_remove(dsi2->dmd);
-+}
-+
-+static const struct dsigrf_reg rk3588_dsi0_grf_reg_fields[MAX_FIELDS] = {
-+	[TXREQCLKHS_EN]		= { 0x0000, 11, 11 },
-+	[GATING_EN]		= { 0x0000, 10, 10 },
-+	[IPI_SHUTDN]		= { 0x0000,  9,  9 },
-+	[IPI_COLORM]		= { 0x0000,  8,  8 },
-+	[IPI_COLOR_DEPTH]	= { 0x0000,  4,  7 },
-+	[IPI_FORMAT]		= { 0x0000,  0,  3 },
-+};
-+
-+static const struct dsigrf_reg rk3588_dsi1_grf_reg_fields[MAX_FIELDS] = {
-+	[TXREQCLKHS_EN]		= { 0x0004, 11, 11 },
-+	[GATING_EN]		= { 0x0004, 10, 10 },
-+	[IPI_SHUTDN]		= { 0x0004,  9,  9 },
-+	[IPI_COLORM]		= { 0x0004,  8,  8 },
-+	[IPI_COLOR_DEPTH]	= { 0x0004,  4,  7 },
-+	[IPI_FORMAT]		= { 0x0004,  0,  3 },
-+};
-+
-+static const struct rockchip_dw_dsi2_chip_data rk3588_chip_data[] = {
-+	{
-+		.reg = 0xfde20000,
-+		.grf_regs = rk3588_dsi0_grf_reg_fields,
-+		.max_bit_rate_per_lane = 4500000ULL,
-+	},
-+	{
-+		.reg = 0xfde30000,
-+		.grf_regs = rk3588_dsi1_grf_reg_fields,
-+		.max_bit_rate_per_lane = 4500000ULL,
-+	}
-+};
-+
-+static const struct of_device_id dw_mipi_dsi2_rockchip_dt_ids[] = {
-+	{
-+		.compatible = "rockchip,rk3588-mipi-dsi2",
-+		.data = &rk3588_chip_data,
-+	},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, dw_mipi_dsi2_rockchip_dt_ids);
-+
-+struct platform_driver dw_mipi_dsi2_rockchip_driver = {
-+	.probe	= dw_mipi_dsi2_rockchip_probe,
-+	.remove = dw_mipi_dsi2_rockchip_remove,
-+	.driver = {
-+		.of_match_table = dw_mipi_dsi2_rockchip_dt_ids,
-+		.pm = &dw_mipi_dsi2_rockchip_pm_ops,
-+		.name = "dw-mipi-dsi2",
-+	},
-+};
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-index ddf0be331c0a..5327ce035003 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-@@ -511,6 +511,8 @@ static int __init rockchip_drm_init(void)
- 				CONFIG_ROCKCHIP_DW_HDMI_QP);
- 	ADD_ROCKCHIP_SUB_DRIVER(dw_mipi_dsi_rockchip_driver,
- 				CONFIG_ROCKCHIP_DW_MIPI_DSI);
-+	ADD_ROCKCHIP_SUB_DRIVER(dw_mipi_dsi2_rockchip_driver,
-+				CONFIG_ROCKCHIP_DW_MIPI_DSI2);
- 	ADD_ROCKCHIP_SUB_DRIVER(inno_hdmi_driver, CONFIG_ROCKCHIP_INNO_HDMI);
- 	ADD_ROCKCHIP_SUB_DRIVER(rk3066_hdmi_driver,
- 				CONFIG_ROCKCHIP_RK3066_HDMI);
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-index 24b4ce5ceaf1..9c9d38a06cdf 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-@@ -90,6 +90,7 @@ extern struct platform_driver cdn_dp_driver;
- extern struct platform_driver dw_hdmi_rockchip_pltfm_driver;
- extern struct platform_driver dw_hdmi_qp_rockchip_pltfm_driver;
- extern struct platform_driver dw_mipi_dsi_rockchip_driver;
-+extern struct platform_driver dw_mipi_dsi2_rockchip_driver;
- extern struct platform_driver inno_hdmi_driver;
- extern struct platform_driver rockchip_dp_driver;
- extern struct platform_driver rockchip_lvds_driver;
--- 
-2.45.2
+Yeah that is a really good point. If _QUERY implements a different 
+functionality than _WAIT than the usual distinction between polling and 
+interrupt based approach can't be applied here.
 
+>>> I filed a Mesa issue,
+>>> https://gitlab.freedesktop.org/mesa/mesa/-/issues/12094, and Faith
+>>> suggested a kernel-side fix as well.  Should we reconsider this?
+>>>
+>>>
+>>> Wait a second, you might have an even bigger misconception here. The difference between waiting and querying is usually intentional!
+>>>
+>>> This is done so that for example on mobile devices you don't need to enable device interrupts, but rather query in defined intervals.
+>>>
+>>> This is a very common design pattern and while I don't know the wording of the Vulkan timeline extension it's quite likely that this is the intended use case.
+>> Yeah, there are Vulkan CTS tests that query timeline semaphores
+>> repeatedly for progress.  Those tests can fail because mesa translates
+>> the queries directly to the QUERY ioctl.
+>>
+>> As things are, enable_signaling is a requirement to query up-to-date
+>> status no matter the syncobj is binary or a timeline.
+> I kinda agree with Chia-I here. What's the point of querying a timeline
+> syncobj if what we get in return is an outdated sync point? I get that
+> the overhead of enabling signalling exists, but if we stand on this
+> position, that means the QUERY ioctl is not suitable for
+> vkGetSemaphoreCounterValue() unless we first add a
+> WAIT(sync_point=0,timeout=0) to make sure signalling is enabled on all
+> fences contained by the dma_fence_chain backing the timeline syncobj.
+> And this has to be done for each vkGetSemaphoreCounterValue(), because
+> new sync points don't have signalling enabled by default.
+
+The common driver design I know from other operating systems is that you 
+either poll without enabling interrupts or you enable interrupts and 
+wait for the async operation to complete.
+
+That distinction is really important for things like mobile devices 
+where interrupts are rather power costly.
+
+> At the very least, we should add a new DRM_SYNCOBJ_QUERY_FLAGS_ flag
+> (DRM_SYNCOBJ_QUERY_FLAGS_REFRESH_STATE?) to combine the
+> enable_signalling and query operations in a single ioctl. If we go
+> for this approach, that means mesa has to support both cases, and pick
+> the most optimal one if the kernel supports it.
+
+Another problem we have here is that dma_fence_enable_signaling() can 
+mean two different things, maybe the documentation is a bit confusing:
+
+1) Enabling interrupts so that we don't need to call the 
+ops->is_signaled() driver callback.
+
+2) Asking preemption fences to actually signal because memory management 
+wants to do something.
+
+So when this ops->is_signaled() callback is implemented it shouldn't be 
+necessary to enable signaling to query the state.
+
+To summarize: When you call _QUERY you shouldn't get an outdated sync 
+point. When you do this then there is something wrong with the backend 
+driver.
+
+Regards,
+Christian.
+--------------I5dDGjM8EjDioEO5qtTyoSjb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 06.11.24 um 09:14 schrieb Boris Brezillon:<br>
+    <blockquote type="cite" cite="mid:20241106091436.48687e86@collabora.com">
+      <pre class="moz-quote-pre" wrap="">On Tue, 5 Nov 2024 09:56:22 -0800
+Chia-I Wu <a class="moz-txt-link-rfc2396E" href="mailto:olvaffe@gmail.com">&lt;olvaffe@gmail.com&gt;</a> wrote:
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">On Mon, Nov 4, 2024 at 11:32 PM Christian König
+<a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a> wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+Am 04.11.24 um 22:32 schrieb Chia-I Wu:
+
+On Tue, Oct 22, 2024 at 10:24 AM Chia-I Wu <a class="moz-txt-link-rfc2396E" href="mailto:olvaffe@gmail.com">&lt;olvaffe@gmail.com&gt;</a> wrote:
+
+On Tue, Oct 22, 2024 at 9:53 AM Christian König
+<a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a> wrote:
+
+Am 22.10.24 um 18:18 schrieb Chia-I Wu:
+
+Userspace might poll a syncobj with the query ioctl.  Call
+dma_fence_enable_sw_signaling to ensure dma_fence_is_signaled returns
+true in finite time.
+
+Wait a second, just querying the fence status is absolutely not
+guaranteed to return true in finite time. That is well documented on the
+dma_fence() object.
+
+When you want to poll on signaling from userspace you really need to
+call poll or the wait IOCTL with a zero timeout. That will also return
+immediately but should enable signaling while doing that.
+
+So just querying the status should absolutely *not* enable signaling.
+That's an intentional separation.
+
+I think it depends on what semantics DRM_IOCTL_SYNCOBJ_QUERY should have.
+
+
+Well that's what I pointed out. The behavior of the QUERY IOCTL is based on the behavior of the dma_fence and the later is documented to do exactly what it currently does.
+
+If DRM_IOCTL_SYNCOBJ_QUERY is mainly for vulkan timeline semaphores,
+it is a bit heavy if userspace has to do a
+DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT before a query.
+
+
+Maybe you misunderstood me, you *only* have to call DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT and *not* _QUERY.
+
+The underlying dma_fence_wait_timeout() function is extra optimized so that zero timeout has only minimal overhead.
+
+This overhead is actually lower than _QUERY because that one actually queries the driver for the current status while _WAIT just assumes that the driver will signal the fence when ready from an interrupt.  
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+The context here is that vkGetSemaphoreCounterValue calls QUERY to get
+the timeline value.  WAIT does not replace QUERY.</pre>
+      </blockquote>
+    </blockquote>
+    <br>
+    Oh, that is a really good argument.<br>
+    <br>
+    <blockquote type="cite" cite="mid:20241106091436.48687e86@collabora.com">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Taking a step back, in the binary (singled/unsignaled) case, a WAIT
+with zero timeout can get the up-to-date status.  But in the timeline
+case, there is no direct way to get the up-to-date status if QUERY
+must strictly be a wrapper for dma_fence_is_signaled.  It comes back
+to what was QUERY designed for and can we change it?</pre>
+      </blockquote>
+    </blockquote>
+    <br>
+    Yeah that is a really good point. If _QUERY implements a different
+    functionality than _WAIT than the usual distinction between polling
+    and interrupt based approach can't be applied here.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:20241106091436.48687e86@collabora.com">
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+I filed a Mesa issue,
+<a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/mesa/mesa/-/issues/12094">https://gitlab.freedesktop.org/mesa/mesa/-/issues/12094</a>, and Faith
+suggested a kernel-side fix as well.  Should we reconsider this?
+
+
+Wait a second, you might have an even bigger misconception here. The difference between waiting and querying is usually intentional!
+
+This is done so that for example on mobile devices you don't need to enable device interrupts, but rather query in defined intervals.
+
+This is a very common design pattern and while I don't know the wording of the Vulkan timeline extension it's quite likely that this is the intended use case.  
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">Yeah, there are Vulkan CTS tests that query timeline semaphores
+repeatedly for progress.  Those tests can fail because mesa translates
+the queries directly to the QUERY ioctl.
+
+As things are, enable_signaling is a requirement to query up-to-date
+status no matter the syncobj is binary or a timeline.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I kinda agree with Chia-I here. What's the point of querying a timeline
+syncobj if what we get in return is an outdated sync point? I get that
+the overhead of enabling signalling exists, but if we stand on this
+position, that means the QUERY ioctl is not suitable for
+vkGetSemaphoreCounterValue() unless we first add a
+WAIT(sync_point=0,timeout=0) to make sure signalling is enabled on all
+fences contained by the dma_fence_chain backing the timeline syncobj.
+And this has to be done for each vkGetSemaphoreCounterValue(), because
+new sync points don't have signalling enabled by default.</pre>
+    </blockquote>
+    <br>
+    The common driver design I know from other operating systems is that
+    you either poll without enabling interrupts or you enable interrupts
+    and wait for the async operation to complete.<br>
+    <br>
+    That distinction is really important for things like mobile devices
+    where interrupts are rather power costly.<br>
+    <br>
+    <blockquote type="cite" cite="mid:20241106091436.48687e86@collabora.com">
+      <pre class="moz-quote-pre" wrap="">At the very least, we should add a new DRM_SYNCOBJ_QUERY_FLAGS_ flag
+(DRM_SYNCOBJ_QUERY_FLAGS_REFRESH_STATE?) to combine the
+enable_signalling and query operations in a single ioctl. If we go
+for this approach, that means mesa has to support both cases, and pick
+the most optimal one if the kernel supports it.
+</pre>
+    </blockquote>
+    <br>
+    Another problem we have here is that dma_fence_enable_signaling()
+    can mean two different things, maybe the documentation is a bit
+    confusing:<br>
+    <br>
+    1) Enabling interrupts so that we don't need to call the
+    ops-&gt;is_signaled() driver callback.<br>
+    <br>
+    2) Asking preemption fences to actually signal because memory
+    management wants to do something.<br>
+    <br>
+    So when this ops-&gt;is_signaled() callback is implemented it
+    shouldn't be necessary to enable signaling to query the state.<br>
+    <br>
+    To summarize: When you call _QUERY you shouldn't get an outdated
+    sync point. When you do this then there is something wrong with the
+    backend driver.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+  </body>
+</html>
+
+--------------I5dDGjM8EjDioEO5qtTyoSjb--
