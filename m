@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C4A9BE2AF
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 10:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAE1E9BE2AE
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 10:35:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A3C10E69C;
-	Wed,  6 Nov 2024 09:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9459E10E1DA;
+	Wed,  6 Nov 2024 09:35:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="GdSY0sa7";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="OdYPOWgH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3770710E2E5
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8036710E1DA
  for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 09:35:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1730885735; x=1762421735;
+ t=1730885736; x=1762421736;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=to+XTp4IW8kAmb6A0rvJQ9ZF113lclX2U2Y8R7lLOIE=;
- b=GdSY0sa7YKcFcPTFtVkV4u1ualaobL+T3wUDVNc/y2l+IZgYfosv+8jo
- TSK4roSOAHrH+35cRKNlVa7zfLv6QFVFqIHPhSauR7LS/zm6CJ4mJzw9G
- 7bnXD5T8OeiPr6DLo9AwwC6PR65C8rEKQfisdo37dndlSsKKmcvrkCyV2
- MhVACx+9gqn+Y+nKnpVjCIw9nZtJgGMPKCB2jtFCVvNUi7nPYvCCht6jz
- 7MTZ1ETbRZ7tv9+SbCASA5YwtFl7OgQVy7MJDaF3OP73iASIDfztjtLgk
- blNHwwMd0NzSeQqvNhrUYypOoXlR1TjqZoyI8NP/2H96Zg8NuAnCsILZa g==;
+ bh=sfhNgfxD/3Djavd5D660Vk0CxS/6EFO0/1T8Wa3ccko=;
+ b=OdYPOWgH7wua90S9VefeeBU3n1PI4Nmys0yqUwVrpbEko2hZeVL7Iolg
+ 2aAzL9p13M/CsTNEMjbegLMpb0iP7qh3h8aXlzZkS8g64uPboEADSUNsL
+ /OlXeDO/z7F8m+U7wpf2yoyr/h8I/MrcJzkVpzwpBWrdmou1JW0Vy8lrp
+ 8+IsCxjknQ9UqubECwJd53p0qa4PCiOd88xM/v6lRjcSZ9sCR4Y1GE4AV
+ IFYhijOuUWpmiAg4FPMAGQC6fL/nVx/R60oo47XqITLCLiU4OuUo+Hbap
+ p8EjkR1L7QZDeiTYm/+Nu6Npsnjnr0CCnJmpOhPIoS6Ms//GDgL1GvTEz A==;
 X-CSE-ConnectionGUID: GdrssbasS4SjtXCG3mVUjg==
-X-CSE-MsgGUID: B81mhcyURqmNrHtP1uP9/Q==
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="33940997"
+X-CSE-MsgGUID: nRT8SzJJQGymEi6NCk+q8Q==
+X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; d="scan'208";a="33940998"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Nov 2024 02:35:34 -0700
+ 06 Nov 2024 02:35:35 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 6 Nov 2024 02:35:20 -0700
+ 15.1.2507.35; Wed, 6 Nov 2024 02:35:31 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 6 Nov 2024 02:35:12 -0700
+ 15.1.2507.35 via Frontend Transport; Wed, 6 Nov 2024 02:35:21 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
@@ -55,10 +55,10 @@ To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>
 CC: <manikandan.m@microchip.com>
-Subject: [PATCH v5 3/4] MAINTAINERS: add SAM9X7 SoC's Microchip's MIPI DSI
- host wrapper driver
-Date: Wed, 6 Nov 2024 15:04:28 +0530
-Message-ID: <20241106093429.157131-4-manikandan.m@microchip.com>
+Subject: [PATCH v5 4/4] ARM: configs: at91: Enable Microchip's MIPI DSI Host
+ Controller support
+Date: Wed, 6 Nov 2024 15:04:29 +0530
+Message-ID: <20241106093429.157131-5-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241106093429.157131-1-manikandan.m@microchip.com>
 References: <20241106093429.157131-1-manikandan.m@microchip.com>
@@ -80,36 +80,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the Microchip's DSI controller wrapper driver that uses the
-Synopsys DesignWare MIPI DSI host controller bridge for the SAM9X7
-SoC series to the MAINTAINERS entry.
+Enable the Microchip's DSI controller wrapper driver that uses
+the Synopsys DesignWare MIPI DSI host controller bridge.
 
 Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
-changes in v3:
-- Drop T: section
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm/configs/at91_dt_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f5dc00438ba3..77228b16425a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15272,6 +15272,13 @@ S:	Supported
- F:	Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
- F:	drivers/gpu/drm/bridge/microchip-lvds.c
- 
-+DRM DRIVER FOR MICROCHIP SAM9X7-COMPATIBLE MIPI DSI HOST CONTROLLER
-+M:	Manikandan Muralidharan <manikandan.m@microchip.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml
-+F:	drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c
-+
- MICROCHIP SAMA5D2-COMPATIBLE ADC DRIVER
- M:	Eugen Hristev <eugen.hristev@microchip.com>
- L:	linux-iio@vger.kernel.org
+diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
+index 2022a7fca0f9..3ff89e27e770 100644
+--- a/arch/arm/configs/at91_dt_defconfig
++++ b/arch/arm/configs/at91_dt_defconfig
+@@ -145,6 +145,7 @@ CONFIG_VIDEO_OV7740=m
+ CONFIG_DRM=y
+ CONFIG_DRM_ATMEL_HLCDC=y
+ CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER=y
++CONFIG_DRM_MICROCHIP_DW_MIPI_DSI=y
+ CONFIG_DRM_PANEL_SIMPLE=y
+ CONFIG_DRM_PANEL_EDP=y
+ CONFIG_FB_ATMEL=y
 -- 
 2.25.1
 
