@@ -2,90 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306149BDB5D
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 02:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D269BDB67
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 02:47:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A24D310E631;
-	Wed,  6 Nov 2024 01:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E22A010E11C;
+	Wed,  6 Nov 2024 01:47:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="JuOMeicq";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="OUUhdFEr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23EA710E11C;
- Wed,  6 Nov 2024 01:44:44 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5KIMJG004966;
- Wed, 6 Nov 2024 01:44:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Z5Jv3Ed7XXZHWZLDW8oApx97KGEiepVHnuihRZtI6kc=; b=JuOMeicqNpZNNLSM
- OwHF7tOGhhAwjHpPAZoHNm0IxF/4bzXD/afmF+nlPSD/E8vPG301kkhygiE3KonO
- Qc5TyF76Lj+EopSwZxDv2uy3th4kiWSFai2BsYuY49if8wYGX1JYCOLJqclBNq6m
- yJEi0YW76p/qHDDKukczulbOC8Lg/Qs+2jo1lsbk3JjlXq7b1Mf6tmZCaVS+leZ/
- lijzurCdo4NKH0r9X12rUKgZ6zp+94bCVMyPmFI2HkEXbdGUuKpVZjrRXGRz2h0C
- K4A921tIlp9MvUuvtPINsHOC1GSnVyyU9614RwxfKQovlKCWmXlmzsuDjewJfDPq
- qo7cww==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42ndc71hyv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 06 Nov 2024 01:44:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A61ibAW017863
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 6 Nov 2024 01:44:37 GMT
-Received: from [10.216.20.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 5 Nov 2024
- 17:44:30 -0800
-Message-ID: <43404449-1830-4651-a85a-54404b1d35bc@quicinc.com>
-Date: Wed, 6 Nov 2024 07:14:27 +0530
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2055.outbound.protection.outlook.com [40.107.95.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE2BE10E11C
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 01:47:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e0JD6egENSVZzIV7sFEvGXFQTzPBg9XSxy+Vf/9bE57cGIZbvSyAJa99TGPMi8oba6g8GV+As/dO56FiSX2A+NcMMAsJrgRGY8ICMSCnISAPAmdthwtLTn1QhSqw78SXsRnAj6Liyyj3dxF8O66r44qs+GBmiEx6Vc77H5xQzyiIHxn5gcwdBnuvv0ZUvPQmybk2p8wwrp1FTuD4meXRMUDETQsbNRSdIAbwpKEyLA4CT7nyozZ1pRNCa2MZ87v+ceZseMCL4SlnTz1PEebl3U/0ZQkJDz8ajzNicJNhLCKJfLpH/Mj0365xxsLqCwRyq5KyJx7O2l1DCshqWR6BIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W0v38AYgJrRjpH9nvqYQpNewiDwRZ7f2lh4fJCTPAvw=;
+ b=RBa36eZrKRiNvu9F+SkGLVujQkQNHcxtf83ZJ1lkJiPlo1jgSxWsCzXmpe1BcGmuHnzGRIzwnogrhUqNKLFdyQ+H+VKue0kT5DGnUBKzDSK1TnkDKTTdi/yj+jnwAKAeN58io9DK6Fi0Ayue4ctUgwFPS9juuIjtODcUcNOMk8LsSrOJ9R2MxSMl6gLt1wQUQaPtW1adpdC9tf7HueDO2xZgdOmKDGbbV+HzMEmTPWmpcBuZQpXG2IpLjJA1Cnfqf5ZfTNg2lnv9npvPMWD+CuTh15jpwLR3HZKKVQKXkybfxX2CqpWHf/a6woG98LgoHk6XKTExqcmtrCeLojwhtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W0v38AYgJrRjpH9nvqYQpNewiDwRZ7f2lh4fJCTPAvw=;
+ b=OUUhdFErvQFy9PqB1w8v9xHH6T+H2K3lxXyi+zUwoTTbYz4cF/HiPm0SDpwkjZrO3rRF8fMCUhWNhXO6bJEFRSUV/0nHje/kx3gmBSu/CcTj1HY9Ke0Wstqhxch/13BebSygHNMzsI76eO3DFXZUqCc8T00zTACEGhVVR2FqzCE=
+Received: from BN1PR13CA0028.namprd13.prod.outlook.com (2603:10b6:408:e2::33)
+ by MN2PR12MB4486.namprd12.prod.outlook.com (2603:10b6:208:263::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Wed, 6 Nov
+ 2024 01:47:05 +0000
+Received: from BL6PEPF0001AB54.namprd02.prod.outlook.com
+ (2603:10b6:408:e2:cafe::f0) by BN1PR13CA0028.outlook.office365.com
+ (2603:10b6:408:e2::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.18 via Frontend
+ Transport; Wed, 6 Nov 2024 01:47:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF0001AB54.mail.protection.outlook.com (10.167.241.6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8137.17 via Frontend Transport; Wed, 6 Nov 2024 01:47:05 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 5 Nov
+ 2024 19:47:00 -0600
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <dri-devel@lists.freedesktop.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>, Simona Vetter
+ <simona.vetter@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>, "Rodrigo
+ Siqueira" <rodrigo.siqueira@amd.com>, Harry Wentland
+ <harry.wentland@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>, Karol Herbst
+ <kherbst@redhat.com>, "Ian Forbes" <ian.forbes@broadcom.com>
+Subject: [PATCH] drm/edid: add CTA Video Format Data Block support
+Date: Tue, 5 Nov 2024 20:46:38 -0500
+Message-ID: <20241106014638.350678-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.46.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 1/3] drm/msm/adreno: Add support for ACD
-To: <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
- <andersson@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
- <20241012-gpu-acd-v1-1-1e5e91aa95b6@quicinc.com>
- <4aeec9f1-720b-400c-9582-d02847db2ac7@linaro.org>
-Content-Language: en-US
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <4aeec9f1-720b-400c-9582-d02847db2ac7@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: Na1zWvxix9JPntdFw7-EW3kC17gUUl4y
-X-Proofpoint-GUID: Na1zWvxix9JPntdFw7-EW3kC17gUUl4y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 mlxlogscore=999 adultscore=0 clxscore=1015 mlxscore=0
- phishscore=0 impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411060012
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB54:EE_|MN2PR12MB4486:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b7ee9c8-71b3-4bce-a506-08dcfe04eaef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|82310400026|1800799024|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Qdr2dRsANadNmacWePErWRTeAKwBscfFtcksW819tkUZny+FmcOtqLycPb4Y?=
+ =?us-ascii?Q?HS8LWpZnrq31QOlo//7gM+u/nKXCLeCqeAsATx2wYskd0l9f2v+o98yeTsR2?=
+ =?us-ascii?Q?j6eRlth5bpcRVOX7wTOBLMQv5NzZ742cpYkz4b+Uy4YOUvGzWyYPTlrmBn94?=
+ =?us-ascii?Q?+M0Ot03Kfp+kmAa9IFQx5Anhl1arq4Huiou2E5u2V9yDsMFC5xZ48I2cUW5U?=
+ =?us-ascii?Q?AKYjqQUrx2cf8iavHMPWqqE4gAenMCeNLJF4d5oSP9kSXA0Tt0oOwXbxFng0?=
+ =?us-ascii?Q?fdL6dKPLC32u1pD7fLloRzSrAQUxy1y3RWQ4lmfECk9v00HFt7bO4rT3D5Ko?=
+ =?us-ascii?Q?drSBx3Kcw8uZeWUgHdgvAruhjbC+aqxapQjwO+1SYG/7xE1u58M6CZdyHDcu?=
+ =?us-ascii?Q?mp1TyfzK2Tjw4KFaetsz9Rfp/67Lzb63ipzshC4u28eXbLklURh9lS+BZk+B?=
+ =?us-ascii?Q?1Ttx23JOkm7N+BsDMuMjy5oxoSjmNKRSnAnGFknNqzPPy+5mTEzpIvcXXtUU?=
+ =?us-ascii?Q?6W1FvJJcmatOk5mjLezic/XeySP5sh+XXaKh2xsNrk1AHnFG10e36LRf5aLv?=
+ =?us-ascii?Q?aTBmdU+eV2sWtuO4Yq5AUYoDSQqiIL9prVYC39pFv6CmYckb5nL1eLZ1TKfG?=
+ =?us-ascii?Q?BTSjSWG03TrxDRAYuTLese+CViq0n/owmpzciFXPbNJPmKvNU2T85q4HyWDu?=
+ =?us-ascii?Q?2cbXvng5Sy//71e9QZs6cp/bKB5Bfj8XdjtIJnMjiWfXbDv73gqQ74AicBcm?=
+ =?us-ascii?Q?iKjivrKnt9gdT1PO5gB4cMu28tsIRTsrNnfpBUHb4F0FTG1DCawKu1Q0OrFX?=
+ =?us-ascii?Q?xxTV2I0YIIK41Y6o4pFk93NHlE2yZirXlnGNHpIzDpx/OZsfk5ZfNPHBvoSY?=
+ =?us-ascii?Q?ctjPtmD7RYePx8ai+vfbExDiwNj6JnL8Br1k6M7Tp/O+lQq+SLwOMXONqlmT?=
+ =?us-ascii?Q?Klz4y0dh3s/U7AVMuAPfzCikXHwEFWGBJ/Sg0jzqH0Jz1GFCC2Lqv+W0ewxx?=
+ =?us-ascii?Q?VgyXQ42Ck+2d56Jrj0iQMU808F5v1JlnXk7aAGd9ohs6KJRKO2uuO4oMwVhw?=
+ =?us-ascii?Q?yPRRyREhdamAYsFzTqGWXxeqp98wWyhNXcPsnOX8iNR+vP+att/E9gsfgLNX?=
+ =?us-ascii?Q?DhRIN4W7bRqEd3CI25i10oTsGyGP+/2CozI36jeUBnL1+nzfqhVmDSbyRMzh?=
+ =?us-ascii?Q?iS6e4Lr9DbPrJvEs6McSVDliuJF274AQSAdtNEtWsE+94zZNJECnxVeHIY/T?=
+ =?us-ascii?Q?qrCZEDeTka5oTWks6PKbFLfOJwsbzqPKhfdxuDQgweoGr9fAdvYxsVgTKwUh?=
+ =?us-ascii?Q?VqVyUmQEvSJKcz85ghG9/j0kqLqF91OttZteFAGX2LkUV9GPw3P7UHq6lfgY?=
+ =?us-ascii?Q?PTO0nYY9SbJKNQqcv+S78G4MtAz7SntfRPbj8+iMkcUXhAugRA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2024 01:47:05.2790 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b7ee9c8-71b3-4bce-a506-08dcfe04eaef
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB54.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4486
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,121 +135,556 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/4/2024 9:14 PM, neil.armstrong@linaro.org wrote:
-> On 11/10/2024 22:29, Akhil P Oommen wrote:
->> ACD a.k.a Adaptive Clock Distribution is a feature which helps to reduce
->> the power consumption. In some chipsets, it is also a requirement to
->> support higher GPU frequencies. This patch adds support for GPU ACD by
->> sending necessary data to GMU and AOSS. The feature support for the
->> chipset is detected based on devicetree data.
->>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 81 +++++++++++++++++++++++++
->> +++-------
->>   drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  1 +
->>   drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 36 ++++++++++++++++
->>   drivers/gpu/drm/msm/adreno/a6xx_hfi.h | 21 +++++++++
->>   4 files changed, 124 insertions(+), 15 deletions(-)
->>
-> 
-> <snip>
-> 
->> +
->> +static int a6xx_hfi_enable_acd(struct a6xx_gmu *gmu)
->> +{
->> +    struct a6xx_hfi_acd_table *acd_table = &gmu->acd_table;
->> +    struct a6xx_hfi_msg_feature_ctrl msg = {
->> +        .feature = HFI_FEATURE_ACD,
->> +        .enable = 1,
->> +        .data = 0,
->> +    };
->> +    int ret;
->> +
->> +    if (!acd_table->enable_by_level)
->> +        return 0;
->> +
->> +    /* Enable ACD feature at GMU */
->> +    ret = a6xx_hfi_send_msg(gmu, HFI_H2F_FEATURE_CTRL, &msg,
->> sizeof(msg), NULL, 0);
->> +    if (ret) {
->> +        DRM_DEV_ERROR(gmu->dev, "Unable to enable ACD (%d)\n", ret);
->> +        return ret;
->> +    }
->> +
->> +    /* Send ACD table to GMU */
->> +    ret = a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_ACD, &msg, sizeof(msg),
->> NULL, 0);
-> 
-> This looks wrong, in this exact code, you never use the acd_table...
-> perhaps it should be acd_table here
+Video Format Data Blocks (VFDBs) contain the necessary information that
+needs to be fed to the Optimized Video Timings (OVT) Algorithm.
+Also, we require OVT support to cover modes that aren't supported by
+earlier standards (e.g. CVT). So, parse all of the relevant VFDB data
+and feed it to the OVT Algorithm, to extract all of the missing OVT
+modes.
 
-Whoops! Weirdly gmu didn't explode when I tested.
+Cc: Ian Forbes <ian.forbes@broadcom.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Suggested-by: Karol Herbst <kherbst@redhat.com>
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+v3: move ovt stuff above add_cea_modes() and break up
+    calculate_ovt_mode() to make it easier to read.
 
-Thanks for your keen eye.
+v4: fix 32 bit build and constify read-only vars.
 
--Akhil.
+v5: Implement suggestions from:
+    https://lore.kernel.org/dri-devel/87plpbk92h.fsf@intel.com/
+    and export drm_ovt_mode().
+---
+ drivers/gpu/drm/drm_edid.c | 465 +++++++++++++++++++++++++++++++++++++
+ include/drm/drm_edid.h     |   3 +
+ 2 files changed, 468 insertions(+)
 
-> 
->> +    if (ret) {
->> +        DRM_DEV_ERROR(gmu->dev, "Unable to ACD table (%d)\n", ret);
->> +        return ret;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->>   static int a6xx_hfi_send_test(struct a6xx_gmu *gmu)
->>   {
->>       struct a6xx_hfi_msg_test msg = { 0 };
->> @@ -756,6 +788,10 @@ int a6xx_hfi_start(struct a6xx_gmu *gmu, int
->> boot_state)
->>       if (ret)
->>           return ret;
->>   +    ret = a6xx_hfi_enable_acd(gmu);
->> +    if (ret)
->> +        return ret;
->> +
->>       ret = a6xx_hfi_send_core_fw_start(gmu);
->>       if (ret)
->>           return ret;
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h b/drivers/gpu/drm/
->> msm/adreno/a6xx_hfi.h
->> index 528110169398..51864c8ad0e6 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
->> @@ -151,12 +151,33 @@ struct a6xx_hfi_msg_test {
->>       u32 header;
->>   };
->>   +#define HFI_H2F_MSG_ACD 7
->> +#define MAX_ACD_STRIDE 2
->> +
->> +struct a6xx_hfi_acd_table {
->> +    u32 header;
->> +    u32 version;
->> +    u32 enable_by_level;
->> +    u32 stride;
->> +    u32 num_levels;
->> +    u32 data[16 * MAX_ACD_STRIDE];
->> +};
->> +
->>   #define HFI_H2F_MSG_START 10
->>     struct a6xx_hfi_msg_start {
->>       u32 header;
->>   };
->>   +#define HFI_H2F_FEATURE_CTRL 11
->> +
->> +struct a6xx_hfi_msg_feature_ctrl {
->> +    u32 header;
->> +    u32 feature;
->> +    u32 enable;
->> +    u32 data;
->> +};
->> +
->>   #define HFI_H2F_MSG_CORE_FW_START 14
->>     struct a6xx_hfi_msg_core_fw_start {
->>
-> 
-> Thanks,
-> Neil
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 855beafb76ff..e5e34397be00 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -31,6 +31,7 @@
+ #include <linux/bitfield.h>
+ #include <linux/byteorder/generic.h>
+ #include <linux/cec.h>
++#include <linux/gcd.h>
+ #include <linux/hdmi.h>
+ #include <linux/i2c.h>
+ #include <linux/kernel.h>
+@@ -741,6 +742,87 @@ static const struct minimode extra_modes[] = {
+ 	{ 2048, 1536, 60, 0 },
+ };
+ 
++struct cta_rid {
++	u16 hactive;
++	u16 vactive;
++	u8 hratio;
++	u8 vratio;
++};
++
++/* CTA-861-I Table 11 - Resolution Identification (RID) */
++static const struct cta_rid rids[] = {
++	[0]  = { 0, 0, 0, 0 },
++	[1]  = { 1280, 720, 16, 9 },
++	[2]  = { 1280, 720, 64, 27 },
++	[3]  = { 1680, 720, 64, 27 },
++	[4]  = { 1920, 1080, 16, 9 },
++	[5]  = { 1920, 1080, 64, 27 },
++	[6]  = { 2560, 1080, 64, 27 },
++	[7]  = { 3840, 1080, 32, 9 },
++	[8]  = { 2560, 1440, 16, 9 },
++	[9]  = { 3440, 1440, 64, 27 },
++	[10] = { 5120, 1440, 32, 9 },
++	[11] = { 3840, 2160, 16, 9 },
++	[12] = { 3840, 2160, 64, 27 },
++	[13] = { 5120, 2160, 64, 27 },
++	[14] = { 7680, 2160, 32, 9 },
++	[15] = { 5120, 2880, 16, 9 },
++	[16] = { 5120, 2880, 64, 27 },
++	[17] = { 6880, 2880, 64, 27 },
++	[18] = { 10240, 2880, 32, 9 },
++	[19] = { 7680, 4320, 16, 9 },
++	[20] = { 7680, 4320, 64, 27 },
++	[21] = { 10240, 4320, 64, 27 },
++	[22] = { 15360, 4320, 32, 9 },
++	[23] = { 11520, 6480, 16, 9 },
++	[24] = { 11520, 6480, 64, 27 },
++	[25] = { 15360, 6480, 64, 27 },
++	[26] = { 15360, 8640, 16, 9 },
++	[27] = { 15360, 8640, 64, 27 },
++	[28] = { 20480, 8640, 64, 27 },
++};
++
++/* CTA-861-I Table 12 - AVI InfoFrame Video Format Frame Rate */
++static const u16 video_format_frame_rates[] = {
++	/* Frame Rate 0-7 */
++	0, 24, 25, 30, 48, 50, 60, 100,
++	/* Frame Rate 8-15 */
++	120, 144, 200, 240, 300, 360, 400, 480,
++};
++
++/* CTA-861-I Table 13 - RID To VIC Mapping */
++static const u8 rid_to_vic[][8] = {
++	[0]  = {},
++	[1]  = { 60, 61, 62, 108, 19, 4, 41, 47 },
++	[2]  = { 65, 66, 67, 109, 68, 69, 70, 71 },
++	[3]  = { 79, 80, 81, 110, 82, 83, 84, 85 },
++	[4]  = { 32, 33, 34, 111, 31, 16, 64, 63 },
++	[5]  = { 72, 73, 74, 112, 75, 76, 77, 78 },
++	[6]  = { 86, 87, 88, 113, 89, 90, 91, 92 },
++	[7]  = {},
++	[8]  = {},
++	[9]  = {},
++	[10] = {},
++	[11] = { 93, 94, 95, 114, 96, 97, 117, 118 },
++	[12] = { 103, 104, 105, 116, 106, 107, 119, 120 },
++	[13] = { 121, 122, 123, 124, 125, 126, 127, 193 },
++	[14] = {},
++	[15] = {},
++	[16] = {},
++	[17] = {},
++	[18] = {},
++	[19] = { 194, 195, 196, 197, 198, 199, 200, 201 },
++	[20] = { 202, 203, 204, 205, 206, 207, 208, 209 },
++	[21] = { 210, 211, 212, 213, 214, 215, 216, 217 },
++	[22] = {},
++	[23] = {},
++	[24] = {},
++	[25] = {},
++	[26] = {},
++	[27] = {},
++	[28] = {},
++};
++
+ /*
+  * From CEA/CTA-861 spec.
+  *
+@@ -4131,6 +4213,7 @@ static int add_detailed_modes(struct drm_connector *connector,
+ #define CTA_DB_VIDEO			2
+ #define CTA_DB_VENDOR			3
+ #define CTA_DB_SPEAKER			4
++#define CTA_DB_VIDEO_FORMAT		6
+ #define CTA_DB_EXTENDED_TAG		7
+ 
+ /* CTA-861-H Table 62 - CTA Extended Tag Codes */
+@@ -4972,6 +5055,16 @@ struct cea_db {
+ 	u8 data[];
+ } __packed;
+ 
++struct cta_vfd {
++	u8 rid;
++	u8 fr_fact;
++	bool bfr50;
++	bool fr24;
++	bool bfr60;
++	bool fr144;
++	bool fr48;
++};
++
+ static int cea_db_tag(const struct cea_db *db)
+ {
+ 	return db->tag_length >> 5;
+@@ -5250,6 +5343,376 @@ static int edid_hfeeodb_extension_block_count(const struct edid *edid)
+ 	return cta[4 + 2];
+ }
+ 
++/* CTA-861 Video Format Descriptor (CTA VFD) */
++static void parse_cta_vfd(struct cta_vfd *vfd, const u8 *data, int vfd_len)
++{
++	vfd->rid = data[0] & 0x3f;
++	vfd->bfr50 = data[0] & 0x80;
++	vfd->fr24 = data[0] & 0x40;
++	vfd->bfr60 = vfd_len > 1 ? (data[1] & 0x80) : true;
++	vfd->fr144 = vfd_len > 1 ? (data[1] & 0x40) : false;
++	vfd->fr_fact = vfd_len > 1 ? (data[1] & 0x3f) : 0x3;
++	vfd->fr48 = vfd_len > 2 ? (data[2] & 0x1) : false;
++}
++
++static bool vfd_has_fr(const struct cta_vfd *vfd, int rate)
++{
++	static const u8 factors[] = {
++		1, 2, 4, 8, 12, 16
++	};
++	int factor = 0;
++	int i;
++
++	switch (rate) {
++	case 24:
++		return vfd->fr24;
++	case 48:
++		return vfd->fr48;
++	case 144:
++		return vfd->fr144;
++	}
++
++	if (!(rate % 25)) {
++		if (!vfd->bfr50)
++			return false;
++
++		factor = rate / 25;
++	} else if (!(rate % 30)) {
++		if (!vfd->bfr60)
++			return false;
++
++		factor = rate / 30;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(factors); i++)
++		if (factor == factors[i] && (vfd->fr_fact & (1 << i)))
++			return true;
++
++	return false;
++}
++
++#define OVT_PIXEL_CLOCK_GRANULARITY	1000		/* Hz */
++#define OVT_MIN_HTOTAL_GRANULARITY	8		/* pixels */
++#define OVT_MIN_VBLANK_DURATION	460000000	/* ps */
++#define OVT_MIN_VBLANK_LINES		20
++#define OVT_MIN_VSYNC_LEADING_EDGE	400		/* us */
++#define OVT_MIN_VSYNC_LE_LINES		14
++#define OVT_MIN_CLOCK_RATE_420		590000000	/* Hz */
++#define OVT_PIXEL_FACTOR_420		2
++#define OVT_MIN_HBLANK_444		80		/* pixels */
++#define OVT_MIN_HBLANK_420		128		/* pixels */
++#define OVT_MAX_CHUNK_RATE		650000000	/* Hz */
++#define OVT_AUDIO_PACKET_RATE		195000		/* Hz */
++#define OVT_AUDIO_PACKET_SIZE		32
++#define OVT_LINE_OVERHEAD		32
++#define OVT_HSYNC_WIDTH		32
++#define OVT_VSYNC_WIDTH		8
++
++static u32 calculate_ovt_min_vtotal(const struct cta_rid *rid, u64 max_vrate,
++				    u32 vtotal_granularity)
++{
++	u64 max_active_time;
++	u32 min_line_time;
++	u32 min_vblank;
++	u32 min_vtotal;
++
++	/* step 2 */
++	max_active_time = div64_u64(1000000000000, max_vrate) -
++		(u64)OVT_MIN_VBLANK_DURATION;
++
++	min_line_time = div_u64(max_active_time, rid->vactive);
++
++	min_vblank = max_t(u64, (u64)OVT_MIN_VBLANK_LINES,
++			   DIV64_U64_ROUND_UP(OVT_MIN_VBLANK_DURATION,
++					      min_line_time));
++
++	min_vtotal = rid->vactive + min_vblank;
++
++	if (min_vtotal % vtotal_granularity)
++		min_vtotal += vtotal_granularity - (min_vtotal %
++						    vtotal_granularity);
++
++	return min_vtotal;
++}
++
++static u32 calculate_ovt_min_htotal(const struct cta_rid *rid,
++				    const u32 max_vrate,
++				    const u32 min_vtotal,
++				    u32 *min_hblank,
++				    u32 *htotal_granularity)
++{
++	u32 max_audio_packets_per_line;
++	u32 htotal_granularity_chunk;
++	u64 min_pixel_clock_rate;
++	u32 min_line_rate;
++	u32 min_htotal;
++
++	/* step 3 */
++	min_line_rate = max_vrate * min_vtotal;
++
++	max_audio_packets_per_line = DIV_ROUND_UP(OVT_AUDIO_PACKET_RATE,
++						  min_line_rate);
++
++	/* step 4 */
++	*min_hblank = OVT_LINE_OVERHEAD + OVT_AUDIO_PACKET_SIZE *
++		max_audio_packets_per_line;
++
++	min_htotal = rid->hactive + max(OVT_MIN_HBLANK_444, *min_hblank);
++
++	min_pixel_clock_rate = max_vrate * min_htotal * min_vtotal;
++
++	htotal_granularity_chunk =
++		roundup_pow_of_two(DIV64_U64_ROUND_UP(min_pixel_clock_rate,
++						      OVT_MAX_CHUNK_RATE));
++
++	*htotal_granularity = max(OVT_MIN_HTOTAL_GRANULARITY,
++				  htotal_granularity_chunk);
++
++	if (min_htotal % *htotal_granularity)
++		min_htotal += *htotal_granularity - (min_htotal %
++						     *htotal_granularity);
++
++	return min_htotal;
++}
++
++static u64 calculate_ovt_pixel_clock_rate(const struct cta_rid *rid,
++					  const u32 max_vrate,
++					  const u32 min_hblank,
++					  u32 min_htotal,
++					  u32 min_vtotal,
++					  const u32 htotal_granularity,
++					  const u32 vtotal_granularity,
++					  u32 *htotal, u32 *vtotal)
++{
++	u32 resolution_granularity;
++	u64 pixel_clock_rate;
++	u64 min_resolution;
++	u64 rem;
++	u32 h;
++	u64 r;
++	u32 v;
++
++	resolution_granularity = OVT_PIXEL_CLOCK_GRANULARITY /
++		gcd(OVT_PIXEL_CLOCK_GRANULARITY, max_vrate);
++
++	do {
++		/* step 5 */
++		min_resolution = 0;
++		v = min_vtotal;
++
++		goto loop_end;
++
++		while (!min_resolution || r <= min_resolution) {
++			goto inner_loop_end;
++
++			while (rem || div64_u64(max_vrate * r, (h & ~(h - 1))) >
++			       OVT_MAX_CHUNK_RATE) {
++				h += htotal_granularity;
++				r = (u64)h * (u64)v;
++inner_loop_end:
++				div64_u64_rem(r, resolution_granularity, &rem);
++			}
++
++			if (!min_resolution || r < min_resolution) {
++				*htotal = h;
++				*vtotal = v;
++				min_resolution = r;
++			}
++
++			v += vtotal_granularity;
++
++loop_end:
++			h = min_htotal;
++			r = (u64)h * (u64)v;
++		}
++
++		pixel_clock_rate = max_vrate * min_resolution;
++
++		/* step 6 */
++		min_htotal = rid->hactive + max(OVT_MIN_HBLANK_420,
++						OVT_PIXEL_FACTOR_420 *
++						min_hblank);
++
++	} while (pixel_clock_rate >= OVT_MIN_CLOCK_RATE_420 &&
++		 *htotal < min_htotal);
++
++	return pixel_clock_rate;
++}
++
++static const struct cta_rid *find_rid(u8 rid)
++{
++	if (!rid || rid >= ARRAY_SIZE(rids))
++		return NULL;
++
++	return &rids[rid];
++}
++
++/* OVT Algorthim as specified in CTA-861-I */
++struct drm_display_mode *drm_ovt_mode(struct drm_device *dev, int r_id,
++				      int vrefresh)
++{
++	const struct cta_rid *rid = find_rid(r_id);
++	struct drm_display_mode *mode;
++	u32 vtotal_granularity = 1;
++	u32 htotal_granularity;
++	u32 max_vrate = vrefresh;
++	u64 pixel_clock_rate;
++	u32 vsync_position;
++	u32 min_hblank;
++	u32 min_htotal;
++	u32 min_vtotal;
++	u32 htotal;
++	u32 vtotal;
++
++	if (!rid)
++		return NULL;
++
++	/* step 1 */
++	switch (vrefresh) {
++	case 24:
++	case 25:
++		max_vrate = 30;
++		fallthrough;
++	case 30:
++		vtotal_granularity = 20;
++		break;
++	case 48:
++	case 50:
++		max_vrate = 60;
++		fallthrough;
++	case 60:
++		vtotal_granularity = 20;
++		break;
++	case 100:
++		max_vrate = 120;
++		fallthrough;
++	case 120:
++		vtotal_granularity = 5;
++		break;
++	case 200:
++		max_vrate = 240;
++		fallthrough;
++	case 240:
++		vtotal_granularity = 5;
++		break;
++	case 300:
++		max_vrate = 360;
++		fallthrough;
++	case 360:
++		vtotal_granularity = 5;
++		break;
++	case 400:
++		max_vrate = 480;
++		fallthrough;
++	case 480:
++		vtotal_granularity = 5;
++		break;
++	}
++
++	min_vtotal = calculate_ovt_min_vtotal(rid, max_vrate,
++					      vtotal_granularity);
++
++	min_htotal = calculate_ovt_min_htotal(rid, max_vrate, min_vtotal,
++					      &min_hblank, &htotal_granularity);
++
++	pixel_clock_rate = calculate_ovt_pixel_clock_rate(rid, max_vrate,
++							  min_hblank,
++							  min_htotal,
++							  min_vtotal,
++							  htotal_granularity,
++							  vtotal_granularity,
++							  &htotal, &vtotal);
++
++	/* step 7 */
++	vtotal = vtotal * max_vrate / (u32)vrefresh;
++
++	/* step 8 */
++	vsync_position = max(OVT_MIN_VSYNC_LE_LINES,
++			     DIV64_U64_ROUND_UP((u64)OVT_MIN_VSYNC_LE_LINES *
++						pixel_clock_rate,
++						(u64)htotal * (u64)1000000));
++
++	mode = drm_mode_create(dev);
++
++	if (!mode)
++		return NULL;
++
++	/* step 10 */
++	mode->clock = div_u64(pixel_clock_rate, 1000);
++	mode->hdisplay = rid->hactive;
++	mode->hsync_start = htotal - OVT_HSYNC_WIDTH * 2;
++	mode->hsync_end = mode->hsync_start + OVT_HSYNC_WIDTH;
++	mode->htotal = htotal;
++
++	mode->vdisplay = rid->vactive;
++	mode->vsync_start = vtotal - vsync_position;
++	mode->vsync_end = mode->vsync_start + OVT_VSYNC_WIDTH;
++	mode->vtotal = vtotal;
++
++	return mode;
++}
++
++static u8 find_vic(u8 rid, int rate_idx)
++{
++	if (video_format_frame_rates[rate_idx] > 120 || !find_rid(rid))
++		return 0;
++
++	return rid_to_vic[rid][rate_idx - 1];
++}
++
++/* CTA-861 Video Format Data Block (CTA VFDB) */
++static int add_modes_from_vfdb(struct drm_connector *connector,
++			       const struct cea_db *db)
++{
++	const struct drm_display_info *info = &connector->display_info;
++	int vfdb_len = cea_db_payload_len(db);
++	struct drm_display_mode *mode;
++	struct cta_vfd vfd;
++	int num_modes = 0;
++	int rate_idx;
++	int vfd_len;
++	int rate;
++	int i;
++
++	if (!vfdb_len)
++		return 0;
++
++	vfd_len = (db->data[0] & 0x3);
++
++	if (!vfd_len)
++		return 0;
++
++	vfd_len++;
++	vfdb_len--;
++	vfdb_len -= (vfdb_len % vfd_len);
++
++	for (i = 0; i < vfdb_len; i += vfd_len) {
++		parse_cta_vfd(&vfd, &db->data[i + 1], vfd_len);
++
++		for (rate_idx = 1; rate_idx <
++		     ARRAY_SIZE(video_format_frame_rates); rate_idx++) {
++			rate = video_format_frame_rates[rate_idx];
++
++			if (!vfd_has_fr(&vfd, rate) || find_vic(vfd.rid,
++								rate_idx))
++				continue;
++
++			mode = drm_ovt_mode(connector->dev, vfd.rid, rate);
++
++			if (!mode)
++				continue;
++
++			mode->height_mm = info->height_mm;
++			mode->width_mm = info->width_mm;
++
++			drm_mode_probed_add(connector, mode);
++			num_modes++;
++		}
++	}
++
++	return num_modes;
++}
++
+ /*
+  * CTA-861 YCbCr 4:2:0 Capability Map Data Block (CTA Y420CMDB)
+  *
+@@ -5318,6 +5781,8 @@ static int add_cea_modes(struct drm_connector *connector,
+ 			/* Add 4:2:0(only) modes present in EDID */
+ 			modes += do_y420vdb_modes(connector, vdb420,
+ 						  cea_db_payload_len(db) - 1);
++		} else if (cea_db_tag(db) == CTA_DB_VIDEO_FORMAT) {
++			modes += add_modes_from_vfdb(connector, db);
+ 		}
+ 	}
+ 	cea_db_iter_end(&iter);
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index eaac5e665892..78831207ec65 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -450,6 +450,9 @@ struct drm_display_mode *
+ drm_display_mode_from_cea_vic(struct drm_device *dev,
+ 			      u8 video_code);
+ 
++struct drm_display_mode *drm_ovt_mode(struct drm_device *dev, int rid,
++				      int vrefresh);
++
+ /* Interface based on struct drm_edid */
+ const struct drm_edid *drm_edid_alloc(const void *edid, size_t size);
+ const struct drm_edid *drm_edid_dup(const struct drm_edid *drm_edid);
+-- 
+2.46.1
 
