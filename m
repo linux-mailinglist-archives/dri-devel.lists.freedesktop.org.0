@@ -2,66 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9189BF315
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 17:19:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A679E9BF336
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 17:28:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8330710E2E8;
-	Wed,  6 Nov 2024 16:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A00210E71C;
+	Wed,  6 Nov 2024 16:28:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NkZnLSUR";
+	dkim=pass (1024-bit key; secure) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="cU5QPBMw";
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="cU5QPBMw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B42C10E2E8
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 16:19:25 +0000 (UTC)
+X-Greylist: delayed 407 seconds by postgrey-1.36 at gabe;
+ Wed, 06 Nov 2024 16:28:40 UTC
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com
+ [96.44.175.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8EA810E71C;
+ Wed,  6 Nov 2024 16:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730909965; x=1762445965;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=syEZ0PUhB/s8AY7uLWeu+hDKYqIIr8eprxynDeL1Ahk=;
- b=NkZnLSURELpI5T5F2U3cjvblm2FSMoGhqPwwK/Yl8hGsbjXQwtNCawbt
- n7sd3XI/CEJS5jZfJzKimMi6ZX2JDW0bnCvnUh/kjf+DW3DqpW+STAifw
- oHP3kPjdMF+q2zVDNbC/8Qpeg4Nz+OishY5s7o1z052nR+yCR1uzbHEY5
- zJjdwSQlLsjm6MbcGqjlxLc35LkS9PhgJw6xG6xE3y0NTdo8v2uldrHa2
- P2Pjxb1xkYbsBfXXQKV/DsXNoH0PQ0oopyZI5kde9M/YAX0toXCwYvV4P
- rcro7OdrA9VN73iOr+DlDQMrnnzQaYn33xQskgE6avpsruRa2rlTIYoQd A==;
-X-CSE-ConnectionGUID: 2kdGi6EITxu27NcOgtcD3w==
-X-CSE-MsgGUID: kmED28sLQMSznpRr/VLyhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30934263"
-X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; d="scan'208";a="30934263"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2024 08:19:24 -0800
-X-CSE-ConnectionGUID: lhPZUfgZRP+LsZXDQg+Ong==
-X-CSE-MsgGUID: l2Tmkid3R9mXOwIn9SXByg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; d="scan'208";a="88587679"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by fmviesa003.fm.intel.com with ESMTP; 06 Nov 2024 08:19:22 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t8ika-000p7A-0d;
- Wed, 06 Nov 2024 16:19:20 +0000
-Date: Thu, 7 Nov 2024 00:19:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v2 3/4] drm/mode_object: add
- drm_mode_object_read_refcount()
-Message-ID: <202411070038.tZJzI7NC-lkp@intel.com>
-References: <20241106-drm-small-improvements-v2-3-f6e2aef86719@bootlin.com>
+ d=hansenpartnership.com; s=20151216; t=1730910110;
+ bh=HQshn+aokYOzX2PpyF6fG/q8hoNYMwDs17z7ySDbn+I=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=cU5QPBMw0ZGmjN/yoxh7HPiQzwCj5iIh2GWiCibNLbuDqXnHEbBP++cZJh7NLQfaj
+ 2PUWA5eoBUff5V46dVuBXE95G365AUDvoAZnZVg5H/qcj9KGyuc98nbud5cU/mVIAv
+ MH/4GJURB9MmQTZvIS+yvvfXyqRGdDcyU1T1aLbQ=
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id 9A9AF1286919;
+ Wed, 06 Nov 2024 11:21:50 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id cgtYq2N-FNZZ; Wed,  6 Nov 2024 11:21:50 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1730910110;
+ bh=HQshn+aokYOzX2PpyF6fG/q8hoNYMwDs17z7ySDbn+I=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=cU5QPBMw0ZGmjN/yoxh7HPiQzwCj5iIh2GWiCibNLbuDqXnHEbBP++cZJh7NLQfaj
+ 2PUWA5eoBUff5V46dVuBXE95G365AUDvoAZnZVg5H/qcj9KGyuc98nbud5cU/mVIAv
+ MH/4GJURB9MmQTZvIS+yvvfXyqRGdDcyU1T1aLbQ=
+Received: from lingrow.int.hansenpartnership.com (unknown
+ [IPv6:2601:5c4:4302:c21::a774])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (Client did not present a certificate)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id EE24A1286912;
+ Wed, 06 Nov 2024 11:21:46 -0500 (EST)
+Message-ID: <9e9e54cdd4905b58470f674aefcfd4dabca4108d.camel@HansenPartnership.com>
+Subject: Re: [PATCH 6.6 00/28] fix CVE-2024-46701
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Chuck Lever III <chuck.lever@oracle.com>, Yu Kuai <yukuai1@huaweicloud.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-stable
+ <stable@vger.kernel.org>,  "harry.wentland@amd.com"
+ <harry.wentland@amd.com>, "sunpeng.li@amd.com" <sunpeng.li@amd.com>, 
+ "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "Xinhui.Pan@amd.com"
+ <Xinhui.Pan@amd.com>,  "airlied@gmail.com" <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Al Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, Liam Howlett <liam.howlett@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Sasha Levin
+ <sashal@kernel.org>, "srinivasan.shanmugam@amd.com"
+ <srinivasan.shanmugam@amd.com>, "chiahsuan.chung@amd.com"
+ <chiahsuan.chung@amd.com>, "mingo@kernel.org" <mingo@kernel.org>, 
+ "mgorman@techsingularity.net" <mgorman@techsingularity.net>,
+ "yukuai3@huawei.com" <yukuai3@huawei.com>,  "chengming.zhou@linux.dev"
+ <chengming.zhou@linux.dev>, "zhangpeng.00@bytedance.com"
+ <zhangpeng.00@bytedance.com>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux FS Devel
+ <linux-fsdevel@vger.kernel.org>,  "maple-tree@lists.infradead.org"
+ <maple-tree@lists.infradead.org>, linux-mm <linux-mm@kvack.org>, 
+ "yi.zhang@huawei.com" <yi.zhang@huawei.com>, yangerkun
+ <yangerkun@huawei.com>
+Date: Wed, 06 Nov 2024 11:21:45 -0500
+In-Reply-To: <7AB98056-93CC-4DE5-AD42-49BA582D3BEF@oracle.com>
+References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
+ <2024110625-earwig-deport-d050@gregkh>
+ <7AB98056-93CC-4DE5-AD42-49BA582D3BEF@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241106-drm-small-improvements-v2-3-f6e2aef86719@bootlin.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,54 +99,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Luca,
+On Wed, 2024-11-06 at 15:19 +0000, Chuck Lever III wrote:
+> This is the first I've heard of this CVE. It
+> would help if the patch authors got some
+> notification when these are filed.
 
-kernel test robot noticed the following build warnings:
+Greg did it; it came from the kernel CNA:
 
-[auto build test WARNING on 42f7652d3eb527d03665b09edac47f85fb600924]
+https://www.cve.org/CVERecord?id=CVE-2024-46701
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-drm_mode_object-fix-typo-in-kerneldoc/20241106-185032
-base:   42f7652d3eb527d03665b09edac47f85fb600924
-patch link:    https://lore.kernel.org/r/20241106-drm-small-improvements-v2-3-f6e2aef86719%40bootlin.com
-patch subject: [PATCH v2 3/4] drm/mode_object: add drm_mode_object_read_refcount()
-config: arc-randconfig-002-20241106 (https://download.01.org/0day-ci/archive/20241107/202411070038.tZJzI7NC-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070038.tZJzI7NC-lkp@intel.com/reproduce)
+The way it seems to work is that this is simply a wrapper for the
+upstream commit:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070038.tZJzI7NC-lkp@intel.com/
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=64a7ce76fb901bf9f9c36cf5d681328fc0fd4b5a
 
-All warnings (new ones prefixed by >>):
+Which is what appears as the last stable reference.  I assume someone
+investigated and added the vulnerable kernel details.  I think the
+theory is that since you reviewed the original upstream patch, stable
+just takes care of the backports and CVE management of the existing fix
+through the normal stable process.
 
->> drivers/gpu/drm/drm_mode_object.c:228: warning: expecting prototype for drm_mode_object_get(). Prototype was for drm_mode_object_read_refcount() instead
+James
+ 
 
 
-vim +228 drivers/gpu/drm/drm_mode_object.c
-
-   219	
-   220	/**
-   221	 * drm_mode_object_get - read the refcount for a mode object
-   222	 * @obj: DRM mode object
-   223	 *
-   224	 * This function returns the current object's refcount if it is a
-   225	 * refcounted modeset object, or 0 on any other object.
-   226	 */
-   227	unsigned int drm_mode_object_read_refcount(struct drm_mode_object *obj)
- > 228	{
-   229		unsigned int refcount = 0;
-   230	
-   231		if (obj->free_cb) {
-   232			refcount = kref_read(&obj->refcount);
-   233			DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, refcount);
-   234		}
-   235	
-   236		return refcount;
-   237	}
-   238	EXPORT_SYMBOL(drm_mode_object_read_refcount);
-   239	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
