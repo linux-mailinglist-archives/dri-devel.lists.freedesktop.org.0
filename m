@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A429BDC13
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 03:14:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE4A9BDC1D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 03:14:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C36C10E655;
-	Wed,  6 Nov 2024 02:14:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D611210E654;
+	Wed,  6 Nov 2024 02:14:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Glcx+26Q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DyyoZYPF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2300110E10D;
- Wed,  6 Nov 2024 02:14:03 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06FC010E654;
+ Wed,  6 Nov 2024 02:14:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9C84B5C555F;
- Wed,  6 Nov 2024 02:13:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 778D8C4CECF;
- Wed,  6 Nov 2024 02:14:00 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 23895A416F5;
+ Wed,  6 Nov 2024 02:12:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2516DC4CECF;
+ Wed,  6 Nov 2024 02:14:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730859242;
- bh=lt2e53x7UCaknYkAXfYKlIS0XVF7B2k7G2eBtcFbApg=;
+ s=k20201202; t=1730859290;
+ bh=P2id+Gw2WOcfKdVpLPLdbz2/z6zU4UVmt7vCNRcdu5Y=;
  h=From:To:Cc:Subject:Date:From;
- b=Glcx+26QiZJhSsdy/HWhoT3qyBsnfuzbcaEJwRfi/rXZLx1qX31GoDtrhV151k/C3
- F2WirVBAewdvz+104fwaNlmC6U5oYb86RyYXKFu4cyxzFNb9N6qhrFC+19f7Bs2jEF
- XUKNf6pZY5tzRU3fcr8i5fjylUYCddjw+YnPQ07N0oS4dmc6Wmb5e5rN+PUfe22fTH
- xNgVhfAtxJ09hJUk4XVD3g2I1N8HzP51OBIeJr5UsZTBs2f4r2b6MydAFJVJ3ymNSt
- KdsPsQUlHyrJnym/JQsi8N0U335E6J4DHKrSRqPRfTnNkw5JRtIm6K9yNZkk/Moigm
- iXbluSbetCUKA==
+ b=DyyoZYPFweVzH6gYO49j2bHiLQ6miHraSUZuy85KXX5UsELMxHMEpbh2pNJZTqnsD
+ qV05dIosfL2kPNELivTElKdt5LfYq9l/Z75beFOPfIGRQyPvO3tK1OfEqoxd5Gn3o+
+ 9vQAi+LimbM5qaXMO6qRKRjsVVDblb7d1D+6v2a8AihEqyAOctHuoXZCAxmAX7T5sK
+ 8i3mVq4DRI+Uiaeu8ATetpIUh3I9zujyhAB7lBvOJt0JOqBIGNS5rtTA6emHT/KVaV
+ EXpPxbBrzcKrhtc819Yt2BvwSU3u2FG6VRxe+YJdVLQOzmIDEr6AqogM1xc6CWcYxP
+ Ret+wrakWr81Q==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	Ovidiu.Bunea@amd.com
@@ -41,9 +41,9 @@ Cc: Mario Limonciello <mario.limonciello@amd.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Subject: FAILED: Patch "Revert "drm/amd/display: update DML2 policy
  EnhancedPrefetchScheduleAccelerationFinal DCN35"" failed to apply to
- v5.4-stable tree
-Date: Tue,  5 Nov 2024 21:13:58 -0500
-Message-ID: <20241106021358.183962-1-sashal@kernel.org>
+ v4.19-stable tree
+Date: Tue,  5 Nov 2024 21:14:47 -0500
+Message-ID: <20241106021447.184517-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -64,7 +64,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The patch below does not apply to the v5.4-stable tree.
+The patch below does not apply to the v4.19-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
