@@ -2,72 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A5D9BDB56
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 02:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306149BDB5D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 02:44:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE44D10E61C;
-	Wed,  6 Nov 2024 01:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A24D310E631;
+	Wed,  6 Nov 2024 01:44:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iuWhsnH9";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="JuOMeicq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com
- [209.85.161.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62C5D10E61C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 01:43:53 +0000 (UTC)
-Received: by mail-oo1-f52.google.com with SMTP id
- 006d021491bc7-5ebc22e6362so2890866eaf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2024 17:43:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730857432; x=1731462232; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yG8jv53AK8R/U67YhXnDA52uUNbJU2dyWkTr6UcdFfc=;
- b=iuWhsnH9jQrqV9IA2Z/dX2tsyLqRJZuFmzPzamNvqTzKx2s+7L/BjFYmziGpZxBjG/
- v+E9JzM+lChYVwSz6iGo5QvlgOiw5RbX6E2Uir3/b2FkAfGIuN/u0QdBzPHozeJMTaCv
- k7LHUiO4mkfP2edwoOT6V6ZuKl85AWmH5nuhtJgi3jqmGaYrb1mUbC0eByz/TYV/BH7N
- QvLBtaPDmW1Hen8BtrWMkmQGhk7TUBiY10lPOQQBTXUALnE9L2qakGwg+wAO+4xlfHNQ
- MMmRDunoK8vs9yocWusP5HhPVJHmlWouTU6eJ3V5TTDfZbbCJN0e4RXSWwV3uVNVM2pB
- VmWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730857432; x=1731462232;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yG8jv53AK8R/U67YhXnDA52uUNbJU2dyWkTr6UcdFfc=;
- b=sOdBOQqz8b6rWHOnI4EjDQmkqIluX7UDoYVmUmQ/yOijp/H+XFUVEqGPihxS2Bo3M5
- vRK+YV7zM+zeVACV+YC3OROsskYsejls06UfyTnaCIbQazeQLzvPIt/nW2NHVLDLySle
- QTUQdBrCutsqa59enGPr8WKno1vlwVIdX23oAClVUOfvGbstEa6823soKsWFaU6J03oZ
- p80ELIJ7OeTfOkDMNwOXCu5WcGKlp7MnqUPCzBrBWkK0Isww2JRO7lNoN8bT1/am0z7w
- nAti9cggKy1IIHwy1QQ1pTULJ2/4OjRNWjD2mmKZcUKMqiT2yrEGgj/1NDpIIH8zS8zr
- zNzg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVO7g1o8dK4haaEOwnUqxdpxA+L64AatOHeZwOgGoJ8x4+CRaohLJ0Chk/beW4J7+r8KsDDaux+Zso=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4e2Ulmk3eBYr7CtMWpwVoLgh5NnIgsciUENF/jVUP8nOInNbq
- Gvn7Cn8C1OTvFMrvsaXOQDHPCRdwdKmh56w7DUbhZJJ+3cbFDxrlpgMOJua9vmEdjmQt51hGeaz
- ThQKiTHm+AULrjA2ctCNy3ds1Fzg=
-X-Google-Smtp-Source: AGHT+IGBX3Qy0gHZbnfJ0dlUVj0oxLkQ5CnPrtCzD5a9SjWi3pAZZoeCgbcmbNYrXWtedzQhhj/81NXNGq119DaHhqs=
-X-Received: by 2002:a05:6820:2018:b0:5ee:74:4d35 with SMTP id
- 006d021491bc7-5ee007458d2mr8109318eaf.2.1730857432411; Tue, 05 Nov 2024
- 17:43:52 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23EA710E11C;
+ Wed,  6 Nov 2024 01:44:44 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5KIMJG004966;
+ Wed, 6 Nov 2024 01:44:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Z5Jv3Ed7XXZHWZLDW8oApx97KGEiepVHnuihRZtI6kc=; b=JuOMeicqNpZNNLSM
+ OwHF7tOGhhAwjHpPAZoHNm0IxF/4bzXD/afmF+nlPSD/E8vPG301kkhygiE3KonO
+ Qc5TyF76Lj+EopSwZxDv2uy3th4kiWSFai2BsYuY49if8wYGX1JYCOLJqclBNq6m
+ yJEi0YW76p/qHDDKukczulbOC8Lg/Qs+2jo1lsbk3JjlXq7b1Mf6tmZCaVS+leZ/
+ lijzurCdo4NKH0r9X12rUKgZ6zp+94bCVMyPmFI2HkEXbdGUuKpVZjrRXGRz2h0C
+ K4A921tIlp9MvUuvtPINsHOC1GSnVyyU9614RwxfKQovlKCWmXlmzsuDjewJfDPq
+ qo7cww==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42ndc71hyv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 06 Nov 2024 01:44:38 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A61ibAW017863
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 6 Nov 2024 01:44:37 GMT
+Received: from [10.216.20.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 5 Nov 2024
+ 17:44:30 -0800
+Message-ID: <43404449-1830-4651-a85a-54404b1d35bc@quicinc.com>
+Date: Wed, 6 Nov 2024 07:14:27 +0530
 MIME-Version: 1.0
-References: <20241105-coverity1511468wrongoperator-v1-1-06c7513c3efc@gmail.com>
-In-Reply-To: <20241105-coverity1511468wrongoperator-v1-1-06c7513c3efc@gmail.com>
-From: Chunyan Zhang <zhang.lyra@gmail.com>
-Date: Wed, 6 Nov 2024 09:43:16 +0800
-Message-ID: <CAAfSe-tDhxVQuEpxvCWy7sh122CujdQT_Kq5O6VQ3wFNRn40_w@mail.gmail.com>
-Subject: Re: [PATCH] drm:sprd: Correct left shift operator evaluating constant
- expression
-To: Karan Sanghavi <karansanghvi98@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Shuah Khan <skhan@linuxfoundation.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 1/3] drm/msm/adreno: Add support for ACD
+To: <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Viresh Kumar
+ <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
+ <andersson@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
+ <20241012-gpu-acd-v1-1-1e5e91aa95b6@quicinc.com>
+ <4aeec9f1-720b-400c-9582-d02847db2ac7@linaro.org>
+Content-Language: en-US
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <4aeec9f1-720b-400c-9582-d02847db2ac7@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Na1zWvxix9JPntdFw7-EW3kC17gUUl4y
+X-Proofpoint-GUID: Na1zWvxix9JPntdFw7-EW3kC17gUUl4y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=999 adultscore=0 clxscore=1015 mlxscore=0
+ phishscore=0 impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411060012
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,56 +101,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Karan,
+On 11/4/2024 9:14 PM, neil.armstrong@linaro.org wrote:
+> On 11/10/2024 22:29, Akhil P Oommen wrote:
+>> ACD a.k.a Adaptive Clock Distribution is a feature which helps to reduce
+>> the power consumption. In some chipsets, it is also a requirement to
+>> support higher GPU frequencies. This patch adds support for GPU ACD by
+>> sending necessary data to GMU and AOSS. The feature support for the
+>> chipset is detected based on devicetree data.
+>>
+>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 81 +++++++++++++++++++++++++
+>> +++-------
+>>   drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  1 +
+>>   drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 36 ++++++++++++++++
+>>   drivers/gpu/drm/msm/adreno/a6xx_hfi.h | 21 +++++++++
+>>   4 files changed, 124 insertions(+), 15 deletions(-)
+>>
+> 
+> <snip>
+> 
+>> +
+>> +static int a6xx_hfi_enable_acd(struct a6xx_gmu *gmu)
+>> +{
+>> +    struct a6xx_hfi_acd_table *acd_table = &gmu->acd_table;
+>> +    struct a6xx_hfi_msg_feature_ctrl msg = {
+>> +        .feature = HFI_FEATURE_ACD,
+>> +        .enable = 1,
+>> +        .data = 0,
+>> +    };
+>> +    int ret;
+>> +
+>> +    if (!acd_table->enable_by_level)
+>> +        return 0;
+>> +
+>> +    /* Enable ACD feature at GMU */
+>> +    ret = a6xx_hfi_send_msg(gmu, HFI_H2F_FEATURE_CTRL, &msg,
+>> sizeof(msg), NULL, 0);
+>> +    if (ret) {
+>> +        DRM_DEV_ERROR(gmu->dev, "Unable to enable ACD (%d)\n", ret);
+>> +        return ret;
+>> +    }
+>> +
+>> +    /* Send ACD table to GMU */
+>> +    ret = a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_ACD, &msg, sizeof(msg),
+>> NULL, 0);
+> 
+> This looks wrong, in this exact code, you never use the acd_table...
+> perhaps it should be acd_table here
 
-On Wed, 6 Nov 2024 at 02:19, Karan Sanghavi <karansanghvi98@gmail.com> wrote:
->
-> The left shift operation followed by a mask with 0xf will
-> always result in 0. To correctly evaluate the expression for
-> the bitwise OR operation, use a right shift instead.
->
-> Reported by Coverity Scan CID: 1511468
+Whoops! Weirdly gmu didn't explode when I tested.
 
-Should we add a fixes tag, so that the patch can be backported to the
-stable branches.
+Thanks for your keen eye.
 
-Apart from that, the patch looks good to me, so,
+-Akhil.
 
-Reviewed-by: Chunyan Zhang <zhang.lyra@gmail.com>
+> 
+>> +    if (ret) {
+>> +        DRM_DEV_ERROR(gmu->dev, "Unable to ACD table (%d)\n", ret);
+>> +        return ret;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   static int a6xx_hfi_send_test(struct a6xx_gmu *gmu)
+>>   {
+>>       struct a6xx_hfi_msg_test msg = { 0 };
+>> @@ -756,6 +788,10 @@ int a6xx_hfi_start(struct a6xx_gmu *gmu, int
+>> boot_state)
+>>       if (ret)
+>>           return ret;
+>>   +    ret = a6xx_hfi_enable_acd(gmu);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>>       ret = a6xx_hfi_send_core_fw_start(gmu);
+>>       if (ret)
+>>           return ret;
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h b/drivers/gpu/drm/
+>> msm/adreno/a6xx_hfi.h
+>> index 528110169398..51864c8ad0e6 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
+>> @@ -151,12 +151,33 @@ struct a6xx_hfi_msg_test {
+>>       u32 header;
+>>   };
+>>   +#define HFI_H2F_MSG_ACD 7
+>> +#define MAX_ACD_STRIDE 2
+>> +
+>> +struct a6xx_hfi_acd_table {
+>> +    u32 header;
+>> +    u32 version;
+>> +    u32 enable_by_level;
+>> +    u32 stride;
+>> +    u32 num_levels;
+>> +    u32 data[16 * MAX_ACD_STRIDE];
+>> +};
+>> +
+>>   #define HFI_H2F_MSG_START 10
+>>     struct a6xx_hfi_msg_start {
+>>       u32 header;
+>>   };
+>>   +#define HFI_H2F_FEATURE_CTRL 11
+>> +
+>> +struct a6xx_hfi_msg_feature_ctrl {
+>> +    u32 header;
+>> +    u32 feature;
+>> +    u32 enable;
+>> +    u32 data;
+>> +};
+>> +
+>>   #define HFI_H2F_MSG_CORE_FW_START 14
+>>     struct a6xx_hfi_msg_core_fw_start {
+>>
+> 
+> Thanks,
+> Neil
 
-Thanks,
-Chunyan
-
->
-> Signed-off-by: Karan Sanghavi <karansanghvi98@gmail.com>
-> ---
-> Coverity Scan Message:
-> CID 1511468: (#1 of 1): Wrong operator used (CONSTANT_EXPRESSION_RESULT)
-> operator_confusion: (pll->kint << 4) & 15 is always 0 regardless of the
-> values of its operands. This occurs as the bitwise second operand of "|"
-> ---
->  drivers/gpu/drm/sprd/megacores_pll.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/sprd/megacores_pll.c b/drivers/gpu/drm/sprd/megacores_pll.c
-> index 3091dfdc11e3..43c10a5fc441 100644
-> --- a/drivers/gpu/drm/sprd/megacores_pll.c
-> +++ b/drivers/gpu/drm/sprd/megacores_pll.c
-> @@ -94,7 +94,7 @@ static void dphy_set_pll_reg(struct dphy_pll *pll, struct regmap *regmap)
->         reg_val[3] = pll->vco_band | (pll->sdm_en << 1) | (pll->refin << 2);
->         reg_val[4] = pll->kint >> 12;
->         reg_val[5] = pll->kint >> 4;
-> -       reg_val[6] = pll->out_sel | ((pll->kint << 4) & 0xf);
-> +       reg_val[6] = pll->out_sel | ((pll->kint >> 4) & 0xf);
->         reg_val[7] = 1 << 4;
->         reg_val[8] = pll->det_delay;
->
->
-> ---
-> base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
-> change-id: 20241105-coverity1511468wrongoperator-20130bcd4240
->
-> Best regards,
-> --
-> Karan Sanghavi <karansanghvi98@gmail.com>
->
