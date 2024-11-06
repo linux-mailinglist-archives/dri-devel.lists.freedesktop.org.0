@@ -2,70 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48CB69BDB36
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 02:31:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A11F9BDB39
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2024 02:31:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B30A10E15A;
-	Wed,  6 Nov 2024 01:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 972E710E184;
+	Wed,  6 Nov 2024 01:31:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ONtD99Gr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Kt7FwDct";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41D5510E15A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 01:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730856660; x=1762392660;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=w4uRAgM8xbGcWtcxv849nFQ4mF6NuoUMjhUqN7BpOZE=;
- b=ONtD99GrBf25+rM34KqHUwiiwURJm/oah1vLGcWaIc5uQ35/pb8qi8bk
- m32DKNOLqFNO0G1UE38es+/jeRiiG2FSdhTn5QJ20y4RaariVeN/uBFcu
- 7GNO9SJPGq1kHva5k2UKCo0MNlysf+CTJDpdPM83y8ZogbMGBY8ifnqFJ
- B6VZm7Y0cZBH2l62hclJA8GycLUGFIxUaeBauGxOXBWX4bGs9/w21FEdB
- xq9wwsQpqByCrRLpItYG9tyL0vDW4gQeHdQL0fyDl+BJCl8Yx8vruioCa
- uCkzhgp8GU9o3bUvocDy/Vxd6UMKOoKf3GnSUbEkGe9oet0J+NEaGaHgk w==;
-X-CSE-ConnectionGUID: xEV6TWMlRuKgQyreIpfo/g==
-X-CSE-MsgGUID: Mj7M2x3FRJaspUDd5O4y7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53201958"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="53201958"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2024 17:30:59 -0800
-X-CSE-ConnectionGUID: 4L7Ct1tFSgaMWkNvEsRxBQ==
-X-CSE-MsgGUID: +Z+xLsTLRoWY1bWMap8SKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; d="scan'208";a="84347612"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by orviesa006.jf.intel.com with ESMTP; 05 Nov 2024 17:30:55 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t8Usn-000mhP-1q;
- Wed, 06 Nov 2024 01:30:53 +0000
-Date: Wed, 6 Nov 2024 09:30:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
- Petr Mladek <pmladek@suse.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v6 2/6] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-Message-ID: <202411060951.mK9Fi0fi-lkp@intel.com>
-References: <20241105125109.226866-3-jfalempe@redhat.com>
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+ [209.85.166.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C42810E184
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2024 01:31:41 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id
+ e9e14a558f8ab-3a6ababa9f7so20097055ab.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2024 17:31:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1730856700; x=1731461500; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1ZEdQ5A4rc3P9ZMICWLA+PiCJDpmRtuPvoqRfEkgQC0=;
+ b=Kt7FwDctJe2ZloKkjlLoJ4aMPnH6Aqu/6EgABJ2Wc3Oi30vVAiOp/1cORfqPOPcsfN
+ v0EZ4B1C4gGnEkG1yV1C5uRdknfGfC+sQMnbHUfyt4XOv39L6Z7cDU8p3F8XhLh6Mfdh
+ rVuv37aegeIfXnaJgtjOfJJnWbEBRpEKLfCFQHXb5LXosWWQjXvnVbCcSGIxCVkO5o+5
+ Yq0QMHGqIXNcXS+MCyOHKTSm0TDTzhw9eUCjKbwmEXq9YpupInTzcYJsjwwMEv6knrPT
+ 85sJyRaQQEUyC2aTEXkrziHDejN4RXRnqPWamMJy+f+IysADTpN7HQssUDRbqNz0xyfK
+ D88A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1730856701; x=1731461501;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1ZEdQ5A4rc3P9ZMICWLA+PiCJDpmRtuPvoqRfEkgQC0=;
+ b=utyQt6wrNbg85LPnIVzepnowUPHcCNI3xhqy/iwDAyjOSKSntl+hMMXxcXYDAtmgzZ
+ +xr4ERlPwhZaLobjy9oCZxCCKS0If43Ob1RgJFyw3wWa2P1js6fNqIarvt3f19zA6PgZ
+ SvK3paZDXJG7P89b1JghCYSSwHeh6FCwBnqhWT3+wznZgEsVtqrwCc+QQD+WKDWKmO3l
+ hXzkUAEUxfwlJaowdxJMr1t2ZL6PhzHRuY1eUdYhSg49c2tERFpszi1XqGcYTQD2m+6C
+ Xz0zXw78/2tcDXXykob5qLaKnfZRRG+Y6ni7mwN2vkqXq/WcZrsRo9kRQ3Uo+Md6eOiC
+ c6AA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW4z3+jMddLPlwvJcmHA0WE1oEMOH9CsgaOuSSCFIfHRZLC/5vAkV8AeaJHH0oRHfEv8pK+QrZDrNw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxttT/CCH6+p5U6QBp25wF/6lMS0tUmuij87RHFeaFyk49ovgnv
+ Zu1Me4E6Q0t7libz5AEEAbZUyu7VDOAPwNTqOgylQRcnHXCn4/Tpap9BQfZSVlIhFesMImYV+eN
+ IoMof/fkIoTXo7wLDcNcKH6d4hE4=
+X-Google-Smtp-Source: AGHT+IEKU8XnaFKdqE7nB8aAs1Qbr/FQljqOuyQsSN6+XX2borSTMs1XTeUygH5VgMPHRf3Wtb671mQbzY159BQ9UUU=
+X-Received: by 2002:a05:6e02:148a:b0:3a6:b37c:6a12 with SMTP id
+ e9e14a558f8ab-3a6b37c6cc2mr189320995ab.7.1730856700682; Tue, 05 Nov 2024
+ 17:31:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241105125109.226866-3-jfalempe@redhat.com>
+References: <20241020224725.179937-1-dmitry.osipenko@collabora.com>
+In-Reply-To: <20241020224725.179937-1-dmitry.osipenko@collabora.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 5 Nov 2024 17:31:28 -0800
+Message-ID: <CAF6AEGs2+gPtqOw=LMwVxNkzWgYc11u0VN3DnQOyQc2MPhsJig@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/virtio: Don't create a context with default param
+ if context_init is supported
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ dri-devel@lists.freedesktop.org, 
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org, 
+ kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,42 +84,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn,
+On Sun, Oct 20, 2024 at 3:49=E2=80=AFPM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
+>
+> From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>
+> Xorg context creation fails for native contexts that use
+> VIRTGPU_CONTEXT_INIT because context is already initialized implicitly
+> when dumb buffer is created. Fix it by not creating default vrend context
+> if context_init is supported.
+>
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd=
+.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-kernel test robot noticed the following build errors:
+Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-[auto build test ERROR on d78f0ee0406803cda8801fd5201746ccf89e5e4a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Move-drawing-functions-to-drm_draw/20241105-205432
-base:   d78f0ee0406803cda8801fd5201746ccf89e5e4a
-patch link:    https://lore.kernel.org/r/20241105125109.226866-3-jfalempe%40redhat.com
-patch subject: [PATCH v6 2/6] drm/log: Introduce a new boot logger to draw the kmsg on the screen
-config: hexagon-randconfig-002-20241106 (https://download.01.org/0day-ci/archive/20241106/202411060951.mK9Fi0fi-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060951.mK9Fi0fi-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060951.mK9Fi0fi-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: drm_client_setup
-   >>> referenced by komeda_drv.c:87 (drivers/gpu/drm/arm/display/komeda/komeda_drv.c:87)
-   >>>               drivers/gpu/drm/arm/display/komeda/komeda_drv.o:(komeda_platform_probe) in archive vmlinux.a
-   >>> referenced by komeda_drv.c:87 (drivers/gpu/drm/arm/display/komeda/komeda_drv.c:87)
-   >>>               drivers/gpu/drm/arm/display/komeda/komeda_drv.o:(komeda_platform_probe) in archive vmlinux.a
-   >>> referenced by vkms_drv.c:230 (drivers/gpu/drm/vkms/vkms_drv.c:230)
-   >>>               drivers/gpu/drm/vkms/vkms_drv.o:(vkms_init) in archive vmlinux.a
-   >>> referenced 23 more times
---
->> ld.lld: error: undefined symbol: drm_client_setup_with_fourcc
-   >>> referenced by arcpgu.c:399 (drivers/gpu/drm/tiny/arcpgu.c:399)
-   >>>               drivers/gpu/drm/tiny/arcpgu.o:(arcpgu_probe) in archive vmlinux.a
-   >>> referenced by arcpgu.c:399 (drivers/gpu/drm/tiny/arcpgu.c:399)
-   >>>               drivers/gpu/drm/tiny/arcpgu.o:(arcpgu_probe) in archive vmlinux.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_gem.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virti=
+o/virtgpu_gem.c
+> index 7db48d17ee3a..67f557e058b4 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> @@ -127,15 +127,17 @@ int virtio_gpu_gem_object_open(struct drm_gem_objec=
+t *obj,
+>         /* the context might still be missing when the first ioctl is
+>          * DRM_IOCTL_MODE_CREATE_DUMB or DRM_IOCTL_PRIME_FD_TO_HANDLE
+>          */
+> -       virtio_gpu_create_context(obj->dev, file);
+> +       if (!vgdev->has_context_init)
+> +               virtio_gpu_create_context(obj->dev, file);
+>
+>         objs =3D virtio_gpu_array_alloc(1);
+>         if (!objs)
+>                 return -ENOMEM;
+>         virtio_gpu_array_add_obj(objs, obj);
+>
+> -       virtio_gpu_cmd_context_attach_resource(vgdev, vfpriv->ctx_id,
+> -                                              objs);
+> +       if (vfpriv->ctx_id)
+> +               virtio_gpu_cmd_context_attach_resource(vgdev, vfpriv->ctx=
+_id, objs);
+> +
+>  out_notify:
+>         virtio_gpu_notify(vgdev);
+>         return 0;
+> --
+> 2.47.0
+>
