@@ -2,94 +2,217 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134A69C090C
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 15:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5969C091C
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 15:42:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD5710E863;
-	Thu,  7 Nov 2024 14:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B8A10E865;
+	Thu,  7 Nov 2024 14:42:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="pZQ12oA0";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="UQXlKhL/";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="nSxvX7dh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6384D10E310;
- Thu,  7 Nov 2024 14:36:21 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A75hrql002118;
- Thu, 7 Nov 2024 14:36:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- z+3wHS3gqApFtMhQvOyrWRXfCH4jhD5FMxIgxyYjq3c=; b=pZQ12oA0yQWZatlq
- gf8DsHhL3z6BoGYBmgVrPBBD3dW26JuFT263GX94ZvdN3oGDivQmEFL5E4a148rR
- SIQ/NznCtP3AWX4Ne8GfDjEi9pC5qWeoIWIHHKFCxjMx7tNuTeh59ijZ/jCmmhcb
- 7F57vI+XY/VLffCVW9xyAZEF0nC9ro5U4XdcpxnhLwa+HsMMygCjk/Bccnd1/O4+
- /OTtdLQpKMUqYjTVeaupa+eI77ISu9sO7KE18nNaFKkXPkgBSdqU9n8t0EAEU26b
- CtS/RF8OIwi5+BX7YR+DkaeBYAF8Y/rUbwYXEuLkMNfXTyG6Bpl63cIY3aQ3gRot
- vPhlfA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42r072n2r0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 07 Nov 2024 14:36:15 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A7EZwUs009870
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 7 Nov 2024 14:35:58 GMT
-Received: from [10.206.104.82] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 7 Nov 2024
- 06:35:52 -0800
-Message-ID: <6e67ae77-a116-422c-a07b-77e991a664ea@quicinc.com>
-Date: Thu, 7 Nov 2024 20:05:49 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 1/3] drm/msm/adreno: Add support for ACD
-To: <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
- <andersson@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
- <20241012-gpu-acd-v1-1-1e5e91aa95b6@quicinc.com>
- <4aeec9f1-720b-400c-9582-d02847db2ac7@linaro.org>
- <43404449-1830-4651-a85a-54404b1d35bc@quicinc.com>
- <56a976d6-7dd6-4001-b6a8-268ed7d787d2@linaro.org>
- <49e1a6b6-683f-4826-b67e-8354a10a785d@quicinc.com>
- <85eaeaca-850d-47d4-b81d-b23f25084d81@linaro.org>
-Content-Language: en-US
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <85eaeaca-850d-47d4-b81d-b23f25084d81@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6D3F10E865;
+ Thu,  7 Nov 2024 14:42:51 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A7DlNCA022889;
+ Thu, 7 Nov 2024 14:42:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=
+ corp-2023-11-20; bh=ayJHAg09b4e8LolXAmxGnynhXat2Q03U4FEkv5xq72Q=; b=
+ UQXlKhL/z/T0bAjmh0BiRdPwoA3MfavyUTC5jplw2sYkZvWa+FCswZ/Pkrc8Z9Ou
+ Llx8us4LlGBMqgMLg2uIP/UOwIA4bLJH+Qg3W68A9VHHXys/u91PH0AKBXA+d3RD
+ +0TcevATh871N8cBsQ+DWgSiU4t3C34MidcNr8ZepaxQMBrR4puH/FO4qj82Oj/V
+ F2IyFiLrNhoS/eNi+plegeP2VOQrMOqHgWhQrAtFc6Gr5vj+0wEfRV0iocbvzlRW
+ 4XVMKSPbxH3XrXQV5X0zl/pQIWd2hB1b6PPcyoWlgqxGrARToKLT6bdVQVqZDis8
+ 93BLuQu6XX6CwlLyPgYY9w==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42nagcan53-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 07 Nov 2024 14:42:07 +0000 (GMT)
+Received: from pps.filterd
+ (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 4A7DpKLv009741; Thu, 7 Nov 2024 14:42:06 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 42nahgdykf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 07 Nov 2024 14:42:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=l7ijI9PfO7rPxsHntAgTvE680c+MLuzI8Ziwjy3oRorlgLRDpI/aU6mUtOAYLt4OaEo6AvvLOB6GciidxeSY1JgtMM2TNOfmursfcspzGBsgO0YCJV6K5O4ZcEUogki1fG+7bDDnOo0G7dss69fDEK49PCIyYjQZtW2nWMYV+L+gCrPB2dAwy4ZfC7SIDPYGxpfFnbtkayPAk0Q/rl3vV8CetnxLGAXQXxd0F8YOAsPBLrOLlpzF/20jjR1GyLDTXcE8zTzGeQHqBBd8RNIQqaxlxXuM8zh0IGRLHpHRmlo42dTEFmv3aMvcwKSM/sZuFi/jdhcylGw9zd1hDbXcRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ayJHAg09b4e8LolXAmxGnynhXat2Q03U4FEkv5xq72Q=;
+ b=JyIBSJp/p2iXR4SDALItaoCcXe5DsvQTT2xjldOH3tyKtZF2YWNAqSFhRSfoK5kSQ+iqd5bploVvprD5yMBQ8TzUHB9WemXK124tr/+JmJX2kq4h/lZDt4S68iyV/YbdntTwdAXEOYhuhUmrn4mZZFL9UHjUCGmGp1lwycB1B4lNTpFsqYQX5fOrwtjYRu2Q9elAy008AEaAUcN24WMRyClqR97TTyytKsq/y9YvQNWcsDvhiRs9osToY4GCXZ5Ae/rVoWlwUo9zRJPrPgj3B+E3SW+FLY+S9SLPH3YbzqxxAiIwYYKUa4mX2rj/iMCgxzJCQbA1DUC8IdSsg8/hUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ayJHAg09b4e8LolXAmxGnynhXat2Q03U4FEkv5xq72Q=;
+ b=nSxvX7dhcPs6j4i+8ucFgcs26XZG1we6G86ogpBdEgGcu75ANY0NiqFJg7inS8rUo5+oS9y9HadYs5Xk3H+GgMo/udMw1Gb2iggn9voDApOZHctRPHuoIIMrAVmsyf7EcVqitSDXxrkEQ6mQPwgsl/Os6WXzhQtk+2sbgxXOYIk=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by CO6PR10MB5791.namprd10.prod.outlook.com (2603:10b6:303:14c::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.20; Thu, 7 Nov
+ 2024 14:41:58 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90%4]) with mapi id 15.20.8137.019; Thu, 7 Nov 2024
+ 14:41:58 +0000
+Date: Thu, 7 Nov 2024 09:41:53 -0500
+From: Chuck Lever <chuck.lever@oracle.com>
+To: Yu Kuai <yukuai1@huaweicloud.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ linux-stable <stable@vger.kernel.org>,
+ "harry.wentland@amd.com" <harry.wentland@amd.com>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Al Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Liam Howlett <liam.howlett@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Sasha Levin <sashal@kernel.org>,
+ "srinivasan.shanmugam@amd.com" <srinivasan.shanmugam@amd.com>,
+ "chiahsuan.chung@amd.com" <chiahsuan.chung@amd.com>,
+ "mingo@kernel.org" <mingo@kernel.org>,
+ "mgorman@techsingularity.net" <mgorman@techsingularity.net>,
+ "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+ "zhangpeng.00@bytedance.com" <zhangpeng.00@bytedance.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+ "maple-tree@lists.infradead.org" <maple-tree@lists.infradead.org>,
+ linux-mm <linux-mm@kvack.org>, "yi.zhang@huawei.com" <yi.zhang@huawei.com>,
+ yangerkun <yangerkun@huawei.com>, "yukuai (C)" <yukuai3@huawei.com>
+Subject: Re: [PATCH 6.6 00/28] fix CVE-2024-46701
+Message-ID: <ZyzRsR9rMQeIaIkM@tissot.1015granger.net>
+References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
+ <2024110625-earwig-deport-d050@gregkh>
+ <7AB98056-93CC-4DE5-AD42-49BA582D3BEF@oracle.com>
+ <8bdd405e-0086-5441-e185-3641446ba49d@huaweicloud.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ifBweuF2nDAoe7kEjNp7oTRinqJqKB89
-X-Proofpoint-GUID: ifBweuF2nDAoe7kEjNp7oTRinqJqKB89
+In-Reply-To: <8bdd405e-0086-5441-e185-3641446ba49d@huaweicloud.com>
+X-ClientProxiedBy: CH2PR19CA0026.namprd19.prod.outlook.com
+ (2603:10b6:610:4d::36) To BN0PR10MB5128.namprd10.prod.outlook.com
+ (2603:10b6:408:117::24)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|CO6PR10MB5791:EE_
+X-MS-Office365-Filtering-Correlation-Id: 597d2635-a94f-4616-7561-08dcff3a54e0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RFlhNWRaVnZYQkdUV2I2SjlBNU1FUUdZWlFDeXZiaW5ybFZENnFzV2lkZU1W?=
+ =?utf-8?B?bi8rb0ZwZVRYYkNieVlWMTlCNjFuRnlraVVqMjBMZ08wcXF6S2RUeHBHYjFw?=
+ =?utf-8?B?cHk2aXYvSTZlYmNhenBxbnZEOXNneVlseDhyOUNaRXNocXozdWplUGdGTXMx?=
+ =?utf-8?B?UEdFM3cvaTZ0UEJlOENTTmlzOGo0eW9YY0djZnR2TEx1V1NxK1lPdTRwUlM3?=
+ =?utf-8?B?dE5HYy9EeEZqa3Y3WmdBWS82WUd3TVUxemF5THg3RSt6TFhSdDJxYUxaS003?=
+ =?utf-8?B?dU9nVGJOZC9mdDdxd3phRHlRWnBJdmZDcS80Q01DNTl0dFQ2aEV4ZnI1a2h1?=
+ =?utf-8?B?TmRZbkN3VnkreUdOTmNzZThnS1NkZ0RzcGR3YUh2MThyYmZUbmp6THY4bytk?=
+ =?utf-8?B?VzljRDl5RFlaR2RJamw1RVpWVTZwQXVTMUt1NE04bTZOQWV0NEhpZTZWRk5T?=
+ =?utf-8?B?WGVEVVZBdnNzQ2NoYTVteGFUZzlOUUkyeFAzdzNncGVtZEt4VVhjN3BQVU9E?=
+ =?utf-8?B?cStSczhTWGFPdTU3R014K3U5Tjd6ajFrdUs4cytObDlkTkc4YjM4eHNYdTVo?=
+ =?utf-8?B?azUxYlVKaHVzUzNJSHJyTEMxS2YrRVk3Qi9waExzNlRWdEJvVURhQ1NpSHBW?=
+ =?utf-8?B?U3FPUHUzVm50NlJUZmJ2SjBwZWNyMnBQczQ1a2JCcmVkb0dLQlpDc3o5cnZS?=
+ =?utf-8?B?bWFBS29jNkdPYVBLdVZ1N0FjT3FzeVRnRVZ1OXNGTksyL1IreWhnVmFobWJj?=
+ =?utf-8?B?NG9xOXo1cGRSSnIwQjljT2ZVdjQxY05mNjlLUVdzWGVwaGZMTUlVUk9TRE1m?=
+ =?utf-8?B?OTJUaFdzNDh4dHlZQWFUNTRvQzhQczUwSGVMYnQ3NXJ4U0ozMnBWeFNDcVRl?=
+ =?utf-8?B?dUJXYXkyQkZkVzdpeUJxTVJaWTNVWGp0b0lYTUxDUjlUWkhzUTZzczhGYXMw?=
+ =?utf-8?B?cjdReDhSeXArUzZ1OWpDTWdxWXBjc3dBdS96VkUyTUNkRmIrNU9rN1lZZVFv?=
+ =?utf-8?B?UlMwcDBVZEc2Q0NGZFp6c0RWU3gvRVZSZHkvQUlZbVRwMEFEdGJIaTJKRk9U?=
+ =?utf-8?B?ZldmM2E4Um93cVB5NEFXUkw5TlhzeS90TFpvRFhiMTlLS3dGaHo0Vm1OZG5p?=
+ =?utf-8?B?RW1Uc0kvMldUNXkwRThMWS9JbHE1UGxTRzlxR2Nyd0Jma3lYbFpLNnhCMi9x?=
+ =?utf-8?B?cHU2NXQzaDlRT0V1K0R6UmU2ei9waXRsVVpaZ1FnejA2Njc3N0xsZG8wN1Qx?=
+ =?utf-8?B?STV4K0k2cDRQU3RiVTM1WlcxVzB1cjRWMWJaZlA2TzlnSkN4OFdINWhiaXpQ?=
+ =?utf-8?B?MDlTZHR3SHNtZS9oYk5tVTh2Q2hIOGd0Y240N3lBazVEMDJBK0VCWTdNSkhw?=
+ =?utf-8?B?QVM1R1RlNTRhOHIvVXJqelY5VXNQSjFJNnN4NjBJVjQ0N3RnUDJqZUhST0hQ?=
+ =?utf-8?B?cUxxb1Qvb3hSKzhualQ5ZjlhR21TclRwa3d2TmR0ZHN1OS9BYWFCOEZwVG96?=
+ =?utf-8?B?VjMvVDVnWkphY1VBUGhhYzdCWXlFb3dlMmhNLys4WkVDamNPYjJ2NDh0VU1O?=
+ =?utf-8?B?Y3FaRkZ2Z3BuT0dPWWJUTVdhbmpTMU5lRmJ1Nm4ydGxlMFI4NVNKQy9MODlS?=
+ =?utf-8?B?b01jTy9nSTZzclNzSTBlZ2JjQjVmdzVzOHcvQkE0RjhqUkpTcTF5Q29ORmkx?=
+ =?utf-8?B?WENURmN1bncrOVJKZ1RsNnFBUndSOFF4RlJtOTNIUEZaWHlweVZXQUV1QTIr?=
+ =?utf-8?Q?98ctCwSwLE8pWsmjTBhI40hGEa1A0gSx+q+QhCd?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN0PR10MB5128.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MVhFeE5tOUM4OVJlU1dmbEQ1c0JIbmkxL2ZTT0x0czhEN3FzN0VDdmRGa3Js?=
+ =?utf-8?B?QjVSSkJyV1BkY0swakdNZlhiZzFzbm9mbjFXeFVYRlphYmpGZmIrVE9IV3JK?=
+ =?utf-8?B?L1RRT295VUpSNFRUMTN4aVB1aVNwamhBczVYbmVraEVSNzRlMmlZN3gvZWFV?=
+ =?utf-8?B?bTdFaW5mN29HVTQ5ZUNTR1F1TjJ5VGtwdmVUSGZQTHh1UjRtbS9NQzIwNDlZ?=
+ =?utf-8?B?eHZQRG00SDVicnBzQU9SYkpxWnoveVJBcmRrSWRGTEpwd0oralBzbnBVcjdz?=
+ =?utf-8?B?ZGE5Z1RwMDdNL2pKblRRd2h2eDBnSVZqUDFzQ2ZGRkhucjR4c2NlalFCeUlG?=
+ =?utf-8?B?VWtCODh0UGlLbjlQdjBQRDNBanZxZk5kQUplbHdqMzhyMFFtS0o5eXpibDdN?=
+ =?utf-8?B?OWIyRjJSS0toczVZUUdqQ204T0tDdUdwdGEwbXUxQWZMZEd5YzZ6MTRsOTFt?=
+ =?utf-8?B?aHRBVU8vSWFhQ0tBTDQzUHdYYjF3djVZOTdhd21hb2h0Zm9GWEhzdVNpUlF2?=
+ =?utf-8?B?cFc4b0gyNC9NQTNtV2hJc2J6MnhmcWlCcVNiY0dxYlhiRTNEdnoyb1pwYTds?=
+ =?utf-8?B?cXBGK2U0QTBGQVFKTk1IeGJ2ZUJjMnJ5NGcvdk51S0RNSGYycVpIK214cFY0?=
+ =?utf-8?B?SldaY1NlTWNFa2NqOEt2V3lYQzZmYVFPd21oeHh6K3prK1ZEaUFrSW9kQnB1?=
+ =?utf-8?B?czRpUFdXVUdvOU5ZdkRNRnZRUmRSTjR5alk2NnBVd29HandibXpaZERjWHpM?=
+ =?utf-8?B?ditQcU1zOTd0d2RtUk8xZE82eFFpRlNlaTVMZ0xkblFTZkNFSys2dEpRSGd3?=
+ =?utf-8?B?WHIxK0h2UzlqaFdoQlNGQlFyRk5sZWVYYmxSSFVXOEt4bXl5dm0zRmNQTzhm?=
+ =?utf-8?B?NzBadlFJSnBpSm95WmxZRUxzaE9aOU5kWGVQTS9IdUJ2dncyUkp0bE1DWlMy?=
+ =?utf-8?B?NjhMYmdqUnRGS1NQQklhY0lYekEySHJNcnlXTGluS0NDbm0zVFhnRnRJRUQr?=
+ =?utf-8?B?aEZab2RmR1RqZko2SjJsNEN6OEJ3MEJ2bWhzYTJrNCtPV256R3RFTFRjZ0Fi?=
+ =?utf-8?B?ckNtSnVCVExNRmJCTGxUdkUvWGFKUlZXako2QlZlNkFwTFBuQWNCRW9VTjNE?=
+ =?utf-8?B?UkJ2Yzk3SU56SXFBMXkwU3k4eDJBYVg4OUFVZllyajhNcHcwaklkYXRtZVp6?=
+ =?utf-8?B?aU5kTFNvcXhMSmk2SDJ5ZGFINmRpcnc3V09JdkNtUWpLUllOYWxrWGMxS3Nz?=
+ =?utf-8?B?aDdiZVhHbWc5QWl2UTFtaTIvQnFlYWU4R0c4QVFaQ3JqUWM2L2plV01mQktO?=
+ =?utf-8?B?TFhRL0Y0K2UvODhKNkp6THVpZ01UK1pZZDBSOTZFNVJ0dDZzZ0ZqSnAxNmJY?=
+ =?utf-8?B?MG1ISkhFaDVNRCt3SGdhcnhiclVDcm4yOW9wT0k1KzNvZzR2amJ2OWp0YVZ6?=
+ =?utf-8?B?TXljTG1pQnZ6TjgreUg2YVVIWTloSXJ3M21PRWZsdFQ4ZUt2eHhpU0NoTDk1?=
+ =?utf-8?B?NXd6V29DTHB2WTRZM21USVhyOHZDWWl5NjZ3QStxci9oTnJKaWZHZXpnaWd6?=
+ =?utf-8?B?cm5EV2RlV3FHNTR0ZUNjSWE0Nm5SWHNEVUkzUzBGdWREVkdScXNnYnV1a2J1?=
+ =?utf-8?B?NTQvS3NudmlGZGNmcHptK1VVUG9ETG9XT3pJZTRIZWFZZ0tZdWZtRWdCdmpB?=
+ =?utf-8?B?Y01QL3RlSXFnV0ZvV1VFOUJRcFRuTmYzaXFSbUxaTk8wc1RTNnlzbWpsVURE?=
+ =?utf-8?B?ejl2NmZ3SEppNGw2Z2tYSEpzVzlJb1ZJVzF2clVrdmtpL25OdTBWR0t6WDNC?=
+ =?utf-8?B?czNmNHcyUWxMNWhnU3RETk8wMUwxQnpmNXF0bmgrdGozdkttWFlYd3N5R1NX?=
+ =?utf-8?B?azF4WUhDUEFvREVFaTU1T2lNRE5SQ0pBTEV4ODgyZEpBMTlIbnBjbG8wamg4?=
+ =?utf-8?B?YnFWY0lPNmJ3enRXbkdMblpRRXRlMHkwMjY2UkxvVXdLOEtjNHdPL3FvaTdD?=
+ =?utf-8?B?K3VaNkNmcXBFT1VlRXpPQmhOL3E0MysxZzdqVTdCQlVaWVpvd3BOUXg4Vlgx?=
+ =?utf-8?B?NjQvRzBMTGsrM081QUc5ZTZ1RktIazFUVXlIdURaZFk4N0N6eDN4eEQwamVC?=
+ =?utf-8?B?V25JMnRkelFBMFJZNU1GWlpMT3R2Q2cwSjhpRlVOV2o5d2xQdnMrald2bUFt?=
+ =?utf-8?B?VlE9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: yPpoyIfr20dP+5Q7wkbM2df96mrQaRwjLV/vQpMikPao8PXcbPkC/YXNLsmNCIkrbvBvYn4ilWhEL2aRXt4W+9TiTLW/VLHJAdQ2g/6Ki9GpTL0Z4XNgF9AHQfiVkqIfEEP5NVhmV2hFxjsKfINpcOBrAIYuEZfVIK62li+jb9l/mDDTr/a7g6nJvkq2gCTyHD7gHFH8mqnYw6+u68XWYRC7rgqGjJ7AeNoRVEFdaKEE8vRizufwSrTVBC3i1f5KycduJLF2aa7e+GudGRLY9FGjhRYUEsFd0W+KSj4HHwd9Veb5fv7iIsNLuIgUPjsWsfxpTan9lHD4XVYDjRCLnu3S7hx+VadRhJJHb+0Y2jF/4bO3VYC0ngFHwMe/+pN3TpWETKCsAHppJlY90BBKj2KC3yqruiysZ8OfvpVbk7S44E5qZZJiLO5lbGsta2WJCrFj9zywZIerI6exWXGZfclL4GXifQVozYCOD7FeMbqfoFQdxCCVC+yumgULMISvNvMEb37napKN4+c4DYRfqT1vUlkMiAx6+SNXUFF9oe4Zel9TRmWhwAuTjG0eqbgzCj2s7KVVRmnWDQ7TBwbOyyOBm0vlpKSw1RibBGOmB9s=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 597d2635-a94f-4616-7561-08dcff3a54e0
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2024 14:41:57.9090 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8mRg/y373FKXgW7Ub5cXKO0ZfbaMNWVyEJ5vwYPiOiFvRB0atk7/fqXAohspw1nS9OgM/Gq004Qt4WZffj4vRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5791
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 mlxscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- adultscore=0 malwarescore=0 phishscore=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411070114
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-07_05,2024-11-07_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2409260000 definitions=main-2411070114
+X-Proofpoint-ORIG-GUID: hZYiIhXhDb3V5yTU9JsSFr11CYO_gHsn
+X-Proofpoint-GUID: hZYiIhXhDb3V5yTU9JsSFr11CYO_gHsn
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,203 +228,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/7/2024 8:01 PM, neil.armstrong@linaro.org wrote:
-> On 07/11/2024 13:46, Akhil P Oommen wrote:
->> On 11/7/2024 2:25 PM, neil.armstrong@linaro.org wrote:
->>> On 06/11/2024 02:44, Akhil P Oommen wrote:
->>>> On 11/4/2024 9:14 PM, neil.armstrong@linaro.org wrote:
->>>>> On 11/10/2024 22:29, Akhil P Oommen wrote:
->>>>>> ACD a.k.a Adaptive Clock Distribution is a feature which helps to
->>>>>> reduce
->>>>>> the power consumption. In some chipsets, it is also a requirement to
->>>>>> support higher GPU frequencies. This patch adds support for GPU
->>>>>> ACD by
->>>>>> sending necessary data to GMU and AOSS. The feature support for the
->>>>>> chipset is detected based on devicetree data.
->>>>>>
->>>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>>>>> ---
->>>>>>     drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 81 +++++++++++++++++++
->>>>>> ++++++
->>>>>> +++-------
->>>>>>     drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  1 +
->>>>>>     drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 36 ++++++++++++++++
->>>>>>     drivers/gpu/drm/msm/adreno/a6xx_hfi.h | 21 +++++++++
->>>>>>     4 files changed, 124 insertions(+), 15 deletions(-)
->>>>>>
->>>>>
->>>>> <snip>
->>>>>
->>>>>> +
->>>>>> +static int a6xx_hfi_enable_acd(struct a6xx_gmu *gmu)
->>>>>> +{
->>>>>> +    struct a6xx_hfi_acd_table *acd_table = &gmu->acd_table;
->>>>>> +    struct a6xx_hfi_msg_feature_ctrl msg = {
->>>>>> +        .feature = HFI_FEATURE_ACD,
->>>>>> +        .enable = 1,
->>>>>> +        .data = 0,
->>>>>> +    };
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    if (!acd_table->enable_by_level)
->>>>>> +        return 0;
->>>>>> +
->>>>>> +    /* Enable ACD feature at GMU */
->>>>>> +    ret = a6xx_hfi_send_msg(gmu, HFI_H2F_FEATURE_CTRL, &msg,
->>>>>> sizeof(msg), NULL, 0);
->>>>>> +    if (ret) {
->>>>>> +        DRM_DEV_ERROR(gmu->dev, "Unable to enable ACD (%d)\n", ret);
->>>>>> +        return ret;
->>>>>> +    }
->>>>>> +
->>>>>> +    /* Send ACD table to GMU */
->>>>>> +    ret = a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_ACD, &msg, sizeof(msg),
->>>>>> NULL, 0);
->>>>>
->>>>> This looks wrong, in this exact code, you never use the acd_table...
->>>>> perhaps it should be acd_table here
->>>>
->>>> Whoops! Weirdly gmu didn't explode when I tested.
->>>>
->>>> Thanks for your keen eye.
->>>
->>> You're welcome !
->>>
->>> I've been trying to enable this on SM8650, but HFI_H2F_MSG_ACD fails.
->>>
->>> My changes:
->>> ================><================================
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/
->>> msm/adreno/a6xx_hfi.c
->>> index 7c96d6f8aaa9..bd9d586f245e 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->>> @@ -682,7 +682,7 @@ static int a6xx_hfi_enable_acd(struct a6xx_gmu *gmu)
->>>          }
->>>
->>>          /* Send ACD table to GMU */
->>> -       ret = a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_ACD, &acd_table,
->>> sizeof(*acd_table), NULL, 0);
->>> +       ret = a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_ACD, &acd_table,
->>
->> &acd_table -> acd_table here?
+On Thu, Nov 07, 2024 at 08:57:23AM +0800, Yu Kuai wrote:
+> Hi,
 > 
-> Damn, good catch !
+> 在 2024/11/06 23:19, Chuck Lever III 写道:
+> > 
+> > 
+> > > On Nov 6, 2024, at 1:16 AM, Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > 
+> > > On Thu, Oct 24, 2024 at 09:19:41PM +0800, Yu Kuai wrote:
+> > > > From: Yu Kuai <yukuai3@huawei.com>
+> > > > 
+> > > > Fix patch is patch 27, relied patches are from:
+> > 
+> > I assume patch 27 is:
+> > 
+> > libfs: fix infinite directory reads for offset dir
+> > 
+> > https://lore.kernel.org/stable/20241024132225.2271667-12-yukuai1@huaweicloud.com/
+> > 
+> > I don't think the Maple tree patches are a hard
+> > requirement for this fix. And note that libfs did
+> > not use Maple tree originally because I was told
+> > at that time that Maple tree was not yet mature.
+> > 
+> > So, a better approach might be to fit the fix
+> > onto linux-6.6.y while sticking with xarray.
 > 
-> Ok so it didn't explode anymore, but still fails:
-> =====
-> [    7.083258] platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0
-> [msm]] *ERROR* Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 7 timed out
-> waiting for response
-> [    7.149709] platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0
-> [msm]] *ERROR* Unexpected message id 7 on the response queue
-> [    7.149744] platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0
-> [msm]] *ERROR* The HFI response queue is unexpectedly empty
-> [    7.165163] platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0
-> [msm]] *ERROR* Unexpected message id 8 on the response queue
-> [    7.165188] platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0
-> [msm]] *ERROR* The HFI response queue is unexpectedly empty
-> ====
-> 
-> Seems with ACD enabled, first vote can take up to 100ms, and downstream
-> has 1s timeout, with a larger timeout I got it to work !
+> The painful part is that using xarray is not acceptable, the offet
+> is just 32 bit and if it overflows, readdir will read nothing. That's
+> why maple_tree has to be used.
 
-Yes, there is an additional overhead during first perf vote. Thanks for
-the heads up. I am yet to test with fixes.
+A 32-bit range should be entirely adequate for this usage.
 
--Akhil.
+ - The offset allocator wraps when it reaches the maximum, it
+   doesn't overflow unless there are actually billions of extant
+   entries in the directory, which IMO is not likely.
 
-> 
+ - The offset values are dense, so the directory can use all 2- or
+   4- billion in the 32-bit integer range before wrapping.
+
+ - No-one complained about this limitation when offset_readdir() was
+   first merged. The xarray was replaced for performance reasons,
+   not because of the 32-bit range limit.
+
+It is always possible that I have misunderstood your concern!
+
+
 > Thanks,
-> Neil
->>
->> -Akhil
->>
->>> sizeof(struct a6xx_hfi_acd_table), NULL, 0);
->>>          if (ret) {
->>>                  DRM_DEV_ERROR(gmu->dev, "Unable to send ACD table
->>> (%d)\n", ret);
->>>                  return ret;
->>> ================><================================
->>>
->>> with the appropriate qcom,opp-acd-level in DT taken from downstream,
->>> I get:
->>> [    6.946184] platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0
->>> [msm]] *ERROR* Message (null) id 4 timed out waiting for response
->>> [    6.958697] platform 3d6a000.gmu: [drm:a6xx_hfi_start [msm]] *ERROR*
->>> Unable to send ACD table (-110)
->>>
->>> is there something missing ?
->>>
->>> Neil
->>>
->>>>
->>>> -Akhil.
->>>>
->>>>>
->>>>>> +    if (ret) {
->>>>>> +        DRM_DEV_ERROR(gmu->dev, "Unable to ACD table (%d)\n", ret);
->>>>>> +        return ret;
->>>>>> +    }
->>>>>> +
->>>>>> +    return 0;
->>>>>> +}
->>>>>> +
->>>>>>     static int a6xx_hfi_send_test(struct a6xx_gmu *gmu)
->>>>>>     {
->>>>>>         struct a6xx_hfi_msg_test msg = { 0 };
->>>>>> @@ -756,6 +788,10 @@ int a6xx_hfi_start(struct a6xx_gmu *gmu, int
->>>>>> boot_state)
->>>>>>         if (ret)
->>>>>>             return ret;
->>>>>>     +    ret = a6xx_hfi_enable_acd(gmu);
->>>>>> +    if (ret)
->>>>>> +        return ret;
->>>>>> +
->>>>>>         ret = a6xx_hfi_send_core_fw_start(gmu);
->>>>>>         if (ret)
->>>>>>             return ret;
->>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h b/drivers/gpu/drm/
->>>>>> msm/adreno/a6xx_hfi.h
->>>>>> index 528110169398..51864c8ad0e6 100644
->>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
->>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
->>>>>> @@ -151,12 +151,33 @@ struct a6xx_hfi_msg_test {
->>>>>>         u32 header;
->>>>>>     };
->>>>>>     +#define HFI_H2F_MSG_ACD 7
->>>>>> +#define MAX_ACD_STRIDE 2
->>>>>> +
->>>>>> +struct a6xx_hfi_acd_table {
->>>>>> +    u32 header;
->>>>>> +    u32 version;
->>>>>> +    u32 enable_by_level;
->>>>>> +    u32 stride;
->>>>>> +    u32 num_levels;
->>>>>> +    u32 data[16 * MAX_ACD_STRIDE];
->>>>>> +};
->>>>>> +
->>>>>>     #define HFI_H2F_MSG_START 10
->>>>>>       struct a6xx_hfi_msg_start {
->>>>>>         u32 header;
->>>>>>     };
->>>>>>     +#define HFI_H2F_FEATURE_CTRL 11
->>>>>> +
->>>>>> +struct a6xx_hfi_msg_feature_ctrl {
->>>>>> +    u32 header;
->>>>>> +    u32 feature;
->>>>>> +    u32 enable;
->>>>>> +    u32 data;
->>>>>> +};
->>>>>> +
->>>>>>     #define HFI_H2F_MSG_CORE_FW_START 14
->>>>>>       struct a6xx_hfi_msg_core_fw_start {
->>>>>>
->>>>>
->>>>> Thanks,
->>>>> Neil
->>>>
->>>
->>
+> Kuai
+> 
+> > 
+> > This is the first I've heard of this CVE. It
+> > would help if the patch authors got some
+> > notification when these are filed.
+> > 
+> > 
+> > > > - patches from set [1] to add helpers to maple_tree, the last patch to
+> > > > improve fork() performance is not backported;
+> > > 
+> > > So things slowed down?
+> > > 
+> > > > - patches from set [2] to change maple_tree, and follow up fixes;
+> > > > - patches from set [3] to convert offset_ctx from xarray to maple_tree;
+> > > > 
+> > > > Please notice that I'm not an expert in this area, and I'm afraid to
+> > > > make manual changes. That's why patch 16 revert the commit that is
+> > > > different from mainline and will cause conflict backporting new patches.
+> > > > patch 28 pick the original mainline patch again.
+> > > > 
+> > > > (And this is what we did to fix the CVE in downstream kernels).
+> > > > 
+> > > > [1] https://lore.kernel.org/all/20231027033845.90608-1-zhangpeng.00@bytedance.com/
+> > > > [2] https://lore.kernel.org/all/20231101171629.3612299-2-Liam.Howlett@oracle.com/T/
+> > > > [3] https://lore.kernel.org/all/170820083431.6328.16233178852085891453.stgit@91.116.238.104.host.secureserver.net/
+> > > 
+> > > This series looks rough.  I want to have the maintainers of these
+> > > files/subsystems to ack this before being able to take them.
+> > > 
+> > > thanks,
+> > > 
+> > > greg k-h
+> > 
+> > --
+> > Chuck Lever
+> > 
+> > 
 > 
 
+-- 
+Chuck Lever
