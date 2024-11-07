@@ -2,74 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC7D9BFB51
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 02:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 056439BFB93
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 02:33:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7612210E091;
-	Thu,  7 Nov 2024 01:22:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6139310E213;
+	Thu,  7 Nov 2024 01:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
- [45.249.212.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 250F710E091;
- Thu,  7 Nov 2024 01:22:15 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.216])
- by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XkPS22hLjz4f3jXs;
- Thu,  7 Nov 2024 09:21:54 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
- by mail.maildlp.com (Postfix) with ESMTP id 553381A0196;
- Thu,  7 Nov 2024 09:22:12 +0800 (CST)
-Received: from [10.174.176.73] (unknown [10.174.176.73])
- by APP4 (Coremail) with SMTP id gCh0CgCXc4dBFixn_B1EBA--.54545S3;
- Thu, 07 Nov 2024 09:22:11 +0800 (CST)
-Subject: Re: [PATCH 6.6 28/28] maple_tree: correct tree corruption on spanning
- store
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Yu Kuai <yukuai1@huaweicloud.com>
-Cc: stable@vger.kernel.org, gregkh@linuxfoundation.org,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, viro@zeniv.linux.org.uk,
- brauner@kernel.org, Liam.Howlett@oracle.com, akpm@linux-foundation.org,
- hughd@google.com, willy@infradead.org, sashal@kernel.org,
- srinivasan.shanmugam@amd.com, chiahsuan.chung@amd.com, mingo@kernel.org,
- mgorman@techsingularity.net, chengming.zhou@linux.dev,
- zhangpeng.00@bytedance.com, chuck.lever@oracle.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- maple-tree@lists.infradead.org, linux-mm@kvack.org, yi.zhang@huawei.com,
- yangerkun@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
- <20241024132225.2271667-1-yukuai1@huaweicloud.com>
- <20241024132225.2271667-13-yukuai1@huaweicloud.com>
- <7740a098-fe11-48f1-a693-df81ef769f08@lucifer.local>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <b677017c-81fb-0f3d-22b6-34d93c59942a@huaweicloud.com>
-Date: Thu, 7 Nov 2024 09:22:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7395C10E20E
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2024 01:33:32 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4XkPfh6Rg7z1T9TQ;
+ Thu,  7 Nov 2024 09:31:08 +0800 (CST)
+Received: from kwepemg200008.china.huawei.com (unknown [7.202.181.35])
+ by mail.maildlp.com (Postfix) with ESMTPS id A78CC180105;
+ Thu,  7 Nov 2024 09:33:29 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemg200008.china.huawei.com (7.202.181.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 7 Nov 2024 09:33:28 +0800
+Message-ID: <534caf1f-626b-252d-b08a-fc5a3cc007e9@huawei.com>
+Date: Thu, 7 Nov 2024 09:33:27 +0800
 MIME-Version: 1.0
-In-Reply-To: <7740a098-fe11-48f1-a693-df81ef769f08@lucifer.local>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgCXc4dBFixn_B1EBA--.54545S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxXFWUAw4kuF1kGw1kXFW8JFb_yoW5Krykpa
- yDGFWakr4DtF1xuF1vk3y0vas0y3s5tFWrJry5Kw10yF98tF9IqF9Y9w1YvFZ8uw4UGr1I
- vFWYvanrCanayFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUB214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWrXVW3AwCF04k20xvY0x
- 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
- 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0x
- vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
- 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
- kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRJMa0UUUUU
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v4] drm/ttm/tests: Fix memory leak in
+ ttm_tt_simple_create()
+Content-Language: en-US
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <christian.koenig@amd.com>, <ray.huang@amd.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <karolina.stolarek@intel.com>, <Arunpravin.PaneerSelvam@amd.com>,
+ <thomas.hellstrom@linux.intel.com>, <asomalap@amd.com>,
+ <quic_jjohnson@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20241026020758.3846669-1-ruanjinjie@huawei.com>
+ <560d2026-5785-b6b1-eb7d-3afed714d47f@huawei.com>
+In-Reply-To: <560d2026-5785-b6b1-eb7d-3afed714d47f@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.109.254]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemg200008.china.huawei.com (7.202.181.35)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,106 +61,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-ÔÚ 2024/11/06 23:02, Lorenzo Stoakes Ð´µÀ:
-> On Thu, Oct 24, 2024 at 09:22:25PM +0800, Yu Kuai wrote:
+
+On 2024/10/30 10:01, Jinjie Ruan wrote:
+> Gentle ping.
 > 
->> diff --git a/lib/maple_tree.c b/lib/maple_tree.c
->> index 5328e08723d7..c57b6fc4db2e 100644
->> --- a/lib/maple_tree.c
->> +++ b/lib/maple_tree.c
->> @@ -2239,6 +2239,8 @@ static inline void mas_node_or_none(struct ma_state *mas,
+> On 2024/10/26 10:07, Jinjie Ruan wrote:
+>> modprobe ttm_device_test and then rmmod ttm_device_test, the following
+>> memory leaks occurs:
 >>
->>   /*
->>    * mas_wr_node_walk() - Find the correct offset for the index in the @mas.
->> + *                      If @mas->index cannot be found within the containing
->> + *                      node, we traverse to the last entry in the node.
->>    * @wr_mas: The maple write state
->>    *
->>    * Uses mas_slot_locked() and does not need to worry about dead nodes.
->> @@ -3655,7 +3657,7 @@ static bool mas_wr_walk(struct ma_wr_state *wr_mas)
->>   	return true;
->>   }
+>> The ttm->pages allocated in ttm_tt_init() is not freed after calling
+>> ttm_tt_simple_create(), which cause the memory leak:
 >>
->> -static bool mas_wr_walk_index(struct ma_wr_state *wr_mas)
->> +static void mas_wr_walk_index(struct ma_wr_state *wr_mas)
->>   {
->>   	struct ma_state *mas = wr_mas->mas;
+>> 	unreferenced object 0xffffff80caf27750 (size 8):
+>> 	  comm "kunit_try_catch", pid 2242, jiffies 4295055735
+>> 	  hex dump (first 8 bytes):
+>> 	    c0 1e 3d c3 fe ff ff ff                          ..=.....
+>> 	  backtrace (crc 3d11615a):
+>> 	    [<000000007f57312a>] kmemleak_alloc+0x34/0x40
+>> 	    [<000000008c6c4c7e>] __kmalloc_node_noprof+0x304/0x3e4
+>> 	    [<00000000679c1182>] __kvmalloc_node_noprof+0x1c/0x144
+>> 	    [<000000006aed0a3d>] ttm_tt_init+0x138/0x28c [ttm]
+>> 	    [<000000005c331998>] drm_gem_shmem_free+0x60/0x534 [drm_shmem_helper]
+>> 	    [<0000000022b4f375>] kunit_try_run_case+0x13c/0x3ac
+>> 	    [<00000000c525d725>] kunit_generic_run_threadfn_adapter+0x80/0xec
+>> 	    [<000000002db94a1f>] kthread+0x2e8/0x374
+>> 	    [<000000002c457ad7>] ret_from_fork+0x10/0x20
+>> 	......
 >>
->> @@ -3664,11 +3666,9 @@ static bool mas_wr_walk_index(struct ma_wr_state *wr_mas)
->>   		wr_mas->content = mas_slot_locked(mas, wr_mas->slots,
->>   						  mas->offset);
->>   		if (ma_is_leaf(wr_mas->type))
->> -			return true;
->> +			return;
->>   		mas_wr_walk_traverse(wr_mas);
->> -
->>   	}
->> -	return true;
->>   }
->>   /*
->>    * mas_extend_spanning_null() - Extend a store of a %NULL to include surrounding %NULLs.
->> @@ -3899,8 +3899,8 @@ static inline int mas_wr_spanning_store(struct ma_wr_state *wr_mas)
->>   	memset(&b_node, 0, sizeof(struct maple_big_node));
->>   	/* Copy l_mas and store the value in b_node. */
->>   	mas_store_b_node(&l_wr_mas, &b_node, l_mas.end);
->> -	/* Copy r_mas into b_node. */
->> -	if (r_mas.offset <= r_mas.end)
->> +	/* Copy r_mas into b_node if there is anything to copy. */
->> +	if (r_mas.max > r_mas.last)
->>   		mas_mab_cp(&r_mas, r_mas.offset, r_mas.end,
->>   			   &b_node, b_node.b_end + 1);
->>   	else
->> --
->> 2.39.2
+>> Fix it by calling ttm_tt_fini() in the exit function.
 >>
-> 
-> This is a good example of where you've gone horribly wrong, this relies on
-> 31c532a8af57 ("maple_tree: add end of node tracking to the maple state") which
-> is not in 6.6.
-> 
-> You reverted (!!) my backported patch for this that _does not require this_
-> only to pull in 31c532a8af57 in order to apply the upstream version of my
-> fix over that.
-> 
-> This is totally unnecessary and I can't see why _on earth_ you would need
-> 31c532a8af57.
-> 
-> You need to correctly identify what patches need to be backported and _fix
-> merge conflicts_ accordingly, like I did with the patch that you decided to
-> revert.
-> 
-> In the kernel it is absolutely unacceptable to arbitrarily backport huge
-> amounts of patches you don't understand in order to avoid merge conflicts,
-> you may be breaking all kinds of things without realising.
-> 
-> You have to find the _minimal_ change and _fix merge conflicts_.
+>> Cc: stable@vger.kernel.org
+>> Fixes: e6f7c641fae3 ("drm/ttm/tests: Add tests for ttm_tt")
+>> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 
-Thanks for the suggestions, I do understand, however, I'll just give up
-this because I'm not confident to fix confilcts for maple tree. Other
-folks will have to this if they care about this cve for v6.6.
-> 
-> Stable is not a playground, it's what millions (billions?) of kernels rely
-> upon.
-> 
-> In any case, I think Liam's reply suggests that we should be looking at
-> maybe 1 thing to backport? If we even need to?
+Hi, Nirmoy,
 
-Keep using xarray for patch 27 is wrong, I think. xarray is 32-bit and
-if the offset overflow, readdir will found nothing, this is more severe
-than the orignal cve.
-> 
-> Please in future be more cautious, and if you are unsure how to proceed,
-> cc- the relevant maintainers (+ all authors of patches you intend to
-> backport/revert) in an RFC. Thanks.
+could this patch be merged?
 
-Of course.
-
-Thanks,
-Kuai
-
-> 
-> .
-> 
-
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> ---
+>> v4:
+>> - Split out to be alone.
+>> v3:
+>> - s/fllowing/following/
+>> v2:
+>> - Add Reviewed-by.
+>> ---
+>>  drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+>> index b91c13f46225..9ff216ec58ef 100644
+>> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+>> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+>> @@ -54,6 +54,7 @@ static struct ttm_tt *ttm_tt_simple_create(struct ttm_buffer_object *bo, u32 pag
+>>  
+>>  static void ttm_tt_simple_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
+>>  {
+>> +	ttm_tt_fini(ttm);
+>>  	kfree(ttm);
+>>  }
+>>  
