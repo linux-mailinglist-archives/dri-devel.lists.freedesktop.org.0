@@ -2,48 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A469BFBA5
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 02:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79899BFBD1
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 02:43:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52B7610E20E;
-	Thu,  7 Nov 2024 01:35:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3EFE10E07E;
+	Thu,  7 Nov 2024 01:43:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E802D10E20E
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2024 01:35:14 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.163])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4XkPk367PXz20sng;
- Thu,  7 Nov 2024 09:34:03 +0800 (CST)
-Received: from kwepemg200008.china.huawei.com (unknown [7.202.181.35])
- by mail.maildlp.com (Postfix) with ESMTPS id 7092F18002B;
- Thu,  7 Nov 2024 09:35:11 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- kwepemg200008.china.huawei.com (7.202.181.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 7 Nov 2024 09:35:10 +0800
-Message-ID: <effe7aa5-1bd9-34f9-a3e9-db3f260f66e0@huawei.com>
-Date: Thu, 7 Nov 2024 09:35:09 +0800
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
+ [45.249.212.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D874D10E07E;
+ Thu,  7 Nov 2024 01:43:45 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+ by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XkPwr2bTsz4f3jXr;
+ Thu,  7 Nov 2024 09:43:24 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+ by mail.maildlp.com (Postfix) with ESMTP id 59DC01A0568;
+ Thu,  7 Nov 2024 09:43:42 +0800 (CST)
+Received: from [10.174.176.73] (unknown [10.174.176.73])
+ by APP4 (Coremail) with SMTP id gCh0CgBHI4dJGyxnTIlFBA--.58965S3;
+ Thu, 07 Nov 2024 09:43:40 +0800 (CST)
+Subject: Re: [PATCH 6.6 00/28] fix CVE-2024-46701
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Yu Kuai <yukuai1@huaweicloud.com>
+Cc: stable@vger.kernel.org, gregkh@linuxfoundation.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, Liam.Howlett@oracle.com, akpm@linux-foundation.org,
+ hughd@google.com, willy@infradead.org, sashal@kernel.org,
+ srinivasan.shanmugam@amd.com, chiahsuan.chung@amd.com, mingo@kernel.org,
+ mgorman@techsingularity.net, chengming.zhou@linux.dev,
+ zhangpeng.00@bytedance.com, chuck.lever@oracle.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ maple-tree@lists.infradead.org, linux-mm@kvack.org, yi.zhang@huawei.com,
+ yangerkun@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
+References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
+ <e7942272-9157-4baf-a3e4-ac5957f33cc8@lucifer.local>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <f3168978-5371-c8b7-7d97-b2a3e18d1eee@huaweicloud.com>
+Date: Thu, 7 Nov 2024 09:43:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] drm/ttm/tests: Fix memory leaks for ttm_tt_init()
-Content-Language: en-US
-To: <christian.koenig@amd.com>, <ray.huang@amd.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <karolina.stolarek@intel.com>, <Arunpravin.PaneerSelvam@amd.com>,
- <thomas.hellstrom@linux.intel.com>, <quic_jjohnson@quicinc.com>,
- <asomalap@amd.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241018101127.706605-1-ruanjinjie@huawei.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20241018101127.706605-1-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.109.254]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemg200008.china.huawei.com (7.202.181.35)
+In-Reply-To: <e7942272-9157-4baf-a3e4-ac5957f33cc8@lucifer.local>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgBHI4dJGyxnTIlFBA--.58965S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxGF17AF4rtr1xKF18JryxXwb_yoWrCw48pa
+ 1kJ3W3KrW7Ary8Gr4Syw42qa4jy395Gw15tw1DGryrAF45Krn3Xr4fCFyfuFWfuayfGr17
+ Kr1Yq3W09a4UA37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWrXVW3AwCF04k20xvY0x
+ 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+ 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+ kF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7sR_wZ27UUUUU==
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,169 +82,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gentle ping.
+Hi,
 
-On 2024/10/18 18:11, Jinjie Ruan wrote:
-> modprobe ttm_tt_test and then rmmod it, the following
-> memory leaks occurs because the ttm->pages allocated
-> in ttm_tt_init() is not freed:
+ÔÚ 2024/11/06 22:43, Lorenzo Stoakes Ð´µÀ:
+> NACK.
 > 
-> 	unreferenced object 0xffffff80c8469ed0 (size 8):
-> 	  comm "kunit_try_catch", pid 1841, jiffies 4294914909
-> 	  hex dump (first 8 bytes):
-> 	    00 be 19 c3 fe ff ff ff                          ........
-> 	  backtrace (crc 9c21b223):
-> 	    [<00000000d734f633>] kmemleak_alloc+0x34/0x40
-> 	    [<0000000055020f06>] __kmalloc_node_noprof+0x304/0x3e4
-> 	    [<00000000ab22f5d3>] __kvmalloc_node_noprof+0x1c/0x144
-> 	    [<00000000590d5c78>] ttm_tt_init+0x138/0x28c [ttm]
-> 	    [<000000009445c08f>] 0xffffffd89a21c334
-> 	    [<00000000db227f06>] kunit_try_run_case+0x13c/0x3ac
-> 	    [<00000000434063ab>] kunit_generic_run_threadfn_adapter+0x80/0xec
-> 	    [<00000000dac19ab7>] kthread+0x2e8/0x374
-> 	    [<0000000057031423>] ret_from_fork+0x10/0x20
-> 	......
+> Do this some other way that isn't a terrible mess.
 > 
-> Add a helper named ttm_tt_init_kunit() to call ttm_tt_finish()
-> to free it automatically.
+> You've reverted my CRITICAL fix, then didn't cc- me so I'm grumpy.
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: e6f7c641fae3 ("drm/ttm/tests: Add tests for ttm_tt")
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->  drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 22 +++++++++++++++++++
->  drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |  5 +++++
->  drivers/gpu/drm/ttm/tests/ttm_tt_test.c       | 18 +++++++--------
->  3 files changed, 36 insertions(+), 9 deletions(-)
+> Even if you bizarrely brought it back later.
 > 
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> index 4f448d8cf30d..63a582de9ea9 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> @@ -317,5 +317,27 @@ void ttm_test_devices_fini(struct kunit *test)
->  }
->  EXPORT_SYMBOL_GPL(ttm_test_devices_fini);
->  
-> +static void kunit_action_ttm_tt_fini(void *ptr)
-> +{
-> +	struct ttm_tt *ttm = ptr;
-> +
-> +	ttm_tt_fini(ttm);
-> +}
-> +
-> +int ttm_tt_init_kunit(struct kunit *test,
-> +		      struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> +		      uint32_t page_flags, enum ttm_caching caching,
-> +		      unsigned long extra_pages)
-> +{
-> +	int ret;
-> +
-> +	ret = ttm_tt_init(ttm, bo, page_flags, caching, extra_pages);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return kunit_add_action_or_reset(test, kunit_action_ttm_tt_fini, ttm);
-> +}
-> +EXPORT_SYMBOL(ttm_tt_init_kunit);
-> +
->  MODULE_DESCRIPTION("TTM KUnit test helper functions");
->  MODULE_LICENSE("GPL and additional rights");
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-> index c7da23232ffa..254d96a9adda 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-> @@ -52,4 +52,9 @@ int ttm_test_devices_init(struct kunit *test);
->  int ttm_test_devices_all_init(struct kunit *test);
->  void ttm_test_devices_fini(struct kunit *test);
->  
-> +int ttm_tt_init_kunit(struct kunit *test,
-> +		      struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> +		      uint32_t page_flags, enum ttm_caching caching,
-> +		      unsigned long extra_pages);
-> +
->  #endif // TTM_KUNIT_HELPERS_H
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_tt_test.c b/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
-> index 61ec6f580b62..2ba0f346fba8 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
-> @@ -52,7 +52,7 @@ static void ttm_tt_init_basic(struct kunit *test)
->  
->  	bo = ttm_bo_kunit_init(test, test->priv, params->size, NULL);
->  
-> -	err = ttm_tt_init(tt, bo, page_flags, caching, extra_pages);
-> +	err = ttm_tt_init_kunit(test, tt, bo, page_flags, caching, extra_pages);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	KUNIT_ASSERT_EQ(test, tt->num_pages, num_pages + extra_pages);
-> @@ -81,7 +81,7 @@ static void ttm_tt_init_misaligned(struct kunit *test)
->  	/* Make the object size misaligned */
->  	bo->base.size += 1;
->  
-> -	err = ttm_tt_init(tt, bo, 0, caching, 0);
-> +	err = ttm_tt_init_kunit(test, tt, bo, 0, caching, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	KUNIT_ASSERT_EQ(test, tt->num_pages, num_pages);
-> @@ -99,7 +99,7 @@ static void ttm_tt_fini_basic(struct kunit *test)
->  
->  	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
->  
-> -	err = ttm_tt_init(tt, bo, 0, caching, 0);
-> +	err = ttm_tt_init_kunit(test, tt, bo, 0, caching, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  	KUNIT_ASSERT_NOT_NULL(test, tt->pages);
->  
-> @@ -140,7 +140,7 @@ static void ttm_tt_fini_shmem(struct kunit *test)
->  
->  	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
->  
-> -	err = ttm_tt_init(tt, bo, 0, caching, 0);
-> +	err = ttm_tt_init_kunit(test, tt, bo, 0, caching, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	shmem = shmem_file_setup("ttm swap", BO_SIZE, 0);
-> @@ -197,7 +197,7 @@ static void ttm_tt_create_ttm_exists(struct kunit *test)
->  
->  	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
->  
-> -	err = ttm_tt_init(tt, bo, 0, caching, 0);
-> +	err = ttm_tt_init_kunit(test, tt, bo, 0, caching, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  	bo->ttm = tt;
->  
-> @@ -280,7 +280,7 @@ static void ttm_tt_populate_populated_ttm(struct kunit *test)
->  	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
->  	KUNIT_ASSERT_NOT_NULL(test, tt);
->  
-> -	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
-> +	err = ttm_tt_init_kunit(test, tt, bo, 0, ttm_cached, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
-> @@ -304,7 +304,7 @@ static void ttm_tt_unpopulate_basic(struct kunit *test)
->  	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
->  	KUNIT_ASSERT_NOT_NULL(test, tt);
->  
-> -	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
-> +	err = ttm_tt_init_kunit(test, tt, bo, 0, ttm_cached, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
-> @@ -327,7 +327,7 @@ static void ttm_tt_unpopulate_empty_ttm(struct kunit *test)
->  	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
->  	KUNIT_ASSERT_NOT_NULL(test, tt);
->  
-> -	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
-> +	err = ttm_tt_init_kunit(test, tt, bo, 0, ttm_cached, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	ttm_tt_unpopulate(devs->ttm_dev, tt);
-> @@ -348,7 +348,7 @@ static void ttm_tt_swapin_basic(struct kunit *test)
->  	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
->  	KUNIT_ASSERT_NOT_NULL(test, tt);
->  
-> -	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
-> +	err = ttm_tt_init_kunit(test, tt, bo, 0, ttm_cached, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
+> Don't fail to cc- people you revert in future, please, especially in
+> stable. It's not only discourteous it's also an actual security risk.
+
+ok, that's my fault.
+> 
+> Thanks.
+> 
+> Also this commit log is ridiculous, you don't even explain WHAT ON EARTH
+> YOU ARE DOING HERE. It's not just good enough to reference a CVE and expect
+> us to go research this for you, especially one you've 'addressed' in this
+> totally bizarre fashion.
+> 
+> On Thu, Oct 24, 2024 at 09:19:41PM +0800, Yu Kuai wrote:
+>> From: Yu Kuai <yukuai3@huawei.com>
+>>
+>> Fix patch is patch 27, relied patches are from:
+>>
+>>   - patches from set [1] to add helpers to maple_tree, the last patch to
+>> improve fork() performance is not backported;
+>>   - patches from set [2] to change maple_tree, and follow up fixes;
+>>   - patches from set [3] to convert offset_ctx from xarray to maple_tree;
+>>
+>> Please notice that I'm not an expert in this area, and I'm afraid to
+>> make manual changes. That's why patch 16 revert the commit that is
+>> different from mainline and will cause conflict backporting new patches.
+>> patch 28 pick the original mainline patch again.
+> 
+> This is... what? :/
+> 
+> You have to fix conflicts, that's part of what backporting involves.
+
+So, that's the best I can do in this area. I agree that this is
+unacceptable now. So I'll just ignore this cve for v6.6, unless
+some expert in this area will try to fix conflicts for patch 27 in
+a better way.
+
+Thanks,
+Kuai
+
+> 
+> Yeah, rethink your whole approach, thanks.
+> 
+>>
+>> (And this is what we did to fix the CVE in downstream kernels).
+>>
+>> [1] https://lore.kernel.org/all/20231027033845.90608-1-zhangpeng.00@bytedance.com/
+>> [2] https://lore.kernel.org/all/20231101171629.3612299-2-Liam.Howlett@oracle.com/T/
+>> [3] https://lore.kernel.org/all/170820083431.6328.16233178852085891453.stgit@91.116.238.104.host.secureserver.net/
+>>
+>> Andrew Morton (1):
+>>    lib/maple_tree.c: fix build error due to hotfix alteration
+>>
+>> Chuck Lever (5):
+>>    libfs: Re-arrange locking in offset_iterate_dir()
+>>    libfs: Define a minimum directory offset
+>>    libfs: Add simple_offset_empty()
+>>    maple_tree: Add mtree_alloc_cyclic()
+>>    libfs: Convert simple directory offsets to use a Maple Tree
+>>
+>> Liam R. Howlett (12):
+>>    maple_tree: remove unnecessary default labels from switch statements
+>>    maple_tree: make mas_erase() more robust
+>>    maple_tree: move debug check to __mas_set_range()
+>>    maple_tree: add end of node tracking to the maple state
+>>    maple_tree: use cached node end in mas_next()
+>>    maple_tree: use cached node end in mas_destroy()
+>>    maple_tree: clean up inlines for some functions
+>>    maple_tree: separate ma_state node from status
+>>    maple_tree: remove mas_searchable()
+>>    maple_tree: use maple state end for write operations
+>>    maple_tree: don't find node end in mtree_lookup_walk()
+>>    maple_tree: mtree_range_walk() clean up
+>>
+>> Lorenzo Stoakes (1):
+>>    maple_tree: correct tree corruption on spanning store
+>>
+>> Peng Zhang (7):
+>>    maple_tree: add mt_free_one() and mt_attr() helpers
+>>    maple_tree: introduce {mtree,mas}_lock_nested()
+>>    maple_tree: introduce interfaces __mt_dup() and mtree_dup()
+>>    maple_tree: skip other tests when BENCH is enabled
+>>    maple_tree: preserve the tree attributes when destroying maple tree
+>>    maple_tree: add test for mtree_dup()
+>>    maple_tree: avoid checking other gaps after getting the largest gap
+>>
+>> Yu Kuai (1):
+>>    Revert "maple_tree: correct tree corruption on spanning store"
+>>
+>> yangerkun (1):
+>>    libfs: fix infinite directory reads for offset dir
+>>
+>>   fs/libfs.c                                  |  129 ++-
+>>   include/linux/fs.h                          |    6 +-
+>>   include/linux/maple_tree.h                  |  356 +++---
+>>   include/linux/mm_types.h                    |    3 +-
+>>   lib/maple_tree.c                            | 1096 +++++++++++++------
+>>   lib/test_maple_tree.c                       |  218 ++--
+>>   mm/internal.h                               |   10 +-
+>>   mm/shmem.c                                  |    4 +-
+>>   tools/include/linux/spinlock.h              |    1 +
+>>   tools/testing/radix-tree/linux/maple_tree.h |    2 +-
+>>   tools/testing/radix-tree/maple.c            |  390 ++++++-
+>>   11 files changed, 1564 insertions(+), 651 deletions(-)
+>>
+>> --
+>> 2.39.2
+>>
+> 
+> .
+> 
+
