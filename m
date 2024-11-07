@@ -2,171 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8CD99C048A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 12:47:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 062EB9C061B
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 13:46:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4447110E80A;
-	Thu,  7 Nov 2024 11:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B592610E823;
+	Thu,  7 Nov 2024 12:46:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="q5bkZUv3";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="HzCZ+WfQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYVP286CU001.outbound.protection.outlook.com
- (mail-japaneastazon11011043.outbound.protection.outlook.com [52.101.125.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCCEE10E308
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2024 11:47:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LY4eem0oN/8rk1YeizMCoawW62ovsBHmeY8LglWlL68wJbcvhvIc9cjrjNTJ1gVg7FQeNU1hduZcH6Z2gDAI6pmMIoH95V4rKyjbAJHO4g6FHebjsv3jzRYFZzO+dRsPK8GOgd30WcmMIahpDT/e9oJqOiV7mUqqBnOKO6rv/M27UzG/DJXkEw+2cpS2gfFYpEJzRLzFuHjZgjKNEklJg0UvoF45lPe9C5cPe5fxFCg/UNJ4NklerX6MtSyHI4d6KdK1LaXSD6pqIr0bwBLr+rbXa+52/M1kcxsQO/S/ynBO49KOPW6zp9pk15UZI2uuKXh0ibwwCyKemdvbqqbm5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/M5uaOC57gmhpob9wDOfdI2FBRTTDVnnCTWu5FWy3hw=;
- b=fyFOQ75H1lr6RuypdXyq2rsHhS63eABLshqR+xE+qFZRRl9kqaKC7qPSbVxcN2GJRSlfNV5vOEKLbrTLC2OswF8Uv0TqSCkaZ4Ya+C7BJOb1M3oZJJZChji0fQthhvdR8Za19eSyML+o3B1jwHBnUTzqpuIxV4yK365f8JptC25M2TSiTzC9KY9MLPs7fh9WwtweZ4C3bDgclEgDklX8+QcZ8Iyh4LDnZusG80iYMhFqrxUGpyvuAU4vlLYkN5nPajzAtY+HwbQ3LW5uTZZDveUdli0hYUqEShbo1Qzc9DjNH56xjrVJ58D9sPt4jLnRABQ4ob1S447XNw1wf4U9ww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/M5uaOC57gmhpob9wDOfdI2FBRTTDVnnCTWu5FWy3hw=;
- b=q5bkZUv379+xIiPDxACMO9DKeokYG4wd3zZ8YbbHHK5DDDAwPxnP9ETv1CTcsKnNhkP81hWyg1BUnpRjkJzx+CrTKYkVCKI846Pr/U0Cfj/RcelUTgxTEJDWyXD/ldwxt5uYGN3tWFBNDUhCrfl1lgvrwLefhdIWJ11kAZQIezs=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYWPR01MB9727.jpnprd01.prod.outlook.com (2603:1096:400:224::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19; Thu, 7 Nov
- 2024 11:47:41 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%3]) with mapi id 15.20.8137.019; Thu, 7 Nov 2024
- 11:47:40 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: laurent.pinchart <laurent.pinchart@ideasonboard.com>
-CC: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
- <biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, "stable@vger.kernel.org"
- <stable@vger.kernel.org>
-Subject: RE: [PATCH v3 2/3] dt-bindings: display: adi,adv7533: Drop single
- lane support
-Thread-Topic: [PATCH v3 2/3] dt-bindings: display: adi,adv7533: Drop single
- lane support
-Thread-Index: AQHbMHyssRJlYpgFi0mhWOO1KBseZLKqo+0AgAEQixA=
-Date: Thu, 7 Nov 2024 11:47:40 +0000
-Message-ID: <TY3PR01MB1134688FCF71F69CAC9098C25865C2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20241106184935.294513-1-biju.das.jz@bp.renesas.com>
- <20241106184935.294513-3-biju.das.jz@bp.renesas.com>
- <20241106193118.GB21454@pendragon.ideasonboard.com>
-In-Reply-To: <20241106193118.GB21454@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB9727:EE_
-x-ms-office365-filtering-correlation-id: 6b4f3651-5add-444b-1d36-08dcff21fc28
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|7416014|1800799024|376014|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?MlRhdTk3SjYrWjQ4UDdxaEtLYVVmbHlTcDZJMndQRWROYktCYTNQbjM2U2xi?=
- =?utf-8?B?alZmeDZTSjBLbjJyUWNLMHRnSjhCS0tvYjRnZ1JaRlV1MTBhSGpDS2FnSTZ2?=
- =?utf-8?B?dk9BYUk3SFAreEFRTGlUNnN4aDRKaHRmT0tTdzRwQ1U5bGtGK2poWHJ2OHNa?=
- =?utf-8?B?RzhySlFaQVlxWUVsWTBYWmtMamdZQThGQTVnb2ltM3lINlZuMEptYjF5bG1H?=
- =?utf-8?B?UGo3VEkwSTdHaHloOTk0TlVFU1daREd4Q1laZVA1QXBGYURwRlVSS0IzUEsr?=
- =?utf-8?B?ZHBWdG9xUkYrTEZnanlESW92MDhyQWhwZ2FCWnhWVmFROE0xdXlxT3FINEor?=
- =?utf-8?B?QU9Ram9TQW96Y0RMWlA1OTJMWkxOZnVkc0lBRkhXNGQ4T2l2RW9tZ0JGODBz?=
- =?utf-8?B?dm5NN3VNbldjUGJ1amNvWkd5anFaeEJsWmFNUUgyZE9DY2o0RnRheWYvK0hS?=
- =?utf-8?B?cHJmUmd0LzhsUGcybUJGN3I0U2pKYURUQ1I3S2RDL3dWcVRUZ05vWFVSY1hn?=
- =?utf-8?B?Z3VpMTZHRXZkTGEvTFl0ZzBzU0RVOWIvamFITVB4Nk9SWnlnU2psQVJPRUc3?=
- =?utf-8?B?ZVExUmRoNmNFQzlic0x1QVBoa1NUenlaUlg3aGZBeG10TmVPaWFURjRnQzJB?=
- =?utf-8?B?ZnJtNjhlVWxWS3grdExBTzFYTkkxV2tUNEE4all0LzVpOFFnWE4zektldERB?=
- =?utf-8?B?RmVZUDZ0ZVhVKzJrMmRXUkkwVDFhak1NN1Uvd1NQL3Y2WkdGRHU3TFZuT0da?=
- =?utf-8?B?aHhVV0tLV25CT1pxVE9KNkVBdFJXcmtWOElBeENvNWYyMGpBa3JHemhMZ3pL?=
- =?utf-8?B?VDBFN09QT3hCNG9MVGtpUmlwT1A5L2FENklBUDRQOElBbzE0RU03eUNkN1ZQ?=
- =?utf-8?B?TGI2bTRwdXNzajFRZ1ErSjYxREtqKzh1OGY4dFhVOXZyQmlyazdwQldLSXc4?=
- =?utf-8?B?WlcyUGJKbmU0cjNpOUF2YXlrQUJHZUl6UjZ1WTJ5TDZicDBJY2dmb2lOdzFx?=
- =?utf-8?B?dDJjbFp4eExlTnc2M2ZqOU0rZnN4Ui9UVHBCQ3U2WnIwMXhlTnBEMUgxdm5n?=
- =?utf-8?B?S1FpV2Nkd1ppVVBFMWRzK1U4OXpwL0dFRmpwSFV6K3N4R2VBRGlqNE8zZFVO?=
- =?utf-8?B?VTcxSkRrQ1QzTS8rM2NxK3gxOWNEK09RQnd2RC9kSUhvajl4YzY0dUR3ckZD?=
- =?utf-8?B?aUR3U1pKQWNhSlBFZXZTY3dPaHJPdXJjWWF3L1hyN1BWY0NPaFY4eUtsb1FN?=
- =?utf-8?B?RXNmTnRRSno4V3c0dVlSbWRBOHVhTnJFRVMxRWtiL2lrUFpaeFRtMnJVclVi?=
- =?utf-8?B?SklqMEhHaW5FYXRYb0VCRTk4VERRQm5uQnp6MnFBUVQvQ0JGOHl5SVVLOXlv?=
- =?utf-8?B?NjNwM0o0NE9YVE9FbGZBMVpwQVRQS2dsWWZYZ2VUeUZ5cnd3eVNRUFpUOVJX?=
- =?utf-8?B?YjBjTFg5c2hYNGtpQVpoM2diV2J1dlVXankrb2JXWmt0NDUvTXZBNHUwbnNx?=
- =?utf-8?B?ZnNtL0VleHY2dEVKYUhlQk9ibXNyWlU0S0lpMlFib3dXNWdVbU95Mmd1M2hj?=
- =?utf-8?B?VWkvckxGSU50bStFanJwQyt1YmdneEs2em43TWt2V0RBUjM0UUZSTGlGaFYw?=
- =?utf-8?B?Wmp0SnJXemJqTzJ0VXR1NUoyTjNDekVaSURsYUMvNGhIMy9PenpqMFBYUjBJ?=
- =?utf-8?B?a2prRlE0cDZuWWhveHpURXdLN0d5MGZ4eDVDS3F1Q0dUbGVvZmNHdnBDWGJl?=
- =?utf-8?B?ekhIdkU5S0pTS1NNMzExQitEdGJHVjNxRHkvWktoSWpYS1lMQjkvbGc4NkJs?=
- =?utf-8?B?bC9hN0pVVlZKK05QbWlWV29WSWpTTW9TOXprak1RY2YwQXFsQWx6Uk1qUXgv?=
- =?utf-8?Q?yKf2BTWuyXk0d?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(1800799024)(376014)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eHdSeGY2SEFpakhjcjlYN2JnVnNheXc5bnNYZUZRZWU1eXk5T3pxSEQ2S0Vi?=
- =?utf-8?B?U0x6Z3RYQ2QxNnoycWY0OEw2WW0vMlkvb3pLbGQra2hsNTN3QVVid1lYVFcx?=
- =?utf-8?B?K3ZWY1JCRXMxODJKSHVWc3dUcy8rV1J0dnFUVXQ5Uml6VVMrQk4yVGlnSVRv?=
- =?utf-8?B?R3VpMlhVTWRYWUVKTkJHS2h5eWVrZEVMTG05OVRqcFVlT0NRKzg0Q1JjWk9n?=
- =?utf-8?B?eXZHUnZ4cnpDZW1uRmQzVHRtT1ZmNmZ2SldzUUtXQ0dwT3BLYlpkdVJEZGVu?=
- =?utf-8?B?NStzN3VzRVg0UGtYbWZRMXdCeTgzbWVVYjB3QVd5b2kwdG1FTWZFWVBaM1lS?=
- =?utf-8?B?ekNJTTRzVkxnOXZzZ2QyaDhBYWxhTC80QVAzNW9aQU9hek1kR1JFd0RtZmpa?=
- =?utf-8?B?RjVKN2Y5S3h5WUE5bjhOaFlYNlRNNmhqSVpQbzRmb0RpUm5BZGRpUmZScEVJ?=
- =?utf-8?B?REhTRjQvUmpKMFlwM1QrQVRjQUx3U1NFZUpiaFdQZndnM2tjM2ZHeVJKNVg2?=
- =?utf-8?B?WElsYlp3UkFwWmRSZUY2cG5rdFdqblpqaWRZM2xMUGp1M0lVK3NLUkgraEhY?=
- =?utf-8?B?R21vUHF3VWhwTjhuU0w1RHUrWTZPUmxtT2Z3TXRONDdDbXB4WVJCcHJZTjA1?=
- =?utf-8?B?VHJnb2JnTjllYTFSdWpLSHkyT09ERGNKZFNHbkRmSW56cml4cjNQRWYyd2Va?=
- =?utf-8?B?WS9sUldaaUVWWk1pejRaWmt4QkExd1kvdkRrc3A1VnFBUTJITFMybGVCcjE0?=
- =?utf-8?B?L05SelBicHphMG84elFnVndmMFBBSktuMWxYekxsQXBWMGJzakd3cnVxWkUw?=
- =?utf-8?B?TnFFTWFPZk90Z3ozaXJGQWJ2MFVzRUtUNmVDeGsxVzUxWDNWTXR3Sm9xbXpk?=
- =?utf-8?B?bTgydXRWOU9GQTh3UWhYcFF3VE1GZXBnby9LL1hQOHY2VzRTeWJhbkRVN2tW?=
- =?utf-8?B?U1B3MVBKVFkxb3F0Q2JFb0FnN1ZPdXRSM2hkZEcvR3RtRWJzcWl2ZW5CK2R2?=
- =?utf-8?B?NzdUV2RFTnh4alhzV1l5ZFg4S0ozZ1Rqb3NUQ3MzYUlnVkc5K1g5UXFDSDRs?=
- =?utf-8?B?NGZDTmNaOVBzMElDSFAvNXd1WWk2b0lVQUNkMGRVd2VBZkdCVXpyWWZzSE1Y?=
- =?utf-8?B?N2ZPTm9FWVNnRktzRXRpOWxRc1BUYmNqcG9Rem9ObGpJM3ZTMFJyVXJqbHgx?=
- =?utf-8?B?ekZRNk5LT0tlMUVMZWNMTiszdktJenNpS1MzcndVYnRjOTZhd2RUNEo3VmVD?=
- =?utf-8?B?N0pieXpZOUJJZVJIMkZSemhmRVlqY0MwS0NOaTk5UExKeng4RkVwTVEzcUhs?=
- =?utf-8?B?aW0xRjI4NlZwKzNTNlMyNzlTcCttWW9aWHJsMWhYTHE0bEQvbWk0L2xKaU1T?=
- =?utf-8?B?NE9SY3F0bkU2dVI2MS91VVdYTzl6c1RIemlvVitGUStJVERLMDF2RU1XUWcx?=
- =?utf-8?B?NUlEVnBjVGFISTN1QTI1dlhxYS9JWGtsZXpXNmkxRHdsYnBONktoM3FYV2J5?=
- =?utf-8?B?aEJPZkk0c3l3YmhyRVQ2Ump2THlqMHpZelVwdjlBY2lZVTBVa1ppTzUrdHZX?=
- =?utf-8?B?L2lkRGt2eWpFVi94OWhrU0NnNzcweTJxOTBubWM0Zlh5My8wSURZV1ZyTDVK?=
- =?utf-8?B?TjdpQ0R4eG5GVitjQjk5ZytZSS9RT29xL0d4UDRFNzJZc2hlYzVqL2RQM2dI?=
- =?utf-8?B?THFJOHhvUDI4OGRmUDJ1OHhZWUZJMnFaMXJFdDZiOVk4U1YxVFAxcjZhNGEv?=
- =?utf-8?B?NysybC95T1BSOUYrQWlvZlF4dE5DeXA0TzN2RWdxZ29BR3F2Z0dZanpZM0N2?=
- =?utf-8?B?NFIwd2pXWW5pWldzTmNEZkpEdDZmMFhHTWFQeFU1UFlyTUhJOEZRYUpSaEtB?=
- =?utf-8?B?WjhWaFV6am12c0V1aUpnblB6aHR0cXl3YXdWME1xSnVIcVFyRWt6RGxuQ3hP?=
- =?utf-8?B?Nnp0S0dHcFIyb1NMd1I3dUc2c0psdXpwS3ozekQvT1FibEg1RzFwZHBKb2NZ?=
- =?utf-8?B?QzQrUWUyWkJjWlNZRW5DUHROL1h5d2VWWnJZYUFKeWhyUWlueWRKQTJXckF4?=
- =?utf-8?B?T0JPN3RJb2J2Zko5V1NoZnZ0djRFR25WM21seHBuNldKcVN1ZFcza3B1S3Na?=
- =?utf-8?Q?e7UBmVXnQGB4UnbFWqSKXcDyK?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B25110E0F5;
+ Thu,  7 Nov 2024 12:46:25 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A7Bk2P0010071;
+ Thu, 7 Nov 2024 12:46:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ QHsAQsRyk5dmGx34cg4kQQm2JHmC82RobriQOq+FEDQ=; b=HzCZ+WfQLy5WlJ4m
+ iVfMXE74jxCs2I3S4mkLOIOWnQoFhbhyic8rMl+uVAXnKH69JrOeFmj4YXWOSpMM
+ puaPlyyecoyjWl3733gQEvjHaUyIKeGv5t1UeH7zCPfOzhpwmwC1dACc/EFD87vc
+ NYVni/jDYKE4oEeSDorLcJJ3xXUEbNebbFRbSD/QnMozwMOATa4KAxVoGE2Sx6Do
+ D9nX2WxJmxahmvf+8SQSKonM+qWS4nAvx3o0iWSXvFjfPAMbKc4kv4qXnW6eQzWd
+ JXigJkWdT43Lp0u+KMDnveDc601NBstYn2HoFm2/qz6XQf1UTAJh0/knH2eZ0IyR
+ qPXwOw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42qn73ee3f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 07 Nov 2024 12:46:20 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A7CkIAn001013
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 7 Nov 2024 12:46:18 GMT
+Received: from [10.206.104.82] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 7 Nov 2024
+ 04:46:12 -0800
+Message-ID: <49e1a6b6-683f-4826-b67e-8354a10a785d@quicinc.com>
+Date: Thu, 7 Nov 2024 18:16:09 +0530
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b4f3651-5add-444b-1d36-08dcff21fc28
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2024 11:47:40.9063 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: T0klwMa7DwdEdQx5vhGXx9VEaeRGEJfvPsUDqIm7wj7VVogajAFZWk5W800JK39tUCor43a1qTCX/BMTDHZ3/Dne3clDnNRQhWq/zaqx8uw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9727
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 1/3] drm/msm/adreno: Add support for ACD
+To: <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Viresh Kumar
+ <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
+ <andersson@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
+ <20241012-gpu-acd-v1-1-1e5e91aa95b6@quicinc.com>
+ <4aeec9f1-720b-400c-9582-d02847db2ac7@linaro.org>
+ <43404449-1830-4651-a85a-54404b1d35bc@quicinc.com>
+ <56a976d6-7dd6-4001-b6a8-268ed7d787d2@linaro.org>
+Content-Language: en-US
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <56a976d6-7dd6-4001-b6a8-268ed7d787d2@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: yHWK68YwBmCBlk4I8YCF_76lLrtMySNS
+X-Proofpoint-GUID: yHWK68YwBmCBlk4I8YCF_76lLrtMySNS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=999 suspectscore=0 spamscore=0 clxscore=1015 phishscore=0
+ lowpriorityscore=0 mlxscore=0 adultscore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411070099
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,38 +103,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gLS0tLS1PcmlnaW5h
-bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFy
-dEBpZGVhc29uYm9hcmQuY29tPg0KPiBTZW50OiAwNiBOb3ZlbWJlciAyMDI0IDE5OjMxDQo+IFN1
-YmplY3Q6IFJlOiBbUEFUQ0ggdjMgMi8zXSBkdC1iaW5kaW5nczogZGlzcGxheTogYWRpLGFkdjc1
-MzM6IERyb3Agc2luZ2xlIGxhbmUgc3VwcG9ydA0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IFRoYW5r
-IHlvdSBmb3IgdGhlIHBhdGNoLg0KPiANCj4gT24gV2VkLCBOb3YgMDYsIDIwMjQgYXQgMDY6NDk6
-MjlQTSArMDAwMCwgQmlqdSBEYXMgd3JvdGU6DQo+ID4gQXMgcGVyIFsxXSwgQURWNzUzNS83NTMz
-IHN1cHBvcnQgb25seSAyLSwgMy0sIG9yIDQtbGFuZS4gRHJvcA0KPiA+IHVuc3VwcG9ydGVkIDEt
-bGFuZSBmcm9tIGJpbmRpbmdzLg0KPiA+DQo+ID4gWzFdDQo+ID4gaHR0cHM6Ly93d3cuYW5hbG9n
-LmNvbS9tZWRpYS9lbi90ZWNobmljYWwtZG9jdW1lbnRhdGlvbi9kYXRhLXNoZWV0cy9BRA0KPiA+
-IFY3NTM1LnBkZg0KPiANCj4gTm8gbmVlZCBmb3IgYSBsaW5lIGJyZWFrLCB5b3UgY2FuIHdyaXRl
-DQo+IA0KPiBbMV0gaHR0cHM6Ly93d3cuYW5hbG9nLmNvbS9tZWRpYS9lbi90ZWNobmljYWwtZG9j
-dW1lbnRhdGlvbi9kYXRhLXNoZWV0cy9BRFY3NTM1LnBkZg0KDQpBZ3JlZWQuIFdpbGwgYWRkIHRo
-ZSBtaXNzaW5nIGxpbmsgZm9yIEFEVjc1MzMgYXMgd2VsbC4NCg0KQ2hlZXJzLA0KQmlqdQ0KDQo+
-IA0KPiA+DQo+ID4gRml4ZXM6IDFlNGQ1OGNkN2Y4OCAoImRybS9icmlkZ2U6IGFkdjc1MzM6IENy
-ZWF0ZSBhIE1JUEkgRFNJIGRldmljZSIpDQo+ID4gQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcN
-Cj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+
-DQo+IA0KPiBSZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydCty
-ZW5lc2FzQGlkZWFzb25ib2FyZC5jb20+DQo+IA0KPiA+IC0tLQ0KPiA+IHYzOg0KPiA+ICAqIE5l
-dyBwYXRjaC4NCj4gPiAtLS0NCj4gPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9i
-cmlkZ2UvYWRpLGFkdjc1MzMueWFtbCAgICAgICAgIHwgMiArLQ0KPiA+ICAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQNCj4g
-PiBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hZGks
-YWR2NzUzMy55YW1sDQo+ID4gYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
-cGxheS9icmlkZ2UvYWRpLGFkdjc1MzMueWFtbA0KPiA+IGluZGV4IGRmMjBhM2M5Yzc0NC4uZWM4
-OTExNWM3NGU0IDEwMDY0NA0KPiA+IC0tLQ0KPiA+IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2FkaSxhZHY3NTMzLnlhbWwNCj4gPiArKysgYi9Eb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYWRpLGFkdjc1MzMu
-eWFtDQo+ID4gKysrIGwNCj4gPiBAQCAtOTAsNyArOTAsNyBAQCBwcm9wZXJ0aWVzOg0KPiA+ICAg
-IGFkaSxkc2ktbGFuZXM6DQo+ID4gICAgICBkZXNjcmlwdGlvbjogTnVtYmVyIG9mIERTSSBkYXRh
-IGxhbmVzIGNvbm5lY3RlZCB0byB0aGUgRFNJIGhvc3QuDQo+ID4gICAgICAkcmVmOiAvc2NoZW1h
-cy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzINCj4gPiAtICAgIGVudW06IFsgMSwgMiwg
-MywgNCBdDQo+ID4gKyAgICBlbnVtOiBbIDIsIDMsIDQgXQ0KPiA+DQo+ID4gICAgIiNzb3VuZC1k
-YWktY2VsbHMiOg0KPiA+ICAgICAgY29uc3Q6IDANCj4gDQo+IC0tDQo+IFJlZ2FyZHMsDQo+IA0K
-PiBMYXVyZW50IFBpbmNoYXJ0DQo=
+On 11/7/2024 2:25 PM, neil.armstrong@linaro.org wrote:
+> On 06/11/2024 02:44, Akhil P Oommen wrote:
+>> On 11/4/2024 9:14 PM, neil.armstrong@linaro.org wrote:
+>>> On 11/10/2024 22:29, Akhil P Oommen wrote:
+>>>> ACD a.k.a Adaptive Clock Distribution is a feature which helps to
+>>>> reduce
+>>>> the power consumption. In some chipsets, it is also a requirement to
+>>>> support higher GPU frequencies. This patch adds support for GPU ACD by
+>>>> sending necessary data to GMU and AOSS. The feature support for the
+>>>> chipset is detected based on devicetree data.
+>>>>
+>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 81 +++++++++++++++++++++++++
+>>>> +++-------
+>>>>    drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  1 +
+>>>>    drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 36 ++++++++++++++++
+>>>>    drivers/gpu/drm/msm/adreno/a6xx_hfi.h | 21 +++++++++
+>>>>    4 files changed, 124 insertions(+), 15 deletions(-)
+>>>>
+>>>
+>>> <snip>
+>>>
+>>>> +
+>>>> +static int a6xx_hfi_enable_acd(struct a6xx_gmu *gmu)
+>>>> +{
+>>>> +    struct a6xx_hfi_acd_table *acd_table = &gmu->acd_table;
+>>>> +    struct a6xx_hfi_msg_feature_ctrl msg = {
+>>>> +        .feature = HFI_FEATURE_ACD,
+>>>> +        .enable = 1,
+>>>> +        .data = 0,
+>>>> +    };
+>>>> +    int ret;
+>>>> +
+>>>> +    if (!acd_table->enable_by_level)
+>>>> +        return 0;
+>>>> +
+>>>> +    /* Enable ACD feature at GMU */
+>>>> +    ret = a6xx_hfi_send_msg(gmu, HFI_H2F_FEATURE_CTRL, &msg,
+>>>> sizeof(msg), NULL, 0);
+>>>> +    if (ret) {
+>>>> +        DRM_DEV_ERROR(gmu->dev, "Unable to enable ACD (%d)\n", ret);
+>>>> +        return ret;
+>>>> +    }
+>>>> +
+>>>> +    /* Send ACD table to GMU */
+>>>> +    ret = a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_ACD, &msg, sizeof(msg),
+>>>> NULL, 0);
+>>>
+>>> This looks wrong, in this exact code, you never use the acd_table...
+>>> perhaps it should be acd_table here
+>>
+>> Whoops! Weirdly gmu didn't explode when I tested.
+>>
+>> Thanks for your keen eye.
+> 
+> You're welcome !
+> 
+> I've been trying to enable this on SM8650, but HFI_H2F_MSG_ACD fails.
+> 
+> My changes:
+> ================><================================
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/
+> msm/adreno/a6xx_hfi.c
+> index 7c96d6f8aaa9..bd9d586f245e 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> @@ -682,7 +682,7 @@ static int a6xx_hfi_enable_acd(struct a6xx_gmu *gmu)
+>         }
+> 
+>         /* Send ACD table to GMU */
+> -       ret = a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_ACD, &acd_table,
+> sizeof(*acd_table), NULL, 0);
+> +       ret = a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_ACD, &acd_table,
+
+&acd_table -> acd_table here?
+
+-Akhil
+
+> sizeof(struct a6xx_hfi_acd_table), NULL, 0);
+>         if (ret) {
+>                 DRM_DEV_ERROR(gmu->dev, "Unable to send ACD table
+> (%d)\n", ret);
+>                 return ret;
+> ================><================================
+> 
+> with the appropriate qcom,opp-acd-level in DT taken from downstream, I get:
+> [    6.946184] platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0
+> [msm]] *ERROR* Message (null) id 4 timed out waiting for response
+> [    6.958697] platform 3d6a000.gmu: [drm:a6xx_hfi_start [msm]] *ERROR*
+> Unable to send ACD table (-110)
+> 
+> is there something missing ?
+> 
+> Neil
+> 
+>>
+>> -Akhil.
+>>
+>>>
+>>>> +    if (ret) {
+>>>> +        DRM_DEV_ERROR(gmu->dev, "Unable to ACD table (%d)\n", ret);
+>>>> +        return ret;
+>>>> +    }
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>>    static int a6xx_hfi_send_test(struct a6xx_gmu *gmu)
+>>>>    {
+>>>>        struct a6xx_hfi_msg_test msg = { 0 };
+>>>> @@ -756,6 +788,10 @@ int a6xx_hfi_start(struct a6xx_gmu *gmu, int
+>>>> boot_state)
+>>>>        if (ret)
+>>>>            return ret;
+>>>>    +    ret = a6xx_hfi_enable_acd(gmu);
+>>>> +    if (ret)
+>>>> +        return ret;
+>>>> +
+>>>>        ret = a6xx_hfi_send_core_fw_start(gmu);
+>>>>        if (ret)
+>>>>            return ret;
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h b/drivers/gpu/drm/
+>>>> msm/adreno/a6xx_hfi.h
+>>>> index 528110169398..51864c8ad0e6 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
+>>>> @@ -151,12 +151,33 @@ struct a6xx_hfi_msg_test {
+>>>>        u32 header;
+>>>>    };
+>>>>    +#define HFI_H2F_MSG_ACD 7
+>>>> +#define MAX_ACD_STRIDE 2
+>>>> +
+>>>> +struct a6xx_hfi_acd_table {
+>>>> +    u32 header;
+>>>> +    u32 version;
+>>>> +    u32 enable_by_level;
+>>>> +    u32 stride;
+>>>> +    u32 num_levels;
+>>>> +    u32 data[16 * MAX_ACD_STRIDE];
+>>>> +};
+>>>> +
+>>>>    #define HFI_H2F_MSG_START 10
+>>>>      struct a6xx_hfi_msg_start {
+>>>>        u32 header;
+>>>>    };
+>>>>    +#define HFI_H2F_FEATURE_CTRL 11
+>>>> +
+>>>> +struct a6xx_hfi_msg_feature_ctrl {
+>>>> +    u32 header;
+>>>> +    u32 feature;
+>>>> +    u32 enable;
+>>>> +    u32 data;
+>>>> +};
+>>>> +
+>>>>    #define HFI_H2F_MSG_CORE_FW_START 14
+>>>>      struct a6xx_hfi_msg_core_fw_start {
+>>>>
+>>>
+>>> Thanks,
+>>> Neil
+>>
+> 
+
