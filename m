@@ -2,154 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE28D9C0936
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 15:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4249C0965
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 15:55:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2C310E86B;
-	Thu,  7 Nov 2024 14:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B061110E08B;
+	Thu,  7 Nov 2024 14:55:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bLcHiHbE";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="EmDj8+UY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2089.outbound.protection.outlook.com [40.107.102.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4693D10E86A;
- Thu,  7 Nov 2024 14:48:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LrbZRcqWVlvmJ7j9mt61SOR2E7jjgbLW1BfAM06VAzAkaMvJVzleW4L0HM24n95J7jBoDE/RwjlZHkHhpDpSntaRmBe4vh8+bLB01ZMJS/UJNrp44JlOiW2nxN3ALabxBtm18Z0jrqVycOgr+hCpKXO01mHivnRLESIMh6gDBdDepwI4QRDxX6FYcJ2Ep/+H/eO1OGrWKcyAySCSKwo94vn2h+LeuONvYGFpk/vuO+qwAYMwsESR7omNnJpu4P5+3P03NdXiXRjMiUjyi3DdrbfafqgH8wwr+sZahOJbEKwxWZxHcn4nvXUgXjXVyY/al+8c0JvZg/3CIu33qmKBnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EeAcUupymKMiZYgC5DLT++xw+e68Wc7hEsYgFA4adUQ=;
- b=OssbDobhFbs2PJ14mtHJ7vSVtdkGhzWhUT03RXYQCKlU5LdXTBIYr4LSEGkxzx5s8ntgkov59wvQWxCVyg0Nv6P0yzustymPboQndQNpYtXPHUhdA4J45a6akM76cXv7HoXIkVX9obg4QGzAFoLBh1keiGYfGVuC0tgh13vIHoYwzt5ucirvDHaS98qchcoYprGP7mQoMyIi6zsRN2yMQXD7SqcCO0+/xAXDjZLh2RjWzDR/48nLLFM2qzc7dcFjBxScc4j5SonufbAiq1U2+Mxf8BGwZdyCt3ckfRw/BNZOmfqDpgmBb94q7fcFn6QMwDmxOyl0QAQaMDdMwW5OYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EeAcUupymKMiZYgC5DLT++xw+e68Wc7hEsYgFA4adUQ=;
- b=bLcHiHbEG7osE17kqcrC7YwmZJU8Wc01xwnSnDosyLfRD4dsbr7QBaEMr1uv4z/4+kEO7FY/WFac1KlrKeZbisZHMQgdVIuQoCAJs3vh+nex4FuJWxFeTvvnjFeROzkYEP9JI9tjaVp6jyXvWqNY3Ai/Ya/Tp5Y5Ozr3js1xcAA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB6198.namprd12.prod.outlook.com (2603:10b6:208:3c5::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19; Thu, 7 Nov
- 2024 14:48:03 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.8137.018; Thu, 7 Nov 2024
- 14:48:03 +0000
-Message-ID: <4f3f2ac3-6a89-48bd-a5a3-bad5ffba26ed@amd.com>
-Date: Thu, 7 Nov 2024 15:47:58 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34F6C10E08B;
+ Thu,  7 Nov 2024 14:55:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=JRTtfKERzDn183hVWIZ6PZkD6okoIM3qUiZL1mJ3ehc=; b=EmDj8+UYywTwML32lfg1qwxLNd
+ styWIaP/JNVdLBawQBRyazvfVwEWbDeYqyNAEgvjgeCtTIghFNIK3DxoZE1u2pTlbYJDzWEwWuufB
+ 83FFmTEmztAnzi1IY9XFbpXs9hkr5gweaO23Wdtdi6PCv2/LdisVtIEQWxmOwmb3zX4ve49UYLLY/
+ QDu3kSHXL15aH4Bl1yW4AfFm+QB7A12UjelVNL66voLUVU6VOLoksNvshMBn3af4ZEDOxaZi6t2QH
+ /wn5Vax00vqEn67p59ZTljjMh6mkJcWMMXUVUx/NN4VQnzYnWRw4NZk7x2SVEKf1knwT4RGscSEVN
+ 9lt2aIqA==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1t93v4-003bxM-08; Thu, 07 Nov 2024 15:55:34 +0100
+Message-ID: <b67f20a9-64df-4813-84e7-ee9d04c79101@igalia.com>
+Date: Thu, 7 Nov 2024 14:55:33 +0000
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/5] drm: add drm_memory_stats_is_zero
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>,
+Subject: Re: [PATCH v6 5/5] drm/amdgpu: track bo memory stats at runtime
+To: "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>
 Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>
 References: <20241025174113.554-1-Yunxiang.Li@amd.com>
- <20241025174113.554-5-Yunxiang.Li@amd.com>
- <b31fd5b2-094a-4d3a-bab9-83102726eefa@igalia.com>
- <SA1PR12MB8599D376A7EBAB3F46302297ED5C2@SA1PR12MB8599.namprd12.prod.outlook.com>
- <bac29354-640f-4f39-b694-b611407c35ae@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <bac29354-640f-4f39-b694-b611407c35ae@igalia.com>
+ <20241025174113.554-6-Yunxiang.Li@amd.com>
+ <a4b907e6-2a23-4e22-bc26-607f05c91821@gmail.com>
+ <SA1PR12MB8599A6C097FACA601831465FED552@SA1PR12MB8599.namprd12.prod.outlook.com>
+ <8afce7b8-98be-41ad-b06f-c63dacb708b6@igalia.com>
+ <SA1PR12MB859951E947C74D34D59D34ADED5C2@SA1PR12MB8599.namprd12.prod.outlook.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <SA1PR12MB859951E947C74D34D59D34ADED5C2@SA1PR12MB8599.namprd12.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0147.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:96::11) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6198:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f77178b-4c48-4fb2-eb43-08dcff3b2ea4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M1pUclRsZG9ESVpXOVVVNzR5NDNDYy8va3ZCQWpQc3k3dzdscGh6WUlsUE8y?=
- =?utf-8?B?dWJ2dWVSaHlDanJkek5XSFdIdHU0Vk1ZZCtMU2ZmNEVEWVh1RVNlVzZreTVo?=
- =?utf-8?B?Vm9BQUJRcHhNSnFqajUyeWRCbWdBekI1TDJyaUp1TjhYSHVLVllVZjdGWVNG?=
- =?utf-8?B?R1Q4N1VjY0xFcWtoTzBFMFZ2MFlVYS96V3RkUnlySTIwZ0JyZVBmcTg0WDkv?=
- =?utf-8?B?MVJhejI5TXB5dSt5NUlQZFV3Q0lHZHdDVE5WeVFsTXZkck5DZEtueXVHa1Fh?=
- =?utf-8?B?MEg2SENQVmtJYWZyWElCYmhxT0o3VHRWRjhFU2VxSlRTTmJNSmN3MDU5VE8x?=
- =?utf-8?B?MEd3Q1h3dVQxWDRiMzhQNHFuMllMbHI5T1FhSFZTRk9iSGE5S1JobXRCV0NT?=
- =?utf-8?B?UlNKeHZrSkdmMVFxNU9vajJQRDlJczM2emN0emlpYkpWN3E1ZDIzNG5uRlox?=
- =?utf-8?B?NHFWUCtWQldWUUJYZ1FqNEllUDNnb0xTVjBDOHpqU2dTK3NKRHZ4K1ViNEg1?=
- =?utf-8?B?czBzeHlkZVFHcnRwYVJyN0J2eDFNYXNSVlR5M21mZXl1Z0E1YUtsVzVROW9C?=
- =?utf-8?B?WHpEam9NTG5sYnRualB3WTNNWU8xZGtGR2NXQ1krT2hkbWNSN2xjaDlTWTBv?=
- =?utf-8?B?TE1jZXhySTBJaVZzMU5FTDFYMklEZmt2R2FRMVNCcGVxUUt3YkdNVmpkRUtB?=
- =?utf-8?B?SlNYOFZLdmRMUm52WDhNcVJIN1E0Sy9keHl3QithY2NHYmoxNkNtYit1L0xU?=
- =?utf-8?B?M2dUQ0llSFBNNmdnUVRxbEU1dEl4SHFZZkpGZ1A3NlM3MEpZdXJpWXpTb0tp?=
- =?utf-8?B?dmF1UlpaNjh4bjBUd1RITkY4Nm1hbVpZRG9LNUVWemJDam5JS1RVWjNPalo4?=
- =?utf-8?B?aXNyVkMyZkZ3Zk55bEtiN3NnYUlKNDdaUit2ZTU4dnR3ZlBiUW5qWVJ0bTZR?=
- =?utf-8?B?bHkwcENZZmNmTXJwUTc4eDJDczZjSlNRR29CSjJlbmF5L2gwTlRITG5BTm85?=
- =?utf-8?B?NFpiNG1za1UzaWZIcnJaQmRDQng5djdVTzE3UDQvVkJUcTdkWTZUMFJDZEJD?=
- =?utf-8?B?TjRIMmJoQ2tZcWJIUHE2c0RiUzB6UzFPRGxkcCtFNmlyU3VJbitvZ1FGTXlJ?=
- =?utf-8?B?cjlGSXNiZVpNNUlNdGozdm5EN09BYTgwQmYveXB0RTRyQ0wycXpRSmRvdC9M?=
- =?utf-8?B?eVhvTlBCUFBTMmdXRzFLRkc1Z0hyaHJXcWROdThETmRQait4VGFSZDFUUmNV?=
- =?utf-8?B?aklpT3dwNzEzSUZ5V2dseTZCMFpBSGIwc1Y5cUdGUFZ4SEtYMzl4b3h0SFBU?=
- =?utf-8?B?WVpHV080UG9JaW9mOXlHcGJadVVNT1I1T0FPM3g4dkJhZitKQWQvVkpKL1Qw?=
- =?utf-8?B?N2JSOHpLUjYrQS9FVVdDYVdkdzJyUXRlZUo4NytBZ2JWV0pxbjNlQVpiOEo1?=
- =?utf-8?B?akRWelc0VjNtdExyd20xYm5pemV0a3dIUXd4SWJ4RnVmRTF0TkpaRk1ObjRy?=
- =?utf-8?B?VW9rcU81N013d3ZLTHVmK2xyNlBES2NObWsxajdRQXlkZFpXb0YxLy9ESmZD?=
- =?utf-8?B?NThsVFZid3JEdjFUaXJzaUNmWWZsUmE0SFdmd0ltN3VEUVYvdWtqVlFJZmIr?=
- =?utf-8?B?ZERnYnc3MFdSc3AxZG1nQjJmaE9CN3kxWUpyQy9QNUZqallLTUlHUDBoMTdx?=
- =?utf-8?B?VTZkUTd5cFdtVStFUlYweWQ0TmtBTjQ3aThIOXBMeFdpOGtxK0NpK0tJTWMy?=
- =?utf-8?Q?V8fqUc6xOSrrIiZdYpjNSQ4obUvMkfKva33R9Bm?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d25vdzVid2ZTY2NVY3VucDdsbVJzTFFjMlFKZE9qV2d5ZHc5a0IzY1lIeU9U?=
- =?utf-8?B?KzNKVkhmOFRaWCtOQmRXSnc1UGJXTFJsM1NDeEdiVWdTRlJhL3R1NU9QOUhk?=
- =?utf-8?B?bWVxSklzOWlRd2pkaDFNT0JiSVZsWVVwYThDb2pUcnlnSjdDbzEzaXZVZ05h?=
- =?utf-8?B?V0pFTVVlTlB5cUw0emtoa3ZyY096dTZuVlR0V1JNWUcvNHZLQlNmZmVUUXRB?=
- =?utf-8?B?Q3lTc2FmdWNpMFh5am9qV2hhd2k2dkRCWmZuakh0byt6amJyaVFFVituQU01?=
- =?utf-8?B?blRHSXFxdWRtdDJUdlRna213ZHpYK01oaWQvRFBSTEsyS044MmtJaFplVW42?=
- =?utf-8?B?bG9vTmJXL1ovOUpyM2ovMXQzM3dlUFR3LzNEZUNlOHRRV2Q3aVcrZkVSTTJJ?=
- =?utf-8?B?a3VwRWgzSUZKZzdUSTJ0SUh6UXFqYzJUQ0NMYU9vUHR5UjNrd0lFUTh1SEcv?=
- =?utf-8?B?d0RIMk11MFUvbUZvNDVoSm5pd1FzdHJNTFNLQi9oQnY4MDM1cXZGeW5EWVdV?=
- =?utf-8?B?bm9NcWlxc3RMbUtYcy9GZUtJRjZjdVh0OGliT0tCTC9KRmFFK3Bkc1ExY29k?=
- =?utf-8?B?UXlWUS9ad09XMVhzRjJPbXJubVROQTNNbWNmekFZUjlSMEE5WTNlTXRmQVVr?=
- =?utf-8?B?dXlKZGRUTXBPc0NUbDNqNEJCYWtVQ21wT2FGeENveUQzY0NEMmhNdUIvS2ZW?=
- =?utf-8?B?RHU5MnkweEtxK0ZyYmNVQ1NYdG5nRFltTTlkaVlPeGROb3FEN2lmM3JVY0xn?=
- =?utf-8?B?c3JIRG5RRnoxWi9qTk90b2xQV1orUTVkQm5QRG5aZUt5ZjBmVFJObVFVUzAy?=
- =?utf-8?B?YnpwOXJFRkFMbURLRXBpRSt5WElra05qZkNiMTBWM3MvR3VNdjcxb1FScS9C?=
- =?utf-8?B?czlZR3UxRUFyVGUvcGFPY04rdTdPOEQ2bnUxNFltazNOMzBSMEZjekhJMjdh?=
- =?utf-8?B?RlZRKzQrSS9oVy9pR3ExMUVNSEVKRzcvWlg0TlN0OXVhd3UwNDZla0xCbDhQ?=
- =?utf-8?B?NS9uY2JHNS9rU2FiQS84Tk5HUDNSZkRuWHhTRi9JME5DcU44Y3BCd3FUMi8v?=
- =?utf-8?B?NTlrN2ZzcS92ZE5Ob3RHbVFHd3R4ZlFMbmJUYkVZUU1jM0xGMjRWdVFuUmJ6?=
- =?utf-8?B?eUtSdDlEbExYZUxUV1lJM0hqRVd0SkNnaEovWUY3QTI2RUZlRHJTY2lSQWsr?=
- =?utf-8?B?WGpXQWhLaitWWnZTcEE5WkZCQmhveHhjSUQzdjVxSnRHOWIxUnJja3JHbHBj?=
- =?utf-8?B?WHVYZW5aVGJWK295cTVKRmhheThHd05KYndaUDZlRFExN0ZRSSswUkhycmZr?=
- =?utf-8?B?ZE5zSEg3WktERU43eVlZcWdXRGtPOUtsNjROUmFoWWh6RWJqaGR2ZStZYXB2?=
- =?utf-8?B?QUx4OXpiSTZ3d0poMkxvU2tFV1h3UEFGdDkrM3JiVmRTYk50eUFVdFp2TUJ6?=
- =?utf-8?B?WnRHRWxFVUFHWmF6d0JnbWRDWlcwUDlDSVZ1UlVURS9yN2pzNy9GYVZscUFK?=
- =?utf-8?B?Q2VndVR6cFI0RkhHaXJRcG01aTJhc2phMFpMbVJKcEZEeWpwbys1SWxFR0FH?=
- =?utf-8?B?NkZaYUFJR21FWndVL2JwMVB0aWU1bGtBNVY4a1JOOFZWL3BmcVZNanBYZStJ?=
- =?utf-8?B?THpyRnhFYmEvYmllZkl6amYwQVpjY3RFSUhkWlB4bGFJQzNrT1JpWDA5L3BQ?=
- =?utf-8?B?U1pJWUpTNEwvMURUWEN3S2REeUdMN2xxQ3R2TGxVcHE3UkcvemJ0VmlJcDJs?=
- =?utf-8?B?enJmR2dhdndmQmFTb1QrRWM5RjlsNG8zaTY3QnE1Y0srMFZ4eE43ZEZPRjRs?=
- =?utf-8?B?TXBxMFRFaDNwWi9IMFFUOHJ0UDFvVGk4VWlQaktHQkhSa01nNTNTYmFsTS9N?=
- =?utf-8?B?TGdBNFNuMXcvTDZ4b0lZQ1hqMFdQSjFFSWRXdHg4OGYwVU9FWFpET2ZRazBt?=
- =?utf-8?B?a2h2QmFrV1Y4bXYvWWVUQW9rWW8vMHNncTZQamtKVDl5aTJ0MVZFYW5sczdZ?=
- =?utf-8?B?SmkySUVwRmtPVTZId1N1d2tRY05GdTFGSlhpTFZjQmhOL3ZWMng2TFlTbGU3?=
- =?utf-8?B?dUdLeWpiWWYwdWE1SzF0QmZvak0rTm9XMndaanhMamFIcVhCNFVuVzZCWjBo?=
- =?utf-8?Q?1Dc7vR+wnfB4KP7mkRyMo3nHQ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f77178b-4c48-4fb2-eb43-08dcff3b2ea4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2024 14:48:03.2841 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AOBW9y9iu105BDiJze7LksRZ8N40UxJl+4eSvy4RwBxR/aubsrqh8QF9MLiRbsle
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6198
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,99 +69,666 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.11.24 um 15:43 schrieb Tvrtko Ursulin:
-> On 07/11/2024 14:17, Li, Yunxiang (Teddy) wrote:
->> [AMD Official Use Only - AMD Internal Distribution Only]
->>
->>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>> Sent: Thursday, November 7, 2024 5:41
->>> On 25/10/2024 18:41, Yunxiang Li wrote:
->>>> Add a helper to check if the memory stats is zero, this will be used
->>>> to check for memory accounting errors.
+
+On 07/11/2024 14:24, Li, Yunxiang (Teddy) wrote:
+> [Public]
+> 
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Sent: Thursday, November 7, 2024 5:48
+>> On 31/10/2024 13:48, Li, Yunxiang (Teddy) wrote:
+>>> [Public]
+>>>
+>>>> From: Christian König <ckoenig.leichtzumerken@gmail.com>
+>>>> Sent: Thursday, October 31, 2024 8:54 Am 25.10.24 um 19:41 schrieb
+>>>> Yunxiang Li:
+>>>>> Before, every time fdinfo is queried we try to lock all the BOs in
+>>>>> the VM and calculate memory usage from scratch. This works okay if
+>>>>> the fdinfo is rarely read and the VMs don't have a ton of BOs. If
+>>>>> either of these conditions is not true, we get a massive performance hit.
+>>>>>
+>>>>> In this new revision, we track the BOs as they change states. This
+>>>>> way when the fdinfo is queried we only need to take the status lock
+>>>>> and copy out the usage stats with minimal impact to the runtime performance.
+>>>>>
+>>>>> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
+>>>>> ---
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  14 +-
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c  |  10 +-
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  | 107 +++--------
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |   5 +-
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     |   2 +-
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c      | 189 +++++++++++++++---
+>> --
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h      |  12 +-
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c   |   1 +
+>>>>>     8 files changed, 199 insertions(+), 141 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>>>>> index b144404902255..1d8a0ff3c8604 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>>>>> @@ -36,6 +36,7 @@
+>>>>>     #include "amdgpu_gem.h"
+>>>>>     #include "amdgpu_dma_buf.h"
+>>>>>     #include "amdgpu_xgmi.h"
+>>>>> +#include "amdgpu_vm.h"
+>>>>>     #include <drm/amdgpu_drm.h>
+>>>>>     #include <drm/ttm/ttm_tt.h>
+>>>>>     #include <linux/dma-buf.h>
+>>>>> @@ -190,6 +191,13 @@ static void amdgpu_dma_buf_unmap(struct
+>>>> dma_buf_attachment *attach,
+>>>>>       }
+>>>>>     }
+>>>>>
+>>>>> +static void amdgpu_dma_buf_release(struct dma_buf *buf) {
+>>>>> +   struct amdgpu_bo *bo = gem_to_amdgpu_bo(buf->priv);
+>>>>> +   amdgpu_vm_bo_update_shared(bo, -1);
+>>>>> +   drm_gem_dmabuf_release(buf);
 >>>>
->>>> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
->>>> ---
->>>>    drivers/gpu/drm/drm_file.c | 9 +++++++++
->>>>    include/drm/drm_file.h     | 1 +
->>>>    2 files changed, 10 insertions(+)
+>>>> Please run checkpatch.pl on the patch. As far as I can see it would
+>>>> complain about the coding style here (empty line between declaration and code).
 >>>>
->>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->>>> index 714e42b051080..75ed701d80f74 100644
->>>> --- a/drivers/gpu/drm/drm_file.c
->>>> +++ b/drivers/gpu/drm/drm_file.c
->>>> @@ -859,6 +859,15 @@ static void print_size(struct drm_printer *p, 
->>>> const char
->>> *stat,
->>>>      drm_printf(p, "drm-%s-%s:\t%llu%s\n", stat, region, sz, 
->>>> units[u]);
->>>>    }
+>>>> Not much of an issue but we would like to prevent upstream from
+>>>> complaining about such things.
+>>>
+>>> Will do
+>>>
+>>>>> +}
+>>>>> +
+>>>>>     /**
+>>>>>      * amdgpu_dma_buf_begin_cpu_access -
+>>>>> &dma_buf_ops.begin_cpu_access
+>>>> implementation
+>>>>>      * @dma_buf: Shared DMA buffer
+>>>>> @@ -237,7 +245,7 @@ const struct dma_buf_ops amdgpu_dmabuf_ops = {
+>>>>>       .unpin = amdgpu_dma_buf_unpin,
+>>>>>       .map_dma_buf = amdgpu_dma_buf_map,
+>>>>>       .unmap_dma_buf = amdgpu_dma_buf_unmap,
+>>>>> -   .release = drm_gem_dmabuf_release,
+>>>>> +   .release = amdgpu_dma_buf_release,
+>>>>>       .begin_cpu_access = amdgpu_dma_buf_begin_cpu_access,
+>>>>>       .mmap = drm_gem_dmabuf_mmap,
+>>>>>       .vmap = drm_gem_dmabuf_vmap,
+>>>>> @@ -265,8 +273,10 @@ struct dma_buf *amdgpu_gem_prime_export(struct
+>>>> drm_gem_object *gobj,
+>>>>>               return ERR_PTR(-EPERM);
+>>>>>
+>>>>>       buf = drm_gem_prime_export(gobj, flags);
+>>>>> -   if (!IS_ERR(buf))
+>>>>> +   if (!IS_ERR(buf)) {
+>>>>>               buf->ops = &amdgpu_dmabuf_ops;
+>>>>> +           amdgpu_vm_bo_update_shared(bo, +1);
+>>>>> +   }
+>>>>>
+>>>>>       return buf;
+>>>>>     }
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>>>>> index 7a9573958d87c..e0e09f7b39d10 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>>>>> @@ -60,7 +60,7 @@ void amdgpu_show_fdinfo(struct drm_printer *p,
+>>>>> struct
+>>>> drm_file *file)
+>>>>>       struct amdgpu_fpriv *fpriv = file->driver_priv;
+>>>>>       struct amdgpu_vm *vm = &fpriv->vm;
+>>>>>
+>>>>> -   struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST + 1] = { };
+>>>>> +   struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST] = { };
+>>>>>       ktime_t usage[AMDGPU_HW_IP_NUM];
+>>>>>       const char *pl_name[] = {
+>>>>>               [TTM_PL_VRAM] = "vram", @@ -70,13 +70,7 @@ void
+>>>>> amdgpu_show_fdinfo(struct drm_printer *p, struct
+>>>> drm_file *file)
+>>>>>       unsigned int hw_ip, i;
+>>>>>       int ret;
+>>>>>
+>>>>> -   ret = amdgpu_bo_reserve(vm->root.bo, false);
+>>>>> -   if (ret)
+>>>>> -           return;
+>>>>> -
+>>>>> -   amdgpu_vm_get_memory(vm, stats, ARRAY_SIZE(stats));
+>>>>> -   amdgpu_bo_unreserve(vm->root.bo);
+>>>>> -
+>>>>> +   amdgpu_vm_get_memory(vm, stats);
+>>>>>       amdgpu_ctx_mgr_usage(&fpriv->ctx_mgr, usage);
+>>>>>
+>>>>>       /*
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>>> index 2436b7c9ad12b..98563124ff99c 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>>> @@ -1156,7 +1156,7 @@ void amdgpu_bo_move_notify(struct
+>>>>> ttm_buffer_object
+>>>> *bo,
+>>>>>               return;
+>>>>>
+>>>>>       abo = ttm_to_amdgpu_bo(bo);
+>>>>> -   amdgpu_vm_bo_invalidate(abo, evict);
+>>>>> +   amdgpu_vm_bo_move(abo, new_mem, evict);
+>>>>>
+>>>>>       amdgpu_bo_kunmap(abo);
+>>>>>
+>>>>> @@ -1169,86 +1169,6 @@ void amdgpu_bo_move_notify(struct
+>>>> ttm_buffer_object *bo,
+>>>>>                            old_mem ? old_mem->mem_type : -1);
+>>>>>     }
+>>>>>
+>>>>> -void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
+>>>>> -                     struct amdgpu_mem_stats *stats,
+>>>>> -                     unsigned int sz)
+>>>>> -{
+>>>>> -   const unsigned int domain_to_pl[] = {
+>>>>> -           [ilog2(AMDGPU_GEM_DOMAIN_CPU)]      = TTM_PL_SYSTEM,
+>>>>> -           [ilog2(AMDGPU_GEM_DOMAIN_GTT)]      = TTM_PL_TT,
+>>>>> -           [ilog2(AMDGPU_GEM_DOMAIN_VRAM)]     = TTM_PL_VRAM,
+>>>>> -           [ilog2(AMDGPU_GEM_DOMAIN_GDS)]      =
+>>>> AMDGPU_PL_GDS,
+>>>>> -           [ilog2(AMDGPU_GEM_DOMAIN_GWS)]      =
+>>>> AMDGPU_PL_GWS,
+>>>>> -           [ilog2(AMDGPU_GEM_DOMAIN_OA)]       = AMDGPU_PL_OA,
+>>>>> -           [ilog2(AMDGPU_GEM_DOMAIN_DOORBELL)] =
+>>>> AMDGPU_PL_DOORBELL,
+>>>>> -   };
+>>>>> -   struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>>>>> -   struct ttm_resource *res = bo->tbo.resource;
+>>>>> -   struct drm_gem_object *obj = &bo->tbo.base;
+>>>>> -   uint64_t size = amdgpu_bo_size(bo);
+>>>>> -   unsigned int type;
+>>>>> -
+>>>>> -   if (!res) {
+>>>>> -           /*
+>>>>> -            * If no backing store use one of the preferred domain for basic
+>>>>> -            * stats. We take the MSB since that should give a reasonable
+>>>>> -            * view.
+>>>>> -            */
+>>>>> -           BUILD_BUG_ON(TTM_PL_VRAM < TTM_PL_TT ||
+>>>>> -                        TTM_PL_VRAM < TTM_PL_SYSTEM);
+>>>>> -           type = fls(bo->preferred_domains &
+>>>> AMDGPU_GEM_DOMAIN_MASK);
+>>>>> -           if (!type)
+>>>>> -                   return;
+>>>>> -           type--;
+>>>>> -           if (drm_WARN_ON_ONCE(&adev->ddev,
+>>>>> -                                type >= ARRAY_SIZE(domain_to_pl)))
+>>>>> -                   return;
+>>>>> -           type = domain_to_pl[type];
+>>>>> -   } else {
+>>>>> -           type = res->mem_type;
+>>>>> -   }
+>>>>> -
+>>>>> -   /* Squash some into 'cpu' to keep the legacy userspace view. */
+>>>>> -   switch (type) {
+>>>>> -   case TTM_PL_VRAM:
+>>>>> -   case TTM_PL_TT:
+>>>>> -   case TTM_PL_SYSTEM:
+>>>>> -           break;
+>>>>> -   default:
+>>>>> -           type = TTM_PL_SYSTEM;
+>>>>> -           break;
+>>>>> -   }
+>>>>> -
+>>>>> -   if (drm_WARN_ON_ONCE(&adev->ddev, type >= sz))
+>>>>> -           return;
+>>>>> -
+>>>>> -   /* DRM stats common fields: */
+>>>>> -
+>>>>> -   if (drm_gem_object_is_shared_for_memory_stats(obj))
+>>>>> -           stats[type].drm.shared += size;
+>>>>> -   else
+>>>>> -           stats[type].drm.private += size;
+>>>>> -
+>>>>> -   if (res) {
+>>>>> -           stats[type].drm.resident += size;
+>>>>> -
+>>>>> -           if (!dma_resv_test_signaled(obj->resv,
+>>>> DMA_RESV_USAGE_BOOKKEEP))
+>>>>> -                   stats[type].drm.active += size;
+>>>>> -           else if (bo->flags & AMDGPU_GEM_CREATE_DISCARDABLE)
+>>>>> -                   stats[type].drm.purgeable += size;
+>>>>> -   }
+>>>>> -
+>>>>> -   /* amdgpu specific stats: */
+>>>>> -
+>>>>> -   if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) {
+>>>>> -           stats[TTM_PL_VRAM].requested += size;
+>>>>> -           if (type != TTM_PL_VRAM)
+>>>>> -                   stats[TTM_PL_VRAM].evicted += size;
+>>>>> -   } else if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_GTT) {
+>>>>> -           stats[TTM_PL_TT].requested += size;
+>>>>> -   }
+>>>>> -}
+>>>>> -
+>>>>>     /**
+>>>>>      * amdgpu_bo_release_notify - notification about a BO being released
+>>>>>      * @bo: pointer to a buffer object @@ -1463,6 +1383,31 @@ u64
+>>>>> amdgpu_bo_gpu_offset_no_check(struct
+>>>> amdgpu_bo *bo)
+>>>>>       return amdgpu_gmc_sign_extend(offset);
+>>>>>     }
+>>>>>
+>>>>> +uint32_t amdgpu_bo_get_preferred_placement(struct amdgpu_bo *bo) {
+>>>>> +   uint32_t domain = bo->preferred_domains &
+>>>> AMDGPU_GEM_DOMAIN_MASK;
+>>>>> +   if (!domain)
+>>>>> +           return TTM_PL_SYSTEM;
+>>>>> +
+>>>>> +   switch (ilog2(domain)) {
+>>>>> +           case AMDGPU_GEM_DOMAIN_CPU:
+>>>>> +                   return TTM_PL_SYSTEM;
+>>>>> +           case AMDGPU_GEM_DOMAIN_GTT:
+>>>>> +                   return TTM_PL_TT;
+>>>>> +           case AMDGPU_GEM_DOMAIN_VRAM:
+>>>>> +                   return TTM_PL_VRAM;
+>>>>> +           case AMDGPU_GEM_DOMAIN_GDS:
+>>>>> +                   return AMDGPU_PL_GDS;
+>>>>> +           case AMDGPU_GEM_DOMAIN_GWS:
+>>>>> +                   return AMDGPU_PL_GWS;
+>>>>> +           case AMDGPU_GEM_DOMAIN_OA:
+>>>>> +                   return AMDGPU_PL_OA;
+>>>>> +           case AMDGPU_GEM_DOMAIN_DOORBELL:
+>>>>> +                   return AMDGPU_PL_DOORBELL;
+>>>>> +           default:
+>>>>> +                   return TTM_PL_SYSTEM;
 >>>>
->>>> +int drm_memory_stats_is_zero(const struct drm_memory_stats *stats) {
->>>> +   return (stats->shared == 0 &&
->>>> +           stats->private == 0 &&
->>>> +           stats->resident == 0 &&
->>>> +           stats->purgeable == 0 &&
->>>> +           stats->active == 0);
->>>> +}
+>>>> If I'm not completely mistaken that won't work like that.
+>>>>
+>>>> The AMDGPU_GEM_DOMAIN_* defines are masks and not shifts.
 >>>
->>> Could use mem_is_zero() for some value of source/binary compactness.
+>>> Yeah you are right, should have been rounddown_pow_of_two
+>>>
+>>>>> +   }
+>>>>> +}
+>>>>> +
+>>>>>     /**
+>>>>>      * amdgpu_bo_get_preferred_domain - get preferred domain
+>>>>>      * @adev: amdgpu device object
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+>>>>> index be6769852ece4..bd58a8b0ece66 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+>>>>> @@ -30,6 +30,7 @@
+>>>>>
+>>>>>     #include <drm/amdgpu_drm.h>
+>>>>>     #include "amdgpu.h"
+>>>>> +#include "amdgpu_ttm.h"
+>>>>>     #include "amdgpu_res_cursor.h"
+>>>>
+>>>> Why is that necessary?
+>>>
+>>> I got a compile error otherwise for those AMDGPU_PL_*
+>>>
+>>>>>
+>>>>>     #ifdef CONFIG_MMU_NOTIFIER
+>>>>> @@ -300,9 +301,7 @@ int amdgpu_bo_sync_wait_resv(struct
+>>>>> amdgpu_device
+>>>> *adev, struct dma_resv *resv,
+>>>>>     int amdgpu_bo_sync_wait(struct amdgpu_bo *bo, void *owner, bool intr);
+>>>>>     u64 amdgpu_bo_gpu_offset(struct amdgpu_bo *bo);
+>>>>>     u64 amdgpu_bo_gpu_offset_no_check(struct amdgpu_bo *bo); -void
+>>>>> amdgpu_bo_get_memory(struct amdgpu_bo *bo,
+>>>>> -                     struct amdgpu_mem_stats *stats,
+>>>>> -                     unsigned int size);
+>>>>> +uint32_t amdgpu_bo_get_preferred_placement(struct amdgpu_bo *bo);
+>>>>>     uint32_t amdgpu_bo_get_preferred_domain(struct amdgpu_device *adev,
+>>>>>                                           uint32_t domain);
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>>>>> index 2852a6064c9ac..a9088e864fde4 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>>>>> @@ -26,8 +26,8 @@
+>>>>>
+>>>>>     #include <linux/dma-direction.h>
+>>>>>     #include <drm/gpu_scheduler.h>
+>>>>> +#include <drm/ttm/ttm_placement.h>
+>>>>>     #include "amdgpu_vram_mgr.h"
+>>>>> -#include "amdgpu.h"
+>>>>
+>>>> Looks like a valuable cleanup, but should probably a separate patch.
+>>>
+>>> Without this there's a circular include that breaks compilation
+>>> combined with the above
+>>>
+>>>>>
+>>>>>     #define AMDGPU_PL_GDS             (TTM_PL_PRIV + 0)
+>>>>>     #define AMDGPU_PL_GWS             (TTM_PL_PRIV + 1)
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>>>> index 9fab64edd0530..abd35c18ddaa8 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>>>> @@ -36,6 +36,7 @@
+>>>>>     #include <drm/ttm/ttm_tt.h>
+>>>>>     #include <drm/drm_exec.h>
+>>>>>     #include "amdgpu.h"
+>>>>> +#include "amdgpu_vm.h"
+>>>>>     #include "amdgpu_trace.h"
+>>>>>     #include "amdgpu_amdkfd.h"
+>>>>>     #include "amdgpu_gmc.h"
+>>>>> @@ -310,6 +311,94 @@ static void
+>>>>> amdgpu_vm_bo_reset_state_machine(struct
+>>>> amdgpu_vm *vm)
+>>>>>       spin_unlock(&vm->status_lock);
+>>>>>     }
+>>>>>
+>>>>> +/**
+>>>>> + * amdgpu_vm_update_shared - helper to update shared memory stat
+>>>>> + * @base: base structure for tracking BO usage in a VM
+>>>>> + * @sign: if we should add (+1) or subtract (-1) from the shared
+>>>>> +stat
+>>>>> + *
+>>>>> + * Takes the vm status_lock and updates the shared memory stat. If
+>>>>> +the basic
+>>>>> + * stat changed (e.g. buffer was moved) amdgpu_vm_update_stats need
+>>>>> +to be called
+>>>>> + * as well.
+>>>>> + */
+>>>>> +static void amdgpu_vm_update_shared(struct amdgpu_vm_bo_base *base,
+>>>>> +int sign) {
+>>>>> +   struct amdgpu_vm *vm = base->vm;
+>>>>> +   struct amdgpu_bo *bo = base->bo;
+>>>>> +   struct ttm_resource *res;
+>>>>> +   int64_t size;
+>>>>> +   uint32_t type;
+>>>>> +
+>>>>> +   if (!vm || !bo)
+>>>>> +           return;
+>>>>> +
+>>>>> +   size = sign * amdgpu_bo_size(bo);
+>>>>> +   if ((res = bo->tbo.resource))
+>>>>> +           type = res->mem_type;
+>>>>> +   else
+>>>>> +           type = amdgpu_bo_get_preferred_placement(bo);
+>>>>
+>>>> As discussed with Tvrtko that won't work like this.
+>>>>
+>>>> Either use the preferred placement or the actual backing store, but
+>>>> don't use a fallback here.
+>>>
+>>> I had a follow up discussion with Tvrtko here
+>> https://lists.freedesktop.org/archives/amd-gfx/2024-October/116024.html it seems
+>> like this is the intended semantics for the drm-total-* stats. I can see it going both
+>> ways, I guess it's just up to which design is most useful for whom ever is reading
+>> the stats.
+>>>
 >>
->> Yeah, the patch set started out with that when it's just a function 
->> in amdgpu, but Christ didn't like it.
->
-> Okay, I don't feel so strongly about the implementation details.
-
-mem_is_zero() just has the tendency to randomly fail when the compiler 
-adds padding in between fields.
-
->>>> +EXPORT_SYMBOL(drm_memory_stats_is_zero);
->>>> +
->>>
->>> I am not a huge fan of adding this as an interface as the only 
->>> caller appears to be a
->>> sanity check in amdgpu_vm_fini():
->>>
->>>        if (!amdgpu_vm_stats_is_zero(vm))
->>>                dev_err(adev->dev, "VM memory stats is non-zero when 
->>> fini\n");
->>>
->>> But I guess there is some value in sanity checking since amdgpu does 
->>> not have a
->>> notion of debug only code (compiled at production and exercised via 
->>> a test suite).
->>>
->>> I do suggest to demote the dev_err to notice log level would suffice 
->>> and be more
->>> accurate.
+>> Yeah I think this is correct, unless the allowed mask would perhaps be better than
+>> preferred. We don't want drm-total- to show zero if object simply has no current
+>> placement.
 >>
->> I think it's very important to have a check like this when we have a 
->> known invariant, especially in this case where there's stat tracking 
->> code spread out everywhere and we have very little chance of catching 
->> a bug right when it happened. And since whenever this check fails we 
->> know for sure there is a bug, I don't see the harm of keeping it as 
->> an error.
-> It would indeed be a programming error if it can happen, but from the 
-> point of view of a driver and system log I think a warning is actually 
-> right.
+>>> Current design is for it to mean "all the buffer currently at X" + "all the buffer that
+>> wants to be at X but currently don't have a backing"
+>>> The alternative I guess is for it to mean "all the buffer that wants to be at X"
+>>
+>> Alternative is the same, no? But I think it is correct. As I explained before drm-total
+>> should be akin to VIRT in top(1) and drm-resident to RES.
+> 
+> The two differ in how "evicted" buffers are counted. In the first case the evicted buffers adds to the total of where they happens to be at, second case the evicted buffers counts towards their preferred placement's total. Since we already have drm-resident that takes eviction into account, there might be some value to have drm-total- track a orthogonal statistics, aka where buffers want to be at?
 
-Yeah agree, an error usually means you have either done something wrong 
-or your data is corrupted because something bad happened (failed disk 
-etc...).
+Oh I see. Hm... Both options appear can result with some confusing 
+runtime behaviour so I am not sure TBH.
 
-The the stats are nonsense that is annoying but not fatal, so not really 
-an error.
+For me the main thing is that drm-total- is not shown as zero (in all 
+regions) when there is no backing store but the BO exists, and that 
+drm-resident- reflects the current placement. Don't think I currently 
+have a strong opinion on the details of whether total follows placement, 
+or sticks to the placement from the BO allowed/preferred mask.
+
+>>> Btw, I'm having trouble figuring out where I should account for drm-active-* it's for
+>> buffers that are currently being used (e.g. have a fence not signaled) it seems like
+>> the work scheduling part is quite far removed from the individual BOs...
+>>
+>> Ah that is a fun one. Perhaps we should add DRM_GEM_OBJECT_ACTIVE and
+>> use it from drm_print_memory_stats() as with resident and purgeable.
+>> Then amdgpu could opt to not display those and it probably wouldn't be a
+>> huge loss since drm-active- is very transient and low value.
+> 
+> That would be fine with me, it's also a quite inflated metric since the kernel doesn't actually know which buffers are used in each submission so it just fence all of them.
+
+Okay lets go with that, as a new patch in the series I guess, and see if 
+someone spots a problem with that approach.
 
 Regards,
-Christian.
 
->
-> Regards,
->
-> Tvrtko
->
->>
->> Now that I think about it, I probably want to have the process & task 
->> name in here to aid in reproduction.
->>
->> Teddy
+Tvrtko
 
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>
+>>>>> +   if (type >= __AMDGPU_PL_LAST)
+>>>>> +           return;
+>>>>> +
+>>>>> +   spin_lock(&vm->status_lock);
+>>>>> +   vm->stats[type].drm.shared += size;
+>>>>> +   vm->stats[type].drm.private -= size;
+>>>>> +   spin_unlock(&vm->status_lock);
+>>>>> +}
+>>>>> +
+>>>>> +/**
+>>>>> + * amdgpu_vm_update_stats - helper to update normal memory stat
+>>>>> + * @base: base structure for tracking BO usage in a VM
+>>>>> + * @new_res:  if not NULL, the ttm_resource to use for the purpose of
+>>>>> +accounting
+>>>>> + * (i.e. ignore the one in the BO)
+>>>>> + * @sign: if we should add (+1) or subtract (-1) from the stat
+>>>>> + *
+>>>>> + * Takes the vm status_lock and updates the basic memory stat. If the
+>>>>> +shared
+>>>>> + * stat changed (e.g. buffer was exported) amdgpu_vm_update_shared
+>>>>> +need to be
+>>>>> + * called as well.
+>>>>> + */
+>>>>> +void amdgpu_vm_update_stats(struct amdgpu_vm_bo_base *base,
+>>>>> +                       struct ttm_resource *new_res, int sign) {
+>>>>> +   struct amdgpu_vm *vm = base->vm;
+>>>>> +   struct amdgpu_bo *bo = base->bo;
+>>>>> +   struct ttm_resource *res;
+>>>>> +   int64_t size;
+>>>>> +   uint32_t type;
+>>>>> +   bool shared;
+>>>>> +
+>>>>> +   if (!vm || !bo)
+>>>>> +           return;
+>>>>> +
+>>>>> +   size = sign * amdgpu_bo_size(bo);
+>>>>> +   res = new_res ? new_res : bo->tbo.resource;
+>>>>> +   type = res ? res->mem_type : amdgpu_bo_get_preferred_placement(bo);
+>>>>
+>>>> Same here. Don't use the preferred domain as fallback.
+>>>>
+>>>>> +   shared = drm_gem_object_is_shared_for_memory_stats(&bo->tbo.base);
+>>>>> +
+>>>>> +   if (type >= __AMDGPU_PL_LAST)
+>>>>> +           return;
+>>>>> +
+>>>>> +   spin_lock(&vm->status_lock);
+>>>>> +
+>>>>> +   if (shared)
+>>>>> +           vm->stats[type].drm.shared += size;
+>>>>> +   else
+>>>>> +           vm->stats[type].drm.private += size;
+>>>>> +   if (res)
+>>>>> +           vm->stats[type].drm.resident += size;
+>>>>> +   if (bo->flags & AMDGPU_GEM_CREATE_DISCARDABLE)
+>>>>> +           vm->stats[type].drm.purgeable += size;
+>>>>> +
+>>>>> +   if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) {
+>>>>> +           vm->stats[TTM_PL_VRAM].requested += size;
+>>>>> +           if (type != TTM_PL_VRAM)
+>>>>> +                   vm->stats[TTM_PL_VRAM].evicted += size;
+>>>>
+>>>> That check is probably not correct. We have BOs which can be placed in both
+>>>> VRAM and GTT.
+>>>
+>>> That is true, but does it make sense to count it towards evicted if say our picking
+>> order prefers VRAM over GTT?
+>>>
+>>>>> +   } else if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_GTT) {
+>>>>> +                   vm->stats[TTM_PL_TT].requested += size;
+>>>>> +   }
+>>>>> +
+>>>>> +   spin_unlock(&vm->status_lock);
+>>>>> +}
+>>>>> +
+>>>>>     /**
+>>>>>      * amdgpu_vm_bo_base_init - Adds bo to the list of bos associated with the
+>> vm
+>>>>>      *
+>>>>> @@ -332,6 +421,7 @@ void amdgpu_vm_bo_base_init(struct
+>>>> amdgpu_vm_bo_base *base,
+>>>>>               return;
+>>>>>       base->next = bo->vm_bo;
+>>>>>       bo->vm_bo = base;
+>>>>> +   amdgpu_vm_update_stats(base, NULL, +1);
+>>>>>
+>>>>>       if (!amdgpu_vm_is_bo_always_valid(vm, bo))
+>>>>>               return;
+>>>>> @@ -1082,53 +1172,11 @@ int amdgpu_vm_update_range(struct
+>>>> amdgpu_device *adev, struct amdgpu_vm *vm,
+>>>>>       return r;
+>>>>>     }
+>>>>>
+>>>>> -static void amdgpu_vm_bo_get_memory(struct amdgpu_bo_va *bo_va,
+>>>>> -                               struct amdgpu_mem_stats *stats,
+>>>>> -                               unsigned int size)
+>>>>> -{
+>>>>> -   struct amdgpu_vm *vm = bo_va->base.vm;
+>>>>> -   struct amdgpu_bo *bo = bo_va->base.bo;
+>>>>> -
+>>>>> -   if (!bo)
+>>>>> -           return;
+>>>>> -
+>>>>> -   /*
+>>>>> -    * For now ignore BOs which are currently locked and potentially
+>>>>> -    * changing their location.
+>>>>> -    */
+>>>>> -   if (!amdgpu_vm_is_bo_always_valid(vm, bo) &&
+>>>>> -       !dma_resv_trylock(bo->tbo.base.resv))
+>>>>> -           return;
+>>>>> -
+>>>>> -   amdgpu_bo_get_memory(bo, stats, size);
+>>>>> -   if (!amdgpu_vm_is_bo_always_valid(vm, bo))
+>>>>> -           dma_resv_unlock(bo->tbo.base.resv);
+>>>>> -}
+>>>>> -
+>>>>>     void amdgpu_vm_get_memory(struct amdgpu_vm *vm,
+>>>>> -                     struct amdgpu_mem_stats *stats,
+>>>>> -                     unsigned int size)
+>>>>> +                     struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST])
+>>>>>     {
+>>>>> -   struct amdgpu_bo_va *bo_va, *tmp;
+>>>>> -
+>>>>>       spin_lock(&vm->status_lock);
+>>>>> -   list_for_each_entry_safe(bo_va, tmp, &vm->idle, base.vm_status)
+>>>>> -           amdgpu_vm_bo_get_memory(bo_va, stats, size);
+>>>>> -
+>>>>> -   list_for_each_entry_safe(bo_va, tmp, &vm->evicted, base.vm_status)
+>>>>> -           amdgpu_vm_bo_get_memory(bo_va, stats, size);
+>>>>> -
+>>>>> -   list_for_each_entry_safe(bo_va, tmp, &vm->relocated, base.vm_status)
+>>>>> -           amdgpu_vm_bo_get_memory(bo_va, stats, size);
+>>>>> -
+>>>>> -   list_for_each_entry_safe(bo_va, tmp, &vm->moved, base.vm_status)
+>>>>> -           amdgpu_vm_bo_get_memory(bo_va, stats, size);
+>>>>> -
+>>>>> -   list_for_each_entry_safe(bo_va, tmp, &vm->invalidated, base.vm_status)
+>>>>> -           amdgpu_vm_bo_get_memory(bo_va, stats, size);
+>>>>> -
+>>>>> -   list_for_each_entry_safe(bo_va, tmp, &vm->done, base.vm_status)
+>>>>> -           amdgpu_vm_bo_get_memory(bo_va, stats, size);
+>>>>> +   memcpy(stats, vm->stats, sizeof(*stats) * __AMDGPU_PL_LAST);
+>>>>>       spin_unlock(&vm->status_lock);
+>>>>>     }
+>>>>>
+>>>>> @@ -2071,6 +2119,7 @@ void amdgpu_vm_bo_del(struct amdgpu_device
+>>>> *adev,
+>>>>>                       if (*base != &bo_va->base)
+>>>>>                               continue;
+>>>>>
+>>>>> +                   amdgpu_vm_update_stats(*base, NULL, -1);
+>>>>>                       *base = bo_va->base.next;
+>>>>>                       break;
+>>>>>               }
+>>>>> @@ -2136,6 +2185,22 @@ bool amdgpu_vm_evictable(struct amdgpu_bo
+>> *bo)
+>>>>>       return true;
+>>>>>     }
+>>>>>
+>>>>> +/**
+>>>>> + * amdgpu_vm_bo_update_shared - called when bo gets shared/unshared
+>>>>> + *
+>>>>> + * @bo: amdgpu buffer object
+>>>>> + * @sign: if we should add (+1) or subtract (-1) the memory stat
+>>>>> + *
+>>>>> + * Update the per VM stats for all the vm  */ void
+>>>>> +amdgpu_vm_bo_update_shared(struct amdgpu_bo *bo, int sign) {
+>>>>> +   struct amdgpu_vm_bo_base *bo_base;
+>>>>> +
+>>>>> +   for (bo_base = bo->vm_bo; bo_base; bo_base = bo_base->next)
+>>>>> +           amdgpu_vm_update_shared(bo_base, sign); }
+>>>>> +
+>>>>>     /**
+>>>>>      * amdgpu_vm_bo_invalidate - mark the bo as invalid
+>>>>>      *
+>>>>> @@ -2169,6 +2234,28 @@ void amdgpu_vm_bo_invalidate(struct amdgpu_bo
+>>>> *bo, bool evicted)
+>>>>>       }
+>>>>>     }
+>>>>>
+>>>>> +/**
+>>>>> + * amdgpu_vm_bo_move - handle BO move
+>>>>> + *
+>>>>> + * @bo: amdgpu buffer object
+>>>>> + * @new_mem: the new placement of the BO move
+>>>>> + * @evicted: is the BO evicted
+>>>>> + *
+>>>>> + * Update the memory stats for the new placement and mark @bo as invalid.
+>>>>> + */
+>>>>> +void amdgpu_vm_bo_move(struct amdgpu_bo *bo, struct ttm_resource
+>>>> *new_mem,
+>>>>> +                  bool evicted)
+>>>>> +{
+>>>>> +   struct amdgpu_vm_bo_base *bo_base;
+>>>>> +
+>>>>> +   for (bo_base = bo->vm_bo; bo_base; bo_base = bo_base->next) {
+>>>>> +           amdgpu_vm_update_stats(bo_base, bo->tbo.resource, -1);
+>>>>> +           amdgpu_vm_update_stats(bo_base, new_mem, +1);
+>>>>> +   }
+>>>>> +
+>>>>> +   amdgpu_vm_bo_invalidate(bo, evicted); }
+>>>>> +
+>>>>>     /**
+>>>>>      * amdgpu_vm_get_block_size - calculate VM page table size as power of
+>> two
+>>>>>      *
+>>>>> @@ -2585,6 +2672,18 @@ void amdgpu_vm_release_compute(struct
+>>>> amdgpu_device *adev, struct amdgpu_vm *vm)
+>>>>>       vm->is_compute_context = false;
+>>>>>     }
+>>>>>
+>>>>> +static int amdgpu_vm_stats_is_zero(struct amdgpu_vm *vm) {
+>>>>> +   int is_zero = 1;
+>>>>> +   for (int i = 0; i < __AMDGPU_PL_LAST; ++i) {
+>>>>> +           is_zero = drm_memory_stats_is_zero(&vm->stats[i].drm) &&
+>>>>> +                     vm->stats->evicted == 0 && vm->stats->requested == 0;
+>>>>> +           if (!is_zero)
+>>>>> +                   break;
+>>>>
+>>>> Just make that an "if (...) return false", no need for the local variable.
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>
+>>> D'oh!
+>>>
+>>> Teddy
