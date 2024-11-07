@@ -2,38 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E1A9C0BE7
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 17:44:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521029C0CBA
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 18:20:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 878D610E0E2;
-	Thu,  7 Nov 2024 16:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0459310E890;
+	Thu,  7 Nov 2024 17:20:49 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uirXLcMy";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7E16410E0E2
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2024 16:44:46 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF8FA497;
- Thu,  7 Nov 2024 08:45:15 -0800 (PST)
-Received: from [10.57.89.183] (unknown [10.57.89.183])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 030C93F528;
- Thu,  7 Nov 2024 08:44:44 -0800 (PST)
-Message-ID: <422f3c5a-4c69-413f-af2a-f016124d3c91@arm.com>
-Date: Thu, 7 Nov 2024 16:44:43 +0000
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 760D710E096;
+ Thu,  7 Nov 2024 17:20:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 76D2F5C0C36;
+ Thu,  7 Nov 2024 17:20:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8DA9C4CECC;
+ Thu,  7 Nov 2024 17:20:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1731000045;
+ bh=cADn4ARQkTOhflqlIHhNxtca9L54H5LHvOrTgQwQP8c=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=uirXLcMy1Qn//p7lSBnbOlzSbCL5aIT0TqEnGpIZm6Rx23BQJKj1JIwJAP4R6CQ3Y
+ BGW5ysKmLw5HxKe9TW2Kb0/MrhrtH+FEMuRdl+3jaHMQQkHCavjZQ9xWr31Ghy5ARf
+ J2TiGOLT8c6IMr+E/gnELx0660oj7VCoNS9utcB0Gb41g2oymp/+1G/7KVgOzIPwxq
+ q5/0lzC969ZrJFg9aKvlY1ckSKQVQp4pt0o8irIOJAq56q9MDR85uEDv3iCGEqltvk
+ QeOfANjQFk8pt3o4hyDqn3DINTzEn9s+ZnpBLM2/xaYcEN2lpP63yM+3MX3zh3CiMr
+ Amp7lQpjSOJ2g==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,  "Rafael J. Wysocki"
+ <rafael@kernel.org>,  Bjorn Helgaas <bhelgaas@google.com>,  Srinivas
+ Kandagatla <srinivas.kandagatla@linaro.org>,  Davidlohr Bueso
+ <dave@stgolabs.net>,  Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,  Alison Schofield
+ <alison.schofield@intel.com>,  Vishal Verma <vishal.l.verma@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>,  Alex Deucher
+ <alexander.deucher@amd.com>,  Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>,  David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,  Dennis Dalessandro
+ <dennis.dalessandro@cornelisnetworks.com>,  Jason Gunthorpe
+ <jgg@ziepe.ca>,  Leon Romanovsky <leon@kernel.org>,  Tudor Ambarus
+ <tudor.ambarus@linaro.org>,  Pratyush Yadav <pratyush@kernel.org>,
+ Michael Walle <mwalle@kernel.org>,  Miquel Raynal
+ <miquel.raynal@bootlin.com>,  Richard Weinberger <richard@nod.at>,
+ Vignesh Raghavendra <vigneshr@ti.com>,  Naveen Krishna Chatradhi
+ <naveenkrishna.chatradhi@amd.com>,  Carlos Bilbao
+ <carlos.bilbao.osdev@gmail.com>,  Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,  "David E.
+ Box" <david.e.box@linux.intel.com>,  "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>,  "Martin K. Petersen"
+ <martin.petersen@oracle.com>,  Richard Henderson
+ <richard.henderson@linaro.org>,  Matt Turner <mattst88@gmail.com>,
+ Frederic Barrat <fbarrat@linux.ibm.com>,  Andrew Donnellan
+ <ajd@linux.ibm.com>,  Arnd Bergmann <arnd@arndb.de>,  Logan Gunthorpe
+ <logang@deltatee.com>,  "K. Y. Srinivasan" <kys@microsoft.com>,  Haiyang
+ Zhang <haiyangz@microsoft.com>,  Wei Liu <wei.liu@kernel.org>,  Dexuan Cui
+ <decui@microsoft.com>,  Dan Williams <dan.j.williams@intel.com>,
+ linux-kernel@vger.kernel.org,  linux-pci@vger.kernel.org,
+ linux-cxl@vger.kernel.org,  amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,  linux-rdma@vger.kernel.org,
+ linux-mtd@lists.infradead.org,  platform-driver-x86@vger.kernel.org,
+ linux-scsi@vger.kernel.org,  linux-usb@vger.kernel.org,
+ linux-alpha@vger.kernel.org,  linuxppc-dev@lists.ozlabs.org,
+ linux-hyperv@vger.kernel.org
+Subject: Re: [PATCH v2 05/10] sysfs: treewide: constify attribute callback
+ of bin_is_visible()
+In-Reply-To: <20241103-sysfs-const-bin_attr-v2-5-71110628844c@weissschuh.net>
+ ("Thomas =?utf-8?Q?Wei=C3=9Fschuh=22's?= message of "Sun, 03 Nov 2024
+ 17:03:34 +0000")
+References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
+ <20241103-sysfs-const-bin_attr-v2-5-71110628844c@weissschuh.net>
+Date: Thu, 07 Nov 2024 17:20:37 +0000
+Message-ID: <mafs08qtv7yfu.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Be stricter about IO mapping flags
-To: Jann Horn <jannh@google.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20241105-panthor-flush-page-fixes-v1-1-829aaf37db93@google.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20241105-panthor-flush-page-fixes-v1-1-829aaf37db93@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,51 +96,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/11/2024 23:17, Jann Horn wrote:
-> The current panthor_device_mmap_io() implementation has two issues:
-> 
-> 1. For mapping DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET,
->    panthor_device_mmap_io() bails if VM_WRITE is set, but does not clear
->    VM_MAYWRITE. That means userspace can use mprotect() to make the mapping
->    writable later on. This is a classic Linux driver gotcha.
->    I don't think this actually has any impact in practice:
->    When the GPU is powered, writes to the FLUSH_ID seem to be ignored; and
->    when the GPU is not powered, the dummy_latest_flush page provided by the
->    driver is deliberately designed to not do any flushes, so the only thing
->    writing to the dummy_latest_flush could achieve would be to make *more*
->    flushes happen.
-> 
-> 2. panthor_device_mmap_io() does not block MAP_PRIVATE mappings (which are
->    mappings without the VM_SHARED flag).
->    MAP_PRIVATE in combination with VM_MAYWRITE indicates that the VMA has
->    copy-on-write semantics, which for VM_PFNMAP are semi-supported but
->    fairly cursed.
->    In particular, in such a mapping, the driver can only install PTEs
->    during mmap() by calling remap_pfn_range() (because remap_pfn_range()
->    wants to **store the physical address of the mapped physical memory into
->    the vm_pgoff of the VMA**); installing PTEs later on with a fault
->    handler (as panthor does) is not supported in private mappings, and so
->    if you try to fault in such a mapping, vmf_insert_pfn_prot() splats when
->    it hits a BUG() check.
-> 
-> Fix it by clearing the VM_MAYWRITE flag (userspace writing to the FLUSH_ID
-> doesn't make sense) and requiring VM_SHARED (copy-on-write semantics for
-> the FLUSH_ID don't make sense).
-> 
-> Reproducers for both scenarios are in the notes of my patch on the mailing
-> list; I tested that these bugs exist on a Rock 5B machine.
-> 
-> Note that I only compile-tested the patch, I haven't tested it; I don't
-> have a working kernel build setup for the test machine yet. Please test it
-> before applying it.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
-> Signed-off-by: Jann Horn <jannh@google.com>
+On Sun, Nov 03 2024, Thomas Wei=C3=9Fschuh wrote:
 
-Pushed to drm-misc-fixes.
+> The is_bin_visible() callbacks should not modify the struct
+> bin_attribute passed as argument.
+> Enforce this by marking the argument as const.
+>
+> As there are not many callback implementers perform this change
+> throughout the tree at once.
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> ---
+> diff --git a/drivers/mtd/spi-nor/sysfs.c b/drivers/mtd/spi-nor/sysfs.c
+> index 96064e4babf01f6950c81586764386e7671cbf97..5e9eb268073d18e0a46089000=
+f18a3200b4bf13d 100644
+> --- a/drivers/mtd/spi-nor/sysfs.c
+> +++ b/drivers/mtd/spi-nor/sysfs.c
+> @@ -87,7 +87,7 @@ static umode_t spi_nor_sysfs_is_visible(struct kobject =
+*kobj,
+>  }
+>=20=20
+>  static umode_t spi_nor_sysfs_is_bin_visible(struct kobject *kobj,
+> -					    struct bin_attribute *attr, int n)
+> +					    const struct bin_attribute *attr, int n)
 
-Thanks,
-Steve
+Acked-by: Pratyush Yadav <pratyush@kernel.org> # for spi-nor
 
+>  {
+>  	struct spi_device *spi =3D to_spi_device(kobj_to_dev(kobj));
+>  	struct spi_mem *spimem =3D spi_get_drvdata(spi);
 
+--=20
+Regards,
+Pratyush Yadav
