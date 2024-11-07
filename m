@@ -2,86 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062D29BFD94
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 06:21:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C969BFDEC
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 07:01:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E660E10E283;
-	Thu,  7 Nov 2024 05:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0C110E202;
+	Thu,  7 Nov 2024 06:01:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LqZ6urMl";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gCMIYY3K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE98D10E283;
- Thu,  7 Nov 2024 05:21:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EE2BCA4218F;
- Thu,  7 Nov 2024 05:19:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 064BBC4CECC;
- Thu,  7 Nov 2024 05:21:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1730956880;
- bh=LcTJNuAS+0u64bln2s0a89deCwW+g5Nrojs1Slddt/Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LqZ6urMldxlvEBhdUM/g9ay6JBw8MxGPCgUReHarZ5Rrrup6qtaAMbkDd8Ut3yIvJ
- TB3aWEUF8ij6xyiKo01mFPXSemUmYSpWT2Gfca8HAeh7vk2NMp5wXiqsR3jTvujmXl
- Vml1yQf1y5lU0zvuowqmi415BENx3kOsFR8a5uB8=
-Date: Thu, 7 Nov 2024 06:21:00 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>,
- Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
- Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "David E. Box" <david.e.box@linux.intel.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Frederic Barrat <fbarrat@linux.ibm.com>,
- Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
- Logan Gunthorpe <logang@deltatee.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- Dan Williams <dan.j.williams@intel.com>,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-cxl@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-mtd@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-alpha@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v2 02/10] sysfs: introduce callback
- attribute_group::bin_size
-Message-ID: <2024110726-hasty-obsolete-3780@gregkh>
-References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
- <20241103-sysfs-const-bin_attr-v2-2-71110628844c@weissschuh.net>
- <20241106200513.GB174958@rocinante>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EBA910E202
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2024 06:01:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=0IMihkpdZ9e34APUqmog1cn6wjBkiKqNRRoii83GcN8=; b=gCMIYY3KrQArMD2OhTPmKV/0JD
+ IFi3bBYf1GK4zViYv6rBdxKJVs73wW30uhvNBI9WsWR9uQzJVmwmouYFBIUBm+nzv3C13/B/mI6g9
+ YmvXnLckJZbAmqjDLKF2Stqs2dvvYgrm8g9f6iXAXojKs63b4PoZZ00ZwZyI3l5BzZzm9HmnzZ11L
+ BAZ171H6HAnID6B6UbuPbbSGENYQxQ5Ar35b7TylLAmGzflgHSie3fevmQNl8ksG330xxeheF2zmU
+ kW6aMGhpuA5VSV0i8SGQ+1uc2rzkaaUrxeRCAVvrrc8ETtA0N+Mj5nl2v5EZrfG8IjlC/6zj/9Z+c
+ Jv/lp+Dg==;
+Received: from [159.147.54.153] (helo=[192.168.0.17])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1t8vZt-003RKc-BB; Thu, 07 Nov 2024 07:01:09 +0100
+Message-ID: <41a2bb61b0b622726824a247a51e5c1bdf8dc715.camel@igalia.com>
+Subject: Re: [PATCH] drm/v3d: Fix performance counter source settings on V3D
+ 7.x
+From: Iago Toral <itoral@igalia.com>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
+ <mwen@igalia.com>, Christian Gmeiner <cgmeiner@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Date: Thu, 07 Nov 2024 07:00:58 +0100
+In-Reply-To: <20241106121736.5707-1-mcanal@igalia.com>
+References: <20241106121736.5707-1-mcanal@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241106200513.GB174958@rocinante>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,38 +61,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 07, 2024 at 05:05:13AM +0900, Krzysztof Wilczyński wrote:
-> Hello,
-> 
-> > Several drivers need to dynamically calculate the size of an binary
-> > attribute. Currently this is done by assigning attr->size from the
-> > is_bin_visible() callback.
-> > 
-> > This has drawbacks:
-> > * It is not documented.
-> > * A single attribute can be instantiated multiple times, overwriting the
-> >   shared size field.
-> > * It prevents the structure to be moved to read-only memory.
-> > 
-> > Introduce a new dedicated callback to calculate the size of the
-> > attribute.
-> 
-> Would it be possible to have a helper that when run against a specific
-> kobject reference, then it would refresh or re-run the size callbacks?
-> 
-> We have an use case where we resize BARs on demand via sysfs, and currently
-> the only way to update the size of each resource sysfs object is to remove
-> and added them again, which is a bit crude, and can also be unsafe.
+UmV2aWV3ZWQtYnk6IElhZ28gVG9yYWwgUXVpcm9nYSA8aXRvcmFsQGlnYWxpYS5jb20+CgpFbCBt
+acOpLCAwNi0xMS0yMDI0IGEgbGFzIDA5OjE2IC0wMzAwLCBNYcOtcmEgQ2FuYWwgZXNjcmliacOz
+Ogo+IFdoZW4gdGhlIG5ldyByZWdpc3RlciBhZGRyZXNzZXMgd2VyZSBpbnRyb2R1Y2VkIGZvciBW
+M0QgNy54LCB3ZSBhZGRlZAo+IG5ldyBtYXNrcyBmb3IgcGVyZm9ybWFuY2UgY291bnRlciBzb3Vy
+Y2VzIG9uIFYzRCA3LnguwqAgTmV2ZXJ0aGVsZXNzLAo+IHdlIG5ldmVyIGFwcGx5IHRoZXNlIG5l
+dyBtYXNrcyB3aGVuIHNldHRpbmcgdGhlIHNvdXJjZXMuCj4gCj4gRml4IHRoZSBwZXJmb3JtYW5j
+ZSBjb3VudGVyIHNvdXJjZSBzZXR0aW5ncyBvbiBWM0QgNy54IGJ5IGludHJvZHVjaW5nCj4gYSBu
+ZXcgbWFjcm8sIGBWM0RfU0VUX0ZJRUxEX1ZFUmAsIHdoaWNoIGFsbG93cyBmaWVsZHMgc2V0dGlu
+ZyB0byB2YXJ5Cj4gYnkgdmVyc2lvbi4gVXNpbmcgdGhpcyBtYWNybywgd2UgY2FuIHByb3ZpZGUg
+ZGlmZmVyZW50IHZhbHVlcyBmb3IKPiBzb3VyY2UgbWFzayBiYXNlZCBvbiB0aGUgVjNEIHZlcnNp
+b24sIGVuc3VyaW5nIHRoYXQgc291cmNlcyBhcmUKPiBjb3JyZWN0bHkgY29uZmlndXJlIG9uIFYz
+RCA3LnguCj4gCj4gRml4ZXM6IDBhZDViYzFjZTQ2MyAoImRybS92M2Q6IGZpeCB1cCByZWdpc3Rl
+ciBhZGRyZXNzZXMgZm9yIFYzRAo+IDcueCIpCj4gU2lnbmVkLW9mZi1ieTogTWHDrXJhIENhbmFs
+IDxtY2FuYWxAaWdhbGlhLmNvbT4KPiAtLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2Rl
+YnVnZnMuYyB8wqAgNCArKy0tCj4gwqBkcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9wZXJmbW9uLmMg
+fCAxNSArKysrKysrKy0tLS0tLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX3JlZ3MuaMKg
+wqDCoCB8IDI5ICsrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tCj4gwqAzIGZpbGVzIGNoYW5n
+ZWQsIDI3IGluc2VydGlvbnMoKyksIDIxIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9kZWJ1Z2ZzLmMKPiBiL2RyaXZlcnMvZ3B1L2RybS92M2Qv
+djNkX2RlYnVnZnMuYwo+IGluZGV4IDE5ZTNlZTdhYzg5Ny4uNzY4MTZmMjU1MWMxIDEwMDY0NAo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2RlYnVnZnMuYwo+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS92M2QvdjNkX2RlYnVnZnMuYwo+IEBAIC0yMzcsOCArMjM3LDggQEAgc3RhdGljIGlu
+dCB2M2RfbWVhc3VyZV9jbG9jayhzdHJ1Y3Qgc2VxX2ZpbGUgKm0sCj4gdm9pZCAqdW51c2VkKQo+
+IMKgCWlmICh2M2QtPnZlciA+PSA0MCkgewo+IMKgCQlpbnQgY3ljbGVfY291bnRfcmVnID0gVjNE
+X1BDVFJfQ1lDTEVfQ09VTlQodjNkLQo+ID52ZXIpOwo+IMKgCQlWM0RfQ09SRV9XUklURShjb3Jl
+LCBWM0RfVjRfUENUUl8wX1NSQ18wXzMsCj4gLQkJCcKgwqDCoMKgwqDCoCBWM0RfU0VUX0ZJRUxE
+KGN5Y2xlX2NvdW50X3JlZywKPiAtCQkJCQnCoMKgwqDCoCBWM0RfUENUUl9TMCkpOwo+ICsJCQnC
+oMKgwqDCoMKgwqAgVjNEX1NFVF9GSUVMRF9WRVIoY3ljbGVfY291bnRfcmVnLAo+ICsJCQkJCQkg
+VjNEX1BDVFJfUzAsIHYzZC0KPiA+dmVyKSk7Cj4gwqAJCVYzRF9DT1JFX1dSSVRFKGNvcmUsIFYz
+RF9WNF9QQ1RSXzBfQ0xSLCAxKTsKPiDCoAkJVjNEX0NPUkVfV1JJVEUoY29yZSwgVjNEX1Y0X1BD
+VFJfMF9FTiwgMSk7Cj4gwqAJfSBlbHNlIHsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3YzZC92M2RfcGVyZm1vbi5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9wZXJmbW9uLmMK
+PiBpbmRleCAxNTZiZTEzYWIyZWYuLjdkZjZkZDkzM2M2MyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vdjNkL3YzZF9wZXJmbW9uLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3Yz
+ZF9wZXJmbW9uLmMKPiBAQCAtMjQwLDE3ICsyNDAsMTggQEAgdm9pZCB2M2RfcGVyZm1vbl9zdGFy
+dChzdHJ1Y3QgdjNkX2RldiAqdjNkLAo+IHN0cnVjdCB2M2RfcGVyZm1vbiAqcGVyZm1vbikKPiDC
+oAo+IMKgCWZvciAoaSA9IDA7IGkgPCBuY291bnRlcnM7IGkrKykgewo+IMKgCQl1MzIgc291cmNl
+ID0gaSAvIDQ7Cj4gLQkJdTMyIGNoYW5uZWwgPSBWM0RfU0VUX0ZJRUxEKHBlcmZtb24tPmNvdW50
+ZXJzW2ldLAo+IFYzRF9QQ1RSX1MwKTsKPiArCQl1MzIgY2hhbm5lbCA9IFYzRF9TRVRfRklFTERf
+VkVSKHBlcmZtb24tCj4gPmNvdW50ZXJzW2ldLCBWM0RfUENUUl9TMCwKPiArCQkJCQkJdjNkLT52
+ZXIpOwo+IMKgCj4gwqAJCWkrKzsKPiAtCQljaGFubmVsIHw9IFYzRF9TRVRfRklFTEQoaSA8IG5j
+b3VudGVycyA/IHBlcmZtb24tCj4gPmNvdW50ZXJzW2ldIDogMCwKPiAtCQkJCQkgVjNEX1BDVFJf
+UzEpOwo+ICsJCWNoYW5uZWwgfD0gVjNEX1NFVF9GSUVMRF9WRVIoaSA8IG5jb3VudGVycyA/Cj4g
+cGVyZm1vbi0+Y291bnRlcnNbaV0gOiAwLAo+ICsJCQkJCcKgwqDCoMKgIFYzRF9QQ1RSX1MxLCB2
+M2QtPnZlcik7Cj4gwqAJCWkrKzsKPiAtCQljaGFubmVsIHw9IFYzRF9TRVRfRklFTEQoaSA8IG5j
+b3VudGVycyA/IHBlcmZtb24tCj4gPmNvdW50ZXJzW2ldIDogMCwKPiAtCQkJCQkgVjNEX1BDVFJf
+UzIpOwo+ICsJCWNoYW5uZWwgfD0gVjNEX1NFVF9GSUVMRF9WRVIoaSA8IG5jb3VudGVycyA/Cj4g
+cGVyZm1vbi0+Y291bnRlcnNbaV0gOiAwLAo+ICsJCQkJCcKgwqDCoMKgIFYzRF9QQ1RSX1MyLCB2
+M2QtPnZlcik7Cj4gwqAJCWkrKzsKPiAtCQljaGFubmVsIHw9IFYzRF9TRVRfRklFTEQoaSA8IG5j
+b3VudGVycyA/IHBlcmZtb24tCj4gPmNvdW50ZXJzW2ldIDogMCwKPiAtCQkJCQkgVjNEX1BDVFJf
+UzMpOwo+ICsJCWNoYW5uZWwgfD0gVjNEX1NFVF9GSUVMRF9WRVIoaSA8IG5jb3VudGVycyA/Cj4g
+cGVyZm1vbi0+Y291bnRlcnNbaV0gOiAwLAo+ICsJCQkJCcKgwqDCoMKgIFYzRF9QQ1RSX1MzLCB2
+M2QtPnZlcik7Cj4gwqAJCVYzRF9DT1JFX1dSSVRFKDAsIFYzRF9WNF9QQ1RSXzBfU1JDX1goc291
+cmNlKSwKPiBjaGFubmVsKTsKPiDCoAl9Cj4gwqAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL3YzZC92M2RfcmVncy5oCj4gYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9yZWdzLmgKPiBp
+bmRleCAxYjFhNjJhZDk1ODUuLjZkYTNjNjkwODJiZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdjNkL3YzZF9yZWdzLmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9yZWdz
+LmgKPiBAQCAtMTUsNiArMTUsMTQgQEAKPiDCoAkJZmllbGR2YWwgJgo+IGZpZWxkIyNfTUFTSzsJ
+CQkJXAo+IMKgCSB9KQo+IMKgCj4gKyNkZWZpbmUgVjNEX1NFVF9GSUVMRF9WRVIodmFsdWUsIGZp
+ZWxkLAo+IHZlcikJCQkJXAo+ICsJKHsJCQkJCQkJCj4gCVwKPiArCQl0eXBlb2YodmVyKSBfdmVy
+ID0KPiAodmVyKTsJCQkJXAo+ICsJCXUzMiBmaWVsZHZhbCA9ICh2YWx1ZSkgPDwKPiBmaWVsZCMj
+X1NISUZUKF92ZXIpOwkJXAo+ICsJCVdBUk5fT04oKGZpZWxkdmFsICYgfmZpZWxkIyNfTUFTSyhf
+dmVyKSkgIT0KPiAwKTsJCVwKPiArCQlmaWVsZHZhbCAmCj4gZmllbGQjI19NQVNLKF92ZXIpOwkJ
+CQlcCj4gKwkgfSkKPiArCj4gwqAjZGVmaW5lIFYzRF9HRVRfRklFTEQod29yZCwgZmllbGQpICgo
+KHdvcmQpICYgZmllbGQjI19NQVNLKQo+ID4+CQlcCj4gwqAJCQkJwqDCoMKgIGZpZWxkIyNfU0hJ
+RlQpCj4gwqAKPiBAQCAtMzU0LDE4ICszNjIsMTUgQEAKPiDCoCNkZWZpbmUgVjNEX1Y0X1BDVFJf
+MF9TUkNfMjhfMzHCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IDB4MDA2N2MKPiDCoCNkZWZpbmUgVjNEX1Y0X1BDVFJfMF9TUkNfWCh4KcKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+IChWM0RfVjRfUENUUl8wX1NSQ18w
+XzMgKyBcCj4gwqAJCQkJCQkJNCAqICh4KSkKPiAtIyBkZWZpbmUgVjNEX1BDVFJfUzBfTUFTS8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+VjNEX01BU0soNiwKPiAwKQo+IC0jIGRlZmluZSBWM0RfVjdfUENUUl9TMF9NQVNLwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBWM0RfTUFTSyg3LAo+
+IDApCj4gLSMgZGVmaW5lIFYzRF9QQ1RSX1MwX1NISUZUwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMAo+IC0jIGRlZmluZSBWM0RfUENUUl9T
+MV9NQVNLwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBWM0RfTUFTSygxNCwKPiA4KQo+IC0jIGRlZmluZSBWM0RfVjdfUENUUl9TMV9NQVNL
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBWM0Rf
+TUFTSygxNSwKPiA4KQo+IC0jIGRlZmluZSBWM0RfUENUUl9TMV9TSElGVMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDgKPiAtIyBkZWZpbmUg
+VjNEX1BDVFJfUzJfTUFTS8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgVjNEX01BU0soMjIsCj4gMTYpCj4gLSMgZGVmaW5lIFYzRF9WN19Q
+Q1RSX1MyX01BU0vCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIFYzRF9NQVNLKDIzLAo+IDE2KQo+IC0jIGRlZmluZSBWM0RfUENUUl9TMl9TSElGVMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDE2
+Cj4gLSMgZGVmaW5lIFYzRF9QQ1RSX1MzX01BU0vCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFYzRF9NQVNLKDMwLAo+IDI0KQo+IC0jIGRl
+ZmluZSBWM0RfVjdfUENUUl9TM19NQVNLwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBWM0RfTUFTSygzMSwKPiAyNCkKPiAtIyBkZWZpbmUgVjNEX1BD
+VFJfUzNfU0hJRlTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAyNAo+ICsjIGRlZmluZSBWM0RfUENUUl9TMF9NQVNLKHZlcikgKCgodmVyKSA+
+PSA3MSkgPyBWM0RfTUFTSyg3LCAwKSA6Cj4gVjNEX01BU0soNiwgMCkpCj4gKyMgZGVmaW5lIFYz
+RF9QQ1RSX1MwX1NISUZUKHZlcinCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIDAKPiArIyBkZWZpbmUgVjNEX1BDVFJfUzFfTUFTSyh2ZXIpICgoKHZlcikgPj0g
+NzEpID8gVjNEX01BU0soMTUsIDgpIDoKPiBWM0RfTUFTSygxNCwgOCkpCj4gKyMgZGVmaW5lIFYz
+RF9QQ1RSX1MxX1NISUZUKHZlcinCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIDgKPiArIyBkZWZpbmUgVjNEX1BDVFJfUzJfTUFTSyh2ZXIpICgoKHZlcikgPj0g
+NzEpID8gVjNEX01BU0soMjMsIDE2KSA6Cj4gVjNEX01BU0soMjIsIDE2KSkKPiArIyBkZWZpbmUg
+VjNEX1BDVFJfUzJfU0hJRlQodmVyKcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgMTYKPiArIyBkZWZpbmUgVjNEX1BDVFJfUzNfTUFTSyh2ZXIpICgoKHZlcikg
+Pj0gNzEpID8gVjNEX01BU0soMzEsIDI0KSA6Cj4gVjNEX01BU0soMzAsIDI0KSkKPiArIyBkZWZp
+bmUgVjNEX1BDVFJfUzNfU0hJRlQodmVyKcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgMjQKPiArCj4gwqAjZGVmaW5lIFYzRF9QQ1RSX0NZQ0xFX0NPVU5UKHZl
+cikgKCh2ZXIgPj0gNzEpID8gMCA6IDMyKQo+IMKgCj4gwqAvKiBPdXRwdXQgdmFsdWVzIG9mIHRo
+ZSBjb3VudGVycy4gKi8KCg==
 
-How is it unsafe?
-
-> Hence the question.
-> 
-> There exist the sysfs_update_groups(), but the BAR resource sysfs objects
-> are currently, at least not yet, added to any attribute group.
-
-then maybe they should be added to one :)
-
-thanks,
-
-greg k-h
