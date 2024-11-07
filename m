@@ -2,86 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938699C0B8A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 17:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E1A9C0BE7
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2024 17:44:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF84910E888;
-	Thu,  7 Nov 2024 16:27:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sgq9DuN9";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 878D610E0E2;
+	Thu,  7 Nov 2024 16:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB61610E883;
- Thu,  7 Nov 2024 16:27:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E2BFAA41F1A;
- Thu,  7 Nov 2024 16:25:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B3AFC4CECC;
- Thu,  7 Nov 2024 16:27:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1730996829;
- bh=RaF/yzDkwC/xI3JHS3wDYezLNgto4gJR15z4QCLcIec=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=sgq9DuN999fo+gF31O1Sog3B6QwMV6OvcPe7VPqi8sJ1TCzU/W1Ez/tliuLSn6HZv
- H6WJr617Z9ho3vOtVhPzMb0TyqS+gb2SI7mq/C0wytQj+BYrK8SHegywRApVWEjefm
- VrP+Uq41/kYqyiwmALEKXPYG2sF+9dXoP558MEULT3X9CJ2qlfOgYo5XQQ/akQ/Li+
- 8PC//m2NPppcQqPE5AwaE9VZUm8GEStHJrNdsbBXQj3zX2/Uw70Eqzdl18ZXk0ykpu
- Nv3hNeVLx2kThS8Iy5jvLz2TwdYaK/p8look0JzKdaIO94mqldL4oshBd2UJ53q8QV
- LBGXXQk7Ujmww==
-Date: Thu, 7 Nov 2024 10:27:07 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>,
- Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
- Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
- "David E. Box" <david.e.box@linux.intel.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Frederic Barrat <fbarrat@linux.ibm.com>,
- Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
- Logan Gunthorpe <logang@deltatee.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- Dan Williams <dan.j.williams@intel.com>,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-cxl@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-mtd@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-alpha@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v2 03/10] PCI/sysfs: Calculate bin_attribute size through
- bin_size()
-Message-ID: <20241107162707.GA1618544@bhelgaas>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7E16410E0E2
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2024 16:44:46 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF8FA497;
+ Thu,  7 Nov 2024 08:45:15 -0800 (PST)
+Received: from [10.57.89.183] (unknown [10.57.89.183])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 030C93F528;
+ Thu,  7 Nov 2024 08:44:44 -0800 (PST)
+Message-ID: <422f3c5a-4c69-413f-af2a-f016124d3c91@arm.com>
+Date: Thu, 7 Nov 2024 16:44:43 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241103-sysfs-const-bin_attr-v2-3-71110628844c@weissschuh.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Be stricter about IO mapping flags
+To: Jann Horn <jannh@google.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20241105-panthor-flush-page-fixes-v1-1-829aaf37db93@google.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20241105-panthor-flush-page-fixes-v1-1-829aaf37db93@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,85 +49,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 03, 2024 at 05:03:32PM +0000, Thomas Weißschuh wrote:
-> Stop abusing the is_bin_visible() callback to calculate the attribute
-> size. Instead use the new, dedicated bin_size() one.
+On 04/11/2024 23:17, Jann Horn wrote:
+> The current panthor_device_mmap_io() implementation has two issues:
 > 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> 1. For mapping DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET,
+>    panthor_device_mmap_io() bails if VM_WRITE is set, but does not clear
+>    VM_MAYWRITE. That means userspace can use mprotect() to make the mapping
+>    writable later on. This is a classic Linux driver gotcha.
+>    I don't think this actually has any impact in practice:
+>    When the GPU is powered, writes to the FLUSH_ID seem to be ignored; and
+>    when the GPU is not powered, the dummy_latest_flush page provided by the
+>    driver is deliberately designed to not do any flushes, so the only thing
+>    writing to the dummy_latest_flush could achieve would be to make *more*
+>    flushes happen.
+> 
+> 2. panthor_device_mmap_io() does not block MAP_PRIVATE mappings (which are
+>    mappings without the VM_SHARED flag).
+>    MAP_PRIVATE in combination with VM_MAYWRITE indicates that the VMA has
+>    copy-on-write semantics, which for VM_PFNMAP are semi-supported but
+>    fairly cursed.
+>    In particular, in such a mapping, the driver can only install PTEs
+>    during mmap() by calling remap_pfn_range() (because remap_pfn_range()
+>    wants to **store the physical address of the mapped physical memory into
+>    the vm_pgoff of the VMA**); installing PTEs later on with a fault
+>    handler (as panthor does) is not supported in private mappings, and so
+>    if you try to fault in such a mapping, vmf_insert_pfn_prot() splats when
+>    it hits a BUG() check.
+> 
+> Fix it by clearing the VM_MAYWRITE flag (userspace writing to the FLUSH_ID
+> doesn't make sense) and requiring VM_SHARED (copy-on-write semantics for
+> the FLUSH_ID don't make sense).
+> 
+> Reproducers for both scenarios are in the notes of my patch on the mailing
+> list; I tested that these bugs exist on a Rock 5B machine.
+> 
+> Note that I only compile-tested the patch, I haven't tested it; I don't
+> have a working kernel build setup for the test machine yet. Please test it
+> before applying it.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
+> Signed-off-by: Jann Horn <jannh@google.com>
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Pushed to drm-misc-fixes.
 
-Thanks for doing this!
+Thanks,
+Steve
 
-> ---
->  drivers/pci/pci-sysfs.c | 28 ++++++++++++++++------------
->  1 file changed, 16 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> index 5d0f4db1cab78674c5e5906f321bf7a57b742983..040f01b2b999175e8d98b05851edc078bbabbe0d 100644
-> --- a/drivers/pci/pci-sysfs.c
-> +++ b/drivers/pci/pci-sysfs.c
-> @@ -818,21 +818,20 @@ static struct bin_attribute *pci_dev_config_attrs[] = {
->  	NULL,
->  };
->  
-> -static umode_t pci_dev_config_attr_is_visible(struct kobject *kobj,
-> -					      struct bin_attribute *a, int n)
-> +static size_t pci_dev_config_attr_bin_size(struct kobject *kobj,
-> +					   const struct bin_attribute *a,
-> +					   int n)
->  {
->  	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
->  
-> -	a->size = PCI_CFG_SPACE_SIZE;
->  	if (pdev->cfg_size > PCI_CFG_SPACE_SIZE)
-> -		a->size = PCI_CFG_SPACE_EXP_SIZE;
-> -
-> -	return a->attr.mode;
-> +		return PCI_CFG_SPACE_EXP_SIZE;
-> +	return PCI_CFG_SPACE_SIZE;
->  }
->  
->  static const struct attribute_group pci_dev_config_attr_group = {
->  	.bin_attrs = pci_dev_config_attrs,
-> -	.is_bin_visible = pci_dev_config_attr_is_visible,
-> +	.bin_size = pci_dev_config_attr_bin_size,
->  };
->  
->  /*
-> @@ -1330,21 +1329,26 @@ static umode_t pci_dev_rom_attr_is_visible(struct kobject *kobj,
->  					   struct bin_attribute *a, int n)
->  {
->  	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
-> -	size_t rom_size;
->  
->  	/* If the device has a ROM, try to expose it in sysfs. */
-> -	rom_size = pci_resource_len(pdev, PCI_ROM_RESOURCE);
-> -	if (!rom_size)
-> +	if (!pci_resource_end(pdev, PCI_ROM_RESOURCE))
->  		return 0;
->  
-> -	a->size = rom_size;
-> -
->  	return a->attr.mode;
->  }
->  
-> +static size_t pci_dev_rom_attr_bin_size(struct kobject *kobj,
-> +					const struct bin_attribute *a, int n)
-> +{
-> +	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
-> +
-> +	return pci_resource_len(pdev, PCI_ROM_RESOURCE);
-> +}
-> +
->  static const struct attribute_group pci_dev_rom_attr_group = {
->  	.bin_attrs = pci_dev_rom_attrs,
->  	.is_bin_visible = pci_dev_rom_attr_is_visible,
-> +	.bin_size = pci_dev_rom_attr_bin_size,
->  };
->  
->  static ssize_t reset_store(struct device *dev, struct device_attribute *attr,
-> 
-> -- 
-> 2.47.0
-> 
+
