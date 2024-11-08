@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D96C9C1C7B
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 12:57:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80529C1CEE
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 13:28:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45C1E10E25B;
-	Fri,  8 Nov 2024 11:57:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1329A10E2EA;
+	Fri,  8 Nov 2024 12:28:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l18ylfOQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NGDMHdXQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A945A10E25B
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 11:57:05 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1170210E2EA
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 12:28:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731067026; x=1762603026;
+ t=1731068888; x=1762604888;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=EveuqbByIvqeTP/6ObYua5o0CjnfvPp/1xNR6BVpaRo=;
- b=l18ylfOQULh5dugGVyRHQcmxcJo1qU6h4V6tvLSTy4eK0EkZ3xHAIUpm
- U7+ap1jsuNrEOiA42bQ1Xj/z+6MKOjoeAmcL9WmOZ+CyIqnLhPa6LPnA9
- cmpcMlDPfrDkJdrppbiFZWHtdU5VA/nhX+qTAxeumBa5hiisnscqRcvHk
- JxTzVOnKSiENVYYTlQrVdTZG0R7oW71fdv7sXWIllkdmc9U3QyQ/01Wx/
- Q7tCYiKR9ovBfn4C19jwHNTG8kxmIXsqQITWne6fGLOgIBFRMdO+fcl+5
- DjXptCdJuwd7B6jWwr++4wgf8FXtQvAwcmm87PvaVFaTcoTPvNAmxkNb5 w==;
-X-CSE-ConnectionGUID: VrqXPARGTvCnc1jj1aEomA==
-X-CSE-MsgGUID: v8IGYYomRMWZtY1q5/XSTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30802181"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="30802181"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2024 03:57:05 -0800
-X-CSE-ConnectionGUID: /EEMz8mmTO++jIhQBgkzKQ==
-X-CSE-MsgGUID: 7rX4ZepGT3G09oCq+RqpOw==
+ bh=bOnSnfghil8eztkx0QAVOkK/Z5EvmrYIytE5HE9doqk=;
+ b=NGDMHdXQKVrsN4EugnYNWUItpISuvRHJL7qOfaSgHZhAmuJEv7uJuaV/
+ b4C7SjpujsQTBAdxX/KSwRGR0u4i95vnrgtiYA6bX1j9xTWvQB7f9rY1i
+ H3HtQgYxTBxifvg+L3E/Sl8BEffsbRR7NBTvQYWYoSs6FtoXxEKuCxy5p
+ oAAICAyopwtuEHGYOYbfwSJXzbV4w8D9XObs8GCBqNm4ClOwj65rYQxfK
+ yxh2bRnt/McNbMv8MM6xHMrpcosPgZeFysH9XJp2eN7oMrfQ0rv8Cw7a+
+ HeLBFSSSOcM247Eq6kLAMwwE4xaT93mIFf2+YkiLKa6sEgMkj7H4g8EFI g==;
+X-CSE-ConnectionGUID: IcIdXyfLSgqqUKK/ql/eGw==
+X-CSE-MsgGUID: oPB9/17wSuSf5zdRPsIziQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="42347922"
+X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; d="scan'208";a="42347922"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2024 04:28:08 -0800
+X-CSE-ConnectionGUID: qk7/gN9KTX+KVphisCHoRw==
+X-CSE-MsgGUID: mrjG7lpOQKmYWiTZko7N9Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; d="scan'208";a="85756919"
+X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; d="scan'208";a="85054673"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by fmviesa009.fm.intel.com with ESMTP; 08 Nov 2024 03:57:02 -0800
+ by fmviesa006.fm.intel.com with ESMTP; 08 Nov 2024 04:28:04 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t9Nbn-000rNy-0H;
- Fri, 08 Nov 2024 11:56:59 +0000
-Date: Fri, 8 Nov 2024 19:56:21 +0800
+ (envelope-from <lkp@intel.com>) id 1t9O5q-000rPq-0C;
+ Fri, 08 Nov 2024 12:28:02 +0000
+Date: Fri, 8 Nov 2024 20:27:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jocelyn Falempe <jfalempe@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -56,14 +56,16 @@ To: Jocelyn Falempe <jfalempe@redhat.com>,
  bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
  Petr Mladek <pmladek@suse.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v7 2/7] drm/client: Always select DRM_CLIENT_LIB
-Message-ID: <202411081923.vkZSFxL2-lkp@intel.com>
-References: <20241108082025.1004653-3-jfalempe@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v7 3/7] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+Message-ID: <202411082006.DB7Dlk06-lkp@intel.com>
+References: <20241108082025.1004653-4-jfalempe@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241108082025.1004653-3-jfalempe@redhat.com>
+In-Reply-To: <20241108082025.1004653-4-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,104 +89,55 @@ kernel test robot noticed the following build errors:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Move-drawing-functions-to-drm_draw/20241108-162222
 base:   baf4afc5831438b35de4b0e951b9cd58435a6d99
-patch link:    https://lore.kernel.org/r/20241108082025.1004653-3-jfalempe%40redhat.com
-patch subject: [PATCH v7 2/7] drm/client: Always select DRM_CLIENT_LIB
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241108/202411081923.vkZSFxL2-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081923.vkZSFxL2-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20241108082025.1004653-4-jfalempe%40redhat.com
+patch subject: [PATCH v7 3/7] drm/log: Introduce a new boot logger to draw the kmsg on the screen
+config: x86_64-buildonly-randconfig-002-20241108 (https://download.01.org/0day-ci/archive/20241108/202411082006.DB7Dlk06-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411082006.DB7Dlk06-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411081923.vkZSFxL2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411082006.DB7Dlk06-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_client_setup.c:25:6: error: redefinition of 'drm_client_setup'
-      25 | void drm_client_setup(struct drm_device *dev, const struct drm_format_info *format)
-         |      ^~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/drm_client_setup.c:3:
-   include/drm/drm_client_setup.h:16:20: note: previous definition of 'drm_client_setup' with type 'void(struct drm_device *, const struct drm_format_info *)'
+>> drivers/gpu/drm/drm_client_setup.c:11:38: error: use of undeclared identifier 'CONFIG_DRM_CLIENT_DEFAULT'
+      11 | static char drm_client_default[16] = CONFIG_DRM_CLIENT_DEFAULT;
+         |                                      ^
+>> drivers/gpu/drm/drm_client_setup.c:15:4: error: expected ';' after top level declarator
+      15 |                  CONFIG_DRM_CLIENT_DEFAULT "]");
+         |                  ^
+   drivers/gpu/drm/drm_client_setup.c:33:6: error: redefinition of 'drm_client_setup'
+      33 | void drm_client_setup(struct drm_device *dev, const struct drm_format_info *format)
+         |      ^
+   include/drm/drm_client_setup.h:16:20: note: previous definition is here
       16 | static inline void drm_client_setup(struct drm_device *dev,
-         |                    ^~~~~~~~~~~~~~~~
->> drivers/gpu/drm/drm_client_setup.c:43:6: error: redefinition of 'drm_client_setup_with_fourcc'
-      43 | void drm_client_setup_with_fourcc(struct drm_device *dev, u32 fourcc)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/drm_client_setup.c:3:
-   include/drm/drm_client_setup.h:19:20: note: previous definition of 'drm_client_setup_with_fourcc' with type 'void(struct drm_device *, u32)' {aka 'void(struct drm_device *, unsigned int)'}
+         |                    ^
+   drivers/gpu/drm/drm_client_setup.c:55:6: error: redefinition of 'drm_client_setup_with_fourcc'
+      55 | void drm_client_setup_with_fourcc(struct drm_device *dev, u32 fourcc)
+         |      ^
+   include/drm/drm_client_setup.h:19:20: note: previous definition is here
       19 | static inline void drm_client_setup_with_fourcc(struct drm_device *dev, u32 fourcc)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/drm_client_setup.c:60:6: error: redefinition of 'drm_client_setup_with_color_mode'
-      60 | void drm_client_setup_with_color_mode(struct drm_device *dev, unsigned int color_mode)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/drm_client_setup.c:3:
-   include/drm/drm_client_setup.h:21:20: note: previous definition of 'drm_client_setup_with_color_mode' with type 'void(struct drm_device *, unsigned int)'
+         |                    ^
+   drivers/gpu/drm/drm_client_setup.c:72:6: error: redefinition of 'drm_client_setup_with_color_mode'
+      72 | void drm_client_setup_with_color_mode(struct drm_device *dev, unsigned int color_mode)
+         |      ^
+   include/drm/drm_client_setup.h:21:20: note: previous definition is here
       21 | static inline void drm_client_setup_with_color_mode(struct drm_device *dev,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                    ^
+   5 errors generated.
 
 
-vim +/drm_client_setup +25 drivers/gpu/drm/drm_client_setup.c
+vim +/CONFIG_DRM_CLIENT_DEFAULT +11 drivers/gpu/drm/drm_client_setup.c
 
-d07fdf9225922d Thomas Zimmermann 2024-09-24   8  
-d07fdf9225922d Thomas Zimmermann 2024-09-24   9  /**
-d07fdf9225922d Thomas Zimmermann 2024-09-24  10   * drm_client_setup() - Setup in-kernel DRM clients
-d07fdf9225922d Thomas Zimmermann 2024-09-24  11   * @dev: DRM device
-d07fdf9225922d Thomas Zimmermann 2024-09-24  12   * @format: Preferred pixel format for the device. Use NULL, unless
-d07fdf9225922d Thomas Zimmermann 2024-09-24  13   *          there is clearly a driver-preferred format.
-d07fdf9225922d Thomas Zimmermann 2024-09-24  14   *
-d07fdf9225922d Thomas Zimmermann 2024-09-24  15   * This function sets up the in-kernel DRM clients. Restore, hotplug
-d07fdf9225922d Thomas Zimmermann 2024-09-24  16   * events and teardown are all taken care of.
-d07fdf9225922d Thomas Zimmermann 2024-09-24  17   *
-d07fdf9225922d Thomas Zimmermann 2024-09-24  18   * Drivers should call drm_client_setup() after registering the new
-d07fdf9225922d Thomas Zimmermann 2024-09-24  19   * DRM device with drm_dev_register(). This function is safe to call
-d07fdf9225922d Thomas Zimmermann 2024-09-24  20   * even when there are no connectors present. Setup will be retried
-d07fdf9225922d Thomas Zimmermann 2024-09-24  21   * on the next hotplug event.
-d07fdf9225922d Thomas Zimmermann 2024-09-24  22   *
-d07fdf9225922d Thomas Zimmermann 2024-09-24  23   * The clients are destroyed by drm_dev_unregister().
-d07fdf9225922d Thomas Zimmermann 2024-09-24  24   */
-d07fdf9225922d Thomas Zimmermann 2024-09-24 @25  void drm_client_setup(struct drm_device *dev, const struct drm_format_info *format)
-d07fdf9225922d Thomas Zimmermann 2024-09-24  26  {
-d07fdf9225922d Thomas Zimmermann 2024-09-24  27  	int ret;
-d07fdf9225922d Thomas Zimmermann 2024-09-24  28  
-d07fdf9225922d Thomas Zimmermann 2024-09-24  29  	ret = drm_fbdev_client_setup(dev, format);
-d07fdf9225922d Thomas Zimmermann 2024-09-24  30  	if (ret)
-d07fdf9225922d Thomas Zimmermann 2024-09-24  31  		drm_warn(dev, "Failed to set up DRM client; error %d\n", ret);
-d07fdf9225922d Thomas Zimmermann 2024-09-24  32  }
-d07fdf9225922d Thomas Zimmermann 2024-09-24  33  EXPORT_SYMBOL(drm_client_setup);
-d07fdf9225922d Thomas Zimmermann 2024-09-24  34  
-d07fdf9225922d Thomas Zimmermann 2024-09-24  35  /**
-d07fdf9225922d Thomas Zimmermann 2024-09-24  36   * drm_client_setup_with_fourcc() - Setup in-kernel DRM clients for color mode
-d07fdf9225922d Thomas Zimmermann 2024-09-24  37   * @dev: DRM device
-d07fdf9225922d Thomas Zimmermann 2024-09-24  38   * @fourcc: Preferred pixel format as 4CC code for the device
-d07fdf9225922d Thomas Zimmermann 2024-09-24  39   *
-d07fdf9225922d Thomas Zimmermann 2024-09-24  40   * This function sets up the in-kernel DRM clients. It is equivalent
-d07fdf9225922d Thomas Zimmermann 2024-09-24  41   * to drm_client_setup(), but expects a 4CC code as second argument.
-d07fdf9225922d Thomas Zimmermann 2024-09-24  42   */
-d07fdf9225922d Thomas Zimmermann 2024-09-24 @43  void drm_client_setup_with_fourcc(struct drm_device *dev, u32 fourcc)
-d07fdf9225922d Thomas Zimmermann 2024-09-24  44  {
-d07fdf9225922d Thomas Zimmermann 2024-09-24  45  	drm_client_setup(dev, drm_format_info(fourcc));
-d07fdf9225922d Thomas Zimmermann 2024-09-24  46  }
-d07fdf9225922d Thomas Zimmermann 2024-09-24  47  EXPORT_SYMBOL(drm_client_setup_with_fourcc);
-d07fdf9225922d Thomas Zimmermann 2024-09-24  48  
-d07fdf9225922d Thomas Zimmermann 2024-09-24  49  /**
-d07fdf9225922d Thomas Zimmermann 2024-09-24  50   * drm_client_setup_with_color_mode() - Setup in-kernel DRM clients for color mode
-d07fdf9225922d Thomas Zimmermann 2024-09-24  51   * @dev: DRM device
-d07fdf9225922d Thomas Zimmermann 2024-09-24  52   * @color_mode: Preferred color mode for the device
-d07fdf9225922d Thomas Zimmermann 2024-09-24  53   *
-d07fdf9225922d Thomas Zimmermann 2024-09-24  54   * This function sets up the in-kernel DRM clients. It is equivalent
-d07fdf9225922d Thomas Zimmermann 2024-09-24  55   * to drm_client_setup(), but expects a color mode as second argument.
-d07fdf9225922d Thomas Zimmermann 2024-09-24  56   *
-d07fdf9225922d Thomas Zimmermann 2024-09-24  57   * Do not use this function in new drivers. Prefer drm_client_setup() with a
-d07fdf9225922d Thomas Zimmermann 2024-09-24  58   * format of NULL.
-d07fdf9225922d Thomas Zimmermann 2024-09-24  59   */
-d07fdf9225922d Thomas Zimmermann 2024-09-24 @60  void drm_client_setup_with_color_mode(struct drm_device *dev, unsigned int color_mode)
-d07fdf9225922d Thomas Zimmermann 2024-09-24  61  {
-d07fdf9225922d Thomas Zimmermann 2024-09-24  62  	u32 fourcc = drm_driver_color_mode_format(dev, color_mode);
-d07fdf9225922d Thomas Zimmermann 2024-09-24  63  
-d07fdf9225922d Thomas Zimmermann 2024-09-24  64  	drm_client_setup_with_fourcc(dev, fourcc);
-d07fdf9225922d Thomas Zimmermann 2024-09-24  65  }
-d07fdf9225922d Thomas Zimmermann 2024-09-24  66  EXPORT_SYMBOL(drm_client_setup_with_color_mode);
-dadd28d4142f9a Thomas Zimmermann 2024-10-14  67  
+    10	
+  > 11	static char drm_client_default[16] = CONFIG_DRM_CLIENT_DEFAULT;
+    12	module_param_string(client, drm_client_default, sizeof(drm_client_default), 0444);
+    13	MODULE_PARM_DESC(client,
+    14			 "Choose which drm client to start, default is"
+  > 15			 CONFIG_DRM_CLIENT_DEFAULT "]");
+    16	
 
 -- 
 0-DAY CI Kernel Test Service
