@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933769C2119
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 16:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AE99C21B7
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:13:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3654A10E9FA;
-	Fri,  8 Nov 2024 15:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4742110E9FC;
+	Fri,  8 Nov 2024 16:13:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="pFdTF0Pu";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="bP7E3hLf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0EA710E9F8
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 15:52:05 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-37d4d1b48f3so1391780f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 07:52:05 -0800 (PST)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29D8410E262
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:13:02 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-4315abed18aso20337725e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 08:13:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1731081124; x=1731685924;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1731082380; x=1731687180;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:to:subject:user-agent:mime-version:date:message-id:from
  :to:cc:subject:date:message-id:reply-to;
- bh=yrm5TTZsolBMurk5pW264deR6g1BVZN9A+0xP3q2ecI=;
- b=pFdTF0Pul1dhKs0C46ZYtd6Z13ONvkM0xK6uDaAD3X6StxKxFBRGdaMW6NGL+VYF4W
- wkwqMk4fSDLXocZ0mxvPw9ZfZaEV5+ilTQAeHGWNhIT23DopxHZXy4q1LcfVqjwkQSE8
- 2RIB9cyNnp7JSW5fAoWfDBHsXuWGeX9xMawmXZTKYuIag05NtcVozUT7a+4WhrHz01RH
- Yxpdgs42LXjg6A79SC1uzsZ3z7BlqcWZ5Je1oVZKT8Cli0BpMMZ4fAY85YIOP3qHR9aS
- fyv0z5UsoW+e60JWbOM6hQAujFgeBcApkusyXsNDWG15HaJCIXSTXwzIcSIqYtSvH+qI
- JdWA==
+ bh=R4poXxfRfxPLdn8k7VS6ytr5E4cYnD80y1QbF6VF3NM=;
+ b=bP7E3hLfi/J+L0EvDVbVm30sr6CkTojecD+UOndLOoYlIjuxALFX6pIjEtsj7Zol8v
+ hBou9DYKtHNW4ALC6kXSApNQeeLnbKIocxyEJ2HXmwZXeJ+gC1ZVXLlptykv44Pw+U4a
+ hN6szLJMOtyNVqMqKcSjBuoImUCsFomocIy1g/8aZm3OVuYDu/RC8fET4WU16AYLMx+8
+ ZAQuj7f/jYMG6pG5APyL6KBtjxr0xhfVS7YkGEFukTW7QVw+DxuBevuvcxJ7SnoCStkQ
+ hqplpXa0+2g+Lk5InqkrNjfslYGUWplVHIOLMOztc0Ii4Y0F9iA2/H75FZjkITTVkWIc
+ M8aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731081124; x=1731685924;
+ d=1e100.net; s=20230601; t=1731082380; x=1731687180;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yrm5TTZsolBMurk5pW264deR6g1BVZN9A+0xP3q2ecI=;
- b=ErzDSEXpsqKG7rmlBqDfZUYdgJcD15D8rQEcsbtOLqgnqRtKxRwgPwQJyxFlze9wEe
- sXLqMnhmmUg95cm1EgyOhYX7WuVt5GR8sw8n7qHS/7XDL0blToQynJu7ygZ8dzqtuYcI
- SjTs63pjc9DH9qVdIskm3k0taGh35Y6bjL5NKh8aixxVjFGXAqCDGg7c+Te99nIXWAhM
- tVbMvjjLb7wzJDsXCPegoLMkox+rrIzoacmVYM9SEmoGt1rel0zmKpYAnCbn0xicAsmf
- WcvtXwOFhE2GfRIAzLEwYle8HyNY6VUkLO41cVi4rmuTlCz01RG0SaiDwQ4XTqEzai+O
- 0mFA==
+ bh=R4poXxfRfxPLdn8k7VS6ytr5E4cYnD80y1QbF6VF3NM=;
+ b=EmpbDieen471lJXlpf9g5nykH5cvyhehq6XSMyY/sIJDlPjLGfIr56nWuAh6rBrPDW
+ SANI00qoDVC7fEooFxjKY+AKKt+mRohFbcO51Ppt78V1HWP0pt21+OVbeg8EnbRnG64G
+ ASFSOU/01Y6l+h+BrehuwFpj6xxjjGivqMqMkIDZMRJnfOuF3KzdjGd9Q6Gi/mV+UskI
+ IeX6S9YAmkr9iysQt21oxiOiwtjjVFFq58CWNECRbb/JOuJe9w/zqh52ABMavlnc6AQd
+ Cb7u5v6Pu76ZBxW9e+r+wa1EOcJ9Q82HDNjq+nzziv+2CCUjNX9j/jRMKnkBIhFqDN2Q
+ 90bA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU1u4gDjsaaO3IQ22Fygo4Zy+abeSF2HusQ9fHUPyescc2tX86fDbtfvIWpy9KfCzGMFmLok0TypFM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyyGQFSm7bLTU7Yrjn5tIYoPMvfzm3ZmsSUsZRYv98ATTTqSLQZ
- t4SEas355EpyZljHkW73K+3mDN+kUIZwbgGxkZaXpP0L7cvBzsn4gNclzfFHW1o=
-X-Google-Smtp-Source: AGHT+IGTKU0TbJ0rNJk3bWF06f95n/H6b3p5aAJucmJWjJLvzu8yrEszjgBhJelrjUVoGrFCu/TBDw==
-X-Received: by 2002:a05:6000:70a:b0:377:6073:48df with SMTP id
- ffacd0b85a97d-381f1852b88mr2762648f8f.58.1731081124016; 
- Fri, 08 Nov 2024 07:52:04 -0800 (PST)
+ AJvYcCX97j+I5RboLOoCV+Rh8RUqM72JqC4H2ai9ficwfT6wewXocg1yu58b4u6FPHqlb0hDmU4kkRgnoFY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy7wVr9j9SM+DSdj2wpBo98+dwpo7VLWINPcD3tFCyohCD5t+jG
+ LjyfxEBAOWrYbKQz60tZZXf2SNK+ptgwTZ8IEnd5TpQVam64MiiGjqCB87fsenw=
+X-Google-Smtp-Source: AGHT+IHfX3drXiakOCwi9XTVwxzLJGsb7nYv+TEqYteAVJt7pnOy3693z7LQm/H5Wf0iUbe2RkXDVA==
+X-Received: by 2002:a05:600c:4e8b:b0:42c:c401:6d8b with SMTP id
+ 5b1f17b1804b1-432b74feb99mr28658015e9.7.1731082380245; 
+ Fri, 08 Nov 2024 08:13:00 -0800 (PST)
 Received: from [192.168.0.101] ([90.241.98.187])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-381ed970e23sm5234524f8f.18.2024.11.08.07.52.03
+ 5b1f17b1804b1-432aa6b3505sm108531955e9.15.2024.11.08.08.12.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Nov 2024 07:52:03 -0800 (PST)
-Message-ID: <c33a5129-10c6-4c58-9443-92156a613cb5@ursulin.net>
-Date: Fri, 8 Nov 2024 15:52:02 +0000
+ Fri, 08 Nov 2024 08:12:59 -0800 (PST)
+Message-ID: <b1383d57-39f0-460b-9793-435f60f7f722@ursulin.net>
+Date: Fri, 8 Nov 2024 16:12:59 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: fix dma_fence_array_signaled
+Subject: Re: [PATCH 2/3] dma-buf: sort fences in dma_fence_unwrap_merge
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- boris.brezillon@collabora.com, olvaffe@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- lionel.g.landwerlin@intel.com, dri-devel@lists.freedesktop.org,
- faith.ekstrand@collabora.com, simona@ffwll.ch
-References: <20241108094256.3717-1-christian.koenig@amd.com>
- <20241108094256.3717-2-christian.koenig@amd.com>
- <cce719d7-adc9-4f5b-803a-fd173d325806@ursulin.net>
- <f9d27c0a-084f-4b35-bd6c-af25a6bb830d@gmail.com>
+ friedrich.vock@gmx.de, Richardqi.Liang@amd.com,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20241024124159.4519-1-christian.koenig@amd.com>
+ <20241024124159.4519-3-christian.koenig@amd.com>
+ <bf0a51cb-a112-45d7-b55f-47a75ed87da6@ursulin.net>
+ <d2882342-ec87-4e41-a7f8-6d7cf8fb3b20@ursulin.net>
+ <810e2380-1215-4b85-85b5-6b558f7fd62a@gmail.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <f9d27c0a-084f-4b35-bd6c-af25a6bb830d@gmail.com>
+In-Reply-To: <810e2380-1215-4b85-85b5-6b558f7fd62a@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,142 +92,314 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 08/11/2024 14:18, Christian König wrote:
-> Am 08.11.24 um 14:01 schrieb Tvrtko Ursulin:
->>
->> On 08/11/2024 09:42, Christian König wrote:
->>> The function silently assumed that signaling was already enabled for the
->>> dma_fence_array. This meant that without enabling signaling first we 
->>> would
->>> never see forward progress.
+On 08/11/2024 14:58, Christian König wrote:
+> Am 08.11.24 um 12:22 schrieb Tvrtko Ursulin:
+>> On 07/11/2024 16:00, Tvrtko Ursulin wrote:
+>>> On 24/10/2024 13:41, Christian König wrote:
+>>>> The merge function initially handled only individual fences and
+>>>> arrays which in turn were created by the merge function. This allowed
+>>>> to create the new array by a simple merge sort based on the fence
+>>>> context number.
+>>>>
+>>>> The problem is now that since the addition of timeline sync objects
+>>>> userspace can create chain containers in basically any fence context
+>>>> order.
+>>>>
+>>>> If those are merged together it can happen that we create really
+>>>> large arrays since the merge sort algorithm doesn't work any more.
+>>>>
+>>>> So put an insert sort behind the merge sort which kicks in when the
+>>>> input fences are not in the expected order. This isn't as efficient
+>>>> as a heap sort, but has better properties for the most common use
+>>>> case.
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> ---
+>>>>   drivers/dma-buf/dma-fence-unwrap.c | 39 
+>>>> ++++++++++++++++++++++++++----
+>>>>   1 file changed, 34 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/drivers/dma-buf/dma-fence-unwrap.c 
+>>>> b/drivers/dma-buf/dma-fence-unwrap.c
+>>>> index 628af51c81af..d9aa280d9ff6 100644
+>>>> --- a/drivers/dma-buf/dma-fence-unwrap.c
+>>>> +++ b/drivers/dma-buf/dma-fence-unwrap.c
+>>>> @@ -106,7 +106,7 @@ struct dma_fence 
+>>>> *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>>>           fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
+>>>>       count = 0;
+>>>> -    do {
+>>>> +    while (true) {
+>>>>           unsigned int sel;
+>>>>   restart:
+>>>> @@ -144,11 +144,40 @@ struct dma_fence 
+>>>> *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>>>               }
+>>>>           }
+>>>> -        if (tmp) {
+>>>> -            array[count++] = dma_fence_get(tmp);
+>>>> -            fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>>>> +        if (!tmp)
+>>>> +            break;
+>>>> +
+>>>> +        /*
+>>>> +         * We could use a binary search here, but since the assumption
+>>>> +         * is that the main input are already sorted dma_fence_arrays
+>>>> +         * just looking from end has a higher chance of finding the
+>>>> +         * right location on the first try
+>>>> +         */
+>>>> +
+>>>> +        for (i = count; i--;) {
+>>>> +            if (likely(array[i]->context < tmp->context))
+>>>> +                break;
+>>>> +
+>>>> +            if (array[i]->context == tmp->context) {
+>>>> +                if (dma_fence_is_later(tmp, array[i])) {
+>>>> +                    dma_fence_put(array[i]);
+>>>> +                    array[i] = dma_fence_get(tmp);
+>>>> +                }
+>>>> +                fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>>>> +                goto restart;
+>>>> +            }
+>>>>           }
+>>>> -    } while (tmp);
+>>>> +
+>>>> +        ++i;
+>>>> +        /*
+>>>> +         * Make room for the fence, this should be a nop most of the
+>>>> +         * time.
+>>>> +         */
+>>>> +        memcpy(&array[i + 1], &array[i], (count - i) * 
+>>>> sizeof(*array));
+>>>> +        array[i] = dma_fence_get(tmp);
+>>>> +        fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>>>> +        count++;
 >>>
->>> Fix that by falling back to testing each individual fence when signaling
->>> isn't enabled yet.
+>>> Having ventured into this function for the first time, I can say that 
+>>> this is some smart code which is not easy to grasp. It could 
+>>> definitely benefit from a high level comment before the do-while loop 
+>>> to explain what it is going to do.
 >>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>   drivers/dma-buf/dma-fence-array.c | 14 +++++++++++++-
->>>   1 file changed, 13 insertions(+), 1 deletion(-)
+>>> Next and tmp local variable names I also wonder if could be renamed 
+>>> to something more descriptive.
 >>>
->>> diff --git a/drivers/dma-buf/dma-fence-array.c 
->>> b/drivers/dma-buf/dma-fence-array.c
->>> index 46ac42bcfac0..01203796827a 100644
->>> --- a/drivers/dma-buf/dma-fence-array.c
->>> +++ b/drivers/dma-buf/dma-fence-array.c
->>> @@ -103,10 +103,22 @@ static bool 
->>> dma_fence_array_enable_signaling(struct dma_fence *fence)
->>>   static bool dma_fence_array_signaled(struct dma_fence *fence)
->>>   {
->>>       struct dma_fence_array *array = to_dma_fence_array(fence);
->>> +    unsigned int i, num_pending;
->>>   -    if (atomic_read(&array->num_pending) > 0)
->>> +    num_pending = atomic_read(&array->num_pending);
->>> +    if (test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, 
->>> &array->base.flags)) {
->>> +        if (!num_pending)
->>> +            goto signal;
->>>           return false;
->>> +    }
->>> +
->>> +    for (i = 0; i < array->num_fences; ++i) {
->>> +        if (dma_fence_is_signaled(array->fences[i]) && !--num_pending)
->>> +            goto signal;
->>> +    }
->>> +    return false;
+>>> And the algorithmic complexity of the end result, given the multiple 
+>>> loops and gotos, I have no idea what it could be.
+>>>
+>>> Has a dumb solution been considered like a two-pass with a 
+>>> pessimistically allocated fence array been considered? Like:
+>>>
+>>> 1) Populate array with all unsignalled unwrapped fences. (O(count))
+>>>
+>>> 2) Bog standard include/linux/sort.h by context and seqno. 
+>>> (O(count*log (count)))
+>>>
+>>> 3) Walk array and squash same context to latest fence. (Before this 
+>>> patch that wasn't there, right?). (O(count)) (Overwrite in place, no 
+>>> memcpy needed.)
+>>>
+>>> Algorithmic complexity of that would be obvious and code much simpler.
 >>
->> Sampling num_pending (and decrementing) and test_bit from an unlocked 
->> path makes one need to think if there are consequences, false 
->> negatives, positives or something. Would it be fine to simplify like 
->> the below?
+>> FWIW something like the below passes selftests. How does it look to 
+>> you? Do you think more or less efficient and more or less readable?
 > 
-> Yeah I've played around with those ideas as well but came to the 
-> conclusion that neither of them are correct.
+> Yeah I was considering the exact same thing.
 > 
->>
->> static bool dma_fence_array_signaled(struct dma_fence *fence)
->> {
->>     struct dma_fence_array *array = to_dma_fence_array(fence);
->>     unsigned int i;
->>
->>     if (atomic_read(&array->num_pending)) {
->>         for (i = 0; i < array->num_fences; i++) {
->>             if (!dma_fence_is_signaled(array->fences[i]))
->>                 return false;
+> What hold me back was the fact that the heap sort() implementation is 
+> really inefficient for the most common use case of this. In other words 
+> two arrays with fences already sorted is basically just O(count).
 > 
-> That's not correct. num_pending is not necessary equal to the number of 
-> fences in the array.
-> 
-> E.g. we have cases where num_pending is just 1 so that the 
-> dma_fence_array signals when *any* fence in it signals.
+> And I'm also not sure how many fences we see in those arrays in 
+> practice. With Vulkan basically trying to feed multiple contexts to keep 
+> all CPUs busy we might have quite a number here.
 
-I forgot about that mode.
+I can add some instrumentation and run some games next week.
 
->> }
->>     }
->>
->>     dma_fence_array_clear_pending_error(array);
->>     return true;
->> }
->>
->> Or if the optimisation to not walk the array when signalling is 
->> already enabled is deemed important, perhaps a less thinking inducing 
->> way would be this:
-> ...
->> Decrementing locally cached num_pending in the loop I think does not 
->> bring anything since when signalling is not enabled it will be stuck 
->> at num_fences. So the loop walks the whole array versus bail on first 
->> unsignalled, so latter even more efficient.
-> 
-> That is not for optimization but for correctness.
-> 
-> What the patch basically does is the following:
-> 1. Grab the current value of num_pending.
-> 
-> 2. Test if num_pending was potentially already modified because 
-> signaling is already enabled, if yes just test it and return the result.
-> 
-> 3. If it wasn't modified go over the fences and see if we already have 
-> at least num_pending signaled.
-> 
-> I should probably add a code comment explaining that.
-
-It would be good yes.
-
-DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT can appear any time, even after the 
-check, hence I am not sure the absence of the bit can be used to 
-guarantee num_pending is stable. But I think this one is safe, since the 
-loop will in any case find the desired number of signalled fences even 
-if num_pending is stale (too high).
-
-Also, can num_pending underflow in signal-on-any mode and if it can what 
-can happen in unsigned int num_pending and the below loop. Potentially 
-just one false negative with the following query returning signalled 
-from the top level dma-fence code.
-
-In summary I think patch works. I am just unsure if the above race can 
-silently happen and cause one extra round trip through the query. If it 
-can it still works, but definitely needs a big fat comment to explain it.
+Another option is adding the sort algorithm you want with the same API 
+as kernel's sort. Even if a local implementation that may already 
+increase readability of the merging process.
 
 Regards,
 
 Tvrtko
 
 > 
->> In which case, should dma-fence-chain also be aligned to have the fast 
->> path bail out?
-> 
-> Good point need to double check that code as well.
-> 
-> Thanks,
+> Regards,
 > Christian.
 > 
+>>
+>> commit 8a7c3ea7e7af85e813bf5fc151537ae37be1d6d9
+>> Author: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Date:   Fri Nov 8 10:14:15 2024 +0000
+>>
+>>     __dma_fence_unwrap_merge
+>>
+>>     Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> diff --git a/drivers/dma-buf/dma-fence-unwrap.c 
+>> b/drivers/dma-buf/dma-fence-unwrap.c
+>> index 628af51c81af..47d67e482e96 100644
+>> --- a/drivers/dma-buf/dma-fence-unwrap.c
+>> +++ b/drivers/dma-buf/dma-fence-unwrap.c
+>> @@ -12,6 +12,7 @@
+>>  #include <linux/dma-fence-chain.h>
+>>  #include <linux/dma-fence-unwrap.h>
+>>  #include <linux/slab.h>
+>> +#include <linux/sort.h>
+>>
+>>  /* Internal helper to start new array iteration, don't use directly */
+>>  static struct dma_fence *
+>> @@ -59,17 +60,39 @@ struct dma_fence *dma_fence_unwrap_next(struct 
+>> dma_fence_unwrap *cursor)
+>>  }
+>>  EXPORT_SYMBOL_GPL(dma_fence_unwrap_next);
+>>
+>> +
+>> +static int fence_cmp(const void *_a, const void *_b)
+>> +{
+>> +    const struct dma_fence *a = *(const struct dma_fence **)_a;
+>> +    const struct dma_fence *b = *(const struct dma_fence **)_b;
+>> +
+>> +    if (a->context < b->context)
+>> +        return -1;
+>> +    else if (a->context > b->context)
+>> +        return 1;
+>> +
+>> +    if (a->seqno < b->seqno)
+>> +        return -1;
+>> +    else if (a->seqno > b->seqno)
+>> +        return 1;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>  /* Implementation for the dma_fence_merge() marco, don't use directly */
+>>  struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>                         struct dma_fence **fences,
+>>                         struct dma_fence_unwrap *iter)
+>>  {
+>> -    struct dma_fence_array *result;
+>>      struct dma_fence *tmp, **array;
+>> +    struct dma_fence_array *result;
+>>      ktime_t timestamp;
+>> -    unsigned int i;
+>> -    size_t count;
+>> +    int i, j, count;
+>>
+>> +    /*
+>> +     * Count number of unwrapped fences and fince the latest signaled
+>> +     * timestamp.
+>> +     */
+>>      count = 0;
+>>      timestamp = ns_to_ktime(0);
+>>      for (i = 0; i < num_fences; ++i) {
+>> @@ -92,63 +115,41 @@ struct dma_fence 
+>> *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>      if (count == 0)
+>>          return dma_fence_allocate_private_stub(timestamp);
+>>
+>> +    /*
+>> +     * Allocate and populate the array.
+>> +     */
+>>      array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
+>>      if (!array)
+>>          return NULL;
+>>
+>> -    /*
+>> -     * This trashes the input fence array and uses it as position for 
+>> the
+>> -     * following merge loop. This works because the dma_fence_merge()
+>> -     * wrapper macro is creating this temporary array on the stack 
+>> together
+>> -     * with the iterators.
+>> -     */
+>> -    for (i = 0; i < num_fences; ++i)
+>> -        fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
+>> -
+>>      count = 0;
+>> -    do {
+>> -        unsigned int sel;
+>> -
+>> -restart:
+>> -        tmp = NULL;
+>> -        for (i = 0; i < num_fences; ++i) {
+>> -            struct dma_fence *next;
+>> -
+>> -            while (fences[i] && dma_fence_is_signaled(fences[i]))
+>> -                fences[i] = dma_fence_unwrap_next(&iter[i]);
+>> -
+>> -            next = fences[i];
+>> -            if (!next)
+>> -                continue;
+>> -
+>> -            /*
+>> -             * We can't guarantee that inpute fences are ordered by
+>> -             * context, but it is still quite likely when this
+>> -             * function is used multiple times. So attempt to order
+>> -             * the fences by context as we pass over them and merge
+>> -             * fences with the same context.
+>> -             */
+>> -            if (!tmp || tmp->context > next->context) {
+>> -                tmp = next;
+>> -                sel = i;
+>> -
+>> -            } else if (tmp->context < next->context) {
+>> -                continue;
+>> -
+>> -            } else if (dma_fence_is_later(tmp, next)) {
+>> -                fences[i] = dma_fence_unwrap_next(&iter[i]);
+>> -                goto restart;
+>> -            } else {
+>> -                fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>> -                goto restart;
+>> -            }
+>> +    for (i = 0; i < num_fences; ++i) {
+>> +        dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
+>> +            if (!dma_fence_is_signaled(tmp))
+>> +                array[count++] = tmp;
+>>          }
+>> +    }
+>> +
+>> +    /*
+>> +     * Sort in context and seqno order.
+>> +     */
+>> +    sort(array, count, sizeof(*array), fence_cmp, NULL);
+>>
+>> -        if (tmp) {
+>> -            array[count++] = dma_fence_get(tmp);
+>> -            fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>> +    /*
+>> +     * Only keep the most recent fence for each context.
+>> +     */
+>> +    j = 0;
+>> +    tmp = array[0];
+>> +    for (i = 1; i < count; i++) {
+>> +        if (array[i]->context != tmp->context) {
+>> +            array[j++] = dma_fence_get(tmp);
+>>          }
+>> -    } while (tmp);
+>> +        tmp = array[i];
+>> +    }
+>> +    if (tmp->context != array[j - 1]->context) {
+>> +        array[j++] = dma_fence_get(tmp);
+>> +    }
+>> +    count = j;
+>>
+>>      if (count == 0) {
+>>          tmp = dma_fence_allocate_private_stub(ktime_get());
+>>
 >>
 >> Regards,
 >>
 >> Tvrtko
 >>
->>>   +signal:
->>>       dma_fence_array_clear_pending_error(array);
->>>       return true;
->>>   }
+>>
+>>>
+>>> Regards,
+>>>
+>>> Tvrtko
+>>>
+>>>> +    };
+>>>>       if (count == 0) {
+>>>>           tmp = dma_fence_allocate_private_stub(ktime_get());
 > 
