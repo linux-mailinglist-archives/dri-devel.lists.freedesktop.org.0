@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424E49C3094
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2024 03:31:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4B79C309A
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2024 03:31:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C247D10E122;
-	Sun, 10 Nov 2024 02:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA97210E3B9;
+	Sun, 10 Nov 2024 02:31:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hpoyxu7h";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gMkR2Pee";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 988C110EA38
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 20:05:16 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7240d93fffdso1740381b3a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 12:05:16 -0800 (PST)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EBC510EA34
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 20:05:24 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-71e8235f0b6so2204916b3a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 12:05:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731096316; x=1731701116; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1731096323; x=1731701123; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9B9/uFLOOn4ZbNcTo/txJrGhuvZT2A1CoYSagunaXMA=;
- b=hpoyxu7htF7KKLhpkEH6SRzgbYBOsQ6GWVjM+U8kREZ9jA7BzsfWf5Zn8wE/GcZasR
- 1yImo76UQsonAcqqUOhIV+e+k2EcajNyQeksojweVy5kdmIaYpgDHaDSGSkPRPHBs2fM
- rT9acmtwKqeehUVZv/dx2yKZf/Ycew8WzU0IUpVa1RNQJfkkGkGb5znYI81A62EWBizD
- LaD/YJaLK6dyn0Vza5Vj0TW1O3H2ChlqCVdUdmiM3mzDs8NVDaQ6d9AmCStyz0lhnUJK
- Ku4D5/HbzVtG6p/NvjlgPO1sKKGKIh3WtPU4+HOZ7A70K7o32DhSLMX6V0LtNDw1BrIe
- br1w==
+ bh=/TnroM0S8Xny+JCi9Lai+ZOcGXjw5KQQTXaY0agxtWM=;
+ b=gMkR2PeeD7JLVb3N/LaOGyPJwX5vEbKTVgMKnOQvSw+v5zExl4RPFly3j0zD9MVPJi
+ aHE7OLi+T1sCENSEg6XBtoP/3YzYD9D3GRBS8b+WYF04DCyRr8DGBJViIh1ntcCshYQE
+ C+nbbgo/C3NGGZqFGEn3XXqXQJCfEEXZZp1YVJ9I4OOfUW27kXAmRkaMA+stFo8pzDum
+ zmV9ZL7cmglI4FuuWqcXy2J/WaonB4fdyVdcZpc4kff92bQnGtQHihKG+lyfoAb+xR32
+ jQY631HjWxYywYmd+XIztlLt+xOUNpT9p/lpu/7cU7bEoDsUX7eD8iakRQiGPfVCogqA
+ g38Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731096316; x=1731701116;
+ d=1e100.net; s=20230601; t=1731096323; x=1731701123;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9B9/uFLOOn4ZbNcTo/txJrGhuvZT2A1CoYSagunaXMA=;
- b=iBpZ97wgh8kAkbvaHCD/JAf/v66lkS96x+pMWR5YoDi+95QcRaccmNEoe8CWRA9Z+E
- y6CaHZVEWhLoOKRg/bwRFmzyi3txtNFPRLu+T2sZStmCD4f6CF5rVt7n1mUPEGCL7roi
- rD25ka5fsoXQzd9kdJS1KnfwHFhtPxpt+GD10hABiSwUxpi8Ly/kG9DAOngsMEpCaXby
- uKhIbNfkFgj2crjVpIITHwQZ+YYdI5cVucQQ+PWb7PgjCdZOcNRXlpOsQF7ey89yI3yy
- tD3Jgi7Xn+2cZxq0hKtT0sj19rCa9fH9+vXl23gqqBP9uUFOWn4aVgo7rs/51AXN2ZPU
- egew==
+ bh=/TnroM0S8Xny+JCi9Lai+ZOcGXjw5KQQTXaY0agxtWM=;
+ b=Wg5EF710wgeeGv2xHz3t96pO8iWQgPpMsZAyfGwCAKGQJoY0ryB2M/71Efj+gvCFMp
+ vu7nSMkK8F25+TQFFq36l0NsvqOJYwA/t8CRIbByTs0jbEdK9zjLM++2G/aZhSj71kK1
+ spzaj+WJtG1aDAtT5UCiOjHNdK2ttX2liARAg7c2x++TlX4L8sNY1R7gAegmCVi7xCbI
+ uBVW0F86I7zGVPE55OWzaA4IXC9eqfSLRDihJxM1NSAgsbD/TB5R0ZiIOKKffG9f7G6l
+ 1nPVoG+l7urxnHOM4k5F1TEBl22l2yVwDy8jjkbYKkBdRZzbG715M/FGA0KwBZuykd/3
+ CCUQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUt/E1GbKmKfklAFNd7jgJR6kPFcX5D7YJ3s9J9Y+R4P6zwFTtRtdVms3jP6ofgq2zrCxHjjCGDJrc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyf/pbsZWFQE9TL8sWzXpA+HO3F4p64vfH21WvgpBsP4oQSIaIF
- prx5tRneSD/QFMdN7RjfAsQTJgWI/v6BU4yJotrJ1QF8RSYuHE1d
-X-Google-Smtp-Source: AGHT+IE2Lablg6vylck0Olus5bD9lVpuXjOXJcDcWvk1Zob64wzNSD+el3H/ILETLAkH9z2RBYMEqw==
-X-Received: by 2002:a05:6a00:4f93:b0:71e:6c65:e7c4 with SMTP id
- d2e1a72fcca58-7241339e122mr4768961b3a.26.1731096316086; 
- Fri, 08 Nov 2024 12:05:16 -0800 (PST)
+ AJvYcCXIKch6iRU33usJQcwsWcyPKGJ/BGssNGitqqQPgxIuNfDrZrXp/84wP+gcNNRvGf3HZi28EuyrJXE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywjc8ivK70ZfW93lb6Rxv7zmYS9DchQ0THPTImPo+yLWZtKdSVo
+ QKcG3AReaWdJlfXYKf00KXKot9zjvE4avxoJOSEn5L/EpJTdTrO+
+X-Google-Smtp-Source: AGHT+IGtm+j88SKyyeHLrp0K+VgKUxdy2Xk1X1xe8FR0CLG5s8B/59rD4gPB4WgDi7CTlBNjoQVZmw==
+X-Received: by 2002:a05:6a21:3b4a:b0:1dc:2360:17ec with SMTP id
+ adf61e73a8af0-1dc23601829mr5582468637.18.1731096323574; 
+ Fri, 08 Nov 2024 12:05:23 -0800 (PST)
 Received: from mighty.kangaroo-insen.ts.net ([120.88.183.182])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-72407a56a30sm4323418b3a.188.2024.11.08.12.05.08
+ d2e1a72fcca58-72407a56a30sm4323418b3a.188.2024.11.08.12.05.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Nov 2024 12:05:15 -0800 (PST)
+ Fri, 08 Nov 2024 12:05:23 -0800 (PST)
 From: Mithil Bavishi <bavishimithil@gmail.com>
 To: Aaro Koskinen <aaro.koskinen@iki.fi>,
  Andreas Kemnade <andreas@kemnade.info>,
@@ -76,10 +76,10 @@ To: Aaro Koskinen <aaro.koskinen@iki.fi>,
 Cc: linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-hardening@vger.kernel.org
-Subject: [PATCH v3 03/10] dt-bindings: display: bridge: lvds-codec: add
- doestek, dtc34lm85am
-Date: Fri,  8 Nov 2024 20:04:32 +0000
-Message-ID: <20241108200440.7562-4-bavishimithil@gmail.com>
+Subject: [PATCH v3 04/10] dt-bindings: display: panel-lvds: Add compatible for
+ Samsung LTN070NL01 Panel
+Date: Fri,  8 Nov 2024 20:04:33 +0000
+Message-ID: <20241108200440.7562-5-bavishimithil@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241108200440.7562-1-bavishimithil@gmail.com>
 References: <20241108200440.7562-1-bavishimithil@gmail.com>
@@ -101,26 +101,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatible strings for the Doestek DTC34LM85AM Flat Panel Display
-Transmitter
+The LTN070NL01 is a 7.0 inch 1024x600, 24 bit, VESA Compatible, TFT display panel
 
 Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
 ---
- Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/display/panel/panel-lvds.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-index 6ceeed76e..a8df7e919 100644
---- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-@@ -33,6 +33,7 @@ properties:
-     oneOf:
-       - items:
-           - enum:
-+              - doestek,dtc34lm85am # For the Doestek DTC34LM85AM Flat Panel Display (FPD) Transmitter
-               - ti,ds90c185   # For the TI DS90C185 FPD-Link Serializer
-               - ti,ds90c187   # For the TI DS90C187 FPD-Link Serializer
-               - ti,sn75lvds83 # For the TI SN75LVDS83 FlatLink transmitter
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+index 155d8ffa8..0cdd05d10 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+@@ -50,6 +50,8 @@ properties:
+           - hannstar,hsd101pww2
+           # Hydis Technologies 7" WXGA (800x1280) TFT LCD LVDS panel
+           - hydis,hv070wx2-1e0
++          # Samsung LTN070NL01 7.0" WSVGA (1024x600) TFT LCD LVDS panel
++          - samsung,ltn070nl01
+           - tbs,a711-panel
+ 
+       - const: panel-lvds
 -- 
 2.43.0
 
