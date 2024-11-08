@@ -2,70 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC8B9C227B
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D9B9C224C
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:43:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 717D510EA19;
-	Fri,  8 Nov 2024 16:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA31210EA16;
+	Fri,  8 Nov 2024 16:43:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="g3nGu8Bt";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DyEclIlS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
- [136.143.188.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7124710EA19
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:55:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1731084007; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=kMBT7aXZMRHb9dlcAQR0f39OWKGOMxfoMaV3v0k3ji9AISTCzGboFxVq3Mtd09FaUo8E3E6k8CjPbxU+WhIvFv2YLpw8/sDTR+0hrXXnUKPREQz6rtgE+m5pHK5BwEt2BcAfoyBwn/hzC+mRmZu4bZn8DkPwZxUwTlwquCKXpVI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1731084007;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=zGW5K4Z5kc/vSl3bz25b30mPWd8sGZbhmSQVIloBb6Y=; 
- b=K2QHm+eD9NrEzfdLEakHRuzUtYiQBZ1YpWKRU4H/yxNcf8C9nRZ8r3oTiq1QUtdLVsVl3xQc+jo+fhZH9IZWmyZFBVHE8sdPwWDOBWrWatdpX4yHlyLyDuNHiNmoGD7B5ilHVmj6tX4i0Y/jYg8eyOQHUxZ/H/XSUaN9nVny6Ts=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
- dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731084007; 
- s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=zGW5K4Z5kc/vSl3bz25b30mPWd8sGZbhmSQVIloBb6Y=;
- b=g3nGu8BtvOegMI7iWOw8v6SERxvHosLnzsy4xET800NfmNh6cDKO1EHbiF62ilEH
- dF0IMNC23rV2s8u8kDnC8LDcWwIAHMmIaMOp94mf4coSiKAObUGHQV0196EryvqdyU/
- Z1tmu6hJrxcg8uFagT48w19VlNx0ezT1/ytIgEF4=
-Received: by mx.zohomail.com with SMTPS id 1731084004452888.298092585493;
- Fri, 8 Nov 2024 08:40:04 -0800 (PST)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Chris Morgan <macromorgan@hotmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- kernel@collabora.com
-Subject: Re: [PATCH v2 1/3] vop2: Add clock resets support
-Date: Fri, 08 Nov 2024 11:39:57 -0500
-Message-ID: <4605629.LvFx2qVVIh@trenzalore>
-In-Reply-To: <6a3d3fb1.3755.18fa893239e.Coremail.andyshrk@163.com>
-References: <20240522185924.461742-1-detlev.casanova@collabora.com>
- <20240522185924.461742-2-detlev.casanova@collabora.com>
- <6a3d3fb1.3755.18fa893239e.Coremail.andyshrk@163.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4580A10EA0F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:43:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1731084218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=flGicnhrzheG3HiEqRZIpt1IFFE3et6OHBSu8ABI4Ek=;
+ b=DyEclIlSeHHFdOJUE1G8FJ07+feqekD1/pTkf1T7LGIbo7a9l+ttE/OGcf/xUQRMGTbBjc
+ JAXCaKypgFLNB/AQKmBaSZ2GVuoJlS4lKB5g1HhxAxYHph+/gJu2glFzlIRBjbI5ISNWd/
+ HdnOBQ/DClv/2NQWEZrUWQ33pECVKT4=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-472-vpOQDzBJOcykxnl9fwHMTg-1; Fri, 08 Nov 2024 11:43:36 -0500
+X-MC-Unique: vpOQDzBJOcykxnl9fwHMTg-1
+X-Mimecast-MFC-AGG-ID: vpOQDzBJOcykxnl9fwHMTg
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-539f5f33333so1934328e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 08:43:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731084215; x=1731689015;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=flGicnhrzheG3HiEqRZIpt1IFFE3et6OHBSu8ABI4Ek=;
+ b=ekxv9avxYsj7v+/46pG/svyIpOd9Z8durR77fVg34W1sqKLahYEeJpQylNcEnD30/R
+ qE7BbhELXJ26pR1fOVNUjiNQorq84npUehE6oOIP75sn0YWbidfIQeWOHFOEc4FmGQCc
+ k7VP+o0APGEmu8xtt332GfyoSv8SUOqdF6ZzwVmUI1XcSXU9Uu8GuW0E5Z8+73sKN3Id
+ Tq+jzkWhhfm5Ckp2XPLr5rJHzHxZnnpOnBaW+2t4TBuhsxnZmsOTW/exw0ee/IYOmbQy
+ 8td29cBWM4bAElwEPWXt6emnbOIB+DVq7JidibcbU/oRmQkgZ8LpzwMbXT31shJSPSop
+ UiJA==
+X-Gm-Message-State: AOJu0YyuSw1mPyNb303NaNqW4cBT6m7K8Wlm3yliL10+ZTX0uZOwslTN
+ 5yzDilZhgKAFZAawAfk/zh10vnYSUIqooPxKfuYilbILkxCoWmcMYSv/1Pj1/IIpRRlanHeFtVY
+ wb7t8MphTEepsb/fiE00VzwX7BmRP9FF2vxY+S4xrwTtVBXJtdCwi6RnisFT5bj4gdg==
+X-Received: by 2002:a05:6512:110c:b0:53b:154c:f762 with SMTP id
+ 2adb3069b0e04-53d862e5d6emr2235101e87.46.1731084215194; 
+ Fri, 08 Nov 2024 08:43:35 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGCZPwCzTqnQx+04ZrY76bi3ZXy0XSCnF6GkL3WmBcnUhVw//MGLBxMI4MIGJLRom9j37AQAA==
+X-Received: by 2002:a05:6512:110c:b0:53b:154c:f762 with SMTP id
+ 2adb3069b0e04-53d862e5d6emr2235088e87.46.1731084214737; 
+ Fri, 08 Nov 2024 08:43:34 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-432b053ff08sm77380765e9.10.2024.11.08.08.43.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Nov 2024 08:43:34 -0800 (PST)
+Message-ID: <257ca617-2ce4-45da-be67-a4423953214d@redhat.com>
+Date: Fri, 8 Nov 2024 17:43:33 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] drm: Move client code into subdirectories
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20241108154600.126162-1-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20241108154600.126162-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: k81ynCzh7K-87HT-T9vZR_ws3_-kDf274tfURTOJGxs_1731084215
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,143 +96,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, 23 May 2024 23:09:26 EST Andy Yan wrote:
-> Hi Detlev=EF=BC=8C
->=20
-> At 2024-05-23 02:57:48, "Detlev Casanova" <detlev.casanova@collabora.com>=
-=20
-wrote:
-> >At the end of initialization, each VP clock needs to be reset before
-> >they can be used.
-> >
-> >Failing to do so can put the VOP in an undefined state where the
-> >generated HDMI signal is either lost or not matching the selected mode.
->=20
-> Would you please provide a detailed description of your test case?
+On 08/11/2024 16:42, Thomas Zimmermann wrote:
+> The drm_log client will likely be merged into DRM soon. Time to clean
+> up some of the existing files. This series moves the existing DRM
+> client for fbdev emulation and its build infrastructure into clients/
+> subdirectories. Drm_log can then be located there as well.
+> 
+> The core and helper support for in-kernel DRM clients remains in
+> its current location.
 
-The test case was to switch modes (using modetest) until the HDMI signal wa=
-s=20
-lost on the TV side. It was also possible to detect the issue by tracking t=
-he=20
-HDMI TX Controller_VIDEO_MONITOR_STATUS[1-6] registers, especially at addre=
-ss=20
-0x890, where the register would take the value `0x0000018c`.
+Thanks for this patch, it's cleaner this way.
+I've rebased drm_log on top of it, and it works.
+I've also merged the content of drm_log.h into drm_client_internal.h
+I will send the updated series when this one is merged.
 
-After adding these resets, the issue cannot be reproduced. I can share a=20
-script that reproduced this in the past (but this is an old patchset now, s=
-o=20
-things could have changed)
+Best regards,
 
-> >Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> >---
-> >
-> > drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 30 ++++++++++++++++++++
-> > 1 file changed, 30 insertions(+)
-> >
-> >diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> >b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c index
-> >fdd768bbd487c..e81a67161d29a 100644
-> >--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> >+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> >@@ -17,6 +17,7 @@
-> >
-> > #include <linux/platform_device.h>
-> > #include <linux/pm_runtime.h>
-> > #include <linux/regmap.h>
-> >
-> >+#include <linux/reset.h>
-> >
-> > #include <linux/swab.h>
-> >=20
-> > #include <drm/drm.h>
-> >
-> >@@ -157,6 +158,7 @@ struct vop2_win {
-> >
-> > struct vop2_video_port {
-> >=20
-> > 	struct drm_crtc crtc;
-> > 	struct vop2 *vop2;
-> >
-> >+	struct reset_control *dclk_rst;
-> >
-> > 	struct clk *dclk;
-> > 	unsigned int id;
-> > 	const struct vop2_video_port_data *data;
-> >
-> >@@ -1915,6 +1917,26 @@ static int us_to_vertical_line(struct
-> >drm_display_mode *mode, int us)>
-> > 	return us * mode->clock / mode->htotal / 1000;
-> >=20
-> > }
-> >
-> >+static int vop2_clk_reset(struct vop2_video_port *vp)
-> >+{
-> >+	struct reset_control *rstc =3D vp->dclk_rst;
-> >+	struct vop2 *vop2 =3D vp->vop2;
-> >+	int ret;
-> >+
-> >+	if (!rstc)
-> >+		return 0;
->=20
-> In fact, this check is not necessary here.  The following reset control a=
-pi
-> will check for NULL pointer
+-- 
 
-Agreed, I'll do a rebased v3 and remove the check.
+Jocelyn
 
-> >+
-> >+	ret =3D reset_control_assert(rstc);
-> >+	if (ret < 0)
-> >+		drm_warn(vop2->drm, "failed to assert reset\n");
-> >+	udelay(10);
-> >+	ret =3D reset_control_deassert(rstc);
-> >+	if (ret < 0)
-> >+		drm_warn(vop2->drm, "failed to deassert reset\n");
-> >+
-> >+	return ret;
-> >+}
-> >+
-> >
-> > static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
-> >=20
-> > 				    struct drm_atomic_state=20
-*state)
-> >=20
-> > {
-> >
-> >@@ -2055,6 +2077,8 @@ static void vop2_crtc_atomic_enable(struct drm_crtc
-> >*crtc,>
-> > 	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
-> >
-> >+	vop2_clk_reset(vp);
-> >+
-> >
-> > 	drm_crtc_vblank_on(crtc);
-> > =09
-> > 	vop2_unlock(vop2);
-> >
-> >@@ -2706,6 +2730,12 @@ static int vop2_create_crtcs(struct vop2 *vop2)
-> >
-> > 		vp->data =3D vp_data;
-> > 	=09
-> > 		snprintf(dclk_name, sizeof(dclk_name), "dclk_vp%d", vp-
->id);
-> >
-> >+		vp->dclk_rst =3D devm_reset_control_get_optional(vop2-
->dev, dclk_name);
-> >+		if (IS_ERR(vp->dclk_rst)) {
-> >+		        drm_err(vop2->drm, "failed to get %s reset\n",=20
-dclk_name);
-> >+		        return PTR_ERR(vp->dclk_rst);
-> >+		}
-> >+
-> >
-> > 		vp->dclk =3D devm_clk_get(vop2->dev, dclk_name);
-> > 		if (IS_ERR(vp->dclk)) {
-> > 	=09
-> > 			drm_err(vop2->drm, "failed to get %s\n",=20
-dclk_name);
-
-
-
+> 
+> No functional changes.
+> 
+> Thomas Zimmermann (3):
+>    drm: Move client code to clients/ subdirectory
+>    drm/client: Move public client header to clients/ subdirectory
+>    drm/fbdev-client: Unexport drm_fbdev_client_setup()
+> 
+>   drivers/gpu/drm/Kconfig                       | 72 +-----------------
+>   drivers/gpu/drm/Makefile                      |  9 +--
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  2 +-
+>   .../gpu/drm/arm/display/komeda/komeda_drv.c   |  2 +-
+>   drivers/gpu/drm/arm/hdlcd_drv.c               |  2 +-
+>   drivers/gpu/drm/arm/malidp_drv.c              |  2 +-
+>   drivers/gpu/drm/armada/armada_drv.c           |  2 +-
+>   drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
+>   drivers/gpu/drm/ast/ast_drv.c                 |  2 +-
+>   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  2 +-
+>   drivers/gpu/drm/clients/Kconfig               | 73 +++++++++++++++++++
+>   drivers/gpu/drm/clients/Makefile              |  5 ++
+>   .../gpu/drm/clients/drm_client_internal.h     |  4 +-
+>   .../gpu/drm/{ => clients}/drm_client_setup.c  |  5 +-
+>   .../gpu/drm/{ => clients}/drm_fbdev_client.c  |  4 +-
+>   drivers/gpu/drm/exynos/exynos_drm_drv.c       |  2 +-
+>   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |  2 +-
+>   drivers/gpu/drm/gma500/psb_drv.c              |  2 +-
+>   drivers/gpu/drm/gud/gud_drv.c                 |  2 +-
+>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  2 +-
+>   .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  2 +-
+>   drivers/gpu/drm/hyperv/hyperv_drm_drv.c       |  2 +-
+>   drivers/gpu/drm/imx/dcss/dcss-kms.c           |  2 +-
+>   drivers/gpu/drm/imx/ipuv3/imx-drm-core.c      |  2 +-
+>   drivers/gpu/drm/imx/lcdc/imx-lcdc.c           |  2 +-
+>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  2 +-
+>   drivers/gpu/drm/kmb/kmb_drv.c                 |  2 +-
+>   drivers/gpu/drm/logicvc/logicvc_drm.c         |  2 +-
+>   drivers/gpu/drm/loongson/lsdc_drv.c           |  2 +-
+>   drivers/gpu/drm/mcde/mcde_drv.c               |  2 +-
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 +-
+>   drivers/gpu/drm/meson/meson_drv.c             |  2 +-
+>   drivers/gpu/drm/mgag200/mgag200_drv.c         |  2 +-
+>   drivers/gpu/drm/msm/msm_drv.c                 |  2 +-
+>   drivers/gpu/drm/mxsfb/lcdif_drv.c             |  2 +-
+>   drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  2 +-
+>   drivers/gpu/drm/nouveau/nouveau_drm.c         |  2 +-
+>   drivers/gpu/drm/omapdrm/omap_fbdev.c          |  2 +-
+>   drivers/gpu/drm/pl111/pl111_drv.c             |  2 +-
+>   drivers/gpu/drm/qxl/qxl_drv.c                 |  2 +-
+>   drivers/gpu/drm/radeon/radeon_drv.c           |  2 +-
+>   drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c |  2 +-
+>   drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  |  2 +-
+>   .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  |  2 +-
+>   drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  2 +-
+>   drivers/gpu/drm/solomon/ssd130x.c             |  2 +-
+>   drivers/gpu/drm/sti/sti_drv.c                 |  2 +-
+>   drivers/gpu/drm/stm/drv.c                     |  2 +-
+>   drivers/gpu/drm/sun4i/sun4i_drv.c             |  2 +-
+>   drivers/gpu/drm/tegra/drm.c                   |  2 +-
+>   drivers/gpu/drm/tidss/tidss_drv.c             |  2 +-
+>   drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  2 +-
+>   drivers/gpu/drm/tiny/arcpgu.c                 |  3 +-
+>   drivers/gpu/drm/tiny/bochs.c                  |  2 +-
+>   drivers/gpu/drm/tiny/cirrus.c                 |  2 +-
+>   drivers/gpu/drm/tiny/gm12u320.c               |  2 +-
+>   drivers/gpu/drm/tiny/hx8357d.c                |  2 +-
+>   drivers/gpu/drm/tiny/ili9163.c                |  2 +-
+>   drivers/gpu/drm/tiny/ili9225.c                |  2 +-
+>   drivers/gpu/drm/tiny/ili9341.c                |  2 +-
+>   drivers/gpu/drm/tiny/ili9486.c                |  2 +-
+>   drivers/gpu/drm/tiny/mi0283qt.c               |  2 +-
+>   drivers/gpu/drm/tiny/ofdrm.c                  |  2 +-
+>   drivers/gpu/drm/tiny/panel-mipi-dbi.c         |  2 +-
+>   drivers/gpu/drm/tiny/repaper.c                |  2 +-
+>   drivers/gpu/drm/tiny/sharp-memory.c           |  2 +-
+>   drivers/gpu/drm/tiny/simpledrm.c              |  2 +-
+>   drivers/gpu/drm/tiny/st7586.c                 |  2 +-
+>   drivers/gpu/drm/tiny/st7735r.c                |  2 +-
+>   drivers/gpu/drm/tve200/tve200_drv.c           |  2 +-
+>   drivers/gpu/drm/udl/udl_drv.c                 |  2 +-
+>   drivers/gpu/drm/vboxvideo/vbox_drv.c          |  2 +-
+>   drivers/gpu/drm/vc4/vc4_drv.c                 |  2 +-
+>   drivers/gpu/drm/virtio/virtgpu_drv.c          |  2 +-
+>   drivers/gpu/drm/vkms/vkms_drv.c               |  2 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  2 +-
+>   drivers/gpu/drm/xlnx/zynqmp_kms.c             |  2 +-
+>   include/drm/{ => clients}/drm_client_setup.h  |  0
+>   78 files changed, 158 insertions(+), 155 deletions(-)
+>   create mode 100644 drivers/gpu/drm/clients/Kconfig
+>   create mode 100644 drivers/gpu/drm/clients/Makefile
+>   rename include/drm/drm_fbdev_client.h => drivers/gpu/drm/clients/drm_client_internal.h (85%)
+>   rename drivers/gpu/drm/{ => clients}/drm_client_setup.c (96%)
+>   rename drivers/gpu/drm/{ => clients}/drm_fbdev_client.c (98%)
+>   rename include/drm/{ => clients}/drm_client_setup.h (100%)
+> 
 
