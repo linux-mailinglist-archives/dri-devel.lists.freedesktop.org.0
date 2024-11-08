@@ -2,113 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1689E9C1863
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 09:51:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99C19C18D2
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 10:10:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFCC310E936;
-	Fri,  8 Nov 2024 08:51:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D883810E947;
+	Fri,  8 Nov 2024 09:10:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="j9xwbzqP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1lDr3fSj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j9xwbzqP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1lDr3fSj";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QztMvHcL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4FF910E935;
- Fri,  8 Nov 2024 08:51:01 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 27BDA21D25;
- Fri,  8 Nov 2024 08:51:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1731055860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=T4wIbT0WSkFiQJB3A0D8LfUreoJWNFCNmwNTUDVygsc=;
- b=j9xwbzqPdRLj7dnPgW9BDFtU0sj/LPuChI/cEBeOeDI7cZ9CWC/a7k1YMq+JJ9+A1areIO
- HHVsxLDu/qBQgMnD5G870ZoL8ojVy67Bfl0cCgM4N14DLku/A43BJM9JRTZw3kArj87k1d
- TCjeo72nANkhPd4ca/JUUiKaliX5oys=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1731055860;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=T4wIbT0WSkFiQJB3A0D8LfUreoJWNFCNmwNTUDVygsc=;
- b=1lDr3fSjY5ICGTR21hY3Qp61RLL3gtpmzSHvWJQkaNphY4AUWfYjzuDugBvlmOT1FCSkif
- KpnamejlsVHBh7Cw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=j9xwbzqP;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1lDr3fSj
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1731055860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=T4wIbT0WSkFiQJB3A0D8LfUreoJWNFCNmwNTUDVygsc=;
- b=j9xwbzqPdRLj7dnPgW9BDFtU0sj/LPuChI/cEBeOeDI7cZ9CWC/a7k1YMq+JJ9+A1areIO
- HHVsxLDu/qBQgMnD5G870ZoL8ojVy67Bfl0cCgM4N14DLku/A43BJM9JRTZw3kArj87k1d
- TCjeo72nANkhPd4ca/JUUiKaliX5oys=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1731055860;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=T4wIbT0WSkFiQJB3A0D8LfUreoJWNFCNmwNTUDVygsc=;
- b=1lDr3fSjY5ICGTR21hY3Qp61RLL3gtpmzSHvWJQkaNphY4AUWfYjzuDugBvlmOT1FCSkif
- KpnamejlsVHBh7Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B53B61394A;
- Fri,  8 Nov 2024 08:50:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 0sf1KvPQLWdrFgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 08 Nov 2024 08:50:59 +0000
-Date: Fri, 8 Nov 2024 09:50:58 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20241108085058.GA37468@linux.fritz.box>
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2AED10E947;
+ Fri,  8 Nov 2024 09:10:11 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 634BEC3959;
+ Fri,  8 Nov 2024 09:01:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EB0E01BF206;
+ Fri,  8 Nov 2024 09:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1731056478;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xm3UhMCd7zn0wf/NB/NpG8HDn8ZRdu/b34t338J+8xk=;
+ b=QztMvHcL/LJyrVDUjANfvRSEswWgGPCBkv8uGEXEF5EpfVhacT90xYLK/fwUPj2/au1Tc3
+ 1kh4DFm1qrJD/IV8wBboJjVIHQleo2/noYXHVSj16eJsENavfZmk1SsWmfowSgsSLPfavk
+ phoOMfYt1+uV5mwHNLWE7Uhf/KujTA3RdCjpBF9mXa7ugfbiBd0ygDjVIOMZTYf5yTZ12/
+ /oYn9/UfoHVdXU+OSnEKkoxw3iYpgtwPRZmg+NDNQZEip+rkelvRp8lva1M2fJRofpKpS8
+ 3U6vTMUP93+AAK89JLssHwaAi7z29pUaKMK4z+2+4qbL5LsfSdJhj+LIGLD6Kg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: "Usyskin, Alexander" <alexander.usyskin@intel.com>,  "Gupta, Anshuman"
+ <anshuman.gupta@intel.com>,  "Deak, Imre" <imre.deak@intel.com>,  "Richard
+ Weinberger" <richard@nod.at>,  Vignesh Raghavendra <vigneshr@ti.com>,  "De
+ Marchi, Lucas" <lucas.demarchi@intel.com>,  Thomas =?utf-8?Q?Hellstr?=
+ =?utf-8?Q?=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>,  "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
+ <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Jani Nikula
+ <jani.nikula@linux.intel.com>,  Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>,
+ "Weil, Oren jer" <oren.jer.weil@intel.com>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 06/10] mtd: intel-dg: wake card on operations
+In-Reply-To: <Zy1EAIPEaY8Wlh-h@intel.com> (Rodrigo Vivi's message of "Thu, 7
+ Nov 2024 17:49:36 -0500")
+References: <20241022104119.3149051-1-alexander.usyskin@intel.com>
+ <20241022104119.3149051-7-alexander.usyskin@intel.com>
+ <Zx-mPQSHXv5Teq_j@intel.com>
+ <CY5PR11MB621157335FFB1089F49CEF8B954A2@CY5PR11MB6211.namprd11.prod.outlook.com>
+ <CY5PR11MB6366EF9CA6552ADF6E01A557ED4B2@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <Zyk5kueKlusKlwqM@intel.com>
+ <CY5PR11MB636622B23A3646D58A70A920ED522@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <Zy1EAIPEaY8Wlh-h@intel.com>
+User-Agent: mu4e 1.12.1; emacs 29.4
+Date: Fri, 08 Nov 2024 10:01:15 +0100
+Message-ID: <87cyj6aylg.fsf@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Rspamd-Queue-Id: 27BDA21D25
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; ARC_NA(0.00)[];
- MISSING_XM_UA(0.00)[];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
- RCPT_COUNT_TWELVE(0.00)[16]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
- URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,linux.fritz.box:mid,gitlab.freedesktop.org:url];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,84 +83,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
 
-here's the drm-misc-fixes PR for this week. Apologies for being late.
+>> > That's the part that I'm not sure if I agree. if I remember from some
+>> > experiments in the past,
+>> > when you call to wake up the child, the parent will wakeup first anywa=
+y.
+>> >=20
+>> The child (mtd device) does not exist at this point of time.
+>> To create MTD device, the partition table should be provided
+>> and it read directly from flash that should be powered to do read.
+>
+> I don't understand... you have the mtd->dev at this point... this is
+> the one you should be touching, not the mtd->dev.parent... even at the
+> probe, but moreover on everywhere else as well.
+>
+>>=20
+>> > > Considering above, is this move is justified?
+>> > > Also, MTD drivers tend to enable parent rpm, not its own one.
+>> >=20
+>> > What other drivers are you looking for reference?
+>>=20
+>> drivers/mtd/nand/raw/tegra_nand.c
+>> drivers/mtd/nand/raw/renesas-nand-controller.c
+>> drivers/mtd/maps/physmap-core.c
+>
+> I see they getting pdev->dev... not the parent...
 
-Best regards
-Thomas
+That's three drivers where there is probably room for improvement.
 
-drm-misc-fixes-2024-11-08:
-Short summary of fixes pull:
+These differences are subtle and likely un-catch during review. Feel
+free to correct the drivers if you think they are wrong and more
+importantly, do the correct thing in your own.
 
-imagination:
-- Track PVR context per file
-- Break ref-counting cycle
-
-panel-orientation-quirks:
-- Fix matching Lenovo Yoga Tab 3 X90F
-
-panthor:
-- Lock VM array
-- Be strict about I/O mapping flags
-The following changes since commit 59b723cd2adbac2a34fc8e12c74ae26ae45bf230:
-
-  Linux 6.12-rc6 (2024-11-03 14:05:52 -1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-11-08
-
-for you to fetch changes up to f432a1621f049bb207e78363d9d0e3c6fa2da5db:
-
-  drm/panthor: Be stricter about IO mapping flags (2024-11-07 16:39:53 +0000)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-imagination:
-- Track PVR context per file
-- Break ref-counting cycle
-
-panel-orientation-quirks:
-- Fix matching Lenovo Yoga Tab 3 X90F
-
-panthor:
-- Lock VM array
-- Be strict about I/O mapping flags
-
-----------------------------------------------------------------
-Brendan King (2):
-      drm/imagination: Add a per-file PVR context list
-      drm/imagination: Break an object reference loop
-
-Hans de Goede (1):
-      drm: panel-orientation-quirks: Make Lenovo Yoga Tab 3 X90F DMI match less strict
-
-Jann Horn (1):
-      drm/panthor: Be stricter about IO mapping flags
-
-Liviu Dudau (1):
-      drm/panthor: Lock XArray when getting entries for the VM
-
-Thomas Zimmermann (1):
-      Merge drm/drm-fixes into drm-misc-fixes
-
- drivers/gpu/drm/drm_panel_orientation_quirks.c |  1 -
- drivers/gpu/drm/imagination/pvr_context.c      | 33 ++++++++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_context.h      | 21 ++++++++++++++++
- drivers/gpu/drm/imagination/pvr_device.h       | 10 ++++++++
- drivers/gpu/drm/imagination/pvr_drv.c          |  3 +++
- drivers/gpu/drm/imagination/pvr_vm.c           | 22 +++++++++++++----
- drivers/gpu/drm/imagination/pvr_vm.h           |  1 +
- drivers/gpu/drm/panthor/panthor_device.c       |  4 ++++
- drivers/gpu/drm/panthor/panthor_mmu.c          |  2 ++
- 9 files changed, 92 insertions(+), 5 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Thanks,
+Miqu=C3=A8l
