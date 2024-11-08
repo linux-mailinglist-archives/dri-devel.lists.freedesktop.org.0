@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064439C130E
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 01:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E22D9C1310
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 01:22:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1BA10E912;
-	Fri,  8 Nov 2024 00:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6AE410E90D;
+	Fri,  8 Nov 2024 00:22:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rtRR5E6O";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kAcCSSDe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9266B10E910
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 00:22:09 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-539f1292a9bso1692283e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Nov 2024 16:22:09 -0800 (PST)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F16610E90A
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 00:22:12 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2fb4fa17044so18414961fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Nov 2024 16:22:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731025328; x=1731630128; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1731025330; x=1731630130; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Z5kQ4AmnSGpR1tsagb+JUR8SjjRR8sZ+27U7rHc8thc=;
- b=rtRR5E6OgavDrLaH4Gycf+pTBoZSyb+4c5A+HdQxplyyg/XxdGe04iqNYb5aAbd3Tk
- CFsp/jm6cs2ohmRJgcAfgv5mG2mj4XHOJ2ZKoAHvJQuoC4cCg8s8Ef5h6Xnp0OxHy0X/
- VNac/+eoKHkRminpdxVueaGad9gbXMjIZw8ub5mCqG/kk+tz2KCtuogg33XBiELBv+5V
- ECVZvkkCW9v/v1iyy6uwll6AP7t3XUT8MNnA5DLxc8JVwu5TQ1MofbDgdZySbQ2LhlFT
- /v0R+V24hYgEKqqH91CXZU0munwARnlGXht1FJi4oxjXVw8PCHEXw0QIGxCTvzP+7LD2
- 77Kg==
+ :reply-to; bh=P3FcUdu5c+V3DJbRxSyEvVH5fbzS/hW0EAke8SyhLmQ=;
+ b=kAcCSSDe8W2GOD3sYs6auMb3C45zdg361Cih6EUMfiptu1tUb10K/CZE2T7aqGCcCO
+ 8ZQwSL/Z5qFkymsJvSuEJ6VS2HUeapNfbNtNBxcFPezij3ZKh1Igrq23MMHdSrwHSX8B
+ 97W1k6ivATk3Jj2Jr60jVFCXNOrgKbaBKuUV7tvt7R6dwJDz8F7JCLEdFL4FhlqtTXSO
+ 9VfSI/bENGa+aHkupCQyv5JKidaLLcuKc6JEau5/5MlBj5x1iE7Qy3I29NQbaIp3BkKg
+ UO5fX+hLzQ8hmmUaWea1odgHWTtC0o05Lw2p00ZYEN7LOBt+0CuWklv3LJDewfqoZVN8
+ 5S+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731025328; x=1731630128;
+ d=1e100.net; s=20230601; t=1731025330; x=1731630130;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Z5kQ4AmnSGpR1tsagb+JUR8SjjRR8sZ+27U7rHc8thc=;
- b=YsEkg8gt9nIzVC5Idf4qXWRyla/SbgG2Vv0o6UQWfDTe2H9Xea7bRNgLauOBNrv6wc
- sktShvh0u5uYsLMQfzZC7vx0SpThyxjksMadoWIkk92ZLjjZQYlkZI2pLlTsi3BSc2Xl
- JgTc9BNnYT4Z4qDDFoVff6Bs/siZKCu+VtvpisC2yYO6D0C25xgRfheyZt5Gdc/xXNqy
- K/w7VYpNZrXzcRRHs07MSdsRykgwO/GP4PuPo4Smo5kSBTs6WErzFtbmnymCxBhgi4X4
- KRMuRNNTEKTj3YM6+rlOEbSF/948p9ZYY3mQteYBUEu/yykBBox49SsLPmdsCuBLx1qq
- bxnQ==
+ bh=P3FcUdu5c+V3DJbRxSyEvVH5fbzS/hW0EAke8SyhLmQ=;
+ b=PfmFRMK9a2/v9KNnRM+OzTShs/b8kqlrV215Rnb0I+IOM9eIzJB/vv8KCM75KToPeB
+ rFEI0QDAPsDk8/378vlIFk77svycD78I+9MeVvPs7mOBYqLM/GSGKTLHEYzay6rchbsb
+ XZT0ahDfFQDMnBKAQ+L9EsJ4Z3O0nouKa6goyAUHmMluRzlEWm/SMPrbQaVXGVE5C46i
+ qsCmcdMb0kCQg5+1/i343cTpZo/pl4L8B7u2i8zbhLHO2BlQ6Bn2SIarTtcmprX8GODx
+ gUAYbGtrA5RDaNSkV5KwwCi32qH849izhtgrQv7ZKYD6ZIpAnbbpDp+FnZ0Wc1zB1hru
+ c5mg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUUJ/DJON1Y2i1mG4lgFGLB/kGrScI8pmJaytKaD2tBhr/tQEA7UjscL34mmEYZrGQ6QlviLVKefss=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YypDhmMq3fA5frY6fcIWkUOu0qLIp/0ZiQoW9iisk7U0pPKPqKl
- KX53+yTGdqRUNhey/ZHXPeJhPYrAFamH2SYlnxWXWRaKCnsBzZIyHmi0EZDlEkM=
-X-Google-Smtp-Source: AGHT+IFtPSNKeO7vF9wCM86fTjU3dsWl3RKTsfudcRZdzKmu76nAD+5RkIhDSRgF9xUxHt70BZ39RA==
-X-Received: by 2002:a05:651c:150c:b0:2fb:5d8a:4cd3 with SMTP id
- 38308e7fff4ca-2ff2006084fmr4840981fa.0.1731025327552; 
- Thu, 07 Nov 2024 16:22:07 -0800 (PST)
+ AJvYcCULuXOcp20r/FYO8Fyq1Wx6WNAzKoDNCZqfH7sLFRaJid11POq1lua8PMpgA+Bv4wj09ynZtmkSF2U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyc5PgAi7Q7XQDh1VBb2rsycgS0X7vDe3/jBiY5EjLYgIADe6Re
+ xCtGTVpFp0E1dmSgkXuX6Z5Xr12C/5Q+rduJ1HnpImsygEbtSprOlcDnD6vEHkc=
+X-Google-Smtp-Source: AGHT+IHB046njVT2Lb5htSxgBV3oWSZNIGnCFE1+fyuLAToCEwxXEEUxqxoOHCmpHBJXQgFM+0O2nQ==
+X-Received: by 2002:a2e:bd84:0:b0:2fa:dbf1:5b2d with SMTP id
+ 38308e7fff4ca-2ff202c2350mr3830641fa.39.1731025330179; 
+ Thu, 07 Nov 2024 16:22:10 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ff17900a63sm4195191fa.47.2024.11.07.16.22.05
+ 38308e7fff4ca-2ff17900a63sm4195191fa.47.2024.11.07.16.22.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Nov 2024 16:22:06 -0800 (PST)
+ Thu, 07 Nov 2024 16:22:08 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 08 Nov 2024 02:21:42 +0200
-Subject: [PATCH 11/14] drm/msm/dp: move/inline audio related functions
+Date: Fri, 08 Nov 2024 02:21:43 +0200
+Subject: [PATCH 12/14] drm/msm/dp: move more AUX functions to dp_aux.c
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241108-fd-dp-audio-fixup-v1-11-40c8eeb60cf5@linaro.org>
+Message-Id: <20241108-fd-dp-audio-fixup-v1-12-40c8eeb60cf5@linaro.org>
 References: <20241108-fd-dp-audio-fixup-v1-0-40c8eeb60cf5@linaro.org>
 In-Reply-To: <20241108-fd-dp-audio-fixup-v1-0-40c8eeb60cf5@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -74,16 +74,16 @@ Cc: Douglas Anderson <dianders@chromium.org>,
  linux-kernel@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8606;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14070;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=CJNeGuR1/hi3WdAk96FubFXJd9V4K8sajDyAH3cIEjU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnLVmQeBbtYi7rdedJFb/81mfZJGHDrLlk9stC7
- 4/2bOapZWKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZy1ZkAAKCRCLPIo+Aiko
- 1QYkB/9rDbCubMBn3heGWbrNxPet0AQvpG5JDcMUCKY+A2fLmhT50dnyI5FG7aaiKlly/VMv2ng
- tTYFVEtg4t/ESTsAcIuc6LOrxxyU4MffokBo7j8shuZd+uwTzNdU1KKAlb3UJDDMDHgFDi4BPln
- L3t86jimpIlb7CAxHDQOOzoI4cFdxd1ecJwyCtV11y/6xEzSpRV/cQm9KBPDs+8HmsTe8KXxLwz
- fera0F7J53nL3vEA5D0KbtMWA2sTH98BK64VSXHiXhyf/ScF8VeYzDypgipj1UnUogvgVf6PXu0
- SDw51FWsiiTgeKL1ljjUC0aXWdu29osm5Esgd1ZooR1GWr70
+ bh=+g9SNORbUVqTNMWLsJKHyxMmmD7Ice6ep+SokQX8YuI=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnLVmQcahJoRYJXF4rGBEDoYzqCVcGX2WVZXT0g
+ Dbpi8m/S1yJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZy1ZkAAKCRCLPIo+Aiko
+ 1VjUCACzTuPIUZj0V2D96LiTDtRACKz9LksFbND0WmBL94jAXHYpPFu+9qkJIrThUKBdCrm6JNn
+ 4c9og09lVDWE2HdiGVKL78qqnIvbKxzdikXZgOypsEWIXWEZe7TfBY4X6bsKaKE8rkmtub1uOx1
+ zh1Pt3efQ3ekZ9/CA12J5vV/+3clL7gC1TJZAtZ3ItO9gI2Ac5vWKH8h7rsDdUdZMF68/SFnmd8
+ eQjSAVF1I9silrW6RLPJoh/y5gi0DbHz3k0ZPLcCWwKJT8HvS+Xrmuc+9K/87uXI2f4GK0jwxCb
+ uJqkNymVuSKWK0OLA/20M1RMQ4xahL4IBxsHLTBVlhr/zK+c
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,260 +101,346 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move audio-related functions to dp_audio.c, following up the cleanup
-done by the rest of the submodules. Inline functions with simple
-register access patterns.
+Move several misnamed functions accessing AUX bus to dp_aux.c, further
+cleaning up dp_catalog submodule.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_audio.c   |  72 +++++++++++++++++++++----
- drivers/gpu/drm/msm/dp/dp_catalog.c | 105 ------------------------------------
- drivers/gpu/drm/msm/dp/dp_catalog.h |   6 ---
- 3 files changed, 63 insertions(+), 120 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_aux.c     | 88 ++++++++++++++++++++++++++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_aux.h     |  7 +++
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 75 +------------------------------
+ drivers/gpu/drm/msm/dp/dp_catalog.h |  6 ---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    |  4 +-
+ drivers/gpu/drm/msm/dp/dp_display.c | 18 ++++----
+ drivers/gpu/drm/msm/dp/dp_panel.c   |  2 +-
+ 7 files changed, 107 insertions(+), 93 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
-index 63bdd57948401451426364796e608643c1ebfebe..63c4cd88edef07c54b2eb54d5b6ee494ee94723d 100644
---- a/drivers/gpu/drm/msm/dp/dp_audio.c
-+++ b/drivers/gpu/drm/msm/dp/dp_audio.c
-@@ -119,9 +119,41 @@ static void msm_dp_audio_isrc_sdp(struct msm_dp_audio_private *audio)
- 	msm_dp_write_link(catalog, MMSS_DP_AUDIO_ISRC_1, header[1]);
+diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+index 46e8a2e13ac1d1249fbad9b50a6d64c52d51cf38..7228955019b31f80257b86a470c9ef305b2549a0 100644
+--- a/drivers/gpu/drm/msm/dp/dp_aux.c
++++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+@@ -405,7 +405,7 @@ static ssize_t msm_dp_aux_transfer(struct drm_dp_aux *msm_dp_aux,
+ 				phy_calibrate(aux->phy);
+ 		}
+ 		/* reset aux if link is in connected state */
+-		if (msm_dp_catalog_link_is_connected(aux->catalog))
++		if (msm_dp_aux_is_link_connected(msm_dp_aux))
+ 			msm_dp_aux_reset(aux);
+ 	} else {
+ 		aux->retry_cnt = 0;
+@@ -593,6 +593,92 @@ static int msm_dp_wait_hpd_asserted(struct drm_dp_aux *msm_dp_aux,
+ 	return ret;
  }
  
-+static void msm_dp_audio_config_sdp(struct msm_dp_audio_private *audio)
++void msm_dp_aux_hpd_enable(struct drm_dp_aux *msm_dp_aux)
 +{
-+	struct msm_dp_catalog *msm_dp_catalog = audio->catalog;
-+	u32 sdp_cfg, sdp_cfg2;
++	struct msm_dp_aux_private *aux = container_of(msm_dp_aux, struct msm_dp_aux_private, msm_dp_aux);
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++	u32 reg;
 +
-+	sdp_cfg = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG);
-+	/* AUDIO_TIMESTAMP_SDP_EN */
-+	sdp_cfg |= BIT(1);
-+	/* AUDIO_STREAM_SDP_EN */
-+	sdp_cfg |= BIT(2);
-+	/* AUDIO_COPY_MANAGEMENT_SDP_EN */
-+	sdp_cfg |= BIT(5);
-+	/* AUDIO_ISRC_SDP_EN  */
-+	sdp_cfg |= BIT(6);
-+	/* AUDIO_INFOFRAME_SDP_EN  */
-+	sdp_cfg |= BIT(20);
++	/* Configure REFTIMER and enable it */
++	reg = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER);
++	reg |= DP_DP_HPD_REFTIMER_ENABLE;
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER, reg);
 +
-+	drm_dbg_dp(audio->drm_dev, "sdp_cfg = 0x%x\n", sdp_cfg);
-+
-+	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG, sdp_cfg);
-+
-+	sdp_cfg2 = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG2);
-+	/* IFRM_REGSRC -> Do not use reg values */
-+	sdp_cfg2 &= ~BIT(0);
-+	/* AUDIO_STREAM_HB3_REGSRC-> Do not use reg values */
-+	sdp_cfg2 &= ~BIT(1);
-+
-+	drm_dbg_dp(audio->drm_dev, "sdp_cfg2 = 0x%x\n", sdp_cfg2);
-+
-+	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG2, sdp_cfg2);
++	/* Enable HPD */
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
 +}
 +
- static void msm_dp_audio_setup_sdp(struct msm_dp_audio_private *audio)
- {
--	msm_dp_catalog_audio_config_sdp(audio->catalog);
-+	msm_dp_audio_config_sdp(audio);
- 
- 	msm_dp_audio_stream_sdp(audio);
- 	msm_dp_audio_timestamp_sdp(audio);
-@@ -132,8 +164,7 @@ static void msm_dp_audio_setup_sdp(struct msm_dp_audio_private *audio)
- 
- static void msm_dp_audio_setup_acr(struct msm_dp_audio_private *audio)
- {
--	u32 select = 0;
--	struct msm_dp_catalog *catalog = audio->catalog;
-+	u32 select, acr_ctrl;
- 
- 	switch (audio->msm_dp_audio.bw_code) {
- 	case DP_LINK_BW_1_62:
-@@ -154,13 +185,17 @@ static void msm_dp_audio_setup_acr(struct msm_dp_audio_private *audio)
- 		break;
- 	}
- 
--	msm_dp_catalog_audio_config_acr(catalog, select);
-+	acr_ctrl = select << 4 | BIT(31) | BIT(8) | BIT(14);
++void msm_dp_aux_hpd_disable(struct drm_dp_aux *msm_dp_aux)
++{
++	struct msm_dp_aux_private *aux = container_of(msm_dp_aux, struct msm_dp_aux_private, msm_dp_aux);
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++	u32 reg;
 +
-+	drm_dbg_dp(audio->drm_dev, "select: %#x, acr_ctrl: %#x\n",
-+		   select, acr_ctrl);
++	reg = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER);
++	reg &= ~DP_DP_HPD_REFTIMER_ENABLE;
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER, reg);
 +
-+	msm_dp_write_link(audio->catalog, MMSS_DP_AUDIO_ACR_CTRL, acr_ctrl);
- }
- 
- static void msm_dp_audio_safe_to_exit_level(struct msm_dp_audio_private *audio)
- {
--	struct msm_dp_catalog *catalog = audio->catalog;
--	u32 safe_to_exit_level = 0;
-+	u32 safe_to_exit_level, mainlink_levels;
- 
- 	switch (audio->msm_dp_audio.lane_count) {
- 	case 1:
-@@ -180,14 +215,33 @@ static void msm_dp_audio_safe_to_exit_level(struct msm_dp_audio_private *audio)
- 		break;
- 	}
- 
--	msm_dp_catalog_audio_sfe_level(catalog, safe_to_exit_level);
-+	mainlink_levels = msm_dp_read_link(audio->catalog, REG_DP_MAINLINK_LEVELS);
-+	mainlink_levels &= 0xFE0;
-+	mainlink_levels |= safe_to_exit_level;
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_CTRL, 0);
++}
 +
-+	drm_dbg_dp(audio->drm_dev,
-+		   "mainlink_level = 0x%x, safe_to_exit_level = 0x%x\n",
-+		   mainlink_levels, safe_to_exit_level);
++void msm_dp_aux_hpd_intr_enable(struct drm_dp_aux *msm_dp_aux)
++{
++	struct msm_dp_aux_private *aux = container_of(msm_dp_aux, struct msm_dp_aux_private, msm_dp_aux);
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++	u32 reg;
 +
-+	msm_dp_write_link(audio->catalog, REG_DP_MAINLINK_LEVELS, mainlink_levels);
- }
++	reg = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK);
++	reg |= DP_DP_HPD_INT_MASK;
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK,
++		     reg & DP_DP_HPD_INT_MASK);
++}
++
++void msm_dp_aux_hpd_intr_disable(struct drm_dp_aux *msm_dp_aux)
++{
++	struct msm_dp_aux_private *aux = container_of(msm_dp_aux, struct msm_dp_aux_private, msm_dp_aux);
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++	u32 reg;
++
++	reg = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK);
++	reg &= ~DP_DP_HPD_INT_MASK;
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK,
++		     reg & DP_DP_HPD_INT_MASK);
++}
++
++u32 msm_dp_aux_get_hpd_intr_status(struct drm_dp_aux *msm_dp_aux)
++{
++	struct msm_dp_aux_private *aux = container_of(msm_dp_aux, struct msm_dp_aux_private, msm_dp_aux);
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++	int isr, mask;
++
++	isr = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_STATUS);
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_ACK,
++				 (isr & DP_DP_HPD_INT_MASK));
++	mask = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK);
++
++	/*
++	 * We only want to return interrupts that are unmasked to the caller.
++	 * However, the interrupt status field also contains other
++	 * informational bits about the HPD state status, so we only mask
++	 * out the part of the register that tells us about which interrupts
++	 * are pending.
++	 */
++	return isr & (mask | ~DP_DP_HPD_INT_MASK);
++}
++
++u32 msm_dp_aux_is_link_connected(struct drm_dp_aux *msm_dp_aux)
++{
++	struct msm_dp_aux_private *aux = container_of(msm_dp_aux, struct msm_dp_aux_private, msm_dp_aux);
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++	u32 status;
++
++	status = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_STATUS);
++	status >>= DP_DP_HPD_STATE_STATUS_BITS_SHIFT;
++	status &= DP_DP_HPD_STATE_STATUS_BITS_MASK;
++
++	return status;
++}
++
+ struct drm_dp_aux *msm_dp_aux_get(struct device *dev, struct msm_dp_catalog *catalog,
+ 			      struct phy *phy,
+ 			      bool is_edp)
+diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
+index 39c5b4c8596ab28d822493a6b4d479f5f786cdee..624395a41ed0a75ead4826e78d05ca21e8fb8967 100644
+--- a/drivers/gpu/drm/msm/dp/dp_aux.h
++++ b/drivers/gpu/drm/msm/dp/dp_aux.h
+@@ -17,6 +17,13 @@ void msm_dp_aux_init(struct drm_dp_aux *msm_dp_aux);
+ void msm_dp_aux_deinit(struct drm_dp_aux *msm_dp_aux);
+ void msm_dp_aux_reconfig(struct drm_dp_aux *msm_dp_aux);
  
- static void msm_dp_audio_enable(struct msm_dp_audio_private *audio, bool enable)
- {
--	struct msm_dp_catalog *catalog = audio->catalog;
-+	u32 audio_ctrl;
++void msm_dp_aux_hpd_enable(struct drm_dp_aux *msm_dp_aux);
++void msm_dp_aux_hpd_disable(struct drm_dp_aux *msm_dp_aux);
++void msm_dp_aux_hpd_intr_enable(struct drm_dp_aux *msm_dp_aux);
++void msm_dp_aux_hpd_intr_disable(struct drm_dp_aux *msm_dp_aux);
++u32 msm_dp_aux_get_hpd_intr_status(struct drm_dp_aux *msm_dp_aux);
++u32 msm_dp_aux_is_link_connected(struct drm_dp_aux *msm_dp_aux);
 +
-+	audio_ctrl = msm_dp_read_link(audio->catalog, MMSS_DP_AUDIO_CFG);
-+
-+	if (enable)
-+		audio_ctrl |= BIT(0);
-+	else
-+		audio_ctrl &= ~BIT(0);
-+
-+	drm_dbg_dp(audio->drm_dev, "dp_audio_cfg = 0x%x\n", audio_ctrl);
- 
--	msm_dp_catalog_audio_enable(catalog, enable);
-+	msm_dp_write_link(audio->catalog, MMSS_DP_AUDIO_CFG, audio_ctrl);
-+	/* make sure audio engine is disabled */
-+	wmb();
- }
- 
- static struct msm_dp_audio_private *msm_dp_audio_get_data(struct platform_device *pdev)
+ struct phy;
+ struct drm_dp_aux *msm_dp_aux_get(struct device *dev, struct msm_dp_catalog *catalog,
+ 			      struct phy *phy,
 diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 5071c86fd219cb1c933b32104a396982c5cc8ace..60ba6e0a204f536fd050591e891add17d286fb2d 100644
+index 60ba6e0a204f536fd050591e891add17d286fb2d..754b30e35039618453df9ce863c0d2561fce2fda 100644
 --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
 +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -298,108 +298,3 @@ struct msm_dp_catalog *msm_dp_catalog_get(struct device *dev)
+@@ -81,8 +81,8 @@ u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog)
+ 	intr &= ~DP_INTERRUPT_STATUS1_MASK;
+ 	intr_ack = (intr & DP_INTERRUPT_STATUS1)
+ 			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
+-	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS, intr_ack |
+-			DP_INTERRUPT_STATUS1_MASK);
++	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS,
++		     intr_ack | DP_INTERRUPT_STATUS1_MASK);
  
- 	return &catalog->msm_dp_catalog;
+ 	return intr;
+ 
+@@ -115,77 +115,6 @@ void msm_dp_catalog_ctrl_enable_irq(struct msm_dp_catalog *msm_dp_catalog,
+ 	}
  }
--
--void msm_dp_catalog_audio_config_acr(struct msm_dp_catalog *msm_dp_catalog, u32 select)
+ 
+-void msm_dp_catalog_hpd_config_intr(struct msm_dp_catalog *msm_dp_catalog,
+-			u32 intr_mask, bool en)
 -{
--	struct msm_dp_catalog_private *catalog;
--	u32 acr_ctrl;
+-	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
+-				struct msm_dp_catalog_private, msm_dp_catalog);
 -
--	if (!msm_dp_catalog)
--		return;
+-	u32 config = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK);
 -
--	catalog = container_of(msm_dp_catalog,
--		struct msm_dp_catalog_private, msm_dp_catalog);
+-	config = (en ? config | intr_mask : config & ~intr_mask);
 -
--	acr_ctrl = select << 4 | BIT(31) | BIT(8) | BIT(14);
--
--	drm_dbg_dp(catalog->drm_dev, "select: %#x, acr_ctrl: %#x\n",
--					select, acr_ctrl);
--
--	msm_dp_write_link(msm_dp_catalog, MMSS_DP_AUDIO_ACR_CTRL, acr_ctrl);
+-	drm_dbg_dp(catalog->drm_dev, "intr_mask=%#x config=%#x\n",
+-					intr_mask, config);
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK,
+-				config & DP_DP_HPD_INT_MASK);
 -}
 -
--void msm_dp_catalog_audio_enable(struct msm_dp_catalog *msm_dp_catalog, bool enable)
+-void msm_dp_catalog_ctrl_hpd_enable(struct msm_dp_catalog *msm_dp_catalog)
 -{
--	struct msm_dp_catalog_private *catalog;
--	u32 audio_ctrl;
+-	u32 reftimer = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER);
 -
--	if (!msm_dp_catalog)
--		return;
+-	/* Configure REFTIMER and enable it */
+-	reftimer |= DP_DP_HPD_REFTIMER_ENABLE;
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
 -
--	catalog = container_of(msm_dp_catalog,
--		struct msm_dp_catalog_private, msm_dp_catalog);
--
--	audio_ctrl = msm_dp_read_link(msm_dp_catalog, MMSS_DP_AUDIO_CFG);
--
--	if (enable)
--		audio_ctrl |= BIT(0);
--	else
--		audio_ctrl &= ~BIT(0);
--
--	drm_dbg_dp(catalog->drm_dev, "dp_audio_cfg = 0x%x\n", audio_ctrl);
--
--	msm_dp_write_link(msm_dp_catalog, MMSS_DP_AUDIO_CFG, audio_ctrl);
--	/* make sure audio engine is disabled */
--	wmb();
+-	/* Enable HPD */
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
 -}
 -
--void msm_dp_catalog_audio_config_sdp(struct msm_dp_catalog *msm_dp_catalog)
+-void msm_dp_catalog_ctrl_hpd_disable(struct msm_dp_catalog *msm_dp_catalog)
 -{
--	struct msm_dp_catalog_private *catalog;
--	u32 sdp_cfg = 0;
--	u32 sdp_cfg2 = 0;
+-	u32 reftimer = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER);
 -
--	if (!msm_dp_catalog)
--		return;
+-	reftimer &= ~DP_DP_HPD_REFTIMER_ENABLE;
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
 -
--	catalog = container_of(msm_dp_catalog,
--		struct msm_dp_catalog_private, msm_dp_catalog);
--
--	sdp_cfg = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG);
--	/* AUDIO_TIMESTAMP_SDP_EN */
--	sdp_cfg |= BIT(1);
--	/* AUDIO_STREAM_SDP_EN */
--	sdp_cfg |= BIT(2);
--	/* AUDIO_COPY_MANAGEMENT_SDP_EN */
--	sdp_cfg |= BIT(5);
--	/* AUDIO_ISRC_SDP_EN  */
--	sdp_cfg |= BIT(6);
--	/* AUDIO_INFOFRAME_SDP_EN  */
--	sdp_cfg |= BIT(20);
--
--	drm_dbg_dp(catalog->drm_dev, "sdp_cfg = 0x%x\n", sdp_cfg);
--
--	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG, sdp_cfg);
--
--	sdp_cfg2 = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG2);
--	/* IFRM_REGSRC -> Do not use reg values */
--	sdp_cfg2 &= ~BIT(0);
--	/* AUDIO_STREAM_HB3_REGSRC-> Do not use reg values */
--	sdp_cfg2 &= ~BIT(1);
--
--	drm_dbg_dp(catalog->drm_dev, "sdp_cfg2 = 0x%x\n", sdp_cfg2);
--
--	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG2, sdp_cfg2);
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_CTRL, 0);
 -}
 -
--void msm_dp_catalog_audio_sfe_level(struct msm_dp_catalog *msm_dp_catalog, u32 safe_to_exit_level)
+-u32 msm_dp_catalog_link_is_connected(struct msm_dp_catalog *msm_dp_catalog)
 -{
--	struct msm_dp_catalog_private *catalog;
--	u32 mainlink_levels;
+-	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
+-				struct msm_dp_catalog_private, msm_dp_catalog);
+-	u32 status;
 -
--	if (!msm_dp_catalog)
--		return;
+-	status = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_STATUS);
+-	drm_dbg_dp(catalog->drm_dev, "aux status: %#x\n", status);
+-	status >>= DP_DP_HPD_STATE_STATUS_BITS_SHIFT;
+-	status &= DP_DP_HPD_STATE_STATUS_BITS_MASK;
 -
--	catalog = container_of(msm_dp_catalog,
--		struct msm_dp_catalog_private, msm_dp_catalog);
--
--	mainlink_levels = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_LEVELS);
--	mainlink_levels &= 0xFE0;
--	mainlink_levels |= safe_to_exit_level;
--
--	drm_dbg_dp(catalog->drm_dev,
--			"mainlink_level = 0x%x, safe_to_exit_level = 0x%x\n",
--			 mainlink_levels, safe_to_exit_level);
--
--	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_LEVELS, mainlink_levels);
+-	return status;
 -}
+-
+-u32 msm_dp_catalog_hpd_get_intr_status(struct msm_dp_catalog *msm_dp_catalog)
+-{
+-	int isr, mask;
+-
+-	isr = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_STATUS);
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_ACK,
+-				 (isr & DP_DP_HPD_INT_MASK));
+-	mask = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK);
+-
+-	/*
+-	 * We only want to return interrupts that are unmasked to the caller.
+-	 * However, the interrupt status field also contains other
+-	 * informational bits about the HPD state status, so we only mask
+-	 * out the part of the register that tells us about which interrupts
+-	 * are pending.
+-	 */
+-	return isr & (mask | ~DP_DP_HPD_INT_MASK);
+-}
+-
+ u32 msm_dp_catalog_ctrl_read_psr_interrupt_status(struct msm_dp_catalog *msm_dp_catalog)
+ {
+ 	u32 intr, intr_ack;
 diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 24f1cf4ed5150c4e0e80880588641a01bb6a1596..e2fdccc332f874458709593c68a1d1a46b6cc406 100644
+index e2fdccc332f874458709593c68a1d1a46b6cc406..830d9164188c0f7520809a99fa409b473bbfbfa4 100644
 --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
 +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -134,10 +134,4 @@ u32 msm_dp_catalog_ctrl_read_psr_interrupt_status(struct msm_dp_catalog *msm_dp_
+@@ -122,12 +122,6 @@ u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog);
+ /* DP Controller APIs */
+ u32 msm_dp_catalog_hw_revision(const struct msm_dp_catalog *msm_dp_catalog);
+ void msm_dp_catalog_ctrl_enable_irq(struct msm_dp_catalog *msm_dp_catalog, bool enable);
+-void msm_dp_catalog_hpd_config_intr(struct msm_dp_catalog *msm_dp_catalog,
+-			u32 intr_mask, bool en);
+-void msm_dp_catalog_ctrl_hpd_enable(struct msm_dp_catalog *msm_dp_catalog);
+-void msm_dp_catalog_ctrl_hpd_disable(struct msm_dp_catalog *msm_dp_catalog);
+-u32 msm_dp_catalog_link_is_connected(struct msm_dp_catalog *msm_dp_catalog);
+-u32 msm_dp_catalog_hpd_get_intr_status(struct msm_dp_catalog *msm_dp_catalog);
+ int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog);
+ void msm_dp_catalog_ctrl_config_psr_interrupt(struct msm_dp_catalog *msm_dp_catalog);
+ u32 msm_dp_catalog_ctrl_read_psr_interrupt_status(struct msm_dp_catalog *msm_dp_catalog);
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index cde667bf8eeec95035b2feb3661686c99acf5b7d..5f32ee2fa0438cd12726540a59ab4849d47ee8c2 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -2162,7 +2162,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
+ 			break;
+ 		} else if (training_step == DP_TRAINING_1) {
+ 			/* link train_1 failed */
+-			if (!msm_dp_catalog_link_is_connected(ctrl->catalog))
++			if (!msm_dp_aux_is_link_connected(ctrl->aux))
+ 				break;
  
- struct msm_dp_catalog *msm_dp_catalog_get(struct device *dev);
+ 			msm_dp_ctrl_read_link_status(ctrl, link_status);
+@@ -2187,7 +2187,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
+ 			}
+ 		} else if (training_step == DP_TRAINING_2) {
+ 			/* link train_2 failed */
+-			if (!msm_dp_catalog_link_is_connected(ctrl->catalog))
++			if (!msm_dp_aux_is_link_connected(ctrl->aux))
+ 				break;
  
--/* DP Audio APIs */
--void msm_dp_catalog_audio_config_acr(struct msm_dp_catalog *catalog, u32 select);
--void msm_dp_catalog_audio_enable(struct msm_dp_catalog *catalog, bool enable);
--void msm_dp_catalog_audio_config_sdp(struct msm_dp_catalog *catalog);
--void msm_dp_catalog_audio_sfe_level(struct msm_dp_catalog *catalog, u32 safe_to_exit_level);
+ 			msm_dp_ctrl_read_link_status(ctrl, link_status);
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index aba925aab7ad7c6652e81004043864c1cb3ac370..72a46e9e319486bc4ec1f5c842d733bd55ce0a67 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1145,7 +1145,7 @@ static irqreturn_t msm_dp_display_irq_handler(int irq, void *dev_id)
+ 		return IRQ_NONE;
+ 	}
+ 
+-	hpd_isr_status = msm_dp_catalog_hpd_get_intr_status(dp->catalog);
++	hpd_isr_status = msm_dp_aux_get_hpd_intr_status(dp->aux);
+ 
+ 	if (hpd_isr_status & 0x0F) {
+ 		drm_dbg_dp(dp->drm_dev, "type=%d isr=0x%x\n",
+@@ -1360,7 +1360,7 @@ static int msm_dp_pm_runtime_suspend(struct device *dev)
+ 
+ 	if (dp->msm_dp_display.is_edp) {
+ 		msm_dp_display_host_phy_exit(dp);
+-		msm_dp_catalog_ctrl_hpd_disable(dp->catalog);
++		msm_dp_aux_hpd_disable(dp->aux);
+ 	}
+ 	msm_dp_display_host_deinit(dp);
+ 
+@@ -1381,7 +1381,7 @@ static int msm_dp_pm_runtime_resume(struct device *dev)
+ 	 */
+ 	msm_dp_display_host_init(dp);
+ 	if (dp->msm_dp_display.is_edp) {
+-		msm_dp_catalog_ctrl_hpd_enable(dp->catalog);
++		msm_dp_aux_hpd_enable(dp->aux);
+ 		msm_dp_display_host_phy_init(dp);
+ 	}
+ 
+@@ -1668,10 +1668,8 @@ void msm_dp_bridge_hpd_enable(struct drm_bridge *bridge)
+ 		return;
+ 	}
+ 
+-	msm_dp_catalog_ctrl_hpd_enable(dp->catalog);
 -
- #endif /* _DP_CATALOG_H_ */
+-	/* enable HDP interrupts */
+-	msm_dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, true);
++	msm_dp_aux_hpd_enable(dp->aux);
++	msm_dp_aux_hpd_intr_enable(dp->aux);
+ 
+ 	msm_dp_display->internal_hpd = true;
+ 	mutex_unlock(&dp->event_mutex);
+@@ -1684,9 +1682,9 @@ void msm_dp_bridge_hpd_disable(struct drm_bridge *bridge)
+ 	struct msm_dp_display_private *dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
+ 
+ 	mutex_lock(&dp->event_mutex);
+-	/* disable HDP interrupts */
+-	msm_dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
+-	msm_dp_catalog_ctrl_hpd_disable(dp->catalog);
++
++	msm_dp_aux_hpd_intr_disable(dp->aux);
++	msm_dp_aux_hpd_disable(dp->aux);
+ 
+ 	msm_dp_display->internal_hpd = false;
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+index 7903606fc9c249b4ec21949fe51240df90492103..58045d9a52e9a4d39362c3de623fa34acd5784ec 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -165,7 +165,7 @@ int msm_dp_panel_read_sink_caps(struct msm_dp_panel *msm_dp_panel,
+ 	if (!msm_dp_panel->drm_edid) {
+ 		DRM_ERROR("panel edid read failed\n");
+ 		/* check edid read fail is due to unplug */
+-		if (!msm_dp_catalog_link_is_connected(panel->catalog)) {
++		if (!msm_dp_aux_is_link_connected(panel->aux)) {
+ 			rc = -ETIMEDOUT;
+ 			goto end;
+ 		}
 
 -- 
 2.39.5
