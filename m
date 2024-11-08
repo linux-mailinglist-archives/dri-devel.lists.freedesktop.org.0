@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E3A9C225D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:47:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D379C2261
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:47:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2718610EA0F;
-	Fri,  8 Nov 2024 16:47:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01C8310EA18;
+	Fri,  8 Nov 2024 16:47:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IIDlCpqc";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="U/coJSYM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8D310EA0F
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:47:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4B7810EA18
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:47:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1731084423;
+ s=mimecast20190719; t=1731084442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jpNAjvBED0zJPzsGxvUZkPQHXN7wBsfDLffJlKl2U18=;
- b=IIDlCpqckCCbxKVe2jdoi2H03D8U8AvfRLXuIbl0XH4yxenwA1+nWZNboJQqQ7vT7OrINh
- IMUZW8nWQ562ugz0lbjASkqLaTOnA0jobp1YUyKzjFM6SWoU5WUZixYHCj1SECU2HtHCmW
- oHl78T/Rgx7NPoZnArBJiQqywikZqNk=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RrzV470lz6jbavS8eY4l7/NKHQXyo2/qM6LC527szQs=;
+ b=U/coJSYMxr4fsS9FQNwrgIDRRT6+6VzdUPAkFl4Lws72j6Gw7d/rrS3YGoxoQYvODQ256u
+ BR5sBVTPUmaTKk08B9lv1Chzcc/mww6J/AOExd3rR4DzB2zHHuKlRrP7HnEDgKJhh5F6yc
+ hZsIUhduLtq8FvVC9MZNRayif83lqZM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-651-6KzfbvDuPjO-7i6t6zE-BA-1; Fri, 08 Nov 2024 11:47:01 -0500
-X-MC-Unique: 6KzfbvDuPjO-7i6t6zE-BA-1
-X-Mimecast-MFC-AGG-ID: 6KzfbvDuPjO-7i6t6zE-BA
-Received: by mail-lf1-f70.google.com with SMTP id
- 2adb3069b0e04-539e7dc83ecso1744558e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 08:47:01 -0800 (PST)
+ us-mta-665-CmosCcu-OQaInsIIoVgFJA-1; Fri, 08 Nov 2024 11:47:19 -0500
+X-MC-Unique: CmosCcu-OQaInsIIoVgFJA-1
+X-Mimecast-MFC-AGG-ID: CmosCcu-OQaInsIIoVgFJA
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-43151e4ef43so16324045e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 08:47:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731084419; x=1731689219;
+ d=1e100.net; s=20230601; t=1731084438; x=1731689238;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jpNAjvBED0zJPzsGxvUZkPQHXN7wBsfDLffJlKl2U18=;
- b=REB6iE2gwGrLGq7e8DVVPly8D6mYD+wuEpYbfnsKFzTZJ2Lv1mou4/EpL6btMd0RH6
- SF5FEJvHlQDWcRs8WDbYNy+WbaU7GzdbG8ABlsvPsPJodRKY7RUUSLldv0MpR5oz3xis
- 4pPZ7ZvOwpgW4Nx5+PDcULXC1spQTCRS2wjv5UkqbEMUWwDe96bndM3+nnJpjTxUpV7l
- D06i/eMZAI47iUEL6bYHpiyKQJuuJ0IZW2qFbJt0R6CmFF3Wm/kVUV67QPHdIbmAkIrT
- pxKN3x72Xn+mLjF1oMG07k8xBNbDB5a6gdVAAttuTICirBCahu069CfTn3N58x0Li8a7
- 5jpQ==
-X-Gm-Message-State: AOJu0YwJ2TlzPNc0HEYjz64+2XtofJnWvk3uL6ZxXAMdGZVVthH3YNyF
- Gwb2pSAKVd9U3HO11zEmQTZZNO60QCsH0E4lpl/jV3ez+V9f/2/7l447gHwQpLHM6YQLBtOzjLG
- aQuXt2TuNHYYSzsdsaQEnGyu9v2Xe/zAmaMu1cyzhvVvTN6/KlWYg7cD9ImrgmJbz2g==
-X-Received: by 2002:a05:6512:68f:b0:535:6892:3be3 with SMTP id
- 2adb3069b0e04-53d862ec05dmr2008172e87.41.1731084419216; 
- Fri, 08 Nov 2024 08:46:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGsT+q+6vgEFd7vwluSkPrG39rUPFOL3zoKRcKf1Mqt18/KkMn08yOiIKUsKoDr0gc43p9EOA==
-X-Received: by 2002:a05:6512:68f:b0:535:6892:3be3 with SMTP id
- 2adb3069b0e04-53d862ec05dmr2008157e87.41.1731084418545; 
- Fri, 08 Nov 2024 08:46:58 -0800 (PST)
+ bh=RrzV470lz6jbavS8eY4l7/NKHQXyo2/qM6LC527szQs=;
+ b=aCXBk4fpqO9sPkfB2TLZnQR9+bfM8x6IWXrid49IKW8+N4hhITiKFWGkuLQ0GHLGSE
+ gLIco09ywc72VR1M8vwu43R5fK1vgj/NLlp3OeT0cGtcahTSWEqnSvieNHM/pppzOrV6
+ QaO3oFyfxSl7CwHicpjj6d9gkaV3grW8/wExyPlJUyt9KnK5qsvi+6IloEXJaifKwn4Z
+ iTZs6I2llL4yEmGwHLlJzhS/g2Q7ATUTHTv1cpvFqTndNZbn9Mt1Nrxy380mf1toOaMe
+ GkWm12RpOgaDbMyIpI+B5ALWeLb0uTK5WFeRkgEm5VlD1iS9jMzO9rCpk7kCF7x6oUvj
+ JTbQ==
+X-Gm-Message-State: AOJu0YzkdDapQD1ySadfovhezFsksm+gO9jt74apqKfBU0dKrPfmDnnd
+ noVVxkjcsXGPhZX3/PnOF0Vri3A+16II1mvSSc4Fgh2mPg9Aknki/LboJ5fzu2/sc1VFiBHCrMT
+ +VoUA5eOUdrv/w8O5gmdmNCFwgQpWANwOndX527TSNfKSTbvs58o4seVV3Hgk9bEt2Q==
+X-Received: by 2002:a05:6000:4816:b0:37c:c9ae:23fb with SMTP id
+ ffacd0b85a97d-381f183f82cmr3201375f8f.40.1731084438380; 
+ Fri, 08 Nov 2024 08:47:18 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG2sBzBpJqXdphPHxQB/tF/8n+Lov/Qj7dmTobwMJIiKckxC/7gcVrJAZCSB8iIkttCwCIqbA==
+X-Received: by 2002:a05:6000:4816:b0:37c:c9ae:23fb with SMTP id
+ ffacd0b85a97d-381f183f82cmr3201359f8f.40.1731084438006; 
+ Fri, 08 Nov 2024 08:47:18 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432aa70a226sm116265025e9.28.2024.11.08.08.46.57
+ 5b1f17b1804b1-432bc469293sm1469925e9.0.2024.11.08.08.47.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Nov 2024 08:46:57 -0800 (PST)
-Message-ID: <b95e569f-4a82-4632-9054-701ace8cb614@redhat.com>
-Date: Fri, 8 Nov 2024 17:46:57 +0100
+ Fri, 08 Nov 2024 08:47:17 -0800 (PST)
+Message-ID: <f1b6dcb4-f20a-43e2-a95a-76665f013c6d@redhat.com>
+Date: Fri, 8 Nov 2024 17:47:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/client: Move public client header to clients/
- subdirectory
+Subject: Re: [PATCH 3/3] drm/fbdev-client: Unexport drm_fbdev_client_setup()
 To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
  mripard@kernel.org, maarten.lankhorst@linux.intel.com, airlied@gmail.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org
 References: <20241108154600.126162-1-tzimmermann@suse.de>
- <20241108154600.126162-3-tzimmermann@suse.de>
+ <20241108154600.126162-4-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20241108154600.126162-3-tzimmermann@suse.de>
+In-Reply-To: <20241108154600.126162-4-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Df4gpufrJBeMRhy_-Z29I4lFOcKBwHxNlkOEa8ui8Fs_1731084420
+X-Mimecast-MFC-PROC-ID: LXGs-Dd_eM4eY5tlzXbcs7-Ad7UyOds115KzIhM2uE4_1731084438
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -99,8 +98,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 08/11/2024 16:42, Thomas Zimmermann wrote:
-> Move the public header file drm_client_setup.h to the clients/
-> subdirectory and update all drivers. No functional changes.
+> DRM drivers invoke drm_client_setup() to set up in-kernel clients.
+> No driver should call drm_fbdev_client_setup() directly. Therefore,
+> unexport the symbol and move the declaration to the internal header
+> drm_client_internal.h.
 
 Thanks, it looks good to me.
 
@@ -109,1106 +110,67 @@ Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c          | 2 +-
->   drivers/gpu/drm/arm/display/komeda/komeda_drv.c  | 2 +-
->   drivers/gpu/drm/arm/hdlcd_drv.c                  | 2 +-
->   drivers/gpu/drm/arm/malidp_drv.c                 | 2 +-
->   drivers/gpu/drm/armada/armada_drv.c              | 2 +-
->   drivers/gpu/drm/aspeed/aspeed_gfx_drv.c          | 2 +-
->   drivers/gpu/drm/ast/ast_drv.c                    | 2 +-
->   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c     | 2 +-
->   drivers/gpu/drm/clients/drm_client_setup.c       | 2 +-
->   drivers/gpu/drm/exynos/exynos_drm_drv.c          | 2 +-
->   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c        | 2 +-
->   drivers/gpu/drm/gma500/psb_drv.c                 | 2 +-
->   drivers/gpu/drm/gud/gud_drv.c                    | 2 +-
->   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 2 +-
->   drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c  | 2 +-
->   drivers/gpu/drm/hyperv/hyperv_drm_drv.c          | 2 +-
->   drivers/gpu/drm/imx/dcss/dcss-kms.c              | 2 +-
->   drivers/gpu/drm/imx/ipuv3/imx-drm-core.c         | 2 +-
->   drivers/gpu/drm/imx/lcdc/imx-lcdc.c              | 2 +-
->   drivers/gpu/drm/ingenic/ingenic-drm-drv.c        | 2 +-
->   drivers/gpu/drm/kmb/kmb_drv.c                    | 2 +-
->   drivers/gpu/drm/logicvc/logicvc_drm.c            | 2 +-
->   drivers/gpu/drm/loongson/lsdc_drv.c              | 2 +-
->   drivers/gpu/drm/mcde/mcde_drv.c                  | 2 +-
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c           | 2 +-
->   drivers/gpu/drm/meson/meson_drv.c                | 2 +-
->   drivers/gpu/drm/mgag200/mgag200_drv.c            | 2 +-
->   drivers/gpu/drm/msm/msm_drv.c                    | 2 +-
->   drivers/gpu/drm/mxsfb/lcdif_drv.c                | 2 +-
->   drivers/gpu/drm/mxsfb/mxsfb_drv.c                | 2 +-
->   drivers/gpu/drm/nouveau/nouveau_drm.c            | 2 +-
->   drivers/gpu/drm/omapdrm/omap_fbdev.c             | 2 +-
->   drivers/gpu/drm/pl111/pl111_drv.c                | 2 +-
->   drivers/gpu/drm/qxl/qxl_drv.c                    | 2 +-
->   drivers/gpu/drm/radeon/radeon_drv.c              | 2 +-
->   drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c    | 2 +-
->   drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c     | 2 +-
->   drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_drv.c      | 2 +-
->   drivers/gpu/drm/solomon/ssd130x.c                | 2 +-
->   drivers/gpu/drm/sti/sti_drv.c                    | 2 +-
->   drivers/gpu/drm/stm/drv.c                        | 2 +-
->   drivers/gpu/drm/sun4i/sun4i_drv.c                | 2 +-
->   drivers/gpu/drm/tegra/drm.c                      | 2 +-
->   drivers/gpu/drm/tidss/tidss_drv.c                | 2 +-
->   drivers/gpu/drm/tilcdc/tilcdc_drv.c              | 2 +-
->   drivers/gpu/drm/tiny/arcpgu.c                    | 3 ++-
->   drivers/gpu/drm/tiny/bochs.c                     | 2 +-
->   drivers/gpu/drm/tiny/cirrus.c                    | 2 +-
->   drivers/gpu/drm/tiny/gm12u320.c                  | 2 +-
->   drivers/gpu/drm/tiny/hx8357d.c                   | 2 +-
->   drivers/gpu/drm/tiny/ili9163.c                   | 2 +-
->   drivers/gpu/drm/tiny/ili9225.c                   | 2 +-
->   drivers/gpu/drm/tiny/ili9341.c                   | 2 +-
->   drivers/gpu/drm/tiny/ili9486.c                   | 2 +-
->   drivers/gpu/drm/tiny/mi0283qt.c                  | 2 +-
->   drivers/gpu/drm/tiny/ofdrm.c                     | 2 +-
->   drivers/gpu/drm/tiny/panel-mipi-dbi.c            | 2 +-
->   drivers/gpu/drm/tiny/repaper.c                   | 2 +-
->   drivers/gpu/drm/tiny/sharp-memory.c              | 2 +-
->   drivers/gpu/drm/tiny/simpledrm.c                 | 2 +-
->   drivers/gpu/drm/tiny/st7586.c                    | 2 +-
->   drivers/gpu/drm/tiny/st7735r.c                   | 2 +-
->   drivers/gpu/drm/tve200/tve200_drv.c              | 2 +-
->   drivers/gpu/drm/udl/udl_drv.c                    | 2 +-
->   drivers/gpu/drm/vboxvideo/vbox_drv.c             | 2 +-
->   drivers/gpu/drm/vc4/vc4_drv.c                    | 2 +-
->   drivers/gpu/drm/virtio/virtgpu_drv.c             | 2 +-
->   drivers/gpu/drm/vkms/vkms_drv.c                  | 2 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c              | 2 +-
->   drivers/gpu/drm/xlnx/zynqmp_kms.c                | 2 +-
->   include/drm/{ => clients}/drm_client_setup.h     | 0
->   72 files changed, 72 insertions(+), 71 deletions(-)
->   rename include/drm/{ => clients}/drm_client_setup.h (100%)
+>   .../gpu/drm/clients/drm_client_internal.h                     | 4 ++--
+>   drivers/gpu/drm/clients/drm_client_setup.c                    | 3 ++-
+>   drivers/gpu/drm/clients/drm_fbdev_client.c                    | 4 ++--
+>   3 files changed, 6 insertions(+), 5 deletions(-)
+>   rename include/drm/drm_fbdev_client.h => drivers/gpu/drm/clients/drm_client_internal.h (85%)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 6ac7d335e28e..92e39eef29a7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -23,7 +23,7 @@
->    */
+> diff --git a/include/drm/drm_fbdev_client.h b/drivers/gpu/drm/clients/drm_client_internal.h
+> similarity index 85%
+> rename from include/drm/drm_fbdev_client.h
+> rename to drivers/gpu/drm/clients/drm_client_internal.h
+> index e11a5614f127..23258934956a 100644
+> --- a/include/drm/drm_fbdev_client.h
+> +++ b/drivers/gpu/drm/clients/drm_client_internal.h
+> @@ -1,7 +1,7 @@
+>   /* SPDX-License-Identifier: MIT */
 >   
->   #include <drm/amdgpu_drm.h>
-> -#include <drm/drm_client_setup.h>
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_ttm.h>
->   #include <drm/drm_gem.h>
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> index 6d475bb34002..b694c90d4390 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> @@ -9,7 +9,7 @@
->   #include <linux/of.h>
->   #include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
-> -#include <drm/drm_client_setup.h>
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_module.h>
->   #include <drm/drm_of.h>
->   #include "komeda_dev.h"
-> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-> index cd4389809d42..4af8fce7dab7 100644
-> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
-> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-> @@ -22,8 +22,8 @@
->   #include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
+> -#ifndef DRM_FBDEV_CLIENT_H
+> -#define DRM_FBDEV_CLIENT_H
+> +#ifndef DRM_CLIENT_INTERNAL_H
+> +#define DRM_CLIENT_INTERNAL_H
 >   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_debugfs.h>
->   #include <drm/drm_drv.h>
-> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-> index 4cb25004b84f..38b1b5b6bf69 100644
-> --- a/drivers/gpu/drm/arm/malidp_drv.c
-> +++ b/drivers/gpu/drm/arm/malidp_drv.c
-> @@ -16,9 +16,9 @@
->   #include <linux/pm_runtime.h>
->   #include <linux/debugfs.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
-> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
-> index 5c26f0409478..ddf0eaf546a6 100644
-> --- a/drivers/gpu/drm/armada/armada_drv.c
-> +++ b/drivers/gpu/drm/armada/armada_drv.c
-> @@ -11,8 +11,8 @@
->   #include <linux/of_graph.h>
->   #include <linux/platform_device.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_ioctl.h>
->   #include <drm/drm_managed.h>
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> index 109023815fa2..55e90ab9b231 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> @@ -13,8 +13,8 @@
->   #include <linux/regmap.h>
->   #include <linux/reset.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_device.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_dma_helper.h>
-> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-> index 4afe4be072ef..8e9c9cb89a50 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.c
-> +++ b/drivers/gpu/drm/ast/ast_drv.c
-> @@ -31,8 +31,8 @@
->   #include <linux/of.h>
->   #include <linux/pci.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_shmem.h>
->   #include <drm/drm_gem_shmem_helper.h>
-> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> index 792dcc19e8e7..506289a937e2 100644
-> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> @@ -16,9 +16,9 @@
->   #include <linux/pm_runtime.h>
->   #include <linux/platform_device.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_fourcc.h>
+>   struct drm_device;
+>   struct drm_format_info;
 > diff --git a/drivers/gpu/drm/clients/drm_client_setup.c b/drivers/gpu/drm/clients/drm_client_setup.c
-> index c14221ca5a0d..c6a295d5de50 100644
+> index c6a295d5de50..4b211a4812b5 100644
 > --- a/drivers/gpu/drm/clients/drm_client_setup.c
 > +++ b/drivers/gpu/drm/clients/drm_client_setup.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: MIT
+> @@ -2,10 +2,11 @@
 >   
-> -#include <drm/drm_client_setup.h>
-> +#include <drm/clients/drm_client_setup.h>
+>   #include <drm/clients/drm_client_setup.h>
 >   #include <drm/drm_device.h>
->   #include <drm/drm_fbdev_client.h>
+> -#include <drm/drm_fbdev_client.h>
 >   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> index 2a466d8179f4..7e517a2ec681 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> @@ -13,9 +13,9 @@
->   #include <linux/pm_runtime.h>
->   #include <linux/uaccess.h>
+>   #include <drm/drm_print.h>
 >   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_file.h>
->   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> index 91a48d774cf7..12b2096b6c9d 100644
-> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> @@ -18,8 +18,8 @@
->   #include <linux/pm_runtime.h>
->   #include <linux/regmap.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_dma_helper.h>
-> diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-> index c419ebbc49ec..2c56ece17d71 100644
-> --- a/drivers/gpu/drm/gma500/psb_drv.c
-> +++ b/drivers/gpu/drm/gma500/psb_drv.c
-> @@ -19,8 +19,8 @@
->   
->   #include <acpi/video.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_file.h>
->   #include <drm/drm_ioctl.h>
-> diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-> index 09ccdc1dc1a2..65a16f009ea6 100644
-> --- a/drivers/gpu/drm/gud/gud_drv.c
-> +++ b/drivers/gpu/drm/gud/gud_drv.c
-> @@ -13,9 +13,9 @@
->   #include <linux/vmalloc.h>
->   #include <linux/workqueue.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_blend.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_debugfs.h>
->   #include <drm/drm_drv.h>
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index 8c488c98ac97..69bdae604982 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -15,8 +15,8 @@
->   #include <linux/module.h>
->   #include <linux/pci.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_ttm.h>
->   #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-> index 86a3a1faff49..7e9c2e3ceee2 100644
-> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-> @@ -17,8 +17,8 @@
->   #include <linux/of_graph.h>
->   #include <linux/platform_device.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem_dma_helper.h>
->   #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index e0953777a206..c5ac240f7a7a 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -9,8 +9,8 @@
->   #include <linux/module.h>
->   #include <linux/pci.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_shmem.h>
->   #include <drm/drm_gem_shmem_helper.h>
-> diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> index 63a335c62296..490b5c269f39 100644
-> --- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> +++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> @@ -3,11 +3,11 @@
->    * Copyright 2019 NXP.
->    */
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_bridge.h>
->   #include <drm/drm_bridge_connector.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_dma_helper.h>
-> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> index ced06bd8eae8..6b84429735d6 100644
-> --- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> +++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> @@ -13,9 +13,9 @@
->   
->   #include <video/imx-ipu-v3.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_dma_helper.h>
-> diff --git a/drivers/gpu/drm/imx/lcdc/imx-lcdc.c b/drivers/gpu/drm/imx/lcdc/imx-lcdc.c
-> index 3215c4acd675..c5121fed80fd 100644
-> --- a/drivers/gpu/drm/imx/lcdc/imx-lcdc.c
-> +++ b/drivers/gpu/drm/imx/lcdc/imx-lcdc.c
-> @@ -1,9 +1,9 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   // SPDX-FileCopyrightText: 2020 Marian Cichy <M.Cichy@pengutronix.de>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_bridge.h>
->   #include <drm/drm_bridge_connector.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 056b70b63554..0a4eb3994cd6 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -20,11 +20,11 @@
->   #include <linux/pm.h>
->   #include <linux/regmap.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_bridge.h>
->   #include <drm/drm_bridge_connector.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_color_mgmt.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_damage_helper.h>
-> diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-> index 0274ab9caa85..4173344ba32c 100644
-> --- a/drivers/gpu/drm/kmb/kmb_drv.c
-> +++ b/drivers/gpu/drm/kmb/kmb_drv.c
-> @@ -13,8 +13,8 @@
->   #include <linux/pm_runtime.h>
->   #include <linux/regmap.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_dma_helper.h>
-> diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/logicvc/logicvc_drm.c
-> index e4d90701b29d..9152034e54a3 100644
-> --- a/drivers/gpu/drm/logicvc/logicvc_drm.c
-> +++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
-> @@ -15,8 +15,8 @@
->   #include <linux/regmap.h>
->   #include <linux/types.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loongson/lsdc_drv.c
-> index b350bdcf1645..58d97403271c 100644
-> --- a/drivers/gpu/drm/loongson/lsdc_drv.c
-> +++ b/drivers/gpu/drm/loongson/lsdc_drv.c
-> @@ -7,9 +7,9 @@
->   #include <linux/pci.h>
->   #include <linux/vgaarb.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_ttm.h>
->   #include <drm/drm_gem_framebuffer_helper.h>
-> diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-> index f60bdd7b6c13..f8c7aa9d7f33 100644
-> --- a/drivers/gpu/drm/mcde/mcde_drv.c
-> +++ b/drivers/gpu/drm/mcde/mcde_drv.c
-> @@ -65,9 +65,9 @@
->   #include <linux/slab.h>
->   #include <linux/delay.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_bridge.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fb_dma_helper.h>
->   #include <drm/drm_fbdev_dma.h>
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index a4594f8873d5..63131d091d87 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -12,9 +12,9 @@
->   #include <linux/pm_runtime.h>
->   #include <linux/dma-mapping.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-> index 7cace75a38af..83ee18024682 100644
-> --- a/drivers/gpu/drm/meson/meson_drv.c
-> +++ b/drivers/gpu/drm/meson/meson_drv.c
-> @@ -16,8 +16,8 @@
->   #include <linux/platform_device.h>
->   #include <linux/soc/amlogic/meson-canvas.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_dma_helper.h>
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> index 97fd7eb765b4..b7ed763addfa 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -10,8 +10,8 @@
->   #include <linux/module.h>
->   #include <linux/pci.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_shmem.h>
->   #include <drm/drm_file.h>
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index c2dd8ef6d6dc..b5fa715cbfb0 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -11,7 +11,7 @@
->   #include <linux/of_address.h>
->   #include <linux/uaccess.h>
->   
-> -#include <drm/drm_client_setup.h>
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_file.h>
->   #include <drm/drm_ioctl.h>
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> index 58ccad9c425d..81ec91cef66c 100644
-> --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> @@ -14,9 +14,9 @@
->   #include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_bridge.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_encoder.h>
->   #include <drm/drm_fbdev_dma.h>
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> index 34a98717b72c..1c27a97dce03 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -17,9 +17,9 @@
->   #include <linux/property.h>
->   #include <linux/pm_runtime.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_bridge.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> index 107f63f08bd9..a99c1d9855c9 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -31,7 +31,7 @@
->   #include <linux/mmu_notifier.h>
->   #include <linux/dynamic_debug.h>
->   
-> -#include <drm/drm_client_setup.h>
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_ttm.h>
->   #include <drm/drm_gem_ttm_helper.h>
-> diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> index f4bd0c6e3f34..7b6396890681 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> @@ -6,7 +6,7 @@
->   
->   #include <linux/fb.h>
->   
-> -#include <drm/drm_client_setup.h>
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_crtc_helper.h>
->   #include <drm/drm_fb_helper.h>
-> diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
-> index 13362150b9c6..4b96f48cf630 100644
-> --- a/drivers/gpu/drm/pl111/pl111_drv.c
-> +++ b/drivers/gpu/drm/pl111/pl111_drv.c
-> @@ -45,9 +45,9 @@
->   #include <linux/shmem_fs.h>
->   #include <linux/slab.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_bridge.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
-> index 21f752644242..f15e9583b098 100644
-> --- a/drivers/gpu/drm/qxl/qxl_drv.c
-> +++ b/drivers/gpu/drm/qxl/qxl_drv.c
-> @@ -34,9 +34,9 @@
->   #include <linux/pci.h>
->   #include <linux/vgaarb.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_ttm.h>
->   #include <drm/drm_file.h>
-> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-> index 23d6d1a2586d..d7fe3b29cc13 100644
-> --- a/drivers/gpu/drm/radeon/radeon_drv.c
-> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> @@ -37,7 +37,7 @@
->   #include <linux/mmu_notifier.h>
->   #include <linux/pci.h>
->   
-> -#include <drm/drm_client_setup.h>
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_file.h>
->   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> index 4e0bafc86f50..0f5204ef996e 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> @@ -18,8 +18,8 @@
->   #include <linux/slab.h>
->   #include <linux/wait.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_dma_helper.h>
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> index bbd7003335da..0a03a20f663b 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> @@ -12,8 +12,8 @@
->   #include <linux/of.h>
->   #include <linux/platform_device.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_dma_helper.h>
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> index 8d3effe3f598..40b582ee178e 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> @@ -17,8 +17,8 @@
->   #include <linux/pm_runtime.h>
->   #include <linux/slab.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> index 585355de696b..0393b48ad65b 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> @@ -17,7 +17,7 @@
->   #include <linux/console.h>
->   #include <linux/iommu.h>
->   
-> -#include <drm/drm_client_setup.h>
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_dma_helper.h>
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-> index 29b2f82d81f8..a737f650c2bc 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -18,9 +18,9 @@
->   #include <linux/pwm.h>
->   #include <linux/regulator/consumer.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_crtc_helper.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_edid.h>
-> diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-> index 65f180c8e8e2..a6c13318aa0b 100644
-> --- a/drivers/gpu/drm/sti/sti_drv.c
-> +++ b/drivers/gpu/drm/sti/sti_drv.c
-> @@ -13,9 +13,9 @@
->   #include <linux/of_platform.h>
->   #include <linux/platform_device.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_debugfs.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
-> diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-> index 478dc129d5c2..d181d11b277b 100644
-> --- a/drivers/gpu/drm/stm/drv.c
-> +++ b/drivers/gpu/drm/stm/drv.c
-> @@ -16,9 +16,9 @@
->   #include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-> index 3f880d8a5666..a7c11b795e98 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-> @@ -15,8 +15,8 @@
->   #include <linux/of_reserved_mem.h>
->   #include <linux/platform_device.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_dma_helper.h>
-> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> index bf3421667ecc..34878f5d2918 100644
-> --- a/drivers/gpu/drm/tegra/drm.c
-> +++ b/drivers/gpu/drm/tegra/drm.c
-> @@ -13,9 +13,9 @@
->   #include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_debugfs.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-> index 2428b9aaa003..16b836f9ac35 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.c
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -9,9 +9,9 @@
->   #include <linux/module.h>
->   #include <linux/pm_runtime.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> index 8c9f3705aa6c..821d0ba26287 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -13,8 +13,8 @@
->   #include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_debugfs.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
-> diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-> index 81abedec435d..d8f0190b670a 100644
-> --- a/drivers/gpu/drm/tiny/arcpgu.c
-> +++ b/drivers/gpu/drm/tiny/arcpgu.c
-> @@ -6,8 +6,9 @@
->    */
->   
->   #include <linux/clk.h>
+> +#include "drm_client_internal.h"
 > +
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_debugfs.h>
->   #include <drm/drm_device.h>
->   #include <drm/drm_drv.h>
-> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-> index 447989bb8201..8460ca9988cb 100644
-> --- a/drivers/gpu/drm/tiny/bochs.c
-> +++ b/drivers/gpu/drm/tiny/bochs.c
-> @@ -4,9 +4,9 @@
->   #include <linux/module.h>
->   #include <linux/pci.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_edid.h>
-> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-> index f06a2be71f60..afd29b3df2b5 100644
-> --- a/drivers/gpu/drm/tiny/cirrus.c
-> +++ b/drivers/gpu/drm/tiny/cirrus.c
-> @@ -24,10 +24,10 @@
->   #include <video/cirrus.h>
->   #include <video/vga.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_atomic_state_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_drv.h>
-> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
-> index 0c17ae532fb4..47dbee84d58b 100644
-> --- a/drivers/gpu/drm/tiny/gm12u320.c
-> +++ b/drivers/gpu/drm/tiny/gm12u320.c
-> @@ -7,9 +7,9 @@
->   #include <linux/pm.h>
->   #include <linux/usb.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_atomic_state_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_drv.h>
-> diff --git a/drivers/gpu/drm/tiny/hx8357d.c b/drivers/gpu/drm/tiny/hx8357d.c
-> index 6b0d1846cfcf..910279ebbbaa 100644
-> --- a/drivers/gpu/drm/tiny/hx8357d.c
-> +++ b/drivers/gpu/drm/tiny/hx8357d.c
-> @@ -16,8 +16,8 @@
->   #include <linux/property.h>
->   #include <linux/spi/spi.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_atomic_helper.h>
-> diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9163.c
-> index 5eb39ca1a855..e54ce120692f 100644
-> --- a/drivers/gpu/drm/tiny/ili9163.c
-> +++ b/drivers/gpu/drm/tiny/ili9163.c
-> @@ -7,8 +7,8 @@
->   #include <linux/property.h>
->   #include <linux/spi/spi.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_atomic_helper.h>
-> diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili9225.c
-> index 875e2d09729a..f322e67f473a 100644
-> --- a/drivers/gpu/drm/tiny/ili9225.c
-> +++ b/drivers/gpu/drm/tiny/ili9225.c
-> @@ -16,8 +16,8 @@
->   #include <linux/spi/spi.h>
->   #include <video/mipi_display.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fb_dma_helper.h>
-> diff --git a/drivers/gpu/drm/tiny/ili9341.c b/drivers/gpu/drm/tiny/ili9341.c
-> index c1dfdfbbd30c..356c7f107c3e 100644
-> --- a/drivers/gpu/drm/tiny/ili9341.c
-> +++ b/drivers/gpu/drm/tiny/ili9341.c
-> @@ -15,8 +15,8 @@
->   #include <linux/property.h>
->   #include <linux/spi/spi.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_atomic_helper.h>
-> diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
-> index 7e46a720d5e2..f5b1d21f7109 100644
-> --- a/drivers/gpu/drm/tiny/ili9486.c
-> +++ b/drivers/gpu/drm/tiny/ili9486.c
-> @@ -14,8 +14,8 @@
->   
->   #include <video/mipi_display.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_atomic_helper.h>
-> diff --git a/drivers/gpu/drm/tiny/mi0283qt.c b/drivers/gpu/drm/tiny/mi0283qt.c
-> index f1461c55dba6..61e33376fbc9 100644
-> --- a/drivers/gpu/drm/tiny/mi0283qt.c
-> +++ b/drivers/gpu/drm/tiny/mi0283qt.c
-> @@ -13,8 +13,8 @@
->   #include <linux/regulator/consumer.h>
->   #include <linux/spi/spi.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_atomic_helper.h>
-> diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
-> index 220c1244b3c0..b27ed3677bfd 100644
-> --- a/drivers/gpu/drm/tiny/ofdrm.c
-> +++ b/drivers/gpu/drm/tiny/ofdrm.c
-> @@ -5,9 +5,9 @@
->   #include <linux/pci.h>
->   #include <linux/platform_device.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_state_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_device.h>
-> diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> index e66729b31bd6..79d5818cbbe6 100644
-> --- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> +++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> @@ -14,8 +14,8 @@
->   #include <linux/regulator/consumer.h>
->   #include <linux/spi/spi.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_atomic_helper.h>
-> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-> index 77944eb17b3c..9373063a13fc 100644
-> --- a/drivers/gpu/drm/tiny/repaper.c
-> +++ b/drivers/gpu/drm/tiny/repaper.c
-> @@ -21,8 +21,8 @@
->   #include <linux/spi/spi.h>
->   #include <linux/thermal.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_drv.h>
-> diff --git a/drivers/gpu/drm/tiny/sharp-memory.c b/drivers/gpu/drm/tiny/sharp-memory.c
-> index 2d2315bd6aef..d87068126f9b 100644
-> --- a/drivers/gpu/drm/tiny/sharp-memory.c
-> +++ b/drivers/gpu/drm/tiny/sharp-memory.c
-> @@ -1,8 +1,8 @@
->   // SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_damage_helper.h>
->   #include <drm/drm_drv.h>
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-> index 3182d32f1b8f..b3a2fc11dcf0 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -10,9 +10,9 @@
->   #include <linux/pm_domain.h>
->   #include <linux/regulator/consumer.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_state_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_connector.h>
+>   /**
+>    * drm_client_setup() - Setup in-kernel DRM clients
+>    * @dev: DRM device
+> diff --git a/drivers/gpu/drm/clients/drm_fbdev_client.c b/drivers/gpu/drm/clients/drm_fbdev_client.c
+> index 246fb63ab250..f894ba52bdb5 100644
+> --- a/drivers/gpu/drm/clients/drm_fbdev_client.c
+> +++ b/drivers/gpu/drm/clients/drm_fbdev_client.c
+> @@ -3,11 +3,12 @@
+>   #include <drm/drm_client.h>
 >   #include <drm/drm_crtc_helper.h>
->   #include <drm/drm_damage_helper.h>
-> diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
-> index 97013685c62f..7bfd4296c1c9 100644
-> --- a/drivers/gpu/drm/tiny/st7586.c
-> +++ b/drivers/gpu/drm/tiny/st7586.c
-> @@ -12,8 +12,8 @@
->   #include <linux/spi/spi.h>
->   #include <video/mipi_display.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_damage_helper.h>
 >   #include <drm/drm_drv.h>
->   #include <drm/drm_fb_dma_helper.h>
-> diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
-> index 0747ebd999cc..6832ca590127 100644
-> --- a/drivers/gpu/drm/tiny/st7735r.c
-> +++ b/drivers/gpu/drm/tiny/st7735r.c
-> @@ -16,8 +16,8 @@
->   #include <linux/spi/spi.h>
->   #include <video/mipi_display.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_gem_atomic_helper.h>
-> diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
-> index b30340a2141d..cb66dbbe2801 100644
-> --- a/drivers/gpu/drm/tve200/tve200_drv.c
-> +++ b/drivers/gpu/drm/tve200/tve200_drv.c
-> @@ -37,9 +37,9 @@
->   #include <linux/shmem_fs.h>
->   #include <linux/slab.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_bridge.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
+> -#include <drm/drm_fbdev_client.h>
+>   #include <drm/drm_fb_helper.h>
 >   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-> index 8d8ae40f945c..6c182b21028e 100644
-> --- a/drivers/gpu/drm/udl/udl_drv.c
-> +++ b/drivers/gpu/drm/udl/udl_drv.c
-> @@ -5,8 +5,8 @@
+>   #include <drm/drm_print.h>
 >   
->   #include <linux/module.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_drv.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_fbdev_shmem.h>
->   #include <drm/drm_file.h>
->   #include <drm/drm_gem_shmem_helper.h>
-> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> index a536c467e2b2..d9d884aad97f 100644
-> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> @@ -13,8 +13,8 @@
->   #include <linux/pci.h>
->   #include <linux/vt_kern.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_ttm.h>
->   #include <drm/drm_file.h>
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-> index d47e5967592f..bfceb1e7d0b4 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -31,8 +31,8 @@
->   #include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> index ffca6e2e1c9a..6b0da1456042 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> @@ -32,9 +32,9 @@
->   #include <linux/poll.h>
->   #include <linux/wait.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_shmem.h>
->   #include <drm/drm_file.h>
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index 2d1e95cb66e5..bab13943d8e0 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -13,10 +13,10 @@
->   #include <linux/platform_device.h>
->   #include <linux/dma-mapping.h>
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_gem.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_shmem.h>
->   #include <drm/drm_file.h>
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> index 2c46897876dd..ded48554568a 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -35,7 +35,7 @@
->   #include "vmwgfx_vkms.h"
->   #include "ttm_object.h"
->   
-> -#include <drm/drm_client_setup.h>
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fbdev_ttm.h>
->   #include <drm/drm_gem_ttm_helper.h>
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index fc81983d9e5e..e272ecbce78d 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> @@ -9,12 +9,12 @@
->    * - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +#include "drm_client_internal.h"
+> +
+>   /*
+>    * struct drm_client_funcs
 >    */
->   
-> +#include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_blend.h>
->   #include <drm/drm_bridge.h>
->   #include <drm/drm_bridge_connector.h>
-> -#include <drm/drm_client_setup.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_device.h>
-> diff --git a/include/drm/drm_client_setup.h b/include/drm/clients/drm_client_setup.h
-> similarity index 100%
-> rename from include/drm/drm_client_setup.h
-> rename to include/drm/clients/drm_client_setup.h
+> @@ -164,4 +165,3 @@ int drm_fbdev_client_setup(struct drm_device *dev, const struct drm_format_info
+>   	kfree(fb_helper);
+>   	return ret;
+>   }
+> -EXPORT_SYMBOL(drm_fbdev_client_setup);
 
