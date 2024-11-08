@@ -2,87 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5B79C1386
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 02:19:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDDF9C138C
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 02:21:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E93510E139;
-	Fri,  8 Nov 2024 01:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B74210E324;
+	Fri,  8 Nov 2024 01:21:01 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Mhi7nzIh";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
- [45.249.212.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C21210E139;
- Fri,  8 Nov 2024 01:19:50 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.216])
- by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4Xl1Lm6fbkz4f3jXs;
- Fri,  8 Nov 2024 09:19:28 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
- by mail.maildlp.com (Postfix) with ESMTP id E8FD91A0196;
- Fri,  8 Nov 2024 09:19:46 +0800 (CST)
-Received: from [10.174.176.73] (unknown [10.174.176.73])
- by APP4 (Coremail) with SMTP id gCh0CgDHo4ctZy1n00WkBA--.29471S3;
- Fri, 08 Nov 2024 09:19:44 +0800 (CST)
-Subject: Re: [PATCH 6.6 00/28] fix CVE-2024-46701
-To: Chuck Lever <chuck.lever@oracle.com>, Yu Kuai <yukuai1@huaweicloud.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- linux-stable <stable@vger.kernel.org>,
- "harry.wentland@amd.com" <harry.wentland@amd.com>,
- "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
- "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Liam Howlett <liam.howlett@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Sasha Levin <sashal@kernel.org>,
- "srinivasan.shanmugam@amd.com" <srinivasan.shanmugam@amd.com>,
- "chiahsuan.chung@amd.com" <chiahsuan.chung@amd.com>,
- "mingo@kernel.org" <mingo@kernel.org>,
- "mgorman@techsingularity.net" <mgorman@techsingularity.net>,
- "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
- "zhangpeng.00@bytedance.com" <zhangpeng.00@bytedance.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux FS Devel <linux-fsdevel@vger.kernel.org>,
- "maple-tree@lists.infradead.org" <maple-tree@lists.infradead.org>,
- linux-mm <linux-mm@kvack.org>, "yi.zhang@huawei.com" <yi.zhang@huawei.com>,
- yangerkun <yangerkun@huawei.com>, "yukuai (C)" <yukuai3@huawei.com>
-References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
- <2024110625-earwig-deport-d050@gregkh>
- <7AB98056-93CC-4DE5-AD42-49BA582D3BEF@oracle.com>
- <8bdd405e-0086-5441-e185-3641446ba49d@huaweicloud.com>
- <ZyzRsR9rMQeIaIkM@tissot.1015granger.net>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <4db0a28b-8587-e999-b7a1-1d54fac4e19c@huaweicloud.com>
-Date: Fri, 8 Nov 2024 09:19:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0073B10E324
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 01:20:59 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-37d3e8d923fso1054354f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Nov 2024 17:20:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1731028858; x=1731633658; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=csXEQJ0hOWDqTcb5yESFfn1ne2rBnPQKOjpHE+1KT3o=;
+ b=Mhi7nzIhaImY2INUo2e6uxfcuqhXFvhQ4HlMtjPRk2a5EQcgbmrqEoat1arrcnWZlF
+ D6ag09i59NP9ym2rEsffHWx3lQ6v0Nh4/Qf48Li2YmTZ7ZPxJY2TwHy1w+H5HD1Ly1fJ
+ FTX16EtWzW0U44HDCNXKA2mSQnvXNjezw8b9KKbAqRTflCMGTMF2dkwuLJoXBmW0tLaS
+ uaYDAgTcFFF7btAPZ/VKZgERaDvX3GrrFnOaJ0mq8wBAhobHQhB3U9n/swUsobV7VngP
+ r/Eg1ntQJtK8U8iBaeST7pKuibFos3a4/9SQVE9nwpB4jLOeHumcBa2QydeOQNfeUrZA
+ eMnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731028858; x=1731633658;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=csXEQJ0hOWDqTcb5yESFfn1ne2rBnPQKOjpHE+1KT3o=;
+ b=cmhzZZDwI1X/byekrEyz/vXyLov869OOMD71mV2ZvIEJyTV+mM4Tlrtn5tpKfwEV0I
+ 9xiQj6qNFv80rva1tKiVvHK7wgg4+6OaVzRQLuteBEryMoIqwKofrLKACf28uCHNIV5k
+ rtyzOZqGR1MUJuTvYXa3B0MRclMAC0axMJ7AXEYVdIMp9X3ThhHSysK9TEOaZe8wHPI5
+ Gn7u3eK/mDXsdcWahGfPrSxF+sm0W+ahdjkb9qo6e1R2TxSYl7cAWdQa47LOSraffVwo
+ 01CQszGuApSRqiyKgxYC/zeaDoZBW3wAqyjMz9w84HoJT5sQkwIKS+NAB4+MZqjjNrkY
+ EeDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUfuCqYsV96XnOtQLDGmsEDzTCklaFFqjWr9NLUbYvEJ+/v5bNi8FkgcaLL2bO7NwUWOc1iqIh6Gr8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YySCFq1d3WiR3EC6sqbM6f8eU0y/vdL5xXp+577+/wU/TvE34j2
+ vll1kZTvJPZE2RlhyjrEZ12UZgbTxXBTorZFVLlJeH6k2iZ3uV1DWZG4kqwg2PgOnOHb6ksrygn
+ E1jkro3kK5bPEMwb6K9sQGlpAmI8=
+X-Google-Smtp-Source: AGHT+IGv+N35bYAXi2ED91kiigdt2gFXgegiInZyRgIz29V/KnLU08Z7EGRSjBE/pUniNsL6oH5bCieF8fIFO/nhyIo=
+X-Received: by 2002:a05:6000:1f81:b0:37d:398f:44f9 with SMTP id
+ ffacd0b85a97d-381f1872f2dmr700190f8f.32.1731028858034; Thu, 07 Nov 2024
+ 17:20:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <ZyzRsR9rMQeIaIkM@tissot.1015granger.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgDHo4ctZy1n00WkBA--.29471S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7ArW7CF45Jw13Cw4DtFWDurg_yoW8Kw48pF
- ZFqas8KwsrJw17KrnFyw1jqFWFyws8Jr15Xrs8Wr1UAF90kr1SgFWxGr1Ykas7Wrs3uw4U
- KF4ava4xJF1UGaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBF14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
- JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
- c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26rWY6Fy7MxAIw28IcxkI7V
- AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
- r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8Jr1lIxkGc2Ij64vIr41lIxAIcV
- C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
- 04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
- CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pR1lkxUUUUU=
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+References: <20241105212001.38980-1-alexei.starovoitov@gmail.com>
+ <20241105212001.38980-2-alexei.starovoitov@gmail.com>
+In-Reply-To: <20241105212001.38980-2-alexei.starovoitov@gmail.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Thu, 7 Nov 2024 17:20:46 -0800
+Message-ID: <CAADnVQLMwA1fgApP=H8_jeTeF8JRUXDtMt13qcwUGezvcAQg_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf-next 1/2] drm, bpf: Move drm_mm.c to lib to be used
+ by bpf arena
+To: bpf <bpf@vger.kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, Kernel Team <kernel-team@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,70 +84,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Nov 5, 2024 at 1:20=E2=80=AFPM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> From: Alexei Starovoitov <ast@kernel.org>
+>
+> Move drm_mm.c to lib:
+> - The next commit will use drm_mm to manage memory regions
+>   in bpf arena.
+> - Move drm_mm_print to drivers/gpu/drm/drm_print.c, since
+>   it's not a core functionality of drm_mm and it depeneds
+>   on drm_printer while drm_mm is generic and usuable as-is
+>   by other subsystems.
+> - Replace DRM_ERROR with pr_err to fix build.
+>   DRM_ERROR is deprecated in favor of pr_err anyway.
+> - Also add __maybe_unused to suppress compiler warnings.
+> - Update MAINTAINERS file as well.
+>
+> Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+> Signed-off-by: Alexei Starovoitov <ast@kernel.org>
+> ---
+>  MAINTAINERS                       |  1 +
+>  drivers/gpu/drm/Makefile          |  1 -
+>  drivers/gpu/drm/drm_print.c       | 39 +++++++++++++++++++++++++
+>  lib/Makefile                      |  1 +
+>  {drivers/gpu/drm =3D> lib}/drm_mm.c | 48 ++++---------------------------
+>  5 files changed, 46 insertions(+), 44 deletions(-)
+>  rename {drivers/gpu/drm =3D> lib}/drm_mm.c (95%)
 
-在 2024/11/07 22:41, Chuck Lever 写道:
-> On Thu, Nov 07, 2024 at 08:57:23AM +0800, Yu Kuai wrote:
->> Hi,
->>
->> 在 2024/11/06 23:19, Chuck Lever III 写道:
->>>
->>>
->>>> On Nov 6, 2024, at 1:16 AM, Greg KH <gregkh@linuxfoundation.org> wrote:
->>>>
->>>> On Thu, Oct 24, 2024 at 09:19:41PM +0800, Yu Kuai wrote:
->>>>> From: Yu Kuai <yukuai3@huawei.com>
->>>>>
->>>>> Fix patch is patch 27, relied patches are from:
->>>
->>> I assume patch 27 is:
->>>
->>> libfs: fix infinite directory reads for offset dir
->>>
->>> https://lore.kernel.org/stable/20241024132225.2271667-12-yukuai1@huaweicloud.com/
->>>
->>> I don't think the Maple tree patches are a hard
->>> requirement for this fix. And note that libfs did
->>> not use Maple tree originally because I was told
->>> at that time that Maple tree was not yet mature.
->>>
->>> So, a better approach might be to fit the fix
->>> onto linux-6.6.y while sticking with xarray.
->>
->> The painful part is that using xarray is not acceptable, the offet
->> is just 32 bit and if it overflows, readdir will read nothing. That's
->> why maple_tree has to be used.
-> 
-> A 32-bit range should be entirely adequate for this usage.
-> 
->   - The offset allocator wraps when it reaches the maximum, it
->     doesn't overflow unless there are actually billions of extant
->     entries in the directory, which IMO is not likely.
+DRM folks seem unresponsive :(
+A simple move of the file shouldn't take a week to acknowledge.
+I had plans to tailor drm_mm to bpf needs, but at this pace
+it will take too long, so I'm abandoning this approach
+and going a different route. It was worth a try. Fail fast.
 
-Yes, it's not likely, but it's possible, and not hard to trigger for
-test. And please notice that the offset will increase for each new file,
-and file can be removed, while offset stays the same.
-> 
->   - The offset values are dense, so the directory can use all 2- or
->     4- billion in the 32-bit integer range before wrapping.
-
-A simple math, if user create and remove 1 file in each seconds, it will
-cost about 130 years to overflow. And if user create and remove 1000
-files in each second, it will cost about 1 month to overflow.
-
-maple tree use 64 bit value for the offset, which is impossible to
-overflow for the rest of our lifes.
-> 
->   - No-one complained about this limitation when offset_readdir() was
->     first merged. The xarray was replaced for performance reasons,
->     not because of the 32-bit range limit.
-> 
-> It is always possible that I have misunderstood your concern!
-
-The problem is that if the next_offset overflows to 0, then after patch
-27, offset_dir_open() will record the 0, and later offset_readdir will
-return directly, while there can be many files.
-
-Thanks,
-Kuai
-
+pw-bot: cr
