@@ -2,56 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BFE9C1F31
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 15:27:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867179C1F3E
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 15:30:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E77610E9D2;
-	Fri,  8 Nov 2024 14:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1AE510E9D5;
+	Fri,  8 Nov 2024 14:30:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R5KQxzZl";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="RzWyT0Om";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF9610E9D2
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 14:27:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A9C26A43D24;
- Fri,  8 Nov 2024 14:25:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B668EC4CECD;
- Fri,  8 Nov 2024 14:27:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1731076052;
- bh=TaXxmL3Sbql1QbTmuvBM7Dof2vpIsU/GkgSL8ibpxg8=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=R5KQxzZlAFfVQAq5dzIpTD/ohWpQth+/2cFBONVNNdTC16HlhikPnefvAhxuQXuqq
- PoTz8ycYmBwDfUAt/gB9CImJwKceEmSByVoGp23CAKwY2vT6OTKMuBZpAJrBrvzVQ+
- HSKM9o9ItSRwvd2LkHsBvzBO/EnXU3UUQ9e2qc7DsP+96UkDGqeZOMoV5WOVlJNglR
- xULy4jp0GzoINpxVf3BjGYkyzPjMn4tjzl88bR3gjh+54Px9txMbSIik39g8NHTWjk
- BThA67HdclpWhpzRIM+k2sjlWvLd+KUKOe77FYVfYh0o7bIuibMwG5SCQehtnXvABn
- AmJibhtw2CsPw==
-Message-ID: <6d729a59f8a6f6f0c7454d506c7dd3ef@kernel.org>
-Date: Fri, 08 Nov 2024 14:27:29 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 6/6] drm/bridge: dw-hdmi-qp: replace mode_valid with
- tmds_char_rate
-In-Reply-To: <20241101-hdmi-mode-valid-v2-6-a6478fd20fa6@linaro.org>
-References: <20241101-hdmi-mode-valid-v2-6-a6478fd20fa6@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, "Andrzej
- Hajda" <andrzej.hajda@intel.com>, "Chen-Yu Tsai" <wens@csie.org>, "Dave
- Stevenson" <dave.stevenson@raspberrypi.com>, "David Airlie" <airlied@gmail.com>,
- "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime
- Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Raspberry Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Robert
- Foss" <rfoss@kernel.org>, "Samuel Holland" <samuel@sholland.org>, "Simona
- Vetter" <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 953CA10E9DB
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 14:30:06 +0000 (UTC)
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1731076204;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mXU0zqzH64T+oZBcduwWmn4Upe7MVevQ2K4G2VK2A+s=;
+ b=RzWyT0OmX20cYiDWD/utFaU9an5SMKNlc3LneUtjhWoQxRHjmNaPJpQJ5FqC6wpPgihgBk
+ /XLPL8amsRINXZGDWOn8rhiiIivVkkG2z2bYteFr00U+8lTpoMrhwNyVitsk+Ix0l/jKRM
+ NeBe9BsGknLAoDw6+bJy+ctIHXksGy2vhe3e+b53uZupo5ZIpmnns/hvcj61pkr7HUibtz
+ kM+t3uAWNvRCBI8qKK0+4gPtWsT1K32UYpUv3BmszszMf4jfTGtlEaPIxcHwryV+yWOMxR
+ Z7oXE2gbuIVh8X/QVy/blRlOT5/WL/qps4joY/eI4+AsRZ1lw0URJHpci0teKQ==
+Date: Fri, 08 Nov 2024 15:30:03 +0100
+From: Dragan Simic <dsimic@manjaro.org>
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ hjc@rock-chips.com, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/rockchip: dsi: Perform trivial code cleanups
+In-Reply-To: <22484879.EfDdHjke4D@diego>
+References: <cover.1731073565.git.dsimic@manjaro.org>
+ <10558711.nUPlyArG6x@diego> <047164cc6e88dcbc7701cb0e28d564db@manjaro.org>
+ <22484879.EfDdHjke4D@diego>
+Message-ID: <c27ab238825451f1c3a4722f39a19531@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,16 +63,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Nov 2024 02:25:09 +0200, Dmitry Baryshkov wrote:
-> Replace .mode_valid() callback with .hdmi_tmds_char_rate_valid(). It is
-> more generic and is used in other mode validation paths. The rate
-> validation for .mode_valid() will be performed by the
-> drm_bridge_connector code.
+On 2024-11-08 15:22, Heiko Stübner wrote:
+> Am Freitag, 8. November 2024, 15:13:33 CET schrieb Dragan Simic:
+>> On 2024-11-08 15:09, Heiko Stübner wrote:
+>> > Am Freitag, 8. November 2024, 15:05:02 CET schrieb Dragan Simic:
+>> >> On 2024-11-08 14:56, Heiko Stübner wrote:
+>> >> > Am Freitag, 8. November 2024, 14:53:57 CET schrieb Dragan Simic:
+>> >> >> Perform a few trivial code cleanups, to make one logged message a bit
+>> >> >> more
+>> >> >> consistent with the other logged messages by capitalizing its first
+>> >> >> word, and
+>> >> >> to avoid line wrapping by using the 100-column width better.
+>> >> >>
+>> >> >> No intended functional changes are introduced by these code cleanups.
+>> >> >>
+>> >> >> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+>> >> >> ---
+>> >> >>  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 12 ++++--------
+>> >> >>  1 file changed, 4 insertions(+), 8 deletions(-)
+>> >> >>
+>> >> >> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> >> >> b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> >> >> index 58a44af0e9ad..f451e70efbdd 100644
+>> >> >> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> >> >> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> >> >> @@ -1379,7 +1379,7 @@ static int dw_mipi_dsi_rockchip_probe(struct
+>> >> >> platform_device *pdev)
+>> >> >>  	}
+>> >> >>
+>> >> >>  	if (!dsi->cdata) {
+>> >> >> -		DRM_DEV_ERROR(dev, "no dsi-config for %s node\n", np->name);
+>> >> >> +		DRM_DEV_ERROR(dev, "No dsi-config for %s node\n", np->name);
+>> >> >
+>> >> > this is all probe-related, why not convert to dev_err_probe?
+>> >> >
+>> >> > As the doc states [0], DRM_DEV_ERROR is deprecated in favor of dev_err.
+>> >> > So dev_err_probe would be the correct way to go?
+>> >>
+>> >> Thanks for your quick response!  Seeing that DRM_DEV_ERROR() is now
+>> >> deprecated (which I originally missed, in all honesty) makes me very
+>> >> happy. :)  I've never been a huge fan of the format of the messages
+>> >> that DRM_DEV_ERROR() produces.
+>> >>
+>> >> However, perhaps it would be better to keep these patches as-is, as
+>> >> some kind of an intermediate, limited-scope cleanup + bugfix combo,
+>> >> and leave the complete DRM_DEV_ERROR() --> dev_err()/dev_err_probe()
+>> >> conversion to separate patches.  I think it would be better to avoid
+>> >> a partial conversion, and I'll be more than happy to put the complete
+>> >> conversion on my TODO list. :)
+>> >
+>> > But your patch-2 really just open-codes, what dev_err_probe is meant
+>> > to fix. So with going this way, you're sort of making things worse
+>> > first,
+>> > until that second step happens.
+>> >
+>> > Similarly, reflowing lines for things that get removed in a week do not
+>> > serve a purpose - those line-breaks have been that way for years
+>> > already.
+>> 
+>> Hmm, it makes sense when described that way.  I'll see to perform the
+>> complete conversion in the next few days.
 > 
+> just a note, as written on IRC earlier, I am sitting on a dev_err_probe
+> conversion for dw-dsi-rockchip.
 > 
-> [ ... ]
+> I was waiting to see if more cleanups turned up, so didn't sent that 
+> yet.
+> 
+> Don't want to steal your spotlight though, so not sure if I should send
+> that or wait for your conversion ;-)
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-
-Thanks!
-Maxime
+I see no reasons why should we duplicate some effort. :)  If you're
+already nearing the file-level conversion to its completion, please
+feel free to send it, and we can drop this series. :)
