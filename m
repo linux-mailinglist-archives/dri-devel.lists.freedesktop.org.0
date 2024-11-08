@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD599C1F2C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 15:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BFE9C1F31
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 15:27:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EEB110E9D1;
-	Fri,  8 Nov 2024 14:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E77610E9D2;
+	Fri,  8 Nov 2024 14:27:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="byVIt3pI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R5KQxzZl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C30C410E9D2
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 14:26:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF9610E9D2
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 14:27:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 06072A43C22;
- Fri,  8 Nov 2024 14:24:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCA91C4CECD;
- Fri,  8 Nov 2024 14:25:59 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id A9C26A43D24;
+ Fri,  8 Nov 2024 14:25:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B668EC4CECD;
+ Fri,  8 Nov 2024 14:27:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1731075960;
- bh=RzTmieNK3A8R7874rWrc7RYSXN2l8cHqDRlpprZm/uk=;
+ s=k20201202; t=1731076052;
+ bh=TaXxmL3Sbql1QbTmuvBM7Dof2vpIsU/GkgSL8ibpxg8=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=byVIt3pInLT7VLq9NCijhVkw/If6WBIR4RC0r5qiD9xyM4XkbQz538omIfMcgG71B
- 7PyWL4a/QIyF3RlBnE1NckQ7lDbGChZyr3p464SrkUrkCB58bzpqS9tHlnR3usMk9Y
- L0brsGNY5JLOqxzm4fHbMTuPcFAet4aL7r3xMFCD0f3iIWD+HqOU401ZNHSTCs7AmX
- VuT09lObE1HSYdC5B2hca7BBE4u/B3c5I+/eUwgc+WFSnJyJDJ5/CtJCLUWJaZwZ/w
- /sTPkS8uK1PDbeNO5GiUfq7JyEZFsDtY62taFyK8I3K1fMaMvhTZVjRgOHgOfem1QP
- 7559zvymTNYTQ==
-Message-ID: <785b15e68207eed61e5b7252788362a4@kernel.org>
-Date: Fri, 08 Nov 2024 14:25:57 +0000
+ b=R5KQxzZlAFfVQAq5dzIpTD/ohWpQth+/2cFBONVNNdTC16HlhikPnefvAhxuQXuqq
+ PoTz8ycYmBwDfUAt/gB9CImJwKceEmSByVoGp23CAKwY2vT6OTKMuBZpAJrBrvzVQ+
+ HSKM9o9ItSRwvd2LkHsBvzBO/EnXU3UUQ9e2qc7DsP+96UkDGqeZOMoV5WOVlJNglR
+ xULy4jp0GzoINpxVf3BjGYkyzPjMn4tjzl88bR3gjh+54Px9txMbSIik39g8NHTWjk
+ BThA67HdclpWhpzRIM+k2sjlWvLd+KUKOe77FYVfYh0o7bIuibMwG5SCQehtnXvABn
+ AmJibhtw2CsPw==
+Message-ID: <6d729a59f8a6f6f0c7454d506c7dd3ef@kernel.org>
+Date: Fri, 08 Nov 2024 14:27:29 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 5/6] drm/bridge: lontium-lt9611: drop TMDS char rate
- check in mode_valid
-In-Reply-To: <20241101-hdmi-mode-valid-v2-5-a6478fd20fa6@linaro.org>
-References: <20241101-hdmi-mode-valid-v2-5-a6478fd20fa6@linaro.org>
+Subject: Re: [PATCH v2 6/6] drm/bridge: dw-hdmi-qp: replace mode_valid with
+ tmds_char_rate
+In-Reply-To: <20241101-hdmi-mode-valid-v2-6-a6478fd20fa6@linaro.org>
+References: <20241101-hdmi-mode-valid-v2-6-a6478fd20fa6@linaro.org>
 Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, "Andrzej
  Hajda" <andrzej.hajda@intel.com>, "Chen-Yu Tsai" <wens@csie.org>, "Dave
@@ -67,12 +67,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Nov 2024 02:25:08 +0200, Dmitry Baryshkov wrote:
-> Drop manual check of the TMDS char rate in the mode_valid callback. This
-> check is now being performed by the core.
+On Fri, 1 Nov 2024 02:25:09 +0200, Dmitry Baryshkov wrote:
+> Replace .mode_valid() callback with .hdmi_tmds_char_rate_valid(). It is
+> more generic and is used in other mode validation paths. The rate
+> validation for .mode_valid() will be performed by the
+> drm_bridge_connector code.
 > 
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
 > [ ... ]
 
