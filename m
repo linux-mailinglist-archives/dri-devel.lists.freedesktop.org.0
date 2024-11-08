@@ -2,74 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82DC29C2038
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 16:18:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7B09C203F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 16:21:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3041B10E9E6;
-	Fri,  8 Nov 2024 15:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78D9610E9E9;
+	Fri,  8 Nov 2024 15:21:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jH2np9/b";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="t+x/QbDS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D25210E138;
- Fri,  8 Nov 2024 15:18:25 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-2e2a96b242cso273080a91.3; 
- Fri, 08 Nov 2024 07:18:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731079105; x=1731683905; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4ztSpKe+LQpulamyWGR10ZiG7OBgDMtt+SUrCLR6C3M=;
- b=jH2np9/bUKhe9ljA0n1c6W9tO6GymO2wm415nXdiZU5rjD5v3NZLmJQtR5EDt3lXT1
- ajN9ofwblA4lX/HXbZcsDfL6fjsDry0W5QdATJWeXrFP0oa3E6SxhK9a5TUBCO5LSBQq
- Ud9qG9d2BcBPUlQKGdDcjPdPVxn4wBdU+vsXjEs7mbtPUp2F8zeXM/u2L4mzkVftNop/
- 2BxzQpX9flfRraA5ubUbc/BG6QFY8wKu25dopwYdmwiEpGIgKXEzDbbtDGbc8zTp0130
- UNekykczHUBamzQhHvwmwEwc8lJlG/Z9z757HoyHQELz3EfEx+uCxiBK7J78MXCFZBWg
- kjUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731079105; x=1731683905;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4ztSpKe+LQpulamyWGR10ZiG7OBgDMtt+SUrCLR6C3M=;
- b=N0E219G65W9tUQv+V4dkIptBOmGzCpYgeKbIiFneBwHFj4G+H0/QeEtIMxfr04C/uc
- qC5mR+3MN/Whi0D78rQVputN1oGmarn47EODfm3zyxHPctRvIEYzYMRLpWZXdGBfNJK/
- stmNDI2h4QgznDkZACDzAawp7TIzskJeYwVxb9p/Ym8F4YYmAH4SU3agQRlICDI+a9Qj
- jR7SXDvQomvLG0o+C63wEoIT8HlMOzyt7zEUs0Diuo1J8a/Fzzr+0JTwurIp3RBc5WJp
- /lXFa3YpHBMPikHTYpZOuDulfO+W+PJR2hhPw5sC1QRN+1lOWH2nbaQ1b52k/G27u7W+
- bo5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZRJ7hkDZ5tMdEknqV5tqEB5hGSMbnC/PGcBOcq/FckbbF4/ZQ6eMwk72nQehTwbzvrTR57x8q@lists.freedesktop.org,
- AJvYcCXhrS+9zbDCw58bDbJqAlJ8x+se9FYB02VZp+7/LqcV5DUIYq/7teisEyBc5I4TOyKapRz8RqxzRqs+@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YydZnYvft+MWmgxItfhxXzflfLPhSG3Ngh8YMoWP7kZ0Ya0NJHc
- wG/TL26DTyLj4vNXQ1hJk/sD8XOkmegFP/ZcYQC8ux0eIcmbAgoIim4dCRq23gVxlElv14Ont0W
- +xkYprWe60XXwqyOvBSSIKiC0anA=
-X-Google-Smtp-Source: AGHT+IGalmBCBFBbCttGfKwAgL2JZxgJjBfbYNdkcVmz7yTC0ji3IWfKbBqyZ438BnH4DIaQKzJ215ynoQNwBNhM0PI=
-X-Received: by 2002:a17:90b:3b87:b0:2e9:4a0c:252f with SMTP id
- 98e67ed59e1d1-2e9b167f7edmr1948422a91.1.1731079104080; Fri, 08 Nov 2024
- 07:18:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20241008191623.8171-1-advaitdhamorikar@gmail.com>
- <CAJ7bep+uo5_xF13e_1mYFMf1npWw1cTbcOe+f19avpjEPfyBqQ@mail.gmail.com>
-In-Reply-To: <CAJ7bep+uo5_xF13e_1mYFMf1npWw1cTbcOe+f19avpjEPfyBqQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 8 Nov 2024 10:18:12 -0500
-Message-ID: <CADnq5_OCL7x7-m5y1RYwmFxH7XVssX_FK_59UmEiAK9thtLMQw@mail.gmail.com>
-Subject: Re: [PATCH-next v3] drm/amdgpu: Cleanup shift coding style
-To: Advait Dhamorikar <advaitdhamorikar@gmail.com>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
- airlied@gmail.com, simona@ffwll.ch, leo.liu@amd.com, 
- sathishkumar.sundararaju@amd.com, saleemkhan.jamadar@amd.com, 
- sonny.jiang@amd.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- skhan@linuxfoundation.org, anupnewsmail@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
+ [91.218.175.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D717C10E9E8
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 15:21:36 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1731079294;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pbapVfiISm/C5v4STghpJz/FC3c1tBmcfEax3HYjIC8=;
+ b=t+x/QbDSVdb7on8vS3OSrapcTgojup2aIR6Cy24hufGcWfv9y+GVzYVVrnV8q9YQg/jGwz
+ RoYJft2EYWVmF+VMIF15NSgGLI6J1TjJC5XxKgDHpk3htlWU8AHGpa3IeZLIYPOH+QYcR6
+ xFRuQyuJdc0B82KgSFh5b1OrNSkRivnqEiq8gs2QzZdRBkl6H1HCfCtwQELZ1FJBjVKUCn
+ lQEQWVmgWTz7eQKGvFJvqoI3VxghiGAPONykjBDc1nIOTPSH4PzuR54+x3h86l48yc0+xY
+ FW/f+Yg1BJp2nCVkNUdD2aYqMcw2K2Wxn+6p58iB1KZTBTSjsPzX+7eruVlDyg==
+Content-Type: multipart/signed;
+ boundary=4dd0f36deef0a2c52894bfee2e5787b1a3b4ab4cc0e383fc236d6d0b6477;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Fri, 08 Nov 2024 16:21:24 +0100
+Message-Id: <D5GWE4WJZMM8.1MPHPPQR2QW46@cknow.org>
+Cc: <dsimic@manjaro.org>, <andy.yan@rock-chips.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <linux-kernel@vger.kernel.org>, "Heiko Stuebner"
+ <heiko.stuebner@cherry.de>
+Subject: Re: [PATCH] drm/rockchip: dsi: convert to dev_err_probe in probe
+ function
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Heiko Stuebner" <heiko@sntech.de>,
+ <linux-rockchip@lists.infradead.org>, <dri-devel@lists.freedesktop.org>
+References: <20241108144425.1009916-1-heiko@sntech.de>
+In-Reply-To: <20241108144425.1009916-1-heiko@sntech.de>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,102 +62,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!  Sorry for the delay.
+--4dd0f36deef0a2c52894bfee2e5787b1a3b4ab4cc0e383fc236d6d0b6477
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Alex
+On Fri Nov 8, 2024 at 3:44 PM CET, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@cherry.de>
+>
+> DRM_DEV_ERROR is deprecated and using dev_err_probe saves quite a number
+> of lines too, so convert the error prints for the dsi-driver.
+>
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
 
-On Fri, Nov 8, 2024 at 10:11=E2=80=AFAM Advait Dhamorikar
-<advaitdhamorikar@gmail.com> wrote:
+Should this have a Fixes tag?
+Because in the PineTab2 case it reported an error, which was actually
+just a deferred probe.
+
+> ---
+>  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 80 ++++++-------------
+>  1 file changed, 26 insertions(+), 54 deletions(-)
 >
-> Hello,
->
-> I have addressed the previous comments,
-> Is there something more that I need to address in this version of the pat=
-ch?
-> I would appreciate feedback.
->
-> Best regards,
-> Advait
->
-> On Wed, 9 Oct 2024 at 00:46, Advait Dhamorikar
-> <advaitdhamorikar@gmail.com> wrote:
-> >
-> > Improves the coding style by updating bit-shift
-> > operations in the amdgpu_jpeg.c driver file.
-> > It ensures consistency and avoids potential issues
-> > by explicitly using 1U and 1ULL for unsigned
-> > and unsigned long long shifts in all relevant instances.
-> >
-> >
-> > Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
-> > ---
-> > v1->v2: address review comments
-> > https://lore.kernel.org/lkml/CAJ7bepJrm9tJJMSZXz0B_94y8817X4oFpwnrTmUHe=
-agOFgVL7g@mail.gmail.com/
-> > v2->v3: update changelog and add additional 1U cleanups
-> > https://lore.kernel.org/lkml/CADnq5_OgZvTgUDvDqDikoUh28jTRm2mOAVV6zAEtW=
-E9RHTFkyA@mail.gmail.com/
-> >
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_jpeg.c
-> > index 95e2796919fc..995bc28b4fe6 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> > @@ -47,7 +47,7 @@ int amdgpu_jpeg_sw_init(struct amdgpu_device *adev)
-> >                 adev->jpeg.indirect_sram =3D true;
-> >
-> >         for (i =3D 0; i < adev->jpeg.num_jpeg_inst; i++) {
-> > -               if (adev->jpeg.harvest_config & (1 << i))
-> > +               if (adev->jpeg.harvest_config & (1U << i))
-> >                         continue;
-> >
-> >                 if (adev->jpeg.indirect_sram) {
-> > @@ -73,7 +73,7 @@ int amdgpu_jpeg_sw_fini(struct amdgpu_device *adev)
-> >         int i, j;
-> >
-> >         for (i =3D 0; i < adev->jpeg.num_jpeg_inst; ++i) {
-> > -               if (adev->jpeg.harvest_config & (1 << i))
-> > +               if (adev->jpeg.harvest_config & (1U << i))
-> >                         continue;
-> >
-> >                 amdgpu_bo_free_kernel(
-> > @@ -110,7 +110,7 @@ static void amdgpu_jpeg_idle_work_handler(struct wo=
-rk_struct *work)
-> >         unsigned int i, j;
-> >
-> >         for (i =3D 0; i < adev->jpeg.num_jpeg_inst; ++i) {
-> > -               if (adev->jpeg.harvest_config & (1 << i))
-> > +               if (adev->jpeg.harvest_config & (1U << i))
-> >                         continue;
-> >
-> >                 for (j =3D 0; j < adev->jpeg.num_jpeg_rings; ++j)
-> > @@ -357,7 +357,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_set(void =
-*data, u64 val)
-> >         if (!adev)
-> >                 return -ENODEV;
-> >
-> > -       mask =3D (1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_=
-rings)) - 1;
-> > +       mask =3D (1ULL << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jp=
-eg_rings)) - 1;
-> >         if ((val & mask) =3D=3D 0)
-> >                 return -EINVAL;
-> >
-> > @@ -388,7 +388,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_get(void =
-*data, u64 *val)
-> >                 for (j =3D 0; j < adev->jpeg.num_jpeg_rings; ++j) {
-> >                         ring =3D &adev->jpeg.inst[i].ring_dec[j];
-> >                         if (ring->sched.ready)
-> > -                               mask |=3D 1 << ((i * adev->jpeg.num_jpe=
-g_rings) + j);
-> > +                               mask |=3D 1ULL << ((i * adev->jpeg.num_=
-jpeg_rings) + j);
-> >                 }
-> >         }
-> >         *val =3D mask;
-> > --
-> > 2.34.1
-> >
+> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gp=
+u/drm/rockchip/dw-mipi-dsi-rockchip.c
+> index 58a44af0e9ad..3224ab749352 100644
+> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> ...
+> @@ -1378,67 +1376,47 @@ static int dw_mipi_dsi_rockchip_probe(struct plat=
+form_device *pdev)
+>  		i++;
+>  	}
+> =20
+> -	if (!dsi->cdata) {
+> -		DRM_DEV_ERROR(dev, "no dsi-config for %s node\n", np->name);
+> -		return -EINVAL;
+> -	}
+> +	if (!dsi->cdata)
+> +		return dev_err_probe(dev, -EINVAL, "No dsi-config for %s node\n", np->=
+name);
+> =20
+>  	/* try to get a possible external dphy */
+>  	dsi->phy =3D devm_phy_optional_get(dev, "dphy");
+> -	if (IS_ERR(dsi->phy)) {
+> -		ret =3D PTR_ERR(dsi->phy);
+> -		DRM_DEV_ERROR(dev, "failed to get mipi dphy: %d\n", ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(dsi->phy))
+> +		return dev_err_probe(dev, PTR_ERR(dsi->phy), "Failed to get mipi dphy\=
+n");
+
+I think from this line.
+
+Cheers,
+  Diederik
+
+> =20
+>  	dsi->pclk =3D devm_clk_get(dev, "pclk");
+> -	if (IS_ERR(dsi->pclk)) {
+> -		ret =3D PTR_ERR(dsi->pclk);
+> -		DRM_DEV_ERROR(dev, "Unable to get pclk: %d\n", ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(dsi->pclk))
+> +		return dev_err_probe(dev, PTR_ERR(dsi->pclk), "Unable to get pclk\n");
+> =20
+>  	dsi->pllref_clk =3D devm_clk_get(dev, "ref");
+>  	if (IS_ERR(dsi->pllref_clk)) {
+> -		if (dsi->phy) {
+> +		if (dsi->phy)
+>  			/*
+>  			 * if external phy is present, pll will be
+>  			 * generated there.
+>  			 */
+>  			dsi->pllref_clk =3D NULL;
+> -		} else {
+> -			ret =3D PTR_ERR(dsi->pllref_clk);
+> -			DRM_DEV_ERROR(dev,
+> -				      "Unable to get pll reference clock: %d\n",
+> -				      ret);
+> -			return ret;
+> -		}
+> +		else
+> +			return dev_err_probe(dev, PTR_ERR(dsi->pllref_clk),
+> +					     "Unable to get pll reference clock\n");
+>  	}
+> =20
+>  	if (dsi->cdata->flags & DW_MIPI_NEEDS_PHY_CFG_CLK) {
+>  		dsi->phy_cfg_clk =3D devm_clk_get(dev, "phy_cfg");
+> -		if (IS_ERR(dsi->phy_cfg_clk)) {
+> -			ret =3D PTR_ERR(dsi->phy_cfg_clk);
+> -			DRM_DEV_ERROR(dev,
+> -				      "Unable to get phy_cfg_clk: %d\n", ret);
+> -			return ret;
+> -		}
+> +		if (IS_ERR(dsi->phy_cfg_clk))
+> +			return dev_err_probe(dev, PTR_ERR(dsi->phy_cfg_clk),
+> +					     "Unable to get phy_cfg_clk\n");
+>  	}
+> =20
+>  	if (dsi->cdata->flags & DW_MIPI_NEEDS_GRF_CLK) {
+>  		dsi->grf_clk =3D devm_clk_get(dev, "grf");
+> -		if (IS_ERR(dsi->grf_clk)) {
+> -			ret =3D PTR_ERR(dsi->grf_clk);
+> -			DRM_DEV_ERROR(dev, "Unable to get grf_clk: %d\n", ret);
+> -			return ret;
+> -		}
+> +		if (IS_ERR(dsi->grf_clk))
+> +			return dev_err_probe(dev, PTR_ERR(dsi->grf_clk), "Unable to get grf_c=
+lk\n");
+>  	}
+> =20
+>  	dsi->grf_regmap =3D syscon_regmap_lookup_by_phandle(np, "rockchip,grf")=
+;
+> -	if (IS_ERR(dsi->grf_regmap)) {
+> -		DRM_DEV_ERROR(dev, "Unable to get rockchip,grf\n");
+> -		return PTR_ERR(dsi->grf_regmap);
+> -	}
+> +	if (IS_ERR(dsi->grf_regmap))
+> +		return dev_err_probe(dev, PTR_ERR(dsi->grf_regmap), "Unable to get roc=
+kchip,grf\n");
+> =20
+>  	dsi->dev =3D dev;
+>  	dsi->pdata.base =3D dsi->base;
+> ...
+
+
+--4dd0f36deef0a2c52894bfee2e5787b1a3b4ab4cc0e383fc236d6d0b6477
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZy4sdgAKCRDXblvOeH7b
+bs6QAP9s5Ew76jJkNqCXwe5IlvoY4Fy0rg7N0YgsTnhrcB1TIAEAzoK75L8/hZIu
+nxxBEI37Ah9YK1707qq4PYkorbQbFgo=
+=fOhD
+-----END PGP SIGNATURE-----
+
+--4dd0f36deef0a2c52894bfee2e5787b1a3b4ab4cc0e383fc236d6d0b6477--
