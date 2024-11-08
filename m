@@ -2,90 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09019C1314
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 01:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACFE09C1333
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 01:28:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4424A10E915;
-	Fri,  8 Nov 2024 00:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F33010E322;
+	Fri,  8 Nov 2024 00:28:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="U/tDdyxS";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="iuDdKskP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E70910E915
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 00:22:17 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-2fb599aac99so16503531fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Nov 2024 16:22:17 -0800 (PST)
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com
+ [209.85.161.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00CFB10E322
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 00:28:25 +0000 (UTC)
+Received: by mail-oo1-f45.google.com with SMTP id
+ 006d021491bc7-5ebbed44918so1077684eaf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Nov 2024 16:28:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731025335; x=1731630135; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=AUDwK6ibQ9+n49VL4sBKZ5FqDWKxTTiqoVr/EHDQWzA=;
- b=U/tDdyxSDLZs0LM4yYUmcVXg63jTde1dnzu3gcg0M+B5J6W4Vaz54A6CVpJuEclK37
- xtlrKIhBk44u9rPjtv7TRXFkvM1IQcWefqUqj0b54E1o2TfKfDfEc0n2079ke5JE50Kg
- IYw7xuDEqQ2U1x/2IhDmNmLbszABWuvpyADCEvIIEsJeANjEfPozU0gbiUUuqvd6z2Ar
- oE6MiXGrSiJEmpsJa1FvVjSbr3x6R9qNcPA9jXkFgQ5XZx4CtdrZI11bty6rypL8qOuE
- lPyEYKC6bJpvKj6OPxZev0hANv+KaEcoWyd9VlaAAyR9TgzCyAr4Hf94D4rqSpz1UtSg
- 7Dlw==
+ d=chromium.org; s=google; t=1731025705; x=1731630505;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=ykK/xTP5/T2FJy2fwIxlQJlzwn7+IvhQQ1cEFC5XytA=;
+ b=iuDdKskP2XVNJwH6PmzTyXMq7/S12Xy+8FSmy2oAkZEE3sH9408Fvlr0StreK4vhT3
+ RhJKRcWkcC4I5RZyU9PeMQB0wprUiq4YQ6HqivWcuk3D6iqUwMJaDNpLQ4olgCBDueh7
+ LvxsDbhoT/w1AmgSnGIkmOX8QBJ0ZTXgATOJo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731025335; x=1731630135;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AUDwK6ibQ9+n49VL4sBKZ5FqDWKxTTiqoVr/EHDQWzA=;
- b=GyU6z7tpt2QOffn29T3fd52Irb4kG5coTW2f2G1gGwgOX/cAa4NH3fK2U3mf7QAz3g
- xLDMxjAbR8Blnc5qi8iliKBE2QmY2xLDX3d8dPzJs90Ncy6+upy36hwE2xeV3QT33NUw
- ybAk6RrGx0nLMVvgmx3bbhnbUiw9sA68Srrmy2U+U6hzXnDnIhV0g9mMfolnSAbzaj9J
- RlPtj7t11qSA4LdRNX7qyBSPG13OvkryS7XKixGM7YgSIG6LnppD0o0j3AXoL75BdYO6
- V0/7R3PTF//eEGjcXr59yf8fZF15HJmW6uIQEJGpjFnxnhLcc2uHDokXBxBuQJlrcIdd
- hEIg==
+ d=1e100.net; s=20230601; t=1731025705; x=1731630505;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ykK/xTP5/T2FJy2fwIxlQJlzwn7+IvhQQ1cEFC5XytA=;
+ b=F1Qg5/uzHAA774Px+OS2UUasEE/bu6p+/ptq7B4o7IAo1oV9BKmC7a7ufUOt+0XLAd
+ GtRHPsTxOTv/l/YTyfuDJ3BAD86GN/HRy4CO/W1AbGXQ3DyimT7fK2KTCvqtmycHQkP/
+ 9PyKMQE17XUJaJNT9hQ7utRKrDVHMZCjSeLB4jJ5VuaQkqNJ60HhIrWaS2ioy5VCz53z
+ D7K+Y58RQc7CCOsanSzbjk/BQIb6gFcLwFzBSjcWkFU8KLjDEiTelKHgt4BhQz5/n+e4
+ kCrZ6A/9SDHxNFb+Gluw0J/tpoQ1C/BGwj2v1tIJs1JBn4tWnMe/2aF4VgeGt0GvkibA
+ oejA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUUf28LtGkgtvRjMLCYRHUwPvuY+yjEOW5FmNLQ9zomjRilTIwMoOVx8ZESfJIGh0vR/Gtya/7vkD0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyddgDdmzvfhA8H0zRov9wrMfdva1IlC3VQt2EgzTUT1TVRZKTH
- O+Jt8D3UxGYkdAzGWr7ECWNITWEOXiYt2qF+3Mh6aYdimoZo6kHaPqWmwGmMOgs=
-X-Google-Smtp-Source: AGHT+IFRTff6XPH7VhhdmR8qBQnHX2myRRqWRiAXItjjCRJrBSKFg6r3YtqKwBwN2gIUZ9iTcHY9sg==
-X-Received: by 2002:a05:651c:160a:b0:2fa:cc12:67de with SMTP id
- 38308e7fff4ca-2ff2024dc1emr4498851fa.32.1731025335327; 
- Thu, 07 Nov 2024 16:22:15 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ff17900a63sm4195191fa.47.2024.11.07.16.22.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Nov 2024 16:22:14 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 08 Nov 2024 02:21:45 +0200
-Subject: [PATCH 14/14] drm/msm/dp: move interrupt handling to dp_ctrl
+ AJvYcCV7rYRjzFNUDGrX4ZB6+moNpA9NW3gwa5wzbojAse4Eh+82eZIJ6bym2QBHrMof8nV9ZTIYP/SXiM0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKAv4UUuqO0jiklhDOejzylyDy7V5lzz2jyS0YkDvJD7ibBNHW
+ 9mgql/yfVo36U/XjJQUMI7kGzZmdNUnKu6UpKWZW+QVbqs25v+7lbxK9lV6SVcxJc5jGv5liGLu
+ Bwm7icfSO3Z3KYiQ1WEMJOiHDyenQc5JpY4Lh
+X-Google-Smtp-Source: AGHT+IHNejm+Dq8CxwZ9GRGsAr7ooJqtaB5Q4Wi1lrZmixd5aV283NtctcL4uDF0OVbLrpedqVYpuRLKa3C6xkilqlc=
+X-Received: by 2002:a05:6358:90cb:b0:1c3:7748:683d with SMTP id
+ e5c5f4694b2df-1c641ebd8e1mr143460755d.7.1731025704863; Thu, 07 Nov 2024
+ 16:28:24 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 7 Nov 2024 16:28:24 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241108-fd-dp-audio-fixup-v1-14-40c8eeb60cf5@linaro.org>
-References: <20241108-fd-dp-audio-fixup-v1-0-40c8eeb60cf5@linaro.org>
-In-Reply-To: <20241108-fd-dp-audio-fixup-v1-0-40c8eeb60cf5@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Paloma Arellano <quic_parellan@quicinc.com>
-Cc: Douglas Anderson <dianders@chromium.org>, 
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=19325;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=8C6rPsQS4FU2y6sH3qMMieCj3tGAmPNo6Yihp1+d1r4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnLVmQkYk6c0ZiUnTKgQof3u+G22gNfKqNIXAh4
- q6Ks/lARCOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZy1ZkAAKCRCLPIo+Aiko
- 1e8pCACnvh45sjNS6SbVO3WM9kU0Gl+R37QKXA6UPVYSvbyiSdJ+zSPn+3GBJtzz0LnpqGR7JeJ
- Tpd2JOM4vxHRZKdNV897wtIEBliZp/PrSLR/PXcqVoao1PcYZG6D/ocW4Q+oDC7JbhMzm7ETC96
- SSzyi9XkSIyL/2ORS/RH7j0XHz9Gt7Y37HcxJdaGThg16qyJ9X/P3o87PxftkS/ZqRvQ2ElJrFo
- 53Bss+9DPeHsQ9D55MRHD79nBYuFRXgyckXA6ZolHh6Sl1QppTLzvnPvH6x1t/d9aAZJ+W5swYJ
- ihj6otkCCEfKZF69NLR926UdUtJwZYslIk626neYKgvhVvIR
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+In-Reply-To: <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
+References: <20240901040658.157425-1-swboyd@chromium.org>
+ <20240901040658.157425-16-swboyd@chromium.org>
+ <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
+ <CAE-0n514QMaQC2yjKP8bZqyfbv6B3AQm=+NJ87vxo6NdYiL03A@mail.gmail.com>
+ <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
+ <CAE-0n53-KmOS3zXmJPvOOZ7xxkek9-S=oBExgaY0PDnt_HjdNw@mail.gmail.com>
+ <yk3xidaisbd56yndaucax7otijjauqmm7lqm6q4q633kdawlqo@qaq27lwxmvwd>
+ <CAE-0n501j+8bMnMKabFyZjn+MLUy3Z68Hiv1PsfW0APy5ggN8g@mail.gmail.com>
+ <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 7 Nov 2024 16:28:24 -0800
+Message-ID: <CAE-0n50z6MNa7WOsg-NU7k8BpFeJJyYfHX3ov6DsthLWauSNpA@mail.gmail.com>
+Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
+ google,cros-ec-typec for DP altmode
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ patches@lists.linux.dev, devicetree@vger.kernel.org, 
+ Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, 
+ dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>, 
+ Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Ivan Orlov <ivan.orlov0322@gmail.com>, 
+ linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,529 +113,268 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It makes it easier to keep all interrupts-related code in dp_ctrl
-submodule. Move all functions to dp_ctrl.c.
+Quoting Dmitry Baryshkov (2024-10-31 15:54:49)
+> On Thu, Oct 31, 2024 at 02:45:29PM -0700, Stephen Boyd wrote:
+> > Quoting Dmitry Baryshkov (2024-10-31 11:42:36)
+> > > On Tue, Oct 29, 2024 at 01:15:51PM -0700, Stephen Boyd wrote:
+> >
+> > Or use a displayport property that goes to connector node itself so that
+> > we don't extend the graph binding of the usb-c-connector.
+> >
+> >   cros-ec-typec {
+> >     usb-c-connector@0 {
+> >       altmodes {
+> >         displayport {
+> >           connector = <&dp_ml0_ml1>;
+>
+> I think this has been frowned upon. Not exactly this, but adding the
+> displayport = <&foo>.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_aux.c     |   9 +--
- drivers/gpu/drm/msm/dp/dp_aux.h     |   2 +-
- drivers/gpu/drm/msm/dp/dp_catalog.c |  95 ------------------------
- drivers/gpu/drm/msm/dp/dp_catalog.h |  24 ------
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 142 ++++++++++++++++++++++++++++++------
- drivers/gpu/drm/msm/dp/dp_ctrl.h    |   5 +-
- drivers/gpu/drm/msm/dp/dp_display.c |   9 +--
- drivers/gpu/drm/msm/dp/dp_reg.h     |  17 +++++
- 8 files changed, 145 insertions(+), 158 deletions(-)
+Do you have a pointer to that discussion? I'd like to understand the
+reasoning.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index 7228955019b31f80257b86a470c9ef305b2549a0..1ae0bf9e4f51a98a01bf9eb5c36323e1743b5ab4 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.c
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -439,9 +439,8 @@ static ssize_t msm_dp_aux_transfer(struct drm_dp_aux *msm_dp_aux,
- 	return ret;
- }
- 
--irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux)
-+irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux, u32 isr)
- {
--	u32 isr;
- 	struct msm_dp_aux_private *aux;
- 
- 	if (!msm_dp_aux) {
-@@ -451,12 +450,6 @@ irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux)
- 
- 	aux = container_of(msm_dp_aux, struct msm_dp_aux_private, msm_dp_aux);
- 
--	isr = msm_dp_catalog_aux_get_irq(aux->catalog);
--
--	/* no interrupts pending, return immediately */
--	if (!isr)
--		return IRQ_NONE;
--
- 	if (!aux->cmd_busy) {
- 		DRM_ERROR("Unexpected DP AUX IRQ %#010x when not busy\n", isr);
- 		return IRQ_NONE;
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
-index 624395a41ed0a75ead4826e78d05ca21e8fb8967..83908c93b6a1baa6c4eb83a346b4498704008ca5 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.h
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-@@ -11,7 +11,7 @@
- 
- int msm_dp_aux_register(struct drm_dp_aux *msm_dp_aux);
- void msm_dp_aux_unregister(struct drm_dp_aux *msm_dp_aux);
--irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux);
-+irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux, u32 isr);
- void msm_dp_aux_enable_xfers(struct drm_dp_aux *msm_dp_aux, bool enabled);
- void msm_dp_aux_init(struct drm_dp_aux *msm_dp_aux);
- void msm_dp_aux_deinit(struct drm_dp_aux *msm_dp_aux);
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 754b30e35039618453df9ce863c0d2561fce2fda..e7c421b50127c6ef3b5ddbb0e3554570d169e544 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -15,41 +15,6 @@
- #include "dp_catalog.h"
- #include "dp_reg.h"
- 
--#define POLLING_SLEEP_US			1000
--#define POLLING_TIMEOUT_US			10000
--
--#define DP_INTERRUPT_STATUS_ACK_SHIFT	1
--#define DP_INTERRUPT_STATUS_MASK_SHIFT	2
--
--#define DP_INTERRUPT_STATUS1 \
--	(DP_INTR_AUX_XFER_DONE| \
--	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
--	DP_INTR_NACK_DEFER | DP_INTR_WRONG_DATA_CNT | \
--	DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER | \
--	DP_INTR_PLL_UNLOCKED | DP_INTR_AUX_ERROR)
--
--#define DP_INTERRUPT_STATUS1_ACK \
--	(DP_INTERRUPT_STATUS1 << DP_INTERRUPT_STATUS_ACK_SHIFT)
--#define DP_INTERRUPT_STATUS1_MASK \
--	(DP_INTERRUPT_STATUS1 << DP_INTERRUPT_STATUS_MASK_SHIFT)
--
--#define DP_INTERRUPT_STATUS2 \
--	(DP_INTR_READY_FOR_VIDEO | DP_INTR_IDLE_PATTERN_SENT | \
--	DP_INTR_FRAME_END | DP_INTR_CRC_UPDATED)
--
--#define DP_INTERRUPT_STATUS2_ACK \
--	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_ACK_SHIFT)
--#define DP_INTERRUPT_STATUS2_MASK \
--	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_MASK_SHIFT)
--
--#define DP_INTERRUPT_STATUS4 \
--	(PSR_UPDATE_INT | PSR_CAPTURE_INT | PSR_EXIT_INT | \
--	PSR_UPDATE_ERROR_INT | PSR_WAKE_ERROR_INT)
--
--#define DP_INTERRUPT_MASK4 \
--	(PSR_UPDATE_MASK | PSR_CAPTURE_MASK | PSR_EXIT_MASK | \
--	PSR_UPDATE_ERROR_MASK | PSR_WAKE_ERROR_MASK)
--
- #define DP_DEFAULT_AHB_OFFSET	0x0000
- #define DP_DEFAULT_AHB_SIZE	0x0200
- #define DP_DEFAULT_AUX_OFFSET	0x0200
-@@ -73,21 +38,6 @@ void msm_dp_catalog_snapshot(struct msm_dp_catalog *msm_dp_catalog, struct msm_d
- 	msm_disp_snapshot_add_block(disp_state, msm_dp_catalog->p0_len, msm_dp_catalog->p0_base, "dp_p0");
- }
- 
--u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog)
--{
--	u32 intr, intr_ack;
--
--	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS);
--	intr &= ~DP_INTERRUPT_STATUS1_MASK;
--	intr_ack = (intr & DP_INTERRUPT_STATUS1)
--			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS,
--		     intr_ack | DP_INTERRUPT_STATUS1_MASK);
--
--	return intr;
--
--}
--
- /**
-  * msm_dp_catalog_hw_revision() - retrieve DP hw revision
-  *
-@@ -101,51 +51,6 @@ u32 msm_dp_catalog_hw_revision(const struct msm_dp_catalog *msm_dp_catalog)
- 	return msm_dp_read_ahb(msm_dp_catalog, REG_DP_HW_VERSION);
- }
- 
--void msm_dp_catalog_ctrl_enable_irq(struct msm_dp_catalog *msm_dp_catalog,
--						bool enable)
--{
--	if (enable) {
--		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS,
--				DP_INTERRUPT_STATUS1_MASK);
--		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2,
--				DP_INTERRUPT_STATUS2_MASK);
--	} else {
--		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS, 0x00);
--		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2, 0x00);
--	}
--}
--
--u32 msm_dp_catalog_ctrl_read_psr_interrupt_status(struct msm_dp_catalog *msm_dp_catalog)
--{
--	u32 intr, intr_ack;
--
--	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS4);
--	intr_ack = (intr & DP_INTERRUPT_STATUS4)
--			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS4, intr_ack);
--
--	return intr;
--}
--
--void msm_dp_catalog_ctrl_config_psr_interrupt(struct msm_dp_catalog *msm_dp_catalog)
--{
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_MASK4, DP_INTERRUPT_MASK4);
--}
--
--int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog)
--{
--	u32 intr, intr_ack;
--
--	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2);
--	intr &= ~DP_INTERRUPT_STATUS2_MASK;
--	intr_ack = (intr & DP_INTERRUPT_STATUS2)
--			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2,
--			intr_ack | DP_INTERRUPT_STATUS2_MASK);
--
--	return intr;
--}
--
- static void __iomem *msm_dp_ioremap(struct platform_device *pdev, int idx, size_t *len)
- {
- 	struct resource *res;
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 830d9164188c0f7520809a99fa409b473bbfbfa4..c57792b134357933aa3c1f4d278f1c1a309688cf 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -11,23 +11,6 @@
- #include "dp_utils.h"
- #include "disp/msm_disp_snapshot.h"
- 
--/* interrupts */
--#define DP_INTR_HPD		BIT(0)
--#define DP_INTR_AUX_XFER_DONE	BIT(3)
--#define DP_INTR_WRONG_ADDR	BIT(6)
--#define DP_INTR_TIMEOUT		BIT(9)
--#define DP_INTR_NACK_DEFER	BIT(12)
--#define DP_INTR_WRONG_DATA_CNT	BIT(15)
--#define DP_INTR_I2C_NACK	BIT(18)
--#define DP_INTR_I2C_DEFER	BIT(21)
--#define DP_INTR_PLL_UNLOCKED	BIT(24)
--#define DP_INTR_AUX_ERROR	BIT(27)
--
--#define DP_INTR_READY_FOR_VIDEO		BIT(0)
--#define DP_INTR_IDLE_PATTERN_SENT	BIT(3)
--#define DP_INTR_FRAME_END		BIT(6)
--#define DP_INTR_CRC_UPDATED		BIT(9)
--
- #define DP_HW_VERSION_1_0	0x10000000
- #define DP_HW_VERSION_1_2	0x10020000
- 
-@@ -116,15 +99,8 @@ static inline void msm_dp_write_link(struct msm_dp_catalog *msm_dp_catalog,
- /* Debug module */
- void msm_dp_catalog_snapshot(struct msm_dp_catalog *msm_dp_catalog, struct msm_disp_state *disp_state);
- 
--/* AUX APIs */
--u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog);
--
- /* DP Controller APIs */
- u32 msm_dp_catalog_hw_revision(const struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_enable_irq(struct msm_dp_catalog *msm_dp_catalog, bool enable);
--int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_config_psr_interrupt(struct msm_dp_catalog *msm_dp_catalog);
--u32 msm_dp_catalog_ctrl_read_psr_interrupt_status(struct msm_dp_catalog *msm_dp_catalog);
- 
- struct msm_dp_catalog *msm_dp_catalog_get(struct device *dev);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 5f32ee2fa0438cd12726540a59ab4849d47ee8c2..f978b599bf14c8fc418f0f2dfe40ca911f8957fe 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -30,6 +30,38 @@
- #define PSR_OPERATION_COMPLETION_TIMEOUT_JIFFIES       (300 * HZ / 1000) /* 300 ms */
- #define WAIT_FOR_VIDEO_READY_TIMEOUT_JIFFIES (HZ / 2)
- 
-+#define DP_INTERRUPT_STATUS_ACK_SHIFT	1
-+#define DP_INTERRUPT_STATUS_MASK_SHIFT	2
-+
-+#define DP_INTERRUPT_STATUS1 \
-+	(DP_INTR_AUX_XFER_DONE| \
-+	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
-+	DP_INTR_NACK_DEFER | DP_INTR_WRONG_DATA_CNT | \
-+	DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER | \
-+	DP_INTR_PLL_UNLOCKED | DP_INTR_AUX_ERROR)
-+
-+#define DP_INTERRUPT_STATUS1_ACK \
-+	(DP_INTERRUPT_STATUS1 << DP_INTERRUPT_STATUS_ACK_SHIFT)
-+#define DP_INTERRUPT_STATUS1_MASK \
-+	(DP_INTERRUPT_STATUS1 << DP_INTERRUPT_STATUS_MASK_SHIFT)
-+
-+#define DP_INTERRUPT_STATUS2 \
-+	(DP_INTR_READY_FOR_VIDEO | DP_INTR_IDLE_PATTERN_SENT | \
-+	DP_INTR_FRAME_END | DP_INTR_CRC_UPDATED)
-+
-+#define DP_INTERRUPT_STATUS2_ACK \
-+	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_ACK_SHIFT)
-+#define DP_INTERRUPT_STATUS2_MASK \
-+	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_MASK_SHIFT)
-+
-+#define DP_INTERRUPT_STATUS4 \
-+	(PSR_UPDATE_INT | PSR_CAPTURE_INT | PSR_EXIT_INT | \
-+	PSR_UPDATE_ERROR_INT | PSR_WAKE_ERROR_INT)
-+
-+#define DP_INTERRUPT_MASK4 \
-+	(PSR_UPDATE_MASK | PSR_CAPTURE_MASK | PSR_EXIT_MASK | \
-+	PSR_UPDATE_ERROR_MASK | PSR_WAKE_ERROR_MASK)
-+
- #define DP_CTRL_INTR_READY_FOR_VIDEO     BIT(0)
- #define DP_CTRL_INTR_IDLE_PATTERN_SENT  BIT(3)
- 
-@@ -126,8 +158,10 @@ static int msm_dp_aux_link_configure(struct drm_dp_aux *aux,
- /*
-  * NOTE: resetting DP controller will also clear any pending HPD related interrupts
-  */
--static void msm_dp_ctrl_reset(struct msm_dp_ctrl_private *ctrl)
-+void msm_dp_ctrl_reset(struct msm_dp_ctrl *msm_dp_ctrl)
- {
-+	struct msm_dp_ctrl_private *ctrl =
-+		container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
- 	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
- 	u32 sw_reset;
- 
-@@ -141,6 +175,79 @@ static void msm_dp_ctrl_reset(struct msm_dp_ctrl_private *ctrl)
- 	msm_dp_write_ahb(msm_dp_catalog, REG_DP_SW_RESET, sw_reset);
- }
- 
-+static u32 msm_dp_ctrl_get_aux_interrupt(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 intr, intr_ack;
-+
-+	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS);
-+	intr &= ~DP_INTERRUPT_STATUS1_MASK;
-+	intr_ack = (intr & DP_INTERRUPT_STATUS1)
-+			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS,
-+		     intr_ack | DP_INTERRUPT_STATUS1_MASK);
-+
-+	return intr;
-+
-+}
-+
-+static u32 msm_dp_ctrl_get_interrupt(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 intr, intr_ack;
-+
-+	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2);
-+	intr &= ~DP_INTERRUPT_STATUS2_MASK;
-+	intr_ack = (intr & DP_INTERRUPT_STATUS2)
-+			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2,
-+		     intr_ack | DP_INTERRUPT_STATUS2_MASK);
-+
-+	return intr;
-+}
-+
-+void msm_dp_ctrl_enable_irq(struct msm_dp_ctrl *msm_dp_ctrl)
-+{
-+	struct msm_dp_ctrl_private *ctrl =
-+		container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS,
-+			DP_INTERRUPT_STATUS1_MASK);
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2,
-+			DP_INTERRUPT_STATUS2_MASK);
-+}
-+
-+void msm_dp_ctrl_disable_irq(struct msm_dp_ctrl *msm_dp_ctrl)
-+{
-+	struct msm_dp_ctrl_private *ctrl =
-+		container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS, 0x00);
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2, 0x00);
-+}
-+
-+static u32 msm_dp_ctrl_get_psr_interrupt(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 intr, intr_ack;
-+
-+	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS4);
-+	intr_ack = (intr & DP_INTERRUPT_STATUS4)
-+			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS4, intr_ack);
-+
-+	return intr;
-+}
-+
-+static void msm_dp_ctrl_config_psr_interrupt(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_MASK4, DP_INTERRUPT_MASK4);
-+}
-+
- static void msm_dp_ctrl_psr_mainlink_enable(struct msm_dp_ctrl_private *ctrl)
- {
- 	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-@@ -1630,23 +1737,6 @@ static int msm_dp_ctrl_enable_mainlink_clocks(struct msm_dp_ctrl_private *ctrl)
- 	return ret;
- }
- 
--void msm_dp_ctrl_reset_irq_ctrl(struct msm_dp_ctrl *msm_dp_ctrl, bool enable)
--{
--	struct msm_dp_ctrl_private *ctrl;
--
--	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
--
--	msm_dp_ctrl_reset(ctrl);
--
--	/*
--	 * all dp controller programmable registers will not
--	 * be reset to default value after DP_SW_RESET
--	 * therefore interrupt mask bits have to be updated
--	 * to enable/disable interrupts
--	 */
--	msm_dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
--}
--
- static void msm_dp_ctrl_enable_sdp(struct msm_dp_ctrl_private *ctrl)
- {
- 	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-@@ -1699,7 +1789,7 @@ void msm_dp_ctrl_config_psr(struct msm_dp_ctrl *msm_dp_ctrl)
- 	cfg |= PSR1_SUPPORTED;
- 	msm_dp_write_link(msm_dp_catalog, REG_PSR_CONFIG, cfg);
- 
--	msm_dp_catalog_ctrl_config_psr_interrupt(msm_dp_catalog);
-+	msm_dp_ctrl_config_psr_interrupt(ctrl);
- 	msm_dp_ctrl_enable_sdp(ctrl);
- 
- 	cfg = DP_PSR_ENABLE;
-@@ -1824,7 +1914,7 @@ static int msm_dp_ctrl_deinitialize_mainlink(struct msm_dp_ctrl_private *ctrl)
- 
- 	msm_dp_ctrl_mainlink_disable(ctrl);
- 
--	msm_dp_ctrl_reset(ctrl);
-+	msm_dp_ctrl_reset(&ctrl->msm_dp_ctrl);
- 
- 	dev_pm_opp_set_rate(ctrl->dev, 0);
- 	msm_dp_ctrl_link_clk_disable(&ctrl->msm_dp_ctrl);
-@@ -2453,7 +2543,7 @@ void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl)
- 
- 	msm_dp_ctrl_mainlink_disable(ctrl);
- 
--	msm_dp_ctrl_reset(ctrl);
-+	msm_dp_ctrl_reset(&ctrl->msm_dp_ctrl);
- 
- 	if (ctrl->stream_clks_on) {
- 		clk_disable_unprepare(ctrl->pixel_clk);
-@@ -2480,7 +2570,7 @@ irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl)
- 	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
- 
- 	if (ctrl->panel->psr_cap.version) {
--		isr = msm_dp_catalog_ctrl_read_psr_interrupt_status(ctrl->catalog);
-+		isr = msm_dp_ctrl_get_psr_interrupt(ctrl);
- 
- 		if (isr)
- 			complete(&ctrl->psr_op_comp);
-@@ -2495,8 +2585,7 @@ irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl)
- 			drm_dbg_dp(ctrl->drm_dev, "PSR frame capture done\n");
- 	}
- 
--	isr = msm_dp_catalog_ctrl_get_interrupt(ctrl->catalog);
--
-+	isr = msm_dp_ctrl_get_interrupt(ctrl);
- 
- 	if (isr & DP_CTRL_INTR_READY_FOR_VIDEO) {
- 		drm_dbg_dp(ctrl->drm_dev, "dp_video_ready\n");
-@@ -2510,6 +2599,11 @@ irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl)
- 		ret = IRQ_HANDLED;
- 	}
- 
-+	/* DP aux isr */
-+	isr = msm_dp_ctrl_get_aux_interrupt(ctrl);
-+	if (isr)
-+		ret |= msm_dp_aux_isr(ctrl->aux, isr);
-+
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index b7abfedbf5749c25877a0b8ba3af3d8ed4b23d67..10a4b7cf0335a584b4db67baca882620d7bab74c 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -30,7 +30,7 @@ struct msm_dp_ctrl *msm_dp_ctrl_get(struct device *dev, struct msm_dp_link *link
- 			struct msm_dp_catalog *catalog,
- 			struct phy *phy);
- 
--void msm_dp_ctrl_reset_irq_ctrl(struct msm_dp_ctrl *msm_dp_ctrl, bool enable);
-+void msm_dp_ctrl_reset(struct msm_dp_ctrl *msm_dp_ctrl);
- void msm_dp_ctrl_phy_init(struct msm_dp_ctrl *msm_dp_ctrl);
- void msm_dp_ctrl_phy_exit(struct msm_dp_ctrl *msm_dp_ctrl);
- void msm_dp_ctrl_irq_phy_exit(struct msm_dp_ctrl *msm_dp_ctrl);
-@@ -41,4 +41,7 @@ void msm_dp_ctrl_config_psr(struct msm_dp_ctrl *msm_dp_ctrl);
- int msm_dp_ctrl_core_clk_enable(struct msm_dp_ctrl *msm_dp_ctrl);
- void msm_dp_ctrl_core_clk_disable(struct msm_dp_ctrl *msm_dp_ctrl);
- 
-+void msm_dp_ctrl_enable_irq(struct msm_dp_ctrl *msm_dp_ctrl);
-+void msm_dp_ctrl_disable_irq(struct msm_dp_ctrl *msm_dp_ctrl);
-+
- #endif /* _DP_CTRL_H_ */
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 8f8fa0cb8af67383ecfce026ee8840f70b82e6da..af39dc5e52cbe93c5b4d082dbdcbff5c4890036f 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -440,7 +440,8 @@ static void msm_dp_display_host_init(struct msm_dp_display_private *dp)
- 		dp->phy_initialized);
- 
- 	msm_dp_ctrl_core_clk_enable(dp->ctrl);
--	msm_dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
-+	msm_dp_ctrl_reset(dp->ctrl);
-+	msm_dp_ctrl_enable_irq(dp->ctrl);
- 	msm_dp_aux_init(dp->aux);
- 	dp->core_initialized = true;
- }
-@@ -451,7 +452,8 @@ static void msm_dp_display_host_deinit(struct msm_dp_display_private *dp)
- 		dp->msm_dp_display.connector_type, dp->core_initialized,
- 		dp->phy_initialized);
- 
--	msm_dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
-+	msm_dp_ctrl_reset(dp->ctrl);
-+	msm_dp_ctrl_disable_irq(dp->ctrl);
- 	msm_dp_aux_deinit(dp->aux);
- 	msm_dp_ctrl_core_clk_disable(dp->ctrl);
- 	dp->core_initialized = false;
-@@ -1165,9 +1167,6 @@ static irqreturn_t msm_dp_display_irq_handler(int irq, void *dev_id)
- 	/* DP controller isr */
- 	ret |= msm_dp_ctrl_isr(dp->ctrl);
- 
--	/* DP aux isr */
--	ret |= msm_dp_aux_isr(dp->aux);
--
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
-index 3835c7f5cb984406f8fc52ea765ef2315e0d175b..d17e077ded73251624b5fb1bfbd8f213b4a86d65 100644
---- a/drivers/gpu/drm/msm/dp/dp_reg.h
-+++ b/drivers/gpu/drm/msm/dp/dp_reg.h
-@@ -21,8 +21,25 @@
- 
- #define REG_DP_CLK_CTRL				(0x00000018)
- #define REG_DP_CLK_ACTIVE			(0x0000001C)
-+
- #define REG_DP_INTR_STATUS			(0x00000020)
-+#define DP_INTR_HPD		BIT(0)
-+#define DP_INTR_AUX_XFER_DONE	BIT(3)
-+#define DP_INTR_WRONG_ADDR	BIT(6)
-+#define DP_INTR_TIMEOUT		BIT(9)
-+#define DP_INTR_NACK_DEFER	BIT(12)
-+#define DP_INTR_WRONG_DATA_CNT	BIT(15)
-+#define DP_INTR_I2C_NACK	BIT(18)
-+#define DP_INTR_I2C_DEFER	BIT(21)
-+#define DP_INTR_PLL_UNLOCKED	BIT(24)
-+#define DP_INTR_AUX_ERROR	BIT(27)
-+
- #define REG_DP_INTR_STATUS2			(0x00000024)
-+#define DP_INTR_READY_FOR_VIDEO		BIT(0)
-+#define DP_INTR_IDLE_PATTERN_SENT	BIT(3)
-+#define DP_INTR_FRAME_END		BIT(6)
-+#define DP_INTR_CRC_UPDATED		BIT(9)
-+
- #define REG_DP_INTR_STATUS3			(0x00000028)
- 
- #define REG_DP_INTR_STATUS4			(0x0000002C)
 
--- 
-2.39.5
+>
+> Thus it can only go to the swnode that is generated in software by the
+> cros-ec driver.
 
+I recall swnode as a way to sidestep figuring out the DT bindings for
+usb typec. Where is this swnode being made? Somewhere inside the typec
+framework?
+
+>
+> >         };
+> >       };
+> >       port@1 {
+> >         endpoint@0 {
+> >           remote-endpoint = <&hub_ss0>;
+> >        };
+> >       };
+> >     };
+> >     usb-c-connector@1 {
+> >       altmodes {
+> >         displayport {
+> >           connector = <&dp_ml2_ml3>;
+> >         };
+> >       };
+> >       port@1 {
+> >         endpoint {
+[....]
+> >
+> > >
+> > > Maybe that's just it? Register DP_bridge (or QMP PHY) as
+> > > orientation-switch? Then you don't need any extra API for the lane
+> > > mapping? The cross-ec-typec can provide orientation information and the
+> > > USB-C-aware controller will follow the lane mapping.
+> >
+> > I'm not really following but I don't think the DT binding discussed here
+> > prevents that.
+>
+> I'm thinking about:
+>
+> it6505 {
+>   orientation-switch;
+>
+>   ports {
+>     port@1 {
+>       it6505_dp_out: remote-endpoint = <&cros_ec_dp>;
+>       data-lanes = <0 1>;
+>     };
+>   };
+> };
+>
+> cros-ec {
+>   port {
+>     cross_ec_dp: remote-endpoint = <&it6505_dp_out>;
+>   };
+>
+>   connector@0 {
+>     reg = <0>;
+>     cros,dp-orientation = "normal";
+>
+>     ports {
+>       // all USB HS and SS ports as usual;
+>     };
+>   };
+>
+>   connector@1 {
+>     reg = <1>;
+>     cros,dp-orientation = "reverse";
+>
+>     ports {
+>       // all USB HS and SS ports as usual;
+>     };
+>   };
+>
+>   connector@2 {
+>     reg = <2>;
+>     cros,dp-orientation = "reverse";
+>
+>     ports {
+>       // all USB HS and SS ports as usual;
+>     };
+>   };
+>
+>   connector@3 {
+>     reg = <3>;
+>     cros,dp-orientation = "normal";
+>
+>     ports {
+>       // all USB HS and SS ports as usual;
+>     };
+>   };
+> };
+>
+> The cros-ec registers single drm bridge which will generate HPD events
+> except on Trogdor, etc. At the same time, cros-ec requests the
+> typec_switch_get(). When the cros-ec detects that the connector@N it
+> being used for DP, it just generates corresponding typec_switch_set()
+> call, setting the orientation of the it6505 (or QMP PHY). The rest can
+> be handled either by EC's HPD code or by DP's HPD handler, the
+> orientation should already be a correct one.
+>
+> So, yes. It requires adding the typec_switch_desc implementation _in_
+> the it6505 (or in any other component which handles the 0-1 or 2-3
+> selection). On the other hand as I wrote previously, the 0-1 / 2-3 is
+> the USB-C functionality, not the DP one.
+>
+
+I don't think we should be adding typec code to pure display hardware
+drivers like IT6505. To keep the driver focused on display stuff I
+proposed implementing runtime lane assignment for drm_bridge chains
+because DP has lanes. My understanding is that not all display
+technologies have lanes, so implementing generic lane assignment
+functionality is overkill/incorrect. DP has physical lanes in hardware
+though, and those physical lanes are assigned to certain pins in the
+type-c DP altmode spec, so it's not overkill to think about lanes when
+the bridge is a DP bridge wired up to a type-c connector.
+
+Long story short, I don't see how we can avoid _any_ lane assignment
+logic in drm_bridge. The logic shouldn't walk the entire bridge chain,
+but it should at least act on the bridge that is a DP bridge. I think
+you're saying pretty much the same thing here, but you want the lane
+remapping to be done via the typec layer whereas I want it to be done in
+the drm_bridge layer. To me it looks out of place to add a
+typec_switch_desc inside each DP drm_bridge because we duplicate the
+logic about USB type-c DP altmode lane assignment to each DP bridge. A
+DP bridge should just think about DP and not know or care about USB
+type-c.
+
+This is what's leading me to think we need some sort of lane assignment
+capability at the DP connector. How that assignment flows from the DP
+connector created in drm_bridge_connector.c to the hardware is where it
+is less clear to me. Should that be implemented as a typec_switch_desc,
+essentially out of band with drm_bridge, or as some drm_bridge_funcs
+function similar to struct drm_bridge_funcs::hdmi_*()? If you look at
+IT6505 in it6505_get_extcon_property() it actually wants to pull the
+orientation of the type-c port with extcon_get_property(EXTCON_DISP_DP,
+EXTCON_PROP_USB_TYPEC_POLARITY). Maybe pushing the orientation to the DP
+bridge is backwards and we should be exposing this as some sort of
+connector API that the drm_bridge can query whenever it wants.
+
+What about ANX7625 where two DP lanes go to a cross-point switch before
+leaving the chip on one of two pairs of lanes? This hardware is a DP
+bridge smashed together with an orientation switch (typec_switch_desc)
+so that you can simply wire the output pins up to a USB type-c connector
+and support 2 lanes DP altmode. Qualcomm's QMP phy is quite similar.
+Presumably we'd want the ANX driver to implement both a drm_bridge and a
+typec_switch_desc if it was directly connected to a usb-c-connector
+node. It's also interesting to think of the DT binding here, likely we
+would have one output port in the ANX node's graph that represents the
+combined DP and USB data that's connected to the SuperSpeed endpoint in
+the usb-c-connector.
+
+In the case where two lanes are wired to one USB type-c connector and
+the other two lanes are wired to a different USB type-c connector it
+would be odd to keep the typec_switch_desc and figure out a way to
+mangle the lanes we want for a USB type-c connector by setting the
+orientation of the typec_switch_desc. The chip isn't really acting as a
+typec orientation control here because it isn't combining USB data and
+DP data for a single USB type-c port. In fact, the type-c port has an
+orientation and we actively don't want to tell the ANX7625 driver about
+that port orientation because the orientation control is implemented
+between the ANX part and the type-c connector by some redriver
+controlled by the EC.
+
+To satisfy all these cases it almost feels like we need to make the DP
+connector have an "orientation", per your earlier DT snippet it would be
+"reversed" or "normal", even though in hardware a DP connector has no
+such concept because it can only be plugged in one way. All cases look
+to be covered if we say that the drm_connector can have an orientation,
+"normal" or "reversed", and we allow the bridge drivers to query that
+whenever they want with some bridge/connector API. The typical case will
+be that the orientation is normal, but we can make
+drm_connector_oob_hotplug_event() change that to "reversed" when the
+port is different.
+
+This leaves us with the binding you propose above, and then some sort of
+property that indicates the orientation of the DP connector. Instead of
+being vendor specific I wonder if we can simply have a property like
+"dp-reverse-orientation" in the connector node that the displayport.c
+driver can look for to set the connector orientation to the reverse one
+when DP altmode is entered on the port.
+
+This is what I have:
+
+ it6505 {
+   ports {
+     port@1 {
+       it6505_dp_out: remote-endpoint = <&cros_ec_dp>;
+       data-lanes = <0 1>;
+     };
+   };
+ };
+
+ cros-ec {
+   port {
+     cross_ec_dp: remote-endpoint = <&it6505_dp_out>;
+   };
+
+   connector@0 {
+     reg = <0>;
+
+     ports {
+       // all USB HS and SS ports as usual;
+     };
+   };
+
+   connector@1 {
+     reg = <1>;
+     dp-reverse-orientation;
+
+     ports {
+       // all USB HS and SS ports as usual;
+     };
+   };
+
+or ANX, swap out for it6505 node:
+
+ anx7625 {
+   ports {
+     port@1 {
+       anx7625_dp_out: remote-endpoint = <&cros_ec_dp>;
+       data-lanes = <0 1>;
+     };
+   };
+ };
+
+and then a drm_bridge is created in cros-ec to terminate the bridge
+chain. The displayport altmode driver will find the drm_bridge and the
+drm_connector from the cros-ec node. When DP altmode is entered the
+displayport altmode driver will set the drm_connector orientation based
+on the presence of the dp-reverse-orientation property. We'll be able to
+hook the hpd_notify() path in cros-ec by adding code to the drm_bridge
+made there to do the HPD workaround. I'm not sure we need to use an
+auxiliary device in this case, because it's a one-off solution for
+cros-ec. And we don't even need to signal HPD from the cros-ec
+drm_bridge because the oob_hotplug event will do it for us. If anything,
+we need that displayport.c code to skip sending the hotplug event when
+"no-hpd" is present in the cros-ec node. Note, this works for any number
+of usb-c-connector nodes. And finally, DP bridges like IT6505 don't need
+to implement a typec_switch_desc, they can simply support flipping the
+orientation by querying the drm_connector for the bridge chain when they
+see fit. ANX7625 can support that as well when it doesn't see the
+'orientation-switch' property.
+
+Did I miss anything? I suspect a drm_connector having an orientation is
+the most controversial part of this proposal.
