@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495CA9C21E4
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:21:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43E19C21E7
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:21:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9124D10EA0E;
-	Fri,  8 Nov 2024 16:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E47F010EA11;
+	Fri,  8 Nov 2024 16:21:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="oSeBQdXk";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="j0loRt8N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
- [209.85.221.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D3410EA0D
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:21:00 +0000 (UTC)
-Received: by mail-wr1-f73.google.com with SMTP id
- ffacd0b85a97d-37d5016d21eso1218048f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 08:21:00 -0800 (PST)
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51F3A10EA0C
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:21:02 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-431518ae047so18129175e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 08:21:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1731082858; x=1731687658;
+ d=google.com; s=20230601; t=1731082861; x=1731687661;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=Z1UKVDyubm+0FNKQOmqAnK7wACyIXxMp06jV3hLqPe8=;
- b=oSeBQdXkP8KLppn0kAAqaKGsckQkBsphvEhQm4zAP/M+xO3CYEui4NZEqBiLJQ5ViE
- rcOp7oQLhYTQFNAjcOcjozJap0pdF1WM5aKJWHBjGSU30ybyC5zSN6pytVy5N4n+4/eh
- K/ee8nkXzNC27O6Yq90XZbF0SDm19YQqDpcA+U4DzU1b8bFQpgroRDQyT5lIK8ABdNAj
- huvR3kExiRdGXh2NYKLFmcQhIAqleKSphz46h/1kBmjUwnoC7/g6VHQkPTD5dw3le9ix
- FyrqNORkoK5Cdr5dv/Ert8nqDIy/+bT4a+YRvq77tiFRazRrq5/aQYwvLGfhb+fsef/F
- 5/Vg==
+ bh=Zc2jp+pMldWQELuiNGfEMyRAPqgAV/dSRAey9KCp9+8=;
+ b=j0loRt8NLlL0auNbA0gYTWl3J1Na6iFFIKW1YuakbEqR7pbpOnwyLKzKpSrTAOiy0m
+ yISVRwvDMpl6xpU8dTUF4osyNDUE+y5ZMpfPt9KDTLom8/gW/Rvx58JqBRfm+NqiLhgF
+ dGVh1/cyoqLsvi0C8iDcn36P5rfSrGO/pUD5DuwrLUTlFMQp3/zjihbjvDOpyH5aL5gI
+ hI/L6oHQ/DHg/TjlCaL8hM94EzHDYIlqQOv0VvLOo0K75ev1MoDqf7JK3spAgddW1hOC
+ dvIPMFATFNRY5H488Kw/7uDVdCrYjd19P+i1AWuXJv07HOnjD6UEVFKpIVfPZCbDu0B8
+ 1Ocg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731082858; x=1731687658;
+ d=1e100.net; s=20230601; t=1731082861; x=1731687661;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z1UKVDyubm+0FNKQOmqAnK7wACyIXxMp06jV3hLqPe8=;
- b=W6rwUc1hWVYxCD4znos+q3ervt5LlaPOEbOoiSakcWqb9q51+7riS/NrYmeHZ0+sev
- p4y47GR8PHwyDZuguIoq/RypD2edOjb66Nxfx4NJVgiV/vePqSGw8yNXZF/JjDHc46wz
- j5IksqL9JA+nuLCCUTg+5zuYAuS68aJ3IGHU5mh23XsWo/i3kqo/2UIH0oxcw3xioua+
- LsqLv/OSjgzC/lUbByr29dfWQkQH6ta+XUFiaTk9N+q/xq0pfHvFS3hNjyEWmP2WhZDz
- TyAw5/1xi+azqZ4cce6tyiMp9UtFM1kf/SRsSjQfhwuWik4BaOxVpq/jYLhlmxh8x20o
- aVmw==
+ bh=Zc2jp+pMldWQELuiNGfEMyRAPqgAV/dSRAey9KCp9+8=;
+ b=jp1gViPRQSCviWMtGvk7Cf5w1GqSO1WYLWjHxImfTRX01LyV1F0M9GSXBS3KmIbdw6
+ TsddtQODnFlBbGfCanXIW6mCejJMKTaNvH57zEq9WmZWmnn3nwjyqt2IEGLU8JZeJ9rQ
+ A1tPEFyZ01Ea3Ok0BS52+eN1eUh5uainrhznnt4KDBgPPbeoxdubSG4khYblao9x3Xj8
+ jW44jmPI3J/wYTwwWuxmvkcmPIf2izjH20v37D+5TlEzccNbZNsK5sZoeUxnuZk+pOrT
+ LPdceTWqtvAMjB5Pu1y7y1kWIsvwPqROgsaokkoRC0aPRZuZiqkAEBtnJsSYmx/cx6Kz
+ KKEA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWMygxywZ46Gtl5vbGFeucJmJhAzw7b8KExLxCifuI0SRrqIsq40jMnZUldiJVpmpcFBlqwccL8MxI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7WgRM06Itzy5WhgFvUzMkDZ//PSlnzlXanzWv3EAWFluRGsSs
- HgPRt4RRMAMF9kButlhabqz3lzT/l5feBNbfFh5WGm1vDaqugjxKA6kB2Hh+OIZcL2uNx867UQ=
+ AJvYcCXp+lCQ17dk8xYk9Ebcs0dvuRxDVg4NEiT87YLTP6yA4t3RXY6RYVv4MEiaJSdTPEGxFNgm4U3eTvo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKfPkY/WiyAai48RtzC0LwiKpkQ6f1ndeA9T9ha6/ktOKoiEv1
+ pNvPSD0baebyckMSZdaQNQ5GdTE87Hjlvq+9B3Qf7W+ryzgkAyxgNz+d/kicnHvC2J3mkG++Nw=
  =
-X-Google-Smtp-Source: AGHT+IHkZAD0auPV4emIDnQo0+EU0NmTafyVDODnqw54sbX8+2pfhiQ95jeQsPF/8IsVn+XR42DkmZua1Q==
+X-Google-Smtp-Source: AGHT+IEFnogtOzb1Xio0nKmbj4KqgDBTNvMMzqTZB5Q0tAq5Rm4eo6VUxTjFp/Ump5nYGzIZAg3lfcnSTA==
 X-Received: from fuad.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:1613])
- (user=tabba job=sendgmr) by 2002:adf:ffca:0:b0:37d:4cee:559 with
+ (user=tabba job=sendgmr) by 2002:a7b:cbc9:0:b0:42e:6ad4:e411 with
  SMTP id
- ffacd0b85a97d-381f1862148mr2432f8f.3.1731082858585; Fri, 08 Nov 2024 08:20:58
- -0800 (PST)
-Date: Fri,  8 Nov 2024 16:20:37 +0000
+ 5b1f17b1804b1-432b741c9b5mr131765e9.1.1731082860803; Fri, 08 Nov 2024
+ 08:21:00 -0800 (PST)
+Date: Fri,  8 Nov 2024 16:20:38 +0000
 In-Reply-To: <20241108162040.159038-1-tabba@google.com>
 Mime-Version: 1.0
 References: <20241108162040.159038-1-tabba@google.com>
 X-Mailer: git-send-email 2.47.0.277.g8800431eea-goog
-Message-ID: <20241108162040.159038-8-tabba@google.com>
-Subject: [RFC PATCH v1 07/10] mm: Introduce struct folio_owner_ops
+Message-ID: <20241108162040.159038-9-tabba@google.com>
+Subject: [RFC PATCH v1 08/10] mm: Use getters and setters to access page pgmap
 From: Fuad Tabba <tabba@google.com>
 To: linux-mm@kvack.org
 Cc: kvm@vger.kernel.org, nouveau@lists.freedesktop.org, 
@@ -87,186 +87,257 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce struct folio_owner_ops, a method table that contains
-callbacks to owners of folios that need special handling for
-certain operations. For now, it only contains a callback for
-folio free(), which is called immediately after the folio
-refcount drops to 0.
+The pointer to pgmap in struct page is overlaid with folio
+owner_ops. To indicate that a page/folio has owner ops, bit 1 is
+set. Therefore, before we can start to using owner_ops, we need
+to ensure that all accesses to page pgmap sanitize the pointer
+value.
 
-Add a pointer to this struct overlaid on struct page
-compound_head, pgmap, and struct page/folio lru. The users of
-this struct either will not use lru (e.g., zone device), or would
-be able to easily isolate when lru is being used (e.g., hugetlb)
-and handle it accordingly. While folios are isolated, they cannot
-get freed and the owner_ops are unstable. This is sufficient for
-the current use case of returning these folios to a custom
-allocator.
+This patch introduces the accessors, which will be modified in
+the following patch to sanitize the pointer values.
 
-To identify that a folio has owner_ops, we set bit 1 of the
-field, in a similar way to that bit 0 of compound_head is used to
-identify compound pages.
+No functional change intended.
 
 Signed-off-by: Fuad Tabba <tabba@google.com>
 ---
- include/linux/mm_types.h | 64 +++++++++++++++++++++++++++++++++++++---
- mm/swap.c                | 19 ++++++++++++
- 2 files changed, 79 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_dmem.c |  4 +++-
+ drivers/pci/p2pdma.c                   |  8 +++++---
+ include/linux/memremap.h               |  6 +++---
+ include/linux/mm_types.h               | 13 +++++++++++++
+ lib/test_hmm.c                         |  2 +-
+ mm/hmm.c                               |  2 +-
+ mm/memory.c                            |  2 +-
+ mm/memremap.c                          | 19 +++++++++++--------
+ mm/migrate_device.c                    |  4 ++--
+ mm/mm_init.c                           |  2 +-
+ 10 files changed, 41 insertions(+), 21 deletions(-)
 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+index 1a072568cef6..d7d9d9476bb0 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+@@ -88,7 +88,9 @@ struct nouveau_dmem {
+ 
+ static struct nouveau_dmem_chunk *nouveau_page_to_chunk(struct page *page)
+ {
+-	return container_of(page->pgmap, struct nouveau_dmem_chunk, pagemap);
++	struct dev_pagemap *pgmap = page_get_pgmap(page);
++
++	return container_of(pgmap, struct nouveau_dmem_chunk, pagemap);
+ }
+ 
+ static struct nouveau_drm *page_to_drm(struct page *page)
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 4f47a13cb500..19519bb4ba56 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -193,7 +193,7 @@ static const struct attribute_group p2pmem_group = {
+ 
+ static void p2pdma_page_free(struct page *page)
+ {
+-	struct pci_p2pdma_pagemap *pgmap = to_p2p_pgmap(page->pgmap);
++	struct pci_p2pdma_pagemap *pgmap = to_p2p_pgmap(page_get_pgmap(page));
+ 	/* safe to dereference while a reference is held to the percpu ref */
+ 	struct pci_p2pdma *p2pdma =
+ 		rcu_dereference_protected(pgmap->provider->p2pdma, 1);
+@@ -1016,8 +1016,10 @@ enum pci_p2pdma_map_type
+ pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
+ 		       struct scatterlist *sg)
+ {
+-	if (state->pgmap != sg_page(sg)->pgmap) {
+-		state->pgmap = sg_page(sg)->pgmap;
++	struct dev_pagemap *pgmap = page_get_pgmap(sg_page(sg));
++
++	if (state->pgmap != pgmap) {
++		state->pgmap = pgmap;
+ 		state->map = pci_p2pdma_map_type(state->pgmap, dev);
+ 		state->bus_off = to_p2p_pgmap(state->pgmap)->bus_offset;
+ 	}
+diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+index 3f7143ade32c..060e27b6aee0 100644
+--- a/include/linux/memremap.h
++++ b/include/linux/memremap.h
+@@ -161,7 +161,7 @@ static inline bool is_device_private_page(const struct page *page)
+ {
+ 	return IS_ENABLED(CONFIG_DEVICE_PRIVATE) &&
+ 		is_zone_device_page(page) &&
+-		page->pgmap->type == MEMORY_DEVICE_PRIVATE;
++		page_get_pgmap(page)->type == MEMORY_DEVICE_PRIVATE;
+ }
+ 
+ static inline bool folio_is_device_private(const struct folio *folio)
+@@ -173,13 +173,13 @@ static inline bool is_pci_p2pdma_page(const struct page *page)
+ {
+ 	return IS_ENABLED(CONFIG_PCI_P2PDMA) &&
+ 		is_zone_device_page(page) &&
+-		page->pgmap->type == MEMORY_DEVICE_PCI_P2PDMA;
++		page_get_pgmap(page)->type == MEMORY_DEVICE_PCI_P2PDMA;
+ }
+ 
+ static inline bool is_device_coherent_page(const struct page *page)
+ {
+ 	return is_zone_device_page(page) &&
+-		page->pgmap->type == MEMORY_DEVICE_COHERENT;
++		page_get_pgmap(page)->type == MEMORY_DEVICE_COHERENT;
+ }
+ 
+ static inline bool folio_is_device_coherent(const struct folio *folio)
 diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 365c73be0bb4..6e06286f44f1 100644
+index 6e06286f44f1..27075ea24e67 100644
 --- a/include/linux/mm_types.h
 +++ b/include/linux/mm_types.h
-@@ -41,10 +41,12 @@ struct mem_cgroup;
-  *
-  * If you allocate the page using alloc_pages(), you can use some of the
-  * space in struct page for your own purposes.  The five words in the main
-- * union are available, except for bit 0 of the first word which must be
-- * kept clear.  Many users use this word to store a pointer to an object
-- * which is guaranteed to be aligned.  If you use the same storage as
-- * page->mapping, you must restore it to NULL before freeing the page.
-+ * union are available, except for bit 0 (used for compound_head pages)
-+ * and bit 1 (used for owner_ops) of the first word, which must be kept
-+ * clear and used with care.  Many users use this word to store a pointer
-+ * to an object which is guaranteed to be aligned.  If you use the same
-+ * storage as page->mapping, you must restore it to NULL before freeing
-+ * the page.
-  *
-  * The mapcount field must not be used for own purposes.
-  *
-@@ -283,10 +285,16 @@ typedef struct {
- 	unsigned long val;
- } swp_entry_t;
- 
-+struct folio_owner_ops;
-+
- /**
-  * struct folio - Represents a contiguous set of bytes.
-  * @flags: Identical to the page flags.
-  * @lru: Least Recently Used list; tracks how recently this folio was used.
-+ * @owner_ops: Pointer to callback operations of the folio owner. Valid if bit 1
-+ *    is set.
-+ *    NOTE: Cannot be used with lru, since it is overlaid with it. To use lru,
-+ *          owner_ops must be cleared first, and restored once done with lru.
-  * @mlock_count: Number of times this folio has been pinned by mlock().
-  * @mapping: The file this page belongs to, or refers to the anon_vma for
-  *    anonymous memory.
-@@ -330,6 +338,7 @@ struct folio {
- 			unsigned long flags;
- 			union {
- 				struct list_head lru;
-+				const struct folio_owner_ops *owner_ops; /* Bit 1 is set */
- 	/* private: avoid cluttering the output */
- 				struct {
- 					void *__filler;
-@@ -417,6 +426,7 @@ FOLIO_MATCH(flags, flags);
- FOLIO_MATCH(lru, lru);
- FOLIO_MATCH(mapping, mapping);
- FOLIO_MATCH(compound_head, lru);
-+FOLIO_MATCH(compound_head, owner_ops);
- FOLIO_MATCH(index, index);
- FOLIO_MATCH(private, private);
- FOLIO_MATCH(_mapcount, _mapcount);
-@@ -452,6 +462,13 @@ FOLIO_MATCH(flags, _flags_3);
- FOLIO_MATCH(compound_head, _head_3);
- #undef FOLIO_MATCH
- 
-+struct folio_owner_ops {
-+	/*
-+	 * Called once the folio refcount reaches 0.
-+	 */
-+	void (*free)(struct folio *folio);
-+};
-+
- /**
-  * struct ptdesc -    Memory descriptor for page tables.
-  * @__page_flags:     Same as page flags. Powerpc only.
-@@ -560,6 +577,45 @@ static inline void *folio_get_private(struct folio *folio)
- 	return folio->private;
+@@ -616,6 +616,19 @@ static inline const struct folio_owner_ops *folio_get_owner_ops(struct folio *fo
+ 	return owner_ops;
  }
  
 +/*
-+ * Use bit 1, since bit 0 is used to indicate a compound page in compound_head,
-+ * which owner_ops is overlaid with.
++ * Get the page dev_pagemap pgmap pointer.
 + */
-+#define FOLIO_OWNER_OPS_BIT    1UL
-+#define FOLIO_OWNER_OPS        (1UL << FOLIO_OWNER_OPS_BIT)
++#define page_get_pgmap(page)	((page)->pgmap)
 +
 +/*
-+ * Set the folio owner_ops as well as bit 1 of the pointer to indicate that the
-+ * folio has owner_ops.
++ * Set the page dev_pagemap pgmap pointer.
 + */
-+static inline void folio_set_owner_ops(struct folio *folio, const struct folio_owner_ops *owner_ops)
++static inline void page_set_pgmap(struct page *page, struct dev_pagemap *pgmap)
 +{
-+	owner_ops = (const struct folio_owner_ops *)((unsigned long)owner_ops | FOLIO_OWNER_OPS);
-+	folio->owner_ops = owner_ops;
-+}
-+
-+/*
-+ * Clear the folio owner_ops including bit 1 of the pointer.
-+ */
-+static inline void folio_clear_owner_ops(struct folio *folio)
-+{
-+	folio->owner_ops = NULL;
-+}
-+
-+/*
-+ * Return the folio's owner_ops if it has them, otherwise, return NULL.
-+ */
-+static inline const struct folio_owner_ops *folio_get_owner_ops(struct folio *folio)
-+{
-+	const struct folio_owner_ops *owner_ops = folio->owner_ops;
-+
-+	if (!((unsigned long)owner_ops & FOLIO_OWNER_OPS))
-+		return NULL;
-+
-+	owner_ops = (const struct folio_owner_ops *)((unsigned long)owner_ops & ~FOLIO_OWNER_OPS);
-+	return owner_ops;
++	page->pgmap = pgmap;
 +}
 +
  struct page_frag_cache {
  	void * va;
  #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
-diff --git a/mm/swap.c b/mm/swap.c
-index 638a3f001676..767ff6d8f47b 100644
---- a/mm/swap.c
-+++ b/mm/swap.c
-@@ -110,6 +110,13 @@ static void page_cache_release(struct folio *folio)
+diff --git a/lib/test_hmm.c b/lib/test_hmm.c
+index 056f2e411d7b..d3e3843f57dd 100644
+--- a/lib/test_hmm.c
++++ b/lib/test_hmm.c
+@@ -195,7 +195,7 @@ static int dmirror_fops_release(struct inode *inode, struct file *filp)
  
- void __folio_put(struct folio *folio)
+ static struct dmirror_chunk *dmirror_page_to_chunk(struct page *page)
  {
-+	const struct folio_owner_ops *owner_ops = folio_get_owner_ops(folio);
+-	return container_of(page->pgmap, struct dmirror_chunk, pagemap);
++	return container_of(page_get_pgmap(page), struct dmirror_chunk, pagemap);
+ }
+ 
+ static struct dmirror_device *dmirror_page_to_device(struct page *page)
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 7e0229ae4a5a..b5f5ac218fda 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -248,7 +248,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 		 * just report the PFN.
+ 		 */
+ 		if (is_device_private_entry(entry) &&
+-		    pfn_swap_entry_to_page(entry)->pgmap->owner ==
++		    page_get_pgmap(pfn_swap_entry_to_page(entry))->owner ==
+ 		    range->dev_private_owner) {
+ 			cpu_flags = HMM_PFN_VALID;
+ 			if (is_writable_device_private_entry(entry))
+diff --git a/mm/memory.c b/mm/memory.c
+index 80850cad0e6f..5853fa5767c7 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -4276,7 +4276,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 			 */
+ 			get_page(vmf->page);
+ 			pte_unmap_unlock(vmf->pte, vmf->ptl);
+-			ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
++			ret = page_get_pgmap(vmf->page)->ops->migrate_to_ram(vmf);
+ 			put_page(vmf->page);
+ 		} else if (is_hwpoison_entry(entry)) {
+ 			ret = VM_FAULT_HWPOISON;
+diff --git a/mm/memremap.c b/mm/memremap.c
+index 40d4547ce514..931bc85da1df 100644
+--- a/mm/memremap.c
++++ b/mm/memremap.c
+@@ -458,8 +458,9 @@ EXPORT_SYMBOL_GPL(get_dev_pagemap);
+ 
+ void free_zone_device_folio(struct folio *folio)
+ {
+-	if (WARN_ON_ONCE(!folio->page.pgmap->ops ||
+-			!folio->page.pgmap->ops->page_free))
++	struct dev_pagemap *pgmap = page_get_pgmap(&folio->page);
 +
-+	if (unlikely(owner_ops)) {
-+		owner_ops->free(folio);
-+		return;
-+	}
-+
- 	if (unlikely(folio_is_zone_device(folio))) {
- 		free_zone_device_folio(folio);
++	if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->page_free))
  		return;
-@@ -929,10 +936,22 @@ void folios_put_refs(struct folio_batch *folios, unsigned int *refs)
- 	for (i = 0, j = 0; i < folios->nr; i++) {
- 		struct folio *folio = folios->folios[i];
- 		unsigned int nr_refs = refs ? refs[i] : 1;
-+		const struct folio_owner_ops *owner_ops;
  
- 		if (is_huge_zero_folio(folio))
- 			continue;
+ 	mem_cgroup_uncharge(folio);
+@@ -486,17 +487,17 @@ void free_zone_device_folio(struct folio *folio)
+ 	 * to clear folio->mapping.
+ 	 */
+ 	folio->mapping = NULL;
+-	folio->page.pgmap->ops->page_free(folio_page(folio, 0));
++	pgmap->ops->page_free(folio_page(folio, 0));
  
-+		owner_ops = folio_get_owner_ops(folio);
-+		if (unlikely(owner_ops)) {
-+			if (lruvec) {
-+				unlock_page_lruvec_irqrestore(lruvec, flags);
-+				lruvec = NULL;
-+			}
-+			if (folio_ref_sub_and_test(folio, nr_refs))
-+				owner_ops->free(folio);
-+			continue;
-+		}
+-	if (folio->page.pgmap->type != MEMORY_DEVICE_PRIVATE &&
+-	    folio->page.pgmap->type != MEMORY_DEVICE_COHERENT)
++	if (pgmap->type != MEMORY_DEVICE_PRIVATE &&
++	    pgmap->type != MEMORY_DEVICE_COHERENT)
+ 		/*
+ 		 * Reset the refcount to 1 to prepare for handing out the page
+ 		 * again.
+ 		 */
+ 		folio_set_count(folio, 1);
+ 	else
+-		put_dev_pagemap(folio->page.pgmap);
++		put_dev_pagemap(pgmap);
+ }
+ 
+ void zone_device_page_init(struct page *page)
+@@ -505,7 +506,7 @@ void zone_device_page_init(struct page *page)
+ 	 * Drivers shouldn't be allocating pages after calling
+ 	 * memunmap_pages().
+ 	 */
+-	WARN_ON_ONCE(!percpu_ref_tryget_live(&page->pgmap->ref));
++	WARN_ON_ONCE(!percpu_ref_tryget_live(&page_get_pgmap(page)->ref));
+ 	set_page_count(page, 1);
+ 	lock_page(page);
+ }
+@@ -514,7 +515,9 @@ EXPORT_SYMBOL_GPL(zone_device_page_init);
+ #ifdef CONFIG_FS_DAX
+ bool __put_devmap_managed_folio_refs(struct folio *folio, int refs)
+ {
+-	if (folio->page.pgmap->type != MEMORY_DEVICE_FS_DAX)
++	struct dev_pagemap *pgmap = page_get_pgmap(&folio->page);
 +
- 		if (folio_is_zone_device(folio)) {
- 			if (lruvec) {
- 				unlock_page_lruvec_irqrestore(lruvec, flags);
++	if (pgmap->type != MEMORY_DEVICE_FS_DAX)
+ 		return false;
+ 
+ 	/*
+diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+index 9cf26592ac93..368def358d02 100644
+--- a/mm/migrate_device.c
++++ b/mm/migrate_device.c
+@@ -135,7 +135,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 			page = pfn_swap_entry_to_page(entry);
+ 			if (!(migrate->flags &
+ 				MIGRATE_VMA_SELECT_DEVICE_PRIVATE) ||
+-			    page->pgmap->owner != migrate->pgmap_owner)
++			    page_get_pgmap(page)->owner != migrate->pgmap_owner)
+ 				goto next;
+ 
+ 			mpfn = migrate_pfn(page_to_pfn(page)) |
+@@ -156,7 +156,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 				goto next;
+ 			else if (page && is_device_coherent_page(page) &&
+ 			    (!(migrate->flags & MIGRATE_VMA_SELECT_DEVICE_COHERENT) ||
+-			     page->pgmap->owner != migrate->pgmap_owner))
++			     page_get_pgmap(page)->owner != migrate->pgmap_owner))
+ 				goto next;
+ 			mpfn = migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
+ 			mpfn |= pte_write(pte) ? MIGRATE_PFN_WRITE : 0;
+diff --git a/mm/mm_init.c b/mm/mm_init.c
+index 1c205b0a86ed..279cdaebfd2b 100644
+--- a/mm/mm_init.c
++++ b/mm/mm_init.c
+@@ -995,7 +995,7 @@ static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
+ 	 * and zone_device_data.  It is a bug if a ZONE_DEVICE page is
+ 	 * ever freed or placed on a driver-private list.
+ 	 */
+-	page->pgmap = pgmap;
++	page_set_pgmap(page, pgmap);
+ 	page->zone_device_data = NULL;
+ 
+ 	/*
 -- 
 2.47.0.277.g8800431eea-goog
 
