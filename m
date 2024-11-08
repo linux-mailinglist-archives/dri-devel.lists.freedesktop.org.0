@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3A59C17F7
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 09:31:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F0A9C17F8
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 09:31:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8254710E35F;
-	Fri,  8 Nov 2024 08:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE5E010E926;
+	Fri,  8 Nov 2024 08:31:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aZPXvhAw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jge4bNJU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B32310E35F
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 08:31:36 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-539f8490856so2176538e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 00:31:36 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED3110E926
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 08:31:37 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-43155afca99so16793025e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 00:31:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731054694; x=1731659494; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=eomDoovwmPoe3D4ex+kqfalwjw8M76GdHrO0gwpAifY=;
- b=aZPXvhAw5Q5xBAIwcLoiNtBmHcJts3jijFlE4Mn3JdmYKCc7t3x6h5K/Q76eD5IZ4N
- ZrEcJxsHiFHOQEuC/3InQRY+RubKLAPevbEZEB8OEpX3+8PYYSW0bOM1QgdTW/4s38K7
- n38cYKMUWeQupCAuYThzZjhXBrH2A5E1qWBgGcW2kQdm4cWp7G1KWB/MoYWJARseRjQm
- VgMr7j8WOnlq6iK2OzBQCeGN+WifjFFMhpyhQthMbWCvM61uU9LW4m7B1V4YhQbBcQIU
- 1kFhXKA4/BvBdYcwmazpI5HKVc9Rq42VN54adEn0nJz2o/A7icaeX8fXuUmkg6XyEhdq
- Tmkg==
+ d=linaro.org; s=google; t=1731054696; x=1731659496; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=vUkgaqwyt5Dlc7iDZVCwHIHNWekO6hntBT7gAU7XDeo=;
+ b=jge4bNJUrVfPktc5diYx+gXsCGOCHwLtnECzRkr0q8oe47s5ngPFpewvp+CpDgk6x2
+ Z2ALroCbtPOL/dRt8cx+VGxQ92MgsQS3E4Y6syNvxADtMA10YCF2w5nd7hV/WMsm9Dai
+ Zqj2WBuZ1cTAM6zNaae9or7xXYnP49oyYusZWYGpkmi4iEu2/q8LBtlWOFr9g14EwDVu
+ qOARhK8o+JMLdmGnXUNikrI01sfKdWWhUcKdS+3W06hUiCO4CA0xeR/QFlP63fKKsRN+
+ kSJwp45ORizkGmfCI1YQ8wvD2Yf6VW9W+wMjD4uihN+UacfTxKy+/HnqQKFocAomzBk7
+ uIlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731054694; x=1731659494;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eomDoovwmPoe3D4ex+kqfalwjw8M76GdHrO0gwpAifY=;
- b=R79tnpuDdILitFSNHsBEWN4cjJ244Gw2MWIhWVnZIXeNMmCciILtKBPNuaef43Bd66
- 1mP3psLtJtQHiNYVALEDbY31PhGKkjuK9myljkUvq47CBE8j4xRVD3QOxNvP1zHg0//s
- aRk4I3z5bwF8uiYbe/t8+s1ZPhR39YqpMAyDiq28Mtc5Ah7gg6r00KLheEd1fIkJkH8A
- ragrvXL+wf8V0KK5NFy+12haEpx9Rvh/MavdtLHmqulYKm8+SdDXvsZDrUrLaGEN5KRL
- cZ694e8Ip1zBMBpy76/waXLvFvd/4kTPeUhje7YDGfoiI0stqYlZiqnz7/N0veWchlN9
- ANUw==
+ d=1e100.net; s=20230601; t=1731054696; x=1731659496;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vUkgaqwyt5Dlc7iDZVCwHIHNWekO6hntBT7gAU7XDeo=;
+ b=UO9xfWXKmDl+cu9dsYK3aiV8uBwOHgyfEcDANBFcNxdN/hKgC1/rc75LxO2z9Qx1+1
+ m3y3ARYgrlm21doSqCvrE05vto9mB37PhzBR4mLw8ZC+KOD9vl8CFVU7BCSmrQpmwwkv
+ q2r0i6fKatr4AkSs8yj3ruOG83e5HsjGolMD0u7IlNSOACP1+euomWYvBTMjoq1WkULI
+ VoxgEuDhp5Nor0TpQk5XkfUHwbTJoFJJXZm0rvNSrzIFypWagXfheY99rwsht2BfW5IH
+ S/egj0tLLFjRWhoCXOR+reFjauZSi3TZmayyW5dQMxet+8xXh5SSv2EKUjBfWkwbuzFZ
+ 7I1A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXNKxQ3CUz9ITteb0NsFRwrb0k76qnP5+oLkeANALnq3s02gMtyHVE5tM3Gn/5D+mosd7UOXWluFUo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyfDZI5RoH56ID8kkTlk3p8e8bzbv/20YymoH4U1TvzfvvrSbBL
- 6X2I2QGTWlXaIYTp418knDMj5g5C923Dn8d5yth44zvNtEY6OmC/bdYVsd/2Y/k=
-X-Google-Smtp-Source: AGHT+IHHJY+9cAH5llReO38ypapsMnCYY1F1ljLHtnGaUqjvCgc24E6ZfcX/bL0Vg9ze7adUU8pTuw==
-X-Received: by 2002:ac2:4c41:0:b0:539:8e77:9129 with SMTP id
- 2adb3069b0e04-53d862be3b0mr1011744e87.44.1731054693893; 
- Fri, 08 Nov 2024 00:31:33 -0800 (PST)
+ AJvYcCV4UhPW+sybKuKOPtFEzaKKTwdrZn7wE9tFuMOwkzPx8FRJKvKVcLPd4zJm05euhuYNgYF8h4GtA80=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwSbA4bLyNlc7ExulTa5d8hm/wgZEEfA76kaWo+kRXPLPrxh/b
+ a7Ot7160rqe5oOyuzsG1YMinnbDtud2Lh59axVlyIKDT5mkXcyAYdcizhCuV45I=
+X-Google-Smtp-Source: AGHT+IEsoJ3YYVkQUti7IVhr3Z0+dq+6Xl3WZ+t4JLD73b47E793gKcg9Qge20p3M1HTDRIVWOPK6A==
+X-Received: by 2002:a05:600c:8716:b0:431:7c25:8600 with SMTP id
+ 5b1f17b1804b1-432b684f31cmr21029305e9.2.1731054695706; 
+ Fri, 08 Nov 2024 00:31:35 -0800 (PST)
 Received: from aspen.lan ([154.14.63.34]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-381eda04ad0sm3876370f8f.100.2024.11.08.00.31.32
+ ffacd0b85a97d-381eda04ad0sm3876370f8f.100.2024.11.08.00.31.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Nov 2024 00:31:33 -0800 (PST)
+ Fri, 08 Nov 2024 00:31:34 -0800 (PST)
 From: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH 0/2] MAINTAINERS: Update with Daniel Thompson's korg
- address
-Date: Fri, 08 Nov 2024 08:30:43 +0000
-Message-Id: <20241108-new-maintainer-address-2-v1-0-47c9d71aac11@linaro.org>
+Date: Fri, 08 Nov 2024 08:30:44 +0000
+Subject: [PATCH 1/2] MAINTAINERS: Use Daniel Thompson's korg address for
+ backlight work
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADTMLWcC/x2MwQoCMQwFf6XkvIGmiBR/ZdlD2bzVHKySiArL/
- rvFwxzmMLNTwA1Bl7ST421hjz5EpkTrrfUr2HQ4lVxOIrlyx4fvzfprAOem6ojgwgqVlnEW3Sq
- N/OnY7Ptfz8tx/ADHucxGagAAAA==
-X-Change-ID: 20241108-new-maintainer-address-2-ded1a0e61df8
+Message-Id: <20241108-new-maintainer-address-2-v1-1-47c9d71aac11@linaro.org>
+References: <20241108-new-maintainer-address-2-v1-0-47c9d71aac11@linaro.org>
+In-Reply-To: <20241108-new-maintainer-address-2-v1-0-47c9d71aac11@linaro.org>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>, 
  Jason Wessel <jason.wessel@windriver.com>, 
@@ -73,21 +71,21 @@ Cc: Jingoo Han <jingoohan1@gmail.com>,
  kgdb-bugreport@lists.sourceforge.net, linux-kernel@vger.kernel.org, 
  Daniel Thompson <daniel.thompson@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=566;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=714;
  i=daniel.thompson@linaro.org; h=from:subject:message-id;
- bh=LfuXZV5ft4NyetZM+Ia2hzJO3hj04SYKybK95hZjwW4=;
- b=owEBbQKS/ZANAwAKAXzjJV0594ihAcsmYgBnLcw8ZO3DFRnzO3TsLta1DOEJHXYLUWPOhwwrV
- flZaWazj9mJAjMEAAEKAB0WIQQvNUFTUPeVarpwrPB84yVdOfeIoQUCZy3MPAAKCRB84yVdOfeI
- oeSUD/0RmeeQTzyONBemD5YD0uKvILwDE5tqA+PYWK3h1rz5yk6n9CK8e48AN03FCicxVDRkWcp
- nriAW3c62Pe8h5Maz7TDnMqIofcYtwuYyNUCFGFUCGzb8bo4MiRISe+OicZTA0W5acjPj+BTt4c
- pK4Yr0sfavL8rHovt4r8aSA9bggxB6LmhUo0Slu3V57FCRdDqSGg56YF/nUfdD1+0NpqMiJl0Jk
- KhfYzQJGKFDWtBQnt4zrdLZ5I/+rw7JomJeUx+MVLd++SMau/Rts0Ap7S7W9G4OHaPAQqJsXe2D
- DqEwKLN+rbq8A220mxxQEKBaeWSOJbFkg3GejuIdAIPD5K+TqRNLksCYJ6Ojmez2mieFUhwNZff
- h7EBE7aOlGsRAlPL3z92LmGoqDg1hyZlIBvLf1b4WGGvM15vIQbENsSy8BupQer87LyaC+5OV2b
- Mve795O6wEIyJsk/u4tjh/E4XxxUgZYjwpitfmuZvu3mf5AvEVSaUtdyM7NqQCqvjjTLQAvvsEi
- XbgIehLK9JREU8EcX4ztuQWe7f6tGMJrK1zAMjPnnWq/Yv5EJb4n/kfwFkgW49aSJeMtCfTKxyx
- qRHrtWxji/qLVZ7t8zoXSHluJOTXF53wxNxam0xLAxBBo5Q/xliOYF4ivSSjDI1g46l5zdiEc8W
- DGMFARpJGLMd7Dw==
+ bh=fd79AVP0NEtKFNsBkKcFdlWuoNK8n9iFc6De80oNWbo=;
+ b=owEBbQKS/ZANAwAKAXzjJV0594ihAcsmYgBnLcxJf2uFCuowNCWEnRWy2nCSehvg0Xwgx/nW9
+ BdgbE2FM42JAjMEAAEKAB0WIQQvNUFTUPeVarpwrPB84yVdOfeIoQUCZy3MSQAKCRB84yVdOfeI
+ ockoD/0YN1BMEfZrSdBx9g+VGHKLAC/CE6SHaG24UkJMt7C95zghZSCaEiC1Ry6vxYBl0s3bL/e
+ K7pkCn+qCOnR2EaETk5R88qB6cTezKUVUSJn0dbAQcJfAE7sOYE3pocEJPPplr/4g7tDlbNxZRb
+ yPxs4ZYM3cZu2IBHNfmpUNZnr8Iav7nH6t6XPreAVYZYUCWdEHbN3RC6elzP6IA6K7Z70WaKftq
+ L2ieguRMwpVuBJsqPSXaBinsxiyfuxQrusV3teOy6iNrGAcAJjA0T2SY3XgLNCGm+5fpTTT6clm
+ 4AJOF55j5WGRxR9xtJpc+23RE/VEV4AAlEEryLcfmGksA/MlqK+M5kIAhPdhTr5KzQxT7z5Uj/q
+ QqnPNwVgIpjkHrAyj/YzHWP4rvgPEQkwbewq3YRAUlzkjOiqfJfeqwTgQv3GXXrz1yQfl9M0/d7
+ ri1h2/oGGwm3cihv93r2Sl2fCBdOgQVpC7SxIqdb8rQIZtJbfCVBB408vtRunWpz5jJzuY8OwEZ
+ oGGGsfuUE+q2jW+Pc7lCtYNXRQHxN/pk9T+2R4ZkwMM9BHwYUMtqFvp+8E7PznL/gN9obZsRnIu
+ x4diqAib4mo+gumVXtHGTiViKJyTCdWqnbAH0xBEIsnPumjXj8S6IBU7QlCN5FUmLSveuNiIq+7
+ 6n/tsDwvxxfRgrA==
 X-Developer-Key: i=daniel.thompson@linaro.org; a=openpgp;
  fpr=E38BE19861669213F6E2661AA8A4E3BC5B7B28BE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,17 +107,23 @@ Going forward, I'll be using my kernel.org address for upstream work.
 
 Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
-Daniel Thompson (2):
-      MAINTAINERS: Use Daniel Thompson's korg address for backlight work
-      MAINTAINERS: Use Daniel Thompson's korg address for kgdb work
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
----
-base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
-change-id: 20241108-new-maintainer-address-2-ded1a0e61df8
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a274079502426887da55d55b83b9a17e74ec6b13..5396fd1b15aee1eb2a234ba8963c57571d532a91 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3790,7 +3790,7 @@ F:	drivers/net/wireless/broadcom/b43legacy/
+ 
+ BACKLIGHT CLASS/SUBSYSTEM
+ M:	Lee Jones <lee@kernel.org>
+-M:	Daniel Thompson <daniel.thompson@linaro.org>
++M:	Daniel Thompson <danielt@kernel.org>
+ M:	Jingoo Han <jingoohan1@gmail.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
 
-Best regards,
 -- 
-Daniel Thompson <daniel.thompson@linaro.org>
+2.45.2
 
