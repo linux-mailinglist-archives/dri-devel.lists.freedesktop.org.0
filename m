@@ -2,78 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B27F9C1F01
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 15:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B499C1F02
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 15:19:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0250710E9C3;
-	Fri,  8 Nov 2024 14:18:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A31EF10E9C5;
+	Fri,  8 Nov 2024 14:19:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KJUiwOqn";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="Cu67kjSV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6E5810E9C3
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 14:18:42 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4314f38d274so25764645e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 06:18:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731075521; x=1731680321; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=Gk4V9DgopfM7+03Uw4CfaApbQyBiVJI5V+th+5xBZss=;
- b=KJUiwOqnaLWwB4pslPhBGETDviYvbsXErtwnS9E1+rVch3HGmc1h80bVTykL/OnFlb
- 8inL0bMe7iEU14p8mTi5AXHD7NVH4aRHdyFbV8pI98j73/QWV/jhyt5WUwwlrFxyIJx3
- RZfZrsh+W2fAqVEkEMCokEQXrQaraC83fZyD7UiKnzQUxQycbT25oc33F/y0vEQ64bRm
- oeKN91GLq5CVJU67SM6fq/ECK7GkIShMUeSpLE0aNGEJfNDzFoqivZ6+Z7Wt5BbUE5Q1
- F0ruSjOhUICI3QKZwHWjk1nZd4kcaL997IVnfb24L/AexY+XaS/0CSlnBhbEawVs9qW7
- lRPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731075521; x=1731680321;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Gk4V9DgopfM7+03Uw4CfaApbQyBiVJI5V+th+5xBZss=;
- b=bE/MgtnrJHTGDKv9ZCNxflV3X8p9uUyKeGxVgE1Cpxi8GewFSZRVuwIk+1cB9MWL2T
- Sav09EIxqKtx/GrXfJX2nFAVCum8dBOT1FgMXqxVbLubt25xDHT0ozr0FF3HU8eh2nsi
- SyxBUQEMD23aWyzObyku6Pp20ouIm3+E4NYnMWfagUD3VpJ39kYbZhArNaYYsal4ogYv
- 8KyV+BSvhx4FF737xSgptTDX9TTJawynEcvuwUurqLzMK6e3XxJlHhXyuvTNCPQW0Yz3
- 6TOuMcD3Q29iN/5ZHH6b83TWj5IP4Ag3IdoMfngjVQIU3OOtL2I29J7UzsIYAe+OCDda
- nA1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLHSL9EgMccNLaCDEwwiaOgp16EuusobNMjaRtsM9HVexk/jHq/3JRwHbyaLKBBO431cwaxNrAZQo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwZOZvi0m39/JDr+jbfkpwef8rXNl8N2D1KKUWkmIrUSv6s2fba
- X45PwINGmdzaTGB6v8u8E4MAC1zpXL3fiBk8gkvlJ6UBPb3dMvBw
-X-Google-Smtp-Source: AGHT+IGoUC4cjBHE9sowRFaTqb95GuUUFC5MHLSlYHJnWqKVMgeE0zsdwHIh0dMgfF1pWm89/kJ7ig==
-X-Received: by 2002:a5d:64c7:0:b0:37d:511b:aec1 with SMTP id
- ffacd0b85a97d-381f1884894mr2971984f8f.45.1731075520933; 
- Fri, 08 Nov 2024 06:18:40 -0800 (PST)
-Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432b05620b4sm72554475e9.20.2024.11.08.06.18.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Nov 2024 06:18:40 -0800 (PST)
-Message-ID: <f9d27c0a-084f-4b35-bd6c-af25a6bb830d@gmail.com>
-Date: Fri, 8 Nov 2024 15:18:38 +0100
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBC210E9C5
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 14:18:59 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: fix dma_fence_array_signaled
-To: Tvrtko Ursulin <tursulin@ursulin.net>, boris.brezillon@collabora.com,
- olvaffe@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, lionel.g.landwerlin@intel.com,
- dri-devel@lists.freedesktop.org, faith.ekstrand@collabora.com,
- simona@ffwll.ch
-References: <20241108094256.3717-1-christian.koenig@amd.com>
- <20241108094256.3717-2-christian.koenig@amd.com>
- <cce719d7-adc9-4f5b-803a-fd173d325806@ursulin.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <cce719d7-adc9-4f5b-803a-fd173d325806@ursulin.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1731075537;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=upYsGgf23umhPBOmb5HT7kjqp65LPpB+QOD8j0l2rE4=;
+ b=Cu67kjSVWeIMcCC+Jbh62CKfQeBvbLbaeVrOoJTC7E08ONzDAKwTyxCnm3RyphTtwkEVxz
+ 7Wau9/7UQPCWK+ySJoG4vlhqVFRzMAEh/VWwMiZF/1PwqTKqkv5r7Xaoa1MCJdJdGKU//+
+ lmsJf12fwprFcVfdBv5pTh5FGelCl/UYDveT2OBScypZ2UfzdmrVq55B5XiAaCuPhnikrr
+ sg5AUSk0Po+kPHUOE88sesoLjlepcOFGoK3+HEIAlYw9DzstYiqNJgSRhhFXYDTI7LI2eg
+ s6zc6+jAtlJisK2L8fbwYDSy2yZy6bsw+7wCAGQAivffatli+E/rkGxXezjTDA==
+Date: Fri, 08 Nov 2024 15:18:57 +0100
+From: Dragan Simic <dsimic@manjaro.org>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Diederik de Haas <didi.debian@cknow.org>
+Subject: Re: [PATCH 2/2] drm/rockchip: dsi: Don't log errors on deferred dphy
+In-Reply-To: <yrm6r4urzf5hvnui53cvepw2loqvuhydalq6haw7qmpktor5y5@zjc34wlcoeg2>
+References: <cover.1731073565.git.dsimic@manjaro.org>
+ <559094275c3e41cae7c89e904341f89a1240a51a.1731073565.git.dsimic@manjaro.org>
+ <yrm6r4urzf5hvnui53cvepw2loqvuhydalq6haw7qmpktor5y5@zjc34wlcoeg2>
+Message-ID: <599471308374b786af4dc8a6b42fea76@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,117 +63,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 08.11.24 um 14:01 schrieb Tvrtko Ursulin:
->
-> On 08/11/2024 09:42, Christian König wrote:
->> The function silently assumed that signaling was already enabled for the
->> dma_fence_array. This meant that without enabling signaling first we 
->> would
->> never see forward progress.
->>
->> Fix that by falling back to testing each individual fence when signaling
->> isn't enabled yet.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
+Hello Sebastian,
+
+On 2024-11-08 15:08, Sebastian Reichel wrote:
+> On Fri, Nov 08, 2024 at 02:53:58PM +0100, Dragan Simic wrote:
+>> Deferred driver probing shouldn't result in errors or warnings being 
+>> logged,
+>> because their presence in the kernel log provides no value and may 
+>> actually
+>> cause false impression that some issues exist.  Thus, let's no longer 
+>> produce
+>> error messages when getting the dphy results in deferred probing.
+>> 
+>> This prevents misleading error messages like the following one, which 
+>> was
+>> observed on a Pine64 PineTab2, from appearing in the kernel log.  To 
+>> make
+>> matters worse, the following error message was observed appearing 
+>> multiple
+>> times in the kernel log of a single PineTab2 boot:
+>> 
+>>   dw-mipi-dsi-rockchip fe060000.dsi: [drm:dw_mipi_dsi_rockchip_probe \
+>>   [rockchipdrm]] *ERROR* failed to get mipi dphy: -517
+>> 
+>> At the same time, make the adjusted logged message a bit more 
+>> consistent with
+>> the other logged messages by capitalizing its first word.
+>> 
+>> Reported-by: Diederik de Haas <didi.debian@cknow.org>
+>> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
 >> ---
->>   drivers/dma-buf/dma-fence-array.c | 14 +++++++++++++-
->>   1 file changed, 13 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence-array.c 
->> b/drivers/dma-buf/dma-fence-array.c
->> index 46ac42bcfac0..01203796827a 100644
->> --- a/drivers/dma-buf/dma-fence-array.c
->> +++ b/drivers/dma-buf/dma-fence-array.c
->> @@ -103,10 +103,22 @@ static bool 
->> dma_fence_array_enable_signaling(struct dma_fence *fence)
->>   static bool dma_fence_array_signaled(struct dma_fence *fence)
->>   {
->>       struct dma_fence_array *array = to_dma_fence_array(fence);
->> +    unsigned int i, num_pending;
->>   -    if (atomic_read(&array->num_pending) > 0)
->> +    num_pending = atomic_read(&array->num_pending);
->> +    if (test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, 
->> &array->base.flags)) {
->> +        if (!num_pending)
->> +            goto signal;
->>           return false;
->> +    }
->> +
->> +    for (i = 0; i < array->num_fences; ++i) {
->> +        if (dma_fence_is_signaled(array->fences[i]) && !--num_pending)
->> +            goto signal;
->> +    }
->> +    return false;
->
-> Sampling num_pending (and decrementing) and test_bit from an unlocked 
-> path makes one need to think if there are consequences, false 
-> negatives, positives or something. Would it be fine to simplify like 
-> the below?
+> 
+> From include/drm/drm_print.h:
+> 
+>  * DRM_DEV_ERROR() - Error output.
+>  *
+>  * NOTE: this is deprecated in favor of drm_err() or dev_err().
+> 
+> The recommended way to do this nowadays looks like this:
+> 
+> return dev_err_probe(dev, PTR_ERR(dsi->phy), "Failed to get mipi 
+> dphy");
+> 
+> That will not print anything for -EPROBE_DEFER, but capture
+> the reason and make it available through
+> /sys/kernel/debug/devices_deferred if the device never probes.
 
-Yeah I've played around with those ideas as well but came to the 
-conclusion that neither of them are correct.
+Thanks for your quick response!  As already discussed with Heiko,
+I'll move forward with implementing a complete file-level conversion.
+At first, I thought that a partial bugfix would be beneficial, [1]
+but now I agree that performing a complete file-level coversion is
+the way to go. [2]
 
->
-> static bool dma_fence_array_signaled(struct dma_fence *fence)
-> {
->     struct dma_fence_array *array = to_dma_fence_array(fence);
->     unsigned int i;
->
->     if (atomic_read(&array->num_pending)) {
->         for (i = 0; i < array->num_fences; i++) {
->             if (!dma_fence_is_signaled(array->fences[i]))
->                 return false;
+I've got to admit, I love seeing that DRM_DEV_ERROR() is deprecated,
+because I've never been a big fan of the format of the messages
+it produces.
 
-That's not correct. num_pending is not necessary equal to the number of 
-fences in the array.
+[1] 
+https://lore.kernel.org/dri-devel/3734f6a5424e3537d717c587a058fc85@manjaro.org/
+[2] 
+https://lore.kernel.org/dri-devel/047164cc6e88dcbc7701cb0e28d564db@manjaro.org/
 
-E.g. we have cases where num_pending is just 1 so that the 
-dma_fence_array signals when *any* fence in it signals.
-
-> }
->     }
->
->     dma_fence_array_clear_pending_error(array);
->     return true;
-> }
->
-> Or if the optimisation to not walk the array when signalling is 
-> already enabled is deemed important, perhaps a less thinking inducing 
-> way would be this:
-...
-> Decrementing locally cached num_pending in the loop I think does not 
-> bring anything since when signalling is not enabled it will be stuck 
-> at num_fences. So the loop walks the whole array versus bail on first 
-> unsignalled, so latter even more efficient.
-
-That is not for optimization but for correctness.
-
-What the patch basically does is the following:
-1. Grab the current value of num_pending.
-
-2. Test if num_pending was potentially already modified because 
-signaling is already enabled, if yes just test it and return the result.
-
-3. If it wasn't modified go over the fences and see if we already have 
-at least num_pending signaled.
-
-I should probably add a code comment explaining that.
-
-> In which case, should dma-fence-chain also be aligned to have the fast 
-> path bail out?
-
-Good point need to double check that code as well.
-
-Thanks,
-Christian.
-
->
-> Regards,
->
-> Tvrtko
->
->>   +signal:
->>       dma_fence_array_clear_pending_error(array);
->>       return true;
->>   }
-
+>>  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c 
+>> b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> index f451e70efbdd..ffa7f2bc640d 100644
+>> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> @@ -1387,7 +1387,8 @@ static int dw_mipi_dsi_rockchip_probe(struct 
+>> platform_device *pdev)
+>>  	dsi->phy = devm_phy_optional_get(dev, "dphy");
+>>  	if (IS_ERR(dsi->phy)) {
+>>  		ret = PTR_ERR(dsi->phy);
+>> -		DRM_DEV_ERROR(dev, "failed to get mipi dphy: %d\n", ret);
+>> +		if (ret != -EPROBE_DEFER)
+>> +			DRM_DEV_ERROR(dev, "Failed to get mipi dphy: %d\n", ret);
+>>  		return ret;
+>>  	}
+>> 
