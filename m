@@ -2,94 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFD49C2228
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:33:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECF79C2017
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 16:11:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BFBF10EA13;
-	Fri,  8 Nov 2024 16:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 339CE10E9E5;
+	Fri,  8 Nov 2024 15:11:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linumiz.com header.i=@linumiz.com header.b="D1lJq6uU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LQbRcqxZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Fri, 08 Nov 2024 14:13:36 UTC
-Received: from omta038.useast.a.cloudfilter.net
- (omta038.useast.a.cloudfilter.net [44.202.169.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C391910E9C1
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 14:13:36 +0000 (UTC)
-Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
- by cmsmtp with ESMTPS
- id 92gYtJtThg2lz9Pd4tku4o; Fri, 08 Nov 2024 14:06:26 +0000
-Received: from md-in-79.webhostbox.net ([43.225.55.182]) by cmsmtp with ESMTPS
- id 9Pd1tj9h3IVD39Pd2tAKJR; Fri, 08 Nov 2024 14:06:25 +0000
-X-Authority-Analysis: v=2.4 cv=IIcECBvG c=1 sm=1 tr=0 ts=672e1ae1
- a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
- a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10 a=VwQbUJbxAAAA:8
- a=N0_SVMCKczatFtdaR1UA:9 a=QEXdDO2ut3YA:10 a=ZCPYImcxYIQFgLOT52_G:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
- ; s=default;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:Cc:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=G0sUQjvOBk5B7kF86MBReNvaIgs7XdYt9a7X6u95KvI=; b=D1lJq6uUB2SbYrHNUsyv+lKoap
- tPXxNaSsKzycBkj8viPTPeuQzaW2EhEhocHzUx+kw5ShOtGEToD5zrtzAtnPgPAyJvO3EJOCY3Ys9
- C9Grhy7VZFJ2EWAAAjMwO8iFmLWwygp8FBgFyIFI2v4OZCeZs3OY4w3TBaVchSyO2hCYoOGETBvsh
- O/uJcRK84TBuP/s2oBKlhvP9lFNUfF6nwmitZ9jq1YnbHnXsocIhpDzeS3VNWZOPebThnK3zMui5+
- ivFDNY/bWMMhJS0Ijpp8xZl3+Qbk5zo6eqGElJf64EWJHO57KjEUPpjfwPAj6HS9AyRRsOAp5Pl66
- 3o3FL5cw==;
-Received: from [122.165.245.213] (port=41996 helo=[192.168.1.5])
- by md-in-79.webhostbox.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <parthiban@linumiz.com>) id 1t9Pcx-001wS1-09;
- Fri, 08 Nov 2024 19:36:19 +0530
-Message-ID: <b26b9d86-4ff9-4543-85ce-176dccfbfa05@linumiz.com>
-Date: Fri, 8 Nov 2024 19:36:16 +0530
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4096F10E9E8;
+ Fri,  8 Nov 2024 15:11:35 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-539f8490856so2862331e87.2; 
+ Fri, 08 Nov 2024 07:11:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1731078693; x=1731683493; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=U5wDavXbl6kHrtWLmw1AnY676L6vtteGxwlVTc97ABE=;
+ b=LQbRcqxZpjQlsIZgIjh+K5EUpAEr4Xvi+5JlwlR9WADShPqGnVllx9Tl7tw3YcUqYB
+ 4HqWttK7zpVteIx/nOXLgqFx/CP8sYmAsb2qQOyPipEwp6zmnqjpiFSxoVFzB3XjjY7R
+ cowCNA0Ph+XYkvfpMeHJ+BBQxi4QXSqdHcQBZ/F6ahNWOzrHlziYbbgeErMSLgnArQDH
+ sWuUAp/NnW9cQGKwLaJJyL2iMxHKYceq8FWqo6EIVdcLy5moaOOtY0Jt3DvzCr2sYCS1
+ q8zQrRZPXf2rxzC3sYxu5KcKHsyVOV220iZg4KFE+HHxGAX2R153RmMP1tXvRrlpCdIa
+ 4w0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731078693; x=1731683493;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=U5wDavXbl6kHrtWLmw1AnY676L6vtteGxwlVTc97ABE=;
+ b=mjQUbqMp2tb3fByn3y8eOYC0F2F6Um6ZNTjjNmWZfYzlsHz67RxjhSIms8Febn3+1D
+ gQj3HwmxxvvEhJnRtY0tTmYlnT+xEH+SreTQaMgrlfCG91qw0PbWMOiGZXeicqhd5EMt
+ hRICdphB/oKSZJH6FJjKY0aDEEAnYeb1s722jo+hl4F7MwWD5pBZAfPhvAhTpv6IjQpa
+ lF8GH6aBqpLCiEBHSdjDe9vE8hUEZfGZ/KIk0kHoKFUaSfqGblcv0aXoNfHm7NUY01Zm
+ l3kpHAQWB5m+69zwUtXwONG+LYBLBeGwuH5olQhtV498wYAGXGMw93anAnCAPUSivR7a
+ jN4w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUGcBjuRyQ2Lel1SVpAcqbEKcxxLVyD2jTawncFkmLw1QeD2rsvM99fha3UbaclNnH3XBE0EDgTsFE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzYmmstEWX76PhQ/ZHaUX396JPF00abJoJ2Qq94m3yRoOqCXcsW
+ 2F9N0YVsLaF6ui6l7YY+cH/q7cA0KnmsxX8DwWt0VZ+odm/ot1ObxhoRDKKSEjywG/37qMt3+Ec
+ feD/IyisQ/FGsWg08R0o36PP6hBg=
+X-Google-Smtp-Source: AGHT+IFv1gGClUgaEFptD5aM84mK3BN5LEkQyWsHQYYxxMAYDUMP/jNYEp4MzOiR4NVSTBa+hEA59v81vDQSmAp5+gQ=
+X-Received: by 2002:a05:651c:2212:b0:2fb:556c:fdfc with SMTP id
+ 38308e7fff4ca-2ff2021eea6mr18749581fa.12.1731078692816; Fri, 08 Nov 2024
+ 07:11:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: parthiban@linumiz.com, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: Workaround TCON TOP conflict between DE0 and
- DE1
-To: John Watts <contact@jookia.org>, Andre Przywara <andre.przywara@arm.com>
-References: <20241108-tcon_fix-v1-1-616218cc0d5f@jookia.org>
- <20241108115357.691b77b0@donnerap.manchester.arm.com>
- <Zy4SKCBwce3q0yj5@titan>
-Content-Language: en-US
-From: Parthiban <parthiban@linumiz.com>
-Organization: Linumiz
-In-Reply-To: <Zy4SKCBwce3q0yj5@titan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - linumiz.com
-X-BWhitelist: no
-X-Source-IP: 122.165.245.213
-X-Source-L: No
-X-Exim-ID: 1t9Pcx-001wS1-09
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:41996
-X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 4
-X-Org: HG=dishared_whb_net_legacy;ORG=directi;
-X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfPsVs6k6oThOTx2SYCnsDT7DQ6zmIbXfnUfHVMPPart48ByywQIeFg1x+GO4wQL/u+MjEIgFAcMWxtbvxTrkklOnedldg2t/POz4sFMuxbWfPZ5Sl0ib
- 5DhZ0JYL4kI6oDTEctVEwaUSWtpTHbgScJxajhqTEgP8RBa8J+OURbx1jQlPc83zX/eNYJLb0lt+EqQW6CJZ4J4dOfrbEWdhxGXPnRuBaSf/873vW9G/LnjY
-X-Mailman-Approved-At: Fri, 08 Nov 2024 16:33:34 +0000
+References: <20241008191623.8171-1-advaitdhamorikar@gmail.com>
+In-Reply-To: <20241008191623.8171-1-advaitdhamorikar@gmail.com>
+From: Advait Dhamorikar <advaitdhamorikar@gmail.com>
+Date: Fri, 8 Nov 2024 20:41:21 +0530
+Message-ID: <CAJ7bep+uo5_xF13e_1mYFMf1npWw1cTbcOe+f19avpjEPfyBqQ@mail.gmail.com>
+Subject: Re: [PATCH-next v3] drm/amdgpu: Cleanup shift coding style
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, simona@ffwll.ch, leo.liu@amd.com, 
+ sathishkumar.sundararaju@amd.com, saleemkhan.jamadar@amd.com, 
+ sonny.jiang@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+ anupnewsmail@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,78 +81,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/8/24 6:59 PM, John Watts wrote:
-> On Fri, Nov 08, 2024 at 11:53:57AM +0000, Andre Przywara wrote:
->> Hi John,
-> 
-> Hi Andre!
-> 
->> Can you say *why* this patch is needed? Is there something broken that
->> needs fixing? Where does this show and why wasn't this a problem before?
-> 
-> Oops, that's a good point. There is currently a bug where the LCD output will
-> be tinted. I have full context here which I should have probably linked in the
-> patch description:
-> 
-> https://lore.kernel.org/linux-sunxi/Zn8GVkpwXwhaUFno@titan/T/#u
-> 
->> To be honest, given the isolation on this patch, I'd rather wait for this
->> full fledged solution, especially if there is no pressing need (see above).
-> 
-> I'd be interested to hear if that's still the wanted solution given the link
-> above. This currently blocks many people from having working LCD output.
-> 
-> Doing it the proper way might be overkill for now unless someone deliberately
-> tries to run two DEs to the same output. I haven't seen this use case.
-> 
-> Allwinner kernel fork initially sets them up to values like these then makes
-> sure both DEs can't be set to the same TCON.
-> 
->>> -	writel(0, regs + TCON_TOP_PORT_SEL_REG);
->>> +	writel(0x20, regs + TCON_TOP_PORT_SEL_REG);
->>
->> Sorry, but that looks weird:
->> First, please explain the 0x20. Is it bit 5? If yes, what does that bit
->> mean? The commit message suggests you know that?
->>
->> And second: the comment above clearly states that those two writes just
->> *clear* some registers, to have some sane base line. So please adjust this
->> comment, and copy in some of the rationale from the commit message.
->> Explaining things in the commit message is good (so thanks for that!), but
->> having at least some terse technical explanations near the code, in a
->> comment, is better.
-> 
-> Bit 5 is value 3 of TCON_TOP_PORT_DE1_MSK. The R40 datasheet explains the
-> values of both masks as follows:
-> 
-> 00: TCON_LCD0
-> 01: TCON_LCD1
-> 10: TCON_TV0
-> 11: TCON_TV1
-> 
-> So this sets DE1's input to DE0.
+Hello,
 
-To add, 0x20 will be DE0 <--> LCD0 and DE1 <--> TV0. Below note (copied from
-R40) states the priority of the DE selection, which fails to work? Not sure,
-may be disabling CORE1_SCLK_GATE and CORE1_HCLK_GATE in de2-clk helps.
+I have addressed the previous comments,
+Is there something more that I need to address in this version of the patch?
+I would appreciate feedback.
 
-With A133 following the same as T113 with single mixer without TV, still
-sets 0x20 in vendor kernel.
+Best regards,
+Advait
 
-copied from R40:
-Note: The priority of DE0 is higher than DE1.
-If TCON_LCD0 selects DE0 and DE1 as source at the same time, then
-DE0 will be used for the source of TCON_LCD0.
-
-Thanks,
-Parthiban
-
-> 
->>
->> Cheers,
->> Andre
-> 
-> Thanks,
-> John Watts
-> 
-
+On Wed, 9 Oct 2024 at 00:46, Advait Dhamorikar
+<advaitdhamorikar@gmail.com> wrote:
+>
+> Improves the coding style by updating bit-shift
+> operations in the amdgpu_jpeg.c driver file.
+> It ensures consistency and avoids potential issues
+> by explicitly using 1U and 1ULL for unsigned
+> and unsigned long long shifts in all relevant instances.
+>
+>
+> Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
+> ---
+> v1->v2: address review comments
+> https://lore.kernel.org/lkml/CAJ7bepJrm9tJJMSZXz0B_94y8817X4oFpwnrTmUHeagOFgVL7g@mail.gmail.com/
+> v2->v3: update changelog and add additional 1U cleanups
+> https://lore.kernel.org/lkml/CADnq5_OgZvTgUDvDqDikoUh28jTRm2mOAVV6zAEtWE9RHTFkyA@mail.gmail.com/
+>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+> index 95e2796919fc..995bc28b4fe6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+> @@ -47,7 +47,7 @@ int amdgpu_jpeg_sw_init(struct amdgpu_device *adev)
+>                 adev->jpeg.indirect_sram = true;
+>
+>         for (i = 0; i < adev->jpeg.num_jpeg_inst; i++) {
+> -               if (adev->jpeg.harvest_config & (1 << i))
+> +               if (adev->jpeg.harvest_config & (1U << i))
+>                         continue;
+>
+>                 if (adev->jpeg.indirect_sram) {
+> @@ -73,7 +73,7 @@ int amdgpu_jpeg_sw_fini(struct amdgpu_device *adev)
+>         int i, j;
+>
+>         for (i = 0; i < adev->jpeg.num_jpeg_inst; ++i) {
+> -               if (adev->jpeg.harvest_config & (1 << i))
+> +               if (adev->jpeg.harvest_config & (1U << i))
+>                         continue;
+>
+>                 amdgpu_bo_free_kernel(
+> @@ -110,7 +110,7 @@ static void amdgpu_jpeg_idle_work_handler(struct work_struct *work)
+>         unsigned int i, j;
+>
+>         for (i = 0; i < adev->jpeg.num_jpeg_inst; ++i) {
+> -               if (adev->jpeg.harvest_config & (1 << i))
+> +               if (adev->jpeg.harvest_config & (1U << i))
+>                         continue;
+>
+>                 for (j = 0; j < adev->jpeg.num_jpeg_rings; ++j)
+> @@ -357,7 +357,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_set(void *data, u64 val)
+>         if (!adev)
+>                 return -ENODEV;
+>
+> -       mask = (1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1;
+> +       mask = (1ULL << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1;
+>         if ((val & mask) == 0)
+>                 return -EINVAL;
+>
+> @@ -388,7 +388,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_get(void *data, u64 *val)
+>                 for (j = 0; j < adev->jpeg.num_jpeg_rings; ++j) {
+>                         ring = &adev->jpeg.inst[i].ring_dec[j];
+>                         if (ring->sched.ready)
+> -                               mask |= 1 << ((i * adev->jpeg.num_jpeg_rings) + j);
+> +                               mask |= 1ULL << ((i * adev->jpeg.num_jpeg_rings) + j);
+>                 }
+>         }
+>         *val = mask;
+> --
+> 2.34.1
+>
