@@ -2,111 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFAF9C19A2
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 10:58:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7709C1A11
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 11:13:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2A510E953;
-	Fri,  8 Nov 2024 09:58:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8A110E147;
+	Fri,  8 Nov 2024 10:13:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bA0xG7X0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jRt8yXNt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A85E10E954
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 09:58:23 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-539e63c8678so2115946e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 01:58:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731059901; x=1731664701; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5H92Szh7zfoJ1X3k0f3O/M8Kef9HnGfDZM9F62PdTF8=;
- b=bA0xG7X0gOhixolLNx/weTbVgAWqN1evm3jZ4e+Ta9m9uUh0LGBwFGKAMc8kNdXh5v
- b+ZoQyWdEs0Y1eRE2sTd3ujQldYWDdLdHV6D+XJxgUTbDBUOqRRqMVvMr6ZHwqwpr9um
- p8p5gVzIxtkxcReIxUvgn0NKEp8HvrI8fofFmhVB8J4aJw84H2ecFFdY9F/+Dc+jTzSi
- Mb7EmWKMbnm3o8AwVeqtmHC8gN8jW37kiAtYAtDl5BirioOsRoKiihVIjM1YillNlGZY
- NGVZuA1gJugAZoCf9MIRdnGRAlFTXPnjbhCsx9bE6sQNYWv9HpkACEGYFYEwioFOMdMb
- AQww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731059902; x=1731664702;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5H92Szh7zfoJ1X3k0f3O/M8Kef9HnGfDZM9F62PdTF8=;
- b=u1PzSbtaawtQJUrDQAh7RALrkPFQ3ueV7T+HRSyZOb8mc5gyUPMenGEtXpTJBvGQU7
- 7tsmxADfCYxOy2TXyhTRVb68mQfywtUPtLFUA0UXU3uS+wLuALPRCx0N1sfpl9b6qSmi
- E6mgpyslp4yVqfizA+cez1frpu5twbDAwlHjLRrdHcmzfc7Yc8DYMNUcrsmo2P2iqw27
- G7tWZSEgN4I6R2Cl54PhPQ0OKToQD0Yljoz5KoPOwpkbwrG2/HjoKrZP1vCGJn0y3U7p
- oaSZE95zLx03YMrmBRrDLm7AkM08aw0o/iLLAoNXtWtqSjYJ9j9E80z85v87P8ZkQN/e
- F3mg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUS7N95RoDKhlqeY/pa0P1dmj0dg9mAdxMImvcJojYKfSzv841PXSPHD6FtlLa0DEMGnZYK/bdG6e8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwiyuKkX9BhNHwDIlWPYPBG4hMFHwAtM5znduDE/cRH7sx6501e
- 5rweoCsHyBo0Uc+VVzDQmccAIT0AUm70a4g4Cp0sUrLsjzYOQxeiKW7KGPbPj78=
-X-Google-Smtp-Source: AGHT+IFRdqMG06HtkdzkHICdIIWrY7d6GXyCPZ8Qa2uAHGCAECQ9+blFxeuQwDqlNWgVG3erwh8s3g==
-X-Received: by 2002:a05:6512:2256:b0:539:905c:15ab with SMTP id
- 2adb3069b0e04-53d862e3e86mr1089619e87.32.1731059901467; 
- Fri, 08 Nov 2024 01:58:21 -0800 (PST)
-Received: from [172.20.143.194] ([154.14.63.34])
- by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-432b05e6042sm57204805e9.44.2024.11.08.01.58.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Nov 2024 01:58:21 -0800 (PST)
-Message-ID: <fe2f0356-ef90-4fc4-85c1-6a42da209b88@linaro.org>
-Date: Fri, 8 Nov 2024 09:58:16 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7E1A10E147;
+ Fri,  8 Nov 2024 10:13:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1731060784; x=1762596784;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Er/tiXvYNotlGr/mneGDlszAar7ahjAVj3NcCM7/bH0=;
+ b=jRt8yXNtvWL1zFBoUr2JnOw3u5/uWMGs8yHgGo3/XDDuvr/pa4RWEFDH
+ befAvK6HqEMqXJcO3tiyuA6ZhRhNrOOPN+pTJfuXHeq8xWawdXWETH1ew
+ MdwDCEXzksLQUrcE5pbd8hGX5IcJ8fwiaRNtLVWohV14gHk/UdYkgUoSz
+ 5BBlWCGnYJ/oTAbaAEVL9VHFB/iYw1Tum0u0EDmMX23eT1uB9lj6chlYt
+ J8BH+X4OAHqaJDYNZG2cc/W3wGo5duvqEqAHoi+q6Pbb9JZR++7uAeJZd
+ nj1oVnnJGN1pLvWrngcHuhIeVPOKS3u5Fuw6A/41H9IWi8V3xu91YdLGz g==;
+X-CSE-ConnectionGUID: ckdstStJSLmuYGnRqEyw5Q==
+X-CSE-MsgGUID: YUt4g83qS9WPYpsI5H+ZAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31107461"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="31107461"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2024 02:13:03 -0800
+X-CSE-ConnectionGUID: jUkMLQ6oRBObxq1OX6AHXA==
+X-CSE-MsgGUID: G7grHtHIRay2/KDuPft3zA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; d="scan'208";a="85629448"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by fmviesa008.fm.intel.com with ESMTP; 08 Nov 2024 02:12:58 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t9Lz6-000rIQ-1U;
+ Fri, 08 Nov 2024 10:12:56 +0000
+Date: Fri, 8 Nov 2024 18:12:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paloma Arellano <quic_parellan@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Douglas Anderson <dianders@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 11/14] drm/msm/dp: move/inline audio related functions
+Message-ID: <202411081748.0PPL9MIj-lkp@intel.com>
+References: <20241108-fd-dp-audio-fixup-v1-11-40c8eeb60cf5@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/10] nvmem: core: calculate bin_attribute size
- through bin_size()
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>,
- Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
- Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "David E. Box" <david.e.box@linux.intel.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Frederic Barrat <fbarrat@linux.ibm.com>,
- Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
- Logan Gunthorpe <logang@deltatee.com>, "K. Y. Srinivasan"
- <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
-Cc: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-cxl@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, linux-mtd@lists.infradead.org,
- platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-alpha@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org
-References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
- <20241103-sysfs-const-bin_attr-v2-4-71110628844c@weissschuh.net>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20241103-sysfs-const-bin_attr-v2-4-71110628844c@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241108-fd-dp-audio-fixup-v1-11-40c8eeb60cf5@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,57 +79,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dmitry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 74741a050b79d31d8d2eeee12c77736596d0a6b2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-dp-fix-msm_dp_utils_pack_sdp_header-interface/20241108-082302
+base:   74741a050b79d31d8d2eeee12c77736596d0a6b2
+patch link:    https://lore.kernel.org/r/20241108-fd-dp-audio-fixup-v1-11-40c8eeb60cf5%40linaro.org
+patch subject: [PATCH 11/14] drm/msm/dp: move/inline audio related functions
+config: x86_64-buildonly-randconfig-002-20241108 (https://download.01.org/0day-ci/archive/20241108/202411081748.0PPL9MIj-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081748.0PPL9MIj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411081748.0PPL9MIj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/msm/dp/dp_audio.c:11:
+   In file included from include/drm/display/drm_dp_helper.h:27:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/msm/dp/dp_audio.c:213:5: warning: variable 'safe_to_exit_level' is uninitialized when used here [-Wuninitialized]
+     213 |                                 safe_to_exit_level);
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:636:59: note: expanded from macro 'drm_dbg_dp'
+     636 |         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DP, fmt, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/drm/drm_print.h:540:39: note: expanded from macro 'drm_dev_dbg'
+     540 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
+         |                                              ^~~~~~~~~~~
+   drivers/gpu/drm/msm/dp/dp_audio.c:198:24: note: initialize the variable 'safe_to_exit_level' to silence this warning
+     198 |         u32 safe_to_exit_level, mainlink_levels;
+         |                               ^
+         |                                = 0
+   2 warnings generated.
 
 
-On 03/11/2024 17:03, Thomas Weißschuh wrote:
-> Stop abusing the is_bin_visible() callback to calculate the attribute
-> size. Instead use the new, dedicated bin_size() one.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> ---
-Thanks for the patch,
+vim +/safe_to_exit_level +213 drivers/gpu/drm/msm/dp/dp_audio.c
 
-LGTM.
+d13e36d7d2227e Abhinav Kumar    2020-09-12  195  
+fb7d509b1710d1 Dmitry Baryshkov 2024-10-29  196  static void msm_dp_audio_safe_to_exit_level(struct msm_dp_audio_private *audio)
+d13e36d7d2227e Abhinav Kumar    2020-09-12  197  {
+568837beeb38ef Dmitry Baryshkov 2024-11-08  198  	u32 safe_to_exit_level, mainlink_levels;
+d13e36d7d2227e Abhinav Kumar    2020-09-12  199  
+fb7d509b1710d1 Dmitry Baryshkov 2024-10-29  200  	switch (audio->msm_dp_audio.lane_count) {
+d13e36d7d2227e Abhinav Kumar    2020-09-12  201  	case 1:
+d13e36d7d2227e Abhinav Kumar    2020-09-12  202  		safe_to_exit_level = 14;
+d13e36d7d2227e Abhinav Kumar    2020-09-12  203  		break;
+d13e36d7d2227e Abhinav Kumar    2020-09-12  204  	case 2:
+d13e36d7d2227e Abhinav Kumar    2020-09-12  205  		safe_to_exit_level = 8;
+d13e36d7d2227e Abhinav Kumar    2020-09-12  206  		break;
+d13e36d7d2227e Abhinav Kumar    2020-09-12  207  	case 4:
+d13e36d7d2227e Abhinav Kumar    2020-09-12  208  		safe_to_exit_level = 5;
+d13e36d7d2227e Abhinav Kumar    2020-09-12  209  		break;
+d13e36d7d2227e Abhinav Kumar    2020-09-12  210  	default:
+202aceac8bb3ae Kuogee Hsieh     2022-02-17  211  		drm_dbg_dp(audio->drm_dev,
+202aceac8bb3ae Kuogee Hsieh     2022-02-17  212  				"setting the default safe_to_exit_level = %u\n",
+d13e36d7d2227e Abhinav Kumar    2020-09-12 @213  				safe_to_exit_level);
+d13e36d7d2227e Abhinav Kumar    2020-09-12  214  		safe_to_exit_level = 14;
+d13e36d7d2227e Abhinav Kumar    2020-09-12  215  		break;
+d13e36d7d2227e Abhinav Kumar    2020-09-12  216  	}
+d13e36d7d2227e Abhinav Kumar    2020-09-12  217  
+568837beeb38ef Dmitry Baryshkov 2024-11-08  218  	mainlink_levels = msm_dp_read_link(audio->catalog, REG_DP_MAINLINK_LEVELS);
+568837beeb38ef Dmitry Baryshkov 2024-11-08  219  	mainlink_levels &= 0xFE0;
+568837beeb38ef Dmitry Baryshkov 2024-11-08  220  	mainlink_levels |= safe_to_exit_level;
+568837beeb38ef Dmitry Baryshkov 2024-11-08  221  
+568837beeb38ef Dmitry Baryshkov 2024-11-08  222  	drm_dbg_dp(audio->drm_dev,
+568837beeb38ef Dmitry Baryshkov 2024-11-08  223  		   "mainlink_level = 0x%x, safe_to_exit_level = 0x%x\n",
+568837beeb38ef Dmitry Baryshkov 2024-11-08  224  		   mainlink_levels, safe_to_exit_level);
+568837beeb38ef Dmitry Baryshkov 2024-11-08  225  
+568837beeb38ef Dmitry Baryshkov 2024-11-08  226  	msm_dp_write_link(audio->catalog, REG_DP_MAINLINK_LEVELS, mainlink_levels);
+d13e36d7d2227e Abhinav Kumar    2020-09-12  227  }
+d13e36d7d2227e Abhinav Kumar    2020-09-12  228  
 
-Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
---srini
-
->   drivers/nvmem/core.c | 13 +++++++++++--
->   1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-> index 33ffa2aa4c1152398ec66b8dd7b30384c5346a6e..63370c76394ee9b8d514da074779617cef67c311 100644
-> --- a/drivers/nvmem/core.c
-> +++ b/drivers/nvmem/core.c
-> @@ -303,11 +303,19 @@ static umode_t nvmem_bin_attr_is_visible(struct kobject *kobj,
->   	struct device *dev = kobj_to_dev(kobj);
->   	struct nvmem_device *nvmem = to_nvmem_device(dev);
->   
-> -	attr->size = nvmem->size;
-> -
->   	return nvmem_bin_attr_get_umode(nvmem);
->   }
->   
-> +static size_t nvmem_bin_attr_size(struct kobject *kobj,
-> +				  const struct bin_attribute *attr,
-> +				  int i)
-> +{
-> +	struct device *dev = kobj_to_dev(kobj);
-> +	struct nvmem_device *nvmem = to_nvmem_device(dev);
-> +
-> +	return nvmem->size;
-> +}
-> +
->   static umode_t nvmem_attr_is_visible(struct kobject *kobj,
->   				     struct attribute *attr, int i)
->   {
-> @@ -383,6 +391,7 @@ static const struct attribute_group nvmem_bin_group = {
->   	.bin_attrs	= nvmem_bin_attributes,
->   	.attrs		= nvmem_attrs,
->   	.is_bin_visible = nvmem_bin_attr_is_visible,
-> +	.bin_size	= nvmem_bin_attr_size,
->   	.is_visible	= nvmem_attr_is_visible,
->   };
->   
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
