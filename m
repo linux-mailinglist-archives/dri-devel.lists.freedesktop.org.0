@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA899C309D
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2024 03:31:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424E49C3094
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2024 03:31:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B615E10E3C4;
-	Sun, 10 Nov 2024 02:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C247D10E122;
+	Sun, 10 Nov 2024 02:30:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ku4lv8Rc";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hpoyxu7h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3A5910EA37
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 20:05:08 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-71e592d7f6eso2001026b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 12:05:08 -0800 (PST)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 988C110EA38
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 20:05:16 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-7240d93fffdso1740381b3a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 12:05:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731096308; x=1731701108; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1731096316; x=1731701116; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fiygXowfj2xS0ANkI4lNzcEmZTYJF85QwdGr+dM89hQ=;
- b=Ku4lv8RccX6ihLuJoezVbAXcepSAJoEzhGilx1vmgjaPV6AYo03yWp3SvAkXMe45wY
- qj7ne5YaChuHvvXhxRRVh0DDUHST/aDjOX9c9qzY+NuRXqjRpHAQGA/knXIMzeKfMVOa
- JIdxwzA7Pbkji7Z0+r5lqGfjw6OrcMz+GVlwmNDuazfXfYm1GZPsA7mQjBh8zUuj0UUU
- 6T0cIGsZD6CNBEck7ma02unoRYbOYJxQiIPpl1AKxsxskmbUpHH7RKOmHT6N7glOhECx
- rCyPe5o1ocs3FHQq9KHuo8/l5Y1IA6/RMe9qFoyc3EokJBDuH9C2Yw0I4h3lEakfXPt1
- 6hOA==
+ bh=9B9/uFLOOn4ZbNcTo/txJrGhuvZT2A1CoYSagunaXMA=;
+ b=hpoyxu7htF7KKLhpkEH6SRzgbYBOsQ6GWVjM+U8kREZ9jA7BzsfWf5Zn8wE/GcZasR
+ 1yImo76UQsonAcqqUOhIV+e+k2EcajNyQeksojweVy5kdmIaYpgDHaDSGSkPRPHBs2fM
+ rT9acmtwKqeehUVZv/dx2yKZf/Ycew8WzU0IUpVa1RNQJfkkGkGb5znYI81A62EWBizD
+ LaD/YJaLK6dyn0Vza5Vj0TW1O3H2ChlqCVdUdmiM3mzDs8NVDaQ6d9AmCStyz0lhnUJK
+ Ku4D5/HbzVtG6p/NvjlgPO1sKKGKIh3WtPU4+HOZ7A70K7o32DhSLMX6V0LtNDw1BrIe
+ br1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731096308; x=1731701108;
+ d=1e100.net; s=20230601; t=1731096316; x=1731701116;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fiygXowfj2xS0ANkI4lNzcEmZTYJF85QwdGr+dM89hQ=;
- b=UtWOIZJhvZ2MCiLrOxnkIYuTExkOIJHSPfqoEVQchVAO+zoVrk9aa+N3AZfK0VqOg8
- XOzU0glT+tocABpKdx16kr+Y8ORWfcI8ye9jIGztHlupaQpYPCS6+BhWftQlU9WqPrUz
- 4RWilkFMyEqQBXd0uIvdLwLKkBSNd7Eu3X1jhHvqJ6XBI/bwawLpS8j6ovZkrhsQnrLQ
- 5u6b/caTpfFmx4uQXTJtbtSMfejZS/NwrK8UCDnqIJoQBcxLULkmpkExUs3OuBlEPR1s
- 1fmhlJqCN+lGq5OtqO2db4z76hjf3PJNP+zSiRg6clhpTARj0+2B5euwa6b0/e++P+5A
- pvqw==
+ bh=9B9/uFLOOn4ZbNcTo/txJrGhuvZT2A1CoYSagunaXMA=;
+ b=iBpZ97wgh8kAkbvaHCD/JAf/v66lkS96x+pMWR5YoDi+95QcRaccmNEoe8CWRA9Z+E
+ y6CaHZVEWhLoOKRg/bwRFmzyi3txtNFPRLu+T2sZStmCD4f6CF5rVt7n1mUPEGCL7roi
+ rD25ka5fsoXQzd9kdJS1KnfwHFhtPxpt+GD10hABiSwUxpi8Ly/kG9DAOngsMEpCaXby
+ uKhIbNfkFgj2crjVpIITHwQZ+YYdI5cVucQQ+PWb7PgjCdZOcNRXlpOsQF7ey89yI3yy
+ tD3Jgi7Xn+2cZxq0hKtT0sj19rCa9fH9+vXl23gqqBP9uUFOWn4aVgo7rs/51AXN2ZPU
+ egew==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVLlRzZufCXzIe6ZxMD8W0Q5ZuuAJRtpNxbeJ1jFDgsfBz7C7rL79VKJGta9UDxfyamid/U4Pbg/Ck=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPoS+TmH75y3vkpSi5Y5Fv6sFy4vUKaHwD2KNs6axRVTIuGe84
- 8vZkcqKIo6EYFldPCtf5MKTWp3gEoknVmsVOmTt/VIjz6wBFkUA1
-X-Google-Smtp-Source: AGHT+IHFVcWsj4wQxT4Lvx+sGGBEcUtl52l528efG+ad5oEcb6k9RWZbAuObnKv7LbWbEMApNtaWGQ==
-X-Received: by 2002:a05:6a00:1a89:b0:71e:2a0:b0b8 with SMTP id
- d2e1a72fcca58-7241327d630mr4861845b3a.1.1731096308018; 
- Fri, 08 Nov 2024 12:05:08 -0800 (PST)
+ AJvYcCUt/E1GbKmKfklAFNd7jgJR6kPFcX5D7YJ3s9J9Y+R4P6zwFTtRtdVms3jP6ofgq2zrCxHjjCGDJrc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyf/pbsZWFQE9TL8sWzXpA+HO3F4p64vfH21WvgpBsP4oQSIaIF
+ prx5tRneSD/QFMdN7RjfAsQTJgWI/v6BU4yJotrJ1QF8RSYuHE1d
+X-Google-Smtp-Source: AGHT+IE2Lablg6vylck0Olus5bD9lVpuXjOXJcDcWvk1Zob64wzNSD+el3H/ILETLAkH9z2RBYMEqw==
+X-Received: by 2002:a05:6a00:4f93:b0:71e:6c65:e7c4 with SMTP id
+ d2e1a72fcca58-7241339e122mr4768961b3a.26.1731096316086; 
+ Fri, 08 Nov 2024 12:05:16 -0800 (PST)
 Received: from mighty.kangaroo-insen.ts.net ([120.88.183.182])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-72407a56a30sm4323418b3a.188.2024.11.08.12.05.00
+ d2e1a72fcca58-72407a56a30sm4323418b3a.188.2024.11.08.12.05.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Nov 2024 12:05:07 -0800 (PST)
+ Fri, 08 Nov 2024 12:05:15 -0800 (PST)
 From: Mithil Bavishi <bavishimithil@gmail.com>
 To: Aaro Koskinen <aaro.koskinen@iki.fi>,
  Andreas Kemnade <andreas@kemnade.info>,
@@ -76,9 +76,10 @@ To: Aaro Koskinen <aaro.koskinen@iki.fi>,
 Cc: linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-hardening@vger.kernel.org
-Subject: [PATCH v3 02/10] dt-bindings: vendor-prefixes: Add Doestek
-Date: Fri,  8 Nov 2024 20:04:31 +0000
-Message-ID: <20241108200440.7562-3-bavishimithil@gmail.com>
+Subject: [PATCH v3 03/10] dt-bindings: display: bridge: lvds-codec: add
+ doestek, dtc34lm85am
+Date: Fri,  8 Nov 2024 20:04:32 +0000
+Message-ID: <20241108200440.7562-4-bavishimithil@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241108200440.7562-1-bavishimithil@gmail.com>
 References: <20241108200440.7562-1-bavishimithil@gmail.com>
@@ -100,27 +101,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add vendor prefix for Doestek Co., Ltd.
-Link: http://www.doestek.co.kr/
+Add compatible strings for the Doestek DTC34LM85AM Flat Panel Display
+Transmitter
 
 Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index b320a39de..3ef4c948a 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -392,6 +392,8 @@ patternProperties:
-     description: D-Link Corporation
-   "^dmo,.*":
-     description: Data Modul AG
-+  "^doestek,*":
-+    description: Doestek Co., Ltd.
-   "^domintech,.*":
-     description: Domintech Co., Ltd.
-   "^dongwoon,.*":
+diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+index 6ceeed76e..a8df7e919 100644
+--- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+@@ -33,6 +33,7 @@ properties:
+     oneOf:
+       - items:
+           - enum:
++              - doestek,dtc34lm85am # For the Doestek DTC34LM85AM Flat Panel Display (FPD) Transmitter
+               - ti,ds90c185   # For the TI DS90C185 FPD-Link Serializer
+               - ti,ds90c187   # For the TI DS90C187 FPD-Link Serializer
+               - ti,sn75lvds83 # For the TI SN75LVDS83 FlatLink transmitter
 -- 
 2.43.0
 
