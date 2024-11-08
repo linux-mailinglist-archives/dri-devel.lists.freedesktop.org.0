@@ -2,69 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5EF9C150A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 05:00:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8949C157A
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 05:35:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 495E410E265;
-	Fri,  8 Nov 2024 04:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2716F10E346;
+	Fri,  8 Nov 2024 04:35:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PPRRtDCo";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="IK6eIaOz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B317F10E265
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 04:00:17 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-a9ef275b980so33918766b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Nov 2024 20:00:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731038416; x=1731643216; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CAM0QYMnxEBYV9BoGSFBZyE9KGFIHhzUSgRaGgFcXGc=;
- b=PPRRtDCoSUgAce52o0liaxrWhSSKKPRFJt8Ye2oRf6vfGzxgdWEgf6yJ2j/0ba7ZeB
- tTXso5Ea4KAEdvLotEMOtGRUtYsCOf3UK/ghs08FmJAKdoo8WtjaYmMAnhuwKgobrbjH
- F4swbayjBajrPkZTRtBBJBc9Bbjvw2K6SlgMlcRPSFTgeGs+FiOFVEJOJ+V7YD2jlLRC
- 1RKV1ai2ShA2zsV9n3tcpVm7SX1SdaMfUcOQDZWq89ZbnobPUYw1vp0zEEzjmk1Y7gI2
- kScjdCEV7E0H1waMo+Udy2EqifU6Q/VFruwsmOD75cSAjE7xY9uhp7W9o2cWNx8wYPN8
- XQjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731038416; x=1731643216;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CAM0QYMnxEBYV9BoGSFBZyE9KGFIHhzUSgRaGgFcXGc=;
- b=qYhcEnDdqBG6MnFHh/FILJNMA7t5Qm1WYZ976UfxGRXC0VFiTk2NOZ40X0QVWCAxHq
- 0iGhjmB0hIy5WdxOGa9hgxFBrbdYG560i5Z3Qo5OS1qT6S3hMm2KnYNJ4i7XLhjnb5H9
- qTyCgODAzsPdZkawGZ6hHQRfF/mlbvX1RQLW+ZSlrz8/wlweZJwxHX1bKy6ElQa9w+fz
- XuCvG9TTs8zYOOEaLmByARHoqt60byP55UU+xlpzn4UeHxc3XHekrsSidFCess2dFPqL
- ShgpVCisIZ6WKExKjnAJcVLDyeq2kLEgY2DYp7dqq9QcBPAzO771hao4jVmhKvU0wj1g
- YEnQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWvhalDrNuU8AVsZbPiQlDvwJpTUD9bw88NG8a6/7ZUdEEpXurgJ9JMrCn+akCR/i/kGsquLPnvlX8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzRnCVyO3YEb5JBV6yL2Ya6RcdandCGxc2cRJFTgVRUQKDXRDkX
- zGfT8un9M1kD6h93WrhbuCFgWCceXIBn3tkHJlDnC9I1U0L4dB8cFhXlO8BvkboO3iUfGzEFm0T
- 7CQMCBaIP6jtic+QTyvWeL/2d+pE=
-X-Google-Smtp-Source: AGHT+IEnXXzAq9QDXVim9nkhGcbbyE3zq1TU++IWts912pEkWgu8An5ocGHYEXiGwyf+pljZD6++kN/2Y2N7Uydi3D0=
-X-Received: by 2002:a17:907:2d0b:b0:a9a:c03:ebc8 with SMTP id
- a640c23a62f3a-a9eeffe9de6mr107584766b.37.1731038415728; Thu, 07 Nov 2024
- 20:00:15 -0800 (PST)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2072.outbound.protection.outlook.com [40.107.236.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4056F10E344
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 04:35:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X7rTastJBEsGv3AqkApsNUTggcoeRtnvcnT9gFRIKdG1oDaNrqBr7fpST3dcTosN/Ft5WnWgbuaC8oWZSuIj8r4Mo4XTS2W+3ixZOCqVbQH9X6BS4JZBdRfCKEUWOEBHbfAVT+CAiJX20uNgS4BzKmycfZEpdwthgl4SDso1lIE/P5jYtpl1RsZmRLNM3FV80B6m5BuZcrpLbMeUm0+bt2hSCohg/ULulDDCxYcJfCJl5AF0CuxdMOb3ZofGs2qIoEK4fbOrkf9jZPmzCIl/TUY7z1hnOV6w06Xa4gTfIbghvNfD6cRmPrNGdTmuUZB/PiUdIHAgCYNZDJO16/v3QA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c+pNDuDjNru62yMTllMuU30V9HquGclKZgKFVNsmyoA=;
+ b=nlmAplHEyCEav1Y9cdR0rdAN89zmABt6sfLk4fliwQNN5YIQo3rjkq2yMWA2Qlvo/DuVivU/7xLj+/arvhkX4KwWN2VX3Tmpr7bBN4gNP2R8eF33FHTVtJNl870E7GnTkh6n3rpQxLw4qncIm7jAmzM6EMZ9mbXsFj4DFO2gSVdrCnqIzgN0Sfxg++FI21C6cx3CIsDL3ypqpINwMkJKTBxb+lM7cI7mp0j7EBMgKh6Dj6XizoY/aFKMsGCiJC5Jz793OODy+ad8o5HeeUGQSGvefFpKhK7Rlk7BU20Si4KecGfKEb6WVHaPSQY5DyddYrQvpDKzYYHhwjXSEw0Pog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c+pNDuDjNru62yMTllMuU30V9HquGclKZgKFVNsmyoA=;
+ b=IK6eIaOzwQlZsaEEyv4vdihPjkAJ6n7RMCyIw/urJzOvRSFBY7SlW/i5OqtW3YFkODvLyaj6UZNzHAO+VZ5wQ03eRkln8Y+QZcP9l9lUapUSHi/PlYCFvQVUztrttWqOulfu9HU0J4e3Hj9dxfGmUyW1KDae9bXQHtJ1KG594Ao=
+Received: from DM6PR06CA0092.namprd06.prod.outlook.com (2603:10b6:5:336::25)
+ by SN7PR12MB7812.namprd12.prod.outlook.com (2603:10b6:806:329::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.20; Fri, 8 Nov
+ 2024 04:35:23 +0000
+Received: from DS2PEPF0000343A.namprd02.prod.outlook.com
+ (2603:10b6:5:336:cafe::31) by DM6PR06CA0092.outlook.office365.com
+ (2603:10b6:5:336::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19 via Frontend
+ Transport; Fri, 8 Nov 2024 04:35:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS2PEPF0000343A.mail.protection.outlook.com (10.167.18.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8137.17 via Frontend Transport; Fri, 8 Nov 2024 04:35:23 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 7 Nov
+ 2024 22:35:11 -0600
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 7 Nov 2024 22:35:10 -0600
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <min.ma@amd.com>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
+ <king.tam@amd.com>
+Subject: [PATCH V7 00/10] AMD XDNA driver
+Date: Thu, 7 Nov 2024 20:34:38 -0800
+Message-ID: <20241108043448.449314-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240918133956.26557-1-christian.koenig@amd.com>
-In-Reply-To: <20240918133956.26557-1-christian.koenig@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 8 Nov 2024 14:00:04 +1000
-Message-ID: <CAPM=9tzACady1QN_wMaZ_WP3n_pftAGgGkATOQWOG+n+Zvjifg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/sched: add WARN_ON and BUG_ON to drm_sched_fini
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Sima Vetter <sima@ffwll.ch>
-Cc: dakr@kernel.org, pstanner@redhat.com, dri-devel@lists.freedesktop.org, 
- ltuikov89@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB04.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF0000343A:EE_|SN7PR12MB7812:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9543a457-2d6a-48e7-53c4-08dcffaec295
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|1800799024|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FpwBolnELLYAkZW9Q8I+3bGXo8gbfcofC/4FUDwqT1UvjVue5nrJWqnGhhSp?=
+ =?us-ascii?Q?AUPeS1YLhcascQ2FYaQVTNz3/fiICpKKkFfh+qseC7TAFH3CLVxJiUJn/vWV?=
+ =?us-ascii?Q?fChO5e6bPqmiS1r4ahAi+fK4oze1Kd20ry2mAXZYiw1foikYSqg9Xkgxm8iM?=
+ =?us-ascii?Q?G6CCM1MJRolxy+EbjmMNqPsWMtNivrfUwA0JFrUe4yBDcIwzQZr6ROwxczel?=
+ =?us-ascii?Q?aMe1t5C1fTrnGfCV4yaky4rOPet+DyBKDzmouNs2Bcyu+qQDXrIwHCVoxr6d?=
+ =?us-ascii?Q?tEJ+Ta/cbi8I9ZV7kHGjWl4SkAOPT/QB2B1hNn7kJ6HZU/TjIPfAtv8rwqwL?=
+ =?us-ascii?Q?5IVwhWewjN9voj5/BCXkQ7K0ZMwok08Du3FW3kwQiQdMrFDDsD+7d6sn+703?=
+ =?us-ascii?Q?RCihfT85pKOFNRJ2T2cxwfQAbYzqqFCnWhYMqamdAoD15LwxTDAN/rmTUQha?=
+ =?us-ascii?Q?QMnhXKGGwH/qIO592BG8bhkI4gsGS7vt9toFldINPDLVvW1FgiTfcF/AzoJI?=
+ =?us-ascii?Q?xy07+swspFosgIe/AWtimRXVM2bZ6dEJZPVsoFsErLfFj/gi2oxUAyBYmriS?=
+ =?us-ascii?Q?qwlCk6DMuQ6AHn79T+cHMf0Y95bdHo49ZzNXOu/SzIp42jccR/UzM4y2c7q0?=
+ =?us-ascii?Q?G7r4xbcEbhyprZo9oBBj9hD+tYodJusGaPESsG4WbJj7pjd6LX3vz/grHooD?=
+ =?us-ascii?Q?HKOMq6AH0T092UF1G3k2fb7wyT65AvZpBwic7BqRAqbHN6/L8Fqkt0B/SgYW?=
+ =?us-ascii?Q?PnCPu51tEoSNw9iBnwoMnGN3sh5Chlt24qSDQ1cKyh06bkYYS3mq10WhluAS?=
+ =?us-ascii?Q?2YXbx7R5Y57wBjdfnlPCpU/5IE0YrxjVEl3cNijnNOxxPeKFiIJmUhLAkWBr?=
+ =?us-ascii?Q?smTyN27f6UxWwU9xkZZ9pcvSi1rf+t9C1dWsne1F5qNE9iR50W+j5Jy5CWrx?=
+ =?us-ascii?Q?8A/+pSHUWn+GuSVSsWOOewF2+T8lNzY5myHPW0wlePj7j9OCn7/i84y2zaNg?=
+ =?us-ascii?Q?G2emlk891drZx15iNTADSSrO5NB2q06lJvM44oHEHfTs+D1HcsJHiNv67crv?=
+ =?us-ascii?Q?t6QNEiIrs6WCrqW96cKtfdm6+5RQB+fEm2jTLpP57HgSJ/QycmC+UH4fGsXv?=
+ =?us-ascii?Q?wn4emxJ/YBb3oe4flXz31Kitw+cFpfD44a+tdhY4Elh36ve9stfQ2AndQyaU?=
+ =?us-ascii?Q?B5xZAVLjt/WKo/J5gnReZifHN78rb+c/FScmkS/BZnMvxpQPRmbmbzrntZhz?=
+ =?us-ascii?Q?rEKH3s4IbBXG3USZHVw76ziCOGBePh/46htepoxmHlO/gQxBjHwclZEipGt4?=
+ =?us-ascii?Q?+r1auLOgAs5ZLha9fgh+lOqu1S7B0YePhuYbdZgm03FNOCdmIZol0q/NzGHq?=
+ =?us-ascii?Q?EOFyy98=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2024 04:35:23.2945 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9543a457-2d6a-48e7-53c4-08dcffaec295
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343A.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7812
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,101 +134,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 18 Sept 2024 at 23:48, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Tearing down the scheduler with jobs still on the pending list can
-> lead to use after free issues. Add a warning if drivers try to
-> destroy a scheduler which still has work pushed to the HW.
->
-> When there are still entities with jobs the situation is even worse
-> since the dma_fences for those jobs can never signal we can just
-> choose between potentially locking up core memory management and
-> random memory corruption. When drivers really mess it up that well
-> let them run into a BUG_ON().
+This patchset introduces a new Linux Kernel Driver, amdxdna for AMD NPUs.
+The driver is based on Linux accel subsystem.
 
-I've been talking a bit to Phillip about this offline.
+NPU (Neural Processing Unit) is an AI inference accelerator integrated
+into AMD client CPUs. NPU enables efficient execution of Machine Learning
+applications like CNNs, LLMs, etc.  NPU is based on AMD XDNA
+architecture [1].
 
-I'm not sure we should ever be BUG_ON here, I think it might be an
-extreme answer, considering we are saying blocking userspace to let
-things finish is bad, I think hitting this would be much worse.
+AMD NPU consists of the following components:
 
-I'd rather we WARN_ON, and consider just saying screw it and block
-userspace close.
+  - Tiled array of AMD AI Engine processors.
+  - Micro Controller which runs the NPU Firmware responsible for
+    command processing, AIE array configuration, and execution management.
+  - PCI EP for host control of the NPU device.
+  - Interconnect for connecting the NPU components together.
+  - SRAM for use by the NPU Firmware.
+  - Address translation hardware for protected host memory access by the
+    NPU.
 
-If we really want to avoid the hang on close possibility (though I'm
-mostly fine with that) then I think Sima's option to just keep a
-reference on the driver, let userspace close and try and clean things
-up on fences in the driver later.
+NPU supports multiple concurrent fully isolated contexts. Concurrent
+contexts may be bound to AI Engine array spatially and or temporarily.
 
-I think this should be at least good for rust lifetimes.
+The driver is licensed under GPL-2.0 except for UAPI header which is
+licensed GPL-2.0 WITH Linux-syscall-note.
 
-Having an explicit memory leak is bad, having a managed memory leak is
-less bad, because at least all the memory is still pointed to by
-something and managed, at a guess we'd have to keep the whole driver
-and scheduler around, to avoid having to make special free functions.
-Unless there is some concept like TTM ghost objects we could get away
-with, but I think having to signal the fence means we should keep all
-the pieces.
+User mode driver stack consists of XRT [2] and AMD AIE Plugin for IREE [3].
 
-Dave.
+The firmware for the NPU is distributed as a closed source binary, and has
+already been pushed to the DRM firmware repository [4].
 
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index f093616fe53c..8a46fab5cdc8 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1333,17 +1333,34 @@ void drm_sched_fini(struct drm_gpu_scheduler *sch=
-ed)
->
->         drm_sched_wqueue_stop(sched);
->
-> +       /*
-> +        * Tearing down the scheduler wile there are still unprocessed jo=
-bs can
-> +        * lead to use after free issues in the scheduler fence.
-> +        */
-> +       WARN_ON(!list_empty(&sched->pending_list));
-> +
->         for (i =3D DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
->                 struct drm_sched_rq *rq =3D sched->sched_rq[i];
->
->                 spin_lock(&rq->lock);
-> -               list_for_each_entry(s_entity, &rq->entities, list)
-> +               list_for_each_entry(s_entity, &rq->entities, list) {
-> +                       /*
-> +                        * The justification for this BUG_ON() is that te=
-aring
-> +                        * down the scheduler while jobs are pending leav=
-es
-> +                        * dma_fences unsignaled. Since we have dependenc=
-ies
-> +                        * from the core memory management to eventually =
-signal
-> +                        * dma_fences this can trivially lead to a system=
- wide
-> +                        * stop because of a locked up memory management.
-> +                        */
-> +                       BUG_ON(spsc_queue_count(&s_entity->job_queue));
-> +
->                         /*
->                          * Prevents reinsertion and marks job_queue as id=
-le,
->                          * it will removed from rq in drm_sched_entity_fi=
-ni
->                          * eventually
->                          */
->                         s_entity->stopped =3D true;
-> +               }
->                 spin_unlock(&rq->lock);
->                 kfree(sched->sched_rq[i]);
->         }
-> --
-> 2.34.1
->
+[1] https://www.amd.com/en/technologies/xdna.html
+[2] https://github.com/Xilinx/XRT
+[3] https://github.com/nod-ai/iree-amd-aie
+[4] https://gitlab.freedesktop.org/drm/firmware/-/tree/amd-ipu-staging/amdnpu
+
+Changes since v6:
+- Revise command submission flow
+
+Changes since v5:
+- Remove wait_cmd ioctl and use syncobj instead
+- Cleanup spelling errors
+- Add dependencies in Kconfig
+
+Changes since v4:
+- Fix lockdep errors
+- Use __u* structure for struct aie_error
+
+Changes since v3:
+- Remove debug BO patch
+- Changes based on code review comments
+
+Changes since v2:
+- Add document amdnpu.rst
+- Change AIE2_DEVM_SIZE to 64M due to firmware change
+- Changes based on code review comments
+
+Changes since v1:
+- Remove some inline defines
+- Minor changes based on code review comments
+
+Lizhi Hou (10):
+  accel/amdxdna: Add documentation for AMD NPU accelerator driver
+  accel/amdxdna: Add a new driver for AMD AI Engine
+  accel/amdxdna: Support hardware mailbox
+  accel/amdxdna: Add hardware resource solver
+  accel/amdxdna: Add hardware context
+  accel/amdxdna: Add GEM buffer object management
+  accel/amdxdna: Add command execution
+  accel/amdxdna: Add suspend and resume
+  accel/amdxdna: Add error handling
+  accel/amdxdna: Add query functions
+
+ Documentation/accel/amdxdna/amdnpu.rst        | 281 ++++++
+ Documentation/accel/amdxdna/index.rst         |  11 +
+ Documentation/accel/index.rst                 |   1 +
+ MAINTAINERS                                   |  11 +
+ drivers/accel/Kconfig                         |   1 +
+ drivers/accel/Makefile                        |   1 +
+ drivers/accel/amdxdna/Kconfig                 |  18 +
+ drivers/accel/amdxdna/Makefile                |  21 +
+ drivers/accel/amdxdna/TODO                    |   5 +
+ drivers/accel/amdxdna/aie2_ctx.c              | 927 ++++++++++++++++++
+ drivers/accel/amdxdna/aie2_error.c            | 360 +++++++
+ drivers/accel/amdxdna/aie2_message.c          | 791 +++++++++++++++
+ drivers/accel/amdxdna/aie2_msg_priv.h         | 370 +++++++
+ drivers/accel/amdxdna/aie2_pci.c              | 761 ++++++++++++++
+ drivers/accel/amdxdna/aie2_pci.h              | 260 +++++
+ drivers/accel/amdxdna/aie2_psp.c              | 146 +++
+ drivers/accel/amdxdna/aie2_smu.c              | 119 +++
+ drivers/accel/amdxdna/aie2_solver.c           | 330 +++++++
+ drivers/accel/amdxdna/aie2_solver.h           | 154 +++
+ drivers/accel/amdxdna/amdxdna_ctx.c           | 553 +++++++++++
+ drivers/accel/amdxdna/amdxdna_ctx.h           | 162 +++
+ drivers/accel/amdxdna/amdxdna_gem.c           | 622 ++++++++++++
+ drivers/accel/amdxdna/amdxdna_gem.h           |  65 ++
+ drivers/accel/amdxdna/amdxdna_mailbox.c       | 576 +++++++++++
+ drivers/accel/amdxdna/amdxdna_mailbox.h       | 124 +++
+ .../accel/amdxdna/amdxdna_mailbox_helper.c    |  61 ++
+ .../accel/amdxdna/amdxdna_mailbox_helper.h    |  42 +
+ drivers/accel/amdxdna/amdxdna_pci_drv.c       | 409 ++++++++
+ drivers/accel/amdxdna/amdxdna_pci_drv.h       | 123 +++
+ drivers/accel/amdxdna/amdxdna_sysfs.c         |  67 ++
+ drivers/accel/amdxdna/npu1_regs.c             | 101 ++
+ drivers/accel/amdxdna/npu2_regs.c             | 118 +++
+ drivers/accel/amdxdna/npu4_regs.c             | 118 +++
+ drivers/accel/amdxdna/npu5_regs.c             | 118 +++
+ include/trace/events/amdxdna.h                | 101 ++
+ include/uapi/drm/amdxdna_accel.h              | 436 ++++++++
+ 36 files changed, 8364 insertions(+)
+ create mode 100644 Documentation/accel/amdxdna/amdnpu.rst
+ create mode 100644 Documentation/accel/amdxdna/index.rst
+ create mode 100644 drivers/accel/amdxdna/Kconfig
+ create mode 100644 drivers/accel/amdxdna/Makefile
+ create mode 100644 drivers/accel/amdxdna/TODO
+ create mode 100644 drivers/accel/amdxdna/aie2_ctx.c
+ create mode 100644 drivers/accel/amdxdna/aie2_error.c
+ create mode 100644 drivers/accel/amdxdna/aie2_message.c
+ create mode 100644 drivers/accel/amdxdna/aie2_msg_priv.h
+ create mode 100644 drivers/accel/amdxdna/aie2_pci.c
+ create mode 100644 drivers/accel/amdxdna/aie2_pci.h
+ create mode 100644 drivers/accel/amdxdna/aie2_psp.c
+ create mode 100644 drivers/accel/amdxdna/aie2_smu.c
+ create mode 100644 drivers/accel/amdxdna/aie2_solver.c
+ create mode 100644 drivers/accel/amdxdna/aie2_solver.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_ctx.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_ctx.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_gem.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_gem.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_mailbox.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_mailbox.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_mailbox_helper.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_mailbox_helper.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_pci_drv.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_pci_drv.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_sysfs.c
+ create mode 100644 drivers/accel/amdxdna/npu1_regs.c
+ create mode 100644 drivers/accel/amdxdna/npu2_regs.c
+ create mode 100644 drivers/accel/amdxdna/npu4_regs.c
+ create mode 100644 drivers/accel/amdxdna/npu5_regs.c
+ create mode 100644 include/trace/events/amdxdna.h
+ create mode 100644 include/uapi/drm/amdxdna_accel.h
+
+-- 
+2.34.1
+
