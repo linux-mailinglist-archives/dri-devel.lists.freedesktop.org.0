@@ -2,54 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0979C2254
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:46:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC8B9C227B
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:55:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4BD10EA05;
-	Fri,  8 Nov 2024 16:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 717D510EA19;
+	Fri,  8 Nov 2024 16:55:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="wvuCdy/Y";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="g3nGu8Bt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 511 seconds by postgrey-1.36 at gabe;
- Fri, 08 Nov 2024 16:46:38 UTC
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com
- [95.215.58.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9893E10EA05
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:46:38 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1731083886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Y8isQ+eC1NBDJ85mhmgiRP01XgjT4qvdr3jwt+UY19g=;
- b=wvuCdy/YsQr5y2ZLd7wKdSKLnnl9GdvdfoZrAkccd2PyafwFPUA5adoDCjZ0A2W0ehzRdu
- QyWalDT08pxaTLAk3zchX7qLvtLa2fTTAGrUwABmQ88jbZl6/P7Yp/6RofZUJzni1JZpMx
- /hJ84YXohGcqC4Ul/QvWzE4juichAa3wz0l72E0w7Sp3SXUEU4YpoBz9tbnuZZO9yj7T8D
- +UUtjE85ItWVYdfZ4yGC2LGisf6PrGQ2OW8aXy0m1/ZDpa3CRhCVVntYe+qKbb+bUJLoO+
- sxksUg6DJ9RR/+CiD26PqZ3X66Jg9ZmKloCi2N/Ytf2/fbSslOltMB2xQURPAw==
-Content-Type: multipart/signed;
- boundary=342aba1a373c0c1c659dff9cb9078d09b156ee41058742d4af8979a7c0b6;
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Date: Fri, 08 Nov 2024 17:37:51 +0100
-Message-Id: <D5GY0NXYFLS9.1YHBZ5502R764@cknow.org>
-Cc: <dsimic@manjaro.org>, <andy.yan@rock-chips.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <linux-kernel@vger.kernel.org>, "Heiko Stuebner"
- <heiko.stuebner@cherry.de>
-Subject: Re: [PATCH] drm/rockchip: dsi: convert to dev_err_probe in probe
- function
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- <linux-rockchip@lists.infradead.org>, <dri-devel@lists.freedesktop.org>
-References: <20241108144425.1009916-1-heiko@sntech.de>
- <D5GWE4WJZMM8.1MPHPPQR2QW46@cknow.org> <3594835.iIbC2pHGDl@diego>
-In-Reply-To: <3594835.iIbC2pHGDl@diego>
-X-Migadu-Flow: FLOW_OUT
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
+ [136.143.188.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7124710EA19
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:55:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1731084007; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=kMBT7aXZMRHb9dlcAQR0f39OWKGOMxfoMaV3v0k3ji9AISTCzGboFxVq3Mtd09FaUo8E3E6k8CjPbxU+WhIvFv2YLpw8/sDTR+0hrXXnUKPREQz6rtgE+m5pHK5BwEt2BcAfoyBwn/hzC+mRmZu4bZn8DkPwZxUwTlwquCKXpVI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1731084007;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=zGW5K4Z5kc/vSl3bz25b30mPWd8sGZbhmSQVIloBb6Y=; 
+ b=K2QHm+eD9NrEzfdLEakHRuzUtYiQBZ1YpWKRU4H/yxNcf8C9nRZ8r3oTiq1QUtdLVsVl3xQc+jo+fhZH9IZWmyZFBVHE8sdPwWDOBWrWatdpX4yHlyLyDuNHiNmoGD7B5ilHVmj6tX4i0Y/jYg8eyOQHUxZ/H/XSUaN9nVny6Ts=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+ dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731084007; 
+ s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=zGW5K4Z5kc/vSl3bz25b30mPWd8sGZbhmSQVIloBb6Y=;
+ b=g3nGu8BtvOegMI7iWOw8v6SERxvHosLnzsy4xET800NfmNh6cDKO1EHbiF62ilEH
+ dF0IMNC23rV2s8u8kDnC8LDcWwIAHMmIaMOp94mf4coSiKAObUGHQV0196EryvqdyU/
+ Z1tmu6hJrxcg8uFagT48w19VlNx0ezT1/ytIgEF4=
+Received: by mx.zohomail.com with SMTPS id 1731084004452888.298092585493;
+ Fri, 8 Nov 2024 08:40:04 -0800 (PST)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v2 1/3] vop2: Add clock resets support
+Date: Fri, 08 Nov 2024 11:39:57 -0500
+Message-ID: <4605629.LvFx2qVVIh@trenzalore>
+In-Reply-To: <6a3d3fb1.3755.18fa893239e.Coremail.andyshrk@163.com>
+References: <20240522185924.461742-1-detlev.casanova@collabora.com>
+ <20240522185924.461742-2-detlev.casanova@collabora.com>
+ <6a3d3fb1.3755.18fa893239e.Coremail.andyshrk@163.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,47 +81,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---342aba1a373c0c1c659dff9cb9078d09b156ee41058742d4af8979a7c0b6
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Thursday, 23 May 2024 23:09:26 EST Andy Yan wrote:
+> Hi Detlev=EF=BC=8C
+>=20
+> At 2024-05-23 02:57:48, "Detlev Casanova" <detlev.casanova@collabora.com>=
+=20
+wrote:
+> >At the end of initialization, each VP clock needs to be reset before
+> >they can be used.
+> >
+> >Failing to do so can put the VOP in an undefined state where the
+> >generated HDMI signal is either lost or not matching the selected mode.
+>=20
+> Would you please provide a detailed description of your test case?
 
-On Fri Nov 8, 2024 at 5:31 PM CET, Heiko St=C3=BCbner wrote:
-> Am Freitag, 8. November 2024, 16:21:24 CET schrieb Diederik de Haas:
-> > On Fri Nov 8, 2024 at 3:44 PM CET, Heiko Stuebner wrote:
-> > > From: Heiko Stuebner <heiko.stuebner@cherry.de>
-> > >
-> > > DRM_DEV_ERROR is deprecated and using dev_err_probe saves quite a num=
-ber
-> > > of lines too, so convert the error prints for the dsi-driver.
-> > >
-> > > Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
+The test case was to switch modes (using modetest) until the HDMI signal wa=
+s=20
+lost on the TV side. It was also possible to detect the issue by tracking t=
+he=20
+HDMI TX Controller_VIDEO_MONITOR_STATUS[1-6] registers, especially at addre=
+ss=20
+0x890, where the register would take the value `0x0000018c`.
+
+After adding these resets, the issue cannot be reproduced. I can share a=20
+script that reproduced this in the past (but this is an old patchset now, s=
+o=20
+things could have changed)
+
+> >Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> >---
+> >
+> > drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 30 ++++++++++++++++++++
+> > 1 file changed, 30 insertions(+)
+> >
+> >diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c index
+> >fdd768bbd487c..e81a67161d29a 100644
+> >--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >@@ -17,6 +17,7 @@
+> >
+> > #include <linux/platform_device.h>
+> > #include <linux/pm_runtime.h>
+> > #include <linux/regmap.h>
+> >
+> >+#include <linux/reset.h>
+> >
+> > #include <linux/swab.h>
 > >=20
-> > Should this have a Fixes tag?
-> > Because in the PineTab2 case it reported an error, which was actually
-> > just a deferred probe.
->
-> A deferred-probe is an error ;-)   -517 in fact  ... just that convention
-> nowadays is to not actively report on it but "fail" silently.
+> > #include <drm/drm.h>
+> >
+> >@@ -157,6 +158,7 @@ struct vop2_win {
+> >
+> > struct vop2_video_port {
+> >=20
+> > 	struct drm_crtc crtc;
+> > 	struct vop2 *vop2;
+> >
+> >+	struct reset_control *dclk_rst;
+> >
+> > 	struct clk *dclk;
+> > 	unsigned int id;
+> > 	const struct vop2_video_port_data *data;
+> >
+> >@@ -1915,6 +1917,26 @@ static int us_to_vertical_line(struct
+> >drm_display_mode *mode, int us)>
+> > 	return us * mode->clock / mode->htotal / 1000;
+> >=20
+> > }
+> >
+> >+static int vop2_clk_reset(struct vop2_video_port *vp)
+> >+{
+> >+	struct reset_control *rstc =3D vp->dclk_rst;
+> >+	struct vop2 *vop2 =3D vp->vop2;
+> >+	int ret;
+> >+
+> >+	if (!rstc)
+> >+		return 0;
+>=20
+> In fact, this check is not necessary here.  The following reset control a=
+pi
+> will check for NULL pointer
 
-Good to know, thanks :)
+Agreed, I'll do a rebased v3 and remove the check.
 
-> So personally I don't really consider it a fix, but more a style thing.
-> I guess I'll let others chime in for that.
+> >+
+> >+	ret =3D reset_control_assert(rstc);
+> >+	if (ret < 0)
+> >+		drm_warn(vop2->drm, "failed to assert reset\n");
+> >+	udelay(10);
+> >+	ret =3D reset_control_deassert(rstc);
+> >+	if (ret < 0)
+> >+		drm_warn(vop2->drm, "failed to deassert reset\n");
+> >+
+> >+	return ret;
+> >+}
+> >+
+> >
+> > static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+> >=20
+> > 				    struct drm_atomic_state=20
+*state)
+> >=20
+> > {
+> >
+> >@@ -2055,6 +2077,8 @@ static void vop2_crtc_atomic_enable(struct drm_crtc
+> >*crtc,>
+> > 	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+> >
+> >+	vop2_clk_reset(vp);
+> >+
+> >
+> > 	drm_crtc_vblank_on(crtc);
+> > =09
+> > 	vop2_unlock(vop2);
+> >
+> >@@ -2706,6 +2730,12 @@ static int vop2_create_crtcs(struct vop2 *vop2)
+> >
+> > 		vp->data =3D vp_data;
+> > 	=09
+> > 		snprintf(dclk_name, sizeof(dclk_name), "dclk_vp%d", vp-
+>id);
+> >
+> >+		vp->dclk_rst =3D devm_reset_control_get_optional(vop2-
+>dev, dclk_name);
+> >+		if (IS_ERR(vp->dclk_rst)) {
+> >+		        drm_err(vop2->drm, "failed to get %s reset\n",=20
+dclk_name);
+> >+		        return PTR_ERR(vp->dclk_rst);
+> >+		}
+> >+
+> >
+> > 		vp->dclk =3D devm_clk_get(vop2->dev, dclk_name);
+> > 		if (IS_ERR(vp->dclk)) {
+> > 	=09
+> > 			drm_err(vop2->drm, "failed to get %s\n",=20
+dclk_name);
 
-Then I agree that it should not have a Fixes tag.
 
-Cheers,
-  Diederik
 
---342aba1a373c0c1c659dff9cb9078d09b156ee41058742d4af8979a7c0b6
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZy4+ZgAKCRDXblvOeH7b
-bm7IAQDlu5u1RUaHveltxvLYbs1Lkju/X4N1ZMHhqsGMKvP6MwEApHelYqAyAA1h
-JBDYWaKldiIhOrBuZQvjbtUN4ic/EQQ=
-=BFts
------END PGP SIGNATURE-----
-
---342aba1a373c0c1c659dff9cb9078d09b156ee41058742d4af8979a7c0b6--
