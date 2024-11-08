@@ -2,78 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386C89C1D7B
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 14:01:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16DEC9C1DA1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 14:09:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF3610E252;
-	Fri,  8 Nov 2024 13:01:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ADCA10E98E;
+	Fri,  8 Nov 2024 13:09:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="M4lCLqnG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I+tf6WVH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8E5710E252
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 13:01:31 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-431548bd1b4so18537435e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 05:01:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1731070890; x=1731675690;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=AsTMzWFc172gyFlwJfjcaHsl1PfbQeXSLmAlVnZUerw=;
- b=M4lCLqnGwbMS5isIEhCwuk2rmnSvXf2pj2vfhNf5nQtPIUTMb8TGPPpF0dPi+XNBz3
- uIyBXyzK1yMCobi4fhess3QcShz+EalMKNAOfVGyddd0O7GeVbNrRoEhfM6mswKKg78W
- IchU0dQ2zh5EQefM0t26Qm9T6XgwNvFsKQpr4HzOAcA27abm8207XV28luWe5cxtAJDO
- tNqIRiJpjxlDStXYGyTxzOD1erLLwsq/0syynaYkiI8VpOjJZw8Wawca4xHZ5BcuUZ0y
- 4px7gSTkP1P/k+MobuL5ti3//yLK3iWXpQfZLrsNGtrU4l10km5fwqtH3Slplx+uDh1Z
- wqAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731070890; x=1731675690;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AsTMzWFc172gyFlwJfjcaHsl1PfbQeXSLmAlVnZUerw=;
- b=kEqIafWPpRoCL0PS/dnWJEgbXO0/r9abeJnKEfhUD+//uotVMUhfGx9sMsxnMu5J/h
- i5esLxQp+YVeUK1bKDGDt0mPo4146Kqvwua7NaWq5nZclMxpZE+gTKg+nM5SaJYjd2Yd
- vvBRVcXGlfnDywHibk02PyBRAjIdz0VHMDCxl2kzMGKUdcl42Wwgb5K8f/DsbuNaYJrE
- lUhcczmUfpl/TjmYeOrtFos9HPHa0OhjpR/LLngPsryDuKeukHAOJQcoCWSbOwfLarvT
- cfEIy17oPTHGAKJ4I7CCBb96dIiyaxl/H2itK8ImunRPdaXC9i+TPaE7uAuWc1MfmiWY
- khAg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXApDshBdWD3YzamgRXVt4w0nJzTjqEiX0DiYL6UqBcfQot9S35ZAYiFA0jraFEFn7WjnyI9gRw1a0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz3n4gXpfT4iqyYcx4SzvYGjJWe15+B/dLSjqJ3e0cl/mPu1xDB
- naTW/MufH17Yv2CiaLnOoS+b6z3XBIQr9K/zK1daD4mV5Hvil3ByZNH3gjKMnJI=
-X-Google-Smtp-Source: AGHT+IGRErYPjO9GB8BDAlN1Pg3ZNytJKAE0Pem6aEdsR36TwBQpUY4A6PXZDYAExwsfNmupStw5BA==
-X-Received: by 2002:a05:600c:4f12:b0:431:5503:43ca with SMTP id
- 5b1f17b1804b1-432b751f53cmr20198705e9.28.1731070889829; 
- Fri, 08 Nov 2024 05:01:29 -0800 (PST)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432b0530599sm67162375e9.1.2024.11.08.05.01.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Nov 2024 05:01:28 -0800 (PST)
-Message-ID: <cce719d7-adc9-4f5b-803a-fd173d325806@ursulin.net>
-Date: Fri, 8 Nov 2024 13:01:28 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2600510E98E
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 13:09:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1731071349; x=1762607349;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=61vvWGL0UpYowW9YO69YIiDWIsi7Qdruyw3F3U/nxTo=;
+ b=I+tf6WVH7FI3PjL1l3puFUb+c7sMCgOpD1vC4MogmQOky/FD2pwZJ1e+
+ IGpfmnUrT1YFcMnwkdvbOyobO/m7osG2VvHU5ONZyNd+HIRh7kt8MjULm
+ CNh+rqO1HA50Ct+BYvNB18QDMHVTayqHz0Kg9yo8K0OKonrgUA6BXTL/p
+ dzcYsQE0a17fvlSsDxpOrFeiNaTxCPBFVhGo+x0g5HSGLKIGAX3biDSFp
+ PhbZYDm5masqu5fCeyMReOwbHe9HyCBiLh/NsPzEHz7vaItMmaA1+JKw5
+ OGCu23X/or8f27knns8v6vUnaDeSapXRqHNgCizMHrF0yFio1QFn/EF+s g==;
+X-CSE-ConnectionGUID: NGUA7APGQwiRlHz9Y6fG6w==
+X-CSE-MsgGUID: wrHC8xUdRR+K0Kyg86hXUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53514383"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="53514383"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2024 05:09:09 -0800
+X-CSE-ConnectionGUID: hcTWoXcFRGmvNlip2Riz+Q==
+X-CSE-MsgGUID: K4ZycnqFTMKtahPn8K5cyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; d="scan'208";a="85652998"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa006.jf.intel.com with ESMTP; 08 Nov 2024 05:09:05 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t9OjW-000rRa-2c;
+ Fri, 08 Nov 2024 13:09:02 +0000
+Date: Fri, 8 Nov 2024 21:08:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
+ Petr Mladek <pmladek@suse.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v7 3/7] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+Message-ID: <202411082034.Lnxy55Wm-lkp@intel.com>
+References: <20241108082025.1004653-4-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: fix dma_fence_array_signaled
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- boris.brezillon@collabora.com, olvaffe@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- lionel.g.landwerlin@intel.com, dri-devel@lists.freedesktop.org,
- faith.ekstrand@collabora.com, simona@ffwll.ch
-References: <20241108094256.3717-1-christian.koenig@amd.com>
- <20241108094256.3717-2-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20241108094256.3717-2-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241108082025.1004653-4-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,103 +80,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jocelyn,
 
-On 08/11/2024 09:42, Christian König wrote:
-> The function silently assumed that signaling was already enabled for the
-> dma_fence_array. This meant that without enabling signaling first we would
-> never see forward progress.
-> 
-> Fix that by falling back to testing each individual fence when signaling
-> isn't enabled yet.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/dma-buf/dma-fence-array.c | 14 +++++++++++++-
->   1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-> index 46ac42bcfac0..01203796827a 100644
-> --- a/drivers/dma-buf/dma-fence-array.c
-> +++ b/drivers/dma-buf/dma-fence-array.c
-> @@ -103,10 +103,22 @@ static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
->   static bool dma_fence_array_signaled(struct dma_fence *fence)
->   {
->   	struct dma_fence_array *array = to_dma_fence_array(fence);
-> +	unsigned int i, num_pending;
->   
-> -	if (atomic_read(&array->num_pending) > 0)
-> +	num_pending = atomic_read(&array->num_pending);
-> +	if (test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &array->base.flags)) {
-> +		if (!num_pending)
-> +			goto signal;
->   		return false;
-> +	}
-> +
-> +	for (i = 0; i < array->num_fences; ++i) {
-> +		if (dma_fence_is_signaled(array->fences[i]) && !--num_pending)
-> +			goto signal;
-> +	}
-> +	return false;
+kernel test robot noticed the following build errors:
 
-Sampling num_pending (and decrementing) and test_bit from an unlocked 
-path makes one need to think if there are consequences, false negatives, 
-positives or something. Would it be fine to simplify like the below?
+[auto build test ERROR on baf4afc5831438b35de4b0e951b9cd58435a6d99]
 
-static bool dma_fence_array_signaled(struct dma_fence *fence)
-{
-	struct dma_fence_array *array = to_dma_fence_array(fence);
-	unsigned int i;
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Move-drawing-functions-to-drm_draw/20241108-162222
+base:   baf4afc5831438b35de4b0e951b9cd58435a6d99
+patch link:    https://lore.kernel.org/r/20241108082025.1004653-4-jfalempe%40redhat.com
+patch subject: [PATCH v7 3/7] drm/log: Introduce a new boot logger to draw the kmsg on the screen
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241108/202411082034.Lnxy55Wm-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411082034.Lnxy55Wm-lkp@intel.com/reproduce)
 
-	if (atomic_read(&array->num_pending)) {
-		for (i = 0; i < array->num_fences; i++) {
-			if (!dma_fence_is_signaled(array->fences[i]))
-				return false;
-		}
-	}
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411082034.Lnxy55Wm-lkp@intel.com/
 
-	dma_fence_array_clear_pending_error(array);
-	return true;
-}
+All errors (new ones prefixed by >>):
 
-Or if the optimisation to not walk the array when signalling is already 
-enabled is deemed important, perhaps a less thinking inducing way would 
-be this:
+>> drivers/gpu/drm/drm_client_setup.c:11:38: error: 'CONFIG_DRM_CLIENT_DEFAULT' undeclared here (not in a function); did you mean 'CONFIG_DRM_CLIENT_LIB'?
+      11 | static char drm_client_default[16] = CONFIG_DRM_CLIENT_DEFAULT;
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      CONFIG_DRM_CLIENT_LIB
+   In file included from include/linux/module.h:22,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/drm/drm_print.h:31,
+                    from drivers/gpu/drm/drm_client_setup.c:7:
+>> drivers/gpu/drm/drm_client_setup.c:15:18: error: expected ',' or ';' before 'CONFIG_DRM_CLIENT_DEFAULT'
+      15 |                  CONFIG_DRM_CLIENT_DEFAULT "]");
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:26:61: note: in definition of macro '__MODULE_INFO'
+      26 |                 = __MODULE_INFO_PREFIX __stringify(tag) "=" info
+         |                                                             ^~~~
+   drivers/gpu/drm/drm_client_setup.c:13:1: note: in expansion of macro 'MODULE_PARM_DESC'
+      13 | MODULE_PARM_DESC(client,
+         | ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_client_setup.c:33:6: error: redefinition of 'drm_client_setup'
+      33 | void drm_client_setup(struct drm_device *dev, const struct drm_format_info *format)
+         |      ^~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/drm_client_setup.c:3:
+   include/drm/drm_client_setup.h:16:20: note: previous definition of 'drm_client_setup' with type 'void(struct drm_device *, const struct drm_format_info *)'
+      16 | static inline void drm_client_setup(struct drm_device *dev,
+         |                    ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_client_setup.c:55:6: error: redefinition of 'drm_client_setup_with_fourcc'
+      55 | void drm_client_setup_with_fourcc(struct drm_device *dev, u32 fourcc)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/drm_client_setup.c:3:
+   include/drm/drm_client_setup.h:19:20: note: previous definition of 'drm_client_setup_with_fourcc' with type 'void(struct drm_device *, u32)' {aka 'void(struct drm_device *, unsigned int)'}
+      19 | static inline void drm_client_setup_with_fourcc(struct drm_device *dev, u32 fourcc)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_client_setup.c:72:6: error: redefinition of 'drm_client_setup_with_color_mode'
+      72 | void drm_client_setup_with_color_mode(struct drm_device *dev, unsigned int color_mode)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/drm_client_setup.c:3:
+   include/drm/drm_client_setup.h:21:20: note: previous definition of 'drm_client_setup_with_color_mode' with type 'void(struct drm_device *, unsigned int)'
+      21 | static inline void drm_client_setup_with_color_mode(struct drm_device *dev,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-static bool dma_fence_array_signaled(struct dma_fence *fence)
-{
-	struct dma_fence_array *array = to_dma_fence_array(fence);
-	unsigned int i;
 
-	if (atomic_read(&array->num_pending) == 0)
-		goto signalled;
+vim +11 drivers/gpu/drm/drm_client_setup.c
 
-	if (test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &array->base.flags))
-		return false;
+    10	
+  > 11	static char drm_client_default[16] = CONFIG_DRM_CLIENT_DEFAULT;
+    12	module_param_string(client, drm_client_default, sizeof(drm_client_default), 0444);
+    13	MODULE_PARM_DESC(client,
+    14			 "Choose which drm client to start, default is"
+  > 15			 CONFIG_DRM_CLIENT_DEFAULT "]");
+    16	
 
-	for (i = 0; i < array->num_fences; i++) {
-		if (!dma_fence_is_signaled(array->fences[i]))
-			return false;
-	}
-
-signalled:
-	dma_fence_array_clear_pending_error(array);
-	return true;
-}
-
-Decrementing locally cached num_pending in the loop I think does not 
-bring anything since when signalling is not enabled it will be stuck at 
-num_fences. So the loop walks the whole array versus bail on first 
-unsignalled, so latter even more efficient.
-
-In which case, should dma-fence-chain also be aligned to have the fast 
-path bail out?
-
-Regards,
-
-Tvrtko
-
->   
-> +signal:
->   	dma_fence_array_clear_pending_error(array);
->   	return true;
->   }
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
