@@ -2,47 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504F09C16A1
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 07:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89659C17BB
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 09:20:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED69010E155;
-	Fri,  8 Nov 2024 06:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E90AB10E1A0;
+	Fri,  8 Nov 2024 08:20:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="psRnedlV";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dLVzHcly";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3022310E155;
- Fri,  8 Nov 2024 06:57:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1731049014;
- bh=LQGyr1XSjGE9ZDiGrm/yDf2dGEiFCy3MIqS0AIM0Wg0=;
- h=Date:From:To:Cc:Subject:From;
- b=psRnedlVLhvL1xwwjLulAcUugSj1Kvf8XVgJlpu1dhMnivJgePQmWp4iS1yKVVbv4
- gkQhu55nqT01nTh00RKXPA09ONRK4Aqh/WcapbLALY2QHU7iq2shqhvlDxF1bmIQFJ
- sLszjTNhSiBz8iS+b56/Yr9yczqwOJRme8k4/0VHKp6/CWa15IQ6rRPMlv3CB1JC1S
- ZN+N1xrs3bYdb0Bvs+TYu89x347z8aV0vPjfLdHE0pnA7qkNEoYj74rsXxt5/d9QRp
- fTKRJTMT8L1kLp975pVzo/NVl5e2C6lYvFqNdYAe/kp0/mOG965SOq9F/jvoJzNWhS
- NoHzdL9kVppuQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D1B110E1A0
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 08:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1731054051;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8A3ThVrC7cTil9Qo1AWQe62YpyZnM2l43IjuztPMCjc=;
+ b=dLVzHclyTalIqATByNs6xz3gTvBBcIq9G127oOD57LRGYKYOZ9WT3N8bHj3DuoTzmwZB64
+ c9TnqDUNtd6KIjvgjeilDDdK+dDjwWYo8Ml1zmA5zUPRopfYVzsQ2x5xaq8rxvciFe6JwD
+ K5aE9FilMmO7s75jggDfhBm5EcZ2RSw=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-163-4b9tNNR4MfWSbMIQM27DwQ-1; Fri,
+ 08 Nov 2024 03:20:47 -0500
+X-MC-Unique: 4b9tNNR4MfWSbMIQM27DwQ-1
+X-Mimecast-MFC-AGG-ID: 4b9tNNR4MfWSbMIQM27DwQ
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Xl8r52c5zz4wbx;
- Fri,  8 Nov 2024 17:56:53 +1100 (AEDT)
-Date: Fri, 8 Nov 2024 17:56:55 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Philipp Stanner <pstanner@redhat.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build warning after merge of the drm-misc tree
-Message-ID: <20241108175655.6d3fcfb7@canb.auug.org.au>
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id C1B941955D75; Fri,  8 Nov 2024 08:20:38 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.51])
+ by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id A03111955F3D; Fri,  8 Nov 2024 08:20:33 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
+ Petr Mladek <pmladek@suse.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH v7 0/7] drm/log: Introduce a new boot logger to draw the kmsg
+ on the screen
+Date: Fri,  8 Nov 2024 09:10:18 +0100
+Message-ID: <20241108082025.1004653-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/9cS_GSxxYOx_.WHv0fv0wLh";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,40 +75,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/9cS_GSxxYOx_.WHv0fv0wLh
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+drm_log is a simple logger that uses the drm_client API to print the kmsg boot log on the screen.
+This is not a full replacement to fbcon, as it will only print the kmsg.
+It will never handle user input, or a terminal because this is better done in userspace.
 
-Hi all,
+If you're curious on how it looks like, I've put a small demo here:
+https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
 
-After merging the drm-misc tree, today's linux-next build (htmldocs)
-produced this warning:
+Design decisions:
+  * It uses the drm_client API, so it should work on all drm drivers from the start.
+  * It doesn't scroll the message, that way it doesn't need to redraw the whole screen for each new message.
+    It also means it doesn't have to keep drawn messages in memory, to redraw them when scrolling.
+  * It uses the new non-blocking console API, so it should work well with PREEMPT_RT
+ 
+v2:
+ * Use vmap_local() api, with that change, I've tested it successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
+ * Stop drawing when the drm_master is taken. This avoid wasting CPU cycle if the buffer is not visible.
+ * Use deferred probe. Only do the probe the first time there is a log to draw. With this, if you boot with quiet, drm_log won't do any modeset.
+ * Add color support for the timestamp prefix, like what dmesg does.
+ * Add build dependency on  disabling the fbdev emulation, as they are both drm_client, and there is no way to choose which one gets the focus.
 
-Documentation/gpu/drm-mm:571: /home/sfr/next/next/drivers/gpu/drm/scheduler=
-/sched_main.c:1359: ERROR: Unexpected indentation.
+v3:
+ * Remove the work thread and circular buffer, and use the new write_thread() console API.
+ * Register a console for each drm driver.
 
-Introduced by commit
+v4:
+ * Can be built as a module, even if that's not really useful.
+ * Rebased on top of "drm: Introduce DRM client library" series from Thomas Zimmermann.
+ * Add a Kconfig menu to choose between drm client.
+ * Add suspend/resume callbacks.
+ * Add integer scaling support.
+ 
+v5:
+ * Build drm_log in drm_client_lib module, to avoid circular dependency.
+ * Export drm_draw symbols, so they can be used if drm_client_lib is built as module.
+ * Change scale parameter to unsigned int (Jani Nikula)
 
-  baf4afc58314 ("drm/sched: Improve teardown documentation")
+v6:
+ * Use console_stop() and console_start() in the suspend/resume callback (Petr Mladek).
+ * rebase and solve conflict with "drm/panic: Add ABGR2101010 support"
 
---=20
-Cheers,
-Stephen Rothwell
+v7:
+ * Add a patch fix a build issue due to missing DRM_CLIENT_LIB, reported by kernel test bot.
 
---Sig_/9cS_GSxxYOx_.WHv0fv0wLh
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Jocelyn Falempe (7):
+  drm/panic: Move drawing functions to drm_draw
+  drm/client: Always select DRM_CLIENT_LIB
+  drm/log: Introduce a new boot logger to draw the kmsg on the screen
+  drm/log: Do not draw if drm_master is taken
+  drm/log: Color the timestamp, to improve readability
+  drm/log: Implement suspend/resume
+  drm/log: Add integer scaling support
 
------BEGIN PGP SIGNATURE-----
+ drivers/gpu/drm/Kconfig            |  53 +++-
+ drivers/gpu/drm/Makefile           |   2 +
+ drivers/gpu/drm/drm_client_setup.c |  18 +-
+ drivers/gpu/drm/drm_draw.c         | 233 ++++++++++++++++
+ drivers/gpu/drm/drm_draw.h         |  56 ++++
+ drivers/gpu/drm/drm_log.c          | 420 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_log.h          |  11 +
+ drivers/gpu/drm/drm_panic.c        | 257 ++----------------
+ 8 files changed, 812 insertions(+), 238 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_draw.c
+ create mode 100644 drivers/gpu/drm/drm_draw.h
+ create mode 100644 drivers/gpu/drm/drm_log.c
+ create mode 100644 drivers/gpu/drm/drm_log.h
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmcttjcACgkQAVBC80lX
-0GyaaAf/eOLS6c0HIrzh5Q3g4RELU5f9WzYrcmAembUOfNR9nM8XcJi0AkTAC/xD
-a2h9KC05+oN2rVMbRQ06ewyPAyMuifQelDoG6CShmie4pZp5QxDUxbkb0ZwvH/KS
-r0H/VhPmcWFwtE/gyY1dNhk0cEMLQEjZR9cPfkbXvCEBUvlH/e2aerHn0jEYJCIJ
-mQgO7USdzwhGp0q9vGgZPLo8jMO7QIVuAusc21ILmY6F2iFS46Ds0Zb0tEAz04d1
-hHXpv724oO+MnFpw5YUf6AVhx6LdmirUallkO9cyJZuqvsHJGRn81x33wRaJr7W3
-qL7D0Y2Mxt72KFIEGx6ahnhOh4EIDw==
-=KhiW
------END PGP SIGNATURE-----
 
---Sig_/9cS_GSxxYOx_.WHv0fv0wLh--
+base-commit: baf4afc5831438b35de4b0e951b9cd58435a6d99
+-- 
+2.47.0
+
