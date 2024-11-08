@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4C99C2520
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 19:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF569C252F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 19:56:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38FBF10EA26;
-	Fri,  8 Nov 2024 18:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0E710EA29;
+	Fri,  8 Nov 2024 18:56:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gxZ8JrRO";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="W8I5yztC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8338E10EA26
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 18:52:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1731091957;
- bh=69F+XwHGUM8j8Npu0CVV/bvnKz12bT/JSO/FqsNELcI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gxZ8JrRO6t3KYBAYrnFkHOPCL/5Yxe3jqsw9SPxYt2ta/JHJB6SkhPQBfiqMcr44y
- P4+zIAAi2twZ/QxYywjpghDPcuDArxlYYzT9MtPWwL86l9BQ6gorsdxHj8zqUo5ROL
- /w1ky90u+sQrBJcWsGKcBjPOj9npFAIAoxvQKAeBgquDfpu8RqBXsou5TaDQFopVcD
- ILQvaX8nUA/rLvjrjQn+5Rspwrex5SUdCdt6JHTcVNYiBD/FWFFPBZTjWDLFQaycc0
- GdWqS0J2qpDMJyO8l85plGqYlVCcKHuzOmrhpi4dx/FfEXbHTGxyMUgE+CQtF+xuX/
- fjYO3xBTMPFug==
-Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: detlev)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4088D17E3770;
- Fri,  8 Nov 2024 19:52:34 +0100 (CET)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: Sandy Huang <hjc@rock-chips.com>, Heiko Stubner <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>,
- Jianfeng Liu <liujianfeng1994@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v3 3/3] dt-bindings: display: vop2: Add VP clock resets
-Date: Fri,  8 Nov 2024 13:50:41 -0500
-Message-ID: <20241108185212.198603-4-detlev.casanova@collabora.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241108185212.198603-1-detlev.casanova@collabora.com>
-References: <20241108185212.198603-1-detlev.casanova@collabora.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A327110EA29
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 18:56:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1731092153; x=1731696953; i=wahrenst@gmx.net;
+ bh=9/SLvWGAyxFC32/zVLdy6ljB+T2Vjo3xqffNXr6GlC0=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
+ Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=W8I5yztCfW8RqIH+38LMDZtXdTI2CROR73QKtfm6FtlOkH/Mbd7/DqAU+aj8dpvn
+ Bzk4n3iPVs57aPOZ5+t0E762he2gMQizqUsPHSmSX+PLPpgKXhAI7xAm+wSZtPQL6
+ aiVBjdHXsPb1+5o3dNnf4uFKiwMjRpnzfnAuSyCm+t1/SjDm44aq5Z/puAkrb5i1Q
+ VO5CQ0AjI7+HCwks0dqzYY0YYwM/iES32ZCT0tRzJ5L2tz5UKbjjIE294KuktqMYo
+ tb0bQYAQvQmeHswTzCFDr7n6T9Qof4LlaCE3CGYjEZ4retJuHp8MpoW0dlN1nQNHe
+ 9g5T1KiPiMM2QbOq5Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.105] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mel7v-1thzYK2lBl-00pbSe; Fri, 08
+ Nov 2024 19:55:53 +0100
+Message-ID: <5ce22452-a13b-4ed4-ae5c-b631c6271ed8@gmx.net>
+Date: Fri, 8 Nov 2024 19:55:53 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [drm:vc4_hvs_irq_handler [vc4]] *ERROR* HVS underrun
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+References: <4670e355-b07d-43b1-91b8-4e5a12c36b86@gmx.net>
+Content-Language: en-US
+In-Reply-To: <4670e355-b07d-43b1-91b8-4e5a12c36b86@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:AWl4jBckiZI53xZ49W33Dqig/yYEZttU9YlusL4q6Y4mxTc/oaQ
+ beZuvwZ8+YuHQ9sUsJiByoOZqKKnJqZNstA0fZWoHQI0vSap6VIm7nB2JogcXGivLh1iPWe
+ xc1xpl7RRKnRk2Id+PVXBqeJaIPn4PTuWzGawvpFXtl6u/DRcimRgUM570zAgRVIEMR9hdl
+ Kbjcviql3nhyXmE/3/blQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:EJmnKe75Vq0=;pGtS+Aai/AgT+4zwa5aXZSzWUA7
+ C5YxDKbC8gN7NmIO1++jK8ZpkVWGLminpKkQUt2CnXGZ63HPyy+en5xyuRbhcV6d9143F2/dR
+ VNVEv1qZWAwHz9y4u3phcKreKbCeqsyOOfzkX/QSqWOX4uy5fA6qpLey0yv/tOMknqPB3oPnB
+ weVMKnBqrBiI40s7FL9JVw6sJUAkp7izXkA+NO10lVSa87SixXoQnSR0pgomJPLROUQscz402
+ NbWd7GCMoFdAHrPBD2KXjO2KCQhucmj/lPUBPGi2G36S4WWWNkoPRJzT8F+j0wOnGbQPG3t3k
+ Qus9DhC1JgFWAwjPfacuDCug/TAcrYe9T7NOpIfHR5ek91VzZGBMWvijD1SEep04jyZc0gs7a
+ EB6wqw8USsyIg/5u3vJMCsAdHdOzeK2f61W21rWlAuUA1csdvTrfUktKi46DXiCczGPa7dLG6
+ rxzKO4W3bHFj44xJjNmFFT/i/A4vRLZgcl5k8qM6QVY1mIbxgyUuICh4ereeWQommPKbqb9Bm
+ ooDkQMYhLrPRvolZvEjPvuteibRCwfu6vSWG03qxUuIK1B5xlZaHC0fT9NeUSyezoWdbwHQdQ
+ djlqr2ufPF3NJfPvHla9RrxSd17cqkvdL1EoIATEBTD0Mpa1kNxC9Nlo0KsGulRqToUfOuh63
+ cYR0MHKCxu6IBupCC3q2PLEJvOXQvCwVrlLZqpVm5z3c4Vydzf8nmicMqQMVk4p2Y6kKyZe3z
+ imcEvKLYxAkZHtEMXUNAaT/PadwnVXu9PXA+R2Z6S942DkxxsAGulf8/CDSdpAW9mu67CCBEk
+ oxjzoMaBiIpd2u2UaGTjmhmpHPliNYXyelKxTp0yqJu48RkSys8rHQc8tQyHcEAL7DWXzwz9U
+ 38Kd0FhDrkbd2reF19B9eQhrqB9dCAh39kP/0vYTNeh19EFD7u0RQ/rVC
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,87 +81,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the documentation for VOP2 video ports reset clocks.
-One reset can be set per video port.
-
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
----
- .../display/rockchip/rockchip-vop2.yaml       | 40 +++++++++++++++++++
- 1 file changed, 40 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-index 2531726af306..5b59d91de47b 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-@@ -65,6 +65,26 @@ properties:
-       - const: dclk_vp3
-       - const: pclk_vop
- 
-+  resets:
-+    minItems: 5
-+    items:
-+      - description: AXI clock reset.
-+      - description: AHB clock reset.
-+      - description: Pixel clock reset for video port 0.
-+      - description: Pixel clock reset for video port 1.
-+      - description: Pixel clock reset for video port 2.
-+      - description: Pixel clock reset for video port 3.
-+
-+  reset-names:
-+    minItems: 5
-+    items:
-+      - const: aclk
-+      - const: hclk
-+      - const: dclk_vp0
-+      - const: dclk_vp1
-+      - const: dclk_vp2
-+      - const: dclk_vp3
-+
-   rockchip,grf:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description:
-@@ -128,6 +148,11 @@ allOf:
-         clock-names:
-           minItems: 7
- 
-+        resets:
-+          minItems: 6
-+        reset-names:
-+          minItems: 6
-+
-         ports:
-           required:
-             - port@0
-@@ -152,6 +177,11 @@ allOf:
-         clock-names:
-           maxItems: 5
- 
-+        resets:
-+          maxItems: 5
-+        reset-names:
-+          maxItems: 5
-+
-         ports:
-           required:
-             - port@0
-@@ -183,6 +213,16 @@ examples:
-                               "dclk_vp0",
-                               "dclk_vp1",
-                               "dclk_vp2";
-+                resets = <&cru SRST_A_VOP>,
-+                         <&cru SRST_H_VOP>,
-+                         <&cru SRST_VOP0>,
-+                         <&cru SRST_VOP1>,
-+                         <&cru SRST_VOP2>;
-+                reset-names = "aclk",
-+                              "hclk",
-+                              "dclk_vp0",
-+                              "dclk_vp1",
-+                              "dclk_vp2";
-                 power-domains = <&power RK3568_PD_VO>;
-                 iommus = <&vop_mmu>;
-                 vop_out: ports {
--- 
-2.47.0
+Am 26.10.24 um 15:11 schrieb Stefan Wahren:
+> Hi,
+> during the investigations of the recent VC4 HDMI Sink issue [1], I was
+> able to reproduce another issue with vc4 after s2idle resume.
+> Sometimes ( probability ~ 1 : 30 cases ) I'm able to trigger a HVS
+> underrun and it's impact is that the HDMI display stays black and
+> unusable:
+>
+> [ 1790.139465] PM: suspend exit
+> [ 1790.153998] lan78xx 1-1.1.1:1.0 eth0: Link is Down
+> [ 1790.548866] vc4-drm soc:gpu: [drm:vc4_hvs_irq_handler [vc4]]
+> *ERROR* HVS underrun
+> [ 1794.713952] net_ratelimit: 2 callbacks suppressed
+>
+> So I need to use the Debug UART after that.
+gentle ping ...
+>
+> Scenario:
+>
+> Steps:
+> 1. Flash latest Raspberry Pi OS (32 bit) on SD card
+> 2. Build Kernel from repo [2] which based on Linux 6.12-rc3 above with
+> arm/multi_v7_defconfig
+> 3. Replace Kernel, modules + DTB on SD card with build ones
+> 4. add the following to confix.txt
+> device_tree=3Dbcm2837-rpi-3-b-plus.dtb
+> enable_uart=3D1
+> 5. change/add the following to cmdline.txt
+> console=3DttyS1,11520 no_console_suspend=3D1
+> 6. connect the following devices to Raspberry Pi 3 B+ :
+> USB mouse
+> USB keyboard
+> Logilink HDMI switch + HDMI monitor
+> Debug UART adapter (USB side to PC)
+> 7. Power on board and boot into X11
+> 8. Change to root
+> 9. Enable wakeup for ttyS1 ( echo enabled >
+> /sys/class/tty/ttyS1/power/wakeup )
+> 10. Trigger suspend to idle via X11 (echo freeze > /sys/power/state)
+> 11. Wakeup Raspberry Pi via Debug UART Currently I don't see a
+> relation to the VC4 HDMI Sink issue, because this issue occur
+> independently. Until now i wasn't able to reproduce it without the
+> HDMI Switch. Not sure this is related but sometimes the cursor is also
+> corrupted with noise after resume. What can I do to investigate this
+> further?
+> [1] -
+> https://lore.kernel.org/dri-devel/c657d3e9-e4fb-4dac-a611-45655511e500@g=
+mx.net/
+> [2] - https://github.com/lategoodbye/linux-dev/commits/v6.12-pm_v2/
+>
+>
 
