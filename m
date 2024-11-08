@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E62A9C1304
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 01:22:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9689C1307
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 01:22:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7335B10E90E;
-	Fri,  8 Nov 2024 00:22:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE18510E8FC;
+	Fri,  8 Nov 2024 00:22:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Eka5SeRH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MRj0yMRg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A15710E90E
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 00:21:59 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2fc96f9c41fso17381581fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Nov 2024 16:21:59 -0800 (PST)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D91BF10E910
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 00:22:01 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2fc968b3545so15405191fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Nov 2024 16:22:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731025317; x=1731630117; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1731025320; x=1731630120; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=xvjOWTZR7udQf5IH6LiChcNMv2VmCBWQyaJEtd5pDWE=;
- b=Eka5SeRHxzD3P2gmRTZMuG8myoWW2sTqrjywYcDW9Wmi/zuLToWcEC8pEj3ckC17Kh
- esyTj6lrmh2wEKamMTrC1z3DdOLuk1/0kaZQ2VhzPhI6NpX5X5ADwydR4pcWyhPTP+OY
- WRsN/QqXjCH8kEUYyYA9uSz36XTLMLcgX+pOrsqAEBlVB3SMKENoy/cyROZLewRi0GkT
- gN7FAZsid4SjJie1BTs1oBLDmcTKmaBqYUEK3GPVnvg7AjiF/ZYRn5dUyDeLO3Vv35j0
- Qeu4e3cq1aNXTjnjPmKb0zIdj3OMFHxSBn4RLsmfIj1jYT+p7EpAwd+qVUr4xMefhBn8
- XSuA==
+ :reply-to; bh=u8qsphOlaMsjWxfORx1tUu8YpeUoId1f0O0ePNQg24g=;
+ b=MRj0yMRgHwcKSDdXcgj2tdrMrF7CCMmp+86WEKfuUuaROdqDqb+Bx7HnOQmPV54UXM
+ y0dsK7m/asxdFyr0mho1L5pmo5UozX2D7mFtihMyEnARp2oEwKwm+XO3rER0riV9KyXo
+ EPBFzJCK3rWIlZChOeDcB0PYqJDTgiVETJ8YTr4rKRCUG85RcxGJ1E31L5JxoZnH9KTL
+ UfRlja7DEafH6lrByJw3FGQghpWRerFKWb+qhklx/l7Lbm1nTagmfj2S0PqNEP7Z3FcR
+ P59J7xtk31hYtKmuZxK2Q11Md5GHnDJEUNLGPqwXRHPz0cKiD89g9NobxGoS7aabWmff
+ CSGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731025317; x=1731630117;
+ d=1e100.net; s=20230601; t=1731025320; x=1731630120;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xvjOWTZR7udQf5IH6LiChcNMv2VmCBWQyaJEtd5pDWE=;
- b=s8SMaIg7IgTLKTjuXaeClIPLNpI7wsRhKNvewtxmyIB3shhes47gVgOU6spUnDp3Ym
- Y32CHpj3mJfXEoft9zDP7d9xoxBlkCP3Z37kFq8oIOfN4CqINZUm8kWnn3AG3tpZSJ9P
- bShU0HAowsWlNilN8SLhJIYBLsqfCHJTpJrSzyx+cp04hXkYqJoB2N+lhUunq12d3fqZ
- zLuMZdTMRiRAk55R2MabFzLTtEstbB9Bb4Qwa+gtxvNeB25yelidMi5cZVxQrFnHkwIF
- dW+nMq4sbSBQeE55xy57dU/b7pnn1KkPgulf6BxxZUeSJvVqyj9iWL7IdUHQrlWzuvvR
- jUIA==
+ bh=u8qsphOlaMsjWxfORx1tUu8YpeUoId1f0O0ePNQg24g=;
+ b=Ff+K1uPU9HZVE12lyQPdwFe8qKXjM95O9IZoZI1uvJ8/pqK9z2zMSn1ItLPrX96pl4
+ dhB0mzf6rZmawYiU3O0BTTyfXimqDrnZDNmE9lFoop7dH9WW2ZoFxIKQ+D1/1tGbULp1
+ XX7IczqGigRLfmzTQ3taoH+LJ4ZUus1aM5fbOCrZHnZST8KDWT6Xj6zX41bUcMXfvyZU
+ d+UGSM/GcY3hVqhbd8U48Ngghmsl8VOJQ17wd4R1uoV0hkQPheECCZxNw0JzEmAwgqps
+ Gic0pGqpxdzda/InkxLcm0DjdZP9g8Oeo4O6+JYcxdaCzfr0ILoPmZ1deF2pX0B0z7im
+ jKEA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXlzPInRtDw+KCF9Gsx+UQ5cjQ14AlJUeeh6NMdZRZwOC9bxXMUoU6hRkbg1b6B0eFA8uXxAQhlLCo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbDADxv6FC9XOF1cV1cIvTbwrPuqi07+4KEHnLM3dJ0WBkx1Rq
- WxOTI8OcUofAGD0TtJ+RBzc5zZy801oxkiG40VITRXdo7Q+qgOzUOIy8MTaYqqU=
-X-Google-Smtp-Source: AGHT+IFP7vxRoA2aX9rG3igwIcjsWapIPsXs1CbnvSi5y6PdNMyQSDfbhWM7jiCKojMl1BfjLK37Bg==
-X-Received: by 2002:a05:651c:1506:b0:2fb:46af:2b36 with SMTP id
- 38308e7fff4ca-2ff1f4a92cbmr4222821fa.14.1731025317238; 
- Thu, 07 Nov 2024 16:21:57 -0800 (PST)
+ AJvYcCXclC8QxHScyMmZx4xMfvOCzv6ldcGSfsd91VlHWUO/Al07T0uu9r0TxiZ5EaAe5kH/eNOxQFPajvo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+NICCxVwrZhmevElEaFvumNEW0FNRCImJppRugLfuVU9tReyC
+ IvB9z+tNqwtKfixPT6e/U/agxCCKWC+5K4mWpiSGtOZpYga0B8QnzMSvyMOEjws=
+X-Google-Smtp-Source: AGHT+IE2ZHLUW6CFb8zxAhkF36hEM0nhY5Tlzuq5IxAL6DZal3zbi0ENVi1e7e5DtnBiKMZxEdOm3Q==
+X-Received: by 2002:a2e:b8c2:0:b0:2fb:3d86:d915 with SMTP id
+ 38308e7fff4ca-2ff201517bamr4645761fa.11.1731025319822; 
+ Thu, 07 Nov 2024 16:21:59 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ff17900a63sm4195191fa.47.2024.11.07.16.21.54
+ 38308e7fff4ca-2ff17900a63sm4195191fa.47.2024.11.07.16.21.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Nov 2024 16:21:55 -0800 (PST)
+ Thu, 07 Nov 2024 16:21:58 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 08 Nov 2024 02:21:38 +0200
-Subject: [PATCH 07/14] drm/msm/dp: move/inline ctrl register functions
+Date: Fri, 08 Nov 2024 02:21:39 +0200
+Subject: [PATCH 08/14] drm/msm/dp: move/inline panel related functions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241108-fd-dp-audio-fixup-v1-7-40c8eeb60cf5@linaro.org>
+Message-Id: <20241108-fd-dp-audio-fixup-v1-8-40c8eeb60cf5@linaro.org>
 References: <20241108-fd-dp-audio-fixup-v1-0-40c8eeb60cf5@linaro.org>
 In-Reply-To: <20241108-fd-dp-audio-fixup-v1-0-40c8eeb60cf5@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -74,16 +74,16 @@ Cc: Douglas Anderson <dianders@chromium.org>,
  linux-kernel@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=42508;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13699;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=6vs4VVTq5zrMCMjyBGZf0iNwgEaq9XhuFy/96hAkkls=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnLVmPUxq8NxXDM+x4KswvK92vfH8bzDevZNF0c
- iaUlVSp8qiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZy1ZjwAKCRCLPIo+Aiko
- 1azKB/97Us/HfWPiJEC+Q44cqmAWMF/c4Uh2zq+CdzSWEhnRUqLTOWnCVIx83S1sE7CJHrDgycG
- ESQCyIJpDokHX9iyGMXXzxLg5u4y2D/fQWFc5gCAiCS45byKAck75cIP+0tR3u3rSjvJvN0dYHH
- /SKbiD6bFARety0o//T9p9VM0KxUqsyNV8ealtDWvTD4PF738X9MZmnijY1U/gedFAMDNEbhGg8
- KtlVUk5TiSNl7dBsG25LTLoExLI4+5tBLfAegWAprrafmUV5mxP8x3NFvzMZsQjno0zdg850TXd
- LBz1i0xdkcFgSCCuYQfdlqufxKUX+b4uEH2D9OAJu8GiE2i+
+ bh=MTfEFFP/YbgFD6Q1EMt0bPgAfYwHBAnPO/xY6iNsytQ=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnLVmP5BnpPW8F4Q8abGp0tLLh0/E1WTuuBwoEd
+ W3AftzNYKiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZy1ZjwAKCRCLPIo+Aiko
+ 1Q9+B/4jhzy6SRxT38CQUPjduKqxDMj7G1y0hmqoOp+U7ixcCQM30bqXXOyJ52Pu+zWitG9DwqC
+ VK6OSsgnVwmq/tAu/VHkWKKL0peJwI4OSeWhnR2YGcup4W3QaFZ4TG1GmrPXFE3J2UZU6O86tFa
+ XBQeCreYJvhNysRhV+88koinZXVcd6BZq1lwyf1RL69pnDArpGzH/ZOXuvOKyzt+kC84Agf4iRM
+ ydy6r8GMO8t/UUfQ13PUt1oTgbWXYvukmH0X02Am+V3jYPCfRMBrMdYzHwxEM36ve0MK0R6A7tX
+ Eso9nGBT9eHrXlZXFc1lfpbFLy6do6EHnWaDOIpYtsCRYR32
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,1188 +101,372 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move CTRL-related functions to dp_ctrl.c, inlining one line wrappers
-during this process. The enable/disable functions have been split to the
-enable/disable or enter/exit pairs. The IRQ and HPD related functions
-are left in dp_catalog.c, pending later cleanup.
+Move panel-related functions to dp_panel.c, following up the cleanup
+done by the rest of the submodules.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_catalog.c | 389 +------------------------------
- drivers/gpu/drm/msm/dp/dp_catalog.h |  22 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 447 ++++++++++++++++++++++++++++++++----
- 3 files changed, 409 insertions(+), 449 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 114 ------------------------------------
+ drivers/gpu/drm/msm/dp/dp_catalog.h |   6 --
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    |   4 +-
+ drivers/gpu/drm/msm/dp/dp_panel.c   | 114 ++++++++++++++++++++++++++++++++++--
+ drivers/gpu/drm/msm/dp/dp_panel.h   |   3 +
+ 5 files changed, 113 insertions(+), 128 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index bed2c26f883e92319721ed8bd672eb395cbf0544..7c65eba867733cf532831f54639f23aa5605c35a 100644
+index 7c65eba867733cf532831f54639f23aa5605c35a..9c12484589dc38951a3f1cb4bb33eb9aa5822d87 100644
 --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
 +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -18,8 +18,6 @@
- #define POLLING_SLEEP_US			1000
- #define POLLING_TIMEOUT_US			10000
- 
--#define SCRAMBLER_RESET_COUNT_VALUE		0xFC
--
+@@ -21,8 +21,6 @@
  #define DP_INTERRUPT_STATUS_ACK_SHIFT	1
  #define DP_INTERRUPT_STATUS_MASK_SHIFT	2
  
-@@ -93,217 +91,6 @@ u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog)
- 
+-#define DP_INTF_CONFIG_DATABUS_WIDEN     BIT(4)
+-
+ #define DP_INTERRUPT_STATUS1 \
+ 	(DP_INTR_AUX_XFER_DONE| \
+ 	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
+@@ -220,118 +218,6 @@ int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog)
+ 	return intr;
  }
  
--/* controller related catalog functions */
--void msm_dp_catalog_ctrl_update_transfer_unit(struct msm_dp_catalog *msm_dp_catalog,
--				u32 msm_dp_tu, u32 valid_boundary,
--				u32 valid_boundary2)
+-/* panel related catalog functions */
+-int msm_dp_catalog_panel_timing_cfg(struct msm_dp_catalog *msm_dp_catalog, u32 total,
+-				u32 sync_start, u32 width_blanking, u32 msm_dp_active)
 -{
--	msm_dp_write_link(msm_dp_catalog, REG_DP_VALID_BOUNDARY, valid_boundary);
--	msm_dp_write_link(msm_dp_catalog, REG_DP_TU, msm_dp_tu);
--	msm_dp_write_link(msm_dp_catalog, REG_DP_VALID_BOUNDARY_2, valid_boundary2);
--}
+-	u32 reg;
 -
--void msm_dp_catalog_ctrl_state_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32 state)
--{
--	msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL, state);
--}
+-	msm_dp_write_link(msm_dp_catalog, REG_DP_TOTAL_HOR_VER, total);
+-	msm_dp_write_link(msm_dp_catalog, REG_DP_START_HOR_VER_FROM_SYNC, sync_start);
+-	msm_dp_write_link(msm_dp_catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY, width_blanking);
+-	msm_dp_write_link(msm_dp_catalog, REG_DP_ACTIVE_HOR_VER, msm_dp_active);
 -
--void msm_dp_catalog_ctrl_config_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32 cfg)
--{
--	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
--				struct msm_dp_catalog_private, msm_dp_catalog);
+-	reg = msm_dp_read_p0(msm_dp_catalog, MMSS_DP_INTF_CONFIG);
 -
--	drm_dbg_dp(catalog->drm_dev, "DP_CONFIGURATION_CTRL=0x%x\n", cfg);
--
--	msm_dp_write_link(msm_dp_catalog, REG_DP_CONFIGURATION_CTRL, cfg);
--}
--
--void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog)
--{
--	u32 ln_0 = 0, ln_1 = 1, ln_2 = 2, ln_3 = 3; /* One-to-One mapping */
--	u32 ln_mapping;
--
--	ln_mapping = ln_0 << LANE0_MAPPING_SHIFT;
--	ln_mapping |= ln_1 << LANE1_MAPPING_SHIFT;
--	ln_mapping |= ln_2 << LANE2_MAPPING_SHIFT;
--	ln_mapping |= ln_3 << LANE3_MAPPING_SHIFT;
--
--	msm_dp_write_link(msm_dp_catalog, REG_DP_LOGICAL2PHYSICAL_LANE_MAPPING,
--			ln_mapping);
--}
--
--void msm_dp_catalog_ctrl_psr_mainlink_enable(struct msm_dp_catalog *msm_dp_catalog,
--						bool enable)
--{
--	u32 val;
--
--	val = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
--
--	if (enable)
--		val |= DP_MAINLINK_CTRL_ENABLE;
+-	if (msm_dp_catalog->wide_bus_en)
+-		reg |= DP_INTF_CONFIG_DATABUS_WIDEN;
 -	else
--		val &= ~DP_MAINLINK_CTRL_ENABLE;
+-		reg &= ~DP_INTF_CONFIG_DATABUS_WIDEN;
 -
--	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, val);
--}
 -
--void msm_dp_catalog_ctrl_mainlink_ctrl(struct msm_dp_catalog *msm_dp_catalog,
--						bool enable)
--{
--	u32 mainlink_ctrl;
--	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
--				struct msm_dp_catalog_private, msm_dp_catalog);
+-	DRM_DEBUG_DP("wide_bus_en=%d reg=%#x\n", msm_dp_catalog->wide_bus_en, reg);
 -
--	drm_dbg_dp(catalog->drm_dev, "enable=%d\n", enable);
--	if (enable) {
--		/*
--		 * To make sure link reg writes happens before other operation,
--		 * msm_dp_write_link() function uses writel()
--		 */
--		mainlink_ctrl = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
--
--		mainlink_ctrl &= ~(DP_MAINLINK_CTRL_RESET |
--						DP_MAINLINK_CTRL_ENABLE);
--		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
--
--		mainlink_ctrl |= DP_MAINLINK_CTRL_RESET;
--		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
--
--		mainlink_ctrl &= ~DP_MAINLINK_CTRL_RESET;
--		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
--
--		mainlink_ctrl |= (DP_MAINLINK_CTRL_ENABLE |
--					DP_MAINLINK_FB_BOUNDARY_SEL);
--		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
--	} else {
--		mainlink_ctrl = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
--		mainlink_ctrl &= ~DP_MAINLINK_CTRL_ENABLE;
--		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
--	}
--}
--
--void msm_dp_catalog_ctrl_config_misc(struct msm_dp_catalog *msm_dp_catalog,
--					u32 colorimetry_cfg,
--					u32 test_bits_depth)
--{
--	u32 misc_val;
--	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
--				struct msm_dp_catalog_private, msm_dp_catalog);
--
--	misc_val = msm_dp_read_link(msm_dp_catalog, REG_DP_MISC1_MISC0);
--
--	/* clear bpp bits */
--	misc_val &= ~(0x07 << DP_MISC0_TEST_BITS_DEPTH_SHIFT);
--	misc_val |= colorimetry_cfg << DP_MISC0_COLORIMETRY_CFG_SHIFT;
--	misc_val |= test_bits_depth << DP_MISC0_TEST_BITS_DEPTH_SHIFT;
--	/* Configure clock to synchronous mode */
--	misc_val |= DP_MISC0_SYNCHRONOUS_CLK;
--
--	drm_dbg_dp(catalog->drm_dev, "misc settings = 0x%x\n", misc_val);
--	msm_dp_write_link(msm_dp_catalog, REG_DP_MISC1_MISC0, misc_val);
--}
--
--void msm_dp_catalog_setup_peripheral_flush(struct msm_dp_catalog *msm_dp_catalog)
--{
--	u32 mainlink_ctrl, hw_revision;
--
--	mainlink_ctrl = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
--
--	hw_revision = msm_dp_catalog_hw_revision(msm_dp_catalog);
--	if (hw_revision >= DP_HW_VERSION_1_2)
--		mainlink_ctrl |= DP_MAINLINK_FLUSH_MODE_SDE_PERIPH_UPDATE;
--	else
--		mainlink_ctrl |= DP_MAINLINK_FLUSH_MODE_UPDATE_SDP;
--
--	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
--}
--
--void msm_dp_catalog_ctrl_config_msa(struct msm_dp_catalog *msm_dp_catalog,
--					u32 rate, u32 stream_rate_khz,
--					bool is_ycbcr_420)
--{
--	u32 pixel_m, pixel_n;
--	u32 mvid, nvid, pixel_div = 0, dispcc_input_rate;
--	u32 const nvid_fixed = DP_LINK_CONSTANT_N_VALUE;
--	u32 const link_rate_hbr2 = 540000;
--	u32 const link_rate_hbr3 = 810000;
--	unsigned long den, num;
--
--	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
--				struct msm_dp_catalog_private, msm_dp_catalog);
--
--	if (rate == link_rate_hbr3)
--		pixel_div = 6;
--	else if (rate == 162000 || rate == 270000)
--		pixel_div = 2;
--	else if (rate == link_rate_hbr2)
--		pixel_div = 4;
--	else
--		DRM_ERROR("Invalid pixel mux divider\n");
--
--	dispcc_input_rate = (rate * 10) / pixel_div;
--
--	rational_best_approximation(dispcc_input_rate, stream_rate_khz,
--			(unsigned long)(1 << 16) - 1,
--			(unsigned long)(1 << 16) - 1, &den, &num);
--
--	den = ~(den - num);
--	den = den & 0xFFFF;
--	pixel_m = num;
--	pixel_n = den;
--
--	mvid = (pixel_m & 0xFFFF) * 5;
--	nvid = (0xFFFF & (~pixel_n)) + (pixel_m & 0xFFFF);
--
--	if (nvid < nvid_fixed) {
--		u32 temp;
--
--		temp = (nvid_fixed / nvid) * nvid;
--		mvid = (nvid_fixed / nvid) * mvid;
--		nvid = temp;
--	}
--
--	if (is_ycbcr_420)
--		mvid /= 2;
--
--	if (link_rate_hbr2 == rate)
--		nvid *= 2;
--
--	if (link_rate_hbr3 == rate)
--		nvid *= 3;
--
--	drm_dbg_dp(catalog->drm_dev, "mvid=0x%x, nvid=0x%x\n", mvid, nvid);
--	msm_dp_write_link(msm_dp_catalog, REG_DP_SOFTWARE_MVID, mvid);
--	msm_dp_write_link(msm_dp_catalog, REG_DP_SOFTWARE_NVID, nvid);
--	msm_dp_write_p0(msm_dp_catalog, MMSS_DP_DSC_DTO, 0x0);
--}
--
--int msm_dp_catalog_ctrl_set_pattern_state_bit(struct msm_dp_catalog *msm_dp_catalog,
--					u32 state_bit)
--{
--	int bit, ret;
--	u32 data;
--	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
--				struct msm_dp_catalog_private, msm_dp_catalog);
--
--	bit = BIT(state_bit - 1);
--	drm_dbg_dp(catalog->drm_dev, "hw: bit=%d train=%d\n", bit, state_bit);
--	msm_dp_catalog_ctrl_state_ctrl(msm_dp_catalog, bit);
--
--	bit = BIT(state_bit - 1) << DP_MAINLINK_READY_LINK_TRAINING_SHIFT;
--
--	/* Poll for mainlink ready status */
--	ret = readx_poll_timeout(readl, msm_dp_catalog->link_base +
--					REG_DP_MAINLINK_READY,
--					data, data & bit,
--					POLLING_SLEEP_US, POLLING_TIMEOUT_US);
--	if (ret < 0) {
--		DRM_ERROR("set state_bit for link_train=%d failed\n", state_bit);
--		return ret;
--	}
+-	msm_dp_write_p0(msm_dp_catalog, MMSS_DP_INTF_CONFIG, reg);
 -	return 0;
 -}
 -
- /**
-  * msm_dp_catalog_hw_revision() - retrieve DP hw revision
-  *
-@@ -317,50 +104,6 @@ u32 msm_dp_catalog_hw_revision(const struct msm_dp_catalog *msm_dp_catalog)
- 	return msm_dp_read_ahb(msm_dp_catalog, REG_DP_HW_VERSION);
- }
- 
--/**
-- * msm_dp_catalog_ctrl_reset() - reset DP controller
-- *
-- * @msm_dp_catalog: DP catalog structure
-- *
-- * return: void
-- *
-- * This function reset the DP controller
-- *
-- * NOTE: reset DP controller will also clear any pending HPD related interrupts
-- * 
-- */
--void msm_dp_catalog_ctrl_reset(struct msm_dp_catalog *msm_dp_catalog)
+-static void msm_dp_catalog_panel_send_vsc_sdp(struct msm_dp_catalog *msm_dp_catalog, struct dp_sdp *vsc_sdp)
 -{
--	u32 sw_reset;
+-	u32 header[2];
+-	u32 val;
+-	int i;
 -
--	sw_reset = msm_dp_read_ahb(msm_dp_catalog, REG_DP_SW_RESET);
+-	msm_dp_utils_pack_sdp_header(&vsc_sdp->sdp_header, header);
 -
--	sw_reset |= DP_SW_RESET;
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_SW_RESET, sw_reset);
--	usleep_range(1000, 1100); /* h/w recommended delay */
+-	msm_dp_write_link(msm_dp_catalog, MMSS_DP_GENERIC0_0, header[0]);
+-	msm_dp_write_link(msm_dp_catalog, MMSS_DP_GENERIC0_1, header[1]);
 -
--	sw_reset &= ~DP_SW_RESET;
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_SW_RESET, sw_reset);
--}
--
--bool msm_dp_catalog_ctrl_mainlink_ready(struct msm_dp_catalog *msm_dp_catalog)
--{
--	u32 data;
--	int ret;
--
--	/* Poll for mainlink ready status */
--	ret = readl_poll_timeout(msm_dp_catalog->link_base +
--				REG_DP_MAINLINK_READY,
--				data, data & DP_MAINLINK_READY_FOR_VIDEO,
--				POLLING_SLEEP_US, POLLING_TIMEOUT_US);
--	if (ret < 0) {
--		DRM_ERROR("mainlink not ready\n");
--		return false;
--	}
--
--	return true;
--}
--
- void msm_dp_catalog_ctrl_enable_irq(struct msm_dp_catalog *msm_dp_catalog,
- 						bool enable)
- {
-@@ -413,43 +156,6 @@ void msm_dp_catalog_ctrl_hpd_disable(struct msm_dp_catalog *msm_dp_catalog)
- 	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_CTRL, 0);
- }
- 
--static void msm_dp_catalog_enable_sdp(struct msm_dp_catalog *msm_dp_catalog)
--{
--	/* trigger sdp */
--	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG3, UPDATE_SDP);
--	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG3, 0x0);
--}
--
--void msm_dp_catalog_ctrl_config_psr(struct msm_dp_catalog *msm_dp_catalog)
--{
--	u32 config;
--
--	/* enable PSR1 function */
--	config = msm_dp_read_link(msm_dp_catalog, REG_PSR_CONFIG);
--	config |= PSR1_SUPPORTED;
--	msm_dp_write_link(msm_dp_catalog, REG_PSR_CONFIG, config);
--
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_MASK4, DP_INTERRUPT_MASK4);
--	msm_dp_catalog_enable_sdp(msm_dp_catalog);
--}
--
--void msm_dp_catalog_ctrl_set_psr(struct msm_dp_catalog *msm_dp_catalog, bool enter)
--{
--	u32 cmd;
--
--	cmd = msm_dp_read_link(msm_dp_catalog, REG_PSR_CMD);
--
--	cmd &= ~(PSR_ENTER | PSR_EXIT);
--
--	if (enter)
--		cmd |= PSR_ENTER;
--	else
--		cmd |= PSR_EXIT;
--
--	msm_dp_catalog_enable_sdp(msm_dp_catalog);
--	msm_dp_write_link(msm_dp_catalog, REG_PSR_CMD, cmd);
--}
--
- u32 msm_dp_catalog_link_is_connected(struct msm_dp_catalog *msm_dp_catalog)
- {
- 	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-@@ -495,6 +201,11 @@ u32 msm_dp_catalog_ctrl_read_psr_interrupt_status(struct msm_dp_catalog *msm_dp_
- 	return intr;
- }
- 
-+void msm_dp_catalog_ctrl_config_psr_interrupt(struct msm_dp_catalog *msm_dp_catalog)
-+{
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_MASK4, DP_INTERRUPT_MASK4);
-+}
-+
- int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog)
- {
- 	u32 intr, intr_ack;
-@@ -509,96 +220,6 @@ int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog)
- 	return intr;
- }
- 
--void msm_dp_catalog_ctrl_phy_reset(struct msm_dp_catalog *msm_dp_catalog)
--{
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_PHY_CTRL,
--			DP_PHY_CTRL_SW_RESET | DP_PHY_CTRL_SW_RESET_PLL);
--	usleep_range(1000, 1100); /* h/w recommended delay */
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_PHY_CTRL, 0x0);
--}
--
--void msm_dp_catalog_ctrl_send_phy_pattern(struct msm_dp_catalog *msm_dp_catalog,
--			u32 pattern)
--{
--	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
--				struct msm_dp_catalog_private, msm_dp_catalog);
--	u32 value = 0x0;
--
--	/* Make sure to clear the current pattern before starting a new one */
--	msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL, 0x0);
--
--	drm_dbg_dp(catalog->drm_dev, "pattern: %#x\n", pattern);
--	switch (pattern) {
--	case DP_PHY_TEST_PATTERN_D10_2:
--		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
--				DP_STATE_CTRL_LINK_TRAINING_PATTERN1);
--		break;
--	case DP_PHY_TEST_PATTERN_ERROR_COUNT:
--		value &= ~(1 << 16);
--		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
--					value);
--		value |= SCRAMBLER_RESET_COUNT_VALUE;
--		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
--					value);
--		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_LEVELS,
--					DP_MAINLINK_SAFE_TO_EXIT_LEVEL_2);
--		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
--					DP_STATE_CTRL_LINK_SYMBOL_ERR_MEASURE);
--		break;
--	case DP_PHY_TEST_PATTERN_PRBS7:
--		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
--				DP_STATE_CTRL_LINK_PRBS7);
--		break;
--	case DP_PHY_TEST_PATTERN_80BIT_CUSTOM:
--		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
--				DP_STATE_CTRL_LINK_TEST_CUSTOM_PATTERN);
--		/* 00111110000011111000001111100000 */
--		msm_dp_write_link(msm_dp_catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG0,
--				0x3E0F83E0);
--		/* 00001111100000111110000011111000 */
--		msm_dp_write_link(msm_dp_catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG1,
--				0x0F83E0F8);
--		/* 1111100000111110 */
--		msm_dp_write_link(msm_dp_catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG2,
--				0x0000F83E);
--		break;
--	case DP_PHY_TEST_PATTERN_CP2520:
--		value = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
--		value &= ~DP_MAINLINK_CTRL_SW_BYPASS_SCRAMBLER;
--		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, value);
--
--		value = DP_HBR2_ERM_PATTERN;
--		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
--				value);
--		value |= SCRAMBLER_RESET_COUNT_VALUE;
--		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
--					value);
--		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_LEVELS,
--					DP_MAINLINK_SAFE_TO_EXIT_LEVEL_2);
--		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
--					DP_STATE_CTRL_LINK_SYMBOL_ERR_MEASURE);
--		value = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
--		value |= DP_MAINLINK_CTRL_ENABLE;
--		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, value);
--		break;
--	case DP_PHY_TEST_PATTERN_SEL_MASK:
--		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL,
--				DP_MAINLINK_CTRL_ENABLE);
--		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
--				DP_STATE_CTRL_LINK_TRAINING_PATTERN4);
--		break;
--	default:
--		drm_dbg_dp(catalog->drm_dev,
--				"No valid test pattern requested: %#x\n", pattern);
--		break;
+-	for (i = 0; i < sizeof(vsc_sdp->db); i += 4) {
+-		val = ((vsc_sdp->db[i]) | (vsc_sdp->db[i + 1] << 8) | (vsc_sdp->db[i + 2] << 16) |
+-		       (vsc_sdp->db[i + 3] << 24));
+-		msm_dp_write_link(msm_dp_catalog, MMSS_DP_GENERIC0_2 + i, val);
 -	}
 -}
 -
--u32 msm_dp_catalog_ctrl_read_phy_pattern(struct msm_dp_catalog *msm_dp_catalog)
+-static void msm_dp_catalog_panel_update_sdp(struct msm_dp_catalog *msm_dp_catalog)
 -{
--	return msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_READY);
+-	u32 hw_revision;
+-
+-	hw_revision = msm_dp_catalog_hw_revision(msm_dp_catalog);
+-	if (hw_revision < DP_HW_VERSION_1_2 && hw_revision >= DP_HW_VERSION_1_0) {
+-		msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG3, 0x01);
+-		msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG3, 0x00);
+-	}
 -}
 -
- /* panel related catalog functions */
- int msm_dp_catalog_panel_timing_cfg(struct msm_dp_catalog *msm_dp_catalog, u32 total,
- 				u32 sync_start, u32 width_blanking, u32 msm_dp_active)
+-void msm_dp_catalog_panel_enable_vsc_sdp(struct msm_dp_catalog *msm_dp_catalog, struct dp_sdp *vsc_sdp)
+-{
+-	struct msm_dp_catalog_private *catalog;
+-	u32 cfg, cfg2, misc;
+-
+-	catalog = container_of(msm_dp_catalog, struct msm_dp_catalog_private, msm_dp_catalog);
+-
+-	cfg = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG);
+-	cfg2 = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG2);
+-	misc = msm_dp_read_link(msm_dp_catalog, REG_DP_MISC1_MISC0);
+-
+-	cfg |= GEN0_SDP_EN;
+-	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG, cfg);
+-
+-	cfg2 |= GENERIC0_SDPSIZE_VALID;
+-	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG2, cfg2);
+-
+-	msm_dp_catalog_panel_send_vsc_sdp(msm_dp_catalog, vsc_sdp);
+-
+-	/* indicates presence of VSC (BIT(6) of MISC1) */
+-	misc |= DP_MISC1_VSC_SDP;
+-
+-	drm_dbg_dp(catalog->drm_dev, "vsc sdp enable=1\n");
+-
+-	pr_debug("misc settings = 0x%x\n", misc);
+-	msm_dp_write_link(msm_dp_catalog, REG_DP_MISC1_MISC0, misc);
+-
+-	msm_dp_catalog_panel_update_sdp(msm_dp_catalog);
+-}
+-
+-void msm_dp_catalog_panel_disable_vsc_sdp(struct msm_dp_catalog *msm_dp_catalog)
+-{
+-	struct msm_dp_catalog_private *catalog;
+-	u32 cfg, cfg2, misc;
+-
+-	catalog = container_of(msm_dp_catalog, struct msm_dp_catalog_private, msm_dp_catalog);
+-
+-	cfg = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG);
+-	cfg2 = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG2);
+-	misc = msm_dp_read_link(msm_dp_catalog, REG_DP_MISC1_MISC0);
+-
+-	cfg &= ~GEN0_SDP_EN;
+-	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG, cfg);
+-
+-	cfg2 &= ~GENERIC0_SDPSIZE_VALID;
+-	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG2, cfg2);
+-
+-	/* switch back to MSA */
+-	misc &= ~DP_MISC1_VSC_SDP;
+-
+-	drm_dbg_dp(catalog->drm_dev, "vsc sdp enable=0\n");
+-
+-	pr_debug("misc settings = 0x%x\n", misc);
+-	msm_dp_write_link(msm_dp_catalog, REG_DP_MISC1_MISC0, misc);
+-
+-	msm_dp_catalog_panel_update_sdp(msm_dp_catalog);
+-}
+-
+ static void __iomem *msm_dp_ioremap(struct platform_device *pdev, int idx, size_t *len)
+ {
+ 	struct resource *res;
 diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index fbcaf1fba66e7c5918137f7f8092f0749dd4da8c..ad3c6bfbd8bb449d7bee92b55b74ddddd1ce4ed0 100644
+index ad3c6bfbd8bb449d7bee92b55b74ddddd1ce4ed0..8b63f53e960092666f08b95f556aefe210f4a1e0 100644
 --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
 +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -136,37 +136,17 @@ void msm_dp_catalog_snapshot(struct msm_dp_catalog *msm_dp_catalog, struct msm_d
- u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog);
- 
- /* DP Controller APIs */
--void msm_dp_catalog_ctrl_state_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32 state);
--void msm_dp_catalog_ctrl_config_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32 config);
--void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_mainlink_ctrl(struct msm_dp_catalog *msm_dp_catalog, bool enable);
--void msm_dp_catalog_ctrl_psr_mainlink_enable(struct msm_dp_catalog *msm_dp_catalog, bool enable);
--void msm_dp_catalog_setup_peripheral_flush(struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_config_misc(struct msm_dp_catalog *msm_dp_catalog, u32 cc, u32 tb);
--void msm_dp_catalog_ctrl_config_msa(struct msm_dp_catalog *msm_dp_catalog, u32 rate,
--				u32 stream_rate_khz, bool is_ycbcr_420);
--int msm_dp_catalog_ctrl_set_pattern_state_bit(struct msm_dp_catalog *msm_dp_catalog, u32 pattern);
- u32 msm_dp_catalog_hw_revision(const struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_reset(struct msm_dp_catalog *msm_dp_catalog);
--bool msm_dp_catalog_ctrl_mainlink_ready(struct msm_dp_catalog *msm_dp_catalog);
- void msm_dp_catalog_ctrl_enable_irq(struct msm_dp_catalog *msm_dp_catalog, bool enable);
- void msm_dp_catalog_hpd_config_intr(struct msm_dp_catalog *msm_dp_catalog,
- 			u32 intr_mask, bool en);
- void msm_dp_catalog_ctrl_hpd_enable(struct msm_dp_catalog *msm_dp_catalog);
- void msm_dp_catalog_ctrl_hpd_disable(struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_config_psr(struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_set_psr(struct msm_dp_catalog *msm_dp_catalog, bool enter);
- u32 msm_dp_catalog_link_is_connected(struct msm_dp_catalog *msm_dp_catalog);
- u32 msm_dp_catalog_hpd_get_intr_status(struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_phy_reset(struct msm_dp_catalog *msm_dp_catalog);
- int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog);
-+void msm_dp_catalog_ctrl_config_psr_interrupt(struct msm_dp_catalog *msm_dp_catalog);
+@@ -148,12 +148,6 @@ int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog);
+ void msm_dp_catalog_ctrl_config_psr_interrupt(struct msm_dp_catalog *msm_dp_catalog);
  u32 msm_dp_catalog_ctrl_read_psr_interrupt_status(struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_update_transfer_unit(struct msm_dp_catalog *msm_dp_catalog,
--				u32 msm_dp_tu, u32 valid_boundary,
--				u32 valid_boundary2);
--void msm_dp_catalog_ctrl_send_phy_pattern(struct msm_dp_catalog *msm_dp_catalog,
--				u32 pattern);
--u32 msm_dp_catalog_ctrl_read_phy_pattern(struct msm_dp_catalog *msm_dp_catalog);
  
- /* DP Panel APIs */
- int msm_dp_catalog_panel_timing_cfg(struct msm_dp_catalog *msm_dp_catalog, u32 total,
+-/* DP Panel APIs */
+-int msm_dp_catalog_panel_timing_cfg(struct msm_dp_catalog *msm_dp_catalog, u32 total,
+-				u32 sync_start, u32 width_blanking, u32 msm_dp_active);
+-void msm_dp_catalog_panel_enable_vsc_sdp(struct msm_dp_catalog *msm_dp_catalog, struct dp_sdp *vsc_sdp);
+-void msm_dp_catalog_panel_disable_vsc_sdp(struct msm_dp_catalog *msm_dp_catalog);
+-
+ struct msm_dp_catalog *msm_dp_catalog_get(struct device *dev);
+ 
+ /* DP Audio APIs */
 diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index bc2ca8133b790fc049e18ab3b37a629558664dd4..6ca2e055717b55c9eb064887948cf095fbfc1c40 100644
+index 6ca2e055717b55c9eb064887948cf095fbfc1c40..cde667bf8eeec95035b2feb3661686c99acf5b7d 100644
 --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
 +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -8,9 +8,11 @@
- #include <linux/types.h>
- #include <linux/completion.h>
- #include <linux/delay.h>
-+#include <linux/iopoll.h>
- #include <linux/phy/phy.h>
- #include <linux/phy/phy-dp.h>
- #include <linux/pm_opp.h>
-+#include <linux/rational.h>
- 
- #include <drm/display/drm_dp_helper.h>
- #include <drm/drm_fixed.h>
-@@ -20,6 +22,9 @@
- #include "dp_ctrl.h"
- #include "dp_link.h"
- 
-+#define POLLING_SLEEP_US			1000
-+#define POLLING_TIMEOUT_US			10000
-+
- #define DP_KHZ_TO_HZ 1000
- #define IDLE_PATTERN_COMPLETION_TIMEOUT_JIFFIES	(30 * HZ / 1000) /* 30 ms */
- #define PSR_OPERATION_COMPLETION_TIMEOUT_JIFFIES       (300 * HZ / 1000) /* 300 ms */
-@@ -118,6 +123,114 @@ static int msm_dp_aux_link_configure(struct drm_dp_aux *aux,
- 	return 0;
- }
- 
-+/*
-+ * NOTE: resetting DP controller will also clear any pending HPD related interrupts
-+ */
-+static void msm_dp_ctrl_reset(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 sw_reset;
-+
-+	sw_reset = msm_dp_read_ahb(msm_dp_catalog, REG_DP_SW_RESET);
-+
-+	sw_reset |= DP_SW_RESET;
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_SW_RESET, sw_reset);
-+	usleep_range(1000, 1100); /* h/w recommended delay */
-+
-+	sw_reset &= ~DP_SW_RESET;
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_SW_RESET, sw_reset);
-+}
-+
-+static void msm_dp_ctrl_psr_mainlink_enable(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 val;
-+
-+	val = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
-+	val |= DP_MAINLINK_CTRL_ENABLE;
-+	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, val);
-+}
-+
-+static void msm_dp_ctrl_psr_mainlink_disable(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 val;
-+
-+	val = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
-+	val &= ~DP_MAINLINK_CTRL_ENABLE;
-+	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, val);
-+}
-+
-+static void msm_dp_ctrl_mainlink_enable(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 mainlink_ctrl;
-+
-+	drm_dbg_dp(ctrl->drm_dev, "enable\n");
-+
-+	mainlink_ctrl = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
-+
-+	mainlink_ctrl &= ~(DP_MAINLINK_CTRL_RESET |
-+					DP_MAINLINK_CTRL_ENABLE);
-+	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-+
-+	mainlink_ctrl |= DP_MAINLINK_CTRL_RESET;
-+	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-+
-+	mainlink_ctrl &= ~DP_MAINLINK_CTRL_RESET;
-+	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-+
-+	mainlink_ctrl |= (DP_MAINLINK_CTRL_ENABLE |
-+				DP_MAINLINK_FB_BOUNDARY_SEL);
-+	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-+}
-+
-+static void msm_dp_ctrl_mainlink_disable(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 mainlink_ctrl;
-+
-+	drm_dbg_dp(ctrl->drm_dev, "disable\n");
-+
-+	mainlink_ctrl = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
-+	mainlink_ctrl &= ~DP_MAINLINK_CTRL_ENABLE;
-+	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-+}
-+
-+static void msm_dp_setup_peripheral_flush(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 mainlink_ctrl, hw_revision;
-+
-+	mainlink_ctrl = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
-+
-+	hw_revision = msm_dp_catalog_hw_revision(msm_dp_catalog);
-+	if (hw_revision >= DP_HW_VERSION_1_2)
-+		mainlink_ctrl |= DP_MAINLINK_FLUSH_MODE_SDE_PERIPH_UPDATE;
-+	else
-+		mainlink_ctrl |= DP_MAINLINK_FLUSH_MODE_UPDATE_SDP;
-+
-+	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-+}
-+
-+static bool msm_dp_ctrl_mainlink_ready(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 data;
-+	int ret;
-+
-+	/* Poll for mainlink ready status */
-+	ret = readl_poll_timeout(msm_dp_catalog->link_base + REG_DP_MAINLINK_READY,
-+				data, data & DP_MAINLINK_READY_FOR_VIDEO,
-+				POLLING_SLEEP_US, POLLING_TIMEOUT_US);
-+	if (ret < 0) {
-+		DRM_ERROR("mainlink not ready\n");
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
- void msm_dp_ctrl_push_idle(struct msm_dp_ctrl *msm_dp_ctrl)
- {
- 	struct msm_dp_ctrl_private *ctrl;
-@@ -125,7 +238,7 @@ void msm_dp_ctrl_push_idle(struct msm_dp_ctrl *msm_dp_ctrl)
- 	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
- 
- 	reinit_completion(&ctrl->idle_comp);
--	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_PUSH_IDLE);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_STATE_CTRL, DP_STATE_CTRL_PUSH_IDLE);
- 
- 	if (!wait_for_completion_timeout(&ctrl->idle_comp,
- 			IDLE_PATTERN_COMPLETION_TIMEOUT_JIFFIES))
-@@ -170,23 +283,51 @@ static void msm_dp_ctrl_config_ctrl(struct msm_dp_ctrl_private *ctrl)
- 	if (ctrl->panel->psr_cap.version)
- 		config |= DP_CONFIGURATION_CTRL_SEND_VSC;
- 
--	msm_dp_catalog_ctrl_config_ctrl(ctrl->catalog, config);
-+	drm_dbg_dp(ctrl->drm_dev, "DP_CONFIGURATION_CTRL=0x%x\n", config);
-+
-+	msm_dp_write_link(ctrl->catalog, REG_DP_CONFIGURATION_CTRL, config);
-+}
-+
-+static void msm_dp_ctrl_lane_mapping(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 ln_0 = 0, ln_1 = 1, ln_2 = 2, ln_3 = 3; /* One-to-One mapping */
-+	u32 ln_mapping;
-+
-+	ln_mapping = ln_0 << LANE0_MAPPING_SHIFT;
-+	ln_mapping |= ln_1 << LANE1_MAPPING_SHIFT;
-+	ln_mapping |= ln_2 << LANE2_MAPPING_SHIFT;
-+	ln_mapping |= ln_3 << LANE3_MAPPING_SHIFT;
-+
-+	msm_dp_write_link(msm_dp_catalog, REG_DP_LOGICAL2PHYSICAL_LANE_MAPPING,
-+			ln_mapping);
- }
- 
- static void msm_dp_ctrl_configure_source_params(struct msm_dp_ctrl_private *ctrl)
- {
--	u32 cc, tb;
-+	u32 colorimetry_cfg, test_bits_depth, misc_val;
- 
--	msm_dp_catalog_ctrl_lane_mapping(ctrl->catalog);
--	msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, true);
--	msm_dp_catalog_setup_peripheral_flush(ctrl->catalog);
-+	msm_dp_ctrl_lane_mapping(ctrl);
-+	msm_dp_ctrl_mainlink_enable(ctrl);
-+	msm_dp_setup_peripheral_flush(ctrl);
- 
- 	msm_dp_ctrl_config_ctrl(ctrl);
- 
--	tb = msm_dp_link_get_test_bits_depth(ctrl->link,
--		ctrl->panel->msm_dp_mode.bpp);
--	cc = msm_dp_link_get_colorimetry_config(ctrl->link);
--	msm_dp_catalog_ctrl_config_misc(ctrl->catalog, cc, tb);
-+	test_bits_depth = msm_dp_link_get_test_bits_depth(ctrl->link, ctrl->panel->msm_dp_mode.bpp);
-+	colorimetry_cfg = msm_dp_link_get_colorimetry_config(ctrl->link);
-+
-+	misc_val = msm_dp_read_link(ctrl->catalog, REG_DP_MISC1_MISC0);
-+
-+	/* clear bpp bits */
-+	misc_val &= ~(0x07 << DP_MISC0_TEST_BITS_DEPTH_SHIFT);
-+	misc_val |= colorimetry_cfg << DP_MISC0_COLORIMETRY_CFG_SHIFT;
-+	misc_val |= test_bits_depth << DP_MISC0_TEST_BITS_DEPTH_SHIFT;
-+	/* Configure clock to synchronous mode */
-+	misc_val |= DP_MISC0_SYNCHRONOUS_CLK;
-+
-+	drm_dbg_dp(ctrl->drm_dev, "misc settings = 0x%x\n", misc_val);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_MISC1_MISC0, misc_val);
-+
- 	msm_dp_panel_timing_cfg(ctrl->panel);
- }
- 
-@@ -1003,8 +1144,9 @@ static void msm_dp_ctrl_setup_tr_unit(struct msm_dp_ctrl_private *ctrl)
- 	pr_debug("dp_tu=0x%x, valid_boundary=0x%x, valid_boundary2=0x%x\n",
- 			msm_dp_tu, valid_boundary, valid_boundary2);
- 
--	msm_dp_catalog_ctrl_update_transfer_unit(ctrl->catalog,
--				msm_dp_tu, valid_boundary, valid_boundary2);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_VALID_BOUNDARY, valid_boundary);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_TU, msm_dp_tu);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_VALID_BOUNDARY_2, valid_boundary2);
- }
- 
- static int msm_dp_ctrl_wait4video_ready(struct msm_dp_ctrl_private *ctrl)
-@@ -1114,6 +1256,30 @@ static int msm_dp_ctrl_read_link_status(struct msm_dp_ctrl_private *ctrl,
- 	return ret;
- }
- 
-+static int msm_dp_ctrl_set_pattern_state_bit(struct msm_dp_ctrl_private *ctrl,
-+					 u32 state_bit)
-+{
-+	int bit, ret;
-+	u32 data;
-+
-+	bit = BIT(state_bit - 1);
-+	drm_dbg_dp(ctrl->drm_dev, "hw: bit=%d train=%d\n", bit, state_bit);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_STATE_CTRL, bit);
-+
-+	bit = BIT(state_bit - 1) << DP_MAINLINK_READY_LINK_TRAINING_SHIFT;
-+
-+	/* Poll for mainlink ready status */
-+	ret = readx_poll_timeout(readl, ctrl->catalog->link_base + REG_DP_MAINLINK_READY,
-+				 data, data & bit,
-+				 POLLING_SLEEP_US, POLLING_TIMEOUT_US);
-+	if (ret < 0) {
-+		DRM_ERROR("set state_bit for link_train=%d failed\n", state_bit);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
- 			int *training_step)
- {
-@@ -1121,11 +1287,11 @@ static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
- 	u8 link_status[DP_LINK_STATUS_SIZE];
- 	int const maximum_retries = 4;
- 
--	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_STATE_CTRL, 0);
- 
- 	*training_step = DP_TRAINING_1;
- 
--	ret = msm_dp_catalog_ctrl_set_pattern_state_bit(ctrl->catalog, 1);
-+	ret = msm_dp_ctrl_set_pattern_state_bit(ctrl, 1);
- 	if (ret)
- 		return ret;
- 	msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_1 |
-@@ -1228,7 +1394,7 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
- 	int const maximum_retries = 5;
- 	u8 link_status[DP_LINK_STATUS_SIZE];
- 
--	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_STATE_CTRL, 0);
- 
- 	*training_step = DP_TRAINING_2;
- 
-@@ -1243,7 +1409,7 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
- 		state_ctrl_bit = 2;
- 	}
- 
--	ret = msm_dp_catalog_ctrl_set_pattern_state_bit(ctrl->catalog, state_ctrl_bit);
-+	ret = msm_dp_ctrl_set_pattern_state_bit(ctrl, state_ctrl_bit);
- 	if (ret)
- 		return ret;
- 
-@@ -1321,7 +1487,7 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
- 	drm_dbg_dp(ctrl->drm_dev, "link training #2 successful\n");
- 
- end:
--	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_STATE_CTRL, 0);
- 
- 	return ret;
- }
-@@ -1331,7 +1497,7 @@ static int msm_dp_ctrl_setup_main_link(struct msm_dp_ctrl_private *ctrl,
- {
- 	int ret = 0;
- 
--	msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, true);
-+	msm_dp_ctrl_mainlink_enable(ctrl);
- 
- 	if (ctrl->link->sink_request & DP_TEST_LINK_PHY_TEST_PATTERN)
- 		return ret;
-@@ -1470,7 +1636,7 @@ void msm_dp_ctrl_reset_irq_ctrl(struct msm_dp_ctrl *msm_dp_ctrl, bool enable)
- 
- 	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
- 
--	msm_dp_catalog_ctrl_reset(ctrl->catalog);
-+	msm_dp_ctrl_reset(ctrl);
- 
- 	/*
- 	 * all dp controller programmable registers will not
-@@ -1481,16 +1647,60 @@ void msm_dp_ctrl_reset_irq_ctrl(struct msm_dp_ctrl *msm_dp_ctrl, bool enable)
- 	msm_dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
- }
- 
-+static void msm_dp_ctrl_enable_sdp(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+
-+	/* trigger sdp */
-+	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG3, UPDATE_SDP);
-+	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG3, 0x0);
-+}
-+
-+static void msm_dp_ctrl_psr_enter(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 cmd;
-+
-+	cmd = msm_dp_read_link(msm_dp_catalog, REG_PSR_CMD);
-+
-+	cmd &= ~(PSR_ENTER | PSR_EXIT);
-+	cmd |= PSR_ENTER;
-+
-+	msm_dp_ctrl_enable_sdp(ctrl);
-+	msm_dp_write_link(msm_dp_catalog, REG_PSR_CMD, cmd);
-+}
-+
-+static void msm_dp_ctrl_psr_exit(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 cmd;
-+
-+	cmd = msm_dp_read_link(msm_dp_catalog, REG_PSR_CMD);
-+
-+	cmd &= ~(PSR_ENTER | PSR_EXIT);
-+	cmd |= PSR_EXIT;
-+
-+	msm_dp_ctrl_enable_sdp(ctrl);
-+	msm_dp_write_link(msm_dp_catalog, REG_PSR_CMD, cmd);
-+}
-+
- void msm_dp_ctrl_config_psr(struct msm_dp_ctrl *msm_dp_ctrl)
- {
--	u8 cfg;
- 	struct msm_dp_ctrl_private *ctrl = container_of(msm_dp_ctrl,
- 			struct msm_dp_ctrl_private, msm_dp_ctrl);
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 cfg;
- 
- 	if (!ctrl->panel->psr_cap.version)
- 		return;
- 
--	msm_dp_catalog_ctrl_config_psr(ctrl->catalog);
-+	/* enable PSR1 function */
-+	cfg = msm_dp_read_link(msm_dp_catalog, REG_PSR_CONFIG);
-+	cfg |= PSR1_SUPPORTED;
-+	msm_dp_write_link(msm_dp_catalog, REG_PSR_CONFIG, cfg);
-+
-+	msm_dp_catalog_ctrl_config_psr_interrupt(msm_dp_catalog);
-+	msm_dp_ctrl_enable_sdp(ctrl);
- 
- 	cfg = DP_PSR_ENABLE;
- 	drm_dp_dpcd_write(ctrl->aux, DP_PSR_EN_CFG, &cfg, 1);
-@@ -1516,29 +1726,37 @@ void msm_dp_ctrl_set_psr(struct msm_dp_ctrl *msm_dp_ctrl, bool enter)
- 	 */
- 	if (enter) {
- 		reinit_completion(&ctrl->psr_op_comp);
--		msm_dp_catalog_ctrl_set_psr(ctrl->catalog, true);
-+		msm_dp_ctrl_psr_enter(ctrl);
- 
- 		if (!wait_for_completion_timeout(&ctrl->psr_op_comp,
- 			PSR_OPERATION_COMPLETION_TIMEOUT_JIFFIES)) {
- 			DRM_ERROR("PSR_ENTRY timedout\n");
--			msm_dp_catalog_ctrl_set_psr(ctrl->catalog, false);
-+			msm_dp_ctrl_psr_exit(ctrl);
- 			return;
- 		}
- 
- 		msm_dp_ctrl_push_idle(msm_dp_ctrl);
--		msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-+		msm_dp_write_link(ctrl->catalog, REG_DP_STATE_CTRL, 0);
- 
--		msm_dp_catalog_ctrl_psr_mainlink_enable(ctrl->catalog, false);
-+		msm_dp_ctrl_psr_mainlink_disable(ctrl);
- 	} else {
--		msm_dp_catalog_ctrl_psr_mainlink_enable(ctrl->catalog, true);
-+		msm_dp_ctrl_psr_mainlink_enable(ctrl);
- 
--		msm_dp_catalog_ctrl_set_psr(ctrl->catalog, false);
--		msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
-+		msm_dp_ctrl_psr_exit(ctrl);
-+		msm_dp_write_link(ctrl->catalog, REG_DP_STATE_CTRL, DP_STATE_CTRL_SEND_VIDEO);
- 		msm_dp_ctrl_wait4video_ready(ctrl);
--		msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-+		msm_dp_write_link(ctrl->catalog, REG_DP_STATE_CTRL, 0);
- 	}
- }
- 
-+static void msm_dp_ctrl_phy_reset(struct msm_dp_ctrl_private *ctrl)
-+{
-+	msm_dp_write_ahb(ctrl->catalog, REG_DP_PHY_CTRL,
-+			DP_PHY_CTRL_SW_RESET | DP_PHY_CTRL_SW_RESET_PLL);
-+	usleep_range(1000, 1100); /* h/w recommended delay */
-+	msm_dp_write_ahb(ctrl->catalog, REG_DP_PHY_CTRL, 0x0);
-+}
-+
- void msm_dp_ctrl_phy_init(struct msm_dp_ctrl *msm_dp_ctrl)
- {
- 	struct msm_dp_ctrl_private *ctrl;
-@@ -1547,7 +1765,7 @@ void msm_dp_ctrl_phy_init(struct msm_dp_ctrl *msm_dp_ctrl)
+@@ -2395,7 +2395,7 @@ void msm_dp_ctrl_off_link_stream(struct msm_dp_ctrl *msm_dp_ctrl)
  	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
  	phy = ctrl->phy;
  
--	msm_dp_catalog_ctrl_phy_reset(ctrl->catalog);
-+	msm_dp_ctrl_phy_reset(ctrl);
- 	phy_init(phy);
+-	msm_dp_catalog_panel_disable_vsc_sdp(ctrl->catalog);
++	msm_dp_panel_disable_vsc_sdp(ctrl->panel);
  
- 	drm_dbg_dp(ctrl->drm_dev, "phy=%p init=%d power_on=%d\n",
-@@ -1562,7 +1780,7 @@ void msm_dp_ctrl_phy_exit(struct msm_dp_ctrl *msm_dp_ctrl)
- 	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
- 	phy = ctrl->phy;
- 
--	msm_dp_catalog_ctrl_phy_reset(ctrl->catalog);
-+	msm_dp_ctrl_phy_reset(ctrl);
- 	phy_exit(phy);
- 	drm_dbg_dp(ctrl->drm_dev, "phy=%p init=%d power_on=%d\n",
- 			phy, phy->init_count, phy->power_count);
-@@ -1573,7 +1791,7 @@ static int msm_dp_ctrl_reinitialize_mainlink(struct msm_dp_ctrl_private *ctrl)
- 	struct phy *phy = ctrl->phy;
- 	int ret = 0;
- 
--	msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
-+	msm_dp_ctrl_mainlink_disable(ctrl);
- 	ctrl->phy_opts.dp.lanes = ctrl->link->link_params.num_lanes;
- 	phy_configure(phy, &ctrl->phy_opts);
- 	/*
-@@ -1604,9 +1822,9 @@ static int msm_dp_ctrl_deinitialize_mainlink(struct msm_dp_ctrl_private *ctrl)
- 
- 	phy = ctrl->phy;
- 
--	msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
-+	msm_dp_ctrl_mainlink_disable(ctrl);
- 
--	msm_dp_catalog_ctrl_reset(ctrl->catalog);
-+	msm_dp_ctrl_reset(ctrl);
- 
- 	dev_pm_opp_set_rate(ctrl->dev, 0);
- 	msm_dp_ctrl_link_clk_disable(&ctrl->msm_dp_ctrl);
-@@ -1638,13 +1856,97 @@ static int msm_dp_ctrl_link_maintenance(struct msm_dp_ctrl_private *ctrl)
- 
- 	msm_dp_ctrl_clear_training_pattern(ctrl);
- 
--	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_STATE_CTRL, DP_STATE_CTRL_SEND_VIDEO);
- 
- 	ret = msm_dp_ctrl_wait4video_ready(ctrl);
- end:
- 	return ret;
- }
- 
-+#define SCRAMBLER_RESET_COUNT_VALUE		0xFC
-+
-+static void msm_dp_ctrl_send_phy_pattern(struct msm_dp_ctrl_private *ctrl,
-+				     u32 pattern)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 value = 0x0;
-+
-+	/* Make sure to clear the current pattern before starting a new one */
-+	msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL, 0x0);
-+
-+	drm_dbg_dp(ctrl->drm_dev, "pattern: %#x\n", pattern);
-+	switch (pattern) {
-+	case DP_PHY_TEST_PATTERN_D10_2:
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
-+			      DP_STATE_CTRL_LINK_TRAINING_PATTERN1);
-+		break;
-+
-+	case DP_PHY_TEST_PATTERN_ERROR_COUNT:
-+		value &= ~(1 << 16);
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
-+			      value);
-+		value |= SCRAMBLER_RESET_COUNT_VALUE;
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
-+			      value);
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_LEVELS,
-+			      DP_MAINLINK_SAFE_TO_EXIT_LEVEL_2);
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
-+			      DP_STATE_CTRL_LINK_SYMBOL_ERR_MEASURE);
-+		break;
-+
-+	case DP_PHY_TEST_PATTERN_PRBS7:
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
-+			      DP_STATE_CTRL_LINK_PRBS7);
-+		break;
-+
-+	case DP_PHY_TEST_PATTERN_80BIT_CUSTOM:
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
-+			      DP_STATE_CTRL_LINK_TEST_CUSTOM_PATTERN);
-+		/* 00111110000011111000001111100000 */
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG0,
-+			      0x3E0F83E0);
-+		/* 00001111100000111110000011111000 */
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG1,
-+			      0x0F83E0F8);
-+		/* 1111100000111110 */
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG2,
-+			      0x0000F83E);
-+		break;
-+
-+	case DP_PHY_TEST_PATTERN_CP2520:
-+		value = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
-+		value &= ~DP_MAINLINK_CTRL_SW_BYPASS_SCRAMBLER;
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, value);
-+
-+		value = DP_HBR2_ERM_PATTERN;
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
-+			      value);
-+		value |= SCRAMBLER_RESET_COUNT_VALUE;
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
-+			      value);
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_LEVELS,
-+			      DP_MAINLINK_SAFE_TO_EXIT_LEVEL_2);
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
-+			      DP_STATE_CTRL_LINK_SYMBOL_ERR_MEASURE);
-+		value = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
-+		value |= DP_MAINLINK_CTRL_ENABLE;
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, value);
-+		break;
-+
-+	case DP_PHY_TEST_PATTERN_SEL_MASK:
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL,
-+			      DP_MAINLINK_CTRL_ENABLE);
-+		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
-+			      DP_STATE_CTRL_LINK_TRAINING_PATTERN4);
-+		break;
-+
-+	default:
-+		drm_dbg_dp(ctrl->drm_dev,
-+			   "No valid test pattern requested: %#x\n", pattern);
-+	break;
-+	}
-+}
-+
- static bool msm_dp_ctrl_send_phy_test_pattern(struct msm_dp_ctrl_private *ctrl)
- {
- 	bool success = false;
-@@ -1659,11 +1961,11 @@ static bool msm_dp_ctrl_send_phy_test_pattern(struct msm_dp_ctrl_private *ctrl)
- 		DRM_ERROR("Failed to set v/p levels\n");
- 		return false;
- 	}
--	msm_dp_catalog_ctrl_send_phy_pattern(ctrl->catalog, pattern_requested);
-+	msm_dp_ctrl_send_phy_pattern(ctrl, pattern_requested);
- 	msm_dp_ctrl_update_vx_px(ctrl);
- 	msm_dp_link_send_test_response(ctrl->link);
- 
--	pattern_sent = msm_dp_catalog_ctrl_read_phy_pattern(ctrl->catalog);
-+	pattern_sent = msm_dp_read_link(ctrl->catalog, REG_DP_MAINLINK_READY);
- 
- 	switch (pattern_sent) {
- 	case MR_LINK_TRAINING1:
-@@ -1942,6 +2244,63 @@ static int msm_dp_ctrl_link_retrain(struct msm_dp_ctrl_private *ctrl)
- 	return msm_dp_ctrl_setup_main_link(ctrl, &training_step);
- }
- 
-+static void msm_dp_ctrl_config_msa(struct msm_dp_ctrl_private *ctrl,
-+			       u32 rate, u32 stream_rate_khz,
-+			       bool is_ycbcr_420)
-+{
-+	u32 pixel_m, pixel_n;
-+	u32 mvid, nvid, pixel_div = 0, dispcc_input_rate;
-+	u32 const nvid_fixed = DP_LINK_CONSTANT_N_VALUE;
-+	u32 const link_rate_hbr2 = 540000;
-+	u32 const link_rate_hbr3 = 810000;
-+	unsigned long den, num;
-+
-+	if (rate == link_rate_hbr3)
-+		pixel_div = 6;
-+	else if (rate == 162000 || rate == 270000)
-+		pixel_div = 2;
-+	else if (rate == link_rate_hbr2)
-+		pixel_div = 4;
-+	else
-+		DRM_ERROR("Invalid pixel mux divider\n");
-+
-+	dispcc_input_rate = (rate * 10) / pixel_div;
-+
-+	rational_best_approximation(dispcc_input_rate, stream_rate_khz,
-+			(unsigned long)(1 << 16) - 1,
-+			(unsigned long)(1 << 16) - 1, &den, &num);
-+
-+	den = ~(den - num);
-+	den = den & 0xFFFF;
-+	pixel_m = num;
-+	pixel_n = den;
-+
-+	mvid = (pixel_m & 0xFFFF) * 5;
-+	nvid = (0xFFFF & (~pixel_n)) + (pixel_m & 0xFFFF);
-+
-+	if (nvid < nvid_fixed) {
-+		u32 temp;
-+
-+		temp = (nvid_fixed / nvid) * nvid;
-+		mvid = (nvid_fixed / nvid) * mvid;
-+		nvid = temp;
-+	}
-+
-+	if (is_ycbcr_420)
-+		mvid /= 2;
-+
-+	if (link_rate_hbr2 == rate)
-+		nvid *= 2;
-+
-+	if (link_rate_hbr3 == rate)
-+		nvid *= 3;
-+
-+	drm_dbg_dp(ctrl->drm_dev, "mvid=0x%x, nvid=0x%x\n", mvid, nvid);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_SOFTWARE_MVID, mvid);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_SOFTWARE_NVID, nvid);
-+	msm_dp_write_p0(ctrl->catalog, MMSS_DP_DSC_DTO, 0x0);
-+}
-+
- int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train)
- {
- 	int ret = 0;
-@@ -2007,20 +2366,20 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train
- 
- 	msm_dp_ctrl_configure_source_params(ctrl);
- 
--	msm_dp_catalog_ctrl_config_msa(ctrl->catalog,
-+	msm_dp_ctrl_config_msa(ctrl,
- 		ctrl->link->link_params.rate,
- 		pixel_rate_orig,
- 		ctrl->panel->msm_dp_mode.out_fmt_is_yuv_420);
- 
- 	msm_dp_ctrl_setup_tr_unit(ctrl);
- 
--	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
-+	msm_dp_write_link(ctrl->catalog, REG_DP_STATE_CTRL, DP_STATE_CTRL_SEND_VIDEO);
- 
- 	ret = msm_dp_ctrl_wait4video_ready(ctrl);
- 	if (ret)
- 		return ret;
- 
--	mainlink_ready = msm_dp_catalog_ctrl_mainlink_ready(ctrl->catalog);
-+	mainlink_ready = msm_dp_ctrl_mainlink_ready(ctrl);
- 	drm_dbg_dp(ctrl->drm_dev,
- 		"mainlink %s\n", mainlink_ready ? "READY" : "NOT READY");
- 
-@@ -2041,7 +2400,7 @@ void msm_dp_ctrl_off_link_stream(struct msm_dp_ctrl *msm_dp_ctrl)
  	/* set dongle to D3 (power off) mode */
  	msm_dp_link_psm_config(ctrl->link, &ctrl->panel->link_info, true);
- 
--	msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
-+	msm_dp_ctrl_mainlink_disable(ctrl);
- 
- 	if (ctrl->stream_clks_on) {
- 		clk_disable_unprepare(ctrl->pixel_clk);
-@@ -2069,7 +2428,7 @@ void msm_dp_ctrl_off_link(struct msm_dp_ctrl *msm_dp_ctrl)
+@@ -2449,7 +2449,7 @@ void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl)
  	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
  	phy = ctrl->phy;
  
--	msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
-+	msm_dp_ctrl_mainlink_disable(ctrl);
+-	msm_dp_catalog_panel_disable_vsc_sdp(ctrl->catalog);
++	msm_dp_panel_disable_vsc_sdp(ctrl->panel);
  
- 	msm_dp_ctrl_link_clk_disable(&ctrl->msm_dp_ctrl);
+ 	msm_dp_ctrl_mainlink_disable(ctrl);
  
-@@ -2092,9 +2451,9 @@ void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl)
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+index 7a5656d8702e4f9c6f8e13d00788a5bdbbe3729f..7903606fc9c249b4ec21949fe51240df90492103 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -4,6 +4,7 @@
+  */
  
- 	msm_dp_catalog_panel_disable_vsc_sdp(ctrl->catalog);
+ #include "dp_panel.h"
++#include "dp_reg.h"
+ #include "dp_utils.h"
  
--	msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
-+	msm_dp_ctrl_mainlink_disable(ctrl);
+ #include <drm/drm_connector.h>
+@@ -11,6 +12,8 @@
+ #include <drm/drm_of.h>
+ #include <drm/drm_print.h>
  
--	msm_dp_catalog_ctrl_reset(ctrl->catalog);
-+	msm_dp_ctrl_reset(ctrl);
++#define DP_INTF_CONFIG_DATABUS_WIDEN     BIT(4)
++
+ #define DP_MAX_NUM_DP_LANES	4
+ #define DP_LINK_RATE_HBR2	540000 /* kbytes */
  
- 	if (ctrl->stream_clks_on) {
- 		clk_disable_unprepare(ctrl->pixel_clk);
+@@ -242,10 +245,97 @@ void msm_dp_panel_handle_sink_request(struct msm_dp_panel *msm_dp_panel)
+ 	}
+ }
+ 
++static void msm_dp_panel_send_vsc_sdp(struct msm_dp_panel_private *panel, struct dp_sdp *vsc_sdp)
++{
++	struct msm_dp_catalog *msm_dp_catalog = panel->catalog;
++	u32 header[2];
++	u32 val;
++	int i;
++
++	msm_dp_utils_pack_sdp_header(&vsc_sdp->sdp_header, header);
++
++	msm_dp_write_link(msm_dp_catalog, MMSS_DP_GENERIC0_0, header[0]);
++	msm_dp_write_link(msm_dp_catalog, MMSS_DP_GENERIC0_1, header[1]);
++
++	for (i = 0; i < sizeof(vsc_sdp->db); i += 4) {
++		val = ((vsc_sdp->db[i]) | (vsc_sdp->db[i + 1] << 8) | (vsc_sdp->db[i + 2] << 16) |
++		       (vsc_sdp->db[i + 3] << 24));
++		msm_dp_write_link(msm_dp_catalog, MMSS_DP_GENERIC0_2 + i, val);
++	}
++}
++
++static void msm_dp_panel_update_sdp(struct msm_dp_panel_private *panel)
++{
++	u32 hw_revision;
++
++	hw_revision = msm_dp_catalog_hw_revision(panel->catalog);
++	if (hw_revision >= DP_HW_VERSION_1_0 &&
++	    hw_revision < DP_HW_VERSION_1_2) {
++		msm_dp_write_link(panel->catalog, MMSS_DP_SDP_CFG3, UPDATE_SDP);
++		msm_dp_write_link(panel->catalog, MMSS_DP_SDP_CFG3, 0x0);
++	}
++}
++
++void msm_dp_panel_enable_vsc_sdp(struct msm_dp_panel *msm_dp_panel, struct dp_sdp *vsc_sdp)
++{
++	struct msm_dp_panel_private *panel =
++		container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
++	struct msm_dp_catalog *msm_dp_catalog = panel->catalog;
++	u32 cfg, cfg2, misc;
++
++	cfg = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG);
++	cfg2 = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG2);
++	misc = msm_dp_read_link(msm_dp_catalog, REG_DP_MISC1_MISC0);
++
++	cfg |= GEN0_SDP_EN;
++	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG, cfg);
++
++	cfg2 |= GENERIC0_SDPSIZE_VALID;
++	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG2, cfg2);
++
++	msm_dp_panel_send_vsc_sdp(panel, vsc_sdp);
++
++	/* indicates presence of VSC (BIT(6) of MISC1) */
++	misc |= DP_MISC1_VSC_SDP;
++
++	drm_dbg_dp(panel->drm_dev, "vsc sdp enable=1\n");
++
++	pr_debug("misc settings = 0x%x\n", misc);
++	msm_dp_write_link(msm_dp_catalog, REG_DP_MISC1_MISC0, misc);
++
++	msm_dp_panel_update_sdp(panel);
++}
++
++void msm_dp_panel_disable_vsc_sdp(struct msm_dp_panel *msm_dp_panel)
++{
++	struct msm_dp_panel_private *panel =
++		container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
++	struct msm_dp_catalog *msm_dp_catalog = panel->catalog;
++	u32 cfg, cfg2, misc;
++
++	cfg = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG);
++	cfg2 = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG2);
++	misc = msm_dp_read_link(msm_dp_catalog, REG_DP_MISC1_MISC0);
++
++	cfg &= ~GEN0_SDP_EN;
++	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG, cfg);
++
++	cfg2 &= ~GENERIC0_SDPSIZE_VALID;
++	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG2, cfg2);
++
++	/* switch back to MSA */
++	misc &= ~DP_MISC1_VSC_SDP;
++
++	drm_dbg_dp(panel->drm_dev, "vsc sdp enable=0\n");
++
++	pr_debug("misc settings = 0x%x\n", misc);
++	msm_dp_write_link(msm_dp_catalog, REG_DP_MISC1_MISC0, misc);
++
++	msm_dp_panel_update_sdp(panel);
++}
++
+ static int msm_dp_panel_setup_vsc_sdp_yuv_420(struct msm_dp_panel *msm_dp_panel)
+ {
+-	struct msm_dp_catalog *catalog;
+-	struct msm_dp_panel_private *panel;
+ 	struct msm_dp_display_mode *msm_dp_mode;
+ 	struct drm_dp_vsc_sdp vsc_sdp_data;
+ 	struct dp_sdp vsc_sdp;
+@@ -256,8 +346,6 @@ static int msm_dp_panel_setup_vsc_sdp_yuv_420(struct msm_dp_panel *msm_dp_panel)
+ 		return -EINVAL;
+ 	}
+ 
+-	panel = container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
+-	catalog = panel->catalog;
+ 	msm_dp_mode = &msm_dp_panel->msm_dp_mode;
+ 
+ 	memset(&vsc_sdp_data, 0, sizeof(vsc_sdp_data));
+@@ -284,7 +372,7 @@ static int msm_dp_panel_setup_vsc_sdp_yuv_420(struct msm_dp_panel *msm_dp_panel)
+ 		return len;
+ 	}
+ 
+-	msm_dp_catalog_panel_enable_vsc_sdp(catalog, &vsc_sdp);
++	msm_dp_panel_enable_vsc_sdp(msm_dp_panel, &vsc_sdp);
+ 
+ 	return 0;
+ }
+@@ -299,6 +387,7 @@ int msm_dp_panel_timing_cfg(struct msm_dp_panel *msm_dp_panel)
+ 	u32 sync_start;
+ 	u32 msm_dp_active;
+ 	u32 total;
++	u32 reg;
+ 
+ 	panel = container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
+ 	catalog = panel->catalog;
+@@ -344,7 +433,20 @@ int msm_dp_panel_timing_cfg(struct msm_dp_panel *msm_dp_panel)
+ 
+ 	msm_dp_active = data;
+ 
+-	msm_dp_catalog_panel_timing_cfg(catalog, total, sync_start, width_blanking, msm_dp_active);
++	msm_dp_write_link(catalog, REG_DP_TOTAL_HOR_VER, total);
++	msm_dp_write_link(catalog, REG_DP_START_HOR_VER_FROM_SYNC, sync_start);
++	msm_dp_write_link(catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY, width_blanking);
++	msm_dp_write_link(catalog, REG_DP_ACTIVE_HOR_VER, msm_dp_active);
++
++	reg = msm_dp_read_p0(catalog, MMSS_DP_INTF_CONFIG);
++	if (catalog->wide_bus_en)
++		reg |= DP_INTF_CONFIG_DATABUS_WIDEN;
++	else
++		reg &= ~DP_INTF_CONFIG_DATABUS_WIDEN;
++
++	drm_dbg_dp(panel->drm_dev, "wide_bus_en=%d reg=%#x\n", catalog->wide_bus_en, reg);
++
++	msm_dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, reg);
+ 
+ 	if (msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420)
+ 		msm_dp_panel_setup_vsc_sdp_yuv_420(msm_dp_panel);
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+index 317e2a13d7e917acd78edd2f1c99c4be3de902bd..332ac79594e71157e2b087dc5268c50a87993d83 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.h
++++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+@@ -63,6 +63,9 @@ int msm_dp_panel_get_modes(struct msm_dp_panel *msm_dp_panel,
+ 		struct drm_connector *connector);
+ void msm_dp_panel_handle_sink_request(struct msm_dp_panel *msm_dp_panel);
+ 
++void msm_dp_panel_enable_vsc_sdp(struct msm_dp_panel *msm_dp_panel, struct dp_sdp *vsc_sdp);
++void msm_dp_panel_disable_vsc_sdp(struct msm_dp_panel *msm_dp_panel);
++
+ /**
+  * is_link_rate_valid() - validates the link rate
+  * @lane_rate: link rate requested by the sink
 
 -- 
 2.39.5
