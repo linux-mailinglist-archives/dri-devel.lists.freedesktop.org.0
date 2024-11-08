@@ -2,86 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D379C2261
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:47:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2169C2274
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 17:54:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01C8310EA18;
-	Fri,  8 Nov 2024 16:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66AC310E05E;
+	Fri,  8 Nov 2024 16:54:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="U/coJSYM";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="EML1E7QN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4B7810EA18
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:47:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1731084442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RrzV470lz6jbavS8eY4l7/NKHQXyo2/qM6LC527szQs=;
- b=U/coJSYMxr4fsS9FQNwrgIDRRT6+6VzdUPAkFl4Lws72j6Gw7d/rrS3YGoxoQYvODQ256u
- BR5sBVTPUmaTKk08B9lv1Chzcc/mww6J/AOExd3rR4DzB2zHHuKlRrP7HnEDgKJhh5F6yc
- hZsIUhduLtq8FvVC9MZNRayif83lqZM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-665-CmosCcu-OQaInsIIoVgFJA-1; Fri, 08 Nov 2024 11:47:19 -0500
-X-MC-Unique: CmosCcu-OQaInsIIoVgFJA-1
-X-Mimecast-MFC-AGG-ID: CmosCcu-OQaInsIIoVgFJA
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43151e4ef43so16324045e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 08:47:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731084438; x=1731689238;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RrzV470lz6jbavS8eY4l7/NKHQXyo2/qM6LC527szQs=;
- b=aCXBk4fpqO9sPkfB2TLZnQR9+bfM8x6IWXrid49IKW8+N4hhITiKFWGkuLQ0GHLGSE
- gLIco09ywc72VR1M8vwu43R5fK1vgj/NLlp3OeT0cGtcahTSWEqnSvieNHM/pppzOrV6
- QaO3oFyfxSl7CwHicpjj6d9gkaV3grW8/wExyPlJUyt9KnK5qsvi+6IloEXJaifKwn4Z
- iTZs6I2llL4yEmGwHLlJzhS/g2Q7ATUTHTv1cpvFqTndNZbn9Mt1Nrxy380mf1toOaMe
- GkWm12RpOgaDbMyIpI+B5ALWeLb0uTK5WFeRkgEm5VlD1iS9jMzO9rCpk7kCF7x6oUvj
- JTbQ==
-X-Gm-Message-State: AOJu0YzkdDapQD1ySadfovhezFsksm+gO9jt74apqKfBU0dKrPfmDnnd
- noVVxkjcsXGPhZX3/PnOF0Vri3A+16II1mvSSc4Fgh2mPg9Aknki/LboJ5fzu2/sc1VFiBHCrMT
- +VoUA5eOUdrv/w8O5gmdmNCFwgQpWANwOndX527TSNfKSTbvs58o4seVV3Hgk9bEt2Q==
-X-Received: by 2002:a05:6000:4816:b0:37c:c9ae:23fb with SMTP id
- ffacd0b85a97d-381f183f82cmr3201375f8f.40.1731084438380; 
- Fri, 08 Nov 2024 08:47:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG2sBzBpJqXdphPHxQB/tF/8n+Lov/Qj7dmTobwMJIiKckxC/7gcVrJAZCSB8iIkttCwCIqbA==
-X-Received: by 2002:a05:6000:4816:b0:37c:c9ae:23fb with SMTP id
- ffacd0b85a97d-381f183f82cmr3201359f8f.40.1731084438006; 
- Fri, 08 Nov 2024 08:47:18 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432bc469293sm1469925e9.0.2024.11.08.08.47.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Nov 2024 08:47:17 -0800 (PST)
-Message-ID: <f1b6dcb4-f20a-43e2-a95a-76665f013c6d@redhat.com>
-Date: Fri, 8 Nov 2024 17:47:16 +0100
+X-Greylist: delayed 825 seconds by postgrey-1.36 at gabe;
+ Fri, 08 Nov 2024 16:53:58 UTC
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
+ [136.143.188.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF5F10E05E
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 16:53:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1731084832; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=UggnLDiT8L9h57CG1XTcCfDiHQTXq+nrtR8IlMCdsDbCjMC12O0QmOUG5DYJ9hlBoxKSVzHlmb7SE5o+L9nIqBIELrBg4dKAvSs3vWYGwMTGLY7IAVxrFKlXHc41oR21rkGMi2NN4BZjIeZdO6D8NVkJQyo3N90gDqXBDrVHPcs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1731084832;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=+Ud2Wm0N9rBWA5JqD8doezigwT2uqET+VTznhZjAgh0=; 
+ b=EyN1Pjj0KhgVMYXN5flONkrptqDwA4lmKqBXQmxOzULXNfFsUry8W/i0OULXyaqTGRLHHZOdblapSY34PXuJAqbliQihEPtdTDk40MSynfLuwZHdRPnXbC0C6VjQNf74BOZFdggtg8GwZhZdBWvKL7XHIVWKfOMkh/HYUROY8/0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+ dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731084832; 
+ s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=+Ud2Wm0N9rBWA5JqD8doezigwT2uqET+VTznhZjAgh0=;
+ b=EML1E7QNShCWastiTijne32mVrnn3qFFsmBIAi4841Os7zoO6t0f/jF16PUmmi+o
+ 2uLnjTKlfLxHBZ/9QWEw7YKcc3PFCo3mEIoHSiiv3cMGNTjXL/Msudldjy8cWnkF3Bn
+ +cpN0tQ+AxU9Ye10reiLJRqJnMRMqfkpZQY5U51g=
+Received: by mx.zohomail.com with SMTPS id 1731084830585742.5608083703597;
+ Fri, 8 Nov 2024 08:53:50 -0800 (PST)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v2 1/3] vop2: Add clock resets support
+Date: Fri, 08 Nov 2024 11:53:47 -0500
+Message-ID: <1901885.tdWV9SEqCh@trenzalore>
+In-Reply-To: <4605629.LvFx2qVVIh@trenzalore>
+References: <20240522185924.461742-1-detlev.casanova@collabora.com>
+ <6a3d3fb1.3755.18fa893239e.Coremail.andyshrk@163.com>
+ <4605629.LvFx2qVVIh@trenzalore>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/fbdev-client: Unexport drm_fbdev_client_setup()
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20241108154600.126162-1-tzimmermann@suse.de>
- <20241108154600.126162-4-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20241108154600.126162-4-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: LXGs-Dd_eM4eY5tlzXbcs7-Ad7UyOds115KzIhM2uE4_1731084438
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,80 +83,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/11/2024 16:42, Thomas Zimmermann wrote:
-> DRM drivers invoke drm_client_setup() to set up in-kernel clients.
-> No driver should call drm_fbdev_client_setup() directly. Therefore,
-> unexport the symbol and move the declaration to the internal header
-> drm_client_internal.h.
+On Friday, 8 November 2024 11:39:57 EST Detlev Casanova wrote:
+> On Thursday, 23 May 2024 23:09:26 EST Andy Yan wrote:
+> > Hi Detlev=EF=BC=8C
+> >=20
+> > At 2024-05-23 02:57:48, "Detlev Casanova" <detlev.casanova@collabora.co=
+m>
+>=20
+> wrote:
+> > >At the end of initialization, each VP clock needs to be reset before
+> > >they can be used.
+> > >
+> > >Failing to do so can put the VOP in an undefined state where the
+> > >generated HDMI signal is either lost or not matching the selected mode.
+> >=20
+> > Would you please provide a detailed description of your test case?
+>=20
+> The test case was to switch modes (using modetest) until the HDMI signal =
+was
+> lost on the TV side. It was also possible to detect the issue by tracking
+> the HDMI TX Controller_VIDEO_MONITOR_STATUS[1-6] registers, especially at
+> address 0x890, where the register would take the value `0x0000018c`.
+>=20
+> After adding these resets, the issue cannot be reproduced. I can share a
+> script that reproduced this in the past (but this is an old patchset now,=
+ so
+> things could have changed)
+>=20
+> > >Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> > >---
+> > >
+> > > drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 30 ++++++++++++++++++++
+> > > 1 file changed, 30 insertions(+)
+> > >
+> > >diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> > >b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c index
+> > >fdd768bbd487c..e81a67161d29a 100644
+> > >--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> > >+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> > >@@ -17,6 +17,7 @@
+> > >
+> > > #include <linux/platform_device.h>
+> > > #include <linux/pm_runtime.h>
+> > > #include <linux/regmap.h>
+> > >
+> > >+#include <linux/reset.h>
+> > >
+> > > #include <linux/swab.h>
+> > >=20
+> > > #include <drm/drm.h>
+> > >
+> > >@@ -157,6 +158,7 @@ struct vop2_win {
+> > >
+> > > struct vop2_video_port {
+> > >=20
+> > > 	struct drm_crtc crtc;
+> > > 	struct vop2 *vop2;
+> > >
+> > >+	struct reset_control *dclk_rst;
+> > >
+> > > 	struct clk *dclk;
+> > > 	unsigned int id;
+> > > 	const struct vop2_video_port_data *data;
+> > >
+> > >@@ -1915,6 +1917,26 @@ static int us_to_vertical_line(struct
+> > >drm_display_mode *mode, int us)>
+> > >
+> > > 	return us * mode->clock / mode->htotal / 1000;
+> > >=20
+> > > }
+> > >
+> > >+static int vop2_clk_reset(struct vop2_video_port *vp)
+> > >+{
+> > >+	struct reset_control *rstc =3D vp->dclk_rst;
+> > >+	struct vop2 *vop2 =3D vp->vop2;
+> > >+	int ret;
+> > >+
+> > >+	if (!rstc)
+> > >+		return 0;
+> >=20
+> > In fact, this check is not necessary here.  The following reset control
+> > api
+> > will check for NULL pointer
+>=20
+> Agreed, I'll do a rebased v3 and remove the check.
 
-Thanks, it looks good to me.
+Actually, re-thinking about it, the check is done to avoid the udelay(10); =
+if=20
+there is no resets configured, so I'd rather keep it that way.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+> > >+
+> > >+	ret =3D reset_control_assert(rstc);
+> > >+	if (ret < 0)
+> > >+		drm_warn(vop2->drm, "failed to assert reset\n");
+> > >+	udelay(10);
+> > >+	ret =3D reset_control_deassert(rstc);
+> > >+	if (ret < 0)
+> > >+		drm_warn(vop2->drm, "failed to deassert reset\n");
+> > >+
+> > >+	return ret;
+> > >+}
+> > >+
+> > >
+> > > static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+> > >=20
+> > > 				    struct drm_atomic_state
+>=20
+> *state)
+>=20
+> > > {
+> > >
+> > >@@ -2055,6 +2077,8 @@ static void vop2_crtc_atomic_enable(struct drm_c=
+rtc
+> > >*crtc,>
+> > >
+> > > 	vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+> > >
+> > >+	vop2_clk_reset(vp);
+> > >+
+> > >
+> > > 	drm_crtc_vblank_on(crtc);
+> > > =09
+> > > 	vop2_unlock(vop2);
+> > >
+> > >@@ -2706,6 +2730,12 @@ static int vop2_create_crtcs(struct vop2 *vop2)
+> > >
+> > > 		vp->data =3D vp_data;
+> > > 	=09
+> > > 		snprintf(dclk_name, sizeof(dclk_name), "dclk_vp%d", vp-
+> >
+> >id);
+> >
+> > >+		vp->dclk_rst =3D devm_reset_control_get_optional(vop2-
+> >
+> >dev, dclk_name);
+> >
+> > >+		if (IS_ERR(vp->dclk_rst)) {
+> > >+		        drm_err(vop2->drm, "failed to get %s reset\n",
+>=20
+> dclk_name);
+>=20
+> > >+		        return PTR_ERR(vp->dclk_rst);
+> > >+		}
+> > >+
+> > >
+> > > 		vp->dclk =3D devm_clk_get(vop2->dev, dclk_name);
+> > > 		if (IS_ERR(vp->dclk)) {
+> > > 	=09
+> > > 			drm_err(vop2->drm, "failed to get %s\n",
+>=20
+> dclk_name);
 
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   .../gpu/drm/clients/drm_client_internal.h                     | 4 ++--
->   drivers/gpu/drm/clients/drm_client_setup.c                    | 3 ++-
->   drivers/gpu/drm/clients/drm_fbdev_client.c                    | 4 ++--
->   3 files changed, 6 insertions(+), 5 deletions(-)
->   rename include/drm/drm_fbdev_client.h => drivers/gpu/drm/clients/drm_client_internal.h (85%)
-> 
-> diff --git a/include/drm/drm_fbdev_client.h b/drivers/gpu/drm/clients/drm_client_internal.h
-> similarity index 85%
-> rename from include/drm/drm_fbdev_client.h
-> rename to drivers/gpu/drm/clients/drm_client_internal.h
-> index e11a5614f127..23258934956a 100644
-> --- a/include/drm/drm_fbdev_client.h
-> +++ b/drivers/gpu/drm/clients/drm_client_internal.h
-> @@ -1,7 +1,7 @@
->   /* SPDX-License-Identifier: MIT */
->   
-> -#ifndef DRM_FBDEV_CLIENT_H
-> -#define DRM_FBDEV_CLIENT_H
-> +#ifndef DRM_CLIENT_INTERNAL_H
-> +#define DRM_CLIENT_INTERNAL_H
->   
->   struct drm_device;
->   struct drm_format_info;
-> diff --git a/drivers/gpu/drm/clients/drm_client_setup.c b/drivers/gpu/drm/clients/drm_client_setup.c
-> index c6a295d5de50..4b211a4812b5 100644
-> --- a/drivers/gpu/drm/clients/drm_client_setup.c
-> +++ b/drivers/gpu/drm/clients/drm_client_setup.c
-> @@ -2,10 +2,11 @@
->   
->   #include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_device.h>
-> -#include <drm/drm_fbdev_client.h>
->   #include <drm/drm_fourcc.h>
->   #include <drm/drm_print.h>
->   
-> +#include "drm_client_internal.h"
-> +
->   /**
->    * drm_client_setup() - Setup in-kernel DRM clients
->    * @dev: DRM device
-> diff --git a/drivers/gpu/drm/clients/drm_fbdev_client.c b/drivers/gpu/drm/clients/drm_fbdev_client.c
-> index 246fb63ab250..f894ba52bdb5 100644
-> --- a/drivers/gpu/drm/clients/drm_fbdev_client.c
-> +++ b/drivers/gpu/drm/clients/drm_fbdev_client.c
-> @@ -3,11 +3,12 @@
->   #include <drm/drm_client.h>
->   #include <drm/drm_crtc_helper.h>
->   #include <drm/drm_drv.h>
-> -#include <drm/drm_fbdev_client.h>
->   #include <drm/drm_fb_helper.h>
->   #include <drm/drm_fourcc.h>
->   #include <drm/drm_print.h>
->   
-> +#include "drm_client_internal.h"
-> +
->   /*
->    * struct drm_client_funcs
->    */
-> @@ -164,4 +165,3 @@ int drm_fbdev_client_setup(struct drm_device *dev, const struct drm_format_info
->   	kfree(fb_helper);
->   	return ret;
->   }
-> -EXPORT_SYMBOL(drm_fbdev_client_setup);
+
+
 
