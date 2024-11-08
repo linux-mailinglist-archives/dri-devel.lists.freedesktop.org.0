@@ -2,51 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7B09C203F
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 16:21:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0264D9C2041
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2024 16:22:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78D9610E9E9;
-	Fri,  8 Nov 2024 15:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7161110E9E8;
+	Fri,  8 Nov 2024 15:22:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="t+x/QbDS";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="A+GlWM0y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
- [91.218.175.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D717C10E9E8
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 15:21:36 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1731079294;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pbapVfiISm/C5v4STghpJz/FC3c1tBmcfEax3HYjIC8=;
- b=t+x/QbDSVdb7on8vS3OSrapcTgojup2aIR6Cy24hufGcWfv9y+GVzYVVrnV8q9YQg/jGwz
- RoYJft2EYWVmF+VMIF15NSgGLI6J1TjJC5XxKgDHpk3htlWU8AHGpa3IeZLIYPOH+QYcR6
- xFRuQyuJdc0B82KgSFh5b1OrNSkRivnqEiq8gs2QzZdRBkl6H1HCfCtwQELZ1FJBjVKUCn
- lQEQWVmgWTz7eQKGvFJvqoI3VxghiGAPONykjBDc1nIOTPSH4PzuR54+x3h86l48yc0+xY
- FW/f+Yg1BJp2nCVkNUdD2aYqMcw2K2Wxn+6p58iB1KZTBTSjsPzX+7eruVlDyg==
-Content-Type: multipart/signed;
- boundary=4dd0f36deef0a2c52894bfee2e5787b1a3b4ab4cc0e383fc236d6d0b6477;
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Date: Fri, 08 Nov 2024 16:21:24 +0100
-Message-Id: <D5GWE4WJZMM8.1MPHPPQR2QW46@cknow.org>
-Cc: <dsimic@manjaro.org>, <andy.yan@rock-chips.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <linux-kernel@vger.kernel.org>, "Heiko Stuebner"
- <heiko.stuebner@cherry.de>
-Subject: Re: [PATCH] drm/rockchip: dsi: convert to dev_err_probe in probe
- function
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Heiko Stuebner" <heiko@sntech.de>,
- <linux-rockchip@lists.infradead.org>, <dri-devel@lists.freedesktop.org>
-References: <20241108144425.1009916-1-heiko@sntech.de>
-In-Reply-To: <20241108144425.1009916-1-heiko@sntech.de>
-X-Migadu-Flow: FLOW_OUT
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE9E810E9E8
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2024 15:22:17 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-539e8607c2aso2585530e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 07:22:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1731079334; x=1731684134;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HgfLZptM6/3AAPLv+VlAD5qO5/FWxVF/aNEVYnKiuLs=;
+ b=A+GlWM0yTIMMNZ2URTdcjp4UMTC3gO3CByRR3dkiVdOQaPWkNzE0B0hJbqlgAr8gE/
+ BuKsu7OeDATd6Z9KcX4yHRJLuqv5wQZvfJ2wSGOe/bJQQnww63kT5LmuDV8yvW+Zvohv
+ UttuvoD0+UOoDcwHeI5q9a53TBoeaxBPdlQBM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731079334; x=1731684134;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HgfLZptM6/3AAPLv+VlAD5qO5/FWxVF/aNEVYnKiuLs=;
+ b=G8LY3J/yHeYqhs1ntRyWv8RHSaU++0kvOz8wiO7b/2nB1PZBFnM3Py5MgPO7uVrj1p
+ b3FbgqOxvxiDPiKHKvRdV8wO+rw9hZPXIePso3/dm5Y2TTV9Oek3+jHhFKFu5UoMyKrK
+ +mG2yIrsMSSKqf+q6GrSxQgjtj2DKauQtErdOoT28UUy+f8wco3+vVu+hLIR7g96Sj8h
+ sSBzgSWVKQbAu1UWWlCVUjRS9zMsT7yfPFkuid+IZteOiJZQ0sTawPIChMBWjKI+uOAX
+ IPFnQLbPRLivpKOOEnFMHnEszU2ZSfWpH68iF/ev3+aGnqp08A/eT9qpAvlhFVPG9e5C
+ OqHg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW3HfrNKqiKnG/w+gBxVkkftyPtg9T1p9O+yQyK65l0/WN6bkLc0mJlJk7uBjMA/asgXhai8sBW1pg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzhC9xLtsntbtX32GOe0f9CUhTy/MavzZK+18CuqoZK/qKa9abU
+ oQqrR4zpOy/Vnu9DOw6HAgzkBggymlvEhYUjukVbkC55AfxmmW1mBaMvSFX6XBLTXw3DgkyU3ra
+ 3IQ==
+X-Google-Smtp-Source: AGHT+IFYb/KbsvVZy2s10kr+X54I5d8L6oG4CoXzSA3Yyn3v5NLa0WMdM4pz1sGIwOgSVI7xn1Fs+Q==
+X-Received: by 2002:a2e:9fc5:0:b0:2fb:607b:4cde with SMTP id
+ 38308e7fff4ca-2ff202a7081mr19083101fa.39.1731079333878; 
+ Fri, 08 Nov 2024 07:22:13 -0800 (PST)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com.
+ [209.85.167.41]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ff178dfb06sm6823051fa.24.2024.11.08.07.22.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Nov 2024 07:22:13 -0800 (PST)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-539f1292a9bso2813105e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 07:22:12 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXDRlZB3WqZCZpTY0xXw2kNq2y5Me9cEHQtjYQjYAOySMr/NyYVUAN0DCbsoXpMJBZzEZob9H4kOvA=@lists.freedesktop.org
+X-Received: by 2002:a2e:be20:0:b0:2f5:11f6:1b24 with SMTP id
+ 38308e7fff4ca-2ff201b3185mr20586931fa.18.1731079331685; Fri, 08 Nov 2024
+ 07:22:11 -0800 (PST)
+MIME-Version: 1.0
+References: <20241108-new-maintainer-address-2-v1-0-47c9d71aac11@linaro.org>
+In-Reply-To: <20241108-new-maintainer-address-2-v1-0-47c9d71aac11@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 8 Nov 2024 07:21:56 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XSiNw5RKEPg5wwTn=tNVKDxYoqYZLU5C_88wveD29UCw@mail.gmail.com>
+Message-ID: <CAD=FV=XSiNw5RKEPg5wwTn=tNVKDxYoqYZLU5C_88wveD29UCw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] MAINTAINERS: Update with Daniel Thompson's korg
+ address
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Jason Wessel <jason.wessel@windriver.com>, 
+ dri-devel@lists.freedesktop.org, kgdb-bugreport@lists.sourceforge.net, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,141 +95,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---4dd0f36deef0a2c52894bfee2e5787b1a3b4ab4cc0e383fc236d6d0b6477
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-On Fri Nov 8, 2024 at 3:44 PM CET, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@cherry.de>
+On Fri, Nov 8, 2024 at 12:31=E2=80=AFAM Daniel Thompson
+<daniel.thompson@linaro.org> wrote:
 >
-> DRM_DEV_ERROR is deprecated and using dev_err_probe saves quite a number
-> of lines too, so convert the error prints for the dsi-driver.
+> Going forward, I'll be using my kernel.org address for upstream work.
 >
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
-
-Should this have a Fixes tag?
-Because in the PineTab2 case it reported an error, which was actually
-just a deferred probe.
-
+> Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
 > ---
->  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 80 ++++++-------------
->  1 file changed, 26 insertions(+), 54 deletions(-)
+> Daniel Thompson (2):
+>       MAINTAINERS: Use Daniel Thompson's korg address for backlight work
+>       MAINTAINERS: Use Daniel Thompson's korg address for kgdb work
 >
-> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gp=
-u/drm/rockchip/dw-mipi-dsi-rockchip.c
-> index 58a44af0e9ad..3224ab749352 100644
-> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> ...
-> @@ -1378,67 +1376,47 @@ static int dw_mipi_dsi_rockchip_probe(struct plat=
-form_device *pdev)
->  		i++;
->  	}
-> =20
-> -	if (!dsi->cdata) {
-> -		DRM_DEV_ERROR(dev, "no dsi-config for %s node\n", np->name);
-> -		return -EINVAL;
-> -	}
-> +	if (!dsi->cdata)
-> +		return dev_err_probe(dev, -EINVAL, "No dsi-config for %s node\n", np->=
-name);
-> =20
->  	/* try to get a possible external dphy */
->  	dsi->phy =3D devm_phy_optional_get(dev, "dphy");
-> -	if (IS_ERR(dsi->phy)) {
-> -		ret =3D PTR_ERR(dsi->phy);
-> -		DRM_DEV_ERROR(dev, "failed to get mipi dphy: %d\n", ret);
-> -		return ret;
-> -	}
-> +	if (IS_ERR(dsi->phy))
-> +		return dev_err_probe(dev, PTR_ERR(dsi->phy), "Failed to get mipi dphy\=
-n");
+>  MAINTAINERS | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-I think from this line.
+I don't know if it needs it, but if it does feel free to have:
 
-Cheers,
-  Diederik
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-> =20
->  	dsi->pclk =3D devm_clk_get(dev, "pclk");
-> -	if (IS_ERR(dsi->pclk)) {
-> -		ret =3D PTR_ERR(dsi->pclk);
-> -		DRM_DEV_ERROR(dev, "Unable to get pclk: %d\n", ret);
-> -		return ret;
-> -	}
-> +	if (IS_ERR(dsi->pclk))
-> +		return dev_err_probe(dev, PTR_ERR(dsi->pclk), "Unable to get pclk\n");
-> =20
->  	dsi->pllref_clk =3D devm_clk_get(dev, "ref");
->  	if (IS_ERR(dsi->pllref_clk)) {
-> -		if (dsi->phy) {
-> +		if (dsi->phy)
->  			/*
->  			 * if external phy is present, pll will be
->  			 * generated there.
->  			 */
->  			dsi->pllref_clk =3D NULL;
-> -		} else {
-> -			ret =3D PTR_ERR(dsi->pllref_clk);
-> -			DRM_DEV_ERROR(dev,
-> -				      "Unable to get pll reference clock: %d\n",
-> -				      ret);
-> -			return ret;
-> -		}
-> +		else
-> +			return dev_err_probe(dev, PTR_ERR(dsi->pllref_clk),
-> +					     "Unable to get pll reference clock\n");
->  	}
-> =20
->  	if (dsi->cdata->flags & DW_MIPI_NEEDS_PHY_CFG_CLK) {
->  		dsi->phy_cfg_clk =3D devm_clk_get(dev, "phy_cfg");
-> -		if (IS_ERR(dsi->phy_cfg_clk)) {
-> -			ret =3D PTR_ERR(dsi->phy_cfg_clk);
-> -			DRM_DEV_ERROR(dev,
-> -				      "Unable to get phy_cfg_clk: %d\n", ret);
-> -			return ret;
-> -		}
-> +		if (IS_ERR(dsi->phy_cfg_clk))
-> +			return dev_err_probe(dev, PTR_ERR(dsi->phy_cfg_clk),
-> +					     "Unable to get phy_cfg_clk\n");
->  	}
-> =20
->  	if (dsi->cdata->flags & DW_MIPI_NEEDS_GRF_CLK) {
->  		dsi->grf_clk =3D devm_clk_get(dev, "grf");
-> -		if (IS_ERR(dsi->grf_clk)) {
-> -			ret =3D PTR_ERR(dsi->grf_clk);
-> -			DRM_DEV_ERROR(dev, "Unable to get grf_clk: %d\n", ret);
-> -			return ret;
-> -		}
-> +		if (IS_ERR(dsi->grf_clk))
-> +			return dev_err_probe(dev, PTR_ERR(dsi->grf_clk), "Unable to get grf_c=
-lk\n");
->  	}
-> =20
->  	dsi->grf_regmap =3D syscon_regmap_lookup_by_phandle(np, "rockchip,grf")=
-;
-> -	if (IS_ERR(dsi->grf_regmap)) {
-> -		DRM_DEV_ERROR(dev, "Unable to get rockchip,grf\n");
-> -		return PTR_ERR(dsi->grf_regmap);
-> -	}
-> +	if (IS_ERR(dsi->grf_regmap))
-> +		return dev_err_probe(dev, PTR_ERR(dsi->grf_regmap), "Unable to get roc=
-kchip,grf\n");
-> =20
->  	dsi->dev =3D dev;
->  	dsi->pdata.base =3D dsi->base;
-> ...
+BTW: do you want to adjust the '.mailmap' file as well?
 
-
---4dd0f36deef0a2c52894bfee2e5787b1a3b4ab4cc0e383fc236d6d0b6477
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZy4sdgAKCRDXblvOeH7b
-bs6QAP9s5Ew76jJkNqCXwe5IlvoY4Fy0rg7N0YgsTnhrcB1TIAEAzoK75L8/hZIu
-nxxBEI37Ah9YK1707qq4PYkorbQbFgo=
-=fOhD
------END PGP SIGNATURE-----
-
---4dd0f36deef0a2c52894bfee2e5787b1a3b4ab4cc0e383fc236d6d0b6477--
+-Doug
