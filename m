@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE48F9C2BD1
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2024 11:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045FF9C2BD5
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2024 11:33:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A66210E24D;
-	Sat,  9 Nov 2024 10:33:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7976510E27B;
+	Sat,  9 Nov 2024 10:33:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s+w28rTX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Td5JXVZI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC5810E24D
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2024 10:33:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3662210E27B
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2024 10:33:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 1C445A4008A;
- Sat,  9 Nov 2024 10:31:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97E57C4CECE;
- Sat,  9 Nov 2024 10:33:10 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id AD032A402C8;
+ Sat,  9 Nov 2024 10:31:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 199B9C4CECE;
+ Sat,  9 Nov 2024 10:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1731148391;
- bh=hkIXgjeoP8Tr/1pRsgvqVGJ6QKu0159soEwLNEAlfLk=;
+ s=k20201202; t=1731148419;
+ bh=fdJ8kKLr5diHlbxc+zf+bQRD4XLwbVaST3HTEi5AdBI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s+w28rTX6tKbp/9zGefNzDiTA+j3e2bVIuse2tSFkRmKokILwY58JxyaLIcaIM9ng
- gC05xzxIrLe/f+8qLjYNy/2/Q/JRpx1TevYiDGFp0yghxkwCUjyWBFmpVj7loZaAL0
- rnM9ZP1YlouaLp2Y8HkVFDyLl9zmC5Cllf4AL5RKNxxQuOyPvFYcgYbriZrH5UBsP+
- HrDQVxh+MTuLCGGcBQZNw2DDlmNvBjBYBA0U8avLM4DSAa9cBNcsnJDuAjyigXbd+M
- h9M9DobqV9DXoBbcYzEg7XBsIMlGeQlGhGv0ZN7/GobUjeYtb40rTjnx002rO8Ea0E
- H5CK9F98dJ9bQ==
-Date: Sat, 9 Nov 2024 11:33:08 +0100
+ b=Td5JXVZIoLk5aD0ri8BCSz3BxFR9JFEjPuNiTJH3ZfUHaRBmimBqd5btEWCZL4MtS
+ ZXwrcNY2yvVPM5SXZ79hN2AH24HeBuX25NcaE9CQ/bzEUlsQ7IAqDiTCxcaQWJDgIm
+ knL9gdUu7P2p9gtXP1bElM5UcY/k7d7zcjc6GzmNB6cYQJSXpwMf+gxJXXNSt25581
+ Gt9v676E/FWdWUO/1w+QBkJgnUAtK76xwXgjn/zKZ5lQlxRzqCjVcwL8fC+XnHntVd
+ 0fx4F4noLVG7bBX131RH8x1HVENtRJBhbU2gQHfNCEEWPOifzSDVaewSu5VLogM1JP
+ PsqHtwCeqvMOw==
+Date: Sat, 9 Nov 2024 11:33:35 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Mithil Bavishi <bavishimithil@gmail.com>
 Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, 
@@ -51,15 +51,15 @@ Cc: Aaro Koskinen <aaro.koskinen@iki.fi>,
  devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3 03/10] dt-bindings: display: bridge: lvds-codec: add
- doestek,dtc34lm85am
-Message-ID: <3qb4bnrh3ilivzcq6kwbg3vc5rp2mfhi7lnoqe3i77dvvw4dhg@bpy44nrq52nn>
+Subject: Re: [PATCH v3 04/10] dt-bindings: display: panel-lvds: Add
+ compatible for Samsung LTN070NL01 Panel
+Message-ID: <3ds4bjqjr7z4fqtrmc2wgzdacvtfed4y36vtledlk7uj6dwont@tbbmfklxaf53>
 References: <20241108200440.7562-1-bavishimithil@gmail.com>
- <20241108200440.7562-4-bavishimithil@gmail.com>
+ <20241108200440.7562-5-bavishimithil@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241108200440.7562-4-bavishimithil@gmail.com>
+In-Reply-To: <20241108200440.7562-5-bavishimithil@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,14 +75,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 08, 2024 at 08:04:32PM +0000, Mithil Bavishi wrote:
-> Add compatible strings for the Doestek DTC34LM85AM Flat Panel Display
-> Transmitter
-> 
-> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
-> ---
->  Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
->  1 file changed, 1 insertion(+)
+On Fri, Nov 08, 2024 at 08:04:33PM +0000, Mithil Bavishi wrote:
+> The LTN070NL01 is a 7.0 inch 1024x600, 24 bit, VESA Compatible, TFT display panel
+
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
