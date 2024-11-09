@@ -2,108 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197079C2AED
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2024 08:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF2E9C2AF6
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2024 08:13:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4965B10E00D;
-	Sat,  9 Nov 2024 07:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B174C10E1ED;
+	Sat,  9 Nov 2024 07:13:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sY9ohNE3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SVUWaYYh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D53410E00D
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2024 07:05:24 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-539f2b95775so3943635e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 23:05:24 -0800 (PST)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B563B10E0A7
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2024 07:13:31 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-539eb97f26aso3005308e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 23:13:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731135923; x=1731740723; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1731136410; x=1731741210; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qK89Gn/2BNMULqn/Te3QgPk+7HsFVw5alc1hlF/PKtw=;
- b=sY9ohNE3LQDP+rCICutZI/pWXr3hv2qQkoDmSRTHQNldVmf+Ijp8LvNlDteh+hA01K
- w0CUVSY4Pkod2ecteZVFVUoWYbo2JR1jKJ8k9HsMI8vzKuqtaUhLntfC9L99j01U/jPB
- yQrUNB3Ev0yF719pUJzgbeT/fgOi4Kh8Z03ApqcgLEW42uhvyirMP8lA8r28Ke/ZJyyo
- i4501NTBIfiWivvbxxZMxLzX34PabfYjUTq96EsYf/R/wJKOIpEny94hdrDBFTj9j0bz
- bWnfaxo8oAzoXLDluCGlp8uPAZtcrfDFfLz6SPL8clCi2k6WNk94TL1tL7Da/XnNermm
- k1Cg==
+ bh=zNUHUNW3N94KhZGI0JJqHmpslwXn3uHqqi//pMXWTvY=;
+ b=SVUWaYYhdIE3d8LP3oamvvk2kcNRuuPzP5MEALWrj1ry5kEJNWTs7A+aa4jZZ5M005
+ uBhMPb9glbZlvqCcdUHcEgx1Fxl3PwFioorT2/BZUsKnWyN/+AdtNhUKV4iRbAiU6mVf
+ PrgWRwXfh34xBomxfhB4qj2/2xmT9lbMf++mNw1k6Rb624V3UriEfflga1LnUtn3D1Wc
+ aC9yRTKpYmFbli+UtcxSMkf6U08jkWIMIffCHsmTyk/G6xFiNulgGVxiUZj7yU+jQYbn
+ 1MFehzV2s1cIE72ulmyJK8bkTxnyLc+8ZnzFcJrXuFiC51I/91MLEaRfXz9A04fvyhSC
+ pCAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731135923; x=1731740723;
+ d=1e100.net; s=20230601; t=1731136410; x=1731741210;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qK89Gn/2BNMULqn/Te3QgPk+7HsFVw5alc1hlF/PKtw=;
- b=kCWcWIsuYkPKFtZXiySqg31mU0uvGw3Ub0vbzA+L5ILIOSEUGN5mW/R5QqXf9Mdp1a
- sU+SWL8ALwuKXk8jLdg3QXLS396uWopP2gjbuaSvtddCC148ohQVL2DR3Va9KNZqbnUx
- c5/VcydhbgI6mvNU6XF5zGcnPbVB3+C6ZY9GUlMcbKQorClvgTm49wFimRBnZdmd2Rew
- wP+jKR6CdDu+q4Q7X/72/4BjRY4brBsYq4RefhGclQVIt9w2Te2YFy+WaI0kEdD6/enw
- Fh9pYvgDS1aMQy7onydIQeJC891EvIu9KGZYqRnfZS9ZzjWe2P9A1FXIYfbiI6BXIeJJ
- k8mQ==
+ bh=zNUHUNW3N94KhZGI0JJqHmpslwXn3uHqqi//pMXWTvY=;
+ b=gj26zhJmvj+DkrFl+hvo3b2E1IMpumjZGZBR8y7o6bxXXNjq2eNEc+Zi/e18sZphkn
+ tYHdyOkL9Ay8rx/QM1dPZXk84925ekqJ8wY652UzvZrz/W3jbxkmqautwuGMLFoe3lmj
+ x5dLEPrjXh3Bo0GHDjhK9eqQOugrROXLbD3WL4pXGpGPwb0U8QPIiV2JG9zTZuJ6fFQV
+ l9cwHHNzkYuJ8XktiTQI3JfNIzHzKMB+//m4qz+wHMTUwb4+oXW30KWOlDQ/qOKK/gC2
+ Qxr84Hlb7MHiaqLzB5avW2pG19deDOj1dUlmu52Rxkv2kvUwLLU3PHxaoUCpBKciZ3bc
+ WuvA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVlMWoQoSCerViRBgyv3PeHTKVKmJ3UTLfq5Wmzr0n09767Sreo/YtoPDFveNwJEvf0eQBdIyU018o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxwPzEe85tC+7vbXNQO24ZZKDdw722BVmQAfG4WFAQbY6HsxpwI
- wecl3a5cc/BmlAr1WDbmqxfHU2OCk/x7+5IHD5LTJHqa5njzAlBlRTvLOIpfQb8=
-X-Google-Smtp-Source: AGHT+IFDj1LLmHbRZOO+/S6hnT+C0wYhtqnCl28IZmhVg58DIluM8aGKuUuRjj41zc6/5ThGI4Rqiw==
-X-Received: by 2002:a05:6512:b83:b0:536:53e3:feae with SMTP id
- 2adb3069b0e04-53d862bebd9mr4269153e87.11.1731135922597; 
- Fri, 08 Nov 2024 23:05:22 -0800 (PST)
+ AJvYcCVCuU76SGRiuTX8j38AyrST5/JvUDc1Wte+JweaE9vSzLVq18g/58c48aEhFwbDwT3ftWkRG4j34u0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1auQCuAM7vLgIbk57NRYwMbGIQgNpP/hzgBW25uytdp2Kedv0
+ 6L/zk+UuXnWek6CYNAefmP1J1TDgzzOJ9qinwyjO3lR4VjxTSB4MfWl3eU4Q8s0=
+X-Google-Smtp-Source: AGHT+IELVyqCmpJuWdmxqNJGcDVWXJacjDsFRR3SZdVXZ+ml1eAxfT8jopEjNHnnwf1zbuasIuxsXg==
+X-Received: by 2002:a05:6512:401d:b0:539:f922:bd4e with SMTP id
+ 2adb3069b0e04-53d86231852mr2709861e87.23.1731136409613; 
+ Fri, 08 Nov 2024 23:13:29 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53d82678641sm852333e87.10.2024.11.08.23.05.19
+ 2adb3069b0e04-53d8267847fsm861315e87.2.2024.11.08.23.13.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Nov 2024 23:05:21 -0800 (PST)
-Date: Sat, 9 Nov 2024 09:05:18 +0200
+ Fri, 08 Nov 2024 23:13:29 -0800 (PST)
+Date: Sat, 9 Nov 2024 09:13:26 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- patches@lists.linux.dev, devicetree@vger.kernel.org, 
- Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
- Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, 
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Daniel Scally <djrscally@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, 
- linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
- google,cros-ec-typec for DP altmode
-Message-ID: <hqmx7jtkvrwvb27n56hw7rpefhp37lhr3a5fawz7gsl76uuj5s@h7m6wpdhibkk>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-16-swboyd@chromium.org>
- <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
- <CAE-0n514QMaQC2yjKP8bZqyfbv6B3AQm=+NJ87vxo6NdYiL03A@mail.gmail.com>
- <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
- <CAE-0n53-KmOS3zXmJPvOOZ7xxkek9-S=oBExgaY0PDnt_HjdNw@mail.gmail.com>
- <yk3xidaisbd56yndaucax7otijjauqmm7lqm6q4q633kdawlqo@qaq27lwxmvwd>
- <CAE-0n501j+8bMnMKabFyZjn+MLUy3Z68Hiv1PsfW0APy5ggN8g@mail.gmail.com>
- <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
- <CAE-0n50z6MNa7WOsg-NU7k8BpFeJJyYfHX3ov6DsthLWauSNpA@mail.gmail.com>
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 1/6] drm/display: hdmi: add generic mode_valid helper
+Message-ID: <vilmhcvixztpseh2uo5sdc7zzhfmexctfnd4aeahy2pui76ntr@kbswbxi347zg>
+References: <20241101-hdmi-mode-valid-v2-0-a6478fd20fa6@linaro.org>
+ <20241101-hdmi-mode-valid-v2-1-a6478fd20fa6@linaro.org>
+ <20241108-certain-kickass-goshawk-a3c596@houat>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAE-0n50z6MNa7WOsg-NU7k8BpFeJJyYfHX3ov6DsthLWauSNpA@mail.gmail.com>
+In-Reply-To: <20241108-certain-kickass-goshawk-a3c596@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,294 +96,312 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 07, 2024 at 04:28:24PM -0800, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2024-10-31 15:54:49)
-> > On Thu, Oct 31, 2024 at 02:45:29PM -0700, Stephen Boyd wrote:
-> > > Quoting Dmitry Baryshkov (2024-10-31 11:42:36)
-> > > > On Tue, Oct 29, 2024 at 01:15:51PM -0700, Stephen Boyd wrote:
-> > >
-> > > Or use a displayport property that goes to connector node itself so that
-> > > we don't extend the graph binding of the usb-c-connector.
-> > >
-> > >   cros-ec-typec {
-> > >     usb-c-connector@0 {
-> > >       altmodes {
-> > >         displayport {
-> > >           connector = <&dp_ml0_ml1>;
-> >
-> > I think this has been frowned upon. Not exactly this, but adding the
-> > displayport = <&foo>.
+On Fri, Nov 08, 2024 at 03:17:22PM +0100, Maxime Ripard wrote:
+> Hi,
 > 
-> Do you have a pointer to that discussion? I'd like to understand the
-> reasoning.
-
-No, unfortunately I couldn't find it.
-
+> On Fri, Nov 01, 2024 at 02:25:04AM +0200, Dmitry Baryshkov wrote:
+> > Add drm_hdmi_connector_mode_valid(), generic helper for HDMI connectors.
+> > It can be either used directly or as a part of the .mode_valid callback.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/display/drm_hdmi_helper.c          |  45 ++++++
+> >  drivers/gpu/drm/display/drm_hdmi_helper_internal.h |  11 ++
+> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  26 +---
+> >  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 168 ++++++++++++++++++++-
+> >  include/drm/display/drm_hdmi_helper.h              |   4 +
+> >  5 files changed, 229 insertions(+), 25 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > index 74dd4d01dd9bb2c9e69ec1c60b0056bd69417e8a..560c5d4365ca54d3f669395349cedfd6f75fa033 100644
+> > --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > @@ -9,6 +9,8 @@
+> >  #include <drm/drm_print.h>
+> >  #include <drm/drm_property.h>
+> >  
+> > +#include "drm_hdmi_helper_internal.h"
+> > +
+> >  static inline bool is_eotf_supported(u8 output_eotf, u8 sink_eotf)
+> >  {
+> >  	return sink_eotf & BIT(output_eotf);
+> > @@ -256,3 +258,46 @@ drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
+> >  	return DIV_ROUND_CLOSEST_ULL(clock * bpc, 8);
+> >  }
+> >  EXPORT_SYMBOL(drm_hdmi_compute_mode_clock);
+> > +
+> > +enum drm_mode_status
+> > +__drm_hdmi_connector_clock_valid(const struct drm_connector *connector,
+> > +				 const struct drm_display_mode *mode,
+> > +				 unsigned long long clock)
+> > +{
+> > +	const struct drm_connector_hdmi_funcs *funcs = connector->hdmi.funcs;
+> > +	const struct drm_display_info *info = &connector->display_info;
+> > +
+> > +	if (info->max_tmds_clock && clock > info->max_tmds_clock * 1000)
+> > +		return MODE_CLOCK_HIGH;
+> > +
+> > +	if (funcs && funcs->tmds_char_rate_valid) {
+> > +		enum drm_mode_status status;
+> > +
+> > +		status = funcs->tmds_char_rate_valid(connector, mode, clock);
+> > +		if (status != MODE_OK)
+> > +			return status;
+> > +	}
+> > +
+> > +	return MODE_OK;
+> > +}
+> > +
+> > +/**
+> > + * drm_hdmi_connector_mode_valid() - Check if mode is valid for HDMI connector
+> > + * @connector: DRM connector to validate the mode
+> > + * @mode: Display mode to validate
+> > + *
+> > + * Generic .mode_valid implementation for HDMI connectors.
+> > + */
+> > +enum drm_mode_status
+> > +drm_hdmi_connector_mode_valid(struct drm_connector *connector,
+> > +			      struct drm_display_mode *mode)
+> > +{
+> > +	unsigned long long clock;
+> > +
+> > +	clock = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
+> > +	if (!clock)
+> > +		return MODE_ERROR;
+> > +
+> > +	return __drm_hdmi_connector_clock_valid(connector, mode, clock);
+> > +}
+> > +EXPORT_SYMBOL(drm_hdmi_connector_mode_valid);
 > 
-> 
-> >
-> > Thus it can only go to the swnode that is generated in software by the
-> > cros-ec driver.
-> 
-> I recall swnode as a way to sidestep figuring out the DT bindings for
-> usb typec. Where is this swnode being made? Somewhere inside the typec
-> framework?
+> It's not clear to me why you want to place it in drm_hdmi_helper? It's
+> relying quite heavily on the HDMI infrastructure, so it would make more
+> sense to me that it would be part of drm_hdmi_state_helper.c.
 
-In the cros-ec driver?
+Yeah, I hesitated a bit. I selected drm_hdmi_helper.c because it doesn't
+use state-related functions. As such it is usable even by the drivers
+which imlement just the basic HDMI Connector functions and don't use the
+reset of the framework.
 
-> 
-> >
-> > >         };
-> > >       };
-> > >       port@1 {
-> > >         endpoint@0 {
-> > >           remote-endpoint = <&hub_ss0>;
-> > >        };
-> > >       };
-> > >     };
-> > >     usb-c-connector@1 {
-> > >       altmodes {
-> > >         displayport {
-> > >           connector = <&dp_ml2_ml3>;
-> > >         };
-> > >       };
-> > >       port@1 {
-> > >         endpoint {
-> [....]
-> > >
-> > > >
-> > > > Maybe that's just it? Register DP_bridge (or QMP PHY) as
-> > > > orientation-switch? Then you don't need any extra API for the lane
-> > > > mapping? The cross-ec-typec can provide orientation information and the
-> > > > USB-C-aware controller will follow the lane mapping.
-> > >
-> > > I'm not really following but I don't think the DT binding discussed here
-> > > prevents that.
-> >
-> > I'm thinking about:
-> >
-> > it6505 {
-> >   orientation-switch;
-> >
-> >   ports {
-> >     port@1 {
-> >       it6505_dp_out: remote-endpoint = <&cros_ec_dp>;
-> >       data-lanes = <0 1>;
-> >     };
-> >   };
-> > };
-> >
-> > cros-ec {
-> >   port {
-> >     cross_ec_dp: remote-endpoint = <&it6505_dp_out>;
-> >   };
-> >
-> >   connector@0 {
-> >     reg = <0>;
-> >     cros,dp-orientation = "normal";
-> >
-> >     ports {
-> >       // all USB HS and SS ports as usual;
-> >     };
-> >   };
-> >
-> >   connector@1 {
-> >     reg = <1>;
-> >     cros,dp-orientation = "reverse";
-> >
-> >     ports {
-> >       // all USB HS and SS ports as usual;
-> >     };
-> >   };
-> >
-> >   connector@2 {
-> >     reg = <2>;
-> >     cros,dp-orientation = "reverse";
-> >
-> >     ports {
-> >       // all USB HS and SS ports as usual;
-> >     };
-> >   };
-> >
-> >   connector@3 {
-> >     reg = <3>;
-> >     cros,dp-orientation = "normal";
-> >
-> >     ports {
-> >       // all USB HS and SS ports as usual;
-> >     };
-> >   };
-> > };
-> >
-> > The cros-ec registers single drm bridge which will generate HPD events
-> > except on Trogdor, etc. At the same time, cros-ec requests the
-> > typec_switch_get(). When the cros-ec detects that the connector@N it
-> > being used for DP, it just generates corresponding typec_switch_set()
-> > call, setting the orientation of the it6505 (or QMP PHY). The rest can
-> > be handled either by EC's HPD code or by DP's HPD handler, the
-> > orientation should already be a correct one.
-> >
-> > So, yes. It requires adding the typec_switch_desc implementation _in_
-> > the it6505 (or in any other component which handles the 0-1 or 2-3
-> > selection). On the other hand as I wrote previously, the 0-1 / 2-3 is
-> > the USB-C functionality, not the DP one.
-> >
-> 
-> I don't think we should be adding typec code to pure display hardware
-> drivers like IT6505. To keep the driver focused on display stuff I
-> proposed implementing runtime lane assignment for drm_bridge chains
-> because DP has lanes. My understanding is that not all display
-> technologies have lanes, so implementing generic lane assignment
-> functionality is overkill/incorrect. DP has physical lanes in hardware
-> though, and those physical lanes are assigned to certain pins in the
-> type-c DP altmode spec, so it's not overkill to think about lanes when
-> the bridge is a DP bridge wired up to a type-c connector.
-
-DisplayPort has fixed lanes assignment in the standard. So any driver
-that reassigns / reallocates DisplayPort lanes dynamically implements
-Type-C functionality.
-
-> Long story short, I don't see how we can avoid _any_ lane assignment
-> logic in drm_bridge. The logic shouldn't walk the entire bridge chain,
-> but it should at least act on the bridge that is a DP bridge. I think
-> you're saying pretty much the same thing here, but you want the lane
-> remapping to be done via the typec layer whereas I want it to be done in
-> the drm_bridge layer. To me it looks out of place to add a
-> typec_switch_desc inside each DP drm_bridge because we duplicate the
-> logic about USB type-c DP altmode lane assignment to each DP bridge. A
-> DP bridge should just think about DP and not know or care about USB
-> type-c.
-> 
-> This is what's leading me to think we need some sort of lane assignment
-> capability at the DP connector. How that assignment flows from the DP
-> connector created in drm_bridge_connector.c to the hardware is where it
-> is less clear to me. Should that be implemented as a typec_switch_desc,
-> essentially out of band with drm_bridge, or as some drm_bridge_funcs
-> function similar to struct drm_bridge_funcs::hdmi_*()? If you look at
-> IT6505 in it6505_get_extcon_property() it actually wants to pull the
-> orientation of the type-c port with extcon_get_property(EXTCON_DISP_DP,
-> EXTCON_PROP_USB_TYPEC_POLARITY). Maybe pushing the orientation to the DP
-> bridge is backwards and we should be exposing this as some sort of
-> connector API that the drm_bridge can query whenever it wants.
-
-And it6505_get_extcon_property() / EXTCON_PROP_USB_TYPEC_POLARITY is a
-Type-C code, isn't it?
-
-> What about ANX7625 where two DP lanes go to a cross-point switch before
-> leaving the chip on one of two pairs of lanes? This hardware is a DP
-> bridge smashed together with an orientation switch (typec_switch_desc)
-> so that you can simply wire the output pins up to a USB type-c connector
-> and support 2 lanes DP altmode. Qualcomm's QMP phy is quite similar.
-> Presumably we'd want the ANX driver to implement both a drm_bridge and a
-> typec_switch_desc if it was directly connected to a usb-c-connector
-> node. It's also interesting to think of the DT binding here, likely we
-> would have one output port in the ANX node's graph that represents the
-> combined DP and USB data that's connected to the SuperSpeed endpoint in
-> the usb-c-connector.
-> 
-> In the case where two lanes are wired to one USB type-c connector and
-> the other two lanes are wired to a different USB type-c connector it
-> would be odd to keep the typec_switch_desc and figure out a way to
-> mangle the lanes we want for a USB type-c connector by setting the
-> orientation of the typec_switch_desc. The chip isn't really acting as a
-> typec orientation control here because it isn't combining USB data and
-> DP data for a single USB type-c port. In fact, the type-c port has an
-> orientation and we actively don't want to tell the ANX7625 driver about
-> that port orientation because the orientation control is implemented
-> between the ANX part and the type-c connector by some redriver
-> controlled by the EC.
-> 
-> To satisfy all these cases it almost feels like we need to make the DP
-> connector have an "orientation", per your earlier DT snippet it would be
-> "reversed" or "normal", even though in hardware a DP connector has no
-> such concept because it can only be plugged in one way. All cases look
-> to be covered if we say that the drm_connector can have an orientation,
-> "normal" or "reversed", and we allow the bridge drivers to query that
-> whenever they want with some bridge/connector API. The typical case will
-> be that the orientation is normal, but we can make
-> drm_connector_oob_hotplug_event() change that to "reversed" when the
-> port is different.
-
-The DP connector doesn't have the orientation, as you pointed out. Only
-Type-C does.
+ANyway, I'll move it to drm_hdmi_state_helper.c.
 
 > 
-> This leaves us with the binding you propose above, and then some sort of
-> property that indicates the orientation of the DP connector. Instead of
-> being vendor specific I wonder if we can simply have a property like
-> "dp-reverse-orientation" in the connector node that the displayport.c
-> driver can look for to set the connector orientation to the reverse one
-> when DP altmode is entered on the port.
+> > diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> > index 34ee95d41f2966ab23a60deb37d689430f6b0985..8640e7280053bd95852f53b92159f493b141f2bf 100644
+> > --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> > +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> > @@ -43,10 +43,12 @@ struct drm_atomic_helper_connector_hdmi_priv {
+> >  static struct drm_display_mode *find_preferred_mode(struct drm_connector *connector)
+> >  {
+> >  	struct drm_device *drm = connector->dev;
+> > -	struct drm_display_mode *mode, *preferred;
+> > +	struct drm_display_mode *mode, *preferred = NULL;
+> >  
+> >  	mutex_lock(&drm->mode_config.mutex);
+> > -	preferred = list_first_entry(&connector->modes, struct drm_display_mode, head);
+> > +	if (!list_empty(&connector->modes))
+> > +		preferred = list_first_entry(&connector->modes, struct drm_display_mode, head);
+> > +
 > 
-> This is what I have:
-> 
->  it6505 {
->    ports {
->      port@1 {
->        it6505_dp_out: remote-endpoint = <&cros_ec_dp>;
->        data-lanes = <0 1>;
->      };
->    };
->  };
-> 
->  cros-ec {
->    port {
->      cross_ec_dp: remote-endpoint = <&it6505_dp_out>;
->    };
-> 
->    connector@0 {
->      reg = <0>;
-> 
->      ports {
->        // all USB HS and SS ports as usual;
->      };
->    };
-> 
->    connector@1 {
->      reg = <1>;
->      dp-reverse-orientation;
-> 
->      ports {
->        // all USB HS and SS ports as usual;
->      };
->    };
-> 
-> or ANX, swap out for it6505 node:
-> 
->  anx7625 {
->    ports {
->      port@1 {
->        anx7625_dp_out: remote-endpoint = <&cros_ec_dp>;
->        data-lanes = <0 1>;
->      };
->    };
->  };
-> 
-> and then a drm_bridge is created in cros-ec to terminate the bridge
-> chain. The displayport altmode driver will find the drm_bridge and the
-> drm_connector from the cros-ec node. When DP altmode is entered the
-> displayport altmode driver will set the drm_connector orientation based
-> on the presence of the dp-reverse-orientation property. We'll be able to
-> hook the hpd_notify() path in cros-ec by adding code to the drm_bridge
-> made there to do the HPD workaround. I'm not sure we need to use an
-> auxiliary device in this case, because it's a one-off solution for
-> cros-ec. And we don't even need to signal HPD from the cros-ec
-> drm_bridge because the oob_hotplug event will do it for us. If anything,
-> we need that displayport.c code to skip sending the hotplug event when
-> "no-hpd" is present in the cros-ec node. Note, this works for any number
-> of usb-c-connector nodes. And finally, DP bridges like IT6505 don't need
-> to implement a typec_switch_desc, they can simply support flipping the
-> orientation by querying the drm_connector for the bridge chain when they
-> see fit. ANX7625 can support that as well when it doesn't see the
-> 'orientation-switch' property.
-> 
-> Did I miss anything? I suspect a drm_connector having an orientation is
-> the most controversial part of this proposal.
+> What is this fixing?
 
-Yes... I understand that having orientation-switch handling in the DRM
-driver sounds strange, but this is what we do in the QMP PHY driver. It
-makes the code easier, as it keeps lane remapping local to the place
-where it belongs - to the Type-C handlers.
+If connector->modes is empty (e.g. because of the tmds_char_rate_valid()
+rejecting all of them) then just list_first_entry() will result in an
+invalid mode being assigned to preferred.
+
+> 
+> >  	list_for_each_entry(mode, &connector->modes, head)
+> >  		if (mode->type & DRM_MODE_TYPE_PREFERRED)
+> >  			preferred = mode;
+> > @@ -125,6 +127,18 @@ static const struct drm_connector_hdmi_funcs reject_connector_hdmi_funcs = {
+> >  	.tmds_char_rate_valid	= reject_connector_tmds_char_rate_valid,
+> >  };
+> >  
+> > +static enum drm_mode_status
+> > +reject_100MHz_connector_tmds_char_rate_valid(const struct drm_connector *connector,
+> > +					     const struct drm_display_mode *mode,
+> > +					     unsigned long long tmds_rate)
+> > +{
+> > +	return (tmds_rate > 100ULL * 1000 * 1000) ? MODE_BAD : MODE_OK;
+> > +}
+> > +
+> > +static const struct drm_connector_hdmi_funcs reject_100_MHz_connector_hdmi_funcs = {
+> > +	.tmds_char_rate_valid	= reject_100MHz_connector_tmds_char_rate_valid,
+> > +};
+> > +
+> >  static int dummy_connector_get_modes(struct drm_connector *connector)
+> >  {
+> >  	struct drm_atomic_helper_connector_hdmi_priv *priv =
+> > @@ -147,6 +161,33 @@ static int dummy_connector_get_modes(struct drm_connector *connector)
+> >  static const struct drm_connector_helper_funcs dummy_connector_helper_funcs = {
+> >  	.atomic_check	= drm_atomic_helper_connector_hdmi_check,
+> >  	.get_modes	= dummy_connector_get_modes,
+> > +	.mode_valid		= drm_hdmi_connector_mode_valid,
+> > +};
+> > +
+> > +static int dummy_connector_get_modes_100MHz_max_clock(struct drm_connector *connector)
+> > +{
+> > +	struct drm_atomic_helper_connector_hdmi_priv *priv =
+> > +		connector_to_priv(connector);
+> > +	const struct drm_edid *edid;
+> > +	unsigned int num_modes;
+> > +
+> > +	edid = drm_edid_alloc(priv->current_edid, priv->current_edid_len);
+> > +	if (!edid)
+> > +		return -EINVAL;
+> > +
+> > +	drm_edid_connector_update(connector, edid);
+> > +	connector->display_info.max_tmds_clock = 100 * 1000;
+> > +	num_modes = drm_edid_connector_add_modes(connector);
+> > +
+> > +	drm_edid_free(edid);
+> > +
+> > +	return num_modes;
+> > +}
+> > +
+> > +static const struct drm_connector_helper_funcs dummy_connector_helper_funcs_max_tmds_clock = {
+> > +	.atomic_check	= drm_atomic_helper_connector_hdmi_check,
+> > +	.get_modes	= dummy_connector_get_modes_100MHz_max_clock,
+> > +	.mode_valid		= drm_hdmi_connector_mode_valid,
+> >  };
+> >  
+> >  static void dummy_hdmi_connector_reset(struct drm_connector *connector)
+> > @@ -1734,9 +1775,132 @@ static struct kunit_suite drm_atomic_helper_connector_hdmi_reset_test_suite = {
+> >  	.test_cases	= drm_atomic_helper_connector_hdmi_reset_tests,
+> >  };
+> >  
+> > +static void drm_test_check_mode_valid(struct kunit *test)
+> > +{
+> > +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> > +	struct drm_connector *conn;
+> > +	struct drm_display_mode *preferred;
+> > +
+> > +	priv = drm_atomic_helper_connector_hdmi_init(test,
+> > +						     BIT(HDMI_COLORSPACE_RGB),
+> > +						     8);
+> > +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> > +
+> > +	conn = &priv->connector;
+> > +	preferred = find_preferred_mode(conn);
+> > +	KUNIT_ASSERT_NOT_NULL(test, preferred);
+> > +
+> > +	KUNIT_EXPECT_EQ(test, preferred->hdisplay, 1920);
+> > +	KUNIT_EXPECT_EQ(test, preferred->vdisplay, 1080);
+> > +	KUNIT_EXPECT_EQ(test, preferred->clock, 148500);
+> > +}
+> > +
+> > +static void drm_test_check_mode_valid_reject(struct kunit *test)
+> > +{
+> > +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> > +	struct drm_connector *conn;
+> > +	struct drm_display_mode *preferred;
+> > +	struct drm_device *drm;
+> > +	int ret;
+> > +
+> > +	priv = drm_atomic_helper_connector_hdmi_init(test,
+> > +						     BIT(HDMI_COLORSPACE_RGB),
+> > +						     8);
+> > +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> > +
+> > +	conn = &priv->connector;
+> > +
+> > +	/* You shouldn't be doing that at home. */
+> > +	conn->hdmi.funcs = &reject_connector_hdmi_funcs;
+> > +
+> > +	priv->current_edid = test_edid_hdmi_1080p_rgb_max_200mhz;
+> > +	priv->current_edid_len = ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz);
+> > +
+> > +	drm = &priv->drm;
+> > +
+> > +	mutex_lock(&drm->mode_config.mutex);
+> > +	ret = conn->funcs->fill_modes(conn, 4096, 4096);
+> > +	mutex_unlock(&drm->mode_config.mutex);
+> > +	KUNIT_ASSERT_EQ(test, ret, 0);
+> > +
+> > +	preferred = find_preferred_mode(conn);
+> > +	KUNIT_ASSERT_NULL(test, preferred);
+> > +}
+> > +
+> > +static void drm_test_check_mode_valid_reject_rate(struct kunit *test)
+> > +{
+> > +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> > +	struct drm_connector *conn;
+> > +	struct drm_display_mode *preferred;
+> > +	int ret;
+> > +
+> > +	priv = drm_atomic_helper_connector_hdmi_init(test,
+> > +						     BIT(HDMI_COLORSPACE_RGB),
+> > +						     8);
+> > +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> > +
+> > +	conn = &priv->connector;
+> > +
+> > +	/* You shouldn't be doing that at home. */
+> > +	conn->hdmi.funcs = &reject_100_MHz_connector_hdmi_funcs;
+> > +
+> > +	ret = set_connector_edid(test, conn,
+> > +				 test_edid_hdmi_1080p_rgb_max_200mhz,
+> > +				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
+> > +	KUNIT_ASSERT_EQ(test, ret, 0);
+> > +
+> > +	preferred = find_preferred_mode(conn);
+> > +	KUNIT_ASSERT_NOT_NULL(test, preferred);
+> > +	KUNIT_EXPECT_EQ(test, preferred->hdisplay, 640);
+> > +	KUNIT_EXPECT_EQ(test, preferred->vdisplay, 480);
+> > +	KUNIT_EXPECT_EQ(test, preferred->clock, 25200);
+> > +}
+> > +
+> > +static void drm_test_check_mode_valid_reject_max_clock(struct kunit *test)
+> > +{
+> > +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> > +	struct drm_connector *conn;
+> > +	struct drm_display_mode *preferred;
+> > +	int ret;
+> > +
+> > +	priv = drm_atomic_helper_connector_hdmi_init(test,
+> > +						     BIT(HDMI_COLORSPACE_RGB),
+> > +						     8);
+> > +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> > +
+> > +	conn = &priv->connector;
+> > +
+> > +	drm_connector_helper_add(conn, &dummy_connector_helper_funcs_max_tmds_clock);
+> > +
+> > +	ret = set_connector_edid(test, conn,
+> > +				 test_edid_hdmi_1080p_rgb_max_200mhz,
+> > +				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
+> > +	KUNIT_ASSERT_EQ(test, ret, 0);
+> > +
+> > +	preferred = find_preferred_mode(conn);
+> > +	KUNIT_ASSERT_NOT_NULL(test, preferred);
+> > +	KUNIT_EXPECT_EQ(test, preferred->hdisplay, 640);
+> > +	KUNIT_EXPECT_EQ(test, preferred->vdisplay, 480);
+> > +	KUNIT_EXPECT_EQ(test, preferred->clock, 25200);
+> > +}
+> > +
+> > +static struct kunit_case drm_atomic_helper_connector_hdmi_mode_valid_tests[] = {
+> > +	KUNIT_CASE(drm_test_check_mode_valid),
+> > +	KUNIT_CASE(drm_test_check_mode_valid_reject),
+> > +	KUNIT_CASE(drm_test_check_mode_valid_reject_rate),
+> > +	KUNIT_CASE(drm_test_check_mode_valid_reject_max_clock),
+> > +	{ }
+> > +};
+> > +
+> > +static struct kunit_suite drm_atomic_helper_connector_hdmi_mode_valid_test_suite = {
+> > +	.name		= "drm_atomic_helper_connector_hdmi_mode_valid",
+> > +	.test_cases	= drm_atomic_helper_connector_hdmi_mode_valid_tests,
+> > +};
+> > +
+> 
+> We need some documentation for these tests too, and what you're trying
+> to test exactly with that 100MHz cutout.
+
+I'll add a comment. Basically, I'm checking that
+drm_hdmi_connector_mode_valid() actually rejects modes based on the
+tmds_char_rate_valid() or on the info->max_tmds_clock.
+
+> 
+> Maxime
+
 
 
 -- 
