@@ -2,107 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 139889C2BE2
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2024 11:35:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44BC69C2D0E
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2024 13:35:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B69F10E03A;
-	Sat,  9 Nov 2024 10:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ACC210E02C;
+	Sat,  9 Nov 2024 12:35:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DO/ZCDai";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rIQCiHj1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A73E10E03A
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2024 10:35:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 0DC9CA40314;
- Sat,  9 Nov 2024 10:33:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBEC8C4CECE;
- Sat,  9 Nov 2024 10:35:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1731148551;
- bh=jIhhqs6M2vvkxbfLN6sNUL24IiqGNpQgqOkwJlhnBIQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DO/ZCDai/slql9L4n2S5U0xfY7uG1mtFdk8AKkige9lN7O/iFyhBSzFrgGpyKomhY
- xZn3h5FWHCgAikgI8UYlajZDO8kn5ZQakmFtdTRbulHScaO6k5OjIEsHk7w8W7Y4T8
- SoTGqGH14+Gtp8p5cxWgCJr53O6AfiZye+0lXOaiMqAixi2lILNJestuErjgO4AWOr
- axS2zK1TdJ5rO/cbDsPj9eQVx4+8Hs3ZyeJ90iBlSDX3ALrU2hoeNnDvUk6xBi21dl
- xUrpqOmCPqJVqa8O/6lltE3AH8BcxLTPiLyuls2B1QatSw+heNlfKBCqATJH9j1JW2
- vj5CBQLtZkCGg==
-Message-ID: <f0c9cffe-e58f-4c1d-af64-cad04e0c5510@kernel.org>
-Date: Sat, 9 Nov 2024 11:35:41 +0100
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73E3A10E05C
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2024 12:35:16 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-539f6e1f756so3531179e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Nov 2024 04:35:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1731155714; x=1731760514; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7v2ALFBdYjyZ6sFyb9Y/ee0T/VtMhjtKVZbW5icBGMM=;
+ b=rIQCiHj1vMRd+4vzo7NUZJHIwqEnYaj2389tMV4aU87nWO8gkQxkHiRtYPVcncI8Gu
+ sKjHqKEZ7FG0AHu3A/8+8ExIB2HlnEidYMoURAQZC2owRiSrj5fTo1Fver+nOGzhyXRV
+ IA3kFOiUx/rP5Uhx1ucABbGwIDgxbLa6bcHu1RI/otiDSdxNpOUWkwx6qD3YEajFfhv0
+ ADtS60VqaQX6XjDUTPKJ2sdX12Tu5deuY4u9u6CXuTibx9qiRx78gPklHVPkwLY9BwvW
+ GpiesiTnIz8GoqfvA4CYWs+wJHig0jFEnclJc4GrSp8rs2FRWM3mYUNT53ZGHzOYXTyQ
+ Yajg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731155714; x=1731760514;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7v2ALFBdYjyZ6sFyb9Y/ee0T/VtMhjtKVZbW5icBGMM=;
+ b=ruuUKmSVMIur2D1GvdlIaCcp83jA4U2lPG5yYXSXbYEB8aDOo6QuJP2SJnO6vy8rUB
+ SXHGKAYw5M8Fg5Lm9Vzcuv2qR9VyuK6rrLjI9ekqgmU1OXUGUNMQAuir9D2oPk6NfIdM
+ XmeuTAYSejG6VEE2F5PgcHzD5WCy5QYSRxl/RrdLrQcNExwo6u8p9jB9Zp9ls4MMniId
+ +uE3Uma4MLBlYJOFSIclPoQSwlpA2HwhjC2qS2u9IWPD2PzyNnQ1Ln07Betyb2NoxYDV
+ a/4q6bVQm2ucv8Ne9R2x7rF84GHLc2F8JI0v6OdYb0QB1BFs1DZ+/dKS6qWuuNwrgURt
+ GBkw==
+X-Gm-Message-State: AOJu0YyNlCZ88ObwC5CkPWL/fL7FtXcm7GPEaiM6tWvD6SU1W8ZvRIk+
+ zlll9Wsgs1fQa/DInCVOEfgCEdkYjorMTkMQxzCSysHFZJd4XrW7K4NS5gk98fM=
+X-Google-Smtp-Source: AGHT+IFSDYeqaLjyC9aeiFIrpSqYeLJzWS5ech99oMz9O52R0aPaOJVtYR5urSo+K9hUQ7SDK0W5Xg==
+X-Received: by 2002:a05:6512:3e01:b0:539:eb82:d45b with SMTP id
+ 2adb3069b0e04-53d862f817cmr2360079e87.56.1731155714283; 
+ Sat, 09 Nov 2024 04:35:14 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53d826784dbsm922899e87.15.2024.11.09.04.35.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 09 Nov 2024 04:35:12 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 0/7] drm/display: hdmi: add drm_hdmi_connector_mode_valid()
+Date: Sat, 09 Nov 2024 14:35:04 +0200
+Message-Id: <20241109-hdmi-mode-valid-v3-0-5348c2368076@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/10] dt-bindings: omap: Add Samsung Galaxy Tab 2 10.1
-To: Mithil Bavishi <bavishimithil@gmail.com>,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade
- <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
- Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Thierry Reding <thierry.reding@gmail.com>
-Cc: linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org
-References: <20241108200440.7562-1-bavishimithil@gmail.com>
- <20241108200440.7562-10-bavishimithil@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241108200440.7562-10-bavishimithil@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPhWL2cC/3XNQQrCMBCF4auUWRtJYmyjK+8hLoZm0g60jSQSl
+ NK7m3YjIi7/B/PNDIkiU4JzNUOkzInDVOKwq6DtcepIsCsNWmqjpLKidyOLMTgSGQd2ApFaY7Q
+ 9StVCubpH8vzcxOutdM/pEeJre5DVuv63shJS1GROSMZK5ZvLwBPGsA+xgxXL+gMU4RfQBcDaN
+ NY7LT3WX8CyLG+YQFG18AAAAA==
+X-Change-ID: 20241018-hdmi-mode-valid-aaec4428501c
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2383;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=2fV2XD25ut5vTGewFjeEo8rNWtU13M/szPG8t2HvEoA=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ7p+2L/f+UEK3NVbN5T87r6we4/e+47HjzdUh8R2Rpl41
+ ljN4GDpZDRmYWDkYpAVU2TxKWiZGrMpOezDjqn1MINYmUCmMHBxCsBEdvey/6/rZXqxJ3yT/vWl
+ Sal9CQ/l8xMDBRcJZ5ncmPFSXl466RQ7E+uc5Su+3jC8paB2oMG53dq2ZHosq1ZdfGqNw4Td+k+
+ bNzz1LtvQmHu23k3xn9mEIwcPa7K1c9427l1rm6Cxt6NZTvi8s9eEWhfFtqjtbRYXhTIu8SjpVt
+ X831v+8Wx7hHTM4Q07L7h/Snf4fO7197Y7+mdstb2vq27hCvZV2ePNt+F/2qInFieUeXf1shzp8
+ 0+3ilfZ+ND/Uuk82+PTt4QVaHtJKkrcLDdMWl7AsmhRLutHLpbpJt/ZFx9w+5C8yNs44MwXnomv
+ FDYovd7jWd4Sa7WvkZlnoa99vvoFtgqbn5YKyQ8TQzgB
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,15 +106,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/11/2024 21:04, Mithil Bavishi wrote:
-> Add samsung-espresso10 codename for the 10 inch variant
-> 
-> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
-> ---
->  Documentation/devicetree/bindings/arm/ti/omap.yaml | 1 +
+Several HDMI drivers have common code pice in the .mode_valid function
+that validates RGB / 8bpc rate using the TMDS char rate callbacks.
 
-Squash it. Really, these are just one liners for similar devices.
+Move this code piece to the common helper and remove the need to perform
+this check manually. In case of DRM_BRIDGE_OP_HDMI bridges, they can
+skip the check in favour of performing it in drm_bridge_connector.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v3:
+- Moved drm_hdmi_connector_mode_valid() to drm_hdmi_state_helper.c
+  (Maxime)
+- Added commnt next to the preferred = list_first_entry() assignment
+  (Maxime)
+- Added comments to new tests, describing what is being tested (Maxime)
+- Replaced sun4i_hdmi_connector_atomic_check() with
+  drm_atomic_helper_connector_hdmi_check() (Maxime)
+- Link to v2: https://lore.kernel.org/r/20241101-hdmi-mode-valid-v2-0-a6478fd20fa6@linaro.org
+
+Changes in v2:
+- Switched drm_hdmi_connector_mode_valid() to use common helper
+  (ex-hdmi_clock_valid()) (Maxime)
+- Added simple unit tests for drm_hdmi_connector_mode_valid().
+- Link to v1: https://lore.kernel.org/r/20241018-hdmi-mode-valid-v1-0-6e49ae4801f7@linaro.org
+
+---
+Dmitry Baryshkov (7):
+      drm/display: hdmi: add generic mode_valid helper
+      drm/sun4i: use drm_hdmi_connector_mode_valid()
+      drm/vc4: use drm_hdmi_connector_mode_valid()
+      drm/display: bridge_connector: use drm_bridge_connector_mode_valid()
+      drm/bridge: lontium-lt9611: drop TMDS char rate check in mode_valid
+      drm/bridge: dw-hdmi-qp: replace mode_valid with tmds_char_rate
+      drm/sun4i: use drm_atomic_helper_connector_hdmi_check()
+
+ drivers/gpu/drm/bridge/lontium-lt9611.c            |   4 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       |  12 +-
+ drivers/gpu/drm/display/drm_bridge_connector.c     |  16 +-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  21 +++
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |  32 +---
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 181 ++++++++++++++++++++-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |   4 +-
+ include/drm/display/drm_hdmi_state_helper.h        |   4 +
+ 8 files changed, 228 insertions(+), 46 deletions(-)
+---
+base-commit: 929beafbe7acce3267c06115e13e03ff6e50548a
+change-id: 20241018-hdmi-mode-valid-aaec4428501c
 
 Best regards,
-Krzysztof
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
