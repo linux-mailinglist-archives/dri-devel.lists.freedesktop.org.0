@@ -2,70 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDB29C28D9
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2024 01:32:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2CB9C2932
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2024 02:31:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABE5710E027;
-	Sat,  9 Nov 2024 00:32:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nqYqgVFi";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E94E10E012;
+	Sat,  9 Nov 2024 01:31:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
- [209.85.128.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C39A010E027
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2024 00:32:22 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-6e2e41bd08bso29851857b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2024 16:32:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731112341; x=1731717141; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jzGBt4boMiiZuZvN2Ls++s1/zYrgRuf8vuf/hILFtVw=;
- b=nqYqgVFiiWLeKhf21mRx1zyng0GoX1MrTbdSOHLe7e/VRzlh6aQB529+XeB60cZcAV
- avIFkDhUIJ94imPirN+m+H2ceJanTBT0/7neLGlQyvqqZ5lzXOOxaOZ4kfs2QJSzwrws
- F1d9BczrezMOZUOmpjfdjXmZWzjF3iAN8U0QA/ZzCXaodankhi1fcPNC7T1Bq6YITEz0
- kX+IRX0iHW8XsdRAJCSKGebXExX+Nqw+kjzbBfjg2oNjqtNNKOr6pVxSz2vK8hDVjZsd
- 1LDHZbRKAlqX5tp/pGD4B0OuDbCFTY08Y5lf+d/HFxcrtvxC9fbJ2mvyMNKOyTckV2x7
- kDjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731112341; x=1731717141;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jzGBt4boMiiZuZvN2Ls++s1/zYrgRuf8vuf/hILFtVw=;
- b=tvWiOmQ5hHoFKRyUJgoj/6Diyb+4MqUqk6s+KYYioCOsIBVMBcr7lmE6CtVSiHTQNk
- LylkPR97dyzm/+2PCNt8nPJ7PuRHTw2ryWODGibVKUV8RCFqM8SI7p9KStPgBaLx5MmH
- LzGsbjeUmsg8gAQQm5ItXbDYoTqExtPn1K/p8sboDdGuYxaIl6run3EAFLQLzsO3eUar
- VyNEh6MNijnOm2D0t3822YjLuDcIb2Hpcym+rERI7uA7cejw0gzxwVWZNN899cyJMqlv
- 7i1RX5ZOIGo50d2PYAvK5s2/XbFyGcKjlCA/Ema9mfrz26/3jJkXnb9DBHsapeAd8Ua/
- nenA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZOLOxJyb2WP9SdI/jYyPsbOIxpiKatdnJIb5vJBv0DjJa/JkbcVUVNAbeB4l0rLl14TnKlievZwE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVL0rJlUkeEMYCtlBROSTkBK+d0XPhBFL4bUWS2AP0zXJ9wjOA
- t9e/kcNLBsEmQNpMs7Ck2EPXF1c6Th/+UHViV3t5tAatJXw3FeO3gRGw4ndUBUoWh2QJSlD9fqT
- lf9y/mWbb7RisnBLDcQhIbsOLcH4=
-X-Google-Smtp-Source: AGHT+IE5X9GmM9r39Q6ouoxHeof/A+QtZh1JpRYOBUzTnpcdO2qIod3reDVkqRUpGlvR0N8LHQiAL++dpRk2MvyyiWA=
-X-Received: by 2002:a05:690c:350e:b0:6e3:3407:8579 with SMTP id
- 00721157ae682-6eaddfbe890mr61355957b3.39.1731112341626; Fri, 08 Nov 2024
- 16:32:21 -0800 (PST)
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
+ [45.249.212.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA70310E012;
+ Sat,  9 Nov 2024 01:30:58 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+ by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XldY86X1vz4f3kFL;
+ Sat,  9 Nov 2024 09:30:36 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+ by mail.maildlp.com (Postfix) with ESMTP id F3A811A0196;
+ Sat,  9 Nov 2024 09:30:54 +0800 (CST)
+Received: from [10.174.176.73] (unknown [10.174.176.73])
+ by APP4 (Coremail) with SMTP id gCh0CgCnzoJLuy5nMaQEBQ--.46715S3;
+ Sat, 09 Nov 2024 09:30:53 +0800 (CST)
+Subject: Re: [PATCH 6.6 00/28] fix CVE-2024-46701
+To: Chuck Lever III <chuck.lever@oracle.com>, Yu Kuai <yukuai1@huaweicloud.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ linux-stable <stable@vger.kernel.org>,
+ "harry.wentland@amd.com" <harry.wentland@amd.com>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
+ "airlied@gmail.com" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Liam Howlett <liam.howlett@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Sasha Levin <sashal@kernel.org>,
+ "srinivasan.shanmugam@amd.com" <srinivasan.shanmugam@amd.com>,
+ "chiahsuan.chung@amd.com" <chiahsuan.chung@amd.com>,
+ "mingo@kernel.org" <mingo@kernel.org>,
+ "mgorman@techsingularity.net" <mgorman@techsingularity.net>,
+ "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+ "zhangpeng.00@bytedance.com" <zhangpeng.00@bytedance.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+ "maple-tree@lists.infradead.org" <maple-tree@lists.infradead.org>,
+ linux-mm <linux-mm@kvack.org>, "yi.zhang@huawei.com" <yi.zhang@huawei.com>,
+ yangerkun <yangerkun@huawei.com>, "yukuai (C)" <yukuai3@huawei.com>
+References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
+ <2024110625-earwig-deport-d050@gregkh>
+ <7AB98056-93CC-4DE5-AD42-49BA582D3BEF@oracle.com>
+ <8bdd405e-0086-5441-e185-3641446ba49d@huaweicloud.com>
+ <ZyzRsR9rMQeIaIkM@tissot.1015granger.net>
+ <4db0a28b-8587-e999-b7a1-1d54fac4e19c@huaweicloud.com>
+ <D2A4C13B-3B50-4BA7-A5CC-C16E98944D55@oracle.com>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <a223b1dd-9699-5f6c-2b71-98e9cd377007@huaweicloud.com>
+Date: Sat, 9 Nov 2024 09:30:50 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20241108094256.3717-1-christian.koenig@amd.com>
-In-Reply-To: <20241108094256.3717-1-christian.koenig@amd.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Fri, 8 Nov 2024 16:32:11 -0800
-Message-ID: <CAPaKu7SK9X3eDb6EkyXjatFT4YqZUhR949ANuYmOPVnajBU1kQ@mail.gmail.com>
-Subject: Re: Ensure progress for dma_fence_array
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: boris.brezillon@collabora.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, lionel.g.landwerlin@intel.com, 
- dri-devel@lists.freedesktop.org, faith.ekstrand@collabora.com, 
- simona@ffwll.ch
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <D2A4C13B-3B50-4BA7-A5CC-C16E98944D55@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgCnzoJLuy5nMaQEBQ--.46715S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxXr4rAF4rWr43Ww4rurWxZwb_yoWrCry5pF
+ Z7t3WjkFsrJr17Kwn2vw4j9FW0yw4fGry5XFn8Wry7AF909r1SgF4xGr1YkFyxGws3u3Wj
+ qF4Yva47JF1UJaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUB214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWrXVW3AwCF04k20xvY0x
+ 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+ 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+ kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRJMa0UUUUU
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,29 +100,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 8, 2024 at 1:43=E2=80=AFAM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Hi guys,
->
-> as pointed out by Chia-I userspace doesn't see any progress when
-> signaling is not enabled and Boris noted that this is because
-> dma_fence_array_signaled() never returns true in this case.
->
-> Improve this by fixing the dma_fence_array_signaled() implementation to
-> also return true even if signaling was never explicitely enabled.
-Yeah, this fixes the timeout I was seeing on panvk.
+Hi,
 
-> We should probably adjust the documentation as well that when the
-> callback is implemented it should make progess visible even without
-> enabling signaling.
-That would be really nice.  Both dma_fence_is_signaled and
-dma_fence_ops::signaled explicitly state otherwise at the moment.
+在 2024/11/08 21:23, Chuck Lever III 写道:
+> 
+> 
+>> On Nov 7, 2024, at 8:19 PM, Yu Kuai <yukuai1@huaweicloud.com> wrote:
+>>
+>> Hi,
+>>
+>> 在 2024/11/07 22:41, Chuck Lever 写道:
+>>> On Thu, Nov 07, 2024 at 08:57:23AM +0800, Yu Kuai wrote:
+>>>> Hi,
+>>>>
+>>>> 在 2024/11/06 23:19, Chuck Lever III 写道:
+>>>>>
+>>>>>
+>>>>>> On Nov 6, 2024, at 1:16 AM, Greg KH <gregkh@linuxfoundation.org> wrote:
+>>>>>>
+>>>>>> On Thu, Oct 24, 2024 at 09:19:41PM +0800, Yu Kuai wrote:
+>>>>>>> From: Yu Kuai <yukuai3@huawei.com>
+>>>>>>>
+>>>>>>> Fix patch is patch 27, relied patches are from:
+>>>>>
+>>>>> I assume patch 27 is:
+>>>>>
+>>>>> libfs: fix infinite directory reads for offset dir
+>>>>>
+>>>>> https://lore.kernel.org/stable/20241024132225.2271667-12-yukuai1@huaweicloud.com/
+>>>>>
+>>>>> I don't think the Maple tree patches are a hard
+>>>>> requirement for this fix. And note that libfs did
+>>>>> not use Maple tree originally because I was told
+>>>>> at that time that Maple tree was not yet mature.
+>>>>>
+>>>>> So, a better approach might be to fit the fix
+>>>>> onto linux-6.6.y while sticking with xarray.
+>>>>
+>>>> The painful part is that using xarray is not acceptable, the offet
+>>>> is just 32 bit and if it overflows, readdir will read nothing. That's
+>>>> why maple_tree has to be used.
+>>> A 32-bit range should be entirely adequate for this usage.
+>>>   - The offset allocator wraps when it reaches the maximum, it
+>>>     doesn't overflow unless there are actually billions of extant
+>>>     entries in the directory, which IMO is not likely.
+>>
+>> Yes, it's not likely, but it's possible, and not hard to trigger for
+>> test.
+> 
+> I question whether such a test reflects any real-world
+> workload.
+> 
+> Besides, there are a number of other limits that will impact
+> the ability to create that many entries in one directory.
+> The number of inodes in one tmpfs instance is limited, for
+> instance.
+> 
+> 
+>> And please notice that the offset will increase for each new file,
+>> and file can be removed, while offset stays the same.
 
+Did you see the above explanation? files can be removed, you don't have
+to store that much files to triggger the offset to overflow.
 
+>>>   - The offset values are dense, so the directory can use all 2- or
+>>>     4- billion in the 32-bit integer range before wrapping.
+>>
+>> A simple math, if user create and remove 1 file in each seconds, it will
+>> cost about 130 years to overflow. And if user create and remove 1000
+>> files in each second, it will cost about 1 month to overflow.
+> 
+> The question is what happens when there are no more offset
+> values available. xa_alloc_cyclic should fail, and file
+> creation is supposed to fail at that point. If it doesn't,
+> that's a bug that is outside of the use of xarray or Maple.
 
->
-> Please test and review,
-> Christian.
->
->
+Can you show me the code that xa_alloc_cyclic should fail? At least
+according to the commets, it will return 1 if the allocation succeeded
+after wrapping.
+
+  * Context: Any context.  Takes and releases the xa_lock.  May sleep if
+  * the @gfp flags permit.
+  * Return: 0 if the allocation succeeded without wrapping.  1 if the
+  * allocation succeeded after wrapping, -ENOMEM if memory could not be
+  * allocated or -EBUSY if there are no free entries in @limit.
+  */
+static inline int xa_alloc_cyclic(struct xarray *xa, u32 *id, void *entry,
+		struct xa_limit limit, u32 *next, gfp_t gfp)
+> 
+> 
+>> maple tree use 64 bit value for the offset, which is impossible to
+>> overflow for the rest of our lifes.
+>>>   - No-one complained about this limitation when offset_readdir() was
+>>>     first merged. The xarray was replaced for performance reasons,
+>>>     not because of the 32-bit range limit.
+>>> It is always possible that I have misunderstood your concern!
+>>
+>> The problem is that if the next_offset overflows to 0, then after patch
+>> 27, offset_dir_open() will record the 0, and later offset_readdir will
+>> return directly, while there can be many files.
+> 
+> That's a separate bug that has nothing to do with the maximum
+> number of entries one directory can have. Again, you don't
+> need Maple tree to address that.
+> 
+> My understanding from Liam is that backporting Maple into
+> v6.6 is just not practical to do. We must explore alternate
+> ways to address these concerns.
+
+Like I said, I'll just give up for this cve for v6.6.
+> 
+> 
+> --
+> Chuck Lever
+> 
+> 
+
