@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351289C2EC0
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2024 18:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C778A9C2EBE
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2024 18:29:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83C5B10E363;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCE610E35C;
 	Sat,  9 Nov 2024 17:29:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ya4mmyV5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ISmOcBsu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 547FE10E359;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A6D510E35B;
  Sat,  9 Nov 2024 17:29:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1731173355; x=1762709355;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=pVOl7WNTOsrMVXeRIMy6wmjwXhzwv/z4G4PCD14dnh4=;
- b=Ya4mmyV53NACYwZWCA7ARS3dMEQNGIFdsJ/QqGh2puqZ6EOHdqX2XF8E
- F641yhQWn5JhSuQWhgFR9YTk3vUmT2gn963mvsZ4FnxLqjMZYdtcvrxzX
- ICObVqESxQSgSOt+vmTf14mgGPhbLf0ig0flbiHK/4a1EwIrWb3AjTC0o
- 3X5EpESpcg9SiqhjQNv+O0mJWaUcTK+r3vhr0gi8eiaiGU7zyWwtsutlQ
- oQFNZfjOVZaxGAkNMRjuRdb5cXn27Zv1HaDqqat1kckmSeEgpUyZd8ZBi
- VXENdAsGtXdf9ZQvnKdoPUYo5gjWKZgwSus8h0opDUOemgWMShY6ZMxM8 A==;
-X-CSE-ConnectionGUID: KDblF98XR2Kf95Oqktraqw==
-X-CSE-MsgGUID: 5FlDiwCFSw2yBZQbHepYfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41600114"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="41600114"
+ bh=g3Fnr+eeiYufPr352u35VGvUGKDvw6+Cf03KpdN8IJY=;
+ b=ISmOcBsuRwkdlGkJSGl9FGa45vquLKx6Sd3LrTZvgxM+m0s58r8ikfn+
+ fUylGgmD3ejenkucLAKbOZQfHyj2mfak+iieSc9wZVZ/FNVKlJ36KkCy8
+ +u4I4x38anQWRxzgvxFboZsacnNBjAICo05hjF6uHTBbxgugIcOEN5GBs
+ KiRTPU9GS+GF8tL3sfPKCd5WpfWMF8S2cnIi8jgsbt5Znuuw94iHqIlYX
+ UJD71xfZM+vtA0A3htA4z/8S8E3PLsEoi6a6RKn5prcOCLmzXnPYa8i1J
+ olZX6yspRoNOHtxev4lCIsLzEtS5gqMD4u8Svlqy4KQQVycEwpvvG+Nkc A==;
+X-CSE-ConnectionGUID: 0BJvhSRjRxmRgrqK7qsrPQ==
+X-CSE-MsgGUID: lyxwaL8LRKqlJ+yDv6wj4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41600123"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="41600123"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  09 Nov 2024 09:29:14 -0800
-X-CSE-ConnectionGUID: 95whTxFXThKZu6vzhGk3eg==
-X-CSE-MsgGUID: /F6FtNB2T5+BIaR1IaN66A==
+X-CSE-ConnectionGUID: TlX3u9tRSOKmHJeK7vU7IQ==
+X-CSE-MsgGUID: lYXUv1+tQ5y5VNPlv5SiNA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; d="scan'208";a="86499488"
+X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; d="scan'208";a="86499490"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  09 Nov 2024 09:29:13 -0800
@@ -48,14 +48,14 @@ Cc: simona.vetter@ffwll.ch, thomas.hellstrom@linux.intel.com,
  pstanner@redhat.com, boris.brezillon@collabora.com, airlied@gmail.com,
  ltuikov89@gmail.com, dakr@kernel.org, christian.koenig@amd.com,
  mihail.atanassov@arm.com, steven.price@arm.com, shashank.sharma@amd.com
-Subject: [RFC PATCH 2/6] drm/sched: Teach scheduler about
- DMA_RESV_USAGE_PREEMPT
-Date: Sat,  9 Nov 2024 09:29:38 -0800
-Message-Id: <20241109172942.482630-3-matthew.brost@intel.com>
+Subject: [RFC PATCH 3/6] dma-fence: Add dma_fence_preempt base class
+Date: Sat,  9 Nov 2024 09:29:39 -0800
+Message-Id: <20241109172942.482630-4-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241109172942.482630-1-matthew.brost@intel.com>
 References: <20241109172942.482630-1-matthew.brost@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,239 +72,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Follow the semantics of DMA_RESV_USAGE_PREEMPT in the DRM scheduler by
-storing preemptive fences in a dedicated xarray, which is waited on
-after all other fences are signaled. In addition to following these
-semantics, pipeline preemptive fences by enabling signaling on all
-preemptive fences before waiting on any of them.
+Add a dma_fence_preempt base class with driver ops to implement
+preemption, based on the existing Xe preemptive fence implementation.
 
-Cc: Philipp Stanner <pstanner@redhat.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Luben Tuikov <ltuikov89@gmail.com>
 Cc: Dave Airlie <airlied@redhat.com>
 Cc: Simona Vetter <simona.vetter@ffwll.ch>
 Cc: Christian Koenig <christian.koenig@amd.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 29 ++++++++++++--
- drivers/gpu/drm/scheduler/sched_main.c   | 48 ++++++++++++++++--------
- include/drm/gpu_scheduler.h              | 15 ++++++++
- 3 files changed, 73 insertions(+), 19 deletions(-)
+ drivers/dma-buf/Makefile            |   2 +-
+ drivers/dma-buf/dma-fence-preempt.c | 102 ++++++++++++++++++++++++++++
+ include/linux/dma-fence-preempt.h   |  54 +++++++++++++++
+ 3 files changed, 157 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/dma-buf/dma-fence-preempt.c
+ create mode 100644 include/linux/dma-fence-preempt.h
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 69bcf0e99d57..c6c4978aa65a 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -201,11 +201,13 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
- 	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
- 						 finish_cb);
- 	unsigned long index;
-+	struct xarray *dependencies = &job->dependencies;
- 
- 	dma_fence_put(f);
- 
-+again:
- 	/* Wait for all dependencies to avoid data corruptions */
--	xa_for_each(&job->dependencies, index, f) {
-+	xa_for_each(dependencies, index, f) {
- 		struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
- 
- 		if (s_fence && f == &s_fence->scheduled) {
-@@ -223,7 +225,7 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
- 			dma_fence_put(&s_fence->scheduled);
- 		}
- 
--		xa_erase(&job->dependencies, index);
-+		xa_erase(dependencies, index);
- 		if (f && !dma_fence_add_callback(f, &job->finish_cb,
- 						 drm_sched_entity_kill_jobs_cb))
- 			return;
-@@ -231,6 +233,11 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
- 		dma_fence_put(f);
- 	}
- 
-+	if (dependencies != &job->preempt_dependencies) {
-+		dependencies = &job->preempt_dependencies;
-+		goto again;
+diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+index 70ec901edf2c..c25500bb38b5 100644
+--- a/drivers/dma-buf/Makefile
++++ b/drivers/dma-buf/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-y := dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
+-	 dma-fence-unwrap.o dma-resv.o
++	 dma-fence-preempt.o dma-fence-unwrap.o dma-resv.o
+ obj-$(CONFIG_DMABUF_HEAPS)	+= dma-heap.o
+ obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
+ obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
+diff --git a/drivers/dma-buf/dma-fence-preempt.c b/drivers/dma-buf/dma-fence-preempt.c
+new file mode 100644
+index 000000000000..e97ddd925db6
+--- /dev/null
++++ b/drivers/dma-buf/dma-fence-preempt.c
+@@ -0,0 +1,102 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2024 Intel Corporation
++ */
++
++#include <linux/dma-fence-preempt.h>
++#include <linux/dma-resv.h>
++
++static const char *
++dma_fence_preempt_get_driver_name(struct dma_fence *fence)
++{
++	return "dma_fence_preempt";
++}
++
++static const char *
++dma_fence_preempt_get_timeline_name(struct dma_fence *fence)
++{
++	return "ordered";
++}
++
++static bool dma_fence_preempt_enable_signaling(struct dma_fence *fence)
++{
++	struct dma_fence_preempt *pfence =
++		container_of(fence, typeof(*pfence), base);
++	int err;
++
++	err = pfence->ops->preempt(pfence);
++	if (err)
++		dma_fence_set_error(&pfence->base, err);
++	else
++		WARN_ON(!dma_resv_test_signaled(pfence->resv,
++						DMA_RESV_USAGE_BOOKKEEP));
++
++	dma_fence_get(fence);
++	queue_work(pfence->wq, &pfence->work);
++
++	return true;
++}
++
++static const struct dma_fence_ops preempt_fence_ops = {
++	.get_driver_name = dma_fence_preempt_get_driver_name,
++	.get_timeline_name = dma_fence_preempt_get_timeline_name,
++	.enable_signaling = dma_fence_preempt_enable_signaling,
++};
++
++static void dma_fence_preempt_work_func(struct work_struct *w)
++{
++	bool cookie = dma_fence_begin_signalling();
++	struct dma_fence_preempt *pfence =
++		container_of(w, typeof(*pfence), work);
++	int err = pfence->base.error;
++
++	if (!err) {
++		err = pfence->ops->preempt_wait(pfence);
++		if (err)
++			dma_fence_set_error(&pfence->base, err);
 +	}
 +
- 	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
- 	schedule_work(&job->work);
- }
-@@ -456,17 +463,33 @@ drm_sched_job_dependency(struct drm_sched_job *job,
- 			 struct drm_sched_entity *entity)
- {
- 	struct dma_fence *f;
-+	struct xarray *dependencies;
++	dma_fence_signal(&pfence->base);
++	pfence->ops->preempt_finished(pfence);
 +
-+again:
-+	dependencies = job->resolve_preempt_dependencies ?
-+		&job->preempt_dependencies : &job->dependencies;
- 
- 	/* We keep the fence around, so we can iterate over all dependencies
- 	 * in drm_sched_entity_kill_jobs_cb() to ensure all deps are signaled
- 	 * before killing the job.
- 	 */
--	f = xa_load(&job->dependencies, job->last_dependency);
-+	f = xa_load(dependencies, job->last_dependency);
- 	if (f) {
- 		job->last_dependency++;
- 		return dma_fence_get(f);
- 	}
- 
-+	/* Switch resolving preempt dependencies pipelining signaling */
-+	if (!job->resolve_preempt_dependencies) {
-+		unsigned long index;
-+
-+		xa_for_each(&job->preempt_dependencies, index, f)
-+			dma_fence_enable_sw_signaling(f);
-+
-+		job->resolve_preempt_dependencies = true;
-+		goto again;
-+	}
-+
- 	if (job->sched->ops->prepare_job)
- 		return job->sched->ops->prepare_job(job, entity);
- 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 7ce25281c74c..eceb9b8c6f5f 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -829,6 +829,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
- 	INIT_LIST_HEAD(&job->list);
- 
- 	xa_init_flags(&job->dependencies, XA_FLAGS_ALLOC);
-+	xa_init_flags(&job->preempt_dependencies, XA_FLAGS_ALLOC);
- 
- 	return 0;
- }
-@@ -864,21 +865,14 @@ void drm_sched_job_arm(struct drm_sched_job *job)
- }
- EXPORT_SYMBOL(drm_sched_job_arm);
- 
--/**
-- * drm_sched_job_add_dependency - adds the fence as a job dependency
-- * @job: scheduler job to add the dependencies to
-- * @fence: the dma_fence to add to the list of dependencies.
-- *
-- * Note that @fence is consumed in both the success and error cases.
-- *
-- * Returns:
-- * 0 on success, or an error on failing to expand the array.
-- */
--int drm_sched_job_add_dependency(struct drm_sched_job *job,
--				 struct dma_fence *fence)
-+static int __drm_sched_job_add_dependency(struct drm_sched_job *job,
-+					  struct dma_fence *fence,
-+					  bool is_preempt)
- {
- 	struct dma_fence *entry;
- 	unsigned long index;
-+	struct xarray *dependencies = is_preempt ? &job->preempt_dependencies :
-+		&job->dependencies;
- 	u32 id = 0;
- 	int ret;
- 
-@@ -889,25 +883,41 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
- 	 * This lets the size of the array of deps scale with the number of
- 	 * engines involved, rather than the number of BOs.
- 	 */
--	xa_for_each(&job->dependencies, index, entry) {
-+	xa_for_each(dependencies, index, entry) {
- 		if (entry->context != fence->context)
- 			continue;
- 
- 		if (dma_fence_is_later(fence, entry)) {
- 			dma_fence_put(entry);
--			xa_store(&job->dependencies, index, fence, GFP_KERNEL);
-+			xa_store(dependencies, index, fence, GFP_KERNEL);
- 		} else {
- 			dma_fence_put(fence);
- 		}
- 		return 0;
- 	}
- 
--	ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, GFP_KERNEL);
-+	ret = xa_alloc(dependencies, &id, fence, xa_limit_32b, GFP_KERNEL);
- 	if (ret != 0)
- 		dma_fence_put(fence);
- 
- 	return ret;
- }
++	dma_fence_end_signalling(cookie);
++	dma_fence_put(&pfence->base);
++}
 +
 +/**
-+ * drm_sched_job_add_dependency - adds the fence as a job dependency
-+ * @job: scheduler job to add the dependencies to
-+ * @fence: the dma_fence to add to the list of dependencies.
++ * dma_fence_is_preempt() - Is preempt fence
 + *
-+ * Note that @fence is consumed in both the success and error cases.
++ * @fence: Preempt fence
 + *
-+ * Returns:
-+ * 0 on success, or an error on failing to expand the array.
++ * Return: True if preempt fence, False otherwise
 + */
-+int drm_sched_job_add_dependency(struct drm_sched_job *job,
-+				 struct dma_fence *fence)
++bool dma_fence_is_preempt(const struct dma_fence *fence)
 +{
-+	return __drm_sched_job_add_dependency(job, fence, false);
++	return fence->ops == &preempt_fence_ops;
 +}
- EXPORT_SYMBOL(drm_sched_job_add_dependency);
- 
- /**
-@@ -963,7 +973,9 @@ int drm_sched_job_add_resv_dependencies(struct drm_sched_job *job,
- 	dma_resv_for_each_fence(&cursor, resv, usage, fence) {
- 		/* Make sure to grab an additional ref on the added fence */
- 		dma_fence_get(fence);
--		ret = drm_sched_job_add_dependency(job, fence);
-+		ret = __drm_sched_job_add_dependency(job, fence,
-+						     cursor.fence_usage ==
-+						     DMA_RESV_USAGE_PREEMPT);
- 		if (ret) {
- 			dma_fence_put(fence);
- 			return ret;
-@@ -1030,6 +1042,10 @@ void drm_sched_job_cleanup(struct drm_sched_job *job)
- 	}
- 	xa_destroy(&job->dependencies);
- 
-+	xa_for_each(&job->preempt_dependencies, index, fence) {
-+		dma_fence_put(fence);
-+	}
-+	xa_destroy(&job->preempt_dependencies);
- }
- EXPORT_SYMBOL(drm_sched_job_cleanup);
- 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 95e17504e46a..de16cf6b1869 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -353,6 +353,13 @@ struct drm_sched_job {
- 
- 	u32				credits;
- 
-+	/**
-+	 * @resolve_preempt_dependencies:
-+	 *
-+	 * Job is currently resolving preempt dependencies.
-+	 */
-+	bool				resolve_preempt_dependencies;
++EXPORT_SYMBOL(dma_fence_is_preempt);
 +
- 	/*
- 	 * work is used only after finish_cb has been used and will not be
- 	 * accessed anymore.
-@@ -376,6 +383,14 @@ struct drm_sched_job {
- 	 */
- 	struct xarray			dependencies;
- 
-+	/**
-+	 * @preempt_dependencies:
-+	 *
-+	 * Contains the dependencies as struct dma_fence for this job which are
-+	 * preempt fences.
-+	 */
-+	struct xarray			preempt_dependencies;
++/**
++ * dma_fence_preempt_init() - Initial preempt fence
++ *
++ * @fence: Preempt fence
++ * @ops: Preempt fence operations
++ * @resv: Dma resv which preempt fence is attached to
++ * @wq: Work queue for preempt wait
++ * @context: Fence context
++ * @seqno: Fence seqence number
++ */
++void dma_fence_preempt_init(struct dma_fence_preempt *fence,
++			    const struct dma_fence_preempt_ops *ops,
++			    struct dma_resv *resv, struct workqueue_struct *wq,
++			    u64 context, u64 seqno)
++{
++	fence->ops = ops;
++	fence->resv = resv;
++	fence->wq = wq;
++	INIT_WORK(&fence->work, dma_fence_preempt_work_func);
++	spin_lock_init(&fence->lock);
++	dma_fence_init(&fence->base, &preempt_fence_ops,
++		       &fence->lock, context, seqno);
++}
++EXPORT_SYMBOL(dma_fence_preempt_init);
+diff --git a/include/linux/dma-fence-preempt.h b/include/linux/dma-fence-preempt.h
+new file mode 100644
+index 000000000000..9fdfe4a6b00f
+--- /dev/null
++++ b/include/linux/dma-fence-preempt.h
+@@ -0,0 +1,54 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2024 Intel Corporation
++ */
 +
- 	/** @last_dependency: tracks @dependencies as they signal */
- 	unsigned long			last_dependency;
- 
++#ifndef __LINUX_DMA_FENCE_PREEMPT_H
++#define __LINUX_DMA_FENCE_PREEMPT_H
++
++#include <linux/dma-fence.h>
++#include <linux/workqueue.h>
++
++struct dma_fence_preempt;
++struct dma_resv;
++
++/**
++ * struct dma_fence_preempt_ops - Preempt fence operations
++ *
++ * These functions should be implemented in the driver side.
++ */
++struct dma_fence_preempt_ops {
++	/** @preempt: Preempt execution */
++	int (*preempt)(struct dma_fence_preempt *fence);
++	/** @preempt_wait: Wait for preempt of execution to complete */
++	int (*preempt_wait)(struct dma_fence_preempt *fence);
++	/** @preempt_finished: Signal that the preempt has finished */
++	void (*preempt_finished)(struct dma_fence_preempt *fence);
++};
++
++/**
++ * struct dma_fence_preempt - Embedded preempt fence base class
++ */
++struct dma_fence_preempt {
++	/** @base: Fence base class */
++	struct dma_fence base;
++	/** @lock: Spinlock for fence handling */
++	spinlock_t lock;
++	/** @ops: Preempt fence operation */
++	const struct dma_fence_preempt_ops *ops;
++	/** @resv: DMA resv which preempt fence attached to */
++	struct dma_resv *resv;
++	/** @wq: Work queue for preempt wait */
++	struct workqueue_struct *wq;
++	/** @work: Work struct for preempt wait */
++	struct work_struct work;
++};
++
++bool dma_fence_is_preempt(const struct dma_fence *fence);
++
++void dma_fence_preempt_init(struct dma_fence_preempt *fence,
++			    const struct dma_fence_preempt_ops *ops,
++			    struct dma_resv *resv, struct workqueue_struct *wq,
++			    u64 context, u64 seqno);
++
++#endif
 -- 
 2.34.1
 
