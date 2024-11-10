@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202429C30E0
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2024 05:46:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282829C31E9
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2024 13:20:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA8A10E05A;
-	Sun, 10 Nov 2024 04:46:55 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="hWGwMcPI";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3DDC10E07A;
+	Sun, 10 Nov 2024 12:20:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A3B10E05A
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Nov 2024 04:46:53 +0000 (UTC)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82D7410E010;
+ Sun, 10 Nov 2024 07:26:47 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4XmPND60Wrz20ss7;
+ Sun, 10 Nov 2024 15:25:32 +0800 (CST)
+Received: from kwepemd200012.china.huawei.com (unknown [7.221.188.145])
+ by mail.maildlp.com (Postfix) with ESMTPS id E7E0A1A016C;
+ Sun, 10 Nov 2024 15:26:43 +0800 (CST)
+Received: from [10.67.109.114] (10.67.109.114) by
+ kwepemd200012.china.huawei.com (7.221.188.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Sun, 10 Nov 2024 15:26:42 +0800
+Content-Type: multipart/alternative;
+ boundary="------------Ib49LDWcg2gVn3C6pNQcMH0z"
+Message-ID: <7d7f7c2d-dfc0-4c93-a676-54d7390326b9@huawei.com>
+Date: Sun, 10 Nov 2024 15:26:42 +0800
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1731214010;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TSQQKGly1uqhX8y15qRC2c6ounkwqxRMpntMg43D7Ak=;
- b=hWGwMcPI0yueGl5xWzUcPyjTYBSfnxpK4iwjN/mtNJ7cVAmnT5h0QhfOJcsgTvRbjLjDld
- saPsLsUXNLOV+Uff+RmjjpVKly8g07lhyj5YAOQS+gUY8vPcwpQf12bD0oTfAbi5jocHPp
- 4n9MZRSTGkDUSyukhmvV91qU/wySwWslqOMwyT0xK0xm2P2ZMfPfwq/muLRG7y4Fs9fzca
- YSGq2td8LC+sqvWZGQbQLewGLQial5hHWEPOfGceWdO9wGNTh6G1ALM5FX3bnA7SlApTpa
- 1KNqqjlOI5r90JLREN5XsIywET9xsGiLaqvEHl2Ihgk0AhPC3v3jFobB3rvshA==
-Date: Sun, 10 Nov 2024 05:46:48 +0100
-From: Dragan Simic <dsimic@manjaro.org>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, linux-kernel@vger.kernel.org, Heiko
- Stuebner <heiko.stuebner@cherry.de>
-Subject: Re: [PATCH] drm/rockchip: dsi: convert to dev_err_probe in probe
- function
-In-Reply-To: <20241108144425.1009916-1-heiko@sntech.de>
-References: <20241108144425.1009916-1-heiko@sntech.de>
-Message-ID: <0ebf024568d041e2f7b8f6af46dad295@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] drm/amd/display: Fix Null Pointer Dereference Issues
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <Rodrigo.Siqueira@amd.com>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <Dillon.Varone@amd.com>, <Alvin.Lee2@amd.com>,
+ <nicholas.kazlauskas@amd.com>, <alex.hung@amd.com>,
+ <aurabindo.pillai@amd.com>, <relja.vojvodic@amd.com>,
+ <chiahsuan.chung@amd.com>, <wenjing.liu@amd.com>, <george.shen@amd.com>,
+ <mwen@igalia.com>, <yi-lchen@amd.com>, <martin.leung@amd.com>,
+ <srinivasan.shanmugam@amd.com>, <stylon.wang@amd.com>, <jun.lei@amd.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+CC: <tanghui20@huawei.com>, <zhangqiao22@huawei.com>,
+ <judy.chenhui@huawei.com>, <quzicheng@huawei.com>
+References: <20241105140137.2465572-1-quzicheng@huawei.com>
+From: Zicheng Qu <quzicheng@huawei.com>
+In-Reply-To: <20241105140137.2465572-1-quzicheng@huawei.com>
+X-Originating-IP: [10.67.109.114]
+X-ClientProxiedBy: dggpeml500019.china.huawei.com (7.185.36.137) To
+ kwepemd200012.china.huawei.com (7.221.188.145)
+X-Mailman-Approved-At: Sun, 10 Nov 2024 12:20:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,197 +64,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Heiko,
+--------------Ib49LDWcg2gVn3C6pNQcMH0z
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thanks for the patch.  Please, see a couple of comments below.
+Hi,
 
-On 2024-11-08 15:44, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@cherry.de>
-> 
-> DRM_DEV_ERROR is deprecated and using dev_err_probe saves quite a 
-> number
-> of lines too, so convert the error prints for the dsi-driver.
-> 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
-> ---
->  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 80 ++++++-------------
->  1 file changed, 26 insertions(+), 54 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> index 58a44af0e9ad..3224ab749352 100644
-> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> @@ -1356,17 +1356,15 @@ static int dw_mipi_dsi_rockchip_probe(struct
-> platform_device *pdev)
->  	struct resource *res;
->  	const struct rockchip_dw_dsi_chip_data *cdata =
->  				of_device_get_match_data(dev);
-> -	int ret, i;
-> +	int i;
-> 
->  	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
->  	if (!dsi)
->  		return -ENOMEM;
-> 
->  	dsi->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-> -	if (IS_ERR(dsi->base)) {
-> -		DRM_DEV_ERROR(dev, "Unable to get dsi registers\n");
-> -		return PTR_ERR(dsi->base);
-> -	}
-> +	if (IS_ERR(dsi->base))
-> +		return dev_err_probe(dev, PTR_ERR(dsi->base), "Unable to get dsi 
-> registers\n");
-> 
->  	i = 0;
->  	while (cdata[i].reg) {
-> @@ -1378,67 +1376,47 @@ static int dw_mipi_dsi_rockchip_probe(struct
-> platform_device *pdev)
->  		i++;
->  	}
-> 
-> -	if (!dsi->cdata) {
-> -		DRM_DEV_ERROR(dev, "no dsi-config for %s node\n", np->name);
-> -		return -EINVAL;
-> -	}
-> +	if (!dsi->cdata)
-> +		return dev_err_probe(dev, -EINVAL, "No dsi-config for %s node\n", 
-> np->name);
-> 
->  	/* try to get a possible external dphy */
->  	dsi->phy = devm_phy_optional_get(dev, "dphy");
-> -	if (IS_ERR(dsi->phy)) {
-> -		ret = PTR_ERR(dsi->phy);
-> -		DRM_DEV_ERROR(dev, "failed to get mipi dphy: %d\n", ret);
-> -		return ret;
-> -	}
-> +	if (IS_ERR(dsi->phy))
-> +		return dev_err_probe(dev, PTR_ERR(dsi->phy), "Failed to get mipi 
-> dphy\n");
+Gentle ping.
 
-After spending a couple of days thinking about it, I think this
-particular change should be extracted into a separate patch and
-submitted additionally for the inclusion into stable kernels.
+The patch link is: [PATCH 0/2] drm/amd/display: Fix Null Pointer 
+Dereference Issues - Zicheng Qu (kernel.org) 
+<https://lore.kernel.org/linux-kernel/20241105140137.2465572-1-quzicheng@huawei.com/>
 
-My reasoning behind that is the "spamming" of the kernel log with
-multiple suspiciously looking error messages when getting the dphy
-results in deferred probing, which IMHO looks really bad and may
-cause false impression of underlying issues.
 
-If you agree with this suggestion, please feel free to use the
-relevant parts of the description of the patch I submitted and
-withdrawn earlier, [*] to provide the required rationale for the
-inclusion into stable kernels.
+Best regards,
+Zicheng
 
-[*] 
-https://lore.kernel.org/linux-rockchip/559094275c3e41cae7c89e904341f89a1240a51a.1731073565.git.dsimic@manjaro.org/
 
->  	dsi->pclk = devm_clk_get(dev, "pclk");
-> -	if (IS_ERR(dsi->pclk)) {
-> -		ret = PTR_ERR(dsi->pclk);
-> -		DRM_DEV_ERROR(dev, "Unable to get pclk: %d\n", ret);
-> -		return ret;
-> -	}
-> +	if (IS_ERR(dsi->pclk))
-> +		return dev_err_probe(dev, PTR_ERR(dsi->pclk), "Unable to get 
-> pclk\n");
-> 
->  	dsi->pllref_clk = devm_clk_get(dev, "ref");
->  	if (IS_ERR(dsi->pllref_clk)) {
-> -		if (dsi->phy) {
-> +		if (dsi->phy)
->  			/*
->  			 * if external phy is present, pll will be
->  			 * generated there.
->  			 */
->  			dsi->pllref_clk = NULL;
-> -		} else {
-> -			ret = PTR_ERR(dsi->pllref_clk);
-> -			DRM_DEV_ERROR(dev,
-> -				      "Unable to get pll reference clock: %d\n",
-> -				      ret);
-> -			return ret;
-> -		}
-> +		else
-> +			return dev_err_probe(dev, PTR_ERR(dsi->pllref_clk),
-> +					     "Unable to get pll reference clock\n");
->  	}
-> 
->  	if (dsi->cdata->flags & DW_MIPI_NEEDS_PHY_CFG_CLK) {
->  		dsi->phy_cfg_clk = devm_clk_get(dev, "phy_cfg");
-> -		if (IS_ERR(dsi->phy_cfg_clk)) {
-> -			ret = PTR_ERR(dsi->phy_cfg_clk);
-> -			DRM_DEV_ERROR(dev,
-> -				      "Unable to get phy_cfg_clk: %d\n", ret);
-> -			return ret;
-> -		}
-> +		if (IS_ERR(dsi->phy_cfg_clk))
-> +			return dev_err_probe(dev, PTR_ERR(dsi->phy_cfg_clk),
-> +					     "Unable to get phy_cfg_clk\n");
->  	}
-> 
->  	if (dsi->cdata->flags & DW_MIPI_NEEDS_GRF_CLK) {
->  		dsi->grf_clk = devm_clk_get(dev, "grf");
-> -		if (IS_ERR(dsi->grf_clk)) {
-> -			ret = PTR_ERR(dsi->grf_clk);
-> -			DRM_DEV_ERROR(dev, "Unable to get grf_clk: %d\n", ret);
-> -			return ret;
-> -		}
-> +		if (IS_ERR(dsi->grf_clk))
-> +			return dev_err_probe(dev, PTR_ERR(dsi->grf_clk), "Unable to get 
-> grf_clk\n");
->  	}
-> 
->  	dsi->grf_regmap = syscon_regmap_lookup_by_phandle(np, 
-> "rockchip,grf");
-> -	if (IS_ERR(dsi->grf_regmap)) {
-> -		DRM_DEV_ERROR(dev, "Unable to get rockchip,grf\n");
-> -		return PTR_ERR(dsi->grf_regmap);
-> -	}
-> +	if (IS_ERR(dsi->grf_regmap))
-> +		return dev_err_probe(dev, PTR_ERR(dsi->grf_regmap), "Unable to get 
-> rockchip,grf\n");
-> 
->  	dsi->dev = dev;
->  	dsi->pdata.base = dsi->base;
-> @@ -1451,24 +1429,18 @@ static int dw_mipi_dsi_rockchip_probe(struct
-> platform_device *pdev)
->  	mutex_init(&dsi->usage_mutex);
-> 
->  	dsi->dphy = devm_phy_create(dev, NULL, &dw_mipi_dsi_dphy_ops);
-> -	if (IS_ERR(dsi->dphy)) {
-> -		DRM_DEV_ERROR(&pdev->dev, "failed to create PHY\n");
-> -		return PTR_ERR(dsi->dphy);
-> -	}
-> +	if (IS_ERR(dsi->dphy))
-> +		return dev_err_probe(dev, PTR_ERR(dsi->dphy), "Failed to create 
-> PHY\n");
-> 
->  	phy_set_drvdata(dsi->dphy, dsi);
->  	phy_provider = devm_of_phy_provider_register(dev, 
-> of_phy_simple_xlate);
->  	if (IS_ERR(phy_provider))
-> -		return PTR_ERR(phy_provider);
-> +		return dev_err_probe(dev, PTR_ERR(phy_provider),
-> +				     "Failed to register phy-provider\n");
-> 
->  	dsi->dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
-> -	if (IS_ERR(dsi->dmd)) {
-> -		ret = PTR_ERR(dsi->dmd);
-> -		if (ret != -EPROBE_DEFER)
-> -			DRM_DEV_ERROR(dev,
-> -				      "Failed to probe dw_mipi_dsi: %d\n", ret);
-> -		return ret;
-> -	}
-> +	if (IS_ERR(dsi->dmd))
-> +		return dev_err_probe(dev, PTR_ERR(dsi->dmd), "Failed to probe 
-> dw_mipi_dsi\n");
-> 
->  	return 0;
->  }
+On 2024/11/5 22:01, Zicheng Qu wrote:
+> Hi all,
+>
+> I am submitting two patches to fix null pointer dereference issues in
+> the AMD display driver.
+>
+> 1. Patch 1/2 (Fixes: 8e4ed3cf1642): Add null checks in
+> dcn20_program_pipe() to prevent potential crashes when accessing
+> plane_state.
+>
+> 2. Patch 2/2 (Fixes: 0baae6246307): Ensures pipe_ctx->plane_state is
+> checked in hwss_setup_dpp() to improve function stability.
+>
+> Thanks for reviewing!
+>
+> Zicheng Qu (2):
+>    drm/amd/display: Fix null check for pipe_ctx->plane_state in
+>      dcn20_program_pipe
+>    drm/amd/display: Fix null check for pipe_ctx->plane_state in
+>      hwss_setup_dpp
+>
+>   drivers/gpu/drm/amd/display/dc/core/dc_hw_sequencer.c   | 3 +++
+>   drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c | 6 +++---
+>   2 files changed, 6 insertions(+), 3 deletions(-)
+>
+--------------Ib49LDWcg2gVn3C6pNQcMH0z
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Regardless of the above-suggested split into a patch series
-ending up accepted or not, the introduced changes are looking
-good to me, so please feel free to include my
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Hi,<br>
+    <br>
+    <p>Gentle ping.</p>
+    <p>The patch link is: <a
+href="https://lore.kernel.org/linux-kernel/20241105140137.2465572-1-quzicheng@huawei.com/">[PATCH
+        0/2] drm/amd/display: Fix Null Pointer Dereference Issues -
+        Zicheng Qu (kernel.org)</a></p>
+    <br>
+    Best regards,<br>
+    Zicheng
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2024/11/5 22:01, Zicheng Qu wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20241105140137.2465572-1-quzicheng@huawei.com">
+      <pre wrap="" class="moz-quote-pre">Hi all,
 
-Reviewed-by: Dragan Simic <dsimic@manjaro.org>
+I am submitting two patches to fix null pointer dereference issues in
+the AMD display driver.
+
+1. Patch 1/2 (Fixes: 8e4ed3cf1642): Add null checks in
+dcn20_program_pipe() to prevent potential crashes when accessing
+plane_state.
+
+2. Patch 2/2 (Fixes: 0baae6246307): Ensures pipe_ctx-&gt;plane_state is
+checked in hwss_setup_dpp() to improve function stability.
+
+Thanks for reviewing!
+
+Zicheng Qu (2):
+  drm/amd/display: Fix null check for pipe_ctx-&gt;plane_state in
+    dcn20_program_pipe
+  drm/amd/display: Fix null check for pipe_ctx-&gt;plane_state in
+    hwss_setup_dpp
+
+ drivers/gpu/drm/amd/display/dc/core/dc_hw_sequencer.c   | 3 +++
+ drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c | 6 +++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------Ib49LDWcg2gVn3C6pNQcMH0z--
