@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9167A9C3E63
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 13:23:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBEA9C3E7F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 13:36:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBED10E1E8;
-	Mon, 11 Nov 2024 12:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 272A810E49C;
+	Mon, 11 Nov 2024 12:36:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="r0yPOa9y";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="G/lFo9Rk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 150F610E1E8
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 12:23:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=bESN6kdzHxb64vN3iq3WZYzFXKD0mi1nbsMeliAw0u0=; b=r0yPOa9y8RWgmD+cewhhadmfw3
- FAP5txSdXJ9cETG9uPFypbhfUuOGbRWIiXU56a50JiBTKbZ4UUPQznWxVCe8Jlx1yJHiXm3gQ7Dsi
- 9DfKVjuxhM7NhjWo0p1LUOSY8Gyjzd+16swfBeOSC1cOQ+v1vUn82YpC4levHbIy8EMm549gWro1t
- 7PAD2umFfCoEWMbOPoNtdb/y1/oX+S3x1DgZ4Y41kWWJePzIUivHrv+H8tQ9ihzqRu+ZHNQKER0yv
- VSFOYZc/Gnp/jZdfe8MyZWGvi9dvMMY3dLhm4G+olbzRTHx4PVlAINPbo7MbTGbJwpvtx81tSP8yD
- SISdHp8A==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tATSL-005Omb-T3; Mon, 11 Nov 2024 13:23:46 +0100
-Message-ID: <0f5849b1-149e-4446-896c-2b21b198c154@igalia.com>
-Date: Mon, 11 Nov 2024 09:23:40 -0300
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C881E10E4A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 12:36:26 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 24BF91BF204;
+ Mon, 11 Nov 2024 12:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1731328584;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=trb/73fr8oplgOFNAbd36nCrZAk6oSoc9zUaNRyfOSY=;
+ b=G/lFo9Rk29xrIml6PsnMC3ySH9Ao/M/QhGlQBXQIDKrsLFpm+Grjy2VB0hoUlQHbV17w0+
+ UYFTtku4A3rJouRMgR6sjSMPYvQuq9qXYytYnWjwkaday+nJgasLVE5s41B23UPgHe0tlS
+ pVrQLjtS4v91waVKQHXHvP/UPQIpQIOrnPqa//49geQWgFgDSGL0kTxAnw3vc1yPUVEgEu
+ NhTAtcinBI1eaWmYv3Tr3ozu6vivLDKs/yesaRx54MLynDjvvQARpJyYpAMQOQI7AntreE
+ KJ/KEZtV4D2+Lwy1kKdbkoI0O/a2+Rj7Fie+LaMLG4ffapiEwwknAMdFMs5brg==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v3 0/4] DRM: small improvements
+Date: Mon, 11 Nov 2024 13:36:19 +0100
+Message-Id: <20241111-drm-small-improvements-v3-0-a9f576111b41@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/v3d: Fix performance counter source settings on V3D
- 7.x
-To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Christian Gmeiner <cgmeiner@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20241106121736.5707-1-mcanal@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20241106121736.5707-1-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEP6MWcC/4XNQQrCMBCF4auUrI1k0hJTV95DXMR0ageapCQlK
+ KV3N+1GEMTl/2C+WVjCSJjYuVpYxEyJgi9RHypmB+MfyKkrzaSQDQjQvIuOJ2fGkZObYsjo0M+
+ JQweisRaE1IKV4yliT88dvt5KD5TmEF/7nwzb+pfMwAW3tgaFYFpt28s9hHkkf7TBsQ3N8gOBU
+ D8hWaBeoTTYa3WCL2hd1zd+sya5BwEAAA==
+X-Change-ID: 20241018-drm-small-improvements-1d104cc10280
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,28 +66,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/11/24 09:16, Maíra Canal wrote:
-> When the new register addresses were introduced for V3D 7.x, we added
-> new masks for performance counter sources on V3D 7.x.  Nevertheless,
-> we never apply these new masks when setting the sources.
-> 
-> Fix the performance counter source settings on V3D 7.x by introducing
-> a new macro, `V3D_SET_FIELD_VER`, which allows fields setting to vary
-> by version. Using this macro, we can provide different values for
-> source mask based on the V3D version, ensuring that sources are
-> correctly configure on V3D 7.x.
-> 
-> Fixes: 0ad5bc1ce463 ("drm/v3d: fix up register addresses for V3D 7.x")
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> ---
->   drivers/gpu/drm/v3d/v3d_debugfs.c |  4 ++--
->   drivers/gpu/drm/v3d/v3d_perfmon.c | 15 ++++++++-------
->   drivers/gpu/drm/v3d/v3d_regs.h    | 29 +++++++++++++++++------------
->   3 files changed, 27 insertions(+), 21 deletions(-)
-> 
+This series brings small improvements to the DRM documentation, logging and
+a warning on an incorrect code path.
 
-Applied to misc/kernel.git (drm-misc-next).
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v3:
+- patch 3: various fixes suggested by Jani Nikula and kernel test robot
+- Updated reviewed-by tags
+- Link to v2: https://lore.kernel.org/r/20241106-drm-small-improvements-v2-0-f6e2aef86719@bootlin.com
 
-Best Regards,
-- Maíra
+Changes in v2:
+- Added patches 3 and 4
+- Updated reviewed-by tags
+- Link to v1: https://lore.kernel.org/r/20241018-drm-small-improvements-v1-0-cc316e1a98c9@bootlin.com
+
+---
+Luca Ceresoli (4):
+      drm/drm_mode_object: fix typo in kerneldoc
+      drm/atomic-helper: improve CRTC enabled/connectors mismatch logging message
+      drm/mode_object: add drm_mode_object_read_refcount()
+      drm/connector: warn when cleaning up a refcounted connector
+
+ drivers/gpu/drm/drm_atomic_helper.c |  5 +++--
+ drivers/gpu/drm/drm_connector.c     |  6 ++++++
+ drivers/gpu/drm/drm_mode_object.c   | 17 +++++++++++++++++
+ include/drm/drm_mode_object.h       |  3 ++-
+ 4 files changed, 28 insertions(+), 3 deletions(-)
+---
+base-commit: 42f7652d3eb527d03665b09edac47f85fb600924
+change-id: 20241018-drm-small-improvements-1d104cc10280
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
