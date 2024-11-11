@@ -2,125 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEE09C44CD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 19:17:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D859C44C8
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 19:17:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD8310E508;
-	Mon, 11 Nov 2024 18:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28A7F10E50F;
+	Mon, 11 Nov 2024 18:17:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NRiXBvt1";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NZiZsUBo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2070.outbound.protection.outlook.com [40.107.94.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E42DD10E510
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 18:17:29 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2041.outbound.protection.outlook.com [40.107.244.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4713610E50E
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 18:17:25 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i9k+iYE3E543R0iTlUvq5w7tORIjiud6Iktqfl2EYiKs+1aU3ySiLG+CrB4uB7WnHHc9B3FNPXdqqpVYXLlgvVOAWBp5UNStkjYJwiK9O8j4f4rPSuFOxif40npfi+OlUzOZBHwRtVjs7koZP7SggeZG1qM9zbiu50WsbPL5rGJJcIy+yhDq3HsdbxQPUXlOiFrPaci0Hc7wf0AgZdKL7AvPUl0nFdOf8u1PHQGpvVpGIoRpvXpAbOFGHXB/Qwc9MU6rJaiW9KPOnb24qrsUVegobmV2xZOTPDMm3RPTvf90j5zB5BWYoEZCXVBmXs84X6iuc06Q5Rw1bq1TbjWZ6g==
+ b=XfXLbH73UM5iw24MuFs5WJhzqyyOniHzBZ2L2w87dzkpmj0FBZDjmEhl5nchWR58TbpZ/wCYcG2dLsBuhgaK1uh9rf3Xmi7SvZX6Ku2L38BkzXl9P7GhFqP55E579gG0COVQzVnh/YKwHTmjSVXbkOpVt7zRXKByfZ1tTiEsYUQgkR7Wx0x0qdiSa6zgRyE+iqOruCQPdVgQRZrOg50kouoozx6KzntM7fsr7tIe7EPOBAqKj0Oo1YfAxDCirVfN41OBHS1sG7nXYl3rz/XemsIEsCBJu9WURcuA6nOuuSrGa+Ya8n9cg8NaAFThzwDsxmTal023U50dFPljC/LJyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SIi7ornrEgiMnkgue191i/GyzUPatxKKxd3FKc6WtOo=;
- b=wFsbBb/P0EGug2pHIayA+ThznsdQ+i0cBeHzMSqgdGReQrhzbMJZZlEgdy+nKI3iozVaQ0w9m1woMf03ZDeVrq/lAGoqxcuBFdlN0YaSU/8zOyAR3W7aw27OSY2G+yOx0FUZRbQINhfuQnfm/2cQ7KNfIul0JNQsDcEX+h4D67LRYdoPGX0odewio7Qr4823HZGBwFjevm8jWfGQWXs/JruU9EytI7livNxtVvX2sWPZUnZnqY3GOPQl6JnUjWUbmncmusJGPECfa9OGPDmyonM2VNR4tIwcp272w9c8AKLsSWKNhJhkvaaSRIklv6QWMYAjyTHunkBYdHxVe+q5Ew==
+ bh=dx4JMNrHRevSDrNHMhDtiSFhARq7Y+YYmzlhaKTQ+cs=;
+ b=K4q1Su4MJfVpFqdA5ydapMTEoGVi190yo8tHgcB2Ck0vy2U/JvUnKR/3/uU1CLOibgdCCebS7BympHNpipyqlLdSyz5owjVJlYRpbrg6OwBh+pK5q6SB3Ysg+48NRUKIb7Zm8XPxBg2EO4Q6XrJ4B2O/E8jqe3FmrM2VTSxTX42ozCJiS1APYm/riV5aVASpMwH6YzbELGRWcAn6Kc2zG3edkuxlHCTsiQhPPBFL6FZc7DSKn1GSaQAKU/pjOPayZ7HvMtrlAdY2SyTyN2FWMxFu5ydrXtzk4CcB91o7lT+pFtPsL8f+kzFXkmiiz6Ol91Omcr93hugKt6f9MkTaQg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SIi7ornrEgiMnkgue191i/GyzUPatxKKxd3FKc6WtOo=;
- b=NRiXBvt1284edUJClXHHHwwirSt2C2IEH1MSl8Z1zHecaQfX8V7cfMl5RLY5CzsdBJdo5lVi9Zrq6uhiGLHOsVZXbltYSS6HlVcmSdIJo9f2kdkCSNmGNZiCVThZMeZjYUd38D/B7OefIPJVwBM7JA2xx353trfut23Ip3SWZBQ=
-Received: from MN2PR18CA0016.namprd18.prod.outlook.com (2603:10b6:208:23c::21)
- by SN7PR12MB8820.namprd12.prod.outlook.com (2603:10b6:806:341::5)
+ bh=dx4JMNrHRevSDrNHMhDtiSFhARq7Y+YYmzlhaKTQ+cs=;
+ b=NZiZsUBoVFg/srI2+ieV2R9WreO3NYl1KyK/rVMGN1XMwy35YB0KDgI4n3ZVthxosp5UCkNuMUDWPvASRTtAX8sGNtFfAlrP/aCQ4nIikuTuX69/lc3HCqY+uaaL3NYdkFFFd8h7aoXuw6giMfhyVNGYDuf3CffH6gbv6b3QjfU=
+Received: from BN9PR03CA0456.namprd03.prod.outlook.com (2603:10b6:408:139::11)
+ by PH8PR12MB7373.namprd12.prod.outlook.com (2603:10b6:510:217::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.27; Mon, 11 Nov
- 2024 18:17:19 +0000
-Received: from BN1PEPF00006001.namprd05.prod.outlook.com
- (2603:10b6:208:23c:cafe::14) by MN2PR18CA0016.outlook.office365.com
- (2603:10b6:208:23c::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.28 via Frontend
- Transport; Mon, 11 Nov 2024 18:17:18 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.20; Mon, 11 Nov
+ 2024 18:17:20 +0000
+Received: from BN1PEPF00004682.namprd03.prod.outlook.com
+ (2603:10b6:408:139:cafe::3d) by BN9PR03CA0456.outlook.office365.com
+ (2603:10b6:408:139::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.27 via Frontend
+ Transport; Mon, 11 Nov 2024 18:17:19 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN1PEPF00006001.mail.protection.outlook.com (10.167.243.233) with Microsoft
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN1PEPF00004682.mail.protection.outlook.com (10.167.243.88) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8158.14 via Frontend Transport; Mon, 11 Nov 2024 18:17:18 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.8158.14 via Frontend Transport; Mon, 11 Nov 2024 18:17:19 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 11 Nov
- 2024 12:17:18 -0600
+ 2024 12:17:19 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 11 Nov
+ 2024 12:17:19 -0600
 Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 11 Nov 2024 12:17:17 -0600
+ Transport; Mon, 11 Nov 2024 12:17:18 -0600
 From: Lizhi Hou <lizhi.hou@amd.com>
 To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
  <dri-devel@lists.freedesktop.org>
 CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
  <min.ma@amd.com>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
  <king.tam@amd.com>
-Subject: [PATCH V9 05/10] accel/amdxdna: Add hardware context
-Date: Mon, 11 Nov 2024 10:17:06 -0800
-Message-ID: <20241111181711.662686-6-lizhi.hou@amd.com>
+Subject: [PATCH V9 06/10] accel/amdxdna: Add GEM buffer object management
+Date: Mon, 11 Nov 2024 10:17:07 -0800
+Message-ID: <20241111181711.662686-7-lizhi.hou@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241111181711.662686-1-lizhi.hou@amd.com>
 References: <20241111181711.662686-1-lizhi.hou@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00006001:EE_|SN7PR12MB8820:EE_
-X-MS-Office365-Filtering-Correlation-Id: a09d79ee-18b0-45f9-8f23-08dd027d1408
+X-MS-TrafficTypeDiagnostic: BN1PEPF00004682:EE_|PH8PR12MB7373:EE_
+X-MS-Office365-Filtering-Correlation-Id: 21694586-6515-47d1-8cef-08dd027d14b6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fGU023J8k3oNF6/Zq31gCvCGX5e2SIJeZ7dpi7hHPBoSpWS0+wMAwwxRHi4j?=
- =?us-ascii?Q?ilubA7WUF18flNfHleZOadfskDaCmBLxsvbrzpuBCOnkfijXjk5Lx6rdi9tk?=
- =?us-ascii?Q?q/IpwTwemOJkpF0J9rjzGz9AcEcATIvTG9q4C44HWzV8QI1KBnfczMxK7f1S?=
- =?us-ascii?Q?8k+bMc8CWWxQLPDAt140QJOdN7TAQIp1Tg8itnFb+wNR7zO/vSR72WmYIBqz?=
- =?us-ascii?Q?YpferVA3TqTTGJLJSNi3aZUbQ7RNbVnb2goQeK8rVvcpbbfs5Ou4BDVLc4sP?=
- =?us-ascii?Q?GwOkDD65zslibfWdoT7jzE+0K2HLiGC9T07f4ucwmrUoqs4SVzl48grfZX+y?=
- =?us-ascii?Q?9aOhLQVFW99iukXdknsKIyG6Uo/c13pWOu26xnWx2nEbBwr/29xzd06GTy2y?=
- =?us-ascii?Q?3bnlLLYjMOY1+DcvelGAZ8cOlkp0Z2tyWaXiwwqnx4lbV4NKD8burGBnS5EU?=
- =?us-ascii?Q?YXRompbBj5i/25myvBP/kdJbYwClTvR3A8oddBISqSozZQGWLOtLi/vEUBYW?=
- =?us-ascii?Q?P7AH+Que4pkY3SL/S3EH5li95L8d3dHK79SrJGmAvk1BHqqrEO7I3w30fWIN?=
- =?us-ascii?Q?eKneaDZ5AvKVuu4mzKM/7smJBCtLGv+TVr2UGq1q1Jzi44ZupylcTWw4JKjM?=
- =?us-ascii?Q?R/rX4ZOCgdfYUqswCic98ItE/cTkgpJofHhrFNR9kDeV7dOt29O1ciHgjWyP?=
- =?us-ascii?Q?rr7nZLNE2hqKCDMXnc8Amw4QmEDgboiD7A/qGD02MUBJkXMTOADBysnShXnp?=
- =?us-ascii?Q?z84qQgILSKbFKy/tpM6g7roSNOav1v3CTKm/Hb0nVEVfQ3WYOt3evA2q2wsk?=
- =?us-ascii?Q?zpsxLehg3QxCNj5LxldDyIr8cxiJ+9sXr0ng/i+vgd+XdFBxrVKhA2Hamj/9?=
- =?us-ascii?Q?WOxIQdDqtj+d3v4MuLyNia1xljo8wDyFxZY/UHKB03V5J1EKKcioH9b60WzX?=
- =?us-ascii?Q?2y4pGg1DehrhfEzUUZQLbqcBj5U0aVAj82tZ2kAOsdmBwtP7ymSwpxjp+Zlk?=
- =?us-ascii?Q?C3tryFox82EnJ18zKTg2OaLbpuIi7dmNzVOampgfut5lD1ErOUSDei1XPvSv?=
- =?us-ascii?Q?2Yr8vJU1YXg/FC4xoIsxNNqs+IxkkiEATUPodz/hhNAPIL9hp7LfLamy2EGD?=
- =?us-ascii?Q?p5drHeLioZP+WserV/XY3rhwr0sviiEBHQ2H8vIeSQcFUSKajjqb6wO3rviv?=
- =?us-ascii?Q?+05FNw3c5evCndGBv1v0IKz+gGEV/aGiARIJ1bt9fkMNyTyFR+j/AYK9JMQp?=
- =?us-ascii?Q?lgvXa44DHUhhLzi3yZU41jQdgmuRHKwdlIvKBHdqt3YFX6JtV/MjRPGQ/SUv?=
- =?us-ascii?Q?TBuWwAHUb5EhoJvmwuT29RXl/mZwlRMWMnPqz+bSIayuijYcxTznHXTRCGWm?=
- =?us-ascii?Q?GgTlA/kKXeIHfEOzdVv4trdcIcA59k3377lp01QquBJeO/X5hg=3D=3D?=
+ ARA:13230040|36860700013|376014|82310400026|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ydf98xnO9ogR0Tc91eHzCVoxlR/bKuzuMzb2MwvC7PFV8eAL9y1Bf0YQAni9?=
+ =?us-ascii?Q?EdC94oUqI4OpGFIvmxPdgwghiXUt2DqIpYy2wTyQ7WBTrRST5q1YzRLzYGTL?=
+ =?us-ascii?Q?ikhkEsZbNAuwMwxiW9sTGoqCR0RgyLST9IexskB6nhTXS+G9yFRfE/tOqJqF?=
+ =?us-ascii?Q?t7a2z0A93XNY/SKru28J8aW2J4YOOUSJ82oZ2KJ1bdGIdqNKdB+fCAkHk8bP?=
+ =?us-ascii?Q?Qq7aDUcNTnL6PexLL+szLnYZTV1752HIGYqit0LsVpKNpLn6NMYjod4YOZTk?=
+ =?us-ascii?Q?9DwafcPSLas26ZXSzWEFMNymfYwgTrpPObfIs15DmjeZKxbqhr2YAiOR2nzL?=
+ =?us-ascii?Q?NgBtgSUxoBJc2tSkS+ZqFL1mZjrVWWF4CHUIwRPqu1uQLZd06SEWHGpfLJgR?=
+ =?us-ascii?Q?iUIGFwqmzxMpOzGHu7/KkzaSlFFRX7aHlsXv/CS6ziMrUbukcQEgYEOJLSL9?=
+ =?us-ascii?Q?JcgpCIZ/cybYFhDwaSf/Id85pFokbPJZCtPfc83tzVnUT/ctGvqwPESmMy9x?=
+ =?us-ascii?Q?j6xgelLrUkNiZktRAxeWqmSmQEdnlU3zXv+sYAFlyBJefNNQ10sgWRM1uDGa?=
+ =?us-ascii?Q?qYkPkTcc57Bhx4aPDMpERtn5GTEaVp14vFrAOuSw++ioAmyvUJGQJ8egc1Vv?=
+ =?us-ascii?Q?dpzUSAKLSsY8WJ3+QNW0ZLgsABQlSlhlQ/gpW3zpH6V8bpEVjuNX+PjXJCS+?=
+ =?us-ascii?Q?GqoO8243r8GmA389Dbye7MtUMeiLr6X69k4p8e84+A+GlctH56ABspegjxDv?=
+ =?us-ascii?Q?NXjrvsYcmV+ayje1IUww88fDHZWo+3y1oScizvKFUNUT0NiBc7oIJms3QDiN?=
+ =?us-ascii?Q?WgokGAsvhGUsdQfwnpROghVsrHPryypqL6VDj97BzxbaBOhG+aSwNE46rd/n?=
+ =?us-ascii?Q?mVZRUeh7JFZOdxU6gTlsiBcHPnBn6L0DPY77fzcqWM9ER+U82wtr2mW3frMu?=
+ =?us-ascii?Q?//Q2RzBw/a4knlXXfMvE1rl4LcxbkLWkgF9LWZpwgqGihzxa2t3ZJjkVQb5/?=
+ =?us-ascii?Q?/wOSwetjBNUQrIPVi01g4SuoCzze/0zuVMbKnb9sE5XbPrc07qsJ44GhbkLj?=
+ =?us-ascii?Q?57b3VI7GzBHXg/1xSJ3Y3pEnx9QXCXnlr4/GOiRmy3PpcQBGpQmr8O9lk5rH?=
+ =?us-ascii?Q?vrPrhLl2EjuVWcLK0+rR01/H20lfTkjh10mkPD/jV5XqjmwagVTIZ+/QjQhk?=
+ =?us-ascii?Q?A1lz+MSZDIdQhNSEX/gQ8YAuS3pGKjkHt69IAtX2nT3FkSC+je7PoPS3uzwA?=
+ =?us-ascii?Q?K2eSrzAddggs7oOh5s560WfXfjeGkw25V1ArHk17VpeyD0DW5aNxvZaE3BQA?=
+ =?us-ascii?Q?i6PjTmYkNJWUkPYXdbAHlRob9MFvzIiaHi8sGK83DS41kJxUqwrneLO2yxoc?=
+ =?us-ascii?Q?pfjwfgR2jCNgt2O6KusqoDDVnppReo1/SL0ujhlNeSyLfJ8z1w=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024); DIR:OUT;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2024 18:17:18.6126 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a09d79ee-18b0-45f9-8f23-08dd027d1408
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2024 18:17:19.7372 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21694586-6515-47d1-8cef-08dd027d14b6
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00006001.namprd05.prod.outlook.com
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00004682.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8820
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7373
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,1128 +138,1246 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hardware can be shared among multiple user applications. The
-hardware resources are allocated/freed based on the request from
-user application via driver IOCTLs.
+There different types of BOs are supported:
 
-DRM_IOCTL_AMDXDNA_CREATE_HWCTX
-Allocate tile columns and create a hardware context structure to track the
-usage and status of the resources. A hardware context ID is returned for
-XDNA command execution.
+- shmem
+A user application uses shmem BOs as input/output for its workload running
+on NPU.
 
-DRM_IOCTL_AMDXDNA_DESTROY_HWCTX
-Release hardware context based on its ID. The tile columns belong to
-this hardware context will be reclaimed.
+- device memory heap
+The fixed size buffer dedicated to the device.
 
-DRM_IOCTL_AMDXDNA_CONFIG_HWCTX
-Config hardware context. Bind the hardware context to the required
-resources.
+- device buffer
+The buffer object allocated from device memory heap.
+
+- command buffer
+The buffer object created for delivering commands. The command buffer
+object is small and pinned on creation.
+
+New IOCTLs are added: CREATE_BO, GET_BO_INFO, SYNC_BO. SYNC_BO is used
+to explicitly flush CPU cache for BO memory.
 
 Co-developed-by: Min Ma <min.ma@amd.com>
 Signed-off-by: Min Ma <min.ma@amd.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 ---
- drivers/accel/amdxdna/Makefile          |   2 +
- drivers/accel/amdxdna/aie2_ctx.c        | 186 ++++++++++++++++++++
- drivers/accel/amdxdna/aie2_message.c    |  90 ++++++++++
- drivers/accel/amdxdna/aie2_pci.c        |  43 +++++
- drivers/accel/amdxdna/aie2_pci.h        |  13 ++
- drivers/accel/amdxdna/amdxdna_ctx.c     | 219 ++++++++++++++++++++++++
- drivers/accel/amdxdna/amdxdna_ctx.h     |  39 +++++
- drivers/accel/amdxdna/amdxdna_pci_drv.c | 125 +++++++++++++-
- drivers/accel/amdxdna/amdxdna_pci_drv.h |  20 +++
- include/uapi/drm/amdxdna_accel.h        | 131 ++++++++++++++
- 10 files changed, 867 insertions(+), 1 deletion(-)
- create mode 100644 drivers/accel/amdxdna/aie2_ctx.c
- create mode 100644 drivers/accel/amdxdna/amdxdna_ctx.c
- create mode 100644 drivers/accel/amdxdna/amdxdna_ctx.h
+ drivers/accel/amdxdna/Makefile          |   1 +
+ drivers/accel/amdxdna/aie2_ctx.c        |  85 +++-
+ drivers/accel/amdxdna/aie2_message.c    |  80 +++
+ drivers/accel/amdxdna/aie2_pci.h        |   3 +
+ drivers/accel/amdxdna/amdxdna_ctx.h     |  10 +
+ drivers/accel/amdxdna/amdxdna_gem.c     | 621 ++++++++++++++++++++++++
+ drivers/accel/amdxdna/amdxdna_gem.h     |  65 +++
+ drivers/accel/amdxdna/amdxdna_pci_drv.c |  12 +
+ drivers/accel/amdxdna/amdxdna_pci_drv.h |   6 +
+ include/uapi/drm/amdxdna_accel.h        |  77 +++
+ 10 files changed, 959 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/accel/amdxdna/amdxdna_gem.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_gem.h
 
 diff --git a/drivers/accel/amdxdna/Makefile b/drivers/accel/amdxdna/Makefile
-index 39d3404fbc8f..c86c90dfd303 100644
+index c86c90dfd303..a688c378761f 100644
 --- a/drivers/accel/amdxdna/Makefile
 +++ b/drivers/accel/amdxdna/Makefile
-@@ -1,11 +1,13 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
- amdxdna-y := \
-+	aie2_ctx.o \
- 	aie2_message.o \
- 	aie2_pci.o \
- 	aie2_psp.o \
+@@ -8,6 +8,7 @@ amdxdna-y := \
  	aie2_smu.o \
  	aie2_solver.o \
-+	amdxdna_ctx.o \
+ 	amdxdna_ctx.o \
++	amdxdna_gem.o \
  	amdxdna_mailbox.o \
  	amdxdna_mailbox_helper.o \
  	amdxdna_pci_drv.o \
 diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
-new file mode 100644
-index 000000000000..022b2b0b015d
---- /dev/null
+index 022b2b0b015d..ae8a91dad042 100644
+--- a/drivers/accel/amdxdna/aie2_ctx.c
 +++ b/drivers/accel/amdxdna/aie2_ctx.c
-@@ -0,0 +1,186 @@
+@@ -5,12 +5,15 @@
+ 
+ #include <drm/amdxdna_accel.h>
+ #include <drm/drm_device.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_gem_shmem_helper.h>
+ #include <drm/drm_print.h>
+ #include <linux/types.h>
+ 
+ #include "aie2_pci.h"
+ #include "aie2_solver.h"
+ #include "amdxdna_ctx.h"
++#include "amdxdna_gem.h"
+ #include "amdxdna_mailbox.h"
+ #include "amdxdna_pci_drv.h"
+ 
+@@ -128,6 +131,7 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+ 	struct amdxdna_client *client = hwctx->client;
+ 	struct amdxdna_dev *xdna = client->xdna;
+ 	struct amdxdna_hwctx_priv *priv;
++	struct amdxdna_gem_obj *heap;
+ 	int ret;
+ 
+ 	priv = kzalloc(sizeof(*hwctx->priv), GFP_KERNEL);
+@@ -135,10 +139,28 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+ 		return -ENOMEM;
+ 	hwctx->priv = priv;
+ 
++	mutex_lock(&client->mm_lock);
++	heap = client->dev_heap;
++	if (!heap) {
++		XDNA_ERR(xdna, "The client dev heap object not exist");
++		mutex_unlock(&client->mm_lock);
++		ret = -ENOENT;
++		goto free_priv;
++	}
++	drm_gem_object_get(to_gobj(heap));
++	mutex_unlock(&client->mm_lock);
++	priv->heap = heap;
++
++	ret = amdxdna_gem_pin(heap);
++	if (ret) {
++		XDNA_ERR(xdna, "Dev heap pin failed, ret %d", ret);
++		goto put_heap;
++	}
++
+ 	ret = aie2_hwctx_col_list(hwctx);
+ 	if (ret) {
+ 		XDNA_ERR(xdna, "Create col list failed, ret %d", ret);
+-		goto free_priv;
++		goto unpin;
+ 	}
+ 
+ 	ret = aie2_alloc_resource(hwctx);
+@@ -147,14 +169,26 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+ 		goto free_col_list;
+ 	}
+ 
++	ret = aie2_map_host_buf(xdna->dev_handle, hwctx->fw_ctx_id,
++				heap->mem.userptr, heap->mem.size);
++	if (ret) {
++		XDNA_ERR(xdna, "Map host buffer failed, ret %d", ret);
++		goto release_resource;
++	}
+ 	hwctx->status = HWCTX_STAT_INIT;
+ 
+ 	XDNA_DBG(xdna, "hwctx %s init completed", hwctx->name);
+ 
+ 	return 0;
+ 
++release_resource:
++	aie2_release_resource(hwctx);
+ free_col_list:
+ 	kfree(hwctx->col_list);
++unpin:
++	amdxdna_gem_unpin(heap);
++put_heap:
++	drm_gem_object_put(to_gobj(heap));
+ free_priv:
+ 	kfree(priv);
+ 	return ret;
+@@ -164,11 +198,59 @@ void aie2_hwctx_fini(struct amdxdna_hwctx *hwctx)
+ {
+ 	aie2_release_resource(hwctx);
+ 
++	amdxdna_gem_unpin(hwctx->priv->heap);
++	drm_gem_object_put(to_gobj(hwctx->priv->heap));
++
+ 	kfree(hwctx->col_list);
+ 	kfree(hwctx->priv);
+ 	kfree(hwctx->cus);
+ }
+ 
++static int aie2_hwctx_cu_config(struct amdxdna_hwctx *hwctx, void *buf, u32 size)
++{
++	struct amdxdna_hwctx_param_config_cu *config = buf;
++	struct amdxdna_dev *xdna = hwctx->client->xdna;
++	u32 total_size;
++	int ret;
++
++	XDNA_DBG(xdna, "Config %d CU to %s", config->num_cus, hwctx->name);
++	if (hwctx->status != HWCTX_STAT_INIT) {
++		XDNA_ERR(xdna, "Not support re-config CU");
++		return -EINVAL;
++	}
++
++	if (!config->num_cus) {
++		XDNA_ERR(xdna, "Number of CU is zero");
++		return -EINVAL;
++	}
++
++	total_size = struct_size(config, cu_configs, config->num_cus);
++	if (total_size > size) {
++		XDNA_ERR(xdna, "CU config larger than size");
++		return -EINVAL;
++	}
++
++	hwctx->cus = kmemdup(config, total_size, GFP_KERNEL);
++	if (!hwctx->cus)
++		return -ENOMEM;
++
++	ret = aie2_config_cu(hwctx);
++	if (ret) {
++		XDNA_ERR(xdna, "Config CU to firmware failed, ret %d", ret);
++		goto free_cus;
++	}
++
++	wmb(); /* To avoid locking in command submit when check status */
++	hwctx->status = HWCTX_STAT_READY;
++
++	return 0;
++
++free_cus:
++	kfree(hwctx->cus);
++	hwctx->cus = NULL;
++	return ret;
++}
++
+ int aie2_hwctx_config(struct amdxdna_hwctx *hwctx, u32 type, u64 value, void *buf, u32 size)
+ {
+ 	struct amdxdna_dev *xdna = hwctx->client->xdna;
+@@ -176,6 +258,7 @@ int aie2_hwctx_config(struct amdxdna_hwctx *hwctx, u32 type, u64 value, void *bu
+ 	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+ 	switch (type) {
+ 	case DRM_AMDXDNA_HWCTX_CONFIG_CU:
++		return aie2_hwctx_cu_config(hwctx, buf, size);
+ 	case DRM_AMDXDNA_HWCTX_ASSIGN_DBG_BUF:
+ 	case DRM_AMDXDNA_HWCTX_REMOVE_DBG_BUF:
+ 		return -EOPNOTSUPP;
+diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
+index 4b8a71bf4fae..40d9e4261e8b 100644
+--- a/drivers/accel/amdxdna/aie2_message.c
++++ b/drivers/accel/amdxdna/aie2_message.c
+@@ -5,7 +5,10 @@
+ 
+ #include <drm/amdxdna_accel.h>
+ #include <drm/drm_device.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_gem_shmem_helper.h>
+ #include <drm/drm_print.h>
++#include <linux/bitfield.h>
+ #include <linux/errno.h>
+ #include <linux/pci.h>
+ #include <linux/types.h>
+@@ -13,6 +16,7 @@
+ #include "aie2_msg_priv.h"
+ #include "aie2_pci.h"
+ #include "amdxdna_ctx.h"
++#include "amdxdna_gem.h"
+ #include "amdxdna_mailbox.h"
+ #include "amdxdna_mailbox_helper.h"
+ #include "amdxdna_pci_drv.h"
+@@ -282,3 +286,79 @@ int aie2_destroy_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwc
+ 
+ 	return ret;
+ }
++
++int aie2_map_host_buf(struct amdxdna_dev_hdl *ndev, u32 context_id, u64 addr, u64 size)
++{
++	DECLARE_AIE2_MSG(map_host_buffer, MSG_OP_MAP_HOST_BUFFER);
++	struct amdxdna_dev *xdna = ndev->xdna;
++	int ret;
++
++	req.context_id = context_id;
++	req.buf_addr = addr;
++	req.buf_size = size;
++	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
++	if (ret)
++		return ret;
++
++	XDNA_DBG(xdna, "fw ctx %d map host buf addr 0x%llx size 0x%llx",
++		 context_id, addr, size);
++
++	return 0;
++}
++
++int aie2_config_cu(struct amdxdna_hwctx *hwctx)
++{
++	struct mailbox_channel *chann = hwctx->priv->mbox_chann;
++	struct amdxdna_dev *xdna = hwctx->client->xdna;
++	u32 shift = xdna->dev_info->dev_mem_buf_shift;
++	DECLARE_AIE2_MSG(config_cu, MSG_OP_CONFIG_CU);
++	struct drm_gem_object *gobj;
++	struct amdxdna_gem_obj *abo;
++	int ret, i;
++
++	if (!chann)
++		return -ENODEV;
++
++	if (hwctx->cus->num_cus > MAX_NUM_CUS) {
++		XDNA_DBG(xdna, "Exceed maximum CU %d", MAX_NUM_CUS);
++		return -EINVAL;
++	}
++
++	for (i = 0; i < hwctx->cus->num_cus; i++) {
++		struct amdxdna_cu_config *cu = &hwctx->cus->cu_configs[i];
++
++		gobj = drm_gem_object_lookup(hwctx->client->filp, cu->cu_bo);
++		if (!gobj) {
++			XDNA_ERR(xdna, "Lookup GEM object failed");
++			return -EINVAL;
++		}
++		abo = to_xdna_obj(gobj);
++
++		if (abo->type != AMDXDNA_BO_DEV) {
++			drm_gem_object_put(gobj);
++			XDNA_ERR(xdna, "Invalid BO type");
++			return -EINVAL;
++		}
++
++		req.cfgs[i] = FIELD_PREP(AIE2_MSG_CFG_CU_PDI_ADDR,
++					 abo->mem.dev_addr >> shift);
++		req.cfgs[i] |= FIELD_PREP(AIE2_MSG_CFG_CU_FUNC, cu->cu_func);
++		XDNA_DBG(xdna, "CU %d full addr 0x%llx, cfg 0x%x", i,
++			 abo->mem.dev_addr, req.cfgs[i]);
++		drm_gem_object_put(gobj);
++	}
++	req.num_cus = hwctx->cus->num_cus;
++
++	ret = xdna_send_msg_wait(xdna, chann, &msg);
++	if (ret == -ETIME)
++		aie2_destroy_context(xdna->dev_handle, hwctx);
++
++	if (resp.status == AIE2_STATUS_SUCCESS) {
++		XDNA_DBG(xdna, "Configure %d CUs, ret %d", req.num_cus, ret);
++		return 0;
++	}
++
++	XDNA_ERR(xdna, "Command opcode 0x%x failed, status 0x%x ret %d",
++		 msg.opcode, resp.status, ret);
++	return ret;
++}
+diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
+index b789286bc9d4..3ac936e2c9d1 100644
+--- a/drivers/accel/amdxdna/aie2_pci.h
++++ b/drivers/accel/amdxdna/aie2_pci.h
+@@ -119,6 +119,7 @@ struct rt_config {
+ };
+ 
+ struct amdxdna_hwctx_priv {
++	struct amdxdna_gem_obj		*heap;
+ 	void				*mbox_chann;
+ };
+ 
+@@ -196,6 +197,8 @@ int aie2_query_firmware_version(struct amdxdna_dev_hdl *ndev,
+ 				struct amdxdna_fw_ver *fw_ver);
+ int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx);
+ int aie2_destroy_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx);
++int aie2_map_host_buf(struct amdxdna_dev_hdl *ndev, u32 context_id, u64 addr, u64 size);
++int aie2_config_cu(struct amdxdna_hwctx *hwctx);
+ 
+ /* aie2_hwctx.c */
+ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx);
+diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h b/drivers/accel/amdxdna/amdxdna_ctx.h
+index 00b96cf2e9a7..b409d0731ab8 100644
+--- a/drivers/accel/amdxdna/amdxdna_ctx.h
++++ b/drivers/accel/amdxdna/amdxdna_ctx.h
+@@ -6,6 +6,16 @@
+ #ifndef _AMDXDNA_CTX_H_
+ #define _AMDXDNA_CTX_H_
+ 
++/* Exec buffer command header format */
++#define AMDXDNA_CMD_STATE		GENMASK(3, 0)
++#define AMDXDNA_CMD_EXTRA_CU_MASK	GENMASK(11, 10)
++#define AMDXDNA_CMD_COUNT		GENMASK(22, 12)
++#define AMDXDNA_CMD_OPCODE		GENMASK(27, 23)
++struct amdxdna_cmd {
++	u32 header;
++	u32 data[];
++};
++
+ struct amdxdna_hwctx {
+ 	struct amdxdna_client		*client;
+ 	struct amdxdna_hwctx_priv	*priv;
+diff --git a/drivers/accel/amdxdna/amdxdna_gem.c b/drivers/accel/amdxdna/amdxdna_gem.c
+new file mode 100644
+index 000000000000..f2ba86ae9e1a
+--- /dev/null
++++ b/drivers/accel/amdxdna/amdxdna_gem.c
+@@ -0,0 +1,621 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (C) 2024, Advanced Micro Devices, Inc.
 + */
 +
 +#include <drm/amdxdna_accel.h>
++#include <drm/drm_cache.h>
 +#include <drm/drm_device.h>
-+#include <drm/drm_print.h>
-+#include <linux/types.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_gem_shmem_helper.h>
++#include <linux/iosys-map.h>
++#include <linux/vmalloc.h>
 +
-+#include "aie2_pci.h"
-+#include "aie2_solver.h"
 +#include "amdxdna_ctx.h"
-+#include "amdxdna_mailbox.h"
++#include "amdxdna_gem.h"
 +#include "amdxdna_pci_drv.h"
 +
-+static int aie2_hwctx_col_list(struct amdxdna_hwctx *hwctx)
++#define XDNA_MAX_CMD_BO_SIZE	SZ_32K
++
++static int
++amdxdna_gem_insert_node_locked(struct amdxdna_gem_obj *abo, bool use_vmap)
 +{
-+	struct amdxdna_dev *xdna = hwctx->client->xdna;
-+	struct amdxdna_dev_hdl *ndev;
-+	int start, end, first, last;
-+	u32 width = 1, entries = 0;
-+	int i;
-+
-+	if (!hwctx->num_tiles) {
-+		XDNA_ERR(xdna, "Number of tiles is zero");
-+		return -EINVAL;
-+	}
-+
-+	ndev = xdna->dev_handle;
-+	if (unlikely(!ndev->metadata.core.row_count)) {
-+		XDNA_WARN(xdna, "Core tile row count is zero");
-+		return -EINVAL;
-+	}
-+
-+	hwctx->num_col = hwctx->num_tiles / ndev->metadata.core.row_count;
-+	if (!hwctx->num_col || hwctx->num_col > ndev->total_col) {
-+		XDNA_ERR(xdna, "Invalid num_col %d", hwctx->num_col);
-+		return -EINVAL;
-+	}
-+
-+	if (ndev->priv->col_align == COL_ALIGN_NATURE)
-+		width = hwctx->num_col;
-+
-+	/*
-+	 * In range [start, end], find out columns that is multiple of width.
-+	 *	'first' is the first column,
-+	 *	'last' is the last column,
-+	 *	'entries' is the total number of columns.
-+	 */
-+	start =  xdna->dev_info->first_col;
-+	end =  ndev->total_col - hwctx->num_col;
-+	if (start > 0 && end == 0) {
-+		XDNA_DBG(xdna, "Force start from col 0");
-+		start = 0;
-+	}
-+	first = start + (width - start % width) % width;
-+	last = end - end % width;
-+	if (last >= first)
-+		entries = (last - first) / width + 1;
-+	XDNA_DBG(xdna, "start %d end %d first %d last %d",
-+		 start, end, first, last);
-+
-+	if (unlikely(!entries)) {
-+		XDNA_ERR(xdna, "Start %d end %d width %d",
-+			 start, end, width);
-+		return -EINVAL;
-+	}
-+
-+	hwctx->col_list = kmalloc_array(entries, sizeof(*hwctx->col_list), GFP_KERNEL);
-+	if (!hwctx->col_list)
-+		return -ENOMEM;
-+
-+	hwctx->col_list_len = entries;
-+	hwctx->col_list[0] = first;
-+	for (i = 1; i < entries; i++)
-+		hwctx->col_list[i] = hwctx->col_list[i - 1] + width;
-+
-+	print_hex_dump_debug("col_list: ", DUMP_PREFIX_OFFSET, 16, 4, hwctx->col_list,
-+			     entries * sizeof(*hwctx->col_list), false);
-+	return 0;
-+}
-+
-+static int aie2_alloc_resource(struct amdxdna_hwctx *hwctx)
-+{
-+	struct amdxdna_dev *xdna = hwctx->client->xdna;
-+	struct alloc_requests *xrs_req;
-+	int ret;
-+
-+	xrs_req = kzalloc(sizeof(*xrs_req), GFP_KERNEL);
-+	if (!xrs_req)
-+		return -ENOMEM;
-+
-+	xrs_req->cdo.start_cols = hwctx->col_list;
-+	xrs_req->cdo.cols_len = hwctx->col_list_len;
-+	xrs_req->cdo.ncols = hwctx->num_col;
-+	xrs_req->cdo.qos_cap.opc = hwctx->max_opc;
-+
-+	xrs_req->rqos.gops = hwctx->qos.gops;
-+	xrs_req->rqos.fps = hwctx->qos.fps;
-+	xrs_req->rqos.dma_bw = hwctx->qos.dma_bandwidth;
-+	xrs_req->rqos.latency = hwctx->qos.latency;
-+	xrs_req->rqos.exec_time = hwctx->qos.frame_exec_time;
-+	xrs_req->rqos.priority = hwctx->qos.priority;
-+
-+	xrs_req->rid = (uintptr_t)hwctx;
-+
-+	ret = xrs_allocate_resource(xdna->xrs_hdl, xrs_req, hwctx);
-+	if (ret)
-+		XDNA_ERR(xdna, "Allocate AIE resource failed, ret %d", ret);
-+
-+	kfree(xrs_req);
-+	return ret;
-+}
-+
-+static void aie2_release_resource(struct amdxdna_hwctx *hwctx)
-+{
-+	struct amdxdna_dev *xdna = hwctx->client->xdna;
-+	int ret;
-+
-+	ret = xrs_release_resource(xdna->xrs_hdl, (uintptr_t)hwctx);
-+	if (ret)
-+		XDNA_ERR(xdna, "Release AIE resource failed, ret %d", ret);
-+}
-+
-+int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
-+{
-+	struct amdxdna_client *client = hwctx->client;
++	struct amdxdna_client *client = abo->client;
 +	struct amdxdna_dev *xdna = client->xdna;
-+	struct amdxdna_hwctx_priv *priv;
++	struct amdxdna_mem *mem = &abo->mem;
++	u64 offset;
++	u32 align;
 +	int ret;
 +
-+	priv = kzalloc(sizeof(*hwctx->priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+	hwctx->priv = priv;
-+
-+	ret = aie2_hwctx_col_list(hwctx);
++	align = 1 << max(PAGE_SHIFT, xdna->dev_info->dev_mem_buf_shift);
++	ret = drm_mm_insert_node_generic(&abo->dev_heap->mm, &abo->mm_node,
++					 mem->size, align,
++					 0, DRM_MM_INSERT_BEST);
 +	if (ret) {
-+		XDNA_ERR(xdna, "Create col list failed, ret %d", ret);
-+		goto free_priv;
++		XDNA_ERR(xdna, "Failed to alloc dev bo memory, ret %d", ret);
++		return ret;
 +	}
 +
-+	ret = aie2_alloc_resource(hwctx);
-+	if (ret) {
-+		XDNA_ERR(xdna, "Alloc hw resource failed, ret %d", ret);
-+		goto free_col_list;
++	mem->dev_addr = abo->mm_node.start;
++	offset = mem->dev_addr - abo->dev_heap->mem.dev_addr;
++	mem->userptr = abo->dev_heap->mem.userptr + offset;
++	mem->pages = &abo->dev_heap->base.pages[offset >> PAGE_SHIFT];
++	mem->nr_pages = mem->size >> PAGE_SHIFT;
++
++	if (use_vmap) {
++		mem->kva = vmap(mem->pages, mem->nr_pages, VM_MAP, PAGE_KERNEL);
++		if (!mem->kva) {
++			XDNA_ERR(xdna, "Failed to vmap");
++			drm_mm_remove_node(&abo->mm_node);
++			return -EFAULT;
++		}
 +	}
-+
-+	hwctx->status = HWCTX_STAT_INIT;
-+
-+	XDNA_DBG(xdna, "hwctx %s init completed", hwctx->name);
 +
 +	return 0;
++}
 +
-+free_col_list:
-+	kfree(hwctx->col_list);
-+free_priv:
-+	kfree(priv);
++static void amdxdna_gem_obj_free(struct drm_gem_object *gobj)
++{
++	struct amdxdna_dev *xdna = to_xdna_dev(gobj->dev);
++	struct amdxdna_gem_obj *abo = to_xdna_obj(gobj);
++	struct iosys_map map = IOSYS_MAP_INIT_VADDR(abo->mem.kva);
++
++	XDNA_DBG(xdna, "BO type %d xdna_addr 0x%llx", abo->type, abo->mem.dev_addr);
++	if (abo->pinned)
++		amdxdna_gem_unpin(abo);
++
++	if (abo->type == AMDXDNA_BO_DEV) {
++		mutex_lock(&abo->client->mm_lock);
++		drm_mm_remove_node(&abo->mm_node);
++		mutex_unlock(&abo->client->mm_lock);
++
++		vunmap(abo->mem.kva);
++		drm_gem_object_put(to_gobj(abo->dev_heap));
++		drm_gem_object_release(gobj);
++		mutex_destroy(&abo->lock);
++		kfree(abo);
++		return;
++	}
++
++	if (abo->type == AMDXDNA_BO_DEV_HEAP)
++		drm_mm_takedown(&abo->mm);
++
++	drm_gem_vunmap_unlocked(gobj, &map);
++	mutex_destroy(&abo->lock);
++	drm_gem_shmem_free(&abo->base);
++}
++
++static const struct drm_gem_object_funcs amdxdna_gem_dev_obj_funcs = {
++	.free = amdxdna_gem_obj_free,
++};
++
++static bool amdxdna_hmm_invalidate(struct mmu_interval_notifier *mni,
++				   const struct mmu_notifier_range *range,
++				   unsigned long cur_seq)
++{
++	struct amdxdna_gem_obj *abo = container_of(mni, struct amdxdna_gem_obj,
++						   mem.notifier);
++	struct amdxdna_dev *xdna = to_xdna_dev(to_gobj(abo)->dev);
++
++	XDNA_DBG(xdna, "Invalid range 0x%llx, 0x%lx, type %d",
++		 abo->mem.userptr, abo->mem.size, abo->type);
++
++	if (!mmu_notifier_range_blockable(range))
++		return false;
++
++	xdna->dev_info->ops->hmm_invalidate(abo, cur_seq);
++
++	return true;
++}
++
++static const struct mmu_interval_notifier_ops amdxdna_hmm_ops = {
++	.invalidate = amdxdna_hmm_invalidate,
++};
++
++static void amdxdna_hmm_unregister(struct amdxdna_gem_obj *abo)
++{
++	struct amdxdna_dev *xdna = to_xdna_dev(to_gobj(abo)->dev);
++
++	if (!xdna->dev_info->ops->hmm_invalidate)
++		return;
++
++	mmu_interval_notifier_remove(&abo->mem.notifier);
++	kvfree(abo->mem.pfns);
++	abo->mem.pfns = NULL;
++}
++
++static int amdxdna_hmm_register(struct amdxdna_gem_obj *abo, unsigned long addr,
++				size_t len)
++{
++	struct amdxdna_dev *xdna = to_xdna_dev(to_gobj(abo)->dev);
++	u32 nr_pages;
++	int ret;
++
++	if (!xdna->dev_info->ops->hmm_invalidate)
++		return 0;
++
++	if (abo->mem.pfns)
++		return -EEXIST;
++
++	nr_pages = (PAGE_ALIGN(addr + len) - (addr & PAGE_MASK)) >> PAGE_SHIFT;
++	abo->mem.pfns = kvcalloc(nr_pages, sizeof(*abo->mem.pfns),
++				 GFP_KERNEL);
++	if (!abo->mem.pfns)
++		return -ENOMEM;
++
++	ret = mmu_interval_notifier_insert_locked(&abo->mem.notifier,
++						  current->mm,
++						  addr,
++						  len,
++						  &amdxdna_hmm_ops);
++	if (ret) {
++		XDNA_ERR(xdna, "Insert mmu notifier failed, ret %d", ret);
++		kvfree(abo->mem.pfns);
++	}
++	abo->mem.userptr = addr;
++
 +	return ret;
 +}
 +
-+void aie2_hwctx_fini(struct amdxdna_hwctx *hwctx)
++static int amdxdna_gem_obj_mmap(struct drm_gem_object *gobj,
++				struct vm_area_struct *vma)
 +{
-+	aie2_release_resource(hwctx);
-+
-+	kfree(hwctx->col_list);
-+	kfree(hwctx->priv);
-+	kfree(hwctx->cus);
-+}
-+
-+int aie2_hwctx_config(struct amdxdna_hwctx *hwctx, u32 type, u64 value, void *buf, u32 size)
-+{
-+	struct amdxdna_dev *xdna = hwctx->client->xdna;
-+
-+	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
-+	switch (type) {
-+	case DRM_AMDXDNA_HWCTX_CONFIG_CU:
-+	case DRM_AMDXDNA_HWCTX_ASSIGN_DBG_BUF:
-+	case DRM_AMDXDNA_HWCTX_REMOVE_DBG_BUF:
-+		return -EOPNOTSUPP;
-+	default:
-+		XDNA_DBG(xdna, "Not supported type %d", type);
-+		return -EOPNOTSUPP;
-+	}
-+}
-diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-index cbf8ee54c6c2..4b8a71bf4fae 100644
---- a/drivers/accel/amdxdna/aie2_message.c
-+++ b/drivers/accel/amdxdna/aie2_message.c
-@@ -3,13 +3,16 @@
-  * Copyright (C) 2023-2024, Advanced Micro Devices, Inc.
-  */
- 
-+#include <drm/amdxdna_accel.h>
- #include <drm/drm_device.h>
- #include <drm/drm_print.h>
- #include <linux/errno.h>
-+#include <linux/pci.h>
- #include <linux/types.h>
- 
- #include "aie2_msg_priv.h"
- #include "aie2_pci.h"
-+#include "amdxdna_ctx.h"
- #include "amdxdna_mailbox.h"
- #include "amdxdna_mailbox_helper.h"
- #include "amdxdna_pci_drv.h"
-@@ -192,3 +195,90 @@ int aie2_query_firmware_version(struct amdxdna_dev_hdl *ndev,
- 
- 	return 0;
- }
-+
-+int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx)
-+{
-+	DECLARE_AIE2_MSG(create_ctx, MSG_OP_CREATE_CONTEXT);
-+	struct amdxdna_dev *xdna = ndev->xdna;
-+	struct xdna_mailbox_chann_res x2i;
-+	struct xdna_mailbox_chann_res i2x;
-+	struct cq_pair *cq_pair;
-+	u32 intr_reg;
++	struct amdxdna_gem_obj *abo = to_xdna_obj(gobj);
++	unsigned long num_pages;
 +	int ret;
 +
-+	req.aie_type = 1;
-+	req.start_col = hwctx->start_col;
-+	req.num_col = hwctx->num_col;
-+	req.num_cq_pairs_requested = 1;
-+	req.pasid = hwctx->client->pasid;
-+	req.context_priority = 2;
-+
-+	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
++	ret = amdxdna_hmm_register(abo, vma->vm_start, gobj->size);
 +	if (ret)
 +		return ret;
 +
-+	hwctx->fw_ctx_id = resp.context_id;
-+	WARN_ONCE(hwctx->fw_ctx_id == -1, "Unexpected context id");
++	ret = drm_gem_shmem_mmap(&abo->base, vma);
++	if (ret)
++		goto hmm_unreg;
 +
-+	cq_pair = &resp.cq_pair[0];
-+	x2i.mb_head_ptr_reg = AIE2_MBOX_OFF(ndev, cq_pair->x2i_q.head_addr);
-+	x2i.mb_tail_ptr_reg = AIE2_MBOX_OFF(ndev, cq_pair->x2i_q.tail_addr);
-+	x2i.rb_start_addr   = AIE2_SRAM_OFF(ndev, cq_pair->x2i_q.buf_addr);
-+	x2i.rb_size	    = cq_pair->x2i_q.buf_size;
-+
-+	i2x.mb_head_ptr_reg = AIE2_MBOX_OFF(ndev, cq_pair->i2x_q.head_addr);
-+	i2x.mb_tail_ptr_reg = AIE2_MBOX_OFF(ndev, cq_pair->i2x_q.tail_addr);
-+	i2x.rb_start_addr   = AIE2_SRAM_OFF(ndev, cq_pair->i2x_q.buf_addr);
-+	i2x.rb_size	    = cq_pair->i2x_q.buf_size;
-+
-+	ret = pci_irq_vector(to_pci_dev(xdna->ddev.dev), resp.msix_id);
-+	if (ret == -EINVAL) {
-+		XDNA_ERR(xdna, "not able to create channel");
-+		goto out_destroy_context;
-+	}
-+
-+	intr_reg = i2x.mb_head_ptr_reg + 4;
-+	hwctx->priv->mbox_chann = xdna_mailbox_create_channel(ndev->mbox, &x2i, &i2x,
-+							      intr_reg, ret);
-+	if (!hwctx->priv->mbox_chann) {
-+		XDNA_ERR(xdna, "not able to create channel");
-+		ret = -EINVAL;
-+		goto out_destroy_context;
-+	}
-+
-+	XDNA_DBG(xdna, "%s mailbox channel irq: %d, msix_id: %d",
-+		 hwctx->name, ret, resp.msix_id);
-+	XDNA_DBG(xdna, "%s created fw ctx %d pasid %d", hwctx->name,
-+		 hwctx->fw_ctx_id, hwctx->client->pasid);
++	num_pages = gobj->size >> PAGE_SHIFT;
++	/* Try to insert the pages */
++	vm_flags_mod(vma, VM_MIXEDMAP, VM_PFNMAP);
++	ret = vm_insert_pages(vma, vma->vm_start, abo->base.pages, &num_pages);
++	if (ret)
++		XDNA_ERR(abo->client->xdna, "Failed insert pages, ret %d", ret);
 +
 +	return 0;
 +
-+out_destroy_context:
-+	aie2_destroy_context(ndev, hwctx);
++hmm_unreg:
++	amdxdna_hmm_unregister(abo);
 +	return ret;
 +}
 +
-+int aie2_destroy_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx)
++static vm_fault_t amdxdna_gem_vm_fault(struct vm_fault *vmf)
 +{
-+	DECLARE_AIE2_MSG(destroy_ctx, MSG_OP_DESTROY_CONTEXT);
-+	struct amdxdna_dev *xdna = ndev->xdna;
-+	int ret;
-+
-+	if (hwctx->fw_ctx_id == -1)
-+		return 0;
-+
-+	xdna_mailbox_stop_channel(hwctx->priv->mbox_chann);
-+
-+	req.context_id = hwctx->fw_ctx_id;
-+	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
-+	if (ret)
-+		XDNA_WARN(xdna, "%s destroy context failed, ret %d", hwctx->name, ret);
-+
-+	xdna_mailbox_destroy_channel(hwctx->priv->mbox_chann);
-+	XDNA_DBG(xdna, "%s destroyed fw ctx %d", hwctx->name,
-+		 hwctx->fw_ctx_id);
-+	hwctx->priv->mbox_chann = NULL;
-+	hwctx->fw_ctx_id = -1;
-+
-+	return ret;
++	return drm_gem_shmem_vm_ops.fault(vmf);
 +}
-diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-index ce0822238b11..6181854c799c 100644
---- a/drivers/accel/amdxdna/aie2_pci.c
-+++ b/drivers/accel/amdxdna/aie2_pci.c
-@@ -3,6 +3,7 @@
-  * Copyright (C) 2023-2024, Advanced Micro Devices, Inc.
-  */
- 
-+#include <drm/amdxdna_accel.h>
- #include <drm/drm_device.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_print.h>
-@@ -15,6 +16,7 @@
- #include "aie2_msg_priv.h"
- #include "aie2_pci.h"
- #include "aie2_solver.h"
-+#include "amdxdna_ctx.h"
- #include "amdxdna_mailbox.h"
- #include "amdxdna_pci_drv.h"
- 
-@@ -210,6 +212,43 @@ static void aie2_mgmt_fw_fini(struct amdxdna_dev_hdl *ndev)
- 	XDNA_DBG(ndev->xdna, "Firmware suspended");
- }
- 
-+static int aie2_xrs_load(void *cb_arg, struct xrs_action_load *action)
++
++static void amdxdna_gem_vm_open(struct vm_area_struct *vma)
 +{
-+	struct amdxdna_hwctx *hwctx = cb_arg;
-+	struct amdxdna_dev *xdna;
-+	int ret;
-+
-+	xdna = hwctx->client->xdna;
-+
-+	hwctx->start_col = action->part.start_col;
-+	hwctx->num_col = action->part.ncols;
-+	ret = aie2_create_context(xdna->dev_handle, hwctx);
-+	if (ret)
-+		XDNA_ERR(xdna, "create context failed, ret %d", ret);
-+
-+	return ret;
++	drm_gem_shmem_vm_ops.open(vma);
 +}
 +
-+static int aie2_xrs_unload(void *cb_arg)
++static void amdxdna_gem_vm_close(struct vm_area_struct *vma)
 +{
-+	struct amdxdna_hwctx *hwctx = cb_arg;
-+	struct amdxdna_dev *xdna;
-+	int ret;
++	struct drm_gem_object *gobj = vma->vm_private_data;
 +
-+	xdna = hwctx->client->xdna;
-+
-+	ret = aie2_destroy_context(xdna->dev_handle, hwctx);
-+	if (ret)
-+		XDNA_ERR(xdna, "destroy context failed, ret %d", ret);
-+
-+	return ret;
++	amdxdna_hmm_unregister(to_xdna_obj(gobj));
++	drm_gem_shmem_vm_ops.close(vma);
 +}
 +
-+static struct xrs_action_ops aie2_xrs_actions = {
-+	.load = aie2_xrs_load,
-+	.unload = aie2_xrs_unload,
++static const struct vm_operations_struct amdxdna_gem_vm_ops = {
++	.fault = amdxdna_gem_vm_fault,
++	.open = amdxdna_gem_vm_open,
++	.close = amdxdna_gem_vm_close,
 +};
 +
- static void aie2_hw_stop(struct amdxdna_dev *xdna)
- {
- 	struct pci_dev *pdev = to_pci_dev(xdna->ddev.dev);
-@@ -417,6 +456,7 @@ static int aie2_init(struct amdxdna_dev *xdna)
- 	xrs_cfg.clk_list.cu_clk_list[2] = 1000;
- 	xrs_cfg.sys_eff_factor = 1;
- 	xrs_cfg.ddev = &xdna->ddev;
-+	xrs_cfg.actions = &aie2_xrs_actions;
- 	xrs_cfg.total_col = ndev->total_col;
- 
- 	xdna->xrs_hdl = xrsm_init(&xrs_cfg);
-@@ -453,4 +493,7 @@ static void aie2_fini(struct amdxdna_dev *xdna)
- const struct amdxdna_dev_ops aie2_ops = {
- 	.init           = aie2_init,
- 	.fini           = aie2_fini,
-+	.hwctx_init     = aie2_hwctx_init,
-+	.hwctx_fini     = aie2_hwctx_fini,
-+	.hwctx_config   = aie2_hwctx_config,
- };
-diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
-index 4c81d10a0998..b789286bc9d4 100644
---- a/drivers/accel/amdxdna/aie2_pci.h
-+++ b/drivers/accel/amdxdna/aie2_pci.h
-@@ -77,6 +77,7 @@ enum psp_reg_idx {
- };
- 
- struct amdxdna_fw_ver;
-+struct amdxdna_hwctx;
- 
- struct psp_config {
- 	const void	*fw_buf;
-@@ -117,6 +118,10 @@ struct rt_config {
- 	u32	value;
- };
- 
-+struct amdxdna_hwctx_priv {
-+	void				*mbox_chann;
++static const struct drm_gem_object_funcs amdxdna_gem_shmem_funcs = {
++	.free = amdxdna_gem_obj_free,
++	.print_info = drm_gem_shmem_object_print_info,
++	.pin = drm_gem_shmem_object_pin,
++	.unpin = drm_gem_shmem_object_unpin,
++	.get_sg_table = drm_gem_shmem_object_get_sg_table,
++	.vmap = drm_gem_shmem_object_vmap,
++	.vunmap = drm_gem_shmem_object_vunmap,
++	.mmap = amdxdna_gem_obj_mmap,
++	.vm_ops = &amdxdna_gem_vm_ops,
 +};
 +
- struct amdxdna_dev_hdl {
- 	struct amdxdna_dev		*xdna;
- 	const struct amdxdna_dev_priv	*priv;
-@@ -189,4 +194,12 @@ int aie2_query_aie_version(struct amdxdna_dev_hdl *ndev, struct aie_version *ver
- int aie2_query_aie_metadata(struct amdxdna_dev_hdl *ndev, struct aie_metadata *metadata);
- int aie2_query_firmware_version(struct amdxdna_dev_hdl *ndev,
- 				struct amdxdna_fw_ver *fw_ver);
-+int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx);
-+int aie2_destroy_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx);
-+
-+/* aie2_hwctx.c */
-+int aie2_hwctx_init(struct amdxdna_hwctx *hwctx);
-+void aie2_hwctx_fini(struct amdxdna_hwctx *hwctx);
-+int aie2_hwctx_config(struct amdxdna_hwctx *hwctx, u32 type, u64 value, void *buf, u32 size);
-+
- #endif /* _AIE2_PCI_H_ */
-diff --git a/drivers/accel/amdxdna/amdxdna_ctx.c b/drivers/accel/amdxdna/amdxdna_ctx.c
-new file mode 100644
-index 000000000000..9489399adea1
---- /dev/null
-+++ b/drivers/accel/amdxdna/amdxdna_ctx.c
-@@ -0,0 +1,219 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2022-2024, Advanced Micro Devices, Inc.
-+ */
-+
-+#include <drm/amdxdna_accel.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_file.h>
-+#include <drm/drm_print.h>
-+
-+#include "amdxdna_ctx.h"
-+#include "amdxdna_pci_drv.h"
-+
-+#define MAX_HWCTX_ID		255
-+
-+static void amdxdna_hwctx_destroy(struct amdxdna_hwctx *hwctx)
++static struct amdxdna_gem_obj *
++amdxdna_gem_create_obj(struct drm_device *dev, size_t size)
 +{
-+	struct amdxdna_dev *xdna = hwctx->client->xdna;
++	struct amdxdna_gem_obj *abo;
 +
-+	/* At this point, user is not able to submit new commands */
-+	mutex_lock(&xdna->dev_lock);
-+	xdna->dev_info->ops->hwctx_fini(hwctx);
-+	mutex_unlock(&xdna->dev_lock);
++	abo = kzalloc(sizeof(*abo), GFP_KERNEL);
++	if (!abo)
++		return ERR_PTR(-ENOMEM);
 +
-+	kfree(hwctx->name);
-+	kfree(hwctx);
++	abo->pinned = false;
++	abo->assigned_hwctx = AMDXDNA_INVALID_CTX_HANDLE;
++	mutex_init(&abo->lock);
++
++	abo->mem.userptr = AMDXDNA_INVALID_ADDR;
++	abo->mem.dev_addr = AMDXDNA_INVALID_ADDR;
++	abo->mem.size = size;
++
++	return abo;
 +}
 +
-+/*
-+ * This should be called in close() and remove(). DO NOT call in other syscalls.
-+ * This guarantee that when hwctx and resources will be released, if user
-+ * doesn't call amdxdna_drm_destroy_hwctx_ioctl.
-+ */
-+void amdxdna_hwctx_remove_all(struct amdxdna_client *client)
++/* For drm_driver->gem_create_object callback */
++struct drm_gem_object *
++amdxdna_gem_create_object_cb(struct drm_device *dev, size_t size)
 +{
-+	struct amdxdna_hwctx *hwctx;
-+	int next = 0;
++	struct amdxdna_gem_obj *abo;
 +
-+	mutex_lock(&client->hwctx_lock);
-+	idr_for_each_entry_continue(&client->hwctx_idr, hwctx, next) {
-+		XDNA_DBG(client->xdna, "PID %d close HW context %d",
-+			 client->pid, hwctx->id);
-+		idr_remove(&client->hwctx_idr, hwctx->id);
-+		mutex_unlock(&client->hwctx_lock);
-+		amdxdna_hwctx_destroy(hwctx);
-+		mutex_lock(&client->hwctx_lock);
-+	}
-+	mutex_unlock(&client->hwctx_lock);
++	abo = amdxdna_gem_create_obj(dev, size);
++	if (IS_ERR(abo))
++		return ERR_CAST(abo);
++
++	to_gobj(abo)->funcs = &amdxdna_gem_shmem_funcs;
++
++	return to_gobj(abo);
 +}
 +
-+int amdxdna_drm_create_hwctx_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
++static struct amdxdna_gem_obj *
++amdxdna_drm_alloc_shmem(struct drm_device *dev,
++			struct amdxdna_drm_create_bo *args,
++			struct drm_file *filp)
 +{
 +	struct amdxdna_client *client = filp->driver_priv;
-+	struct amdxdna_drm_create_hwctx *args = data;
++	struct drm_gem_shmem_object *shmem;
++	struct amdxdna_gem_obj *abo;
++
++	shmem = drm_gem_shmem_create(dev, args->size);
++	if (IS_ERR(shmem))
++		return ERR_CAST(shmem);
++
++	shmem->map_wc = false;
++
++	abo = to_xdna_obj(&shmem->base);
++	abo->client = client;
++	abo->type = AMDXDNA_BO_SHMEM;
++
++	return abo;
++}
++
++static struct amdxdna_gem_obj *
++amdxdna_drm_create_dev_heap(struct drm_device *dev,
++			    struct amdxdna_drm_create_bo *args,
++			    struct drm_file *filp)
++{
++	struct amdxdna_client *client = filp->driver_priv;
 +	struct amdxdna_dev *xdna = to_xdna_dev(dev);
-+	struct amdxdna_hwctx *hwctx;
-+	int ret, idx;
++	struct drm_gem_shmem_object *shmem;
++	struct amdxdna_gem_obj *abo;
++	int ret;
++
++	if (args->size > xdna->dev_info->dev_mem_size) {
++		XDNA_DBG(xdna, "Invalid dev heap size 0x%llx, limit 0x%lx",
++			 args->size, xdna->dev_info->dev_mem_size);
++		return ERR_PTR(-EINVAL);
++	}
++
++	mutex_lock(&client->mm_lock);
++	if (client->dev_heap) {
++		XDNA_DBG(client->xdna, "dev heap is already created");
++		ret = -EBUSY;
++		goto mm_unlock;
++	}
++
++	shmem = drm_gem_shmem_create(dev, args->size);
++	if (IS_ERR(shmem)) {
++		ret = PTR_ERR(shmem);
++		goto mm_unlock;
++	}
++
++	shmem->map_wc = false;
++	abo = to_xdna_obj(&shmem->base);
++
++	abo->type = AMDXDNA_BO_DEV_HEAP;
++	abo->client = client;
++	abo->mem.dev_addr = client->xdna->dev_info->dev_mem_base;
++	drm_mm_init(&abo->mm, abo->mem.dev_addr, abo->mem.size);
++
++	client->dev_heap = abo;
++	drm_gem_object_get(to_gobj(abo));
++	mutex_unlock(&client->mm_lock);
++
++	return abo;
++
++mm_unlock:
++	mutex_unlock(&client->mm_lock);
++	return ERR_PTR(ret);
++}
++
++struct amdxdna_gem_obj *
++amdxdna_drm_alloc_dev_bo(struct drm_device *dev,
++			 struct amdxdna_drm_create_bo *args,
++			 struct drm_file *filp, bool use_vmap)
++{
++	struct amdxdna_client *client = filp->driver_priv;
++	struct amdxdna_dev *xdna = to_xdna_dev(dev);
++	size_t aligned_sz = PAGE_ALIGN(args->size);
++	struct amdxdna_gem_obj *abo, *heap;
++	int ret;
++
++	mutex_lock(&client->mm_lock);
++	heap = client->dev_heap;
++	if (!heap) {
++		ret = -EINVAL;
++		goto mm_unlock;
++	}
++
++	if (heap->mem.userptr == AMDXDNA_INVALID_ADDR) {
++		XDNA_ERR(xdna, "Invalid dev heap userptr");
++		ret = -EINVAL;
++		goto mm_unlock;
++	}
++
++	if (args->size > heap->mem.size) {
++		XDNA_ERR(xdna, "Invalid dev bo size 0x%llx, limit 0x%lx",
++			 args->size, heap->mem.size);
++		ret = -EINVAL;
++		goto mm_unlock;
++	}
++
++	abo = amdxdna_gem_create_obj(&xdna->ddev, aligned_sz);
++	if (IS_ERR(abo)) {
++		ret = PTR_ERR(abo);
++		goto mm_unlock;
++	}
++	to_gobj(abo)->funcs = &amdxdna_gem_dev_obj_funcs;
++	abo->type = AMDXDNA_BO_DEV;
++	abo->client = client;
++	abo->dev_heap = heap;
++	ret = amdxdna_gem_insert_node_locked(abo, use_vmap);
++	if (ret) {
++		XDNA_ERR(xdna, "Failed to alloc dev bo memory, ret %d", ret);
++		goto mm_unlock;
++	}
++
++	drm_gem_object_get(to_gobj(heap));
++	drm_gem_private_object_init(&xdna->ddev, to_gobj(abo), aligned_sz);
++
++	mutex_unlock(&client->mm_lock);
++	return abo;
++
++mm_unlock:
++	mutex_unlock(&client->mm_lock);
++	return ERR_PTR(ret);
++}
++
++static struct amdxdna_gem_obj *
++amdxdna_drm_create_cmd_bo(struct drm_device *dev,
++			  struct amdxdna_drm_create_bo *args,
++			  struct drm_file *filp)
++{
++	struct amdxdna_dev *xdna = to_xdna_dev(dev);
++	struct drm_gem_shmem_object *shmem;
++	struct amdxdna_gem_obj *abo;
++	struct iosys_map map;
++	int ret;
++
++	if (args->size > XDNA_MAX_CMD_BO_SIZE) {
++		XDNA_ERR(xdna, "Command bo size 0x%llx too large", args->size);
++		return ERR_PTR(-EINVAL);
++	}
++
++	if (args->size < sizeof(struct amdxdna_cmd)) {
++		XDNA_DBG(xdna, "Command BO size 0x%llx too small", args->size);
++		return ERR_PTR(-EINVAL);
++	}
++
++	shmem = drm_gem_shmem_create(dev, args->size);
++	if (IS_ERR(shmem))
++		return ERR_CAST(shmem);
++
++	shmem->map_wc = false;
++	abo = to_xdna_obj(&shmem->base);
++
++	abo->type = AMDXDNA_BO_CMD;
++	abo->client = filp->driver_priv;
++
++	ret = drm_gem_vmap_unlocked(to_gobj(abo), &map);
++	if (ret) {
++		XDNA_ERR(xdna, "Vmap cmd bo failed, ret %d", ret);
++		goto release_obj;
++	}
++	abo->mem.kva = map.vaddr;
++
++	return abo;
++
++release_obj:
++	drm_gem_shmem_free(shmem);
++	return ERR_PTR(ret);
++}
++
++int amdxdna_drm_create_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
++{
++	struct amdxdna_dev *xdna = to_xdna_dev(dev);
++	struct amdxdna_drm_create_bo *args = data;
++	struct amdxdna_gem_obj *abo;
++	int ret;
++
++	if (args->flags || args->vaddr || !args->size)
++		return -EINVAL;
++
++	XDNA_DBG(xdna, "BO arg type %d vaddr 0x%llx size 0x%llx flags 0x%llx",
++		 args->type, args->vaddr, args->size, args->flags);
++	switch (args->type) {
++	case AMDXDNA_BO_SHMEM:
++		abo = amdxdna_drm_alloc_shmem(dev, args, filp);
++		break;
++	case AMDXDNA_BO_DEV_HEAP:
++		abo = amdxdna_drm_create_dev_heap(dev, args, filp);
++		break;
++	case AMDXDNA_BO_DEV:
++		abo = amdxdna_drm_alloc_dev_bo(dev, args, filp, false);
++		break;
++	case AMDXDNA_BO_CMD:
++		abo = amdxdna_drm_create_cmd_bo(dev, args, filp);
++		break;
++	default:
++		return -EINVAL;
++	}
++	if (IS_ERR(abo))
++		return PTR_ERR(abo);
++
++	/* ready to publish object to userspace */
++	ret = drm_gem_handle_create(filp, to_gobj(abo), &args->handle);
++	if (ret) {
++		XDNA_ERR(xdna, "Create handle failed");
++		goto put_obj;
++	}
++
++	XDNA_DBG(xdna, "BO hdl %d type %d userptr 0x%llx xdna_addr 0x%llx size 0x%lx",
++		 args->handle, args->type, abo->mem.userptr,
++		 abo->mem.dev_addr, abo->mem.size);
++put_obj:
++	/* Dereference object reference. Handle holds it now. */
++	drm_gem_object_put(to_gobj(abo));
++	return ret;
++}
++
++int amdxdna_gem_pin_nolock(struct amdxdna_gem_obj *abo)
++{
++	struct amdxdna_dev *xdna = to_xdna_dev(to_gobj(abo)->dev);
++	int ret;
++
++	switch (abo->type) {
++	case AMDXDNA_BO_SHMEM:
++	case AMDXDNA_BO_DEV_HEAP:
++		ret = drm_gem_shmem_pin(&abo->base);
++		break;
++	case AMDXDNA_BO_DEV:
++		ret = drm_gem_shmem_pin(&abo->dev_heap->base);
++		break;
++	default:
++		ret = -EOPNOTSUPP;
++	}
++
++	XDNA_DBG(xdna, "BO type %d ret %d", abo->type, ret);
++	return ret;
++}
++
++int amdxdna_gem_pin(struct amdxdna_gem_obj *abo)
++{
++	int ret;
++
++	if (abo->type == AMDXDNA_BO_DEV)
++		abo = abo->dev_heap;
++
++	mutex_lock(&abo->lock);
++	ret = amdxdna_gem_pin_nolock(abo);
++	mutex_unlock(&abo->lock);
++
++	return ret;
++}
++
++void amdxdna_gem_unpin(struct amdxdna_gem_obj *abo)
++{
++	if (abo->type == AMDXDNA_BO_DEV)
++		abo = abo->dev_heap;
++
++	mutex_lock(&abo->lock);
++	drm_gem_shmem_unpin(&abo->base);
++	mutex_unlock(&abo->lock);
++}
++
++struct amdxdna_gem_obj *amdxdna_gem_get_obj(struct amdxdna_client *client,
++					    u32 bo_hdl, u8 bo_type)
++{
++	struct amdxdna_dev *xdna = client->xdna;
++	struct amdxdna_gem_obj *abo;
++	struct drm_gem_object *gobj;
++
++	gobj = drm_gem_object_lookup(client->filp, bo_hdl);
++	if (!gobj) {
++		XDNA_DBG(xdna, "Can not find bo %d", bo_hdl);
++		return NULL;
++	}
++
++	abo = to_xdna_obj(gobj);
++	if (bo_type == AMDXDNA_BO_INVALID || abo->type == bo_type)
++		return abo;
++
++	drm_gem_object_put(gobj);
++	return NULL;
++}
++
++int amdxdna_drm_get_bo_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
++{
++	struct amdxdna_drm_get_bo_info *args = data;
++	struct amdxdna_dev *xdna = to_xdna_dev(dev);
++	struct amdxdna_gem_obj *abo;
++	struct drm_gem_object *gobj;
++	int ret = 0;
 +
 +	if (args->ext || args->ext_flags)
 +		return -EINVAL;
 +
-+	if (!drm_dev_enter(dev, &idx))
-+		return -ENODEV;
-+
-+	hwctx = kzalloc(sizeof(*hwctx), GFP_KERNEL);
-+	if (!hwctx) {
-+		ret = -ENOMEM;
-+		goto exit;
++	gobj = drm_gem_object_lookup(filp, args->handle);
++	if (!gobj) {
++		XDNA_DBG(xdna, "Lookup GEM object %d failed", args->handle);
++		return -ENOENT;
 +	}
 +
-+	if (copy_from_user(&hwctx->qos, u64_to_user_ptr(args->qos_p), sizeof(hwctx->qos))) {
-+		XDNA_ERR(xdna, "Access QoS info failed");
-+		ret = -EFAULT;
-+		goto free_hwctx;
-+	}
++	abo = to_xdna_obj(gobj);
++	args->vaddr = abo->mem.userptr;
++	args->xdna_addr = abo->mem.dev_addr;
 +
-+	hwctx->client = client;
-+	hwctx->fw_ctx_id = -1;
-+	hwctx->num_tiles = args->num_tiles;
-+	hwctx->mem_size = args->mem_size;
-+	hwctx->max_opc = args->max_opc;
-+	mutex_lock(&client->hwctx_lock);
-+	ret = idr_alloc_cyclic(&client->hwctx_idr, hwctx, 0, MAX_HWCTX_ID, GFP_KERNEL);
-+	if (ret < 0) {
-+		mutex_unlock(&client->hwctx_lock);
-+		XDNA_ERR(xdna, "Allocate hwctx ID failed, ret %d", ret);
-+		goto free_hwctx;
-+	}
-+	hwctx->id = ret;
-+	mutex_unlock(&client->hwctx_lock);
++	if (abo->type != AMDXDNA_BO_DEV)
++		args->map_offset = drm_vma_node_offset_addr(&gobj->vma_node);
++	else
++		args->map_offset = AMDXDNA_INVALID_ADDR;
 +
-+	hwctx->name = kasprintf(GFP_KERNEL, "hwctx.%d.%d", client->pid, hwctx->id);
-+	if (!hwctx->name) {
-+		ret = -ENOMEM;
-+		goto rm_id;
-+	}
++	XDNA_DBG(xdna, "BO hdl %d map_offset 0x%llx vaddr 0x%llx xdna_addr 0x%llx",
++		 args->handle, args->map_offset, args->vaddr, args->xdna_addr);
 +
-+	mutex_lock(&xdna->dev_lock);
-+	ret = xdna->dev_info->ops->hwctx_init(hwctx);
-+	if (ret) {
-+		mutex_unlock(&xdna->dev_lock);
-+		XDNA_ERR(xdna, "Init hwctx failed, ret %d", ret);
-+		goto free_name;
-+	}
-+	args->handle = hwctx->id;
-+	args->syncobj_handle = hwctx->syncobj_hdl;
-+	mutex_unlock(&xdna->dev_lock);
-+
-+	XDNA_DBG(xdna, "PID %d create HW context %d, ret %d", client->pid, args->handle, ret);
-+	drm_dev_exit(idx);
-+	return 0;
-+
-+free_name:
-+	kfree(hwctx->name);
-+rm_id:
-+	mutex_lock(&client->hwctx_lock);
-+	idr_remove(&client->hwctx_idr, hwctx->id);
-+	mutex_unlock(&client->hwctx_lock);
-+free_hwctx:
-+	kfree(hwctx);
-+exit:
-+	drm_dev_exit(idx);
++	drm_gem_object_put(gobj);
 +	return ret;
 +}
 +
-+int amdxdna_drm_destroy_hwctx_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
++/*
++ * The sync bo ioctl is to make sure the CPU cache is in sync with memory.
++ * This is required because NPU is not cache coherent device. CPU cache
++ * flushing/invalidation is expensive so it is best to handle this outside
++ * of the command submission path. This ioctl allows explicit cache
++ * flushing/invalidation outside of the critical path.
++ */
++int amdxdna_drm_sync_bo_ioctl(struct drm_device *dev,
++			      void *data, struct drm_file *filp)
 +{
-+	struct amdxdna_client *client = filp->driver_priv;
-+	struct amdxdna_drm_destroy_hwctx *args = data;
 +	struct amdxdna_dev *xdna = to_xdna_dev(dev);
-+	struct amdxdna_hwctx *hwctx;
-+	int ret = 0, idx;
-+
-+	if (!drm_dev_enter(dev, &idx))
-+		return -ENODEV;
-+
-+	mutex_lock(&client->hwctx_lock);
-+	hwctx = idr_find(&client->hwctx_idr, args->handle);
-+	if (!hwctx) {
-+		mutex_unlock(&client->hwctx_lock);
-+		ret = -EINVAL;
-+		XDNA_DBG(xdna, "PID %d HW context %d not exist",
-+			 client->pid, args->handle);
-+		goto out;
-+	}
-+	idr_remove(&client->hwctx_idr, hwctx->id);
-+	mutex_unlock(&client->hwctx_lock);
-+
-+	amdxdna_hwctx_destroy(hwctx);
-+
-+	XDNA_DBG(xdna, "PID %d destroyed HW context %d", client->pid, args->handle);
-+out:
-+	drm_dev_exit(idx);
-+	return ret;
-+}
-+
-+int amdxdna_drm_config_hwctx_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
-+{
-+	struct amdxdna_client *client = filp->driver_priv;
-+	struct amdxdna_drm_config_hwctx *args = data;
-+	struct amdxdna_dev *xdna = to_xdna_dev(dev);
-+	struct amdxdna_hwctx *hwctx;
-+	u32 buf_size;
-+	void *buf;
-+	u64 val;
++	struct amdxdna_drm_sync_bo *args = data;
++	struct amdxdna_gem_obj *abo;
++	struct drm_gem_object *gobj;
 +	int ret;
 +
-+	if (!xdna->dev_info->ops->hwctx_config)
-+		return -EOPNOTSUPP;
++	gobj = drm_gem_object_lookup(filp, args->handle);
++	if (!gobj) {
++		XDNA_ERR(xdna, "Lookup GEM object failed");
++		return -ENOENT;
++	}
++	abo = to_xdna_obj(gobj);
 +
-+	val = args->param_val;
-+	buf_size = args->param_val_size;
-+
-+	switch (args->param_type) {
-+	case DRM_AMDXDNA_HWCTX_CONFIG_CU:
-+		/* For those types that param_val is pointer */
-+		if (buf_size > PAGE_SIZE) {
-+			XDNA_ERR(xdna, "Config CU param buffer too large");
-+			return -E2BIG;
-+		}
-+
-+		/* Hwctx needs to keep buf */
-+		buf = kzalloc(PAGE_SIZE, GFP_KERNEL);
-+		if (!buf)
-+			return -ENOMEM;
-+
-+		if (copy_from_user(buf, u64_to_user_ptr(val), buf_size)) {
-+			kfree(buf);
-+			return -EFAULT;
-+		}
-+
-+		break;
-+	case DRM_AMDXDNA_HWCTX_ASSIGN_DBG_BUF:
-+	case DRM_AMDXDNA_HWCTX_REMOVE_DBG_BUF:
-+		/* For those types that param_val is a value */
-+		buf = NULL;
-+		buf_size = 0;
-+		break;
-+	default:
-+		XDNA_DBG(xdna, "Unknown HW context config type %d", args->param_type);
-+		return -EINVAL;
++	ret = amdxdna_gem_pin(abo);
++	if (ret) {
++		XDNA_ERR(xdna, "Pin BO %d failed, ret %d", args->handle, ret);
++		goto put_obj;
 +	}
 +
-+	mutex_lock(&xdna->dev_lock);
-+	hwctx = idr_find(&client->hwctx_idr, args->handle);
-+	if (!hwctx) {
-+		XDNA_DBG(xdna, "PID %d failed to get hwctx %d", client->pid, args->handle);
-+		ret = -EINVAL;
-+		goto unlock;
-+	}
++	if (abo->type == AMDXDNA_BO_DEV)
++		drm_clflush_pages(abo->mem.pages, abo->mem.nr_pages);
++	else
++		drm_clflush_pages(abo->base.pages, gobj->size >> PAGE_SHIFT);
 +
-+	ret = xdna->dev_info->ops->hwctx_config(hwctx, args->param_type, val, buf, buf_size);
++	amdxdna_gem_unpin(abo);
 +
-+unlock:
-+	mutex_unlock(&xdna->dev_lock);
-+	kfree(buf);
++	XDNA_DBG(xdna, "Sync bo %d offset 0x%llx, size 0x%llx\n",
++		 args->handle, args->offset, args->size);
++
++put_obj:
++	drm_gem_object_put(gobj);
 +	return ret;
 +}
-diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h b/drivers/accel/amdxdna/amdxdna_ctx.h
+diff --git a/drivers/accel/amdxdna/amdxdna_gem.h b/drivers/accel/amdxdna/amdxdna_gem.h
 new file mode 100644
-index 000000000000..00b96cf2e9a7
+index 000000000000..8ccc0375dd9d
 --- /dev/null
-+++ b/drivers/accel/amdxdna/amdxdna_ctx.h
-@@ -0,0 +1,39 @@
++++ b/drivers/accel/amdxdna/amdxdna_gem.h
+@@ -0,0 +1,65 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Copyright (C) 2022-2024, Advanced Micro Devices, Inc.
++ * Copyright (C) 2024, Advanced Micro Devices, Inc.
 + */
 +
-+#ifndef _AMDXDNA_CTX_H_
-+#define _AMDXDNA_CTX_H_
++#ifndef _AMDXDNA_GEM_H_
++#define _AMDXDNA_GEM_H_
 +
-+struct amdxdna_hwctx {
-+	struct amdxdna_client		*client;
-+	struct amdxdna_hwctx_priv	*priv;
-+	char				*name;
-+
-+	u32				id;
-+	u32				max_opc;
-+	u32				num_tiles;
-+	u32				mem_size;
-+	u32				fw_ctx_id;
-+	u32				col_list_len;
-+	u32				*col_list;
-+	u32				start_col;
-+	u32				num_col;
-+#define HWCTX_STAT_INIT  0
-+#define HWCTX_STAT_READY 1
-+#define HWCTX_STAT_STOP  2
-+	u32				status;
-+	u32				old_status;
-+
-+	struct amdxdna_qos_info		     qos;
-+	struct amdxdna_hwctx_param_config_cu *cus;
-+	u32				syncobj_hdl;
++struct amdxdna_mem {
++	u64				userptr;
++	void				*kva;
++	u64				dev_addr;
++	size_t				size;
++	struct page			**pages;
++	u32				nr_pages;
++	struct mmu_interval_notifier	notifier;
++	unsigned long			*pfns;
++	bool				map_invalid;
 +};
 +
-+void amdxdna_hwctx_remove_all(struct amdxdna_client *client);
-+int amdxdna_drm_create_hwctx_ioctl(struct drm_device *dev, void *data, struct drm_file *filp);
-+int amdxdna_drm_config_hwctx_ioctl(struct drm_device *dev, void *data, struct drm_file *filp);
-+int amdxdna_drm_destroy_hwctx_ioctl(struct drm_device *dev, void *data, struct drm_file *filp);
++struct amdxdna_gem_obj {
++	struct drm_gem_shmem_object	base;
++	struct amdxdna_client		*client;
++	u8				type;
++	bool				pinned;
++	struct mutex			lock; /* Protects: pinned */
++	struct amdxdna_mem		mem;
 +
-+#endif /* _AMDXDNA_CTX_H_ */
++	/* Below members is uninitialized when needed */
++	struct drm_mm			mm; /* For AMDXDNA_BO_DEV_HEAP */
++	struct amdxdna_gem_obj		*dev_heap; /* For AMDXDNA_BO_DEV */
++	struct drm_mm_node		mm_node; /* For AMDXDNA_BO_DEV */
++	u32				assigned_hwctx;
++};
++
++#define to_gobj(obj)    (&(obj)->base.base)
++
++static inline struct amdxdna_gem_obj *to_xdna_obj(struct drm_gem_object *gobj)
++{
++	return container_of(gobj, struct amdxdna_gem_obj, base.base);
++}
++
++struct amdxdna_gem_obj *amdxdna_gem_get_obj(struct amdxdna_client *client,
++					    u32 bo_hdl, u8 bo_type);
++static inline void amdxdna_gem_put_obj(struct amdxdna_gem_obj *abo)
++{
++	drm_gem_object_put(to_gobj(abo));
++}
++
++struct drm_gem_object *
++amdxdna_gem_create_object_cb(struct drm_device *dev, size_t size);
++struct amdxdna_gem_obj *
++amdxdna_drm_alloc_dev_bo(struct drm_device *dev,
++			 struct amdxdna_drm_create_bo *args,
++			 struct drm_file *filp, bool use_vmap);
++
++int amdxdna_gem_pin_nolock(struct amdxdna_gem_obj *abo);
++int amdxdna_gem_pin(struct amdxdna_gem_obj *abo);
++void amdxdna_gem_unpin(struct amdxdna_gem_obj *abo);
++
++int amdxdna_drm_create_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *filp);
++int amdxdna_drm_get_bo_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp);
++int amdxdna_drm_sync_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *filp);
++
++#endif /* _AMDXDNA_GEM_H_ */
 diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-index b8caf323a0c6..dfe682df5640 100644
+index dfe682df5640..172109cc9617 100644
 --- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
 +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-@@ -3,13 +3,16 @@
-  * Copyright (C) 2022-2024, Advanced Micro Devices, Inc.
-  */
- 
-+#include <drm/amdxdna_accel.h>
+@@ -7,12 +7,14 @@
  #include <drm/drm_accel.h>
  #include <drm/drm_drv.h>
  #include <drm/drm_gem.h>
++#include <drm/drm_gem_shmem_helper.h>
  #include <drm/drm_ioctl.h>
  #include <drm/drm_managed.h>
-+#include <linux/iommu.h>
+ #include <linux/iommu.h>
  #include <linux/pci.h>
  
-+#include "amdxdna_ctx.h"
+ #include "amdxdna_ctx.h"
++#include "amdxdna_gem.h"
  #include "amdxdna_pci_drv.h"
  
  /*
-@@ -33,7 +36,108 @@ static const struct amdxdna_device_id amdxdna_ids[] = {
- 	{0}
+@@ -63,6 +65,7 @@ static int amdxdna_drm_open(struct drm_device *ddev, struct drm_file *filp)
+ 	}
+ 	mutex_init(&client->hwctx_lock);
+ 	idr_init_base(&client->hwctx_idr, AMDXDNA_INVALID_CTX_HANDLE + 1);
++	mutex_init(&client->mm_lock);
+ 
+ 	mutex_lock(&xdna->dev_lock);
+ 	list_add_tail(&client->node, &xdna->client_list);
+@@ -91,6 +94,9 @@ static void amdxdna_drm_close(struct drm_device *ddev, struct drm_file *filp)
+ 
+ 	idr_destroy(&client->hwctx_idr);
+ 	mutex_destroy(&client->hwctx_lock);
++	mutex_destroy(&client->mm_lock);
++	if (client->dev_heap)
++		drm_gem_object_put(to_gobj(client->dev_heap));
+ 
+ 	iommu_sva_unbind_device(client->sva);
+ 
+@@ -123,6 +129,10 @@ static const struct drm_ioctl_desc amdxdna_drm_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(AMDXDNA_CREATE_HWCTX, amdxdna_drm_create_hwctx_ioctl, 0),
+ 	DRM_IOCTL_DEF_DRV(AMDXDNA_DESTROY_HWCTX, amdxdna_drm_destroy_hwctx_ioctl, 0),
+ 	DRM_IOCTL_DEF_DRV(AMDXDNA_CONFIG_HWCTX, amdxdna_drm_config_hwctx_ioctl, 0),
++	/* BO */
++	DRM_IOCTL_DEF_DRV(AMDXDNA_CREATE_BO, amdxdna_drm_create_bo_ioctl, 0),
++	DRM_IOCTL_DEF_DRV(AMDXDNA_GET_BO_INFO, amdxdna_drm_get_bo_info_ioctl, 0),
++	DRM_IOCTL_DEF_DRV(AMDXDNA_SYNC_BO, amdxdna_drm_sync_bo_ioctl, 0),
  };
  
--DEFINE_DRM_ACCEL_FOPS(amdxdna_fops);
-+static int amdxdna_drm_open(struct drm_device *ddev, struct drm_file *filp)
-+{
-+	struct amdxdna_dev *xdna = to_xdna_dev(ddev);
-+	struct amdxdna_client *client;
-+	int ret;
+ static const struct file_operations amdxdna_fops = {
+@@ -149,6 +159,8 @@ const struct drm_driver amdxdna_drm_drv = {
+ 	.postclose = amdxdna_drm_close,
+ 	.ioctls = amdxdna_drm_ioctls,
+ 	.num_ioctls = ARRAY_SIZE(amdxdna_drm_ioctls),
 +
-+	client = kzalloc(sizeof(*client), GFP_KERNEL);
-+	if (!client)
-+		return -ENOMEM;
-+
-+	client->pid = pid_nr(filp->pid);
-+	client->xdna = xdna;
-+
-+	client->sva = iommu_sva_bind_device(xdna->ddev.dev, current->mm);
-+	if (IS_ERR(client->sva)) {
-+		ret = PTR_ERR(client->sva);
-+		XDNA_ERR(xdna, "SVA bind device failed, ret %d", ret);
-+		goto failed;
-+	}
-+	client->pasid = iommu_sva_get_pasid(client->sva);
-+	if (client->pasid == IOMMU_PASID_INVALID) {
-+		XDNA_ERR(xdna, "SVA get pasid failed");
-+		ret = -ENODEV;
-+		goto unbind_sva;
-+	}
-+	mutex_init(&client->hwctx_lock);
-+	idr_init_base(&client->hwctx_idr, AMDXDNA_INVALID_CTX_HANDLE + 1);
-+
-+	mutex_lock(&xdna->dev_lock);
-+	list_add_tail(&client->node, &xdna->client_list);
-+	mutex_unlock(&xdna->dev_lock);
-+
-+	filp->driver_priv = client;
-+	client->filp = filp;
-+
-+	XDNA_DBG(xdna, "pid %d opened", client->pid);
-+	return 0;
-+
-+unbind_sva:
-+	iommu_sva_unbind_device(client->sva);
-+failed:
-+	kfree(client);
-+
-+	return ret;
-+}
-+
-+static void amdxdna_drm_close(struct drm_device *ddev, struct drm_file *filp)
-+{
-+	struct amdxdna_client *client = filp->driver_priv;
-+	struct amdxdna_dev *xdna = to_xdna_dev(ddev);
-+
-+	XDNA_DBG(xdna, "closing pid %d", client->pid);
-+
-+	idr_destroy(&client->hwctx_idr);
-+	mutex_destroy(&client->hwctx_lock);
-+
-+	iommu_sva_unbind_device(client->sva);
-+
-+	XDNA_DBG(xdna, "pid %d closed", client->pid);
-+	kfree(client);
-+}
-+
-+static int amdxdna_flush(struct file *f, fl_owner_t id)
-+{
-+	struct drm_file *filp = f->private_data;
-+	struct amdxdna_client *client = filp->driver_priv;
-+	struct amdxdna_dev *xdna = client->xdna;
-+	int idx;
-+
-+	XDNA_DBG(xdna, "PID %d flushing...", client->pid);
-+	if (!drm_dev_enter(&xdna->ddev, &idx))
-+		return 0;
-+
-+	mutex_lock(&xdna->dev_lock);
-+	list_del_init(&client->node);
-+	mutex_unlock(&xdna->dev_lock);
-+	amdxdna_hwctx_remove_all(client);
-+
-+	drm_dev_exit(idx);
-+	return 0;
-+}
-+
-+static const struct drm_ioctl_desc amdxdna_drm_ioctls[] = {
-+	/* Context */
-+	DRM_IOCTL_DEF_DRV(AMDXDNA_CREATE_HWCTX, amdxdna_drm_create_hwctx_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(AMDXDNA_DESTROY_HWCTX, amdxdna_drm_destroy_hwctx_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(AMDXDNA_CONFIG_HWCTX, amdxdna_drm_config_hwctx_ioctl, 0),
-+};
-+
-+static const struct file_operations amdxdna_fops = {
-+	.owner		= THIS_MODULE,
-+	.open		= accel_open,
-+	.release	= drm_release,
-+	.flush		= amdxdna_flush,
-+	.unlocked_ioctl	= drm_ioctl,
-+	.compat_ioctl	= drm_compat_ioctl,
-+	.poll		= drm_poll,
-+	.read		= drm_read,
-+	.llseek		= noop_llseek,
-+	.mmap		= drm_gem_mmap,
-+	.fop_flags	= FOP_UNSIGNED_OFFSET,
-+};
- 
- const struct drm_driver amdxdna_drm_drv = {
- 	.driver_features = DRIVER_GEM | DRIVER_COMPUTE_ACCEL |
-@@ -41,6 +145,10 @@ const struct drm_driver amdxdna_drm_drv = {
- 	.fops = &amdxdna_fops,
- 	.name = "amdxdna_accel_driver",
- 	.desc = "AMD XDNA DRM implementation",
-+	.open = amdxdna_drm_open,
-+	.postclose = amdxdna_drm_close,
-+	.ioctls = amdxdna_drm_ioctls,
-+	.num_ioctls = ARRAY_SIZE(amdxdna_drm_ioctls),
++	.gem_create_object = amdxdna_gem_create_object_cb,
  };
  
  static const struct amdxdna_dev_info *
-@@ -70,6 +178,7 @@ static int amdxdna_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		return -ENODEV;
- 
- 	drmm_mutex_init(&xdna->ddev, &xdna->dev_lock);
-+	INIT_LIST_HEAD(&xdna->client_list);
- 	pci_set_drvdata(pdev, xdna);
- 
- 	mutex_lock(&xdna->dev_lock);
-@@ -106,11 +215,25 @@ static int amdxdna_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- static void amdxdna_remove(struct pci_dev *pdev)
- {
- 	struct amdxdna_dev *xdna = pci_get_drvdata(pdev);
-+	struct amdxdna_client *client;
- 
- 	drm_dev_unplug(&xdna->ddev);
- 	amdxdna_sysfs_fini(xdna);
- 
- 	mutex_lock(&xdna->dev_lock);
-+	client = list_first_entry_or_null(&xdna->client_list,
-+					  struct amdxdna_client, node);
-+	while (client) {
-+		list_del_init(&client->node);
-+		mutex_unlock(&xdna->dev_lock);
-+
-+		amdxdna_hwctx_remove_all(client);
-+
-+		mutex_lock(&xdna->dev_lock);
-+		client = list_first_entry_or_null(&xdna->client_list,
-+						  struct amdxdna_client, node);
-+	}
-+
- 	xdna->dev_info->ops->fini(xdna);
- 	mutex_unlock(&xdna->dev_lock);
- }
 diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h b/drivers/accel/amdxdna/amdxdna_pci_drv.h
-index c0710d3130fd..5ec7fe168406 100644
+index 5ec7fe168406..3dddde4ac12a 100644
 --- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
 +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
 @@ -18,6 +18,7 @@
  extern const struct drm_driver amdxdna_drm_drv;
  
  struct amdxdna_dev;
-+struct amdxdna_hwctx;
++struct amdxdna_gem_obj;
+ struct amdxdna_hwctx;
  
  /*
-  * struct amdxdna_dev_ops - Device hardware operation callbacks
-@@ -25,6 +26,9 @@ struct amdxdna_dev;
- struct amdxdna_dev_ops {
- 	int (*init)(struct amdxdna_dev *xdna);
- 	void (*fini)(struct amdxdna_dev *xdna);
-+	int (*hwctx_init)(struct amdxdna_hwctx *hwctx);
-+	void (*hwctx_fini)(struct amdxdna_hwctx *hwctx);
-+	int (*hwctx_config)(struct amdxdna_hwctx *hwctx, u32 type, u64 value, void *buf, u32 size);
+@@ -29,6 +30,7 @@ struct amdxdna_dev_ops {
+ 	int (*hwctx_init)(struct amdxdna_hwctx *hwctx);
+ 	void (*hwctx_fini)(struct amdxdna_hwctx *hwctx);
+ 	int (*hwctx_config)(struct amdxdna_hwctx *hwctx, u32 type, u64 value, void *buf, u32 size);
++	void (*hmm_invalidate)(struct amdxdna_gem_obj *abo, unsigned long cur_seq);
  };
  
  /*
-@@ -61,6 +65,7 @@ struct amdxdna_dev {
- 	void				*xrs_hdl;
- 
- 	struct mutex			dev_lock; /* per device lock */
-+	struct list_head		client_list;
- 	struct amdxdna_fw_ver		fw_ver;
- };
- 
-@@ -73,6 +78,21 @@ struct amdxdna_device_id {
- 	const struct amdxdna_dev_info *dev_info;
- };
- 
-+/*
-+ * struct amdxdna_client - amdxdna client
-+ * A per fd data structure for managing context and other user process stuffs.
-+ */
-+struct amdxdna_client {
-+	struct list_head		node;
-+	pid_t				pid;
-+	struct mutex			hwctx_lock; /* protect hwctx */
-+	struct idr			hwctx_idr;
-+	struct amdxdna_dev		*xdna;
-+	struct drm_file			*filp;
-+	struct iommu_sva		*sva;
-+	int				pasid;
-+};
+@@ -89,6 +91,10 @@ struct amdxdna_client {
+ 	struct idr			hwctx_idr;
+ 	struct amdxdna_dev		*xdna;
+ 	struct drm_file			*filp;
 +
- /* Add device info below */
- extern const struct amdxdna_dev_info dev_npu1_info;
- extern const struct amdxdna_dev_info dev_npu2_info;
++	struct mutex			mm_lock; /* protect memory related */
++	struct amdxdna_gem_obj		*dev_heap;
++
+ 	struct iommu_sva		*sva;
+ 	int				pasid;
+ };
 diff --git a/include/uapi/drm/amdxdna_accel.h b/include/uapi/drm/amdxdna_accel.h
-index 6d97e8e90cf6..a0dc821c1363 100644
+index a0dc821c1363..e3e78b79a8e7 100644
 --- a/include/uapi/drm/amdxdna_accel.h
 +++ b/include/uapi/drm/amdxdna_accel.h
-@@ -6,17 +6,148 @@
- #ifndef _UAPI_AMDXDNA_ACCEL_H_
- #define _UAPI_AMDXDNA_ACCEL_H_
- 
-+#include <linux/stddef.h>
- #include "drm.h"
- 
- #if defined(__cplusplus)
+@@ -13,7 +13,9 @@
  extern "C" {
  #endif
  
-+#define AMDXDNA_INVALID_CTX_HANDLE	0
-+
++#define AMDXDNA_INVALID_ADDR		(~0UL)
+ #define AMDXDNA_INVALID_CTX_HANDLE	0
++#define AMDXDNA_INVALID_BO_HANDLE	0
+ 
  enum amdxdna_device_type {
  	AMDXDNA_DEV_TYPE_UNKNOWN = -1,
- 	AMDXDNA_DEV_TYPE_KMQ,
+@@ -24,6 +26,9 @@ enum amdxdna_drm_ioctl_id {
+ 	DRM_AMDXDNA_CREATE_HWCTX,
+ 	DRM_AMDXDNA_DESTROY_HWCTX,
+ 	DRM_AMDXDNA_CONFIG_HWCTX,
++	DRM_AMDXDNA_CREATE_BO,
++	DRM_AMDXDNA_GET_BO_INFO,
++	DRM_AMDXDNA_SYNC_BO,
  };
  
-+enum amdxdna_drm_ioctl_id {
-+	DRM_AMDXDNA_CREATE_HWCTX,
-+	DRM_AMDXDNA_DESTROY_HWCTX,
-+	DRM_AMDXDNA_CONFIG_HWCTX,
+ /**
+@@ -136,6 +141,66 @@ struct amdxdna_drm_config_hwctx {
+ 	__u32 pad;
+ };
+ 
++enum amdxdna_bo_type {
++	AMDXDNA_BO_INVALID = 0,
++	AMDXDNA_BO_SHMEM,
++	AMDXDNA_BO_DEV_HEAP,
++	AMDXDNA_BO_DEV,
++	AMDXDNA_BO_CMD,
 +};
 +
 +/**
-+ * struct qos_info - QoS information for driver.
-+ * @gops: Giga operations per second.
-+ * @fps: Frames per second.
-+ * @dma_bandwidth: DMA bandwidtha.
-+ * @latency: Frame response latency.
-+ * @frame_exec_time: Frame execution time.
-+ * @priority: Request priority.
-+ *
-+ * User program can provide QoS hints to driver.
++ * struct amdxdna_drm_create_bo - Create a buffer object.
++ * @flags: Buffer flags. MBZ.
++ * @vaddr: User VA of buffer if applied. MBZ.
++ * @size: Size in bytes.
++ * @type: Buffer type.
++ * @handle: Returned DRM buffer object handle.
 + */
-+struct amdxdna_qos_info {
-+	__u32 gops;
-+	__u32 fps;
-+	__u32 dma_bandwidth;
-+	__u32 latency;
-+	__u32 frame_exec_time;
-+	__u32 priority;
++struct amdxdna_drm_create_bo {
++	__u64	flags;
++	__u64	vaddr;
++	__u64	size;
++	__u32	type;
++	__u32	handle;
 +};
 +
 +/**
-+ * struct amdxdna_drm_create_hwctx - Create hardware context.
++ * struct amdxdna_drm_get_bo_info - Get buffer object information.
 + * @ext: MBZ.
 + * @ext_flags: MBZ.
-+ * @qos_p: Address of QoS info.
-+ * @umq_bo: BO handle for user mode queue(UMQ).
-+ * @log_buf_bo: BO handle for log buffer.
-+ * @max_opc: Maximum operations per cycle.
-+ * @num_tiles: Number of AIE tiles.
-+ * @mem_size: Size of AIE tile memory.
-+ * @umq_doorbell: Returned offset of doorbell associated with UMQ.
-+ * @handle: Returned hardware context handle.
-+ * @syncobj_handle: Returned syncobj handle for command completion.
++ * @handle: DRM buffer object handle.
++ * @pad: Structure padding.
++ * @map_offset: Returned DRM fake offset for mmap().
++ * @vaddr: Returned user VA of buffer. 0 in case user needs mmap().
++ * @xdna_addr: Returned XDNA device virtual address.
 + */
-+struct amdxdna_drm_create_hwctx {
++struct amdxdna_drm_get_bo_info {
 +	__u64 ext;
 +	__u64 ext_flags;
-+	__u64 qos_p;
-+	__u32 umq_bo;
-+	__u32 log_buf_bo;
-+	__u32 max_opc;
-+	__u32 num_tiles;
-+	__u32 mem_size;
-+	__u32 umq_doorbell;
-+	__u32 handle;
-+	__u32 syncobj_handle;
-+};
-+
-+/**
-+ * struct amdxdna_drm_destroy_hwctx - Destroy hardware context.
-+ * @handle: Hardware context handle.
-+ * @pad: Structure padding.
-+ */
-+struct amdxdna_drm_destroy_hwctx {
 +	__u32 handle;
 +	__u32 pad;
++	__u64 map_offset;
++	__u64 vaddr;
++	__u64 xdna_addr;
 +};
 +
 +/**
-+ * struct amdxdna_cu_config - configuration for one CU
-+ * @cu_bo: CU configuration buffer bo handle.
-+ * @cu_func: Function of a CU.
-+ * @pad: Structure padding.
++ * struct amdxdna_drm_sync_bo - Sync buffer object.
++ * @handle: Buffer object handle.
++ * @direction: Direction of sync, can be from device or to device.
++ * @offset: Offset in the buffer to sync.
++ * @size: Size in bytes.
 + */
-+struct amdxdna_cu_config {
-+	__u32 cu_bo;
-+	__u8  cu_func;
-+	__u8  pad[3];
-+};
-+
-+/**
-+ * struct amdxdna_hwctx_param_config_cu - configuration for CUs in hardware context
-+ * @num_cus: Number of CUs to configure.
-+ * @pad: Structure padding.
-+ * @cu_configs: Array of CU configurations of struct amdxdna_cu_config.
-+ */
-+struct amdxdna_hwctx_param_config_cu {
-+	__u16 num_cus;
-+	__u16 pad[3];
-+	struct amdxdna_cu_config cu_configs[] __counted_by(num_cus);
-+};
-+
-+enum amdxdna_drm_config_hwctx_param {
-+	DRM_AMDXDNA_HWCTX_CONFIG_CU,
-+	DRM_AMDXDNA_HWCTX_ASSIGN_DBG_BUF,
-+	DRM_AMDXDNA_HWCTX_REMOVE_DBG_BUF,
-+	DRM_AMDXDNA_HWCTX_CONFIG_NUM
-+};
-+
-+/**
-+ * struct amdxdna_drm_config_hwctx - Configure hardware context.
-+ * @handle: hardware context handle.
-+ * @param_type: Value in enum amdxdna_drm_config_hwctx_param. Specifies the
-+ *              structure passed in via param_val.
-+ * @param_val: A structure specified by the param_type struct member.
-+ * @param_val_size: Size of the parameter buffer pointed to by the param_val.
-+ *		    If param_val is not a pointer, driver can ignore this.
-+ * @pad: Structure padding.
-+ *
-+ * Note: if the param_val is a pointer pointing to a buffer, the maximum size
-+ * of the buffer is 4KiB(PAGE_SIZE).
-+ */
-+struct amdxdna_drm_config_hwctx {
++struct amdxdna_drm_sync_bo {
 +	__u32 handle;
-+	__u32 param_type;
-+	__u64 param_val;
-+	__u32 param_val_size;
-+	__u32 pad;
++#define SYNC_DIRECT_TO_DEVICE	0U
++#define SYNC_DIRECT_FROM_DEVICE	1U
++	__u32 direction;
++	__u64 offset;
++	__u64 size;
 +};
 +
-+#define DRM_IOCTL_AMDXDNA_CREATE_HWCTX \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_CREATE_HWCTX, \
-+		 struct amdxdna_drm_create_hwctx)
+ #define DRM_IOCTL_AMDXDNA_CREATE_HWCTX \
+ 	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_CREATE_HWCTX, \
+ 		 struct amdxdna_drm_create_hwctx)
+@@ -148,6 +213,18 @@ struct amdxdna_drm_config_hwctx {
+ 	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_CONFIG_HWCTX, \
+ 		 struct amdxdna_drm_config_hwctx)
+ 
++#define DRM_IOCTL_AMDXDNA_CREATE_BO \
++	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_CREATE_BO, \
++		 struct amdxdna_drm_create_bo)
 +
-+#define DRM_IOCTL_AMDXDNA_DESTROY_HWCTX \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_DESTROY_HWCTX, \
-+		 struct amdxdna_drm_destroy_hwctx)
++#define DRM_IOCTL_AMDXDNA_GET_BO_INFO \
++	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_GET_BO_INFO, \
++		 struct amdxdna_drm_get_bo_info)
 +
-+#define DRM_IOCTL_AMDXDNA_CONFIG_HWCTX \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_CONFIG_HWCTX, \
-+		 struct amdxdna_drm_config_hwctx)
++#define DRM_IOCTL_AMDXDNA_SYNC_BO \
++	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_SYNC_BO, \
++		 struct amdxdna_drm_sync_bo)
 +
  #if defined(__cplusplus)
  } /* extern c end */
