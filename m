@@ -2,59 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8419C3E59
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 13:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9167A9C3E63
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 13:23:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CCF210E48A;
-	Mon, 11 Nov 2024 12:18:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBED10E1E8;
+	Mon, 11 Nov 2024 12:23:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Tdk0hYFk";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="r0yPOa9y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB6510E48A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 12:18:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1731327508; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=GtBLxRb0/a/pGnZBdkapmI8yoYQ6aIy0iSqSGE+OJbDvYmqNFq4BJV6uhJmF8O9Mwu9YeB0Itf7wfxpYzxjbW3GpHnuoU5BQXlGlb14STfS1QesEcGFTRU1NQJxgyJlSK32SFo0In10l9Vnmfcm5o0sGsyIBsYjJvFCgYUbKLN8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1731327508;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=WmK2xlQ+zyobePquUkVhqfJy16+HvtgT370hP1XsPfo=; 
- b=fIVsWDdJsO7HkZtBDDPaD1ml90vOxjbbqwmc2fIEAFvcGijjN5ZOJhy/wkDCtKascZtTsLsNom9QxisZmW4x4z3lb7XTa2iVAMPXqOR/+C6qgIuHPgjfhyB01HHGV5EktDGel4hiXj5Q2Ma921NNeNIKnUH8NUBZHygG8Yy4Vs0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731327508; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=WmK2xlQ+zyobePquUkVhqfJy16+HvtgT370hP1XsPfo=;
- b=Tdk0hYFkM+heWlAhdQat/RUTeeOnYjfXp+GxYl0UBJFOcLFS9Ta8uvs50MjSWhRe
- EJxLrNFpfOKUyVEudlqbjPPVxaAkfePbGRFnjheySt9F1gjUA9BlTEG009FmWmHCdKd
- rXnmRUkNZ/fR7Z4jreUNEdVsRS0I0TVp48LOD3dE=
-Received: by mx.zohomail.com with SMTPS id 1731327496153595.5978690443898;
- Mon, 11 Nov 2024 04:18:16 -0800 (PST)
-Message-ID: <09d9815c-9d5b-464b-9362-5b8232d36de1@collabora.com>
-Date: Mon, 11 Nov 2024 15:18:11 +0300
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 150F610E1E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 12:23:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=bESN6kdzHxb64vN3iq3WZYzFXKD0mi1nbsMeliAw0u0=; b=r0yPOa9y8RWgmD+cewhhadmfw3
+ FAP5txSdXJ9cETG9uPFypbhfUuOGbRWIiXU56a50JiBTKbZ4UUPQznWxVCe8Jlx1yJHiXm3gQ7Dsi
+ 9DfKVjuxhM7NhjWo0p1LUOSY8Gyjzd+16swfBeOSC1cOQ+v1vUn82YpC4levHbIy8EMm549gWro1t
+ 7PAD2umFfCoEWMbOPoNtdb/y1/oX+S3x1DgZ4Y41kWWJePzIUivHrv+H8tQ9ihzqRu+ZHNQKER0yv
+ VSFOYZc/Gnp/jZdfe8MyZWGvi9dvMMY3dLhm4G+olbzRTHx4PVlAINPbo7MbTGbJwpvtx81tSP8yD
+ SISdHp8A==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tATSL-005Omb-T3; Mon, 11 Nov 2024 13:23:46 +0100
+Message-ID: <0f5849b1-149e-4446-896c-2b21b198c154@igalia.com>
+Date: Mon, 11 Nov 2024 09:23:40 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/virtio: Add drm_panic support
-To: Ryosuke Yasuoka <ryasuoka@redhat.com>, airlied@redhat.com,
- kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- simona@ffwll.ch
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20241108032603.3164570-1-ryasuoka@redhat.com>
+Subject: Re: [PATCH] drm/v3d: Fix performance counter source settings on V3D
+ 7.x
+To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Christian Gmeiner <cgmeiner@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20241106121736.5707-1-mcanal@igalia.com>
 Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20241108032603.3164570-1-ryasuoka@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20241106121736.5707-1-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,23 +62,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/8/24 06:26, Ryosuke Yasuoka wrote:
-> +struct virtio_gpu_panic_object_array {
-> +	struct ww_acquire_ctx ticket;
-> +	struct list_head next;
-> +	u32 nents, total;
-> +	struct drm_gem_object *objs;
-> +};
-> +
-> +static void *virtio_panic_buffer;
+On 06/11/24 09:16, Maíra Canal wrote:
+> When the new register addresses were introduced for V3D 7.x, we added
+> new masks for performance counter sources on V3D 7.x.  Nevertheless,
+> we never apply these new masks when setting the sources.
+> 
+> Fix the performance counter source settings on V3D 7.x by introducing
+> a new macro, `V3D_SET_FIELD_VER`, which allows fields setting to vary
+> by version. Using this macro, we can provide different values for
+> source mask based on the V3D version, ensuring that sources are
+> correctly configure on V3D 7.x.
+> 
+> Fixes: 0ad5bc1ce463 ("drm/v3d: fix up register addresses for V3D 7.x")
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   drivers/gpu/drm/v3d/v3d_debugfs.c |  4 ++--
+>   drivers/gpu/drm/v3d/v3d_perfmon.c | 15 ++++++++-------
+>   drivers/gpu/drm/v3d/v3d_regs.h    | 29 +++++++++++++++++------------
+>   3 files changed, 27 insertions(+), 21 deletions(-)
+> 
 
-This won't work well if there is more than one virtio-gpu device in the
-system. Please make it private to the virtio-gpu dev.
+Applied to misc/kernel.git (drm-misc-next).
 
-Otherwise looks okay. I've tested v3 on QEMU, panic screen works.
-Looking forward to v4, thanks.
-
--- 
-Best regards,
-Dmitry
+Best Regards,
+- Maíra
 
