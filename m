@@ -2,58 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0339C3685
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 03:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3362A9C3696
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 03:36:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7978D10E11A;
-	Mon, 11 Nov 2024 02:26:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="E8FkPk6W";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11A6B10E15A;
+	Mon, 11 Nov 2024 02:36:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C15C10E11A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 02:26:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1731291999;
- bh=XDWlJThTvaEq9P/OevyjuO/i+ZiQzOi0XEza0wyZbR4=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=E8FkPk6WUbvD4usg0Pmf9ON+pnXSczRLsZfy5EZig+vkVz7R76kWossXEyJrj1hyF
- Kx8xJNwWUUiahssiEPUX0M7rI0uR0GR32hpX+J2PoYoumIrgCuKB+WQbzSoVW43xNe
- 84aLRx8/+c9NAoAxr/sa11HWrVCGXheEUPLk5WY4wwBWpWHg+6TNUG1N0oepDAeLly
- x+eR5tWwM+mUzQs3nwH9ij66pRLbFCprH6YKsGtsw4XH985ppiLCUmcseoC0u4miuH
- oL8EsfPZf/BGKBF4GgIEF57r3GWwO+8Kt8UogMSULlZs0LO8FCdj2T3Kn1ffIedfP/
- nK+YjuLXFeHfA==
-Received: from nicolas-tpx395.localdomain (unknown
- [IPv6:2606:6d00:15:862e::580])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: nicolas)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id F258C17E0FAB;
- Mon, 11 Nov 2024 03:26:37 +0100 (CET)
-Message-ID: <866f8a40473d13e50b7db9441618ee199c63425c.camel@collabora.com>
-Subject: Re: [PATCH] drm/fourcc: Add modifier definition for describing
- Verisilicon video framebuffer
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, laurentiu.palcu@nxp.com,
- aisheng.dong@nxp.com,  Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel
- <p.zabel@pengutronix.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Collabora
- Kernel ML <kernel@collabora.com>
-Date: Sun, 10 Nov 2024 21:26:35 -0500
-In-Reply-To: <a8e06d9dcc664918d91fb6e7dd80692230df9b68.camel@collabora.com>
-References: <0102019301ab1b2d-5539e1c7-e026-47bc-8692-b3335f6f7584-000000@eu-west-1.amazonses.com>
- <e5b0252f-f097-4e47-ad07-701cadd965fb@collabora.com>
- <a8e06d9dcc664918d91fb6e7dd80692230df9b68.camel@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.54.1 (3.54.1-1.fc41) 
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
+ [45.249.212.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 868CC10E15A;
+ Mon, 11 Nov 2024 02:36:26 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+ by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4Xmtvt1Dkwz4f3l8F;
+ Mon, 11 Nov 2024 10:36:10 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+ by mail.maildlp.com (Postfix) with ESMTP id 3791F1A0568;
+ Mon, 11 Nov 2024 10:36:23 +0800 (CST)
+Received: from [10.174.176.73] (unknown [10.174.176.73])
+ by APP4 (Coremail) with SMTP id gCh0CgCnzoKgbTFnhWTJBQ--.55246S3;
+ Mon, 11 Nov 2024 10:36:19 +0800 (CST)
+Subject: Re: [RFC PATCH 6/6 6.6] libfs: fix infinite directory reads for
+ offset dir
+To: cel@kernel.org, stable@vger.kernel.org
+Cc: yukuai1@huaweicloud.com, harry.wentland@amd.com, sunpeng.li@amd.com,
+ Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, viro@zeniv.linux.org.uk, brauner@kernel.org,
+ Liam.Howlett@oracle.com, akpm@linux-foundation.org, hughd@google.com,
+ willy@infradead.org, gregkh@linuxfoundation.org, sashal@kernel.org,
+ srinivasan.shanmugam@amd.com, chiahsuan.chung@amd.com, mingo@kernel.org,
+ mgorman@techsingularity.net, chengming.zhou@linux.dev,
+ zhangpeng.00@bytedance.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, maple-tree@lists.infradead.org,
+ linux-mm@kvack.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ Chuck Lever <chuck.lever@oracle.com>, "yukuai (C)" <yukuai3@huawei.com>
+References: <20241111005242.34654-1-cel@kernel.org>
+ <20241111005242.34654-7-cel@kernel.org>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <278433c2-611c-6c8e-7964-5c11977b68b7@huaweicloud.com>
+Date: Mon, 11 Nov 2024 10:36:16 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20241111005242.34654-7-cel@kernel.org>
+Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgCnzoKgbTFnhWTJBQ--.55246S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3Gw18Ww4rWF13tF18ZryDGFg_yoW7ZF1fpF
+ Z8G3W3Kr4fXw1UKF4vvF1DZryF93Z3Kw45W34rW345Ary2qrZ8KFn2yr1aka48tr95Cr12
+ qF45K343Ww4jkrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUB214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWrXVW3AwCF04k20xvY0x
+ 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+ 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+ kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRCXdbUUUUU
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,165 +84,161 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-I have an update on top of what I've said ealier.
+�� 2024/11/11 8:52, cel@kernel.org д��:
+> From: yangerkun <yangerkun@huawei.com>
+> 
+> [ Upstream commit 64a7ce76fb901bf9f9c36cf5d681328fc0fd4b5a ]
+> 
+> After we switch tmpfs dir operations from simple_dir_operations to
+> simple_offset_dir_operations, every rename happened will fill new dentry
+> to dest dir's maple tree(&SHMEM_I(inode)->dir_offsets->mt) with a free
+> key starting with octx->newx_offset, and then set newx_offset equals to
+> free key + 1. This will lead to infinite readdir combine with rename
+> happened at the same time, which fail generic/736 in xfstests(detail show
+> as below).
+> 
+> 1. create 5000 files(1 2 3...) under one dir
+> 2. call readdir(man 3 readdir) once, and get one entry
+> 3. rename(entry, "TEMPFILE"), then rename("TEMPFILE", entry)
+> 4. loop 2~3, until readdir return nothing or we loop too many
+>     times(tmpfs break test with the second condition)
+> 
+> We choose the same logic what commit 9b378f6ad48cf ("btrfs: fix infinite
+> directory reads") to fix it, record the last_index when we open dir, and
+> do not emit the entry which index >= last_index. The file->private_data
 
-Le mercredi 06 novembre 2024 à 14:49 -0500, Nicolas Dufresne a écrit :
-> Hi,
+Please notice this requires last_index should never overflow, otherwise
+readdir will be messed up.
+> now used in offset dir can use directly to do this, and we also update
+> the last_index when we llseek the dir file.
 > 
-> Le mercredi 06 novembre 2024 à 16:53 +0100, Benjamin Gaignard a écrit :
-> > + nicolas
+> Fixes: a2e459555c5f ("shmem: stable directory offsets")
+> Signed-off-by: yangerkun <yangerkun@huawei.com>
+> Link: https://lore.kernel.org/r/20240731043835.1828697-1-yangerkun@huawei.com
+> Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
+> [brauner: only update last_index after seek when offset is zero like Jan suggested]
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> Link: https://nvd.nist.gov/vuln/detail/CVE-2024-46701
+> [ cel: adjusted to apply to origin/linux-6.6.y ]
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>   fs/libfs.c | 37 +++++++++++++++++++++++++------------
+>   1 file changed, 25 insertions(+), 12 deletions(-)
 > 
-> Thanks for the CC, I'm obviously watching kernel@collabora.com, I don't know why
-> it didn't make it to my mailbox.
-> 
-> I'm adding explicitly Lucas and Philipp, as I believe they can provide relevant
-> information here.
-> 
-> > 
-> > Le 06/11/2024 à 14:30, Benjamin Gaignard a écrit :
-> > > Verisilicon hardware video decoders can produce tiled (8x4 or 4x4)
-> > > and compressed video framebuffers.
-> > > It considerably reduces memory bandwidth while writing and reading
-> > > frames in memory.
-> 
-> I've seen for years this 8x4 references, but in reality, and I've implemented
-> software converters that works on all the VSI/Hantro drivers we have mainline,
-> there is no such thing as 8x4 tiled coming out of these chips.
+> diff --git a/fs/libfs.c b/fs/libfs.c
+> index a87005c89534..b59ff0dfea1f 100644
+> --- a/fs/libfs.c
+> +++ b/fs/libfs.c
+> @@ -449,6 +449,14 @@ void simple_offset_destroy(struct offset_ctx *octx)
+>   	xa_destroy(&octx->xa);
+>   }
+>   
+> +static int offset_dir_open(struct inode *inode, struct file *file)
+> +{
+> +	struct offset_ctx *ctx = inode->i_op->get_offset_ctx(inode);
+> +
+> +	file->private_data = (void *)ctx->next_offset;
+> +	return 0;
+> +}
 
-I completely missed that tiled has never been an output format from the upstream
-Hantro G1 driver, meaning it could possibly be 8x4, sorry for this.
+Looks like xarray is still used.
 
-That being said, it also means we have nothing upstream producing that, so I'd
-avoid the risk of making up a bad definition.
+I'm in the cc list ,so I assume you saw my set, then I don't know why
+you're ignoring my concerns.
 
-> 
-> Unless we have new evidence, and V4L2 patches enabling these formats, I don't
-> see any point of bringing what I believe is a TRM mistake, or an historical
-> format.
-> 
-> > > 
-> > > The underlying storage in NV12 (for 8-bit) or NV15 (for 10-bit).
-> > > 
-> > > Display controllers, like imx DCSS, could use these modifier definition
-> > > as input for overlay planes.
-> > > 
-> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > ---
-> > > The original code comes from:
-> > > https://github.com/nxp-imx/linux-imx/commit/ab01b7fe82d5a11dfb533cfbd08c4dfa140815de
-> > > I have port it and modify DRM_FORMAT_MOD_VENDOR_VSI value.
-> > > 
-> > >   include/uapi/drm/drm_fourcc.h | 27 +++++++++++++++++++++++++++
-> > >   1 file changed, 27 insertions(+)
-> > > 
-> > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> > > index 78abd819fd62..31d09a98d0d7 100644
-> > > --- a/include/uapi/drm/drm_fourcc.h
-> > > +++ b/include/uapi/drm/drm_fourcc.h
-> > > @@ -421,6 +421,7 @@ extern "C" {
-> > >   #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
-> > >   #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
-> > >   #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
-> > > +#define DRM_FORMAT_MOD_VENDOR_VSI     0x0b
-> > >   
-> > >   /* add more to the end as needed */
-> > >   
-> > > @@ -1607,6 +1608,32 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
-> > >   #define AMD_FMT_MOD_CLEAR(field) \
-> > >   	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
-> > >   
-> > > +/* Verisilicon framebuffer modifiers */
-> > > +
-> > > +/*
-> > > + * Verisilicon 8x4 tiling layout
-> > > + *
-> > > + * This is G1 VPU tiled layout using tiles of 8x4 pixels in a row-major
-> > > + * layout.
-> > > + */
-> > > +#define DRM_FORMAT_MOD_VSI_G1_TILED fourcc_mod_code(VSI, 1)
-> 
-> I have code in GStreamer mainline that handle the tiled G1 output in software
-> and its 4x4, no doubt here ... 
+1) next_offset is 32-bit and can overflow in a long-time running
+machine.
+2) Once next_offset overflows, readdir will skip the files that offset
+is bigger.
 
-Appology again for my mistake, this can effectively be 8x4, a format we have no
-producer for upstream.
+Thanks,
+Kuai
 
-> 
-> > > +
-> > > +/*
-> > > + * Verisilicon 4x4 tiling layout
-> > > + *
-> > > + * This is G2 VPU tiled layout using tiles of 4x4 pixels in a row-major
-> > > + * layout.
-> > > + */
-> > > +#define DRM_FORMAT_MOD_VSI_G2_TILED fourcc_mod_code(VSI, 2)
-> 
-> ... Meaning this split make no sense, G2 shares the same format in V4L2 and
-> works well in GStreamer software converters. In fact, in the NXP TRM, you should
-> notice that in the G1 section, they document G2 tile and G1 tile is ignored.
-> Perhaps the DCSS do implement some 8x4 tiling, but considering we don't have
-> evidence of anything producing that, we should probably not have it.
-> 
-> From the documentation from NXP, G2 Tile is identical to
-> DRM_FORMAT_MOD_VIVANTE_TILED, so we really should reuse the existing definition.
-> If not, I'd really like to know in the text why. Running Etnaviv patched with
-> NV12 support (which I think got merged now), I can see that the combination is
-> supported (but haven't tested it though since its not mapped properly in
-> GStreamer yet):
-> 
-> 
-> > NV12         | NV12                    | external only |
-> >              | NV12:0x0600000000000001 | external only |
-> >              | NV12:0x0600000000000002 | external only |
-> 
-> Having a GL path is very efficient, but also gives compositors a composition
-> fallback which is needed to enable a format and guarantee it can be rendered at
-> all time.
-
-I wanted to confirm my claimed that VIVANTE_TILED is the same. So I worked on
-this claim, and demonstrated that it is effectively the same by passing that
-through the GPU. Here's my GStreamer modification to make this happen:
-
-https://gitlab.freedesktop.org/ndufresne/gstreamer/-/commits/imx8m-nv12-4l4-gl
-
-This has been tested with glimagesink and hantro G2 mainline decoder.
-
-> 
-> > > +
-> > > +/*
-> > > + * Verisilicon 4x4 tiling with compression layout
-> > > + *
-> > > + * This is G2 VPU tiled layout using tiles of 4x4 pixels in a row-major
-> > > + * layout with compression.
-> > > + */
-> > > +#define DRM_FORMAT_MOD_VSI_G2_TILED_COMPRESSED fourcc_mod_code(VSI, 3)
-> 
-> This one needs definition, but the doc provided does not seem to match what I
-> can see in IMX8M TRM (see 14.2.2.3 Compressed format), here's a snippet, I don't
-> yet fully understand it. They only explain the storage, not the compression
-> technique, but this should be enough to understand its not a simple row-major
-> 4x4 tiling.
-> 
->    When compression is enabled, the picture is divided into CBS rows, which is
->    further divided into continuous CBS groups. Each CBS group is composed of 16
->    CBS. The luminance CBS is composed of 1 8x8 coded block (CB), which one
->    chrominance CBS is composed of two 8x4 coded blocks, with cb CB first then cr
->    CB following. The compression is performed to each CB in the CBS. The first
->    CB's compressed data saved from the same offset of that CBS in raster scan
->    buffer. And the compressed output of following CBs in the CBS row is saved
->    continuously. That means there may be gaps between the compressed data of
->    each CBS row.
-
-I will also raise the same question, if we have nothing upstream producing it,
-shall we take the risk and upstream a definition for it ? We can clearly live
-with just VIVANTE_TILED in the short term and wait until V4L2 drivers evolves.
-
-> 
-> Nicolas
-> 
-> > > +
-> > >   #if defined(__cplusplus)
-> > >   }
-> > >   #endif
+> +
+>   /**
+>    * offset_dir_llseek - Advance the read position of a directory descriptor
+>    * @file: an open directory whose position is to be updated
+> @@ -462,6 +470,9 @@ void simple_offset_destroy(struct offset_ctx *octx)
+>    */
+>   static loff_t offset_dir_llseek(struct file *file, loff_t offset, int whence)
+>   {
+> +	struct inode *inode = file->f_inode;
+> +	struct offset_ctx *ctx = inode->i_op->get_offset_ctx(inode);
+> +
+>   	switch (whence) {
+>   	case SEEK_CUR:
+>   		offset += file->f_pos;
+> @@ -475,8 +486,9 @@ static loff_t offset_dir_llseek(struct file *file, loff_t offset, int whence)
+>   	}
+>   
+>   	/* In this case, ->private_data is protected by f_pos_lock */
+> -	file->private_data = NULL;
+> -	return vfs_setpos(file, offset, U32_MAX);
+> +	if (!offset)
+> +		file->private_data = (void *)ctx->next_offset;
+> +	return vfs_setpos(file, offset, LONG_MAX);
+>   }
+>   
+>   static struct dentry *offset_find_next(struct xa_state *xas)
+> @@ -505,7 +517,7 @@ static bool offset_dir_emit(struct dir_context *ctx, struct dentry *dentry)
+>   			  inode->i_ino, fs_umode_to_dtype(inode->i_mode));
+>   }
+>   
+> -static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
+> +static void offset_iterate_dir(struct inode *inode, struct dir_context *ctx, long last_index)
+>   {
+>   	struct offset_ctx *so_ctx = inode->i_op->get_offset_ctx(inode);
+>   	XA_STATE(xas, &so_ctx->xa, ctx->pos);
+> @@ -514,17 +526,21 @@ static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
+>   	while (true) {
+>   		dentry = offset_find_next(&xas);
+>   		if (!dentry)
+> -			return ERR_PTR(-ENOENT);
+> +			return;
+> +
+> +		if (dentry2offset(dentry) >= last_index) {
+> +			dput(dentry);
+> +			return;
+> +		}
+>   
+>   		if (!offset_dir_emit(ctx, dentry)) {
+>   			dput(dentry);
+> -			break;
+> +			return;
+>   		}
+>   
+>   		dput(dentry);
+>   		ctx->pos = xas.xa_index + 1;
+>   	}
+> -	return NULL;
+>   }
+>   
+>   /**
+> @@ -551,22 +567,19 @@ static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
+>   static int offset_readdir(struct file *file, struct dir_context *ctx)
+>   {
+>   	struct dentry *dir = file->f_path.dentry;
+> +	long last_index = (long)file->private_data;
+>   
+>   	lockdep_assert_held(&d_inode(dir)->i_rwsem);
+>   
+>   	if (!dir_emit_dots(file, ctx))
+>   		return 0;
+>   
+> -	/* In this case, ->private_data is protected by f_pos_lock */
+> -	if (ctx->pos == DIR_OFFSET_MIN)
+> -		file->private_data = NULL;
+> -	else if (file->private_data == ERR_PTR(-ENOENT))
+> -		return 0;
+> -	file->private_data = offset_iterate_dir(d_inode(dir), ctx);
+> +	offset_iterate_dir(d_inode(dir), ctx, last_index);
+>   	return 0;
+>   }
+>   
+>   const struct file_operations simple_offset_dir_operations = {
+> +	.open		= offset_dir_open,
+>   	.llseek		= offset_dir_llseek,
+>   	.iterate_shared	= offset_readdir,
+>   	.read		= generic_read_dir,
 > 
 
