@@ -2,61 +2,226 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0BA9C41DD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 16:33:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD289C4209
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 16:40:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7571910E2F4;
-	Mon, 11 Nov 2024 15:33:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8653210E4DA;
+	Mon, 11 Nov 2024 15:40:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="di29sS2y";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="U3aS2enD";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="vALgTjwU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C070810E166
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 15:32:59 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4E7B6A4177B;
- Mon, 11 Nov 2024 15:31:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B0C6C4CECF;
- Mon, 11 Nov 2024 15:32:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1731339177;
- bh=1ThGkgVVbxMJiZ+Q+8T68/fF0P7HNWCG2mwC4Rtjf/s=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=di29sS2yULUAMIlrvezh1QsvFESkjGfpd9LieoER3Xt3VSRhTW1nJdRtX/SA4O9UJ
- jhCS97UkJ326rdw/1nUCLApAAtK3hMNuh0ylfMoyR6wbgUyfO4VaA7zGldhOGSLl4s
- FYoyLHUzlfRtPoFcOTEiuJOLU67yDKxg1htMdeuNoqYju+QS1/UwWIjvJQ5k4sN3Kv
- GsUDxDvhuG6u+HaauLny5uBzV2Z/lNKuGLfGjFVPww7Y3TzJHp191h9JSBmPLyCdeJ
- YmrEDni5oG90Fn6P5mhJpNgwEgvuFrEWOBkiUDTxqt/Oo8Co5RJfPzHOCUe98+pIHh
- WTzDI9g2rEGFQ==
-Date: Mon, 11 Nov 2024 09:32:55 -0600
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E05110E4DD;
+ Mon, 11 Nov 2024 15:40:27 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AB9smde002330;
+ Mon, 11 Nov 2024 15:34:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-id:content-transfer-encoding:content-type:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to; s=
+ corp-2023-11-20; bh=QgKnTe/P4QNfx/SkQUB23+HLkiwXAqZdpxo8aj2qirY=; b=
+ U3aS2enDIkuED2y1DVCQWfCb7wnkrxpUfRS9KgbH90yFD4qf9jYh+714qulpr0bE
+ b2QFyIaW2LeghpKugnzCCYyk1gBNGmux/8oq0t2spFlVT8LQiXkqFzbUdTh3WRiV
+ iykkQ0xD/plxDyiEXJcMfpKmPNp5PRgfbqQRXTVVv0Pz5XWfK1Uz0i9PJ//KMBjE
+ vGoP80+77hYa9QpVtn3ebbR+qhB4PI5hFCBbcX99wT9N7tAlnzY8B53CERJGZNBV
+ uGmJj18y55gJcqSNd7buOu/XpTTBJhrHfbQGXx13pfK7F6Th7/1LYiGofB0F59+/
+ XD9NgW6NWs4OY2GIz7VGuw==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42t0hejnxh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Nov 2024 15:34:38 +0000 (GMT)
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 4ABElAbB037828; Mon, 11 Nov 2024 15:34:37 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2173.outbound.protection.outlook.com [104.47.58.173])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 42sx675bk8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Nov 2024 15:34:37 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rjm9uoZU4Ir/MVsTNRQZd/CgMRYSGb1TqiqpfTsMe3gn/VYIFMfmWg6fGa7RhEx8lSKMsJvGnei4ABmQ7ZEmIgPklAk4Xt+DT75R+HiBQSWg/lmX11q9utkKo9bni5/4tN/OKdwBNEJI8+Bxt2t3LPLqixaywInaYALN0vWX4Ks9le7OILwGGCB1/78G9ap5gO0EMyV1mZ6tHnxVTRnmAiSSluTZG7frrMs0x56ol6cAJ02jEBgQW0qRPohCNPh4RGlp7JKE7iKiC+GQGZI1lz2YdGdzRQqCS9hh4QnUwghqdPHwD995QlT1Lw2vNKaK8f8VsrM5LBRvLxtSbcxn/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QgKnTe/P4QNfx/SkQUB23+HLkiwXAqZdpxo8aj2qirY=;
+ b=DBzCX5oGJ6xenjnyjojkujNVRywyt/qaQfmSGyWAvr+gY7Pjw4HM/2XH/+16icE59bX1VCiImVV0nf/G9xIyxSXDmEo2psn9C1XtwQ3AkiCvzwVEB1mTq0gnNVapDKb7hsXotEP40KT7YOkE1WYVCx+m7C/8yp8dzuBwMKnKFC2v2e1PsI6L2J/3Ldow0dVLKI9YRzppGBoohoKZlCX4tdvyVY6Fwjb5BSW7bNybHDGP4vjF6Sfev2tTnVKJqxnJ74ePi8Nu1Pi2ry1ex4FbD7J2n0z5a7tG4XKSKUK8udkJ3rRTYo8eclpdO3BN6VBbJ6T1jtfSWnSY/phw6T1J5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QgKnTe/P4QNfx/SkQUB23+HLkiwXAqZdpxo8aj2qirY=;
+ b=vALgTjwU90MD84bwf371N5RLhAlqT0d7cqTalN23WrpsY1tmE3tsXwjCBqTq+UsXctSegmnPIq69u2Un9N7xP/hSwoPbgbLbNGwsP93bHCAv7FAEtW62LRACG0aC08eGJ20AIyiizXCLZVpP5p/c9FXtgVlSTwPydCTgs7oky7I=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by DS0PR10MB7173.namprd10.prod.outlook.com (2603:10b6:8:dc::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.25; Mon, 11 Nov
+ 2024 15:34:27 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90%4]) with mapi id 15.20.8137.027; Mon, 11 Nov 2024
+ 15:34:27 +0000
+From: Chuck Lever III <chuck.lever@oracle.com>
+To: yangerkun <yangerkun@huaweicloud.com>
+CC: Yu Kuai <yukuai1@huaweicloud.com>, Chuck Lever <cel@kernel.org>,
+ linux-stable <stable@vger.kernel.org>, "harry.wentland@amd.com"
+ <harry.wentland@amd.com>, "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "Xinhui.Pan@amd.com"
+ <Xinhui.Pan@amd.com>, "airlied@gmail.com" <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Al Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Liam Howlett <liam.howlett@oracle.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Greg KH <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>,
+ "srinivasan.shanmugam@amd.com" <srinivasan.shanmugam@amd.com>,
+ "chiahsuan.chung@amd.com" <chiahsuan.chung@amd.com>,
+ "mingo@kernel.org" <mingo@kernel.org>,
+ "mgorman@techsingularity.net" <mgorman@techsingularity.net>,
+ "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+ "zhangpeng.00@bytedance.com" <zhangpeng.00@bytedance.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux FS Devel
+ <linux-fsdevel@vger.kernel.org>, "maple-tree@lists.infradead.org"
+ <maple-tree@lists.infradead.org>, linux-mm <linux-mm@kvack.org>,
+ "yi.zhang@huawei.com" <yi.zhang@huawei.com>, "yukuai (C)"
+ <yukuai3@huawei.com>
+Subject: Re: [RFC PATCH 6/6 6.6] libfs: fix infinite directory reads for
+ offset dir
+Thread-Topic: [RFC PATCH 6/6 6.6] libfs: fix infinite directory reads for
+ offset dir
+Thread-Index: AQHbM9Qf5MGHjWzrD0e387x3Myz9zbKxXU4AgADJ6QCAAAuNgIAAA+kA
+Date: Mon, 11 Nov 2024 15:34:27 +0000
+Message-ID: <09F40EA2-9537-4C7A-A221-AA403ED3FF64@oracle.com>
+References: <20241111005242.34654-1-cel@kernel.org>
+ <20241111005242.34654-7-cel@kernel.org>
+ <278433c2-611c-6c8e-7964-5c11977b68b7@huaweicloud.com>
+ <96A93064-8DCE-4B78-9F2A-CF6E7EEABEB1@oracle.com>
+ <73a05cb9-569c-9b3c-3359-824e76b14461@huaweicloud.com>
+In-Reply-To: <73a05cb9-569c-9b3c-3359-824e76b14461@huaweicloud.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3776.700.51.11.1)
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|DS0PR10MB7173:EE_
+x-ms-office365-filtering-correlation-id: fb6b9a91-3c26-410d-5c5e-08dd02665414
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|366016|376014|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?Yyt1SUNZSHg3d2xLdlJhbk9YVEp2ZW1kMWNKOG4zYzZhTGRHaDgyVXAyRENE?=
+ =?utf-8?B?Q0F6VE1rZXU2U3NKeDRZQllZVnduL1JaeWpoZ0RZaWVydnhPY2RDL1JhTnd3?=
+ =?utf-8?B?RFA5dHN2cElOK00xRWRhb25HVGd1YkJ4WGJZeVpVSmkxTWJvdWtma0E1SVVp?=
+ =?utf-8?B?NW11bWpVTFRtWmVoSXNoTEJwZUZyREwxTEVzZWhTRjdjNy9RVkxIR0FITXpX?=
+ =?utf-8?B?MVc3VlhuWWRzVFo5ZFpVbGxvVG5jQ1NxUExmZnoyNG5iajc3ZHMzbnZqbXRz?=
+ =?utf-8?B?cFlIT2NmSWpwMFBSNWRiWjBjcW9MenptTUNiMTdPOVlFSWw5WmR3Vm1WU0lk?=
+ =?utf-8?B?NG1tUkl2RnhSS1pYUWJySGNSVVhtYjlEU255WUdVb1V3bHpoYjVmaGdTNjBU?=
+ =?utf-8?B?S1BrajJ3MitMQmsvZ1IyQ3Y3ZDQrNVFaSmRobHBYSDQ4K25RalhLV0FHY0kz?=
+ =?utf-8?B?RklSd0MzZjhxcTJIalVPdFAwbzlxRHZEUm1uUUtUbktUM1o0NnY0QzBWWTFw?=
+ =?utf-8?B?a2Iwd2FpZmN5NWhhKzJvODd1Kys1WUhOOFRNaFRKWit3VGtwakN5Um1JSHNp?=
+ =?utf-8?B?Z1hNSk5oZzBteUZpQnYyME9lM3hucUk1ZWhGTDNQNExyNk5DSDNuVFBobGtr?=
+ =?utf-8?B?VnFqVHRpdWhZWEtyVEZYSVl6Z0VjYjBoajNhaVd2dmswQWRvYk5kYnd3Y2VY?=
+ =?utf-8?B?ZEQ1cUoveU9NdlBHVUdzbUlmcTUrd0JLY1RHK21QRXgwYUJySDRDZENFamJh?=
+ =?utf-8?B?YzNzMHU5UnBrQXBtU0xEVHl3V1FUQ1F2eW85SCtSU2p2dmQ1OERrRWdIQU0z?=
+ =?utf-8?B?U2lORUl1a2E2V3pXN21JcmV1d3FXODdZSjNuZENGOUZxN1hkT2VzWjFHa0Fi?=
+ =?utf-8?B?Vzd3NkFlRnZHeVNVUkppNzhnTXRwSk9Bc3ZsN21EU29mS3FWd1c2RThLT2dP?=
+ =?utf-8?B?RWRWTnVSRDhwTW9DTVpVVGZxWWFDUkZWUkg1WFhhVGpCLzc5V2xPN2pkUGRp?=
+ =?utf-8?B?bXhCSm1YR2JPanMxV1VXOFl5UE9uMC9kTjRlZXBORmtLcmFwTVV3UWhjTFRC?=
+ =?utf-8?B?Vk0zRmhjMTVubE5zOHpzbTI4VnU4cXdubVMzSWc1SW5DWXlJMTlWTm5WYklQ?=
+ =?utf-8?B?WVNEQ2Q3YnVudXM3dGVrOVBzTzlLZ0dkK2dZVFllMldNSDQ4R2NNSkovcUFF?=
+ =?utf-8?B?MHpLcEdNYVNyUHl6dmlhOGE4dTlpN0pLU1E2MVdMekt4VTQ1T0pKWkNnTkIr?=
+ =?utf-8?B?bDBCSGtWY1h0RWxyMkN1Mkp4N013QUFFK01vTUdJazFjd2t5dFFnN2cxZ2JF?=
+ =?utf-8?B?a1M4Uzk4cjZMN3piWDRSKzFHNEdUaGozLytUNkxOUDh6Qk5QOU1wNk1RYmNw?=
+ =?utf-8?B?TXdlVFZJUFRYVEVGTkM2b29GUGVSOG9oU01yTTJKUmxSdDlPdmZiRXBTRWFa?=
+ =?utf-8?B?NUIyYTZ3L3ZVeFN1cS9LSzR4a3pQbER3SlZtSHMrYnNVZ1dQVmZ1ZFhwUUZz?=
+ =?utf-8?B?ekdkRjlubmxURGRtTjc3UW05QnB5UU8yd21Yc0lEdHFIV3FCUGZ6NzRzWEhu?=
+ =?utf-8?B?TVI5Y0pqSDAzMVlOLzk5blRxK2NuUWhUOTlidmNycUp2b0ZaNVErOGk1SzQr?=
+ =?utf-8?B?VFEyMUpRWm5tYWEvUWpYWGRGV3pIanBMVzR6Y2tHS1NuZ3l1dEhZd2grRWtk?=
+ =?utf-8?B?cDdNYkhmcUtmRFFMVWszY2JUSjFhbTBDa0FyQ1NXOEI1ZldiRjRWSWI2ZWlX?=
+ =?utf-8?B?UXJtUWJoZkVBNWF6YzdXZkFlelBtZ2Fheml1VVpNQzF1RVFLT1FMaWtuNC9m?=
+ =?utf-8?B?YllFZnpiazZQRVNrT0p5QjRVSW05MDNXZVVuMnZqVFNOU3V0Nld6a2diSGpw?=
+ =?utf-8?Q?Z3pjQcX9phYhA?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN0PR10MB5128.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(366016)(376014)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RFhLZDNQa1ZLS2d1VEVLQlFUWkJtcjBMT05nQXJMYUdQclhMbHBzNncxaTNW?=
+ =?utf-8?B?SlBuQm9oSC9VVDBBQnZnL0NHMk0yQ0pJZGg0UjVMOHNxcVNTYVlrNzlpV3k4?=
+ =?utf-8?B?MVU0Vk9XN0hKM0VURFpnUFd0bGlsWjhnTFQwSDZqb0NVN0ZxbEhaWXpOSDBB?=
+ =?utf-8?B?akRYSFdBOFU4TXpIcXVQbUxVV2trd3p4UXkwandzNXVGRVlmWFJ0eUprTGsy?=
+ =?utf-8?B?Z2xTZlVkRW04blJINk5sUUpRRE5FMmoreHVyQ0ZZUHlsUHBwYXdONHRjWk5R?=
+ =?utf-8?B?bHpmR29raWNHZkZDK0VhRm9XdUw0M3IxdjFVNlRjM2JDT3B6Zk94MklWbmpr?=
+ =?utf-8?B?SmhxUkVQYngwWjFsV3A2cUNpMzN5OFZQdEhEWjc2NC9EUEVlcGZHWitIYzNF?=
+ =?utf-8?B?SXQyYWZMZ0xybjB5Z0JmdFVOeXZxNTlmTzVneGtoOWpnRWEvbmVtajlGamda?=
+ =?utf-8?B?NlZ4WjhVNUs3QWJRYldKWGhZQmdUbG9ZbkIxUHJZWVFXWnpNSVNKd0huUWtQ?=
+ =?utf-8?B?SEYySTNBZXpJUUlsMXh2SC9pOTFuQXVHdXk5akovZzF3TnNJajhpaG5UZ1Zl?=
+ =?utf-8?B?RlE4VVVVdVpyV1ZTR2RSNkFpRTRCc3REdTVBa0owTHp4QkxSR0hRU2I4R3N6?=
+ =?utf-8?B?WWh2ZTN2dW5HSmNzT0lhb2U3clRkVVNEYVZXODRKcHhKVHZoZEttK3pMRnoz?=
+ =?utf-8?B?d0FlR0JDVG9JTnY2ZzVzQUY2b0xCVXNSdTFkV1YxbS9tQ1FoU3pUY2pEMExa?=
+ =?utf-8?B?VkV0Mnl6NW5HT3ExclAzZVFtQjNXS21SbEFMNU54Vk5aY2R4dmtpN3pWTU9x?=
+ =?utf-8?B?SnZkMmVKU05QT2hPVFRobDRsTFRTdGNLWnNzdTFjWkluRGY2VzNqWGtkMzRi?=
+ =?utf-8?B?S1M0cVhLSHBPYmo2UnNiTlN0RFlRUlV0ODJSamhWT1pzZEUvMkVicGVRUzFk?=
+ =?utf-8?B?V1JsTXp1SHAzUVBkczJKMTA0am1ZL3psS1JUdkdsbUhqVWt6RmFnQmtJYU5M?=
+ =?utf-8?B?VGVkbDMvVFE3eTJkdDBhbmdsWDBzWmVZNlFoZnFCdllLVjd1bVBzYjQvaUdG?=
+ =?utf-8?B?akQ1clZQcEswT1IvNGFGcktUN0sxRmZKSGNaczdQbTN3dzhycDl2THFHRDhJ?=
+ =?utf-8?B?RWl2NytFM1ZMbm42RnZmQ0RHTmdFSVFpdWdPR1NIaVU1cjV2SGQvYmRPY1R6?=
+ =?utf-8?B?ZHZXV0tFNmFFQzZoTTJXUkd4bURHaVVrUy9vUkM1VTFyZ08xQlh4WUo4OS9U?=
+ =?utf-8?B?cGpUSDFsRkZlMlIxME45SG8yK3hENTdOR2dONVJmTUhDR1Iyc3NOSmVKallO?=
+ =?utf-8?B?R011NlAyR0tSYVkyMHAxWTJVL1QwQ2EzVk4vRFp1ck11MnU0Z2dRdmFiTWRx?=
+ =?utf-8?B?dFBpWDV6NEJwQXg4WFE2UkNSb3lvL3RzZENFTGFYY1c4RUIvVytYMkJMRVlI?=
+ =?utf-8?B?emhEWER5OGh3cEdxSjRXbGR3MXBZaTA3NnpCaUdqQXE2VlZuRU5hMDdtYnRt?=
+ =?utf-8?B?ZTcrT0JIMzNycnVVUjZkU1B6bzBjeVlJRzNxVUJwaWRvcUFaTWxPREZ6bmI4?=
+ =?utf-8?B?eGJlc0JjQ0paWXI0b282LzFsRkxMcjk0dldMZSt3RElHRUozN0wvY0hQakIr?=
+ =?utf-8?B?d1BwdldmTDIrS2RJZXdCbmNXczlyVDJUSFhKNkJxeFdQbk9jS3IyVWJQU2NH?=
+ =?utf-8?B?Wnh3YVhLd2VQd2kvNmdXQlNkb1FPQ0VMRGV4bzlqa21ZT1N1OHVaOW1VbW9Q?=
+ =?utf-8?B?aUc3UW1yQTRMbWdueENLMXNIYW96NjJlb0FQWWdOdld2eTFicG05bEVGSkEr?=
+ =?utf-8?B?K2dZaXVBU1pzRFRHZ25JQjQzSEppbXNmRVRWQWs3SlpkUmxlY3VYL1NzSG1P?=
+ =?utf-8?B?RWhtQ0hxK0tTSS9LQnZhSEZQK2p1ZkxMdnpYMU4wWXk0bGNSN2lrSmtSZEhw?=
+ =?utf-8?B?TlVkc0tiakphK3BlMktkL3FDMlRxYTlkZVh1QzdtdVdhYTdkWlAyT01pcEFw?=
+ =?utf-8?B?RHpnWUgxTHBaZExMVGxPTWNka2U0YUxkbzM0MXluT3AwVTFmcHMzQWNZejNT?=
+ =?utf-8?B?M3MvWTlBb255MVRFNWhxU2VLRUJwNUJ0ZFY0Q3k3NjdtaWs3NFh1bUUwb3dy?=
+ =?utf-8?B?dzZJZFJMbnVsZEVxeHhaSjYzUEZsR0d6Q3hrWmcyLzdkM1pONkVMOFpzTnhr?=
+ =?utf-8?B?dHc9PQ==?=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-ID: <BBCCF0EB9F14054B8C26C813586E3DE9@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Mithil Bavishi <bavishimithil@gmail.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>, Andreas Kemnade <andreas@kemnade.info>, 
- Thierry Reding <thierry.reding@gmail.com>, linux-kernel@vger.kernel.org, 
- linux-omap@vger.kernel.org, David Airlie <airlied@gmail.com>, 
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Simona Vetter <simona@ffwll.ch>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Tony Lindgren <tony@atomide.com>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Aaro Koskinen <aaro.koskinen@iki.fi>, Kevin Hilman <khilman@baylibre.com>, 
- linux-hardening@vger.kernel.org, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Roger Quadros <rogerq@kernel.org>, Robert Foss <rfoss@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>
-In-Reply-To: <20241108200440.7562-1-bavishimithil@gmail.com>
-References: <20241108200440.7562-1-bavishimithil@gmail.com>
-Message-Id: <173133346307.1281672.16504840078570362330.robh@kernel.org>
-Subject: Re: [PATCH v3 00/10] Initial support for Samsung Galaxy Tab 2 series
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: RDLlrX6NkohyRLCyFLhdaLvjnNvtH59JBe/JTuMvIOdICcD4cvPDIbLLO0rN4G29rG7IMXdBV1X0v7IoOF1BHm3R5wep00cB7lwljmL5571nDOWHQFLFzQTG1rXxgTcJLu4oPPW7NsKQ3tQPgO/yzjdAVP2NI+5ObvXe2EhpAACjRTWcd9lQzBhM0EtsY91XsQ4KWHbkz/bMuIy+ASHOsE6GjnAoE068719ojXzBuph6EEfjxsO18ANZLDYmSmXbWHja7Mq8SkUwAPnibU9mhFuek4w3pArUs/PUK4JRNzYX6uy12M8qrEwUsiJABqQSFWTaHAHFXxGkvafRznLoQNWl/OOkJhRz4WFLDOn9sNz6cjzEqzPKa4Kvsd36D8RKclOkyjX0XYXF85xqG/FZwDh5h26usLoSv2bJKoqutxDL/gioK+rPIXPIgsarZlDQIOLeELA1jpumXXzq2I00hHDi+LIrkQy0rkRmpYjQe9Zrm4D7zfmBDkjnGD0Hgk1GfWuLodbD6ziZ46VIxaU4xcIukyLNKvPkflkChXqPaH8kv8lIQFNSYcbT+x8urMBksgHrO9OETkH0JVhTP1xWzHg0MoJtKrMzvF2Q7pKpT4E=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb6b9a91-3c26-410d-5c5e-08dd02665414
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2024 15:34:27.6474 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7s7EqWcIXrCX1aDH2gNXC8sXer48e25N9Iv60uUHqeymvfVTVebe4vBIt8D+S52w7Z0L1SJilRo9kvZ7vmLjTQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7173
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-11_08,2024-11-08_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ spamscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 suspectscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2409260000 definitions=main-2411110128
+X-Proofpoint-ORIG-GUID: 3QCSpYLb_eaO0Fy1O-N9FJBGY6VOdJxL
+X-Proofpoint-GUID: 3QCSpYLb_eaO0Fy1O-N9FJBGY6VOdJxL
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,937 +237,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Fri, 08 Nov 2024 20:04:29 +0000, Mithil Bavishi wrote:
-> This series adds initial support for the Samsung Galaxy Tab 2
-> (samsung-espresso7/10) series of devices. It adds support for 6 variants
-> (P3100, P3110, P3113, P5100, P5110, P5113). Downstream categorised them
-> based on 3G and WiFi, but since they use different panel, touch
-> controllers, batteries, I decided to categorise them based on screen
-> size as espresso7 and espresso10.
-> 
-> It adds basic functionality for both the models including panel, drm,
-> sdcard, touchscreen, mmc, wifi, bluetooth, keys, battery, fuel gauge,
-> pmic, sensors.
-> 
-> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
-> ---
-> Changes in v3
-> - Use device tree from the correct branch
-> - Fix commit subjects to matching the subsystem
-> - Add Doestek vendor
-> - Add compatible for LVDS encoder
-> - Add compatibles for 7 and 10 inch panels
-> - Clean up device tree using "make CHECK_DTBS=y"
-> - Link to v2: https://lore.kernel.org/all/20241030211215.347710-1-bavishimithil@gmail.com/
-> Changes in v2
-> - Fix node names in common dtsi to have - instead of _
-> - Removed import for twl6030.dtsi
-> - Edited dts to completely use twl6032 nodes
-> - Fixed typo ldosb -> ldousb
-> - Link to v1: https://lore.kernel.org/all/20241030194136.297648-1-bavishimithil@gmail.com/
-> 
-> --
-> Mithil Bavishi (10):
->   ARM: dts: twl6032: Add DTS file for TWL6032 PMIC
->   dt-bindings: vendor-prefixes: Add Doestek
->   dt-bindings: display: bridge: lvds-codec: add doestek,dtc34lm85am
->   dt-bindings: display: panel-lvds: Add compatible for Samsung
->     LTN070NL01 Panel
->   dt-bindings: display: panel-lvds: Add compatible for Samsung
->     LTN101AL03 Panel
->   ARM: dts: ti: omap: espresso-common: Add common device tree for
->     Samsung Galaxy Tab 2 series
->   dt-bindings: omap: Add Samsung Galaxy Tab 2 7.0
->   ARM: dts: ti: omap: samsung-espresso7: Add initial support for Galaxy
->     Tab 2 7.0
->   dt-bindings: omap: Add Samsung Galaxy Tab 2 10.1
->   ARM: dts: ti: omap: samsung-espresso10: Add initial support for Galaxy
->     Tab 2 10.1
-> 
->  .../devicetree/bindings/arm/ti/omap.yaml      |   2 +
->  .../bindings/display/bridge/lvds-codec.yaml   |   1 +
->  .../bindings/display/panel/panel-lvds.yaml    |   4 +
->  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->  .../omap/omap4-samsung-espresso-common.dtsi   | 680 ++++++++++++++++++
->  .../dts/ti/omap/omap4-samsung-espresso10.dts  | 102 +++
->  .../dts/ti/omap/omap4-samsung-espresso7.dts   |  70 ++
->  arch/arm/boot/dts/ti/omap/twl6032.dtsi        |  77 ++
->  8 files changed, 938 insertions(+)
->  create mode 100644 arch/arm/boot/dts/ti/omap/omap4-samsung-espresso-common.dtsi
->  create mode 100644 arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
->  create mode 100644 arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dts
->  create mode 100644 arch/arm/boot/dts/ti/omap/twl6032.dtsi
-> 
-> --
-> 2.43.0
-> 
-> 
-> 
-
-
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y ti/omap/omap4-samsung-espresso10.dtb ti/omap/omap4-samsung-espresso7.dtb' for 20241108200440.7562-1-bavishimithil@gmail.com:
-
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: sram@40304000: '#address-cells' is a required property
-	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: sram@40304000: '#size-cells' is a required property
-	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: sram@40304000: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /interrupt-controller@48281000: failed to match any schema with compatible: ['ti,omap4-wugen-mpu']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: ocp: $nodename:0: 'ocp' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/l3-noc@44000000: failed to match any schema with compatible: ['ti,omap4-l3-noc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: interconnect@4a300000: $nodename:0: 'interconnect@4a300000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000: failed to match any schema with compatible: ['ti,omap4-l4-wkup', 'simple-pm-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@4000/counter@0: failed to match any schema with compatible: ['ti,omap-counter32k']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: prm@0: $nodename:0: 'prm@0' does not match '^([a-z][a-z0-9\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: prm@0: clockdomains: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: prm@0: clocks: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0: failed to match any schema with compatible: ['ti,omap4-prm', 'simple-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/sys_clkin_ck@110: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/abe_dpll_bypass_clk_mux_ck@108: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/abe_dpll_refclk_mux_ck@10c: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/l4_wkup_clk_mux_ck@108: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/syc_clk_div_ck@100: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/usim_ck@1858: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/usim_fclk@1858: failed to match any schema with compatible: ['ti,gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/trace_clk_div_ck: failed to match any schema with compatible: ['ti,clkdm-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/bandgap_fclk@1888: failed to match any schema with compatible: ['ti,gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: emu_sys_clkdm: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clockdomains/emu_sys_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l4_wkup_cm@1800: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/l4_wkup_cm@1800: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/l4_wkup_cm@1800/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: emu_sys_cm@1a00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/emu_sys_cm@1a00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/emu_sys_cm@1a00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@300: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@300: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@400: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@400: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@500: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@500: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@600: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@600: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@700: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@700: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@f00: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@f00: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1000: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1000: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1100: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1100: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1200: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1200: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1300: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1300: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1400: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1400: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1600: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1600: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1700: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1700: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1900: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1900: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1b00: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1b00: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0: failed to match any schema with compatible: ['ti,omap4-scrm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk0_src_gate_ck@310: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk0_src_mux_ck@310: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk0_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk0_ck@310: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk1_src_gate_ck@314: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk1_src_mux_ck@314: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk1_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk1_ck@314: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk2_src_gate_ck@318: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk2_src_mux_ck@318: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk2_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk2_ck@318: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk3_src_gate_ck@31c: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk3_src_mux_ck@31c: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk3_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk3_ck@31c: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk4_src_gate_ck@320: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk4_src_mux_ck@320: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk4_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk4_ck@320: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk5_src_gate_ck@324: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk5_src_mux_ck@324: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk5_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk5_ck@324: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq0_ck@210: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq1_ck@214: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq2_ck@218: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq3_ck@21c: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq4_ck@220: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq5_ck@224: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@0/target-module@c000/scm@c000: failed to match any schema with compatible: ['ti,omap4-scm-wkup']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@10000: $nodename:0: 'segment@10000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@10000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@10000/target-module@4000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@10000/target-module@4000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a300000/segment@10000/target-module@c000/keypad@0: failed to match any schema with compatible: ['ti,omap4-keypad']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: sram@40304000: '#address-cells' is a required property
-	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: sram@40304000: '#size-cells' is a required property
-	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: sram@40304000: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@20000: $nodename:0: 'segment@20000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@20000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: interconnect@4a000000: $nodename:0: 'interconnect@4a000000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000: failed to match any schema with compatible: ['ti,omap4-l4-cfg', 'simple-pm-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: scm@0: $nodename:0: 'scm@0' does not match '^([a-z][a-z0-9\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /interrupt-controller@48281000: failed to match any schema with compatible: ['ti,omap4-wugen-mpu']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0: failed to match any schema with compatible: ['ti,omap4-scm-core', 'simple-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: ocp: $nodename:0: 'ocp' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: scm_conf@0: compatible: ['syscon'] is too short
-	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/control-phy@300: failed to match any schema with compatible: ['ti,control-phy-usb2']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/control-phy@33c: failed to match any schema with compatible: ['ti,control-phy-otghs']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: cm1@0: $nodename:0: 'cm1@0' does not match '^([a-z][a-z0-9\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: cm1@0: clockdomains: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: cm1@0: clocks: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0: failed to match any schema with compatible: ['ti,omap4-cm1', 'simple-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/l3-noc@44000000: failed to match any schema with compatible: ['ti,omap4-l3-noc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: interconnect@4a300000: $nodename:0: 'interconnect@4a300000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/pad_clks_ck@108: failed to match any schema with compatible: ['ti,gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000: failed to match any schema with compatible: ['ti,omap4-l4-wkup', 'simple-pm-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/slimbus_clk@108: failed to match any schema with compatible: ['ti,gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@4000/counter@0: failed to match any schema with compatible: ['ti,omap-counter32k']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: prm@0: $nodename:0: 'prm@0' does not match '^([a-z][a-z0-9\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_abe_ck@1e0: failed to match any schema with compatible: ['ti,omap4-dpll-m4xen-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: prm@0: clocks: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: prm@0: clockdomains: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_abe_x2_ck@1f0: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_abe_m2x2_ck@1f0: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/abe_clk@108: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0: failed to match any schema with compatible: ['ti,omap4-prm', 'simple-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_abe_m3x2_ck@1f4: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/core_hsd_byp_clk_mux_ck@12c: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_ck@120: failed to match any schema with compatible: ['ti,omap4-dpll-core-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_x2_ck: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m6x2_ck@140: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m2_ck@130: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/sys_clkin_ck@110: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m5x2_ck@13c: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/div_core_ck@100: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/abe_dpll_bypass_clk_mux_ck@108: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/div_iva_hs_clk@1dc: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/div_mpu_hs_clk@19c: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/abe_dpll_refclk_mux_ck@10c: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m4x2_ck@138: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_abe_m2_ck@1f0: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m3x2_gate_ck@134: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m3x2_div_ck@134: failed to match any schema with compatible: ['ti,composite-divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/l4_wkup_clk_mux_ck@108: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m3x2_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m7x2_ck@144: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/iva_hsd_byp_clk_mux_ck@1ac: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/syc_clk_div_ck@100: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_iva_ck@1a0: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_iva_x2_ck: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/usim_ck@1858: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_iva_m4x2_ck@1b8: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_iva_m5x2_ck@1bc: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_mpu_ck@160: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/usim_fclk@1858: failed to match any schema with compatible: ['ti,gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_mpu_m2_ck@170: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/trace_clk_div_ck: failed to match any schema with compatible: ['ti,clkdm-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/l3_div_ck@100: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/l4_div_ck@100: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clocks/bandgap_fclk@1888: failed to match any schema with compatible: ['ti,gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/ocp_abe_iclk@528: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: emu_sys_clkdm: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/clockdomains/emu_sys_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: mpuss_cm@300: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/mpuss_cm@300: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/mpuss_cm@300/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: tesla_cm@400: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l4_wkup_cm@1800: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/tesla_cm@400: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/l4_wkup_cm@1800: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/tesla_cm@400/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: abe_cm@500: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/abe_cm@500: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/abe_cm@500/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/l4_wkup_cm@1800/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: cm2@0: $nodename:0: 'cm2@0' does not match '^([a-z][a-z0-9\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: cm2@0: clockdomains: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: cm2@0: clocks: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: emu_sys_cm@1a00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0: failed to match any schema with compatible: ['ti,omap4-cm2', 'simple-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/emu_sys_cm@1a00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/per_hsd_byp_clk_mux_ck@14c: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/emu_sys_cm@1a00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_ck@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m2_ck@150: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_x2_ck@150: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@300: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@300: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m2x2_ck@150: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m3x2_gate_ck@154: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m3x2_div_ck@154: failed to match any schema with compatible: ['ti,composite-divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@400: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@400: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m3x2_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m4x2_ck@158: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m5x2_ck@15c: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@500: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@500: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m6x2_ck@160: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m7x2_ck@164: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_usb_ck@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@600: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@600: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_usb_clkdcoldo_ck@1b4: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_usb_m2_ck@190: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/ducati_clk_mux_ck@100: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@700: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@700: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/func_48m_fclk@108: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@f00: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@f00: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/func_64m_fclk@108: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/func_96m_fclk@108: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/init_60m_fclk@104: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1000: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/per_abe_nc_fclk@108: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1000: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/usb_phy_cm_clk32k@640: failed to match any schema with compatible: ['ti,gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l3_init_clkdm: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clockdomains/l3_init_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1100: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l4_ao_cm@600: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l4_ao_cm@600: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1100: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l4_ao_cm@600/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l3_1_cm@700: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_1_cm@700: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1200: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_1_cm@700/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1200: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l3_2_cm@800: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_2_cm@800: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_2_cm@800/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: ducati_cm@900: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1300: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/ducati_cm@900: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1300: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/ducati_cm@900/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l3_dma_cm@a00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_dma_cm@a00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_dma_cm@a00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1400: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1400: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l3_emif_cm@b00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_emif_cm@b00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_emif_cm@b00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1600: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: d2d_cm@c00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/d2d_cm@c00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1600: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/d2d_cm@c00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l4_cfg_cm@d00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1700: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l4_cfg_cm@d00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1700: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l4_cfg_cm@d00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l3_instr_cm@e00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_instr_cm@e00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_instr_cm@e00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1900: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: ivahd_cm@f00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1900: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/ivahd_cm@f00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/ivahd_cm@f00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: iss_cm@1000: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/iss_cm@1000: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1b00: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/iss_cm@1000/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@6000/prm@0/prm@1b00: failed to match any schema with compatible: ['ti,omap4-prm-inst', 'ti,omap-prm-inst']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l3_dss_cm@1100: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_dss_cm@1100: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_dss_cm@1100/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l3_gfx_cm@1200: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_gfx_cm@1200: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_gfx_cm@1200/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: l3_init_cm@1300: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_init_cm@1300: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0: failed to match any schema with compatible: ['ti,omap4-scrm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_init_cm@1300/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: clock@1400: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clock@1400: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clock@1400/clock@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clock@1400/clock@1a0: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@56000/dma-controller@0: failed to match any schema with compatible: ['ti,omap4430-sdma', 'ti,omap-sdma']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@56000/dma-controller@0: failed to match any schema with compatible: ['ti,omap4430-sdma', 'ti,omap-sdma']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk0_src_gate_ck@310: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@58000/hsi@0: failed to match any schema with compatible: ['ti,omap4-hsi']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@58000/hsi@0/hsi-port@2000: failed to match any schema with compatible: ['ti,omap4-hsi-port']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@58000/hsi@0/hsi-port@3000: failed to match any schema with compatible: ['ti,omap4-hsi-port']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk0_src_mux_ck@310: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@62000/usbhstll@0: failed to match any schema with compatible: ['ti,usbhs-tll']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@64000/usbhshost@0: failed to match any schema with compatible: ['ti,usbhs-host']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: ohci@800: $nodename:0: 'ohci@800' does not match '^usb(@.*)?'
-	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: ehci@c00: $nodename:0: 'ehci@c00' does not match '^usb(@.*)?'
-	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@0/target-module@66000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@80000: $nodename:0: 'segment@80000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@80000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: usb_otg_hs@0: interface-type: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@80000/target-module@2b000/usb_otg_hs@0: failed to match any schema with compatible: ['ti,omap4-musb']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@80000/target-module@2d000/ocp2scp@0: failed to match any schema with compatible: ['ti,omap-ocp2scp']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk0_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@80000/target-module@59000/smartreflex@0: failed to match any schema with compatible: ['ti,omap4-smartreflex-mpu']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk0_ck@310: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@80000/target-module@5b000/smartreflex@0: failed to match any schema with compatible: ['ti,omap4-smartreflex-iva']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@80000/target-module@5d000/smartreflex@0: failed to match any schema with compatible: ['ti,omap4-smartreflex-core']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk1_src_gate_ck@314: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk1_src_mux_ck@314: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@100000: $nodename:0: 'segment@100000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@100000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk1_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk1_ck@314: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk2_src_gate_ck@318: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk2_src_mux_ck@318: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk2_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: omap4_padconf_global@5a0: $nodename:0: 'omap4_padconf_global@5a0' does not match '^([a-z][a-z0-9\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@100000/target-module@0/omap4_padconf_global@5a0/pbias_regulator@60: failed to match any schema with compatible: ['ti,pbias-omap4', 'ti,pbias-omap']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@4a000000/segment@100000/target-module@0/omap4_padconf_global@5a0/pbias_regulator@60: failed to match any schema with compatible: ['ti,pbias-omap4', 'ti,pbias-omap']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk2_ck@318: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk3_src_gate_ck@31c: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@180000: $nodename:0: 'segment@180000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@180000: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@180000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@200000: $nodename:0: 'segment@200000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@200000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk3_src_mux_ck@31c: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk3_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk3_ck@31c: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk4_src_gate_ck@320: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@280000: $nodename:0: 'segment@280000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@280000: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@280000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@300000: $nodename:0: 'segment@300000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@300000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk4_src_mux_ck@320: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: interconnect@48000000: $nodename:0: 'interconnect@48000000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000: failed to match any schema with compatible: ['ti,omap4-l4-per', 'simple-pm-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk4_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 74, 4]], 'clock-frequency': 48000000, 'pinctrl-names': ['default'], 'pinctrl-0': [[109]], 'interrupts-extended': [[1, 0, 74, 4], [110, 260]], '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk4_ck@320: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk5_src_gate_ck@324: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk5_src_mux_ck@324: failed to match any schema with compatible: ['ti,composite-mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk5_src_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclk5_ck@324: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq0_ck@210: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq1_ck@214: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq2_ck@218: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq3_ck@21c: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 73, 4]], 'clock-frequency': 48000000, 'interrupts-extended': [[1, 0, 73, 4], [110, 220]], 'pinctrl-names': ['default'], 'pinctrl-0': [[116]], 'bluetooth': {'compatible': ['brcm,bcm4330-bt'], 'pinctrl-names': ['default'], 'pinctrl-0': [[117]], 'shutdown-gpios': [[118, 7, 0]], 'reset-gpios': [[119, 18, 1]], 'device-wakeup-gpios': [[119, 29, 0]], 'interrupt-parent': [[119]], 'interrupts': [[19, 2]]}, '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq4_ck@220: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@a000/scrm@0/clocks/auxclkreq5_ck@224: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: twl@48: Unevaluated properties are not allowed ('pwm', 'pwmled', 'usb-comparator' were unexpected)
-	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@0/target-module@c000/scm@c000: failed to match any schema with compatible: ['ti,omap4-scm-wkup']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@10000: $nodename:0: 'segment@10000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@10000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/usb-comparator: failed to match any schema with compatible: ['ti,twl6030-usb']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwm: failed to match any schema with compatible: ['ti,twl6030-pwm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl6030-pwmled']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@10000/target-module@4000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@10000/target-module@4000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@96000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a300000/segment@10000/target-module@c000/keypad@0: failed to match any schema with compatible: ['ti,omap4-keypad']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@9c000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@a5000/des@0: failed to match any schema with compatible: ['ti,omap4-des']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@ad000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@b2000/1w@0: failed to match any schema with compatible: ['ti,omap3-1w']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@20000: $nodename:0: 'segment@20000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@20000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@b4000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@d1000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@48000000/segment@0/target-module@d5000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: interconnect@4a000000: $nodename:0: 'interconnect@4a000000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@200000: $nodename:0: 'segment@200000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@200000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000: failed to match any schema with compatible: ['ti,omap4-l4-cfg', 'simple-pm-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@48210000/mpu: failed to match any schema with compatible: ['ti,omap4-mpu']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: interconnect@40100000: $nodename:0: 'interconnect@40100000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: scm@0: $nodename:0: 'scm@0' does not match '^([a-z][a-z0-9\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0: failed to match any schema with compatible: ['ti,omap4-scm-core', 'simple-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: scm_conf@0: compatible: ['syscon'] is too short
-	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/control-phy@300: failed to match any schema with compatible: ['ti,control-phy-usb2']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/control-phy@33c: failed to match any schema with compatible: ['ti,control-phy-otghs']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: cm1@0: $nodename:0: 'cm1@0' does not match '^([a-z][a-z0-9\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: cm1@0: clocks: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: cm1@0: clockdomains: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0: failed to match any schema with compatible: ['ti,omap4-cm1', 'simple-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/pad_clks_ck@108: failed to match any schema with compatible: ['ti,gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
-	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
-	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@4d000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/slimbus_clk@108: failed to match any schema with compatible: ['ti,gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@4b501000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@4b701000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: sham@0: 'ti,hwmods' is a required property
-	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/regulator-abb-mpu: failed to match any schema with compatible: ['ti,abb-v2']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/regulator-abb-iva: failed to match any schema with compatible: ['ti,abb-v2']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@58000000/dss@0: failed to match any schema with compatible: ['ti,omap4-dss']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@58000000/dss@0/target-module@1000/dispc@0: failed to match any schema with compatible: ['ti,omap4-dispc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@58000000/dss@0/target-module@3000/encoder@0: failed to match any schema with compatible: ['ti,omap4-venc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@58000000/dss@0/target-module@4000/encoder@0: failed to match any schema with compatible: ['ti,omap4-dsi']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@58000000/dss@0/target-module@5000/encoder@0: failed to match any schema with compatible: ['ti,omap4-dsi']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@58000000/dss@0/target-module@6000/encoder@0: failed to match any schema with compatible: ['ti,omap4-hdmi']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/target-module@5a000000/iva: failed to match any schema with compatible: ['ti,ivahd']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_abe_ck@1e0: failed to match any schema with compatible: ['ti,omap4-dpll-m4xen-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: /ocp/bandgap@4a002260: failed to match any schema with compatible: ['ti,omap4430-bandgap']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: thermal-zones: 'cpu_thermal' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_abe_x2_ck@1f0: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_abe_m2x2_ck@1f0: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/abe_clk@108: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dtb: gpio-keys: 'power' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_abe_m3x2_ck@1f4: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/core_hsd_byp_clk_mux_ck@12c: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_ck@120: failed to match any schema with compatible: ['ti,omap4-dpll-core-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_x2_ck: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m6x2_ck@140: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m2_ck@130: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m5x2_ck@13c: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/div_core_ck@100: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/div_iva_hs_clk@1dc: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/div_mpu_hs_clk@19c: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m4x2_ck@138: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_abe_m2_ck@1f0: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m3x2_gate_ck@134: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m3x2_div_ck@134: failed to match any schema with compatible: ['ti,composite-divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m3x2_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_core_m7x2_ck@144: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/iva_hsd_byp_clk_mux_ck@1ac: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_iva_ck@1a0: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_iva_x2_ck: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_iva_m4x2_ck@1b8: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_iva_m5x2_ck@1bc: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_mpu_ck@160: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/dpll_mpu_m2_ck@170: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/l3_div_ck@100: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/l4_div_ck@100: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/clocks/ocp_abe_iclk@528: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: mpuss_cm@300: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/mpuss_cm@300: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/mpuss_cm@300/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: tesla_cm@400: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/tesla_cm@400: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/tesla_cm@400/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: abe_cm@500: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/abe_cm@500: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@4000/cm1@0/abe_cm@500/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: cm2@0: $nodename:0: 'cm2@0' does not match '^([a-z][a-z0-9\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: cm2@0: clocks: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: cm2@0: clockdomains: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0: failed to match any schema with compatible: ['ti,omap4-cm2', 'simple-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/per_hsd_byp_clk_mux_ck@14c: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_ck@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m2_ck@150: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_x2_ck@150: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m2x2_ck@150: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m3x2_gate_ck@154: failed to match any schema with compatible: ['ti,composite-no-wait-gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m3x2_div_ck@154: failed to match any schema with compatible: ['ti,composite-divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m3x2_ck: failed to match any schema with compatible: ['ti,composite-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m4x2_ck@158: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m5x2_ck@15c: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m6x2_ck@160: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_per_m7x2_ck@164: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_usb_ck@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_usb_clkdcoldo_ck@1b4: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/dpll_usb_m2_ck@190: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/ducati_clk_mux_ck@100: failed to match any schema with compatible: ['ti,mux-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/func_48m_fclk@108: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/func_64m_fclk@108: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/func_96m_fclk@108: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/init_60m_fclk@104: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/per_abe_nc_fclk@108: failed to match any schema with compatible: ['ti,divider-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clocks/usb_phy_cm_clk32k@640: failed to match any schema with compatible: ['ti,gate-clock']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l3_init_clkdm: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clockdomains/l3_init_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l4_ao_cm@600: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l4_ao_cm@600: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l4_ao_cm@600/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l3_1_cm@700: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_1_cm@700: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_1_cm@700/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l3_2_cm@800: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_2_cm@800: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_2_cm@800/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: ducati_cm@900: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/ducati_cm@900: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/ducati_cm@900/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l3_dma_cm@a00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_dma_cm@a00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_dma_cm@a00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l3_emif_cm@b00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_emif_cm@b00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_emif_cm@b00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: d2d_cm@c00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/d2d_cm@c00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/d2d_cm@c00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l4_cfg_cm@d00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l4_cfg_cm@d00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l4_cfg_cm@d00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l3_instr_cm@e00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_instr_cm@e00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_instr_cm@e00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: ivahd_cm@f00: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/ivahd_cm@f00: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/ivahd_cm@f00/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: iss_cm@1000: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/iss_cm@1000: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/iss_cm@1000/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l3_dss_cm@1100: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_dss_cm@1100: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_dss_cm@1100/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l3_gfx_cm@1200: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_gfx_cm@1200: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_gfx_cm@1200/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: l3_init_cm@1300: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_init_cm@1300: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/l3_init_cm@1300/clk@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: clock@1400: '#clock-cells' is a dependency of 'clock-output-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clock@1400: failed to match any schema with compatible: ['ti,omap4-cm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clock@1400/clock@20: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm2@0/clock@1400/clock@1a0: failed to match any schema with compatible: ['ti,clkctrl']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@56000/dma-controller@0: failed to match any schema with compatible: ['ti,omap4430-sdma', 'ti,omap-sdma']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@56000/dma-controller@0: failed to match any schema with compatible: ['ti,omap4430-sdma', 'ti,omap-sdma']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@58000/hsi@0: failed to match any schema with compatible: ['ti,omap4-hsi']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@58000/hsi@0/hsi-port@2000: failed to match any schema with compatible: ['ti,omap4-hsi-port']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@58000/hsi@0/hsi-port@3000: failed to match any schema with compatible: ['ti,omap4-hsi-port']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@62000/usbhstll@0: failed to match any schema with compatible: ['ti,usbhs-tll']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@64000/usbhshost@0: failed to match any schema with compatible: ['ti,usbhs-host']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: ohci@800: $nodename:0: 'ohci@800' does not match '^usb(@.*)?'
-	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: ehci@c00: $nodename:0: 'ehci@c00' does not match '^usb(@.*)?'
-	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@0/target-module@66000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@80000: $nodename:0: 'segment@80000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@80000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: usb_otg_hs@0: interface-type: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@80000/target-module@2b000/usb_otg_hs@0: failed to match any schema with compatible: ['ti,omap4-musb']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@80000/target-module@2d000/ocp2scp@0: failed to match any schema with compatible: ['ti,omap-ocp2scp']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@80000/target-module@59000/smartreflex@0: failed to match any schema with compatible: ['ti,omap4-smartreflex-mpu']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@80000/target-module@5b000/smartreflex@0: failed to match any schema with compatible: ['ti,omap4-smartreflex-iva']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@80000/target-module@5d000/smartreflex@0: failed to match any schema with compatible: ['ti,omap4-smartreflex-core']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@100000: $nodename:0: 'segment@100000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@100000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: omap4_padconf_global@5a0: $nodename:0: 'omap4_padconf_global@5a0' does not match '^([a-z][a-z0-9\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@100000/target-module@0/omap4_padconf_global@5a0/pbias_regulator@60: failed to match any schema with compatible: ['ti,pbias-omap4', 'ti,pbias-omap']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@4a000000/segment@100000/target-module@0/omap4_padconf_global@5a0/pbias_regulator@60: failed to match any schema with compatible: ['ti,pbias-omap4', 'ti,pbias-omap']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@180000: $nodename:0: 'segment@180000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@180000: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@180000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@200000: $nodename:0: 'segment@200000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@200000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@280000: $nodename:0: 'segment@280000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@280000: 'ranges' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@280000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@300000: $nodename:0: 'segment@300000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@300000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: interconnect@48000000: $nodename:0: 'interconnect@48000000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000: failed to match any schema with compatible: ['ti,omap4-l4-per', 'simple-pm-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 74, 4]], 'clock-frequency': 48000000, 'pinctrl-names': ['default'], 'pinctrl-0': [[109]], 'interrupts-extended': [[1, 0, 74, 4], [110, 260]], '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: synaptics-rmi4-i2c@20: Unevaluated properties are not allowed ('avdd-supply', 'touchscreen-size-x', 'touchscreen-size-y' were unexpected)
-	from schema $id: http://devicetree.org/schemas/input/syna,rmi4.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 73, 4]], 'clock-frequency': 48000000, 'interrupts-extended': [[1, 0, 73, 4], [110, 220]], 'pinctrl-names': ['default'], 'pinctrl-0': [[116]], 'bluetooth': {'compatible': ['brcm,bcm4330-bt'], 'pinctrl-names': ['default'], 'pinctrl-0': [[117]], 'shutdown-gpios': [[118, 7, 0]], 'reset-gpios': [[119, 18, 1]], 'device-wakeup-gpios': [[119, 29, 0]], 'interrupt-parent': [[119]], 'interrupts': [[19, 2]]}, '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: twl@48: Unevaluated properties are not allowed ('pwm', 'pwmled', 'usb-comparator' were unexpected)
-	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/usb-comparator: failed to match any schema with compatible: ['ti,twl6030-usb']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwm: failed to match any schema with compatible: ['ti,twl6030-pwm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl6030-pwmled']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@96000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@9c000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@a5000/des@0: failed to match any schema with compatible: ['ti,omap4-des']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@ad000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@b2000/1w@0: failed to match any schema with compatible: ['ti,omap3-1w']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@b4000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@d1000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@48000000/segment@0/target-module@d5000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@200000: $nodename:0: 'segment@200000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@200000: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@48210000/mpu: failed to match any schema with compatible: ['ti,omap4-mpu']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: interconnect@40100000: $nodename:0: 'interconnect@40100000' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'power-domains' is a required property
-	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
-	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
-	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@4d000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@4b501000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@4b701000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: sham@0: 'ti,hwmods' is a required property
-	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/regulator-abb-mpu: failed to match any schema with compatible: ['ti,abb-v2']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/regulator-abb-iva: failed to match any schema with compatible: ['ti,abb-v2']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@58000000/dss@0: failed to match any schema with compatible: ['ti,omap4-dss']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@58000000/dss@0/target-module@1000/dispc@0: failed to match any schema with compatible: ['ti,omap4-dispc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@58000000/dss@0/target-module@3000/encoder@0: failed to match any schema with compatible: ['ti,omap4-venc']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@58000000/dss@0/target-module@4000/encoder@0: failed to match any schema with compatible: ['ti,omap4-dsi']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@58000000/dss@0/target-module@5000/encoder@0: failed to match any schema with compatible: ['ti,omap4-dsi']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@58000000/dss@0/target-module@6000/encoder@0: failed to match any schema with compatible: ['ti,omap4-hdmi']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/target-module@5a000000/iva: failed to match any schema with compatible: ['ti,ivahd']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: /ocp/bandgap@4a002260: failed to match any schema with compatible: ['ti,omap4430-bandgap']
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: thermal-zones: 'cpu_thermal' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb: gpio-keys: 'power' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
-
-
-
-
-
+DQoNCj4gT24gTm92IDExLCAyMDI0LCBhdCAxMDoyMOKAr0FNLCB5YW5nZXJrdW4gPHlhbmdlcmt1
+bkBodWF3ZWljbG91ZC5jb20+IHdyb3RlOg0KPiANCj4gDQo+IA0KPiDlnKggMjAyNC8xMS8xMSAy
+MjozOSwgQ2h1Y2sgTGV2ZXIgSUlJIOWGmemBkzoNCj4+PiBPbiBOb3YgMTAsIDIwMjQsIGF0IDk6
+MzbigK9QTSwgWXUgS3VhaSA8eXVrdWFpMUBodWF3ZWljbG91ZC5jb20+IHdyb3RlOg0KPj4+IA0K
+Pj4+IEhpLA0KPj4+IA0KPj4+IOWcqCAyMDI0LzExLzExIDg6NTIsIGNlbEBrZXJuZWwub3JnIOWG
+memBkzoNCj4+Pj4gRnJvbTogeWFuZ2Vya3VuIDx5YW5nZXJrdW5AaHVhd2VpLmNvbT4NCj4+Pj4g
+WyBVcHN0cmVhbSBjb21taXQgNjRhN2NlNzZmYjkwMWJmOWY5YzM2Y2Y1ZDY4MTMyOGZjMGZkNGI1
+YSBdDQo+Pj4+IEFmdGVyIHdlIHN3aXRjaCB0bXBmcyBkaXIgb3BlcmF0aW9ucyBmcm9tIHNpbXBs
+ZV9kaXJfb3BlcmF0aW9ucyB0bw0KPj4+PiBzaW1wbGVfb2Zmc2V0X2Rpcl9vcGVyYXRpb25zLCBl
+dmVyeSByZW5hbWUgaGFwcGVuZWQgd2lsbCBmaWxsIG5ldyBkZW50cnkNCj4+Pj4gdG8gZGVzdCBk
+aXIncyBtYXBsZSB0cmVlKCZTSE1FTV9JKGlub2RlKS0+ZGlyX29mZnNldHMtPm10KSB3aXRoIGEg
+ZnJlZQ0KPj4+PiBrZXkgc3RhcnRpbmcgd2l0aCBvY3R4LT5uZXd4X29mZnNldCwgYW5kIHRoZW4g
+c2V0IG5ld3hfb2Zmc2V0IGVxdWFscyB0bw0KPj4+PiBmcmVlIGtleSArIDEuIFRoaXMgd2lsbCBs
+ZWFkIHRvIGluZmluaXRlIHJlYWRkaXIgY29tYmluZSB3aXRoIHJlbmFtZQ0KPj4+PiBoYXBwZW5l
+ZCBhdCB0aGUgc2FtZSB0aW1lLCB3aGljaCBmYWlsIGdlbmVyaWMvNzM2IGluIHhmc3Rlc3RzKGRl
+dGFpbCBzaG93DQo+Pj4+IGFzIGJlbG93KS4NCj4+Pj4gMS4gY3JlYXRlIDUwMDAgZmlsZXMoMSAy
+IDMuLi4pIHVuZGVyIG9uZSBkaXINCj4+Pj4gMi4gY2FsbCByZWFkZGlyKG1hbiAzIHJlYWRkaXIp
+IG9uY2UsIGFuZCBnZXQgb25lIGVudHJ5DQo+Pj4+IDMuIHJlbmFtZShlbnRyeSwgIlRFTVBGSUxF
+IiksIHRoZW4gcmVuYW1lKCJURU1QRklMRSIsIGVudHJ5KQ0KPj4+PiA0LiBsb29wIDJ+MywgdW50
+aWwgcmVhZGRpciByZXR1cm4gbm90aGluZyBvciB3ZSBsb29wIHRvbyBtYW55DQo+Pj4+ICAgIHRp
+bWVzKHRtcGZzIGJyZWFrIHRlc3Qgd2l0aCB0aGUgc2Vjb25kIGNvbmRpdGlvbikNCj4+Pj4gV2Ug
+Y2hvb3NlIHRoZSBzYW1lIGxvZ2ljIHdoYXQgY29tbWl0IDliMzc4ZjZhZDQ4Y2YgKCJidHJmczog
+Zml4IGluZmluaXRlDQo+Pj4+IGRpcmVjdG9yeSByZWFkcyIpIHRvIGZpeCBpdCwgcmVjb3JkIHRo
+ZSBsYXN0X2luZGV4IHdoZW4gd2Ugb3BlbiBkaXIsIGFuZA0KPj4+PiBkbyBub3QgZW1pdCB0aGUg
+ZW50cnkgd2hpY2ggaW5kZXggPj0gbGFzdF9pbmRleC4gVGhlIGZpbGUtPnByaXZhdGVfZGF0YQ0K
+Pj4+IA0KPj4+IFBsZWFzZSBub3RpY2UgdGhpcyByZXF1aXJlcyBsYXN0X2luZGV4IHNob3VsZCBu
+ZXZlciBvdmVyZmxvdywgb3RoZXJ3aXNlDQo+Pj4gcmVhZGRpciB3aWxsIGJlIG1lc3NlZCB1cC4N
+Cj4+IEl0IHdvdWxkIGhlbHAgeW91ciBjYXVzZSBpZiB5b3UgY291bGQgYmUgbW9yZSBzcGVjaWZp
+Yw0KPj4gdGhhbiAibWVzc2VkIHVwIi4NCj4+Pj4gbm93IHVzZWQgaW4gb2Zmc2V0IGRpciBjYW4g
+dXNlIGRpcmVjdGx5IHRvIGRvIHRoaXMsIGFuZCB3ZSBhbHNvIHVwZGF0ZQ0KPj4+PiB0aGUgbGFz
+dF9pbmRleCB3aGVuIHdlIGxsc2VlayB0aGUgZGlyIGZpbGUuDQo+Pj4+IEZpeGVzOiBhMmU0NTk1
+NTVjNWYgKCJzaG1lbTogc3RhYmxlIGRpcmVjdG9yeSBvZmZzZXRzIikNCj4+Pj4gU2lnbmVkLW9m
+Zi1ieTogeWFuZ2Vya3VuIDx5YW5nZXJrdW5AaHVhd2VpLmNvbT4NCj4+Pj4gTGluazogaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDI0MDczMTA0MzgzNS4xODI4Njk3LTEteWFuZ2Vya3VuQGh1
+YXdlaS5jb20NCj4+Pj4gUmV2aWV3ZWQtYnk6IENodWNrIExldmVyIDxjaHVjay5sZXZlckBvcmFj
+bGUuY29tPg0KPj4+PiBbYnJhdW5lcjogb25seSB1cGRhdGUgbGFzdF9pbmRleCBhZnRlciBzZWVr
+IHdoZW4gb2Zmc2V0IGlzIHplcm8gbGlrZSBKYW4gc3VnZ2VzdGVkXQ0KPj4+PiBTaWduZWQtb2Zm
+LWJ5OiBDaHJpc3RpYW4gQnJhdW5lciA8YnJhdW5lckBrZXJuZWwub3JnPg0KPj4+PiBMaW5rOiBo
+dHRwczovL252ZC5uaXN0Lmdvdi92dWxuL2RldGFpbC9DVkUtMjAyNC00NjcwMQ0KPj4+PiBbIGNl
+bDogYWRqdXN0ZWQgdG8gYXBwbHkgdG8gb3JpZ2luL2xpbnV4LTYuNi55IF0NCj4+Pj4gU2lnbmVk
+LW9mZi1ieTogQ2h1Y2sgTGV2ZXIgPGNodWNrLmxldmVyQG9yYWNsZS5jb20+DQo+Pj4+IC0tLQ0K
+Pj4+PiAgZnMvbGliZnMuYyB8IDM3ICsrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0t
+LS0NCj4+Pj4gIDEgZmlsZSBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMo
+LSkNCj4+Pj4gZGlmZiAtLWdpdCBhL2ZzL2xpYmZzLmMgYi9mcy9saWJmcy5jDQo+Pj4+IGluZGV4
+IGE4NzAwNWM4OTUzNC4uYjU5ZmYwZGZlYTFmIDEwMDY0NA0KPj4+PiAtLS0gYS9mcy9saWJmcy5j
+DQo+Pj4+ICsrKyBiL2ZzL2xpYmZzLmMNCj4+Pj4gQEAgLTQ0OSw2ICs0NDksMTQgQEAgdm9pZCBz
+aW1wbGVfb2Zmc2V0X2Rlc3Ryb3koc3RydWN0IG9mZnNldF9jdHggKm9jdHgpDQo+Pj4+ICAgeGFf
+ZGVzdHJveSgmb2N0eC0+eGEpOw0KPj4+PiAgfQ0KPj4+PiAgK3N0YXRpYyBpbnQgb2Zmc2V0X2Rp
+cl9vcGVuKHN0cnVjdCBpbm9kZSAqaW5vZGUsIHN0cnVjdCBmaWxlICpmaWxlKQ0KPj4+PiArew0K
+Pj4+PiArIHN0cnVjdCBvZmZzZXRfY3R4ICpjdHggPSBpbm9kZS0+aV9vcC0+Z2V0X29mZnNldF9j
+dHgoaW5vZGUpOw0KPj4+PiArDQo+Pj4+ICsgZmlsZS0+cHJpdmF0ZV9kYXRhID0gKHZvaWQgKilj
+dHgtPm5leHRfb2Zmc2V0Ow0KPj4+PiArIHJldHVybiAwOw0KPj4+PiArfQ0KPj4+IA0KPj4+IExv
+b2tzIGxpa2UgeGFycmF5IGlzIHN0aWxsIHVzZWQuDQo+PiBUaGF0J3Mgbm90IGdvaW5nIHRvIGNo
+YW5nZSwgYXMgc2V2ZXJhbCBmb2xrcyBoYXZlIGFscmVhZHkNCj4+IGV4cGxhaW5lZC4NCj4+PiBJ
+J20gaW4gdGhlIGNjIGxpc3QgLHNvIEkgYXNzdW1lIHlvdSBzYXcgbXkgc2V0LCB0aGVuIEkgZG9u
+J3Qga25vdyB3aHkNCj4+PiB5b3UncmUgaWdub3JpbmcgbXkgY29uY2VybnMuDQo+Pj4gMSkgbmV4
+dF9vZmZzZXQgaXMgMzItYml0IGFuZCBjYW4gb3ZlcmZsb3cgaW4gYSBsb25nLXRpbWUgcnVubmlu
+Zw0KPj4+IG1hY2hpbmUuDQo+Pj4gMikgT25jZSBuZXh0X29mZnNldCBvdmVyZmxvd3MsIHJlYWRk
+aXIgd2lsbCBza2lwIHRoZSBmaWxlcyB0aGF0IG9mZnNldA0KPj4+IGlzIGJpZ2dlci4NCj4gDQo+
+IEknbSBzb3JyeSwgSSdtIGEgbGl0dGxlIGJ1c3kgdGhlc2UgZGF5cywgc28gSSBoYXZlbid0IHJl
+c3BvbmRlZCB0byB0aGlzDQo+IHNlcmllcyBvZiBlbWFpbHMuDQo+IA0KPj4gSW4gdGhhdCBjYXNl
+LCB0aGF0IGVudHJ5IHdvbid0IGJlIHZpc2libGUgdmlhIGdldGRlbnRzKDMpDQo+PiB1bnRpbCB0
+aGUgZGlyZWN0b3J5IGlzIHJlLW9wZW5lZCBvciB0aGUgcHJvY2VzcyBkb2VzIGFuDQo+PiBsc2Vl
+ayhmZCwgMCwgU0VFS19TRVQpLg0KPiANCj4gWWVzLg0KPiANCj4+IFRoYXQgaXMgdGhlIHByb3Bl
+ciBhbmQgZXhwZWN0ZWQgYmVoYXZpb3IuIEkgc3VzcGVjdCB5b3UNCj4+IHdpbGwgc2VlIGV4YWN0
+bHkgdGhhdCBiZWhhdmlvciB3aXRoIGV4dDQgYW5kIDMyLWJpdA0KPj4gZGlyZWN0b3J5IG9mZnNl
+dHMsIGZvciBleGFtcGxlLg0KPiANCj4gRW1tLi4uDQo+IA0KPiBGb3IgdGhpcyBjYXNlIGxpa2Ug
+dGhpczoNCj4gDQo+IDEuIG1rZGlyIC90bXAvZGlyIGFuZCB0b3VjaCAvdG1wL2Rpci9maWxlMSAv
+dG1wL2Rpci9maWxlMg0KPiAyLiBvcGVuIC90bXAvZGlyIHdpdGggZmQxDQo+IDMuIHJlYWRkaXIg
+YW5kIGdldCAvdG1wL2Rpci9maWxlMQ0KPiA0LiBybSAvdG1wL2Rpci9maWxlMg0KPiA1LiB0b3Vj
+aCAvdG1wL2Rpci9maWxlMg0KPiA0LiBsb29wIDR+NSBmb3IgMl4zMiB0aW1lcw0KPiA1LiByZWFk
+ZGlyIC90bXAvZGlyIHdpdGggZmQxDQo+IA0KPiBGb3IgdG1wZnMgbm93LCB3ZSBtYXkgc2VlIG5v
+IC90bXAvZGlyL2ZpbGUyLCBzaW5jZSB0aGUgb2Zmc2V0IGhhcyBiZWVuIG92ZXJmbG93LCBmb3Ig
+ZXh0NCBpdCBpcyBvay4uLiBTbyB3ZSB0aGluayB0aGlzIHdpbGwgYmUgYSBwcm9ibGVtLg0KPiAN
+Cj4+IERvZXMgdGhhdCBub3QgZGlyZWN0bHkgYWRkcmVzcyB5b3VyIGNvbmNlcm4/IE9yIGRvIHlv
+dQ0KPj4gbWVhbiB0aGF0IEVya3VuJ3MgcGF0Y2ggaW50cm9kdWNlcyBhIG5ldyBpc3N1ZT8NCj4g
+DQo+IFllcywgdG8gYmUgaG9uZXN0LCBteSBwZXJzb25hbCBmZWVsaW5nIGlzIGEgcHJvYmxlbS4g
+QnV0IGZvciA2NGJpdCwgaXQgbWF5IG5ldmVyIGJlZW4gdHJpZ2dlci4NCg0KVGhhbmtzIGZvciBj
+b25maXJtaW5nLg0KDQpJbiB0aGF0IGNhc2UsIHRoZSBwcmVmZXJyZWQgd2F5IHRvIGhhbmRsZSBp
+dCBpcyB0byBmaXgNCnRoZSBpc3N1ZSBpbiB1cHN0cmVhbSwgYW5kIHRoZW4gYmFja3BvcnQgdGhh
+dCBmaXggdG8gTFRTLg0KRGVwZW5kZW5jZSBvbiA2NC1iaXQgb2Zmc2V0cyB0byBhdm9pZCBhIGZh
+aWx1cmUgY2FzZQ0Kc2hvdWxkIGJlIGNvbnNpZGVyZWQgYSB3b3JrYXJvdW5kLCBub3QgYSByZWFs
+IGZpeCwgSU1ITy4NCg0KRG8geW91IGhhdmUgYSBmZXcgbW9tZW50cyB0byBhZGRyZXNzIGl0LCBv
+ciBpZiBub3QgSQ0Kd2lsbCBzZWUgdG8gaXQuDQoNCkkgdGhpbmsgcmVkdWNpbmcgdGhlIHhhX2xp
+bWl0IGluIHNpbXBsZV9vZmZzZXRfYWRkKCkgdG8sDQpzYXksIDIuLjE2IHdvdWxkIG1ha2UgdGhl
+IHJlcHJvZHVjZXIgZmlyZSBhbG1vc3QNCmltbWVkaWF0ZWx5Lg0KDQoNCj4+IElmIHRoZXJlIGlz
+IGEgcHJvYmxlbSBoZXJlLCBwbGVhc2UgY29uc3RydWN0IGEgcmVwcm9kdWNlcg0KPj4gYWdhaW5z
+dCB0aGlzIHBhdGNoIHNldCBhbmQgcG9zdCBpdC4NCj4+PiBUaGFua3MsDQo+Pj4gS3VhaQ0KPj4+
+IA0KPj4+PiArDQo+Pj4+ICAvKioNCj4+Pj4gICAqIG9mZnNldF9kaXJfbGxzZWVrIC0gQWR2YW5j
+ZSB0aGUgcmVhZCBwb3NpdGlvbiBvZiBhIGRpcmVjdG9yeSBkZXNjcmlwdG9yDQo+Pj4+ICAgKiBA
+ZmlsZTogYW4gb3BlbiBkaXJlY3Rvcnkgd2hvc2UgcG9zaXRpb24gaXMgdG8gYmUgdXBkYXRlZA0K
+Pj4+PiBAQCAtNDYyLDYgKzQ3MCw5IEBAIHZvaWQgc2ltcGxlX29mZnNldF9kZXN0cm95KHN0cnVj
+dCBvZmZzZXRfY3R4ICpvY3R4KQ0KPj4+PiAgICovDQo+Pj4+ICBzdGF0aWMgbG9mZl90IG9mZnNl
+dF9kaXJfbGxzZWVrKHN0cnVjdCBmaWxlICpmaWxlLCBsb2ZmX3Qgb2Zmc2V0LCBpbnQgd2hlbmNl
+KQ0KPj4+PiAgew0KPj4+PiArIHN0cnVjdCBpbm9kZSAqaW5vZGUgPSBmaWxlLT5mX2lub2RlOw0K
+Pj4+PiArIHN0cnVjdCBvZmZzZXRfY3R4ICpjdHggPSBpbm9kZS0+aV9vcC0+Z2V0X29mZnNldF9j
+dHgoaW5vZGUpOw0KPj4+PiArDQo+Pj4+ICAgc3dpdGNoICh3aGVuY2UpIHsNCj4+Pj4gICBjYXNl
+IFNFRUtfQ1VSOg0KPj4+PiAgIG9mZnNldCArPSBmaWxlLT5mX3BvczsNCj4+Pj4gQEAgLTQ3NSw4
+ICs0ODYsOSBAQCBzdGF0aWMgbG9mZl90IG9mZnNldF9kaXJfbGxzZWVrKHN0cnVjdCBmaWxlICpm
+aWxlLCBsb2ZmX3Qgb2Zmc2V0LCBpbnQgd2hlbmNlKQ0KPj4+PiAgIH0NCj4+Pj4gICAgIC8qIElu
+IHRoaXMgY2FzZSwgLT5wcml2YXRlX2RhdGEgaXMgcHJvdGVjdGVkIGJ5IGZfcG9zX2xvY2sgKi8N
+Cj4+Pj4gLSBmaWxlLT5wcml2YXRlX2RhdGEgPSBOVUxMOw0KPj4+PiAtIHJldHVybiB2ZnNfc2V0
+cG9zKGZpbGUsIG9mZnNldCwgVTMyX01BWCk7DQo+Pj4+ICsgaWYgKCFvZmZzZXQpDQo+Pj4+ICsg
+ZmlsZS0+cHJpdmF0ZV9kYXRhID0gKHZvaWQgKiljdHgtPm5leHRfb2Zmc2V0Ow0KPj4+PiArIHJl
+dHVybiB2ZnNfc2V0cG9zKGZpbGUsIG9mZnNldCwgTE9OR19NQVgpOw0KPj4+PiAgfQ0KPj4+PiAg
+ICBzdGF0aWMgc3RydWN0IGRlbnRyeSAqb2Zmc2V0X2ZpbmRfbmV4dChzdHJ1Y3QgeGFfc3RhdGUg
+KnhhcykNCj4+Pj4gQEAgLTUwNSw3ICs1MTcsNyBAQCBzdGF0aWMgYm9vbCBvZmZzZXRfZGlyX2Vt
+aXQoc3RydWN0IGRpcl9jb250ZXh0ICpjdHgsIHN0cnVjdCBkZW50cnkgKmRlbnRyeSkNCj4+Pj4g
+ICAgIGlub2RlLT5pX2lubywgZnNfdW1vZGVfdG9fZHR5cGUoaW5vZGUtPmlfbW9kZSkpOw0KPj4+
+PiAgfQ0KPj4+PiAgLXN0YXRpYyB2b2lkICpvZmZzZXRfaXRlcmF0ZV9kaXIoc3RydWN0IGlub2Rl
+ICppbm9kZSwgc3RydWN0IGRpcl9jb250ZXh0ICpjdHgpDQo+Pj4+ICtzdGF0aWMgdm9pZCBvZmZz
+ZXRfaXRlcmF0ZV9kaXIoc3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IGRpcl9jb250ZXh0ICpj
+dHgsIGxvbmcgbGFzdF9pbmRleCkNCj4+Pj4gIHsNCj4+Pj4gICBzdHJ1Y3Qgb2Zmc2V0X2N0eCAq
+c29fY3R4ID0gaW5vZGUtPmlfb3AtPmdldF9vZmZzZXRfY3R4KGlub2RlKTsNCj4+Pj4gICBYQV9T
+VEFURSh4YXMsICZzb19jdHgtPnhhLCBjdHgtPnBvcyk7DQo+Pj4+IEBAIC01MTQsMTcgKzUyNiwy
+MSBAQCBzdGF0aWMgdm9pZCAqb2Zmc2V0X2l0ZXJhdGVfZGlyKHN0cnVjdCBpbm9kZSAqaW5vZGUs
+IHN0cnVjdCBkaXJfY29udGV4dCAqY3R4KQ0KPj4+PiAgIHdoaWxlICh0cnVlKSB7DQo+Pj4+ICAg
+ZGVudHJ5ID0gb2Zmc2V0X2ZpbmRfbmV4dCgmeGFzKTsNCj4+Pj4gICBpZiAoIWRlbnRyeSkNCj4+
+Pj4gLSByZXR1cm4gRVJSX1BUUigtRU5PRU5UKTsNCj4+Pj4gKyByZXR1cm47DQo+Pj4+ICsNCj4+
+Pj4gKyBpZiAoZGVudHJ5Mm9mZnNldChkZW50cnkpID49IGxhc3RfaW5kZXgpIHsNCj4+Pj4gKyBk
+cHV0KGRlbnRyeSk7DQo+Pj4+ICsgcmV0dXJuOw0KPj4+PiArIH0NCj4+Pj4gICAgIGlmICghb2Zm
+c2V0X2Rpcl9lbWl0KGN0eCwgZGVudHJ5KSkgew0KPj4+PiAgIGRwdXQoZGVudHJ5KTsNCj4+Pj4g
+LSBicmVhazsNCj4+Pj4gKyByZXR1cm47DQo+Pj4+ICAgfQ0KPj4+PiAgICAgZHB1dChkZW50cnkp
+Ow0KPj4+PiAgIGN0eC0+cG9zID0geGFzLnhhX2luZGV4ICsgMTsNCj4+Pj4gICB9DQo+Pj4+IC0g
+cmV0dXJuIE5VTEw7DQo+Pj4+ICB9DQo+Pj4+ICAgIC8qKg0KPj4+PiBAQCAtNTUxLDIyICs1Njcs
+MTkgQEAgc3RhdGljIHZvaWQgKm9mZnNldF9pdGVyYXRlX2RpcihzdHJ1Y3QgaW5vZGUgKmlub2Rl
+LCBzdHJ1Y3QgZGlyX2NvbnRleHQgKmN0eCkNCj4+Pj4gIHN0YXRpYyBpbnQgb2Zmc2V0X3JlYWRk
+aXIoc3RydWN0IGZpbGUgKmZpbGUsIHN0cnVjdCBkaXJfY29udGV4dCAqY3R4KQ0KPj4+PiAgew0K
+Pj4+PiAgIHN0cnVjdCBkZW50cnkgKmRpciA9IGZpbGUtPmZfcGF0aC5kZW50cnk7DQo+Pj4+ICsg
+bG9uZyBsYXN0X2luZGV4ID0gKGxvbmcpZmlsZS0+cHJpdmF0ZV9kYXRhOw0KPj4+PiAgICAgbG9j
+a2RlcF9hc3NlcnRfaGVsZCgmZF9pbm9kZShkaXIpLT5pX3J3c2VtKTsNCj4+Pj4gICAgIGlmICgh
+ZGlyX2VtaXRfZG90cyhmaWxlLCBjdHgpKQ0KPj4+PiAgIHJldHVybiAwOw0KPj4+PiAgLSAvKiBJ
+biB0aGlzIGNhc2UsIC0+cHJpdmF0ZV9kYXRhIGlzIHByb3RlY3RlZCBieSBmX3Bvc19sb2NrICov
+DQo+Pj4+IC0gaWYgKGN0eC0+cG9zID09IERJUl9PRkZTRVRfTUlOKQ0KPj4+PiAtIGZpbGUtPnBy
+aXZhdGVfZGF0YSA9IE5VTEw7DQo+Pj4+IC0gZWxzZSBpZiAoZmlsZS0+cHJpdmF0ZV9kYXRhID09
+IEVSUl9QVFIoLUVOT0VOVCkpDQo+Pj4+IC0gcmV0dXJuIDA7DQo+Pj4+IC0gZmlsZS0+cHJpdmF0
+ZV9kYXRhID0gb2Zmc2V0X2l0ZXJhdGVfZGlyKGRfaW5vZGUoZGlyKSwgY3R4KTsNCj4+Pj4gKyBv
+ZmZzZXRfaXRlcmF0ZV9kaXIoZF9pbm9kZShkaXIpLCBjdHgsIGxhc3RfaW5kZXgpOw0KPj4+PiAg
+IHJldHVybiAwOw0KPj4+PiAgfQ0KPj4+PiAgICBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25z
+IHNpbXBsZV9vZmZzZXRfZGlyX29wZXJhdGlvbnMgPSB7DQo+Pj4+ICsgLm9wZW4gPSBvZmZzZXRf
+ZGlyX29wZW4sDQo+Pj4+ICAgLmxsc2VlayA9IG9mZnNldF9kaXJfbGxzZWVrLA0KPj4+PiAgIC5p
+dGVyYXRlX3NoYXJlZCA9IG9mZnNldF9yZWFkZGlyLA0KPj4+PiAgIC5yZWFkID0gZ2VuZXJpY19y
+ZWFkX2RpciwNCj4+IC0tDQo+PiBDaHVjayBMZXZlcg0KDQoNCi0tDQpDaHVjayBMZXZlcg0KDQoN
+Cg==
