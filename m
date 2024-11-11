@@ -2,51 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2DB9C371E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 04:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6217D9C38B6
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 07:55:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5F610E037;
-	Mon, 11 Nov 2024 03:47:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0427210E426;
+	Mon, 11 Nov 2024 06:55:56 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="TqT/1jyP";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Mon, 11 Nov 2024 03:47:43 UTC
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6363410E41A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 03:47:43 +0000 (UTC)
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-292-NG3JTZAbOR-mnJPY7ykctg-1; Sun,
- 10 Nov 2024 22:41:34 -0500
-X-MC-Unique: NG3JTZAbOR-mnJPY7ykctg-1
-X-Mimecast-MFC-AGG-ID: NG3JTZAbOR-mnJPY7ykctg
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id E162D19560B4; Mon, 11 Nov 2024 03:41:33 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.64.136.106])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 56FCF19560A3; Mon, 11 Nov 2024 03:41:31 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Subject: [PATCH 2/2] nouveau/dp: handle retries for AUX CH transfers with GSP.
-Date: Mon, 11 Nov 2024 13:41:25 +1000
-Message-ID: <20241111034126.2028401-2-airlied@gmail.com>
-In-Reply-To: <20241111034126.2028401-1-airlied@gmail.com>
-References: <20241111034126.2028401-1-airlied@gmail.com>
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F022110E1A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 06:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1731308155; x=1762844155;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=aPMrsjI+c6iPJKbzOjnFcwEzzSVmYfrtlku2cTvvpw0=;
+ b=TqT/1jyPQxnIJolOsa5Jtsz/KBtaGyXW77sjFutxoNphoiN3+LQtCmFQ
+ RA/UaLzsJu6cBT54sSJXawiVUgGVYVZLdQfZvWQcBQlpjbXvKYHYigJtd
+ xKm6q55tHqEjtXihVmt0mEz1AJGtx0kM9h3LmsFjukQw5UyEZJeZ0tDhV
+ 8ysR3io75fFdMlBeegLLQKitGS6wUwx+KqBMgB5Q9oIW0jv2p9rdAEzMg
+ l9IUaWkrFvDNWfA/oOoCrAcsb/Bt/+1fyjgjsdKvJAKCRYTRTVk6T0ZT0
+ CI8DvtAYyImK6ry98uyFKYV/ZJtz420e3OPCcRC7LMWmHZ7OU9uaXuwe6 g==;
+X-CSE-ConnectionGUID: ep4875LgSx6tm9VmeD6HJQ==
+X-CSE-MsgGUID: Xs8eyJPZSGinRZUJIbtNZw==
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; d="scan'208";a="265270146"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 10 Nov 2024 23:55:55 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 10 Nov 2024 23:55:15 -0700
+Received: from che-lt-i67131.microchip.com (10.10.85.11) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Sun, 10 Nov 2024 23:55:06 -0700
+From: Manikandan Muralidharan <manikandan.m@microchip.com>
+To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>, <linux@armlinux.org.uk>,
+ <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+ <claudiu.beznea@tuxon.dev>, <dharma.b@microchip.com>,
+ <hari.prasathge@microchip.com>, <varshini.rajendran@microchip.com>,
+ <arnd@arndb.de>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>
+CC: <manikandan.m@microchip.com>
+Subject: [PATCH v6 0/4] MIPI DSI Controller support for SAM9X75 series
+Date: Mon, 11 Nov 2024 12:24:58 +0530
+Message-ID: <20241111065502.411710-1-manikandan.m@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: lJp3UzNQWVIh57rEStnHM4DgqaaRXZNLpvZBPFlqUXk_1731296494
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,107 +78,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+This patch series adds support for the Microchip's MIPI DSI Controller
+wrapper driver that uses the Synopsys DesignWare MIPI DSI host controller
+bridge for SAM9X75 SoC series.
 
-eb284f4b3781 drm/nouveau/dp: Honor GSP link training retry timeouts
+Changelogs are available in respective patches.
 
-tried to fix a problem with panel retires, however it appears
-the auxch also needs the same treatment, so add the same retry
-wrapper around it.
+Manikandan Muralidharan (4):
+  dt-bindings: display: bridge: add sam9x75-mipi-dsi binding
+  drm/bridge: add Microchip DSI controller support for sam9x7 SoC series
+  MAINTAINERS: add SAM9X7 SoC's Microchip's MIPI DSI host wrapper driver
+  ARM: configs: at91: Enable Microchip's MIPI DSI Host Controller
+    support
 
-This fixes some eDP panels after a suspend/resume cycle.
+ .../bridge/microchip,sam9x75-mipi-dsi.yaml    | 109 ++++
+ MAINTAINERS                                   |   7 +
+ arch/arm/configs/at91_dt_defconfig            |   1 +
+ drivers/gpu/drm/bridge/Kconfig                |   8 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c     | 545 ++++++++++++++++++
+ 6 files changed, 671 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-mipi-dsi.yaml
+ create mode 100644 drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c
 
-Fixes: eb284f4b3781 ("drm/nouveau/dp: Honor GSP link training retry timeout=
-s")
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- .../gpu/drm/nouveau/nvkm/engine/disp/r535.c   | 57 +++++++++++--------
- 1 file changed, 34 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c b/drivers/gpu/=
-drm/nouveau/nvkm/engine/disp/r535.c
-index 8f9aa3463c3c..99110ab2f44d 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-@@ -1060,33 +1060,44 @@ r535_dp_aux_xfer(struct nvkm_outp *outp, u8 type, u=
-32 addr, u8 *data, u8 *psize)
- =09NV0073_CTRL_DP_AUXCH_CTRL_PARAMS *ctrl;
- =09u8 size =3D *psize;
- =09int ret;
-+=09int retries;
-=20
--=09ctrl =3D nvkm_gsp_rm_ctrl_get(&disp->rm.objcom, NV0073_CTRL_CMD_DP_AUXC=
-H_CTRL, sizeof(*ctrl));
--=09if (IS_ERR(ctrl))
--=09=09return PTR_ERR(ctrl);
-+=09for (retries =3D 0; retries < 3; ++retries) {
-+=09=09ctrl =3D nvkm_gsp_rm_ctrl_get(&disp->rm.objcom, NV0073_CTRL_CMD_DP_A=
-UXCH_CTRL, sizeof(*ctrl));
-+=09=09if (IS_ERR(ctrl))
-+=09=09=09return PTR_ERR(ctrl);
-=20
--=09ctrl->subDeviceInstance =3D 0;
--=09ctrl->displayId =3D BIT(outp->index);
--=09ctrl->bAddrOnly =3D !size;
--=09ctrl->cmd =3D type;
--=09if (ctrl->bAddrOnly) {
--=09=09ctrl->cmd =3D NVDEF_SET(ctrl->cmd, NV0073_CTRL, DP_AUXCH_CMD, REQ_TY=
-PE, WRITE);
--=09=09ctrl->cmd =3D NVDEF_SET(ctrl->cmd, NV0073_CTRL, DP_AUXCH_CMD,  I2C_M=
-OT, FALSE);
--=09}
--=09ctrl->addr =3D addr;
--=09ctrl->size =3D !ctrl->bAddrOnly ? (size - 1) : 0;
--=09memcpy(ctrl->data, data, size);
-+=09=09ctrl->subDeviceInstance =3D 0;
-+=09=09ctrl->displayId =3D BIT(outp->index);
-+=09=09ctrl->bAddrOnly =3D !size;
-+=09=09ctrl->cmd =3D type;
-+=09=09if (ctrl->bAddrOnly) {
-+=09=09=09ctrl->cmd =3D NVDEF_SET(ctrl->cmd, NV0073_CTRL, DP_AUXCH_CMD, REQ=
-_TYPE, WRITE);
-+=09=09=09ctrl->cmd =3D NVDEF_SET(ctrl->cmd, NV0073_CTRL, DP_AUXCH_CMD,  I2=
-C_MOT, FALSE);
-+=09=09}
-+=09=09ctrl->addr =3D addr;
-+=09=09ctrl->size =3D !ctrl->bAddrOnly ? (size - 1) : 0;
-+=09=09memcpy(ctrl->data, data, size);
-=20
--=09ret =3D nvkm_gsp_rm_ctrl_push(&disp->rm.objcom, &ctrl, sizeof(*ctrl));
--=09if (ret) {
--=09=09nvkm_gsp_rm_ctrl_done(&disp->rm.objcom, ctrl);
--=09=09return ret;
-+=09=09ret =3D nvkm_gsp_rm_ctrl_push(&disp->rm.objcom, &ctrl, sizeof(*ctrl)=
-);
-+=09=09if ((ret =3D=3D -EAGAIN || ret =3D=3D -EBUSY) && ctrl->retryTimeMs) =
-{
-+=09=09=09/*
-+=09=09=09 * Device (likely an eDP panel) isn't ready yet, wait for the tim=
-e specified
-+=09=09=09 * by GSP before retrying again
-+=09=09=09 */
-+=09=09=09nvkm_debug(&disp->engine.subdev,
-+=09=09=09=09   "Waiting %dms for GSP LT panel delay before retrying in AUX=
-\n",
-+=09=09=09=09   ctrl->retryTimeMs);
-+=09=09=09msleep(ctrl->retryTimeMs);
-+=09=09=09nvkm_gsp_rm_ctrl_done(&disp->rm.objcom, ctrl);
-+=09=09} else {
-+=09=09=09memcpy(data, ctrl->data, size);
-+=09=09=09*psize =3D ctrl->size;
-+=09=09=09ret =3D ctrl->replyType;
-+=09=09=09nvkm_gsp_rm_ctrl_done(&disp->rm.objcom, ctrl);
-+=09=09=09break;
-+=09=09}
- =09}
--
--=09memcpy(data, ctrl->data, size);
--=09*psize =3D ctrl->size;
--=09ret =3D ctrl->replyType;
--=09nvkm_gsp_rm_ctrl_done(&disp->rm.objcom, ctrl);
- =09return ret;
- }
-=20
---=20
-2.47.0
+base-commit: 4f537776340dab2b680a4d8554567f6884240d0b
+-- 
+2.25.1
 
