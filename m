@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7369C3653
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 03:04:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0339C3685
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 03:26:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD29110E112;
-	Mon, 11 Nov 2024 02:04:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7978D10E11A;
+	Mon, 11 Nov 2024 02:26:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="srGkHYti";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="E8FkPk6W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C35AF10E112
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 02:04:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1731290687;
- bh=Id+OPwn5s7JPd6OOP4WALIDODrSX11BclR0Trmi6WmI=;
- h=Date:From:To:Cc:Subject:From;
- b=srGkHYtim/0P4doqrpzQ0d2/vbc4jD4Nt8kCH7lad4lhCJCpg0Zu+4Ym6Sf1jcSBw
- TGxsBixH9npgeKrpkZ0Q/+coFl5FSufkVxvgnW1SNV4Ayse2aGj5kZC1J9eG2AoVRo
- VTkvJ4wYWAHE7p8ony6G5KjrJkgUSlTiWUy+/GuhkVMsrdhIqZwhlmsRagDhuA5XrY
- Pp6F3O2HWz7VXFnPo4wLbR92Ihsn7URF/oGUx5VS9Kwut9T+Ss3FSdG+yBtCs0AUhu
- D2b67qDTjoDpT43nXNKHAlIhe4Z/wajZ0UeZOGBDhSoCCE5D3x+VOAO25tRVKkGpVR
- 6KGf59RwXqe7Q==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C15C10E11A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 02:26:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1731291999;
+ bh=XDWlJThTvaEq9P/OevyjuO/i+ZiQzOi0XEza0wyZbR4=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=E8FkPk6WUbvD4usg0Pmf9ON+pnXSczRLsZfy5EZig+vkVz7R76kWossXEyJrj1hyF
+ Kx8xJNwWUUiahssiEPUX0M7rI0uR0GR32hpX+J2PoYoumIrgCuKB+WQbzSoVW43xNe
+ 84aLRx8/+c9NAoAxr/sa11HWrVCGXheEUPLk5WY4wwBWpWHg+6TNUG1N0oepDAeLly
+ x+eR5tWwM+mUzQs3nwH9ij66pRLbFCprH6YKsGtsw4XH985ppiLCUmcseoC0u4miuH
+ oL8EsfPZf/BGKBF4GgIEF57r3GWwO+8Kt8UogMSULlZs0LO8FCdj2T3Kn1ffIedfP/
+ nK+YjuLXFeHfA==
+Received: from nicolas-tpx395.localdomain (unknown
+ [IPv6:2606:6d00:15:862e::580])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4XmtCf3XBkz4w2H;
- Mon, 11 Nov 2024 13:04:46 +1100 (AEDT)
-Date: Mon, 11 Nov 2024 13:04:48 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>
-Cc: DRI <dri-devel@lists.freedesktop.org>, Balasubramani Vivekanandan
- <balasubramani.vivekanandan@intel.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>
-Subject: linux-next: manual merge of the drm tree with Linus' tree
-Message-ID: <20241111130448.6b5a7655@canb.auug.org.au>
+ (No client certificate requested) (Authenticated sender: nicolas)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id F258C17E0FAB;
+ Mon, 11 Nov 2024 03:26:37 +0100 (CET)
+Message-ID: <866f8a40473d13e50b7db9441618ee199c63425c.camel@collabora.com>
+Subject: Re: [PATCH] drm/fourcc: Add modifier definition for describing
+ Verisilicon video framebuffer
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, laurentiu.palcu@nxp.com,
+ aisheng.dong@nxp.com,  Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel
+ <p.zabel@pengutronix.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Collabora
+ Kernel ML <kernel@collabora.com>
+Date: Sun, 10 Nov 2024 21:26:35 -0500
+In-Reply-To: <a8e06d9dcc664918d91fb6e7dd80692230df9b68.camel@collabora.com>
+References: <0102019301ab1b2d-5539e1c7-e026-47bc-8692-b3335f6f7584-000000@eu-west-1.amazonses.com>
+ <e5b0252f-f097-4e47-ad07-701cadd965fb@collabora.com>
+ <a8e06d9dcc664918d91fb6e7dd80692230df9b68.camel@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.1 (3.54.1-1.fc41) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/c81ol/c1.QUz8erL5xuYPon";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,72 +69,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/c81ol/c1.QUz8erL5xuYPon
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi all,
+I have an update on top of what I've said ealier.
 
-Today's linux-next merge of the drm tree got a conflict in:
+Le mercredi 06 novembre 2024 à 14:49 -0500, Nicolas Dufresne a écrit :
+> Hi,
+> 
+> Le mercredi 06 novembre 2024 à 16:53 +0100, Benjamin Gaignard a écrit :
+> > + nicolas
+> 
+> Thanks for the CC, I'm obviously watching kernel@collabora.com, I don't know why
+> it didn't make it to my mailbox.
+> 
+> I'm adding explicitly Lucas and Philipp, as I believe they can provide relevant
+> information here.
+> 
+> > 
+> > Le 06/11/2024 à 14:30, Benjamin Gaignard a écrit :
+> > > Verisilicon hardware video decoders can produce tiled (8x4 or 4x4)
+> > > and compressed video framebuffers.
+> > > It considerably reduces memory bandwidth while writing and reading
+> > > frames in memory.
+> 
+> I've seen for years this 8x4 references, but in reality, and I've implemented
+> software converters that works on all the VSI/Hantro drivers we have mainline,
+> there is no such thing as 8x4 tiled coming out of these chips.
 
-  drivers/gpu/drm/xe/xe_gt_ccs_mode.c
+I completely missed that tiled has never been an output format from the upstream
+Hantro G1 driver, meaning it could possibly be 8x4, sorry for this.
 
-between commit:
+That being said, it also means we have nothing upstream producing that, so I'd
+avoid the risk of making up a bad definition.
 
-  7fd3fa006fa5 ("drm/xe: Set mask bits for CCS_MODE register")
+> 
+> Unless we have new evidence, and V4L2 patches enabling these formats, I don't
+> see any point of bringing what I believe is a TRM mistake, or an historical
+> format.
+> 
+> > > 
+> > > The underlying storage in NV12 (for 8-bit) or NV15 (for 10-bit).
+> > > 
+> > > Display controllers, like imx DCSS, could use these modifier definition
+> > > as input for overlay planes.
+> > > 
+> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > > ---
+> > > The original code comes from:
+> > > https://github.com/nxp-imx/linux-imx/commit/ab01b7fe82d5a11dfb533cfbd08c4dfa140815de
+> > > I have port it and modify DRM_FORMAT_MOD_VENDOR_VSI value.
+> > > 
+> > >   include/uapi/drm/drm_fourcc.h | 27 +++++++++++++++++++++++++++
+> > >   1 file changed, 27 insertions(+)
+> > > 
+> > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > > index 78abd819fd62..31d09a98d0d7 100644
+> > > --- a/include/uapi/drm/drm_fourcc.h
+> > > +++ b/include/uapi/drm/drm_fourcc.h
+> > > @@ -421,6 +421,7 @@ extern "C" {
+> > >   #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+> > >   #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+> > >   #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+> > > +#define DRM_FORMAT_MOD_VENDOR_VSI     0x0b
+> > >   
+> > >   /* add more to the end as needed */
+> > >   
+> > > @@ -1607,6 +1608,32 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+> > >   #define AMD_FMT_MOD_CLEAR(field) \
+> > >   	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
+> > >   
+> > > +/* Verisilicon framebuffer modifiers */
+> > > +
+> > > +/*
+> > > + * Verisilicon 8x4 tiling layout
+> > > + *
+> > > + * This is G1 VPU tiled layout using tiles of 8x4 pixels in a row-major
+> > > + * layout.
+> > > + */
+> > > +#define DRM_FORMAT_MOD_VSI_G1_TILED fourcc_mod_code(VSI, 1)
+> 
+> I have code in GStreamer mainline that handle the tiled G1 output in software
+> and its 4x4, no doubt here ... 
 
-from Linus' tree and commit:
+Appology again for my mistake, this can effectively be 8x4, a format we have no
+producer for upstream.
 
-  a851edc457ed ("drm/xe/ccs_mode: Convert register access to use xe_mmio")
+> 
+> > > +
+> > > +/*
+> > > + * Verisilicon 4x4 tiling layout
+> > > + *
+> > > + * This is G2 VPU tiled layout using tiles of 4x4 pixels in a row-major
+> > > + * layout.
+> > > + */
+> > > +#define DRM_FORMAT_MOD_VSI_G2_TILED fourcc_mod_code(VSI, 2)
+> 
+> ... Meaning this split make no sense, G2 shares the same format in V4L2 and
+> works well in GStreamer software converters. In fact, in the NXP TRM, you should
+> notice that in the G1 section, they document G2 tile and G1 tile is ignored.
+> Perhaps the DCSS do implement some 8x4 tiling, but considering we don't have
+> evidence of anything producing that, we should probably not have it.
+> 
+> From the documentation from NXP, G2 Tile is identical to
+> DRM_FORMAT_MOD_VIVANTE_TILED, so we really should reuse the existing definition.
+> If not, I'd really like to know in the text why. Running Etnaviv patched with
+> NV12 support (which I think got merged now), I can see that the combination is
+> supported (but haven't tested it though since its not mapped properly in
+> GStreamer yet):
+> 
+> 
+> > NV12         | NV12                    | external only |
+> >              | NV12:0x0600000000000001 | external only |
+> >              | NV12:0x0600000000000002 | external only |
+> 
+> Having a GL path is very efficient, but also gives compositors a composition
+> fallback which is needed to enable a format and guarantee it can be rendered at
+> all time.
 
-from the drm tree.
+I wanted to confirm my claimed that VIVANTE_TILED is the same. So I worked on
+this claim, and demonstrated that it is effectively the same by passing that
+through the GPU. Here's my GStreamer modification to make this happen:
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+https://gitlab.freedesktop.org/ndufresne/gstreamer/-/commits/imx8m-nv12-4l4-gl
 
---=20
-Cheers,
-Stephen Rothwell
+This has been tested with glimagesink and hantro G2 mainline decoder.
 
-diff --cc drivers/gpu/drm/xe/xe_gt_ccs_mode.c
-index ffcbd05671fc,9360ac4de489..000000000000
---- a/drivers/gpu/drm/xe/xe_gt_ccs_mode.c
-+++ b/drivers/gpu/drm/xe/xe_gt_ccs_mode.c
-@@@ -68,13 -68,7 +68,13 @@@ static void __xe_gt_apply_ccs_mode(stru
-  		}
-  	}
- =20
- +	/*
- +	 * Mask bits need to be set for the register. Though only Xe2+
- +	 * platforms require setting of mask bits, it won't harm for older
- +	 * platforms as these bits are unused there.
- +	 */
- +	mode |=3D CCS_MODE_CSLICE_0_3_MASK << 16;
-- 	xe_mmio_write32(gt, CCS_MODE, mode);
-+ 	xe_mmio_write32(&gt->mmio, CCS_MODE, mode);
- =20
-  	xe_gt_dbg(gt, "CCS_MODE=3D%x config:%08x, num_engines:%d, num_slices:%d\=
-n",
-  		  mode, config, num_engines, num_slices);
+> 
+> > > +
+> > > +/*
+> > > + * Verisilicon 4x4 tiling with compression layout
+> > > + *
+> > > + * This is G2 VPU tiled layout using tiles of 4x4 pixels in a row-major
+> > > + * layout with compression.
+> > > + */
+> > > +#define DRM_FORMAT_MOD_VSI_G2_TILED_COMPRESSED fourcc_mod_code(VSI, 3)
+> 
+> This one needs definition, but the doc provided does not seem to match what I
+> can see in IMX8M TRM (see 14.2.2.3 Compressed format), here's a snippet, I don't
+> yet fully understand it. They only explain the storage, not the compression
+> technique, but this should be enough to understand its not a simple row-major
+> 4x4 tiling.
+> 
+>    When compression is enabled, the picture is divided into CBS rows, which is
+>    further divided into continuous CBS groups. Each CBS group is composed of 16
+>    CBS. The luminance CBS is composed of 1 8x8 coded block (CB), which one
+>    chrominance CBS is composed of two 8x4 coded blocks, with cb CB first then cr
+>    CB following. The compression is performed to each CB in the CBS. The first
+>    CB's compressed data saved from the same offset of that CBS in raster scan
+>    buffer. And the compressed output of following CBs in the CBS row is saved
+>    continuously. That means there may be gaps between the compressed data of
+>    each CBS row.
 
---Sig_/c81ol/c1.QUz8erL5xuYPon
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+I will also raise the same question, if we have nothing upstream producing it,
+shall we take the risk and upstream a definition for it ? We can clearly live
+with just VIVANTE_TILED in the short term and wait until V4L2 drivers evolves.
 
------BEGIN PGP SIGNATURE-----
+> 
+> Nicolas
+> 
+> > > +
+> > >   #if defined(__cplusplus)
+> > >   }
+> > >   #endif
+> 
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmcxZkAACgkQAVBC80lX
-0GzMQAf/X2r0tk0IEKG++uA0oe2QRU20Bky1KzFpyv7hwlScOdVEYAzHzdfMmeIf
-+y1SIfAvDjR4lVks4Az/EvyWmlJOqBAuQelxzv5P3H4FztestuyTcob0x9/2em0F
-PEbPBt+X934btkmJVY42M3V9asaiOaKEKVPI2SrHrRn2I0GNdu3vcI6RpiTmKxCf
-70VbGLju6QCnwlYPUZoA187h7woZzYPNEctp4y6vfmOH0//Sx/WkfAuW6UOpNHZ3
-EAmWc9SGvCAkeFyfXQMj1RMNIwRd56LJk9JT2KYaICX71CEmEUMC19XlCvjILjNH
-W3lnzLNI/KFkHLP6ISwmU1TrNUkYqQ==
-=wiZW
------END PGP SIGNATURE-----
-
---Sig_/c81ol/c1.QUz8erL5xuYPon--
