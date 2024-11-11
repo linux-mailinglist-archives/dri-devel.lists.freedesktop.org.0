@@ -2,87 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D0709C465A
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 21:07:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4E59C46C5
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 21:27:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E00F10E53E;
-	Mon, 11 Nov 2024 20:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FFFF10E0CC;
+	Mon, 11 Nov 2024 20:27:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="DozmLaNo";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ofLOlyzN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9111010E53E
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 20:07:33 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-37f52925fc8so3162874f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 12:07:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1731355652; x=1731960452; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WIIKZQ88bUAJO/72aCrm40fHZEJ1K+otj2uYdeOXD1c=;
- b=DozmLaNo2aFf05YgpYbRCQqt61IeOYQUvp2SszWopS+zDQa2nZSMrP2MueYXtbpgzQ
- WE2bQCyxKXc5oIzXxDJal3R6kBRqmwnqphly01Zj/uaQ1qIguXjBHVZIxwQiJ5rL7SZE
- ygl9Zsa0sduv+WAZIIYI4ORkS3YIsghhSvf3Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731355652; x=1731960452;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WIIKZQ88bUAJO/72aCrm40fHZEJ1K+otj2uYdeOXD1c=;
- b=brNI4CUm3PjYG5JbGjA5psFLPx+NFJeQgKl5gu7+5ILZhiLE9TMEX7YmnsHICawNu2
- 0btWw0sHKuaWeeE/BjNKWUwcld1XTQ72NARqV4QfAs7BmnbnO+wMzpRoDZb9T9i4JryZ
- uQvAsCdb+ekvidE7cOOvixFEoMXtL31MorV8UFZpKs2gOm7Gn/eh8QRakh4973MV/hNJ
- FDX14KXb5ySbwS7+hlIQWMsQfKhLrtR61XE7f4AfVjuGmFYXVG03SQGxBdWcmwOH4QDN
- 7jQ3G2KMWmqeZ4UnusmtSKkuxnGmevD0SiikT5LSpyVdmKzSRBUlIBlI7o04DvGX2R5I
- PQwQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhFVqiOY78Da4XHHyvw88iO8b2ldWI2Sn+J0BKMUFXB7NS0hXWKNGgbqi5/XD7iYe3iHYX3gAY3JE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx73y41ZaE3hweaVhe2gtOFO+yk3gfoSOi4giZOhWHGKfLz1vAz
- iRc/G7uBLsICqVjjMpXJFsD7PKdqIiM7GReMVaPWWRGqXjTGSzDeB1/SRaMRVnI=
-X-Google-Smtp-Source: AGHT+IGmEyPx4cRoIIS5T3WK6yz/WPGsLjicH5l8YqImtQtFJq8OsUj0ZfrEZw+hmKFHtESQBiAbGQ==
-X-Received: by 2002:a5d:47ac:0:b0:37d:5134:fe1 with SMTP id
- ffacd0b85a97d-381f1866a6fmr11691276f8f.17.1731355651582; 
- Mon, 11 Nov 2024 12:07:31 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-381ed970e18sm13558728f8f.10.2024.11.11.12.07.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Nov 2024 12:07:31 -0800 (PST)
-Date: Mon, 11 Nov 2024 21:07:28 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Dan Williams <dan.j.williams@intel.com>, Dave Airlie <airlied@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for
- unacceptable behaviors
-Message-ID: <ZzJkAJEjKidV8Fiz@phenom.ffwll.local>
-Mail-Followup-To: Shuah Khan <skhan@linuxfoundation.org>,
- gregkh@linuxfoundation.org, corbet@lwn.net,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Miguel Ojeda <ojeda@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Dave Airlie <airlied@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20241108161853.12325-1-skhan@linuxfoundation.org>
+X-Greylist: delayed 1658 seconds by postgrey-1.36 at gabe;
+ Mon, 11 Nov 2024 20:27:42 UTC
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 071C410E00A;
+ Mon, 11 Nov 2024 20:27:41 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1497F20003;
+ Mon, 11 Nov 2024 20:27:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1731356860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5xq9A5l1i9Igv1/7m4w9nDZzIX3x5k17d5L7FGPm2Dw=;
+ b=ofLOlyzNIds6ghTysRaYefoQ/z63D8cK21p0RetzdsuNqG0btKw7ivJnvxeltPe6YSDwDE
+ x/o04SiiiPXBU5F+QGqR1t1HfAPswzOsII8N7VlyTinZDHYTM3CvMazrK1gMVyNH+fDo8Y
+ Fd3sZqrwIQQ1bqLsl57VQLwzT/y8o2TtjvsdXEXK6FbgkLWaQjE//0//AO+17qznrUWt03
+ wZhltzUMD8Fv0Lao+7Ms7c3EVfCXELA14BIhkC/dyihvZeKyD6gmnokskqpUlzPwh449Gg
+ EVHp4STgwKh+iDvtQoAb4zJwN7WtJ2Qj1ECB8cswqBQWAzN0m1epZKHohYSLkA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: "Usyskin, Alexander" <alexander.usyskin@intel.com>
+Cc: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,  "Gupta, Anshuman"
+ <anshuman.gupta@intel.com>,  "Deak, Imre" <imre.deak@intel.com>,  Richard
+ Weinberger <richard@nod.at>,  "Vignesh Raghavendra" <vigneshr@ti.com>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>,  Thomas =?utf-8?Q?Hellstr?=
+ =?utf-8?Q?=C3=B6m?= <thomas.hellstrom@linux.intel.com>,  Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
+ <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Jani Nikula
+ <jani.nikula@linux.intel.com>,  Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>,
+ "Weil, Oren jer" <oren.jer.weil@intel.com>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 06/10] mtd: intel-dg: wake card on operations
+In-Reply-To: <CY5PR11MB6366051E35678864805BC89CED582@CY5PR11MB6366.namprd11.prod.outlook.com>
+ (Alexander Usyskin's message of "Mon, 11 Nov 2024 11:29:47 +0000")
+References: <20241022104119.3149051-1-alexander.usyskin@intel.com>
+ <20241022104119.3149051-7-alexander.usyskin@intel.com>
+ <Zx-mPQSHXv5Teq_j@intel.com>
+ <CY5PR11MB621157335FFB1089F49CEF8B954A2@CY5PR11MB6211.namprd11.prod.outlook.com>
+ <CY5PR11MB6366EF9CA6552ADF6E01A557ED4B2@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <Zyk5kueKlusKlwqM@intel.com>
+ <CY5PR11MB636622B23A3646D58A70A920ED522@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <Zy1EAIPEaY8Wlh-h@intel.com>
+ <CY5PR11MB6366769459115688B8AA100AED5F2@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <CY5PR11MB6366051E35678864805BC89CED582@CY5PR11MB6366.namprd11.prod.outlook.com>
+User-Agent: mu4e 1.12.1; emacs 29.4
+Date: Mon, 11 Nov 2024 21:27:37 +0100
+Message-ID: <87msi5o6rq.fsf@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241108161853.12325-1-skhan@linuxfoundation.org>
-X-Operating-System: Linux phenom 6.10.6-amd64
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,132 +84,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 08, 2024 at 09:18:53AM -0700, Shuah Khan wrote:
-> The Code of Conduct committee's goal first and foremost is to bring about
-> change to ensure our community continues to foster respectful discussions.
-> 
-> In the interest of transparency, the CoC enforcement policy is formalized
-> for unacceptable behaviors.
-> 
-> Update the Code of Conduct Interpretation document with the enforcement
-> information.
-> 
-> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Acked-by: Jonathan Corbet <corbet@lwn.net>
-> Acked-by: Steven Rostedt <rostedt@goodmis.org>
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+Hi Alexander,
 
-I think it's really good to document these details. The freedesktop coc
-team is going through the same process, we've also done a talk at XDC
-about all these changes, and I think this helps a lot in transparency and
-accountability in practice. With that, some thoughts below.
+Please reduce the context when answering, otherwise it's hard to find
+all places where you commented.
 
-> ---
->  .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
->  1 file changed, 52 insertions(+)
-> 
-> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
-> index 66b07f14714c..21dd1cd871d2 100644
-> --- a/Documentation/process/code-of-conduct-interpretation.rst
-> +++ b/Documentation/process/code-of-conduct-interpretation.rst
-> @@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
->  Because how we interpret and enforce the Code of Conduct will evolve over
->  time, this document will be updated when necessary to reflect any
->  changes.
-> +
-> +Enforcement for Unacceptable Behavior Code of Conduct Violations
-> +----------------------------------------------------------------
-> +
-> +The Code of Conduct committee works to ensure that our community continues
-> +to be inclusive and fosters diverse discussions and viewpoints, and works
-> +to improve those characteristics over time. The Code of Conduct committee
-> +takes measures to restore productive and respectful collaboration when an
-> +unacceptable behavior has negatively impacted that relationship.
-> +
-> +Seek public apology for the violation
-> +*************************************
-> +
-> +The Code of Conduct Committee publicly calls out the behavior in the
-> +setting in which the violation has taken place, seeking public apology
-> +for the violation.
-> +
-> +A public apology for the violation is the first step towards rebuilding
-> +the trust. Trust is essential for the continued success and health of the
-> +community which operates on trust and respect.
+>> > > > That's the part that I'm not sure if I agree. if I remember from s=
+ome
+>> > > > experiments in the past,
+>> > > > when you call to wake up the child, the parent will wakeup first a=
+nyway.
+>> > > >
+>> > > The child (mtd device) does not exist at this point of time.
+>> > > To create MTD device, the partition table should be provided
+>> > > and it read directly from flash that should be powered to do read.
+>> >
+>> > I don't understand... you have the mtd->dev at this point... this is
+>> > the one you should be touching, not the mtd->dev.parent... even at the
+>> > probe, but moreover on everywhere else as well.
+>> >
+>>=20
+>> At the probe time I do not have dev->mtd, but now I see you point here.
+>> I'll separate power management:
+>> - probe before dev->mtd creation will use aux_dev->dev (that will be mtd-
+>> >dev.parent later)
+>> - mtd functions will use mtd->dev
+>>=20
+>> Is this that you have in mind?
+>
+> I've tried it and found out that mtd->dev is not initialized if partition=
+s are present [1].
+> Miquel - this may be the reason why other mtd drivers use pci or platform
+> devices to manage runtime pm.
+> Or I have missed something?
 
-Personal take, but I think a forced public apology as the primary or at
-least initial coc enforcement approach is one of the worst.
+Please keep in mind there is _a lot_ of history behind mtd, and
+sometimes choices from the past cannot be simply "fixed" without
+breaking userspace. The problem with mtd is that the "mtd" structure
+defines nothing with precision. It may be a controller, a chip, a
+partition, or whatever mix of those. In this particular case, I believe
+you are mentioning the KEEP_PARTITIONED_MASTER configuration, which by
+default is unset, which means you'll loose the "top level" mtd device?
 
-First, a ban or temporary suspension seems too mechanical and not in
-proportion with the offence of failing to apologize. In my enforcement
-thus far as maintainer and now also freedesktop.org CoC member we only use
-punishment if behavior has failed to change _and_ we need to protect the
-community from further harm. Usually it takes years to get to that point,
-unless in extremely severe cases (like public harrassment campaigns) or
-when the person stated that they refuse to even consider changing behavior
-at all.
+However in general I believe the "framework" struct device is maybe less
+relevant than the "bus" struct device when it comes to runtime PM, so
+actually I would eventually expect this device to be used?
 
-Public means you're amping up the stakes and massively increase the odds
-of people being afraid of their reputation and losing face. In my
-experience people are a lot more reasonable when you discuss their
-behavior and what needs to change in private. This even includes the case
-where a temporary suspension had to be put in place already first, to
-protect others.
+> [1] https://elixir.bootlin.com/linux/v6.12-rc6/source/drivers/mtd/mtdcore=
+.c#L1078
 
-Lastly, a forced apology puts any victim into the awkward position that
-they're forced to decide whether they want to accept the apology, or
-reject it. This essentially offloads part of the CoC enforcement work onto
-victims, which often are not the ones with the power to actually stand up
-to problematic behavior.
-
-Note that I don't see this as a nack, just a heads up that there's a
-potential conflict. I'm not worried though since Dave and me know pretty
-much everyone involved in both CoC teams. I'm sure if this ever becomes a
-real issue we can bridge things and figure out a solution.
-
-Cheers, Sima
-
-> +
-> +Remedial measures if there is no public apology for the violation
-> +*****************************************************************
-> +
-> +The Code of Conduct Committee determines the next course of action
-> +to restore the healthy collaboration by recommending remedial measure(s)
-> +to the TAB for approval.
-> +
-> +- Ban violator from participating in the kernel development process for
-> +  a period of up to a full kernel development cycle. The Code of Conduct
-> +  Committtee could require public apology as a condition for lifting the
-> +  ban.
-> +
-> +The scope of the ban for a period of time could include:
-> +
-> +    a. denying patch contributions and pull requests
-> +    b. pausing collaboration with the violator by ignoring their
-> +       contributions and/or blocking their email account(s)
-> +    c. blocking their access to kernel.org accounts and mailing lists
-> +
-> +Once the TAB approves one or more of the measures outlined in the scope of
-> +the ban by a two-thirds vote, the Code of Conduct Committee will enforce
-> +the TAB approved measure(s) in collaboration with the community, maintainers,
-> +sub-maintainers, and kernel.org administrators.
-> +
-> +The effectiveness of the remedial measure(s) approved by the TAB depends
-> +on the trust and cooperation from the community, maintainers, sub-maintainers,
-> +and kernel.org administrators in enforcing them.
-> +
-> +The Code of Conduct Committee sincerely hopes that unacceptable behaviors
-> +that require seeking public apologies continue to be exceedingly rare
-> +occurrences in the future.
-> -- 
-> 2.40.1
-> 
-
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thanks,
+Miqu=C3=A8l
