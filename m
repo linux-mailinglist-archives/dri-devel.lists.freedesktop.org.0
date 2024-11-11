@@ -2,73 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23F79C3950
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 09:00:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615C29C39A2
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 09:27:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 452F510E088;
-	Mon, 11 Nov 2024 08:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4472F10E433;
+	Mon, 11 Nov 2024 08:27:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BjtbmlmA";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mDaQJ8P0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B52E310E041;
- Mon, 11 Nov 2024 08:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731312026; x=1762848026;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:date:message-id;
- bh=GpA38n5Y8Xw3obdeMdaO+/+8ZUX/WGfYVaIgtT6cUuc=;
- b=BjtbmlmA9D59jnQDDDMe9/iJB4drcwYprhCyDRIQ6jRopxCDq+3AZvEL
- Wc/hrBI35ECg2Vnpd5Apdh253MjwQ3Hz5jbEIG54cDNqCJ0qrnU7XWmon
- bLj0fgEX/SwrHr8LvTeQuH9CcRG0BgC4rGQWeJQ5Xs6OdhCVWZLr3Kwo1
- MD6vFMSInsER9ye5dDP+w7Vw+vPMIrHaEiFbKgt/gAvIWUml++W7YeQr5
- MP/jiK0HMFnqfrszcMtnK4aFiqEqiGtAidqf5KJI9i+8rEmv6iNcd+Cyp
- zX4tDJXS/dxj2MBtdFhFIlFg/UWvVvnXpGoY3XzOhJyXgetW1+GyTQjnW g==;
-X-CSE-ConnectionGUID: vNKG5I2ZTzugJn0KwcsOYg==
-X-CSE-MsgGUID: nuvf+3+ySlK0ao8bFfGvxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="30522384"
-X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; d="scan'208";a="30522384"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2024 00:00:25 -0800
-X-CSE-ConnectionGUID: 40bcLxkgSESXA9CHzzegdA==
-X-CSE-MsgGUID: k2daoYsUQ8mjxNFVOVUEVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; d="scan'208";a="117613871"
-Received: from johunt-mobl9.ger.corp.intel.com (HELO localhost)
- ([10.245.244.40])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2024 00:00:23 -0800
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 178E010E03B
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 08:27:34 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-5c93e9e701fso7086a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 00:27:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1731313652; x=1731918452;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=oTlZ4xJedYzVMnb4atsTXhQWqyB2ECChSFkUmRbl3i0=;
+ b=mDaQJ8P0K3Y0BBBfemBmTfgcs3fct0EtJmBONhnLaWN4++fD6c/cq2uMv44e2Lde2q
+ egSX/7yl2CsnnbfNHu9YfDU1Jz4CR+438dYvaz9eyGWA6OG06KaU1+86bzs3qK8kcCwk
+ sRhhzayg4t3F4fRriZYwsxxSnKVRf4Faa10r9j1Bz55BoGFSMRKiEXdFIvXvtZdw4VMW
+ BeUowd0Otud74LSAyDpypk1JZR+estH4YpXwbzu6xVXCQdVGVPiApHFKCP5L8FPpNKRI
+ ga9MHWSFI+SjHWbtFitWt8khMZjMZlcSgez4PVH6C7gmsSJLnAQBlwE2mAu+LP9S+qiV
+ NzKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731313652; x=1731918452;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oTlZ4xJedYzVMnb4atsTXhQWqyB2ECChSFkUmRbl3i0=;
+ b=QRvO9bV1YYHGAa5W6vcU5lUxvtVoZTjuWr7Q7142wwSHKztv/Q56gCVUldpRfLaFJW
+ s9Thh3yfY/W41orDf4bWGmYzF1T2hbbuNj+yO4lRwVBCcndHzULS6jY+CRg7IJcnhsXY
+ 090ovsm5AyngZR9qh13+TAXO/Q6qQfL2MvxYJYQ7hig9OnBU6KcPq6xrtJL+/2t0CPsT
+ ZrWv8qZFLC0C0N+VGF4KBW6fF0/aX7HEffBgpfTMdeVDDh/yduHI7ChDWEQ4ZVqud2ZJ
+ BsIeyVDmN779nwYs0UY/mjoCJaLD9lG87s6x/PHD2Uiz3k2D4zLV3K+g1GYQQqxLSDe+
+ flAw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUxE0lQm3eK9g0wrxb7S9wwd7lp7ThlquHRItgOgNVoKhzHDxYYO/yv45ZmFg4U4paJvlSgTOGWQoo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzzCKv1JnNlCPG3ti1meIdC7JPnE6ovpDBgS8eQ/6LwMg7M1m4/
+ iI74iZnHR+4fepATy3hFy01k0n2aNMNFg4H5YQMRLt49j/+BnPOds8gYijENYP3nS/MCMpcLlpp
+ MGVKcBF4f6vHa2EHdSj8NAECNGhUlkSNoy+cY
+X-Gm-Gg: ASbGncuKh9y5P0knadLmq8Z3gT8aKaK5Wcl1dcXwfGCzEZEJA9veMp0wXmgDyppFaUo
+ 9FskVS/pAnKAQ7qB1p9vS2puHWBOaZA==
+X-Google-Smtp-Source: AGHT+IEsLtD4/gOd20okj8nZ9YDzz7v0ASgpzD8te1wJetCOEqNBZw2DVQaobhIGcOfsx2LNSc32Qzn/r3Tf8+lUjc0=
+X-Received: by 2002:a50:999e:0:b0:5ca:18ba:4a79 with SMTP id
+ 4fb4d7f45d1cf-5cf2273ee9fmr135365a12.7.1731313650537; Mon, 11 Nov 2024
+ 00:27:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <85859dc3-cca3-4396-8c75-a726437fb81e@amd.com>
-References: <20241031181048.2948948-3-matthew.brost@intel.com>
- <02ec3d6a-4727-4535-a384-4c6789fa4ef4@gmail.com>
- <ZylBWVjlW+GDYy5M@lstrano-desk.jf.intel.com>
- <c76830ae-c6f9-47a2-8087-32d9f7c3df2c@amd.com>
- <ZyplgNBaZ93UUdxY@lstrano-desk.jf.intel.com>
- <88ceb558-89d1-4d10-be8a-9ce2f3178fa5@amd.com>
- <ZyuKTFxCD0SusZpt@lstrano-desk.jf.intel.com>
- <34d18085-7e23-4632-9287-65eff6651bba@amd.com>
- <ZyugmXt7v+JeKuN9@lstrano-desk.jf.intel.com>
- <85859dc3-cca3-4396-8c75-a726437fb81e@amd.com>
-Subject: Re: [PATCH v6 2/8] drm/ttm: Add ttm_bo_access
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Christian =?utf-8?q?K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Huang Rui <ray.huang@amd.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- matthew.auld@intel.com, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-To: Christian =?utf-8?q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Mon, 11 Nov 2024 10:00:17 +0200
-Message-ID: <173131201749.35893.6727423786823542880@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.10
+References: <20241108162040.159038-1-tabba@google.com>
+ <20241108170501.GI539304@nvidia.com>
+ <9dc212ac-c4c3-40f2-9feb-a8bcf71a1246@redhat.com>
+In-Reply-To: <9dc212ac-c4c3-40f2-9feb-a8bcf71a1246@redhat.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Mon, 11 Nov 2024 08:26:54 +0000
+Message-ID: <CA+EHjTy3kNdg7pfN9HufgibE7qY1S+WdMZfRFRiF5sHtMzo64w@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 00/10] mm: Introduce and use folio_owner_ops
+To: David Hildenbrand <david@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, linux-mm@kvack.org, kvm@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ rppt@kernel.org, jglisse@redhat.com, akpm@linux-foundation.org, 
+ muchun.song@linux.dev, simona@ffwll.ch, airlied@gmail.com, 
+ pbonzini@redhat.com, seanjc@google.com, willy@infradead.org, 
+ jhubbard@nvidia.com, ackerleytng@google.com, vannapurve@google.com, 
+ mail@maciej.szmigiero.name, kirill.shutemov@linux.intel.com, 
+ quic_eberman@quicinc.com, maz@kernel.org, will@kernel.org, qperret@google.com, 
+ keirf@google.com, roypat@amazon.co.uk
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,265 +89,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Back from some time off and will try to answer below.
+Hi Jason and David,
 
-Adding Dave and Sima as this topic has been previously discussed to some
-extent and will be good to reach common understanding about what the
-series is trying to do and what is the difference to the AMD debugging
-model.
+On Fri, 8 Nov 2024 at 19:33, David Hildenbrand <david@redhat.com> wrote:
+>
+> On 08.11.24 18:05, Jason Gunthorpe wrote:
+> > On Fri, Nov 08, 2024 at 04:20:30PM +0000, Fuad Tabba wrote:
+> >> Some folios, such as hugetlb folios and zone device folios,
+> >> require special handling when the folio's reference count reaches
+> >> 0, before being freed. Moreover, guest_memfd folios will likely
+> >> require special handling to notify it once a folio's reference
+> >> count reaches 0, to facilitate shared to private folio conversion
+> >> [*]. Currently, each usecase has a dedicated callback when the
+> >> folio refcount reaches 0 to that effect. Adding yet more
+> >> callbacks is not ideal.
+> >
+>
+> Thanks for having a look!
+>
+> Replying to clarify some things. Fuad, feel free to add additional
+> information.
 
-Quoting Christian K=C3=B6nig (2024-11-07 11:44:33)
-> Am 06.11.24 um 18:00 schrieb Matthew Brost:
->=20
->     [SNIP]
->=20
->     This is not a generic interface that anyone can freely access. The sa=
-me
->     permissions used by ptrace are checked when opening such an interface.
->     See [1] [2].
->=20
->     [1] https://patchwork.freedesktop.org/patch/617470/?series=3D136572&r=
-ev=3D2
->     [2] https://patchwork.freedesktop.org/patch/617471/?series=3D136572&r=
-ev=3D2
->=20
->=20
-> Thanks a lot for those pointers, that is exactly what I was looking for.
->=20
-> And yeah, it is what I feared. You are re-implementing existing functiona=
-lity,
-> but see below.
+Thanks for your comments Jason, and for clarifying my cover letter
+David. I think David has covered everything, and I'll make sure to
+clarify this in the cover letter when I respin.
 
-Could you elaborate on what this "existing functionality" exactly is?
-I do not think this functionality exists at this time.
+Cheers,
+/fuad
 
-The EU debugging architecture for Xe specifically avoids the need for GDB
-to attach with ptrace to the CPU process or interfere with the CPU process =
-for
-the debugging via parasitic threads or so.
-
-Debugger connection is opened to the DRM driver for given PID (which uses t=
-he
-ptrace may access check for now) after which the all DRM client of that
-PID are exposed to the debugger process.
-
-What we want to expose via that debugger connection is the ability for GDB =
-to
-read/write the different GPU VM address spaces (ppGTT for Intel GPUs) just =
-like
-the EU threads would see them. Note that the layout of the ppGTT is
-completely up to the userspace driver to setup and is mostly only partially
-equal to the CPU address space.
-
-Specifically as part of reading/writing the ppGTT for debugging purposes,
-there are deep flushes needed: for example flushing instruction cache
-when adding/removing breakpoints.
-
-Maybe that will explain the background. I elaborate on this at the end some=
- more.
-
->             kmap/vmap are used everywhere in the DRM subsystem to access =
-BOs, so I=E2=80=99m
->             failing to see the problem with adding a simple helper based =
-on existing
->             code.
->=20
->         What#s possible and often done is to do kmap/vmap if you need to =
-implement a
->         CPU copy for scanout for example or for copying/validating comman=
-d buffers.
->         But that usually requires accessing the whole BO and has separate=
- security
->         checks.
->=20
->         When you want to access only a few bytes of a BO that sounds mass=
-ively like
->         a peek/poke like interface and we have already rejected that more=
- than once.
->         There even used to be standardized GEM IOCTLs for that which have=
- been
->         removed by now.
-
-Referring to the explanation at top: These IOCTL are not for the debugging =
-target
-process to issue. The peek/poke interface is specifically for GDB only
-to facilitate the emulation of memory reads/writes on the GPU address
-space as they were done by EUs themselves. And to recap: for modifying
-instructions for example (add/remove breakpoint), extra level of cache flus=
-hing is
-needed which is not available to regular userspace.
-
-I specifically discussed with Sima on the difference before moving forward =
-with this
-design originally. If something has changed since then, I'm of course happy=
- to rediscuss.
-
-However, if this code can't be added, not sure how we would ever be able
-to implement core dumps for GPU threads/memory?
-
->         If you need to access BOs which are placed in not CPU accessible =
-memory then
->         implement the access callback for ptrace, see amdgpu_ttm_access_m=
-emory for
->         an example how to do this.
-
-As also mentioned above, we don't work via ptrace at all when it comes
-to debugging the EUs. The only thing used for now is the ptrace_may_access =
-to
-implement similar access restrictions as ptrace has. This can be changed
-to something else if needed.
-
->     Ptrace access via vm_operations_struct.access =E2=86=92 ttm_bo_vm_acc=
-ess.
->=20
->     This series renames ttm_bo_vm_access to ttm_bo_access, with no code c=
-hanges.
->=20
->     The above function accesses a BO via kmap if it is in SYSTEM / TT,
->     which is existing code.
->=20
->     This function is only exposed to user space via ptrace permissions.
-
-Maybe this sentence is what caused the confusion.
-
-Userspace is never exposed with peek/poke interface, only the debugger
-connection which is its own FD.
-
->     In this series, we implement a function [3] similar to
->     amdgpu_ttm_access_memory for the TTM vfunc access_memory. What is
->     missing is non-visible CPU memory access, similar to
->     amdgpu_ttm_access_memory_sdma. This will be addressed in a follow-up =
-and
->     was omitted in this series given its complexity.
->=20
->     So, this looks more or less identical to AMD's ptrace implementation,
->     but in GPU address space. Again, I fail to see what the problem is he=
-re.
->     What am I missing?
->=20
->=20
-> The main question is why can't you use the existing interfaces directly?
-
-We're not working on the CPU address space or BOs. We're working
-strictly on the GPU address space as would be seen by an EU thread if it
-accessed address X.
-
-> Additional to the peek/poke interface of ptrace Linux has the pidfd_getfd
-> system call, see here https://man7.org/linux/man-pages/man2/pidfd_getfd.2=
-.html.
->=20
-> The pidfd_getfd() allows to dup() the render node file descriptor into yo=
-ur gdb
-> process. That in turn gives you all the access you need from gdb, includi=
-ng
-> mapping BOs and command submission on behalf of the application.
-
-We're not operating on the CPU address space nor are we operating on BOs
-(there is no concept of BO in the EU debug interface). Each VMA in the VM
-could come from anywhere, only the start address and size matter. And
-neither do we need to interfere with the command submission of the
-process under debug.
-
-> As far as I can see that allows for the same functionality as the eudebug
-> interface, just without any driver specific code messing with ptrace
-> permissions and peek/poke interfaces.
->=20
-> So the question is still why do you need the whole eudebug interface in t=
-he
-> first place? I might be missing something, but that seems to be superfluo=
-us
-> from a high level view.
-
-Recapping from above. It is to allow the debugging of EU threads per DRM
-client, completely independent of the CPU process. If ptrace_may_acces
-is the sore point, we could consider other permission checks, too. There
-is no other connection to ptrace in this architecture as single
-permission check to know if PID is fair game to access by debugger
-process.
-
-Why no parasitic thread or ptrace: Going forward, binding the EU debugging =
-to
-the DRM client would also pave way for being able to extend core kernel gen=
-erated
-core dump with each DRM client's EU thread/memory dump. We have similar
-feature called "Offline core dump" enabled in the downstream public
-trees for i915, where we currently attach the EU thread dump to i915 error =
-state
-and then later combine i915 error state with CPU core dump file with a
-tool.
-
-This is relatively little amount of extra code, as this baseline series
-already introduces GDB the ability to perform the necessary actions.
-It's just the matter of kernel driver calling: "stop all threads", then
-copying the memory map and memory contents for GPU threads, just like is
-done for CPU threads.
-
-With parasitic thread injection, not sure if there is such way forward,
-as it would seem to require to inject quite abit more logic to core kernel?
-
-> It's true that the AMD KFD part has still similar functionality, but that=
- is
-> because of the broken KFD design of tying driver state to the CPU process
-> (which makes it inaccessible for gdb even with imported render node fd).
->=20
-> Both Sima and I (and partially Dave as well) have pushed back on the KFD
-> approach. And the long term plan is to get rid of such device driver spec=
-ific
-> interface which re-implement existing functionality just differently.
-
-Recapping, this series is not adding it back. The debugger connection
-is a separate FD from the DRM one, with separate IOCTL set. We don't allow
-the DRM FD any new operations based on ptrace is attached or not. We
-don't ever do that check even.
-
-We only restrict the opening of the debugger connection to given PID with
-ptrace_may_access check for now. That can be changed to something else,
-if necessary.
-
-> So you need to have a really really good explanation why the eudebug inte=
-rface
-> is actually necessary.
-
-TL;DR The main point is to decouple the debugging of the EU workloads from =
-the
-debugging of the CPU process. This avoids the interference with the CPU pro=
-cess with
-parasitic thread injection. Further this also allows generating a core dump
-without any GDB connected. There are also many other smaller pros/cons
-which can be discussed but for the context of this patch, this is the
-main one.
-
-So unlike parasitic thread injection, we don't unlock any special IOCTL for
-the process under debug to be performed by the parasitic thread, but we
-allow the minimal set of operations to be performed by GDB as if those were
-done on the EUs themselves.
-
-One can think of it like the minimal subset of ptrace but for EU threads,
-not the CPU threads. And thus, building on this it's possible to extend
-the core kernel generated core dumps with DRM specific extension which
-would contain the EU thread/memory dump.
-
-Regards, Joonas
-
->=20
-> Regards,
-> Christian.
->=20
->=20
->=20
->     Matt
->=20
->     [3] https://patchwork.freedesktop.org/patch/622520/?series=3D140200&r=
-ev=3D6
->=20
->=20
->         Regards,
->         Christian.
->=20
->=20
->             Matt
->=20
->=20
->                 Regards,
->                 Christian.
+>
+> > Honestly, I question this thesis. How complex would it be to have 'yet
+> > more callbacks'? Is the challenge really that the mm can't detect when
+> > guestmemfd is the owner of the page because the page will be
+> > ZONE_NORMAL?
+>
+> Fuad might have been a bit imprecise here: We don't want an ever growing
+> list of checks+callbacks on the page freeing fast path.
+>
+> This series replaces the two cases we have by a single generic one,
+> which is nice independent of guest_memfd I think.
+>
+> >
+> > So the point of this is really to allow ZONE_NORMAL pages to have a
+> > per-allocator callback?
+>
+> To intercept the refcount going to zero independent of any zones or
+> magic page types, without as little overhead in the common page freeing
+> path.
+>
+> It can be used to implement custom allocators, like factored out for
+> hugetlb in this series. It's not necessarily limited to that, though. It
+> can be used as a form of "asynchronous page ref freezing", where you get
+> notified once all references are gone.
+>
+> (I might have another use case with PageOffline, where we want to
+> prevent virtio-mem ones of them from getting accidentally leaked into
+> the buddy during memory offlining with speculative references --
+> virtio_mem_fake_offline_going_offline() contains the interesting bits.
+> But I did not look into the dirty details yet, just some thought where
+> we'd want to intercept the refcount going to 0.)
+>
+> >
+> > But this is also why I suggested to shift them to ZONE_DEVICE for
+> > guestmemfd, because then you get these things for free from the pgmap.
+>
+> With this series even hugetlb gets it for "free", and hugetlb is not
+> quite the nail for the ZONE_DEVICE hammer IMHO :)
+>
+> For things we can statically set aside early during boot and never
+> really want to return to the buddy/another allocator, I would agree that
+> static ZONE_DEVICE would have possible.
+>
+> Whenever the buddy or other allocators are involved, and we might have
+> granularity as a handful of pages (e.g., taken from the buddy), getting
+> ZONE_DEVICE involved is not a good (or even feasible) approach.
+>
+> After all, all we want is intercept the refcount going to 0.
+>
+> --
+> Cheers,
+>
+> David / dhildenb
 >
