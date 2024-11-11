@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595569C4499
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 19:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE90D9C4497
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 19:10:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB53810E500;
-	Mon, 11 Nov 2024 18:10:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6D110E15D;
+	Mon, 11 Nov 2024 18:10:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="Dz6gdD3K";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="bpYaCKR/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 765BC10E501;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACF4810E502;
  Mon, 11 Nov 2024 18:10:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1731348626;
- bh=8H8xBXK1HgMOQ+vsSlHOZrCpBpOh7Wa+WddZuG0gJME=;
+ bh=MI2iFMI5An6EgbYmS5WZjVZcL7OiZNeX5hsm8wgEhfQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Dz6gdD3K2TBD9RO43ZUaklQcdPxzwQMa4ug7LVTRJ02Lbr3/moDFSw5s05MvXBEAa
- Rt5A+Xmo4smMhHABQYjGLZVle3qVBWM53ENB44ohqfilLnoIR5zGtQfun+N9OaszF9
- rNflUchacH3heP9fwzo8KTh5vNELxOqNzGCQ0RjU=
+ b=bpYaCKR/ti753hGae9vVGVXskE4lgZBY59QptDMTD37pYrEVMb7p1XqF5x7vnENoI
+ f9YPeaDEWLOEeLcP/HRl3kJz7aWaqOwlLSMkDvPD6ynQ5Oy2yIESvgODKLaP2hCJBz
+ H60sBkaz8fugZYjKSzVIzPz9XoC+uWpNafXgEL4Y=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 11 Nov 2024 19:09:37 +0100
-Subject: [PATCH v7 3/4] drm: panel-backlight-quirks: Add Framework 13 matte
- panel
+Date: Mon, 11 Nov 2024 19:09:38 +0100
+Subject: [PATCH v7 4/4] drm: panel-backlight-quirks: Add Framework 13
+ glossy and 2.8k panels
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241111-amdgpu-min-backlight-quirk-v7-3-f662851fda69@weissschuh.net>
+Message-Id: <20241111-amdgpu-min-backlight-quirk-v7-4-f662851fda69@weissschuh.net>
 References: <20241111-amdgpu-min-backlight-quirk-v7-0-f662851fda69@weissschuh.net>
 In-Reply-To: <20241111-amdgpu-min-backlight-quirk-v7-0-f662851fda69@weissschuh.net>
 To: Alex Deucher <alexander.deucher@amd.com>, 
@@ -50,11 +50,11 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1731348626; l=1592;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1731348626; l=1550;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=8H8xBXK1HgMOQ+vsSlHOZrCpBpOh7Wa+WddZuG0gJME=;
- b=SsWiSHcju57hPOqWYpNBRHXQOeyPsQ0H9go2sfjMDozSoFIbgmJ1DHFx/wRLqrgHQzaugrCF2
- r5+YMI1pVNGBGKhAvDw4fihbwJaBcJfXVbOKeTXG2mW4CX+IPW+ofoQ
+ bh=C5Ys8GE15MeKqVacQaK1KCVt6nQBigVpuprfdOPO5K4=;
+ b=/YkPFAPlCsFMyBCs1GWM9MsNLQIinCIm6SZTJTQwCilQi7+QWSO8uGcuabC+6CPLmdKmhyR2S
+ IjHqYHneHjkDPsk0E5X3ac6LzlZsjOZdVwgRlJWAog/h/H+EfQ6h4Z9
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,38 +72,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The value of "min_input_signal" returned from ATIF on a Framework AMD 13
-is "12". This leads to a fairly bright minimum display backlight.
+From: "Dustin L. Howett" <dustin@howett.net>
 
-Add a quirk to override that the minimum backlight PWM to "0" which
-leads to a much lower minimum brightness, which is still visible.
+I have tested these panels on the Framework Laptop 13 AMD with firmware
+revision 3.05 (latest at time of submission).
 
-Tested on a Framework AMD 13 BIOS 3.05 with the matte panel.
-
-Link: https://community.frame.work/t/25711/9
-Link: https://community.frame.work/t/47036
+Signed-off-by: Dustin L. Howett <dustin@howett.net>
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-Tested-by: Dustin L. Howett <dustin@howett.net>
 Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 ---
- drivers/gpu/drm/drm_panel_backlight_quirks.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/drm_panel_backlight_quirks.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
-index 6b8bbed77c7f1f3570a6e68c276244cfe4386f6c..f2aefff618ddbb6c2170db5c9f535f3b6a465d1d 100644
+index f2aefff618ddbb6c2170db5c9f535f3b6a465d1d..c477d98ade2b41314d4218281ced7d3c4d087769 100644
 --- a/drivers/gpu/drm/drm_panel_backlight_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
-@@ -17,6 +17,14 @@ struct drm_panel_min_backlight_quirk {
- };
- 
- static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks[] = {
-+	/* 13 inch matte panel */
+@@ -25,6 +25,22 @@ static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks
+ 		.ident.name = "NE135FBM-N41",
+ 		.min_brightness = 0,
+ 	},
++	/* 13 inch glossy panel */
 +	{
 +		.dmi_match.field = DMI_BOARD_VENDOR,
 +		.dmi_match.value = "Framework",
-+		.ident.panel_id = drm_edid_encode_panel_id('B', 'O', 'E', 0x0bca),
++		.ident.panel_id = drm_edid_encode_panel_id('B', 'O', 'E', 0x095f),
 +		.ident.name = "NE135FBM-N41",
++		.min_brightness = 0,
++	},
++	/* 13 inch 2.8k panel */
++	{
++		.dmi_match.field = DMI_BOARD_VENDOR,
++		.dmi_match.value = "Framework",
++		.ident.panel_id = drm_edid_encode_panel_id('B', 'O', 'E', 0x0cb4),
++		.ident.name = "NE135A1M-NY1",
 +		.min_brightness = 0,
 +	},
  };
