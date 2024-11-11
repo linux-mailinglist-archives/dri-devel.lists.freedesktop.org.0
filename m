@@ -2,39 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C644B9C3DE5
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 13:03:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8419C3E59
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 13:18:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 495B210E484;
-	Mon, 11 Nov 2024 12:03:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CCF210E48A;
+	Mon, 11 Nov 2024 12:18:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Tdk0hYFk";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6C2CC10E484
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 12:03:28 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EEF8C11FB
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 04:03:57 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CC1373F6A8
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 04:03:27 -0800 (PST)
-Date: Mon, 11 Nov 2024 12:03:24 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Akash Goel <akash.goel@arm.com>
-Cc: boris.brezillon@collabora.com, steven.price@arm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- mihail.atanassov@arm.com, ketil.johnsen@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
-Subject: Re: [PATCH] drm/panthor: Fix handling of partial GPU mapping of BOs
-Message-ID: <ZzHyjJRCbicx1aJl@e110455-lin.cambridge.arm.com>
-References: <20241111092621.763285-1-akash.goel@arm.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB6510E48A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 12:18:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1731327508; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=GtBLxRb0/a/pGnZBdkapmI8yoYQ6aIy0iSqSGE+OJbDvYmqNFq4BJV6uhJmF8O9Mwu9YeB0Itf7wfxpYzxjbW3GpHnuoU5BQXlGlb14STfS1QesEcGFTRU1NQJxgyJlSK32SFo0In10l9Vnmfcm5o0sGsyIBsYjJvFCgYUbKLN8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1731327508;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=WmK2xlQ+zyobePquUkVhqfJy16+HvtgT370hP1XsPfo=; 
+ b=fIVsWDdJsO7HkZtBDDPaD1ml90vOxjbbqwmc2fIEAFvcGijjN5ZOJhy/wkDCtKascZtTsLsNom9QxisZmW4x4z3lb7XTa2iVAMPXqOR/+C6qgIuHPgjfhyB01HHGV5EktDGel4hiXj5Q2Ma921NNeNIKnUH8NUBZHygG8Yy4Vs0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731327508; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=WmK2xlQ+zyobePquUkVhqfJy16+HvtgT370hP1XsPfo=;
+ b=Tdk0hYFkM+heWlAhdQat/RUTeeOnYjfXp+GxYl0UBJFOcLFS9Ta8uvs50MjSWhRe
+ EJxLrNFpfOKUyVEudlqbjPPVxaAkfePbGRFnjheySt9F1gjUA9BlTEG009FmWmHCdKd
+ rXnmRUkNZ/fR7Z4jreUNEdVsRS0I0TVp48LOD3dE=
+Received: by mx.zohomail.com with SMTPS id 1731327496153595.5978690443898;
+ Mon, 11 Nov 2024 04:18:16 -0800 (PST)
+Message-ID: <09d9815c-9d5b-464b-9362-5b8232d36de1@collabora.com>
+Date: Mon, 11 Nov 2024 15:18:11 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241111092621.763285-1-akash.goel@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] drm/virtio: Add drm_panic support
+To: Ryosuke Yasuoka <ryasuoka@redhat.com>, airlied@redhat.com,
+ kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ simona@ffwll.ch
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20241108032603.3164570-1-ryasuoka@redhat.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20241108032603.3164570-1-ryasuoka@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,70 +70,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 11, 2024 at 09:26:21AM +0000, Akash Goel wrote:
-> This commit fixes the handling of partial GPU mapping of buffer objects
-> in Panthor.
-> VM_BIND ioctl allows Userspace to partially map the BOs to GPU.
-> To map a BO, Panthor walks through the sg_table to retrieve the physical
-> address of pages. If the mapping is created at an offset into the BO,
-> then the scatterlist(s) at the beginning have to be skipped to reach the
-> one corresponding to the offset. But the case where the offset didn't
-> point to the first page of desired scatterlist wasn't handled correctly.
-> The bug caused the partial GPU mapping of BO to go wrong for the said
-> case, as the pages didn't get map at the expected virtual address and
-> consequently there were kernel warnings on unmap.
+On 11/8/24 06:26, Ryosuke Yasuoka wrote:
+> +struct virtio_gpu_panic_object_array {
+> +	struct ww_acquire_ctx ticket;
+> +	struct list_head next;
+> +	u32 nents, total;
+> +	struct drm_gem_object *objs;
+> +};
+> +
+> +static void *virtio_panic_buffer;
 
-Maybe it's just me, but I would find it easier to figure out what's being
-fixed here if commit message said something like:
+This won't work well if there is more than one virtio-gpu device in the
+system. Please make it private to the virtio-gpu dev.
 
-When the BO being mapped spans multiple scatterlists, offset is not cleared
-after the starting scatterlist, leading to holes in the mapping.
-
-
-If I understand it correctly you found this based on some WARN() being triggered,
-so maybe adding the dump here would've helped too.
-
-
-> 
-> Signed-off-by: Akash Goel <akash.goel@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index d8cc9e7d064e..6bc188d9a9ad 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -957,6 +957,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
->  
->  		paddr += offset;
->  		len -= offset;
-> +		offset = 0;
->  		len = min_t(size_t, len, size);
->  		size -= len;
-
-Again, my preference so feel free to ignore, but I would put the resetting of offset at the
-end of for_each_sgtable_dma_sg() loop, after the if (!size) break lines. That way it is clear
-that it applies to the next iteration of the loop.
-
-Regardsless of the changes you're going to make,
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
->  
-> -- 
-> 2.25.1
-> 
+Otherwise looks okay. I've tested v3 on QEMU, panic screen works.
+Looking forward to v4, thanks.
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Best regards,
+Dmitry
+
