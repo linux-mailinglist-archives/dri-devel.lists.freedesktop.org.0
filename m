@@ -2,139 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD239C4ABB
+	by mail.lfdr.de (Postfix) with ESMTPS id A40059C4ABA
 	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 01:28:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7A7710E549;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1238810E1C9;
 	Tue, 12 Nov 2024 00:28:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from IND01-MAX-obe.outbound.protection.outlook.com
- (mail-maxind01on2129.outbound.protection.outlook.com [40.107.222.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B53A910E1E8;
- Mon, 11 Nov 2024 12:10:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ke8WOnsbQMIQgBYGVrznE43hCD+ORT1m8MI4lhtONIQMuk7jaW/KtdL+uAXcQg03BcOHCt+KKs936ploK6Tv28bS9jYD6ulMEiMVoSNHEVPeXyyo53TEtzLivkbUKL7d3e7GYMdoHcYusFNSzbQ8vOygX5lwM9E1iUpQ39ZXjndH9wc78YmcmWw4jbaoETWjonRV0bAnp9MMWMvHSIDnXKJYdNVBdMBpYBPF+pNGSs0POBkNGS3nkZdAyMqmP5mkK9znJNApd6P/AtABoXhMbOmYsi88siLgBIXLryKfFiTs9jarQ2ZqNaQJK9B2rmqLrf1GPq+SMmauORyeXr/uyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bw0cIZJ64UmjbmmNvP66gFrQvqnsPHnKXxghmuvnpPM=;
- b=UE1KKISRhb4/qwaJ5ouU/7LUeHCTTAgvSBYgxRSthwZRJKZKI6F1SmhCOE95+hOPf/gWP9kEGEa7Sr2u7rTBfEt7rC7I+KGtw8fsripyPjEN90rLtq8iqnMQ/lqAyVGxbgMfgH4eA+HkX+mKF3iKCHtgUkoaEK0dChCJzaK8HKV0JonYayXVHe8FcQCgtUrPVFP/d1495Plu8bu/YqBNTG5ZgyjEBqjT/tYmoq8wpuFwIpKbAdVozRLFdG8oT88tpDf73zqkNX+3p8nEnkbaHOjvOofbbrqy6vidkjO5BaiKv9jeJQJ3J/3fdonHoNhgQxuXq/7dfhRlrnKUhaSH2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-Received: from PN3P287MB1171.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1a1::5)
- by PN2P287MB0675.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:15d::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.28; Mon, 11 Nov
- 2024 12:10:07 +0000
-Received: from PN3P287MB1171.INDP287.PROD.OUTLOOK.COM
- ([fe80::12a8:c951:3e4b:5a8a]) by PN3P287MB1171.INDP287.PROD.OUTLOOK.COM
- ([fe80::12a8:c951:3e4b:5a8a%4]) with mapi id 15.20.8137.027; Mon, 11 Nov 2024
- 12:10:07 +0000
-From: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
-To: alexander.deucher@amd.com
-Cc: tarang.raval@siliconsignals.io,
- Bhavin Sharma <bhavin.sharma@siliconsignals.io>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>, Jun Lei <jun.lei@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Kenneth Feng <kenneth.feng@amd.com>,
- Wenjing Liu <wenjing.liu@amd.com>, Roman Li <roman.li@amd.com>,
- Alex Hung <alex.hung@amd.com>, Leo Ma <hanghong.ma@amd.com>,
- Ilya Bakoulin <ilya.bakoulin@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/amd/pm: Remove redundant check
-Date: Mon, 11 Nov 2024 17:38:29 +0530
-Message-ID: <20241111120900.63869-3-bhavin.sharma@siliconsignals.io>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241111120900.63869-1-bhavin.sharma@siliconsignals.io>
-References: <20241111120900.63869-1-bhavin.sharma@siliconsignals.io>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PN3PR01CA0096.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:9b::13) To PN3P287MB1171.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:1a1::5)
+X-Greylist: delayed 1108 seconds by postgrey-1.36 at gabe;
+ Mon, 11 Nov 2024 15:38:57 UTC
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
+ [45.249.212.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FF2310E166;
+ Mon, 11 Nov 2024 15:38:57 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+ by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4XnCsK2GxQz4f3p0R;
+ Mon, 11 Nov 2024 23:20:05 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+ by mail.maildlp.com (Postfix) with ESMTP id 597721A0194;
+ Mon, 11 Nov 2024 23:20:24 +0800 (CST)
+Received: from [10.174.177.210] (unknown [10.174.177.210])
+ by APP4 (Coremail) with SMTP id gCh0CgB3U4exIDJn3+D7BQ--.18810S3;
+ Mon, 11 Nov 2024 23:20:19 +0800 (CST)
+Message-ID: <73a05cb9-569c-9b3c-3359-824e76b14461@huaweicloud.com>
+Date: Mon, 11 Nov 2024 23:20:17 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3P287MB1171:EE_|PN2P287MB0675:EE_
-X-MS-Office365-Filtering-Correlation-Id: f581f3b6-0b35-410e-8e0c-08dd0249c82f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|52116014|7416014|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?CPR3SYnOrE9XThCcC3vY2ydvoV69/NrUolPcH/P+nkvQDOSBN980MSqW1X2c?=
- =?us-ascii?Q?o1BQW7lVlFb1CivVaz3zLqLOKJYV0GP4v/Q0ZI6/IYGSY/d6Oq1NTui5w43J?=
- =?us-ascii?Q?6Wlda92QvDqwQNcnLmgbBC+/7f3U83X8qH1mVdt4x2FpNIVoK0EaWtQCqOla?=
- =?us-ascii?Q?3tzNrHSBkWp2nmkHdz0V9Hu/2YXkmWQQQ9++EznvLMtKdQL5P06gbhICRKuO?=
- =?us-ascii?Q?ITIOIsaabfyY5guHqA0onmTmzaEV7PgYpSmYOAUxJkkrTcauUxlFZX+08tiV?=
- =?us-ascii?Q?JFcRi1lmbYM5+KD8O/7nwzORnLYDSM506iwLVNxXX0oaHAg2AfkzXpFqfTMi?=
- =?us-ascii?Q?MIKyhpG+8OygAq1+m+9sP7XbD3zRigZqEs0aoev2lpOwOvZhPnDnw3izTQ+f?=
- =?us-ascii?Q?pPdWF6R/uAZ6uAgZh0RFZahRqwaUyJY7koY23L8QKiWZO7D/IhrSDjjKdrIL?=
- =?us-ascii?Q?IXecvsSocMfJXKI4oFnyQONrHJcB6p19I5UKcXx7oEyvj0dvBvlPI/1xMKW3?=
- =?us-ascii?Q?K4uTflIjpVbqs39NROcnj3lw3u+ZiHmbEaP813R2zZsCJMIgmwpjcpUKmZRL?=
- =?us-ascii?Q?W25QRy3xCuMHn17va8dhmjOK679KHgJ8Vt0IpvQZVkuQZ7lP3hOWQ1hE3Tr+?=
- =?us-ascii?Q?a85m0+l7mIrxJn8uzjijun5ei4FLqftgoKKRKUHCPf6Cc45R4oWO2eyz8Axj?=
- =?us-ascii?Q?lGmALp+PpCUrdujWhlMXCCVKGwU5QbuFR3Bi7lPs/6mgJ5M7urUC2MUYbVqi?=
- =?us-ascii?Q?6h/ZkRPnse7BfiZnecn8WAQElSMwcdwjsJ2Fi7IRMMJodn82QFzeioo6KAUt?=
- =?us-ascii?Q?xZrFzhayKTPSbRfMcuQC6m8PTleAfEcWFz431j/64J7mZgN5tR0i7O7Jta7l?=
- =?us-ascii?Q?A9NL2fAWMKzsMm5U2f+V9vqwysQMdG281Gxld69PPCCwtVAJWmJ100EHdGWT?=
- =?us-ascii?Q?MQp6XWRp28CHLTd7EJ7qOrp0PPd6gqLqGPCLIlPAGzoT03RYxeSQRsEvXirZ?=
- =?us-ascii?Q?fQdpFnxlnvEvoVBshJ4oR5DcVwob1u3TQ83ljV97/2uRSyQ+/wbMUzs30YAd?=
- =?us-ascii?Q?OWY1qZoGfWfp42gxnU7IGO6+P0iMbXGqY9Utf5JTt+1pOumSP1lsYl8hmLq1?=
- =?us-ascii?Q?CmxSCfUWXLNEuIIlrerpIPKBs2/K1ZgZ6qVgXEt+sRlCU5FKcgwq6M/ciOM2?=
- =?us-ascii?Q?NGIRT6avv4mbSXZwy9YZ1Y1wi1MVb2NWhdVoggL3aozOTxo9qap9lXOSa+re?=
- =?us-ascii?Q?CyEKw5wnQWnTYnrpeBOjKGrbvLffyAngZpuUXwCcpQW4x//0lebPQi30HFBN?=
- =?us-ascii?Q?Nm7ccc0DwiRiifJOqsXlaPhGACG8AYAJvgts699A8IVeV8FFJ+LZf8eArlJJ?=
- =?us-ascii?Q?WVtJ2hs=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PN3P287MB1171.INDP287.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(52116014)(7416014)(366016)(38350700014);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HYM+DYDOjYPSKEdF/uh5AcAKWOxiQm5G//xWKo8ZTPCZ/Wg4gphbw5WlEEJH?=
- =?us-ascii?Q?68JYNCmHaFkzFL2nRveY8PIJdz3wRnFwkj/sxSQrm+447F7baBCVDgWEMjUS?=
- =?us-ascii?Q?uxAeEMfqNIifEyDYg9k2R8mIwk4I1uuxIBeEKMoQUHdSymKA59p2lwqTrYAK?=
- =?us-ascii?Q?lXJeK6AxAvQDuqjdP6lfR95w1FemKEmk3ZAwhCYfAuhWArZr57yEq8V80gxT?=
- =?us-ascii?Q?gHHnMnsxvAqxUF5pY6N2tT3IjsW3u/Uvwqw8pP0K6ctbSj2wKhvl7LALYbDs?=
- =?us-ascii?Q?JdQ9au+M32OzjHhC704FTrzcumbxTNR4Vq5J0Z3SJhbwJClP5Bx5fKDRbqnK?=
- =?us-ascii?Q?oul/S7rjReTs77PWBF2NCLg+fkBkQVOw66YVIVQByobJslVFBfWskH+iSlhD?=
- =?us-ascii?Q?+dyazdsneJ2pkrJy7X2NFYY2pzyAkAnjit3Z01IYAlioSYNJHHSNZPsjbU6F?=
- =?us-ascii?Q?4eNMoFtTRJdbcKdCwC/l3Kn7o3q85QBN5bc8Yuk/Mqbqw9OvB4FLcHddBQpp?=
- =?us-ascii?Q?3eNe6yPFqg91cVj/APjLrLy4TegKM4JFyEPurzHwPvD9h1b9wsqLJM35znho?=
- =?us-ascii?Q?G6ssOO1pX49q2B4gY1haUWKEnvSe2+FkUO8kzgOjQ/3yAcQRwTzUKQid6qOn?=
- =?us-ascii?Q?lM9UJwEFoqVq2wz9T1fsSNoSmcOjmNjK98wIIf5ZQ9GFGI/ea50g319nvKcw?=
- =?us-ascii?Q?LRWDzcXmtYJEjka4qPajJVub659r6jG5lwBWMnIt5CjJpfk5quH1ZEz3gt+Y?=
- =?us-ascii?Q?ixVvRUAEPxiMIgM+4KvTPMyo2Tw97I0q1xBrW3XeLIxkFSJ9zYr8nQtSQ2X+?=
- =?us-ascii?Q?KWl5+XAhxGS7XnZ33vudZmNE9p2KmzIJswtP5RQE6gUkbDTwwEEhGNPXO+s+?=
- =?us-ascii?Q?HcDWkwquv4xJ4GgCJuTMDp2vgRvD/LX3KBMh7RzwFY/WeD6casluHeH6GWtf?=
- =?us-ascii?Q?zdUXo5ZNBTwBoP+SC2smCVLG9jvM2Gd1CDS0vpSwRH61aNJdj6P6L5R4omIe?=
- =?us-ascii?Q?Z/jLSqhl83iOi15SBDFPyD91wqUVmmRi5Jjb7UcmRMkbglmCUQ7Yn0FX+Alc?=
- =?us-ascii?Q?FtYvtJDakEy1Ft10luxTGn7+d5wru5t7Y1qBXu9o0FmJaLq2ixCAMzBw/pm7?=
- =?us-ascii?Q?gJ389iYTwM2OD+n5MmdKFCs1FGaNRsVL55ZPCOn+5uU4xwok4kdUOhO5eMNt?=
- =?us-ascii?Q?GGVfqHhANmIhVNeL8V2E/hTwsj22ob+0JLFikztItC6ZyXU/BUT1gXuRJQJc?=
- =?us-ascii?Q?/PAIR+deZuMy4sWaPaVprUxybrx7+3rV2pSYvgrOV0dBlV0YALfbQSTa97vc?=
- =?us-ascii?Q?PecgBe8kspdzQvRWBKWvCzqgo7DjiQqt7H4sdH3ULnxf/422WlP70npzgQrS?=
- =?us-ascii?Q?2/9e4ElasHmI5WbJfdhKmbny8VhNR3VBgZBc/qDU38oLrieCS4OV7vYlmtAP?=
- =?us-ascii?Q?zDN4jOHXn59EZyqcXr4zC3SuqMEtIgjz4lx1rGSi7u0NpXR/yxD0LgXkHK1t?=
- =?us-ascii?Q?eAC2/cQvjt0z4ZZqQ5Wh97RCEVqKe7Pjmq2l3pvBgFb1oIoGazkvDQYoJhx9?=
- =?us-ascii?Q?lp3xfL2zIhRvXqBmQhSLuROG5VxZ4jGKtRxD7zGXBOzRGgNTz5RKA8mLj8bC?=
- =?us-ascii?Q?Vyz8dg1iHDtaW9g1ehfkuro=3D?=
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: f581f3b6-0b35-410e-8e0c-08dd0249c82f
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1171.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2024 12:10:07.1688 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jYW95vwFqZNKYApztPxhJVLvGjWL8Y3y4aPe7j+XuFIvpMtxKJ23c+EOy3UOrToBCFev+0ygC7njGPzWO/HpkP/jzHkG6HXxo10ptHOfoZw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB0675
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH 6/6 6.6] libfs: fix infinite directory reads for
+ offset dir
+To: Chuck Lever III <chuck.lever@oracle.com>, Yu Kuai <yukuai1@huaweicloud.com>
+Cc: Chuck Lever <cel@kernel.org>, linux-stable <stable@vger.kernel.org>,
+ "harry.wentland@amd.com" <harry.wentland@amd.com>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
+ "airlied@gmail.com" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Liam Howlett <liam.howlett@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Greg KH <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>,
+ "srinivasan.shanmugam@amd.com" <srinivasan.shanmugam@amd.com>,
+ "chiahsuan.chung@amd.com" <chiahsuan.chung@amd.com>,
+ "mingo@kernel.org" <mingo@kernel.org>,
+ "mgorman@techsingularity.net" <mgorman@techsingularity.net>,
+ "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+ "zhangpeng.00@bytedance.com" <zhangpeng.00@bytedance.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+ "maple-tree@lists.infradead.org" <maple-tree@lists.infradead.org>,
+ linux-mm <linux-mm@kvack.org>, "yi.zhang@huawei.com" <yi.zhang@huawei.com>,
+ "yukuai (C)" <yukuai3@huawei.com>
+References: <20241111005242.34654-1-cel@kernel.org>
+ <20241111005242.34654-7-cel@kernel.org>
+ <278433c2-611c-6c8e-7964-5c11977b68b7@huaweicloud.com>
+ <96A93064-8DCE-4B78-9F2A-CF6E7EEABEB1@oracle.com>
+From: yangerkun <yangerkun@huaweicloud.com>
+In-Reply-To: <96A93064-8DCE-4B78-9F2A-CF6E7EEABEB1@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgB3U4exIDJn3+D7BQ--.18810S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxKw48Ar4xCFW5tF45Wr48JFb_yoW3JF17pF
+ Z8Gan8Krs7X34UGr4vv3WDZFyS93Z7Kr45XrZ5W34UJr9Fqr43KF1Iyr4Y9a4UArs3Cr12
+ qF45K343Zw45CrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUB214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWrXVW3AwCF04k20xvY0x
+ 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+ 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+ kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRJMa0UUUUU
+X-CM-SenderInfo: 51dqwvhunx0q5kxd4v5lfo033gof0z/
 X-Mailman-Approved-At: Tue, 12 Nov 2024 00:28:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -151,51 +100,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The check for tools_size being non-zero is redundant as tools_size is 
-explicitly set to a non-zero value (0x19000). Removing the if condition 
-simplifies the code without altering functionality.
 
-Signed-off-by: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
----
- .../amd/pm/powerplay/smumgr/vega12_smumgr.c   | 24 +++++++++----------
- 1 file changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/vega12_smumgr.c b/drivers/gpu/drm/amd/pm/powerplay/smumgr/vega12_smumgr.c
-index b52ce135d84d..d3ff6a831ed5 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/vega12_smumgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/vega12_smumgr.c
-@@ -257,20 +257,18 @@ static int vega12_smu_init(struct pp_hwmgr *hwmgr)
- 	priv->smu_tables.entry[TABLE_WATERMARKS].size = sizeof(Watermarks_t);
- 
- 	tools_size = 0x19000;
--	if (tools_size) {
--		ret = amdgpu_bo_create_kernel((struct amdgpu_device *)hwmgr->adev,
--					      tools_size,
--					      PAGE_SIZE,
--					      AMDGPU_GEM_DOMAIN_VRAM,
--					      &priv->smu_tables.entry[TABLE_PMSTATUSLOG].handle,
--					      &priv->smu_tables.entry[TABLE_PMSTATUSLOG].mc_addr,
--					      &priv->smu_tables.entry[TABLE_PMSTATUSLOG].table);
--		if (ret)
--			goto err1;
-+	ret = amdgpu_bo_create_kernel((struct amdgpu_device *)hwmgr->adev,
-+				      tools_size,
-+				      PAGE_SIZE,
-+				      AMDGPU_GEM_DOMAIN_VRAM,
-+				      &priv->smu_tables.entry[TABLE_PMSTATUSLOG].handle,
-+				      &priv->smu_tables.entry[TABLE_PMSTATUSLOG].mc_addr,
-+				      &priv->smu_tables.entry[TABLE_PMSTATUSLOG].table);
-+	if (ret)
-+		goto err1;
- 
--		priv->smu_tables.entry[TABLE_PMSTATUSLOG].version = 0x01;
--		priv->smu_tables.entry[TABLE_PMSTATUSLOG].size = tools_size;
--	}
-+	priv->smu_tables.entry[TABLE_PMSTATUSLOG].version = 0x01;
-+	priv->smu_tables.entry[TABLE_PMSTATUSLOG].size = tools_size;
- 
- 	/* allocate space for AVFS Fuse table */
- 	ret = amdgpu_bo_create_kernel((struct amdgpu_device *)hwmgr->adev,
--- 
-2.43.0
+在 2024/11/11 22:39, Chuck Lever III 写道:
+> 
+> 
+>> On Nov 10, 2024, at 9:36 PM, Yu Kuai <yukuai1@huaweicloud.com> wrote:
+>>
+>> Hi,
+>>
+>> 在 2024/11/11 8:52, cel@kernel.org 写道:
+>>> From: yangerkun <yangerkun@huawei.com>
+>>> [ Upstream commit 64a7ce76fb901bf9f9c36cf5d681328fc0fd4b5a ]
+>>> After we switch tmpfs dir operations from simple_dir_operations to
+>>> simple_offset_dir_operations, every rename happened will fill new dentry
+>>> to dest dir's maple tree(&SHMEM_I(inode)->dir_offsets->mt) with a free
+>>> key starting with octx->newx_offset, and then set newx_offset equals to
+>>> free key + 1. This will lead to infinite readdir combine with rename
+>>> happened at the same time, which fail generic/736 in xfstests(detail show
+>>> as below).
+>>> 1. create 5000 files(1 2 3...) under one dir
+>>> 2. call readdir(man 3 readdir) once, and get one entry
+>>> 3. rename(entry, "TEMPFILE"), then rename("TEMPFILE", entry)
+>>> 4. loop 2~3, until readdir return nothing or we loop too many
+>>>     times(tmpfs break test with the second condition)
+>>> We choose the same logic what commit 9b378f6ad48cf ("btrfs: fix infinite
+>>> directory reads") to fix it, record the last_index when we open dir, and
+>>> do not emit the entry which index >= last_index. The file->private_data
+>>
+>> Please notice this requires last_index should never overflow, otherwise
+>> readdir will be messed up.
+> 
+> It would help your cause if you could be more specific
+> than "messed up".
+> 
+> 
+>>> now used in offset dir can use directly to do this, and we also update
+>>> the last_index when we llseek the dir file.
+>>> Fixes: a2e459555c5f ("shmem: stable directory offsets")
+>>> Signed-off-by: yangerkun <yangerkun@huawei.com>
+>>> Link: https://lore.kernel.org/r/20240731043835.1828697-1-yangerkun@huawei.com
+>>> Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
+>>> [brauner: only update last_index after seek when offset is zero like Jan suggested]
+>>> Signed-off-by: Christian Brauner <brauner@kernel.org>
+>>> Link: https://nvd.nist.gov/vuln/detail/CVE-2024-46701
+>>> [ cel: adjusted to apply to origin/linux-6.6.y ]
+>>> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+>>> ---
+>>>   fs/libfs.c | 37 +++++++++++++++++++++++++------------
+>>>   1 file changed, 25 insertions(+), 12 deletions(-)
+>>> diff --git a/fs/libfs.c b/fs/libfs.c
+>>> index a87005c89534..b59ff0dfea1f 100644
+>>> --- a/fs/libfs.c
+>>> +++ b/fs/libfs.c
+>>> @@ -449,6 +449,14 @@ void simple_offset_destroy(struct offset_ctx *octx)
+>>>    xa_destroy(&octx->xa);
+>>>   }
+>>>   +static int offset_dir_open(struct inode *inode, struct file *file)
+>>> +{
+>>> + struct offset_ctx *ctx = inode->i_op->get_offset_ctx(inode);
+>>> +
+>>> + file->private_data = (void *)ctx->next_offset;
+>>> + return 0;
+>>> +}
+>>
+>> Looks like xarray is still used.
+> 
+> That's not going to change, as several folks have already
+> explained.
+> 
+> 
+>> I'm in the cc list ,so I assume you saw my set, then I don't know why
+>> you're ignoring my concerns.
+> 
+>> 1) next_offset is 32-bit and can overflow in a long-time running
+>> machine.
+>> 2) Once next_offset overflows, readdir will skip the files that offset
+>> is bigger.
+> 
+
+I'm sorry, I'm a little busy these days, so I haven't responded to this
+series of emails.
+
+> In that case, that entry won't be visible via getdents(3)
+> until the directory is re-opened or the process does an
+> lseek(fd, 0, SEEK_SET).
+
+Yes.
+
+> 
+> That is the proper and expected behavior. I suspect you
+> will see exactly that behavior with ext4 and 32-bit
+> directory offsets, for example.
+
+Emm...
+
+For this case like this:
+
+1. mkdir /tmp/dir and touch /tmp/dir/file1 /tmp/dir/file2
+2. open /tmp/dir with fd1
+3. readdir and get /tmp/dir/file1
+4. rm /tmp/dir/file2
+5. touch /tmp/dir/file2
+4. loop 4~5 for 2^32 times
+5. readdir /tmp/dir with fd1
+
+For tmpfs now, we may see no /tmp/dir/file2, since the offset has been 
+overflow, for ext4 it is ok... So we think this will be a problem.
+
+> 
+> Does that not directly address your concern? Or do you
+> mean that Erkun's patch introduces a new issue?
+
+Yes, to be honest, my personal feeling is a problem. But for 64bit, it 
+may never been trigger.
+
+> 
+> If there is a problem here, please construct a reproducer
+> against this patch set and post it.
+> 
+> 
+>> Thanks,
+>> Kuai
+>>
+>>> +
+>>>   /**
+>>>    * offset_dir_llseek - Advance the read position of a directory descriptor
+>>>    * @file: an open directory whose position is to be updated
+>>> @@ -462,6 +470,9 @@ void simple_offset_destroy(struct offset_ctx *octx)
+>>>    */
+>>>   static loff_t offset_dir_llseek(struct file *file, loff_t offset, int whence)
+>>>   {
+>>> + struct inode *inode = file->f_inode;
+>>> + struct offset_ctx *ctx = inode->i_op->get_offset_ctx(inode);
+>>> +
+>>>    switch (whence) {
+>>>    case SEEK_CUR:
+>>>    offset += file->f_pos;
+>>> @@ -475,8 +486,9 @@ static loff_t offset_dir_llseek(struct file *file, loff_t offset, int whence)
+>>>    }
+>>>      /* In this case, ->private_data is protected by f_pos_lock */
+>>> - file->private_data = NULL;
+>>> - return vfs_setpos(file, offset, U32_MAX);
+>>> + if (!offset)
+>>> + file->private_data = (void *)ctx->next_offset;
+>>> + return vfs_setpos(file, offset, LONG_MAX);
+>>>   }
+>>>     static struct dentry *offset_find_next(struct xa_state *xas)
+>>> @@ -505,7 +517,7 @@ static bool offset_dir_emit(struct dir_context *ctx, struct dentry *dentry)
+>>>      inode->i_ino, fs_umode_to_dtype(inode->i_mode));
+>>>   }
+>>>   -static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
+>>> +static void offset_iterate_dir(struct inode *inode, struct dir_context *ctx, long last_index)
+>>>   {
+>>>    struct offset_ctx *so_ctx = inode->i_op->get_offset_ctx(inode);
+>>>    XA_STATE(xas, &so_ctx->xa, ctx->pos);
+>>> @@ -514,17 +526,21 @@ static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
+>>>    while (true) {
+>>>    dentry = offset_find_next(&xas);
+>>>    if (!dentry)
+>>> - return ERR_PTR(-ENOENT);
+>>> + return;
+>>> +
+>>> + if (dentry2offset(dentry) >= last_index) {
+>>> + dput(dentry);
+>>> + return;
+>>> + }
+>>>      if (!offset_dir_emit(ctx, dentry)) {
+>>>    dput(dentry);
+>>> - break;
+>>> + return;
+>>>    }
+>>>      dput(dentry);
+>>>    ctx->pos = xas.xa_index + 1;
+>>>    }
+>>> - return NULL;
+>>>   }
+>>>     /**
+>>> @@ -551,22 +567,19 @@ static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
+>>>   static int offset_readdir(struct file *file, struct dir_context *ctx)
+>>>   {
+>>>    struct dentry *dir = file->f_path.dentry;
+>>> + long last_index = (long)file->private_data;
+>>>      lockdep_assert_held(&d_inode(dir)->i_rwsem);
+>>>      if (!dir_emit_dots(file, ctx))
+>>>    return 0;
+>>>   - /* In this case, ->private_data is protected by f_pos_lock */
+>>> - if (ctx->pos == DIR_OFFSET_MIN)
+>>> - file->private_data = NULL;
+>>> - else if (file->private_data == ERR_PTR(-ENOENT))
+>>> - return 0;
+>>> - file->private_data = offset_iterate_dir(d_inode(dir), ctx);
+>>> + offset_iterate_dir(d_inode(dir), ctx, last_index);
+>>>    return 0;
+>>>   }
+>>>     const struct file_operations simple_offset_dir_operations = {
+>>> + .open = offset_dir_open,
+>>>    .llseek = offset_dir_llseek,
+>>>    .iterate_shared = offset_readdir,
+>>>    .read = generic_read_dir,
+> 
+> 
+> --
+> Chuck Lever
+> 
+> 
 
