@@ -2,78 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 615C29C39A2
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 09:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5629C3A68
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 10:06:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4472F10E433;
-	Mon, 11 Nov 2024 08:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A9F10E43B;
+	Mon, 11 Nov 2024 09:06:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mDaQJ8P0";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LERJ32NG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 178E010E03B
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 08:27:34 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-5c93e9e701fso7086a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 00:27:34 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C25A10E43B
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 09:06:16 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-a9a850270e2so799716466b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 01:06:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1731313652; x=1731918452;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=oTlZ4xJedYzVMnb4atsTXhQWqyB2ECChSFkUmRbl3i0=;
- b=mDaQJ8P0K3Y0BBBfemBmTfgcs3fct0EtJmBONhnLaWN4++fD6c/cq2uMv44e2Lde2q
- egSX/7yl2CsnnbfNHu9YfDU1Jz4CR+438dYvaz9eyGWA6OG06KaU1+86bzs3qK8kcCwk
- sRhhzayg4t3F4fRriZYwsxxSnKVRf4Faa10r9j1Bz55BoGFSMRKiEXdFIvXvtZdw4VMW
- BeUowd0Otud74LSAyDpypk1JZR+estH4YpXwbzu6xVXCQdVGVPiApHFKCP5L8FPpNKRI
- ga9MHWSFI+SjHWbtFitWt8khMZjMZlcSgez4PVH6C7gmsSJLnAQBlwE2mAu+LP9S+qiV
- NzKg==
+ d=linaro.org; s=google; t=1731315974; x=1731920774; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=apRs0DAdhKBkD9Qp2XtvGYAHxYv4VCBNiG5LEbw4AZU=;
+ b=LERJ32NG2dbYAzoShAIZBcFBEquTt8/aCiTQsa5fKETrH2b6HlgnMKE5WwZABuZ9me
+ qHbJvSEwiWbVW6XD/Qo/gbo4sfNPREKrRBj6rqz1x/jMquXo+af1LM2X+G6PPeoI7VGK
+ aUXHsmROH06FsZMOT+gjn3mA42QYzOQ+r8jbTderR757ZIYETRpegqeH9b3NtT3JXHpH
+ 6mwwrp7gb3ZkI8dJJB8bTO1D9Gei0a5Ohn8FqVlswJpDUuR6nsQqDjVCjzCDdePQbcbM
+ u2FVHVpYKiLTi1y/oa1hp1uqQHa5SKhI5Rn+wyBtDhWewU1OlrpblaJCMeoyurxMXOFE
+ /fyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731313652; x=1731918452;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oTlZ4xJedYzVMnb4atsTXhQWqyB2ECChSFkUmRbl3i0=;
- b=QRvO9bV1YYHGAa5W6vcU5lUxvtVoZTjuWr7Q7142wwSHKztv/Q56gCVUldpRfLaFJW
- s9Thh3yfY/W41orDf4bWGmYzF1T2hbbuNj+yO4lRwVBCcndHzULS6jY+CRg7IJcnhsXY
- 090ovsm5AyngZR9qh13+TAXO/Q6qQfL2MvxYJYQ7hig9OnBU6KcPq6xrtJL+/2t0CPsT
- ZrWv8qZFLC0C0N+VGF4KBW6fF0/aX7HEffBgpfTMdeVDDh/yduHI7ChDWEQ4ZVqud2ZJ
- BsIeyVDmN779nwYs0UY/mjoCJaLD9lG87s6x/PHD2Uiz3k2D4zLV3K+g1GYQQqxLSDe+
- flAw==
+ d=1e100.net; s=20230601; t=1731315974; x=1731920774;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=apRs0DAdhKBkD9Qp2XtvGYAHxYv4VCBNiG5LEbw4AZU=;
+ b=ZTSawRN1ZUCOq8ifa2G+1rDyJ5TtNx9+VUtZcIDOxqV/7SXzAm+AXficZc0TMeAyyv
+ WqowEEXYEMNMPRKVCXbNFUo0DbMm3KLVLV8IQNBund3OHQ34NXqJ4pSIoN5pYcmRsALH
+ UO2XgkO/4GmejN+IXGa6pxt5L+Gj9ocyWlqZWZpq2pvAngC2QUaYYiG9oeFxktclGz2c
+ T1C/UbYbIfCaqOJ7YwBIqrnFD4uXKVHiSdgZoWW+P35sDMy06Ex5xsrljD73mECv0xLJ
+ EGUenGaTrlL+Pjw51Wz0iapvZKmIkNfmyAV/ZfKI5uNZQWdsmySKiOQLL5t4217qjyxM
+ 3bLg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUxE0lQm3eK9g0wrxb7S9wwd7lp7ThlquHRItgOgNVoKhzHDxYYO/yv45ZmFg4U4paJvlSgTOGWQoo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzzCKv1JnNlCPG3ti1meIdC7JPnE6ovpDBgS8eQ/6LwMg7M1m4/
- iI74iZnHR+4fepATy3hFy01k0n2aNMNFg4H5YQMRLt49j/+BnPOds8gYijENYP3nS/MCMpcLlpp
- MGVKcBF4f6vHa2EHdSj8NAECNGhUlkSNoy+cY
-X-Gm-Gg: ASbGncuKh9y5P0knadLmq8Z3gT8aKaK5Wcl1dcXwfGCzEZEJA9veMp0wXmgDyppFaUo
- 9FskVS/pAnKAQ7qB1p9vS2puHWBOaZA==
-X-Google-Smtp-Source: AGHT+IEsLtD4/gOd20okj8nZ9YDzz7v0ASgpzD8te1wJetCOEqNBZw2DVQaobhIGcOfsx2LNSc32Qzn/r3Tf8+lUjc0=
-X-Received: by 2002:a50:999e:0:b0:5ca:18ba:4a79 with SMTP id
- 4fb4d7f45d1cf-5cf2273ee9fmr135365a12.7.1731313650537; Mon, 11 Nov 2024
- 00:27:30 -0800 (PST)
+ AJvYcCWhmiOQY0t1Va/FvFDtY/Q0TxSml9cZrhEiKSFpSFs9OA0PH6NNfqkDM9AdVqnnc3V80hAf/k9SHBk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJIGisi1TiXjAgu4J4cj9qGUUAbUdmGH1I+XDou6pPP+zAlC8y
+ b7mPTpv9a24U5+l/R5NQNASkQIWgv80fpA51xP3ntokUVVWw3zRyxDjPyx9QfhE=
+X-Google-Smtp-Source: AGHT+IG01DvV4fVYHey4p2gLJdP8gIwgetBzZShx8jJbLbuJv9DbED9jmrm294gcWaav324B9xGGuw==
+X-Received: by 2002:a17:907:c15:b0:a99:8a0e:8710 with SMTP id
+ a640c23a62f3a-a9eefee6682mr1056624666b.14.1731315974411; 
+ Mon, 11 Nov 2024 01:06:14 -0800 (PST)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a9ee0a4b82csm579023566b.67.2024.11.11.01.06.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Nov 2024 01:06:14 -0800 (PST)
+Date: Mon, 11 Nov 2024 12:06:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH next] drm: zynqmp_dp: Unlock on error in
+ zynqmp_dp_bridge_atomic_enable()
+Message-ID: <b4042bd9-c943-4738-a2e1-8647259137c6@stanley.mountain>
 MIME-Version: 1.0
-References: <20241108162040.159038-1-tabba@google.com>
- <20241108170501.GI539304@nvidia.com>
- <9dc212ac-c4c3-40f2-9feb-a8bcf71a1246@redhat.com>
-In-Reply-To: <9dc212ac-c4c3-40f2-9feb-a8bcf71a1246@redhat.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Mon, 11 Nov 2024 08:26:54 +0000
-Message-ID: <CA+EHjTy3kNdg7pfN9HufgibE7qY1S+WdMZfRFRiF5sHtMzo64w@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 00/10] mm: Introduce and use folio_owner_ops
-To: David Hildenbrand <david@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, linux-mm@kvack.org, kvm@vger.kernel.org, 
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- rppt@kernel.org, jglisse@redhat.com, akpm@linux-foundation.org, 
- muchun.song@linux.dev, simona@ffwll.ch, airlied@gmail.com, 
- pbonzini@redhat.com, seanjc@google.com, willy@infradead.org, 
- jhubbard@nvidia.com, ackerleytng@google.com, vannapurve@google.com, 
- mail@maciej.szmigiero.name, kirill.shutemov@linux.intel.com, 
- quic_eberman@quicinc.com, maz@kernel.org, will@kernel.org, qperret@google.com, 
- keirf@google.com, roypat@amazon.co.uk
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,85 +87,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason and David,
+We added some locking to this function, but accidentally forgot to unlock
+if zynqmp_dp_mode_configure() failed.  Use a guard lock to fix it.
 
-On Fri, 8 Nov 2024 at 19:33, David Hildenbrand <david@redhat.com> wrote:
->
-> On 08.11.24 18:05, Jason Gunthorpe wrote:
-> > On Fri, Nov 08, 2024 at 04:20:30PM +0000, Fuad Tabba wrote:
-> >> Some folios, such as hugetlb folios and zone device folios,
-> >> require special handling when the folio's reference count reaches
-> >> 0, before being freed. Moreover, guest_memfd folios will likely
-> >> require special handling to notify it once a folio's reference
-> >> count reaches 0, to facilitate shared to private folio conversion
-> >> [*]. Currently, each usecase has a dedicated callback when the
-> >> folio refcount reaches 0 to that effect. Adding yet more
-> >> callbacks is not ideal.
-> >
->
-> Thanks for having a look!
->
-> Replying to clarify some things. Fuad, feel free to add additional
-> information.
+Fixes: a7d5eeaa57d7 ("drm: zynqmp_dp: Add locking")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks for your comments Jason, and for clarifying my cover letter
-David. I think David has covered everything, and I'll make sure to
-clarify this in the cover letter when I respin.
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index 25c5dc61ee88..0bea908b281e 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -1537,7 +1537,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+ 
+ 	pm_runtime_get_sync(dp->dev);
+ 
+-	mutex_lock(&dp->lock);
++	guard(mutex)(&dp->lock);
+ 	zynqmp_dp_disp_enable(dp, old_bridge_state);
+ 
+ 	/*
+@@ -1598,7 +1598,6 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_SOFTWARE_RESET,
+ 			ZYNQMP_DP_SOFTWARE_RESET_ALL);
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 1);
+-	mutex_unlock(&dp->lock);
+ }
+ 
+ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+-- 
+2.45.2
 
-Cheers,
-/fuad
-
->
-> > Honestly, I question this thesis. How complex would it be to have 'yet
-> > more callbacks'? Is the challenge really that the mm can't detect when
-> > guestmemfd is the owner of the page because the page will be
-> > ZONE_NORMAL?
->
-> Fuad might have been a bit imprecise here: We don't want an ever growing
-> list of checks+callbacks on the page freeing fast path.
->
-> This series replaces the two cases we have by a single generic one,
-> which is nice independent of guest_memfd I think.
->
-> >
-> > So the point of this is really to allow ZONE_NORMAL pages to have a
-> > per-allocator callback?
->
-> To intercept the refcount going to zero independent of any zones or
-> magic page types, without as little overhead in the common page freeing
-> path.
->
-> It can be used to implement custom allocators, like factored out for
-> hugetlb in this series. It's not necessarily limited to that, though. It
-> can be used as a form of "asynchronous page ref freezing", where you get
-> notified once all references are gone.
->
-> (I might have another use case with PageOffline, where we want to
-> prevent virtio-mem ones of them from getting accidentally leaked into
-> the buddy during memory offlining with speculative references --
-> virtio_mem_fake_offline_going_offline() contains the interesting bits.
-> But I did not look into the dirty details yet, just some thought where
-> we'd want to intercept the refcount going to 0.)
->
-> >
-> > But this is also why I suggested to shift them to ZONE_DEVICE for
-> > guestmemfd, because then you get these things for free from the pgmap.
->
-> With this series even hugetlb gets it for "free", and hugetlb is not
-> quite the nail for the ZONE_DEVICE hammer IMHO :)
->
-> For things we can statically set aside early during boot and never
-> really want to return to the buddy/another allocator, I would agree that
-> static ZONE_DEVICE would have possible.
->
-> Whenever the buddy or other allocators are involved, and we might have
-> granularity as a handful of pages (e.g., taken from the buddy), getting
-> ZONE_DEVICE involved is not a good (or even feasible) approach.
->
-> After all, all we want is intercept the refcount going to 0.
->
-> --
-> Cheers,
->
-> David / dhildenb
->
