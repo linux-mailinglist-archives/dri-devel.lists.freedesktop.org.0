@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4409C3589
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 01:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF389C358E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2024 01:53:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFBF210E3F6;
-	Mon, 11 Nov 2024 00:53:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A72C10E3FB;
+	Mon, 11 Nov 2024 00:53:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AUp9e8+0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lrf5VPIU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 834DB10E3F6;
- Mon, 11 Nov 2024 00:53:07 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A40DB10E3FA;
+ Mon, 11 Nov 2024 00:53:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DF9C0A4136B;
- Mon, 11 Nov 2024 00:51:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F118C4CED7;
- Mon, 11 Nov 2024 00:53:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 195BC5C54AC;
+ Mon, 11 Nov 2024 00:52:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DB9AC4CED6;
+ Mon, 11 Nov 2024 00:53:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1731286386;
- bh=MS0L+/cj/qetOL2B467nUPcahNS75vbYcTKvMHCfQKk=;
+ s=k20201202; t=1731286389;
+ bh=Z1QVcRNEajq+vvtRp+aYnLkCErRyzdCuKYY5Gom358E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AUp9e8+0TpoPzUlfgwTw5E6GgnI/ZpYgc1q76uXOC/+G/BieWoMPdjZEB9lyIDrgW
- QXnLpnLmlQr9H3pU3uuH6bLkqEMMVOzHhdcMtSSAL9OpMLf+1hUWeWgQj8DDTUrsi4
- HPlMJt1byI0ysarlcYcYt43gIZmtHoAEgpzJNUNIjlag6m8EPrbqQPCcjGC4n4l4w2
- acEdEsqQ12dH+mxNQZwEssa6U3KD3BDs3TcnGaplZbXr6RuqnTPuBDN0JgoZRBikUj
- McYBLgOQhdkImalQc+aABZ2RlO+V6EjfcIX2x8OD/WW8qej8jqF0AvLODayl32j4Dz
- IQXG8dMnfIgqA==
+ b=lrf5VPIUItWcKVtrlMjZyA9tq+5oyRSxI+GpQOE4It5Fkefwo9OvtC99jBNEAmCVO
+ /jB3FJ1h0OrzKq6rZO3CvgotIAATbQ1c7zaXUesKHVANqRnZE9aExWhcKF+HJdRfqq
+ MNH2HDC3jfuxXoHT70TnTXw+m5EgHdVIBRTGI7dExUKfhaJ05nDo6wczsw8sN1zN14
+ TUhUQr6YbDOedUUN5JyHBYo9kG/GVPCJxeamWdtcbATWWySK/aYoAEpy4N2wB0dL0k
+ OXj7FNKqa1bAF+RgA2Jbro7kxneUAYLDi/Yrho3dK67Th8fBM5ZuogzGch/WAvDoeC
+ vlrZ/CgdO2Wjw==
 From: cel@kernel.org
 To: <stable@vger.kernel.org>
 Cc: yukuai1@huaweicloud.com, harry.wentland@amd.com, sunpeng.li@amd.com,
@@ -45,9 +45,9 @@ Cc: yukuai1@huaweicloud.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  linux-fsdevel@vger.kernel.org, maple-tree@lists.infradead.org,
  linux-mm@kvack.org, yi.zhang@huawei.com, yangerkun@huawei.com,
  Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
-Subject: [RFC PATCH 1/6 6.6] libfs: Define a minimum directory offset
-Date: Sun, 10 Nov 2024 19:52:37 -0500
-Message-ID: <20241111005242.34654-2-cel@kernel.org>
+Subject: [RFC PATCH 2/6 6.6] libfs: Add simple_offset_empty()
+Date: Sun, 10 Nov 2024 19:52:38 -0500
+Message-ID: <20241111005242.34654-3-cel@kernel.org>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241111005242.34654-1-cel@kernel.org>
 References: <20241111005242.34654-1-cel@kernel.org>
@@ -70,66 +70,107 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chuck Lever <chuck.lever@oracle.com>
 
-[ Upstream commit 7beea725a8ca412c6190090ce7c3a13b169592a1 ]
+[ Upstream commit ecba88a3b32d733d41e27973e25b2bc580f64281 ]
 
-This value is used in several places, so make it a symbolic
-constant.
+For simple filesystems that use directory offset mapping, rely
+strictly on the directory offset map to tell when a directory has
+no children.
+
+After this patch is applied, the emptiness test holds only the RCU
+read lock when the directory being tested has no children.
+
+In addition, this adds another layer of confirmation that
+simple_offset_add/remove() are working as expected.
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-Link: https://lore.kernel.org/r/170820142741.6328.12428356024575347885.stgit@91.116.238.104.host.secureserver.net
+Link: https://lore.kernel.org/r/170820143463.6328.7872919188371286951.stgit@91.116.238.104.host.secureserver.net
 Signed-off-by: Christian Brauner <brauner@kernel.org>
-Stable-dep-of: ecba88a3b32d ("libfs: Add simple_offset_empty()")
+Stable-dep-of: 5a1a25be995e ("libfs: Add simple_offset_rename() API")
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- fs/libfs.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ fs/libfs.c         | 32 ++++++++++++++++++++++++++++++++
+ include/linux/fs.h |  1 +
+ mm/shmem.c         |  4 ++--
+ 3 files changed, 35 insertions(+), 2 deletions(-)
 
 diff --git a/fs/libfs.c b/fs/libfs.c
-index dc0f7519045f..4a2205afcc88 100644
+index 4a2205afcc88..66b428f3fc41 100644
 --- a/fs/libfs.c
 +++ b/fs/libfs.c
-@@ -239,6 +239,11 @@ const struct inode_operations simple_dir_inode_operations = {
- };
- EXPORT_SYMBOL(simple_dir_inode_operations);
- 
-+/* 0 is '.', 1 is '..', so always start with offset 2 or more */
-+enum {
-+	DIR_OFFSET_MIN	= 2,
-+};
-+
- static void offset_set(struct dentry *dentry, u32 offset)
- {
- 	dentry->d_fsdata = (void *)((uintptr_t)(offset));
-@@ -260,9 +265,7 @@ void simple_offset_init(struct offset_ctx *octx)
- {
- 	xa_init_flags(&octx->xa, XA_FLAGS_ALLOC1);
- 	lockdep_set_class(&octx->xa.xa_lock, &simple_offset_xa_lock);
--
--	/* 0 is '.', 1 is '..', so always start with offset 2 */
--	octx->next_offset = 2;
-+	octx->next_offset = DIR_OFFSET_MIN;
+@@ -312,6 +312,38 @@ void simple_offset_remove(struct offset_ctx *octx, struct dentry *dentry)
+ 	offset_set(dentry, 0);
  }
  
++/**
++ * simple_offset_empty - Check if a dentry can be unlinked
++ * @dentry: dentry to be tested
++ *
++ * Returns 0 if @dentry is a non-empty directory; otherwise returns 1.
++ */
++int simple_offset_empty(struct dentry *dentry)
++{
++	struct inode *inode = d_inode(dentry);
++	struct offset_ctx *octx;
++	struct dentry *child;
++	unsigned long index;
++	int ret = 1;
++
++	if (!inode || !S_ISDIR(inode->i_mode))
++		return ret;
++
++	index = DIR_OFFSET_MIN;
++	octx = inode->i_op->get_offset_ctx(inode);
++	xa_for_each(&octx->xa, index, child) {
++		spin_lock(&child->d_lock);
++		if (simple_positive(child)) {
++			spin_unlock(&child->d_lock);
++			ret = 0;
++			break;
++		}
++		spin_unlock(&child->d_lock);
++	}
++
++	return ret;
++}
++
  /**
-@@ -275,7 +278,7 @@ void simple_offset_init(struct offset_ctx *octx)
-  */
- int simple_offset_add(struct offset_ctx *octx, struct dentry *dentry)
+  * simple_offset_rename_exchange - exchange rename with directory offsets
+  * @old_dir: parent of dentry being moved
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 6c3d86532e3f..5104405ce3e6 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -3197,6 +3197,7 @@ struct offset_ctx {
+ void simple_offset_init(struct offset_ctx *octx);
+ int simple_offset_add(struct offset_ctx *octx, struct dentry *dentry);
+ void simple_offset_remove(struct offset_ctx *octx, struct dentry *dentry);
++int simple_offset_empty(struct dentry *dentry);
+ int simple_offset_rename_exchange(struct inode *old_dir,
+ 				  struct dentry *old_dentry,
+ 				  struct inode *new_dir,
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 5d076022da24..e0d014eaaf73 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3373,7 +3373,7 @@ static int shmem_unlink(struct inode *dir, struct dentry *dentry)
+ 
+ static int shmem_rmdir(struct inode *dir, struct dentry *dentry)
  {
--	static const struct xa_limit limit = XA_LIMIT(2, U32_MAX);
-+	static const struct xa_limit limit = XA_LIMIT(DIR_OFFSET_MIN, U32_MAX);
- 	u32 offset;
- 	int ret;
+-	if (!simple_empty(dentry))
++	if (!simple_offset_empty(dentry))
+ 		return -ENOTEMPTY;
  
-@@ -480,7 +483,7 @@ static int offset_readdir(struct file *file, struct dir_context *ctx)
- 		return 0;
+ 	drop_nlink(d_inode(dentry));
+@@ -3430,7 +3430,7 @@ static int shmem_rename2(struct mnt_idmap *idmap,
+ 		return simple_offset_rename_exchange(old_dir, old_dentry,
+ 						     new_dir, new_dentry);
  
- 	/* In this case, ->private_data is protected by f_pos_lock */
--	if (ctx->pos == 2)
-+	if (ctx->pos == DIR_OFFSET_MIN)
- 		file->private_data = NULL;
- 	else if (file->private_data == ERR_PTR(-ENOENT))
- 		return 0;
+-	if (!simple_empty(new_dentry))
++	if (!simple_offset_empty(new_dentry))
+ 		return -ENOTEMPTY;
+ 
+ 	if (flags & RENAME_WHITEOUT) {
 -- 
 2.47.0
 
