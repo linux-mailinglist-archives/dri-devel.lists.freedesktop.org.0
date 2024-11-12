@@ -2,55 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95B09C5F71
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 18:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C394F9C6048
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 19:22:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA42A10E0E2;
-	Tue, 12 Nov 2024 17:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3AF10E614;
+	Tue, 12 Nov 2024 18:22:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wf6PSpPg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MjKplHGZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A71C010E0E2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 17:49:24 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77252710;
- Tue, 12 Nov 2024 18:49:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1731433750;
- bh=c1v17xoFfsCerNNjyrz6CSJxETYPE5z1Uz4Gqvbilig=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Wf6PSpPgqTAzDQNQcMPSOV3o4/3GGt4UjA9e3DMNxpgaLQ+Zurp12bU0TfsN4IwhJ
- ZlJuyeL7bTStOrwcC5MhItCasBQSxQkkO3grLYBzFzB0QRwHYBb/iPncgVLqotja8o
- /2MM5+GGyB2QhRD8cq5gs5/DCsPHicr0wlczS99c=
-Date: Tue, 12 Nov 2024 19:49:15 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Dan Williams <dan.j.williams@intel.com>, Dave Airlie <airlied@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for
- unacceptable behaviors
-Message-ID: <20241112174915.GB806@pendragon.ideasonboard.com>
-References: <20241108161853.12325-1-skhan@linuxfoundation.org>
- <ZzJkAJEjKidV8Fiz@phenom.ffwll.local>
- <ba3d5492-e774-452f-9fe0-e68b743c6b0d@linuxfoundation.org>
- <20241111223538.GD17916@pendragon.ideasonboard.com>
- <7d14de47-119a-42e4-a911-f8accae4abf1@linuxfoundation.org>
- <20241112051836.GF17916@pendragon.ideasonboard.com>
- <ec850949-7987-41ec-ba1f-a0c90b465661@linuxfoundation.org>
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3182510E610;
+ Tue, 12 Nov 2024 18:22:21 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-43159c9f617so47661915e9.2; 
+ Tue, 12 Nov 2024 10:22:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1731435739; x=1732040539; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rGw8I43GoIEdw75f9gcID3EPkPrgfiDyB1X473+QaOg=;
+ b=MjKplHGZeWfpQCpZZMh/d0HWECDuE47XSRrUkNC9oJUxh0ttXFcQtk+/+7vVwV/79F
+ FsSP1bvhx9E4KfUi3++zMIQ38qGC7BF3nDpflUTE/TnnDmqutM2DEgXL22ldgeYo0DhQ
+ KSHU9gUqBcs0Xanq/yIdm/mNTa/JSH4D8bfj4cNIqqaB7gkJ2MlsYQdejTHI7smPmQal
+ D8wUpn3H/YmoO/qE7ymueNAx9PS4OdSdLGLJpJT3lyxsHVfBBWy0UkW4BzzTaWN3CITz
+ YCjDzp0/hoARNaV2eFqFsPlfqZ9gcis8sJMVacijPr4u/6jGVHiULr50iGHkPZHXgT/B
+ +Wrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731435739; x=1732040539;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rGw8I43GoIEdw75f9gcID3EPkPrgfiDyB1X473+QaOg=;
+ b=klZV8zbG/A3cAhv25OXmn0oexEhmtaDH53+BWXz+uWJxTis6euZiVEBHC+0txpFtLt
+ Gr1M36YZsqZCCcXYnTqZQjzvlI7DcMuHGlRkyrj/lSFsX4SVbLz81xQHq8/lEFnVFy+8
+ T80HkFaOfBRvlSvqL90wQ3PvTopeO3olqhfl/DbgzkdZaktbASP6Ac0zqqYfhP0P0tsL
+ 9ok1HP43AJ27bpPscnhnYdRq0LFeOKz0+YrVvx3WJR7FmVY9GN8YW9HBY/LE2HNoB3Pk
+ WPy23YzDMSM484MPzVUGi5n/1QsdCHeaUVRSZKtt82Pz7GmPxFvz7TQ3XLYanSyCTIQG
+ R/rg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVIDZl9Ck6O6y5h7Fh0+8oFJwwYY8NRVL1uBWoRTDRGukbUJKeayc8FI48GW6zER1/dGbsobgrfsqw=@lists.freedesktop.org,
+ AJvYcCWxcngLurUr0bH7Uc5tfn/3EZ5g9Ioa/3Ttug+NJj9dGuVQLuxktWct+YabPr81wJjDppGgNUKbQL75@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+q8KG97LWRf/3LTO2OfPzQUSdMz934OJ2ne2Kg+RjtcwAwZZw
+ R1BEnSJtzHfYkUJ3dWSCawfEp4w+YmlNm20n4w6Vq//GAc1YHRs8
+X-Google-Smtp-Source: AGHT+IHQJ9DcCw2M41pZGval9nx2PIlFgi2G38OFndiORIwfTgf0326SaoN/rywDWnrSrr2FwxlJzQ==
+X-Received: by 2002:a05:600c:4507:b0:431:5c1c:71b6 with SMTP id
+ 5b1f17b1804b1-432b750a433mr165118395e9.17.1731435739344; 
+ Tue, 12 Nov 2024 10:22:19 -0800 (PST)
+Received: from localhost ([194.120.133.65]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-381ed97e62csm15903604f8f.37.2024.11.12.10.22.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Nov 2024 10:22:18 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][V2] drm/msm/a5xx: remove null pointer check on pdev
+Date: Tue, 12 Nov 2024 18:22:18 +0000
+Message-Id: <20241112182218.1119158-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ec850949-7987-41ec-ba1f-a0c90b465661@linuxfoundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,141 +88,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 12, 2024 at 10:44:29AM -0700, Shuah Khan wrote:
-> On 11/11/24 22:18, Laurent Pinchart wrote:
-> > On Mon, Nov 11, 2024 at 05:35:11PM -0700, Shuah Khan wrote:
-> >> On 11/11/24 15:35, Laurent Pinchart wrote:
-> >>> On Mon, Nov 11, 2024 at 02:50:45PM -0700, Shuah Khan wrote:
-> >>>> On 11/11/24 13:07, Simona Vetter wrote:
-> >>>>> On Fri, Nov 08, 2024 at 09:18:53AM -0700, Shuah Khan wrote:
-> >>>>>> The Code of Conduct committee's goal first and foremost is to bring about
-> >>>>>> change to ensure our community continues to foster respectful discussions.
-> >>>>>>
-> >>>>>> In the interest of transparency, the CoC enforcement policy is formalized
-> >>>>>> for unacceptable behaviors.
-> >>>>>>
-> >>>>>> Update the Code of Conduct Interpretation document with the enforcement
-> >>>>>> information.
-> >>>>>>
-> >>>>>> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
-> >>>>>> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >>>>>> Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> >>>>>> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
-> >>>>>> Acked-by: Jonathan Corbet <corbet@lwn.net>
-> >>>>>> Acked-by: Steven Rostedt <rostedt@goodmis.org>
-> >>>>>> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> >>>>>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-> >>>>>
-> >>>>> I think it's really good to document these details. The freedesktop coc
-> >>>>> team is going through the same process, we've also done a talk at XDC
-> >>>>> about all these changes, and I think this helps a lot in transparency and
-> >>>>> accountability in practice. With that, some thoughts below.
-> >>>
-> >>> I've been thinking about replying to this patch for a few days now. I
-> >>> think I managed to sleep over it enough to make that possible.
-> >>>
-> >>> I share Sima's opinion here. There is FUD around the CoC and its
-> >>> enforcement process due to lack of transparency, so I believe
-> >>> documenting the goals and means is important and will help.
-> >>
-> >> Thank you for your feedback.
-> >>
-> >>>> Thank you Simona for your review and feedback.
-> >>>>
-> >>>>>> ---
-> >>>>>>     .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
-> >>>>>>     1 file changed, 52 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
-> >>>>>> index 66b07f14714c..21dd1cd871d2 100644
-> >>>>>> --- a/Documentation/process/code-of-conduct-interpretation.rst
-> >>>>>> +++ b/Documentation/process/code-of-conduct-interpretation.rst
-> >>>>>> @@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
-> >>>>>>     Because how we interpret and enforce the Code of Conduct will evolve over
-> >>>>>>     time, this document will be updated when necessary to reflect any
-> >>>>>>     changes.
-> >>>>>> +
-> >>>>>> +Enforcement for Unacceptable Behavior Code of Conduct Violations
-> >>>>>> +----------------------------------------------------------------
-> >>>>>> +
-> >>>>>> +The Code of Conduct committee works to ensure that our community continues
-> >>>>>> +to be inclusive and fosters diverse discussions and viewpoints, and works
-> >>>>>> +to improve those characteristics over time. The Code of Conduct committee
-> >>>>>> +takes measures to restore productive and respectful collaboration when an
-> >>>>>> +unacceptable behavior has negatively impacted that relationship.
-> >>>>>> +
-> >>>>>> +Seek public apology for the violation
-> >>>>>> +*************************************
-> >>>>>> +
-> >>>>>> +The Code of Conduct Committee publicly calls out the behavior in the
-> >>>>>> +setting in which the violation has taken place, seeking public apology
-> >>>>>> +for the violation.
-> >>>>>> +
-> >>>>>> +A public apology for the violation is the first step towards rebuilding
-> >>>>>> +the trust. Trust is essential for the continued success and health of the
-> >>>>>> +community which operates on trust and respect.
-> >>>>>
-> >>>>> Personal take, but I think a forced public apology as the primary or at
-> >>>>> least initial coc enforcement approach is one of the worst.
-> >>>>
-> >>>> Seeking public apology is in response to unacceptable behaviors which are
-> >>>> serious in nature. These incidents are exceedingly rare. When these incidents
-> >>>> happen, they usually resolve when another developer/community member points
-> >>>> out the behavior. The individual responds with a voluntary apology to
-> >>>> mend fences and repair harm.
-> >>>>
-> >>>> The CoC  gets involved only when it receives a report which is the case
-> >>>> when normal paths such as peers pointing out the behavior to repair the
-> >>>> harm haven't been successful.
-> >>>>
-> >>>> This document isn't intended to be a complete summary of all actions the
-> >>>> CoC takes in response to reports. There is a lot of back and forth with
-> >>>> the individuals to bring about change before the CoC asks for an apology.
-> >>
-> >> See below clarification on above use of "actions"
-> >>
-> >>>> The CoC seeks public apology only when it is essential to repair the harm.
-> >>>
-> >>> Limiting the CoC committee to seeking public apology, due to what it
-> >>> means in terms of both process and goal, would deprive the committee
-> >>> from many useful courses of action. I was expecting you were not limited
-> >>> to this, and I appreciate that you are stating it clearly here. It is
-> >>> not however clear from this patch, and I believe it would benefit the
-> >>> whole community if this was explained better in the document. A more
-> >>> detailed description of the different means of action and outcomes would
-> >>> help balance the fact that the proceedings of the CoC committe are not
-> >>> public.
-> >>
-> >> The actions CoC takes prior asking for a public apology are working
-> >> with the individual to bring about change in their understanding the
-> >> importance to repair damage caused by the behavior.
-> >>
-> >> Since these are measures to bring about change, the document doesn't
-> >> go into the details about the logistics.
-> > 
-> > I think that's where it falls short. The private proceedings policy that
-> > governs the CoC committee (I'm not interested here to debate whether
-> > that is good or not, the question is out of scope) needs in my opinion
-> > to be offset by more transparency in the procedures documentation to
-> > avoid the "secret court" image that many attach to the CoC committee. I
-> > do understand this is not a trivial exercise, as any policy documented
-> > in writing can have a limiting impact on the actions the CoC committee
-> > can take, but I believe that this patch, as it stands, gives a wrong and
-> > possibly damaging impression of the committee's work.
-> 
-> Thank you Laurent.
-> 
-> Bulk of the Code of Conduct Committee work involves listening, talking,
-> and discussing the best outcomes for all involved parties.
-> 
-> I will add more content to the document distilling the discussion on
-> this thread in the interest of transparency.
+The call chain on a5xx_gpu_init is such that pdev is not going to be
+null, so the null check on pdev can be removed. This also cleans up
+a static analysis warning where pdev is dereferenced before the null
+check which cannot actually occur.
 
-Thank you, much appreciated. I think that will be very helpful to
-maximize trust in the process and in the pleasureless but important work
-the committee is doing.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
+---
+
+V2: rewrite Subject, remove null check on pdev
+
+---
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index ee89db72e36e..4edf9109d1d8 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -1760,11 +1760,6 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+ 	unsigned int nr_rings;
+ 	int ret;
+ 
+-	if (!pdev) {
+-		DRM_DEV_ERROR(dev->dev, "No A5XX device is defined\n");
+-		return ERR_PTR(-ENXIO);
+-	}
+-
+ 	a5xx_gpu = kzalloc(sizeof(*a5xx_gpu), GFP_KERNEL);
+ 	if (!a5xx_gpu)
+ 		return ERR_PTR(-ENOMEM);
 -- 
-Regards,
+2.39.5
 
-Laurent Pinchart
