@@ -2,132 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BAA9C5986
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 14:50:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCC39C5998
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 14:53:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1494410E5E8;
-	Tue, 12 Nov 2024 13:50:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB73710E30D;
+	Tue, 12 Nov 2024 13:53:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="PNdXZCHW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IYRbLe4i";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="weMUDZrK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6ynB2/w/";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="X2XCHFfW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5251F10E5E8
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 13:50:30 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E5D202128B;
- Tue, 12 Nov 2024 13:50:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1731419429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=M47nnRuPaU29FnMA3evSLBJq6nAQkzKqoL6BEoatjFo=;
- b=PNdXZCHWiWc3lZHmzRpI5FVo5rWzA4fVz2gnW7HyNGnTB8yFUfIUbW1Oocuel/Pfzsx2/c
- LxB+LFsWKiRWbn2tgDb7IbrCObtWuOjAEHA/uDKaDS70giaXIW68VkFvmZvrve7HC3x1E8
- yWvGr2MGrPR0dmiZkpa2pQnJNyytHPw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1731419429;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=M47nnRuPaU29FnMA3evSLBJq6nAQkzKqoL6BEoatjFo=;
- b=IYRbLe4io9z2v/ztC7ZcdspFEIj0z7znq/owtpyq7ALdO1yE+PAKRuEV+Y6aIUA0CBBI94
- JLQRvlCbzcHknAAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1731419428; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=M47nnRuPaU29FnMA3evSLBJq6nAQkzKqoL6BEoatjFo=;
- b=weMUDZrKCFhsvnRm+4tKkyoeB5Qz7gWk9OweHNMmwukV6ZUBEDoDeWRqxybMtNGRnumhfn
- 6H+DJVTy1fn49dJPSu4qSQQajuJ5iznTWgDbMyKlrB02JbEP2hmQHJdxWWzfwXinEHCkFT
- JCYOyoOmaPjI7VFBVy+Skv/9huVpEtc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1731419428;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=M47nnRuPaU29FnMA3evSLBJq6nAQkzKqoL6BEoatjFo=;
- b=6ynB2/w/aQFCMssJSUBQ5S9xi8luim7AIKolGl/c6LaQ/i+YYhkPNkYcSjyJWAM+POqsec
- 9xeXnPO8iUuiSeBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B35E713721;
- Tue, 12 Nov 2024 13:50:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id C7WCKiRdM2cecQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 12 Nov 2024 13:50:28 +0000
-Message-ID: <55cda8e9-5808-40de-b00d-c346626ff174@suse.de>
-Date: Tue, 12 Nov 2024 14:50:28 +0100
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2062.outbound.protection.outlook.com [40.107.243.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB3E10E30D;
+ Tue, 12 Nov 2024 13:53:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lQV13tMP2QgsKGd+7PWqhBQ/+nzhHi0sB+4A3s2FKqRsYwMy/K3kpfryBQSOc/uxHQA8NrZBYUGmLEVzTkrJjTjw8QOZslmS2Vx9ff1W4Hc/9cVzbokdfC3YBnnMySYPz/yZU32c6CQXwoOdTIthkn8MHmZBDs9VxJokFrlTwPo0rwwF5ncZvWr9f7Qzxs06OtAssTg33xkUtPH/Yd6ImWU5I3GNaJlvxaKri2U0tEDQGiAtcaK54qGCoZXwbsJY/xEspG4mKvGY/ChY/Yzks1KLmru5Wi3Dt3wX6WsPHQlbSjcW/vLnGLJ9t+3DZOMnVO/GC/UQIlwI2Rt+8pDqZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=opghbU6oAMMfc6HfTjG6/FLoqTyU0TQO3oegkA7AOIU=;
+ b=WAW5YaJZ4fqIyDxTf+M17A13FrH1bMfkifnio+peofui8fFtqJv9uBX5KP39JfHmfdXmMCvDipOduJ3spizKIfU2adStBxfI+SLLhQzPNLP0sNq1WAkn3d1m8MWRUArYybIkrbEbjNRFZ8QTdWAVmI95E13y0DKuh1sBY/eQngjSWNiHENJna6Tg7NQh1+kNhRK9EoUkNbuaYdJw9p/E2331c5YNxilDJ+yVUF0Uylh7XdLrAeF8IejSi1Yj63r/WDm5cyute6WolZ0SJQJ3YWXZcPbi8NN7dtzee/zKFkb/ov691SujyRsXtDhk2HumHtPFFG21dQHIx4LoNZhEmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=opghbU6oAMMfc6HfTjG6/FLoqTyU0TQO3oegkA7AOIU=;
+ b=X2XCHFfWWmyUeVSv9bVr3dKhg79+y+CYUPHyKJbDQJd2MT2pEd3jYUC5pjldRHRmmTar7XvB8XLnYWAzvfosHhJtpDbnWjDe7bLIT3wh+VL8vo4M9NI343QQIQzNYOXP8qpLFvBoKbMpLM4AbxTO0jUQgRmA1M1Z9pYYoJZB2TAiG2/yGyAlzIhwqTolJVgREHPUVpSgitIZtWUysJBJtL+jk24nfEmzmxlW5zVgnjB4E8oGk7qZo/PNJNqIQNJl+QPHislEOHA1hZUt4V9AdM4h0l3+yql2iRhfsugSLR6lIX+a+psZIBlZv/U7HMVU+vwY6k71a0+J1AhsaWhg/Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by LV8PR12MB9183.namprd12.prod.outlook.com (2603:10b6:408:193::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.28; Tue, 12 Nov
+ 2024 13:53:50 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8137.027; Tue, 12 Nov 2024
+ 13:53:50 +0000
+Date: Tue, 12 Nov 2024 09:53:48 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Fuad Tabba <tabba@google.com>,
+ linux-mm@kvack.org, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rppt@kernel.org, jglisse@redhat.com, akpm@linux-foundation.org,
+ muchun.song@linux.dev, simona@ffwll.ch, airlied@gmail.com,
+ pbonzini@redhat.com, seanjc@google.com, jhubbard@nvidia.com,
+ ackerleytng@google.com, vannapurve@google.com,
+ mail@maciej.szmigiero.name, kirill.shutemov@linux.intel.com,
+ quic_eberman@quicinc.com, maz@kernel.org, will@kernel.org,
+ qperret@google.com, keirf@google.com, roypat@amazon.co.uk
+Subject: Re: [RFC PATCH v1 00/10] mm: Introduce and use folio_owner_ops
+Message-ID: <20241112135348.GA28228@nvidia.com>
+References: <20241108162040.159038-1-tabba@google.com>
+ <20241108170501.GI539304@nvidia.com>
+ <9dc212ac-c4c3-40f2-9feb-a8bcf71a1246@redhat.com>
+ <CA+EHjTy3kNdg7pfN9HufgibE7qY1S+WdMZfRFRiF5sHtMzo64w@mail.gmail.com>
+ <ZzLnFh1_4yYao_Yz@casper.infradead.org>
+ <e82d7a46-8749-429c-82fa-0c996c858f4a@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e82d7a46-8749-429c-82fa-0c996c858f4a@redhat.com>
+X-ClientProxiedBy: BN9PR03CA0502.namprd03.prod.outlook.com
+ (2603:10b6:408:130::27) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] drm/fsl-dcu: Include <linux/of.h>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, Stefan Agner <stefan@agner.ch>,
- Alison Wang <alison.wang@nxp.com>
-References: <20241011144632.90434-1-tzimmermann@suse.de>
- <20241011144632.90434-2-tzimmermann@suse.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20241011144632.90434-2-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.996]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[7];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:email,
- suse.de:mid]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|LV8PR12MB9183:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51798685-4496-4dd1-f3b6-08dd03216fad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Fh5aiuL9ApCz3PR8hji5HZkAyQngXUEVqwk3qsmTn9ck9DILR7dtT/B7IR6n?=
+ =?us-ascii?Q?XXmYzTGLB/o8S0wfpudHr9vOqwXNLbqUJdFwo+uq83HYfsix8MI7ukpDrx2J?=
+ =?us-ascii?Q?Vlwe7EO9vg0fvlrwVAdfGqLy5UxtC7G7CQlq9CVHky6u1fOZ21AsW4grhOxV?=
+ =?us-ascii?Q?+0ArSt4XTe9zlxHvAKwkVGq9h9DH9CoTHbkupFiicCQry2sc66faQhFidz0k?=
+ =?us-ascii?Q?rF0061MRblAko3gvYsTlQLJ6n+NsuhntQxugbRPl59sqFeFZV37/OTz/Wl9t?=
+ =?us-ascii?Q?GSlXUmcqWn3O4ikj8wHGGvn9mURY2DbGKW4PVN/TS9i/TYFQ4WG0ExCgHgO2?=
+ =?us-ascii?Q?K3pN6Jrhd3i6KDjLWV6f3vjByuSmCb+LpGfjDzPha68v/X1mtiQUxU9n9XcS?=
+ =?us-ascii?Q?UQLov6LEhm4KdnhQGzNZdKS0ZAjhJ0pDUMdStzUNwtgYqSFz/nGfM5sv5aAD?=
+ =?us-ascii?Q?AUV2lO0Rk3Rxbs8BVf+bxQPinMSzyfifudScLEg8XInj4nOetKNR6qkIVH/f?=
+ =?us-ascii?Q?R5dBlz8flRmKsViQxHANk3NtA6Z6n45AZwxOo3B5mNTc5qlydwFyidhHHoqa?=
+ =?us-ascii?Q?RouQJTCFmznPdFPegEtYbKndaECscmad1AJEOOLgKxtmDoZ33ZxhjKiamcsV?=
+ =?us-ascii?Q?Id2bqyU5zTctma1+yuxgEDzpNloaJR9lKhNd1Tt0HQ2AlwmYmEb3/5bBtRPu?=
+ =?us-ascii?Q?VGhvanC+BXRZcFys8o0UOFoBypadfCfJ4IGzNT6SjcTEfqLahFNxkfsQ7+sX?=
+ =?us-ascii?Q?uR+juj0jTtv1wa0sVehek7H+da5SaccgOKUNdw4/LV/0V/z6DX2Hfq+/wiR5?=
+ =?us-ascii?Q?mpmFZIWseVDtcPtpFayOKsV2Njbc+KEJ/E7UB1ZTaFDIxH3Xh8HzkNqFTDSF?=
+ =?us-ascii?Q?LPTFht/MGnVWvRWrdg40Y6ghuaLMhImG6UnyHoxu3g3oozzlD5AoEAQVuYBV?=
+ =?us-ascii?Q?o/xl/SCMw2bJ0peSdGGUSfwSiAjdgEwIydK+jf2OAm9sG37bpPPCMSlwjob6?=
+ =?us-ascii?Q?wfijAkcW2z+3OjO9y4W8epTASOJ7hTshU4kXeVRSgU16ado9PL/koAKSr2t5?=
+ =?us-ascii?Q?2q6ts7vaqaIVIYXhFTexGuHm29RER1iXezfgIhg+iJ9sQnTb6v5pKc8CHOMx?=
+ =?us-ascii?Q?A5uevevNV+dkflMgm+KPLVUz8AXMYnOMQzHtcCXUzHbj3TqKsfiREzcETriT?=
+ =?us-ascii?Q?0eCS58nyfdF835NzRrR/aYw3WtFObfG2heG3yDPySe2Uv0c9S8AIRn+/fsyi?=
+ =?us-ascii?Q?y8IRE15MdhbTmT+gslLA5Cb0pQReuOk1OY8j4xsx4J7CBfOGs3XIHSpxqMCm?=
+ =?us-ascii?Q?e1c=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DgZAwc+7HdNZuTQ2coJy1zHitMcs6D5lnTJS0Jw3M+f+mKV1joZhxqv+2TDC?=
+ =?us-ascii?Q?Qr08Eznjo7s2PJ/TRWKI5WO5oIEn8vzaiUEMnQI6pAkXG5nLYLfOUxW3R7qQ?=
+ =?us-ascii?Q?eTyPiQKVqB7RcEnENGJaCMF6iOyLpo7Q32NziBGuLnOwlvq2ca62m13YVeDN?=
+ =?us-ascii?Q?hEFSelWBoa+1PxT/mmfH2kU+IgwYLcaYHY8qgIYn5Guc25PQO2JDAu4hvsPb?=
+ =?us-ascii?Q?t1BfJR15jiQ9PdY5kIE71ZWb9ppko5z1NGHfc4nkM2ODvpQ6Q4GwFgT7+Dqi?=
+ =?us-ascii?Q?N0FCo9fB51ooXRDH5Qpl9175m47RhpzNscw5pn+zAbP7KmzsT/wyjxMs5jhu?=
+ =?us-ascii?Q?HMIZcsXgoHSgRgeP77TYMyzZffZqQj8Hgqp4Xkdv7eu8G06c0QFiEB0w2YGy?=
+ =?us-ascii?Q?xYFjUdr9KTIMaOoUff8dA6sgjTmMpGWAat+9yXhJd4QohouqdmjnkLLWkfk+?=
+ =?us-ascii?Q?3dCYs1ROU9X4hGPQTYhNidOw5m1nv+XJpL6l9gPbwUKCjkM+aRPzdt6wG4Tc?=
+ =?us-ascii?Q?m0n9BCZGA7TQ9RG8dU9mjdI8bPyP81xUxqlHXsW+OSDBDgapd7hRhvK4xWaY?=
+ =?us-ascii?Q?6mGxQqmJpKh4xSLPMTtzQgB3VL6MksB3cJJ7wwKav0tklnZrdl1BuUXUZy1A?=
+ =?us-ascii?Q?lDmJxQbV9fLOse97p5IpGeN55sRhKU02NdY4yv+IUwfAAQL961/C/GMVOg6s?=
+ =?us-ascii?Q?mzr/2f/P3Lgs/jZpUBQXwMR/LAsQhaARKeHMUQXqYs2NGF6ftkDL0mvFVBes?=
+ =?us-ascii?Q?BQI3XEElo6kSMl5ycySGZfbVceNDLWxhyHeemn4GfJ3FKOJYgQWWJ1Yh6u56?=
+ =?us-ascii?Q?XmFSA3abEOqK10x7tDWS4+WvG3J62we10qkoXslEvkB4AysEwGFYw1GcPsk4?=
+ =?us-ascii?Q?Y9bN0tWk1oKyH4TYKivVcG12mnKGr7DAlQuoCvZlCnf0AlFKkglCrI8PL7e6?=
+ =?us-ascii?Q?RDTvvtkGEXtAWfR9DiC5Sex492zfMuYQ9TsEfhDhnG8nCx2lsmlHye4NAM7w?=
+ =?us-ascii?Q?py5jJwUFLHJSrBUjT2zW7L15cO3KwlONie7yXkHQnyfEbGx+hP60AtlhA8Cy?=
+ =?us-ascii?Q?HUITTkul0EvZkqE+lHgqBHLMfysYsc70PX68l+LIDgzWQoaGqaW1M/xKC5s6?=
+ =?us-ascii?Q?1Y81Mac3wa3EqBAowWby6rD0W7vPtUUhDFrVJF3tQfSzy9nXWhTVujs+qwmx?=
+ =?us-ascii?Q?yjt1+H4t3RjdfAZwA70Xn9rHm0JLV3jye7um5OQQDvcQncnCohpFMreUG97l?=
+ =?us-ascii?Q?Nmd8fKHg0l29p/VLfms+UZyNwZtoJGfpGtV4C/7HPYbgywG0pUWgnCbe4198?=
+ =?us-ascii?Q?krTMZjypOS2JBrpE3FaR7JbqtHv48SEDs16spocQTUTPFyHewQpACUBG63sO?=
+ =?us-ascii?Q?mbsU8GfcaWBDgfM6ArO8q2YvC8Ngm9dFyjWnDXV5rydbVboPvwSXQWBew8pU?=
+ =?us-ascii?Q?qktO09Q+ysWTjmw7GOGdI1jxlYUyfBZMeyaFTWcc+ybFdzNygKT0aw0tfBsy?=
+ =?us-ascii?Q?2YR9IIYeyyjL+Tp3cAMApnIrCITkV+IY+xrNiqkc83TlUcrDI/X1Ev6Utmp9?=
+ =?us-ascii?Q?7GtgxOELkbUcI19fCwc=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51798685-4496-4dd1-f3b6-08dd03216fad
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2024 13:53:50.1448 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7H19u9wYksbghhcOqsZ3RgmiO8oYloZUSywuTgv4DMVbE/nzG8tGe7L+HnJI6+p6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9183
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,39 +155,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ping
+On Tue, Nov 12, 2024 at 10:10:06AM +0100, David Hildenbrand wrote:
+> On 12.11.24 06:26, Matthew Wilcox wrote:
+> > On Mon, Nov 11, 2024 at 08:26:54AM +0000, Fuad Tabba wrote:
+> > > Thanks for your comments Jason, and for clarifying my cover letter
+> > > David. I think David has covered everything, and I'll make sure to
+> > > clarify this in the cover letter when I respin.
+> > 
+> > I don't want you to respin.  I think this is a bad idea.
+> 
+> I'm hoping you'll find some more time to explain what exactly you don't
+> like, because this series only refactors what we already have.
+> 
+> I enjoy seeing the special casing (especially hugetlb) gone from mm/swap.c.
+> 
+> I don't particularly enjoy overlaying folio->lru, primarily because we have
+> to temporarily "evacuate" it when someone wants to make use of folio->lru
+> (e.g., hugetlb isolation). So it's not completely "sticky", at least for
+> hugetlb.
 
+This is really the worst part of it though
 
-Am 11.10.24 um 16:41 schrieb Thomas Zimmermann:
-> Include <linux/of.h> directly to get of_parse_phandle(). Avoids the
-> proxy include via <linux/backlight.h>
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Alison Wang <alison.wang@nxp.com>
-> ---
->   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
-> index 2c2b92324a2e..c418e8496bdf 100644
-> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
-> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
-> @@ -6,6 +6,7 @@
->    */
->   
->   #include <linux/backlight.h>
-> +#include <linux/of.h>
->   #include <linux/of_graph.h>
->   
->   #include <drm/drm_atomic_helper.h>
+And, IMHO, seems like overkill. We have only a handful of cases -
+maybe we shouldn't be trying to get to full generality but just handle
+a couple of cases directly? I don't really think it is such a bad
+thing to have an if ladder on the free path if we have only a couple
+things. Certainly it looks good instead of doing overlaying tricks.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Also how does this translate to Matthew's memdesc world? 
 
+Jason
