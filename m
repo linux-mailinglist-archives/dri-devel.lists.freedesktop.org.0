@@ -2,146 +2,192 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD349C5A29
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 15:22:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFA19C5A5D
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 15:31:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECF8C10E5F5;
-	Tue, 12 Nov 2024 14:22:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B8810E5F2;
+	Tue, 12 Nov 2024 14:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PD0m4FY0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a7oCfoKQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D95110E600
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 14:22:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1731421371;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ih3h7sj3/PrQh5CHmukyEc1uZxk8P4jeW0tJ5ye/2l4=;
- b=PD0m4FY0+QGgEMjExCm9TLZLFZJaCuvg/uNROI0xXnr5NJUQPB52kWz7OquCfZR/Jmhyq/
- uxTU7asSNxUKazKqqpiO8QOaINGwSJh/Vt1IKasfOaWFemmHm0akTic87S1jhz4ibAFbEE
- 8L+ZGbWxFqK8CyY1Nl6TfYyo1CK5idA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-20-vP8l4CiCM2632nl8Z0iNOA-1; Tue, 12 Nov 2024 09:22:50 -0500
-X-MC-Unique: vP8l4CiCM2632nl8Z0iNOA-1
-X-Mimecast-MFC-AGG-ID: vP8l4CiCM2632nl8Z0iNOA
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-4316655b2f1so40741765e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 06:22:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731421369; x=1732026169;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=ih3h7sj3/PrQh5CHmukyEc1uZxk8P4jeW0tJ5ye/2l4=;
- b=X/9ktiGROYeN47ogpYxBk++uC89zdwUjwA0iDIChY/lYz4yJ4ce/GtEFZnkNRJNaBD
- 6nwQsnheIQSyKeWUSpf6WtWqB43XnNYCJ3P6hUEZkWaXK7nySzoDAbjPuITWQsa+PiLP
- RRFud/NwOz9d6dY0JQlPzVbH4l1Fw99OqYMybP0zESz3wYOyhJyuN00pri4JgEkbDBWJ
- DsIrOm6HIC3M2QJZSX5rZ78gHM0h1NGHw3isO2WIElFTdncsgPBpd/DeC5/LXUxQjXlJ
- Ta6BrQYXYK/GKTP+zIjTEvP1KZZxi1n908QIS9yVTGyjm20Qsqo53hMk5/V57vLm2D+U
- XNMQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVybqokgTFZagnXC6hzeQkQqAIu6cBMkfPOK/L9NdAExknLMqYkQaGu59C0W1ROE90pd6r0M3jzuC0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwdNHyqN2vvn8I3SgkvBcWjJ94R/l11BpgxFsth0WnHg35Ffw36
- ceWzLmlurvegIC+Yslun3izHHOtja5vz/MEjPzAlA59GPdKEqhX5Z1lmB4i8eP6i2/MWiO6fK3R
- soMpk1c62ifvaZCk0WEG0/ryTZssrImCkwiOqUZUQ9phFoil4zN+aJpM/wZWzHeBkyg==
-X-Received: by 2002:a05:600c:3ca0:b0:42c:b037:5f9d with SMTP id
- 5b1f17b1804b1-432b74fd71emr143890025e9.3.1731421369194; 
- Tue, 12 Nov 2024 06:22:49 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH59gtj5JuaEfqGVlrZNoO+nuZRVjGPGhZoZcwaXvNihYJ1LG3ikeJRXAg5sAwoquW2Wr0J6g==
-X-Received: by 2002:a05:600c:3ca0:b0:42c:b037:5f9d with SMTP id
- 5b1f17b1804b1-432b74fd71emr143889835e9.3.1731421368855; 
- Tue, 12 Nov 2024 06:22:48 -0800 (PST)
-Received: from ?IPV6:2003:cb:c739:8e00:7a46:1b8c:8b13:d3d?
- (p200300cbc7398e007a461b8c8b130d3d.dip0.t-ipconnect.de.
- [2003:cb:c739:8e00:7a46:1b8c:8b13:d3d])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432b054a3ebsm209649235e9.12.2024.11.12.06.22.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Nov 2024 06:22:48 -0800 (PST)
-Message-ID: <430b6a38-facf-4127-b1ef-5cfe7c495d63@redhat.com>
-Date: Tue, 12 Nov 2024 15:22:46 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F29E10E5F2;
+ Tue, 12 Nov 2024 14:31:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1731421888; x=1762957888;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=lnBoABzZTzWBewKPB/OyP1KKJreT+u59Ne4XnmGCRlg=;
+ b=a7oCfoKQUVd0TzG4i+R1ut5IhaOnUGxwv+jhL4FZTHRjzF62vvEgfuit
+ 4KYRLX8JzO0jRxkMwxplJ3QakBOZn14RMUOAS6Xak0xcmQfA9StDo1BIy
+ ppKFO58281nWdkxH+hNKW1bOq2uwdT/T7K+FsKBJ3GYwurdq7ugParDtJ
+ DkZfLo2pZCj84EK6yMHBzy1RGxdSIdkRTjz+yz6wB319Ffrndm+S4Sk+v
+ mcRC4WL9JFpI5KoL1mEDuxbXz4aCnfZKSVP10m2HAhSEpBM272dribMmi
+ w122zEsAcvYiY0t8Kz0t5pBGTf6OCrT6LojlStMczO3+G6IWx6b0P4y1D g==;
+X-CSE-ConnectionGUID: AHFgJ2ilQkyIljUmI9Z2xA==
+X-CSE-MsgGUID: nWAYiOIcQiWAFa782MSE0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="30661125"
+X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; d="scan'208";a="30661125"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Nov 2024 06:31:26 -0800
+X-CSE-ConnectionGUID: xFyGx96GRJGe2hcg8ejzZg==
+X-CSE-MsgGUID: sUZxg+PLSkiEfgr3QaMUuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; d="scan'208";a="88317674"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 12 Nov 2024 06:31:27 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 12 Nov 2024 06:31:25 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 12 Nov 2024 06:31:25 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 12 Nov 2024 06:31:24 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n/AeMhc87TpUyxKkeUEwJFTqtrlrkBlY2RhdxVcm6yb41/6u2vmKoc4MidRLXpHDj2dNFvluPRikXore66KNlVUsli5wmyOGHA5imE4asLOLdVFuIkNq4Ulf7lp0T9e/JWNAGZTSMgNS4KJoEN0YkxStvqySAKkPN+E7LonLs9z/a/f/igS5/HRefzpFTL2KmZlWuqxTvRok0ZaGW0XzF5HvpywaaTPudZlrOyqtS9iqQ/+4YpY/tpiFdZkiZV634qB4YNOm8VAleYpBi/XaGzsNRzURdVCMhiDopYm8WUgA0M/38aGQ5u8Agh5Mxoxvmq0YAzb6GUSbQRE0kWyNww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qz3PJ1hkaobxcD5IOdj36coW6cx2u8HKzRmOqzOxfIw=;
+ b=SEBg0kdV4AeTjKtKIiAON1KxB+XloQgKaKDSoofuB64FrbeByZ1JOy8MKJZN06f87HMQtMzru8mOh7BFubIlzjCKQ/3KI284NS2RLzZ6/LmQIklviQxK7SxhgVe2eS4ivh1x+4i9NbxKHFfx1sglZxWEFapR3n/2Yqej74j8hZBYGWx6ODV0ed2qJeVyx6QKw7pnuVa8OvEvdnWjBZ7TU6GG/SBnUJqa47XNw7wEe3DXi/tJM/XULRdB6uBwDaRvU8OxgsOu8JoUk97jST/WxhAOle5oKu8/kTl99Zzogu/hyl1A1cXT/tchbx5YBJRhZ50F6KT8Gxs58WCZJMgDWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
+ PH7PR11MB6523.namprd11.prod.outlook.com (2603:10b6:510:211::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.28; Tue, 12 Nov
+ 2024 14:31:20 +0000
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.8137.027; Tue, 12 Nov 2024
+ 14:31:20 +0000
+Date: Tue, 12 Nov 2024 15:31:16 +0100
+From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+CC: <linux-pci@vger.kernel.org>, <intel-xe@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Bjorn
+ Helgaas" <bhelgaas@google.com>, Christian =?utf-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
+ <kw@linux.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?=
+ <ilpo.jarvinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v4 5/7] PCI/IOV: Check that VF BAR fits within the
+ reservation
+Message-ID: <gu2dw2djqwghzmu2r5xosd2y6w5dtlweay7eprcsegogqupn6y@niv2p72xqxrj>
+References: <zbazqug3u77eiydb7p6p6gexwowrjcdl52cszczuww4xow7ebc@tke7k5hewrn5>
+ <20241030165501.GA1205366@bhelgaas>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241030165501.GA1205366@bhelgaas>
+X-ClientProxiedBy: BE1P281CA0375.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:82::9) To DM4PR11MB5373.namprd11.prod.outlook.com
+ (2603:10b6:5:394::7)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 00/10] mm: Introduce and use folio_owner_ops
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Fuad Tabba <tabba@google.com>,
- linux-mm@kvack.org, kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, rppt@kernel.org, jglisse@redhat.com,
- akpm@linux-foundation.org, muchun.song@linux.dev, simona@ffwll.ch,
- airlied@gmail.com, pbonzini@redhat.com, seanjc@google.com,
- jhubbard@nvidia.com, ackerleytng@google.com, vannapurve@google.com,
- mail@maciej.szmigiero.name, kirill.shutemov@linux.intel.com,
- quic_eberman@quicinc.com, maz@kernel.org, will@kernel.org,
- qperret@google.com, keirf@google.com, roypat@amazon.co.uk
-References: <20241108162040.159038-1-tabba@google.com>
- <20241108170501.GI539304@nvidia.com>
- <9dc212ac-c4c3-40f2-9feb-a8bcf71a1246@redhat.com>
- <CA+EHjTy3kNdg7pfN9HufgibE7qY1S+WdMZfRFRiF5sHtMzo64w@mail.gmail.com>
- <ZzLnFh1_4yYao_Yz@casper.infradead.org>
- <e82d7a46-8749-429c-82fa-0c996c858f4a@redhat.com>
- <20241112135348.GA28228@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20241112135348.GA28228@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Imb8Y-42Tz7Bdz9o5BYpx434P0yUrtQRAuQDpY88IOM_1731421369
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|PH7PR11MB6523:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a511129-c2f9-4cad-1530-08dd0326acc2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?KzFta3RNVlQ4L212ZDdhSDBTZ2RLWWw2S0w1OXpTam1JZUkvSUlITXlHanM5?=
+ =?utf-8?B?NzVveHNJUjlLOENoTXVnL2c2VStoTkU2SWs1MUlKUmxOa1NXL25IbkRFejIw?=
+ =?utf-8?B?S29PY2I0M0ZUbXBEYW5JNVI0L2NBMm8vK2dwUGxKWXpWQkxwVFRpaVo3aklP?=
+ =?utf-8?B?ZWNqYlExZkhERmdERlN3ZDJGb0UvZ1BOSW11WWo3WU0zNFErd2txcnVsZTlP?=
+ =?utf-8?B?ZlZ2aFFuTUdOUmZ4SFpVdEZDVXc4TEpOeEdRRkk1V0tyQnVnNmp5bEZ3aDBy?=
+ =?utf-8?B?MkYzNjNxaGhlR1dVSFpObTB6amFCazBiZTIvQUg0Ym52ZFhtczBhZ2VQU0ly?=
+ =?utf-8?B?dEdkZnVmcUtQWHJVTDVGc2ZxdjNYSFhwR1VSWCtURllwVWJRMEJRM1gwZEw5?=
+ =?utf-8?B?dmNSVFh4NG1ucFJFbmVycEpic1QxTm5JbGdLRVF0NGhhMTBya3VuWDdYWEVZ?=
+ =?utf-8?B?MER6MkVIZGJhV3Jja2JmYnpQcisvUjNqTlNtbGNSbzRaTjI0aVJEKzFrR3Q5?=
+ =?utf-8?B?SXNDMGN6NW5TdUZKRFloQWVROE1HQS8vYXlQVGc2T1hzdnN1aUhNU2xOSnhT?=
+ =?utf-8?B?MzRpZE4vcGhGT1JodGt6TVNaSGlmQjZwVmVOUHpsZ0laUkJmc0ZzTHZBSFpr?=
+ =?utf-8?B?dFdwVUx2ZU0wdk8relM5N0N1UktKQmNGWG5ZWFVpS2lXOFVRMUpNVVMrWjhT?=
+ =?utf-8?B?bkxRQlFkVS9MeW5iQ2hKQXp3MFM0T3l3VjVERUFtaFVyWDVrUGd4djJDaVRu?=
+ =?utf-8?B?Vy82WHhDV1l5VjNEVmtuc054dDFEYWhPd2NjSTRNU2I3SmNpUE9NYkR0UVVr?=
+ =?utf-8?B?MnY1eVV2a1FZNkFIeVNIcHRkOEtpSVVPRUc4WDhVMnR1YUZsSnlaaWt6UlRL?=
+ =?utf-8?B?ZS8wN3d4TDJDVmtPbk51MDIyb21DRGRocW5jRWF5U3k1ZjExMUo3RnpvVkRN?=
+ =?utf-8?B?cXl3c0wyUDNWWmY3a0RaMHF4SDdUOEd2Q1lGcmhsSVB6Ukxzekl4MXZzVkhj?=
+ =?utf-8?B?UkFtK3hTQlY4b0F6bGNISDdzd2wvb3BIb1dWUWc4dmw1c2lnd2NiK2hPU2VZ?=
+ =?utf-8?B?cmcyRTR3ckUxR1N0VGRYT1BIS1pqZ0orYVZJVG5YVTFyczh3UVhlSEcwZHQv?=
+ =?utf-8?B?anpGZjdtb1B2L3laVEtnbkFtS0ZSUmlZaVpwUkR5aGtIUFoxbEZMUm0xYXpB?=
+ =?utf-8?B?Mm9FS3JoMEs5TVlTTzVLYXFFQnVPMDJ0QTNFc0p4NDB2NWJRWFJ4MW1TNWZs?=
+ =?utf-8?B?c0hiaEY2UzNZYnBqQ1FYMW5kTFdjcEFJRUxPcWdjVUdHYWwvOGNOYmJTakJY?=
+ =?utf-8?B?TFN4UUtQYkE0Q3lmSllvM2Mwcmt2R255Y3lRek5mcHJyM01vRGt3UnpMc2FH?=
+ =?utf-8?B?VmZEcW5jVDJsSTdOeC81Q0t5Z0ZvRC9nYnBkRitLZTBYRURWRmlZelovVGsz?=
+ =?utf-8?B?VE8yMzRVcG9lMkZIQUh6b1dLSGlBME15SFZEOTdIb05taDBXYWlNYVBieDRR?=
+ =?utf-8?B?U2hCaklCRzRpbUpKQXFXemcvZDFvaklUV21FcGZoTGdIOUkyR0tyMEUzTDBF?=
+ =?utf-8?B?Y0htVDlsMG9LbEhvR3ZoL2swS3h6SU82YlEvd09GeUVObW1yN2QyZWRjMk1o?=
+ =?utf-8?B?bitZQ3BVR0hiKzAxNnZ6OGhwMk52UVJvNnQ1RTVLbzJiQmZXWEZ0ejB2ZlpL?=
+ =?utf-8?Q?HCYz3it9F1wVfqGocAY4?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y2RoOXFEYWoveG4vWlJqRTBHOXhlZzBSTm5yR2Y0dkRaNWhTd0Y2S0pVeXpF?=
+ =?utf-8?B?V3UxZ1VvMjlLditTZGU0QWs0Wmcxaitkb0J2MlVMeUkxbEFaUmFlVjZzWnRu?=
+ =?utf-8?B?N3lIWERmcFloN3ZzQzFaR1RtSnNWeFV4ODlybDdaUFZRdmRxQitXZlN2Y1U0?=
+ =?utf-8?B?TVZ5ODR1MEUvMFpnd0pKODhYSVJOZlBpMndseS8wVFZxclFYS3RxT0NXR2Ri?=
+ =?utf-8?B?M0dHQ1BVZm5kWVp3VG5Zdmdsam1GUkowcmpkL1FRVGxuNG02U1JxWTdaQ1BJ?=
+ =?utf-8?B?TVFRRXhjZmFGNVJla0xSNmFlS1pDYjFYeENPN1R6UCtpZmJsTlRxSzdVWGN4?=
+ =?utf-8?B?VVc2SEZZVmQ5d2hmaTZ0SFFMaUlyc3Mrb0hLWUlaa01laUxFdTZTelA4UzFH?=
+ =?utf-8?B?VGdWUlNxSmVpTXIxTjdJNE1EUUNFV3d2WDFGeEdYc1pZaEdPb1NpUG1tZ3pU?=
+ =?utf-8?B?d2FmOEpWblEybjdvMnEzZmg4SmJWOEZHM1RHRGx5TnpaTUp0NnJpekcxM1Jv?=
+ =?utf-8?B?SmRPZTlqSlRydnRsUFRwMzJ2LzdVYjg1RnZ4MmlVQ0svNVRXRmJ3Zzd4U0pU?=
+ =?utf-8?B?UkxTN3hwazIvYUFnNTRvZmc0RXVFLzA0bWlqSTlOSkQrMGF1ODBlZFZobXpi?=
+ =?utf-8?B?UmNqVThuMEU5dGlpTWVkNWdocGo1YjQ3LzJIa21NWXV4MGcyTmJpWVpCcTRV?=
+ =?utf-8?B?d2doa0w3clVlNGJKUVUwQzYvZjlGTUJxdXRRN0Y2bmhsbHVSUXBabTAzWTll?=
+ =?utf-8?B?Z2IyclVFeWRIeUZSWXRWY0lhQ0M4ZUZCNGkxanZHZlZLaG9WQ3JGcEM1b2Nj?=
+ =?utf-8?B?RW11dFRDV0h5cWdlNGpZWTdZK1JRUTVuYmQ5QlhlYlNGVWNvcEJTeXNDRDcx?=
+ =?utf-8?B?UE9OWWZRWHBQOWc2cC9RRU9XOUlUZk9rMzFvaldneFR2eTBUZWpzRHU0YjFa?=
+ =?utf-8?B?cDVHT2ljdk9zbzBLYkRLc2t4THF1RERQMkJMbjdNdldDSDdTbzNXUnVOenRw?=
+ =?utf-8?B?bW52cjBLNlN1Q1Z2RFFaVWx4MEVrVWNhQ25BUHhvc2ZJamJZODdURk5TS0cr?=
+ =?utf-8?B?S0tyWEtad1hBcVdET1phamJNenVHY2gwd2liTVhUMWlvcjVxNzBucmtIQ1J0?=
+ =?utf-8?B?cG5NZVFhY0d3NWJnMUt1eUVQTmdHYWFUQTN3VE0veGV2RUY0YU10a1RrWmcw?=
+ =?utf-8?B?S0dCMTdGMzR6aVVvdlRLT21FR2VlTTd4eEFPVW1KbGhGTmc5dGdmWjhBUE81?=
+ =?utf-8?B?TS9mRjJFVUZVOXVOeEM0ZXorRDRvYlhGcm9WbmxsZUlzemlKWjAvcVY5MmdV?=
+ =?utf-8?B?aUJkUUlUTHFWeFR0OUxCVzVOVURzOHJHRVQvSWwvVnd1dDFoeTgyWTA2RGMw?=
+ =?utf-8?B?clNFU3hlV2ZPNXdRblcxUTArQ2JacHJlcFUzQTFBZGpxWS9IUVZqd2IvV0tR?=
+ =?utf-8?B?VjJKWDYxVHlxbGM3RzJ5TWVKRUJFNHF4SDcydVJYVFZLOGZ4NnlWTHFFUEtk?=
+ =?utf-8?B?d1ZiRXpMS1hpQ0lDOExrVHlmbDcyQmNrZktzc3pOS0JIejR2R3p3eXEyenZo?=
+ =?utf-8?B?U2xCdldBaSttSmRCS3FuNWNkQ3Fjd21zWTloWGNGc1ZDSzJjci96WFRIZHd2?=
+ =?utf-8?B?b0ErNHViR1RFOFJuSndNNHdpSGZzSlJGcnN4V0cvVEFtQjV3SkdDSW4zNmMy?=
+ =?utf-8?B?ZENRaHFrNE8rck5DY0lWa3RXWVFid1hvL2kxUzNyMkpqK3YxVGtCMTlndXhh?=
+ =?utf-8?B?emxxOFRPMzNMWmNoOENyS2VRZ0x5OHh1SlNhS0didnVJcFVJTkhWZFpxUkZJ?=
+ =?utf-8?B?WWhyOERCYzBiR2dpNFRaTkFqQlRXTHZCam1yVmRkMlEzWG1POUhJUk5JbUF2?=
+ =?utf-8?B?aVBha1JxbmJnMUVyckFpcHZhNlhaeVpVOUFQYzNWZ3lPVXRlS3VmVUZEUW8y?=
+ =?utf-8?B?elRMaW1JU0ZhUllUQkx0VFRjaHFHYWVkamlkdFQycml3T05xVlFRTkc3VVhH?=
+ =?utf-8?B?T0tRUG9pNy9lUm9rdHJtYUpUcUpKSS9JbzJ6N3VBZU4yclBJZjBlbnVGOHp3?=
+ =?utf-8?B?dm9aVXpQZ04yVWYxT25iVHd4dExheWMraUk5S2RQSkp1N0JDTGhXNHVXZ3cx?=
+ =?utf-8?B?cHRMZUNyRnpoMUxKMklBbUR1Ulo0alpmODZ5c0dsVE5LV25YTjhSVm85Mk1Z?=
+ =?utf-8?B?SWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a511129-c2f9-4cad-1530-08dd0326acc2
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2024 14:31:20.0813 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wdJHc3//mCkjbkuegmF7c1VejUcDo0Dp96QRBrw1LNLsL7qxkB/65HH9zDs7PFy99j72WfguQzt6CWknfMub4m28B0PDgiLVUbW1dpr8HuQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6523
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,75 +203,246 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.11.24 14:53, Jason Gunthorpe wrote:
-> On Tue, Nov 12, 2024 at 10:10:06AM +0100, David Hildenbrand wrote:
->> On 12.11.24 06:26, Matthew Wilcox wrote:
->>> On Mon, Nov 11, 2024 at 08:26:54AM +0000, Fuad Tabba wrote:
->>>> Thanks for your comments Jason, and for clarifying my cover letter
->>>> David. I think David has covered everything, and I'll make sure to
->>>> clarify this in the cover letter when I respin.
->>>
->>> I don't want you to respin.  I think this is a bad idea.
->>
->> I'm hoping you'll find some more time to explain what exactly you don't
->> like, because this series only refactors what we already have.
->>
->> I enjoy seeing the special casing (especially hugetlb) gone from mm/swap.c.
->>
->> I don't particularly enjoy overlaying folio->lru, primarily because we have
->> to temporarily "evacuate" it when someone wants to make use of folio->lru
->> (e.g., hugetlb isolation). So it's not completely "sticky", at least for
->> hugetlb.
+On Wed, Oct 30, 2024 at 11:55:01AM -0500, Bjorn Helgaas wrote:
+> On Wed, Oct 30, 2024 at 12:43:19PM +0100, Michał Winiarski wrote:
+> > On Mon, Oct 28, 2024 at 11:56:04AM -0500, Bjorn Helgaas wrote:
+> > > On Fri, Oct 25, 2024 at 11:50:36PM +0200, Michał Winiarski wrote:
+> > > > VF MMIO resource reservation, either created by system firmware and
+> > > > inherited by Linux PCI subsystem or created by the subsystem itself,
+> > > > should contain enough space to fit the BAR of all SR-IOV Virtual
+> > > > Functions that can potentially be created (total VFs supported by the
+> > > > device).
+> > > 
+> > > I don't think "VF resource reservation ... should contain enough
+> > > space" is really accurate or actionable.  It would be *nice* if the PF
+> > > BAR is large enough to accommodate the largest supported VF BARs for
+> > > all possible VFs, but if it doesn't, it's not really an error.  It's
+> > > just a reflection of the fact that resource space is limited.
+> > 
+> > From PCI perspective, you're right, IOV resources are optional, and it's
+> > not really an error for PF device itself.
+> > From IOV perspective - we do need those resources to be able to create
+> > VFs.
+> > 
+> > All I'm trying to say here, is that the context of the change is the
+> > "success" case, where the VF BAR reservation was successfully assigned,
+> > and the PF will be able to create VFs.
+> > The case where there were not enough resources for VF BAR (and PF won't
+> > be able to create VFs) remains unchanged.
+> > 
+> > > > However, that assumption only holds in an environment where VF BAR size
+> > > > can't be modified.
+> > > 
+> > > There's no reason to assume anything about how many VF BARs fit.  The
+> > > existing code should avoid enabling the requested nr_virtfn VFs if the
+> > > PF doesn't have enough space -- I think that's what the "if
+> > > (res->parent)" is supposed to be checking.
+> > > 
+> > > The fact that you need a change here makes me suspect that we're
+> > > missing some resource claim (and corresponding res->parent update)
+> > > elsewhere when resizing the VF BAR.
+> > 
+> > My understanding is that res->parent is only expressing that the
+> > resource is assigned.
+> > We don't really want to change that, the resource is still there and is
+> > assigned - we just want to make sure that VF enabling fails if the
+> > caller wants to enable more VFs than possible for current resource size.
+> > 
+> > Let's use an example. A device with a single BAR.
+> > initial_vf_bar_size = X
+> > total_vfs = 4
+> > supported_vf_resizable_bar_sizes = X, 2X, 4X
 > 
-> This is really the worst part of it though
+> In addition, IIUC we're assuming the PF BAR size is 4X, since the
+> conclusion is that 4 VF BARs of size X fill it completely.
 
-Yes.
+The PF BAR is initially sized based on VF BAR size [1]. So yeah - that's
+the assumption for the initial state (prior to doing any resizing).
+For VF PCI device BAR 0, it would be PF PCI device resource 7 (and it's
+programmed using PCI SR-IOV extended capability - so slightly different
+path then regular PCI BARs).
+Note that this resource is completely independent from actual PF BAR 0
+(resource 0), which is why I'm calling it "underlying resource" or
+"reservation".
+
+[1] https://elixir.bootlin.com/linux/v6.11/source/drivers/pci/iov.c#L807
+
+
+> > With that - the initial underlying resource looks like this:
+> >             +----------------------+
+> >             |+--------------------+|
+> >             ||                    ||
+> >             |+--------------------+|
+> >             |+--------------------+|
+> >             ||                    ||
+> >             |+--------------------+|
+> >             |+--------------------+|
+> >             ||                    ||
+> >             |+--------------------+|
+> >             |+--------------------+|
+> >             ||                    ||
+> >             |+--------------------+|
+> >             +----------------------+
+> > Its size is 4X, and it contains BAR for 4 VFs.
+> > "resource_size >= vf_bar_size * num_vfs" is true for any num_vfs
+> > Let's assume that there are enough resources to assign it.
+> > 
+> > Patch 4/7 allows to resize the entire resource (in addition to changing
+> > the VF BAR size), which means that after calling:
+> > pci_resize_resource() with size = 2X, the underlying resource will look
+> > like this:
+> >             +----------------------+ 
+> >             |+--------------------+| 
+> >             ||                    || 
+> >             ||                    || 
+> >             ||                    || 
+> >             ||                    || 
+> >             |+--------------------+| 
+> >             |+--------------------+| 
+> >             ||                    || 
+> >             ||                    || 
+> >             ||                    || 
+> >             ||                    || 
+> >             |+--------------------+| 
+> >             |+--------------------+| 
+> >             ||                    || 
+> >             ||                    || 
+> >             ||                    || 
+> >             ||                    || 
+> >             |+--------------------+| 
+> >             |+--------------------+| 
+> >             ||                    || 
+> >             ||                    || 
+> >             ||                    || 
+> >             ||                    || 
+> >             |+--------------------+| 
+> >             +----------------------+ 
+> > Its size is 8X, and it contains BAR for 4 VFs.
+> > "resource_size >= vf_bar_size * num_vfs" is true for any num_vfs
+> 
+> With the assumption that the PF BAR size is 4X, these VFs would no
+> longer fit.  I guess that's basically what you say here:
+
+Exactly - it wouldn't fit, unless we resize the underlying resource as
+well.
+Which is what the successfull call to pci_resize_resource() with size =
+2X, will do.
+
+> > It does require an extra 4X of MMIO resources, so this can fail in
+> > resource constrained environment, even though the original 4X resource
+> > was able to be assigned.
+> > The following patch 6/7 allows to change VF BAR size without touching
+> > the underlying reservation size.
+> > After calling pci_iov_vf_bar_set_size() to 4X and enabling a single VF,
+> > the underlying resource will look like this:
+> >             +----------------------+ 
+> >             |+--------------------+| 
+> >             ||░░░░░░░░░░░░░░░░░░░░|| 
+> >             ||░░░░░░░░░░░░░░░░░░░░|| 
+> >             ||░░░░░░░░░░░░░░░░░░░░|| 
+> >             ||░░░░░░░░░░░░░░░░░░░░|| 
+> >             ||░░░░░░░░░░░░░░░░░░░░|| 
+> >             ||░░░░░░░░░░░░░░░░░░░░|| 
+> >             ||░░░░░░░░░░░░░░░░░░░░|| 
+> >             ||░░░░░░░░░░░░░░░░░░░░|| 
+> >             ||░░░░░░░░░░░░░░░░░░░░|| 
+> >             ||░░░░░░░░░░░░░░░░░░░░|| 
+> >             |+--------------------+| 
+> >             +----------------------+ 
+> > Its size is 4X, but since pci_iov_vf_bar_set_size() was called, it is no
+> > longer able to accomodate 4 VFs.
+> > "resource_size >= vf_bar_size * num_vfs" is only true for num_vfs = 1
+> > and any attempts to create more than 1 VF should fail.
+> > We don't need to worry about being MMIO resource constrained, no extra
+> > MMIO resources are needed.
+> 
+> IIUC this series only resizes VF BARs.  Those VF BARs are carved out
+> of a PF BAR, and this series doesn't touch the PF BAR resizing path.
+> I guess the driver might be able to increase the PF BAR size if
+> necessary, and then increase the VF BAR size.
+
+No - it is possible to resize the PF BAR as well.
+
+In addition to adding pci_iov_vf_bar_set_size() /
+pci_iov_vf_bar_get_size(), the series expands the pci_resize_resource()
+function, so that it can accept IOV resources (PF BARs 7+, or
+"underlying resource" for VF BAR).
+The usage of pci_resize_resource() for IOV resources is the same as for
+the regular PCI BARs, with the caller expected to release all the
+resource prior to resizing it (as the bridge windows may need to be
+reprogrammed).
+
+> It sounds like this patch is really a bug fix independent of VF BAR
+> resizing.  If we currently allow enabling more VFs than will fit in a
+> PF BAR, that sounds like a bug.
+
+It's not really a bug fix. Without the ability to control VF BAR size
+independently of PF BAR size (via pci_iov_vf_bar_set_size()
+/ pci_iov_vf_bar_get_size()), PF BAR size is always tied to the VF BAR
+size and the total (max) number of VFs supported by the device, so
+there's no need to check if the "nr_virtfn" will fit - as "nr_virtfn" is
+guaranteed to be smaller than the total number of VFs supported by the
+device.
+
+> So if we try to enable too many VFs, sriov_enable() should fail.  I
+> still don't see why this check should change the res->parent test,
+> though.
+
+The logic for res->parent isn't really changed - we are still failing VF
+enabling if the resource is not assigned.
+
+Previously we were incrementing resource counter if the resource is
+assigned:
+
+if (res->parent)
+	nres++;
+
+Now, we're not incrementing the resource counter if the resource is not
+assigned or if it is too small to fit all enabled VFs:
+
+if (!res->parent || vf_bar_sz * nr_virtfn > resource_size(res))
+	continue;
+
+I can split it into two conditions, if you think it would be clearer:
+
+if (vf_bar_sz * nr_virtfn > resource_size(res))
+	continue;
+
+if (res->parent)
+	nres++;
+
+-Michał
 
 > 
-> And, IMHO, seems like overkill. We have only a handful of cases -
-> maybe we shouldn't be trying to get to full generality but just handle
-> a couple of cases directly? I don't really think it is such a bad
-> thing to have an if ladder on the free path if we have only a couple
-> things. Certainly it looks good instead of doing overlaying tricks.
-
-I'd really like to abstract hugetlb handling if possible. The way it 
-stands it's just very odd.
-
-We'll need some reliable way to identify these folios that need care. 
-guest_memfd will be using folio->mapcount for now, so for now we 
-couldn't set a page type like hugetlb does.
-
-
-> Also how does this translate to Matthew's memdesc world?
-
-guest_memfd and hugetlb would be operating on folios (at least for now), 
-which contain the refcount,lru,private, ... so nothing special there.
-
-Once we actually decoupled "struct folio" from "struct page", we *might* 
-have to play less tricks, because we could just have a callback pointer 
-there. But well, maybe we also want to save some space in there.
-
-Do we want dedicated memdescs for hugetlb/guest_memfd that extend folios 
-in the future? I don't know, maybe.
-
-
-I'm currently wondering if we can use folio->private for the time being. 
-Either
-
-(a) If folio->private is still set once the refcount drops to 0, it 
-indicates that there is a freeing callback/owner_ops. We'll have to make 
-hugetlb not use folio->private and convert others to clear 
-folio->private before freeing.
-
-(b) Use bitX of folio->private to indicate that this has "owner_ops" 
-meaning. We'll have to make hugetlb not use folio->private and make 
-others not use bitX. Might be harder and overkill, because right now we 
-only really need the callback when refcount==0.
-
-(c) Use some other indication that folio->private contains folio_ops.
-
--- 
-Cheers,
-
-David / dhildenb
-
+> > > > Add an additional check that verifies that VF BAR for all enabled VFs
+> > > > fits within the underlying reservation resource.
+> > > > 
+> > > > Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> > > > ---
+> > > >  drivers/pci/iov.c | 8 ++++++--
+> > > >  1 file changed, 6 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+> > > > index 79143c1bc7bb4..5de828e5a26ea 100644
+> > > > --- a/drivers/pci/iov.c
+> > > > +++ b/drivers/pci/iov.c
+> > > > @@ -645,10 +645,14 @@ static int sriov_enable(struct pci_dev *dev, int nr_virtfn)
+> > > >  
+> > > >  	nres = 0;
+> > > >  	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> > > > +		int vf_bar_sz = pci_iov_resource_size(dev,
+> > > > +						      pci_resource_to_iov(i));
+> > > >  		bars |= (1 << pci_resource_to_iov(i));
+> > > >  		res = &dev->resource[pci_resource_to_iov(i)];
+> > > > -		if (res->parent)
+> > > > -			nres++;
+> > > > +		if (!res->parent || vf_bar_sz * nr_virtfn > resource_size(res))
+> > > > +			continue;
+> > > > +
+> > > > +		nres++;
+> > > >  	}
+> > > >  	if (nres != iov->nres) {
+> > > >  		pci_err(dev, "not enough MMIO resources for SR-IOV\n");
+> > > > -- 
+> > > > 2.47.0
+> > > > 
