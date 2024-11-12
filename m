@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C826F9C540D
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 11:36:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09FB9C5415
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 11:37:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC58610E5BA;
-	Tue, 12 Nov 2024 10:36:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46C5810E5B6;
+	Tue, 12 Nov 2024 10:37:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wks8Bv32";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G5uIo/SF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1549D10E5BA
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 10:36:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4110210E5B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 10:37:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8F114A4194E;
- Tue, 12 Nov 2024 10:34:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECBDEC4CEDB;
- Tue, 12 Nov 2024 10:36:32 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D6831A41959;
+ Tue, 12 Nov 2024 10:35:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 905A4C4CED9;
+ Tue, 12 Nov 2024 10:37:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1731407794;
- bh=PoND+YZQMYMOf5xPwNfGhSqabPA/4J04iJxrkjswEgI=;
+ s=k20201202; t=1731407831;
+ bh=qdWgcfyKGVXdA0wrJRrU9EglvC2lqyCHhSITgPoypUY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Wks8Bv32GMkfJHtK6+A2tzf5FaIPMci2mQrrtbqsDwiBGqoUnkXBLZ0rzfV5tsJ7u
- YLSJPRyLCkN/26pctCPSNjUljepOBlozbvJgDNX4diT0xJ0IDkA/M3or6bmaMMoWf2
- 8Cys1seVD9ZJji0mCSszRh/gT3ESEabi1tqpMBRacq8hTSSvreqF6oxEjNbibjTw0T
- QM+jPtqvyg6U2pJPbplghECimwy+e4xErSBtqJGdc33uQ2ZhL72H6gPyxxsin0YQFK
- E/hcpDyaI2+Ba8EsA/wWeBedQhKztL6qqLk/8XWWqdPtc9U0nRuTJodUYiHqw6dLtf
- c71MuJCijFJjA==
+ b=G5uIo/SF2CPz23lazbTl/5jSfCEvizmF4zwA68lx86Ci1dQzdGSfXV7JWvA0zBqyi
+ MsZL9YF+VlESSpZ8KKCpb7jngQy4EEb0WT2ZGdqmOosYYqE/qHoKb6ZfBqOT2Dltl2
+ n0eiwKCPrGsmbvmZo3bj9UwO1F2emaQoOFpSaftGxRgTYtQGU2HE09wL9m5DfVUrby
+ NX0bY6i8V1ikI/HYjgVbI7X4D8NdSMWE0X44nvoBwgg1InnRA2FItvyJMZitQ9uf0c
+ z4jxNuTRcll9JNene+z8p5wdkZDlaXSEAHvCRgsMJvVWEnqHryc8Alev1D4H3ORmme
+ KDFDSNFoVZVSA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,17 +37,17 @@ Cc: Hans de Goede <hdegoede@redhat.com>, Jani Nikula <jani.nikula@intel.com>,
  Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
  daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 15/16] drm: panel-orientation-quirks: Make Lenovo
+Subject: [PATCH AUTOSEL 6.6 14/15] drm: panel-orientation-quirks: Make Lenovo
  Yoga Tab 3 X90F DMI match less strict
-Date: Tue, 12 Nov 2024 05:35:57 -0500
-Message-ID: <20241112103605.1652910-15-sashal@kernel.org>
+Date: Tue, 12 Nov 2024 05:36:35 -0500
+Message-ID: <20241112103643.1653381-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241112103605.1652910-1-sashal@kernel.org>
-References: <20241112103605.1652910-1-sashal@kernel.org>
+In-Reply-To: <20241112103643.1653381-1-sashal@kernel.org>
+References: <20241112103643.1653381-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.7
+X-stable-base: Linux 6.6.60
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,7 +86,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 0830cae9a4d0f..2d84d7ea1ab7a 100644
+index 5b2506c65e952..259a0c765bafb 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
 @@ -403,7 +403,6 @@ static const struct dmi_system_id orientation_data[] = {
