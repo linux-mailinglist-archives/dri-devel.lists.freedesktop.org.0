@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3E69C4C33
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 03:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0B19C4C34
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 03:08:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3C6D10E0FE;
-	Tue, 12 Nov 2024 02:07:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7703810E207;
+	Tue, 12 Nov 2024 02:07:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="0FPZs0DN";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="uvDouWKH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44C9410E0FE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D93C10E207
  for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 02:07:54 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id A27B9893A5;
- Tue, 12 Nov 2024 03:07:51 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id 9142A893A6;
+ Tue, 12 Nov 2024 03:07:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1731377272;
- bh=GK07/72rXxlvs8JlB4XrtxGC1E0KAqUfJ6jp0kyZIb0=;
- h=From:To:Cc:Subject:Date:From;
- b=0FPZs0DN+mjDvLXPrK4Rsorecp1cYdsuLBbuD2b0SdPYcqWfjJZ7aKBSSd4z+sFcp
- GmIE0Ih7vGcB8+Q4k67uhSuD3ekBZSVXfUi4FwyVlAq8ouSXHa53tSXqvibMXxqhRd
- 0+DxkTm/Buo9EcRZHsUZns7KLMfDKjD0G90KWS78Wmw9hW8kungD9r/DxJgM4MtStV
- EhDNhdSr3zmXPmGG0OtfmoIMy2aEJDWPNb6g2WdloibNeIU6AHIjjYl1P3bqHYJZqT
- uYVm5sRZL8azLT47NIGQmdOJ0oXn3vsBcUZh8NOv7vUY6No4PQN/Yc9Glcfs/4ufbi
- LX1O8ISMc/lRQ==
+ s=phobos-20191101; t=1731377273;
+ bh=A9Zh7fGm4aPbFAZBONhgPyhvESfO5Dj0x7OGmUZvBjI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=uvDouWKHlWrAHK1h9e6KE3dx1mIAIgRjeLMuVADJAfXv8syNCcKu+znTF8vuQkivj
+ wQDZU/u3GHINeghKFeXxFrdffrkwSea2Vnvb0e2u+Q7A/IpDVr5rgYdO17tkFJkMYi
+ B2WRkqLv2MSCqgJT1N4HCwz26orkvq5V2H8Rx002UHc5YFigB+tMigd9uPjNq9dbbO
+ gcaM6wLcM7JF+OwhCGv4n/uvnSA73cvHwfj7ea0vrov6P97eR/Ko5OodnmNJMWw7Qm
+ DaPOJ0/zdxliKVAXYr5n0tDpId1Pg3QL3BIYpXbpfKEGyvh/5uszbNG/+5SdcqI9Iy
+ hFQjWz9bFfVbw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -41,11 +41,13 @@ Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 1/2] drm/bridge/panel: Add drm_bridge_get_panel to extract
- panel from last bridge
-Date: Tue, 12 Nov 2024 03:05:36 +0100
-Message-ID: <20241112020737.335297-1-marex@denx.de>
+Subject: [PATCH v2 2/2] drm/bridge: tc358767: Improve DPI output pixel clock
+ accuracy
+Date: Tue, 12 Nov 2024 03:05:37 +0100
+Message-ID: <20241112020737.335297-2-marex@denx.de>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241112020737.335297-1-marex@denx.de>
+References: <20241112020737.335297-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -65,9 +67,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add drm_bridge_get_panel() function to extract drm_panel pointer from
-panel_bridge. This can be used by bridges in the middle to look up and
-access drm_panel at the end, and e.g. extract display_timings from it.
+The Pixel PLL is not very capable and may come up with wildly inaccurate
+clock. Since DPI panels are often tolerant to slightly higher pixel clock
+without being operated outside of specification, calculate two Pixel PLL
+from either mode clock or display_timing .pixelclock.max , whichever is
+higher. Since the Pixel PLL output clock frequency calculation always
+returns lower frequency than the requested clock frequency, passing in
+the higher clock frequency should result in output clock frequency which
+is closer to the expected pixel clock.
+
+For the Chefree CH101 panel with 13 MHz Xtal input clock, the frequency
+without this patch is 65 MHz which is out of the panel specification of
+68.9..73.4 MHz, while with this patch it is 71.5 MHz which is well within
+the specification and far more accurate.
+
+Keep the change isolated to DPI output.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -84,65 +98,104 @@ Cc: Simona Vetter <simona@ffwll.ch>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: dri-devel@lists.freedesktop.org
 ---
-V2: - New patch
+V2: - Isolate the change to DPI only, split tc_bridge_mode_set()
+    - Look up display_timings and use .pixelclock.max as input
+      into the PLL calculation if available. That should yield
+      more accurate results for DPI panels.
 ---
- drivers/gpu/drm/bridge/panel.c | 18 ++++++++++++++++++
- include/drm/drm_bridge.h       |  6 ++++++
- 2 files changed, 24 insertions(+)
+ drivers/gpu/drm/bridge/tc358767.c | 47 +++++++++++++++++++++++++------
+ 1 file changed, 39 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 6e88339dec0f5..0e5937dc7ab21 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -235,6 +235,24 @@ bool drm_bridge_is_panel(const struct drm_bridge *bridge)
- }
- EXPORT_SYMBOL(drm_bridge_is_panel);
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 0d523322fdd8e..fe9ab06d82d91 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -39,6 +39,8 @@
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
  
-+/**
-+ * drm_bridge_get_panel - Return panel if a drm_bridge is a panel_bridge.
-+ *
-+ * @bridge: The drm_bridge.
-+ *
-+ * Returns drm_panel pointer if the bridge is a panel bridge, or NULL otherwise.
-+ */
-+struct drm_panel *drm_bridge_get_panel(struct drm_bridge *bridge)
-+{
-+	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
++#include <video/display_timing.h>
 +
-+	if (!drm_bridge_is_panel(bridge))
-+		return NULL;
-+
-+	return panel_bridge->panel;
-+}
-+EXPORT_SYMBOL(drm_bridge_get_panel);
-+
- /**
-  * drm_panel_bridge_add - Creates a &drm_bridge and &drm_connector that
-  * just calls the appropriate functions from &drm_panel.
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index e8d735b7f6a48..4b64ab47c9d7f 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -984,6 +984,7 @@ void drm_bridge_hpd_notify(struct drm_bridge *bridge,
+ /* Registers */
  
- #ifdef CONFIG_DRM_PANEL_BRIDGE
- bool drm_bridge_is_panel(const struct drm_bridge *bridge);
-+struct drm_panel *drm_bridge_get_panel(struct drm_bridge *bridge);
- struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel);
- struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
- 					      u32 connector_type);
-@@ -1004,6 +1005,11 @@ static inline bool drm_bridge_is_panel(const struct drm_bridge *bridge)
- 	return false;
- }
- 
-+static struct drm_panel *drm_bridge_get_panel(struct drm_bridge *bridge)
-+{
-+	return NULL;
-+}
-+
- static inline int drm_panel_bridge_set_orientation(struct drm_connector *connector,
- 						   struct drm_bridge *bridge)
+ /* DSI D-PHY Layer registers */
+@@ -1681,13 +1683,33 @@ static int tc_dpi_atomic_check(struct drm_bridge *bridge,
+ 			       struct drm_crtc_state *crtc_state,
+ 			       struct drm_connector_state *conn_state)
  {
++	u32 mode_clock = crtc_state->mode.clock * 1000;
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+-	int adjusted_clock = 0;
++	struct drm_bridge *nb = bridge;
++	struct display_timing timings;
++	struct drm_panel *panel;
++	int adjusted_clock;
+ 	int ret;
+ 
++	do {
++		if (!drm_bridge_is_panel(nb))
++			continue;
++
++		panel = drm_bridge_get_panel(nb);
++		if (!panel || !panel->funcs || !panel->funcs->get_timings)
++			continue;
++
++		ret = panel->funcs->get_timings(panel, 1, &timings);
++		if (ret <= 0)
++			break;
++
++		if (timings.pixelclock.max > mode_clock)
++			mode_clock = timings.pixelclock.max;
++		break;
++	} while ((nb = drm_bridge_get_next_bridge(nb)));
++
+ 	ret = tc_pxl_pll_calc(tc, clk_get_rate(tc->refclk),
+-			      crtc_state->mode.clock * 1000,
+-			      &adjusted_clock, NULL);
++			      mode_clock, &adjusted_clock, NULL);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1758,9 +1780,18 @@ tc_edp_mode_valid(struct drm_bridge *bridge,
+ 	return MODE_OK;
+ }
+ 
+-static void tc_bridge_mode_set(struct drm_bridge *bridge,
+-			       const struct drm_display_mode *mode,
+-			       const struct drm_display_mode *adj)
++static void tc_dpi_bridge_mode_set(struct drm_bridge *bridge,
++				   const struct drm_display_mode *mode,
++				   const struct drm_display_mode *adj)
++{
++	struct tc_data *tc = bridge_to_tc(bridge);
++
++	drm_mode_copy(&tc->mode, adj);
++}
++
++static void tc_edp_bridge_mode_set(struct drm_bridge *bridge,
++				   const struct drm_display_mode *mode,
++				   const struct drm_display_mode *adj)
+ {
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+ 
+@@ -1977,7 +2008,7 @@ tc_edp_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+ static const struct drm_bridge_funcs tc_dpi_bridge_funcs = {
+ 	.attach = tc_dpi_bridge_attach,
+ 	.mode_valid = tc_dpi_mode_valid,
+-	.mode_set = tc_bridge_mode_set,
++	.mode_set = tc_dpi_bridge_mode_set,
+ 	.atomic_check = tc_dpi_atomic_check,
+ 	.atomic_enable = tc_dpi_bridge_atomic_enable,
+ 	.atomic_disable = tc_dpi_bridge_atomic_disable,
+@@ -1991,7 +2022,7 @@ static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
+ 	.attach = tc_edp_bridge_attach,
+ 	.detach = tc_edp_bridge_detach,
+ 	.mode_valid = tc_edp_mode_valid,
+-	.mode_set = tc_bridge_mode_set,
++	.mode_set = tc_edp_bridge_mode_set,
+ 	.atomic_check = tc_edp_atomic_check,
+ 	.atomic_enable = tc_edp_bridge_atomic_enable,
+ 	.atomic_disable = tc_edp_bridge_atomic_disable,
 -- 
 2.45.2
 
