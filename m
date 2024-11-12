@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24559C607C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 19:34:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8239C607D
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 19:34:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91EF810E619;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FCF410E623;
 	Tue, 12 Nov 2024 18:34:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="ZSd7Tal6";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="RDGPOH3d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 241F810E623;
- Tue, 12 Nov 2024 18:34:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2478010E624;
+ Tue, 12 Nov 2024 18:34:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1731436454;
- bh=N0c1AAbtePVSIawYLO3q1m7P6uw9XKLYSSRostz+3OQ=;
- h=From:Subject:Date:To:Cc:From;
- b=ZSd7Tal6uncyzkCLszuWlsuHp0Htz1BcIfaA7ab67Z2Fvb/rQVsHHSDaDetTeZWEn
- b1XkfbT1hhjqo+1k5rXt2rUijbRZGZnSsruu9YuSOLFdgHsSdSCQ/s+k5C5fZ6TxxG
- Xc6RDnMkt4wtuZ3e7AyexjzW/6pduXD6WMw+GaPQ=
+ bh=ny7+lW1QmUhgPG79p69Qw+n9y/fGzw7D/iIT7aahRTg=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=RDGPOH3d7vcDKwgeYK2zkr8uPra5EsGDEpTxI9MqTfgAruNJ/p65p+DUUZBmhUOa9
+ c+oTa1j++EnYxPQTKbE/vJqqSbHG7EtU3AnjQ2bNPAAS3XngD2mNmy5UkhRCi33rYg
+ 631EDRfWSdt1UR3QWZd7yLsLj6tiJAYMQ/rlRto4=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH v2 0/7] drm/amd: Switch over to struct drm_edid
-Date: Tue, 12 Nov 2024 19:34:09 +0100
-Message-Id: <20241112-amdgpu-drm_edid-v2-0-1399dc0f0469@weissschuh.net>
+Date: Tue, 12 Nov 2024 19:34:10 +0100
+Subject: [PATCH v2 1/7] drm/amd/display: Remove spurious declaration of
+ dm_helpers_get_sbios_edid()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAKGfM2cC/2WNQQ6CMBBFr0JmbQ2tWKkr72GIqZ0pnYVAWkAN4
- e5WXLp8L/nvL5AoMiU4FwtEmjlx32VQuwJcsF1LgjEzqFJVpZZHYR/YDpPA+LgRMoqDQqMN+nt
- tDOTVEMnzaytem8yB09jH93Ywy6/9tWpZ/7VmKUphyWrtpD85X12exCklF6aw72iEZl3XD7xmj
- JGzAAAA
-X-Change-ID: 20240615-amdgpu-drm_edid-32d969dfb899
+Message-Id: <20241112-amdgpu-drm_edid-v2-1-1399dc0f0469@weissschuh.net>
+References: <20241112-amdgpu-drm_edid-v2-0-1399dc0f0469@weissschuh.net>
+In-Reply-To: <20241112-amdgpu-drm_edid-v2-0-1399dc0f0469@weissschuh.net>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
  Alex Deucher <alexander.deucher@amd.com>, 
@@ -50,11 +48,11 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Melissa Wen <mwen@igalia.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1731436454; l=2732;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1731436454; l=1175;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=N0c1AAbtePVSIawYLO3q1m7P6uw9XKLYSSRostz+3OQ=;
- b=DSan8VeZ7z6jB8KBMTo1YdJljrXaXmpIwmBYKc4f+pXlBmb7Gc3xQgOb8/t/+Sr+ybouB/T2u
- w8012xFrELoDJzXSW3yrth4Kwa64Dvu6H1KIVEjBjxpgrwRw8+vKYJ6
+ bh=ny7+lW1QmUhgPG79p69Qw+n9y/fGzw7D/iIT7aahRTg=;
+ b=3ar7M6gLBobRg5ww5czn+dI7lh1If/niMN9gX0UCr2oUTL0FjYA/4uZApdSJmiawvXuIOk5eV
+ dBVAsiCboDaCX80Ebm5yTo3QSF/ZFuYzu8yjj8l11+9ghjYQowgzBJn
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,62 +70,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The AMD DRM drivers use 'struct edid', raw pointers and even custom
-structs to represent EDID data.
-Uniformly switch to the safe and recommended "struct drm_edid".
+The prototype is the whole content of commit
+575d0df6dae4 ("drm/amd/display: refine the EDID override").
+Apparently the definition was never added.
 
-Some uses of "struct edid" are left because some ad-hoc parsing is still
-being done inside the drivers.
-
-Patches 1 and 2 delete some dead code.
-The remaining patches perform the actual conversion in steps.
-
-If some patches are already acceptable as they are, I'd be happy for
-those to be picked up from the series.
-
+Fixes: 575d0df6dae4 ("drm/amd/display: refine the EDID override")
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-Changes in v2:
-- Remove a wrong kfree(struct drm_edid);
-- Drop patch "drm/edid: constify argument of drm_edid_is_valid()"
-- Add missing call to drm_edid_connector_update()
-- Drop drm_edid_equal()
-- Add patch to remove edid_extract_panel_id()
-- Link to v1: https://lore.kernel.org/r/20240818-amdgpu-drm_edid-v1-0-aea66c1f7cf4@weissschuh.net
+ drivers/gpu/drm/amd/display/dc/dm_helpers.h | 2 --
+ 1 file changed, 2 deletions(-)
 
----
-Thomas Weißschuh (7):
-      drm/amd/display: Remove spurious declaration of dm_helpers_get_sbios_edid()
-      drm/amd/display: Remove EDID members of ddc_service
-      drm/amd/display: Use struct edid in dc_link_add_remote_sink()
-      drm/amdgpu: Switch amdgpu_connector to struct drm_edid
-      drm/amd/display: Switch dc_sink to struct drm_edid
-      drm/amd/display: Drop opencoded edid panel id extraction
-      drm/amd/display: Switch dc_link_add_remote_sink() to struct drm_edid
+diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+index 2e4a46f1b499d1dc990ef92a00fddf50287f3e05..483d8c29261814a608895abe1a195225514f78e6 100644
+--- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
++++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+@@ -208,8 +208,6 @@ int dm_helpers_dmub_set_config_sync(struct dc_context *ctx,
+ 		enum set_config_status *operation_result);
+ enum adaptive_sync_type dm_get_adaptive_sync_support_type(struct dc_link *link);
+ 
+-enum dc_edid_status dm_helpers_get_sbios_edid(struct dc_link *link, struct dc_edid *edid);
+-
+ bool dm_helpers_is_fullscreen(struct dc_context *ctx, struct dc_stream_state *stream);
+ bool dm_helpers_is_hdr_on(struct dc_context *ctx, struct dc_stream_state *stream);
+ 
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c     | 55 +++++++++++-----------
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h           |  3 +-
- drivers/gpu/drm/amd/amdgpu/dce_v10_0.c             |  4 +-
- drivers/gpu/drm/amd/amdgpu/dce_v11_0.c             |  4 +-
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c              |  4 +-
- drivers/gpu/drm/amd/amdgpu/dce_v8_0.c              |  4 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 20 ++------
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 36 +++++---------
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  6 +--
- .../gpu/drm/amd/display/dc/core/dc_link_exports.c  |  5 +-
- drivers/gpu/drm/amd/display/dc/dc.h                |  8 ++--
- drivers/gpu/drm/amd/display/dc/dc_ddc_types.h      |  7 ---
- drivers/gpu/drm/amd/display/dc/dc_types.h          |  5 --
- drivers/gpu/drm/amd/display/dc/dm_helpers.h        |  4 +-
- drivers/gpu/drm/amd/display/dc/inc/link.h          |  3 +-
- .../gpu/drm/amd/display/dc/link/link_detection.c   | 49 ++++++++++---------
- .../gpu/drm/amd/display/dc/link/link_detection.h   |  3 +-
- 17 files changed, 92 insertions(+), 128 deletions(-)
----
-base-commit: 377dda2cff59825079aee3906aa4904779747b0b
-change-id: 20240615-amdgpu-drm_edid-32d969dfb899
-
-Best regards,
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
+2.47.0
 
