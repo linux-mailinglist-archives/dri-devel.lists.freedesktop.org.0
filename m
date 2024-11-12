@@ -2,72 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DAE9C631A
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 22:10:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 945299C631E
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 22:13:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B299110E0BA;
-	Tue, 12 Nov 2024 21:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE8910E20B;
+	Tue, 12 Nov 2024 21:12:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mEJMG6cj";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="cqVJz9Sp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73DA910E0BA
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 21:10:50 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-6ea339a41f1so52699747b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 13:10:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731445849; x=1732050649; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xYt0wV4ODjnX2GzLVpuYfjxcoTH4gijd804UgaMzIoM=;
- b=mEJMG6cj4s7COOBFJVO5zDOj0JEMnUiqsjIgshHMc+0b63xhgmhmaM5dldETL6K4n+
- nz9xKP1Xw7sucowqgb59FYHrpGtKLdnKnMCLq/wl5MJVZ56tG7jhqhg5cyOUJv1bS9HG
- XndZ6bIH71bsh9QW4cpWmO5p5m1ugjbWbV4/jbIeTpgyZSrm6GCoFsqBDUnWRxvzcPa2
- KQtLVSBGSwOLuIRSHSA/vtlrDTc76n94NopJ2JvnDmHnwGvcOjugcfKv0dXGh5/KYWAg
- RheR5nMToX8w4wftRunqIsXcoRF4KvbonQ5ZSHBmndTGA9p0nYgo8CI/QMQjDcjGbbQR
- aTLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731445849; x=1732050649;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xYt0wV4ODjnX2GzLVpuYfjxcoTH4gijd804UgaMzIoM=;
- b=JwnZAo/Pe5tGtaOU6fFcKEk7cvtKUlCrOeS9lOSkZtr3RGhRRMsXbXfpH8PqSgA9an
- BU0Fhm9i42aplNvTfsSiimG/FZ3Z5FOHfof1TMD0dfslSn+ERZY/hXQroh+/urXDlsn0
- sP7dkLxM+Q2S5HsgZzd7TObugo0AnrsSCqKrEJv5+7BGq4aqexzFACbcK18yKQwKFfIN
- 0krr6WBUO0+2n1YnNBTtFGbhZhVj95PrOT7XzSI647cFKlI2lXRX8dTT7dqPSXlFQ+nY
- KjAQJ/Gef4vLggZFRo+HT7xBUTPI9OH0p/BZ1+2luHmjqzgJXujek5Dze7a/hqRqv6xW
- KMig==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUcXe6EBk4/zVFNLvP9ldIMHxZaL1lMb0lU/wpA4d0Nd99n6HDYJuOMNhg7xrXb3Z28P3A+BDBexs0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzTVIr5q1oNXTetZQjYyEbla3Z0oQlWKlxjf75Dwv1r8gY6ocMM
- 84w49q7sstRLAUZchae8hqIrFYhYIqF2MGkqxvQ5lUhk/1EVFPevCYd/GzSBdpPXq3JsXm2w8X+
- r++8LnENSWiPYqvdu7UTPZvNGfAQ=
-X-Google-Smtp-Source: AGHT+IFcN4dtdR/3ssiwv3BjCNazIzRIQ8q0KgL5uHdRf+quKB2ZK3jMsizjkXce+5ke2cu5DVRnsCRfpnsA5gk5ZDk=
-X-Received: by 2002:a05:690c:9688:b0:6e3:34b9:960a with SMTP id
- 00721157ae682-6ecb32cd94emr5931047b3.17.1731445849144; Tue, 12 Nov 2024
- 13:10:49 -0800 (PST)
+Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr
+ [80.12.242.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD13D10E20B
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 21:12:56 +0000 (UTC)
+Received: from localhost.localdomain ([90.11.132.44])
+ by smtp.orange.fr with ESMTPA
+ id AyButuY9CdVBsAyButCxb1; Tue, 12 Nov 2024 22:12:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1731445974;
+ bh=fvwwuU9U+8o+dVu3obevxV4lHk/tNdRynX56ecSAero=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version;
+ b=cqVJz9Sp9DGwouxtEcsJJTmeeeT19GrxbYPm7ogocl53riTJ0t3ojDFj3SXfH0gOD
+ tis/wel3G91VmJLN/hiQDkDCiED65Z52x5HaTM2sq+diQ2PPANzp8wHywrdXmiPYTT
+ FvPNkSRURwePIPz7KzvFXHi5yZ0WoJNHaj1KPfANzne77w5MJwlpsrmkQv+PbLEoHK
+ 6zYxf7IciIRQtO0Zc2GGUfPk5dMQOweRH7xyjqS2R+j+PMRaFaZiQ3E0G/lTa+jHBb
+ shmQ8FMbTjb5GDgCJedJsg2MuXERL2MivVugFhYJkXRxBETSVC24lIfnlFSA1alzQv
+ AazrXt6mmvgvw==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 12 Nov 2024 22:12:54 +0100
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Douglas Anderson <dianders@chromium.org>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/bridge: Constify struct i2c_device_id
+Date: Tue, 12 Nov 2024 22:12:25 +0100
+Message-ID: <bdba1f49b4b48e22628482b49ce81f8e1f0d97b1.1731445901.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-References: <20241108094256.3717-1-christian.koenig@amd.com>
- <CAPaKu7SK9X3eDb6EkyXjatFT4YqZUhR949ANuYmOPVnajBU1kQ@mail.gmail.com>
- <55169975-0348-4017-9e47-0d17b6cd211f@gmail.com>
-In-Reply-To: <55169975-0348-4017-9e47-0d17b6cd211f@gmail.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Tue, 12 Nov 2024 13:10:38 -0800
-Message-ID: <CAPaKu7RcMyi+edTmji883SGcyZPQUNF_rEiGgXoRj5jeXM-CFQ@mail.gmail.com>
-Subject: Re: Ensure progress for dma_fence_array
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: boris.brezillon@collabora.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, lionel.g.landwerlin@intel.com, 
- dri-devel@lists.freedesktop.org, faith.ekstrand@collabora.com, 
- simona@ffwll.ch
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,50 +67,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 12, 2024 at 4:00=E2=80=AFAM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 09.11.24 um 01:32 schrieb Chia-I Wu:
-> > On Fri, Nov 8, 2024 at 1:43=E2=80=AFAM Christian K=C3=B6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> >> Hi guys,
-> >>
-> >> as pointed out by Chia-I userspace doesn't see any progress when
-> >> signaling is not enabled and Boris noted that this is because
-> >> dma_fence_array_signaled() never returns true in this case.
-> >>
-> >> Improve this by fixing the dma_fence_array_signaled() implementation t=
-o
-> >> also return true even if signaling was never explicitely enabled.
-> > Yeah, this fixes the timeout I was seeing on panvk.
->
-> Any objections to add your Tested-by?
-No.  v3 is also
+'struct i2c_device_id' is not modified in these drivers.
 
-  Tested-by: Chia-I Wu <olvaffe@gmail.com>
+Constifying this structure moves some data to a read-only section, so
+increase overall security.
 
->
-> >
-> >> We should probably adjust the documentation as well that when the
-> >> callback is implemented it should make progess visible even without
-> >> enabling signaling.
-> > That would be really nice.  Both dma_fence_is_signaled and
-> > dma_fence_ops::signaled explicitly state otherwise at the moment.
->
-> I have put that on my TODO list, but could take a while until I have
-> time for it.
->
-> If anybody wants to make suggestions on the wording feel free to make a
-> patch.
->
-> Thanks,
-> Christian.
->
-> >
-> >
-> >
-> >> Please test and review,
-> >> Christian.
-> >>
-> >>
->
+On a x86_64, with allmodconfig, as an example:
+Before:
+======
+   text	   data	    bss	    dec	    hex	filename
+  15566	    987	     32	  16585	   40c9	drivers/gpu/drm/bridge/chipone-icn6211.o
+
+After:
+=====
+   text	   data	    bss	    dec	    hex	filename
+  15630	    923	     32	  16585	   40c9	drivers/gpu/drm/bridge/chipone-icn6211.o
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Compile tested-only.
+---
+ drivers/gpu/drm/bridge/chipone-icn6211.c   | 2 +-
+ drivers/gpu/drm/bridge/lontium-lt9211.c    | 2 +-
+ drivers/gpu/drm/bridge/lontium-lt9611.c    | 2 +-
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c      | 2 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c      | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+index 9eecac457dcf..d47703559b0d 100644
+--- a/drivers/gpu/drm/bridge/chipone-icn6211.c
++++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+@@ -785,7 +785,7 @@ static struct mipi_dsi_driver chipone_dsi_driver = {
+ 	},
+ };
+ 
+-static struct i2c_device_id chipone_i2c_id[] = {
++static const struct i2c_device_id chipone_i2c_id[] = {
+ 	{ "chipone,icn6211" },
+ 	{},
+ };
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9211.c b/drivers/gpu/drm/bridge/lontium-lt9211.c
+index c8881796fba4..999ddebb832d 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9211.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9211.c
+@@ -773,7 +773,7 @@ static void lt9211_remove(struct i2c_client *client)
+ 	drm_bridge_remove(&ctx->bridge);
+ }
+ 
+-static struct i2c_device_id lt9211_id[] = {
++static const struct i2c_device_id lt9211_id[] = {
+ 	{ "lontium,lt9211" },
+ 	{},
+ };
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index 1b31fdebe164..8f25b338a8d8 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -1235,7 +1235,7 @@ static void lt9611_remove(struct i2c_client *client)
+ 	of_node_put(lt9611->dsi0_node);
+ }
+ 
+-static struct i2c_device_id lt9611_id[] = {
++static const struct i2c_device_id lt9611_id[] = {
+ 	{ "lontium,lt9611", 0 },
+ 	{}
+ };
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index 4d1d40e1f1b4..f89af8203c9d 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -913,7 +913,7 @@ static void lt9611uxc_remove(struct i2c_client *client)
+ 	of_node_put(lt9611uxc->dsi0_node);
+ }
+ 
+-static struct i2c_device_id lt9611uxc_id[] = {
++static const struct i2c_device_id lt9611uxc_id[] = {
+ 	{ "lontium,lt9611uxc", 0 },
+ 	{ /* sentinel */ }
+ };
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index 57a7ed13f996..00d3bfa645f5 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -732,7 +732,7 @@ static void sn65dsi83_remove(struct i2c_client *client)
+ 	drm_bridge_remove(&ctx->bridge);
+ }
+ 
+-static struct i2c_device_id sn65dsi83_id[] = {
++static const struct i2c_device_id sn65dsi83_id[] = {
+ 	{ "ti,sn65dsi83", MODEL_SN65DSI83 },
+ 	{ "ti,sn65dsi84", MODEL_SN65DSI84 },
+ 	{},
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 9e31f750fd88..ce4c026b064f 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -1970,7 +1970,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
+ 	return ti_sn65dsi86_add_aux_device(pdata, &pdata->aux_aux, "aux");
+ }
+ 
+-static struct i2c_device_id ti_sn65dsi86_id[] = {
++static const struct i2c_device_id ti_sn65dsi86_id[] = {
+ 	{ "ti,sn65dsi86", 0},
+ 	{},
+ };
+-- 
+2.47.0
+
