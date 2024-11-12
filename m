@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FAA39C607F
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F749C6080
 	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 19:34:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9873510E61B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3CD810E61E;
 	Tue, 12 Nov 2024 18:34:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="trWuKTH6";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="rMalO9Ta";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3963310E62E;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 130C410E62D;
  Tue, 12 Nov 2024 18:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
  s=mail; t=1731436455;
- bh=GQbAFEDWc3+fqXey0UCnib602pu/hNtipXn2veTOQnE=;
+ bh=OCMki1vQqbDliRkOMezACkpm1Q36q6wLOkTgwor2sVw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=trWuKTH6f5Cm+jMlyBaJwqdnRcGUxNEXY17GJ5McYfCxpCUrl7YaM54ykLW2nIDX4
- 88mFmPzX8Ggw46/R98XaMq4Y7tJrTNAgxwmfk4NL9sSszRBZith+B09bpTDJeFCWS+
- ZrLaODco5BWN790kX2SflQCvlCQ333t6+i0Ganqs=
+ b=rMalO9TaEUVfeVBWfJC8vJPCeZyaLbaD3ioHhJ2otPSxCRAZzRd3nPeXNEYucB5H9
+ W6ncVnx7bpKq7Mb3eFqODFpvcH6DvaLfOZz7cpnrkf8N74g98IBITim9N6mJ1gBA46
+ x/r6DycF3Ubt4KaYLI18UbdPcXM3mClAE9OyaXLU=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 12 Nov 2024 19:34:15 +0100
-Subject: [PATCH v2 6/7] drm/amd/display: Drop opencoded edid panel id
- extraction
+Date: Tue, 12 Nov 2024 19:34:16 +0100
+Subject: [PATCH v2 7/7] drm/amd/display: Switch dc_link_add_remote_sink()
+ to struct drm_edid
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241112-amdgpu-drm_edid-v2-6-1399dc0f0469@weissschuh.net>
+Message-Id: <20241112-amdgpu-drm_edid-v2-7-1399dc0f0469@weissschuh.net>
 References: <20241112-amdgpu-drm_edid-v2-0-1399dc0f0469@weissschuh.net>
 In-Reply-To: <20241112-amdgpu-drm_edid-v2-0-1399dc0f0469@weissschuh.net>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -48,11 +48,11 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Melissa Wen <mwen@igalia.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1731436454; l=1611;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1731436454; l=6539;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=GQbAFEDWc3+fqXey0UCnib602pu/hNtipXn2veTOQnE=;
- b=BV0quP0krDQKRm6g1QR1UItqHJe3GadXKHvPM5oEacRP9OTIyVhR+ESaBNNakuCVBBg9ZIVQI
- N224eyv7XrvC5BhtHt+rG9GsUcBq1ZjK689gN/i8Sh2PjB5hxkG8+bM
+ bh=OCMki1vQqbDliRkOMezACkpm1Q36q6wLOkTgwor2sVw=;
+ b=ivWuWrGWBTBrHZtGZ8K6EFZ4S0boWjcegIJwbAhytLAqAYLmxQnpjj5yol6OlTrlX/w3mHYvQ
+ MNeJgFiZ5GEAZGjhTpMZ6kKzVtivWazGXTH+sJRlyDxt87rFx9IRHkH
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,46 +70,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that a struct drm_edid is available make use of the standard
-drm_edid_get_panel_id().
+"struct drm_edid" is the safe and recommended alternative to "struct edid".
+Now that all callers of dc_link_add_remote_sink() have access to a
+validate struct drm_edid, pass it around directly.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c           | 4 +---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 4 +---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_exports.c       | 4 ++--
+ drivers/gpu/drm/amd/display/dc/dc.h                         | 2 +-
+ drivers/gpu/drm/amd/display/dc/inc/link.h                   | 2 +-
+ drivers/gpu/drm/amd/display/dc/link/link_detection.c        | 5 ++---
+ drivers/gpu/drm/amd/display/dc/link/link_detection.h        | 2 +-
+ 7 files changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 57b4a58eb9c8bfcb7b76622cf303ba01450e30ba..6f51395bf02cd6fd647de5c1a63822853deb23c9 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -48,16 +48,9 @@
- #include "ddc_service_types.h"
- #include "clk_mgr.h"
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index b09e13aed570756655b94647d4346c722a02e34a..a555809f2691001b26fc2cbcd3dff41484521365 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7218,7 +7218,6 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
+ 			.sink_signal = SIGNAL_TYPE_VIRTUAL
+ 	};
+ 	const struct drm_edid *drm_edid;
+-	const struct edid *edid;
  
--static u32 edid_extract_panel_id(const struct edid *edid)
-+static void apply_edid_quirks(const struct drm_edid *edid, struct dc_edid_caps *edid_caps)
+ 	drm_edid = drm_edid_read(connector);
+ 	drm_edid_connector_update(connector, drm_edid);
+@@ -7232,10 +7231,9 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
+ 
+ 	aconnector->drm_edid = drm_edid;
+ 
+-	edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
+ 	aconnector->dc_em_sink = dc_link_add_remote_sink(
+ 		aconnector->dc_link,
+-		edid,
++		drm_edid,
+ 		&init_params);
+ 
+ 	if (aconnector->base.force == DRM_FORCE_ON) {
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index 554cc7a7216858ff10e138bf71ab826aa635afe8..df70f6bc92a3fa247aa9389ab29d8e249bb683ab 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -361,12 +361,10 @@ static int dm_dp_mst_get_modes(struct drm_connector *connector)
+ 		struct dc_sink_init_data init_params = {
+ 				.link = aconnector->dc_link,
+ 				.sink_signal = SIGNAL_TYPE_DISPLAY_PORT_MST };
+-		const struct edid *edid;
+ 
+-		edid = drm_edid_raw(aconnector->drm_edid); // FIXME: Get rid of drm_edid_raw()
+ 		dc_sink = dc_link_add_remote_sink(
+ 			aconnector->dc_link,
+-			edid,
++			aconnector->drm_edid,
+ 			&init_params);
+ 
+ 		if (!dc_sink) {
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_exports.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_exports.c
+index be55165a16df65c623092906582ba7e81a141464..26c975ec7861848d458d13190cb173c6e1003cef 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_exports.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_exports.c
+@@ -266,10 +266,10 @@ unsigned int dc_dp_trace_get_link_loss_count(struct dc_link *link)
+ 
+ struct dc_sink *dc_link_add_remote_sink(
+ 		struct dc_link *link,
+-		const struct edid *edid,
++		const struct drm_edid *drm_edid,
+ 		struct dc_sink_init_data *init_data)
  {
--	return (u32)edid->mfg_id[0] << 24   |
--	       (u32)edid->mfg_id[1] << 16   |
--	       (u32)EDID_PRODUCT_ID(edid);
--}
--
--static void apply_edid_quirks(const struct edid *edid, struct dc_edid_caps *edid_caps)
--{
--	uint32_t panel_id = edid_extract_panel_id(edid);
-+	u32 panel_id = drm_edid_get_panel_id(edid);
+-	return link->dc->link_srv->add_remote_sink(link, edid, init_data);
++	return link->dc->link_srv->add_remote_sink(link, drm_edid, init_data);
+ }
  
- 	switch (panel_id) {
- 	/* Workaround for some monitors which does not work well with FAMS */
-@@ -130,7 +123,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ void dc_link_remove_remote_sink(struct dc_link *link, struct dc_sink *sink)
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 60f535fd39620b5657c1bc34b7f2e1509f62a5f3..b12f95ba7dcd29f2722d0e9d498295c34de40b2a 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -1851,7 +1851,7 @@ struct dc_sink_init_data;
+  */
+ struct dc_sink *dc_link_add_remote_sink(
+ 		struct dc_link *dc_link,
+-		const struct edid *edid,
++		const struct drm_edid *drm_edid,
+ 		struct dc_sink_init_data *init_data);
  
- 	edid_caps->edid_hdmi = connector->display_info.is_hdmi;
+ /* Remove remote sink from a link with dc_connection_mst_branch connection type.
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/link.h b/drivers/gpu/drm/amd/display/dc/inc/link.h
+index 76bac2e773b0f5036b82942ed90b9c43c6558d4c..12a452315b0ee84412b36c66b231658837186537 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/link.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/link.h
+@@ -109,7 +109,7 @@ struct link_service {
+ 			enum dc_connection_type *type);
+ 	struct dc_sink *(*add_remote_sink)(
+ 			struct dc_link *link,
+-			const struct edid *edid,
++			const struct drm_edid *drm_edid,
+ 			struct dc_sink_init_data *init_data);
+ 	void (*remove_remote_sink)(struct dc_link *link, struct dc_sink *sink);
+ 	bool (*get_hpd_state)(struct dc_link *link);
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+index f13b4e8929d5b217495b5fd29c4da7248a01a8e6..387117863c9e8af6298b07d2040a4372f94c8c88 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+@@ -1403,10 +1403,9 @@ static bool link_add_remote_sink_helper(struct dc_link *dc_link, struct dc_sink
  
--	apply_edid_quirks(edid_buf, edid_caps);
-+	apply_edid_quirks(drm_edid, edid_caps);
+ struct dc_sink *link_add_remote_sink(
+ 		struct dc_link *link,
+-		const struct edid *edid,
++		const struct drm_edid *drm_edid,
+ 		struct dc_sink_init_data *init_data)
+ {
+-	int len = edid ? (edid->extensions + 1) * EDID_LENGTH : 0;
+ 	struct dc_sink *dc_sink;
+ 	enum dc_edid_status edid_status;
  
- 	sad_count = drm_edid_to_sad(edid_buf, &sads);
- 	if (sad_count <= 0)
+@@ -1425,7 +1424,7 @@ struct dc_sink *link_add_remote_sink(
+ 	if (!dc_sink)
+ 		return NULL;
+ 
+-	dc_sink->drm_edid = drm_edid_alloc(edid, len);
++	dc_sink->drm_edid = drm_edid_dup(drm_edid);
+ 
+ 	if (!link_add_remote_sink_helper(
+ 			link,
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.h b/drivers/gpu/drm/amd/display/dc/link/link_detection.h
+index dec5001411be2c008c8684f474b020bf78278442..c35b4f5304c6e8bcbb6f998962d089b43104db89 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_detection.h
++++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.h
+@@ -31,7 +31,7 @@ bool link_detect_connection_type(struct dc_link *link,
+ 		enum dc_connection_type *type);
+ struct dc_sink *link_add_remote_sink(
+ 		struct dc_link *link,
+-		const struct edid *edid,
++		const struct drm_edid *drm_edid,
+ 		struct dc_sink_init_data *init_data);
+ void link_remove_remote_sink(struct dc_link *link, struct dc_sink *sink);
+ bool link_reset_cur_dp_mst_topology(struct dc_link *link);
 
 -- 
 2.47.0
