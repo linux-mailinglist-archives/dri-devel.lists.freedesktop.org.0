@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB0D9C58B9
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 14:15:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC909C58D4
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 14:20:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E5F610E1E9;
-	Tue, 12 Nov 2024 13:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA32110E01F;
+	Tue, 12 Nov 2024 13:20:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ybbvCE5c";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dL8qCvPy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAA2B10E5DF
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 13:15:13 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-6eacc99a063so54484007b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 05:15:13 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9115210E01F;
+ Tue, 12 Nov 2024 13:20:07 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-43167ff0f91so49833115e9.1; 
+ Tue, 12 Nov 2024 05:20:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731417313; x=1732022113; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RjMFUcCJ2PMcOh++QmaV4FSg4hd5bf5ZwUL8svAZiGU=;
- b=ybbvCE5cBH1zb5RUKEuG/vfx9T8S1TDDaAn40usQrYNky8R/4qmmGYeni5Qgoyr34K
- GhQusT7ACqElDz+fAovdGBbPwzqD7mDvEGbqIC3y3Vtpk4BxKf1HitoX0m09PY6gieiQ
- Kde2BDaK/u2JWBfYjjclmu5dMXT1S3kkPFNq6wvjiFZXDGir/FEAOvgWfWDLs/0B0t/d
- 8YjqCj2gHfR2ek4JPl0cAvvrgbMFP5G+v3TidCybuP9cqCYeYwG+Pprc5YoZprJWMVIi
- Xoe0Q5BE5dQ9BlyvDA0TCGfh0cPolu8cuah6/MpvBKvIH3HOOJGC/jK7k8L5VOXSc+Db
- ivjg==
+ d=gmail.com; s=20230601; t=1731417606; x=1732022406; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+RJ1NMa1jB4YevqeHSrW28hy579MbHP2ndXxmXrQdAk=;
+ b=dL8qCvPyLE2FxY9pgZkw3obNDOzTNDN3GWBICZ5XuPBFvSuAidVEqY43+2/Gs8Qlj1
+ FZLy6PTv1A91c2oRu5vxAGceSLVBSqzg5MFhf1Ol788gLarMvhO1/I8GRH6mJvp8vE16
+ 9LSC0hYcR4tA1tIKrgFqZk0Wz9U1eXmm260xSSNWCZmqrMhOEBZiIFqxpkmWRiDx03/F
+ Sw3JAkPjFI3KboNZ0NZ75YDxga7Itc2gDzR2BJQnHpKy/t2tiZzcNEQpJiWt1GQpUxl3
+ 3A3r92H3DNol+VZspMTgfqRO3emM8VYMC9z9QhZj2rjwg01zOVRF9tEfoOVJl9/SiCiB
+ 74rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731417313; x=1732022113;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1731417606; x=1732022406;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=RjMFUcCJ2PMcOh++QmaV4FSg4hd5bf5ZwUL8svAZiGU=;
- b=Kt0Mx8upBWCaQQT/SEPWB4sYcrsq+h1Ya2+1u9CwGIWMJnMRMjZLRSIeJLLdGCfJeb
- j9XyxEWX1VCeMvWzqHk4NVsUMDzVJboV69jxoONk1Y3gghtXsprJQZz7q3V6VTMdekzn
- WsjWqWh4N1zZyY1g7v4e3EUmHHr+rM4IskDUlbYeNJT3U02Ka+mYch9Oo0byp3Tapumf
- gGoKvpt+uAZJhlz58OAgwxDC6oFfjCu8VqYXpQ+eo6elyY+xtWpUQYOrr3OicH19zIg7
- B9FPI4zTQv6sjGl9OaXtEWX5UcrQuVLkoG4HiG/9uiJuEzajA187LWgpqH/3s9b5AkTD
- Su8g==
+ bh=+RJ1NMa1jB4YevqeHSrW28hy579MbHP2ndXxmXrQdAk=;
+ b=NSFkD5SWsHOX1XYYh1ZJeUvP0SNJCr3Zj+H869IooCYxD5rHeX8Uq4WsiFsxJjThnB
+ nQ49hXeXWAMdYKVgYPGm1+KY3KvmWnXBdXeFZJOhEfn+thWPiC9BcbJ6Srw0dRR1KuQv
+ xLEAYpackJlf203NDuBSblnXKVZ6rVkloKY8QmgbvG9WNwQCBXfYL9QNzDBJ/RktvaF9
+ jg5F2stA1DW/a87p0eJs55v+4BVx5hod9gSNKhVZlJePCtzVvfcJ8jkywgPxJXpRKg2S
+ LoHlEXLybJsWzVze9dpzhFtUJZl253yBLIiWgzX9cw+MVWuLMJn0t7h3jMhHNzl4heUb
+ yPYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW3f3Etn3D4orA3wt/Yu2eZIaDrCq7QgYQrxHSQQXAifK0rNM5WFv+17C/XAPPR7GaxHiH8QhfTyGw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz7cNtWT/4hM/zp5jovTF/ONRarSscJdI69bxJjtCB64HnQHwWG
- oGsziyYyin/NFQO+VAS6+SizSuTLqny31K++WuIQtQ4Kg+yhXIUqhaM1twYOPTB1J1iMKa2JDFK
- bJqTKY0wed2pvkWCfVfs/B8JoFH8boRI6AIe54w==
-X-Google-Smtp-Source: AGHT+IHXjXnnSh4cfhalObRmFjWIlKplKbXL511dM4znTgK/qAvBdvKZqt3NvA/NCChuF/Jz1MpD8Bjt8ZPwU1Hyt0g=
-X-Received: by 2002:a05:690c:9b08:b0:6e3:1f02:407b with SMTP id
- 00721157ae682-6eaddda0ec6mr157284817b3.11.1731417312627; Tue, 12 Nov 2024
- 05:15:12 -0800 (PST)
+ AJvYcCXVsigXbhiD2kKOaYEktRzdzc4WHhDj2zfLuEO93g7ESeu93iiZIo5QLn2dicdZ4dyKw40Qh8W2eAg=@lists.freedesktop.org,
+ AJvYcCXmzVcQUjumjAjQt8WFTvMCF4Cs0cwwvhfMJPzYxXak/DdOPIwnMEAqNGtBE+rXJDAyaj7IDfjI6zBk@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwFrhjDLYxKgobyQn4CNpT2f043Q+xNF48LixOjHOKE2qhN8tLU
+ XyKKqmpvl17H2LO1bVRCWOLcSD+SAuPUx6oRLt/obtbOOxtaLEHQ
+X-Google-Smtp-Source: AGHT+IFcy+h3FVW2hUep37o/iKMxNs6TxUByEJOBaG0afG7vcce/Vvw2QMhVc2yIJKrMe/bSSHTQzA==
+X-Received: by 2002:a05:6000:1a85:b0:37d:518f:995d with SMTP id
+ ffacd0b85a97d-381f1835ba8mr15355680f8f.56.1731417605643; 
+ Tue, 12 Nov 2024 05:20:05 -0800 (PST)
+Received: from localhost ([194.120.133.65]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-381fc0f5f91sm6940911f8f.62.2024.11.12.05.20.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Nov 2024 05:20:05 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/msm/a5xx: Fix dereference of pointer pdev before null
+ check on pdev
+Date: Tue, 12 Nov 2024 13:20:05 +0000
+Message-Id: <20241112132005.469357-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-References: <20241112-fd-dp-fux-warning-v2-1-8cc4960094bd@linaro.org>
- <643d2935-65ce-4d86-9be6-c2faa1956365@quicinc.com>
-In-Reply-To: <643d2935-65ce-4d86-9be6-c2faa1956365@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 12 Nov 2024 15:15:03 +0200
-Message-ID: <CAA8EJpqBouv-f-QMpZ+hrA-vF4ojhUWBn5yMqYYB9LpW0TACdg@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: display/msm: qcom,
- sa8775p-mdss: fix the example
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mahadevan <quic_mahap@quicinc.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,65 +89,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Nov 2024 at 05:40, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 11/11/2024 7:21 PM, Dmitry Baryshkov wrote:
-> > Add p1 region to the list of DP registers in the SA8775p example. This
-> > fixes the following warning:
-> >
-> > Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.example.dtb: displayport-controller@af54000: reg: [[183844864, 260], [183845376, 192], [183848960, 1904], [183853056, 156]] is too short
-> >
-> > Fixes: 409685915f00 ("dt-bindings: display/msm: Document MDSS on SA8775P")
-> > Reported-by: Rob Herring <robh@kernel.org>
-> > Closes: https://lore.kernel.org/dri-devel/CAL_JsqJ0zoyaZAgZtyJ8xMsPY+YzrbF-YG1vPN6tFoFXQaW09w@mail.gmail.com/c
->
-> Thanks for the patch.
->
-> I think this link has an extra 'c' at the end.
+The pointer config is dereferencing pointer pdev before pdev is null
+checked, this could lead to a potential null pointer dereference on pdev.
+Fix this by only assinging config after pdev has been null checked.
 
-Oh.. Can you fix that when picking it up for -fixes or would you
-prefer to have a clean version in patchwork?
+Fixes: 736a93273656 ("drm/msm/a5xx: really check for A510 in a5xx_gpu_init")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
->
-> With that fixed,
->
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> > Changes in v2:
-> > - EDITME: describe what is new in this series revision.
-> > - EDITME: use bulletpoints and terse descriptions.
-> > - Link to v1: https://lore.kernel.org/r/20241112-fd-dp-fux-warning-v1-1-705b527f5a63@linaro.org
-> > ---
-> >   Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
-> > index 58f8a01f29c7aaa9dc943c232363075686c06a7c..4536bb2f971f3b7173b8807f90c9af3e460bb01c 100644
-> > --- a/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
-> > +++ b/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
-> > @@ -168,7 +168,8 @@ examples:
-> >               reg = <0xaf54000 0x104>,
-> >                     <0xaf54200 0x0c0>,
-> >                     <0xaf55000 0x770>,
-> > -                  <0xaf56000 0x09c>;
-> > +                  <0xaf56000 0x09c>,
-> > +                  <0xaf57000 0x09c>;
-> >
-> >               interrupt-parent = <&mdss0>;
-> >               interrupts = <12>;
-> >
-> > ---
-> > base-commit: ff2ce06d5e28be5ee399a2ff894d6a551c70a318
-> > change-id: 20241112-fd-dp-fux-warning-c8764c93f787
-> >
-> > Best regards,
-
-
-
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index ee89db72e36e..e83081346059 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -1753,7 +1753,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct platform_device *pdev = priv->gpu_pdev;
+-	struct adreno_platform_config *config = pdev->dev.platform_data;
++	struct adreno_platform_config *config;
+ 	struct a5xx_gpu *a5xx_gpu = NULL;
+ 	struct adreno_gpu *adreno_gpu;
+ 	struct msm_gpu *gpu;
+@@ -1764,6 +1764,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+ 		DRM_DEV_ERROR(dev->dev, "No A5XX device is defined\n");
+ 		return ERR_PTR(-ENXIO);
+ 	}
++	config = pdev->dev.platform_data;
+ 
+ 	a5xx_gpu = kzalloc(sizeof(*a5xx_gpu), GFP_KERNEL);
+ 	if (!a5xx_gpu)
 -- 
-With best wishes
-Dmitry
+2.39.5
+
