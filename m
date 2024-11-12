@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55829C541A
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 11:37:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A6C9C54AF
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 11:48:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17EAC10E5A9;
-	Tue, 12 Nov 2024 10:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71FCB10E573;
+	Tue, 12 Nov 2024 10:48:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EafmqK2+";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kemnade.info header.i=@kemnade.info header.b="9oMiat9a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDAD510E5A9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 10:37:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E4A14A41969;
- Tue, 12 Nov 2024 10:35:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A280AC4CED4;
- Tue, 12 Nov 2024 10:37:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1731407859;
- bh=qdWgcfyKGVXdA0wrJRrU9EglvC2lqyCHhSITgPoypUY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EafmqK2+fxmJYzu8XVGhuqddJZBdjsGCseEyTTYK9/+VR4zImFo+o3c6bG1+VDi4a
- jHYzlA6AQahImOTkYaWdx+SfQVIWzi6zjU3GZLHXczPp4nrv2tZxtlavzXVK85vnfE
- B7c0WxOcVXb6EI/C0T5KFaTxU4zgANirOEPAPCgAWlejZGge0XIs1HuIyBS3qmLoLF
- Lhqzod+nFYPV+XZtO5vmlWRqAtag4iLmKj2qU7b1qHF+XKc0mV78VpAZGVtxh+EiwS
- sInkNJxS5UPRNt+WY0BfXy996B67kWn8laFZPvQ9p9So00fnCSoKSe5pLg7AzwFRqY
- t9mL2pH2U+2KQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>, Jani Nikula <jani.nikula@intel.com>,
- Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 11/12] drm: panel-orientation-quirks: Make Lenovo
- Yoga Tab 3 X90F DMI match less strict
-Date: Tue, 12 Nov 2024 05:37:13 -0500
-Message-ID: <20241112103718.1653723-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241112103718.1653723-1-sashal@kernel.org>
-References: <20241112103718.1653723-1-sashal@kernel.org>
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8BFB10E573
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 10:48:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID;
+ bh=2m7yLhxfZDBBcaSm+o4e0Z6YDFzbc2KbJ1HEoJJMrgE=; b=9oMiat9aS3OnXG3WvYQ6dodxHB
+ c3IKeiuhoIjkbP/vFCRnyEKdsl90Q82eNInauL9GoJFDN6sN/smTp40tdct7YHbmusIztadZeNmT1
+ cMA32aoHjjpu+yKHPZr3sMJE0SXKKv8n09FgEm6HNwnVZ3xYBr/QG8Q0PEvXAJ60wd2xK7/g/atl1
+ 5cidNMeMHYtCv1CxH09N+J4oAvA2DozhbCpxbtemIOZsxhUpKlrGweu3bj2lRyvOONLu+cZs+FZJn
+ 0/eXYnZJRXoVFmduzywld+K6DGYhoeTbfRx/GqN6A460Lbv1GK1yxOZxQO8CeeS0eOplhyS4GE/fh
+ v+x5pbSg==;
+Date: Tue, 12 Nov 2024 11:48:18 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Mithil Bavishi <bavishimithil@gmail.com>
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Kevin Hilman
+ <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, Tony Lindgren
+ <tony@atomide.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Thierry Reding
+ <thierry.reding@gmail.com>, linux-omap@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 10/10] ARM: dts: ti: omap: samsung-espresso10: Add
+ initial support for Galaxy Tab 2 10.1
+Message-ID: <20241112114818.1eb238e9@akair>
+In-Reply-To: <20241108200440.7562-11-bavishimithil@gmail.com>
+References: <20241108200440.7562-1-bavishimithil@gmail.com>
+ <20241108200440.7562-11-bavishimithil@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.116
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +68,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hans de Goede <hdegoede@redhat.com>
+Am Fri,  8 Nov 2024 20:04:39 +0000
+schrieb Mithil Bavishi <bavishimithil@gmail.com>:
 
-[ Upstream commit 052ef642bd6c108a24f375f9ad174b97b425a50b ]
+> Create a device tree for the 10 inch variants (P5100, P5110, P5113)
+> 
+> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
+> ---
+>  .../dts/ti/omap/omap4-samsung-espresso10.dts  | 102 ++++++++++++++++++
+>  1 file changed, 102 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
+> 
+> diff --git a/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts b/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
+> new file mode 100644
+> index 000000000..70bbef468
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
+> @@ -0,0 +1,102 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+> +/dts-v1/;
+> +
+> +#include "omap4-samsung-espresso-common.dtsi"
+> +#include <dt-bindings/power/summit,smb347-charger.h>
+> +/ {
+> +	model = "Samsung Galaxy Tab 2 (10 inch)";
+> +	compatible = "samsung,espresso10", "ti,omap4430", "ti,omap4";
+> +
+> +	i2c-gpio-5 {
+> +		smb347: charger@6 {
+> +			compatible = "summit,smb347";
+> +			reg = <0x6>; // 0x0C >> 1
+> +			interrupt-parent = <&gpio2>;
+> +			interrupts = <0 IRQ_TYPE_EDGE_BOTH>;
+> +
+> +			summit,enable-usb-charging;
+> +			summit,enable-charge-control = <SMB3XX_CHG_ENABLE_SW>;
+> +			summit,chip-temperature-threshold-celsius = <120>;
+> +			summit,usb-current-limit-microamp = <1800000>;
+> +		};
+> +	};
+> +
+> +	backlight: backlight {
+> +		compatible = "pwm-backlight";
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&backlight_pins>;
+> +		pwms = <&pwm10 0 1600 0>;
+> +		power-supply = <&reg_lcd>;
+> +		enable-gpios = <&gpio3 31 GPIO_ACTIVE_HIGH>;
+> +		brightness-levels = <0 4 8 16 32 64 128 255>;
+> +		default-brightness-level = <7>;
+> +	};
+> +
+> +	panel {
+> +		compatible = "samsung,ltn101al03", "panel-lvds";
+> +		power-supply = <&reg_lcd>;
+> +		width-mm = <223>;
+> +		height-mm = <125>;
+> +		data-mapping = "vesa-24";
+> +		backlight = <&backlight>;
+> +
+> +		panel-timing {
+> +			clock-frequency = <69818000>;
+> +
+> +			hback-porch = <64>;
+> +			hactive = <1280>;
+> +			hfront-porch = <16>;
+> +			hsync-len = <48>;
+> +
+> +			vback-porch = <11>;
+> +			vactive = <800>;
+> +			vfront-porch = <16>;
+> +			vsync-len = <3>;
+> +
+> +			hsync-active = <0>;
+> +			vsync-active = <0>;
+> +			de-active = <1>;
+> +			pixelclk-active = <1>;
+> +		};
+> +
+> +		port {
+> +			panel_in: endpoint {
+> +				remote-endpoint = <&bridge_out>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&i2c3 {
+> +	touchscreen: synaptics-rmi4-i2c@20 {
 
-There are 2G and 4G RAM versions of the Lenovo Yoga Tab 3 X90F and it
-turns out that the 2G version has a DMI product name of
-"CHERRYVIEW D1 PLATFORM" where as the 4G version has
-"CHERRYVIEW C0 PLATFORM". The sys-vendor + product-version check are
-unique enough that the product-name check is not necessary.
+touchscreen@20
 
-Drop the product-name check so that the existing DMI match for the 4G
-RAM version also matches the 2G RAM version.
+> +		compatible = "syna,rmi4-i2c";
+> +		reg = <0x20>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		interrupt-parent = <&gpio2>;
+> +		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
+> +
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&touch_pins>;
+> +
+> +		avdd-supply = <&reg_touch_ldo_en>;
+not known in schema
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240825132131.6643-1-hdegoede@redhat.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 1 -
- 1 file changed, 1 deletion(-)
+> +		vdd-supply = <&ldo6>;
+> +
+> +		syna,reset-delay-ms = <200>;
+> +		syna,startup-delay-ms = <200>;
+> +
+> +		touchscreen-size-x = <1279>;
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 5b2506c65e952..259a0c765bafb 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -403,7 +403,6 @@ static const struct dmi_system_id orientation_data[] = {
- 	}, {	/* Lenovo Yoga Tab 3 X90F */
- 		.matches = {
- 		 DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
--		 DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
- 		 DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
- 		},
- 		.driver_data = (void *)&lcd1600x2560_rightside_up,
--- 
-2.43.0
+Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml:
+horizontal resolution of touchscreen (maximum x coordinate reported + 1)
 
+So this touchscreen reports max 1278?
+
+> +		touchscreen-size-y = <799>;
+
+same question.
+
+And these things belong below rm4-f11 according to
+Documentation/devicetree/bindings/input/syna,rmi4.yaml
+
+Regards,
+Andreas
