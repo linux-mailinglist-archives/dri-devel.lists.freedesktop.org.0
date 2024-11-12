@@ -2,89 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40059C4ABA
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 01:28:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3079C4AFD
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 01:35:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1238810E1C9;
-	Tue, 12 Nov 2024 00:28:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC6010E172;
+	Tue, 12 Nov 2024 00:35:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MJgCMFXd";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1108 seconds by postgrey-1.36 at gabe;
- Mon, 11 Nov 2024 15:38:57 UTC
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
- [45.249.212.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FF2310E166;
- Mon, 11 Nov 2024 15:38:57 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.216])
- by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4XnCsK2GxQz4f3p0R;
- Mon, 11 Nov 2024 23:20:05 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
- by mail.maildlp.com (Postfix) with ESMTP id 597721A0194;
- Mon, 11 Nov 2024 23:20:24 +0800 (CST)
-Received: from [10.174.177.210] (unknown [10.174.177.210])
- by APP4 (Coremail) with SMTP id gCh0CgB3U4exIDJn3+D7BQ--.18810S3;
- Mon, 11 Nov 2024 23:20:19 +0800 (CST)
-Message-ID: <73a05cb9-569c-9b3c-3359-824e76b14461@huaweicloud.com>
-Date: Mon, 11 Nov 2024 23:20:17 +0800
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
+ [209.85.166.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C131510E172
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 00:35:19 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id
+ e9e14a558f8ab-3a3b8b34be9so17768775ab.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2024 16:35:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google; t=1731371719; x=1731976519;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=h2RamCiRbvufmYpTkLSPafjrY96FSeVA6M3qaZiwKq0=;
+ b=MJgCMFXdDVWuOgHnQFoOY+rdaWZCeO44EBCQ+ZMYN6RtBG9g33EoiDVoCATKbszY0i
+ saU1+sOvIEDl0eu/hEqap8plr1FoERXhwWJqDNrviotv5AZ1mUZXrqpVTI4YNRc0Ex2z
+ MyBujyvpKKYKFj+Vxe5OqDvhET5NKklpX63Uc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731371719; x=1731976519;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=h2RamCiRbvufmYpTkLSPafjrY96FSeVA6M3qaZiwKq0=;
+ b=gvqQQow/SvQukVdJCjQdaS7DwhPmppYrE2jinyQ4vFEXpl7ZUfqgMNuE859tjbRTzQ
+ lejkgT0IXmx8BcshAYQXAPACOEy5zcV8tuBOBYBh9CXPe8mN9n0rarUaHxpfWGTxSKsy
+ xHK4kuV13KPpBAHifHVbftrdad46IOec2fJaMAy3cVaos9NR9s6blolgAMd2QDIod7B5
+ 3Oeoi6IfAbDoTbsDjNmS412ppZb4FiccnCAqXPxuL29oAODwXrJ/8b5aGcpnTkCJXXog
+ ZIj9il43nEd8H/LiEeR8H8C5z7OMw3B41WiVRR7EVtki0VRJVB7OyZScZPORfHE3mosZ
+ Jtig==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV9O2pRYD6aPUQ/1KmbMQkvyJPwaOKvm34cY4Z6zStUAMgTl/0SMIIIxZQ6Moj2iq/LPtjzBSCy4h4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyNbSzTIEB48JFKb5jLJGGsZsuKZtZN/1SP8z8XnXY+UQcVJlEw
+ OlwWjA8HFGDmVCIQ41ORq10tbA9Yxe7VY2D7K/pS5vzEE0WvgWMES1rL1WBAQaI=
+X-Google-Smtp-Source: AGHT+IFIiVIb9rMN+B8i2xWtzWDjGjPrTfribRqLKwNimYLO6WRm7F0fCfgf+WS8c5Kw/Wf51x0d9A==
+X-Received: by 2002:a05:6e02:1686:b0:3a6:aee2:1693 with SMTP id
+ e9e14a558f8ab-3a6f19adc0fmr165181785ab.6.1731371718701; 
+ Mon, 11 Nov 2024 16:35:18 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+ by smtp.gmail.com with ESMTPSA id
+ e9e14a558f8ab-3a6f9890d2esm17379085ab.72.2024.11.11.16.35.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Nov 2024 16:35:18 -0800 (PST)
+Message-ID: <7d14de47-119a-42e4-a911-f8accae4abf1@linuxfoundation.org>
+Date: Mon, 11 Nov 2024 17:35:11 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH 6/6 6.6] libfs: fix infinite directory reads for
- offset dir
-To: Chuck Lever III <chuck.lever@oracle.com>, Yu Kuai <yukuai1@huaweicloud.com>
-Cc: Chuck Lever <cel@kernel.org>, linux-stable <stable@vger.kernel.org>,
- "harry.wentland@amd.com" <harry.wentland@amd.com>,
- "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
- "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Liam Howlett <liam.howlett@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Greg KH <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>,
- "srinivasan.shanmugam@amd.com" <srinivasan.shanmugam@amd.com>,
- "chiahsuan.chung@amd.com" <chiahsuan.chung@amd.com>,
- "mingo@kernel.org" <mingo@kernel.org>,
- "mgorman@techsingularity.net" <mgorman@techsingularity.net>,
- "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
- "zhangpeng.00@bytedance.com" <zhangpeng.00@bytedance.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux FS Devel <linux-fsdevel@vger.kernel.org>,
- "maple-tree@lists.infradead.org" <maple-tree@lists.infradead.org>,
- linux-mm <linux-mm@kvack.org>, "yi.zhang@huawei.com" <yi.zhang@huawei.com>,
- "yukuai (C)" <yukuai3@huawei.com>
-References: <20241111005242.34654-1-cel@kernel.org>
- <20241111005242.34654-7-cel@kernel.org>
- <278433c2-611c-6c8e-7964-5c11977b68b7@huaweicloud.com>
- <96A93064-8DCE-4B78-9F2A-CF6E7EEABEB1@oracle.com>
-From: yangerkun <yangerkun@huaweicloud.com>
-In-Reply-To: <96A93064-8DCE-4B78-9F2A-CF6E7EEABEB1@oracle.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for unacceptable
+ behaviors
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Dan Williams
+ <dan.j.williams@intel.com>, Dave Airlie <airlied@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20241108161853.12325-1-skhan@linuxfoundation.org>
+ <ZzJkAJEjKidV8Fiz@phenom.ffwll.local>
+ <ba3d5492-e774-452f-9fe0-e68b743c6b0d@linuxfoundation.org>
+ <20241111223538.GD17916@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20241111223538.GD17916@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgB3U4exIDJn3+D7BQ--.18810S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxKw48Ar4xCFW5tF45Wr48JFb_yoW3JF17pF
- Z8Gan8Krs7X34UGr4vv3WDZFyS93Z7Kr45XrZ5W34UJr9Fqr43KF1Iyr4Y9a4UArs3Cr12
- qF45K343Zw45CrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUB214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWrXVW3AwCF04k20xvY0x
- 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
- 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0x
- vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
- 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
- kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRJMa0UUUUU
-X-CM-SenderInfo: 51dqwvhunx0q5kxd4v5lfo033gof0z/
-X-Mailman-Approved-At: Tue, 12 Nov 2024 00:28:18 +0000
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,209 +93,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-在 2024/11/11 22:39, Chuck Lever III 写道:
+On 11/11/24 15:35, Laurent Pinchart wrote:
+> Hi Shuah,
 > 
+> On Mon, Nov 11, 2024 at 02:50:45PM -0700, Shuah Khan wrote:
+>> On 11/11/24 13:07, Simona Vetter wrote:
+>>> On Fri, Nov 08, 2024 at 09:18:53AM -0700, Shuah Khan wrote:
+>>>> The Code of Conduct committee's goal first and foremost is to bring about
+>>>> change to ensure our community continues to foster respectful discussions.
+>>>>
+>>>> In the interest of transparency, the CoC enforcement policy is formalized
+>>>> for unacceptable behaviors.
+>>>>
+>>>> Update the Code of Conduct Interpretation document with the enforcement
+>>>> information.
+>>>>
+>>>> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+>>>> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>>> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>>>> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+>>>> Acked-by: Jonathan Corbet <corbet@lwn.net>
+>>>> Acked-by: Steven Rostedt <rostedt@goodmis.org>
+>>>> Acked-by: Dan Williams <dan.j.williams@intel.com>
+>>>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+>>>
+>>> I think it's really good to document these details. The freedesktop coc
+>>> team is going through the same process, we've also done a talk at XDC
+>>> about all these changes, and I think this helps a lot in transparency and
+>>> accountability in practice. With that, some thoughts below.
 > 
->> On Nov 10, 2024, at 9:36 PM, Yu Kuai <yukuai1@huaweicloud.com> wrote:
+> I've been thinking about replying to this patch for a few days now. I
+> think I managed to sleep over it enough to make that possible.
+> 
+> I share Sima's opinion here. There is FUD around the CoC and its
+> enforcement process due to lack of transparency, so I believe
+> documenting the goals and means is important and will help.
+> 
+
+Thank you for your feedback.
+
+>> Thank you Simona for your review and feedback.
 >>
->> Hi,
+>>>> ---
+>>>>    .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
+>>>>    1 file changed, 52 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+>>>> index 66b07f14714c..21dd1cd871d2 100644
+>>>> --- a/Documentation/process/code-of-conduct-interpretation.rst
+>>>> +++ b/Documentation/process/code-of-conduct-interpretation.rst
+>>>> @@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
+>>>>    Because how we interpret and enforce the Code of Conduct will evolve over
+>>>>    time, this document will be updated when necessary to reflect any
+>>>>    changes.
+>>>> +
+>>>> +Enforcement for Unacceptable Behavior Code of Conduct Violations
+>>>> +----------------------------------------------------------------
+>>>> +
+>>>> +The Code of Conduct committee works to ensure that our community continues
+>>>> +to be inclusive and fosters diverse discussions and viewpoints, and works
+>>>> +to improve those characteristics over time. The Code of Conduct committee
+>>>> +takes measures to restore productive and respectful collaboration when an
+>>>> +unacceptable behavior has negatively impacted that relationship.
+>>>> +
+>>>> +Seek public apology for the violation
+>>>> +*************************************
+>>>> +
+>>>> +The Code of Conduct Committee publicly calls out the behavior in the
+>>>> +setting in which the violation has taken place, seeking public apology
+>>>> +for the violation.
+>>>> +
+>>>> +A public apology for the violation is the first step towards rebuilding
+>>>> +the trust. Trust is essential for the continued success and health of the
+>>>> +community which operates on trust and respect.
+>>>
+>>> Personal take, but I think a forced public apology as the primary or at
+>>> least initial coc enforcement approach is one of the worst.
 >>
->> 在 2024/11/11 8:52, cel@kernel.org 写道:
->>> From: yangerkun <yangerkun@huawei.com>
->>> [ Upstream commit 64a7ce76fb901bf9f9c36cf5d681328fc0fd4b5a ]
->>> After we switch tmpfs dir operations from simple_dir_operations to
->>> simple_offset_dir_operations, every rename happened will fill new dentry
->>> to dest dir's maple tree(&SHMEM_I(inode)->dir_offsets->mt) with a free
->>> key starting with octx->newx_offset, and then set newx_offset equals to
->>> free key + 1. This will lead to infinite readdir combine with rename
->>> happened at the same time, which fail generic/736 in xfstests(detail show
->>> as below).
->>> 1. create 5000 files(1 2 3...) under one dir
->>> 2. call readdir(man 3 readdir) once, and get one entry
->>> 3. rename(entry, "TEMPFILE"), then rename("TEMPFILE", entry)
->>> 4. loop 2~3, until readdir return nothing or we loop too many
->>>     times(tmpfs break test with the second condition)
->>> We choose the same logic what commit 9b378f6ad48cf ("btrfs: fix infinite
->>> directory reads") to fix it, record the last_index when we open dir, and
->>> do not emit the entry which index >= last_index. The file->private_data
+>> Seeking public apology is in response to unacceptable behaviors which are
+>> serious in nature. These incidents are exceedingly rare. When these incidents
+>> happen, they usually resolve when another developer/community member points
+>> out the behavior. The individual responds with a voluntary apology to
+>> mend fences and repair harm.
 >>
->> Please notice this requires last_index should never overflow, otherwise
->> readdir will be messed up.
-> 
-> It would help your cause if you could be more specific
-> than "messed up".
-> 
-> 
->>> now used in offset dir can use directly to do this, and we also update
->>> the last_index when we llseek the dir file.
->>> Fixes: a2e459555c5f ("shmem: stable directory offsets")
->>> Signed-off-by: yangerkun <yangerkun@huawei.com>
->>> Link: https://lore.kernel.org/r/20240731043835.1828697-1-yangerkun@huawei.com
->>> Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
->>> [brauner: only update last_index after seek when offset is zero like Jan suggested]
->>> Signed-off-by: Christian Brauner <brauner@kernel.org>
->>> Link: https://nvd.nist.gov/vuln/detail/CVE-2024-46701
->>> [ cel: adjusted to apply to origin/linux-6.6.y ]
->>> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
->>> ---
->>>   fs/libfs.c | 37 +++++++++++++++++++++++++------------
->>>   1 file changed, 25 insertions(+), 12 deletions(-)
->>> diff --git a/fs/libfs.c b/fs/libfs.c
->>> index a87005c89534..b59ff0dfea1f 100644
->>> --- a/fs/libfs.c
->>> +++ b/fs/libfs.c
->>> @@ -449,6 +449,14 @@ void simple_offset_destroy(struct offset_ctx *octx)
->>>    xa_destroy(&octx->xa);
->>>   }
->>>   +static int offset_dir_open(struct inode *inode, struct file *file)
->>> +{
->>> + struct offset_ctx *ctx = inode->i_op->get_offset_ctx(inode);
->>> +
->>> + file->private_data = (void *)ctx->next_offset;
->>> + return 0;
->>> +}
+>> The CoC  gets involved only when it receives a report which is the case
+>> when normal paths such as peers pointing out the behavior to repair the
+>> harm haven't been successful.
 >>
->> Looks like xarray is still used.
-> 
-> That's not going to change, as several folks have already
-> explained.
-> 
-> 
->> I'm in the cc list ,so I assume you saw my set, then I don't know why
->> you're ignoring my concerns.
-> 
->> 1) next_offset is 32-bit and can overflow in a long-time running
->> machine.
->> 2) Once next_offset overflows, readdir will skip the files that offset
->> is bigger.
-> 
-
-I'm sorry, I'm a little busy these days, so I haven't responded to this
-series of emails.
-
-> In that case, that entry won't be visible via getdents(3)
-> until the directory is re-opened or the process does an
-> lseek(fd, 0, SEEK_SET).
-
-Yes.
-
-> 
-> That is the proper and expected behavior. I suspect you
-> will see exactly that behavior with ext4 and 32-bit
-> directory offsets, for example.
-
-Emm...
-
-For this case like this:
-
-1. mkdir /tmp/dir and touch /tmp/dir/file1 /tmp/dir/file2
-2. open /tmp/dir with fd1
-3. readdir and get /tmp/dir/file1
-4. rm /tmp/dir/file2
-5. touch /tmp/dir/file2
-4. loop 4~5 for 2^32 times
-5. readdir /tmp/dir with fd1
-
-For tmpfs now, we may see no /tmp/dir/file2, since the offset has been 
-overflow, for ext4 it is ok... So we think this will be a problem.
-
-> 
-> Does that not directly address your concern? Or do you
-> mean that Erkun's patch introduces a new issue?
-
-Yes, to be honest, my personal feeling is a problem. But for 64bit, it 
-may never been trigger.
-
-> 
-> If there is a problem here, please construct a reproducer
-> against this patch set and post it.
-> 
-> 
->> Thanks,
->> Kuai
+>> This document isn't intended to be a complete summary of all actions the
+>> CoC takes in response to reports. There is a lot of back and forth with
+>> the individuals to bring about change before the CoC asks for an apology.
 >>
->>> +
->>>   /**
->>>    * offset_dir_llseek - Advance the read position of a directory descriptor
->>>    * @file: an open directory whose position is to be updated
->>> @@ -462,6 +470,9 @@ void simple_offset_destroy(struct offset_ctx *octx)
->>>    */
->>>   static loff_t offset_dir_llseek(struct file *file, loff_t offset, int whence)
->>>   {
->>> + struct inode *inode = file->f_inode;
->>> + struct offset_ctx *ctx = inode->i_op->get_offset_ctx(inode);
->>> +
->>>    switch (whence) {
->>>    case SEEK_CUR:
->>>    offset += file->f_pos;
->>> @@ -475,8 +486,9 @@ static loff_t offset_dir_llseek(struct file *file, loff_t offset, int whence)
->>>    }
->>>      /* In this case, ->private_data is protected by f_pos_lock */
->>> - file->private_data = NULL;
->>> - return vfs_setpos(file, offset, U32_MAX);
->>> + if (!offset)
->>> + file->private_data = (void *)ctx->next_offset;
->>> + return vfs_setpos(file, offset, LONG_MAX);
->>>   }
->>>     static struct dentry *offset_find_next(struct xa_state *xas)
->>> @@ -505,7 +517,7 @@ static bool offset_dir_emit(struct dir_context *ctx, struct dentry *dentry)
->>>      inode->i_ino, fs_umode_to_dtype(inode->i_mode));
->>>   }
->>>   -static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
->>> +static void offset_iterate_dir(struct inode *inode, struct dir_context *ctx, long last_index)
->>>   {
->>>    struct offset_ctx *so_ctx = inode->i_op->get_offset_ctx(inode);
->>>    XA_STATE(xas, &so_ctx->xa, ctx->pos);
->>> @@ -514,17 +526,21 @@ static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
->>>    while (true) {
->>>    dentry = offset_find_next(&xas);
->>>    if (!dentry)
->>> - return ERR_PTR(-ENOENT);
->>> + return;
->>> +
->>> + if (dentry2offset(dentry) >= last_index) {
->>> + dput(dentry);
->>> + return;
->>> + }
->>>      if (!offset_dir_emit(ctx, dentry)) {
->>>    dput(dentry);
->>> - break;
->>> + return;
->>>    }
->>>      dput(dentry);
->>>    ctx->pos = xas.xa_index + 1;
->>>    }
->>> - return NULL;
->>>   }
->>>     /**
->>> @@ -551,22 +567,19 @@ static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
->>>   static int offset_readdir(struct file *file, struct dir_context *ctx)
->>>   {
->>>    struct dentry *dir = file->f_path.dentry;
->>> + long last_index = (long)file->private_data;
->>>      lockdep_assert_held(&d_inode(dir)->i_rwsem);
->>>      if (!dir_emit_dots(file, ctx))
->>>    return 0;
->>>   - /* In this case, ->private_data is protected by f_pos_lock */
->>> - if (ctx->pos == DIR_OFFSET_MIN)
->>> - file->private_data = NULL;
->>> - else if (file->private_data == ERR_PTR(-ENOENT))
->>> - return 0;
->>> - file->private_data = offset_iterate_dir(d_inode(dir), ctx);
->>> + offset_iterate_dir(d_inode(dir), ctx, last_index);
->>>    return 0;
->>>   }
->>>     const struct file_operations simple_offset_dir_operations = {
->>> + .open = offset_dir_open,
->>>    .llseek = offset_dir_llseek,
->>>    .iterate_shared = offset_readdir,
->>>    .read = generic_read_dir,
+
+See below clarification on above use of "actions"
+
+>> The CoC seeks public apology only when it is essential to repair the harm.
 > 
+> Limiting the CoC committee to seeking public apology, due to what it
+> means in terms of both process and goal, would deprive the committee
+> from many useful courses of action. I was expecting you were not limited
+> to this, and I appreciate that you are stating it clearly here. It is
+> not however clear from this patch, and I believe it would benefit the
+> whole community if this was explained better in the document. A more
+> detailed description of the different means of action and outcomes would
+> help balance the fact that the proceedings of the CoC committe are not
+> public.
+The actions CoC takes prior asking for a public apology are working
+with the individual to bring about change in their understanding the
+importance to repair damage caused by the behavior.
+
+Since these are measures to bring about change, the document doesn't
+go into the details about the logistics.
+
+If you have other possible courses of action in mind, please do state
+them.
+  
 > 
-> --
-> Chuck Lever
+> I would like to add that I appreciate the emphasis on rebuilding trust
+> as a goal, as I also believe trust and respect are essential. This
+> includes trust that victims will receive the support and protection they
+> need, trust that authors of behaviour deemed unfit by the community will
+> be treated fairly, and trust that the community will continuously work
+> on improving inclusiveness. All three aspects are needed to avoid
+> driving current and prospective community members away.
 > 
+>>> First, a ban or temporary suspension seems too mechanical and not in
+>>> proportion with the offence of failing to apologize. In my enforcement
+>>> thus far as maintainer and now also freedesktop.org CoC member we only use
+>>> punishment if behavior has failed to change _and_ we need to protect the
+>>> community from further harm. Usually it takes years to get to that point,
+>>> unless in extremely severe cases (like public harrassment campaigns) or
+>>> when the person stated that they refuse to even consider changing behavior
+>>> at all.
+>>
+>> Please see above. Public apology is necessary to repair and restore the
+>> health of the community in these rare cases when an individual doesn't
+>> understand that their behavior could cause harm. The CoC tries to get
+>> the individual to realize that offering a public apology is necessary
+>> to repair the harm and resume respectful and productive discussions.
+>>
+>>> Public means you're amping up the stakes and massively increase the odds
+>>> of people being afraid of their reputation and losing face. In my
+>>> experience people are a lot more reasonable when you discuss their
+>>> behavior and what needs to change in private. This even includes the case
+>>> where a temporary suspension had to be put in place already first, to
+>>> protect others.
+>>
+>> Please see above. The CoC works with the individual prior to taking the step
+>> of asking for an apology. It is a balancing act between repairing
+>> the harm caused to the individuals at the receiving end of the public
+>> unacceptable behavior and working with the individual to understand the
+>> harm done by such a behavior.
+>>
+>> The CoC is mindful of the negative impact of seeking public apology and
+>> instituting ban could have on individuals.
 > 
+> It could also be worth adding that, as Sima pointed out below, public
+> apology is sometimes not the best option for the victim.
+
+The CoC takes these into consideration during the investigation,
+before determining the best course of action.
+
+Some people may
+> be afraid to report bad behaviours if they thought that the story would
+> be made public by a requirement to apologize publicly. I have total
+> confidence that the CoC committee will consult with the victim to
+> determine the best course of action, and that is worth documenting
+> explicitly.
+> 
+
+Thank you for your confidence in the CoC.
+
+Please note that the CoC has the obligation to keep the reports
+and individual information private. This public apology is specific
+to a public violation that has taken place on a public email list.
+The information and details are already public.
+
+The CoC could receive reports from a community member who could be
+an observer and not the victim. The CoC has the responsibility to
+investigate all such public violations.
+
+The CoC has the obligation to keep the reports privates. The public
+part is where the individual who violated the agreed upon Code of
+Conduct is asked to apologize to in response to the thread in which
+the violation has taken place.
+
+thanks,
+-- Shuah
+
+
+
 
