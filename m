@@ -2,78 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC909C58D4
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 14:20:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4409C5902
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 14:29:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA32110E01F;
-	Tue, 12 Nov 2024 13:20:08 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dL8qCvPy";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82C6E10E16A;
+	Tue, 12 Nov 2024 13:29:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9115210E01F;
- Tue, 12 Nov 2024 13:20:07 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-43167ff0f91so49833115e9.1; 
- Tue, 12 Nov 2024 05:20:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731417606; x=1732022406; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=+RJ1NMa1jB4YevqeHSrW28hy579MbHP2ndXxmXrQdAk=;
- b=dL8qCvPyLE2FxY9pgZkw3obNDOzTNDN3GWBICZ5XuPBFvSuAidVEqY43+2/Gs8Qlj1
- FZLy6PTv1A91c2oRu5vxAGceSLVBSqzg5MFhf1Ol788gLarMvhO1/I8GRH6mJvp8vE16
- 9LSC0hYcR4tA1tIKrgFqZk0Wz9U1eXmm260xSSNWCZmqrMhOEBZiIFqxpkmWRiDx03/F
- Sw3JAkPjFI3KboNZ0NZ75YDxga7Itc2gDzR2BJQnHpKy/t2tiZzcNEQpJiWt1GQpUxl3
- 3A3r92H3DNol+VZspMTgfqRO3emM8VYMC9z9QhZj2rjwg01zOVRF9tEfoOVJl9/SiCiB
- 74rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731417606; x=1732022406;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+RJ1NMa1jB4YevqeHSrW28hy579MbHP2ndXxmXrQdAk=;
- b=NSFkD5SWsHOX1XYYh1ZJeUvP0SNJCr3Zj+H869IooCYxD5rHeX8Uq4WsiFsxJjThnB
- nQ49hXeXWAMdYKVgYPGm1+KY3KvmWnXBdXeFZJOhEfn+thWPiC9BcbJ6Srw0dRR1KuQv
- xLEAYpackJlf203NDuBSblnXKVZ6rVkloKY8QmgbvG9WNwQCBXfYL9QNzDBJ/RktvaF9
- jg5F2stA1DW/a87p0eJs55v+4BVx5hod9gSNKhVZlJePCtzVvfcJ8jkywgPxJXpRKg2S
- LoHlEXLybJsWzVze9dpzhFtUJZl253yBLIiWgzX9cw+MVWuLMJn0t7h3jMhHNzl4heUb
- yPYw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVsigXbhiD2kKOaYEktRzdzc4WHhDj2zfLuEO93g7ESeu93iiZIo5QLn2dicdZ4dyKw40Qh8W2eAg=@lists.freedesktop.org,
- AJvYcCXmzVcQUjumjAjQt8WFTvMCF4Cs0cwwvhfMJPzYxXak/DdOPIwnMEAqNGtBE+rXJDAyaj7IDfjI6zBk@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFrhjDLYxKgobyQn4CNpT2f043Q+xNF48LixOjHOKE2qhN8tLU
- XyKKqmpvl17H2LO1bVRCWOLcSD+SAuPUx6oRLt/obtbOOxtaLEHQ
-X-Google-Smtp-Source: AGHT+IFcy+h3FVW2hUep37o/iKMxNs6TxUByEJOBaG0afG7vcce/Vvw2QMhVc2yIJKrMe/bSSHTQzA==
-X-Received: by 2002:a05:6000:1a85:b0:37d:518f:995d with SMTP id
- ffacd0b85a97d-381f1835ba8mr15355680f8f.56.1731417605643; 
- Tue, 12 Nov 2024 05:20:05 -0800 (PST)
-Received: from localhost ([194.120.133.65]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-381fc0f5f91sm6940911f8f.62.2024.11.12.05.20.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Nov 2024 05:20:05 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm/a5xx: Fix dereference of pointer pdev before null
- check on pdev
-Date: Tue, 12 Nov 2024 13:20:05 +0000
-Message-Id: <20241112132005.469357-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3635C88A72
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 13:29:23 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4XnnFd32Zlz28fPc;
+ Tue, 12 Nov 2024 21:24:37 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id 2E74914035F;
+ Tue, 12 Nov 2024 21:29:20 +0800 (CST)
+Received: from localhost.huawei.com (10.169.71.169) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Tue, 12 Nov 2024 21:29:18 +0800
+From: Yongbang Shi <shiyongbang@huawei.com>
+To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>
+CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
+ <lidongming5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 drm-dp 0/4] Add dp module in hibmc driver
+Date: Tue, 12 Nov 2024 21:23:43 +0800
+Message-ID: <20241112132348.2631150-1-shiyongbang@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.169.71.169]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,37 +56,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pointer config is dereferencing pointer pdev before pdev is null
-checked, this could lead to a potential null pointer dereference on pdev.
-Fix this by only assinging config after pdev has been null checked.
+From: baihan li <libaihan@huawei.com>
 
-Fixes: 736a93273656 ("drm/msm/a5xx: really check for A510 in a5xx_gpu_init")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+Realizing the basic display function of DP cable for DP connector
+displaying. Add DP module in hibmc drm driver, which is for Hisilicon
+Hibmc SoC which used for Out-of-band management. Blow is the general
+hardware connection, both the Hibmc and the host CPU are on the same
+mother board.
+
++----------+       +----------+      +----- ----+      +----------------+
+|          | PCIe  |  Hibmc   |      |          |      |                |
+|host CPU( |<----->| display  |<---->| dp kapi  |<---->| dp aux moduel  |
+|arm64,x86)|       |subsystem |      |  moduel  |<---->| dp link moduel |
++----------+       +----------+      +----------+      +----------------+
+
 ---
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ChangeLog:
+v3 -> v4:
+  - retun error codes in  result incorrect branch, suggested by Dmitry Baryshkov.
+  - replacing all ret= with returns, suggested by Dmitry Baryshkov.
+  - moving the comment below the judgment statement, suggested by Dmitry Baryshkov.
+  - moving definations to the source file and clearing headers, suggested by Dmitry Baryshkov.
+  - reanaming dp_prefix to hibmc_dp_prefix, suggested by Dmitry Baryshkov.
+  - changing hibmc_dp_reg_write_field to static inline and lock, suggested by Dmitry Baryshkov.
+  - moving some structs to later patch, suggested by Dmitry Baryshkov.
+  - optimizing hibmc_dp_link_get_adjust_train() to delete for loop, suggested by Dmitry Baryshkov.
+  - changing ELNRNG to EIO error code, suggested by Dmitry Baryshkov.
+  - deleting meaningless macro, suggested by Dmitry Baryshkov.
+  - fixing build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
+  - changed the type of train_set to array, suggested by Dmitry Baryshkov.
+  - using actual link rate instead of magic num, suggested by Dmitry Baryshkov.
+  - deleting hibmc_dp_hw_uninit(), suggested by Dmitry Baryshkov.
+  - separating hibmc_vdac and hibmc_dp changes into separate patche, suggested by Dmitry Baryshkov.
+  - static int hibmc_dp_prepare(), suggested by Dmitry Baryshkov.
+  v3:https://lore.kernel.org/all/20241101105028.2177274-1-shiyongbang@huawei.com/
+v2 -> v3:
+  - put the macro definations in latter patch where they are actually used, suggested by Dmitry Baryshkov.
+  - rename some macro definations to make them sensible, suggested by Dmitry Baryshkov.
+  - using FIELD_PREP and FIELD_GET, suggested by Dmitry Baryshkov.
+  - using DP_DPCD_REV_foo, suggested by Dmitry Baryshkov.
+  - using switchcase in dp_link_reduce_lane, suggested by Dmitry Baryshkov.
+  - deleting dp_link_pattern2dpcd function and using macros directly, suggested by Dmitry Baryshkov.
+  - deleting EFAULT error codes, suggested by Dmitry Baryshkov.
+  - fix build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410250305.UHKDhtxy-lkp@intel.com/
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410250931.UDQ9s66H-lkp@intel.com/
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410251136.1m7BlR68-lkp@intel.com/
+  v2:https://lore.kernel.org/all/20241022124148.1952761-1-shiyongbang@huawei.com/
+v1 -> v2:
+  - using drm_dp_aux frame implement dp aux read and write functions, suggested by Jani Nikula.
+  - using drm dp header files' dp macros instead, suggested by Andy Yan.
+  - using drm_dp_* functions implement dp link training process, suggested by Jani Nikula.
+  - changed some defines and functions to former patch, suggested by Dmitry Baryshkov.
+  - sorting the headers including in dp_hw.h and hibmc_drm_drv.c files, suggested by Dmitry Baryshkov.
+  - deleting struct dp_mode and dp_mode_cfg function, suggested by Dmitry Baryshkov.
+  - modifying drm_simple_encoder_init function, suggested by Dmitry Baryshkov.
+  - refactoring struct hibmc_connector, suggested by Dmitry Baryshkov.
+  - withdrawing the modification in hibmc_kms_init, suggested by Dmitry Baryshkov.
+  - fix build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410040328.VeVxM9yB-lkp@intel.com/
+  v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
+---
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index ee89db72e36e..e83081346059 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -1753,7 +1753,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct platform_device *pdev = priv->gpu_pdev;
--	struct adreno_platform_config *config = pdev->dev.platform_data;
-+	struct adreno_platform_config *config;
- 	struct a5xx_gpu *a5xx_gpu = NULL;
- 	struct adreno_gpu *adreno_gpu;
- 	struct msm_gpu *gpu;
-@@ -1764,6 +1764,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
- 		DRM_DEV_ERROR(dev->dev, "No A5XX device is defined\n");
- 		return ERR_PTR(-ENXIO);
- 	}
-+	config = pdev->dev.platform_data;
- 
- 	a5xx_gpu = kzalloc(sizeof(*a5xx_gpu), GFP_KERNEL);
- 	if (!a5xx_gpu)
+baihan li (5):
+  drm/hisilicon/hibmc: add dp aux in hibmc drivers
+  drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
+  drm/hisilicon/hibmc: add dp hw moduel in hibmc driver
+  drm/hisilicon/hibmc: refactored struct hibmc_drm_private
+  drm/hisilicon/hibmc: add dp module in hibmc
+
+ drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   | 164 +++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  63 ++++
+ .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  19 +
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 217 +++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  28 ++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  | 339 ++++++++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  76 ++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 118 ++++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  12 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  19 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |  41 ++-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |  20 +-
+ 13 files changed, 1080 insertions(+), 39 deletions(-)
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+
 -- 
-2.39.5
+2.33.0
 
