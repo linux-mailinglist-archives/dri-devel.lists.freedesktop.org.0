@@ -2,59 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8B99C57D2
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 13:34:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB679C57D7
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2024 13:36:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04FC010E5D8;
-	Tue, 12 Nov 2024 12:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A794A10E5D6;
+	Tue, 12 Nov 2024 12:36:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="gOXIrwxv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G0bnS0a3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 970E810E5DE;
- Tue, 12 Nov 2024 12:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:Reply-To:Cc:From:References:To:Subject:MIME-Version:Date:
- Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
- Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
- In-Reply-To:References; bh=bz78wy1Ojt/VhaI70iMSW/EP3C6fegnHr1blD2YOME4=;
- t=1731414888; x=1731846888; b=gOXIrwxvY2UzkdsiqS+nfDqSaVdkbVFQiOXpt6zizljD4Ra
- QgaJ1mqz0amtYtacHq9c/U1z7DwAYhPyxImCrFgAakLGqhpMdV1vOJ3e82nNWBSg282la6j1AZr1l
- CLuU3liPAQ9nD+Xjl7hLjZ4wP+EQcFT6PJrXhbGDLiFRrvxazxg7z5NZjgypex2T4S+ndXMyW1NCn
- 9q3ZguUlrywLgFtHIn1W80Rsu5/3CXfO+gKKn5wuWT4HqEHgfEwvuuSuU9dJH9m/l1kqZcDnQv5fz
- YYiqmkUsM4suWuOkNbNK2DHnvUrNOk34MwrFsLR0o/cca83bpzTkdHMOm67nFdRw==;
-Received: from [2a02:8108:8980:2478:87e9:6c79:5f84:367d]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1tAq6T-00042N-MY; Tue, 12 Nov 2024 13:34:41 +0100
-Message-ID: <44c39c87-90e2-4a74-a185-752c14f6d711@leemhuis.info>
-Date: Tue, 12 Nov 2024 13:34:40 +0100
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0DC810E5D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 12:36:09 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-539e3f35268so6160114e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2024 04:36:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1731414967; x=1732019767; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=55qJsu5h0INFLgnNmir6cQ7CmnEfVY2DVhKrkSG90s0=;
+ b=G0bnS0a3bpon2PMC7kneK+JmlC0JygR6VQUBBv7Bsi7kvciGrTqZQaPQFl4jSqj8iI
+ LasIieSFyO9R/GIhVmANlUAx3dwKk1ZAIB1+S9y5m4G/eLndg8MFfKtCCdeN/G7O/tVu
+ II/Mgy3rba46G8aRi6VC4c1G8MkWVgblJ0LXPtixPrLaMPnoahsWFx0zQQ+tZ6h9lI3J
+ QyiguwR6CP4CK/MSRu+LKbCJEOpaQkqL9CeuB13AL4ix8stUVpFUNDhmKr6KHc014iQ3
+ k+927lwtZtToHAJA1omFm7uJi6ObUDyTmah2XXbTwOBfgLwMN3jkpytBYdt35bm2wO9q
+ 4bgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731414967; x=1732019767;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=55qJsu5h0INFLgnNmir6cQ7CmnEfVY2DVhKrkSG90s0=;
+ b=Ytd2+isjunitf0obSZ3mGjmTDNz01rz2BWgBvROkwBMm7AD4RecBv1gHukv7CifJ6I
+ FVz52ho+NNVEL+nAY79ZNl6w+MhXyMwwGjuCpZIjWfPbzG9aGMHkEOcLiP/YCb/9fxh2
+ Y1NDPsqC4os3xpR9nhSoneiwD9I9+XKq+b7unO+OpSnCxC9hc8lO4Xk562sJ7OXqPzO5
+ 0isBHAlu8o+EX2f2lLDWCWvOvDF4Oer97B+XHaLhwnt2jbWrk8U5n41XIqUX3JKt5NNm
+ bDM5ZX4asbJvkXGx+4YiOzQjxHAGGJrvA4Uw6a/IaiAKStd2kDfmrzWdBr++mU8HH/1l
+ ZU0Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU8eNdB2L0StQakacAsQgoLdy/XdbUZOsfgIdlxIshoVWeRaz2V2x4QIHRw6RnJUSQrh4QNlaBxAks=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3WijI6gXKGDYhrGhdt4SjWYSpr663r8mfcPSpRnpAmYhvqyBu
+ 2zEkAjUKmNr8+1eW9eniWsFmLAbUCW4NrwocXxQ6gDESVXaFwb7g
+X-Google-Smtp-Source: AGHT+IHsx/kWytBBYpAPDmuHhK+llPeTYF2ryp9YrQIRPUyU0CSPBldTT5ao8GlhQ7Zt4/6gTLKHIA==
+X-Received: by 2002:a05:6512:2387:b0:539:9645:97ab with SMTP id
+ 2adb3069b0e04-53d862c591bmr7685225e87.33.1731414967102; 
+ Tue, 12 Nov 2024 04:36:07 -0800 (PST)
+Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-381ed97db31sm15133733f8f.34.2024.11.12.04.36.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Nov 2024 04:36:06 -0800 (PST)
+Message-ID: <ab0007a3-6298-49e4-92d5-0732cbbdbba5@gmail.com>
+Date: Tue, 12 Nov 2024 13:36:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] GM20B pmu timeout
-To: airlied@gmail.com
-References: <20241010133253.30311-1-diogo.ivo@tecnico.ulisboa.pt>
- <041511ee-4556-422a-8604-30b5e0dfd21c@leemhuis.info>
- <D5DDUQJOZ4HW.1XDOASECJR714@tecnico.ulisboa.pt>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-MW
-Cc: kherbst@redhat.com, linux-kernel@vger.kernel.org, dakr@redhat.com,
- lyude@redhat.com, bskeggs@nvidia.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- Danilo Krummrich <dakr@kernel.org>
-In-Reply-To: <D5DDUQJOZ4HW.1XDOASECJR714@tecnico.ulisboa.pt>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1731414888;
- c9f82ce0; 
-X-HE-SMSGID: 1tAq6T-00042N-MY
+Subject: Re: Document drm_sched_fini and add some warnings and a BUG_ON()
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: pstanner@redhat.com, dakr@kernel.org, ltuikov89@gmail.com,
+ simona.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>
+References: <20240927142755.103076-1-christian.koenig@amd.com>
+Content-Language: en-US
+In-Reply-To: <20240927142755.103076-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,57 +82,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[CCing Danilo, who committed the culprit]
+Gentle ping.
 
-On 04.11.24 13:11, Diogo Ivo wrote:
-> On Tue Oct 15, 2024 at 7:13 PM WEST, Linux regression tracking (Thorsten Leemhuis) wrote:
->> On 10.10.24 15:32, Diogo Ivo wrote:
->>>
->>> Somewhere between 6.11-rc4 and 6.11-rc5 the following error message is displayed
->>> when trying to initialize a nvc0_screen on the Tegra X1's GM20B:
->>>
->>> [ 34.431210] nouveau 57000000.gpu: pmu:hpq: timeout waiting for queue ready
->>> [ 34.438145] nouveau 57000000.gpu: gr: init failed, -110
->>> nvc0_screen_create:1075 - Error allocating PGRAPH context for M2MF: -110
->>> failed to create GPU screen
->>
->> Thx for the report. Hmmm. No reply so far. :-/
->>
->> Diogo, maybe report this here as well:
->> https://gitlab.freedesktop.org/drm/nouveau/-/issues/
->>
->> Afterwards drop a link to the ticket here. Reporting nouveau issues via
->> email should work, but maybe you have more luck there.
-> 
-> Gentle ping on this topic.
+Dave Philip noted in private chat that you had some comments? I don't 
+see anything in my inbox.
 
-@airlied: I missed this earlier (and I assume you did, too), but seems
-this regression is caused by the following change of yours:
-9b340aeb26d50e ("nouveau/firmware: use dma non-coherent allocator")
+Thanks,
+Christian.
 
-For the full report see the start of the thread here:
-https://lore.kernel.org/all/20241010133253.30311-1-diogo.ivo@tecnico.ulisboa.pt/
+Am 27.09.24 um 16:27 schrieb Christian König:
+> Sorry for sending incomplete patches earlier today, I've messed up my
+> branch and had to re-create it.
+>
+> Let's try this again,
+> Christian.
+>
+>
 
-Diogo submitted an issue to the nouveau tracker as well:
-https://gitlab.freedesktop.org/drm/nouveau/-/issues/391
-
-Another user just joined and reported seeing similar problems.
-
-And I just noticed there is another regression report bisected to the
-same change:
-https://gitlab.freedesktop.org/drm/nouveau/-/issues/388
-
-Two users there are affected by the change; one of them in the 6.6.y
-series and a revert there was able to fix this.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
-
-#regzbot poke
