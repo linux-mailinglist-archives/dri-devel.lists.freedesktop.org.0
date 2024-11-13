@@ -2,82 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97329C6EB4
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 13:10:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4786F9C7081
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 14:24:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2F4B10E6E0;
-	Wed, 13 Nov 2024 12:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E949310E6F2;
+	Wed, 13 Nov 2024 13:24:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IxUquB8u";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="L66uwNj0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A407E10E6E5
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 12:09:54 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-e35e9e993f9so1311243276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 04:09:54 -0800 (PST)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF23F10E6E2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 12:10:38 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id
+ af79cd13be357-7b1488fde46so492470385a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 04:10:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731499794; x=1732104594; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vurz8Z4ymLq0OAC/znWews1WaS5VvMmTAw7TGG6DFzQ=;
- b=IxUquB8uiQhA6cPrjgWi6O1XkYYQXgxQN7GWJdZaxr8TFZ0K7t9XCF9R/Gi0Ljuf/9
- B2AjsnIA+LzIEu+Ho5Ubpt5dfuWM/K25taEqy+Kn9FQg2zW2cJM1cBelZHOyMtDgSg1D
- +bk6vQbyHH45VGgPVJCe8XXBFgX/MvqNlxk9f3SAezHlOTPt0PJIwASNXqifCnIMQBHm
- T+2w8pbMAvHUgvu2DoPcF5vo8ruoGZ/UKkQksbiUJCx7h2++Bd3JE7aY5bEHLNpRg9HB
- DDl1JhgA8v+DQLAnuiHuxoc5MskhNr23Oh3X9lVY9nWvfHhloYsoAV1lx/gwh8qJJBHe
- 6xMw==
+ d=broadcom.com; s=google; t=1731499838; x=1732104638;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BWGgKKfnruIFCmNAQq/RA1NoQPeaVY6VHLTnlmnX0Gs=;
+ b=L66uwNj0E4HIWvOyvbDFOGEEQE4BTptk76iM+l7aphqzzDRaCiidFmZi23szL8PlRp
+ tt4x8k75KTmHCLikUtqqRF98OgV2cuQ8+isSUG6OdN+ScCJvT78EJlsqQQtPyS5GADsz
+ 0P4dyipOodUW56RiDfIXD09FaVKdIqlmOonHw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731499794; x=1732104594;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1731499838; x=1732104638;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=vurz8Z4ymLq0OAC/znWews1WaS5VvMmTAw7TGG6DFzQ=;
- b=BRx6g1PLVZV1wKaPkvOJFNCQ8dv1F9gXDe0K5gU0jCtnodBP2gWh2u08OYOTlFPDBD
- SjVdoKl5vKMfMIgpZoV7Wg0ZTd44Cl3hpAtsQEt/VJ76t0pD9FlxvOI3xCTo/TbxVq+e
- T2SotYknNHaz5IRCmg1vZIXqR0sOsb43RbKt82uh0GcD9+bRA2gGUh559Un/GjgdCHJl
- fqpYa5CXcAIz6RqS/KWlNu59uMxppTg2o2odQBP2sRCybROIKEVHGDpwWMC2MMty49ij
- x7Iy/TtrNlUixUmimOEPE3GWF6Sd9dB57Rvp7dXrXYyJZJuRC9rAygrh4eK66B5l6fEn
- yFyg==
+ bh=BWGgKKfnruIFCmNAQq/RA1NoQPeaVY6VHLTnlmnX0Gs=;
+ b=JGNhJQflkzghA+kQAMEsvPK6CZYXakInVCTfAhE188717noWxXNbQpGJdjGJKlIotP
+ IaQym7rsVr9axwyoERf7f170RnnoNyG797kOSCcLOgRDbmVszvMdDOLV2jXYC1UMPd6f
+ 6RkQn4NUtlr5wAhG4zdCNtp26HY58hd+vBkZI39Exz9E61GWP+Rzcf7/I7qMFk16yl4L
+ KmRddvbEKUx9KIW4inEtFNRxzmqvWL1S8lasfFwUqVbu4KGBhdXMf98mqoXDpx1MJhdt
+ 5ycXU5tYtInpyAr8ovqQxhocDqACH6ziWOFH5AneSvsDA9fP8LQpUnN8bEvIspeHtSmQ
+ E4vg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXRqISEvGUjIsi/xJ6sBJS5qKh5eDXnbUjC5bFkWddHXDGBRewq4x7yR90Nt9o/T3F1bWcQVpaG6EM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7jur3ElLfeD7j0R7qF9wJ4FfbVq2ZrnI5Vz6cLdpzIvOFvAcb
- CcpCbm43cWob0t2/JP14IvDC33EupqUApSLP1s9DGB3MVrNeCRBQ7HuH7X2YeEGRmPrLLiSYQN8
- 7T2I5qxG1ZPLeFzGSXdBLfQ7BEIHlP4wioMM7/w==
-X-Google-Smtp-Source: AGHT+IEbVbENHDimLrclLq81k2K+eV3PjRDffS3YjYrYwNAjJe5acWC3fJAW8eAeTcDDEGpWp1iOm9mjfIL5BjU6U0s=
-X-Received: by 2002:a05:6902:848:b0:e30:d4e4:b9ea with SMTP id
- 3f1490d57ef6-e33a1f73693mr11483612276.28.1731499793667; Wed, 13 Nov 2024
- 04:09:53 -0800 (PST)
+ AJvYcCWDB3HxM8CN+bA1vsbHiyJGXGgM37OI1eeZiH6JF3CuPuLicv79EME6SI6weMQYZqGEp94IOp8YR2g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxw3nZ3/OSaOUyD/X+bEHlel9LpeWms4ubzugvGQ/C/ZNXa/LpZ
+ SkeJ0WdbgOprCorO0anG24cef5uXIRTWMyuzYypbFuACNBPBI4R6QBLi/rMOaw==
+X-Google-Smtp-Source: AGHT+IFjtssmcQYSDLPWHMXFElrFwUn5PC8jwBOpMwg6tt3NwANpV7HOJmiNf1o83ySdAhKvsm1rwg==
+X-Received: by 2002:a05:620a:4244:b0:7ac:b197:3004 with SMTP id
+ af79cd13be357-7b331ebcd1emr2427155885a.29.1731499837429; 
+ Wed, 13 Nov 2024 04:10:37 -0800 (PST)
+Received: from vb004028-vm1.. ([192.19.161.250])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7b32acae494sm683467685a.73.2024.11.13.04.10.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Nov 2024 04:10:36 -0800 (PST)
+From: Vamsi Krishna Brahmajosyula <vamsi-krishna.brahmajosyula@broadcom.com>
+To: stable@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Cc: Philip.Yang@amd.com, Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ ajay.kaher@broadcom.com, alexey.makhalov@broadcom.com,
+ vasavi.sirnapalli@broadcom.com, Felix Kuehling <felix.kuehling@amd.com>,
+ Sasha Levin <sashal@kernel.org>,
+ Vamsi Krishna Brahmajosyula <vamsi-krishna.brahmajosyula@broadcom.com>
+Subject: [PATCH v6.1] drm/amdkfd: amdkfd_free_gtt_mem clear the correct pointer
+Date: Wed, 13 Nov 2024 12:10:30 +0000
+Message-Id: <20241113121030.2405520-1-vamsi-krishna.brahmajosyula@broadcom.com>
+X-Mailer: git-send-email 2.39.4
 MIME-Version: 1.0
-References: <20241113-add-display-support-for-qcs615-platform-v2-0-2873eb6fb869@quicinc.com>
- <20241113-add-display-support-for-qcs615-platform-v2-4-2873eb6fb869@quicinc.com>
-In-Reply-To: <20241113-add-display-support-for-qcs615-platform-v2-4-2873eb6fb869@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 13 Nov 2024 14:09:42 +0200
-Message-ID: <CAA8EJpp2MyXZ28GQV3GDgQp9uCbr4devi++nzkeHA1fk6UZXxw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/9] drm/msm/dpu: Add QCS615 support
-To: Fange Zhang <quic_fangez@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Li Liu <quic_lliu6@quicinc.com>, 
- Xiangxu Yin <quic_xiangxuy@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 13 Nov 2024 13:23:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,27 +87,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Nov 2024 at 13:53, Fange Zhang <quic_fangez@quicinc.com> wrote:
->
-> From: Li Liu <quic_lliu6@quicinc.com>
->
-> Add definitions for the display hardware
-> used on the Qualcomm QCS615 platform.
->
-> Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
-> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
-> ---
->  .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_qcs615.h | 263 +++++++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
->  4 files changed, 266 insertions(+)
->
+From: Philip Yang <Philip.Yang@amd.com>
 
-This patch completely ignored some bits of the review done for v1.
-Please take a step back, check what you have missed, respond to those
-comments, etc.
+[ Upstream commit c86ad39140bbcb9dc75a10046c2221f657e8083b ]
 
+Pass pointer reference to amdgpu_bo_unref to clear the correct pointer,
+otherwise amdgpu_bo_unref clear the local variable, the original pointer
+not set to NULL, this could cause use-after-free bug.
+
+Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Vamsi Krishna Brahmajosyula <vamsi-krishna.brahmajosyula@broadcom.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         | 14 +++++++-------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            |  4 ++--
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c       |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c           |  2 +-
+ .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |  4 ++--
+ 8 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+index 5d9a34601a1a..c31e5f9d63da 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+@@ -344,15 +344,15 @@ int amdgpu_amdkfd_alloc_gtt_mem(struct amdgpu_device *adev, size_t size,
+ 	return r;
+ }
+ 
+-void amdgpu_amdkfd_free_gtt_mem(struct amdgpu_device *adev, void *mem_obj)
++void amdgpu_amdkfd_free_gtt_mem(struct amdgpu_device *adev, void **mem_obj)
+ {
+-	struct amdgpu_bo *bo = (struct amdgpu_bo *) mem_obj;
++	struct amdgpu_bo **bo = (struct amdgpu_bo **) mem_obj;
+ 
+-	amdgpu_bo_reserve(bo, true);
+-	amdgpu_bo_kunmap(bo);
+-	amdgpu_bo_unpin(bo);
+-	amdgpu_bo_unreserve(bo);
+-	amdgpu_bo_unref(&(bo));
++	amdgpu_bo_reserve(*bo, true);
++	amdgpu_bo_kunmap(*bo);
++	amdgpu_bo_unpin(*bo);
++	amdgpu_bo_unreserve(*bo);
++	amdgpu_bo_unref(bo);
+ }
+ 
+ int amdgpu_amdkfd_alloc_gws(struct amdgpu_device *adev, size_t size,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+index 4b694886715c..c7672a1d1560 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+@@ -210,7 +210,7 @@ int amdgpu_amdkfd_evict_userptr(struct kgd_mem *mem, struct mm_struct *mm)
+ int amdgpu_amdkfd_alloc_gtt_mem(struct amdgpu_device *adev, size_t size,
+ 				void **mem_obj, uint64_t *gpu_addr,
+ 				void **cpu_ptr, bool mqd_gfx9);
+-void amdgpu_amdkfd_free_gtt_mem(struct amdgpu_device *adev, void *mem_obj);
++void amdgpu_amdkfd_free_gtt_mem(struct amdgpu_device *adev, void **mem_obj);
+ int amdgpu_amdkfd_alloc_gws(struct amdgpu_device *adev, size_t size,
+ 				void **mem_obj);
+ void amdgpu_amdkfd_free_gws(struct amdgpu_device *adev, void *mem_obj);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index e3cd66c4d95d..f83574107eb8 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -408,7 +408,7 @@ static int kfd_ioctl_create_queue(struct file *filep, struct kfd_process *p,
+ 
+ err_create_queue:
+ 	if (wptr_bo)
+-		amdgpu_amdkfd_free_gtt_mem(dev->adev, wptr_bo);
++		amdgpu_amdkfd_free_gtt_mem(dev->adev, (void **)&wptr_bo);
+ err_wptr_map_gart:
+ err_alloc_doorbells:
+ err_bind_process:
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+index 27820f0a282d..e2c055abfea9 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+@@ -673,7 +673,7 @@ bool kgd2kfd_device_init(struct kfd_dev *kfd,
+ kfd_doorbell_error:
+ 	kfd_gtt_sa_fini(kfd);
+ kfd_gtt_sa_init_error:
+-	amdgpu_amdkfd_free_gtt_mem(kfd->adev, kfd->gtt_mem);
++	amdgpu_amdkfd_free_gtt_mem(kfd->adev, &kfd->gtt_mem);
+ alloc_gtt_mem_failure:
+ 	if (kfd->gws)
+ 		amdgpu_amdkfd_free_gws(kfd->adev, kfd->gws);
+@@ -693,7 +693,7 @@ void kgd2kfd_device_exit(struct kfd_dev *kfd)
+ 		kfd_doorbell_fini(kfd);
+ 		ida_destroy(&kfd->doorbell_ida);
+ 		kfd_gtt_sa_fini(kfd);
+-		amdgpu_amdkfd_free_gtt_mem(kfd->adev, kfd->gtt_mem);
++		amdgpu_amdkfd_free_gtt_mem(kfd->adev, &kfd->gtt_mem);
+ 		if (kfd->gws)
+ 			amdgpu_amdkfd_free_gws(kfd->adev, kfd->gws);
+ 	}
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index 1b7b29426480..3ab0a796af06 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -2392,7 +2392,7 @@ static void deallocate_hiq_sdma_mqd(struct kfd_dev *dev,
+ {
+ 	WARN(!mqd, "No hiq sdma mqd trunk to free");
+ 
+-	amdgpu_amdkfd_free_gtt_mem(dev->adev, mqd->gtt_mem);
++	amdgpu_amdkfd_free_gtt_mem(dev->adev, &mqd->gtt_mem);
+ }
+ 
+ void device_queue_manager_uninit(struct device_queue_manager *dqm)
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
+index 623ccd227b7d..c733d6888c30 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
+@@ -204,7 +204,7 @@ void kfd_free_mqd_cp(struct mqd_manager *mm, void *mqd,
+ 	      struct kfd_mem_obj *mqd_mem_obj)
+ {
+ 	if (mqd_mem_obj->gtt_mem) {
+-		amdgpu_amdkfd_free_gtt_mem(mm->dev->adev, mqd_mem_obj->gtt_mem);
++		amdgpu_amdkfd_free_gtt_mem(mm->dev->adev, &mqd_mem_obj->gtt_mem);
+ 		kfree(mqd_mem_obj);
+ 	} else {
+ 		kfd_gtt_sa_free(mm->dev, mqd_mem_obj);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+index 5bca6abd55ae..9582c9449fff 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+@@ -1052,7 +1052,7 @@ static void kfd_process_destroy_pdds(struct kfd_process *p)
+ 
+ 		if (pdd->dev->shared_resources.enable_mes)
+ 			amdgpu_amdkfd_free_gtt_mem(pdd->dev->adev,
+-						   pdd->proc_ctx_bo);
++						   &pdd->proc_ctx_bo);
+ 		/*
+ 		 * before destroying pdd, make sure to report availability
+ 		 * for auto suspend
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+index 99aa8a8399d6..1918a3c06ac8 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+@@ -441,9 +441,9 @@ int pqm_destroy_queue(struct process_queue_manager *pqm, unsigned int qid)
+ 
+ 		if (dev->shared_resources.enable_mes) {
+ 			amdgpu_amdkfd_free_gtt_mem(dev->adev,
+-						   pqn->q->gang_ctx_bo);
++						   &pqn->q->gang_ctx_bo);
+ 			if (pqn->q->wptr_bo)
+-				amdgpu_amdkfd_free_gtt_mem(dev->adev, pqn->q->wptr_bo);
++				amdgpu_amdkfd_free_gtt_mem(dev->adev, (void **)&pqn->q->wptr_bo);
+ 
+ 		}
+ 		uninit_queue(pqn->q);
 -- 
-With best wishes
-Dmitry
+2.39.4
+
