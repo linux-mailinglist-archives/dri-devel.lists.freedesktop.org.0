@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855D69C6CC8
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 11:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 874279C6CD9
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 11:28:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3DD210E6BF;
-	Wed, 13 Nov 2024 10:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81E0F10E6C6;
+	Wed, 13 Nov 2024 10:28:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eenX3yrZ";
+	dkim=pass (1024-bit key; secure) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="i0AznSW2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9E410E6BF
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 10:23:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731493423; x=1763029423;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=1NJclrHY+c/0JlcxaJ85QCbt7t3fjkwkvW8wdas1LCQ=;
- b=eenX3yrZEAe+gtZg9yureEVQ3dTWWnI3OVCkxa5v/1DT4SfYqEenxxPN
- dGR8tfuk+Czv/0AP+lfry++r1igwfbOR1CGddObAJpDbXW0vbS6oQG790
- c/nN9878NqjS7Rog/0sTexSqj/BVjazQkJ0tA0QJ7x73XGsFAefJ5xkYR
- UOWsL1a5y3RYq2qwneGJcrC9VrkwjEaFCty+q0TQBGu8GTraM/uD5BiTJ
- TQDMb41AUp5bZL8hMzp6DixPuO5AmFD7kvY4NiFt7r0UDjddo1ACG+0vZ
- Zd0OF87vYrNLHNrKZHRc+PJFwbmElGWxIwFgr89JMqxpb3508fI5y7Og1 g==;
-X-CSE-ConnectionGUID: UlPn2ctzTA+kdE/UeWMTug==
-X-CSE-MsgGUID: dIJwcSdRSnKqzpyqUzFkDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31470034"
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; d="scan'208";a="31470034"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2024 02:23:43 -0800
-X-CSE-ConnectionGUID: 8Op7CCtYSWurJjgt1Vi00A==
-X-CSE-MsgGUID: RICydwwyTI2mbvr3l7pNHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; d="scan'208";a="87992111"
-Received: from lhuot-mobl.amr.corp.intel.com (HELO [10.245.80.201])
- ([10.245.80.201])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2024 02:23:42 -0800
-Message-ID: <1090e813-3296-45b7-b51e-eae7d7e71da0@linux.intel.com>
-Date: Wed, 13 Nov 2024 11:23:38 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Fix Qemu crash when running in passthrough
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com, stable@vger.kernel.org,
- Karol Wachowski <karol.wachowski@linux.intel.com>
-References: <20241106105549.2757115-1-jacek.lawrynowicz@linux.intel.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20241106105549.2757115-1-jacek.lawrynowicz@linux.intel.com>
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C32610E6C5;
+ Wed, 13 Nov 2024 10:28:06 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 0ADF06002995;
+ Wed, 13 Nov 2024 10:28:04 +0000 (WET)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id ImfuLPTuPxcW; Wed, 13 Nov 2024 10:28:01 +0000 (WET)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 67CB2600299D;
+ Wed, 13 Nov 2024 10:28:01 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+ s=mail; t=1731493681;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ccZyF2YdctOG/jDywK4v0Y0OCscfIVmrLzvgDchdxdM=;
+ b=i0AznSW2+eCaAbs0rXf2fNSw0BDaUMiCp4ZfpzPLw34VIusbw4RkQZZ0uNvfEzmt6WZht7
+ kEUskLavCse2gMzGyVuhqUMx51AXF096dE4yLqEVfhsArQSx1f91jz1Zp7u24Gn5xBT29F
+ GPpJEZ6QsHx84mZ+AE65ACeewSvp9fw=
+Received: from localhost (unknown [165.225.92.235])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 444D636015A;
+ Wed, 13 Nov 2024 10:27:59 +0000 (WET)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 13 Nov 2024 10:27:53 +0000
+Message-Id: <D5KZA4FBPDXD.2NKXWOH7UM2VJ@tecnico.ulisboa.pt>
+Cc: <kherbst@redhat.com>, <linux-kernel@vger.kernel.org>, <dakr@redhat.com>,
+ <lyude@redhat.com>, <bskeggs@nvidia.com>, <simona@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>, "Danilo
+ Krummrich" <dakr@kernel.org>
+Subject: Re: [REGRESSION] GM20B pmu timeout
+From: "Diogo Ivo" <diogo.ivo@tecnico.ulisboa.pt>
+To: "Dave Airlie" <airlied@gmail.com>, "Linux regressions mailing list"
+ <regressions@lists.linux.dev>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241010133253.30311-1-diogo.ivo@tecnico.ulisboa.pt>
+ <041511ee-4556-422a-8604-30b5e0dfd21c@leemhuis.info>
+ <D5DDUQJOZ4HW.1XDOASECJR714@tecnico.ulisboa.pt>
+ <44c39c87-90e2-4a74-a185-752c14f6d711@leemhuis.info>
+ <CAPM=9txeL+WxYuuGYyhGouXYC0=Y=YS=k=-4G74JbfT2mvkn2g@mail.gmail.com>
+In-Reply-To: <CAPM=9txeL+WxYuuGYyhGouXYC0=Y=YS=k=-4G74JbfT2mvkn2g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,33 +75,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next
+Hi Dave,
 
-On 11/6/2024 11:55 AM, Jacek Lawrynowicz wrote:
-> Restore PCI state after putting the NPU in D0.
-> Restoring state before powering up the device caused a Qemu crash
-> if NPU was running in passthrough mode and recovery was performed.
-> 
-> Fixes: 3534eacbf101 ("accel/ivpu: Fix PCI D0 state entry in resume")
-> Cc: <stable@vger.kernel.org> # v6.8+
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-> ---
->  drivers/accel/ivpu/ivpu_pm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-> index 59d3170f5e354..5aac3d64045d3 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.c
-> +++ b/drivers/accel/ivpu/ivpu_pm.c
-> @@ -73,8 +73,8 @@ static int ivpu_resume(struct ivpu_device *vdev)
->  	int ret;
->  
->  retry:
-> -	pci_restore_state(to_pci_dev(vdev->drm.dev));
->  	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D0);
-> +	pci_restore_state(to_pci_dev(vdev->drm.dev));
->  
->  	ret = ivpu_hw_power_up(vdev);
->  	if (ret) {
+On Tue Nov 12, 2024 at 7:59 PM WET, Dave Airlie wrote:
+> On Tue, 12 Nov 2024 at 22:34, Linux regression tracking (Thorsten
+> Leemhuis) <regressions@leemhuis.info> wrote:
+> >
+> > [CCing Danilo, who committed the culprit]
+> >
+> > On 04.11.24 13:11, Diogo Ivo wrote:
+> > > On Tue Oct 15, 2024 at 7:13 PM WEST, Linux regression tracking (Thors=
+ten Leemhuis) wrote:
+> > >> On 10.10.24 15:32, Diogo Ivo wrote:
+> > >>>
+> > >>> Somewhere between 6.11-rc4 and 6.11-rc5 the following error message=
+ is displayed
+> > >>> when trying to initialize a nvc0_screen on the Tegra X1's GM20B:
+> > >>>
+> > >>> [ 34.431210] nouveau 57000000.gpu: pmu:hpq: timeout waiting for que=
+ue ready
+> > >>> [ 34.438145] nouveau 57000000.gpu: gr: init failed, -110
+> > >>> nvc0_screen_create:1075 - Error allocating PGRAPH context for M2MF:=
+ -110
+> > >>> failed to create GPU screen
+> > >>
+> > >> Thx for the report. Hmmm. No reply so far. :-/
+>
+> Apologies for the delay and thanks to Thorsten for bringing it up again,
+>
+> Does the attached patch fix it?
 
+Yes, the GPU is booting again. Thanks for looking into this!
+
+Diogo
