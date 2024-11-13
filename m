@@ -2,71 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516F49C707C
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 14:24:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6F79C707A
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 14:24:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5250910E6ED;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58E4C10E6EF;
 	Wed, 13 Nov 2024 13:23:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="T1pDKRCY";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="YVETseHF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA39B10E36F
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 09:00:31 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-71e52582cf8so5311619b3a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 01:00:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1731488431; x=1732093231; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=5Fvap02PjhZeDB/6aMVoZItVlwplGYl4WKDWPSr0Pzg=;
- b=T1pDKRCYE6EU5GOB78zNQxUBCgKxVqWBA4Hx0vQjxgtLArJr92Gfk9ee0J9xOjSLGM
- FYjmi7PTKPNjIqe9memzYlegMKOemBhwWg3tpp91Dp1ERyx14ieeQdfkgxNwT+ohRcWv
- N4xUR1dEe0ATVgGAyZRoXK2HINfTj3dYV3OOzp1E/r9WL+yjTnzIXdz1MydIZrNJkJCF
- Y6VuFr2yvbOy1uBEH5fC+smhyrpsvsP0xptLb9oiZ/aAdDiHWSZIzjce2ZATTgN1rV6i
- Qef6tLZ5oDnKbY5XMu3Bb3sYqN3x3diIJpZZ3/w2yi56v/nziFNYau29OM/+X0GkGJwl
- ciMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731488431; x=1732093231;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5Fvap02PjhZeDB/6aMVoZItVlwplGYl4WKDWPSr0Pzg=;
- b=IGeIs6bv9ylEnwcDZ1ijzGTRthqOB7oe/bOmCOeFynjgK/yaX29pmJPR44LgT+CEH0
- ie3sNLeW3tS7ahO1ZMrzLigc6Q0fTWR7RNgjMLTQzUycEveLDNMEo+xhH77IMY8anKyY
- BjMHRBpUoL6aFddTE9p5iKQPNCOBBTKB7GaXEWtE4ZfF8zwrL4X8YyeunrMXix8SEpDS
- XItP9Xob6MGzomUuVuATsg5O+2fOE7qIZ6ZM/RFeylQALuDJD288bWrhcSYlqdxKb0FC
- 0azz5wOiRuZAp0+8QINaEPDoYaX4BmsvU5przL+6t8qM+OfwundQ5bBI8OpT0KLY7K07
- AGlQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWheTdBh4yET9VSw6Ml5ug5Aq5gotJ4o+I3St5j5USiUx97Fnwpg8KoLYhTp10RJ5X0bX25VVlPHrA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxpnisfrr8SZ7zkXySrYWpj3yecJ2sIGA/jkg83025qSG7TljY6
- gK4Tk9qof8He/TXftHfIHw3omWBe6KvfGdjEStKtZQZDwIhQLrsT2P4GLHirmXE=
-X-Google-Smtp-Source: AGHT+IEKq5+fRsVy6UZozj3I1QwgDyM+oocitFdcrf6q6LPoOuN017PUnrLbnwFeBeH1HJrMRxUKvQ==
-X-Received: by 2002:a05:6a00:3988:b0:71e:ed6:1cab with SMTP id
- d2e1a72fcca58-724133b25e5mr23901143b3a.26.1731488431163; 
- Wed, 13 Nov 2024 01:00:31 -0800 (PST)
-Received: from DGP100339560-10.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-72407991bc8sm12787200b3a.96.2024.11.13.01.00.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Nov 2024 01:00:30 -0800 (PST)
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-To: dianders@chromium.org, thierry.reding@gmail.com, sam@ravnborg.org,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: dianders@google.com, Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH] drm/panel-edp: Add KDB KD116N2130B12
-Date: Wed, 13 Nov 2024 17:00:22 +0800
-Message-Id: <20241113090022.332586-1-yelangyan@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 018C510E205;
+ Wed, 13 Nov 2024 11:52:56 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AD7usm5030530;
+ Wed, 13 Nov 2024 11:52:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=0BfW0mwwK/RB1gSytGAIpA
+ He7yoP9uFrYSI4uI6UUZ4=; b=YVETseHFCG8cug3yuQ0XMx2vgGGMoiQ9BSrcpU
+ LWSkFkCpEOdGmhoPP2T1j9T9p+Q1xFTUSAUxNy5cc8x/x/YyoYUGOYuWk0+vqU+n
+ yfZoei37uOdHTblWQ1rWs+AGxlhDeCVPo4iloZThaYVaKJitiSj0bZSBc+k27X2F
+ SrlQzdnEdAVv6Y4r0orZnibUBijEp44OhlZard+lgvuzkc0GXYS+LIVMwlE552xf
+ tZ4fOYrg5vC/CDaSTZWBOxZroZjLobCI+bD+ca0qV05M8GBDCn5XhmMNTKQZCXs8
+ yKV8ml2UOCL0wz8pnmdfSvVIoh8dHmHH/1t40rAV/4BchM8A==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42vr5y0k41-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Nov 2024 11:52:47 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ADBqkNv023365
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Nov 2024 11:52:46 GMT
+Received: from robotics-lnxbld017.ap.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 13 Nov 2024 03:52:39 -0800
+From: Fange Zhang <quic_fangez@quicinc.com>
+Subject: [PATCH v2 0/9] Add display support for QCS615 platform
+Date: Wed, 13 Nov 2024 19:51:42 +0800
+Message-ID: <20241113-add-display-support-for-qcs615-platform-v2-0-2873eb6fb869@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOKSNGcC/5WS3YrbMBCFXyX4ugoa/dkOpfQ9lsXImlEjaluJ5
+ Jhul7x7ZSdL6c9FcnkG5jujo/NeZUqBcnXYvVeJlpBDnIoQn3aVO9rpG7GARVeCCwUAgllEhiG
+ fBvvG8uV0imlmPiZ2dtmAZmU+FzkyUytC4xoCzatCOyXy4cfm9PJ604nOl2I434bVSDnbzfCw+
+ 7z5cSE+uG6I7jvDFBZKbFFMMIk1GIsc26b+WkAuTG7v4vhldXuKpZ5lAVdrDl2Ywhzs0N1z6Mr
+ Du7vHohlnLSI1WPcN7/lDWM2lAF7vW61FOWtd6c7nn8d4eWS9ABolJeyFNsooyeBGWNBi+cvw0
+ AnNR0rjeAvKxWlOcRjWrGR5VI2yFyik9uifJuLMpoiU2QIF1QtjWmcdN0L9g+ptJlbEGObDrhV
+ tT9b3VFvnSApTlyUATSCJS+8Naa5VY6u1WseQ55jetk4vsHXrHpB8uL7bfeTqFkTrlVd/3Le5L
+ OI3mcOtEHfyfwuxAhV5Cy1gj/gX8Hq9/gKb8v4YjAMAAA==
+X-Change-ID: 20241112-add-display-support-for-qcs615-platform-674ed6c8e150
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ "Bjorn Andersson" <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, "Li Liu" <quic_lliu6@quicinc.com>,
+ Fange Zhang <quic_fangez@quicinc.com>,
+ "Xiangxu Yin" <quic_xiangxuy@quicinc.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1731498757; l=6520;
+ i=quic_fangez@quicinc.com; s=20241014; h=from:subject:message-id;
+ bh=46/Ey+YEHt4Pvbsre6EY4dkMGTbt3Z0H9At3392O4dk=;
+ b=6GdQhj6KMBQNAYuNIJNpiHQtoIuTK338b3Rw1IX8rd3mzJvdK4uAC7VccJSAl1JZWAAz5lxml
+ Z0Ysi0MYuRwDL6FkZ8LWdNt9Ra/0Cu9ZSIOHi8acoyI/0rSEUOvqFs7
+X-Developer-Key: i=quic_fangez@quicinc.com; a=ed25519;
+ pk=tJv8Cz0npA34ynt53o5GaQfBC0ySFhyb2FGj+V2Use4=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: DuMNqlqN2PUdarahakdHA5NO9rCAFoqr
+X-Proofpoint-GUID: DuMNqlqN2PUdarahakdHA5NO9rCAFoqr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 priorityscore=1501
+ adultscore=0 clxscore=1011 suspectscore=0 lowpriorityscore=0 bulkscore=0
+ mlxlogscore=963 malwarescore=0 spamscore=0 impostorscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2411130102
 X-Mailman-Approved-At: Wed, 13 Nov 2024 13:23:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,47 +117,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the KDB KD116N2130B12, pleace the EDID here for
-subsequent reference.
-00 ff ff ff ff ff ff 00 2c 82 07 17 00 00 00 00
-1c 21 01 04 95 1a 0e 78 0a 63 25 99 5b 5d 96 26
-18 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 87 1b 56 88 50 00 0e 30 28 20
-55 00 00 90 10 00 00 18 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fe
-00 4b 44 31 31 36 4e 32 31 33 30 42 31 32 00 17
+This series aims to enable display on the QCS615 platform
 
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+1.Add MDSS & DPU support for QCS615     
+2.Add DSI support for QCS615            
+
+Note:
+items still being confirmed
+- missing reg_bus_bw
+- missing refgen supply
+
+This patch series depends on below patch series:
+- rpmhcc
+https://lore.kernel.org/all/20241022-qcs615-clock-driver-v4-2-3d716ad0d987@quicinc.com/
+- gcc
+https://lore.kernel.org/all/20241022-qcs615-clock-driver-v4-4-3d716ad0d987@quicinc.com/
+- base
+https://lore.kernel.org/all/20241104-add_initial_support_for_qcs615-v5-0-9dde8d7b80b0@quicinc.com/
+- Apps SMMU
+https://lore.kernel.org/all/20241105032107.9552-4-quic_qqzhou@quicinc.com/
+- I2C
+https://lore.kernel.org/all/20241111084331.2564643-1-quic_vdadhani@quicinc.com/
+- dispcc
+https://lore.kernel.org/all/20241108-qcs615-mm-clockcontroller-v3-0-7d3b2d235fdf@quicinc.com/
+- dispcc dts
+https://lore.kernel.org/lkml/20241108-qcs615-mm-dt-nodes-v1-0-b2669cac0624@quicinc.com/
+
+Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
+Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
 ---
- drivers/gpu/drm/panel/panel-edp.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Changes in v2:
+- Added b4 check and check passed
+- Added necessary blank line
+- Added correct S-o-B
+- Added correct maintainer
+- Added correct To&Cc
+- Added QCS615 DP controller comment in commit message
+- Added comments for dsi_dp_hpd_cfg_pins and dsi_dp_cdet_cfg_pins
+- Added missing port@1 for connector
+- Changed patch order
+- Changed 0 to QCOM_ICC_TAG_ALWAYS for mdss interconnects
+- Changed 0 to GPIO_ACTIVE_HIGH for GPIO flags
+- Fix indent issue
+- Fix sorted issue
+- Moved anx_7625 to same node
+- Moved status to last
+- Renamed dsi0_hpd_cfg_pins to dsi_dp_hpd_cfg_pins
+- Renamed dsi0_cdet_cfg_pins to dsi_dp_cdet_cfg_pins
+- Renamed anx_7625_1 to dsi_anx_7625
+- Removed extra blank line
+- Removed absent block
+- Removed merge_3d value
+- Removed redundant annotation
+- Removed unsupported dsi clk in dsi0_opp_table
+- Removed dp_hpd_cfg_pins node
+- Splited patch according to requirements
+- Link to v2: https://lore.kernel.org/r/20241014-add_display_support_for_qcs615-v1-0-4efa191dbdd4@quicinc.com
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 012dfbcb9475..5355acd52f0b 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1978,6 +1978,12 @@ static const struct panel_delay delay_200_500_e50_po2e200 = {
- 	.powered_on_to_enable = 200,
- };
- 
-+static const struct panel_delay delay_200_150_e50 = {
-+	.hpd_absent = 200,
-+	.unprepare = 150,
-+	.enable = 50,
-+};
-+
- #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name) \
- { \
- 	.ident = { \
-@@ -2134,6 +2140,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('K', 'D', 'B', 0x0624, &kingdisplay_kd116n21_30nv_a010.delay, "116N21-30NV-A010"),
- 	EDP_PANEL_ENTRY('K', 'D', 'B', 0x1118, &delay_200_500_e50, "KD116N29-30NK-A005"),
- 	EDP_PANEL_ENTRY('K', 'D', 'B', 0x1120, &delay_200_500_e80_d50, "116N29-30NK-C007"),
-+	EDP_PANEL_ENTRY('K', 'D', 'B', 0x1707, &delay_200_150_e50, "KD116N2130B12"),
- 
- 	EDP_PANEL_ENTRY('K', 'D', 'C', 0x044f, &delay_200_500_e50, "KD116N9-30NH-F3"),
- 	EDP_PANEL_ENTRY('K', 'D', 'C', 0x05f1, &delay_200_500_e80_d50, "KD116N5-30NV-G7"),
+---
+Li Liu (9):
+      dt-bindings: display/msm: Add QCS615 DSI phy
+      dt-bindings: display/msm: dsi-controller-main: Document QCS615
+      dt-bindings: display/msm: Add QCS615 MDSS & DPU
+      drm/msm/dpu: Add QCS615 support
+      drm/msm: mdss: Add QCS615 support
+      drm/msm/dsi: Add support for QCS615
+      arm64: dts: qcom: Add display support for QCS615
+      arm64: dts: qcom: Add display support for QCS615 RIDE board
+      arm64: defconfig: Enable SX150X for QCS615 ride board
+
+ .../bindings/display/msm/dsi-controller-main.yaml  |   1 +
+ .../bindings/display/msm/dsi-phy-14nm.yaml         |   1 +
+ .../bindings/display/msm/qcom,qcs615-dpu.yaml      | 118 +++++++++
+ .../bindings/display/msm/qcom,qcs615-mdss.yaml     | 252 ++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts           | 109 +++++++++
+ arch/arm64/boot/dts/qcom/qcs615.dtsi               | 186 ++++++++++++++-
+ arch/arm64/configs/defconfig                       |   1 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_qcs615.h | 263 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  17 ++
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c         |  21 ++
+ drivers/gpu/drm/msm/msm_mdss.c                     |   7 +
+ 17 files changed, 982 insertions(+), 1 deletion(-)
+---
+base-commit: 929beafbe7acce3267c06115e13e03ff6e50548a
+change-id: 20241112-add-display-support-for-qcs615-platform-674ed6c8e150
+prerequisite-message-id: <20241022-qcs615-clock-driver-v4-2-3d716ad0d987@quicinc.com>
+prerequisite-patch-id: cd9fc0a399ab430e293764d0911a38109664ca91
+prerequisite-patch-id: 07f2c7378c7bbd560f26b61785b6814270647f1b
+prerequisite-patch-id: a57054b890d767b45cca87e71b4a0f6bf6914c2f
+prerequisite-patch-id: 5a8e9ea15a2c3d60b4dbdf11b4e2695742d6333c
+prerequisite-message-id: <20241022-qcs615-clock-driver-v4-4-3d716ad0d987@quicinc.com>
+prerequisite-patch-id: cd9fc0a399ab430e293764d0911a38109664ca91
+prerequisite-patch-id: 07f2c7378c7bbd560f26b61785b6814270647f1b
+prerequisite-patch-id: a57054b890d767b45cca87e71b4a0f6bf6914c2f
+prerequisite-patch-id: 5a8e9ea15a2c3d60b4dbdf11b4e2695742d6333c
+prerequisite-message-id: <20241104-add_initial_support_for_qcs615-v5-0-9dde8d7b80b0@quicinc.com>
+prerequisite-patch-id: 09782474af7eecf1013425fd34f9d2f082fb3616
+prerequisite-patch-id: 04ca722967256efddc402b7bab94136a5174b0b9
+prerequisite-patch-id: 82481c82a20345548e2cb292d3098ed51843b809
+prerequisite-patch-id: 3bd8edd83297815fcb1b81fcd891d3c14908442f
+prerequisite-patch-id: fc1cfec4ecd56e669c161c4d2c3797fc0abff0ae
+prerequisite-message-id: <20241105032107.9552-4-quic_qqzhou@quicinc.com>
+prerequisite-patch-id: aaa7214fe86fade46ae5c245e0a44625fae1bad3
+prerequisite-patch-id: 4db9f55207af45c6b64fff4f8929648a7fb44669
+prerequisite-patch-id: 89ce719a863bf5e909989877f15f82b51552e449
+prerequisite-message-id: <20241111084331.2564643-1-quic_vdadhani@quicinc.com>
+prerequisite-patch-id: 3f9489c89f3e632abfc5c3ca2e8eca2ce23093b0
+prerequisite-message-id: <20241108-qcs615-mm-clockcontroller-v3-0-7d3b2d235fdf@quicinc.com>
+prerequisite-patch-id: 748a4e51bbedae9c6ebdbd642b2fd1badf958788
+prerequisite-patch-id: 72a894a3b19fdbd431e1cec9397365bc5b27abfe
+prerequisite-patch-id: da2b7a74f1afd58833c6a9a4544a0e271720641f
+prerequisite-patch-id: 40b79fe0b9101f5db3bddad23551c1123572aee5
+prerequisite-patch-id: cb93e5798f6bfe8cc3044c4ce973e3ae5f20dc6b
+prerequisite-patch-id: 13b0dbf97ac1865d241791afb4b46a28ca499523
+prerequisite-patch-id: 807019bedabd47c04f7ac78e9461d0b5a6e9131b
+prerequisite-patch-id: 8e2e841401fefbd96d78dd4a7c47514058c83bf2
+prerequisite-patch-id: 125bb8cb367109ba22cededf6e78754579e1ed03
+prerequisite-patch-id: b3cc42570d5826a4704f7702e7b26af9a0fe57b0
+prerequisite-patch-id: df8e2fdd997cbf6c0a107f1871ed9e2caaa97582
+prerequisite-message-id: <20241108-qcs615-mm-dt-nodes-v1-0-b2669cac0624@quicinc.com>
+prerequisite-patch-id: bcb1328b70868bb9c87c0e4c48e5c9d38853bc60
+prerequisite-patch-id: 8844a4661902eb44406639a3b7344416a0c88ed9
+
+Best regards,
 -- 
-2.25.1
+fangez <quic_fangez@quicinc.com>
 
