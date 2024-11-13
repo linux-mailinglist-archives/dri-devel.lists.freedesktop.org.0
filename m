@@ -2,55 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32ABA9C749F
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 15:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045459C74E6
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 15:58:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2573310E71D;
-	Wed, 13 Nov 2024 14:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A894D10E71F;
+	Wed, 13 Nov 2024 14:58:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eas3XR0a";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Wf32Kn6j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A640B10E71D;
- Wed, 13 Nov 2024 14:42:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=b4bUv+GEGXVxAIcEx3qqbxi31PEN/oaPS3pmUUAzR2g=; b=eas3XR0a8jM6bI6uEv+nGNZnGB
- TyA1mbSRmSNn9lTJidmaBSEzL98HgbmO2QXIl3m1VaToFfaHX9YEW3G4uRw967HlXB5f+sUTaLDMa
- uzcDAqb1NaWk2tlG6ORUUqfaKMfkSD7Ymd3DOp3A6QWayYOpDF4oDdWGG2EB0QaEZIK/5Rm4qvaey
- hkjr72gA1409NHkYnPTy6LAWjrlfuv4gnGUXuN9H2iDkUNlnFkzTiPJjvvt1l/IfE9gZQ0IEIKppo
- JKs9eNcwmLXrfMOCVNLE+87kbwpSJVEj86j17U3jWOGaiMkz3quHRPrz+EIHJu0egyHwCZd1xzWCY
- v5uGi9Yw==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tBEa0-006MCy-G7; Wed, 13 Nov 2024 15:42:48 +0100
-Message-ID: <154641d9-be2a-4018-af5e-a57dbffb45d5@igalia.com>
-Date: Wed, 13 Nov 2024 14:42:47 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2CEE10E71F;
+ Wed, 13 Nov 2024 14:58:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1731509911; x=1763045911;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=X24yyBmMKWlCDsByrpVknt1MPni2cbO2tE1LVAy+jxw=;
+ b=Wf32Kn6jKQliYNAoBOHEjVqrGM+rktkqGxgvye2pEmEU23cxI3SaFyWL
+ YMyJ0bmTnVOxr/uzYNRxMaV1tHZjkSnHXfeC1MyKoa4GtndBxYhG6O06X
+ OE7VIRpdUnKN8TVZ1DEyjeYLK99ttZ2CbOe7RsX44G1L21FxUgwYQhxve
+ d9gUsCulownlxwKFpvM7QIGGprwxpsNCiv7HdTy5Oz+IOPed9zDEZ+ZLK
+ A6SoqBl9jBlxzPxtfQNIJN+p0vhjurMYMPWO/lI82NKNcnkKqi4MRQie+
+ rwb5opRtLPJzbl4+35Tr6cd7OCgIXSGtw49jjsnJLtCqWrhgScsXfGjjf Q==;
+X-CSE-ConnectionGUID: frA3dtYxQi2d6atrG7NhFw==
+X-CSE-MsgGUID: 1jwi1FPWT4mhQLZnXojRRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="48856354"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="48856354"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2024 06:58:31 -0800
+X-CSE-ConnectionGUID: Bc6jQQN4S02Ll+J+ofCI0w==
+X-CSE-MsgGUID: Kyb9bbZNSx+iy0bO1f/hmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; d="scan'208";a="118833767"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO [10.245.245.192])
+ ([10.245.245.192])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2024 06:58:27 -0800
+Message-ID: <d6c57862-1593-44ff-a192-7af308cac94b@linux.intel.com>
+Date: Wed, 13 Nov 2024 15:58:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: Make the submission path memory reclaim safe
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, stable@vger.kernel.org,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <pstanner@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>
-References: <20241113134838.52608-1-tursulin@igalia.com>
- <e30428ce-a4d1-43e0-89d3-1487f7af2fde@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <e30428ce-a4d1-43e0-89d3-1487f7af2fde@amd.com>
+Subject: Re: [PATCH 0/7] kernel/cgroups: Add "dev" memory accounting cgroup.
+To: Tejun Heo <tj@kernel.org>, Maxime Ripard <mripard@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, intel-xe@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Zefan Li <lizefan.x@bytedance.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Friedrich Vock <friedrich.vock@gmx.de>,
+ cgroups@vger.kernel.org, linux-mm@kvack.org
+References: <20241023075302.27194-1-maarten.lankhorst@linux.intel.com>
+ <ZxlRLMwkabTaOrjc@slm.duckdns.org>
+ <20241024-beautiful-spaniel-of-youth-f75b61@houat>
+ <Zxp-nLXOJXoSy8BN@slm.duckdns.org>
+ <20241028-meaty-mega-nuthatch-3d74b1@houat>
+ <20241029203834.GA636494@cmpxchg.org>
+ <20241106-vivacious-eagle-of-gaiety-44a419@houat>
+ <ZyuzeIhTgXU5CCk0@slm.duckdns.org>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <ZyuzeIhTgXU5CCk0@slm.duckdns.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,176 +81,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey,
 
-On 13/11/2024 14:26, Christian König wrote:
-> Am 13.11.24 um 14:48 schrieb Tvrtko Ursulin:
->> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Den 2024-11-06 kl. 19:20, skrev Tejun Heo:
+> On Wed, Nov 06, 2024 at 11:31:49AM +0100, Maxime Ripard wrote:
+> ...
+>>> How about dmem for this one, and dpu for the other one. For device
+>>> memory and device processing unit, respectively.
 >>
->> As commit 746ae46c1113 ("drm/sched: Mark scheduler work queues with 
->> WQ_MEM_RECLAIM")
->> points out, ever since
->> a6149f039369 ("drm/sched: Convert drm scheduler to use a work queue 
->> rather than kthread"),
->> any workqueue flushing done from the job submission path must only
->> involve memory reclaim safe workqueues to be safe against reclaim
->> deadlocks.
->>
->> This is also pointed out by workqueue sanity checks:
->>
->>   [ ] workqueue: WQ_MEM_RECLAIM sdma0:drm_sched_run_job_work 
->> [gpu_sched] is flushing !WQ_MEM_RECLAIM 
->> events:amdgpu_device_delay_enable_gfx_off [amdgpu]
->> ...
->>   [ ] Workqueue: sdma0 drm_sched_run_job_work [gpu_sched]
->> ...
->>   [ ] Call Trace:
->>   [ ]  <TASK>
->> ...
->>   [ ]  ? check_flush_dependency+0xf5/0x110
->> ...
->>   [ ]  cancel_delayed_work_sync+0x6e/0x80
->>   [ ]  amdgpu_gfx_off_ctrl+0xab/0x140 [amdgpu]
->>   [ ]  amdgpu_ring_alloc+0x40/0x50 [amdgpu]
->>   [ ]  amdgpu_ib_schedule+0xf4/0x810 [amdgpu]
->>   [ ]  ? drm_sched_run_job_work+0x22c/0x430 [gpu_sched]
->>   [ ]  amdgpu_job_run+0xaa/0x1f0 [amdgpu]
->>   [ ]  drm_sched_run_job_work+0x257/0x430 [gpu_sched]
->>   [ ]  process_one_work+0x217/0x720
->> ...
->>   [ ]  </TASK>
->>
->> Fix this by creating a memory reclaim safe driver workqueue and make the
->> submission path use it.
+>> dmem sounds great to me, does everyone agree?
 > 
-> Oh well, that is a really good catch! I wasn't aware the workqueues 
-> could be blocked by memory reclaim as well.
-
-Only credit I can take is for the habit that I often run with many 
-kernel debugging aids enabled.
-
-> Do we have system wide workqueues for that? It seems a bit overkill that 
-> amdgpu has to allocate one on his own.
-
-I wondered the same but did not find any. Only ones I am aware of are 
-system_wq&co created in workqueue_init_early().
-
-Regards,
-
-Tvrtko
-
-> Apart from that looks good to me.
+> Sounds good to me.
 > 
-> Regards,
-> Christian.
+> Thanks.
 > 
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> References: 746ae46c1113 ("drm/sched: Mark scheduler work queues with 
->> WQ_MEM_RECLAIM")
->> Fixes: a6149f039369 ("drm/sched: Convert drm scheduler to use a work 
->> queue rather than kthread")
->> Cc: stable@vger.kernel.org
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Philipp Stanner <pstanner@redhat.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  2 ++
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 25 +++++++++++++++++++++++++
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c |  5 +++--
->>   3 files changed, 30 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->> index 7645e498faa4..a6aad687537e 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->> @@ -268,6 +268,8 @@ extern int amdgpu_agp;
->>   extern int amdgpu_wbrf;
->> +extern struct workqueue_struct *amdgpu_reclaim_wq;
->> +
->>   #define AMDGPU_VM_MAX_NUM_CTX            4096
->>   #define AMDGPU_SG_THRESHOLD            (256*1024*1024)
->>   #define AMDGPU_WAIT_IDLE_TIMEOUT_IN_MS            3000
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->> index 38686203bea6..f5b7172e8042 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->> @@ -255,6 +255,8 @@ struct amdgpu_watchdog_timer amdgpu_watchdog_timer 
->> = {
->>       .period = 0x0, /* default to 0x0 (timeout disable) */
->>   };
->> +struct workqueue_struct *amdgpu_reclaim_wq;
->> +
->>   /**
->>    * DOC: vramlimit (int)
->>    * Restrict the total amount of VRAM in MiB for testing.  The 
->> default is 0 (Use full VRAM).
->> @@ -2971,6 +2973,21 @@ static struct pci_driver amdgpu_kms_pci_driver = {
->>       .dev_groups = amdgpu_sysfs_groups,
->>   };
->> +static int amdgpu_wq_init(void)
->> +{
->> +    amdgpu_reclaim_wq =
->> +        alloc_workqueue("amdgpu-reclaim", WQ_MEM_RECLAIM, 0);
->> +    if (!amdgpu_reclaim_wq)
->> +        return -ENOMEM;
->> +
->> +    return 0;
->> +}
->> +
->> +static void amdgpu_wq_fini(void)
->> +{
->> +    destroy_workqueue(amdgpu_reclaim_wq);
->> +}
->> +
->>   static int __init amdgpu_init(void)
->>   {
->>       int r;
->> @@ -2978,6 +2995,10 @@ static int __init amdgpu_init(void)
->>       if (drm_firmware_drivers_only())
->>           return -EINVAL;
->> +    r = amdgpu_wq_init();
->> +    if (r)
->> +        goto error_wq;
->> +
->>       r = amdgpu_sync_init();
->>       if (r)
->>           goto error_sync;
->> @@ -3006,6 +3027,9 @@ static int __init amdgpu_init(void)
->>       amdgpu_sync_fini();
->>   error_sync:
->> +    amdgpu_wq_fini();
->> +
->> +error_wq:
->>       return r;
->>   }
->> @@ -3017,6 +3041,7 @@ static void __exit amdgpu_exit(void)
->>       amdgpu_acpi_release();
->>       amdgpu_sync_fini();
->>       amdgpu_fence_slab_fini();
->> +    amdgpu_wq_fini();
->>       mmu_notifier_synchronize();
->>       amdgpu_xcp_drv_release();
->>   }
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
->> index 2f3f09dfb1fd..f8fd71d9382f 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
->> @@ -790,8 +790,9 @@ void amdgpu_gfx_off_ctrl(struct amdgpu_device 
->> *adev, bool enable)
->>                           AMD_IP_BLOCK_TYPE_GFX, true))
->>                       adev->gfx.gfx_off_state = true;
->>               } else {
->> -                schedule_delayed_work(&adev->gfx.gfx_off_delay_work,
->> -                          delay);
->> +                queue_delayed_work(amdgpu_reclaim_wq,
->> +                           &adev->gfx.gfx_off_delay_work,
->> +                           delay);
->>               }
->>           }
->>       } else {
-> 
+Thanks for all feedback and discussion. I checked mostly on patchwork so 
+I missed the discussion here. Fortunately it's only been about naming. :)
+
+I'm thinking of adding a 'high' knob as well, that will work similarly 
+to high in normal mem controller. (so not proportionally calculated like 
+'max', but (usage + allocated) < max = ok.
+
+Recursively of course.
+
+Cheers,
+~Maarten
