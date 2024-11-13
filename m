@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8769C6EA9
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 13:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97329C6EB4
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 13:10:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54D1C10E6DC;
-	Wed, 13 Nov 2024 12:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2F4B10E6E0;
+	Wed, 13 Nov 2024 12:09:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CQw4cOUN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IxUquB8u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F334E10E205
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 12:08:05 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-6ea5003deccso73245607b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 04:08:05 -0800 (PST)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A407E10E6E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 12:09:54 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-e35e9e993f9so1311243276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 04:09:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731499685; x=1732104485; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1731499794; x=1732104594; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UGtyXwzMBHOXtnkZD1IDl7RIyBTD4iUeJ455sdaUv4M=;
- b=CQw4cOUNz3MS8PHS8KAUqEnfxEGaggGyuEvSONfQX3GU0iYktYOmS4OKcce6KMWkz/
- gdVSD9rz/H4qRvHQKz63WkkZKwpYxuMzldFtlapuP4GzPij+Vv29cQWdNpYHQrMbJqDy
- zshDcrrhvaiyHLA80COgGZUylIBwf8UR9YVMl6nbyVbwkXD0OeUIrU/Jzm+fW/VNIPzU
- gu24VoAEHrUejEciuy4/AoOHRdqvyQ3WeBHcwN7bL6zlnRMxdDU7LBNnBcdHOBmuJSE4
- ZdnHumZwwo27eJVJHOdVEB3Xc0Bhd21d868iROg95fBGuTbnjmCiy9mQvnT8VaRPHdM2
- GPbg==
+ bh=vurz8Z4ymLq0OAC/znWews1WaS5VvMmTAw7TGG6DFzQ=;
+ b=IxUquB8uiQhA6cPrjgWi6O1XkYYQXgxQN7GWJdZaxr8TFZ0K7t9XCF9R/Gi0Ljuf/9
+ B2AjsnIA+LzIEu+Ho5Ubpt5dfuWM/K25taEqy+Kn9FQg2zW2cJM1cBelZHOyMtDgSg1D
+ +bk6vQbyHH45VGgPVJCe8XXBFgX/MvqNlxk9f3SAezHlOTPt0PJIwASNXqifCnIMQBHm
+ T+2w8pbMAvHUgvu2DoPcF5vo8ruoGZ/UKkQksbiUJCx7h2++Bd3JE7aY5bEHLNpRg9HB
+ DDl1JhgA8v+DQLAnuiHuxoc5MskhNr23Oh3X9lVY9nWvfHhloYsoAV1lx/gwh8qJJBHe
+ 6xMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731499685; x=1732104485;
+ d=1e100.net; s=20230601; t=1731499794; x=1732104594;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=UGtyXwzMBHOXtnkZD1IDl7RIyBTD4iUeJ455sdaUv4M=;
- b=n+yuFo/rx65oovtQYUohTpRll58+1shqlGDOobHu3Wo2fHMDKl3HeNcDoHGGcdQIyv
- FP5lmJWszaEmGySGrAHl/iuFYH6wpHSxET1SnwyW0vfmXG2m1NwTSVgtTTGPANvwQGPv
- Zrf5TEsi3NTEJCQNLKTUPIX0SjRPJdFqkWCcKlzwIIfa4/SPqpTryVVaq7eA8KGLByNK
- vVMVoUcLFhVhTs7oUNaW91WkgEVqp0+QQY/A3C7znIXBhxLHsP26NFMQpGCUOr4Wi88S
- 55OpbU1xkbCtcUzs227tXZ6xGMTkMVl+FWJKbje3mKdQklvfWCrj7ePKfT7Zf4Q0qbsH
- pvUw==
+ bh=vurz8Z4ymLq0OAC/znWews1WaS5VvMmTAw7TGG6DFzQ=;
+ b=BRx6g1PLVZV1wKaPkvOJFNCQ8dv1F9gXDe0K5gU0jCtnodBP2gWh2u08OYOTlFPDBD
+ SjVdoKl5vKMfMIgpZoV7Wg0ZTd44Cl3hpAtsQEt/VJ76t0pD9FlxvOI3xCTo/TbxVq+e
+ T2SotYknNHaz5IRCmg1vZIXqR0sOsb43RbKt82uh0GcD9+bRA2gGUh559Un/GjgdCHJl
+ fqpYa5CXcAIz6RqS/KWlNu59uMxppTg2o2odQBP2sRCybROIKEVHGDpwWMC2MMty49ij
+ x7Iy/TtrNlUixUmimOEPE3GWF6Sd9dB57Rvp7dXrXYyJZJuRC9rAygrh4eK66B5l6fEn
+ yFyg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVVj0a9RgOS0ZBHt6IRYTQDr6KSvDh27rSa+R9wcPobkrQj9HHI5MzNDwoNC0HGvMW1lHyGHkcjAY4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzDEbkOgzvEmXATlO81TQOWtPAY6gWt1VKPMe+WpwGvOuWkZTQI
- eM5nON5QbYO2irIvSnYwm0fK0kQGULyXfJuoW58EoeYt2YkO42VkeMmDARUKOSZm4AK+YCDA3ek
- jc+ZAccKSaNnY3vV1HMYDR4WsahhZsJUmzZssqA==
-X-Google-Smtp-Source: AGHT+IGfdj17ZRR0vuBfO1QBwX6EXMq129/94BCmEcrTpxI9KLT5gLVvRTesocXnNuXdBrs2dgVgRPYFjcVuJRn6J6s=
-X-Received: by 2002:a05:690c:7485:b0:6e2:2c72:3aaf with SMTP id
- 00721157ae682-6eaddf81805mr207193107b3.31.1731499684980; Wed, 13 Nov 2024
- 04:08:04 -0800 (PST)
+ AJvYcCXRqISEvGUjIsi/xJ6sBJS5qKh5eDXnbUjC5bFkWddHXDGBRewq4x7yR90Nt9o/T3F1bWcQVpaG6EM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7jur3ElLfeD7j0R7qF9wJ4FfbVq2ZrnI5Vz6cLdpzIvOFvAcb
+ CcpCbm43cWob0t2/JP14IvDC33EupqUApSLP1s9DGB3MVrNeCRBQ7HuH7X2YeEGRmPrLLiSYQN8
+ 7T2I5qxG1ZPLeFzGSXdBLfQ7BEIHlP4wioMM7/w==
+X-Google-Smtp-Source: AGHT+IEbVbENHDimLrclLq81k2K+eV3PjRDffS3YjYrYwNAjJe5acWC3fJAW8eAeTcDDEGpWp1iOm9mjfIL5BjU6U0s=
+X-Received: by 2002:a05:6902:848:b0:e30:d4e4:b9ea with SMTP id
+ 3f1490d57ef6-e33a1f73693mr11483612276.28.1731499793667; Wed, 13 Nov 2024
+ 04:09:53 -0800 (PST)
 MIME-Version: 1.0
 References: <20241113-add-display-support-for-qcs615-platform-v2-0-2873eb6fb869@quicinc.com>
- <20241113-add-display-support-for-qcs615-platform-v2-1-2873eb6fb869@quicinc.com>
-In-Reply-To: <20241113-add-display-support-for-qcs615-platform-v2-1-2873eb6fb869@quicinc.com>
+ <20241113-add-display-support-for-qcs615-platform-v2-4-2873eb6fb869@quicinc.com>
+In-Reply-To: <20241113-add-display-support-for-qcs615-platform-v2-4-2873eb6fb869@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 13 Nov 2024 14:07:53 +0200
-Message-ID: <CAA8EJpqQA3zDBRpm9FY5X-vS0aDgoGNFfDoTh9p1A2MqVa7KNQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] dt-bindings: display/msm: Add QCS615 DSI phy
+Date: Wed, 13 Nov 2024 14:09:42 +0200
+Message-ID: <CAA8EJpp2MyXZ28GQV3GDgQp9uCbr4devi++nzkeHA1fk6UZXxw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] drm/msm/dpu: Add QCS615 support
 To: Fange Zhang <quic_fangez@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
@@ -97,36 +97,23 @@ On Wed, 13 Nov 2024 at 13:53, Fange Zhang <quic_fangez@quicinc.com> wrote:
 >
 > From: Li Liu <quic_lliu6@quicinc.com>
 >
-> QCS615 platform uses the 14nm DSI PHY driver.
+> Add definitions for the display hardware
+> used on the Qualcomm QCS615 platform.
 >
 > Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
 > Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
 > ---
->  Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
-> index 52bbe132e6dae57246200757767edcd1c8ec2d77..babd73cdc44f6d12fdc59c6bef27c544d91f1afa 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
-> @@ -17,6 +17,7 @@ properties:
->      enum:
->        - qcom,dsi-phy-14nm
->        - qcom,dsi-phy-14nm-2290
-> +      - qcom,dsi-phy-14nm-615
-
-As stated in the comment to v1, no, this is not acceptable.
-
-
->        - qcom,dsi-phy-14nm-660
->        - qcom,dsi-phy-14nm-8953
->        - qcom,sm6125-dsi-phy-14nm
->
-> --
-> 2.34.1
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_qcs615.h | 263 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+>  4 files changed, 266 insertions(+)
 >
 
+This patch completely ignored some bits of the review done for v1.
+Please take a step back, check what you have missed, respond to those
+comments, etc.
 
---
+-- 
 With best wishes
 Dmitry
