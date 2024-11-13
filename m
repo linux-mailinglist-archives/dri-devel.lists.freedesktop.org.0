@@ -2,80 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15F39C6D41
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 11:59:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E25B9C6D51
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 12:03:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD7AB10E6CD;
-	Wed, 13 Nov 2024 10:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8FE010E6E4;
+	Wed, 13 Nov 2024 11:03:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fAw0qn6K";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BXE/gSBa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9989F10E6CC
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 10:59:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0158A10E6DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 11:03:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1731495566;
+ s=mimecast20190719; t=1731495797;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mx5wQg2VOqE4BMne88km+9jrtEsH/0uqVKhKmlKScMQ=;
- b=fAw0qn6KKBYYmGuLDtTay8yy0A9Zq+ApHWXneCjf4JkRnu+zLaDo8jxHv9ZuOzWQLEOvHG
- KnnfovDHOr7l5gVr5Rt3oNJUGv/YnhJpEVWkd2fzBTRSlkrqf/Bxm+jQTx8Gcwjuanf3OJ
- QUc7hxd8usDzr+e9RJ5ZwQBlD7KEFjg=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jpBGq9axxArPByyXFOiqjVFa4sA8qL80XJbIsQYR+aw=;
+ b=BXE/gSBadCPGPoROq4S718+x17BOUi/IkaQM5XKh4Cka21PI3GmhzCLHCaeAuVrXQyqjq0
+ UqVK1lfJaelC1BRnvxgTGer7wz1d0T/nHfEoJoZOfqr6S+Md3oLU+cRiTpvM7xPhwI5zxB
+ 5tWGFyYCqiNJ80Dh5wanCR/8qondRYY=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-402-U_pIT6knPjCCKkvTIuvQBw-1; Wed, 13 Nov 2024 05:59:25 -0500
-X-MC-Unique: U_pIT6knPjCCKkvTIuvQBw-1
-X-Mimecast-MFC-AGG-ID: U_pIT6knPjCCKkvTIuvQBw
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7b15d3cd6dcso998551085a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 02:59:25 -0800 (PST)
+ us-mta-606-22uJQhdzO3i97XCbon67mQ-1; Wed, 13 Nov 2024 06:03:16 -0500
+X-MC-Unique: 22uJQhdzO3i97XCbon67mQ-1
+X-Mimecast-MFC-AGG-ID: 22uJQhdzO3i97XCbon67mQ
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7b16c9a84efso875097785a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 03:03:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731495565; x=1732100365;
+ d=1e100.net; s=20230601; t=1731495795; x=1732100595;
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=jIsc2qlRUeH/dyygQ8RC3pjzXKEfhxGOXroQ78A59tM=;
- b=hOpCD1TnXOVyJUcjFYAfhFkBjPBnTLMHWDvwHuUrOWxbGoE25fi8Cu6nBhMpF5ZQnJ
- XwgjXDhPRDCx1hLBnUu/POfrdC2YArW1GQbkVGzCA6u0Nx0tpUcLyFq5Lv6b8HiMf44T
- toiLLDNxdOrg0wD/A4QxtJcDOU91hI5jd7HA8Qvixo2IwW+Mwntsjxk453AcQcTGB7C7
- IvlF/wwQec4FjaV7+MOxKkCJdnAG7VgwK/KaluU3msBjiYhi/pws5MKby9JepQg7DgFE
- Jyrg/PeKUJhX4CU0hFheOmwcFftoisdA46J9nRnO7PCKwzEIX96orl8zIjcnuUQ2mZYj
- q88Q==
+ bh=SUHzTSt+GRCZsfoQsjVqApTJ8VE9MjQyXm9ILdw8rmU=;
+ b=JIO/Wenz8BNMY5SkOr4Ft6YQzxQpk9VbhcDyveDsMBYe5t2YKnSo+FHQCcGzQ1dxJn
+ SRbHJthdfxheFMNQvqYuzhBaipgt3XxhGh6ry2kyvWPniQvQUyhxAG/E2RLhuiBkLvzw
+ yFb1BJ7cH2LSSbFqjL6pvhxowplpyWdvpc27I+6oJQV7lmiSna8/tsdFegx4gtb1ycoL
+ aVuIa+VPTPDJFNPfeASGHJDBYIZalIImxIAoblbolfRaMFhjCft6N+obPpFcvdKTKbub
+ ry726bWT0P8ojDhwozuN2oRPzk++wMbQA1eyye0UovPZAQtBuU6kjTSoHhO5HSPpSiyT
+ t9/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXOk2tRi1dUzw53ie2lvvlpIPioT008/ghRQkp2bZnnu+n+a0WGMElE9ANKOMplWucNIFsAnonhiKA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwB9v48AS9cU6i+WDvi9HdSjgk2QRDLTxt03qxRI/meK06L1vJZ
- bRxAgI1WgAkNW+sqpJza5zEQFtZXrQT1ZIFuV8f4SfNHGeaiWummmEnIcsoRayr084gNEmESxIo
- 8oIS0hNu5xC/iKtsW1hfRg6xxhuPYzUpBD5Dq+oERuJL7CUoEQcfFg92EVws8sUfSxQ==
-X-Received: by 2002:a05:6214:418b:b0:6d1:848b:a8ce with SMTP id
- 6a1803df08f44-6d39e150570mr248703536d6.28.1731495564736; 
- Wed, 13 Nov 2024 02:59:24 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHUHKNPmyGlI1WeGdQl3LDnfjPIULTTXa3d62/J9A2hsOZWb3VRwq/46hO+QsLO7Eq+kCEmCQ==
-X-Received: by 2002:a05:6214:418b:b0:6d1:848b:a8ce with SMTP id
- 6a1803df08f44-6d39e150570mr248703316d6.28.1731495564411; 
- Wed, 13 Nov 2024 02:59:24 -0800 (PST)
+ AJvYcCVb/1Uinr5apQ42dM4YQUgLhleR7Kxp+DFPC/2ewIeeRuwTpWBekYYP0Vgi3Bn7DLLuUr41kds2bGw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUUkMyJ74QOkbuEvAEACMaFGN+F6WSRBGpbx+k0nmZjhKLB2WD
+ XyX1ybhXtFBWkBVyxDkyp5RTuMK3N0cT+Aq08TftELTwT8JWbn1WiCKVcTlLhvIGLJAA0dIk/Nn
+ tMQYCEXbkrqn7WP0VXXJegIFXE1q2moGxqA/hgmealZY+QT4Zohx/zUMMfWWLx2V8yQ==
+X-Received: by 2002:a05:620a:179e:b0:7b1:48e0:dda with SMTP id
+ af79cd13be357-7b331ec0095mr2240976385a.29.1731495795512; 
+ Wed, 13 Nov 2024 03:03:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHL8CJ36PyHaAs+7jpj7NZmmsEBx9YlLxGNaYJs+C8BOnwGeMVLHN3VleqqO7XMM0YUd4DcGA==
+X-Received: by 2002:a05:620a:179e:b0:7b1:48e0:dda with SMTP id
+ af79cd13be357-7b331ec0095mr2240973485a.29.1731495795144; 
+ Wed, 13 Nov 2024 03:03:15 -0800 (PST)
 Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7b32ac869f5sm680531585a.64.2024.11.13.02.59.23
+ af79cd13be357-7b32ac2e853sm676617185a.3.2024.11.13.03.03.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Nov 2024 02:59:24 -0800 (PST)
-Message-ID: <0d8c1837a66093f441e0cf82ffa9ac4b4fb4ecac.camel@redhat.com>
-Subject: Re: [PATCH 1/2] nouveau: handle EBUSY and EAGAIN for GSP aux errors.
+ Wed, 13 Nov 2024 03:03:14 -0800 (PST)
+Message-ID: <9460813e606458acfc324e7b4b2b542042bfe3e9.camel@redhat.com>
+Subject: Re: [RFC PATCH 2/6] drm/sched: Teach scheduler about
+ DMA_RESV_USAGE_PREEMPT
 From: Philipp Stanner <pstanner@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Date: Wed, 13 Nov 2024 11:59:21 +0100
-In-Reply-To: <20241111034126.2028401-1-airlied@gmail.com>
-References: <20241111034126.2028401-1-airlied@gmail.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ simona.vetter@ffwll.ch, thomas.hellstrom@linux.intel.com, 
+ boris.brezillon@collabora.com, airlied@gmail.com, ltuikov89@gmail.com, 
+ dakr@kernel.org, christian.koenig@amd.com, mihail.atanassov@arm.com, 
+ steven.price@arm.com, shashank.sharma@amd.com
+Date: Wed, 13 Nov 2024 12:03:10 +0100
+In-Reply-To: <ZzO1oRTJpFWlaLXq@lstrano-desk.jf.intel.com>
+References: <20241109172942.482630-1-matthew.brost@intel.com>
+ <20241109172942.482630-3-matthew.brost@intel.com>
+ <132fdacc1fdbca9bf05cbcbeee8727426675a55a.camel@redhat.com>
+ <ZzO1oRTJpFWlaLXq@lstrano-desk.jf.intel.com>
 User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: yMgyiVcqwuBtmq-KhALs74vuaIamqimcMgbTNl5-RPc_1731495565
+X-Mimecast-MFC-PROC-ID: G0per5IM6kR3cvSo_6pnqNbwfIF__7sdLUiCrOHBU3I_1731495795
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -94,84 +102,388 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2024-11-11 at 13:41 +1000, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
+On Tue, 2024-11-12 at 12:08 -0800, Matthew Brost wrote:
+> On Tue, Nov 12, 2024 at 10:06:21AM +0100, Philipp Stanner wrote:
+> > Hi Matt,
+> >=20
+> > On Sat, 2024-11-09 at 09:29 -0800, Matthew Brost wrote:
+> > > Follow the semantics of DMA_RESV_USAGE_PREEMPT in the DRM
+> > > scheduler
+> > > by
+> > > storing preemptive fences in a dedicated xarray, which is waited
+> > > on
+> > > after all other fences are signaled. In addition to following
+> > > these
+> > > semantics, pipeline preemptive fences by enabling signaling on
+> > > all
+> > > preemptive fences before waiting on any of them.
+> >=20
+> > the commit message lacks the *motivation*. Why is the current state
+> > a
+> > problem, why is that feature needed etc.
+> >=20
 >=20
-> The upper layer transfer functions expect EBUSY as a return
-> for when retries should be done.
+> Yes, I do this in the cover letter but this is missing here. Will add
+> in
+> next rev.
 >=20
-> Fix the AUX error translation, but also check for both errors
-> in a few places.
+> > >=20
+> > > Cc: Philipp Stanner <pstanner@redhat.com>
+> > > Cc: Danilo Krummrich <dakr@kernel.org>
+> > > Cc: Luben Tuikov <ltuikov89@gmail.com>
+> > > Cc: Dave Airlie <airlied@redhat.com>
+> > > Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> > > Cc: Christian Koenig <christian.koenig@amd.com>
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > ---
+> > > =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 29 ++++++++++++--
+> > > =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0 | 48 +++++++=
++++++++++--
+> > > ----
+> > > --
+> > > =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 15 ++++++++
+> > > =C2=A03 files changed, 73 insertions(+), 19 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> > > b/drivers/gpu/drm/scheduler/sched_entity.c
+> > > index 69bcf0e99d57..c6c4978aa65a 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > > @@ -201,11 +201,13 @@ static void
+> > > drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+> > > =C2=A0=09struct drm_sched_job *job =3D container_of(cb, struct
+> > > drm_sched_job,
+> > > =C2=A0=09=09=09=09=09=09 finish_cb);
+> > > =C2=A0=09unsigned long index;
+> > > +=09struct xarray *dependencies =3D &job->dependencies;
+> > > =C2=A0
+> > > =C2=A0=09dma_fence_put(f);
+> > > =C2=A0
+> > > +again:
+> > > =C2=A0=09/* Wait for all dependencies to avoid data corruptions
+> > > */
+> > > -=09xa_for_each(&job->dependencies, index, f) {
+> > > +=09xa_for_each(dependencies, index, f) {
+> > > =C2=A0=09=09struct drm_sched_fence *s_fence =3D
+> > > to_drm_sched_fence(f);
+> > > =C2=A0
+> > > =C2=A0=09=09if (s_fence && f =3D=3D &s_fence->scheduled) {
+> > > @@ -223,7 +225,7 @@ static void
+> > > drm_sched_entity_kill_jobs_cb(struct
+> > > dma_fence *f,
+> > > =C2=A0=09=09=09dma_fence_put(&s_fence->scheduled);
+> > > =C2=A0=09=09}
+> > > =C2=A0
+> > > -=09=09xa_erase(&job->dependencies, index);
+> > > +=09=09xa_erase(dependencies, index);
+> > > =C2=A0=09=09if (f && !dma_fence_add_callback(f, &job-
+> > > >finish_cb,
+> > > =C2=A0=09=09=09=09=09=09
+> > > drm_sched_entity_kill_jobs_cb))
+> > > =C2=A0=09=09=09return;
+> > > @@ -231,6 +233,11 @@ static void
+> > > drm_sched_entity_kill_jobs_cb(struct
+> > > dma_fence *f,
+> > > =C2=A0=09=09dma_fence_put(f);
+> > > =C2=A0=09}
+> > > =C2=A0
+> > > +=09if (dependencies !=3D &job->preempt_dependencies) {
+> > > +=09=09dependencies =3D &job->preempt_dependencies;
+> > > +=09=09goto again;
+> > > +=09}
+> > > +
+> >=20
+> > I think this should have a comment. It can only trigger once,
+> > right? So
+> > I guess that's why it doesn't make sense considering making it a
+> > loop
+> > instead of goto upwards?
+> >=20
 >=20
-> Fixes: eb284f4b3781 ("drm/nouveau/dp: Honor GSP link training retry
-> timeouts")
+> Yes, can only trigger once. I personally don't mind goto while others
+> find them offensive.
 
-Tags for stable kernel skipped on purpose in this series?
+I think it's fine here
 
-Regards,
+>=20
+> > > =C2=A0=09INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
+> > > =C2=A0=09schedule_work(&job->work);
+> > > =C2=A0}
+> > > @@ -456,17 +463,33 @@ drm_sched_job_dependency(struct
+> > > drm_sched_job
+> > > *job,
+> > > =C2=A0=09=09=09 struct drm_sched_entity *entity)
+> > > =C2=A0{
+> > > =C2=A0=09struct dma_fence *f;
+> > > +=09struct xarray *dependencies;
+> > > +
+> > > +again:
+> > > +=09dependencies =3D job->resolve_preempt_dependencies ?
+> > > +=09=09&job->preempt_dependencies : &job->dependencies;
+> >=20
+> > I don't think it's good to use the ternary operator for such long
+> > statements.
+> >=20
+> > if-else is more readable.
+> >=20
+>=20
+> Sure.
+> =C2=A0
+> > > =C2=A0
+> > > =C2=A0=09/* We keep the fence around, so we can iterate over all
+> > > dependencies
+> > > =C2=A0=09 * in drm_sched_entity_kill_jobs_cb() to ensure all deps
+> > > are
+> > > signaled
+> > > =C2=A0=09 * before killing the job.
+> > > =C2=A0=09 */
+> > > -=09f =3D xa_load(&job->dependencies, job->last_dependency);
+> > > +=09f =3D xa_load(dependencies, job->last_dependency);
+> > > =C2=A0=09if (f) {
+> > > =C2=A0=09=09job->last_dependency++;
+> > > =C2=A0=09=09return dma_fence_get(f);
+> > > =C2=A0=09}
+> > > =C2=A0
+> > > +=09/* Switch resolving preempt dependencies pipelining
+> > > signaling */
+> >=20
+> > I don't understand this comment. I guess you want to say that this
+> > section resolves preemption dependencies for the (fence) pipeline
+> > signaling?
+> >=20
+>=20
+> 'Switch to resolving preempt dependencies. Enabling signaling on all
+> preempt dependencies to pipeline the hardware preemption'
+>=20
+> Is that better more / clear?
+
+Yup, that sounds clear
+
+
+Thanks,
 P.
 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
-> =C2=A0drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c | 2 +-
-> =C2=A0drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c=C2=A0 | 6 +++---
-> =C2=A02 files changed, 4 insertions(+), 4 deletions(-)
+
 >=20
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-> b/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-> index 027867c2a8c5..8f9aa3463c3c 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-> @@ -992,7 +992,7 @@ r535_dp_train_target(struct nvkm_outp *outp, u8
-> target, bool mst, u8 link_nr, u8
-> =C2=A0=09=09ctrl->data =3D data;
-> =C2=A0
-> =C2=A0=09=09ret =3D nvkm_gsp_rm_ctrl_push(&disp->rm.objcom, &ctrl,
-> sizeof(*ctrl));
-> -=09=09if (ret =3D=3D -EAGAIN && ctrl->retryTimeMs) {
-> +=09=09if ((ret =3D=3D -EAGAIN || ret =3D=3D -EBUSY) && ctrl-
-> >retryTimeMs) {
-> =C2=A0=09=09=09/*
-> =C2=A0=09=09=09 * Device (likely an eDP panel) isn't ready
-> yet, wait for the time specified
-> =C2=A0=09=09=09 * by GSP before retrying again
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> index cf58f9da9139..d586aea30898 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> @@ -78,7 +78,7 @@ r535_rpc_status_to_errno(uint32_t rpc_status)
-> =C2=A0=09switch (rpc_status) {
-> =C2=A0=09case 0x55: /* NV_ERR_NOT_READY */
-> =C2=A0=09case 0x66: /* NV_ERR_TIMEOUT_RETRY */
-> -=09=09return -EAGAIN;
-> +=09=09return -EBUSY;
-> =C2=A0=09case 0x51: /* NV_ERR_NO_MEMORY */
-> =C2=A0=09=09return -ENOMEM;
-> =C2=A0=09default:
-> @@ -601,7 +601,7 @@ r535_gsp_rpc_rm_alloc_push(struct nvkm_gsp_object
-> *object, void *argv, u32 repc)
-> =C2=A0
-> =C2=A0=09if (rpc->status) {
-> =C2=A0=09=09ret =3D ERR_PTR(r535_rpc_status_to_errno(rpc-
-> >status));
-> -=09=09if (PTR_ERR(ret) !=3D -EAGAIN)
-> +=09=09if (PTR_ERR(ret) !=3D -EAGAIN && PTR_ERR(ret) !=3D -
-> EBUSY)
-> =C2=A0=09=09=09nvkm_error(&gsp->subdev, "RM_ALLOC: 0x%x\n",
-> rpc->status);
-> =C2=A0=09} else {
-> =C2=A0=09=09ret =3D repc ? rpc->params : NULL;
-> @@ -660,7 +660,7 @@ r535_gsp_rpc_rm_ctrl_push(struct nvkm_gsp_object
-> *object, void **argv, u32 repc)
-> =C2=A0
-> =C2=A0=09if (rpc->status) {
-> =C2=A0=09=09ret =3D r535_rpc_status_to_errno(rpc->status);
-> -=09=09if (ret !=3D -EAGAIN)
-> +=09=09if (ret !=3D -EAGAIN && ret !=3D -EBUSY)
-> =C2=A0=09=09=09nvkm_error(&gsp->subdev, "cli:0x%08x
-> obj:0x%08x ctrl cmd:0x%08x failed: 0x%08x\n",
-> =C2=A0=09=09=09=09=C2=A0=C2=A0 object->client->object.handle,
-> object->handle, rpc->cmd, rpc->status);
-> =C2=A0=09}
+> > > +=09if (!job->resolve_preempt_dependencies) {
+> > > +=09=09unsigned long index;
+> > > +
+> > > +=09=09xa_for_each(&job->preempt_dependencies, index,
+> > > f)
+> > > +=09=09=09dma_fence_enable_sw_signaling(f);
+> > > +
+> > > +=09=09job->resolve_preempt_dependencies =3D true;
+> >=20
+> > Hm, is this set to false ever again? It seems it doesn't need to?
+> > So
+> > the goto again is only ever triggered once?
+> >=20
+>=20
+> resolve_preempt_dependencies can only go from 0 - > 1 exactly one
+> time.
+>=20
+> > > +=09=09goto again;
+> > > +=09}
+> > > +
+> > > =C2=A0=09if (job->sched->ops->prepare_job)
+> > > =C2=A0=09=09return job->sched->ops->prepare_job(job,
+> > > entity);
+> > > =C2=A0
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > index 7ce25281c74c..eceb9b8c6f5f 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > @@ -829,6 +829,7 @@ int drm_sched_job_init(struct drm_sched_job
+> > > *job,
+> > > =C2=A0=09INIT_LIST_HEAD(&job->list);
+> > > =C2=A0
+> > > =C2=A0=09xa_init_flags(&job->dependencies, XA_FLAGS_ALLOC);
+> > > +=09xa_init_flags(&job->preempt_dependencies,
+> > > XA_FLAGS_ALLOC);
+> > > =C2=A0
+> > > =C2=A0=09return 0;
+> > > =C2=A0}
+> > > @@ -864,21 +865,14 @@ void drm_sched_job_arm(struct drm_sched_job
+> > > *job)
+> > > =C2=A0}
+> > > =C2=A0EXPORT_SYMBOL(drm_sched_job_arm);
+> > > =C2=A0
+> > > -/**
+> > > - * drm_sched_job_add_dependency - adds the fence as a job
+> > > dependency
+> > > - * @job: scheduler job to add the dependencies to
+> > > - * @fence: the dma_fence to add to the list of dependencies.
+> > > - *
+> > > - * Note that @fence is consumed in both the success and error
+> > > cases.
+> > > - *
+> > > - * Returns:
+> > > - * 0 on success, or an error on failing to expand the array.
+> > > - */
+> > > -int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> > > -=09=09=09=09 struct dma_fence *fence)
+> > > +static int __drm_sched_job_add_dependency(struct drm_sched_job
+> > > *job,
+> > > +=09=09=09=09=09=C2=A0 struct dma_fence
+> > > *fence,
+> > > +=09=09=09=09=09=C2=A0 bool is_preempt)
+> > > =C2=A0{
+> > > =C2=A0=09struct dma_fence *entry;
+> > > =C2=A0=09unsigned long index;
+> > > +=09struct xarray *dependencies =3D is_preempt ? &job-
+> > > > preempt_dependencies :
+> > > +=09=09&job->dependencies;
+> >=20
+> > Same =E2=80=93 is better as an if-else below
+> >=20
+>=20
+> Sure.
+>=20
+> > > =C2=A0=09u32 id =3D 0;
+> > > =C2=A0=09int ret;
+> > > =C2=A0
+> > > @@ -889,25 +883,41 @@ int drm_sched_job_add_dependency(struct
+> > > drm_sched_job *job,
+> > > =C2=A0=09 * This lets the size of the array of deps scale with
+> > > the
+> > > number of
+> > > =C2=A0=09 * engines involved, rather than the number of BOs.
+> > > =C2=A0=09 */
+> > > -=09xa_for_each(&job->dependencies, index, entry) {
+> > > +=09xa_for_each(dependencies, index, entry) {
+> > > =C2=A0=09=09if (entry->context !=3D fence->context)
+> > > =C2=A0=09=09=09continue;
+> > > =C2=A0
+> > > =C2=A0=09=09if (dma_fence_is_later(fence, entry)) {
+> > > =C2=A0=09=09=09dma_fence_put(entry);
+> > > -=09=09=09xa_store(&job->dependencies, index,
+> > > fence,
+> > > GFP_KERNEL);
+> > > +=09=09=09xa_store(dependencies, index, fence,
+> > > GFP_KERNEL);
+> > > =C2=A0=09=09} else {
+> > > =C2=A0=09=09=09dma_fence_put(fence);
+> > > =C2=A0=09=09}
+> > > =C2=A0=09=09return 0;
+> > > =C2=A0=09}
+> > > =C2=A0
+> > > -=09ret =3D xa_alloc(&job->dependencies, &id, fence,
+> > > xa_limit_32b,
+> > > GFP_KERNEL);
+> > > +=09ret =3D xa_alloc(dependencies, &id, fence, xa_limit_32b,
+> > > GFP_KERNEL);
+> > > =C2=A0=09if (ret !=3D 0)
+> > > =C2=A0=09=09dma_fence_put(fence);
+> > > =C2=A0
+> > > =C2=A0=09return ret;
+> > > =C2=A0}
+> > > +
+> > > +/**
+> > > + * drm_sched_job_add_dependency - adds the fence as a job
+> > > dependency
+> > > + * @job: scheduler job to add the dependencies to
+> > > + * @fence: the dma_fence to add to the list of dependencies.
+> > > + *
+> > > + * Note that @fence is consumed in both the success and error
+> > > cases.
+> > > + *
+> > > + * Returns:
+> > > + * 0 on success, or an error on failing to expand the array.
+> > > + */
+> > > +int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> > > +=09=09=09=09 struct dma_fence *fence)
+> > > +{
+> > > +=09return __drm_sched_job_add_dependency(job, fence,
+> > > false);
+> > > +}
+> > > =C2=A0EXPORT_SYMBOL(drm_sched_job_add_dependency);
+> > > =C2=A0
+> > > =C2=A0/**
+> > > @@ -963,7 +973,9 @@ int
+> > > drm_sched_job_add_resv_dependencies(struct
+> > > drm_sched_job *job,
+> > > =C2=A0=09dma_resv_for_each_fence(&cursor, resv, usage, fence) {
+> > > =C2=A0=09=09/* Make sure to grab an additional ref on the
+> > > added
+> > > fence */
+> > > =C2=A0=09=09dma_fence_get(fence);
+> > > -=09=09ret =3D drm_sched_job_add_dependency(job, fence);
+> > > +=09=09ret =3D __drm_sched_job_add_dependency(job, fence,
+> > > +=09=09=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0
+> > > cursor.fence_usage =3D=3D
+> > > +=09=09=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0
+> > > DMA_RESV_USAGE_PREEMPT);
+> > > =C2=A0=09=09if (ret) {
+> > > =C2=A0=09=09=09dma_fence_put(fence);
+> > > =C2=A0=09=09=09return ret;
+> > > @@ -1030,6 +1042,10 @@ void drm_sched_job_cleanup(struct
+> > > drm_sched_job *job)
+> > > =C2=A0=09}
+> > > =C2=A0=09xa_destroy(&job->dependencies);
+> > > =C2=A0
+> > > +=09xa_for_each(&job->preempt_dependencies, index, fence) {
+> > > +=09=09dma_fence_put(fence);
+> > > +=09}
+> > > +=09xa_destroy(&job->preempt_dependencies);
+> > > =C2=A0}
+> > > =C2=A0EXPORT_SYMBOL(drm_sched_job_cleanup);
+> > > =C2=A0
+> > > diff --git a/include/drm/gpu_scheduler.h
+> > > b/include/drm/gpu_scheduler.h
+> > > index 95e17504e46a..de16cf6b1869 100644
+> > > --- a/include/drm/gpu_scheduler.h
+> > > +++ b/include/drm/gpu_scheduler.h
+> > > @@ -353,6 +353,13 @@ struct drm_sched_job {
+> > > =C2=A0
+> > > =C2=A0=09u32=09=09=09=09credits;
+> > > =C2=A0
+> > > +=09/**
+> > > +=09 * @resolve_preempt_dependencies:
+> > > +=09 *
+> > > +=09 * Job is currently resolving preempt dependencies.
+> > > +=09 */
+> > > +=09bool=09=09=09=09resolve_preempt_dependen
+> > > cies
+> > > ;
+> >=20
+> > I think this should be called "resolving_preempt_dependencies".
+> > Just 2
+> > letters more and it emphasizes that this is happening "currently".
+> >=20
+>=20
+> That is more clear. Will rename.
+>=20
+> Matt
+>=20
+> >=20
+> > P.
+> >=20
+> > > +
+> > > =C2=A0=09/*
+> > > =C2=A0=09 * work is used only after finish_cb has been used and
+> > > will
+> > > not be
+> > > =C2=A0=09 * accessed anymore.
+> > > @@ -376,6 +383,14 @@ struct drm_sched_job {
+> > > =C2=A0=09 */
+> > > =C2=A0=09struct xarray=09=09=09dependencies;
+> > > =C2=A0
+> > > +=09/**
+> > > +=09 * @preempt_dependencies:
+> > > +=09 *
+> > > +=09 * Contains the dependencies as struct dma_fence for
+> > > this
+> > > job which are
+> > > +=09 * preempt fences.
+> > > +=09 */
+> > > +=09struct xarray=09=09=09preempt_dependencies;
+> > > +
+> > > =C2=A0=09/** @last_dependency: tracks @dependencies as they
+> > > signal */
+> > > =C2=A0=09unsigned long=09=09=09last_dependency;
+> > > =C2=A0
+> >=20
+>=20
 
