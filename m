@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA939C6EF1
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 13:21:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F0C9C6F0B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 13:28:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34A0310E6E5;
-	Wed, 13 Nov 2024 12:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3DBA10E095;
+	Wed, 13 Nov 2024 12:27:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Mxxxeqcb";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j8V9y4C2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
  [209.85.219.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF5410E6E5
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 12:21:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEC1C10E6E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 12:27:57 +0000 (UTC)
 Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-e30d212b6b1so6360675276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 04:21:30 -0800 (PST)
+ 3f1490d57ef6-e28fe07e97dso6883012276.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 04:27:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731500489; x=1732105289; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1731500877; x=1732105677; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JsE6HZ0BDIdFm8pHUV9wjAijdgzctcE9O8piDmD3bwk=;
- b=MxxxeqcbNJzQnKqZYMynnuc5VgAfHdgEvjPgdkYIEbGiQjU5dBeDlXyngUZLcDKlMb
- BstmZmGdXUbMU5wQp5T6goInOLZWE8XV8Q0ge2iLULmPa1Hi6s28yM/UMf2mThLZW8Wm
- Yx+hDoFyq9bq0ZRqEJWElB44hgBFa8HtTB697+p2b8tQQsgaCg0Rzze2QnxkJDYFQEXd
- Xah+YlekLIE0w6RYYWMRcucm4tGc8xYLojC+OUSvEbkt7HHdD2P2cFIk3dfc8Fy3IhZQ
- PB1Mo2g84YGEGwphVwf9Hh2zZdBVdF32TsYi89o+sEySOaTCZ3IfBz3SpJ9nkDJKmLn7
- JTdw==
+ bh=KImKDqWq4s21FhX0T9TYJY9R8T8zry6WhOX4TLZUuNk=;
+ b=j8V9y4C2/dQ3Lyh9KbTsMlE+FGzSSyeOcfGHYcoxWzqhz4LCgHLyv8WUhH+zvlQkyP
+ hGNx9gGI1aQiOn8INIIpCsh09y6dQlW6pi0T4U4CSYETVuTeFidadmQjGKKftaSbKu7B
+ 9ffIYvb3tQmyy2fpqhI51EXCmMLwgF0GzbqAIFTiKyAvxaIKiuxKPmCwsmd9XnsshtBA
+ kxz08U8ax056Q7RpbWW810BVffLaP+GhF5OWTLXX53cj6m7SPNNBGogfbmcWzoI3oGHb
+ An0J9XPTzIml7rs6XP+GCLsIpcvrRv0OJX2N6JvwPN8KlDKlRjDefffLwPvQwv0mZVHH
+ KVwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731500489; x=1732105289;
+ d=1e100.net; s=20230601; t=1731500877; x=1732105677;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=JsE6HZ0BDIdFm8pHUV9wjAijdgzctcE9O8piDmD3bwk=;
- b=m8PHmYQ9Lnen4UyamIiuwwU+/PSkCTrhWYFYFgB1qITIBjIKOcuzSKkJu9hQUOAoS9
- ZSVvDPptlN+BQNsSpAiSrYAWTT5PyeW5BpaO1JonMIagtK2eBsdEQfE0baNaQy7mGTc3
- Z4CY15/+jdiopzw0axK9zd4aXkxqlnnuuhhz7Ce7wVVLqhnXNY0whjpH9BcEtu0xsRLC
- uiG/q0I2/wKxT5b7oFkywOOjYScKSJSxBT4NHMEO0BH2StBoGSOOhWROuA9Kwddc/809
- hwdR50yMl7RHMG4GUoOrQ7peYuSwUmZkOLu1jVQpTIB3BNUAyftycEMRskTVuS+g7bm0
- VsnQ==
+ bh=KImKDqWq4s21FhX0T9TYJY9R8T8zry6WhOX4TLZUuNk=;
+ b=I9aj6XGr4l1nW5AbGknXTc0RDH0nWky5cTdWSTGYKSEgwqxndJINOAjodPyg+pmevw
+ OJzcCaiwifwCExA5Mqer3KOdIBZaENZh7ST3CH38Kivln68nPgpTqc71TvY4r8qKSCZl
+ Pzupgrm0n44qeZnIiFoNrkg21/Q5X3T7f+LYpjla1OrCtqfMF+jDoIZDP0+if34TYyhk
+ z50bulvKugCR5xQHtOOupbZIAVGIn7cZJ/TcdSSQBOIl2dPmHR5ex+04cggLF6yXCfp5
+ UTGgn/S4zoJYsj4HjfgGRRVLL5EWPMsXv1sp9hjBwUAxysoLqEExMsjZvQIlBsFV2lsD
+ +8HA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV0+tjywLZTBYLGusU7Bxf5bMG93o/IYfVBVMq3YRe+6NfPmaEtC/Y6GOSGl+jhfapPN+BBPwY8cc4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwcbsOUxdVLI1gnWnPLgd2zLpBrTYWO6vHcFELnH4UJaWElnN7g
- 9upsEyt295CTsmqBoIXrLxybrdKk7YE2JBliSGat0AlnIhCNLp0O+i+pvK+Em9CBewGUFequd7Q
- HQFqgI9fKKbJ4smcvTp5qeeWb9HAoEEQmupkRSQ==
-X-Google-Smtp-Source: AGHT+IHlEW9Y6a6VKxz7Rj8wBbFwf85y1XuiF8DPZGiTfkNkpU73TSXFVeGlAI184r1k/vIlZa0la+oK03iLvn2Otwg=
-X-Received: by 2002:a05:6902:1101:b0:e30:d443:8490 with SMTP id
- 3f1490d57ef6-e337f8c6c9bmr18265860276.40.1731500489516; Wed, 13 Nov 2024
- 04:21:29 -0800 (PST)
+ AJvYcCWsgUWfYqmglbDZGOEkfSsxrfKFmRtKgXzl/9fY40D8lg7LJ8HP7lWi5MNxcyRVBXO8HGW75QeVsis=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYVUCHKlLMQZ3IRQLgCsFA0MpJ09pQ3ur/qPDCejcMjD5Z44X7
+ UAH5hNbMCaVVzJzSuZSmS7+Cl+AvN7azcHpq2GAa4m/T90or8TfDBC9Xr5yxyU3oxuMlu57iYiU
+ b/I2xTjJ6vZGz8fAwWr8L0MdYKX73tx+yNmjnqg==
+X-Google-Smtp-Source: AGHT+IHaAWOdAgML2ba4DzOA4z4U2wezC3VkawX20A2dPxMskv1IqJdFG+uwKU9K7bhxa9QyXticQbkM331fssKDcLk=
+X-Received: by 2002:a05:690c:30b:b0:6e3:16da:e74 with SMTP id
+ 00721157ae682-6eaddd9418emr194176117b3.16.1731500876873; Wed, 13 Nov 2024
+ 04:27:56 -0800 (PST)
 MIME-Version: 1.0
 References: <20241113-add-display-support-for-qcs615-platform-v2-0-2873eb6fb869@quicinc.com>
- <20241113-add-display-support-for-qcs615-platform-v2-9-2873eb6fb869@quicinc.com>
-In-Reply-To: <20241113-add-display-support-for-qcs615-platform-v2-9-2873eb6fb869@quicinc.com>
+ <20241113-add-display-support-for-qcs615-platform-v2-8-2873eb6fb869@quicinc.com>
+In-Reply-To: <20241113-add-display-support-for-qcs615-platform-v2-8-2873eb6fb869@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 13 Nov 2024 14:21:18 +0200
-Message-ID: <CAA8EJpok20-7HXJJbcJi8YZYCU68g_DGThR_ckjBEz0e+gGBSA@mail.gmail.com>
-Subject: Re: [PATCH v2 9/9] arm64: defconfig: Enable SX150X for QCS615 ride
- board
+Date: Wed, 13 Nov 2024 14:27:45 +0200
+Message-ID: <CAA8EJprBxL0KuOm4f1peRCw9Y=bzXo=Vt-QEv37RzJ62zJriNw@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] arm64: dts: qcom: Add display support for QCS615
+ RIDE board
 To: Fange Zhang <quic_fangez@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
@@ -98,40 +98,21 @@ On Wed, 13 Nov 2024 at 13:53, Fange Zhang <quic_fangez@quicinc.com> wrote:
 >
 > From: Li Liu <quic_lliu6@quicinc.com>
 >
-> For the QCS615 ride board, enable the SX150X to activate the ANX7625
-> allowing the DSI to output to the mDP through the external bridge.
-> The ANX7625 relies on the SX150X chip to perform reset and HPD.
+> Add display MDSS and DSI configuration for QCS615.
+> QCS615 has a DP port, and DP support will be added in a later patch.
 >
 > Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
 > Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
 > ---
->  arch/arm64/configs/defconfig | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index c0b8482ac6ad7498487718ba01d11b1c95e7543d..599a339a19435efbee7a5ef80c093b0e8c65f7ff 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -631,6 +631,7 @@ CONFIG_PINCTRL_SM8350=y
->  CONFIG_PINCTRL_SM8450=y
->  CONFIG_PINCTRL_SM8550=y
->  CONFIG_PINCTRL_SM8650=y
-> +CONFIG_PINCTRL_SX150X=y
+>  arch/arm64/boot/dts/qcom/qcs615-ride.dts | 109 +++++++++++++++++++++++++++++++
+>  1 file changed, 109 insertions(+)
 
-Your commit message doesn't describe why it needs to be disabled as a
-built-in. You are trying to enable it for all defconfig users.
-Also the placement of the symbol is not correct. You've added it to
-the section with msm pinctrl drivers, while the chip has nothing to do
-with msm.
 
->  CONFIG_PINCTRL_X1E80100=y
->  CONFIG_PINCTRL_QCOM_SPMI_PMIC=y
->  CONFIG_PINCTRL_LPASS_LPI=m
->
-> --
-> 2.34.1
->
-
+This patch has even more feedback that was ignored at v1. Please go to
+the v1 discussion, respond to _all_ the items, so that we can actually
+see what got ignored and why. Usually I don't require this (we can all
+make a mistake and miss an item or two), but with this patchset the
+number of the comments that were ignored is extremely high.
 
 -- 
 With best wishes
