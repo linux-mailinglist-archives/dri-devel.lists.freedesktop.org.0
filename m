@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B589C6846
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 05:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80AB9C6955
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 07:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508AD10E683;
-	Wed, 13 Nov 2024 04:57:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0A0A10E684;
+	Wed, 13 Nov 2024 06:33:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="ZT7wqmL2";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="LBjR4DNQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05C5E10E24F;
- Wed, 13 Nov 2024 04:57:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=j1HJo1ufOOxZgsH2EGvRK6a4aBfxJMGSr5VDtSY9Rgs=; b=ZT7wqmL2VOXcAirGj0kjVCjCvh
- 4z2BhaS4iVOQ43YLyNmGY43VklL1/Z2O7Ma1NK4RzLuUHfFiUzS2WjkOYB5oKPoFJda3Bx7rTagGw
- jOZn1nnDPQGPUnhJMJHFu4kXX+w8FgWC1U4gfDubH4vy8aK6Mf6LRX/CMPitatQjucVjfC+qTKfkV
- JrRVjk2/BoA8zXvfKHLDICQwWNltHNpqfMqSmAxHbBBbPZSd6hJRwc1k5YwiM7C5ZPiZMducbEvnl
- VIh1yDHuoLwWUumcMyn/Y5kUfjO/K1qrgEniRYXqOBLcIrJyY+T6jb+nbxTL70sAmPUGrDVo22mWO
- vPHnMYtA==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat
- Linux)) id 1tB5RY-0000000Fj5A-3sOC; Wed, 13 Nov 2024 04:57:29 +0000
-Date: Wed, 13 Nov 2024 04:57:28 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Fuad Tabba <tabba@google.com>,
- linux-mm@kvack.org, kvm@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rppt@kernel.org, jglisse@redhat.com, akpm@linux-foundation.org,
- muchun.song@linux.dev, simona@ffwll.ch, airlied@gmail.com,
- pbonzini@redhat.com, seanjc@google.com, jhubbard@nvidia.com,
- ackerleytng@google.com, vannapurve@google.com,
- mail@maciej.szmigiero.name, kirill.shutemov@linux.intel.com,
- quic_eberman@quicinc.com, maz@kernel.org, will@kernel.org,
- qperret@google.com, keirf@google.com, roypat@amazon.co.uk
-Subject: Re: [RFC PATCH v1 00/10] mm: Introduce and use folio_owner_ops
-Message-ID: <ZzQxuAiJLbqm5xGO@casper.infradead.org>
-References: <20241108162040.159038-1-tabba@google.com>
- <20241108170501.GI539304@nvidia.com>
- <9dc212ac-c4c3-40f2-9feb-a8bcf71a1246@redhat.com>
- <CA+EHjTy3kNdg7pfN9HufgibE7qY1S+WdMZfRFRiF5sHtMzo64w@mail.gmail.com>
- <ZzLnFh1_4yYao_Yz@casper.infradead.org>
- <e82d7a46-8749-429c-82fa-0c996c858f4a@redhat.com>
- <20241112135348.GA28228@nvidia.com>
- <430b6a38-facf-4127-b1ef-5cfe7c495d63@redhat.com>
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC2810E261;
+ Wed, 13 Nov 2024 06:33:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1731479619;
+ bh=ygUXM9cyet0rOB7Ae8SPe/FAe67XouoFd1A9KN8VhFY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=LBjR4DNQ26MEoHy9VbkBURZir4obe0otR8txLnT/CaIaxhqKzg2fExa4OByRaQAIo
+ Txgk5kBo/docNDW2qjePZ9TNdIZAqEwaRh+WGMGHabok7qlY1bsxpb6nHtL2Hmaojm
+ aFhaF9s0p1RtDGc9rDxWuMr6pwgIiqVwItYhTMRGFuH7Pr2t/67mbHLHV5jbnn6sVC
+ vQn+U7puqSlfqP68sSfNUCF+TFb0256uDV7o5Q/h7jXeYYGF/beMHPrdpjENhn9avy
+ xIgi6kY7Gs34ATVtPYN5yiJzhdGnP/3Qup20PEXmfvqA/dUGd/AgcwgJMRFWHb5wIV
+ D1pBUo0Yyqn+g==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4XpD4y4f7bz4wc3;
+ Wed, 13 Nov 2024 17:33:38 +1100 (AEDT)
+Date: Wed, 13 Nov 2024 17:33:40 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, Philipp Stanner
+ <pstanner@redhat.com>, Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build warning after merge of the drm-misc tree
+Message-ID: <20241113173340.345a196e@canb.auug.org.au>
+In-Reply-To: <20241108175655.6d3fcfb7@canb.auug.org.au>
+References: <20241108175655.6d3fcfb7@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <430b6a38-facf-4127-b1ef-5cfe7c495d63@redhat.com>
+Content-Type: multipart/signed; boundary="Sig_/q7TG3z8kTKztApVEjDuHvF=";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,99 +61,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 12, 2024 at 03:22:46PM +0100, David Hildenbrand wrote:
-> On 12.11.24 14:53, Jason Gunthorpe wrote:
-> > On Tue, Nov 12, 2024 at 10:10:06AM +0100, David Hildenbrand wrote:
-> > > On 12.11.24 06:26, Matthew Wilcox wrote:
-> > > > I don't want you to respin.  I think this is a bad idea.
-> > > 
-> > > I'm hoping you'll find some more time to explain what exactly you don't
-> > > like, because this series only refactors what we already have.
-> > > 
-> > > I enjoy seeing the special casing (especially hugetlb) gone from mm/swap.c.
+--Sig_/q7TG3z8kTKztApVEjDuHvF=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I don't.  The list of 'if's is better than the indirect function call.
-That's terribly expensive, and the way we reuse the lru.next field
-is fragile.  Not to mention that it introduces a new thing for the
-hardening people to fret over.
+Hi all,
 
-> > And, IMHO, seems like overkill. We have only a handful of cases -
-> > maybe we shouldn't be trying to get to full generality but just handle
-> > a couple of cases directly? I don't really think it is such a bad
-> > thing to have an if ladder on the free path if we have only a couple
-> > things. Certainly it looks good instead of doing overlaying tricks.
-> 
-> I'd really like to abstract hugetlb handling if possible. The way it stands
-> it's just very odd.
+On Fri, 8 Nov 2024 17:56:55 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
+>
+> After merging the drm-misc tree, today's linux-next build (htmldocs)
+> produced this warning:
+>=20
+> Documentation/gpu/drm-mm:571: drivers/gpu/drm/scheduler/sched_main.c:1359=
+: ERROR: Unexpected indentation.
+>=20
+> Introduced by commit
+>=20
+>   baf4afc58314 ("drm/sched: Improve teardown documentation")
 
-There might be ways to make that better.  I haven't really been looking
-too hard at making that special handling go away.
+I am still seeing this warning (now in the drm tree)
 
-> We'll need some reliable way to identify these folios that need care.
-> guest_memfd will be using folio->mapcount for now, so for now we couldn't
-> set a page type like hugetlb does.
+--=20
+Cheers,
+Stephen Rothwell
 
-If hugetlb can set lru.next at a certain point, then guestmemfd could
-set a page type at a similar point, no?
+--Sig_/q7TG3z8kTKztApVEjDuHvF=
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> > Also how does this translate to Matthew's memdesc world?
+-----BEGIN PGP SIGNATURE-----
 
-In a memdesc world, pages no longer have a refcount.  We might still
-have put_page() which will now be a very complicated (and out-of-line)
-function that looks up what kind of memdesc it is and operates on the
-memdesc's refcount ... if it has one.  I don't know if it'll be exported
-to modules; I can see uses in the mm code, but I'm not sure if modules
-will have a need.
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmc0SEQACgkQAVBC80lX
+0GxDNgf/THbv3cMa7n0KQ39opRw5GvltAffCB8zEM4unatKuWQcaYn+BgvVPUM4F
+I32JGSduDqXPlUVlSGJmYPClmCzIHOub7vwbnE85d1UvcwfBO22FY5+TenCPjbZD
+QtEEpOGYDQlgzcM9m9JqaQPjso0hpXswCfmmyf95UGyFRn/CXT0R4kXoWxVEKeUF
+EWJci4iiWveDwvIWeIIYOnYM/FnoIWxDobuX1KGjDsO/7wfbpU9VzdnGb0jrw0eu
+i05/QLAoOlpwpuPnsZT7Zlil4uwIh5jZLKCEoTwF8cNPeKHviNNigT3YInJqi4n/
+NUhK/E0PAQ1pBkyraaSjDcBHo/5XGg==
+=INO/
+-----END PGP SIGNATURE-----
 
-Each memdesc type will have its own function to call to free the memdesc.
-So we'll still have folio_put().  But slab does not have, need nor want
-a refcount, so it'll just slab_free().  I expect us to keep around a
-list of recently-freed memdescs of a particular type with their pages
-still attached so that we can allocate them again quickly (or reclaim
-them under memory pressure).  Once that freelist overflows, we'll free
-a batch of them to the buddy allocator (for the pages) and the slab
-allocator (for the memdesc itself).
-
-> guest_memfd and hugetlb would be operating on folios (at least for now),
-> which contain the refcount,lru,private, ... so nothing special there.
-> 
-> Once we actually decoupled "struct folio" from "struct page", we *might*
-> have to play less tricks, because we could just have a callback pointer
-> there. But well, maybe we also want to save some space in there.
-> 
-> Do we want dedicated memdescs for hugetlb/guest_memfd that extend folios in
-> the future? I don't know, maybe.
-
-I've certainly considered going so far as a per-fs folio.  So we'd
-have an ext4_folio, an btrfs_folio, an iomap_folio, etc.  That'd let us
-get rid of folio->private, but I'm not sure that C's type system can
-really handle this nicely.  Maybe in a Rust world ;-)
-
-What I'm thinking about is that I'd really like to be able to declare
-that all the functions in ext4_aops only accept pointers to ext4_folio,
-so ext4_dirty_folio() can't be called with pointers to _any_ folio,
-but specifically folios which were previously allocated for ext4.
-
-I don't know if Rust lets you do something like that.
-
-> I'm currently wondering if we can use folio->private for the time being.
-> Either
-> 
-> (a) If folio->private is still set once the refcount drops to 0, it
-> indicates that there is a freeing callback/owner_ops. We'll have to make
-> hugetlb not use folio->private and convert others to clear folio->private
-> before freeing.
-> 
-> (b) Use bitX of folio->private to indicate that this has "owner_ops"
-> meaning. We'll have to make hugetlb not use folio->private and make others
-> not use bitX. Might be harder and overkill, because right now we only really
-> need the callback when refcount==0.
-> 
-> (c) Use some other indication that folio->private contains folio_ops.
-
-I really don't want to use folio_ops / folio_owner_ops.  I read
-https://lore.kernel.org/all/CAGtprH_JP2w-4rq02h_Ugvq5KuHX7TUvegOS7xUs_iy5hriE7g@mail.gmail.com/
-and I still don't understand what you're trying to do.
-
-Would it work to use aops->free_folio() to notify you when the folio is
-being removed from the address space?
+--Sig_/q7TG3z8kTKztApVEjDuHvF=--
