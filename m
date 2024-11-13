@@ -2,50 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0DC09C67B3
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 04:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B589C6846
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2024 05:57:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 216A210E43F;
-	Wed, 13 Nov 2024 03:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 508AD10E683;
+	Wed, 13 Nov 2024 04:57:38 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="ZT7wqmL2";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4BEE10E43F
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 03:17:44 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.44])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Xp7hl3JfMz1jy7T;
- Wed, 13 Nov 2024 11:15:51 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id D9D0614037C;
- Wed, 13 Nov 2024 11:17:40 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Wed, 13 Nov 2024 11:17:39 +0800
-Message-ID: <6f690403-2d56-41fe-a223-c5e8014cfe9c@huawei.com>
-Date: Wed, 13 Nov 2024 11:17:38 +0800
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05C5E10E24F;
+ Wed, 13 Nov 2024 04:57:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=j1HJo1ufOOxZgsH2EGvRK6a4aBfxJMGSr5VDtSY9Rgs=; b=ZT7wqmL2VOXcAirGj0kjVCjCvh
+ 4z2BhaS4iVOQ43YLyNmGY43VklL1/Z2O7Ma1NK4RzLuUHfFiUzS2WjkOYB5oKPoFJda3Bx7rTagGw
+ jOZn1nnDPQGPUnhJMJHFu4kXX+w8FgWC1U4gfDubH4vy8aK6Mf6LRX/CMPitatQjucVjfC+qTKfkV
+ JrRVjk2/BoA8zXvfKHLDICQwWNltHNpqfMqSmAxHbBBbPZSd6hJRwc1k5YwiM7C5ZPiZMducbEvnl
+ VIh1yDHuoLwWUumcMyn/Y5kUfjO/K1qrgEniRYXqOBLcIrJyY+T6jb+nbxTL70sAmPUGrDVo22mWO
+ vPHnMYtA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat
+ Linux)) id 1tB5RY-0000000Fj5A-3sOC; Wed, 13 Nov 2024 04:57:29 +0000
+Date: Wed, 13 Nov 2024 04:57:28 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Fuad Tabba <tabba@google.com>,
+ linux-mm@kvack.org, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rppt@kernel.org, jglisse@redhat.com, akpm@linux-foundation.org,
+ muchun.song@linux.dev, simona@ffwll.ch, airlied@gmail.com,
+ pbonzini@redhat.com, seanjc@google.com, jhubbard@nvidia.com,
+ ackerleytng@google.com, vannapurve@google.com,
+ mail@maciej.szmigiero.name, kirill.shutemov@linux.intel.com,
+ quic_eberman@quicinc.com, maz@kernel.org, will@kernel.org,
+ qperret@google.com, keirf@google.com, roypat@amazon.co.uk
+Subject: Re: [RFC PATCH v1 00/10] mm: Introduce and use folio_owner_ops
+Message-ID: <ZzQxuAiJLbqm5xGO@casper.infradead.org>
+References: <20241108162040.159038-1-tabba@google.com>
+ <20241108170501.GI539304@nvidia.com>
+ <9dc212ac-c4c3-40f2-9feb-a8bcf71a1246@redhat.com>
+ <CA+EHjTy3kNdg7pfN9HufgibE7qY1S+WdMZfRFRiF5sHtMzo64w@mail.gmail.com>
+ <ZzLnFh1_4yYao_Yz@casper.infradead.org>
+ <e82d7a46-8749-429c-82fa-0c996c858f4a@redhat.com>
+ <20241112135348.GA28228@nvidia.com>
+ <430b6a38-facf-4127-b1ef-5cfe7c495d63@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 drm-dp 1/4] drm/hisilicon/hibmc: add dp aux in hibmc
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
- <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <shiyongbang@huawei.com>
-References: <20241101105028.2177274-1-shiyongbang@huawei.com>
- <20241101105028.2177274-2-shiyongbang@huawei.com>
- <ainzxaeea5bnxogaudypijz2wv6z4ev2wnlmcxniw2a27ab3yt@54cexnmypxab>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <ainzxaeea5bnxogaudypijz2wv6z4ev2wnlmcxniw2a27ab3yt@54cexnmypxab>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <430b6a38-facf-4127-b1ef-5cfe7c495d63@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,423 +69,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On Fri, Nov 01, 2024 at 06:50:25PM +0800, Yongbang Shi wrote:
->> From: baihan li <libaihan@huawei.com>
->>
->> Add dp aux read/write functions. They are basic functions
->> and will be used later.
->>
->> Signed-off-by: baihan li <libaihan@huawei.com>
->> Signed-off-by: yongbang shi <shiyongbang@huawei.com>
-> Is this a proper capitalization of your names? Usually the first letter
-> of each of them is capital.
->
->> ---
->> ChangeLog:
->> v2 -> v3:
->>    - put the macro definations in latter patch where they are actually used, suggested by Dmitry Baryshkov.
->>    - rename some macro definations to make them sensible, suggested by Dmitry Baryshkov.
->>    - using FIELD_PREP and FIELD_GET, suggested by Dmitry Baryshkov.
->>    - using DP_DPCD_REV_foo, suggested by Dmitry Baryshkov.
->>    - fix build errors reported by kernel test robot <lkp@intel.com>
->>      Closes: https://lore.kernel.org/oe-kbuild-all/202410250305.UHKDhtxy-lkp@intel.com/
->> v1 -> v2:
->>    - using drm_dp_aux frame implement dp aux read and write functions, suggested by Jani Nikula.
->>    - using drm dp header files' dp macros instead, suggested by Andy Yan.
->>    v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
->> ---
->>   drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   | 162 ++++++++++++++++++
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h   |  23 +++
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  58 +++++++
->>   .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  19 ++
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  27 +++
->>   6 files changed, 291 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
->>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h
->>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
->>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
->>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> index d25c75e60d3d..8770ec6dfffd 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> @@ -1,4 +1,5 @@
->>   # SPDX-License-Identifier: GPL-2.0-only
->> -hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o
->> +hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
->> +	       dp/dp_aux.o
->>   
->>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
->> new file mode 100644
->> index 000000000000..49ecda672109
->> --- /dev/null
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
->> @@ -0,0 +1,162 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +// Copyright (c) 2024 Hisilicon Limited.
->> +
->> +#include <linux/io.h>
->> +#include <linux/iopoll.h>
->> +#include <linux/minmax.h>
->> +#include <drm/drm_device.h>
->> +#include <drm/drm_print.h>
->> +#include "dp_comm.h"
->> +#include "dp_reg.h"
->> +#include "dp_aux.h"
->> +
->> +#define DP_MIN_PULSE_NUM 0x9
->> +
->> +static void hibmc_dp_aux_reset(const struct dp_dev *dp)
->> +{
->> +	dp_reg_write_field(dp->base + DP_DPTX_RST_CTRL, DP_CFG_AUX_RST_N, 0x0);
->> +	usleep_range(10, 15);
->> +	dp_reg_write_field(dp->base + DP_DPTX_RST_CTRL, DP_CFG_AUX_RST_N, 0x1);
->> +}
->> +
->> +static void hibmc_dp_aux_read_data(struct dp_dev *dp, u8 *buf, u8 size)
->> +{
->> +	u32 reg_num;
->> +	u32 value;
->> +	u32 num;
->> +	u8 i, j;
->> +
->> +	reg_num = DIV_ROUND_UP(size, BYTES_IN_U32);
->> +	for (i = 0; i < reg_num; i++) {
->> +		/* number of bytes read from a single register */
->> +		num = min(size - i * BYTES_IN_U32, BYTES_IN_U32);
->> +		value = readl(dp->base + DP_AUX_RD_DATA0 + i * BYTES_IN_U32);
->> +		/* convert the 32-bit value of the register to the buffer. */
->> +		for (j = 0; j < num; j++)
->> +			buf[i * BYTES_IN_U32 + j] = value >> (j * BITS_IN_U8);
-> put_unaligned_le32()
->
->> +	}
->> +}
->> +
->> +static void hibmc_dp_aux_write_data(struct dp_dev *dp, u8 *buf, u8 size)
->> +{
->> +	u32 reg_num;
->> +	u32 value;
->> +	u8 i, j;
->> +	u32 num;
->> +
->> +	reg_num = DIV_ROUND_UP(size, BYTES_IN_U32);
->> +	for (i = 0; i < reg_num; i++) {
->> +		/* number of bytes written to a single register */
->> +		num = min_t(u8, size - i * BYTES_IN_U32, BYTES_IN_U32);
->> +		value = 0;
->> +		/* obtain the 32-bit value written to a single register. */
->> +		for (j = 0; j < num; j++)
->> +			value |= buf[i * BYTES_IN_U32 + j] << (j * BITS_IN_U8);
-> get_unaligned_le32()
+On Tue, Nov 12, 2024 at 03:22:46PM +0100, David Hildenbrand wrote:
+> On 12.11.24 14:53, Jason Gunthorpe wrote:
+> > On Tue, Nov 12, 2024 at 10:10:06AM +0100, David Hildenbrand wrote:
+> > > On 12.11.24 06:26, Matthew Wilcox wrote:
+> > > > I don't want you to respin.  I think this is a bad idea.
+> > > 
+> > > I'm hoping you'll find some more time to explain what exactly you don't
+> > > like, because this series only refactors what we already have.
+> > > 
+> > > I enjoy seeing the special casing (especially hugetlb) gone from mm/swap.c.
 
-Hi Dimitry,
-Thanks for your advice. I try to use these foo_unaligned_le32(), however, here's the situation.
-The buffer I put in aux write or read functions are not always 4bytes or 4-byte alignment,
-so when I need to process 1 byte or 2 bytes data, I need to use put_unaligned_le16 or
-put_unaligned_le8  with if-statement, it's kind of complicated. So I think it's fine
-to keep these implementation here.
-Thanks,
-Baihan
+I don't.  The list of 'if's is better than the indirect function call.
+That's terribly expensive, and the way we reuse the lru.next field
+is fragile.  Not to mention that it introduces a new thing for the
+hardening people to fret over.
 
+> > And, IMHO, seems like overkill. We have only a handful of cases -
+> > maybe we shouldn't be trying to get to full generality but just handle
+> > a couple of cases directly? I don't really think it is such a bad
+> > thing to have an if ladder on the free path if we have only a couple
+> > things. Certainly it looks good instead of doing overlaying tricks.
+> 
+> I'd really like to abstract hugetlb handling if possible. The way it stands
+> it's just very odd.
 
->> +		/* writing data to a single register */
->> +		writel(value, dp->base + DP_AUX_WR_DATA0 + i * BYTES_IN_U32);
->> +	}
->> +}
->> +
->> +static u32 hibmc_dp_aux_build_cmd(const struct drm_dp_aux_msg *msg)
->> +{
->> +	u32 aux_cmd = msg->request;
->> +
->> +	if (msg->size)
->> +		aux_cmd |= FIELD_PREP(AUX_CMD_REQ_LEN, (msg->size - 1));
->> +	else
->> +		aux_cmd |= FIELD_PREP(AUX_CMD_I2C_ADDR_ONLY, 1);
->> +
->> +	aux_cmd |= FIELD_PREP(AUX_CMD_ADDR, msg->address);
->> +
->> +	return aux_cmd;
->> +}
->> +
->> +/* ret >= 0 ,ret is size; ret < 0, ret is err code */
->> +static int hibmc_dp_aux_parse_xfer(struct dp_dev *dp, struct drm_dp_aux_msg *msg)
->> +{
->> +	u32 buf_data_cnt;
->> +	u32 aux_status;
->> +	int ret = 0;
->> +
->> +	aux_status = readl(dp->base + DP_AUX_STATUS);
->> +	msg->reply = FIELD_GET(DP_CFG_AUX_STATUS, aux_status);
->> +
->> +	if (aux_status & DP_CFG_AUX_TIMEOUT)
->> +		return -ETIMEDOUT;
->> +
->> +	/* only address */
->> +	if (!msg->size)
->> +		return 0;
->> +
->> +	if (msg->reply != DP_AUX_NATIVE_REPLY_ACK)
->> +		return 0;
-> Should this be an error instead?
->
->> +
->> +	buf_data_cnt = FIELD_GET(DP_CFG_AUX_READY_DATA_BYTE, aux_status);
->> +
->> +	switch (msg->request) {
->> +	case DP_AUX_NATIVE_WRITE:
->> +		ret = msg->size;
->> +		break;
->> +	case DP_AUX_I2C_WRITE | DP_AUX_I2C_MOT:
->> +		if (buf_data_cnt == AUX_I2C_WRITE_SUCCESS)
->> +			ret = msg->size;
->> +		else if (buf_data_cnt == AUX_I2C_WRITE_PARTIAL_SUCCESS)
->> +			ret = FIELD_GET(DP_CFG_AUX, aux_status);
-> Replace all ret= with returns. Nothing happens after the switch-case, so
-> return right away.
->
->> +		break;
->> +	case DP_AUX_NATIVE_READ:
->> +	case DP_AUX_I2C_READ | DP_AUX_I2C_MOT:
->> +		buf_data_cnt--;
->> +		/* only the successful part of data is read */
-> Nit: only a part of data wass read successfully.
-> move the comment into the underlying `
->
->> +		if (buf_data_cnt != msg->size) {
->> +			ret = -EBUSY;
->> +		} else { /* all data is successfully read */
->> +			hibmc_dp_aux_read_data(dp, msg->buffer, msg->size);
->> +			ret = msg->size;
->> +		}
->> +		break;
->> +	default:
->> +		return -EINVAL;
->> +	}
->> +
->> +	return ret;
->> +}
->> +
->> +/* ret >= 0 ,ret is size; ret < 0, ret is err code */
->> +static ssize_t hibmc_dp_aux_xfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
->> +{
->> +	struct dp_dev *dp = container_of(aux, struct dp_dev, aux);
->> +	u32 aux_cmd;
->> +	int ret;
->> +	u32 val; /* val will be assigned at the beginning of readl_poll_timeout function */
->> +
->> +	writel(0, dp->base + DP_AUX_WR_DATA0);
->> +	writel(0, dp->base + DP_AUX_WR_DATA1);
->> +	writel(0, dp->base + DP_AUX_WR_DATA2);
->> +	writel(0, dp->base + DP_AUX_WR_DATA3);
->> +
->> +	hibmc_dp_aux_write_data(dp, msg->buffer, msg->size);
->> +
->> +	aux_cmd = hibmc_dp_aux_build_cmd(msg);
->> +	writel(aux_cmd, dp->base + DP_AUX_CMD_ADDR);
->> +
->> +	/* enable aux transfer */
->> +	dp_reg_write_field(dp->base + DP_AUX_REQ, DP_CFG_AUX_REQ, 0x1);
->> +	ret = readl_poll_timeout(dp->base + DP_AUX_REQ, val, !(val & DP_CFG_AUX_REQ), 50, 5000);
->> +	if (ret) {
->> +		hibmc_dp_aux_reset(dp);
->> +		return ret;
->> +	}
->> +
->> +	return hibmc_dp_aux_parse_xfer(dp, msg);
->> +}
->> +
->> +void hibmc_dp_aux_init(struct dp_dev *dp)
->> +{
->> +	dp_reg_write_field(dp->base + DP_AUX_REQ, DP_CFG_AUX_SYNC_LEN_SEL, 0x0);
->> +	dp_reg_write_field(dp->base + DP_AUX_REQ, DP_CFG_AUX_TIMER_TIMEOUT, 0x1);
->> +	dp_reg_write_field(dp->base + DP_AUX_REQ, DP_CFG_AUX_MIN_PULSE_NUM, DP_MIN_PULSE_NUM);
->> +
->> +	dp->aux.transfer = hibmc_dp_aux_xfer;
->> +	dp->aux.is_remote = 0;
->> +	drm_dp_aux_init(&dp->aux);
->> +}
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h
->> new file mode 100644
->> index 000000000000..794bb0482ea7
->> --- /dev/null
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h
->> @@ -0,0 +1,23 @@
->> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->> +/* Copyright (c) 2024 Hisilicon Limited. */
->> +
->> +#ifndef DP_AUX_H
->> +#define DP_AUX_H
->> +
->> +#include <linux/bitops.h>
->> +#include "dp_comm.h"
->> +
->> +#define AUX_I2C_WRITE_SUCCESS		0x1
-> Move to the source file
->
->> +#define AUX_I2C_WRITE_PARTIAL_SUCCESS	0x2
-> Ditto
->
->> +#define EQ_MAX_RETRY			5
-> Unused
->
->> +#define BYTES_IN_U32			4
->
->> +#define BITS_IN_U8			8
-> This one will go away after using foo_unaligned_le32
->
->> +
->> +/* aux_cmd_addr register shift */
->> +#define AUX_CMD_REQ_LEN			GENMASK(7, 4)
->> +#define AUX_CMD_ADDR			GENMASK(27, 8)
->> +#define AUX_CMD_I2C_ADDR_ONLY		BIT(28)
-> These can go to the source file too. Or to dp_reg.h. Don't spawn that
-> all over the place.
->
->> +
->> +void hibmc_dp_aux_init(struct dp_dev *dp);
-> As the header becomes nearly empty, merge the remnants to a generic
-> header.
->
->> +
->> +#endif
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
->> new file mode 100644
->> index 000000000000..61a59fd59962
->> --- /dev/null
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
->> @@ -0,0 +1,58 @@
->> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->> +/* Copyright (c) 2024 Hisilicon Limited. */
->> +
->> +#ifndef DP_COMM_H
->> +#define DP_COMM_H
->> +
->> +#include <linux/types.h>
->> +#include <linux/bitops.h>
->> +#include <linux/errno.h>
->> +#include <linux/mutex.h>
->> +#include <linux/kernel.h>
->> +#include <linux/bitfield.h>
->> +#include <linux/io.h>
->> +
->> +#include <drm/display/drm_dp_helper.h>
->> +
->> +#define dp_reg_read_field(addr, mask)				\
-> These are still using dp_ prefix. Also using static inline functions
-> might be easier to handle.
->
->> +		FIELD_GET(mask, readl(addr))
->> +
->> +#define dp_field_modify(reg_value, mask, value) ({		\
->> +		(reg_value) &= ~(mask);				\
->> +		(reg_value) |= FIELD_PREP(mask, value); })
->> +
->> +#define dp_reg_write_field(addr, mask, val) ({			\
->> +		typeof(addr) _addr = (addr);			\
->> +		u32 _value = readl(_addr);			\
->> +		dp_field_modify(_value, mask, val);		\
->> +		writel(_value, _addr); })
-> I'm still very unsatisfied here. You have an RMW code with no locking.
-> If anything writes to the same location at the same time, the driver is
-> busted.
->
->> +
->> +struct link_status {
-> It is hibmc-specific, so please prefix accordingly.
->
->> +	bool clock_recovered;
->> +	bool channel_equalized;
->> +	u8 cr_done_lanes;
->> +};
->> +
->> +struct link_cap {
->> +	int rx_dpcd_revision;
->> +	u8 link_rate;
->> +	u8 lanes;
->> +	bool is_tps3;
->> +	bool is_tps4;
->> +};
->> +
->> +struct hibmc_dp_link {
->> +	struct link_status status;
->> +	u8 *train_set;
->> +	struct link_cap cap;
->> +};
-> Please don't define the structures/fields that are not used by the
-> patch. Introduce them when required.
->
->> +
->> +struct dp_dev {
->> +	struct hibmc_dp_link link;
->> +	struct drm_dp_aux aux;
->> +	struct drm_device *dev;
->> +	void __iomem *base;
->> +	u8 dpcd[DP_RECEIVER_CAP_SIZE];
->> +};
->> +
->> +#endif
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->> new file mode 100644
->> index 000000000000..0b965e6ba7b3
->> --- /dev/null
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->> @@ -0,0 +1,19 @@
->> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->> +/* Copyright (c) 2024 Hisilicon Limited. */
->> +
->> +#ifndef DP_CONFIG_H
->> +#define DP_CONFIG_H
->> +
->> +#define DP_BPP			24
->> +#define DP_SYMBOL_PER_FCLK	4
->> +#define DP_MSA1			0x20
->> +#define DP_MSA2			0x845c00
->> +#define DP_OFFSET		0x1e0000
->> +#define DP_HDCP			0x2
->> +#define DP_INT_RST		0xffff
->> +#define DP_DPTX_RST		0x3ff
->> +#define DP_CLK_EN		0x7
->> +#define DP_SYNC_EN_MASK		0x3
->> +#define DP_LINK_RATE_CAL	27
->> +
->> +#endif
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
->> new file mode 100644
->> index 000000000000..83cf0cc06ae2
->> --- /dev/null
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
->> @@ -0,0 +1,27 @@
->> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->> +/* Copyright (c) 2024 Hisilicon Limited. */
->> +
->> +#ifndef DP_REG_H
->> +#define DP_REG_H
->> +
->> +#define DP_AUX_CMD_ADDR			0x50
->> +#define DP_AUX_WR_DATA0			0x54
->> +#define DP_AUX_WR_DATA1			0x58
->> +#define DP_AUX_WR_DATA2			0x5c
->> +#define DP_AUX_WR_DATA3			0x60
->> +#define DP_AUX_RD_DATA0			0x64
->> +#define DP_AUX_REQ			0x74
->> +#define DP_AUX_STATUS			0x78
->> +#define DP_DPTX_RST_CTRL		0x700
->> +
->> +#define DP_CFG_AUX_SYNC_LEN_SEL			BIT(1)
->> +#define DP_CFG_AUX_TIMER_TIMEOUT		BIT(2)
->> +#define DP_CFG_AUX_MIN_PULSE_NUM		GENMASK(13, 9)
->> +#define DP_CFG_AUX_REQ				BIT(0)
->> +#define DP_CFG_AUX_RST_N			BIT(4)
->> +#define DP_CFG_AUX_TIMEOUT			BIT(0)
->> +#define DP_CFG_AUX_READY_DATA_BYTE		GENMASK(16, 12)
->> +#define DP_CFG_AUX				GENMASK(24, 17)
->> +#define DP_CFG_AUX_STATUS			GENMASK(11, 4)
->> +
->> +#endif
->> -- 
->> 2.33.0
->>
+There might be ways to make that better.  I haven't really been looking
+too hard at making that special handling go away.
+
+> We'll need some reliable way to identify these folios that need care.
+> guest_memfd will be using folio->mapcount for now, so for now we couldn't
+> set a page type like hugetlb does.
+
+If hugetlb can set lru.next at a certain point, then guestmemfd could
+set a page type at a similar point, no?
+
+> > Also how does this translate to Matthew's memdesc world?
+
+In a memdesc world, pages no longer have a refcount.  We might still
+have put_page() which will now be a very complicated (and out-of-line)
+function that looks up what kind of memdesc it is and operates on the
+memdesc's refcount ... if it has one.  I don't know if it'll be exported
+to modules; I can see uses in the mm code, but I'm not sure if modules
+will have a need.
+
+Each memdesc type will have its own function to call to free the memdesc.
+So we'll still have folio_put().  But slab does not have, need nor want
+a refcount, so it'll just slab_free().  I expect us to keep around a
+list of recently-freed memdescs of a particular type with their pages
+still attached so that we can allocate them again quickly (or reclaim
+them under memory pressure).  Once that freelist overflows, we'll free
+a batch of them to the buddy allocator (for the pages) and the slab
+allocator (for the memdesc itself).
+
+> guest_memfd and hugetlb would be operating on folios (at least for now),
+> which contain the refcount,lru,private, ... so nothing special there.
+> 
+> Once we actually decoupled "struct folio" from "struct page", we *might*
+> have to play less tricks, because we could just have a callback pointer
+> there. But well, maybe we also want to save some space in there.
+> 
+> Do we want dedicated memdescs for hugetlb/guest_memfd that extend folios in
+> the future? I don't know, maybe.
+
+I've certainly considered going so far as a per-fs folio.  So we'd
+have an ext4_folio, an btrfs_folio, an iomap_folio, etc.  That'd let us
+get rid of folio->private, but I'm not sure that C's type system can
+really handle this nicely.  Maybe in a Rust world ;-)
+
+What I'm thinking about is that I'd really like to be able to declare
+that all the functions in ext4_aops only accept pointers to ext4_folio,
+so ext4_dirty_folio() can't be called with pointers to _any_ folio,
+but specifically folios which were previously allocated for ext4.
+
+I don't know if Rust lets you do something like that.
+
+> I'm currently wondering if we can use folio->private for the time being.
+> Either
+> 
+> (a) If folio->private is still set once the refcount drops to 0, it
+> indicates that there is a freeing callback/owner_ops. We'll have to make
+> hugetlb not use folio->private and convert others to clear folio->private
+> before freeing.
+> 
+> (b) Use bitX of folio->private to indicate that this has "owner_ops"
+> meaning. We'll have to make hugetlb not use folio->private and make others
+> not use bitX. Might be harder and overkill, because right now we only really
+> need the callback when refcount==0.
+> 
+> (c) Use some other indication that folio->private contains folio_ops.
+
+I really don't want to use folio_ops / folio_owner_ops.  I read
+https://lore.kernel.org/all/CAGtprH_JP2w-4rq02h_Ugvq5KuHX7TUvegOS7xUs_iy5hriE7g@mail.gmail.com/
+and I still don't understand what you're trying to do.
+
+Would it work to use aops->free_folio() to notify you when the folio is
+being removed from the address space?
