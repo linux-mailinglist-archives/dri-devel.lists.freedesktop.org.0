@@ -2,49 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D6F9C7F8D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 01:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1709C7F86
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 01:50:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA76E10E787;
-	Thu, 14 Nov 2024 00:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48A1C10E2A5;
+	Thu, 14 Nov 2024 00:50:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="k8lCXi3/";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 407 seconds by postgrey-1.36 at gabe;
- Thu, 14 Nov 2024 00:53:02 UTC
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBD010E781
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 00:53:02 +0000 (UTC)
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-398-NRVQ-rYhMOmeXWr6Fm4fJw-1; Wed,
- 13 Nov 2024 19:46:09 -0500
-X-MC-Unique: NRVQ-rYhMOmeXWr6Fm4fJw-1
-X-Mimecast-MFC-AGG-ID: NRVQ-rYhMOmeXWr6Fm4fJw
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 9C17619560AA; Thu, 14 Nov 2024 00:46:07 +0000 (UTC)
-Received: from dreadlord.lan (unknown [10.64.136.106])
- by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 05A5D1956089; Thu, 14 Nov 2024 00:46:05 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Subject: [PATCH] nouveau: fw: sync dma after setup is called.
-Date: Thu, 14 Nov 2024 10:46:03 +1000
-Message-ID: <20241114004603.3095485-1-airlied@gmail.com>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C3B6210E2A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 00:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=HxStjIbqCkHIGsb5YkLzMTsySu2+FeJnPPzLOOGhizw=; b=k
+ 8lCXi3/VVMZA7GmT/BivtNVcY43y+238j3Csx+YKmsAdK7gRrJnZrMm++OVJs6cE
+ eNFzB9PWcKHuTP/dk78GzfKKXSF5FHo9597UVfze6R6X2cs8lD9avI9IGAgUbm7P
+ yLZOobo+5xtZhOCOGbCObTIgRlYt/Zf+Cvrwqkv3KQ=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-129 (Coremail) ; Thu, 14 Nov 2024 08:50:20 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Thu, 14 Nov 2024 08:50:20 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Quentin Schulz" <quentin.schulz@cherry.de>
+Cc: "Heiko Stuebner" <heiko@sntech.de>, hjc@rock-chips.com, 
+ andy.yan@rock-chips.com, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ "Heiko Stuebner" <heiko.stuebner@cherry.de>
+Subject: Re:Re: [PATCH 1/2] drm/rockchip: vop2: fix rk3588 dp+dsi maxclk
+ verification
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <cb73853e-4201-4cc9-9e8a-f977e66241f6@cherry.de>
+References: <20240425195506.2935955-1-heiko@sntech.de>
+ <20240425195506.2935955-2-heiko@sntech.de>
+ <cb73853e-4201-4cc9-9e8a-f977e66241f6@cherry.de>
+X-NTES-SC: AL_Qu2YA/mfukwp5imdZekZnEobh+Y5UcK2s/ki2YFXN5k0mCTmyg4+bG5cLH7q9fmiKiCmoQmLURl14P5jTa5KbpjPaX03fUneRyBcUR0WBzmI
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: KwTO0ufI4VoU88BpfC0CXH4QkkNBEU2kuWppX6dPLqo_1731545167
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+Message-ID: <72672888.8f9.1932826549b.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: gSgvCgD3_+JNSTVnfU8mAA--.60608W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hKXXmc1QEikyQABs-
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,53 +66,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
-
-When this code moved to non-coherent allocator the sync was put too
-early for some firmwares which called the setup function, move the
-sync down after the setup function.
-
-Reported-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Fixes: 9b340aeb26d5 ("nouveau/firmware: use dma non-coherent allocator")
-Cc: stable@vger.kernel.org
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/nvkm/falcon/fw.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/falcon/fw.c b/drivers/gpu/drm/nou=
-veau/nvkm/falcon/fw.c
-index a1c8545f1249..cac6d64ab67d 100644
---- a/drivers/gpu/drm/nouveau/nvkm/falcon/fw.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/falcon/fw.c
-@@ -89,11 +89,6 @@ nvkm_falcon_fw_boot(struct nvkm_falcon_fw *fw, struct nv=
-km_subdev *user,
- =09=09nvkm_falcon_fw_dtor_sigs(fw);
- =09}
-=20
--=09/* after last write to the img, sync dma mappings */
--=09dma_sync_single_for_device(fw->fw.device->dev,
--=09=09=09=09   fw->fw.phys,
--=09=09=09=09   sg_dma_len(&fw->fw.mem.sgl),
--=09=09=09=09   DMA_TO_DEVICE);
-=20
- =09FLCNFW_DBG(fw, "resetting");
- =09fw->func->reset(fw);
-@@ -105,6 +100,12 @@ nvkm_falcon_fw_boot(struct nvkm_falcon_fw *fw, struct =
-nvkm_subdev *user,
- =09=09=09goto done;
- =09}
-=20
-+=09/* after last write to the img, sync dma mappings */
-+=09dma_sync_single_for_device(fw->fw.device->dev,
-+=09=09=09=09   fw->fw.phys,
-+=09=09=09=09   sg_dma_len(&fw->fw.mem.sgl),
-+=09=09=09=09   DMA_TO_DEVICE);
-+
- =09ret =3D fw->func->load(fw);
- =09if (ret)
- =09=09goto done;
---=20
-2.47.0
-
+CkhpLAoKQXQgMjAyNC0wNS0wNiAxNTo0NDozNiwgIlF1ZW50aW4gU2NodWx6IiA8cXVlbnRpbi5z
+Y2h1bHpAY2hlcnJ5LmRlPiB3cm90ZToKPkhpIEhlaWtvLAo+Cj5PbiA0LzI1LzI0IDk6NTUgUE0s
+IEhlaWtvIFN0dWVibmVyIHdyb3RlOgo+PiBGcm9tOiBIZWlrbyBTdHVlYm5lciA8aGVpa28uc3R1
+ZWJuZXJAY2hlcnJ5LmRlPgo+PiAKPj4gVGhlIGNsb2NrIGlzIGluIEh6IHdoaWxlIHRoZSB2YWx1
+ZSBjaGVja2VkIGFnYWluc3QgaXMgaW4ga0h6LCBzbwo+PiBhY3R1YWwgZnJlcXVlbmNpZXMgd2ls
+bCBuZXZlciBiZSBhYmxlIHRvIGJlIGJlbG93IHRvIG1heCB2YWx1ZS4KPj4gRml4IHRoaXMgYnkg
+c3BlY2lmeWluZyB0aGUgbWF4LXZhbHVlIGluIEh6IHRvby4KPj4gCj4+IEZpeGVzOiA1YTAyOGU4
+ZjA2MmYgKCJkcm0vcm9ja2NoaXA6IHZvcDI6IEFkZCBzdXBwb3J0IGZvciByazM1ODgiKQo+PiBT
+aWduZWQtb2ZmLWJ5OiBIZWlrbyBTdHVlYm5lciA8aGVpa28uc3R1ZWJuZXJAY2hlcnJ5LmRlPgo+
+PiAtLS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIuYyB8
+IDQgKystLQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pCj4+IAo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlw
+X2RybV92b3AyLmMgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIu
+Ywo+PiBpbmRleCA5YmVlMWZkODhlNmEyLi41MjM4ODBhNGU4ZTc0IDEwMDY0NAo+PiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIuYwo+PiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIuYwo+PiBAQCAtMTcxOSw3ICsx
+NzE5LDcgQEAgc3RhdGljIHVuc2lnbmVkIGxvbmcgcmszNTg4X2NhbGNfY3J1X2NmZyhzdHJ1Y3Qg
+dm9wMl92aWRlb19wb3J0ICp2cCwgaW50IGlkLAo+PiAgIAkJZWxzZQo+PiAgIAkJCWRjbGtfb3V0
+X3JhdGUgPSB2X3BpeGNsayA+PiAyOwo+PiAgIAo+PiAtCQlkY2xrX3JhdGUgPSByazM1ODhfY2Fs
+Y19kY2xrKGRjbGtfb3V0X3JhdGUsIDYwMDAwMCk7Cj4+ICsJCWRjbGtfcmF0ZSA9IHJrMzU4OF9j
+YWxjX2RjbGsoZGNsa19vdXRfcmF0ZSwgNjAwMDAwMDAwKTsKPj4gICAJCWlmICghZGNsa19yYXRl
+KSB7Cj4+ICAgCQkJZHJtX2Vycih2b3AyLT5kcm0sICJEUCBkY2xrX291dF9yYXRlIG91dCBvZiBy
+YW5nZSwgZGNsa19vdXRfcmF0ZTogJWxkIEtIWlxuIiwKPgo+SXQgc2VlbXMgdGhlIGVycm9yIG1l
+c3NhZ2UgaXMgaW5jb3JyZWN0IGFzIHdlbGwgYW5kIHNob3VsZCBiZSBzYXlpbmcgSHogCj5pbnN0
+ZWFkIG9mIEtIei4gKG5vdGUgYWxzbyB0aGUgbG93ZXJjYXNlIHopLgoKSSB0aGluayBrSHogaXMg
+ZmluZSwgd2UgY2FuIGZpbmQgbWFueSBzaW1pbmFyeSB1c2FnZSBpbiBkcm06Cgpkcml2ZXJzL2dw
+dS9kcm0vZHJtX3ZibGFuay5jCjY1NjogICAgZHJtX2RiZ19jb3JlKGRldiwgImNydGMgJXU6IGNs
+b2NrICVkIGtIeiBmcmFtZWR1ciAlZCBsaW5lZHVyICVkXG4iLAo+Cj4+ICAgCQkJCWRjbGtfb3V0
+X3JhdGUpOwo+PiBAQCAtMTczNiw3ICsxNzM2LDcgQEAgc3RhdGljIHVuc2lnbmVkIGxvbmcgcmsz
+NTg4X2NhbGNfY3J1X2NmZyhzdHJ1Y3Qgdm9wMl92aWRlb19wb3J0ICp2cCwgaW50IGlkLAo+PiAg
+IAkJICogZGNsa19yYXRlID0gTiAqIGRjbGtfY29yZV9yYXRlIE4gPSAoMSwyLDQgKSwKPj4gICAJ
+CSAqIHdlIGdldCBhIGxpdHRsZSBmYWN0b3IgaGVyZQo+PiAgIAkJICovCj4+IC0JCWRjbGtfcmF0
+ZSA9IHJrMzU4OF9jYWxjX2RjbGsoZGNsa19vdXRfcmF0ZSwgNjAwMDAwKTsKPj4gKwkJZGNsa19y
+YXRlID0gcmszNTg4X2NhbGNfZGNsayhkY2xrX291dF9yYXRlLCA2MDAwMDAwMDApOwo+PiAgIAkJ
+aWYgKCFkY2xrX3JhdGUpIHsKPj4gICAJCQlkcm1fZXJyKHZvcDItPmRybSwgIk1JUEkgZGNsayBv
+dXQgb2YgcmFuZ2UsIGRjbGtfb3V0X3JhdGU6ICVsZCBLSFpcbiIsCj4KPkRpdHRvLgo+Cj5PdGhl
+cndpc2UsCj4KPlJldmlld2VkLWJ5OiBRdWVudGluIFNjaHVseiA8cXVlbnRpbi5zY2h1bHpAY2hl
+cnJ5LmRlPgoKQWNrZWQtYnk6IEFuZHkgWWFuPGFuZHlzaHJrQDE2My5jb20+Cgo+Cj5UaGFua3Mh
+Cj5RdWVudGluCg==
