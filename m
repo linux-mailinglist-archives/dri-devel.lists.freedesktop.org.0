@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5E69C8567
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 09:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98319C8595
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 10:05:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA5710E7B9;
-	Thu, 14 Nov 2024 08:59:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8B810E7BA;
+	Thu, 14 Nov 2024 09:05:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VtBaeUpt";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6798B10E7BF
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 08:59:23 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id
- e9e14a558f8ab-3a7158d5c8aso4688535ab.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 00:59:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731574762; x=1732179562;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5zssj3quVVymKSXh7PyrXcZgz1qXWIQjEuhOq5pZc/Y=;
- b=UB4LwPwQDfKBgK3LtBNI+UyiOO0UQDhnHrsZ2kU7i7rmwBN8gHCHIomazWn846UcIT
- yGgxD4HtCvn783IT8s47O8zMJd81yE5iO+y0E/+yoBTIC6GRjyEqUnNXZ9FyKx8Fr4H4
- J+OVRisEbucLnBfA35SllhRczGc3xwSmS4O73fmtAENjXEGk5epijWtgp3Pizb1/KR01
- 19cLfLdV8AwySk2957fC7IyBP5celPe5Tn0/9LdC5t1JtIVaZ5IwhHAQF2ZzZNem8bA5
- d1whz/lME9LveJAv7+aUn+MmbZNdyulMX0PWgisUBhu+1oTCESh0uk/rRXJn2o1wafze
- td2g==
-X-Gm-Message-State: AOJu0YxzmAtpvAgWUEHSVJDp/CfizYF5cSbnMjE9f1fuBiwPPfpXBAYd
- 3My1yW0Gnp38qIs0AfiRIIakMPvQk+9jm17fRbnbM5uPoUzJda6EbAMDZ8EM1vnRxESU854JAFq
- isCQIBZfeTwkzFLnDnV82kvP4xOxZ5hzI3V2ox3OvGYyuvfBOW7kxUo0=
-X-Google-Smtp-Source: AGHT+IGLqFcQ2N114zaO5uZSvOpK4WNf3i7F922a3Pi+SDIsMrogj0l6hi3tzJPiqLwa/hL2lYKh7nuceo3OEb2uWfJ7RLcqSm1V
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7381810E7BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 09:05:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=953PFm7GA+VYkEc2R2TMQnGGPby6anjYHqY8jvbImpM=; b=VtBaeUpt6NpBIvWy4VvQ/CTaPu
+ LlVDmQ6xPLG0VBjGprylZz5yVmn5oIYYveK57597C5VwkXb9TCD6ljx9Rl0X4Kwc6cD1I+xwDQeNl
+ oU9r2KrsYaTYloyIQXmkpSL/4aThfhOVr6g740hHb4Dfq3B+TA+4Q3KaWPLqOgqpYTIU7yCvgFlOF
+ kzlbvUFiky9sHbVMcDIfS2B6Z4sMdVfimVFw+MI7wsHY1uiNK1v80AbSm4dYn6lRy69z4vYvUb3mq
+ +BoLSv6kDli3VeV8+aKC2Ws/C6lcPD6LD7cW+UOcLJKJc7ptvoeEeK/OkHVxMJc7ecj4AxAQOO3Lk
+ 4fN7wr8w==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tBVmx-006izY-2z; Thu, 14 Nov 2024 10:05:19 +0100
+Message-ID: <14e723bb-d269-47c7-b5cd-cf296a05c49d@igalia.com>
+Date: Thu, 14 Nov 2024 09:05:18 +0000
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:154b:b0:3a0:4d1f:519c with SMTP id
- e9e14a558f8ab-3a7156d7c91mr73999395ab.3.1731574762607; Thu, 14 Nov 2024
- 00:59:22 -0800 (PST)
-Date: Thu, 14 Nov 2024 00:59:22 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6735bbea.050a0220.2a2fcc.0065.GAE@google.com>
-Subject: [syzbot] Monthly dri report (Nov 2024)
-From: syzbot <syzbot+lista02f0bac45ff1b3f6031@syzkaller.appspotmail.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dma-fence: Add a single fence fast path for fence
+ merging
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Friedrich Vock <friedrich.vock@gmx.de>
+References: <20241113171947.57446-1-tursulin@igalia.com>
+ <9dbdbf44-3f50-4ccc-807b-0e7010e04cbb@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <9dbdbf44-3f50-4ccc-807b-0e7010e04cbb@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,48 +63,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello dri maintainers/developers,
 
-This is a 31-day syzbot report for the dri subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/dri
+On 14/11/2024 08:53, Christian König wrote:
+> Am 13.11.24 um 18:19 schrieb Tvrtko Ursulin:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> Testing some workloads in two different scenarios, such as games running
+>> under Gamescope on a Steam Deck, or vkcube under a Plasma desktop, shows
+>> that in a significant portion of calls the dma_fence_unwrap_merge helper
+>> is called with just a single unsignalled fence.
+>>
+>> Therefore it is worthile to add a fast path for that case and so bypass
+>> the memory allocation and insertion sort attempts.
+> 
+> You should probably re-order the patches since we need to backport the 
+> second as bug fix while the first is just an improvement.
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 16 issues are still open and 31 have already been fixed.
+Ok.
 
-Some of the still happening issues:
+> There is also a bug in this patch which needs to be fixed.
+> 
+>> Tested scenarios:
+>>
+>> 1) Hogwarts Legacy under Gamescope
+>>
+>> 450 calls per second to __dma_fence_unwrap_merge.
+>>
+>> Percentages per number of fences buckets, before and after checking for
+>> signalled status, sorting and flattening:
+>>
+>>     N       Before      After
+>>     0       0.85%
+>>     1      69.80%        ->   The new fast path.
+>>    2-9     29.36%        9%   (Ie. 91% of this bucket flattened to 1 
+>> fence)
+>>   10-19
+>>   20-40
+>>    50+
+>>
+>> 2) Cyberpunk 2077 under Gamescope
+>>
+>> 1050 calls per second.
+>>
+>>     N       Before      After
+>>     0       0.71%
+>>     1      52.53%        ->    The new fast path.
+>>    2-9     44.38%      50.60%  (Ie. half resolved to a single fence)
+>>   10-19     2.34%
+>>   20-40     0.06%
+>>    50+
+>>
+>> 3) vkcube under Plasma
+>>
+>> 90 calls per second.
+>>
+>>     N       Before      After
+>>     0
+>>     1
+>>    2-9      100%         0%   (Ie. all resolved to a single fence)
+>>   10-19
+>>   20-40
+>>    50+
+>>
+>> In the case of vkcube all invocations in the 2-9 bucket were actually
+>> just two input fences.
+> 
+> Nice to have some numbers at hand.
+> 
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Friedrich Vock <friedrich.vock@gmx.de>
+>> ---
+>>   drivers/dma-buf/dma-fence-unwrap.c | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence-unwrap.c 
+>> b/drivers/dma-buf/dma-fence-unwrap.c
+>> index 628af51c81af..75c3e37fd617 100644
+>> --- a/drivers/dma-buf/dma-fence-unwrap.c
+>> +++ b/drivers/dma-buf/dma-fence-unwrap.c
+>> @@ -64,8 +64,8 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned 
+>> int num_fences,
+>>                          struct dma_fence **fences,
+>>                          struct dma_fence_unwrap *iter)
+>>   {
+>> +    struct dma_fence *tmp, *signaled, **array;
+> 
+> I would name that unsignaled instead.
 
-Ref  Crashes Repro Title
-<1>  841     Yes   WARNING in drm_syncobj_array_find
-                   https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
-<2>  318     Yes   WARNING in vkms_get_vblank_timestamp (2)
-                   https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
-<3>  68      Yes   WARNING in drm_mode_create_lease_ioctl
-                   https://syzkaller.appspot.com/bug?extid=6754751ad05524dae739
-<4>  62      No    INFO: task hung in drm_atomic_get_plane_state
-                   https://syzkaller.appspot.com/bug?extid=eee643fdccb7c015b3a6
-<5>  28      Yes   WARNING in drm_wait_one_vblank (2)
-                   https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
-<6>  18      Yes   WARNING in drm_gem_prime_fd_to_handle
-                   https://syzkaller.appspot.com/bug?extid=268d319a7bfd92f4ae01
-<7>  12      Yes   divide error in drm_mode_vrefresh
-                   https://syzkaller.appspot.com/bug?extid=622bba18029bcde672e1
-<8>  4       Yes   KASAN: slab-use-after-free Read in drm_atomic_helper_wait_for_vblanks (2)
-                   https://syzkaller.appspot.com/bug?extid=0f999d26a4fd79c3a23b
-<9>  4       Yes   WARNING in drm_gem_object_handle_put_unlocked
-                   https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb
-<10> 3       Yes   WARNING in drm_prime_fd_to_handle_ioctl
-                   https://syzkaller.appspot.com/bug?extid=0da81ccba2345eeb7f48
+Indeed. And a polite way of pointing out my brain was completely 
+reversed. :)
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+>>       struct dma_fence_array *result;
+>> -    struct dma_fence *tmp, **array;
+>>       ktime_t timestamp;
+>>       unsigned int i;
+>>       size_t count;
+>> @@ -75,6 +75,7 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned 
+>> int num_fences,
+>>       for (i = 0; i < num_fences; ++i) {
+>>           dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
+>>               if (!dma_fence_is_signaled(tmp)) {
+>> +                signaled = tmp;
+> 
+> You need to grab a reference to tmp here if you want to keep it.
+> 
+> It's perfectly possible that tmp is garbage collected as soon as you go 
+> to the next iteration or leave the loop.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+Yep.. same bug in the second patch.
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+Regards,
 
-You may send multiple commands in a single email message.
+Tvrtko
+
+>>                   ++count;
+>>               } else {
+>>                   ktime_t t = dma_fence_timestamp(tmp);
+>> @@ -88,9 +89,14 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned 
+>> int num_fences,
+>>       /*
+>>        * If we couldn't find a pending fence just return a private 
+>> signaled
+>>        * fence with the timestamp of the last signaled one.
+>> +     *
+>> +     * Or if there was a single unsignaled fence left we can return it
+>> +     * directly and early since that is a major path on many workloads.
+>>        */
+>>       if (count == 0)
+>>           return dma_fence_allocate_private_stub(timestamp);
+>> +    else if (count == 1)
+>> +        return dma_fence_get(signaled);
+>>       array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
+>>       if (!array)
+> 
