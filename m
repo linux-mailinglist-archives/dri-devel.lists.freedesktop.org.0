@@ -2,55 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006949C83DF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 08:15:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91349C83E4
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 08:20:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F027A10E1ED;
-	Thu, 14 Nov 2024 07:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A610C10E7A8;
+	Thu, 14 Nov 2024 07:20:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="odBwl5pE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XvEHKDJQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9535610E7A8
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 07:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1731568511;
- bh=WpXr/RM7L+0l9LR7VF/wPK+QoQZyKQDk8ICJEympyiI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=odBwl5pE1ksHcTbutVvsh6vqThMdXPFYOaF5cHe90k/0JdWQt4EreYKxTET3HimSc
- nN5H7Vx/FzYoyaaIT8L1wrj5XxELCfgEJpN1AluNSE1TPi2tRFmShsal1FpxurUptt
- GNHbpjNH3uNig0HR1bK8sWSkspfL63WrNmwBDGR0WPw4wYz9OkquEAaGUr65aplzd0
- Ith8YeiKsfXTBX2a6aSRKQpCdsp17zCnHEs7ai5Lj62gMt/FtrdScKOGgfluNznWZQ
- 4VqXhkcK2fTvp9ZmESpZ7qNrgBqL1ZPsECPr5M28U/SqIKdBaIDC5ND8fTd0hwjdn1
- a5mm3joc4XfjQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BBDC917E120F;
- Thu, 14 Nov 2024 08:15:10 +0100 (CET)
-Date: Thu, 14 Nov 2024 08:15:07 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Jann Horn <jannh@google.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Mary Guillemard
- <mary.guillemard@collabora.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: Fix memory leak in
- panthor_ioctl_group_create()
-Message-ID: <20241114081507.6ac6b5f9@collabora.com>
-In-Reply-To: <20241113-panthor-fix-gcq-bailout-v1-1-654307254d68@google.com>
-References: <20241113-panthor-fix-gcq-bailout-v1-1-654307254d68@google.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4325810E0CF;
+ Thu, 14 Nov 2024 07:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1731568825; x=1763104825;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=65zpiDoZSLoUYyvWElatN5U0m5x2ciY3L2lSfQAxQDk=;
+ b=XvEHKDJQ/+UPcwkpLibByZQdnx6SFdFwJS3xFdBUa7xNv/Xr1bRGeyzI
+ mtajsrjCUZ12LjmXT6XGvRnr5gAbOcAONTmPC5bQuDZJ32tjJs7QgDGfx
+ FMjLjJtpCr3ePDKHNgxwIqai3dum7fVYwbKsv+tzUjJjU0Ma1nD1Ky/cS
+ fsWGQciuBeL5kjCDk6NHLudBKXvKaqe5QpMUCPyuT2q0sak2dDwD24Usg
+ kHp0X1j3p+G2zaPSxQR90K99CegV5tQ/1qqOObrqMS86UZneRqw8usdmg
+ aU2lYfTp4tT8JxFkTeR6x7G3tIg++ApwVRfhOph/EgbPNpMA7ZbQwwDwD w==;
+X-CSE-ConnectionGUID: AH+gnGbNTOO8hRd8VO/f9A==
+X-CSE-MsgGUID: L+DsHjyVSdaW0k0/Urda2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="31373709"
+X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; d="scan'208";a="31373709"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2024 23:20:25 -0800
+X-CSE-ConnectionGUID: n7cmpNwzRDe3cFG0Q2OCTA==
+X-CSE-MsgGUID: NewAXuvXTU6SZVoKyGbM9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; d="scan'208";a="88527917"
+Received: from mlehtone-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.232])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2024 23:20:20 -0800
+Date: Thu, 14 Nov 2024 09:20:17 +0200
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-fixes
+Message-ID: <ZzWksU6CMGLPfjkT@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,98 +78,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Nov 2024 22:03:39 +0100
-Jann Horn <jannh@google.com> wrote:
+Hi Dave & Sima,
 
-> When bailing out due to group_priority_permit() failure, the queue_args
-> need to be freed. Fix it by rearranging the function to use the
-> goto-on-error pattern, such that the success case flows straight without
-> indentation while error cases jump forward to cleanup.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 5f7762042f8a ("drm/panthor: Restrict high priorities on group_create")
-> Signed-off-by: Jann Horn <jannh@google.com>
+Here goes drm-intel-fixes PR towards v6.12 release.
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Just two fixes: One potential OOPS fix for TV outputs and skip GSC
+loading on ARL-H and ARL-U with old FW.
 
-> ---
-> testcase:
-> ```
-> #include <err.h>
-> #include <fcntl.h>
-> #include <stddef.h>
-> #include <sys/ioctl.h>
-> #include <drm/panthor_drm.h>
-> 
-> #define SYSCHK(x) ({          \
->   typeof(x) __res = (x);      \
->   if (__res == (typeof(x))-1) \
->     err(1, "SYSCHK(" #x ")"); \
->   __res;                      \
-> })
-> 
-> #define GPU_PATH "/dev/dri/by-path/platform-fb000000.gpu-card"
-> 
-> int main(void) {
->   int fd = SYSCHK(open(GPU_PATH, O_RDWR));
-> 
->   while (1) {
->     struct drm_panthor_queue_create qc[16] = {};
->     struct drm_panthor_group_create gc = {
->       .queues = {
->         .stride = sizeof(struct drm_panthor_queue_create),
->         .count = 16,
->         .array = (unsigned long)qc
->       },
->       .priority = PANTHOR_GROUP_PRIORITY_HIGH+1/*invalid*/
->     };
->     ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_CREATE, &gc);
->   }
-> }
-> ```
-> 
-> I have tested that without this patch, after running the testcase for a
-> few seconds and then manually killing it, 2G of RAM in kmalloc-128 have
-> been leaked. With the patch applied, the memory leak is gone.
-> 
-> (By the way, get_maintainer.pl suggests that I also send this patch to
-> the general DRM maintainers and the DRM-misc maintainers; looking at
-> MAINTAINERS, it looks like it is normal that the general DRM maintainers
-> are listed for everything under drivers/gpu/, but DRM-misc has exclusion
-> rules for a bunch of drivers but not panthor. I don't know if that is
-> intentional.)
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index c520f156e2d73f7e735f8bf2d6d8e8efacec9362..815c23cff25f305d884e8e3e263fa22888f7d5ce 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1032,14 +1032,15 @@ static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
->  
->  	ret = group_priority_permit(file, args->priority);
->  	if (ret)
-> -		return ret;
-> +		goto out;
->  
->  	ret = panthor_group_create(pfile, args, queue_args);
-> -	if (ret >= 0) {
-> -		args->group_handle = ret;
-> -		ret = 0;
-> -	}
-> +	if (ret < 0)
-> +		goto out;
-> +	args->group_handle = ret;
-> +	ret = 0;
->  
-> +out:
->  	kvfree(queue_args);
->  	return ret;
->  }
-> 
-> ---
-> base-commit: 9f8e716d46c68112484a23d1742d9ec725e082fc
-> change-id: 20241113-panthor-fix-gcq-bailout-2d9ac36590ed
-> 
+Regards, Joonas
 
+***
+
+drm-intel-fixes-2024-11-14:
+
+- Don't load GSC on ARL-H and ARL-U if too old FW
+- Avoid potential OOPS in enabling/disabling TV output
+
+The following changes since commit 2d5404caa8c7bb5c4e0435f94b28834ae5456623:
+
+  Linux 6.12-rc7 (2024-11-10 14:19:35 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-11-14
+
+for you to fetch changes up to 67e023b93d69e5a21b16f9602656a803d314e825:
+
+  drm/i915: Grab intel_display from the encoder to avoid potential oopsies (2024-11-12 11:08:06 +0200)
+
+----------------------------------------------------------------
+- Don't load GSC on ARL-H and ARL-U if too old FW
+- Avoid potential OOPS in enabling/disabling TV output
+
+----------------------------------------------------------------
+Daniele Ceraolo Spurio (1):
+      drm/i915/gsc: ARL-H and ARL-U need a newer GSC FW.
+
+Ville Syrjälä (1):
+      drm/i915: Grab intel_display from the encoder to avoid potential oopsies
+
+ drivers/gpu/drm/i915/display/intel_tv.c   |  4 +--
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 50 ++++++++++++++++++++-----------
+ drivers/gpu/drm/i915/i915_drv.h           |  8 +++--
+ drivers/gpu/drm/i915/intel_device_info.c  | 24 +++++++++++----
+ drivers/gpu/drm/i915/intel_device_info.h  |  4 ++-
+ include/drm/intel/i915_pciids.h           | 19 +++++++++---
+ 6 files changed, 77 insertions(+), 32 deletions(-)
