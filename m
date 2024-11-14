@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442CB9C8891
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 12:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87639C88CE
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 12:24:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADB5E10E217;
-	Thu, 14 Nov 2024 11:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70BA210E0A9;
+	Thu, 14 Nov 2024 11:24:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NVLmr8dA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Ku01hD7A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8F4C10E217
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 11:15:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=7IeRST0VBQ3+gYFfk/J115s6DSd8hwDUAroeoxjlrnM=; b=NVLmr8dAfjug1JchtS9NLlx0Xc
- IQyCJvpiXCyrkgMCaZZV6gLiQqdYs7IWhqXUc1WXwstegANcRB/wekHoiQVIVkc/xWMFMbER3ohym
- 7bhhQwW9CRM+lhmjbAmkKWudQBaWUBwzwmjEdun/JnBGmaz4b+HsVKTmCwqjpoguntWV5JLW1JNnR
- GlSiqi4p+ID7LlVJEjZe4Xsx3ahfg3oH2lpPSqObm6iuYwbG3J/7NTMOaMLtdf6lKIqTk43zTOOny
- 06SxkkQcszCel/fUnmU6mXyncCFsXiNDoOxsuIbLMMqAj2wlQTTPylbnk8hEJ7CsxLv6OScwDZ3qY
- dmcsAwVA==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tBXoY-006m86-R1; Thu, 14 Nov 2024 12:15:06 +0100
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Friedrich Vock <friedrich.vock@gmx.de>
-Subject: [PATCH 2/2] dma-fence: Add a single fence fast path for fence merging
-Date: Thu, 14 Nov 2024 11:15:00 +0000
-Message-ID: <20241114111500.77358-2-tursulin@igalia.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241114111500.77358-1-tursulin@igalia.com>
-References: <20241114111500.77358-1-tursulin@igalia.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D20DB10E0A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 11:24:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1731583460;
+ bh=ZEy8nNBtsytuOjErbwO6vAXOJFleF/Cpxim6nzjTHLk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Ku01hD7AKTiU/VFRQ1Suftc8KA4PO1asVaSQFgHGE+u2m3fJu4EIQlhBbXnp81n0X
+ 02PO0knYUz6nxsLDnxo0GJ2CAU3hat+dJ83xRinFDUZHehl38ygw3SfxOxv2vlL04B
+ 4OLmiTPeVgFZFOz+WSY3UKinKcwt8sf57sDiwKZFtAbvUdnTdEEHbx2jmrEZpIAEXJ
+ vXBm9dr4p8WWmQ+E+xoF0nyETFB3d7pbVynrysQAzUoDgWOpj6lmYEKn6Mun+AEhxx
+ lTg4OfXUe9Xo2+r6k6yEXwL0tjsHfwD29MCu90q/ctDjKxf2zvOYk0eGvOM+lsowPv
+ /HfFGTXoulfLQ==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 2411F17E360A;
+ Thu, 14 Nov 2024 12:24:20 +0100 (CET)
+Date: Thu, 14 Nov 2024 12:24:13 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com
+Subject: Re: [PATCH 4/5] drm/panthor: Be robust against resume failures
+Message-ID: <20241114122413.778b01df@collabora.com>
+In-Reply-To: <1fde7d30-7b8d-4f20-a38e-957e0f67a295@arm.com>
+References: <20241113154257.1971284-1-boris.brezillon@collabora.com>
+ <20241113154257.1971284-5-boris.brezillon@collabora.com>
+ <1fde7d30-7b8d-4f20-a38e-957e0f67a295@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,110 +64,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+On Thu, 14 Nov 2024 10:51:01 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-Testing some workloads in two different scenarios, such as games running
-under Gamescope on a Steam Deck, or vkcube under a Plasma desktop, shows
-that in a significant portion of calls the dma_fence_unwrap_merge helper
-is called with just a single unsignalled fence.
+> On 13/11/2024 15:42, Boris Brezillon wrote:
+> > When the runtime PM resume callback returns an error, it puts the device
+> > in a state where it can't be resumed anymore. Make sure we can recover
+> > from such transient failures by calling pm_runtime_set_suspended()
+> > explicitly after a pm_runtime_resume_and_get() failure.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_device.c |  1 +
+> >  drivers/gpu/drm/panthor/panthor_device.h | 17 +++++++++++++++++
+> >  drivers/gpu/drm/panthor/panthor_drv.c    |  2 +-
+> >  drivers/gpu/drm/panthor/panthor_sched.c  |  4 ++--
+> >  4 files changed, 21 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> > index 353f3aabef42..d3276b936141 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> > @@ -486,6 +486,7 @@ int panthor_device_resume(struct device *dev)
+> >  
+> >  err_set_suspended:
+> >  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+> > +	atomic_set(&ptdev->pm.recovery_needed, 1);
+> >  	return ret;
+> >  }
+> >  
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > index 0e68f5a70d20..cc74e99e53f9 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > @@ -9,6 +9,7 @@
+> >  #include <linux/atomic.h>
+> >  #include <linux/io-pgtable.h>
+> >  #include <linux/regulator/consumer.h>
+> > +#include <linux/pm_runtime.h>
+> >  #include <linux/sched.h>
+> >  #include <linux/spinlock.h>
+> >  
+> > @@ -180,6 +181,9 @@ struct panthor_device {
+> >  		 * is suspended.
+> >  		 */
+> >  		struct page *dummy_latest_flush;
+> > +
+> > +		/** @recovery_needed: True when a resume attempt failed. */
+> > +		atomic_t recovery_needed;
+> >  	} pm;
+> >  
+> >  	/** @profile_mask: User-set profiling flags for job accounting. */
+> > @@ -243,6 +247,19 @@ int panthor_device_mmap_io(struct panthor_device *ptdev,
+> >  int panthor_device_resume(struct device *dev);
+> >  int panthor_device_suspend(struct device *dev);
+> >  
+> > +static inline int panthor_device_resume_and_get(struct panthor_device *ptdev)
+> > +{
+> > +	int ret = pm_runtime_resume_and_get(ptdev->base.dev);
+> > +
+> > +	/* If the resume failed, we need to clear the runtime_error, which we
+> > +	 * can done by forcing the RPM state to suspended.
+> > +	 */
+> > +	if (ret && atomic_cmpxchg(&ptdev->pm.recovery_needed, 1, 0) == 1)  
+> 
+> I'm unclear what this atomic achieves. At first glance it appears
+> pointless: with this change if panthor_device_resume() fails then
+> recovery_needed is set to 1. So logically if ret != 0 then also
+> recovery_needed == 1.
+> 
+> My second thought was is this to avoid races? If multiple threads are
+> calling this then only one will win the cmpxchg and call
+> pm_runtime_set_suspended. But it's not safe - it's quite possible for
+> the first thread to get past the cmpxchg and be suspended before the
+> second thread comes along and reaches the same point - leading to
+> multiple calls to pm_runtime_set_suspended().
 
-Therefore it is worthile to add a fast path for that case and so bypass
-the memory allocation and insertion sort attempts.
+Yes, it was here to avoid the race. I don't think there's a risk of
+multiple threads calling pm_runtime_set_suspended() without
+actually needing such a call, because we won't reach
+panthor_device_resume() until the runtime_error has been cleared
+(runtime PM bails out early with a -EINVAL). So, in practice, there's no
+way two threads can see a recovery_needed=1 unless the error has already
+been cleared by the other thread and the second thread triggered
+another resume error, in which case the second
+pm_runtime_set_suspended() call is legit.
 
-Tested scenarios:
-
-1) Hogwarts Legacy under Gamescope
-
-~1500 calls per second to __dma_fence_unwrap_merge.
-
-Percentages per number of fences buckets, before and after checking for
-signalled status, sorting and flattening:
-
-   N       Before      After
-   0       0.85%
-   1      69.80%        ->   The new fast path.
-  2-9     29.36%        9%   (Ie. 91% of this bucket flattened to 1 fence)
- 10-19
- 20-40
-  50+
-
-2) Cyberpunk 2077 under Gamescope
-
-~2400 calls per second.
-
-   N       Before      After
-   0       0.71%
-   1      52.53%        ->    The new fast path.
-  2-9     44.38%      50.60%  (Ie. half resolved to a single fence)
- 10-19     2.34%
- 20-40     0.06%
-  50+
-
-3) vkcube under Plasma
-
-90 calls per second.
-
-   N       Before      After
-   0
-   1
-  2-9      100%         0%   (Ie. all resolved to a single fence)
- 10-19
- 20-40
-  50+
-
-In the case of vkcube all invocations in the 2-9 bucket were actually
-just two input fences.
-
-v2:
- * Correct local variable name and hold on to unsignaled reference. (Chistian)
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Friedrich Vock <friedrich.vock@gmx.de>
----
- drivers/dma-buf/dma-fence-unwrap.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
-index 26cad03340ce..03bdaa4d57db 100644
---- a/drivers/dma-buf/dma-fence-unwrap.c
-+++ b/drivers/dma-buf/dma-fence-unwrap.c
-@@ -84,8 +84,8 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
- 					   struct dma_fence **fences,
- 					   struct dma_fence_unwrap *iter)
- {
-+	struct dma_fence *tmp, *unsignaled = NULL, **array;
- 	struct dma_fence_array *result;
--	struct dma_fence *tmp, **array;
- 	ktime_t timestamp;
- 	int i, j, count;
- 
-@@ -94,6 +94,8 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
- 	for (i = 0; i < num_fences; ++i) {
- 		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
- 			if (!dma_fence_is_signaled(tmp)) {
-+				dma_fence_put(unsignaled);
-+				unsignaled = dma_fence_get(tmp);
- 				++count;
- 			} else {
- 				ktime_t t = dma_fence_timestamp(tmp);
-@@ -107,9 +109,16 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
- 	/*
- 	 * If we couldn't find a pending fence just return a private signaled
- 	 * fence with the timestamp of the last signaled one.
-+	 *
-+	 * Or if there was a single unsignaled fence left we can return it
-+	 * directly and early since that is a major path on many workloads.
- 	 */
- 	if (count == 0)
- 		return dma_fence_allocate_private_stub(timestamp);
-+	else if (count == 1)
-+		return unsignaled;
-+
-+	dma_fence_put(unsignaled);
- 
- 	array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
- 	if (!array)
--- 
-2.46.0
-
+But now that you mention it, it indeed doesn't prevent the second
+thread to call pm_runtime_resume_and_get() before the PM runtime_error
+has been cleared, leading to potential spurious errors, so that's
+annoying.
