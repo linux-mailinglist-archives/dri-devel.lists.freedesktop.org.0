@@ -2,80 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A9A9C8FF8
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 17:40:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2659C9015
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 17:48:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CA9510E2CB;
-	Thu, 14 Nov 2024 16:40:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 825CA10E822;
+	Thu, 14 Nov 2024 16:47:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cqNDI8Yb";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bi3R5xqy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 542A110E2CB
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 16:40:42 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-43168d9c6c9so7501345e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 08:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731602440; x=1732207240; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Xkyq+ZrMmoh6gWEOgE4rkAB8kE0YpmSqvfOUn0QWPI4=;
- b=cqNDI8YbprvJEn+vCvRHSNmOugN5MsMwL9yoMpJGhdaRGCGrDJpQ3OJRz7j+T/bgX9
- lsfzIW7lVDmdOGxyf/hNDEodS4dUSjAkvRVjC2kTbZGzPZOYwKy6UjOUcoLJxq4m99/w
- xq/sjuV6Qf8mpcn05F8/1wXshbNlCfdE/KmUhM0PZAUv23AnBGtWDovi9AFvXIiCyHNL
- gv54FCcH22rPGugKhvTnOQ32iJHqrd3AudaUEOM1nkTrXZjuaDf0mKLI4chZZUCxO2pS
- iTNuLIymGbaq+1u7Sx2+AZi44+HOkRayZUT0T3ZpvpgAOtJZLZoKb4mEaZh4FFLGKB4c
- SE/w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3375B10E822
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 16:47:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1731602873;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xt0gEA03H8u8VTaljHFvzZY8AomqqKaL5KraLABqcHM=;
+ b=bi3R5xqy+weicsoLWFS/e54g4n4YeGVCYhB3ig9ulpTzxbkLzCsLedsZBAlYMaNz+3XmQe
+ nGtcn+c0G2n7v2I5E/znuiV+rLZ26WF55r3lfcP7L+jsnyAB4rIZhovLxe0egVAmdcp/SL
+ IJDgw/TgelnUVVBOr6WBI/f9LMlK0Zw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-631-dmB-LBb-MWCETn6UVtQwBA-1; Thu, 14 Nov 2024 11:47:51 -0500
+X-MC-Unique: dmB-LBb-MWCETn6UVtQwBA-1
+X-Mimecast-MFC-AGG-ID: dmB-LBb-MWCETn6UVtQwBA
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4316300bb15so6247465e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 08:47:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731602440; x=1732207240;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Xkyq+ZrMmoh6gWEOgE4rkAB8kE0YpmSqvfOUn0QWPI4=;
- b=ZzLED2n6/JckO1+uEXD5YDms8yxnqTVVFgN0pFpWG0rq+jnCJNldH//YBesKO9ey6y
- bqWt59ywIZYIJvD4mtNj+TcRB5T9ru+mAb6suwPzjZ3SnR9v7mR1DqsU67cdB2JGQwpy
- iC0wBriqhqcdwAlTsrEdCB9Qpui8lNcDLoMA8cUZPS7aCzf8IlPf3CMJck+3eDWkDnlq
- bnBJrBNlPH3VF0qv+F1FdfyztC+r16yjknkQYWx+qrwDjoDuW4Wa9YsODoq/7iqssowV
- LedEKg038mGvOaFHw3z4c3HoOy4G7CSGR4qC/eREY0qi1ZULPqd09q4gg6EMzknvk2vq
- ZGfw==
+ d=1e100.net; s=20230601; t=1731602870; x=1732207670;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xt0gEA03H8u8VTaljHFvzZY8AomqqKaL5KraLABqcHM=;
+ b=Iv3zMUKLOaf3RV02MjbIeRJeAS9vv7BhaRtrRgCELvV7gLqjm8zwiHK9hj/BLb/q2G
+ u9fXcmFxvWHgJnJFvtHnMa2s0acc5vv+j66iQliMf3m7ZFQ1EISX3eJ/Sc6FUjCZEewk
+ b0eEkPMXWlRAt/RXGXymK/vXF9f4Zq2H3LkK1MI1fJlUa5EhVyGx64MIXvcxEh4Mkqwd
+ Cxt//W4gIvDC+nYAgIB/wjJuYpz7fSD4O7iw5qCO6G/q24T8fxFX1tqoptalpvmIElbm
+ IrFG2XXX1yBPaK6rRj8zcbi3XWdKJKCpOC+Xhj7wXv6djuk7TX8/qzUpNmUl+ekW787i
+ Dhnw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWGqfBrffVtei42m2HAPDQxAOT8OIuU0YzOqPY9br4HZiP+w4URlAm514UkiRKwtDPsXid33xhU6eQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzOP309onvBZUqGdtzrYiNm1+QGhiFLtQB69amhkJ80cbQwkZiI
- kmRmzohMDnqNziwMpUmsW4TxgtUM4V82kfXaQvtgepzxr7x8zejndw1r/4nm2Rk=
-X-Google-Smtp-Source: AGHT+IGEdyWzIWUpG/b6aJ02gw51X0tvXl/fUgfJ3mohgzneD77kZ6krmaQpn0iidFQUsA8ZPFrKTw==
-X-Received: by 2002:a05:6000:1f86:b0:37d:4ab2:9cdc with SMTP id
- ffacd0b85a97d-381f186cb45mr20459744f8f.13.1731602440547; 
- Thu, 14 Nov 2024 08:40:40 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ AJvYcCXmm38p1qa3wrjT0Ueo0DsrMx/6g292tVhRJNJUg3674aNPoHjYcgdoGCMnxbFtZnfZntgGEHtIGqs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDmI6rR0ied2jWdgGEaH6m3MkMEqSyD5XzGO8yH3vPeRpOvrl5
+ pqkxcUAFK86GKWt/tFqoqgNTrBXbbiMbq66cjzAoZP2xDiI+IKrVQj6HTH4a3DCd2zPz15jDBt7
+ Oc3lXyVIE6fhK8baR0AlZWpdToiJ6CHNzkHLq6UyudHzelfJqSDKFmR5P5oIYcFjP6Q==
+X-Received: by 2002:a05:600c:3514:b0:42f:4f6:f8f3 with SMTP id
+ 5b1f17b1804b1-432b74fde60mr209807205e9.7.1731602870332; 
+ Thu, 14 Nov 2024 08:47:50 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHO6XVDKE6FFt2PaV/J3jbU1cAd/6xYIC/fSOli4LEa0urBBzONnSFV8DMwoGka0LBFFtnxQw==
+X-Received: by 2002:a05:600c:3514:b0:42f:4f6:f8f3 with SMTP id
+ 5b1f17b1804b1-432b74fde60mr209806975e9.7.1731602869912; 
+ Thu, 14 Nov 2024 08:47:49 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3821ae2f59dsm1935085f8f.86.2024.11.14.08.40.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Nov 2024 08:40:40 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Francesco Dolcini <francesco@dolcini.it>
-Cc: Francesco Dolcini <francesco.dolcini@toradex.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20240926141246.48282-1-francesco@dolcini.it>
-References: <20240926141246.48282-1-francesco@dolcini.it>
-Subject: Re: [PATCH v1] drm/bridge: tc358768: Fix DSI command tx
-Message-Id: <173160243967.3308246.14721966174558554057.b4-ty@linaro.org>
-Date: Thu, 14 Nov 2024 17:40:39 +0100
+ 5b1f17b1804b1-432da265668sm29139835e9.10.2024.11.14.08.47.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Nov 2024 08:47:49 -0800 (PST)
+Message-ID: <a394af10-8428-4d19-84cf-f21ec63f23f5@redhat.com>
+Date: Thu, 14 Nov 2024 17:47:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/mgag200: Apply upper limit for clock variable
+To: Murad Masimov <m.masimov@maxima.ru>, Dave Airlie <airlied@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+References: <20241111163306.860-1-m.masimov@maxima.ru>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20241111163306.860-1-m.masimov@maxima.ru>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 5NPGGfDw6U0RrxoBnnrq5LbOO8T0I6644feebWDIQDE_1731602870
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,23 +100,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Thu, 26 Sep 2024 16:12:46 +0200, Francesco Dolcini wrote:
-> Wait for the command transmission to be completed in the DSI transfer
-> function polling for the dc_start bit to go back to idle state after the
-> transmission is started.
+On 11/11/2024 17:33, Murad Masimov wrote:
+> If the value of the clock variable is higher than 800000, the value of the
+> variable m, which is used as a divisor, will remain zero, because
+> (clock * testp) will be higher than vcomax in every loop iteration, which
+> leads to skipping every iteration and leaving variable m unmodified.
 > 
-> This is documented in the datasheet and failures to do so lead to
-> commands corruption.
-> 
-> [...]
+> Clamp value of the clock variable between the lower and the upper limits.
+> It should be correct, since there is already a similar lower limit check.
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
+I don't think it is correct.
 
-[1/1] drm/bridge: tc358768: Fix DSI command tx
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/32c4514455b2b8fde506f8c0962f15c7e4c26f1d
+If the clock asked is > 800000, then delta > premitteddelta, and it will 
+return -EINVAL.
+With your patch it will instead configure the clock to 800000 which is 
+too low for the mode asked and will result in corrupted output.
+
+Best regards,
 
 -- 
-Neil
+
+Jocelyn
+
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: e829d7ef9f17 ("drm/mgag200: Add support for a new rev of G200e")
+> Signed-off-by: Murad Masimov <m.masimov@maxima.ru>
+> ---
+>   drivers/gpu/drm/mgag200/mgag200_g200se.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+> index 7a32d3b1d226..4934c27b084e 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+> @@ -216,8 +216,7 @@ static int mgag200_g200se_04_pixpllc_atomic_check(struct drm_crtc *crtc,
+>   	m = n = p = s = 0;
+>   	delta = 0xffffffff;
+> 
+> -	if (clock < 25000)
+> -		clock = 25000;
+> +	clock = clamp(clock, 25000L, 800000L);
+>   	clock = clock * 2;
+> 
+>   	/* Permited delta is 0.5% as VESA Specification */
+> --
+> 2.39.2
+> 
 
