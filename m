@@ -2,80 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E379C9421
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 22:21:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FAF79C943E
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 22:23:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5717310E37C;
-	Thu, 14 Nov 2024 21:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E90910E37D;
+	Thu, 14 Nov 2024 21:23:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B+JvYEtB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="V3VkXBYR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF6410E37B;
- Thu, 14 Nov 2024 21:21:11 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-2ea073e4533so130032a91.2; 
- Thu, 14 Nov 2024 13:21:11 -0800 (PST)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C4FF10E37D;
+ Thu, 14 Nov 2024 21:23:00 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-72458778447so131325b3a.1; 
+ Thu, 14 Nov 2024 13:23:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731619271; x=1732224071; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1731619380; x=1732224180; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ehv9+ANQ0CX7cBCrQKPwSvObASpaH6zmEsFRtLhvwIU=;
- b=B+JvYEtB/20BOOWfWlc1IvGpfcEeg4Iir+nxu/LflWvRh7ZXWjMkfLnG2VS3Ml5YSK
- jCD0sGDEC/h0rnu9DZh9hsN/6eRKrkuc2PwvPacfOHnnvT23kpqB3rNYEFOy3o26apUp
- Lc40dqxAmSs/ZWr4NYTmk9kceJw1Vo53+2+Uk+VQM3PhFIxnoiyzIPlqROtw6g8ahhut
- kmRQUhBTB8qFIwu8hON2Lu9+bOFgyXOvIm9JC+GZ5jdX6Yt3dgbOleFZ/3wFFmLq8Yan
- 9rv+PRDGZwmehpvI5AUMovl7XKkYFIxY3pdBjN8DyoNMW4l3kt4cZanFU0HTiVC4K8TM
- f4eQ==
+ bh=RHPQdWeymjSqEq39MrfOKaA+rsratObJz0alenKPpxA=;
+ b=V3VkXBYRVQtDXTdbaO3Hrk7JTvT1yEXWX1GG3JC1C+mo2WeFvql62YBlncALg6Ki5F
+ WUkkMX7S2tLy28V0q7IlKMP71axhGqFnFbabAT7trn0vPAMI3bgB5CV7AhVCKKVbUqIX
+ wfc+I7yoWMhZID2YkV34XznI7hs0MDwsdzX4s5utuj4ONbiYuUHlwHatZw5u2Gg8GMRo
+ jFHaHrmlwZ2UJDJG9q1n2eT4dw4xdcd8eg8cBWoJ9Xfhfl9UGf1NNFOyijy44cZ06mz5
+ D12/MUbM9pBSmebpA5DRLupZjm7dsA+Y3RyICsmSGOdsZ34saslVpUctUVTijk/YLmpF
+ 15SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731619271; x=1732224071;
+ d=1e100.net; s=20230601; t=1731619380; x=1732224180;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ehv9+ANQ0CX7cBCrQKPwSvObASpaH6zmEsFRtLhvwIU=;
- b=FjlHR6zAYFlr4kfn8pZ6xVAgX6Ka/Y5Paebo2XplG6w0vGvtAGqCgKOjx1H7HrYAEH
- j7H6YvILSdfoVnS9G2Ac3Tss7SalWFrnmm99HzPvuRCfaL9KEIopbmqPHWX3R3iqTPy8
- zfH644QYpp1ttBUYKq1nmrVe31gI3XLFb1+agJt1UKg3HowPFqhyKE0JMCgorTpjz+Jm
- weenR68bToiyZIJZ53LCdUhqcePyWsqcMLiAgJTNMX1Tn0jSp7jj7wg5LhFTG87Rm9SO
- HKFl1uv6sXX+p4gToUOVA3lOQBL6/P4Bc7BsaRCaB6NI1EZbnQBTq/96ihd2o/bnZw3y
- 6LLQ==
+ bh=RHPQdWeymjSqEq39MrfOKaA+rsratObJz0alenKPpxA=;
+ b=X7fc8VcApKprL+myFTbQP0XivhFAKy68yhCDio20wqdjGkcZRXmZUzuyuqkf2zuWhD
+ cekGL99HFsDJmLkNLN7DzKl69lJwrdh0tAXDOSkGQEzHRuPR7+S/EI4r6VgIdxuTYa7/
+ t+V3K0W9At5cryy4sM3FBhgWYEkDi2/Y37HnQpD0T631PldHHrfKJpJpKkZrLZmVMgRR
+ pRP0PIKNM53klwO1diHQUfgzNqYY5P2T0vLAN6tfWzRP/s8gN6Nw1E6newqNwVIFjuTA
+ 7wF7n+kcDR/qqwcT/ED5mnltB3FxpTnEaFgUcYJ9MJeRaYDk+pF885yJ7PWj91uE/Yq7
+ Bc/g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVJK/AHNFFVkMMEZaarPb7FKPzMAOndgIOHPtqpznKupwR4WoUAtFd4q8XaGkQo3zRi78K/8DCmLu6x@lists.freedesktop.org,
- AJvYcCXR58Vis+khiGYuOY8O/w8LTfLSQe652r7i4Hj2UqTcmqNXsniqWGqaewamfBNnVCuoD9a8RK5n@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxh6crjlxQVst6Giznf9YRUkCdgju5vYbFmi+HKEAV4u9h6thgS
- Fas9alClDdDOSvluD4qoaKVjjqrpxGw0JrMLtgwHGCPmVtYj5PjUtcIYU2bsqj96nErFwZIoMmX
- wFUTFeDVB/u9JxScffK5BFhE0n3A=
-X-Google-Smtp-Source: AGHT+IHDIpTlD9Hg0BD/QZgrCLws+o4es7hQuErrVlLnU6RrTSYgLmuXZPYuQ2EJoVeAT7M0UfqpLaHszXenEXyI9f0=
-X-Received: by 2002:a17:90b:17c2:b0:2db:60b:eec with SMTP id
- 98e67ed59e1d1-2ea15591de6mr185724a91.7.1731619270954; Thu, 14 Nov 2024
- 13:21:10 -0800 (PST)
+ AJvYcCUuCw6BtWs8HKVKGwpd86CcQSoXq8x1vZogsH4e3IhR1lZ7P/349qQKKPc2bybU/vRa1o4QnhC6@lists.freedesktop.org,
+ AJvYcCXbsed9gPr5DNiIgkmaUp2w69sjlg+lhCleBJpFSJviD/Zkk83cCTkhqfJRDiqdjgxQLJl/qRBOvyfy@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyKqPf2YyOtkvyPcyCmo2N3FNM7BcosQFXFCsvxmx0A+MH1OKy8
+ CU8rKVImw01hiL1RuEe25jMKIQ2un8KM/b7S3PoO7lPKiVuGAlDxc3aREoQBi5DgWwU4vC6siVz
+ ek3QCUvE7NcQO8/jjlw+ytrFxCNM=
+X-Google-Smtp-Source: AGHT+IE8GWehKpjTSXpVYptjXohMTqCxTrt68SQgfk9jJxHogJwyh/7+THbVI3C/Zce2x/BRDDMS7zuQSkIWIB9rRps=
+X-Received: by 2002:a17:90b:33c6:b0:2ea:120e:14b6 with SMTP id
+ 98e67ed59e1d1-2ea1556e6d0mr205457a91.5.1731619379810; Thu, 14 Nov 2024
+ 13:22:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20241114151150.19576-1-bhavin.sharma@siliconsignals.io>
- <20241114151150.19576-2-bhavin.sharma@siliconsignals.io>
- <511539bb-bc1d-459e-bfd1-10ad8e9d1435@amd.com>
-In-Reply-To: <511539bb-bc1d-459e-bfd1-10ad8e9d1435@amd.com>
+References: <20241113125158.1959533-1-chenhuacai@loongson.cn>
+ <11457899-355a-4682-aea1-6b0a196bcef2@amd.com>
+In-Reply-To: <11457899-355a-4682-aea1-6b0a196bcef2@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 14 Nov 2024 16:20:59 -0500
-Message-ID: <CADnq5_MXiOYYLKii4UiziDoKhefiPFy28++NxY5Ss_jp9ob9BA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/amd/display: remove redundant is_dsc_possible
- check
+Date: Thu, 14 Nov 2024 16:22:48 -0500
+Message-ID: <CADnq5_OUK8pEakX9w1dia31EvV1LCe1zU6mkk3nRZq=oW7hq-w@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Use ttm_bo_move_null() in radeon_bo_move()
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Bhavin Sharma <bhavin.sharma@siliconsignals.io>, alexander.deucher@amd.com,
- alex.hung@amd.com, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Kenneth Feng <kenneth.feng@amd.com>, 
- Wenjing Liu <wenjing.liu@amd.com>, Chris Park <chris.park@amd.com>,
- Roman Li <roman.li@amd.com>, 
- Leo Ma <hanghong.ma@amd.com>, Ryan Seto <ryanseto@amd.com>, 
- Jose Fernandez <josef@netflix.com>, Ilya Bakoulin <ilya.bakoulin@amd.com>, 
- Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Huacai Chen <chenhuacai@loongson.cn>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
+ Xinhui <Xinhui.Pan@amd.com>, 
+ Huacai Chen <chenhuacai@kernel.org>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,59 +84,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 14, 2024 at 10:21=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 14.11.24 um 16:11 schrieb Bhavin Sharma:
-> > Since is_dsc_possible is already checked just above, there's no need to
-> > check it again before filling out the DSC settings.
-> >
-> > Signed-off-by: Bhavin Sharma <bhavin.sharma@siliconsignals.io>
-> > ---
-> >   drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 13 +++++--------
-> >   1 file changed, 5 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/=
-drm/amd/display/dc/dsc/dc_dsc.c
-> > index ebd5df1a36e8..85f6f8e43947 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-> > @@ -1093,14 +1093,11 @@ static bool setup_dsc_config(
-> >       if (!is_dsc_possible)
-> >               goto done;
-> >
-> > -     // Final decission: can we do DSC or not?
-> > -     if (is_dsc_possible) {
-> > -             // Fill out the rest of DSC settings
-> > -             dsc_cfg->block_pred_enable =3D dsc_common_caps.is_block_p=
-red_supported;
-> > -             dsc_cfg->linebuf_depth =3D dsc_common_caps.lb_bit_depth;
-> > -             dsc_cfg->version_minor =3D (dsc_common_caps.dsc_version &=
- 0xf0) >> 4;
-> > -             dsc_cfg->is_dp =3D dsc_sink_caps->is_dp;
-> > -     }
-> > +     // Fill out the rest of DSC settings
->
-> While at it you should probably replace the // style comment with /* */.
->
-> Apart from that looks good to me.
-
-Fixed up locally and applied.
-
-Thanks,
+Applied.  Thanks!
 
 Alex
 
+On Wed, Nov 13, 2024 at 8:04=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> Christian.
->
-> > +     dsc_cfg->block_pred_enable =3D dsc_common_caps.is_block_pred_supp=
-orted;
-> > +     dsc_cfg->linebuf_depth =3D dsc_common_caps.lb_bit_depth;
-> > +     dsc_cfg->version_minor =3D (dsc_common_caps.dsc_version & 0xf0) >=
-> 4;
-> > +     dsc_cfg->is_dp =3D dsc_sink_caps->is_dp;
+> Am 13.11.24 um 13:51 schrieb Huacai Chen:
+> > Since ttm_bo_move_null() is exactly the same as ttm_resource_free() +
+> > ttm_bo_assign_mem(), we use ttm_bo_move_null() for the GTT --> SYSTEM
+> > move case too. Then the code is more consistent as the SYSTEM --> GTT
+> > move case.
 > >
-> >   done:
-> >       if (!is_dsc_possible)
+> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+>
+> Looks reasonable to me, Acked-by: Christian K=C3=B6nig <christian.koenig@=
+amd.com>
+>
+> > ---
+> >   drivers/gpu/drm/radeon/radeon_ttm.c | 3 +--
+> >   1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/rade=
+on/radeon_ttm.c
+> > index 69d0c12fa419..616d25c8c2de 100644
+> > --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> > +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> > @@ -219,8 +219,7 @@ static int radeon_bo_move(struct ttm_buffer_object =
+*bo, bool evict,
+> >       if (old_mem->mem_type =3D=3D TTM_PL_TT &&
+> >           new_mem->mem_type =3D=3D TTM_PL_SYSTEM) {
+> >               radeon_ttm_tt_unbind(bo->bdev, bo->ttm);
+> > -             ttm_resource_free(bo, &bo->resource);
+> > -             ttm_bo_assign_mem(bo, new_mem);
+> > +             ttm_bo_move_null(bo, new_mem);
+> >               goto out;
+> >       }
+> >       if (rdev->ring[radeon_copy_ring_index(rdev)].ready &&
 >
