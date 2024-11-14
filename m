@@ -2,39 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE319C888A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 12:13:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB509C8892
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 12:15:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C22B010E7E6;
-	Thu, 14 Nov 2024 11:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1522110E7E7;
+	Thu, 14 Nov 2024 11:15:12 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PDLlCfjq";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3C47C10E7E6
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 11:13:34 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DDF741480
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 03:14:03 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B3AEB3F6A8
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 03:13:33 -0800 (PST)
-Date: Thu, 14 Nov 2024 11:13:29 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH 2/5] drm/panthor: Be robust against runtime PM resume
- failures in the suspend path
-Message-ID: <ZzXbWUtF_oxWXl9G@e110455-lin.cambridge.arm.com>
-References: <20241113154257.1971284-1-boris.brezillon@collabora.com>
- <20241113154257.1971284-3-boris.brezillon@collabora.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 037FA10E217
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 11:15:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=2LuLTdWQm1q7pIyzru/q80ZGTB2+cIlxufsJ+3St1k4=; b=PDLlCfjqjPE08MBpEd5+caiKlW
+ Hl8k9yWKf8y0TffASpehG7Szl7Ll5ewBqMrZbAiiItU7aSW6bxoaeSKIAtyXGZOiRquFRxXY/sbvL
+ jnT7l6iqF7jZS/0wHpONdlcIIA8qD6ZtWJ+IOlQf74PI51Y9q5J90m1GAXaHpTW4r4g8v61bvwOw0
+ NzqQ06llPxuwttWy3M8JN1JxJ8K7l6ERRr0RZUhYQKom0H008TCo7gzoQVHr/Z9vIUj/xsIrWawLC
+ mf871oIE/A6VAcsEt7pMhWwL1k/dGzz7EyErHH1SE8qHldlO5ej19FItD5jBFcurvk1xkvC06bQ+5
+ xvQXb/Jg==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tBXoY-006m84-2u; Thu, 14 Nov 2024 12:15:06 +0100
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Friedrich Vock <friedrich.vock@gmx.de>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
+Subject: [PATCH 1/2] dma-fence: Use kernel's sort for merging fences
+Date: Thu, 14 Nov 2024 11:14:59 +0000
+Message-ID: <20241114111500.77358-1-tursulin@igalia.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241113154257.1971284-3-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,156 +63,264 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 13, 2024 at 04:42:54PM +0100, Boris Brezillon wrote:
-> The runtime PM resume operation is not guaranteed to succeed, but if it
-> fails, the device should be in a suspended state. Make sure we're robust
-> to resume failures in the unplug path.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c | 23 ++++++++---------------
->  drivers/gpu/drm/panthor/panthor_fw.c     | 14 +++++++++-----
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  3 ++-
->  drivers/gpu/drm/panthor/panthor_mmu.c    |  3 ++-
->  4 files changed, 21 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index db7ba40f771d..8b5d54b2bbb4 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -48,6 +48,8 @@ static int panthor_clk_init(struct panthor_device *ptdev)
->  
->  void panthor_device_unplug(struct panthor_device *ptdev)
->  {
-> +	int ret;
-> +
->  	/* This function can be called from two different path: the reset work
->  	 * and the platform device remove callback. drm_dev_unplug() doesn't
->  	 * deal with concurrent callers, so we have to protect drm_dev_unplug()
-> @@ -74,7 +76,8 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  	 */
->  	mutex_unlock(&ptdev->unplug.lock);
->  
-> -	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
-> +	ret = pm_runtime_get_sync(ptdev->base.dev);
-> +	drm_WARN_ON(&ptdev->base, ret < 0);
->  
->  	/* Now, try to cleanly shutdown the GPU before the device resources
->  	 * get reclaimed.
-> @@ -85,7 +88,10 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  	panthor_gpu_unplug(ptdev);
->  
->  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
-> -	pm_runtime_put_sync_suspend(ptdev->base.dev);
-> +
-> +	/* If the resume failed, we don't need to suspend here. */
-> +	if (!ret)
-> +		pm_runtime_put_sync_suspend(ptdev->base.dev);
->  
->  	/* If PM is disabled, we need to call the suspend handler manually. */
->  	if (!IS_ENABLED(CONFIG_PM))
-> @@ -541,17 +547,4 @@ int panthor_device_suspend(struct device *dev)
->  	clk_disable_unprepare(ptdev->clks.core);
->  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
->  	return 0;
-> -
-> -err_set_active:
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Label is being deleted here, but I don't see where the `goto err_set_active` is being removed.
+One alternative to the fix Christian proposed in
+https://lore.kernel.org/dri-devel/20241024124159.4519-3-christian.koenig@amd.com/
+is to replace the rather complex open coded sorting loops with the kernel
+standard sort followed by a context squashing pass.
 
-Best regards,
-Liviu
+Proposed advantage of this would be readability but one concern Christian
+raised was that there could be many fences, that they are typically mostly
+sorted, and so the kernel's heap sort would be much worse by the proposed
+algorithm.
 
-> -	/* If something failed and we have to revert back to an
-> -	 * active state, we also need to clear the MMIO userspace
-> -	 * mappings, so any dumb pages that were mapped while we
-> -	 * were trying to suspend gets invalidated.
-> -	 */
-> -	mutex_lock(&ptdev->pm.mmio_lock);
-> -	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_ACTIVE);
-> -	unmap_mapping_range(ptdev->base.anon_inode->i_mapping,
-> -			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
-> -	mutex_unlock(&ptdev->pm.mmio_lock);
-> -	return ret;
->  }
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 2060085cc9f3..df74750cf1b7 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -12,6 +12,7 @@
->  #include <linux/iosys-map.h>
->  #include <linux/mutex.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
->  
->  #include <drm/drm_drv.h>
->  #include <drm/drm_managed.h>
-> @@ -1188,11 +1189,13 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
->  
->  	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
->  
-> -	/* Make sure the IRQ handler can be called after that point. */
-> -	if (ptdev->fw->irq.irq)
-> -		panthor_job_irq_suspend(&ptdev->fw->irq);
-> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev)) {
-> +		/* Make sure the IRQ handler can be called after that point. */
-> +		if (ptdev->fw->irq.irq)
-> +			panthor_job_irq_suspend(&ptdev->fw->irq);
->  
-> -	panthor_fw_stop(ptdev);
-> +		panthor_fw_stop(ptdev);
-> +	}
->  
->  	list_for_each_entry(section, &ptdev->fw->sections, node)
->  		panthor_kernel_bo_destroy(section->mem);
-> @@ -1205,7 +1208,8 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
->  	panthor_vm_put(ptdev->fw->vm);
->  	ptdev->fw->vm = NULL;
->  
-> -	panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
-> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
-> +		panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
->  }
->  
->  /**
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 2d3529a0b156..27702bc62dd6 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -174,7 +174,8 @@ void panthor_gpu_unplug(struct panthor_device *ptdev)
->  	unsigned long flags;
->  
->  	/* Make sure the IRQ handler is not running after that point. */
-> -	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
-> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
-> +		panthor_gpu_irq_suspend(&ptdev->gpu->irq);
->  
->  	/* Wake-up all waiters. */
->  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index c2262c72e8e2..fee6c7d9fe0a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -2674,7 +2674,8 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
->   */
->  void panthor_mmu_unplug(struct panthor_device *ptdev)
->  {
-> -	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
-> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
-> +		panthor_mmu_irq_suspend(&ptdev->mmu->irq);
->  
->  	mutex_lock(&ptdev->mmu->as.slots_lock);
->  	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
-> -- 
-> 2.46.2
-> 
+I had a look running some games and vkcube to see what are the typical
+number of input fences. Tested scenarios:
 
+1) Hogwarts Legacy under Gamescope
+
+450 calls per second to __dma_fence_unwrap_merge.
+
+Percentages per number of fences buckets, before and after checking for
+signalled status, sorting and flattening:
+
+   N       Before      After
+   0       0.91%
+   1      69.40%
+  2-3     28.72%       9.4%  (90.6% resolved to one fence)
+  4-5      0.93%
+  6-9      0.03%
+  10+
+
+2) Cyberpunk 2077 under Gamescope
+
+1050 calls per second, amounting to 0.01% CPU time according to perf top.
+
+   N       Before      After
+   0       1.13%
+   1      52.30%
+  2-3     40.34%       55.57%
+  4-5      1.46%        0.50%
+  6-9      2.44%
+  10+      2.34%
+
+3) vkcube under Plasma
+
+90 calls per second.
+
+   N       Before      After
+   0
+   1
+  2-3      100%         0%   (Ie. all resolved to a single fence)
+  4-5
+  6-9
+  10+
+
+In the case of vkcube all invocations in the 2-3 bucket were actually
+just two input fences.
+
+From these numbers it looks like the heap sort should not be a
+disadvantage, given how the dominant case is <= 2 input fences which heap
+sort solves with just one compare and swap. (And for the case of one input
+fence we have a fast path in the previous patch.)
+
+A complementary possibility is to implement a different sorting algorithm
+under the same API as the kernel's sort() and so keep the simplicity,
+potentially moving the new sort under lib/ if it would be found more
+widely useful.
+
+v2:
+ * Hold on to fence references and reduce commentary. (Christian)
+ * Record and use latest signaled timestamp in the 2nd loop too.
+ * Consolidate zero or one fences fast paths.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Fixes: 245a4a7b531c ("dma-buf: generalize dma_fence unwrap & merging v3")
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3617
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Gustavo Padovan <gustavo@padovan.org>
+Cc: Friedrich Vock <friedrich.vock@gmx.de>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org> # v6.0+
+---
+ drivers/dma-buf/dma-fence-unwrap.c | 129 ++++++++++++++---------------
+ 1 file changed, 64 insertions(+), 65 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
+index 628af51c81af..26cad03340ce 100644
+--- a/drivers/dma-buf/dma-fence-unwrap.c
++++ b/drivers/dma-buf/dma-fence-unwrap.c
+@@ -12,6 +12,7 @@
+ #include <linux/dma-fence-chain.h>
+ #include <linux/dma-fence-unwrap.h>
+ #include <linux/slab.h>
++#include <linux/sort.h>
+ 
+ /* Internal helper to start new array iteration, don't use directly */
+ static struct dma_fence *
+@@ -59,6 +60,25 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor)
+ }
+ EXPORT_SYMBOL_GPL(dma_fence_unwrap_next);
+ 
++
++static int fence_cmp(const void *_a, const void *_b)
++{
++	struct dma_fence *a = *(struct dma_fence **)_a;
++	struct dma_fence *b = *(struct dma_fence **)_b;
++
++	if (a->context < b->context)
++		return -1;
++	else if (a->context > b->context)
++		return 1;
++
++	if (dma_fence_is_later(b, a))
++		return -1;
++	else if (dma_fence_is_later(a, b))
++		return 1;
++
++	return 0;
++}
++
+ /* Implementation for the dma_fence_merge() marco, don't use directly */
+ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+ 					   struct dma_fence **fences,
+@@ -67,8 +87,7 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+ 	struct dma_fence_array *result;
+ 	struct dma_fence *tmp, **array;
+ 	ktime_t timestamp;
+-	unsigned int i;
+-	size_t count;
++	int i, j, count;
+ 
+ 	count = 0;
+ 	timestamp = ns_to_ktime(0);
+@@ -96,78 +115,58 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+ 	if (!array)
+ 		return NULL;
+ 
+-	/*
+-	 * This trashes the input fence array and uses it as position for the
+-	 * following merge loop. This works because the dma_fence_merge()
+-	 * wrapper macro is creating this temporary array on the stack together
+-	 * with the iterators.
+-	 */
+-	for (i = 0; i < num_fences; ++i)
+-		fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
+-
+ 	count = 0;
+-	do {
+-		unsigned int sel;
+-
+-restart:
+-		tmp = NULL;
+-		for (i = 0; i < num_fences; ++i) {
+-			struct dma_fence *next;
+-
+-			while (fences[i] && dma_fence_is_signaled(fences[i]))
+-				fences[i] = dma_fence_unwrap_next(&iter[i]);
+-
+-			next = fences[i];
+-			if (!next)
+-				continue;
+-
+-			/*
+-			 * We can't guarantee that inpute fences are ordered by
+-			 * context, but it is still quite likely when this
+-			 * function is used multiple times. So attempt to order
+-			 * the fences by context as we pass over them and merge
+-			 * fences with the same context.
+-			 */
+-			if (!tmp || tmp->context > next->context) {
+-				tmp = next;
+-				sel = i;
+-
+-			} else if (tmp->context < next->context) {
+-				continue;
+-
+-			} else if (dma_fence_is_later(tmp, next)) {
+-				fences[i] = dma_fence_unwrap_next(&iter[i]);
+-				goto restart;
++	for (i = 0; i < num_fences; ++i) {
++		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
++			if (!dma_fence_is_signaled(tmp)) {
++				array[count++] = dma_fence_get(tmp);
+ 			} else {
+-				fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+-				goto restart;
++				ktime_t t = dma_fence_timestamp(tmp);
++
++				if (ktime_after(t, timestamp))
++					timestamp = t;
+ 			}
+ 		}
++	}
+ 
+-		if (tmp) {
+-			array[count++] = dma_fence_get(tmp);
+-			fences[sel] = dma_fence_unwrap_next(&iter[sel]);
++	if (count == 0 || count == 1)
++		goto return_fastpath;
++
++	sort(array, count, sizeof(*array), fence_cmp, NULL);
++
++	/*
++	 * Only keep the most recent fence for each context.
++	 */
++	j = 0;
++	tmp = array[0];
++	for (i = 1; i < count; i++) {
++		if (array[i]->context != tmp->context)
++			array[j++] = tmp;
++		else
++			dma_fence_put(tmp);
++		tmp = array[i];
++	}
++	if (j == 0 || tmp->context != array[j - 1]->context) {
++		array[j++] = tmp;
++	}
++	count = j;
++
++	if (count > 1) {
++		result = dma_fence_array_create(count, array,
++						dma_fence_context_alloc(1),
++						1, false);
++		if (!result) {
++			tmp = NULL;
++			goto return_tmp;
+ 		}
+-	} while (tmp);
+-
+-	if (count == 0) {
+-		tmp = dma_fence_allocate_private_stub(ktime_get());
+-		goto return_tmp;
++		return &result->base;
+ 	}
+ 
+-	if (count == 1) {
++return_fastpath:
++	if (count == 0)
++		tmp = dma_fence_allocate_private_stub(timestamp);
++	else
+ 		tmp = array[0];
+-		goto return_tmp;
+-	}
+-
+-	result = dma_fence_array_create(count, array,
+-					dma_fence_context_alloc(1),
+-					1, false);
+-	if (!result) {
+-		tmp = NULL;
+-		goto return_tmp;
+-	}
+-	return &result->base;
+ 
+ return_tmp:
+ 	kfree(array);
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.46.0
+
