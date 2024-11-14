@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781559C8EC6
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 16:54:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719999C8FB2
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 17:27:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8D4510E814;
-	Thu, 14 Nov 2024 15:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF5210E0AC;
+	Thu, 14 Nov 2024 16:27:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YNJ42KWi";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="a1oyTZE3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9970910E80B;
- Thu, 14 Nov 2024 15:53:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731599639; x=1763135639;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=/+SRlLPVSoEcqhnEB8irN9IMlpg5pF84WuBgpr4BvI4=;
- b=YNJ42KWim8XhS8jrDJdLjjksdI5DZ1htI2SkIj38uiJ/o9v2TNb9qLN0
- 8xYyK7fsZezRb9djj2DJ3DbL7TBuhVj2eo/B5HKy+VBtpRk80oZ5Xj+Pt
- RBeG0hl7h5pj9+aAUrtub1AqUZ/bO5/oajyj8HbS8/mJblQ/H6xf+Eyt5
- q4kMTVOTIjhu0D/5YXIHmvxBpZqbpIG4bpvO616TNYc5457b0Mkr9RrZW
- tP36q9rFLJP1dImunZSNZ1Qhnii0h5mRnHjaqXZIu8utm9pgQbo242Idr
- vzEp0mYQXrjl56+in7O3hu+PuGoVHZg/yKe6z6/DEsHtI3DUmwmcOo3w7 A==;
-X-CSE-ConnectionGUID: QezS6rPPQ6itdF5wc3Rnyg==
-X-CSE-MsgGUID: a+WkSGWUR+an4HxAzZvGYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31420263"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="31420263"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2024 07:53:58 -0800
-X-CSE-ConnectionGUID: ca6lHrFMTKih0NmqmX/crA==
-X-CSE-MsgGUID: ikoNUm1aRsKw6pFS4HukvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; d="scan'208";a="93324440"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2024 07:53:51 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sergey Senozhatsky <senozhatsky@chromium.org>, Sergey Senozhatsky
- <senozhatsky@chromium.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- ville.syrjala@linux.intel.com
-Subject: Re: [RFC][PATCH] drm: i915: do not NULL deref hdmi attached_connector
-In-Reply-To: <87msi3bidr.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241031105145.2140590-1-senozhatsky@chromium.org>
- <20241113083920.GH1458936@google.com> <87msi3bidr.fsf@intel.com>
-Date: Thu, 14 Nov 2024 17:53:46 +0200
-Message-ID: <87cyix6cc5.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ECBD10E0AC
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 16:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=P8lYHt+1bJQjBebIWL1lwJgegPFJe3JiIiEHUo4KVmc=; b=a1oyTZE3hinL4r10g9aDEK0oLB
+ DGHumSrcyPR3HM0Wj8e3FmcHF8UjitkNdbYG/RAITculHe9pljhwjNhhNhgAI4G/+BPVsnlEFY1IC
+ 3isy01KJToBKqKAzzcjZVeuc/FoOW9JRWMdDL9I0KjVc3gLiZrojfR2031grhz8cHXGYmRQd64w8u
+ ZYyVs1IiyK8AZb94nH2nxMOASo7CWBtK/JMAofIg5OTbIahbwBnGaDLwwGMnEALrMAwOs44vWI65B
+ FrGFZhJKvuR3H+s88rmupT8IrYPEbYVFvUxEeUe9L4ZP0EDL7+9yaUY0UfEt3JiaJ/sXs6OGPcvrX
+ xS5/yFXQ==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tBch9-006sVl-6p; Thu, 14 Nov 2024 17:27:47 +0100
+Message-ID: <4419dab0-d22b-49d4-b208-6ff022934c95@igalia.com>
+Date: Thu, 14 Nov 2024 16:27:46 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dma-fence: Use kernel's sort for merging fences
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Friedrich Vock <friedrich.vock@gmx.de>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ stable@vger.kernel.org
+References: <20241114111500.77358-1-tursulin@igalia.com>
+ <757d59ec-2735-477e-9648-a2b82a52659c@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <757d59ec-2735-477e-9648-a2b82a52659c@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,57 +66,305 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Nov 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Wed, 13 Nov 2024, Sergey Senozhatsky <senozhatsky@chromium.org> wrote:
->> On (24/10/31 19:51), Sergey Senozhatsky wrote:
->>> intel_ddi_init() may skip connector initialization, for instance,
->>> both intel_ddi_init_dp_connector() and intel_ddi_init_hdmi_connector()
->>> are optional.  This leads to situation that ->attached_connector may
->>> be NULL for some connectors.  For instance, on my setup 'DDI A/PHY A'
->>> and 'DDI TC1/PHY TC1' are not initialized.
->>> 
->>> However, functions like intel_dp_dual_mode_set_tmds_output() and
->>> friends don't take this into consideration.  This leads to NULL
->>> ptr-derefs:
->>> 
->>> KASAN: null-ptr-deref in range [0x0000000000000848-0x000000000000084f]
->>> RIP: 0010:intel_hdmi_encoder_shutdown+0x105/0x230
->>> Call Trace:
->>> <TASK>
->>> i915_driver_shutdown+0x2d8/0x490
->>> pci_device_shutdown+0x83/0x150
->>> device_shutdown+0x4ad/0x660
->>> __se_sys_reboot+0x29c/0x4d0
->>> do_syscall_64+0x60/0x90
->>> 
->>> Add a new helper to avoid NULL ->attached_connector derefs and
->>> switch some intel_hdmi function to it.  I'm not sure if we need
->>> to switch all or just intel_dp_dual_mode_set_tmds_output() (I
->>> have only seen this one doing NULL derefs so far).
+
+On 14/11/2024 13:48, Christian König wrote:
+> Am 14.11.24 um 12:14 schrieb Tvrtko Ursulin:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 >>
->> Folks, any more comments / opinions on this?
->> What should be the way forward?
->
-> Ville, we handle intel_ddi_init_dp_connector() failures but not
-> intel_ddi_init_hdmi_connector() failures. Do you recall if there's a
-> reason for that? Something like a dual-mode port where DP works but HDMI
-> gets rejected because of bogus VBT info?
->
-> My gut feeling is to propagate errors from intel_hdmi_init_connector()
-> and handle them properly in g4x_hdmi_init() and
-> intel_ddi_init_hdmi_connector().
->
-> Of course, we have cases where hdmi is just not initialized on DDI, and
-> those should be handled. But I don't think hdmi->attached_connector !=
-> NULL is really the right check for that.
+>> One alternative to the fix Christian proposed in
+>> https://lore.kernel.org/dri-devel/20241024124159.4519-3-christian.koenig@amd.com/
+>> is to replace the rather complex open coded sorting loops with the kernel
+>> standard sort followed by a context squashing pass.
+>>
+>> Proposed advantage of this would be readability but one concern Christian
+>> raised was that there could be many fences, that they are typically 
+>> mostly
+>> sorted, and so the kernel's heap sort would be much worse by the proposed
+>> algorithm.
+>>
+>> I had a look running some games and vkcube to see what are the typical
+>> number of input fences. Tested scenarios:
+>>
+>> 1) Hogwarts Legacy under Gamescope
+>>
+>> 450 calls per second to __dma_fence_unwrap_merge.
+>>
+>> Percentages per number of fences buckets, before and after checking for
+>> signalled status, sorting and flattening:
+>>
+>>     N       Before      After
+>>     0       0.91%
+>>     1      69.40%
+>>    2-3     28.72%       9.4%  (90.6% resolved to one fence)
+>>    4-5      0.93%
+>>    6-9      0.03%
+>>    10+
+>>
+>> 2) Cyberpunk 2077 under Gamescope
+>>
+>> 1050 calls per second, amounting to 0.01% CPU time according to perf top.
+>>
+>>     N       Before      After
+>>     0       1.13%
+>>     1      52.30%
+>>    2-3     40.34%       55.57%
+>>    4-5      1.46%        0.50%
+>>    6-9      2.44%
+>>    10+      2.34%
+>>
+>> 3) vkcube under Plasma
+>>
+>> 90 calls per second.
+>>
+>>     N       Before      After
+>>     0
+>>     1
+>>    2-3      100%         0%   (Ie. all resolved to a single fence)
+>>    4-5
+>>    6-9
+>>    10+
+>>
+>> In the case of vkcube all invocations in the 2-3 bucket were actually
+>> just two input fences.
+>>
+>>  From these numbers it looks like the heap sort should not be a
+>> disadvantage, given how the dominant case is <= 2 input fences which heap
+>> sort solves with just one compare and swap. (And for the case of one 
+>> input
+>> fence we have a fast path in the previous patch.)
+>>
+>> A complementary possibility is to implement a different sorting algorithm
+>> under the same API as the kernel's sort() and so keep the simplicity,
+>> potentially moving the new sort under lib/ if it would be found more
+>> widely useful.
+>>
+>> v2:
+>>   * Hold on to fence references and reduce commentary. (Christian)
+>>   * Record and use latest signaled timestamp in the 2nd loop too.
+>>   * Consolidate zero or one fences fast paths.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Fixes: 245a4a7b531c ("dma-buf: generalize dma_fence unwrap & merging v3")
+>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3617
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>> Cc: Gustavo Padovan <gustavo@padovan.org>
+>> Cc: Friedrich Vock <friedrich.vock@gmx.de>
+>> Cc: linux-media@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linaro-mm-sig@lists.linaro.org
+>> Cc: <stable@vger.kernel.org> # v6.0+
+>> ---
+>>   drivers/dma-buf/dma-fence-unwrap.c | 129 ++++++++++++++---------------
+>>   1 file changed, 64 insertions(+), 65 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence-unwrap.c 
+>> b/drivers/dma-buf/dma-fence-unwrap.c
+>> index 628af51c81af..26cad03340ce 100644
+>> --- a/drivers/dma-buf/dma-fence-unwrap.c
+>> +++ b/drivers/dma-buf/dma-fence-unwrap.c
+>> @@ -12,6 +12,7 @@
+>>   #include <linux/dma-fence-chain.h>
+>>   #include <linux/dma-fence-unwrap.h>
+>>   #include <linux/slab.h>
+>> +#include <linux/sort.h>
+>>   /* Internal helper to start new array iteration, don't use directly */
+>>   static struct dma_fence *
+>> @@ -59,6 +60,25 @@ struct dma_fence *dma_fence_unwrap_next(struct 
+>> dma_fence_unwrap *cursor)
+>>   }
+>>   EXPORT_SYMBOL_GPL(dma_fence_unwrap_next);
+>> +
+>> +static int fence_cmp(const void *_a, const void *_b)
+>> +{
+>> +    struct dma_fence *a = *(struct dma_fence **)_a;
+>> +    struct dma_fence *b = *(struct dma_fence **)_b;
+>> +
+>> +    if (a->context < b->context)
+>> +        return -1;
+>> +    else if (a->context > b->context)
+>> +        return 1;
+>> +
+>> +    if (dma_fence_is_later(b, a))
+>> +        return -1;
+>> +    else if (dma_fence_is_later(a, b))
+>> +        return 1;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   /* Implementation for the dma_fence_merge() marco, don't use 
+>> directly */
+>>   struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>                          struct dma_fence **fences,
+>> @@ -67,8 +87,7 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned 
+>> int num_fences,
+>>       struct dma_fence_array *result;
+>>       struct dma_fence *tmp, **array;
+>>       ktime_t timestamp;
+>> -    unsigned int i;
+>> -    size_t count;
+>> +    int i, j, count;
+>>       count = 0;
+>>       timestamp = ns_to_ktime(0);
+>> @@ -96,78 +115,58 @@ struct dma_fence 
+>> *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>       if (!array)
+>>           return NULL;
+>> -    /*
+>> -     * This trashes the input fence array and uses it as position for 
+>> the
+>> -     * following merge loop. This works because the dma_fence_merge()
+>> -     * wrapper macro is creating this temporary array on the stack 
+>> together
+>> -     * with the iterators.
+>> -     */
+>> -    for (i = 0; i < num_fences; ++i)
+>> -        fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
+>> -
+>>       count = 0;
+>> -    do {
+>> -        unsigned int sel;
+>> -
+>> -restart:
+>> -        tmp = NULL;
+>> -        for (i = 0; i < num_fences; ++i) {
+>> -            struct dma_fence *next;
+>> -
+>> -            while (fences[i] && dma_fence_is_signaled(fences[i]))
+>> -                fences[i] = dma_fence_unwrap_next(&iter[i]);
+>> -
+>> -            next = fences[i];
+>> -            if (!next)
+>> -                continue;
+>> -
+>> -            /*
+>> -             * We can't guarantee that inpute fences are ordered by
+>> -             * context, but it is still quite likely when this
+>> -             * function is used multiple times. So attempt to order
+>> -             * the fences by context as we pass over them and merge
+>> -             * fences with the same context.
+>> -             */
+>> -            if (!tmp || tmp->context > next->context) {
+>> -                tmp = next;
+>> -                sel = i;
+>> -
+>> -            } else if (tmp->context < next->context) {
+>> -                continue;
+>> -
+>> -            } else if (dma_fence_is_later(tmp, next)) {
+>> -                fences[i] = dma_fence_unwrap_next(&iter[i]);
+>> -                goto restart;
+>> +    for (i = 0; i < num_fences; ++i) {
+>> +        dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
+>> +            if (!dma_fence_is_signaled(tmp)) {
+>> +                array[count++] = dma_fence_get(tmp);
+>>               } else {
+>> -                fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>> -                goto restart;
+>> +                ktime_t t = dma_fence_timestamp(tmp);
+>> +
+>> +                if (ktime_after(t, timestamp))
+>> +                    timestamp = t;
+>>               }
+>>           }
+>> +    }
+>> -        if (tmp) {
+>> -            array[count++] = dma_fence_get(tmp);
+>> -            fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>> +    if (count == 0 || count == 1)
+>> +        goto return_fastpath;
+>> +
+>> +    sort(array, count, sizeof(*array), fence_cmp, NULL);
+>> +
+>> +    /*
+>> +     * Only keep the most recent fence for each context.
+>> +     */
+>> +    j = 0;
+>> +    tmp = array[0];
+>> +    for (i = 1; i < count; i++) {
+>> +        if (array[i]->context != tmp->context)
+>> +            array[j++] = tmp;
+>> +        else
+>> +            dma_fence_put(tmp);
+> 
+> If I'm not completely mistaken that can result in dropping the first 
+> element but not assigning it again.
+> 
+> E.g. array[0] is potentially invalid after the loop.
 
-I'm hoping [1] would solve the issue.
+Hmm I don't see it but I could be blind.
 
-BR,
-Jani.
+It only drops the reference for the previous (tmp) if the context is the 
+same. When it finds a new context it saves the previous (tmp) into the 
+first free slot (j++).
 
-[1] https://lore.kernel.org/r/cover.1731599468.git.jani.nikula@intel.com
+> 
+>> +        tmp = array[i];
+>> +    }
+>> +    if (j == 0 || tmp->context != array[j - 1]->context) {
+>> +        array[j++] = tmp;
+>> +    }
 
+Or if all fences are from the same context, or only the last input fence 
+is different, it saves the last to the next free slot.
 
--- 
-Jani Nikula, Intel
+> Maybe adjust the sort criteria so that the highest seqno comes first.
+> 
+> This reduces the whole loop to something like this:
+> 
+> j = 0;
+> for (i = 1; i < count; i++) {
+>      if (array[i]->context == array[j]->context)
+>          dma_fence_put(array[i]);
+>      else
+>          array[++j] = array[i];
+> }
+> count = ++j;
+
+AFAICS it works and gets rid of the condition outside the loop I had. 
+Very neat, thank you! Let me incorporate that, and also see if I can add 
+some more test cases on top of your selftest to exercise more corner cases.
+
+Regards,
+
+Tvrtko
+
+>> +    count = j;
+>> +
+>> +    if (count > 1) {
+>> +        result = dma_fence_array_create(count, array,
+>> +                        dma_fence_context_alloc(1),
+>> +                        1, false);
+>> +        if (!result) {
+>> +            tmp = NULL;
+>> +            goto return_tmp;
+>>           }
+>> -    } while (tmp);
+>> -
+>> -    if (count == 0) {
+>> -        tmp = dma_fence_allocate_private_stub(ktime_get());
+>> -        goto return_tmp;
+>> +        return &result->base;
+>>       }
+>> -    if (count == 1) {
+>> +return_fastpath:
+>> +    if (count == 0)
+>> +        tmp = dma_fence_allocate_private_stub(timestamp);
+>> +    else
+>>           tmp = array[0];
+>> -        goto return_tmp;
+>> -    }
+>> -
+>> -    result = dma_fence_array_create(count, array,
+>> -                    dma_fence_context_alloc(1),
+>> -                    1, false);
+>> -    if (!result) {
+>> -        tmp = NULL;
+>> -        goto return_tmp;
+>> -    }
+>> -    return &result->base;
+>>   return_tmp:
+>>       kfree(array);
+> 
