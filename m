@@ -2,56 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535019C8865
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 12:07:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039179C886E
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 12:08:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD35110E7DC;
-	Thu, 14 Nov 2024 11:07:08 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NhZsYQrO";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CDCB10E7E2;
+	Thu, 14 Nov 2024 11:08:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E1DE10E7DC
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 11:07:07 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1CDC6827;
- Thu, 14 Nov 2024 12:06:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1731582412;
- bh=MC0qAnKUOKRMjKCytDn/FhqZ625PpC6tf3/omYyZ3h0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NhZsYQrORAxxFCoHmARsziNnA7Nr/4PueBSPyshQGdet6rqyDUnJ4EPeFylQs6yG+
- 9RYPlbmmeEzrEc2MlpZ+DKF1YkTiBE5pnEfFFhDiQ/jskYh/3un3/LKtESTE34Xse5
- Tk7NpZ5B0LdtMmUVCXNUzhPZlvncfw9twvAgwmOs=
-Date: Thu, 14 Nov 2024 13:06:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Douglas Anderson <dianders@chromium.org>,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/bridge: Constify struct i2c_device_id
-Message-ID: <20241114110658.GF26171@pendragon.ideasonboard.com>
-References: <bdba1f49b4b48e22628482b49ce81f8e1f0d97b1.1731445901.git.christophe.jaillet@wanadoo.fr>
- <20241112224335.GA29944@pendragon.ideasonboard.com>
- <71348ac9-07bf-460f-a200-653f57ed4061@wanadoo.fr>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3EAF410E7E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 11:08:13 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C29F81480;
+ Thu, 14 Nov 2024 03:08:42 -0800 (PST)
+Received: from [10.1.26.55] (e122027.cambridge.arm.com [10.1.26.55])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 155EE3F6A8;
+ Thu, 14 Nov 2024 03:08:09 -0800 (PST)
+Message-ID: <e661a2e2-9a6a-40f4-843b-3c7285ca2172@arm.com>
+Date: Thu, 14 Nov 2024 11:08:07 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <71348ac9-07bf-460f-a200-653f57ed4061@wanadoo.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Fix memory leak in
+ panthor_ioctl_group_create()
+To: Jann Horn <jannh@google.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Mary Guillemard <mary.guillemard@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20241113-panthor-fix-gcq-bailout-v1-1-654307254d68@google.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20241113-panthor-fix-gcq-bailout-v1-1-654307254d68@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,87 +54,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christophe,
-
-On Wed, Nov 13, 2024 at 10:19:24PM +0100, Christophe JAILLET wrote:
-> Le 12/11/2024 à 23:43, Laurent Pinchart a écrit :
-> > On Tue, Nov 12, 2024 at 10:12:25PM +0100, Christophe JAILLET wrote:
-> >> 'struct i2c_device_id' is not modified in these drivers.
-> >>
-> >> Constifying this structure moves some data to a read-only section, so
-> >> increase overall security.
-> >>
-> >> On a x86_64, with allmodconfig, as an example:
-> >> Before:
-> >> ======
-> >>     text	   data	    bss	    dec	    hex	filename
-> >>    15566	    987	     32	  16585	   40c9	drivers/gpu/drm/bridge/chipone-icn6211.o
-> >>
-> >> After:
-> >> =====
-> >>     text	   data	    bss	    dec	    hex	filename
-> >>    15630	    923	     32	  16585	   40c9	drivers/gpu/drm/bridge/chipone-icn6211.o
-> >>
-> >> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> >> ---
-> >> Compile tested-only.
-> >> ---
-> >>   drivers/gpu/drm/bridge/chipone-icn6211.c   | 2 +-
-> >>   drivers/gpu/drm/bridge/lontium-lt9211.c    | 2 +-
-> >>   drivers/gpu/drm/bridge/lontium-lt9611.c    | 2 +-
-> >>   drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
-> >>   drivers/gpu/drm/bridge/ti-sn65dsi83.c      | 2 +-
-> >>   drivers/gpu/drm/bridge/ti-sn65dsi86.c      | 2 +-
-> > 
-> > While at it, could you address drivers/gpu/drm/i2c/tda9950.c too ? If I
-> > were to push a tad more, there are only two other drivers in the kernel
-> > with the same issues outside of drivers/gpu/ according to
+On 13/11/2024 21:03, Jann Horn wrote:
+> When bailing out due to group_priority_permit() failure, the queue_args
+> need to be freed. Fix it by rearranging the function to use the
+> goto-on-error pattern, such that the success case flows straight without
+> indentation while error cases jump forward to cleanup.
 > 
-> Hi Laurent,
+> Cc: stable@vger.kernel.org
+> Fixes: 5f7762042f8a ("drm/panthor: Restrict high priorities on group_create")
+> Signed-off-by: Jann Horn <jannh@google.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Thanks,
+Steve
+
+> ---
+> testcase:
+> ```
+> #include <err.h>
+> #include <fcntl.h>
+> #include <stddef.h>
+> #include <sys/ioctl.h>
+> #include <drm/panthor_drm.h>
 > 
-> this is in my todo list. I wanted to send it separately because all 
-> these files are in gpu/drm/bridge/ and tda9950.c is in gpu/drm/.
+> #define SYSCHK(x) ({          \
+>   typeof(x) __res = (x);      \
+>   if (__res == (typeof(x))-1) \
+>     err(1, "SYSCHK(" #x ")"); \
+>   __res;                      \
+> })
 > 
-> Most of the times, maintainers ask for separate patches when several 
-> drivers are patched. For such clean-ups, I try at least to group them by 
-> directory.
-
-I would probably have included tda9950.c in this patch, but I'm also
-fine handling it separately.
-
-> Same answer the other files in input and sound. Patches will be sent in 
-> a few days.
-
-Thank you. If you have extra time, there are also a handful of similar
-issues with of_device_id :-)
-
-> I've also sent one for the documentation [1] and will send one for 
-> const_structs.checkpatch as well.
-
-Thank you for that.
-
-> CJ
+> #define GPU_PATH "/dev/dri/by-path/platform-fb000000.gpu-card"
 > 
-> [1]: https://lore.kernel.org/linux-kernel/c8e6da4adb7381ee27e8e11854c9d856382cdc93.1731445244.git.christophe.jaillet@wanadoo.fr/
+> int main(void) {
+>   int fd = SYSCHK(open(GPU_PATH, O_RDWR));
 > 
-> > $ git grep '^static struct i2c_device_id'
-> > drivers/gpu/drm/bridge/chipone-icn6211.c:static struct i2c_device_id chipone_i2c_id[] = {
-> > drivers/gpu/drm/bridge/lontium-lt9211.c:static struct i2c_device_id lt9211_id[] = {
-> > drivers/gpu/drm/bridge/lontium-lt9611.c:static struct i2c_device_id lt9611_id[] = {
-> > drivers/gpu/drm/bridge/lontium-lt9611uxc.c:static struct i2c_device_id lt9611uxc_id[] = {
-> > drivers/gpu/drm/bridge/ti-sn65dsi83.c:static struct i2c_device_id sn65dsi83_id[] = {
-> > drivers/gpu/drm/bridge/ti-sn65dsi86.c:static struct i2c_device_id ti_sn65dsi86_id[] = {
-> > drivers/gpu/drm/i2c/tda9950.c:static struct i2c_device_id tda9950_ids[] = {
-> > drivers/input/keyboard/cypress-sf.c:static struct i2c_device_id cypress_sf_id_table[] = {
-> > sound/soc/codecs/cs42l51-i2c.c:static struct i2c_device_id cs42l51_i2c_id[] = {
-> > 
-> > :-)
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > 
-> >>   6 files changed, 6 insertions(+), 6 deletions(-)
+>   while (1) {
+>     struct drm_panthor_queue_create qc[16] = {};
+>     struct drm_panthor_group_create gc = {
+>       .queues = {
+>         .stride = sizeof(struct drm_panthor_queue_create),
+>         .count = 16,
+>         .array = (unsigned long)qc
+>       },
+>       .priority = PANTHOR_GROUP_PRIORITY_HIGH+1/*invalid*/
+>     };
+>     ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_CREATE, &gc);
+>   }
+> }
+> ```
+> 
+> I have tested that without this patch, after running the testcase for a
+> few seconds and then manually killing it, 2G of RAM in kmalloc-128 have
+> been leaked. With the patch applied, the memory leak is gone.
+> 
+> (By the way, get_maintainer.pl suggests that I also send this patch to
+> the general DRM maintainers and the DRM-misc maintainers; looking at
+> MAINTAINERS, it looks like it is normal that the general DRM maintainers
+> are listed for everything under drivers/gpu/, but DRM-misc has exclusion
+> rules for a bunch of drivers but not panthor. I don't know if that is
+> intentional.)
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index c520f156e2d73f7e735f8bf2d6d8e8efacec9362..815c23cff25f305d884e8e3e263fa22888f7d5ce 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1032,14 +1032,15 @@ static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
+>  
+>  	ret = group_priority_permit(file, args->priority);
+>  	if (ret)
+> -		return ret;
+> +		goto out;
+>  
+>  	ret = panthor_group_create(pfile, args, queue_args);
+> -	if (ret >= 0) {
+> -		args->group_handle = ret;
+> -		ret = 0;
+> -	}
+> +	if (ret < 0)
+> +		goto out;
+> +	args->group_handle = ret;
+> +	ret = 0;
+>  
+> +out:
+>  	kvfree(queue_args);
+>  	return ret;
+>  }
+> 
+> ---
+> base-commit: 9f8e716d46c68112484a23d1742d9ec725e082fc
+> change-id: 20241113-panthor-fix-gcq-bailout-2d9ac36590ed
+> 
 
--- 
-Regards,
-
-Laurent Pinchart
