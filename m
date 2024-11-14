@@ -2,73 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FEF9C937E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 21:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE369C93A7
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 22:01:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B0F610E372;
-	Thu, 14 Nov 2024 20:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAD0110E371;
+	Thu, 14 Nov 2024 21:01:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xd+/2wSL";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="UsDzwPYY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 092B610E371;
- Thu, 14 Nov 2024 20:53:45 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-2e9ecb67701so153353a91.1; 
- Thu, 14 Nov 2024 12:53:45 -0800 (PST)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E83510E371
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 21:01:34 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-539e8607c2aso1151091e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 13:01:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731617624; x=1732222424; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1731618092; x=1732222892;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AKcSpj7khO8+TCIDRUA8b+7C9CtuE4YnmQ1ETsOGD7w=;
- b=Xd+/2wSLmAbe6+gIhCZAHn0ds53qSZFIiXFpFg/xEQBzO+Vg6XUKM7/TyjPLJL+J6a
- c7ITM/j4iSAuVkAH+nQwE9eBACYwc54cQ9M22mkR/mP1TIRqqmAqHGluBqegtOatxYYf
- 7a7MMrOtwjL8cnqnYMWYq2Up5D+OkNlQvQT4P/KaeopZY0TY9apRha+OYfvSgiiPTS47
- yBuAYiQXvasuc7PeuYAjh5V0pVsUOMeQrlinYalQ3oMAq0a0agNitj5f+Os6SSAIwGO/
- 8SbZIyKeYZAThhi9XiYYz8S9aGhesdJr+Il8SEM+2yUtC/7idFiEwC06C7TM7vDO5ybU
- eV3w==
+ bh=YnUKVo16ukwoIjQKD09CO7Jp33xMIiEIYirHJ325zac=;
+ b=UsDzwPYY7URLOwsTek2TJmLfMvFjrvFTw6c9wRfRg77rWXxGoNu7usN9Ck3ZgHyHb6
+ dIZVjcGiOup+SURPHp9x885GJh8lbaEOGJ2lakcBjHOksLpS9jSJoNENE2uRZ/JzB1CO
+ r/TYQn7jRUJzl3moIS5QDbydASNzikDGdvn/4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731617624; x=1732222424;
+ d=1e100.net; s=20230601; t=1731618092; x=1732222892;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AKcSpj7khO8+TCIDRUA8b+7C9CtuE4YnmQ1ETsOGD7w=;
- b=E+uZGhvaxcu6ARNTJwWR+80IDjfPo3ANtuRCGR7PQtcOmdQBxaYX1W4Rfm8fISV8ix
- k6aY0mXWAqkGPTEZD7u2cwQSv97BPDDAJ7weJz/LZYjk+8eHqC7TN0d9LRNhogN+jXj9
- WfjxpwTZma4m01+jY3rrZg4LVR/Sae4al0SHu+ece/9b9kNmY7H8smruG8wtPrgXsEhh
- 9vxZ15uNiqqsGvyW5jvDbvEfZPqL/4qhkZmHWZaofhOSPfsT2Ecf+eYyfStsy4W3otFK
- Fbk+4LcyluSUW8cwxupQ+/0/3ZxCAfpVdURoFWQb9H6Qop7ndclbww7s06rKZ1kXysEy
- 8O4w==
+ bh=YnUKVo16ukwoIjQKD09CO7Jp33xMIiEIYirHJ325zac=;
+ b=dbYk9X2BaAkaOUZyDMdMj/IcWfPykq++QJ4CEaDOBwVTVD0K2VqvSk6100caN7Zgv+
+ mFUn/LoaJxweJBvnFBawZZNmDI6L2wcvrPIN/wb4m8/PKUfRFxJa1Gu5YB3k1w6dB7ut
+ w23Fpw4zqQ6mm1ZEwcUEoTGU1wbmhhBJE9oxvuWukDx87HrS2n77+3yE9XnDY2FuaGPD
+ nx51Ds4zdsa8+8/AKmDiktYpbMsNsyYxuFSQdJn8AXCieJ0LS0uV0A9cJFhId/E/P84h
+ 3i+VKe/+DMLT3iCDzzG/dWqb+tmaki2W9wcJ5ukLV0kLQxFHoulk0Kd6Po9IgfkmEhUc
+ YmZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXC84EZsXeaVt0MI9wOQTSRt3y8lJ0IXRmSInSP0BB5IFMxF+q+rNOWY+vRyci9a2q+8XFwvRpj1xQ=@lists.freedesktop.org,
- AJvYcCXOqoMyMrs0Jjqp2/mBjgasDpjQKZ9pVUHj++OHG5kpjzYJcdTUeb+W2rWB9MdfdZrQKxDEOpEL@lists.freedesktop.org,
- AJvYcCXxD/xorMBQme6CUBeAfA7kkSEGL2DLXNMglosj/k0qsrOquQA00NprQSk4mGcocnapDqQDuVfValYr@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YybI77VEI1Zkn5gU3tbifMEV5xUEkfW5QrxNMpqhJcAHHWQvkYr
- 3CiTB0Wbd6N6rjlpjHTu6kywMUAElBvNVlHPtGLFkwfOR0GwHTP/odBxGkh7uMumz22QF0RA8tg
- +wq7C+BJrtvP/I5gFQ9xZhq6HaJs9wQ==
-X-Gm-Gg: ASbGncsraBE0Ayu1tBqCM8Buf1rRHlE1SgFmo9cFBbJtYkhTLjcwrTQH1r1w2ZhGnJ9
- ZSxG+zuYHv2fV9qgRm4VbJwenS6hhUj8=
-X-Google-Smtp-Source: AGHT+IGqvuOsaaHV/+kDB6dUWSr1m9S2FJB+Wn8XuP/Le0cYeK0HVo/syS0/AFk02EAm93ftWyTb8IbMRCtBvaQAkho=
-X-Received: by 2002:a17:90b:4b0c:b0:2e2:e860:f69d with SMTP id
- 98e67ed59e1d1-2ea1559443amr147853a91.7.1731617624235; Thu, 14 Nov 2024
- 12:53:44 -0800 (PST)
+ AJvYcCWt9JBYn4eJWs2Zj/fM0JO6LAQVPIvdWXW+lYRwRsnZlndxk0kkimRkziyMykLao2dD0FmQvzi4gpQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywh6U57MtFM/7D7LT/ZTWeLaOqDk2Uti+QxG0JyCpis2hcD59CO
+ lSHo3xirgvR3g9B/WQTI5Wy99yitDtqBaG7WEWVc/nHJ8uktyYIMDcS/mzYWwynx8zeZ9uAuw+i
+ 8jQ==
+X-Google-Smtp-Source: AGHT+IFs4tU7wcxSmAMA+X885VS1o+AHoFAefcm51Io8+8TkdALxsJiQxANbgVBH8YsweEr5S4vJPQ==
+X-Received: by 2002:a05:6512:3b9e:b0:539:9524:92bc with SMTP id
+ 2adb3069b0e04-53dab3bbfdbmr68472e87.55.1731618091540; 
+ Thu, 14 Nov 2024 13:01:31 -0800 (PST)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com.
+ [209.85.208.182]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53da64fff90sm307500e87.61.2024.11.14.13.01.30
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Nov 2024 13:01:30 -0800 (PST)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2fb6110c8faso10601691fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 13:01:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUC1dsWulRgNa0SedYbF2uLkrD6gi06xjIvRCGTeSvsrO30Az2f5BjSlB+h3jZGdGtbExnxlNqksj4=@lists.freedesktop.org
+X-Received: by 2002:a05:651c:88a:b0:2fe:fec7:8adf with SMTP id
+ 38308e7fff4ca-2ff609be35fmr1805451fa.38.1731618089985; Thu, 14 Nov 2024
+ 13:01:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20241114153020.6209-1-christian.koenig@amd.com>
- <20241114153020.6209-3-christian.koenig@amd.com>
-In-Reply-To: <20241114153020.6209-3-christian.koenig@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 14 Nov 2024 15:53:30 -0500
-Message-ID: <CADnq5_OC9bLC8ZuPQatmYSVmjDspwgdLcv8Xd251fr=nhHgOSA@mail.gmail.com>
-Subject: Re: [PATCH 2/7] drm/qxl: switch to using drm_exec v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: kraxel@redhat.com, airlied@redhat.com, alexander.deucher@amd.com, 
- zack.rusin@broadcom.com, bcm-kernel-feedback-list@broadcom.com, 
- virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20241113090022.332586-1-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20241113090022.332586-1-yelangyan@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 14 Nov 2024 13:01:18 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=V_jYygpcCcU0H7UOL2AY5vbg-y0UpJczwWBKyc4+L8kA@mail.gmail.com>
+Message-ID: <CAD=FV=V_jYygpcCcU0H7UOL2AY5vbg-y0UpJczwWBKyc4+L8kA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add KDB KD116N2130B12
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com, 
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,220 +93,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 14, 2024 at 10:44=E2=80=AFAM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Just a straightforward conversion without any optimization.
->
-> Only compile tested for now.
->
-> v2: rebase
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+Hi,
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-
+On Wed, Nov 13, 2024 at 1:00=E2=80=AFAM Langyan Ye
+<yelangyan@huaqin.corp-partner.google.com> wrote:
+>
+> Add support for the KDB KD116N2130B12, pleace the EDID here for
+> subsequent reference.
+> 00 ff ff ff ff ff ff 00 2c 82 07 17 00 00 00 00
+> 1c 21 01 04 95 1a 0e 78 0a 63 25 99 5b 5d 96 26
+> 18 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 87 1b 56 88 50 00 0e 30 28 20
+> 55 00 00 90 10 00 00 18 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fe
+> 00 4b 44 31 31 36 4e 32 31 33 30 42 31 32 00 17
+>
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 > ---
->  drivers/gpu/drm/qxl/Kconfig       |  1 +
->  drivers/gpu/drm/qxl/qxl_drv.h     |  7 ++--
->  drivers/gpu/drm/qxl/qxl_release.c | 68 ++++++++++++++++---------------
->  3 files changed, 40 insertions(+), 36 deletions(-)
+>  drivers/gpu/drm/panel/panel-edp.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/qxl/Kconfig b/drivers/gpu/drm/qxl/Kconfig
-> index 1992df4a82d2..ebf452aa1e80 100644
-> --- a/drivers/gpu/drm/qxl/Kconfig
-> +++ b/drivers/gpu/drm/qxl/Kconfig
-> @@ -6,6 +6,7 @@ config DRM_QXL
->         select DRM_KMS_HELPER
->         select DRM_TTM
->         select DRM_TTM_HELPER
-> +       select DRM_EXEC
->         select CRC32
->         help
->           QXL virtual GPU for Spice virtualization desktop integration.
-> diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.=
-h
-> index 32069acd93f8..b5fc14c9525d 100644
-> --- a/drivers/gpu/drm/qxl/qxl_drv.h
-> +++ b/drivers/gpu/drm/qxl/qxl_drv.h
-> @@ -38,12 +38,12 @@
->
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_encoder.h>
-> +#include <drm/drm_exec.h>
->  #include <drm/drm_gem_ttm_helper.h>
->  #include <drm/drm_ioctl.h>
->  #include <drm/drm_gem.h>
->  #include <drm/qxl_drm.h>
->  #include <drm/ttm/ttm_bo.h>
-> -#include <drm/ttm/ttm_execbuf_util.h>
->  #include <drm/ttm/ttm_placement.h>
->
->  #include "qxl_dev.h"
-> @@ -101,7 +101,8 @@ struct qxl_gem {
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
+nel-edp.c
+> index 012dfbcb9475..5355acd52f0b 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1978,6 +1978,12 @@ static const struct panel_delay delay_200_500_e50_=
+po2e200 =3D {
+>         .powered_on_to_enable =3D 200,
 >  };
 >
->  struct qxl_bo_list {
-> -       struct ttm_validate_buffer tv;
-> +       struct qxl_bo           *bo;
-> +       struct list_head        list;
->  };
->
->  struct qxl_crtc {
-> @@ -150,7 +151,7 @@ struct qxl_release {
->         struct qxl_bo *release_bo;
->         uint32_t release_offset;
->         uint32_t surface_release_id;
-> -       struct ww_acquire_ctx ticket;
-> +       struct drm_exec exec;
->         struct list_head bos;
->  };
->
-> diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_=
-release.c
-> index 368d26da0d6a..05204a6a3fa8 100644
-> --- a/drivers/gpu/drm/qxl/qxl_release.c
-> +++ b/drivers/gpu/drm/qxl/qxl_release.c
-> @@ -121,13 +121,11 @@ qxl_release_free_list(struct qxl_release *release)
->  {
->         while (!list_empty(&release->bos)) {
->                 struct qxl_bo_list *entry;
-> -               struct qxl_bo *bo;
->
->                 entry =3D container_of(release->bos.next,
-> -                                    struct qxl_bo_list, tv.head);
-> -               bo =3D to_qxl_bo(entry->tv.bo);
-> -               qxl_bo_unref(&bo);
-> -               list_del(&entry->tv.head);
-> +                                    struct qxl_bo_list, list);
-> +               qxl_bo_unref(&entry->bo);
-> +               list_del(&entry->list);
->                 kfree(entry);
->         }
->         release->release_bo =3D NULL;
-> @@ -172,8 +170,8 @@ int qxl_release_list_add(struct qxl_release *release,=
- struct qxl_bo *bo)
->  {
->         struct qxl_bo_list *entry;
->
-> -       list_for_each_entry(entry, &release->bos, tv.head) {
-> -               if (entry->tv.bo =3D=3D &bo->tbo)
-> +       list_for_each_entry(entry, &release->bos, list) {
-> +               if (entry->bo =3D=3D bo)
->                         return 0;
->         }
->
-> @@ -182,9 +180,8 @@ int qxl_release_list_add(struct qxl_release *release,=
- struct qxl_bo *bo)
->                 return -ENOMEM;
->
->         qxl_bo_ref(bo);
-> -       entry->tv.bo =3D &bo->tbo;
-> -       entry->tv.num_shared =3D 0;
-> -       list_add_tail(&entry->tv.head, &release->bos);
-> +       entry->bo =3D bo;
-> +       list_add_tail(&entry->list, &release->bos);
->         return 0;
->  }
->
-> @@ -221,21 +218,28 @@ int qxl_release_reserve_list(struct qxl_release *re=
-lease, bool no_intr)
->         if (list_is_singular(&release->bos))
->                 return 0;
->
-> -       ret =3D ttm_eu_reserve_buffers(&release->ticket, &release->bos,
-> -                                    !no_intr, NULL);
-> -       if (ret)
-> -               return ret;
-> -
-> -       list_for_each_entry(entry, &release->bos, tv.head) {
-> -               struct qxl_bo *bo =3D to_qxl_bo(entry->tv.bo);
-> -
-> -               ret =3D qxl_release_validate_bo(bo);
-> -               if (ret) {
-> -                       ttm_eu_backoff_reservation(&release->ticket, &rel=
-ease->bos);
-> -                       return ret;
-> +       drm_exec_init(&release->exec, no_intr ? 0 :
-> +                     DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
-> +       drm_exec_until_all_locked(&release->exec) {
-> +               list_for_each_entry(entry, &release->bos, list) {
-> +                       ret =3D drm_exec_prepare_obj(&release->exec,
-> +                                                  &entry->bo->tbo.base,
-> +                                                  1);
-> +                       drm_exec_retry_on_contention(&release->exec);
-> +                       if (ret)
-> +                               goto error;
->                 }
->         }
+> +static const struct panel_delay delay_200_150_e50 =3D {
+> +       .hpd_absent =3D 200,
+> +       .unprepare =3D 150,
+> +       .enable =3D 50,
+> +};
 > +
-> +       list_for_each_entry(entry, &release->bos, list) {
-> +               ret =3D qxl_release_validate_bo(entry->bo);
-> +               if (ret)
-> +                       goto error;
-> +       }
->         return 0;
-> +error:
-> +       drm_exec_fini(&release->exec);
-> +       return ret;
->  }
->
->  void qxl_release_backoff_reserve_list(struct qxl_release *release)
-> @@ -245,7 +249,7 @@ void qxl_release_backoff_reserve_list(struct qxl_rele=
-ase *release)
->         if (list_is_singular(&release->bos))
->                 return;
->
-> -       ttm_eu_backoff_reservation(&release->ticket, &release->bos);
-> +       drm_exec_fini(&release->exec);
->  }
->
->  int qxl_alloc_surface_release_reserved(struct qxl_device *qdev,
-> @@ -404,18 +408,18 @@ void qxl_release_unmap(struct qxl_device *qdev,
->
->  void qxl_release_fence_buffer_objects(struct qxl_release *release)
->  {
-> -       struct ttm_buffer_object *bo;
->         struct ttm_device *bdev;
-> -       struct ttm_validate_buffer *entry;
-> +       struct qxl_bo_list *entry;
->         struct qxl_device *qdev;
-> +       struct qxl_bo *bo;
->
->         /* if only one object on the release its the release itself
->            since these objects are pinned no need to reserve */
->         if (list_is_singular(&release->bos) || list_empty(&release->bos))
->                 return;
->
-> -       bo =3D list_first_entry(&release->bos, struct ttm_validate_buffer=
-, head)->bo;
-> -       bdev =3D bo->bdev;
-> +       bo =3D list_first_entry(&release->bos, struct qxl_bo_list, list)-=
->bo;
-> +       bdev =3D bo->tbo.bdev;
->         qdev =3D container_of(bdev, struct qxl_device, mman.bdev);
->
->         /*
-> @@ -426,14 +430,12 @@ void qxl_release_fence_buffer_objects(struct qxl_re=
-lease *release)
->                        release->id | 0xf0000000, release->base.seqno);
->         trace_dma_fence_emit(&release->base);
->
-> -       list_for_each_entry(entry, &release->bos, head) {
-> +       list_for_each_entry(entry, &release->bos, list) {
->                 bo =3D entry->bo;
->
-> -               dma_resv_add_fence(bo->base.resv, &release->base,
-> +               dma_resv_add_fence(bo->tbo.base.resv, &release->base,
->                                    DMA_RESV_USAGE_READ);
-> -               ttm_bo_move_to_lru_tail_unlocked(bo);
-> -               dma_resv_unlock(bo->base.resv);
-> +               ttm_bo_move_to_lru_tail_unlocked(&bo->tbo);
->         }
-> -       ww_acquire_fini(&release->ticket);
-> +       drm_exec_fini(&release->exec);
->  }
-> -
-> --
-> 2.34.1
->
+>  #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, =
+_delay, _name) \
+>  { \
+>         .ident =3D { \
+> @@ -2134,6 +2140,7 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         EDP_PANEL_ENTRY('K', 'D', 'B', 0x0624, &kingdisplay_kd116n21_30nv=
+_a010.delay, "116N21-30NV-A010"),
+>         EDP_PANEL_ENTRY('K', 'D', 'B', 0x1118, &delay_200_500_e50, "KD116=
+N29-30NK-A005"),
+>         EDP_PANEL_ENTRY('K', 'D', 'B', 0x1120, &delay_200_500_e80_d50, "1=
+16N29-30NK-C007"),
+> +       EDP_PANEL_ENTRY('K', 'D', 'B', 0x1707, &delay_200_150_e50, "KD116=
+N2130B12"),
+
+In the future, please post patches against upstream Linux. For
+panel-edp.c, you'd ideally want to post against
+drm-misc/drm-misc-next. Specifically, in upstream the entry right
+before your new one should have been "'K', 'D', 'B', 0x1212", not
+"'K', 'D', 'B', 0x1120". That's been upstream for the last 6 months...
+
+In any case, I'll resolve the conflict this time since it's trivial.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+Pushed to drm-misc-next:
+
+[1/1] drm/panel-edp: Add KDB KD116N2130B12
+      commit: ae4a812a64dad3fd4f7bbcd7af215cb68af8cf8c
+
+-Doug
