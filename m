@@ -2,138 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1D09C86C9
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 11:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C80559C8737
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 11:16:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB6BB10E7D5;
-	Thu, 14 Nov 2024 10:02:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2251910E105;
+	Thu, 14 Nov 2024 10:16:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="XS/wBEr+";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="S+5J8jhi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6918910E7D5
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 10:02:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RwfsT1vzRIVJetujCmcP7Jk1aLzbY8hdRjRoMEO8RCDRkVpe2OPA4Puq5CaDcne41+SvDLXoEW6ryhmaj4UWpo4PS238Lm9Tpl+agM+1dAMuZ2tGQYkVZWCaKq86bMuauAWPGEgYCq6UKnkD3t7PMtEhIza05KQ6RQI1UVLVHLzSktdhPRxMj/IAq5xkfq7mPMA5IEeS3ifqoVpp4RTVgWzuIpKQiW34gwsJDxM05F6ILU79maLZw0kxO+151WhLR9wyevkUBNYKYiB1derxVGlBsQtDrhuMxNUGoT0NO8Ncl27y4QGXVoO0fwcHMOKd/TnvvA2NRChFBHOLm0aziA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OHqlky2jJQBywqgURDkMuYDgeTAwtLcJqs5bODDYwhg=;
- b=fnoBsz2WEZVzuTXUcSY36u1zpnvw0ew69IZUC5NtPYgkwHiv5mNk+rr7A/ruBSL+i7lV3zrTzME65SewnFBFvDjbIoeyYcz4tUWveqnwZQuXeZ/DR3Ak9r5nyMFPfC9jtt1cY50npIW+SPbmd/FgAS4tSzYewpAVJmwSxQPpMDTLEYNBhS9tKUI/vV+DCrpPbkuLxhUj9VE8rmTSRYE1v7QA7MM0Z4LpFD8dDheEEa2LqWIpWrn4k9ovxBU3qPnpsWn4Q40snXwYRAfNCLpb7sLPUw5oVoK54RIK4Erk2m9OJs/GO1XHAyJLL4D/Zktay9ofHdEO6ZDhsjFkQk1uwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OHqlky2jJQBywqgURDkMuYDgeTAwtLcJqs5bODDYwhg=;
- b=XS/wBEr+m5TCAIOJmM61ov/EOqwkRD1NzfdWScIBzhJnwbpwvbxgCo6xsd8Oik9D7rse3fs+nRBzk8jciycOCOw8j/vgmKFXWzMfpIuCzaZ00ZbIxs4b9jmye9R8SgSmYXcWa/ut4vhMXSokJY22qi1/EMbFr4ex9LHPTqPT/Ig=
-Received: from SN7PR04CA0063.namprd04.prod.outlook.com (2603:10b6:806:121::8)
- by DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.18; Thu, 14 Nov
- 2024 10:02:19 +0000
-Received: from SA2PEPF000015C8.namprd03.prod.outlook.com
- (2603:10b6:806:121:cafe::f2) by SN7PR04CA0063.outlook.office365.com
- (2603:10b6:806:121::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.17 via Frontend
- Transport; Thu, 14 Nov 2024 10:02:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SA2PEPF000015C8.mail.protection.outlook.com (10.167.241.198) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8158.14 via Frontend Transport; Thu, 14 Nov 2024 10:02:18 +0000
-Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 14 Nov
- 2024 04:02:13 -0600
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <ltuikov89@gmail.com>, <matthew.brost@intel.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <ville.syrjala@linux.intel.com>,
- <rostedt@goodmis.org>, <l.stach@pengutronix.de>, <matt.coster@imgtec.com>,
- <frank.binns@imgtec.com>, <yuq825@gmail.com>, <robdclark@gmail.com>,
- <kherbst@redhat.com>, <lyude@redhat.com>, <boris.brezillon@collabora.com>,
- <steven.price@arm.com>, <mwen@igalia.com>, <mcanal@igalia.com>,
- <thomas.hellstrom@linux.intel.com>, <tvrtko.ursulin@igalia.com>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: [PATCH v6 7/7] drm/doc: document some tracepoints as uAPI
-Date: Thu, 14 Nov 2024 11:01:10 +0100
-Message-ID: <20241114100113.150647-8-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241114100113.150647-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20241114100113.150647-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 48A6910E105
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 10:16:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=SBxPGRViDy4qKEA2AnUoV0QLf9gm+WUYbFAU+oupm6M=; b=S
+ +5J8jhiUOEuqKW0Plv8Pw/8TupVhT2xnRcsYGOzmGB2oq9rSLjyuL8CC4zX0tFvV
+ 5rdPoQfbcBmMDm/f9OwlgXxa3lpKgejF3RSpGy+k8uxf8WygwS2VFrJd5WI7mL0U
+ Itkm8EDuCFn5Qm0PfwMob2+Ls+Jw4w9YIM84bUkvSE=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-129 (Coremail) ; Thu, 14 Nov 2024 18:16:10 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Thu, 14 Nov 2024 18:16:10 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Quentin Schulz" <quentin.schulz@cherry.de>
+Cc: "Heiko Stuebner" <heiko@sntech.de>, hjc@rock-chips.com, 
+ andy.yan@rock-chips.com, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ "Heiko Stuebner" <heiko.stuebner@cherry.de>
+Subject: Re:Re: [PATCH 1/2] drm/rockchip: vop2: fix rk3588 dp+dsi maxclk
+ verification
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <030c3b0f-9396-4fbb-af4e-cf2cb58ffac1@cherry.de>
+References: <20240425195506.2935955-1-heiko@sntech.de>
+ <20240425195506.2935955-2-heiko@sntech.de>
+ <cb73853e-4201-4cc9-9e8a-f977e66241f6@cherry.de>
+ <72672888.8f9.1932826549b.Coremail.andyshrk@163.com>
+ <030c3b0f-9396-4fbb-af4e-cf2cb58ffac1@cherry.de>
+X-NTES-SC: AL_Qu2YA/mctkss5iWcbOkZnEobh+Y5UcK2s/ki2YFXN5k0mCTmyg4+bG5cLH7q9fmiKiCmoQmLURl14P5jTa5KbpgvJYJ4KLKrPIqpZhbvvHSv
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015C8:EE_|DM4PR12MB6280:EE_
-X-MS-Office365-Filtering-Correlation-Id: 08fdad9f-cf7b-4f9d-cc8d-08dd04936cc9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|82310400026|36860700013|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bGVGZlkxclZ2bGxVNnpLTTJsam0yQXczWU9VZ2JIeEhieDM4TGxYV3M3QTAx?=
- =?utf-8?B?clFSVU1Xc0JsNHBxdmRDdWN3WUJDMTVCNjZiVmFYaW5sMDh4TGNWTjd4YWFZ?=
- =?utf-8?B?ajU2R2hxTjloa0RTUjdHOHRjdU5nK2xrN3NXN2M3V0lkc3k3VVp4c2lkSnU3?=
- =?utf-8?B?YmZlQmhsQlhJZy9WZFVBR000c1lOQkZqQkV6eGRvMnQvaFdsSFpmUW5mTVkr?=
- =?utf-8?B?cXNSV3FhakhDeXc3dHB4bDM2ZTI1M1RSU0pLWkdrbE9WM1Mza0QyZXFVWWQy?=
- =?utf-8?B?aDlQdkdJK25oeTRSbmFUYjlwWnRHb2ZUOURFaGZiMTNCaW1uQ3dHbjdDbzRR?=
- =?utf-8?B?dTBzUDF2N0dDSElMU3Y2dDE5VVN2VjFVVkxFR2lnQ0txWmhaZ2dqTUwwUFNJ?=
- =?utf-8?B?YitrRWFONEM4dThNdlNVRDJlVXdCNlpvWk55WGdkRzBXQ1R0eXRSQXNuQVVZ?=
- =?utf-8?B?MzA4bHEvVE1iMjJBdkRnek9RN1lGSG04T25tYmNhTHhYZ3ZRcGhEdkZSTDNJ?=
- =?utf-8?B?c0luazRvOCtNbVRkZk9PWWNHeG82UXNWYmMzZElCdUxRWEpDdWxxVHNTZ0tX?=
- =?utf-8?B?cGs4My9ISWI2dWxMa0o1alpXWFA1TzZuaWIvaWEwWVJZMFBEM3VXTVkvSUxO?=
- =?utf-8?B?SFB6c3d6bmZOU0oveldFVFgweFRWc3NFUTgvcUNnR2xwV0dMc29ndkVZc0RZ?=
- =?utf-8?B?TmtUTG5BSU5rTkZzYjBjbUsxdjEwcExGbTE0aEwrbjdsUnhsQnk5R2ZxQzM1?=
- =?utf-8?B?ODRBNWxCNUg3N2lTM1hpZVFwVWNIa1hLbm5MaW56MG5jbkhuMm9PMFZUbFdn?=
- =?utf-8?B?cmtwK0dOVWQzemJxanIvSkZJc2dXOGlNUXphQlh2Z2hNa2JETVVsOUt3WUZI?=
- =?utf-8?B?WjVFMnZndi9ReHlkNGRNRHAya1MxeWJLVEg0dXB1Z0wzamtZZlFSdXhsU2pK?=
- =?utf-8?B?d2dLc2E5Z2M4K0hSbVpDT1YzWlFJMEpRTmp5WjdVaFJqS0d2aHp1MlZJd0ln?=
- =?utf-8?B?NUZ2bUF1a0tFbmhrQjZXUEptTnd2bFUxRkQ5bjF0Q1hDa1RDNTRhM1pZMlZw?=
- =?utf-8?B?VXFNNjc0cXE4aDk0TFJSVC9YN09NZzZoYkdEZThxdlFkY014dklYUFZsU3I0?=
- =?utf-8?B?cms5dUM0NUFlSDcwaWNKRUR6b2FrT2pYaXdrZXlJTCtzbUlDWkh4SjJmTDFm?=
- =?utf-8?B?QlhCVEI2dVNTQk1hTnRDN3hrS1M5WWZXT24xVmhnbWhzcnNTZTRCYm45Tll6?=
- =?utf-8?B?cyt6MHlrQkpvVTRsT0JWcSsyTXFSUTZIZVB4ajRCNkV3YnF2SVVWcmpBU1Vv?=
- =?utf-8?B?WXdCUHNqS0pRVWRLd2RFWGhiemFvb3FFNFRsWm1aL21CdC9wMEFMN3h4cWFa?=
- =?utf-8?B?UnJtRU4vdGorNjU1ZmhFc1VuNi9rN0dGUEhYaW9PWkVkRGQrZUwvY3JveUhP?=
- =?utf-8?B?MzUrdGZsTThucGE4aW9lb2tyU3kwZVBKL0ZLUjltYnRKVW0vL2laZ3Q5Q05F?=
- =?utf-8?B?YkIvNXJYNTdDTHlOS2MvbDVYTXBCZzRKeVpxUWdBOVI4M1pSRk9SbzlyZlJ0?=
- =?utf-8?B?amloeHdaRVVxbFNOOUsyRGE1VS9yOWpLMW53QThaSUVxaFlVMnVpWVNUT1Zk?=
- =?utf-8?B?VElPYkMxTnhCd3F0bkhsMVgwT0EyZktYZGV1cnRvYy9aK2tBS2dDemsrUDh6?=
- =?utf-8?B?ampoZEZaZ0hwK1UyUFc5a3Zvd1ZENGFqeXRHZkU2bEVCcnZwOXRBSm9xZUwy?=
- =?utf-8?B?dVRuOEpFaENNbnlTc0lGdVFtMTdXcmo0bCszTWRraUo5bnFkMkdqNVJwcnhs?=
- =?utf-8?B?bEdCQStsenFsZjJDMUw0ZlY1Y3RWZnNQVVlKcWFyYXM5WlVxYzJCRDR2UUhy?=
- =?utf-8?B?NUh3U0ZOVFprbnRPK1gydEsrZTZTa0srNllJSThGc2xDYjZZNjMvMERHdTY1?=
- =?utf-8?Q?lLDIvjiqvtU=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(36860700013)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2024 10:02:18.7565 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08fdad9f-cf7b-4f9d-cc8d-08dd04936cc9
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF000015C8.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6280
+Message-ID: <63e26c50.a433.1932a2c5c38.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: gSgvCgBX_jTqzTVn+icnAA--.61527W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMw6XXmc1yndEJwABs5
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,81 +68,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit adds a document section in drm-uapi.rst about tracepoints,
-and mark the events gpu_scheduler_trace.h as stable uAPI.
-
-The goal is to explicitly state that tools can rely on the fields,
-formats and semantics of these events.
-
-Acked-by: Lucas Stach <l.stach@pengutronix.de>
-Acked-by: Maíra Canal <mcanal@igalia.com>
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- Documentation/gpu/drm-uapi.rst                | 19 ++++++++++++++++
- .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 22 +++++++++++++++++++
- 2 files changed, 41 insertions(+)
-
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index b75cc9a70d1f..9603ac0f4c09 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -583,3 +583,22 @@ dma-buf interoperability
- 
- Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
- information on how dma-buf is integrated and exposed within DRM.
-+
-+
-+Trace events
-+============
-+
-+See Documentation/trace/tracepoints.rst for information about using
-+Linux Kernel Tracepoints.
-+In the DRM subsystem, some events are considered stable uAPI to avoid
-+breaking tools (e.g.: GPUVis, umr) relying on them. Stable means that fields
-+cannot be removed, nor their formatting updated. Adding new fields is
-+possible, under the normal uAPI requirements.
-+
-+Stable uAPI events
-+------------------
-+
-+From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
-+
-+.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-+   :doc: uAPI trace events
-\ No newline at end of file
-diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-index 8340c7c0c6b6..ec230e558961 100644
---- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-+++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-@@ -33,6 +33,28 @@
- #define TRACE_SYSTEM gpu_scheduler
- #define TRACE_INCLUDE_FILE gpu_scheduler_trace
- 
-+
-+/**
-+ * DOC: uAPI trace events
-+ *
-+ * ``drm_sched_job``, ``drm_run_job``, ``drm_sched_process_job``,
-+ * and ``drm_sched_job_wait_dep`` are considered stable uAPI.
-+ *
-+ * Common trace events attributes:
-+ *
-+ * * ``id``    - this is &drm_sched_job->id. It uniquely idenfies a job
-+ *   inside a &struct drm_gpu_scheduler.
-+ *
-+ * * ``dev``   - the dev_name() of the device running the job.
-+ *
-+ * * ``ring``  - the hardware ring running the job. Together with ``dev`` it
-+ *   uniquely identifies where the job is going to be executed.
-+ *
-+ * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
-+ *   &drm_sched_fence.finished
-+ *
-+ */
-+
- #ifndef __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
- #define __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
- /* Similar to trace_print_array_seq but for fences. */
--- 
-2.43.0
-
+CkhpIFF1ZXRpbiwKQXQgMjAyNC0xMS0xNCAxNzozODo1NiwgIlF1ZW50aW4gU2NodWx6IiA8cXVl
+bnRpbi5zY2h1bHpAY2hlcnJ5LmRlPiB3cm90ZToKPkhpIEFuZHksCj4KPk9uIDExLzE0LzI0IDE6
+NTAgQU0sIEFuZHkgWWFuIHdyb3RlOgo+PiAKPj4gSGksCj4+IAo+PiBBdCAyMDI0LTA1LTA2IDE1
+OjQ0OjM2LCAiUXVlbnRpbiBTY2h1bHoiIDxxdWVudGluLnNjaHVsekBjaGVycnkuZGU+IHdyb3Rl
+Ogo+Pj4gSGkgSGVpa28sCj4+Pgo+Pj4gT24gNC8yNS8yNCA5OjU1IFBNLCBIZWlrbyBTdHVlYm5l
+ciB3cm90ZToKPj4+PiBGcm9tOiBIZWlrbyBTdHVlYm5lciA8aGVpa28uc3R1ZWJuZXJAY2hlcnJ5
+LmRlPgo+Pj4+Cj4+Pj4gVGhlIGNsb2NrIGlzIGluIEh6IHdoaWxlIHRoZSB2YWx1ZSBjaGVja2Vk
+IGFnYWluc3QgaXMgaW4ga0h6LCBzbwo+Pj4+IGFjdHVhbCBmcmVxdWVuY2llcyB3aWxsIG5ldmVy
+IGJlIGFibGUgdG8gYmUgYmVsb3cgdG8gbWF4IHZhbHVlLgo+Pj4+IEZpeCB0aGlzIGJ5IHNwZWNp
+ZnlpbmcgdGhlIG1heC12YWx1ZSBpbiBIeiB0b28uCj4+Pj4KPj4+PiBGaXhlczogNWEwMjhlOGYw
+NjJmICgiZHJtL3JvY2tjaGlwOiB2b3AyOiBBZGQgc3VwcG9ydCBmb3IgcmszNTg4IikKPj4+PiBT
+aWduZWQtb2ZmLWJ5OiBIZWlrbyBTdHVlYm5lciA8aGVpa28uc3R1ZWJuZXJAY2hlcnJ5LmRlPgo+
+Pj4+IC0tLQo+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9w
+Mi5jIHwgNCArKy0tCj4+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSkKPj4+Pgo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2No
+aXAvcm9ja2NoaXBfZHJtX3ZvcDIuYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hp
+cF9kcm1fdm9wMi5jCj4+Pj4gaW5kZXggOWJlZTFmZDg4ZTZhMi4uNTIzODgwYTRlOGU3NCAxMDA2
+NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIu
+Ywo+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5j
+Cj4+Pj4gQEAgLTE3MTksNyArMTcxOSw3IEBAIHN0YXRpYyB1bnNpZ25lZCBsb25nIHJrMzU4OF9j
+YWxjX2NydV9jZmcoc3RydWN0IHZvcDJfdmlkZW9fcG9ydCAqdnAsIGludCBpZCwKPj4+PiAgICAJ
+CWVsc2UKPj4+PiAgICAJCQlkY2xrX291dF9yYXRlID0gdl9waXhjbGsgPj4gMjsKPj4+PiAgICAK
+Pj4+PiAtCQlkY2xrX3JhdGUgPSByazM1ODhfY2FsY19kY2xrKGRjbGtfb3V0X3JhdGUsIDYwMDAw
+MCk7Cj4+Pj4gKwkJZGNsa19yYXRlID0gcmszNTg4X2NhbGNfZGNsayhkY2xrX291dF9yYXRlLCA2
+MDAwMDAwMDApOwo+Pj4+ICAgIAkJaWYgKCFkY2xrX3JhdGUpIHsKPj4+PiAgICAJCQlkcm1fZXJy
+KHZvcDItPmRybSwgIkRQIGRjbGtfb3V0X3JhdGUgb3V0IG9mIHJhbmdlLCBkY2xrX291dF9yYXRl
+OiAlbGQgS0haXG4iLAo+Pj4KPj4+IEl0IHNlZW1zIHRoZSBlcnJvciBtZXNzYWdlIGlzIGluY29y
+cmVjdCBhcyB3ZWxsIGFuZCBzaG91bGQgYmUgc2F5aW5nIEh6Cj4+PiBpbnN0ZWFkIG9mIEtIei4g
+KG5vdGUgYWxzbyB0aGUgbG93ZXJjYXNlIHopLgo+PiAKPj4gSSB0aGluayBrSHogaXMgZmluZSwg
+d2UgY2FuIGZpbmQgbWFueSBzaW1pbmFyeSB1c2FnZSBpbiBkcm06Cj4+IAo+PiBkcml2ZXJzL2dw
+dS9kcm0vZHJtX3ZibGFuay5jCj4+IDY1NjogICAgZHJtX2RiZ19jb3JlKGRldiwgImNydGMgJXU6
+IGNsb2NrICVkIGtIeiBmcmFtZWR1ciAlZCBsaW5lZHVyICVkXG4iLAo+Cj5UaGUgaXNzdWUgaXMg
+dGhhdCB3ZSBwcmludCBrSHogZm9yIHNvbWV0aGluZyB0aGF0IGlzIGluIEh6LCBub3QgdGhhdCB3
+ZSAKPnByaW50IGEgdmFsdWUgaW4ga0h6Lgo+Cj5UaGUgZm9ybWVyIGlzIGluY29ycmVjdCwgdGhl
+IGxhdHRlciBpcyBmaW5lLiBXZSBhcmUgaW4gdGhlIGZvcm1lciAKPnNjZW5hcmlvIGhlcmUgSSBi
+ZWxpZXZlLCBzbyBpdCBuZWVkcyB0byBiZSBmaXhlZC4KClllcywgeW91IGFyZSByaWdodC4KCj4K
+PkNoZWVycywKPlF1ZW50aW4KPgo+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KPkxpbnV4LXJvY2tjaGlwIG1haWxpbmcgbGlzdAo+TGludXgtcm9ja2NoaXBA
+bGlzdHMuaW5mcmFkZWFkLm9yZwo+aHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9saW51eC1yb2NrY2hpcAo=
