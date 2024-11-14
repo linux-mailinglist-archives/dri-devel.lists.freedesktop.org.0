@@ -2,160 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEA09C84C5
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 09:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 616279C84D7
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 09:29:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2D6A10E33C;
-	Thu, 14 Nov 2024 08:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE79410E23B;
+	Thu, 14 Nov 2024 08:29:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Wwz1YrYJ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qHR7w8Ph";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2066.outbound.protection.outlook.com [40.107.93.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4279410E272;
- Thu, 14 Nov 2024 08:21:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ob4JptzwWs9U689hVLF0CrSwpfUpL9PDa84dV8uEbe2ymhYsCwAuTYSr44SZcNsz0A9+MWxumRh1XmpxKGCzzZYBVEwczAbF890/Qxb9PmcwXMkLEipynLzbTQ7g9H8eyyyiOOJbXThytnklh00lSolHeHlfuOpVWhHZ/NSXOBqEaVX9VLboZWiC+yKANOzO3ObpGuAh5L/i81VCMi3wlL5Y5MN19BwidUlJX48JvoEBPE2Ynla5IH1u3Q1OqROEMBthGc9uE4+e+4MWqEhqctIATBRXzrS5LKdnN/WHBkCACNibSoTY0DPNBKVKzeGeTOewe7Vqr/R8MNO5Gt6NBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=avgMjeUEItCISHhC+dM6BO8pSs4256jQM018GewKim0=;
- b=qmBTKlGkyQbt+VUibkMOWYIxC9UaO5golapiqtj3/DhKFjeg+hYKDy0r74mbW71nkiGChWI/EwLZnh2JD2h6SaSBlc7fegYXb9bgbSf8NKNzp9KBZH6GTO7dIDavV4kYhoSVKsK1XhoJCi30onlshQ3dqvFQM9av28Uc8Nu7osDi7tWb1x8kow1eaTbAGxGeevz490jigAgBjdYuLn8m1LBJt0NLf9MgKf3ZbCWGTvEX/AAhRZcOn/qWVuJbxjnCc+BCLeskG7LluO6qanSmZX1FrMYzNR2iVKoFLNMqw5XCLsbCkdw7ldTUMnyOU2Xn1zfDOAvUcawa/z9Thwy0pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=avgMjeUEItCISHhC+dM6BO8pSs4256jQM018GewKim0=;
- b=Wwz1YrYJLGXrm+s7/rvmIi+zfYOaIrsThBjvoDGiNG3VyYlk7AWSkVgNKrUj+lE/AyQzQD5v4QfP2hXQQIDzFUFWhSPcR93DLvOpsZCmhC/PUlOqs53QZ3bZjYwMN/KOJvfVjldbT2AYOc+GRxVeu86x68ZEtKyUggDyh3G/zZw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7)
- by LV3PR12MB9236.namprd12.prod.outlook.com (2603:10b6:408:1a5::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.29; Thu, 14 Nov
- 2024 08:21:03 +0000
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::d4cd:4112:1ce8:7f3d]) by IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::d4cd:4112:1ce8:7f3d%5]) with mapi id 15.20.8158.017; Thu, 14 Nov 2024
- 08:21:02 +0000
-Message-ID: <c28a7070-b830-4fb1-9071-cce065a30147@amd.com>
-Date: Thu, 14 Nov 2024 16:20:51 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/amd/display: Fix null check for
- pipe_ctx->plane_state in dcn20_program_pipe
-Content-Language: en-US
-To: Zicheng Qu <quzicheng@huawei.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, Dillon.Varone@amd.com, Alvin.Lee2@amd.com,
- nicholas.kazlauskas@amd.com, alex.hung@amd.com, aurabindo.pillai@amd.com,
- relja.vojvodic@amd.com, wenjing.liu@amd.com, george.shen@amd.com,
- mwen@igalia.com, yi-lchen@amd.com, martin.leung@amd.com,
- srinivasan.shanmugam@amd.com, stylon.wang@amd.com, jun.lei@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: tanghui20@huawei.com, zhangqiao22@huawei.com, judy.chenhui@huawei.com
-References: <20241105140137.2465572-1-quzicheng@huawei.com>
- <20241105140137.2465572-2-quzicheng@huawei.com>
-From: "Chung, ChiaHsuan (Tom)" <chiahsuan.chung@amd.com>
-In-Reply-To: <20241105140137.2465572-2-quzicheng@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TP0P295CA0032.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:4::20) To IA1PR12MB6604.namprd12.prod.outlook.com
- (2603:10b6:208:3a0::7)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B22810E02E
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 08:29:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=HY0wTbfLqbt1prUJgc8Ei5eGy41sdcUTaZrFhJqJZtM=; b=qHR7w8PhMrVObiYhlr+7IoFLv7
+ 7tNp3kYWNsdpJAYhWiCbthKz/nhCiMb+iJIrBWh57zj5kKvkzhGb6On9SU73kFm8eZs++poUicO/w
+ FNuSQQ3L/eA/sYv8OI5JygTpmCxIyfQyxkqrD/TcHmSLi6aovaplyJX6epu1BSH/CnudIVQ5zq+/M
+ IKXxPvFKk0iMo1hDONsqYHIPuuOjzBf599cjkaL2PYSYio51vilJDkbUPfsP4dDL4jtJ6m5BBCYkY
+ GGtQCWYSnio4OEoZFOJjrnzhcSpOY7z81Z6ZFGaWGMdli5q3GCJ3Ii6LDiFwPbz9PRtPIkIs1ucYv
+ DfnN1dTw==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tBVDo-006iRn-9J; Thu, 14 Nov 2024 09:29:00 +0100
+Message-ID: <f2b68c80-65e0-431d-b355-aa7b439d229b@igalia.com>
+Date: Thu, 14 Nov 2024 08:28:59 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6604:EE_|LV3PR12MB9236:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c9ef70e-71d2-411a-b85e-08dd048546f5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UnE5VEo5WnhWM1VwYXVYVjRuZU5JY1YzMzVHOWVIcHVmMWhGN1FMY1dQcjNP?=
- =?utf-8?B?d0VPTlVyd1VtUUwyeXZnemd2N01Tb21BMFA2UUIvUlRNNGV3SHNzZStFT2pB?=
- =?utf-8?B?ZS9nTHZSdS9SY1hWUEE3UFBIM0VtSFlTSCtwL0Nmb3FwR1RhbnIwU1JzSlhZ?=
- =?utf-8?B?Q2FrdjJsV3Y0OVdiYVJ2TGljU2FMaEg1ZlpUYVdJOUlVeVhzUWVCY2YrMEpT?=
- =?utf-8?B?YzdFa0liLzltRGJVblJFbHlGbnVGZTVMTXZHWi9YNzFkR2tvQVNmS2llaWVq?=
- =?utf-8?B?MWJOYVJ0K3hxY21PdElFdGNqZWNLQnhWTDRZb0FUMU1OSW01YjRnYkpNVGhO?=
- =?utf-8?B?R0FCbnBWdHFHNWcyOU9sNEoxNTR1VUFFQWtZSXZ6bno1cjdsQ05Sdy81ZHp3?=
- =?utf-8?B?cGZhaDdLWTIvUjdYVWxGSVZXWklDdVVNeFlpbGhBbGVNbERQdmxiSTI1dE5i?=
- =?utf-8?B?RTVLeit2VGw0dnBBcjZWWXRabE45OVpxbDlFdzhMZWI1SmtsNHZ6S2k1Wk5r?=
- =?utf-8?B?MU5pYlFEb3p5VnR5SUkwcUY0K1I5QVJxVENaaVgwT2F3bzZta1VZMmxtd01s?=
- =?utf-8?B?bnFieFlkVzJNUFVuaHVISzNvSWIzeDhieEFWcGJvaFNWWExUalY5RTFHUHFm?=
- =?utf-8?B?YTRwc1VpRjFJbk1VdnpUeXVKNi9OajdDWmNtcm8yclBhcmRJdUdhMysyUEcw?=
- =?utf-8?B?Y2NUUkNkakIxQmNnRUdNOE5WMERqdUlZUUt1N3ZtSjJUU25Wd0FLTHFaME44?=
- =?utf-8?B?dVBSdy83aXErdTlsOVl5cEFIdlp1NHBmR3IyR0s0Yzk4RG42cEE1WGxTUTl5?=
- =?utf-8?B?RnZOSDB6QUFRY0tadnk2am96TCsvUld2a0M4UFFYelhOYlYxRG1sNjlUUmpI?=
- =?utf-8?B?by8wbnMrb1VXd08rLzBNWmRzeGxoVkQvZXVMek4vbzlEbDlVOGhwdnVsQmdR?=
- =?utf-8?B?aFVPSUlsT3pkZVNSK3RkaFlQbDNmdml5dk5Ha2xTNWowSWRYeXRjR08rbGJh?=
- =?utf-8?B?SFZEQjhqUFRIZWVpTk5sRkRpNStuelR4alMxR20zcG5hamtOd3YvdkxhRTc0?=
- =?utf-8?B?bUYva3NlOG5nQzlCWnIxaG5VMWNiYXNON0VJWWc5d3pJSHk2UDhtbHFGL1NF?=
- =?utf-8?B?UHhnQVRlQ1lNdDlDQTFCM3lreG9GU0RoemJHcUExKzJlQ2Eza2pObmhTbVdk?=
- =?utf-8?B?TnZsQ0xPQlduRXRJYnBtWk0ySmp0amgzZUk2TW1VdnN0dVFoMFhHNkVOQ1lE?=
- =?utf-8?B?bGwrZFdCQitkdGZaWGVta1c5M21hTk5CcC9TVGE5M0RzV215QUsrTm1KUEM0?=
- =?utf-8?B?RTN6ME45ZjJoYlhzS0Z2RVRkZ3FuTHFwVHBvSU1OZ3F5c1R5T2hUUTFwdGZ6?=
- =?utf-8?B?UWFkV2tqbFAzSUxNaG5SVTNVU0hvNWpETzBaZFAzeGNYT2hQM0x5NTZBVU44?=
- =?utf-8?B?QWhrRmxBU3BRc0tFZnZmbFpvQ1FRbUhtSzVWWEp3ZWJFZ05UVy8yTkVPaits?=
- =?utf-8?B?bE53Mkh4VGhXYVFHU1o1R240cVI5R0tzSVVTSVdINktPY1MrNE5vV1h0OW94?=
- =?utf-8?B?YVdLWmNTSVFVNFF6eWRxTXBXYUFnb3hXRXYwbEIyWWFPNk5yOUU2YnJoVmtE?=
- =?utf-8?B?cTY5ZU1JUEliMEJzZHlmdElkZ25teUNyd1BzbHc1UWR2TjIyc21TMGJCV2lq?=
- =?utf-8?B?SVdMeXZFT1lEMis0QlhWWWl4eEhwYkhQcm5xMnVNZVNyV25lL2FNU3RoK1Ju?=
- =?utf-8?B?VnNzdGFaRW1aZkFBdWYzWFQ2aWJqNUhVYUN3cmRFYWloV0FXS2tlUUxhS0JU?=
- =?utf-8?B?S3laRmNuczU5ajdvd3V5UT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA1PR12MB6604.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eXVCaUdIWVNWUzI1Q0FxN3V5VlAvcXpGU0dFNFRIVkVFTXkrTWc5cWdOM1VP?=
- =?utf-8?B?NDFOVzJXVkRmQXZ0OUhqT3pTdE93K2p6SjZtczFnVVJoTm80TmdGdXBraGt2?=
- =?utf-8?B?cnpqaHZRNUEyK0QxK1l1WVV5OGtFOFBxQjBwWEpBTW1xYU5taG8wUFAzanY1?=
- =?utf-8?B?TTNIZmlqV3l1MzlONmJJSDdGMUlEQWdNK1dmbWd5d1o5dXVjbmNPLzNUS3Nw?=
- =?utf-8?B?ZWRGaTRYc0sveUtJUGtVWVVoY1BUaTAvK1ZNcUdvUWhyL0ExTFNYWTJZQUFD?=
- =?utf-8?B?VHl3WjRLdVZEVXNGQVcxaTFNR2doMWs1cnZGRHJTS3pHb0d6dzNQZFhNYzVB?=
- =?utf-8?B?T3g1RlFvZXQ4SldGT0Nndm9CR0NvR2tYeVpleTd3bUFMRzBaR1loYk5SdkZT?=
- =?utf-8?B?Mytwc0twc01ZVmcvSkRYNzVxaDJvNFhjbzZnekJCK2c5K0kzdmlzUGJTSkFs?=
- =?utf-8?B?dnIwVnBjWmdhZUsxWGJTbWRpT1QzM2YyRXRrNEQ0ckFTU2lva2pyVk4rM3M4?=
- =?utf-8?B?ZzZuNCtEQzB4Ym9lWmY4Y1IzMkludHVpei84WHJQL0cvbHRLMVlha3p2Tmg3?=
- =?utf-8?B?djc3cUtIMHVRLzVSblZuNWZKNXMxSlJwR05ld2l1NnJ2bDNDNWRYSjJmVmNZ?=
- =?utf-8?B?QWpYUGtzTnJCTGk2eCtLNHRySmJxVHpGNDFZQVUxcWNacHYwU0lRazVZMHlT?=
- =?utf-8?B?a0FBaDN0WVFpVjhMN202NUc3SkcxVHpJY2JqOFZsL1BEK1Bwc1psNDZoRHNO?=
- =?utf-8?B?dnI2MHNEazZMcFV3am9hVUp2MklTeXYxS21ieEg1dUNGbE1NR2lydVFPbWdO?=
- =?utf-8?B?M1Fmdlo1OGowMDRxU1BaMTlaWjJzNldqVXIrdVVMcUFMQW1kLzdqa3VZVzJJ?=
- =?utf-8?B?MmFSQTQxOCtmeVhKZnRKQnVXbXlJUW5nQlJGSkRxb1pMSUtMUnc4MVZxeFky?=
- =?utf-8?B?TkozVExZSGhnK1VvTGIzTmo0SDE5SjQyd002WmRxSFNsVDBkeWZJRWVheHoz?=
- =?utf-8?B?Qlg3R3cxSFNBYzFWYTBqNTZDTmJnM0d6T21xSDNUNDVxMzZCOEI3WVlBeC9y?=
- =?utf-8?B?RStScHpJdGpFc2NMMkxoQm1ab2gyVE83MG1oS0pkV3ZFZC8za2tIWk5RT3pS?=
- =?utf-8?B?NTBYei9DWTdvZVlvMnJ1amVkdHNYWkFEWm5HQS9lZm1xbUduYVlwNEFaR252?=
- =?utf-8?B?bVdjVncxeFVES3IxNDhJbmx4Z2lZMGhnc1hLUm4yWVp3Q0JQVmxhZmZjMDRz?=
- =?utf-8?B?UDZoaWVFWEs0V3RMSjVHWitPMEtlUFZBZVVKclU3UDd0ZnJlRktHa0dZZHgv?=
- =?utf-8?B?YVl4NldMZzJPNmEvK3EzcFJqWHlZZjRpSEFZVWI0alBVMnRqKzg0YWRyTHRj?=
- =?utf-8?B?N2hMQXlKQ1dhS2FVeDAvaFVHb1g3bjhoRnFEajc5RTFib3RLUVR4T3lPbVJQ?=
- =?utf-8?B?QTd2eHpkMm1IZ3FTRlJjazBtTXhQcWZvV1RBUm5KVzhJelBBOHZmdGpTNzNS?=
- =?utf-8?B?WUYzT3FjTEtIVjFyRDk2OEx6ejVLUDNhdlVmcmpNd2tvRHhCdjB5OUNDQnV5?=
- =?utf-8?B?SWphSERjenlCTytRN2RPbnlzVDVIUnpWcTI5ajB0MWh1T3JRVllBWDVnWTFS?=
- =?utf-8?B?NUx5U2hHenc4dVJqZVpNU3c2RVBuNjdrMThEMUJvQlp6ek5La0NQMFEwbHdm?=
- =?utf-8?B?bExZNnVjYWVQbkJacnJMMEd2TWV2b3RyUUlmTkloaGxzUm1QcXFLNU5EWGxn?=
- =?utf-8?B?RE1NdlBOL2RZQWtnUmllTm5TWE1pdWVld2ZUeU5pTzFpb1oyTjgvV1lta1lQ?=
- =?utf-8?B?c3p4N0E5Q2tSTHM2Z2d5VDNmN0Yrc21iT2xOY1BVeG9OTkZGWFRJMW53ZUx6?=
- =?utf-8?B?OUcwTVNMLzRmak5sWmNhT2dDYnZLQkZCYVBiZklaM2ZCRm0vZEExYUU4TW9V?=
- =?utf-8?B?SGR1RWJoQmttOGVMbGFBd092ODhqWmNWTFFKb3JNSTFuKzQ0MmN1YjFaN1VF?=
- =?utf-8?B?OEFZSi83VmZ5ZU5WKzNzRWN3V3lUZGd1NURFa1FEUUhXMjZqQjNiUzlPNHVp?=
- =?utf-8?B?Qm8zU0NXUzQvaytCY2hNaUtBUm9ZS2lmOHJNYStaWGd5a3NidDRpbS9YeDVv?=
- =?utf-8?Q?b/PPawOku8F8HpFlp1DtrO7St?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c9ef70e-71d2-411a-b85e-08dd048546f5
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6604.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2024 08:21:02.7185 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IxZ/BtHMbaqq/MVplUwm8PAWUOyQgzFM8T1LYKlsnfJ8Qh3ij9R7720JZ6T54spgZmsT9oKGOQqTP7lMraGcrw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9236
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 2/2] dma-fence: Use kernel's sort for merging fences
+To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Friedrich Vock <friedrich.vock@gmx.de>
+References: <20241113171947.57446-1-tursulin@igalia.com>
+ <20241113171947.57446-2-tursulin@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20241113171947.57446-2-tursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,39 +62,270 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
 
-On 11/5/2024 10:01 PM, Zicheng Qu wrote:
-> This commit addresses a null pointer dereference issue in
-> dcn20_program_pipe(). Previously, commit 8e4ed3cf1642 ("drm/amd/display:
-> Add null check for pipe_ctx->plane_state in dcn20_program_pipe")
-> partially fixed the null pointer dereference issue. However, in
-> dcn20_update_dchubp_dpp(), the variable pipe_ctx is passed in, and
-> plane_state is accessed again through pipe_ctx. Multiple if statements
-> directly call attributes of plane_state, leading to potential null
-> pointer dereference issues. This patch adds necessary null checks to
-> ensure stability.
->
-> Fixes: 8e4ed3cf1642 ("drm/amd/display: Add null check for pipe_ctx->plane_state in dcn20_program_pipe")
-> Signed-off-by: Zicheng Qu <quzicheng@huawei.com>
+On 13/11/2024 17:19, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> 
+> One alternative to the fix Christian proposed in
+> https://lore.kernel.org/dri-devel/20241024124159.4519-3-christian.koenig@amd.com/
+> is to replace the rather complex open coded sorting loops with the kernel
+> standard sort followed by a context squashing pass.
+> 
+> Proposed advantage of this would be readability but one concern Christian
+> raised was that there could be many fences, that they are typically mostly
+> sorted, and so the kernel's heap sort would be much worse by the proposed
+> algorithm.
+> 
+> I had a look running some games and vkcube to see what are the typical
+> number of input fences. Tested scenarios:
+> 
+> 1) Hogwarts Legacy under Gamescope
+> 
+> 450 calls per second to __dma_fence_unwrap_merge.
+> 
+> Percentages per number of fences buckets, before and after checking for
+> signalled status, sorting and flattening:
+> 
+>     N       Before      After
+>     0       0.91%
+>     1      69.40%
+>    2-3     28.72%       9.4%  (90.6% resolved to one fence)
+>    4-5      0.93%
+>    6-9      0.03%
+>    10+
+> 
+> 2) Cyberpunk 2077 under Gamescope
+> 
+> 1050 calls per second, amounting to 0.01% CPU time according to perf top.
+
+This was undercounted, 1050/s is actually only for when two or more 
+fences are in the input array. Therefore the number of "raw" calls is 
+much higher, around 2x more according to these percentages, or even more 
+for Hogwarths. Which I guess strengthens the argument for the single 
+fence fast path from the previous patch.
+
+>     N       Before      After
+>     0       1.13%
+>     1      52.30%
+>    2-3     40.34%       55.57%
+>    4-5      1.46%        0.50%
+>    6-9      2.44%
+>    10+      2.34%
+> 
+> 3) vkcube under Plasma
+> 
+> 90 calls per second.
+> 
+>     N       Before      After
+>     0
+>     1
+>    2-3      100%         0%   (Ie. all resolved to a single fence)
+>    4-5
+>    6-9
+>    10+
+> 
+> In the case of vkcube all invocations in the 2-3 bucket were actually
+> just two input fences.
+> 
+>  From these numbers it looks like the heap sort should not be a
+> disadvantage, given how the dominant case is <= 2 input fences which heap
+> sort solves with just one compare and swap. (And for the case of one input
+> fence we have a fast path in the previous patch.)
+> 
+> A complementary possibility is to implement a different sorting algorithm
+> under the same API as the kernel's sort() and so keep the simplicity,
+> potentially moving the new sort under lib/ if it would be found more
+> widely useful.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+Fixes: https://gitlab.freedesktop.org/drm/amd/-/issues/3617
+
+It should at least.
+
+Regards,
+
+Tvrtko
+
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Friedrich Vock <friedrich.vock@gmx.de>
 > ---
->   drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-> index a80c08582932..36d12db8d022 100644
-> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-> @@ -1923,9 +1923,9 @@ static void dcn20_program_pipe(
->   				dc->res_pool->hubbub, pipe_ctx->plane_res.hubp->inst, pipe_ctx->hubp_regs.det_size);
+>   drivers/dma-buf/dma-fence-unwrap.c | 129 ++++++++++++++++-------------
+>   1 file changed, 73 insertions(+), 56 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
+> index 75c3e37fd617..750dc20a9e9d 100644
+> --- a/drivers/dma-buf/dma-fence-unwrap.c
+> +++ b/drivers/dma-buf/dma-fence-unwrap.c
+> @@ -12,6 +12,7 @@
+>   #include <linux/dma-fence-chain.h>
+>   #include <linux/dma-fence-unwrap.h>
+>   #include <linux/slab.h>
+> +#include <linux/sort.h>
+>   
+>   /* Internal helper to start new array iteration, don't use directly */
+>   static struct dma_fence *
+> @@ -59,6 +60,25 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor)
+>   }
+>   EXPORT_SYMBOL_GPL(dma_fence_unwrap_next);
+>   
+> +
+> +static int fence_cmp(const void *_a, const void *_b)
+> +{
+> +	struct dma_fence *a = *(struct dma_fence **)_a;
+> +	struct dma_fence *b = *(struct dma_fence **)_b;
+> +
+> +	if (a->context < b->context)
+> +		return -1;
+> +	else if (a->context > b->context)
+> +		return 1;
+> +
+> +	if (dma_fence_is_later(b, a))
+> +		return -1;
+> +	else if (dma_fence_is_later(a, b))
+> +		return 1;
+> +
+> +	return 0;
+> +}
+> +
+>   /* Implementation for the dma_fence_merge() marco, don't use directly */
+>   struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+>   					   struct dma_fence **fences,
+> @@ -67,9 +87,12 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+>   	struct dma_fence *tmp, *signaled, **array;
+>   	struct dma_fence_array *result;
+>   	ktime_t timestamp;
+> -	unsigned int i;
+> -	size_t count;
+> +	int i, j, count;
+>   
+> +	/*
+> +	 * Count number of unwrapped fences and fince the latest signaled
+> +	 * timestamp.
+> +	 */
+>   	count = 0;
+>   	timestamp = ns_to_ktime(0);
+>   	for (i = 0; i < num_fences; ++i) {
+> @@ -98,74 +121,68 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+>   	else if (count == 1)
+>   		return dma_fence_get(signaled);
+>   
+> +	/*
+> +	 * Allocate and populate the array.
+> +	 */
+>   	array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
+>   	if (!array)
+>   		return NULL;
+>   
+> -	/*
+> -	 * This trashes the input fence array and uses it as position for the
+> -	 * following merge loop. This works because the dma_fence_merge()
+> -	 * wrapper macro is creating this temporary array on the stack together
+> -	 * with the iterators.
+> -	 */
+> -	for (i = 0; i < num_fences; ++i)
+> -		fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
+> -
+>   	count = 0;
+> -	do {
+> -		unsigned int sel;
+> -
+> -restart:
+> -		tmp = NULL;
+> -		for (i = 0; i < num_fences; ++i) {
+> -			struct dma_fence *next;
+> -
+> -			while (fences[i] && dma_fence_is_signaled(fences[i]))
+> -				fences[i] = dma_fence_unwrap_next(&iter[i]);
+> -
+> -			next = fences[i];
+> -			if (!next)
+> -				continue;
+> -
+> -			/*
+> -			 * We can't guarantee that inpute fences are ordered by
+> -			 * context, but it is still quite likely when this
+> -			 * function is used multiple times. So attempt to order
+> -			 * the fences by context as we pass over them and merge
+> -			 * fences with the same context.
+> -			 */
+> -			if (!tmp || tmp->context > next->context) {
+> -				tmp = next;
+> -				sel = i;
+> -
+> -			} else if (tmp->context < next->context) {
+> -				continue;
+> -
+> -			} else if (dma_fence_is_later(tmp, next)) {
+> -				fences[i] = dma_fence_unwrap_next(&iter[i]);
+> -				goto restart;
+> -			} else {
+> -				fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+> -				goto restart;
+> -			}
+> +	for (i = 0; i < num_fences; ++i) {
+> +		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
+> +			if (!dma_fence_is_signaled(tmp))
+> +				array[count++] = tmp;
+>   		}
+> -
+> -		if (tmp) {
+> -			array[count++] = dma_fence_get(tmp);
+> -			fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+> +	}
+> +
+> +	/*
+> +	 * Equal fast-path as the above one, in case some fences got signalled
+> +	 * in the meantime.
+> +	 */
+> +	if (count == 0) {
+> +		tmp = dma_fence_allocate_private_stub(timestamp);
+> +		goto return_tmp;
+> +	} else if (count == 1) {
+> +		tmp = dma_fence_get(array[0]);
+> +		goto return_tmp;
+> +	}
+> +
+> +	/*
+> +	 * Sort in context and seqno order.
+> +	 */
+> +	sort(array, count, sizeof(*array), fence_cmp, NULL);
+> +
+> +	/*
+> +	 * Only keep the most recent fence for each context.
+> +	 */
+> +	j = 0;
+> +	tmp = array[0];
+> +	for (i = 1; i < count; i++) {
+> +		if (array[i]->context != tmp->context) {
+> +			array[j++] = dma_fence_get(tmp);
+>   		}
+> -	} while (tmp);
+> -
+> +		tmp = array[i];
+> +	}
+> +	if (j == 0 || tmp->context != array[j - 1]->context) {
+> +		array[j++] = dma_fence_get(tmp);
+> +	}
+> +	count = j;
+> +
+> +	/*
+> +	 * And another fast-path as the earlier ones.
+> +	 */
+>   	if (count == 0) {
+>   		tmp = dma_fence_allocate_private_stub(ktime_get());
+>   		goto return_tmp;
+> -	}
+> -
+> -	if (count == 1) {
+> +	} else if (count == 1) {
+>   		tmp = array[0];
+>   		goto return_tmp;
 >   	}
 >   
-> -	if (pipe_ctx->update_flags.raw ||
-> -	    (pipe_ctx->plane_state && pipe_ctx->plane_state->update_flags.raw) ||
-> -	    pipe_ctx->stream->update_flags.raw)
-> +	if (pipe_ctx->plane_state && (pipe_ctx->update_flags.raw ||
-> +	    pipe_ctx->plane_state->update_flags.raw ||
-> +	    pipe_ctx->stream->update_flags.raw))
->   		dcn20_update_dchubp_dpp(dc, pipe_ctx, context);
->   
->   	if (pipe_ctx->plane_state && (pipe_ctx->update_flags.bits.enable ||
+> +	/*
+> +	 * Finnaly create the output fence array.
+> +	 */
+>   	result = dma_fence_array_create(count, array,
+>   					dma_fence_context_alloc(1),
+>   					1, false);
