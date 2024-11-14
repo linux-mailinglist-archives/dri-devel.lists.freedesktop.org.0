@@ -2,67 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91349C83E4
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 08:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC229C8419
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2024 08:40:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A610C10E7A8;
-	Thu, 14 Nov 2024 07:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2852B10E7AC;
+	Thu, 14 Nov 2024 07:40:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XvEHKDJQ";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="d/nuba/J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4325810E0CF;
- Thu, 14 Nov 2024 07:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731568825; x=1763104825;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=65zpiDoZSLoUYyvWElatN5U0m5x2ciY3L2lSfQAxQDk=;
- b=XvEHKDJQ/+UPcwkpLibByZQdnx6SFdFwJS3xFdBUa7xNv/Xr1bRGeyzI
- mtajsrjCUZ12LjmXT6XGvRnr5gAbOcAONTmPC5bQuDZJ32tjJs7QgDGfx
- FMjLjJtpCr3ePDKHNgxwIqai3dum7fVYwbKsv+tzUjJjU0Ma1nD1Ky/cS
- fsWGQciuBeL5kjCDk6NHLudBKXvKaqe5QpMUCPyuT2q0sak2dDwD24Usg
- kHp0X1j3p+G2zaPSxQR90K99CegV5tQ/1qqOObrqMS86UZneRqw8usdmg
- aU2lYfTp4tT8JxFkTeR6x7G3tIg++ApwVRfhOph/EgbPNpMA7ZbQwwDwD w==;
-X-CSE-ConnectionGUID: AH+gnGbNTOO8hRd8VO/f9A==
-X-CSE-MsgGUID: L+DsHjyVSdaW0k0/Urda2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="31373709"
-X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; d="scan'208";a="31373709"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2024 23:20:25 -0800
-X-CSE-ConnectionGUID: n7cmpNwzRDe3cFG0Q2OCTA==
-X-CSE-MsgGUID: NewAXuvXTU6SZVoKyGbM9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; d="scan'208";a="88527917"
-Received: from mlehtone-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.245.232])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2024 23:20:20 -0800
-Date: Thu, 14 Nov 2024 09:20:17 +0200
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-fixes
-Message-ID: <ZzWksU6CMGLPfjkT@jlahtine-mobl.ger.corp.intel.com>
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2D010E7B3
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 07:40:44 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-e33a8c84b9aso346417276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2024 23:40:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1731570043; x=1732174843;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YpC7dQHdBRjf1YY0/1FpJk3Da91k9SyijSVmI4hpRQQ=;
+ b=d/nuba/Jye3/Jv66lMTeg6WAkhKPt+5Sf5Icq0XSlDMwslzhNGcY0tN3niNiBYnLhy
+ H1LJC93vi/iJkBp4JtSxRzkzCZuttqKbltmA2dZxUKHYG5UeNeMuZ6CFAIioxEEx9ABs
+ DWxsWYO9J6Yv4DvDNKD00CqMbHTKtVSaiizs4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731570043; x=1732174843;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YpC7dQHdBRjf1YY0/1FpJk3Da91k9SyijSVmI4hpRQQ=;
+ b=RU1LRkwEMESPvUAB8B1ab5TIevPKUDL3LRCL1FcUZ4pSEAbLxCiu+eSqvlOPuxjtYx
+ MEq21gBr4/IY+qtMe9yM2N3zEF7MnliVIR6xJs46Jdvq5USHA7D1X4MAy3Gj4meCwAId
+ 5+mQIt34sZlztfpDe69jPgZPnFfbTQj9Q2HY2pvurwtS10zY8PxLc9hc+++6+3eoMxvU
+ 439TYEvgpLUNXtpOS9Vq59oKGU460ppwbQgUkYQxvuJZrVK1YQD3wqJlDE5yevyEfPU/
+ kku5YUtEeu9QKwd77oPcB9Of1kDwSufLCZbbX7YS0Fuvw4M36Vang+U7/sh77Ba/7pvb
+ VV5w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUUH81zOkSmsjMLPz9T9Y7Lrt0hn4PN7tNs8Cwnta8hfJcqxj2Tbk/qEmwcjIcOtL9uVV+K73KKnnQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyHCMfbjBw8w2yoPWw4WLWWXu9Oy0WYV3Z4c1nHsaDC7fL2hLo0
+ T07RhMSiKh9q77anwsV/YEvWylLjie+ioIbvtgP6MIehdmKi98tFyNlaixD4jZhXitDUwsvjl7B
+ yKaI5MujQvGpK9o4TyPMflgFwxf97Voi8JXBB
+X-Google-Smtp-Source: AGHT+IENgiDPFP0I/9pp3wxIpHtzjT2OXh+RNCVpHFFVo+uAuIkpgnnFChEgBkHMvoJwxr6nt/SMqWXsmcOBVNJqBxI=
+X-Received: by 2002:a05:6902:10c2:b0:e26:afc:7af4 with SMTP id
+ 3f1490d57ef6-e35ecf0b7d7mr5347529276.28.1731570043385; Wed, 13 Nov 2024
+ 23:40:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20241029083429.1185479-1-chenridong@huaweicloud.com>
+In-Reply-To: <20241029083429.1185479-1-chenridong@huaweicloud.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Thu, 14 Nov 2024 02:40:32 -0500
+Message-ID: <CABQX2QO4VtP0Vf7hGyTzi++Ee+WZ-3AQ1o-r=BQhzQ8tsNe7NA@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: avoid null_ptr_deref in
+ vmw_framebuffer_surface_create_handle
+To: Chen Ridong <chenridong@huaweicloud.com>
+Cc: bcm-kernel-feedback-list@broadcom.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ maaz.mombasawala@broadcom.com, martin.krastev@broadcom.com, 
+ dri-devel@lists.freedesktop.org, chenridong@huawei.com, 
+ wangweiyang2@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,49 +81,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Sima,
+On Tue, Oct 29, 2024 at 4:43=E2=80=AFAM Chen Ridong <chenridong@huaweicloud=
+.com> wrote:
+>
+> From: Chen Ridong <chenridong@huawei.com>
+>
+> The 'vmw_user_object_buffer' function may return NULL with incorrect
+> inputs. To avoid possible null pointer dereference, add a check whether
+> the 'bo' is NULL in the vmw_framebuffer_surface_create_handle.
+>
+> Fixes: d6667f0ddf46 ("drm/vmwgfx: Fix handling of dumb buffers")
+> Signed-off-by: Chen Ridong <chenridong@huawei.com>
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx=
+/vmwgfx_kms.c
+> index f39bf992364d..8db38927729b 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> @@ -1265,6 +1265,8 @@ static int vmw_framebuffer_surface_create_handle(st=
+ruct drm_framebuffer *fb,
+>         struct vmw_framebuffer_surface *vfbs =3D vmw_framebuffer_to_vfbs(=
+fb);
+>         struct vmw_bo *bo =3D vmw_user_object_buffer(&vfbs->uo);
+>
+> +       if (WARN_ON(!bo))
+> +               return -EINVAL;
+>         return drm_gem_handle_create(file_priv, &bo->tbo.base, handle);
+>  }
+>
+> --
+> 2.34.1
+>
 
-Here goes drm-intel-fixes PR towards v6.12 release.
+Thank you. I pushed it to drm-misc-fixes.
 
-Just two fixes: One potential OOPS fix for TV outputs and skip GSC
-loading on ARL-H and ARL-U with old FW.
-
-Regards, Joonas
-
-***
-
-drm-intel-fixes-2024-11-14:
-
-- Don't load GSC on ARL-H and ARL-U if too old FW
-- Avoid potential OOPS in enabling/disabling TV output
-
-The following changes since commit 2d5404caa8c7bb5c4e0435f94b28834ae5456623:
-
-  Linux 6.12-rc7 (2024-11-10 14:19:35 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-11-14
-
-for you to fetch changes up to 67e023b93d69e5a21b16f9602656a803d314e825:
-
-  drm/i915: Grab intel_display from the encoder to avoid potential oopsies (2024-11-12 11:08:06 +0200)
-
-----------------------------------------------------------------
-- Don't load GSC on ARL-H and ARL-U if too old FW
-- Avoid potential OOPS in enabling/disabling TV output
-
-----------------------------------------------------------------
-Daniele Ceraolo Spurio (1):
-      drm/i915/gsc: ARL-H and ARL-U need a newer GSC FW.
-
-Ville Syrjälä (1):
-      drm/i915: Grab intel_display from the encoder to avoid potential oopsies
-
- drivers/gpu/drm/i915/display/intel_tv.c   |  4 +--
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 50 ++++++++++++++++++++-----------
- drivers/gpu/drm/i915/i915_drv.h           |  8 +++--
- drivers/gpu/drm/i915/intel_device_info.c  | 24 +++++++++++----
- drivers/gpu/drm/i915/intel_device_info.h  |  4 ++-
- include/drm/intel/i915_pciids.h           | 19 +++++++++---
- 6 files changed, 77 insertions(+), 32 deletions(-)
+z
