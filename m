@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B792E9CDE4A
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 13:33:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCA99CDE4D
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 13:33:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24E5610E859;
-	Fri, 15 Nov 2024 12:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E69A210E85E;
+	Fri, 15 Nov 2024 12:33:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="tEpmfXTA";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="PAIFC22J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
- [91.218.175.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0D7310E85E
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 12:33:49 +0000 (UTC)
+Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com
+ [91.218.175.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 798DE10E865
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 12:33:54 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1731674028;
+ t=1731674032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Q1NNXm8xCGlaeYRhrzTJWYfqyDhwYjiiGjFlTLExYI=;
- b=tEpmfXTAbP1X+EpnZ/kMxs8+Keov1Wrn1IC2phl4qaNcaMwKv+I2ursKhEvzRdc2kLo+4M
- 9jdZHHnkPlpE/CBM6tIedljxu+eVgnZ3MqJAZPS0UgV6A8+EVRV+StvEwtY+U/mufIdHmr
- +3aSAl+isWcrlvU7oIm+k2gX2fsbS7A=
+ bh=GH0nS2nq3ekeLQm+XUvi36Oo7y7L7oC9zjgTOfOD4BI=;
+ b=PAIFC22JH4MhlCMgShy7Zb4gzL9CCZ5iyW6Pf4+Jq+VOU62gyDJJrL8o/E9Sed0yiZCG4/
+ 2jGTHatUPYtsueFT5r28dJNk0AAVEVjn7imsYAsvOIqhpLlydG0HwuO4acng9KOJLiuY1X
+ 7F9ip2JLsGY3G7pzH9sma9AG5jihgSY=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
@@ -35,10 +35,9 @@ To: Lucas Stach <l.stach@pengutronix.de>,
 Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v3 2/3] drm/etnaviv: Fix the debug log of the
- etnaviv_iommu_map()
-Date: Fri, 15 Nov 2024 20:32:45 +0800
-Message-Id: <20241115123246.111346-3-sui.jingfeng@linux.dev>
+Subject: [PATCH v3 3/3] drm/etnaviv: Improve VA, PA, SIZE alignment checking
+Date: Fri, 15 Nov 2024 20:32:46 +0800
+Message-Id: <20241115123246.111346-4-sui.jingfeng@linux.dev>
 In-Reply-To: <20241115123246.111346-1-sui.jingfeng@linux.dev>
 References: <20241115123246.111346-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -59,30 +58,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The value of the 'iova' variable is the start GPUVA that is going to be
-mapped, its value doesn't changed when the mapping is on going.
+Alignment checking is only needed to be done in the upper caller function.
+If those address and sizes are able to pass the check, it will certainly
+pass the same test in the etnaviv_context_unmap() function. We don't need
+examine it more than once.
 
-Replace it with the 'da' variable, which is incremental and it reflects
-the actual address being mapped exactly.
+Remove redundant alignment tests, move the those useless to upper caller
+function.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-index c786df840a18..ff90bf85c156 100644
+index ff90bf85c156..df5192083b20 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-@@ -86,7 +86,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context,
- 		unsigned int da_len = sg_dma_len(sg);
- 		unsigned int bytes = min_t(unsigned int, da_len, va_len);
+@@ -19,12 +19,6 @@ static void etnaviv_context_unmap(struct etnaviv_iommu_context *context,
+ 	size_t unmapped_page, unmapped = 0;
+ 	size_t pgsize = SZ_4K;
  
--		VERB("map[%d]: %08x %pap(%x)", i, iova, &pa, bytes);
-+		VERB("map[%d]: %08x %pap(%x)", i, da, &pa, bytes);
+-	if (!IS_ALIGNED(iova | size, pgsize)) {
+-		pr_err("unaligned: iova 0x%lx size 0x%zx min_pagesz 0x%zx\n",
+-		       iova, size, pgsize);
+-		return;
+-	}
+-
+ 	while (unmapped < size) {
+ 		unmapped_page = context->global->ops->unmap(context, iova,
+ 							    pgsize);
+@@ -45,12 +39,6 @@ static int etnaviv_context_map(struct etnaviv_iommu_context *context,
+ 	size_t orig_size = size;
+ 	int ret = 0;
  
+-	if (!IS_ALIGNED(iova | paddr | size, pgsize)) {
+-		pr_err("unaligned: iova 0x%lx pa %pa size 0x%zx min_pagesz 0x%zx\n",
+-		       iova, &paddr, size, pgsize);
+-		return -EINVAL;
+-	}
+-
+ 	while (size) {
+ 		ret = context->global->ops->map(context, iova, paddr, pgsize,
+ 						prot);
+@@ -88,6 +76,14 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context,
+ 
+ 		VERB("map[%d]: %08x %pap(%x)", i, da, &pa, bytes);
+ 
++		if (!IS_ALIGNED(iova | pa | bytes, SZ_4K)) {
++			dev_err(context->global->dev,
++				"unaligned: iova 0x%x pa %pa size 0x%x\n",
++				iova, &pa, bytes);
++			ret = -EINVAL;
++			goto fail;
++		}
++
  		ret = etnaviv_context_map(context, da, pa, bytes, prot);
  		if (ret)
+ 			goto fail;
 -- 
 2.34.1
 
