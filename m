@@ -2,114 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC639CDB6D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 10:21:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F619CDBAD
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 10:34:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3A3D10E3F4;
-	Fri, 15 Nov 2024 09:21:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 054A010E177;
+	Fri, 15 Nov 2024 09:34:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A1sQewWD";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hZAiRDrC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NusAPZow";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hZAiRDrC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NusAPZow";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6879710E177
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 09:21:24 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-431616c23b5so8948865e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 01:21:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731662483; x=1732267283; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=3Ubsq0FTtX7FXFxz4kQgMfN9vdpcOBE9XRs+CSKkAVU=;
- b=A1sQewWD65+CL+yi4Y8aK1jmDb7xGYgPUiK3KOjG/+WNnEDxSyeuOvQYnBdxm/2Ds0
- TxuNLNxPkuKnOwiTUyIALGDcGIvSW4zRxFByLbtU6/e/ozrnsYFaIq97x6V+Idy/Gcir
- q05KPdbuTFql0tj4FUWT3JPXnHUOTX9SWYpHpPcOtRSYkWUJMX+RIdbw9Dy0e67mlsl5
- TlROQ6c6gwQz7FZZmYueJpxF3BoQnGXSXeT2tGpJ09/CElDbvRirdUJNK+uOOq+M9Bdz
- hs6QMxhUCG3rCbPuOTnwX3H+fsMf5x4tPTbI1TU28QrvOKlcnQtCeRYj/SYIqD6HG9hs
- du8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731662483; x=1732267283;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=3Ubsq0FTtX7FXFxz4kQgMfN9vdpcOBE9XRs+CSKkAVU=;
- b=hkvB5tiF3STbKQWxvn8IGNXgReID0FAS+sF7WOjU18p6tbBx4KUndn+AMttL8IAtPl
- 4avgtCkQXjsOM7omtNU4tEHaDWiyHMpFwa5j25QCZjasFNhPtN1gUkHhypAGlbpQwjpW
- tzMBHbM6USPO2rs/IebSykK3uOPBz//Ka5/N7ptbXUgSWaUdNvdxzp3TYRjEIIC+UNfn
- K20PNJbl5/1nq0vdIKLr1mRmhAdXlKMU/T4URF+nCNm2z5Sjlh+aTtTy+akPONfyA5Ry
- p3NhTZvFHmy6k8sylwmmZodVcuy0eV/0Qf46/knb5FzD5GXGg2M03Qh1lUuYIQ0gjQDJ
- 9Kew==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVrg5kfXQZp/GNzmw6TQW4ksxBbYOFluGzQvtIoddLSJOa+BEKhPK+PJAd4/tzEfRYttztG9ov9qGY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwJJwAlidXUcnDiNtw5o/EPHe5GmuqHOyDFpCCKtUI6ioundd3C
- q3+lbMiftLmw7DlGuM6wnAQ9GjaXGroMDMA6qMcMSbKrlQv2E18eqAWtRLUill8=
-X-Google-Smtp-Source: AGHT+IFhhzfXYJliCvhgMAnEBeivjS0/dTVTRYhH3Xvh8F0wAGfi8xwl9PwfcqxAfM7+X3hn+j6avA==
-X-Received: by 2002:a05:600c:1c29:b0:431:4e33:98b6 with SMTP id
- 5b1f17b1804b1-432defd2398mr17475545e9.5.1731662482814; 
- Fri, 15 Nov 2024 01:21:22 -0800 (PST)
-Received: from [192.168.7.189] ([212.114.21.58])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432da2445d4sm51991485e9.5.2024.11.15.01.21.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Nov 2024 01:21:22 -0800 (PST)
-Message-ID: <63a2b391-8b71-41cb-bed2-3bc7fd2154ab@linaro.org>
-Date: Fri, 15 Nov 2024 10:21:21 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D82810E177
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 09:34:40 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 15F1B211A6;
+ Fri, 15 Nov 2024 09:34:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1731663279; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6vBXymfUvdV+JhEPWNkB3RwiHp+KuigLld+r1PsDibA=;
+ b=hZAiRDrCiasrKaQ969dSJgMS9GZFjzRIePGJKnyo0NaDgINgIwjyCtv/d82eMw2ZreUMUW
+ mAFFf6K9OlPk1kwVZ8ZDlMS1UCMbxFOaSQmJlRMxfz1WnF1NLVTY3118qGcQhNp2dmeLWB
+ OkY2Khvy72fLADe0NlJyMdlf1SYRUAE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1731663279;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6vBXymfUvdV+JhEPWNkB3RwiHp+KuigLld+r1PsDibA=;
+ b=NusAPZow1oxjSHSNvgjPhQ+pSeUV8NJ/VPjYgcJ+qstNr7VzYotE/i85PmoAVtu/QbTWLJ
+ IpH6hvoHG2atysDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1731663279; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6vBXymfUvdV+JhEPWNkB3RwiHp+KuigLld+r1PsDibA=;
+ b=hZAiRDrCiasrKaQ969dSJgMS9GZFjzRIePGJKnyo0NaDgINgIwjyCtv/d82eMw2ZreUMUW
+ mAFFf6K9OlPk1kwVZ8ZDlMS1UCMbxFOaSQmJlRMxfz1WnF1NLVTY3118qGcQhNp2dmeLWB
+ OkY2Khvy72fLADe0NlJyMdlf1SYRUAE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1731663279;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6vBXymfUvdV+JhEPWNkB3RwiHp+KuigLld+r1PsDibA=;
+ b=NusAPZow1oxjSHSNvgjPhQ+pSeUV8NJ/VPjYgcJ+qstNr7VzYotE/i85PmoAVtu/QbTWLJ
+ IpH6hvoHG2atysDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D50C0134B8;
+ Fri, 15 Nov 2024 09:34:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id UW2PMq4VN2e8RQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 15 Nov 2024 09:34:38 +0000
+Message-ID: <16428288-df10-4453-b846-d4b28c42e646@suse.de>
+Date: Fri, 15 Nov 2024 10:34:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH RFC 2/8] drm/msm: adreno: add GMU_BW_VOTE quirk
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Connor Abbott <cwabbott0@gmail.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <20241113-topic-sm8x50-gpu-bw-vote-v1-0-3b8d39737a9b@linaro.org>
- <20241113-topic-sm8x50-gpu-bw-vote-v1-2-3b8d39737a9b@linaro.org>
- <sgz4h6rlmekiwypaisjbnej326wv4vaqt3mgspp4fs4tg3mdfx@cwmdqcu6gwbf>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <sgz4h6rlmekiwypaisjbnej326wv4vaqt3mgspp4fs4tg3mdfx@cwmdqcu6gwbf>
+Subject: Re: [PATCH 0/3] drm: Move client code into subdirectories
+To: Jocelyn Falempe <jfalempe@redhat.com>, javierm@redhat.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20241108154600.126162-1-tzimmermann@suse.de>
+ <257ca617-2ce4-45da-be67-a4423953214d@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <257ca617-2ce4-45da-be67-a4423953214d@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[redhat.com,kernel.org,linux.intel.com,gmail.com,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[7]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,52 +115,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/11/2024 08:07, Dmitry Baryshkov wrote:
-> On Wed, Nov 13, 2024 at 04:48:28PM +0100, Neil Armstrong wrote:
->> The Adreno GMU Management Unit (GNU) can also scale the DDR Bandwidth
->> along the Frequency and Power Domain level, but by default we leave the
->> OPP core vote for the interconnect ddr path.
->>
->> While scaling via the interconnect path was sufficient, newer GPUs
->> like the A750 requires specific vote paremeters and bandwidth to
->> achieve full functionality.
->>
->> Add a new Quirk enabling DDR Bandwidth vote via GMU.
-> 
-> Please describe, why this is defined as a quirk rather than a proper
-> platform-level property. From my experience with 6xx and 7xx, all the
-> platforms need to send some kind of BW data to the GMU.
+Hi
 
-Well APRIV, CACHED_COHERENT & PREEMPTION are HW features, why this can't be part of this ?
 
-Perhaps the "quirks" bitfield should be features instead ?
+Am 08.11.24 um 17:43 schrieb Jocelyn Falempe:
+> On 08/11/2024 16:42, Thomas Zimmermann wrote:
+>> The drm_log client will likely be merged into DRM soon. Time to clean
+>> up some of the existing files. This series moves the existing DRM
+>> client for fbdev emulation and its build infrastructure into clients/
+>> subdirectories. Drm_log can then be located there as well.
+>>
+>> The core and helper support for in-kernel DRM clients remains in
+>> its current location.
+>
+> Thanks for this patch, it's cleaner this way.
+> I've rebased drm_log on top of it, and it works.
+> I've also merged the content of drm_log.h into drm_client_internal.h
+> I will send the updated series when this one is merged.
 
-> 
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/adreno/adreno_gpu.h | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> index e71f420f8b3a8e6cfc52dd1c4d5a63ef3704a07f..20b6b7f49473d42751cd4fb4fc82849be42cb807 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> @@ -57,6 +57,7 @@ enum adreno_family {
->>   #define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
->>   #define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
->>   #define ADRENO_QUIRK_PREEMPTION			BIT(5)
->> +#define ADRENO_QUIRK_GMU_BW_VOTE		BIT(6)
->>   
->>   /* Helper for formating the chip_id in the way that userspace tools like
->>    * crashdec expect.
->>
->> -- 
->> 2.34.1
->>
-> 
+Thanks again for reviewing. I almost forgot, but the series is now in 
+drm-misc-next.
+
+Best regards
+Thomas
+
+>
+> Best regards,
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
