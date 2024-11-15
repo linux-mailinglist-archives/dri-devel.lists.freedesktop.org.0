@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6522C9CF1CB
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 17:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E2F9CF1CC
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 17:41:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7301210E187;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D89810E2D1;
 	Fri, 15 Nov 2024 16:41:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OiC1CjOG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VlWZjcNz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD9C810E187;
- Fri, 15 Nov 2024 16:41:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4BF810E187;
+ Fri, 15 Nov 2024 16:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731688886; x=1763224886;
+ t=1731688888; x=1763224888;
  h=from:to:subject:date:message-id:in-reply-to:references:
  mime-version:content-transfer-encoding;
- bh=XE3pjKFvnanpPAnLUf4NhqTKLERyg2ySPRgM3P2OwNg=;
- b=OiC1CjOGG95YeJJ3EQOATTHpzTlYeoF8hy0cDpNv3Qv4mzuT0arxOM5+
- Ln5KOsLnhqTNsXOBTUnQZB7jrrNTEinu1CEuU37RUC6jsb+1LCTnjg+9g
- At/X6sD3Eg3EJxV4EL45VSaq5F0a2UpS0lWVqaXG5M+GU1HQb86oNPFj7
- ZbsL0h7OYDmelWq+74Fy2tv0jPDi0AqSCfFjk1y0nE3Iz2pybQaux465l
- WxB2V/Mjrqd7JnmK/g7HfP36lxgZSouX3TP7Z/aaatw0CIHUWObt6RrdG
- VSPNBNpXZ2+OV5YE++y+RNv+MPHFMDknU6zKKgJZQnRlvVUP3+WBXvU81 A==;
-X-CSE-ConnectionGUID: gfZdZ5VkRiqQvul9fGas/A==
-X-CSE-MsgGUID: RAw6lLS8Sg6FO2txFq6Xaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11257"; a="31087077"
-X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="31087077"
+ bh=1MkKQOlRR6eQEXqw3+vcN6WiR3YDSGfckt5F1GJLyHY=;
+ b=VlWZjcNzfPj+HRW0u6b+9xlLXF/V/S1wpsPkmtqmXv77oaPQwQjlxlNO
+ oheast5a5vzMNpO/zh2BXjte9lL8zAJQgp52QziE8bYht/bzEZCce7O97
+ WGZNkrKCgtSiqONWV+/TRFDpsq5n75QS+3f6OggEFXuXF7lgmnFhjcHBc
+ PbinmNa3gzdMjdWbq2F14xl8aDQv94BptOrE8wKw5DS7mELvRa2bOWPBr
+ BgssFe2rigUujzka5W7Hris73f0A3K6qSsglW4Eap+vtv99dH3941jhRb
+ gWfLdrEFCLbQd1Qa64Ul8RkGj48ZCL9yFn46plPXot5urWwXngm2uk9ii g==;
+X-CSE-ConnectionGUID: /SnVuNkJTSuEAq+kubvdzA==
+X-CSE-MsgGUID: g6WoW4dgTcSzMh3tkJo7Fw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11257"; a="31087079"
+X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="31087079"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2024 08:41:26 -0800
-X-CSE-ConnectionGUID: xrkSQVCFRXeOWtmNy8y+XQ==
-X-CSE-MsgGUID: wuJDh/l7RBqm9MbxIjD7aQ==
+ 15 Nov 2024 08:41:27 -0800
+X-CSE-ConnectionGUID: KkcCBGWTRPmWbEed8zLxqg==
+X-CSE-MsgGUID: 1dk9/6uhSOWmwUoo+EWm0Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="119554622"
+X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="119554624"
 Received: from ideak-desk.fi.intel.com ([10.237.72.78])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2024 08:41:26 -0800
+ 15 Nov 2024 08:41:27 -0800
 From: Imre Deak <imre.deak@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/i915/dp_mst: Expose a connector to kernel users after
- it's properly initialized
-Date: Fri, 15 Nov 2024 18:41:58 +0200
-Message-ID: <20241115164159.1081675-3-imre.deak@intel.com>
+Subject: [PATCH 4/4] drm/i915/dp_mst: Fix error handling while adding a
+ connector
+Date: Fri, 15 Nov 2024 18:41:59 +0200
+Message-ID: <20241115164159.1081675-4-imre.deak@intel.com>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20241115164159.1081675-1-imre.deak@intel.com>
 References: <20241115164159.1081675-1-imre.deak@intel.com>
@@ -68,76 +68,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After a connector is added to the drm_mode_config::connector_list, it's
-visible to any in-kernel users looking up connectors via the above list.
-Make sure that the connector is properly initialized before such
-look-ups.
+After an error during adding an MST connector the MST port and the
+intel_connector object could be leaked, fix this up.
 
 Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 29 ++++++++-------------
- 1 file changed, 11 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index f058360a26413..d91a1d1fb26f4 100644
+index d91a1d1fb26f4..70daa9131c92d 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -1719,6 +1719,8 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
- 	if (!intel_connector)
- 		return NULL;
+@@ -1731,11 +1731,8 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
  
-+	connector = &intel_connector->base;
-+
- 	intel_connector->get_hw_state = intel_dp_mst_get_hw_state;
- 	intel_connector->sync_state = intel_dp_connector_sync_state;
- 	intel_connector->mst_port = intel_dp;
-@@ -1727,30 +1729,19 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
+ 	ret = drm_connector_init_core(display->drm, connector, &intel_dp_mst_connector_funcs,
+ 				      DRM_MODE_CONNECTOR_DisplayPort);
+-	if (ret) {
+-		drm_dp_mst_put_port_malloc(port);
+-		intel_connector_free(intel_connector);
+-		return NULL;
+-	}
++	if (ret)
++		goto err_put_port;
  
- 	intel_dp_init_modeset_retry_work(intel_connector);
+ 	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
+ 	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
+@@ -1750,12 +1747,12 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
  
--	/*
--	 * TODO: The following drm_connector specific initialization belongs
--	 * to DRM core, however it happens atm too late in
--	 * drm_connector_init(). That function will also expose the connector
--	 * to in-kernel users, so it can't be called until the connector is
--	 * sufficiently initialized; init the device pointer used by the
--	 * following DSC setup, until a fix moving this to DRM core.
--	 */
--	intel_connector->base.dev = mgr->dev;
--
--	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
--	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
--	intel_connector->dp.dsc_hblank_expansion_quirk =
--		detect_dsc_hblank_expansion_quirk(intel_connector);
--
--	connector = &intel_connector->base;
--	ret = drm_connector_init(display->drm, connector, &intel_dp_mst_connector_funcs,
--				 DRM_MODE_CONNECTOR_DisplayPort);
-+	ret = drm_connector_init_core(display->drm, connector, &intel_dp_mst_connector_funcs,
-+				      DRM_MODE_CONNECTOR_DisplayPort);
- 	if (ret) {
- 		drm_dp_mst_put_port_malloc(port);
- 		intel_connector_free(intel_connector);
- 		return NULL;
+ 		ret = drm_connector_attach_encoder(&intel_connector->base, enc);
+ 		if (ret)
+-			goto err;
++			goto err_cleanup_connector;
  	}
  
-+	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
-+	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
-+	intel_connector->dp.dsc_hblank_expansion_quirk =
-+		detect_dsc_hblank_expansion_quirk(intel_connector);
-+
- 	drm_connector_helper_add(connector, &intel_dp_mst_connector_helper_funcs);
+ 	ret = intel_dp_mst_add_properties(intel_dp, connector, pathprop);
+ 	if (ret)
+-		goto err;
++		goto err_cleanup_connector;
  
- 	for_each_pipe(display, pipe) {
-@@ -1771,6 +1762,8 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
- 		drm_dbg_kms(display->drm, "[%s:%d] HDCP MST init failed, skipping.\n",
- 			    connector->name, connector->base.id);
+ 	ret = intel_dp_hdcp_init(dig_port, intel_connector);
+ 	if (ret)
+@@ -1766,8 +1763,12 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
  
-+	drm_connector_add(connector);
-+
  	return connector;
  
- err:
+-err:
++err_cleanup_connector:
+ 	drm_connector_cleanup(connector);
++err_put_port:
++	drm_dp_mst_put_port_malloc(port);
++	intel_connector_free(intel_connector);
++
+ 	return NULL;
+ }
+ 
 -- 
 2.44.2
 
