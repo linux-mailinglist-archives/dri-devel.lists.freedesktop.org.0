@@ -2,61 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D369CF15F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 17:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D529CF16A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 17:23:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC1910E89A;
-	Fri, 15 Nov 2024 16:21:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E36DA10E89E;
+	Fri, 15 Nov 2024 16:23:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dqxPlzsq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cQUYRmpn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42DD910E89A
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 16:21:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1731687695;
- bh=hzMNqFzjJmXhupDySrBmjKOmiFy0n0jBgxntqS1KgZs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dqxPlzsqQKMa2GOkMp5zMof02/OGqnSj/Xa2IvDASQM2MsCQ+Gx7cmVHQkL517wDh
- d/MDFCf1+aEqZ6GDz32dUuYiNyERNFCOPR29Vnq5L0T9OXqPzhS2P/+p76TlfgeSRO
- 53ocPXS/kla7CH46o+rfvfOgt3ERTH1LaroAZ3ArO+B/NLyDjLuu5mEIxJmnk52OLQ
- KDvefA8k6dmtX/UkDZOtp2RBpz9Sdzm9jxEt8rwSU/ICepyQ6G8yRfuQjqiaJjZthO
- e9mlVLAOWkrfb0vu++5EiqcdXyha13WcDWStjUYY02MFUdTr67x82daHsnv/DSNLLy
- Zk+9OX6jqcrAA==
-Received: from bootstrap.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: detlev)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 74A6D17E3756;
- Fri, 15 Nov 2024 17:21:32 +0100 (CET)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA3310E89E
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 16:23:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C7E405C5B35;
+ Fri, 15 Nov 2024 16:22:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8F10C4CECF;
+ Fri, 15 Nov 2024 16:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1731687808;
+ bh=17c2BctoatZCGP+sdz3tAGm/ndqqwG8Ri12IIiba7I0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=cQUYRmpnxftDsI7zRrVikCiERAoyp0k7BNogOtUbU37ZJX/C7M2+lkVArUzi/A6xx
+ MGrGhHkv2+dlRBl7Jha6+VUsZaQMa17fz34YKTY4VNPLKIzzC1w75ItHJt5crbvqHn
+ Fi97xBOw93OzGcR4bkwW/FoQrxMkpIpehXx9jc9u/bX7XGWPbqfNq2FkWOFXg4Be3F
+ eFjy2BogsyiBuzudTb6fKRtlL9RPJHREOvQIbBXqtcz9jYj5G33D9TJ1o+ODvHy8bz
+ zp5qeJhssACEdKh++VBgVNaWez+8VFXRHYO2JOMlHaiHqyaH2OKBMJlI1tLDOibjz/
+ MItBoNmEt7TNw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Arnd Bergmann <arnd@arndb.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>,
- Jianfeng Liu <liujianfeng1994@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com, Detlev Casanova <detlev.casanova@collabora.com>
-Subject: [PATCH v4 3/3] arm64: dts: rockchip: Add VOP clock resets for rk3588s
-Date: Fri, 15 Nov 2024 11:20:42 -0500
-Message-ID: <20241115162120.83990-4-detlev.casanova@collabora.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241115162120.83990-1-detlev.casanova@collabora.com>
-References: <20241115162120.83990-1-detlev.casanova@collabora.com>
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] drm: rework FB_CORE dependency
+Date: Fri, 15 Nov 2024 17:23:10 +0100
+Message-Id: <20241115162323.3555229-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,36 +64,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds the needed clock resets for all rk3588(s) based SOCs.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+The 'select FB_CORE' statement moved from CONFIG_DRM to DRM_CLIENT_LIB,
+but there are now configurations that have code calling into fb_core
+as built-in even though the client_lib itself is a loadable module:
+
+x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_driver_fbdev_probe':
+drm_fbdev_shmem.c:(.text+0x1fc): undefined reference to `fb_deferred_io_init'
+x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_fb_destroy':
+drm_fbdev_shmem.c:(.text+0x2e1): undefined reference to `fb_deferred_io_cleanup'
+...
+x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend':
+drm_fb_helper.c:(.text+0x2c6): undefined reference to `fb_set_suspend'
+x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
+drm_fb_helper.c:(.text+0x2e1): undefined reference to `fb_set_suspend'
+
+In addition to DRM_CLIENT_LIB, the 'select' needs to be at least in
+two more parts, DRM_KMS_HELPER and DRM_GEM_SHMEM_HELPER, so add those
+here.
+
+Fixes: dadd28d4142f ("drm/client: Add client-lib module")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+v2: keep the select in DRM_CLIENT_LIB, keep alphabetic sorting
+---
+ drivers/gpu/drm/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-index d97d84b888375..b5c19423de9b6 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -1268,6 +1268,18 @@ vop: vop@fdd90000 {
- 			      "pclk_vop";
- 		iommus = <&vop_mmu>;
- 		power-domains = <&power RK3588_PD_VOP>;
-+		resets = <&cru SRST_A_VOP>,
-+			 <&cru SRST_H_VOP>,
-+			 <&cru SRST_D_VOP0>,
-+			 <&cru SRST_D_VOP1>,
-+			 <&cru SRST_D_VOP2>,
-+			 <&cru SRST_D_VOP3>;
-+		reset-names = "aclk",
-+			      "hclk",
-+			      "dclk_vp0",
-+			      "dclk_vp1",
-+			      "dclk_vp2",
-+			      "dclk_vp3";
- 		rockchip,grf = <&sys_grf>;
- 		rockchip,vop-grf = <&vop_grf>;
- 		rockchip,vo1-grf = <&vo1_grf>;
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index a4a092ee70d9..410bd6d78408 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -98,6 +98,7 @@ config DRM_KUNIT_TEST
+ config DRM_KMS_HELPER
+ 	tristate
+ 	depends on DRM
++	select FB_CORE if DRM_FBDEV_EMULATION
+ 	help
+ 	  CRTC helpers for KMS drivers.
+ 
+@@ -371,6 +372,7 @@ config DRM_GEM_DMA_HELPER
+ config DRM_GEM_SHMEM_HELPER
+ 	tristate
+ 	depends on DRM && MMU
++	select FB_CORE if DRM_FBDEV_EMULATION
+ 	select FB_SYSMEM_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
+ 	help
+ 	  Choose this if you need the GEM shmem helper functions
 -- 
-2.47.0
+2.39.5
 
