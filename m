@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19B09CF74A
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF669CF749
 	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:26:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38B9410E8E6;
-	Fri, 15 Nov 2024 21:26:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD5BB10E8E5;
+	Fri, 15 Nov 2024 21:26:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="U/gvH0lz";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pxyipjBG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 12F3010E045;
+ by gabe.freedesktop.org (Postfix) with ESMTP id CB66E10E8D8;
  Fri, 15 Nov 2024 21:26:42 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 669E7206BCF5;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 9987D206BCF6;
  Fri, 15 Nov 2024 13:26:41 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 669E7206BCF5
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9987D206BCF6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1731706001;
- bh=mjGmNlPTDeXtBIVnBruZVxnncRcSbkg/ti9M5w2fu78=;
+ bh=3U0Zq8t5krsiKxal+ZZuXq1UdnH4Ui7697JSzYEOhjI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=U/gvH0lzaLER5CbzPB6zD06w9Keq1U18T2/iQ93vXhu6AQN4lJ3/X3Ps8tBq+V9hU
- 8JfV3K4VKfGl26W2AQ+6bKbYPc1Tg7Mcqod+tAQYKeaUhj6tHi9CdVz4KsBV+7LMZi
- VJMS6VhHAm7J/udfK+gDmWasBhF364IpIQjqUPkc=
+ b=pxyipjBG4pPbUUX4B02FM3/ZsXqd5TTFM1LiraDNsXkdoszGq2MjH9IQsJybMvID+
+ 4YKAHyn2fCEWP25moqNhPglaJ0cda8qqzueRkUNy6p2auJAmaCiugYo3dL3clU9ruD
+ egDpjyzKcS59GHsuj7I2I/nCPTxfw5Z4JYIS26Qg=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Fri, 15 Nov 2024 21:26:19 +0000
-Subject: [PATCH v2 02/21] coccinelle: misc: Add secs_to_jiffies script
+Date: Fri, 15 Nov 2024 21:26:20 +0000
+Subject: [PATCH v2 03/21] arm: pxa: Convert timeouts to use secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241115-converge-secs-to-jiffies-v2-2-911fb7595e79@linux.microsoft.com>
+Message-Id: <20241115-converge-secs-to-jiffies-v2-3-911fb7595e79@linux.microsoft.com>
 References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 In-Reply-To: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -116,39 +116,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Suggested-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Changes made with the following Coccinelle rules:
+
+@@ constant C; @@
+
+- msecs_to_jiffies(C * 1000)
++ secs_to_jiffies(C)
+
+@@ constant C; @@
+
+- msecs_to_jiffies(C * MSEC_PER_SEC)
++ secs_to_jiffies(C)
+
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- scripts/coccinelle/misc/secs_to_jiffies.cocci | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ arch/arm/mach-pxa/sharpsl_pm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/coccinelle/misc/secs_to_jiffies.cocci b/scripts/coccinelle/misc/secs_to_jiffies.cocci
-new file mode 100644
-index 0000000000000000000000000000000000000000..af762b1c0aac8f044f21150bfaafd9efc834ee87
---- /dev/null
-+++ b/scripts/coccinelle/misc/secs_to_jiffies.cocci
-@@ -0,0 +1,21 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+///
-+/// Find usages of:
-+/// - msecs_to_jiffies(value*1000)
-+/// - msecs_to_jiffies(value*MSEC_PER_SEC)
-+///
-+// Confidence: High
-+// Copyright: (C) 2024 Easwar Hariharan Microsoft
-+//
-+// Keywords: secs, seconds, jiffies
-+//
-+
-+@@ constant C; @@
-+
-+- msecs_to_jiffies(C * 1000)
-++ secs_to_jiffies(C)
-+
-+@@ constant C; @@
-+
-+- msecs_to_jiffies(C * MSEC_PER_SEC)
-++ secs_to_jiffies(C)
+diff --git a/arch/arm/mach-pxa/sharpsl_pm.c b/arch/arm/mach-pxa/sharpsl_pm.c
+index 72fa2e3fd35318e5a63c121ed7990a56a56b134c..bbbd06bc79bbb94fb258562e5a382acaf3c277b3 100644
+--- a/arch/arm/mach-pxa/sharpsl_pm.c
++++ b/arch/arm/mach-pxa/sharpsl_pm.c
+@@ -31,9 +31,9 @@
+ /*
+  * Constants
+  */
+-#define SHARPSL_CHARGE_ON_TIME_INTERVAL        (msecs_to_jiffies(1*60*1000))  /* 1 min */
+-#define SHARPSL_CHARGE_FINISH_TIME             (msecs_to_jiffies(10*60*1000)) /* 10 min */
+-#define SHARPSL_BATCHK_TIME                    (msecs_to_jiffies(15*1000))    /* 15 sec */
++#define SHARPSL_CHARGE_ON_TIME_INTERVAL        (secs_to_jiffies(60))  /* 1 min */
++#define SHARPSL_CHARGE_FINISH_TIME             (secs_to_jiffies(10*60)) /* 10 min */
++#define SHARPSL_BATCHK_TIME                    (secs_to_jiffies(15))    /* 15 sec */
+ #define SHARPSL_BATCHK_TIME_SUSPEND            (60*10)                        /* 10 min */
+ 
+ #define SHARPSL_WAIT_CO_TIME                   15  /* 15 sec */
 
 -- 
 2.34.1
