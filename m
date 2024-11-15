@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B7F9CF70B
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DF79CF747
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:26:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 621EC10E900;
-	Fri, 15 Nov 2024 21:22:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC0D810E8D0;
+	Fri, 15 Nov 2024 21:26:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="iplUk1Nd";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WqskY8aZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 09E6810E045;
- Fri, 15 Nov 2024 21:22:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7B53410E045;
+ Fri, 15 Nov 2024 21:26:41 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id A22AA206BCEE;
- Fri, 15 Nov 2024 13:22:46 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A22AA206BCEE
+ by linux.microsoft.com (Postfix) with ESMTPSA id ED203206BCE3;
+ Fri, 15 Nov 2024 13:26:40 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ED203206BCE3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1731705766;
- bh=8an4FgjBOt1s+5Gzupd7mugSuJBcUUHR7ha3x9HR0Ag=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=iplUk1Nduoh9asilHgzn6HQycVN1VFv/mFBOdW0Mpd4aq8sOOirOgItcWBMTidM3Q
- FvxfPpyBxEWdptBjBV3AGgplTOjNGMgWDICXRk9fFUvguk5wrwqFw5sjChgX9PZPt7
- /h1a1SkEI1LPNYXASotI6c+cUqHfSyHVemxnfBAU=
+ s=default; t=1731706001;
+ bh=YykTfzrNsiOcwK2ra+gzipuntreyDWZKmxIft/JBufs=;
+ h=From:Subject:Date:To:Cc:From;
+ b=WqskY8aZnBCmF3dfwxSLgVobxBO9fmOKJ8FdxV64GRKJyH+NQE4wui7qbxKlFnao4
+ BPR2hAMwYMqOqBxv5A69nRuXpaXJ0f1nikMlY5jjS8QJVhEj5FSlf1exAy6E/F7mHO
+ WumIfMdFmtWMw60hujxPTvq6hp3VaQHUHUHLjiOs=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Fri, 15 Nov 2024 21:22:52 +0000
-Subject: [PATCH 22/22] jiffies: Define secs_to_jiffies()
+Subject: [PATCH v2 00/21] Converge on using secs_to_jiffies()
+Date: Fri, 15 Nov 2024 21:26:17 +0000
+Message-Id: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241115-converge-secs-to-jiffies-v1-22-19aadc34941b@linux.microsoft.com>
-References: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
-In-Reply-To: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
+X-B4-Tracking: v=1; b=H4sIAHq8N2cC/3WNwQ6CMBAFf4X0bAlb0aSe/A/DAdqtrJEW29JgC
+ P9uxRhPHmeS92ZhAT1hYKdiYR4TBXI2g9gVTPWtvSInnZmJStQAILhyNqHPPqAKPDp+I2PyA9d
+ Saqjg2GkAluejR0Pzdn1pPuzxMeVC/MmeQnT+ueUTvO23dPhfSsArDrJttdrXsobufCc7zeVAy
+ rvgTCyVG1izrusL3G0RRd8AAAA=
+X-Change-ID: 20241112-converge-secs-to-jiffies-d99d1016bd11
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
  Jozsef Kadlecsik <kadlec@netfilter.org>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
@@ -99,9 +102,7 @@ Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
  etnaviv@lists.freedesktop.org, oss-drivers@corigine.com, 
  linuxppc-dev@lists.ozlabs.org, 
  Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Easwar Hariharan <eahariha@linux.microsoft.com>, 
- Michael Kelley <mhklinux@outlook.com>, Thomas Gleixner <tglx@linutronix.de>, 
- Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+ Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -118,66 +119,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-secs_to_jiffies() is defined in hci_event.c and cannot be reused by
-other call sites. Hoist it into the core code to allow conversion of the
-~1150 usages of msecs_to_jiffies() that either:
+This is a series that follows up on my previous series to introduce
+secs_to_jiffies() and convert a few initial users.[1] In the review for
+that series, Anna-Maria requested converting other users with
+Coccinelle. This is part 1 that converts users of msecs_to_jiffies()
+that use the multiply pattern of either of:
+- msecs_to_jiffies(N*1000), or
+- msecs_to_jiffies(N*MSEC_PER_SEC)
 
- - use a multiplier value of 1000 or equivalently MSEC_PER_SEC, or
- - have timeouts that are denominated in seconds (i.e. end in 000)
+The entire conversion is made with Coccinelle in the script added in
+patch 2. Some changes suggested by Coccinelle have been deferred to
+later parts that will address other possible variant patterns.
 
-It's implemented as a macro to allow usage in static initializers.
-
-This will also allow conversion of yet more sites that use (sec * HZ)
-directly, and improve their readability.
-
-Suggested-by: Michael Kelley <mhklinux@outlook.com>
+CC: Anna-Maria Behnsen <anna-maria@linutronix.de>
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-Link: https://lore.kernel.org/all/20241030-open-coded-timeouts-v3-1-9ba123facf88@linux.microsoft.com
+
+[1] https://lore.kernel.org/all/20241030-open-coded-timeouts-v3-0-9ba123facf88@linux.microsoft.com/
+[2] https://lore.kernel.org/all/8734kngfni.fsf@somnus/
+
 ---
- include/linux/jiffies.h   | 13 +++++++++++++
- net/bluetooth/hci_event.c |  2 --
- 2 files changed, 13 insertions(+), 2 deletions(-)
+Changes in v2:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v1: https://lore.kernel.org/r/20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com
 
-diff --git a/include/linux/jiffies.h b/include/linux/jiffies.h
-index 1220f0fbe5bf9fb6c559b4efd603db3e97db9b65..0a7382753c6b636fe285599953e314fb7479ea01 100644
---- a/include/linux/jiffies.h
-+++ b/include/linux/jiffies.h
-@@ -526,6 +526,19 @@ static __always_inline unsigned long msecs_to_jiffies(const unsigned int m)
- 	}
- }
- 
-+/**
-+ * secs_to_jiffies: - convert seconds to jiffies
-+ * @_secs: time in seconds
-+ *
-+ * Conversion is done by simple multiplication with HZ
-+ *
-+ * secs_to_jiffies() is defined as a macro rather than a static inline
-+ * function so it can be used in static initializers.
-+ *
-+ * Return: jiffies value
-+ */
-+#define secs_to_jiffies(_secs) ((_secs) * HZ)
-+
- extern unsigned long __usecs_to_jiffies(const unsigned int u);
- #if !(USEC_PER_SEC % HZ)
- static inline unsigned long _usecs_to_jiffies(const unsigned int u)
-diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-index 0bbad90ddd6f87e87c03859bae48a7901d39b634..7b35c58bbbeb79f2b50a02212771fb283ba5643d 100644
---- a/net/bluetooth/hci_event.c
-+++ b/net/bluetooth/hci_event.c
-@@ -42,8 +42,6 @@
- #define ZERO_KEY "\x00\x00\x00\x00\x00\x00\x00\x00" \
- 		 "\x00\x00\x00\x00\x00\x00\x00\x00"
- 
--#define secs_to_jiffies(_secs) msecs_to_jiffies((_secs) * 1000)
--
- /* Handle HCI Event packets */
- 
- static void *hci_ev_skb_pull(struct hci_dev *hdev, struct sk_buff *skb,
+---
+Easwar Hariharan (21):
+      netfilter: conntrack: Cleanup timeout definitions
+      coccinelle: misc: Add secs_to_jiffies script
+      arm: pxa: Convert timeouts to use secs_to_jiffies()
+      s390: kernel: Convert timeouts to use secs_to_jiffies()
+      powerpc/papr_scm: Convert timeouts to secs_to_jiffies()
+      mm: kmemleak: Convert timeouts to secs_to_jiffies()
+      accel/habanalabs: Convert timeouts to secs_to_jiffies()
+      drm/xe: Convert timeout to secs_to_jiffies()
+      drm/etnaviv: Convert timeouts to secs_to_jiffies()
+      scsi: lpfc: Convert timeouts to secs_to_jiffies()
+      scsi: arcmsr: Convert timeouts to secs_to_jiffies()
+      scsi: pm8001: Convert timeouts to secs_to_jiffies()
+      xen/blkback: Convert timeouts to secs_to_jiffies()
+      gve: Convert timeouts to secs_to_jiffies()
+      wifi: ath11k: Convert timeouts to secs_to_jiffies()
+      Bluetooth: MGMT: Convert timeouts to secs_to_jiffies()
+      staging: vc04_services: Convert timeouts to secs_to_jiffies()
+      ceph: Convert timeouts to secs_to_jiffies()
+      livepatch: Convert timeouts to secs_to_jiffies()
+      ALSA: line6: Convert timeouts to secs_to_jiffies()
+      nfp: Convert timeouts to secs_to_jiffies()
 
+ arch/arm/mach-pxa/sharpsl_pm.c                      |  6 +++---
+ arch/powerpc/platforms/pseries/papr_scm.c           |  2 +-
+ arch/s390/kernel/lgr.c                              |  3 ++-
+ arch/s390/kernel/time.c                             |  4 ++--
+ arch/s390/kernel/topology.c                         |  2 +-
+ drivers/accel/habanalabs/common/device.c            |  2 +-
+ drivers/accel/habanalabs/common/habanalabs_drv.c    |  3 +--
+ drivers/block/xen-blkback/blkback.c                 |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c            |  2 +-
+ drivers/gpu/drm/xe/xe_device.c                      |  2 +-
+ drivers/net/ethernet/google/gve/gve_tx_dqo.c        |  6 ++----
+ drivers/net/ethernet/netronome/nfp/nfp_net_common.c |  2 +-
+ drivers/net/wireless/ath/ath11k/debugfs.c           |  2 +-
+ drivers/scsi/arcmsr/arcmsr_hba.c                    |  2 +-
+ drivers/scsi/lpfc/lpfc_init.c                       | 18 +++++++++---------
+ drivers/scsi/lpfc/lpfc_nportdisc.c                  |  8 ++++----
+ drivers/scsi/lpfc/lpfc_nvme.c                       |  2 +-
+ drivers/scsi/lpfc/lpfc_sli.c                        |  4 ++--
+ drivers/scsi/lpfc/lpfc_vmid.c                       |  2 +-
+ drivers/scsi/pm8001/pm8001_init.c                   |  2 +-
+ .../vc04_services/bcm2835-audio/bcm2835-vchiq.c     |  2 +-
+ fs/ceph/quota.c                                     |  2 +-
+ mm/kmemleak.c                                       |  4 ++--
+ net/bluetooth/mgmt.c                                |  2 +-
+ net/netfilter/nf_conntrack_proto_sctp.c             | 21 ++++++++-------------
+ samples/livepatch/livepatch-callbacks-busymod.c     |  2 +-
+ samples/livepatch/livepatch-shadow-fix1.c           |  2 +-
+ samples/livepatch/livepatch-shadow-mod.c            | 10 +++++-----
+ scripts/coccinelle/misc/secs_to_jiffies.cocci       | 21 +++++++++++++++++++++
+ sound/usb/line6/toneport.c                          |  2 +-
+ 30 files changed, 79 insertions(+), 65 deletions(-)
+---
+base-commit: 2d5404caa8c7bb5c4e0435f94b28834ae5456623
+change-id: 20241112-converge-secs-to-jiffies-d99d1016bd11
+
+Best regards,
 -- 
-2.34.1
+Easwar Hariharan <eahariha@linux.microsoft.com>
 
