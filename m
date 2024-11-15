@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE15A9CF748
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19B09CF74A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:26:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CFEA10E8D8;
-	Fri, 15 Nov 2024 21:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38B9410E8E6;
+	Fri, 15 Nov 2024 21:26:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qqVpjOTp";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="U/gvH0lz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id CE04E10E045;
- Fri, 15 Nov 2024 21:26:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 12F3010E045;
+ Fri, 15 Nov 2024 21:26:42 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 33C45206BCF3;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 669E7206BCF5;
  Fri, 15 Nov 2024 13:26:41 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 33C45206BCF3
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 669E7206BCF5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1731706001;
- bh=Q64Lap8gGilYnZS8wBYuXVtg6CkDWFgIDR5hpRb/qKY=;
+ bh=mjGmNlPTDeXtBIVnBruZVxnncRcSbkg/ti9M5w2fu78=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=qqVpjOTpvUDnqKvyg0F7x8y5V/QTgKE0vrlMSYSCNCLw1VcBjI0/Vl0G6Q39TTHHt
- DRDU50XbhfXe3YX2edjYJBIv3SoKO3DsasrlEzDNkcD4CPzZrQ2JNzKwdnMxBZK6Fj
- EbvBkDXPncjur9W0Dtl4dgGCI1NPWNvWmxFYJQrY=
+ b=U/gvH0lzaLER5CbzPB6zD06w9Keq1U18T2/iQ93vXhu6AQN4lJ3/X3Ps8tBq+V9hU
+ 8JfV3K4VKfGl26W2AQ+6bKbYPc1Tg7Mcqod+tAQYKeaUhj6tHi9CdVz4KsBV+7LMZi
+ VJMS6VhHAm7J/udfK+gDmWasBhF364IpIQjqUPkc=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Fri, 15 Nov 2024 21:26:18 +0000
-Subject: [PATCH v2 01/21] netfilter: conntrack: Cleanup timeout definitions
+Date: Fri, 15 Nov 2024 21:26:19 +0000
+Subject: [PATCH v2 02/21] coccinelle: misc: Add secs_to_jiffies script
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241115-converge-secs-to-jiffies-v2-1-911fb7595e79@linux.microsoft.com>
+Message-Id: <20241115-converge-secs-to-jiffies-v2-2-911fb7595e79@linux.microsoft.com>
 References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 In-Reply-To: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -116,48 +116,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-None of the higher order definitions are used anymore, so remove
-definitions for minutes, hours, and days timeouts. Convert the seconds
-denominated timeouts to secs_to_jiffies()
-
+Suggested-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- net/netfilter/nf_conntrack_proto_sctp.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+ scripts/coccinelle/misc/secs_to_jiffies.cocci | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/net/netfilter/nf_conntrack_proto_sctp.c b/net/netfilter/nf_conntrack_proto_sctp.c
-index 4cc97f971264ed779434ab4597dd0162586b3736..6c95ac96fa42a39acafb5b88a7cf8898010e911c 100644
---- a/net/netfilter/nf_conntrack_proto_sctp.c
-+++ b/net/netfilter/nf_conntrack_proto_sctp.c
-@@ -39,20 +39,15 @@ static const char *const sctp_conntrack_names[] = {
- 	[SCTP_CONNTRACK_HEARTBEAT_SENT]		= "HEARTBEAT_SENT",
- };
- 
--#define SECS  * HZ
--#define MINS  * 60 SECS
--#define HOURS * 60 MINS
--#define DAYS  * 24 HOURS
--
- static const unsigned int sctp_timeouts[SCTP_CONNTRACK_MAX] = {
--	[SCTP_CONNTRACK_CLOSED]			= 10 SECS,
--	[SCTP_CONNTRACK_COOKIE_WAIT]		= 3 SECS,
--	[SCTP_CONNTRACK_COOKIE_ECHOED]		= 3 SECS,
--	[SCTP_CONNTRACK_ESTABLISHED]		= 210 SECS,
--	[SCTP_CONNTRACK_SHUTDOWN_SENT]		= 3 SECS,
--	[SCTP_CONNTRACK_SHUTDOWN_RECD]		= 3 SECS,
--	[SCTP_CONNTRACK_SHUTDOWN_ACK_SENT]	= 3 SECS,
--	[SCTP_CONNTRACK_HEARTBEAT_SENT]		= 30 SECS,
-+	[SCTP_CONNTRACK_CLOSED]			= secs_to_jiffies(10),
-+	[SCTP_CONNTRACK_COOKIE_WAIT]		= secs_to_jiffies(3),
-+	[SCTP_CONNTRACK_COOKIE_ECHOED]		= secs_to_jiffies(3),
-+	[SCTP_CONNTRACK_ESTABLISHED]		= secs_to_jiffies(210),
-+	[SCTP_CONNTRACK_SHUTDOWN_SENT]		= secs_to_jiffies(3),
-+	[SCTP_CONNTRACK_SHUTDOWN_RECD]		= secs_to_jiffies(3),
-+	[SCTP_CONNTRACK_SHUTDOWN_ACK_SENT]	= secs_to_jiffies(3),
-+	[SCTP_CONNTRACK_HEARTBEAT_SENT]		= secs_to_jiffies(3),
- };
- 
- #define	SCTP_FLAG_HEARTBEAT_VTAG_FAILED	1
+diff --git a/scripts/coccinelle/misc/secs_to_jiffies.cocci b/scripts/coccinelle/misc/secs_to_jiffies.cocci
+new file mode 100644
+index 0000000000000000000000000000000000000000..af762b1c0aac8f044f21150bfaafd9efc834ee87
+--- /dev/null
++++ b/scripts/coccinelle/misc/secs_to_jiffies.cocci
+@@ -0,0 +1,21 @@
++// SPDX-License-Identifier: GPL-2.0-only
++///
++/// Find usages of:
++/// - msecs_to_jiffies(value*1000)
++/// - msecs_to_jiffies(value*MSEC_PER_SEC)
++///
++// Confidence: High
++// Copyright: (C) 2024 Easwar Hariharan Microsoft
++//
++// Keywords: secs, seconds, jiffies
++//
++
++@@ constant C; @@
++
++- msecs_to_jiffies(C * 1000)
+++ secs_to_jiffies(C)
++
++@@ constant C; @@
++
++- msecs_to_jiffies(C * MSEC_PER_SEC)
+++ secs_to_jiffies(C)
 
 -- 
 2.34.1
