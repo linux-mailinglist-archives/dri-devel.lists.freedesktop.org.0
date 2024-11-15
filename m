@@ -2,76 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B329A9CFDA1
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 10:51:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5339CF6F2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:22:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 356BF10E1BB;
-	Sat, 16 Nov 2024 09:51:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEA8710E3D3;
+	Fri, 15 Nov 2024 21:22:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="m6MEEdBZ";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qSckkTef";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD6610E8C9
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 21:18:11 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id
- af79cd13be357-7b175e059bdso804285a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 13:18:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1731705490; x=1732310290;
- darn=lists.freedesktop.org; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6ktpPIpScaeZrvvX2nXn5N10awI15hiN2fEar3uZkg4=;
- b=m6MEEdBZXdU3VMHMRnK9rSSNvxcRGdhWT9e+r3XbOg5Ga0qhotS2EuupazX5YuMX4o
- EmNsTOUQQG4w7051W021G7cLWOdaRrD3FXdSifjqT/6z8C9KdRfVZdv2uUEuc3mKGc6V
- FuNtzckRHZ3WYMNV7mO2uUBIM0dop6VHHG/Qk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731705490; x=1732310290;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6ktpPIpScaeZrvvX2nXn5N10awI15hiN2fEar3uZkg4=;
- b=JaNHvGhX+8w1Vu5n7gsSWFKDnbqtvi5/BWsxJHedzfQYtbOISulKvAdXpdEKMCUPdn
- NpdS4Xm1a/jfZjCbSEDVx40ZJ2lx+qJiNGpWXMn/2g3gjyaJVrZDaAw3eqk9pzN9Impi
- 0A9ptGtJiUhoqNSvufE/Pkk0miWSt6d8QfQToS0f9IuyB5c8gv1+QFvzvFG2ngPU71NY
- e228HSO+WLZ6a0ozwUD7jEd+305LG6JNPHWkhMJ4dPl5NbTTrno6NiZa8tENodkQnC6n
- z2NSzdiKyKVonWl2lSoObWs4itdajIvRsSwv7eVZoG5RMd6c8vAqPOLnJPlLc6bZpQdZ
- 9jTA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUyvgUE5yWukxTg/mXgi2qWmd8SwylyNfqvioSCnEatRkLQlqtqcJJgpZI2mLsMNJJ+pYR4Stl7Z2g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YznxDotpSCqZPQNlEfAODk5O03Dn10MM7YawO2kUm8weUcOCI80
- +GW/mDVHRHbTUrzi+jO86Cg8v/MDwcMNLTwhEmGCh7ND1Ja1/+TaM7OJ/t3bkA==
-X-Google-Smtp-Source: AGHT+IE2A9GCtwE3/owQJADRhxcYUckzzduFbZHTdlECCq0jAYNjYOc/PgF+/w+kQmwAjzx8y1wjNg==
-X-Received: by 2002:a05:620a:c4d:b0:7b1:4536:8dc1 with SMTP id
- af79cd13be357-7b36236406dmr634270585a.62.1731705490448; 
- Fri, 15 Nov 2024 13:18:10 -0800 (PST)
-Received: from wilburliny.c.googlers.com
- (204.246.236.35.bc.googleusercontent.com. [35.236.246.204])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7b35ca58f06sm200356385a.113.2024.11.15.13.18.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Nov 2024 13:18:10 -0800 (PST)
-From: Steven 'Steve' Kendall <skend@chromium.org>
-Date: Fri, 15 Nov 2024 21:17:58 +0000
-Subject: [PATCH] drm/radeon: Fix spurious unplug event on radeon HDMI
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8E93510E045;
+ Fri, 15 Nov 2024 21:22:42 +0000 (UTC)
+Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
+ by linux.microsoft.com (Postfix) with ESMTPSA id C8F55206BCE1;
+ Fri, 15 Nov 2024 13:22:41 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C8F55206BCE1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1731705762;
+ bh=NaKJY5KeJ2E1lFlJGT3YRi054w9/PadhToJsjl04lc4=;
+ h=From:Subject:Date:To:Cc:From;
+ b=qSckkTefY4nSDpMG6iW1ikvAvcu+Bro+zmtddjC9Ua2IIcocuRc7w5JVg1mXiL1Zv
+ gjq7MVSAX23TgeVecpPfH5/IBxuFBQ/uZHv6yLuKDmXda9ST9w35n4VJDzv6x+pplU
+ 738dCnI1RTxo/K26kLo/E4BvWWcYM0/mvOAHIgpM=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Subject: [PATCH 00/22] Converge on using secs_to_jiffies()
+Date: Fri, 15 Nov 2024 21:22:30 +0000
+Message-Id: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241115-hdmi-audio-radeon-connectors-v1-1-d6d66d3128dd@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAIW6N2cC/x3MwQqDMAwA0F+RnA1YmaD7lbFD16Saw5KRThHEf
- 7d4fJd3QGEXLvBsDnDepIhpRWgbSEvUmVGoGvquf4QQBlzoKxhXEkOPxKaYTJXT37xgHnOOaRq
- nT0dQi59zlv3uX+/zvACACToWbgAAAA==
-To: Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Takashi Iwai <tiwai@suse.de>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Steven 'Steve' Kendall <skend@chromium.org>
-X-Mailer: b4 0.13.0
-X-Mailman-Approved-At: Sat, 16 Nov 2024 09:51:27 +0000
+X-B4-Tracking: v=1; b=H4sIAJa7N2cC/y2NQQqDQAxFryJZN2AGKehVpIt2JtOmi5k2sSKId
+ zdol+/Bf38FYxU2GJoVlGcxqcWBLg3E1708GSU5Q2hDR0QBYy0zq3vjaDhVfEvOXsDU94lauj4
+ SEfj8o5xlOdLj7WTl788fpr/cth3E5bKGfwAAAA==
+X-Change-ID: 20241112-converge-secs-to-jiffies-d99d1016bd11
+To: Pablo Neira Ayuso <pablo@netfilter.org>, 
+ Jozsef Kadlecsik <kadlec@netfilter.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>, 
+ Nicolas Palix <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Russell King <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>, 
+ Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>, 
+ Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ James Smart <james.smart@broadcom.com>, 
+ Dick Kennedy <dick.kennedy@broadcom.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ =?utf-8?q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>, 
+ Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>, 
+ Jeff Johnson <jjohnson@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Jack Wang <jinpu.wang@cloud.ionos.com>, 
+ Marcel Holtmann <marcel@holtmann.org>, 
+ Johan Hedberg <johan.hedberg@gmail.com>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
+ Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+ Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, 
+ Joe Lawrence <joe.lawrence@redhat.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Lucas Stach <l.stach@pengutronix.de>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ Louis Peens <louis.peens@corigine.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr, 
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org, 
+ linux-block@vger.kernel.org, linux-wireless@vger.kernel.org, 
+ ath11k@lists.infradead.org, linux-mm@kvack.org, 
+ linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org, 
+ live-patching@vger.kernel.org, linux-sound@vger.kernel.org, 
+ etnaviv@lists.freedesktop.org, oss-drivers@corigine.com, 
+ linuxppc-dev@lists.ozlabs.org, 
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+ Easwar Hariharan <eahariha@linux.microsoft.com>, 
+ Michael Kelley <mhklinux@outlook.com>, Thomas Gleixner <tglx@linutronix.de>, 
+ Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,62 +120,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On several HP models (tested on HP 3125 and HP Probook 455 G2),
-spurious unplug events are emitted upon login on Chrome OS.
-This is likely due to the way Chrome OS restarts graphics
-upon login, so it's possible it's an issue on other
-distributions but not as common, though I haven't
-reproduced the issue elsewhere.
-Use logic from an earlier version of the merged change
-(see link below) which iterates over connectors and finds
-matching encoders, rather than the other way around.
-Also fixes an issue with screen mirroring on Chrome OS.
-I've deployed this patch on Fedora and did not observe
-any regression on these devices.
+This is a series that follows up on my previous series to introduce
+secs_to_jiffies() and convert a few initial users.[1] In the review for
+that series, Anna-Maria requested converting other users with
+Coccinelle. This is part 1 that converts users of msecs_to_jiffies()
+that use the multiply pattern of either of:
+- msecs_to_jiffies(N*1000), or
+- msecs_to_jiffies(N*MSEC_PER_SEC)
 
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1569#note_1603002
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3771
-Fixes: 20ea34710f7b ("drm/radeon: Add HD-audio component notifier support (v6)")
-Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+The entire conversion is made with Coccinelle in the script added in
+patch 2. Some changes suggested by Coccinelle have been deferred to
+later parts that will address other possible variant patterns.
+
+CC: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+
+[1] https://lore.kernel.org/all/20241030-open-coded-timeouts-v3-0-9ba123facf88@linux.microsoft.com/
+[2] https://lore.kernel.org/all/8734kngfni.fsf@somnus/
+
 ---
- drivers/gpu/drm/radeon/radeon_audio.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+Easwar Hariharan (22):
+      netfilter: conntrack: Cleanup timeout definitions
+      coccinelle: misc: Add secs_to_jiffies script
+      arm: pxa: Convert timeouts to use secs_to_jiffies()
+      s390: kernel: Convert timeouts to use secs_to_jiffies()
+      powerpc/papr_scm: Convert timeouts to secs_to_jiffies()
+      mm: kmemleak: Convert timeouts to secs_to_jiffies()
+      accel/habanalabs: Convert timeouts to secs_to_jiffies()
+      drm/xe: Convert timeout to secs_to_jiffies()
+      drm/etnaviv: Convert timeouts to secs_to_jiffies()
+      scsi: lpfc: Convert timeouts to secs_to_jiffies()
+      scsi: arcmsr: Convert timeouts to secs_to_jiffies()
+      scsi: pm8001: Convert timeouts to secs_to_jiffies()
+      xen/blkback: Convert timeouts to secs_to_jiffies()
+      gve: Convert timeouts to secs_to_jiffies()
+      wifi: ath11k: Convert timeouts to secs_to_jiffies()
+      Bluetooth: MGMT: Convert timeouts to secs_to_jiffies()
+      staging: vc04_services: Convert timeouts to secs_to_jiffies()
+      ceph: Convert timeouts to secs_to_jiffies()
+      livepatch: Convert timeouts to secs_to_jiffies()
+      ALSA: line6: Convert timeouts to secs_to_jiffies()
+      nfp: Convert timeouts to secs_to_jiffies()
+      jiffies: Define secs_to_jiffies()
 
-diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
-index 47aa06a9a942..5b69cc8011b4 100644
---- a/drivers/gpu/drm/radeon/radeon_audio.c
-+++ b/drivers/gpu/drm/radeon/radeon_audio.c
-@@ -760,16 +760,20 @@ static int radeon_audio_component_get_eld(struct device *kdev, int port,
- 	if (!rdev->audio.enabled || !rdev->mode_info.mode_config_initialized)
- 		return 0;
- 
--	list_for_each_entry(encoder, &rdev_to_drm(rdev)->mode_config.encoder_list, head) {
-+	list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
-+		const struct drm_connector_helper_funcs *connector_funcs =
-+				connector->helper_private;
-+		encoder = connector_funcs->best_encoder(connector);
-+
-+		if (!encoder)
-+			continue;
-+
- 		if (!radeon_encoder_is_digital(encoder))
- 			continue;
- 		radeon_encoder = to_radeon_encoder(encoder);
- 		dig = radeon_encoder->enc_priv;
- 		if (!dig->pin || dig->pin->id != port)
- 			continue;
--		connector = radeon_get_connector_for_encoder(encoder);
--		if (!connector)
--			continue;
- 		*enabled = true;
- 		ret = drm_eld_size(connector->eld);
- 		memcpy(buf, connector->eld, min(max_bytes, ret));
-
+ arch/arm/mach-pxa/sharpsl_pm.c                      |  6 +++---
+ arch/powerpc/platforms/pseries/papr_scm.c           |  2 +-
+ arch/s390/kernel/lgr.c                              |  3 ++-
+ arch/s390/kernel/time.c                             |  4 ++--
+ arch/s390/kernel/topology.c                         |  2 +-
+ drivers/accel/habanalabs/common/device.c            |  2 +-
+ drivers/accel/habanalabs/common/habanalabs_drv.c    |  3 +--
+ drivers/block/xen-blkback/blkback.c                 |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c            |  2 +-
+ drivers/gpu/drm/xe/xe_device.c                      |  2 +-
+ drivers/net/ethernet/google/gve/gve_tx_dqo.c        |  6 ++----
+ drivers/net/ethernet/netronome/nfp/nfp_net_common.c |  2 +-
+ drivers/net/wireless/ath/ath11k/debugfs.c           |  2 +-
+ drivers/scsi/arcmsr/arcmsr_hba.c                    |  2 +-
+ drivers/scsi/lpfc/lpfc_init.c                       | 18 +++++++++---------
+ drivers/scsi/lpfc/lpfc_nportdisc.c                  |  8 ++++----
+ drivers/scsi/lpfc/lpfc_nvme.c                       |  2 +-
+ drivers/scsi/lpfc/lpfc_sli.c                        |  4 ++--
+ drivers/scsi/lpfc/lpfc_vmid.c                       |  2 +-
+ drivers/scsi/pm8001/pm8001_init.c                   |  2 +-
+ .../vc04_services/bcm2835-audio/bcm2835-vchiq.c     |  2 +-
+ fs/ceph/quota.c                                     |  2 +-
+ include/linux/jiffies.h                             | 13 +++++++++++++
+ mm/kmemleak.c                                       |  4 ++--
+ net/bluetooth/hci_event.c                           |  2 --
+ net/bluetooth/mgmt.c                                |  2 +-
+ net/netfilter/nf_conntrack_proto_sctp.c             | 21 ++++++++-------------
+ samples/livepatch/livepatch-callbacks-busymod.c     |  2 +-
+ samples/livepatch/livepatch-shadow-fix1.c           |  2 +-
+ samples/livepatch/livepatch-shadow-mod.c            | 10 +++++-----
+ scripts/coccinelle/misc/secs_to_jiffies.cocci       | 21 +++++++++++++++++++++
+ sound/usb/line6/toneport.c                          |  2 +-
+ 32 files changed, 92 insertions(+), 67 deletions(-)
 ---
 base-commit: 2d5404caa8c7bb5c4e0435f94b28834ae5456623
-change-id: 20241115-hdmi-audio-radeon-connectors-f8ffac989b0d
+change-id: 20241112-converge-secs-to-jiffies-d99d1016bd11
 
 Best regards,
 -- 
-Steven 'Steve' Kendall <skend@chromium.org>
+Easwar Hariharan <eahariha@linux.microsoft.com>
 
