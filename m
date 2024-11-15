@@ -2,126 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18DA9CF213
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 17:50:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E1F9CF29F
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 18:17:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1189310E8A1;
-	Fri, 15 Nov 2024 16:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BEFB10E00C;
+	Fri, 15 Nov 2024 17:17:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="M1LWxBk7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LICarTX9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2057.outbound.protection.outlook.com [40.107.244.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E6E410E8A1;
- Fri, 15 Nov 2024 16:50:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fLEddrz6v9Bm+827s5Q2p+GKl9r1YPX/+uy9ZnC7KyNW3RZDMTXZzmCGBUP51cd64XuWaR/lCNCFcdBnxnhpfmH6jHGfgOFEZ/Q9D76BTLHjvZr92jA0RJDyrgCkWg5txDl4LXaPyAZcESJStvK4IZPwxe6n0MUiMS7d/JoCSbjXOOsrVBdsZ8ZnACzcamE8C1TrmtvttAJZMgIh7qtnPvF1KHS5F9kroKDvC6Uf3b46LvBS+YFoD2dvTLGwdWfNzeIdLF/n3knKNEw/FjD8bxCj6tv5rMtMp4DKLaESP4OfD/A4embaDDkBgmlONZfHIWpjcp0vYMJvXW70BDOLLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oVTkkTVycyKJX+RFAWgNXSOgAM5jHvAVT/WiGV/VygE=;
- b=zHInSYaOgRHWAMWx5ob67UeXyQ6kqTdoN7i4dw1rVOCTrFxuVW2KGKtVHP/aV5Y3pxvN7p/MO5tHgGN/COLw9PW4/Thj5y/duzE8pLSleKElcZO0NtwoIebTyuQCyQtlgxox8qSdwUIRO+Dgd7DXAolylnZ7ErdApk6wcwafhR5AnteWB0UNRX6TrjEKOMP+XB2Tgbxi0DbvqtmRMjm2+UHN38MZKTiE1yKsNeww58ShxdbYIHEbmpEYwc5xXBX8JAwpd20ZtBS7H4y9f2bumRZLAzxSIGGYac9JWuFOQtqqgTwCyzkfm05LLf0D87/AzzErK9desxjgkTxEfQ/Cag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oVTkkTVycyKJX+RFAWgNXSOgAM5jHvAVT/WiGV/VygE=;
- b=M1LWxBk75tdEqC3vT29rluWI7SWa8LOnf1jEEjLo+AZXg7zOcLQsm4i980Zu1y8Ub8E6F30xWywCsigJAWZTVMVuzvEW65cOxEjb0geY87YVFP7rwtN48mo1rLqETf9I6H6CTBhHNmezyINusqR7S6dwuvit8foH3oYiwZ7PZc8=
-Received: from BN1PR12CA0002.namprd12.prod.outlook.com (2603:10b6:408:e1::7)
- by BL1PR12MB5852.namprd12.prod.outlook.com (2603:10b6:208:397::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.18; Fri, 15 Nov
- 2024 16:50:29 +0000
-Received: from BN3PEPF0000B371.namprd21.prod.outlook.com
- (2603:10b6:408:e1:cafe::3a) by BN1PR12CA0002.outlook.office365.com
- (2603:10b6:408:e1::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.18 via Frontend
- Transport; Fri, 15 Nov 2024 16:50:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN3PEPF0000B371.mail.protection.outlook.com (10.167.243.168) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8182.1 via Frontend Transport; Fri, 15 Nov 2024 16:50:28 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 15 Nov
- 2024 10:50:27 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <simona@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu, amdkfd drm-next-6.13
-Date: Fri, 15 Nov 2024 11:50:11 -0500
-Message-ID: <20241115165012.573465-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.47.0
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D24D10E00C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 17:17:22 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-539e4b7409fso1945595e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 09:17:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1731691040; x=1732295840; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=D4Jij5ZiyYR7q7f1BKhrLmhVfOlfLfWFGY97ESBDfCI=;
+ b=LICarTX9lDOYLq+IErOzyw+pZ4RCX9W2oPAjnKuOjjVcAluNtCDDm+0sTThN2X9qaP
+ Jai5ZgEevwEhTI7847P/oHxrgYGkkts46weoSFbZ1gzGtWxS6oTJtSRDR5ksHdnFFMNV
+ QyCoi3vwxe/02DRJP64gWZDW1bhzrLlPEOL5SegqkpI5EyqV6+odVSOB4xNjYnTMs1wN
+ f5kfuoLkX2N0MGYdc7+hMJ23Njnv0K+Wj1TAGIUba5jfFWZ9E4RvESoR9NIeiWuSIG+o
+ FPu6ZZUU9JuAuTPVPffQ3M3MJZVWUbwQNUqN+gPtFwkr44JSnue82H6Hu+CfI7C0CKTR
+ rVpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731691040; x=1732295840;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D4Jij5ZiyYR7q7f1BKhrLmhVfOlfLfWFGY97ESBDfCI=;
+ b=JNLhw4aRZMe3zPWoRu2W702oNY04c6NeLgRoksaqoQF/+/btY5TUjrphiG+la61sEw
+ Zk+8o3y6d2If8q819DGaxhHgIBo+fzK9NI3dZpMEIqkRcq/GyQUU9LafuA0MeiYmTOuH
+ Qu33aBxc06fLtEwzwnt07Rxjk5H1iQr9O/KMr5wRbe9zym+VVfuX2U+d+ng+LAOkZ7Y8
+ BhlgQbjDbF4fgZtyomV5Qf14lX/ByRMTi6Jf3thGd8IdGq3kULLf9b3WmCJNBCC+6g+u
+ oW80xpHHB0uniFBdaNbciE+DPdvh1czdM1qIYr33sGUEjXNybr55knYuj+K2xKTbezeL
+ tCWQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWt0Q0FNvva/ISR1u75lGPmsaSg6LpzEZtnX4R7p0iCfWtRaujwX9nYrToeotut/6mzgiRk4vRPAKQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+y/gr0lN7JI2tB+5Fa3wPyI+IMvJmF6NJV4tX49wfXnaNjc9N
+ 4TC97VVjrddwLZh0/1c7LbQMQUzAN3o6TQu1Z+LRXh77kJHT/pjbDg3FfUgLD6U=
+X-Google-Smtp-Source: AGHT+IGfdczbNo1qbqPUDSTwkxc1cdI7zsZl3k/BO2AM1dhdUD0Y5jnw7Lrulzx60UW10cgrMTk37g==
+X-Received: by 2002:ac2:43ab:0:b0:53d:ace6:f64e with SMTP id
+ 2adb3069b0e04-53dace6f74bmr728670e87.16.1731691040151; 
+ Fri, 15 Nov 2024 09:17:20 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53da64f8c63sm636998e87.24.2024.11.15.09.17.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Nov 2024 09:17:18 -0800 (PST)
+Date: Fri, 15 Nov 2024 19:17:15 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ patches@lists.linux.dev, devicetree@vger.kernel.org, 
+ Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
+ Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>, 
+ Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Daniel Scally <djrscally@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Ivan Orlov <ivan.orlov0322@gmail.com>, 
+ linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
+ google,cros-ec-typec for DP altmode
+Message-ID: <5kisfv22tgqwzjpxqrbx56ywr7l4r7pny3pl2r7crv4rijqbwk@azricdasttg7>
+References: <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
+ <CAE-0n514QMaQC2yjKP8bZqyfbv6B3AQm=+NJ87vxo6NdYiL03A@mail.gmail.com>
+ <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
+ <CAE-0n53-KmOS3zXmJPvOOZ7xxkek9-S=oBExgaY0PDnt_HjdNw@mail.gmail.com>
+ <yk3xidaisbd56yndaucax7otijjauqmm7lqm6q4q633kdawlqo@qaq27lwxmvwd>
+ <CAE-0n501j+8bMnMKabFyZjn+MLUy3Z68Hiv1PsfW0APy5ggN8g@mail.gmail.com>
+ <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
+ <CAE-0n50z6MNa7WOsg-NU7k8BpFeJJyYfHX3ov6DsthLWauSNpA@mail.gmail.com>
+ <hqmx7jtkvrwvb27n56hw7rpefhp37lhr3a5fawz7gsl76uuj5s@h7m6wpdhibkk>
+ <CAE-0n50y1O2C47zOGJPmMjKXK_m6a=jhpEAP4nW+RymZbo2xyg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B371:EE_|BL1PR12MB5852:EE_
-X-MS-Office365-Filtering-Correlation-Id: e184ca69-a914-4e0b-ab51-08dd05959c24
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q2NhVmxLVFdqUDIwN2NxckpiejgrWktOQkpHSWk0cnR0dFduRmo2cDA4WHJY?=
- =?utf-8?B?VTV0K1BYaXZLTW11Sk8yNnZCM01nY3JNczhUdFRrcHFkVXBzYVVQWjJqTEFT?=
- =?utf-8?B?bzV3VFR3T3JPMjFUQnpJd21mendIMkxFY3pkVFBYalVJc0xhS1hYL2N3Vk54?=
- =?utf-8?B?ZjN5V0tnRzVxbVRYWUIwQzNiY2ZzVGxmZFo3UUIwMzhNbTRqV0hMVkI5bmxC?=
- =?utf-8?B?REE4MVZKNHEvL2Urd3N3MittVlltWjVlRzJJNGV5OS94bTFpQmtHM2xwcEpO?=
- =?utf-8?B?QVl4Mys1dmh6WW9zLzk0VkRLclJZZmFyWG1kbzRnYjdiNlFaUW9kM2NnQTEv?=
- =?utf-8?B?UzZ0U0RYcWxzTWtFOUdjUnQ2enVicVpaa2JwR3JUSmduNmFhL3V3SkxzdEJ5?=
- =?utf-8?B?UGVxV09IeXBSYVpKbks5aXBzcHVrRCtSWlZjazZ0S3pQaDNlNzN6VXJ0RmQ4?=
- =?utf-8?B?V2tDQkJQcEhuMmpJdjlyNDkzeXpaMjNwTG1BdmhtVm9Hcis5NHNyRm5PRDVF?=
- =?utf-8?B?SUFiYjduR0cvMThteU1yTXJhRHJidi9odStJWVRSQmtzbC92T2pmMjEySTBB?=
- =?utf-8?B?Qkpza1YvdHd2K2tzV3dod2dKQTJKVHl1TTRvRHZ4TVVBQy9vSkFudUMvbEF2?=
- =?utf-8?B?bVdoZ2liaDJFMmRsbkhta0VnZ1RkOXRYYmlXeWRmelBIc2VkK0psSkZqRVRs?=
- =?utf-8?B?MlNoUVgwZzdsZFBZMTJGRTNHcC8zQjlUMHNFU1ZoZUgxa2plMEFsVVF0cHdG?=
- =?utf-8?B?cy90bE85MkRCTTg4bVovRkU3dFFPM3hscVVyNTVMdVRRK0sreXU5VDZramhu?=
- =?utf-8?B?SHhOZ1psbEMvM0w4NG55NVNGZmNYQlZoaGhLa21ZYm53MjQxc0YzS202UjJa?=
- =?utf-8?B?ZExSQlYvUkRsWm9sZzd2dnBkS3ZtS004aWVhOTl1V2ZxVW1Zc0hzUWJqWFlM?=
- =?utf-8?B?S0pwZWVNTGlzV0thbUsxWHp3Qk4ydUJzWlhKWEJDbENSc3VHWDRKTjRUOENk?=
- =?utf-8?B?cXM5V09qNHVTVGlUU0Z4Zk1OOFBTMXhGQ3dKTk92b1QyVllPaytJM1dLbHpk?=
- =?utf-8?B?Yk1iL05jc1VqczAwTDNqZklzNTI2eGd1U09FdmdSNm5LcENqMm11WmVjcTZm?=
- =?utf-8?B?M09XcG1PeUdTWi9hRHFwU0VkRTcrb0htcDJzclBNUktKcE9ramxHcmtGK09W?=
- =?utf-8?B?aHlxWHFkRkxFMExLZUw0RW1rdmVDWW9zajdtNEFlNjluV0lIRE9yRDdOLzdC?=
- =?utf-8?B?cW9YdFRKMFl2cC9tL0QrWnBmcjRRdnBjSmFUS2pBVitHNTF0QjdWM2dHam9H?=
- =?utf-8?B?UDhaMnkwbGxqdG1iV2EwTExUQXRxR0JTK0g5angyYmlzdGVYbWk4anUzMWZp?=
- =?utf-8?B?YXdsUjF5aTREcVpueSs5ZU9TUjZaMWUvc0tpTWVycDRsa1ZxWHFNWVZMRzVG?=
- =?utf-8?B?WXhjVW0zeHNNNUNnZEZzNWx2aVhmakUxUDVtNGZUME1ZMGp4WG1Xc2pnZzRq?=
- =?utf-8?B?Wmt0RHpFMC81RWV4K3dBdVEwS05sRVFWaW5CKzloSWZLVThHWGtoWStYdnpU?=
- =?utf-8?B?QXFJRi81UUw4RjVnNmtjaWVBRlZsNHU1b0NIcEIwVkZwTTBrYW1FN3l1OHFX?=
- =?utf-8?B?YzFnYUpyZHhKMWlsSExhNWZtaWxRSDdOZGs5UllXVTRBZ2IvNUhHMkpiTjZ5?=
- =?utf-8?B?eFNFaGFzYXBnNlA1NE5TWXlnTCtmTmprV1ovNlYzZjdJdGNrYmhUellWTDQ3?=
- =?utf-8?B?Y3c0bWo2Njlmd2NRTFdXTzNLcmR2UUlCczZTRGZlWXRGRGd0Tm9LcWhCYUIz?=
- =?utf-8?Q?sHDYRIR+rj9+pmtHF8NwdTnx1tJK2BggR/6KQ=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2024 16:50:28.3612 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e184ca69-a914-4e0b-ab51-08dd05959c24
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B371.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5852
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE-0n50y1O2C47zOGJPmMjKXK_m6a=jhpEAP4nW+RymZbo2xyg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,257 +119,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+On Mon, Nov 11, 2024 at 06:16:27PM -0800, Stephen Boyd wrote:
+> Quoting Dmitry Baryshkov (2024-11-08 23:05:18)
+> > On Thu, Nov 07, 2024 at 04:28:24PM -0800, Stephen Boyd wrote:
+> > > Quoting Dmitry Baryshkov (2024-10-31 15:54:49)
+> > > > On Thu, Oct 31, 2024 at 02:45:29PM -0700, Stephen Boyd wrote:
+> > > > > Quoting Dmitry Baryshkov (2024-10-31 11:42:36)
+> > > > > > On Tue, Oct 29, 2024 at 01:15:51PM -0700, Stephen Boyd wrote:
+> > > Long story short, I don't see how we can avoid _any_ lane assignment
+> > > logic in drm_bridge. The logic shouldn't walk the entire bridge chain,
+> > > but it should at least act on the bridge that is a DP bridge. I think
+> > > you're saying pretty much the same thing here, but you want the lane
+> > > remapping to be done via the typec layer whereas I want it to be done in
+> > > the drm_bridge layer. To me it looks out of place to add a
+> > > typec_switch_desc inside each DP drm_bridge because we duplicate the
+> > > logic about USB type-c DP altmode lane assignment to each DP bridge. A
+> > > DP bridge should just think about DP and not know or care about USB
+> > > type-c.
+> > >
+> > > This is what's leading me to think we need some sort of lane assignment
+> > > capability at the DP connector. How that assignment flows from the DP
+> > > connector created in drm_bridge_connector.c to the hardware is where it
+> > > is less clear to me. Should that be implemented as a typec_switch_desc,
+> > > essentially out of band with drm_bridge, or as some drm_bridge_funcs
+> > > function similar to struct drm_bridge_funcs::hdmi_*()? If you look at
+> > > IT6505 in it6505_get_extcon_property() it actually wants to pull the
+> > > orientation of the type-c port with extcon_get_property(EXTCON_DISP_DP,
+> > > EXTCON_PROP_USB_TYPEC_POLARITY). Maybe pushing the orientation to the DP
+> > > bridge is backwards and we should be exposing this as some sort of
+> > > connector API that the drm_bridge can query whenever it wants.
+> >
+> > And it6505_get_extcon_property() / EXTCON_PROP_USB_TYPEC_POLARITY is a
+> > Type-C code, isn't it?
+> >
+> 
+> Sort of? It's combining DP and USB_TYPEC enums there so it's not very
+> clear if it's one or the other instead of just both.
 
-Fixes for 6.13.
+But EXTCON_PROP_USB_TYPEC_POLARITY is just a Type-C, nothing about DP in it.
 
-The following changes since commit 35a6e15aabc016a241379c09d6c367519709b95b:
+> 
+> > > and then a drm_bridge is created in cros-ec to terminate the bridge
+> > > chain. The displayport altmode driver will find the drm_bridge and the
+> > > drm_connector from the cros-ec node. When DP altmode is entered the
+> > > displayport altmode driver will set the drm_connector orientation based
+> > > on the presence of the dp-reverse-orientation property. We'll be able to
+> > > hook the hpd_notify() path in cros-ec by adding code to the drm_bridge
+> > > made there to do the HPD workaround. I'm not sure we need to use an
+> > > auxiliary device in this case, because it's a one-off solution for
+> > > cros-ec. And we don't even need to signal HPD from the cros-ec
+> > > drm_bridge because the oob_hotplug event will do it for us. If anything,
+> > > we need that displayport.c code to skip sending the hotplug event when
+> > > "no-hpd" is present in the cros-ec node. Note, this works for any number
+> > > of usb-c-connector nodes. And finally, DP bridges like IT6505 don't need
+> > > to implement a typec_switch_desc, they can simply support flipping the
+> > > orientation by querying the drm_connector for the bridge chain when they
+> > > see fit. ANX7625 can support that as well when it doesn't see the
+> > > 'orientation-switch' property.
+> > >
+> > > Did I miss anything? I suspect a drm_connector having an orientation is
+> > > the most controversial part of this proposal.
+> >
+> > Yes... I understand that having orientation-switch handling in the DRM
+> > driver sounds strange, but this is what we do in the QMP PHY driver. It
+> > makes the code easier, as it keeps lane remapping local to the place
+> > where it belongs - to the Type-C handlers.
+> >
+> 
+> The QMP PHY is a type-c PHY, similar to ANX7625. It sits on the output
+> of the DP and USB PHYs and handles the type-c orientation and lane
+> merging for different USB type-c alternate modes. It's not a great
+> example of a plain DP bridge because it combines USB and USB type-c
+> features.
+> 
+> Either way, doing this through Type-C handlers is weird because the port
+> orientation in the Type-C framework is for the connector and there is an
+> orientation control hardware that handles the orientation already. For
+> example, with the IT6505 part on Corsola, the orientation is controlled
+> by a redriver part that the EC controls. It takes the DP and USB signals
+> and routes them to the correct pins on the usb-c-connector depending on
+> the cable orientation. The input side pinout is basically 2 or 4 lanes
+> DP and 2 lanes USB and the output side pinout is the USB type-c pinout
+> SSTXRX1 and SSTXRX2.
+> 
+> This redriver is equivalent to the QMP PHY type-c part. Maybe to bring
+> this example closer to QMP we can imagine if the QMP PHY was split into
+> two pairs of lanes, and the USB functionality wasn't used. The
+> orientation control for a usb-c-connector would be on a redriver that
+> takes 2 DP lanes from the QMP PHY as input. Saying that this QMP PHY is
+> the "orientation-switch" with that property in DT is confusing, because
+> it isn't controlling the orientation of the type-c port. The orientation
+> is handled by the redriver. That redriver may even be controlled by the
+> kernel as an orientation-switch.
 
-  Merge tag 'drm-etnaviv-next-2024-11-07' of https://git.pengutronix.de/git/lst/linux into drm-next (2024-11-08 12:32:06 +1000)
+This is clear.
 
-are available in the Git repository at:
+> 
+> I understand that the QMP PHY driver has implemented the lane control
+> for orientation with a typec_switch_desc, but the QMP PHY is a plain DP
+> PHY in this scenario. How would the type-c handlers work here? We
+> couldn't call them through the type-c framework as far as I can tell.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.13-2024-11-15
+If QMP PHY is a plain DP PHY, it usually has no support for lane remapping
+(e.g. phy-qcom-edp doesn't).
 
-for you to fetch changes up to 447a54a0f79c9a409ceaa17804bdd2e0206397b9:
+Let me reiterate, please: lane management is outside of the DisplayPort
+spec, at least as far as I can understand it. All lane remapping
+(especially a dynamic one) is a pure vendor extension to the standard.
+I'm trying to find a way to support Corsola and Trogdor without adding
+"this is done specially for Google" kind of API. Usually that doesn't
+fly in the long term.
 
-  drm/amd: Fix initialization mistake for NBIO 7.7.0 (2024-11-12 17:10:40 -0500)
+I understand that using Type-C API for the DRM bridge sounds strange.
+But even the mentioned bridge uses Type-C API. It asks for the Type-C
+polarity, not the DP polarity.
 
-----------------------------------------------------------------
-amd-drm-next-6.13-2024-11-15:
+> This is why I'm thinking the end of the bridge chain needs to have some
+> sort of orientation. If we had that then the place where the chain ends
+> and becomes muxed onto the usb-c-connector, i.e. the redriver, would be
+> where the DP bridge is told that it needs to flip the lanes. In the
+> cases I have, the redriver is the EC, and so we've combined them all
+> together in one node, cros-ec-typec. In the QMP PHY case the redriver is
+> the QMP PHY type-c part that sits on the DP and USB PHYs and sends their
+> signals out of the SoC.
+> 
+> Maybe the DT property in the ANX7625 or IT6505 node should be something
+> like "dp-orientation-switch" and then we have the type-c framework find
+> this property? Then we would need to add support for that property in
+> IT6505 using a typec_switch_desc, which is weird. I guess it all feels
+> like a hack because it's not always the case that the DP PHY is glued to
+> a USB type-c PHY.
 
-amdgpu:
-- Parition fixes
-- GFX 12 fixes
-- SR-IOV fixes
-- MES fixes
-- RAS fixes
-- GC queue handling fixes
-- VCN fixes
-- Add sysfs reset masks
-- Better error messages for P2P failurs
-- SMU fixes
-- Documentation updates
-- GFX11 enforce isolation updates
-- Display HPD fixes
-- PSR fixes
-- Panel replay fixes
-- DP MST fixes
-- USB4 fixes
-- Misc display fixes and cleanups
-- VRAM handling fix for APUs
-- NBIO fix
+I think just "orientation-switch" is enough. In the end it's not a
+"typec-orientation-switch".
 
-amdkfd:
-- INIT_WORK fix
-- Refcount fix
-- KFD MES scheduling fixes
-
-drm/fourcc:
-- Add missing tiling mode
-
-----------------------------------------------------------------
-Advait Dhamorikar (1):
-      drm/amdgpu: Cleanup shift coding style
-
-Alex Deucher (1):
-      Revert "drm/amd/display: parse umc_info or vram_info based on ASIC"
-
-Aric Cyr (1):
-      drm/amd/display: 3.2.309
-
-Asad Kamal (1):
-      drm/amdgpu: Add supported NPS modes node
-
-Aurabindo Pillai (1):
-      drm/amd/display: Read DP tunneling support only for DPIA endpoints
-
-Austin Zheng (1):
-      drm/amd/display: Update SPL Taps Required For Integer Scaling
-
-Christian König (2):
-      drm/amdgpu: fix check in gmc_v9_0_get_vm_pte()
-      drm/amdgpu: enable GTT fallback handling for dGPUs only
-
-David Rosca (1):
-      drm/amdgpu: Fix video caps for H264 and HEVC encode maximum size
-
-Dillon Varone (1):
-      drm/amd/display: Require minimum VBlank size for stutter optimization
-
-Emily Nie (1):
-      drm/amd/display: disabling p-state checks for DCN31 and DCN314
-
-Fudongwang (1):
-      drm/amd/display: always blank stream before disable crtc
-
-Hamish Claxton (1):
-      drm/amd/display: Fix failure to read vram info due to static BP_RESULT
-
-Jack Xiao (1):
-      drm/amdgpu/mes12: correct kiq unmap latency
-
-Jesse.zhang@amd.com (4):
-      drm/amdgpu: Add sysfs interface for gc reset mask
-      drm/amdgpu: Add sysfs interface for sdma reset mask
-      drm/amdgpu: Add sysfs interface for vpe reset mask
-      drm/amdgpu: Add sysfs interface for jpeg reset mask
-
-JinZe Xu (1):
-      drm/amd/display: Use region6 size in fw_meta_info
-
-Jonathan Kim (1):
-      drm/amdkfd: remove gfx 12 trap handler page size cap
-
-Leon Huang (1):
-      drm/amd/display: Refactor HPD IRQ error checking flow
-
-Lijo Lazar (2):
-      drm/amdgpu: Fix map/unmap queue logic
-      drm/amdgpu: Avoid kcq disable during reset
-
-Meenakshikumar Somasundaram (1):
-      drm/amd/display: Adding flag for forced MST blocked discovery
-
-Qiang Yu (1):
-      drm/fourcc: add AMD_FMT_MOD_TILE_GFX9_4K_D_X
-
-Ramesh Errabolu (1):
-      drm/amdgpu: Inform if PCIe based P2P links are not available
-
-Revalla Hari Krishna (1):
-      drm/amd/display: Change parameters to fix certain compiler errors
-
-Rodrigo Siqueira (2):
-      drm/amd/display: Remove unused code
-      drm/amd/display: Adjust VSDB parser for replay feature
-
-Ryan Seto (1):
-      drm/amd/display: Handle dml allocation failure to avoid crash
-
-Sathishkumar S (1):
-      drm/amdgpu: Normalize reg offsets on VCN v4.0.3
-
-Shaoyun Liu (3):
-      drm/amd/amdkfd: add/remove kfd queues on start/stop KFD scheduling
-      drm/amd : Update MES API header file for v11 & v12
-      drm/amd/amdgpu: limit single process inside MES
-
-Srinivasan Shanmugam (2):
-      drm/amdgpu: Add documentation for enforce isolation feature
-      drm/amdgpu/gfx11: Enable cleaner shader for GFX11.0.0/11.0.2 GPUs
-
-Stanley.Yang (1):
-      drm/amdgpu: Support vcn and jpeg error info parsing
-
-Tim Huang (1):
-      drm/amd/pm: print pp_dpm_mclk in ascending order on SMU v14.0.0
-
-Tom Chung (2):
-      drm/amd/display: Change some variable name of psr
-      drm/amd/display: Fix Panel Replay not update screen correctly
-
-Victor Skvortsov (4):
-      drm/amdgpu: Update SRIOV Exchange Headers for RAS Telemetry Support
-      drm/amdgpu: Add msg handlers for SRIOV RAS Telemetry
-      drm/amdgpu: VF Query RAS Caps from Host if supported
-      drm/amdgpu: Implement virt req_ras_err_count
-
-Vijendar Mukunda (1):
-      drm/amd: Fix initialization mistake for NBIO 7.7.0
-
-Xiaogang Chen (1):
-      drm/amdkfd: change kfd process kref count at creation
-
-Yang Wang (1):
-      drm/amdgpu: fix ACA bank count boundary check error
-
-Yuan Can (1):
-      drm/amdkfd: Fix wrong usage of INIT_WORK()
-
-chongli2 (1):
-      drm/amdgpu: fix return random value when multiple threads read registers via mes.
-
-shaoyunl (1):
-      drm/amd/amdgpu: Increase MES log buffer to dump mes scratch data
-
- Documentation/gpu/amdgpu/index.rst                 |   1 +
- Documentation/gpu/amdgpu/process-isolation.rst     |  59 +++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   8 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c            |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |  13 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  53 ++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            | 130 ++++++++++++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h            |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c           |  45 ++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.h           |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c            |  55 ++++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h            |  23 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  77 ++++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h            |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c           |  41 +++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.h           |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_umc.c            |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           | 189 +++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h           |  23 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c            |  43 +++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.h            |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c            |  48 +++++-
- drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h        | 131 +++++++++++---
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |   5 +
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  20 +++
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c             |   6 +
- drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c              |   7 +
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |   6 +
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c            |  13 ++
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  13 +-
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c             |   7 +
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c           |   8 +
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_5.c           |   8 +
- drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_0.c           |   7 +
- drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |  27 ++-
- drivers/gpu/drm/amd/amdgpu/mes_v12_0.c             |  13 +-
- drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c              |  16 +-
- drivers/gpu/drm/amd/amdgpu/mxgpu_nv.h              |   3 +
- drivers/gpu/drm/amd/amdgpu/nbio_v7_7.c             |   6 +
- drivers/gpu/drm/amd/amdgpu/nv.c                    |  12 +-
- drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |   9 +
- drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c             |  18 ++
- drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c             |  23 +++
- drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c             |  18 ++
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |   4 +-
- drivers/gpu/drm/amd/amdgpu/soc21.c                 |  12 +-
- drivers/gpu/drm/amd/amdgpu/soc24.c                 |   2 +-
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c            |  15 +-
- drivers/gpu/drm/amd/amdgpu/vi.c                    |   8 +-
- drivers/gpu/drm/amd/amdkfd/kfd_device.c            |   3 +-
- .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  40 ++++-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c           |  19 +--
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 140 ++++++++-------
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   2 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c |   5 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_irq_params.h   |   2 +-
- drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c |   6 +-
- drivers/gpu/drm/amd/display/dc/core/dc_state.c     |   3 +
- drivers/gpu/drm/amd/display/dc/dc.h                |   2 +-
- drivers/gpu/drm/amd/display/dc/dc_types.h          |   1 +
- .../display/dc/dcn10/dcn10_hw_sequencer_debug.c    |   2 +-
- drivers/gpu/drm/amd/display/dc/dm_services.h       |   2 +-
- .../dml2/dml21/src/dml2_pmo/dml2_pmo_dcn4_fams2.c  |  11 +-
- .../drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c    |  13 +-
- .../display/dc/link/protocols/link_dp_capability.c |   8 +-
- .../dc/link/protocols/link_dp_irq_handler.c        |  16 +-
- .../amd/display/dc/resource/dcn10/dcn10_resource.c |  13 --
- .../amd/display/dc/resource/dcn31/dcn31_resource.c |   2 +-
- .../display/dc/resource/dcn314/dcn314_resource.c   |   2 +-
- drivers/gpu/drm/amd/display/dc/spl/dc_spl.c        |  15 +-
- drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |  35 +++-
- drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    |   4 +-
- drivers/gpu/drm/amd/include/mes_v11_api_def.h      |  43 ++++-
- drivers/gpu/drm/amd/include/mes_v12_api_def.h      |  31 +++-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |  24 +++
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_0_ppt.c   |   5 +-
- include/uapi/drm/drm_fourcc.h                      |   1 +
- 78 files changed, 1452 insertions(+), 243 deletions(-)
- create mode 100644 Documentation/gpu/amdgpu/process-isolation.rst
+-- 
+With best wishes
+Dmitry
