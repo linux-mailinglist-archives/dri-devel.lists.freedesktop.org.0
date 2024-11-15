@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19689CF6FE
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:22:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98EA9CF700
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:22:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24A8510E8E7;
-	Fri, 15 Nov 2024 21:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B7F210E8CD;
+	Fri, 15 Nov 2024 21:22:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="AQnLLRjE";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VBP5tE+9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6042910E8DA;
+ by gabe.freedesktop.org (Postfix) with ESMTP id F0FE910E8D8;
  Fri, 15 Nov 2024 21:22:47 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 8FF32206BCEB;
+ by linux.microsoft.com (Postfix) with ESMTPSA id C16E420BEBD0;
  Fri, 15 Nov 2024 13:22:43 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8FF32206BCEB
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C16E420BEBD0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1731705763;
- bh=GmA2v8FrQkDc3PawrRu1NLBJUu3qRf/naCkvRhlPz0Q=;
+ bh=z5d0KiQ+mxHfS/dtMsbc4ttBd/lyUqPHYPOKqCM1B/M=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=AQnLLRjERYrPiRXzVPhEVdOI2zLkiaTTtu0h8ex88Rh4yJJCvweeNDaisxPAM4okm
- aUzZzyLz5s6fIGp2xPOyrtkNts2+H40xXXXdKkNXjhayIPxOfHe+ruxbTRrUqhXle2
- 46t8LcG0ioPljSxshglWdZxLMsfg/70LBRvzOJRk=
+ b=VBP5tE+91MUeXr01PKBwol/kwfSOvrGFcon5R6GLvth1r2SEL/vDLGmoM3VztkA/D
+ HDCC8H4UjO/VDL4my3JCQHRpPk1aNqcxHWoN43qx7hLXlHFWnlfQU1gMcNN2K2LO5S
+ 3qBHgiY0qCMM5wc+rwKNzT/8mVMznrFpdjl06mtQ=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Fri, 15 Nov 2024 21:22:38 +0000
-Subject: [PATCH 08/22] drm/xe: Convert timeout to secs_to_jiffies()
+Date: Fri, 15 Nov 2024 21:22:39 +0000
+Subject: [PATCH 09/22] drm/etnaviv: Convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241115-converge-secs-to-jiffies-v1-8-19aadc34941b@linux.microsoft.com>
+Message-Id: <20241115-converge-secs-to-jiffies-v1-9-19aadc34941b@linux.microsoft.com>
 References: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
 In-Reply-To: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -130,22 +130,22 @@ Changes made with the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/gpu/drm/xe/xe_device.c | 2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index a1987b554a8d2aa42b29301f2853edddfda7fda5..bb3338ef4191e76128611eeb9531c9d2089db85a 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -502,7 +502,7 @@ static int wait_for_lmem_ready(struct xe_device *xe)
- 	drm_dbg(&xe->drm, "Waiting for lmem initialization\n");
- 
- 	start = jiffies;
--	timeout = start + msecs_to_jiffies(60 * 1000); /* 60 sec! */
-+	timeout = start + secs_to_jiffies(60); /* 60 sec! */
- 
- 	do {
- 		if (signal_pending(current))
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
+index 721d633aece9d4c81f0019e4c55884f26ee61c60..0f5a2c885d0ab7029c7248e15d6ea3c31823b782 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
+@@ -100,7 +100,7 @@ int etnaviv_cmdbuf_init(struct etnaviv_cmdbuf_suballoc *suballoc,
+ 		mutex_unlock(&suballoc->lock);
+ 		ret = wait_event_interruptible_timeout(suballoc->free_event,
+ 						       suballoc->free_space,
+-						       msecs_to_jiffies(10 * 1000));
++						       secs_to_jiffies(10));
+ 		if (!ret) {
+ 			dev_err(suballoc->dev,
+ 				"Timeout waiting for cmdbuf space\n");
 
 -- 
 2.34.1
