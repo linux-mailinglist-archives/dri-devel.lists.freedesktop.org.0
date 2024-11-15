@@ -2,55 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E2F9CF1CC
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 17:41:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE5E9CF1F2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 17:45:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D89810E2D1;
-	Fri, 15 Nov 2024 16:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D87F310E8A4;
+	Fri, 15 Nov 2024 16:45:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VlWZjcNz";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="UHJnlDmt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4BF810E187;
- Fri, 15 Nov 2024 16:41:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731688888; x=1763224888;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=1MkKQOlRR6eQEXqw3+vcN6WiR3YDSGfckt5F1GJLyHY=;
- b=VlWZjcNzfPj+HRW0u6b+9xlLXF/V/S1wpsPkmtqmXv77oaPQwQjlxlNO
- oheast5a5vzMNpO/zh2BXjte9lL8zAJQgp52QziE8bYht/bzEZCce7O97
- WGZNkrKCgtSiqONWV+/TRFDpsq5n75QS+3f6OggEFXuXF7lgmnFhjcHBc
- PbinmNa3gzdMjdWbq2F14xl8aDQv94BptOrE8wKw5DS7mELvRa2bOWPBr
- BgssFe2rigUujzka5W7Hris73f0A3K6qSsglW4Eap+vtv99dH3941jhRb
- gWfLdrEFCLbQd1Qa64Ul8RkGj48ZCL9yFn46plPXot5urWwXngm2uk9ii g==;
-X-CSE-ConnectionGUID: /SnVuNkJTSuEAq+kubvdzA==
-X-CSE-MsgGUID: g6WoW4dgTcSzMh3tkJo7Fw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11257"; a="31087079"
-X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="31087079"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2024 08:41:27 -0800
-X-CSE-ConnectionGUID: KkcCBGWTRPmWbEed8zLxqg==
-X-CSE-MsgGUID: 1dk9/6uhSOWmwUoo+EWm0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="119554624"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2024 08:41:27 -0800
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/i915/dp_mst: Fix error handling while adding a
- connector
-Date: Fri, 15 Nov 2024 18:41:59 +0200
-Message-ID: <20241115164159.1081675-4-imre.deak@intel.com>
-X-Mailer: git-send-email 2.44.2
-In-Reply-To: <20241115164159.1081675-1-imre.deak@intel.com>
-References: <20241115164159.1081675-1-imre.deak@intel.com>
+Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr
+ [80.12.242.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A602E10E8A7
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 16:45:02 +0000 (UTC)
+Received: from localhost.localdomain ([90.11.132.44])
+ by smtp.orange.fr with ESMTPA
+ id BzRKt9S50PqyaBzRKtzdae; Fri, 15 Nov 2024 17:45:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1731689100;
+ bh=g8Wzp5+7fJS/vNhoxSgPrU0/wiW6HwJG9NHcRVskjnA=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version;
+ b=UHJnlDmtghCt+DMn9DMXGCZ7Gil6JVGU9YC9L3LHs7vp6stA5ABULWORq+tDjWDlw
+ Tc4k1iYJCnvJHpZD8tilknCJL9DQT3JmzL5vnh4AbRRHTWMbm/RacwVf8l4k8Uy3X8
+ Iu0GEF8mqrY9diLsqMWhGMQBajm0fSJ3Ee5/XJAVqaYsL6T0IAgK7yFdlSFexSt7zr
+ OpKOcULXJ8/koIo0CnIHn58bDrihkcvdLJiOpoa69IlIHqTRCPnKH/fNDt1NeMq1ZF
+ ee/dedxkmslMOTKhNNYCvZNtd+9KOeI/Ium9eVKuwJ4Y4LQWbZJbtg1IiWoYcmrwol
+ HP+nNmdwBza1g==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 15 Nov 2024 17:45:00 +0100
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i2c: tda9950: Constify struct i2c_device_id
+Date: Fri, 15 Nov 2024 17:44:27 +0100
+Message-ID: <d0f63418af53a887cec0ad0e7d9741ffeb2a7a8e.1731689044.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,61 +62,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After an error during adding an MST connector the MST port and the
-intel_connector object could be leaked, fix this up.
+'struct i2c_device_id' is not modified in this driver.
 
-Signed-off-by: Imre Deak <imre.deak@intel.com>
+Constifying this structure moves some data to a read-only section, so
+increase overall security.
+
+On a x86_64, with allmodconfig:
+Before:
+======
+   text	   data	    bss	    dec	    hex	filename
+  12136	    822	      0	  12958	   329e	drivers/gpu/drm/i2c/tda9950.o
+
+After:
+=====
+   text	   data	    bss	    dec	    hex	filename
+  12200	    758	      0	  12958	   329e	drivers/gpu/drm/i2c/tda9950.o
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+Compile tested-only.
+---
+ drivers/gpu/drm/i2c/tda9950.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index d91a1d1fb26f4..70daa9131c92d 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -1731,11 +1731,8 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
- 
- 	ret = drm_connector_init_core(display->drm, connector, &intel_dp_mst_connector_funcs,
- 				      DRM_MODE_CONNECTOR_DisplayPort);
--	if (ret) {
--		drm_dp_mst_put_port_malloc(port);
--		intel_connector_free(intel_connector);
--		return NULL;
--	}
-+	if (ret)
-+		goto err_put_port;
- 
- 	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
- 	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
-@@ -1750,12 +1747,12 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
- 
- 		ret = drm_connector_attach_encoder(&intel_connector->base, enc);
- 		if (ret)
--			goto err;
-+			goto err_cleanup_connector;
- 	}
- 
- 	ret = intel_dp_mst_add_properties(intel_dp, connector, pathprop);
- 	if (ret)
--		goto err;
-+		goto err_cleanup_connector;
- 
- 	ret = intel_dp_hdcp_init(dig_port, intel_connector);
- 	if (ret)
-@@ -1766,8 +1763,12 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
- 
- 	return connector;
- 
--err:
-+err_cleanup_connector:
- 	drm_connector_cleanup(connector);
-+err_put_port:
-+	drm_dp_mst_put_port_malloc(port);
-+	intel_connector_free(intel_connector);
-+
- 	return NULL;
+diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
+index 82d618c40dce..5065d6212fe4 100644
+--- a/drivers/gpu/drm/i2c/tda9950.c
++++ b/drivers/gpu/drm/i2c/tda9950.c
+@@ -485,7 +485,7 @@ static void tda9950_remove(struct i2c_client *client)
+ 	cec_unregister_adapter(priv->adap);
  }
  
+-static struct i2c_device_id tda9950_ids[] = {
++static  struct i2c_device_id tda9950_ids[] = {
+ 	{ "tda9950", 0 },
+ 	{ },
+ };
 -- 
-2.44.2
+2.47.0
 
