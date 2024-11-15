@@ -2,118 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3433C9CEFD6
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 16:28:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 226559CF0C6
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 16:55:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 642C610E893;
-	Fri, 15 Nov 2024 15:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63C4210E892;
+	Fri, 15 Nov 2024 15:55:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="e48awq6g";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VqAl7j/0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ieClMeYq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VqAl7j/0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ieClMeYq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A760810E890
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 15:28:32 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-3823194a879so111016f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 07:28:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731684511; x=1732289311; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=w9xxBkuOGfjMnpE8th+U2edWWxzoieKyXlSmx0+ZyMI=;
- b=e48awq6gN1U4GIaB4EnGu2Oa9Vw/8/F0Lps67tm2Ef9R61otKmrIjFz7wxEycVZXi0
- 1nKRKFjvzp6YTbKrYr03qKDeVNhP1SMH6Sl2esq9000mwJ8p2z1Mv6qXJoyGPA0ofHse
- 0WfLlwxC5sw2YjlXDg/drlahQI5ugEnfUW+SZKwtSbCZLMZbCF0r1MkdsConjhMKWPJp
- 2mk2F1gEX8cQl3AtODEBtoFeUJBB38eFe7gwlfKCjFxlzE8j7LDr0XhKqCOBJ0CHBn9m
- ix8AhXq3PCT98a95g2J/Rv5/nBUf5a4bhBCN6A/Kb7FbfKDv4Gm/IPRCM8E5v/dIKj4g
- SBkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731684511; x=1732289311;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=w9xxBkuOGfjMnpE8th+U2edWWxzoieKyXlSmx0+ZyMI=;
- b=c/wLg8nvqnBBjlh8d4b0LuZ1/efPpWKxSgvjPGAnyZbLBpV/f4+0kGWBzmyEBPBgVX
- sUXX7XQVpC6RG8dvGyal/DLFvXQl0HGBDOgIjv1uQdrGHcJC3wxJsm+ZgeIZyXl9YHup
- fOt2Kwrylda0Z6O0CwX2op7zohIJwuVQM4V7xBfABwY0VEyXBEwObn340H5pL+C9i2cS
- U1SOeRIpTITRcS5uFUbTNFUEivlbrXW5G2UYTIi5pTMJp/aNw5A7zh8Ivj69joNivVvc
- aXbSYSIg25yB8LH/DAuINebYuv6+qYmRbkPXO6ye+oNbD1iKw2HaAS+75usnjtXhzUr0
- r+UQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVavIELnou1t/4Kvde4oa8/kkYRpJjxfciJa6fd/GZcGIOZ9jlUJuS3ZmG0GrbF2BTYLGIYjpWkdeg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxSFU9DYrSIwDuOkisev0lBjEdkzIg+GZsRjL5MiTjQTSHOP27N
- 9poCpk/40/fcc/0uZODyk6vY966wE/th9Uw2LaMsQ8i65mdwbqJQ9lnxYDOvBa0=
-X-Google-Smtp-Source: AGHT+IFE1m0PhvEE6X08D1MwP6KX2yhrXvWSidacGzSURnRLln0zDAOvKce6/l9aWa2qCaOvjt8d2w==
-X-Received: by 2002:a5d:6dab:0:b0:37e:d965:4e04 with SMTP id
- ffacd0b85a97d-38225a8ab23mr3000039f8f.36.1731684510986; 
- Fri, 15 Nov 2024 07:28:30 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:8512:42be:302f:f436?
- ([2a01:e0a:982:cbb0:8512:42be:302f:f436])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3822f6afc20sm576134f8f.81.2024.11.15.07.28.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Nov 2024 07:28:30 -0800 (PST)
-Message-ID: <73fd6d04-e965-4524-8d63-5e2c67677f52@linaro.org>
-Date: Fri, 15 Nov 2024 16:28:29 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17D7110E0ED
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 15:55:00 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B25C4211C9;
+ Fri, 15 Nov 2024 15:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1731686098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/HMO9Z4QkivRzsPYS4LZ4h6IFG25tQKmO6gXs3b7tgg=;
+ b=VqAl7j/0cPy75bpmKRgMkYnEifsvbDhh93j3i+HMDrT/JI9qqo4jUyH6MacG5TtXiU0yjy
+ zv4SBeDPLQ69F2wKSi1RhjzGIAgdROdCGAe089ui3hJNG6ZSx6l9j/LJBKwr6f3f8Ngz7l
+ M7pcuTFHcNy+Ri88RpBS6bX9cZtWjDg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1731686098;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/HMO9Z4QkivRzsPYS4LZ4h6IFG25tQKmO6gXs3b7tgg=;
+ b=ieClMeYq+Atvsjo7jY5iEm8721Eu5n0IF5gljFnQXUCDUcu984LBcSAI6+TOXFfeLW6g7U
+ al4tJnPgHx1cdqBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1731686098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/HMO9Z4QkivRzsPYS4LZ4h6IFG25tQKmO6gXs3b7tgg=;
+ b=VqAl7j/0cPy75bpmKRgMkYnEifsvbDhh93j3i+HMDrT/JI9qqo4jUyH6MacG5TtXiU0yjy
+ zv4SBeDPLQ69F2wKSi1RhjzGIAgdROdCGAe089ui3hJNG6ZSx6l9j/LJBKwr6f3f8Ngz7l
+ M7pcuTFHcNy+Ri88RpBS6bX9cZtWjDg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1731686098;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/HMO9Z4QkivRzsPYS4LZ4h6IFG25tQKmO6gXs3b7tgg=;
+ b=ieClMeYq+Atvsjo7jY5iEm8721Eu5n0IF5gljFnQXUCDUcu984LBcSAI6+TOXFfeLW6g7U
+ al4tJnPgHx1cdqBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F805134B8;
+ Fri, 15 Nov 2024 15:54:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id vDrkENJuN2feRAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 15 Nov 2024 15:54:58 +0000
+Message-ID: <a600708e-5240-4c31-ad29-4a6e791a65e7@suse.de>
+Date: Fri, 15 Nov 2024 16:54:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH RFC 2/8] drm/msm: adreno: add GMU_BW_VOTE quirk
-To: Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Connor Abbott <cwabbott0@gmail.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <20241113-topic-sm8x50-gpu-bw-vote-v1-0-3b8d39737a9b@linaro.org>
- <20241113-topic-sm8x50-gpu-bw-vote-v1-2-3b8d39737a9b@linaro.org>
- <sgz4h6rlmekiwypaisjbnej326wv4vaqt3mgspp4fs4tg3mdfx@cwmdqcu6gwbf>
- <63a2b391-8b71-41cb-bed2-3bc7fd2154ab@linaro.org>
- <CAA8EJpoFm8EjfBq70RTPtwR7Y7Rm24kHO20NukGiLGRYD0p9Tg@mail.gmail.com>
- <CAF6AEGty1fcA13rDOOJQbhT4o=CTtBYtGFspowZbxD1c-VE9Bw@mail.gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <CAF6AEGty1fcA13rDOOJQbhT4o=CTtBYtGFspowZbxD1c-VE9Bw@mail.gmail.com>
+Subject: Re: [PATCH] drm: rework FB_CORE dependency
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Jani Nikula <jani.nikula@intel.com>, Harry Wentland
+ <harry.wentland@amd.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241115152722.3537630-1-arnd@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20241115152722.3537630-1-arnd@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[14];
+ ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[arndb.de,linux.intel.com,kernel.org,gmail.com,ffwll.ch,redhat.com,glider.be,intel.com,amd.com,lists.freedesktop.org,vger.kernel.org];
+ RCVD_COUNT_TWO(0.00)[2]; TAGGED_RCPT(0.00)[renesas];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email, imap1.dmz-prg2.suse.org:helo,
+ suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,51 +146,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/11/2024 16:10, Rob Clark wrote:
-> On Fri, Nov 15, 2024 at 6:18 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> On Fri, 15 Nov 2024 at 11:21, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->>>
->>> On 15/11/2024 08:07, Dmitry Baryshkov wrote:
->>>> On Wed, Nov 13, 2024 at 04:48:28PM +0100, Neil Armstrong wrote:
->>>>> The Adreno GMU Management Unit (GNU) can also scale the DDR Bandwidth
->>>>> along the Frequency and Power Domain level, but by default we leave the
->>>>> OPP core vote for the interconnect ddr path.
->>>>>
->>>>> While scaling via the interconnect path was sufficient, newer GPUs
->>>>> like the A750 requires specific vote paremeters and bandwidth to
->>>>> achieve full functionality.
->>>>>
->>>>> Add a new Quirk enabling DDR Bandwidth vote via GMU.
->>>>
->>>> Please describe, why this is defined as a quirk rather than a proper
->>>> platform-level property. From my experience with 6xx and 7xx, all the
->>>> platforms need to send some kind of BW data to the GMU.
->>>
->>> Well APRIV, CACHED_COHERENT & PREEMPTION are HW features, why this can't be part of this ?
->>>
->>> Perhaps the "quirks" bitfield should be features instead ?
->>
->> Sounds like that.
-> 
-> But LMLOADKILL_DISABLE and TWO_PASS_USE_WFI are quirks.. so it is kind
-> of a mix of quirks and features.  So meh
+Hi
 
-Well I can do a split and move the features into a clean .features bitfield, would it be ok ?
 
-Neil
+Am 15.11.24 um 16:27 schrieb Arnd Bergmann:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The 'select FB_CORE' statement moved from CONFIG_DRM to DRM_CLIENT_LIB,
+> but there are now configurations that have code calling into fb_core
+> as built-in even though the client_lib itself is a loadable module:
+>
+> x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_driver_fbdev_probe':
+> drm_fbdev_shmem.c:(.text+0x1fc): undefined reference to `fb_deferred_io_init'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_fb_destroy':
+> drm_fbdev_shmem.c:(.text+0x2e1): undefined reference to `fb_deferred_io_cleanup'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_fb_mmap':
+> drm_fbdev_shmem.c:(.text+0x34c): undefined reference to `fb_deferred_io_mmap'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_defio_imageblit':
+> drm_fbdev_shmem.c:(.text+0x35f): undefined reference to `sys_imageblit'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_defio_copyarea':
+> drm_fbdev_shmem.c:(.text+0x38b): undefined reference to `sys_copyarea'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_defio_fillrect':
+> drm_fbdev_shmem.c:(.text+0x3b7): undefined reference to `sys_fillrect'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_defio_write':
+> drm_fbdev_shmem.c:(.text+0x3e9): undefined reference to `fb_sys_write'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_defio_read':
+> drm_fbdev_shmem.c:(.text+0x413): undefined reference to `fb_sys_read'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend':
+> drm_fb_helper.c:(.text+0x2c6): undefined reference to `fb_set_suspend'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
+> drm_fb_helper.c:(.text+0x2e1): undefined reference to `fb_set_suspend'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_info':
+> drm_fb_helper.c:(.text+0x33a): undefined reference to `framebuffer_alloc'
+> x86_64-linux-ld: drm_fb_helper.c:(.text+0x359): undefined reference to `fb_alloc_cmap'
+> x86_64-linux-ld: drm_fb_helper.c:(.text+0x368): undefined reference to `framebuffer_release'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_release_info':
+> drm_fb_helper.c:(.text+0x3a4): undefined reference to `fb_dealloc_cmap'
+> x86_64-linux-ld: drm_fb_helper.c:(.text+0x3ab): undefined reference to `framebuffer_release'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_unregister_info':
+> drm_fb_helper.c:(.text+0x3bb): undefined reference to `unregister_framebuffer'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `__drm_fb_helper_initial_config_and_unlock':
+> drm_fb_helper.c:(.text+0xb6d): undefined reference to `register_framebuffer'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend_unlocked':
+> drm_fb_helper.c:(.text+0x167a): undefined reference to `fb_set_suspend'
+>
+> Since the code that calls into fb_core is not actually in the client_lib
+> module but in other helper libraries, move the 'select' again to the
+> places that actually call into fb_core, in this case DRM_GEM_SHMEM_HELPER
+> and DRM_KMS_HELPER.
 
-> 
-> BR,
-> -R
-> 
->>
->> --
->> With best wishes
->> Dmitry
+Thanks a lot for the fix. The dependency handling of among the modules 
+is nightmare-ish.
+
+>
+> Fixes: dadd28d4142f ("drm/client: Add client-lib module")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> I have only given this light build testing. It seems sensible on the surface,
+> but there is a chance that there are additional helpers that need the same
+> 'select'. Moving it into CONFIG_DRM itself would be the safer option, but
+> that seems to defeat the purpose of the client-lib module.
+
+This patch's idea looks correct to me. It's likely a matter of finding 
+all corner cases. As you say, selecting FB_CORE from CONFIG_DRM is too 
+strong a dependency. Fbdev emulation is implemented throughout a number 
+of helper and driver modules. So fbdev should be an independent module 
+if possible.
+
+> ---
+>   drivers/gpu/drm/Kconfig | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index a4a092ee70d9..4f21bff6282a 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -98,6 +98,7 @@ config DRM_KUNIT_TEST
+>   config DRM_KMS_HELPER
+>   	tristate
+>   	depends on DRM
+> +	select FB_CORE if DRM_FBDEV_EMULATION
+>   	help
+>   	  CRTC helpers for KMS drivers.
+>   
+> @@ -220,7 +221,6 @@ config DRM_CLIENT_LIB
+>   	tristate
+>   	depends on DRM
+>   	select DRM_KMS_HELPER if DRM_FBDEV_EMULATION
+> -	select FB_CORE if DRM_FBDEV_EMULATION
+
+This should remain. More fbdev code will move into drm_fbdev_client.c 
+and that will require FB_CORE.
+
+>   	help
+>   	  This option enables the DRM client library and selects all
+>   	  modules and components according to the enabled clients.
+> @@ -372,6 +372,7 @@ config DRM_GEM_SHMEM_HELPER
+>   	tristate
+>   	depends on DRM && MMU
+>   	select FB_SYSMEM_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
+> +	select FB_CORE if DRM_FBDEV_EMULATION
+
+This select is also needed by DRM_GEM_DMA_HELPER and DRM_GEM_TTM_HELPER.
+
+Please sort these select statements alphabetically.
+
+Best regards
+Thomas
+
+>   	help
+>   	  Choose this if you need the GEM shmem helper functions
+>   
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
