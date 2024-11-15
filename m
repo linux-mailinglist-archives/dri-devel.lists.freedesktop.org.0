@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D509CF5A1
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 21:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4607D9CF5C4
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 21:21:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC8610E8B0;
-	Fri, 15 Nov 2024 20:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8732010E3CC;
+	Fri, 15 Nov 2024 20:21:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AWoBytcU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U0Gp65NW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAC510E8B0;
- Fri, 15 Nov 2024 20:18:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE2F010E3CC;
+ Fri, 15 Nov 2024 20:21:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731701939; x=1763237939;
+ t=1731702066; x=1763238066;
  h=date:from:to:cc:subject:message-id:references:
  in-reply-to:mime-version;
- bh=XMAdYvL5g+WjLdtIukU6pbaYaNMXLMUdajzsAVl/BzE=;
- b=AWoBytcUZ/L7SY7lYNapYyxzqL1BMkQeOXIpm7Q4FRQZvjF3J8turfAx
- +tkcv4UnzJhib8Z9GRWnC2n9v8CwlRgD3PB5lWIz7JFZXiwRKWzO2K+Zx
- aQa6wKiTumUOS+fFCLTF+7u6KZZx730nXATYGf7B9RvM7QeVDrWjPL3tM
- IqFGdqpx1onNQnlRMlrt3GOLQrbfW9bPpEs4iU3jYZDKq+GXHktJUkd91
- BSk70gL0F6sbZihFo/UT8hcUXzH2uXYb/jPNOL1s9+KGkiRG8AZdWI2J1
- E7ojaTYnTqKpedrHfu9r1CAJZoafbksLmhGwOQ/BycTGcWSFKilxSrVgX g==;
-X-CSE-ConnectionGUID: 3kfkrcw9TnCNWcjqwDiQPw==
-X-CSE-MsgGUID: jRMEvzWkRMaN+oO7GAaCJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11257"; a="43117673"
-X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="43117673"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2024 12:18:59 -0800
-X-CSE-ConnectionGUID: bckLTTVRQqGnxlhZ4SU6mw==
-X-CSE-MsgGUID: vju/y61YSv6CB8SEIJx9Qw==
+ bh=edYvEggoOmsYnxNnfuWkuV1vS4Hq5g7Jv2unyHWsOx4=;
+ b=U0Gp65NWeLoErBxiyKduqw5t8GkJOpKRXXOXHt5z5tb4yjdG79/WZh5u
+ +DTeTxBZkuI1PUTCLuGU9v3PBYNd7jREW2hJ1g9j/iKhREThsl0ZzAfRC
+ 0VvrtEB9xiPMi8GWrNS10Kd0uRnbIxpYBk7xYd4P8PKu0A4SYEQ2vwlJz
+ lan4ad3Yi61in0pOi2AynxR7vr30cx7MmQoG3DyHji69Wn4H2q/sGjx5a
+ 2o5HhbWg6QJr8fDWx27COQ6iiUOMWRgppwRPKJzcUb1FyQPkebVKDBU7o
+ C7z/xDD0s5quVQ6KTDReFD5HRXchzucaxcjwVD2gNA+Zq1UUYnruR2I+1 Q==;
+X-CSE-ConnectionGUID: CLDNyCBcQZScf243Rn6wxg==
+X-CSE-MsgGUID: qeIp+DbAQN+p8goxZV8Ryw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11257"; a="42803669"
+X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="42803669"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2024 12:21:06 -0800
+X-CSE-ConnectionGUID: kpJdJ/IZSg6EL1tMzrOxJA==
+X-CSE-MsgGUID: Nj1i1s2GQx2k7DGl0WUvhw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="88823208"
+X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="119597883"
 Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 15 Nov 2024 12:18:59 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 15 Nov 2024 12:21:05 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
  fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 15 Nov 2024 12:18:58 -0800
+ 15.1.2507.39; Fri, 15 Nov 2024 12:21:04 -0800
 Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Fri, 15 Nov 2024 12:18:58 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.177)
+ 15.1.2507.39 via Frontend Transport; Fri, 15 Nov 2024 12:21:04 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
  by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 15 Nov 2024 12:18:58 -0800
+ 15.1.2507.39; Fri, 15 Nov 2024 12:21:04 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ut3GMWxfenFanjLsEkcijIJ5rau0CQMLihMKnoTVBWL+RrHHWEmadnGMNKl27SqwSnZ5REPPhvMpZswOomcPEFddrX+Y0EPhYM+txTiL8aAIW0tjCouJ7ESPmg329ofk/Imdl2WCuowQx26TEWLD3R1/vxm5uB+xyUhUKXgOC9qqyiZ3l01DApSmXSr6GZsa57W87a9d0EmbvUiD85xtk/mGQUDUqmDNetreekD8KfLJ2JG3P11FdIZ8i4wZiTs++5HgV3AOGr5+EvKvbZmKtOOGNLJv25PraG+MAqDuwUbRedh4ViyeAltugVfwR3bbKK7oJXRC43CJlmt6a3eypw==
+ b=GmdFVW2SFYOpmyTxsj/B0KBhSfUgcuLNDBBMVsWTPG2PkRwB9uK8J1zAyJq/A7VFkNi3UcVfapKc2uJMe6R8LW0nXF6vuLgYbE95LPq316RcQeiiMVDYatzQ4v1KAsE+uBFURz/E/nHrbNLkokbHXcrxR1iULVueVwgxio+LnchVokNrgWV/tdZbnms6Fi3BwAPDehFT4x+6kKToGUXxJDm+31njBjfsI966c2xq9B/oCfzUF5IGHiCt1878C6/ca8bolI/EpmBjLKnRK/20KKXjFk5hm90e2DjTIlX9t74AEJGjgoTupuefc33bCydxsBkQkZ/MM04YcY6BZDbuRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pY4vBHQbCh/91KMtzaCyeS2E0f1E4s2dDoY2p/I0X7E=;
- b=qPP3tNlk80vaHpCgtroVekqaqFgyXLPCWPwHn2lPwhefIGvE0wBBi8P/SUxlBVQpKkMim4XGW3vFo1LhtxUUCmsr31MBcLpdG8DB6Ri2Sn16WKCrsqjyGccTM5hU1wOkE0RWD6u4VFzDzWaGyVnq2ZUu0S+P37UN0m+uDwWYyOcLSrFrjbsLapGAsYDhXAVgI4FsMahFbLPPYezXnjOW5k9Y2Ax03bPnnMoZ5dC7y0kbXLAWRc8E581rH1bcop9TLTBQBejZDOvy7NmhwydAJhBlwN67QwJbrpniW81aV2TpiKSJH8AEjnyIdjIWERYe4LLraHXGnnWh4B3FVFSs+g==
+ bh=QvBtjWJKuwG0YUVkRHgOb2i6so7SJDN9kg59a50+8AU=;
+ b=X8Y6PwcrYM5KLAIIzGGKRNftvhD3Y8U7/GTpF2uY1+emaCtc7gsmCrNi320Mfl1Zp6/V0NkqoTCjJ5IPJ60N08kwPjXYplv8kgE+mt+9nu4X58zshCEA9zHFttEwLj+1XIMY1lO/nC6B8wdtkHP/9L2ZbuOkF4jE3+PE/CS7qN6/bZIkAUr3PTP0r14x08N2UuCVMUpBKmU9wIMDlkMgAzQGEQ8Q4hrDOHahAgIOPaI+EdC2n/hCXW4PhQPyGeOYf9i73zIfhg0YGgzYScOqgIS3p/x5dNQHdgYY5LsZjCY+CkhA2JVk0ZA5DxUfu7tfzQj514gbXdcr3qkAAKATmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,97 +69,96 @@ Received: from BYAPR11MB2854.namprd11.prod.outlook.com (2603:10b6:a02:c9::12)
  by SJ0PR11MB4863.namprd11.prod.outlook.com (2603:10b6:a03:2ae::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.19; Fri, 15 Nov
- 2024 20:18:56 +0000
+ 2024 20:21:01 +0000
 Received: from BYAPR11MB2854.namprd11.prod.outlook.com
  ([fe80::8a98:4745:7147:ed42]) by BYAPR11MB2854.namprd11.prod.outlook.com
  ([fe80::8a98:4745:7147:ed42%7]) with mapi id 15.20.8114.020; Fri, 15 Nov 2024
- 20:18:56 +0000
-Date: Fri, 15 Nov 2024 15:18:51 -0500
+ 20:21:01 +0000
+Date: Fri, 15 Nov 2024 15:20:58 -0500
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: Imre Deak <imre.deak@intel.com>
-CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 2/4] drm/dp: Add a way to init/add a connector in
- separate steps
-Message-ID: <Zzesq5O0twGP8P96@intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ "Jani Nikula" <jani.nikula@intel.com>
+Subject: Re: [PATCH 1/4] drm/i915/dp_mst: Fix connector initialization in
+ intel_dp_add_mst_connector()
+Message-ID: <ZzetKr-rApPqmehO@intel.com>
 References: <20241115164159.1081675-1-imre.deak@intel.com>
- <20241115164159.1081675-2-imre.deak@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20241115164159.1081675-2-imre.deak@intel.com>
-X-ClientProxiedBy: MW4PR04CA0094.namprd04.prod.outlook.com
- (2603:10b6:303:83::9) To BYAPR11MB2854.namprd11.prod.outlook.com
+In-Reply-To: <20241115164159.1081675-1-imre.deak@intel.com>
+X-ClientProxiedBy: MW4PR04CA0372.namprd04.prod.outlook.com
+ (2603:10b6:303:81::17) To BYAPR11MB2854.namprd11.prod.outlook.com
  (2603:10b6:a02:c9::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BYAPR11MB2854:EE_|SJ0PR11MB4863:EE_
-X-MS-Office365-Filtering-Correlation-Id: c0644053-97f9-40f8-aef7-08dd05b2ba5b
+X-MS-Office365-Filtering-Correlation-Id: 121f259a-6460-483e-dafd-08dd05b305cb
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?m2zDpIG/fLuKswZBqU8oKC3SIkrmqno/hf6l6NJHcXHiOq3tRkic/OmRYJnX?=
- =?us-ascii?Q?5gu7eRBMTzUEqv16AhMnRV3lJJK9fB6vG6aEKJWvb7OHt+1CVn/NpL5sCiae?=
- =?us-ascii?Q?7hMMryGpzs+loQ8M4l5mKg3Et+VGZmCFxWdoNVuweqPRY+//HGfWdEXLPylh?=
- =?us-ascii?Q?jG6RfQChErL5Zn0EZETOVvJ56AXbkbPmDcLkzrVwchBBjvA6UUb5/NX7TBIq?=
- =?us-ascii?Q?jyiAxK17ASMjicQNQpkhE1/oyhOlYVtgeTC8/NG8iu1B0SEF1VlRUM4dB6Xv?=
- =?us-ascii?Q?6JOHecmvWN7GQsYd1zjf6ghNft5fD3uKStOIuTShZ5Jw+4iYb46A9AEXcWK2?=
- =?us-ascii?Q?QvWAu1WU99pZ3B9QCptgRWNcfb8+iTeQYk81zSvRWm1L6HR5RpTYy9u8LjuE?=
- =?us-ascii?Q?lMjGk2yybjBEcvj4kJyHQnCILgu5BUSjuOFY0Yf48syK4SDrC3eKaLFf0HNJ?=
- =?us-ascii?Q?xG9G1fZwJViokRVwozTnfIDMGmNajacFQ2MmW3M0CQCC/HMzEZas7VJBlOaw?=
- =?us-ascii?Q?XLXNS8DF29H6gPMM2ZLhLm/Q1HXENObppox2LVbcpT+eNANqRr7Y3aDwC+qr?=
- =?us-ascii?Q?9/0VUF7z1xQn13ZoULO4Hno2uoN9Ee532OgPtSRqGjLPJ2GkQDhAgizYqO0E?=
- =?us-ascii?Q?/0mV8V+cCn/mcLsQQY/JHPu9zHTQWnkV9E8+oto5PUv4wuhEAsMOjMyvY4Zz?=
- =?us-ascii?Q?XNA5j2jMgR7q/lCw0pwz7B9aCYowrSxo6vygl9w4jjH3sALrUkUOIMJMRKeT?=
- =?us-ascii?Q?05zMprCjnb5DJVz/QfdlGKddEymCVwDHRWAvQYCWywbEeF6zVT0KHXx6Ww81?=
- =?us-ascii?Q?KXYX4TmAvEMmfVJZ7scoosw4W9tXOwBJXSOm99Hlls5UByE4ncND35syOHwC?=
- =?us-ascii?Q?nTlvqGOo35an8/MYgbQ9yuwO5yyIY1oYw79w2sqG8bWe3q6bPfHFN5TPAGV/?=
- =?us-ascii?Q?oMHBZOGzJCloww045wlLu46eX6j53Js5SLpF7ZBPvLIX97W64Nd1d4BicCij?=
- =?us-ascii?Q?KXMoow85HerKu6KaSnANQVwiPYqvpLx5QNpTJiHjYg6wYuUfoXLXXyWVqLDb?=
- =?us-ascii?Q?rvI/JVXuyFdqp78MzpsNh00yFbWArlfdpL3XBgBN8Qx4avqo0ittJSKmGVGW?=
- =?us-ascii?Q?OZD70b2aigYDNRSR3GXNDdTWmMegh3h6M6Z1FEZ9cvnNIjov0+rEDYbb44t0?=
- =?us-ascii?Q?KTn3hA7bacsq89prI3Pjrva0QwcE7sAbwRqMKAqDcNyba8NjWSe+7uZXkqRv?=
- =?us-ascii?Q?eyyNPsFfqjUxAC1MAs9sUFEq69LgIWGEn0vsTCnOFHh6PSpIIEDMJxvH2vB/?=
- =?us-ascii?Q?nRT/lIsppbywrXm2JB8e/kW4?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?a/fA+qd3oHejulI0FYJjJ5Q7oSNBArJbbijcSnNp8B/fmCtCQOj4WO48WJZ4?=
+ =?us-ascii?Q?vKMzAE6wULkKeCpfKJyuOYf9QASeil3LBup4H2bRjJj4W9Tyuu3s8+Kx9BlU?=
+ =?us-ascii?Q?XsB4quvlX9ullINw9H/MynSwWVTqZouLVHtYz9FxP0itrCzh9TegfkPIKQ2i?=
+ =?us-ascii?Q?S9BAp98mboaoIa58HSs1i3LUehf1GUBE/8H8JEnPd6tgyhPxso/V4D7SGGxQ?=
+ =?us-ascii?Q?UMcYZaAnCfC70pmOqkEeSkB7pawA1O7i+hYb0gJFrjSY1jXGjiGFtrKFO37b?=
+ =?us-ascii?Q?Vai8RY6kIS6jK0O33SESGbizq4sCH6x8FrnYeU0VUblvkjxRmOu1oZO8dDsd?=
+ =?us-ascii?Q?8E50xU1Vxizhj7KZSF3FT1p/oVjxzMV+f1/9KztJrgLd52tQnwF8h+BTHA/n?=
+ =?us-ascii?Q?0iBbTjE+7rVCxzbhfnWvJKugLMZeVBMRM2GJc2tB3wXu3ZyHpio2p+il1urL?=
+ =?us-ascii?Q?2WxI0QtxRvQhP7P9R50TwvllEcNeuqiaEptDO/oyi9LNrleXv32ClC94Tb+y?=
+ =?us-ascii?Q?7LvF59+E9Vn5ofvJXYJ9od5V+Z5HEd6Qj1439wh1kgsP0+qK3otodcFLn9Dn?=
+ =?us-ascii?Q?30VQNSFr5TlyTNdhZtJXbdgiNcBwlBqZTrZDTb1JvyM4KUJNY5PTk3tUTEc4?=
+ =?us-ascii?Q?qpa/aZsmfV01uWYleNI4EQKUP0mo7BaFrQBtja/YMRyewEnhL/ldxA8zfl2L?=
+ =?us-ascii?Q?Jy1GUTZKNwDVhVTxq193EBWJBttN3QOwTo6SbKwzJbE/UMux/e+cjqF/6FPM?=
+ =?us-ascii?Q?OEsN0ojBgBBVTJxVpyB6/EDMfD04CxXxWg76fsCaEbu4vpaXArL3NlRRgugp?=
+ =?us-ascii?Q?OOOaqua3Kea9QWcJFrEorFjgq5g6W5V14no2L7Gwxb4FNQwjGWN51J992GND?=
+ =?us-ascii?Q?l3amNdIs7QdYpXwoo/hPJiefEk3689gT8VVsI3CwjsKGwpWngQJPm1s/Cvgp?=
+ =?us-ascii?Q?bVH+sTriA6fc5bGewo9t04pRmMxO03Mkw/5n5Zeu51Sg9eTvSpsBJNBy5Mzd?=
+ =?us-ascii?Q?k4aoFFUyOYR316PPec7gcv1l/Sli+rTyT5w9Lrjqj4JBtR9R2XtpLkBnhrAM?=
+ =?us-ascii?Q?NatthDB8x5sCiZc4w6ivqz5ElBbuamiWSSALr119K12gJgxxy8B3OKTbaGAX?=
+ =?us-ascii?Q?eJDZKdio8TTSRyFMi1eKDFL4HNXeNViGws8Wc2iRKKeX9xsDN3KsJkS3Sj4O?=
+ =?us-ascii?Q?hzSoSr1uUzSDqvnO9i9V6gwJ8BEIgC+k7ZYlu+4wj/A4Ovq9XOCtKOiBSGkk?=
+ =?us-ascii?Q?+xKTtsoJp64GWEC17Jqg?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR11MB2854.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?B7V8Tqdnad5FIZmY83srUyl8YwhJ4zvlKzSEUhv+m7xOcHcyNMssww/DhtfI?=
- =?us-ascii?Q?NXHCn2s9st1Fp6MZdRjaQ0/5eQLIdSOiAGfyiEBlrKDu2sNOOvPb7SeOIUbD?=
- =?us-ascii?Q?P/65KaNzu5lx6X9cRZKylnZBqjTHBFv5xX1ewQ+MnKh3TpwSQgqbnHAwnRf8?=
- =?us-ascii?Q?AFAm6GVjlyGhrruaEoC4NRwSHRn/jZ9Z9LUdGhiyRUMQGHcUICDhcKKioi09?=
- =?us-ascii?Q?6mZ1qvVHrk1gWhdbJdvuxCQx83lqa/d37d2KzIfZbk79p/UFQTTy51S+zhQI?=
- =?us-ascii?Q?uEEtA4lHPlWqLL5OVW8CAPI9M9DWgurIV6p9UWa1uGqFw5yZ1dBu8pdo8xBx?=
- =?us-ascii?Q?25MvlgZD4LcdIson+Fmb03qDqanJYMY40c8GxuNvCSDx5tKloy8L3p+xvRIc?=
- =?us-ascii?Q?a45W+w6uP4kjHeyXAL3VZdwtGgsHlDNfbiK/qO3LvfwannAmmzEPQTae2Of4?=
- =?us-ascii?Q?I1JP3g3apAAYJM8hEGk8g4ZkjoP6UGlIoO72VNm4yambh69r8YTlb2+4S6bf?=
- =?us-ascii?Q?owHrpJm5l/LV+Fu7c5sbkaHMxZ6EMqxyvlN3b4q/4n5u9l5Ze/FWajGLOLdk?=
- =?us-ascii?Q?P8D9rKUrisDh3fqZiPivw3/tnx5CemXd2MmGiG9lUmTAgNcqUv6a7SfJm4Hb?=
- =?us-ascii?Q?AsM31cYzTJ/HsKO225lHsNw4vnenhrawFji85ZJXeYoKvzlO8QrfbpB5W1if?=
- =?us-ascii?Q?ZFh4bcNk3kTPx6R4pb+9twL6jgtd5kf0QSBP+KrUapJhljx+h8y8gw+sx6CQ?=
- =?us-ascii?Q?cr2z5GPJyzeoqnwBch3Cp2cWcs5EIZ39sR9ZUuenkrB5iptzTeyFJSUUJz5z?=
- =?us-ascii?Q?XwaN6FtT7bXwTODPXeC+hUKvZnq6dMOqvvKW0KYx6aP/aMzq+K6zhQkkTWak?=
- =?us-ascii?Q?GAI35rUBCccHZM2RaVi2h+7z28oT6Pot7TWexPA+TK5nRtCQ7sRL539P0l6L?=
- =?us-ascii?Q?U7wiU5YIJjSkDsSA0IzMSBJMfbftU5a2uZHaqFLeLdEFP9O616Jjbt33oSSp?=
- =?us-ascii?Q?L56AlvcrLhac9pcSR18V0xDdevwYMLCFIessA31V1dSEbsoAo4eAw/sz4xQ2?=
- =?us-ascii?Q?jxH5MtvjNDliiSYH9+RzZnir7dtWnIVHnIv+rFSOs/zn07/AIsW/KYbKffi1?=
- =?us-ascii?Q?Ufe4aohMUdIPFjoiTFzpMGnYMS3qFqp5zaSwE6/MJThYXq1lfBoi9K9eAMag?=
- =?us-ascii?Q?UBnsedQ09YY5lI6OdT0y3WDUVTUctzC4IoAAtI1Tf31C8LR5XCkLYkSer3nC?=
- =?us-ascii?Q?aHw6AGw6mQJgdCuXvGDyOBBKjLfMrNt4IuogH8klMx4KNz/Z6XYDT0RqkfIn?=
- =?us-ascii?Q?dlciS2DbXd79XmrwrvBjGD4lafvxjQl7PD/zCiqqlttEb629iegGjaGYZ5yB?=
- =?us-ascii?Q?dtegGaq7eXxHNeExZo0Hp4DEsHYa/BAbU8ONXhEXldpo9ceQHQTh288BxsIf?=
- =?us-ascii?Q?AYjU+iK8II/SBsYUD7GPYTH5nSFiz1xyYfvuFFKzS7p00RI2Jrh9jjrDjr0n?=
- =?us-ascii?Q?3ywlbka9KqhO4bfXNffa/425+W5lhQ8NPtpK7sCv1lJaZ8N5JSi+kf8C7Dm5?=
- =?us-ascii?Q?4xVrZbNsJbkhvjTHbg46xHikSUHdEDoMnY7dNhy0aEL3CmCwaAgXh4OADwj/?=
- =?us-ascii?Q?nA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0644053-97f9-40f8-aef7-08dd05b2ba5b
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZwWup0h7BfIuVXfM3mtyvbwhitWjM6cKr9ygltZo9k1CeB4HDuaBpeRviMVM?=
+ =?us-ascii?Q?lCD/aNfiJrE7no6/XdW/wN55vaJw8PoeCLmKs8jbzL8tHxAnfBjfEX2YdZxN?=
+ =?us-ascii?Q?xTzeqY56Yy7Q0NxHZlis8pkHRDCUzikrjTuKVSlHXMKw7ZEPxJUEuHQscQhd?=
+ =?us-ascii?Q?cFLCog64MHkk3tIsz8qX3TdT4pv31PzFY966FwxlB7Qv0vWQDVE1/0bygW37?=
+ =?us-ascii?Q?5TpDergD9QCy9CwzTYvC4/SveqbztErsFqEXLF+nJuPUqptABF+fLkath5I6?=
+ =?us-ascii?Q?E+iM3JORQ9VlO2DHNQ2H9PiIw2ipHdikqo1TzsExmddU3C2Pf6IiKBOBh6Ho?=
+ =?us-ascii?Q?Woje+wwwqzu1GRSmlHYFh11vBmAhQ5csRiMAERYC/O/Mf/xkkgKIHiyqiv17?=
+ =?us-ascii?Q?MMKq8rBDkQYou1seNV7f1KYlkaJYg97CgtzomHfiFDYvgGc4vOpsP/th1T1m?=
+ =?us-ascii?Q?DHI1Z4I+g3UGKcONx3r1YgjCTvKMTrDBC0YgBpOdfwjTdDLYXMFC1QsZrWTT?=
+ =?us-ascii?Q?vs15/3nGgUuuwIF4XnnKZFMsdXmwhFrRgJiy7njM5az99kFjCYP0xo9mR1yz?=
+ =?us-ascii?Q?LMZT3D5xPD+AV/eATIbONAJlQZdEC+NY45QcYs4a/vvtKRHOyHlqf57ur8VC?=
+ =?us-ascii?Q?R+Wt3NwKl1+/FP3E1OhEnyPtzk9j/pD4IpTV/P6oKbkWW8rZQj+K2qV5uGDW?=
+ =?us-ascii?Q?ftHoaUH8Diojl32+seGuftzsEU+bt2esr7Rik0GxlkZ2l+gZrj0S+z8bnttQ?=
+ =?us-ascii?Q?CEwBW6sj7PmYPgWXyif0/YFDUmvZZB0lw36Jjglm1ZF24IiDgH0kELyCUOfy?=
+ =?us-ascii?Q?ErLBYu4RvXxHnsnNzF9kxUbh8FGVzPFCLB+eGFV2ZwGe6Mef4FXLtZFoZ5tk?=
+ =?us-ascii?Q?8gvNU1azZWbixqWKk7bq60utYpGADyeBOn1xRWnxE79yxIkT/G3nfbNe2Ies?=
+ =?us-ascii?Q?njEOyUPmpXyliwKRzpjPd+eMbvs6WZPRv6wjiAuO7Drn8SKuFRYAaJwQnpfF?=
+ =?us-ascii?Q?TUu+ZuauaR2U/Ez7CPLg1Kt1vgiPT1K/PBoXznPIhB2Vbu0cydsAyBDWoqUQ?=
+ =?us-ascii?Q?prBT+TpaXUi+Ym1+d9+lRcaMEJ7ezPEQyktbOfrGrXgiRDeeHJGVMrrcG9R5?=
+ =?us-ascii?Q?aEh54FEa1zsApCBi6Y9m0mws20lIBn23u49eOeZkr3t94DZzLNScLeF2EF7e?=
+ =?us-ascii?Q?ilAngjsWVNPoL7iA/mfWjyQkBtmF7OQOQu1Kuv1T7bTE2HzMDABnZbUt1JqC?=
+ =?us-ascii?Q?9RMY0/9XJRV4bllIWzbfKkNwiWRgcjl2cd1Y0B+qCN2IHOTUKf1FTyTqhb6O?=
+ =?us-ascii?Q?LgRCgKJprX4B3Jvy0F3uVL6i+mF4ALDgUHRhcPgNDzIdEZcWmg+sEOPX/J41?=
+ =?us-ascii?Q?yZH7De2Nx40nv0L3Cqpgo9iDwVMluhIvy9XXOgjWPRih3QsavRwUtO0lwbfJ?=
+ =?us-ascii?Q?RNZdARy3PZG/vn+UdFbW3P480CqP5JlOALTp+zjwBPPRIy0ITmPKlE+UajgJ?=
+ =?us-ascii?Q?7bxPCpG/YsqMRDglGVoM1Sfu4Tjp3OyWWSane6hmmrzdOKUGFiL6Utl6cgFo?=
+ =?us-ascii?Q?4IyJ258g7OpDd2Ts4sDN1TsS57OzTfX4Q4bVN6z0v7QpXVc7WU9mAAYNXGZb?=
+ =?us-ascii?Q?6w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 121f259a-6460-483e-dafd-08dd05b305cb
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2854.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2024 20:18:55.9784 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2024 20:21:01.3413 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H3b+m2bKIK+barMkKBvhLPEKLTl81uo5ty0B64ZlAm38C4/GoafRXZw7O7UTYl60Iqj0vNEybx7KEG4amLNpYQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: fjeYZ4R51yxmjOeRkb2acEac0ksWmDKfQMEvhqc/DhQf9gnUFoNi4u1+kjLCmtXSaOYNzeepLOhUDfi4F2dK0Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4863
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -177,186 +176,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 15, 2024 at 06:41:57PM +0200, Imre Deak wrote:
-> Atm when the connector is added to the drm_mode_config::connector_list,
-> the connector may not be fully initialized yet. This is not a problem
-> for user space, which will see the connector only after it's registered
-> later, it could be a problem for in-kernel users looking up connectors
-> via the above list.
+On Fri, Nov 15, 2024 at 06:41:56PM +0200, Imre Deak wrote:
+> The connector initialization in intel_dp_add_mst_connector() depends on
+> the device pointer in connector to be valid, at least by connector
+> debug printing. The device pointer is initialized by drm_connector_init(),
+> however that function also exposes the connector to in-kernel users,
+> which can't be done before the connector is fully initialized. For now
+> make sure the device pointer is valid before it's used, until a
+> follow-up change moving this to DRM core.
 > 
-> To resolve the above issue, add a way to separately initialize the DRM
-> core specific parts of the connector and add it to the above list. This
-> will move adding the connector to the list after the properties on the
-> connector have been added, this is ok since these steps don't have a
-> dependency.
+> This issue was revealed by the commit in the Fixes: line below, before
+> which the above debug printing checked and handled a NULL device pointer
+> gracefully in DRM core.
 > 
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Fixes: 529798bd786a ("drm/i915/mst: convert to struct intel_display")
+
+This is awkward. This patch actually removes callers of base.dev.
+I don't see how that it could be causing this new null dereference.
+
+> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12799
+
+But well, trusting more the tests then my eyes, let's move forward.
 
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
 > ---
->  drivers/gpu/drm/drm_connector.c | 103 ++++++++++++++++++++++++++------
->  include/drm/drm_connector.h     |   5 ++
->  2 files changed, 91 insertions(+), 17 deletions(-)
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index fc35f47e2849e..6132a7917b20c 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -218,11 +218,11 @@ void drm_connector_free_work_fn(struct work_struct *work)
->  	}
->  }
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index df7edcfe885b6..f058360a26413 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -1727,6 +1727,16 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
 >  
-> -static int __drm_connector_init(struct drm_device *dev,
-> -				struct drm_connector *connector,
-> -				const struct drm_connector_funcs *funcs,
-> -				int connector_type,
-> -				struct i2c_adapter *ddc)
-> +static int __drm_connector_init_core(struct drm_device *dev,
-> +				     struct drm_connector *connector,
-> +				     const struct drm_connector_funcs *funcs,
-> +				     int connector_type,
-> +				     struct i2c_adapter *ddc)
->  {
->  	struct drm_mode_config *config = &dev->mode_config;
->  	int ret;
-> @@ -273,6 +273,7 @@ static int __drm_connector_init(struct drm_device *dev,
->  	/* provide ddc symlink in sysfs */
->  	connector->ddc = ddc;
+>  	intel_dp_init_modeset_retry_work(intel_connector);
 >  
-> +	INIT_LIST_HEAD(&connector->head);
->  	INIT_LIST_HEAD(&connector->global_connector_list_entry);
->  	INIT_LIST_HEAD(&connector->probed_modes);
->  	INIT_LIST_HEAD(&connector->modes);
-> @@ -288,14 +289,6 @@ static int __drm_connector_init(struct drm_device *dev,
->  
->  	drm_connector_get_cmdline_mode(connector);
->  
-> -	/* We should add connectors at the end to avoid upsetting the connector
-> -	 * index too much.
-> -	 */
-> -	spin_lock_irq(&config->connector_list_lock);
-> -	list_add_tail(&connector->head, &config->connector_list);
-> -	config->num_connector++;
-> -	spin_unlock_irq(&config->connector_list_lock);
-> -
->  	if (connector_type != DRM_MODE_CONNECTOR_VIRTUAL &&
->  	    connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
->  		drm_connector_attach_edid_property(connector);
-> @@ -332,6 +325,84 @@ static int __drm_connector_init(struct drm_device *dev,
->  	return ret;
->  }
->  
-> +/**
-> + * drm_connector_init_core - Initialize the core state of a preallocated connector
-> + * @dev: DRM device
-> + * @connector: the connector to init
-> + * @funcs: callbacks for this connector
-> + * @connector_type: user visible type of the connector
-> + *
-> + * Initialises the core state of preallocated connector. This is
-> + * equivalent to drm_connector_init(), without adding the connector to
-> + * drm_mode_config::connector_list. This call must be followed by calling
-> + * drm_connector_add() during initialization to expose the connector to
-> + * in-kernel users via the above list.
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int drm_connector_init_core(struct drm_device *dev,
-> +			    struct drm_connector *connector,
-> +			    const struct drm_connector_funcs *funcs,
-> +			    int connector_type)
-> +{
-> +	if (drm_WARN_ON(dev, !(funcs && funcs->destroy)))
-> +		return -EINVAL;
+> +	/*
+> +	 * TODO: The following drm_connector specific initialization belongs
+> +	 * to DRM core, however it happens atm too late in
+> +	 * drm_connector_init(). That function will also expose the connector
+> +	 * to in-kernel users, so it can't be called until the connector is
+> +	 * sufficiently initialized; init the device pointer used by the
+> +	 * following DSC setup, until a fix moving this to DRM core.
+> +	 */
+> +	intel_connector->base.dev = mgr->dev;
 > +
-> +	return __drm_connector_init_core(dev, connector, funcs, connector_type, NULL);
-> +}
-> +EXPORT_SYMBOL(drm_connector_init_core);
-> +
-> +/**
-> + * drm_connector_add - Add the connector
-> + * @connector: the connector to add
-> + *
-> + * Add the connector to the drm_mode_config::connector_list, exposing the
-> + * connector to in-kernel users. This call must be preceded by a call to
-> + * drm_connector_init_core().
-> + */
-> +void drm_connector_add(struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	struct drm_mode_config *config = &dev->mode_config;
-> +
-> +	spin_lock_irq(&config->connector_list_lock);
-> +	list_add_tail(&connector->head, &config->connector_list);
-> +	config->num_connector++;
-> +	spin_unlock_irq(&config->connector_list_lock);
-> +}
-> +EXPORT_SYMBOL(drm_connector_add);
-> +
-> +static void drm_connector_remove(struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +
-> +	if (list_empty(&connector->head))
-> +		return;
-> +
-> +	spin_lock_irq(&dev->mode_config.connector_list_lock);
-> +	list_del_init(&connector->head);
-> +	dev->mode_config.num_connector--;
-> +	spin_unlock_irq(&dev->mode_config.connector_list_lock);
-> +}
-> +
-> +static int __drm_connector_init(struct drm_device *dev,
-> +				struct drm_connector *connector,
-> +				const struct drm_connector_funcs *funcs,
-> +				int connector_type,
-> +				struct i2c_adapter *ddc)
-> +{
-> +	int ret;
-> +
-> +	ret = __drm_connector_init_core(dev, connector, funcs, connector_type, ddc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_connector_add(connector);
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * drm_connector_init - Init a preallocated connector
->   * @dev: DRM device
-> @@ -659,10 +730,8 @@ void drm_connector_cleanup(struct drm_connector *connector)
->  	connector->name = NULL;
->  	fwnode_handle_put(connector->fwnode);
->  	connector->fwnode = NULL;
-> -	spin_lock_irq(&dev->mode_config.connector_list_lock);
-> -	list_del(&connector->head);
-> -	dev->mode_config.num_connector--;
-> -	spin_unlock_irq(&dev->mode_config.connector_list_lock);
-> +
-> +	drm_connector_remove(connector);
->  
->  	WARN_ON(connector->state && !connector->funcs->atomic_destroy_state);
->  	if (connector->state && connector->funcs->atomic_destroy_state)
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index e3fa43291f449..8e8d130b40f98 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -2122,6 +2122,11 @@ struct drm_connector {
->  
->  #define obj_to_connector(x) container_of(x, struct drm_connector, base)
->  
-> +int drm_connector_init_core(struct drm_device *dev,
-> +			    struct drm_connector *connector,
-> +			    const struct drm_connector_funcs *funcs,
-> +			    int connector_type);
-> +void drm_connector_add(struct drm_connector *connector);
->  int drm_connector_init(struct drm_device *dev,
->  		       struct drm_connector *connector,
->  		       const struct drm_connector_funcs *funcs,
+>  	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
+>  	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
+>  	intel_connector->dp.dsc_hblank_expansion_quirk =
 > -- 
 > 2.44.2
 > 
