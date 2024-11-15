@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6396E9CF709
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:23:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255F69CF70A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:23:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74A8310E8FB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C43B310E8D4;
 	Fri, 15 Nov 2024 21:22:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hCMeIw/D";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LFvj1omr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1445B10E8F5;
+ by gabe.freedesktop.org (Postfix) with ESMTP id 95EF010E8F9;
  Fri, 15 Nov 2024 21:22:53 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 88E5C20BEBD8;
+ by linux.microsoft.com (Postfix) with ESMTPSA id C5D5B20BEBF7;
  Fri, 15 Nov 2024 13:22:45 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 88E5C20BEBD8
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C5D5B20BEBF7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1731705765;
- bh=kyIMdoD81WSCHIuRs3t1IxAuP6vGJ5R59VD+r/6KKK0=;
+ bh=7RgevXzVOF2wd0QHaqg8sKSXBh3tNnxEZNLAJYHO4/0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=hCMeIw/D2+NTRMQJ3FRDpZj2qT/7FbCaDMS9+XIuVvW9RIzS37PIUIxd4jF3sKpOq
- ONruuQqONZh6MCBIYTovcefPeKanNMMCVBGfAbtnor6PdXfG/kDS1Iyd6np+7CKiaV
- BV9SmXmoDsx8kPuPU+1F4sBj6APCWtu0lORTDJ94=
+ b=LFvj1omrNM0zZtGffox7sgW5nc9dJZdVTA81Dj/wcPv/4s/wuIVOvUvfZbveDvw4y
+ FuotwM7kePQ1S+NtqBMYs5hCFuKfxjTKCfLm2hLOBes2vr8zw1wp6TV7hkDlej16jx
+ Fb+baeYINJlZ9BwwcItDzf5jhfC0bccWbyd+vUuI=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Fri, 15 Nov 2024 21:22:47 +0000
-Subject: [PATCH 17/22] staging: vc04_services: Convert timeouts to
- secs_to_jiffies()
+Date: Fri, 15 Nov 2024 21:22:48 +0000
+Subject: [PATCH 18/22] ceph: Convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241115-converge-secs-to-jiffies-v1-17-19aadc34941b@linux.microsoft.com>
+Message-Id: <20241115-converge-secs-to-jiffies-v1-18-19aadc34941b@linux.microsoft.com>
 References: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
 In-Reply-To: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -131,22 +130,22 @@ Changes made with the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c | 2 +-
+ fs/ceph/quota.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-index 133ed15f3dbcc07dc353c22d8522e11a08ee6f46..6bb2562e071c4e623e51852860c682e047f823df 100644
---- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-+++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-@@ -59,7 +59,7 @@ static int bcm2835_audio_send_msg_locked(struct bcm2835_audio_instance *instance
- 
- 	if (wait) {
- 		if (!wait_for_completion_timeout(&instance->msg_avail_comp,
--						 msecs_to_jiffies(10 * 1000))) {
-+						 secs_to_jiffies(10))) {
- 			dev_err(instance->dev,
- 				"vchi message timeout, msg=%d\n", m->type);
- 			return -ETIMEDOUT;
+diff --git a/fs/ceph/quota.c b/fs/ceph/quota.c
+index 06ee397e0c3a6172592e62dba95cd267cfff0db1..d90eda19bcc4618f98bfed833c10a6071cf2e2ac 100644
+--- a/fs/ceph/quota.c
++++ b/fs/ceph/quota.c
+@@ -166,7 +166,7 @@ static struct inode *lookup_quotarealm_inode(struct ceph_mds_client *mdsc,
+ 	if (IS_ERR(in)) {
+ 		doutc(cl, "Can't lookup inode %llx (err: %ld)\n", realm->ino,
+ 		      PTR_ERR(in));
+-		qri->timeout = jiffies + msecs_to_jiffies(60 * 1000); /* XXX */
++		qri->timeout = jiffies + secs_to_jiffies(60); /* XXX */
+ 	} else {
+ 		qri->timeout = 0;
+ 		qri->inode = in;
 
 -- 
 2.34.1
