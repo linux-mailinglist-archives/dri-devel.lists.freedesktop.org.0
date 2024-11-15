@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D067E9CDB62
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 10:20:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC639CDB6D
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 10:21:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41EC410E830;
-	Fri, 15 Nov 2024 09:20:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3A3D10E3F4;
+	Fri, 15 Nov 2024 09:21:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r1oRMh26";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A1sQewWD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
  [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26C9510E830
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 09:20:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6879710E177
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 09:21:24 +0000 (UTC)
 Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-4315baa51d8so3932995e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 01:20:04 -0800 (PST)
+ 5b1f17b1804b1-431616c23b5so8948865e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 01:21:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1731662402; x=1732267202; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1731662483; x=1732267283; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=ues4xyA37ETlwX/C7Elrga6ZPm1K6RyzA1jQwswXoo0=;
- b=r1oRMh26iiJ/cxLAsUC0AhuW7miuQY0Zqmuh1vOtSO+XyaKV6DZ5iBGna0pcF99oAh
- FKvnK7p5xNuiaWsrtjOSqzs1m6ThOBpNV9ohIFkaLSOCXaXuI+xaHNqTacc2GUFYq5dV
- Ti+UE0JsUK1v0zqHINMbUFgw3GEGpjxUwlxzBKDuvloYlBA+cwqcfGSGi5aOsR/nKLZl
- 3E1hkAT/aJSja06Es7Ir2QjwEwMcXWvxB+rPMAKdyoyvyRGbT3SqI1x/fOpwki3uz+cM
- c1n+Qqw7rJT01LxraeMoFvgPEbL0D0UVwEQqEKKoJcB/QYQsLT+VJ/ZnOEOjLvHFG9MT
- hvmg==
+ :reply-to; bh=3Ubsq0FTtX7FXFxz4kQgMfN9vdpcOBE9XRs+CSKkAVU=;
+ b=A1sQewWD65+CL+yi4Y8aK1jmDb7xGYgPUiK3KOjG/+WNnEDxSyeuOvQYnBdxm/2Ds0
+ TxuNLNxPkuKnOwiTUyIALGDcGIvSW4zRxFByLbtU6/e/ozrnsYFaIq97x6V+Idy/Gcir
+ q05KPdbuTFql0tj4FUWT3JPXnHUOTX9SWYpHpPcOtRSYkWUJMX+RIdbw9Dy0e67mlsl5
+ TlROQ6c6gwQz7FZZmYueJpxF3BoQnGXSXeT2tGpJ09/CElDbvRirdUJNK+uOOq+M9Bdz
+ hs6QMxhUCG3rCbPuOTnwX3H+fsMf5x4tPTbI1TU28QrvOKlcnQtCeRYj/SYIqD6HG9hs
+ du8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731662402; x=1732267202;
+ d=1e100.net; s=20230601; t=1731662483; x=1732267283;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=ues4xyA37ETlwX/C7Elrga6ZPm1K6RyzA1jQwswXoo0=;
- b=izc6NQZ5hqHfwgmVT1xrdZfuRJLvXOMbCtZ8lpHIpIuf6IOJeO81tmaffsbODKWbiK
- cyWZIO2sJ4BoAi4B77IAZTUBaRQnPSxQZnDCqKxsZ/2ISYpzZ16qq6eyUbO3tI1cFufG
- EXc2vn4XbrGc1rYa0xILpmf3V2iix+15gQyHh1/vXoYbOsjbkv/E93R/OicqJkBkkPsB
- 6kyGZFYzwQAFnmSCP6dkUiFAnxGEQRbTZhNCmHqId8zmzQ3EeV0dbUwxgQj44z2TaxHE
- Rf2gBad972aK19tWUfi89Pn/KWGnVlFiIfT5LvelqZwjHHSnRr7LrwxatwFENU6Ai9C+
- +p3g==
+ bh=3Ubsq0FTtX7FXFxz4kQgMfN9vdpcOBE9XRs+CSKkAVU=;
+ b=hkvB5tiF3STbKQWxvn8IGNXgReID0FAS+sF7WOjU18p6tbBx4KUndn+AMttL8IAtPl
+ 4avgtCkQXjsOM7omtNU4tEHaDWiyHMpFwa5j25QCZjasFNhPtN1gUkHhypAGlbpQwjpW
+ tzMBHbM6USPO2rs/IebSykK3uOPBz//Ka5/N7ptbXUgSWaUdNvdxzp3TYRjEIIC+UNfn
+ K20PNJbl5/1nq0vdIKLr1mRmhAdXlKMU/T4URF+nCNm2z5Sjlh+aTtTy+akPONfyA5Ry
+ p3NhTZvFHmy6k8sylwmmZodVcuy0eV/0Qf46/knb5FzD5GXGg2M03Qh1lUuYIQ0gjQDJ
+ 9Kew==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUT1mmx3rRvSZKoe7j7pAp8YFk+CET3B7c6v5YMiiX8dUNCf7cnI7mP5aenYFB/8ltk/jv/cRrxX54=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzUPbnPL6C2Rhu+iMIZnE6mRP83Evgj5UU0OHyiYtchvPmDjBYA
- gNMvKbTiFdMVPTmEFHg/UNdf9/KT+PyObbrhFn6FoBl9LOmj6exewWe/4rzWv1A=
-X-Google-Smtp-Source: AGHT+IEMRiJgHRboWeRuXToZjO5EIApbqdd7iEqOjcikGRXbe4S9dfZlcZgZ4ZTnpSBowc+60fVXEA==
-X-Received: by 2002:a05:600c:4f02:b0:431:588a:44a2 with SMTP id
- 5b1f17b1804b1-432df725588mr16547725e9.12.1731662402428; 
- Fri, 15 Nov 2024 01:20:02 -0800 (PST)
+ AJvYcCVrg5kfXQZp/GNzmw6TQW4ksxBbYOFluGzQvtIoddLSJOa+BEKhPK+PJAd4/tzEfRYttztG9ov9qGY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJJwAlidXUcnDiNtw5o/EPHe5GmuqHOyDFpCCKtUI6ioundd3C
+ q3+lbMiftLmw7DlGuM6wnAQ9GjaXGroMDMA6qMcMSbKrlQv2E18eqAWtRLUill8=
+X-Google-Smtp-Source: AGHT+IFhhzfXYJliCvhgMAnEBeivjS0/dTVTRYhH3Xvh8F0wAGfi8xwl9PwfcqxAfM7+X3hn+j6avA==
+X-Received: by 2002:a05:600c:1c29:b0:431:4e33:98b6 with SMTP id
+ 5b1f17b1804b1-432defd2398mr17475545e9.5.1731662482814; 
+ Fri, 15 Nov 2024 01:21:22 -0800 (PST)
 Received: from [192.168.7.189] ([212.114.21.58])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432dab78897sm47464945e9.16.2024.11.15.01.20.01
+ 5b1f17b1804b1-432da2445d4sm51991485e9.5.2024.11.15.01.21.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Nov 2024 01:20:02 -0800 (PST)
-Message-ID: <8df952a8-3599-4198-9ff0-f7fac6d5feaf@linaro.org>
-Date: Fri, 15 Nov 2024 10:20:01 +0100
+ Fri, 15 Nov 2024 01:21:22 -0800 (PST)
+Message-ID: <63a2b391-8b71-41cb-bed2-3bc7fd2154ab@linaro.org>
+Date: Fri, 15 Nov 2024 10:21:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH RFC 6/8] drm/msm: adreno: enable GMU bandwidth for A740
- and A750
+Subject: Re: [PATCH RFC 2/8] drm/msm: adreno: add GMU_BW_VOTE quirk
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
  Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
@@ -80,8 +79,8 @@ Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
 References: <20241113-topic-sm8x50-gpu-bw-vote-v1-0-3b8d39737a9b@linaro.org>
- <20241113-topic-sm8x50-gpu-bw-vote-v1-6-3b8d39737a9b@linaro.org>
- <nw2sqnxmhntvizzvygfho6nhiwfni4xfquwst5gd5g2tel6pnr@h66d4mw46jcf>
+ <20241113-topic-sm8x50-gpu-bw-vote-v1-2-3b8d39737a9b@linaro.org>
+ <sgz4h6rlmekiwypaisjbnej326wv4vaqt3mgspp4fs4tg3mdfx@cwmdqcu6gwbf>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -108,7 +107,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <nw2sqnxmhntvizzvygfho6nhiwfni4xfquwst5gd5g2tel6pnr@h66d4mw46jcf>
+In-Reply-To: <sgz4h6rlmekiwypaisjbnej326wv4vaqt3mgspp4fs4tg3mdfx@cwmdqcu6gwbf>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,103 +126,45 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/11/2024 08:33, Dmitry Baryshkov wrote:
-> On Wed, Nov 13, 2024 at 04:48:32PM +0100, Neil Armstrong wrote:
->> Now all the DDR bandwidth voting via the GPU Management Unit (GMU)
->> is in place, let's declare the Bus Control Modules (BCMs) and
+On 15/11/2024 08:07, Dmitry Baryshkov wrote:
+> On Wed, Nov 13, 2024 at 04:48:28PM +0100, Neil Armstrong wrote:
+>> The Adreno GMU Management Unit (GNU) can also scale the DDR Bandwidth
+>> along the Frequency and Power Domain level, but by default we leave the
+>> OPP core vote for the interconnect ddr path.
+>>
+>> While scaling via the interconnect path was sufficient, newer GPUs
+>> like the A750 requires specific vote paremeters and bandwidth to
+>> achieve full functionality.
+>>
+>> Add a new Quirk enabling DDR Bandwidth vote via GMU.
 > 
-> s/let's //g
-> 
->> it's parameters in the GPU info struct and add the GMU_BW_VOTE
->> quirk to enable it.
-> 
-> Can we define a function that checks for info.bcm[0].name isntead of
-> adding a quirk?
+> Please describe, why this is defined as a quirk rather than a proper
+> platform-level property. From my experience with 6xx and 7xx, all the
+> platforms need to send some kind of BW data to the GMU.
 
-Probably, I'll need ideas to how design this better, perhaps a simple
-capability bitfield in a6xx_info ?
-There's other feature that are lacking, like ACD or BCL which are not supported
-on all a6xx/a7xx gpus.
+Well APRIV, CACHED_COHERENT & PREEMPTION are HW features, why this can't be part of this ?
+
+Perhaps the "quirks" bitfield should be features instead ?
 
 > 
 >>
 >> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 >> ---
->>   drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 26 ++++++++++++++++++++++++--
->>   1 file changed, 24 insertions(+), 2 deletions(-)
+>>   drivers/gpu/drm/msm/adreno/adreno_gpu.h | 1 +
+>>   1 file changed, 1 insertion(+)
 >>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->> index 0c560e84ad5a53bb4e8a49ba4e153ce9cf33f7ae..014a24256b832d8e03fe06a6516b5348a5c0474a 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->> @@ -1379,7 +1379,8 @@ static const struct adreno_info a7xx_gpus[] = {
->>   		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
->>   		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
->>   			  ADRENO_QUIRK_HAS_HW_APRIV |
->> -			  ADRENO_QUIRK_PREEMPTION,
->> +			  ADRENO_QUIRK_PREEMPTION |
->> +			  ADRENO_QUIRK_GMU_BW_VOTE,
->>   		.init = a6xx_gpu_init,
->>   		.zapfw = "a740_zap.mdt",
->>   		.a6xx = &(const struct a6xx_info) {
->> @@ -1388,6 +1389,16 @@ static const struct adreno_info a7xx_gpus[] = {
->>   			.pwrup_reglist = &a7xx_pwrup_reglist,
->>   			.gmu_chipid = 0x7020100,
->>   			.gmu_cgc_mode = 0x00020202,
->> +			.bcm = {
->> +				[0] = { .name = "SH0", .buswidth = 16 },
->> +				[1] = { .name = "MC0", .buswidth = 4 },
->> +				[2] = {
->> +					.name = "ACV",
->> +					.fixed = true,
->> +					.perfmode = BIT(3),
->> +					.perfmode_bw = 16500000,
-> 
-> Is it a platform property or GPU / GMU property? Can expect that there
-> might be several SoCs having the same GPU, but different perfmode_bw
-> entry?
-
-I presume this is SoC specific ? But today the XXX_build_bw_table() are
-already SoC specific, so where should this go ?
-
-Downstream specifies this in the adreno-gpulist.h, which is the equivalent
-here.
-
-Neil
-
-> 
->> +				},
->> +			},
->>   		},
->>   		.address_space_size = SZ_16G,
->>   		.preempt_record_size = 4192 * SZ_1K,
->> @@ -1424,7 +1435,8 @@ static const struct adreno_info a7xx_gpus[] = {
->>   		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
->>   		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
->>   			  ADRENO_QUIRK_HAS_HW_APRIV |
->> -			  ADRENO_QUIRK_PREEMPTION,
->> +			  ADRENO_QUIRK_PREEMPTION |
->> +			  ADRENO_QUIRK_GMU_BW_VOTE,
->>   		.init = a6xx_gpu_init,
->>   		.zapfw = "gen70900_zap.mbn",
->>   		.a6xx = &(const struct a6xx_info) {
->> @@ -1432,6 +1444,16 @@ static const struct adreno_info a7xx_gpus[] = {
->>   			.pwrup_reglist = &a7xx_pwrup_reglist,
->>   			.gmu_chipid = 0x7090100,
->>   			.gmu_cgc_mode = 0x00020202,
->> +			.bcm = {
->> +				[0] = { .name = "SH0", .buswidth = 16 },
->> +				[1] = { .name = "MC0", .buswidth = 4 },
->> +				[2] = {
->> +					.name = "ACV",
->> +					.fixed = true,
->> +					.perfmode = BIT(2),
->> +					.perfmode_bw = 10687500,
->> +				},
->> +			},
->>   		},
->>   		.address_space_size = SZ_16G,
->>   		.preempt_record_size = 3572 * SZ_1K,
+>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>> index e71f420f8b3a8e6cfc52dd1c4d5a63ef3704a07f..20b6b7f49473d42751cd4fb4fc82849be42cb807 100644
+>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>> @@ -57,6 +57,7 @@ enum adreno_family {
+>>   #define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
+>>   #define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
+>>   #define ADRENO_QUIRK_PREEMPTION			BIT(5)
+>> +#define ADRENO_QUIRK_GMU_BW_VOTE		BIT(6)
+>>   
+>>   /* Helper for formating the chip_id in the way that userspace tools like
+>>    * crashdec expect.
 >>
 >> -- 
 >> 2.34.1
