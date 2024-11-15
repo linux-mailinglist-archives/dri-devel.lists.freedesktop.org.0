@@ -2,69 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444059CC857
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 01:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0AB9CD534
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 02:55:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66E7710E021;
-	Fri, 15 Nov 2024 00:28:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7690210E109;
+	Fri, 15 Nov 2024 01:55:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jTXMG2Uw";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Pc1wZfBz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
- [209.85.219.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6A7C10E021
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 00:28:01 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id
- 6a1803df08f44-6d382677c92so6208756d6.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 16:28:01 -0800 (PST)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C425A10E109
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 01:55:01 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-71e61b47c6cso1082096b3a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2024 17:55:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731630481; x=1732235281; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=AckJs17h8oFYm8gxJqkO2zFuSFnXtXF7hHg/dwrY0hU=;
- b=jTXMG2UwuF91LVQUTQ0UPTzaYVojU6v/EgBd8ZqQCpYujubNDRpD5Ut2ntlKC71qRl
- mYqf0PFRADaIVtujCmdV1dbDp6dNcpfx3tA7BkWEIhaLJlPQozugLQqQ6ByF91OfBcwD
- zaYG3iY8U8ECJaYJ2tyBjxGajIpJ9QrCkKTgK+fHjHagrL16bxIJ0FrMLp/Tbzm3XLc5
- I2u3fMy/C9YtvfwIxBO+NhvpNMjNBF78PlIv09r0jXrMp6he+w6Fb3e6I4JrrX9xjy/t
- Jo0ziNZVzFozpvK+Sj8iPDTTXB9TVWMNHRoXWVpSm8s6OMnQue7hIyCn+es6PF+RT6Tn
- Sn2Q==
+ d=chromium.org; s=google; t=1731635701; x=1732240501;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ax2nCJw28+cGdzTpn+eQtOhpC15VKouPR6tFXcvFPcg=;
+ b=Pc1wZfBzsRfoTezctaL9AtXbORGWGhoFhLWB1AmRCTohbnm7iFXFngauJm+JDbaKwa
+ ZLXBGiQepnLjgijuxTaZ2KxWHrtVPf4bMzn1wgA1fxFyB5M3Ys0RTUKlHzQUtFKBZAf6
+ 6L2+fXHF0W/2qj+14fD81NYG7NEBFCjVBEgvM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731630481; x=1732235281;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AckJs17h8oFYm8gxJqkO2zFuSFnXtXF7hHg/dwrY0hU=;
- b=GJ3jC+NJs05lWEVf6oJClvNN8qfBrDZR7dWHRD24v3pDh++Cc1jv5Cps+qKVp6wOj2
- maJ1xDGi1zZqBbTvbQB5biXLby0S1oEY6SIiHgDvTAx9kbLsysfRAGEWVHIJiwCAoX2h
- 3hFsabQur3K2f4J6YeiGaQrTvDcZaCoi3YC3+4oT7v7HllEVGugxHA1I1uSudqTXa9Fi
- OqlF1z/W7cMUZ5xhxnFClfSrNbUnc2WZ0bP29aHX9iT2mDP/r72giYZbi8/c2Ro2jWo9
- g3U7q0y+sJc62FtWXXCY639Cqjdh3rSu5aLUMaows4tEA+B26gwU2l/GMMdJ7o6kBb5J
- Hkew==
-X-Gm-Message-State: AOJu0YwmlPQlBZUJJcEIsoFKFWfHj9dbd7poZdr3CinEsBMDkkg45T9j
- xrziZnfqR5WlJ6cHIixjpK8YP+1Pj4LZUP8P3hd2fIgu0RcfojzD
-X-Google-Smtp-Source: AGHT+IE8CM8z6r6RWGEMOZtmU3M9Sl1kjXSgJfQGnc2KuyKdrIalHlMViVR1oGXXUsD9w6MBT8IvZg==
-X-Received: by 2002:a05:6214:390e:b0:6d3:67df:5f97 with SMTP id
- 6a1803df08f44-6d3fb734612mr10901216d6.7.1731630480766; 
- Thu, 14 Nov 2024 16:28:00 -0800 (PST)
-Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu.
- [130.126.255.54]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6d3f745235dsm7847666d6.94.2024.11.14.16.27.59
+ d=1e100.net; s=20230601; t=1731635701; x=1732240501;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ax2nCJw28+cGdzTpn+eQtOhpC15VKouPR6tFXcvFPcg=;
+ b=SWv9RfM5mBf+EXxBdeoOeS9GjPEHRCMgrn6rQg1b8IEPPmgED5xQn/Okw8H2I8oXgk
+ jio2cSKGPg9q2OEzQ+68go+6jm2yPVluMZoesfYsX8iSdWHN8qTLyP3r9VxSkNBRKheI
+ mThRsfyLqGEI5FIa9L48KQa3NRfbZvXjZS9VnUmkGMVyHimRU7s9coZlKlJRJiRio4EV
+ L+sLOWS069ueDQmxr5AwVCFf+v6vDxY8KE56fJAdz0VzeOTbZKQlNPoxSh5ZByptVbdS
+ jLAPegnKKeV2ZJjv8XQl0KnSFPR8ENjaqiuxRPP4Jc9Kqu3vlkVOuW1tjotUr0YcMeyL
+ UUjA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEmU392GEzebi2FUt8mJkia30Y2gp7tsDm735BUv29fg9fs2MnIg2eTcy1anT1QPMbdEAdWeGecZA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiwlSojrKBBUr5hjfuYzab5GVRpRKBC52mIfLnoVwpL+BfLfE9
+ Qq2egi5BCkNUqGQjcGpX4VH2opR9Uxu0BIdvLeLNYoemCYaX5PJm6bclBXeTGw==
+X-Google-Smtp-Source: AGHT+IH9aUdvAddesq/jNiojGAkb+nP6hjJUYZ/lJO+dyebRL5FJ6mciWhnqi85JGGRzIRwzHv/k8w==
+X-Received: by 2002:a05:6a00:1413:b0:71e:1722:d02c with SMTP id
+ d2e1a72fcca58-72476b726bamr1503003b3a.3.1731635701196; 
+ Thu, 14 Nov 2024 17:55:01 -0800 (PST)
+Received: from google.com ([2401:fa00:8f:203:f2ec:a79f:1362:3ac3])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7247711ce3esm318534b3a.48.2024.11.14.17.54.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Nov 2024 16:28:00 -0800 (PST)
-From: Gax-c <zichenxie0106@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, seanpaul@chromium.org
-Cc: dri-devel@lists.freedesktop.org,
-	Zichen Xie <zichenxie0106@gmail.com>
-Subject: [PATCH] drm: Use array_size() in call to copy_from_user() in
- drm_mode_dirtyfb_ioctl()
-Date: Thu, 14 Nov 2024 18:27:49 -0600
-Message-Id: <20241115002748.7200-1-zichenxie0106@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Thu, 14 Nov 2024 17:55:00 -0800 (PST)
+Date: Fri, 15 Nov 2024 10:54:56 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ ville.syrjala@linux.intel.com
+Subject: Re: [RFC][PATCH] drm: i915: do not NULL deref hdmi attached_connector
+Message-ID: <20241115015456.GL1458936@google.com>
+References: <20241031105145.2140590-1-senozhatsky@chromium.org>
+ <20241113083920.GH1458936@google.com> <87msi3bidr.fsf@intel.com>
+ <87cyix6cc5.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87cyix6cc5.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,31 +88,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zichen Xie <zichenxie0106@gmail.com>
+On (24/11/14 17:53), Jani Nikula wrote:
+> > Ville, we handle intel_ddi_init_dp_connector() failures but not
+> > intel_ddi_init_hdmi_connector() failures. Do you recall if there's a
+> > reason for that? Something like a dual-mode port where DP works but HDMI
+> > gets rejected because of bogus VBT info?
+> >
+> > My gut feeling is to propagate errors from intel_hdmi_init_connector()
+> > and handle them properly in g4x_hdmi_init() and
+> > intel_ddi_init_hdmi_connector().
+> >
+> > Of course, we have cases where hdmi is just not initialized on DDI, and
+> > those should be handled. But I don't think hdmi->attached_connector !=
+> > NULL is really the right check for that.
+> 
+> I'm hoping [1] would solve the issue.
 
-Like commit ac19c4c3d02e ("bcachefs: Use array_size() in call to
-copy_from_user()"), it's a safer way to use helper array_size() in
-copy_from_user() to avoid potential overflow issues.
-
-Fixes: 7520a277d97b ("drm: Extract drm_framebuffer.[hc]")
-Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
----
- drivers/gpu/drm/drm_framebuffer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 888aadb6a4ac..323fb194ca17 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -752,7 +752,7 @@ int drm_mode_dirtyfb_ioctl(struct drm_device *dev,
- 		}
- 
- 		ret = copy_from_user(clips, clips_ptr,
--				     num_clips * sizeof(*clips));
-+				     array_size(num_clips, sizeof(*clips)));
- 		if (ret) {
- 			ret = -EFAULT;
- 			goto out_err2;
--- 
-2.34.1
-
+Hi Jani, I'll reply in that new thread.
