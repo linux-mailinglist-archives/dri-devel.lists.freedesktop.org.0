@@ -2,54 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583139CEB15
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 16:11:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6819CE820
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 16:03:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB3210E880;
-	Fri, 15 Nov 2024 15:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98EE510E884;
+	Fri, 15 Nov 2024 15:03:48 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="F7Jxu7p2";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 523 seconds by postgrey-1.36 at gabe;
- Fri, 15 Nov 2024 15:11:18 UTC
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 945C310E880;
- Fri, 15 Nov 2024 15:11:18 +0000 (UTC)
-Received: from loongson.cn (unknown [223.64.68.202])
- by gateway (Coremail) with SMTP id _____8BxeeCHYjdnO3c+AA--.57471S3;
- Fri, 15 Nov 2024 23:02:31 +0800 (CST)
-Received: from localhost.localdomain (unknown [223.64.68.202])
- by front1 (Coremail) with SMTP id qMiowMBx20aDYjdnyf9WAA--.19097S2;
- Fri, 15 Nov 2024 23:02:30 +0800 (CST)
-From: Huacai Chen <chenhuacai@loongson.cn>
-To: David Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui.Pan@amd.com, Huacai Chen <chenhuacai@kernel.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Huacai Chen <chenhuacai@loongson.cn>, Rui Wang <wangrui@loongson.cn>
-Subject: [PATCH] drm/amd/display: Allow building DC with clang on LoongArch
-Date: Fri, 15 Nov 2024 23:02:25 +0800
-Message-ID: <20241115150225.2812054-1-chenhuacai@loongson.cn>
-X-Mailer: git-send-email 2.43.5
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A46A510E884
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 15:03:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1731683025;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YY3HXxgZdqee3bXOQbSTG+SL8qFKBgmvhvof1yW96LA=;
+ b=F7Jxu7p2n0NPt6KOGf6/kEWrEnTW1WIMtgw9BgTRnQVL0A/Z8+lntti0igO5z5S3tHMSxB
+ 1dAQAT+je4LJ5eFTuVbUgDmBg9nR+ivAoEHVUj7K1D5KSSGkFc9lo1SL8EN1JdMaYtvhi5
+ wGIaTXB+5Fl6LFt6o4tPjzrhdpUeHNc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-28-kFpEaSy0PXq5u5VkUeig1w-1; Fri, 15 Nov 2024 10:03:43 -0500
+X-MC-Unique: kFpEaSy0PXq5u5VkUeig1w-1
+X-Mimecast-MFC-AGG-ID: kFpEaSy0PXq5u5VkUeig1w
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4315ad4938fso13508435e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 07:03:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731683022; x=1732287822;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=+1lIXts8+R8JrQyK+g208H/mRBtoTO9aZteC38sSeGI=;
+ b=OKVQ4q7nMtU6zFwZluAcDQStyh9WJM5L9CS1WT/hOqU2N3wSwJx6jQuMD5cg+buWNz
+ ggt+pyiZLyK+ymx5uA3tropIc7Qx6c+5Os9zntUOOUbdn9mxXtHV9F1aNqubxLtKilx7
+ StYsDDyX1wmO0VfOTX9xiUYCHAz1hdaqqa1hA2P2fAT0/QWhL+pVY6RAoSAuF6Bv1/+V
+ PxF4w7xP3zTj7JIgdMWkn/XRGh4yrgaYNRXY24Y7WxzgHleI2RapSAuUzsj6dX6yoZmL
+ G8E1Ao6Q2gz6VED7Gq0neIOyzI+lteer6hhlk8NUMMs61cuwFhqxqjAboNebyr0Yi+IW
+ GeHw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWjQw3VkdW898NOEdnz4IQDXonxaIAzXREoDwoVUb7SbtUTpwN8Z5pqF8858RQWXL82nF9ytxDTgsE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwrVoWu74Xp+NBZ6ZIxBh+T1iEsIxBATlm1JNO5cR1UwjlooluO
+ Egvw8WIXOf5BFkJYTuTwgnLJoUz6h+q3SjimUeZY83Xqvhl2ilb4mKfCHUkTLRzHXc+MnhNJtMC
+ GgdoKbGe9d2wwczD42fgllGFjCg+bX5DOGyWANqZ4sI33f9X3B84Frb+BYyetKYVAow==
+X-Received: by 2002:a05:600c:4588:b0:431:3bf9:3ebb with SMTP id
+ 5b1f17b1804b1-432df77c66cmr23674625e9.24.1731683021640; 
+ Fri, 15 Nov 2024 07:03:41 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE43i51i+kH9S/hOQkyW4270Vfm3A6Er5fe22KsN5rDaWxi0gVwwo7H5CZ+0UhJcJl9QfgQUQ==
+X-Received: by 2002:a05:600c:4588:b0:431:3bf9:3ebb with SMTP id
+ 5b1f17b1804b1-432df77c66cmr23673815e9.24.1731683021019; 
+ Fri, 15 Nov 2024 07:03:41 -0800 (PST)
+Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-432da29989asm58756615e9.42.2024.11.15.07.03.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Nov 2024 07:03:40 -0800 (PST)
+Message-ID: <b7d5b17497a7e54f0d966f3e72408f2a8dcd0811.camel@redhat.com>
+Subject: Re: [PATCH v6 3/7] drm/sched: add device name to the
+ drm_sched_process_job event
+From: Philipp Stanner <pstanner@redhat.com>
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com, 
+ matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org,  tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch,  dri-devel@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com,  rostedt@goodmis.org,
+ l.stach@pengutronix.de, matt.coster@imgtec.com,  frank.binns@imgtec.com,
+ yuq825@gmail.com, robdclark@gmail.com, kherbst@redhat.com, 
+ lyude@redhat.com, boris.brezillon@collabora.com, steven.price@arm.com, 
+ mwen@igalia.com, mcanal@igalia.com, thomas.hellstrom@linux.intel.com, 
+ tvrtko.ursulin@igalia.com
+Date: Fri, 15 Nov 2024 16:03:38 +0100
+In-Reply-To: <20241114100113.150647-4-pierre-eric.pelloux-prayer@amd.com>
+References: <20241114100113.150647-1-pierre-eric.pelloux-prayer@amd.com>
+ <20241114100113.150647-4-pierre-eric.pelloux-prayer@amd.com>
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qMiowMBx20aDYjdnyf9WAA--.19097S2
-X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Zr45Ww4furyUGrWDuF1fKrX_yoW5Jrykpw
- sYkFsxurWDJ3WrAFZrt3WxuFZ8Ca93AFyUJryrXw15uas8ZrykAr9akF4Ut3srZF92yFya
- yFn7GrWkZF1q9rbCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
- 67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2
- Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
- 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
- vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE
- 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
- kF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jUsqXUUUUU=
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: -OoD8ONuCLEb8hhYzIuB4qSl9trTELGtEKagjPKlieg_1731683022
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,53 +105,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang on LoongArch (18+) appears to be unaffected by the bug causing
-excessive stack usage in calculate_bandwidth(). But when building DC_FP
-support the stack frame size can be as large as 2816 bytes, which causes
-the FRAME_WARN build warnings. So on LoongArch we allow building DC with
-clang, but disable DC_FP by default.
+On Thu, 2024-11-14 at 11:01 +0100, Pierre-Eric Pelloux-Prayer wrote:
+> Until the switch from kthread to workqueue,
 
-The help message is also updated.
+Could you include the commit ID here where that happened?=20
 
-Tested-by: Rui Wang <wangrui@loongson.cn>
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
----
- drivers/gpu/drm/amd/display/Kconfig | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+"Since switching the scheduler from using kthreads to workqueues in
+commit 1234 ("foo: bar") userspace applications cannot determine the
+[...] anymore"
 
-diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
-index df17e79c45c7..11e3f2f3b174 100644
---- a/drivers/gpu/drm/amd/display/Kconfig
-+++ b/drivers/gpu/drm/amd/display/Kconfig
-@@ -7,20 +7,21 @@ menu "Display Engine Configuration"
- config DRM_AMD_DC
- 	bool "AMD DC - Enable new display engine"
- 	default y
--	depends on BROKEN || !CC_IS_CLANG || ARM64 || RISCV || SPARC64 || X86_64
-+	depends on BROKEN || !CC_IS_CLANG || ARM64 || LOONGARCH || RISCV || SPARC64 || X86_64
- 	select SND_HDA_COMPONENT if SND_HDA_CORE
- 	# !CC_IS_CLANG: https://github.com/ClangBuiltLinux/linux/issues/1752
--	select DRM_AMD_DC_FP if ARCH_HAS_KERNEL_FPU_SUPPORT && !(CC_IS_CLANG && (ARM64 || RISCV))
-+	select DRM_AMD_DC_FP if ARCH_HAS_KERNEL_FPU_SUPPORT && !(CC_IS_CLANG && (ARM64 || LOONGARCH || RISCV))
- 	help
- 	  Choose this option if you want to use the new display engine
- 	  support for AMDGPU. This adds required support for Vega and
- 	  Raven ASICs.
- 
--	  calculate_bandwidth() is presently broken on all !(X86_64 || SPARC64 || ARM64)
--	  architectures built with Clang (all released versions), whereby the stack
--	  frame gets blown up to well over 5k.  This would cause an immediate kernel
--	  panic on most architectures.  We'll revert this when the following bug report
--	  has been resolved: https://github.com/llvm/llvm-project/issues/41896.
-+	  calculate_bandwidth() is presently broken on all !(X86_64 || SPARC64 ||
-+	  ARM64 || LOONGARCH || RISCV) architectures built with Clang (all released
-+	  versions), whereby the stack frame gets blown up to well over 5k.  This
-+	  would cause an immediate kernel panic on most architectures.  We'll revert
-+	  this when the following bug report has been resolved:
-+	  https://github.com/llvm/llvm-project/issues/41896.
- 
- config DRM_AMD_DC_FP
- 	def_bool n
--- 
-2.43.5
+
+>  a userspace application could
+> determine the source device
+
+source device of *what*? Should be mentioned.
+
+>  from the pid of the thread sending the event.
+
+nit: s/pid/PID ?
+
+>=20
+> With workqueues this is not possible anymore, so the event needs to
+> contain
+> the dev_name() to identify the device.
+>=20
+> Signed-off-by: Pierre-Eric Pelloux-Prayer
+> <pierre-eric.pelloux-prayer@amd.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/gpu_scheduler_trace.h | 6 ++++--
+> =C2=A01 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> index c75302ca3427..c4ec28540656 100644
+> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> @@ -42,6 +42,7 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(uint64_t, id)
+> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(u32, job_count)
+> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(int, hw_job_count)
+> +=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __string(dev, dev_name(sched_job-
+> >sched->dev))
+> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 ),
+> =C2=A0
+> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_fast_assign(
+> @@ -52,9 +53,10 @@ DECLARE_EVENT_CLASS(drm_sched_job,
+> =C2=A0=09=09=09=C2=A0=C2=A0 __entry->job_count =3D
+> spsc_queue_count(&entity->job_queue);
+> =C2=A0=09=09=09=C2=A0=C2=A0 __entry->hw_job_count =3D atomic_read(
+> =C2=A0=09=09=09=09=C2=A0=C2=A0 &sched_job->sched->credit_count);
+> +=09=09=09=C2=A0=C2=A0 __assign_str(dev);
+> =C2=A0=09=09=09=C2=A0=C2=A0 ),
+> -=09=C2=A0=C2=A0=C2=A0 TP_printk("entity=3D%p, id=3D%llu, fence=3D%p, rin=
+g=3D%s, job
+> count:%u, hw job count:%d",
+> -=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->entity, __entry->id,
+> +=09=C2=A0=C2=A0=C2=A0 TP_printk("dev=3D%s, entity=3D%p, id=3D%llu, fence=
+=3D%p,
+> ring=3D%s, job count:%u, hw job count:%d",
+> +=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __get_str(dev), __entry->entity, __=
+entry->id,
+> =C2=A0=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->fence, __get_str(name=
+),
+> =C2=A0=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->job_count, __entry->h=
+w_job_count)
+> =C2=A0);
 
