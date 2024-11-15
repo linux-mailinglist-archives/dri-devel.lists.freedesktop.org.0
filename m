@@ -2,90 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC819CECFB
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 16:16:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4819CEEEB
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 16:22:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 176F910E88D;
-	Fri, 15 Nov 2024 15:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF1CD10E887;
+	Fri, 15 Nov 2024 15:22:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IXeAv9bf";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OrEmEL2C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7553E10E063
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 15:16:10 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE6A10E887
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 15:22:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1731683769;
+ s=mimecast20190719; t=1731684132;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f3kpmsaTDLNGnzVhaTY281Ro6YjePrPjiShI0TriMAw=;
- b=IXeAv9bfpB3wJMjvSZgRsK+kew9qSAcwl99jo2UmjGS+rZ/MqBLTKOS628D+wZ8i9UiJ3u
- EvK/gj9JTIpj0o+l5LEcR0BZq8MR3lHMcTNDQhjNziSClcw+hTfPqzP6w2WSeYfNjGTN+u
- yDLgh4uJ/w8B59gGJ6mDuMVUuG5bmCg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BRYo29qDQXv6kNwRL7Kexv0d1Fhk7zgyX97u0llb/cU=;
+ b=OrEmEL2C1VPnYj86AEiL7Flb6wn3Se8ne1LytgLiITeqtsleVsU0sjafn8jCvFL+AZXFPf
+ 98jZNcOUhdSmGex/sJcSSP7gUcgksy+kWxsd4y5JW5wT2W5zfcboAyvEt42MbGSOOdVg6x
+ 0qkXwjCJrsMA6s3uA7imeKUGLmLf89M=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-133-Uc7Sxj3kOyeSrZTU87WNzA-1; Fri, 15 Nov 2024 10:16:07 -0500
-X-MC-Unique: Uc7Sxj3kOyeSrZTU87WNzA-1
-X-Mimecast-MFC-AGG-ID: Uc7Sxj3kOyeSrZTU87WNzA
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-43152cd2843so12416165e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 07:16:07 -0800 (PST)
+ us-mta-310-bvYSVxaaOe64sQXZG1GOhg-1; Fri, 15 Nov 2024 10:22:09 -0500
+X-MC-Unique: bvYSVxaaOe64sQXZG1GOhg-1
+X-Mimecast-MFC-AGG-ID: bvYSVxaaOe64sQXZG1GOhg
+Received: by mail-lf1-f71.google.com with SMTP id
+ 2adb3069b0e04-539f7abe2e6so1580337e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 07:22:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731683766; x=1732288566;
+ d=1e100.net; s=20230601; t=1731684127; x=1732288927;
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=V99lvhB+G56WWX6JerraN+Y/VzcobaHMl3+1HYU3YPg=;
- b=oIzrrC9f0kUaTMbIK9yimQMEwRl/C7fda6qJ35nZQ4y4iIfTwwD2/gzLy/d0OHplKG
- NZV42DtAi3iFmkRjfSM3/0KlSwMPOpVOJ2KP4ed9UJJmJ1xJnYyCUx51iQ4ZWUikxYGF
- Dqd4uHiYUIiSCZuKcLJIWQMJhol3tYmHePm25egQuiG6QbkWquaZY0LxVkJh5j72HZX8
- zLMbzt+K17fRiD2W6DiBd8VNCyauqoED38gcpPYaJwE2LRwjOjRWDIn/SbpKZMD8RDnP
- Pf/7TC4Gg079xN7LUkPdBuNfM/2/EVm7UVEkzxRZLuJIrPHavxVNvNQJvfIarGKFgd7v
- pBfQ==
+ bh=BRYo29qDQXv6kNwRL7Kexv0d1Fhk7zgyX97u0llb/cU=;
+ b=aEfAAozkxBuvgLIEjU3JQNDU2ZcI4Zlyuh2ft3K8NruwMp2l2mcU5mLzvgfBvsQeAn
+ uHKD02IUFin0QumzTO+CisrSJeSpxldj8M4WzJ7yRl1Uc6UjNnZhroxpF7vE8Sw5Gak4
+ qOqa9kCKrtAjoExSEX/RNTw4TVcUbNphTY+ZZMk5x9te0RFOhS8YX/NrFKYH+7Adn4YC
+ g+nLOzh7kWLmpLBgkHml6KDBRq4uCJTcnkEnEomNkrGLN0nSZ7aY4Ie7axjJdVlqBDPK
+ JM0pSpndiVj07WHw6SBEEk4Q7ZMZp5eSLOz5pCtjAoYrZkJuKZzQRJMpoCRb6gStkpK2
+ PmRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXjw2ibCURiROzHzk8OrSuVTa8ZO9n7L38LwoEvVj1Aoyp7RyN9OZ8a0fHlo9GGVYHFD7Br/bd6AyI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwjFrKkFGXv77aXObncxN+/MQNc/XeAhZGl3qoy9YxmyWT14eY1
- bFWPyZTvQbKgBYW/qc9xxwEk1pXyoTcAjxnpSDbuToTVVWiZ+W7uZ6qUWbTMY6IRrx8trYIzWOg
- XkaYL73Ejl3VhxbgmJqexSlkzDP4MPRJogtOcJnjTQF3mBA/crtLd1SeRz1BgL+/3cw==
-X-Received: by 2002:a05:600c:1c09:b0:431:5f1c:8352 with SMTP id
- 5b1f17b1804b1-432df71d609mr26181885e9.5.1731683766328; 
- Fri, 15 Nov 2024 07:16:06 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG5HZ2GNfHcSjVZaPrD4/IWwT8V/mLtD8O2tV3rxJSmQP7s+uiB13WuAevSmtOFVKXjZeqq3Q==
-X-Received: by 2002:a05:600c:1c09:b0:431:5f1c:8352 with SMTP id
- 5b1f17b1804b1-432df71d609mr26181145e9.5.1731683765782; 
- Fri, 15 Nov 2024 07:16:05 -0800 (PST)
+ AJvYcCUxAtEjsFGBtBErH6BFl1vUzy0/5XDy0JNv4lTB/N60rtxomD1f8e6opU5oJ9AfIYj8K8hO3tLk8bk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyGbJXhVKT4sPwmLXLDcy3rTq1xDGT/XoRKJ2WGEYBNNAS9gVAj
+ EVmS0OdVSye/gy4UY+cvGIRXWjVDURBP9mh6olw8qCkA7MNipIIZAKhvZTgX4M5sBu4V3XWNI5V
+ yOfB1mEg8Agx4TdAZOOYY3euEdSro9pmcEjWaxtvfOeniXvCB8z8Ovo0xk7TQuKVgng==
+X-Received: by 2002:a05:6512:2383:b0:53d:a899:7899 with SMTP id
+ 2adb3069b0e04-53dab2a618fmr1447281e87.24.1731684127478; 
+ Fri, 15 Nov 2024 07:22:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF7dqcmSs/iLMPksGHXzhE6qYJjfP5RUrVszDnk4DlKYZVVCPS+2tp13MdcvOk2CvSjkZtHVA==
+X-Received: by 2002:a05:6512:2383:b0:53d:a899:7899 with SMTP id
+ 2adb3069b0e04-53dab2a618fmr1447258e87.24.1731684126941; 
+ Fri, 15 Nov 2024 07:22:06 -0800 (PST)
 Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432dab80582sm56937925e9.19.2024.11.15.07.16.04
+ 5b1f17b1804b1-432da265ca8sm60205905e9.14.2024.11.15.07.22.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Nov 2024 07:16:05 -0800 (PST)
-Message-ID: <07e14fc50f3ead216555b1c134589186b9d838e9.camel@redhat.com>
-Subject: Re: [PATCH v6 4/7] drm/sched: cleanup gpu_scheduler trace events
+ Fri, 15 Nov 2024 07:22:06 -0800 (PST)
+Message-ID: <ccfe75a8785c7f5764169533a5b1eac801be8443.camel@redhat.com>
+Subject: Re: [PATCH v6 7/7] drm/doc: document some tracepoints as uAPI
 From: Philipp Stanner <pstanner@redhat.com>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
- alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com, 
- matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org,  tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch,  dri-devel@lists.freedesktop.org,
- ville.syrjala@linux.intel.com,  rostedt@goodmis.org,
- l.stach@pengutronix.de, matt.coster@imgtec.com,  frank.binns@imgtec.com,
- yuq825@gmail.com, robdclark@gmail.com, kherbst@redhat.com, 
- lyude@redhat.com, boris.brezillon@collabora.com, steven.price@arm.com, 
- mwen@igalia.com, mcanal@igalia.com, thomas.hellstrom@linux.intel.com, 
- tvrtko.ursulin@igalia.com
-Date: Fri, 15 Nov 2024 16:16:03 +0100
-In-Reply-To: <20241114100113.150647-5-pierre-eric.pelloux-prayer@amd.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Pierre-Eric Pelloux-Prayer
+ <pierre-eric.pelloux-prayer@amd.com>, alexander.deucher@amd.com, 
+ christian.koenig@amd.com, ltuikov89@gmail.com, matthew.brost@intel.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ ville.syrjala@linux.intel.com, rostedt@goodmis.org, matt.coster@imgtec.com,
+ frank.binns@imgtec.com, yuq825@gmail.com, robdclark@gmail.com,
+ kherbst@redhat.com,  lyude@redhat.com, boris.brezillon@collabora.com,
+ steven.price@arm.com,  mwen@igalia.com, mcanal@igalia.com,
+ thomas.hellstrom@linux.intel.com,  tvrtko.ursulin@igalia.com
+Date: Fri, 15 Nov 2024 16:22:05 +0100
+In-Reply-To: <37f5814a6f3b5539b01f1137740eb132c3f88500.camel@pengutronix.de>
 References: <20241114100113.150647-1-pierre-eric.pelloux-prayer@amd.com>
- <20241114100113.150647-5-pierre-eric.pelloux-prayer@amd.com>
+ <20241114100113.150647-8-pierre-eric.pelloux-prayer@amd.com>
+ <37f5814a6f3b5539b01f1137740eb132c3f88500.camel@pengutronix.de>
 User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: fmCMAzsOLCGRqp3IbXbAFwHdLPN3BCS0vlMFEBN12IA_1731683767
+X-Mimecast-MFC-PROC-ID: p4poSZfJrR27_6z799ENHp-VjfDXOnsw8mUUD1X6J_o_1731684128
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,156 +104,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2024-11-14 at 11:01 +0100, Pierre-Eric Pelloux-Prayer wrote:
-> A fence uniquely identify a job, so this commits updates the places
+On Thu, 2024-11-14 at 12:30 +0100, Lucas Stach wrote:
+> Hi,
+>=20
+> Am Donnerstag, dem 14.11.2024 um 11:01 +0100 schrieb Pierre-Eric
+> Pelloux-Prayer:
+> > This commit adds a document section in drm-uapi.rst about
+> > tracepoints,
+> > and mark the events gpu_scheduler_trace.h as stable uAPI.
+> >=20
+> > The goal is to explicitly state that tools can rely on the fields,
+> > formats and semantics of these events.
+> >=20
+> > Acked-by: Lucas Stach <l.stach@pengutronix.de>
+> > Acked-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> > Signed-off-by: Pierre-Eric Pelloux-Prayer
+> > <pierre-eric.pelloux-prayer@amd.com>
+> > ---
+> > =C2=A0Documentation/gpu/drm-uapi.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 19
+> > ++++++++++++++++
+> > =C2=A0.../gpu/drm/scheduler/gpu_scheduler_trace.h=C2=A0=C2=A0 | 22
+> > +++++++++++++++++++
+> > =C2=A02 files changed, 41 insertions(+)
+> >=20
+> > diff --git a/Documentation/gpu/drm-uapi.rst
+> > b/Documentation/gpu/drm-uapi.rst
+> > index b75cc9a70d1f..9603ac0f4c09 100644
+> > --- a/Documentation/gpu/drm-uapi.rst
+> > +++ b/Documentation/gpu/drm-uapi.rst
+> > @@ -583,3 +583,22 @@ dma-buf interoperability
+> > =C2=A0
+> > =C2=A0Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst
+> > for
+> > =C2=A0information on how dma-buf is integrated and exposed within DRM.
+> > +
+> > +
+> > +Trace events
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +See Documentation/trace/tracepoints.rst for information about
+> > using
+> > +Linux Kernel Tracepoints.
+> > +In the DRM subsystem, some events are considered stable uAPI to
+> > avoid
+> > +breaking tools (e.g.: GPUVis, umr) relying on them. Stable means
+> > that fields
+> > +cannot be removed, nor their formatting updated. Adding new fields
+> > is
+> > +possible, under the normal uAPI requirements.
+> > +
+> > +Stable uAPI events
+> > +------------------
+> > +
+> > +From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
+> > +
+> > +.. kernel-doc::=C2=A0 drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> > +=C2=A0=C2=A0 :doc: uAPI trace events
+> > \ No newline at end of file
+> > diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> > b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> > index 8340c7c0c6b6..ec230e558961 100644
+> > --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> > +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+> > @@ -33,6 +33,28 @@
+> > =C2=A0#define TRACE_SYSTEM gpu_scheduler
+> > =C2=A0#define TRACE_INCLUDE_FILE gpu_scheduler_trace
+> > =C2=A0
+> > +
+> > +/**
+> > + * DOC: uAPI trace events
+> > + *
+> > + * ``drm_sched_job``, ``drm_run_job``, ``drm_sched_process_job``,
+> > + * and ``drm_sched_job_wait_dep`` are considered stable uAPI.
+> > + *
+> > + * Common trace events attributes:
+> > + *
+> > + * * ``id``=C2=A0=C2=A0=C2=A0 - this is &drm_sched_job->id. It uniquel=
+y idenfies
+> > a job
+> > + *=C2=A0=C2=A0 inside a &struct drm_gpu_scheduler.
+> > + *
+> > + * * ``dev``=C2=A0=C2=A0 - the dev_name() of the device running the jo=
+b.
+> > + *
+> > + * * ``ring``=C2=A0 - the hardware ring running the job. Together with
+> > ``dev`` it
+> > + *=C2=A0=C2=A0 uniquely identifies where the job is going to be execut=
+ed.
+> > + *
+> It might be nitpicky, but as we change the format of the tracepoints
+> anyway and are about to declare them a ABI: I don't really like the
+> ring name. Yes, in most hardware implementations today the mechanism
+> to
+> queue jobs is a ring buffer, but there are other mechanisms to
+> schedule
+> jobs (see for example the lima driver). Maybe we could rename this to
+> something a bit more generic like "dev_queue" or something like that?
 
-s/identify/identifies
+While it might be true that the term isn't optimal or even formally
+correct, it is the term which is used everywhere, including
+presentations at conferences such as XDC and Plumbers.
 
-> where a kernel pointer was used as an identifier by:
+So I think the price we'd pay for breaking consistency with the
+established term would be higher than the gained formal correctness.
 
-But better sth like this:
+Greetings,
+P.
 
-"Currently, the scheduler's tracing infrastructure uses the job's
-dma_fence and the drm_sched_entity the job belongs to. The dma_fence
-alone, however, already uniquely identifies a job.
-
-Use the dma_fence's context and sequence number exclusively identify a
-job in debug prints like so:=20
 
 >=20
-> =C2=A0=C2=A0 "fence=3D(context:%llu, seqno:%lld)"
+> Regards,
+> Lucas
 >=20
-> Signed-off-by: Pierre-Eric Pelloux-Prayer
-> <pierre-eric.pelloux-prayer@amd.com>
-> ---
-> =C2=A0.../gpu/drm/scheduler/gpu_scheduler_trace.h=C2=A0=C2=A0 | 39 ++++++=
-+++++------
-> --
-> =C2=A01 file changed, 22 insertions(+), 17 deletions(-)
+> > + * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno
+> > of
+> > + *=C2=A0=C2=A0 &drm_sched_fence.finished
+> > + *
+> > + */
+> > +
+> > =C2=A0#ifndef __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
+> > =C2=A0#define __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
+> > =C2=A0/* Similar to trace_print_array_seq but for fences. */
 >=20
-> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> index c4ec28540656..24358c4d5bbe 100644
-> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> @@ -36,28 +36,29 @@ DECLARE_EVENT_CLASS(drm_sched_job,
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_PROTO(struct drm_sched_job *sched_job, str=
-uct
-> drm_sched_entity *entity),
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_ARGS(sched_job, entity),
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_STRUCT__entry(
-> -=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(struct drm_sched_entity *,
-> entity)
-> -=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(struct dma_fence *, fence)
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __string(name, sched_job->sched->=
-name)
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(uint64_t, id)
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(u32, job_count)
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(int, hw_job_count)
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __string(dev, dev_name(sched_job-
-> >sched->dev))
-> +=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(uint64_t, fence_context)
-> +=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(uint64_t, fence_seqno)
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 ),
-> =C2=A0
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_fast_assign(
-> -=09=09=09=C2=A0=C2=A0 __entry->entity =3D entity;
-> =C2=A0=09=09=09=C2=A0=C2=A0 __entry->id =3D sched_job->id;
-> -=09=09=09=C2=A0=C2=A0 __entry->fence =3D &sched_job->s_fence-
-> >finished;
-> =C2=A0=09=09=09=C2=A0=C2=A0 __assign_str(name);
-> =C2=A0=09=09=09=C2=A0=C2=A0 __entry->job_count =3D
-> spsc_queue_count(&entity->job_queue);
-> =C2=A0=09=09=09=C2=A0=C2=A0 __entry->hw_job_count =3D atomic_read(
-> =C2=A0=09=09=09=09=C2=A0=C2=A0 &sched_job->sched->credit_count);
-> =C2=A0=09=09=09=C2=A0=C2=A0 __assign_str(dev);
-> +=09=09=09=C2=A0=C2=A0 __entry->fence_context =3D sched_job-
-> >s_fence->finished.context;
-> +=09=09=09=C2=A0=C2=A0 __entry->fence_seqno =3D sched_job-
-> >s_fence->finished.seqno;
-> +
-> =C2=A0=09=09=09=C2=A0=C2=A0 ),
-> -=09=C2=A0=C2=A0=C2=A0 TP_printk("dev=3D%s, entity=3D%p, id=3D%llu, fence=
-=3D%p,
-> ring=3D%s, job count:%u, hw job count:%d",
-> -=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __get_str(dev), __entry->entity, __=
-entry->id,
-> -=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->fence, __get_str(name),
-> +=09=C2=A0=C2=A0=C2=A0 TP_printk("dev=3D%s, id=3D%llu, fence=3D(context:%=
-llu,
-> seqno:%lld), ring=3D%s, job count:%u, hw job count:%d",
-> +=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __get_str(dev), __entry->id,
-> +=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->fence_context, __entry->fe=
-nce_seqno,
-> __get_str(name),
-> =C2=A0=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->job_count, __entry->h=
-w_job_count)
-> =C2=A0);
-> =C2=A0
-> @@ -75,37 +76,41 @@ TRACE_EVENT(drm_sched_process_job,
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_PROTO(struct drm_sched_fence *fence),
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_ARGS(fence),
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_STRUCT__entry(
-> -=09=09=C2=A0=C2=A0=C2=A0 __field(struct dma_fence *, fence)
-> +=09=09=C2=A0=C2=A0=C2=A0 __field(uint64_t, fence_context)
-> +=09=09=C2=A0=C2=A0=C2=A0 __field(uint64_t, fence_seqno)
-> =C2=A0=09=09=C2=A0=C2=A0=C2=A0 ),
-> =C2=A0
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_fast_assign(
-> -=09=09=C2=A0=C2=A0=C2=A0 __entry->fence =3D &fence->finished;
-> +=09=09=C2=A0=C2=A0=C2=A0 __entry->fence_context =3D fence-
-> >finished.context;
-> +=09=09=C2=A0=C2=A0=C2=A0 __entry->fence_seqno =3D fence->finished.seqno;
-> =C2=A0=09=09=C2=A0=C2=A0=C2=A0 ),
-> -=09=C2=A0=C2=A0=C2=A0 TP_printk("fence=3D%p signaled", __entry->fence)
-> +=09=C2=A0=C2=A0=C2=A0 TP_printk("fence=3D(context:%llu, seqno:%lld) sign=
-aled",
-> +=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->fence_context, __entry->fe=
-nce_seqno)
-> =C2=A0);
-> =C2=A0
-> =C2=A0TRACE_EVENT(drm_sched_job_wait_dep,
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_PROTO(struct drm_sched_job *sched_job, str=
-uct
-> dma_fence *fence),
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_ARGS(sched_job, fence),
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_STRUCT__entry(
-> -=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __string(name, sched_job->sched->name)
-> +=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(uint64_t, fence_context)
-> +=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(uint64_t, fence_seqno)
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(uint64_t, id)
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(struct dma_fence *, fence=
-)
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(uint64_t, ctx)
-> -=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(unsigned, seqno)
-> +=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 __field(uint64_t, seqno)
-> =C2=A0=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 ),
-> =C2=A0
-> =C2=A0=09=C2=A0=C2=A0=C2=A0 TP_fast_assign(
-> -=09=09=09=C2=A0=C2=A0 __assign_str(name);
-> +=09=09=09=C2=A0=C2=A0 __entry->fence_context =3D sched_job-
-> >s_fence->finished.context;
-> +=09=09=09=C2=A0=C2=A0 __entry->fence_seqno =3D sched_job-
-> >s_fence->finished.seqno;
-> =C2=A0=09=09=09=C2=A0=C2=A0 __entry->id =3D sched_job->id;
-> =C2=A0=09=09=09=C2=A0=C2=A0 __entry->fence =3D fence;
-> =C2=A0=09=09=09=C2=A0=C2=A0 __entry->ctx =3D fence->context;
-> =C2=A0=09=09=09=C2=A0=C2=A0 __entry->seqno =3D fence->seqno;
-> =C2=A0=09=09=09=C2=A0=C2=A0 ),
-> -=09=C2=A0=C2=A0=C2=A0 TP_printk("job ring=3D%s, id=3D%llu, depends fence=
-=3D%p,
-> context=3D%llu, seq=3D%u",
-> -=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __get_str(name), __entry->id,
-> -=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->fence, __entry->ctx,
-> -=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->seqno)
-> +=09=C2=A0=C2=A0=C2=A0 TP_printk("fence=3D(context:%llu, seqno:%lld), id=
-=3D%llu,
-> dependencies:{(context:%llu, seqno:%lld)}",
-> +=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->fence_context, __entry->fe=
-nce_seqno,
-> __entry->id,
-> +=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __entry->ctx, __entry->seqno)
-> =C2=A0);
-> =C2=A0
-> =C2=A0#endif
 
