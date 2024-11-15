@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24CD39CF75B
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:27:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D849CF762
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:27:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4678610E913;
-	Fri, 15 Nov 2024 21:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3040010E90D;
+	Fri, 15 Nov 2024 21:26:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ge1adyPG";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mNHdIox5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7615510E904;
- Fri, 15 Nov 2024 21:26:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1316310E907;
+ Fri, 15 Nov 2024 21:26:52 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 5CD1F2064AE2;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 956492064AE3;
  Fri, 15 Nov 2024 13:26:45 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5CD1F2064AE2
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 956492064AE3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1731706005;
- bh=DChbJW+DaqGHGWE0sMF41tmxT4FReQ1FKA/KDyHL32Y=;
+ bh=94UWkQUgIE+TIBJCr3TB9bjXju243wFFlCrw1pjugTo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ge1adyPGW09osua+wGGbdGdLanSrZuA2fUn6nHmkQB9BNqn7wXFeAp1cdPu9VCOCp
- 35/hCv3XcEWTsrlvlhY2AjaoCI0WZCFykTU/SVB+MenGuEggOAvCtL12icddG0ZBHS
- CbMDQbZbPdYcJR1LvpcZibK937QvjL6m/Aizu5/Q=
+ b=mNHdIox58am1vKiSlapYyQSd/IB/puFk5Gi1H5FYHJ3c7VwmewWXtYwpq8qZgM5VC
+ FsoAzIfa/5Dmw/g1Wnz5pM6x92x9pSsv8KUjV1VC6j6e14jtQDSlKdd0OQNegI9M/0
+ o4hIDKt2X5QgI0I8DrdvAcv+VpyUUXxnbDtHt4Jg=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Fri, 15 Nov 2024 21:26:36 +0000
-Subject: [PATCH v2 19/21] livepatch: Convert timeouts to secs_to_jiffies()
+Date: Fri, 15 Nov 2024 21:26:37 +0000
+Subject: [PATCH v2 20/21] ALSA: line6: Convert timeouts to
+ secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241115-converge-secs-to-jiffies-v2-19-911fb7595e79@linux.microsoft.com>
+Message-Id: <20241115-converge-secs-to-jiffies-v2-20-911fb7595e79@linux.microsoft.com>
 References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 In-Reply-To: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -130,78 +131,22 @@ Changes made with the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- samples/livepatch/livepatch-callbacks-busymod.c |  2 +-
- samples/livepatch/livepatch-shadow-fix1.c       |  2 +-
- samples/livepatch/livepatch-shadow-mod.c        | 10 +++++-----
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ sound/usb/line6/toneport.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/samples/livepatch/livepatch-callbacks-busymod.c b/samples/livepatch/livepatch-callbacks-busymod.c
-index 378e2d40271a9717d09eff51d3d3612c679736fc..d0fd801a7c21b7d7939c29d83f9d993badcc9aba 100644
---- a/samples/livepatch/livepatch-callbacks-busymod.c
-+++ b/samples/livepatch/livepatch-callbacks-busymod.c
-@@ -45,7 +45,7 @@ static int livepatch_callbacks_mod_init(void)
- {
- 	pr_info("%s\n", __func__);
- 	schedule_delayed_work(&work,
--		msecs_to_jiffies(1000 * 0));
-+		secs_to_jiffies(0));
+diff --git a/sound/usb/line6/toneport.c b/sound/usb/line6/toneport.c
+index ca2c6f5de407ece21ab69a39ed603e3f10069039..c073b38cd6738176fc6a276d05ed553526573341 100644
+--- a/sound/usb/line6/toneport.c
++++ b/sound/usb/line6/toneport.c
+@@ -386,7 +386,7 @@ static int toneport_setup(struct usb_line6_toneport *toneport)
+ 		toneport_update_led(toneport);
+ 
+ 	schedule_delayed_work(&toneport->line6.startup_work,
+-			      msecs_to_jiffies(TONEPORT_PCM_DELAY * 1000));
++			      secs_to_jiffies(TONEPORT_PCM_DELAY));
  	return 0;
  }
  
-diff --git a/samples/livepatch/livepatch-shadow-fix1.c b/samples/livepatch/livepatch-shadow-fix1.c
-index 6701641bf12d454a770e49abeeb0dea92560e55e..948ea1f5760fed2fa27baf478c97cf98ad5c99a8 100644
---- a/samples/livepatch/livepatch-shadow-fix1.c
-+++ b/samples/livepatch/livepatch-shadow-fix1.c
-@@ -73,7 +73,7 @@ static struct dummy *livepatch_fix1_dummy_alloc(void)
- 		return NULL;
- 
- 	d->jiffies_expire = jiffies +
--		msecs_to_jiffies(1000 * EXPIRE_PERIOD);
-+		secs_to_jiffies(EXPIRE_PERIOD);
- 
- 	/*
- 	 * Patch: save the extra memory location into a SV_LEAK shadow
-diff --git a/samples/livepatch/livepatch-shadow-mod.c b/samples/livepatch/livepatch-shadow-mod.c
-index 7e753b0d2fa611524c9e2adbe02c8fa3e9b6015e..79296e6ccb119f521e86a121623855d841c9fc5e 100644
---- a/samples/livepatch/livepatch-shadow-mod.c
-+++ b/samples/livepatch/livepatch-shadow-mod.c
-@@ -102,7 +102,7 @@ static __used noinline struct dummy *dummy_alloc(void)
- 		return NULL;
- 
- 	d->jiffies_expire = jiffies +
--		msecs_to_jiffies(1000 * EXPIRE_PERIOD);
-+		secs_to_jiffies(EXPIRE_PERIOD);
- 
- 	/* Oops, forgot to save leak! */
- 	leak = kzalloc(sizeof(*leak), GFP_KERNEL);
-@@ -153,7 +153,7 @@ static void alloc_work_func(struct work_struct *work)
- 	mutex_unlock(&dummy_list_mutex);
- 
- 	schedule_delayed_work(&alloc_dwork,
--		msecs_to_jiffies(1000 * ALLOC_PERIOD));
-+		secs_to_jiffies(ALLOC_PERIOD));
- }
- 
- /*
-@@ -185,15 +185,15 @@ static void cleanup_work_func(struct work_struct *work)
- 	mutex_unlock(&dummy_list_mutex);
- 
- 	schedule_delayed_work(&cleanup_dwork,
--		msecs_to_jiffies(1000 * CLEANUP_PERIOD));
-+		secs_to_jiffies(CLEANUP_PERIOD));
- }
- 
- static int livepatch_shadow_mod_init(void)
- {
- 	schedule_delayed_work(&alloc_dwork,
--		msecs_to_jiffies(1000 * ALLOC_PERIOD));
-+		secs_to_jiffies(ALLOC_PERIOD));
- 	schedule_delayed_work(&cleanup_dwork,
--		msecs_to_jiffies(1000 * CLEANUP_PERIOD));
-+		secs_to_jiffies(CLEANUP_PERIOD));
- 
- 	return 0;
- }
 
 -- 
 2.34.1
