@@ -2,59 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2DE9CF4A4
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 20:14:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 097A59CF508
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 20:38:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73EEF10E108;
-	Fri, 15 Nov 2024 19:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA25010E3FE;
+	Fri, 15 Nov 2024 19:38:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="jYUlFeCC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VRDN2Mzz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C60310E108
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 19:14:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1731698085; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Uq/e9j8eq0HMrt9xiqAtH/8/0zfi3H90xTqX7GvNNvAX2/1m2YHmWBRw1sxk99pV4SmLV0CRYmaO13L56N9S2JAgVImy99PG/SvEGRHBNNfsx6AgxrHHGXVkyAPdh2157st8ESM2PqOnscGzlv+QdtkLZT75z/tNBei3WqMJ/HM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1731698085;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=jMzqbsE1Y0NZAjkPHPSz6a6xjvTC+JKAI7L6oPb/vF0=; 
- b=kA0vis3My7PoMYub1Gwn4X1VQkydRD2pUEjcfpibNdzt+p631tT2IBQ9rpmTCzN573XF0JWPZuCbU2rqKFG+6GgSTjLb5fXF2i6vW4FFGcqGR/nzaH9AkddAHtiwBDkkNQXU6U4AWQhOiFG60tnchnTJl1Z5JgyfO3TMX/MqIcs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731698085; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=jMzqbsE1Y0NZAjkPHPSz6a6xjvTC+JKAI7L6oPb/vF0=;
- b=jYUlFeCCwTCzEKEhjvzkiQPI/WGrqVJ81x2LrfIM1A+ECv01k1oN84AEkIs+Yyz+
- t6eFZ0Ojs32RNbKDYENDIrUCjrrwuiy+4+APFi4csnFhdIMzeCm28tpNG0ZdP5RHzqV
- m6xmcOww/RwZGbwuHWia/i2s3da6IQb7YZaCJVq4=
-Received: by mx.zohomail.com with SMTPS id 1731698083214270.67764713734925;
- Fri, 15 Nov 2024 11:14:43 -0800 (PST)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/panthor: register size of internal objects through
- fdinfo
-Date: Fri, 15 Nov 2024 19:14:18 +0000
-Message-ID: <20241115191426.3101123-1-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.46.2
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C81C10E3FE;
+ Fri, 15 Nov 2024 19:38:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1731699518; x=1763235518;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=ODjDs/QVvTQpwFG6FVE8frFADNnlKgAv5VDAxzj1dfo=;
+ b=VRDN2MzzLNR3auuBOdCPYW/fQqI7tfMagpMIGuO6vK1KCIpot0IKWKAm
+ CVe/ovCTXuKzI4IigrJOnuNR5871DmcAbINqE/dZ8quE9GF8WreT+IArH
+ qfrhOjjUAYqjKmJeqTYTar2Z5ssjjsZus/WUuVhe3pXuf1vvU9l0bNzP1
+ 5xebSVGKd8BiAIyUnkPmbnbM+tJy+PfFyAgxvDfe+l4tjTzlG2ALbqDZN
+ CCr2EUraYm1FFsBRNYL7NgrBxAvlUAJBARJWMkSI+t5ubII8/g4YxoXLK
+ 5gwo54sq2+q06lH4BfIAGiwAsCrf78nvWiq45cu1E3XR9Vh13wJ+tro4X A==;
+X-CSE-ConnectionGUID: bVLUFAEFTU60Wa7r6FQpMQ==
+X-CSE-MsgGUID: fk0Cmmp6R+eENyFWk93g8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11257"; a="43114751"
+X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="43114751"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2024 11:38:38 -0800
+X-CSE-ConnectionGUID: 6fxADG+ZQSSP/IYuTGTvhw==
+X-CSE-MsgGUID: 63BbaLXuTBuk4yKmdeWEDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; d="scan'208";a="88809207"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 15 Nov 2024 11:38:28 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 15 Nov 2024 11:38:24 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Fri, 15 Nov 2024 11:38:24 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 15 Nov 2024 11:38:24 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BospywvY+09c0shnqSyK6jQtTI1yQKhBuKcEHND4q+2Uf6OG0sOT6tplJ/1Ao3r3YSKqvN/dk6gyeOqYec275FZg9hNzLI9L0nVWuq5qYCnxLfBRe11B2uO99LaRaEZrsVfaSjX2VJcgP57XCQZqGRA2L5CAaD66f4CdDVOQTXiJ+p5wNNK9eo9jmHho4FOolgA8Xr+cHXgmWlmJVacHjkd4a1Aq47RiE83ppNGHCzMJl+yFthgyCF5p3xTrhVOrjGHo0S98ySUG9QOzs1ENOAC9dB+ir+37ofU9OEst5vuazR+S3PH4vRhF1Ufif6foGpV8GhB6xi41fbs96G7N1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nQqv2ufCr/n5pCVxpyus5KFd0KgBqKcpYQpKUmHNSE4=;
+ b=LxM05toXHZ3dn5k6LWENAd1k7y1Gwwq4Ab6VwvOHaN8xMbGITt9KmHLpTREXiUiAJT8JUxlX/jllI3EtYstzj9YNiKqsLX9Csrxtm+2djVZDPgPEm6vvqOTcZGbqiKjTV5pQo5GIDajnlo0IwnR7GXhN60IlcHEZhuFas9K63e8Gn2DdP8f69yLUjxRG678uo92s+zrR6ttRR2DHNfTMXVABBd+4KrllDKDUeoBBeci7xiOZUbFHqAQv1DzjzLDDwcgmejAUPcUrr9wLM/iZfSPzkIsG0iY7+2uQFBc1eCl6coSst4ckIgYgborjjIzoZaPYMTmKPWUrWJhXz1kMdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL3PR11MB6508.namprd11.prod.outlook.com (2603:10b6:208:38f::5)
+ by DM4PR11MB5279.namprd11.prod.outlook.com (2603:10b6:5:38a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.19; Fri, 15 Nov
+ 2024 19:38:22 +0000
+Received: from BL3PR11MB6508.namprd11.prod.outlook.com
+ ([fe80::1a0f:84e3:d6cd:e51]) by BL3PR11MB6508.namprd11.prod.outlook.com
+ ([fe80::1a0f:84e3:d6cd:e51%3]) with mapi id 15.20.8158.017; Fri, 15 Nov 2024
+ 19:38:22 +0000
+Date: Fri, 15 Nov 2024 11:38:55 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <simona.vetter@ffwll.ch>, <thomas.hellstrom@linux.intel.com>,
+ <pstanner@redhat.com>, <boris.brezillon@collabora.com>, <airlied@gmail.com>,
+ <ltuikov89@gmail.com>, <dakr@kernel.org>, <mihail.atanassov@arm.com>,
+ <steven.price@arm.com>, <shashank.sharma@amd.com>
+Subject: Re: [RFC PATCH 0/6] Common preempt fences and semantics
+Message-ID: <ZzejT4IOF2rp7UtY@lstrano-desk.jf.intel.com>
+References: <20241109172942.482630-1-matthew.brost@intel.com>
+ <2d634baa-89cc-4b83-a4c4-4d2ca6a4f2b7@amd.com>
+ <ZzLLq3IKLnOGSea/@lstrano-desk.jf.intel.com>
+ <0dcd54bc-a1e0-41cc-915f-917f1dbf5729@amd.com>
+ <ZzQOkyyQeZ3SkcHd@lstrano-desk.jf.intel.com>
+ <ZzQPYocTEvnJVgQ1@lstrano-desk.jf.intel.com>
+ <ac5b9c6e-027a-40e2-bdab-2cc5e10067d6@amd.com>
+ <ZzTHCazEEn5hHydL@lstrano-desk.jf.intel.com>
+ <d6da2891-f7d0-4c08-b758-f5becc7a12e0@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <d6da2891-f7d0-4c08-b758-f5becc7a12e0@amd.com>
+X-ClientProxiedBy: MW4PR03CA0279.namprd03.prod.outlook.com
+ (2603:10b6:303:b5::14) To BL3PR11MB6508.namprd11.prod.outlook.com
+ (2603:10b6:208:38f::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR11MB6508:EE_|DM4PR11MB5279:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83f9ba5d-b176-41fb-dfc0-08dd05ad105a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?V1BJQXp6OUp4RzJkZ1M2N0VmVHFJRlpNeEM1WTF2cjBSZzZDYm1QZ0xTUFNo?=
+ =?utf-8?B?RlJXRjN5eVl4a0ViNlZUb0ljV2s2d1BZaCtneDYvcmtkZitlaXJVdXJhV0lY?=
+ =?utf-8?B?V1h0NWRJcGxJUHNaRkdRSmJWWkMxcllkb3YzUm5nUUV2c09kaTA4L2RBcXo3?=
+ =?utf-8?B?NmtpcUFFYzVEQUdYNUEyazBuQndLeC91bDMxNXpxSjJEUEMwTVhjSFhuN0xo?=
+ =?utf-8?B?MkFYTWFITkdJTEpxeVg2WXcrd0hSb0psSjlWNW5zNXpmTjhaUHZNaHNSZWUw?=
+ =?utf-8?B?N3A3dWN1SzV1VnhaWGhNTDNyZ0kvZnVJM0pMMUViM3dzUkg2Z2lQTVc5bFln?=
+ =?utf-8?B?QmpGTVpiNmlVV0lySFlPSlZQQkpZQ2FLWXB3N2tkOXJmRDJ3NTNjM0oyZzBs?=
+ =?utf-8?B?K3luejMzb0xhVThGeVVYL2prYmp3azlDSU9OTDJQUGhpVTdVVmZGbG55MVhm?=
+ =?utf-8?B?WHNQMHFRNk9scGtJayswcXVjRW8yc0sraDJzWEhORFFsbVlaOUpvYXg3eHhQ?=
+ =?utf-8?B?dE81NTkwUUIveDBGYzRsSXlRRkFZM0FKNVUvaXFOQ0g2L0o3WS9uL1BGNU43?=
+ =?utf-8?B?VFhiL05INU85Q2VEaEpzM3VRdXR1TW1ud0JGNCtuajNhcHFNb01wRkdyV3BC?=
+ =?utf-8?B?aUFEOVlQMTQwcXlGd24vWDhIWVV3a3FpTnVNKzhNS3BuVzIyWVNRdXJ4OTRR?=
+ =?utf-8?B?K3JUOStWQkhEUmYrWE5IK2VOVG9RSW50TkF5YkF5NEFnZjJtbXFwc0VoTVhL?=
+ =?utf-8?B?U0prbVBWZ1pYcGZ6ZElHdkNpeUNjWEhIcXlsMFU1RXZqcVRLSUsrMlFzZThD?=
+ =?utf-8?B?elQ2d0w1aVZPcWJJenRKWjhvOHFaOWhLRUt2N0g4WmYxL2kyWGJzY1ZSLzJl?=
+ =?utf-8?B?am14OFJCZ3RzcUlyZzB5UlpIZE1PYWZ3RVNJMkR2SDlXUjhJVXFSYU9wVjZp?=
+ =?utf-8?B?S3BuZy9mL1ZudTJ2UWxsR250NDVnN2RjNDNyOVNOc1V1NHFxSUVwOEVYdHlT?=
+ =?utf-8?B?MXFSdjB3MVRMQUVQNzJXcm4xRkZkSFlxa21FR2I3UmUrSW9rdXBzbndSd3Bh?=
+ =?utf-8?B?YUVQVmx6RVNXaDNIeDh2UGovVWFGY3pYZkZWVWlZOXVvOW9wUmo4bzdhaGlE?=
+ =?utf-8?B?UHhSRFFTZGVLV3hkR3d2UXVvZ0ZJdjR4Tjc2eEkzWWdEWEtLejNCZFJvK05Z?=
+ =?utf-8?B?R29qbDNaWHZpN1RMMHNzRlFNYW9IWGtQZDJpRDh0a3dVY3RkNkdFblBLeFNz?=
+ =?utf-8?B?UUU4T1FiaHN6aW1sV2xSOUhFNGVSODIzSUIzZ1hrQjJ5bWgrRGltdkZ1bDdp?=
+ =?utf-8?B?Q282WW8vTDlXVUl1enRiWS9mQlRUWGZ6RU50SmkwbEcwdUNkd2M3VDZ4QUFN?=
+ =?utf-8?B?ZlhtTkd6OTk5K0t5amdDVnZiU1g5OVFYcm9HQThSZzhxK2dSeU1zWmN1bWN1?=
+ =?utf-8?B?NkR6aitoQ0l1WDlZekNLTVJrQUxWUjkyT0xxTUVWYVdKSm5jR0p2ak4zMFg5?=
+ =?utf-8?B?MmJ2ZzRUY28yYlcyK2NXOHAyWUFVMjFVTnVUUUx2b0V5cnM2OGZkU1pvZEF2?=
+ =?utf-8?B?dURHZzRtUEg4cExJejVtdFVvMWg4UWo3S1YzWFZQSFI0TzY3djZyeW1Pcm1v?=
+ =?utf-8?B?Z2tFSEtXWk1ZZUlUcHptQlJ6UFEvR3loWWVQWXZ6YUJvMzFuTjRLN2pEMisr?=
+ =?utf-8?B?SXJMWFpUcXRZL3luNFMwMVgvek5JUzlqd3hubStyUkFVOWFvR2d3SEZ3PT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR11MB6508.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eDF6b0lMWmdhZ0xFVzQwU2JlUkNyL3FrZDV5UU5LUFZIdGY0bmNnd08xbUlB?=
+ =?utf-8?B?SG56aHYzcUx2WVRkTjNqdHZ6NU82NTVWWTFIalNERWxmT2hldjRRekU2dkJl?=
+ =?utf-8?B?Kzhac2tXaGRLWnViamZqQ092WHoyblo2alpwbDhnMi9tTEVhY0VaVjd5RGFk?=
+ =?utf-8?B?dXhVSGQvOUVOa0xmMlQzSEYrMnJPTW5DWENDRUprKzdrTmUxSm9mb3UwTjJr?=
+ =?utf-8?B?K1pIcUVORXVDUmU4U25aUTZ4cE5Wd0hPcWQwTmd1OVlvWFhxMVVVcERTeEM2?=
+ =?utf-8?B?VEpwZzlWaFBkNVd5UEpZTUxNVW5vYU1ueW8yV2w5bEFFZGRhTXJUWEEzTW1M?=
+ =?utf-8?B?UE1JaERQVnlUbVpvYmErdlhxODF6VVVNemJvVGhuMjFIQUNhVUE4bTN2ZHJB?=
+ =?utf-8?B?ajNYb2RQb0lIMmtoVlZEMVloSkpkRHprVjFHanhLR2dYMmFvc0ZCQWpVWjNI?=
+ =?utf-8?B?T25GaXdmN0I5UHlINmt6OEtTWkhmN3QzUkNCN0NoR3c2Y0xVYkFmYlNwTjFs?=
+ =?utf-8?B?ZW1VSmhzZi9TNVdDTmY3SEhlSDdVWEdPTVRZQlZwYmNLOWJSV2dOTUdtM0lU?=
+ =?utf-8?B?d3o5SXpkWnptcTNFRW8wVExEMTh0T1FUbnk4WCtFWFEzQVNMT0RCRkI1bzMy?=
+ =?utf-8?B?Uk5YNjV4YVpCOXdYd0U0T05lT1EzTU5JdW5oYlZ0d0lhVXpTd1lVQkpYUk9E?=
+ =?utf-8?B?dmZhZTFacm1IT1RlRDQ5YzZ6M0hOVVZFcW9panp0N201UEt1eW9aS3JXNW5n?=
+ =?utf-8?B?V3hCK1E3MTZOdGJibVhEdWJGcmFEOEpGQ2E3LzVRNk52d3A0cXhYZktWaXVE?=
+ =?utf-8?B?YVB3NmVRR3JqbkZJZXdLVWJzVTFkNlNma1BVd290cCtIYm8vYlNITm5pT2g5?=
+ =?utf-8?B?RDdIVmlZVzlLcksvR2svSVhiL0pTMzNKeUx4Qk9TM1JBaWFYdURpQlVLOTJn?=
+ =?utf-8?B?cktPczJKRTNQd0ZsTVJVWmZhbm5iREFTUFZ1R1EzSlQ3Yi9PVERBQ3NWalhI?=
+ =?utf-8?B?LytWTHJlUkdNVyt3eEgxY0tqdzY0YWRwandkZ291dndGRE9aQ21jZkFMaU9H?=
+ =?utf-8?B?ZWdIem51ekV2U2x3YUpFbTdjTlUzakVKcXN1VXExZlVydTJOcm5DMTRvMXY2?=
+ =?utf-8?B?QVB2bVBtMndsUGdZcXZsRGhiRFBFa2drMkcybkx0SUFRZ1hLdXZEL2tYdGZm?=
+ =?utf-8?B?TktSUUVxOGFWSWY3RmFRSHBLM25nREd6OWpzTTZIUXJ0cWtlS0dERURHODZI?=
+ =?utf-8?B?OFM1NHRKVjFLai8wSEcwTnRyQStqK0IzUWtXSUY0TWdpT3F3cjFSTUZHc3Vv?=
+ =?utf-8?B?V2tUOEtXN01ZTm1Fdm02eCtqZEtWbDVQOFMrZEdGU0xqY0MzWkZQd21jblJ6?=
+ =?utf-8?B?WExkQTJXdmMwYnRzM281Z3AzUnp2LzVZY0drNkFGMnAvNXN5dkZQZThpOTBK?=
+ =?utf-8?B?clZCLzZQY0t3aTdTT0NEUFFmOThOY2l6MGtvUi9WaVdiTjMySjB0Z2l5UHNP?=
+ =?utf-8?B?dTY5L2ZIZGRqK0doMGVHRXNqODR6REE1UUZPcjI2bUd4cUhONG04VmRFMUY1?=
+ =?utf-8?B?a1BvQTdldmFaWTBKYU9xblRYVVJwWm9haGkzMTU5MW1tWis2TFdHdkU5L3NG?=
+ =?utf-8?B?MzVFUi9oOU9MY3BqNDd6UkpPcDFYOVhpTFZYeFVDbWRDUm1scnRpWTZIWm5R?=
+ =?utf-8?B?ZjVvZGtVanZkdG4vbU5SWE1pdllvcDlSdEozZ0FTSlZPRGxHdExXVmEvbU9m?=
+ =?utf-8?B?OGNUS3VJaHhsSUMwZ0NpdG80a0Jzb0I3VFdHcTdQS2ROSCtjV1dreEp1OGts?=
+ =?utf-8?B?MHhGNm04MlVoeVp1cjN0NnNKUm1VUWtNSUxUYlE1OEEycmJ3dUpDa2lSbVVN?=
+ =?utf-8?B?L0dNUXZaTUVnWERaRFpxTlk5a2tFelBpTFhWa3NuV1d5QlRCVEJyTDNPMTB5?=
+ =?utf-8?B?SGlMY2ZOZ2pLK1VERFQ2S0p2TmRKQXF0c1VERkE1TWd5NzJGVVpZaXFoMm5o?=
+ =?utf-8?B?WUZqWHlKVkhzemxPSWtzUUpmUmZld21YdnQwRkFXS25za3NnVDBmQjlOVnZr?=
+ =?utf-8?B?SVBXYzVMN1E2alZjcFpEajh6R3ZXTFVtOFB4Zlo5SDlkSThTdTFHcjEzWDhh?=
+ =?utf-8?B?TkEwNysrKytlcUl4aXZabk1tK1lsZnFDMlcrUFpYREM4V0U0RU9BbFp1enph?=
+ =?utf-8?B?RFE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83f9ba5d-b176-41fb-dfc0-08dd05ad105a
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6508.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2024 19:38:22.0637 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HS6LRGaC/tQMiuB1uulaLmHCj41Dqz5Im4OhiaaTfHQiPZav+HBXyhZdbtJmuLBe2OKHhlyGPaLYE/S2jZIdbg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5279
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,617 +202,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This includes both DRM objects created to support queues, groups and heaps,
-and also objects whose pages are shared between the GPU and the MCU.
+On Thu, Nov 14, 2024 at 09:38:43AM +0100, Christian König wrote:
+> Am 13.11.24 um 16:34 schrieb Matthew Brost:
+> > > > > > > Now the ordering works inherently in dma-resv and the scheduler. e.g. No
+> > > > > > > need to track the last completion fences explictly in preempt fences.
+> > > > > > I really don't think that this is a good approach. Explicitly keeping the
+> > > > > > last completion fence in the pre-emption fence is basically a must have as
+> > > > > > far as I can see.
+> > > > > > 
+> > > > > > The approach you take here looks like a really ugly hack to me.
+> > > > > > 
+> > > > > Well, I have to disagree; it seems like a pretty solid, common design.
+> > > What you basically do is to move the responsibility to signal fences in the
+> > > right order from the provider of the fences to the consumer of it.
+> > > 
+> > Are there not ordering rules already built into dma-resv? This is just
+> > extending those preempt fences.
+> 
+> Well, the usage flags are to distinct which fences should be queried for
+> which use case.
+> 
+> The order the fence are used and returned is completely undetermined. E.g.
+> currently you can get READ, WRITE fences all mixed together.
+> 
 
-However, this doesn't include objects that hold the firmware's binary
-regions, since these aren't owned by a render context and are allocated
-only once at driver's initialisation time.
+I was thinking there was an order here but yea looking now that does
+appear to be an oversight on my end.
 
-This will display four key:value pairs which exist beyond the drm fdinfo
-standard, and that record the sizes of internal objects:
+> > I can maybe buy some of this argument, as if a random yahoo enables
+> > signaling a preempt fence without properly going through dma-resv or the
+> > scheduler, then yes, that could break things. But don't do that. In Xe,
+> > we have exactly two places where these can be triggered: in the TTM BO
+> > move vfunc (which the scheduler handles) and in the MMU invalidation
+> > path (dma-resv).
+> 
+> Yeah, but the purpose of all this is that the dma-resv object is shareable
+> between device drivers.
+> 
 
-drm-total-internal, drm-shared-internal, drm-active-internal and
-drm-resident-internal.
+Agree.
 
-Currently, drm-shared-internal and drm-active-internal are unutilised, but
-in a future revision of the patch 'drm-shared-internal' could register the
-size of the firmware regions (since they aren't specific to a single render
-context), and 'drm-active-internal' could be updated every time a group is
-made active by the GPU scheduler or a queue has jobs ready for execution.
+> That one device driver comes up with a new requirement is certainly
+> possible, but then we need to make sure that all others can live with that
+> as well.
+> 
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_device.c |  2 +
- drivers/gpu/drm/panthor/panthor_device.h |  6 +++
- drivers/gpu/drm/panthor/panthor_drv.c    | 15 +++++--
- drivers/gpu/drm/panthor/panthor_fw.c     | 14 ++++--
- drivers/gpu/drm/panthor/panthor_fw.h     |  6 ++-
- drivers/gpu/drm/panthor/panthor_gem.c    | 57 ++++++++++++++++++++++--
- drivers/gpu/drm/panthor/panthor_gem.h    | 13 +++++-
- drivers/gpu/drm/panthor/panthor_heap.c   | 20 ++++++---
- drivers/gpu/drm/panthor/panthor_heap.h   |  6 ++-
- drivers/gpu/drm/panthor/panthor_mmu.c    |  7 ++-
- drivers/gpu/drm/panthor/panthor_mmu.h    |  3 +-
- drivers/gpu/drm/panthor/panthor_sched.c  | 19 ++++----
- 12 files changed, 136 insertions(+), 32 deletions(-)
+Also agree.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index 4082c8f2951d..868fa9aba570 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -179,6 +179,8 @@ int panthor_device_init(struct panthor_device *ptdev)
- 	if (ret)
- 		return ret;
- 
-+	drmm_mutex_init(&ptdev->base, &ptdev->private_obj_list_lock);
-+
- 	/*
- 	 * Set the dummy page holding the latest flush to 1. This will cause the
- 	 * flush to avoided as we know it isn't necessary if the submission
-diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-index 0e68f5a70d20..414822b35a23 100644
---- a/drivers/gpu/drm/panthor/panthor_device.h
-+++ b/drivers/gpu/drm/panthor/panthor_device.h
-@@ -190,6 +190,9 @@ struct panthor_device {
- 
- 	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
- 	unsigned long fast_rate;
-+
-+	/** @private_obj_list_lock: Lock around per-file lists of internal GEM objects */
-+	struct mutex private_obj_list_lock;
- };
- 
- struct panthor_gpu_usage {
-@@ -212,6 +215,9 @@ struct panthor_file {
- 
- 	/** @stats: cycle and timestamp measures for job execution. */
- 	struct panthor_gpu_usage stats;
-+
-+	/** @private_file_list: File's list of private GEM objects. */
-+	struct list_head private_file_list;
- };
- 
- int panthor_device_init(struct panthor_device *ptdev);
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index ac7e53f6e3f0..1b86f4110e32 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1128,13 +1128,13 @@ static int panthor_ioctl_tiler_heap_create(struct drm_device *ddev, void *data,
- 	if (!vm)
- 		return -EINVAL;
- 
--	pool = panthor_vm_get_heap_pool(vm, true);
-+	pool = panthor_vm_get_heap_pool(vm, true, pfile);
- 	if (IS_ERR(pool)) {
- 		ret = PTR_ERR(pool);
- 		goto out_put_vm;
- 	}
- 
--	ret = panthor_heap_create(pool,
-+	ret = panthor_heap_create(pool, pfile,
- 				  args->initial_chunk_count,
- 				  args->chunk_size,
- 				  args->max_chunks,
-@@ -1174,7 +1174,7 @@ static int panthor_ioctl_tiler_heap_destroy(struct drm_device *ddev, void *data,
- 	if (!vm)
- 		return -EINVAL;
- 
--	pool = panthor_vm_get_heap_pool(vm, false);
-+	pool = panthor_vm_get_heap_pool(vm, false, NULL);
- 	if (IS_ERR(pool)) {
- 		ret = PTR_ERR(pool);
- 		goto out_put_vm;
-@@ -1348,6 +1348,8 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
- 
- 	pfile->ptdev = ptdev;
- 
-+	INIT_LIST_HEAD(&pfile->private_file_list);
-+
- 	ret = panthor_vm_pool_create(pfile);
- 	if (ret)
- 		goto err_free_file;
-@@ -1375,6 +1377,12 @@ panthor_postclose(struct drm_device *ddev, struct drm_file *file)
- {
- 	struct panthor_file *pfile = file->driver_priv;
- 
-+	/*
-+	 * Group's internal BO's are destroyed asynchronously in a separate worker thread,
-+	 * so there's a chance by the time BO release happens, the file is already gone.
-+	 */
-+	panthor_gem_dettach_internal_bos(pfile);
-+
- 	panthor_group_pool_destroy(pfile);
- 	panthor_vm_pool_destroy(pfile);
- 
-@@ -1465,6 +1473,7 @@ static void panthor_show_fdinfo(struct drm_printer *p, struct drm_file *file)
- 	panthor_gpu_show_fdinfo(ptdev, file->driver_priv, p);
- 
- 	drm_show_memory_stats(p, file);
-+	panthor_show_internal_memory_stats(p, file);
- }
- 
- static const struct file_operations panthor_drm_driver_fops = {
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index ecca5565ce41..40505bf77729 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -449,6 +449,7 @@ static void panthor_fw_init_section_mem(struct panthor_device *ptdev,
-  */
- struct panthor_kernel_bo *
- panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
-+				 struct panthor_file *pfile,
- 				 struct panthor_fw_ringbuf_input_iface **input,
- 				 const struct panthor_fw_ringbuf_output_iface **output,
- 				 u32 *input_fw_va, u32 *output_fw_va)
-@@ -456,11 +457,12 @@ panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
- 	struct panthor_kernel_bo *mem;
- 	int ret;
- 
--	mem = panthor_kernel_bo_create(ptdev, ptdev->fw->vm, SZ_8K,
-+	mem = panthor_kernel_bo_create(ptdev, pfile, ptdev->fw->vm, SZ_8K,
- 				       DRM_PANTHOR_BO_NO_MMAP,
- 				       DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
- 				       DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
- 				       PANTHOR_VM_KERNEL_AUTO_VA);
-+
- 	if (IS_ERR(mem))
- 		return mem;
- 
-@@ -487,9 +489,12 @@ panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
-  * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
-  */
- struct panthor_kernel_bo *
--panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size)
-+panthor_fw_alloc_suspend_buf_mem(struct panthor_file *pfile,
-+				 struct panthor_device *ptdev,
-+				 size_t size)
- {
--	return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
-+	return panthor_kernel_bo_create(ptdev, pfile,
-+					panthor_fw_vm(ptdev), size,
- 					DRM_PANTHOR_BO_NO_MMAP,
- 					DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
- 					PANTHOR_VM_KERNEL_AUTO_VA);
-@@ -609,7 +614,8 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
- 		if (cache_mode != CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_CACHED)
- 			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED;
- 
--		section->mem = panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev),
-+		section->mem = panthor_kernel_bo_create(ptdev, NULL,
-+							panthor_fw_vm(ptdev),
- 							section_size,
- 							DRM_PANTHOR_BO_NO_MMAP,
- 							vm_map_flags, va);
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
-index 22448abde992..552db0e03e7b 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.h
-+++ b/drivers/gpu/drm/panthor/panthor_fw.h
-@@ -7,6 +7,7 @@
- #include <linux/types.h>
- 
- struct panthor_device;
-+struct panthor_file;
- struct panthor_kernel_bo;
- 
- #define MAX_CSGS				31
-@@ -476,11 +477,14 @@ void panthor_fw_ring_csg_doorbells(struct panthor_device *ptdev, u32 csg_slot);
- 
- struct panthor_kernel_bo *
- panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
-+				 struct panthor_file *pfile,
- 				 struct panthor_fw_ringbuf_input_iface **input,
- 				 const struct panthor_fw_ringbuf_output_iface **output,
- 				 u32 *input_fw_va, u32 *output_fw_va);
- struct panthor_kernel_bo *
--panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size);
-+panthor_fw_alloc_suspend_buf_mem(struct panthor_file *pfile,
-+				 struct panthor_device *ptdev,
-+				 size_t size);
- 
- struct panthor_vm *panthor_fw_vm(struct panthor_device *ptdev);
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 8244a4e6c2a2..76e8e5bb11b0 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -5,6 +5,7 @@
- #include <linux/dma-buf.h>
- #include <linux/dma-mapping.h>
- #include <linux/err.h>
-+#include <linux/mutex.h>
- #include <linux/slab.h>
- 
- #include <drm/panthor_drm.h>
-@@ -24,6 +25,20 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
- 	drm_gem_object_put(vm_root_gem);
- }
- 
-+void panthor_gem_dettach_internal_bos(struct panthor_file *pfile)
-+{
-+	struct panthor_kernel_bo *kbo, *tmp;
-+
-+	mutex_lock(&pfile->ptdev->private_obj_list_lock);
-+	list_for_each_entry_safe(kbo, tmp,
-+				 &pfile->private_file_list,
-+				 private_obj) {
-+		list_del(&kbo->private_obj);
-+		INIT_LIST_HEAD(&kbo->private_obj);
-+	}
-+	mutex_unlock(&pfile->ptdev->private_obj_list_lock);
-+}
-+
- /**
-  * panthor_kernel_bo_destroy() - Destroy a kernel buffer object
-  * @bo: Kernel buffer object to destroy. If NULL or an ERR_PTR(), the destruction
-@@ -31,12 +46,22 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
-  */
- void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
- {
-+	struct panthor_device *ptdev;
- 	struct panthor_vm *vm;
- 	int ret;
- 
- 	if (IS_ERR_OR_NULL(bo))
- 		return;
- 
-+	ptdev = container_of(bo->obj->dev, struct panthor_device, base);
-+
-+	mutex_lock(&ptdev->private_obj_list_lock);
-+	if (!list_empty(&bo->private_obj)) {
-+		list_del(&bo->private_obj);
-+		INIT_LIST_HEAD(&bo->private_obj);
-+	}
-+	mutex_unlock(&ptdev->private_obj_list_lock);
-+
- 	vm = bo->vm;
- 	panthor_kernel_bo_vunmap(bo);
- 
-@@ -56,6 +81,22 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
- 	kfree(bo);
- }
- 
-+void panthor_show_internal_memory_stats(struct drm_printer *p, struct drm_file *file)
-+{
-+	struct panthor_file *pfile = file->driver_priv;
-+	struct drm_memory_stats status = {0};
-+	struct panthor_kernel_bo *kbo;
-+
-+	mutex_lock(&pfile->ptdev->private_obj_list_lock);
-+	list_for_each_entry(kbo, &pfile->private_file_list, private_obj) {
-+		status.resident += kbo->obj->size;
-+		status.private += kbo->obj->size;
-+	}
-+	mutex_unlock(&pfile->ptdev->private_obj_list_lock);
-+
-+	drm_print_memory_stats(p, &status, DRM_GEM_OBJECT_RESIDENT, "internal");
-+}
-+
- /**
-  * panthor_kernel_bo_create() - Create and map a GEM object to a VM
-  * @ptdev: Device.
-@@ -71,9 +112,9 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
-  * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
-  */
- struct panthor_kernel_bo *
--panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
--			 size_t size, u32 bo_flags, u32 vm_map_flags,
--			 u64 gpu_va)
-+panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_file *pfile,
-+			 struct panthor_vm *vm, size_t size, u32 bo_flags,
-+			 u32 vm_map_flags, u64 gpu_va)
- {
- 	struct drm_gem_shmem_object *obj;
- 	struct panthor_kernel_bo *kbo;
-@@ -116,6 +157,16 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
- 	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
- 	drm_gem_object_get(bo->exclusive_vm_root_gem);
- 	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
-+
-+	INIT_LIST_HEAD(&kbo->private_obj);
-+
-+	/* Only FW regions are not bound to an open file */
-+	if (pfile) {
-+		mutex_lock(&ptdev->private_obj_list_lock);
-+		list_add(&kbo->private_obj, &pfile->private_file_list);
-+		mutex_unlock(&ptdev->private_obj_list_lock);
-+	}
-+
- 	return kbo;
- 
- err_free_va:
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index e43021cf6d45..b308680859d0 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -12,6 +12,8 @@
- #include <linux/rwsem.h>
- 
- struct panthor_vm;
-+struct panthor_file;
-+struct panthor_device;
- 
- /**
-  * struct panthor_gem_object - Driver specific GEM object.
-@@ -75,6 +77,9 @@ struct panthor_kernel_bo {
- 	 * @kmap: Kernel CPU mapping of @gem.
- 	 */
- 	void *kmap;
-+
-+	/** @private_node: Link to driver's list of private GEM objects. */
-+	struct list_head private_obj;
- };
- 
- static inline
-@@ -137,10 +142,14 @@ panthor_kernel_bo_vunmap(struct panthor_kernel_bo *bo)
- }
- 
- struct panthor_kernel_bo *
--panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
--			 size_t size, u32 bo_flags, u32 vm_map_flags,
-+panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_file *pfile,
-+			 struct panthor_vm *vm, size_t size,
-+			 u32 bo_flags, u32 vm_map_flags,
- 			 u64 gpu_va);
- 
- void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
- 
-+void panthor_show_internal_memory_stats(struct drm_printer *p, struct drm_file *file);
-+void panthor_gem_dettach_internal_bos(struct panthor_file *pfile);
-+
- #endif /* __PANTHOR_GEM_H__ */
-diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-index 3796a9eb22af..fd68257061ae 100644
---- a/drivers/gpu/drm/panthor/panthor_heap.c
-+++ b/drivers/gpu/drm/panthor/panthor_heap.c
-@@ -86,6 +86,9 @@ struct panthor_heap_pool {
- 	/** @ptdev: Device. */
- 	struct panthor_device *ptdev;
- 
-+	/** @pfile: Pointer to Panfrost file struct */
-+	struct panthor_file *pfile;
-+
- 	/** @vm: VM this pool is bound to. */
- 	struct panthor_vm *vm;
- 
-@@ -132,6 +135,7 @@ static void panthor_free_heap_chunk(struct panthor_vm *vm,
- }
- 
- static int panthor_alloc_heap_chunk(struct panthor_device *ptdev,
-+				    struct panthor_file *pfile,
- 				    struct panthor_vm *vm,
- 				    struct panthor_heap *heap,
- 				    bool initial_chunk)
-@@ -144,7 +148,7 @@ static int panthor_alloc_heap_chunk(struct panthor_device *ptdev,
- 	if (!chunk)
- 		return -ENOMEM;
- 
--	chunk->bo = panthor_kernel_bo_create(ptdev, vm, heap->chunk_size,
-+	chunk->bo = panthor_kernel_bo_create(ptdev, pfile, vm, heap->chunk_size,
- 					     DRM_PANTHOR_BO_NO_MMAP,
- 					     DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
- 					     PANTHOR_VM_KERNEL_AUTO_VA);
-@@ -201,6 +205,7 @@ static void panthor_free_heap_chunks(struct panthor_vm *vm,
- }
- 
- static int panthor_alloc_heap_chunks(struct panthor_device *ptdev,
-+				     struct panthor_file *pfile,
- 				     struct panthor_vm *vm,
- 				     struct panthor_heap *heap,
- 				     u32 chunk_count)
-@@ -209,7 +214,7 @@ static int panthor_alloc_heap_chunks(struct panthor_device *ptdev,
- 	u32 i;
- 
- 	for (i = 0; i < chunk_count; i++) {
--		ret = panthor_alloc_heap_chunk(ptdev, vm, heap, true);
-+		ret = panthor_alloc_heap_chunk(ptdev, pfile, vm, heap, true);
- 		if (ret)
- 			return ret;
- 	}
-@@ -265,6 +270,7 @@ int panthor_heap_destroy(struct panthor_heap_pool *pool, u32 handle)
-  * Return: a positive handle on success, a negative error otherwise.
-  */
- int panthor_heap_create(struct panthor_heap_pool *pool,
-+			struct panthor_file *pfile,
- 			u32 initial_chunk_count,
- 			u32 chunk_size,
- 			u32 max_chunks,
-@@ -308,7 +314,7 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
- 	heap->max_chunks = max_chunks;
- 	heap->target_in_flight = target_in_flight;
- 
--	ret = panthor_alloc_heap_chunks(pool->ptdev, vm, heap,
-+	ret = panthor_alloc_heap_chunks(pool->ptdev, pfile, vm, heap,
- 					initial_chunk_count);
- 	if (ret)
- 		goto err_free_heap;
-@@ -466,7 +472,7 @@ int panthor_heap_grow(struct panthor_heap_pool *pool,
- 	 * further jobs in this queue fail immediately instead of having to
- 	 * wait for the job timeout.
- 	 */
--	ret = panthor_alloc_heap_chunk(pool->ptdev, pool->vm, heap, false);
-+	ret = panthor_alloc_heap_chunk(pool->ptdev, pool->pfile, pool->vm, heap, false);
- 	if (ret)
- 		goto out_unlock;
- 
-@@ -526,7 +532,9 @@ panthor_heap_pool_get(struct panthor_heap_pool *pool)
-  * Return: A valid pointer on success, a negative error code otherwise.
-  */
- struct panthor_heap_pool *
--panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
-+panthor_heap_pool_create(struct panthor_device *ptdev,
-+			 struct panthor_vm *vm,
-+			 struct panthor_file *pfile)
- {
- 	size_t bosize = ALIGN(MAX_HEAPS_PER_POOL *
- 			      panthor_heap_ctx_stride(ptdev),
-@@ -547,7 +555,7 @@ panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
- 	xa_init_flags(&pool->xa, XA_FLAGS_ALLOC);
- 	kref_init(&pool->refcount);
- 
--	pool->gpu_contexts = panthor_kernel_bo_create(ptdev, vm, bosize,
-+	pool->gpu_contexts = panthor_kernel_bo_create(ptdev, pfile, vm, bosize,
- 						      DRM_PANTHOR_BO_NO_MMAP,
- 						      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
- 						      PANTHOR_VM_KERNEL_AUTO_VA);
-diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm/panthor/panthor_heap.h
-index 25a5f2bba445..1d1b409064e3 100644
---- a/drivers/gpu/drm/panthor/panthor_heap.h
-+++ b/drivers/gpu/drm/panthor/panthor_heap.h
-@@ -9,8 +9,10 @@
- struct panthor_device;
- struct panthor_heap_pool;
- struct panthor_vm;
-+struct panthor_file;
- 
- int panthor_heap_create(struct panthor_heap_pool *pool,
-+			struct panthor_file *pfile,
- 			u32 initial_chunk_count,
- 			u32 chunk_size,
- 			u32 max_chunks,
-@@ -20,7 +22,9 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
- int panthor_heap_destroy(struct panthor_heap_pool *pool, u32 handle);
- 
- struct panthor_heap_pool *
--panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm);
-+panthor_heap_pool_create(struct panthor_device *ptdev,
-+			 struct panthor_vm *vm,
-+			 struct panthor_file *pfile);
- void panthor_heap_pool_destroy(struct panthor_heap_pool *pool);
- 
- struct panthor_heap_pool *
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 8ca85526491e..67cc112451a7 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -1914,16 +1914,19 @@ struct panthor_vm *panthor_vm_get(struct panthor_vm *vm)
-  *
-  * Return: A valid pointer on success, an ERR_PTR() otherwise.
-  */
--struct panthor_heap_pool *panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create)
-+struct panthor_heap_pool *panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create,
-+						   struct panthor_file *pfile)
- {
- 	struct panthor_heap_pool *pool;
- 
-+	drm_WARN_ON(&vm->ptdev->base, (!create && pfile));
-+
- 	mutex_lock(&vm->heaps.lock);
- 	if (!vm->heaps.pool && create) {
- 		if (vm->destroyed)
- 			pool = ERR_PTR(-EINVAL);
- 		else
--			pool = panthor_heap_pool_create(vm->ptdev, vm);
-+			pool = panthor_heap_pool_create(vm->ptdev, vm, pfile);
- 
- 		if (!IS_ERR(pool))
- 			vm->heaps.pool = panthor_heap_pool_get(pool);
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
-index 8d21e83d8aba..ceb31e7045ae 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.h
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.h
-@@ -14,6 +14,7 @@ struct panthor_heap_pool;
- struct panthor_vm;
- struct panthor_vma;
- struct panthor_mmu;
-+struct panthor_file;
- 
- int panthor_mmu_init(struct panthor_device *ptdev);
- void panthor_mmu_unplug(struct panthor_device *ptdev);
-@@ -35,7 +36,7 @@ int panthor_vm_as(struct panthor_vm *vm);
- int panthor_vm_flush_all(struct panthor_vm *vm);
- 
- struct panthor_heap_pool *
--panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
-+panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create, struct panthor_file *pfile);
- 
- struct panthor_vm *panthor_vm_get(struct panthor_vm *vm);
- void panthor_vm_put(struct panthor_vm *vm);
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index ef4bec7ff9c7..5a537a4ca281 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -1435,7 +1435,7 @@ static int group_process_tiler_oom(struct panthor_group *group, u32 cs_id)
- 		struct panthor_fw_cs_iface *cs_iface;
- 
- 		cs_iface = panthor_fw_get_cs_iface(ptdev, csg_id, cs_id);
--		heaps = panthor_vm_get_heap_pool(group->vm, false);
-+		heaps = panthor_vm_get_heap_pool(group->vm, false, NULL);
- 		heap_address = cs_iface->output->heap_address;
- 		vt_start = cs_iface->output->heap_vt_start;
- 		vt_end = cs_iface->output->heap_vt_end;
-@@ -3268,7 +3268,8 @@ static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
- }
- 
- static struct panthor_queue *
--group_create_queue(struct panthor_group *group,
-+group_create_queue(struct panthor_file *pfile,
-+		   struct panthor_group *group,
- 		   const struct drm_panthor_queue_create *args)
- {
- 	struct drm_gpu_scheduler *drm_sched;
-@@ -3295,7 +3296,7 @@ group_create_queue(struct panthor_group *group,
- 
- 	queue->priority = args->priority;
- 
--	queue->ringbuf = panthor_kernel_bo_create(group->ptdev, group->vm,
-+	queue->ringbuf = panthor_kernel_bo_create(group->ptdev, pfile, group->vm,
- 						  args->ringbuf_size,
- 						  DRM_PANTHOR_BO_NO_MMAP,
- 						  DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
-@@ -3310,7 +3311,7 @@ group_create_queue(struct panthor_group *group,
- 	if (ret)
- 		goto err_free_queue;
- 
--	queue->iface.mem = panthor_fw_alloc_queue_iface_mem(group->ptdev,
-+	queue->iface.mem = panthor_fw_alloc_queue_iface_mem(group->ptdev, pfile,
- 							    &queue->iface.input,
- 							    &queue->iface.output,
- 							    &queue->iface.input_fw_va,
-@@ -3324,7 +3325,7 @@ group_create_queue(struct panthor_group *group,
- 		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
- 
- 	queue->profiling.slots =
--		panthor_kernel_bo_create(group->ptdev, group->vm,
-+		panthor_kernel_bo_create(group->ptdev, pfile, group->vm,
- 					 queue->profiling.slot_count *
- 					 sizeof(struct panthor_job_profiling_data),
- 					 DRM_PANTHOR_BO_NO_MMAP,
-@@ -3427,7 +3428,7 @@ int panthor_group_create(struct panthor_file *pfile,
- 	}
- 
- 	suspend_size = csg_iface->control->suspend_size;
--	group->suspend_buf = panthor_fw_alloc_suspend_buf_mem(ptdev, suspend_size);
-+	group->suspend_buf = panthor_fw_alloc_suspend_buf_mem(pfile, ptdev, suspend_size);
- 	if (IS_ERR(group->suspend_buf)) {
- 		ret = PTR_ERR(group->suspend_buf);
- 		group->suspend_buf = NULL;
-@@ -3435,14 +3436,14 @@ int panthor_group_create(struct panthor_file *pfile,
- 	}
- 
- 	suspend_size = csg_iface->control->protm_suspend_size;
--	group->protm_suspend_buf = panthor_fw_alloc_suspend_buf_mem(ptdev, suspend_size);
-+	group->protm_suspend_buf = panthor_fw_alloc_suspend_buf_mem(pfile, ptdev, suspend_size);
- 	if (IS_ERR(group->protm_suspend_buf)) {
- 		ret = PTR_ERR(group->protm_suspend_buf);
- 		group->protm_suspend_buf = NULL;
- 		goto err_put_group;
- 	}
- 
--	group->syncobjs = panthor_kernel_bo_create(ptdev, group->vm,
-+	group->syncobjs = panthor_kernel_bo_create(ptdev, pfile, group->vm,
- 						   group_args->queues.count *
- 						   sizeof(struct panthor_syncobj_64b),
- 						   DRM_PANTHOR_BO_NO_MMAP,
-@@ -3462,7 +3463,7 @@ int panthor_group_create(struct panthor_file *pfile,
- 	       group_args->queues.count * sizeof(struct panthor_syncobj_64b));
- 
- 	for (i = 0; i < group_args->queues.count; i++) {
--		group->queues[i] = group_create_queue(group, &queue_args[i]);
-+		group->queues[i] = group_create_queue(pfile, group, &queue_args[i]);
- 		if (IS_ERR(group->queues[i])) {
- 			ret = PTR_ERR(group->queues[i]);
- 			group->queues[i] = NULL;
--- 
-2.46.2
+> Just saying that we limit our scope to just the requirements of one driver
+> because other are never supposed to see this fence is a recipe for problems.
+> 
+> > I would expect all drivers and users of dma-resv and the scheduler with
+> > preempt fences to use the proper interfaces to signal preempt fences,
+> > rather than bypassing this thus ensuring the common rules for preempt
+> > fences are adhered to.
+> 
+> Waiting for fences in any order is part of the design and a requirement by
+> some consumers.
+> 
+> See nouveau_fence_sync() for an example of what is usually done, radeon has
+> similar requirements.
+> 
+> But those approaches are here to for optimization purposes only and not for
+> correctness.
+> 
+> That a driver says "My fences must be waited on first A, then B" is
+> something completely new.
+> 
 
+Ok, fair enough.
+
+> > > Since we have tons of consumers of that stuff this is not even remotely a
+> > > defensive design.
+> > I can consider other designs, but I do think larger community input may
+> > be required, as you mentioned there are several consumers of this code.
+> 
+> Each fence is an independent object without dependencies on anything else.
+> Imposing some order on consumers of dma_fences is clearly going against
+> that.
+> 
+> > > > > Anyway, I think I have this more or less working. I want to run this by
+> > > > > the Mesa team a bit to ensure I haven't missed anything, and will likely
+> > > > > post something shortly after.
+> > > > > 
+> > > > > We can discuss this more after I post and perhaps solicit other
+> > > > > opinions, weighing the pros and cons of the approaches here. I do think
+> > > > > they function roughly the same, so something commonly agreed upon would
+> > > > > be good. Sharing a bit of code, if possible, is always a plus too.
+> > > Well to make it clear that will never ever get a green light from my side as
+> > > DMA-buf maintainer. What you suggest here is extremely fragile.
+> > > 
+> > It is unfortunate that this is your position, and I do feel it is a bit
+> > premature to suggest as much. I didn’t know being a maintainer was akin
+> > to being a dictator. As I’ve said multiple times, I feel this warrants a
+> > bit more discussion with more stakeholders. If this is unacceptable,
+> > sure, I can change it.
+> 
+> I'm sorry when you feel like that, it's really not my intention to dictate
+> anything. I have probably over-reacted.
+> 
+> It's just to me suggesting this solution is so far of that I can't really
+> understand how you came up with that.
+> 
+> I perfectly understand that you must have some reason for it, I just don't
+> see it.
+> 
+> Maybe we should concentrate on understanding those reasoning first instead
+> of discussing a possible solution.
+> 
+> > > Why not simply wait for the pending completion fences as dependency for
+> > > signaling preemption fences?
+> > > 
+> > > That should work for all drivers and is trivial to implement as far as I can
+> > > see.
+> > Again, this is hard to understand without a clear picture of what AMD is
+> > doing. I pointed out a dma-fencing problem in the code on the list, and
+> > the response was, "Well, we have some magic ordering rules that make it
+> > safe." That might be true, but if you annotated your code, lockdep would
+> > complain. Anything that cannot be annotated is a non-starter for me.
+> > This makes me nervous that, in fact, it is not as trivial as you
+> > suggest, nor is the design as sound as you believe.
+> 
+> I'm pretty sure that the code is not even remotely bug free. The design and
+> code has been under development for the last 16 month or so and is now
+> published bit by bit.
+> 
+> We completely missed both during internal review as well as testing that
+> lockdep should complain about it and I'm actually not sure why it doesn't.
+> 
+> The full code should land in amd-staging-drm-next in the next few
+> days/weeks, I can give you a detailed date later today.
+>
+
+Please let me know when this happens. I will take a pass at reviewing.
+We have had preemption fences in Xe for LR compute for 2+ years now and
+can help spot if you missed something. It took us a while to get these
+right.
+ 
+> > Anyways, I'll still likely post a common solution with annotations. If
+> > it is rejected, so be it, and I will rework it.
+> 
+> Well that sounds great. But let us discuss what this solution looks like
+> instead of jumping ahead and implementing something.
+> 
+
+Sure. FWIW I changed my code to wait on last fence and it quite easy
+to do so and it functioned the same. So at my reasoning that new slots
+vs waiting on last was correct. While there some properties of new slots
+I like, I'll just drop the new slots idea as it seems contentious.
+
+Matt
+
+> Regards,
+> Christian.
+> 
+> > 
+> > In spirit of open development here is my code in a public branch:
+> > 
+> > Kernel:https://gitlab.freedesktop.org/mbrost/xe-kernel-driver-umd-submission/-/tree/v2-11-13-24?ref_type=heads
+> > IGT:https://gitlab.freedesktop.org/mbrost/igt-gpu-tools-umd-submission/-/tree/umd_submission.v2?ref_type=heads
+> > 
+> > Matt
+> > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > > Matt
+> > > > > 
+> > > > > > Regards,
+> > > > > > Christian.
+> > > > > > 
