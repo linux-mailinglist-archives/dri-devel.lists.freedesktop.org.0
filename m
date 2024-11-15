@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902169CF760
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CD39CF75B
 	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 22:27:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C624C10E8E4;
-	Fri, 15 Nov 2024 21:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4678610E913;
+	Fri, 15 Nov 2024 21:26:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="UMDCxiMF";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ge1adyPG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id D433410E8FD;
- Fri, 15 Nov 2024 21:26:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7615510E904;
+ Fri, 15 Nov 2024 21:26:51 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 25F9B2064AE0;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 5CD1F2064AE2;
  Fri, 15 Nov 2024 13:26:45 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 25F9B2064AE0
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5CD1F2064AE2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1731706005;
- bh=7RgevXzVOF2wd0QHaqg8sKSXBh3tNnxEZNLAJYHO4/0=;
+ bh=DChbJW+DaqGHGWE0sMF41tmxT4FReQ1FKA/KDyHL32Y=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=UMDCxiMFhqj3OlDob3LYx0iO5XeNyfLgAMK6ZmPOVPjyLP8LbvBk/4clux5a7IhZf
- SUaWunrnwv/PJO3csx5OWc8mNOgOiHWkD1xkNHfyawuJ/x53ffFQkcrJhZT2Q2aLBA
- ECLfhBVQizunL7YqKMclkNruWg4koe1sEVlXuTiY=
+ b=ge1adyPGW09osua+wGGbdGdLanSrZuA2fUn6nHmkQB9BNqn7wXFeAp1cdPu9VCOCp
+ 35/hCv3XcEWTsrlvlhY2AjaoCI0WZCFykTU/SVB+MenGuEggOAvCtL12icddG0ZBHS
+ CbMDQbZbPdYcJR1LvpcZibK937QvjL6m/Aizu5/Q=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Fri, 15 Nov 2024 21:26:35 +0000
-Subject: [PATCH v2 18/21] ceph: Convert timeouts to secs_to_jiffies()
+Date: Fri, 15 Nov 2024 21:26:36 +0000
+Subject: [PATCH v2 19/21] livepatch: Convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241115-converge-secs-to-jiffies-v2-18-911fb7595e79@linux.microsoft.com>
+Message-Id: <20241115-converge-secs-to-jiffies-v2-19-911fb7595e79@linux.microsoft.com>
 References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 In-Reply-To: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -130,22 +130,78 @@ Changes made with the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- fs/ceph/quota.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ samples/livepatch/livepatch-callbacks-busymod.c |  2 +-
+ samples/livepatch/livepatch-shadow-fix1.c       |  2 +-
+ samples/livepatch/livepatch-shadow-mod.c        | 10 +++++-----
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/fs/ceph/quota.c b/fs/ceph/quota.c
-index 06ee397e0c3a6172592e62dba95cd267cfff0db1..d90eda19bcc4618f98bfed833c10a6071cf2e2ac 100644
---- a/fs/ceph/quota.c
-+++ b/fs/ceph/quota.c
-@@ -166,7 +166,7 @@ static struct inode *lookup_quotarealm_inode(struct ceph_mds_client *mdsc,
- 	if (IS_ERR(in)) {
- 		doutc(cl, "Can't lookup inode %llx (err: %ld)\n", realm->ino,
- 		      PTR_ERR(in));
--		qri->timeout = jiffies + msecs_to_jiffies(60 * 1000); /* XXX */
-+		qri->timeout = jiffies + secs_to_jiffies(60); /* XXX */
- 	} else {
- 		qri->timeout = 0;
- 		qri->inode = in;
+diff --git a/samples/livepatch/livepatch-callbacks-busymod.c b/samples/livepatch/livepatch-callbacks-busymod.c
+index 378e2d40271a9717d09eff51d3d3612c679736fc..d0fd801a7c21b7d7939c29d83f9d993badcc9aba 100644
+--- a/samples/livepatch/livepatch-callbacks-busymod.c
++++ b/samples/livepatch/livepatch-callbacks-busymod.c
+@@ -45,7 +45,7 @@ static int livepatch_callbacks_mod_init(void)
+ {
+ 	pr_info("%s\n", __func__);
+ 	schedule_delayed_work(&work,
+-		msecs_to_jiffies(1000 * 0));
++		secs_to_jiffies(0));
+ 	return 0;
+ }
+ 
+diff --git a/samples/livepatch/livepatch-shadow-fix1.c b/samples/livepatch/livepatch-shadow-fix1.c
+index 6701641bf12d454a770e49abeeb0dea92560e55e..948ea1f5760fed2fa27baf478c97cf98ad5c99a8 100644
+--- a/samples/livepatch/livepatch-shadow-fix1.c
++++ b/samples/livepatch/livepatch-shadow-fix1.c
+@@ -73,7 +73,7 @@ static struct dummy *livepatch_fix1_dummy_alloc(void)
+ 		return NULL;
+ 
+ 	d->jiffies_expire = jiffies +
+-		msecs_to_jiffies(1000 * EXPIRE_PERIOD);
++		secs_to_jiffies(EXPIRE_PERIOD);
+ 
+ 	/*
+ 	 * Patch: save the extra memory location into a SV_LEAK shadow
+diff --git a/samples/livepatch/livepatch-shadow-mod.c b/samples/livepatch/livepatch-shadow-mod.c
+index 7e753b0d2fa611524c9e2adbe02c8fa3e9b6015e..79296e6ccb119f521e86a121623855d841c9fc5e 100644
+--- a/samples/livepatch/livepatch-shadow-mod.c
++++ b/samples/livepatch/livepatch-shadow-mod.c
+@@ -102,7 +102,7 @@ static __used noinline struct dummy *dummy_alloc(void)
+ 		return NULL;
+ 
+ 	d->jiffies_expire = jiffies +
+-		msecs_to_jiffies(1000 * EXPIRE_PERIOD);
++		secs_to_jiffies(EXPIRE_PERIOD);
+ 
+ 	/* Oops, forgot to save leak! */
+ 	leak = kzalloc(sizeof(*leak), GFP_KERNEL);
+@@ -153,7 +153,7 @@ static void alloc_work_func(struct work_struct *work)
+ 	mutex_unlock(&dummy_list_mutex);
+ 
+ 	schedule_delayed_work(&alloc_dwork,
+-		msecs_to_jiffies(1000 * ALLOC_PERIOD));
++		secs_to_jiffies(ALLOC_PERIOD));
+ }
+ 
+ /*
+@@ -185,15 +185,15 @@ static void cleanup_work_func(struct work_struct *work)
+ 	mutex_unlock(&dummy_list_mutex);
+ 
+ 	schedule_delayed_work(&cleanup_dwork,
+-		msecs_to_jiffies(1000 * CLEANUP_PERIOD));
++		secs_to_jiffies(CLEANUP_PERIOD));
+ }
+ 
+ static int livepatch_shadow_mod_init(void)
+ {
+ 	schedule_delayed_work(&alloc_dwork,
+-		msecs_to_jiffies(1000 * ALLOC_PERIOD));
++		secs_to_jiffies(ALLOC_PERIOD));
+ 	schedule_delayed_work(&cleanup_dwork,
+-		msecs_to_jiffies(1000 * CLEANUP_PERIOD));
++		secs_to_jiffies(CLEANUP_PERIOD));
+ 
+ 	return 0;
+ }
 
 -- 
 2.34.1
