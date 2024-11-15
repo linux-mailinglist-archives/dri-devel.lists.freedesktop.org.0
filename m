@@ -2,145 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486459CFD9E
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 10:51:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F9C9CF536
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 20:48:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B59C10E11C;
-	Sat, 16 Nov 2024 09:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 201E810E8B6;
+	Fri, 15 Nov 2024 19:48:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=axis.com header.i=@axis.com header.b="h03++5ei";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DpQBKQBz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2058.outbound.protection.outlook.com [40.107.21.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807EE10E09D
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 12:57:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wlKgO4GTKVHDhYdZbyPHq7DzCy5LNShyb0LELJeh7WiMrIXE6AAwNMx0FwkV5gzA0qrsb1yrJUMGNn1sMYw2CJI2FVP/GxTNduI8Q/ERNDfyqxfqeivE14mF1Db5eHD+swhSX6ZN8dcE63y9bPJb5JsIE7D3Tf0iVcOXBsZtcW/XhmJZQH/7YWf2E/PzdUrfQfsuCn80WRt6Oqb1YtG2e3i+HfAcCFthspkTM+ERZQkzK6GxSjTnEar6yZlZP5FD4rv+mXYaMCEWPKvQ5v3KmCccZN/PqbpFgbm6AAvyRICWMYbSmwR960vwuQCPR1PnTTGTaIXIwRfuj2eZPZ6l+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hbJ6lZfTY+DuhfQkjUWQIcPpNdxDk9l8ALGzqO5tGAk=;
- b=qcPcNou9Cm5KUDQXyDlL9mGnCDRVHI9VNJziV6IirTBXTbkAPamzOzJxcdDisVtp4n6gA5qsPp0/4q9ozC2vhD7VLjhMv9eEUVp+1+M3vkynCmnJ5BvL4pWnBZCPuqz8Hor9mvGzTgGJHvJBKvY98ICNEkFwyIm+w0i/8TFt+FAJvpbv8CbpvMnX295VZskM79qkOa2bEUtpiqVex+awBtE6v/4nLBohSODybusNrlWUKauZ4/U7e2msjwQWsjfA17m/bF4ZGevyxAZckPstvoVoIguKf0+lcaBTFViRUpqlbTpexElvP8yaZETAFqo6p9NIlL4OjHPHuiLKjJswKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=axis.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=axis.com; dkim=none (message
- not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hbJ6lZfTY+DuhfQkjUWQIcPpNdxDk9l8ALGzqO5tGAk=;
- b=h03++5ei2PSbJtP0Klt0sUQ7jN/57dHwEwPCxqAMm7cRtONGBcqJ82St+PvVgUa4leeImLtxWXtlTDwoVUYFIlfV5AKItgMGmGsy1ruD+ThhcFhAaKRoOt7JRy2tzkhHkw2ch+rJhoubR7KIT6yVnJRXO/De+Y143HhnxZvlOY4=
-Received: from DU2PR04CA0287.eurprd04.prod.outlook.com (2603:10a6:10:28c::22)
- by GV2PR02MB10046.eurprd02.prod.outlook.com (2603:10a6:150:e0::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.17; Fri, 15 Nov
- 2024 12:57:43 +0000
-Received: from DU2PEPF00028D07.eurprd03.prod.outlook.com
- (2603:10a6:10:28c:cafe::b6) by DU2PR04CA0287.outlook.office365.com
- (2603:10a6:10:28c::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.17 via Frontend
- Transport; Fri, 15 Nov 2024 12:57:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DU2PEPF00028D07.mail.protection.outlook.com (10.167.242.167) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8158.14 via Frontend Transport; Fri, 15 Nov 2024 12:57:43 +0000
-Received: from se-mail02w.axis.com (10.20.40.8) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 15 Nov
- 2024 13:57:40 +0100
-Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Fri, 15 Nov 2024 13:57:40 +0100
-Received: from pc39391-2017.se.axis.com (pc39391-2017.se.axis.com [10.92.82.2])
- by se-intmail02x.se.axis.com (Postfix) with ESMTP id 5CCA45E1;
- Fri, 15 Nov 2024 13:57:40 +0100 (CET)
-Received: by pc39391-2017.se.axis.com (Postfix, from userid 10612)
- id 57D0C4462505; Fri, 15 Nov 2024 13:57:40 +0100 (CET)
-From: Stefan Ekenberg <stefan.ekenberg@axis.com>
-Date: Fri, 15 Nov 2024 13:57:28 +0100
-Subject: [PATCH v2] drm/bridge: adv7511_audio: Update Audio InfoFrame properly
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
+ [209.85.128.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E387010E8BA
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 19:48:04 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-6ea0b25695dso19636957b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 11:48:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1731700084; x=1732304884; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5hqZZY2Xw4Iij5lMmhTNFkUvBmDKTrsfUBUbIBiu3tQ=;
+ b=DpQBKQBzZMaCoPZUFydQmquFBzaJvqVLmSmsoj++xOCyzhuSI99lf/RJmidFPvUWHi
+ ez1uD80Zlho4Znl7iGH1xlKUV5dPAAKp8AtC1/8g+uB/+HLB7n4gjD2Id/iIYxPPw4b1
+ Rdj90U3tTs0eRVDSznFpSejlWg3lZT2m87FuptIPDiW/oyGJHlHqiYk7wjHJYfwm41CP
+ 6EKY75UpVTkPkF7TrUM2lvhHHFn0yQX8UPb5VODYZ3wUVXonrj+UMYVMDmxkRIyDkoLH
+ PSd3H8DzYL2dAzt/06O2pKdhJjAo+cD17FQ7ocl6ZsxfDFI3iQsG6pjxpBXsMRAnorv+
+ hraA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731700084; x=1732304884;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5hqZZY2Xw4Iij5lMmhTNFkUvBmDKTrsfUBUbIBiu3tQ=;
+ b=JZ2B5ygg+bp0gcFmOXCh8fIQpJqWNJLt7uK7fHx7nEQGk/yGYgee9CkGVe161HZCT8
+ nFsV2A4SK53Tf6foWb1CpqFJltk1TYSBJD5oygJwjnCloeOdN808VUovMHxeRTtCNTE0
+ v1K6pJiP8gxN4/HWzYwNWdR2IotV3xW5xigjZAg8q6Yir+8DTe1yHbZbApmuQtdVmxqR
+ agOKA5ZOqc5SlA/lzcFz1fEQJRVA5u2UQlow6ow5HI3NYekDl/c6Eg+yZszmkrkTedSh
+ xpimoYK3ZmQAZ4GI1s48XfXUas1PKUTxCryIly1xDY5iC0S5YT2YX4cXDnHYRntTpznJ
+ 837Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWWPKoue2jClBBszd4Z8ZxV0Ta69mALk9afHBtgcitSbhxn5fFqCYveYwX1YBPZBFzbtmHNrrQpAm4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3vA52d9QcFBjYu3WUdZfYZcGEKouMVC05slCg7Gwt/GLvSIZJ
+ YK28n75Ysjg0EjN3Q+Y2hJ7gGLpAgw1v6zgF7WXfgNfL5+JIUI8asGfdA4byK4X8XRdRBh/hnXM
+ zQCGIb4SV1yGMckv8Xx82Mbctp6kl9Fn7Xpnzog==
+X-Google-Smtp-Source: AGHT+IGIukyB05CdIVdL1icbGYosMbFDk6j/Gtkmjlh6kGKZaRFg/N+JXtJlBfPhO8UT5MJlHu9T5PXAioWUh56J1Wc=
+X-Received: by 2002:a05:690c:e18:b0:6ea:8c14:7bfc with SMTP id
+ 00721157ae682-6ee55cbbedamr42076707b3.34.1731700083691; Fri, 15 Nov 2024
+ 11:48:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20241115-adv7511-audio-info-frame-v2-1-ca4793ef3a91@axis.com>
-X-B4-Tracking: v=1; b=H4sIADdFN2cC/3WNyw6CMBBFf4XM2jFMaXm48j8Mi0JbmQXUtNpgC
- P9uJW5dnpPcczeINrCNcCk2CDZxZL9kEKcCxkkvd4tsMoMohSQqW9QmNYoI9cuwR16cRxf0bFH
- JmqQxcnCqgTx/BOt4PdK3PvPE8enD+3hK9LW/KFX/o4mQUHZDVbdD1ymtrnrleB79DP2+7x9dA
- rPmvwAAAA==
-X-Change-ID: 20241108-adv7511-audio-info-frame-54614dd4bf57
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <kernel@axis.com>, Stefan Ekenberg <stefan.ekenberg@axis.com>
-X-Mailer: b4 0.14.2
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D07:EE_|GV2PR02MB10046:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf047db0-6810-410c-09a2-08dd05751830
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|1800799024|36860700013|376014|82310400026|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?K09CcjZrdUVLblFzNWlyK0duY0k2MklEUkxYSzEwY2Q3WE1WejhiVkx3eSt6?=
- =?utf-8?B?blpEQ0E3QThoaFh4dDN6NzVxNjk5OWdmWUlKU05Bd3I2ZEF2ZzJpbUQwU2JE?=
- =?utf-8?B?cnlCdXFsa1hEd0xTMWxDMzRLTFp4TEhxZ2xUZE03UW55TnZVaVpESGt1NmFh?=
- =?utf-8?B?UWVZUUR4L3dqV0RDZDRZUjRRQzI2cEdRdktkN1JYSVllWlRDZTl3a2RyNmFw?=
- =?utf-8?B?dTV3dWFrNVBBWkNKODZxeXh1OWZ5WXJrN0F5TzlXd0tUS3Z2ZHBLT1E0d2lI?=
- =?utf-8?B?aTlJQlRZNU1UcHI4dmhwWmxPR255eHJjYm4yQzU1YkNGdTZkMFFLUHB3d0ha?=
- =?utf-8?B?NjNwNUE2Y25zRFhkcEs3SGwvRmFDVnJiM2x2cUZoMWZqY1paVXdQeFNBenEr?=
- =?utf-8?B?SXdGT3h3aERHdEZhRFBkNzhjOWtMZEtjRzVlZ05QcE1hOEZnelM0VHJlSy9i?=
- =?utf-8?B?QnhJdEdOcnpCcWdaekswRC93VjRKTkhEWDgvajU5cFBRbmNrT3FOZ3FSVGR4?=
- =?utf-8?B?b0tJTW1XYVRwWTNlMHdwRDdmbGROR1Z4TzhYMnl1eHhqNmlBa2UwWmJqZUJ4?=
- =?utf-8?B?RjlXUEhBNEdQMGVlb24wY0dGR0tGUTVwOVJUcGZORHM2V3NXRkhoQVYxREh1?=
- =?utf-8?B?bldMY3ltaGIzTGgzazUwS3pGRnE5bWhHYUVmc3dza2hJREZuNnBvZlhCVXpE?=
- =?utf-8?B?N2Q5LzJ4YXlqMkdqc3hId2N5N0JCWDVxZE0xemx4Nm1yUWl5QXBsWmxJMmxh?=
- =?utf-8?B?dFJ4WmdEanJzZ2lGRnV3TXJmYTJiUWlKQUFZU3dCU3BOYjRCSlIrSVZheVZS?=
- =?utf-8?B?QVdJNkkwbE5DSHRVM2FlbDkrU3ltMHFwTUdRQ1REbWtjYzJZTlI5RW8zV01k?=
- =?utf-8?B?ckJJSytNVDZVVFpNZjhHV0xxOEZVc24yRFRocDZpYUJkTHVMampHaW52NHpX?=
- =?utf-8?B?RFQ1VnFZWHRaOFlFUEg3SGZnWm9DR2tiNXZhWXFKb1lpbzgyWnZBM1o4aC9x?=
- =?utf-8?B?dnBQQ0pTL01nd2xpeUFBVDAyb0xUODMxamdCTEd5clNSczc2N1FCdEU4WlF5?=
- =?utf-8?B?dlhGVTZtSVRObXNaY3JFMU5GTlVGZ0JWSWI0YjVNV0Y5QlFZZlhPbWtXaXB1?=
- =?utf-8?B?OE13c2ZGQ2htZy9nb3VMWXQwRDZoYlVuQ2xoaEtoMXdEMlY0dlhjSVUxYU85?=
- =?utf-8?B?dUdLakZFZys0SXdYaENyUE1KZGV4c2dxaHlkUldKS2orRXNQSGs2S2ZTMjM2?=
- =?utf-8?B?cjhkTW9Pb3A0Z0FmSEdQS3BJOXB2Vkc2ZnBYVndicDQ0MnVyamtLNUNXTHZh?=
- =?utf-8?B?UktiVlIrQjF1YWdvYmU0MEJ1c3FPeGtPeFRUZTI5RFd2OGpGZ2gvaUVuc0xM?=
- =?utf-8?B?YldtNzhZaysySHd3UEtSb01saTVXWUVDVkM3V0lEckx4dUdyNVgyZGRvYkJq?=
- =?utf-8?B?MnpYTW9LZURPTDMvOSthUzhGcm5IbnFLKzVXbHVEbnJzcnMweVBIV3BIY0dz?=
- =?utf-8?B?R2xjTzFKUkh5cGRTclBjNWYwZkxNL3pycEdFdTNmR01mc2ZFbFZxdVVIU3Yr?=
- =?utf-8?B?WFBkY2VLMWJoUHpBOFJNbmVWT1I5RDdycE9ZYXF1aFlWZEtHbVVrTzNJVmFp?=
- =?utf-8?B?d0ZTSHg5OXNRWW45OVEvMXU5ODJRblFybnRyRTlzTkFlNThRTGw2UU5tREZv?=
- =?utf-8?B?VTE4UzNkbUNCR2hIWXNvcUZBTGNzNGV2Q3FvNXc3ekFJU3hpbVZNTHpBNDU0?=
- =?utf-8?B?ZVc0ZjU1d1FBK1F0cmtLeE9yeFc1SmhGRUQ1dmpnNFRRQlpjdU9pVnkwcmZX?=
- =?utf-8?B?bFpqUlBrMlZCSTVLR2NUYmxtdWcvNUZyZ00yMDgrUlhnV042b3hiK0xNQ2ln?=
- =?utf-8?B?Y04rektHQ2lsd0F4eURxaUhlTlFFek1pOFFOYXc1MWNQb3dJWktMcGxhM25L?=
- =?utf-8?Q?zZicQ9H8z84=3D?=
-X-Forefront-Antispam-Report: CIP:195.60.68.100; CTRY:SE; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.axis.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(36860700013)(376014)(82310400026)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2024 12:57:43.0967 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf047db0-6810-410c-09a2-08dd05751830
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af; Ip=[195.60.68.100];
- Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: DU2PEPF00028D07.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR02MB10046
-X-Mailman-Approved-At: Sat, 16 Nov 2024 09:51:27 +0000
+References: <20241021-gpu-acd-v2-0-9c25a62803bc@quicinc.com>
+ <20241021-gpu-acd-v2-2-9c25a62803bc@quicinc.com>
+ <mz4zpcr4tqh2w7vt75f4ofxjzfve54ozzgpdbi2jjzk5pdxbk7@t36tlt3mmprt>
+ <d858dadb-4098-4c9f-b4f0-393dc988db5f@quicinc.com>
+ <4426b4kybtac6rc4twa5pgm3hvlegofemvqjcrvh6ni7f5z2h6@5dnlv3hgywh5>
+ <c5e868e1-2dae-466c-a6fc-ef0f247fa0ce@quicinc.com>
+ <278e62e1-02a4-4e33-8592-fb4fafcedf7e@quicinc.com>
+ <CAA8EJprgshjbNqNErOb06jqV__LmbWvocsK5eD8PQqL+FaLb1g@mail.gmail.com>
+ <f67c72c3-7393-47b0-9b9c-1bfadce13110@quicinc.com>
+In-Reply-To: <f67c72c3-7393-47b0-9b9c-1bfadce13110@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 15 Nov 2024 21:47:52 +0200
+Message-ID: <CAA8EJppy+V9m-t_qPEJh2iTkC7tyDcf2y8wD9vYoHtFSp=HrkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: opp: Add v2-qcom-adreno vendor
+ bindings
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Viresh Kumar <vireshk@kernel.org>,
+ Nishanth Menon <nm@ti.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,67 +97,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AUDIO_UPDATE bit (Bit 5 of MAIN register 0x4A) needs to be set to 1
-while updating Audio InfoFrame information and then set to 0 when done.
-Otherwise partially updated Audio InfoFrames could be sent out. Two
-cases where this rule were not followed are fixed:
- - In adv7511_hdmi_hw_params() make sure AUDIO_UPDATE bit is updated
-   before/after setting ADV7511_REG_AUDIO_INFOFRAME.
- - In audio_startup() use the correct register for clearing
-   AUDIO_UPDATE bit.
+On Fri, 15 Nov 2024 at 19:54, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>
+> On 11/15/2024 3:54 AM, Dmitry Baryshkov wrote:
+> > Hello Akhil,
+> >
+> > On Thu, 14 Nov 2024 at 20:50, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+> >>
+> >> On 11/1/2024 9:54 PM, Akhil P Oommen wrote:
+> >>> On 10/25/2024 11:58 AM, Dmitry Baryshkov wrote:
+> >>>> On Thu, Oct 24, 2024 at 12:56:58AM +0530, Akhil P Oommen wrote:
+> >>>>> On 10/22/2024 11:19 AM, Krzysztof Kozlowski wrote:
+> >>>>>> On Mon, Oct 21, 2024 at 05:23:43PM +0530, Akhil P Oommen wrote:
+> >>>>>>> Add a new schema which extends opp-v2 to support a new vendor specific
+> >>>>>>> property required for Adreno GPUs found in Qualcomm's SoCs. The new
+> >>>>>>> property called "qcom,opp-acd-level" carries a u32 value recommended
+> >>>>>>> for each opp needs to be shared to GMU during runtime.
+> >>>>>>>
+> >>>>>>> Cc: Rob Clark <robdclark@gmail.com>
+> >>>>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> >>>>>>> ---
+> >>>>>>>  .../bindings/opp/opp-v2-qcom-adreno.yaml           | 96 ++++++++++++++++++++++
+> >>>>>>>  1 file changed, 96 insertions(+)
+> >>>>>>>
+> >>>>>>> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+> >>>>>>> new file mode 100644
+> >>>>>>> index 000000000000..6d50c0405ef8
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+> >>>>>>> @@ -0,0 +1,96 @@
+> >>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >>>>>>> +%YAML 1.2
+> >>>>>>> +---
+> >>>>>>> +$id: http://devicetree.org/schemas/opp/opp-v2-qcom-adreno.yaml#
+> >>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>>>>>> +
+> >>>>>>> +title: Qualcomm Adreno compatible OPP supply
+> >>>>>>> +
+> >>>>>>> +description:
+> >>>>>>> +  Adreno GPUs present in Qualcomm's Snapdragon chipsets uses an OPP specific
+> >>>>>>> +  ACD related information tailored for the specific chipset. This binding
+> >>>>>>> +  provides the information needed to describe such a hardware value.
+> >>>>>>> +
+> >>>>>>> +maintainers:
+> >>>>>>> +  - Rob Clark <robdclark@gmail.com>
+> >>>>>>> +
+> >>>>>>> +allOf:
+> >>>>>>> +  - $ref: opp-v2-base.yaml#
+> >>>>>>> +
+> >>>>>>> +properties:
+> >>>>>>> +  compatible:
+> >>>>>>> +    items:
+> >>>>>>> +      - const: operating-points-v2-adreno
+> >>>>>>> +      - const: operating-points-v2
+> >>>>>>> +
+> >>>>>>> +patternProperties:
+> >>>>>>> +  '^opp-?[0-9]+$':
+> >>>>>>
+> >>>>>> '-' should not be optional. opp1 is not expected name.
+> >>>>>
+> >>>>> Agree. Will change this to '^opp-[0-9]+$'
+> >>>>>
+> >>>>>>
+> >>>>>>> +    type: object
+> >>>>>>> +    additionalProperties: false
+> >>>>>>> +
+> >>>>>>> +    properties:
+> >>>>>>> +      opp-hz: true
+> >>>>>>> +
+> >>>>>>> +      opp-level: true
+> >>>>>>> +
+> >>>>>>> +      opp-peak-kBps: true
+> >>>>>>> +
+> >>>>>>> +      opp-supported-hw: true
+> >>>>>>> +
+> >>>>>>> +      qcom,opp-acd-level:
+> >>>>>>> +        description: |
+> >>>>>>> +          A positive value representing the ACD (Adaptive Clock Distribution,
+> >>>>>>> +          a fancy name for clk throttling during voltage droop) level associated
+> >>>>>>> +          with this OPP node. This value is shared to a co-processor inside GPU
+> >>>>>>> +          (called Graphics Management Unit a.k.a GMU) during wake up. It may not
+> >>>>>>> +          be present for some OPPs and GMU will disable ACD while transitioning
+> >>>>>>> +          to that OPP. This value encodes a voltage threshold and few other knobs
+> >>>>>>> +          which are identified by characterization of the SoC. So, it doesn't have
+> >>>>>>> +          any unit.
+> >>>>>>
+> >>>>>> Thanks for explanation and other updates. I am still not happy with this
+> >>>>>> property. I do not see reason why DT should encode magic values in a
+> >>>>>> quite generic piece of code. This creates poor ABI, difficult to
+> >>>>>> maintain or understand.
+> >>>>>>
+> >>>>>
+> >>>>> Configuring GPU ACD block with its respective value is a requirement for each OPP.
+> >>>>> So OPP node seems like the natural place for this data.
+> >>>>>
+> >>>>> If it helps to resolve your concerns, I can elaborate the documentation with
+> >>>>> details on the GMU HFI interface where this value should be passed on to the
+> >>>>> hardware. Also replace "few other knobs" with "Delay cycles & Calibration margin"
+> >>>>> in the above doc.
+> >>>>
+> >>>> Usually the preference for DT is to specify data in a sensible way
+> >>>> rather than just the values being programmed to the register. Is it
+> >>>> possible to implement this approach for ACD values?
+> >>
+> >> Krzysztof/Dmitry,
+> >>
+> >> BIT(0)-BIT(15) are static configurations which doesn't change between
+> >> OPPs. We can move it to driver.
+> >>
+> >> BIT(16)-BIT(31) indicates a threshold margin which triggers ACD. We can
+> >> keep this in the devicetree. And the driver can construct the final
+> >> value from both data and send it to GMU.
+> >>
+> >> If this is acceptable, I will send the v3 revision.
+> >
+> > Can the upper bitfield have a sensible representation in DT (like uV
+> > or something similar)?
+>
+> Closest approximation is quantized voltage steps. So, unit-less.
+> Converting it to the exact voltage requires identifying the pmic voltage
+> steps and other stuffs which are outside of my expertise.
+>
+> It is convenient if we can abstract it as an integer which correlates
+> with the voltage margin that should be maintained for each regulator corner.
 
-The problem with corrupted audio infoframes were discovered by letting
-a HDMI logic analyser check the output of ADV7535.
+I'd say, this is up to the DT maintainers then.
 
-Fixes: 53c515befe28 ("drm/bridge: adv7511: Add Audio support")
-Signed-off-by: Stefan Ekenberg <stefan.ekenberg@axis.com>
----
-Changes in v2:
-- Add Fixes tag
-- Link to v1: https://lore.kernel.org/r/20241113-adv7511-audio-info-frame-v1-1-49b368b995a5@axis.com
----
- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+>
+> -Akhil.
+>
+> >
+> >>
+> >> -Akhil.
+> >>
+> >>>
+> >>> I am still checking about this. Will get back.
+> >>>
+> >>> -Akhil
+> >>>
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>
+> >>>
+> >>
+> >
+> >
+>
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-index 61f4a38e7d2bf6905683cbc9e762b28ecc999d05..8f786592143b6c81e5a434768b51508d5e5f3c73 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-@@ -153,7 +153,16 @@ static int adv7511_hdmi_hw_params(struct device *dev, void *data,
- 			   ADV7511_AUDIO_CFG3_LEN_MASK, len);
- 	regmap_update_bits(adv7511->regmap, ADV7511_REG_I2C_FREQ_ID_CFG,
- 			   ADV7511_I2C_FREQ_ID_CFG_RATE_MASK, rate << 4);
--	regmap_write(adv7511->regmap, 0x73, 0x1);
-+
-+	/* send current Audio infoframe values while updating */
-+	regmap_update_bits(adv7511->regmap, ADV7511_REG_INFOFRAME_UPDATE,
-+			   BIT(5), BIT(5));
-+
-+	regmap_write(adv7511->regmap, ADV7511_REG_AUDIO_INFOFRAME(0), 0x1);
-+
-+	/* use Audio infoframe updated info */
-+	regmap_update_bits(adv7511->regmap, ADV7511_REG_INFOFRAME_UPDATE,
-+			   BIT(5), 0);
- 
- 	return 0;
- }
-@@ -184,8 +193,9 @@ static int audio_startup(struct device *dev, void *data)
- 	regmap_update_bits(adv7511->regmap, ADV7511_REG_GC(0),
- 				BIT(7) | BIT(6), BIT(7));
- 	/* use Audio infoframe updated info */
--	regmap_update_bits(adv7511->regmap, ADV7511_REG_GC(1),
-+	regmap_update_bits(adv7511->regmap, ADV7511_REG_INFOFRAME_UPDATE,
- 				BIT(5), 0);
-+
- 	/* enable SPDIF receiver */
- 	if (adv7511->audio_source == ADV7511_AUDIO_SOURCE_SPDIF)
- 		regmap_update_bits(adv7511->regmap, ADV7511_REG_AUDIO_CONFIG,
 
----
-base-commit: 59b723cd2adbac2a34fc8e12c74ae26ae45bf230
-change-id: 20241108-adv7511-audio-info-frame-54614dd4bf57
-
-Best regards,
 -- 
-Stefan Ekenberg <stefan.ekenberg@axis.com>
-
+With best wishes
+Dmitry
