@@ -2,79 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626439CF110
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 17:07:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1879CF10B
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2024 17:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC3110E2D8;
-	Fri, 15 Nov 2024 16:07:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 333E210E0A3;
+	Fri, 15 Nov 2024 16:07:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=thaumatec-com.20230601.gappssmtp.com header.i=@thaumatec-com.20230601.gappssmtp.com header.b="gs2tIp8Z";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Q76J4QgE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B0C810E2D8
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 16:07:55 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-5cef772621eso1138248a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 08:07:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=thaumatec-com.20230601.gappssmtp.com; s=20230601; t=1731686874; x=1732291674;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5CycAJx3idmdsvb2oboF200n+heMzv/tQjcKECgs/uw=;
- b=gs2tIp8Z4rgKaXVorgvLQcBfYxqRpOBWnzPdAq1kfHewl74FeIak2C6cuwvyzJDck/
- QB/HHkyAuzolJIwHgV8UJBjEAx0Hv4ruQo4YPP182QnpWPnU/RHpGM/uVqM3Oh50fGqF
- I6QRpx7bFwGsnodY3nUWdrGXrR+xmfWnRZaMUbzyYKJ/fRh4hrF3v4k5iM6hyiJwPtGj
- TEdV1wFVOw07fj+trrFTk1UViQxscomXZSJYkoC2xVzizUIJ83kLjL/4Nl4SmpkWovCH
- nnTLuCVl92+zAd3lalZa/myXxygbKtqsLbq8eSiqcsfmbUkaeOu6XlpOX4loNYmyAeaE
- pu1A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0C1C10E2D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 16:07:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1731686843;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RV05fB9NSBIzBCsCdWKB/DZd6fRxV34ifCANflnm1wg=;
+ b=Q76J4QgEv2/AsS5GztUWKCmUUSMXIjCf0UYykkK3VZdUfRF47qRiUu837/ETlHrwuXr21m
+ F97BSbKFEYPgnGoq2Dtyzhd+e/1lLq+MPR/MXqAjvr+L9oG8vxeaiW2jjX9B8LzE2VGPVd
+ VBJcUhdlxbF+0sHWy3IKuDIZ/nL81Ug=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-483-ikQ-tKdFOkerxlD7Fm6Cyw-1; Fri, 15 Nov 2024 11:07:20 -0500
+X-MC-Unique: ikQ-tKdFOkerxlD7Fm6Cyw-1
+X-Mimecast-MFC-AGG-ID: ikQ-tKdFOkerxlD7Fm6Cyw
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4315b7b0c16so14938065e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2024 08:07:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731686874; x=1732291674;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5CycAJx3idmdsvb2oboF200n+heMzv/tQjcKECgs/uw=;
- b=P6w2N6SRR3v0ApcM59TAn4SmFhE4xMD7R25qVM6wKZteUAWVlZviwIkM5mICql/xVb
- BmOw3DNF2XB7ejk0Z7/Rdl8NPmaoTwFuRW55u06WXhRt2jKZ/lSGdo0Fm7AnWmtzMZbZ
- p6hhu7u2/YHaD1D2yn1RJMiepRAVdjEoRORPJ+d3kHnjazyDjGyUW6LNRHoVCTxaSHOI
- ZHgJbhcvE8Eb9qv7fG1iO0nqrBRZljEtw00sRnYlOL0uUWXcSp5gpoZrPwdkV/bW89wj
- 31G1YrJYWBF6IKMtQtsguJ6Ekwa4WIF5FCeJi2yfUtlVUbwQOh/VD6OOFJQ/cW+APzj5
- gcHA==
+ d=1e100.net; s=20230601; t=1731686839; x=1732291639;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RV05fB9NSBIzBCsCdWKB/DZd6fRxV34ifCANflnm1wg=;
+ b=N+jbT83kkDPu+Rig69laNEN7/Zs1sEQGmwFydHY+iV3hkX/XJI+0RzUCpDmhfatmBP
+ +KfMhuU+Enens0b03O40MftHE+R/E2Pl3KJE8G5/Vi6z9mQsokbMys+DXdtqVlv3mPDK
+ frQVJGB1ElXCa5kom8NTSKw2Wa0/+NdX4f2hIBWmRCA+rSHX7YTV6/xaVZptZYd+RWrc
+ XS5/Med6J8EJycm8XlwE4ppKvC0bginTyBD4LJi7KiALTnZ/KxhjGXLMRDU1jwDmZ6DZ
+ 4BbkmPAFRczcQcRg3ZeP9gO3v2XxEbgA5Xj0y1JMoW8QSKYFSd4s7wVZSw30FeuYLsm/
+ r5XQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVPUJLfe9+j5BkSwbaSvXZwYx1pmWUy4xnW8LC+bGT5vaf1pp3GyTC+7jAioEebfsuUH1ql4uAHods=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw9fGOLF6ExmmcTiUQLWdkNFqLyi+69n/wH5XrKZvkZUhjwkk8+
- AeJfj9KEpC2eItI1CCSX3aFXc2Fubbjbw9N0T7OaiozDrxAd+2ushoVrd4WFSY8=
-X-Google-Smtp-Source: AGHT+IH2U0OnUfhXO3qxZuHhXGmKJ4U2QgdglEBHh3If9IMSL3DAHUNYch3+DhBSltB9S39eUaStfg==
-X-Received: by 2002:a05:6402:50d3:b0:5cf:707f:a123 with SMTP id
- 4fb4d7f45d1cf-5cf8fc1406bmr2607951a12.5.1731686873609; 
- Fri, 15 Nov 2024 08:07:53 -0800 (PST)
-Received: from fedora.. ([91.90.172.13]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aa20e00172dsm194948266b.120.2024.11.15.08.07.52
+ AJvYcCUmsRd4HeVOkNAsVF6JyKKCHy77Q/eJw9uP9/LkGSEdmgs6YHvDxiL2zswFZVLYSjtSQBmJtI/eeJw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/9Sj4LosTrhjWC4nWJMXyZalxP2IdPBymTMGAhZVJjYOfdLCJ
+ jQ4UHmUpbPXplo6gDEzrPopmnAE4xO6T52i62IvKwtPC/SoxpkRiVO74Y9S70dx4pMidIDpvpvu
+ XT1N2ezconMKiBj8rJyOyV1DEsAO5yDgqzFEf21GmqyrpKDGTHWqwpkS/Rw1W/ULvQg==
+X-Received: by 2002:a05:600c:3ca3:b0:42c:de34:34be with SMTP id
+ 5b1f17b1804b1-432df72127fmr29455875e9.3.1731686839173; 
+ Fri, 15 Nov 2024 08:07:19 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGX0ZSMwC7xP2w+C/jScbgmpFtAzetQNig4uuV+TOEXeu5FHuyt2Tg8n3FgcZ31Cx620fIvIw==
+X-Received: by 2002:a05:600c:3ca3:b0:42c:de34:34be with SMTP id
+ 5b1f17b1804b1-432df72127fmr29455455e9.3.1731686838760; 
+ Fri, 15 Nov 2024 08:07:18 -0800 (PST)
+Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3821adbbcbcsm4820255f8f.48.2024.11.15.08.07.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Nov 2024 08:07:53 -0800 (PST)
-From: Daniel Semkowicz <dse@thaumatec.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
-Cc: Daniel Semkowicz <dse@thaumatec.com>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] drm/bridge: tc358775: Remove burst mode support
-Date: Fri, 15 Nov 2024 17:06:32 +0100
-Message-ID: <20241115160641.74074-2-dse@thaumatec.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241115160641.74074-1-dse@thaumatec.com>
-References: <20241115160641.74074-1-dse@thaumatec.com>
+ Fri, 15 Nov 2024 08:07:08 -0800 (PST)
+Message-ID: <85a29addcc1c42a339292b536d46c397677d5729.camel@redhat.com>
+Subject: Re: [PATCH 1/2] drm/sched: add WARN_ON and BUG_ON to drm_sched_fini
+From: Philipp Stanner <pstanner@redhat.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo
+ Krummrich <dakr@kernel.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ ltuikov89@gmail.com, Matthew Brost <matthew.brost@intel.com>
+Date: Fri, 15 Nov 2024 17:07:04 +0100
+In-Reply-To: <d103054f-7331-4b00-8105-3e88fdab0486@amd.com>
+References: <20240918133956.26557-1-christian.koenig@amd.com>
+ <8a0e7e0b0d2ef05954240434759ca79f25328b73.camel@redhat.com>
+ <e2231195-8fed-4b25-8852-589794665e70@gmail.com>
+ <2f0b15d47576f25b65927de6c039a6d9839dbb81.camel@redhat.com>
+ <cef7c754-df50-409b-a7ee-4c184afafa5c@gmail.com>
+ <ZvKgAbiydG8Y9Z3F@phenom.ffwll.local>
+ <a2ef4cdfeb31ad95de9311274de73a51cdc54a97.camel@redhat.com>
+ <64c478a7-0afb-4b9b-8a7a-6e204a79cc20@gmail.com> <Zw0xHB_UNOvRq0L7@pollux>
+ <6b656a2e199d1fa1d33684572a93e327cba0ae83.camel@redhat.com>
+ <a936d96485fbd8401439a0939abb15f140ed5018.camel@redhat.com>
+ <32fdb74a-00c5-489c-b561-c530d23c4098@amd.com>
+ <4b67bd14cfc6066edab969471631aef3e719b25e.camel@redhat.com>
+ <d103054f-7331-4b00-8105-3e88fdab0486@amd.com>
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: JU-HtZ8wW4_8jiBhJ3p7HcvItQQvVaE2eYAdc_t37J8_1731686839
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,44 +108,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current tc358775 bridge driver implementation assumes that DSI clock
-is used as a source for LVDS pixel clock. Moreover, clock divider
-PCLKDIV has a hard-coded value. This means that driver expects DSI
-clock to always match a panel pixel clock. With such assumption, LVDS
-pixel clock is configured to be (DSI pixel clock / 3) for single link.
-This is true for DSI non-burst video modes. In burst mode, DSI host
-is allowed to set transmission rate higher than pixel clock to allow
-shorter data bursts. When the transmission rate is higher than expected
-by the bridge, LVDS output timings are still configured for the lower
-frequency, but the output is clocked with the higher one. In most cases,
-bad LVDS timings cause incorrect panel operation.
+On Fri, 2024-11-15 at 15:39 +0100, Christian K=C3=B6nig wrote:
+> =C2=A0Am 15.11.24 um 14:55 schrieb Philipp Stanner:
+> =C2=A0
+> > [SNIP]=20
+> > > =C2=A0
+> > > A good bunch of the problems we have here are caused by abusing
+> > > the
+> > > job=20
+> > > as state for executing the submission on the hardware.
+> > >=20
+> > > The original design idea of the scheduler instead was to only
+> > > have
+> > > the=20
+> > > job as intermediate state between submission and picking what to
+> > > execute=20
+> > > next. E.g. the scheduler in that view is just a pipeline were you
+> > > push=20
+> > > jobs in on one end and jobs come out on the other end.
+> > > =C2=A0
+> > =C2=A0
+> > So let's get a bit more precise about this:
+> > =C2=A0=C2=A0=C2=A01. Driver enqueues with drm_sched_job_arm()
+> > =C2=A0=C2=A0=C2=A02. job ends up in pending_list
+> > =C2=A0=C2=A0=C2=A03. Sooner or later scheduler calls run_job()
+> > =C2=A0=C2=A0=C2=A04. Job is pushed to hardware
+> > =C2=A0=C2=A0=C2=A05. Fence gets signaled
+> > =C2=A0=C2=A0=C2=A06. ???
+> >=20
+> > What would the "come out on the other end" part you describe look
+> > like?
+> >=20
+> > How would jobs get removed from pending_list and, accordingly, how
+> > would we avoid leaks?
+> > =C2=A0
+> =C2=A0
+> =C2=A0Let me describe the full solution a bit further down.
+> =C2=A0
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> > > =C2=A0
+> > > In that approach the object which represents the hardware
+> > > execution
+> > > is=20
+> > > the dma_fence instead of the job. And the dma_fence has a well
+> > > defined=20
+> > > lifetime, error handling, etc...
+> > >=20
+> > > So when we go back to this original approach it would mean that
+> > > we
+> > > don't=20
+> > > need to wait for any cleanup because the scheduler wouldn't be
+> > > involved=20
+> > > in the execution of the jobs on the hardware any more.
+> > > =C2=A0
+> > =C2=A0
+> > It would be involved (to speak precisely) in the sense of the
+> > scheduler
+> > still being the one who pushes the job onto the hardware, agreed?
+> > =C2=A0
+> =C2=A0
+> =C2=A0Yes, exactly.
+> =C2=A0
+> =C2=A0See in the original design the "job" wasn't even a defined
+> structure, but rather just a void*.
+> =C2=A0
+> =C2=A0So basically what the driver did was telling the scheduler here I
+> have a bunch of different void* please tell me which one to run
+> first.
+> =C2=A0
+> =C2=A0And apart from being this identifier this void* had absolutely no
+> meaning for the scheduler.
 
-Remove support for burst mode, so the non-burst mode is used by DSI
-host by default. Burst mode is supported by the bridge itself,
-but requires proper implementation in the driver to operate correctly
-in all scenarios.
+Interesting..
 
-Fixes: a4ed72e85c46 ("drm/bridge: tc358775: Add burst and low-power modes")
-Signed-off-by: Daniel Semkowicz <dse@thaumatec.com>
----
+> =C2=A0
+> > > =C2=A0
+> > > The worst thing that could happen is that the driver messes
+> > > things up
+> > > and still has not executed job in an entity,
+> > > =C2=A0
+> > =C2=A0
+> > I can't fully follow.
+> >=20
+> > So in your mind, the driver would personally set the dma_fence
+> > callback
+> > and hereby be informed about the job being completed, right?
+> > =C2=A0
+> =C2=A0
+> =C2=A0No. The run_job callback would still return the hw fence so that th=
+e
+> scheduler can install the callback and so gets informed when the next
+> job could be run.
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> > But you wouldn't want to aim for getting rid of struct
+> > drm_sched_job
+> > completely, or would you?
+> > =C2=A0
+> =C2=A0
+> =C2=A0No, the drm_sched_job structure was added to aid the single produce=
+r
+> single consumer queue and so made it easier to put the jobs into a
+> container.
+> =C2=A0
+> =C2=A0
+> =C2=A0In my mind the full solution for running jobs looks like this:
+> =C2=A0
+> =C2=A01. Driver enqueues with drm_sched_job_arm()
+> =C2=A02. job ends up in pending_list
+> =C2=A03. Sooner or later scheduler calls run_job()
+> =C2=A04. In return scheduler gets a dma_fence representing the resulting
+> hardware operation.
+> =C2=A05, This fence is put into a container to keep around what the hw is
+> actually executing.
+> =C2=A06. At some point the fence gets signaled informing the scheduler
+> that the next job can be pushed if enough credits are now available.
+> =C2=A0
+> =C2=A0There is no free_job callback any more because after run_job is
+> called the scheduler is done with the job and only the dma_fence
+> which represents the actually HW operation is the object the
+> scheduler now works with.
+> =C2=A0
+> =C2=A0We would still need something like a kill_job callback which is use=
+d
+> when an entity is released without flushing all jobs (see
+> drm_sched_entity_kill()), but that is then only used for a specific
+> corner case.
 
- drivers/gpu/drm/bridge/tc358775.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Can't we just limit the scheduler's responsibility to telling the
+driver that it has to flush, and if it doesn't it's a bug?
+=C2=A0
+> =C2=A0Blocking for the cleanup in drm_sched_fini() then becomes a trivial
+> dma_fence_wait() on the remaining unsignaled HW fences and eventually
+> on the latest killed fence.
 
-diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-index 0b4efaca6d682..7496681c7b883 100644
---- a/drivers/gpu/drm/bridge/tc358775.c
-+++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -632,8 +632,7 @@ static int tc_attach_host(struct tc_data *tc)
- 
- 	dsi->lanes = tc->num_dsi_lanes;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
--			  MIPI_DSI_MODE_LPM;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_LPM;
- 
- 	/*
- 	 * The hs_rate and lp_rate are data rate values. The HS mode is
--- 
-2.47.0
+But that results in exactly the same situation as my waitque solution,
+doesn't it?
+
+Blocking infinitely in drm_sched_fini():
+
+If the driver doesn't guarantee that all fences will get signaled, then
+wait_event() in the waitque solution will block forever. The same with
+dma_fence_wait().
+
+Or are you aiming at an interruptible dma_fence_wait(), thereby not
+blocking SIGKILL?
+
+That then would still result in leaks. So basically the same situation
+as with an interruptible drm_sched_flush() function.
+
+(Although I agree that would probably be more elegant)
+
+> =C2=A0
+> =C2=A0The problem with this approach is that the idea of re-submitting
+> jobs in a GPU reset by the scheduler is then basically dead. But to
+> be honest that never worked correctly.
+> =C2=A0
+> =C2=A0See the deprecated warning I already put on
+> drm_sched_resubmit_jobs(). The job lifetime is not really well
+> defined because of this, see the free_guilty hack as well.
+
+drm_sched_resubmit_jobs() is being used by 5 drivers currently. So if
+we go for this approach we have to port them, first. That doesn't sound
+trivial to me
+
+
+P.
+
+> =C2=A0
+> =C2=A0Regards,
+> =C2=A0Christian.
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> >=20
+> >=20
+> > Gr=C3=BC=C3=9Fe,
+> > P.
+> >=20
+> > =C2=A0
+> =C2=A0
 
