@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC48F9CFCB1
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 05:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9299CFCB4
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 05:45:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FED810E182;
-	Sat, 16 Nov 2024 04:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0435A10E3D6;
+	Sat, 16 Nov 2024 04:45:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="SBpC/SgV";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="XS/x5NpK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2089.outbound.protection.outlook.com [40.107.94.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3990310E11A;
- Sat, 16 Nov 2024 04:45:20 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2088.outbound.protection.outlook.com [40.107.220.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3F3310E185;
+ Sat, 16 Nov 2024 04:45:23 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AlOA6K79VCg8jOIYVabjKqHUcCoK4skuZCiGgpNjx2oQWFqW+hPid8AYzfbJ9qQI0uRKOlgAXQsscFd1lnyytQC98fhCxcrenai+fHfXbIeMQcHlctRWuR/sq2pcEksAXPYAQbjFZ75gxXccw5H4tpv1pxvof2ZiC8wO5e6shy8TAj5MlDmKhiRsgtKRm7jhsi/B1hHumK31Ac7aQm/fQsm7In+VO5oERaJEgwoQUVDXn137PMucG7HX4H2nRWfJLAyLMC9I4La8cKMMLtI0NeQZmdWc+wN/a/kp61oGY2YaxvMo6Uqc5fFpjSKs6nHTqiIDb7tpqV8MvYQcqwnD9g==
+ b=XOSa5ddmoiiPS3E4Qh3tENQQ6tGgWOvv2SEoY3CpvWlMkEth9olsTtPtTq2tY//t91/24YoctHlXWW6bqMrCbOvOW7xnNmRn8QzE9HLWbic+DDskfSeZK0U8KiO57yAfPNGI7aqelpkVQeIw8lDEqUmWpfP/f/fbV1swtWOMnQqxSjYT/hQNlu3dAC8P4LPfEIexflDJS4gUQpBjqVvA+Yj9bSXGVKGmLqr+YxP287KapD1QLlLfrnxGFusUsyRd8jcpeSrczk1VlZbRK0QTgduK5bpll79rM3katxfrt5GwaPlRlJKyVvNauE5GPuRDkGuFbIqWK1/WHv/ugeRsjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G+ihOkrlIkchnLBdgCxgHpbTJFVZ+GSBpFg3OZ/vFVs=;
- b=eyF+f/xfQUlF6nBu5+Fq3yL4vvXhe134j2IfXmYXkjy1VFnGTpdwl1AfYj2Rx6BaF0iVjJIO1UoQOxoau1wj8A3jwILuTxAMRG6rJrFYCNSb+ODQsc0hTfYTT+IpqSUZw3mGLYWEBBH7TCdkZED1FllO/+GaJx0IfsXBWYo1P7mUmVRZj1nkc85BBbR/Kr9prYN2L5lkvOlnfl3qBa/5s+ywFKZJLJ+9qVcC8KwAP6qukfIOvJaEIr4XZ43zv3rtjD+sR+fWDbJ5NTb3BsEUx1lvovqHRf6fWUg9GCbwtcbjmCikSnTCd7jLs8OR0NMpVj5B4rf8RuQlJHbL5HMayQ==
+ bh=szIvitrg0KqNNVTfHED1HC5Qdto6FEbXoYvgdi0YaTc=;
+ b=GM3eOKn/djvD+kdAI1D/GKi0GnQmo9OmCljjjf7SpO8YqcfJiHkpX9AWyn1hcZBo8BgzbBBmIvSoAf2M6dEYmDJGsesS1bywNLBEPjPuJyKvIjb8w0Vw39/DD2kHvs3zZuWhYp0uOQNGsarhsUXO4gsKHM7bbzWZ/JP4u9TOrBEBK/EBtRbUm7QcB642krZrC7g7VaRZNBpUztKG04VmhKkXC6HJLABI+f69rA0aVXqj7OwkDebMWJZnE5p0ARdelmzbJ63uW3jj5na/aP0y3nxixr5duQuHz1IK+qhRREHuCh9872x1IgtkIWLzopOTg/0oZVLYx6rEnj6BtBUJTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G+ihOkrlIkchnLBdgCxgHpbTJFVZ+GSBpFg3OZ/vFVs=;
- b=SBpC/SgVkFvFf2UGH3LbhYfQz4XKG5zWzdk4xpnnM9vjSjTrSXMYLgtn5bpc7kqzL1iC7J9qN3x5KIB0Xr02hH6XGyXbff3XeYR4doBIBAJTsuiZB1w5a8W4nz6x3oWg0alcNLcdC1Twmqd0/9cD8P6FsaYAhwD3a3svm7CLCqU=
-Received: from CH0PR03CA0318.namprd03.prod.outlook.com (2603:10b6:610:118::26)
- by LV2PR12MB5917.namprd12.prod.outlook.com (2603:10b6:408:175::13)
+ bh=szIvitrg0KqNNVTfHED1HC5Qdto6FEbXoYvgdi0YaTc=;
+ b=XS/x5NpKuCZ0Jb07iPMeqDKwrlBIJOub6U3SGEhIYt13TD4BwYv+p8ssM2LScKSAt9+XIS6rBsxf2RW2ClfqFbQkopQ73O8Vv8TniqCYAH90OtGVeuW7oBkCfW3ujkPpdpHPqJUiRmJ14TMccmvsHbFX4lYqtuz5DPrwB0sgz1Y=
+Received: from CH0PR03CA0322.namprd03.prod.outlook.com (2603:10b6:610:118::27)
+ by BL3PR12MB6403.namprd12.prod.outlook.com (2603:10b6:208:3b3::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.19; Sat, 16 Nov
- 2024 04:45:14 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.20; Sat, 16 Nov
+ 2024 04:45:15 +0000
 Received: from CH1PEPF0000A34B.namprd04.prod.outlook.com
- (2603:10b6:610:118:cafe::10) by CH0PR03CA0318.outlook.office365.com
- (2603:10b6:610:118::26) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:610:118:cafe::d7) by CH0PR03CA0322.outlook.office365.com
+ (2603:10b6:610:118::27) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.18 via Frontend
  Transport; Sat, 16 Nov 2024 04:45:14 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
@@ -54,15 +54,15 @@ Received: from SATLEXMB03.amd.com (165.204.84.17) by
 Received: from MKM-L10-YUNXIA9.amd.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 15 Nov
- 2024 22:45:11 -0600
+ 2024 22:45:12 -0600
 From: Yunxiang Li <Yunxiang.Li@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <christian.koenig@amd.com>,
  <tvrtko.ursulin@igalia.com>
 CC: <Alexander.Deucher@amd.com>, Yunxiang Li <Yunxiang.Li@amd.com>,
- <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v8 2/5] drm: make drm-active- stats optional
-Date: Fri, 15 Nov 2024 23:44:49 -0500
-Message-ID: <20241116044452.5925-3-Yunxiang.Li@amd.com>
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v8 3/5] Documentation/gpu: Clarify drm memory stats definition
+Date: Fri, 15 Nov 2024 23:44:50 -0500
+Message-ID: <20241116044452.5925-4-Yunxiang.Li@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241116044452.5925-1-Yunxiang.Li@amd.com>
 References: <20241116044452.5925-1-Yunxiang.Li@amd.com>
@@ -74,50 +74,50 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000A34B:EE_|LV2PR12MB5917:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9fc21e8e-1d1c-42c3-5ac5-08dd05f9762f
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000A34B:EE_|BL3PR12MB6403:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ac375a9-2412-47c7-a5ea-08dd05f9767b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1pI9uFrYr/CcVDsex/wqJBvmYyPIp852DZjlD0rTjCH+Q9qN5892p7/h9Dez?=
- =?us-ascii?Q?GxQ7//4yvsioYQOBMGaHFLrQ64fnUdqxLdi4E1Q8FGj2hu1PdqqXn2D8qu9l?=
- =?us-ascii?Q?3cie8z+WCOq3BFfE1cm+qO8PLWk/5G4rxMownxS0q4noN4WTfYypVZxLEsPI?=
- =?us-ascii?Q?rfrRRi4QhMg9uynDnH3d4Ld1BnSyWbmfN/zv0xE5SA+3fDRk181qlGtKX8U9?=
- =?us-ascii?Q?+7zFolKQ+Ep7SqVfIoU6ozxBogoRi8nxtOVWSQupyRZdCC9IeP0CzfiFELCr?=
- =?us-ascii?Q?sZ3x135GvdJG6frBHelHiF5jxPo6SUnN6oKI7A1/gp8GzV91gDNiCyUX99Ip?=
- =?us-ascii?Q?3uAod2sAE8vPfT1ileKss1Ne17E1Y1xBoFpu1yWWTBjhMP+F46V4DO7f6zi0?=
- =?us-ascii?Q?c1TKS0bNULb4Ltw8AjgbOwvye9MizAGwwT8G87PKplt06YlF4OwDYX/0Fa4/?=
- =?us-ascii?Q?jkpKW9wqpNTvrneQH159GDk8WHzErTnXLr6UPz01uOwOFRwz9kEFLPwsd4Nb?=
- =?us-ascii?Q?8X7KNZHRfSH1+LXpSeshKTxG19+fbTVKVOzI4HjcL7T3bpV7pHsuQ66dJIxK?=
- =?us-ascii?Q?G7xwEVtIERi5oKjo3Yc5Ui3+fnwCVGbcFkuivo9gkCaOCTcV3vRf3D2J2dEO?=
- =?us-ascii?Q?HMhmHlnj6NpZ+PLdaQ6ELmrYRNKQZNQk3tXuVvHEcJRZmIzkWT/bkzpLmzWQ?=
- =?us-ascii?Q?n7L9sVsvCR7EatI1BU/NX0KkxMwZjIToLwRKgvQApLEcstukuDJVZzIbiar9?=
- =?us-ascii?Q?ib83vnjQKdH0e+D4H7usPYlZPsEPPSZI/XrTiBVgTKY9LpHHd8FGK1djLnI3?=
- =?us-ascii?Q?AZPKnSJhXa6dpFTNlVbswqHvdrdTkzvPUfj4ikZOtRTihfCQ9GW4OlpAPH1y?=
- =?us-ascii?Q?UK6B1fT1IJ7mOnLAsXvVd4Ff8ZKgbTeOL52LvOpceSVzsvjPU4heBERYY3x6?=
- =?us-ascii?Q?Tyb3jrHW0ISf3xiBbZlOjq8jZ6Mua6CqKTGfufUYCQrBfohhryK6/XNT4Xfs?=
- =?us-ascii?Q?RGdvKMAVuh52Ux3bODCC2NG3ttvnd6TByd4ir0M9I0YyyE8IsnHQpSfpFGFG?=
- =?us-ascii?Q?9ESWeJNzPhnmymzA+vnKPIx/17TdJ0+Mcruo3cnMtoVbG+Y/aPljSsJ+cFgg?=
- =?us-ascii?Q?cAa0M+qo1RJjAsYOE5Xt2bVPRJGiogKgINfBpmNXuJO9gg/Hshsi0Zi3QtGB?=
- =?us-ascii?Q?3tbtK+g405/EF+cLf4L6riuBiUqZyozENk5Q8dKd2ydhZDiQ1yb/FVs33AeM?=
- =?us-ascii?Q?ntemPu7KCmC/45GWWbNmM1pdlyCOzrmtQ1IUKLUmUF4Hdk8LBSKZknwyHgjS?=
- =?us-ascii?Q?Je20k1qnlW6r1oW17frInpuU+6qBtmPkqeu8f064MqCo40yo3rvThf+8FuVH?=
- =?us-ascii?Q?NF7+bE0naaXXM9JszxheyyfniyRogqd1xCOIve05+A4Jzj+SYA=3D=3D?=
+ ARA:13230040|376014|1800799024|82310400026|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?gzzc6Cb51CoeIhJn6kw+H4vtY39+apQB1hUXMV/s1On2L27onqUkyeq2mkmn?=
+ =?us-ascii?Q?2/I5ZNO8wERG89c3Mb31bRQazq+TMNsdICSDKWVcm5mNxFlF+TBMgq3NdRF8?=
+ =?us-ascii?Q?ICyNTzlPtbaiFfCE+oDhqILk6Dog2zOBgoqevcjqVKobPE6IpIZk98QQ35Xu?=
+ =?us-ascii?Q?vR6PxWNjiGLXonm1qSDTxl8sDCpWdGgSS93h+yiKyWdrQklcGjplNywZxsSm?=
+ =?us-ascii?Q?+9lIwweIrYze4+JXuunzTZ67DQIbRmT4bbzfHnw/7tcGUdpmVCIcqeDfVeK4?=
+ =?us-ascii?Q?1DSLBWWhlnyqHyZmLv1EOQGiQXF96jzb3brF3MoJDFiMpD37jCTPObZqtrdI?=
+ =?us-ascii?Q?ASq+JF+qhZS2lgzGtOB3wwKpMPbCOnIHHH2HHm9ra/iyZfr33V9OQSc5rcGv?=
+ =?us-ascii?Q?KfhbG9KhogNFt6r/vjoLZ7JRDedSXfyrHw6CwsjyS+aq4SdCL7ePWibNDuVu?=
+ =?us-ascii?Q?ssADosorT3NITPKdFI0lGt5hG5LWzHn8+JkyMMMuNlerOyxjKKv5hZCoy5nc?=
+ =?us-ascii?Q?LkaRcGOGsQOQM0WYPMXAJ4ZAP2mM2L8pCl8WSSmZVG1hrxUw0Gx0713a8QUB?=
+ =?us-ascii?Q?1/Yzo/rsMBtbRpLcqkD3CuhQV3CmaBx9Cy50HqZSZbZFMTItq0i61OymLNa9?=
+ =?us-ascii?Q?W76FxJzn8vnNrkS8Pve5HA1piQ8anMBC0LSQVf80ewnooGtadC3QHThjabkH?=
+ =?us-ascii?Q?PBmdFWcPHS1Kq2tgOgenGZD+7lh1vDRbvTj9RYn9PIjmqjTdbE84UiN6xSMf?=
+ =?us-ascii?Q?aEmZFlp2yheQDYv+KXkIvSBarqzXCFukRJ1ZLtPMjL8TN3iILqA4CMBt1oPD?=
+ =?us-ascii?Q?/yligu83kZSFcB9Ufmowis/qzq3WRuR+42/+NabVIxPCBmoJp9Tmuw90u/jg?=
+ =?us-ascii?Q?SfBbolxWnSSeimLYmFCatO1Lk92YpFXCf92LvcuoowTTO6xpG3RQyfrA2Dr4?=
+ =?us-ascii?Q?rWa12iaN0RHqxNzUM5dX/aiV31KDOKJ/EYhW7RCvjU3DU9dW3/Axow/2L9/g?=
+ =?us-ascii?Q?LPqGg88z9bHpSk/i9UN9gw7pYnOoYi+BqS4ZjIGlIjTpUimD6Q98Ut8RL1x7?=
+ =?us-ascii?Q?gk4FASja2eam+TgeMTfF/JTy54N0IkYcXNwCCZ9Jephb4xwcV+dTMZb0JKsu?=
+ =?us-ascii?Q?TT5PTZGCS+tjAYHqTNV/SQNroC6oZhktpnSeh+pr45Mb85pOpafp9I3VyNIB?=
+ =?us-ascii?Q?afetQYj76sxJn0usAssK2+PJWLI331i0E5qlvl8DQpq/UG95u2oAQGg1RMtX?=
+ =?us-ascii?Q?jtiO9guJ1N0cKFAXccNIh81AJRN8CYOcWPUT8lPvnCneBG1XnpjVg4MdhlT2?=
+ =?us-ascii?Q?i1TKonDe4emNj4QDwajp0hy2FkkNUrd47evi5QN2WQE3vuLC2Dm787ZgjmO8?=
+ =?us-ascii?Q?ni/auxa/vHIKRMig6pFNISfO9rB+FD9piY9knLXazzbbYTcJzg=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
+ SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2024 04:45:14.3820 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fc21e8e-1d1c-42c3-5ac5-08dd05f9762f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2024 04:45:14.8507 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ac375a9-2412-47c7-a5ea-08dd05f9767b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CH1PEPF0000A34B.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5917
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6403
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,136 +133,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When memory stats is generated fresh everytime by going though all the
-BOs, their active information is quite easy to get. But if the stats are
-tracked with BO's state this becomes harder since the job scheduling
-part doesn't really deal with individual buffers.
-
-Make drm-active- optional to enable amdgpu to switch to the second
-method.
+Define how to handle buffers with multiple possible placement so we
+don't get incompatible implementations. Callout the resident requirement
+for drm-purgeable- explicitly. Remove the requirement for there to be
+only drm-memory- or only drm-resident-, it's not what's implemented and
+having both is better for back-compat. Also re-order the paragraphs to
+flow better.
 
 Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
 CC: dri-devel@lists.freedesktop.org
-CC: intel-gfx@lists.freedesktop.org
-CC: amd-gfx@lists.freedesktop.org
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  1 +
- drivers/gpu/drm/drm_file.c                 | 13 +++++++------
- drivers/gpu/drm/i915/i915_drm_client.c     |  1 +
- drivers/gpu/drm/xe/xe_drm_client.c         |  1 +
- include/drm/drm_gem.h                      | 14 ++++++++------
- 5 files changed, 18 insertions(+), 12 deletions(-)
+ Documentation/gpu/drm-usage-stats.rst | 36 ++++++++++++---------------
+ 1 file changed, 16 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-index df2cf5c339255..7717e3e4f05b5 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-@@ -97,6 +97,7 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+index ff964c707754a..973663f91a292 100644
+--- a/Documentation/gpu/drm-usage-stats.rst
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -140,13 +140,9 @@ both.
+ Memory
+ ^^^^^^
  
- 		drm_print_memory_stats(p,
- 				       &stats[i].drm,
-+				       DRM_GEM_OBJECT_ACTIVE |
- 				       DRM_GEM_OBJECT_RESIDENT |
- 				       DRM_GEM_OBJECT_PURGEABLE,
- 				       pl_name[i]);
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index e285fcc28c59c..fd06671054723 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -884,7 +884,9 @@ void drm_print_memory_stats(struct drm_printer *p,
- {
- 	print_size(p, "total", region, stats->private + stats->shared);
- 	print_size(p, "shared", region, stats->shared);
--	print_size(p, "active", region, stats->active);
+-- drm-memory-<region>: <uint> [KiB|MiB]
+-
+-Each possible memory type which can be used to store buffer objects by the
+-GPU in question shall be given a stable and unique name to be returned as the
+-string here.
+-
+-The region name "memory" is reserved to refer to normal system memory.
++Each possible memory type which can be used to store buffer objects by the GPU
++in question shall be given a stable and unique name to be used as the "<region>"
++string. The region name "memory" is reserved to refer to normal system memory.
+ 
+ Value shall reflect the amount of storage currently consumed by the buffer
+ objects belong to this client, in the respective memory region.
+@@ -154,31 +150,27 @@ objects belong to this client, in the respective memory region.
+ Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+ indicating kibi- or mebi-bytes.
+ 
+-This key is deprecated and is an alias for drm-resident-<region>. Only one of
+-the two should be present in the output.
++- drm-total-<region>: <uint> [KiB|MiB]
 +
-+	if (supported_status & DRM_GEM_OBJECT_ACTIVE)
-+		print_size(p, "active", region, stats->active);
++The total size of all created buffers including shared and private memory. The
++backing store for the buffers does not have to be currently instantiated to
++count under this category. To avoid double counting, if a buffer falls under
++multiple regions, the implementation should pick only one of the regions, and do
++so in a consistent manner.
  
- 	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
- 		print_size(p, "resident", region, stats->resident);
-@@ -917,15 +919,13 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+ - drm-shared-<region>: <uint> [KiB|MiB]
  
- 		if (obj->funcs && obj->funcs->status) {
- 			s = obj->funcs->status(obj);
--			supported_status = DRM_GEM_OBJECT_RESIDENT |
--					DRM_GEM_OBJECT_PURGEABLE;
-+			supported_status |= s;
- 		}
+ The total size of buffers that are shared with another file (e.g., have more
+-than a single handle).
+-
+-- drm-total-<region>: <uint> [KiB|MiB]
+-
+-The total size of all created buffers including shared and private memory. The
+-backing store for the buffers does not have to be currently instantiated to be
+-counted under this category.
++than a single handle). Same caveat as drm-total- applies.
  
--		if (drm_gem_object_is_shared_for_memory_stats(obj)) {
-+		if (drm_gem_object_is_shared_for_memory_stats(obj))
- 			status.shared += obj->size;
--		} else {
-+		else
- 			status.private += obj->size;
--		}
+ - drm-resident-<region>: <uint> [KiB|MiB]
  
- 		if (s & DRM_GEM_OBJECT_RESIDENT) {
- 			status.resident += add_size;
-@@ -938,6 +938,7 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+ The total size of buffers that are resident (have their backing store present or
+ instantiated) in the specified region.
  
- 		if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
- 			status.active += add_size;
-+			supported_status |= DRM_GEM_OBJECT_ACTIVE;
+-This is an alias for drm-memory-<region> and only one of the two should be
+-present in the output.
+-
+ - drm-purgeable-<region>: <uint> [KiB|MiB]
  
- 			/* If still active, don't count as purgeable: */
- 			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index f586825054918..168d7375304bc 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.c
-+++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -102,6 +102,7 @@ static void show_meminfo(struct drm_printer *p, struct drm_file *file)
- 	for_each_memory_region(mr, i915, id)
- 		drm_print_memory_stats(p,
- 				       &stats[id],
-+				       DRM_GEM_OBJECT_ACTIVE |
- 				       DRM_GEM_OBJECT_RESIDENT |
- 				       DRM_GEM_OBJECT_PURGEABLE,
- 				       mr->uabi_name);
-diff --git a/drivers/gpu/drm/xe/xe_drm_client.c b/drivers/gpu/drm/xe/xe_drm_client.c
-index 6a26923fa10e0..54941b4e850c4 100644
---- a/drivers/gpu/drm/xe/xe_drm_client.c
-+++ b/drivers/gpu/drm/xe/xe_drm_client.c
-@@ -229,6 +229,7 @@ static void show_meminfo(struct drm_printer *p, struct drm_file *file)
- 		if (man) {
- 			drm_print_memory_stats(p,
- 					       &stats[mem_type],
-+					       DRM_GEM_OBJECT_ACTIVE |
- 					       DRM_GEM_OBJECT_RESIDENT |
- 					       (mem_type != XE_PL_SYSTEM ? 0 :
- 					       DRM_GEM_OBJECT_PURGEABLE),
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index bae4865b2101a..584ffdf5c2542 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -48,19 +48,21 @@ struct drm_gem_object;
-  * enum drm_gem_object_status - bitmask of object state for fdinfo reporting
-  * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
-  * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
-+ * @DRM_GEM_OBJECT_ACTIVE: object is currently used by an active submission
-  *
-  * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
-- * and drm_show_fdinfo().  Note that an object can DRM_GEM_OBJECT_PURGEABLE if
-- * it still active or not resident, in which case drm_show_fdinfo() will not
-+ * and drm_show_fdinfo().  Note that an object can report DRM_GEM_OBJECT_PURGEABLE
-+ * and be active or not resident, in which case drm_show_fdinfo() will not
-  * account for it as purgeable.  So drivers do not need to check if the buffer
-- * is idle and resident to return this bit.  (Ie. userspace can mark a buffer
-- * as purgeable even while it is still busy on the GPU.. it does not _actually_
-- * become puregeable until it becomes idle.  The status gem object func does
-- * not need to consider this.)
-+ * is idle and resident to return this bit, i.e. userspace can mark a buffer as
-+ * purgeable even while it is still busy on the GPU. It whill not get reported
-+ * in the puregeable stats until it becomes idle.  The status gem object func
-+ * does not need to consider this.
-  */
- enum drm_gem_object_status {
- 	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
- 	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
-+	DRM_GEM_OBJECT_ACTIVE = BIT(2),
- };
+-The total size of buffers that are purgeable.
++The total size of buffers that are resident and purgeable.
  
- /**
+ For example drivers which implement a form of 'madvise' like functionality can
+ here count buffers which have instantiated backing store, but have been marked
+@@ -192,6 +184,10 @@ One practical example of this can be presence of unsignaled fences in an GEM
+ buffer reservation object. Therefore the active category is a subset of
+ resident.
+ 
++- drm-memory-<region>: <uint> [KiB|MiB]
++
++This key is deprecated and is an alias for drm-resident-<region> if present.
++
+ Implementation Details
+ ======================
+ 
 -- 
 2.34.1
 
