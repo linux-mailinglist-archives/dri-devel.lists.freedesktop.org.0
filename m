@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1029E9CFDCB
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 11:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01CD9CFDE0
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 11:13:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 755C410E3ED;
-	Sat, 16 Nov 2024 10:11:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C591B10E1C2;
+	Sat, 16 Nov 2024 10:13:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98C6710E1C2;
- Sat, 16 Nov 2024 10:10:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8286F10E1C2;
+ Sat, 16 Nov 2024 10:13:30 +0000 (UTC)
 Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4Xr8mL1R16z9sSd;
- Sat, 16 Nov 2024 11:10:58 +0100 (CET)
+ by localhost (Postfix) with ESMTP id 4Xr8qF0vthz9sSf;
+ Sat, 16 Nov 2024 11:13:29 +0100 (CET)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from pegase2.c-s.fr ([172.26.127.65])
  by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sS8O0LnxtKc7; Sat, 16 Nov 2024 11:10:58 +0100 (CET)
+ with ESMTP id 4K41Giz9LXFN; Sat, 16 Nov 2024 11:13:29 +0100 (CET)
 Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4Xr8mJ5rw4z9sSb;
- Sat, 16 Nov 2024 11:10:56 +0100 (CET)
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4Xr8qD52brz9sSg;
+ Sat, 16 Nov 2024 11:13:28 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id ABE338B7A0;
- Sat, 16 Nov 2024 11:10:56 +0100 (CET)
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 85CD28B7A0;
+ Sat, 16 Nov 2024 11:13:28 +0100 (CET)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from messagerie.si.c-s.fr ([127.0.0.1])
  by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id F1qWTVabQRIL; Sat, 16 Nov 2024 11:10:56 +0100 (CET)
+ with ESMTP id 3ibo8LhEmkVk; Sat, 16 Nov 2024 11:13:28 +0100 (CET)
 Received: from [192.168.232.159] (POS169858.IDSI0.si.c-s.fr [192.168.232.159])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 35D3D8B763;
- Sat, 16 Nov 2024 11:10:53 +0100 (CET)
-Message-ID: <718febc4-59ee-4701-ad62-8b7a8fa7a910@csgroup.eu>
-Date: Sat, 16 Nov 2024 11:10:52 +0100
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id DD3108B763;
+ Sat, 16 Nov 2024 11:13:24 +0100 (CET)
+Message-ID: <76fe994b-b9b9-49e0-8224-df48db48f1e5@csgroup.eu>
+Date: Sat, 16 Nov 2024 11:13:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 19/21] livepatch: Convert timeouts to secs_to_jiffies()
+Subject: Re: [PATCH v2 21/21] nfp: Convert timeouts to secs_to_jiffies()
 To: Easwar Hariharan <eahariha@linux.microsoft.com>,
  Pablo Neira Ayuso <pablo@netfilter.org>,
  Jozsef Kadlecsik <kadlec@netfilter.org>,
@@ -99,10 +99,10 @@ Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
  etnaviv@lists.freedesktop.org, oss-drivers@corigine.com,
  linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen <anna-maria@linutronix.de>
 References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
- <20241115-converge-secs-to-jiffies-v2-19-911fb7595e79@linux.microsoft.com>
+ <20241115-converge-secs-to-jiffies-v2-21-911fb7595e79@linux.microsoft.com>
 Content-Language: fr-FR
 From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <20241115-converge-secs-to-jiffies-v2-19-911fb7595e79@linux.microsoft.com>
+In-Reply-To: <20241115-converge-secs-to-jiffies-v2-21-911fb7595e79@linux.microsoft.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,10 +120,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
 Le 15/11/2024 à 22:26, Easwar Hariharan a écrit :
 > [Vous ne recevez pas souvent de courriers de eahariha@linux.microsoft.com. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
+
+As you plan to get those merged independant in each tree, I guess it 
+should be sent to netdev list targetting net-next tree in the subject 
+line as per netdev rules.
+
+
+
 > 
 > Changes made with the following Coccinelle rules:
 > 
@@ -139,101 +144,22 @@ Le 15/11/2024 à 22:26, Easwar Hariharan a écrit :
 > 
 > Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 > ---
->   samples/livepatch/livepatch-callbacks-busymod.c |  2 +-
->   samples/livepatch/livepatch-shadow-fix1.c       |  2 +-
->   samples/livepatch/livepatch-shadow-mod.c        | 10 +++++-----
->   3 files changed, 7 insertions(+), 7 deletions(-)
+>   drivers/net/ethernet/netronome/nfp/nfp_net_common.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/samples/livepatch/livepatch-callbacks-busymod.c b/samples/livepatch/livepatch-callbacks-busymod.c
-> index 378e2d40271a9717d09eff51d3d3612c679736fc..d0fd801a7c21b7d7939c29d83f9d993badcc9aba 100644
-> --- a/samples/livepatch/livepatch-callbacks-busymod.c
-> +++ b/samples/livepatch/livepatch-callbacks-busymod.c
-> @@ -45,7 +45,7 @@ static int livepatch_callbacks_mod_init(void)
->   {
->          pr_info("%s\n", __func__);
->          schedule_delayed_work(&work,
-> -               msecs_to_jiffies(1000 * 0));
-> +               secs_to_jiffies(0));
-
-Using secs_to_jiffies() is pointless, 0 is universal, should become 
-schedule_delayed_work(&work, 0);
-
->          return 0;
->   }
+> diff --git a/drivers/net/ethernet/netronome/nfp/nfp_net_common.c b/drivers/net/ethernet/netronome/nfp/nfp_net_common.c
+> index 6e0929af0f725b2b3855c69bbe894e6626c566b3..6925ad985fc9e2d5641feea41ff277107a8dee9c 100644
+> --- a/drivers/net/ethernet/netronome/nfp/nfp_net_common.c
+> +++ b/drivers/net/ethernet/netronome/nfp/nfp_net_common.c
+> @@ -2779,7 +2779,7 @@ static void nfp_net_netdev_init(struct nfp_net *nn)
+>                  break;
+>          }
 > 
-> diff --git a/samples/livepatch/livepatch-shadow-fix1.c b/samples/livepatch/livepatch-shadow-fix1.c
-> index 6701641bf12d454a770e49abeeb0dea92560e55e..948ea1f5760fed2fa27baf478c97cf98ad5c99a8 100644
-> --- a/samples/livepatch/livepatch-shadow-fix1.c
-> +++ b/samples/livepatch/livepatch-shadow-fix1.c
-> @@ -73,7 +73,7 @@ static struct dummy *livepatch_fix1_dummy_alloc(void)
->                  return NULL;
+> -       netdev->watchdog_timeo = msecs_to_jiffies(5 * 1000);
+> +       netdev->watchdog_timeo = secs_to_jiffies(5);
 > 
->          d->jiffies_expire = jiffies +
-> -               msecs_to_jiffies(1000 * EXPIRE_PERIOD);
-> +               secs_to_jiffies(EXPIRE_PERIOD);
-> 
->          /*
->           * Patch: save the extra memory location into a SV_LEAK shadow
-> diff --git a/samples/livepatch/livepatch-shadow-mod.c b/samples/livepatch/livepatch-shadow-mod.c
-> index 7e753b0d2fa611524c9e2adbe02c8fa3e9b6015e..79296e6ccb119f521e86a121623855d841c9fc5e 100644
-> --- a/samples/livepatch/livepatch-shadow-mod.c
-> +++ b/samples/livepatch/livepatch-shadow-mod.c
-> @@ -102,7 +102,7 @@ static __used noinline struct dummy *dummy_alloc(void)
->                  return NULL;
-> 
->          d->jiffies_expire = jiffies +
-> -               msecs_to_jiffies(1000 * EXPIRE_PERIOD);
-> +               secs_to_jiffies(EXPIRE_PERIOD);
-
-Should fit on a single line, avoid multiple lines when possible.
-
-> 
->          /* Oops, forgot to save leak! */
->          leak = kzalloc(sizeof(*leak), GFP_KERNEL);
-> @@ -153,7 +153,7 @@ static void alloc_work_func(struct work_struct *work)
->          mutex_unlock(&dummy_list_mutex);
-> 
->          schedule_delayed_work(&alloc_dwork,
-> -               msecs_to_jiffies(1000 * ALLOC_PERIOD));
-> +               secs_to_jiffies(ALLOC_PERIOD));
-
-Should fit on a single line, avoid multiple lines when possible.
-
-
->   }
-> 
->   /*
-> @@ -185,15 +185,15 @@ static void cleanup_work_func(struct work_struct *work)
->          mutex_unlock(&dummy_list_mutex);
-> 
->          schedule_delayed_work(&cleanup_dwork,
-> -               msecs_to_jiffies(1000 * CLEANUP_PERIOD));
-> +               secs_to_jiffies(CLEANUP_PERIOD));
-
-Should fit on a single line, avoid multiple lines when possible.
-
-
->   }
-> 
->   static int livepatch_shadow_mod_init(void)
->   {
->          schedule_delayed_work(&alloc_dwork,
-> -               msecs_to_jiffies(1000 * ALLOC_PERIOD));
-> +               secs_to_jiffies(ALLOC_PERIOD));
-
-Should fit on a single line, avoid multiple lines when possible.
-
-
->          schedule_delayed_work(&cleanup_dwork,
-> -               msecs_to_jiffies(1000 * CLEANUP_PERIOD));
-> +               secs_to_jiffies(CLEANUP_PERIOD));
-
-Should fit on a single line, avoid multiple lines when possible.
-
-
-> 
->          return 0;
->   }
+>          /* MTU range: 68 - hw-specific max */
+>          netdev->min_mtu = ETH_MIN_MTU;
 > 
 > --
 > 2.34.1
