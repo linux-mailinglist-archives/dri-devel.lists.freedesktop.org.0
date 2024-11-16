@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD239D00A5
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 20:23:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2782E9D0134
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 23:17:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCD210E066;
-	Sat, 16 Nov 2024 19:23:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD47110E00A;
+	Sat, 16 Nov 2024 22:17:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="ObsehuB0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZWRnI4wh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 629 seconds by postgrey-1.36 at gabe;
- Sat, 16 Nov 2024 19:23:30 UTC
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [207.246.76.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB5010E066
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2024 19:23:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1731785006;
- bh=dmE8MJeWTk8bxqfJVKrL0wXJqPiElWsvJ7UCb/1ffyQ=;
- b=ObsehuB0tgOeLCNvSEaU0X+7Y8jzT2d81lT77o6mhOh/HVLdtXxZYGghSTkadjk80Sx+JHfme
- CeL2+VSXkUuwonMWw/B3uk5eyvHq+bRiughYphGB3J40MCy5DRkpSonOHk4pnKShUy4ZfpZEkpm
- NIsRmrOSMaW2UKThr/CE2pZDGR1BfrTtG9iRDVg4etjjRfHWcMOnC0FHAr8ARy86Lq/eDNyqQkN
- fHsSuowizrWidtHLzlyQNP1uiJEPGJLkFlQG5L4Ir8AvpKjD9O3lXjfcZeuobHtOYsL2qLyLMtc
- lxn5yF5XeZ09nHedWkpDxtzGwDXBUDl2lo/TghZiMQoQ==
-Message-ID: <c79c1878-370d-45fa-a802-1d175498bb1c@kwiboo.se>
-Date: Sat, 16 Nov 2024 20:12:21 +0100
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0CC210E00A
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2024 22:17:30 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-5cf7b79c6a6so4568947a12.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2024 14:17:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1731795449; x=1732400249; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=RNRkLfv8uiub4ucaYe1+y4yEXKc4tcPZYWyB+yk8dD4=;
+ b=ZWRnI4wh7aoU1hLAEgA+CmMZ6rvh4GIvUZP+u5wJodYa2t6oX+nAtIAzbVFD493NlA
+ Kyf2uUv4sl+xeukfjNJSikT5AUxLb4OTXNDCxuSeTKGcUOOhTpvIGuDdps0GfothXQq4
+ NUTYG+BD231sGQjj2or6Crhv9gWw6PE79Fu3euC7Cr7eWipitQBVXdEKW9UwdGWHZJre
+ G0HQN9hcn4W1pcJE3zDceS03PDaKhAp47gSuTe+X3angvwtF4jkiKYmSfbpFxPhkxWnp
+ cjmtxhFTk5Zh9L8s8kvzLlAdPBh7jvAGu1d5nrak3aBnpBynmVBZ9YR7cJ9MVThDD4ep
+ fyNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731795449; x=1732400249;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RNRkLfv8uiub4ucaYe1+y4yEXKc4tcPZYWyB+yk8dD4=;
+ b=VrX6WvMkVVbaLhke9u1/EVIRU9sWcWlZ6BU3/OwXqjPd2JLHReO+3MKG5T896/6N9+
+ LgQ0ma5JPISYun1xBF2TXvqfH/snGTeA6Z38nrhz4YZ0D2Ws7mRxXoN+qomZ6tf6lk0v
+ z3NsT+9faRDuzcKBrV6D9VdyQHrBwPx7q20CtssNkJgxc+xdeM9KrW3aao3meF/JOmQ/
+ NYHuTS+N9qarpNYemgsWO6qQd0qae3faHSMIQuWHN2jeShFS1Wa1RqmmJG1HGOdRwdnX
+ wO0CYCEdcn1t1BRf7Um4McF17a9T3Ctyoq83vZo2SfOhgcweOZuXNbjwYLLti3Wa7ouQ
+ Z9WQ==
+X-Gm-Message-State: AOJu0YznuPud9H9m8zohkRHgduV628xBnYLRAdQMvxrgj6DSzJXrMyQr
+ Fi2tsjdhz4r+Lo18vzI1ye0zJJisQct+m7sUw0k7tG+iv77xIBXykK7Y+cB8hE+O/J6JkodG2uA
+ X/SMRXRUK6d8n9yjhsnfmZKRklr8=
+X-Google-Smtp-Source: AGHT+IE/aTY+U6vBRBwlGYj+Mi8CmrE2r60QAprP++Qno/mKxcLAHtXdSaU13Tt5ng4CfN1yp/8sO7kDuSx/vTtC4Vc=
+X-Received: by 2002:a05:6402:2353:b0:5cf:8638:eaed with SMTP id
+ 4fb4d7f45d1cf-5cf8638ec84mr7580509a12.11.1731795448828; Sat, 16 Nov 2024
+ 14:17:28 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] drm/rockchip: vop2: Improve display modes handling on
- RK3588 HDMI0
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20241116-vop2-hdmi0-disp-modes-v1-0-2bca51db4898@collabora.com>
- <20241116-vop2-hdmi0-disp-modes-v1-3-2bca51db4898@collabora.com>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <20241116-vop2-hdmi0-disp-modes-v1-3-2bca51db4898@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 207.246.76.47
-X-ForwardEmail-ID: 6738ee9c127e0383f31a82d6
+From: Dave Airlie <airlied@gmail.com>
+Date: Sun, 17 Nov 2024 08:17:17 +1000
+Message-ID: <CAPM=9twfZ5B1NqByVsvHO38MGQ+ZfTEz6xmtZXQarHvKgg3gLA@mail.gmail.com>
+Subject: [git pull] drm amdgpu regression fix for 6.12-rc8
+To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>,
+ Alex Deucher <alexdeucher@gmail.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,130 +73,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Cristian,
+Hi Linus,
 
-On 2024-11-16 19:22, Cristian Ciocaltea wrote:
-> The RK3588 specific implementation is currently quite limited in terms
-> of handling the full range of display modes supported by the connected
-> screens, e.g. 2560x1440@75Hz, 2048x1152@60Hz, 1024x768@60Hz are just a
-> few of them.
-> 
-> Additionally, it doesn't cope well with non-integer refresh rates like
-> 59.94, 29.97, 23.98, etc.
-> 
-> Make use of HDMI0 PHY PLL as a more accurate DCLK source to handle
-> all display modes up to 4K@60Hz.
-> 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 34 ++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> index 3e4c1cfd0bac6fa90f4cab85e27c2a69b86fc9aa..dfe1a50132d596f036430d7db3631398d0802972 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -158,6 +158,7 @@ struct vop2_video_port {
->  	struct drm_crtc crtc;
->  	struct vop2 *vop2;
->  	struct clk *dclk;
-> +	struct clk *dclk_src;
->  	unsigned int id;
->  	const struct vop2_video_port_data *data;
->  
-> @@ -212,6 +213,7 @@ struct vop2 {
->  	struct clk *hclk;
->  	struct clk *aclk;
->  	struct clk *pclk;
-> +	struct clk *pll_hdmiphy0;
->  
->  	/* optional internal rgb encoder */
->  	struct rockchip_rgb *rgb;
-> @@ -220,6 +222,8 @@ struct vop2 {
->  	struct vop2_win win[];
->  };
->  
-> +#define VOP2_MAX_DCLK_RATE		600000 /* kHz */
-> +
->  #define vop2_output_if_is_hdmi(x)	((x) == ROCKCHIP_VOP2_EP_HDMI0 || \
->  					 (x) == ROCKCHIP_VOP2_EP_HDMI1)
->  
-> @@ -1103,6 +1107,9 @@ static void vop2_crtc_atomic_disable(struct drm_crtc *crtc,
->  
->  	vop2_crtc_disable_irq(vp, VP_INT_DSP_HOLD_VALID);
->  
-> +	if (vp->dclk_src)
-> +		clk_set_parent(vp->dclk, vp->dclk_src);
-> +
->  	clk_disable_unprepare(vp->dclk);
->  
->  	vop2->enable_count--;
-> @@ -2192,6 +2199,27 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
->  
->  	vop2_vp_write(vp, RK3568_VP_MIPI_CTRL, 0);
->  
-> +	/*
-> +	 * Switch to HDMI PHY PLL as DCLK source for display modes up
-> +	 * to 4K@60Hz, if available, otherwise keep using the system CRU.
-> +	 */
-> +	if (vop2->pll_hdmiphy0 && mode->crtc_clock <= VOP2_MAX_DCLK_RATE) {
-> +		drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
-> +			struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
-> +
-> +			if (rkencoder->crtc_endpoint_id == ROCKCHIP_VOP2_EP_HDMI0) {
-> +				if (!vp->dclk_src)
-> +					vp->dclk_src = clk_get_parent(vp->dclk);
-> +
-> +				ret = clk_set_parent(vp->dclk, vop2->pll_hdmiphy0);
-> +				if (ret < 0)
-> +					drm_warn(vop2->drm,
-> +						 "Could not switch to HDMI0 PHY PLL: %d\n", ret);
-> +				break;
-> +			}
-> +		}
-> +	}
-
-Why do we need to do this dynamically here?
-
-The device tree set PLL_HPLL as parent:
-
-&vop {
-	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
-	assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
-	status = "okay";
-};
-
-Could this not just be changed to assign hdptxphy_hdmi0 as parent?
-
-&vop {
-	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
-	assigned-clock-parents = <&hdptxphy_hdmi0>, <&cru PLL_VPLL>;
-	status = "okay";
-};
-
-or something similar?
-
-For RK3328 the vop dclk parent is assigned to hdmiphy using DT.
+Alex sent on a last minute revert for a regression found with swsmu
+patch for final,
 
 Regards,
-Jonas
+Dave.
 
-> +
->  	clk_set_rate(vp->dclk, clock);
->  
->  	vop2_post_config(crtc);
-> @@ -3355,6 +3383,12 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
->  		return PTR_ERR(vop2->pclk);
->  	}
->  
-> +	vop2->pll_hdmiphy0 = devm_clk_get_optional(vop2->dev, "pll_hdmiphy0");
-> +	if (IS_ERR(vop2->pll_hdmiphy0)) {
-> +		drm_err(vop2->drm, "failed to get pll_hdmiphy0\n");
-> +		return PTR_ERR(vop2->pll_hdmiphy0);
-> +	}
-> +
->  	vop2->irq = platform_get_irq(pdev, 0);
->  	if (vop2->irq < 0) {
->  		drm_err(vop2->drm, "cannot find irq for vop2\n");
-> 
+drm-fixes-2024-11-17:
+drm/amdgpu regression fix for 6.12-rc8
 
+amdgpu:
+- revert patch to fix swsmu regression
+The following changes since commit 21c1c6c7d732c2f6f4c5ffc77e103aa3ae8bff1d:
+
+  Merge tag 'drm-xe-fixes-2024-11-14' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+(2024-11-16 04:31:54 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-11-17
+
+for you to fetch changes up to f48ab0a39f12fd83fae13bf81152531565cd5e75:
+
+  Merge tag 'amd-drm-fixes-6.12-2024-11-16' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2024-11-17
+08:12:48 +1000)
+
+----------------------------------------------------------------
+drm/amdgpu regression fix for 6.12-rc8
+
+amdgpu:
+- revert patch to fix swsmu regression
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      Revert "drm/amd/pm: correct the workload setting"
+
+Dave Airlie (1):
+      Merge tag 'amd-drm-fixes-6.12-2024-11-16' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          | 49 +++++++---------------
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |  4 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |  5 ++-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  5 +--
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  5 +--
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |  4 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |  4 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   | 20 +++------
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |  5 +--
+ .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |  9 ++--
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |  8 ----
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |  2 -
+ 12 files changed, 36 insertions(+), 84 deletions(-)
