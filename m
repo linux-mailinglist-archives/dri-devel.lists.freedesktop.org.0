@@ -2,59 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C919D0071
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 19:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0D49D007F
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 19:29:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC6D610E1FD;
-	Sat, 16 Nov 2024 18:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5BF210E169;
+	Sat, 16 Nov 2024 18:29:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HbcYmcuw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kQbqY92V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 971D310E1F4
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2024 18:22:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1731781365;
- bh=uXHOo9+TzfRpI5IDnIvDAsLN/tG0WK21O4XtRokY5rA=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=HbcYmcuw3KJPwpeen8ioxtv0tN99gDIhC7+J248GqCRUeGsPLf7p0P4AlLJ6NSYoV
- LDLgkCJU8LE6MGVcKhpTYkLYR0K/GLDlWr7jrpI8mrzM33sOZCkIRyWYgKRlHcmQv9
- b9r+vejMaaOTjzqjSkVFQPAC2TV9J3VsKiPGt5I+7DQTGG/55G/mtSYcq7bEYWPlCA
- 4dxtZf09hiVqQ+4UQUGa3t2jEzqSKOrQ3gdlJ0frXWs4YrA9wnJOndnFKdX6KM1Q/p
- m+9nUQYn1s9LzFgM+1AHuyZ+E4BrWgoON2gB1qVGvLa2IbA1ml+o9Smr87sgSt0BKY
- fndRSwruUh1HA==
-Received: from localhost (unknown [86.120.21.57])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9146917E377E;
- Sat, 16 Nov 2024 19:22:45 +0100 (CET)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sat, 16 Nov 2024 20:22:36 +0200
-Subject: [PATCH 5/5] arm64: dts: rockchip: Add HDMI0 PHY PLL clock source
- to VOP2 on RK3588
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D6010E169;
+ Sat, 16 Nov 2024 18:29:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1731781789; x=1763317789;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=RnF1zFXaysG3FnzzjVW8cGmYIll7FPIY/xYNFp812/E=;
+ b=kQbqY92VnltjDRSmDYnCzQW2kYWCKC6qIG1JqECzIdxVPoM4piEtFaSn
+ JcipliW5hgnJ6mqXM+swqKV+86LnyUA3tFk9gz2n5928HKEzORBQzXfmp
+ 9dm6lVzGDNeEnfZz+J/TghH4ujSRQ3lmiupWllH5OPKm+jjTxdWwv7cSX
+ FHibRi09Rfu6cC+DRbgJ/ECXl7DsuuO+qqNgEwy9GLe85m44UnoT4hdij
+ 3rulFIQL5vj4PCBl5KEpqBUM/AI8XFQFIoJzpnh6PzRE4NSIq6T7AfFY8
+ O9h8f4BEDlDrtv666pSvKHL5t9GaGekV2GwKiCZQgeZehHBbdTe/LNF7q A==;
+X-CSE-ConnectionGUID: amu3Hfz+S96ceUcgduIx7Q==
+X-CSE-MsgGUID: KKtbtT7wQGWigISM7ADb7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31873879"
+X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; d="scan'208";a="31873879"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2024 10:29:49 -0800
+X-CSE-ConnectionGUID: 8bXoAnfrSQa2LV59An1HNw==
+X-CSE-MsgGUID: tir32lvwRFa1RJ0Zyau8dA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; d="scan'208";a="119777545"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+ by fmviesa001.fm.intel.com with ESMTP; 16 Nov 2024 10:29:48 -0800
+Received: from [10.245.96.66] (mwajdecz-MOBL.ger.corp.intel.com [10.245.96.66])
+ by irvmail002.ir.intel.com (Postfix) with ESMTP id 8D49C2878B;
+ Sat, 16 Nov 2024 18:29:46 +0000 (GMT)
+Message-ID: <9cf8e6ff-97fb-47c0-bbf0-58888f310559@intel.com>
+Date: Sat, 16 Nov 2024 19:29:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] drm/drm_mm: Safe macro for iterating through nodes
+ in range
+To: Tomasz Lis <tomasz.lis@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
+ =?UTF-8?Q?Piotr_Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>
+References: <20241116021238.2486287-1-tomasz.lis@intel.com>
+ <20241116021238.2486287-2-tomasz.lis@intel.com>
+Content-Language: en-US
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <20241116021238.2486287-2-tomasz.lis@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241116-vop2-hdmi0-disp-modes-v1-5-2bca51db4898@collabora.com>
-References: <20241116-vop2-hdmi0-disp-modes-v1-0-2bca51db4898@collabora.com>
-In-Reply-To: <20241116-vop2-hdmi0-disp-modes-v1-0-2bca51db4898@collabora.com>
-To: Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,41 +75,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VOP2 on RK3588 is able to use the HDMI PHY PLL as an alternative and
-more accurate pixel clock source to improve handling of display modes up
-to 4K@60Hz on video ports 0, 1 and 2.
++ dri-devel
 
-For now only HDMI0 output is supported, hence add the related PLL clock.
-
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-index 22462e86f48027ab7c5e270f2fa04df7afcc1d24..d07be2a81f28b4cbfe314992c662d8cfb3d3d344 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -1262,14 +1262,16 @@ vop: vop@fdd90000 {
- 			 <&cru DCLK_VOP1>,
- 			 <&cru DCLK_VOP2>,
- 			 <&cru DCLK_VOP3>,
--			 <&cru PCLK_VOP_ROOT>;
-+			 <&cru PCLK_VOP_ROOT>,
-+			 <&hdptxphy_hdmi0>;
- 		clock-names = "aclk",
- 			      "hclk",
- 			      "dclk_vp0",
- 			      "dclk_vp1",
- 			      "dclk_vp2",
- 			      "dclk_vp3",
--			      "pclk_vop";
-+			      "pclk_vop",
-+			      "pll_hdmiphy0";
- 		iommus = <&vop_mmu>;
- 		power-domains = <&power RK3588_PD_VOP>;
- 		rockchip,grf = <&sys_grf>;
-
--- 
-2.47.0
+On 16.11.2024 03:12, Tomasz Lis wrote:
+> Benefits of drm_mm_for_each_node_safe and drm_mm_for_each_node_in_range
+> squished together into one macro.
+> 
+> Signed-off-by: Tomasz Lis <tomasz.lis@intel.com>
+> ---
+>  include/drm/drm_mm.h | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/include/drm/drm_mm.h b/include/drm/drm_mm.h
+> index f654874c4ce6..43e99441f6ba 100644
+> --- a/include/drm/drm_mm.h
+> +++ b/include/drm/drm_mm.h
+> @@ -504,6 +504,25 @@ __drm_mm_interval_first(const struct drm_mm *mm, u64 start, u64 last);
+>  	     node__->start < (end__);					\
+>  	     node__ = list_next_entry(node__, node_list))
+>  
+> +/**
+> + * drm_mm_for_each_node_in_range_safe - iterator to walk over a range of
+> + * allocated nodes
+> + * @node__: drm_mm_node structure to assign to in each iteration step
+> + * @next__: &struct drm_mm_node to store the next step
+> + * @mm__: drm_mm allocator to walk
+> + * @start__: starting offset, the first node will overlap this
+> + * @end__: ending offset, the last node will start before this (but may overlap)
+> + *
+> + * This iterator walks over all nodes in the range allocator that lie
+> + * between @start and @end. It is implemented similarly to list_for_each_safe(),
+> + * so safe against removal of elements.
+> + */
+> +#define drm_mm_for_each_node_in_range_safe(node__, next__, mm__, start__, end__)	\
+> +	for (node__ = __drm_mm_interval_first((mm__), (start__), (end__)-1), \
+> +		next__ = list_next_entry(node__, node_list); \
+> +	     node__->start < (end__);					\
+> +	     node__ = next__, next__ = list_next_entry(next__, node_list))
+> +
+>  void drm_mm_scan_init_with_range(struct drm_mm_scan *scan,
+>  				 struct drm_mm *mm,
+>  				 u64 size, u64 alignment, unsigned long color,
 
