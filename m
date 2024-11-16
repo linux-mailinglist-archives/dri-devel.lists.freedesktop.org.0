@@ -2,45 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA54A9CFEEB
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 13:54:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D13E9CFF63
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 15:53:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42C0010E40A;
-	Sat, 16 Nov 2024 12:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 112EE10E1D8;
+	Sat, 16 Nov 2024 14:53:38 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cB/HdMjX";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0D3F010E40C
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2024 12:54:45 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.12,159,1728918000"; d="scan'208";a="225033480"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 16 Nov 2024 21:54:45 +0900
-Received: from localhost.localdomain (unknown [10.226.92.53])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2A5C140065CD;
- Sat, 16 Nov 2024 21:54:35 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
- Hien Huynh <hien.huynh.px@renesas.com>, stable@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v4 3/3] drm: adv7511: Drop dsi single lane support
-Date: Sat, 16 Nov 2024 12:54:12 +0000
-Message-ID: <20241116125415.30799-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241116125415.30799-1-biju.das.jz@bp.renesas.com>
-References: <20241116125415.30799-1-biju.das.jz@bp.renesas.com>
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D9B10E1D6;
+ Sat, 16 Nov 2024 14:53:36 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id
+ 6a1803df08f44-6cbd12cfd7aso5067036d6.1; 
+ Sat, 16 Nov 2024 06:53:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1731768815; x=1732373615; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=y5w18TC/XqToiPnKHIqS08fMoPWyZsrQKnC8ktE2ifE=;
+ b=cB/HdMjX5f5nCai9Aju+lZyDO7m1oIBn8GB+JJBZ4SJd1pLJwP4B2o+KUb7KLZRy86
+ BWSTSbg2wWUM8QaleoWceSbtIqhDyyEgHxtMiLrPYzBPTD1Nwpc+fqeFMwRlpUm1/Lu+
+ b/T2cOMsIpCt3Xj8adpCV6V/F8UiwOn6A0Ht3GXrmf8/d+IEsFV0XNbVL7wdhtq6Sg16
+ JZwc0OhwPvR8zo8kyxqM9MBzve/MfhA20wG5jYr1uYYlubX2OK3nO1tRKwF/794LmxX4
+ fCZrZknupWFLJ79vxHOJX+aLDU8xP2koJo/FpMpIO77rrqEfzNTRmWlX3qd01TF+qbNT
+ Q28A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731768815; x=1732373615;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=y5w18TC/XqToiPnKHIqS08fMoPWyZsrQKnC8ktE2ifE=;
+ b=AJmhxrpjLm/LPrc6uctw+jl8++g2hz+xlVqPs9z+SN/hf2ZOD2aQxw2zZnZWRBJ1bT
+ nmHoRiMuH9588pEE4aDcL0edxvfzb7mCb4cQiNGxkJq4S8c0tquBkgBqAEbyiugVyEpX
+ bCulpNp+QYi1WdbLCZ6bjFQGqOegwwR7YdC0iLAyvMxAXYas/bSjYLeYCoqNVkojj7G8
+ 2bHTdt87BJkYOAuDv1gzhJ07ifgTT0mEMg6u+n/YqKG01fuqx6bgbJtqfQTd9nfMc8y+
+ jECTUhPHmFasJtmf0LSXvuf8P24r4IPpfNEqd+zA6LihwM/DCA4AjrMYIeg7Bt+Ofohs
+ a29A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXUcIWMpz+kri5/fXTum/GGyo6A8JwFgFpNppY6rEoqFqO0f5WCXzDf5Ff31Gih/59pbN1QayA74PI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyhTWqVUt0hEloCaWw3hvqUvwBtEEHo5kcO1QNmmav4UTUPVlZB
+ gQofJ6eA8TBIbqY5YgC91sEggdLg9rEKNMNYWvkzXCFnb1oXvtlKdwv0uTYC
+X-Google-Smtp-Source: AGHT+IFbNjlBN8vxDnwTU+NgGqojA9343CAYRNPR2iP4IKd9IZFcIm/xVlgaPm6E1VpDmjmwNehvlQ==
+X-Received: by 2002:a05:620a:25c6:b0:7a9:a3a3:2917 with SMTP id
+ af79cd13be357-7b3622bca02mr372224085a.7.1731768814834; 
+ Sat, 16 Nov 2024 06:53:34 -0800 (PST)
+Received: from tr4.amd.com (mkmvpn.amd.com. [165.204.54.211])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7b35c99c6easm266083885a.31.2024.11.16.06.53.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 16 Nov 2024 06:53:33 -0800 (PST)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu drm-fixes-6.12
+Date: Sat, 16 Nov 2024 09:53:20 -0500
+Message-ID: <20241116145320.2507156-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,45 +81,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per [1] and [2], ADV7535/7533 supports only 2-, 3-, or 4-lane. Drop
-unsupported 1-lane.
+Hi Dave, Simona,
 
-[1] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
-[2] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7533.pdf
+One last minute patch to fix a regression.
 
-Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
-Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
-Cc: stable@vger.kernel.org
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-Changes in v4:
- - Added link to ADV7533 data sheet.
- - Collected tags
-Changes in v3:
- - Updated commit header and description
- - Updated fixes tag
- - Dropped single lane support
-Changes in v2:
- - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
- - Dropped Archit Taneja invalid Mail address
----
- drivers/gpu/drm/bridge/adv7511/adv7533.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 7013a8268d311fded6c7a6528fc1de82668e75f6:
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-index 5d0e55ef4028..51ddd935b568 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-@@ -174,7 +174,7 @@ struct device_node *adv7533_parse_dt(struct device_node *np,
- 
- 	of_property_read_u32(np, "adi,dsi-lanes", &num_lanes);
- 
--	if (num_lanes < 1 || num_lanes > 4)
-+	if (num_lanes < 2 || num_lanes > 4)
- 		return ERR_PTR(-EINVAL);
- 
- 	adv->num_dsi_lanes = num_lanes;
--- 
-2.43.0
+  drm/amd: Fix initialization mistake for NBIO 7.7.0 (2024-11-12 17:37:39 -0500)
 
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.12-2024-11-16
+
+for you to fetch changes up to 44f392fbf628a7ff2d8bb8e83ca1851261f81a6f:
+
+  Revert "drm/amd/pm: correct the workload setting" (2024-11-16 09:41:11 -0500)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.12-2024-11-16:
+
+amdgpu:
+- Revert a swsmu patch to fix a regression
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      Revert "drm/amd/pm: correct the workload setting"
+
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          | 49 +++++++---------------
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |  4 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |  5 ++-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  5 +--
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  5 +--
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |  4 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |  4 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   | 20 +++------
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |  5 +--
+ .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |  9 ++--
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |  8 ----
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |  2 -
+ 12 files changed, 36 insertions(+), 84 deletions(-)
