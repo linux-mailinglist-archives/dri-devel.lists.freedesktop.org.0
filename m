@@ -2,70 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D13E9CFF63
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 15:53:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C311C9CFF83
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2024 16:32:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 112EE10E1D8;
-	Sat, 16 Nov 2024 14:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A96C10E411;
+	Sat, 16 Nov 2024 15:32:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cB/HdMjX";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ULFh/cmT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51D9B10E1D6;
- Sat, 16 Nov 2024 14:53:36 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id
- 6a1803df08f44-6cbd12cfd7aso5067036d6.1; 
- Sat, 16 Nov 2024 06:53:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731768815; x=1732373615; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=y5w18TC/XqToiPnKHIqS08fMoPWyZsrQKnC8ktE2ifE=;
- b=cB/HdMjX5f5nCai9Aju+lZyDO7m1oIBn8GB+JJBZ4SJd1pLJwP4B2o+KUb7KLZRy86
- BWSTSbg2wWUM8QaleoWceSbtIqhDyyEgHxtMiLrPYzBPTD1Nwpc+fqeFMwRlpUm1/Lu+
- b/T2cOMsIpCt3Xj8adpCV6V/F8UiwOn6A0Ht3GXrmf8/d+IEsFV0XNbVL7wdhtq6Sg16
- JZwc0OhwPvR8zo8kyxqM9MBzve/MfhA20wG5jYr1uYYlubX2OK3nO1tRKwF/794LmxX4
- fCZrZknupWFLJ79vxHOJX+aLDU8xP2koJo/FpMpIO77rrqEfzNTRmWlX3qd01TF+qbNT
- Q28A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731768815; x=1732373615;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=y5w18TC/XqToiPnKHIqS08fMoPWyZsrQKnC8ktE2ifE=;
- b=AJmhxrpjLm/LPrc6uctw+jl8++g2hz+xlVqPs9z+SN/hf2ZOD2aQxw2zZnZWRBJ1bT
- nmHoRiMuH9588pEE4aDcL0edxvfzb7mCb4cQiNGxkJq4S8c0tquBkgBqAEbyiugVyEpX
- bCulpNp+QYi1WdbLCZ6bjFQGqOegwwR7YdC0iLAyvMxAXYas/bSjYLeYCoqNVkojj7G8
- 2bHTdt87BJkYOAuDv1gzhJ07ifgTT0mEMg6u+n/YqKG01fuqx6bgbJtqfQTd9nfMc8y+
- jECTUhPHmFasJtmf0LSXvuf8P24r4IPpfNEqd+zA6LihwM/DCA4AjrMYIeg7Bt+Ofohs
- a29A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXUcIWMpz+kri5/fXTum/GGyo6A8JwFgFpNppY6rEoqFqO0f5WCXzDf5Ff31Gih/59pbN1QayA74PI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhTWqVUt0hEloCaWw3hvqUvwBtEEHo5kcO1QNmmav4UTUPVlZB
- gQofJ6eA8TBIbqY5YgC91sEggdLg9rEKNMNYWvkzXCFnb1oXvtlKdwv0uTYC
-X-Google-Smtp-Source: AGHT+IFbNjlBN8vxDnwTU+NgGqojA9343CAYRNPR2iP4IKd9IZFcIm/xVlgaPm6E1VpDmjmwNehvlQ==
-X-Received: by 2002:a05:620a:25c6:b0:7a9:a3a3:2917 with SMTP id
- af79cd13be357-7b3622bca02mr372224085a.7.1731768814834; 
- Sat, 16 Nov 2024 06:53:34 -0800 (PST)
-Received: from tr4.amd.com (mkmvpn.amd.com. [165.204.54.211])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7b35c99c6easm266083885a.31.2024.11.16.06.53.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Nov 2024 06:53:33 -0800 (PST)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, simona@ffwll.ch
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu drm-fixes-6.12
-Date: Sat, 16 Nov 2024 09:53:20 -0500
-Message-ID: <20241116145320.2507156-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.47.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6953410E411
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2024 15:32:05 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 573ED291;
+ Sat, 16 Nov 2024 16:31:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1731771108;
+ bh=QxODOAmZsz6lFG6XlGiWsYink+useHRrpP5WdafDBCI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ULFh/cmTp2mGMoXovuWtSoH1Lwel/PEzLHgbRxBmRTlF0sMxqXLxpiuyveN11F8KM
+ /iroFpIH5MTVmObpF9HP2UQ9C91p0G9EXNfWNO+QoHvm7Z2e6p6ZqImWEIlN/p7gCy
+ N7+jA6TvNmfUYyvKxMoOY1LHn1LpASr1QwlWX1YE=
+Date: Sat, 16 Nov 2024 17:31:55 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] drm: adv7511: Fix use-after-free in
+ adv7533_attach_dsi()
+Message-ID: <20241116153155.GA12409@pendragon.ideasonboard.com>
+References: <20241116125415.30799-1-biju.das.jz@bp.renesas.com>
+ <20241116125415.30799-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241116125415.30799-2-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,42 +66,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+Hi Biju,
 
-One last minute patch to fix a regression.
+Thank you for the patch.
 
-The following changes since commit 7013a8268d311fded6c7a6528fc1de82668e75f6:
+On Sat, Nov 16, 2024 at 12:54:10PM +0000, Biju Das wrote:
+> The host_node pointer was assigned and freed in adv7533_parse_dt(), and
+> later, adv7533_attach_dsi() used the same. Fix this use-after-free issue
+> with the below changes:
+> 
+>  1. Drop host_node from struct adv7511 and instead use a local pointer in
+>     adv7511_probe().
+>  2. Update adv7533_parse_dt() to return the host_node.
+>  3. Pass the host_node as a parameter to adv7533_attach_dsi().
+>  4. Call of_node_put() after use.
+> 
+> Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> Changes in v4:
+>  - Updated commit description.
+>  - Dropped host_node from struct adv7511 and instead used a local pointer
+>    in probe(). Also freeing of host_node pointer after use is done in
+>    probe().
+> Changes in v3:
+>  - Replace __free construct with readable of_node_put().
+> Changes in v2:
+>  - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
+>  - Dropped Archit Taneja invalid Mail address
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  6 +++---
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 22 ++++++++++++++------
+>  drivers/gpu/drm/bridge/adv7511/adv7533.c     | 20 +++++++++---------
+>  3 files changed, 29 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> index ec0b7f3d889c..9f3fae7cc597 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> @@ -383,7 +383,6 @@ struct adv7511 {
+>  	struct regulator_bulk_data *supplies;
+>  
+>  	/* ADV7533 DSI RX related params */
+> -	struct device_node *host_node;
+>  	struct mipi_dsi_device *dsi;
+>  	u8 num_dsi_lanes;
+>  	bool use_timing_gen;
+> @@ -417,8 +416,9 @@ enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
+>  					const struct drm_display_mode *mode);
+>  int adv7533_patch_registers(struct adv7511 *adv);
+>  int adv7533_patch_cec_registers(struct adv7511 *adv);
+> -int adv7533_attach_dsi(struct adv7511 *adv);
+> -int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv);
+> +int adv7533_attach_dsi(struct adv7511 *adv, struct device_node *host_node);
+> +struct device_node *adv7533_parse_dt(struct device_node *np,
+> +				     struct adv7511 *adv);
+>  
+>  #ifdef CONFIG_DRM_I2C_ADV7511_AUDIO
+>  int adv7511_audio_init(struct device *dev, struct adv7511 *adv7511);
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> index eb5919b38263..3f1f309791a5 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -1209,6 +1209,7 @@ static int adv7511_parse_dt(struct device_node *np,
+>  static int adv7511_probe(struct i2c_client *i2c)
+>  {
+>  	struct adv7511_link_config link_config;
+> +	struct device_node *host_node = NULL;
+>  	struct adv7511 *adv7511;
+>  	struct device *dev = &i2c->dev;
+>  	unsigned int val;
+> @@ -1233,12 +1234,17 @@ static int adv7511_probe(struct i2c_client *i2c)
+>  	if (ret && ret != -ENODEV)
+>  		return ret;
+>  
+> -	if (adv7511->info->link_config)
+> +	if (adv7511->info->link_config) {
+>  		ret = adv7511_parse_dt(dev->of_node, &link_config);
+> -	else
+> -		ret = adv7533_parse_dt(dev->of_node, adv7511);
+> -	if (ret)
+> -		return ret;
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (adv7511->info->has_dsi) {
+> +		host_node = adv7533_parse_dt(dev->of_node, adv7511);
+> +		if (IS_ERR(host_node))
+> +			return PTR_ERR(host_node);
+> +	}
+>  
+>  	ret = adv7511_init_regulators(adv7511);
+>  	if (ret)
 
-  drm/amd: Fix initialization mistake for NBIO 7.7.0 (2024-11-12 17:37:39 -0500)
+host_node is leaked here.
 
-are available in the Git repository at:
+> @@ -1343,9 +1349,11 @@ static int adv7511_probe(struct i2c_client *i2c)
+>  	}
+>  
+>  	if (adv7511->info->has_dsi) {
+> -		ret = adv7533_attach_dsi(adv7511);
+> +		ret = adv7533_attach_dsi(adv7511, host_node);
+>  		if (ret)
+>  			goto err_unregister_audio;
+> +
+> +		of_node_put(host_node);
+>  	}
+>  
+>  	return 0;
+> @@ -1362,6 +1370,8 @@ static int adv7511_probe(struct i2c_client *i2c)
+>  err_i2c_unregister_edid:
+>  	i2c_unregister_device(adv7511->i2c_edid);
+>  uninit_regulators:
+> +	if (host_node)
+> +		of_node_put(host_node);
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.12-2024-11-16
+The error label and the error handling code are now out of sync, making
+the code harder to read and more error-prone.
 
-for you to fetch changes up to 44f392fbf628a7ff2d8bb8e83ca1851261f81a6f:
+Error handling is why I proposed keeping of_node in the adv7511
+structure, and calling of_node_put() in adv7511_remove() and at the end
+of the error handling path in adv7511_probe().
 
-  Revert "drm/amd/pm: correct the workload setting" (2024-11-16 09:41:11 -0500)
+>  	adv7511_uninit_regulators(adv7511);
+>  
+>  	return ret;
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> index 4481489aaf5e..5d0e55ef4028 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> @@ -131,7 +131,7 @@ int adv7533_patch_cec_registers(struct adv7511 *adv)
+>  				    ARRAY_SIZE(adv7533_cec_fixed_registers));
+>  }
+>  
+> -int adv7533_attach_dsi(struct adv7511 *adv)
+> +int adv7533_attach_dsi(struct adv7511 *adv, struct device_node *host_node)
+>  {
+>  	struct device *dev = &adv->i2c_main->dev;
+>  	struct mipi_dsi_host *host;
+> @@ -142,7 +142,7 @@ int adv7533_attach_dsi(struct adv7511 *adv)
+>  						   .node = NULL,
+>  						 };
+>  
+> -	host = of_find_mipi_dsi_host_by_node(adv->host_node);
+> +	host = of_find_mipi_dsi_host_by_node(host_node);
+>  	if (!host)
+>  		return dev_err_probe(dev, -EPROBE_DEFER,
+>  				     "failed to find dsi host\n");
+> @@ -166,22 +166,22 @@ int adv7533_attach_dsi(struct adv7511 *adv)
+>  	return 0;
+>  }
+>  
+> -int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
+> +struct device_node *adv7533_parse_dt(struct device_node *np,
+> +				     struct adv7511 *adv)
+>  {
+> +	struct device_node *host_node;
+>  	u32 num_lanes;
+>  
+>  	of_property_read_u32(np, "adi,dsi-lanes", &num_lanes);
+>  
+>  	if (num_lanes < 1 || num_lanes > 4)
+> -		return -EINVAL;
+> +		return ERR_PTR(-EINVAL);
+>  
+>  	adv->num_dsi_lanes = num_lanes;
+>  
+> -	adv->host_node = of_graph_get_remote_node(np, 0, 0);
+> -	if (!adv->host_node)
+> -		return -ENODEV;
+> -
+> -	of_node_put(adv->host_node);
+> +	host_node = of_graph_get_remote_node(np, 0, 0);
+> +	if (!host_node)
+> +		return ERR_PTR(-ENODEV);
+>  
+>  	adv->use_timing_gen = !of_property_read_bool(np,
+>  						"adi,disable-timing-generator");
+> @@ -190,5 +190,5 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
+>  	adv->rgb = true;
+>  	adv->embedded_sync = false;
+>  
+> -	return 0;
+> +	return host_node;
+>  }
 
-----------------------------------------------------------------
-amd-drm-fixes-6.12-2024-11-16:
+-- 
+Regards,
 
-amdgpu:
-- Revert a swsmu patch to fix a regression
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      Revert "drm/amd/pm: correct the workload setting"
-
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          | 49 +++++++---------------
- drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |  4 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |  5 ++-
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  5 +--
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  5 +--
- drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |  4 +-
- drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |  4 +-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   | 20 +++------
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |  5 +--
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |  9 ++--
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |  8 ----
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |  2 -
- 12 files changed, 36 insertions(+), 84 deletions(-)
+Laurent Pinchart
