@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3019D0292
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2024 10:16:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 016CC9D02B1
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2024 11:03:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D53D10E1E5;
-	Sun, 17 Nov 2024 09:16:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C96E410E233;
+	Sun, 17 Nov 2024 10:03:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nvlUOnGQ";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="QQICdv8o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87B6C10E031;
- Sun, 17 Nov 2024 09:16:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731834978; x=1763370978;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=g4ehLSqsya6NJQtkjdgyvdNG0TLIzz8TwUMtsuSLxek=;
- b=nvlUOnGQFRniMBtCbZiWxcQZN7nc8DKM5MUbFqMcn2ij7fYOMHK+8qYT
- 2SI4S9fFzbPQaBQ3yUF53hywP0F8RfVncc6lucBgLa31vkSPg1HQU1azA
- VRkZO1CWc8Wp3+MKayL/pcHhOfTlhbuatvOQUsGZceofIqdCEvYRyZVDR
- T7s+IIcs6nX1ZruGqwCJ5LmACx1IoJ1/QQSZcodKzRwig5aEmRubkYANu
- lSQoNuEeogj2EbMljpd9W3rVi9beOWppAJsuO3aGLwd3bVA4BsB4/AswS
- aZ9B5Bj4+L0v7R5QQx55bfD/UtF90Rk062tMw60U7HPXA7uhLmEn7UZuH w==;
-X-CSE-ConnectionGUID: C56V5acmT3GpQUbPN6axvw==
-X-CSE-MsgGUID: ynWz6apLQ2yETUlnWRjg3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31739669"
-X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; d="scan'208";a="31739669"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2024 01:16:17 -0800
-X-CSE-ConnectionGUID: jraRo+LeTxqqej/ImtU/gw==
-X-CSE-MsgGUID: cqMAJ3wyScW0hGareT7SIQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; d="scan'208";a="112241906"
-Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 17 Nov 2024 01:16:14 -0800
-Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tCbO8-0001fH-24;
- Sun, 17 Nov 2024 09:16:12 +0000
-Date: Sun, 17 Nov 2024 17:15:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?unknown-8bit?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>, 
- kraxel@redhat.com, airlied@redhat.com, alexander.deucher@amd.com,
- zack.rusin@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 4/7] drm/vmwgfx: use the new drm_exec object
-Message-ID: <202411171611.9LEZwWSe-lkp@intel.com>
-References: <20241114153020.6209-5-christian.koenig@amd.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A7D510E233
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2024 10:03:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1731837792; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ZImCEZ/L7VdPIq1iHfScxG5gInaGjCyg00ocPujl+AJaa6mu90lxJ02Z8twhz89sbc4GArJZhSSbNdYZ26fmaegyZhMPb3IGdq337l9CiVjjA9usUd6wqpyXbQclQYyBqTq8pS40wFC/8r0fjb90LNnkdzdvy04hdVPbTpIpoWw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1731837792;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=4RDarTL7mHPGpvd0TmDOoV4a2AnLw64Zi8pnZTGtnV0=; 
+ b=WytgpE5J3qlu3JDv+h5Y2pns3hYfuuhdFav1GzNh6+e2F+79X6f3GEcK/LOPlHxR8St0wDy+Oi/LzHAKN3jeQ8J21CPL3nm6w0IGBgNTgm26UzDzh2FS/26+zH1TqOzd0MfTy0B/eUFuORA2hLL1abuBjNQPEEUrqfVa/ss32YU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731837792; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=4RDarTL7mHPGpvd0TmDOoV4a2AnLw64Zi8pnZTGtnV0=;
+ b=QQICdv8ol5TN39OWIxZjkEQfbi2Odh0yyYZbnKXxQvj7TUh4oZaWuXshBhJhIAdW
+ 5918w11/hu63cI+QqEBZ8D2SjCsJ1qkzSLnjNAv3DQi7sCpgJgk9+RXgMMcOLycFXhV
+ cJ+KHtlEfnqC2xDoMsNKvl10h1Bxek590Y2w3HKk=
+Received: by mx.zohomail.com with SMTPS id 1731837790826978.8597482139137;
+ Sun, 17 Nov 2024 02:03:10 -0800 (PST)
+Message-ID: <e336b9ef-c8f3-44c8-904f-42736f6ac481@collabora.com>
+Date: Sun, 17 Nov 2024 13:03:07 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241114153020.6209-5-christian.koenig@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] drm/virtio: Add a helper to map and note the dma
+ addrs and lengths
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Rob Clark <robdclark@gmail.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>
+References: <20240813035509.3360760-1-vivek.kasireddy@intel.com>
+ <20240813035509.3360760-3-vivek.kasireddy@intel.com>
+ <45fbbd65-7e97-41c3-898a-49b6fa65e27e@collabora.com>
+ <IA0PR11MB7185625CF2B9E7635A0CF164F84C2@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <071a239f-50fd-44f3-9283-3dc928edb389@collabora.com>
+ <IA0PR11MB718548F4F8971C91FCA456CCF84E2@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <4feda09d-7a5e-4db4-83f8-f75eb0566b4a@collabora.com>
+ <IA0PR11MB7185C176AF07732D39AA4F86F84B2@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <IA0PR11MB7185C176AF07732D39AA4F86F84B2@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,58 +76,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On 10/29/24 09:18, Kasireddy, Vivek wrote:
+>>>> BTW, is any DG2 GPU suitable for testing of this patchset? Will I be
+>>>> able to test it using a regular consumer A750 card?
+>>> Yes, you can test with any DG2 dGPU as long as you can passthrough it to
+>> the
+>>> Guest VM. And, if there is an iGPU available on the Host, you can use
+>> GTK/SDL UI
+>>> for local display or Spice UI for remote display if there is no iGPU on the
+>> Host.
+>>> This is exactly how I started testing this patch series but I am now
+>> predominantly
+>>> testing this series with SRIOV enabled iGPUs and dGPUs.
+>> Was hoping to try out SR-IOV on A750 if it's even possible at all.
+> AFAIK, SRIOV is not supported on any versions of DG2 including A750.
 
-kernel test robot noticed the following build warnings:
+I'm having trouble with getting it to work.
 
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next linus/master drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.12-rc7 next-20241115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+My testing setup:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-qxl-switch-to-using-drm_exec-v2/20241115-014610
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20241114153020.6209-5-christian.koenig%40amd.com
-patch subject: [PATCH 4/7] drm/vmwgfx: use the new drm_exec object
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241117/202411171611.9LEZwWSe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171611.9LEZwWSe-lkp@intel.com/reproduce)
+1. Passthroughed A750 that uses XE driver
+2. RaptorLake iGPU on host used for virtio-gpu, uses i915 driver
+3. QEMU latest master branch + your QEMU vfio_dmabuf_2 patches applied
+on top
+4. Latest linux-next kernel on host
+5. Latest linux-next kernel on guest + this v2 applied
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171611.9LEZwWSe-lkp@intel.com/
+In guest I'm running this:
 
-All warnings (new ones prefixed by >>):
+  seatd-launch -- weston --drm-device=card1 --additional-devices=card0
 
->> drivers/gpu/drm/vmwgfx/vmwgfx_validation.c:861: warning: Function parameter or struct member 'fence' not described in 'vmw_validation_bo_fence'
+where card1 is A750 and card0 is virtio-gpu.
 
+I added printk's and see that virtio-gpu imports A750 dma-buf and gets
+XE's SGT, but nothing shows on the QEMU display. I tried both GTK and
+SPICE displays. If I connect HDMI display to passthroughed A750 while
+running weston command above, then I get weston working on the A750 HDMI
+display and still nothing is shown on virtio-gpu display.
 
-vim +861 drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+I also had to force virtio-gpu driver to always probe before XE,
+otherwise virtio-gpu gets PCI read errors and fails to probe because it
+fails to detect virtio features.
 
-   850	
-   851	/**
-   852	 * vmw_validation_bo_fence - Unreserve and fence buffer objects registered
-   853	 * with a validation context
-   854	 * @ctx: The validation context
-   855	 *
-   856	 * This function unreserves the buffer objects previously reserved using
-   857	 * vmw_validation_bo_reserve, and fences them with a fence object.
-   858	 */
-   859	void vmw_validation_bo_fence(struct vmw_validation_context *ctx,
-   860				     struct vmw_fence_obj *fence)
- > 861	{
-   862		struct vmw_validation_bo_node *entry;
-   863	
-   864		list_for_each_entry(entry, &ctx->bo_list, base.head) {
-   865			dma_resv_add_fence(entry->base.bo->base.resv, &fence->base,
-   866					   DMA_RESV_USAGE_READ);
-   867		}
-   868		drm_exec_fini(&ctx->exec);
-   869	}
-   870	
+Am I doing anything wrong? Suggestions are welcome.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Dmitry
