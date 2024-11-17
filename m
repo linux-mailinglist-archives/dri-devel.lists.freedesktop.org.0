@@ -2,70 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8F19D01E4
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2024 03:43:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7AA09D0705
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 00:31:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8994F10E03C;
-	Sun, 17 Nov 2024 02:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A597110E1E3;
+	Sun, 17 Nov 2024 23:31:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hxytppLE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Gzx3TcUp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF35210E03C
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2024 02:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731811423; x=1763347423;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=xl/LUcVrd6dmSIr6nGl/n2X7RZ7jp9nSo28XTx5Qzak=;
- b=hxytppLEWtX5mXf+BcPmRFjepmwRQGUP85WdiDLN/+8jvUy/aClcVbpA
- pKQe3D5j070+PiOmouS2yNMQriqc28NUMfAlu5JFnZGdXcKZO2jb4XfWA
- Zd3mPwj3dj7CYXrkECWlhwFlBb/nIijTS2MEcp54rMfXX5tE+w0N9rNc/
- CbUmlEqoXE2uzq9IODKeHTqxlA09nXJ+Fmb/i+8FAd6fwrHjARS6+66Zd
- vKqdCnowWLg3GpAdCedtWca7HnMNrZyuwJJZhgRpBvJ167TdFF/UcjbT3
- AqVaBFZHhmM73Kc+jffgSGmTKXE8nnUkGeohgCBRhDfFcI9Eh/v0tQmEZ w==;
-X-CSE-ConnectionGUID: d7KZy1XDQsSI9OIFEfzZqQ==
-X-CSE-MsgGUID: wAst45gsQPWDETuV1psrdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42434168"
-X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; d="scan'208";a="42434168"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2024 18:43:42 -0800
-X-CSE-ConnectionGUID: wGCL00g4SUOclNMxZ0Tiww==
-X-CSE-MsgGUID: 0yg3kuyDSleNsOTORDEOLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; d="scan'208";a="93362302"
-Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
- by fmviesa005.fm.intel.com with ESMTP; 16 Nov 2024 18:43:35 -0800
-Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tCVG9-0001Ft-06;
- Sun, 17 Nov 2024 02:43:33 +0000
-Date: Sun, 17 Nov 2024 10:42:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com,
- ltuikov89@gmail.com, matthew.brost@intel.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- rostedt@goodmis.org, l.stach@pengutronix.de, matt.coster@imgtec.com,
- frank.binns@imgtec.com, yuq825@gmail.com, robdclark@gmail.com,
- kherbst@redhat.com, lyude@redhat.com, boris.brezillon@collabora.com,
- steven.price@arm.com, mwen@igalia.com, mcanal@igalia.com,
- thomas.hellstrom@linux.intel.com, tvrtko.ursulin@igalia.com
-Cc: oe-kbuild-all@lists.linux.dev,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: Re: [PATCH v6 2/7] drm/sched: store the drm client_id in
- drm_sched_fence
-Message-ID: <202411171023.eCuLAjlT-lkp@intel.com>
-References: <20241114100113.150647-3-pierre-eric.pelloux-prayer@amd.com>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 407D410E07E;
+ Sun, 17 Nov 2024 03:45:08 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-3823e45339bso386144f8f.0; 
+ Sat, 16 Nov 2024 19:45:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1731815106; x=1732419906; darn=lists.freedesktop.org;
+ h=subject:from:to:content-language:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=TL3G7tjTicGdMHd/A0F2GrypgDVRQwHM+dHZn+wZ/8Q=;
+ b=Gzx3TcUpZQ2FymqILqmaoL0WXjdnh4curTBJqRxC2SLaI3+qnMwjCMTY2pmDh3c6+D
+ veuE+/q6FitkeOvnY9mhcvOSg/F2yxfIYPljnDD58AiOhyjnjVt5Dwimt8Gd9GTXfRyA
+ xiBKexg6DSZMsIvL//mHwTBAiLIfxqiiUbgyKKk8IDQIIskU1c65gdzfVyvulzf4ZAUF
+ v3CAiqwOuYn1jhiramvd57SexplUFjUZ0hhuq8FiIHUxIaxHDLF8+6fHCOR8ne2VtYDK
+ 1+ctcu0WvYJklXRLq2BhnSds7W7YTsoZWYWSSXght4IPygBaAqgoy5Hn4/LKFZehtHCM
+ 8SrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731815106; x=1732419906;
+ h=subject:from:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TL3G7tjTicGdMHd/A0F2GrypgDVRQwHM+dHZn+wZ/8Q=;
+ b=ZcsbHbBUiuxRoqMW0K/Q2V+RgnjdLNaugkXl+VHN/iq1Uu4Roqlf873Z9hPlTdXyW/
+ u1rEpXepObs+Cgsj98o3rX6jmB8OG4fS78jYrjXyFK9Fvhf5x8UwB9p0mjyAY+Z958qZ
+ wy+FK7guV5fZyzJR4ohhpuFkPIzeYjBrOeuZPSYLTiRTZLDdjeVhPzkgDcdHymSxi49m
+ 9sNCrYNlkKt+Af4xY8FTUObs+kQrKHqppG2pmNw4/z5kPj+q+VDk+zcTv5qsrOY1CyR0
+ HpHS6l/WITxcLGUvburkvlVQQnPlah3+PduUCBNFH86/NuQHT/fGEmdg/kJNYa2BQhlh
+ Cjgw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUkuQVLaBeHPXGybn+0Xhvwykj5fKdKWIqfOq+N6Pq5ez+y1Ly9yYUpggbZZaKV8V/QNFEGSzEYcA==@lists.freedesktop.org,
+ AJvYcCXipjNjNpBKUG9w0th5SbZ1RPfwe5U40RSfHOJ+VoxIkcc1cRzUaJHu2avFZ3qC9OpeffmAWaharr0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUfBjsy9Sks6kD7voJyoXr5MU+k8ctlhviTL1jXsHpU4WM72n+
+ FKj6Gvu/SuuRiHu3++UNFDTzshptAbRFPbVKWjOTv2Pj/m13ataL
+X-Google-Smtp-Source: AGHT+IEjbL5U1WgRsAJhyMwl7tHBccvdcqRa0UXTqHAl9hV5Yt2QGY1JueOB76pZitwVzsmS7yVYnQ==
+X-Received: by 2002:a05:6000:1866:b0:382:51f:6371 with SMTP id
+ ffacd0b85a97d-3822590480dmr6013784f8f.15.1731815106093; 
+ Sat, 16 Nov 2024 19:45:06 -0800 (PST)
+Received: from [10.137.0.17] (89-39-107-195.hosted-by-worldstream.net.
+ [89.39.107.195]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3823e5f7429sm1699996f8f.93.2024.11.16.19.45.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 16 Nov 2024 19:45:04 -0800 (PST)
+Message-ID: <d0bf2d2a-0cdd-40a7-8be6-74d60a42ea90@gmail.com>
+Date: Sun, 17 Nov 2024 09:14:46 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241114100113.150647-3-pierre-eric.pelloux-prayer@amd.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: kernelnewbies@kernelnewbies.org, kherbst@redhat.com, lyude@redhat.com,
+ dakr@redhat.com, airlied@gmail.com, daniel@ffwll.ch, airlied@redhat.com,
+ ttabi@nvidia.com, kees@kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
+From: Krishna Deshpande <krishna.desh2@gmail.com>
+Subject: Bug: Nouveau failed to boot on 6.11
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------1eHw8hWuh7ikVg0ocyw8U4An"
+X-Mailman-Approved-At: Sun, 17 Nov 2024 23:31:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,102 +86,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pierre-Eric,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------1eHw8hWuh7ikVg0ocyw8U4An
+Content-Type: multipart/mixed; boundary="------------Gz4TdCjmqEDxTKWq6UIoERcw";
+ protected-headers="v1"
+From: Krishna Deshpande <krishna.desh2@gmail.com>
+To: kernelnewbies@kernelnewbies.org, kherbst@redhat.com, lyude@redhat.com,
+ dakr@redhat.com, airlied@gmail.com, daniel@ffwll.ch, airlied@redhat.com,
+ ttabi@nvidia.com, kees@kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-ID: <d0bf2d2a-0cdd-40a7-8be6-74d60a42ea90@gmail.com>
+Subject: Bug: Nouveau failed to boot on 6.11
 
-kernel test robot noticed the following build errors:
+--------------Gz4TdCjmqEDxTKWq6UIoERcw
+Content-Type: multipart/mixed; boundary="------------43eaLh8sEs4bfDFRrIL9lJJ8"
 
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on next-20241115]
-[cannot apply to linus/master drm-misc/drm-misc-next v6.12-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+--------------43eaLh8sEs4bfDFRrIL9lJJ8
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-debugfs-output-client_id-in-in-drm_clients_info/20241114-180547
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20241114100113.150647-3-pierre-eric.pelloux-prayer%40amd.com
-patch subject: [PATCH v6 2/7] drm/sched: store the drm client_id in drm_sched_fence
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241117/202411171023.eCuLAjlT-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171023.eCuLAjlT-lkp@intel.com/reproduce)
+SGkgQWxsLA0KDQoNCkknbSBnZXR0aW5nIHRoaXMgZXJyb3Igb24gdjYuMTEgZnJvbSBMaW51
+cycgdHJlZS4gQW55IGhlbHAgd291bGQgYmUgDQphcHByZWNpYXRlZC4NCg0KDQpbwqDCoMKg
+IDUuMjc3NzA5XSBub3V2ZWF1IDAwMDA6MDE6MDAuMDogc2VjMihnc3ApOiBtYm94IDAwMDAw
+MDBiIDAwMDAwMDBmDQpbwqDCoMKgIDUuMjc3NzEyXSBub3V2ZWF1IDAwMDA6MDE6MDAuMDog
+c2VjMihnc3ApOmJvb3Rlci1sb2FkOiBib290IGZhaWxlZDogLTUNClvCoMKgwqAgNS4yNzc3
+MjhdIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQ0KW8KgwqDCoCA1LjI3
+NzcyOV0gV0FSTklORzogQ1BVOiA2IFBJRDogNTMzIGF0IA0KZHJpdmVycy9ncHUvZHJtL25v
+dXZlYXUvbnZrbS9zdWJkZXYvZ3NwL3I1MzUuYzoyNDA5IA0KcjUzNV9nc3BfaW5pdCsweDhj
+LzB4YmQwIFtub3V2ZWF1XQ0KW8KgwqDCoCA1LjI3Nzg1OF0gTW9kdWxlcyBsaW5rZWQgaW46
+IG52bWUgbnZtZV9jb3JlIG52bWVfYXV0aCBpOTE1KCspIA0Kbm91dmVhdSgrKSBjcmN0MTBk
+aWZfcGNsbXVsIGNyYzMyX3BjbG11bCBjcmMzMmNfaW50ZWwgcG9seXZhbF9jbG11bG5pIA0K
+cG9seXZhbF9nZW5lcmljIG14bV93bWkgZHJtX3R0bV9oZWxwZXIgZ3B1X3NjaGVkIGRybV9n
+cHV2bSBkcm1fZXhlYyANCmRybV9idWRkeSBpMmNfYWxnb19iaXQgZ2hhc2hfY2xtdWxuaV9p
+bnRlbCB0dG0gc2hhNTEyX3Nzc2UzIA0KZHJtX2Rpc3BsYXlfaGVscGVyIHhoY2lfcGNpIHNo
+YTI1Nl9zc3NlMyB4aGNpX3BjaV9yZW5lc2FzIGhpZF9tdWx0aXRvdWNoIA0Kc2hhMV9zc3Nl
+MyBzZXJpb19yYXcgeGhjaV9oY2Qgdm1kIGNlYyBpMmNfaGlkX2FjcGkgaTJjX2hpZCB2aWRl
+byB3bWkgDQpwaW5jdHJsX3RpZ2VybGFrZSB4ZW5fYWNwaV9wcm9jZXNzb3IgeGVuX3ByaXZj
+bWQgeGVuX3BjaWJhY2sgeGVuX2Jsa2JhY2sgDQp4ZW5fZ250YWxsb2MgeGVuX2dudGRldiB4
+ZW5fZXZ0Y2huIHNjc2lfZGhfcmRhYyBzY3NpX2RoX2VtYyBzY3NpX2RoX2FsdWEgDQp1aW5w
+dXQgZG1fbXVsdGlwYXRoDQpbwqDCoMKgIDUuMjc3ODgwXSBDUFU6IDYgVUlEOiAwIFBJRDog
+NTMzIENvbW06ICh1ZGV2LXdvcmtlcikgTm90IHRhaW50ZWQgDQo2LjExLjAtdGVzdC0xLnF1
+YmVzLmZjMzcueDg2XzY0KyAjMTMNClvCoMKgwqAgNS4yNzc4ODJdIEhhcmR3YXJlIG5hbWU6
+IE1pY3JvLVN0YXIgSW50ZXJuYXRpb25hbCBDby4sIEx0ZC4gUHVsc2UgDQpHTDY2IDExVUdL
+L01TLTE1ODEsIEJJT1MgRTE1ODFJTVMuMzEzIDA3LzA2LzIwMjMNClvCoMKgwqAgNS4yNzc4
+ODNdIFJJUDogZTAzMDpyNTM1X2dzcF9pbml0KzB4OGMvMHhiZDAgW25vdXZlYXVdDQpbwqDC
+oMKgIDUuMjc3OTcyXSBDb2RlOiAyNCA0MCA0OCA4ZCA0YyAyNCAzYyA0OCA4OSBlZSA2YSAw
+MCA0OSA4ZCBiZCBiMCAwNCANCjAwIDAwIDRjIDhkIDQ0IDI0IDQ4IGU4IDkxIGUyIGZhIGZm
+IDQxIDU4IDg1IGMwIDQxIDg5IGM2IDBmIDg0IDkzIDAwIDAwIA0KMDAgPDBmPiAwYiA0OSA4
+MyBiZCBjMCAwNyAwMCAwMCAwMCA3NSAzMiA0OCA4YiA0NCAyNCA0OCA2NSA0OCAyYiAwNCAy
+NQ0KW8KgwqDCoCA1LjI3Nzk3M10gUlNQOiBlMDJiOmZmZmZjOTAwNDExODc2NTAgRUZMQUdT
+OiAwMDAxMDI4Mg0KW8KgwqDCoCA1LjI3Nzk3NV0gUkFYOiAwMDAwMDAwMGZmZmZmZmZiIFJC
+WDogZmZmZjg4ODExMjA1NTAwOCBSQ1g6IA0KMDAwMDAwMDAwMDAwMDAyNw0KW8KgwqDCoCA1
+LjI3Nzk3Nl0gUkRYOiAwMDAwMDAwMDAwMDAwMDAwIFJTSTogZmZmZjg4ODExMjA1NTAwOCBS
+REk6IA0KZmZmZjg4ODEwMWY5NzhlOA0KW8KgwqDCoCA1LjI3Nzk3N10gUkJQOiBmZmZmODg4
+MTEyMDU1MDA4IFIwODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6IA0KMDAwMDAwMDA4MmY1MGEw
+MA0KW8KgwqDCoCA1LjI3Nzk3OF0gUjEwOiBmZmZmZmZmZjgxY2ZjODE5IFIxMTogMDAwMDAw
+MDAwMDAwMDAwMCBSMTI6IA0KZmZmZjg4ODExMjA1NTA0MA0KW8KgwqDCoCA1LjI3Nzk3OF0g
+UjEzOiBmZmZmODg4MTEyMDU1MDAwIFIxNDogMDAwMDAwMDBmZmZmZmZmYiBSMTU6IA0KZmZm
+Zjg4ODExMjA1NTAwOA0KW8KgwqDCoCA1LjI3Nzk4NV0gRlM6wqAgMDAwMDdkMDllYmM5MzBj
+MCgwMDAwKSBHUzpmZmZmODg4MTkyNTAwMDAwKDAwMDApIA0Ka25sR1M6MDAwMDAwMDAwMDAw
+MDAwMA0KW8KgwqDCoCA1LjI3Nzk4Nl0gQ1M6wqAgZTAzMCBEUzogMDAwMCBFUzogMDAwMCBD
+UjA6IDAwMDAwMDAwODAwNTAwMzMNClvCoMKgwqAgNS4yNzc5ODddIENSMjogMDAwMDc5ODJj
+YWY4ODk0MiBDUjM6IDAwMDAwMDAxMGU2NTYwMDAgQ1I0OiANCjAwMDAwMDAwMDAwNTA2NjAN
+ClvCoMKgwqAgNS4yNzc5OTJdIENhbGwgVHJhY2U6DQpbwqDCoMKgIDUuMjc3OTk0XcKgIDxU
+QVNLPg0KW8KgwqDCoCA1LjI3Nzk5NV3CoCA/IHI1MzVfZ3NwX2luaXQrMHg4Yy8weGJkMCBb
+bm91dmVhdV0NClvCoMKgwqAgNS4yNzgwNzhdwqAgPyBfX3dhcm4uY29sZCsweDhlLzB4ZTgN
+ClvCoMKgwqAgNS4yNzgwODFdwqAgPyByNTM1X2dzcF9pbml0KzB4OGMvMHhiZDAgW25vdXZl
+YXVdDQpbwqDCoMKgIDUuMjc4MTYwXcKgID8gcmVwb3J0X2J1ZysweGZmLzB4MTQwDQpbwqDC
+oMKgIDUuMjc4MTYzXcKgID8gaGFuZGxlX2J1ZysweDNjLzB4ODANClvCoMKgwqAgNS4yNzgx
+NjVdwqAgPyBleGNfaW52YWxpZF9vcCsweDE3LzB4NzANClvCoMKgwqAgNS4yNzgxNjZdwqAg
+PyBhc21fZXhjX2ludmFsaWRfb3ArMHgxYS8weDIwDQpbwqDCoMKgIDUuMjc4MTY5XcKgID8g
+cjUzNV9nc3BfaW5pdCsweDhjLzB4YmQwIFtub3V2ZWF1XQ0KW8KgwqDCoCA1LjI3ODI0Nl3C
+oCBudmttX3N1YmRldl9pbml0XysweDQ5LzB4OTAgW25vdXZlYXVdDQpbwqDCoMKgIDUuMjc4
+MzI0XcKgID8gbnZrbV9pbnRyX3JlYXJtKzB4YzQvMHgxYzAgW25vdXZlYXVdDQpbwqDCoMKg
+IDUuMjc4Mzk3XcKgIG52a21fc3ViZGV2X2luaXQrMHg0OC8weDYwIFtub3V2ZWF1XQ0KW8Kg
+wqDCoCA1LjI3ODQ3MF3CoCBudmttX2RldmljZV9pbml0KzB4MTZiLzB4MWYwIFtub3V2ZWF1
+XQ0KW8KgwqDCoCA1LjI3ODU4MF3CoCBudmttX3VkZXZpY2VfaW5pdCsweDQ3LzB4NzAgW25v
+dXZlYXVdDQpbwqDCoMKgIDUuMjc4NjkwXcKgIG52a21fb2JqZWN0X2luaXQrMHgzZS8weDEy
+MCBbbm91dmVhdV0NClvCoMKgwqAgNS4yNzg3NjhdwqAgbnZrbV9pb2N0bF9uZXcrMHgxODMv
+MHgyNTAgW25vdXZlYXVdDQpbwqDCoMKgIDUuMjc4ODQzXcKgID8gX19wZnhfbnZrbV9jbGll
+bnRfY2hpbGRfbmV3KzB4MTAvMHgxMCBbbm91dmVhdV0NClvCoMKgwqAgNS4yNzg5MTRdwqAg
+PyBfX3BmeF9udmttX3VkZXZpY2VfbmV3KzB4MTAvMHgxMCBbbm91dmVhdV0NClvCoMKgwqAg
+NS4yNzkwMTNdwqAgbnZrbV9pb2N0bCsweGU0LzB4MWUwIFtub3V2ZWF1XQ0KW8KgwqDCoCA1
+LjI3OTA4NF3CoCBudmlmX29iamVjdF9jdG9yKzB4MTM0LzB4MWIwIFtub3V2ZWF1XQ0KW8Kg
+wqDCoCA1LjI3OTE1NV3CoCBudmlmX2RldmljZV9jdG9yKzB4MjMvMHg3MCBbbm91dmVhdV0N
+ClvCoMKgwqAgNS4yNzkyMjRdwqAgbm91dmVhdV9jbGlfaW5pdCsweDE2NC8weDU3MCBbbm91
+dmVhdV0NClvCoMKgwqAgNS4yNzkzMzBdwqAgPyBfX2ttYWxsb2NfY2FjaGVfbm9wcm9mKzB4
+MTQyLzB4MzAwDQpbwqDCoMKgIDUuMjc5MzMzXcKgIG5vdXZlYXVfZHJtX2RldmljZV9pbml0
+KzB4YjcvMHg4OTAgW25vdXZlYXVdDQpbwqDCoMKgIDUuMjc5NDMwXcKgID8gcGNpX3VwZGF0
+ZV9jdXJyZW50X3N0YXRlKzB4NzAvMHhhMA0KW8KgwqDCoCA1LjI3OTQzMl3CoCBub3V2ZWF1
+X2RybV9wcm9iZSsweDEyOS8weDIyMCBbbm91dmVhdV0NClvCoMKgwqAgNS4yNzk1MjFdwqAg
+PyBycG1fcmVzdW1lKzB4MzAyLzB4NmUwDQpbwqDCoMKgIDUuMjc5NTI0XcKgIGxvY2FsX3Bj
+aV9wcm9iZSsweDQyLzB4OTANClvCoMKgwqAgNS4yNzk1MjZdwqAgcGNpX2RldmljZV9wcm9i
+ZSsweGMxLzB4MmEwDQpbwqDCoMKgIDUuMjc5NTI4XcKgIHJlYWxseV9wcm9iZSsweGRiLzB4
+MzQwDQpbwqDCoMKgIDUuMjc5NTMwXcKgID8gcG1fcnVudGltZV9iYXJyaWVyKzB4NTQvMHg5
+MA0KW8KgwqDCoCA1LjI3OTUzMl3CoCA/IF9fcGZ4X19fZHJpdmVyX2F0dGFjaCsweDEwLzB4
+MTANClvCoMKgwqAgNS4yNzk1MzRdwqAgX19kcml2ZXJfcHJvYmVfZGV2aWNlKzB4NzgvMHgx
+MTANClvCoMKgwqAgNS4yNzk1MzZdwqAgZHJpdmVyX3Byb2JlX2RldmljZSsweDFmLzB4YTAN
+ClvCoMKgwqAgNS4yNzk1MzhdwqAgX19kcml2ZXJfYXR0YWNoKzB4YmEvMHgxYzANClvCoMKg
+wqAgNS4yNzk1NDFdwqAgYnVzX2Zvcl9lYWNoX2RldisweDhjLzB4ZTANClvCoMKgwqAgNS4y
+Nzk1NDNdwqAgYnVzX2FkZF9kcml2ZXIrMHgxMzQvMHgyMjANClvCoMKgwqAgNS4yNzk1NDVd
+wqAgZHJpdmVyX3JlZ2lzdGVyKzB4NzIvMHhkMA0KW8KgwqDCoCA1LjI3OTU0Nl3CoCA/IF9f
+cGZ4X25vdXZlYXVfZHJtX2luaXQrMHgxMC8weDEwIFtub3V2ZWF1XQ0KW8KgwqDCoCA1LjI3
+OTYyMl3CoCBkb19vbmVfaW5pdGNhbGwrMHg1OC8weDJmMA0KW8KgwqDCoCA1LjI3OTYyNl3C
+oCBkb19pbml0X21vZHVsZSsweDgyLzB4MjQwDQpbwqDCoMKgIDUuMjc5NjI4XcKgIGluaXRf
+bW9kdWxlX2Zyb21fZmlsZSsweDg2LzB4YzANClvCoMKgwqAgNS4yNzk2MzBdwqAgaWRlbXBv
+dGVudF9pbml0X21vZHVsZSsweDEyMS8weDMyMA0KW8KgwqDCoCA1LjI3OTYzM13CoCBfX3g2
+NF9zeXNfZmluaXRfbW9kdWxlKzB4NWUvMHhiMA0KW8KgwqDCoCA1LjI3OTYzNF3CoCBkb19z
+eXNjYWxsXzY0KzB4ODIvMHgxNjANClvCoMKgwqAgNS4yNzk2MzddwqAgPyBfX2RvX3N5c19u
+ZXdmc3RhdGF0KzB4NGIvMHg4MA0KW8KgwqDCoCA1LjI3OTYzOV3CoCA/IHN5c2NhbGxfZXhp
+dF90b191c2VyX21vZGVfcHJlcGFyZSsweDE0OS8weDE3MA0KW8KgwqDCoCA1LjI3OTY0Ml3C
+oCA/IHN5c2NhbGxfZXhpdF90b191c2VyX21vZGUrMHgxNS8weDIyMA0KW8KgwqDCoCA1LjI3
+OTY0NF3CoCA/IGRvX3N5c2NhbGxfNjQrMHg4ZS8weDE2MA0KW8KgwqDCoCA1LjI3OTY0NV3C
+oCA/IGRvX3N5c2NhbGxfNjQrMHg4ZS8weDE2MA0KW8KgwqDCoCA1LjI3OTY0N13CoCA/IGRv
+X3N5c2NhbGxfNjQrMHg4ZS8weDE2MA0KW8KgwqDCoCA1LjI3OTY0OF3CoCA/IGRvX3N5c2Nh
+bGxfNjQrMHg4ZS8weDE2MA0KW8KgwqDCoCA1LjI3OTY1MF3CoCA/IGNsZWFyX2JoYl9sb29w
+KzB4MjUvMHg4MA0KW8KgwqDCoCA1LjI3OTY1Ml3CoCA/IGNsZWFyX2JoYl9sb29wKzB4MjUv
+MHg4MA0KW8KgwqDCoCA1LjI3OTY1NF3CoCA/IGNsZWFyX2JoYl9sb29wKzB4MjUvMHg4MA0K
+W8KgwqDCoCA1LjI3OTY1Nl3CoCBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg3
+Ni8weDdlDQpbwqDCoMKgIDUuMjc5NjU4XSBSSVA6IDAwMzM6MHg3ZDA5ZWM3NWI5Y2QNClvC
+oMKgwqAgNS4yNzk2NjBdIENvZGU6IDVkIGMzIDY2IDJlIDBmIDFmIDg0IDAwIDAwIDAwIDAw
+IDAwIDkwIGYzIDBmIDFlIGZhIA0KNDggODkgZjggNDggODkgZjcgNDggODkgZDYgNDggODkg
+Y2EgNGQgODkgYzIgNGQgODkgYzggNGMgOGIgNGMgMjQgMDggMGYgDQowNSA8NDg+IDNkIDAx
+IGYwIGZmIGZmIDczIDAxIGMzIDQ4IDhiIDBkIDMzIGU0IDBjIDAwIGY3IGQ4IDY0IDg5IDAx
+IDQ4DQpbwqDCoMKgIDUuMjc5NjYxXSBSU1A6IDAwMmI6MDAwMDdmZmU0NGZjM2FkOCBFRkxB
+R1M6IDAwMDAwMjQ2IE9SSUdfUkFYOiANCjAwMDAwMDAwMDAwMDAxMzkNClvCoMKgwqAgNS4y
+Nzk2NjJdIFJBWDogZmZmZmZmZmZmZmZmZmZkYSBSQlg6IDAwMDA2MGM0ZGY5MjYzYjAgUkNY
+OiANCjAwMDA3ZDA5ZWM3NWI5Y2QNClvCoMKgwqAgNS4yNzk2NjNdIFJEWDogMDAwMDAwMDAw
+MDAwMDAwMCBSU0k6IDAwMDA3ZDA5ZWM4YTM0NTMgUkRJOiANCjAwMDAwMDAwMDAwMDAwMTQN
+ClvCoMKgwqAgNS4yNzk2NjRdIFJCUDogMDAwMDdkMDllYzhhMzQ1MyBSMDg6IDAwMDAwMDAw
+MDAwMDAwMDAgUjA5OiANCjAwMDA3ZmZlNDRmYzNjMDANClvCoMKgwqAgNS4yNzk2NjVdIFIx
+MDogMDAwMDAwMDAwMDAwMDAxNCBSMTE6IDAwMDAwMDAwMDAwMDAyNDYgUjEyOiANCjAwMDAw
+MDAwMDAwMjAwMDANClvCoMKgwqAgNS4yNzk2NjZdIFIxMzogMDAwMDYwYzRkZjkyNjlmMCBS
+MTQ6IDAwMDAwMDAwMDAwMDAwMDAgUjE1OiANCjAwMDA2MGM0ZGY5MmE1ODANClvCoMKgwqAg
+NS4yNzk2NjddwqAgPC9UQVNLPg0KW8KgwqDCoCA1LjI3OTY2N10gLS0tWyBlbmQgdHJhY2Ug
+MDAwMDAwMDAwMDAwMDAwMCBdLS0tDQpbwqDCoMKgIDUuMjc5NjcwXSBub3V2ZWF1IDAwMDA6
+MDE6MDAuMDogZ3NwOiBpbml0IGZhaWxlZCwgLTUNClvCoMKgwqAgNS4yNzk2ODNdIG5vdXZl
+YXUgMDAwMDowMTowMC4wOiBpbml0IGZhaWxlZCB3aXRoIC01DQpbwqDCoMKgIDUuMjc5Njg1
+XSBub3V2ZWF1OiBEUk0tbWFzdGVyOjAwMDAwMDAwOjAwMDAwMDgwOiBpbml0IGZhaWxlZCB3
+aXRoIC01DQpbwqDCoMKgIDUuMjc5Njg4XSBub3V2ZWF1IDAwMDA6MDE6MDAuMDogRFJNLW1h
+c3RlcjogRGV2aWNlIGFsbG9jYXRpb24gDQpmYWlsZWQ6IC01DQpbwqDCoMKgIDUuMjk2MzY4
+XSBub3V2ZWF1IDAwMDA6MDE6MDAuMDogcHJvYmUgd2l0aCBkcml2ZXIgbm91dmVhdSBmYWls
+ZWQgDQp3aXRoIGVycm9yIC01DQoNCg0KVGhhbmtzLA0KDQpLcmlzaG5hDQoNCg==
+--------------43eaLh8sEs4bfDFRrIL9lJJ8
+Content-Type: application/pgp-keys; name="OpenPGP_0xCF412C4448F859FE.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xCF412C4448F859FE.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171023.eCuLAjlT-lkp@intel.com/
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-All errors (new ones prefixed by >>):
+xjMEZzlYsRYJKwYBBAHaRw8BAQdAIA8Li6YvI1sW0IZqYoARlmSGCnIXz6RV5+YP
+g583G6HNK0tyaXNobmEgRGVzaHBhbmRlIDxrcmlzaG5hLmRlc2gyQGdtYWlsLmNv
+bT7CmQQTFgoAQRYhBE5gcXZcGFv0v08NIs9BLERI+Fn+BQJnOVixAhsDBQkJZgGA
+BQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEM9BLERI+Fn+GDUBAK4q5xCV
+ViOnCnd3nFdp6g0x49ULCvfmO+UuTbCQXv9eAQDdERtdLwvD5Za+zTLLRs4EMKjV
+KBDEIj74cbG2dCc8Bs44BGc5WLESCisGAQQBl1UBBQEBB0BfrlfInVdEWu+Lpv8h
++VFLYmVP3NtnK/8b39KExm2vfQMBCAfCfgQYFgoAJhYhBE5gcXZcGFv0v08NIs9B
+LERI+Fn+BQJnOVixAhsMBQkJZgGAAAoJEM9BLERI+Fn+WG8BAMx/ogri2dPHTR7l
+hqeVTXljHFhxds+WLJweHlW/Dzs+APsHIoBiw1Edh4zbkR5OLLBREHbEorX3WXsT
+je0cJxEvCg=3D=3D
+=3DjQgQ
+-----END PGP PUBLIC KEY BLOCK-----
 
-   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_vm_bind_job_create':
->> drivers/gpu/drm/panthor/panthor_mmu.c:2472:15: error: too few arguments to function 'drm_sched_job_init'
-    2472 |         ret = drm_sched_job_init(&job->base, &vm->entity, 1, vm);
-         |               ^~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/panthor/panthor_mmu.c:10:
-   include/drm/gpu_scheduler.h:571:5: note: declared here
-     571 | int drm_sched_job_init(struct drm_sched_job *job,
-         |     ^~~~~~~~~~~~~~~~~~
---
-   drivers/gpu/drm/panthor/panthor_sched.c: In function 'panthor_job_create':
->> drivers/gpu/drm/panthor/panthor_sched.c:3727:15: error: too few arguments to function 'drm_sched_job_init'
-    3727 |         ret = drm_sched_job_init(&job->base,
-         |               ^~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/panthor/panthor_sched.c:8:
-   include/drm/gpu_scheduler.h:571:5: note: declared here
-     571 | int drm_sched_job_init(struct drm_sched_job *job,
-         |     ^~~~~~~~~~~~~~~~~~
+--------------43eaLh8sEs4bfDFRrIL9lJJ8--
 
+--------------Gz4TdCjmqEDxTKWq6UIoERcw--
 
-vim +/drm_sched_job_init +2472 drivers/gpu/drm/panthor/panthor_mmu.c
+--------------1eHw8hWuh7ikVg0ocyw8U4An
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-647810ec247641e Boris Brezillon 2024-02-29  2435  
-647810ec247641e Boris Brezillon 2024-02-29  2436  /**
-647810ec247641e Boris Brezillon 2024-02-29  2437   * panthor_vm_bind_job_create() - Create a VM_BIND job
-647810ec247641e Boris Brezillon 2024-02-29  2438   * @file: File.
-647810ec247641e Boris Brezillon 2024-02-29  2439   * @vm: VM targeted by the VM_BIND job.
-647810ec247641e Boris Brezillon 2024-02-29  2440   * @op: VM operation data.
-647810ec247641e Boris Brezillon 2024-02-29  2441   *
-647810ec247641e Boris Brezillon 2024-02-29  2442   * Return: A valid pointer on success, an ERR_PTR() otherwise.
-647810ec247641e Boris Brezillon 2024-02-29  2443   */
-647810ec247641e Boris Brezillon 2024-02-29  2444  struct drm_sched_job *
-647810ec247641e Boris Brezillon 2024-02-29  2445  panthor_vm_bind_job_create(struct drm_file *file,
-647810ec247641e Boris Brezillon 2024-02-29  2446  			   struct panthor_vm *vm,
-647810ec247641e Boris Brezillon 2024-02-29  2447  			   const struct drm_panthor_vm_bind_op *op)
-647810ec247641e Boris Brezillon 2024-02-29  2448  {
-647810ec247641e Boris Brezillon 2024-02-29  2449  	struct panthor_vm_bind_job *job;
-647810ec247641e Boris Brezillon 2024-02-29  2450  	int ret;
-647810ec247641e Boris Brezillon 2024-02-29  2451  
-647810ec247641e Boris Brezillon 2024-02-29  2452  	if (!vm)
-647810ec247641e Boris Brezillon 2024-02-29  2453  		return ERR_PTR(-EINVAL);
-647810ec247641e Boris Brezillon 2024-02-29  2454  
-647810ec247641e Boris Brezillon 2024-02-29  2455  	if (vm->destroyed || vm->unusable)
-647810ec247641e Boris Brezillon 2024-02-29  2456  		return ERR_PTR(-EINVAL);
-647810ec247641e Boris Brezillon 2024-02-29  2457  
-647810ec247641e Boris Brezillon 2024-02-29  2458  	job = kzalloc(sizeof(*job), GFP_KERNEL);
-647810ec247641e Boris Brezillon 2024-02-29  2459  	if (!job)
-647810ec247641e Boris Brezillon 2024-02-29  2460  		return ERR_PTR(-ENOMEM);
-647810ec247641e Boris Brezillon 2024-02-29  2461  
-647810ec247641e Boris Brezillon 2024-02-29  2462  	ret = panthor_vm_bind_prepare_op_ctx(file, vm, op, &job->ctx);
-647810ec247641e Boris Brezillon 2024-02-29  2463  	if (ret) {
-647810ec247641e Boris Brezillon 2024-02-29  2464  		kfree(job);
-647810ec247641e Boris Brezillon 2024-02-29  2465  		return ERR_PTR(ret);
-647810ec247641e Boris Brezillon 2024-02-29  2466  	}
-647810ec247641e Boris Brezillon 2024-02-29  2467  
-647810ec247641e Boris Brezillon 2024-02-29  2468  	INIT_WORK(&job->cleanup_op_ctx_work, panthor_vm_bind_job_cleanup_op_ctx_work);
-647810ec247641e Boris Brezillon 2024-02-29  2469  	kref_init(&job->refcount);
-647810ec247641e Boris Brezillon 2024-02-29  2470  	job->vm = panthor_vm_get(vm);
-647810ec247641e Boris Brezillon 2024-02-29  2471  
-647810ec247641e Boris Brezillon 2024-02-29 @2472  	ret = drm_sched_job_init(&job->base, &vm->entity, 1, vm);
-647810ec247641e Boris Brezillon 2024-02-29  2473  	if (ret)
-647810ec247641e Boris Brezillon 2024-02-29  2474  		goto err_put_job;
-647810ec247641e Boris Brezillon 2024-02-29  2475  
-647810ec247641e Boris Brezillon 2024-02-29  2476  	return &job->base;
-647810ec247641e Boris Brezillon 2024-02-29  2477  
-647810ec247641e Boris Brezillon 2024-02-29  2478  err_put_job:
-647810ec247641e Boris Brezillon 2024-02-29  2479  	panthor_vm_bind_job_put(&job->base);
-647810ec247641e Boris Brezillon 2024-02-29  2480  	return ERR_PTR(ret);
-647810ec247641e Boris Brezillon 2024-02-29  2481  }
-647810ec247641e Boris Brezillon 2024-02-29  2482  
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+iHUEARYKAB0WIQROYHF2XBhb9L9PDSLPQSxESPhZ/gUCZzlmuwAKCRDPQSxESPhZ
+/rmgAP0Qx+k3iEMsTQ1sWEWwKj+wpt1NxWULZMVel8jmCd8zrgEAyi3x6HPbgMPZ
+DRKur1hdIfgk9Sd11Jz+IF6Do3pYnQk=
+=2cTm
+-----END PGP SIGNATURE-----
+
+--------------1eHw8hWuh7ikVg0ocyw8U4An--
