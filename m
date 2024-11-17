@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5868C9D05F9
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2024 21:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 040619D0604
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2024 22:02:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE5E10E30C;
-	Sun, 17 Nov 2024 20:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD3410E31B;
+	Sun, 17 Nov 2024 21:02:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XZe5vUJI";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nuFuE4AM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76A9E10E1F5;
- Sun, 17 Nov 2024 20:54:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2524910E1E6;
+ Sun, 17 Nov 2024 21:02:03 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 701F57FE;
- Sun, 17 Nov 2024 21:54:19 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A71AC7CA;
+ Sun, 17 Nov 2024 22:01:45 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1731876859;
- bh=w9SUo0onmIEsCbHLk8aWeLWWcw+C7sEI352gJsh+oTo=;
+ s=mail; t=1731877305;
+ bh=gn60uRI7cPoOu0aZqxhm0cizQyiIvGbnUSQmXYtqG/g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XZe5vUJIolLfMAXIsVhz7GffiGmYnhewBuHdpxEvyTaXOd4N0DgZ4tZSXv4c2lG6W
- P1rY+Y4mit0F7L7b6m1SfRmXQEUS7GNzudoX7LQ8FZPzyXf8+sXDu7C268CgkZxL7P
- /8QQwAwE2VSY81CTqI8e/nIrkb9w4cBk5Zd/KEKQ=
-Date: Sun, 17 Nov 2024 22:54:26 +0200
+ b=nuFuE4AMBPsFBGqHFQd4ggjkJ+QzgBQXXkXgyRh2K8mqddIBNVuq2ZOYkN5jrTPyP
+ 0WX5eUs1aOXhoq+JyTrup3B+WxggSFrP1A9YGQlL7Qrf7yElE6n/eQNleyHUg4vja4
+ xktQSbx1VHUUMaFQHwFRkF+ZmnHJ73iJ+P2eE6pc=
+Date: Sun, 17 Nov 2024 23:01:53 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>,
@@ -87,15 +87,15 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
  linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 1/5] drm/encoder_slave: make mode_valid accept const
- struct drm_display_mode
-Message-ID: <20241117205426.GE12409@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/5] drm/amdgpu: don't change mode in
+ amdgpu_dm_connector_mode_valid()
+Message-ID: <20241117210153.GF12409@pendragon.ideasonboard.com>
 References: <20241115-drm-connector-mode-valid-const-v1-0-b1b523156f71@linaro.org>
- <20241115-drm-connector-mode-valid-const-v1-1-b1b523156f71@linaro.org>
+ <20241115-drm-connector-mode-valid-const-v1-2-b1b523156f71@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-1-b1b523156f71@linaro.org>
+In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-2-b1b523156f71@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,81 +115,55 @@ Hi Dmitry,
 
 Thank you for the patch.
 
-On Fri, Nov 15, 2024 at 11:09:26PM +0200, Dmitry Baryshkov wrote:
-> The mode_valid() callbacks of drm_encoder, drm_crtc and drm_bridge
-> accept const struct drm_display_mode argument. Change the mode_valid
-> callback of drm_encoder_slave to also accept const argument.
+On Fri, Nov 15, 2024 at 11:09:27PM +0200, Dmitry Baryshkov wrote:
+> Make amdgpu_dm_connector_mode_valid() duplicate the mode during the
+> test rather than modifying the passed mode. This is a preparation to
+> converting the mode_valid() callback of drm_connector to accept const
+> struct drm_display_mode argument.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 75d6b90104f8fe196df06383b20ee88196a700bf..d0ca905e91eafe6c53f3f2ebdf3f2ae9589d7f89 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -7381,6 +7381,7 @@ enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connec
+>  {
+>  	int result = MODE_ERROR;
+>  	struct dc_sink *dc_sink;
+> +	struct drm_display_mode *test_mode;
+>  	/* TODO: Unhardcode stream count */
+>  	struct dc_stream_state *stream;
+>  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+> @@ -7405,11 +7406,16 @@ enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connec
+>  		goto fail;
+>  	}
+>  
+> -	drm_mode_set_crtcinfo(mode, 0);
+> +	test_mode = drm_mode_duplicate(connector->dev, mode);
+> +	if (!test_mode)
+> +		goto fail;
+> +
+> +	drm_mode_set_crtcinfo(test_mode, 0);
+
+I wonder if things could be refactored further to avoid the need to
+duplicate the mode here, but that seems out of scope for this patch
+series.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-On a side note, there's only two I2C slave encoder drivers left... I
-wonder if we could so something about them. The ch7006 and sil164
-drivers seem to be used by nouveau only, could they be moved to
-drivers/gpu/drm/nouveau/ ? We would move the whole drm_encoder_slave
-implementation there too, and leave it to die (or get taken out of limbo
-and fixed) with dispnv04.
-
-> ---
->  drivers/gpu/drm/i2c/ch7006_drv.c          | 2 +-
->  drivers/gpu/drm/i2c/sil164_drv.c          | 2 +-
->  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c | 2 +-
->  include/drm/drm_encoder_slave.h           | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch7006_drv.c
-> index 131512a5f3bd996ad1e2eb869ffa09837daba0c7..a57f0a41c1a9e2006142fe0bad2914b0c344c82a 100644
-> --- a/drivers/gpu/drm/i2c/ch7006_drv.c
-> +++ b/drivers/gpu/drm/i2c/ch7006_drv.c
-> @@ -104,7 +104,7 @@ static bool ch7006_encoder_mode_fixup(struct drm_encoder *encoder,
->  }
 >  
->  static int ch7006_encoder_mode_valid(struct drm_encoder *encoder,
-> -				     struct drm_display_mode *mode)
-> +				     const struct drm_display_mode *mode)
->  {
->  	if (ch7006_lookup_mode(encoder, mode))
->  		return MODE_OK;
-> diff --git a/drivers/gpu/drm/i2c/sil164_drv.c b/drivers/gpu/drm/i2c/sil164_drv.c
-> index ff23422727fce290a188e495d343e32bc2c373ec..708e119072fcb50c31b5596b75dc341429b93697 100644
-> --- a/drivers/gpu/drm/i2c/sil164_drv.c
-> +++ b/drivers/gpu/drm/i2c/sil164_drv.c
-> @@ -255,7 +255,7 @@ sil164_encoder_restore(struct drm_encoder *encoder)
->  
->  static int
->  sil164_encoder_mode_valid(struct drm_encoder *encoder,
-> -			  struct drm_display_mode *mode)
-> +			  const struct drm_display_mode *mode)
->  {
->  	struct sil164_priv *priv = to_sil164_priv(encoder);
->  
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> index 3ecb101d23e949b753b873d24eec01ad6fe7f5d6..35ad4e10d27323c87704a3ff35b7dc26462c82bd 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> @@ -308,7 +308,7 @@ static int nv17_tv_get_modes(struct drm_encoder *encoder,
->  }
->  
->  static int nv17_tv_mode_valid(struct drm_encoder *encoder,
-> -			      struct drm_display_mode *mode)
-> +			      const struct drm_display_mode *mode)
->  {
->  	struct nv17_tv_norm_params *tv_norm = get_tv_norm(encoder);
->  
-> diff --git a/include/drm/drm_encoder_slave.h b/include/drm/drm_encoder_slave.h
-> index 49172166a164474f43e4afb2eeeb3cde8ae7c61a..b526643833dcf78bae29f9fbbe27de3f730b55d8 100644
-> --- a/include/drm/drm_encoder_slave.h
-> +++ b/include/drm/drm_encoder_slave.h
-> @@ -85,7 +85,7 @@ struct drm_encoder_slave_funcs {
->  	 * @mode_valid: Analogous to &drm_encoder_helper_funcs @mode_valid.
->  	 */
->  	int (*mode_valid)(struct drm_encoder *encoder,
-> -			  struct drm_display_mode *mode);
-> +			  const struct drm_display_mode *mode);
->  	/**
->  	 * @mode_set: Analogous to &drm_encoder_helper_funcs @mode_set
->  	 * callback. Wrapped by drm_i2c_encoder_mode_set().
+> -	stream = create_validate_stream_for_sink(aconnector, mode,
+> +	stream = create_validate_stream_for_sink(aconnector, test_mode,
+>  						 to_dm_connector_state(connector->state),
+>  						 NULL);
+> +	drm_mode_destroy(connector->dev, test_mode);
+>  	if (stream) {
+>  		dc_stream_release(stream);
+>  		result = MODE_OK;
 > 
 
 -- 
