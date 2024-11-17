@@ -2,72 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27E49D04BB
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2024 18:03:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BDDA9D0537
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2024 19:44:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50E5B10E062;
-	Sun, 17 Nov 2024 17:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23CCB10E1A1;
+	Sun, 17 Nov 2024 18:44:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="rkx6UVRE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Gbh0tE02";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
- [209.85.128.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 818EB10E062
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2024 17:03:31 +0000 (UTC)
-Received: by mail-yw1-f202.google.com with SMTP id
- 00721157ae682-6ea863ecfe9so62553757b3.3
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2024 09:03:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1731863010; x=1732467810;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Ip5/1nZqGxhHDaB5wRv08h0uSCzJ6//9B4YB74TxInY=;
- b=rkx6UVREY7pQC5Am/62nHY/Y4KJDLl5a6ULdwFM094p0oPCGeiyRU8f29WwXfiPRZc
- SyY/Q6BAJOepm1JZJb7faP6BoilkhFwwIaRBX7J7XX0eCD5nZEY7H23CgO4LJ5xX0PsE
- o4nqVGCKHdsX0oy4Thjdwy7R/f424E89wga4IyjLfCMggHS5Zr9jzAydxspsizyFXhe9
- LDPsHmU3VMhAqHuc+gZLmwzlKCQ4dtTMB9yxgjdjyYwZQo5i3euM5isQsdxZTjj0sBAH
- U0j/7/ApP/24bPQCmI6hNKs/NG/skxV/ULSxTqZS6WlZragwV7u0mB8R9mJtM0ibXGV1
- p4FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731863010; x=1732467810;
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ip5/1nZqGxhHDaB5wRv08h0uSCzJ6//9B4YB74TxInY=;
- b=q6w5BiEdxPQQSbKCgeKdDDj/lOUf/anl6WKKWb9legtBewDBvfn3tRhImKTqhezgjE
- j1jhPbImqCublloI+zh7XxqS93UcixTgVSVCAiRDdY5SMTtEJHve+QJyolkdLzBIYz6n
- jzw/L5gGZdy+wx5y6j+HAcjbGXH89qUUm7VrOwmdByL2xj5CKGUQCv3iAj6RemiSZnoR
- QwNc170OCRdK2owcMdZNJAOHTNWb6uqP01SudHeTSU/U4VTRKXNMtsAuF424Vcg38Fa7
- 0MI1tgMpX4X7FDfoml/bh/BtalKi2WSpWJNaGJDv/bwQHI7QgP/dqep8OYfezvnZBY/H
- aHKQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX+1/afTeMZNjW9xR5si82W4DJ3c6si849mQ7rM0sO3GDS7i05vmNrnS+ZhwPRbZfLCUEbHy5BJzZk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwJSEMwoSYH8gCExmqhvV1IQ9ctRyqThnvovGEHuzK8atjO/9fH
- ps/uuvH7BpbPtrcBArlEIEbVE/xaHQbkfPeMWj1HekpkweGrce5nQFJx4X606KHFHBWJ0y8p4c/
- 7FuV0Qfoe0Wk4Jg==
-X-Google-Smtp-Source: AGHT+IG0Mg9dEvwB5HqwR/qPZEBllHTbHdRpgDouyxkiR2h6fNWlGlmde25AJXfVR0dvbM7cSC6zwR6YjRdqgDw=
-X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:527])
- (user=tjmercier job=sendgmr) by 2002:a81:ad0a:0:b0:6e3:d670:f603 with SMTP id
- 00721157ae682-6ee55c2f44fmr1527227b3.3.1731863010097; Sun, 17 Nov 2024
- 09:03:30 -0800 (PST)
-Date: Sun, 17 Nov 2024 17:03:25 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241117170326.1971113-1-tjmercier@google.com>
-Subject: [PATCH] dma-buf: Fix __dma_buf_debugfs_list_del argument for
- !CONFIG_DEBUG_FS
-From: "T.J. Mercier" <tjmercier@google.com>
-To: tjmercier@google.com, Sumit Semwal <sumit.semwal@linaro.org>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- "=?UTF-8?q?Ma=C3=ADra=20Canal?=" <mcanal@igalia.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3327210E1A1;
+ Sun, 17 Nov 2024 18:44:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1731869041; x=1763405041;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ckKkBx62Djh6yT47FZqSCfKqYxEwIg1mfsy55ZPvKI0=;
+ b=Gbh0tE02+WFTft52iC1UnaiBcgWf0JsDOHujwct7L6xA0Tyl9+/eXdgU
+ O3uGrKSCXtXDRItu9tUenJEhHtoQvl9dkVo17UCcMCbhmFd00GPPpagJC
+ wOKYkd/JldRxFv37IY6duFEXcUyXTcTmXnyV6uZsGBDao/d4OWxWbLyDj
+ vU54B3Le6zo3eBh0a6p0+pNrqi5+AA6UwlIrcZCNBLYgXR5DybgAZOXTV
+ p4sS1LV35+tKwCD0FdzJ2ruNub04VoR9mz9sn+3qTSm9uGwetLqYb09Q8
+ uHZMdn+USwN/e9DnvUdd5ERa2YwYwNpc24Y12usrS5YSINCyC03GrPRMQ g==;
+X-CSE-ConnectionGUID: TfeycUazTCyQBGW4BzUgOA==
+X-CSE-MsgGUID: G5bg0IYVR6i8asxoi0iVvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="43219642"
+X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; d="scan'208";a="43219642"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2024 10:44:00 -0800
+X-CSE-ConnectionGUID: +vXfDj/qRzKUgvC+NX2xaw==
+X-CSE-MsgGUID: trHElf7QR6eMOVi4gudZwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; d="scan'208";a="93485902"
+Received: from aalteres-desk1.fm.intel.com ([10.1.39.140])
+ by fmviesa005.fm.intel.com with ESMTP; 17 Nov 2024 10:44:00 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ John Harrison <john.c.harrison@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Zhanjun Dong <zhanjun.dong@intel.com>
+Subject: [PATCH 0/1] Maintenence of devcoredump <-> GuC-Err-Capture plumbing
+Date: Sun, 17 Nov 2024 10:43:59 -0800
+Message-Id: <20241117184400.2206120-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,41 +69,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The arguments for __dma_buf_debugfs_list_del do not match for both the
-CONFIG_DEBUG_FS case and the !CONFIG_DEBUG_FS case. The !CONFIG_DEBUG_FS
-case should take a struct dma_buf *, but it's currently struct file *.
-This can lead to the build error:
+The GuC-Error-Capture is currently reaching into xe_devcoredump
+structure to store its own place-holder snaphot to workaround
+the race between G2H-Error-Capture-Notification vs Drm-Scheduler
+triggering GuC-Submission-exec-queue-timeout/kill.
 
-error: passing argument 1 of =E2=80=98__dma_buf_debugfs_list_del=E2=80=99 f=
-rom
-incompatible pointer type [-Werror=3Dincompatible-pointer-types]
+Part of that race workaround design included GuC-Error-Capture taking
+on some of the front-end functions for xe_hw_engine_snapshot
+generation because of the orthogonal debugfs for raw dumps of engine
+registers without any job association. We want this to also be handled,
+even if indirectly, by GuC-Error-Capture since there is a lot to manage
+when it comes to reading and printing the register lists.
 
-dma-buf.c:63:53: note: expected =E2=80=98struct file *=E2=80=99 but argumen=
-t is of
-type =E2=80=98struct dma_buf *=E2=80=99
-   63 | static void __dma_buf_debugfs_list_del(struct file *file)
+However, logically speaking, GuC-Error-Capture node management,
+despite being the majority of an engine-snapshot work, is still
+a subset of xe_hw_engine_snapshot.
 
-Fixes: bfc7bc539392 ("dma-buf: Do not build debugfs related code when !CONF=
-IG_DEBUG_FS")
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- drivers/dma-buf/dma-buf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series intends to re-design the plumbing for future
+maintenence and scalability, rearranging the layering
+back to what its should be (xe_devcoredump_snapshot owns
+xe_hw_engine_snapshot owns xe_guc_capture_snapshot)..
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8892bc701a66..afb8c1c50107 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -60,7 +60,7 @@ static void __dma_buf_debugfs_list_add(struct dma_buf *dm=
-abuf)
- {
- }
-=20
--static void __dma_buf_debugfs_list_del(struct file *file)
-+static void __dma_buf_debugfs_list_del(struct dma_buf *dmabuf)
- {
- }
- #endif
---=20
-2.47.0.338.g60cca15819-goog
+Alan Previn (1):
+  drm/xe/guc/capture: Maintenence of devcoredump <-> GuC-Err-Capture
+    plumbing
+
+ drivers/gpu/drm/xe/xe_devcoredump.c           |   3 -
+ drivers/gpu/drm/xe/xe_devcoredump_types.h     |   6 -
+ drivers/gpu/drm/xe/xe_guc_capture.c           | 397 ++++++++----------
+ drivers/gpu/drm/xe/xe_guc_capture.h           |  10 +-
+ .../drm/xe/xe_guc_capture_snapshot_types.h    |  68 +++
+ drivers/gpu/drm/xe/xe_guc_submit.c            |  21 +-
+ drivers/gpu/drm/xe/xe_hw_engine.c             | 117 ++++--
+ drivers/gpu/drm/xe/xe_hw_engine.h             |   4 +-
+ drivers/gpu/drm/xe/xe_hw_engine_types.h       |  13 +-
+ 9 files changed, 353 insertions(+), 286 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/xe_guc_capture_snapshot_types.h
+
+
+base-commit: 2d4993e163401c81e138c6e0e6223752c2e90402
+-- 
+2.34.1
 
