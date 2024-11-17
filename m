@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040619D0604
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2024 22:02:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144E79D061D
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2024 22:19:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD3410E31B;
-	Sun, 17 Nov 2024 21:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEA3E10E32B;
+	Sun, 17 Nov 2024 21:19:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nuFuE4AM";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="i1ESlBtd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2524910E1E6;
- Sun, 17 Nov 2024 21:02:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65B8510E31F;
+ Sun, 17 Nov 2024 21:19:43 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A71AC7CA;
- Sun, 17 Nov 2024 22:01:45 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C67007CA;
+ Sun, 17 Nov 2024 22:19:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1731877305;
- bh=gn60uRI7cPoOu0aZqxhm0cizQyiIvGbnUSQmXYtqG/g=;
+ s=mail; t=1731878366;
+ bh=LCxOYDveABxYci6xcGPLQzoY5X2ur4NiEvJHNv8MSqc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nuFuE4AMBPsFBGqHFQd4ggjkJ+QzgBQXXkXgyRh2K8mqddIBNVuq2ZOYkN5jrTPyP
- 0WX5eUs1aOXhoq+JyTrup3B+WxggSFrP1A9YGQlL7Qrf7yElE6n/eQNleyHUg4vja4
- xktQSbx1VHUUMaFQHwFRkF+ZmnHJ73iJ+P2eE6pc=
-Date: Sun, 17 Nov 2024 23:01:53 +0200
+ b=i1ESlBtdKSP8T3VJsiyviRYpYYbIEmbGaQmDPwC+LZ2O7kjbwJns8m16yNh8iQgt0
+ tJWzm+lcCtnLT6dw2MHxLrrP3j4E4ME5dwLNZw/bOqw3GIPpRMke3fcNRpRBPuYmsh
+ pEOpUxNtWT/SrQqwxbZe8h+iAv0MPMGJe6JswldA=
+Date: Sun, 17 Nov 2024 23:19:33 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>,
@@ -87,15 +87,15 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
  linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 2/5] drm/amdgpu: don't change mode in
- amdgpu_dm_connector_mode_valid()
-Message-ID: <20241117210153.GF12409@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 3/5] drm/sti: hda: pass const struct drm_display_mode* to
+ hda_get_mode_idx()
+Message-ID: <20241117211933.GG12409@pendragon.ideasonboard.com>
 References: <20241115-drm-connector-mode-valid-const-v1-0-b1b523156f71@linaro.org>
- <20241115-drm-connector-mode-valid-const-v1-2-b1b523156f71@linaro.org>
+ <20241115-drm-connector-mode-valid-const-v1-3-b1b523156f71@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-2-b1b523156f71@linaro.org>
+In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-3-b1b523156f71@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,55 +115,66 @@ Hi Dmitry,
 
 Thank you for the patch.
 
-On Fri, Nov 15, 2024 at 11:09:27PM +0200, Dmitry Baryshkov wrote:
-> Make amdgpu_dm_connector_mode_valid() duplicate the mode during the
-> test rather than modifying the passed mode. This is a preparation to
+On Fri, Nov 15, 2024 at 11:09:28PM +0200, Dmitry Baryshkov wrote:
+> Make hda_get_mode_idx() accept const struct drm_display_mode pointer
+> instead of just raw struct drm_display_mode.  This is a preparation to
 > converting the mode_valid() callback of drm_connector to accept const
 > struct drm_display_mode argument.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 75d6b90104f8fe196df06383b20ee88196a700bf..d0ca905e91eafe6c53f3f2ebdf3f2ae9589d7f89 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -7381,6 +7381,7 @@ enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connec
->  {
->  	int result = MODE_ERROR;
->  	struct dc_sink *dc_sink;
-> +	struct drm_display_mode *test_mode;
->  	/* TODO: Unhardcode stream count */
->  	struct dc_stream_state *stream;
->  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
-> @@ -7405,11 +7406,16 @@ enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connec
->  		goto fail;
->  	}
->  
-> -	drm_mode_set_crtcinfo(mode, 0);
-> +	test_mode = drm_mode_duplicate(connector->dev, mode);
-> +	if (!test_mode)
-> +		goto fail;
-> +
-> +	drm_mode_set_crtcinfo(test_mode, 0);
-
-I wonder if things could be refactored further to avoid the need to
-duplicate the mode here, but that seems out of scope for this patch
-series.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
+> ---
+>  drivers/gpu/drm/sti/sti_hda.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
+> index f18faad974aa2eda58c1e49537f8337db119d4b7..829dc4b034e8a79a908bda60485c2b94ef96890c 100644
+> --- a/drivers/gpu/drm/sti/sti_hda.c
+> +++ b/drivers/gpu/drm/sti/sti_hda.c
+> @@ -280,12 +280,12 @@ static void hda_write(struct sti_hda *hda, u32 val, int offset)
+>   *
+>   * Return true if mode is found
+>   */
+> -static bool hda_get_mode_idx(struct drm_display_mode mode, int *idx)
+> +static bool hda_get_mode_idx(const struct drm_display_mode *mode, int *idx)
+>  {
+>  	unsigned int i;
 >  
-> -	stream = create_validate_stream_for_sink(aconnector, mode,
-> +	stream = create_validate_stream_for_sink(aconnector, test_mode,
->  						 to_dm_connector_state(connector->state),
->  						 NULL);
-> +	drm_mode_destroy(connector->dev, test_mode);
->  	if (stream) {
->  		dc_stream_release(stream);
->  		result = MODE_OK;
+>  	for (i = 0; i < ARRAY_SIZE(hda_supported_modes); i++)
+> -		if (drm_mode_equal(&hda_supported_modes[i].mode, &mode)) {
+> +		if (drm_mode_equal(&hda_supported_modes[i].mode, mode)) {
+>  			*idx = i;
+>  			return true;
+>  		}
+> @@ -443,7 +443,7 @@ static void sti_hda_pre_enable(struct drm_bridge *bridge)
+>  	if (clk_prepare_enable(hda->clk_hddac))
+>  		DRM_ERROR("Failed to prepare/enable hda_hddac clk\n");
+>  
+> -	if (!hda_get_mode_idx(hda->mode, &mode_idx)) {
+> +	if (!hda_get_mode_idx(&hda->mode, &mode_idx)) {
+>  		DRM_ERROR("Undefined mode\n");
+>  		return;
+>  	}
+> @@ -526,7 +526,7 @@ static void sti_hda_set_mode(struct drm_bridge *bridge,
+>  
+>  	drm_mode_copy(&hda->mode, mode);
+>  
+> -	if (!hda_get_mode_idx(hda->mode, &mode_idx)) {
+> +	if (!hda_get_mode_idx(&hda->mode, &mode_idx)) {
+>  		DRM_ERROR("Undefined mode\n");
+>  		return;
+>  	}
+> @@ -614,7 +614,7 @@ sti_hda_connector_mode_valid(struct drm_connector *connector,
+>  		= to_sti_hda_connector(connector);
+>  	struct sti_hda *hda = hda_connector->hda;
+>  
+> -	if (!hda_get_mode_idx(*mode, &idx)) {
+> +	if (!hda_get_mode_idx(mode, &idx)) {
+>  		return MODE_BAD;
+>  	} else {
+>  		result = clk_round_rate(hda->clk_pix, target);
 > 
 
 -- 
