@@ -2,64 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129B59D0EFB
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 11:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA4E9D0F31
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 12:06:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3201710E36F;
-	Mon, 18 Nov 2024 10:53:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCFEA10E49A;
+	Mon, 18 Nov 2024 11:06:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KTYrjia7";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="Jsw5huzY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 095E010E36F
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 10:53:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EE57C5C501F
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 10:52:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B9D83C4CECC
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 10:53:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1731927206;
- bh=m53B9mDv5OL5TZhsm4VdlFPRneRji6sTJFEPnpAVhy8=;
- h=From:To:Subject:Date:From;
- b=KTYrjia70gm34hJMBUQr8+kM/P+/1NXhaI7TiGYMN3q+7LdHTbWqSCHTCE//ktLuK
- SevK3vKM5MwWAcG1EPKRVQWHDnPhlg0E6aD/H3Bo5fL9ZbND8o2dUKTSt/uFlFNmgx
- b8Dj46kaCT9Gxo7l89LgwgwJX7oYBpQZVdm6vehYtOgY/VQtNWnnu1hjiQTqwqLNBy
- +DZdznGccjeYzr8EstRzAd+xpZDyZBnpNvc88MgKhbBfucz699lIa3U5YsRO+79nZ2
- trt5jukX6tFcVK3QK6WpbPoy/UKvoJzw+u4s+BPumJzq7I8GP6RLhJRSjK7LnkbzPO
- U8afzsxa8f9OA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id AF8D0CAB784; Mon, 18 Nov 2024 10:53:26 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 219507] New: nouveau: GeForce GT 710: irq 166 handler
- nvkm_intr+0x0/0x1b3 [nouveau] enabled interrupts
-Date: Mon, 18 Nov 2024 10:53:26 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: newchief@king.net.pl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-219507-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A26C10E49E
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 11:06:44 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-3822ec43fb0so2065614f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 03:06:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1731928002; x=1732532802; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Q4K7ZFgLQYJQlGAzpq8RK54g3EqKOomWWOR+yhsr1qw=;
+ b=Jsw5huzYewtGSTPcti1/n26BMSUXPznvB1XjoCd+7XCIcrUEPUU9YyNf2iqFerYfvn
+ IDbdPzl/ZdTT82HPFyh1O9BbSXivzIsYEUAi9JVAY/UzxqH7ertyn13lQvWg1c6RzZcS
+ 6Nm0wtENp2SvcAStLZPR6Zd2hmbC2MTAX4RdN481DPdodfU14xWDUZyzgVpJHFmitkBH
+ xkJ1zpEN1hiBYZWsk5DQkW5PD0xJlP8gbcnc/+12LxMoE7zyMSKF9iQcChAzafWtV7PN
+ ylyLFl02PsSnBzEW+OxwW+Nqi2jqRwTi81c+YkZ3qB/BXV0gycAgUxnP+QC0dOj8DuWV
+ Gufg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731928002; x=1732532802;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q4K7ZFgLQYJQlGAzpq8RK54g3EqKOomWWOR+yhsr1qw=;
+ b=SaadehKBsE6tLh7FdgwAoFpllXravle0QXPs5O+hOYq1ejKPAGIBNiig/AmvPXXh6/
+ VF5t2q75qboDJ7d91UQ51zTsm14qQnWB97MAWc2GzfLzrZlh8Brfj4L7KWODiN4V5GPz
+ JMR+B/2WCUD9SHh0X0S61fTDqJrCaWnd+ZW4/GNkG14NcihVG9GMblGA1QANWPLAO5Cz
+ wre1Dy8e72Jts08fAKmtwPqe+Ami9l/zkpGcXUdI92VJdT+UXKu8/A6txHLwE2CP2dDM
+ ECExfFxa6M2jzYp9q4toQhg6spT0fdujNcjTm49iadgWu3NtiEnXMDAC/cGDQc7N47XX
+ na4w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCULb2yfnrshYOz3UHD8CiIlD0rnQWEQkzoA5sy3l4AxVlt440ac9gu0QYLnd63ikrzUHcJY8pPyZJA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyGQtUSKp8pjRjut0Udp3TvrOKhx604UURqKQbXNjI1lakNhdBF
+ gHacDgD8vGR1VpFsDjILxGHt9CLsvUUk3reZ8rBq52z8o9OUmHZO4Q2xxWMfMEs=
+X-Google-Smtp-Source: AGHT+IEHvVmgRYFNhCs4UC7E5RjVk5JwGYVdnUZOYcUXsiEIWSohYFEZO8cTVp2lMrq4C8xPl0BQ1Q==
+X-Received: by 2002:a05:6000:18af:b0:37d:4ef1:1820 with SMTP id
+ ffacd0b85a97d-38225a91e80mr10392779f8f.40.1731928002298; 
+ Mon, 18 Nov 2024 03:06:42 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.50])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38242eef982sm4319340f8f.8.2024.11.18.03.06.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Nov 2024 03:06:41 -0800 (PST)
+Date: Mon, 18 Nov 2024 12:06:34 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
+ Pablo Neira Ayuso <pablo@netfilter.org>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
+ Nicolas Palix <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>,
+ Russell King <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Ofir Bitton <obitton@habana.ai>, Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ James Smart <james.smart@broadcom.com>,
+ Dick Kennedy <dick.kennedy@broadcom.com>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
+ Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>,
+ Jeff Johnson <jjohnson@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+ Joe Lawrence <joe.lawrence@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Louis Peens <louis.peens@corigine.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Naveen N Rao <naveen@kernel.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ cocci@inria.fr, linux-arm-kernel@lists.infradead.org,
+ linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-scsi@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+ linux-mm@kvack.org, linux-bluetooth@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+ ceph-devel@vger.kernel.org, live-patching@vger.kernel.org,
+ linux-sound@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>
+Subject: Re: [PATCH v2 19/21] livepatch: Convert timeouts to secs_to_jiffies()
+Message-ID: <Zzsfuuv3AVomkMxn@pathway.suse.cz>
+References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
+ <20241115-converge-secs-to-jiffies-v2-19-911fb7595e79@linux.microsoft.com>
+ <718febc4-59ee-4701-ad62-8b7a8fa7a910@csgroup.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <718febc4-59ee-4701-ad62-8b7a8fa7a910@csgroup.eu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,131 +152,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219507
+On Sat 2024-11-16 11:10:52, Christophe Leroy wrote:
+> 
+> 
+> Le 15/11/2024 à 22:26, Easwar Hariharan a écrit :
+> > [Vous ne recevez pas souvent de courriers de eahariha@linux.microsoft.com. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
+> > 
+> > Changes made with the following Coccinelle rules:
+> > 
+> > @@ constant C; @@
+> > 
+> > - msecs_to_jiffies(C * 1000)
+> > + secs_to_jiffies(C)
+> > 
+> > @@ constant C; @@
+> > 
+> > - msecs_to_jiffies(C * MSEC_PER_SEC)
+> > + secs_to_jiffies(C)
+> > 
+> > Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> > ---
+> >   samples/livepatch/livepatch-callbacks-busymod.c |  2 +-
+> >   samples/livepatch/livepatch-shadow-fix1.c       |  2 +-
+> >   samples/livepatch/livepatch-shadow-mod.c        | 10 +++++-----
+> >   3 files changed, 7 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/samples/livepatch/livepatch-callbacks-busymod.c b/samples/livepatch/livepatch-callbacks-busymod.c
+> > index 378e2d40271a9717d09eff51d3d3612c679736fc..d0fd801a7c21b7d7939c29d83f9d993badcc9aba 100644
+> > --- a/samples/livepatch/livepatch-callbacks-busymod.c
+> > +++ b/samples/livepatch/livepatch-callbacks-busymod.c
+> > @@ -45,7 +45,7 @@ static int livepatch_callbacks_mod_init(void)
+> >   {
+> >          pr_info("%s\n", __func__);
+> >          schedule_delayed_work(&work,
+> > -               msecs_to_jiffies(1000 * 0));
+> > +               secs_to_jiffies(0));
+> 
+> Using secs_to_jiffies() is pointless, 0 is universal, should become
+> schedule_delayed_work(&work, 0);
 
-            Bug ID: 219507
-           Summary: nouveau: GeForce GT 710: irq 166 handler
-                    nvkm_intr+0x0/0x1b3 [nouveau] enabled interrupts
-           Product: Drivers
-           Version: 2.5
-          Hardware: Intel
-                OS: Linux
-            Status: NEW
-          Severity: high
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: newchief@king.net.pl
-        Regression: No
+Yes, schedule_delayed_work(&work, 0) looks like the right solution.
 
-Maybe it's not immediately bad (no observable problems yet), but any warnin=
-gs
-in interrupts are always bad and make the system not trustworthy.
+Or even better, it seems that the delayed work might get replaced by
+a normal workqueue work.
 
-After inserting popular MSI graphics card (GeForce GT 710 based) newly
-purchased on Amazon, I'm seeing this in dmesg:
+Anyway, I am working on a patchset which would remove this sample
+module. There is no need to put much effort into the clean up
+of this particular module. Do whatever is easiest for you.
 
-[    9.451569] Loading firmware: regulatory.db
-[    9.452199] Loading firmware: regulatory.db.p7s
-[   10.616519] ------------[ cut here ]------------
-[   10.616522] irq 166 handler nvkm_intr+0x0/0x1b3 [nouveau] enabled interr=
-upts
-[   10.616581] WARNING: CPU: 7 PID: 0 at kernel/irq/handle.c:161
-__handle_irq_event_percpu+0xe6/0x13a
-[   10.616586] Modules linked in: cfg80211 8021q uvcvideo uvc videobuf2_vma=
-lloc
-videobuf2_memops videobuf2_v4l2 videobuf2_common videodev snd_usb_audio
-snd_usbmidi_lib snd_rawmidi pl2303 cp210x snd_seq_device xpad mc input_leds
-usbserial ff_memless joydev snd_hda_codec_realtek snd_hda_codec_generic
-ledtrig_audio nouveau snd_hda_intel snd_intel_dspcfg x86_pkg_temp_thermal
-led_class snd_hda_codec drm_exec gpu_sched snd_hda_core drm_ttm_helper
-kvm_intel ttm snd_hwdep snd_pcm i2c_algo_bit kvm irqbypass drm_display_help=
-er
-i2c_i801 snd_timer pcspkr drm_kms_helper snd i2c_smbus fan video button
-vboxnetadp(O) vboxnetflt(O) vboxdrv(O) coretemp drm i2c_core backlight fuse
-dm_mod nfnetlink efivarfs ip_tables x_tables usbhid xhci_pci xhci_hcd ahci
-libahci usbcore libata usb_common
-[   10.616615] CPU: 7 PID: 0 Comm: swapper/7 Tainted: G           O=20=20=
-=20=20=20=20
-6.6.58-gentoo-r1-x86_64 #1
-[   10.616617] Hardware name: HP HP Pavilion Desktop TP01-3xxx/89B5, BIOS F=
-.24
-01/04/2024
-[   10.616617] RIP: 0010:__handle_irq_event_percpu+0xe6/0x13a
-[   10.616619] Code: 00 9c 58 0f ba e0 09 73 24 80 3d 2f 37 ad 01 00 75 1a =
-48
-8b 13 89 ee 48 c7 c7 7d a4 24 ad c6 05 1a 37 ad 01 01 e8 a0 e5 f9 ff <0f> 0=
-b fa
-41 83 fd 02 75 2f 48 83 7b 20 00 75 1d f0 48 0f ba 6b 40
-[   10.616620] RSP: 0018:ffffbd05004b8f48 EFLAGS: 00010282
-[   10.616621] RAX: 0000000000000000 RBX: ffff97fa40c6db00 RCX:
-0000000000000027
-[   10.616622] RDX: 0000000000000000 RSI: ffffffffad25313f RDI:
-00000000ffffffff
-[   10.616623] RBP: 00000000000000a6 R08: 0000000000000000 R09:
-0000000000000000
-[   10.616624] R10: 0000000000000041 R11: 0000000000000000 R12:
-ffff97fa4799ca00
-[   10.616624] R13: 0000000000000001 R14: 0000000000000000 R15:
-0000000000000000
-[   10.616625] FS:  0000000000000000(0000) GS:ffff98019f7c0000(0000)
-knlGS:0000000000000000
-[   10.616626] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   10.616626] CR2: 00007f9bc80e1488 CR3: 00000002a5a42000 CR4:
-0000000000750ee0
-[   10.616627] PKRU: 55555554
-[   10.616628] Call Trace:
-[   10.616629]  <IRQ>
-[   10.616631]  ? __warn+0x99/0x11a
-[   10.616634]  ? report_bug+0xdb/0x155
-[   10.616636]  ? __handle_irq_event_percpu+0xe6/0x13a
-[   10.616638]  ? handle_bug+0x3c/0x63
-[   10.616639]  ? exc_invalid_op+0x13/0x60
-[   10.616640]  ? asm_exc_invalid_op+0x16/0x20
-[   10.616644]  ? __handle_irq_event_percpu+0xe6/0x13a
-[   10.616645]  ? __handle_irq_event_percpu+0xe6/0x13a
-[   10.616647]  handle_irq_event_percpu+0xf/0x32
-[   10.616648]  handle_irq_event+0x34/0x53
-[   10.616650]  handle_edge_irq+0xb0/0xcf
-[   10.616652]  __common_interrupt+0x40/0xac
-[   10.616655]  common_interrupt+0xa5/0xd0
-[   10.616656]  </IRQ>
-[   10.616657]  <TASK>
-[   10.616657]  asm_common_interrupt+0x22/0x40
-[   10.616659] RIP: 0010:finish_task_switch.isra.0+0x148/0x21a
-[   10.616662] Code: e6 13 00 41 80 a6 0c 04 00 00 fb 31 c9 4c 89 e7 89 4b =
-34
-e8 5c d3 ff ff 4c 89 e7 e8 bc 03 96 00 fb 65 48 8b 04 25 80 b6 02 00 <66> 9=
-0 4d
-85 ed 75 2b eb 7a 4c 8b a0 c0 02 00 00 4d 85 e4 74 ed 65
-[   10.616663] RSP: 0018:ffffbd05001bfe78 EFLAGS: 00000282
-[   10.616664] RAX: ffff97fa40848000 RBX: ffff97fa42a63e00 RCX:
-0000000000000000
-[   10.616665] RDX: 0000000000000002 RSI: ffffffffad25313f RDI:
-00000000ffffffff
-[   10.616665] RBP: ffffbd05001bfea8 R08: 0000000000000000 R09:
-000073746e657665
-[   10.616666] R10: 8080808080808080 R11: fefefefefefefeff R12:
-ffff98019f7ebec0
-[   10.616666] R13: 0000000000000000 R14: ffff97fa40848000 R15:
-ffff97fa40848580
-[   10.616668]  ? finish_task_switch.isra.0+0x13e/0x21a
-[   10.616670]  __schedule+0x5e8/0x622
-[   10.616672]  schedule_idle+0x27/0x34
-[   10.616673]  cpu_startup_entry+0x2a/0x2c
-[   10.616676]  start_secondary+0xf0/0xf0
-[   10.616677]  secondary_startup_64_no_verify+0x166/0x16b
-[   10.616679]  </TASK>
-[   10.616680] ---[ end trace 0000000000000000 ]---
-[   11.088891] tun: Universal TUN/TAP device driver, 1.6
-
-It's Gentoo Linux with Plasma and SDDM. I've tried two distribution (genker=
-nel)
-kernels: linux-6.6.52-gentoo and linux-6.6.58-gentoo-r1, both with the same
-warning in dmesg.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Best Regards,
+Petr
