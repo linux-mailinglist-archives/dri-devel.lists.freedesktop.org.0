@@ -2,88 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA279D10CB
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 13:43:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516D79D111A
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 14:00:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6A8F10E070;
-	Mon, 18 Nov 2024 12:42:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7936E10E325;
+	Mon, 18 Nov 2024 13:00:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=maxima.ru header.i=@maxima.ru header.b="mhiL004E";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oDOTJg/H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OJJponx9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JvIffgMJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2pt5Odh/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ksmg02.maxima.ru (ksmg02.maxima.ru [81.200.124.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B93810E070
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 12:42:56 +0000 (UTC)
-Received: from ksmg02.maxima.ru (localhost [127.0.0.1])
- by ksmg02.maxima.ru (Postfix) with ESMTP id F0D291E0008;
- Mon, 18 Nov 2024 15:42:52 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg02.maxima.ru F0D291E0008
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxima.ru; s=sl;
- t=1731933772; bh=j5rebjL+mlIZO9+tBTCrAr7sdKNYnS0zH0ITX1r28zg=;
- h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
- b=mhiL004EOfb/i23Uf6HPyZDhiOCRKbSfR6joCbYcyhowapXjRPx28SuF3zMUnDbzv
- slWm0rkEpB4ioYV4QWDHJO743PGz/MOvO6Dv31alMkuMrb6yz4Z8MtwDUfS0XjEbsI
- ymiKTZY5zXGKHTAaF2a13i/Y7iqW21nWllh5H6sfWCHif5iB8uVMl9pdxHg1LZ3jvk
- f6L/QO1ic3ml+VZzJpkAt6YkyYPR2gP3yqq+Ui1J+GmNHBteETeuWMdftOdGbkml/E
- INVFGEjMj9tb22js5+ETDZOecqeoCtJWqALqaVAzuznMzWYO1TvAt5PirZtAHtx8dv
- EDSBeGfsjH6pw==
-Received: from ksmg02.maxima.ru (mail.maxima.ru [81.200.124.62])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "*.maxima.ru",
- Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
- by ksmg02.maxima.ru (Postfix) with ESMTPS;
- Mon, 18 Nov 2024 15:42:52 +0300 (MSK)
-Received: from GS-NOTE-190.mt.ru (10.0.246.216) by mmail-p-exch02.mt.ru
- (81.200.124.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Mon, 18 Nov
- 2024 15:42:49 +0300
-From: Murad Masimov <m.masimov@maxima.ru>
-To: Kenneth Feng <kenneth.feng@amd.com>
-CC: Murad Masimov <m.masimov@maxima.ru>, Alex Deucher
- <alexander.deucher@amd.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Ma Jun
- <Jun.Ma2@amd.com>, Lijo Lazar <lijo.lazar@amd.com>, Yang Wang
- <kevinyang.wang@amd.com>, Asad Kamal <asad.kamal@amd.com>, Hawking Zhang
- <Hawking.Zhang@amd.com>, Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, 
- Tim Huang <Tim.Huang@amd.com>, Tao Zhou <tao.zhou1@amd.com>, Mario
- Limonciello <mario.limonciello@amd.com>, Jesse Zhang <jesse.zhang@amd.com>,
- Evan Quan <quanliangl@hotmail.com>, Kevin Wang <kevin1.wang@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-Subject: [PATCH] drm/amd/pm: prevent invalid fan speed value in smu13 driver
-Date: Mon, 18 Nov 2024 15:42:17 +0300
-Message-ID: <20241118124220.274-1-m.masimov@maxima.ru>
-X-Mailer: git-send-email 2.46.0.windows.1
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 240C910E325
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 13:00:33 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 882E21F365;
+ Mon, 18 Nov 2024 13:00:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1731934831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=POCAvtbjbAn8l2UZV3oni2RrCLdjYMrNXKbkCUwnVXI=;
+ b=oDOTJg/HS08v4qluhgz9sYxlARHb/mvm6zVBtcDo/y5kPtQCIuwzTuFGCYz32MA5mMtxft
+ wF/miIfxV25thn0cGf7JF5Htk6lsa89BkGGALGIBTYMUZ4+lOJdV2zWbEGiKg9X8owdUdf
+ xemp6pFjRge6a9LdSDcq+FHyoOMV/y8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1731934831;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=POCAvtbjbAn8l2UZV3oni2RrCLdjYMrNXKbkCUwnVXI=;
+ b=OJJponx9hocVmam/85kF4JbA67GKqES96kPbMvp9I4PzHdaQV9Yq2CxNT2ulF4uGPG9iD/
+ AHVZ0mUQ40mWbvCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1731934830; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=POCAvtbjbAn8l2UZV3oni2RrCLdjYMrNXKbkCUwnVXI=;
+ b=JvIffgMJbJkG3UMWgkZUQxNpadZhzLHAzFoRLmREd0jjsJ0rUcOihpNYOhzleb1D3f+MJ/
+ 1DsTpOpjWdoBlm7OfFzOMFCRqV9utrVKTRZm08Il+apqICec4JvTu4gNhrO1lixBieLb3W
+ Z1ZPb5Yiwn9EwZcEJquV9HeIEbTb6Vk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1731934830;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=POCAvtbjbAn8l2UZV3oni2RrCLdjYMrNXKbkCUwnVXI=;
+ b=2pt5Odh/Vb0VeKbfQ7HCYGCUBCraYnDWZrRXgCqbxz+8PlPbDhCCtm+UoW58trTVbiLSlt
+ YATBXR2j2uz1aXBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 250A01376E;
+ Mon, 18 Nov 2024 13:00:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id wy0WB246O2e7XAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 18 Nov 2024 13:00:30 +0000
+Message-ID: <11c45b3b-4ffd-4587-9585-c62442f632f5@suse.de>
+Date: Mon, 18 Nov 2024 14:00:29 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.0.246.216]
-X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch02.mt.ru
- (81.200.124.62)
-X-KSMG-Rule-ID: 7
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 189241 [Nov 18 2024]
-X-KSMG-AntiSpam-Version: 6.1.1.7
-X-KSMG-AntiSpam-Envelope-From: m.masimov@maxima.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dmarc=none header.from=maxima.ru;
- spf=none smtp.mailfrom=maxima.ru; dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 41 0.3.41
- 623e98d5198769c015c72f45fabbb9f77bdb702b, {rep_avail},
- {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2; maxima.ru:7.1.1;
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; ksmg02.maxima.ru:7.1.1;
- 81.200.124.62:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.62
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960,
- bases: 2024/11/18 10:31:00 #26875800
-X-KSMG-AntiVirus-Status: Clean, skipped
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] [v2] drm: rework FB_CORE dependency
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Jani Nikula <jani.nikula@intel.com>, Harry Wentland
+ <harry.wentland@amd.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241115162323.3555229-1-arnd@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20241115162323.3555229-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_TLS_ALL(0.00)[]; TAGGED_RCPT(0.00)[renesas];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[15];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[arndb.de,linux.intel.com,kernel.org,gmail.com,ffwll.ch,redhat.com,glider.be,intel.com,amd.com,lists.freedesktop.org,vger.kernel.org];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email, imap1.dmz-prg2.suse.org:helo,
+ suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,94 +150,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If user-provided fan speed is higher than max speed, ->set_fan_speed_rpm() won't
-return error code, which can lead not only to problems with the hardware, but
-also to a zero division in smu_v13_0_set_fan_speed_rpm, since (8 * speed), which
-is used as a divisor, can evaluate to zero because of an integer overflow.
+Hi
 
-Define ->get_fan_parameters() callbacks for smu_v13_0_0 and smu_v13_0_7 in order
-to have smu->fan_max_rpm variable initialized. Modify ->set_fan_speed_rpm()
-callback to fail if speed is higher than smu->fan_max_rpm.
 
-Fixes: c05d1c401572 ("drm/amd/swsmu: add aldebaran smu13 ip support (v3)")
-Signed-off-by: Murad Masimov <m.masimov@maxima.ru>
----
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c       |  2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c | 11 +++++++++++
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c | 11 +++++++++++
- 3 files changed, 23 insertions(+), 1 deletion(-)
+Am 15.11.24 um 17:23 schrieb Arnd Bergmann:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The 'select FB_CORE' statement moved from CONFIG_DRM to DRM_CLIENT_LIB,
+> but there are now configurations that have code calling into fb_core
+> as built-in even though the client_lib itself is a loadable module:
+>
+> x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_driver_fbdev_probe':
+> drm_fbdev_shmem.c:(.text+0x1fc): undefined reference to `fb_deferred_io_init'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_fb_destroy':
+> drm_fbdev_shmem.c:(.text+0x2e1): undefined reference to `fb_deferred_io_cleanup'
+> ...
+> x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend':
+> drm_fb_helper.c:(.text+0x2c6): undefined reference to `fb_set_suspend'
+> x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
+> drm_fb_helper.c:(.text+0x2e1): undefined reference to `fb_set_suspend'
+>
+> In addition to DRM_CLIENT_LIB, the 'select' needs to be at least in
+> two more parts, DRM_KMS_HELPER and DRM_GEM_SHMEM_HELPER, so add those
+> here.
+>
+> Fixes: dadd28d4142f ("drm/client: Add client-lib module")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v2: keep the select in DRM_CLIENT_LIB, keep alphabetic sorting
+> ---
+>   drivers/gpu/drm/Kconfig | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index a4a092ee70d9..410bd6d78408 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -98,6 +98,7 @@ config DRM_KUNIT_TEST
+>   config DRM_KMS_HELPER
+>   	tristate
+>   	depends on DRM
+> +	select FB_CORE if DRM_FBDEV_EMULATION
+>   	help
+>   	  CRTC helpers for KMS drivers.
+>   
+> @@ -371,6 +372,7 @@ config DRM_GEM_DMA_HELPER
+>   config DRM_GEM_SHMEM_HELPER
+>   	tristate
+>   	depends on DRM && MMU
+> +	select FB_CORE if DRM_FBDEV_EMULATION
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
-index e17466cc1952..6f3277639fe9 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
-@@ -1228,7 +1228,7 @@ int smu_v13_0_set_fan_speed_rpm(struct smu_context *smu,
- 	uint32_t tach_period;
- 	int ret;
+This select statement is also required for DRM_GEM_DMA_HELPER and 
+DRM_GEM_TTM_HELPER
 
--	if (!speed)
-+	if (!speed || speed > smu->fan_max_rpm)
- 		return -EINVAL;
+Best regards
+Thomas
 
- 	ret = smu_v13_0_auto_fan_control(smu, 0);
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
-index d53e162dcd8d..44844cddb3bf 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
-@@ -947,6 +947,16 @@ static int smu_v13_0_0_get_dpm_ultimate_freq(struct smu_context *smu,
- 	return 0;
- }
+>   	select FB_SYSMEM_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
+>   	help
+>   	  Choose this if you need the GEM shmem helper functions
 
-+static int smu_v13_0_0_get_fan_parameters(struct smu_context *smu)
-+{
-+	struct smu_table_context *table_context = &smu->smu_table;
-+	PPTable_t *smc_pptable = table_context->driver_pptable;
-+
-+	smu->fan_max_rpm = smc_pptable->SkuTable.FanMaximumRpm;
-+
-+	return 0;
-+}
-+
- static int smu_v13_0_0_read_sensor(struct smu_context *smu,
- 				   enum amd_pp_sensors sensor,
- 				   void *data,
-@@ -3045,6 +3055,7 @@ static const struct pptable_funcs smu_v13_0_0_ppt_funcs = {
- 	.get_dpm_ultimate_freq = smu_v13_0_0_get_dpm_ultimate_freq,
- 	.get_vbios_bootup_values = smu_v13_0_get_vbios_bootup_values,
- 	.read_sensor = smu_v13_0_0_read_sensor,
-+	.get_fan_parameters = smu_v13_0_0_get_fan_parameters,
- 	.feature_is_enabled = smu_cmn_feature_is_enabled,
- 	.print_clk_levels = smu_v13_0_0_print_clk_levels,
- 	.force_clk_levels = smu_v13_0_0_force_clk_levels,
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-index b891a5e0a396..b305bce1bccc 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-@@ -936,6 +936,16 @@ static int smu_v13_0_7_get_dpm_ultimate_freq(struct smu_context *smu,
- 	return 0;
- }
-
-+static int smu_v13_0_7_get_fan_parameters(struct smu_context *smu)
-+{
-+	struct smu_table_context *table_context = &smu->smu_table;
-+	PPTable_t *smc_pptable = table_context->driver_pptable;
-+
-+	smu->fan_max_rpm = smc_pptable->SkuTable.FanMaximumRpm;
-+
-+	return 0;
-+}
-+
- static int smu_v13_0_7_read_sensor(struct smu_context *smu,
- 				   enum amd_pp_sensors sensor,
- 				   void *data,
-@@ -2628,6 +2638,7 @@ static const struct pptable_funcs smu_v13_0_7_ppt_funcs = {
- 	.get_dpm_ultimate_freq = smu_v13_0_7_get_dpm_ultimate_freq,
- 	.get_vbios_bootup_values = smu_v13_0_get_vbios_bootup_values,
- 	.read_sensor = smu_v13_0_7_read_sensor,
-+	.get_fan_parameters = smu_v13_0_7_get_fan_parameters,
- 	.feature_is_enabled = smu_cmn_feature_is_enabled,
- 	.print_clk_levels = smu_v13_0_7_print_clk_levels,
- 	.force_clk_levels = smu_v13_0_7_force_clk_levels,
+-- 
 --
-2.39.2
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
