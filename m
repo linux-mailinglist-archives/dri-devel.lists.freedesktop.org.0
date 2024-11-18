@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 767E69D1131
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 14:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 479049D1132
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 14:03:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E93A10E4BD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C9DD10E4C2;
 	Mon, 18 Nov 2024 13:02:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="jX77FvyM";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="iail0I8y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
  [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 620AB10E4B9
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61A0C10E347
  for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 13:02:49 +0000 (UTC)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AICKePm029230;
- Mon, 18 Nov 2024 13:02:39 GMT
+ by mx07-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AICKePn029230;
+ Mon, 18 Nov 2024 13:02:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
  :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=V
- n1Fmy5jg9YT1plb2/PuY9/HTzQ7Xtj5GuosuHWLuOI=; b=jX77FvyMwXh8VGXct
- xRwMJClWShfec3y/DEmOpbE73DJCQjuDQRwp0a4mXhWAgbu/1xu/cYj3PPral8lS
- 6wetd8ga/vKArQ75jKS9LPNH3A3A8cA7TiOxdEztMy0cJL+kYy4o/zGuZXFvGrkv
- QDaL5zZoYhpDj/bYIEG4AHu74ll6ENEPw+pTU4lqEQGoLRXplStleIvBB7vWU/LJ
- d7HpCtwy05P7/smKAXJ1Ve5gssKj3Z3Xxl+QBKx8cEebsj/1GyS6jlER6s2bs75W
- NJW5s8M3KFRc2dnNAeq2+619lNeywEuSf/181ApImdW4eAiWb5T4hK17uPqg3VSW
- 1x0lQ==
+ :message-id:mime-version:references:subject:to; s=dk201812; bh=I
+ Dae1cmjeLoN2upCS8vs7G2Q73sRis2qMIDD6pGAYBw=; b=iail0I8yAj6QQWAhs
+ +rctJsrjEvJzxnD0RbmzLyhzPgEIKnFSFMoTESE+8f1v2OUGeJnj8H5YaygXBQ0a
+ ZbsujAEEcJeCEWb6KJsNEeCDRkjXak3RdJoAeWAULR2tKTJZVHrKuJQO3rKNMZXK
+ rXsnOpcVEsPqh9wPOQMw/7Qlp0zlewvtX2QaZKq5wz1jpYdLFmGNTzfXTrCy8GhC
+ UyhscYtewianeT0M2uZaM7JZ8q9r+AkyZYvZSrGrpLg2gXg8A3nXnrQGj3dLxEpz
+ eLdOt4hHM9PU0rnd1DsbRn0eOJhG3DKt80qxY5qzVa0f36QQEqzD16aNJJtUPIhL
+ oV3pw==
 Received: from hhmail05.hh.imgtec.org
  (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 42xmc1hmj2-3
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 42xmc1hmj2-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Mon, 18 Nov 2024 13:02:39 +0000 (GMT)
+ Mon, 18 Nov 2024 13:02:40 +0000 (GMT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  (172.25.16.114) by HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Mon, 18 Nov 2024 13:02:38 +0000
+ 15.1.2507.37; Mon, 18 Nov 2024 13:02:39 +0000
 From: Matt Coster <matt.coster@imgtec.com>
-Date: Mon, 18 Nov 2024 13:02:03 +0000
-Subject: [PATCH v2 11/21] drm/imagination: Rename event_mask -> status_mask
+Date: Mon, 18 Nov 2024 13:02:04 +0000
+Subject: [PATCH v2 12/21] drm/imagination: Make has_fixed_data_addr a value
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241118-sets-bxs-4-64-patch-v1-v2-11-3fd45d9fb0cf@imgtec.com>
+Message-ID: <20241118-sets-bxs-4-64-patch-v1-v2-12-3fd45d9fb0cf@imgtec.com>
 References: <20241118-sets-bxs-4-64-patch-v1-v2-0-3fd45d9fb0cf@imgtec.com>
 In-Reply-To: <20241118-sets-bxs-4-64-patch-v1-v2-0-3fd45d9fb0cf@imgtec.com>
 To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
@@ -60,24 +60,24 @@ CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  Randolph Sapp <rs@ti.com>, Darren Etheridge <detheridge@ti.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2990;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4835;
  i=matt.coster@imgtec.com; h=from:subject:message-id;
- bh=rWy61drYG1g8qJQXmbkjbOprY32kpIq9NVAI4UaSGco=;
- b=owGbwMvMwCFWuUfy8817WRsYT6slMaRbWz1dorCpjyecP8NjwUmBPQ8ut87yFE7vKyrqETq0l
- MfC44hcRykLgxgHg6yYIsuOFZYr1P6oaUnc+FUMM4eVCWQIAxenAEzkFy8jw/TFnzvFMr/fmFz0
- a9K7yXoPznNWiXz8e8xYJ/i9Rdt9e2mG32yJMfy5r9LDNhrVsx89tc54qdvCS0YpsSJLovs/qDH
- 38QMA
+ bh=nOt5ApVgZuETQYzKBPBYt6GJLr9diaqfv44XAVaDcyk=;
+ b=owGbwMvMwCFWuUfy8817WRsYT6slMaRbWz0VXPaKzVX0ibzc2uM7GZzqNtxaF3O29x2L5WvGw
+ kucfB1mHaUsDGIcDLJiiiw7VliuUPujpiVx41cxzBxWJpAhDFycAjCRCecY/qdG6BReuaOUZdW+
+ O+1q8oplM7hcIu5sPm2Zs3PrU4vjnqKMDAdFL1nWJM3x+nlLXpLttex8B8tFOxkuWhRYrDgce1J
+ kMzcA
 X-Developer-Key: i=matt.coster@imgtec.com; a=openpgp;
  fpr=05A40CFCE7269D61D97100A1747F0A9036F90DFA
 X-Originating-IP: [172.25.16.114]
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: eZR7j0PLhdbcxUbfD0S7SSaiENFpHz3-
-X-Authority-Analysis: v=2.4 cv=E4efprdl c=1 sm=1 tr=0 ts=673b3aef cx=c_pps
+X-Proofpoint-ORIG-GUID: AVrWksr7rEKzpG4eSoxnjOfP7NgwNsGs
+X-Authority-Analysis: v=2.4 cv=E4efprdl c=1 sm=1 tr=0 ts=673b3af0 cx=c_pps
  a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
  a=hzDjp0mCheYA:10 a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=VwQbUJbxAAAA:8
- a=r_1tXGB3AAAA:8 a=p4D1_cOVMSrVH2uAJTwA:9
+ a=r_1tXGB3AAAA:8 a=_sBYpape5WJv0mR81mQA:9
  a=QEXdDO2ut3YA:10 a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: eZR7j0PLhdbcxUbfD0S7SSaiENFpHz3-
+X-Proofpoint-GUID: AVrWksr7rEKzpG4eSoxnjOfP7NgwNsGs
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,69 +93,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that enable_reg isn't used, rename the previously shared event_mask to
-status_mask since it's only used with status_reg.
+This is currently a callback function which takes no parameters; there's
+no reason for this so let's make it a straightforward value in pvr_fw_defs.
 
 Signed-off-by: Matt Coster <matt.coster@imgtec.com>
 ---
 Changes in v2:
 - None
-- Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-11-4ed30e865892@imgtec.com
+- Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-12-4ed30e865892@imgtec.com
 ---
- drivers/gpu/drm/imagination/pvr_fw.h      | 6 +++---
- drivers/gpu/drm/imagination/pvr_fw_meta.c | 2 +-
- drivers/gpu/drm/imagination/pvr_fw_mips.c | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/imagination/pvr_fw.c      |  2 +-
+ drivers/gpu/drm/imagination/pvr_fw.h      | 23 ++++++++---------------
+ drivers/gpu/drm/imagination/pvr_fw_meta.c |  8 +-------
+ drivers/gpu/drm/imagination/pvr_fw_mips.c |  8 +-------
+ 4 files changed, 11 insertions(+), 30 deletions(-)
 
+diff --git a/drivers/gpu/drm/imagination/pvr_fw.c b/drivers/gpu/drm/imagination/pvr_fw.c
+index 9c8929d8602ead3390aa5c1b2505845b961b1406..808844eb10b5ccb29ed2b8e9bdfe3be829cc57d1 100644
+--- a/drivers/gpu/drm/imagination/pvr_fw.c
++++ b/drivers/gpu/drm/imagination/pvr_fw.c
+@@ -663,7 +663,7 @@ pvr_fw_process(struct pvr_device *pvr_dev)
+ 		return PTR_ERR(fw_code_ptr);
+ 	}
+ 
+-	if (pvr_dev->fw_dev.defs->has_fixed_data_addr()) {
++	if (pvr_dev->fw_dev.defs->has_fixed_data_addr) {
+ 		u32 base_addr = private_data->base_addr & pvr_dev->fw_dev.fw_heap_info.offset_mask;
+ 
+ 		fw_data_ptr =
 diff --git a/drivers/gpu/drm/imagination/pvr_fw.h b/drivers/gpu/drm/imagination/pvr_fw.h
-index 29bae4bc244a243a6a95bcf838d924060cc043e2..eead744835726712622d5aba9b3480fe264a089f 100644
+index eead744835726712622d5aba9b3480fe264a089f..180d310074e3585c641e540a9e2576b5ab2a5705 100644
 --- a/drivers/gpu/drm/imagination/pvr_fw.h
 +++ b/drivers/gpu/drm/imagination/pvr_fw.h
-@@ -199,8 +199,8 @@ struct pvr_fw_defs {
- 		 */
- 		u32 clear_reg;
+@@ -166,21 +166,6 @@ struct pvr_fw_defs {
+ 	 */
+ 	int (*wrapper_init)(struct pvr_device *pvr_dev);
  
--		/** @event_mask: Bitmask of events to listen for in the status_reg. */
--		u32 event_mask;
-+		/** @status_mask: Bitmask of events to listen for in the status_reg. */
-+		u32 status_mask;
- 
+-	/**
+-	 * @has_fixed_data_addr:
+-	 *
+-	 * Called to check if firmware fixed data must be loaded at the address given by the
+-	 * firmware layout table.
+-	 *
+-	 * This function is mandatory.
+-	 *
+-	 * Returns:
+-	 *  * %true if firmware fixed data must be loaded at the address given by the firmware
+-	 *    layout table.
+-	 *  * %false otherwise.
+-	 */
+-	bool (*has_fixed_data_addr)(void);
+-
+ 	/**
+ 	 * @irq: FW Interrupt information.
+ 	 *
+@@ -205,6 +190,14 @@ struct pvr_fw_defs {
  		/** @clear_mask: Value to write to the clear_reg in order to clear FW IRQs. */
  		u32 clear_mask;
-@@ -404,7 +404,7 @@ struct pvr_fw_device {
- 	pvr_cr_write32((pvr_dev), (pvr_dev)->fw_dev.defs->irq.name ## _reg, value)
+ 	} irq;
++
++	/**
++	 * @has_fixed_data_addr: Specify whether the firmware fixed data must be loaded at the
++	 *                       address given by the firmware layout table.
++	 *
++	 * This value is mandatory.
++	 */
++	bool has_fixed_data_addr;
+ };
  
- #define pvr_fw_irq_pending(pvr_dev) \
--	(pvr_fw_irq_read_reg(pvr_dev, status) & (pvr_dev)->fw_dev.defs->irq.event_mask)
-+	(pvr_fw_irq_read_reg(pvr_dev, status) & (pvr_dev)->fw_dev.defs->irq.status_mask)
- 
- #define pvr_fw_irq_clear(pvr_dev) \
- 	pvr_fw_irq_write_reg(pvr_dev, clear, (pvr_dev)->fw_dev.defs->irq.clear_mask)
+ /**
 diff --git a/drivers/gpu/drm/imagination/pvr_fw_meta.c b/drivers/gpu/drm/imagination/pvr_fw_meta.c
-index 76b24ad9aa221b6a384dc7b55ed2e78d2e761550..cf86701ca8f14920329ccb4c2811424b0c394b14 100644
+index cf86701ca8f14920329ccb4c2811424b0c394b14..4433b04e0adb3684b86a4e90f63d670a81ecd826 100644
 --- a/drivers/gpu/drm/imagination/pvr_fw_meta.c
 +++ b/drivers/gpu/drm/imagination/pvr_fw_meta.c
-@@ -548,7 +548,7 @@ const struct pvr_fw_defs pvr_fw_defs_meta = {
+@@ -531,12 +531,6 @@ pvr_meta_vm_unmap(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj)
+ 		     fw_obj->fw_mm_node.size);
+ }
+ 
+-static bool
+-pvr_meta_has_fixed_data_addr(void)
+-{
+-	return false;
+-}
+-
+ const struct pvr_fw_defs pvr_fw_defs_meta = {
+ 	.init = pvr_meta_init,
+ 	.fw_process = pvr_meta_fw_process,
+@@ -544,11 +538,11 @@ const struct pvr_fw_defs pvr_fw_defs_meta = {
+ 	.vm_unmap = pvr_meta_vm_unmap,
+ 	.get_fw_addr_with_offset = pvr_meta_get_fw_addr_with_offset,
+ 	.wrapper_init = pvr_meta_wrapper_init,
+-	.has_fixed_data_addr = pvr_meta_has_fixed_data_addr,
  	.irq = {
  		.status_reg = ROGUE_CR_META_SP_MSLVIRQSTATUS,
  		.clear_reg = ROGUE_CR_META_SP_MSLVIRQSTATUS,
--		.event_mask = ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_EN,
-+		.status_mask = ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_EN,
+ 		.status_mask = ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_EN,
  		.clear_mask = ROGUE_CR_META_SP_MSLVIRQSTATUS_TRIGVECT2_CLRMSK,
  	},
++	.has_fixed_data_addr = false,
  };
 diff --git a/drivers/gpu/drm/imagination/pvr_fw_mips.c b/drivers/gpu/drm/imagination/pvr_fw_mips.c
-index c810a67eeecf1016064e76baf534e31a44c859b5..f195c602bb112066e88210d0106cb5ffc0a9abc6 100644
+index f195c602bb112066e88210d0106cb5ffc0a9abc6..2c3172841886b70eb7a9992ec3851f18adcad8d5 100644
 --- a/drivers/gpu/drm/imagination/pvr_fw_mips.c
 +++ b/drivers/gpu/drm/imagination/pvr_fw_mips.c
-@@ -245,7 +245,7 @@ const struct pvr_fw_defs pvr_fw_defs_mips = {
+@@ -227,12 +227,6 @@ pvr_mips_get_fw_addr_with_offset(struct pvr_fw_object *fw_obj, u32 offset)
+ 	       ROGUE_FW_HEAP_MIPS_BASE;
+ }
+ 
+-static bool
+-pvr_mips_has_fixed_data_addr(void)
+-{
+-	return true;
+-}
+-
+ const struct pvr_fw_defs pvr_fw_defs_mips = {
+ 	.init = pvr_mips_init,
+ 	.fini = pvr_mips_fini,
+@@ -241,11 +235,11 @@ const struct pvr_fw_defs pvr_fw_defs_mips = {
+ 	.vm_unmap = pvr_vm_mips_unmap,
+ 	.get_fw_addr_with_offset = pvr_mips_get_fw_addr_with_offset,
+ 	.wrapper_init = pvr_mips_wrapper_init,
+-	.has_fixed_data_addr = pvr_mips_has_fixed_data_addr,
  	.irq = {
  		.status_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS,
  		.clear_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR,
--		.event_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_EVENT_EN,
-+		.status_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_EVENT_EN,
+ 		.status_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_EVENT_EN,
  		.clear_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR_EVENT_EN,
  	},
++	.has_fixed_data_addr = true,
  };
 
 -- 
