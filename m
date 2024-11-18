@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F73E9D1309
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 15:33:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2639B9D130D
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 15:34:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC6B810E004;
-	Mon, 18 Nov 2024 14:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9260410E4E4;
+	Mon, 18 Nov 2024 14:33:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A65D10E004
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 14:33:51 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.162.254])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XsVRZ32Ddz9248;
- Mon, 18 Nov 2024 22:31:06 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C45D10E004
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 14:33:52 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.105])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XsVRb555Qz92Jq;
+ Mon, 18 Nov 2024 22:31:07 +0800 (CST)
 Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id E7B8B180104;
- Mon, 18 Nov 2024 22:33:48 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 3A8EA140155;
+ Mon, 18 Nov 2024 22:33:50 +0800 (CST)
 Received: from localhost.huawei.com (10.169.71.169) by
  kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Mon, 18 Nov 2024 22:33:47 +0800
+ 15.2.1258.34; Mon, 18 Nov 2024 22:33:48 +0800
 From: Yongbang Shi <shiyongbang@huawei.com>
 To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -31,9 +31,9 @@ CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
  <lidongming5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
  <shenjian15@huawei.com>, <shaojijie@huawei.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 drm-dp 2/5] drm/hisilicon/hibmc: add dp link moduel in hibmc
-Date: Mon, 18 Nov 2024 22:28:02 +0800
-Message-ID: <20241118142805.3326443-3-shiyongbang@huawei.com>
+Subject: [PATCH v5 drm-dp 3/5] drm/hisilicon/hibmc: add dp hw moduel in hibmc
+Date: Mon, 18 Nov 2024 22:28:03 +0800
+Message-ID: <20241118142805.3326443-4-shiyongbang@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20241118142805.3326443-1-shiyongbang@huawei.com>
 References: <20241118142805.3326443-1-shiyongbang@huawei.com>
@@ -60,464 +60,389 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: baihan li <libaihan@huawei.com>
 
-Add link training process functions in this moduel.
+Build a dp level that hibmc driver can enable dp by
+calling their functions.
 
 Signed-off-by: Baihan Li <libaihan@huawei.com>
 Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 ---
-Changelog:
+ChangeLog:
 v3 -> v4:
-  - optimizing hibmc_dp_link_get_adjust_train() to delete for loop, suggested by Dmitry Baryshkov.
-  - changing ELNRNG to EIO error code, suggested by Dmitry Baryshkov.
-  - deleting meaningless macro, suggested by Dmitry Baryshkov.
-  - fixing build errors reported by kernel test robot <lkp@intel.com>
-    Closes: https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
+  - changed the type of train_set to array, suggested by Dmitry Baryshkov.
+  - using actual link rate instead of magic num, suggested by Dmitry Baryshkov.
+  - deleting hibmc_dp_hw_uninit(), suggested by Dmitry Baryshkov.
 v2 -> v3:
-  - using switchcase in dp_link_reduce_lane, suggested by Dmitry Baryshkov.
-  - deleting dp_link_pattern2dpcd function and using macros directly, suggested by Dmitry Baryshkov.
-  - deleting EFAULT error codes, suggested by Dmitry Baryshkov.
-v1 -> v2:
-  - using drm_dp_* functions implement dp link training process, suggested by Jani Nikula.
   - fix build errors reported by kernel test robot <lkp@intel.com>
-    Closes: https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410250931.UDQ9s66H-lkp@intel.com/
+v1 -> v2:
+  - changed some defines and functions to former patch, suggested by Dmitry Baryshkov.
+  - sorting the headers including in dp_hw.h and hibmc_drm_drv.c files, suggested by Dmitry Baryshkov.
+  - deleting struct dp_mode and dp_mode_cfg function, suggested by Dmitry Baryshkov.
+  - fix build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410040328.VeVxM9yB-lkp@intel.com/
   v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
 ---
- drivers/gpu/drm/hisilicon/hibmc/Makefile     |   2 +-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h |  24 ++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c | 339 +++++++++++++++++++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h  |   8 +
- 4 files changed, 372 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+ drivers/gpu/drm/hisilicon/hibmc/Makefile      |   2 +-
+ .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  19 ++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 217 ++++++++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  28 +++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  41 ++++
+ 5 files changed, 306 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
 
 diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-index 8770ec6dfffd..94d77da88bbf 100644
+index 94d77da88bbf..214228052ccf 100644
 --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
 +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
 @@ -1,5 +1,5 @@
  # SPDX-License-Identifier: GPL-2.0-only
  hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
--	       dp/dp_aux.o
-+	       dp/dp_aux.o dp/dp_link.o
+-	       dp/dp_aux.o dp/dp_link.o
++	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o
  
  obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-index ce3b6fa4ea9e..8553e531ba67 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-@@ -13,11 +13,34 @@
- #include <linux/io.h>
- #include <drm/display/drm_dp_helper.h>
- 
-+#define HIBMC_DP_LANE_NUM_MAX 2
-+
-+struct hibmc_link_status {
-+	bool clock_recovered;
-+	bool channel_equalized;
-+};
-+
-+struct hibmc_link_cap {
-+	int rx_dpcd_revision;
-+	u8 link_rate;
-+	u8 lanes;
-+	bool is_tps3;
-+	bool is_tps4;
-+};
-+
-+struct hibmc_dp_link {
-+	struct hibmc_link_status status;
-+	u8 train_set[HIBMC_DP_LANE_NUM_MAX];
-+	struct hibmc_link_cap cap;
-+};
-+
- struct hibmc_dp_dev {
- 	struct drm_dp_aux aux;
- 	struct drm_device *dev;
- 	void __iomem *base;
- 	struct mutex lock; /* protects concurrent RW in hibmc_dp_reg_write_field() */
-+	struct hibmc_dp_link link;
-+	u8 dpcd[DP_RECEIVER_CAP_SIZE];
- };
- 
- #define dp_field_modify(reg_value, mask, val) ({		\
-@@ -34,5 +57,6 @@ struct hibmc_dp_dev {
- 	mutex_unlock(&_dp->lock); })
- 
- void hibmc_dp_aux_init(struct hibmc_dp_dev *dp);
-+int hibmc_dp_link_training(struct hibmc_dp_dev *dp);
- 
- #endif
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
 new file mode 100644
-index 000000000000..b7ae9e54126c
+index 000000000000..74dd9956144e
 --- /dev/null
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
-@@ -0,0 +1,339 @@
++++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/* Copyright (c) 2024 Hisilicon Limited. */
++
++#ifndef DP_CONFIG_H
++#define DP_CONFIG_H
++
++#define HIBMC_DP_BPP			24
++#define HIBMC_DP_SYMBOL_PER_FCLK	4
++#define HIBMC_DP_MSA1			0x20
++#define HIBMC_DP_MSA2			0x845c00
++#define HIBMC_DP_OFFSET			0x1e0000
++#define HIBMC_DP_HDCP			0x2
++#define HIBMC_DP_INT_RST		0xffff
++#define HIBMC_DP_DPTX_RST		0x3ff
++#define HIBMC_DP_CLK_EN			0x7
++#define HIBMC_DP_SYNC_EN_MASK		0x3
++#define HIBMC_DP_LINK_RATE_CAL		27
++
++#endif
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+new file mode 100644
+index 000000000000..9d7337cd9309
+--- /dev/null
++++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+@@ -0,0 +1,217 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +// Copyright (c) 2024 Hisilicon Limited.
 +
++#include <linux/io.h>
 +#include <linux/delay.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_print.h>
++#include "dp_config.h"
 +#include "dp_comm.h"
 +#include "dp_reg.h"
++#include "dp_hw.h"
 +
-+#define HIBMC_EQ_MAX_RETRY 5
-+
-+static int hibmc_dp_link_training_configure(struct hibmc_dp_dev *dp)
++static void hibmc_dp_set_tu(struct hibmc_dp_dev *dp, struct drm_display_mode *mode)
 +{
-+	u8 buf[2];
-+	int ret;
++	u32 tu_symbol_frac_size;
++	u32 tu_symbol_size;
++	u32 rate_ks;
++	u8 lane_num;
++	u32 value;
++	u32 bpp;
 +
-+	/* DP 2 lane */
-+	hibmc_dp_reg_write_field(dp, HIBMC_DP_PHYIF_CTRL0, HIBMC_DP_CFG_LANE_DATA_EN,
-+				 dp->link.cap.lanes == 0x2 ? 0x3 : 0x1);
-+	hibmc_dp_reg_write_field(dp, HIBMC_DP_DPTX_GCTL0, HIBMC_DP_CFG_PHY_LANE_NUM,
-+				 dp->link.cap.lanes == 0x2 ? 0x1 : 0);
-+
-+	/* enhanced frame */
-+	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CTRL, HIBMC_DP_CFG_STREAM_FRAME_MODE, 0x1);
-+
-+	/* set rate and lane count */
-+	buf[0] = dp->link.cap.link_rate;
-+	buf[1] = DP_LANE_COUNT_ENHANCED_FRAME_EN | dp->link.cap.lanes;
-+	ret = drm_dp_dpcd_write(&dp->aux, DP_LINK_BW_SET, buf, sizeof(buf));
-+	if (ret != sizeof(buf)) {
-+		drm_dbg_dp(dp->dev, "dp aux write link rate and lanes failed, ret: %d\n", ret);
-+		return ret >= 0 ? -EIO : ret;
++	lane_num = dp->link.cap.lanes;
++	if (lane_num == 0) {
++		drm_err(dp->dev, "set tu failed, lane num cannot be 0!\n");
++		return;
 +	}
 +
-+	/* set 8b/10b and downspread */
-+	buf[0] = 0x10;
-+	buf[1] = 0x1;
-+	ret = drm_dp_dpcd_write(&dp->aux, DP_DOWNSPREAD_CTRL, buf, sizeof(buf));
-+	if (ret != sizeof(buf)) {
-+		drm_dbg_dp(dp->dev, "dp aux write 8b/10b and downspread failed, ret: %d\n", ret);
-+		return ret >= 0 ? -EIO : ret;
-+	}
++	bpp = HIBMC_DP_BPP;
++	rate_ks = dp->link.cap.link_rate * HIBMC_DP_LINK_RATE_CAL;
++	value = (mode->clock * bpp * 5) / (61 * lane_num * rate_ks);
 +
-+	ret = drm_dp_read_dpcd_caps(&dp->aux, dp->dpcd);
-+	if (ret)
-+		drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int hibmc_dp_link_set_pattern(struct hibmc_dp_dev *dp, int pattern)
-+{
-+	int ret;
-+	u8 val;
-+	u8 buf;
-+
-+	buf = (u8)pattern;
-+	if (pattern != DP_TRAINING_PATTERN_DISABLE && pattern != DP_TRAINING_PATTERN_4) {
-+		buf |= DP_LINK_SCRAMBLING_DISABLE;
-+		hibmc_dp_reg_write_field(dp, HIBMC_DP_PHYIF_CTRL0, HIBMC_DP_CFG_SCRAMBLE_EN, 0x1);
++	if (value % 10 == 9) { /* 9 carry */
++		tu_symbol_size = value / 10 + 1;
++		tu_symbol_frac_size = 0;
 +	} else {
-+		hibmc_dp_reg_write_field(dp, HIBMC_DP_PHYIF_CTRL0, HIBMC_DP_CFG_SCRAMBLE_EN, 0);
++		tu_symbol_size = value / 10;
++		tu_symbol_frac_size = value % 10 + 1;
 +	}
 +
-+	switch (pattern) {
-+	case DP_TRAINING_PATTERN_1:
-+		val = 1;
-+		break;
-+	case DP_TRAINING_PATTERN_2:
-+		val = 2;
-+		break;
-+	case DP_TRAINING_PATTERN_3:
-+		val = 3;
-+		break;
-+	case DP_TRAINING_PATTERN_4:
-+		val = 4;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
++	drm_info(dp->dev, "tu value: %u.%u value: %u\n",
++		 tu_symbol_size, tu_symbol_frac_size, value);
 +
-+	hibmc_dp_reg_write_field(dp, HIBMC_DP_PHYIF_CTRL0, HIBMC_DP_CFG_PAT_SEL, val);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_PACKET,
++				 HIBMC_DP_CFG_STREAM_TU_SYMBOL_SIZE, tu_symbol_size);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_PACKET,
++				 HIBMC_DP_CFG_STREAM_TU_SYMBOL_FRAC_SIZE, tu_symbol_frac_size);
++}
 +
-+	ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_PATTERN_SET, &buf, sizeof(buf));
-+	if (ret != sizeof(buf)) {
-+		drm_dbg_dp(dp->dev, "dp aux write training pattern set failed\n");
-+		return ret >= 0 ? -EIO : ret;
-+	}
++static void hibmc_dp_set_sst(struct hibmc_dp_dev *dp, struct drm_display_mode *mode)
++{
++	u32 hblank_size;
++	u32 htotal_size;
++	u32 htotal_int;
++	u32 hblank_int;
++	u32 fclk; /* flink_clock */
++
++	fclk = dp->link.cap.link_rate * HIBMC_DP_LINK_RATE_CAL;
++
++	htotal_int = mode->htotal * 9947 / 10000;
++	htotal_size = htotal_int * fclk / (HIBMC_DP_SYMBOL_PER_FCLK * (mode->clock / 1000));
++
++	hblank_int = mode->htotal - mode->hdisplay - mode->hdisplay * 53 / 10000;
++	hblank_size = hblank_int * fclk * 9947 /
++		      (mode->clock * 10 * HIBMC_DP_SYMBOL_PER_FCLK);
++
++	drm_info(dp->dev, "h_active %u v_active %u htotal_size %u hblank_size %u",
++		 mode->hdisplay, mode->vdisplay, htotal_size, hblank_size);
++	drm_info(dp->dev, "flink_clock %u pixel_clock %d", fclk, mode->clock / 1000);
++
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_HORIZONTAL_SIZE,
++				 HIBMC_DP_CFG_STREAM_HTOTAL_SIZE, htotal_size);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_HORIZONTAL_SIZE,
++				 HIBMC_DP_CFG_STREAM_HBLANK_SIZE, hblank_size);
++}
++
++static void hibmc_dp_link_cfg(struct hibmc_dp_dev *dp, struct drm_display_mode *mode)
++{
++	u32 timing_delay;
++	u32 vblank;
++	u32 hstart;
++	u32 vstart;
++
++	vblank = mode->vtotal - mode->vdisplay;
++	timing_delay = mode->htotal - mode->hsync_start;
++	hstart = mode->htotal - mode->hsync_start;
++	vstart = mode->vtotal - mode->vsync_start;
++
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_TIMING_GEN_CONFIG0,
++				 HIBMC_DP_CFG_TIMING_GEN0_HBLANK, mode->htotal - mode->hdisplay);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_TIMING_GEN_CONFIG0,
++				 HIBMC_DP_CFG_TIMING_GEN0_HACTIVE, mode->hdisplay);
++
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_TIMING_GEN_CONFIG2,
++				 HIBMC_DP_CFG_TIMING_GEN0_VBLANK, vblank);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_TIMING_GEN_CONFIG2,
++				 HIBMC_DP_CFG_TIMING_GEN0_VACTIVE, mode->vdisplay);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_TIMING_GEN_CONFIG3,
++				 HIBMC_DP_CFG_TIMING_GEN0_VFRONT_PORCH,
++				 mode->vsync_start - mode->vdisplay);
++
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CONFIG0,
++				 HIBMC_DP_CFG_STREAM_HACTIVE, mode->hdisplay);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CONFIG0,
++				 HIBMC_DP_CFG_STREAM_HBLANK, mode->htotal - mode->hdisplay);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CONFIG2,
++				 HIBMC_DP_CFG_STREAM_HSYNC_WIDTH,
++				 mode->hsync_end - mode->hsync_start);
++
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CONFIG1,
++				 HIBMC_DP_CFG_STREAM_VACTIVE, mode->vdisplay);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CONFIG1,
++				 HIBMC_DP_CFG_STREAM_VBLANK, vblank);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CONFIG3,
++				 HIBMC_DP_CFG_STREAM_VFRONT_PORCH,
++				 mode->vsync_start - mode->vdisplay);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CONFIG3,
++				 HIBMC_DP_CFG_STREAM_VSYNC_WIDTH,
++				 mode->vsync_end - mode->vsync_start);
++
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_MSA0,
++				 HIBMC_DP_CFG_STREAM_VSTART, vstart);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_MSA0,
++				 HIBMC_DP_CFG_STREAM_HSTART, hstart);
++
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CTRL, HIBMC_DP_CFG_STREAM_VSYNC_POLARITY,
++				 mode->flags & DRM_MODE_FLAG_PVSYNC ? 1 : 0);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CTRL, HIBMC_DP_CFG_STREAM_HSYNC_POLARITY,
++				 mode->flags & DRM_MODE_FLAG_PHSYNC ? 1 : 0);
++
++	/* MSA mic 0 and 1 */
++	writel(HIBMC_DP_MSA1, dp->base + HIBMC_DP_VIDEO_MSA1);
++	writel(HIBMC_DP_MSA2, dp->base + HIBMC_DP_VIDEO_MSA2);
++
++	hibmc_dp_set_tu(dp, mode);
++
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CTRL, HIBMC_DP_CFG_STREAM_RGB_ENABLE, 0x1);
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CTRL, HIBMC_DP_CFG_STREAM_VIDEO_MAPPING, 0);
++
++	/* divide 2: up even */
++	if (timing_delay % 2)
++		timing_delay++;
++
++	hibmc_dp_reg_write_field(dp, HIBMC_DP_TIMING_MODEL_CTRL,
++				 HIBMC_DP_CFG_PIXEL_NUM_TIMING_MODE_SEL1, timing_delay);
++
++	hibmc_dp_set_sst(dp, mode);
++}
++
++int hibmc_dp_hw_init(struct hibmc_dp *dp)
++{
++	struct drm_device *drm_dev = dp->drm_dev;
++	struct hibmc_dp_dev *dp_dev;
++
++	dp_dev = devm_kzalloc(drm_dev->dev, sizeof(struct hibmc_dp_dev), GFP_KERNEL);
++	if (!dp_dev)
++		return -ENOMEM;
++
++	mutex_init(&dp_dev->lock);
++
++	dp->dp_dev = dp_dev;
++
++	dp_dev->dev = drm_dev;
++	dp_dev->base = dp->mmio + HIBMC_DP_OFFSET;
++
++	hibmc_dp_aux_init(dp_dev);
++
++	dp_dev->link.cap.lanes = 0x2;
++	dp_dev->link.cap.link_rate = DP_LINK_BW_2_7;
++
++	/* hdcp data */
++	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
++	/* int init */
++	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
++	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
++	/* rst */
++	writel(HIBMC_DP_DPTX_RST, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
++	/* clock enable */
++	writel(HIBMC_DP_CLK_EN, dp_dev->base + HIBMC_DP_DPTX_CLK_CTRL);
 +
 +	return 0;
 +}
 +
-+static int hibmc_dp_link_training_cr_pre(struct hibmc_dp_dev *dp)
++void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable)
 +{
-+	u8 *train_set = dp->link.train_set;
++	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
++
++	if (enable) {
++		hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_VIDEO_CTRL, BIT(0), 0x1);
++		writel(HIBMC_DP_SYNC_EN_MASK, dp_dev->base + HIBMC_DP_TIMING_SYNC_CTRL);
++		hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_DPTX_GCTL0, BIT(10), 0x1);
++		writel(HIBMC_DP_SYNC_EN_MASK, dp_dev->base + HIBMC_DP_TIMING_SYNC_CTRL);
++	} else {
++		hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_DPTX_GCTL0, BIT(10), 0);
++		writel(HIBMC_DP_SYNC_EN_MASK, dp_dev->base + HIBMC_DP_TIMING_SYNC_CTRL);
++		hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_VIDEO_CTRL, BIT(0), 0);
++		writel(HIBMC_DP_SYNC_EN_MASK, dp_dev->base + HIBMC_DP_TIMING_SYNC_CTRL);
++	}
++
++	msleep(50);
++}
++
++int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode)
++{
++	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
 +	int ret;
-+	u8 i;
 +
-+	ret = hibmc_dp_link_training_configure(dp);
-+	if (ret)
-+		return ret;
-+
-+	ret = hibmc_dp_link_set_pattern(dp, DP_TRAINING_PATTERN_1);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < dp->link.cap.lanes; i++)
-+		train_set[i] = DP_TRAIN_VOLTAGE_SWING_LEVEL_2;
-+
-+	ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, train_set, dp->link.cap.lanes);
-+	if (ret != dp->link.cap.lanes) {
-+		drm_dbg_dp(dp->dev, "dp aux write training lane set failed\n");
-+		return ret >= 0 ? -EIO : ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static bool hibmc_dp_link_get_adjust_train(struct hibmc_dp_dev *dp,
-+					   u8 lane_status[DP_LINK_STATUS_SIZE])
-+{
-+	u8 train_set[HIBMC_DP_LANE_NUM_MAX] = {0};
-+	u8 lane;
-+
-+	for (lane = 0; lane < dp->link.cap.lanes; lane++)
-+		train_set[lane] = drm_dp_get_adjust_request_voltage(lane_status, lane) |
-+				  drm_dp_get_adjust_request_pre_emphasis(lane_status, lane);
-+
-+	if (memcmp(dp->link.train_set, train_set, HIBMC_DP_LANE_NUM_MAX)) {
-+		memcpy(dp->link.train_set, train_set, HIBMC_DP_LANE_NUM_MAX);
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+static inline int hibmc_dp_link_reduce_rate(struct hibmc_dp_dev *dp)
-+{
-+	switch (dp->link.cap.link_rate) {
-+	case DP_LINK_BW_2_7:
-+		dp->link.cap.link_rate = DP_LINK_BW_1_62;
-+		return 0;
-+	case DP_LINK_BW_5_4:
-+		dp->link.cap.link_rate = DP_LINK_BW_2_7;
-+		return 0;
-+	case DP_LINK_BW_8_1:
-+		dp->link.cap.link_rate = DP_LINK_BW_5_4;
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static inline int hibmc_dp_link_reduce_lane(struct hibmc_dp_dev *dp)
-+{
-+	switch (dp->link.cap.lanes) {
-+	case 0x2:
-+		dp->link.cap.lanes--;
-+		break;
-+	case 0x1:
-+		drm_err(dp->dev, "dp link training reduce lane failed, already reach minimum\n");
-+		return -EIO;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hibmc_dp_link_training_cr(struct hibmc_dp_dev *dp)
-+{
-+	u8 lane_status[DP_LINK_STATUS_SIZE] = {0};
-+	bool level_changed;
-+	u32 voltage_tries;
-+	u32 cr_tries;
-+	u32 max_cr;
-+	int ret;
-+
-+	/*
-+	 * DP 1.4 spec define 10 for maxtries value, for pre DP 1.4 version set a limit of 80
-+	 * (4 voltage levels x 4 preemphasis levels x 5 identical voltage retries)
-+	 */
-+	max_cr = dp->link.cap.rx_dpcd_revision >= DP_DPCD_REV_14 ? 10 : 80;
-+
-+	voltage_tries = 1;
-+	for (cr_tries = 0; cr_tries < max_cr; cr_tries++) {
-+		drm_dp_link_train_clock_recovery_delay(&dp->aux, dp->dpcd);
-+
-+		ret = drm_dp_dpcd_read_link_status(&dp->aux, lane_status);
-+		if (ret != DP_LINK_STATUS_SIZE) {
-+			drm_err(dp->dev, "Get lane status failed\n");
++	if (!dp_dev->link.status.channel_equalized) {
++		ret = hibmc_dp_link_training(dp_dev);
++		if (ret) {
++			drm_err(dp->drm_dev, "dp link training failed, ret: %d\n", ret);
 +			return ret;
 +		}
-+
-+		if (drm_dp_clock_recovery_ok(lane_status, dp->link.cap.lanes)) {
-+			drm_info(dp->dev, "dp link training cr done\n");
-+			dp->link.status.clock_recovered = true;
-+			return 0;
-+		}
-+
-+		if (voltage_tries == 5) {
-+			drm_info(dp->dev, "same voltage tries 5 times\n");
-+			dp->link.status.clock_recovered = false;
-+			return 0;
-+		}
-+
-+		level_changed = hibmc_dp_link_get_adjust_train(dp, lane_status);
-+		ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, dp->link.train_set,
-+					dp->link.cap.lanes);
-+		if (ret != dp->link.cap.lanes) {
-+			drm_dbg_dp(dp->dev, "Update link training failed\n");
-+			return ret >= 0 ? -EIO : ret;
-+		}
-+
-+		voltage_tries = level_changed ? 1 : voltage_tries + 1;
 +	}
 +
-+	drm_err(dp->dev, "dp link training clock recovery %u timers failed\n", max_cr);
-+	dp->link.status.clock_recovered = false;
++	hibmc_dp_display_en(dp, false);
++	hibmc_dp_link_cfg(dp_dev, mode);
 +
 +	return 0;
 +}
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+new file mode 100644
+index 000000000000..4dc13b3d9875
+--- /dev/null
++++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/* Copyright (c) 2024 Hisilicon Limited. */
 +
-+static int hibmc_dp_link_training_channel_eq(struct hibmc_dp_dev *dp)
-+{
-+	u8 lane_status[DP_LINK_STATUS_SIZE] = {0};
-+	u8 eq_tries;
-+	int tps;
-+	int ret;
++#ifndef DP_KAPI_H
++#define DP_KAPI_H
 +
-+	if (dp->link.cap.is_tps4)
-+		tps = DP_TRAINING_PATTERN_4;
-+	else if (dp->link.cap.is_tps3)
-+		tps = DP_TRAINING_PATTERN_3;
-+	else
-+		tps = DP_TRAINING_PATTERN_2;
++#include <linux/types.h>
++#include <linux/delay.h>
++#include <drm/drm_device.h>
++#include <drm/drm_encoder.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_print.h>
 +
-+	ret = hibmc_dp_link_set_pattern(dp, tps);
-+	if (ret)
-+		return ret;
++struct hibmc_dp_dev;
 +
-+	for (eq_tries = 0; eq_tries < HIBMC_EQ_MAX_RETRY; eq_tries++) {
-+		drm_dp_link_train_channel_eq_delay(&dp->aux, dp->dpcd);
++struct hibmc_dp {
++	struct hibmc_dp_dev *dp_dev;
++	struct drm_device *drm_dev;
++	struct drm_encoder encoder;
++	struct drm_connector connector;
++	void __iomem *mmio;
++};
 +
-+		ret = drm_dp_dpcd_read_link_status(&dp->aux, lane_status);
-+		if (ret != DP_LINK_STATUS_SIZE) {
-+			drm_err(dp->dev, "get lane status failed\n");
-+			break;
-+		}
++int hibmc_dp_hw_init(struct hibmc_dp *dp);
++int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode);
++void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable);
 +
-+		if (!drm_dp_clock_recovery_ok(lane_status, dp->link.cap.lanes)) {
-+			drm_info(dp->dev, "clock recovery check failed\n");
-+			drm_info(dp->dev, "cannot continue channel equalization\n");
-+			dp->link.status.clock_recovered = false;
-+			break;
-+		}
-+
-+		if (drm_dp_channel_eq_ok(lane_status, dp->link.cap.lanes)) {
-+			dp->link.status.channel_equalized = true;
-+			drm_info(dp->dev, "dp link training eq done\n");
-+			break;
-+		}
-+
-+		hibmc_dp_link_get_adjust_train(dp, lane_status);
-+		ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
-+					dp->link.train_set, dp->link.cap.lanes);
-+		if (ret != dp->link.cap.lanes) {
-+			drm_dbg_dp(dp->dev, "Update link training failed\n");
-+			ret = (ret >= 0) ? -EIO : ret;
-+			break;
-+		}
-+	}
-+
-+	if (eq_tries == HIBMC_EQ_MAX_RETRY)
-+		drm_err(dp->dev, "channel equalization failed %u times\n", eq_tries);
-+
-+	hibmc_dp_link_set_pattern(dp, DP_TRAINING_PATTERN_DISABLE);
-+
-+	return ret < 0 ? ret : 0;
-+}
-+
-+static int hibmc_dp_link_downgrade_training_cr(struct hibmc_dp_dev *dp)
-+{
-+	if (hibmc_dp_link_reduce_rate(dp))
-+		return hibmc_dp_link_reduce_lane(dp);
-+
-+	return 0;
-+}
-+
-+static int hibmc_dp_link_downgrade_training_eq(struct hibmc_dp_dev *dp)
-+{
-+	if ((dp->link.status.clock_recovered && !dp->link.status.channel_equalized)) {
-+		if (!hibmc_dp_link_reduce_lane(dp))
-+			return 0;
-+	}
-+
-+	return hibmc_dp_link_reduce_rate(dp);
-+}
-+
-+int hibmc_dp_link_training(struct hibmc_dp_dev *dp)
-+{
-+	struct hibmc_dp_link *link = &dp->link;
-+	int ret;
-+
-+	while (true) {
-+		ret = hibmc_dp_link_training_cr_pre(dp);
-+		if (ret)
-+			goto err;
-+
-+		ret = hibmc_dp_link_training_cr(dp);
-+		if (ret)
-+			goto err;
-+
-+		if (!link->status.clock_recovered) {
-+			ret = hibmc_dp_link_downgrade_training_cr(dp);
-+			if (ret)
-+				goto err;
-+			continue;
-+		}
-+
-+		ret = hibmc_dp_link_training_channel_eq(dp);
-+		if (ret)
-+			goto err;
-+
-+		if (!link->status.channel_equalized) {
-+			ret = hibmc_dp_link_downgrade_training_eq(dp);
-+			if (ret)
-+				goto err;
-+			continue;
-+		}
-+
-+		return 0;
-+	}
-+
-+err:
-+	hibmc_dp_link_set_pattern(dp, DP_TRAINING_PATTERN_DISABLE);
-+
-+	return ret;
-+}
++#endif
 diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-index f3e6781e111a..0bd308eccdc5 100644
+index 0bd308eccdc5..4a515c726d52 100644
 --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
 +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-@@ -12,16 +12,24 @@
- #define HIBMC_DP_AUX_RD_DATA0			0x64
- #define HIBMC_DP_AUX_REQ			0x74
+@@ -14,8 +14,26 @@
  #define HIBMC_DP_AUX_STATUS			0x78
-+#define HIBMC_DP_PHYIF_CTRL0			0xa0
-+#define HIBMC_DP_VIDEO_CTRL			0x100
+ #define HIBMC_DP_PHYIF_CTRL0			0xa0
+ #define HIBMC_DP_VIDEO_CTRL			0x100
++#define HIBMC_DP_VIDEO_CONFIG0			0x104
++#define HIBMC_DP_VIDEO_CONFIG1			0x108
++#define HIBMC_DP_VIDEO_CONFIG2			0x10c
++#define HIBMC_DP_VIDEO_CONFIG3			0x110
++#define HIBMC_DP_VIDEO_PACKET			0x114
++#define HIBMC_DP_VIDEO_MSA0			0x118
++#define HIBMC_DP_VIDEO_MSA1			0x11c
++#define HIBMC_DP_VIDEO_MSA2			0x120
++#define HIBMC_DP_VIDEO_HORIZONTAL_SIZE		0X124
++#define HIBMC_DP_TIMING_GEN_CONFIG0		0x26c
++#define HIBMC_DP_TIMING_GEN_CONFIG2		0x274
++#define HIBMC_DP_TIMING_GEN_CONFIG3		0x278
++#define HIBMC_DP_HDCP_CFG			0x600
  #define HIBMC_DP_DPTX_RST_CTRL			0x700
-+#define HIBMC_DP_DPTX_GCTL0			0x708
++#define HIBMC_DP_DPTX_CLK_CTRL			0x704
+ #define HIBMC_DP_DPTX_GCTL0			0x708
++#define HIBMC_DP_INTR_ENABLE			0x720
++#define HIBMC_DP_INTR_ORIGINAL_STATUS		0x728
++#define HIBMC_DP_TIMING_MODEL_CTRL		0x884
++#define HIBMC_DP_TIMING_SYNC_CTRL		0xFF0
  
  #define HIBMC_DP_CFG_AUX_SYNC_LEN_SEL		BIT(1)
  #define HIBMC_DP_CFG_AUX_TIMER_TIMEOUT		BIT(2)
-+#define HIBMC_DP_CFG_STREAM_FRAME_MODE		BIT(6)
- #define HIBMC_DP_CFG_AUX_MIN_PULSE_NUM		GENMASK(13, 9)
-+#define HIBMC_DP_CFG_LANE_DATA_EN		GENMASK(11, 8)
-+#define HIBMC_DP_CFG_PHY_LANE_NUM		GENMASK(2, 1)
- #define HIBMC_DP_CFG_AUX_REQ			BIT(0)
- #define HIBMC_DP_CFG_AUX_RST_N			BIT(4)
- #define HIBMC_DP_CFG_AUX_TIMEOUT		BIT(0)
- #define HIBMC_DP_CFG_AUX_READY_DATA_BYTE	GENMASK(16, 12)
- #define HIBMC_DP_CFG_AUX			GENMASK(24, 17)
+@@ -31,5 +49,28 @@
  #define HIBMC_DP_CFG_AUX_STATUS			GENMASK(11, 4)
-+#define HIBMC_DP_CFG_SCRAMBLE_EN		BIT(0)
-+#define HIBMC_DP_CFG_PAT_SEL			GENMASK(7, 4)
+ #define HIBMC_DP_CFG_SCRAMBLE_EN		BIT(0)
+ #define HIBMC_DP_CFG_PAT_SEL			GENMASK(7, 4)
++#define HIBMC_DP_CFG_TIMING_GEN0_HACTIVE	GENMASK(31, 16)
++#define HIBMC_DP_CFG_TIMING_GEN0_HBLANK		GENMASK(15, 0)
++#define HIBMC_DP_CFG_TIMING_GEN0_VACTIVE	GENMASK(31, 16)
++#define HIBMC_DP_CFG_TIMING_GEN0_VBLANK		GENMASK(15, 0)
++#define HIBMC_DP_CFG_TIMING_GEN0_VFRONT_PORCH	GENMASK(31, 16)
++#define HIBMC_DP_CFG_STREAM_HACTIVE		GENMASK(31, 16)
++#define HIBMC_DP_CFG_STREAM_HBLANK		GENMASK(15, 0)
++#define HIBMC_DP_CFG_STREAM_HSYNC_WIDTH		GENMASK(15, 0)
++#define HIBMC_DP_CFG_STREAM_VACTIVE		GENMASK(31, 16)
++#define HIBMC_DP_CFG_STREAM_VBLANK		GENMASK(15, 0)
++#define HIBMC_DP_CFG_STREAM_VFRONT_PORCH	GENMASK(31, 16)
++#define HIBMC_DP_CFG_STREAM_VSYNC_WIDTH		GENMASK(15, 0)
++#define HIBMC_DP_CFG_STREAM_VSTART		GENMASK(31, 16)
++#define HIBMC_DP_CFG_STREAM_HSTART		GENMASK(15, 0)
++#define HIBMC_DP_CFG_STREAM_VSYNC_POLARITY	BIT(8)
++#define HIBMC_DP_CFG_STREAM_HSYNC_POLARITY	BIT(7)
++#define HIBMC_DP_CFG_STREAM_RGB_ENABLE		BIT(1)
++#define HIBMC_DP_CFG_STREAM_VIDEO_MAPPING	GENMASK(5, 2)
++#define HIBMC_DP_CFG_PIXEL_NUM_TIMING_MODE_SEL1	GENMASK(31, 16)
++#define HIBMC_DP_CFG_STREAM_TU_SYMBOL_SIZE	GENMASK(5, 0)
++#define HIBMC_DP_CFG_STREAM_TU_SYMBOL_FRAC_SIZE	GENMASK(9, 6)
++#define HIBMC_DP_CFG_STREAM_HTOTAL_SIZE		GENMASK(31, 16)
++#define HIBMC_DP_CFG_STREAM_HBLANK_SIZE		GENMASK(15, 0)
  
  #endif
 -- 
