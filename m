@@ -2,45 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9654D9D1292
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 15:02:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590F99D1297
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 15:04:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63FFC10E4DD;
-	Mon, 18 Nov 2024 14:02:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6301810E4DF;
+	Mon, 18 Nov 2024 14:03:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qSPIZy55";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ToHHmwDm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3BB210E4DD
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 14:02:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3DF8E5C59F3;
- Mon, 18 Nov 2024 14:01:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 354B8C4CECC;
- Mon, 18 Nov 2024 14:02:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1731938561;
- bh=pnoPWSE2kQs6V5C3DEIfZ9Urt1vmv3cikv+UcUv4nAE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qSPIZy55hgSbQcV2Y/3c9cSKVIs1vOBy8X68eH5HXg/ly9YK9Yujm/vOkaU8w29/F
- DmsUCteCi52uyzdZRDB2EQUkPdCJ8nWfB8ICVS/tttVSx/5qYW4oJd2VGnFYN6Ntko
- ex2u17fQx6L1FuaAUhdb8hMJ3SOP6K/qId5J/8Wk=
-Date: Mon, 18 Nov 2024 15:02:11 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ekansh Gupta <quic_ekangupt@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org,
- quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de
-Subject: Re: [PATCH v1 4/4] misc: fastrpc: Add debugfs support for fastrpc
-Message-ID: <2024111804-doze-reflected-0feb@gregkh>
-References: <20241118084046.3201290-1-quic_ekangupt@quicinc.com>
- <20241118084046.3201290-5-quic_ekangupt@quicinc.com>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5A7710E4DE;
+ Mon, 18 Nov 2024 14:03:56 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-4315eac969aso24105875e9.1; 
+ Mon, 18 Nov 2024 06:03:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1731938635; x=1732543435; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QLVSAd65F3kzay2k04s+ucIRrq7MVSoMKuKcfsAr9cM=;
+ b=ToHHmwDmeiZatutChkppAwkz4y/lXJWvXg54cHdMsGBO+loLXtWMRwe2VV2diKurba
+ Y7NSwAhjdPOE3c0Tm7XJouxBN4D7LgStglbdP1C/FWbKk6ywiXgP+FBhzVGQgYJWpa+V
+ PEHfFfh+doSYfkICMYdfIr/3ffO08bSNFtlJA/Vq6lQOLE1jwuQMOl/J4BlwjuEHSq59
+ 1haZfsK6Ng8w4U/HkB3PFMQ51PHTKNEvC34gCTq1iqDLPAR0J1y4HSlrY5vASMgo6I/b
+ OHnR6l0W4yUbSVt/T8AKRslhpZw+z3g/Zc5HthJ/K+mlWm0JgFP83qved26CuIIOhDId
+ heiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731938635; x=1732543435;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QLVSAd65F3kzay2k04s+ucIRrq7MVSoMKuKcfsAr9cM=;
+ b=u0ZMG0usVHunqrUILsv76pqY6KOp7+Cezipu9bcJBkgi/6uC8tR1iLpawlKQbHA75m
+ bXyPMIAj9L67yoZvMSlYrhoKEavUbw7W11vuTKUg3D9ixzNIjhUAbiHCXJwHhAIoXLQy
+ 6m48dLFN89sO/IO24GfRgDwcIJx4U7E2dKYLHjHHcIPCvpYZY3ogfsfC5Me7g9IBY7ge
+ WhIjFuEeFKOdwOQQwR4yf5v9rnE1p/Jv0DKvk9c+XoJcsSFrVkQcBiewJI420+nPpw+I
+ AUWN+xLwWNOsXimiJzHlaPeVSdT34qZEJtZpq7FQY9EkxKHdPdP6qre3wLs0/3WQI2NE
+ ZwuA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXKAmwWAoH2WWtH7+tvsP4cjMC0r4YEO+8LJrOSXDRHLWlfpvaCAl+k+m+lsLKRte+aHpbg8jjk@lists.freedesktop.org,
+ AJvYcCXaSPxei6p1fq1V3REI+oa2gWcC2aYRjRUVL9DyB1oLYgphRru0EuiT4F3sHwHNRyxl1X8gdt3FqBDW@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKi37gmH1yNPP+ov8P3rzvMCO0g2XZyosSNemJ0j+lAsvNKHJJ
+ R966gsrkG/tIiwGpR/fv8UZe4T+a2+pUrf3ol+2gttw3bV2cekIJ
+X-Google-Smtp-Source: AGHT+IFkFPdP9yQ1V5FQYfHddHd9JrLiZeWtNn85QWbNgeXn8nBR/CKz6fZvYiBn4bxzcERLpMOZ6w==
+X-Received: by 2002:a05:600c:a4c:b0:42c:b991:98bc with SMTP id
+ 5b1f17b1804b1-432d95ad53cmr137284915e9.0.1731938634613; 
+ Mon, 18 Nov 2024 06:03:54 -0800 (PST)
+Received: from [192.168.178.25] ([185.254.126.212])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-432dab80a10sm155478505e9.26.2024.11.18.06.03.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Nov 2024 06:03:53 -0800 (PST)
+Message-ID: <93826dcc-82de-4fb5-8574-7e6cb8355da4@gmail.com>
+Date: Mon, 18 Nov 2024 15:03:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241118084046.3201290-5-quic_ekangupt@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 3/5] Documentation/gpu: Clarify drm memory stats
+ definition
+To: Yunxiang Li <Yunxiang.Li@amd.com>, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com, tvrtko.ursulin@igalia.com
+Cc: Alexander.Deucher@amd.com, dri-devel@lists.freedesktop.org
+References: <20241116044452.5925-1-Yunxiang.Li@amd.com>
+ <20241116044452.5925-4-Yunxiang.Li@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20241116044452.5925-4-Yunxiang.Li@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,115 +88,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 18, 2024 at 02:10:46PM +0530, Ekansh Gupta wrote:
-> Add changes to support debugfs. The fastrpc directory will be
-> created which will carry debugfs files for all fastrpc processes.
-> The information of fastrpc user and channel contexts are getting
-> captured as part of this change.
-> 
-> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+Am 16.11.24 um 05:44 schrieb Yunxiang Li:
+> Define how to handle buffers with multiple possible placement so we
+> don't get incompatible implementations. Callout the resident requirement
+> for drm-purgeable- explicitly. Remove the requirement for there to be
+> only drm-memory- or only drm-resident-, it's not what's implemented and
+> having both is better for back-compat. Also re-order the paragraphs to
+> flow better.
+>
+> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
+> CC: dri-devel@lists.freedesktop.org
 > ---
->  drivers/misc/fastrpc/Makefile        |   3 +-
->  drivers/misc/fastrpc/fastrpc_debug.c | 156 +++++++++++++++++++++++++++
->  drivers/misc/fastrpc/fastrpc_debug.h |  31 ++++++
->  drivers/misc/fastrpc/fastrpc_main.c  |  18 +++-
->  4 files changed, 205 insertions(+), 3 deletions(-)
->  create mode 100644 drivers/misc/fastrpc/fastrpc_debug.c
->  create mode 100644 drivers/misc/fastrpc/fastrpc_debug.h
-> 
-> diff --git a/drivers/misc/fastrpc/Makefile b/drivers/misc/fastrpc/Makefile
-> index 020d30789a80..4ff6b64166ae 100644
-> --- a/drivers/misc/fastrpc/Makefile
-> +++ b/drivers/misc/fastrpc/Makefile
-> @@ -1,3 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-$(CONFIG_QCOM_FASTRPC)	+= fastrpc.o
-> -fastrpc-objs	:= fastrpc_main.o
-> \ No newline at end of file
-> +fastrpc-objs	:= fastrpc_main.o \
-> +		fastrpc_debug.o
+>   Documentation/gpu/drm-usage-stats.rst | 36 ++++++++++++---------------
+>   1 file changed, 16 insertions(+), 20 deletions(-)
+>
+> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+> index ff964c707754a..973663f91a292 100644
+> --- a/Documentation/gpu/drm-usage-stats.rst
+> +++ b/Documentation/gpu/drm-usage-stats.rst
+> @@ -140,13 +140,9 @@ both.
+>   Memory
+>   ^^^^^^
+>   
+> -- drm-memory-<region>: <uint> [KiB|MiB]
+> -
+> -Each possible memory type which can be used to store buffer objects by the
+> -GPU in question shall be given a stable and unique name to be returned as the
+> -string here.
+> -
+> -The region name "memory" is reserved to refer to normal system memory.
+> +Each possible memory type which can be used to store buffer objects by the GPU
+> +in question shall be given a stable and unique name to be used as the "<region>"
+> +string. The region name "memory" is reserved to refer to normal system memory.
 
-Only build this file if debugfs is enabled.
+That looks like you squashed the "The region name..." sentence at the 
+end. Is that really helpful and intended?
 
-And again, "debug.c"?
-
-> diff --git a/drivers/misc/fastrpc/fastrpc_debug.c b/drivers/misc/fastrpc/fastrpc_debug.c
-> new file mode 100644
-> index 000000000000..cdb4fc6845a8
-> --- /dev/null
-> +++ b/drivers/misc/fastrpc/fastrpc_debug.c
-> @@ -0,0 +1,156 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (c) 2024 Qualcomm Innovation Center.
+>   
+>   Value shall reflect the amount of storage currently consumed by the buffer
+>   objects belong to this client, in the respective memory region.
+> @@ -154,31 +150,27 @@ objects belong to this client, in the respective memory region.
+>   Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+>   indicating kibi- or mebi-bytes.
+>   
+> -This key is deprecated and is an alias for drm-resident-<region>. Only one of
+> -the two should be present in the output.
+> +- drm-total-<region>: <uint> [KiB|MiB]
 > +
-> +#include <linux/debugfs.h>
-> +#include <linux/seq_file.h>
-> +#include "fastrpc_shared.h"
-> +#include "fastrpc_debug.h"
+> +The total size of all created buffers including shared and private memory. The
+
+Maybe write "requested" instead of "created" since without a backing 
+store it is questionable if the BO is really "created".
+
+Apart from those two nit picks it looks good to me,
+Christian.
+
+> +backing store for the buffers does not have to be currently instantiated to
+> +count under this category. To avoid double counting, if a buffer falls under
+> +multiple regions, the implementation should pick only one of the regions, and do
+> +so in a consistent manner.
+>   
+>   - drm-shared-<region>: <uint> [KiB|MiB]
+>   
+>   The total size of buffers that are shared with another file (e.g., have more
+> -than a single handle).
+> -
+> -- drm-total-<region>: <uint> [KiB|MiB]
+> -
+> -The total size of all created buffers including shared and private memory. The
+> -backing store for the buffers does not have to be currently instantiated to be
+> -counted under this category.
+> +than a single handle). Same caveat as drm-total- applies.
+>   
+>   - drm-resident-<region>: <uint> [KiB|MiB]
+>   
+>   The total size of buffers that are resident (have their backing store present or
+>   instantiated) in the specified region.
+>   
+> -This is an alias for drm-memory-<region> and only one of the two should be
+> -present in the output.
+> -
+>   - drm-purgeable-<region>: <uint> [KiB|MiB]
+>   
+> -The total size of buffers that are purgeable.
+> +The total size of buffers that are resident and purgeable.
+>   
+>   For example drivers which implement a form of 'madvise' like functionality can
+>   here count buffers which have instantiated backing store, but have been marked
+> @@ -192,6 +184,10 @@ One practical example of this can be presence of unsignaled fences in an GEM
+>   buffer reservation object. Therefore the active category is a subset of
+>   resident.
+>   
+> +- drm-memory-<region>: <uint> [KiB|MiB]
 > +
-> +#ifdef CONFIG_DEBUG_FS
-
-Please put the #ifdef in the .h file, not in the .c file.
-
-> +void fastrpc_create_user_debugfs(struct fastrpc_user *fl)
-> +{
-> +	char cur_comm[TASK_COMM_LEN];
-> +	int domain_id, size;
-> +	char *debugfs_buf;
-> +	struct dentry *debugfs_dir = fl->cctx->debugfs_dir;
+> +This key is deprecated and is an alias for drm-resident-<region> if present.
 > +
-> +	memcpy(cur_comm, current->comm, TASK_COMM_LEN);
-> +	cur_comm[TASK_COMM_LEN-1] = '\0';
-> +	if (debugfs_dir != NULL) {
-> +		domain_id = fl->cctx->domain_id;
-> +		size = snprintf(NULL, 0, "%.10s_%d_%d_%d", cur_comm,
-> +				current->pid, fl->tgid, domain_id) + 1;
-> +		debugfs_buf = kzalloc(size, GFP_KERNEL);
-> +		if (debugfs_buf == NULL)
-> +			return;
-> +		/*
-> +		 * Use HLOS process name, HLOS PID, fastrpc user TGID,
-> +		 * domain_id in debugfs filename to create unique file name
-> +		 */
-> +		snprintf(debugfs_buf, size, "%.10s_%d_%d_%d",
-> +			cur_comm, current->pid, fl->tgid, domain_id);
-> +		fl->debugfs_file = debugfs_create_file(debugfs_buf, 0644,
-> +				debugfs_dir, fl, &fastrpc_debugfs_fops);
+>   Implementation Details
+>   ======================
+>   
 
-Why are you saving the debugfs file?  What do you need to do with it
-that you can't just delete the whole directory, or look up the name
-again in the future when removing it?
-
-> +		kfree(debugfs_buf);
-> +	}
-> +}
-> +
-> +void fastrpc_remove_user_debugfs(struct fastrpc_user *fl)
-> +{
-> +	debugfs_remove(fl->debugfs_file);
-
-Why remove just the file and not the whole directory?
-
-> +}
-> +
-> +struct dentry *fastrpc_create_debugfs_dir(const char *name)
-> +{
-> +	return debugfs_create_dir(name, NULL);
-
-At the root of debugfs?  Why is this function even needed?
-
-> +}
-> +
-> +void fastrpc_remove_debugfs_dir(struct dentry *cctx_debugfs)
-> +{
-> +	debugfs_remove_recursive(cctx_debugfs);
-
-See, you don't need the debugfs file reference at all, you don't do
-anything with it.
-
-And again, why are you wrapping basic debugfs functions with your own
-version?  Please don't do that.
-
-thanks,
-
-greg k-h
