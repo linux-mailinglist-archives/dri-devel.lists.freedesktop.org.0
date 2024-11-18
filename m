@@ -2,105 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1F79D0DF5
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 11:12:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CE49D0EDA
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 11:47:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB80610E492;
-	Mon, 18 Nov 2024 10:12:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A3A410E35F;
+	Mon, 18 Nov 2024 10:47:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k9+NRHXI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TASqhCgi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3ADA10E488;
- Mon, 18 Nov 2024 10:12:04 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35A3810E0B0;
+ Mon, 18 Nov 2024 10:47:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731924725; x=1763460725;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=tvZh19UrT7RhLG31esa3Q+Wb623PF1oP3Z3DIP8DHuU=;
- b=k9+NRHXIwQTrUgQ/hZpOtW+AEuovkh6XTwFZVRtIOIPPx9SBPhyhHYID
- IpVO+3uofZdrwj015alp8SX8ZMg+CqwylyLcUqlxN8HtxT4mAxpuVB4tu
- EFzDgIpUE2+QK1YxavYvUOSnxK93PlPgjqnKaW5UNHFgdttIztYLB0YNR
- hQTZiLs2uxfN1QXLsdd6rtRTqyUS/SPy3Rj2g2VUMf3vGfYCOpg1zVWn4
- BTyJzfmph2anAD3yrCVJl0rROQdmZWxkwkB1aQ/pOTCItE6NgO6sXzYeF
- g37Xf96e+W1LjkzOdXptQr0AJZEaULJ29tn83tBpTur3rDQFrL5CPDGsO A==;
-X-CSE-ConnectionGUID: OyV3qsUDSzSaQuHp9VLFbw==
-X-CSE-MsgGUID: xBB81qRgTW61vnmzEmSPRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31723850"
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="31723850"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 02:12:05 -0800
-X-CSE-ConnectionGUID: YDbs2x0ITtmplL0jZe8pGw==
-X-CSE-MsgGUID: U7Vin29dRNK1mgt6lMVUiw==
+ t=1731926865; x=1763462865;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=b2a6GSdSdC5JJvAuTp/AcNJzIirocs2mBJwtXBHYXrA=;
+ b=TASqhCgicwLmNHTB49gda4iUsGVPMguynZJHzqwKoJu//zSgVPupxkD4
+ iBBu+qActsTNzCbRtjkZsT/qPqJcgQvdGoGw9Y6gS4zve3DzMgQ1sLeK9
+ UNJbqTXTjeym/D/Ud+TIjQXpJGUWqxb3tkH0Gb6kb/DRouE5Jm+nUHFqL
+ WWSuUW1sq1dkR78WxoUQJNwLimzRV8e7FJUZYSrzsrEiz33BpJwVi+lDA
+ 13zfJtEBI73dZjA8gdcTYilzJzZLa6UrtjTqCIMX4icZpoaO7VpQLM4ev
+ x7FZA97hhbhKFdLp+eGnHZcWzbxu7u3/QeMKsjQOyg8TBFxFvKQZDny2j g==;
+X-CSE-ConnectionGUID: erCz/z/mTQGIhduMxSpFbQ==
+X-CSE-MsgGUID: jgSzbcZmSQW3dkCYedK0OA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="35548759"
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="35548759"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2024 02:47:44 -0800
+X-CSE-ConnectionGUID: GxqQGV3UStawGfitGdgALA==
+X-CSE-MsgGUID: umYKitL+T5aJyiISID2mtw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="89100237"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.148])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 02:11:40 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Karol
- Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, Danilo
- Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>, Leo
- Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Alex
- Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat
- <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Peter Senna Tschudin
- <peter.senna@gmail.com>, Ian Ray <ian.ray@ge.com>, Martyn Welch
- <martyn.welch@collabora.co.uk>, Inki Dae <inki.dae@samsung.com>, Seung-Woo
- Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Stefan Agner <stefan@agner.ch>, Alison Wang
- <alison.wang@nxp.com>, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean
- Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, Sandy
- Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan
- <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
- <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>, Mikko
- Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?Q?Ma=C3=ADra?=
- Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance
- <kernel-list@raspberrypi.com>, Gurchetan Singh
- <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, Zack Rusin
- <zack.rusin@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 5/5] drm/connector: make mode_valid accept const struct
- drm_display_mode
-In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-5-b1b523156f71@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241115-drm-connector-mode-valid-const-v1-0-b1b523156f71@linaro.org>
- <20241115-drm-connector-mode-valid-const-v1-5-b1b523156f71@linaro.org>
-Date: Mon, 18 Nov 2024 12:11:37 +0200
-Message-ID: <87jzd04zs6.fsf@intel.com>
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="88969125"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2024 02:47:43 -0800
+Date: Mon, 18 Nov 2024 12:48:15 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/4] drm/i915/dp_mst: Fix connector initialization in
+ intel_dp_add_mst_connector()
+Message-ID: <Zzsbb3Kx_TPB0ajK@ideak-desk.fi.intel.com>
+References: <20241115164159.1081675-1-imre.deak@intel.com>
+ <ZzetKr-rApPqmehO@intel.com>
+ <ZzevVE-MM4iFz1T_@ideak-desk.fi.intel.com>
+ <87ttc452md.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ttc452md.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,18 +69,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 15 Nov 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> The mode_valid() callbacks of drm_encoder, drm_crtc and drm_bridge
-> accept const struct drm_display_mode argument. Change the mode_valid
-> callback of drm_connector to also accept const argument.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Mon, Nov 18, 2024 at 11:10:18AM +0200, Jani Nikula wrote:
+> On Fri, 15 Nov 2024, Imre Deak <imre.deak@intel.com> wrote:
+> > On Fri, Nov 15, 2024 at 03:20:58PM -0500, Rodrigo Vivi wrote:
+> >> On Fri, Nov 15, 2024 at 06:41:56PM +0200, Imre Deak wrote:
+> >> > The connector initialization in intel_dp_add_mst_connector() depends on
+> >> > the device pointer in connector to be valid, at least by connector
+> >> > debug printing. The device pointer is initialized by drm_connector_init(),
+> >> > however that function also exposes the connector to in-kernel users,
+> >> > which can't be done before the connector is fully initialized. For now
+> >> > make sure the device pointer is valid before it's used, until a
+> >> > follow-up change moving this to DRM core.
+> >> > 
+> >> > This issue was revealed by the commit in the Fixes: line below, before
+> >> > which the above debug printing checked and handled a NULL device pointer
+> >> > gracefully in DRM core.
+> >> > 
+> >> > Cc: Jani Nikula <jani.nikula@intel.com>
+> >> > Fixes: 529798bd786a ("drm/i915/mst: convert to struct intel_display")
+> >> 
+> >> This is awkward. This patch actually removes callers of base.dev.
+> >> I don't see how that it could be causing this new null dereference.
+> >
+> > It adds
+> >
+> > struct intel_display *display = to_intel_display(connector);
+> >
+> > which will be NULL since connector->base.dev is NULL and later display
+> > is dereferenced.
+> 
+> So this happens in detect_dsc_hblank_expansion_quirk()?
+> 
+> The changes were:
+> 
+> -       struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> +       struct intel_display *display = to_intel_display(connector);
+> 
+> -       drm_dbg_kms(&i915->drm,
+> +       drm_dbg_kms(display->drm,
+> 
+> And apparently i915 and &i915->drm were both NULL before, but the change
+> turned it into a NULL pointer dereference.
+> 
+> Why do we have to do this before drm_connector_init()?
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+drm_connector_init() adds the connector to the connector list, which
+makes it visible to everything else that looks up the connector through
+this list. Those users should see the driver specific parts of connector
+already inited.
 
+> What if we just moved it after the connector init? What are the
+> in-kernel users that can get called in between?
 
--- 
-Jani Nikula, Intel
+Detection on this connector could happen in between for instance.
+
+> Or if it's absolutely required to do all that before init, then pass the
+> things to it instead of assuming the connector is ready?
+
+Besides DSC all the other initializing steps in
+intel_dp_add_mst_connector() should happen before adding it to the
+connector list and those need a pointer to drm_connector.
+
+> BR,
+> Jani.
+> 
+> 
+> >
+> >> > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12799
+> >> 
+> >> But well, trusting more the tests then my eyes, let's move forward.
+> >> 
+> >> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> >> 
+> >> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> >> > ---
+> >> >  drivers/gpu/drm/i915/display/intel_dp_mst.c | 10 ++++++++++
+> >> >  1 file changed, 10 insertions(+)
+> >> > 
+> >> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> >> > index df7edcfe885b6..f058360a26413 100644
+> >> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> >> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> >> > @@ -1727,6 +1727,16 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
+> >> >  
+> >> >  	intel_dp_init_modeset_retry_work(intel_connector);
+> >> >  
+> >> > +	/*
+> >> > +	 * TODO: The following drm_connector specific initialization belongs
+> >> > +	 * to DRM core, however it happens atm too late in
+> >> > +	 * drm_connector_init(). That function will also expose the connector
+> >> > +	 * to in-kernel users, so it can't be called until the connector is
+> >> > +	 * sufficiently initialized; init the device pointer used by the
+> >> > +	 * following DSC setup, until a fix moving this to DRM core.
+> >> > +	 */
+> >> > +	intel_connector->base.dev = mgr->dev;
+> >> > +
+> >> >  	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
+> >> >  	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
+> >> >  	intel_connector->dp.dsc_hblank_expansion_quirk =
+> >> > -- 
+> >> > 2.44.2
+> >> > 
+> 
+> -- 
+> Jani Nikula, Intel
