@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CB19D0A81
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 09:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18AF9D0A84
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 09:03:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C48610E26E;
-	Mon, 18 Nov 2024 08:02:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99C0C10E42E;
+	Mon, 18 Nov 2024 08:02:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ikPkmtKQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UrGakWV4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6550C10E26E;
- Mon, 18 Nov 2024 08:02:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3903B10E34E;
+ Mon, 18 Nov 2024 08:02:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731916973; x=1763452973;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=5hnSTyPYWVrgsxao/GbbG/Go9lDyUZKTi/B3I3vabW4=;
- b=ikPkmtKQ9ymXCQoMTxcjr2hyIbD9Dnz0nwFjdt+DRUdZtfQPEUFiCMk+
- sbIf3G5D0OibKa+rb6q1zv8FRPmPXpGaofs/vrAvykG10AIGhWln9AXDC
- tVl0iaGRzpu6yKGJZz1ioQjOmEMwDavIKUabtcmKF1zCbv+xODiUUur8H
- VsfEP1SmnfFJCaxL8KYqECNDsZYxL8MuSTgAAl66x+xDltMwWRdqh2blP
- TO1q9W2c9M5T3uDuS3n9jETVI1RIDVHArqGvXiET/OSGSmCCuwLoPU41S
- GJ4HwQOX0JNlW9atgABZNeuqOkcMDUm2KVpfRkXXQnpwTt12PMCdUs2lh g==;
-X-CSE-ConnectionGUID: JYERzCyTTg+8NAXBJZB35w==
-X-CSE-MsgGUID: dYG0daboR+6eYHt+4grrDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31915473"
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="31915473"
+ t=1731916975; x=1763452975;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=4EeMmGmaTUQIlbMVXUQKkMA6tmXGzrmWIo2B+QbYfQA=;
+ b=UrGakWV4wMnb/12631HElknG0qXRm8lwmBEkWu6OOkoiv+QqJJUP9vKF
+ CyS309tk7D6oJwqcOJ15upACszZZSupQaT/IYurAXAutG3EIhhZ6qnKp5
+ awgci80HxIqiQtqA5sIncmpGYM6sG+UT6yZoU7OCt5Pl5rhie58JHimhy
+ 6rBvyt803BoZGagU8HE39TjIx+mTP/KQ4OzLAlVAlX3gOJBajj5BQ1lC5
+ b+enAs92RgclxY1j0gIucHArDlWH8p2IoTmEWT7KBHi+91ubeUnlWOlaz
+ iP+QfEz7WSjKLjtfZjNNU3HomEDfn1ZvNKcfS0cLPGYQwjaxUEFJgIpFY g==;
+X-CSE-ConnectionGUID: 26fPt73mQzqF1sY/3u6q4Q==
+X-CSE-MsgGUID: rpiqO3o5TdeLoyKPKYa35Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31915485"
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="31915485"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 00:02:53 -0800
-X-CSE-ConnectionGUID: w2eSZnkISMK7VMynCfZmdQ==
-X-CSE-MsgGUID: ++cgqKIyR7CYGaXiRgrrOQ==
+ 18 Nov 2024 00:02:55 -0800
+X-CSE-ConnectionGUID: QmTAFXDmRFqMLHMkSCRnIw==
+X-CSE-MsgGUID: 7OCJbOOSSj6M5dhDowfYPA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="89061816"
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="89061829"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa010.jf.intel.com with ESMTP; 18 Nov 2024 00:02:50 -0800
+ by orviesa010.jf.intel.com with ESMTP; 18 Nov 2024 00:02:52 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
 To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: Arun R Murthy <arun.r.murthy@intel.com>
-Subject: [PATCHv2/3] Expose modifiers/formats supported by async flips
-Date: Mon, 18 Nov 2024 13:23:12 +0530
-Message-Id: <20241118075315.466009-1-arun.r.murthy@intel.com>
+Subject: [PATCHv2 1/3] drm/plane: Add new plane property IN_FORMATS_ASYNC
+Date: Mon, 18 Nov 2024 13:23:13 +0530
+Message-Id: <20241118075315.466009-2-arun.r.murthy@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241118075315.466009-1-arun.r.murthy@intel.com>
+References: <20241118075315.466009-1-arun.r.murthy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,30 +67,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All of the formats/modifiers supported by the plane during synchronous
-flips are nor supported by asynchronous flips. The formats/modifiers
-exposed to user by IN_FORMATS exposes all formats/modifiers supported by
-plane and this list varies for async flips. If the async flip supported
-formats/modifiers are exposed to the user, user based on this list can
-take decision to proceed or not and avoid flip failures during async
-flips.
-Discussion around this can be located @
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_2487123
-Userspace implementation for IN_FORMARTS_ASYNC under review @
-https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/4063
+There exists a property IN_FORMATS which exposes the plane supported
+modifiers/formats to the user. In some platforms when asynchronous flips
+are used all of modifiers/formats mentioned in IN_FORMATS are not
+supported. This patch adds a new plane property IN_FORMATS_ASYNC to
+expose the async flips supported modifiers/formats so that user can use
+this information ahead and done flips with unsupported
+formats/modifiers. This will save flips failures.
 
-Arun R Murthy (3):
-  drm/plane: Add new plane property IN_FORMATS_ASYNC
-  drm/plane: Expose function to create format/modifier blob
-  drm/i915/display: Populate list of async supported formats/modifiers
+v2: Remove async variable from drm_plane (Ville)
 
- drivers/gpu/drm/drm_mode_config.c             |  7 +++
- drivers/gpu/drm/drm_plane.c                   | 50 ++++++++++++------
- .../drm/i915/display/skl_universal_plane.c    | 51 +++++++++++++++++++
- include/drm/drm_mode_config.h                 |  6 +++
- include/drm/drm_plane.h                       |  4 ++
- 5 files changed, 103 insertions(+), 15 deletions(-)
+Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+---
+ drivers/gpu/drm/drm_mode_config.c | 7 +++++++
+ drivers/gpu/drm/drm_plane.c       | 6 ++++++
+ include/drm/drm_mode_config.h     | 6 ++++++
+ 3 files changed, 19 insertions(+)
 
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index 37d2e0a4ef4b..cff189a2e751 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -379,6 +379,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
+ 		return -ENOMEM;
+ 	dev->mode_config.size_hints_property = prop;
+ 
++	prop = drm_property_create(dev,
++				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
++				   "IN_FORMATS_ASYNC", 0);
++	if (!prop)
++		return -ENOMEM;
++	dev->mode_config.async_modifiers_property = prop;
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index a28b22fdd7a4..416818e54ccf 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -141,6 +141,12 @@
+  *     various bugs in this area with inconsistencies between the capability
+  *     flag and per-plane properties.
+  *
++ * IN_FORMATS_ASYNC:
++ *     Blob property which contains the set of buffer format and modifier
++ *     pairs supported by this plane for asynchronous flips. The blob is a struct
++ *     drm_format_modifier_blob. Without this property the plane doesn't
++ *     support buffers with modifiers. Userspace cannot change this property.
++ *
+  * SIZE_HINTS:
+  *     Blob property which contains the set of recommended plane size
+  *     which can used for simple "cursor like" use cases (eg. no scaling).
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 271765e2e9f2..0c116d6dfd27 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -936,6 +936,12 @@ struct drm_mode_config {
+ 	 */
+ 	struct drm_property *modifiers_property;
+ 
++	/**
++	 * @async_modifiers_property: Plane property to list support modifier/format
++	 * combination for asynchronous flips.
++	 */
++	struct drm_property *async_modifiers_property;
++
+ 	/**
+ 	 * @size_hints_property: Plane SIZE_HINTS property.
+ 	 */
 -- 
 2.25.1
 
