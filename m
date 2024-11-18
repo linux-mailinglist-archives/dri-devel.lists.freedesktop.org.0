@@ -2,56 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CEB9D14B7
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 16:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 576EF9D1521
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 17:14:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8862410E51D;
-	Mon, 18 Nov 2024 15:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94A3810E041;
+	Mon, 18 Nov 2024 16:14:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="fJenOKT1";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="C/+cYasm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2522D10E51F;
- Mon, 18 Nov 2024 15:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9YdKCgxCtnPMYmhWqXxtinRKTito3B/j95kILpfcdFg=; b=fJenOKT1jR6d702GfCpo/Dlnzo
- vp6oBl45a0XAJtm/VFT5nd1BdKdYOEluM4qHWLTOT+GpRdZ+Ato3uq2V6dltFa5S3RN5qSuLoghq0
- XOSbkYQoA/N7T6Xlk1csl3nYQ9SS+LT+ho/hAS/GC5/ObM43qJyKj9Ms+3hspQ7zXvZOLdiSqnvq2
- gKLlap/MFC3ELdOGlJ/APBYhAda49dDp1HtmMAe5kY8dXfWkszUfnR9MGP/8zDfAXR9s/Xj+U0/j4
- ujJgErhm71Z+u0F5IDBxqv3gdKo4kYyZKWV/iAIA57Uc/0iO1BCaXtP24uyHuHRpHbPhidl1h+c7P
- Xa0y95hQ==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tD3zE-008ZzD-Bi; Mon, 18 Nov 2024 16:48:24 +0100
-Message-ID: <5a558d02-34a2-478b-8d33-13a56927dba7@igalia.com>
-Date: Mon, 18 Nov 2024 15:48:23 +0000
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2599210E163
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 16:14:07 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-460a8d1a9b7so500901cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 08:14:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1731946446; x=1732551246;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KgQtX3b2sNjnE8zCLQLIEHU/IGPvSB2hdJmfWtj8vrk=;
+ b=C/+cYasmTKafo6J66aO6do+rxytw9QgvrZgX3x/TK/3Gpe3gZ5FN5B6OhtXwXXvNaN
+ 8egDQdqaG2I3OICDQSGXeUKUeoWEndu4n2dbWomr+ubp1jN6k+FPbQK5ZfR4jbybpvVC
+ gyyOtXarp2sRZiVOK0o7D3OPmgRCRfq7AERStq2mhe+WvIVg2NFZ9/wL/oKfZgQCJunR
+ C8SusIB2/6zT+G5D9SCbAVxzNZcxic/0WIkTOhxkAkL8xlh+524VGM78j7nbp8eAODsK
+ igRcY/M9a442RAtSqu3U5MemGUWm/rrFuI9AbKpiCjcbQQ8GEdWBZcVJxCs5/Dx88Z0G
+ P+iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731946446; x=1732551246;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KgQtX3b2sNjnE8zCLQLIEHU/IGPvSB2hdJmfWtj8vrk=;
+ b=KamugMQZy/a69dKCNS6JIDKONxFkJkx+yNaAov8gsaPqMegFaDsr5ed/EIDTFh2k0h
+ O2LW/77aAcMOmVT+tGKHyLXFujqFHjQsb3hRh7X6Ke0ZhLhBLv4RcZ0cj1gdq6gC+fPC
+ H1Jy6P+/rM4Pkpf70kHQTLPQ66+Ho5kYEzGb1JXPecrNSXIIt47HL82Fh9n112CLErgo
+ VDUmRRfjEEBv8DfxcMVwram3+N0G68jpvvUsJCsYvUdADJopr/0IG3+rgwP/v247t+Pe
+ /5PyQEP0Tik81Le7IILtgwRz+n90Fq7dwLvFC2XYMxmJPReNlP7YpzB9gjgzR4PO1kAk
+ oI5A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVycfh9mHRBUKL0oxKFsxYElEJVgIaEcN3TC3HOhcCKqWgT+yhXhCUQJM30MfslivpCAXuPqIhV9Fc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz658I5x0dLn8mLPR6CdD4fiNUAG7H/InzTpkKwYy71fEuCUYLI
+ v62clrjMmx0K9ExUxfgTTZ1QGADQ1vXpj9TTv8veYeZuUt7MtCN4G8NFk6DFF0sZwAzMSaVNrmM
+ 7lvccwpeTj39EG/71byYnjonkXefnnlA1iWIf
+X-Gm-Gg: ASbGnctu0TaIwx5Jjpy7raDwWcM4MtveCybBVLNL0vsANqQ+TIQ+AsFi7kgHT5y1l3n
+ +NaeC49G/z0z/zcE4JDT83z1TKVdKUA==
+X-Google-Smtp-Source: AGHT+IHoE7/aCHotukRoUu4H4VbQ1/F4lGejyuSD3dcDuVxfpACZZ6+M09T7GFjLtVDZR877r1fa0KWxO45WSo9TeDk=
+X-Received: by 2002:a05:622a:2988:b0:462:c158:9f5b with SMTP id
+ d75a77b69052e-4637156d12fmr5824231cf.19.1731946445606; Mon, 18 Nov 2024
+ 08:14:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 3/5] Documentation/gpu: Clarify drm memory stats
- definition
-To: "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "Koenig, Christian" <Christian.Koenig@amd.com>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20241116044452.5925-1-Yunxiang.Li@amd.com>
- <20241116044452.5925-4-Yunxiang.Li@amd.com>
- <57e02488-1e6b-4e61-a082-4c54be07e071@igalia.com>
- <SA1PR12MB859961AF9F43B4AE986F54C4ED272@SA1PR12MB8599.namprd12.prod.outlook.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <SA1PR12MB859961AF9F43B4AE986F54C4ED272@SA1PR12MB8599.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241117170326.1971113-1-tjmercier@google.com>
+ <468d41ad-9f89-4a83-8eb1-9bd7efaf1367@ursulin.net>
+In-Reply-To: <468d41ad-9f89-4a83-8eb1-9bd7efaf1367@ursulin.net>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Mon, 18 Nov 2024 08:13:54 -0800
+Message-ID: <CABdmKX2203KMx5P2x02C=YFCtiR6b5u2JzLS9SbPRh08FzqAKw@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Fix __dma_buf_debugfs_list_del argument for
+ !CONFIG_DEBUG_FS
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,155 +87,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Nov 18, 2024 at 1:15=E2=80=AFAM Tvrtko Ursulin <tursulin@ursulin.ne=
+t> wrote:
+>
+>
+> On 17/11/2024 17:03, T.J. Mercier wrote:
+> > The arguments for __dma_buf_debugfs_list_del do not match for both the
+> > CONFIG_DEBUG_FS case and the !CONFIG_DEBUG_FS case. The !CONFIG_DEBUG_F=
+S
+> > case should take a struct dma_buf *, but it's currently struct file *.
+> > This can lead to the build error:
+> >
+> > error: passing argument 1 of =E2=80=98__dma_buf_debugfs_list_del=E2=80=
+=99 from
+> > incompatible pointer type [-Werror=3Dincompatible-pointer-types]
+> >
+> > dma-buf.c:63:53: note: expected =E2=80=98struct file *=E2=80=99 but arg=
+ument is of
+> > type =E2=80=98struct dma_buf *=E2=80=99
+> >     63 | static void __dma_buf_debugfs_list_del(struct file *file)
+> >
+> > Fixes: bfc7bc539392 ("dma-buf: Do not build debugfs related code when !=
+CONFIG_DEBUG_FS")
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> >   drivers/dma-buf/dma-buf.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 8892bc701a66..afb8c1c50107 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -60,7 +60,7 @@ static void __dma_buf_debugfs_list_add(struct dma_buf=
+ *dmabuf)
+> >   {
+> >   }
+> >
+> > -static void __dma_buf_debugfs_list_del(struct file *file)
+> > +static void __dma_buf_debugfs_list_del(struct dma_buf *dmabuf)
+> >   {
+> >   }
+> >   #endif
+>
+> Huh I wonder how this sneaked by until now.. thanks for fixing!
+>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>
+> Regards,
+>
+> Tvrtko
 
-On 18/11/2024 14:56, Li, Yunxiang (Teddy) wrote:
-> [Public]
-> 
->> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Sent: Monday, November 18, 2024 9:38
->> On 16/11/2024 04:44, Yunxiang Li wrote:
->>> Define how to handle buffers with multiple possible placement so we
->>> don't get incompatible implementations. Callout the resident
->>> requirement for drm-purgeable- explicitly. Remove the requirement for
->>> there to be only drm-memory- or only drm-resident-, it's not what's
->>> implemented and having both is better for back-compat. Also re-order
->>> the paragraphs to flow better.
->>>
->>> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
->>> CC: dri-devel@lists.freedesktop.org
->>> ---
->>>    Documentation/gpu/drm-usage-stats.rst | 36 ++++++++++++---------------
->>>    1 file changed, 16 insertions(+), 20 deletions(-)
->>>
->>> diff --git a/Documentation/gpu/drm-usage-stats.rst
->>> b/Documentation/gpu/drm-usage-stats.rst
->>> index ff964c707754a..973663f91a292 100644
->>> --- a/Documentation/gpu/drm-usage-stats.rst
->>> +++ b/Documentation/gpu/drm-usage-stats.rst
->>> @@ -140,13 +140,9 @@ both.
->>>    Memory
->>>    ^^^^^^
->>>
->>> -- drm-memory-<region>: <uint> [KiB|MiB]
->>> -
->>> -Each possible memory type which can be used to store buffer objects
->>> by the -GPU in question shall be given a stable and unique name to be
->>> returned as the -string here.
->>> -
->>> -The region name "memory" is reserved to refer to normal system memory.
->>> +Each possible memory type which can be used to store buffer objects
->>> +by the GPU in question shall be given a stable and unique name to be used as
->> the "<region>"
->>> +string. The region name "memory" is reserved to refer to normal system
->> memory.
->>>
->>>    Value shall reflect the amount of storage currently consumed by the buffer
->>>    objects belong to this client, in the respective memory region.
->>> @@ -154,31 +150,27 @@ objects belong to this client, in the respective memory
->> region.
->>>    Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
->>>    indicating kibi- or mebi-bytes.
->>>
->>> -This key is deprecated and is an alias for drm-resident-<region>.
->>> Only one of -the two should be present in the output.
->>
->> IMO the second sentence should stay in principle (I mean at the new location,
->> where you moved it). Intent is to avoid new implementations adding both keys. The
->> fact amdgpu has both is not relevant for that purpose. We don't want someone just
->> reading it is an alias and having to have any doubt whether they need to output both
->> or not.
-> 
-> I see, yeah I will mention in the drm-memory- part that that tag is legacy amdgpu only behavior.
-> 
->>> +- drm-total-<region>: <uint> [KiB|MiB]
->>> +
->>> +The total size of all created buffers including shared and private
->>> +memory. The backing store for the buffers does not have to be
->>> +currently instantiated to count under this category. To avoid double
->>> +counting, if a buffer falls under multiple regions, the
->>> +implementation should pick only one of the regions, and do so in a consistent
->> manner.
->>
->> Addition feels fine to me in principle. I would only suggest rewording it a bit to avoid
->> ambiguity about what it means to "fall under". Perhaps like this:
->>
->> To avoid double counting when buffers can be instantiated in one of the multiple
->> allowed memory regions, the implementation should account the total against only
->> one of the regions, and should pick this region in a consistent manner.
-> 
-> Ack
-> 
->>>
->>>    - drm-shared-<region>: <uint> [KiB|MiB]
->>>
->>>    The total size of buffers that are shared with another file (e.g.,
->>> have more -than a single handle).
->>> -
->>> -- drm-total-<region>: <uint> [KiB|MiB]
->>> -
->>> -The total size of all created buffers including shared and private
->>> memory. The -backing store for the buffers does not have to be
->>> currently instantiated to be -counted under this category.
->>> +than a single handle). Same caveat as drm-total- applies.
->>
->> I suggest to explicitly point out the caveat is the multiple region one.
-> 
-> and Ack
-> 
->>>
->>>    - drm-resident-<region>: <uint> [KiB|MiB]
->>>
->>>    The total size of buffers that are resident (have their backing store present or
->>>    instantiated) in the specified region.
->>>
->>> -This is an alias for drm-memory-<region> and only one of the two
->>> should be -present in the output.
->>
->> I think it does not harm to keep this note at both keys. Or at least make one
->> reference the other for this point specifically.
-> 
-> Might be easier to just have drm-memory- as a foot note here, instead of its own section
+Thanks Tvrtko. Upstream there is currently only the one use where it's
+called with a void pointer which doesn't generate the error, but
+KernelCI caught the problem on an Android branch where it's also
+called with a dma_buf pointer:
 
-Not entirely sure but as long as the legacy and one key note is easily 
-spotted when reading either of the two it works for me.
-
-> 
->>> -
->>>    - drm-purgeable-<region>: <uint> [KiB|MiB]
->>>
->>> -The total size of buffers that are purgeable.
->>> +The total size of buffers that are resident and purgeable.
->>
->> Is it not redundant? How could something not resident be purgeable in the first
->> place?
-> 
-> There is the possible confusion between buffers having a purgeable bit and buffers in a state that is purgeable, I feel like it's worth an explicit callout since there's also code comments about this difference.
-
-Hm I don't follow this. If you are talking about some implementation 
-details does someone viewing this from the outside cares? Anyway, the 
-addition does not harm, just that I don't see the need. Feel free to 
-leave it.
-
-Regards,
-
-Tvrtko
-
-> 
->>>    For example drivers which implement a form of 'madvise' like functionality can
->>>    here count buffers which have instantiated backing store, but have
->>> been marked @@ -192,6 +184,10 @@ One practical example of this can be
->> presence of unsignaled fences in an GEM
->>>    buffer reservation object. Therefore the active category is a subset of
->>>    resident.
->>>
->>> +- drm-memory-<region>: <uint> [KiB|MiB]
->>> +
->>> +This key is deprecated and is an alias for drm-resident-<region> if present.
->>> +
->>>    Implementation Details
->>>    ======================
->>>
->>
->> Regards,
->>
->> Tvrtko
+https://dashboard.kernelci.org/tree/5a4c93e2f794001a5efa13c0dec931235240d38=
+4/build/maestro:6737e60d1a48e7821930345d?tableFilter=3D%7B%22buildsTable%22=
+%3A%22invalid%22%2C%22bootsTable%22%3A%22all%22%2C%22testsTable%22%3A%22all=
+%22%7D&origin=3Dmaestro&currentPageTab=3DtreeDetails.builds&diffFilter=3D%7=
+B%7D&treeInfo=3D%7B%22gitBranch%22%3A%22android16-6.12%22%2C%22gitUrl%22%3A=
+%22https%3A%2F%2Fandroid.googlesource.com%2Fkernel%2Fcommon%22%2C%22treeNam=
+e%22%3A%22android%22%2C%22commitName%22%3A%22ASB-2024-11-05_16-6.12-370-g5a=
+4c93e2f7940%22%2C%22headCommitHash%22%3A%225a4c93e2f794001a5efa13c0dec93123=
+5240d384%22%7D&intervalInDays=3D7
