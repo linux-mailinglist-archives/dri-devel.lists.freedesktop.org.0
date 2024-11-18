@@ -2,113 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5ED29D0FAC
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 12:28:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FB79D0FBC
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 12:29:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8362E10E49B;
-	Mon, 18 Nov 2024 11:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40A4310E498;
+	Mon, 18 Nov 2024 11:29:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ODvf6nPe";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="E4eB7DU2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DEB410E498;
- Mon, 18 Nov 2024 11:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731929316; x=1763465316;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=eflO5BqcAdiHnObc19vuFxv1kFN4bcVh6FEadC6e/J0=;
- b=ODvf6nPev4iwvTkX+CHn6elNHKueAPmAy3L879XagDuyIMCaMLS780kR
- yPgPnC/r3iC8SE8UvhWt+EmG9/n1WCoalY2FzNqI45jOOY8wU1sIGPEOj
- g2kPyyx8K4MS+WNiiIxdXEkR+n0OdmCXS6rfwZ8TGNuzCk0JFQnu0xamX
- WIHkAkMJRr4BEiovVnq09xZlkubfo1K7l9VhM1NB/QJTi9pulB/dqHjK1
- wrMzcIJ6hA0dOurrvbGic6095cdAphshAWSuJfb6pg4asd+y0+4MUg+0B
- juyCseMdhZbWZjhLGooryAzFs+uOAkDDd/2Dts3b903Dgxe/8cdN2AQyb A==;
-X-CSE-ConnectionGUID: /JuPKqtTTXuJ7U35KRdXPQ==
-X-CSE-MsgGUID: bAZiCuuQT4u6mhZseQI+Rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42396194"
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="42396194"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 03:28:31 -0800
-X-CSE-ConnectionGUID: rRdUd/MrRkyoZEJD1Sac1Q==
-X-CSE-MsgGUID: apTDPmdSTQ+3Y3NYJwg9xw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="89329614"
-Received: from mwiniars-desk2.ger.corp.intel.com (HELO [10.245.246.149])
- ([10.245.246.149])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 03:28:08 -0800
-Message-ID: <62c1e9e941cec75cf8771761fb9981879fefcce5.camel@linux.intel.com>
-Subject: Re: [PATCH 08/22] drm/xe: Convert timeout to secs_to_jiffies()
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>, Pablo Neira Ayuso
- <pablo@netfilter.org>, Jozsef Kadlecsik <kadlec@netfilter.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,  Nicolas Palix
- <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>, Haojian Zhuang
- <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Russell King <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, Ofir
- Bitton <obitton@habana.ai>, Oded Gabbay <ogabbay@kernel.org>, Lucas De
- Marchi <lucas.demarchi@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- James Smart <james.smart@broadcom.com>, Dick Kennedy
- <dick.kennedy@broadcom.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Roger Pau =?ISO-8859-1?Q?Monn=E9?=
- <roger.pau@citrix.com>, Jens Axboe <axboe@kernel.dk>, Kalle Valo
- <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, Jack
- Wang <jinpu.wang@cloud.ionos.com>, Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz
- <luiz.dentz@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Broadcom
- internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Xiubo
- Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,  Josh Poimboeuf
- <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>, Miroslav Benes
- <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, Joe Lawrence
- <joe.lawrence@redhat.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>,  Christian Gmeiner
- <christian.gmeiner@gmail.com>, Louis Peens <louis.peens@corigine.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao
- <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr, 
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org, 
- linux-block@vger.kernel.org, linux-wireless@vger.kernel.org, 
- ath11k@lists.infradead.org, linux-mm@kvack.org,
- linux-bluetooth@vger.kernel.org,  linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org,  ceph-devel@vger.kernel.org,
- live-patching@vger.kernel.org,  linux-sound@vger.kernel.org,
- etnaviv@lists.freedesktop.org,  oss-drivers@corigine.com,
- linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen <anna-maria@linutronix.de>
-Date: Mon, 18 Nov 2024 12:27:53 +0100
-In-Reply-To: <20241115-converge-secs-to-jiffies-v1-8-19aadc34941b@linux.microsoft.com>
-References: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
- <20241115-converge-secs-to-jiffies-v1-8-19aadc34941b@linux.microsoft.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-3.fc39) 
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FFF110E498
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 11:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9P8xPxcg1J9Buv3Jwpn68RNa1OCmGSVC4fQcvu/hqKo=; b=E4eB7DU28U1J9RHCgDmsBdgRuC
+ 6YTqLk8DtcXksqh8//R5tyoYs5CTk1jRJIEhG9HnAe/fS5fooTjUZkPLLLYL383z3g2cXad5vSEYV
+ 8EkgEfqiuXPD4NyTIe+m7qURi3lPij6FqmYXQBdl8Hon5hUrG+4LlgwhvDgF/jOnYiMIdgNNAIqGB
+ IZ90GJqf796ESOcpR2z8evklTog2BB2qMkC8n0MSUu1/dvZnimJUTfrMqbzaCqOowqATFWZlBi+ca
+ 1CtLEzB72X3YISGEG+NW/z3r+g4wlWscQROfDjlCvVt0xaDu3uq7aJ7pC+N/T6d5JoP5piNbksyhD
+ ee50kMZw==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tCzwa-008TGU-8W; Mon, 18 Nov 2024 12:29:24 +0100
+Message-ID: <9980c54b-a3ba-4396-ac83-37e14a81f74a@igalia.com>
+Date: Mon, 18 Nov 2024 08:29:17 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] drm/v3d: Add DRM_IOCTL_V3D_PERFMON_SET_GLOBAL
+To: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Melissa Wen <mwen@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel-dev@igalia.com, Christian Gmeiner <cgmeiner@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241117214110.162547-1-christian.gmeiner@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20241117214110.162547-1-christian.gmeiner@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,43 +65,206 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2024-11-15 at 21:22 +0000, Easwar Hariharan wrote:
-> Changes made with the following Coccinelle rules:
->=20
-> @@ constant C; @@
->=20
-> - msecs_to_jiffies(C * 1000)
-> + secs_to_jiffies(C)
->=20
-> @@ constant C; @@
->=20
-> - msecs_to_jiffies(C * MSEC_PER_SEC)
-> + secs_to_jiffies(C)
->=20
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+Hi Christian,
 
-<
+The patch overall LGTM, I just have one small nit.
+
+On 17/11/24 18:41, Christian Gmeiner wrote:
+> From: Christian Gmeiner <cgmeiner@igalia.com>
+> 
+> Add a new ioctl, DRM_IOCTL_V3D_PERFMON_SET_GLOBAL, to allow
+> configuration of a global performance monitor (perfmon).
+> Use the global perfmon for all jobs to ensure consistent
+> performance tracking across submissions. This feature is
+> needed to implement a Perfetto datasources in user-space.
+> 
+> Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
 > ---
-> =C2=A0drivers/gpu/drm/xe/xe_device.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/xe/xe_device.c
-> b/drivers/gpu/drm/xe/xe_device.c
-> index
-> a1987b554a8d2aa42b29301f2853edddfda7fda5..bb3338ef4191e76128611eeb953
-> 1c9d2089db85a 100644
-> --- a/drivers/gpu/drm/xe/xe_device.c
-> +++ b/drivers/gpu/drm/xe/xe_device.c
-> @@ -502,7 +502,7 @@ static int wait_for_lmem_ready(struct xe_device
-> *xe)
-> =C2=A0	drm_dbg(&xe->drm, "Waiting for lmem initialization\n");
-> =C2=A0
-> =C2=A0	start =3D jiffies;
-> -	timeout =3D start + msecs_to_jiffies(60 * 1000); /* 60 sec! */
-> +	timeout =3D start + secs_to_jiffies(60); /* 60 sec! */
-> =C2=A0
-> =C2=A0	do {
-> =C2=A0		if (signal_pending(current))
->=20
+> Changes in v3:
+> - Reworked commit message.
+> - Refined some code comments.
+> - Added missing v3d_perfmon_stop(..) call to v3d_perfmon_destroy_ioctl(..).
+> 
+> Changes in v2:
+> - Reworked commit message.
+> - Removed num_perfmon counter for tracking perfmon allocations.
+> - Allowing allocation of perfmons when the global perfmon is active.
+> - Return -EAGAIN for submissions with a per job perfmon if the global perfmon is active.
+> ---
+> 
+> ---
+>   drivers/gpu/drm/v3d/v3d_drv.c     |  1 +
+>   drivers/gpu/drm/v3d/v3d_drv.h     |  8 ++++++
+>   drivers/gpu/drm/v3d/v3d_perfmon.c | 42 +++++++++++++++++++++++++++++++
+>   drivers/gpu/drm/v3d/v3d_sched.c   | 14 ++++++++---
+>   drivers/gpu/drm/v3d/v3d_submit.c  | 10 ++++++++
+>   include/uapi/drm/v3d_drm.h        | 15 +++++++++++
+>   6 files changed, 87 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> index d7ff1f5fa481..3c89f0daa5b8 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -214,6 +214,7 @@ static const struct drm_ioctl_desc v3d_drm_ioctls[] = {
+>   	DRM_IOCTL_DEF_DRV(V3D_PERFMON_GET_VALUES, v3d_perfmon_get_values_ioctl, DRM_RENDER_ALLOW),
+>   	DRM_IOCTL_DEF_DRV(V3D_SUBMIT_CPU, v3d_submit_cpu_ioctl, DRM_RENDER_ALLOW | DRM_AUTH),
+>   	DRM_IOCTL_DEF_DRV(V3D_PERFMON_GET_COUNTER, v3d_perfmon_get_counter_ioctl, DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(V3D_PERFMON_SET_GLOBAL, v3d_perfmon_set_global_ioctl, DRM_RENDER_ALLOW),
+>   };
+>   
+>   static const struct drm_driver v3d_drm_driver = {
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+> index cf4b23369dc4..a0d920ec2b1d 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> @@ -179,6 +179,12 @@ struct v3d_dev {
+>   		u32 num_allocated;
+>   		u32 pages_allocated;
+>   	} bo_stats;
+> +
+> +	/* To support a performance analysis tool in user space, we require
+> +	 * a single, globally configured performance monitor (perfmon) for
+> +	 * all jobs.
+> +	 */
+> +	struct v3d_perfmon *global_perfmon;
+>   };
+>   
+>   static inline struct v3d_dev *
+> @@ -584,6 +590,8 @@ int v3d_perfmon_get_values_ioctl(struct drm_device *dev, void *data,
+>   				 struct drm_file *file_priv);
+>   int v3d_perfmon_get_counter_ioctl(struct drm_device *dev, void *data,
+>   				  struct drm_file *file_priv);
+> +int v3d_perfmon_set_global_ioctl(struct drm_device *dev, void *data,
+> +				 struct drm_file *file_priv);
+>   
+>   /* v3d_sysfs.c */
+>   int v3d_sysfs_init(struct device *dev);
+> diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
+> index 156be13ab2ef..df72171d8c80 100644
+> --- a/drivers/gpu/drm/v3d/v3d_perfmon.c
+> +++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
+> @@ -312,6 +312,9 @@ static int v3d_perfmon_idr_del(int id, void *elem, void *data)
+>   	if (perfmon == v3d->active_perfmon)
+>   		v3d_perfmon_stop(v3d, perfmon, false);
+>   
+> +	/* If the global perfmon is being destroyed, set it to NULL */
+> +	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
+> +
+>   	v3d_perfmon_put(perfmon);
+>   
+>   	return 0;
+> @@ -383,6 +386,7 @@ int v3d_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
+>   {
+>   	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
+>   	struct drm_v3d_perfmon_destroy *req = data;
+> +	struct v3d_dev *v3d = v3d_priv->v3d;
+>   	struct v3d_perfmon *perfmon;
+>   
+>   	mutex_lock(&v3d_priv->perfmon.lock);
+> @@ -392,6 +396,13 @@ int v3d_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
+>   	if (!perfmon)
+>   		return -EINVAL;
+>   
+> +	/* If the active perfmon is being destroyed, stop it first */
+> +	if (perfmon == v3d->active_perfmon)
+> +		v3d_perfmon_stop(v3d, perfmon, false);
+
+Could you please move this snippet to different patch? This snippet is a
+global fix as it can prevent NULL pointer dereferences triggered by the
+user-space. I would like to push this snippet to drm-misc-fixes.
+
+> +
+> +	/* If the global perfmon is being destroyed, set it to NULL */
+> +	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
+> +
+>   	v3d_perfmon_put(perfmon);
+>   
+>   	return 0;
+> @@ -451,3 +462,34 @@ int v3d_perfmon_get_counter_ioctl(struct drm_device *dev, void *data,
+>   
+>   	return 0;
+>   }
+> +
+> +int v3d_perfmon_set_global_ioctl(struct drm_device *dev, void *data,
+> +				 struct drm_file *file_priv)
+> +{
+> +	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
+> +	struct drm_v3d_perfmon_set_global *req = data;
+> +	struct v3d_dev *v3d = to_v3d_dev(dev);
+> +	struct v3d_perfmon *perfmon;
+> +
+> +	if (req->flags & ~DRM_V3D_PERFMON_CLEAR_GLOBAL)
+> +		return -EINVAL;
+> +
+> +	perfmon = v3d_perfmon_find(v3d_priv, req->id);
+> +	if (!perfmon)
+> +		return -EINVAL;
+> +
+> +	/* If the request is to clear the global performance monitor */
+> +	if (req->flags & DRM_V3D_PERFMON_CLEAR_GLOBAL) {
+> +		if (!v3d->global_perfmon)
+> +			return -EINVAL;
+> +
+> +		xchg(&v3d->global_perfmon, NULL);
+
+What if v3d->global_perfmon is running?
+
+> +
+> +		return 0;
+> +	}
+> +
+> +	if (cmpxchg(&v3d->global_perfmon, NULL, perfmon))
+> +		return -EBUSY;
+> +
+> +	return 0;
+> +}
+
+[...]
+
+> diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
+> index 87fc5bb0a61e..7c2ad9d0270d 100644
+> --- a/include/uapi/drm/v3d_drm.h
+> +++ b/include/uapi/drm/v3d_drm.h
+> @@ -43,6 +43,7 @@ extern "C" {
+>   #define DRM_V3D_PERFMON_GET_VALUES                0x0a
+>   #define DRM_V3D_SUBMIT_CPU                        0x0b
+>   #define DRM_V3D_PERFMON_GET_COUNTER               0x0c
+> +#define DRM_V3D_PERFMON_SET_GLOBAL                0x0d
+>   
+>   #define DRM_IOCTL_V3D_SUBMIT_CL           DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_SUBMIT_CL, struct drm_v3d_submit_cl)
+>   #define DRM_IOCTL_V3D_WAIT_BO             DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_WAIT_BO, struct drm_v3d_wait_bo)
+> @@ -61,6 +62,8 @@ extern "C" {
+>   #define DRM_IOCTL_V3D_SUBMIT_CPU          DRM_IOW(DRM_COMMAND_BASE + DRM_V3D_SUBMIT_CPU, struct drm_v3d_submit_cpu)
+>   #define DRM_IOCTL_V3D_PERFMON_GET_COUNTER DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_PERFMON_GET_COUNTER, \
+>   						   struct drm_v3d_perfmon_get_counter)
+> +#define DRM_IOCTL_V3D_PERFMON_SET_GLOBAL  DRM_IOW(DRM_COMMAND_BASE + DRM_V3D_PERFMON_SET_GLOBAL, \
+> +						   struct drm_v3d_perfmon_set_global)
+>   
+>   #define DRM_V3D_SUBMIT_CL_FLUSH_CACHE             0x01
+>   #define DRM_V3D_SUBMIT_EXTENSION		  0x02
+> @@ -765,6 +768,18 @@ struct drm_v3d_perfmon_get_counter {
+>   	__u8 reserved[7];
+>   };
+>   
+> +#define DRM_V3D_PERFMON_CLEAR_GLOBAL    0x0001
+> +
+> +/**
+> + * struct drm_v3d_perfmon_set_global - ioctl to define a global performance
+> + * monitor that is used for all job. If a global performance monitor is
+
+s/job/jobs
+
+Best Regards,
+- Maíra
+
+> + * defined, jobs with a self-defined performance monitor are not allowed.
+> + */
+> +struct drm_v3d_perfmon_set_global {
+> +	__u32 flags;
+> +	__u32 id;
+> +};
+> +
+>   #if defined(__cplusplus)
+>   }
+>   #endif
 
