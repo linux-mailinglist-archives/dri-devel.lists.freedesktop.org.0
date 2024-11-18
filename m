@@ -2,50 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864499D12B5
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 15:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69759D12B7
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 15:12:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28B0210E11E;
-	Mon, 18 Nov 2024 14:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 337D910E246;
+	Mon, 18 Nov 2024 14:12:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JuIHoMgO";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EUm7WMKf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6508210E11E;
- Mon, 18 Nov 2024 14:11:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=e8UfdNR329P2M7potRTmyDk47Jb38kQfn6K1ctH8OHc=; b=JuIHoMgOUMmJ3a+WxUe2xXnCxV
- bpd0KDm2dqLnlSlDwqARYd8q/z8MaoYwxsLNHJp8ldFzBkB6SE0DdawY7yU/pKrl0dqRY5HuiPvAX
- TQhDB3tfi9KNgBHg/bzjbMjmnurpEQvhjQkHi7VZawoYV2PRRz8DWFf/C3Itjq/B5H2cGuKngTSRM
- ShJ9CZLTp4m6pQYRmUxckWTcRSxONductOX80xhPuGpDbXz0D6y1seosqwDuIEwmfxsrk7nIkO9OL
- NytSMO6Xmbo4/UgFikO36rI/ehNfeW9vquOyTKbPDLwWGS83Hf2OYpKGuiEslg5IJA8dA67dvTJSt
- IKA7VxrA==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tD2Td-008XPK-I3; Mon, 18 Nov 2024 15:11:41 +0100
-Message-ID: <e917bc49-11fc-4f6c-b003-8015f53c0caa@igalia.com>
-Date: Mon, 18 Nov 2024 14:11:40 +0000
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9B9A10E249
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 14:12:44 +0000 (UTC)
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
+ [91.157.155.49])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4056AA57;
+ Mon, 18 Nov 2024 15:12:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1731939146;
+ bh=9rtIaJdzLpfhcJlBdzdGMpAeFiab6X2lmqW3IAg19II=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=EUm7WMKftaJjwT/vqupC6vNQxjhPHc6B41uCr5ui0oyEUrcXQC8KkjTS+Pm75jYxI
+ p/kzzkTE7yuhqB+LtM2UGdkJJuNwx8G9sIP5uoKIiRXhzP3oOThJp9kiO+g0GqDypO
+ EhJl4HVcAHMb+p5tasycAo8JdZujfikf59JgI0lE=
+Message-ID: <91f1d2a6-2dc8-428c-9d0c-bd40177fda2b@ideasonboard.com>
+Date: Mon, 18 Nov 2024 16:12:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/5] drm: make drm-active- stats optional
-To: Yunxiang Li <Yunxiang.Li@amd.com>, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com
-Cc: Alexander.Deucher@amd.com, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20241116044452.5925-1-Yunxiang.Li@amd.com>
- <20241116044452.5925-3-Yunxiang.Li@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20241116044452.5925-3-Yunxiang.Li@amd.com>
+Subject: Re: [PATCH v5 06/13] drm/bridge: cdns-dsi: Check return value when
+ getting default PHY config
+To: Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Dominik Haller <d.haller@phytec.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
+ Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>
+References: <20241019195411.266860-1-aradhya.bhatia@linux.dev>
+ <20241019195411.266860-7-aradhya.bhatia@linux.dev>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20241019195411.266860-7-aradhya.bhatia@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,143 +114,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 16/11/2024 04:44, Yunxiang Li wrote:
-> When memory stats is generated fresh everytime by going though all the
-> BOs, their active information is quite easy to get. But if the stats are
-> tracked with BO's state this becomes harder since the job scheduling
-> part doesn't really deal with individual buffers.
+On 19/10/2024 22:54, Aradhya Bhatia wrote:
+> From: Aradhya Bhatia <a-bhatia1@ti.com>
 > 
-> Make drm-active- optional to enable amdgpu to switch to the second
-> method.
-
-Perhaps you missed 
-https://lore.kernel.org/dri-devel/3706dc4f-db98-45e0-b870-f10368ab1ab9@igalia.com/ 
-?
-
-Regards,
-
-Tvrtko
-
-> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
-> CC: dri-devel@lists.freedesktop.org
-> CC: intel-gfx@lists.freedesktop.org
-> CC: amd-gfx@lists.freedesktop.org
+> Check for the return value of the phy_mipi_dphy_get_default_config()
+> call, and incase of an error, return back the same.
+> 
+> Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  1 +
->   drivers/gpu/drm/drm_file.c                 | 13 +++++++------
->   drivers/gpu/drm/i915/i915_drm_client.c     |  1 +
->   drivers/gpu/drm/xe/xe_drm_client.c         |  1 +
->   include/drm/drm_gem.h                      | 14 ++++++++------
->   5 files changed, 18 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> index df2cf5c339255..7717e3e4f05b5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> @@ -97,6 +97,7 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+>   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
+
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index 2fc24352d989..e4c0968313af 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -575,9 +575,11 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+>   	if (ret)
+>   		return ret;
 >   
->   		drm_print_memory_stats(p,
->   				       &stats[i].drm,
-> +				       DRM_GEM_OBJECT_ACTIVE |
->   				       DRM_GEM_OBJECT_RESIDENT |
->   				       DRM_GEM_OBJECT_PURGEABLE,
->   				       pl_name[i]);
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index e285fcc28c59c..fd06671054723 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -884,7 +884,9 @@ void drm_print_memory_stats(struct drm_printer *p,
->   {
->   	print_size(p, "total", region, stats->private + stats->shared);
->   	print_size(p, "shared", region, stats->shared);
-> -	print_size(p, "active", region, stats->active);
-> +
-> +	if (supported_status & DRM_GEM_OBJECT_ACTIVE)
-> +		print_size(p, "active", region, stats->active);
+> -	phy_mipi_dphy_get_default_config(mode_clock * 1000,
+> -					 mipi_dsi_pixel_format_to_bpp(output->dev->format),
+> -					 nlanes, phy_cfg);
+> +	ret = phy_mipi_dphy_get_default_config(mode_clock * 1000,
+> +					       mipi_dsi_pixel_format_to_bpp(output->dev->format),
+> +					       nlanes, phy_cfg);
+> +	if (ret)
+> +		return ret;
 >   
->   	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
->   		print_size(p, "resident", region, stats->resident);
-> @@ -917,15 +919,13 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
->   
->   		if (obj->funcs && obj->funcs->status) {
->   			s = obj->funcs->status(obj);
-> -			supported_status = DRM_GEM_OBJECT_RESIDENT |
-> -					DRM_GEM_OBJECT_PURGEABLE;
-> +			supported_status |= s;
->   		}
->   
-> -		if (drm_gem_object_is_shared_for_memory_stats(obj)) {
-> +		if (drm_gem_object_is_shared_for_memory_stats(obj))
->   			status.shared += obj->size;
-> -		} else {
-> +		else
->   			status.private += obj->size;
-> -		}
->   
->   		if (s & DRM_GEM_OBJECT_RESIDENT) {
->   			status.resident += add_size;
-> @@ -938,6 +938,7 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
->   
->   		if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
->   			status.active += add_size;
-> +			supported_status |= DRM_GEM_OBJECT_ACTIVE;
->   
->   			/* If still active, don't count as purgeable: */
->   			s &= ~DRM_GEM_OBJECT_PURGEABLE;
-> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-> index f586825054918..168d7375304bc 100644
-> --- a/drivers/gpu/drm/i915/i915_drm_client.c
-> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
-> @@ -102,6 +102,7 @@ static void show_meminfo(struct drm_printer *p, struct drm_file *file)
->   	for_each_memory_region(mr, i915, id)
->   		drm_print_memory_stats(p,
->   				       &stats[id],
-> +				       DRM_GEM_OBJECT_ACTIVE |
->   				       DRM_GEM_OBJECT_RESIDENT |
->   				       DRM_GEM_OBJECT_PURGEABLE,
->   				       mr->uabi_name);
-> diff --git a/drivers/gpu/drm/xe/xe_drm_client.c b/drivers/gpu/drm/xe/xe_drm_client.c
-> index 6a26923fa10e0..54941b4e850c4 100644
-> --- a/drivers/gpu/drm/xe/xe_drm_client.c
-> +++ b/drivers/gpu/drm/xe/xe_drm_client.c
-> @@ -229,6 +229,7 @@ static void show_meminfo(struct drm_printer *p, struct drm_file *file)
->   		if (man) {
->   			drm_print_memory_stats(p,
->   					       &stats[mem_type],
-> +					       DRM_GEM_OBJECT_ACTIVE |
->   					       DRM_GEM_OBJECT_RESIDENT |
->   					       (mem_type != XE_PL_SYSTEM ? 0 :
->   					       DRM_GEM_OBJECT_PURGEABLE),
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index bae4865b2101a..584ffdf5c2542 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -48,19 +48,21 @@ struct drm_gem_object;
->    * enum drm_gem_object_status - bitmask of object state for fdinfo reporting
->    * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
->    * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
-> + * @DRM_GEM_OBJECT_ACTIVE: object is currently used by an active submission
->    *
->    * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
-> - * and drm_show_fdinfo().  Note that an object can DRM_GEM_OBJECT_PURGEABLE if
-> - * it still active or not resident, in which case drm_show_fdinfo() will not
-> + * and drm_show_fdinfo().  Note that an object can report DRM_GEM_OBJECT_PURGEABLE
-> + * and be active or not resident, in which case drm_show_fdinfo() will not
->    * account for it as purgeable.  So drivers do not need to check if the buffer
-> - * is idle and resident to return this bit.  (Ie. userspace can mark a buffer
-> - * as purgeable even while it is still busy on the GPU.. it does not _actually_
-> - * become puregeable until it becomes idle.  The status gem object func does
-> - * not need to consider this.)
-> + * is idle and resident to return this bit, i.e. userspace can mark a buffer as
-> + * purgeable even while it is still busy on the GPU. It whill not get reported
-> + * in the puregeable stats until it becomes idle.  The status gem object func
-> + * does not need to consider this.
->    */
->   enum drm_gem_object_status {
->   	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
->   	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
-> +	DRM_GEM_OBJECT_ACTIVE = BIT(2),
->   };
->   
->   /**
+>   	ret = cdns_dsi_adjust_phy_config(dsi, dsi_cfg, phy_cfg, mode, mode_valid_check);
+>   	if (ret)
+
