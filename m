@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745959D18D2
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 20:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5CFA9D1927
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 20:46:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0F510E55C;
-	Mon, 18 Nov 2024 19:26:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 897AE10E25D;
+	Mon, 18 Nov 2024 19:46:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OS/CWLvG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XmkyYZbY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E68D10E276;
- Mon, 18 Nov 2024 19:25:59 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4316cce103dso34238925e9.3; 
- Mon, 18 Nov 2024 11:25:59 -0800 (PST)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3065D10E171;
+ Mon, 18 Nov 2024 19:46:04 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-3823e45339bso91263f8f.0; 
+ Mon, 18 Nov 2024 11:46:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731957958; x=1732562758; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1731959162; x=1732563962; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=9pD0Ic6pq3x9QjpEUEJLIp8QMqGQFkQZMFW6bkNDgUM=;
- b=OS/CWLvGwG9nTEACckM5bLUjgEntMcEqkm+tAVDaHsUtTileueOTWAlsZ3nNBshbD4
- rRsAdVkNEQ6zG8xBEcsmkKfGbzE/TSCFxFDnc8auE/qGOBh2ID7PKmi4UK3whIqoNChQ
- On9y96anttNLKikxx7ExpfKIAGsjyvy/MxlvdxmNT7Qo+rxJuidIx/FXOeuMXC+kRu7N
- 8hp8z7yoq4Ot2OGMuWKa/QOPedlPs9mNIux+mom0n5xBXUOtb+BXqy9Tk4g93D5kpf+H
- seeHUyfAD2chTjgikn4Csj2t6DGbxp/9H9YSAszER8H/wOmVhuqXTFt8ZL5DIVao7iFO
- Hy0A==
+ bh=mt4aBOkuu7owoC6NV6RNA6Hgo+xRIJRQP/Yk/dWKksM=;
+ b=XmkyYZbY5bruKdcWWxvNsK88CMmPTr+0+4TZqlX1Nxb29cttUTra5AMZZnzFe1ZX6M
+ v6wQzfc4r8m0eCeHV+xYEhbn5jp8bQ39mwyzbUB97ZbR03LtAy7v2cRkaA1zrhtTeIq8
+ yLEUTdgx0C0b3Sc+INHuMIhqwP9BFaHrOxnV8q4bfzgdLh4lP79S0xSrHgPOWr8UkjhP
+ xHL46WGgQ0HKVMo0055CA7IJyh2tUcE2l7p50hcvbBbQQ3CK4KkFuAENqZqz1DrDoryx
+ 8Yg73QcMxi9eAXykNfTMH+/Zk0n1dRAq96eXPydLgbV2EbmJBfMQ0cH+mKyGX2XqVR/I
+ zEQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731957958; x=1732562758;
+ d=1e100.net; s=20230601; t=1731959162; x=1732563962;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9pD0Ic6pq3x9QjpEUEJLIp8QMqGQFkQZMFW6bkNDgUM=;
- b=arjmtdLLPHdn0TqVw0B3YV5lZc+v27eaqI6VrtbyCRbtakIkgNWvT1lw0xBRQE7Rsv
- +vAVyx9hti1RjPIP6AUBChrCeNrLwM/sHxN+JAJ6Z0H12Jr1jmQjFSdwhfRY/JHVgecQ
- I+7LQD1G/JqXAUWcnfSgNi+xpVJR26mgQLZnSGP+R88aZ/oKgNVTF9bfnN5cawPNp4aQ
- ZLjONFTFIzXNK+hJ2FoFVU3wmrkJYWOAlCcKkvUTu+lEL/VEMJG9IE17ji6hjAWlYP8H
- p3KDcFpKUnpKVWWi8Y3XY4oQBGOsPSkOQD4TCYj9HRl73nlyKiddjCZcsHs14Hj+cDb1
- FHRQ==
+ bh=mt4aBOkuu7owoC6NV6RNA6Hgo+xRIJRQP/Yk/dWKksM=;
+ b=ETCz6Hn8sFpUoGZZ3CEvM/IF6KFA0rJo5HQN4WX3BKfYZDRpO4gSE8M9YiUgsA7kCA
+ tvogTr/r/FR5+nty9ZFNHRzl1neaRoxjWWG6LtLmFxx+lYhLyBNoyjgbcriVp8NvoUzq
+ NsO83HqHyTVdaxSRytYVfcCWO6ibQ5qSDw+skgKTRf3ZtkXW+S7gZH+42LdZV/+mhdJ+
+ O26lCb6MhKrGrFyifxLNe4o5OcEmqtfLOHyaoeRY8cOUaC1bI6T+SQnufyz748UgjPdw
+ UmL2Z6vcxnFWaBVM4+PXKFgdvj1E0PVkC1WfxS5R2WAYVn0P51odasjlnK98nr6rWWrS
+ PWRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUG3a7fAU0VDhLafgO3ky73oa3mt0jrbq7LaqFSBJHtK8wre7wEP61VI3/O6ktyicAsxKxk5Z0pdmMT@lists.freedesktop.org,
- AJvYcCUd3uX88EX4Pnj+gE5GohLIdbGAnlXMj6mPlEvdX6YrqDyIIekFESdQkWzY8mOeGoF/uhWdkGJXdg==@lists.freedesktop.org,
- AJvYcCVZ9DhdOFDsi2wdPRP6/4gJjCnn3jOBXxD94XPbj6wjHME3SCN29SKsfWVvMf3B4BQiFYWG6XqVgdU=@lists.freedesktop.org,
- AJvYcCVeGGFCmZQRq3Ky1SG1Q+c5hJ9uWesrgM+7LOpTNW7YMj4RJHVAEcRKHkECVZdZAyOup0tSQxvI6X8b@lists.freedesktop.org,
- AJvYcCWj5+q6q+QVCfQBBiT+Ak12RWlOGQ5UrEwg2zeHNfNsIU5GjPHQZ7k5pir+vK1n2u4pfGbgesDe@lists.freedesktop.org,
- AJvYcCXBqArqguEIySDx68fFSsioP84xBMWzD+cCRwxFj6tmsN+cybeoOXe1u4dZ4JQH05gnyeBA3gVwKXbY2oM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/8ZMWmlyBbIRT4p90lYS6sXE1MkhveMljckpEZQ0d0w6HLf08
- hIWa9RcT2oytQKczyf2bplMq3bfxboiL3+QgckKDNMQt8+Toz+3W
-X-Google-Smtp-Source: AGHT+IH+lcOQ8Rj8oM11CtrUWBNXK6zZA1wltL3ZBTXjDjqXIpvoTVhgtssacVRTup7RXCuDYGl00g==
-X-Received: by 2002:a05:600c:1d97:b0:426:59fe:ac27 with SMTP id
- 5b1f17b1804b1-432df78f3demr130180715e9.26.1731957957571; 
- Mon, 18 Nov 2024 11:25:57 -0800 (PST)
+ AJvYcCUCcwExVZ2iCZuW5Rhj44Fv4I008E3OfzyfjtqoTJ5qNw0OFfHf1pnqqM3Zf0AiptC+wjXhsVJ2g09n@lists.freedesktop.org,
+ AJvYcCUh8p1PyRwX08VSGjvw8Mbt3Bn4TiTtAh5qHuuc3gMmRgQjW3k797l+MJ2BPs/oDynL62yb7AB4AXE=@lists.freedesktop.org,
+ AJvYcCWCxhSk9wVFYRBac1JOHG5PjSN614mPDkt6OinVQOMGCGKiD5ZRHHWUTAj8Sh+qGIwIqu3pX0ywqPl1@lists.freedesktop.org,
+ AJvYcCWpoXmNKgHbpqB+IynypDa7QkFZDynyVljEOXuq0yBgqc+VO73fPn4EDUzlIagcw8hj0ojPAy6XDsHvN20=@lists.freedesktop.org,
+ AJvYcCWx+8QW73RSb8g7xsthuwX7i2rzdvsP/iaepJirS5NpXUtGUPfYffm3iWvkojcgAeMAgny6gXeY@lists.freedesktop.org,
+ AJvYcCXFuC80OWobbVERl+ATt6wQzTFOLhctHXGZtmYBriuHn8QiNeYiPcOpNNVYpZtSRVapaF5YpzLS1g==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzlUDSeIyBelcad3nPRH3xnj1yzHqY2SidAgxozcqi08u7VdNP3
+ Crn/+DqQq/+eSWb2diekIlCQ57sD0+2dCM6a8wGXfZejbGACBkXQ
+X-Google-Smtp-Source: AGHT+IEBarVZ5xPtoRTDDCnc+yXKEQVm2RWifD4w8ZR8gKQDg8ONRlhmQVIR7ebSsGXQyLAT0ARFDg==
+X-Received: by 2002:a5d:64cc:0:b0:382:2e9e:d688 with SMTP id
+ ffacd0b85a97d-3822e9ed93cmr10226673f8f.51.1731959161977; 
+ Mon, 18 Nov 2024 11:46:01 -0800 (PST)
 Received: from ?IPV6:2001:861:3385:e20:6384:4cf:52c5:3194?
  ([2001:861:3385:e20:6384:4cf:52c5:3194])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432da298c81sm172023915e9.39.2024.11.18.11.25.55
+ ffacd0b85a97d-38236068b44sm8248843f8f.65.2024.11.18.11.45.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Nov 2024 11:25:57 -0800 (PST)
-Message-ID: <8a4f69dd-b393-4e84-be3c-58f8b33bd59d@gmail.com>
-Date: Mon, 18 Nov 2024 20:25:49 +0100
+ Mon, 18 Nov 2024 11:46:01 -0800 (PST)
+Message-ID: <1ca58d38-7150-463e-ab3c-fd59d24a8d4e@gmail.com>
+Date: Mon, 18 Nov 2024 20:45:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] drm/sti: hda: pass const struct drm_display_mode* to
- hda_get_mode_idx()
+Subject: Re: [PATCH 5/5] drm/connector: make mode_valid accept const struct
+ drm_display_mode
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
@@ -122,10 +122,10 @@ Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  spice-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
 References: <20241115-drm-connector-mode-valid-const-v1-0-b1b523156f71@linaro.org>
- <20241115-drm-connector-mode-valid-const-v1-3-b1b523156f71@linaro.org>
+ <20241115-drm-connector-mode-valid-const-v1-5-b1b523156f71@linaro.org>
 Content-Language: en-US, fr
 From: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>
-In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-3-b1b523156f71@linaro.org>
+In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-5-b1b523156f71@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -145,20 +145,1001 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-> Make hda_get_mode_idx() accept const struct drm_display_mode pointer
-> instead of just raw struct drm_display_mode.  This is a preparation to
-> converting the mode_valid() callback of drm_connector to accept const
-> struct drm_display_mode argument.
+Le 15/11/2024 à 22:09, Dmitry Baryshkov a écrit :
+> The mode_valid() callbacks of drm_encoder, drm_crtc and drm_bridge
+> accept const struct drm_display_mode argument. Change the mode_valid
+> callback of drm_connector to also accept const argument.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
 
 Hi Dmitry,
 
-Thank you for the patch.
+Thank you for your patch.
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c           |  8 ++++----
+>   drivers/gpu/drm/amd/amdgpu/atombios_dp.c                 |  2 +-
+>   drivers/gpu/drm/amd/amdgpu/atombios_dp.h                 |  2 +-
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c        |  2 +-
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h        |  2 +-
+>   drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c |  2 +-
+>   drivers/gpu/drm/arm/malidp_mw.c                          |  2 +-
+>   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c             |  2 +-
+>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c      |  2 +-
+>   drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c |  7 -------
+>   drivers/gpu/drm/drm_crtc_helper_internal.h               |  2 +-
+>   drivers/gpu/drm/drm_probe_helper.c                       |  2 +-
+>   drivers/gpu/drm/exynos/exynos_hdmi.c                     |  2 +-
+>   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c                |  2 +-
+>   drivers/gpu/drm/gma500/cdv_intel_crt.c                   |  2 +-
+>   drivers/gpu/drm/gma500/cdv_intel_dp.c                    |  2 +-
+>   drivers/gpu/drm/gma500/cdv_intel_hdmi.c                  |  2 +-
+>   drivers/gpu/drm/gma500/cdv_intel_lvds.c                  |  2 +-
+>   drivers/gpu/drm/gma500/oaktrail_hdmi.c                   |  2 +-
+>   drivers/gpu/drm/gma500/psb_intel_drv.h                   |  2 +-
+>   drivers/gpu/drm/gma500/psb_intel_lvds.c                  |  2 +-
+>   drivers/gpu/drm/gma500/psb_intel_sdvo.c                  |  2 +-
+>   drivers/gpu/drm/i915/display/dvo_ch7017.c                |  2 +-
+>   drivers/gpu/drm/i915/display/dvo_ch7xxx.c                |  2 +-
+>   drivers/gpu/drm/i915/display/dvo_ivch.c                  |  2 +-
+>   drivers/gpu/drm/i915/display/dvo_ns2501.c                |  2 +-
+>   drivers/gpu/drm/i915/display/dvo_sil164.c                |  2 +-
+>   drivers/gpu/drm/i915/display/dvo_tfp410.c                |  2 +-
+>   drivers/gpu/drm/i915/display/icl_dsi.c                   |  2 +-
+>   drivers/gpu/drm/i915/display/intel_crt.c                 |  2 +-
+>   drivers/gpu/drm/i915/display/intel_dp.c                  |  2 +-
+>   drivers/gpu/drm/i915/display/intel_dsi.c                 |  2 +-
+>   drivers/gpu/drm/i915/display/intel_dsi.h                 |  2 +-
+>   drivers/gpu/drm/i915/display/intel_dvo.c                 |  2 +-
+>   drivers/gpu/drm/i915/display/intel_dvo_dev.h             |  2 +-
+>   drivers/gpu/drm/i915/display/intel_hdmi.c                |  2 +-
+>   drivers/gpu/drm/i915/display/intel_lvds.c                |  2 +-
+>   drivers/gpu/drm/i915/display/intel_sdvo.c                |  2 +-
+>   drivers/gpu/drm/i915/display/intel_tv.c                  |  2 +-
+>   drivers/gpu/drm/i915/display/vlv_dsi.c                   |  2 +-
+>   drivers/gpu/drm/imx/ipuv3/imx-tve.c                      |  2 +-
+>   drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c      |  2 +-
+>   drivers/gpu/drm/nouveau/dispnv50/disp.c                  |  2 +-
+>   drivers/gpu/drm/nouveau/nouveau_connector.c              |  2 +-
+>   drivers/gpu/drm/qxl/qxl_display.c                        |  2 +-
+>   drivers/gpu/drm/radeon/atombios_dp.c                     |  2 +-
+>   drivers/gpu/drm/radeon/radeon_connectors.c               | 10 +++++-----
+>   drivers/gpu/drm/radeon/radeon_mode.h                     |  2 +-
+>   drivers/gpu/drm/rockchip/cdn-dp-core.c                   |  2 +-
+>   drivers/gpu/drm/rockchip/inno_hdmi.c                     |  4 ++--
+>   drivers/gpu/drm/rockchip/rk3066_hdmi.c                   |  2 +-
+>   drivers/gpu/drm/sti/sti_dvo.c                            |  2 +-
+>   drivers/gpu/drm/sti/sti_hda.c                            |  2 +-
+>   drivers/gpu/drm/sti/sti_hdmi.c                           |  2 +-
 
-Acked-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+Regarding STi drivers:
 
+Reviewed-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
 
 Regards,
 Raphaël
+>   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c                   |  2 +-
+>   drivers/gpu/drm/tegra/dsi.c                              |  2 +-
+>   drivers/gpu/drm/tegra/hdmi.c                             |  2 +-
+>   drivers/gpu/drm/tegra/sor.c                              |  2 +-
+>   drivers/gpu/drm/vc4/vc4_txp.c                            |  2 +-
+>   drivers/gpu/drm/virtio/virtgpu_display.c                 |  2 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                      |  2 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                      |  2 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c                     |  2 +-
+>   include/drm/drm_modeset_helper_vtables.h                 |  2 +-
+>   64 files changed, 71 insertions(+), 78 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> index 344e0a9ee08a99a7e874e4ed31c28901b7ea25b0..5e375e9c4f5de3883797f06a0c4bea26bf3d1795 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> @@ -674,7 +674,7 @@ static int amdgpu_connector_lvds_get_modes(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status amdgpu_connector_lvds_mode_valid(struct drm_connector *connector,
+> -					     struct drm_display_mode *mode)
+> +					     const struct drm_display_mode *mode)
+>   {
+>   	struct drm_encoder *encoder = amdgpu_connector_best_single_encoder(connector);
+>   
+> @@ -839,7 +839,7 @@ static int amdgpu_connector_vga_get_modes(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status amdgpu_connector_vga_mode_valid(struct drm_connector *connector,
+> -					    struct drm_display_mode *mode)
+> +					    const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct amdgpu_device *adev = drm_to_adev(dev);
+> @@ -1196,7 +1196,7 @@ static void amdgpu_connector_dvi_force(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status amdgpu_connector_dvi_mode_valid(struct drm_connector *connector,
+> -					    struct drm_display_mode *mode)
+> +					    const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct amdgpu_device *adev = drm_to_adev(dev);
+> @@ -1464,7 +1464,7 @@ amdgpu_connector_dp_detect(struct drm_connector *connector, bool force)
+>   }
+>   
+>   static enum drm_mode_status amdgpu_connector_dp_mode_valid(struct drm_connector *connector,
+> -					   struct drm_display_mode *mode)
+> +					   const struct drm_display_mode *mode)
+>   {
+>   	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+>   	struct amdgpu_connector_atom_dig *amdgpu_dig_connector = amdgpu_connector->con_priv;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+> index 622634c08c7b56dce527b37c2d8b479abc58420c..521b9faab18059ed92ebb1dc9a9847e8426e7403 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
+> @@ -430,7 +430,7 @@ void amdgpu_atombios_dp_set_link_config(struct drm_connector *connector,
+>   }
+>   
+>   int amdgpu_atombios_dp_mode_valid_helper(struct drm_connector *connector,
+> -				  struct drm_display_mode *mode)
+> +				  const struct drm_display_mode *mode)
+>   {
+>   	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+>   	struct amdgpu_connector_atom_dig *dig_connector;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.h b/drivers/gpu/drm/amd/amdgpu/atombios_dp.h
+> index f59d85eaddf022d5b227e33bc8d3af418781f6d6..3e24acf8133f3a7f2d86f07048b1a8c67a4a8263 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.h
+> @@ -32,7 +32,7 @@ int amdgpu_atombios_dp_get_panel_mode(struct drm_encoder *encoder,
+>   void amdgpu_atombios_dp_set_link_config(struct drm_connector *connector,
+>   				 const struct drm_display_mode *mode);
+>   int amdgpu_atombios_dp_mode_valid_helper(struct drm_connector *connector,
+> -				  struct drm_display_mode *mode);
+> +				  const struct drm_display_mode *mode);
+>   bool amdgpu_atombios_dp_needs_link_train(struct amdgpu_connector *amdgpu_connector);
+>   void amdgpu_atombios_dp_set_rx_power_state(struct drm_connector *connector,
+>   				    u8 power_state);
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index d0ca905e91eafe6c53f3f2ebdf3f2ae9589d7f89..260426ba680c9e8120edfe36a28e6e6c34cd9a3a 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -7377,7 +7377,7 @@ create_validate_stream_for_sink(struct amdgpu_dm_connector *aconnector,
+>   }
+>   
+>   enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connector,
+> -				   struct drm_display_mode *mode)
+> +				   const struct drm_display_mode *mode)
+>   {
+>   	int result = MODE_ERROR;
+>   	struct dc_sink *dc_sink;
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index 25e95775c45c10ec1fb72f062204109d3b2e5efa..32856b848052efba0b26e257cc823ceae8c066c8 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -945,7 +945,7 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+>   				     int link_index);
+>   
+>   enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connector,
+> -				   struct drm_display_mode *mode);
+> +				   const struct drm_display_mode *mode);
+>   
+>   void dm_restore_drm_connector_state(struct drm_device *dev,
+>   				    struct drm_connector *connector);
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> index ebccb74306a765d524401c5fbbad32439366fbcb..e075a6b317cc23122238a79b1eb62f68a5074e81 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> @@ -88,7 +88,7 @@ komeda_wb_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   komeda_wb_connector_mode_valid(struct drm_connector *connector,
+> -			       struct drm_display_mode *mode)
+> +			       const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct drm_mode_config *mode_config = &dev->mode_config;
+> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
+> index 2577f0cef8fcda497efa91ed5dbce9c2a40587c7..600af5ad81b15d0c30f9f79588f40cca07437ed8 100644
+> --- a/drivers/gpu/drm/arm/malidp_mw.c
+> +++ b/drivers/gpu/drm/arm/malidp_mw.c
+> @@ -43,7 +43,7 @@ static int malidp_mw_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   malidp_mw_connector_mode_valid(struct drm_connector *connector,
+> -			       struct drm_display_mode *mode)
+> +			       const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct drm_mode_config *mode_config = &dev->mode_config;
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> index eb5919b382635e5e0b8fb70bcc2cc6de1a059187..fda66e7876b86f6dfc1ed0f781cd9c184e380090 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -847,7 +847,7 @@ static int adv7511_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   adv7511_connector_mode_valid(struct drm_connector *connector,
+> -			     struct drm_display_mode *mode)
+> +			     const struct drm_display_mode *mode)
+>   {
+>   	struct adv7511 *adv = connector_to_adv7511(connector);
+>   
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> index 41f72d458487fb27a34f2fa475c51de55725bc23..3b9e265e874719a3a8d21ea735bd7a877b47c7a7 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -1619,7 +1619,7 @@ bool cdns_mhdp_bandwidth_ok(struct cdns_mhdp_device *mhdp,
+>   
+>   static
+>   enum drm_mode_status cdns_mhdp_mode_valid(struct drm_connector *conn,
+> -					  struct drm_display_mode *mode)
+> +					  const struct drm_display_mode *mode)
+>   {
+>   	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
+>   
+> diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> index 37f1acf5c0f83ded2fb3d83150dc05cb6cfd2432..3760ccfe54d0826053eb899c5b14f9c8026702a2 100644
+> --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> @@ -115,16 +115,9 @@ static int ge_b850v3_lvds_get_modes(struct drm_connector *connector)
+>   	return num_modes;
+>   }
+>   
+> -static enum drm_mode_status ge_b850v3_lvds_mode_valid(
+> -		struct drm_connector *connector, struct drm_display_mode *mode)
+> -{
+> -	return MODE_OK;
+> -}
+> -
+>   static const struct
+>   drm_connector_helper_funcs ge_b850v3_lvds_connector_helper_funcs = {
+>   	.get_modes = ge_b850v3_lvds_get_modes,
+> -	.mode_valid = ge_b850v3_lvds_mode_valid,
+>   };
+>   
+>   static enum drm_connector_status ge_b850v3_lvds_bridge_detect(struct drm_bridge *bridge)
+> diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> index 8059f65c5d6c46014a3b510069730c6ac079f7bc..bae73936acf9bae97acb0d4f9554f963303907ca 100644
+> --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> @@ -43,7 +43,7 @@ enum drm_mode_status drm_encoder_mode_valid(struct drm_encoder *encoder,
+>   					    const struct drm_display_mode *mode);
+>   int
+>   drm_connector_mode_valid(struct drm_connector *connector,
+> -			 struct drm_display_mode *mode,
+> +			 const struct drm_display_mode *mode,
+>   			 struct drm_modeset_acquire_ctx *ctx,
+>   			 enum drm_mode_status *status);
+>   
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index 96b266b37ba49539dfc9b1af13b5e803526ee40a..080b552006141489d8d3fd985f737714820aa3a6 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -202,7 +202,7 @@ enum drm_mode_status drm_encoder_mode_valid(struct drm_encoder *encoder,
+>   
+>   int
+>   drm_connector_mode_valid(struct drm_connector *connector,
+> -			 struct drm_display_mode *mode,
+> +			 const struct drm_display_mode *mode,
+>   			 struct drm_modeset_acquire_ctx *ctx,
+>   			 enum drm_mode_status *status)
+>   {
+> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> index c9d4b9146df95bb46cb6bea4849c331616c2b463..683409f7abafa9ee95b25d37f74724de2477a4c1 100644
+> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> @@ -931,7 +931,7 @@ static int hdmi_find_phy_conf(struct hdmi_context *hdata, u32 pixel_clock)
+>   }
+>   
+>   static enum drm_mode_status hdmi_mode_valid(struct drm_connector *connector,
+> -					    struct drm_display_mode *mode)
+> +					    const struct drm_display_mode *mode)
+>   {
+>   	struct hdmi_context *hdata = connector_to_hdmi(connector);
+>   	int ret;
+> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+> index 2c2b92324a2e90fe13dcfa889986f00419c4be60..048b747d6871400ffa748458762b0721a5c1cad6 100644
+> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+> @@ -62,7 +62,7 @@ static int fsl_dcu_drm_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   fsl_dcu_drm_connector_mode_valid(struct drm_connector *connector,
+> -				 struct drm_display_mode *mode)
+> +				 const struct drm_display_mode *mode)
+>   {
+>   	if (mode->hdisplay & 0xf)
+>   		return MODE_ERROR;
+> diff --git a/drivers/gpu/drm/gma500/cdv_intel_crt.c b/drivers/gpu/drm/gma500/cdv_intel_crt.c
+> index 5a0acd914f769a970f3be12176dfd0bcbd8cee17..06fe7480e7afd1d67ee2be45b872604830913aff 100644
+> --- a/drivers/gpu/drm/gma500/cdv_intel_crt.c
+> +++ b/drivers/gpu/drm/gma500/cdv_intel_crt.c
+> @@ -69,7 +69,7 @@ static void cdv_intel_crt_dpms(struct drm_encoder *encoder, int mode)
+>   }
+>   
+>   static enum drm_mode_status cdv_intel_crt_mode_valid(struct drm_connector *connector,
+> -				struct drm_display_mode *mode)
+> +				const struct drm_display_mode *mode)
+>   {
+>   	if (mode->flags & DRM_MODE_FLAG_DBLSCAN)
+>   		return MODE_NO_DBLESCAN;
+> diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+> index cc2ed9b3fd2d22aa9d02983cf7059823f80ef366..53990d27c39faca906e960f4ad5a9e614c002990 100644
+> --- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
+> +++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+> @@ -505,7 +505,7 @@ static void cdv_intel_edp_backlight_off (struct gma_encoder *intel_encoder)
+>   
+>   static enum drm_mode_status
+>   cdv_intel_dp_mode_valid(struct drm_connector *connector,
+> -		    struct drm_display_mode *mode)
+> +		    const struct drm_display_mode *mode)
+>   {
+>   	struct gma_encoder *encoder = gma_attached_encoder(connector);
+>   	struct cdv_intel_dp *intel_dp = encoder->dev_priv;
+> diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+> index 2d95e04712911afcb2a1c03ce88428daf71dbb74..f2a3e37ef63289876182821f688348e05b7e224e 100644
+> --- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+> +++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+> @@ -222,7 +222,7 @@ static int cdv_hdmi_get_modes(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status cdv_hdmi_mode_valid(struct drm_connector *connector,
+> -				 struct drm_display_mode *mode)
+> +				 const struct drm_display_mode *mode)
+>   {
+>   	if (mode->clock > 165000)
+>   		return MODE_CLOCK_HIGH;
+> diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
+> index f3a4517bdf27cef18041d2c533bc3543a0cc371e..9276e3676ba0503e4ed50e67efd51c6fc2311669 100644
+> --- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
+> +++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
+> @@ -153,7 +153,7 @@ static void cdv_intel_lvds_restore(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status cdv_intel_lvds_mode_valid(struct drm_connector *connector,
+> -			      struct drm_display_mode *mode)
+> +			      const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> diff --git a/drivers/gpu/drm/gma500/oaktrail_hdmi.c b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
+> index ed8626c73541c13b1c04da26c096cf94f80524a6..1cf3943691277660d1d376a1894a5523362f0808 100644
+> --- a/drivers/gpu/drm/gma500/oaktrail_hdmi.c
+> +++ b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
+> @@ -514,7 +514,7 @@ static void oaktrail_hdmi_dpms(struct drm_encoder *encoder, int mode)
+>   }
+>   
+>   static enum drm_mode_status oaktrail_hdmi_mode_valid(struct drm_connector *connector,
+> -				struct drm_display_mode *mode)
+> +				const struct drm_display_mode *mode)
+>   {
+>   	if (mode->clock > 165000)
+>   		return MODE_CLOCK_HIGH;
+> diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma500/psb_intel_drv.h
+> index 2499fd6a80c9d81541a0a137e85fd5e974c7b021..9dc9dcd1b09f79b3e7a7d1c28e48afd82cd60da3 100644
+> --- a/drivers/gpu/drm/gma500/psb_intel_drv.h
+> +++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
+> @@ -212,7 +212,7 @@ extern bool psb_intel_lvds_mode_fixup(struct drm_encoder *encoder,
+>   				      const struct drm_display_mode *mode,
+>   				      struct drm_display_mode *adjusted_mode);
+>   extern enum drm_mode_status psb_intel_lvds_mode_valid(struct drm_connector *connector,
+> -				     struct drm_display_mode *mode);
+> +				     const struct drm_display_mode *mode);
+>   extern int psb_intel_lvds_set_property(struct drm_connector *connector,
+>   					struct drm_property *property,
+>   					uint64_t value);
+> diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
+> index 138f153d38ba354b2632eb39f559e1dad003ebf8..9ad611b5956eb4a289f7ba7f86ee94c0068ef5f1 100644
+> --- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
+> +++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
+> @@ -331,7 +331,7 @@ static void psb_intel_lvds_restore(struct drm_connector *connector)
+>   }
+>   
+>   enum drm_mode_status psb_intel_lvds_mode_valid(struct drm_connector *connector,
+> -				 struct drm_display_mode *mode)
+> +				 const struct drm_display_mode *mode)
+>   {
+>   	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->dev);
+>   	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
+> diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo.c b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
+> index 8dafff963ca8bc169706c283fa1504958d69a72e..afda40fc449470b1ba3244b3d236db12ee61d452 100644
+> --- a/drivers/gpu/drm/gma500/psb_intel_sdvo.c
+> +++ b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
+> @@ -1159,7 +1159,7 @@ static void psb_intel_sdvo_dpms(struct drm_encoder *encoder, int mode)
+>   }
+>   
+>   static enum drm_mode_status psb_intel_sdvo_mode_valid(struct drm_connector *connector,
+> -				 struct drm_display_mode *mode)
+> +				 const struct drm_display_mode *mode)
+>   {
+>   	struct psb_intel_sdvo *psb_intel_sdvo = intel_attached_sdvo(connector);
+>   
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ch7017.c b/drivers/gpu/drm/i915/display/dvo_ch7017.c
+> index 493e730c685b80055ad81a615a4a36d30d00cd17..206818f9ad49e6a6876d4e179f34ce7d8369fd06 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_ch7017.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_ch7017.c
+> @@ -247,7 +247,7 @@ static enum drm_connector_status ch7017_detect(struct intel_dvo_device *dvo)
+>   }
+>   
+>   static enum drm_mode_status ch7017_mode_valid(struct intel_dvo_device *dvo,
+> -					      struct drm_display_mode *mode)
+> +					      const struct drm_display_mode *mode)
+>   {
+>   	if (mode->clock > 160000)
+>   		return MODE_CLOCK_HIGH;
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ch7xxx.c b/drivers/gpu/drm/i915/display/dvo_ch7xxx.c
+> index 534b8544e0a41ddd5761610f63f890d6d42ac6bd..10ab3cc73e586492aa7bc0d767d7fcd57f72db25 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_ch7xxx.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_ch7xxx.c
+> @@ -276,7 +276,7 @@ static enum drm_connector_status ch7xxx_detect(struct intel_dvo_device *dvo)
+>   }
+>   
+>   static enum drm_mode_status ch7xxx_mode_valid(struct intel_dvo_device *dvo,
+> -					      struct drm_display_mode *mode)
+> +					      const struct drm_display_mode *mode)
+>   {
+>   	if (mode->clock > 165000)
+>   		return MODE_CLOCK_HIGH;
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ivch.c b/drivers/gpu/drm/i915/display/dvo_ivch.c
+> index 0d5cce6051b1b8451a6da38e54da5e1cd6cd7eaf..d9c3152d4338fbf3ba97ac69c3bd11a285c10c4e 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_ivch.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_ivch.c
+> @@ -314,7 +314,7 @@ static enum drm_connector_status ivch_detect(struct intel_dvo_device *dvo)
+>   }
+>   
+>   static enum drm_mode_status ivch_mode_valid(struct intel_dvo_device *dvo,
+> -					    struct drm_display_mode *mode)
+> +					    const struct drm_display_mode *mode)
+>   {
+>   	if (mode->clock > 112000)
+>   		return MODE_CLOCK_HIGH;
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ns2501.c b/drivers/gpu/drm/i915/display/dvo_ns2501.c
+> index 9d47f8a93e94b5da3dd7afaa9cd268c8b1260751..cb619ffc974f28c2ed931e8ace2cda1eab6c84c7 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_ns2501.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_ns2501.c
+> @@ -524,7 +524,7 @@ static enum drm_connector_status ns2501_detect(struct intel_dvo_device *dvo)
+>   }
+>   
+>   static enum drm_mode_status ns2501_mode_valid(struct intel_dvo_device *dvo,
+> -					      struct drm_display_mode *mode)
+> +					      const struct drm_display_mode *mode)
+>   {
+>   	DRM_DEBUG_KMS
+>   	    ("is mode valid (hdisplay=%d,htotal=%d,vdisplay=%d,vtotal=%d)\n",
+> diff --git a/drivers/gpu/drm/i915/display/dvo_sil164.c b/drivers/gpu/drm/i915/display/dvo_sil164.c
+> index a8dd40c0099703484b3ed6154fa9df948c5f9128..b42c717085f316a1e887340a36b5bd6090099789 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_sil164.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_sil164.c
+> @@ -189,7 +189,7 @@ static enum drm_connector_status sil164_detect(struct intel_dvo_device *dvo)
+>   }
+>   
+>   static enum drm_mode_status sil164_mode_valid(struct intel_dvo_device *dvo,
+> -					      struct drm_display_mode *mode)
+> +					      const struct drm_display_mode *mode)
+>   {
+>   	return MODE_OK;
+>   }
+> diff --git a/drivers/gpu/drm/i915/display/dvo_tfp410.c b/drivers/gpu/drm/i915/display/dvo_tfp410.c
+> index d9a0cd753a878db8fda9fb537dd8f7ca4036c7e8..280699438526790b76f0bbf7a5d73aa109546558 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_tfp410.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_tfp410.c
+> @@ -217,7 +217,7 @@ static enum drm_connector_status tfp410_detect(struct intel_dvo_device *dvo)
+>   }
+>   
+>   static enum drm_mode_status tfp410_mode_valid(struct intel_dvo_device *dvo,
+> -					      struct drm_display_mode *mode)
+> +					      const struct drm_display_mode *mode)
+>   {
+>   	return MODE_OK;
+>   }
+> diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
+> index 87a27d91d15dc9e28fe95548942a17a5ad1bb0b4..644efaa89c855beae30abb7b9a78c5d167dab27b 100644
+> --- a/drivers/gpu/drm/i915/display/icl_dsi.c
+> +++ b/drivers/gpu/drm/i915/display/icl_dsi.c
+> @@ -1451,7 +1451,7 @@ static void gen11_dsi_post_disable(struct intel_atomic_state *state,
+>   }
+>   
+>   static enum drm_mode_status gen11_dsi_mode_valid(struct drm_connector *connector,
+> -						 struct drm_display_mode *mode)
+> +						 const struct drm_display_mode *mode)
+>   {
+>   	struct drm_i915_private *i915 = to_i915(connector->dev);
+>   	enum drm_mode_status status;
+> diff --git a/drivers/gpu/drm/i915/display/intel_crt.c b/drivers/gpu/drm/i915/display/intel_crt.c
+> index fd78adbaadbe82ae7dbaaee1f4a1175ede81932d..2cda689a8f4f5a677aade0ac6b705be9ca62bf64 100644
+> --- a/drivers/gpu/drm/i915/display/intel_crt.c
+> +++ b/drivers/gpu/drm/i915/display/intel_crt.c
+> @@ -344,7 +344,7 @@ static void intel_enable_crt(struct intel_atomic_state *state,
+>   
+>   static enum drm_mode_status
+>   intel_crt_mode_valid(struct drm_connector *connector,
+> -		     struct drm_display_mode *mode)
+> +		     const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct drm_i915_private *dev_priv = to_i915(dev);
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index fbb096be02ade5e4bb36e65f197705d90dfa8a55..66ec69ee73b370d67d1da21b71f42fa326dcfa15 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -1366,7 +1366,7 @@ bool intel_dp_has_dsc(const struct intel_connector *connector)
+>   
+>   static enum drm_mode_status
+>   intel_dp_mode_valid(struct drm_connector *_connector,
+> -		    struct drm_display_mode *mode)
+> +		    const struct drm_display_mode *mode)
+>   {
+>   	struct intel_connector *connector = to_intel_connector(_connector);
+>   	struct intel_dp *intel_dp = intel_attached_dp(connector);
+> diff --git a/drivers/gpu/drm/i915/display/intel_dsi.c b/drivers/gpu/drm/i915/display/intel_dsi.c
+> index 0be46c6c9611f7c386a052ad8b79f4924727b892..c93a3cf75c52cc2bf2f4ba85b0cdef9e3a8ebd76 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dsi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dsi.c
+> @@ -58,7 +58,7 @@ int intel_dsi_get_modes(struct drm_connector *connector)
+>   }
+>   
+>   enum drm_mode_status intel_dsi_mode_valid(struct drm_connector *connector,
+> -					  struct drm_display_mode *mode)
+> +					  const struct drm_display_mode *mode)
+>   {
+>   	struct drm_i915_private *dev_priv = to_i915(connector->dev);
+>   	struct intel_connector *intel_connector = to_intel_connector(connector);
+> diff --git a/drivers/gpu/drm/i915/display/intel_dsi.h b/drivers/gpu/drm/i915/display/intel_dsi.h
+> index e8ba4ccd99d3c76e220415a3bb638c87689f6dca..89c7166a3860bb76b19e0afac1ce047f70cc0630 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dsi.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dsi.h
+> @@ -165,7 +165,7 @@ enum drm_panel_orientation
+>   intel_dsi_get_panel_orientation(struct intel_connector *connector);
+>   int intel_dsi_get_modes(struct drm_connector *connector);
+>   enum drm_mode_status intel_dsi_mode_valid(struct drm_connector *connector,
+> -					  struct drm_display_mode *mode);
+> +					  const struct drm_display_mode *mode);
+>   struct intel_dsi_host *intel_dsi_host_init(struct intel_dsi *intel_dsi,
+>   					   const struct mipi_dsi_host_ops *funcs,
+>   					   enum port port);
+> diff --git a/drivers/gpu/drm/i915/display/intel_dvo.c b/drivers/gpu/drm/i915/display/intel_dvo.c
+> index 9508ceae0d846c3a8255653b38ebbcb5dc4bc233..2ecbad6f41a5ad64f7aa7fab50cbf20eda4efde2 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dvo.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dvo.c
+> @@ -217,7 +217,7 @@ static void intel_enable_dvo(struct intel_atomic_state *state,
+>   
+>   static enum drm_mode_status
+>   intel_dvo_mode_valid(struct drm_connector *_connector,
+> -		     struct drm_display_mode *mode)
+> +		     const struct drm_display_mode *mode)
+>   {
+>   	struct intel_connector *connector = to_intel_connector(_connector);
+>   	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> diff --git a/drivers/gpu/drm/i915/display/intel_dvo_dev.h b/drivers/gpu/drm/i915/display/intel_dvo_dev.h
+> index 4bf476656b8cd2eb6c401fbc2101006c0927df24..d20667870e50f00356b5c1cf6f87c481916d23f0 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dvo_dev.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dvo_dev.h
+> @@ -71,7 +71,7 @@ struct intel_dvo_dev_ops {
+>   	 * \return MODE_OK if the mode is valid, or another MODE_* otherwise.
+>   	 */
+>   	enum drm_mode_status (*mode_valid)(struct intel_dvo_device *dvo,
+> -					   struct drm_display_mode *mode);
+> +					   const struct drm_display_mode *mode);
+>   
+>   	/*
+>   	 * Callback for setting up a video mode after fixups have been made.
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index 72ac910bf6ec4baf440e24d91e43b2217e67451e..848aebaa6b08bbb8b1defaede7aa5ae98a2c35f3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -2000,7 +2000,7 @@ intel_hdmi_mode_clock_valid(struct drm_connector *connector, int clock,
+>   
+>   static enum drm_mode_status
+>   intel_hdmi_mode_valid(struct drm_connector *connector,
+> -		      struct drm_display_mode *mode)
+> +		      const struct drm_display_mode *mode)
+>   {
+>   	struct intel_display *display = to_intel_display(connector->dev);
+>   	struct intel_hdmi *hdmi = intel_attached_hdmi(to_intel_connector(connector));
+> diff --git a/drivers/gpu/drm/i915/display/intel_lvds.c b/drivers/gpu/drm/i915/display/intel_lvds.c
+> index 5f753ee743c610cd2408fcc926a3cda178ef4c00..6928ae41a36f359cf920df284b128ade7e653368 100644
+> --- a/drivers/gpu/drm/i915/display/intel_lvds.c
+> +++ b/drivers/gpu/drm/i915/display/intel_lvds.c
+> @@ -388,7 +388,7 @@ static void intel_lvds_shutdown(struct intel_encoder *encoder)
+>   
+>   static enum drm_mode_status
+>   intel_lvds_mode_valid(struct drm_connector *_connector,
+> -		      struct drm_display_mode *mode)
+> +		      const struct drm_display_mode *mode)
+>   {
+>   	struct intel_connector *connector = to_intel_connector(_connector);
+>   	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+> index b83bf813677d53194af97dcbccaf10bd00fa0147..03a3b83c5dbac9c4b7a458b65c066072e856b08f 100644
+> --- a/drivers/gpu/drm/i915/display/intel_sdvo.c
+> +++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+> @@ -1938,7 +1938,7 @@ static void intel_enable_sdvo(struct intel_atomic_state *state,
+>   
+>   static enum drm_mode_status
+>   intel_sdvo_mode_valid(struct drm_connector *connector,
+> -		      struct drm_display_mode *mode)
+> +		      const struct drm_display_mode *mode)
+>   {
+>   	struct drm_i915_private *i915 = to_i915(connector->dev);
+>   	struct intel_sdvo *intel_sdvo = intel_attached_sdvo(to_intel_connector(connector));
+> diff --git a/drivers/gpu/drm/i915/display/intel_tv.c b/drivers/gpu/drm/i915/display/intel_tv.c
+> index e40aff490486336c8f7399c9e81795aff40b5e40..104a928b8249064bd77fe65f81c1332254656d21 100644
+> --- a/drivers/gpu/drm/i915/display/intel_tv.c
+> +++ b/drivers/gpu/drm/i915/display/intel_tv.c
+> @@ -957,7 +957,7 @@ static const struct tv_mode *intel_tv_mode_find(const struct drm_connector_state
+>   
+>   static enum drm_mode_status
+>   intel_tv_mode_valid(struct drm_connector *connector,
+> -		    struct drm_display_mode *mode)
+> +		    const struct drm_display_mode *mode)
+>   {
+>   	struct intel_display *display = to_intel_display(connector->dev);
+>   	struct drm_i915_private *i915 = to_i915(connector->dev);
+> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> index 32d15bd9a358350694503cee5f4c0632c4d6cd6e..3a9332f2c91300183709e14286e509d7a8d22f55 100644
+> --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
+> +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> @@ -1541,7 +1541,7 @@ static const struct drm_encoder_funcs intel_dsi_funcs = {
+>   };
+>   
+>   static enum drm_mode_status vlv_dsi_mode_valid(struct drm_connector *connector,
+> -					       struct drm_display_mode *mode)
+> +					       const struct drm_display_mode *mode)
+>   {
+>   	struct drm_i915_private *i915 = to_i915(connector->dev);
+>   
+> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-tve.c b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+> index d46d07d25f51795b1a569adafb51b9896e0b77d4..bdebd11cb7b1f534ac9f5a6613ded195c789e132 100644
+> --- a/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+> +++ b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+> @@ -217,7 +217,7 @@ static int imx_tve_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   imx_tve_connector_mode_valid(struct drm_connector *connector,
+> -			     struct drm_display_mode *mode)
+> +			     const struct drm_display_mode *mode)
+>   {
+>   	struct imx_tve *tve = con_to_tve(connector);
+>   	unsigned long rate;
+> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
+> index 7444b75c4215794f544553d7dee552718dad947d..52e728181b523cc3380d7718b5956e7e2dbd4cad 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
+> @@ -58,7 +58,7 @@ static int mdp4_lvds_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   mdp4_lvds_connector_mode_valid(struct drm_connector *connector,
+> -			       struct drm_display_mode *mode)
+> +			       const struct drm_display_mode *mode)
+>   {
+>   	struct mdp4_lvds_connector *mdp4_lvds_connector =
+>   			to_mdp4_lvds_connector(connector);
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> index eed579a6c858b658e0ce4c90670c057bd05d27e4..ad88041a1c75e1bc4872b64c219d375a47deda74 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> @@ -1142,7 +1142,7 @@ nv50_mstc_atomic_best_encoder(struct drm_connector *connector,
+>   
+>   static enum drm_mode_status
+>   nv50_mstc_mode_valid(struct drm_connector *connector,
+> -		     struct drm_display_mode *mode)
+> +		     const struct drm_display_mode *mode)
+>   {
+>   	struct nv50_mstc *mstc = nv50_mstc(connector);
+>   	struct nouveau_encoder *outp = mstc->mstm->outp;
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> index 8d5c9c74cbb90927036cee75f173f687617f14ec..2d26784bde74c0909ad69af61166821a7f3c114d 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> @@ -1074,7 +1074,7 @@ get_tmds_link_bandwidth(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   nouveau_connector_mode_valid(struct drm_connector *connector,
+> -			     struct drm_display_mode *mode)
+> +			     const struct drm_display_mode *mode)
+>   {
+>   	struct nouveau_connector *nv_connector = nouveau_connector(connector);
+>   	struct nouveau_encoder *nv_encoder = nv_connector->detected_encoder;
+> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+> index bc24af08dfcd559e77e0e48aef140b714a992976..70aff64ced87a09fd6f678ad9d794e875d2c8353 100644
+> --- a/drivers/gpu/drm/qxl/qxl_display.c
+> +++ b/drivers/gpu/drm/qxl/qxl_display.c
+> @@ -1044,7 +1044,7 @@ static int qxl_conn_get_modes(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status qxl_conn_mode_valid(struct drm_connector *connector,
+> -			       struct drm_display_mode *mode)
+> +			       const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *ddev = connector->dev;
+>   	struct qxl_device *qdev = to_qxl(ddev);
+> diff --git a/drivers/gpu/drm/radeon/atombios_dp.c b/drivers/gpu/drm/radeon/atombios_dp.c
+> index 6328627b7c342cefb2f0b2c3aafcb688f2db4482..fa78824931cc428b1f9e23fe8f98867136ef9883 100644
+> --- a/drivers/gpu/drm/radeon/atombios_dp.c
+> +++ b/drivers/gpu/drm/radeon/atombios_dp.c
+> @@ -467,7 +467,7 @@ void radeon_dp_set_link_config(struct drm_connector *connector,
+>   }
+>   
+>   int radeon_dp_mode_valid_helper(struct drm_connector *connector,
+> -				struct drm_display_mode *mode)
+> +				const struct drm_display_mode *mode)
+>   {
+>   	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
+>   	struct radeon_connector_atom_dig *dig_connector;
+> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+> index f9c73c55f04f76ed5c78e9169004f8a7dea6004e..3ec58df0f534afcad09a161fe643bd47c3ca1c7a 100644
+> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
+> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+> @@ -806,7 +806,7 @@ static int radeon_lvds_get_modes(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status radeon_lvds_mode_valid(struct drm_connector *connector,
+> -				  struct drm_display_mode *mode)
+> +				  const struct drm_display_mode *mode)
+>   {
+>   	struct drm_encoder *encoder = radeon_best_single_encoder(connector);
+>   
+> @@ -968,7 +968,7 @@ static int radeon_vga_get_modes(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status radeon_vga_mode_valid(struct drm_connector *connector,
+> -				  struct drm_display_mode *mode)
+> +				  const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct radeon_device *rdev = dev->dev_private;
+> @@ -1116,7 +1116,7 @@ static int radeon_tv_get_modes(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status radeon_tv_mode_valid(struct drm_connector *connector,
+> -				struct drm_display_mode *mode)
+> +				const struct drm_display_mode *mode)
+>   {
+>   	if ((mode->hdisplay > 1024) || (mode->vdisplay > 768))
+>   		return MODE_CLOCK_RANGE;
+> @@ -1457,7 +1457,7 @@ static void radeon_dvi_force(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status radeon_dvi_mode_valid(struct drm_connector *connector,
+> -				  struct drm_display_mode *mode)
+> +				  const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct radeon_device *rdev = dev->dev_private;
+> @@ -1733,7 +1733,7 @@ radeon_dp_detect(struct drm_connector *connector, bool force)
+>   }
+>   
+>   static enum drm_mode_status radeon_dp_mode_valid(struct drm_connector *connector,
+> -				  struct drm_display_mode *mode)
+> +				  const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct radeon_device *rdev = dev->dev_private;
+> diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
+> index 4063d3801e819ba2726b63225e5f3f7d85eb760f..3102f6c2d0556210c10feff93f2a7103b10beea4 100644
+> --- a/drivers/gpu/drm/radeon/radeon_mode.h
+> +++ b/drivers/gpu/drm/radeon/radeon_mode.h
+> @@ -706,7 +706,7 @@ extern int radeon_get_monitor_bpc(struct drm_connector *connector);
+>   
+>   extern void radeon_connector_hotplug(struct drm_connector *connector);
+>   extern int radeon_dp_mode_valid_helper(struct drm_connector *connector,
+> -				       struct drm_display_mode *mode);
+> +				       const struct drm_display_mode *mode);
+>   extern void radeon_dp_set_link_config(struct drm_connector *connector,
+>   				      const struct drm_display_mode *mode);
+>   extern void radeon_dp_link_train(struct drm_encoder *encoder,
+> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> index f576b1aa86d1434d75b3770e08d91537aca4f5c4..573b84dbea49bb1071bb704560424ed8fad524ea 100644
+> --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> @@ -275,7 +275,7 @@ static int cdn_dp_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   cdn_dp_connector_mode_valid(struct drm_connector *connector,
+> -			    struct drm_display_mode *mode)
+> +			    const struct drm_display_mode *mode)
+>   {
+>   	struct cdn_dp_device *dp = connector_to_dp(connector);
+>   	struct drm_display_info *display_info = &dp->connector.display_info;
+> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> index 42ef62aa0a1e078d4b1db93eb20c7cc21054df28..a43cd7953bceb3ad8b179bf1cb952c601988018e 100644
+> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
+> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> @@ -471,7 +471,7 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+>   }
+>   
+>   static enum drm_mode_status inno_hdmi_display_mode_valid(struct inno_hdmi *hdmi,
+> -							 struct drm_display_mode *mode)
+> +							 const struct drm_display_mode *mode)
+>   {
+>   	unsigned long mpixelclk, max_tolerance;
+>   	long rounded_refclk;
+> @@ -577,7 +577,7 @@ static int inno_hdmi_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   inno_hdmi_connector_mode_valid(struct drm_connector *connector,
+> -			       struct drm_display_mode *mode)
+> +			       const struct drm_display_mode *mode)
+>   {
+>   	struct inno_hdmi *hdmi = connector_to_inno_hdmi(connector);
+>   
+> diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+> index 784de990da1b2c076a7067dcebb6c4a1273a5d5c..fa9da55949a3376fc3df11bd84e4c5f72d6a9063 100644
+> --- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+> +++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+> @@ -482,7 +482,7 @@ static int rk3066_hdmi_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   rk3066_hdmi_connector_mode_valid(struct drm_connector *connector,
+> -				 struct drm_display_mode *mode)
+> +				 const struct drm_display_mode *mode)
+>   {
+>   	u32 vic = drm_match_cea_mode(mode);
+>   
+> diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
+> index 68b8197b3dd16713a49d97f91498b686fdda21ec..96913232479bbccaf77dd2b35c1eb615d074689d 100644
+> --- a/drivers/gpu/drm/sti/sti_dvo.c
+> +++ b/drivers/gpu/drm/sti/sti_dvo.c
+> @@ -349,7 +349,7 @@ static int sti_dvo_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   sti_dvo_connector_mode_valid(struct drm_connector *connector,
+> -			     struct drm_display_mode *mode)
+> +			     const struct drm_display_mode *mode)
+>   {
+>   	int target = mode->clock * 1000;
+>   	int target_min = target - CLK_TOLERANCE_HZ;
+> diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
+> index 829dc4b034e8a79a908bda60485c2b94ef96890c..5ab42574e919faa0b643c4f43a8f1100f98e3b93 100644
+> --- a/drivers/gpu/drm/sti/sti_hda.c
+> +++ b/drivers/gpu/drm/sti/sti_hda.c
+> @@ -603,7 +603,7 @@ static int sti_hda_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   sti_hda_connector_mode_valid(struct drm_connector *connector,
+> -			     struct drm_display_mode *mode)
+> +			     const struct drm_display_mode *mode)
+>   {
+>   	int target = mode->clock * 1000;
+>   	int target_min = target - CLK_TOLERANCE_HZ;
+> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+> index 847470f747c0efad61c2ebdc3fb3746a7a13a863..58962e8675a8d5860f725b8a17a7d0268f23168c 100644
+> --- a/drivers/gpu/drm/sti/sti_hdmi.c
+> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
+> @@ -1011,7 +1011,7 @@ static int sti_hdmi_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   sti_hdmi_connector_mode_valid(struct drm_connector *connector,
+> -			      struct drm_display_mode *mode)
+> +			      const struct drm_display_mode *mode)
+>   {
+>   	int target = mode->clock * 1000;
+>   	int target_min = target - CLK_TOLERANCE_HZ;
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> index b3649449de3026784ae2f3466906403a0b6e3b47..523d32f31e4e1d45ad33e52b22e88900248d0810 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> @@ -207,7 +207,7 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
+>   
+>   static enum drm_mode_status
+>   sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
+> -				struct drm_display_mode *mode)
+> +				const struct drm_display_mode *mode)
+>   {
+>   	unsigned long long rate = drm_hdmi_compute_mode_clock(mode, 8,
+>   							      HDMI_COLORSPACE_RGB);
+> diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+> index db606e151afc81e26eaacb36a90389acc3b5a1aa..a4f1ba189baa90d15e84de83e8a9f170459bf07c 100644
+> --- a/drivers/gpu/drm/tegra/dsi.c
+> +++ b/drivers/gpu/drm/tegra/dsi.c
+> @@ -812,7 +812,7 @@ static const struct drm_connector_funcs tegra_dsi_connector_funcs = {
+>   
+>   static enum drm_mode_status
+>   tegra_dsi_connector_mode_valid(struct drm_connector *connector,
+> -			       struct drm_display_mode *mode)
+> +			       const struct drm_display_mode *mode)
+>   {
+>   	return MODE_OK;
+>   }
+> diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+> index 6bf2dae82ca0510ae36304c077946114fb570390..c4f9a86460dda25891aeb1eddde1d517cf7f44ad 100644
+> --- a/drivers/gpu/drm/tegra/hdmi.c
+> +++ b/drivers/gpu/drm/tegra/hdmi.c
+> @@ -1137,7 +1137,7 @@ static const struct drm_connector_funcs tegra_hdmi_connector_funcs = {
+>   
+>   static enum drm_mode_status
+>   tegra_hdmi_connector_mode_valid(struct drm_connector *connector,
+> -				struct drm_display_mode *mode)
+> +				const struct drm_display_mode *mode)
+>   {
+>   	struct tegra_output *output = connector_to_output(connector);
+>   	struct tegra_hdmi *hdmi = to_hdmi(output);
+> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> index bad3b8fcc72692eaf89fe82e1a0c70abc00a6b79..f85ab0eeeb5f46995323e5c57be0c1bb267cae79 100644
+> --- a/drivers/gpu/drm/tegra/sor.c
+> +++ b/drivers/gpu/drm/tegra/sor.c
+> @@ -1789,7 +1789,7 @@ static int tegra_sor_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   tegra_sor_connector_mode_valid(struct drm_connector *connector,
+> -			       struct drm_display_mode *mode)
+> +			       const struct drm_display_mode *mode)
+>   {
+>   	return MODE_OK;
+>   }
+> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+> index ffe1f7d1b911d35b0b3d50f4ae55634786b8bebd..6059e32b86d16263a5425d0f30a4d86ad571f3ed 100644
+> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> @@ -192,7 +192,7 @@ static int vc4_txp_connector_get_modes(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   vc4_txp_connector_mode_valid(struct drm_connector *connector,
+> -			     struct drm_display_mode *mode)
+> +			     const struct drm_display_mode *mode)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct drm_mode_config *mode_config = &dev->mode_config;
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+> index 64baf2f22d9f0566511b38f49a6e3225f2acd9ee..59a45e74a64126e8c7b99462111565499fcd12b0 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+> @@ -189,7 +189,7 @@ static int virtio_gpu_conn_get_modes(struct drm_connector *connector)
+>   }
+>   
+>   static enum drm_mode_status virtio_gpu_conn_mode_valid(struct drm_connector *connector,
+> -				      struct drm_display_mode *mode)
+> +				      const struct drm_display_mode *mode)
+>   {
+>   	struct virtio_gpu_output *output =
+>   		drm_connector_to_virtio_gpu_output(connector);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> index f39bf992364da4c264dbff4d56aeb078ca16be29..9cfaa2c5f096127ac10829a5cef0ac81a89be5a7 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> @@ -2658,7 +2658,7 @@ int vmw_du_helper_plane_update(struct vmw_du_update_plane *update)
+>    * Returns MODE_OK on success, or a drm_mode_status error code.
+>    */
+>   enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
+> -					      struct drm_display_mode *mode)
+> +					      const struct drm_display_mode *mode)
+>   {
+>   	enum drm_mode_status ret;
+>   	struct drm_device *dev = connector->dev;
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+> index 2a6c6d6581e02bb51c9d70cef3ddce1a0f9ecd1a..4eab581883e26d339298fb0fb4386e7dc90c1e6e 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+> @@ -435,7 +435,7 @@ int vmw_kms_helper_dirty(struct vmw_private *dev_priv,
+>   			 int increment,
+>   			 struct vmw_kms_dirty *dirty);
+>   enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
+> -					      struct drm_display_mode *mode);
+> +					      const struct drm_display_mode *mode);
+>   int vmw_connector_get_modes(struct drm_connector *connector);
+>   
+>   void vmw_kms_helper_validation_finish(struct vmw_private *dev_priv,
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> index 82d18b88f4a7e7aaff2d7123fce1af05754e34d9..cbec3b244eb5483f678f7711d56eeedfed47841b 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> @@ -839,7 +839,7 @@ static void vmw_stdu_connector_destroy(struct drm_connector *connector)
+>   
+>   static enum drm_mode_status
+>   vmw_stdu_connector_mode_valid(struct drm_connector *connector,
+> -			      struct drm_display_mode *mode)
+> +			      const struct drm_display_mode *mode)
+>   {
+>   	enum drm_mode_status ret;
+>   	struct drm_device *dev = connector->dev;
+> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+> index fa9ee6a128bec0205f501df6f7634757f5fcb9ee..b62f41f489625e5177bdc05eef950e6c18c219fd 100644
+> --- a/include/drm/drm_modeset_helper_vtables.h
+> +++ b/include/drm/drm_modeset_helper_vtables.h
+> @@ -967,7 +967,7 @@ struct drm_connector_helper_funcs {
+>   	 * drm_mode_status.
+>   	 */
+>   	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
+> -					   struct drm_display_mode *mode);
+> +					   const struct drm_display_mode *mode);
+>   
+>   	/**
+>   	 * @mode_valid_ctx:
+> 
+
