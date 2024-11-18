@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CE49D0EDA
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 11:47:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 129B59D0EFB
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 11:53:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A3A410E35F;
-	Mon, 18 Nov 2024 10:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3201710E36F;
+	Mon, 18 Nov 2024 10:53:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TASqhCgi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KTYrjia7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35A3810E0B0;
- Mon, 18 Nov 2024 10:47:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731926865; x=1763462865;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=b2a6GSdSdC5JJvAuTp/AcNJzIirocs2mBJwtXBHYXrA=;
- b=TASqhCgicwLmNHTB49gda4iUsGVPMguynZJHzqwKoJu//zSgVPupxkD4
- iBBu+qActsTNzCbRtjkZsT/qPqJcgQvdGoGw9Y6gS4zve3DzMgQ1sLeK9
- UNJbqTXTjeym/D/Ud+TIjQXpJGUWqxb3tkH0Gb6kb/DRouE5Jm+nUHFqL
- WWSuUW1sq1dkR78WxoUQJNwLimzRV8e7FJUZYSrzsrEiz33BpJwVi+lDA
- 13zfJtEBI73dZjA8gdcTYilzJzZLa6UrtjTqCIMX4icZpoaO7VpQLM4ev
- x7FZA97hhbhKFdLp+eGnHZcWzbxu7u3/QeMKsjQOyg8TBFxFvKQZDny2j g==;
-X-CSE-ConnectionGUID: erCz/z/mTQGIhduMxSpFbQ==
-X-CSE-MsgGUID: jgSzbcZmSQW3dkCYedK0OA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="35548759"
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="35548759"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 02:47:44 -0800
-X-CSE-ConnectionGUID: GxqQGV3UStawGfitGdgALA==
-X-CSE-MsgGUID: umYKitL+T5aJyiISID2mtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="88969125"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 02:47:43 -0800
-Date: Mon, 18 Nov 2024 12:48:15 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/4] drm/i915/dp_mst: Fix connector initialization in
- intel_dp_add_mst_connector()
-Message-ID: <Zzsbb3Kx_TPB0ajK@ideak-desk.fi.intel.com>
-References: <20241115164159.1081675-1-imre.deak@intel.com>
- <ZzetKr-rApPqmehO@intel.com>
- <ZzevVE-MM4iFz1T_@ideak-desk.fi.intel.com>
- <87ttc452md.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 095E010E36F
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 10:53:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id EE57C5C501F
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 10:52:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B9D83C4CECC
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 10:53:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1731927206;
+ bh=m53B9mDv5OL5TZhsm4VdlFPRneRji6sTJFEPnpAVhy8=;
+ h=From:To:Subject:Date:From;
+ b=KTYrjia70gm34hJMBUQr8+kM/P+/1NXhaI7TiGYMN3q+7LdHTbWqSCHTCE//ktLuK
+ SevK3vKM5MwWAcG1EPKRVQWHDnPhlg0E6aD/H3Bo5fL9ZbND8o2dUKTSt/uFlFNmgx
+ b8Dj46kaCT9Gxo7l89LgwgwJX7oYBpQZVdm6vehYtOgY/VQtNWnnu1hjiQTqwqLNBy
+ +DZdznGccjeYzr8EstRzAd+xpZDyZBnpNvc88MgKhbBfucz699lIa3U5YsRO+79nZ2
+ trt5jukX6tFcVK3QK6WpbPoy/UKvoJzw+u4s+BPumJzq7I8GP6RLhJRSjK7LnkbzPO
+ U8afzsxa8f9OA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id AF8D0CAB784; Mon, 18 Nov 2024 10:53:26 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 219507] New: nouveau: GeForce GT 710: irq 166 handler
+ nvkm_intr+0x0/0x1b3 [nouveau] enabled interrupts
+Date: Mon, 18 Nov 2024 10:53:26 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: newchief@king.net.pl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-219507-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ttc452md.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,111 +72,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 18, 2024 at 11:10:18AM +0200, Jani Nikula wrote:
-> On Fri, 15 Nov 2024, Imre Deak <imre.deak@intel.com> wrote:
-> > On Fri, Nov 15, 2024 at 03:20:58PM -0500, Rodrigo Vivi wrote:
-> >> On Fri, Nov 15, 2024 at 06:41:56PM +0200, Imre Deak wrote:
-> >> > The connector initialization in intel_dp_add_mst_connector() depends on
-> >> > the device pointer in connector to be valid, at least by connector
-> >> > debug printing. The device pointer is initialized by drm_connector_init(),
-> >> > however that function also exposes the connector to in-kernel users,
-> >> > which can't be done before the connector is fully initialized. For now
-> >> > make sure the device pointer is valid before it's used, until a
-> >> > follow-up change moving this to DRM core.
-> >> > 
-> >> > This issue was revealed by the commit in the Fixes: line below, before
-> >> > which the above debug printing checked and handled a NULL device pointer
-> >> > gracefully in DRM core.
-> >> > 
-> >> > Cc: Jani Nikula <jani.nikula@intel.com>
-> >> > Fixes: 529798bd786a ("drm/i915/mst: convert to struct intel_display")
-> >> 
-> >> This is awkward. This patch actually removes callers of base.dev.
-> >> I don't see how that it could be causing this new null dereference.
-> >
-> > It adds
-> >
-> > struct intel_display *display = to_intel_display(connector);
-> >
-> > which will be NULL since connector->base.dev is NULL and later display
-> > is dereferenced.
-> 
-> So this happens in detect_dsc_hblank_expansion_quirk()?
-> 
-> The changes were:
-> 
-> -       struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +       struct intel_display *display = to_intel_display(connector);
-> 
-> -       drm_dbg_kms(&i915->drm,
-> +       drm_dbg_kms(display->drm,
-> 
-> And apparently i915 and &i915->drm were both NULL before, but the change
-> turned it into a NULL pointer dereference.
-> 
-> Why do we have to do this before drm_connector_init()?
+https://bugzilla.kernel.org/show_bug.cgi?id=3D219507
 
-drm_connector_init() adds the connector to the connector list, which
-makes it visible to everything else that looks up the connector through
-this list. Those users should see the driver specific parts of connector
-already inited.
+            Bug ID: 219507
+           Summary: nouveau: GeForce GT 710: irq 166 handler
+                    nvkm_intr+0x0/0x1b3 [nouveau] enabled interrupts
+           Product: Drivers
+           Version: 2.5
+          Hardware: Intel
+                OS: Linux
+            Status: NEW
+          Severity: high
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: newchief@king.net.pl
+        Regression: No
 
-> What if we just moved it after the connector init? What are the
-> in-kernel users that can get called in between?
+Maybe it's not immediately bad (no observable problems yet), but any warnin=
+gs
+in interrupts are always bad and make the system not trustworthy.
 
-Detection on this connector could happen in between for instance.
+After inserting popular MSI graphics card (GeForce GT 710 based) newly
+purchased on Amazon, I'm seeing this in dmesg:
 
-> Or if it's absolutely required to do all that before init, then pass the
-> things to it instead of assuming the connector is ready?
+[    9.451569] Loading firmware: regulatory.db
+[    9.452199] Loading firmware: regulatory.db.p7s
+[   10.616519] ------------[ cut here ]------------
+[   10.616522] irq 166 handler nvkm_intr+0x0/0x1b3 [nouveau] enabled interr=
+upts
+[   10.616581] WARNING: CPU: 7 PID: 0 at kernel/irq/handle.c:161
+__handle_irq_event_percpu+0xe6/0x13a
+[   10.616586] Modules linked in: cfg80211 8021q uvcvideo uvc videobuf2_vma=
+lloc
+videobuf2_memops videobuf2_v4l2 videobuf2_common videodev snd_usb_audio
+snd_usbmidi_lib snd_rawmidi pl2303 cp210x snd_seq_device xpad mc input_leds
+usbserial ff_memless joydev snd_hda_codec_realtek snd_hda_codec_generic
+ledtrig_audio nouveau snd_hda_intel snd_intel_dspcfg x86_pkg_temp_thermal
+led_class snd_hda_codec drm_exec gpu_sched snd_hda_core drm_ttm_helper
+kvm_intel ttm snd_hwdep snd_pcm i2c_algo_bit kvm irqbypass drm_display_help=
+er
+i2c_i801 snd_timer pcspkr drm_kms_helper snd i2c_smbus fan video button
+vboxnetadp(O) vboxnetflt(O) vboxdrv(O) coretemp drm i2c_core backlight fuse
+dm_mod nfnetlink efivarfs ip_tables x_tables usbhid xhci_pci xhci_hcd ahci
+libahci usbcore libata usb_common
+[   10.616615] CPU: 7 PID: 0 Comm: swapper/7 Tainted: G           O=20=20=
+=20=20=20=20
+6.6.58-gentoo-r1-x86_64 #1
+[   10.616617] Hardware name: HP HP Pavilion Desktop TP01-3xxx/89B5, BIOS F=
+.24
+01/04/2024
+[   10.616617] RIP: 0010:__handle_irq_event_percpu+0xe6/0x13a
+[   10.616619] Code: 00 9c 58 0f ba e0 09 73 24 80 3d 2f 37 ad 01 00 75 1a =
+48
+8b 13 89 ee 48 c7 c7 7d a4 24 ad c6 05 1a 37 ad 01 01 e8 a0 e5 f9 ff <0f> 0=
+b fa
+41 83 fd 02 75 2f 48 83 7b 20 00 75 1d f0 48 0f ba 6b 40
+[   10.616620] RSP: 0018:ffffbd05004b8f48 EFLAGS: 00010282
+[   10.616621] RAX: 0000000000000000 RBX: ffff97fa40c6db00 RCX:
+0000000000000027
+[   10.616622] RDX: 0000000000000000 RSI: ffffffffad25313f RDI:
+00000000ffffffff
+[   10.616623] RBP: 00000000000000a6 R08: 0000000000000000 R09:
+0000000000000000
+[   10.616624] R10: 0000000000000041 R11: 0000000000000000 R12:
+ffff97fa4799ca00
+[   10.616624] R13: 0000000000000001 R14: 0000000000000000 R15:
+0000000000000000
+[   10.616625] FS:  0000000000000000(0000) GS:ffff98019f7c0000(0000)
+knlGS:0000000000000000
+[   10.616626] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   10.616626] CR2: 00007f9bc80e1488 CR3: 00000002a5a42000 CR4:
+0000000000750ee0
+[   10.616627] PKRU: 55555554
+[   10.616628] Call Trace:
+[   10.616629]  <IRQ>
+[   10.616631]  ? __warn+0x99/0x11a
+[   10.616634]  ? report_bug+0xdb/0x155
+[   10.616636]  ? __handle_irq_event_percpu+0xe6/0x13a
+[   10.616638]  ? handle_bug+0x3c/0x63
+[   10.616639]  ? exc_invalid_op+0x13/0x60
+[   10.616640]  ? asm_exc_invalid_op+0x16/0x20
+[   10.616644]  ? __handle_irq_event_percpu+0xe6/0x13a
+[   10.616645]  ? __handle_irq_event_percpu+0xe6/0x13a
+[   10.616647]  handle_irq_event_percpu+0xf/0x32
+[   10.616648]  handle_irq_event+0x34/0x53
+[   10.616650]  handle_edge_irq+0xb0/0xcf
+[   10.616652]  __common_interrupt+0x40/0xac
+[   10.616655]  common_interrupt+0xa5/0xd0
+[   10.616656]  </IRQ>
+[   10.616657]  <TASK>
+[   10.616657]  asm_common_interrupt+0x22/0x40
+[   10.616659] RIP: 0010:finish_task_switch.isra.0+0x148/0x21a
+[   10.616662] Code: e6 13 00 41 80 a6 0c 04 00 00 fb 31 c9 4c 89 e7 89 4b =
+34
+e8 5c d3 ff ff 4c 89 e7 e8 bc 03 96 00 fb 65 48 8b 04 25 80 b6 02 00 <66> 9=
+0 4d
+85 ed 75 2b eb 7a 4c 8b a0 c0 02 00 00 4d 85 e4 74 ed 65
+[   10.616663] RSP: 0018:ffffbd05001bfe78 EFLAGS: 00000282
+[   10.616664] RAX: ffff97fa40848000 RBX: ffff97fa42a63e00 RCX:
+0000000000000000
+[   10.616665] RDX: 0000000000000002 RSI: ffffffffad25313f RDI:
+00000000ffffffff
+[   10.616665] RBP: ffffbd05001bfea8 R08: 0000000000000000 R09:
+000073746e657665
+[   10.616666] R10: 8080808080808080 R11: fefefefefefefeff R12:
+ffff98019f7ebec0
+[   10.616666] R13: 0000000000000000 R14: ffff97fa40848000 R15:
+ffff97fa40848580
+[   10.616668]  ? finish_task_switch.isra.0+0x13e/0x21a
+[   10.616670]  __schedule+0x5e8/0x622
+[   10.616672]  schedule_idle+0x27/0x34
+[   10.616673]  cpu_startup_entry+0x2a/0x2c
+[   10.616676]  start_secondary+0xf0/0xf0
+[   10.616677]  secondary_startup_64_no_verify+0x166/0x16b
+[   10.616679]  </TASK>
+[   10.616680] ---[ end trace 0000000000000000 ]---
+[   11.088891] tun: Universal TUN/TAP device driver, 1.6
 
-Besides DSC all the other initializing steps in
-intel_dp_add_mst_connector() should happen before adding it to the
-connector list and those need a pointer to drm_connector.
+It's Gentoo Linux with Plasma and SDDM. I've tried two distribution (genker=
+nel)
+kernels: linux-6.6.52-gentoo and linux-6.6.58-gentoo-r1, both with the same
+warning in dmesg.
 
-> BR,
-> Jani.
-> 
-> 
-> >
-> >> > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12799
-> >> 
-> >> But well, trusting more the tests then my eyes, let's move forward.
-> >> 
-> >> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> >> 
-> >> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> >> > ---
-> >> >  drivers/gpu/drm/i915/display/intel_dp_mst.c | 10 ++++++++++
-> >> >  1 file changed, 10 insertions(+)
-> >> > 
-> >> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> >> > index df7edcfe885b6..f058360a26413 100644
-> >> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> >> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> >> > @@ -1727,6 +1727,16 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
-> >> >  
-> >> >  	intel_dp_init_modeset_retry_work(intel_connector);
-> >> >  
-> >> > +	/*
-> >> > +	 * TODO: The following drm_connector specific initialization belongs
-> >> > +	 * to DRM core, however it happens atm too late in
-> >> > +	 * drm_connector_init(). That function will also expose the connector
-> >> > +	 * to in-kernel users, so it can't be called until the connector is
-> >> > +	 * sufficiently initialized; init the device pointer used by the
-> >> > +	 * following DSC setup, until a fix moving this to DRM core.
-> >> > +	 */
-> >> > +	intel_connector->base.dev = mgr->dev;
-> >> > +
-> >> >  	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
-> >> >  	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
-> >> >  	intel_connector->dp.dsc_hblank_expansion_quirk =
-> >> > -- 
-> >> > 2.44.2
-> >> > 
-> 
-> -- 
-> Jani Nikula, Intel
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
