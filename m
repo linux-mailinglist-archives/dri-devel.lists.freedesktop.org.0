@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE0B9D1BEE
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 00:37:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5613C9D1BF7
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 00:37:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5434D10E58D;
-	Mon, 18 Nov 2024 23:37:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7CD110E5B4;
+	Mon, 18 Nov 2024 23:37:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YGolGYUI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bLyenX8o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DCE610E584;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64FAB10E585;
  Mon, 18 Nov 2024 23:37:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1731973049; x=1763509049;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KSwdYjxf8PXwMIB2tQPack53L/KWH/z20YDuNNF5+gY=;
- b=YGolGYUIA0KlS1sjyiNw4bk27Lce/hdcZPxUxmrg/jgUu9AiZhRrX4LT
- mApyUh7GwjR0A0eZNXlzvTrHsC8G+aEeXgAL9FNHH7K2Tafyv3fic/U8N
- qGfTGaLJjYMyZqsgawRzPOeNxKpGle9rw8MqotvVsXYPFaLn83Hr6Lhoh
- iKW17tGb6M/X3Vdtj4F7T3w4NRP0nuQkwgIf5sNPRX4Zp8uGZ7SEKzVHd
- G9imvqA6F7VvZ+PsOpijYeFOEBin6vVqEGNVSX8nagGay3NqT0bAcz50d
- yYUMU6+yEOX4PDZ2x4oOuEwLJ+1wJCR/QhSNV6V/ELy8lkKFreVLUddPD Q==;
-X-CSE-ConnectionGUID: +h39/CaTTp2PmkAAaz5WwA==
-X-CSE-MsgGUID: k7PXYSGCSDWfTNFf7DS+aw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31878979"
-X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="31878979"
+ bh=0CfghZNeiZ/DK/IeKHwi+ZoI/7jLbVs/H+RcKIZeBk8=;
+ b=bLyenX8oX4Zc5hs7E/X0nBRp24yCGpjuH32yAdgnWDFk+tMhX9Mrw669
+ YH+MCi8RxjGJELZXgJk0pf5QcUNR6MmL03+zrCKiHSntZ+pN19RfAUemu
+ 2pgPkatiVV/GhR6jf0iXvIRkU4FAYXvmFEX+Ch3qvDIb/rUQo9r0F9f7D
+ LL1cqFxSB2yKCtQ2fhQhs3WxTA/JkyipVE1BHjUiEGy5/4F24JnlZgRDy
+ BA4+5zlNF63NwokgcAjxI+ez6zrwFCXOOEe6fLbgZN6ndQSQseD1yWvM9
+ MPPclIjxWzZaXEkMidgIhUHY1FIDdEIVtzDXE/3z+4WDFKJwcQURcV+G2 g==;
+X-CSE-ConnectionGUID: nJCT9MhXTQ6Q/45tF3t3CA==
+X-CSE-MsgGUID: /HGdwq34S9y2Ao+cTUGiFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31878985"
+X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="31878985"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Nov 2024 15:37:29 -0800
-X-CSE-ConnectionGUID: qagDw0mgSiu0LYh/NOLwtw==
-X-CSE-MsgGUID: F9p/60siQsOdSKfi1Wqo9g==
+X-CSE-ConnectionGUID: +AHPvOiWR0KGnh/+KkCv0g==
+X-CSE-MsgGUID: hugmTivTTHObyNN8UJGazw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="89521747"
+X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="89521750"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Nov 2024 15:37:29 -0800
@@ -49,9 +49,9 @@ Cc: kenneth.w.graunke@intel.com, lionel.g.landwerlin@intel.com,
  thomas.hellstrom@linux.intel.com, boris.brezillon@collabora.com,
  airlied@gmail.com, christian.koenig@amd.com, mihail.atanassov@arm.com,
  steven.price@arm.com, shashank.sharma@amd.com
-Subject: [RFC PATCH 20/29] drm/xe: Teach GuC backend to kill usermap queues
-Date: Mon, 18 Nov 2024 15:37:48 -0800
-Message-Id: <20241118233757.2374041-21-matthew.brost@intel.com>
+Subject: [RFC PATCH 21/29] drm/xe: Enable preempt fences on usermap queues
+Date: Mon, 18 Nov 2024 15:37:49 -0800
+Message-Id: <20241118233757.2374041-22-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241118233757.2374041-1-matthew.brost@intel.com>
 References: <20241118233757.2374041-1-matthew.brost@intel.com>
@@ -72,153 +72,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Usermap exec queue's teardown (kill) differs from other exec queues as
-no job is available, a doorbell is mapped, and the kill should be
-immediate.
-
-A follow up could unify LR queue cleanup with usermap but keeping this
-a seperate flow for now.
+Preempt fences are used by usermap queues to implement dynamic memory
+(BO eviction, userptr invalidation), enable preempt fences on usermap
+queues.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_guc_exec_queue_types.h |  2 +-
- drivers/gpu/drm/xe/xe_guc_submit.c           | 56 +++++++++++++++++++-
- 2 files changed, 55 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/xe_exec_queue.c |  3 ++-
+ drivers/gpu/drm/xe/xe_pt.c         |  3 +--
+ drivers/gpu/drm/xe/xe_vm.c         | 18 ++++++++----------
+ drivers/gpu/drm/xe/xe_vm.h         |  2 +-
+ 4 files changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-index 2d53af75ed75..c6c58e414b19 100644
---- a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-+++ b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-@@ -29,7 +29,7 @@ struct xe_guc_exec_queue {
- 	 * a message needs to sent through the GPU scheduler but memory
- 	 * allocations are not allowed.
+diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
+index a22f089ccec6..987584090263 100644
+--- a/drivers/gpu/drm/xe/xe_exec_queue.c
++++ b/drivers/gpu/drm/xe/xe_exec_queue.c
+@@ -794,7 +794,8 @@ int xe_exec_queue_create_ioctl(struct drm_device *dev, void *data,
+ 		if (IS_ERR(q))
+ 			return PTR_ERR(q);
+ 
+-		if (xe_vm_in_preempt_fence_mode(vm)) {
++		if (xe_vm_in_preempt_fence_mode(vm) ||
++		    xe_exec_queue_is_usermap(q)) {
+ 			q->lr.context = dma_fence_context_alloc(1);
+ 
+ 			err = xe_vm_add_compute_exec_queue(vm, q);
+diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+index 684dc075deac..a75667346ab3 100644
+--- a/drivers/gpu/drm/xe/xe_pt.c
++++ b/drivers/gpu/drm/xe/xe_pt.c
+@@ -1882,8 +1882,7 @@ static void bind_op_commit(struct xe_vm *vm, struct xe_tile *tile,
+ 	 * the rebind worker
  	 */
--#define MAX_STATIC_MSG_TYPE	3
-+#define MAX_STATIC_MSG_TYPE	4
- 	struct xe_sched_msg static_msgs[MAX_STATIC_MSG_TYPE];
- 	/** @lr_tdr: long running TDR worker */
- 	struct work_struct lr_tdr;
-diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-index 59d2e08797f5..82071a0ec91e 100644
---- a/drivers/gpu/drm/xe/xe_guc_submit.c
-+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-@@ -230,6 +230,11 @@ static void set_exec_queue_doorbell_registered(struct xe_exec_queue *q)
- 	atomic_or(EXEC_QUEUE_STATE_DB_REGISTERED, &q->guc->state);
+ 	if (pt_update_ops->wait_vm_bookkeep &&
+-	    xe_vm_in_preempt_fence_mode(vm) &&
+-	    !current->mm)
++	    vm->preempt.num_exec_queues && !current->mm)
+ 		xe_vm_queue_rebind_worker(vm);
  }
  
-+static void clear_exec_queue_doorbell_registered(struct xe_exec_queue *q)
-+{
-+	atomic_and(~EXEC_QUEUE_STATE_DB_REGISTERED, &q->guc->state);
-+}
-+
- static bool exec_queue_killed_or_banned_or_wedged(struct xe_exec_queue *q)
+diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+index 2e67648ed512..16bc1b82d950 100644
+--- a/drivers/gpu/drm/xe/xe_vm.c
++++ b/drivers/gpu/drm/xe/xe_vm.c
+@@ -229,7 +229,8 @@ int xe_vm_add_compute_exec_queue(struct xe_vm *vm, struct xe_exec_queue *q)
+ 	int err;
+ 	bool wait;
+ 
+-	xe_assert(vm->xe, xe_vm_in_preempt_fence_mode(vm));
++	xe_assert(vm->xe, xe_vm_in_preempt_fence_mode(vm) ||
++		  xe_exec_queue_is_usermap(q));
+ 
+ 	down_write(&vm->lock);
+ 	err = drm_gpuvm_exec_lock(&vm_exec);
+@@ -280,7 +281,7 @@ int xe_vm_add_compute_exec_queue(struct xe_vm *vm, struct xe_exec_queue *q)
+  */
+ void xe_vm_remove_compute_exec_queue(struct xe_vm *vm, struct xe_exec_queue *q)
  {
- 	return (atomic_read(&q->guc->state) &
-@@ -798,6 +803,8 @@ static void disable_scheduling_deregister(struct xe_guc *guc,
- 		       G2H_LEN_DW_DEREGISTER_CONTEXT, 2);
- }
+-	if (!xe_vm_in_preempt_fence_mode(vm))
++	if (!xe_vm_in_preempt_fence_mode(vm) && !xe_exec_queue_is_usermap(q))
+ 		return;
  
-+static void guc_exec_queue_kill_user(struct xe_exec_queue *q);
-+
- static void xe_guc_exec_queue_trigger_cleanup(struct xe_exec_queue *q)
- {
- 	struct xe_guc *guc = exec_queue_to_guc(q);
-@@ -806,7 +813,9 @@ static void xe_guc_exec_queue_trigger_cleanup(struct xe_exec_queue *q)
- 	/** to wakeup xe_wait_user_fence ioctl if exec queue is reset */
- 	wake_up_all(&xe->ufence_wq);
+ 	down_write(&vm->lock);
+@@ -487,7 +488,7 @@ static void preempt_rebind_work_func(struct work_struct *w)
+ 	long wait;
+ 	int __maybe_unused tries = 0;
  
--	if (xe_exec_queue_is_lr(q))
-+	if (xe_exec_queue_is_usermap(q))
-+		guc_exec_queue_kill_user(q);
-+	else if (xe_exec_queue_is_lr(q))
- 		queue_work(guc_to_gt(guc)->ordered_wq, &q->guc->lr_tdr);
- 	else
- 		xe_sched_tdr_queue_imm(&q->guc->sched);
-@@ -1294,8 +1303,10 @@ static void __guc_exec_queue_process_msg_cleanup(struct xe_sched_msg *msg)
- 	xe_gt_assert(guc_to_gt(guc), !(q->flags & EXEC_QUEUE_FLAG_PERMANENT));
- 	trace_xe_exec_queue_cleanup_entity(q);
+-	xe_assert(vm->xe, xe_vm_in_preempt_fence_mode(vm));
++	xe_assert(vm->xe, !xe_vm_in_fault_mode(vm));
+ 	trace_xe_vm_rebind_worker_enter(vm);
  
--	if (exec_queue_doorbell_registered(q))
-+	if (exec_queue_doorbell_registered(q)) {
-+		clear_exec_queue_doorbell_registered(q);
- 		deallocate_doorbell(guc, q->guc->id);
-+	}
- 
- 	if (exec_queue_registered(q))
- 		disable_scheduling_deregister(guc, q);
-@@ -1382,10 +1393,29 @@ static void __guc_exec_queue_process_msg_resume(struct xe_sched_msg *msg)
+ 	down_write(&vm->lock);
+@@ -1467,10 +1468,9 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags)
+ 		vm->batch_invalidate_tlb = true;
  	}
+ 
+-	if (vm->flags & XE_VM_FLAG_LR_MODE) {
+-		INIT_WORK(&vm->preempt.rebind_work, preempt_rebind_work_func);
++	INIT_WORK(&vm->preempt.rebind_work, preempt_rebind_work_func);
++	if (vm->flags & XE_VM_FLAG_LR_MODE)
+ 		vm->batch_invalidate_tlb = false;
+-	}
+ 
+ 	/* Fill pt_root after allocating scratch tables */
+ 	for_each_tile(tile, xe, id) {
+@@ -1543,8 +1543,7 @@ void xe_vm_close_and_put(struct xe_vm *vm)
+ 	xe_assert(xe, !vm->preempt.num_exec_queues);
+ 
+ 	xe_vm_close(vm);
+-	if (xe_vm_in_preempt_fence_mode(vm))
+-		flush_work(&vm->preempt.rebind_work);
++	flush_work(&vm->preempt.rebind_work);
+ 
+ 	down_write(&vm->lock);
+ 	for_each_tile(tile, xe, id) {
+@@ -1644,8 +1643,7 @@ static void vm_destroy_work_func(struct work_struct *w)
+ 	/* xe_vm_close_and_put was not called? */
+ 	xe_assert(xe, !vm->size);
+ 
+-	if (xe_vm_in_preempt_fence_mode(vm))
+-		flush_work(&vm->preempt.rebind_work);
++	flush_work(&vm->preempt.rebind_work);
+ 
+ 	mutex_destroy(&vm->snap_mutex);
+ 
+diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
+index c864dba35e1d..4391dbaeba51 100644
+--- a/drivers/gpu/drm/xe/xe_vm.h
++++ b/drivers/gpu/drm/xe/xe_vm.h
+@@ -216,7 +216,7 @@ int xe_vm_invalidate_vma(struct xe_vma *vma);
+ 
+ static inline void xe_vm_queue_rebind_worker(struct xe_vm *vm)
+ {
+-	xe_assert(vm->xe, xe_vm_in_preempt_fence_mode(vm));
++	xe_assert(vm->xe, !xe_vm_in_fault_mode(vm));
+ 	queue_work(vm->xe->ordered_wq, &vm->preempt.rebind_work);
  }
  
-+static void __guc_exec_queue_process_msg_kill_user(struct xe_sched_msg *msg)
-+{
-+	struct xe_exec_queue *q = msg->private_data;
-+	struct xe_guc *guc = exec_queue_to_guc(q);
-+
-+	if (!xe_lrc_ring_is_idle(q->lrc[0]))
-+		xe_gt_dbg(q->gt, "Killing non-idle usermap queue: guc_id=%d",
-+			  q->guc->id);
-+
-+	if (exec_queue_doorbell_registered(q)) {
-+		clear_exec_queue_doorbell_registered(q);
-+		deallocate_doorbell(guc, q->guc->id);
-+	}
-+
-+	if (exec_queue_registered(q))
-+		disable_scheduling_deregister(guc, q);
-+}
-+
- #define CLEANUP		1	/* Non-zero values to catch uninitialized msg */
- #define SET_SCHED_PROPS	2
- #define SUSPEND		3
- #define RESUME		4
-+#define KILL_USER	5
- #define OPCODE_MASK	0xf
- #define MSG_LOCKED	BIT(8)
- 
-@@ -1408,6 +1438,9 @@ static void guc_exec_queue_process_msg(struct xe_sched_msg *msg)
- 	case RESUME:
- 		__guc_exec_queue_process_msg_resume(msg);
- 		break;
-+	case KILL_USER:
-+		__guc_exec_queue_process_msg_kill_user(msg);
-+		break;
- 	default:
- 		XE_WARN_ON("Unknown message type");
- 	}
-@@ -1600,6 +1633,7 @@ static bool guc_exec_queue_try_add_msg(struct xe_exec_queue *q,
- #define STATIC_MSG_CLEANUP	0
- #define STATIC_MSG_SUSPEND	1
- #define STATIC_MSG_RESUME	2
-+#define STATIC_MSG_KILL_USER	3
- static void guc_exec_queue_fini(struct xe_exec_queue *q)
- {
- 	struct xe_sched_msg *msg = q->guc->static_msgs + STATIC_MSG_CLEANUP;
-@@ -1725,6 +1759,24 @@ static void guc_exec_queue_resume(struct xe_exec_queue *q)
- 	xe_sched_msg_unlock(sched);
- }
- 
-+static void guc_exec_queue_kill_user(struct xe_exec_queue *q)
-+{
-+	struct xe_gpu_scheduler *sched = &q->guc->sched;
-+	struct xe_sched_msg *msg = q->guc->static_msgs + STATIC_MSG_KILL_USER;
-+
-+	if (exec_queue_extra_ref(q))
-+		return;
-+
-+	set_exec_queue_banned(q);
-+
-+	xe_sched_msg_lock(sched);
-+	if (guc_exec_queue_try_add_msg(q, msg, KILL_USER)) {
-+		set_exec_queue_extra_ref(q);
-+		xe_exec_queue_get(q);
-+	}
-+	xe_sched_msg_unlock(sched);
-+}
-+
- static bool guc_exec_queue_reset_status(struct xe_exec_queue *q)
- {
- 	return exec_queue_reset(q) || exec_queue_killed_or_banned_or_wedged(q);
 -- 
 2.34.1
 
