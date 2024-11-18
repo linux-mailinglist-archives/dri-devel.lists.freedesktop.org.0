@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4F89D1BFD
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 00:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9829D1BF2
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 00:37:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBB5510E576;
-	Mon, 18 Nov 2024 23:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 848CF10E599;
+	Mon, 18 Nov 2024 23:37:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h9qzgR2+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KqhQzOLF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07C3210E585;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4775110E585;
  Mon, 18 Nov 2024 23:37:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1731973050; x=1763509050;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=C02NA37fN9dm3BF7bGK31pqMn+aFCtASLHdm9hCh/k4=;
- b=h9qzgR2+V3epog6qoHy9w/BMBRnIGSdiij6ePFyKQPcapEKtJsRUmKRB
- UwlXYUiEUn6wduV9V/REmFMvonUftD91rb2g/g14d8r2kugjXAVtSlvic
- hvyFtGPhChk6XiPNGIe0aNVb3UBi/DCVduf45mKdz1+spVTk2a0CSc62b
- ucOKPKQ8LFTe50lj8gTBEfcsgIJ3TyE6GlS3sC0AX7yZ0L6X/6Mp64+ZY
- PID3aq1V6IjhfFMP3Rbs87RwRKaIJ1XEvSHiZ/fy07YSEYIwkplIsea1r
- 1JWXqyLxoBWkkSayoNm4yvka/X/NV11iAsaNYImAqGJ6y9khsQLUfW2go w==;
-X-CSE-ConnectionGUID: 23QZUSSJSrOiUsUfTuYNvA==
-X-CSE-MsgGUID: g4Dn8+UrT7yibgruFP+btA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31878998"
-X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="31878998"
+ bh=iQ6a/LouePdc9Se4be/vtSdyyt0+f/h9tau0Yc4zn40=;
+ b=KqhQzOLFGs2vTMPKNDT2yUtg5I+0szvMPrKF/IjfcGjez5gMzUdFzlWa
+ jUZmctFq4YQlz3N1q8RmAtTYlDUfAxj7se62PiWKMLgDU/zBxYLBUUYhi
+ MekaqSQ443c1HtPAQhd97yYYWSCLgs1rI7ma9wzAmQldt7ZnJcc9BbZK6
+ s5z6CsrPRetVwoS4I4TTjF6xpT9zDL1t8l7lQ8br+yS6P9MUg8EiEw2L+
+ S7kMRgFz54tj4ICpPepdbor6KTM0vyAL6uXigMsgjb8OEAg5pjSdSAY/S
+ cHC+Iuejao//cocr8ehce3rVGVmRXrtNcrXQjIZHfZO7Q4oXr4RwmH6wT Q==;
+X-CSE-ConnectionGUID: /TEUt9GISwmI43Z2W/SlMA==
+X-CSE-MsgGUID: 9RSKHzQSS5WCZrCg6ahpow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31879006"
+X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="31879006"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 15:37:29 -0800
-X-CSE-ConnectionGUID: ZjHVHXT9QDaHpvEo7aDu5A==
-X-CSE-MsgGUID: VLvUIeWJSt+IcI6yzvRDcA==
+ 18 Nov 2024 15:37:30 -0800
+X-CSE-ConnectionGUID: k4yaSghsRkO7WL2M2VwqCg==
+X-CSE-MsgGUID: QWrVrlftRVSAwhup1vC3IA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="89521759"
+X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="89521762"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 15:37:29 -0800
+ 18 Nov 2024 15:37:30 -0800
 From: Matthew Brost <matthew.brost@intel.com>
 To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -49,9 +49,9 @@ Cc: kenneth.w.graunke@intel.com, lionel.g.landwerlin@intel.com,
  thomas.hellstrom@linux.intel.com, boris.brezillon@collabora.com,
  airlied@gmail.com, christian.koenig@amd.com, mihail.atanassov@arm.com,
  steven.price@arm.com, shashank.sharma@amd.com
-Subject: [RFC PATCH 23/29] drm/xe: Add user fence IRQ handler
-Date: Mon, 18 Nov 2024 15:37:51 -0800
-Message-Id: <20241118233757.2374041-24-matthew.brost@intel.com>
+Subject: [RFC PATCH 24/29] drm/xe: Add xe_hw_fence_user_init
+Date: Mon, 18 Nov 2024 15:37:52 -0800
+Message-Id: <20241118233757.2374041-25-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241118233757.2374041-1-matthew.brost@intel.com>
 References: <20241118233757.2374041-1-matthew.brost@intel.com>
@@ -72,83 +72,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Imported user fences will not be tied to a specific queue or hardware
-engine class. Therefore, a device IRQ handler is needed to signal the
-associated exported DMA fences.
+Add xe_hw_fence_user_init which can create a struct xe_hw_fence from a
+user input rather than internal LRC state. Used to import user fence and
+export them as dma fences.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_device.c       | 4 ++++
- drivers/gpu/drm/xe/xe_device_types.h | 3 +++
- drivers/gpu/drm/xe/xe_hw_engine.c    | 4 +++-
- 3 files changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/xe/xe_hw_fence.c | 17 +++++++++++++++++
+ drivers/gpu/drm/xe/xe_hw_fence.h |  3 +++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index bbdff4308b2e..573b5f3df0c8 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -39,6 +39,7 @@
- #include "xe_gt_sriov_vf.h"
- #include "xe_guc.h"
- #include "xe_hw_engine_group.h"
-+#include "xe_hw_fence.h"
- #include "xe_hwmon.h"
- #include "xe_irq.h"
- #include "xe_memirq.h"
-@@ -902,6 +903,7 @@ int xe_device_probe(struct xe_device *xe)
- 	if (err)
- 		goto err;
+diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
+index 0b4f12be3692..2ea4d8bca6eb 100644
+--- a/drivers/gpu/drm/xe/xe_hw_fence.c
++++ b/drivers/gpu/drm/xe/xe_hw_fence.c
+@@ -263,3 +263,20 @@ void xe_hw_fence_init(struct dma_fence *fence, struct xe_hw_fence_ctx *ctx,
  
-+	xe_hw_fence_irq_init(&xe->user_fence_irq);
- 	for_each_gt(gt, xe, id) {
- 		last_gt = id;
- 
-@@ -944,6 +946,7 @@ int xe_device_probe(struct xe_device *xe)
- 	xe_oa_fini(xe);
- 
- err_fini_gt:
-+	xe_hw_fence_irq_finish(&xe->user_fence_irq);
- 	for_each_gt(gt, xe, id) {
- 		if (id < last_gt)
- 			xe_gt_remove(gt);
-@@ -979,6 +982,7 @@ void xe_device_remove(struct xe_device *xe)
- 
- 	xe_heci_gsc_fini(xe);
- 
-+	xe_hw_fence_irq_finish(&xe->user_fence_irq);
- 	for_each_gt(gt, xe, id)
- 		xe_gt_remove(gt);
+ 	trace_xe_hw_fence_create(hw_fence);
  }
-diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-index 8592f1b02db1..3ac118c6f85e 100644
---- a/drivers/gpu/drm/xe/xe_device_types.h
-+++ b/drivers/gpu/drm/xe/xe_device_types.h
-@@ -507,6 +507,9 @@ struct xe_device {
- 		int mode;
- 	} wedged;
- 
-+	/** @user_fence_irq: User fence IRQ handler */
-+	struct xe_hw_fence_irq user_fence_irq;
 +
- #ifdef TEST_VM_OPS_ERROR
- 	/**
- 	 * @vm_inject_error_position: inject errors at different places in VM
-diff --git a/drivers/gpu/drm/xe/xe_hw_engine.c b/drivers/gpu/drm/xe/xe_hw_engine.c
-index c4b0dc3be39c..2c9aa5343971 100644
---- a/drivers/gpu/drm/xe/xe_hw_engine.c
-+++ b/drivers/gpu/drm/xe/xe_hw_engine.c
-@@ -822,8 +822,10 @@ void xe_hw_engine_handle_irq(struct xe_hw_engine *hwe, u16 intr_vec)
- 	if (hwe->irq_handler)
- 		hwe->irq_handler(hwe, intr_vec);
++void xe_hw_fence_user_init(struct dma_fence *fence, struct xe_device *xe,
++			   struct iosys_map seqno_map, u64 seqno)
++{
++	struct xe_hw_fence *hw_fence =
++		container_of(fence, typeof(*hw_fence), dma);
++
++	hw_fence->xe = xe;
++	snprintf(hw_fence->name, sizeof(hw_fence->name), "user");
++	hw_fence->seqno_map = seqno_map;
++
++	INIT_LIST_HEAD(&hw_fence->irq_link);
++	dma_fence_init(fence, &xe_hw_fence_ops, &xe->user_fence_irq.lock,
++		       dma_fence_context_alloc(1), seqno);
++
++	trace_xe_hw_fence_create(hw_fence);
++}
+diff --git a/drivers/gpu/drm/xe/xe_hw_fence.h b/drivers/gpu/drm/xe/xe_hw_fence.h
+index f13a1c4982c7..76571ef2ef36 100644
+--- a/drivers/gpu/drm/xe/xe_hw_fence.h
++++ b/drivers/gpu/drm/xe/xe_hw_fence.h
+@@ -30,4 +30,7 @@ void xe_hw_fence_free(struct dma_fence *fence);
  
--	if (intr_vec & GT_RENDER_USER_INTERRUPT)
-+	if (intr_vec & GT_RENDER_USER_INTERRUPT) {
-+		xe_hw_fence_irq_run(&gt_to_xe(hwe->gt)->user_fence_irq);
- 		xe_hw_fence_irq_run(hwe->fence_irq);
-+	}
- }
- 
- /**
+ void xe_hw_fence_init(struct dma_fence *fence, struct xe_hw_fence_ctx *ctx,
+ 		      struct iosys_map seqno_map);
++void xe_hw_fence_user_init(struct dma_fence *fence, struct xe_device *xe,
++			   struct iosys_map seqno_map, u64 seqno);
++
+ #endif
 -- 
 2.34.1
 
