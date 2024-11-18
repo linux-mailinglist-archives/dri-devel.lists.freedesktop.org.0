@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56339D16C6
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 18:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323419D16C8
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 18:10:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D54710E243;
-	Mon, 18 Nov 2024 17:10:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 956E710E52A;
+	Mon, 18 Nov 2024 17:10:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ilDVqyT1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bJ6ggD3W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7E1510E243
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 17:10:27 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-3824aef833bso467435f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 09:10:27 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE1610E529
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 17:10:40 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4316f3d3c21so36789015e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 09:10:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731949826; x=1732554626; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1731949839; x=1732554639; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=94ldQ7hyHLR9DYx1ndS/LeqosjTKs60L2eKaC3g0t8U=;
- b=ilDVqyT1v6l/SIp9IACDdQMzws/uS1KXS6O5xAVIruFVlt1NU/8wNbyu6fRgsfFFVA
- RhOX2FDopriDjYu0ORU6+G3bL9kn2P3ufMlUhZ3D+I7f9WnBthDaoMGYiPgfcAgKgWHe
- GMtXYaxvq0AKeaw+mcrc76lv1282UM7IN++fJXkNHmnUb+yb0tWqLgRpRypq2FvEK9g2
- dyTOSKaemHE04mHdHr3+y+3+8LbHtd9Obi8kVO4CFquNepLWHNyaLFNNRY5L4rGHbd9f
- Xg/i+eT7VnU5wKWjTJD0nHHrrrjLOWBF/K6AtB9Gn3aT7Bx8/NUvy6/hUu7FNv//4KF+
- PNiQ==
+ bh=SVCU8P/1rDkdwsbj3DoyKB90cF22kVnBKHC+JWzuvzY=;
+ b=bJ6ggD3WnBK6b4e+E0CoiuMGG31nFtZnlP/IvII0eEJTrxdnlXGGqMzGNs4xJLpcCi
+ 8pWJZM1m83gMvYiYxfhGGn7dcPRyE3Jm1YUpMnkcftrIQuWJDTHg7hebN/AczH2vw1J/
+ znB0w6Cfob5L5Rpw4rGLW+Meex/iNOztFcTCculHfbuiNOFBMlCcILhlchikURIC/nM/
+ IGUUMUR8fvkowl/P9nBjzeayIHM3pcfEl2kJPj0mM8n2FtK7CB6PzPYzwjItSr/3ILop
+ 9jXN4bSW7a+HRsz1V4tZBwyuvoyIrj087zjr51p0AMLWXHVxMACoIm//OXBVXb8hmnCo
+ Dzsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731949826; x=1732554626;
+ d=1e100.net; s=20230601; t=1731949839; x=1732554639;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=94ldQ7hyHLR9DYx1ndS/LeqosjTKs60L2eKaC3g0t8U=;
- b=J6Ijx7MKs/oAYOBcHR0w8TfBmRGCQgDaZt6b5qwCgNnB8ui1ttKTMRj7UVRG5Vnp31
- mbO7OnkRk+IkNBZSyVCr06oST16y9YW29VhQc6rZT6NWhsaJMnyjWiu1gpqAp1teB5RN
- aHzu+X+g599m+xglI5K4t1ZXdq1Xngiu3cp+cOOq0dnioWIcJmDYnGRnTUXiE+0tVLFq
- rJwrY6XD4RcmxQPZzPNLCGLDLPBgkt5JugUCHLtcz6WTd5yFkR+JUYvvKcqbHMqILcuC
- cE52jGJZNaPJL0UWksXeD4NHs2KtEfG2vV89VnwfCcq9JJNLDY6maRmCZ+q6v+nNfLbA
- hSXg==
+ bh=SVCU8P/1rDkdwsbj3DoyKB90cF22kVnBKHC+JWzuvzY=;
+ b=YbwXBvILifvYeRtfKatktGpCHhvOsFl5twT7UDjXY48vX/YdJI9UNNzBLCtsf4nOLY
+ +VWEyvrkeH/RCJZAuawo1WcInx2k4XlYCzRs7vOIBzuaffGfKAqRVaZ4kZjycGfO50Jb
+ oX23Sp3YYuaNPaIiq8FeoAps/9lgWYPVyHXiy7EaEt9uTjHsreZw2wBbC6GPm9kfiu8+
+ TAk9uUQ52izJ8HrAcUyNQibxCt7EQGtrx7/75OSdEyxCMNicyokotfbbrDi65trYEb8w
+ TibZEU++0EQyo4OMjgM5WFxOwDYJ46WgJ0PWjxwyF36T32Hju2QpsMnWXRjO3sVMoyhR
+ lvjw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXCY/Rj8C5uFqEtUbNPaVR6cUNHF4YuyAZ/2xfouVQhwA0m5iVufp5flKrpwplIi/SH3RfFm8FE7LA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+Sfyy09DUVWv30NSnTD/oCz3ArbeXbbXUqG0IjJnQ8ZofWUrH
- j6dCnZIsueqI1f7QuPR5zhO3uwk7Qg6nb99LryaZX/uPScePsaKg
-X-Google-Smtp-Source: AGHT+IFSaZsx7KTPK+cbwAFHBZDpiZG9Xki0ECZbYHcbYY4Uizw/b7vDOWz+f2PgCV67a/5l5pQEDg==
-X-Received: by 2002:a5d:6d01:0:b0:381:f5a7:9baa with SMTP id
- ffacd0b85a97d-382255e4b8dmr9099333f8f.0.1731949825718; 
- Mon, 18 Nov 2024 09:10:25 -0800 (PST)
+ AJvYcCVqSI+y1OjvDYtWkjbDuz9tNZnf50iVjveLO8d1zL5xVwkVa8wo2auvx+mASTOSuqbzR3opJIjUa6E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzfWiPig4pEz3disSoKZsyWjanTy2MsXofhtb+tcrxbsfBElHwe
+ 6XeXj1gJR2gjfqkYfAL4gzjgs0d7Hm9F1v9larg3kK/X39IbEQvs
+X-Google-Smtp-Source: AGHT+IGzZtUA/mFXZHuQqRqpaK0R98UUjrlsUVZIQgXExwKHzv7fXllbuBmBsEV40Pqxan8uG4k07w==
+X-Received: by 2002:a05:600c:4595:b0:42c:b80e:5e50 with SMTP id
+ 5b1f17b1804b1-432df67991emr115211925e9.0.1731949838681; 
+ Mon, 18 Nov 2024 09:10:38 -0800 (PST)
 Received: from fedora.. ([213.94.25.69]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3823c47f7f8sm6912369f8f.100.2024.11.18.09.10.24
+ 5b1f17b1804b1-432dab76dafsm161563625e9.10.2024.11.18.09.10.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Nov 2024 09:10:25 -0800 (PST)
+ Mon, 18 Nov 2024 09:10:38 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
@@ -62,20 +62,18 @@ Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
  helen.koike@collabora.com, jeremie.dautheribes@bootlin.com,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- marcheu@google.com, mcanal@igalia.com, melissa.srw@gmail.com,
- miquel.raynal@bootlin.com, mripard@kernel.org, nicolejadeyee@google.com,
- pekka.paalanen@collabora.com, pekka.paalanen@haloniitty.fi,
+ marcheu@google.com, melissa.srw@gmail.com, miquel.raynal@bootlin.com,
+ mripard@kernel.org, nicolejadeyee@google.com, pekka.paalanen@haloniitty.fi,
  rdunlap@infradead.org, rodrigosiqueiramelo@gmail.com, seanpaul@google.com,
  simona.vetter@ffwll.ch, simona@ffwll.ch, thomas.petazzoni@bootlin.com,
- tzimmermann@suse.de,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v13 0/9] drm/vkms: Reimplement line-per-line pixel conversion
- for plane reading
-Date: Mon, 18 Nov 2024 18:10:18 +0100
-Message-ID: <20241118171020.2833-1-jose.exposito89@gmail.com>
+ tzimmermann@suse.de
+Subject: [PATCH v13 5/9] drm/vkms: Update pixels accessor to support packed
+ and multi-plane formats.
+Date: Mon, 18 Nov 2024 18:10:36 +0100
+Message-ID: <20241118171037.2847-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241031-yuv-v13-0-bd5463126faa@bootlin.com>
-References: <20241031-yuv-v13-0-bd5463126faa@bootlin.com>
+In-Reply-To: <20241031-yuv-v13-5-bd5463126faa@bootlin.com>
+References: <20241031-yuv-v13-5-bd5463126faa@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -94,283 +92,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
-
-> This patchset is the second version of [1]. It is almost a complete
-> rewrite to use a line-by-line algorithm for the composition.
+> Introduce the usage of block_h/block_w to compute the offset and the
+> pointer of a pixel. The previous implementation was specialized for
+> planes with block_h == block_w == 1. To avoid confusion and allow easier
+> implementation of tiled formats. It also remove the usage of the
+> deprecated format field `cpp`.
 > 
-> It can be divided in multiple parts:
-> - PATCH 1 to 3: no functional change is intended, only some formatting and
->   documenting (PATCH 2 is taken from [2])
-> - PATCH 4 to 7: Some preparation work not directly related to the
->   line-by-line algorithm
-> - PATCH 8: main patch for this series, it reintroduce the
->   line-by-line algorithm
-> - PATCH 9: Remove useless drm_simplify_rotation
-> - Rest of the series: moved to a new series to merge this one, see the new 
->   series "Add YUV ad R1..8 formats support to VKMS"
+> Introduce the plane_index parameter to get an offset/pointer on a
+> different plane.
 > 
-> The PATCH 8 aims to restore the line-by-line pixel reading algorithm. It
-> was introduced in 8ba1648567e2 ("drm: vkms: Refactor the plane composer to
-> accept new formats") but removed in 8ba1648567e2 ("drm: vkms: Refactor the
-> plane composer to accept new formats") in a over-simplification effort.
-> At this time, nobody noticed the performance impact of this commit. After
-> the first iteration of my series, poeple notice performance impact, and it
-> was the case. Pekka suggested to reimplement the line-by-line algorithm.
-> 
-> Expiriments on my side shown great improvement for the line-by-line
-> algorithm, and the performances are the same as the original line-by-line
-> algorithm. I targeted my effort to make the code working for all the
-> rotations and translations. The usage of helpers from drm_rect_* avoid
-> reimplementing existing logic.
-> 
-> The only "complex" part remaining is the clipping of the coordinate to
-> avoid reading/writing outside of src/dst. Thus I added a lot of comments
-> to help when someone will want to add some features (framebuffer resizing
-> for example).
-> 
-> I did not changed any expected test results as VKMS seems to have some 
-> existing issue:
-> https://gitlab.freedesktop.org/jim.cromie/kernel-drm-next-dd/-/jobs/61484201
-> https://gitlab.freedesktop.org/jim.cromie/kernel-drm-next-dd/-/jobs/61803193
-> https://gitlab.freedesktop.org/louischauvet/kernel/-/jobs/65944002
-> 
-> To properly test the rotation algorithm, I had to implement a new IGT
-> test [8]. This helped to found one issue in the YUV rotation algortihm.
-> 
-> My series was mainly tested with:
-> - kms_plane (for color conversions)
-> - kms_rotation_crc (for a subset of rotation and formats)
-> - kms_rotation (to test all rotation and formats combinations) [8]
-> - kms_cursor_crc (for translations)
-> The benchmark used to measure the improvment was done with
-> kms_fb_stress [10] with some modifications:
-> - Fixing the writeback format to XRGB8888
-> - Using a primary plane with odd dimension to avoid failures due to YUV
->   alignment
-> The KMS structure was:
-> 	CRTC:
-> 		rectangle: 4096x2160+0+0
-> 	primary:
-> 		format: ABGR16161616
-> 		rectangle: 3640x2160+101+0
-> 	writeback:
-> 		format: XRGB8888
-> 		rectangle: 4096x2160+0+0
-> Results (on my computer):
-> 
-> 8356b9790650: drm/test: Add test cases for drm_rect_rotate_inv() (before any regression)
-> 322d716a3e8a: drm/vkms: isolate pixel conversion functionality (first regression)
-> cc4fd2934d41: drm/vkms: Isolate writeback pixel conversion functions (second regression)
-> 2c3d1bd284c5: drm/panel: simple: Add Microtips Technology MF-103HIEB0GA0 panel (current drm-misc-next)
-> 
->  Used format  | This series | 2c3d1bd284c5 | cc4fd2934d41 | 322d716a3e8a | 8356b9790650 |
-> --------------+-------------+--------------+--------------+--------------+--------------+
->  XRGB8888     |  13.261666s |   14.289582s |   10.731272s |    9.480001s |    9.277507s |
->  XRGB16161616 |  13.282479s |   13.918926s |   10.712616s |    9.776903s |    9.291766s |
->  RGB565       | 136.154163s |  141.646489s |  101.744050s |  103.712164s |   87.860923s |
-> 
-> This is a 5-10% improvment of the performance. More work need to be done
-> on the writeback to gain more.
-> 
-> [1]: https://lore.kernel.org/all/20240201-yuv-v1-0-3ca376f27632@bootlin.com
-> [2]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/
-> [3]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-3-952fcaa5a193@riseup.net/
-> [4]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-5-952fcaa5a193@riseup.net/
-> [5]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-6-952fcaa5a193@riseup.net/
-> [6]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-7-952fcaa5a193@riseup.net/
-> [8]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
-> [9]: https://lore.kernel.org/dri-devel/20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net/
-> [10]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
-> 
-> To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> To: Melissa Wen <melissa.srw@gmail.com>
-> To: Maíra Canal <mairacanal@riseup.net>
-> To: Haneen Mohammed <hamohammed.sa@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: rdunlap@infradead.org
-> To: arthurgrillo@riseup.net
-> To: Jonathan Corbet <corbet@lwn.net>
-> To: pekka.paalanen@haloniitty.fi
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: jeremie.dautheribes@bootlin.com
-> Cc: miquel.raynal@bootlin.com
-> Cc: thomas.petazzoni@bootlin.com
-> Cc: seanpaul@google.com
-> Cc: marcheu@google.com
-> Cc: nicolejadeyee@google.com
+> Acked-by: Maíra Canal <mairacanal@riseup.net>
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
-Thanks for working on this. I reviewed the series and, with the exception of
-a couple of *very* minor comments, it looks good to me.
-
-Feel free to add to the entire series:
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
-
-> Changes in v13:
-> - Removed the YUV part to prepare the merge
-> - Add Acked-by from Maíra
-> - Link to v12: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
-> Changes in v12:
-> - Fix documentation issues as suggested by Randy
-> - Link to v11: https://lore.kernel.org/r/20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com
-> Changes in v11:
-> - Remove documentation patch (already merged)
-> - Fix sparse warning about documentation
-> - Link to v10: https://lore.kernel.org/r/20240809-yuv-v10-0-1a7c764166f7@bootlin.com
-> Changes in v10:
-> - Properly remove the patch introducing dummy read/write functions
-> - PATCH 8/16: Format fixups
-> - PATCH 9/16: Format fixups
-> - PATCH 11/16: Format fixups
-> - PATCH 14/16: Fix test compilation, add module description
-> - Link to v9: https://lore.kernel.org/r/20240802-yuv-v9-0-08a706669e16@bootlin.com
-> Changes in v9:
-> - PATCH 3/17: Fix docs as Maíra suggested
-> - PATCH 4,6,10,12,15,17/17: Fix sparse warning about __le16 casting
-> - Link to v8: https://lore.kernel.org/all/20240516-yuv-v8-0-cf8d6f86430e@bootlin.com/
-> Changes in v8:
-> - PATCH 7/17: Update pitch access to use the proper value for block
->   formats
-> - PATCH 9/17: Update pitch access to use the proper value for block
->   formats
-> - Link to v7: https://lore.kernel.org/r/20240513-yuv-v7-0-380e9ffec502@bootlin.com
-> Changes in v7:
-> - Some typos and indent fixes
-> - Add Review-By, Acked-By
-> - PATCH 3/17: Clarify src/dst unit
-> - PATCH 9/17: Clarify documentation
-> - PATCH 9/17: Restrict conditions for direction
-> - PATCH 9/17: Rename get_block_step_byte to get_block_step_bytes
-> - PATCH 10/17: Clarify kernel doc for clamp_line_coordinates, blend_line,
->   pixel_read_line_t
-> - PATCH 10/17: Fix the case when src_*_start >= fb->width/height
-> - PATCH 10/17: Change y in blend to be an int
-> - PATCH 10/17: Clarify documentation for read functions
-> - PATCH 12/17: Fix the type of rgb variables in argb_u16_from_yuv888
-> - PATCH 12/17: Move comments at the right place, remove useless ones
-> - PATCH 12/17: Add missing const
-> - PATCH 17/17: Use drm_format_info_bpp and computation to avoid hard-coded
->   values
-> - Link to v6: https://lore.kernel.org/r/20240409-yuv-v6-0-de1c5728fd70@bootlin.com
-> Changes in v6:
-> - Add Randy
-> - Add Review-By and Acked-By
-> - PATCH 2/17: Remove useless newline
-> - PATCH 3/17: Fix kernel doc
-> - PATCH 4/17: Fix typo in git commit
-> - PATCH 4/17: Fix kernel doc and simplify brief description of typedef
-> - PATCH 5/17: Change black default color to Magenta
-> - PATCH 5/17: Fix wording in comment
-> - PATCH 7/17: Fix typo in packed_pixel_offset
-> - PATCH 7/17: Add WARN_ON for currently not supported formats
-> - PATCH 8/17: Rename x_limit to pixel_count
-> - PATCH 8/17: Clarify kernel doc for pre_mul_alpha_blend
-> - PATCH 9/17: Rename get_step_next_block to get_block_step_bytes
-> - PATCH 9/17: Change kernel doc order
-> - PATCH 9/17: Rework the direction_for_rotation function to use drm
->   helpers
-> - PATCH 9/17: Add a warn in direction_for_rotation if the result is not
->   expected
-> - PATCH 10/17: Reword the comment of pixel color conversion functions
-> - PATCH 10/17: Refactor the blending function to extract functions
-> - PATCH 11/17: Remove useless drm_rotation_simplify
-> - PATCH 12/17: Fix typo in comments
-> - PATCH 12/17: Remove useless define
-> - PATCH 12/17: Fix some comments typo and kernel doc
-> - PATCH 12/17: Add a comma at the end of the vkms_formats list
-> - PATCH 12/17: Use copy of matrix instead of pointers
-> - PATCH 12/17: Use 16 bit range for yuv conversion
-> - PATCH 17/17: Add a comma at the end of the vkms_formats list
-> - PATCH 17/17: Add assertions
-> - PATCH 17/17: Fix color conversion... Next time I will read the doc
->   twice...
-> - Link to v5: https://lore.kernel.org/r/20240313-yuv-v5-0-e610cbd03f52@bootlin.com
-> Changes in v5:
-> - All patches: fix some formatting issues
-> - PATCH 4/16: Use the correct formatter for 4cc code
-> - PATCH 7/16: Update the pixel accessors to also return the pixel position
->   inside a block.
-> - PATCH 8/16: Fix a temporary bug
-> - PATCH 9/16: Update the get_step_1x1 to get_step_next_block and update
->   the documentation
-> - PATCH 10/16: Update to uses the new pixel accessors
-> - PATCH 10/16: Reword some comments
-> - PATCH 11/16: Update to use the new pixel accessors
-> - PATCH 11/16: Fix a bug in the subsampling offset for inverted reading
->   (right to left/bottom to top). Found by [8].
-> - PATCH 11/16: Apply Arthur's modifications (comments, algorithm
->   clarification)
-> - PATCH 11/16: Use the correct formatter for 4cc code
-> - PATCH 11/16: Update to use the new get_step_next_block
-> - PATCH 14/16: Apply Arthur's modification (comments, compilation issue)
-> - PATCH 15/16: Add Arthur's patch to explain the kunit tests
-> - PATCH 16/16: Introduce DRM_FORMAT_R* support.
-> - Link to v4: https://lore.kernel.org/r/20240304-yuv-v4-0-76beac8e9793@bootlin.com
-> Changes in v4:
-> - PATCH 3/14: Update comments for get_pixel_* functions
-> - PATCH 4/14: Add WARN when trying to get unsupported pixel_* functions
-> - PATCH 5/14: Create dummy pixel reader/writer to avoid NULL
->   function pointers and kernel OOPS
-> - PATCH 6/14: Added the usage of const pointers when needed
-> - PATCH 7/14: Extraction of pixel accessors modification
-> - PATCH 8/14: Extraction of the blending function modification
-> - PATCH 9/14: Extraction of the pixel_read_direction enum
-> - PATCH 10/14: Update direction_for_rotation documentation
-> - PATCH 10/14: Rename conversion functions to be explicit
-> - PATCH 10/14: Replace while(count) by while(out_pixel<end) in read_line
->   callbacks. It avoid a new variable+addition in the composition hot path.
-> - PATCH 11/14: Rename conversion functions to be explicit
-> - PATCH 11/14: Update the documentation for get_subsampling_offset
-> - PATCH 11/14: Add the matrix_conversion structure to remove a test from
->   the hot path.
-> - PATCH 11/14: Upadate matrix values to use 32.32 fixed floats for
->   conversion
-> - PATCH 12/14: Update commit message
-> - PATCH 14/14: Change kunit expected value
-> - Link to v3: https://lore.kernel.org/r/20240226-yuv-v3-0-ff662f0994db@bootlin.com
-> Changes in v3:
-> - Correction of remaining git-rebase artefacts
-> - Added Pekka in copy of this patch
-> - Link to v2: https://lore.kernel.org/r/20240223-yuv-v2-0-aa6be2827bb7@bootlin.com
-> Changes in v2:
-> - Rebased the series on top of drm-misc/drm-misc-net
-> - Extract the typedef for pixel_read/pixel_write
-> - Introduce the line-by-line algorithm per pixel format
-> - Add some documentation for existing and new code
-> - Port the series [1] to use line-by-line algorithm
-> - Link to v1: https://lore.kernel.org/r/20240201-yuv-v1-0-3ca376f27632@bootlin.com
 > ---
-> Arthur Grillo (1):
->       drm/vkms: Use drm_frame directly
+>  drivers/gpu/drm/vkms/vkms_formats.c | 114 ++++++++++++++++++++++++++++--------
+>  1 file changed, 91 insertions(+), 23 deletions(-)
 > 
-> Louis Chauvet (8):
->       drm/vkms: Code formatting
->       drm/vkms: Add typedef and documentation for pixel_read and pixel_write functions
->       drm/vkms: Use const for input pointers in pixel_read an pixel_write functions
->       drm/vkms: Update pixels accessor to support packed and multi-plane formats.
->       drm/vkms: Avoid computing blending limits inside pre_mul_alpha_blend
->       drm/vkms: Introduce pixel_read_direction enum
->       drm/vkms: Re-introduce line-per-line composition algorithm
->       drm/vkms: Remove useless drm_rotation_simplify
-> 
->  drivers/gpu/drm/vkms/vkms_composer.c  | 312 ++++++++++++++++++++------
->  drivers/gpu/drm/vkms/vkms_crtc.c      |   6 +-
->  drivers/gpu/drm/vkms/vkms_drv.c       |   3 +-
->  drivers/gpu/drm/vkms/vkms_drv.h       |  55 ++++-
->  drivers/gpu/drm/vkms/vkms_formats.c   | 409 ++++++++++++++++++++++++----------
->  drivers/gpu/drm/vkms/vkms_formats.h   |   4 +-
->  drivers/gpu/drm/vkms/vkms_plane.c     |  17 +-
->  drivers/gpu/drm/vkms/vkms_writeback.c |   5 -
->  8 files changed, 588 insertions(+), 223 deletions(-)
-> ---
-> base-commit: 623b1e4d2eace0958996995f9f88cb659a6f69dd
-> change-id: 20240201-yuv-1337d90d9576
-> 
-> Best regards,
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index 06aef5162529..7f932d42394d 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -10,22 +10,46 @@
+>  #include "vkms_formats.h"
+>  
+>  /**
+> - * pixel_offset() - Get the offset of the pixel at coordinates x/y in the first plane
+> + * packed_pixels_offset() - Get the offset of the block containing the pixel at coordinates x/y
+>   *
+>   * @frame_info: Buffer metadata
+>   * @x: The x coordinate of the wanted pixel in the buffer
+>   * @y: The y coordinate of the wanted pixel in the buffer
+> + * @plane_index: The index of the plane to use
+> + * @offset: The returned offset inside the buffer of the block
+
+The previous function (pixel_offset) returned a size_t for the offset rather
+than an int. Do you know if we are safe using an int in this case?
+
+> + * @rem_x: The returned X coordinate of the requested pixel in the block
+> + * @rem_y: The returned Y coordinate of the requested pixel in the block
+>   *
+> - * The caller must ensure that the framebuffer associated with this request uses a pixel format
+> - * where block_h == block_w == 1.
+> - * If this requirement is not fulfilled, the resulting offset can point to an other pixel or
+> - * outside of the buffer.
+> + * As some pixel formats store multiple pixels in a block (DRM_FORMAT_R* for example), some
+> + * pixels are not individually addressable. This function return 3 values: the offset of the
+> + * whole block, and the coordinate of the requested pixel inside this block.
+> + * For example, if the format is DRM_FORMAT_R1 and the requested coordinate is 13,5, the offset
+> + * will point to the byte 5*pitches + 13/8 (second byte of the 5th line), and the rem_x/rem_y
+> + * coordinates will be (13 % 8, 5 % 1) = (5, 0)
+> + *
+> + * With this function, the caller just have to extract the correct pixel from the block.
+>   */
+> -static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
+> +static void packed_pixels_offset(const struct vkms_frame_info *frame_info, int x, int y,
+> +				 int plane_index, int *offset, int *rem_x, int *rem_y)
+>  {
+>  	struct drm_framebuffer *fb = frame_info->fb;
+> +	const struct drm_format_info *format = frame_info->fb->format;
+> +	/* Directly using x and y to multiply pitches and format->ccp is not sufficient because
+> +	 * in some formats a block can represent multiple pixels.
+> +	 *
+> +	 * Dividing x and y by the block size allows to extract the correct offset of the block
+> +	 * containing the pixel.
+> +	 */
+>  
+> -	return fb->offsets[0] + (y * fb->pitches[0]) + (x * fb->format->cpp[0]);
+> +	int block_x = x / drm_format_info_block_width(format, plane_index);
+> +	int block_y = y / drm_format_info_block_height(format, plane_index);
+> +	int block_pitch = fb->pitches[plane_index] * drm_format_info_block_height(format,
+> +										  plane_index);
+> +	*rem_x = x % drm_format_info_block_width(format, plane_index);
+> +	*rem_y = y % drm_format_info_block_height(format, plane_index);
+> +	*offset = fb->offsets[plane_index] +
+> +		  block_y * block_pitch +
+> +		  block_x * format->char_per_block[plane_index];
+>  }
+>  
+>  /**
+> @@ -35,30 +59,71 @@ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int
+>   * @frame_info: Buffer metadata
+>   * @x: The x (width) coordinate inside the plane
+>   * @y: The y (height) coordinate inside the plane
+> + * @plane_index: The index of the plane
+> + * @addr: The returned pointer
+> + * @rem_x: The returned X coordinate of the requested pixel in the block
+> + * @rem_y: The returned Y coordinate of the requested pixel in the block
+>   *
+> - * Takes the information stored in the frame_info, a pair of coordinates, and
+> - * returns the address of the first color channel.
+> - * This function assumes the channels are packed together, i.e. a color channel
+> - * comes immediately after another in the memory. And therefore, this function
+> - * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
+> + * Takes the information stored in the frame_info, a pair of coordinates, and returns the address
+> + * of the block containing this pixel and the pixel position inside this block.
+>   *
+> - * The caller must ensure that the framebuffer associated with this request uses a pixel format
+> - * where block_h == block_w == 1, otherwise the returned pointer can be outside the buffer.
+> + * See @packed_pixel_offset for details about rem_x/rem_y behavior.
+
+Missing "s" in the name of the function. Should read "@packed_pixels_offset".
+
+>   */
+> -static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
+> -				int x, int y)
+> +static void packed_pixels_addr(const struct vkms_frame_info *frame_info,
+> +			       int x, int y, int plane_index, u8 **addr, int *rem_x,
+> +			       int *rem_y)
+>  {
+> -	size_t offset = pixel_offset(frame_info, x, y);
+> +	int offset;
+>  
+> -	return (u8 *)frame_info->map[0].vaddr + offset;
+> +	packed_pixels_offset(frame_info, x, y, plane_index, &offset, rem_x, rem_y);
+> +	*addr = (u8 *)frame_info->map[0].vaddr + offset;
+>  }
+>  
+> -static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y)
+> +/**
+> + * packed_pixels_addr_1x1() - Get the pointer to the block containing the pixel at the given
+> + * coordinates
+> + *
+> + * @frame_info: Buffer metadata
+> + * @x: The x (width) coordinate inside the plane
+> + * @y: The y (height) coordinate inside the plane
+> + * @plane_index: The index of the plane
+> + * @addr: The returned pointer
+> + *
+> + * This function can only be used with format where block_h == block_w == 1.
+> + */
+> +static void packed_pixels_addr_1x1(const struct vkms_frame_info *frame_info,
+> +				   int x, int y, int plane_index, u8 **addr)
+> +{
+> +	int offset, rem_x, rem_y;
+
+Nitpick, but it'd be nice if packed_pixels_offset() could take NULLs in
+the output values so we avoid declaring unused variables here and when
+calling packed_pixels_addr().
+
+> +
+> +	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format,
+> +					      plane_index) != 1,
+> +		"%s() only support formats with block_w == 1", __func__);
+> +	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format,
+> +					       plane_index) != 1,
+> +		"%s() only support formats with block_h == 1", __func__);
+> +
+> +	packed_pixels_offset(frame_info, x, y, plane_index, &offset, &rem_x,
+> +			     &rem_y);
+> +	*addr = (u8 *)frame_info->map[0].vaddr + offset;
+> +}
+> +
+> +static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y,
+> +				 int plane_index)
+>  {
+>  	int x_src = frame_info->src.x1 >> 16;
+>  	int y_src = y - frame_info->rotated.y1 + (frame_info->src.y1 >> 16);
+> +	u8 *addr;
+> +	int rem_x, rem_y;
+> +
+> +	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format, plane_index) != 1,
+> +		  "%s() only support formats with block_w == 1", __func__);
+> +	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format, plane_index) != 1,
+> +		  "%s() only support formats with block_h == 1", __func__);
+>  
+> -	return packed_pixels_addr(frame_info, x_src, y_src);
+> +	packed_pixels_addr(frame_info, x_src, y_src, plane_index, &addr, &rem_x, &rem_y);
+> +
+> +	return addr;
+>  }
+>  
+>  static int get_x_position(const struct vkms_frame_info *frame_info, int limit, int x)
+> @@ -152,14 +217,14 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
+>  {
+>  	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+>  	struct vkms_frame_info *frame_info = plane->frame_info;
+> -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+> +	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
+>  	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+>  
+>  	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+>  		int x_pos = get_x_position(frame_info, limit, x);
+>  
+>  		if (drm_rotation_90_or_270(frame_info->rotation))
+> -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
+> +			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
+>  				+ frame_info->fb->format->cpp[0] * y;
+>  
+>  		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
+> @@ -250,7 +315,10 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+>  {
+>  	struct vkms_frame_info *frame_info = &wb->wb_frame_info;
+>  	int x_dst = frame_info->dst.x1;
+> -	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
+> +	u8 *dst_pixels;
+> +	int rem_x, rem_y;
+> +
+> +	packed_pixels_addr(frame_info, x_dst, y, 0, &dst_pixels, &rem_x, &rem_y);
+>  	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+>  	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
+>  
 > 
