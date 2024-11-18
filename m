@@ -2,59 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0F09D07F9
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 03:52:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491C29D07F7
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 03:51:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60C7C10E219;
-	Mon, 18 Nov 2024 02:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E65FE10E1AE;
+	Mon, 18 Nov 2024 02:51:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="ORU40ias";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="dvlQInZc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7053810E219
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 02:52:14 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id A8094893BD;
- Mon, 18 Nov 2024 03:52:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1731898332;
- bh=qXpFVzslBhgmbkPqqdI34WI41Ltddd/thUDh8NFsQPg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ORU40iasZsZiBFz2dndFi39EDTaCscNGpFnXkQ577wuUOMrO6Dx+fC2AqqQW8BxMg
- eD4I4tV/UKYmwuy6DWGe7AYabZOOl4d1XdIMinUcf1xroHgkebE500I6iEP59oXUB4
- /Y+FLjDKE+Hc0rFD32RIlGxDiIis0P/2xfBmTdlysLy3eHqlXkR7z1pZepPVliwJE9
- FueDj+Z6pTpXiny9q5BrzM2Un6H5UvqNFulvkX62LTN4xBpKx/lIouDkORHHyTR+8i
- kusQIYsPDZ/H/lGuIplmtp3/m9dsgCpqwNsrRQF0qX84l44+JIdQfkPkq9hbsKche3
- muF1O1BSNRzbw==
-Message-ID: <88166e7b-17a9-4533-b3ee-bff914dc00f5@denx.de>
-Date: Mon, 18 Nov 2024 02:16:11 +0100
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2181410E1AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 02:51:35 +0000 (UTC)
+X-UUID: 0246ecc2a55811efbd192953cf12861f-20241118
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=ki8fJJIWNxnS2xxoAMPYMHgwxzquLA7ElLASLJuZBXc=; 
+ b=dvlQInZcazLi3AaBZzogLFrk/8PVdzy7o7E2zplx3ib1p5drm5PIBQY1QskMnsUB3BT8JZg23NWmphjhDbN/Y/p6AMMz3M0mFL/nTzDyhcRUb8kkjGmuGo/0xQqDJN5fX/l3wjUPkOPm/jdebe6GAt+uaYtBdnKiUIrGf0zIDvc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.43, REQID:9dbe8cbf-1ded-4db0-a6fc-7c8014bccfc5, IP:0,
+ U
+ RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-25
+X-CID-META: VersionHash:ce19b8a, CLOUDID:7b6a344f-a2ae-4b53-acd4-c3dc8f449198,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 0246ecc2a55811efbd192953cf12861f-20241118
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1273718258; Mon, 18 Nov 2024 10:51:28 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 18 Nov 2024 10:51:27 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 18 Nov 2024 10:51:27 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Shawn Sung <shawn.sung@mediatek.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Jason-JH . Lin"
+ <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Nancy
+ Lin <nancy.lin@mediatek.com>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, Fei Shao
+ <fshao@chromium.org>
+Subject: [PATCH] drm/mediatek: Add support for 180-degree rotation in the
+ display driver
+Date: Mon, 18 Nov 2024 10:51:26 +0800
+Message-ID: <20241118025126.30808-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drm/bridge: tc358767: Fix use of unadjusted mode in the driver
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie
- <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20241026041057.247640-1-marex@denx.de>
- <2351528.ElGaqSPkdT@steina-w>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <2351528.ElGaqSPkdT@steina-w>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,81 +79,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/14/24 10:27 AM, Alexander Stein wrote:
-> Hi Marek,
+mediatek-drm driver reported the capability of 180-degree rotation by
+adding `DRM_MODE_ROTATE_180` to the plane property, as flip-x combined
+with flip-y equals a 180-degree rotation. However, we did not handle
+the rotation property in the driver and lead to rotation issues.
 
-Hi,
+Fixes: 74608d8feefd ("drm/mediatek: Add DRM_MODE_ROTATE_0 to rotation property")
+Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-> Am Samstag, 26. Oktober 2024, 06:10:42 CET schrieb Marek Vasut:
->> The driver configures mostly Pixel PLL from the clock cached in
->> local copy of the mode. Make sure the driver uses adjusted mode
->> which contains the updated Pixel PLL settings negotiated in
->> tc_dpi_atomic_check()/tc_edp_atomic_check().
->>
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> ---
->> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->> Cc: Jonas Karlman <jonas@kwiboo.se>
->> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Neil Armstrong <neil.armstrong@linaro.org>
->> Cc: Robert Foss <rfoss@kernel.org>
->> Cc: Simona Vetter <simona@ffwll.ch>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: dri-devel@lists.freedesktop.org
->> ---
->>   drivers/gpu/drm/bridge/tc358767.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
->> index 7968183510e63..0d523322fdd8e 100644
->> --- a/drivers/gpu/drm/bridge/tc358767.c
->> +++ b/drivers/gpu/drm/bridge/tc358767.c
->> @@ -1764,7 +1764,7 @@ static void tc_bridge_mode_set(struct drm_bridge *bridge,
->>   {
->>   	struct tc_data *tc = bridge_to_tc(bridge);
->>   
->> -	drm_mode_copy(&tc->mode, mode);
->> +	drm_mode_copy(&tc->mode, adj);
->>   }
->>   
->>   static const struct drm_edid *tc_edid_read(struct drm_bridge *bridge,
->>
-> 
-> This unfortunately breaks my DSI->DP setup on TQMa8MPxL/MBa8MPxL.
-> 
-> When I revert it, DP works again. I'm currently running on next-20241114
-> with patches regarding DSI initialization.
-> 
-> before:
-> tc358767 1-000f: PLL: requested 148500000 pixelclock, ref 26000000
-> tc358767 1-000f: PLL: got 147333333, delta -1166667
-> tc358767 1-000f: PLL: 26000000 / 1 / 1 * 17 / 3
-> tc358767 1-000f: set mode 1920x1080
-> tc358767 1-000f: H margin 148,88 sync 44
-> tc358767 1-000f: V margin 36,4 sync 5
-> tc358767 1-000f: total: 2200x1125
-> 
-> after:
-> tc358767 1-000f: PLL: requested 147333000 pixelclock, ref 26000000
-> tc358767 1-000f: PLL: got 146250000, delta -1083000
-> tc358767 1-000f: PLL: 26000000 / 1 / 4 * 45 / 2
-> tc358767 1-000f: set mode 1920x1080
-> tc358767 1-000f: H margin 148,88 sync 44
-> tc358767 1-000f: V margin 36,4 sync 5
-> tc358767 1-000f: total: 2200x1125
-> 
-> The reason this breaks is that the adjusted clock frequency is slightly off
-> to the previously calculated one: 147333333 <-> 147333000
-> This is because mode clock is only specyfied in KHz. With this incorrect
-> input the new result is even lower than requested, thus failing to setup
-> correctly.
-> 
-> As I don't see a quick fix, I propose a revert meanwhile. Any comments?
-Sigh, the TC358767 is really a gift that keeps on giving.
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+index e0c0bb01f65a..cc825c4f2e09 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+@@ -472,6 +472,7 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 	unsigned int hdr_pitch = pending->hdr_pitch;
+ 	unsigned int fmt = pending->format;
+ 	unsigned int offset = (pending->y << 16) | pending->x;
++	unsigned int rotation = pending->rotation;
+ 	unsigned int src_size = (pending->height << 16) | pending->width;
+ 	unsigned int blend_mode = state->base.pixel_blend_mode;
+ 	unsigned int ignore_pixel_alpha = 0;
+@@ -513,12 +514,19 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 			ignore_pixel_alpha = OVL_CONST_BLEND;
+ 	}
+ 
+-	if (pending->rotation & DRM_MODE_REFLECT_Y) {
++	/*
++	 * Treat rotate 180 as flip x + flip y, and XOR the original rotation value
++	 * to flip x + flip y to support both in the same time.
++	 */
++	if (rotation & DRM_MODE_ROTATE_180)
++		rotation ^= DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y;
++
++	if (rotation & DRM_MODE_REFLECT_Y) {
+ 		con |= OVL_CON_VIRT_FLIP;
+ 		addr += (pending->height - 1) * pending->pitch;
+ 	}
+ 
+-	if (pending->rotation & DRM_MODE_REFLECT_X) {
++	if (rotation & DRM_MODE_REFLECT_X) {
+ 		con |= OVL_CON_HORZ_FLIP;
+ 		addr += pending->pitch - 1;
+ 	}
+-- 
+2.43.0
 
-Either revert it for now, or give me a week or three until I get back to 
-digging in the TC358767. Whichever you prefer. Sorry for the slowness.
