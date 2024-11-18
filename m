@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E0B9D1BE2
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 00:37:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7499D1BE1
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 00:37:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A4E910E2A0;
-	Mon, 18 Nov 2024 23:37:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF60C10E040;
+	Mon, 18 Nov 2024 23:37:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jxP5bOPr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m2frrSJE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 681AB10E040;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 956DA10E190;
  Mon, 18 Nov 2024 23:37:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1731973043; x=1763509043;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=7Q34MN1+S/hWvA02/u63ADNitopgDqBdhWospnhR7xY=;
- b=jxP5bOPrIPlBL3nIfrnRrhMyMiLmpKG/3YJ6Bx+yhbmnnaP0ZS3/kJOn
- Je8uUmdAlfrbEz7bMkzCNu0fisIjIt312Y7f4/kg4r9fbr7hLXfLAC21j
- C5ZwMG+6Q716QNjQ0ZtIBVPo8LjV2qXpZLXZIX+qkdokUtRQv+JMewDEB
- ivx5waIXfahhLQAyjKjF5WmfHJVp7FEMhY9IMmEJoXBjFaHYU4RosdKRb
- mwMCj2fTdJU9bCbsxn5wZNIvpxl649tnnYHaCtoLCalNInCTrwUySbDxQ
- 0meAsckXGr09uQpctQy0JUP2Kd8zETfi0NU6ceqrKO9gvU5dNPt/6i1OW w==;
-X-CSE-ConnectionGUID: x2tKnaqERvC17PbzXIR6jg==
-X-CSE-MsgGUID: LuYItpm6Sq+/Wbhk+pYCng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31878845"
-X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="31878845"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=rH8hTGJCAoerEtuHvYdMXIH/cuzWnm4A2o119v9dQe0=;
+ b=m2frrSJEj5fPKFn7CJ5UjIhy6xlqH8mMOq43r2C+uzx/PKZKK7MrI8H9
+ JdIMiFmEzgJ/MkmVJlZia3QlKuezHnBQujLHKMbPjgwSXLgR95Z4T4fF3
+ 4grXkSdovN/SuoxHCxN79yUgWAM3jvWt6xyTErCR+j5v1h6ZqqKJhaUV+
+ ayGSwkcLX1XyJ6/Kr9VjMyQrz4WWzANwJTw265cGZNy5cxIsk1nxu6t4X
+ Ba7sVhdExSAQSUWspS0k5GjJfY2ToEu/QOEPwQR6Ad3Zk1bY0CSEIlqAu
+ bCeghArZIK8MCUwNnzA8rcX1iUC+BTAqroLuxXEt6pX53ha5c3YNolPde A==;
+X-CSE-ConnectionGUID: ehbpurniTCupRzAKRk7UMQ==
+X-CSE-MsgGUID: goCsjvMDQa6+AFAaDgYxQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31878851"
+X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="31878851"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Nov 2024 15:37:23 -0800
-X-CSE-ConnectionGUID: 6uthKWc1QrOgzNLsa/DkqQ==
-X-CSE-MsgGUID: q0C1cGx7RrmIxksb1w+dEw==
+X-CSE-ConnectionGUID: fYuWwgN6RiitE1p5oCjrew==
+X-CSE-MsgGUID: z1OTRbCpT4qEiCFw04kY6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="89521664"
+X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="89521668"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Nov 2024 15:37:23 -0800
@@ -49,10 +49,12 @@ Cc: kenneth.w.graunke@intel.com, lionel.g.landwerlin@intel.com,
  thomas.hellstrom@linux.intel.com, boris.brezillon@collabora.com,
  airlied@gmail.com, christian.koenig@amd.com, mihail.atanassov@arm.com,
  steven.price@arm.com, shashank.sharma@amd.com
-Subject: [RFC PATCH 00/29] UMD direct submission in Xe
-Date: Mon, 18 Nov 2024 15:37:28 -0800
-Message-Id: <20241118233757.2374041-1-matthew.brost@intel.com>
+Subject: [RFC PATCH 01/29] dma-fence: Add dma_fence_preempt base class
+Date: Mon, 18 Nov 2024 15:37:29 -0800
+Message-Id: <20241118233757.2374041-2-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241118233757.2374041-1-matthew.brost@intel.com>
+References: <20241118233757.2374041-1-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -71,138 +73,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an RFC, or possibly even a proof of concept, for UMD (User Mode
-Driver) direct submission in Xe. It is similar to AMD's design [1] [2]
-or ARM's design [3], utilizing a uAPI to convert user-space syncs
-(memory writes) to kernel-space syncs (DMA fences). It is built around
-the existing Xe preemption fences for dynamic memory management, such as
-userptr invalidation and buffer object (BO) eviction.
+Add a dma_fence_preempt base class with driver ops to implement
+preemption, based on the existing Xe preemptive fence implementation.
 
-The series also enables mapping a PPGTT-bound submission ring in
-non-privileged mode, as well as exposing indirect ring state (such as
-ring head, tail, etc.) and the doorbell to user space, enabling UMD
-direct submission.
+Annotated to ensure correct driver usage.
 
-The target for this series is Mesa, with the goal of enabling UMD direct
-submission and removing the submission thread that currently handles
-future fences. I've discussed this with Sima and the Intel Mesa team,
-and it seems like a reachable target. Most synchronization will be
-handled in user space via memory writes and semaphore wait ring
-instructions, with only legacy cross-process synchronization (e.g.,
-compositors) requiring kernel synchronization (DMA fences).
-
-The series includes some common patches at the beginning to implement
-preemption fences and user fences. The idea of preemption
-DMA-reservation slots [4] has been dropped in favor of attaching the
-last exported DMA fence to the preemption fence as suggested by AMD.
-
-This is a public checkpoint on the KMD (Kernel Mode Driver) work, which
-will be tabled until Intel's Mesa team has the bandwidth to begin the
-UMD work. That said, the uAPI is very preliminary and likely to change.
-One idea that was discussed is a common user fence interface based
-around DRM syncobjs, which will likely be explored further as UMD
-engagement begins. Some work for syncing VM binds (kernel operation)
-with UMD direct submission is also likely required.
-
-Testing has been done with [5], and the main features—such as basic
-submission, dynamic memory management, user-to-kernel sync conversion,
-and protection against endless user fences—are working on BMG and LNL.
-
-The GitLab branch [6] has also been pushed for reference.
-
-Any early community feedback is always appreciated.
-
-Matt
-
-[1] https://patchwork.freedesktop.org/series/113675/
-[2] https://patchwork.freedesktop.org/series/114385/
-[3] https://patchwork.freedesktop.org/series/137924/
-[4] https://patchwork.freedesktop.org/series/141129/
-[5] https://patchwork.freedesktop.org/series/141518/
-[6] https://gitlab.freedesktop.org/mbrost/xe-kernel-driver-umd-submission-post/-/tree/post-11-18-24?ref_type=heads 
-
-Matthew Brost (28):
-  dma-fence: Add dma_fence_preempt base class
-  dma-fence: Add dma_fence_user_fence
-  drm/xe: Use dma_fence_preempt base class
-  drm/xe: Allocate doorbells for UMD exec queues
-  drm/xe: Add doorbell ID to snapshot capture
-  drm/xe: Break submission ring out into its own BO
-  drm/xe: Break indirect ring state out into its own BO
-  drm/xe: Clear GGTT in xe_bo_restore_kernel
-  FIXME: drm/xe: Add pad to ring and indirect state
-  drm/xe: Enable indirect ring on media GT
-  drm/xe: Don't add pinned mappings to VM bulk move
-  drm/xe: Add exec queue post init extension processing
-  drm/xe: Add support for mmapping doorbells to user space
-  drm/xe: Add support for mmapping submission ring and indirect ring
-    state to user space
-  drm/xe/uapi: Define UMD exec queue mapping uAPI
-  drm/xe: Add usermap exec queue extension
-  drm/xe: Drop EXEC_QUEUE_FLAG_UMD_SUBMISSION flag
-  drm/xe: Do not allow usermap exec queues in exec IOCTL
-  drm/xe: Teach GuC backend to kill usermap queues
-  drm/xe: Enable preempt fences on usermap queues
-  drm/xe/uapi: Add uAPI to convert user semaphore to / from drm syncobj
-  drm/xe: Add user fence IRQ handler
-  drm/xe: Add xe_hw_fence_user_init
-  drm/xe: Add a message lock to the Xe GPU scheduler
-  drm/xe: Always wait on preempt fences in vma_check_userptr
-  drm/xe: Teach xe_sync layer about drm_xe_semaphore
-  drm/xe: Add VM convert fence IOCTL
-  drm/xe: Add user fence TDR
-
-Tejas Upadhyay (1):
-  drm/xe/mmap: Add mmap support for PCI memory barrier
-
- drivers/dma-buf/Makefile                     |   2 +-
- drivers/dma-buf/dma-fence-preempt.c          | 134 ++++++
- drivers/dma-buf/dma-fence-user-fence.c       |  73 ++++
- drivers/gpu/drm/xe/xe_bo.c                   |  29 +-
- drivers/gpu/drm/xe/xe_bo.h                   |   5 +
- drivers/gpu/drm/xe/xe_bo_evict.c             |   8 +-
- drivers/gpu/drm/xe/xe_device.c               | 181 +++++++-
- drivers/gpu/drm/xe/xe_device_types.h         |   3 +
- drivers/gpu/drm/xe/xe_exec.c                 |   3 +-
- drivers/gpu/drm/xe/xe_exec_queue.c           | 175 +++++++-
- drivers/gpu/drm/xe/xe_exec_queue.h           |   5 +
- drivers/gpu/drm/xe/xe_exec_queue_types.h     |  13 +
- drivers/gpu/drm/xe/xe_execlist.c             |   2 +-
- drivers/gpu/drm/xe/xe_ggtt.c                 |  19 +-
- drivers/gpu/drm/xe/xe_ggtt.h                 |   2 +
- drivers/gpu/drm/xe/xe_gpu_scheduler.c        |  19 +-
- drivers/gpu/drm/xe/xe_gpu_scheduler.h        |  12 +-
- drivers/gpu/drm/xe/xe_gpu_scheduler_types.h  |   2 +
- drivers/gpu/drm/xe/xe_guc_exec_queue_types.h |   9 +-
- drivers/gpu/drm/xe/xe_guc_submit.c           | 177 +++++++-
- drivers/gpu/drm/xe/xe_guc_submit_types.h     |   2 +
- drivers/gpu/drm/xe/xe_hw_engine.c            |   4 +-
- drivers/gpu/drm/xe/xe_hw_engine_group.c      |   4 +-
- drivers/gpu/drm/xe/xe_hw_fence.c             |  17 +
- drivers/gpu/drm/xe/xe_hw_fence.h             |   3 +
- drivers/gpu/drm/xe/xe_lrc.c                  | 176 ++++++--
- drivers/gpu/drm/xe/xe_lrc.h                  |   4 +-
- drivers/gpu/drm/xe/xe_lrc_types.h            |  16 +-
- drivers/gpu/drm/xe/xe_pci.c                  |   1 +
- drivers/gpu/drm/xe/xe_preempt_fence.c        |  89 ++--
- drivers/gpu/drm/xe/xe_preempt_fence.h        |   2 +-
- drivers/gpu/drm/xe/xe_preempt_fence_types.h  |  11 +-
- drivers/gpu/drm/xe/xe_pt.c                   |   5 +-
- drivers/gpu/drm/xe/xe_sync.c                 |  90 ++++
- drivers/gpu/drm/xe/xe_sync.h                 |   8 +
- drivers/gpu/drm/xe/xe_sync_types.h           |   5 +-
- drivers/gpu/drm/xe/xe_vm.c                   | 423 ++++++++++++++++++-
- drivers/gpu/drm/xe/xe_vm.h                   |   4 +-
- drivers/gpu/drm/xe/xe_vm_types.h             |  26 ++
- include/linux/dma-fence-preempt.h            |  56 +++
- include/linux/dma-fence-user-fence.h         |  31 ++
- include/uapi/drm/xe_drm.h                    | 147 ++++++-
- 42 files changed, 1798 insertions(+), 199 deletions(-)
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+---
+ drivers/dma-buf/Makefile            |   2 +-
+ drivers/dma-buf/dma-fence-preempt.c | 133 ++++++++++++++++++++++++++++
+ include/linux/dma-fence-preempt.h   |  56 ++++++++++++
+ 3 files changed, 190 insertions(+), 1 deletion(-)
  create mode 100644 drivers/dma-buf/dma-fence-preempt.c
- create mode 100644 drivers/dma-buf/dma-fence-user-fence.c
  create mode 100644 include/linux/dma-fence-preempt.h
- create mode 100644 include/linux/dma-fence-user-fence.h
 
+diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+index 70ec901edf2c..c25500bb38b5 100644
+--- a/drivers/dma-buf/Makefile
++++ b/drivers/dma-buf/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-y := dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
+-	 dma-fence-unwrap.o dma-resv.o
++	 dma-fence-preempt.o dma-fence-unwrap.o dma-resv.o
+ obj-$(CONFIG_DMABUF_HEAPS)	+= dma-heap.o
+ obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
+ obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
+diff --git a/drivers/dma-buf/dma-fence-preempt.c b/drivers/dma-buf/dma-fence-preempt.c
+new file mode 100644
+index 000000000000..6e6ce7ea7421
+--- /dev/null
++++ b/drivers/dma-buf/dma-fence-preempt.c
+@@ -0,0 +1,133 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2024 Intel Corporation
++ */
++
++#include <linux/dma-fence-preempt.h>
++#include <linux/dma-resv.h>
++
++static void dma_fence_preempt_work_func(struct work_struct *w)
++{
++	bool cookie = dma_fence_begin_signalling();
++	struct dma_fence_preempt *pfence =
++		container_of(w, typeof(*pfence), work);
++	const struct dma_fence_preempt_ops *ops = pfence->ops;
++	int err = pfence->base.error;
++
++	if (!err) {
++		err = ops->preempt_wait(pfence);
++		if (err)
++			dma_fence_set_error(&pfence->base, err);
++	}
++
++	dma_fence_signal(&pfence->base);
++	ops->preempt_finished(pfence);
++
++	dma_fence_end_signalling(cookie);
++}
++
++static const char *
++dma_fence_preempt_get_driver_name(struct dma_fence *fence)
++{
++	return "dma_fence_preempt";
++}
++
++static const char *
++dma_fence_preempt_get_timeline_name(struct dma_fence *fence)
++{
++	return "ordered";
++}
++
++static void dma_fence_preempt_issue(struct dma_fence_preempt *pfence)
++{
++	int err;
++
++	err = pfence->ops->preempt(pfence);
++	if (err)
++		dma_fence_set_error(&pfence->base, err);
++
++	queue_work(pfence->wq, &pfence->work);
++}
++
++static void dma_fence_preempt_cb(struct dma_fence *fence,
++				 struct dma_fence_cb *cb)
++{
++	struct dma_fence_preempt *pfence =
++		container_of(cb, typeof(*pfence), cb);
++
++	dma_fence_preempt_issue(pfence);
++}
++
++static void dma_fence_preempt_delay(struct dma_fence_preempt *pfence)
++{
++	struct dma_fence *fence;
++	int err;
++
++	fence = pfence->ops->preempt_delay(pfence);
++	if (WARN_ON_ONCE(!fence || IS_ERR(fence)))
++		return;
++
++	err = dma_fence_add_callback(fence, &pfence->cb, dma_fence_preempt_cb);
++	if (err == -ENOENT)
++		dma_fence_preempt_issue(pfence);
++}
++
++static bool dma_fence_preempt_enable_signaling(struct dma_fence *fence)
++{
++	struct dma_fence_preempt *pfence =
++		container_of(fence, typeof(*pfence), base);
++
++	if (pfence->ops->preempt_delay)
++		dma_fence_preempt_delay(pfence);
++	else
++		dma_fence_preempt_issue(pfence);
++
++	return true;
++}
++
++static const struct dma_fence_ops preempt_fence_ops = {
++	.get_driver_name = dma_fence_preempt_get_driver_name,
++	.get_timeline_name = dma_fence_preempt_get_timeline_name,
++	.enable_signaling = dma_fence_preempt_enable_signaling,
++};
++
++/**
++ * dma_fence_is_preempt() - Is preempt fence
++ *
++ * @fence: Preempt fence
++ *
++ * Return: True if preempt fence, False otherwise
++ */
++bool dma_fence_is_preempt(const struct dma_fence *fence)
++{
++	return fence->ops == &preempt_fence_ops;
++}
++EXPORT_SYMBOL(dma_fence_is_preempt);
++
++/**
++ * dma_fence_preempt_init() - Initial preempt fence
++ *
++ * @fence: Preempt fence
++ * @ops: Preempt fence operations
++ * @wq: Work queue for preempt wait, should have WQ_MEM_RECLAIM set
++ * @context: Fence context
++ * @seqno: Fence seqence number
++ */
++void dma_fence_preempt_init(struct dma_fence_preempt *fence,
++			    const struct dma_fence_preempt_ops *ops,
++			    struct workqueue_struct *wq,
++			    u64 context, u64 seqno)
++{
++	/*
++	 * XXX: We really want to check wq for WQ_MEM_RECLAIM here but
++	 * workqueue_struct is private.
++	 */
++
++	fence->ops = ops;
++	fence->wq = wq;
++	INIT_WORK(&fence->work, dma_fence_preempt_work_func);
++	spin_lock_init(&fence->lock);
++	dma_fence_init(&fence->base, &preempt_fence_ops,
++		       &fence->lock, context, seqno);
++}
++EXPORT_SYMBOL(dma_fence_preempt_init);
+diff --git a/include/linux/dma-fence-preempt.h b/include/linux/dma-fence-preempt.h
+new file mode 100644
+index 000000000000..28d803f89527
+--- /dev/null
++++ b/include/linux/dma-fence-preempt.h
+@@ -0,0 +1,56 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2024 Intel Corporation
++ */
++
++#ifndef __LINUX_DMA_FENCE_PREEMPT_H
++#define __LINUX_DMA_FENCE_PREEMPT_H
++
++#include <linux/dma-fence.h>
++#include <linux/workqueue.h>
++
++struct dma_fence_preempt;
++struct dma_resv;
++
++/**
++ * struct dma_fence_preempt_ops - Preempt fence operations
++ *
++ * These functions should be implemented in the driver side.
++ */
++struct dma_fence_preempt_ops {
++	/** @preempt_delay: Preempt execution with a delay */
++	struct dma_fence *(*preempt_delay)(struct dma_fence_preempt *fence);
++	/** @preempt: Preempt execution */
++	int (*preempt)(struct dma_fence_preempt *fence);
++	/** @preempt_wait: Wait for preempt of execution to complete */
++	int (*preempt_wait)(struct dma_fence_preempt *fence);
++	/** @preempt_finished: Signal that the preempt has finished */
++	void (*preempt_finished)(struct dma_fence_preempt *fence);
++};
++
++/**
++ * struct dma_fence_preempt - Embedded preempt fence base class
++ */
++struct dma_fence_preempt {
++	/** @base: Fence base class */
++	struct dma_fence base;
++	/** @lock: Spinlock for fence handling */
++	spinlock_t lock;
++	/** @cb: Callback preempt delay */
++	struct dma_fence_cb cb;
++	/** @ops: Preempt fence operation */
++	const struct dma_fence_preempt_ops *ops;
++	/** @wq: Work queue for preempt wait */
++	struct workqueue_struct *wq;
++	/** @work: Work struct for preempt wait */
++	struct work_struct work;
++};
++
++bool dma_fence_is_preempt(const struct dma_fence *fence);
++
++void dma_fence_preempt_init(struct dma_fence_preempt *fence,
++			    const struct dma_fence_preempt_ops *ops,
++			    struct workqueue_struct *wq,
++			    u64 context, u64 seqno);
++
++#endif
 -- 
 2.34.1
 
