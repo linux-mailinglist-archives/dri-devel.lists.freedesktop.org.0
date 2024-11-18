@@ -2,83 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1FD9D113F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 14:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A022F9D1182
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 14:12:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8DE810E4CA;
-	Mon, 18 Nov 2024 13:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B5A510E4D4;
+	Mon, 18 Nov 2024 13:12:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="OZFkp+kf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bnE5pPzn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
- [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3370B10E4B9
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 13:02:55 +0000 (UTC)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AICK2Aq027968;
- Mon, 18 Nov 2024 13:02:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=B
- o2I2ESRILj0OhfqmXY+0n+Gsl8OPjyRH9ZU4sJ6oz4=; b=OZFkp+kfOQxXDgAhN
- HZIOkJDXoWcnpcIhPOOoCxKEED292Uk8inMLkybmBOyTPKrnwekjL1ZOZtaIquiY
- fnQZfXxBPUK4GMvEOrsbt9ns7IKq7sEgb4JgwIvqSqiLP3Fb0aOaNmQuL5W6axh5
- Ufbq1dRor35SmEvzYjsWYARdP10JGbZwDvAaYoutF41qrhPjTzEloESbvyUg1qxA
- 18ihrtUdOgzc12ThWI2P4g6zKIFbztC9qvOjIolZZI3AaqkbZ5Im8sxSnbRDQ4ky
- VNk+UoCW5aAeUAn+QhK9h4FcRmtH6nsMTcY5JmBQBpadVWm9ek+NmTUUdp4Pb5Rt
- /FUOA==
-Received: from hhmail05.hh.imgtec.org
- (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 42xmc1hmj6-5
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Mon, 18 Nov 2024 13:02:46 +0000 (GMT)
-Received: from
- 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
- (172.25.16.114) by HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Mon, 18 Nov 2024 13:02:45 +0000
-From: Matt Coster <matt.coster@imgtec.com>
-Date: Mon, 18 Nov 2024 13:02:13 +0000
-Subject: [PATCH v2 21/21] arm64: dts: ti: k3-j721s2: Add GPU node
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E245510E4D8;
+ Mon, 18 Nov 2024 13:12:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1731935535; x=1763471535;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=U8ay/gmGFswbNe/Qi36yt9M/u1Vhio+27RB1n8Mxrr8=;
+ b=bnE5pPznE6owQ3a3IAmGj6F3ZLk5Mb0z6l53sZuArFDj8F3NbPfkO+8p
+ UXwW+bdM4GvcoLDp3M9cIZvIyT/2QmGaMBsDM/lhzbQoyCkGg4/XRdi2s
+ +EDbUKkUifsMmENm6a+TpG7LUwYPTr4EWv+VI3/byWROql+/dCH4YWP5B
+ aezutVs9EiV4dfNjdxW0vE5S3TM51HFU0XZdQV66JoTaO4RHE3oRrPZz0
+ MRtuYg26cECCTbBXxidcCdRBuL0A5St+It3t3PSnoZ3YuKAZ1p30+AYND
+ 2j80ECGsrNVbXDnsAb3gdOmkcA1NwNcMkNolxlzuK2Z3a+GC9klggCcgA w==;
+X-CSE-ConnectionGUID: Hlua6XVHTMa8lZc+eLmJzg==
+X-CSE-MsgGUID: /BHo37gmS82IxiUXvylLBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="43276405"
+X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; d="scan'208";a="43276405"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2024 05:12:15 -0800
+X-CSE-ConnectionGUID: iZMPESiDQmGJ6i2txzBweg==
+X-CSE-MsgGUID: MYFGyDYeTI2LmNP6psWpPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="94272327"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2024 05:12:14 -0800
+Date: Mon, 18 Nov 2024 15:12:49 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 3/4] drm/i915/dp_mst: Expose a connector to kernel users
+ after it's properly initialized
+Message-ID: <Zzs9UU8sR7BA5zBU@ideak-desk.fi.intel.com>
+References: <20241115164159.1081675-1-imre.deak@intel.com>
+ <20241115164159.1081675-3-imre.deak@intel.com>
+ <878qtg4u75.fsf@intel.com>
+ <Zzsvw4Dc7kgyR8xs@ideak-desk.fi.intel.com>
+ <875xok4tnv.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20241118-sets-bxs-4-64-patch-v1-v2-21-3fd45d9fb0cf@imgtec.com>
-References: <20241118-sets-bxs-4-64-patch-v1-v2-0-3fd45d9fb0cf@imgtec.com>
-In-Reply-To: <20241118-sets-bxs-4-64-patch-v1-v2-0-3fd45d9fb0cf@imgtec.com>
-To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>, "Vignesh
- Raghavendra" <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- Randolph Sapp <rs@ti.com>, Darren Etheridge <detheridge@ti.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1741;
- i=matt.coster@imgtec.com; h=from:subject:message-id;
- bh=Ntq50dzXPF1u84iPH0ii+gq7ncmvQWESeBQmF/KzVcI=;
- b=owGbwMvMwCFWuUfy8817WRsYT6slMaRbWz2btX9to+2i67x3vJyCXPg61z4sFS810jhWrNvyT
- DL0zvJFHaUsDGIcDLJiiiw7VliuUPujpiVx41cxzBxWJpAhDFycAjCRKgWG/1mFuvzdj1vKHF+n
- vdV5/WNm6U+RvVe8pOP7uNMjP/s69DMyXGWKcpa/1ubv5zVDa7tOqtizHWu3rFRrlxCIe+mVUXS
- GAQA=
-X-Developer-Key: i=matt.coster@imgtec.com; a=openpgp;
- fpr=05A40CFCE7269D61D97100A1747F0A9036F90DFA
-X-Originating-IP: [172.25.16.114]
-X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: y9THFNVnkJv49gUP9ineJIyRJ3fKU6fj
-X-Authority-Analysis: v=2.4 cv=E4efprdl c=1 sm=1 tr=0 ts=673b3af6 cx=c_pps
- a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
- a=hzDjp0mCheYA:10 a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=sozttTNsAAAA:8
- a=VwQbUJbxAAAA:8 a=r_1tXGB3AAAA:8
- a=rLJv8WYccUdZFC7c5UsA:9 a=QEXdDO2ut3YA:10 a=S-JV1fTmrHgA:10 a=j2-svP0xy3wA:10
- a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: y9THFNVnkJv49gUP9ineJIyRJ3fKU6fj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <875xok4tnv.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,53 +69,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The J721S2 binding is based on the TI downstream binding in 54b0f2a00d92
-("arm64: dts: ti: k3-j721s2-main: add gpu node") from [1] but with updated
-compatible strings.
+On Mon, Nov 18, 2024 at 02:23:48PM +0200, Jani Nikula wrote:
+> On Mon, 18 Nov 2024, Imre Deak <imre.deak@intel.com> wrote:
+> > On Mon, Nov 18, 2024 at 02:12:14PM +0200, Jani Nikula wrote:
+> >> On Fri, 15 Nov 2024, Imre Deak <imre.deak@intel.com> wrote:
+> >> > After a connector is added to the drm_mode_config::connector_list, it's
+> >> > visible to any in-kernel users looking up connectors via the above list.
+> >> > Make sure that the connector is properly initialized before such
+> >> > look-ups.
+> >> >
+> >> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> >> > ---
+> >> >  drivers/gpu/drm/i915/display/intel_dp_mst.c | 29 ++++++++-------------
+> >> >  1 file changed, 11 insertions(+), 18 deletions(-)
+> >> >
+> >> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> >> > index f058360a26413..d91a1d1fb26f4 100644
+> >> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> >> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> >> > @@ -1719,6 +1719,8 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
+> >> >  	if (!intel_connector)
+> >> >  		return NULL;
+> >> >  
+> >> > +	connector = &intel_connector->base;
+> >> 
+> >> I'd rather see a patch s/intel_connector/connector/ and using
+> >> &connector->base for drm_connector.
+> >
+> > Yes, thought the same and did it. However I think that should be done
+> > converting all the other intel_connector usage in the file. Is that ok
+> > with you?
+> 
+> Works for me.
 
-The clock[2] and power[3] indices were verified from docs, but the
-source of the interrupt index remains elusive.
+Ok, will add that in a separate patch then.
 
-References for indices: clocks[1], interrupts[2], power[3].
-
-[1]: https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel
-[2]: https://downloads.ti.com/tisci/esd/latest/5_soc_doc/j721s2/clocks.html
-[3]: https://downloads.ti.com/tisci/esd/latest/5_soc_doc/j721s2/devices.html
-
-Signed-off-by: Matt Coster <matt.coster@imgtec.com>
----
-Changes in v2:
-- Use normal reg syntax for 64-bit values
-- Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-21-4ed30e865892@imgtec.com
----
- arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
-index 9ed6949b40e9dfafdaf6861944b0b128b053a44f..9adc2c704ba4b38d1a0e7c9ded035fe79630451d 100644
---- a/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
-@@ -2047,4 +2047,16 @@ watchdog8: watchdog@23f0000 {
- 		/* reserved for MAIN_R5F1_1 */
- 		status = "reserved";
- 	};
-+
-+	gpu: gpu@4e20000000 {
-+		compatible = "ti,j721s2-gpu", "img,img-bxs-4-64", "img,img-rogue";
-+		reg = <0x4e 0x20000000 0x00 0x80000>;
-+		clocks = <&k3_clks 130 1>;
-+		clock-names = "core";
-+		interrupts = <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&k3_pds 130 TI_SCI_PD_EXCLUSIVE>,
-+				<&k3_pds 373 TI_SCI_PD_EXCLUSIVE>;
-+		power-domain-names = "a", "b";
-+		dma-coherent;
-+	};
- };
-
--- 
-2.47.0
-
+> >> > +
+> >> >  	intel_connector->get_hw_state = intel_dp_mst_get_hw_state;
+> >> >  	intel_connector->sync_state = intel_dp_connector_sync_state;
+> >> >  	intel_connector->mst_port = intel_dp;
+> >> > @@ -1727,30 +1729,19 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
+> >> >  
+> >> >  	intel_dp_init_modeset_retry_work(intel_connector);
+> >> >  
+> >> > -	/*
+> >> > -	 * TODO: The following drm_connector specific initialization belongs
+> >> > -	 * to DRM core, however it happens atm too late in
+> >> > -	 * drm_connector_init(). That function will also expose the connector
+> >> > -	 * to in-kernel users, so it can't be called until the connector is
+> >> > -	 * sufficiently initialized; init the device pointer used by the
+> >> > -	 * following DSC setup, until a fix moving this to DRM core.
+> >> > -	 */
+> >> > -	intel_connector->base.dev = mgr->dev;
+> >> > -
+> >> > -	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
+> >> > -	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
+> >> > -	intel_connector->dp.dsc_hblank_expansion_quirk =
+> >> > -		detect_dsc_hblank_expansion_quirk(intel_connector);
+> >> > -
+> >> > -	connector = &intel_connector->base;
+> >> > -	ret = drm_connector_init(display->drm, connector, &intel_dp_mst_connector_funcs,
+> >> > -				 DRM_MODE_CONNECTOR_DisplayPort);
+> >> > +	ret = drm_connector_init_core(display->drm, connector, &intel_dp_mst_connector_funcs,
+> >> > +				      DRM_MODE_CONNECTOR_DisplayPort);
+> >> >  	if (ret) {
+> >> >  		drm_dp_mst_put_port_malloc(port);
+> >> >  		intel_connector_free(intel_connector);
+> >> >  		return NULL;
+> >> >  	}
+> >> >  
+> >> > +	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
+> >> > +	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
+> >> > +	intel_connector->dp.dsc_hblank_expansion_quirk =
+> >> > +		detect_dsc_hblank_expansion_quirk(intel_connector);
+> >> > +
+> >> >  	drm_connector_helper_add(connector, &intel_dp_mst_connector_helper_funcs);
+> >> >  
+> >> >  	for_each_pipe(display, pipe) {
+> >> > @@ -1771,6 +1762,8 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
+> >> >  		drm_dbg_kms(display->drm, "[%s:%d] HDCP MST init failed, skipping.\n",
+> >> >  			    connector->name, connector->base.id);
+> >> >  
+> >> > +	drm_connector_add(connector);
+> >> > +
+> >> >  	return connector;
+> >> >  
+> >> >  err:
+> >> 
+> >> -- 
+> >> Jani Nikula, Intel
+> 
+> -- 
+> Jani Nikula, Intel
