@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52979D0DE7
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 11:11:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1F79D0DF5
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 11:12:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5574310E1A4;
-	Mon, 18 Nov 2024 10:11:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB80610E492;
+	Mon, 18 Nov 2024 10:12:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h8W2Oucq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k9+NRHXI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1478310E1A4;
- Mon, 18 Nov 2024 10:11:13 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3ADA10E488;
+ Mon, 18 Nov 2024 10:12:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731924673; x=1763460673;
+ t=1731924725; x=1763460725;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=LPVEc3SBnqPhNLow8kd01cndoiNDR2c0uBbFgG5wFCA=;
- b=h8W2Oucqd+wkzpck8iFm4v0ubQ4gXxAkeGT7DIpah2FlR7iVQqzF5aSd
- 9Gu2u+MNRsvKliFp93m2tNn4ZyBVhDEJAnuddOYs3FzGylMtbruq/MjS4
- +zpa4vjKdOVs1ubWpPeM0E7gdfMdA5Gg+Jw7f2KNaX7bu+VZV6LOSu0Xc
- x3maOGQu36nxYU/DBj0fZko7rPnGcVV0IzxQaLEH/cs4bPdfjb+F9DuxO
- QKHKEI/7F+B9b7KUojpmTSl5PpesRE1fNInhlfYBkaX6r+PFwVycCGBaV
- 5Of0Bxg9FKnfHo2al0+e6vdu1l14G1nfItYSMXC7DiZGNp9ipJQqYVYNO Q==;
-X-CSE-ConnectionGUID: rrl7pqivQyWyzcmSn9pS1Q==
-X-CSE-MsgGUID: Phd5xinbShW57ImJbWAvoQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31278896"
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="31278896"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 02:11:12 -0800
-X-CSE-ConnectionGUID: Ye9B2MTzSreXL8hy2uW3Yw==
-X-CSE-MsgGUID: 1IaCFaIKSn+u08XITnRaAg==
+ bh=tvZh19UrT7RhLG31esa3Q+Wb623PF1oP3Z3DIP8DHuU=;
+ b=k9+NRHXIwQTrUgQ/hZpOtW+AEuovkh6XTwFZVRtIOIPPx9SBPhyhHYID
+ IpVO+3uofZdrwj015alp8SX8ZMg+CqwylyLcUqlxN8HtxT4mAxpuVB4tu
+ EFzDgIpUE2+QK1YxavYvUOSnxK93PlPgjqnKaW5UNHFgdttIztYLB0YNR
+ hQTZiLs2uxfN1QXLsdd6rtRTqyUS/SPy3Rj2g2VUMf3vGfYCOpg1zVWn4
+ BTyJzfmph2anAD3yrCVJl0rROQdmZWxkwkB1aQ/pOTCItE6NgO6sXzYeF
+ g37Xf96e+W1LjkzOdXptQr0AJZEaULJ29tn83tBpTur3rDQFrL5CPDGsO A==;
+X-CSE-ConnectionGUID: OyV3qsUDSzSaQuHp9VLFbw==
+X-CSE-MsgGUID: xBB81qRgTW61vnmzEmSPRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31723850"
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="31723850"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2024 02:12:05 -0800
+X-CSE-ConnectionGUID: YDbs2x0ITtmplL0jZe8pGw==
+X-CSE-MsgGUID: U7Vin29dRNK1mgt6lMVUiw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="112478172"
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; d="scan'208";a="89100237"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.245.246.148])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 02:10:48 -0800
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2024 02:11:40 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rodrigo Vivi
  <rodrigo.vivi@intel.com>, Joonas Lahtinen
@@ -91,14 +91,14 @@ Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
  spice-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 4/5] drm/connector: make mode_valid_ctx accept const
- struct drm_display_mode
-In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-4-b1b523156f71@linaro.org>
+Subject: Re: [PATCH 5/5] drm/connector: make mode_valid accept const struct
+ drm_display_mode
+In-Reply-To: <20241115-drm-connector-mode-valid-const-v1-5-b1b523156f71@linaro.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20241115-drm-connector-mode-valid-const-v1-0-b1b523156f71@linaro.org>
- <20241115-drm-connector-mode-valid-const-v1-4-b1b523156f71@linaro.org>
-Date: Mon, 18 Nov 2024 12:10:44 +0200
-Message-ID: <87mshw4ztn.fsf@intel.com>
+ <20241115-drm-connector-mode-valid-const-v1-5-b1b523156f71@linaro.org>
+Date: Mon, 18 Nov 2024 12:11:37 +0200
+Message-ID: <87jzd04zs6.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,43 +118,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, 15 Nov 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
 > The mode_valid() callbacks of drm_encoder, drm_crtc and drm_bridge
-> accept const struct drm_display_mode argument. Change the mode_valid_ctx
+> accept const struct drm_display_mode argument. Change the mode_valid
 > callback of drm_connector to also accept const argument.
 >
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-> ---
->  drivers/gpu/drm/i915/display/intel_dp_mst.c | 2 +-
->  include/drm/drm_modeset_helper_vtables.h    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index 7be8fb047b6c17cb37b9021a2dbf430f0aaecfa2..cfefd89209ca864e19771c538ca00016f9322e74 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -1432,7 +1432,7 @@ static int intel_dp_mst_get_modes(struct drm_connector *connector)
->  
->  static int
->  intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
-> -			    struct drm_display_mode *mode,
-> +			    const struct drm_display_mode *mode,
->  			    struct drm_modeset_acquire_ctx *ctx,
->  			    enum drm_mode_status *status)
->  {
-> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> index ec59015aec3cf3ba01510031c55df8c0b3e0b382..fa9ee6a128bec0205f501df6f7634757f5fcb9ee 100644
-> --- a/include/drm/drm_modeset_helper_vtables.h
-> +++ b/include/drm/drm_modeset_helper_vtables.h
-> @@ -1006,7 +1006,7 @@ struct drm_connector_helper_funcs {
->  	 *
->  	 */
->  	int (*mode_valid_ctx)(struct drm_connector *connector,
-> -			      struct drm_display_mode *mode,
-> +			      const struct drm_display_mode *mode,
->  			      struct drm_modeset_acquire_ctx *ctx,
->  			      enum drm_mode_status *status);
 
 -- 
 Jani Nikula, Intel
