@@ -2,147 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499D59D13BE
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 15:56:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1E99D13B0
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 15:53:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B547F10E501;
-	Mon, 18 Nov 2024 14:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4D5410E506;
+	Mon, 18 Nov 2024 14:53:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="yirO76fN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hwah4JkR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2075.outbound.protection.outlook.com [40.107.92.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CEBF10E500;
- Mon, 18 Nov 2024 14:56:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qmgq/rQA/h0KCvRo60pWG+XT3P11IpT2MVxcASclWXM15D/4fPu7+GRmsdhCA/XVVpQvEhspmmkeZhxP0d4Uj7prQ5PtCXlxt3dDB+Fs97xSVseYyCEqTNiQSAlq0aexaBbA14xqcO5vhmnYrX/4LbIzIy40uyk4helaSDBlzom5bs8umUeddRkTY7RHrnIykvPE4y4MH2Ab6LD8s3ZMlAx1l5YhyA/37luDD51VrUT0dvScK2oW+zoiTIPQj/WmbEW+AvTwG3A/1l1PuW+2qYmUXiILVnhxUJgklwPLb3vumozSQ2ZohXoCapN4wgHirXmuRxrwEUmhhcaZ96obsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=89jIjXlbwwD5DbCABgI9LSSIPxP4aONd+m+FtWVjacc=;
- b=OQ35JBXwiMYuxLnvc9mxgyPIBLuv/HHN52LvidIuFJxzrhSGMUp2XJqSqkxj+bKyBOoJS924MzWIlpbhd7J9+q3gX3A1sek6/X8vpGAi7L3+INro1loYyCZV3dK0UQgYKcE3NRnIS5Z7S34IJ7VGrlDhQUvrw5dN8JSy+4/Nos+Vedewa/k1sOwq8+WZxU4xiQG680QmqwZMWvRVsvb9Hrx3jYlMqpO1ZOt90xQJVT23C2jZ8ON/UBQOdo0J469J4cOEiQNUEc80CVKsSIdNnyVzu3hbkMzNU2M0TSViLcOyn3M8uv9RUFjDKcpBWDyLZC79luZSv5MLOU/TtL+jtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=89jIjXlbwwD5DbCABgI9LSSIPxP4aONd+m+FtWVjacc=;
- b=yirO76fN1odjcqBiyQ4/yEtZNZSA7GVl50y76HTxpXcW23dfsYUjw6znUNylTXiBKs4w9sDaYUMyGHDLhfswRzgYP8+178Q26jpKc+DMMqfJexMzC7kQ2EaOfuGPxL4J+6EEicFfSLpRv17al3UeBqMjh7csMObR0nHPuu8Wma4=
-Received: from SA1PR12MB8599.namprd12.prod.outlook.com (2603:10b6:806:254::7)
- by LV2PR12MB5871.namprd12.prod.outlook.com (2603:10b6:408:174::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.17; Mon, 18 Nov
- 2024 14:56:14 +0000
-Received: from SA1PR12MB8599.namprd12.prod.outlook.com
- ([fe80::25da:4b98:9743:616b]) by SA1PR12MB8599.namprd12.prod.outlook.com
- ([fe80::25da:4b98:9743:616b%5]) with mapi id 15.20.8137.027; Mon, 18 Nov 2024
- 14:56:14 +0000
-From: "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
-CC: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v8 3/5] Documentation/gpu: Clarify drm memory stats
- definition
-Thread-Topic: [PATCH v8 3/5] Documentation/gpu: Clarify drm memory stats
- definition
-Thread-Index: AQHbN+JVqcQDwBErzkuJlm+rssH7qbK9H0EAgAABtzA=
-Date: Mon, 18 Nov 2024 14:56:14 +0000
-Message-ID: <SA1PR12MB859961AF9F43B4AE986F54C4ED272@SA1PR12MB8599.namprd12.prod.outlook.com>
-References: <20241116044452.5925-1-Yunxiang.Li@amd.com>
- <20241116044452.5925-4-Yunxiang.Li@amd.com>
- <57e02488-1e6b-4e61-a082-4c54be07e071@igalia.com>
-In-Reply-To: <57e02488-1e6b-4e61-a082-4c54be07e071@igalia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ActionId=f878b7e3-4249-48b5-a0b7-451c8d977208;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ContentBits=0;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Enabled=true;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Method=Privileged;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Name=Open Source;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SetDate=2024-11-18T14:44:38Z;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR12MB8599:EE_|LV2PR12MB5871:EE_
-x-ms-office365-filtering-correlation-id: 21a8c69c-e6e2-442b-90ad-08dd07e1265a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?VKkTbUGU7F4jGJ9ES1rJsLJgy39bG7pvbEMfffVGaTWNrkRf3OSckOfAJH99?=
- =?us-ascii?Q?BdK3UBQx1zvs6gOo/21nnA9aogNNNkmgMXRBBPWGCbdpVO/Y7xADikLP6vno?=
- =?us-ascii?Q?ynzY2QE1URtjBmscBy6FXqG3Oh/nAzWO5v0Yft+6K1rWMwJy8majbSzWr3t5?=
- =?us-ascii?Q?C+6XSCDT7eT0TSEhnPMqF9r4IngiXaf2nuwtYoHf9t1Qe2+2oFUIP08wKcc5?=
- =?us-ascii?Q?bTG8wD0sQxpGR+C+A8mfc0egpcmotMWSaYlcPOFjgAMOUWtb+k6VIxsq5DJ0?=
- =?us-ascii?Q?m/yWQJTPf5iNPsRDtsLDpOiG93I61gmoqm8HpBH0D9cCrqRmvXNOOX/c5QGb?=
- =?us-ascii?Q?1Hc4spFmcLeUXDa9UIIwNvt+HMadc1zsM03yQMM7w2QkSODCN4d/NcfNHvnP?=
- =?us-ascii?Q?ztfJ0mc58boALWIBezslf5kW/wgq9nDuGg9RidqBE6AEyO5XUjCuCPldYXka?=
- =?us-ascii?Q?Ld5YLu8Rk7ECxQZJPZDaFaM4OvLb7/Ejz7pJNNFD5Y67xNtnsTY7OV279mv3?=
- =?us-ascii?Q?KhNxIA9vu7popRSod3gZ1CgyMXPbH1uIw0B46iYERszQX9tRwTa0mOfKtX3e?=
- =?us-ascii?Q?3qcCiBWudTfsdcxOkXL28lUjOM9Pucq0+QXVXhN/wW7ABUyV0p8d0paJ2E1g?=
- =?us-ascii?Q?Ru0oYreN/INZ0MU9GL/GPZ3Dr6Z48sRLf2My615KAD4HZSCGSgtZvdFbrmSz?=
- =?us-ascii?Q?pbkzA/6DpTRGoD0q5a3Qa2nAiWd6gVDITi8zwkpz0svQ+0+vs5zpnm6S7Ngb?=
- =?us-ascii?Q?dc9w1gToaA/EMgsru4uD0//0FEfb/OUeQ9ZO4QxyCzAtrXRoZKoBvAZZqWDe?=
- =?us-ascii?Q?E+VsRRBfrGKMb3aJQRm0AtYT88bTm7iQNNUz0E9fLce2xSzkzA9lwHlMKXG5?=
- =?us-ascii?Q?xB60pdlJVCg85AW2fQpUbvfZvPgFbmYv/wGesO+C6Yqr9d44nin9iW1u/RxK?=
- =?us-ascii?Q?a8aQ2RDLK0d6Ta6qVGrImKa6XlXutWkiwSkD3nW+XgTG7umOPEKHSsJQ7pnj?=
- =?us-ascii?Q?m1HPkej1RSBQwCs4N6WE/jMiD2bm6fkQsIlI907uXrAiSCPvCTraSpWSm0FM?=
- =?us-ascii?Q?o8FM9EyJrU2sVaS6LTFMLBAw209T+BiviwzWQPa91uMv56pc6IYAeU9wzftm?=
- =?us-ascii?Q?4vME7Ks13x8PLGPMW0mfigKrqKSrYShPRS2HNYWPU7Ogtbr5HglJanqYIovr?=
- =?us-ascii?Q?R37YeXuZKQ/hU0WytxNamL8vVSvvgchyrUb98tHqNx/jQcXi+q7GPyDNensD?=
- =?us-ascii?Q?TFTvX0hXTBur79K/6v6PWsrqhkMxcYZniw81VRHF+m3mDd160kwHHUwta5j3?=
- =?us-ascii?Q?OUY8VY+v97tuic7D+sTmSNStEYYQpghYM5myw5HmnQe362oM7fhEpRgrwmzG?=
- =?us-ascii?Q?bTqd/HU=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR12MB8599.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rD0h5NmgrKtI95ZPHJpfLnxJ+YWQ7bXoOXpzz+POKTcIN9th5IRZcwfe4VCD?=
- =?us-ascii?Q?IpiW8lHdA19dtK+tizyjgDlk6VWhxSAWdQ3jPaSYf9sGurxK01CRBRW9GY1k?=
- =?us-ascii?Q?eF6o31LVdNWFQGltZeOX+zt330E9Za0XNQ/JUkFAHzVhlZ/jKJXGNHlhHVJ8?=
- =?us-ascii?Q?ZJmrTQg5MzBz8qCLWFxaTgSFof3bcYCrCfef4O3Ee0p77ZXXOqiQFCGZpxS5?=
- =?us-ascii?Q?UrGYFv5zcWAZuwAXBVwhIo+jY88Ln8LDUA+6Kgxb1rori6p6YNlkS7aPSLmH?=
- =?us-ascii?Q?1+8b+tk+TSk8qp4lURS1Vxkq+7Dn2940OedIPXbjrWGLFthJkwSXhN5wDXfg?=
- =?us-ascii?Q?6NMdzzZfOkEut9PXdCRX61uWOpPSphgzM1xvdVRvP1o+Hhmz+LDHk73dsaQg?=
- =?us-ascii?Q?2tvIihJ/5+zZ8GQzP8SPCB69jFhbD5shWFbzMklNrteXLIhE/efvrWYf7S3R?=
- =?us-ascii?Q?nfAMbrAi+skP+I4+OIyD8oQtCNk3dtqb4fzMC+U+ATfWmz0G7okTrh6jMiJO?=
- =?us-ascii?Q?D31g8zMyadlxLND5f7AAQc2nQ3anJ0cJNswZImYFWH0DeYyihegrk2F+XAm9?=
- =?us-ascii?Q?RvG1Evy8KfkjbEfQaHmq2+0htvBZoUsiFwsVIYc5A9I6t9uLiLjmicO4y1aw?=
- =?us-ascii?Q?wtgSj8T+JURXufJIQMuNizd7V2JvGItmLWuW4muhfZog1UZoLL/S+3sCg7tS?=
- =?us-ascii?Q?38MApU8A2eBr4EotrMGBEp44b5U9FQ2oBFK5fSKmivZkqZVvNl33Q8ZRlDuV?=
- =?us-ascii?Q?0XbSz3tNatWAwMUR1Ns0Dr0xikgb/DwvMOWbeX7pyaa/foSKOspGu4EWlz19?=
- =?us-ascii?Q?2O4OgEunY2MoM44VA0Y2nwVAZES0qB+fAqfo/lS2dPSTgmgmz3GlZgH6IEHs?=
- =?us-ascii?Q?QIuRQ9avo4F1C6JSyGjztUb7bl0s9Mx7BQ81Q8RWoJQh5wMThd6Op1oJJgsB?=
- =?us-ascii?Q?NTW9+NJwaorpfGse796YseMQ3QPqeo79dW7+3afof5AuuWCsb2BwxYoFbzu1?=
- =?us-ascii?Q?NxHMBRJysvIr5eWXN8KcMl7z914VFdEmh1UkeRnaVtTUeu/r89B/1DiaB7/y?=
- =?us-ascii?Q?f9FfAPj8mTbZJMJv2iVvHE8F2bJhN6qRLWkcsZND0B6BudrHHmzFl/dWT901?=
- =?us-ascii?Q?Q+ajlfhOggMNkSY+FVGcmOakM3iZRpTihD2h/OHkjHRQt/XIN8BaAFWipKsX?=
- =?us-ascii?Q?r6oYJNgLnH/HzOT0Obexnhu9M/UsuE1+EODAW8XrtGaLVKGgWLsarD6r6c5G?=
- =?us-ascii?Q?7YAuQpWozm6sSY62Hr43VvwWlloKx7aLkCtDH8Z7VijdhRfc5uoqi55OGZj2?=
- =?us-ascii?Q?oHcmJpaLFPDp/0K7IKSsQB3DyEH1Bm0H260Bni27bz7pOp7WaxndmPULM+AF?=
- =?us-ascii?Q?cHdPs767eDyqnd+A3kt01uFKUSQIHyr35vxvdQlhnYGF7apCgEuDUjC9JESd?=
- =?us-ascii?Q?/TlJACAj5Yc/NYVLSTEcfkdGaApQNFImJ9BqlvGEq2YL7EXWw49ejX2Ae20c?=
- =?us-ascii?Q?IvbW7phEhXtooIO+9SSBNRKeDUTQPD3X66e8W/RkixTV7fodhQ6om+esQCwR?=
- =?us-ascii?Q?TKvrOUJQRbeTKUxOUow=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 605D910E4F8;
+ Mon, 18 Nov 2024 14:53:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1731941606; x=1763477606;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=1s7Fh4HxKXv3JE+rDne90uVtk7RGKEPj5xN45HrpX+A=;
+ b=hwah4JkRpI6REZs7LvFlZHxD3nsgo6HNbaOqodZ312CmsYp10yLvORl9
+ ZCvSEhF3HeHnSrwyYMWr8tQIMqD98uVFW4xd00x2NlL0J72xnHc3UIPmB
+ msUJvNWlLtqAM0KsejAOapJG4+Nb5CWnhoOnNOyBBsRnEwcP0KyMj9LAg
+ 0YAeyqTaQj+o1snVW2yVytSUdwf6cL0SBE+V4m6Sh0kaY8HJ7appNqj6i
+ y0GjQrd6yfT4lyM5xjDlNQcX9vjIrSSr7bjxyFlcuKc/LFWrol4Urst4a
+ gTR7oqhn4htcBCVRB7VMOjC0GCyzu/zmZ2rCViMgJqjZB56/9f4YoUBlq w==;
+X-CSE-ConnectionGUID: d24q6GHnTWOt1aPS95UVKQ==
+X-CSE-MsgGUID: TwFaokMDQK+qj2IIFeXwvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="49335331"
+X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; d="scan'208";a="49335331"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2024 06:53:26 -0800
+X-CSE-ConnectionGUID: aU28ITtOR7OLXrx6dcwhiA==
+X-CSE-MsgGUID: 2wKyjTcwTLO8gR7vknmBbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; d="scan'208";a="90044090"
+Received: from aravind-dev.iind.intel.com (HELO [10.145.162.146])
+ ([10.145.162.146])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2024 06:53:20 -0800
+Message-ID: <8c7292c3-8459-4ddc-a899-b56b1d93076f@linux.intel.com>
+Date: Mon, 18 Nov 2024 20:26:37 +0530
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB8599.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21a8c69c-e6e2-442b-90ad-08dd07e1265a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2024 14:56:14.8344 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eR1TeT87PwOs8g8MgUUFlMqbOA+FaHwPNhKDct0+jC5IsHb3XnXIQsDSmkV5BH/lIB6R9yHYrI8lg2N33n+hKA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5871
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 1/4] drm: Introduce device wedged event
+To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
+ lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ lina@asahilina.net, michal.wajdeczko@intel.com, christian.koenig@amd.com
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ anshuman.gupta@intel.com, alexander.deucher@amd.com, andrealmeid@igalia.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20241115050733.806934-1-raag.jadav@intel.com>
+ <20241115050733.806934-2-raag.jadav@intel.com>
+Content-Language: en-US
+From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+In-Reply-To: <20241115050733.806934-2-raag.jadav@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,162 +77,244 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Public]
 
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Sent: Monday, November 18, 2024 9:38
-> On 16/11/2024 04:44, Yunxiang Li wrote:
-> > Define how to handle buffers with multiple possible placement so we
-> > don't get incompatible implementations. Callout the resident
-> > requirement for drm-purgeable- explicitly. Remove the requirement for
-> > there to be only drm-memory- or only drm-resident-, it's not what's
-> > implemented and having both is better for back-compat. Also re-order
-> > the paragraphs to flow better.
-> >
-> > Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
-> > CC: dri-devel@lists.freedesktop.org
-> > ---
-> >   Documentation/gpu/drm-usage-stats.rst | 36 ++++++++++++--------------=
--
-> >   1 file changed, 16 insertions(+), 20 deletions(-)
-> >
-> > diff --git a/Documentation/gpu/drm-usage-stats.rst
-> > b/Documentation/gpu/drm-usage-stats.rst
-> > index ff964c707754a..973663f91a292 100644
-> > --- a/Documentation/gpu/drm-usage-stats.rst
-> > +++ b/Documentation/gpu/drm-usage-stats.rst
-> > @@ -140,13 +140,9 @@ both.
-> >   Memory
-> >   ^^^^^^
-> >
-> > -- drm-memory-<region>: <uint> [KiB|MiB]
-> > -
-> > -Each possible memory type which can be used to store buffer objects
-> > by the -GPU in question shall be given a stable and unique name to be
-> > returned as the -string here.
-> > -
-> > -The region name "memory" is reserved to refer to normal system memory.
-> > +Each possible memory type which can be used to store buffer objects
-> > +by the GPU in question shall be given a stable and unique name to be u=
-sed as
-> the "<region>"
-> > +string. The region name "memory" is reserved to refer to normal system
-> memory.
-> >
-> >   Value shall reflect the amount of storage currently consumed by the b=
-uffer
-> >   objects belong to this client, in the respective memory region.
-> > @@ -154,31 +150,27 @@ objects belong to this client, in the respective =
-memory
-> region.
-> >   Default unit shall be bytes with optional unit specifiers of 'KiB' or=
- 'MiB'
-> >   indicating kibi- or mebi-bytes.
-> >
-> > -This key is deprecated and is an alias for drm-resident-<region>.
-> > Only one of -the two should be present in the output.
+On 15/11/24 10:37, Raag Jadav wrote:
+> Introduce device wedged event, which notifies userspace of 'wedged'
+> (hanged/unusable) state of the DRM device through a uevent. This is
+> useful especially in cases where the device is no longer operating as
+> expected and has become unrecoverable from driver context. Purpose of
+> this implementation is to provide drivers a generic way to recover with
+> the help of userspace intervention without taking any drastic measures
+> in the driver.
 >
-> IMO the second sentence should stay in principle (I mean at the new locat=
-ion,
-> where you moved it). Intent is to avoid new implementations adding both k=
-eys. The
-> fact amdgpu has both is not relevant for that purpose. We don't want some=
-one just
-> reading it is an alias and having to have any doubt whether they need to =
-output both
-> or not.
-
-I see, yeah I will mention in the drm-memory- part that that tag is legacy =
-amdgpu only behavior.
-
-> > +- drm-total-<region>: <uint> [KiB|MiB]
-> > +
-> > +The total size of all created buffers including shared and private
-> > +memory. The backing store for the buffers does not have to be
-> > +currently instantiated to count under this category. To avoid double
-> > +counting, if a buffer falls under multiple regions, the
-> > +implementation should pick only one of the regions, and do so in a con=
-sistent
-> manner.
+> A 'wedged' device is basically a dead device that needs attention. The
+> uevent is the notification that is sent to userspace along with a hint
+> about what could possibly be attempted to recover the device and bring
+> it back to usable state. Different drivers may have different ideas of
+> a 'wedged' device depending on their hardware implementation, and hence
+> the vendor agnostic nature of the event. It is up to the drivers to
+> decide when they see the need for recovery and how they want to recover
+> from the available methods.
 >
-> Addition feels fine to me in principle. I would only suggest rewording it=
- a bit to avoid
-> ambiguity about what it means to "fall under". Perhaps like this:
+> Prerequisites
+> -------------
 >
-> To avoid double counting when buffers can be instantiated in one of the m=
-ultiple
-> allowed memory regions, the implementation should account the total again=
-st only
-> one of the regions, and should pick this region in a consistent manner.
+> The driver, before opting for recovery, needs to make sure that the
+> 'wedged' device doesn't harm the system as a whole by taking care of the
+> prerequisites. Necessary actions must include disabling DMA to system
+> memory as well as any communication channels with other devices. Further,
+> the driver must ensure that all dma_fences are signalled and any device
+> state that the core kernel might depend on are cleaned up. Once the event
+> is sent, the device must be kept in 'wedged' state until the recovery is
+> performed. New accesses to the device (IOCTLs) should be blocked,
+> preferably with an error code that resembles the type of failure the
+> device has encountered. This will signify the reason for wegeding which
+> can be reported to the application if needed.
 
-Ack
+should we even drop the mmaps we created?
 
-> >
-> >   - drm-shared-<region>: <uint> [KiB|MiB]
-> >
-> >   The total size of buffers that are shared with another file (e.g.,
-> > have more -than a single handle).
-> > -
-> > -- drm-total-<region>: <uint> [KiB|MiB]
-> > -
-> > -The total size of all created buffers including shared and private
-> > memory. The -backing store for the buffers does not have to be
-> > currently instantiated to be -counted under this category.
-> > +than a single handle). Same caveat as drm-total- applies.
+Thanks,
+Aravind.
 >
-> I suggest to explicitly point out the caveat is the multiple region one.
-
-and Ack
-
-> >
-> >   - drm-resident-<region>: <uint> [KiB|MiB]
-> >
-> >   The total size of buffers that are resident (have their backing store=
- present or
-> >   instantiated) in the specified region.
-> >
-> > -This is an alias for drm-memory-<region> and only one of the two
-> > should be -present in the output.
+> Recovery
+> --------
 >
-> I think it does not harm to keep this note at both keys. Or at least make=
- one
-> reference the other for this point specifically.
-
-Might be easier to just have drm-memory- as a foot note here, instead of it=
-s own section
-
-> > -
-> >   - drm-purgeable-<region>: <uint> [KiB|MiB]
-> >
-> > -The total size of buffers that are purgeable.
-> > +The total size of buffers that are resident and purgeable.
+> Current implementation defines three recovery methods, out of which,
+> drivers can use any one, multiple or none. Method(s) of choice will be
+> sent in the uevent environment as ``WEDGED=<method1>[,<method2>]`` in
+> order of less to more side-effects. If driver is unsure about recovery
+> or method is unknown (like soft/hard reboot, firmware flashing, hardware
+> replacement or any other procedure which can't be attempted on the fly),
+> ``WEDGED=unknown`` will be sent instead.
 >
-> Is it not redundant? How could something not resident be purgeable in the=
- first
-> place?
-
-There is the possible confusion between buffers having a purgeable bit and =
-buffers in a state that is purgeable, I feel like it's worth an explicit ca=
-llout since there's also code comments about this difference.
-
-> >   For example drivers which implement a form of 'madvise' like function=
-ality can
-> >   here count buffers which have instantiated backing store, but have
-> > been marked @@ -192,6 +184,10 @@ One practical example of this can be
-> presence of unsignaled fences in an GEM
-> >   buffer reservation object. Therefore the active category is a subset =
-of
-> >   resident.
-> >
-> > +- drm-memory-<region>: <uint> [KiB|MiB]
-> > +
-> > +This key is deprecated and is an alias for drm-resident-<region> if pr=
-esent.
-> > +
-> >   Implementation Details
-> >   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
+> Userspace consumers can parse this event and attempt recovery as per the
+> following expectations.
 >
-> Regards,
+>     =============== ================================
+>     Recovery method Consumer expectations
+>     =============== ================================
+>     none            optional telemetry collection
+>     rebind          unbind + bind driver
+>     bus-reset       unbind + reset bus device + bind
+>     unknown         admin/user policy
+>     =============== ================================
 >
-> Tvrtko
+> The only exception to this is ``WEDGED=none``, which signifies that the
+> device was temporarily 'wedged' at some point but was able to recover
+> using device specific methods like reset. No explicit action is expected
+> from userspace consumers in this case, but they can still take additional
+> steps like gathering telemetry information (devcoredump, syslog). This is
+> useful because the first hang is usually the most critical one which can
+> result in consequential hangs or complete wedging.
+>
+> Example
+> -------
+>
+> Udev rule::
+>
+>     SUBSYSTEM=="drm", ENV{WEDGED}=="rebind", DEVPATH=="*/drm/card[0-9]",
+>     RUN+="/path/to/rebind.sh $env{DEVPATH}"
+>
+> Recovery script::
+>
+>     #!/bin/sh
+>
+>     DEVPATH=$(readlink -f /sys/$1/device)
+>     DEVICE=$(basename $DEVPATH)
+>     DRIVER=$(readlink -f $DEVPATH/driver)
+>
+>     echo -n $DEVICE > $DRIVER/unbind
+>     sleep 1
+>     echo -n $DEVICE > $DRIVER/bind
+>
+> Customization
+> -------------
+>
+> Although basic recovery is possible with a simple script, admin/users can
+> define custom policies around recovery action. For example, if the driver
+> supports multiple recovery methods, consumers can opt for the suitable one
+> based on policy definition. Consumers can also choose to have the device
+> available for debugging or additional data collection before performing
+> the recovery. This is useful especially when the driver is unsure about
+> recovery or method is unknown.
+>
+> v4: s/drm_dev_wedged/drm_dev_wedged_event
+>     Use drm_info() (Jani)
+>     Kernel doc adjustment (Aravind)
+> v5: Send recovery method with uevent (Lina)
+> v6: Access wedge_recovery_opts[] using helper function (Jani)
+>     Use snprintf() (Jani)
+> v7: Convert recovery helpers into regular functions (Andy, Jani)
+>     Aesthetic adjustments (Andy)
+>     Handle invalid method cases
+> v8: Allow sending multiple methods with uevent (Lucas, Michal)
+>     static_assert() globally (Andy)
+> v9: Provide 'none' method for reset cases (Christian)
+>     Provide recovery opts using switch cases
+>
+> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+> ---
+>  drivers/gpu/drm/drm_drv.c | 63 +++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_device.h  |  8 +++++
+>  include/drm/drm_drv.h     |  1 +
+>  3 files changed, 72 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index c2c172eb25df..115e1d1c80ea 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -26,6 +26,7 @@
+>   * DEALINGS IN THE SOFTWARE.
+>   */
+>  
+> +#include <linux/bitops.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/fs.h>
+>  #include <linux/module.h>
+> @@ -33,6 +34,7 @@
+>  #include <linux/mount.h>
+>  #include <linux/pseudo_fs.h>
+>  #include <linux/slab.h>
+> +#include <linux/sprintf.h>
+>  #include <linux/srcu.h>
+>  #include <linux/xarray.h>
+>  
+> @@ -497,6 +499,67 @@ void drm_dev_unplug(struct drm_device *dev)
+>  }
+>  EXPORT_SYMBOL(drm_dev_unplug);
+>  
+> +/*
+> + * Available recovery methods for wedged device. To be sent along with device
+> + * wedged uevent.
+> + */
+> +static const char *drm_get_wedge_recovery(unsigned int opt)
+> +{
+> +	switch (BIT(opt)) {
+> +	case DRM_WEDGE_RECOVERY_NONE:
+> +		return "none";
+> +	case DRM_WEDGE_RECOVERY_REBIND:
+> +		return "rebind";
+> +	case DRM_WEDGE_RECOVERY_BUS_RESET:
+> +		return "bus-reset";
+> +	default:
+> +		return NULL;
+> +	}
+> +}
+> +
+> +/**
+> + * drm_dev_wedged_event - generate a device wedged uevent
+> + * @dev: DRM device
+> + * @method: method(s) to be used for recovery
+> + *
+> + * This generates a device wedged uevent for the DRM device specified by @dev.
+> + * Recovery @method\(s) of choice will be sent in the uevent environment as
+> + * ``WEDGED=<method1>[,<method2>]`` in order of less to more side-effects.
+> + * If caller is unsure about recovery or @method is unknown (0),
+> + * ``WEDGED=unknown`` will be sent instead.
+> + *
+> + * Returns: 0 on success, negative error code otherwise.
+> + */
+> +int drm_dev_wedged_event(struct drm_device *dev, unsigned long method)
+> +{
+> +	const char *recovery = NULL;
+> +	unsigned int len, opt;
+> +	/* Event string length up to 28+ characters with available methods */
+> +	char event_string[32];
+> +	char *envp[] = { event_string, NULL };
+> +
+> +	len = scnprintf(event_string, sizeof(event_string), "%s", "WEDGED=");
+> +
+> +	for_each_set_bit(opt, &method, BITS_PER_TYPE(method)) {
+> +		recovery = drm_get_wedge_recovery(opt);
+> +		if (drm_WARN(dev, !recovery, "device wedged, invalid recovery method %u\n", opt))
+> +			break;
+> +
+> +		len += scnprintf(event_string + len, sizeof(event_string), "%s,", recovery);
+> +	}
+> +
+> +	if (recovery)
+> +		/* Get rid of trailing comma */
+> +		event_string[len - 1] = '\0';
+> +	else
+> +		/* Caller is unsure about recovery, do the best we can at this point. */
+> +		snprintf(event_string, sizeof(event_string), "%s", "WEDGED=unknown");
+> +
+> +	drm_info(dev, "device wedged, needs recovery\n");
+> +	return kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
+> +}
+> +EXPORT_SYMBOL(drm_dev_wedged_event);
+> +
+>  /*
+>   * DRM internal mount
+>   * We want to be able to allocate our own "struct address_space" to control
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index c91f87b5242d..6ea54a578cda 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -21,6 +21,14 @@ struct inode;
+>  struct pci_dev;
+>  struct pci_controller;
+>  
+> +/*
+> + * Recovery methods for wedged device in order of less to more side-effects.
+> + * To be used with drm_dev_wedged_event() as recovery @method. Callers can
+> + * use any one, multiple (or'd) or none depending on their needs.
+> + */
+> +#define DRM_WEDGE_RECOVERY_NONE		BIT(0)	/* optional telemetry collection */
+> +#define DRM_WEDGE_RECOVERY_REBIND	BIT(1)	/* unbind + bind driver */
+> +#define DRM_WEDGE_RECOVERY_BUS_RESET	BIT(2)	/* unbind + reset bus device + bind */
+>  
+>  /**
+>   * enum switch_power_state - power state of drm device
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index 1bbbcb8e2d23..f41a82839e28 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -479,6 +479,7 @@ void drm_put_dev(struct drm_device *dev);
+>  bool drm_dev_enter(struct drm_device *dev, int *idx);
+>  void drm_dev_exit(int idx);
+>  void drm_dev_unplug(struct drm_device *dev);
+> +int drm_dev_wedged_event(struct drm_device *dev, unsigned long method);
+>  
+>  /**
+>   * drm_dev_is_unplugged - is a DRM device unplugged
