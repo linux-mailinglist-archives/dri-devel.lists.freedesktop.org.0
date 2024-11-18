@@ -2,57 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E563D9D14A1
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 16:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1155D9D14AF
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 16:47:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D5CE10E516;
-	Mon, 18 Nov 2024 15:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5608810E51A;
+	Mon, 18 Nov 2024 15:46:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="r3tGsDQi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MSjNA0Cm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0A9010E516;
- Mon, 18 Nov 2024 15:43:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Gjlj+8pI7iKltGAS+pM3XlLAUwzmQ0mgAsg2XLJWqI0=; b=r3tGsDQiKD84tfrZ+JBVStiWzD
- ovPWrIFb6THxctS2rpUIu0nwSrH/bAavv/uWOmhNIoTjajbmqx0m6NLbbF+GrJgmwKx8imKAbxZCq
- 5sTQ8kk9XDmJ7ZxkzlDmIldCc391Qn7BaDWHRoQGMUwVc2RKF6wYW1Rh9HaxFwQcQXGm7X7hve+ZS
- 3q0/uix0J3HEv6fpCtUHVJDDHA7FAuIIvHGCz2Pe7aIY3ZyixIQ/62uZc4mNmAbyXaeugBovxQkS5
- hE5BKvQIQVlElo93SZqLdQfgRc470M97f0MMplWw2EuTMuy7DJWNJB3Cabam0gD8Q9Y8OSqgMpi34
- YNFCNHeQ==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tD3ty-008ZsV-59; Mon, 18 Nov 2024 16:42:58 +0100
-Message-ID: <4ce953a9-f9b1-42c2-8efd-670af35474e3@igalia.com>
-Date: Mon, 18 Nov 2024 15:42:57 +0000
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A2A610E51A
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 15:46:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6D671A40DC4;
+ Mon, 18 Nov 2024 15:45:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31DF6C4CECC;
+ Mon, 18 Nov 2024 15:46:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1731944815;
+ bh=WNrW3/tULqjb523vUE87ymlM/sk1V7Tb/5c1zihqYyw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MSjNA0CmOxIZoRtLJcZ5I7vUdO3vz2wIU4ysjd2XFfrR2YjNGsDwNpnbbj518aWgH
+ gSL1rEJJOOj+AlnzV2DNLcykNbAochaKGB6OGrpUC5T7aXuynP7si7x4OIbj92Luvk
+ Xc5eeu1YSZaMbnB4iuSPCHtXkOa/8sdokBKnGtuZLcI0avEzfuZGIxkrCZSTUEzhNU
+ kLe5/lRuuQbNEHLj+mjjZy+Ja2jAkCRwPRC37ikTtz8uuBfX0bDvzsANSVTjg/r/tU
+ eNTmLkpLX3CnZad2EebkuKSgYkAObZWRFKgyHuvejhLNhpa030KjM/Ph3nI1ApJxqp
+ a6WCLedyKIPkw==
+Date: Mon, 18 Nov 2024 16:46:53 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org, 
+ Abel Vesa <abelvesa@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+ Isaac Scott <isaac.scott@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Peng Fan <peng.fan@nxp.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Robert Foss <rfoss@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Stephen Boyd <sboyd@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ imx@lists.linux.dev, 
+ kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH 1/2] clk: imx: clk-imx8mp: Allow LDB serializer clock
+ reconfigure parent rate
+Message-ID: <20241118-sceptical-mastodon-of-pizza-df93de@houat>
+References: <20241008223846.337162-1-marex@denx.de>
+ <dbede671-c97b-4ad7-8a54-f1b381fea082@nxp.com>
+ <00ffd38c-b01a-40cd-9130-19c35a387ca0@denx.de>
+ <819380c3-d13f-4989-b305-388fc60d30e4@nxp.com>
+ <d99e0021-3253-4312-9b50-6031ae0f8d8e@denx.de>
+ <d1307426-9a86-4356-93b8-9a10c8369ad8@nxp.com>
+ <20241022-quirky-ubiquitous-hamster-11dca5@houat>
+ <47d92ae0-c71a-4c18-9ad7-432c0f70a31f@nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/4] drm: make drm-active- stats optional
-To: "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "Koenig, Christian" <Christian.Koenig@amd.com>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Rob Clark <robdclark@gmail.com>
-References: <20241110154152.592-1-Yunxiang.Li@amd.com>
- <20241110154152.592-3-Yunxiang.Li@amd.com>
- <3706dc4f-db98-45e0-b870-f10368ab1ab9@igalia.com>
- <SA1PR12MB8599BD231D856C89DE4207BAED272@SA1PR12MB8599.namprd12.prod.outlook.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <SA1PR12MB8599BD231D856C89DE4207BAED272@SA1PR12MB8599.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="daaqffk3kobrz3nx"
+Content-Disposition: inline
+In-Reply-To: <47d92ae0-c71a-4c18-9ad7-432c0f70a31f@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,203 +82,264 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 18/11/2024 15:17, Li, Yunxiang (Teddy) wrote:
-> [Public]
-> 
->> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Sent: Monday, November 11, 2024 5:30
->> On 10/11/2024 15:41, Yunxiang Li wrote:
->>> Make drm-active- optional just like drm-resident- and drm-purgeable-.
->>
->> As Jani has already commented the commit message needs some work.
->>
->>> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
->>> CC: dri-devel@lists.freedesktop.org
->>> CC: intel-gfx@lists.freedesktop.org
->>> CC: amd-gfx@lists.freedesktop.org
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  1 +
->>>    drivers/gpu/drm/drm_file.c                 | 13 +++++++------
->>>    drivers/gpu/drm/i915/i915_drm_client.c     |  1 +
->>>    drivers/gpu/drm/xe/xe_drm_client.c         |  1 +
->>>    include/drm/drm_gem.h                      | 14 ++++++++------
->>>    5 files changed, 18 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
->>> index df2cf5c339255..7717e3e4f05b5 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
->>> @@ -97,6 +97,7 @@ void amdgpu_show_fdinfo(struct drm_printer *p,
->>> struct drm_file *file)
->>>
->>>              drm_print_memory_stats(p,
->>>                                     &stats[i].drm,
->>> +                                  DRM_GEM_OBJECT_ACTIVE |
->>>                                     DRM_GEM_OBJECT_RESIDENT |
->>>                                     DRM_GEM_OBJECT_PURGEABLE,
->>>                                     pl_name[i]);
->>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->>> index e285fcc28c59c..fd06671054723 100644
->>> --- a/drivers/gpu/drm/drm_file.c
->>> +++ b/drivers/gpu/drm/drm_file.c
->>> @@ -884,7 +884,9 @@ void drm_print_memory_stats(struct drm_printer *p,
->>>    {
->>>      print_size(p, "total", region, stats->private + stats->shared);
->>>      print_size(p, "shared", region, stats->shared);
->>> -   print_size(p, "active", region, stats->active);
->>> +
->>> +   if (supported_status & DRM_GEM_OBJECT_ACTIVE)
->>> +           print_size(p, "active", region, stats->active);
->>>
->>>      if (supported_status & DRM_GEM_OBJECT_RESIDENT)
->>>              print_size(p, "resident", region, stats->resident); @@ -917,15
->>> +919,13 @@ void drm_show_memory_stats(struct drm_printer *p, struct
->>> drm_file *file)
->>>
->>>              if (obj->funcs && obj->funcs->status) {
->>>                      s = obj->funcs->status(obj);
->>> -                   supported_status = DRM_GEM_OBJECT_RESIDENT |
->>> -                                   DRM_GEM_OBJECT_PURGEABLE;
->>> +                   supported_status |= s;
->>
->> I think this is correct and I think I've raised that it should be like this when the code
->> was originally added. I only don't remember what was the argument to keep it
->> hardcoded, if there was any. Adding Rob in case he can remember.
->>
->>>              }
->>>
->>> -           if (drm_gem_object_is_shared_for_memory_stats(obj)) {
->>> +           if (drm_gem_object_is_shared_for_memory_stats(obj))
->>>                      status.shared += obj->size;
->>> -           } else {
->>> +           else
->>>                      status.private += obj->size;
->>> -           }
->>
->> Drive by cleanup, okay.
->>
->>>
->>>              if (s & DRM_GEM_OBJECT_RESIDENT) {
->>>                      status.resident += add_size;
->>> @@ -938,6 +938,7 @@ void drm_show_memory_stats(struct drm_printer *p,
->>> struct drm_file *file)
->>>
->>>              if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
->>>                      status.active += add_size;
->>> +                   supported_status |= DRM_GEM_OBJECT_ACTIVE;
->>
->> I wonder what behaviour we should have here if the driver has reported
->> DRM_GEM_OBJECT_ACTIVE via its status vfunc. Like should it be like this:
->>
->>      if ((s & DRM_GEM_OBJECT_ACTIVE) ||
->>          !dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(true))) {
->>          ...
->>
->> ?
->>
->> So if some driver starts reporting this flag _and_ is still calling
->> drm_show_memory_stats(), it's version of activity tracking is used instead of the
->> the dma_resv based test.
-> 
-> I don't think that is feasible with the current API, because there's no way to differentiate "driver thinks a BO is not active" and "driver does not implement activity tracking". I think it's probably okay to keep it like this until someone wants to do it differently and refactor then.
+--daaqffk3kobrz3nx
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/2] clk: imx: clk-imx8mp: Allow LDB serializer clock
+ reconfigure parent rate
+MIME-Version: 1.0
 
-Ah yes, good point. I actually initially thought the same (that we would 
-need additional "supports active reporting" flag) but then for some 
-reason convinced myself it is possible without it. I agree it works as is.
+On Thu, Oct 31, 2024 at 10:35:27AM +0800, Liu Ying wrote:
+> Hi Maxime,
+>=20
+> On 10/22/2024, Maxime Ripard wrote:
+> > On Tue, Oct 22, 2024 at 02:13:57PM +0800, Liu Ying wrote:
+> >> On 10/13/2024, Marek Vasut wrote:
+> >>> On 10/11/24 8:18 AM, Liu Ying wrote:
+> >>>> On 10/11/2024, Marek Vasut wrote:
+> >>>>> On 10/10/24 7:22 AM, Liu Ying wrote:
+> >>>>>> On 10/09/2024, Marek Vasut wrote:
+> >>>>>>> The media_ldb_root_clk supply LDB serializer. These clock are usu=
+ally
+> >>>>>>> shared with the LCDIFv3 pixel clock and supplied by the Video PLL=
+ on
+> >>>>>>> i.MX8MP, but the LDB clock run at either x7 or x14 rate of the LC=
+DIFv3
+> >>>>>>> pixel clock. Allow the LDB to reconfigure Video PLL as needed, as=
+ that
+> >>>>>>> results in accurate serializer clock.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Marek Vasut <marex@denx.de>
+> >>>>>>> ---
+> >>>>>>> Cc: Abel Vesa <abelvesa@kernel.org>
+> >>>>>>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> >>>>>>> Cc: David Airlie <airlied@gmail.com>
+> >>>>>>> Cc: Fabio Estevam <festevam@gmail.com>
+> >>>>>>> Cc: Isaac Scott <isaac.scott@ideasonboard.com>
+> >>>>>>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >>>>>>> Cc: Jonas Karlman <jonas@kwiboo.se>
+> >>>>>>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> >>>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> >>>>>>> Cc: Maxime Ripard <mripard@kernel.org>
+> >>>>>>> Cc: Michael Turquette <mturquette@baylibre.com>
+> >>>>>>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> >>>>>>> Cc: Peng Fan <peng.fan@nxp.com>
+> >>>>>>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> >>>>>>> Cc: Robert Foss <rfoss@kernel.org>
+> >>>>>>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> >>>>>>> Cc: Shawn Guo <shawnguo@kernel.org>
+> >>>>>>> Cc: Simona Vetter <simona@ffwll.ch>
+> >>>>>>> Cc: Stephen Boyd <sboyd@kernel.org>
+> >>>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>>>>> Cc: dri-devel@lists.freedesktop.org
+> >>>>>>> Cc: imx@lists.linux.dev
+> >>>>>>> Cc: kernel@dh-electronics.com
+> >>>>>>> Cc: linux-arm-kernel@lists.infradead.org
+> >>>>>>> Cc: linux-clk@vger.kernel.org
+> >>>>>>> ---
+> >>>>>>> =A0=A0 drivers/clk/imx/clk-imx8mp.c | 2 +-
+> >>>>>>> =A0=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>>>>
+> >>>>>>> diff --git a/drivers/clk/imx/clk-imx8mp.c b/drivers/clk/imx/clk-i=
+mx8mp.c
+> >>>>>>> index 516dbd170c8a3..2e61d340b8ab7 100644
+> >>>>>>> --- a/drivers/clk/imx/clk-imx8mp.c
+> >>>>>>> +++ b/drivers/clk/imx/clk-imx8mp.c
+> >>>>>>> @@ -611,7 +611,7 @@ static int imx8mp_clocks_probe(struct platfor=
+m_device *pdev)
+> >>>>>>> =A0=A0=A0=A0=A0=A0 hws[IMX8MP_CLK_MEDIA_MIPI_PHY1_REF] =3D imx8m_=
+clk_hw_composite("media_mipi_phy1_ref", imx8mp_media_mipi_phy1_ref_sels, cc=
+m_base + 0xbd80);
+> >>>>>>> =A0=A0=A0=A0=A0=A0 hws[IMX8MP_CLK_MEDIA_DISP1_PIX] =3D imx8m_clk_=
+hw_composite_bus_flags("media_disp1_pix", imx8mp_media_disp_pix_sels, ccm_b=
+ase + 0xbe00, CLK_SET_RATE_PARENT);
+> >>>>>>> =A0=A0=A0=A0=A0=A0 hws[IMX8MP_CLK_MEDIA_CAM2_PIX] =3D imx8m_clk_h=
+w_composite("media_cam2_pix", imx8mp_media_cam2_pix_sels, ccm_base + 0xbe80=
+);
+> >>>>>>> -=A0=A0=A0 hws[IMX8MP_CLK_MEDIA_LDB] =3D imx8m_clk_hw_composite("=
+media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00);
+> >>>>>>> +=A0=A0=A0 hws[IMX8MP_CLK_MEDIA_LDB] =3D imx8m_clk_hw_composite_b=
+us_flags("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00, CLK_SET_RAT=
+E_PARENT);
+> >>>>>>
+> >>>>>> This patch would cause the below in-flight LDB bridge driver
+> >>>>>> patch[1] fail to do display mode validation upon display modes
+> >>>>>> read from LVDS to HDMI converter IT6263's DDC I2C bus.
+> >>>>>
+> >>>>> Why ?
+> >>>>
+> >>>> Mode validation is affected only for dual LVDS link mode.
+> >>>> For single LVDS link mode, this patch does open more display
+> >>>> modes read from the DDC I2C bus.=A0 The reason behind is that
+> >>>> LVDS serial clock rate/pixel clock rate =3D 3.5 for dual LVDS
+> >>>> link mode, while it's 7 for single LVDS link mode.
+> >>>>
+> >>>> In my system, "video_pll1" clock rate is assigned to 1.0395GHz
+> >>>> in imx8mp.dtsi.=A0 For 1920x1080-60.00Hz with 148.5MHz pixel
+> >>>> clock rate, "media_ldb" clock rate is 519.75MHz and
+> >>>> "media_disp2_pix" clock rate is 148.5MHz, which is fine for
+> >>>> dual LVDS link mode(x3.5).=A0 For newly opened up 1920x1080-59.94Hz
+> >>>> with 148.352MHz pixel clock rate, "video_pll1" clock rate will
+> >>>> be changed to 519.232MHz, "media_ldb" clock rate is 519.232MHz
+> >>>> and "media_disp2_pix" clock rate is wrongly set to 519.232MHz
+> >>>> too because "media_disp2_pix" clock cannot handle the 3.5
+> >>>> division ratio from "video_pll1_out" clock running at
+> >>>> 519.232MHz.=A0 See the below clk_summary.
+> >>>
+> >>> Shouldn't this patch help exactly with that ?
+> >>
+> >> No, it doesn't help but only makes clk_round_rate() called in
+> >> LDB driver's .mode_valid() against 148.352MHz return 148.352MHz
+> >> which allows the unexpected 1920x1080-59.94Hz display mode.
+> >>
+> >>>
+> >>> It should allow you to set video_pll1_out to whatever is necessary by=
+ LDB first, fixate that frequency, and the LCDIFv3 would then be forced to =
+use /7 divider from faster Video PLL1 , right ?
+> >>
+> >> Yes, it allows that for single-link LVDS use cases.
+> >> And, __no__, for dual-link LVDS use cases because the
+> >> video_pll1_out clock rate needs to be 2x the LVDS serial clock
+> >> rate.=20
+> >>
+> >>>
+> >>>> =A0=A0=A0=A0 video_pll1_ref_sel=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0 24=
+000000=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=A0=
+=A0=A0 Y=A0=A0=A0=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 no_connection_id
+> >>>> =A0=A0=A0=A0=A0=A0=A0 video_pll1=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=
+=A0=A0=A0=A0 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 500=
+00=A0=A0=A0=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_connection_id
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 video_pll1_bypass=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=
+ 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=A0=
+=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_connection_id
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 video_pll1_out=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0 2=A0=A0=A0=A0=A0=A0 2=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=
+=A0=A0 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=
+=A0=A0=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 deviceless=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_connection_id
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_ldb=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=
+=A0=A0=A0=A0=A0 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 =
+50000=A0=A0=A0=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 d=
+eviceless=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no=
+_connection_id
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_ldb_=
+root_clk 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0 =
+519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=A0=
+=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 32ec00=
+00.blk-ctrl:bridge@5c=A0=A0=A0=A0 ldb
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 no_connection_id
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_disp1_pix=A0=
+=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=
+=A0 129808000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=
+=A0=A0=A0 N=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 deviceless=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_connecti=
+on_id
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_disp=
+1_pix_root_clk 0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=
+=A0=A0 129808000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=
+=A0=A0=A0=A0 N=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
+32e80000.display-controller=A0=A0=A0=A0 pix
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 32ec0000.blk-ctrl=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 disp1
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 no_connection_id
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_disp2_pix=A0=
+=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=
+=A0 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=
+=A0=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 deviceless=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_connecti=
+on_id
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_disp=
+2_pix_root_clk 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=
+=A0=A0 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=
+=A0=A0=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
+32e90000.display-controller=A0=A0=A0=A0 pix
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 32ec0000.blk-ctrl=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 disp2
+> >>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 no_connection_id
+> >>>>
+> >>>> Single LVDS link mode is not affected because "media_disp2_pix"
+> >>>> clock can handle the 7 division ratio.
+> >>>>
+> >>>> To support the dual LVDS link mode, "video_pll1" clock rate needs
+> >>>> to be x2 "media_ldb" clock rate so that "media_disp2_pix" clock
+> >>>> can use 7 division ratio to achieve the /3.5 clock rate comparing
+> >>>> to "media_ldb" clock rate.=A0 However, "video_pll1" is not seen by
+> >>>> LDB driver thus not directly controlled by it.=A0 This is another
+> >>>> reason why assigning a reasonable "video_pll1" clock rate in DT
+> >>>> makes sense.
+> >>>
+> >>> I agree that _right_now_, the DT clock assignment is the only option.
+> >>> I would like to see that DT part disappear and instead would prefer i=
+f the LDB/LCDIF could figure out the clock tree configuration themselves.
+> >>
+> >> I think we'll live with the assigned clock rate in DT, because the
+> >> i.MX8MP LDB and Samsung MIPI DSI display pipelines need to share a
+> >> video PLL, like I mentioned in comments for patch 2.
+> >=20
+> > Guys. There's 4 different discussions that look to be on the same topic,
+> > and doing workarounds in the DT, DRM driver and clock driver for
+> > something that looks like a broken clock.
+>=20
+> This is a bit complicated, because it is related to i.MX8MP MIPI DSI/
+> LVDS/HDMI, i.MX93 MIPI DSI/LVDS/parallel display pipelines.  Even
+> i.MX6SX LVDS display pipeline is a bit related, since i.MX8MP/i.MX93/
+> i.MX6SX LDBs share the same fsl-ldb.c driver.
+>=20
+> >=20
+> > Could we have *somewhere* a proper description of what the problem is
+> > exactly, so we can review it? Because at the moment, it's certainly not
+> > helping.
+>=20
+> Can you please suggest a place where this could happen?
 
-Regards,
+Here, by mail will be good. Worst case scenario using a ascii art.
 
-Tvrtko
+Maxime
 
-> 
-> Teddy
-> 
->>>
->>>                      /* If still active, don't count as purgeable: */
->>>                      s &= ~DRM_GEM_OBJECT_PURGEABLE;
->>> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c
->>> b/drivers/gpu/drm/i915/i915_drm_client.c
->>> index f586825054918..168d7375304bc 100644
->>> --- a/drivers/gpu/drm/i915/i915_drm_client.c
->>> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
->>> @@ -102,6 +102,7 @@ static void show_meminfo(struct drm_printer *p, struct
->> drm_file *file)
->>>      for_each_memory_region(mr, i915, id)
->>>              drm_print_memory_stats(p,
->>>                                     &stats[id],
->>> +                                  DRM_GEM_OBJECT_ACTIVE |
->>>                                     DRM_GEM_OBJECT_RESIDENT |
->>>                                     DRM_GEM_OBJECT_PURGEABLE,
->>>                                     mr->uabi_name);
->>> diff --git a/drivers/gpu/drm/xe/xe_drm_client.c
->>> b/drivers/gpu/drm/xe/xe_drm_client.c
->>> index 6a26923fa10e0..54941b4e850c4 100644
->>> --- a/drivers/gpu/drm/xe/xe_drm_client.c
->>> +++ b/drivers/gpu/drm/xe/xe_drm_client.c
->>> @@ -229,6 +229,7 @@ static void show_meminfo(struct drm_printer *p, struct
->> drm_file *file)
->>>              if (man) {
->>>                      drm_print_memory_stats(p,
->>>                                             &stats[mem_type],
->>> +                                          DRM_GEM_OBJECT_ACTIVE |
->>>                                             DRM_GEM_OBJECT_RESIDENT |
->>>                                             (mem_type != XE_PL_SYSTEM ? 0 :
->>>                                             DRM_GEM_OBJECT_PURGEABLE),
->> diff --git
->>> a/include/drm/drm_gem.h b/include/drm/drm_gem.h index
->>> bae4865b2101a..584ffdf5c2542 100644
->>> --- a/include/drm/drm_gem.h
->>> +++ b/include/drm/drm_gem.h
->>> @@ -48,19 +48,21 @@ struct drm_gem_object;
->>>     * enum drm_gem_object_status - bitmask of object state for fdinfo reporting
->>>     * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not
->> unpinned)
->>>     * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by
->>> userspace
->>> + * @DRM_GEM_OBJECT_ACTIVE: object is currently used by an active
->>> + submission
->>>     *
->>>     * Bitmask of status used for fdinfo memory stats, see
->>> &drm_gem_object_funcs.status
->>> - * and drm_show_fdinfo().  Note that an object can
->>> DRM_GEM_OBJECT_PURGEABLE if
->>> - * it still active or not resident, in which case drm_show_fdinfo()
->>> will not
->>> + * and drm_show_fdinfo().  Note that an object can report
->>> + DRM_GEM_OBJECT_PURGEABLE
->>> + * and be active or not resident, in which case drm_show_fdinfo()
->>> + will not
->>>     * account for it as purgeable.  So drivers do not need to check if
->>> the buffer
->>> - * is idle and resident to return this bit.  (Ie. userspace can mark
->>> a buffer
->>> - * as purgeable even while it is still busy on the GPU.. it does not
->>> _actually_
->>> - * become puregeable until it becomes idle.  The status gem object
->>> func does
->>> - * not need to consider this.)
->>> + * is idle and resident to return this bit, i.e. userspace can mark a
->>> + buffer as
->>> + * purgeable even while it is still busy on the GPU. It whill not get
->>> + reported
->>
->> Good cleanup.
->>
->> s/whill/will/
->>
->>> + * in the puregeable stats until it becomes idle.  The status gem
->>> + object func
->>> + * does not need to consider this.
->>>     */
->>>    enum drm_gem_object_status {
->>>      DRM_GEM_OBJECT_RESIDENT  = BIT(0),
->>>      DRM_GEM_OBJECT_PURGEABLE = BIT(1),
->>> +   DRM_GEM_OBJECT_ACTIVE = BIT(2),
->>>    };
->>>
->>>    /**
->>
->> Regards,
->>
->> Tvrtko
+--daaqffk3kobrz3nx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZzthbAAKCRAnX84Zoj2+
+drubAYDnfOPHEbUtSBuKsSW0gwIdqyDhobohzo9e8ywlQGt8/ZdxHagqLzmAANjC
+lfvXD8YBfiUmQk9afkVIWM8Lk15XjzxrIrfcAhwZuqOrsIwH11sfRr3+lczF7pKs
+0ats6CZJoQ==
+=5w/N
+-----END PGP SIGNATURE-----
+
+--daaqffk3kobrz3nx--
