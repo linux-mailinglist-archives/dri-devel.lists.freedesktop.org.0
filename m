@@ -2,127 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361F59D1726
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 18:30:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB309D1735
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 18:35:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87FDB10E53E;
-	Mon, 18 Nov 2024 17:30:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE1E10E144;
+	Mon, 18 Nov 2024 17:35:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sdlNEQEd";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ilkZyPOr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2070.outbound.protection.outlook.com [40.107.95.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD2E710E548
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 17:30:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yKZgxGJWUyQvzd/LNSQd+3QUAmBb6ZaDhPAvfqir04fD6ZTUShzyDX53MQrmPfc61+g1l6kC+InMc8h97ilnCCaTmuzGkdsr/6AhQ6AWseeNSKUejNaYirR7Rni5q7o+iXSvEFz4MzrmBliPNAz/O00SahsoWwHoVUeC9BMkDBegxLfV9fLcb+nLttPACWnoBsd8qmzZDu2T+o/pvjKdWQoF9Io8sn6dIs40oZOU5EGkkyL+2ZGDBaLqjq1SLJ/S++yDE2KcebqtIsp0wjH0RJn2rZgqMl4pvg1Kgloz6WcJ4v3cRW+8jw4c0eQXYrdc9T7tg1aEMTXs4eZN8FupWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2BUyoq5k0MfHFHnRwtKvICLVI2ig/IHIbk/uOrnr1G8=;
- b=V4VoWNGBcXqShn7ov08CaRrpPtO8ixm1zijEIdFqn1oexAYXKR4Y4lzsa96loSIg1q6SFBjSGlaTeTSiCdyYlGpFmcV85uCyyq7IHFEanGWsJkn0QwKOLQ2w0KNMcqhNcqPdisXf0lZvp8KRgH0XOV5mMofGNMwknzbJ8NPYOwUjYa0awftB/vAbgIrw9le5+5GVpagWC24qcruIstVz17UgM8JYJuHy+Ll4+uLnh+UUIseMEPT966H6Wgi2znYOkmfm3SkmF4iU6n0kWbzWagU3BR1ipW0ORge1Tfm36W1AQ9ysDld64vcKXw3BFKiWgw8cksyxwt5JJvrD3FE6NQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.12) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2BUyoq5k0MfHFHnRwtKvICLVI2ig/IHIbk/uOrnr1G8=;
- b=sdlNEQEdry6K0YQMeI52j9TCY2ndJk1ibklhkM3bJPMwelsYtzy+PFey2mopM26m73/LODEt0u50vEEFHyyEUpsDJhOvdGGeiYowxKdB4aZv6Re9Y3uYrpBa2BLFuZ9mGSF4Fb+7+T4w+77dJUwWPARDVBKFy3wE+TEOhDjLwvU=
-Received: from BL1PR13CA0233.namprd13.prod.outlook.com (2603:10b6:208:2bf::28)
- by CH3PR12MB8912.namprd12.prod.outlook.com (2603:10b6:610:169::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.21; Mon, 18 Nov
- 2024 17:30:02 +0000
-Received: from MN1PEPF0000ECD8.namprd02.prod.outlook.com
- (2603:10b6:208:2bf:cafe::f1) by BL1PR13CA0233.outlook.office365.com
- (2603:10b6:208:2bf::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.18 via Frontend
- Transport; Mon, 18 Nov 2024 17:30:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.12)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.12 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.12; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.12) by
- MN1PEPF0000ECD8.mail.protection.outlook.com (10.167.242.137) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8158.14 via Frontend Transport; Mon, 18 Nov 2024 17:30:02 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 18 Nov
- 2024 11:30:02 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 18 Nov
- 2024 11:30:01 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 18 Nov 2024 11:30:01 -0600
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <dri-devel@lists.freedesktop.org>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <min.ma@amd.com>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
- <king.tam@amd.com>
-Subject: [PATCH V11 10/10] accel/amdxdna: Add query functions
-Date: Mon, 18 Nov 2024 09:29:42 -0800
-Message-ID: <20241118172942.2014541-11-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241118172942.2014541-1-lizhi.hou@amd.com>
-References: <20241118172942.2014541-1-lizhi.hou@amd.com>
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E0B10E144
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 17:35:35 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D806F40002;
+ Mon, 18 Nov 2024 17:35:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1731951333;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CpDsnfl1bWmwv9wbs3nf/7NwpkHZ9sy9amJmIl9hmAs=;
+ b=ilkZyPOrbxoE+PNYUd5X7OykRFkCBXQlQgpUaICkhsczDR6sPXExQsSIDkBcW4Vag4kN9J
+ Ho/0lPmV71fl+cn2VB/6cp0Q7qN7lywRyi77gqsHKOMCNsT+CAB3gMwUt4uNrGepvvVfMu
+ 3gn3dZyY9VNehRtdPOebLcYohl8pf3esoCqMJev3jZvu8BsOi7jVQh64DzoRcPQASIYXx4
+ sfqGqigp104OQPBFBgYN6X++zgliNg5+i73vP/wMaVOvJuX7IlCEt0hNoQRoAp2L6cQZIz
+ CMKU52yIUUETpSNY9zEGeQ3a1H+d3TDUSh58C4vH1J5FYwthVyugcbB7kXZanQ==
+Date: Mon, 18 Nov 2024 18:35:30 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+ helen.koike@collabora.com, jeremie.dautheribes@bootlin.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+ marcheu@google.com, melissa.srw@gmail.com,
+ miquel.raynal@bootlin.com, mripard@kernel.org,
+ nicolejadeyee@google.com, pekka.paalanen@haloniitty.fi,
+ rdunlap@infradead.org, rodrigosiqueiramelo@gmail.com,
+ seanpaul@google.com, simona.vetter@ffwll.ch, simona@ffwll.ch,
+ thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+Subject: Re: [PATCH v13 5/9] drm/vkms: Update pixels accessor to support
+ packed and multi-plane formats.
+Message-ID: <Zzt64tbs3TZ-7nUo@louis-chauvet-laptop>
+Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
+ <jose.exposito89@gmail.com>, 
+ airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+ helen.koike@collabora.com, jeremie.dautheribes@bootlin.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+ marcheu@google.com, melissa.srw@gmail.com,
+ miquel.raynal@bootlin.com, mripard@kernel.org,
+ nicolejadeyee@google.com, pekka.paalanen@haloniitty.fi,
+ rdunlap@infradead.org, rodrigosiqueiramelo@gmail.com,
+ seanpaul@google.com, simona.vetter@ffwll.ch, simona@ffwll.ch,
+ thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+References: <20241031-yuv-v13-5-bd5463126faa@bootlin.com>
+ <20241118171037.2847-1-jose.exposito89@gmail.com>
+ <Zzt2l0hZpKp4mniY@louis-chauvet-laptop> <Zzt4PiTRqwmikMnm@fedora>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD8:EE_|CH3PR12MB8912:EE_
-X-MS-Office365-Filtering-Correlation-Id: ebe94bf3-f8b2-4e51-0a1c-08dd07f6a29c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?AyFnju677jKVS1HTEAqjvWjRSB8hKFTtemix/8nLDY4U3+KW+hPF+N1+W9A8?=
- =?us-ascii?Q?hOPG7FH4EcU/JetDGrCV/ZyPu+Nq0F8+N8YFl4Gp1HyM/KWGehv0i9ZVm/++?=
- =?us-ascii?Q?IHP7PlsmpBb1HdEsN4A+qOK4F0wtZplc7eP16gzAQEuYeH9gL5Xct7qvEXc5?=
- =?us-ascii?Q?c0x/k958RvrC8hJIPomfGqmD+u7ORJDHQOoSl0cGhQhy3GGHMiyD6VGNioab?=
- =?us-ascii?Q?9vqSIeWEKpT4VM26i6QjJOgFoBplpDTeVKAHc4YSqGMJQViXCI7CflWv5w3u?=
- =?us-ascii?Q?etBhBXGaeGYdToaJskOfFJImuk7NexDzUvNVxYBMCc+F1vbz58B99ul5gqS4?=
- =?us-ascii?Q?VHCW/MmZLkcwLhV2fV8x9P2Hnsyf2kcDfICzrSKQx0KNQaIIZVEnWeL7qJ9c?=
- =?us-ascii?Q?vU4QiaJk/uakdUxp2OXV5iYhi/w6zE0xCXH4qJHNFbC0J2ej66WExQx5I2lN?=
- =?us-ascii?Q?A+d05M2PagHSv2KrPOFSRNGDJVmRPaZWwxzWCJ8ilYPCw0vNJdb2A7kDxOtE?=
- =?us-ascii?Q?oGV6Ri2p6Cc6jUsXG8uT3YLeyq9SklQju4PDZGzTFj18Vd5axoaVSSdxwsZn?=
- =?us-ascii?Q?3kV142t38JbzF/w2sW1bKzZtpDDkiWb7CaE1WCRZ5yZFhpuwMUxVnX2KWOtn?=
- =?us-ascii?Q?o79Z1Dm38nFQQLXpN3HCs8XbjS9ksh0OPOp1MvB5m67yhorR4ucirYWupsHo?=
- =?us-ascii?Q?48Jq7OBnSFmkX4pdpXF4NSu7h7cMiNBxDR+pb/009jTuh07mWxoZ92/AXrBV?=
- =?us-ascii?Q?AOkpPSajHfpsg1Xee77jDzbJ2716m8W/GU/9XttlZzAxTS2kuxl8TfNILA4y?=
- =?us-ascii?Q?TUb+qGcHhHDHySP+D/K4yvlvI8KoF62Uxg4qkRp2GSS/B6kBTUak/hihOXF5?=
- =?us-ascii?Q?H9iw3PoiuDPlm9HCrJEUlfAq+vXDJ97E/lYf23adx9dj6B0SZNWR/VWYP0O+?=
- =?us-ascii?Q?LtdG5zZn2K56tphS0zFP0cV8Of+cxQVc+afmuxDiRkKC3Ckwgw5baskSX0ly?=
- =?us-ascii?Q?F/gNkzR5/32ZQt52PUmvS7CP/81mzmMR4PGH1Q4PKNw+VzFtxUu6iyXfNWjf?=
- =?us-ascii?Q?8sXRN8LSFjygq6kGmT8hStDyO8HlcqppTJuk8NcfMjFDmrm3DUALycH/rIb6?=
- =?us-ascii?Q?LACQ9Ll1XyRO6YEkDKZxKa2pKzn8zqFTkHJy/phT6a6HEDPDzcKyYItd8qRL?=
- =?us-ascii?Q?kFj00g8LTesBDCWFVgdv7VH7DkVkIL3W/D7DfL3GYg6E70gHsLg/B7a+LYVK?=
- =?us-ascii?Q?kRZ50zHibkxDP2WK0LC9FyfwWBH7ys8NDCYp2wOAMKM68ol/PlIQNKy5fESp?=
- =?us-ascii?Q?ZjT4h7bONnNL5kUrRBB5g9PnIp1kfaplaTicq0DAUEvWHbwqyBhHcELZhscv?=
- =?us-ascii?Q?ZcRiqiF5hywN/dH+8vhc9qLw/EdF4TWJvXQ9JbWcVzV6XPte2w=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.12; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:atlvpn-bp.amd.com; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2024 17:30:02.7337 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebe94bf3-f8b2-4e51-0a1c-08dd07f6a29c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.12];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000ECD8.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8912
+In-Reply-To: <Zzt4PiTRqwmikMnm@fedora>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,605 +84,231 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add GET_INFO ioctl to retrieve hardware information, including
-AIE, clock, hardware context etc.
+On 18/11/24 - 18:24, José Expósito wrote:
+> On Mon, Nov 18, 2024 at 06:17:11PM +0100, Louis Chauvet wrote:
+> > On 18/11/24 - 18:10, José Expósito wrote:
+> > > > Introduce the usage of block_h/block_w to compute the offset and the
+> > > > pointer of a pixel. The previous implementation was specialized for
+> > > > planes with block_h == block_w == 1. To avoid confusion and allow easier
+> > > > implementation of tiled formats. It also remove the usage of the
+> > > > deprecated format field `cpp`.
+> > > > 
+> > > > Introduce the plane_index parameter to get an offset/pointer on a
+> > > > different plane.
+> > > > 
+> > > > Acked-by: Maíra Canal <mairacanal@riseup.net>
+> > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > > ---
+> > > >  drivers/gpu/drm/vkms/vkms_formats.c | 114 ++++++++++++++++++++++++++++--------
+> > > >  1 file changed, 91 insertions(+), 23 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> > > > index 06aef5162529..7f932d42394d 100644
+> > > > --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> > > > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> > > > @@ -10,22 +10,46 @@
+> > > >  #include "vkms_formats.h"
+> > > >  
+> > > >  /**
+> > > > - * pixel_offset() - Get the offset of the pixel at coordinates x/y in the first plane
+> > > > + * packed_pixels_offset() - Get the offset of the block containing the pixel at coordinates x/y
+> > > >   *
+> > > >   * @frame_info: Buffer metadata
+> > > >   * @x: The x coordinate of the wanted pixel in the buffer
+> > > >   * @y: The y coordinate of the wanted pixel in the buffer
+> > > > + * @plane_index: The index of the plane to use
+> > > > + * @offset: The returned offset inside the buffer of the block
+> > > 
+> > > The previous function (pixel_offset) returned a size_t for the offset rather
+> > > than an int. Do you know if we are safe using an int in this case?
+> > 
+> > I think I used int everywhere because it may avoid strange issues with 
+> > implicit casting and negative number. I don't remember exactly where, but 
+> > Pekka suggested it.
+> 
+> Ah! Good to know. For the record, I ran locally the IGT tests and
+> perform some manual testing and I found no issues.
+> 
+> > > > + * @rem_x: The returned X coordinate of the requested pixel in the block
+> > > > + * @rem_y: The returned Y coordinate of the requested pixel in the block
+> > > >   *
+> > > > - * The caller must ensure that the framebuffer associated with this request uses a pixel format
+> > > > - * where block_h == block_w == 1.
+> > > > - * If this requirement is not fulfilled, the resulting offset can point to an other pixel or
+> > > > - * outside of the buffer.
+> > > > + * As some pixel formats store multiple pixels in a block (DRM_FORMAT_R* for example), some
+> > > > + * pixels are not individually addressable. This function return 3 values: the offset of the
+> > > > + * whole block, and the coordinate of the requested pixel inside this block.
+> > > > + * For example, if the format is DRM_FORMAT_R1 and the requested coordinate is 13,5, the offset
+> > > > + * will point to the byte 5*pitches + 13/8 (second byte of the 5th line), and the rem_x/rem_y
+> > > > + * coordinates will be (13 % 8, 5 % 1) = (5, 0)
+> > > > + *
+> > > > + * With this function, the caller just have to extract the correct pixel from the block.
+> > > >   */
+> > > > -static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
+> > > > +static void packed_pixels_offset(const struct vkms_frame_info *frame_info, int x, int y,
+> > > > +				 int plane_index, int *offset, int *rem_x, int *rem_y)
+> > > >  {
+> > > >  	struct drm_framebuffer *fb = frame_info->fb;
+> > > > +	const struct drm_format_info *format = frame_info->fb->format;
+> > > > +	/* Directly using x and y to multiply pitches and format->ccp is not sufficient because
+> > > > +	 * in some formats a block can represent multiple pixels.
+> > > > +	 *
+> > > > +	 * Dividing x and y by the block size allows to extract the correct offset of the block
+> > > > +	 * containing the pixel.
+> > > > +	 */
+> > > >  
+> > > > -	return fb->offsets[0] + (y * fb->pitches[0]) + (x * fb->format->cpp[0]);
+> > > > +	int block_x = x / drm_format_info_block_width(format, plane_index);
+> > > > +	int block_y = y / drm_format_info_block_height(format, plane_index);
+> > > > +	int block_pitch = fb->pitches[plane_index] * drm_format_info_block_height(format,
+> > > > +										  plane_index);
+> > > > +	*rem_x = x % drm_format_info_block_width(format, plane_index);
+> > > > +	*rem_y = y % drm_format_info_block_height(format, plane_index);
+> > > > +	*offset = fb->offsets[plane_index] +
+> > > > +		  block_y * block_pitch +
+> > > > +		  block_x * format->char_per_block[plane_index];
+> > > >  }
+> > > >  
+> > > >  /**
+> > > > @@ -35,30 +59,71 @@ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int
+> > > >   * @frame_info: Buffer metadata
+> > > >   * @x: The x (width) coordinate inside the plane
+> > > >   * @y: The y (height) coordinate inside the plane
+> > > > + * @plane_index: The index of the plane
+> > > > + * @addr: The returned pointer
+> > > > + * @rem_x: The returned X coordinate of the requested pixel in the block
+> > > > + * @rem_y: The returned Y coordinate of the requested pixel in the block
+> > > >   *
+> > > > - * Takes the information stored in the frame_info, a pair of coordinates, and
+> > > > - * returns the address of the first color channel.
+> > > > - * This function assumes the channels are packed together, i.e. a color channel
+> > > > - * comes immediately after another in the memory. And therefore, this function
+> > > > - * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
+> > > > + * Takes the information stored in the frame_info, a pair of coordinates, and returns the address
+> > > > + * of the block containing this pixel and the pixel position inside this block.
+> > > >   *
+> > > > - * The caller must ensure that the framebuffer associated with this request uses a pixel format
+> > > > - * where block_h == block_w == 1, otherwise the returned pointer can be outside the buffer.
+> > > > + * See @packed_pixel_offset for details about rem_x/rem_y behavior.
+> > > 
+> > > Missing "s" in the name of the function. Should read "@packed_pixels_offset".
+> > 
+> > Thanks!
+> > 
+> > > >   */
+> > > > -static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
+> > > > -				int x, int y)
+> > > > +static void packed_pixels_addr(const struct vkms_frame_info *frame_info,
+> > > > +			       int x, int y, int plane_index, u8 **addr, int *rem_x,
+> > > > +			       int *rem_y)
+> > > >  {
+> > > > -	size_t offset = pixel_offset(frame_info, x, y);
+> > > > +	int offset;
+> > > >  
+> > > > -	return (u8 *)frame_info->map[0].vaddr + offset;
+> > > > +	packed_pixels_offset(frame_info, x, y, plane_index, &offset, rem_x, rem_y);
+> > > > +	*addr = (u8 *)frame_info->map[0].vaddr + offset;
+> > > >  }
+> > > >  
+> > > > -static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y)
+> > > > +/**
+> > > > + * packed_pixels_addr_1x1() - Get the pointer to the block containing the pixel at the given
+> > > > + * coordinates
+> > > > + *
+> > > > + * @frame_info: Buffer metadata
+> > > > + * @x: The x (width) coordinate inside the plane
+> > > > + * @y: The y (height) coordinate inside the plane
+> > > > + * @plane_index: The index of the plane
+> > > > + * @addr: The returned pointer
+> > > > + *
+> > > > + * This function can only be used with format where block_h == block_w == 1.
+> > > > + */
+> > > > +static void packed_pixels_addr_1x1(const struct vkms_frame_info *frame_info,
+> > > > +				   int x, int y, int plane_index, u8 **addr)
+> > > > +{
+> > > > +	int offset, rem_x, rem_y;
+> > > 
+> > > Nitpick, but it'd be nice if packed_pixels_offset() could take NULLs in
+> > > the output values so we avoid declaring unused variables here and when
+> > > calling packed_pixels_addr().
+> > 
+> > It is not a trivial change, and as I want this series to be merged I will 
+> > send the v14 without it. But if I have the time I will send a new 
+> > patch/series with this cleanup, thanks for the suggestion.
+> 
+> That works for me, we can always fix it in a follow up... Specially since
+> 2 other series depend on this one :)
 
-Co-developed-by: Min Ma <min.ma@amd.com>
-Signed-off-by: Min Ma <min.ma@amd.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
----
- drivers/accel/amdxdna/aie2_message.c    |  65 +++++++
- drivers/accel/amdxdna/aie2_pci.c        | 222 ++++++++++++++++++++++++
- drivers/accel/amdxdna/aie2_pci.h        |   1 +
- drivers/accel/amdxdna/amdxdna_pci_drv.c |  19 ++
- drivers/accel/amdxdna/amdxdna_pci_drv.h |   3 +
- include/uapi/drm/amdxdna_accel.h        | 166 ++++++++++++++++++
- 6 files changed, 476 insertions(+)
+As the series is completly reviewed/acked, how long do I need to 
+wait after the v14 before commiting on drm-misc-next? I plan to send the 
+v14 today/tomorrow morning with your changes.
 
-diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-index eb7e27045213..c01a1d957b56 100644
---- a/drivers/accel/amdxdna/aie2_message.c
-+++ b/drivers/accel/amdxdna/aie2_message.c
-@@ -308,6 +308,71 @@ int aie2_map_host_buf(struct amdxdna_dev_hdl *ndev, u32 context_id, u64 addr, u6
- 	return 0;
- }
+Thanks,
+Louis Chauvet
  
-+int aie2_query_status(struct amdxdna_dev_hdl *ndev, char __user *buf,
-+		      u32 size, u32 *cols_filled)
-+{
-+	DECLARE_AIE2_MSG(aie_column_info, MSG_OP_QUERY_COL_STATUS);
-+	struct amdxdna_dev *xdna = ndev->xdna;
-+	struct amdxdna_client *client;
-+	struct amdxdna_hwctx *hwctx;
-+	dma_addr_t dma_addr;
-+	u32 aie_bitmap = 0;
-+	u8 *buff_addr;
-+	int next = 0;
-+	int ret, idx;
-+
-+	buff_addr = dma_alloc_noncoherent(xdna->ddev.dev, size, &dma_addr,
-+					  DMA_FROM_DEVICE, GFP_KERNEL);
-+	if (!buff_addr)
-+		return -ENOMEM;
-+
-+	/* Go through each hardware context and mark the AIE columns that are active */
-+	list_for_each_entry(client, &xdna->client_list, node) {
-+		idx = srcu_read_lock(&client->hwctx_srcu);
-+		idr_for_each_entry_continue(&client->hwctx_idr, hwctx, next)
-+			aie_bitmap |= amdxdna_hwctx_col_map(hwctx);
-+		srcu_read_unlock(&client->hwctx_srcu, idx);
-+	}
-+
-+	*cols_filled = 0;
-+	req.dump_buff_addr = dma_addr;
-+	req.dump_buff_size = size;
-+	req.num_cols = hweight32(aie_bitmap);
-+	req.aie_bitmap = aie_bitmap;
-+
-+	drm_clflush_virt_range(buff_addr, size); /* device can access */
-+	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
-+	if (ret) {
-+		XDNA_ERR(xdna, "Error during NPU query, status %d", ret);
-+		goto fail;
-+	}
-+
-+	if (resp.status != AIE2_STATUS_SUCCESS) {
-+		XDNA_ERR(xdna, "Query NPU status failed, status 0x%x", resp.status);
-+		ret = -EINVAL;
-+		goto fail;
-+	}
-+	XDNA_DBG(xdna, "Query NPU status completed");
-+
-+	if (size < resp.size) {
-+		ret = -EINVAL;
-+		XDNA_ERR(xdna, "Bad buffer size. Available: %u. Needs: %u", size, resp.size);
-+		goto fail;
-+	}
-+
-+	if (copy_to_user(buf, buff_addr, resp.size)) {
-+		ret = -EFAULT;
-+		XDNA_ERR(xdna, "Failed to copy NPU status to user space");
-+		goto fail;
-+	}
-+
-+	*cols_filled = aie_bitmap;
-+
-+fail:
-+	dma_free_noncoherent(xdna->ddev.dev, size, buff_addr, dma_addr, DMA_FROM_DEVICE);
-+	return ret;
-+}
-+
- int aie2_register_asyn_event_msg(struct amdxdna_dev_hdl *ndev, dma_addr_t addr, u32 size,
- 				 void *handle, int (*cb)(void*, const u32 *, size_t))
- {
-diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-index 5467aabe7308..349ada697e48 100644
---- a/drivers/accel/amdxdna/aie2_pci.c
-+++ b/drivers/accel/amdxdna/aie2_pci.c
-@@ -5,6 +5,7 @@
- 
- #include <drm/amdxdna_accel.h>
- #include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_print.h>
-@@ -525,11 +526,232 @@ static void aie2_fini(struct amdxdna_dev *xdna)
- 	pci_free_irq_vectors(pdev);
- }
- 
-+static int aie2_get_aie_status(struct amdxdna_client *client,
-+			       struct amdxdna_drm_get_info *args)
-+{
-+	struct amdxdna_drm_query_aie_status status;
-+	struct amdxdna_dev *xdna = client->xdna;
-+	struct amdxdna_dev_hdl *ndev;
-+	int ret;
-+
-+	ndev = xdna->dev_handle;
-+	if (copy_from_user(&status, u64_to_user_ptr(args->buffer), sizeof(status))) {
-+		XDNA_ERR(xdna, "Failed to copy AIE request into kernel");
-+		return -EFAULT;
-+	}
-+
-+	if (ndev->metadata.cols * ndev->metadata.size < status.buffer_size) {
-+		XDNA_ERR(xdna, "Invalid buffer size. Given Size: %u. Need Size: %u.",
-+			 status.buffer_size, ndev->metadata.cols * ndev->metadata.size);
-+		return -EINVAL;
-+	}
-+
-+	ret = aie2_query_status(ndev, u64_to_user_ptr(status.buffer),
-+				status.buffer_size, &status.cols_filled);
-+	if (ret) {
-+		XDNA_ERR(xdna, "Failed to get AIE status info. Ret: %d", ret);
-+		return ret;
-+	}
-+
-+	if (copy_to_user(u64_to_user_ptr(args->buffer), &status, sizeof(status))) {
-+		XDNA_ERR(xdna, "Failed to copy AIE request info to user space");
-+		return -EFAULT;
-+	}
-+
-+	return 0;
-+}
-+
-+static int aie2_get_aie_metadata(struct amdxdna_client *client,
-+				 struct amdxdna_drm_get_info *args)
-+{
-+	struct amdxdna_drm_query_aie_metadata *meta;
-+	struct amdxdna_dev *xdna = client->xdna;
-+	struct amdxdna_dev_hdl *ndev;
-+	int ret = 0;
-+
-+	ndev = xdna->dev_handle;
-+	meta = kzalloc(sizeof(*meta), GFP_KERNEL);
-+	if (!meta)
-+		return -ENOMEM;
-+
-+	meta->col_size = ndev->metadata.size;
-+	meta->cols = ndev->metadata.cols;
-+	meta->rows = ndev->metadata.rows;
-+
-+	meta->version.major = ndev->metadata.version.major;
-+	meta->version.minor = ndev->metadata.version.minor;
-+
-+	meta->core.row_count = ndev->metadata.core.row_count;
-+	meta->core.row_start = ndev->metadata.core.row_start;
-+	meta->core.dma_channel_count = ndev->metadata.core.dma_channel_count;
-+	meta->core.lock_count = ndev->metadata.core.lock_count;
-+	meta->core.event_reg_count = ndev->metadata.core.event_reg_count;
-+
-+	meta->mem.row_count = ndev->metadata.mem.row_count;
-+	meta->mem.row_start = ndev->metadata.mem.row_start;
-+	meta->mem.dma_channel_count = ndev->metadata.mem.dma_channel_count;
-+	meta->mem.lock_count = ndev->metadata.mem.lock_count;
-+	meta->mem.event_reg_count = ndev->metadata.mem.event_reg_count;
-+
-+	meta->shim.row_count = ndev->metadata.shim.row_count;
-+	meta->shim.row_start = ndev->metadata.shim.row_start;
-+	meta->shim.dma_channel_count = ndev->metadata.shim.dma_channel_count;
-+	meta->shim.lock_count = ndev->metadata.shim.lock_count;
-+	meta->shim.event_reg_count = ndev->metadata.shim.event_reg_count;
-+
-+	if (copy_to_user(u64_to_user_ptr(args->buffer), meta, sizeof(*meta)))
-+		ret = -EFAULT;
-+
-+	kfree(meta);
-+	return ret;
-+}
-+
-+static int aie2_get_aie_version(struct amdxdna_client *client,
-+				struct amdxdna_drm_get_info *args)
-+{
-+	struct amdxdna_drm_query_aie_version version;
-+	struct amdxdna_dev *xdna = client->xdna;
-+	struct amdxdna_dev_hdl *ndev;
-+
-+	ndev = xdna->dev_handle;
-+	version.major = ndev->version.major;
-+	version.minor = ndev->version.minor;
-+
-+	if (copy_to_user(u64_to_user_ptr(args->buffer), &version, sizeof(version)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+static int aie2_get_clock_metadata(struct amdxdna_client *client,
-+				   struct amdxdna_drm_get_info *args)
-+{
-+	struct amdxdna_drm_query_clock_metadata *clock;
-+	struct amdxdna_dev *xdna = client->xdna;
-+	struct amdxdna_dev_hdl *ndev;
-+	int ret = 0;
-+
-+	ndev = xdna->dev_handle;
-+	clock = kzalloc(sizeof(*clock), GFP_KERNEL);
-+	if (!clock)
-+		return -ENOMEM;
-+
-+	memcpy(clock->mp_npu_clock.name, ndev->mp_npu_clock.name,
-+	       sizeof(clock->mp_npu_clock.name));
-+	clock->mp_npu_clock.freq_mhz = ndev->mp_npu_clock.freq_mhz;
-+	memcpy(clock->h_clock.name, ndev->h_clock.name, sizeof(clock->h_clock.name));
-+	clock->h_clock.freq_mhz = ndev->h_clock.freq_mhz;
-+
-+	if (copy_to_user(u64_to_user_ptr(args->buffer), clock, sizeof(*clock)))
-+		ret = -EFAULT;
-+
-+	kfree(clock);
-+	return ret;
-+}
-+
-+static int aie2_get_hwctx_status(struct amdxdna_client *client,
-+				 struct amdxdna_drm_get_info *args)
-+{
-+	struct amdxdna_drm_query_hwctx __user *buf;
-+	struct amdxdna_dev *xdna = client->xdna;
-+	struct amdxdna_drm_query_hwctx *tmp;
-+	struct amdxdna_client *tmp_client;
-+	struct amdxdna_hwctx *hwctx;
-+	bool overflow = false;
-+	u32 req_bytes = 0;
-+	u32 hw_i = 0;
-+	int ret = 0;
-+	int next;
-+	int idx;
-+
-+	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
-+
-+	tmp = kzalloc(sizeof(*tmp), GFP_KERNEL);
-+	if (!tmp)
-+		return -ENOMEM;
-+
-+	buf = u64_to_user_ptr(args->buffer);
-+	list_for_each_entry(tmp_client, &xdna->client_list, node) {
-+		idx = srcu_read_lock(&tmp_client->hwctx_srcu);
-+		next = 0;
-+		idr_for_each_entry_continue(&tmp_client->hwctx_idr, hwctx, next) {
-+			req_bytes += sizeof(*tmp);
-+			if (args->buffer_size < req_bytes) {
-+				/* Continue iterating to get the required size */
-+				overflow = true;
-+				continue;
-+			}
-+
-+			memset(tmp, 0, sizeof(*tmp));
-+			tmp->pid = tmp_client->pid;
-+			tmp->context_id = hwctx->id;
-+			tmp->start_col = hwctx->start_col;
-+			tmp->num_col = hwctx->num_col;
-+			tmp->command_submissions = hwctx->priv->seq;
-+			tmp->command_completions = hwctx->priv->completed;
-+
-+			if (copy_to_user(&buf[hw_i], tmp, sizeof(*tmp))) {
-+				ret = -EFAULT;
-+				srcu_read_unlock(&tmp_client->hwctx_srcu, idx);
-+				goto out;
-+			}
-+			hw_i++;
-+		}
-+		srcu_read_unlock(&tmp_client->hwctx_srcu, idx);
-+	}
-+
-+	if (overflow) {
-+		XDNA_ERR(xdna, "Invalid buffer size. Given: %u Need: %u.",
-+			 args->buffer_size, req_bytes);
-+		ret = -EINVAL;
-+	}
-+
-+out:
-+	kfree(tmp);
-+	args->buffer_size = req_bytes;
-+	return ret;
-+}
-+
-+static int aie2_get_info(struct amdxdna_client *client, struct amdxdna_drm_get_info *args)
-+{
-+	struct amdxdna_dev *xdna = client->xdna;
-+	int ret, idx;
-+
-+	if (!drm_dev_enter(&xdna->ddev, &idx))
-+		return -ENODEV;
-+
-+	switch (args->param) {
-+	case DRM_AMDXDNA_QUERY_AIE_STATUS:
-+		ret = aie2_get_aie_status(client, args);
-+		break;
-+	case DRM_AMDXDNA_QUERY_AIE_METADATA:
-+		ret = aie2_get_aie_metadata(client, args);
-+		break;
-+	case DRM_AMDXDNA_QUERY_AIE_VERSION:
-+		ret = aie2_get_aie_version(client, args);
-+		break;
-+	case DRM_AMDXDNA_QUERY_CLOCK_METADATA:
-+		ret = aie2_get_clock_metadata(client, args);
-+		break;
-+	case DRM_AMDXDNA_QUERY_HW_CONTEXTS:
-+		ret = aie2_get_hwctx_status(client, args);
-+		break;
-+	default:
-+		XDNA_ERR(xdna, "Not supported request parameter %u", args->param);
-+		ret = -EOPNOTSUPP;
-+	}
-+	XDNA_DBG(xdna, "Got param %d", args->param);
-+
-+	drm_dev_exit(idx);
-+	return ret;
-+}
-+
- const struct amdxdna_dev_ops aie2_ops = {
- 	.init           = aie2_init,
- 	.fini           = aie2_fini,
- 	.resume         = aie2_hw_start,
- 	.suspend        = aie2_hw_stop,
-+	.get_aie_info   = aie2_get_info,
- 	.hwctx_init     = aie2_hwctx_init,
- 	.hwctx_fini     = aie2_hwctx_fini,
- 	.hwctx_config   = aie2_hwctx_config,
-diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
-index 4422dd6c985e..6a2686255c9c 100644
---- a/drivers/accel/amdxdna/aie2_pci.h
-+++ b/drivers/accel/amdxdna/aie2_pci.h
-@@ -231,6 +231,7 @@ int aie2_query_firmware_version(struct amdxdna_dev_hdl *ndev,
- int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx);
- int aie2_destroy_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx);
- int aie2_map_host_buf(struct amdxdna_dev_hdl *ndev, u32 context_id, u64 addr, u64 size);
-+int aie2_query_status(struct amdxdna_dev_hdl *ndev, char *buf, u32 size, u32 *cols_filled);
- int aie2_register_asyn_event_msg(struct amdxdna_dev_hdl *ndev, dma_addr_t addr, u32 size,
- 				 void *handle, int (*cb)(void*, const u32 *, size_t));
- int aie2_config_cu(struct amdxdna_hwctx *hwctx);
-diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-index c4df674fdf50..02533732d4ca 100644
---- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
-+++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-@@ -143,6 +143,23 @@ static int amdxdna_flush(struct file *f, fl_owner_t id)
- 	return 0;
- }
- 
-+static int amdxdna_drm_get_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
-+{
-+	struct amdxdna_client *client = filp->driver_priv;
-+	struct amdxdna_dev *xdna = to_xdna_dev(dev);
-+	struct amdxdna_drm_get_info *args = data;
-+	int ret;
-+
-+	if (!xdna->dev_info->ops->get_aie_info)
-+		return -EOPNOTSUPP;
-+
-+	XDNA_DBG(xdna, "Request parameter %u", args->param);
-+	mutex_lock(&xdna->dev_lock);
-+	ret = xdna->dev_info->ops->get_aie_info(client, args);
-+	mutex_unlock(&xdna->dev_lock);
-+	return ret;
-+}
-+
- static const struct drm_ioctl_desc amdxdna_drm_ioctls[] = {
- 	/* Context */
- 	DRM_IOCTL_DEF_DRV(AMDXDNA_CREATE_HWCTX, amdxdna_drm_create_hwctx_ioctl, 0),
-@@ -154,6 +171,8 @@ static const struct drm_ioctl_desc amdxdna_drm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(AMDXDNA_SYNC_BO, amdxdna_drm_sync_bo_ioctl, 0),
- 	/* Execution */
- 	DRM_IOCTL_DEF_DRV(AMDXDNA_EXEC_CMD, amdxdna_drm_submit_cmd_ioctl, 0),
-+	/* AIE hardware */
-+	DRM_IOCTL_DEF_DRV(AMDXDNA_GET_INFO, amdxdna_drm_get_info_ioctl, 0),
- };
- 
- static const struct file_operations amdxdna_fops = {
-diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h b/drivers/accel/amdxdna/amdxdna_pci_drv.h
-index 52c59249c8a0..c50d65a050ad 100644
---- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
-+++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
-@@ -17,7 +17,9 @@
- 
- extern const struct drm_driver amdxdna_drm_drv;
- 
-+struct amdxdna_client;
- struct amdxdna_dev;
-+struct amdxdna_drm_get_info;
- struct amdxdna_gem_obj;
- struct amdxdna_hwctx;
- struct amdxdna_sched_job;
-@@ -37,6 +39,7 @@ struct amdxdna_dev_ops {
- 	void (*hwctx_suspend)(struct amdxdna_hwctx *hwctx);
- 	void (*hwctx_resume)(struct amdxdna_hwctx *hwctx);
- 	int (*cmd_submit)(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job, u64 *seq);
-+	int (*get_aie_info)(struct amdxdna_client *client, struct amdxdna_drm_get_info *args);
- };
- 
- /*
-diff --git a/include/uapi/drm/amdxdna_accel.h b/include/uapi/drm/amdxdna_accel.h
-index 3e88ed386fac..af12af8bd699 100644
---- a/include/uapi/drm/amdxdna_accel.h
-+++ b/include/uapi/drm/amdxdna_accel.h
-@@ -32,6 +32,7 @@ enum amdxdna_drm_ioctl_id {
- 	DRM_AMDXDNA_GET_BO_INFO,
- 	DRM_AMDXDNA_SYNC_BO,
- 	DRM_AMDXDNA_EXEC_CMD,
-+	DRM_AMDXDNA_GET_INFO,
- };
- 
- /**
-@@ -235,6 +236,167 @@ struct amdxdna_drm_exec_cmd {
- 	__u64 seq;
- };
- 
-+/**
-+ * struct amdxdna_drm_query_aie_status - Query the status of the AIE hardware
-+ * @buffer: The user space buffer that will return the AIE status.
-+ * @buffer_size: The size of the user space buffer.
-+ * @cols_filled: A bitmap of AIE columns whose data has been returned in the buffer.
-+ */
-+struct amdxdna_drm_query_aie_status {
-+	__u64 buffer; /* out */
-+	__u32 buffer_size; /* in */
-+	__u32 cols_filled; /* out */
-+};
-+
-+/**
-+ * struct amdxdna_drm_query_aie_version - Query the version of the AIE hardware
-+ * @major: The major version number.
-+ * @minor: The minor version number.
-+ */
-+struct amdxdna_drm_query_aie_version {
-+	__u32 major; /* out */
-+	__u32 minor; /* out */
-+};
-+
-+/**
-+ * struct amdxdna_drm_query_aie_tile_metadata - Query the metadata of AIE tile (core, mem, shim)
-+ * @row_count: The number of rows.
-+ * @row_start: The starting row number.
-+ * @dma_channel_count: The number of dma channels.
-+ * @lock_count: The number of locks.
-+ * @event_reg_count: The number of events.
-+ * @pad: Structure padding.
-+ */
-+struct amdxdna_drm_query_aie_tile_metadata {
-+	__u16 row_count;
-+	__u16 row_start;
-+	__u16 dma_channel_count;
-+	__u16 lock_count;
-+	__u16 event_reg_count;
-+	__u16 pad[3];
-+};
-+
-+/**
-+ * struct amdxdna_drm_query_aie_metadata - Query the metadata of the AIE hardware
-+ * @col_size: The size of a column in bytes.
-+ * @cols: The total number of columns.
-+ * @rows: The total number of rows.
-+ * @version: The version of the AIE hardware.
-+ * @core: The metadata for all core tiles.
-+ * @mem: The metadata for all mem tiles.
-+ * @shim: The metadata for all shim tiles.
-+ */
-+struct amdxdna_drm_query_aie_metadata {
-+	__u32 col_size;
-+	__u16 cols;
-+	__u16 rows;
-+	struct amdxdna_drm_query_aie_version version;
-+	struct amdxdna_drm_query_aie_tile_metadata core;
-+	struct amdxdna_drm_query_aie_tile_metadata mem;
-+	struct amdxdna_drm_query_aie_tile_metadata shim;
-+};
-+
-+/**
-+ * struct amdxdna_drm_query_clock - Metadata for a clock
-+ * @name: The clock name.
-+ * @freq_mhz: The clock frequency.
-+ * @pad: Structure padding.
-+ */
-+struct amdxdna_drm_query_clock {
-+	__u8 name[16];
-+	__u32 freq_mhz;
-+	__u32 pad;
-+};
-+
-+/**
-+ * struct amdxdna_drm_query_clock_metadata - Query metadata for clocks
-+ * @mp_npu_clock: The metadata for MP-NPU clock.
-+ * @h_clock: The metadata for H clock.
-+ */
-+struct amdxdna_drm_query_clock_metadata {
-+	struct amdxdna_drm_query_clock mp_npu_clock;
-+	struct amdxdna_drm_query_clock h_clock;
-+};
-+
-+enum amdxdna_sensor_type {
-+	AMDXDNA_SENSOR_TYPE_POWER
-+};
-+
-+/**
-+ * struct amdxdna_drm_query_sensor - The data for single sensor.
-+ * @label: The name for a sensor.
-+ * @input: The current value of the sensor.
-+ * @max: The maximum value possible for the sensor.
-+ * @average: The average value of the sensor.
-+ * @highest: The highest recorded sensor value for this driver load for the sensor.
-+ * @status: The sensor status.
-+ * @units: The sensor units.
-+ * @unitm: Translates value member variables into the correct unit via (pow(10, unitm) * value).
-+ * @type: The sensor type from enum amdxdna_sensor_type.
-+ * @pad: Structure padding.
-+ */
-+struct amdxdna_drm_query_sensor {
-+	__u8  label[64];
-+	__u32 input;
-+	__u32 max;
-+	__u32 average;
-+	__u32 highest;
-+	__u8  status[64];
-+	__u8  units[16];
-+	__s8  unitm;
-+	__u8  type;
-+	__u8  pad[6];
-+};
-+
-+/**
-+ * struct amdxdna_drm_query_hwctx - The data for single context.
-+ * @context_id: The ID for this context.
-+ * @start_col: The starting column for the partition assigned to this context.
-+ * @num_col: The number of columns in the partition assigned to this context.
-+ * @pad: Structure padding.
-+ * @pid: The Process ID of the process that created this context.
-+ * @command_submissions: The number of commands submitted to this context.
-+ * @command_completions: The number of commands completed by this context.
-+ * @migrations: The number of times this context has been moved to a different partition.
-+ * @preemptions: The number of times this context has been preempted by another context in the
-+ *               same partition.
-+ * @errors: The errors for this context.
-+ */
-+struct amdxdna_drm_query_hwctx {
-+	__u32 context_id;
-+	__u32 start_col;
-+	__u32 num_col;
-+	__u32 pad;
-+	__s64 pid;
-+	__u64 command_submissions;
-+	__u64 command_completions;
-+	__u64 migrations;
-+	__u64 preemptions;
-+	__u64 errors;
-+};
-+
-+enum amdxdna_drm_get_param {
-+	DRM_AMDXDNA_QUERY_AIE_STATUS,
-+	DRM_AMDXDNA_QUERY_AIE_METADATA,
-+	DRM_AMDXDNA_QUERY_AIE_VERSION,
-+	DRM_AMDXDNA_QUERY_CLOCK_METADATA,
-+	DRM_AMDXDNA_QUERY_SENSORS,
-+	DRM_AMDXDNA_QUERY_HW_CONTEXTS,
-+	DRM_AMDXDNA_NUM_GET_PARAM,
-+};
-+
-+/**
-+ * struct amdxdna_drm_get_info - Get some information from the AIE hardware.
-+ * @param: Value in enum amdxdna_drm_get_param. Specifies the structure passed in the buffer.
-+ * @buffer_size: Size of the input buffer. Size needed/written by the kernel.
-+ * @buffer: A structure specified by the param struct member.
-+ */
-+struct amdxdna_drm_get_info {
-+	__u32 param; /* in */
-+	__u32 buffer_size; /* in/out */
-+	__u64 buffer; /* in/out */
-+};
-+
- #define DRM_IOCTL_AMDXDNA_CREATE_HWCTX \
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_CREATE_HWCTX, \
- 		 struct amdxdna_drm_create_hwctx)
-@@ -263,6 +425,10 @@ struct amdxdna_drm_exec_cmd {
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_EXEC_CMD, \
- 		 struct amdxdna_drm_exec_cmd)
- 
-+#define DRM_IOCTL_AMDXDNA_GET_INFO \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_GET_INFO, \
-+		 struct amdxdna_drm_get_info)
-+
- #if defined(__cplusplus)
- } /* extern c end */
- #endif
--- 
-2.34.1
-
+> Jose
+>  
+> > > > +
+> > > > +	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format,
+> > > > +					      plane_index) != 1,
+> > > > +		"%s() only support formats with block_w == 1", __func__);
+> > > > +	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format,
+> > > > +					       plane_index) != 1,
+> > > > +		"%s() only support formats with block_h == 1", __func__);
+> > > > +
+> > > > +	packed_pixels_offset(frame_info, x, y, plane_index, &offset, &rem_x,
+> > > > +			     &rem_y);
+> > > > +	*addr = (u8 *)frame_info->map[0].vaddr + offset;
+> > > > +}
+> > > > +
+> > > > +static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y,
+> > > > +				 int plane_index)
+> > > >  {
+> > > >  	int x_src = frame_info->src.x1 >> 16;
+> > > >  	int y_src = y - frame_info->rotated.y1 + (frame_info->src.y1 >> 16);
+> > > > +	u8 *addr;
+> > > > +	int rem_x, rem_y;
+> > > > +
+> > > > +	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format, plane_index) != 1,
+> > > > +		  "%s() only support formats with block_w == 1", __func__);
+> > > > +	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format, plane_index) != 1,
+> > > > +		  "%s() only support formats with block_h == 1", __func__);
+> > > >  
+> > > > -	return packed_pixels_addr(frame_info, x_src, y_src);
+> > > > +	packed_pixels_addr(frame_info, x_src, y_src, plane_index, &addr, &rem_x, &rem_y);
+> > > > +
+> > > > +	return addr;
+> > > >  }
+> > > >  
+> > > >  static int get_x_position(const struct vkms_frame_info *frame_info, int limit, int x)
+> > > > @@ -152,14 +217,14 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
+> > > >  {
+> > > >  	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+> > > >  	struct vkms_frame_info *frame_info = plane->frame_info;
+> > > > -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+> > > > +	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
+> > > >  	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+> > > >  
+> > > >  	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+> > > >  		int x_pos = get_x_position(frame_info, limit, x);
+> > > >  
+> > > >  		if (drm_rotation_90_or_270(frame_info->rotation))
+> > > > -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
+> > > > +			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
+> > > >  				+ frame_info->fb->format->cpp[0] * y;
+> > > >  
+> > > >  		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
+> > > > @@ -250,7 +315,10 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+> > > >  {
+> > > >  	struct vkms_frame_info *frame_info = &wb->wb_frame_info;
+> > > >  	int x_dst = frame_info->dst.x1;
+> > > > -	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
+> > > > +	u8 *dst_pixels;
+> > > > +	int rem_x, rem_y;
+> > > > +
+> > > > +	packed_pixels_addr(frame_info, x_dst, y, 0, &dst_pixels, &rem_x, &rem_y);
+> > > >  	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+> > > >  	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
+> > > >  
+> > > > 
