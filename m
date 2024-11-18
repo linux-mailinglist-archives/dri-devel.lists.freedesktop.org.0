@@ -2,83 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D519D1709
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 18:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADABD9D171B
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 18:29:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46CD410E52F;
-	Mon, 18 Nov 2024 17:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A8B10E248;
+	Mon, 18 Nov 2024 17:29:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F0ToIqjP";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="taJrxGKc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566CC10E52F
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 17:24:18 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-43169902057so37029375e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 09:24:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1731950657; x=1732555457; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RroauxdmXiI4z3fm1xDbvCvkc1Cjze/vFKP+7haahwo=;
- b=F0ToIqjPS+5rmMaUZGxnDQ8EDhT25E+JqzZ7l7fed+OrE/n+UoRd4uK9tII82aG4eB
- +9WMj/nLAjqnV8+zOOGnD89HyYHzRkR2pUxnhJtAnBF2DgJNvCRgsQaOSNyBNKv2Lzhb
- vKQ53MgbPUPUoqGFGm5vuMRpeL+lbtoHxqx5coYAjuEcjsKViSIoqaPpWrezRRsVQdzy
- sHVxze4GE9B7n+akbVVlbP5sou/WdKDOgcBulYGnzwKbyZYaF/Qq8adwQ2/5oWWolxO5
- io0Nnsld2kuiElK0EIhJ2Q91L6Hb+Wxm6q55sGm0xg1V/SIh6rHU0EzVg4BYOXdgC60i
- ItVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1731950657; x=1732555457;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RroauxdmXiI4z3fm1xDbvCvkc1Cjze/vFKP+7haahwo=;
- b=k6nOoERU+rVYgbx8W0/+Ya/EZGntogqlXeNhtR+1LHmUphHD6mvYppWmHjdEk7BZzR
- JhG5Av2M8Q3QEwbRZYIGmQIVcQ+Y00A/qxwnhUCNf/McHz/L8TuQ7nbViFv5Q77/ibJj
- bmqMQNMuaMVUNidSqT23FbEfZcp7lmEEZgrpOTOwB9ZEhImDTMDem/9dh05CTmvHppwU
- vyQ+RCBBNg1CGJ9D/1IIPbAvJQeXQ5umIe9k0/3r96KxfkyK1avBTcaKicEdQ8JlabHO
- ZUR4CHQ6orVVWlPEoc+ehf5GOmuO9sO8W+/DsOfeQ6SuLQgz/a8e64E4MeYKikF7RjDO
- NgoA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaA+ktq8P5/XXSJIzsu8vpQPTLMBjmyvQUX79reB4NNMoxPvC9JKiMODBGXplLPvVgFymabYnQVpE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyygbxrEZYvvXTl2Lgik6YOSNKVHKJYNYmj6tG12rgOfZ0PPvUi
- YdSAc1FJTvKe/URidUJgmSB2Mx/+8SUvR03LStrcimnigBMaPOaw
-X-Google-Smtp-Source: AGHT+IEoGW24ksT66HHraFP4oEKN9Spf0jqteT8yEG4FT9dHw4nDvTT2D34wnyI7WHKbReQAMyG4YA==
-X-Received: by 2002:a05:600c:4e90:b0:431:55c1:f440 with SMTP id
- 5b1f17b1804b1-432df798e68mr122198235e9.30.1731950656282; 
- Mon, 18 Nov 2024 09:24:16 -0800 (PST)
-Received: from fedora ([213.94.25.69]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432da298c97sm165918175e9.40.2024.11.18.09.24.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Nov 2024 09:24:15 -0800 (PST)
-Date: Mon, 18 Nov 2024 18:24:14 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
- dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
- helen.koike@collabora.com, jeremie.dautheribes@bootlin.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- marcheu@google.com, melissa.srw@gmail.com,
- miquel.raynal@bootlin.com, mripard@kernel.org,
- nicolejadeyee@google.com, pekka.paalanen@haloniitty.fi,
- rdunlap@infradead.org, rodrigosiqueiramelo@gmail.com,
- seanpaul@google.com, simona.vetter@ffwll.ch, simona@ffwll.ch,
- thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: Re: [PATCH v13 5/9] drm/vkms: Update pixels accessor to support
- packed and multi-plane formats.
-Message-ID: <Zzt4PiTRqwmikMnm@fedora>
-References: <20241031-yuv-v13-5-bd5463126faa@bootlin.com>
- <20241118171037.2847-1-jose.exposito89@gmail.com>
- <Zzt2l0hZpKp4mniY@louis-chauvet-laptop>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1125110E248
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 17:29:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZdWqwTmYJvdMHxW/mnbGcY+rHQTvmPzjTirJcTfNW6mFI3uvYb1tKO3B9slq/e8SFyf3UeZCMGVKYFyKTfeywvgcmKvuBEglW5TMPdWSvc32H8YfpxrQWgIiom3WnvA2QMEZpXJLJsldgAzsFmybakqV3VzdXsynrI2Yf1jMfHai1MKL1i0M8KkonA2AM0KlMGwgPmbf/HDyJ9NzQNIQDEFPYh0XqTkxKEn1x1o+YaLsj4q8OGfBlNWffUwaYrxSK2unKati+7Rm+6JESLWFp8ijSWfS/OPABTV290beDMF1aCcs9PFwkz30HeE/zmO++WGm8I43KG3dZcDFoZuVYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NRpaPcO/RXuq4Qde8hUEHqFx9hLMe4m11ddf1p14D4g=;
+ b=OTTFOlLcC4foPA1ysrnBa8PvA2y7csXQ0XkKM4pNId78OVuMZbYjy25/kx9EXs0eZ6QiG3W5pZaqi+flfT9A51TgmvRXuXzMUEQ84uQMswR+pko1pCRKeFAw0pH1goOeEVs82l+iWiAg97bz2KigvpWX4ZDTXD8GSYuyxIlrdTq5/TA1V6Tl/wzpsa1ajTTzJrzA7AOHBir2s4j9II7ZhugfCqAhvlBLLSqDsNOPmq1n66LBCu3G2yFKlKMjfdFtZIR4Md2yZ67Qo2h/mF9wd8++BMn7XBVIW5VnmfFzoeD3Vd6dB1zkdY3dETqkXH3bhL/WM3tbPyt7yidJGH2KVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.12) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NRpaPcO/RXuq4Qde8hUEHqFx9hLMe4m11ddf1p14D4g=;
+ b=taJrxGKcXdIMzz7iQlLObY2nn0rrXS138IF7k48pcMk+0ZBWFMA21kRR2ZaT9NY1hfgKZPyh0uaJWag+9b3LONP40mV4YKci0bNVn4ZTRvdksDWKaUo4aP51yrDfbSAyBgsIz0s9DL8tQYLEZh3jtreaeiytjyu6wu11bkS/8Fc=
+Received: from BL1PR13CA0333.namprd13.prod.outlook.com (2603:10b6:208:2c6::8)
+ by MN0PR12MB5908.namprd12.prod.outlook.com (2603:10b6:208:37c::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.21; Mon, 18 Nov
+ 2024 17:29:54 +0000
+Received: from MN1PEPF0000ECD5.namprd02.prod.outlook.com
+ (2603:10b6:208:2c6:cafe::3e) by BL1PR13CA0333.outlook.office365.com
+ (2603:10b6:208:2c6::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.13 via Frontend
+ Transport; Mon, 18 Nov 2024 17:29:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.12)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.12 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.12; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.12) by
+ MN1PEPF0000ECD5.mail.protection.outlook.com (10.167.242.133) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8158.14 via Frontend Transport; Mon, 18 Nov 2024 17:29:53 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 18 Nov
+ 2024 11:29:53 -0600
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 18 Nov
+ 2024 11:29:53 -0600
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Mon, 18 Nov 2024 11:29:52 -0600
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <min.ma@amd.com>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
+ <king.tam@amd.com>
+Subject: [PATCH V11 00/10] AMD XDNA driver
+Date: Mon, 18 Nov 2024 09:29:32 -0800
+Message-ID: <20241118172942.2014541-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zzt2l0hZpKp4mniY@louis-chauvet-laptop>
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD5:EE_|MN0PR12MB5908:EE_
+X-MS-Office365-Filtering-Correlation-Id: b0c4c120-201f-4393-620b-08dd07f69d41
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?W+f4PMStg/HOmKIUCmOns41BgXiAetZdOjbR/C/BXRCxVv+pM+mIDD5blA+n?=
+ =?us-ascii?Q?00x9kxn94ZMode7SxPp6KwbuCWs5srmmhdSFgPPzJTprvGKsr62M5ICSrc+v?=
+ =?us-ascii?Q?l6kpmOXHcp8CK6+unog8EtjBjqazP7/1OcOgJ4p0TvgRve6XBUztLwG/+s6h?=
+ =?us-ascii?Q?TsereqGHL4GFjqjv9kTnwWaKYpYeU5AE1znZ8B9iUp8/Vd24kGL2YKBwquw3?=
+ =?us-ascii?Q?4HDtKSFyfpg3j8O9Nwbu2Aglj+Q0e4IEUQshvhm/cbEHyFE1gWJiOIKGgr57?=
+ =?us-ascii?Q?BeoGpNcUAmqj2DTcjAOOpE9X+CYdPkuqq/AxsMZ88QEZ/mD4Bwxkt5oXNLVr?=
+ =?us-ascii?Q?RCrcJCXs1IMv/th+DL0bbeOJdAWXU/HlpCQx6avigr0139uYE0b9UkBOcFBs?=
+ =?us-ascii?Q?q1qIh44LJk8oXZg4PvV6ZoD7s9mrab/r0gAcg3EYCZRLuht4L7ww6PeYw+Cn?=
+ =?us-ascii?Q?bqud4KA6dLuDyXrabB3BxUzkO3qaWqSdC9NjhInLRiTGZWcqzmEZ4aPkgz73?=
+ =?us-ascii?Q?NHwhIxpqSUPhMeHoRjIsmumg2NMWenTuLCODSX8RqG49B2bgF8XrBxJSJRdI?=
+ =?us-ascii?Q?zgq7UrYEKb7+GBYgYB9iLr1UeHdtaDCgqtZ/q4CxLNNAAxSq/vKv13wBCjcY?=
+ =?us-ascii?Q?wrsbvd7pU9kAWDYXq4iiTHy0XLTHwxnjsrwzod0Bo476NtoPIaEpVYxjHfKm?=
+ =?us-ascii?Q?Mv83cCf/s/au6Dc85skTGrT06/a5JUS85qi0jYUeJA50MVDQuirli682GQe5?=
+ =?us-ascii?Q?eSAKaheRfIpB1j1KB2XpFlgI9yIFLHSCeIldoejYFMyr911vfRKDQnZKb8SZ?=
+ =?us-ascii?Q?gVOYgCh4yxWv5xb0WS8EyNqb9cHtqDsUm1h4GnSQT8zeQL9W8Q7XawXBM9Hg?=
+ =?us-ascii?Q?PUguDDZFZ2B3tIcsVZS+5Z9+ASWk7GciuL4Ng3iKnkzqZumlJhwY/HQUHtoj?=
+ =?us-ascii?Q?DtD7CHdYgYSmFSPR90h9u+J6wq2p4bTVAjQn8fDKPWTam5PcjQ48gUx4hTVi?=
+ =?us-ascii?Q?+nEli+niHfGIjqaQ6JvWfPmn9jbchr5j1bxIyA+htPb67RPCXev6WAIBsnP3?=
+ =?us-ascii?Q?QheJS1J3g9XAhoytWkBAGVGmXC3kmeXS3XES7zIifFjRYfUVUdTHa7bsaqsi?=
+ =?us-ascii?Q?Z4W9WeoVBuPn4ltKitEcutl5Ogfe6CM6RrJOZPpIXKCJJP+HAGRlp9dqQjxw?=
+ =?us-ascii?Q?gRwL/fmNVAikZuK+IDgDcFOkcIaVJKIJXSx4iDZEdxCikdcVKL0utzHDXU+h?=
+ =?us-ascii?Q?1bzRhNDykUmbgFp7ZDiXzR8E7hucCc6bslg5K1Ai4Ftd6qUlVZNVJeppmZWe?=
+ =?us-ascii?Q?V1IjZOACQMDnhe32n10CSCPYQ4RLm0CLryDyfnnHIbxp6j42wUGwTbpi994G?=
+ =?us-ascii?Q?8fpx2Dc=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.12; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:atlvpn-bp.amd.com; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2024 17:29:53.7510 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0c4c120-201f-4393-620b-08dd07f69d41
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.12];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000ECD5.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5908
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,223 +136,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 18, 2024 at 06:17:11PM +0100, Louis Chauvet wrote:
-> On 18/11/24 - 18:10, José Expósito wrote:
-> > > Introduce the usage of block_h/block_w to compute the offset and the
-> > > pointer of a pixel. The previous implementation was specialized for
-> > > planes with block_h == block_w == 1. To avoid confusion and allow easier
-> > > implementation of tiled formats. It also remove the usage of the
-> > > deprecated format field `cpp`.
-> > > 
-> > > Introduce the plane_index parameter to get an offset/pointer on a
-> > > different plane.
-> > > 
-> > > Acked-by: Maíra Canal <mairacanal@riseup.net>
-> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > ---
-> > >  drivers/gpu/drm/vkms/vkms_formats.c | 114 ++++++++++++++++++++++++++++--------
-> > >  1 file changed, 91 insertions(+), 23 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> > > index 06aef5162529..7f932d42394d 100644
-> > > --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> > > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> > > @@ -10,22 +10,46 @@
-> > >  #include "vkms_formats.h"
-> > >  
-> > >  /**
-> > > - * pixel_offset() - Get the offset of the pixel at coordinates x/y in the first plane
-> > > + * packed_pixels_offset() - Get the offset of the block containing the pixel at coordinates x/y
-> > >   *
-> > >   * @frame_info: Buffer metadata
-> > >   * @x: The x coordinate of the wanted pixel in the buffer
-> > >   * @y: The y coordinate of the wanted pixel in the buffer
-> > > + * @plane_index: The index of the plane to use
-> > > + * @offset: The returned offset inside the buffer of the block
-> > 
-> > The previous function (pixel_offset) returned a size_t for the offset rather
-> > than an int. Do you know if we are safe using an int in this case?
-> 
-> I think I used int everywhere because it may avoid strange issues with 
-> implicit casting and negative number. I don't remember exactly where, but 
-> Pekka suggested it.
+This patchset introduces a new Linux Kernel Driver, amdxdna for AMD NPUs.
+The driver is based on Linux accel subsystem.
 
-Ah! Good to know. For the record, I ran locally the IGT tests and
-perform some manual testing and I found no issues.
+NPU (Neural Processing Unit) is an AI inference accelerator integrated
+into AMD client CPUs. NPU enables efficient execution of Machine Learning
+applications like CNNs, LLMs, etc.  NPU is based on AMD XDNA
+architecture [1].
 
-> > > + * @rem_x: The returned X coordinate of the requested pixel in the block
-> > > + * @rem_y: The returned Y coordinate of the requested pixel in the block
-> > >   *
-> > > - * The caller must ensure that the framebuffer associated with this request uses a pixel format
-> > > - * where block_h == block_w == 1.
-> > > - * If this requirement is not fulfilled, the resulting offset can point to an other pixel or
-> > > - * outside of the buffer.
-> > > + * As some pixel formats store multiple pixels in a block (DRM_FORMAT_R* for example), some
-> > > + * pixels are not individually addressable. This function return 3 values: the offset of the
-> > > + * whole block, and the coordinate of the requested pixel inside this block.
-> > > + * For example, if the format is DRM_FORMAT_R1 and the requested coordinate is 13,5, the offset
-> > > + * will point to the byte 5*pitches + 13/8 (second byte of the 5th line), and the rem_x/rem_y
-> > > + * coordinates will be (13 % 8, 5 % 1) = (5, 0)
-> > > + *
-> > > + * With this function, the caller just have to extract the correct pixel from the block.
-> > >   */
-> > > -static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
-> > > +static void packed_pixels_offset(const struct vkms_frame_info *frame_info, int x, int y,
-> > > +				 int plane_index, int *offset, int *rem_x, int *rem_y)
-> > >  {
-> > >  	struct drm_framebuffer *fb = frame_info->fb;
-> > > +	const struct drm_format_info *format = frame_info->fb->format;
-> > > +	/* Directly using x and y to multiply pitches and format->ccp is not sufficient because
-> > > +	 * in some formats a block can represent multiple pixels.
-> > > +	 *
-> > > +	 * Dividing x and y by the block size allows to extract the correct offset of the block
-> > > +	 * containing the pixel.
-> > > +	 */
-> > >  
-> > > -	return fb->offsets[0] + (y * fb->pitches[0]) + (x * fb->format->cpp[0]);
-> > > +	int block_x = x / drm_format_info_block_width(format, plane_index);
-> > > +	int block_y = y / drm_format_info_block_height(format, plane_index);
-> > > +	int block_pitch = fb->pitches[plane_index] * drm_format_info_block_height(format,
-> > > +										  plane_index);
-> > > +	*rem_x = x % drm_format_info_block_width(format, plane_index);
-> > > +	*rem_y = y % drm_format_info_block_height(format, plane_index);
-> > > +	*offset = fb->offsets[plane_index] +
-> > > +		  block_y * block_pitch +
-> > > +		  block_x * format->char_per_block[plane_index];
-> > >  }
-> > >  
-> > >  /**
-> > > @@ -35,30 +59,71 @@ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int
-> > >   * @frame_info: Buffer metadata
-> > >   * @x: The x (width) coordinate inside the plane
-> > >   * @y: The y (height) coordinate inside the plane
-> > > + * @plane_index: The index of the plane
-> > > + * @addr: The returned pointer
-> > > + * @rem_x: The returned X coordinate of the requested pixel in the block
-> > > + * @rem_y: The returned Y coordinate of the requested pixel in the block
-> > >   *
-> > > - * Takes the information stored in the frame_info, a pair of coordinates, and
-> > > - * returns the address of the first color channel.
-> > > - * This function assumes the channels are packed together, i.e. a color channel
-> > > - * comes immediately after another in the memory. And therefore, this function
-> > > - * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
-> > > + * Takes the information stored in the frame_info, a pair of coordinates, and returns the address
-> > > + * of the block containing this pixel and the pixel position inside this block.
-> > >   *
-> > > - * The caller must ensure that the framebuffer associated with this request uses a pixel format
-> > > - * where block_h == block_w == 1, otherwise the returned pointer can be outside the buffer.
-> > > + * See @packed_pixel_offset for details about rem_x/rem_y behavior.
-> > 
-> > Missing "s" in the name of the function. Should read "@packed_pixels_offset".
-> 
-> Thanks!
-> 
-> > >   */
-> > > -static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
-> > > -				int x, int y)
-> > > +static void packed_pixels_addr(const struct vkms_frame_info *frame_info,
-> > > +			       int x, int y, int plane_index, u8 **addr, int *rem_x,
-> > > +			       int *rem_y)
-> > >  {
-> > > -	size_t offset = pixel_offset(frame_info, x, y);
-> > > +	int offset;
-> > >  
-> > > -	return (u8 *)frame_info->map[0].vaddr + offset;
-> > > +	packed_pixels_offset(frame_info, x, y, plane_index, &offset, rem_x, rem_y);
-> > > +	*addr = (u8 *)frame_info->map[0].vaddr + offset;
-> > >  }
-> > >  
-> > > -static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y)
-> > > +/**
-> > > + * packed_pixels_addr_1x1() - Get the pointer to the block containing the pixel at the given
-> > > + * coordinates
-> > > + *
-> > > + * @frame_info: Buffer metadata
-> > > + * @x: The x (width) coordinate inside the plane
-> > > + * @y: The y (height) coordinate inside the plane
-> > > + * @plane_index: The index of the plane
-> > > + * @addr: The returned pointer
-> > > + *
-> > > + * This function can only be used with format where block_h == block_w == 1.
-> > > + */
-> > > +static void packed_pixels_addr_1x1(const struct vkms_frame_info *frame_info,
-> > > +				   int x, int y, int plane_index, u8 **addr)
-> > > +{
-> > > +	int offset, rem_x, rem_y;
-> > 
-> > Nitpick, but it'd be nice if packed_pixels_offset() could take NULLs in
-> > the output values so we avoid declaring unused variables here and when
-> > calling packed_pixels_addr().
-> 
-> It is not a trivial change, and as I want this series to be merged I will 
-> send the v14 without it. But if I have the time I will send a new 
-> patch/series with this cleanup, thanks for the suggestion.
+AMD NPU consists of the following components:
 
-That works for me, we can always fix it in a follow up... Specially since
-2 other series depend on this one :)
+  - Tiled array of AMD AI Engine processors.
+  - Micro Controller which runs the NPU Firmware responsible for
+    command processing, AIE array configuration, and execution management.
+  - PCI EP for host control of the NPU device.
+  - Interconnect for connecting the NPU components together.
+  - SRAM for use by the NPU Firmware.
+  - Address translation hardware for protected host memory access by the
+    NPU.
 
-Jose
- 
-> > > +
-> > > +	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format,
-> > > +					      plane_index) != 1,
-> > > +		"%s() only support formats with block_w == 1", __func__);
-> > > +	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format,
-> > > +					       plane_index) != 1,
-> > > +		"%s() only support formats with block_h == 1", __func__);
-> > > +
-> > > +	packed_pixels_offset(frame_info, x, y, plane_index, &offset, &rem_x,
-> > > +			     &rem_y);
-> > > +	*addr = (u8 *)frame_info->map[0].vaddr + offset;
-> > > +}
-> > > +
-> > > +static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y,
-> > > +				 int plane_index)
-> > >  {
-> > >  	int x_src = frame_info->src.x1 >> 16;
-> > >  	int y_src = y - frame_info->rotated.y1 + (frame_info->src.y1 >> 16);
-> > > +	u8 *addr;
-> > > +	int rem_x, rem_y;
-> > > +
-> > > +	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format, plane_index) != 1,
-> > > +		  "%s() only support formats with block_w == 1", __func__);
-> > > +	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format, plane_index) != 1,
-> > > +		  "%s() only support formats with block_h == 1", __func__);
-> > >  
-> > > -	return packed_pixels_addr(frame_info, x_src, y_src);
-> > > +	packed_pixels_addr(frame_info, x_src, y_src, plane_index, &addr, &rem_x, &rem_y);
-> > > +
-> > > +	return addr;
-> > >  }
-> > >  
-> > >  static int get_x_position(const struct vkms_frame_info *frame_info, int limit, int x)
-> > > @@ -152,14 +217,14 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
-> > >  {
-> > >  	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> > >  	struct vkms_frame_info *frame_info = plane->frame_info;
-> > > -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
-> > > +	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
-> > >  	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
-> > >  
-> > >  	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
-> > >  		int x_pos = get_x_position(frame_info, limit, x);
-> > >  
-> > >  		if (drm_rotation_90_or_270(frame_info->rotation))
-> > > -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
-> > > +			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
-> > >  				+ frame_info->fb->format->cpp[0] * y;
-> > >  
-> > >  		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
-> > > @@ -250,7 +315,10 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
-> > >  {
-> > >  	struct vkms_frame_info *frame_info = &wb->wb_frame_info;
-> > >  	int x_dst = frame_info->dst.x1;
-> > > -	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-> > > +	u8 *dst_pixels;
-> > > +	int rem_x, rem_y;
-> > > +
-> > > +	packed_pixels_addr(frame_info, x_dst, y, 0, &dst_pixels, &rem_x, &rem_y);
-> > >  	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-> > >  	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
-> > >  
-> > > 
+NPU supports multiple concurrent fully isolated contexts. Concurrent
+contexts may be bound to AI Engine array spatially and or temporarily.
+
+The driver is licensed under GPL-2.0 except for UAPI header which is
+licensed GPL-2.0 WITH Linux-syscall-note.
+
+User mode driver stack consists of XRT [2] and AMD AIE Plugin for IREE [3].
+
+The firmware for the NPU is distributed as a closed source binary, and has
+already been pushed to the DRM firmware repository [4].
+
+[1] https://www.amd.com/en/technologies/xdna.html
+[2] https://github.com/Xilinx/XRT
+[3] https://github.com/nod-ai/iree-amd-aie
+[4] https://gitlab.freedesktop.org/drm/firmware/-/tree/amd-ipu-staging/amdnpu
+
+Changes since v10:
+- Fix build error against drm-misc
+
+Changes since v9:
+- Change notifier_lock to rw_semaphore
+
+Changes since v8:
+- Fix mis-merged line
+
+Changes since v7:
+- Prealloc dma fence chain before publishing dma-fence
+- Install the job's finished fence in dma-resv rather than driver fence
+
+Changes since v6:
+- Revise command submission flow
+
+Changes since v5:
+- Remove wait_cmd ioctl and use syncobj instead
+- Cleanup spelling errors
+- Add dependencies in Kconfig
+
+Changes since v4:
+- Fix lockdep errors
+- Use __u* structure for struct aie_error
+
+Changes since v3:
+- Remove debug BO patch
+- Changes based on code review comments
+
+Changes since v2:
+- Add document amdnpu.rst
+- Change AIE2_DEVM_SIZE to 64M due to firmware change
+- Changes based on code review comments
+
+Changes since v1:
+- Remove some inline defines
+- Minor changes based on code review comments
+
+Lizhi Hou (10):
+  accel/amdxdna: Add documentation for AMD NPU accelerator driver
+  accel/amdxdna: Add a new driver for AMD AI Engine
+  accel/amdxdna: Support hardware mailbox
+  accel/amdxdna: Add hardware resource solver
+  accel/amdxdna: Add hardware context
+  accel/amdxdna: Add GEM buffer object management
+  accel/amdxdna: Add command execution
+  accel/amdxdna: Add suspend and resume
+  accel/amdxdna: Add error handling
+  accel/amdxdna: Add query functions
+
+ Documentation/accel/amdxdna/amdnpu.rst        | 281 ++++++
+ Documentation/accel/amdxdna/index.rst         |  11 +
+ Documentation/accel/index.rst                 |   1 +
+ MAINTAINERS                                   |  11 +
+ drivers/accel/Kconfig                         |   1 +
+ drivers/accel/Makefile                        |   1 +
+ drivers/accel/amdxdna/Kconfig                 |  18 +
+ drivers/accel/amdxdna/Makefile                |  21 +
+ drivers/accel/amdxdna/TODO                    |   5 +
+ drivers/accel/amdxdna/aie2_ctx.c              | 900 ++++++++++++++++++
+ drivers/accel/amdxdna/aie2_error.c            | 360 +++++++
+ drivers/accel/amdxdna/aie2_message.c          | 791 +++++++++++++++
+ drivers/accel/amdxdna/aie2_msg_priv.h         | 370 +++++++
+ drivers/accel/amdxdna/aie2_pci.c              | 762 +++++++++++++++
+ drivers/accel/amdxdna/aie2_pci.h              | 259 +++++
+ drivers/accel/amdxdna/aie2_psp.c              | 146 +++
+ drivers/accel/amdxdna/aie2_smu.c              | 119 +++
+ drivers/accel/amdxdna/aie2_solver.c           | 330 +++++++
+ drivers/accel/amdxdna/aie2_solver.h           | 154 +++
+ drivers/accel/amdxdna/amdxdna_ctx.c           | 553 +++++++++++
+ drivers/accel/amdxdna/amdxdna_ctx.h           | 162 ++++
+ drivers/accel/amdxdna/amdxdna_gem.c           | 622 ++++++++++++
+ drivers/accel/amdxdna/amdxdna_gem.h           |  65 ++
+ drivers/accel/amdxdna/amdxdna_mailbox.c       | 576 +++++++++++
+ drivers/accel/amdxdna/amdxdna_mailbox.h       | 124 +++
+ .../accel/amdxdna/amdxdna_mailbox_helper.c    |  61 ++
+ .../accel/amdxdna/amdxdna_mailbox_helper.h    |  42 +
+ drivers/accel/amdxdna/amdxdna_pci_drv.c       | 409 ++++++++
+ drivers/accel/amdxdna/amdxdna_pci_drv.h       | 123 +++
+ drivers/accel/amdxdna/amdxdna_sysfs.c         |  67 ++
+ drivers/accel/amdxdna/npu1_regs.c             | 101 ++
+ drivers/accel/amdxdna/npu2_regs.c             | 118 +++
+ drivers/accel/amdxdna/npu4_regs.c             | 118 +++
+ drivers/accel/amdxdna/npu5_regs.c             | 118 +++
+ include/trace/events/amdxdna.h                | 101 ++
+ include/uapi/drm/amdxdna_accel.h              | 436 +++++++++
+ 36 files changed, 8337 insertions(+)
+ create mode 100644 Documentation/accel/amdxdna/amdnpu.rst
+ create mode 100644 Documentation/accel/amdxdna/index.rst
+ create mode 100644 drivers/accel/amdxdna/Kconfig
+ create mode 100644 drivers/accel/amdxdna/Makefile
+ create mode 100644 drivers/accel/amdxdna/TODO
+ create mode 100644 drivers/accel/amdxdna/aie2_ctx.c
+ create mode 100644 drivers/accel/amdxdna/aie2_error.c
+ create mode 100644 drivers/accel/amdxdna/aie2_message.c
+ create mode 100644 drivers/accel/amdxdna/aie2_msg_priv.h
+ create mode 100644 drivers/accel/amdxdna/aie2_pci.c
+ create mode 100644 drivers/accel/amdxdna/aie2_pci.h
+ create mode 100644 drivers/accel/amdxdna/aie2_psp.c
+ create mode 100644 drivers/accel/amdxdna/aie2_smu.c
+ create mode 100644 drivers/accel/amdxdna/aie2_solver.c
+ create mode 100644 drivers/accel/amdxdna/aie2_solver.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_ctx.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_ctx.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_gem.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_gem.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_mailbox.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_mailbox.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_mailbox_helper.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_mailbox_helper.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_pci_drv.c
+ create mode 100644 drivers/accel/amdxdna/amdxdna_pci_drv.h
+ create mode 100644 drivers/accel/amdxdna/amdxdna_sysfs.c
+ create mode 100644 drivers/accel/amdxdna/npu1_regs.c
+ create mode 100644 drivers/accel/amdxdna/npu2_regs.c
+ create mode 100644 drivers/accel/amdxdna/npu4_regs.c
+ create mode 100644 drivers/accel/amdxdna/npu5_regs.c
+ create mode 100644 include/trace/events/amdxdna.h
+ create mode 100644 include/uapi/drm/amdxdna_accel.h
+
+-- 
+2.34.1
+
