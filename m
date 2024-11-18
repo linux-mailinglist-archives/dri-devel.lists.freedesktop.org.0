@@ -2,60 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D63E9D1087
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 13:23:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA279D10CB
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2024 13:43:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6671D10E460;
-	Mon, 18 Nov 2024 12:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6A8F10E070;
+	Mon, 18 Nov 2024 12:42:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DQkCA7Gs";
+	dkim=pass (2048-bit key; unprotected) header.d=maxima.ru header.i=@maxima.ru header.b="mhiL004E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 436E410E456;
- Mon, 18 Nov 2024 12:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1731932633; x=1763468633;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=dKfZbs8Yf4qOElOT3zCS8R2Ar21yXZhZAGOvpS5Rklc=;
- b=DQkCA7GsAMrWUe191atJwsD7idq+mgDzKRKCWONwIDllHmsO/4LrLFsC
- xJhO3ODNbfuwB16epcLTFc1wGIU0QW3KcXhXSEWsgl0M3nrWHkVxxUdLI
- VpwVFjY+G5UVXWlSIU6vzk5HaHFhlAu8/uKwWxNzgzCl1VIayZek4+00a
- sNVVlh0vHSr2/tubnxD7ZYJ+5INWBYzQmaMdKd6xLUY9FeTHLEIp789QQ
- xN/senJLfn0ntLS52quJDAdjorqeNOIgx3epDeG7oBHcwkn2zbLWyIlJu
- unPQ/BLSpQvX4AbuyvmAg5oeQLQdr6oCEmcZBOFZ310gMubRbBZAkgERV A==;
-X-CSE-ConnectionGUID: nqKQ/s0RQpyk8uGuf6N0oQ==
-X-CSE-MsgGUID: N61fjd78T4yuM+Mu+kCkhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42520667"
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; d="scan'208";a="42520667"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 04:23:53 -0800
-X-CSE-ConnectionGUID: D3h/LFdHQHSlQBShZsyIjQ==
-X-CSE-MsgGUID: jk81qSYPTta5bqe+dKfdKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; d="scan'208";a="88992634"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.148])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 04:23:51 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/4] drm/i915/dp_mst: Expose a connector to kernel users
- after it's properly initialized
-In-Reply-To: <Zzsvw4Dc7kgyR8xs@ideak-desk.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241115164159.1081675-1-imre.deak@intel.com>
- <20241115164159.1081675-3-imre.deak@intel.com> <878qtg4u75.fsf@intel.com>
- <Zzsvw4Dc7kgyR8xs@ideak-desk.fi.intel.com>
-Date: Mon, 18 Nov 2024 14:23:48 +0200
-Message-ID: <875xok4tnv.fsf@intel.com>
+Received: from ksmg02.maxima.ru (ksmg02.maxima.ru [81.200.124.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B93810E070
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2024 12:42:56 +0000 (UTC)
+Received: from ksmg02.maxima.ru (localhost [127.0.0.1])
+ by ksmg02.maxima.ru (Postfix) with ESMTP id F0D291E0008;
+ Mon, 18 Nov 2024 15:42:52 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg02.maxima.ru F0D291E0008
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxima.ru; s=sl;
+ t=1731933772; bh=j5rebjL+mlIZO9+tBTCrAr7sdKNYnS0zH0ITX1r28zg=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+ b=mhiL004EOfb/i23Uf6HPyZDhiOCRKbSfR6joCbYcyhowapXjRPx28SuF3zMUnDbzv
+ slWm0rkEpB4ioYV4QWDHJO743PGz/MOvO6Dv31alMkuMrb6yz4Z8MtwDUfS0XjEbsI
+ ymiKTZY5zXGKHTAaF2a13i/Y7iqW21nWllh5H6sfWCHif5iB8uVMl9pdxHg1LZ3jvk
+ f6L/QO1ic3ml+VZzJpkAt6YkyYPR2gP3yqq+Ui1J+GmNHBteETeuWMdftOdGbkml/E
+ INVFGEjMj9tb22js5+ETDZOecqeoCtJWqALqaVAzuznMzWYO1TvAt5PirZtAHtx8dv
+ EDSBeGfsjH6pw==
+Received: from ksmg02.maxima.ru (mail.maxima.ru [81.200.124.62])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "*.maxima.ru",
+ Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+ by ksmg02.maxima.ru (Postfix) with ESMTPS;
+ Mon, 18 Nov 2024 15:42:52 +0300 (MSK)
+Received: from GS-NOTE-190.mt.ru (10.0.246.216) by mmail-p-exch02.mt.ru
+ (81.200.124.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Mon, 18 Nov
+ 2024 15:42:49 +0300
+From: Murad Masimov <m.masimov@maxima.ru>
+To: Kenneth Feng <kenneth.feng@amd.com>
+CC: Murad Masimov <m.masimov@maxima.ru>, Alex Deucher
+ <alexander.deucher@amd.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Ma Jun
+ <Jun.Ma2@amd.com>, Lijo Lazar <lijo.lazar@amd.com>, Yang Wang
+ <kevinyang.wang@amd.com>, Asad Kamal <asad.kamal@amd.com>, Hawking Zhang
+ <Hawking.Zhang@amd.com>, Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, 
+ Tim Huang <Tim.Huang@amd.com>, Tao Zhou <tao.zhou1@amd.com>, Mario
+ Limonciello <mario.limonciello@amd.com>, Jesse Zhang <jesse.zhang@amd.com>,
+ Evan Quan <quanliangl@hotmail.com>, Kevin Wang <kevin1.wang@amd.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
+Subject: [PATCH] drm/amd/pm: prevent invalid fan speed value in smu13 driver
+Date: Mon, 18 Nov 2024 15:42:17 +0300
+Message-ID: <20241118124220.274-1-m.masimov@maxima.ru>
+X-Mailer: git-send-email 2.46.0.windows.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [10.0.246.216]
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch02.mt.ru
+ (81.200.124.62)
+X-KSMG-Rule-ID: 7
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 189241 [Nov 18 2024]
+X-KSMG-AntiSpam-Version: 6.1.1.7
+X-KSMG-AntiSpam-Envelope-From: m.masimov@maxima.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=maxima.ru;
+ spf=none smtp.mailfrom=maxima.ru; dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 41 0.3.41
+ 623e98d5198769c015c72f45fabbb9f77bdb702b, {rep_avail},
+ {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2; maxima.ru:7.1.1;
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; ksmg02.maxima.ru:7.1.1;
+ 81.200.124.62:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.62
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960,
+ bases: 2024/11/18 10:31:00 #26875800
+X-KSMG-AntiVirus-Status: Clean, skipped
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,94 +99,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 18 Nov 2024, Imre Deak <imre.deak@intel.com> wrote:
-> On Mon, Nov 18, 2024 at 02:12:14PM +0200, Jani Nikula wrote:
->> On Fri, 15 Nov 2024, Imre Deak <imre.deak@intel.com> wrote:
->> > After a connector is added to the drm_mode_config::connector_list, it's
->> > visible to any in-kernel users looking up connectors via the above list.
->> > Make sure that the connector is properly initialized before such
->> > look-ups.
->> >
->> > Signed-off-by: Imre Deak <imre.deak@intel.com>
->> > ---
->> >  drivers/gpu/drm/i915/display/intel_dp_mst.c | 29 ++++++++-------------
->> >  1 file changed, 11 insertions(+), 18 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
->> > index f058360a26413..d91a1d1fb26f4 100644
->> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
->> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
->> > @@ -1719,6 +1719,8 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
->> >  	if (!intel_connector)
->> >  		return NULL;
->> >  
->> > +	connector = &intel_connector->base;
->> 
->> I'd rather see a patch s/intel_connector/connector/ and using
->> &connector->base for drm_connector.
->
-> Yes, thought the same and did it. However I think that should be done
-> converting all the other intel_connector usage in the file. Is that ok
-> with you?
+If user-provided fan speed is higher than max speed, ->set_fan_speed_rpm() won't
+return error code, which can lead not only to problems with the hardware, but
+also to a zero division in smu_v13_0_set_fan_speed_rpm, since (8 * speed), which
+is used as a divisor, can evaluate to zero because of an integer overflow.
 
-Works for me.
+Define ->get_fan_parameters() callbacks for smu_v13_0_0 and smu_v13_0_7 in order
+to have smu->fan_max_rpm variable initialized. Modify ->set_fan_speed_rpm()
+callback to fail if speed is higher than smu->fan_max_rpm.
 
->
->> 
->> > +
->> >  	intel_connector->get_hw_state = intel_dp_mst_get_hw_state;
->> >  	intel_connector->sync_state = intel_dp_connector_sync_state;
->> >  	intel_connector->mst_port = intel_dp;
->> > @@ -1727,30 +1729,19 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
->> >  
->> >  	intel_dp_init_modeset_retry_work(intel_connector);
->> >  
->> > -	/*
->> > -	 * TODO: The following drm_connector specific initialization belongs
->> > -	 * to DRM core, however it happens atm too late in
->> > -	 * drm_connector_init(). That function will also expose the connector
->> > -	 * to in-kernel users, so it can't be called until the connector is
->> > -	 * sufficiently initialized; init the device pointer used by the
->> > -	 * following DSC setup, until a fix moving this to DRM core.
->> > -	 */
->> > -	intel_connector->base.dev = mgr->dev;
->> > -
->> > -	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
->> > -	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
->> > -	intel_connector->dp.dsc_hblank_expansion_quirk =
->> > -		detect_dsc_hblank_expansion_quirk(intel_connector);
->> > -
->> > -	connector = &intel_connector->base;
->> > -	ret = drm_connector_init(display->drm, connector, &intel_dp_mst_connector_funcs,
->> > -				 DRM_MODE_CONNECTOR_DisplayPort);
->> > +	ret = drm_connector_init_core(display->drm, connector, &intel_dp_mst_connector_funcs,
->> > +				      DRM_MODE_CONNECTOR_DisplayPort);
->> >  	if (ret) {
->> >  		drm_dp_mst_put_port_malloc(port);
->> >  		intel_connector_free(intel_connector);
->> >  		return NULL;
->> >  	}
->> >  
->> > +	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
->> > +	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
->> > +	intel_connector->dp.dsc_hblank_expansion_quirk =
->> > +		detect_dsc_hblank_expansion_quirk(intel_connector);
->> > +
->> >  	drm_connector_helper_add(connector, &intel_dp_mst_connector_helper_funcs);
->> >  
->> >  	for_each_pipe(display, pipe) {
->> > @@ -1771,6 +1762,8 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
->> >  		drm_dbg_kms(display->drm, "[%s:%d] HDCP MST init failed, skipping.\n",
->> >  			    connector->name, connector->base.id);
->> >  
->> > +	drm_connector_add(connector);
->> > +
->> >  	return connector;
->> >  
->> >  err:
->> 
->> -- 
->> Jani Nikula, Intel
+Fixes: c05d1c401572 ("drm/amd/swsmu: add aldebaran smu13 ip support (v3)")
+Signed-off-by: Murad Masimov <m.masimov@maxima.ru>
+---
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c       |  2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c | 11 +++++++++++
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c | 11 +++++++++++
+ 3 files changed, 23 insertions(+), 1 deletion(-)
 
--- 
-Jani Nikula, Intel
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+index e17466cc1952..6f3277639fe9 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+@@ -1228,7 +1228,7 @@ int smu_v13_0_set_fan_speed_rpm(struct smu_context *smu,
+ 	uint32_t tach_period;
+ 	int ret;
+
+-	if (!speed)
++	if (!speed || speed > smu->fan_max_rpm)
+ 		return -EINVAL;
+
+ 	ret = smu_v13_0_auto_fan_control(smu, 0);
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
+index d53e162dcd8d..44844cddb3bf 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
+@@ -947,6 +947,16 @@ static int smu_v13_0_0_get_dpm_ultimate_freq(struct smu_context *smu,
+ 	return 0;
+ }
+
++static int smu_v13_0_0_get_fan_parameters(struct smu_context *smu)
++{
++	struct smu_table_context *table_context = &smu->smu_table;
++	PPTable_t *smc_pptable = table_context->driver_pptable;
++
++	smu->fan_max_rpm = smc_pptable->SkuTable.FanMaximumRpm;
++
++	return 0;
++}
++
+ static int smu_v13_0_0_read_sensor(struct smu_context *smu,
+ 				   enum amd_pp_sensors sensor,
+ 				   void *data,
+@@ -3045,6 +3055,7 @@ static const struct pptable_funcs smu_v13_0_0_ppt_funcs = {
+ 	.get_dpm_ultimate_freq = smu_v13_0_0_get_dpm_ultimate_freq,
+ 	.get_vbios_bootup_values = smu_v13_0_get_vbios_bootup_values,
+ 	.read_sensor = smu_v13_0_0_read_sensor,
++	.get_fan_parameters = smu_v13_0_0_get_fan_parameters,
+ 	.feature_is_enabled = smu_cmn_feature_is_enabled,
+ 	.print_clk_levels = smu_v13_0_0_print_clk_levels,
+ 	.force_clk_levels = smu_v13_0_0_force_clk_levels,
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
+index b891a5e0a396..b305bce1bccc 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
+@@ -936,6 +936,16 @@ static int smu_v13_0_7_get_dpm_ultimate_freq(struct smu_context *smu,
+ 	return 0;
+ }
+
++static int smu_v13_0_7_get_fan_parameters(struct smu_context *smu)
++{
++	struct smu_table_context *table_context = &smu->smu_table;
++	PPTable_t *smc_pptable = table_context->driver_pptable;
++
++	smu->fan_max_rpm = smc_pptable->SkuTable.FanMaximumRpm;
++
++	return 0;
++}
++
+ static int smu_v13_0_7_read_sensor(struct smu_context *smu,
+ 				   enum amd_pp_sensors sensor,
+ 				   void *data,
+@@ -2628,6 +2638,7 @@ static const struct pptable_funcs smu_v13_0_7_ppt_funcs = {
+ 	.get_dpm_ultimate_freq = smu_v13_0_7_get_dpm_ultimate_freq,
+ 	.get_vbios_bootup_values = smu_v13_0_get_vbios_bootup_values,
+ 	.read_sensor = smu_v13_0_7_read_sensor,
++	.get_fan_parameters = smu_v13_0_7_get_fan_parameters,
+ 	.feature_is_enabled = smu_cmn_feature_is_enabled,
+ 	.print_clk_levels = smu_v13_0_7_print_clk_levels,
+ 	.force_clk_levels = smu_v13_0_7_force_clk_levels,
+--
+2.39.2
+
