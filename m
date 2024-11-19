@@ -2,69 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37CB59D2776
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 14:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548949D277D
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 14:58:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A53DE10E649;
-	Tue, 19 Nov 2024 13:57:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8B7610E64B;
+	Tue, 19 Nov 2024 13:58:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bjDETx1Q";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ENRO+tIt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9FD310E649
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 13:57:01 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 07E02FF802;
- Tue, 19 Nov 2024 13:56:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1732024620;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eEhuJhuC8Rrt6KI/zmgj1OqwYbluzYroM2pALethV00=;
- b=bjDETx1Qafqc4UGefP1VmzRfA7MDvJZPjq3DW8VWrxhsj55paATXEB6lgfmtHLdStu0m7p
- DeptA13ldp3KlC3c/G4s06Akpez3sPzuncdKTZ/ZsUtwshgoO8K/OEAPf2o3XiM30M22c9
- /hzjdE7YYMSCTTNUixKbRj+Wf4Ap0l18klVvrAM5stB4QKsBeNUyC5TfgX6u8a5mZpxJXK
- nF5WhKg7trp1IH0izX+MLgdgALs790wvohVtUvFPucuuMWz0PfJ2ebwYNqMy9bYhwrFR1M
- BVVl6d57DARFjJBU9ESAposdP3voITD3ibN6SIKJJC1IX1PTEpMLNWWDRmCSfw==
-Date: Tue, 19 Nov 2024 14:56:57 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm/vkms: Remove index parameter from init_vkms_output
-Message-ID: <ZzyZKew8oqAZACfL@louis-chauvet-laptop>
-Mail-Followup-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241119-vkms-remove-index-v3-1-976321a3f801@bootlin.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 567A210E64B;
+ Tue, 19 Nov 2024 13:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1732024683; x=1763560683;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=eJGxFPrJFE9ky8X0fUqCbGk3IETc2/JOKdAFFUkp2Fg=;
+ b=ENRO+tItX+te9912BqxGwFnyg/vGH0kEpIyPfQpx2GMMjdYHZb9fGcRY
+ eHVnSF0ESe02Lqq26ZOmzDNir1Nrn5q4kLIrnHWDvVD8LK05q5anApZqQ
+ tS+/asOYaKCWGEf5wVQzAVQUXWt1yswx/wlCU0q7EPqJxB2pmeojmBpA2
+ uPptLZZLF6a2shbR0v80zw3/afHotEXOLhLqflzohV5w90UN/g3E+14od
+ xAWuR2lBr5zfOs7hn/fTVQJtnX/9Q1AkkEQamqNl90nUiLGUKynSmmbft
+ FnnioGaLYddTsCRImEAwWnynOhhXjRwq+/OdDfKqzwzIyjKtxx/+csGf9 g==;
+X-CSE-ConnectionGUID: giN6q99bTYi3ixo92bXLIg==
+X-CSE-MsgGUID: UFszo9AbTDi4EtZ+QG3kRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="42538201"
+X-IronPort-AV: E=Sophos;i="6.12,166,1728975600"; d="scan'208";a="42538201"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2024 05:58:03 -0800
+X-CSE-ConnectionGUID: elVXTJssQL+2wz9wcoCCrA==
+X-CSE-MsgGUID: BbsyZj8KQS6+Lk70xSF7Tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,166,1728975600"; d="scan'208";a="89496798"
+Received: from smoticic-mobl.ger.corp.intel.com (HELO [10.245.246.223])
+ ([10.245.246.223])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2024 05:58:00 -0800
+Message-ID: <e1a00a4f6ea93f63da3e255d442257c4708105ca.camel@linux.intel.com>
+Subject: Re: [PATCH v2 10/29] drm/gpuvm: Add DRM_GPUVA_OP_USER
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
+Cc: apopple@nvidia.com, airlied@gmail.com, christian.koenig@amd.com, 
+ simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
+Date: Tue, 19 Nov 2024 14:57:56 +0100
+In-Reply-To: <20241016032518.539495-11-matthew.brost@intel.com>
+References: <20241016032518.539495-1-matthew.brost@intel.com>
+ <20241016032518.539495-11-matthew.brost@intel.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-3.fc39) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241119-vkms-remove-index-v3-1-976321a3f801@bootlin.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,204 +75,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/11/24 - 14:34, Louis Chauvet wrote:
-> VKMS currently supports only one CRTC, so it make no sense to have this
-> index configurable. To avoid issues, replace this hardcoded index by
-> drm_crtc_mask when applicable.
-> 
-> There is no need to manually set a crtc mask on primary and cursor plane
-> as it is automatically set by drmm_crtc_alloc_with_planes.
-> 
-> In addition, this will remove the use of an uninitialized structure in
-> vkms_add_overlay_plane. This currently works by chance because two things:
-> - vkms_plane_init always set a possible_crtcs value, so the problematic
->   branch is never used;
-> - drm_crtc_mask on an kzalloc'd drm_crtc returns BIT(0), and the VKMS CRTC
->   always have this id.
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
-Hi Maíra, José,
-
-You told me "LGTM" for the v2, but without leaving a Acked/Reviewed-by, 
-should I add them? Or maybe you prefer to formally send them now?
-
-Thanks,
-Louis Chauvet
-
+On Tue, 2024-10-15 at 20:24 -0700, Matthew Brost wrote:
+> Add DRM_GPUVA_OP_USER which allows driver to define their own gpuvm
+> ops.
+>=20
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > ---
-> Changes in v3:
-> - Rebased on drm-misc-next
-> - Link to v2: https://lore.kernel.org/r/20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com
-> 
-> Changes in v2:
-> - Applied comments from José
-> - Link to v1: https://lore.kernel.org/r/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com
-> ---
->  drivers/gpu/drm/vkms/vkms_drv.c    |  2 +-
->  drivers/gpu/drm/vkms/vkms_drv.h    |  8 ++-----
->  drivers/gpu/drm/vkms/vkms_output.c | 49 +++++++++++++-------------------------
->  drivers/gpu/drm/vkms/vkms_plane.c  |  4 ++--
->  4 files changed, 21 insertions(+), 42 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index bab13943d8e0085bed85092d7bc8727d834768a9..e4ae69d9ef871c9ce436ad0bd8c6551d8fe7f55c 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -174,7 +174,7 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
->  	dev->mode_config.preferred_depth = 0;
->  	dev->mode_config.helper_private = &vkms_mode_config_helpers;
->  
-> -	return vkms_output_init(vkmsdev, 0);
-> +	return vkms_output_init(vkmsdev);
->  }
->  
->  static int vkms_create(struct vkms_config *config)
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 672fe191e239c03e7358d43eb19215361417a781..036101ee4ea1cb0a335cd2ea78a8ca9da87fbe93 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -212,21 +212,17 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
->   * vkms_output_init() - Initialize all sub-components needed for a VKMS device.
->   *
->   * @vkmsdev: VKMS device to initialize
-> - * @index: CRTC which can be attached to the planes. The caller must ensure that
-> - *	   @index is positive and less or equals to 31.
->   */
-> -int vkms_output_init(struct vkms_device *vkmsdev, int index);
-> +int vkms_output_init(struct vkms_device *vkmsdev);
->  
->  /**
->   * vkms_plane_init() - Initialize a plane
->   *
->   * @vkmsdev: VKMS device containing the plane
->   * @type: type of plane to initialize
-> - * @index: CRTC which can be attached to the plane. The caller must ensure that
-> - *	   @index is positive and less or equals to 31.
->   */
->  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> -				   enum drm_plane_type type, int index);
-> +				   enum drm_plane_type type);
->  
->  /* CRC Support */
->  const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 25a99fde126c7402941954015287ab0887484139..8f4bd5aef087b459d37d0cbbf90fe0145090917a 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -32,29 +32,14 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
->  	.get_modes    = vkms_conn_get_modes,
->  };
->  
-> -static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
-> -				  struct drm_crtc *crtc)
-> -{
-> -	struct vkms_plane *overlay;
-> -
-> -	overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-> -	if (IS_ERR(overlay))
-> -		return PTR_ERR(overlay);
-> -
-> -	if (!overlay->base.possible_crtcs)
-> -		overlay->base.possible_crtcs = drm_crtc_mask(crtc);
-> -
-> -	return 0;
-> -}
-> -
-> -int vkms_output_init(struct vkms_device *vkmsdev, int index)
-> +int vkms_output_init(struct vkms_device *vkmsdev)
->  {
->  	struct vkms_output *output = &vkmsdev->output;
->  	struct drm_device *dev = &vkmsdev->drm;
->  	struct drm_connector *connector = &output->connector;
->  	struct drm_encoder *encoder = &output->encoder;
->  	struct drm_crtc *crtc = &output->crtc;
-> -	struct vkms_plane *primary, *cursor = NULL;
-> +	struct vkms_plane *primary, *overlay, *cursor = NULL;
->  	int ret;
->  	int writeback;
->  	unsigned int n;
-> @@ -65,29 +50,31 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
->  	 * composition.
->  	 */
-> -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
-> +	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
->  	if (IS_ERR(primary))
->  		return PTR_ERR(primary);
->  
-> -	if (vkmsdev->config->overlay) {
-> -		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
-> -			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
-> -			if (ret)
-> -				return ret;
-> -		}
-> -	}
-> -
->  	if (vkmsdev->config->cursor) {
-> -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
-> +		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
->  		if (IS_ERR(cursor))
->  			return PTR_ERR(cursor);
->  	}
->  
-> -	/* [1]: Allocation of a CRTC, its index will be BIT(0) = 1 */
->  	ret = vkms_crtc_init(dev, crtc, &primary->base, &cursor->base);
->  	if (ret)
->  		return ret;
->  
-> +	if (vkmsdev->config->overlay) {
-> +		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
-> +			overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY);
-> +			if (IS_ERR(overlay)) {
-> +				DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
-> +				return PTR_ERR(overlay);
-> +			}
-> +			overlay->base.possible_crtcs = drm_crtc_mask(crtc);
-> +		}
-> +	}
+> =C2=A0include/drm/drm_gpuvm.h | 5 +++++
+> =C2=A01 file changed, 5 insertions(+)
+>=20
+> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+> index 00d4e43b76b6..cc3f8ed5113b 100644
+> --- a/include/drm/drm_gpuvm.h
+> +++ b/include/drm/drm_gpuvm.h
+> @@ -812,6 +812,11 @@ enum drm_gpuva_op_type {
+> =C2=A0	 * @DRM_GPUVA_OP_PREFETCH: the prefetch op type
+> =C2=A0	 */
+> =C2=A0	DRM_GPUVA_OP_PREFETCH,
 > +
->  	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
->  				 DRM_MODE_CONNECTOR_VIRTUAL);
->  	if (ret) {
-> @@ -103,11 +90,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  		DRM_ERROR("Failed to init encoder\n");
->  		goto err_encoder;
->  	}
-> -	/*
-> -	 * This is a hardcoded value to select crtc for the encoder.
-> -	 * BIT(0) here designate the first registered CRTC, the one allocated in [1]
-> -	 */
-> -	encoder->possible_crtcs = BIT(0);
-> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
->  
->  	ret = drm_connector_attach_encoder(connector, encoder);
->  	if (ret) {
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index e5c625ab8e3e06cb95f468c59bc3b06ef85eab6f..ad137c9a75f5e9ee3bb62e7bb2c5e3684a6ecbb6 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -198,12 +198,12 @@ static const struct drm_plane_helper_funcs vkms_plane_helper_funcs = {
->  };
->  
->  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> -				   enum drm_plane_type type, int index)
-> +				   enum drm_plane_type type)
->  {
->  	struct drm_device *dev = &vkmsdev->drm;
->  	struct vkms_plane *plane;
->  
-> -	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << index,
-> +	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 0,
->  					   &vkms_plane_funcs,
->  					   vkms_formats, ARRAY_SIZE(vkms_formats),
->  					   NULL, type, NULL);
-> 
-> ---
-> base-commit: 7d2faa8dbb7055a115fe0cd6068d7090094a573d
-> change-id: 20240906-vkms-remove-index-3a6e04c38e02
-> 
-> Best regards,
-> -- 
-> Louis Chauvet <louis.chauvet@bootlin.com>
-> 
+> +	/**
+> +	 * @DRM_GPUVA_OP_USER: the user defined op type
+> +	 */
+> +	DRM_GPUVA_OP_USER,
+
+Perhaps _OP_DRIVER, But Danilo might want to chime in.
+
+Otherwise LGTM.
+Thanks,
+Thomas
+
+
+
+> =C2=A0};
+> =C2=A0
+> =C2=A0/**
+
