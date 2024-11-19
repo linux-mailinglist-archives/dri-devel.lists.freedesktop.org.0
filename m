@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1529D2039
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 07:26:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737679D2037
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 07:26:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D5F10E5BE;
-	Tue, 19 Nov 2024 06:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2A1410E198;
+	Tue, 19 Nov 2024 06:26:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AzZ7qy/E";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cmyb4QOT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55BB710E5B9
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6815A10E175
  for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 06:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1731997585; x=1763533585;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/QuMJ6gVfhmhO54+FsCcaBOXE8Qmk2Qhev4ninFsNhw=;
- b=AzZ7qy/EtsthvIteEJPCc0I5WdCuLpQ5ZmIOTrx3ThFgt+kKIEdoRaZ7
- en6y7Ej0GEXWL3xM2UYMWrseupY/TUbcNaIk0CHgyJ87QSH9R5A0SF+UP
- VH60KeCVRyeN9xWEOk/ySAjEp+fZQUs32bA3TNW1ZSVZMm0RNE4+QjYRB
- sC1SBwC0B2jR69rFR3uGJqEykn35lCGZFxWpSJ/LMevTnNVllJMCKLms6
- HJB3AuiPopXC8NG4vY+BH2YVgiMO6L0Mm5F1U2CdtZZPS7KazGY0+eRE1
- B04kubuR2AM3MR3Zeq66r09bGPbeox292mVgZV8K6l1+dAEOTgGlKVOwU A==;
-X-CSE-ConnectionGUID: 24Nqtyk8Q9CtfodkVW4WVA==
-X-CSE-MsgGUID: 0SDHCETzSNKYr+1AE+aRrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="32038779"
-X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="32038779"
+ bh=WH5ZYTfeN7aKw1tdpnnq1SK2rquBbNN2yGhWOe/2rv4=;
+ b=cmyb4QOTHdsvCByTkt7GWyY45hP4yHktR8hiNVn4S1FZ2FxE0uzBvplp
+ Uxin9Suxe6AxwaDhX+RABquwQMOrvvoWjJgL8nQN+5pdQuxkt81yefgeu
+ pkKNU0jRuhzwIlROXt810uPh1ccABzqmLSBJSKZuW3cSSxdcZqa9z99Rd
+ 2Cj82PwVYWn3yEeVermUuE/ryYkN4+6D7bpMpHKh30hCS7iANmNQsICJw
+ C61l1yHI5GuaYv7nhpymsEkkAhegIFQdIg0tS17CThECD+/qgc2pYecIe
+ tDT495FxdFgXXUvFntAeopjj1tp7Aqtesl96OcLDzAyPR+RhAq3RBwJV0 g==;
+X-CSE-ConnectionGUID: pZuifjLtTPOpK1/ripMXJQ==
+X-CSE-MsgGUID: eJ0XVBrcTXGNNIkKS3bcyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="32038784"
+X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="32038784"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2024 22:26:24 -0800
-X-CSE-ConnectionGUID: l7nhNWLaQC2i1yfh3Cs3XQ==
-X-CSE-MsgGUID: 7bP29rvFQpq6THFE7/p5pw==
+ 18 Nov 2024 22:26:25 -0800
+X-CSE-ConnectionGUID: Ia48l8gYTmSjzj/4Qsknew==
+X-CSE-MsgGUID: H4KKpmqkRjmXFyGa1YlrFw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="94531821"
+X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; d="scan'208";a="94531824"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Nov 2024 22:26:24 -0800
@@ -49,10 +49,10 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
  Rob Clark <robdclark@gmail.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
  Chia-I Wu <olvaffe@gmail.com>
-Subject: [PATCH v3 4/5] drm/virtio: Import prime buffers from other devices as
- guest blobs
-Date: Mon, 18 Nov 2024 21:59:39 -0800
-Message-ID: <20241119060248.3312553-5-vivek.kasireddy@intel.com>
+Subject: [PATCH v3 5/5] drm/virtio: Add prepare and cleanup routines for
+ imported dmabuf obj
+Date: Mon, 18 Nov 2024 21:59:40 -0800
+Message-ID: <20241119060248.3312553-6-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20241119060248.3312553-1-vivek.kasireddy@intel.com>
 References: <20241119060248.3312553-1-vivek.kasireddy@intel.com>
@@ -73,11 +73,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By importing scanout buffers from other devices, we should be able
-to use the virtio-gpu driver in KMS only mode. Note that we attach
-dynamically and register a move_notify() callback so that we can
-let the VMM know of any location changes associated with the backing
-store of the imported object by sending detach_backing cmd.
+When an imported dmabuf obj is used as part of an atomic commit, we
+need to pin it as part of prepare and unpin it during cleanup of
+the associated FB, to make sure that it does not move until the
+commit is completed (and also while it is being used on the Host).
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
@@ -86,92 +85,124 @@ Cc: Gurchetan Singh <gurchetansingh@chromium.org>
 Cc: Chia-I Wu <olvaffe@gmail.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_prime.c | 57 +++++++++++++++++++++++++-
- 1 file changed, 56 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/virtio/virtgpu_plane.c | 65 +++++++++++++++++++++++++-
+ 1 file changed, 64 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-index e9b5b5a7f8dc..2fcccfa75eab 100644
---- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-@@ -255,10 +255,39 @@ static int virtgpu_dma_buf_init_obj(struct drm_device *dev,
- 	return ret;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index 2add67c6b66d..42aa554eca9f 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -27,6 +27,7 @@
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_gem_atomic_helper.h>
++#include <linux/virtio_dma_buf.h>
+ 
+ #include "virtgpu_drv.h"
+ 
+@@ -259,6 +260,44 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
+ 				  rect.y2 - rect.y1);
  }
  
-+static const struct drm_gem_object_funcs virtgpu_gem_dma_buf_funcs = {
-+	.free = virtgpu_dma_buf_free_obj,
-+};
-+
-+static void virtgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
++static int virtio_gpu_prepare_imported_obj(struct drm_plane *plane,
++					   struct drm_plane_state *new_state,
++					   struct drm_gem_object *obj)
 +{
-+	struct drm_gem_object *obj = attach->importer_priv;
++	struct virtio_gpu_device *vgdev = plane->dev->dev_private;
 +	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
++	struct dma_buf_attachment *attach = obj->import_attach;
++	struct dma_resv *resv = attach->dmabuf->resv;
++	struct virtio_gpu_mem_entry *ents = NULL;
++	unsigned int nents;
++	int ret;
 +
-+	if (bo->created) {
-+		virtio_gpu_detach_object_fenced(bo);
++	dma_resv_lock(resv, NULL);
 +
-+		if (bo->sgt)
-+			dma_buf_unmap_attachment(attach, bo->sgt,
-+						 DMA_BIDIRECTIONAL);
-+
-+		bo->sgt = NULL;
++	ret = dma_buf_pin(attach);
++	if (ret) {
++		dma_resv_unlock(resv);
++		return ret;
 +	}
++
++	if (!bo->sgt) {
++		ret = virtgpu_dma_buf_import_sgt(&ents, &nents,
++						 bo, attach);
++		if (ret)
++			goto err;
++
++		virtio_gpu_object_attach(vgdev, bo, ents, nents);
++	}
++
++	dma_resv_unlock(resv);
++	return 0;
++
++err:
++	dma_buf_unpin(attach);
++	dma_resv_unlock(resv);
++	return ret;
 +}
 +
-+static const struct dma_buf_attach_ops virtgpu_dma_buf_attach_ops = {
-+	.allow_peer2peer = true,
-+	.move_notify = virtgpu_dma_buf_move_notify
-+};
-+
- struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
- 						struct dma_buf *buf)
+ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ 				       struct drm_plane_state *new_state)
  {
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	struct dma_buf_attachment *attach;
-+	struct virtio_gpu_object *bo;
- 	struct drm_gem_object *obj;
+@@ -267,6 +306,8 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ 	struct virtio_gpu_framebuffer *vgfb;
+ 	struct virtio_gpu_plane_state *vgplane_st;
+ 	struct virtio_gpu_object *bo;
++	struct drm_gem_object *obj;
 +	int ret;
  
- 	if (buf->ops == &virtgpu_dmabuf_ops.ops) {
- 		obj = buf->priv;
-@@ -272,7 +301,32 @@ struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
- 		}
- 	}
+ 	if (!new_state->fb)
+ 		return 0;
+@@ -280,7 +321,14 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ 	if (!bo || (plane->type == DRM_PLANE_TYPE_PRIMARY && !bo->guest_blob))
+ 		return 0;
  
--	return drm_gem_prime_import(dev, buf);
-+	if (!vgdev->has_resource_blob || vgdev->has_virgl_3d)
-+		return drm_gem_prime_import(dev, buf);
-+
-+	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
-+	if (!bo)
-+		return ERR_PTR(-ENOMEM);
-+
-+	obj = &bo->base.base;
-+	obj->funcs = &virtgpu_gem_dma_buf_funcs;
-+	drm_gem_private_object_init(dev, obj, buf->size);
-+
-+	attach = dma_buf_dynamic_attach(buf, dev->dev,
-+					&virtgpu_dma_buf_attach_ops, obj);
-+	if (IS_ERR(attach)) {
-+		kfree(bo);
-+		return ERR_CAST(attach);
+-	if (bo->dumb) {
++	obj = new_state->fb->obj[0];
++	if (obj->import_attach) {
++		ret = virtio_gpu_prepare_imported_obj(plane, new_state, obj);
++		if (ret)
++			return ret;
 +	}
 +
-+	obj->import_attach = attach;
-+	get_dma_buf(buf);
-+
-+	ret = virtgpu_dma_buf_init_obj(dev, bo, attach);
-+	if (ret < 0)
-+		return ERR_PTR(ret);
-+
-+	return obj;
++	if (bo->dumb || obj->import_attach) {
+ 		vgplane_st->fence = virtio_gpu_fence_alloc(vgdev,
+ 						     vgdev->fence_drv.context,
+ 						     0);
+@@ -291,10 +339,21 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ 	return 0;
  }
  
- struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
-@@ -281,3 +335,4 @@ struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
- {
- 	return ERR_PTR(-ENODEV);
- }
++static void virtio_gpu_cleanup_imported_obj(struct drm_gem_object *obj)
++{
++	struct dma_buf_attachment *attach = obj->import_attach;
++	struct dma_resv *resv = attach->dmabuf->resv;
 +
++	dma_resv_lock(resv, NULL);
++	dma_buf_unpin(attach);
++	dma_resv_unlock(resv);
++}
++
+ static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
+ 					struct drm_plane_state *state)
+ {
+ 	struct virtio_gpu_plane_state *vgplane_st;
++	struct drm_gem_object *obj;
+ 
+ 	if (!state->fb)
+ 		return;
+@@ -304,6 +363,10 @@ static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
+ 		dma_fence_put(&vgplane_st->fence->f);
+ 		vgplane_st->fence = NULL;
+ 	}
++
++	obj = state->fb->obj[0];
++	if (obj->import_attach)
++		virtio_gpu_cleanup_imported_obj(obj);
+ }
+ 
+ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
 -- 
 2.45.1
 
