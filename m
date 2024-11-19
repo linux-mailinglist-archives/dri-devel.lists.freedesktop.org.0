@@ -2,171 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2439D2A5B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 17:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D479D2AA0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 17:17:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF08E10E67B;
-	Tue, 19 Nov 2024 16:00:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B693510E0D2;
+	Tue, 19 Nov 2024 16:17:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fmvocAv0";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GB4r8ggm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56DF110E672;
- Tue, 19 Nov 2024 16:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732032046; x=1763568046;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=4FlZrL9Z3WMbjUoFgM/T6XTW8VCyskbP+R5dm6uiV3s=;
- b=fmvocAv0LmWWuAsYqsTTXzks2Q4iQ9KbUtnM3ammoFPmsUSuEgnl8laq
- fieNcrr1qX1BnnxLjyVQ/w8XqvsuvpxYx7rFYkdVGMLkbVBDLjshn0gZf
- 3ODbnRetWZ0OxPNKv9I2Txn1xSsDvUOu5Yms+IkYiCvo18s6U2fsujn5f
- DZ+VCvJQ7HBcytFm1i6Kj93trww25YUqb1BiM1YdFZYnB0/TyWDY6nmLO
- 0ccY+XWVzhU/HlbZU0rZuhZ1O33ZAGJ/gIM/tWAD43Neb1024L9CdTB8N
- uBUBYNKCX2MpTBeu4am54+/eQPLh6Ur0oRvRSn5KEoFk132hNT7PlSMjm A==;
-X-CSE-ConnectionGUID: tSc3iBbLR9OpshWOchYpoA==
-X-CSE-MsgGUID: TX18V/yrSOWEB72RnIH0YQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="42554705"
-X-IronPort-AV: E=Sophos;i="6.12,166,1728975600"; d="scan'208";a="42554705"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2024 08:00:40 -0800
-X-CSE-ConnectionGUID: 6G9S0pQTTnGGdl5PJ2b9rQ==
-X-CSE-MsgGUID: 301gAb1FSzGH23iAJ1H61A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,166,1728975600"; d="scan'208";a="94057903"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 19 Nov 2024 08:00:39 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 19 Nov 2024 08:00:39 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 19 Nov 2024 08:00:39 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.41) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 19 Nov 2024 08:00:39 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J8DsLHOJzUkbHuIAlsWE2eGI5noGuTvSrvkVTMLvVW6FE6S7jL56xdlQuxD1co25LypCdbTrnsMo4RLFd1EyPoxtQw3VoCtG3q0lzmH8DF2o5avoIhPbnOJBPgaGJawO/MSrZNj+R9N7y3oOQzc2R3gt2azgbaPzeXDCNpl3s4sK6ucw0i0X7Ye52jSXU33S1US4M8jGlcki+yVH3jEabv6vgFbujYi0lfXRx0iWIVSJDVlzdzAuiST/ZPd3LDpHlGRht1hH8demehy8ze07MTUobpG4aZk/7eB23z5NXWYIKygYlYQo17yefx9B/wssKPKvAtQhsurAIA/LGKUK3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+vFFEYO8PsGQcptocWdCAq8B3WKF+MU/ViutazWyhxU=;
- b=ebgYOHT5Z8e1sTodNLewGnFBX1/o2uRsoc7MFKaM2qlN6A5mnqo6lqAPV1nwUVgJBHMGib9PZ7HycHMl01gzPcLoZnu41/iwr/4e9/6rEHJ6ofkzNpKS5QSeKDuPy10SLK59qtRWCQelaD1VucgWNJbliC6GO0MnFOMWOmNw9R7YfyDYtprWIqcH/qLF9QkbBAFjpjh9WiuRAnckW8o2jQEPMF8sUwayOFNUJny239BsNfKwLtV3j23lPHt8XLckgrdWJwpfaZmDN/H/fv3bMfEEDG0Vw9pbY1ePJhYDr9LeHKvBXC9KPdYn4bYAX7CYGglcPuRjTJr7gRZrfgmhaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by PH7PR11MB7432.namprd11.prod.outlook.com (2603:10b6:510:272::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.23; Tue, 19 Nov
- 2024 16:00:35 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.8158.023; Tue, 19 Nov 2024
- 16:00:35 +0000
-Date: Tue, 19 Nov 2024 08:01:10 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <apopple@nvidia.com>, <airlied@gmail.com>, <christian.koenig@amd.com>,
- <simona.vetter@ffwll.ch>, <felix.kuehling@amd.com>, <dakr@kernel.org>
-Subject: Re: [PATCH v2 06/29] drm/xe/uapi: Add
- DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATON flag
-Message-ID: <Zzy2RrHVoaRBqfk7@lstrano-desk.jf.intel.com>
-References: <20241016032518.539495-1-matthew.brost@intel.com>
- <20241016032518.539495-7-matthew.brost@intel.com>
- <f4798ea4f804bd94138d2662944be7d9c392cc7c.camel@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f4798ea4f804bd94138d2662944be7d9c392cc7c.camel@linux.intel.com>
-X-ClientProxiedBy: MW4PR04CA0299.namprd04.prod.outlook.com
- (2603:10b6:303:89::34) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81AF110E0D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 16:17:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=dZQQGklqpYGa5KI5r4gHrR//5kjt7GDiBSmppn1fy4w=; b=GB4r8ggm9bgtyhIKg6alZccHtt
+ sRF4DIKECXtaNBAptuc/s0Mus7JatS2E2tO5xKFKYs+Kv1Q5d04d2/gM/uFJRr9KxwE5dOnTlLf+j
+ lplPkr6ZFm+k/55szd9r3X01ZcgQaZuT/NiAcPd990I5EZyaUGnn9rcJGPdu5rEYrOnoqohWVkhO5
+ 6kF4Qqk9SHEI7LqoDmBMlSO6G1iVZsfXII3fSl+i9JiP1AtJ+dgP1levYsa2krRXgSeyXIZdDNyOY
+ Zca9R7sT8zxY4/5ftjOFMT6xhH9of7YmAK1tNJIb6IASouRdWU+igKeTDfN//H8QlRm8K0y1fVOsu
+ SC3AS8Xg==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tDQug-0099XT-M2; Tue, 19 Nov 2024 17:17:14 +0100
+Message-ID: <01941cb4-1435-4c99-95db-b12a59268f44@igalia.com>
+Date: Tue, 19 Nov 2024 16:17:12 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH7PR11MB7432:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b0a2b4a-ba10-44ec-ea2d-08dd08b34d8e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?eYvgZfFEu5WpTUkk9KcSv+ey2e/vThgiZ/ccg85z+sjbCtoBMvQwiAr8CR?=
- =?iso-8859-1?Q?P3BVjH76xJHLvQZbH1cOEzQZ/jcykPTNEqZ4zalVoT0AAmg2mX0nY9G/yI?=
- =?iso-8859-1?Q?C5sDq0M3z9BOHeVxp669u4ic4xczuc5cjea9fpjCOHReTaeMyjizcsuH1m?=
- =?iso-8859-1?Q?5qlf1VoE/FOJm4FX1GcEi2QPhDDLcHqTjvjZhhHigZIFv98PAoeLdg8jYf?=
- =?iso-8859-1?Q?VKZndpP6Ee/6bKU0Y864jPYLtb1aXeEEmSVNOAne4TAHyhwbDS8WIzeA4V?=
- =?iso-8859-1?Q?DGwYK1XC8i/brHAbCedy6sotfOLs5G5RT2CxSzEdqqim5tlp4Hh+yPXYBP?=
- =?iso-8859-1?Q?zqKLuyLZ2dcjF30tiUCArhKSVOVcXf8RCebGVtmsPOZEUgMRekz1jojb6B?=
- =?iso-8859-1?Q?1CDQmR5GvDxHxNMprAEGgjxFWZCkpi+76Qu7Zf5pWE5FJMFOF3gZ/1yXoJ?=
- =?iso-8859-1?Q?UO0vWX5tH1jskXnM0YqZ4jQpuTY6/bVjZGCvyWi99SRw2ZpMmrdY+Y6Hmw?=
- =?iso-8859-1?Q?G/C+KYukjc+MswYf3fSWs6X+Rjn/YEJee50+SNPf/F/Pv3K+l3l9manIZ3?=
- =?iso-8859-1?Q?igwMkLzJ655GFvGirQzsluGVxc8181Q/97Z+c3HbddX9/EC3/yT3Z2Vycw?=
- =?iso-8859-1?Q?DNGZwH6LgXaW22dGfRzpAxIswt6g0q4BQtW2W9TNBTNMZPRt9UCXghxzfa?=
- =?iso-8859-1?Q?SdP7jX6wpe2IPOc7Hx607kMyEumxbG30W2GaxSZ5+nICsbI3OPOINDlYij?=
- =?iso-8859-1?Q?BMFIUJMEjaWfwfuyx0DUQ+uQd4E8d7HudlKnLsSfYm1V0RfYxBPVoeXNCP?=
- =?iso-8859-1?Q?gyoip2KB7n5Rt4DbECOIXRRQsmBguDIsS3/g1eVwe/4ztQJiuwFiTUgoub?=
- =?iso-8859-1?Q?AYrb/e8nSTDDtnGEq9QIy8NUyT010WIQVD/+3p23NfyAMdQ4WR9K/s6QX7?=
- =?iso-8859-1?Q?jnYYeD3skxH7fm89avz4xfH9FsqE/CWQMzw0o56gaeJsALanG5cHAt4VMR?=
- =?iso-8859-1?Q?LlG+EUbQKcpmcpoG9nAUIeaIQYot0a5OEXDKrMbs8TWNBQfhnm/L8lxfDU?=
- =?iso-8859-1?Q?7psvIFMibJxi5qT5jLtVUoDdIFugIFaPXnX+3iKuMgtpZhUuGgv3OtPALz?=
- =?iso-8859-1?Q?MT/4kR362D7U2RQaEgnAK71xOyiaaqOa91VoMtGDn08OHfo9zJu7vJYKBk?=
- =?iso-8859-1?Q?Rnsll/vSGahxj0Yc/9bXS9Wnp5xI2YJDeI5aKD5QBZdLRTZItoqSQVBFki?=
- =?iso-8859-1?Q?p6ysCjegpVkUCvMaeu5hQow8bh14LkAEYtPhMK0kolLiusmWaqyzxugcbf?=
- =?iso-8859-1?Q?wy7PVy9iT7/SItWuOonDGJiUjL2stZLd9IswDkhgVntqi/camzGXp2a/o0?=
- =?iso-8859-1?Q?r+FmRhaD+d?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?kWr405niv8V5acb3zzDAfSu0BtEhnTW4oH+EUtnNxkVAtXfCV7TX6mPhTo?=
- =?iso-8859-1?Q?tYKYTVFwslE/eg3G7kJnLLmWhZk6SPpn+/UhT/u66C1uELa2AdUeE2EBxB?=
- =?iso-8859-1?Q?ZDakZVf/liXkTfisHfEvfEeVJ5wLzbEgg4FXv81msrXn3lpbFk+Wn7jAFc?=
- =?iso-8859-1?Q?YVsIhhpesUYzlgcA0m5jbOeaG08T1kAxzwyGi5ddN4K/KlYEtsiR79aZrW?=
- =?iso-8859-1?Q?sTyAV6aD7/38wwxG3oRjQLkcKVN+Q2Y3z1MPUiJHw88lQtNduAVlAsMHeZ?=
- =?iso-8859-1?Q?+IDHagFlddAF+o4jQATnMFQHtr1eMKnHu3vJewcM0Tj0sRP4BuSyQtAlGB?=
- =?iso-8859-1?Q?gZboPjEvtEhCvsrwS+B64+cdj0QAS6FJHkQYXrov4lOysrp8U5LEsOvPTP?=
- =?iso-8859-1?Q?d815glRkpXHQKV7KFBSUuhriQSEchZgS4ECv9W2Dkv8/khOxXSvX5Eg63V?=
- =?iso-8859-1?Q?fmb40yTFpI1OpQkV8IiqYVs6HJpaa9i/mLBB8pPBRkGOyO+v0VxE6iaTcr?=
- =?iso-8859-1?Q?nYpGBi3krAllhZPiCh6PfvjDbTgUXPr633hzC6lx+FtbBVoZmYbZaYS2J4?=
- =?iso-8859-1?Q?70oK6ELgOhoClqhsoO4U/Dus0Onx9r69tTaJC1G9eRsPrWajMvGz5LVbX/?=
- =?iso-8859-1?Q?7MFPN91fOTADbaDxAxNYjHTvAHuFGKyP1KSGoJcmSDNM53HUBfKayMGrxj?=
- =?iso-8859-1?Q?D1HX1QklZ0ubjRp8iiAG4nKpzfS6eiyjSjyQ8DUx09HXdZz0tik8wStIat?=
- =?iso-8859-1?Q?D7qv25qSuS3kFiort4TaKylsaVRl1JPfd9aGAW43dpA/aMemT//zHHRP4/?=
- =?iso-8859-1?Q?5/aslqoERoEgVu8o58Iv/w3MhPBtK8Hu8iGArhxub7TIyXTVEsYL5FrMeD?=
- =?iso-8859-1?Q?B1lm2OcMdBBTh5H14kY36zoPGpYCaD0geZqtzU5Iirmv/OBcICPYIowdXx?=
- =?iso-8859-1?Q?UpNesKjEFWuyFmueaBC+maWWM9c9edcijZwBD5WDxeknAULAvIqEz2t1QY?=
- =?iso-8859-1?Q?I37KFhpoBiCQGziaWe5qFnq9xTdfvu4ptT/sQTWCP4ufzPNY9QS1S/+mH9?=
- =?iso-8859-1?Q?u31+gtymEq9s1cMF7UNq4fldJ7PAVQLGfvi3I/2+WXeAELj5VOVX9dh/eW?=
- =?iso-8859-1?Q?GM05LFwaSVKFBen22aYRuWrTduheEeVYXea2Iwtxs4fVbSFmthmmaB0wrO?=
- =?iso-8859-1?Q?smBMcytSGI11qVzhqgHBPYH7PZFwnUk4zU9lopJCxo9TVdTQB9fgK4mmSM?=
- =?iso-8859-1?Q?kBxoQCju9cn0slyF0s/1S6Ainqol6vL6Pm7vCGE3sgUoxG+BkrdoQCAW2r?=
- =?iso-8859-1?Q?HyNK29Akkq7UdcIL6mO6d8h2ayaQmL9uc8cBFJJyrs6IIcSYAESXU806eg?=
- =?iso-8859-1?Q?T6WyR1bo+W766v4ar7CWCuFauqf9UcJERmkmXpcGbGVKa7P46Mfv/FbVXa?=
- =?iso-8859-1?Q?g66deLNUvc0MKohqme/uhluhdFSoGjg3y9ODDchu9Uvs+u+Nkcynsj9gTI?=
- =?iso-8859-1?Q?uSU3gNZDrROD14RiyHUJv0O4hljtksr6iP/q6U9NrEtPIpw3nAOvJ4wBeC?=
- =?iso-8859-1?Q?lJmObko0IeHcB9+KPeYRvYaSWqH+qjmpOBji0NVlhTfKI1xEwkAlIz29J7?=
- =?iso-8859-1?Q?zi6VaVvW6qcT+/d342vJ4+LCP3f5PZ3GYKABnywN1w1jYEsWAk4Num9g?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b0a2b4a-ba10-44ec-ea2d-08dd08b34d8e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2024 16:00:35.2087 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MEe2BEyrTe/qHs1SKaqim+OchnBNm8lZd4Sn7+1SUQcfiPb7SfcClAzNog+jwACCEGb7utnh/VrKyPJIUFKvGg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7432
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/7] drm/sched: store the drm client_id in
+ drm_sched_fence
+To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com,
+ matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
+ rostedt@goodmis.org, l.stach@pengutronix.de, matt.coster@imgtec.com,
+ frank.binns@imgtec.com, yuq825@gmail.com, robdclark@gmail.com,
+ kherbst@redhat.com, lyude@redhat.com, boris.brezillon@collabora.com,
+ steven.price@arm.com, mwen@igalia.com, mcanal@igalia.com,
+ thomas.hellstrom@linux.intel.com
+References: <20241114100113.150647-1-pierre-eric.pelloux-prayer@amd.com>
+ <20241114100113.150647-3-pierre-eric.pelloux-prayer@amd.com>
+ <e5f5755f-6b42-4ea6-8ab1-8791a2d8dcbc@igalia.com>
+ <5a023c66-9a88-4659-8167-9a7d05133201@damsy.net>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <5a023c66-9a88-4659-8167-9a7d05133201@damsy.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,763 +73,450 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 18, 2024 at 02:44:58PM +0100, Thomas Hellstr�m wrote:
-> On Tue, 2024-10-15 at 20:24 -0700, Matthew Brost wrote:
-> > Add the DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATOR flag, which is used to
-> > create unpopulated virtual memory areas (VMAs) without memory backing
-> > or
-> > GPU page tables. These VMAs are referred to as system allocator VMAs.
-> > The idea is that upon a page fault or prefetch, the memory backing
-> > and
-> > GPU page tables will be populated.
-> 
-> It would be good if the commit message could describe the state of the
-> code after this patch. It seems we do a lot more than just adding a
-> flag, but no real implementation. Perhaps just adjust the current code
-> to avoid code-paths that are not taken when the flag is set?
-> 
 
-Sure can add a description of what the patch does which aligns with your
-assessment - it updates the bind code to create VMA without creating
-page tables when this flag is set.
+On 19/11/2024 13:39, Pierre-Eric Pelloux-Prayer wrote:
+> 
+> 
+> Le 14/11/2024 à 13:01, Tvrtko Ursulin a écrit :
+>>
+>> On 14/11/2024 10:01, Pierre-Eric Pelloux-Prayer wrote:
+>>> This will be used in a later commit to trace the drm client_id in
+>>> some of the gpu_scheduler trace events.
+>>
+>> I wonder if it would be tidier to store the drm_client_id in the 
+>> entity via drm_sched_entity_init? It would still required trickling 
+>> down the info to the callers, but perhaps that could be done via 
+>> driver structs instead of expanding the number for function arguments 
+>> in the API. To be discussed I think. But to me the drm_client_id just 
+>> sticks out too much as an odd one out in some of these functions.
+> 
+> Storing drm_client_id in the scheduler fence was based on Christian' 
+> suggestion, but I'm fine with moving it somewhere else.
 
-> > 
-> > System allocator VMAs only update GPUVM state; they do not have an
-> > internal page table (PT) state, nor do they have GPU mappings.
-> > 
-> > It is expected that system allocator VMAs will be mixed with buffer
-> > object (BO) VMAs within a single VM. In other words, system
-> > allocations
-> > and runtime allocations can be mixed within a single user-mode driver
-> > (UMD) program.
-> 
-> This sounds like compute API-level terminology describing where the app
-> gets its buffer objects: System allocator - malloc, Runtime allocator -
-> the compute runtime (allocating buffer objects under the hood).�
-> 
-> Not sure what would be the best terminology, though, but something
-> along DRM_XE_VM_BIND_FLAG_CPU_ADDR_MIRROR? (And when setteled change
-> inside code as well).
->
+It can be stored in sched fence, what I was thinking about is whether 
+storing it also in the entity could a) lessen the need to change so many 
+function signatures and b) perhaps end up with not having to add a 
+parameter to drm_sched_job_init at all. Because less churn is better and 
+functions with multiple ints are difficult to use and easy to make a 
+mistake.
 
-DRM_XE_VM_BIND_FLAG_CPU_ADDR_MIRROR seems reasonible. Then also
-s/xe_vma_is_system_allocator/s/xe_vma_is_cpu_addr_mirror too?
- 
-> Otherwise it gets weird if someone asks why is it called "System
-> Allocator", and the reply is "a compute runtime would typically use
-> this functionality when an app has allocated the memory using malloc()
-> which can be called a system allocator".
-> 
-> IOW we name the functionality based on what KMD does and not how the
-> app uses it through UMD.
-> 
-> > 
-> > Expected usage:
-> > 
-> > - Bind the entire virtual address (VA) space upon program load using
-> > the
-> > � DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATOR flag.
-> > - If a buffer object (BO) requires GPU mapping, allocate an address
-> > � using malloc, and bind the BO to the malloc'd address using
-> > existing
-> > � bind IOCTLs (runtime allocation).
-> 
-> allocate a cpu address using mmap(PROT_NONE), bind the BO to the
-> malloced address using existing bind IOCTLS. If a cpu map of the bo is
-> needed, mmap it again to the same cpu address using mmap(MAP_FIXED)
->
+I am not claiming it can definitely be made simpler but I have a feeling 
+it is worth a look.
 
-Will adjust.
- 
-> > - If a BO no longer requires GPU mapping, bind the mapping address
-> > with
-> > � the DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATOR flag.
-> 
-> unmap it from cpu space  and then...
+Regards,
 
-Yes. Will add.
+Tvrtko
 
-> 
-> > - Any malloc'd address accessed by the GPU will be faulted in via the
-> > � SVM implementation (system allocation).
-> > - Upon freeing any malloc'd data, the SVM implementation will remove
-> > GPU
-> > � mappings.
-> > 
-> > Only supporting 1 to 1 mapping between user address space and GPU
-> > address space at the moment as that is the expected use case. uAPI
-> > defines interface for non 1 to 1 but enforces 1 to 1, this
-> > restriction
-> > can be lifted if use cases arrise for non 1 to 1 mappings.
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> > �drivers/gpu/drm/xe/xe_pt.c������ |� 76 +++++++++++++++++-----
-> > �drivers/gpu/drm/xe/xe_vm.c������ | 107 ++++++++++++++++++++---------
-> > --
-> > �drivers/gpu/drm/xe/xe_vm.h������ |�� 8 ++-
-> > �drivers/gpu/drm/xe/xe_vm_types.h |�� 3 +
-> > �include/uapi/drm/xe_drm.h������� |� 19 +++++-
-> > �5 files changed, 157 insertions(+), 56 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-> > index f27f579f4d85..39357e829b6d 100644
-> > --- a/drivers/gpu/drm/xe/xe_pt.c
-> > +++ b/drivers/gpu/drm/xe/xe_pt.c
-> > @@ -1068,6 +1068,11 @@ static int op_add_deps(struct xe_vm *vm,
-> > struct xe_vma_op *op,
-> > �{
-> > �	int err = 0;
-> > �
-> > +	/*
-> > +	 * No need to check for is_system_allocator here as
-> > vma_add_deps is a
-> > +	 * NOP if VMA is_system_allocator
-> > +	 */
-> > +
-> > �	switch (op->base.op) {
-> > �	case DRM_GPUVA_OP_MAP:
-> > �		if (!op->map.immediate && xe_vm_in_fault_mode(vm))
-> > @@ -1646,6 +1651,7 @@ static int bind_op_prepare(struct xe_vm *vm,
-> > struct xe_tile *tile,
-> > �	struct xe_vm_pgtable_update_op *pt_op = &pt_update_ops-
-> > >ops[current_op];
-> > �	int err;
-> > �
-> > +	xe_tile_assert(tile, !xe_vma_is_system_allocator(vma));
-> > �	xe_bo_assert_held(xe_vma_bo(vma));
-> > �
-> > �	vm_dbg(&xe_vma_vm(vma)->xe->drm,
-> > @@ -1713,6 +1719,7 @@ static int unbind_op_prepare(struct xe_tile
-> > *tile,
-> > �	if (!((vma->tile_present | vma->tile_staged) & BIT(tile-
-> > >id)))
-> > �		return 0;
-> > �
-> > +	xe_tile_assert(tile, !xe_vma_is_system_allocator(vma));
-> > �	xe_bo_assert_held(xe_vma_bo(vma));
-> > �
-> > �	vm_dbg(&xe_vma_vm(vma)->xe->drm,
-> > @@ -1759,15 +1766,21 @@ static int op_prepare(struct xe_vm *vm,
-> > �
-> > �	switch (op->base.op) {
-> > �	case DRM_GPUVA_OP_MAP:
-> > -		if (!op->map.immediate && xe_vm_in_fault_mode(vm))
-> > +		if ((!op->map.immediate && xe_vm_in_fault_mode(vm))
-> > ||
-> > +		��� op->map.is_system_allocator)
-> > �			break;
-> > �
-> > �		err = bind_op_prepare(vm, tile, pt_update_ops, op-
-> > >map.vma);
-> > �		pt_update_ops->wait_vm_kernel = true;
-> > �		break;
-> > �	case DRM_GPUVA_OP_REMAP:
-> > -		err = unbind_op_prepare(tile, pt_update_ops,
-> > -					gpuva_to_vma(op-
-> > >base.remap.unmap->va));
-> > +	{
-> > +		struct xe_vma *old = gpuva_to_vma(op-
-> > >base.remap.unmap->va);
-> > +
-> > +		if (xe_vma_is_system_allocator(old))
-> > +			break;
-> > +
-> > +		err = unbind_op_prepare(tile, pt_update_ops, old);
-> > �
-> > �		if (!err && op->remap.prev) {
-> > �			err = bind_op_prepare(vm, tile,
-> > pt_update_ops,
-> > @@ -1780,15 +1793,28 @@ static int op_prepare(struct xe_vm *vm,
-> > �			pt_update_ops->wait_vm_bookkeep = true;
-> > �		}
-> > �		break;
-> > +	}
-> > �	case DRM_GPUVA_OP_UNMAP:
-> > -		err = unbind_op_prepare(tile, pt_update_ops,
-> > -					gpuva_to_vma(op-
-> > >base.unmap.va));
-> > +	{
-> > +		struct xe_vma *vma = gpuva_to_vma(op-
-> > >base.unmap.va);
-> > +
-> > +		if (xe_vma_is_system_allocator(vma))
-> > +			break;
-> > +
-> > +		err = unbind_op_prepare(tile, pt_update_ops, vma);
-> > �		break;
-> > +	}
-> > �	case DRM_GPUVA_OP_PREFETCH:
-> > -		err = bind_op_prepare(vm, tile, pt_update_ops,
-> > -				����� gpuva_to_vma(op-
-> > >base.prefetch.va));
-> > +	{
-> > +		struct xe_vma *vma = gpuva_to_vma(op-
-> > >base.prefetch.va);
-> > +
-> > +		if (xe_vma_is_system_allocator(vma))
-> > +			break;
-> > +
-> > +		err = bind_op_prepare(vm, tile, pt_update_ops, vma);
-> > �		pt_update_ops->wait_vm_kernel = true;
-> > �		break;
-> > +	}
-> > �	default:
-> > �		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-> > �	}
-> > @@ -1857,6 +1883,8 @@ static void bind_op_commit(struct xe_vm *vm,
-> > struct xe_tile *tile,
-> > �			�� struct xe_vma *vma, struct dma_fence
-> > *fence,
-> > �			�� struct dma_fence *fence2)
-> > �{
-> > +	xe_tile_assert(tile, !xe_vma_is_system_allocator(vma));
-> > +
-> > �	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm) {
-> > �		dma_resv_add_fence(xe_vma_bo(vma)->ttm.base.resv,
-> > fence,
-> > �				�� pt_update_ops->wait_vm_bookkeep ?
-> > @@ -1890,6 +1918,8 @@ static void unbind_op_commit(struct xe_vm *vm,
-> > struct xe_tile *tile,
-> > �			���� struct xe_vma *vma, struct dma_fence
-> > *fence,
-> > �			���� struct dma_fence *fence2)
-> > �{
-> > +	xe_tile_assert(tile, !xe_vma_is_system_allocator(vma));
-> > +
-> > �	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm) {
-> > �		dma_resv_add_fence(xe_vma_bo(vma)->ttm.base.resv,
-> > fence,
-> > �				�� pt_update_ops->wait_vm_bookkeep ?
-> > @@ -1924,16 +1954,21 @@ static void op_commit(struct xe_vm *vm,
-> > �
-> > �	switch (op->base.op) {
-> > �	case DRM_GPUVA_OP_MAP:
-> > -		if (!op->map.immediate && xe_vm_in_fault_mode(vm))
-> > +		if ((!op->map.immediate && xe_vm_in_fault_mode(vm))
-> > ||
-> > +		��� op->map.is_system_allocator)
-> > �			break;
-> > �
-> > �		bind_op_commit(vm, tile, pt_update_ops, op->map.vma,
-> > fence,
-> > �			������ fence2);
-> > �		break;
-> > �	case DRM_GPUVA_OP_REMAP:
-> > -		unbind_op_commit(vm, tile, pt_update_ops,
-> > -				 gpuva_to_vma(op->base.remap.unmap-
-> > >va), fence,
-> > -				 fence2);
-> > +	{
-> > +		struct xe_vma *old = gpuva_to_vma(op-
-> > >base.remap.unmap->va);
-> > +
-> > +		if (xe_vma_is_system_allocator(old))
-> > +			break;
-> > +
-> > +		unbind_op_commit(vm, tile, pt_update_ops, old,
-> > fence, fence2);
-> > �
-> > �		if (op->remap.prev)
-> > �			bind_op_commit(vm, tile, pt_update_ops, op-
-> > >remap.prev,
-> > @@ -1942,14 +1977,25 @@ static void op_commit(struct xe_vm *vm,
-> > �			bind_op_commit(vm, tile, pt_update_ops, op-
-> > >remap.next,
-> > �				������ fence, fence2);
-> > �		break;
-> > +	}
-> > �	case DRM_GPUVA_OP_UNMAP:
-> > -		unbind_op_commit(vm, tile, pt_update_ops,
-> > -				 gpuva_to_vma(op->base.unmap.va),
-> > fence, fence2);
-> > +	{
-> > +		struct xe_vma *vma = gpuva_to_vma(op-
-> > >base.unmap.va);
-> > +
-> > +		if (!xe_vma_is_system_allocator(vma))
-> > +			unbind_op_commit(vm, tile, pt_update_ops,
-> > vma, fence,
-> > +					 fence2);
-> > �		break;
-> > +	}
-> > �	case DRM_GPUVA_OP_PREFETCH:
-> > -		bind_op_commit(vm, tile, pt_update_ops,
-> > -			������ gpuva_to_vma(op->base.prefetch.va),
-> > fence, fence2);
-> > +	{
-> > +		struct xe_vma *vma = gpuva_to_vma(op-
-> > >base.prefetch.va);
-> > +
-> > +		if (!xe_vma_is_system_allocator(vma))
-> > +			bind_op_commit(vm, tile, pt_update_ops, vma,
-> > fence,
-> > +				������ fence2);
-> 
-> Wouldn't we want to support prefetch? Or perhaps the implementation is
-> deferred? 
->
-
-Yes, this will be deferred. Himal is looking at this piece.
-
-Matt
-
-> 
-> > �		break;
-> > +	}
-> > �	default:
-> > �		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-> > �	}
-> > diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> > index c99380271de6..0d887fb9de59 100644
-> > --- a/drivers/gpu/drm/xe/xe_vm.c
-> > +++ b/drivers/gpu/drm/xe/xe_vm.c
-> > @@ -901,9 +901,10 @@ static void xe_vma_free(struct xe_vma *vma)
-> > �		kfree(vma);
-> > �}
-> > �
-> > -#define VMA_CREATE_FLAG_READ_ONLY	BIT(0)
-> > -#define VMA_CREATE_FLAG_IS_NULL		BIT(1)
-> > -#define VMA_CREATE_FLAG_DUMPABLE	BIT(2)
-> > +#define VMA_CREATE_FLAG_READ_ONLY		BIT(0)
-> > +#define VMA_CREATE_FLAG_IS_NULL			BIT(1)
-> > +#define VMA_CREATE_FLAG_DUMPABLE		BIT(2)
-> > +#define VMA_CREATE_FLAG_IS_SYSTEM_ALLOCATOR	BIT(3)
-> > �
-> > �static struct xe_vma *xe_vma_create(struct xe_vm *vm,
-> > �				��� struct xe_bo *bo,
-> > @@ -917,6 +918,8 @@ static struct xe_vma *xe_vma_create(struct xe_vm
-> > *vm,
-> > �	bool read_only = (flags & VMA_CREATE_FLAG_READ_ONLY);
-> > �	bool is_null = (flags & VMA_CREATE_FLAG_IS_NULL);
-> > �	bool dumpable = (flags & VMA_CREATE_FLAG_DUMPABLE);
-> > +	bool is_system_allocator =
-> > +		(flags & VMA_CREATE_FLAG_IS_SYSTEM_ALLOCATOR);
-> > �
-> > �	xe_assert(vm->xe, start < end);
-> > �	xe_assert(vm->xe, end < vm->size);
-> > @@ -925,7 +928,7 @@ static struct xe_vma *xe_vma_create(struct xe_vm
-> > *vm,
-> > �	 * Allocate and ensure that the xe_vma_is_userptr() return
-> > �	 * matches what was allocated.
-> > �	 */
-> > -	if (!bo && !is_null) {
-> > +	if (!bo && !is_null && !is_system_allocator) {
-> > �		struct xe_userptr_vma *uvma = kzalloc(sizeof(*uvma),
-> > GFP_KERNEL);
-> > �
-> > �		if (!uvma)
-> > @@ -937,6 +940,8 @@ static struct xe_vma *xe_vma_create(struct xe_vm
-> > *vm,
-> > �		if (!vma)
-> > �			return ERR_PTR(-ENOMEM);
-> > �
-> > +		if (is_system_allocator)
-> > +			vma->gpuva.flags |= XE_VMA_SYSTEM_ALLOCATOR;
-> > �		if (is_null)
-> > �			vma->gpuva.flags |= DRM_GPUVA_SPARSE;
-> > �		if (bo)
-> > @@ -979,7 +984,7 @@ static struct xe_vma *xe_vma_create(struct xe_vm
-> > *vm,
-> > �		drm_gpuva_link(&vma->gpuva, vm_bo);
-> > �		drm_gpuvm_bo_put(vm_bo);
-> > �	} else /* userptr or null */ {
-> > -		if (!is_null) {
-> > +		if (!is_null && !is_system_allocator) {
-> > �			struct xe_userptr *userptr =
-> > &to_userptr_vma(vma)->userptr;
-> > �			u64 size = end - start + 1;
-> > �			int err;
-> > @@ -1029,7 +1034,7 @@ static void xe_vma_destroy_late(struct xe_vma
-> > *vma)
-> > �		 */
-> > �		mmu_interval_notifier_remove(&userptr->notifier);
-> > �		xe_vm_put(vm);
-> > -	} else if (xe_vma_is_null(vma)) {
-> > +	} else if (xe_vma_is_null(vma) ||
-> > xe_vma_is_system_allocator(vma)) {
-> > �		xe_vm_put(vm);
-> > �	} else {
-> > �		xe_bo_put(xe_vma_bo(vma));
-> > @@ -1068,7 +1073,7 @@ static void xe_vma_destroy(struct xe_vma *vma,
-> > struct dma_fence *fence)
-> > �		spin_lock(&vm->userptr.invalidated_lock);
-> > �		list_del(&to_userptr_vma(vma)-
-> > >userptr.invalidate_link);
-> > �		spin_unlock(&vm->userptr.invalidated_lock);
-> > -	} else if (!xe_vma_is_null(vma)) {
-> > +	} else if (!xe_vma_is_null(vma) &&
-> > !xe_vma_is_system_allocator(vma)) {
-> > �		xe_bo_assert_held(xe_vma_bo(vma));
-> > �
-> > �		drm_gpuva_unlink(&vma->gpuva);
-> > @@ -1967,6 +1972,8 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm,
-> > struct xe_bo *bo,
-> > �			op->map.read_only =
-> > �				flags &
-> > DRM_XE_VM_BIND_FLAG_READONLY;
-> > �			op->map.is_null = flags &
-> > DRM_XE_VM_BIND_FLAG_NULL;
-> > +			op->map.is_system_allocator = flags &
-> > +				DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATOR
-> > ;
-> > �			op->map.dumpable = flags &
-> > DRM_XE_VM_BIND_FLAG_DUMPABLE;
-> > �			op->map.pat_index = pat_index;
-> > �		} else if (__op->op == DRM_GPUVA_OP_PREFETCH) {
-> > @@ -2158,6 +2165,8 @@ static int vm_bind_ioctl_ops_parse(struct xe_vm
-> > *vm, struct drm_gpuva_ops *ops,
-> > �				VMA_CREATE_FLAG_IS_NULL : 0;
-> > �			flags |= op->map.dumpable ?
-> > �				VMA_CREATE_FLAG_DUMPABLE : 0;
-> > +			flags |= op->map.is_system_allocator ?
-> > +				VMA_CREATE_FLAG_IS_SYSTEM_ALLOCATOR
-> > : 0;
-> > �
-> > �			vma = new_vma(vm, &op->base.map, op-
-> > >map.pat_index,
-> > �				����� flags);
-> > @@ -2165,7 +2174,8 @@ static int vm_bind_ioctl_ops_parse(struct xe_vm
-> > *vm, struct drm_gpuva_ops *ops,
-> > �				return PTR_ERR(vma);
-> > �
-> > �			op->map.vma = vma;
-> > -			if (op->map.immediate ||
-> > !xe_vm_in_fault_mode(vm))
-> > +			if ((op->map.immediate ||
-> > !xe_vm_in_fault_mode(vm)) &&
-> > +			��� !op->map.is_system_allocator)
-> > �				xe_vma_ops_incr_pt_update_ops(vops,
-> > �							����� op-
-> > >tile_mask);
-> > �			break;
-> > @@ -2174,21 +2184,24 @@ static int vm_bind_ioctl_ops_parse(struct
-> > xe_vm *vm, struct drm_gpuva_ops *ops,
-> > �		{
-> > �			struct xe_vma *old =
-> > �				gpuva_to_vma(op->base.remap.unmap-
-> > >va);
-> > +			bool skip = xe_vma_is_system_allocator(old);
-> > �
-> > �			op->remap.start = xe_vma_start(old);
-> > �			op->remap.range = xe_vma_size(old);
-> > �
-> > -			if (op->base.remap.prev) {
-> > -				flags |= op->base.remap.unmap->va-
-> > >flags &
-> > -					XE_VMA_READ_ONLY ?
-> > -					VMA_CREATE_FLAG_READ_ONLY :
-> > 0;
-> > -				flags |= op->base.remap.unmap->va-
-> > >flags &
-> > -					DRM_GPUVA_SPARSE ?
-> > -					VMA_CREATE_FLAG_IS_NULL : 0;
-> > -				flags |= op->base.remap.unmap->va-
-> > >flags &
-> > -					XE_VMA_DUMPABLE ?
-> > -					VMA_CREATE_FLAG_DUMPABLE :
-> > 0;
-> > +			flags |= op->base.remap.unmap->va->flags &
-> > +				XE_VMA_READ_ONLY ?
-> > +				VMA_CREATE_FLAG_READ_ONLY : 0;
-> > +			flags |= op->base.remap.unmap->va->flags &
-> > +				DRM_GPUVA_SPARSE ?
-> > +				VMA_CREATE_FLAG_IS_NULL : 0;
-> > +			flags |= op->base.remap.unmap->va->flags &
-> > +				XE_VMA_DUMPABLE ?
-> > +				VMA_CREATE_FLAG_DUMPABLE : 0;
-> > +			flags |= xe_vma_is_system_allocator(old) ?
-> > +				VMA_CREATE_FLAG_IS_SYSTEM_ALLOCATOR
-> > : 0;
-> > �
-> > +			if (op->base.remap.prev) {
-> > �				vma = new_vma(vm, op-
-> > >base.remap.prev,
-> > �					����� old->pat_index,
-> > flags);
-> > �				if (IS_ERR(vma))
-> > @@ -2200,9 +2213,10 @@ static int vm_bind_ioctl_ops_parse(struct
-> > xe_vm *vm, struct drm_gpuva_ops *ops,
-> > �				 * Userptr creates a new SG mapping
-> > so
-> > �				 * we must also rebind.
-> > �				 */
-> > -				op->remap.skip_prev =
-> > !xe_vma_is_userptr(old) &&
-> > +				op->remap.skip_prev = skip ||
-> > +					(!xe_vma_is_userptr(old) &&
-> > �					IS_ALIGNED(xe_vma_end(vma),
-> > -						��
-> > xe_vma_max_pte_size(old));
-> > +						��
-> > xe_vma_max_pte_size(old)));
-> > �				if (op->remap.skip_prev) {
-> > �					xe_vma_set_pte_size(vma,
-> > xe_vma_max_pte_size(old));
-> > �					op->remap.range -=
-> > @@ -2218,16 +2232,6 @@ static int vm_bind_ioctl_ops_parse(struct
-> > xe_vm *vm, struct drm_gpuva_ops *ops,
-> > �			}
-> > �
-> > �			if (op->base.remap.next) {
-> > -				flags |= op->base.remap.unmap->va-
-> > >flags &
-> > -					XE_VMA_READ_ONLY ?
-> > -					VMA_CREATE_FLAG_READ_ONLY :
-> > 0;
-> > -				flags |= op->base.remap.unmap->va-
-> > >flags &
-> > -					DRM_GPUVA_SPARSE ?
-> > -					VMA_CREATE_FLAG_IS_NULL : 0;
-> > -				flags |= op->base.remap.unmap->va-
-> > >flags &
-> > -					XE_VMA_DUMPABLE ?
-> > -					VMA_CREATE_FLAG_DUMPABLE :
-> > 0;
-> > -
-> > �				vma = new_vma(vm, op-
-> > >base.remap.next,
-> > �					����� old->pat_index,
-> > flags);
-> > �				if (IS_ERR(vma))
-> > @@ -2239,9 +2243,10 @@ static int vm_bind_ioctl_ops_parse(struct
-> > xe_vm *vm, struct drm_gpuva_ops *ops,
-> > �				 * Userptr creates a new SG mapping
-> > so
-> > �				 * we must also rebind.
-> > �				 */
-> > -				op->remap.skip_next =
-> > !xe_vma_is_userptr(old) &&
-> > +				op->remap.skip_next = skip ||
-> > +					(!xe_vma_is_userptr(old) &&
-> > �					IS_ALIGNED(xe_vma_start(vma)
-> > ,
-> > -						��
-> > xe_vma_max_pte_size(old));
-> > +						��
-> > xe_vma_max_pte_size(old)));
-> > �				if (op->remap.skip_next) {
-> > �					xe_vma_set_pte_size(vma,
-> > xe_vma_max_pte_size(old));
-> > �					op->remap.range -=
-> > @@ -2254,14 +2259,27 @@ static int vm_bind_ioctl_ops_parse(struct
-> > xe_vm *vm, struct drm_gpuva_ops *ops,
-> > �					xe_vma_ops_incr_pt_update_op
-> > s(vops, op->tile_mask);
-> > �				}
-> > �			}
-> > -			xe_vma_ops_incr_pt_update_ops(vops, op-
-> > >tile_mask);
-> > +			if (!skip)
-> > +				xe_vma_ops_incr_pt_update_ops(vops,
-> > op->tile_mask);
-> > �			break;
-> > �		}
-> > �		case DRM_GPUVA_OP_UNMAP:
-> > +		{
-> > +			struct xe_vma *vma = gpuva_to_vma(op-
-> > >base.unmap.va);
-> > +
-> > +			if (!xe_vma_is_system_allocator(vma))
-> > +				xe_vma_ops_incr_pt_update_ops(vops,
-> > op->tile_mask);
-> > +			break;
-> > +		}
-> > �		case DRM_GPUVA_OP_PREFETCH:
-> > +		{
-> > +			struct xe_vma *vma = gpuva_to_vma(op-
-> > >base.prefetch.va);
-> > +
-> > �			/* FIXME: Need to skip some prefetch ops */
-> > -			xe_vma_ops_incr_pt_update_ops(vops, op-
-> > >tile_mask);
-> > +			if (!xe_vma_is_system_allocator(vma))
-> > +				xe_vma_ops_incr_pt_update_ops(vops,
-> > op->tile_mask);
-> > �			break;
-> > +		}
-> > �		default:
-> > �			drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-> > �		}
-> > @@ -2702,7 +2720,8 @@ static int vm_bind_ioctl_ops_execute(struct
-> > xe_vm *vm,
-> > �	(DRM_XE_VM_BIND_FLAG_READONLY | \
-> > �	 DRM_XE_VM_BIND_FLAG_IMMEDIATE | \
-> > �	 DRM_XE_VM_BIND_FLAG_NULL | \
-> > -	 DRM_XE_VM_BIND_FLAG_DUMPABLE)
-> > +	 DRM_XE_VM_BIND_FLAG_DUMPABLE | \
-> > +	 DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATOR)
-> > �
-> > �#ifdef TEST_VM_OPS_ERROR
-> > �#define SUPPORTED_FLAGS	(SUPPORTED_FLAGS_STUB |
-> > FORCE_OP_ERROR)
-> > @@ -2757,9 +2776,17 @@ static int vm_bind_ioctl_check_args(struct
-> > xe_device *xe,
-> > �		u64 obj_offset = (*bind_ops)[i].obj_offset;
-> > �		u32 prefetch_region =
-> > (*bind_ops)[i].prefetch_mem_region_instance;
-> > �		bool is_null = flags & DRM_XE_VM_BIND_FLAG_NULL;
-> > +		bool is_system_allocator = flags &
-> > +			DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATOR;
-> > �		u16 pat_index = (*bind_ops)[i].pat_index;
-> > �		u16 coh_mode;
-> > �
-> > +		/* FIXME: Disabling system allocator for now */
-> > +		if (XE_IOCTL_DBG(xe, is_system_allocator)) {
-> > +			err = -EOPNOTSUPP;
-> > +			goto free_bind_ops;
-> > +		}
-> > +
-> > �		if (XE_IOCTL_DBG(xe, pat_index >= xe-
-> > >pat.n_entries)) {
-> > �			err = -EINVAL;
-> > �			goto free_bind_ops;
-> > @@ -2780,13 +2807,14 @@ static int vm_bind_ioctl_check_args(struct
-> > xe_device *xe,
-> > �
-> > �		if (XE_IOCTL_DBG(xe, op >
-> > DRM_XE_VM_BIND_OP_PREFETCH) ||
-> > �		��� XE_IOCTL_DBG(xe, flags & ~SUPPORTED_FLAGS) ||
-> > -		��� XE_IOCTL_DBG(xe, obj && is_null) ||
-> > -		��� XE_IOCTL_DBG(xe, obj_offset && is_null) ||
-> > +		��� XE_IOCTL_DBG(xe, obj && (is_null ||
-> > is_system_allocator)) ||
-> > +		��� XE_IOCTL_DBG(xe, obj_offset && (is_null ||
-> > +				 is_system_allocator)) ||
-> > �		��� XE_IOCTL_DBG(xe, op != DRM_XE_VM_BIND_OP_MAP &&
-> > -				 is_null) ||
-> > +				 (is_null || is_system_allocator))
-> > ||
-> > �		��� XE_IOCTL_DBG(xe, !obj &&
-> > �				 op == DRM_XE_VM_BIND_OP_MAP &&
-> > -				 !is_null) ||
-> > +				 !is_null && !is_system_allocator)
-> > ||
-> > �		��� XE_IOCTL_DBG(xe, !obj &&
-> > �				 op == DRM_XE_VM_BIND_OP_UNMAP_ALL)
-> > ||
-> > �		��� XE_IOCTL_DBG(xe, addr &&
-> > @@ -3170,6 +3198,7 @@ int xe_vm_invalidate_vma(struct xe_vma *vma)
-> > �	int ret = 0;
-> > �
-> > �	xe_assert(xe, !xe_vma_is_null(vma));
-> > +	xe_assert(xe, !xe_vma_is_system_allocator(vma));
-> > �	trace_xe_vma_invalidate(vma);
-> > �
-> > �	vm_dbg(&xe_vma_vm(vma)->xe->drm,
-> > diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-> > index c864dba35e1d..1a5aed678214 100644
-> > --- a/drivers/gpu/drm/xe/xe_vm.h
-> > +++ b/drivers/gpu/drm/xe/xe_vm.h
-> > @@ -151,6 +151,11 @@ static inline bool xe_vma_is_null(struct xe_vma
-> > *vma)
-> > �	return vma->gpuva.flags & DRM_GPUVA_SPARSE;
-> > �}
-> > �
-> > +static inline bool xe_vma_is_system_allocator(struct xe_vma *vma)
-> > +{
-> > +	return vma->gpuva.flags & XE_VMA_SYSTEM_ALLOCATOR;
-> > +}
-> > +
-> > �static inline bool xe_vma_has_no_bo(struct xe_vma *vma)
-> > �{
-> > �	return !xe_vma_bo(vma);
-> > @@ -158,7 +163,8 @@ static inline bool xe_vma_has_no_bo(struct xe_vma
-> > *vma)
-> > �
-> > �static inline bool xe_vma_is_userptr(struct xe_vma *vma)
-> > �{
-> > -	return xe_vma_has_no_bo(vma) && !xe_vma_is_null(vma);
-> > +	return xe_vma_has_no_bo(vma) && !xe_vma_is_null(vma) &&
-> > +		!xe_vma_is_system_allocator(vma);
-> > �}
-> > �
-> > �/**
-> > diff --git a/drivers/gpu/drm/xe/xe_vm_types.h
-> > b/drivers/gpu/drm/xe/xe_vm_types.h
-> > index 7f9a303e51d8..1764781c376b 100644
-> > --- a/drivers/gpu/drm/xe/xe_vm_types.h
-> > +++ b/drivers/gpu/drm/xe/xe_vm_types.h
-> > @@ -42,6 +42,7 @@ struct xe_vm_pgtable_update_op;
-> > �#define XE_VMA_PTE_64K		(DRM_GPUVA_USERBITS << 6)
-> > �#define XE_VMA_PTE_COMPACT	(DRM_GPUVA_USERBITS << 7)
-> > �#define XE_VMA_DUMPABLE		(DRM_GPUVA_USERBITS << 8)
-> > +#define XE_VMA_SYSTEM_ALLOCATOR	(DRM_GPUVA_USERBITS << 9)
-> > �
-> > �/** struct xe_userptr - User pointer */
-> > �struct xe_userptr {
-> > @@ -294,6 +295,8 @@ struct xe_vma_op_map {
-> > �	bool read_only;
-> > �	/** @is_null: is NULL binding */
-> > �	bool is_null;
-> > +	/** @is_system_allocator: is system allocator binding */
-> > +	bool is_system_allocator;
-> > �	/** @dumpable: whether BO is dumped on GPU hang */
-> > �	bool dumpable;
-> > �	/** @pat_index: The pat index to use for this operation. */
-> > diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-> > index c4182e95a619..1e92fd498967 100644
-> > --- a/include/uapi/drm/xe_drm.h
-> > +++ b/include/uapi/drm/xe_drm.h
-> > @@ -906,6 +906,12 @@ struct drm_xe_vm_destroy {
-> > � *��� will only be valid for DRM_XE_VM_BIND_OP_MAP operations, the
-> > BO
-> > � *��� handle MBZ, and the BO offset MBZ. This flag is intended to
-> > � *��� implement VK sparse bindings.
-> > + *� - %DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATOR - When the system
-> > allocator flag is
-> > + *��� set, no mappings are created rather the range is reserved for
-> > system
-> > + *��� allocations which will be populated on GPU page faults. Only
-> > valid on VMs
-> > + *��� with DRM_XE_VM_CREATE_FLAG_FAULT_MODE set. The system
-> > allocator flag are
-> > + *��� only valid for DRM_XE_VM_BIND_OP_MAP operations, the BO handle
-> > MBZ, and
-> > + *��� the BO offset MBZ.
-> > � */
-> > �struct drm_xe_vm_bind_op {
-> > �	/** @extensions: Pointer to the first extension struct, if
-> > any */
-> > @@ -958,7 +964,9 @@ struct drm_xe_vm_bind_op {
-> > �	 * on the @pat_index. For such mappings there is no actual
-> > memory being
-> > �	 * mapped (the address in the PTE is invalid), so the
-> > various PAT memory
-> > �	 * attributes likely do not apply.� Simply leaving as zero
-> > is one
-> > -	 * option (still a valid pat_index).
-> > +	 * option (still a valid pat_index). Same applies to
-> > +	 * DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATOR bindings as for such
-> > mapping
-> > +	 * there is no actual memory being mapped.
-> > �	 */
-> > �	__u16 pat_index;
-> > �
-> > @@ -974,6 +982,14 @@ struct drm_xe_vm_bind_op {
-> > �
-> > �		/** @userptr: user pointer to bind on */
-> > �		__u64 userptr;
-> > +
-> > +		/**
-> > +		 * @system_allocator_offset: Offset from GPU @addr
-> > to create
-> > +		 * system allocator mappings. MBZ with current level
-> > of support
-> > +		 * (e.g. 1 to 1 mapping between GPU and CPU mappings
-> > only
-> > +		 * supported).
-> > +		 */
-> > +		__s64 system_allocator_offset;
-> > �	};
-> > �
-> > �	/**
-> > @@ -996,6 +1012,7 @@ struct drm_xe_vm_bind_op {
-> > �#define DRM_XE_VM_BIND_FLAG_IMMEDIATE	(1 << 1)
-> > �#define DRM_XE_VM_BIND_FLAG_NULL	(1 << 2)
-> > �#define DRM_XE_VM_BIND_FLAG_DUMPABLE	(1 << 3)
-> > +#define DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATOR	(1 << 4)
-> > �	/** @flags: Bind flags */
-> > �	__u32 flags;
-> > �
-> 
+>>> Signed-off-by: Pierre-Eric Pelloux-Prayer 
+>>> <pierre-eric.pelloux-prayer@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c   |  2 +-
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c       |  3 ++-
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c      |  8 +++++---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h      |  3 ++-
+>>>   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  2 +-
+>>>   drivers/gpu/drm/imagination/pvr_job.c        |  2 +-
+>>>   drivers/gpu/drm/imagination/pvr_queue.c      |  5 +++--
+>>>   drivers/gpu/drm/imagination/pvr_queue.h      |  2 +-
+>>>   drivers/gpu/drm/lima/lima_gem.c              |  2 +-
+>>>   drivers/gpu/drm/lima/lima_sched.c            |  6 ++++--
+>>>   drivers/gpu/drm/lima/lima_sched.h            |  3 ++-
+>>>   drivers/gpu/drm/msm/msm_gem_submit.c         |  8 +++++---
+>>>   drivers/gpu/drm/nouveau/nouveau_sched.c      |  3 ++-
+>>>   drivers/gpu/drm/panfrost/panfrost_drv.c      |  2 +-
+>>>   drivers/gpu/drm/scheduler/sched_fence.c      |  4 +++-
+>>>   drivers/gpu/drm/scheduler/sched_main.c       |  6 ++++--
+>>>   drivers/gpu/drm/v3d/v3d_submit.c             |  2 +-
+>>>   drivers/gpu/drm/xe/xe_sched_job.c            |  3 ++-
+>>>   include/drm/gpu_scheduler.h                  | 12 ++++++++++--
+>>>   19 files changed, 51 insertions(+), 27 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+>>> index b545940e512b..eede43701d51 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+>>> @@ -681,7 +681,7 @@ int amdgpu_amdkfd_submit_ib(struct amdgpu_device 
+>>> *adev,
+>>>           goto err;
+>>>       }
+>>> -    ret = amdgpu_job_alloc(adev, NULL, NULL, NULL, 1, &job);
+>>> +    ret = amdgpu_job_alloc(adev, NULL, NULL, NULL, 1, &job, 0);
+>>>       if (ret)
+>>>           goto err;
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>> index 98aa4beee36a..a0a129405323 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>> @@ -293,7 +293,8 @@ static int amdgpu_cs_pass1(struct 
+>>> amdgpu_cs_parser *p,
+>>>       for (i = 0; i < p->gang_size; ++i) {
+>>>           ret = amdgpu_job_alloc(p->adev, vm, p->entities[i], vm,
+>>> -                       num_ibs[i], &p->jobs[i]);
+>>> +                       num_ibs[i], &p->jobs[i],
+>>> +                       p->filp->client_id);
+>>>           if (ret)
+>>>               goto free_all_kdata;
+>>>           p->jobs[i]->enforce_isolation = 
+>>> p->adev->enforce_isolation[fpriv->xcp_id];
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> index c774cd019a10..1dd8e940d1e9 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> @@ -186,7 +186,8 @@ static enum drm_gpu_sched_stat 
+>>> amdgpu_job_timedout(struct drm_sched_job *s_job)
+>>>   int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+>>>                struct drm_sched_entity *entity, void *owner,
+>>> -             unsigned int num_ibs, struct amdgpu_job **job)
+>>> +             unsigned int num_ibs, struct amdgpu_job **job,
+>>> +             uint64_t drm_client_id)
+>>>   {
+>>>       if (num_ibs == 0)
+>>>           return -EINVAL;
+>>> @@ -209,7 +210,8 @@ int amdgpu_job_alloc(struct amdgpu_device *adev, 
+>>> struct amdgpu_vm *vm,
+>>>       if (!entity)
+>>>           return 0;
+>>> -    return drm_sched_job_init(&(*job)->base, entity, 1, owner);
+>>> +    return drm_sched_job_init(&(*job)->base, entity, 1, owner,
+>>> +                  drm_client_id);
+>>>   }
+>>>   int amdgpu_job_alloc_with_ib(struct amdgpu_device *adev,
+>>> @@ -219,7 +221,7 @@ int amdgpu_job_alloc_with_ib(struct amdgpu_device 
+>>> *adev,
+>>>   {
+>>>       int r;
+>>> -    r = amdgpu_job_alloc(adev, NULL, entity, owner, 1, job);
+>>> +    r = amdgpu_job_alloc(adev, NULL, entity, owner, 1, job, 0);
+>>
+>> Have we defined somewhere zero is invalid or something?
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>       if (r)
+>>>           return r;
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
+>>> index ce6b9ba967ff..41a03477ba5d 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
+>>> @@ -90,7 +90,8 @@ static inline struct amdgpu_ring 
+>>> *amdgpu_job_ring(struct amdgpu_job *job)
+>>>   int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+>>>                struct drm_sched_entity *entity, void *owner,
+>>> -             unsigned int num_ibs, struct amdgpu_job **job);
+>>> +             unsigned int num_ibs, struct amdgpu_job **job,
+>>> +             uint64_t drm_client_id);
+>>>   int amdgpu_job_alloc_with_ib(struct amdgpu_device *adev,
+>>>                    struct drm_sched_entity *entity, void *owner,
+>>>                    size_t size, enum amdgpu_ib_pool_type pool_type,
+>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c 
+>>> b/drivers/gpu/drm/etnaviv/ etnaviv_gem_submit.c
+>>> index 3d0f8d182506..70294ca6202f 100644
+>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+>>> @@ -535,7 +535,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device 
+>>> *dev, void *data,
+>>>       ret = drm_sched_job_init(&submit->sched_job,
+>>>                    &ctx->sched_entity[args->pipe],
+>>> -                 1, submit->ctx);
+>>> +                 1, submit->ctx, file->client_id);
+>>>       if (ret)
+>>>           goto err_submit_put;
+>>> diff --git a/drivers/gpu/drm/imagination/pvr_job.c 
+>>> b/drivers/gpu/drm/imagination/pvr_job.c
+>>> index 618503a212a7..64152b57e8b1 100644
+>>> --- a/drivers/gpu/drm/imagination/pvr_job.c
+>>> +++ b/drivers/gpu/drm/imagination/pvr_job.c
+>>> @@ -446,7 +446,7 @@ create_job(struct pvr_device *pvr_dev,
+>>>       if (err)
+>>>           goto err_put_job;
+>>> -    err = pvr_queue_job_init(job);
+>>> +    err = pvr_queue_job_init(job, pvr_file->file->client_id);
+>>>       if (err)
+>>>           goto err_put_job;
+>>> diff --git a/drivers/gpu/drm/imagination/pvr_queue.c 
+>>> b/drivers/gpu/drm/imagination/pvr_queue.c
+>>> index c4f08432882b..598180fca141 100644
+>>> --- a/drivers/gpu/drm/imagination/pvr_queue.c
+>>> +++ b/drivers/gpu/drm/imagination/pvr_queue.c
+>>> @@ -1059,6 +1059,7 @@ static int pvr_queue_cleanup_fw_context(struct 
+>>> pvr_queue *queue)
+>>>   /**
+>>>    * pvr_queue_job_init() - Initialize queue related fields in a 
+>>> pvr_job object.
+>>>    * @job: The job to initialize.
+>>> + * @drm_client_id: drm_file.client_id submitting the job
+>>>    *
+>>>    * Bind the job to a queue and allocate memory to guarantee 
+>>> pvr_queue_job_arm()
+>>>    * and pvr_queue_job_push() can't fail. We also make sure the 
+>>> context type is
+>>> @@ -1068,7 +1069,7 @@ static int pvr_queue_cleanup_fw_context(struct 
+>>> pvr_queue *queue)
+>>>    *  * 0 on success, or
+>>>    *  * An error code if something failed.
+>>>    */
+>>> -int pvr_queue_job_init(struct pvr_job *job)
+>>> +int pvr_queue_job_init(struct pvr_job *job, uint64_t drm_client_id)
+>>>   {
+>>>       /* Fragment jobs need at least one native fence wait on the 
+>>> geometry job fence. */
+>>>       u32 min_native_dep_count = job->type == 
+>>> DRM_PVR_JOB_TYPE_FRAGMENT ? 1 : 0;
+>>> @@ -1085,7 +1086,7 @@ int pvr_queue_job_init(struct pvr_job *job)
+>>>       if (!pvr_cccb_cmdseq_can_fit(&queue->cccb, job_cmds_size(job, 
+>>> min_native_dep_count)))
+>>>           return -E2BIG;
+>>> -    err = drm_sched_job_init(&job->base, &queue->entity, 1, 
+>>> THIS_MODULE);
+>>> +    err = drm_sched_job_init(&job->base, &queue->entity, 1, 
+>>> THIS_MODULE, drm_client_id);
+>>>       if (err)
+>>>           return err;
+>>> diff --git a/drivers/gpu/drm/imagination/pvr_queue.h 
+>>> b/drivers/gpu/drm/imagination/pvr_queue.h
+>>> index e06ced69302f..bc556169b2cf 100644
+>>> --- a/drivers/gpu/drm/imagination/pvr_queue.h
+>>> +++ b/drivers/gpu/drm/imagination/pvr_queue.h
+>>> @@ -139,7 +139,7 @@ struct pvr_queue {
+>>>   bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f);
+>>> -int pvr_queue_job_init(struct pvr_job *job);
+>>> +int pvr_queue_job_init(struct pvr_job *job, uint64_t drm_client_id);
+>>>   void pvr_queue_job_cleanup(struct pvr_job *job);
+>>> diff --git a/drivers/gpu/drm/lima/lima_gem.c 
+>>> b/drivers/gpu/drm/lima/lima_gem.c
+>>> index 9bb997dbb4b9..f46f961afc56 100644
+>>> --- a/drivers/gpu/drm/lima/lima_gem.c
+>>> +++ b/drivers/gpu/drm/lima/lima_gem.c
+>>> @@ -341,7 +341,7 @@ int lima_gem_submit(struct drm_file *file, struct 
+>>> lima_submit *submit)
+>>>       err = lima_sched_task_init(
+>>>           submit->task, submit->ctx->context + submit->pipe,
+>>> -        bos, submit->nr_bos, vm);
+>>> +        bos, submit->nr_bos, vm, file->client_id);
+>>>       if (err)
+>>>           goto err_out1;
+>>> diff --git a/drivers/gpu/drm/lima/lima_sched.c 
+>>> b/drivers/gpu/drm/lima/lima_sched.c
+>>> index b40c90e97d7e..84599549661a 100644
+>>> --- a/drivers/gpu/drm/lima/lima_sched.c
+>>> +++ b/drivers/gpu/drm/lima/lima_sched.c
+>>> @@ -113,7 +113,8 @@ static inline struct lima_sched_pipe 
+>>> *to_lima_pipe(struct drm_gpu_scheduler *sch
+>>>   int lima_sched_task_init(struct lima_sched_task *task,
+>>>                struct lima_sched_context *context,
+>>>                struct lima_bo **bos, int num_bos,
+>>> -             struct lima_vm *vm)
+>>> +             struct lima_vm *vm,
+>>> +             uint64_t drm_client_id)
+>>>   {
+>>>       int err, i;
+>>> @@ -124,7 +125,8 @@ int lima_sched_task_init(struct lima_sched_task 
+>>> *task,
+>>>       for (i = 0; i < num_bos; i++)
+>>>           drm_gem_object_get(&bos[i]->base.base);
+>>> -    err = drm_sched_job_init(&task->base, &context->base, 1, vm);
+>>> +    err = drm_sched_job_init(&task->base, &context->base, 1, vm,
+>>> +                 drm_client_id);
+>>>       if (err) {
+>>>           kfree(task->bos);
+>>>           return err;
+>>> diff --git a/drivers/gpu/drm/lima/lima_sched.h 
+>>> b/drivers/gpu/drm/lima/lima_sched.h
+>>> index 85b23ba901d5..4041468586bd 100644
+>>> --- a/drivers/gpu/drm/lima/lima_sched.h
+>>> +++ b/drivers/gpu/drm/lima/lima_sched.h
+>>> @@ -88,7 +88,8 @@ struct lima_sched_pipe {
+>>>   int lima_sched_task_init(struct lima_sched_task *task,
+>>>                struct lima_sched_context *context,
+>>>                struct lima_bo **bos, int num_bos,
+>>> -             struct lima_vm *vm);
+>>> +             struct lima_vm *vm,
+>>> +             uint64_t drm_client_id);
+>>>   void lima_sched_task_fini(struct lima_sched_task *task);
+>>>   int lima_sched_context_init(struct lima_sched_pipe *pipe,
+>>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c 
+>>> b/drivers/gpu/drm/msm/msm_gem_submit.c
+>>> index fba78193127d..ceeedd4186ef 100644
+>>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+>>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+>>> @@ -30,7 +30,7 @@
+>>>   static struct msm_gem_submit *submit_create(struct drm_device *dev,
+>>>           struct msm_gpu *gpu,
+>>>           struct msm_gpu_submitqueue *queue, uint32_t nr_bos,
+>>> -        uint32_t nr_cmds)
+>>> +        uint32_t nr_cmds, uint64_t drm_client_id)
+>>>   {
+>>>       static atomic_t ident = ATOMIC_INIT(0);
+>>>       struct msm_gem_submit *submit;
+>>> @@ -54,7 +54,8 @@ static struct msm_gem_submit *submit_create(struct 
+>>> drm_device *dev,
+>>>           return ERR_PTR(ret);
+>>>       }
+>>> -    ret = drm_sched_job_init(&submit->base, queue->entity, 1, queue);
+>>> +    ret = drm_sched_job_init(&submit->base, queue->entity, 1, queue,
+>>> +                 drm_client_id);
+>>>       if (ret) {
+>>>           kfree(submit->hw_fence);
+>>>           kfree(submit);
+>>> @@ -702,7 +703,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, 
+>>> void *data,
+>>>           }
+>>>       }
+>>> -    submit = submit_create(dev, gpu, queue, args->nr_bos, 
+>>> args->nr_cmds);
+>>> +    submit = submit_create(dev, gpu, queue, args->nr_bos, 
+>>> args->nr_cmds,
+>>> +                   file->client_id);
+>>>       if (IS_ERR(submit)) {
+>>>           ret = PTR_ERR(submit);
+>>>           goto out_post_unlock;
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c 
+>>> b/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>> index 4412f2711fb5..ebc31adea39a 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>> @@ -87,7 +87,8 @@ nouveau_job_init(struct nouveau_job *job,
+>>>       }
+>>>       ret = drm_sched_job_init(&job->base, &sched->entity,
+>>> -                 args->credits, NULL);
+>>> +                 args->credits, NULL,
+>>> +                 job->file_priv->client_id);
+>>>       if (ret)
+>>>           goto err_free_chains;
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c 
+>>> b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>> index 04d615df5259..a8135bd75cae 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>> @@ -312,7 +312,7 @@ static int panfrost_ioctl_submit(struct 
+>>> drm_device *dev, void *data,
+>>>       ret = drm_sched_job_init(&job->base,
+>>>                    &file_priv->sched_entity[slot],
+>>> -                 1, NULL);
+>>> +                 1, NULL, file->client_id);
+>>>       if (ret)
+>>>           goto out_put_job;
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c 
+>>> b/drivers/gpu/drm/scheduler/sched_fence.c
+>>> index 0f35f009b9d3..909b886cd379 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+>>> @@ -204,7 +204,8 @@ struct drm_sched_fence *to_drm_sched_fence(struct 
+>>> dma_fence *f)
+>>>   EXPORT_SYMBOL(to_drm_sched_fence);
+>>>   struct drm_sched_fence *drm_sched_fence_alloc(struct 
+>>> drm_sched_entity *entity,
+>>> -                          void *owner)
+>>> +                          void *owner,
+>>> +                          uint64_t drm_client_id)
+>>>   {
+>>>       struct drm_sched_fence *fence = NULL;
+>>> @@ -213,6 +214,7 @@ struct drm_sched_fence 
+>>> *drm_sched_fence_alloc(struct drm_sched_entity *entity,
+>>>           return NULL;
+>>>       fence->owner = owner;
+>>> +    fence->drm_client_id = drm_client_id;
+>>>       spin_lock_init(&fence->lock);
+>>>       return fence;
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
+>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index 7ce25281c74c..28ac709750e9 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -776,6 +776,7 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
+>>>    * @credits: the number of credits this job contributes to the 
+>>> schedulers
+>>>    * credit limit
+>>>    * @owner: job owner for debugging
+>>> + * @drm_client_id: drm_file.client_id of the owner
+>>>    *
+>>>    * Refer to drm_sched_entity_push_job() documentation
+>>>    * for locking considerations.
+>>> @@ -796,7 +797,8 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
+>>>    */
+>>>   int drm_sched_job_init(struct drm_sched_job *job,
+>>>                  struct drm_sched_entity *entity,
+>>> -               u32 credits, void *owner)
+>>> +               u32 credits, void *owner,
+>>> +               uint64_t drm_client_id)
+>>>   {
+>>>       if (!entity->rq) {
+>>>           /* This will most likely be followed by missing frames
+>>> @@ -822,7 +824,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>>>       job->entity = entity;
+>>>       job->credits = credits;
+>>> -    job->s_fence = drm_sched_fence_alloc(entity, owner);
+>>> +    job->s_fence = drm_sched_fence_alloc(entity, owner, drm_client_id);
+>>>       if (!job->s_fence)
+>>>           return -ENOMEM;
+>>> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c 
+>>> b/drivers/gpu/drm/v3d/v3d_submit.c
+>>> index d607aa9c4ec2..a086da31f441 100644
+>>> --- a/drivers/gpu/drm/v3d/v3d_submit.c
+>>> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
+>>> @@ -168,7 +168,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file 
+>>> *file_priv,
+>>>       job->file = file_priv;
+>>>       ret = drm_sched_job_init(&job->base, 
+>>> &v3d_priv->sched_entity[queue],
+>>> -                 1, v3d_priv);
+>>> +                 1, v3d_priv, file_priv->client_id);
+>>>       if (ret)
+>>>           return ret;
+>>> diff --git a/drivers/gpu/drm/xe/xe_sched_job.c 
+>>> b/drivers/gpu/drm/xe/xe_sched_job.c
+>>> index eeccc1c318ae..6617555e7a51 100644
+>>> --- a/drivers/gpu/drm/xe/xe_sched_job.c
+>>> +++ b/drivers/gpu/drm/xe/xe_sched_job.c
+>>> @@ -113,7 +113,8 @@ struct xe_sched_job *xe_sched_job_create(struct 
+>>> xe_exec_queue *q,
+>>>       kref_init(&job->refcount);
+>>>       xe_exec_queue_get(job->q);
+>>> -    err = drm_sched_job_init(&job->drm, q->entity, 1, NULL);
+>>> +    err = drm_sched_job_init(&job->drm, q->entity, 1, NULL,
+>>> +                 q->xef->drm->client_id);
+>>>       if (err)
+>>>           goto err_free;
+>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>>> index 95e17504e46a..42c381449443 100644
+>>> --- a/include/drm/gpu_scheduler.h
+>>> +++ b/include/drm/gpu_scheduler.h
+>>> @@ -311,6 +311,13 @@ struct drm_sched_fence {
+>>>            * @owner: job owner for debugging
+>>>            */
+>>>       void                *owner;
+>>> +
+>>> +    /**
+>>> +     * @drm_client_id:
+>>> +     *
+>>> +     * The client_id of the drm_file who owned the job.
+>>> +     */
+>>> +    uint64_t            drm_client_id;
+>>>   };
+>>>   struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
+>>> @@ -563,7 +570,8 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>>>   void drm_sched_fini(struct drm_gpu_scheduler *sched);
+>>>   int drm_sched_job_init(struct drm_sched_job *job,
+>>>                  struct drm_sched_entity *entity,
+>>> -               u32 credits, void *owner);
+>>> +               u32 credits, void *owner,
+>>> +               uint64_t drm_client_id);
+>>>   void drm_sched_job_arm(struct drm_sched_job *job);
+>>>   int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>>>                    struct dma_fence *fence);
+>>> @@ -624,7 +632,7 @@ bool drm_sched_entity_is_ready(struct 
+>>> drm_sched_entity *entity);
+>>>   int drm_sched_entity_error(struct drm_sched_entity *entity);
+>>>   struct drm_sched_fence *drm_sched_fence_alloc(
+>>> -    struct drm_sched_entity *s_entity, void *owner);
+>>> +    struct drm_sched_entity *s_entity, void *owner, uint64_t 
+>>> drm_client_id);
+>>>   void drm_sched_fence_init(struct drm_sched_fence *fence,
+>>>                 struct drm_sched_entity *entity);
+>>>   void drm_sched_fence_free(struct drm_sched_fence *fence);
