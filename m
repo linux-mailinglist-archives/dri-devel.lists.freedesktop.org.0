@@ -2,87 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0D29D1D0A
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 02:15:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1309D2144
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 09:09:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B176410E1D3;
-	Tue, 19 Nov 2024 01:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7D5C10E0CB;
+	Tue, 19 Nov 2024 08:09:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="Iqz03f8A";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LAlmg6Pw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48EEB10E1D3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 01:15:03 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 238A589274;
- Tue, 19 Nov 2024 02:14:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1731978901;
- bh=Cb5xA4QrPjObXEuVAQV9BTBo9P9lF0LPOif/OFc8/Ys=;
- h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
- b=Iqz03f8A8ntVLExJdbOWEpa7BOXFN14gRPriudv2xawTis3YDMwOrO5fX9QGdUKyc
- 6VC1Q/FLuIrRIi0Cq9j4vmt9Lefazx84nEZVSnQe5Vg3DrU15cFGZV9oKRlL5ohaKs
- 2mpi1xkoP75X8XyH/KzFzpp1b1xnr0Q0u5ifDtVLLhP9gk7wOOpsVs7k1beL24Wi8j
- W39TWSLAJXIpsXfn2590fguoCdogUDafNR1fv3EubZJc2wnAPObxYAG9tIxDUo12lp
- KNSV4DMxPohhUvStuZlDdMaaGfmTqVrhzEKctC3T8Uxj7iFtjWL6z7RRtAh3MiXAUk
- JWc5Pl1j62nhg==
-Message-ID: <8a4fd234-4c7b-4a04-990d-3222aaa5172d@denx.de>
-Date: Tue, 19 Nov 2024 02:13:18 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v7 2/7] Revert "clk: imx: clk-imx8mp: Allow media_disp
- pixel clock reconfigure parent rate"
-To: Ying Liu <victor.liu@nxp.com>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>, "robh@kernel.org"
- <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "will@kernel.org" <will@kernel.org>,
- "abelvesa@kernel.org" <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
- "mturquette@baylibre.com" <mturquette@baylibre.com>,
- "sboyd@kernel.org" <sboyd@kernel.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
- <simona@ffwll.ch>, "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "arnd@arndb.de" <arnd@arndb.de>,
- "nfraprado@collabora.com" <nfraprado@collabora.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>
-References: <20241114065759.3341908-1-victor.liu@nxp.com>
- <20241114065759.3341908-3-victor.liu@nxp.com>
- <df6ebdde-65f8-4aad-93c7-b1df695bd2ef@denx.de>
- <AM7PR04MB7046546A882A8D48E135D84698272@AM7PR04MB7046.eurprd04.prod.outlook.com>
-Content-Language: en-US
-In-Reply-To: <AM7PR04MB7046546A882A8D48E135D84698272@AM7PR04MB7046.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F27F510E1A6;
+ Tue, 19 Nov 2024 01:44:13 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-2124ccf03edso2878025ad.2; 
+ Mon, 18 Nov 2024 17:44:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1731980653; x=1732585453; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6TLGZPhgwiSdTuoKO9EIOhX+7x+wgHfPfCEdlENWql4=;
+ b=LAlmg6Pw9Zw7WFVOhsgL7Wd9xWvSXE2EI+mkFH/g0O2PukIdTan7wehcCuvdVfbQ3V
+ Em6rwq6fdQHEbo3qVvPtrydWlfHJbG+OgvQUVs7MwfChvr2kAZzXOIgBQ1fjV6ICJi5y
+ OLutoCMw5xc4UtJWbgzVd8A7CED8FtasualoIwBd6+hlBtvDdQlWf9S0e1GktEe8z+wN
+ vt8qX48A2Zs2LjtkGA1s283d0yzBGGwgAAAxr1mkksmW0IhvwjwwEIixecJJEI/yYkX/
+ H7MVABC4wA6zp9ZK3SLZSZ5xG63vTcJHz/rrr6N6aT+HZj+gfXGabXDnS02/muzQkNh9
+ LqRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1731980653; x=1732585453;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6TLGZPhgwiSdTuoKO9EIOhX+7x+wgHfPfCEdlENWql4=;
+ b=cv3t8XbU6ksCD7v2kSSBUWFizJVmeGj6cnTUxFv4yXDTk25ewfa3UQoEnNBD0DrADx
+ S0RzC8CRLu2z2EBxZED34d+uaiP1056zeEmGcQ8fcclKZn4Xd8g03D45By2q8qdDBpsj
+ e/7+SWoaKvm++tAyn+ZNxm2++Ulii71DueEGu4mvSjzZPwkFHMo1j3/Ss8Dk7YwOfmPR
+ 8A4/hoHbs72TA3HOj4rqMQQF5UGDFPN2QOLAnVEiEuiswgynNvYF9JT6800aB7WU+eaK
+ d86z/+qTfGo0Xmogs6THMJ4pijkLKqhVxtUwld4OeJXMr43/FH/lP1XbNsfFwpqVT3iX
+ hY/A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUQau0f3CxDsU+FwMplOz9u32wkiiFjWDdop7i4hwbn+9fylugJYcS2wkiFDaoRonS29K/6S/E3jho=@lists.freedesktop.org,
+ AJvYcCV6RBN6bZ0OfWs7Ml3kT8Cgoz7EtIl/yizCtVShW6mfhDn4laMsYdImU80nZVQS9uJ8m56BEXg4p/M=@lists.freedesktop.org,
+ AJvYcCXEhUKTD8FDsVu7NyNeAnKgSzyYsvJmiuNDjcVj9s6rNiUc2z94Uy0V08R5GZELGAiPqpHPNTaXWA==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw6SJdtQ/uGsxApjKe50O0zuOAhl2gSh6Ekh1uN5uyRpi40UOPp
+ Ur7UubkG6PAMTokLFoD+4dHKJRKr2lSGQjPDAffasctNpgrC2Ar0
+X-Google-Smtp-Source: AGHT+IGKOuuVyAvdbfIttKIxJSv7PNCbNBMgaHYEIodVhJO4YNPmnFai9XI15Qs6QZqqMPXdK5RTjA==
+X-Received: by 2002:a17:903:186:b0:212:46c2:632e with SMTP id
+ d9443c01a7336-21246c26707mr25423135ad.15.1731980653295; 
+ Mon, 18 Nov 2024 17:44:13 -0800 (PST)
+Received: from smtpclient.apple ([198.11.178.15])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-211d0f6182bsm62977715ad.277.2024.11.18.17.43.45
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 18 Nov 2024 17:44:12 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
+Subject: Re: [PATCH v2 19/21] livepatch: Convert timeouts to secs_to_jiffies()
+From: zhang warden <zhangwarden@gmail.com>
+In-Reply-To: <96f3b51b-c28c-4ea8-b61e-a4982196215f@linux.microsoft.com>
+Date: Tue, 19 Nov 2024 09:43:32 +0800
+Cc: Petr Mladek <pmladek@suse.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Pablo Neira Ayuso <pablo@netfilter.org>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Julia Lawall <Julia.Lawall@inria.fr>,
+ Nicolas Palix <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>,
+ Russell King <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?utf-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ James Smart <james.smart@broadcom.com>,
+ Dick Kennedy <dick.kennedy@broadcom.com>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ =?utf-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
+ Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>,
+ Jeff Johnson <jjohnson@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Miroslav Benes <mbenes@suse.cz>, Joe Lawrence <joe.lawrence@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Louis Peens <louis.peens@corigine.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Naveen N Rao <naveen@kernel.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, cocci@inria.fr,
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
+ linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
+ ath11k@lists.infradead.org, linux-mm@kvack.org,
+ linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
+ live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, oss-drivers@corigine.com,
+ linuxppc-dev@lists.ozlabs.org,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <99755FD2-270C-4122-8A22-6C73A81028F6@gmail.com>
+References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
+ <20241115-converge-secs-to-jiffies-v2-19-911fb7595e79@linux.microsoft.com>
+ <718febc4-59ee-4701-ad62-8b7a8fa7a910@csgroup.eu>
+ <Zzsfuuv3AVomkMxn@pathway.suse.cz>
+ <96f3b51b-c28c-4ea8-b61e-a4982196215f@linux.microsoft.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+X-Mailer: Apple Mail (2.3774.500.171.1.1)
+X-Mailman-Approved-At: Tue, 19 Nov 2024 08:09:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,128 +157,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/18/24 4:54 AM, Ying Liu wrote:
-> Hi Marek,
 
-Hi,
 
->>> media_disp1_pix clock is the pixel clock of the first i.MX8MP LCDIFv3
->>> display controller, while media_disp2_pix clock is the pixel clock of
->>> the second i.MX8MP LCDIFv3 display controller.  The two display
->>> controllers connect with Samsung MIPI DSI controller and LVDS Display
->>> Bridge(LDB) respectively.  Since the two display controllers are driven
->>> by separate DRM driver instances and the two pixel clocks may be derived
->>> from the same video_pll1_out clock(sys_pll3_out clock could be already
->>> used to derive audio_axi clock), there is no way to negotiate a dynamically
->>> changeable video_pll1_out clock rate to satisfy both of the two display
->>> controllers.  In this case, the only solution to drive them with the
->>> single video_pll1_out clock is to assign a sensible/unchangeable clock
->>> rate for video_pll1_out clock.  Thus, there is no need to set the
->>> CLK_SET_RATE_PARENT flag for media_disp{1,2}_pix clocks, drop it then.
->>>
->>> Fixes: ff06ea04e4cf ("clk: imx: clk-imx8mp: Allow media_disp pixel clock
->> reconfigure parent rate")
->>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
->> Uh, I almost missed this revert between all the LDB patches.
->>
->> This revert will break my usecase on MX8MP where I need to operate two
->> disparate panels attached to LVDS and TC358767 DSI-to-DP bridge and I
->> need accurate pixel clock for both. Not being able to configure accurate
->> pixel clock will make the displays not work, so from my side, this is a
->> NAK, sorry.
-> 
-> Is your usecase in upstream kernel? If yes, which DT file implements the
-> usecase?  I guess it's im8mp-dhcom-som.dtsi authored by you, but it only
-> contains the DT node for TC358767, but not LVDS panel.
-> 
-> Can you please elaborate about the failure case?
+> On Nov 19, 2024, at 02:18, Easwar Hariharan =
+<eahariha@linux.microsoft.com> wrote:
+>=20
+> On 11/18/2024 3:06 AM, Petr Mladek wrote:
+>> On Sat 2024-11-16 11:10:52, Christophe Leroy wrote:
+>>>=20
+>>>=20
+>>> Le 15/11/2024 =C3=A0 22:26, Easwar Hariharan a =C3=A9crit :
+>>>> [Vous ne recevez pas souvent de courriers de =
+eahariha@linux.microsoft.com. D=C3=A9couvrez pourquoi ceci est important =
+=C3=A0 https://aka.ms/LearnAboutSenderIdentification ]
+>>>>=20
+>>>> Changes made with the following Coccinelle rules:
+>>>>=20
+>>>> @@ constant C; @@
+>>>>=20
+>>>> - msecs_to_jiffies(C * 1000)
+>>>> + secs_to_jiffies(C)
+>>>>=20
+>>>> @@ constant C; @@
+>>>>=20
+>>>> - msecs_to_jiffies(C * MSEC_PER_SEC)
+>>>> + secs_to_jiffies(C)
+>>>>=20
+>>>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+>>>> ---
+>>>>  samples/livepatch/livepatch-callbacks-busymod.c |  2 +-
+>>>>  samples/livepatch/livepatch-shadow-fix1.c       |  2 +-
+>>>>  samples/livepatch/livepatch-shadow-mod.c        | 10 +++++-----
+>>>>  3 files changed, 7 insertions(+), 7 deletions(-)
+>>>>=20
+>>>> diff --git a/samples/livepatch/livepatch-callbacks-busymod.c =
+b/samples/livepatch/livepatch-callbacks-busymod.c
+>>>> index =
+378e2d40271a9717d09eff51d3d3612c679736fc..d0fd801a7c21b7d7939c29d83f9d993b=
+adcc9aba 100644
+>>>> --- a/samples/livepatch/livepatch-callbacks-busymod.c
+>>>> +++ b/samples/livepatch/livepatch-callbacks-busymod.c
+>>>> @@ -45,7 +45,7 @@ static int livepatch_callbacks_mod_init(void)
+>>>>  {
+>>>>         pr_info("%s\n", __func__);
+>>>>         schedule_delayed_work(&work,
+>>>> -               msecs_to_jiffies(1000 * 0));
+>>>> +               secs_to_jiffies(0));
+>>>=20
+>>> Using secs_to_jiffies() is pointless, 0 is universal, should become
+>>> schedule_delayed_work(&work, 0);
+>>=20
+>> Yes, schedule_delayed_work(&work, 0) looks like the right solution.
+>>=20
+>> Or even better, it seems that the delayed work might get replaced by
+>> a normal workqueue work.
+>>=20
+>> Anyway, I am working on a patchset which would remove this sample
+>> module. There is no need to put much effort into the clean up
+>> of this particular module. Do whatever is easiest for you.
+>>=20
+>> Best Regards,
+>> Petr
+>=20
+> If we're removing the module, I'll drop it from the series. Just to
+> clarify, do you mean to remove all of samples/livepatch/* or some
+> particular file(s)?
+>=20
+> Thanks,
+> Easwar
+>=20
 
-The TC9595 can drive an DP output, for that the clock which have to be 
-set on the LCDIF cannot be predicted, as that information comes from the 
-monitor EDID/DPCD. That is why the LCDIF has to be able to configure the 
-Video PLL1 clock to accurate clock frequency.
+Hi Easwar!
 
-For the LVDS LDB, the use case is the other way around -- the pixel 
-clock which should be generated by LCDIF and fed to LDB are known from 
-the panel type listed in DT, but they should still be accurate.
+I think Petr is going to remove just this module away. Anyway, I don't =
+think
+removing all of them is a good idea.
 
-> You still may assign an accurate PLL rate in DT.
-> This patch only makes the PLL rate be unchangeable dynamically in
-> runtime.  That means the existing imx8m-dhcom-som.dtsi would use
-> IMX8MP_VIDEO_PLL1_OUT(running at 1.0395GHz) as the parent clock
-> of IMX8MP_CLK_MEDIA_DISP1_PIX (for LCDIF1/DSI), since it includes
-> imx8mp.dsti.  I assume it should be able to support typical video modes
-> like 1080p60 video mode with 148.5MHz pixel clock at least with 1.0395GHz
-> PLL rate.
+Thanks.
+Wardenjohn.=20
 
-This will break multiple DP monitors I tested so far I'm afraid. And I 
-spent a LOT of time wrestling with the TC9595 bridge to make sure it 
-actually does work well.
-
-> Granted that less video modes read from DP monitor would
-> be supported without dynamically changeable PLL rates, this is something
-> we have to accept because some i.MX8MP platforms(like i.MX8MP EVK)
-> have to share IMX8MP_VIDEO_PLL1_OUT between LVDS and MIPI DSI
-> display pipelines.
-
-What I need is the use of two full PLL1443x (like Video PLL and Audio 
-PLL1/2) , one for each display output, and those PLLs have to be fully 
-configurable to produce accurate pixel clock for each connected panel. 
-Otherwise I cannot make proper use of the video output capabilities of 
-the MX8MP SoC.
-
-> The missing part is that we need to do mode validation
-> for the MIPI DSI display pipeline either in samsung-dsim.c or lcdif_kms.c
-> to filter unsupported video mode out.  Is this missing mode validation
-> the cause of your failure case?
-
-I do want to support the various modes, I do not want to filter them 
-out. They can be supported, the only "problem" is the shared Video PLL 
-which is not really an actual problem in my case, because I do not use 
-shared Video PLL, I use two separate PLLs.
-
-I think what is needed is for the LCDIF1/LCDIF2/LDB to figure out 
-whether they share the Video PLL at all (you already suggested the clock 
-subsystem can provide that information), and then if:
-- yes, agree on some sort of middle-ground frequency to configure into
-   the Video PLL, frequency which somehow fits all three consumers
-   (LCDIF1,LCDIF2,LDB)
-- no, configure each consumer upstream clock to generate accurate pixel
-   clock for that consumer
-
-Something like ^ would make MX8MP EVK (the "yes" case) with shared Video 
-PLL work, without breaking my use case (the "no" case), right ? (*)
-
->> There has to be some better solution which still allows the PLL
->> reconfiguration to achieve accurate pixel clock.
-> 
-> As I mentioned in cover letter, the only solution to support LVDS and
-> MIPI DSI displays on all i.MX8MP platforms is to assign a sensible and
-> unchangeable PLL rate in DT.
-
-I am currently using Video PLL and Audio PLL to drive DSI and LVDS 
-outputs from each, so no, fixed Video PLL assignment in DT is not the 
-only solution.
-
-> Some platforms may use two separate
-> PLLs for the LVDS and MIPI DSI display pipelines, while some others
-> have to use only the single IMX8MP_VIDEO_PLL1_OUT because
-> all other eligible PLLs are used up.  That's all fine, just being platforms
-> dependent.  The only limitation of the solution is that some platforms
-> couldn't support some particular LVDS and MIPI DSI displays at the
-> same time due to lack of PLLs, but this has to be accepted since
-> the shared IMX8MP_VIDEO_PLL1_OUT case needs to be supported and
-> the two display pipelines are not aware of each other from kernel's
-> point of view.
-
-Can something like (*) above be implemented instead, so both Shared and 
-separate PLLs would be supported ? That should solve both of our use 
-cases, right ?
-
-> I hope that we can agree on this solution first before spreading
-> discussions across different threads and eventually the NAK can be
-> taken back.
-
-I cannot really agree on a solution which breaks one of my use cases, 
-but maybe there is an alternative how to support both options, see (*) 
-above ?
