@@ -2,60 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B701C9D2741
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 14:49:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3609D2726
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 14:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77A8010E641;
-	Tue, 19 Nov 2024 13:49:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEA4210E05C;
+	Tue, 19 Nov 2024 13:40:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="XnwfZNec";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="hdKgp8EX";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ahUlKuwv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 308 seconds by postgrey-1.36 at gabe;
- Tue, 19 Nov 2024 13:49:27 UTC
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8108710E641
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 13:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1732023569;
- bh=khg0k1vWHbWSRtTW7ont5ei
- c50BHLvZ2O6w+J5rAMg4=; b=XnwfZNecdnETdUt9hb23WpfCCmRX9CU+vuiVwA9rUzlaJ7s9U5
- i09JiMq6YvASNV3TI2k6LdgzaVWzD41rRfh0tZuYTVkT3K+RcfM7Wubi+lJVi4AFZjXi3sUHPpd
- 1l2ZWS3LRXsWmOKnn+7JjniwKWLntIdbupTI4YfajFetPhi/YZZuXcawkoTFhXOcP6bZEoLDusJ
- R/ASeVgqQ6m38Y635eh+BOp1kbEUpUwY3tMWIMhVuLhlWohDfQA6WYmPB4lGaJsDCclFnqaYqgF
- mmFt1vJF+TR7dS7OTzHd9mradqK/LfQajEmFxo414iLk9y73LIj/hL837y87CU+6DOA==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1732023569; bh=khg0k1vWHbWSRtTW7ont5ei
- c50BHLvZ2O6w+J5rAMg4=; b=hdKgp8EX8Vs7cUZ78MuRL+RRzHWxKYXCo+egrDb/DjI1EVEz5d
- Efx1Ik1KL3AoeOAIgVHoMT48zD70oXs+5wCA==;
-Message-ID: <5a023c66-9a88-4659-8167-9a7d05133201@damsy.net>
-Date: Tue, 19 Nov 2024 14:39:28 +0100
-MIME-Version: 1.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2058.outbound.protection.outlook.com [40.107.223.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7E3710E05C;
+ Tue, 19 Nov 2024 13:40:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Im5Nc17617VcfDA5+7Em31JTyngWaKZNUZUN9qBuz9eig34djV+YB6RZqXzNeX8Fnx/6EH/sZU/whOyitxDaWxYVbppOgEfi+IM10VkCw8gvRSAb+YH9cksi5cam7wnMzwFYEcjmWOzxbfIe0gibDX/ZlBGV8burrms5vW9I+Cs+U7F6+ODPXs16ip7tHxP5BfSykhMozuL7ZlInTUDxaqswuR812ddusGB/rUtuU7dAHEofczKar1+349AYLAYoj3lHTkazI20Cd+8AUVq+6FXndqGepaci1jsxEm6MfF76DEeWz4sAx8fy2BOmHE6itytj6EjlBREvim9r8yb0dA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VCke2kv53RJYDEjzwesC9NATR5rhgND9JmJu9dKd25M=;
+ b=uSg8ZXM+QBBgmFp7/ch+/3vFR0TAJKbSfasVaIzSABFwba1qUC9Xhp40Oiod4DyyLfqHnPTA9YAtQ7JNkMxvy4smJYqBvDaNWBiMoMxnq27nVUkDCxddwUDX0xhT21oMZELERUxQeTs8gFDNJ3/BhjbNHIahinlOvkQ9qrRDyOcAYDnvAZYLs44tJSfl/BNmDCsjwbulvYBydjPQAQKKuU96vI1MABxxSZ/uxLLJ1b4S4riqgfNaskoT6yQJJR78dqNe7AxKKYXf9tlPJDWfyyMaoKWoeMsjEoQ++k845M2o/TRwr14xLfi+Dmd0phrGUVkF/SOTuYYY/Rmac/BUCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VCke2kv53RJYDEjzwesC9NATR5rhgND9JmJu9dKd25M=;
+ b=ahUlKuwvWJWevr3h6ITaGyF5xxBeopXmiRi69d48fOOnsOwAtDdVBFxgua5VBrn8o5ebPcGZzPXmEcEUNq+KyiRJVfRI5GoG0rrhYfIaDH9PUrJivrYo2dVkP+BINpGvhuNbOGNh3HvOv1eBBGti/8Q4syhBuGtEJ4ii+DeLFAM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH0PR12MB8798.namprd12.prod.outlook.com (2603:10b6:510:28d::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.23; Tue, 19 Nov
+ 2024 13:40:38 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8158.019; Tue, 19 Nov 2024
+ 13:40:36 +0000
+Message-ID: <a87503b5-2bca-4614-8816-078ade6d0940@amd.com>
+Date: Tue, 19 Nov 2024 14:40:29 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/7] drm/sched: store the drm client_id in
- drm_sched_fence
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com,
- matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- rostedt@goodmis.org, l.stach@pengutronix.de, matt.coster@imgtec.com,
- frank.binns@imgtec.com, yuq825@gmail.com, robdclark@gmail.com,
- kherbst@redhat.com, lyude@redhat.com, boris.brezillon@collabora.com,
- steven.price@arm.com, mwen@igalia.com, mcanal@igalia.com,
- thomas.hellstrom@linux.intel.com
-References: <20241114100113.150647-1-pierre-eric.pelloux-prayer@amd.com>
- <20241114100113.150647-3-pierre-eric.pelloux-prayer@amd.com>
- <e5f5755f-6b42-4ea6-8ab1-8791a2d8dcbc@igalia.com>
+Subject: Re: [PATCH v14 2/8] drm/ttm: Provide a shmem backup implementation
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
+ Paulo Zanoni <paulo.r.zanoni@intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+References: <20241115150120.3280-1-thomas.hellstrom@linux.intel.com>
+ <20241115150120.3280-3-thomas.hellstrom@linux.intel.com>
 Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <e5f5755f-6b42-4ea6-8ab1-8791a2d8dcbc@igalia.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20241115150120.3280-3-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0344.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ea::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH0PR12MB8798:EE_
+X-MS-Office365-Filtering-Correlation-Id: 33d36b4e-fc07-4deb-6459-08dd089fbfb4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K2Z2blVZSUZ4MzNrd3o0K0thYUVVVTEyY2dRTHVoUW54dTNpWkVGbmhPMjVN?=
+ =?utf-8?B?MmQxVVJ5ZXZJRkR6SXJrdDN0T2kzZGtqMk5Camx1WFowazd2L2tnUDNZK09s?=
+ =?utf-8?B?R05UTmF0QVFYajAwNFJmUUlXYitPQm0wL3BaWnV3cGFURGd5VGZXbnNSWEVx?=
+ =?utf-8?B?L2hJZXpPUnJPdkFMK2tMTVpIekttdHNBSFdqa2NHUGdLMW9EU05RYVQ1ZVNC?=
+ =?utf-8?B?K3IvU2R1SHVMSEtVZDdCbkplYlp0NXVxdmJMUWNUcDArbFhSYkpkMnVBTTdi?=
+ =?utf-8?B?Q3NlSGF1VysvcGpNWjZLT0gvTVFMNXM5NVY0WGlLN0NNNHZwY0VUQUh5a2cw?=
+ =?utf-8?B?aUREM1JGajBINk11S0pZWG1vTnRmWXZHbGlFOHFncXVrZ3pZY1VqRWlZbVBJ?=
+ =?utf-8?B?ZXZ4azd3ekZnNnlhMkk1SVE0MkJOcXBUR2tiZEg5ZWgrQnVVUlhuUjhIS3BT?=
+ =?utf-8?B?ZU9TK0tjSzU3U2RaRGloeS9BcXVXcnN6TElBM3ZINWRrQUxLZWIxMzRZTmty?=
+ =?utf-8?B?eDNXRElQTHFUQ0Vpd3JwRXAvTEJNalhDRkEvYm4yNmxROWpvekg3SkRmaDI2?=
+ =?utf-8?B?UkhhTE8wb1ppcGFDT0tNU2NySEd6U25ycmlmcVh5SW16d1JnRjdjZTYrNHlS?=
+ =?utf-8?B?OUVQN2dRSk5CUUdqT052b3lFcXppTXRoSklFQlAwUDdlVmxCN0RxWHBMR3d6?=
+ =?utf-8?B?SUpwVjVYdU55eG15S0xvY3hLNUxmRSswK0YwYVJ5NEh3dS9tTVpCRk52VEJ1?=
+ =?utf-8?B?azBrWTcrMSt0WEV3QkxOUE96QktFVmJtTjZWbWFTTXEzdmRBVUZPSkVnZ0FT?=
+ =?utf-8?B?TGZFZjFlek9OQ0N5d01oaVVBaVFwaTBqMVBJQkQvc1F4RCtTUDFjbjBRWUtL?=
+ =?utf-8?B?OCtuWFVmZ1I4OGljcWxZeTNQazZkdDNFSXBiQ24wRjZtRVRXWFR0UmlHenBO?=
+ =?utf-8?B?aytLajl3YTU5OVpPVytVdSs1aS9ZVlRQWFlnWWFsaG85RGk1Sklvc0gyRnJM?=
+ =?utf-8?B?aE0wd0hQZkwrZ2dVdWtQNVZ1aEttU1NKRHRhQmplRUpXZEJOcHVvbFNNUndI?=
+ =?utf-8?B?c2JPZnI0ellMSE9KQUFFY3lXR2lBR3diU3BEZDJxS3RHWWJ2amxXbCs1aVFP?=
+ =?utf-8?B?b09CTDJkY0ZwbWxpR0pTTHJjQVlMTjlDdUt4NkV4KzR1Mm02bHEycVBqbTNi?=
+ =?utf-8?B?VE5nR2x6Wm5UTGdzdndUTXVpeENsSmJLVU8zZER5MGlkeTFTU01wZHpxUVk5?=
+ =?utf-8?B?VitHY1VkbXFyYmRLQ0FSVXJseHhwYUNnZmxjMVQrQ3FKcjQ4MlZUTXNMNlpw?=
+ =?utf-8?B?bVcrUlk3RGMwK2U1VHJoWkF6aG9OK0haeWtTSUo2dFRIU0VDZ2JYdFhoOThP?=
+ =?utf-8?B?UGVZRDVjRTFodmFuQWViRkZvZHVKNmF4MS9La2lSRElPTWZHaHZhaTVBb0tV?=
+ =?utf-8?B?a1pqOHExVnFTTFpGRDR5bkkvR3hvVmZwMDlJQ3B3WWJuTXlyOEUwZHNKUUJi?=
+ =?utf-8?B?T0pkczB1TmlFNDZJNms4VXY4UkFBNG1ZeTFvdFRDUkVuYzR4OHQxbDFtQ1Vz?=
+ =?utf-8?B?SEttRzNJb21QMXVLOGhNMFhCZW5hMVV6R1RWS3UydXVPNGh1eU5KMFQ2WUFi?=
+ =?utf-8?B?WW5vNng5QXF4QTBpblhpK21KUUZUQ0gwOFZLcy80N2drT3RGSWhzbG5NWmw2?=
+ =?utf-8?B?dEVuWGJlcTF1K3JQYktuQ2xBQlFlSTNGY0JaU3JsQUlxZUM0OVNtV2hMNmhv?=
+ =?utf-8?Q?LDQuv6UOaRqRrrRnDtUsC8AWYfWPBXvPZN0I3rp?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmNhVGlrdTVlWCt2Szd6NmU0cGtMaEorZFdXN1JlU3U3bW9pamwzRzhvY0Zp?=
+ =?utf-8?B?YUFFNXNHNGE4REQwZVMyZElGekMxNm1YSWF0Tk5USmIwMVd4Ti9NVkt0N0R6?=
+ =?utf-8?B?L2pSQnJyRDB0WE1WaDZyRis2T0tZY0hPbUNNYkNPb1h2RkNrMEVjVHdHSkJE?=
+ =?utf-8?B?ejRLVGdOMk05R1d1bDNMTEp4REc5MllveVNuaXFMVDBVaWQ0aWFsNG9OeHV4?=
+ =?utf-8?B?WmhFY1VhTjYzRE53OG5sNjRQTFo2NlJYa09kTUVySlZ2R2NCTVpoMWRWRlc2?=
+ =?utf-8?B?UXJaMS9jNHNyYXlpTXFGOUt3RkZRV3FJb0wxUFZadUUyNno4dmVMcDZCLzkv?=
+ =?utf-8?B?N1o0VGhmS25vQlkrQmlHcDRRTmNJVWoycndERTl5bFV1UG9JSHp0VzlGTVVV?=
+ =?utf-8?B?dmc0dG5vZ0M4M2VNNlVjc1Zla3BqNE9rOE55eUFrU3c1Rkw4a3RKenA2dWla?=
+ =?utf-8?B?WGFrTUxnekhVTTRXL01TUTRySXZ1YS81WnVhR0VmWFYzMVJKbEZTU3RwKy9Q?=
+ =?utf-8?B?Nll5YXVWeU9wSDNzTzduRUh6WkI3VUd2UzRzMU9mZEdjZVl3Qks1ZVZZOEl5?=
+ =?utf-8?B?MGdUVHBGK1VTRTdEdm1ZQUZuUG5GR3NCbDNKYjhhQzlLVDdNRmxxOXcvazE1?=
+ =?utf-8?B?VzNLU1ZXaUM3d0pkUHNnVGJGcElvVENjbnAyUkNPeURjLy84aEZGMlVEb1Qy?=
+ =?utf-8?B?WTlTZDdDSVVGNEZrWCtQWXNtTm9kOUs4SWhuOXhyRlNyUjJ1QTlEa2VmUlZn?=
+ =?utf-8?B?SEo0SzFJTkx1anR0RHBBa1UyZmsyWFZVbFlSK3lZOC90cVFPUWtpZEN2VWtV?=
+ =?utf-8?B?WEFrTnNkTnMvVitCWGFJSklHWEtjVmV5MVZiSjltSnVnNjU5bHAvY1RUUjBD?=
+ =?utf-8?B?TEh2SlRxbUp5SWlNcjdmRmxFK2hINU53cGhlaFRxUXVxTU5RVTYzVE1yeUNt?=
+ =?utf-8?B?TnU0elV5V0pMV3RwZ0FtUnl4VnU5T0wzZVNmc3dhdXFqRnRsbUM0d0JQdjIv?=
+ =?utf-8?B?M1NZeUlQWExnalZGbG1DY3R0RWg3UUY1ejd4MzFwVEdKakRZakFaeVJUZStS?=
+ =?utf-8?B?cTkwemJUMGhHWmxmK1FJY0FKZnpjNitkaGVhVzNXYk9ScHlOeCtkZVlvam8v?=
+ =?utf-8?B?eU1DeUdaa3RxVXdiWHk3empveStEc09IelpPanRiOUk0aklzS0lOckpGdEpR?=
+ =?utf-8?B?UVU0NzB2bHZXalRrUlBTdVo3R1A4ZGR4azNmcE5IblI5ZWY4OENWbW1ITlVJ?=
+ =?utf-8?B?d1dhVEtjalZEQ2pYZGxsTzRiVklaeDBEWW5KQ2Vwck5oZHVYNVhwNnhRRUJH?=
+ =?utf-8?B?b1VJZ3ZsWi93K2w5QlpwVzNMbktrVnFaMUxNV0RjQ2xtNkxhczg0K2NiZEp3?=
+ =?utf-8?B?Y1R6M0lXa1RYY21xTnFnbGNlcHJWNlVhY0JRcTlpZkc0THpxVGJRaFluMjcw?=
+ =?utf-8?B?amJkTFlBVHlRNjl6ck9kUUlzSm96bThvTE1CN1JWeStxaE1CdTBDR09HeUYy?=
+ =?utf-8?B?Y0RDR29FM1NKN2h1RXNSRkJWTldKOGkxa1l0OXJkTWVtU2xQRHhhS1MwQzRU?=
+ =?utf-8?B?OWI0WEtud0lhOUdoZmZxaTdSeUdac1grK2lCUTJLWWhIUEJkUkpNUDZkL0JK?=
+ =?utf-8?B?dTVZWWZHUjRNc3gwTzBZZ1JtQi9GdjZsbDlXTUpZNFBIaE5wKzdJWTN4dTh5?=
+ =?utf-8?B?THpmTUFPS3NHOGFTbmh0eDRRUFRPTyt2d1N6dFpOeEl4emljc0QvUWFTc2xD?=
+ =?utf-8?B?c2Q5ZVFocGVZckp1SWhSV2ZwZjV6UklPZjU5R3phYTVjUUtGaTRNT2JSeDdo?=
+ =?utf-8?B?OG5kL3ZsOUtaWlhCelRNUWdNb1VDTDlqdThFSmcveDNKUU5OT20ya0l2eFpn?=
+ =?utf-8?B?MDFJQTNhaXZvb0dFNU5nM0lXWVNaOWk0T3NTSmJmRmI0Z0Y1UTlhTXVGLzAw?=
+ =?utf-8?B?bnFCeVQzdFhqcXVlQkozNTYvTVVURzUrVllRaldHR0dRSWF1V2lmWG5lNmdY?=
+ =?utf-8?B?QkErWDJOTjdjQ2x1L2xURCtma0VMbUhMeUEvWDFpT2kwT2dqSkVlNjVOYUFi?=
+ =?utf-8?B?Y3J3ZXBWSHdaWWpneWhYTUtUMGt2Tk9XVkhJK2N4WVF0cVdLS1o1bUM0TzhC?=
+ =?utf-8?Q?6XystLXIKFPDUG2HoGcieYfbb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33d36b4e-fc07-4deb-6459-08dd089fbfb4
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2024 13:40:36.6800 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z/Z+zgvKl5y+1asRKAa1/IhTtYvdp0IQhRe763/B8ux41A12IIAvqWpyypN3l6VM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8798
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,384 +163,360 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 15.11.24 um 16:01 schrieb Thomas Hellström:
+> Provide a standalone shmem backup implementation.
+> Given the ttm_backup interface, this could
+> later on be extended to providing other backup
+> implementation than shmem, with one use-case being
+> GPU swapout to a user-provided fd.
+>
+> v5:
+> - Fix a UAF. (kernel test robot, Dan Carptenter)
+> v6:
+> - Rename ttm_backup_shmem_copy_page() function argument
+>    (Matthew Brost)
+> - Add some missing documentation
+> v8:
+> - Use folio_file_page to get to the page we want to writeback
+>    instead of using the first page of the folio.
+> v13:
+> - Remove the base class abstraction (Christian König)
+> - Include ttm_backup_bytes_avail().
+> v14:
+> - Fix kerneldoc for ttm_backup_bytes_avail() (0-day)
+> - Work around casting of __randomize_layout struct pointer (0-day)
+>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com> #v13
+> ---
+>   drivers/gpu/drm/ttm/Makefile     |   2 +-
+>   drivers/gpu/drm/ttm/ttm_backup.c | 204 +++++++++++++++++++++++++++++++
+>   include/drm/ttm/ttm_backup.h     |  74 +++++++++++
+>   3 files changed, 279 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/gpu/drm/ttm/ttm_backup.c
+>   create mode 100644 include/drm/ttm/ttm_backup.h
+>
+> diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
+> index dad298127226..40d07a35293a 100644
+> --- a/drivers/gpu/drm/ttm/Makefile
+> +++ b/drivers/gpu/drm/ttm/Makefile
+> @@ -4,7 +4,7 @@
+>   
+>   ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
+>   	ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
+> -	ttm_device.o ttm_sys_manager.o
+> +	ttm_device.o ttm_sys_manager.o ttm_backup.o
+>   ttm-$(CONFIG_AGP) += ttm_agp_backend.o
+>   
+>   obj-$(CONFIG_DRM_TTM) += ttm.o
+> diff --git a/drivers/gpu/drm/ttm/ttm_backup.c b/drivers/gpu/drm/ttm/ttm_backup.c
+> new file mode 100644
+> index 000000000000..bf16bb0c594e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ttm/ttm_backup.c
+> @@ -0,0 +1,204 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2024 Intel Corporation
+> + */
+> +
+> +#include <drm/ttm/ttm_backup.h>
+> +#include <linux/page-flags.h>
+> +#include <linux/swap.h>
+> +
+> +/*
+> + * Casting from randomized struct file * to struct ttm_backup * is fine since
+> + * struct ttm_backup is never defined nor dereferenced.
+> + */
+> +static struct file *ttm_backup_to_file(struct ttm_backup *backup)
 
+Do I get it right that struct ttm_backup is never really defined? What 
+purpose does that have?
 
-Le 14/11/2024 à 13:01, Tvrtko Ursulin a écrit :
-> 
-> On 14/11/2024 10:01, Pierre-Eric Pelloux-Prayer wrote:
->> This will be used in a later commit to trace the drm client_id in
->> some of the gpu_scheduler trace events.
-> 
-> I wonder if it would be tidier to store the drm_client_id in the entity via drm_sched_entity_init? 
-> It would still required trickling down the info to the callers, but perhaps that could be done via 
-> driver structs instead of expanding the number for function arguments in the API. To be discussed I 
-> think. But to me the drm_client_id just sticks out too much as an odd one out in some of these 
-> functions.
+> +{
+> +	return (void *)backup;
+> +}
+> +
+> +static struct ttm_backup *ttm_file_to_backup(struct file *file)
+> +{
+> +	return (void *)file;
+> +}
+> +
+> +/*
+> + * Need to map shmem indices to handle since a handle value
+> + * of 0 means error, following the swp_entry_t convention.
+> + */
+> +static unsigned long ttm_backup_shmem_idx_to_handle(pgoff_t idx)
+> +{
+> +	return (unsigned long)idx + 1;
+> +}
+> +
+> +static pgoff_t ttm_backup_handle_to_shmem_idx(pgoff_t handle)
+> +{
+> +	return handle - 1;
+> +}
+> +
+> +/**
+> + * ttm_backup_drop() - release memory associated with a handle
+> + * @backup: The struct backup pointer used to obtain the handle
+> + * @handle: The handle obtained from the @backup_page function.
+> + */
+> +void ttm_backup_drop(struct ttm_backup *backup, pgoff_t handle)
+> +{
+> +	loff_t start = ttm_backup_handle_to_shmem_idx(handle);
+> +
+> +	start <<= PAGE_SHIFT;
+> +	shmem_truncate_range(file_inode(ttm_backup_to_file(backup)), start,
+> +			     start + PAGE_SIZE - 1);
+> +}
+> +
+> +/**
+> + * ttm_backup_copy_page() - Copy the contents of a previously backed
+> + * up page
+> + * @backup: The struct backup pointer used to back up the page.
+> + * @dst: The struct page to copy into.
+> + * @handle: The handle returned when the page was backed up.
+> + * @intr: Try to perform waits interruptable or at least killable.
+> + *
+> + * Return: 0 on success, Negative error code on failure, notably
+> + * -EINTR if @intr was set to true and a signal is pending.
+> + */
+> +int ttm_backup_copy_page(struct ttm_backup *backup, struct page *dst,
+> +			 pgoff_t handle, bool intr)
+> +{
+> +	struct file *filp = ttm_backup_to_file(backup);
+> +	struct address_space *mapping = filp->f_mapping;
+> +	struct folio *from_folio;
+> +	pgoff_t idx = ttm_backup_handle_to_shmem_idx(handle);
+> +
+> +	from_folio = shmem_read_folio(mapping, idx);
+> +	if (IS_ERR(from_folio))
+> +		return PTR_ERR(from_folio);
+> +
+> +	copy_highpage(dst, folio_file_page(from_folio, idx));
+> +	folio_put(from_folio);
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * ttm_backup_backup_page() - Backup a page
+> + * @backup: The struct backup pointer to use.
+> + * @page: The page to back up.
+> + * @writeback: Whether to perform immediate writeback of the page.
+> + * This may have performance implications.
+> + * @idx: A unique integer for each page and each struct backup.
+> + * This allows the backup implementation to avoid managing
+> + * its address space separately.
+> + * @page_gfp: The gfp value used when the page was allocated.
+> + * This is used for accounting purposes.
+> + * @alloc_gfp: The gpf to be used when allocating memory.
 
-Storing drm_client_id in the scheduler fence was based on Christian' suggestion, but I'm fine with 
-moving it somewhere else.
+Typo: gfp instead of gpf.
 
-Pierre-Eric
+> + *
+> + * Context: If called from reclaim context, the caller needs to
+> + * assert that the shrinker gfp has __GFP_FS set, to avoid
+> + * deadlocking on lock_page(). If @writeback is set to true and
+> + * called from reclaim context, the caller also needs to assert
+> + * that the shrinker gfp has __GFP_IO set, since without it,
+> + * we're not allowed to start backup IO.
+> + *
+> + * Return: A handle on success. 0 on failure.
+> + * (This is following the swp_entry_t convention).
+> + *
+> + * Note: This function could be extended to back up a folio and
+> + * implementations would then split the folio internally if needed.
+> + * Drawback is that the caller would then have to keep track of
+> + * the folio size- and usage.
+> + */
+> +unsigned long
+> +ttm_backup_backup_page(struct ttm_backup *backup, struct page *page,
+> +		       bool writeback, pgoff_t idx, gfp_t page_gfp,
+> +		       gfp_t alloc_gfp)
+> +{
+> +	struct file *filp = ttm_backup_to_file(backup);
+> +	struct address_space *mapping = filp->f_mapping;
+> +	unsigned long handle = 0;
+> +	struct folio *to_folio;
+> +	int ret;
+> +
+> +	to_folio = shmem_read_folio_gfp(mapping, idx, alloc_gfp);
+> +	if (IS_ERR(to_folio))
+> +		return handle;
 
+Just that I sleep better: This can never return a folio larger than a 
+page, doesn't it?
 
-> 
->> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c   |  2 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c       |  3 ++-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c      |  8 +++++---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h      |  3 ++-
->>   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  2 +-
->>   drivers/gpu/drm/imagination/pvr_job.c        |  2 +-
->>   drivers/gpu/drm/imagination/pvr_queue.c      |  5 +++--
->>   drivers/gpu/drm/imagination/pvr_queue.h      |  2 +-
->>   drivers/gpu/drm/lima/lima_gem.c              |  2 +-
->>   drivers/gpu/drm/lima/lima_sched.c            |  6 ++++--
->>   drivers/gpu/drm/lima/lima_sched.h            |  3 ++-
->>   drivers/gpu/drm/msm/msm_gem_submit.c         |  8 +++++---
->>   drivers/gpu/drm/nouveau/nouveau_sched.c      |  3 ++-
->>   drivers/gpu/drm/panfrost/panfrost_drv.c      |  2 +-
->>   drivers/gpu/drm/scheduler/sched_fence.c      |  4 +++-
->>   drivers/gpu/drm/scheduler/sched_main.c       |  6 ++++--
->>   drivers/gpu/drm/v3d/v3d_submit.c             |  2 +-
->>   drivers/gpu/drm/xe/xe_sched_job.c            |  3 ++-
->>   include/drm/gpu_scheduler.h                  | 12 ++++++++++--
->>   19 files changed, 51 insertions(+), 27 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
->> index b545940e512b..eede43701d51 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
->> @@ -681,7 +681,7 @@ int amdgpu_amdkfd_submit_ib(struct amdgpu_device *adev,
->>           goto err;
->>       }
->> -    ret = amdgpu_job_alloc(adev, NULL, NULL, NULL, 1, &job);
->> +    ret = amdgpu_job_alloc(adev, NULL, NULL, NULL, 1, &job, 0);
->>       if (ret)
->>           goto err;
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> index 98aa4beee36a..a0a129405323 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> @@ -293,7 +293,8 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
->>       for (i = 0; i < p->gang_size; ++i) {
->>           ret = amdgpu_job_alloc(p->adev, vm, p->entities[i], vm,
->> -                       num_ibs[i], &p->jobs[i]);
->> +                       num_ibs[i], &p->jobs[i],
->> +                       p->filp->client_id);
->>           if (ret)
->>               goto free_all_kdata;
->>           p->jobs[i]->enforce_isolation = p->adev->enforce_isolation[fpriv->xcp_id];
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> index c774cd019a10..1dd8e940d1e9 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> @@ -186,7 +186,8 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
->>   int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->>                struct drm_sched_entity *entity, void *owner,
->> -             unsigned int num_ibs, struct amdgpu_job **job)
->> +             unsigned int num_ibs, struct amdgpu_job **job,
->> +             uint64_t drm_client_id)
->>   {
->>       if (num_ibs == 0)
->>           return -EINVAL;
->> @@ -209,7 +210,8 @@ int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->>       if (!entity)
->>           return 0;
->> -    return drm_sched_job_init(&(*job)->base, entity, 1, owner);
->> +    return drm_sched_job_init(&(*job)->base, entity, 1, owner,
->> +                  drm_client_id);
->>   }
->>   int amdgpu_job_alloc_with_ib(struct amdgpu_device *adev,
->> @@ -219,7 +221,7 @@ int amdgpu_job_alloc_with_ib(struct amdgpu_device *adev,
->>   {
->>       int r;
->> -    r = amdgpu_job_alloc(adev, NULL, entity, owner, 1, job);
->> +    r = amdgpu_job_alloc(adev, NULL, entity, owner, 1, job, 0);
-> 
-> Have we defined somewhere zero is invalid or something?
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->>       if (r)
->>           return r;
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->> index ce6b9ba967ff..41a03477ba5d 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->> @@ -90,7 +90,8 @@ static inline struct amdgpu_ring *amdgpu_job_ring(struct amdgpu_job *job)
->>   int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->>                struct drm_sched_entity *entity, void *owner,
->> -             unsigned int num_ibs, struct amdgpu_job **job);
->> +             unsigned int num_ibs, struct amdgpu_job **job,
->> +             uint64_t drm_client_id);
->>   int amdgpu_job_alloc_with_ib(struct amdgpu_device *adev,
->>                    struct drm_sched_entity *entity, void *owner,
->>                    size_t size, enum amdgpu_ib_pool_type pool_type,
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/ 
->> etnaviv_gem_submit.c
->> index 3d0f8d182506..70294ca6202f 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
->> @@ -535,7 +535,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
->>       ret = drm_sched_job_init(&submit->sched_job,
->>                    &ctx->sched_entity[args->pipe],
->> -                 1, submit->ctx);
->> +                 1, submit->ctx, file->client_id);
->>       if (ret)
->>           goto err_submit_put;
->> diff --git a/drivers/gpu/drm/imagination/pvr_job.c b/drivers/gpu/drm/imagination/pvr_job.c
->> index 618503a212a7..64152b57e8b1 100644
->> --- a/drivers/gpu/drm/imagination/pvr_job.c
->> +++ b/drivers/gpu/drm/imagination/pvr_job.c
->> @@ -446,7 +446,7 @@ create_job(struct pvr_device *pvr_dev,
->>       if (err)
->>           goto err_put_job;
->> -    err = pvr_queue_job_init(job);
->> +    err = pvr_queue_job_init(job, pvr_file->file->client_id);
->>       if (err)
->>           goto err_put_job;
->> diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
->> index c4f08432882b..598180fca141 100644
->> --- a/drivers/gpu/drm/imagination/pvr_queue.c
->> +++ b/drivers/gpu/drm/imagination/pvr_queue.c
->> @@ -1059,6 +1059,7 @@ static int pvr_queue_cleanup_fw_context(struct pvr_queue *queue)
->>   /**
->>    * pvr_queue_job_init() - Initialize queue related fields in a pvr_job object.
->>    * @job: The job to initialize.
->> + * @drm_client_id: drm_file.client_id submitting the job
->>    *
->>    * Bind the job to a queue and allocate memory to guarantee pvr_queue_job_arm()
->>    * and pvr_queue_job_push() can't fail. We also make sure the context type is
->> @@ -1068,7 +1069,7 @@ static int pvr_queue_cleanup_fw_context(struct pvr_queue *queue)
->>    *  * 0 on success, or
->>    *  * An error code if something failed.
->>    */
->> -int pvr_queue_job_init(struct pvr_job *job)
->> +int pvr_queue_job_init(struct pvr_job *job, uint64_t drm_client_id)
->>   {
->>       /* Fragment jobs need at least one native fence wait on the geometry job fence. */
->>       u32 min_native_dep_count = job->type == DRM_PVR_JOB_TYPE_FRAGMENT ? 1 : 0;
->> @@ -1085,7 +1086,7 @@ int pvr_queue_job_init(struct pvr_job *job)
->>       if (!pvr_cccb_cmdseq_can_fit(&queue->cccb, job_cmds_size(job, min_native_dep_count)))
->>           return -E2BIG;
->> -    err = drm_sched_job_init(&job->base, &queue->entity, 1, THIS_MODULE);
->> +    err = drm_sched_job_init(&job->base, &queue->entity, 1, THIS_MODULE, drm_client_id);
->>       if (err)
->>           return err;
->> diff --git a/drivers/gpu/drm/imagination/pvr_queue.h b/drivers/gpu/drm/imagination/pvr_queue.h
->> index e06ced69302f..bc556169b2cf 100644
->> --- a/drivers/gpu/drm/imagination/pvr_queue.h
->> +++ b/drivers/gpu/drm/imagination/pvr_queue.h
->> @@ -139,7 +139,7 @@ struct pvr_queue {
->>   bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f);
->> -int pvr_queue_job_init(struct pvr_job *job);
->> +int pvr_queue_job_init(struct pvr_job *job, uint64_t drm_client_id);
->>   void pvr_queue_job_cleanup(struct pvr_job *job);
->> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
->> index 9bb997dbb4b9..f46f961afc56 100644
->> --- a/drivers/gpu/drm/lima/lima_gem.c
->> +++ b/drivers/gpu/drm/lima/lima_gem.c
->> @@ -341,7 +341,7 @@ int lima_gem_submit(struct drm_file *file, struct lima_submit *submit)
->>       err = lima_sched_task_init(
->>           submit->task, submit->ctx->context + submit->pipe,
->> -        bos, submit->nr_bos, vm);
->> +        bos, submit->nr_bos, vm, file->client_id);
->>       if (err)
->>           goto err_out1;
->> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
->> index b40c90e97d7e..84599549661a 100644
->> --- a/drivers/gpu/drm/lima/lima_sched.c
->> +++ b/drivers/gpu/drm/lima/lima_sched.c
->> @@ -113,7 +113,8 @@ static inline struct lima_sched_pipe *to_lima_pipe(struct drm_gpu_scheduler *sch
->>   int lima_sched_task_init(struct lima_sched_task *task,
->>                struct lima_sched_context *context,
->>                struct lima_bo **bos, int num_bos,
->> -             struct lima_vm *vm)
->> +             struct lima_vm *vm,
->> +             uint64_t drm_client_id)
->>   {
->>       int err, i;
->> @@ -124,7 +125,8 @@ int lima_sched_task_init(struct lima_sched_task *task,
->>       for (i = 0; i < num_bos; i++)
->>           drm_gem_object_get(&bos[i]->base.base);
->> -    err = drm_sched_job_init(&task->base, &context->base, 1, vm);
->> +    err = drm_sched_job_init(&task->base, &context->base, 1, vm,
->> +                 drm_client_id);
->>       if (err) {
->>           kfree(task->bos);
->>           return err;
->> diff --git a/drivers/gpu/drm/lima/lima_sched.h b/drivers/gpu/drm/lima/lima_sched.h
->> index 85b23ba901d5..4041468586bd 100644
->> --- a/drivers/gpu/drm/lima/lima_sched.h
->> +++ b/drivers/gpu/drm/lima/lima_sched.h
->> @@ -88,7 +88,8 @@ struct lima_sched_pipe {
->>   int lima_sched_task_init(struct lima_sched_task *task,
->>                struct lima_sched_context *context,
->>                struct lima_bo **bos, int num_bos,
->> -             struct lima_vm *vm);
->> +             struct lima_vm *vm,
->> +             uint64_t drm_client_id);
->>   void lima_sched_task_fini(struct lima_sched_task *task);
->>   int lima_sched_context_init(struct lima_sched_pipe *pipe,
->> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
->> index fba78193127d..ceeedd4186ef 100644
->> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
->> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
->> @@ -30,7 +30,7 @@
->>   static struct msm_gem_submit *submit_create(struct drm_device *dev,
->>           struct msm_gpu *gpu,
->>           struct msm_gpu_submitqueue *queue, uint32_t nr_bos,
->> -        uint32_t nr_cmds)
->> +        uint32_t nr_cmds, uint64_t drm_client_id)
->>   {
->>       static atomic_t ident = ATOMIC_INIT(0);
->>       struct msm_gem_submit *submit;
->> @@ -54,7 +54,8 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
->>           return ERR_PTR(ret);
->>       }
->> -    ret = drm_sched_job_init(&submit->base, queue->entity, 1, queue);
->> +    ret = drm_sched_job_init(&submit->base, queue->entity, 1, queue,
->> +                 drm_client_id);
->>       if (ret) {
->>           kfree(submit->hw_fence);
->>           kfree(submit);
->> @@ -702,7 +703,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
->>           }
->>       }
->> -    submit = submit_create(dev, gpu, queue, args->nr_bos, args->nr_cmds);
->> +    submit = submit_create(dev, gpu, queue, args->nr_bos, args->nr_cmds,
->> +                   file->client_id);
->>       if (IS_ERR(submit)) {
->>           ret = PTR_ERR(submit);
->>           goto out_post_unlock;
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
->> index 4412f2711fb5..ebc31adea39a 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
->> @@ -87,7 +87,8 @@ nouveau_job_init(struct nouveau_job *job,
->>       }
->>       ret = drm_sched_job_init(&job->base, &sched->entity,
->> -                 args->credits, NULL);
->> +                 args->credits, NULL,
->> +                 job->file_priv->client_id);
->>       if (ret)
->>           goto err_free_chains;
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
->> index 04d615df5259..a8135bd75cae 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->> @@ -312,7 +312,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
->>       ret = drm_sched_job_init(&job->base,
->>                    &file_priv->sched_entity[slot],
->> -                 1, NULL);
->> +                 1, NULL, file->client_id);
->>       if (ret)
->>           goto out_put_job;
->> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->> index 0f35f009b9d3..909b886cd379 100644
->> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->> @@ -204,7 +204,8 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
->>   EXPORT_SYMBOL(to_drm_sched_fence);
->>   struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->> -                          void *owner)
->> +                          void *owner,
->> +                          uint64_t drm_client_id)
->>   {
->>       struct drm_sched_fence *fence = NULL;
->> @@ -213,6 +214,7 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->>           return NULL;
->>       fence->owner = owner;
->> +    fence->drm_client_id = drm_client_id;
->>       spin_lock_init(&fence->lock);
->>       return fence;
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->> index 7ce25281c74c..28ac709750e9 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -776,6 +776,7 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
->>    * @credits: the number of credits this job contributes to the schedulers
->>    * credit limit
->>    * @owner: job owner for debugging
->> + * @drm_client_id: drm_file.client_id of the owner
->>    *
->>    * Refer to drm_sched_entity_push_job() documentation
->>    * for locking considerations.
->> @@ -796,7 +797,8 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
->>    */
->>   int drm_sched_job_init(struct drm_sched_job *job,
->>                  struct drm_sched_entity *entity,
->> -               u32 credits, void *owner)
->> +               u32 credits, void *owner,
->> +               uint64_t drm_client_id)
->>   {
->>       if (!entity->rq) {
->>           /* This will most likely be followed by missing frames
->> @@ -822,7 +824,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
->>       job->entity = entity;
->>       job->credits = credits;
->> -    job->s_fence = drm_sched_fence_alloc(entity, owner);
->> +    job->s_fence = drm_sched_fence_alloc(entity, owner, drm_client_id);
->>       if (!job->s_fence)
->>           return -ENOMEM;
->> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
->> index d607aa9c4ec2..a086da31f441 100644
->> --- a/drivers/gpu/drm/v3d/v3d_submit.c
->> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
->> @@ -168,7 +168,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
->>       job->file = file_priv;
->>       ret = drm_sched_job_init(&job->base, &v3d_priv->sched_entity[queue],
->> -                 1, v3d_priv);
->> +                 1, v3d_priv, file_priv->client_id);
->>       if (ret)
->>           return ret;
->> diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
->> index eeccc1c318ae..6617555e7a51 100644
->> --- a/drivers/gpu/drm/xe/xe_sched_job.c
->> +++ b/drivers/gpu/drm/xe/xe_sched_job.c
->> @@ -113,7 +113,8 @@ struct xe_sched_job *xe_sched_job_create(struct xe_exec_queue *q,
->>       kref_init(&job->refcount);
->>       xe_exec_queue_get(job->q);
->> -    err = drm_sched_job_init(&job->drm, q->entity, 1, NULL);
->> +    err = drm_sched_job_init(&job->drm, q->entity, 1, NULL,
->> +                 q->xef->drm->client_id);
->>       if (err)
->>           goto err_free;
->> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->> index 95e17504e46a..42c381449443 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -311,6 +311,13 @@ struct drm_sched_fence {
->>            * @owner: job owner for debugging
->>            */
->>       void                *owner;
->> +
->> +    /**
->> +     * @drm_client_id:
->> +     *
->> +     * The client_id of the drm_file who owned the job.
->> +     */
->> +    uint64_t            drm_client_id;
->>   };
->>   struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
->> @@ -563,7 +570,8 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->>   void drm_sched_fini(struct drm_gpu_scheduler *sched);
->>   int drm_sched_job_init(struct drm_sched_job *job,
->>                  struct drm_sched_entity *entity,
->> -               u32 credits, void *owner);
->> +               u32 credits, void *owner,
->> +               uint64_t drm_client_id);
->>   void drm_sched_job_arm(struct drm_sched_job *job);
->>   int drm_sched_job_add_dependency(struct drm_sched_job *job,
->>                    struct dma_fence *fence);
->> @@ -624,7 +632,7 @@ bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
->>   int drm_sched_entity_error(struct drm_sched_entity *entity);
->>   struct drm_sched_fence *drm_sched_fence_alloc(
->> -    struct drm_sched_entity *s_entity, void *owner);
->> +    struct drm_sched_entity *s_entity, void *owner, uint64_t drm_client_id);
->>   void drm_sched_fence_init(struct drm_sched_fence *fence,
->>                 struct drm_sched_entity *entity);
->>   void drm_sched_fence_free(struct drm_sched_fence *fence);
+Apart from those background questions looks good to me.
+
+Regards,
+Christian.
+
+> +
+> +	folio_mark_accessed(to_folio);
+> +	folio_lock(to_folio);
+> +	folio_mark_dirty(to_folio);
+> +	copy_highpage(folio_file_page(to_folio, idx), page);
+> +	handle = ttm_backup_shmem_idx_to_handle(idx);
+> +
+> +	if (writeback && !folio_mapped(to_folio) &&
+> +	    folio_clear_dirty_for_io(to_folio)) {
+> +		struct writeback_control wbc = {
+> +			.sync_mode = WB_SYNC_NONE,
+> +			.nr_to_write = SWAP_CLUSTER_MAX,
+> +			.range_start = 0,
+> +			.range_end = LLONG_MAX,
+> +			.for_reclaim = 1,
+> +		};
+> +		folio_set_reclaim(to_folio);
+> +		ret = mapping->a_ops->writepage(folio_file_page(to_folio, idx), &wbc);
+> +		if (!folio_test_writeback(to_folio))
+> +			folio_clear_reclaim(to_folio);
+> +		/* If writepage succeeds, it unlocks the folio */
+> +		if (ret)
+> +			folio_unlock(to_folio);
+> +	} else {
+> +		folio_unlock(to_folio);
+> +	}
+> +
+> +	folio_put(to_folio);
+> +
+> +	return handle;
+> +}
+> +
+> +/**
+> + * ttm_backup_fini() - Free the struct backup resources after last use.
+> + * @backup: Pointer to the struct backup whose resources to free.
+> + *
+> + * After a call to this function, it's illegal to use the @backup pointer.
+> + */
+> +void ttm_backup_fini(struct ttm_backup *backup)
+> +{
+> +	fput(ttm_backup_to_file(backup));
+> +}
+> +
+> +/**
+> + * ttm_backup_bytes_avail() - Report the approximate number of bytes of backup space
+> + * left for backup.
+> + *
+> + * This function is intended also for driver use to indicate whether a
+> + * backup attempt is meaningful.
+> + *
+> + * Return: An approximate size of backup space available.
+> + */
+> +u64 ttm_backup_bytes_avail(void)
+> +{
+> +	/*
+> +	 * The idea behind backing up to shmem is that shmem objects may
+> +	 * eventually be swapped out. So no point swapping out if there
+> +	 * is no or low swap-space available. But the accuracy of this
+> +	 * number also depends on shmem actually swapping out backed-up
+> +	 * shmem objects without too much buffering.
+> +	 */
+> +	return (u64)get_nr_swap_pages() << PAGE_SHIFT;
+> +}
+> +EXPORT_SYMBOL_GPL(ttm_backup_bytes_avail);
+> +
+> +/**
+> + * ttm_backup_shmem_create() - Create a shmem-based struct backup.
+> + * @size: The maximum size (in bytes) to back up.
+> + *
+> + * Create a backup utilizing shmem objects.
+> + *
+> + * Return: A pointer to a struct ttm_backup on success,
+> + * an error pointer on error.
+> + */
+> +struct ttm_backup *ttm_backup_shmem_create(loff_t size)
+> +{
+> +	struct file *filp;
+> +
+> +	filp = shmem_file_setup("ttm shmem backup", size, 0);
+> +
+> +	return ttm_file_to_backup(filp);
+> +}
+> diff --git a/include/drm/ttm/ttm_backup.h b/include/drm/ttm/ttm_backup.h
+> new file mode 100644
+> index 000000000000..20609da7e281
+> --- /dev/null
+> +++ b/include/drm/ttm/ttm_backup.h
+> @@ -0,0 +1,74 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2024 Intel Corporation
+> + */
+> +
+> +#ifndef _TTM_BACKUP_H_
+> +#define _TTM_BACKUP_H_
+> +
+> +#include <linux/mm_types.h>
+> +#include <linux/shmem_fs.h>
+> +
+> +struct ttm_backup;
+> +
+> +/**
+> + * ttm_backup_handle_to_page_ptr() - Convert handle to struct page pointer
+> + * @handle: The handle to convert.
+> + *
+> + * Converts an opaque handle received from the
+> + * struct ttm_backoup_ops::backup_page() function to an (invalid)
+> + * struct page pointer suitable for a struct page array.
+> + *
+> + * Return: An (invalid) struct page pointer.
+> + */
+> +static inline struct page *
+> +ttm_backup_handle_to_page_ptr(unsigned long handle)
+> +{
+> +	return (struct page *)(handle << 1 | 1);
+> +}
+> +
+> +/**
+> + * ttm_backup_page_ptr_is_handle() - Whether a struct page pointer is a handle
+> + * @page: The struct page pointer to check.
+> + *
+> + * Return: true if the struct page pointer is a handld returned from
+> + * ttm_backup_handle_to_page_ptr(). False otherwise.
+> + */
+> +static inline bool ttm_backup_page_ptr_is_handle(const struct page *page)
+> +{
+> +	return (unsigned long)page & 1;
+> +}
+> +
+> +/**
+> + * ttm_backup_page_ptr_to_handle() - Convert a struct page pointer to a handle
+> + * @page: The struct page pointer to convert
+> + *
+> + * Return: The handle that was previously used in
+> + * ttm_backup_handle_to_page_ptr() to obtain a struct page pointer, suitable
+> + * for use as argument in the struct ttm_backup_ops drop() or
+> + * copy_backed_up_page() functions.
+> + */
+> +static inline unsigned long
+> +ttm_backup_page_ptr_to_handle(const struct page *page)
+> +{
+> +	WARN_ON(!ttm_backup_page_ptr_is_handle(page));
+> +	return (unsigned long)page >> 1;
+> +}
+> +
+> +void ttm_backup_drop(struct ttm_backup *backup, pgoff_t handle);
+> +
+> +int ttm_backup_copy_page(struct ttm_backup *backup, struct page *dst,
+> +			 pgoff_t handle, bool intr);
+> +
+> +unsigned long
+> +ttm_backup_backup_page(struct ttm_backup *backup, struct page *page,
+> +		       bool writeback, pgoff_t idx, gfp_t page_gfp,
+> +		       gfp_t alloc_gfp);
+> +
+> +void ttm_backup_fini(struct ttm_backup *backup);
+> +
+> +u64 ttm_backup_bytes_avail(void);
+> +
+> +struct ttm_backup *ttm_backup_shmem_create(loff_t size);
+> +
+> +#endif
+
