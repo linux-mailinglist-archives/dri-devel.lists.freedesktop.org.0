@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548949D277D
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 14:58:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE1A9D27B3
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 15:12:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8B7610E64B;
-	Tue, 19 Nov 2024 13:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE89A10E64E;
+	Tue, 19 Nov 2024 14:12:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ENRO+tIt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TtRw0Lv6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 567A210E64B;
- Tue, 19 Nov 2024 13:58:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B70310E65A;
+ Tue, 19 Nov 2024 14:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732024683; x=1763560683;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=eJGxFPrJFE9ky8X0fUqCbGk3IETc2/JOKdAFFUkp2Fg=;
- b=ENRO+tItX+te9912BqxGwFnyg/vGH0kEpIyPfQpx2GMMjdYHZb9fGcRY
- eHVnSF0ESe02Lqq26ZOmzDNir1Nrn5q4kLIrnHWDvVD8LK05q5anApZqQ
- tS+/asOYaKCWGEf5wVQzAVQUXWt1yswx/wlCU0q7EPqJxB2pmeojmBpA2
- uPptLZZLF6a2shbR0v80zw3/afHotEXOLhLqflzohV5w90UN/g3E+14od
- xAWuR2lBr5zfOs7hn/fTVQJtnX/9Q1AkkEQamqNl90nUiLGUKynSmmbft
- FnnioGaLYddTsCRImEAwWnynOhhXjRwq+/OdDfKqzwzIyjKtxx/+csGf9 g==;
-X-CSE-ConnectionGUID: giN6q99bTYi3ixo92bXLIg==
-X-CSE-MsgGUID: UFszo9AbTDi4EtZ+QG3kRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="42538201"
-X-IronPort-AV: E=Sophos;i="6.12,166,1728975600"; d="scan'208";a="42538201"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2024 05:58:03 -0800
-X-CSE-ConnectionGUID: elVXTJssQL+2wz9wcoCCrA==
-X-CSE-MsgGUID: BbsyZj8KQS6+Lk70xSF7Tg==
+ t=1732025563; x=1763561563;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=RB99tyFzSCxQFnvlo+XwbNX/gy2cNY31DDdREslWslY=;
+ b=TtRw0Lv6Jfis+kCAGal4RmMi+E6RDAMnI+u/EgopBG/ccBWJsmkqRGzW
+ TRq+K8qVvq6kOMnv9uWKY1V+JIRoyJQLQL0anr8VKm98r3D8/b4/6+vv8
+ rLDdhITZTsea+kJ0D5zqhC0F/wR7Gj/2Zn1AwiSWXCLal9m0Wfjy+zc/n
+ v0Syc4P3yn0D+JEKRfv+S7GhxbfI7qY53sln65Z7osXbH3EAkBhX5XE40
+ SJu5qIHQi9TZLBDZKErHWz57X/9pedksGYnGY9PxgrdNd8F5o7Nh1KpnS
+ dmx/8OetIlqoisdWacAZexQTNY1cQAhXfqdcWjTaLMR48nQEbGMJ1j1B8 Q==;
+X-CSE-ConnectionGUID: 0eCdlCfrTxaZiHEoAyCn0Q==
+X-CSE-MsgGUID: 5OXmjUj5TKufVGX1AVtE2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="54526686"
+X-IronPort-AV: E=Sophos;i="6.12,166,1728975600"; d="scan'208";a="54526686"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2024 06:12:42 -0800
+X-CSE-ConnectionGUID: kALZvKXUSwKgvANVtWcSTA==
+X-CSE-MsgGUID: ZmjUfi5+RM6uWvx724maXQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,166,1728975600"; d="scan'208";a="89496798"
-Received: from smoticic-mobl.ger.corp.intel.com (HELO [10.245.246.223])
- ([10.245.246.223])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2024 05:58:00 -0800
-Message-ID: <e1a00a4f6ea93f63da3e255d442257c4708105ca.camel@linux.intel.com>
-Subject: Re: [PATCH v2 10/29] drm/gpuvm: Add DRM_GPUVA_OP_USER
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
-Cc: apopple@nvidia.com, airlied@gmail.com, christian.koenig@amd.com, 
- simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
-Date: Tue, 19 Nov 2024 14:57:56 +0100
-In-Reply-To: <20241016032518.539495-11-matthew.brost@intel.com>
-References: <20241016032518.539495-1-matthew.brost@intel.com>
- <20241016032518.539495-11-matthew.brost@intel.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-3.fc39) 
+X-IronPort-AV: E=Sophos;i="6.12,166,1728975600"; d="scan'208";a="94398524"
+Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2024 06:12:37 -0800
+From: Alexander Usyskin <alexander.usyskin@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Alexander Usyskin <alexander.usyskin@intel.com>
+Subject: [PATCH v3 00/10] mtd: add driver for Intel discrete graphics
+Date: Tue, 19 Nov 2024 16:01:02 +0200
+Message-ID: <20241119140112.790720-1-alexander.usyskin@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,39 +78,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2024-10-15 at 20:24 -0700, Matthew Brost wrote:
-> Add DRM_GPUVA_OP_USER which allows driver to define their own gpuvm
-> ops.
->=20
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
-> =C2=A0include/drm/drm_gpuvm.h | 5 +++++
-> =C2=A01 file changed, 5 insertions(+)
->=20
-> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> index 00d4e43b76b6..cc3f8ed5113b 100644
-> --- a/include/drm/drm_gpuvm.h
-> +++ b/include/drm/drm_gpuvm.h
-> @@ -812,6 +812,11 @@ enum drm_gpuva_op_type {
-> =C2=A0	 * @DRM_GPUVA_OP_PREFETCH: the prefetch op type
-> =C2=A0	 */
-> =C2=A0	DRM_GPUVA_OP_PREFETCH,
-> +
-> +	/**
-> +	 * @DRM_GPUVA_OP_USER: the user defined op type
-> +	 */
-> +	DRM_GPUVA_OP_USER,
+Add driver for access to Intel discrete graphics card
+internal NVM device.
+Expose device on auxiliary bus by i915 and Xe drivers and
+provide mtd driver to register this device with MTD framework.
 
-Perhaps _OP_DRIVER, But Danilo might want to chime in.
+This is a rewrite of "drm/i915/spi: spi access for discrete graphics"
+and "spi: add driver for Intel discrete graphics"
+series with connection to the Xe driver and splitting
+the spi driver part to separate module in mtd subsystem.
 
-Otherwise LGTM.
-Thanks,
-Thomas
+This series intended to be pushed through drm-xe-next.
 
+V2: Replace dev_* prints with drm_* prints in drm (xe and i915) patches.
+    Enable NVM device on Battlemage HW (xe driver patch)
+    Fix overwrite register address (xe driver patch)
+    Add Rodrigo's r-b
 
+V3: Use devm_pm_runtime_enable to simplify flow.
+    Drop print in i915 unload that was accidentally set as error.
+    Drop HAS_GSC_NVM macro in line with latest Xe changes.
+    Add more Rodrigo's r-b and Miquel's ack.
 
-> =C2=A0};
-> =C2=A0
-> =C2=A0/**
+Alexander Usyskin (10):
+  mtd: add driver for intel graphics non-volatile memory device
+  mtd: intel-dg: implement region enumeration
+  mtd: intel-dg: implement access functions
+  mtd: intel-dg: register with mtd
+  mtd: intel-dg: align 64bit read and write
+  mtd: intel-dg: wake card on operations
+  drm/i915/nvm: add nvm device for discrete graphics
+  drm/i915/nvm: add support for access mode
+  drm/xe/nvm: add on-die non-volatile memory device
+  drm/xe/nvm: add support for access mode
+
+ MAINTAINERS                           |   7 +
+ drivers/gpu/drm/i915/Makefile         |   4 +
+ drivers/gpu/drm/i915/i915_driver.c    |   6 +
+ drivers/gpu/drm/i915/i915_drv.h       |   3 +
+ drivers/gpu/drm/i915/i915_reg.h       |   1 +
+ drivers/gpu/drm/i915/intel_nvm.c      | 115 ++++
+ drivers/gpu/drm/i915/intel_nvm.h      |  15 +
+ drivers/gpu/drm/xe/Makefile           |   1 +
+ drivers/gpu/drm/xe/regs/xe_gsc_regs.h |   4 +
+ drivers/gpu/drm/xe/xe_device.c        |   3 +
+ drivers/gpu/drm/xe/xe_device_types.h  |   7 +
+ drivers/gpu/drm/xe/xe_heci_gsc.c      |   5 +-
+ drivers/gpu/drm/xe/xe_nvm.c           | 130 ++++
+ drivers/gpu/drm/xe/xe_nvm.h           |  15 +
+ drivers/gpu/drm/xe/xe_pci.c           |   6 +
+ drivers/mtd/devices/Kconfig           |  11 +
+ drivers/mtd/devices/Makefile          |   1 +
+ drivers/mtd/devices/mtd-intel-dg.c    | 838 ++++++++++++++++++++++++++
+ include/linux/intel_dg_nvm_aux.h      |  27 +
+ 19 files changed, 1195 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/intel_nvm.c
+ create mode 100644 drivers/gpu/drm/i915/intel_nvm.h
+ create mode 100644 drivers/gpu/drm/xe/xe_nvm.c
+ create mode 100644 drivers/gpu/drm/xe/xe_nvm.h
+ create mode 100644 drivers/mtd/devices/mtd-intel-dg.c
+ create mode 100644 include/linux/intel_dg_nvm_aux.h
+
+-- 
+2.43.0
 
