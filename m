@@ -2,85 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C14F9D28B9
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 15:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B099D2937
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 16:11:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3B7010E66A;
-	Tue, 19 Nov 2024 14:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0E6D10E66C;
+	Tue, 19 Nov 2024 15:11:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kYelXpzW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A2JYLkM2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8680510E66A
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 14:58:53 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-431616c23b5so32136835e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 06:58:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732028332; x=1732633132; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=OWnh+ld6zzccC8isWLhmhYDmo6LpVTBN+zj+tQ13tHg=;
- b=kYelXpzWPuJPrsSdak8H34wML+fkPhkLbzfO1kZ1BL2denJTOJUekq3WMEqEdgZSUN
- gn3vcSKwVgXSQFBL/vYd/9sXDo8ohAg9ObZswIFPGbeA/mnbPc6E7/mBl/mCt6oJ1xcL
- a7F0hceFSdkRexNwZE1QOrcyctOfoncSshD0RdFkAIzYl2sc4Rqe61d2mI+CqvNGJVPR
- bzpJkj2vfcE3COiZWSzsbVy2XY5ZnNIPTfacpPHgCeaWYepBvD7cYGTf9DFwv2Hw57JZ
- 8/+fQfn+z6/SobZ64VmnWJipBe3tgxVSRtQ8SodKxzhpyPxYItd/g6hsAPlhyNuTz+xA
- Ko7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732028332; x=1732633132;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OWnh+ld6zzccC8isWLhmhYDmo6LpVTBN+zj+tQ13tHg=;
- b=FMMSKShnJD+T5s8G8kq1A/1a83+fl6HCHyRSyA3ZdrrnDqYxOYJ15Max2rWIqSxiWs
- akYGgOwh4n7dxT8I8S1s61jxcPGoinMEsnDvHzmMBNPK2nKf6vq7xF765HgHagTDTpjF
- vVW8n+DY/+FPglM9W+VP4yL0WrsuzXwcmYrVlmlRtrRe1pch2S8oUt9NQOv81mbr135T
- +6tS4QKjRL7miuz/JpM/1Uot1A/Qno9Qw1ZdK7LutrITIqMkkrdH++LiHEBC300bmcij
- WCX0m2BHI++MY+ul3G9DJHO+va84jmZ3ken9g5yrPRT7E2xQev9qMWzGnIEHAPZIbocQ
- 8x+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWRVTl0wT8TSyRxLsihW/wRJtBbVg6kjKQ+pycJG1nckylTA7esHOaqGxawy1viZLeM7TbsAHfRia0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxgewp7EFTvJ28iqostseVd7Q0kH2FcrbmJUrqlnrGULMyRLEqK
- l+KtsS3mFQUPRL2WLgEJmGDNTLQG7XWsdwL494G7K+BRoUoTcYzVvfFR/FJt
-X-Google-Smtp-Source: AGHT+IH2igfHOVrUcwm15I+fRdARSXaJ9scT/icVaqEvzm4ixqZPt1r7D2xXlWpCKacfeYnL+qEhcw==
-X-Received: by 2002:a05:600c:58cb:b0:431:15f1:421d with SMTP id
- 5b1f17b1804b1-432f57fba53mr30841035e9.16.1732028331385; 
- Tue, 19 Nov 2024 06:58:51 -0800 (PST)
-Received: from fedora ([213.94.25.69]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-432da265907sm204858065e9.13.2024.11.19.06.58.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Nov 2024 06:58:50 -0800 (PST)
-Date: Tue, 19 Nov 2024 15:58:49 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
- dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
- helen.koike@collabora.com, jeremie.dautheribes@bootlin.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- marcheu@google.com, melissa.srw@gmail.com,
- miquel.raynal@bootlin.com, mripard@kernel.org,
- nicolejadeyee@google.com, pekka.paalanen@haloniitty.fi,
- rdunlap@infradead.org, rodrigosiqueiramelo@gmail.com,
- seanpaul@google.com, simona.vetter@ffwll.ch, simona@ffwll.ch,
- thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: Re: [PATCH v13 5/9] drm/vkms: Update pixels accessor to support
- packed and multi-plane formats.
-Message-ID: <ZzynqW4NNheEE8_L@fedora>
-References: <20241031-yuv-v13-5-bd5463126faa@bootlin.com>
- <20241118171037.2847-1-jose.exposito89@gmail.com>
- <Zzt2l0hZpKp4mniY@louis-chauvet-laptop> <Zzt4PiTRqwmikMnm@fedora>
- <Zzt64tbs3TZ-7nUo@louis-chauvet-laptop>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5994C10E2B1;
+ Tue, 19 Nov 2024 15:11:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A2CB5A42B58;
+ Tue, 19 Nov 2024 15:09:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA99FC4CECF;
+ Tue, 19 Nov 2024 15:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732029071;
+ bh=u7CYeHchdgH72+HflqWq0W1bzAuufE9hVtAx1Xo/xEE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=A2JYLkM2Ih0LQl2O/9c4zZ8bzwrlXLqS03NsHezMXXPOgz+eunkVvrEKwqTG+wY6S
+ kuvLrldGErj+pr+IgEZxIQfSV8DqH6g1AfCoEJU5tu1KzqboNp8R2hoQhrHcylraG4
+ wgNKo9wiecdZKVN+cggr/VL8ojURjjuYYAldk5I3D+W48iSAfwKBDajov6ycpDtnnc
+ pBJvBeUG9hSGEyXdVM9xFVH/0ICMt3su13jqZp1VXa+HpSeNqTNQFhjrQHkWOtlN5i
+ D25JXlnaE3i99FIdSG/iIGRfnGzLLRb9KY0qkR0XaB9RJHgs2XuVKiTNfj1u3gWDB4
+ Lz5AKunVAcyHg==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1tDPsa-000000003KO-14Qw;
+ Tue, 19 Nov 2024 16:11:00 +0100
+Date: Tue, 19 Nov 2024 16:11:00 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Leonard Lausen <leonard@lausen.nl>
+Cc: =?utf-8?Q?Gy=C3=B6rgy?= Kurucz <me@kuruczgy.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jeykumar Sankaran <jsanka@codeaurora.org>, stable@vger.kernel.org,
+ Abel Vesa <abel.vesa@linaro.org>
+Subject: Re: [v2,1/2] drm/msm/dpu1: don't choke on disabling the writeback
+ connector
+Message-ID: <ZzyqhK-FUwoAcgx1@hovoldconsulting.com>
+References: <20240802-dpu-fix-wb-v2-1-7eac9eb8e895@linaro.org>
+ <b70a4d1d-f98f-4169-942c-cb9006a42b40@kuruczgy.com>
+ <ZzyYI8KkWK36FfXf@hovoldconsulting.com>
+ <2138d887-f1bf-424a-b3e5-e827a39cc855@lausen.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zzt64tbs3TZ-7nUo@louis-chauvet-laptop>
+In-Reply-To: <2138d887-f1bf-424a-b3e5-e827a39cc855@lausen.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,245 +73,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 18, 2024 at 06:35:30PM +0100, Louis Chauvet wrote:
-> On 18/11/24 - 18:24, José Expósito wrote:
-> > On Mon, Nov 18, 2024 at 06:17:11PM +0100, Louis Chauvet wrote:
-> > > On 18/11/24 - 18:10, José Expósito wrote:
-> > > > > Introduce the usage of block_h/block_w to compute the offset and the
-> > > > > pointer of a pixel. The previous implementation was specialized for
-> > > > > planes with block_h == block_w == 1. To avoid confusion and allow easier
-> > > > > implementation of tiled formats. It also remove the usage of the
-> > > > > deprecated format field `cpp`.
-> > > > > 
-> > > > > Introduce the plane_index parameter to get an offset/pointer on a
-> > > > > different plane.
-> > > > > 
-> > > > > Acked-by: Maíra Canal <mairacanal@riseup.net>
-> > > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/vkms/vkms_formats.c | 114 ++++++++++++++++++++++++++++--------
-> > > > >  1 file changed, 91 insertions(+), 23 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> > > > > index 06aef5162529..7f932d42394d 100644
-> > > > > --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> > > > > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> > > > > @@ -10,22 +10,46 @@
-> > > > >  #include "vkms_formats.h"
-> > > > >  
-> > > > >  /**
-> > > > > - * pixel_offset() - Get the offset of the pixel at coordinates x/y in the first plane
-> > > > > + * packed_pixels_offset() - Get the offset of the block containing the pixel at coordinates x/y
-> > > > >   *
-> > > > >   * @frame_info: Buffer metadata
-> > > > >   * @x: The x coordinate of the wanted pixel in the buffer
-> > > > >   * @y: The y coordinate of the wanted pixel in the buffer
-> > > > > + * @plane_index: The index of the plane to use
-> > > > > + * @offset: The returned offset inside the buffer of the block
-> > > > 
-> > > > The previous function (pixel_offset) returned a size_t for the offset rather
-> > > > than an int. Do you know if we are safe using an int in this case?
-> > > 
-> > > I think I used int everywhere because it may avoid strange issues with 
-> > > implicit casting and negative number. I don't remember exactly where, but 
-> > > Pekka suggested it.
+On Tue, Nov 19, 2024 at 09:33:26AM -0500, Leonard Lausen wrote:
+
+> > I'm seeing the same issue as GyÃ¶rgy on the x1e80100 CRD and Lenovo
+> > ThinkPad T14s. Without this patch, the internal display fails to resume
+> > properly (switching VT brings it back) and the following errors are
+> > logged:
 > > 
-> > Ah! Good to know. For the record, I ran locally the IGT tests and
-> > perform some manual testing and I found no issues.
+> > 	[dpu error]connector not connected 3
+> > 	[drm:drm_mode_config_helper_resume [drm_kms_helper]] *ERROR* Failed to resume (-22)
 > > 
-> > > > > + * @rem_x: The returned X coordinate of the requested pixel in the block
-> > > > > + * @rem_y: The returned Y coordinate of the requested pixel in the block
-> > > > >   *
-> > > > > - * The caller must ensure that the framebuffer associated with this request uses a pixel format
-> > > > > - * where block_h == block_w == 1.
-> > > > > - * If this requirement is not fulfilled, the resulting offset can point to an other pixel or
-> > > > > - * outside of the buffer.
-> > > > > + * As some pixel formats store multiple pixels in a block (DRM_FORMAT_R* for example), some
-> > > > > + * pixels are not individually addressable. This function return 3 values: the offset of the
-> > > > > + * whole block, and the coordinate of the requested pixel inside this block.
-> > > > > + * For example, if the format is DRM_FORMAT_R1 and the requested coordinate is 13,5, the offset
-> > > > > + * will point to the byte 5*pitches + 13/8 (second byte of the 5th line), and the rem_x/rem_y
-> > > > > + * coordinates will be (13 % 8, 5 % 1) = (5, 0)
-> > > > > + *
-> > > > > + * With this function, the caller just have to extract the correct pixel from the block.
-> > > > >   */
-> > > > > -static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
-> > > > > +static void packed_pixels_offset(const struct vkms_frame_info *frame_info, int x, int y,
-> > > > > +				 int plane_index, int *offset, int *rem_x, int *rem_y)
-> > > > >  {
-> > > > >  	struct drm_framebuffer *fb = frame_info->fb;
-> > > > > +	const struct drm_format_info *format = frame_info->fb->format;
-> > > > > +	/* Directly using x and y to multiply pitches and format->ccp is not sufficient because
-> > > > > +	 * in some formats a block can represent multiple pixels.
-> > > > > +	 *
-> > > > > +	 * Dividing x and y by the block size allows to extract the correct offset of the block
-> > > > > +	 * containing the pixel.
-> > > > > +	 */
-> > > > >  
-> > > > > -	return fb->offsets[0] + (y * fb->pitches[0]) + (x * fb->format->cpp[0]);
-> > > > > +	int block_x = x / drm_format_info_block_width(format, plane_index);
-> > > > > +	int block_y = y / drm_format_info_block_height(format, plane_index);
-> > > > > +	int block_pitch = fb->pitches[plane_index] * drm_format_info_block_height(format,
-> > > > > +										  plane_index);
-> > > > > +	*rem_x = x % drm_format_info_block_width(format, plane_index);
-> > > > > +	*rem_y = y % drm_format_info_block_height(format, plane_index);
-> > > > > +	*offset = fb->offsets[plane_index] +
-> > > > > +		  block_y * block_pitch +
-> > > > > +		  block_x * format->char_per_block[plane_index];
-> > > > >  }
-> > > > >  
-> > > > >  /**
-> > > > > @@ -35,30 +59,71 @@ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int
-> > > > >   * @frame_info: Buffer metadata
-> > > > >   * @x: The x (width) coordinate inside the plane
-> > > > >   * @y: The y (height) coordinate inside the plane
-> > > > > + * @plane_index: The index of the plane
-> > > > > + * @addr: The returned pointer
-> > > > > + * @rem_x: The returned X coordinate of the requested pixel in the block
-> > > > > + * @rem_y: The returned Y coordinate of the requested pixel in the block
-> > > > >   *
-> > > > > - * Takes the information stored in the frame_info, a pair of coordinates, and
-> > > > > - * returns the address of the first color channel.
-> > > > > - * This function assumes the channels are packed together, i.e. a color channel
-> > > > > - * comes immediately after another in the memory. And therefore, this function
-> > > > > - * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
-> > > > > + * Takes the information stored in the frame_info, a pair of coordinates, and returns the address
-> > > > > + * of the block containing this pixel and the pixel position inside this block.
-> > > > >   *
-> > > > > - * The caller must ensure that the framebuffer associated with this request uses a pixel format
-> > > > > - * where block_h == block_w == 1, otherwise the returned pointer can be outside the buffer.
-> > > > > + * See @packed_pixel_offset for details about rem_x/rem_y behavior.
-> > > > 
-> > > > Missing "s" in the name of the function. Should read "@packed_pixels_offset".
-> > > 
-> > > Thanks!
-> > > 
-> > > > >   */
-> > > > > -static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
-> > > > > -				int x, int y)
-> > > > > +static void packed_pixels_addr(const struct vkms_frame_info *frame_info,
-> > > > > +			       int x, int y, int plane_index, u8 **addr, int *rem_x,
-> > > > > +			       int *rem_y)
-> > > > >  {
-> > > > > -	size_t offset = pixel_offset(frame_info, x, y);
-> > > > > +	int offset;
-> > > > >  
-> > > > > -	return (u8 *)frame_info->map[0].vaddr + offset;
-> > > > > +	packed_pixels_offset(frame_info, x, y, plane_index, &offset, rem_x, rem_y);
-> > > > > +	*addr = (u8 *)frame_info->map[0].vaddr + offset;
-> > > > >  }
-> > > > >  
-> > > > > -static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y)
-> > > > > +/**
-> > > > > + * packed_pixels_addr_1x1() - Get the pointer to the block containing the pixel at the given
-> > > > > + * coordinates
-> > > > > + *
-> > > > > + * @frame_info: Buffer metadata
-> > > > > + * @x: The x (width) coordinate inside the plane
-> > > > > + * @y: The y (height) coordinate inside the plane
-> > > > > + * @plane_index: The index of the plane
-> > > > > + * @addr: The returned pointer
-> > > > > + *
-> > > > > + * This function can only be used with format where block_h == block_w == 1.
-> > > > > + */
-> > > > > +static void packed_pixels_addr_1x1(const struct vkms_frame_info *frame_info,
-> > > > > +				   int x, int y, int plane_index, u8 **addr)
-> > > > > +{
-> > > > > +	int offset, rem_x, rem_y;
-> > > > 
-> > > > Nitpick, but it'd be nice if packed_pixels_offset() could take NULLs in
-> > > > the output values so we avoid declaring unused variables here and when
-> > > > calling packed_pixels_addr().
-> > > 
-> > > It is not a trivial change, and as I want this series to be merged I will 
-> > > send the v14 without it. But if I have the time I will send a new 
-> > > patch/series with this cleanup, thanks for the suggestion.
-> > 
-> > That works for me, we can always fix it in a follow up... Specially since
-> > 2 other series depend on this one :)
+> > I see the same symptoms with Xorg as well as sway.
 > 
-> As the series is completly reviewed/acked, how long do I need to 
-> wait after the v14 before commiting on drm-misc-next? I plan to send the 
-> v14 today/tomorrow morning with your changes.
+> The issue of "internal display fails to resume properly (switching VT brings it back)"
+> also affects sc7180 platform during some resumes. Do you see the issue consistently
+> during every resume?
 
-Thanks for sending v14, I checked very quickly the patches and my sugestions
-were fixed.
+Yes, it happens on every suspend cycle here.
 
-I can't answer this question, but all patches have been reviewed/tested by at
-least 2 people, plus you are the only maintainer of the driver now.
-I think that, if in a few days there are no complains, this series should be
-ready to be merged.
+I didn't notice the issue initially as fbdev does not seem to be
+affected, and I've been running with this patch applied to suppress the
+resume errors since it was posted.
 
-Maybe Maíra, as the previous maintainer, can give you some advice. I have
-never maintained a driver, so I'm not sure what are the best practices.
+> > Can we please get this fixed and backported as soon as possible?
+> > 
+> > Even if there are further issues with some "Night Light" functionality
+> > on one machine, keeping this bug as workaround does not seem warranted
+> > given that it breaks basic functionality for users.
+> 
+> I suspect this is not about "further issues with some 'Night Light' functionality
+> on one machine", but rather a more fundamental issue or race condition in the qcom
+> DRM devices stack, that is exposed when applying this patch. With this patch applied
+> DRM device state is lost after resume and setting the state is no longer possible.
+> Lots of kernel errors are printed if attempting to set DRM state such as the
+> Color Transform Matrix, when running a kernel with this patch applied.
+> Back in July 2024 I tested this patch on top of 6.9.8 and next-20240709,
+> observing below snippet being logged tens of times:
+> 
+> [drm:_dpu_rm_check_lm_and_get_connected_blks] [dpu error]failed to get dspp on lm 0
+> [drm:_dpu_rm_make_reservation] [dpu error]unable to find appropriate mixers
+> [drm:dpu_rm_reserve] [dpu error]failed to reserve hw resources: -119
+> 
+> Full logs are attached at https://gitlab.freedesktop.org/drm/msm/-/issues/58.
 
-Jose
+I would not be surprised if there are further issues here, but we can't
+just leave things completely broken as they currently are.
 
-> Thanks,
-> Louis Chauvet
->  
-> > Jose
-> >  
-> > > > > +
-> > > > > +	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format,
-> > > > > +					      plane_index) != 1,
-> > > > > +		"%s() only support formats with block_w == 1", __func__);
-> > > > > +	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format,
-> > > > > +					       plane_index) != 1,
-> > > > > +		"%s() only support formats with block_h == 1", __func__);
-> > > > > +
-> > > > > +	packed_pixels_offset(frame_info, x, y, plane_index, &offset, &rem_x,
-> > > > > +			     &rem_y);
-> > > > > +	*addr = (u8 *)frame_info->map[0].vaddr + offset;
-> > > > > +}
-> > > > > +
-> > > > > +static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y,
-> > > > > +				 int plane_index)
-> > > > >  {
-> > > > >  	int x_src = frame_info->src.x1 >> 16;
-> > > > >  	int y_src = y - frame_info->rotated.y1 + (frame_info->src.y1 >> 16);
-> > > > > +	u8 *addr;
-> > > > > +	int rem_x, rem_y;
-> > > > > +
-> > > > > +	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format, plane_index) != 1,
-> > > > > +		  "%s() only support formats with block_w == 1", __func__);
-> > > > > +	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format, plane_index) != 1,
-> > > > > +		  "%s() only support formats with block_h == 1", __func__);
-> > > > >  
-> > > > > -	return packed_pixels_addr(frame_info, x_src, y_src);
-> > > > > +	packed_pixels_addr(frame_info, x_src, y_src, plane_index, &addr, &rem_x, &rem_y);
-> > > > > +
-> > > > > +	return addr;
-> > > > >  }
-> > > > >  
-> > > > >  static int get_x_position(const struct vkms_frame_info *frame_info, int limit, int x)
-> > > > > @@ -152,14 +217,14 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
-> > > > >  {
-> > > > >  	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> > > > >  	struct vkms_frame_info *frame_info = plane->frame_info;
-> > > > > -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
-> > > > > +	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
-> > > > >  	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
-> > > > >  
-> > > > >  	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
-> > > > >  		int x_pos = get_x_position(frame_info, limit, x);
-> > > > >  
-> > > > >  		if (drm_rotation_90_or_270(frame_info->rotation))
-> > > > > -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
-> > > > > +			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
-> > > > >  				+ frame_info->fb->format->cpp[0] * y;
-> > > > >  
-> > > > >  		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
-> > > > > @@ -250,7 +315,10 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
-> > > > >  {
-> > > > >  	struct vkms_frame_info *frame_info = &wb->wb_frame_info;
-> > > > >  	int x_dst = frame_info->dst.x1;
-> > > > > -	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-> > > > > +	u8 *dst_pixels;
-> > > > > +	int rem_x, rem_y;
-> > > > > +
-> > > > > +	packed_pixels_addr(frame_info, x_dst, y, 0, &dst_pixels, &rem_x, &rem_y);
-> > > > >  	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-> > > > >  	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
-> > > > >  
-> > > > > 
+> > The x1e80100 is the only platform I have access to with a writeback
+> > connector, but this regression potentially affects a whole host of older
+> > platforms as well.
+> 
+> Have you attempted setting CTM or other DRM state when running with this patch?
+
+Nope, I just want basic suspend to work.
+
+Johan
