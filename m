@@ -2,136 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 237439D2FFA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 22:22:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A239D302A
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 22:56:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F34D10E36E;
-	Tue, 19 Nov 2024 21:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 531D710E376;
+	Tue, 19 Nov 2024 21:56:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="RgjkArno";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="Wu1Uld26";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2083.outbound.protection.outlook.com [40.107.95.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10BB810E36E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 21:22:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M6i2VlWjpJHjmisWUUgxy11JdRNBnI0sz1KtB/hxkUhE7uuuKepQ7e655E9rWS7+yjpR/ZATQqzGBCLPqfOiTcmDjiZPJjKCs4qPq3sFxGIgfXkUj3NSsOjyTqV8DI8LmPwCBd1K5DiObHkIJfPfG88oakj+s4tfEbMX+uEJ7cNjKO8D15d0mtU9OVFD6juL20Z0712PQLeQgZ9e3NbZzfYUqyQ7JLxvQOSqRKYRGzbkZiNas0rRppib6Bc2HZK1em9zykMWuJoHdwD0vxES2S4xY3Slq1nW1vzvqAEeFAHjoNImeSAUOCPjvQ42WDWdWhd5M1g1AnTTAPp+LVykpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rRajCOYdkiJsAudjMCknnKrRCvhOHWKWu02DA++PGaY=;
- b=vQBG7aQnTfEDN5lBMoRTeevQuJPIpNS2tMz15hi2HwWuYsiZH2mRAJDHXP8XgSWxdoqd9aLLmCrjEwHrP2/H6ltUo68uudTw85afLSFJjZo4wlOymn/biSjJLMg71PX7WJEXkZ1txxt9iIAhVmkd45PAXF1vfapVQk4yC9NoXiQmQKZtqvVLkOVZzod+aww3RIKbzRYgNOBbvKXOftcN9UPvLPk6HwwvdTC+h/tnh9q0BNcSIRo6uEHtUt0PFr39ss+KsGa/CtFWfGe50/8quhBSPNF9X8W8Cn24vodkoitUTIbR2h55r7iXN4uyHQodv1idfd1d+Qem+MgrqqW+XQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rRajCOYdkiJsAudjMCknnKrRCvhOHWKWu02DA++PGaY=;
- b=RgjkArno7K2VmE4xEQpCHPGWOsT898leJQ/qdKm7vFJVirkd0i1JrgryfgzVkLD5L+fdV7bAt6ZgKBz9zdn/u1TVwyPx71Q2tuIteut2wlAkCJ4f+fpV5OVhjZJigANbUJ4yAmsEUNeTQBeaFE6NAKszWGzzbOA9iX0/D+GOyqkXIv1G25jwn5V4Hyz4V9JbgUSvO0gEwninsbnpkiC5w6gjRS7ON8Ha9Kdo9kW3VWrSZJvAHWQO8IkBwABiHxQKCE98Qx9ibQbk8oYE4NsRug9C+BGQbX0UlI9noNZ/on1mhi6P+19HNwYM+gpzeUjZD9JfG1WjifDzbm1d9mAHrA==
-Received: from SA9PR13CA0124.namprd13.prod.outlook.com (2603:10b6:806:27::9)
- by PH7PR12MB7453.namprd12.prod.outlook.com (2603:10b6:510:20a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.24; Tue, 19 Nov
- 2024 21:21:58 +0000
-Received: from SN1PEPF0002636B.namprd02.prod.outlook.com
- (2603:10b6:806:27:cafe::c8) by SA9PR13CA0124.outlook.office365.com
- (2603:10b6:806:27::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.12 via Frontend
- Transport; Tue, 19 Nov 2024 21:21:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SN1PEPF0002636B.mail.protection.outlook.com (10.167.241.136) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8158.14 via Frontend Transport; Tue, 19 Nov 2024 21:21:58 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 19 Nov
- 2024 13:21:42 -0800
-Received: from [172.20.206.173] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 19 Nov
- 2024 13:21:41 -0800
-Message-ID: <a0cc3359-bcc2-43f3-8798-80f0d22df9ab@nvidia.com>
-Date: Wed, 20 Nov 2024 07:21:38 +1000
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D35810E376
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 21:56:39 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id D5335895BF;
+ Tue, 19 Nov 2024 22:56:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1732053397;
+ bh=atOqhpShv6nVPXJfhzq/Bh3Ko/bhRYVXc8Rnk2+8Rt4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Wu1Uld26U2/CKmnv3kHtE9x+XTdgM4pNc+e4mnZ4unWp2//I7x6JrgANcYps0EEtl
+ yAUFXaNJqAfv48rOn49RHiC4FGgVzx8omnErPAEJh0p2hDH+30Ta1CKLbIz5LoJatl
+ sCO9n0TN+/e8ufwdlQU9dOTsLBeI/TZg+piBf5WSjwlGmoplTC/YIioJmcISIj8CHR
+ bk2mM9tWOJTsd5py0tloVaK8qHVzTSg1W6Ij9zQ7jX1uR453RQxI6OWOTJe9d3GT0j
+ XxSNqPaGBDt8/n2qk7OjNGvOGwfPo+HxvTAvie9a7nBF417HYvg7GzC4qFCbe8YWE5
+ xtEa69egQQGGg==
+Message-ID: <83be0a27-6b6c-4ba6-b9dc-f914a10abace@denx.de>
+Date: Tue, 19 Nov 2024 22:42:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nouveau/dp: handle retries for AUX CH transfers with
- GSP.
-To: <dri-devel@lists.freedesktop.org>
-References: <20241111034126.2028401-1-airlied@gmail.com>
- <20241111034126.2028401-2-airlied@gmail.com>
+Subject: Re: [PATCH v7 2/7] Revert "clk: imx: clk-imx8mp: Allow media_disp
+ pixel clock reconfigure parent rate"
+To: Ying Liu <victor.liu@nxp.com>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "festevam@gmail.com" <festevam@gmail.com>, "robh@kernel.org"
+ <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "will@kernel.org" <will@kernel.org>,
+ "abelvesa@kernel.org" <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ "mturquette@baylibre.com" <mturquette@baylibre.com>,
+ "sboyd@kernel.org" <sboyd@kernel.org>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "rfoss@kernel.org" <rfoss@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
+ <simona@ffwll.ch>, "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "arnd@arndb.de" <arnd@arndb.de>,
+ "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20241114065759.3341908-1-victor.liu@nxp.com>
+ <20241114065759.3341908-3-victor.liu@nxp.com>
+ <df6ebdde-65f8-4aad-93c7-b1df695bd2ef@denx.de>
+ <AM7PR04MB7046546A882A8D48E135D84698272@AM7PR04MB7046.eurprd04.prod.outlook.com>
+ <8a4fd234-4c7b-4a04-990d-3222aaa5172d@denx.de>
+ <AM7PR04MB7046E282FD702ACE5E288F8998202@AM7PR04MB7046.eurprd04.prod.outlook.com>
 Content-Language: en-US
-From: Ben Skeggs <bskeggs@nvidia.com>
-In-Reply-To: <20241111034126.2028401-2-airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <AM7PR04MB7046E282FD702ACE5E288F8998202@AM7PR04MB7046.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002636B:EE_|PH7PR12MB7453:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70542937-feb1-43dd-3648-08dd08e03366
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RlZrczRuL1U0cnhBTHJrMWttM3VNMFRmckNUUWV0anFvOFlRMk5oZGFWNE02?=
- =?utf-8?B?RFEzU1pBZ0tTWmlLczE2UDFjc1Q4UTlVUlFKN1lvRGdZYjlhdjJWQUNieXI2?=
- =?utf-8?B?bkZiMDdkQkRUTVBodzcrQkFmRm9vSkZVK3BQQnUzYm9XdG9ENHIwbFhnUWtS?=
- =?utf-8?B?MTBidlhnUURTaXVQbm5PL00wLy9la1h6Z2N0eTJOcGNCYzJ1RGZLVFdWbEpi?=
- =?utf-8?B?d1UwQS9IdHdEcnFkU0hIK1ZSbkpzcUgzajRjSTZNdmJ3NHk0UlhESnM3SThQ?=
- =?utf-8?B?NFozbWZPSmVhVUFxcnpiN0lZaVVMM2NEUlBQdFhHTWJEMkJ1N3A5ajN2OUc3?=
- =?utf-8?B?SjJZcFNiWWxwRGlmZlNJTVJDU09TVnUrUzBRRlM4SEFjZHU1akF1Z1RLazRO?=
- =?utf-8?B?TzdObmlTaXNvLzdpYXU2NU1DbE1pK1NReUVOQnQreEdMaEdiUERCM3NhNVpt?=
- =?utf-8?B?VXJsZ1FLOHN1Z25XS29aekYzVjRFQTh1Q3FKR3VaeHJKSVZlQVV4RHZQRWFF?=
- =?utf-8?B?SVc5bGp0OGNObmdINVBnUzNsYXBSTnpXOHl5SDNJUncrL1J0LzJGWnV5ZFhy?=
- =?utf-8?B?YjQxUW5VR1dudnRGQlI5bWJLb29FY0wwNU1SaUtjcUZxNE1uRGUxYTUyOWw2?=
- =?utf-8?B?aHFiR2RMeHk3TXhaYnJFOGk2dlJrY05jQnhYY1U0MnZUbVg1ZmVjc2JYa2Zz?=
- =?utf-8?B?ZzloM1UzMmtzV3I0L01pVTN0blJZNlhoOFpTSkxwbU1ZY3RrWWlPeXpBZE5y?=
- =?utf-8?B?OSszUmo1cmF0TkU0RFlldjRYVnh1Wk43d2RseGZESHdEZ2xJa0xsSld3a1BK?=
- =?utf-8?B?MHlLMWRTTkx5Ym8rR0EzRWdXbHJvM21aNG9yYXR5elZGc1ZHcXA0QXRNZ2s2?=
- =?utf-8?B?dmJjTkZEWVliMGFpNkordVkwNjhXQnB2blpKelBkMW5jWno0L3J6b2Z4eGI5?=
- =?utf-8?B?VU5lZ2wzSG8vc2J6L291RkZsSXNDVlNEdE5XMk9FMzFmVnZKdWhnVjRlKzA0?=
- =?utf-8?B?THZVUjVmYVBtL3JGazZWaWtHTzZ3aUVieGtyWHZyRnNFQ0ZNRXNGekszK1l3?=
- =?utf-8?B?bmRXdVRQRHFTNFd3bDhyVXN4dXZVNHV0eG5ackJtQmRPV0RzTUt3OGpBdVl1?=
- =?utf-8?B?WEg5SDZiUXRXNThGbmNWc2UvWHkzQnYxK2M2MGNDVFk5cGFZcG9aa2JyQU9K?=
- =?utf-8?B?dUx2NDlxQVNTTlFQU3dlUHNBOXFSZzhkQmFSdWVFU0s0ajRLYi9TTnlZYXp4?=
- =?utf-8?B?dHUyT1NzUjBJRW9QRm12Vm96cmRCMkNQenZHZ1g4QnRIbytFQ1k3dFVBMWt5?=
- =?utf-8?B?QUlVY2lJekdLV0djeVF4a0ZYYlI1QW9NWmZmM1NmR0M0WDJtdVRTK0NldWho?=
- =?utf-8?B?WURUQTNvYWxjZDFVTkFIUjkxSk80a2RwdXpnZ042QmZWNjBpMFlwRy9qbXZQ?=
- =?utf-8?B?TmtnSC80dnNSdTRUU1IrRE8zUDA1Qm41Wm9VZUwzMGY0SkxDMVJCWVIydVVL?=
- =?utf-8?B?S2ZBRi8wdXBEbnVEQjdwVHBBeTE0MTBzVk5kSnR4UXV0WXNPOUxuRDQyaHB5?=
- =?utf-8?B?NEFOUkp2MXd5N3pxUVNnWUhKTXI2eCszM0ZOM1dzblVxcndqNDBUY3cvNno4?=
- =?utf-8?B?WVBRd2NucXFYdEtweS9SbmtSRkl2Q0VLNFlVeHdDcUNkOWh4RlNIeXo0OXBN?=
- =?utf-8?B?cm5GMTJFRHhmQ29vUitaa1hKd1JNWkNBaEJzdk9hSzFleWZFTzZ4QXJPUlNB?=
- =?utf-8?B?dUlUeUJCUVZsWUo1RUVlOHc0Y2x3b3RVWlZCRXJIaSs3Nzc3NUkwSUF3dEl6?=
- =?utf-8?B?Q2hJTm93WGNhQ0NDRFRVRWdNZUlKeDJScVdvYTJuNmg5dmx5bWVtS3FucjNO?=
- =?utf-8?B?d1ZOZE1GOEV4REJEak9FMytRNU02UnVYc0NyUlNSdVVzbkE9PQ==?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2024 21:21:58.3105 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70542937-feb1-43dd-3648-08dd08e03366
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7453
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,101 +100,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/24 13:41, Dave Airlie wrote:
+On 11/19/24 9:18 AM, Ying Liu wrote:
 
-> From: Dave Airlie <airlied@redhat.com>
->
-> eb284f4b3781 drm/nouveau/dp: Honor GSP link training retry timeouts
->
-> tried to fix a problem with panel retires, however it appears
-> the auxch also needs the same treatment, so add the same retry
-> wrapper around it.
->
-> This fixes some eDP panels after a suspend/resume cycle.
+[...]
 
-This works fine on my laptop (though it doesn't fix the issues I see 
-there unfortunately).
+>> The TC9595 can drive an DP output, for that the clock which have to be
+>> set on the LCDIF cannot be predicted, as that information comes from the
+>> monitor EDID/DPCD. That is why the LCDIF has to be able to configure the
+>> Video PLL1 clock to accurate clock frequency.
+>>
+>> For the LVDS LDB, the use case is the other way around -- the pixel
+>> clock which should be generated by LCDIF and fed to LDB are known from
+>> the panel type listed in DT, but they should still be accurate.
+> 
+> Thanks for the information.  I think the key question is whether the
+> alternative solution(*) you mentioned below stands or not, in other words,
+> whether LCDIF1/LCDIF2/LDB drivers know that they are sharing a PLL
+> or not.
 
-The handling of -EAGAIN can be removed here too, but aside from that:
+I'll continue at the end ...
 
-Reviewed-by: Ben Skeggs <bskeggs@nvidia.com>
+>>> You still may assign an accurate PLL rate in DT.
+>>> This patch only makes the PLL rate be unchangeable dynamically in
+>>> runtime.  That means the existing imx8m-dhcom-som.dtsi would use
+>>> IMX8MP_VIDEO_PLL1_OUT(running at 1.0395GHz) as the parent clock
+>>> of IMX8MP_CLK_MEDIA_DISP1_PIX (for LCDIF1/DSI), since it includes
+>>> imx8mp.dsti.  I assume it should be able to support typical video modes
+>>> like 1080p60 video mode with 148.5MHz pixel clock at least with 1.0395GHz
+>>> PLL rate.
+>>
+>> This will break multiple DP monitors I tested so far I'm afraid. And I
+>> spent a LOT of time wrestling with the TC9595 bridge to make sure it
+>> actually does work well.
+> 
+> If the DP monitors support typical video modes like 1080p60 with
+> 148.5MHz pixel clock rate, I assume these typical video modes work
+> still ok with this patch at least.  Please help confirm this, since if the
+> alternative solution(*) doesn't stand, we would know those video
+> modes still work ok with my solution(fixed PLL rate).
 
->
-> Fixes: eb284f4b3781 ("drm/nouveau/dp: Honor GSP link training retry timeouts")
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->   .../gpu/drm/nouveau/nvkm/engine/disp/r535.c   | 57 +++++++++++--------
->   1 file changed, 34 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-> index 8f9aa3463c3c..99110ab2f44d 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c
-> @@ -1060,33 +1060,44 @@ r535_dp_aux_xfer(struct nvkm_outp *outp, u8 type, u32 addr, u8 *data, u8 *psize)
->   	NV0073_CTRL_DP_AUXCH_CTRL_PARAMS *ctrl;
->   	u8 size = *psize;
->   	int ret;
-> +	int retries;
->   
-> -	ctrl = nvkm_gsp_rm_ctrl_get(&disp->rm.objcom, NV0073_CTRL_CMD_DP_AUXCH_CTRL, sizeof(*ctrl));
-> -	if (IS_ERR(ctrl))
-> -		return PTR_ERR(ctrl);
-> +	for (retries = 0; retries < 3; ++retries) {
-> +		ctrl = nvkm_gsp_rm_ctrl_get(&disp->rm.objcom, NV0073_CTRL_CMD_DP_AUXCH_CTRL, sizeof(*ctrl));
-> +		if (IS_ERR(ctrl))
-> +			return PTR_ERR(ctrl);
->   
-> -	ctrl->subDeviceInstance = 0;
-> -	ctrl->displayId = BIT(outp->index);
-> -	ctrl->bAddrOnly = !size;
-> -	ctrl->cmd = type;
-> -	if (ctrl->bAddrOnly) {
-> -		ctrl->cmd = NVDEF_SET(ctrl->cmd, NV0073_CTRL, DP_AUXCH_CMD, REQ_TYPE, WRITE);
-> -		ctrl->cmd = NVDEF_SET(ctrl->cmd, NV0073_CTRL, DP_AUXCH_CMD,  I2C_MOT, FALSE);
-> -	}
-> -	ctrl->addr = addr;
-> -	ctrl->size = !ctrl->bAddrOnly ? (size - 1) : 0;
-> -	memcpy(ctrl->data, data, size);
-> +		ctrl->subDeviceInstance = 0;
-> +		ctrl->displayId = BIT(outp->index);
-> +		ctrl->bAddrOnly = !size;
-> +		ctrl->cmd = type;
-> +		if (ctrl->bAddrOnly) {
-> +			ctrl->cmd = NVDEF_SET(ctrl->cmd, NV0073_CTRL, DP_AUXCH_CMD, REQ_TYPE, WRITE);
-> +			ctrl->cmd = NVDEF_SET(ctrl->cmd, NV0073_CTRL, DP_AUXCH_CMD,  I2C_MOT, FALSE);
-> +		}
-> +		ctrl->addr = addr;
-> +		ctrl->size = !ctrl->bAddrOnly ? (size - 1) : 0;
-> +		memcpy(ctrl->data, data, size);
->   
-> -	ret = nvkm_gsp_rm_ctrl_push(&disp->rm.objcom, &ctrl, sizeof(*ctrl));
-> -	if (ret) {
-> -		nvkm_gsp_rm_ctrl_done(&disp->rm.objcom, ctrl);
-> -		return ret;
-> +		ret = nvkm_gsp_rm_ctrl_push(&disp->rm.objcom, &ctrl, sizeof(*ctrl));
-> +		if ((ret == -EAGAIN || ret == -EBUSY) && ctrl->retryTimeMs) {
-> +			/*
-> +			 * Device (likely an eDP panel) isn't ready yet, wait for the time specified
-> +			 * by GSP before retrying again
-> +			 */
-> +			nvkm_debug(&disp->engine.subdev,
-> +				   "Waiting %dms for GSP LT panel delay before retrying in AUX\n",
-> +				   ctrl->retryTimeMs);
-> +			msleep(ctrl->retryTimeMs);
-> +			nvkm_gsp_rm_ctrl_done(&disp->rm.objcom, ctrl);
-> +		} else {
-> +			memcpy(data, ctrl->data, size);
-> +			*psize = ctrl->size;
-> +			ret = ctrl->replyType;
-> +			nvkm_gsp_rm_ctrl_done(&disp->rm.objcom, ctrl);
-> +			break;
-> +		}
->   	}
-> -
-> -	memcpy(data, ctrl->data, size);
-> -	*psize = ctrl->size;
-> -	ret = ctrl->replyType;
-> -	nvkm_gsp_rm_ctrl_done(&disp->rm.objcom, ctrl);
->   	return ret;
->   }
->   
+They do not work with the fixed PLL setting.
+
+>>> Granted that less video modes read from DP monitor would
+>>> be supported without dynamically changeable PLL rates, this is something
+>>> we have to accept because some i.MX8MP platforms(like i.MX8MP EVK)
+>>> have to share IMX8MP_VIDEO_PLL1_OUT between LVDS and MIPI DSI
+>>> display pipelines.
+>>
+>> What I need is the use of two full PLL1443x (like Video PLL and Audio
+>> PLL1/2) , one for each display output, and those PLLs have to be fully
+>> configurable to produce accurate pixel clock for each connected panel.
+>> Otherwise I cannot make proper use of the video output capabilities of
+>> the MX8MP SoC.
+> 
+> Yeah, I understand your requirements.  However, it still depends on
+> whether the alternative solution(*) stands or not.
+
+I'll continue at the end ...
+
+>>> The missing part is that we need to do mode validation
+>>> for the MIPI DSI display pipeline either in samsung-dsim.c or lcdif_kms.c
+>>> to filter unsupported video mode out.  Is this missing mode validation
+>>> the cause of your failure case?
+>>
+>> I do want to support the various modes, I do not want to filter them
+>> out. They can be supported, the only "problem" is the shared Video PLL
+>> which is not really an actual problem in my case, because I do not use
+>> shared Video PLL, I use two separate PLLs.
+>>
+>> I think what is needed is for the LCDIF1/LCDIF2/LDB to figure out
+>> whether they share the Video PLL at all (you already suggested the clock
+>> subsystem can provide that information), and then if:
+> 
+> But, how to let LCDIF1/LCDIF2/LDB drivers to figure out that?
+> 
+> I didn't suggest that the clock subsystem can provide that information.
+
+... by end I mean here.
+
+One really nasty way I can think of is -- use find_node_by_compatible(), 
+look up all the relevant DT nodes, parse their clock properties, and 
+check whether they all point to the Video PLL or not.
+
+Maybe the clock subsystem has a better way, like list "neighbor" 
+consumers of some specific parent clock or something like that.
+
+[...]
+
+>> Can something like (*) above be implemented instead, so both Shared and
+>> separate PLLs would be supported ? That should solve both of our use
+>> cases, right ?
+> 
+> I don't see any clear way to implement something like(*).
+> 
+> Take the 3 i.MX8MP LCDIFs as one graphic card driven by one imx-lcdif
+> DRM instance?  Would it be too intrusive?
+
+Yes, and I think unnecessary, one can simply traverse and parse the DT 
+to determine the clock assignment?
+
+> Use clk_get_parent() to determine if the pixel clocks of LCDIF1&2 are
+> sharing PLL(note clk_get_parent() implementation contains a TODO:
+> Create a per-user clk.)?
+
+Maybe not necessary for this case.
+
+> How to do mode validation for the shared PLL case(note mode_valid()
+> callback is supposed to look at nothing more than passed-in mode)?
+> Use clk_set_rate_range() to fix the PLL rate(min == max)?
+
+This is a good question -- we can use fixed frequency set in DT for the 
+PLL in case it is shared, and set whatever optimal frequency if the PLL 
+is not shared. That would be a good first step I think (**).
+
+The next step would be to find a way to negotiate acceptable PLL 
+frequency between LCDIF1/LCDIF2/LDB in case the PLL is shared, but I do 
+agree this is non-trivial, hence next step.
+
+>>> I hope that we can agree on this solution first before spreading
+>>> discussions across different threads and eventually the NAK can be
+>>> taken back.
+>>
+>> I cannot really agree on a solution which breaks one of my use cases,
+>> but maybe there is an alternative how to support both options, see (*)
+>> above ?
+> 
+> I tend to say there is no any alternative solution to satisfy both
+> separate PLLs and shared PLL use cases, or even if there is one, it won't
+> be easy to implement.  If you know one, please shout it out.
+Maybe (*) with first step (**) would be doable ?
