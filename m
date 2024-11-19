@@ -2,49 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5877D9D266F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 14:10:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371F09D2671
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 14:10:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A60710E639;
-	Tue, 19 Nov 2024 13:10:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93DD610E63B;
+	Tue, 19 Nov 2024 13:10:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 01FFA10E633
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 13:10:27 +0000 (UTC)
-X-CSE-ConnectionGUID: qdnQKTnwQW+57xfaeIeIqw==
-X-CSE-MsgGUID: LOQcRYo4TROjczDMBqFI5w==
-X-IronPort-AV: E=Sophos;i="6.12,166,1728918000"; d="scan'208";a="229300905"
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1B68E10E633
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 13:10:37 +0000 (UTC)
+X-CSE-ConnectionGUID: +b9gzVvjRniVWx6mK+8sRg==
+X-CSE-MsgGUID: dueywVyjTM6jr8NArlk+hA==
+X-IronPort-AV: E=Sophos;i="6.12,166,1728918000"; d="scan'208";a="225317532"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 19 Nov 2024 22:10:26 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 19 Nov 2024 22:10:37 +0900
 Received: from localhost.localdomain (unknown [10.226.92.216])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 96E534024119;
- Tue, 19 Nov 2024 22:10:19 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1F98041D374A;
+ Tue, 19 Nov 2024 22:10:24 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
- stable@vger.kernel.org
-Subject: [PATCH v5 1/3] drm: adv7511: Fix use-after-free in
- adv7533_attach_dsi()
-Date: Tue, 19 Nov 2024 13:10:03 +0000
-Message-ID: <20241119131011.105359-2-biju.das.jz@bp.renesas.com>
+ stable@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v5 2/3] dt-bindings: display: adi,
+ adv7533: Drop single lane support
+Date: Tue, 19 Nov 2024 13:10:04 +0000
+Message-ID: <20241119131011.105359-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241119131011.105359-1-biju.das.jz@bp.renesas.com>
 References: <20241119131011.105359-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,71 +64,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The host_node pointer was assigned and freed in adv7533_parse_dt(), and
-later, adv7533_attach_dsi() uses the same. Fix this use-after-free issue
-by dropping of_node_put() in adv7533_parse_dt() and calling of_node_put()
-in error path of probe() and also in the remove().
+As per [1] and [2], ADV7535/7533 supports only 2-, 3-, or 4-lane. Drop
+unsupported 1-lane from bindings.
+
+[1] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
+[2] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7533.pdf
 
 Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
 Cc: stable@vger.kernel.org
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-Changes in v5:
- - Updated commit description.
- - restored host_node in struct adv7511.
- - Dropped of_node_put() in adv7533_parse_dt() and calling of_node_put()
-   in error path of probe() and also in the remove().
-Changes in v4:
- - Updated commit description.
- - Dropped host_node from struct adv7511 and instead used a local pointer
-   in probe(). Also freeing of host_node pointer after use is done in
-   probe().
-Changes in v3:
- - Replace __free construct with readable of_node_put().
-Changes in v2:
- - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
- - Dropped Archit Taneja invalid Mail address
+v4->v5:
+ * No change.
+v3->v4:
+ * Added link to ADV7533 data sheet.
+ * Collected tags.
+v3:
+ * New patch.
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 5 +++++
- drivers/gpu/drm/bridge/adv7511/adv7533.c     | 2 --
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/display/bridge/adi,adv7533.yaml         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index eb5919b38263..6cfdda04f52f 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1363,6 +1363,8 @@ static int adv7511_probe(struct i2c_client *i2c)
- 	i2c_unregister_device(adv7511->i2c_edid);
- uninit_regulators:
- 	adv7511_uninit_regulators(adv7511);
-+	if (adv7511->host_node)
-+		of_node_put(adv7511->host_node);
+diff --git a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
+index df20a3c9c744..ec89115c74e4 100644
+--- a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
+@@ -90,7 +90,7 @@ properties:
+   adi,dsi-lanes:
+     description: Number of DSI data lanes connected to the DSI host.
+     $ref: /schemas/types.yaml#/definitions/uint32
+-    enum: [ 1, 2, 3, 4 ]
++    enum: [ 2, 3, 4 ]
  
- 	return ret;
- }
-@@ -1371,6 +1373,9 @@ static void adv7511_remove(struct i2c_client *i2c)
- {
- 	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
- 
-+	if (adv7511->host_node)
-+		of_node_put(adv7511->host_node);
-+
- 	adv7511_uninit_regulators(adv7511);
- 
- 	drm_bridge_remove(&adv7511->bridge);
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-index 4481489aaf5e..5f195e91b3e6 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-@@ -181,8 +181,6 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
- 	if (!adv->host_node)
- 		return -ENODEV;
- 
--	of_node_put(adv->host_node);
--
- 	adv->use_timing_gen = !of_property_read_bool(np,
- 						"adi,disable-timing-generator");
- 
+   "#sound-dai-cells":
+     const: 0
 -- 
 2.43.0
 
