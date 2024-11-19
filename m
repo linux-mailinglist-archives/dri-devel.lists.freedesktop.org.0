@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 065119D2309
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 11:09:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6DC9D2314
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 11:10:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42B7A10E604;
-	Tue, 19 Nov 2024 10:09:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB09310E607;
+	Tue, 19 Nov 2024 10:10:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="OkP1ImM9";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="NB5vTJCj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75A5A10E604
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 10:09:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732010967; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC8E710E607
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 10:10:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732011022; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=OWJm+P8PpGSWkuVnY+dKdmOJr9QNXvLPig7omSmwHOAf2Zo28rBFbqGJSIg3VM2ZGGfOXtK3+r48G3u+vfXOMqmfgaCVEkPbu1HVoSkm2KQGM9+gL/rsxszwOW5YzZYIru4gDxXAfjDIV8GyComVqCRaogwapY1QdoFEQWqKdoQ=
+ b=QgPah7K7zl9Ui+n9l4278FXGNH/QF3ZF4pW4d90gxh1p5OsYYTIzM9eCgpdweH70zXRxGIC2lqWObcvkLpAvIsT6MioIY28rWR6p5CxmOzq56ajXlbIA90MLntkUY0T/M9stUHe/wHOk8M/gmopXjznav6U8nG4XBmtrcWy2XIU=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732010967;
- h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
- bh=6vObRq2E+RGALjKawt1r5dY6l6TVau1KQSOylOW2doo=; 
- b=WrCu9YOEuavHSUfdbGsj5jNaSqtEuCcmEa5ivP4DwTtt368Cy8oLRTyHrQbmlHzoVcRxDiduXGQhzEpv5XCTVMqOZ0Bt8h4L967OA6948OIddrgrnGSAztt5EvYNXvTpq2T3d2BToYd9mjwvtDwAx8ZrfZIVHuSS4GJJj7YHtpA=
+ s=zohoarc; t=1732011022;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=k+g8j3F1tme4NsTxUII9r7aUoMjsICad4Xf/8UTilxg=; 
+ b=NaaN0M9K4boonOB0pNZ1nDCIi99WnKkRlxlSwwPaBcTv3xR7Ubw/zdA+nolRspTnFpEt/mIUqAPoIYkx0MxTTMQLZVwVqkK9VCzunGRBU1I716EdCn3e5XatmH8GY5yb+7Msvf1NJJsAAEXbpf5CFszbznsJAtNau/Iw/H7HY5c=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732010967; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732011022; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
- bh=6vObRq2E+RGALjKawt1r5dY6l6TVau1KQSOylOW2doo=;
- b=OkP1ImM9vxIcIwxt+xg/n12ilQgxh2T795cbyPYaFS7F/WLvsiaDtfOA6K2Z8/v8
- ndFChntS9sFVWWvqVzFXHE5sIonmejkkKV2i+8ZHCYVjXdKCOoxvAzfCzA+njwRL7dS
- bw16/xBSgWeS//rdFVqP+83TvWFCXQhCESnCS1dY=
-Received: by mx.zohomail.com with SMTPS id 1732010965656991.9554222257977;
- Tue, 19 Nov 2024 02:09:25 -0800 (PST)
-Message-ID: <0c842e7b-5a49-404d-9647-311bfc37f003@collabora.com>
-Date: Tue, 19 Nov 2024 13:09:21 +0300
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:Cc:Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=k+g8j3F1tme4NsTxUII9r7aUoMjsICad4Xf/8UTilxg=;
+ b=NB5vTJCjNICX6Zr6b+KJwtUDlxov3AJDecviu21IuVOGxyf/Sj0CE64/THkPorjW
+ IOmN4nUGZuz7m1BIDpgbtbgaeJYhb+2w6ka9sTpS2K+GpaMJE43SGUB5TVOMgLmtcOS
+ nDQ14sU4m3PaZMh4NiHp8WaikVJnAbh2pIG9OaD0=
+Received: by mx.zohomail.com with SMTPS id 1732011019170470.81764662086744;
+ Tue, 19 Nov 2024 02:10:19 -0800 (PST)
+Message-ID: <b3ac96de-8782-409b-8652-3415fa4c9f38@collabora.com>
+Date: Tue, 19 Nov 2024 13:10:15 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 RESEND] drm/virtio: use generic dumb_map_offset
- implementation
-To: Peter Shkenev <mustela@erminea.space>, David Airlie <airlied@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20241107141133.13624-1-mustela@erminea.space>
-Content-Language: en-US
+Subject: Re: [PATCH v1] drm/virtio: Don't create a context with default param
+ if context_init is supported
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20241107141133.13624-1-mustela@erminea.space>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com
+References: <20241020224725.179937-1-dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241020224725.179937-1-dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
@@ -72,26 +72,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/7/24 17:10, Peter Shkenev wrote:
-> Currently, virtio uses its own dumb_map_offset implementation,
-> virtio_gpu_mode_dumb_mmap. It works similarly to generic implementation,
-> drm_gem_dumb_map_offset, and using the generic implementation is
-> preferable (and making drivers to do so is a task stated on the DRM
-> subsystem's TODO list).
+On 10/21/24 01:47, Dmitry Osipenko wrote:
+> From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 > 
-> Thus, make driver use the generic implementation. This includes
-> VIRTGPU_MAP ioctl so it cannot be used to circumvent rules imposed by
-> drm_gem_dumb_map_offset (imported objects cannot be mapped).
+> Xorg context creation fails for native contexts that use
+> VIRTGPU_CONTEXT_INIT because context is already initialized implicitly
+> when dumb buffer is created. Fix it by not creating default vrend context
+> if context_init is supported.
 > 
-> Signed-off-by: Peter Shkenev <mustela@erminea.space>
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > ---
-> Changes in v2:
->   - Remove excessive include of drm_gem.h from virtgpu_ioctl.h
->   - Remove obsoleted virtio_gpu_mode_dumb_mmap prototype from
->     virtgpu_drv.h
-> 
+>  drivers/gpu/drm/virtio/virtgpu_gem.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 
-Applied to misc-next, thanks!
+Applied to misc-next
 
 -- 
 Best regards,
