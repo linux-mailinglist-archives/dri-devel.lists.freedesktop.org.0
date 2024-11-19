@@ -2,62 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D479D2AA0
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 17:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDDE9D2AB9
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 17:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B693510E0D2;
-	Tue, 19 Nov 2024 16:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25EF810E676;
+	Tue, 19 Nov 2024 16:22:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GB4r8ggm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="acuxVzYM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81AF110E0D2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 16:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=dZQQGklqpYGa5KI5r4gHrR//5kjt7GDiBSmppn1fy4w=; b=GB4r8ggm9bgtyhIKg6alZccHtt
- sRF4DIKECXtaNBAptuc/s0Mus7JatS2E2tO5xKFKYs+Kv1Q5d04d2/gM/uFJRr9KxwE5dOnTlLf+j
- lplPkr6ZFm+k/55szd9r3X01ZcgQaZuT/NiAcPd990I5EZyaUGnn9rcJGPdu5rEYrOnoqohWVkhO5
- 6kF4Qqk9SHEI7LqoDmBMlSO6G1iVZsfXII3fSl+i9JiP1AtJ+dgP1levYsa2krRXgSeyXIZdDNyOY
- Zca9R7sT8zxY4/5ftjOFMT6xhH9of7YmAK1tNJIb6IASouRdWU+igKeTDfN//H8QlRm8K0y1fVOsu
- SC3AS8Xg==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tDQug-0099XT-M2; Tue, 19 Nov 2024 17:17:14 +0100
-Message-ID: <01941cb4-1435-4c99-95db-b12a59268f44@igalia.com>
-Date: Tue, 19 Nov 2024 16:17:12 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/7] drm/sched: store the drm client_id in
- drm_sched_fence
-To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com,
- matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- rostedt@goodmis.org, l.stach@pengutronix.de, matt.coster@imgtec.com,
- frank.binns@imgtec.com, yuq825@gmail.com, robdclark@gmail.com,
- kherbst@redhat.com, lyude@redhat.com, boris.brezillon@collabora.com,
- steven.price@arm.com, mwen@igalia.com, mcanal@igalia.com,
- thomas.hellstrom@linux.intel.com
-References: <20241114100113.150647-1-pierre-eric.pelloux-prayer@amd.com>
- <20241114100113.150647-3-pierre-eric.pelloux-prayer@amd.com>
- <e5f5755f-6b42-4ea6-8ab1-8791a2d8dcbc@igalia.com>
- <5a023c66-9a88-4659-8167-9a7d05133201@damsy.net>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <5a023c66-9a88-4659-8167-9a7d05133201@damsy.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9477010E1C4;
+ Tue, 19 Nov 2024 16:22:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1732033334; x=1763569334;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=NMnuU3LRNpzUxVR6tmn0TzWr+C4jemr03Eic1PG7rJM=;
+ b=acuxVzYMBH56GGgrzAZlCV6fzX38hlpkxM8fx6yHIM1tFD78B5uDqbFk
+ ZuYbnWC9Oq5G3vTumS9ItiwkRpvhbumja41cMb53IeMWEclBZWzPYmNLH
+ o03r4mlxFY6ZODIw+eEbcG7Jk8o32lh/avx4KYDFJn9Wpz9szM7B6swRX
+ nN9cIJEtREs7ZYmMk/GV7BVlzm3xB1axRlI+BGgjv4JQd+9iRbJtSklOE
+ o2Nhvc8TfQxvUFBRpdiZwAVu05VhTwS/ltca6P3QkiFc4h9pva1Nw9qPu
+ BddKJKhQqPC/MoRovdZqZj5phPdQ2Nyqpb8a0QvwLa9wrfre1ndCruJXU g==;
+X-CSE-ConnectionGUID: WomYo5H/TESYo8XiQ7uI6A==
+X-CSE-MsgGUID: CmmkZ2MqQ4erVzoklfpKzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="32103206"
+X-IronPort-AV: E=Sophos;i="6.12,166,1728975600"; d="scan'208";a="32103206"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2024 08:22:04 -0800
+X-CSE-ConnectionGUID: /x07fPM/ReeonCNLRlocOg==
+X-CSE-MsgGUID: DpMDlrV7QyuQ7oCg4iNSZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,166,1728975600"; d="scan'208";a="94534489"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 19 Nov 2024 08:22:05 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 19 Nov 2024 08:22:03 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 19 Nov 2024 08:22:03 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.176)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 19 Nov 2024 08:22:03 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TklHtZDCRhZO5B2uoevBKW1mn4C/TJOi9E8iaZwKHR5CRk2pT/2DoF3e72pKhEAQvw112PDKmb4s84E2kG/j1dbR0cA8EqBPiULaymTu/5kOqGjkIX8vpLMFIukXQTC1NaIkMV7GsrUVStqqDs7YZ+JMmF3w2fDKDFdZvcQUM0TLJcXTvuwKf8UdGjIIyt5+zXxfXAf9NTN+HVExn7dDG8jD8yfG9/r1vzV+QFHAcAcvpz2x6GEQGCZETMJ6U9I6PjvHUSGIcjFrrKsRWNrOD2KEE17NXi/6d4ZanIzujDqJBRGH1E4Y8UaIPHg10ER9F+7kQSwAUGa8Cx8v+6zb4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uZLxBr0hKernd54JLJFaOSlXNUGEBfY2POR01QDDUj0=;
+ b=MFIw3Gp32yvuA5zwNOcsNe7i9RQ/pL5uavMNLau6TUiglFtCBDOYbU/Eg7D6b8BER8mYPirQu9Sn5p/S+cRv+RcagW0BR0/5G/e+rzunvFIzENxMBT9dCYkdxRSucRNJPZhnCpI1rw2ku5ShSodyK/hOat2l7PPDbzLoTJzq5cYxkWJ2Jq8suRSu3fg2OSzeiY9glyPKdWkEK6ONGWyvXL7vXtOefmf3Zhk56nwTavj3S2S5rtGImzTEs2e0oXNW0SbNGwk7FqcgA/wvIRKRD5syuN5rn1CXx7AROem7pdDNz8Q98p27zmDjK/GkKD5nOG7oP+NXcOa+ZX2Ssm0xoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by DS0PR11MB7557.namprd11.prod.outlook.com (2603:10b6:8:14d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.19; Tue, 19 Nov
+ 2024 16:22:00 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.8158.023; Tue, 19 Nov 2024
+ 16:21:59 +0000
+Date: Tue, 19 Nov 2024 08:22:35 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <apopple@nvidia.com>, <airlied@gmail.com>, <christian.koenig@amd.com>,
+ <simona.vetter@ffwll.ch>, <felix.kuehling@amd.com>, <dakr@kernel.org>
+Subject: Re: [PATCH v2 07/29] drm/xe: Add SVM init / close / fini to faulting
+ VMs
+Message-ID: <Zzy7S3y74c6qT4yf@lstrano-desk.jf.intel.com>
+References: <20241016032518.539495-1-matthew.brost@intel.com>
+ <20241016032518.539495-8-matthew.brost@intel.com>
+ <4b221f9cfb35637e96cddfd8fee6cee45c98bd4d.camel@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <4b221f9cfb35637e96cddfd8fee6cee45c98bd4d.camel@linux.intel.com>
+X-ClientProxiedBy: MW4PR04CA0303.namprd04.prod.outlook.com
+ (2603:10b6:303:82::8) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DS0PR11MB7557:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc05ccb1-1bcd-4341-3951-08dd08b64b4f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?J7bww3KJmqnqD33IbajNMgCCq0FMc2gu+NRMQFqSoJN3USuytAMlLuJzwb?=
+ =?iso-8859-1?Q?zh3STslgyhf+IgNFAj2lZyEQJpNyt2nyIplrewIf43Wps8uVUXnKUlBzVV?=
+ =?iso-8859-1?Q?OZEdsnGN+1LXevwaO1z4rUvxRthexuuDa0OSOFiOam1bPQhB5LPQEeQaqP?=
+ =?iso-8859-1?Q?Hmtz+bpKm8yuuREjqf4u24c4GjoxIJpzokQbEwaaYo5QsjDeLjRjSROTXp?=
+ =?iso-8859-1?Q?EW5yrFCBsVTX8PBbO7xHZ+xkntSMCs0ELEMTbhJ/06oTllIEPFT8Yb2lm+?=
+ =?iso-8859-1?Q?25NGolqQei2LbV8gMEJeHM/lod+I3KYQZLp0Rb0cEKHvw8iVL4CAQa4q8i?=
+ =?iso-8859-1?Q?4owZmicVVrbdOEBlblbjKhwUUZFfXpvIDlMP3zy8PiScNQbLh5DgKVOlYa?=
+ =?iso-8859-1?Q?8S6ZoXc6CF+YuACKV0egfecTjW0no8O1WAyevBmjxffSX912khn1fFlovv?=
+ =?iso-8859-1?Q?asIWnvyf+4cS20nXjjJx1YyA37eu/wEEKxuvbNSneNS8mzQcBUM+gENZ82?=
+ =?iso-8859-1?Q?UoEAP6hKFhleSWZniHS99CD+Hn9FgI8JsFX3L8TFRDnwzeckF1HDKuGZxQ?=
+ =?iso-8859-1?Q?JuPyqR+qUYM1P0j9zNBf5ICh/AhwIKORmbaIspRV99P4MzrX4pgiLFeK2C?=
+ =?iso-8859-1?Q?reBQAAFNTn7NSwg/kAbIzC4xY1i5DaceuXaiEuRoEDO2G4p5QnNRsJw+0V?=
+ =?iso-8859-1?Q?ufXs0a3XwU62g8sInGV3efYSchIslD/VJlb6dr3BA64kdbL6kxmaw2XUGO?=
+ =?iso-8859-1?Q?A5laSGqWMIi1Qby1ZTjtsIBJ9uJvZXxAq4pPknSvYCTA5jv11RyfQSwUkB?=
+ =?iso-8859-1?Q?1XOEyklhEu96PaNqzL5bPuRefXlSes52YICvpNUqGz/hrlEiZx5UGexCRE?=
+ =?iso-8859-1?Q?GI5RPIm+FXrSo+6ZKaFcV8uD3K3gudPrfoSD9tfMURA0M2UdELCU/PIcSA?=
+ =?iso-8859-1?Q?cGLE3OvPoE3KfeYAAXQBLxYtCfZNGINKove6AwE1i5ZNTF/l7mhKk7d91F?=
+ =?iso-8859-1?Q?EtEZoVuS0kZOCFWovhTERwnhimueZJwbJmJqq3bYjAY5tydCdlUbzuyNbY?=
+ =?iso-8859-1?Q?t5HXOWeXb8g99hsJruR7aGTOa/kAsbUJBkrNw1lWCSqvS1nkt3WbGd2Qq+?=
+ =?iso-8859-1?Q?mU0loC2AToSWzhNYy1x1P+RTT3wpE8xZJHUNtcwLLf7o4TuP6BuLTTIJKC?=
+ =?iso-8859-1?Q?5fwu8pYhjhuvkiVCPKM1xk2vciJJt0xadnxsoQ3+ohkPYKGxcCkdFf2kG0?=
+ =?iso-8859-1?Q?f4plRYXH042WaFger0RJhuH0cVH2rnvl3cbNL4m68wQyko47ts+WPsCRtu?=
+ =?iso-8859-1?Q?gbgdtuhUn1p3QdDMSKbDKve2j0YyVxmdm5Lhe+ODDcHAh6i6CTtTUhA0h0?=
+ =?iso-8859-1?Q?ene0pXhW20?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?GZSEIlUqvINqcIFE4/fqUAOX52NMbNoJmZn430d0edZAAM33YKGlne+Wq8?=
+ =?iso-8859-1?Q?PzsUpcCyybRoN2Qbr3nMAvnSauzZ1p1ggb18qFEZf3oGLSzOpH4MOa7gHZ?=
+ =?iso-8859-1?Q?QwHxkCSFIGkmKo8qkaKAYEdr+GFjlyigoq3cXx/6XGZc4C6zLW3mntqE/e?=
+ =?iso-8859-1?Q?hpz+pb0WsybbHQI9Ww7+XVVCogv9y/MUcRwFsGBtWj8cqRKUeSqSh+IEWl?=
+ =?iso-8859-1?Q?4YYdmiX0X/heZJrEcvvFwuhskCCkm3yxbjJ+yhzz7jeLzmaeVSEQrmAQ3g?=
+ =?iso-8859-1?Q?zBXjZrFmNNsjVCNDfrPSOUxL8JcGYY5ejpnPwupJg28rQCgR3a1peCrC3L?=
+ =?iso-8859-1?Q?iafJH+gK6wAkQkcQs3z8VooIBragF8w7EEMAqXKBIDg/wQfktWAakrBqyQ?=
+ =?iso-8859-1?Q?MAaYGFZKs5aj+KSI/ZuvO06VORrSgPMec/Obrf9UWfhwt+llC2CemX7YC8?=
+ =?iso-8859-1?Q?QRQuGPlzxLeJaFieK1lltcqlcc+oNIMbYYzgRAItLgenN8NMYv8Tn7Y6IP?=
+ =?iso-8859-1?Q?3PQcGEqSuZ0xiRnRKf69HjdumPUQz5oOikO08jkI/BzcF8GGmfiOWoEA8k?=
+ =?iso-8859-1?Q?a5VeAxnlTugLQnf8UcF+i6m8QCicvZA4k5Ur7Q/y9x4XkjR4+fwRA7aCM2?=
+ =?iso-8859-1?Q?C0x6UK8nf9WYIVpRFr1qxzw/PCK2CWGfXJWXJWqPTDneQB5wCFFOzWQ+8T?=
+ =?iso-8859-1?Q?Ku699nsNymelANzLE1dHg//0HoNpkE7gGXysbTmsei5oi+5y2dGly6fgiO?=
+ =?iso-8859-1?Q?dmECwZI+QnzcDpSfEcvvVQ6djL2mcAnPtIQxVhbODD2YXoZ1wWwQsCJe7r?=
+ =?iso-8859-1?Q?+zUlPqFqwi5c0Sy+KcLsIzSgF1n1uUBw2BUCFStWOafrTM+QJGsITvu4LK?=
+ =?iso-8859-1?Q?Yu8iHtZvr8KzcIK0XhBHv+CIipCgTmuMKgaF2AyAG7BAaHZqzSscHpv5kr?=
+ =?iso-8859-1?Q?SpFvq7LuDTG9HN8pVvCTBGD8RjciRG1O80+vnlSDPmII6fdrtj3yVF0xbB?=
+ =?iso-8859-1?Q?ydtNkAdKz2glFbVrqTJjQBS2WNTzP/m32oBvfvoPh/95OI3anzEwjlp4OA?=
+ =?iso-8859-1?Q?TGJReSZdFt14AvpHf4A6+ijGvXMjOO7Q/Myvx09SUark6NwGhufJmiFODp?=
+ =?iso-8859-1?Q?EwJw9F+eyxT9RJV/9HJrNEjclR460nz91xN89IFGqjV1MF4hb5ljFyZwVx?=
+ =?iso-8859-1?Q?WeX4MDyRTfYjOBoskSzVtV7hbtptKdoCfLsswx4W4r/1E6t20LXiUK+uUw?=
+ =?iso-8859-1?Q?kErGZ8NJzjvF7Cwrh6B7FozkD8IhqdUsZ+w4f9pbji4wWoWIxgNegtidKT?=
+ =?iso-8859-1?Q?yvdFXrdNOrEC21UeIbqtdqnQpj6sZu/68UIOTJe8BZkygPAV6HiQQr9slS?=
+ =?iso-8859-1?Q?pmYPuKcbAB5/yTXHJPJ443hqWUD1jffkLSZP94Ny/RYs2unQvgPD9pu82K?=
+ =?iso-8859-1?Q?o9eThcT0vc77iSBOuRklkff1DSJnpr3t1DyXh974mwVX0YwweQJx/mNP99?=
+ =?iso-8859-1?Q?DAXEP/2hEU9DrQ7faaMqXZjynn+PKplbOpy7y9658zEa/tV3RPxbp2pPNV?=
+ =?iso-8859-1?Q?ka408CBQOUVM1MZnfeqh+LlFNrcQj7Ilqtc03Tb8/TtO1tvbcRVah2sZWL?=
+ =?iso-8859-1?Q?0Sdi6SVfigoboceY90ivzAbxRRTvFcycgU51zjzGBzx/f1RqD1C62TbQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc05ccb1-1bcd-4341-3951-08dd08b64b4f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2024 16:21:59.7941 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UAfAO0O8NSdoMNtjvGS1Xc0irkUBFZHKEKWlcKa9YesVxEs7gUFd7VDwhCrpgCFsbT2Eto1VHpdRCEtwFLULiQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7557
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,450 +182,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 19/11/2024 13:39, Pierre-Eric Pelloux-Prayer wrote:
+On Tue, Nov 19, 2024 at 01:13:26PM +0100, Thomas Hellstr�m wrote:
+> On Tue, 2024-10-15 at 20:24 -0700, Matthew Brost wrote:
+> > Add SVM init / close / fini to faulting VMs. Minimual implementation.
+> > 
+> > v2:
+> > �- Add close function
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> > �drivers/gpu/drm/xe/Makefile����� |� 1 +
+> > �drivers/gpu/drm/xe/xe_svm.c����� | 46
+> > ++++++++++++++++++++++++++++++++
+> > �drivers/gpu/drm/xe/xe_svm.h����� | 15 +++++++++++
+> > �drivers/gpu/drm/xe/xe_vm.c������ | 12 +++++++++
+> > �drivers/gpu/drm/xe/xe_vm_types.h |� 7 +++++
+> > �5 files changed, 81 insertions(+)
+> > �create mode 100644 drivers/gpu/drm/xe/xe_svm.c
+> > �create mode 100644 drivers/gpu/drm/xe/xe_svm.h
+> > 
+> > diff --git a/drivers/gpu/drm/xe/Makefile
+> > b/drivers/gpu/drm/xe/Makefile
+> > index 8d991d4a92a5..c3e85bcfd4d1 100644
+> > --- a/drivers/gpu/drm/xe/Makefile
+> > +++ b/drivers/gpu/drm/xe/Makefile
+> > @@ -96,6 +96,7 @@ xe-y += drm_gpusvm.o \
+> > �	xe_sa.o \
+> > �	xe_sched_job.o \
+> > �	xe_step.o \
+> > +	xe_svm.o \
+> > �	xe_sync.o \
+> > �	xe_tile.o \
+> > �	xe_tile_sysfs.o \
+> > diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> > b/drivers/gpu/drm/xe/xe_svm.c
+> > new file mode 100644
+> > index 000000000000..57b740367843
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/xe/xe_svm.c
+> > @@ -0,0 +1,46 @@
+> > +// SPDX-License-Identifier: MIT
+> > +/*
+> > + * Copyright � 2024 Intel Corporation
+> > + */
+> > +
+> > +#include "drm_gpusvm.h"
+> > +
+> > +#include "xe_svm.h"
+> > +#include "xe_vm.h"
+> > +#include "xe_vm_types.h"
+> > +
+> > +static void xe_svm_invalidate(struct drm_gpusvm *gpusvm,
+> > +			����� struct drm_gpusvm_notifier *notifier,
+> > +			����� const struct mmu_notifier_range
+> > *mmu_range)
+> > +{
+> > +	/* TODO: Implement */
+> > +}
+> > +
+> > +static const struct drm_gpusvm_ops gpusvm_ops = {
+> > +	.invalidate = xe_svm_invalidate,
+> > +};
+> > +
+> > +static const u64 fault_chunk_sizes[] = {
+> > +	SZ_2M,
+> > +	SZ_64K,
+> > +	SZ_4K,
+> > +};
+> > +
+> > +int xe_svm_init(struct xe_vm *vm)
+> Kerneldoc + other undocumented extern funcs
 > 
+
+This whole series going to be missing kernel doc aside from GPUSVM.
+Aware of the issue, will fixup all kernel doc in next rev.
+
+Matt
+
+> > +{
+> > +	return drm_gpusvm_init(&vm->svm.gpusvm, "Xe SVM", &vm->xe-
+> > >drm,
+> > +			������ current->mm, NULL, 0, vm->size,
+> > +			������ SZ_512M, &gpusvm_ops,
+> > fault_chunk_sizes,
+> > +			������ ARRAY_SIZE(fault_chunk_sizes));
+> > +}
+> > +
+> > +void xe_svm_close(struct xe_vm *vm)
 > 
-> Le 14/11/2024 à 13:01, Tvrtko Ursulin a écrit :
->>
->> On 14/11/2024 10:01, Pierre-Eric Pelloux-Prayer wrote:
->>> This will be used in a later commit to trace the drm client_id in
->>> some of the gpu_scheduler trace events.
->>
->> I wonder if it would be tidier to store the drm_client_id in the 
->> entity via drm_sched_entity_init? It would still required trickling 
->> down the info to the callers, but perhaps that could be done via 
->> driver structs instead of expanding the number for function arguments 
->> in the API. To be discussed I think. But to me the drm_client_id just 
->> sticks out too much as an odd one out in some of these functions.
+> > +{
+> > +}
+> > +
+> > +void xe_svm_fini(struct xe_vm *vm)
+> > +{
+> > +	xe_assert(vm->xe, xe_vm_is_closed(vm));
+> > +
+> > +	drm_gpusvm_fini(&vm->svm.gpusvm);
+> > +}
+> > diff --git a/drivers/gpu/drm/xe/xe_svm.h
+> > b/drivers/gpu/drm/xe/xe_svm.h
+> > new file mode 100644
+> > index 000000000000..979f2322eeba
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/xe/xe_svm.h
+> > @@ -0,0 +1,15 @@
+> > +/* SPDX-License-Identifier: MIT */
+> > +/*
+> > + * Copyright � 2024 Intel Corporation
+> > + */
+> > +
+> > +#ifndef _XE_SVM_H_
+> > +#define _XE_SVM_H_
+> > +
+> > +struct xe_vm;
+> > +
+> > +int xe_svm_init(struct xe_vm *vm);
+> > +void xe_svm_fini(struct xe_vm *vm);
+> > +void xe_svm_close(struct xe_vm *vm);
+> > +
+> > +#endif
+> > diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> > index 0d887fb9de59..b11fb0ac9520 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm.c
+> > +++ b/drivers/gpu/drm/xe/xe_vm.c
+> > @@ -35,6 +35,7 @@
+> > �#include "xe_preempt_fence.h"
+> > �#include "xe_pt.h"
+> > �#include "xe_res_cursor.h"
+> > +#include "xe_svm.h"
+> > �#include "xe_sync.h"
+> > �#include "xe_trace_bo.h"
+> > �#include "xe_wa.h"
+> > @@ -1503,6 +1504,12 @@ struct xe_vm *xe_vm_create(struct xe_device
+> > *xe, u32 flags)
+> > �		}
+> > �	}
+> > �
+> > +	if (flags & XE_VM_FLAG_FAULT_MODE) {
+> > +		err = xe_svm_init(vm);
+> > +		if (err)
+> > +			goto err_close;
+> > +	}
+> > +
+> > �	if (number_tiles > 1)
+> > �		vm->composite_fence_ctx =
+> > dma_fence_context_alloc(1);
+> > �
+> > @@ -1548,6 +1555,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)
+> > �	xe_vm_close(vm);
+> > �	if (xe_vm_in_preempt_fence_mode(vm))
+> > �		flush_work(&vm->preempt.rebind_work);
+> > +	if (xe_vm_in_fault_mode(vm))
+> > +		xe_svm_close(vm);
+> > �
+> > �	down_write(&vm->lock);
+> > �	for_each_tile(tile, xe, id) {
+> > @@ -1616,6 +1625,9 @@ void xe_vm_close_and_put(struct xe_vm *vm)
+> > �		xe_vma_destroy_unlocked(vma);
+> > �	}
+> > �
+> > +	if (xe_vm_in_fault_mode(vm))
+> > +		xe_svm_fini(vm);
+> > +
+> > �	up_write(&vm->lock);
+> > �
+> > �	down_write(&xe->usm.lock);
+> > diff --git a/drivers/gpu/drm/xe/xe_vm_types.h
+> > b/drivers/gpu/drm/xe/xe_vm_types.h
+> > index 1764781c376b..bd1c0e368238 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm_types.h
+> > +++ b/drivers/gpu/drm/xe/xe_vm_types.h
+> > @@ -6,6 +6,7 @@
+> > �#ifndef _XE_VM_TYPES_H_
+> > �#define _XE_VM_TYPES_H_
+> > �
+> > +#include "drm_gpusvm.h"
+> > �#include <drm/drm_gpuvm.h>
+> > �
+> > �#include <linux/dma-resv.h>
+> > @@ -140,6 +141,12 @@ struct xe_vm {
+> > �	/** @gpuvm: base GPUVM used to track VMAs */
+> > �	struct drm_gpuvm gpuvm;
+> > �
+> > +	/** @svm: Shared virtual memory state */
+> > +	struct {
+> > +		/** @svm.gpusvm: base GPUSVM used to track fault
+> > allocations */
+> > +		struct drm_gpusvm gpusvm;
+> > +	} svm;
+> > +
+> > �	struct xe_device *xe;
+> > �
+> > �	/* exec queue used for (un)binding vma's */
 > 
-> Storing drm_client_id in the scheduler fence was based on Christian' 
-> suggestion, but I'm fine with moving it somewhere else.
-
-It can be stored in sched fence, what I was thinking about is whether 
-storing it also in the entity could a) lessen the need to change so many 
-function signatures and b) perhaps end up with not having to add a 
-parameter to drm_sched_job_init at all. Because less churn is better and 
-functions with multiple ints are difficult to use and easy to make a 
-mistake.
-
-I am not claiming it can definitely be made simpler but I have a feeling 
-it is worth a look.
-
-Regards,
-
-Tvrtko
-
->>> Signed-off-by: Pierre-Eric Pelloux-Prayer 
->>> <pierre-eric.pelloux-prayer@amd.com>
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c   |  2 +-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c       |  3 ++-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c      |  8 +++++---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h      |  3 ++-
->>>   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  2 +-
->>>   drivers/gpu/drm/imagination/pvr_job.c        |  2 +-
->>>   drivers/gpu/drm/imagination/pvr_queue.c      |  5 +++--
->>>   drivers/gpu/drm/imagination/pvr_queue.h      |  2 +-
->>>   drivers/gpu/drm/lima/lima_gem.c              |  2 +-
->>>   drivers/gpu/drm/lima/lima_sched.c            |  6 ++++--
->>>   drivers/gpu/drm/lima/lima_sched.h            |  3 ++-
->>>   drivers/gpu/drm/msm/msm_gem_submit.c         |  8 +++++---
->>>   drivers/gpu/drm/nouveau/nouveau_sched.c      |  3 ++-
->>>   drivers/gpu/drm/panfrost/panfrost_drv.c      |  2 +-
->>>   drivers/gpu/drm/scheduler/sched_fence.c      |  4 +++-
->>>   drivers/gpu/drm/scheduler/sched_main.c       |  6 ++++--
->>>   drivers/gpu/drm/v3d/v3d_submit.c             |  2 +-
->>>   drivers/gpu/drm/xe/xe_sched_job.c            |  3 ++-
->>>   include/drm/gpu_scheduler.h                  | 12 ++++++++++--
->>>   19 files changed, 51 insertions(+), 27 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c 
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
->>> index b545940e512b..eede43701d51 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
->>> @@ -681,7 +681,7 @@ int amdgpu_amdkfd_submit_ib(struct amdgpu_device 
->>> *adev,
->>>           goto err;
->>>       }
->>> -    ret = amdgpu_job_alloc(adev, NULL, NULL, NULL, 1, &job);
->>> +    ret = amdgpu_job_alloc(adev, NULL, NULL, NULL, 1, &job, 0);
->>>       if (ret)
->>>           goto err;
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c 
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>> index 98aa4beee36a..a0a129405323 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>> @@ -293,7 +293,8 @@ static int amdgpu_cs_pass1(struct 
->>> amdgpu_cs_parser *p,
->>>       for (i = 0; i < p->gang_size; ++i) {
->>>           ret = amdgpu_job_alloc(p->adev, vm, p->entities[i], vm,
->>> -                       num_ibs[i], &p->jobs[i]);
->>> +                       num_ibs[i], &p->jobs[i],
->>> +                       p->filp->client_id);
->>>           if (ret)
->>>               goto free_all_kdata;
->>>           p->jobs[i]->enforce_isolation = 
->>> p->adev->enforce_isolation[fpriv->xcp_id];
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c 
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->>> index c774cd019a10..1dd8e940d1e9 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->>> @@ -186,7 +186,8 @@ static enum drm_gpu_sched_stat 
->>> amdgpu_job_timedout(struct drm_sched_job *s_job)
->>>   int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->>>                struct drm_sched_entity *entity, void *owner,
->>> -             unsigned int num_ibs, struct amdgpu_job **job)
->>> +             unsigned int num_ibs, struct amdgpu_job **job,
->>> +             uint64_t drm_client_id)
->>>   {
->>>       if (num_ibs == 0)
->>>           return -EINVAL;
->>> @@ -209,7 +210,8 @@ int amdgpu_job_alloc(struct amdgpu_device *adev, 
->>> struct amdgpu_vm *vm,
->>>       if (!entity)
->>>           return 0;
->>> -    return drm_sched_job_init(&(*job)->base, entity, 1, owner);
->>> +    return drm_sched_job_init(&(*job)->base, entity, 1, owner,
->>> +                  drm_client_id);
->>>   }
->>>   int amdgpu_job_alloc_with_ib(struct amdgpu_device *adev,
->>> @@ -219,7 +221,7 @@ int amdgpu_job_alloc_with_ib(struct amdgpu_device 
->>> *adev,
->>>   {
->>>       int r;
->>> -    r = amdgpu_job_alloc(adev, NULL, entity, owner, 1, job);
->>> +    r = amdgpu_job_alloc(adev, NULL, entity, owner, 1, job, 0);
->>
->> Have we defined somewhere zero is invalid or something?
->>
->> Regards,
->>
->> Tvrtko
->>
->>>       if (r)
->>>           return r;
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h 
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->>> index ce6b9ba967ff..41a03477ba5d 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->>> @@ -90,7 +90,8 @@ static inline struct amdgpu_ring 
->>> *amdgpu_job_ring(struct amdgpu_job *job)
->>>   int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->>>                struct drm_sched_entity *entity, void *owner,
->>> -             unsigned int num_ibs, struct amdgpu_job **job);
->>> +             unsigned int num_ibs, struct amdgpu_job **job,
->>> +             uint64_t drm_client_id);
->>>   int amdgpu_job_alloc_with_ib(struct amdgpu_device *adev,
->>>                    struct drm_sched_entity *entity, void *owner,
->>>                    size_t size, enum amdgpu_ib_pool_type pool_type,
->>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c 
->>> b/drivers/gpu/drm/etnaviv/ etnaviv_gem_submit.c
->>> index 3d0f8d182506..70294ca6202f 100644
->>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
->>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
->>> @@ -535,7 +535,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device 
->>> *dev, void *data,
->>>       ret = drm_sched_job_init(&submit->sched_job,
->>>                    &ctx->sched_entity[args->pipe],
->>> -                 1, submit->ctx);
->>> +                 1, submit->ctx, file->client_id);
->>>       if (ret)
->>>           goto err_submit_put;
->>> diff --git a/drivers/gpu/drm/imagination/pvr_job.c 
->>> b/drivers/gpu/drm/imagination/pvr_job.c
->>> index 618503a212a7..64152b57e8b1 100644
->>> --- a/drivers/gpu/drm/imagination/pvr_job.c
->>> +++ b/drivers/gpu/drm/imagination/pvr_job.c
->>> @@ -446,7 +446,7 @@ create_job(struct pvr_device *pvr_dev,
->>>       if (err)
->>>           goto err_put_job;
->>> -    err = pvr_queue_job_init(job);
->>> +    err = pvr_queue_job_init(job, pvr_file->file->client_id);
->>>       if (err)
->>>           goto err_put_job;
->>> diff --git a/drivers/gpu/drm/imagination/pvr_queue.c 
->>> b/drivers/gpu/drm/imagination/pvr_queue.c
->>> index c4f08432882b..598180fca141 100644
->>> --- a/drivers/gpu/drm/imagination/pvr_queue.c
->>> +++ b/drivers/gpu/drm/imagination/pvr_queue.c
->>> @@ -1059,6 +1059,7 @@ static int pvr_queue_cleanup_fw_context(struct 
->>> pvr_queue *queue)
->>>   /**
->>>    * pvr_queue_job_init() - Initialize queue related fields in a 
->>> pvr_job object.
->>>    * @job: The job to initialize.
->>> + * @drm_client_id: drm_file.client_id submitting the job
->>>    *
->>>    * Bind the job to a queue and allocate memory to guarantee 
->>> pvr_queue_job_arm()
->>>    * and pvr_queue_job_push() can't fail. We also make sure the 
->>> context type is
->>> @@ -1068,7 +1069,7 @@ static int pvr_queue_cleanup_fw_context(struct 
->>> pvr_queue *queue)
->>>    *  * 0 on success, or
->>>    *  * An error code if something failed.
->>>    */
->>> -int pvr_queue_job_init(struct pvr_job *job)
->>> +int pvr_queue_job_init(struct pvr_job *job, uint64_t drm_client_id)
->>>   {
->>>       /* Fragment jobs need at least one native fence wait on the 
->>> geometry job fence. */
->>>       u32 min_native_dep_count = job->type == 
->>> DRM_PVR_JOB_TYPE_FRAGMENT ? 1 : 0;
->>> @@ -1085,7 +1086,7 @@ int pvr_queue_job_init(struct pvr_job *job)
->>>       if (!pvr_cccb_cmdseq_can_fit(&queue->cccb, job_cmds_size(job, 
->>> min_native_dep_count)))
->>>           return -E2BIG;
->>> -    err = drm_sched_job_init(&job->base, &queue->entity, 1, 
->>> THIS_MODULE);
->>> +    err = drm_sched_job_init(&job->base, &queue->entity, 1, 
->>> THIS_MODULE, drm_client_id);
->>>       if (err)
->>>           return err;
->>> diff --git a/drivers/gpu/drm/imagination/pvr_queue.h 
->>> b/drivers/gpu/drm/imagination/pvr_queue.h
->>> index e06ced69302f..bc556169b2cf 100644
->>> --- a/drivers/gpu/drm/imagination/pvr_queue.h
->>> +++ b/drivers/gpu/drm/imagination/pvr_queue.h
->>> @@ -139,7 +139,7 @@ struct pvr_queue {
->>>   bool pvr_queue_fence_is_ufo_backed(struct dma_fence *f);
->>> -int pvr_queue_job_init(struct pvr_job *job);
->>> +int pvr_queue_job_init(struct pvr_job *job, uint64_t drm_client_id);
->>>   void pvr_queue_job_cleanup(struct pvr_job *job);
->>> diff --git a/drivers/gpu/drm/lima/lima_gem.c 
->>> b/drivers/gpu/drm/lima/lima_gem.c
->>> index 9bb997dbb4b9..f46f961afc56 100644
->>> --- a/drivers/gpu/drm/lima/lima_gem.c
->>> +++ b/drivers/gpu/drm/lima/lima_gem.c
->>> @@ -341,7 +341,7 @@ int lima_gem_submit(struct drm_file *file, struct 
->>> lima_submit *submit)
->>>       err = lima_sched_task_init(
->>>           submit->task, submit->ctx->context + submit->pipe,
->>> -        bos, submit->nr_bos, vm);
->>> +        bos, submit->nr_bos, vm, file->client_id);
->>>       if (err)
->>>           goto err_out1;
->>> diff --git a/drivers/gpu/drm/lima/lima_sched.c 
->>> b/drivers/gpu/drm/lima/lima_sched.c
->>> index b40c90e97d7e..84599549661a 100644
->>> --- a/drivers/gpu/drm/lima/lima_sched.c
->>> +++ b/drivers/gpu/drm/lima/lima_sched.c
->>> @@ -113,7 +113,8 @@ static inline struct lima_sched_pipe 
->>> *to_lima_pipe(struct drm_gpu_scheduler *sch
->>>   int lima_sched_task_init(struct lima_sched_task *task,
->>>                struct lima_sched_context *context,
->>>                struct lima_bo **bos, int num_bos,
->>> -             struct lima_vm *vm)
->>> +             struct lima_vm *vm,
->>> +             uint64_t drm_client_id)
->>>   {
->>>       int err, i;
->>> @@ -124,7 +125,8 @@ int lima_sched_task_init(struct lima_sched_task 
->>> *task,
->>>       for (i = 0; i < num_bos; i++)
->>>           drm_gem_object_get(&bos[i]->base.base);
->>> -    err = drm_sched_job_init(&task->base, &context->base, 1, vm);
->>> +    err = drm_sched_job_init(&task->base, &context->base, 1, vm,
->>> +                 drm_client_id);
->>>       if (err) {
->>>           kfree(task->bos);
->>>           return err;
->>> diff --git a/drivers/gpu/drm/lima/lima_sched.h 
->>> b/drivers/gpu/drm/lima/lima_sched.h
->>> index 85b23ba901d5..4041468586bd 100644
->>> --- a/drivers/gpu/drm/lima/lima_sched.h
->>> +++ b/drivers/gpu/drm/lima/lima_sched.h
->>> @@ -88,7 +88,8 @@ struct lima_sched_pipe {
->>>   int lima_sched_task_init(struct lima_sched_task *task,
->>>                struct lima_sched_context *context,
->>>                struct lima_bo **bos, int num_bos,
->>> -             struct lima_vm *vm);
->>> +             struct lima_vm *vm,
->>> +             uint64_t drm_client_id);
->>>   void lima_sched_task_fini(struct lima_sched_task *task);
->>>   int lima_sched_context_init(struct lima_sched_pipe *pipe,
->>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c 
->>> b/drivers/gpu/drm/msm/msm_gem_submit.c
->>> index fba78193127d..ceeedd4186ef 100644
->>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
->>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
->>> @@ -30,7 +30,7 @@
->>>   static struct msm_gem_submit *submit_create(struct drm_device *dev,
->>>           struct msm_gpu *gpu,
->>>           struct msm_gpu_submitqueue *queue, uint32_t nr_bos,
->>> -        uint32_t nr_cmds)
->>> +        uint32_t nr_cmds, uint64_t drm_client_id)
->>>   {
->>>       static atomic_t ident = ATOMIC_INIT(0);
->>>       struct msm_gem_submit *submit;
->>> @@ -54,7 +54,8 @@ static struct msm_gem_submit *submit_create(struct 
->>> drm_device *dev,
->>>           return ERR_PTR(ret);
->>>       }
->>> -    ret = drm_sched_job_init(&submit->base, queue->entity, 1, queue);
->>> +    ret = drm_sched_job_init(&submit->base, queue->entity, 1, queue,
->>> +                 drm_client_id);
->>>       if (ret) {
->>>           kfree(submit->hw_fence);
->>>           kfree(submit);
->>> @@ -702,7 +703,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, 
->>> void *data,
->>>           }
->>>       }
->>> -    submit = submit_create(dev, gpu, queue, args->nr_bos, 
->>> args->nr_cmds);
->>> +    submit = submit_create(dev, gpu, queue, args->nr_bos, 
->>> args->nr_cmds,
->>> +                   file->client_id);
->>>       if (IS_ERR(submit)) {
->>>           ret = PTR_ERR(submit);
->>>           goto out_post_unlock;
->>> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c 
->>> b/drivers/gpu/drm/nouveau/nouveau_sched.c
->>> index 4412f2711fb5..ebc31adea39a 100644
->>> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
->>> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
->>> @@ -87,7 +87,8 @@ nouveau_job_init(struct nouveau_job *job,
->>>       }
->>>       ret = drm_sched_job_init(&job->base, &sched->entity,
->>> -                 args->credits, NULL);
->>> +                 args->credits, NULL,
->>> +                 job->file_priv->client_id);
->>>       if (ret)
->>>           goto err_free_chains;
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c 
->>> b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> index 04d615df5259..a8135bd75cae 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> @@ -312,7 +312,7 @@ static int panfrost_ioctl_submit(struct 
->>> drm_device *dev, void *data,
->>>       ret = drm_sched_job_init(&job->base,
->>>                    &file_priv->sched_entity[slot],
->>> -                 1, NULL);
->>> +                 1, NULL, file->client_id);
->>>       if (ret)
->>>           goto out_put_job;
->>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c 
->>> b/drivers/gpu/drm/scheduler/sched_fence.c
->>> index 0f35f009b9d3..909b886cd379 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>> @@ -204,7 +204,8 @@ struct drm_sched_fence *to_drm_sched_fence(struct 
->>> dma_fence *f)
->>>   EXPORT_SYMBOL(to_drm_sched_fence);
->>>   struct drm_sched_fence *drm_sched_fence_alloc(struct 
->>> drm_sched_entity *entity,
->>> -                          void *owner)
->>> +                          void *owner,
->>> +                          uint64_t drm_client_id)
->>>   {
->>>       struct drm_sched_fence *fence = NULL;
->>> @@ -213,6 +214,7 @@ struct drm_sched_fence 
->>> *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->>>           return NULL;
->>>       fence->owner = owner;
->>> +    fence->drm_client_id = drm_client_id;
->>>       spin_lock_init(&fence->lock);
->>>       return fence;
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
->>> b/drivers/gpu/drm/scheduler/sched_main.c
->>> index 7ce25281c74c..28ac709750e9 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -776,6 +776,7 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
->>>    * @credits: the number of credits this job contributes to the 
->>> schedulers
->>>    * credit limit
->>>    * @owner: job owner for debugging
->>> + * @drm_client_id: drm_file.client_id of the owner
->>>    *
->>>    * Refer to drm_sched_entity_push_job() documentation
->>>    * for locking considerations.
->>> @@ -796,7 +797,8 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
->>>    */
->>>   int drm_sched_job_init(struct drm_sched_job *job,
->>>                  struct drm_sched_entity *entity,
->>> -               u32 credits, void *owner)
->>> +               u32 credits, void *owner,
->>> +               uint64_t drm_client_id)
->>>   {
->>>       if (!entity->rq) {
->>>           /* This will most likely be followed by missing frames
->>> @@ -822,7 +824,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
->>>       job->entity = entity;
->>>       job->credits = credits;
->>> -    job->s_fence = drm_sched_fence_alloc(entity, owner);
->>> +    job->s_fence = drm_sched_fence_alloc(entity, owner, drm_client_id);
->>>       if (!job->s_fence)
->>>           return -ENOMEM;
->>> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c 
->>> b/drivers/gpu/drm/v3d/v3d_submit.c
->>> index d607aa9c4ec2..a086da31f441 100644
->>> --- a/drivers/gpu/drm/v3d/v3d_submit.c
->>> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
->>> @@ -168,7 +168,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file 
->>> *file_priv,
->>>       job->file = file_priv;
->>>       ret = drm_sched_job_init(&job->base, 
->>> &v3d_priv->sched_entity[queue],
->>> -                 1, v3d_priv);
->>> +                 1, v3d_priv, file_priv->client_id);
->>>       if (ret)
->>>           return ret;
->>> diff --git a/drivers/gpu/drm/xe/xe_sched_job.c 
->>> b/drivers/gpu/drm/xe/xe_sched_job.c
->>> index eeccc1c318ae..6617555e7a51 100644
->>> --- a/drivers/gpu/drm/xe/xe_sched_job.c
->>> +++ b/drivers/gpu/drm/xe/xe_sched_job.c
->>> @@ -113,7 +113,8 @@ struct xe_sched_job *xe_sched_job_create(struct 
->>> xe_exec_queue *q,
->>>       kref_init(&job->refcount);
->>>       xe_exec_queue_get(job->q);
->>> -    err = drm_sched_job_init(&job->drm, q->entity, 1, NULL);
->>> +    err = drm_sched_job_init(&job->drm, q->entity, 1, NULL,
->>> +                 q->xef->drm->client_id);
->>>       if (err)
->>>           goto err_free;
->>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>> index 95e17504e46a..42c381449443 100644
->>> --- a/include/drm/gpu_scheduler.h
->>> +++ b/include/drm/gpu_scheduler.h
->>> @@ -311,6 +311,13 @@ struct drm_sched_fence {
->>>            * @owner: job owner for debugging
->>>            */
->>>       void                *owner;
->>> +
->>> +    /**
->>> +     * @drm_client_id:
->>> +     *
->>> +     * The client_id of the drm_file who owned the job.
->>> +     */
->>> +    uint64_t            drm_client_id;
->>>   };
->>>   struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
->>> @@ -563,7 +570,8 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->>>   void drm_sched_fini(struct drm_gpu_scheduler *sched);
->>>   int drm_sched_job_init(struct drm_sched_job *job,
->>>                  struct drm_sched_entity *entity,
->>> -               u32 credits, void *owner);
->>> +               u32 credits, void *owner,
->>> +               uint64_t drm_client_id);
->>>   void drm_sched_job_arm(struct drm_sched_job *job);
->>>   int drm_sched_job_add_dependency(struct drm_sched_job *job,
->>>                    struct dma_fence *fence);
->>> @@ -624,7 +632,7 @@ bool drm_sched_entity_is_ready(struct 
->>> drm_sched_entity *entity);
->>>   int drm_sched_entity_error(struct drm_sched_entity *entity);
->>>   struct drm_sched_fence *drm_sched_fence_alloc(
->>> -    struct drm_sched_entity *s_entity, void *owner);
->>> +    struct drm_sched_entity *s_entity, void *owner, uint64_t 
->>> drm_client_id);
->>>   void drm_sched_fence_init(struct drm_sched_fence *fence,
->>>                 struct drm_sched_entity *entity);
->>>   void drm_sched_fence_free(struct drm_sched_fence *fence);
+> Thanks,
+> Thomas
+> 
