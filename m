@@ -2,11 +2,11 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E899D2757
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 14:53:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2D79D277F
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2024 14:58:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E73A10E647;
-	Tue, 19 Nov 2024 13:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CA2410E64D;
+	Tue, 19 Nov 2024 13:58:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
 	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="cN32Y7EO";
 	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="y3Sf5V7o";
@@ -14,8 +14,8 @@ Authentication-Results: gabe.freedesktop.org;
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB9810E64C
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 13:52:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDEC10E64D
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2024 13:58:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
  h=To:From:Subject:Date:Message-ID; t=1732024111;
  bh=+1pHnWPTXrPaDWtdXsmofkH
