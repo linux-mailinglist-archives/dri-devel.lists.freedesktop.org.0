@@ -2,100 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2607E9D3579
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 09:33:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D539D35A2
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 09:39:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8938910E3B5;
-	Wed, 20 Nov 2024 08:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF35010E6C8;
+	Wed, 20 Nov 2024 08:39:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZM2ZEazw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dXV7Z/pm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1961A10E3BA
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 08:33:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1659910E3BA;
+ Wed, 20 Nov 2024 08:39:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 95BC65C41E5;
- Wed, 20 Nov 2024 08:32:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5EC2C4CED7;
- Wed, 20 Nov 2024 08:33:31 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6385D5C4BAF;
+ Wed, 20 Nov 2024 08:38:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11A8EC4CECD;
+ Wed, 20 Nov 2024 08:39:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732091618;
- bh=sNtuOK9HVJ9DnFTRNBCJVHA+kqaGYSHimWq98ReJCMA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ZM2ZEazwM2VNBcYOBF3N0VKxstsoiXEAJUSPKGMHUIjJZU2sAQpZTmxtkxOFSdV59
- G74Dj/AiidFe9sYADnZapz4YlVx4OJwOIF86VMaWWgTHnMAn3U/zbcMFn0CQsB1Nza
- rNxgSTlfXTzbI2mjJBhrdsFrBLSESRWsjzROxdi9+mDDF5boKQ95rH9nQZaBVFGQ/C
- EMzys2tWOmJNn7JoxzVoSDI5wW6v3udK6jAW8a/rqKTqzBdwWenFxiZWEIXrT9ye9c
- KaUovoENyoNd44qvha+QzYJrhfD2ZoRPx5Wors3XR8IJPRn+nPw5cQtAfkTg/KjjuJ
- EHvsNgmdIc+Dw==
-Message-ID: <01b7d6f8-bb60-4d61-a5e5-0f1c52bbb463@kernel.org>
-Date: Wed, 20 Nov 2024 09:33:29 +0100
+ s=k20201202; t=1732091978;
+ bh=uCabY3aXdU8knrzyUvKDoBC/ts+x8ZTTZaaPEX0zYC8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dXV7Z/pm3H/r3AO4Tq9FfR6TpXz+12dGVNcVBe4YnWLALAydN5KQPUMUuyqP+lzGc
+ 6pS5yeOLEaQCj9p+3eAP2Up0tsIR/2X3YGP8WwavkFt/ebx2YOXWau1ZoMNTzhIL0J
+ CSS/EhklqMdNOKXRwDg1CR+A8/3cumO0ZcW5fBY/G24NJgjXhbmXVSnrCvD/LQIf6f
+ pDcGUqoBhfz9LqAWWJnalmmhYtPVxk/ZNYl7W1+c3Cmop1xfglJ4rRo9Wv+fNQYlV6
+ uki1XOe5gh/lex7JBneDXof+3DxhhFljG2uhkIMBoMeaw88+NpD7XSILNWFkP9TYsK
+ 1xlZ63Jhz8Izg==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1tDgFD-000000007wu-3WTl;
+ Wed, 20 Nov 2024 09:39:27 +0100
+Date: Wed, 20 Nov 2024 09:39:27 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jeykumar Sankaran <jsanka@codeaurora.org>, stable@vger.kernel.org,
+ Leonard Lausen <leonard@lausen.nl>
+Subject: Re: [PATCH v2 1/2] drm/msm/dpu1: don't choke on disabling the
+ writeback connector
+Message-ID: <Zz2gP5jDr4Jq1OyP@hovoldconsulting.com>
+References: <20240802-dpu-fix-wb-v2-0-7eac9eb8e895@linaro.org>
+ <20240802-dpu-fix-wb-v2-1-7eac9eb8e895@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 21/21] arm64: dts: ti: k3-j721s2: Add GPU node
-To: Matt Coster <matt.coster@imgtec.com>, Frank Binns
- <frank.binns@imgtec.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Randolph Sapp <rs@ti.com>, Darren Etheridge <detheridge@ti.com>
-References: <20241118-sets-bxs-4-64-patch-v1-v2-0-3fd45d9fb0cf@imgtec.com>
- <20241118-sets-bxs-4-64-patch-v1-v2-21-3fd45d9fb0cf@imgtec.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241118-sets-bxs-4-64-patch-v1-v2-21-3fd45d9fb0cf@imgtec.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240802-dpu-fix-wb-v2-1-7eac9eb8e895@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,45 +69,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/11/2024 14:02, Matt Coster wrote:
-> The J721S2 binding is based on the TI downstream binding in 54b0f2a00d92
-> ("arm64: dts: ti: k3-j721s2-main: add gpu node") from [1] but with updated
-> compatible strings.
+On Fri, Aug 02, 2024 at 10:47:33PM +0300, Dmitry Baryshkov wrote:
+> During suspend/resume process all connectors are explicitly disabled and
+> then reenabled. However resume fails because of the connector_status check:
 > 
-> The clock[2] and power[3] indices were verified from docs, but the
-> source of the interrupt index remains elusive.
-> 
-> References for indices: clocks[1], interrupts[2], power[3].
-> 
-> [1]: https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel
-> [2]: https://downloads.ti.com/tisci/esd/latest/5_soc_doc/j721s2/clocks.html
-> [3]: https://downloads.ti.com/tisci/esd/latest/5_soc_doc/j721s2/devices.html
-> 
-> Signed-off-by: Matt Coster <matt.coster@imgtec.com>
-> ---
-> Changes in v2:
-> - Use normal reg syntax for 64-bit values
-> - Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-21-4ed30e865892@imgtec.com
+> [ 1185.831970] [dpu error]connector not connected 3
 
-For DRM maintainers:
-This patch cannot be merged into DRM tree.
+Please also include the follow-on resume error. I'm seeing:
 
+	[dpu error]connector not connected 3
+	[drm:drm_mode_config_helper_resume [drm_kms_helper]] *ERROR* Failed to resume (-22)
 
-> ---
->  arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+and say something about that this can prevent displays from being
+enabled on resume in some setups (preferably with an explanation why if
+you have one).
+
+> It doesn't make sense to check for the Writeback connected status (and
+> other drivers don't perform such check), so drop the check.
 > 
-> diff --git a/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi b/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
-> index 9ed6949b40e9dfafdaf6861944b0b128b053a44f..9adc2c704ba4b38d1a0e7c9ded035fe79630451d 100644
-> --- a/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
-> +++ b/arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi
-> @@ -2047,4 +2047,16 @@ watchdog8: watchdog@23f0000 {
->  		/* reserved for MAIN_R5F1_1 */
->  		status = "reserved";
->  	};
-> +
-> +	gpu: gpu@4e20000000 {
-Drop unused label.
+> Fixes: 71174f362d67 ("drm/msm/dpu: move writeback's atomic_check to dpu_writeback.c")
 
-Best regards,
-Krzysztof
+I noticed that the implementation had this status check also before
+71174f362d67 ("drm/msm/dpu: move writeback's atomic_check to
+dpu_writeback.c").
+
+Why did this not cause any trouble back then? Or is this not the right
+Fixes tag?
+
+> Cc: stable@vger.kernel.org
+> Reported-by: Leonard Lausen <leonard@lausen.nl>
+> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/57
+
+Perhaps you can include mine an György's reports here too.
+
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+With the above addressed:
+
+Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+Tested-by: Johan Hovold <johan+linaro@kernel.org>
+
+Johan
