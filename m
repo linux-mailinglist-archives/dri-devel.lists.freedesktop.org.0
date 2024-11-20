@@ -2,68 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83389D3958
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 12:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FCC99D395A
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 12:20:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0F5810E70D;
-	Wed, 20 Nov 2024 11:20:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 000EC10E718;
+	Wed, 20 Nov 2024 11:20:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kTWbFVXG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KEHOlGnk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39F5610E70D;
- Wed, 20 Nov 2024 11:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732101630; x=1763637630;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=txC85dMgL8wgHs+FaSs2etsVzdPBdlc/aqchDrcNHkU=;
- b=kTWbFVXGxUAzlVNNdI1ukK2eXeUm+Y10Q2XB4IaQUCHtIQxNm8EGHrgZ
- eAVV76tmrjIBsAwKAGgvcvR6oDjBgENch3yAvQEE+iDYimrKvkdwJZRV1
- g7HVtaUfDIYTxynOnfAEhWjO4o+io+C0lQmMmtlgs/OjeTlXACrodH6jd
- AVjUXT9YFhpZxxTV5HZluoEy99up+34YBTDZ069aDGUVjAQrEd1fhWcY3
- f1zZww8q41ifn5a6Fig2K+t9qdbfxya+pfmgnteXKPemupDEKp8ViChaZ
- V7WM8o10yrG9yLi5dbpkgbus1++ZkPh5W+pga1uEibZ4bwuovxeOv7Gsf Q==;
-X-CSE-ConnectionGUID: JJlQULE7S9+pudhx2v41Jg==
-X-CSE-MsgGUID: v95rLxpQSPKaERVOTKlNOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="31523610"
-X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; d="scan'208";a="31523610"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2024 03:20:30 -0800
-X-CSE-ConnectionGUID: 4kmraDkJTXOTmA09YcMRoQ==
-X-CSE-MsgGUID: TUY90Z7/SWisxV0SZfsrVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; d="scan'208";a="89835032"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.246.14])
- ([10.245.246.14])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2024 03:20:27 -0800
-Message-ID: <cf1e39e5182e64910c3bca12c20e7d4271fd2d83.camel@linux.intel.com>
-Subject: Re: [PATCH v14 2/8] drm/ttm: Provide a shmem backup implementation
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- intel-xe@lists.freedesktop.org
-Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, Matthew Brost
- <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, Paulo Zanoni
- <paulo.r.zanoni@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Date: Wed, 20 Nov 2024 12:20:24 +0100
-In-Reply-To: <22e11191-c52f-4544-a91f-5a53bc78fae9@amd.com>
-References: <20241115150120.3280-1-thomas.hellstrom@linux.intel.com>
- <20241115150120.3280-3-thomas.hellstrom@linux.intel.com>
- <a87503b5-2bca-4614-8816-078ade6d0940@amd.com>
- <7f3536a2e436566145215fad8889eee77dfa271c.camel@linux.intel.com>
- <22e11191-c52f-4544-a91f-5a53bc78fae9@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-3.fc39) 
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64DC610E70F
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 11:20:54 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-43161c0068bso37614115e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 03:20:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1732101653; x=1732706453; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=DH68XPkDBDr2SFdw3UbWf74PCLjCq+oTGZBI03sAE6E=;
+ b=KEHOlGnk/ncXdFwjXaoAVDuketyXOrz0RvwiSDu8YrKtum3emHbLO8dvldfvGSV8jL
+ 7MVpSm4RKfTzPF4jwdDYeSWrlhEopJvoc/ASjH5nkrTAkeB/5dcDTzDexwoZQ4Nv/32W
+ gABr18FT0SN3zRNRWPPssG1KsGXi/HFhdYmlJnusJIiqQvhwrs3hQF8ZDWaxo4NGZH+V
+ uJinEPs0ThGVl8be97deEVoxPwL09CPoojmUS8g3pqXobk6Nd+QXD6CJSXRQvEkxJors
+ Edfc379d4MJm5B53om9n9mNGbxSfAn/F75y+QU75CtHyU9ELkbj+eEn3uI8mSh6WYm2h
+ hShQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732101653; x=1732706453;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DH68XPkDBDr2SFdw3UbWf74PCLjCq+oTGZBI03sAE6E=;
+ b=CRfXRdM3MTrz08syg+UNNFI7dY/FoWr2NJIAORgGZ+kF8M2ZnK3BgzN2rWONJ3ogqO
+ 6QF8yTRNeIFrqUWIakf+faL/U/i1rjB6yh97UUktx4ORN7W2b7PThVrsdlDVJ1+oSliO
+ bBMuczRLucUt1HGEoUA4UZAZnRclm6ac/0+L7oDEI5w2j9jZKKB+Q1VM51fhdYPGN3bq
+ z6ADBvezszZQYF0+311Esk09vo3MNonl1clM/ZzGQ3HhndJTYg3bnz6X1qsMpJHOHZ8L
+ reuCTJXJIfMOOnpPj8/pIweTwCrpOCnNOwu5AzqYrQLpr0zpkWL+cAwQ9AL15ItOtHQB
+ P5xQ==
+X-Gm-Message-State: AOJu0Yy04jkPra8AQeBb6m5NBm094BPOthRSsT28R5u/HJ8F8sYojis6
+ E50PyX5+UlsYsLBueYbYIZJW1i4pvAMuhWXm5ZQ3ZyuQoE5twEXhOFzwewpeGNs=
+X-Google-Smtp-Source: AGHT+IFoW0aGrY44f798dMADxQS0s2HP8FnMFtMgd/GYwO11/AYw3oJvuDLaWXWp9ideXtqi2/lvsQ==
+X-Received: by 2002:a05:600c:5250:b0:431:4f29:9542 with SMTP id
+ 5b1f17b1804b1-433489970efmr19437515e9.6.1732101652707; 
+ Wed, 20 Nov 2024 03:20:52 -0800 (PST)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3825493ea20sm1778948f8f.93.2024.11.20.03.20.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Nov 2024 03:20:52 -0800 (PST)
+Date: Wed, 20 Nov 2024 14:20:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Paolo Perego <pperego@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>, Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: Re: [PATCH 1/1] Remove hard-coded strings by using the helper
+ functions str_true_false()
+Message-ID: <4c8f5e95-6d33-49bc-8af3-e6dec2dc7c62@stanley.mountain>
+References: <20241120093020.6409-1-pperego@suse.de>
+ <20241120093020.6409-2-pperego@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241120093020.6409-2-pperego@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,247 +84,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-11-20 at 10:24 +0100, Christian K=C3=B6nig wrote:
->=20
+On Wed, Nov 20, 2024 at 10:30:20AM +0100, Paolo Perego wrote:
+> Signed-off-by: Paolo Perego <pperego@suse.de>
 
-[SNIP]
+You need to have a subsystem prefix in the subject.  The subject is probably too
+long as well.  You need to have a commit message.
 
-> > > Just that I sleep better: This can never return a folio larger
-> > > than a
-> > > page, doesn't it?
-> > The interface definitely allows for returning larger folios, but
-> > the
-> > individual page in the folio is selected by folio_file_page(folio,
-> > idx).
->=20
-> Ah, yeah completely missed that and was really wondering why that
-> would=20
-> work.
+Otherwise, fine.
 
-One remaining sligtht concern, though, is that if we repeatedly call -
->writepage() for *each* page in a folio, that might degrade
-performance. Not sure if the filesystem is supposed to coalesce such
-requests if they happen, or whether things will start to crawl.
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
-Right now we can't really tell, since shmem typically only allocates
-single page folios (unless told otherwise, like i915 does), and in
-addition shmem writepage() also splits any large folios. I've seen
-patches floating around to remove that split, though.
-
-/Thomas
-=20
->=20
-> >=20
-> > /Thomas
-> >=20
-> >=20
-> > > Apart from those background questions looks good to me.
-> > >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > > +
-> > > > +	folio_mark_accessed(to_folio);
-> > > > +	folio_lock(to_folio);
-> > > > +	folio_mark_dirty(to_folio);
-> > > > +	copy_highpage(folio_file_page(to_folio, idx), page);
-> > > > +	handle =3D ttm_backup_shmem_idx_to_handle(idx);
-> > > > +
-> > > > +	if (writeback && !folio_mapped(to_folio) &&
-> > > > +	=C2=A0=C2=A0=C2=A0 folio_clear_dirty_for_io(to_folio)) {
-> > > > +		struct writeback_control wbc =3D {
-> > > > +			.sync_mode =3D WB_SYNC_NONE,
-> > > > +			.nr_to_write =3D SWAP_CLUSTER_MAX,
-> > > > +			.range_start =3D 0,
-> > > > +			.range_end =3D LLONG_MAX,
-> > > > +			.for_reclaim =3D 1,
-> > > > +		};
-> > > > +		folio_set_reclaim(to_folio);
-> > > > +		ret =3D mapping->a_ops-
-> > > > > writepage(folio_file_page(to_folio, idx), &wbc);
-> > > > +		if (!folio_test_writeback(to_folio))
-> > > > +			folio_clear_reclaim(to_folio);
-> > > > +		/* If writepage succeeds, it unlocks the folio
-> > > > */
-> > > > +		if (ret)
-> > > > +			folio_unlock(to_folio);
->=20
-> The code ignores the error and potentially deserves an explanation
-> for that.
->=20
-> Regards,
-> Christian.
->=20
-> > > > +	} else {
-> > > > +		folio_unlock(to_folio);
-> > > > +	}
-> > > > +
-> > > > +	folio_put(to_folio);
-> > > > +
-> > > > +	return handle;
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * ttm_backup_fini() - Free the struct backup resources after
-> > > > last
-> > > > use.
-> > > > + * @backup: Pointer to the struct backup whose resources to
-> > > > free.
-> > > > + *
-> > > > + * After a call to this function, it's illegal to use the
-> > > > @backup
-> > > > pointer.
-> > > > + */
-> > > > +void ttm_backup_fini(struct ttm_backup *backup)
-> > > > +{
-> > > > +	fput(ttm_backup_to_file(backup));
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * ttm_backup_bytes_avail() - Report the approximate number of
-> > > > bytes of backup space
-> > > > + * left for backup.
-> > > > + *
-> > > > + * This function is intended also for driver use to indicate
-> > > > whether a
-> > > > + * backup attempt is meaningful.
-> > > > + *
-> > > > + * Return: An approximate size of backup space available.
-> > > > + */
-> > > > +u64 ttm_backup_bytes_avail(void)
-> > > > +{
-> > > > +	/*
-> > > > +	 * The idea behind backing up to shmem is that shmem
-> > > > objects may
-> > > > +	 * eventually be swapped out. So no point swapping out
-> > > > if
-> > > > there
-> > > > +	 * is no or low swap-space available. But the accuracy
-> > > > of
-> > > > this
-> > > > +	 * number also depends on shmem actually swapping out
-> > > > backed-up
-> > > > +	 * shmem objects without too much buffering.
-> > > > +	 */
-> > > > +	return (u64)get_nr_swap_pages() << PAGE_SHIFT;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(ttm_backup_bytes_avail);
-> > > > +
-> > > > +/**
-> > > > + * ttm_backup_shmem_create() - Create a shmem-based struct
-> > > > backup.
-> > > > + * @size: The maximum size (in bytes) to back up.
-> > > > + *
-> > > > + * Create a backup utilizing shmem objects.
-> > > > + *
-> > > > + * Return: A pointer to a struct ttm_backup on success,
-> > > > + * an error pointer on error.
-> > > > + */
-> > > > +struct ttm_backup *ttm_backup_shmem_create(loff_t size)
-> > > > +{
-> > > > +	struct file *filp;
-> > > > +
-> > > > +	filp =3D shmem_file_setup("ttm shmem backup", size, 0);
-> > > > +
-> > > > +	return ttm_file_to_backup(filp);
-> > > > +}
-> > > > diff --git a/include/drm/ttm/ttm_backup.h
-> > > > b/include/drm/ttm/ttm_backup.h
-> > > > new file mode 100644
-> > > > index 000000000000..20609da7e281
-> > > > --- /dev/null
-> > > > +++ b/include/drm/ttm/ttm_backup.h
-> > > > @@ -0,0 +1,74 @@
-> > > > +/* SPDX-License-Identifier: MIT */
-> > > > +/*
-> > > > + * Copyright =C2=A9 2024 Intel Corporation
-> > > > + */
-> > > > +
-> > > > +#ifndef _TTM_BACKUP_H_
-> > > > +#define _TTM_BACKUP_H_
-> > > > +
-> > > > +#include <linux/mm_types.h>
-> > > > +#include <linux/shmem_fs.h>
-> > > > +
-> > > > +struct ttm_backup;
-> > > > +
-> > > > +/**
-> > > > + * ttm_backup_handle_to_page_ptr() - Convert handle to struct
-> > > > page
-> > > > pointer
-> > > > + * @handle: The handle to convert.
-> > > > + *
-> > > > + * Converts an opaque handle received from the
-> > > > + * struct ttm_backoup_ops::backup_page() function to an
-> > > > (invalid)
-> > > > + * struct page pointer suitable for a struct page array.
-> > > > + *
-> > > > + * Return: An (invalid) struct page pointer.
-> > > > + */
-> > > > +static inline struct page *
-> > > > +ttm_backup_handle_to_page_ptr(unsigned long handle)
-> > > > +{
-> > > > +	return (struct page *)(handle << 1 | 1);
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * ttm_backup_page_ptr_is_handle() - Whether a struct page
-> > > > pointer
-> > > > is a handle
-> > > > + * @page: The struct page pointer to check.
-> > > > + *
-> > > > + * Return: true if the struct page pointer is a handld
-> > > > returned
-> > > > from
-> > > > + * ttm_backup_handle_to_page_ptr(). False otherwise.
-> > > > + */
-> > > > +static inline bool ttm_backup_page_ptr_is_handle(const struct
-> > > > page
-> > > > *page)
-> > > > +{
-> > > > +	return (unsigned long)page & 1;
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * ttm_backup_page_ptr_to_handle() - Convert a struct page
-> > > > pointer
-> > > > to a handle
-> > > > + * @page: The struct page pointer to convert
-> > > > + *
-> > > > + * Return: The handle that was previously used in
-> > > > + * ttm_backup_handle_to_page_ptr() to obtain a struct page
-> > > > pointer, suitable
-> > > > + * for use as argument in the struct ttm_backup_ops drop() or
-> > > > + * copy_backed_up_page() functions.
-> > > > + */
-> > > > +static inline unsigned long
-> > > > +ttm_backup_page_ptr_to_handle(const struct page *page)
-> > > > +{
-> > > > +	WARN_ON(!ttm_backup_page_ptr_is_handle(page));
-> > > > +	return (unsigned long)page >> 1;
-> > > > +}
-> > > > +
-> > > > +void ttm_backup_drop(struct ttm_backup *backup, pgoff_t
-> > > > handle);
-> > > > +
-> > > > +int ttm_backup_copy_page(struct ttm_backup *backup, struct
-> > > > page
-> > > > *dst,
-> > > > +			 pgoff_t handle, bool intr);
-> > > > +
-> > > > +unsigned long
-> > > > +ttm_backup_backup_page(struct ttm_backup *backup, struct page
-> > > > *page,
-> > > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool writeback, pgoff_t idx=
-, gfp_t
-> > > > page_gfp,
-> > > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gfp_t alloc_gfp);
-> > > > +
-> > > > +void ttm_backup_fini(struct ttm_backup *backup);
-> > > > +
-> > > > +u64 ttm_backup_bytes_avail(void);
-> > > > +
-> > > > +struct ttm_backup *ttm_backup_shmem_create(loff_t size);
-> > > > +
-> > > > +#endif
+regards,
+dan carpenter
 
