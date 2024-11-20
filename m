@@ -2,66 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BC79D42CE
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 20:59:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C9F9D4316
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 21:33:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2952B10E17B;
-	Wed, 20 Nov 2024 19:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDC2410E3D4;
+	Wed, 20 Nov 2024 20:33:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Ajw4PRFF";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="oc74y9BN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="THwxHPph";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oc74y9BN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="THwxHPph";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3754510E065
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 19:59:15 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-38246333e12so66292f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 11:59:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1732132753; x=1732737553;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3pte7cwv6DSdK6e5IxmejsCXdriL4Ba8Sr+OKxyoViY=;
- b=Ajw4PRFFDFD7P41npxAkNsfDX2owTk2+1LtJSXqWFrx0xvev4rYNsGzesvbrec0EGr
- zHvL+UIfbwK1k3UHMz+V+9ZjRk/4UjPqYrmqTCwXC8Tec7kz7as1+dg0b+yvxR2TWLtN
- i77fMmaeyotkjkNC9Qcp+BrYk4NQmpyRX/D14=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732132753; x=1732737553;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3pte7cwv6DSdK6e5IxmejsCXdriL4Ba8Sr+OKxyoViY=;
- b=nGNGGcBdM0npdceej1FjO8pvTg+Q0Qx4JmIUHKI35XRnnMRK0O9GafZ/TnEcIteDo4
- uIAWj80hB1voJp8qFffSb/+FON9CuSNaSCF1l+yB6TKcse66oyrYUXHMe+jlXW2vGtSu
- Ku/gFihL392oJjNs4Ooytya3F3R9W1a3ULKk2Dnv1JMiUbUpZE2uwPS3v+K2+1XjL3hF
- x00j44UVcLr5t2KWhTsUwKbO9jp7s/USmhG7vDbwbiUKkfPbdBwZuubKuEskAu9XNfu/
- 1cab8G98lnsi46z+FgRVIYC8LVXoxoW8kw/Nd6KeaJPO/YG42XEBM3T1Um7ONuqQxGRn
- ySLg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVx0CqRxB+fW81h+zBzKO5QXn8FeLz9JGP1pGnBS8rARUlU5edDA0vyKIL3og46TXSVCv0QirYrgn8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx2EPjJLcFLvytWrj0BWPpDBSU+ei/pC+ga8tP6JLvsbbqiAzh4
- erYA9bTWPst3PrrWNcK0JIxbm8sIwbgK/UzAqzHLzQwAd/NLgqH5fuSen7ImhsfCTuODD1bVxik
- UjRT6Ui4WTQ9aApCwJiJUo+b3+nrjwQqohjb/
-X-Google-Smtp-Source: AGHT+IHogXVvf8z0gmM2fFiRFnOr0ZtP8NwWO3Nf5oy2bOzwX/1UU7k7WK/HQ1u95uUFC12rTL6MIyWGAjKapckJUUc=
-X-Received: by 2002:a5d:648a:0:b0:382:3c1d:ebc9 with SMTP id
- ffacd0b85a97d-38254b1b48emr4091067f8f.49.1732132753258; Wed, 20 Nov 2024
- 11:59:13 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614AA10E7C7;
+ Wed, 20 Nov 2024 20:08:34 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F345B1F79B;
+ Wed, 20 Nov 2024 20:08:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1732133313;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+NKWEBGgG7I2PjnhstdebYJIFhgT24xBC5DxPEneKhk=;
+ b=oc74y9BNrmkb0YWoATxzDK8XzDAvJBF+Koy06j2q2ruW0I8TkLGqu4ZD89tkywXpum1pxP
+ O0em3hLnaLKfJDVaL2N91BgbRdQr94aqmPielpYP7TVoCcRdG9CK5ifiBcew11Hqkf8Lnh
+ +maqGCzqGqnCSsEMRi4QVEQbC4ZRJ0Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1732133313;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+NKWEBGgG7I2PjnhstdebYJIFhgT24xBC5DxPEneKhk=;
+ b=THwxHPphKJoME05ys+JrwJhwzkOr/xujjmrtOsT5CyeN9z6jGFRA6fMajLsnGzAzPOB7eO
+ XldqUGHcwZoatxCA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=oc74y9BN;
+ dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=THwxHPph
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1732133313;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+NKWEBGgG7I2PjnhstdebYJIFhgT24xBC5DxPEneKhk=;
+ b=oc74y9BNrmkb0YWoATxzDK8XzDAvJBF+Koy06j2q2ruW0I8TkLGqu4ZD89tkywXpum1pxP
+ O0em3hLnaLKfJDVaL2N91BgbRdQr94aqmPielpYP7TVoCcRdG9CK5ifiBcew11Hqkf8Lnh
+ +maqGCzqGqnCSsEMRi4QVEQbC4ZRJ0Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1732133313;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+NKWEBGgG7I2PjnhstdebYJIFhgT24xBC5DxPEneKhk=;
+ b=THwxHPphKJoME05ys+JrwJhwzkOr/xujjmrtOsT5CyeN9z6jGFRA6fMajLsnGzAzPOB7eO
+ XldqUGHcwZoatxCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 47EBB137CF;
+ Wed, 20 Nov 2024 20:08:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id DqQKEMBBPmeEEwAAD6G6ig
+ (envelope-from <pvorel@suse.cz>); Wed, 20 Nov 2024 20:08:32 +0000
+Date: Wed, 20 Nov 2024 21:08:26 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: Rob Clark <robdclark@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>
+Subject: Re: [RFC][PATCH 1/1] drm/msm: require python3 and xml.parsers.expat
+ module
+Message-ID: <20241120200826.GA46775@pevik>
+References: <20241120154919.814593-1-pvorel@suse.cz>
+ <CAF6AEGshZMEHYT6X3fG0vYPpfa4i_o8gxOareHNggYWtkn=2Yg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20241119194038.530779-1-ian.forbes@broadcom.com>
- <40815234-baa2-4990-9f30-0a0632871a0c@suse.de> <878qte2oj3.fsf@intel.com>
-In-Reply-To: <878qte2oj3.fsf@intel.com>
-From: Ian Forbes <ian.forbes@broadcom.com>
-Date: Wed, 20 Nov 2024 13:59:01 -0600
-Message-ID: <CAO6MGtiP4iCwLh1ZbYWqCwCgqzcgTnX=bZ25ow4ED8hc1JdGKQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Add Fake EDID
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com, 
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
-Content-Type: multipart/alternative; boundary="000000000000766f2506275d95e1"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGshZMEHYT6X3fG0vYPpfa4i_o8gxOareHNggYWtkn=2Yg@mail.gmail.com>
+X-Rspamd-Queue-Id: F345B1F79B
+X-Spam-Score: -3.71
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.71 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_RHS_NOT_FQDN(0.50)[];
+ HAS_REPLYTO(0.30)[pvorel@suse.cz];
+ R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FREEMAIL_TO(0.00)[gmail.com]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:replyto,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.cz:+]; MISSING_XM_UA(0.00)[];
+ REPLYTO_EQ_FROM(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Mailman-Approved-At: Wed, 20 Nov 2024 20:33:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,134 +131,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Petr Vorel <pvorel@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000766f2506275d95e1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> On Wed, Nov 20, 2024 at 7:49 AM Petr Vorel <pvorel@suse.cz> wrote:
 
-On Wed, Nov 20, 2024 at 4:22=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
-l.com>
-wrote:
->
-> Please avoid all struct edid based interfaces, in this case
-> drm_connector_update_edid_property(). They will be removed in the
-> future, and adding more is counter-productive. Everything should be
-> struct drm_edid based going forward.
->
-> Of course, actually grafting the EDID needs struct edid. And that's kind
-> of annoying too. Do we really want to spread the EDID details all over
-> the place? This one combines drm_edid.h structs and magic numbers in a
-> jumble. I'm kind of hoping we'd get rid of driver usage of struct edid,
-> though that's a long road. But we've made a lot of progress towards it,
-> there aren't that many places left that directly look at the guts of
-> EDID, and most of it is centralized in drm_edid.c.
->
+> > 0fddd045f88e introduced python3 dependency, require it to quick early.
 
-drm_edid isn't exported so we can't use it. I know you've read the EDID
-spec so complaining about the magic numbers is silly.
-I didn't choose to make the whole spec based on bizarrely packed 10 and 12
-bit numbers, they are unavoidable.
+> > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> > ---
+> > Hi all,
 
->
-> > Maybe it resolves problems with
-> > compositors, but it is a step backwards for the overall ecosystem. If
-> > the connector changes, your driver should increment the epoch counter.
-> > [1] That will send a hotplug event to userspace. The EDID alone does no=
-t
-> > say anything about connector status.
->
-> Yeah, unplugging and replugging the same display with the same EDID
-> isn't a problem for other drivers, and they don't have to do this kind
-> of stuff to trick userspace. Maybe vmwgfx should handle (or simulate)
-> hotplugs better?
->
-> And preferrably let the EDID functions handle epoch counter updates
-> instead of doing it yourself, if at all possible.
->
+> > RFC because I'm not sure if previous failed build wasn't better:
+
+> >         GENHDR  drivers/gpu/drm/msm/generated/a2xx.xml.h
+> >         /bin/sh: python3: not found
+
+> > This way it's documented, but CONFIG_DRM_MSM just silently disappears
+> > from .config. Also because depends on $(success ..) is not evaluated
+> > (understand, some expressions can be really long) one see only:
+> > Depends on: n [=n].
+
+> > I was thinking about testing via $(PYTHON3) -m "xml.parsers.expat",
+> > but because expat parser (and other modules) should be part the official
+> > python3 and are installed even on minimal python3 installations (e.g.
+> > python3-minimal on Debian). Therefore depending on "$(PYTHON3) -V"
+> > should be enough.
+
+
+> Would it be more clear to do something like:
+
+> config HAS_PYTHON3
+>       dev_bool $(success ...)
+
+> (in init/Kconfig or somewhere central) and then use 'depends on
+> HAS_PYTHON3'?  That might make the dependency easier to see in
+> menuconfig/etc
+
+Thanks a lot, good idea, there are already few config HAVE_* in it. I'll send
+v2. Before I already noticed various variables in the top level Makefile (PERL,
+BASH, RUSTC, ...), but didn't find any check. Just now I noticed HAVE_RUST in
+arch/Kconfig. I suppose HAVE_PYTHON3 should be in init/Kconfig.
+
+Kind regards,
+Petr
+
 > BR,
-> Jani.
->
+> -R
 
-You're both missing the fact that virtual devices never disconnect active
-displays. We don't have to do a disconnect/connect cycle like a physical
-monitor and we wouldn't want to because it would be poor user experience.
-The issue is not sending the hotplug event, it's that userspace will ignore
-hotplug events on connectors that were previously connected because they
-assume a disconnect/connect cycle must occur for changes to occur. The
-whole point of hotplug_mode_update was as a hint to userspace that the
-display can be "re-plugged" without a disconnect first and to always rescan
-the connector for changes on hotplug.
+> > Kind regards,
+> > Petr
 
-Currently compositors are taking an arbitrary set of connector properties
-that they've organically collected over the years and doing a diff to
-trigger a refresh in the modes/display layout. EDID is the only property
-that they universally agree should trigger a display layout change. The
-fact that Autofit works on any compsitors using vmwgfx, qxl, or virtio is
-completely by accident.
+> >  drivers/gpu/drm/msm/Kconfig | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
 
-EDID is also a standardized connector property so it's not really fair to
-say that all devices should export this property and then when we fix our
-deficiency to block it. Now that it's standardized it is part of the uapi
-and if userspace does weird things with it it's not really our concern. The
-fact that it's standardized is also likely the reason it is being used in
-such a fashion.
+> > diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> > index 90c68106b63b..2cf4573a2ff1 100644
+> > --- a/drivers/gpu/drm/msm/Kconfig
+> > +++ b/drivers/gpu/drm/msm/Kconfig
+> > @@ -11,6 +11,7 @@ config DRM_MSM
+> >         depends on QCOM_LLCC || QCOM_LLCC=n
+> >         depends on QCOM_COMMAND_DB || QCOM_COMMAND_DB=n
+> >         depends on PM
+> > +       depends on $(success,$(PYTHON3) -V)
+> >         select IOMMU_IO_PGTABLE
+> >         select QCOM_MDT_LOADER if ARCH_QCOM
+> >         select REGULATOR
+> > @@ -36,7 +37,7 @@ config DRM_MSM
+> >         select PM_GENERIC_DOMAINS
+> >         select TRACE_GPU_MEM
+> >         help
+> > -         DRM/KMS driver for MSM/snapdragon.
+> > +         DRM/KMS driver for MSM/snapdragon.  Requires python3.
 
-Ian,
+> >  config DRM_MSM_GPU_STATE
+> >         bool
+> > --
+> > 2.47.0
 
---000000000000766f2506275d95e1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><br>On Wed, Nov 20, 2024 at 4:22=E2=80=AFAM Jani Nikul=
-a &lt;<a href=3D"mailto:jani.nikula@linux.intel.com">jani.nikula@linux.inte=
-l.com</a>&gt; wrote:<br>&gt;<br>&gt; Please avoid all struct edid based int=
-erfaces, in this case<br>&gt; drm_connector_update_edid_property(). They wi=
-ll be removed in the<br>&gt; future, and adding more is counter-productive.=
- Everything should be<br>&gt; struct drm_edid based going forward.<br>&gt;<=
-br>&gt; Of course, actually grafting the EDID needs struct edid. And that&#=
-39;s kind<br>&gt; of annoying too. Do we really want to spread the EDID det=
-ails all over<br>&gt; the place? This one combines drm_edid.h structs and m=
-agic numbers in a<br>&gt; jumble. I&#39;m kind of hoping we&#39;d get rid o=
-f driver usage of struct edid,<br>&gt; though that&#39;s a long road. But w=
-e&#39;ve made a lot of progress towards it,<br>&gt; there aren&#39;t that m=
-any places left that directly look at the guts of<br>&gt; EDID, and most of=
- it is centralized in drm_edid.c.<br>&gt;<br><br><div>drm_edid isn&#39;t ex=
-ported so we can&#39;t use it. I know you&#39;ve read the EDID spec so comp=
-laining about the magic numbers is silly.</div><div>I didn&#39;t choose to =
-make the whole spec based on bizarrely packed 10 and 12 bit numbers, they a=
-re unavoidable.</div><br>&gt;<br>&gt; &gt; Maybe it resolves problems with<=
-br>&gt; &gt; compositors, but it is a step backwards for the overall ecosys=
-tem. If<br>&gt; &gt; the connector changes, your driver should increment th=
-e epoch counter.<br>&gt; &gt; [1] That will send a hotplug event to userspa=
-ce. The EDID alone does not<br>&gt; &gt; say anything about connector statu=
-s.<br>&gt;<br>&gt; Yeah, unplugging and replugging the same display with th=
-e same EDID<br>&gt; isn&#39;t a problem for other drivers, and they don&#39=
-;t have to do this kind<br>&gt; of stuff to trick userspace. Maybe vmwgfx s=
-hould handle (or simulate)<br>&gt; hotplugs better?<br>&gt;<br>&gt; And pre=
-ferrably let the EDID functions handle epoch counter updates<br>&gt; instea=
-d of doing it yourself, if at all possible.<br>&gt;<br>&gt; BR,<br>&gt; Jan=
-i.<br>&gt;<br><br>You&#39;re both missing the fact that virtual devices nev=
-er disconnect active displays. We don&#39;t have to do a disconnect/connect=
- cycle like a physical monitor and we wouldn&#39;t want to because it would=
- be poor user experience. The issue is not sending the hotplug event, it&#3=
-9;s that userspace will ignore hotplug events on connectors that were previ=
-ously connected because they assume a disconnect/connect cycle must occur f=
-or changes to occur. The whole point of hotplug_mode_update was as a hint t=
-o userspace that the display can be &quot;re-plugged&quot; without a discon=
-nect first and to always rescan the connector for changes on hotplug.<br><b=
-r>Currently compositors are taking an arbitrary set of connector properties=
- that they&#39;ve organically collected over the years and doing a diff to =
-trigger a refresh in the modes/display layout. EDID is the only property th=
-at they universally agree should trigger a display layout change. The fact =
-that Autofit works on any compsitors using vmwgfx, qxl, or virtio is comple=
-tely by accident.<br><br>EDID is also a standardized connector property so =
-it&#39;s not really fair to say that all devices should export this propert=
-y and then when we fix our deficiency to block it. Now that it&#39;s standa=
-rdized it is part of the uapi and if userspace does weird things with it it=
-&#39;s not really our concern. The fact that it&#39;s standardized is also =
-likely the reason it is being used in such a fashion. <br><br>Ian,<br></div=
->
-
---000000000000766f2506275d95e1--
