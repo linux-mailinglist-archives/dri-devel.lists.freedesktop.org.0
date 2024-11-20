@@ -2,104 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0DA9D4317
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 21:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734619D3FF7
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 17:24:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6C010E3FE;
-	Wed, 20 Nov 2024 20:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F31810E0ED;
+	Wed, 20 Nov 2024 16:24:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="E8rYxIAM";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DigfWKYZ";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="E8rYxIAM";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DigfWKYZ";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="a3LcGEyY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E62B10E78E;
- Wed, 20 Nov 2024 15:49:29 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AC4D7211D7;
- Wed, 20 Nov 2024 15:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1732117767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=R/vAdDCZ7AeI7ZWvAk/xK249zyMaEemAZqVttREVMeI=;
- b=E8rYxIAMrCCxvfVPy7qYYwHg37yNshTpZWzKYkIYiCJiMHDtuOgciGF30kylmRGl4FPgha
- 37d45Z0M1QyAZ+Bg+iOVbdM1iPBnYT1qW6PW00FoInpjC8bRc3kFcGrLM8ya1cljnBKhpF
- vKYEQq5DhwNY4StGTqVWCYsOZ/4hOqc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1732117767;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=R/vAdDCZ7AeI7ZWvAk/xK249zyMaEemAZqVttREVMeI=;
- b=DigfWKYZNJUi43jog02pGeKbgezxBHqHYbmhJdp8OCK5HaKbl69dyUT3c+nqYVWE+YSDgQ
- 7+W1BLgRbe3nTbCA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=E8rYxIAM;
- dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=DigfWKYZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1732117767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=R/vAdDCZ7AeI7ZWvAk/xK249zyMaEemAZqVttREVMeI=;
- b=E8rYxIAMrCCxvfVPy7qYYwHg37yNshTpZWzKYkIYiCJiMHDtuOgciGF30kylmRGl4FPgha
- 37d45Z0M1QyAZ+Bg+iOVbdM1iPBnYT1qW6PW00FoInpjC8bRc3kFcGrLM8ya1cljnBKhpF
- vKYEQq5DhwNY4StGTqVWCYsOZ/4hOqc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1732117767;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=R/vAdDCZ7AeI7ZWvAk/xK249zyMaEemAZqVttREVMeI=;
- b=DigfWKYZNJUi43jog02pGeKbgezxBHqHYbmhJdp8OCK5HaKbl69dyUT3c+nqYVWE+YSDgQ
- 7+W1BLgRbe3nTbCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 098B713297;
- Wed, 20 Nov 2024 15:49:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id dEf7AAcFPmc4SgAAD6G6ig
- (envelope-from <pvorel@suse.cz>); Wed, 20 Nov 2024 15:49:27 +0000
-From: Petr Vorel <pvorel@suse.cz>
-To: linux-arm-msm@vger.kernel.org
-Cc: Petr Vorel <pvorel@suse.cz>, Masahiro Yamada <masahiroy@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [RFC][PATCH 1/1] drm/msm: require python3 and xml.parsers.expat module
-Date: Wed, 20 Nov 2024 16:49:19 +0100
-Message-ID: <20241120154919.814593-1-pvorel@suse.cz>
-X-Mailer: git-send-email 2.47.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: AC4D7211D7
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_COUNT_TWO(0.00)[2]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- RCPT_COUNT_SEVEN(0.00)[7];
- DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+X-Greylist: delayed 1637 seconds by postgrey-1.36 at gabe;
+ Wed, 20 Nov 2024 16:24:31 UTC
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AEF010E0ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 16:24:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+ ; s=x;
+ h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+ :Date:subject:date:message-id:reply-to;
+ bh=AV7uFaaC4aI28aoKwdlmsUCmZVGlU7oO6K2cV0FF+zU=; b=a3LcGEyYQBiJVlcOXuBAooSEUI
+ myv9cdUzqu7udEm5blR9p+8uz7cITWdaiRhLBdxizryl+VzHcjJWa1ipaUwIkYWwlNxE5jSKsj0jf
+ +T6UfMRTnFHlRv+LKrEQsEG+/AnIHyRMBwYIfYCW1Y61e9noMYMArpeftU02wtu3RylY=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:46480
+ helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
+ (envelope-from <hugo@hugovil.com>)
+ id 1tDn4h-00080k-4M; Wed, 20 Nov 2024 10:57:03 -0500
+Date: Wed, 20 Nov 2024 10:57:02 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Chris Brandt <chris.brandt@renesas.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
+Message-Id: <20241120105702.3c6ccf6901d2251d067f2f6c@hugovil.com>
+In-Reply-To: <20241120150328.4131525-1-chris.brandt@renesas.com>
+References: <20241120150328.4131525-1-chris.brandt@renesas.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
 X-Spam-Level: 
-X-Mailman-Approved-At: Wed, 20 Nov 2024 20:33:14 +0000
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+ * -2.3 NICE_REPLY_A Looks like a legit reply (A)
+X-Spam-Status: No, score=-3.3 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
+ autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [PATCH] drm: renesas: rz-du: Increase supported resolutions
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,55 +69,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-0fddd045f88e introduced python3 dependency, require it to quick early.
+Hi,
 
-Signed-off-by: Petr Vorel <pvorel@suse.cz>
----
-Hi all,
+On Wed, 20 Nov 2024 10:03:28 -0500
+Chris Brandt <chris.brandt@renesas.com> wrote:
 
-RFC because I'm not sure if previous failed build wasn't better:
+> The supported resolutions were misrepresented in earlier versions of
+> hardware manuals.
+> 
+> Fixes: 768e9e61b3b9 ("drm: renesas: Add RZ/G2L DU Support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 
-	GENHDR  drivers/gpu/drm/msm/generated/a2xx.xml.h
-	/bin/sh: python3: not found
+Tested on a custom RZ/G2LC board with two different display panels
+of 600x1600 and 440x1920 resolutions in portrait mode.
 
-This way it's documented, but CONFIG_DRM_MSM just silently disappears
-from .config. Also because depends on $(success ..) is not evaluated
-(understand, some expressions can be really long) one see only:
-Depends on: n [=n].
+Tested-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 
-I was thinking about testing via $(PYTHON3) -m "xml.parsers.expat",
-but because expat parser (and other modules) should be part the official
-python3 and are installed even on minimal python3 installations (e.g.
-python3-minimal on Debian). Therefore depending on "$(PYTHON3) -V"
-should be enough.
+> ---
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+> index b99217b4e05d..90c6269ccd29 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+> @@ -311,11 +311,11 @@ int rzg2l_du_modeset_init(struct rzg2l_du_device *rcdu)
+>  	dev->mode_config.helper_private = &rzg2l_du_mode_config_helper;
+>  
+>  	/*
+> -	 * The RZ DU uses the VSP1 for memory access, and is limited
+> -	 * to frame sizes of 1920x1080.
+> +	 * The RZ DU was designed to support a frame size of 1920x1200 (landscape)
+> +	 * or 1200x1920 (portrait).
+>  	 */
+>  	dev->mode_config.max_width = 1920;
+> -	dev->mode_config.max_height = 1080;
+> +	dev->mode_config.max_height = 1920;
+>  
+>  	rcdu->num_crtcs = hweight8(rcdu->info->channels_mask);
+>  
+> -- 
+> 2.34.1
+> 
 
-Kind regards,
-Petr
 
- drivers/gpu/drm/msm/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index 90c68106b63b..2cf4573a2ff1 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -11,6 +11,7 @@ config DRM_MSM
- 	depends on QCOM_LLCC || QCOM_LLCC=n
- 	depends on QCOM_COMMAND_DB || QCOM_COMMAND_DB=n
- 	depends on PM
-+	depends on $(success,$(PYTHON3) -V)
- 	select IOMMU_IO_PGTABLE
- 	select QCOM_MDT_LOADER if ARCH_QCOM
- 	select REGULATOR
-@@ -36,7 +37,7 @@ config DRM_MSM
- 	select PM_GENERIC_DOMAINS
- 	select TRACE_GPU_MEM
- 	help
--	  DRM/KMS driver for MSM/snapdragon.
-+	  DRM/KMS driver for MSM/snapdragon.  Requires python3.
- 
- config DRM_MSM_GPU_STATE
- 	bool
 -- 
-2.47.0
-
+Hugo Villeneuve
