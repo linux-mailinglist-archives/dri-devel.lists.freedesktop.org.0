@@ -2,88 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4821C9D4244
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 19:54:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BC79D42CE
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 20:59:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 206CD10E2D8;
-	Wed, 20 Nov 2024 18:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2952B10E17B;
+	Wed, 20 Nov 2024 19:59:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="juba+k/5";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Ajw4PRFF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
- [209.85.166.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1854B10E075;
- Wed, 20 Nov 2024 18:54:37 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id
- ca18e2360f4ac-83a9ca86049so4005539f.0; 
- Wed, 20 Nov 2024 10:54:37 -0800 (PST)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3754510E065
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 19:59:15 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-38246333e12so66292f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 11:59:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732128877; x=1732733677; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ywphHwRJ47bemIP9RZfgn34nLun0kYe1BEdTqOds8Rs=;
- b=juba+k/5py5UmNEJT1bzbfSsZzLFJJ0KtD6/PYApCE5ag9Dpj/gX7GYA1FWA8hUop5
- bqb47wVRF3IO4OlVLZ5R5Sni6JswFYl7EFxS/qiz4FzljbESDf20DaoT/fEKns55TGHw
- Vb+ivyDUmNPQ2GomzakhQRGQUva38QT5oNW2lkHjCwhwp+uOxStDgAG58JnUOWvl/l2G
- 0ZvO6EHoKKWKlA7b020ru3Z2+3GVzT1skuARkbEMV+8hUyicWclTYV6ZiAWuE1y+eJKw
- 33+LcgQx1Iw9kbj7/BEJpSkEM1lWyf3CHSPnsveJWjkklECnjZ1FMRBielRGOEua5EaH
- 4lDQ==
+ d=broadcom.com; s=google; t=1732132753; x=1732737553;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3pte7cwv6DSdK6e5IxmejsCXdriL4Ba8Sr+OKxyoViY=;
+ b=Ajw4PRFFDFD7P41npxAkNsfDX2owTk2+1LtJSXqWFrx0xvev4rYNsGzesvbrec0EGr
+ zHvL+UIfbwK1k3UHMz+V+9ZjRk/4UjPqYrmqTCwXC8Tec7kz7as1+dg0b+yvxR2TWLtN
+ i77fMmaeyotkjkNC9Qcp+BrYk4NQmpyRX/D14=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732128877; x=1732733677;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ywphHwRJ47bemIP9RZfgn34nLun0kYe1BEdTqOds8Rs=;
- b=Kg3ugIWKvA4yvkJ5f3KXDC9SrfFGfGABlkBY3Q70y3pqi5X3DGVe2PamwjoLTVvTff
- 6k7BrVxDN53djLVFFYcKLN/eVSVmatCRoMtblSVE7ztKRr1MshFoTONBZ+3mrIMGVsHa
- qe+oyjqEnmkyTkXQDH4lRV65uWxz7XiF1D96XxLnr1IvgwWfMCxgXwz6PAnx5gEywhg7
- FMP7Yo8qrW53xwr+bBD+Xq+XcQr3alfyliZO3NHe63YC19PODw+HBM/pvWmnrEV6NDcP
- eq6Uxj2kWk1J5e+wN6wJISO3pBIRzoKUOpv5r8B5SomNgHHuLpYNpiJslYIh1kwzwpVe
- hULA==
+ d=1e100.net; s=20230601; t=1732132753; x=1732737553;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3pte7cwv6DSdK6e5IxmejsCXdriL4Ba8Sr+OKxyoViY=;
+ b=nGNGGcBdM0npdceej1FjO8pvTg+Q0Qx4JmIUHKI35XRnnMRK0O9GafZ/TnEcIteDo4
+ uIAWj80hB1voJp8qFffSb/+FON9CuSNaSCF1l+yB6TKcse66oyrYUXHMe+jlXW2vGtSu
+ Ku/gFihL392oJjNs4Ooytya3F3R9W1a3ULKk2Dnv1JMiUbUpZE2uwPS3v+K2+1XjL3hF
+ x00j44UVcLr5t2KWhTsUwKbO9jp7s/USmhG7vDbwbiUKkfPbdBwZuubKuEskAu9XNfu/
+ 1cab8G98lnsi46z+FgRVIYC8LVXoxoW8kw/Nd6KeaJPO/YG42XEBM3T1Um7ONuqQxGRn
+ ySLg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW///R1amgGQiNm6TcFNWVL+x7KIjeUXjl1cRZbvgEeo2qinvjXVKdC2DRv1zF7ftZ+FoMOAgjxRUU=@lists.freedesktop.org,
- AJvYcCXodmzKkix4SLPnb2foPINJ2hZCh7XE8k/BFy5NVMYIAu6gx5jexD0KvDSJlkbGtV2jVrStkq1TuJXd@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YykIR7XtLXtvXd8sQ0RPEqgEhgyE5BihVIK6A5f2hGNB4KTJlw5
- 3WPpSfqpINfHyZnO5QJqh8IxHLUchrbr0RqKObP1qrLz1reiJxrRP/yq2IpO7H/OY8tchVVAGtN
- 3R36UgQR3CpulTQVyovd2RX3eNz0=
-X-Gm-Gg: ASbGncu2tK6y2CHG2TOl6lwjuOqtmtCDCm8JtAYfOMvLyE90ckq5UkLsnFocvVJ+0ZR
- EIC48df8Xd83BorIJiOkYrSQ+Zum+w6qCTlHm7vMqBFemRSyXx4els1q4j1TC
-X-Google-Smtp-Source: AGHT+IHd8C0gyOGxo8kEUV2MAn22vYluHbM6lDo81yALGvxv3opZ3P+eFDcZSWKWEXJFXyRB4VB0sPN5xiZpchHYexo=
-X-Received: by 2002:a05:6602:6d8e:b0:834:d7b6:4fea with SMTP id
- ca18e2360f4ac-83eb5fce118mr454937039f.6.1732128877090; Wed, 20 Nov 2024
- 10:54:37 -0800 (PST)
+ AJvYcCVx0CqRxB+fW81h+zBzKO5QXn8FeLz9JGP1pGnBS8rARUlU5edDA0vyKIL3og46TXSVCv0QirYrgn8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx2EPjJLcFLvytWrj0BWPpDBSU+ei/pC+ga8tP6JLvsbbqiAzh4
+ erYA9bTWPst3PrrWNcK0JIxbm8sIwbgK/UzAqzHLzQwAd/NLgqH5fuSen7ImhsfCTuODD1bVxik
+ UjRT6Ui4WTQ9aApCwJiJUo+b3+nrjwQqohjb/
+X-Google-Smtp-Source: AGHT+IHogXVvf8z0gmM2fFiRFnOr0ZtP8NwWO3Nf5oy2bOzwX/1UU7k7WK/HQ1u95uUFC12rTL6MIyWGAjKapckJUUc=
+X-Received: by 2002:a5d:648a:0:b0:382:3c1d:ebc9 with SMTP id
+ ffacd0b85a97d-38254b1b48emr4091067f8f.49.1732132753258; Wed, 20 Nov 2024
+ 11:59:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20241119-topic-sm8x50-gpu-bw-vote-v2-0-4deb87be2498@linaro.org>
- <20241119-topic-sm8x50-gpu-bw-vote-v2-3-4deb87be2498@linaro.org>
- <fkezpguictntg2wkouwqipnaaiauo6vu46n7a2xzvlorzvyeaw@bbcpj3bs5eko>
-In-Reply-To: <fkezpguictntg2wkouwqipnaaiauo6vu46n7a2xzvlorzvyeaw@bbcpj3bs5eko>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 20 Nov 2024 10:54:24 -0800
-Message-ID: <CAF6AEGs6zT_kaTXNohUaA7KWZxZTr4byaoMoLAceuyqA7S+2CQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] drm/msm: adreno: move features bits in a
- separate variable
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, 
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Connor Abbott <cwabbott0@gmail.com>, linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20241119194038.530779-1-ian.forbes@broadcom.com>
+ <40815234-baa2-4990-9f30-0a0632871a0c@suse.de> <878qte2oj3.fsf@intel.com>
+In-Reply-To: <878qte2oj3.fsf@intel.com>
+From: Ian Forbes <ian.forbes@broadcom.com>
+Date: Wed, 20 Nov 2024 13:59:01 -0600
+Message-ID: <CAO6MGtiP4iCwLh1ZbYWqCwCgqzcgTnX=bZ25ow4ED8hc1JdGKQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Add Fake EDID
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com, 
+ martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
+Content-Type: multipart/alternative; boundary="000000000000766f2506275d95e1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,277 +77,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 20, 2024 at 3:18=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+--000000000000766f2506275d95e1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Nov 20, 2024 at 4:22=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
+l.com>
+wrote:
 >
-> On Tue, Nov 19, 2024 at 06:56:38PM +0100, Neil Armstrong wrote:
-> > Now the features defines have the right name, introduce a features
-> > bitfield and move the features defines in it, fixing all code checking
-> > for them.
-> >
-> > No functional changes intended.
+> Please avoid all struct edid based interfaces, in this case
+> drm_connector_update_edid_property(). They will be removed in the
+> future, and adding more is counter-productive. Everything should be
+> struct drm_edid based going forward.
 >
-> I think it might be better to squahs this patch into the previous one,
-> it would simplify checking that we use .quirks for ADRENO_QUIRK_foo and
-> .features for ADRENO_FEAT_bar.
+> Of course, actually grafting the EDID needs struct edid. And that's kind
+> of annoying too. Do we really want to spread the EDID details all over
+> the place? This one combines drm_edid.h structs and magic numbers in a
+> jumble. I'm kind of hoping we'd get rid of driver usage of struct edid,
+> though that's a long road. But we've made a lot of progress towards it,
+> there aren't that many places left that directly look at the guts of
+> EDID, and most of it is centralized in drm_edid.c.
 >
 
-IMHO better to keep this separated
+drm_edid isn't exported so we can't use it. I know you've read the EDID
+spec so complaining about the magic numbers is silly.
+I didn't choose to make the whole spec based on bizarrely packed 10 and 12
+bit numbers, they are unavoidable.
 
-But we don't have _that_ many features/quirks so I don't find
-combining them all that problematic
-
-BR,
--R
-
-> >
-> > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/a6xx_catalog.c  | 34 +++++++++++++++-------=
---------
-> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  4 ++--
-> >  drivers/gpu/drm/msm/adreno/adreno_device.c |  2 +-
-> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  7 +++---
-> >  4 files changed, 24 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/dr=
-m/msm/adreno/a6xx_catalog.c
-> > index 825c820def315968d508973c8ae40c7c7b646569..93f0d4bf50ba773ecde93e6=
-c29a2fcec24ebb7b3 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> > @@ -743,7 +743,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a615_zap.mbn",
-> >               .a6xx =3D &(const struct a6xx_info) {
-> > @@ -769,7 +769,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >               .a6xx =3D &(const struct a6xx_info) {
-> >                       .protect =3D &a630_protect,
-> > @@ -839,7 +839,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a615_zap.mdt",
-> >               .a6xx =3D &(const struct a6xx_info) {
-> > @@ -864,7 +864,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> >                         ADRENO_FEAT_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a620_zap.mbn",
-> > @@ -892,7 +892,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_1M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a630_zap.mdt",
-> >               .a6xx =3D &(const struct a6xx_info) {
-> > @@ -911,7 +911,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_1M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a640_zap.mdt",
-> >               .a6xx =3D &(const struct a6xx_info) {
-> > @@ -934,7 +934,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_1M + SZ_128K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> >                       ADRENO_FEAT_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a650_zap.mdt",
-> > @@ -961,7 +961,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_1M + SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> >                       ADRENO_FEAT_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a660_zap.mdt",
-> > @@ -981,7 +981,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_1M + SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> >                       ADRENO_FEAT_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .a6xx =3D &(const struct a6xx_info) {
-> > @@ -1000,7 +1000,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> >                       ADRENO_FEAT_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a660_zap.mbn",
-> > @@ -1028,7 +1028,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_2M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a640_zap.mdt",
-> >               .a6xx =3D &(const struct a6xx_info) {
-> > @@ -1046,7 +1046,7 @@ static const struct adreno_info a6xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_4M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> >                       ADRENO_FEAT_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a690_zap.mdt",
-> > @@ -1331,7 +1331,7 @@ static const struct adreno_info a7xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_128K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_HW_APRIV,
-> > +             .features =3D ADRENO_FEAT_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a702_zap.mbn",
-> >               .a6xx =3D &(const struct a6xx_info) {
-> > @@ -1355,7 +1355,7 @@ static const struct adreno_info a7xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D SZ_2M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> >                         ADRENO_FEAT_HAS_HW_APRIV |
-> >                         ADRENO_FEAT_PREEMPTION,
-> >               .init =3D a6xx_gpu_init,
-> > @@ -1377,7 +1377,7 @@ static const struct adreno_info a7xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D 3 * SZ_1M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> >                         ADRENO_FEAT_HAS_HW_APRIV |
-> >                         ADRENO_FEAT_PREEMPTION,
-> >               .init =3D a6xx_gpu_init,
-> > @@ -1400,7 +1400,7 @@ static const struct adreno_info a7xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D 3 * SZ_1M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> >                         ADRENO_FEAT_HAS_HW_APRIV |
-> >                         ADRENO_FEAT_PREEMPTION,
-> >               .init =3D a6xx_gpu_init,
-> > @@ -1422,7 +1422,7 @@ static const struct adreno_info a7xx_gpus[] =3D {
-> >               },
-> >               .gmem =3D 3 * SZ_1M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> > +             .features =3D ADRENO_FEAT_HAS_CACHED_COHERENT |
-> >                         ADRENO_FEAT_HAS_HW_APRIV |
-> >                         ADRENO_FEAT_PREEMPTION,
-> >               .init =3D a6xx_gpu_init,
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/ms=
-m/adreno/a6xx_gpu.c
-> > index 2ebd3fac212576a1507e0b6afe2560cd0408dd89..654d0cff421f15901cd4bf3=
-3b41e70004634ec75 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > @@ -2478,7 +2478,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *=
-dev)
-> >       adreno_gpu->gmu_is_wrapper =3D of_device_is_compatible(node, "qco=
-m,adreno-gmu-wrapper");
-> >
-> >       adreno_gpu->base.hw_apriv =3D
-> > -             !!(config->info->quirks & ADRENO_FEAT_HAS_HW_APRIV);
-> > +             !!(config->info->features & ADRENO_FEAT_HAS_HW_APRIV);
-> >
-> >       /* gpu->info only gets assigned in adreno_gpu_init() */
-> >       is_a7xx =3D config->info->family =3D=3D ADRENO_7XX_GEN1 ||
-> > @@ -2495,7 +2495,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *=
-dev)
-> >       }
-> >
-> >       if ((enable_preemption =3D=3D 1) || (enable_preemption =3D=3D -1 =
-&&
-> > -         (config->info->quirks & ADRENO_FEAT_PREEMPTION)))
-> > +         (config->info->features & ADRENO_FEAT_PREEMPTION)))
-> >               ret =3D adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7x=
-x, 4);
-> >       else if (is_a7xx)
-> >               ret =3D adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7x=
-x, 1);
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/d=
-rm/msm/adreno/adreno_device.c
-> > index 09d4569f77528c2a20cabc814668c4c930dd07f1..11a228472fa0cef3b6e4e21=
-a366470fbbc3ea8df 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -207,7 +207,7 @@ static int adreno_bind(struct device *dev, struct d=
-evice *master, void *data)
-> >
-> >       priv->is_a2xx =3D info->family < ADRENO_3XX;
-> >       priv->has_cached_coherent =3D
-> > -             !!(info->quirks & ADRENO_FEAT_HAS_CACHED_COHERENT);
-> > +             !!(info->features & ADRENO_FEAT_HAS_CACHED_COHERENT);
-> >
-> >       gpu =3D info->init(drm);
-> >       if (IS_ERR(gpu)) {
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/=
-msm/adreno/adreno_gpu.h
-> > index 8782c25e8a393ec7d9dc23ad450908d039bd08c5..4702d4cfca3b58fb3cbb25c=
-b6805f1c19be2ebcb 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > @@ -55,9 +55,9 @@ enum adreno_family {
-> >  #define ADRENO_QUIRK_FAULT_DETECT_MASK               BIT(1)
-> >  #define ADRENO_QUIRK_LMLOADKILL_DISABLE              BIT(2)
-> >
-> > -#define ADRENO_FEAT_HAS_HW_APRIV             BIT(3)
-> > -#define ADRENO_FEAT_HAS_CACHED_COHERENT              BIT(4)
-> > -#define ADRENO_FEAT_PREEMPTION                       BIT(5)
-> > +#define ADRENO_FEAT_HAS_HW_APRIV             BIT(0)
-> > +#define ADRENO_FEAT_HAS_CACHED_COHERENT              BIT(1)
-> > +#define ADRENO_FEAT_PREEMPTION                       BIT(2)
-> >
-> >  /* Helper for formating the chip_id in the way that userspace tools li=
-ke
-> >   * crashdec expect.
-> > @@ -98,6 +98,7 @@ struct adreno_info {
-> >       uint32_t revn;
-> >       const char *fw[ADRENO_FW_MAX];
-> >       uint32_t gmem;
-> > +     u64 features;
-> >       u64 quirks;
-> >       struct msm_gpu *(*init)(struct drm_device *dev);
-> >       const char *zapfw;
-> >
-> > --
-> > 2.34.1
-> >
 >
-> --
-> With best wishes
-> Dmitry
+> > Maybe it resolves problems with
+> > compositors, but it is a step backwards for the overall ecosystem. If
+> > the connector changes, your driver should increment the epoch counter.
+> > [1] That will send a hotplug event to userspace. The EDID alone does no=
+t
+> > say anything about connector status.
+>
+> Yeah, unplugging and replugging the same display with the same EDID
+> isn't a problem for other drivers, and they don't have to do this kind
+> of stuff to trick userspace. Maybe vmwgfx should handle (or simulate)
+> hotplugs better?
+>
+> And preferrably let the EDID functions handle epoch counter updates
+> instead of doing it yourself, if at all possible.
+>
+> BR,
+> Jani.
+>
+
+You're both missing the fact that virtual devices never disconnect active
+displays. We don't have to do a disconnect/connect cycle like a physical
+monitor and we wouldn't want to because it would be poor user experience.
+The issue is not sending the hotplug event, it's that userspace will ignore
+hotplug events on connectors that were previously connected because they
+assume a disconnect/connect cycle must occur for changes to occur. The
+whole point of hotplug_mode_update was as a hint to userspace that the
+display can be "re-plugged" without a disconnect first and to always rescan
+the connector for changes on hotplug.
+
+Currently compositors are taking an arbitrary set of connector properties
+that they've organically collected over the years and doing a diff to
+trigger a refresh in the modes/display layout. EDID is the only property
+that they universally agree should trigger a display layout change. The
+fact that Autofit works on any compsitors using vmwgfx, qxl, or virtio is
+completely by accident.
+
+EDID is also a standardized connector property so it's not really fair to
+say that all devices should export this property and then when we fix our
+deficiency to block it. Now that it's standardized it is part of the uapi
+and if userspace does weird things with it it's not really our concern. The
+fact that it's standardized is also likely the reason it is being used in
+such a fashion.
+
+Ian,
+
+--000000000000766f2506275d95e1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Wed, Nov 20, 2024 at 4:22=E2=80=AFAM Jani Nikul=
+a &lt;<a href=3D"mailto:jani.nikula@linux.intel.com">jani.nikula@linux.inte=
+l.com</a>&gt; wrote:<br>&gt;<br>&gt; Please avoid all struct edid based int=
+erfaces, in this case<br>&gt; drm_connector_update_edid_property(). They wi=
+ll be removed in the<br>&gt; future, and adding more is counter-productive.=
+ Everything should be<br>&gt; struct drm_edid based going forward.<br>&gt;<=
+br>&gt; Of course, actually grafting the EDID needs struct edid. And that&#=
+39;s kind<br>&gt; of annoying too. Do we really want to spread the EDID det=
+ails all over<br>&gt; the place? This one combines drm_edid.h structs and m=
+agic numbers in a<br>&gt; jumble. I&#39;m kind of hoping we&#39;d get rid o=
+f driver usage of struct edid,<br>&gt; though that&#39;s a long road. But w=
+e&#39;ve made a lot of progress towards it,<br>&gt; there aren&#39;t that m=
+any places left that directly look at the guts of<br>&gt; EDID, and most of=
+ it is centralized in drm_edid.c.<br>&gt;<br><br><div>drm_edid isn&#39;t ex=
+ported so we can&#39;t use it. I know you&#39;ve read the EDID spec so comp=
+laining about the magic numbers is silly.</div><div>I didn&#39;t choose to =
+make the whole spec based on bizarrely packed 10 and 12 bit numbers, they a=
+re unavoidable.</div><br>&gt;<br>&gt; &gt; Maybe it resolves problems with<=
+br>&gt; &gt; compositors, but it is a step backwards for the overall ecosys=
+tem. If<br>&gt; &gt; the connector changes, your driver should increment th=
+e epoch counter.<br>&gt; &gt; [1] That will send a hotplug event to userspa=
+ce. The EDID alone does not<br>&gt; &gt; say anything about connector statu=
+s.<br>&gt;<br>&gt; Yeah, unplugging and replugging the same display with th=
+e same EDID<br>&gt; isn&#39;t a problem for other drivers, and they don&#39=
+;t have to do this kind<br>&gt; of stuff to trick userspace. Maybe vmwgfx s=
+hould handle (or simulate)<br>&gt; hotplugs better?<br>&gt;<br>&gt; And pre=
+ferrably let the EDID functions handle epoch counter updates<br>&gt; instea=
+d of doing it yourself, if at all possible.<br>&gt;<br>&gt; BR,<br>&gt; Jan=
+i.<br>&gt;<br><br>You&#39;re both missing the fact that virtual devices nev=
+er disconnect active displays. We don&#39;t have to do a disconnect/connect=
+ cycle like a physical monitor and we wouldn&#39;t want to because it would=
+ be poor user experience. The issue is not sending the hotplug event, it&#3=
+9;s that userspace will ignore hotplug events on connectors that were previ=
+ously connected because they assume a disconnect/connect cycle must occur f=
+or changes to occur. The whole point of hotplug_mode_update was as a hint t=
+o userspace that the display can be &quot;re-plugged&quot; without a discon=
+nect first and to always rescan the connector for changes on hotplug.<br><b=
+r>Currently compositors are taking an arbitrary set of connector properties=
+ that they&#39;ve organically collected over the years and doing a diff to =
+trigger a refresh in the modes/display layout. EDID is the only property th=
+at they universally agree should trigger a display layout change. The fact =
+that Autofit works on any compsitors using vmwgfx, qxl, or virtio is comple=
+tely by accident.<br><br>EDID is also a standardized connector property so =
+it&#39;s not really fair to say that all devices should export this propert=
+y and then when we fix our deficiency to block it. Now that it&#39;s standa=
+rdized it is part of the uapi and if userspace does weird things with it it=
+&#39;s not really our concern. The fact that it&#39;s standardized is also =
+likely the reason it is being used in such a fashion. <br><br>Ian,<br></div=
+>
+
+--000000000000766f2506275d95e1--
