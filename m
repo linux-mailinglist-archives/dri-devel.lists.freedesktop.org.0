@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734619D3FF7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 17:24:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFFBF9D407E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 17:49:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F31810E0ED;
-	Wed, 20 Nov 2024 16:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8403310E795;
+	Wed, 20 Nov 2024 16:48:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="a3LcGEyY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H+EndPRh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1637 seconds by postgrey-1.36 at gabe;
- Wed, 20 Nov 2024 16:24:31 UTC
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AEF010E0ED
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 16:24:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
- :Date:subject:date:message-id:reply-to;
- bh=AV7uFaaC4aI28aoKwdlmsUCmZVGlU7oO6K2cV0FF+zU=; b=a3LcGEyYQBiJVlcOXuBAooSEUI
- myv9cdUzqu7udEm5blR9p+8uz7cITWdaiRhLBdxizryl+VzHcjJWa1ipaUwIkYWwlNxE5jSKsj0jf
- +T6UfMRTnFHlRv+LKrEQsEG+/AnIHyRMBwYIfYCW1Y61e9noMYMArpeftU02wtu3RylY=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:46480
- helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1tDn4h-00080k-4M; Wed, 20 Nov 2024 10:57:03 -0500
-Date: Wed, 20 Nov 2024 10:57:02 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Chris Brandt <chris.brandt@renesas.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
-Message-Id: <20241120105702.3c6ccf6901d2251d067f2f6c@hugovil.com>
-In-Reply-To: <20241120150328.4131525-1-chris.brandt@renesas.com>
-References: <20241120150328.4131525-1-chris.brandt@renesas.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- * -2.3 NICE_REPLY_A Looks like a legit reply (A)
-X-Spam-Status: No, score=-3.3 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
- autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH] drm: renesas: rz-du: Increase supported resolutions
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE7A410E795
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 16:48:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id E0B22A4325D;
+ Wed, 20 Nov 2024 16:47:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D785CC4CECD;
+ Wed, 20 Nov 2024 16:48:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732121335;
+ bh=Xj2XGnCnlH9Wd8nMgGB5FfrrL5fgMMi97SviUhy/am4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=H+EndPRhTsi7i44TUXsfXGdxSfoianw4lY75huz+86XqeQ4qkm57bVUQXwpb8D9DH
+ QHvkMPukfO6dKiNgga/fEogkNXLqo1AoMMRJJA1JzVAjbtxeV6jqiZ3TepgvE8qBa8
+ jVQh9qf6wyP8ORXtvtOfOPSujcSHZjtKjz6sPiRwYf1TXN1iHN7/l2QJDfFC9Hu/dX
+ gM99gtoUMBSo/8WkTn6YIEIAUHU4exWGwCsf6iFIOsLUTRYPlp9dvVuI4N7Iv8Fsbn
+ JEB7Q75yIbqwJkfVAWTyqWGhlfb/cUJm3yNx5FqHmFKOKMotYMcQGpz7UBR3bOTrtx
+ E6fo1XiBZgK3Q==
+Date: Wed, 20 Nov 2024 16:48:47 +0000
+From: Conor Dooley <conor@kernel.org>
+To: keith zhao <keith.zhao@starfivetech.com>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ william.qiu@starfivetech.com, xingyu.wu@starfivetech.com,
+ kernel@esmil.dk, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, p.zabel@pengutronix.de,
+ changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/9] riscv: dts: Add display property
+Message-ID: <20241120-ricotta-rescuer-90bad7c38e93@spud>
+References: <20241120061848.196754-1-keith.zhao@starfivetech.com>
+ <20241120061848.196754-3-keith.zhao@starfivetech.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Etb5DlIYTN201Rze"
+Content-Disposition: inline
+In-Reply-To: <20241120061848.196754-3-keith.zhao@starfivetech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,50 +70,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, 20 Nov 2024 10:03:28 -0500
-Chris Brandt <chris.brandt@renesas.com> wrote:
+--Etb5DlIYTN201Rze
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> The supported resolutions were misrepresented in earlier versions of
-> hardware manuals.
-> 
-> Fixes: 768e9e61b3b9 ("drm: renesas: Add RZ/G2L DU Support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+On Wed, Nov 20, 2024 at 02:18:41PM +0800, keith zhao wrote:
+> Add the display DT nodes in Starfive JH7110 soc-specific DT file.
+>=20
+> Signed-off-by: keith zhao <keith.zhao@starfivetech.com>
 
-Tested on a custom RZ/G2LC board with two different display panels
-of 600x1600 and 440x1920 resolutions in portrait mode.
+$subject: "riscv: dts: Add display property"
 
-Tested-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+a) this is jh7110 exclusive, not for all riscv devicetrees
+b) you are adding more than a property
 
 > ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> index b99217b4e05d..90c6269ccd29 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> @@ -311,11 +311,11 @@ int rzg2l_du_modeset_init(struct rzg2l_du_device *rcdu)
->  	dev->mode_config.helper_private = &rzg2l_du_mode_config_helper;
->  
->  	/*
-> -	 * The RZ DU uses the VSP1 for memory access, and is limited
-> -	 * to frame sizes of 1920x1080.
-> +	 * The RZ DU was designed to support a frame size of 1920x1200 (landscape)
-> +	 * or 1200x1920 (portrait).
->  	 */
->  	dev->mode_config.max_width = 1920;
-> -	dev->mode_config.max_height = 1080;
-> +	dev->mode_config.max_height = 1920;
->  
->  	rcdu->num_crtcs = hweight8(rcdu->info->channels_mask);
->  
-> -- 
-> 2.34.1
-> 
+>  .../boot/dts/starfive/jh7110-common.dtsi      | 125 ++++++++++++++++++
+>  arch/riscv/boot/dts/starfive/jh7110.dtsi      |  41 ++++++
+>  2 files changed, 166 insertions(+)
+>=20
+> diff --git a/arch/riscv/boot/dts/starfive/jh7110-common.dtsi b/arch/riscv=
+/boot/dts/starfive/jh7110-common.dtsi
+> index 9d77713f5361..301b56f2ef0c 100644
+> --- a/arch/riscv/boot/dts/starfive/jh7110-common.dtsi
+> +++ b/arch/riscv/boot/dts/starfive/jh7110-common.dtsi
+> @@ -30,6 +30,25 @@ memory@40000000 {
+>  		reg =3D <0x0 0x40000000 0x1 0x0>;
+>  	};
+> =20
+> +	reserved-memory {
+> +		#address-cells =3D <2>;
+> +		#size-cells =3D <2>;
+> +		ranges;
+> +
+> +		/* vout applies for space from this CMA
 
+"vout" could be a voltage, please be more specific. Comments should be
+wrapped at at least 80 chars. Linux coding style puts /* on a line of
+its own.
 
--- 
-Hugo Villeneuve
+> +		 * Without this CMA reservation,
+> +		 * vout may not work properly.
+> +		 */
+> +		linux,cma {
+> +			compatible =3D "shared-dma-pool";
+> +			reusable;
+> +			size =3D <0x0 0x20000000>;
+> +			alignment =3D <0x0 0x1000>;
+> +			alloc-ranges =3D <0x0 0x70000000 0x0 0x20000000>;
+> +			linux,cma-default;
+> +		};
+> +	};
+> +
+>  	gpio-restart {
+>  		compatible =3D "gpio-restart";
+>  		gpios =3D <&sysgpio 35 GPIO_ACTIVE_HIGH>;
+> @@ -62,12 +81,55 @@ codec {
+>  			};
+>  		};
+>  	};
+> +
+> +	hdmi_con: hdmi-con {
+> +		compatible =3D "hdmi-connector";
+> +		type =3D "a";
+> +
+> +		port {
+> +			hdmi_con_in: endpoint {
+> +				remote-endpoint =3D <&hdmi_out_con>;
+> +			};
+> +		};
+> +	};
+>  };
+> =20
+>  &cpus {
+>  	timebase-frequency =3D <4000000>;
+>  };
+> =20
+> +&dc8200 {
+> +	status =3D "okay";
+> +	crtc_out: ports {
+
+blank line between properties and child nodes please.
+
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <0>;
+> +
+> +		dc_out0: port@0 {
+
+Cheers,
+Conor.
+
+--Etb5DlIYTN201Rze
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZz4S7wAKCRB4tDGHoIJi
+0lFnAQC5Cen9HmRFPLpRfCMQUx1G5Jj1IRCOVFmH1cknmLUOAQD+NaQFuXCPLkQt
+WA5fC3L7EGS8TK65udHTJdbrhlMQLQU=
+=Zb+5
+-----END PGP SIGNATURE-----
+
+--Etb5DlIYTN201Rze--
