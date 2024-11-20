@@ -2,155 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7009D38B6
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 11:50:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96F09D38BD
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 11:51:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7775010E6FD;
-	Wed, 20 Nov 2024 10:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE5110E6F6;
+	Wed, 20 Nov 2024 10:51:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="p7gKkTS9";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="kx0OKOf/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2073.outbound.protection.outlook.com [40.107.244.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECC1F10E6F6;
- Wed, 20 Nov 2024 10:50:29 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2084.outbound.protection.outlook.com [40.107.236.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9186E10E6F6;
+ Wed, 20 Nov 2024 10:51:32 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w1tszBULeSw++mVn5tynDOGqFrPlIn2SOndX5Ar35xv3vN1fvnMi1+KrZzJ3SRGwhhYgvHV2LHafUEPxZZMNYrBsP0AMAHeP676R/Nv/usS2ndL7955fW09FcixHDNziXeOhqvOCTWU9YDI+vDcdEtrNi8fiWTAaxEG4x4QMeb5iAh7k61iZapJ/tBONuETTadK6ToTNI9R1GmJcUjWgtwwNJdUdq7dTVNL08SDxt0N3YvoYZroLwnSm5xECfeZyilYYcvfZwtyYQ92+GxZNKaB2Fz6o2qrvCT8EqMA5AlxGSh9AYv7yX6EE71I7Afkf9F4LBL3VSVegC99laH26Qg==
+ b=yr2UI+OgeOvai40RX4H8Cljs8DtHhGnMStlMlQTN5pY8f/1svOgBqFAgrswhtcm09rozXvCKkTcairquz75KLvZmge165tMHwJn3ENEh3oKlJX3pPmzK+tq75u2aNLWVL9uD2uUD5qbqC0swRaUQAL3CfibOAx4Hb7+/RdXrY1wlFqcH+zbum67wkbaNHhUIAda6KVJHfK0CCi8D2cwfxySrkc9Ka72R1WKKxrsCYiXfU1Pak5edLplMqxC60TUawrsD7C5xsZXi18+khInYmdbMQR7CDIMq9DH/LEgEWBo/yyJyYBPkqXs/byHRPLBTo9LknbB1HO2dBz1JktYwFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BsnurXcMMqWfbjJQeeudCQ3Q+7feGqXg7avVNC05Jy4=;
- b=TjRp0KtxJOoXYRnzBreb2XjWGmFCjaBoUyzOJ9gYh5vGFIfHgqkti7g7xHexsRbo9NRwHA/FXI0s+iInUbcVLPXikpumwkFAR1g4NmUSk4JGp6I+OYjyfee1oHHZcr3BcooopwnyYzYR3/VqbuqyoWRd2fkIyA9qSeSRBetp/C5mcimrh5hhH1J+C3H4wq5M8HGMoPJoKPgvM0QXQypKHSSlHllfMG2Aq/Zw1/xLzXEdqqilqvIS5Z35hK1bsVQi96Uj5a8Z0SmgTAw030VR6rE1ueyKFoc5liWn1/3rhqyf2XLwd+upGoEdnu4GUKiBmAv2axD9xjXeFhA7fiBnQw==
+ bh=WYYy6sqG6HuamG9EQmehQfQr1VydR2DdfJmXYfRwIn0=;
+ b=YWVC0elxCFvalUaUdKVc6eBKecrQFhkQxZyP/+td1to9ndqjVhPhT3w63Bv1Y+2yqz5NJBZ2yB9l7EiTFrObjMjfZMlzYhFjH17TakjaEkY7U3ixk6BkyPXk9x513+vvluwJKgrdN9G2Agh4HVkA+brN2O3Ak9FGVeMjjUpk5GSGptWmu7KWAQQqgorhmqiU/jsSBbIBwkQeqRZki7tol73WOBFbobvhK3bb7Iaomlksvre9hTF1HSHZJ/V4SrCv4trFpMXOHCmnM06m+QMG+e0+nAoer+NXgJD8JqzX3VSeOvpEbJQJD9+TKPsWQkr39VbqqPNBnzzS3a+K45mBng==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BsnurXcMMqWfbjJQeeudCQ3Q+7feGqXg7avVNC05Jy4=;
- b=p7gKkTS9iMr+uh6RUAMfnCYpiwRWbatOUP8LW2ps0kGeBhX3u5+sYVKp2mHy78EOqQv0HDZ2IgegB5pdD1fxb2By8YOdoXK1D3qh4/cwfW9LqtDGE51WCV16RGytVfLajVaNBmnwFOmPjPsFWknP0eoGYhRbTeJP7SbCI9tO7yM=
+ bh=WYYy6sqG6HuamG9EQmehQfQr1VydR2DdfJmXYfRwIn0=;
+ b=kx0OKOf/pKQoNvKismznOYsiHD9HO6KuvaZGVJ/OrM3CoJu11Q9DsdnsPvAr+ocCqnVwc1cQ3ry4pGcw5XL1mZ9Sz7I/RSlvvL8bKcuf11MFQxWqXsborle/dqrc7x3zXolOsQRh1NvbTG1bMclSJXqsTdeq1CFg7LHDMwoEgAE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
  by DM6PR12MB4385.namprd12.prod.outlook.com (2603:10b6:5:2a6::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.24; Wed, 20 Nov
- 2024 10:50:24 +0000
+ 2024 10:51:27 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8158.019; Wed, 20 Nov 2024
- 10:50:24 +0000
-Message-ID: <560973dd-c125-415b-a1ae-bb3aae8d37b0@amd.com>
-Date: Wed, 20 Nov 2024 11:50:18 +0100
+ 10:51:27 +0000
+Message-ID: <8709c4a6-549b-4e19-8bb7-f0d4740ff57d@amd.com>
+Date: Wed, 20 Nov 2024 11:51:21 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 2/8] drm/ttm: Provide a shmem backup implementation
+Subject: Re: [PATCH v14 1/8] drm/ttm: Balance ttm_resource_cursor_init() and
+ ttm_resource_cursor_fini()
 To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  intel-xe@lists.freedesktop.org
-Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
  Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
 References: <20241115150120.3280-1-thomas.hellstrom@linux.intel.com>
- <20241115150120.3280-3-thomas.hellstrom@linux.intel.com>
- <a87503b5-2bca-4614-8816-078ade6d0940@amd.com>
- <7f3536a2e436566145215fad8889eee77dfa271c.camel@linux.intel.com>
- <22e11191-c52f-4544-a91f-5a53bc78fae9@amd.com>
- <c6150ee393df840af77afc7f370d74a04cfe40f2.camel@linux.intel.com>
+ <20241115150120.3280-2-thomas.hellstrom@linux.intel.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <c6150ee393df840af77afc7f370d74a04cfe40f2.camel@linux.intel.com>
+In-Reply-To: <20241115150120.3280-2-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0231.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b2::11) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR0P281CA0240.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b2::15) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4385:EE_
-X-MS-Office365-Filtering-Correlation-Id: f43c5c9c-5e17-45e1-d450-08dd095122cb
+X-MS-Office365-Filtering-Correlation-Id: a770ab51-4123-48f8-db8d-08dd095148af
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?U3E1KzN3ajVHWDZuenlrOWFWYm43WFg3a3B1Rk1xcDkwWXY2eDdReXBaeUNK?=
- =?utf-8?B?c25teTV5K04zSE1IbEh6Wmt1Z2Z6dThBRTZ6N05YbkwrTHhTNEdDNVpvRi9n?=
- =?utf-8?B?bndUWEtjYm9iU1FpTWxUT2NVbVJZNmJjcENWb1p6eGVZSUM5R3gwRzgzd3hm?=
- =?utf-8?B?Wi9OMXJ5VnM2YzJmSzhRTDc5TlhYMFE2Q1JGeUpCT0ZieXExajdJWGVjWW9Q?=
- =?utf-8?B?ZnhJR25LZW00YUU4OVpaa2l5eENTbS9laUZhbktXRllYZlgrQTNSVmVyUEZ4?=
- =?utf-8?B?cEFHVjZ2Q2dkNVhoN2x0NFZxOXRiQmhmeEt2RHJQTVc4em9hNW9WMTVzNGtV?=
- =?utf-8?B?ckVmVlFLdXoxWTlLNmcyMFN6TFFLWDFMUHJaejNLMlRzdnZXTXlwV0I4Y2lr?=
- =?utf-8?B?QVdLdllLaVZRVWlYek1UQkFFK1BmUUZSRldtN00xU3NDczdIcWNPSXhYb0gy?=
- =?utf-8?B?cysyUEFPWjhIZkNIWDhENHZMNjdxR2NhWnZiWnIrR3k4NXptZUkzZ1FwRC9Q?=
- =?utf-8?B?WjFRcEIwSFpOUDFOSW8zclFveUFNR1M3anpCME1zbWNPVGZEaUZuNHFsRGtO?=
- =?utf-8?B?WXlPZmQvWFBlRlhkVmRGTCtjMzZkMmFsVHBhZFZRRFBHMmk3VmlEZ1hqWmdG?=
- =?utf-8?B?bm1RbUpPSkhLV3NPTkdmMzhIdHVReGlhdFF0Vy8xcVRIZ1ZnMFlyVy8vZk9L?=
- =?utf-8?B?aUh2SUdSZDlDM2xOZXZwVzdjSFRuNEZRWnlROHc2UFdDOU5kV0dlOW9CZWtO?=
- =?utf-8?B?cWFzMkwwelR4Sjg4RGNlQTV0cGo1TFZpc2tiMHkzU1Z5SHVXV3RocEpDYy9U?=
- =?utf-8?B?MmhMRDlseTY0ek55aG16N2xDWmpiSzFNdGVwZW5CbXUzNTZzcXAxS1gxbWhj?=
- =?utf-8?B?REkxekR0bW10OHpQbFR1T1JocHdrWm9vaVlyZmQ1N09OQWxjRmdrOWJ0Vzdl?=
- =?utf-8?B?MmtEVjd2T0c4aDREZDVNQ29WVFppMEtmQjdjei83UzE0WUpvem9QVjZvS1la?=
- =?utf-8?B?NldCZlNkd0FSVHptb05LRFUzVTBjSm5LUHVlbGNlamJkZ2toWkV3emhGWndT?=
- =?utf-8?B?cVJTWWVERjExbVNEUmxiOGhMOFI4SlJXQUdBdGM5Mk84OXQwbDV4QmdzRllY?=
- =?utf-8?B?Y2VyZ2FYK01xdnZpYUZtMk4xMUVGT255Qm1HUE1oSUVRNWkwV2FCVzUyOU93?=
- =?utf-8?B?WTVYcUZFallMbk5qcVBWcytlZU02NjEyTFh2RXZnNDNoamVjZ2RIL3FTVXFx?=
- =?utf-8?B?dVQ3WVhPQTg4RzBVR1k5aGlYWnZDaWJHelB5OHE4UUhzZkk4dzFNYThJWUUy?=
- =?utf-8?B?VTZsUXdOZmphN0N5dWl4UEJ3NEpkdFpiWVdNbE9mNlJYbkt2ZzVjQ3c1RXdF?=
- =?utf-8?B?ODE0RHU5QjB3cS9WdTJ4TzU5aWF4a3JhdjVpbEl5UElGMURxNUlvdU1MRFNz?=
- =?utf-8?B?QVJ4YVYwZW9sbkk5VkNjeUt3dHptV3o3MGNFUXpXVUp1WFRLUFExcnhnZEVp?=
- =?utf-8?B?cUs0ajNsdHhYaklQZmdRbnJvdURDUTZFemFSR00rQ3BabzhITmZ2eC96cXY5?=
- =?utf-8?B?eCtoNC8wV0dCNlRRWU9hSit2UEg3VFYyWGJVNnQvdFFObUthY280RXVIdTBO?=
- =?utf-8?B?VitJbzRBamJ6NWpOQTN6RXM5OU8wMHRYcittT1ZvYlh2dFIzTkJ3Ymg5Q3ND?=
- =?utf-8?B?ODhlejhvTDdoeE4wdzJQZG5QM0hhaEhwdldpRXFuR0g0N2VpMzhHT0hsQlAr?=
- =?utf-8?Q?OQRpZrGZy4t0zJktTKncUUOKo6SnMlrPMirsYJ2?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NHdGWWI3amVEM1prYy9YUnRnNlVUZHluMnJRVHQ2OTArNEM1a25Fcjd0VVNh?=
+ =?utf-8?B?a0Y0bjBjSzAyQ3JubVAvSkFhQk9KMHljNmt5eExvRkhYQ1dBakZWNnZWeWpJ?=
+ =?utf-8?B?WUI5blg4MWpVZ0FQeTlBNzJCNGVDZ29JUmp0TnNpNnN6cFI2T01HOXJJVUZo?=
+ =?utf-8?B?YVlFQ2JTdVVlU2pQVXB1NWlhSitsL1AxNUNSYmgyTUJpSW5Ja3ZsNFJnbWpW?=
+ =?utf-8?B?dkQ1YmRudWdYQk51NlJFY1dmc1FpL3IwYjhlTVVNcW1qQ2gxYmVuVUUvanFv?=
+ =?utf-8?B?KzZGS3d2TkdJWnllajg0WnN6Uk1KR3BZbWxBUlJjTjNtNTYzbmc4dExBNk9r?=
+ =?utf-8?B?SC9BUUx5bi9ub3ZjU0ZoRm5za21XNklqTWhvL0ZKYnVwTEk3N0sySzUwQzlN?=
+ =?utf-8?B?d1B4Zk1UaXp6REhjRFMrSjVqUVl3cjN2QW5FbjRDLytxMlBXUENacjFPcURP?=
+ =?utf-8?B?Zm5seVBsOXFwdEVpVHM1YjFrL0dWYlNmWFRTcnNHeVZwZ3UydVFJOHNvRTNO?=
+ =?utf-8?B?V0kvMVVGUUV1bUcwaXlTRHJLaHphT3RjSndQWU1QOUE3WEs5dkcwMTU0OW5w?=
+ =?utf-8?B?UTM2TFdrODFoZnY2RmF2eUU4NEduZDczRDA5aDZUZ0hLZlpnNERTWUVOVytG?=
+ =?utf-8?B?dFhRbTJZbkx5V05kcmRUbUQxU1Z2cDEvdmhsd2hCQy9adC9RN2d4KzhhakZP?=
+ =?utf-8?B?NlFjR2p0bFNjMGo0QmxjNSs0cm1sUkZoeEhxVFdNaFNZWE8zZFdXWThSSVVp?=
+ =?utf-8?B?bTEwdVlIWnUxN3JwYlAvcUdTWDJ6MHdIemdMWEwyZzN4anNHNFNHTGhQWVJL?=
+ =?utf-8?B?Uk9mL2ZzcE01Sk1XNkFxSFEyV2JUcTZpNUtjUmV1RkdXQ2FNMC8vdGZoTFE5?=
+ =?utf-8?B?V0dIYzdxTnhZUm5XVi8yU0g4RTBtaEdxa2p0dVF6TVIwTkdaWUhJcVZzemtj?=
+ =?utf-8?B?MFBkVEZ0MS9TQXM5SFpOeU1STDBEQUFnZVBPbkZVbGFsVG83S21rUUNrbUho?=
+ =?utf-8?B?WHVucWJ4dWdrWTdYQzJJcmo5cnVPUDhqRk8xMXVCL0JiWTNVZnNobUY0cTdC?=
+ =?utf-8?B?c2pTNmdmdUV6VFE3L0NLNG9PMzlQU0dDNlJ5SkNtSGpFSjh1c2VINjV1RStN?=
+ =?utf-8?B?RUxtTXo3OWV3bExpdWZ1M0NjeVUwOTdmbHd5WURSbjRyYzlZZGYyNHcwRDlD?=
+ =?utf-8?B?RFFkYWVvRFRGcDBiQXhJa0hCMCt4bG1UVDlRVFlDMTErUVBrVWE1YnNnMTZ6?=
+ =?utf-8?B?L3dqQnBvcHBsRUpKQy9ETjh4Y2ltVzVEVmtEa2pJVUQyamZVSjJaeGxKUHhE?=
+ =?utf-8?B?YTJLNzAzdE4zVUVMT3NxUWdUQWptNjJrQkF5RCsvUVNydG5kYUUzZVM0MDI0?=
+ =?utf-8?B?VUxFQmFPTWs4bnQ3c2VFV1R5VVBoVTJTeVVRK2RabzR6bHd4SmFpeThTTkRu?=
+ =?utf-8?B?NVhGZ3c5cGVEQ2NBa3RyYU01b0JPSVlYdUsreEsvZDFvQWovVXpCaGVXVmdR?=
+ =?utf-8?B?LytMMm9YTEUzMFJacFRodlhwbzdEQnliRTdmUTJ4Kzl6bjk4RStmS0lIbnh3?=
+ =?utf-8?B?eVlZQmtqSTIrMk9CTG9EVC9ScktkT3JlM0thNllYcTUwemdCWkJmUG50L0FS?=
+ =?utf-8?B?OXNRT0YxT3d3Y01aQmhvR2xITnUvL1duY0g5VmFoT3JCL0MzbDYvU2EyZ28z?=
+ =?utf-8?B?cWlrUHVXZ1pROHF3RGx2NjV5MXFhVGlJOHQxNTg0SnNqWW9iQXNSQnNxdS8w?=
+ =?utf-8?Q?vX+JlYALy/Oi64hfL1VGhaCfJKUMRCmKUi5k9+4?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0RmcGJiNjNSRG9jNUJnazZvZzBJWmpZNmpVRGJTbDBlNnFmby9abUw2TDQ4?=
- =?utf-8?B?a3BaMW9OOEVaVHljK2liYVRtNVQzb0YxK1hEZnlwRm1mZlZjeXdkamNHTWJi?=
- =?utf-8?B?ZXZRZ1Q0UVh5V2NoS3lySXI3bGc3SFpmWWZkVER4dWo0b1A1WlQwOFkyeWhv?=
- =?utf-8?B?RmJGNDJSUjdpNWdLRXFvM3hXeW92WDUwVXE1Ykh6NzF4N1kvZjdNQzZWQW42?=
- =?utf-8?B?NnUzRE1PTm5VaXN4bWQvTTNLdUFiL256QmxKTnBic0tQNlZEVlJFYXJWZjRT?=
- =?utf-8?B?dSsvdlBvVW9CNGtrSXB5WFpDOG5VMnVjanM2QzNkSEZNNS90QXhLMGRMVFN4?=
- =?utf-8?B?WlFoeUZ2UlM2Q3lTUC95aFNURjJjRGVLSnBvcEtnckVJQnlUeEpTOThCVFls?=
- =?utf-8?B?MmFGR1lCZkRMTDkvVGtZM0tXbjRIMUdOMk5Uc3N5UUE2UmhndjZpTjVlYlIx?=
- =?utf-8?B?ZmZOTGdGazk0MllySm9CSlQ4MGozWmM1N2xXTlh6Z0hzTnc1R3RLYmtmY05N?=
- =?utf-8?B?bjNkT1hHY3lCL2xBY2NFYm5FQUo0UU9ibThjTDJVakQ4ODM1S2hteDFCbGNM?=
- =?utf-8?B?SmdVMzY3c1lEM1VsNzlvMFBVaVpNSDQ2bUI0WXhpWklRK05uSVJqdldQTk5M?=
- =?utf-8?B?a1JCRDhlTzhmUGZJUUtaUVM2MEFvSDFLN09zczZyMmdVUFZtZ0djN1NXeHRs?=
- =?utf-8?B?cVFhczA5bU9hNmwvREU3Vkh6cXZHcTJMZEFPazJCaEdVWnl1SHVHNmJYY01U?=
- =?utf-8?B?QWRqS1JOalJFaGJQeWtVMXJjaE1oZWFzbnBpUmZUNW10bC9leVJEb3ZhK1lD?=
- =?utf-8?B?cWttcmk2RWhUR2ZVTTdxemNvQlUvVkVGWHRBd1d4cGx0MTk3Q0NZdFZvbjds?=
- =?utf-8?B?WFVmeDNXbTErL1hXZ1NJdnk5OXBnVWtES0hSS3BpcFpNcStRYjFNNkdJZS9E?=
- =?utf-8?B?SW42c0ZEOStzUG5NaEN0b1NISVZRaDRZWk92aklGa240c3RYQ0NtekRqQ2pY?=
- =?utf-8?B?SGRreG53a1EvZFJFN3JUYTE3YWtRMFp5cGdodXRia1hyNWdzZUJxZE9WZFli?=
- =?utf-8?B?UmhnWlo5d0RPamJzVkNvWTZqSzBIeHhaTUpHTTY2NUtrS2s0UWVRSDh5Wndx?=
- =?utf-8?B?dFU0KzRhejNtQXFpK0wrZVpwUjVBZjVlZzl1am9pYjFhVXJPNERpdjdnaVBG?=
- =?utf-8?B?NmxHcmVUYUJtZkcyRDMxeHBFS2laZWJzUkdlQUZreWx2cDMvb0h3eWN0WWRn?=
- =?utf-8?B?WHJSY1d6UjQ3Vi81bSsvaGxzSFZ4RWc0RG1ydVVkTkhoSUZCNGY4WHM1b1lS?=
- =?utf-8?B?MjY0T0tKQUtQRWpXTDVXZGtPMFl2dlppK21WOERoRW5wTGdGU0U1ZDVqR0JD?=
- =?utf-8?B?WSt4ajRhTkxNUFlhQ3dFNVhoV3phNW5ENGpkUDdFeTZsUVdiUC9nUVljT09D?=
- =?utf-8?B?bGg1cHcyZExia2llQ2FlRWhMSUlhMFkxOElPMjNkMlFyakprUkw3YUl3KzJx?=
- =?utf-8?B?KzlmTnlKYzk0QU12ci9YQUJuTUk1YXJXLzN3MDBnV2FlM1Z5TjluR0NJWkYw?=
- =?utf-8?B?MzFCVGl4NyswdDIxZDZVOU5GdkhsempyNzdJMFRueTJCaUo0dmN1bm81YTBS?=
- =?utf-8?B?dDVGbjNvaDlLam9Bb3hxRUFISjl0TTFUSkd4eTliYjgzenVKVDZ6NnJ1WHow?=
- =?utf-8?B?ZkJ3M3pCT2NtWTNMQlhQOTVHM3BQVnd6SFRCaWZGcDIwazdEM2ZKOUNzemIz?=
- =?utf-8?B?dFhhRXdac3FUbHcxSWh4MTVwVm5kRVowYkN5dmpieUdZMHovL3dVWWhEUGVq?=
- =?utf-8?B?dGx4OGxCMk9YdHVUTWdEdDRzcWk0MTZYR1NIN2owaFNxa3I0b3JaOWFuZW5I?=
- =?utf-8?B?enhrWVpNOWUxQzFUVExFSWFhbWZ5N1g2TVIyZ3c1bjRmdEJzRGNnL3poRHA1?=
- =?utf-8?B?ZnpQZlcyWFhvemFtSkRPdy8zS0p2MEhUREJwcUVFMFkxVWlKRFRHa2tQVDdm?=
- =?utf-8?B?MUtBQnRUUTNOWWJmRGNDT0FkUTd2UEFlL2VBVnRqOWF3c2xBMVY4OGUzTys2?=
- =?utf-8?B?Z0hzbUFWU0tpRUJib0dJVzR5WldrdUVwUENkK3pYVVBzSXJSZVRFOG10dUIw?=
- =?utf-8?Q?52Nt5XyOfxxiBfRZGMZsM0GAJ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZnJhZnJOZkhncUdtU01SZ3p0cEoyT2o1MDlTNVNmanNKb3JpWkdSTzdFYjVD?=
+ =?utf-8?B?QmlNRnd6dzBqOWU1TzE4SWVjZ01lM0VEdkVaYXl0V3I5ZkhCT0lBcE1USzgz?=
+ =?utf-8?B?R3E2VHk5TXpCY2Jic0t6RW5FUi8rd2VQRm9pM1ZDQmhkaWw1cGFaZHBPL1Ar?=
+ =?utf-8?B?UHZsTzZLUnVseGdua2lCRldaSjdSUlZtTjhyZHgwTmNXeHhrNW1nZjJKNENY?=
+ =?utf-8?B?ekVaU0IyR2RCd05kOTJMNWdzVU92c1ZCclNUbldoalZpUmVta2JmOENhQmF0?=
+ =?utf-8?B?ZXhjK0pjWDZlMEN2L3Z0NjMzMnNnUlFWSTR0QldtNVhvRkFXbEdnMGFIU29i?=
+ =?utf-8?B?WldnZ2dpQkVCaU5TRDRDZE9SdXlqUkhVTHE3Q0JrT20yaTBEWmsrclllTnRK?=
+ =?utf-8?B?YTZuOHpNU2E3MC9yR1Z3Ny84c2djb0tHRkhtblExSXhRenNJWTdZaTdjUjRz?=
+ =?utf-8?B?V3J0WEpoMnFGejhveVpSbDJqTWZXRmFNZzNzVXVhSzZQVzNZa0xVVjErdG5J?=
+ =?utf-8?B?aUFzNlcyM1BNU0w4cEZ6bHlzckRFNm1vaHhkM2F4QUVRVnhSN292Nk42aFAv?=
+ =?utf-8?B?MEowS2FIZ2R5RnVHcUJycFJXNEhLdngxS2Q2TXVPV1crRS9Lc0tqQXNFNkVu?=
+ =?utf-8?B?SFpTS2wrTGNOR2lRTHpQY3Jmdk5Ob1VMQWwzNXVxQUNxbUkzeDIrUXdueHhV?=
+ =?utf-8?B?akUzbXYrVjRsdC9HQzdjaXA5VjFEV1JJQUdyNUZtOFZLb1RxRUtCL1Vrd3NH?=
+ =?utf-8?B?SGI5U3l1Rjh2L0ZDSTRqWGIrVk00Y2Z5ZmtvaEs1VXJ5MjNUSTFsd2o5V005?=
+ =?utf-8?B?bzBNS3FOSXVoMnVDcGhGZnplem9PNUdidWpjMGV2QS9uNEZlMktYMjB4cTdH?=
+ =?utf-8?B?bFJseldPUXo2RmFpbDUxNHQxSzhyRzlWcjFFRlRRUFJPY1VxUUFnYTRNbHBi?=
+ =?utf-8?B?OVVzQ2FrR2paZzYwR3VnSXUwVkhyZzFia25mQUZ2eHpYOGk1R3p0NmhFYkVL?=
+ =?utf-8?B?SlVYbE5tZlZ0VnVTc2JuV253bzFHT2VZOUlVci85OHl1WXduUkJTcWh3RzNk?=
+ =?utf-8?B?UmlMVnY1L25MQzFLNmhnNVF4QWx2d1d4NGNHQmsxVzFONjN4NjNEN2NrT1pW?=
+ =?utf-8?B?d3RFVFlXeUhRVEFnVjk1TEs2b2haM0hVNjcyajArSUdUdnkzU3l2RHNxL3Bx?=
+ =?utf-8?B?TWZRa3NhaUFFZWZaRVk2SzNHTmo4V0FXZDFYM0VSQlBRcFBpNHVkZ3RzNmZH?=
+ =?utf-8?B?dEcyRnJPdTZCVGNMVW1lOG00RGFqeHMrT2hWakhnNlhUT0ZDajBkc2p0MmxV?=
+ =?utf-8?B?cjNaK0oxTCtnakpYbFFsLzBscFVMOG1MKzZxM3MrYnJ6OXRLWUsvQ1lPOGY0?=
+ =?utf-8?B?SE9kNTZSb1RsYVVreS9zWUtscmMvWXhsamJYMlgxZVR3bFd5em1ZNktqbmdR?=
+ =?utf-8?B?WjFVL0luaERRczJ0c3pMS1puKzAvSlAweGtSYWIxK1E0aHgxSnpkTDRiTUpX?=
+ =?utf-8?B?d3phRFdIeHRYYzJzY1lyREVqTlZCNTBVVmZFSzRjdUhiNzExRzNHTDdibkFm?=
+ =?utf-8?B?R0ZlK0lZQ3VBMUJuTDJhZXZHOVJ0d3JUeXRHTDdSOVRUV0tjNmlXYVVVcE10?=
+ =?utf-8?B?bUNPY1E5ajBDaDVzelB5TTBSbFdxb0tUYzdzalE5TE5NS0FmaHYvZVdNOHZX?=
+ =?utf-8?B?SWxDbHFITzhaSXpVSmczMkNhV2Y3c05ZV3BmMlNucnpSNkpRQmpTcUMrUzVq?=
+ =?utf-8?B?UDdZRmM0KzdVTklNc3FodFljQkdlcVRlV1diOVlRb05uc2lyN0U5SU5aQkNi?=
+ =?utf-8?B?b2gzY0VrTmRXZ3NsMXQvZUVLRjJidDFSRTA3Rjk2ck0zd2hrZXo3d1Q1S0Rq?=
+ =?utf-8?B?cTlIWklqRnorWEhZVWlwZ1N0eUcrRnA2WUJISytlZ1JCU2UxWlY0a3J1bW5N?=
+ =?utf-8?B?SE9BRHQ1bWgwZmRITnNFYjczemRUa2REUHFldk1HZm8zYndIRXFCeWVzTWEw?=
+ =?utf-8?B?OUcrOHRrZW9tM0xNaGV4S1JNQmppV0cxS1pYNEhlYTJrMkxNZ3JIamdYV2xN?=
+ =?utf-8?B?dFFpNzFHZHFuTnloNG1aeTYrbHlBek1zRG56RkxQQ3VrOUx3RU1RZVRGZWFs?=
+ =?utf-8?Q?FZqX6MH8H49beTGFTCbPPW7oN?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f43c5c9c-5e17-45e1-d450-08dd095122cb
+X-MS-Exchange-CrossTenant-Network-Message-Id: a770ab51-4123-48f8-db8d-08dd095148af
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2024 10:50:23.9570 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2024 10:51:27.5820 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oW5N7sS4X860otFeyrLYJBn/TibhLpM3DJnpsYNLxC95NEeo//YCvjbv074jcWYt
+X-MS-Exchange-CrossTenant-UserPrincipalName: fcmleyBJuWK7OzOZzguewbyHoozwwP7kBHuak/KUZxyS67pISPW0X4j3g/hE0F/Y
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4385
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -167,336 +164,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.11.24 um 11:34 schrieb Thomas Hellström:
-> On Wed, 2024-11-20 at 10:24 +0100, Christian König wrote:
->> Am 20.11.24 um 08:58 schrieb Thomas Hellström:
->>> On Tue, 2024-11-19 at 14:40 +0100, Christian König wrote:
->>>> [SNIP]
->>>>> +
->>>>> +/*
->>>>> + * Casting from randomized struct file * to struct ttm_backup
->>>>> * is
->>>>> fine since
->>>>> + * struct ttm_backup is never defined nor dereferenced.
->>>>> + */
->>>>> +static struct file *ttm_backup_to_file(struct ttm_backup
->>>>> *backup)
->>>> Do I get it right that struct ttm_backup is never really defined?
->>> Yes.
->>>
->>>> What
->>>> purpose does that have?
->>> It's to make the struct ttm_backup opaque to the users of the
->>> ttm_backup interface, so that the implementation doesn't have to
->>> worry
->>> about the user making illegal assumptions about the implementation.
->> That is usually done with a typedef and one of the few cases where
->> typedefs are actually advised to be used.
->>
-> Well wouldn't ttm_backup.h then have to include the declaration of
-> struct file plus a typedef that would probably raise many eyebrows even
-> if it's ok to use it there?
-
-No, what you do is something like this:
-
-typedef struct ttm_backup *ttm_backup;
-
-Then struct ttm_backup is either never defined or only inside your C 
-file but not the header.
-
-> Having the header just declare a struct without providing a definition
-> is the typical way of hiding the implementation and avoid includes, no?
+Am 15.11.24 um 16:01 schrieb Thomas Hellström:
+> Make the interface more symmetric by providing and using a
+> ttm_resource_cursor_init().
 >
-> If you insist we can drop the struct ttm_backup * and just use struct
-> file, but then again if we change the implementation to allow for
-> backuping to a file or similar that needs to be re-done, so as said
-> unless you insist I'd rather keep it as is.
-
-Abstracting that is ok, I was just wondering about why you do it like this.
-
+> v10:
+> - Fix a stray newline (Matthew Brost)
+> - Update kerneldoc (Matthew Brost)
 >
->> [SNIP]
->>>>> + *
->>>>> + * Context: If called from reclaim context, the caller needs
->>>>> to
->>>>> + * assert that the shrinker gfp has __GFP_FS set, to avoid
->>>>> + * deadlocking on lock_page(). If @writeback is set to true
->>>>> and
->>>>> + * called from reclaim context, the caller also needs to
->>>>> assert
->>>>> + * that the shrinker gfp has __GFP_IO set, since without it,
->>>>> + * we're not allowed to start backup IO.
->>>>> + *
->>>>> + * Return: A handle on success. 0 on failure.
->>>>> + * (This is following the swp_entry_t convention).
->>>>> + *
->>>>> + * Note: This function could be extended to back up a folio
->>>>> and
->>>>> + * implementations would then split the folio internally if
->>>>> needed.
->>>>> + * Drawback is that the caller would then have to keep track
->>>>> of
->>>>> + * the folio size- and usage.
->>>>> + */
->>>>> +unsigned long
->>>>> +ttm_backup_backup_page(struct ttm_backup *backup, struct page
->>>>> *page,
->>>>> +		       bool writeback, pgoff_t idx, gfp_t
->>>>> page_gfp,
->>>>> +		       gfp_t alloc_gfp)
->>>>> +{
->>>>> +	struct file *filp = ttm_backup_to_file(backup);
->>>>> +	struct address_space *mapping = filp->f_mapping;
->>>>> +	unsigned long handle = 0;
->>>>> +	struct folio *to_folio;
->>>>> +	int ret;
->>>>> +
->>>>> +	to_folio = shmem_read_folio_gfp(mapping, idx,
->>>>> alloc_gfp);
->>>>> +	if (IS_ERR(to_folio))
->>>>> +		return handle;
->> Probably better to explicitly return 0 here.
-> OK,
->
->> And BTW why are we using 0 as indication for an error? Couldn't we
->> just
->> use a long as return value and return a proper -errno here?
-> 0 is the swp_entry_t error value which is the convention also used for
-> the handles, so rather than inventing something new It'd be good to
-> keep to something that would work even with handles aliased to
-> swp_entry_t if we'd need to resort to that at some point.
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Uff, yeah but that is an implementation detail of the swap subsystem 
-caused by how we store the swapped out entries inside CPU PTEs.
+Did you plan to merge this through drm-misc-next or the XE branch?
 
-I would strongly try to avoid that here. Was already wondering why we 
-use long as return value and s64.
+If through drm-misc-next then I would go ahead and push this patch since 
+that is really a stand alone cleanup.
 
 Regards,
 Christian.
 
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c       |  3 ++-
+>   drivers/gpu/drm/ttm/ttm_bo_util.c  |  3 ++-
+>   drivers/gpu/drm/ttm/ttm_resource.c | 35 ++++++++++++++++++++----------
+>   include/drm/ttm/ttm_resource.h     | 11 +++++-----
+>   4 files changed, 34 insertions(+), 18 deletions(-)
 >
->>>> Just that I sleep better: This can never return a folio larger
->>>> than a
->>>> page, doesn't it?
->>> The interface definitely allows for returning larger folios, but
->>> the
->>> individual page in the folio is selected by folio_file_page(folio,
->>> idx).
->> Ah, yeah completely missed that and was really wondering why that
->> would
->> work.
-> Thanks,
-> Thomas
->
->>> /Thomas
->>>
->>>
->>>> Apart from those background questions looks good to me.
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>> +
->>>>> +	folio_mark_accessed(to_folio);
->>>>> +	folio_lock(to_folio);
->>>>> +	folio_mark_dirty(to_folio);
->>>>> +	copy_highpage(folio_file_page(to_folio, idx), page);
->>>>> +	handle = ttm_backup_shmem_idx_to_handle(idx);
->>>>> +
->>>>> +	if (writeback && !folio_mapped(to_folio) &&
->>>>> +	    folio_clear_dirty_for_io(to_folio)) {
->>>>> +		struct writeback_control wbc = {
->>>>> +			.sync_mode = WB_SYNC_NONE,
->>>>> +			.nr_to_write = SWAP_CLUSTER_MAX,
->>>>> +			.range_start = 0,
->>>>> +			.range_end = LLONG_MAX,
->>>>> +			.for_reclaim = 1,
->>>>> +		};
->>>>> +		folio_set_reclaim(to_folio);
->>>>> +		ret = mapping->a_ops-
->>>>>> writepage(folio_file_page(to_folio, idx), &wbc);
->>>>> +		if (!folio_test_writeback(to_folio))
->>>>> +			folio_clear_reclaim(to_folio);
->>>>> +		/* If writepage succeeds, it unlocks the folio
->>>>> */
->>>>> +		if (ret)
->>>>> +			folio_unlock(to_folio);
->> The code ignores the error and potentially deserves an explanation
->> for that.
->>
->> Regards,
->> Christian.
->>
->>>>> +	} else {
->>>>> +		folio_unlock(to_folio);
->>>>> +	}
->>>>> +
->>>>> +	folio_put(to_folio);
->>>>> +
->>>>> +	return handle;
->>>>> +}
->>>>> +
->>>>> +/**
->>>>> + * ttm_backup_fini() - Free the struct backup resources after
->>>>> last
->>>>> use.
->>>>> + * @backup: Pointer to the struct backup whose resources to
->>>>> free.
->>>>> + *
->>>>> + * After a call to this function, it's illegal to use the
->>>>> @backup
->>>>> pointer.
->>>>> + */
->>>>> +void ttm_backup_fini(struct ttm_backup *backup)
->>>>> +{
->>>>> +	fput(ttm_backup_to_file(backup));
->>>>> +}
->>>>> +
->>>>> +/**
->>>>> + * ttm_backup_bytes_avail() - Report the approximate number of
->>>>> bytes of backup space
->>>>> + * left for backup.
->>>>> + *
->>>>> + * This function is intended also for driver use to indicate
->>>>> whether a
->>>>> + * backup attempt is meaningful.
->>>>> + *
->>>>> + * Return: An approximate size of backup space available.
->>>>> + */
->>>>> +u64 ttm_backup_bytes_avail(void)
->>>>> +{
->>>>> +	/*
->>>>> +	 * The idea behind backing up to shmem is that shmem
->>>>> objects may
->>>>> +	 * eventually be swapped out. So no point swapping out
->>>>> if
->>>>> there
->>>>> +	 * is no or low swap-space available. But the accuracy
->>>>> of
->>>>> this
->>>>> +	 * number also depends on shmem actually swapping out
->>>>> backed-up
->>>>> +	 * shmem objects without too much buffering.
->>>>> +	 */
->>>>> +	return (u64)get_nr_swap_pages() << PAGE_SHIFT;
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(ttm_backup_bytes_avail);
->>>>> +
->>>>> +/**
->>>>> + * ttm_backup_shmem_create() - Create a shmem-based struct
->>>>> backup.
->>>>> + * @size: The maximum size (in bytes) to back up.
->>>>> + *
->>>>> + * Create a backup utilizing shmem objects.
->>>>> + *
->>>>> + * Return: A pointer to a struct ttm_backup on success,
->>>>> + * an error pointer on error.
->>>>> + */
->>>>> +struct ttm_backup *ttm_backup_shmem_create(loff_t size)
->>>>> +{
->>>>> +	struct file *filp;
->>>>> +
->>>>> +	filp = shmem_file_setup("ttm shmem backup", size, 0);
->>>>> +
->>>>> +	return ttm_file_to_backup(filp);
->>>>> +}
->>>>> diff --git a/include/drm/ttm/ttm_backup.h
->>>>> b/include/drm/ttm/ttm_backup.h
->>>>> new file mode 100644
->>>>> index 000000000000..20609da7e281
->>>>> --- /dev/null
->>>>> +++ b/include/drm/ttm/ttm_backup.h
->>>>> @@ -0,0 +1,74 @@
->>>>> +/* SPDX-License-Identifier: MIT */
->>>>> +/*
->>>>> + * Copyright © 2024 Intel Corporation
->>>>> + */
->>>>> +
->>>>> +#ifndef _TTM_BACKUP_H_
->>>>> +#define _TTM_BACKUP_H_
->>>>> +
->>>>> +#include <linux/mm_types.h>
->>>>> +#include <linux/shmem_fs.h>
->>>>> +
->>>>> +struct ttm_backup;
->>>>> +
->>>>> +/**
->>>>> + * ttm_backup_handle_to_page_ptr() - Convert handle to struct
->>>>> page
->>>>> pointer
->>>>> + * @handle: The handle to convert.
->>>>> + *
->>>>> + * Converts an opaque handle received from the
->>>>> + * struct ttm_backoup_ops::backup_page() function to an
->>>>> (invalid)
->>>>> + * struct page pointer suitable for a struct page array.
->>>>> + *
->>>>> + * Return: An (invalid) struct page pointer.
->>>>> + */
->>>>> +static inline struct page *
->>>>> +ttm_backup_handle_to_page_ptr(unsigned long handle)
->>>>> +{
->>>>> +	return (struct page *)(handle << 1 | 1);
->>>>> +}
->>>>> +
->>>>> +/**
->>>>> + * ttm_backup_page_ptr_is_handle() - Whether a struct page
->>>>> pointer
->>>>> is a handle
->>>>> + * @page: The struct page pointer to check.
->>>>> + *
->>>>> + * Return: true if the struct page pointer is a handld
->>>>> returned
->>>>> from
->>>>> + * ttm_backup_handle_to_page_ptr(). False otherwise.
->>>>> + */
->>>>> +static inline bool ttm_backup_page_ptr_is_handle(const struct
->>>>> page
->>>>> *page)
->>>>> +{
->>>>> +	return (unsigned long)page & 1;
->>>>> +}
->>>>> +
->>>>> +/**
->>>>> + * ttm_backup_page_ptr_to_handle() - Convert a struct page
->>>>> pointer
->>>>> to a handle
->>>>> + * @page: The struct page pointer to convert
->>>>> + *
->>>>> + * Return: The handle that was previously used in
->>>>> + * ttm_backup_handle_to_page_ptr() to obtain a struct page
->>>>> pointer, suitable
->>>>> + * for use as argument in the struct ttm_backup_ops drop() or
->>>>> + * copy_backed_up_page() functions.
->>>>> + */
->>>>> +static inline unsigned long
->>>>> +ttm_backup_page_ptr_to_handle(const struct page *page)
->>>>> +{
->>>>> +	WARN_ON(!ttm_backup_page_ptr_is_handle(page));
->>>>> +	return (unsigned long)page >> 1;
->>>>> +}
->>>>> +
->>>>> +void ttm_backup_drop(struct ttm_backup *backup, pgoff_t
->>>>> handle);
->>>>> +
->>>>> +int ttm_backup_copy_page(struct ttm_backup *backup, struct
->>>>> page
->>>>> *dst,
->>>>> +			 pgoff_t handle, bool intr);
->>>>> +
->>>>> +unsigned long
->>>>> +ttm_backup_backup_page(struct ttm_backup *backup, struct page
->>>>> *page,
->>>>> +		       bool writeback, pgoff_t idx, gfp_t
->>>>> page_gfp,
->>>>> +		       gfp_t alloc_gfp);
->>>>> +
->>>>> +void ttm_backup_fini(struct ttm_backup *backup);
->>>>> +
->>>>> +u64 ttm_backup_bytes_avail(void);
->>>>> +
->>>>> +struct ttm_backup *ttm_backup_shmem_create(loff_t size);
->>>>> +
->>>>> +#endif
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 48c5365efca1..06d6a452c4f4 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -450,7 +450,8 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
+>   	int ret = 0;
+>   
+>   	spin_lock(&bdev->lru_lock);
+> -	res = ttm_resource_manager_first(man, &cursor);
+> +	ttm_resource_cursor_init(&cursor, man);
+> +	res = ttm_resource_manager_first(&cursor);
+>   	ttm_resource_cursor_fini(&cursor);
+>   	if (!res) {
+>   		ret = -ENOENT;
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index d939925efa81..917096bd5f68 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -865,7 +865,8 @@ s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
+>   	s64 lret;
+>   
+>   	spin_lock(&bdev->lru_lock);
+> -	ttm_resource_manager_for_each_res(man, &cursor, res) {
+> +	ttm_resource_cursor_init(&cursor, man);
+> +	ttm_resource_manager_for_each_res(&cursor, res) {
+>   		struct ttm_buffer_object *bo = res->bo;
+>   		bool bo_needs_unlock = false;
+>   		bool bo_locked = false;
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> index a87665eb28a6..e19360cc7930 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -81,6 +81,23 @@ static void ttm_bulk_move_drop_cursors(struct ttm_lru_bulk_move *bulk)
+>   		ttm_resource_cursor_clear_bulk(cursor);
+>   }
+>   
+> +/**
+> + * ttm_resource_cursor_init() - Initialize a struct ttm_resource_cursor
+> + * @cursor: The cursor to initialize.
+> + * @man: The resource manager.
+> + *
+> + * Initialize the cursor before using it for iteration.
+> + */
+> +void ttm_resource_cursor_init(struct ttm_resource_cursor *cursor,
+> +			      struct ttm_resource_manager *man)
+> +{
+> +	cursor->priority = 0;
+> +	cursor->man = man;
+> +	ttm_lru_item_init(&cursor->hitch, TTM_LRU_HITCH);
+> +	INIT_LIST_HEAD(&cursor->bulk_link);
+> +	INIT_LIST_HEAD(&cursor->hitch.link);
+> +}
+> +
+>   /**
+>    * ttm_resource_cursor_fini() - Finalize the LRU list cursor usage
+>    * @cursor: The struct ttm_resource_cursor to finalize.
+> @@ -593,7 +610,6 @@ ttm_resource_cursor_check_bulk(struct ttm_resource_cursor *cursor,
+>   /**
+>    * ttm_resource_manager_first() - Start iterating over the resources
+>    * of a resource manager
+> - * @man: resource manager to iterate over
+>    * @cursor: cursor to record the position
+>    *
+>    * Initializes the cursor and starts iterating. When done iterating,
+> @@ -602,17 +618,16 @@ ttm_resource_cursor_check_bulk(struct ttm_resource_cursor *cursor,
+>    * Return: The first resource from the resource manager.
+>    */
+>   struct ttm_resource *
+> -ttm_resource_manager_first(struct ttm_resource_manager *man,
+> -			   struct ttm_resource_cursor *cursor)
+> +ttm_resource_manager_first(struct ttm_resource_cursor *cursor)
+>   {
+> -	lockdep_assert_held(&man->bdev->lru_lock);
+> +	struct ttm_resource_manager *man = cursor->man;
+>   
+> -	cursor->priority = 0;
+> -	cursor->man = man;
+> -	ttm_lru_item_init(&cursor->hitch, TTM_LRU_HITCH);
+> -	INIT_LIST_HEAD(&cursor->bulk_link);
+> -	list_add(&cursor->hitch.link, &man->lru[cursor->priority]);
+> +	if (WARN_ON_ONCE(!man))
+> +		return NULL;
+> +
+> +	lockdep_assert_held(&man->bdev->lru_lock);
+>   
+> +	list_move(&cursor->hitch.link, &man->lru[cursor->priority]);
+>   	return ttm_resource_manager_next(cursor);
+>   }
+>   
+> @@ -648,8 +663,6 @@ ttm_resource_manager_next(struct ttm_resource_cursor *cursor)
+>   		ttm_resource_cursor_clear_bulk(cursor);
+>   	}
+>   
+> -	ttm_resource_cursor_fini(cursor);
+> -
+>   	return NULL;
+>   }
+>   
+> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+> index be034be56ba1..e1f3b95d73b6 100644
+> --- a/include/drm/ttm/ttm_resource.h
+> +++ b/include/drm/ttm/ttm_resource.h
+> @@ -325,6 +325,9 @@ struct ttm_resource_cursor {
+>   	unsigned int priority;
+>   };
+>   
+> +void ttm_resource_cursor_init(struct ttm_resource_cursor *cursor,
+> +			      struct ttm_resource_manager *man);
+> +
+>   void ttm_resource_cursor_fini(struct ttm_resource_cursor *cursor);
+>   
+>   /**
+> @@ -456,8 +459,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+>   				struct drm_printer *p);
+>   
+>   struct ttm_resource *
+> -ttm_resource_manager_first(struct ttm_resource_manager *man,
+> -			   struct ttm_resource_cursor *cursor);
+> +ttm_resource_manager_first(struct ttm_resource_cursor *cursor);
+>   struct ttm_resource *
+>   ttm_resource_manager_next(struct ttm_resource_cursor *cursor);
+>   
+> @@ -466,14 +468,13 @@ ttm_lru_first_res_or_null(struct list_head *head);
+>   
+>   /**
+>    * ttm_resource_manager_for_each_res - iterate over all resources
+> - * @man: the resource manager
+>    * @cursor: struct ttm_resource_cursor for the current position
+>    * @res: the current resource
+>    *
+>    * Iterate over all the evictable resources in a resource manager.
+>    */
+> -#define ttm_resource_manager_for_each_res(man, cursor, res)		\
+> -	for (res = ttm_resource_manager_first(man, cursor); res;	\
+> +#define ttm_resource_manager_for_each_res(cursor, res)	\
+> +	for (res = ttm_resource_manager_first(cursor); res;	\
+>   	     res = ttm_resource_manager_next(cursor))
+>   
+>   struct ttm_kmap_iter *
 
