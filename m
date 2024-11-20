@@ -2,42 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B36B9D39E0
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 12:49:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8319D39E7
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 12:50:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D61410E719;
-	Wed, 20 Nov 2024 11:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF3C510E720;
+	Wed, 20 Nov 2024 11:50:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A895210E719
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 11:49:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 69A9110E720
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 11:50:49 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 436281480
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 03:50:19 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 22D541480
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 03:51:19 -0800 (PST)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0E4673F66E
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 03:49:48 -0800 (PST)
-Date: Wed, 20 Nov 2024 11:49:40 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E203D3F66E
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 03:50:48 -0800 (PST)
+Date: Wed, 20 Nov 2024 11:50:45 +0000
 From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+To: Akash Goel <akash.goel@arm.com>
+Cc: boris.brezillon@collabora.com, steven.price@arm.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jann Horn <jannh@google.com>
-Subject: Re: [PATCH] drm/panthor: Fix compilation failure on panthor_fw.c
-Message-ID: <Zz3M1Ji-n1XIi9UX@e110455-lin.cambridge.arm.com>
-References: <20241119164455.572771-1-liviu.dudau@arm.com>
- <20241120124125.0bf1b9ac@collabora.com>
+ mihail.atanassov@arm.com, ketil.johnsen@arm.com,
+ florent.tomasin@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, nd@arm.com
+Subject: Re: [PATCH v2 0/3] drm/panthor: Coherency related fixes
+Message-ID: <Zz3NFRSF1GEbtbEN@e110455-lin.cambridge.arm.com>
+References: <20241030225407.4077513-1-akash.goel@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241120124125.0bf1b9ac@collabora.com>
+In-Reply-To: <20241030225407.4077513-1-akash.goel@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,42 +51,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 20, 2024 at 12:41:25PM +0100, Boris Brezillon wrote:
-> On Tue, 19 Nov 2024 16:44:55 +0000
-> Liviu Dudau <liviu.dudau@arm.com> wrote:
+On Wed, Oct 30, 2024 at 10:54:04PM +0000, Akash Goel wrote:
+> This patch series contains 3 cache coherency related fixes for the
+> Panthor driver.
+> - The first fix, regarding the Inner-shareability, is mandatory to
+>   ensure things work on all platforms (including Juno FPGA) when
+>   no_coherency protocol is selected.
+> - The second fix regarding the coherency feature/enable register is
+>   required to avoid potential misalignment on certain platforms.
+> - The third fix, regarding the potential overwrite of buffer objects,
+>   has been prepared speculatively & it may not be required in practice.
 > 
-> > Commit 498893bd596e ("drm/panthor: Simplify FW fast reset path") forgot
-> > to copy the definition of glb_iface when it move one line of code.
-> > 
-> > Fixes: Commit 498893bd596e ("drm/panthor: Simplify FW fast reset path")
-> > Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+> v2:
+> - Added r-b tags for the first 2 patches
 > 
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> 
-> Liviu, can you queue this patch to drm-misc if that's not already done?
+> Akash Goel (3):
+>   drm/panthor: Update memattr programing to align with GPU spec
+>   drm/panthor: Explicitly set the coherency mode
 
-Thanks, pushed to drm-misc-next, as that's where Karunika's patch landed.
+Pushed the first two patches to drm-misc-next.
 
 Best regards,
 Liviu
 
+>   drm/panthor: Prevent potential overwrite of buffer objects
 > 
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_fw.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> > index 4bc52b1b1a286..c807b6ce71bd4 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> > @@ -1133,6 +1133,7 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
-> >  		 * This is not needed on a slow reset because FW sections are
-> >  		 * re-initialized.
-> >  		 */
-> > +		struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-> >  		panthor_fw_update_reqs(glb_iface, req, 0, GLB_HALT);
-> >  
-> >  		ret = panthor_fw_start(ptdev);
+>  drivers/gpu/drm/panthor/panthor_device.c | 22 ++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_gem.h    | 10 +++++++++
+>  drivers/gpu/drm/panthor/panthor_gpu.c    |  9 ++++++++
+>  drivers/gpu/drm/panthor/panthor_mmu.c    | 28 +++++++++++++++++-------
+>  4 files changed, 60 insertions(+), 9 deletions(-)
+> 
+> -- 
+> 2.25.1
 > 
 
 -- 
