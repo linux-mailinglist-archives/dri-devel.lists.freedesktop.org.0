@@ -2,175 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB849D413D
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 18:36:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CBE9D423B
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 19:51:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A99D10E2F3;
-	Wed, 20 Nov 2024 17:36:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6713D10E7A4;
+	Wed, 20 Nov 2024 18:51:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ajNO6iVY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cx/BJh8X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AFB810E2D8;
- Wed, 20 Nov 2024 17:36:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732124184; x=1763660184;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=QWem1rHAqdC1vTuTSDm+z65OMTXJIQ1nkj5AZoylirs=;
- b=ajNO6iVYnuKSKQ2TRNMSX8dOjFvGy33DbevTYZsLw4k76SkPyKgnr94Z
- DOCUmeWR6QdUa4hNkj+n4uwan4+qVWoW37mgZ7L2jhNNDq/45B2L7OuII
- vf83lBwBn+l0aZ7nbS6GMW1hbx7oU+qSfIq3vm0Sp6ECS+i+3DRkruy9E
- PHgBMWEhU181r5Gjh+p2AazsVjDsB2kcga3brvAspFRt768NhNdye/7It
- vuU9LCSguRysuFbBkjKmdKSMTqkczy/mUGXruexQDBaZeLygnOXtZN4Z6
- HwPfY2BoOviHlHKbdlupawcVLxQZ+sAS+FSiXM3LiVphnBJOD+QbcD/IR A==;
-X-CSE-ConnectionGUID: v/4KhhdNSZS3ovhhlLcxsQ==
-X-CSE-MsgGUID: 5zkRm0crR6+KNFE9djYOQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="42821322"
-X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; d="scan'208";a="42821322"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2024 09:36:23 -0800
-X-CSE-ConnectionGUID: Nb1YiQddTXWGE3RaBTq7ow==
-X-CSE-MsgGUID: e/hExlMlR2uCnR3NS03PgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; d="scan'208";a="94049922"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 20 Nov 2024 09:36:23 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 20 Nov 2024 09:36:22 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 20 Nov 2024 09:36:22 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.42) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 20 Nov 2024 09:36:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ROc2yBQI0+geYEG8GkUFYeM6c/45aD2DI85+Xlf39eH9/154anKx1lXJkAAv9q059RapeEe7mKGVRj9T53An5EC0SlkuQFG7UFs4hchBruUfk5RKxr/oHadOLViIhB3JlZQgjv2cbQvT8NunTI7aHbt7y/EljxHnIEDMlDTgiAyH03SANzEbniOpRdqsO2xznfpFxLvZgH8lNV/xn57YjWzpLsdIaP+d8Y1oOmQ0UwXdSUhn+fOsBeRWO/sEY8VurajNbW+/dc4TvhfZNrOdOJ4PFK+OePKUzpJZ9L4UUXH7X9bKV+2K8voyQqOOov+UUGdPzwGmwRgARglNqMwBuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C29WYLZ2GaaEK231h+ujJNhVdhydW5Kvk5pC2dsv2mA=;
- b=Ed0Ww8vbfmhXiTZbjTYDT7dzy5QOOymqhcwdQ4moLwtqRaYE8ys79H1YRl/MZmSct3V4yvnPvtgIfiMO8C86ylxk9fjzqtYpZ52NtpAF55QLiSwtRY3RSBfa2d0WCZDk/dBcHwqJu0G6e6uAWQUx1WzcKzs/GUcH3PvRQ1NNHC9IC4bdCfEuq4e97MDGLGPLWKcbKsXiHoqy2I7r/tX9LW5ssB7zxGonYHVx3/jeM09WcsEllDGxG75YD5qmlPhgW0P8HaPccxXeUrz2t6qw9Ru55GXmamk+6JzWUFQFafecZD0Rew38BsbaDFW81ch5GhgNbReV6xU+PTBg4peSPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DM6PR11MB4754.namprd11.prod.outlook.com (2603:10b6:5:2ad::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.15; Wed, 20 Nov
- 2024 17:36:18 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.8158.023; Wed, 20 Nov 2024
- 17:36:18 +0000
-Date: Wed, 20 Nov 2024 09:36:53 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <kenneth.w.graunke@intel.com>, <lionel.g.landwerlin@intel.com>,
- <jose.souza@intel.com>, <simona.vetter@ffwll.ch>,
- <thomas.hellstrom@linux.intel.com>, <boris.brezillon@collabora.com>,
- <airlied@gmail.com>, <mihail.atanassov@arm.com>, <steven.price@arm.com>,
- <shashank.sharma@amd.com>
-Subject: Re: [RFC PATCH 01/29] dma-fence: Add dma_fence_preempt base class
-Message-ID: <Zz4eNeYuHulccROH@lstrano-desk.jf.intel.com>
-References: <20241118233757.2374041-1-matthew.brost@intel.com>
- <20241118233757.2374041-2-matthew.brost@intel.com>
- <431e53fd-ab98-427c-a6ed-6c2907438952@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <431e53fd-ab98-427c-a6ed-6c2907438952@amd.com>
-X-ClientProxiedBy: MW4PR03CA0133.namprd03.prod.outlook.com
- (2603:10b6:303:8c::18) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
+ [209.85.166.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C63B210E7A4;
+ Wed, 20 Nov 2024 18:51:10 +0000 (UTC)
+Received: by mail-io1-f45.google.com with SMTP id
+ ca18e2360f4ac-83abc039b25so4016139f.0; 
+ Wed, 20 Nov 2024 10:51:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1732128670; x=1732733470; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=F+Cd26FOvgLlRGwlmWQpeEkQVjz0XsHua3Mq3Xu6fWM=;
+ b=cx/BJh8X2ADKruWtUCsTkVoaxTMY9KUvyXoVFI29i9yCQEOQqcLdrDGEOT+Hvv05wG
+ 9jqv3CEGejYvdbDOL78L+tCzkaw3xDfnl6i7Gc8NLkTuwZ6Mg5Ibe5xZq+xAwtCs8tpa
+ N04vHBGc1HhXJDJBQOQYj9W/NFwE0DXqUNLw/qFwHoyz1G8XV0B09H2tlK9CMcLxOp8j
+ TUoXqhw/KDxOLeXBXDzTAQz7UTl6VyVRe8xbL7q4yoMsoVVNrbbAeJWHcgo//Eq38mlq
+ pOJpm0HzhzENM3xT/+MmEp871J32D9/3i9GJOpE0uIdaRCeZacRJ1UvsIwJREZc2XhFg
+ DTsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732128670; x=1732733470;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=F+Cd26FOvgLlRGwlmWQpeEkQVjz0XsHua3Mq3Xu6fWM=;
+ b=anggudnQOe9rF8dElfcIZgtoRZdtwsHIsmqHY8MMWwE18Bb75enfB8tHVPzDJfnrjH
+ LYl7L5fqVnQiqbTBrbBoCh/A0qcT3Ea/EzkU+k0PJLJcsEDk9XccT2s61xwCpIklQ2UP
+ gk96rgKdi/SnDTSm1rGBPnhw6OjWRB16VPghC2GJfmADnu3GnfjOa7o2VRR3UtSuD5IX
+ mNTFGS9/TxUpHuvXLS3zC2XJMpvVVyAmzkFR8AdIKPHFnnet6Q4GdUlxsVA2FimvnpAA
+ su+SvwsnMeWXon9FWakssWbzMLFjfui0gjYIIZwhvPX14kiJwc0sw/0D0Fyt0VnnUTn9
+ BoUg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU2sc8fU5WdcTLQjhmsrXcyTQemJA47y88mfpb8qbOEToBlWPq3chzTBR1GvD+5Xo5RpYoFpBhmsopI@lists.freedesktop.org,
+ AJvYcCWaouNpjHIuVA8uWnEF6zc9RN1hvm9OPewAVhW0KJ46ZxRPhEj4JK0WHV6M6aKFeJBd4rxWxSvRYjI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzWWkdB9YbCI3SZHHvG9AxFVMY/sMW/y7aUA2DwpDwBdSRqNgt/
+ SjdhEv6mhWmgsxHLNY77mVPYkKoFIwMINBq7XEWcSEuC++8hXU268WPXvpniX3V0VFa2ke9RRaa
+ B5vzVT2PxFvNFP89vPBxtWHJ+4lU=
+X-Google-Smtp-Source: AGHT+IEsgAE+Ui00r62dF3CVBG/0pDLJRkIWjlY0vwqwXvv02noBqS1qDHqCRVOUcSbt7XdBIOi9icRNOyIEzSO7KVI=
+X-Received: by 2002:a05:6602:340e:b0:83a:a96b:8825 with SMTP id
+ ca18e2360f4ac-83eb5e387a2mr456030939f.0.1732128669794; Wed, 20 Nov 2024
+ 10:51:09 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM6PR11MB4754:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56fd1595-7649-442b-0877-08dd0989d765
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?8PMFPL53LbgSZfibAi/eqRAlnynw7Aosx4EF8XJT2Pm6cySCXrodt9sHXz?=
- =?iso-8859-1?Q?HnsCYhKNO6OUvJ4fFf3iSyjT2oN5XQ+uByHhNZNzLPN31tFQX84G4T8qtk?=
- =?iso-8859-1?Q?LkJ1+Z3AU5kFkYDGh7yOscO1p1/XdCI+oUv6UfCDvMp8KhqbgmqHh8mQlW?=
- =?iso-8859-1?Q?SqnDAGHEZRs9is3OLCCkxZun5MKiaQKMJYWd1pL+Jpr9iOUrIuJ7mFS8Hr?=
- =?iso-8859-1?Q?v3JxlvRj1+FuEETOwWP2qkJQB7/7mQ/82Wt8FRTcaWc+7LLvP4viuNLLf5?=
- =?iso-8859-1?Q?wSk0GcXj8mN6kxH62MFHta/IDZ9T2ETWe7aj2wMlmuW7P4YDRKWVGoxsXx?=
- =?iso-8859-1?Q?ovHdEZtxl9PSebbwVsGFYG24j1dYz7toaNaKECN+gFOLx6ajylifqqicfZ?=
- =?iso-8859-1?Q?AJR+SsyhkooidZ2LvkgkRtgKPb313c7UI+nNvu3d09jSZ2ZhNoZEH8nAME?=
- =?iso-8859-1?Q?5PGEA+QBkHWXA3fZBJlcABl5whEes4NdUqS4+VVEBU+qO+NNE9SVNP8R7m?=
- =?iso-8859-1?Q?HgPcDfl7azindUsPCK/o8XTrdjoZ39Y5Bq6gwnP8Pw/h2le4kg9Oq4Q2YJ?=
- =?iso-8859-1?Q?BrlwDdbrDPWBwKbdr630kma8DkHaOlRpOyT03KmAisIyyMPu+8kdNvFt1K?=
- =?iso-8859-1?Q?G76DZXgOgV3dtrSccX2GBCpDb3EvP+z+I+CJezWA15HzRwghy0n6GDWZaK?=
- =?iso-8859-1?Q?FmKNbX9R9l5ggpWSqIGIAb+o01z7VB0fAZHa8e4VmhD+9NKbyvEqlz9lBZ?=
- =?iso-8859-1?Q?o7dpXYfW19gwoNAC+o5smWYkbOQgUx8A6xGK8lG2z5r6aeACNlHCcVHKyB?=
- =?iso-8859-1?Q?o9bSz3+QT1DOGmfCOoATwUvK4IIC6l0tSpHm7JPggxzH4tNS0fRIA7NwzA?=
- =?iso-8859-1?Q?OVZNxeVVhJ2CoXGxSRehsY+F1/4Vs8GHflkaawJZIZW4NjV/xZ9G8xvUwZ?=
- =?iso-8859-1?Q?3XKxtQlVWuiGqpzJiitHRYLVwW6H+02DqA8vr/hP4qOBYZwCz5a5A7Wf7Y?=
- =?iso-8859-1?Q?wscq/F2geuZB+fVIYeJAL/ixve5QZAbIMR6//7ojW3JqwGQfNrcSO79r4A?=
- =?iso-8859-1?Q?8sbqPgFYUo2DLR6uBpr6MPYAvA9kH+LII8hoI2w++cSek/x5Gp35C/pLxF?=
- =?iso-8859-1?Q?zxmI1N1uQ9AIUy3vfW0zaZ8l4XrGDd1l0ND0uuQPx6tXPQDitHmiVavTI0?=
- =?iso-8859-1?Q?m4otIorU9SJsG8E3xqswZR1gYW5Y6bNZ33zsYVj7KtHoAx39SGA6X4ciR0?=
- =?iso-8859-1?Q?8nYoTQHhQsSLd/KayQjjmlhREkwUM2U4tm+98KKUvkvEJz2lK8radP5uPm?=
- =?iso-8859-1?Q?9rZRb6gBgn0+QZv7DII5sXUV11AkhGbcnkW5GE5wAywMiCQgB12jvHUKNI?=
- =?iso-8859-1?Q?heeBiJ+Iza?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?e3XUqtsLCCq5q2xk/pXa5TP3HPLjGBo76O2w5m96zSfcSB0ewyflUbSgwn?=
- =?iso-8859-1?Q?EizYqsBX1A09HVtNIXAiTpC6Tifbfo1lAQlYyxleU1OU2vECpetNlSsjlG?=
- =?iso-8859-1?Q?cFawNEtuAhU9I1LDn2vwJPaOyscMKRDOsmmo+XNfIbBUMUIMAFvdAMeUCL?=
- =?iso-8859-1?Q?YPIkwRl+ptZJb7CQTOcYKB0LLKMYntvVmRc+1fjGUZCf9C40HWZdWbLWY5?=
- =?iso-8859-1?Q?V/lU93k5grkO8R3NtGy94iQycuKW+ZmDBiDJYb+XAFET2zWyGB1KyPX74N?=
- =?iso-8859-1?Q?mVE7X8p1Xp22FAf20UNGScG60WsSUVVrUC0f5CtKuk+jzomV9JqjaXT+QT?=
- =?iso-8859-1?Q?3vS3rYzcVpgBKUbZHDOKD8xKS3qaa+4Ztpn4buk8kD0i8hbmEk9eqYzE4x?=
- =?iso-8859-1?Q?usESzy7GSw8g+0vg1Xbrmx3c3YTv+oOqDXEfXF0CDvAf/H3/KUCIYx7iZS?=
- =?iso-8859-1?Q?eBjPlyagmKTlttovwLk4WstFNsjJtv6xE8uD2PlqtHVdZ1bjN5ttvw2rUU?=
- =?iso-8859-1?Q?kSHeF/Qqo9hWUKCPdzff/Fc2psVCr9wVmRM+R2Q946HR2HcX5AZGOUiz4/?=
- =?iso-8859-1?Q?tqzmEkwUJYH87LRBVqIvxxKd0GKk2Jvwsabfuyx0R/EqGvw2ueD5Ksy4ca?=
- =?iso-8859-1?Q?kE3RaN/b+usFo5vH26/QP2CiQDOhKYlpgpq27OqtyPAYY6eOE5RmVv20nM?=
- =?iso-8859-1?Q?TAw62l4gOssnG1njqo+ArrVIAGE9nYgBduRtVEQZFCCMYmhkS+4FFBtxkG?=
- =?iso-8859-1?Q?O9DFyqn9VWy6+R6awowtNyIYDe1fH7ZwWmQFoVXOMO7xeLDRCMT5xq6FNa?=
- =?iso-8859-1?Q?Nb6oqdaGHEjQiSKnoW69aQq9ivHFvQC/yeG05j3/PcZcJBxEg101N9Ewg3?=
- =?iso-8859-1?Q?+POY/HR/VA9tA4Td/dXxvVt6gBjTe3DZ2If2TFiGoSuieWy4I/lJLr64up?=
- =?iso-8859-1?Q?KJEQqILTwME3ziIgjCjRTc7KVxKIBcCYb0BP/bm9F+yUpGFMJ1j6eyXGSC?=
- =?iso-8859-1?Q?8Jz9X+4GNfPT+RnT/tl5U1HCwzSD+bEfj3Njw7hVi2E6ozSkzz7cEr8RK6?=
- =?iso-8859-1?Q?R1VEz9MwSF3P7eUIEVSHeTUKR/oACZeGBt0zVWO8J54S1u3DQoKThxD0P1?=
- =?iso-8859-1?Q?xzR5vxr7/6VkOtXCYGnlSBvw9MDzHIZ/vV1ajFsbM+1WJsyG//loTVk1f6?=
- =?iso-8859-1?Q?glgL9NEaH0Hi8hsf56Hbg/vuLK/SASQgXbPbDOM63gsxYubBxJD/Bjw0xL?=
- =?iso-8859-1?Q?TIUnL5ovo8+ayqbWAYUfngnFosi2XyXgr+H7CKJ2abWVF1kiPdfHVmvexp?=
- =?iso-8859-1?Q?3hb8JRxbx3iuFJzta7uTem7BBAFnkTjMMrTJzw0I0AE7hskoxGXGHR4OjV?=
- =?iso-8859-1?Q?Hrys01MzLvRG07IC4wvOS/F8uo/eOmgFRibfFJ5kw/yl1O227keUtKqNZY?=
- =?iso-8859-1?Q?Z87mGGIS4NwI3e+Zte+fFWhFHGMLD7mBuywAy/cW7rdDrmYbigfCyziIeZ?=
- =?iso-8859-1?Q?XxbMQ+mrWX38Q42wwIYuaGZOoNNGQqJ9pnYi6rS5rv5we9uTbNUE8d/yXG?=
- =?iso-8859-1?Q?mc+23mAsMwIBVxCFfGzpRrWR3ebfyNiPxRJqGrybFLc7j1Sc1zUoDVeXI6?=
- =?iso-8859-1?Q?a2qESo4jMnQrBzJRbuXSr/eX/7eG5sROsxjKTm4FMxmPe7NISChrki5A?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56fd1595-7649-442b-0877-08dd0989d765
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2024 17:36:18.7063 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ACX/x1rEJNJAJbn9yIrWwN0vQaEzVITaLdJkyMqro1H5QXbBoHVWpvoHIQCtqA6EdS1Yt3NcPzkG5wnEGTR83w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4754
-X-OriginatorOrg: intel.com
+References: <20241120154919.814593-1-pvorel@suse.cz>
+In-Reply-To: <20241120154919.814593-1-pvorel@suse.cz>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 20 Nov 2024 10:50:58 -0800
+Message-ID: <CAF6AEGshZMEHYT6X3fG0vYPpfa4i_o8gxOareHNggYWtkn=2Yg@mail.gmail.com>
+Subject: Re: [RFC][PATCH 1/1] drm/msm: require python3 and xml.parsers.expat
+ module
+To: Petr Vorel <pvorel@suse.cz>
+Cc: linux-arm-msm@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-kbuild@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ Rob Clark <robdclark@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,313 +83,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 20, 2024 at 02:31:50PM +0100, Christian König wrote:
-> Am 19.11.24 um 00:37 schrieb Matthew Brost:
-> > Add a dma_fence_preempt base class with driver ops to implement
-> > preemption, based on the existing Xe preemptive fence implementation.
-> > 
-> > Annotated to ensure correct driver usage.
-> > 
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> > Cc: Christian Koenig <christian.koenig@amd.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/dma-buf/Makefile            |   2 +-
-> >   drivers/dma-buf/dma-fence-preempt.c | 133 ++++++++++++++++++++++++++++
-> >   include/linux/dma-fence-preempt.h   |  56 ++++++++++++
-> >   3 files changed, 190 insertions(+), 1 deletion(-)
-> >   create mode 100644 drivers/dma-buf/dma-fence-preempt.c
-> >   create mode 100644 include/linux/dma-fence-preempt.h
-> > 
-> > diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> > index 70ec901edf2c..c25500bb38b5 100644
-> > --- a/drivers/dma-buf/Makefile
-> > +++ b/drivers/dma-buf/Makefile
-> > @@ -1,6 +1,6 @@
-> >   # SPDX-License-Identifier: GPL-2.0-only
-> >   obj-y := dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
-> > -	 dma-fence-unwrap.o dma-resv.o
-> > +	 dma-fence-preempt.o dma-fence-unwrap.o dma-resv.o
-> >   obj-$(CONFIG_DMABUF_HEAPS)	+= dma-heap.o
-> >   obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
-> >   obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
-> > diff --git a/drivers/dma-buf/dma-fence-preempt.c b/drivers/dma-buf/dma-fence-preempt.c
-> > new file mode 100644
-> > index 000000000000..6e6ce7ea7421
-> > --- /dev/null
-> > +++ b/drivers/dma-buf/dma-fence-preempt.c
-> > @@ -0,0 +1,133 @@
-> > +// SPDX-License-Identifier: MIT
-> > +/*
-> > + * Copyright © 2024 Intel Corporation
-> > + */
-> > +
-> > +#include <linux/dma-fence-preempt.h>
-> > +#include <linux/dma-resv.h>
-> > +
-> > +static void dma_fence_preempt_work_func(struct work_struct *w)
-> > +{
-> > +	bool cookie = dma_fence_begin_signalling();
-> > +	struct dma_fence_preempt *pfence =
-> > +		container_of(w, typeof(*pfence), work);
-> > +	const struct dma_fence_preempt_ops *ops = pfence->ops;
-> > +	int err = pfence->base.error;
-> > +
-> > +	if (!err) {
-> > +		err = ops->preempt_wait(pfence);
-> > +		if (err)
-> > +			dma_fence_set_error(&pfence->base, err);
-> > +	}
-> > +
-> > +	dma_fence_signal(&pfence->base);
-> > +	ops->preempt_finished(pfence);
-> 
-> Why is that callback useful?
-> 
+On Wed, Nov 20, 2024 at 7:49=E2=80=AFAM Petr Vorel <pvorel@suse.cz> wrote:
+>
+> 0fddd045f88e introduced python3 dependency, require it to quick early.
+>
+> Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> ---
+> Hi all,
+>
+> RFC because I'm not sure if previous failed build wasn't better:
+>
+>         GENHDR  drivers/gpu/drm/msm/generated/a2xx.xml.h
+>         /bin/sh: python3: not found
+>
+> This way it's documented, but CONFIG_DRM_MSM just silently disappears
+> from .config. Also because depends on $(success ..) is not evaluated
+> (understand, some expressions can be really long) one see only:
+> Depends on: n [=3Dn].
+>
+> I was thinking about testing via $(PYTHON3) -m "xml.parsers.expat",
+> but because expat parser (and other modules) should be part the official
+> python3 and are installed even on minimal python3 installations (e.g.
+> python3-minimal on Debian). Therefore depending on "$(PYTHON3) -V"
+> should be enough.
+>
 
-In Xe, this is where we kick the resume worker and drop a ref to the
-preemption object, which in Xe is an individual queue, and in AMD it is
-a VM, right? wrt preemption object, I've reasoned this should work for
-an either per queue or VM driver design of preempt fences.
+Would it be more clear to do something like:
 
-This part likely could be moved into the preempt_wait callback though
-but would get a little goofy in the error case if preempt_wait is not
-called as the driver side would still need to cleanup a ref. Maybe I
-don't even need a ref though - have to think that through - but for
-general safety we typically like to take refs whenever a fence
-references a different object.
+config HAS_PYTHON3
+      dev_bool $(success ...)
 
-> > +
-> > +	dma_fence_end_signalling(cookie);
-> > +}
-> > +
-> > +static const char *
-> > +dma_fence_preempt_get_driver_name(struct dma_fence *fence)
-> > +{
-> > +	return "dma_fence_preempt";
-> > +}
-> > +
-> > +static const char *
-> > +dma_fence_preempt_get_timeline_name(struct dma_fence *fence)
-> > +{
-> > +	return "ordered";
-> > +}
-> > +
-> > +static void dma_fence_preempt_issue(struct dma_fence_preempt *pfence)
-> > +{
-> > +	int err;
-> > +
-> > +	err = pfence->ops->preempt(pfence);
-> > +	if (err)
-> > +		dma_fence_set_error(&pfence->base, err);
-> > +
-> > +	queue_work(pfence->wq, &pfence->work);
-> > +}
-> > +
-> > +static void dma_fence_preempt_cb(struct dma_fence *fence,
-> > +				 struct dma_fence_cb *cb)
-> > +{
-> > +	struct dma_fence_preempt *pfence =
-> > +		container_of(cb, typeof(*pfence), cb);
-> > +
-> > +	dma_fence_preempt_issue(pfence);
-> > +}
-> > +
-> > +static void dma_fence_preempt_delay(struct dma_fence_preempt *pfence)
-> > +{
-> > +	struct dma_fence *fence;
-> > +	int err;
-> > +
-> > +	fence = pfence->ops->preempt_delay(pfence);
-> 
-> Mhm, why is that useful?
-> 
+(in init/Kconfig or somewhere central) and then use 'depends on
+HAS_PYTHON3'?  That might make the dependency easier to see in
+menuconfig/etc
 
-This for attaching the preempt object's last exported fence which needs
-to be signaled before the preemption is issued. So for purely long
-running VM's, this function could be NULL. For VM's with user queues +
-dma fences, the driver returns the last fence from the convert user
-fence to dma-fence IOCTL.
+BR,
+-R
 
-I realized my kernel doc doesn't explain this as well as it should, I
-have already made this more verbose locally and hopefully it clearly
-explains all of this.
-
-> > +	if (WARN_ON_ONCE(!fence || IS_ERR(fence)))
-> > +		return;
-> > +
-> > +	err = dma_fence_add_callback(fence, &pfence->cb, dma_fence_preempt_cb);
-> 
-> You are running into the exactly same bug we had :)
-> 
-> The problem here is that you can't call dma_fence_add_callback() from the
-> enable_signaling callback. Background is that the
-> fence_ops->enable_signaling callback is called with the spinlock of the
-> preemption fence held.
-> 
-> This spinlock can be the same as the one of the user fence, but it could
-> also be a different one. Either way calling dma_fence_add_callback() would
-> let lockdep print a nice warning.
-> 
-
-Hmm, I see the problem if you share a lock between the preempt fence and
-last exported fence but as long as these locks are seperate I don't see
-the issue.
-
-The locking order then is:
-
-preempt fence lock -> last exported fence lock.
-
-Lockdep does not explode in Xe but maybe can buy this is a little
-unsafe. We could always move preempt_delay to the worker, attach a CB,
-and rekick the worker upon the last fence signaling if you think that is
-safer. Of course we could always just directly wait on the returned last
-fence in the worker too.
-
-> I tried to solve this by changing the dma_fence code to not call
-> enable_signaling with the lock held, we wanted to do that anyway to prevent
-> a bunch of issues with driver unload. But I realized that getting this
-> upstream would take to long.
-> 
-> Long story short we moved handling the user fence into the work item.
-> 
-
-I did run into an issue when trying to make preempt_wait after return a
-fence + attach a CB, and signal this preempt fence from the CB. I got
-locking inversions almost worked through them but eventually gave up and
-stuck with the worker.
-
-Matt 
-
-> Apart from that looks rather solid to me.
-> 
-> Regards,
-> Christian.
-> 
-> > +	if (err == -ENOENT)
-> > +		dma_fence_preempt_issue(pfence);
-> > +}
-> > +
-> > +static bool dma_fence_preempt_enable_signaling(struct dma_fence *fence)
-> > +{
-> > +	struct dma_fence_preempt *pfence =
-> > +		container_of(fence, typeof(*pfence), base);
-> > +
-> > +	if (pfence->ops->preempt_delay)
-> > +		dma_fence_preempt_delay(pfence);
-> > +	else
-> > +		dma_fence_preempt_issue(pfence);
-> > +
-> > +	return true;
-> > +}
-> > +
-> > +static const struct dma_fence_ops preempt_fence_ops = {
-> > +	.get_driver_name = dma_fence_preempt_get_driver_name,
-> > +	.get_timeline_name = dma_fence_preempt_get_timeline_name,
-> > +	.enable_signaling = dma_fence_preempt_enable_signaling,
-> > +};
-> > +
-> > +/**
-> > + * dma_fence_is_preempt() - Is preempt fence
-> > + *
-> > + * @fence: Preempt fence
-> > + *
-> > + * Return: True if preempt fence, False otherwise
-> > + */
-> > +bool dma_fence_is_preempt(const struct dma_fence *fence)
-> > +{
-> > +	return fence->ops == &preempt_fence_ops;
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_is_preempt);
-> > +
-> > +/**
-> > + * dma_fence_preempt_init() - Initial preempt fence
-> > + *
-> > + * @fence: Preempt fence
-> > + * @ops: Preempt fence operations
-> > + * @wq: Work queue for preempt wait, should have WQ_MEM_RECLAIM set
-> > + * @context: Fence context
-> > + * @seqno: Fence seqence number
-> > + */
-> > +void dma_fence_preempt_init(struct dma_fence_preempt *fence,
-> > +			    const struct dma_fence_preempt_ops *ops,
-> > +			    struct workqueue_struct *wq,
-> > +			    u64 context, u64 seqno)
-> > +{
-> > +	/*
-> > +	 * XXX: We really want to check wq for WQ_MEM_RECLAIM here but
-> > +	 * workqueue_struct is private.
-> > +	 */
-> > +
-> > +	fence->ops = ops;
-> > +	fence->wq = wq;
-> > +	INIT_WORK(&fence->work, dma_fence_preempt_work_func);
-> > +	spin_lock_init(&fence->lock);
-> > +	dma_fence_init(&fence->base, &preempt_fence_ops,
-> > +		       &fence->lock, context, seqno);
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_preempt_init);
-> > diff --git a/include/linux/dma-fence-preempt.h b/include/linux/dma-fence-preempt.h
-> > new file mode 100644
-> > index 000000000000..28d803f89527
-> > --- /dev/null
-> > +++ b/include/linux/dma-fence-preempt.h
-> > @@ -0,0 +1,56 @@
-> > +/* SPDX-License-Identifier: MIT */
-> > +/*
-> > + * Copyright © 2024 Intel Corporation
-> > + */
-> > +
-> > +#ifndef __LINUX_DMA_FENCE_PREEMPT_H
-> > +#define __LINUX_DMA_FENCE_PREEMPT_H
-> > +
-> > +#include <linux/dma-fence.h>
-> > +#include <linux/workqueue.h>
-> > +
-> > +struct dma_fence_preempt;
-> > +struct dma_resv;
-> > +
-> > +/**
-> > + * struct dma_fence_preempt_ops - Preempt fence operations
-> > + *
-> > + * These functions should be implemented in the driver side.
-> > + */
-> > +struct dma_fence_preempt_ops {
-> > +	/** @preempt_delay: Preempt execution with a delay */
-> > +	struct dma_fence *(*preempt_delay)(struct dma_fence_preempt *fence);
-> > +	/** @preempt: Preempt execution */
-> > +	int (*preempt)(struct dma_fence_preempt *fence);
-> > +	/** @preempt_wait: Wait for preempt of execution to complete */
-> > +	int (*preempt_wait)(struct dma_fence_preempt *fence);
-> > +	/** @preempt_finished: Signal that the preempt has finished */
-> > +	void (*preempt_finished)(struct dma_fence_preempt *fence);
-> > +};
-> > +
-> > +/**
-> > + * struct dma_fence_preempt - Embedded preempt fence base class
-> > + */
-> > +struct dma_fence_preempt {
-> > +	/** @base: Fence base class */
-> > +	struct dma_fence base;
-> > +	/** @lock: Spinlock for fence handling */
-> > +	spinlock_t lock;
-> > +	/** @cb: Callback preempt delay */
-> > +	struct dma_fence_cb cb;
-> > +	/** @ops: Preempt fence operation */
-> > +	const struct dma_fence_preempt_ops *ops;
-> > +	/** @wq: Work queue for preempt wait */
-> > +	struct workqueue_struct *wq;
-> > +	/** @work: Work struct for preempt wait */
-> > +	struct work_struct work;
-> > +};
-> > +
-> > +bool dma_fence_is_preempt(const struct dma_fence *fence);
-> > +
-> > +void dma_fence_preempt_init(struct dma_fence_preempt *fence,
-> > +			    const struct dma_fence_preempt_ops *ops,
-> > +			    struct workqueue_struct *wq,
-> > +			    u64 context, u64 seqno);
-> > +
-> > +#endif
-> 
+> Kind regards,
+> Petr
+>
+>  drivers/gpu/drm/msm/Kconfig | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> index 90c68106b63b..2cf4573a2ff1 100644
+> --- a/drivers/gpu/drm/msm/Kconfig
+> +++ b/drivers/gpu/drm/msm/Kconfig
+> @@ -11,6 +11,7 @@ config DRM_MSM
+>         depends on QCOM_LLCC || QCOM_LLCC=3Dn
+>         depends on QCOM_COMMAND_DB || QCOM_COMMAND_DB=3Dn
+>         depends on PM
+> +       depends on $(success,$(PYTHON3) -V)
+>         select IOMMU_IO_PGTABLE
+>         select QCOM_MDT_LOADER if ARCH_QCOM
+>         select REGULATOR
+> @@ -36,7 +37,7 @@ config DRM_MSM
+>         select PM_GENERIC_DOMAINS
+>         select TRACE_GPU_MEM
+>         help
+> -         DRM/KMS driver for MSM/snapdragon.
+> +         DRM/KMS driver for MSM/snapdragon.  Requires python3.
+>
+>  config DRM_MSM_GPU_STATE
+>         bool
+> --
+> 2.47.0
+>
+>
