@@ -2,79 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1496F9D3A83
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 13:16:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3699D3C78
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2024 14:19:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F9E510E732;
-	Wed, 20 Nov 2024 12:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19C0710E2BC;
+	Wed, 20 Nov 2024 13:19:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QtSrA9jY";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="hl/n0tBo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1873C10E727
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 12:16:15 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2fb587d0436so41069061fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2024 04:16:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732104973; x=1732709773; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=cIsUKn523ItPFhw9PoQgspXzNPwI8eBe9tACkVcqoFg=;
- b=QtSrA9jY6ntogG7UjLFl/sORDRbpSWPY1scUnghPURNYADiWPjvgz0lCGRgalh72ix
- e1v+0OZ7wAg051kW9dVN1sJFKndbkp72qt/HoVt3+90l/2Tljgr2hHaDt/LxFWOKkEFm
- hXjGD9hW1AOsMBaovKrHrs6nIagkCaxGcs8eeW8LoLMj0PIfJOZdKKcMr//ViB0y/ZUT
- 8dGSahiTGYdk/4E+DkwgfjWvXue+mXVRrkzxnOJDXHdhcdasPiNzv0VEgaet/7RLP7eL
- Z2ng5yProPqSiLLfHX13qmutES8D/AsKxru2jUbRu4yi/P2ni+IsY6AgHtmPCzG/TRl5
- FzvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732104973; x=1732709773;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cIsUKn523ItPFhw9PoQgspXzNPwI8eBe9tACkVcqoFg=;
- b=mebZC3SR8axlirpWku7TT7fHt4DEu+bMBrVgeMjPw8Ubi1DmIRQNT8gPYAR5h8Cb98
- b/sOTxWr61/0TTVwIPCmKkhYVAHw8mw2RYtmAiASu4DdPvE5Mtd+Q3FWn2l0LTNfvJ2Z
- Q6EDO7W+aDxZctyhUCbaO0n3wij7sZLiNj2B5SYg1LyPdYuRFAcpK87+GG8hB3DvH7Ph
- k1j1B6vHGp/ihBiGKmrN1G5rGyAzPF/ee0gLegNcEAgwRJSEcuZqTwcqExHb2ekOhP++
- CVpkQyqWFsViDjVtRGWSS3Y7Izv3S8EJJGtUlNJDpuJ4p6QPmOCmcCaXgEzRg2FhE9dJ
- 2w9g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWe/hReCWpFGkUbz7IOd57YFU7KTv/b8blZCjaBl1gSQZV1Al7gjh9SPPxtAPVGRw2McXH2KDWMHHU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxRFVM1wq2ULkrAghH3Ymmq4NHEJBkUg267hl2ANwNVr3eLdcg9
- 6WUuRQP/ZZJZl4GXgWUUXQ3UECj2llkmhOVsTIUF2cPbO2wmkt7pkJLsHZEMTmM=
-X-Google-Smtp-Source: AGHT+IG+JbXwf7DnQ9184clVxgyLKaSqR5SrvWGXCF34hbjR2SJgwz1JS9pJIQewA46R8bEOMRQG1Q==
-X-Received: by 2002:a2e:bc20:0:b0:2ff:78be:e02d with SMTP id
- 38308e7fff4ca-2ff8dbcb795mr14542921fa.11.1732104973210; 
- Wed, 20 Nov 2024 04:16:13 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ff69ae80c5sm15094771fa.80.2024.11.20.04.16.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Nov 2024 04:16:11 -0800 (PST)
-Date: Wed, 20 Nov 2024 14:16:09 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
-Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com, 
- linux-arm-msm@vger.kernel.org, sean@poorly.run, marijn.suijten@somainline.org, 
- airlied@gmail.com, simona@ffwll.ch, quic_bjorande@quicinc.com, 
- quic_parellan@quicinc.com, quic_khsieh@quicinc.com,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dianders@chromium.org
-Subject: Re: [PATCH drm-next] drm/msm/dp: Fix potential division by zero issue
-Message-ID: <pwwukfhijwywhz7tailrfamxdyz6jabo5ref64xr6upnkzcpel@flzvrcr3m3h5>
-References: <20241120050451.100957-1-dheeraj.linuxdev@gmail.com>
- <piembwzz7x6plsps3umjg3b3pi2ii44svmeii3wwtydtriceny@uqq7ck2ge5zz>
- <Zz3N7IvdN4L8N62p@HOME-PC>
+X-Greylist: delayed 2706 seconds by postgrey-1.36 at gabe;
+ Wed, 20 Nov 2024 13:19:08 UTC
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 615FF10E2BC;
+ Wed, 20 Nov 2024 13:19:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=37yF9
+ G6eKri9JMrWKD22xa5kGkbLDMghqYrX4j4s5F0=; b=hl/n0tBomqkwCcNr+GqBO
+ D6JRTysO7jOZ0YKoDRwTWRNXGygk5Qu/vlw0wYf3AG7CS2Fd434MMWLsGH5UI3b+
+ 1sEAdzLLRBlQhNxIvvAM7TSgZSCU3uOTI1XMFY7mkgIvHHdhlrdULU3IC14d/d9S
+ ExJSvxd0ogcDUCmPAZFnIo=
+Received: from localhost.localdomain (unknown [183.14.215.87])
+ by gzsmtp4 (Coremail) with SMTP id PygvCgCHzJYz1z1nW++6EA--.42732S2;
+ Wed, 20 Nov 2024 20:33:55 +0800 (CST)
+From: Zhang He <zhanghe9702@163.com>
+To: rodrigo.vivi@intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Zhang He <zhanghe9702@163.com>
+Subject: [PATCH] drm/i915: Fixed an typo in i915_gem_gtt.c
+Date: Wed, 20 Nov 2024 20:32:45 +0800
+Message-ID: <20241120123245.71101-1-zhanghe9702@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zz3N7IvdN4L8N62p@HOME-PC>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: PygvCgCHzJYz1z1nW++6EA--.42732S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Wr4xAw4UAF1rWw4DuFyUKFg_yoWDAwcEka
+ y7ZryxG3yjyFsY9FZ8Cw4avF9Yyas5ur48Cw18tas3Jr9rAr1DXr97ZryUJr4xGFW5XF1D
+ X3WkXF9Iyr9rGjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sR_a9a3UUUUU==
+X-Originating-IP: [183.14.215.87]
+X-CM-SenderInfo: x2kd0wlkhzliqs6rljoofrz/1tbiWwSdamc91sYG0gAAs2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,103 +58,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 20, 2024 at 05:24:20PM +0530, Dheeraj Reddy Jonnalagadda wrote:
-> On Wed, Nov 20, 2024 at 01:02:32PM +0200, Dmitry Baryshkov wrote:
-> > On Wed, Nov 20, 2024 at 10:34:51AM +0530, Dheeraj Reddy Jonnalagadda wrote:
-> > > The variable pixel_div can remain zero due to an invalid rate input,
-> > 
-> > No, it can not. Rate is set by the driver, which knowns which rates are
-> > supported. 
-> > 
-> > > leading to a potential division by zero issue. This patch fixes it and
-> > > the function now logs an error and returns early.
-> > 
-> > See Documentation/process/submitting-patches.rst, look for "This patch"
-> > string.
-> > 
-> > > 
-> > > Additionally, this patch resolves trailing whitespace issues detected
-> > > by checkpatch.pl in the same file.
-> > 
-> > Additionally perform ... => separate commits.
-> > 
-> > > 
-> > > Signed-off-by: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/msm/dp/dp_catalog.c | 8 +++++---
-> > >  1 file changed, 5 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> > > index b4c8856fb25d..e170f70f1d42 100644
-> > > --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-> > > +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> > > @@ -225,7 +225,7 @@ int msm_dp_catalog_aux_clear_hw_interrupts(struct msm_dp_catalog *msm_dp_catalog
-> > >   * This function reset AUX controller
-> > >   *
-> > >   * NOTE: reset AUX controller will also clear any pending HPD related interrupts
-> > > - * 
-> > > + *
-> > >   */
-> > >  void msm_dp_catalog_aux_reset(struct msm_dp_catalog *msm_dp_catalog)
-> > >  {
-> > > @@ -487,8 +487,10 @@ void msm_dp_catalog_ctrl_config_msa(struct msm_dp_catalog *msm_dp_catalog,
-> > >  		pixel_div = 2;
-> > >  	else if (rate == link_rate_hbr2)
-> > >  		pixel_div = 4;
-> > > -	else
-> > > +	else {
-> > >  		DRM_ERROR("Invalid pixel mux divider\n");
-> > > +		return;
-> > > +	}
-> > >  
-> > >  	dispcc_input_rate = (rate * 10) / pixel_div;
-> > >  
-> > > @@ -579,7 +581,7 @@ u32 msm_dp_catalog_hw_revision(const struct msm_dp_catalog *msm_dp_catalog)
-> > >   * This function reset the DP controller
-> > >   *
-> > >   * NOTE: reset DP controller will also clear any pending HPD related interrupts
-> > > - * 
-> > > + *
-> > >   */
-> > >  void msm_dp_catalog_ctrl_reset(struct msm_dp_catalog *msm_dp_catalog)
-> > >  {
-> > > -- 
-> > > 2.34.1
-> > > 
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
-> 
-> Hello Dmitry,
-> 
-> Thank you for the valuable feedback. Will update my commit messages
-> accordingly. I wanted to seek clarification on the the divide by zero
-> issue. Would pixel_dev not be zero upon hitting the else case as
-> indicated below casuing a div by zero?
-> 
-> 	u32 mvid, nvid, pixel_div = 0, dispcc_input_rate;
-> 	u32 const nvid_fixed = DP_LINK_CONSTANT_N_VALUE;
-> 	
-> 	[..]
-> 	
-> 	if (rate == link_rate_hbr3)
-> 		pixel_div = 6;
-> 	else if (rate == 162000 || rate == 270000)
-> 		pixel_div = 2;
-> 	else if (rate == link_rate_hbr2)
-> 		pixel_div = 4;
-> 	else
-> 		DRM_ERROR("Invalid pixel mux divider\n"); <<-- here
+in function `i915_gem_gtt_reserve` @node comment,
+i915_vma has no `mode` member, `i915_vma.node` is the correct name
 
-The 'rate' itself also comes from the driver and the calling functions
-ensure that the value is correct.
+Signed-off-by: Zhang He <zhanghe9702@163.com>
+---
+ drivers/gpu/drm/i915/i915_gem_gtt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> 	dispcc_input_rate = (rate * 10) / pixel_div;
-> 
-> -Dheeraj
-
+diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
+index a9662cc6ed1e..25295eb626dc 100644
+--- a/drivers/gpu/drm/i915/i915_gem_gtt.c
++++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+@@ -71,7 +71,7 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
+  * i915_gem_gtt_reserve - reserve a node in an address_space (GTT)
+  * @vm: the &struct i915_address_space
+  * @ww: An optional struct i915_gem_ww_ctx.
+- * @node: the &struct drm_mm_node (typically i915_vma.mode)
++ * @node: the &struct drm_mm_node (typically i915_vma.node)
+  * @size: how much space to allocate inside the GTT,
+  *        must be #I915_GTT_PAGE_SIZE aligned
+  * @offset: where to insert inside the GTT,
 -- 
-With best wishes
-Dmitry
+2.43.0
+
