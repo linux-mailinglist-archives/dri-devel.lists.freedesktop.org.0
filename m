@@ -2,54 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CEE89D55C0
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 23:48:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5352A9D51F2
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 18:41:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0101010EA7C;
-	Thu, 21 Nov 2024 22:48:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE10110EA0B;
+	Thu, 21 Nov 2024 17:41:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="xd5Zm672";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XPJhU6Aw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A225610EA08
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 17:33:07 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
- by linux1587.grserver.gr (Postfix) with ESMTPSA id AAAE32E096A8;
- Thu, 21 Nov 2024 19:23:26 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1732209814;
- bh=0f+2vUNiJNBCr2npgGT+5C+NFvaobl1gc8LB0xDB8Io=; h=From:To:Subject;
- b=xd5Zm672kx6WPxxwdIdOopLw247otKLGUSlYgc39zBytVDs1dqLf6PnKD44ji7rMJ
- tZaXea3xm/nZvvo8YlbExpNPAXZjOkbWK/d0lNEFSt/EziDuGBpZSPnow+Wp/lyly7
- jJ/McVF4SCNYb8GmqCpBeVoLdvOM0gI5PtrsK5kU=
-Authentication-Results: linux1587.grserver.gr;
- spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd)
- smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: linux-pm@vger.kernel.org
-Cc: platform-driver-x86@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mario Limonciello <mario.limonciello@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Kyle Gospodnetich <me@kylegospodneti.ch>,
- Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [RFC 13/13] PM: standby: Add sysfs attribute for modern standby
- transitions
-Date: Thu, 21 Nov 2024 18:22:38 +0100
-Message-ID: <20241121172239.119590-14-lkml@antheas.dev>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241121172239.119590-1-lkml@antheas.dev>
-References: <20241121172239.119590-1-lkml@antheas.dev>
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79A4F10EA08
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 17:41:38 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CD1472000A;
+ Thu, 21 Nov 2024 17:41:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1732210896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rt80qnAyyepZvbd8DfB3ShuvRFOqvgROOwcu9fM6x3U=;
+ b=XPJhU6AwXFGRUUnfGQvejV+oHxkMvweUkwv9ULqvHbQa8KI16HGZgTZzN7fv0AWbOGlv9k
+ Ykr621Z3EWSQFd0/Eh4GQ5JaBq19W19D1tx0V82mCLr56bacduLtP9ITRqEX3GjJvSvt9V
+ uixNsJpbWe4tnkysNvTuVA+/5DnMevlnv6uLbVS+q4olykwKN8OSRYr5av9Ycaaytja792
+ vvAB1aZOjvs8cZtuR+kon8EIZ89Mk6DHMm3EEXEKzpHJjptxGjMGNM2FVEnDLEVi4ljdD8
+ zb6YH3vlOoQTG6XstKJeBVuEHA85FLbEQoTmTtKrLn9gRCEAo4310ZykbKN5qQ==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH 0/5] clk: Fix simple video pipelines on i.MX8
+Date: Thu, 21 Nov 2024 18:41:10 +0100
+Message-Id: <20241121-ge-ian-debug-imx8-clk-tree-v1-0-0f1b722588fe@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <173220981281.10560.4859672454396129529@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
-X-Mailman-Approved-At: Thu, 21 Nov 2024 22:47:36 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALZwP2cC/x3MTQ5AMBBA4avIrE1i6ifiKmJROpigpEUk4u7K8
+ nuLd4NnJ+yhim5wfIqX1QZQHEE3ajswigkGlaiMSBF+RVs03B4DynKV2M0T7o4ZW5OqXOuyKHq
+ CMNgc93L987p5nhenn/rUbAAAAA==
+X-Change-ID: 20241121-ge-ian-debug-imx8-clk-tree-bd325aa866f1
+To: Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Ying Liu <victor.liu@nxp.com>, 
+ Marek Vasut <marex@denx.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ linux-clk@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Abel Vesa <abel.vesa@linaro.org>, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Ian Ray <ian.ray@ge.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, stable@vger.kernel.org
+X-Mailer: b4 0.15-dev
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,156 +72,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a sysfs attribute to allow informing the kernel about the current
-standby state, those being: "active", "screen_off", "sleep", and
-"resume" (to prepare turning the display on). The final modern
-standby state DRIPS is omitted, as that is entered during the kernel
-suspend process and userspace will never see it.
+Recent changes in the clock tree have set CLK_SET_RATE_PARENT to the two
+LCDIF pixel clocks. The idea is, instead of using assigned-clock
+properties to set upstream PLL rates to high frequencies and hoping that
+a single divisor (namely media_disp[12]_pix) will be close enough in
+most cases, we should tell the clock core to use the PLL to properly
+derive an accurate pixel clock rate in the first place. Here is the
+situation.
 
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+[Before ff06ea04e4cf ("clk: imx: clk-imx8mp: Allow media_disp pixel clock reconfigure parent rate")]
+
+Before setting CLK_SET_RATE_PARENT to the media_disp[12]_pix clocks, the sequence of events was:
+- PLL is assigned to a high rate,
+- media_disp[12]_pix is set to approximately freq A by using a single divisor,
+- media_ldb is set to approximately freq 7*A by using another single divisor.
+=> The display was working, but the pixel clock was inaccurate.
+
+[After ff06ea04e4cf ("clk: imx: clk-imx8mp: Allow media_disp pixel clock reconfigure parent rate")]
+
+After setting CLK_SET_RATE_PARENT to the media_disp[12]_pix clocks, the
+sequence of events became:
+- media_disp[12]_pix is set to freq A by using a divisor of 1 and
+  setting video_pll1 to freq A.
+- media_ldb is trying to compute its divisor to set freq 7*A, but the
+  upstream PLL is to low, it does not recompute it, so it ends up
+  setting a divisor of 1 and being at freq A instead of 7*A.
+=> The display is sadly no longer working
+
+[After applying PATCH "clk: imx: clk-imx8mp: Allow LDB serializer clock reconfigure parent rate"]
+
+This is a commit from Marek, which is, I believe going in the right
+direction, so I am including it. Just with this change, the situation is
+slightly different, but the result is the same:
+- media_disp[12]_pix is set to freq A by using a divisor of 1 and
+  setting video_pll1 to freq A.
+- media_ldb is set to 7*A by using a divisor of 1 and setting video_pll1
+  to freq 7*A.
+  /!\ This as the side effect of changing media_disp[12]_pix from freq A
+  to freq 7*A.
+=> The display is still not working
+
+[After applying this series]
+
+The goal of the following patches is to prevent clock subtree walks to
+"just recalculate" the pixel clocks, ignoring the fact that they should
+no longer change. They should adapt their divisors to the new upstream
+rates instead. As a result, the display pipeline is working again.
+
+Note: if more than one display is connected, we need the LDB driver to
+act accordingly, thus the LDB driver must be adapted. Also, if accurate
+pixel clocks are not possible with two different displays, we will still
+need (at least for now) to make sure one of them is reparented to
+another PLL, like the audio PLL (but audio PLL are of a different kind,
+and are slightly less accurate).
+
+So this series aims at fixing the i.MX8MP display pipeline for simple
+setups. Said otherwise, returning to the same level of support as
+before, but with (hopefully) more accurate frequencies. I believe this
+approach manages to fix both Marek situation and all people using a
+straightforward LCD based setup. For more complex setups, we need more
+smartness from DRM and clk, but this is gonna take a bit of time.
+
 ---
- Documentation/ABI/testing/sysfs-power | 34 ++++++++++++
- kernel/power/main.c                   | 75 +++++++++++++++++++++++++++
- 2 files changed, 109 insertions(+)
+Marek Vasut (1):
+      clk: imx: clk-imx8mp: Allow LDB serializer clock reconfigure parent rate
 
-diff --git a/Documentation/ABI/testing/sysfs-power b/Documentation/ABI/testing/sysfs-power
-index a3942b1036e2..eff13980cc7c 100644
---- a/Documentation/ABI/testing/sysfs-power
-+++ b/Documentation/ABI/testing/sysfs-power
-@@ -39,6 +39,40 @@ Description:
- 		See Documentation/admin-guide/pm/sleep-states.rst for more
- 		information.
- 
-+What:		/sys/power/standby
-+Date:		November 2024
-+Contact:	Antheas Kapenekakis <lkml@antheas.dev>
-+Description:
-+		The /sys/power/standby file controls the standby state of the
-+		system. Modern S0ix capable systems can enter a set of low power
-+		states while the kernel is still active. Transitioning into those
-+		states may 1) deactivate tertiary hardware, and 2) change the
-+		presentation of the device (e.g., pulse the suspend light, turn
-+		off the keyboard backlight).
-+
-+		Available states are "active" (fully active), "screen-off" (fully
-+		active but all displays of the system are off; virtual and real),
-+		"sleep" (major userspace components have been frozen; light
-+		background tasks may still run; this state may affect the power
-+		envelope of the device). The final state is DRIPS or LSP0, where
-+		the kernel suspends, and is entered by writing "mem" to
-+		/sys/power/state. There is a secondary sleep state called "resume"
-+		that can only be entered from "sleep" and is used in certain
-+		devices to boost the Power Limit (PLx) while remaining in sleep
-+		to hasten preparing for transitioning to "active".
-+
-+		Writing one of the above strings to this file causes the system
-+		to transition into the corresponding state, by firing the
-+		corresponding firmware notifications during the transition.
-+
-+		DRIPS or LSP0 (i.e., mem "s2idle") can only be entered from the
-+		"sleep" state. If the kernel is asked to transition to DRIPS from
-+		a different state, it will transition to "sleep" and then suspend.
-+		On wakeup, the kernel will transition back to the previous state.
-+
-+		See Documentation/admin-guide/pm/standby-states.rst for more
-+		information.
-+
- What:		/sys/power/disk
- Date:		September 2006
- Contact:	Rafael J. Wysocki <rjw@rjwysocki.net>
-diff --git a/kernel/power/main.c b/kernel/power/main.c
-index 6254814d4817..4377fdaf4a8d 100644
---- a/kernel/power/main.c
-+++ b/kernel/power/main.c
-@@ -748,6 +748,80 @@ static ssize_t state_store(struct kobject *kobj, struct kobj_attribute *attr,
- 
- power_attr(state);
- 
-+#ifdef CONFIG_SUSPEND
-+/*
-+ * standby - control system s2idle standby state.
-+ *
-+ * show() returns available standby states, which may be "active", "screen_off",
-+ * "sleep" and "resume" (still in sleep but preparing to turn on display).
-+ * See Documentation/admin-guide/pm/standby-states.rst for a description of
-+ * what they mean.
-+ *
-+ * store() accepts one of those strings, translates it into the proper
-+ * enumerated value, and initiates a transition to that standby state.
-+ *
-+ * When the system suspends, it will first enter the state "sleep", suspend,
-+ * and then restore the last state before entering "sleep". I.e., if userspace
-+ * is not S0ix-aware, the transitions expected by Modern Standby devices will
-+ * always be performed.
-+ */
-+static ssize_t standby_show(struct kobject *kobj, struct kobj_attribute *attr,
-+			  char *buf)
-+{
-+	char *s = buf;
-+	standby_state_t i;
-+	standby_state_t curr = pm_standby_state();
-+
-+	if (curr < 0)
-+		return -EBUSY;
-+
-+	for (i = PM_STANDBY_MIN; i < PM_STANDBY_MAX; i++)
-+		if (standby_states[i])
-+			s += sprintf(s, curr == i ? "[%s] " : "%s ", standby_states[i]);
-+
-+	if (s != buf)
-+		/* convert the last space to a newline */
-+		*(s - 1) = '\n';
-+	return (s - buf);
-+}
-+
-+static standby_state_t decode_standby_state(const char *buf, size_t n)
-+{
-+	standby_state_t state;
-+	char *p;
-+	int len;
-+
-+	p = memchr(buf, '\n', n);
-+	len = p ? p - buf : n;
-+
-+	for (state = PM_STANDBY_MIN; state < PM_STANDBY_MAX; state++) {
-+		const char *label = standby_states[state];
-+
-+		if (label && len == strlen(label) && !strncmp(buf, label, len))
-+			return state;
-+	}
-+
-+	return PM_STANDBY_MAX;
-+}
-+
-+static ssize_t standby_store(struct kobject *kobj, struct kobj_attribute *attr,
-+			   const char *buf, size_t n)
-+{
-+	int error;
-+	standby_state_t state;
-+
-+	state = decode_standby_state(buf, n);
-+
-+	if (state >= PM_STANDBY_MAX)
-+		return -EINVAL;
-+
-+	error = pm_standby_transition(state);
-+	return error ? error : n;
-+}
-+
-+power_attr(standby);
-+#endif
-+
- #ifdef CONFIG_PM_SLEEP
- /*
-  * The 'wakeup_count' attribute, along with the functions defined in
-@@ -974,6 +1048,7 @@ static struct attribute * g[] = {
- #ifdef CONFIG_SUSPEND
- 	&mem_sleep_attr.attr,
- 	&sync_on_suspend_attr.attr,
-+	&standby_attr.attr,
- #endif
- #ifdef CONFIG_PM_AUTOSLEEP
- 	&autosleep_attr.attr,
+Miquel Raynal (4):
+      clk: Add a helper to determine a clock rate
+      clk: Split clk_calc_subtree()
+      clk: Add flag to prevent frequency changes when walking subtrees
+      clk: imx: imx8mp: Prevent media clocks to be incompatibly changed
+
+ drivers/clk/clk.c            | 39 ++++++++++++++++++++++++++++++++-------
+ drivers/clk/imx/clk-imx8mp.c |  6 +++---
+ include/linux/clk-provider.h |  2 ++
+ 3 files changed, 37 insertions(+), 10 deletions(-)
+---
+base-commit: 62facaf164585923d081eedcb6871f4ff3c2e953
+change-id: 20241121-ge-ian-debug-imx8-clk-tree-bd325aa866f1
+
+Best regards,
 -- 
-2.47.0
+Miquel Raynal <miquel.raynal@bootlin.com>
 
