@@ -2,56 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6319D4CEF
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 13:36:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9907C9D4D16
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 13:46:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E57D310E925;
-	Thu, 21 Nov 2024 12:35:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01C9010E403;
+	Thu, 21 Nov 2024 12:46:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hj7zkL/O";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="R25ypJFP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94A8C10E923;
- Thu, 21 Nov 2024 12:35:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732192557; x=1763728557;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=l2cUaZi8Ie81OusqbqDDFeoeLYipHVOLAqo560ZSq/U=;
- b=hj7zkL/OaNDMxtkkQMpNGh+0sswuvd9h5FCROGXIDdswMc04mvZqR99I
- DjuzL4/FoaTenhOTt9+riBvFEvbnzp1tGj/0ZsTOHPS7HZ3Sp3WcoTohh
- PcGapopeWOd32zsZN9oWlTuxBZGhFMK6cTB3cy2TIXQQhxHyg4N98DCyA
- QPD4oXoJGRtnBRA3MSLwSCqeINwpN7Zu9QcnGUCSec9Ku/bybjzEKV8bs
- y6evK/Y43gUXo6VBmrVlWraUUUSIAIbJOcshhxjcL0sAZNvU1kTeV51n/
- RI3ApPxuGLI3XV6sUjDqFak88gxYyDVyaExRZjoHxMr+B1B3RaY/XjcAz g==;
-X-CSE-ConnectionGUID: CpkKNpY7RlqFd2iOpqZRiw==
-X-CSE-MsgGUID: 1hBKVcXJRn2gdx5SvA+bsA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32230357"
-X-IronPort-AV: E=Sophos;i="6.12,172,1728975600"; d="scan'208";a="32230357"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2024 04:35:56 -0800
-X-CSE-ConnectionGUID: 3QZtKnLcSJaadYFe64Ld0A==
-X-CSE-MsgGUID: 0IkGx0YkSomKJOPy8Ikj8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,172,1728975600"; d="scan'208";a="127766028"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa001.jf.intel.com with ESMTP; 21 Nov 2024 04:35:55 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Arun R Murthy <arun.r.murthy@intel.com>
-Subject: [PATCH 8/8] drm/i915/histogram: Enable pipe dithering
-Date: Thu, 21 Nov 2024 17:56:03 +0530
-Message-Id: <20241121122603.736267-9-arun.r.murthy@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241121122603.736267-1-arun.r.murthy@intel.com>
-References: <20241121122603.736267-1-arun.r.murthy@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE4910E403
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 12:46:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1732193167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IFClpgALPZSSTKDulZ/u/muYW6GUhkLPXSWL+/+/Pyc=;
+ b=R25ypJFPRRM59cRW1lgS2JZvdeysXsu2Aovioxf+0A0v9wzQyppgLRbu1N70vObeqFd+Uh
+ EGSZH45XjRXf0Vrrv4ceGKmkgvvga4REUDEC7PFocQwiP86sZAjFWUR7hZq29N3jeTedHp
+ q8sxKpMtcYaaXg3Wog9n6Bxb/t8t6WM=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-517-1drq5v3GNiesiVtylc82ew-1; Thu,
+ 21 Nov 2024 07:46:04 -0500
+X-MC-Unique: 1drq5v3GNiesiVtylc82ew-1
+X-Mimecast-MFC-AGG-ID: 1drq5v3GNiesiVtylc82ew
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 249901953943; Thu, 21 Nov 2024 12:46:03 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.194.164])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 9FBD3195E480; Thu, 21 Nov 2024 12:46:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 41A8218010BF; Thu, 21 Nov 2024 13:45:59 +0100 (CET)
+Date: Thu, 21 Nov 2024 13:45:59 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org, 
+ virtualization@lists.linux.dev
+Subject: Re: [PATCH 0/2] drm/cirrus: Don't pretend to operate hardware
+Message-ID: <c2x3wtnks5elcieyfydireaadozqx3qojvxb2rdqhgciocakxs@xniq2fao63nj>
+References: <20241029143928.208349-1-tzimmermann@suse.de>
+ <c7c3d747-c142-446b-95dc-2e25874d2643@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <c7c3d747-c142-446b-95dc-2e25874d2643@suse.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: BbsYyv6tKFpx_C2FfB_7mI2BgHSnWRbF9zSr3KrI3Wg_1732193163
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,42 +76,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable pipe dithering while enabling histogram to overcome some
-atrifacts seen on the screen.
+On Thu, Nov 21, 2024 at 09:25:11AM +0100, Thomas Zimmermann wrote:
+> ping ping
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
----
- drivers/gpu/drm/i915/display/intel_histogram.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> >    drm/cirrus: Use virtual encoder and connector types
+> >    drm/cirrus: Rename to cirrus-qemu
 
-diff --git a/drivers/gpu/drm/i915/display/intel_histogram.c b/drivers/gpu/drm/i915/display/intel_histogram.c
-index db4bc60be557..531df8a712fa 100644
---- a/drivers/gpu/drm/i915/display/intel_histogram.c
-+++ b/drivers/gpu/drm/i915/display/intel_histogram.c
-@@ -29,6 +29,13 @@ struct intel_histogram {
- 	u32 bin_data[HISTOGRAM_BIN_COUNT];
- };
- 
-+static void intel_histogram_enable_dithering(struct intel_display *display,
-+					     enum pipe pipe)
-+{
-+	intel_de_rmw(display, PIPE_MISC(pipe), PIPE_MISC_DITHER_ENABLE,
-+		     PIPE_MISC_DITHER_ENABLE);
-+}
-+
- static void set_bin_index_0(struct intel_display *display, enum pipe pipe)
- {
- 	if (DISPLAY_VER(display) >= 20)
-@@ -197,6 +204,9 @@ static int intel_histogram_enable(struct intel_crtc *intel_crtc)
- 	if (histogram->enable)
- 		return 0;
- 
-+	/* Pipe Dithering should be enabled with histogram */
-+	intel_histogram_enable_dithering(display, pipe);
-+
- 	 /* enable histogram, clear DPST_BIN reg and select TC function */
- 	if (DISPLAY_VER(display) >= 20)
- 		intel_de_rmw(display, DPST_CTL(pipe),
--- 
-2.25.1
+Hmm, matter of taste.  I would not have invested that effort, but I have
+no objections either.  So:
+
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+
+take care,
+  Gerd
 
