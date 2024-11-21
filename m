@@ -2,87 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9729D539D
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 20:53:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A77B9D53D4
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 21:18:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4F110E351;
-	Thu, 21 Nov 2024 19:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 293CA10E0D0;
+	Thu, 21 Nov 2024 20:18:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ekYF7WHx";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="iLaeKGBd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
- [209.85.166.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8782610E351;
- Thu, 21 Nov 2024 19:53:16 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id
- ca18e2360f4ac-83ab21c269eso48765439f.2; 
- Thu, 21 Nov 2024 11:53:16 -0800 (PST)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6E8F10E0D0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 20:18:04 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-382442b7d9aso1142635f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 12:18:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732218796; x=1732823596; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=diAZCrMsMB3HqFx9gMbdYj2qxdjUwPEtwF8yqOBUtUA=;
- b=ekYF7WHxJLFxmXSmy+A/83oBHRRJQ9+U2KHbbXoXifvDSrApYsYARembUH/BSshTl0
- wVpwwDG80QJL66vRtF8wQNrB3lt+m0+xm6Z95grwmZFIjcSlWqYPxC5AhYWOeIK40BdA
- 6GM/Dxf62Vjsjm7IeKa3Dky0CDjnvQAp0Yc41Xi1okjXxa9pffRc8FG5XeoOPQSp2pBP
- 12BLXotQVqKsDwOQb5QMVWYhmUOAtILBIdTv+BDnkIioon+I/pYH5waLj1r1Fv8BNctl
- obnjmrPzyziWoUD/v4OtqTfmJlkYEAydVsbM65rmjPbXGe7XPjNmzeazxr2+AyapYQBT
- qngw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732218796; x=1732823596;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=ffwll.ch; s=google; t=1732220283; x=1732825083; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=diAZCrMsMB3HqFx9gMbdYj2qxdjUwPEtwF8yqOBUtUA=;
- b=fd/qrBa63CY87IC9WDWyWr00UFbbC2SnPTJGnV/ov3FbvmNUy7z8c1i2BITwkcgj9v
- jLBC+OTPwopvt4HhNKEWfINmARiYB0aqTSj0lcFNCavW8kzmUQNEZGXv6L9ddf1xvbe/
- IymbewMgJEcSoQSPICGibTTKJNynYmWHBIPPYReu4AhRnKINf+Imlofq3AV97B97wveD
- 6Gf2eD/vEua7jH24H7934EfuDLo0QMEaJ0rKRHzEsaO7DbzkHhp3jWPmldkUn5ge3rhs
- Y3ULMeJ6mXvSCYT3vYcXoNKBCZyPuWhnu6J5ImKSX1pb459GO9uc7OBIFa+s4CKVa/DD
- F3Mw==
+ bh=K2mZwNr3eW1Z9Vp+PcgzzHwsSK7NqM3DGZ9Ok0Kn/lA=;
+ b=iLaeKGBdi5tvvdminFRsy3B4v9DhkrYZpDromup2AhrrEl+tqRSD0qtvwOBTUNwdzW
+ osEJcT7oTWAPNV3JFJj2RmqqJvNPehzyRKEYNEu9eNUp61P656lHeNexJkNBQqIOw2OM
+ P0FYf+2a1rRTT6I//8IicjXodx1niYbBgDop8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732220283; x=1732825083;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=K2mZwNr3eW1Z9Vp+PcgzzHwsSK7NqM3DGZ9Ok0Kn/lA=;
+ b=DZrtsy4q/Mljpt2C2X1wDvjvAecuQqot/b7YXIXuSP3w1QkVw2cPEKY3h9Kf4UAAG4
+ q1UrzyNrv81O9TaCJYRnymA82HkF1im89+RVh5D4xZ2P2mGpu0SMGjLCyV1MkmRiZ6bD
+ C+bGJd6a8KzAa97PBG7y94TBTsRVcWPsA9CNqWZkF1v2wXQE1Icw6YVS9LABJLxMCjS5
+ PUYIBWPNw8qs5ZxNW1k5ZCWKLfyNf5lFAFAK0usHiABD61LolOOIywV6BGcaHBWkHpx7
+ ny0lkkaZJyuQztzIPE5J9U0Go+Io6zyr1QOCeY02tt0dwbTRQYuT88DXHExuI2i57Wbn
+ xW/Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVyXjtIWgQ80qOnH8Osioce/PMyF6HAS4WZ3DHkpMcuW763/8TDLQT/4vx+V1wj3psReFqCsWvO1g4=@lists.freedesktop.org,
- AJvYcCXth5dl3PH0Uv1lfZpBryDZZYe4T8Qs5p7aZH5dA7mDsDGEPjDAzHo8CLL+z6bEZh9vBCZ6tw3lYiWS@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFDflQjGzQhuZFLt4+llK6FIaWrlc9ScCM5njyjn4MJudSbsWQ
- OfUIkKjRpwJM176HUrsoNzxGGnwkVmm5H+KWn9pi19pk1hb2/aeePig2wLwjrilSUw47xWlkSqj
- o5lD30qbxBeKDYTzbQteIYm33lWY=
-X-Gm-Gg: ASbGncuqL97jqW7rYXQkRWamQWpkvhaNlkFZPGPTxC/40gsdG+EScCwe6b7KvCIhPnG
- azaLGzt/8VUZZKpSfqPrxodz3Gh9eBpoev59DRNcOgxQCVCjICR5Leny7U275sQ==
-X-Google-Smtp-Source: AGHT+IGVvKdxeJ2KfZ5TpOhV5e8CaKf2OdRVRdRq27Mf98UYeu0Bs53rOSroYiruS8NzSiyjkP/fPk3EC6WgTw+tzqg=
-X-Received: by 2002:a05:6602:3f83:b0:83d:ff89:218c with SMTP id
- ca18e2360f4ac-83ecdc8f12dmr23501839f.7.1732218795759; Thu, 21 Nov 2024
- 11:53:15 -0800 (PST)
+ AJvYcCU1exivnKgcLS+G81uf23U4p9RFljN+ld6UGk7qQdszkJ6FTs86iwrwZeJ1h4mWAbxXX08p+wsaW8g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzlwBrlMKqdgM2/FDOWUo127GUbQsapaZ4al3ijnpX/Ri8V4jMw
+ jp4VmTD/VKXoWpeMfcKE8OGesc3Y8JFE3yL3iCe32KxXvsZOvRoyX4mGmi28aQE=
+X-Gm-Gg: ASbGncsq5IxycLNEeRNGoEyix/m5ejJTQZF2rzIPgN8PZwkPpLT9rgiocqqCTHhOeg0
+ QOrDi1lcuLl35PVpWbLvjV+HlIEKD3agLq5s/lr2s1JoPnlupeZE7xw9qKYDkek9tDYyGGfG9Mb
+ TIoQrcrDLdE8BI+nqtyt8sYzp8Mm1G12pVLhA1MBZRvGZECCqUIFpDhtZoJBCt+dHIhQIdLlM4L
+ mo+d6lkYUki9ry+19JRctekSPvT6XalWXI/WpK/8OuyfJFZJSm0DpZZV5xPSg==
+X-Google-Smtp-Source: AGHT+IFIAEZgwOdLKe2aLVeTOHcS+P2fVWqmTMpDKu9ZFOYWSBuKw3u5Or2kbjFemduSGbeJqRdGPA==
+X-Received: by 2002:adf:e18c:0:b0:382:5aae:87ac with SMTP id
+ ffacd0b85a97d-38260b8966dmr360789f8f.32.1732220282992; 
+ Thu, 21 Nov 2024 12:18:02 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3825fb271ffsm455908f8f.53.2024.11.21.12.18.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Nov 2024 12:18:02 -0800 (PST)
+Date: Thu, 21 Nov 2024 21:17:59 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Michal Hocko <mhocko@suse.com>,
+ Dave Chinner <david@fromorbit.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>, Yafang Shao <laoar.shao@gmail.com>,
+ jack@suse.cz, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-bcachefs@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "conduct@kernel.org" <conduct@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH 1/2 v2] bcachefs: do not use PF_MEMALLOC_NORECLAIM
+Message-ID: <Zz-VdwLPBUV9d_Sj@phenom.ffwll.local>
+Mail-Followup-To: Kent Overstreet <kent.overstreet@linux.dev>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Michal Hocko <mhocko@suse.com>, Dave Chinner <david@fromorbit.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>, Yafang Shao <laoar.shao@gmail.com>,
+ jack@suse.cz, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-bcachefs@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "conduct@kernel.org" <conduct@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@gmail.com>
+References: <v664cj6evwv7zu3b77gf2lx6dv5sp4qp2rm7jjysddi2wc2uzl@qvnj4kmc6xhq>
+ <ZtWH3SkiIEed4NDc@tiehlicka>
+ <citv2v6f33hoidq75xd2spaqxf7nl5wbmmzma4wgmrwpoqidhj@k453tmq7vdrk>
+ <22a3da3d-6bca-48c6-a36f-382feb999374@linuxfoundation.org>
+ <vvulqfvftctokjzy3ookgmx2ja73uuekvby3xcc2quvptudw7e@7qj4gyaw2zfo>
+ <71b51954-15ba-4e73-baea-584463d43a5c@linuxfoundation.org>
+ <cl6nyxgqccx7xfmrohy56h3k5gnvtdin5azgscrsclkp6c3ko7@hg6wt2zdqkd3>
+ <9efc2edf-c6d6-494d-b1bf-64883298150a@linuxfoundation.org>
+ <be7f4c32-413e-4154-abe3-8b87047b5faa@linuxfoundation.org>
+ <nu6cezr5ilc6vm65l33hrsz5tyjg5yu6n22tteqvx6fewjxqgq@biklf3aqlook>
 MIME-Version: 1.0
-References: <20241119-topic-sm8x50-gpu-bw-vote-v2-0-4deb87be2498@linaro.org>
- <20241119-topic-sm8x50-gpu-bw-vote-v2-4-4deb87be2498@linaro.org>
- <CAF6AEGtBVDERQjcoXriKK3d2VZy2QMUxZZJbFdSgbpvue=0QNA@mail.gmail.com>
-In-Reply-To: <CAF6AEGtBVDERQjcoXriKK3d2VZy2QMUxZZJbFdSgbpvue=0QNA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 21 Nov 2024 11:53:03 -0800
-Message-ID: <CAF6AEGtrs8175V1+onoH4p6u4benT_tzz-Gg3JkNA+WE9Ltcsw@mail.gmail.com>
-Subject: Re: [PATCH v2 04/11] drm/msm: adreno: add GMU_BW_VOTE feature flag
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Viresh Kumar <vireshk@kernel.org>, 
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Connor Abbott <cwabbott0@gmail.com>, linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <nu6cezr5ilc6vm65l33hrsz5tyjg5yu6n22tteqvx6fewjxqgq@biklf3aqlook>
+X-Operating-System: Linux phenom 6.11.6-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,55 +119,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 21, 2024 at 11:50=E2=80=AFAM Rob Clark <robdclark@gmail.com> wr=
-ote:
->
-> On Tue, Nov 19, 2024 at 9:56=E2=80=AFAM Neil Armstrong
-> <neil.armstrong@linaro.org> wrote:
-> >
-> > The Adreno GMU Management Unit (GNU) can also scale the DDR Bandwidth
->
-> nit, s/GNU/GMU/
+On Wed, Nov 20, 2024 at 05:39:09PM -0500, Kent Overstreet wrote:
+> There were concerns raised in the recent CoC enforcement thread, by
+> someone with experience in such matters, that your aproach seemed
+> extremeely heavy handed and I find myself in 100% agreement.
 
-And I guess you meant "GPU Management Unit" (presumably this isn't yet
-another recursive acronym
+Ehrm ...
 
-Same comment in the next commit
+Yes, I did quite strongly criticize the new coc enforcement process.
 
->
-> > along the Frequency and Power Domain level, but by default we leave the
-> > OPP core vote for the interconnect ddr path.
-> >
-> > While scaling via the interconnect path was sufficient, newer GPUs
-> > like the A750 requires specific vote paremeters and bandwidth to
-> > achieve full functionality.
-> >
-> > While the feature will require some data in a6xx_info, it's safer
-> > to only enable tested platforms with this flag first.
-> >
-> > Add a new feature enabling DDR Bandwidth vote via GMU.
-> >
-> > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/=
-msm/adreno/adreno_gpu.h
-> > index 4702d4cfca3b58fb3cbb25cb6805f1c19be2ebcb..394b96eb6c83354ae008b15=
-b562bedb96cd391dd 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > @@ -58,6 +58,7 @@ enum adreno_family {
-> >  #define ADRENO_FEAT_HAS_HW_APRIV               BIT(0)
-> >  #define ADRENO_FEAT_HAS_CACHED_COHERENT                BIT(1)
-> >  #define ADRENO_FEAT_PREEMPTION                 BIT(2)
-> > +#define ADRENO_FEAT_GMU_BW_VOTE                        BIT(3)
-> >
-> >  /* Helper for formating the chip_id in the way that userspace tools li=
-ke
-> >   * crashdec expect.
-> >
-> > --
-> > 2.34.1
-> >
+No, you would not appreciate what I'd do instead, not at all.
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
