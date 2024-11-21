@@ -2,56 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A689D4FDA
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 16:38:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27289D4FD2
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 16:37:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D48DC10E9A4;
-	Thu, 21 Nov 2024 15:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0669710E9A0;
+	Thu, 21 Nov 2024 15:37:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="mHLh1lZu";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="Gfzsa8sQ";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Gf2Zn58q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6642410E9B0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 15:38:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1732203228;
- bh=JUs9JXydlh1n899x79+5eCB
- TG58r9BPfGxeERsB4cnQ=; b=mHLh1lZu586+j55uCZOYnES1HsbKhCEsOt3XsxqtzOIdLF7C4P
- pavoj4dpmqKtKVRHe0qcCx1FYxY+nsdfWl+J2mUx0QYA4Dbit2GNenSfn2ITSBRkqmg2Yg3mEEh
- 0+5wmHQ5+v6hu1AWXnkcRTbJPJbkBRFIjiIN6O1eRj350CT8FgeMrCOnkEUK1OOcS+1EJYfPTXp
- AtJi7gJBOFxFfi0OpKFYOEvTmf+6uVZEMKmtGekv2BuGy/9obVDU9ffUwWiXQfPpAgvxcxI5JYL
- CdlsQATjagxDNFvnxPLN3tZUSz+g9I4OPIzga1JNKPcHrfr2kBtduEnEqnuZEe51juQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1732203228; bh=JUs9JXydlh1n899x79+5eCB
- TG58r9BPfGxeERsB4cnQ=; b=Gfzsa8sQiqzKTBKzlFdzNHlXTZs9KYGoTJSDO7+gqjN8MRKtmS
- YnRfUQFdImPewVZieR8h7OLes/J3DyNLuKBg==;
-Message-ID: <9990a170-0c47-4a52-ad56-e93939739f41@damsy.net>
-Date: Thu, 21 Nov 2024 16:33:47 +0100
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0830C10E9A0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 15:37:20 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-6ee6a2ae6ecso9928147b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 07:37:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1732203439; x=1732808239;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kP6pOE3po/1ziJMcsJhojsNldXrvD7NcZzZfzxDnn2Q=;
+ b=Gf2Zn58qXKgdMUSlVtvpKCJl8jdR89yAj0aKA3vP9iOcCzgMzRw0+SztE9e+t8dLOX
+ PMS63o6ONWU6QBrtMH6lGSc9wJnwzT/f0v6Bi10E1ib7xaBvUlfwLs19kkc27wB12rP3
+ GjD6yN89+cmgAczgnNua6zAaPmvu6zIgRCJh+scFQ3TxrHOJUsONBrI26vDoEMqyRToB
+ gB+PSPsV9kjVIMHzgeBvuTjn9eFu+gY0XsGVOQhwyOnsEacnIKEKlKgA8SFhbMznQHzD
+ CvNyjvnMmx31OQs2cCVY9LJfaRlnz1BgVGhg+pwilKotfNFxnD0XfIiET2F9+OHEjfxW
+ 68iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732203439; x=1732808239;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kP6pOE3po/1ziJMcsJhojsNldXrvD7NcZzZfzxDnn2Q=;
+ b=O+wllE4bAr2vZA4vQsF6tLcuITeMNDc/5mF4bweLvvB0VhDxkYzPSxI+BPNzkPT1ub
+ jdrTjg8cyzyGjRknJl4AN7cFLM4+ijfIpohT6uMYVCNmBGHPm7w6/UKzPXU/IY5qO9Ol
+ wf/tWbTTA/FDS6/M1KT3NCAx60AgkFm4JyRb2AweSYf9pA0VXqidOw7HBZys41uQMSb2
+ 5rKHuxtqlCxD6s0PK4NE1vb8h7GrYnIXjDefGfGdCwsn4PXXs8mIyg4Qs/mz99j/Rn25
+ 0l75U7KT+KiofjJ0LWAWYkIMqRux1hwa6t6u9xSXe0WRFMhGrpGzwl5leCSB/JJBTBHn
+ dT0w==
+X-Gm-Message-State: AOJu0YytiD+Yqylug8Iyg6EdrImQ24aH5YoiHfHBfM/8WD5/VWe1BDya
+ p8M6zCYyNBXyuhk+dkJuB365X9PuSeH/AfJhyzcsk6iYSVY+NGm1fun8jl+QCcAbaeH4RjbgwGs
+ nE67yiAR7ipKkNmkFLfPnzoEiHVqZkPp8ym+Gqw==
+X-Gm-Gg: ASbGnct90lZFQO7y493jI+EBjrlEwSGTilagr+gWLns+YIQDqhDk8jpB+to6CN8xUBV
+ I14a2ESpsShcXz8xQPzDlFHJMCIDz/Lg=
+X-Google-Smtp-Source: AGHT+IF8UTnU+5p7nKbdKVjbrthoiYcBYTuLfXNVkQGbQk0KfLyktr9CA5uLVCOTpHwOyzUd5aASTSTl99WTmj5pohI=
+X-Received: by 2002:a05:690c:6283:b0:6ee:9cb7:dc24 with SMTP id
+ 00721157ae682-6eebd2b24cemr74692547b3.38.1732203438928; Thu, 21 Nov 2024
+ 07:37:18 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/7] Improve gpu_scheduler trace events + uAPI
-To: Philipp Stanner <pstanner@redhat.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com, ltuikov89@gmail.com,
- matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- rostedt@goodmis.org, l.stach@pengutronix.de, matt.coster@imgtec.com,
- frank.binns@imgtec.com, yuq825@gmail.com, robdclark@gmail.com,
- kherbst@redhat.com, lyude@redhat.com, boris.brezillon@collabora.com,
- steven.price@arm.com, mwen@igalia.com, mcanal@igalia.com,
- thomas.hellstrom@linux.intel.com, tvrtko.ursulin@igalia.com
-References: <20241114100113.150647-1-pierre-eric.pelloux-prayer@amd.com>
- <83e76cb6b546fad48809f36373b3c78c9f855bff.camel@redhat.com>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <83e76cb6b546fad48809f36373b3c78c9f855bff.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
+In-Reply-To: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 21 Nov 2024 15:37:00 +0000
+Message-ID: <CAPY8ntBM=34pTiQ=t-CjtYEE5Ax6D=EtiY-sLT1keUkUMXuLeA@mail.gmail.com>
+Subject: Re: [PATCH 00/37] drm/vc4: Add support for BCM2712 / Pi5 display
+ hardware
+To: Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Stefan Wahren <wahrenst@gmx.net>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+ Dom Cobley <popcornmix@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,95 +95,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 23 Oct 2024 at 17:50, Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> This series adds the required DRM, clock, and DT changes
+> required to support the display hardware on Pi5.
+> There are a couple of minor fixes first before the main patches.
+>
+> Many of the patches were authored by Maxime whilst working
+> for us, however there have been a number of fixes squashed
+> into his original patches as issues have been found. I also
+> reworked the way UBM allocations are done to avoid double
+> buffering of the handles as they are quite a limited resource.
+>
+> There are 2 variants of the IP. Most Pi5's released to date
+> have used the C1 step of the SoC, whilst the 2GB Pi5 released
+> in August is using the D0 step, as will other boards in future.
+>
+> Due to various reasons the register map got reworked between
+> the steps, so there is extra code to handle the differences.
+> Which step is in use is read out of the hardware, so they
+> share a compatible string.
 
+A gentle ping on the patches for clk-raspberrypi (patches 29-33) and
+Broadcom DT (patches 34-36).
 
-Le 15/11/2024 à 11:46, Philipp Stanner a écrit :
-> On Thu, 2024-11-14 at 11:01 +0100, Pierre-Eric Pelloux-Prayer wrote:
->> Hi,
->>
-> 
-> Hi,
-> 
-> I have only just discovered this thread; Danilo and I (we're
-> maintainers of the scheduler since early October) seem to miss on CC.
-> Do you use scripts/get_maintainer?
+All the DRM and dtbinding ones are reviewed or acked (thank you!).
 
-I've used the get_maintainer script initially, but then I've kept sending to the same list and I've 
-missed the early October update. Sorry about that.
+Thanks
+  Dave
 
-> 
-> I'll look into this series soonish.
-
-Thanks a lot!
-
-Pierre-Eric
-
-> 
-> Regards,
-> P.
-> 
->> The initial goal of this series was to improve the drm and amdgpu
->> trace events to be able to expose more of the inner workings of
->> the scheduler and drivers to developers via tools.
->>
->> Then, the series evolved to become focused only on gpu_scheduler.
->> The changes around vblank events will be part of a different
->> series, as well as the amdgpu ones.
->>
->> Moreover Sima suggested to make some trace events stable uAPI,
->> so tools can rely on them long term.
->>
->> The first patches extend and cleanup the gpu scheduler events.
->>
->> The last one adds a documentation entry in drm-uapi.rst.
->>
->> Changes since v5:
->> * Addressed Christian, Maíra and Lucas' comments.
->> * Added patch 1, 2, 6 to include drm_client_id to the events. This
->>    is required when a single app uses multiple fds for the same
->> device.
->> * Validated that the patches don't break gpuvis
->>
->> Useful links:
->> - userspace tool using the updated events:
->> https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
->> - v5:
->> https://lists.freedesktop.org/archives/dri-devel/2024-June/457827.html
->>
->>
->> Pierre-Eric Pelloux-Prayer (7):
->>    drm/debugfs: output client_id in in drm_clients_info
->>    drm/sched: store the drm client_id in drm_sched_fence
->>    drm/sched: add device name to the drm_sched_process_job event
->>    drm/sched: cleanup gpu_scheduler trace events
->>    drm/sched: trace dependencies for gpu jobs
->>    drm/sched: add the drm_client_id to the drm_sched_run/exec_job
->> events
->>    drm/doc: document some tracepoints as uAPI
->>
->>   Documentation/gpu/drm-uapi.rst                |  19 +++
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   3 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   8 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   3 +-
->>   drivers/gpu/drm/drm_debugfs.c                 |  10 +-
->>   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   2 +-
->>   drivers/gpu/drm/imagination/pvr_job.c         |   2 +-
->>   drivers/gpu/drm/imagination/pvr_queue.c       |   5 +-
->>   drivers/gpu/drm/imagination/pvr_queue.h       |   2 +-
->>   drivers/gpu/drm/lima/lima_gem.c               |   2 +-
->>   drivers/gpu/drm/lima/lima_sched.c             |   6 +-
->>   drivers/gpu/drm/lima/lima_sched.h             |   3 +-
->>   drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
->>   drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
->>   drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
->>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 121 ++++++++++++++--
->> --
->>   drivers/gpu/drm/scheduler/sched_entity.c      |   8 +-
->>   drivers/gpu/drm/scheduler/sched_fence.c       |   4 +-
->>   drivers/gpu/drm/scheduler/sched_main.c        |   8 +-
->>   drivers/gpu/drm/v3d/v3d_submit.c              |   2 +-
->>   drivers/gpu/drm/xe/xe_sched_job.c             |   3 +-
->>   include/drm/gpu_scheduler.h                   |  12 +-
->>   23 files changed, 181 insertions(+), 57 deletions(-)
->>
+> Thanks!
+>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+> Dave Stevenson (12):
+>       drm/vc4: Limit max_bpc to 8 on Pi0-3
+>       drm/vc4: Use of_device_get_match_data to set generation
+>       drm/vc4: Fix reading of frame count on GEN5 / Pi4
+>       drm/vc4: drv: Add support for 2712 D-step
+>       drm/vc4: hvs: Add in support for 2712 D-step.
+>       drm/vc4: plane: Add support for 2712 D-step.
+>       drm/vc4: hdmi: Support 2712 D-step register map
+>       drm/vc4: Enable bg_fill if there are no planes enabled
+>       drm/vc4: Drop planes that are completely off-screen or 0 crtc size
+>       arm64: dts: broadcom: Add firmware clocks and power nodes to Pi5 DT
+>       arm64: dts: broadcom: Add display pipeline support to BCM2712
+>       arm64: dts: broadcom: Add DT for D-step version of BCM2712
+>
+> Dom Cobley (3):
+>       clk: bcm: rpi: Add ISP to exported clocks
+>       clk: bcm: rpi: Allow cpufreq driver to also adjust gpu clocks
+>       clk: bcm: rpi: Enable minimize for all firmware clocks
+>
+> Maxime Ripard (22):
+>       dt-bindings: display: Add BCM2712 HDMI bindings
+>       dt-bindings: display: Add BCM2712 HVS bindings
+>       dt-bindings: display: Add BCM2712 PixelValve bindings
+>       dt-bindings: display: Add BCM2712 MOP bindings
+>       dt-bindings: display: Add BCM2712 MOPLET bindings
+>       dt-bindings: display: Add BCM2712 KMS driver bindings
+>       drm/vc4: drv: Support BCM2712
+>       drm/vc4: hvs: Add support for BCM2712 HVS
+>       drm/vc4: crtc: Add support for BCM2712 PixelValves
+>       drm/vc4: hdmi: Add support for BCM2712 HDMI controllers
+>       drm/vc4: txp: Introduce structure to deal with revision differences
+>       drm/vc4: txp: Rename TXP data structure
+>       drm/vc4: txp: Add byte enable toggle bit
+>       drm/vc4: txp: Add horizontal and vertical size offset toggle bit
+>       drm/vc4: txp: Handle 40-bits DMA Addresses
+>       drm/vc4: txp: Move the encoder type in the variant structure
+>       drm/vc4: txp: Add a new TXP encoder type
+>       drm/vc4: txp: Add support for BCM2712 MOP
+>       drm/vc4: txp: Add BCM2712 MOPLET support
+>       drm/vc4: Add additional warn_on for incorrect revisions
+>       clk: bcm: rpi: Create helper to retrieve private data
+>       clk: bcm: rpi: Add disp clock
+>
+>  .../bindings/display/brcm,bcm2711-hdmi.yaml        |   2 +
+>  .../bindings/display/brcm,bcm2835-hvs.yaml         |   5 +-
+>  .../bindings/display/brcm,bcm2835-pixelvalve0.yaml |   3 +
+>  .../bindings/display/brcm,bcm2835-txp.yaml         |   5 +-
+>  .../bindings/display/brcm,bcm2835-vc4.yaml         |   1 +
+>  arch/arm64/boot/dts/broadcom/Makefile              |   1 +
+>  arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dts |  37 +
+>  arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts   |  42 +
+>  arch/arm64/boot/dts/broadcom/bcm2712.dtsi          | 188 +++++
+>  drivers/clk/bcm/clk-raspberrypi.c                  |  34 +-
+>  drivers/gpu/drm/vc4/tests/vc4_mock.c               |   8 +-
+>  drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c     | 106 +--
+>  drivers/gpu/drm/vc4/vc4_crtc.c                     |  96 ++-
+>  drivers/gpu/drm/vc4/vc4_drv.c                      |  19 +-
+>  drivers/gpu/drm/vc4/vc4_drv.h                      |  54 +-
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                     | 112 ++-
+>  drivers/gpu/drm/vc4/vc4_hdmi.h                     |   4 +
+>  drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 | 640 +++++++++++++++
+>  drivers/gpu/drm/vc4/vc4_hdmi_regs.h                | 217 ++++++
+>  drivers/gpu/drm/vc4/vc4_hvs.c                      | 737 ++++++++++++++++--
+>  drivers/gpu/drm/vc4/vc4_kms.c                      | 102 ++-
+>  drivers/gpu/drm/vc4/vc4_plane.c                    | 866 ++++++++++++++++++++-
+>  drivers/gpu/drm/vc4/vc4_regs.h                     | 297 +++++++
+>  drivers/gpu/drm/vc4/vc4_txp.c                      |  91 ++-
+>  include/soc/bcm2835/raspberrypi-firmware.h         |   1 +
+>  25 files changed, 3464 insertions(+), 204 deletions(-)
+> ---
+> base-commit: 91e21479c81dd4e9e22a78d7446f92f6b96a7284
+> change-id: 20241002-drm-vc4-2712-support-9ad3236e3caf
+>
+> Best regards,
+> --
+> Dave Stevenson <dave.stevenson@raspberrypi.com>
+>
