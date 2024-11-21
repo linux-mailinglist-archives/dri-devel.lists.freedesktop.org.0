@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB739D51F4
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 18:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D7C9D51F6
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 18:41:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAF4A10EA13;
-	Thu, 21 Nov 2024 17:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C976410EA14;
+	Thu, 21 Nov 2024 17:41:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RWoZGU5f";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Y85agxXt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
  [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 277F110EA08
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 17:41:40 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D004620010;
- Thu, 21 Nov 2024 17:41:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 606EB10EA07
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 17:41:41 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 017F020002;
+ Thu, 21 Nov 2024 17:41:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1732210898;
+ t=1732210900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZKTy8XWO2qgziAQ1aV4BgRlmD2JBLSeCDp8Nwyzn3qA=;
- b=RWoZGU5fJqpTbXKi5tH+r+d1vmD3mjfhf6zksxyRpNa2uNYJqMxwWp/aivD8zuRYvbeVR6
- HaBQw6HXteslHcYc5HeiakgI80i3lGL4NvA0dVR49fCXFMkNaqK2+x1vIMmPZyaCPYDUea
- EiEcuu2XP80YdISzxDRiKnFalLoPHLRrs+BPSDuUxPflkp3mdDL0rueP/9UY9TKAsH6hhh
- T3NGDcPuhqZ9mQTaTLd35fNleQXRbFnRYg12+0mlyMKpkFqtd7yXICaPQg7eEkmXvMJj/b
- 7qTCJNRPyQTqux8xlrxIUqgH9YKhnerMsJ+IDdSQuq/HEUrdwwCHfsYqkgdD3Q==
+ bh=g9fPs0nLthnmbo8a6LrEY10rX186VeNy9SlwRtv5peU=;
+ b=Y85agxXtRhcAxZzQaTYfg/Fqro4DYf58mDGp1y2m/tvKQcRgdR/TTvqBShF6rleawyFLVC
+ IL3KSEBqc9lFFlv8XSTrCWVE7Ya1BYJoyqXcfSCbfjV69dQjmX/PdKTVyRgr5zJeu7hK6G
+ 8QIJEAuv3qhpsSXUiv6lQXu86m7nOjj0jX/WYxZmuwglh7Xnm6RtoJrgjNEVary+Nfx2Q6
+ D/XqaeYScbjs1uQ4vuWWzrVr1nPrz+Ys1W03dt9oE7tWDDdnFIpjlUXRQC1HDQ9GUDNqxZ
+ iK2+XlZEwiGBprWAfMHfqxvln9cn4lB0BmnJ+r6gkj4PK7WuOPUASa/oLCCeUQ==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Thu, 21 Nov 2024 18:41:12 +0100
-Subject: [PATCH 2/5] clk: Add a helper to determine a clock rate
+Date: Thu, 21 Nov 2024 18:41:13 +0100
+Subject: [PATCH 3/5] clk: Split clk_calc_subtree()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241121-ge-ian-debug-imx8-clk-tree-v1-2-0f1b722588fe@bootlin.com>
+Message-Id: <20241121-ge-ian-debug-imx8-clk-tree-v1-3-0f1b722588fe@bootlin.com>
 References: <20241121-ge-ian-debug-imx8-clk-tree-v1-0-0f1b722588fe@bootlin.com>
 In-Reply-To: <20241121-ge-ian-debug-imx8-clk-tree-v1-0-0f1b722588fe@bootlin.com>
 To: Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
@@ -71,43 +71,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the context of the clock core, "determine" means we calculate a
-possible clock rate based on its hardware capabilities and its current
-upstream parent frequency. This is opposed to "round" which tries to
-find the best parent and best rate and "recalc" which is about finding
-the next output clock based on a parent frequency change.
+This helper does two different things:
+- it calculates the new clock frequency
+    - as part of this task, it also handles a possible parent change
+- it walks the clock subtree to further update frequencies as well (but
+  the parent changes are no longer relevant there).
 
-The prototype is based on clk_recalc() which does exactly the same for
-the "recalc" situation.
+In order to ease the understanding of the next step, let's split this
+helper into:
+- clk_calc_core_and_subtree() which performs the top clock update (with
+  the parents handling) and then calls...
+- clk_calc_subtree() (which calls itself recursively) in order to
+  perform the subtree updates.
+
+There is no functional change intended.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- drivers/clk/clk.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/clk/clk.c | 22 +++++++++++++++-------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index d02451f951cf057d068f980d985c95deb861a2d9..f171539bbb842f57698249a475c62f3f5719ccd1 100644
+index f171539bbb842f57698249a475c62f3f5719ccd1..adfc5bfb93b5a65b6f58c52ca2c432d651f7dd7d 100644
 --- a/drivers/clk/clk.c
 +++ b/drivers/clk/clk.c
-@@ -1927,6 +1927,18 @@ long clk_get_accuracy(struct clk *clk)
+@@ -2268,8 +2268,18 @@ static int __clk_speculate_rates(struct clk_core *core,
+ 	return ret;
  }
- EXPORT_SYMBOL_GPL(clk_get_accuracy);
  
-+__maybe_unused
-+static unsigned long clk_determine(struct clk_core *core, unsigned long rate)
+-static void clk_calc_subtree(struct clk_core *core, unsigned long new_rate,
+-			     struct clk_core *new_parent, u8 p_index)
++static void clk_calc_subtree(struct clk_core *core)
 +{
-+	struct clk_rate_request req = {};
++	struct clk_core *child;
 +
-+	clk_hw_init_rate_request(core->hw, &req, rate);
-+	if (__clk_determine_rate(core->hw, &req))
-+		return 0;
++	core->new_rate = clk_recalc(core, core->parent->new_rate);
 +
-+	return req.rate;
++	hlist_for_each_entry(child, &core->children, child_node)
++		clk_calc_subtree(child);
 +}
 +
- static unsigned long clk_recalc(struct clk_core *core,
- 				unsigned long parent_rate)
++static void clk_calc_core_and_subtree(struct clk_core *core, unsigned long new_rate,
++				      struct clk_core *new_parent, u8 p_index)
  {
+ 	struct clk_core *child;
+ 
+@@ -2281,10 +2291,8 @@ static void clk_calc_subtree(struct clk_core *core, unsigned long new_rate,
+ 	if (new_parent && new_parent != core->parent)
+ 		new_parent->new_child = core;
+ 
+-	hlist_for_each_entry(child, &core->children, child_node) {
+-		child->new_rate = clk_recalc(child, new_rate);
+-		clk_calc_subtree(child, child->new_rate, NULL, 0);
+-	}
++	hlist_for_each_entry(child, &core->children, child_node)
++		clk_calc_subtree(child);
+ }
+ 
+ /*
+@@ -2368,7 +2376,7 @@ static struct clk_core *clk_calc_new_rates(struct clk_core *core,
+ 		top = clk_calc_new_rates(parent, best_parent_rate);
+ 
+ out:
+-	clk_calc_subtree(core, new_rate, parent, p_index);
++	clk_calc_core_and_subtree(core, new_rate, parent, p_index);
+ 
+ 	return top;
+ }
 
 -- 
 2.47.0
