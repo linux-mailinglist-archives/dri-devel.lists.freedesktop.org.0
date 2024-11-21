@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3B69D49E3
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 10:23:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE37A9D49E4
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 10:23:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A492A10E8C3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECF1310E8C2;
 	Thu, 21 Nov 2024 09:23:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="dM/vKqAb";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="2aUhvYyl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDE8110E8BA
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 09:23:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0DB10E8C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 09:23:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
  t=1732181022; x=1763717022;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hTZs9u0Oqdf1I9PjVZl9bFYDm54NofKT7IeYsH2t1xw=;
- b=dM/vKqAbWnx5u8VuihwBJarkfEqwyJ1oBpNUHT/7uMu0bkwuoDXN+Y4K
- 3kGYzgNZ9b/hgRY3JUhErAtnLqXzG9uZP/9lA2SunsUH8qFjDrC0JeKbK
- cxUSj02yxx/JFWfCw2s1DYPsXiM+TAsWX4CRwc/e3WpkzN3Ea4gQ0tgTY
- 9xFB5P6AHI41pJ53VzokWYgsUPDZ7/uoGptfALFwuo0wao3NIBUDafYHN
- tsdj3YgG5QolshDEOJYA21cjAG2uQBti+4DdS/VerQoZLpPy7kGudlVoe
- b8B5L34xXlfH09Jbbu6bBRraaQYegB/Lo0EbCHqfWRtZSzJUrjqo0b8US A==;
+ bh=nxKf5QOaOvMz6pxHfw4grQb5c34JrR+fnuNyXv/1n9E=;
+ b=2aUhvYyliBtTMIKSglJDr25cYQipIYbRSMk8mgxGgPIMUaGeDzlGKdeD
+ ctkXWRGAUKMaz9lNdBIzFOOezZRkJDDVI/kaowU5XY2zYtkfg3kyrv0Et
+ ae72gBHjWN4RFRnUwFoE3i1LE2Y1DIOtg4zzcZyP0nP8u9K6AzR5luMD+
+ KRbrlU6ScT770ZUo/BD2qWR1fzqRfVNlsWNiDJ8+tvsnEYc6qnoRch/ss
+ +VGDvDAmJzCOYvhI1fPzUYb9Skb/bOz/qvPJHKEd2qsCQ3N3QcIPeTih+
+ 3mGH5/v42CJ0JKkvXpbmUeL3vR+eJQlCvs5N81Fvsh/KZD+JyOW39cr79 Q==;
 X-CSE-ConnectionGUID: wS72ZE3TTRmRyzdG8hxnTQ==
-X-CSE-MsgGUID: aalNNPKeSoqk3SayxHhJFA==
-X-IronPort-AV: E=Sophos;i="6.12,172,1728975600"; d="scan'208";a="202047025"
+X-CSE-MsgGUID: NcTGc9clQXmwz210lj1F0Q==
+X-IronPort-AV: E=Sophos;i="6.12,172,1728975600"; d="scan'208";a="202047029"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Nov 2024 02:23:41 -0700
+ 21 Nov 2024 02:23:42 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 21 Nov 2024 02:23:08 -0700
+ 15.1.2507.35; Thu, 21 Nov 2024 02:23:15 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Thu, 21 Nov 2024 02:23:04 -0700
+ 15.1.2507.35 via Frontend Transport; Thu, 21 Nov 2024 02:23:11 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <sam@ravnborg.org>, <bbrezillon@kernel.org>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -52,9 +52,10 @@ To: <sam@ravnborg.org>, <bbrezillon@kernel.org>,
  <linux-kernel@vger.kernel.org>
 CC: <manikandan.m@microchip.com>, Dharma Balasubiramani
  <dharma.b@microchip.com>
-Subject: [PATCH 2/3] mfd: atmel-hlcdc: fetch LVDS PLL clock for LVDS display
-Date: Thu, 21 Nov 2024 14:53:07 +0530
-Message-ID: <20241121092308.130328-2-manikandan.m@microchip.com>
+Subject: [PATCH 3/3] drm: atmel-hlcdc: set LVDS PLL clock rate for LVDS
+ Displays
+Date: Thu, 21 Nov 2024 14:53:08 +0530
+Message-ID: <20241121092308.130328-3-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241121092308.130328-1-manikandan.m@microchip.com>
 References: <20241121092308.130328-1-manikandan.m@microchip.com>
@@ -76,59 +77,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The XLCDC IP supports DSI, parallel RGB and LVDS Display.
-sys_clk(Generic clock) is used for DSI and Parallel RGB displays;
-And LVDS PLL is used with LVDS displays.
-obtain anyone of the clocks for the LCD to operate
+From: Dharma Balasubiramani <dharma.b@microchip.com>
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+The LVDS PLL clock is 7x the Panel Pixel clock.
+When using LVDS displays, the LVDS PLL clock rate is set using the
+panel pixel clock, this skips the usage of 'assigned-clock-rates'
+DT property for lvds_pll_clk clock for LCD node.
+
 Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
- drivers/mfd/atmel-hlcdc.c       | 16 ++++++++++++++--
- include/linux/mfd/atmel-hlcdc.h |  1 +
- 2 files changed, 15 insertions(+), 2 deletions(-)
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 48 ++++++++++++++++---
+ 1 file changed, 42 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/mfd/atmel-hlcdc.c b/drivers/mfd/atmel-hlcdc.c
-index 4c4e35d404f3..60b0b766459e 100644
---- a/drivers/mfd/atmel-hlcdc.c
-+++ b/drivers/mfd/atmel-hlcdc.c
-@@ -108,10 +108,22 @@ static int atmel_hlcdc_probe(struct platform_device *pdev)
- 		return PTR_ERR(hlcdc->periph_clk);
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+index 0e709047369a..d11040d5cc5f 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+@@ -99,9 +99,15 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
+ 		drm_connector_list_iter_end(&iter);
  	}
  
-+	/*
-+	 * Obtain one of the main clocks (GCK / LVDS PLL) required by the
-+	 * LCD to function,
-+	 * GCK for Parallel RGB and MIPI displays;
-+	 * LVDS PLL for LVDS displays.
-+	 */
-+	hlcdc->sys_clk = NULL;
-+	hlcdc->lvds_pll_clk = NULL;
- 	hlcdc->sys_clk = devm_clk_get(dev, "sys_clk");
- 	if (IS_ERR(hlcdc->sys_clk)) {
--		dev_err(dev, "failed to get system clock\n");
--		return PTR_ERR(hlcdc->sys_clk);
-+		dev_dbg(dev, "failed to get system clock\n");
-+		hlcdc->lvds_pll_clk = devm_clk_get(dev, "lvds_pll_clk");
-+		if (IS_ERR(hlcdc->lvds_pll_clk)) {
-+			dev_err(dev, "failed to get LVDS PLL clock\n");
-+			return PTR_ERR(hlcdc->lvds_pll_clk);
+-	ret = clk_prepare_enable(crtc->dc->hlcdc->sys_clk);
+-	if (ret)
+-		return;
++	if (crtc->dc->hlcdc->lvds_pll_clk) {
++		ret = clk_prepare_enable(crtc->dc->hlcdc->lvds_pll_clk);
++		if (ret)
++			return;
++	} else {
++		ret = clk_prepare_enable(crtc->dc->hlcdc->sys_clk);
++		if (ret)
++			return;
++	}
+ 
+ 	vm.vfront_porch = adj->crtc_vsync_start - adj->crtc_vdisplay;
+ 	vm.vback_porch = adj->crtc_vtotal - adj->crtc_vsync_end;
+@@ -186,7 +192,10 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
+ 			   ATMEL_XLCDC_DPI : ATMEL_HLCDC_MODE_MASK),
+ 			   cfg);
+ 
+-	clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
++	if (crtc->dc->hlcdc->lvds_pll_clk)
++		clk_disable_unprepare(crtc->dc->hlcdc->lvds_pll_clk);
++	else
++		clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
+ }
+ 
+ static enum drm_mode_status
+@@ -242,7 +251,11 @@ static void atmel_hlcdc_crtc_atomic_disable(struct drm_crtc *c,
+ 				    10, 1000))
+ 		dev_warn(dev->dev, "Atmel LCDC status register CLKSTS timeout\n");
+ 
+-	clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
++	if (crtc->dc->hlcdc->lvds_pll_clk)
++		clk_disable_unprepare(crtc->dc->hlcdc->lvds_pll_clk);
++	else
++		clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
++
+ 	pinctrl_pm_select_sleep_state(dev->dev);
+ 
+ 	pm_runtime_allow(dev->dev);
+@@ -255,15 +268,38 @@ static void atmel_hlcdc_crtc_atomic_enable(struct drm_crtc *c,
+ {
+ 	struct drm_device *dev = c->dev;
+ 	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
++	struct drm_display_mode *adj = &c->state->adjusted_mode;
+ 	struct regmap *regmap = crtc->dc->hlcdc->regmap;
+ 	unsigned int status;
++	int ret;
+ 
+ 	pm_runtime_get_sync(dev->dev);
+ 
+ 	pm_runtime_forbid(dev->dev);
+ 
+ 	pinctrl_pm_select_default_state(dev->dev);
+-	clk_prepare_enable(crtc->dc->hlcdc->sys_clk);
++
++	if (crtc->dc->hlcdc->lvds_pll_clk) {
++		/*
++		 * When using LVDS displays, fetch the pixel clock from the panel
++		 * and set the LVDS PLL clock rate.
++		 * As per the datasheet, LVDS PLL clock is 7x the pixel clock.
++		 */
++		ret = clk_set_rate(crtc->dc->hlcdc->lvds_pll_clk,
++				   (adj->clock * 7 * 1000));
++		if (ret) {
++			dev_err(dev->dev, "Failed to set LVDS PLL clk rate: %d\n", ret);
++			return;
 +		}
- 	}
++
++		ret = clk_prepare_enable(crtc->dc->hlcdc->lvds_pll_clk);
++		if (ret)
++			return;
++	} else {
++		ret = clk_prepare_enable(crtc->dc->hlcdc->sys_clk);
++		if (ret)
++			return;
++	}
  
- 	hlcdc->slow_clk = devm_clk_get(dev, "slow_clk");
-diff --git a/include/linux/mfd/atmel-hlcdc.h b/include/linux/mfd/atmel-hlcdc.h
-index 80d675a03b39..07c2081867fd 100644
---- a/include/linux/mfd/atmel-hlcdc.h
-+++ b/include/linux/mfd/atmel-hlcdc.h
-@@ -75,6 +75,7 @@
-  */
- struct atmel_hlcdc {
- 	struct regmap *regmap;
-+	struct clk *lvds_pll_clk;
- 	struct clk *periph_clk;
- 	struct clk *sys_clk;
- 	struct clk *slow_clk;
+ 	regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_PIXEL_CLK);
+ 	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
 -- 
 2.25.1
 
