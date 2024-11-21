@@ -2,139 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921F89D48C7
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 09:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB69F9D48F3
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 09:38:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5316710E089;
-	Thu, 21 Nov 2024 08:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57B4810E410;
+	Thu, 21 Nov 2024 08:38:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="V8s71tgl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8VQgBLDT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cLVYVGO2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2cRvjT7f";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dBsgoE3h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A16310E089
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 08:25:14 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F2ED41F449;
- Thu, 21 Nov 2024 08:25:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1732177513; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5sbR0FynI1sPjAXw9txvh9RACOysoy6Ys7AxikOlUTU=;
- b=V8s71tglJ9aTLxmRSayOW3VP0OFFu9yd6dg4gHVrChCUPTRlCL1t3uB2p1jShIQoF634ii
- LAGel85wXofpDdm7p3stPuEyZA9GWDfzFZT7PGttaVuok8px8xAGrr9pM6YpzotUlfjyg9
- VrGb/AFIlg58ELa1b9VsEFruUfk1Awc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1732177513;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5sbR0FynI1sPjAXw9txvh9RACOysoy6Ys7AxikOlUTU=;
- b=8VQgBLDTEraeys3XKJdPLpnR6KkMSYc4w1MVD1URRT4ksAFK2+o64jOQydnKIuCBLzUgiq
- /D31FHGgJ9C6FLAQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cLVYVGO2;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2cRvjT7f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1732177512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5sbR0FynI1sPjAXw9txvh9RACOysoy6Ys7AxikOlUTU=;
- b=cLVYVGO2pjR0ppIizfGiJWcMRi8YbAfWlbA7CXfr5FdRor7cOjuk960hHQ/zr7qgzhKXJ5
- vER805n35sEIKQ2TmkvU625sFfiAOnu5/DXOt/yRUK3Crd88EYPM13RCsR4LCdreVKB8dv
- nR3V2hyYZuxFxsH5rrevU6ZPXmeRNgQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1732177512;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5sbR0FynI1sPjAXw9txvh9RACOysoy6Ys7AxikOlUTU=;
- b=2cRvjT7f92u36pbM+YcEK5A5pUh3o6X18E6lcShjCoWfH6QGUWl657r+gK8pCmibS4Wzav
- hYXO1eEqHsGwoPCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1290137CF;
- Thu, 21 Nov 2024 08:25:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id xgN5MWfuPmdRRgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 21 Nov 2024 08:25:11 +0000
-Message-ID: <c7c3d747-c142-446b-95dc-2e25874d2643@suse.de>
-Date: Thu, 21 Nov 2024 09:25:11 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A939B10E410;
+ Thu, 21 Nov 2024 08:38:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=VtBi+f20ClxPstpY1s34ETTNl1yj/o2tuMHXizWHhj0=; b=dBsgoE3hqpU8Z/qnmEvukyl159
+ Ox7tzTF4IPnVC+bfk+kVWAH7lHYsjyqYfVvLi4Q4uq1PDNqoiow/ty5ufiCB3VOOK/vRYhdBHuUC3
+ UjJCRlmDf51FQDt1CkoUiK64YJIOlu2WLYmMyQ6L0+FKKxTdewxk5bna6DeprTOwEciQgxtcJh6aR
+ QmSgxzzUNlJ+Yl6YpJwD79nrCQt4Xm9V/mXE4EWYGwRPUZo4ecBpxE7RUFLSD+MuN2ldJJGkBEMCY
+ kQFvNZKhsbwTUPOu7VLAjR1I7Fud+9A3IJ4m/mEpAe/PcQ8ymEkRhysqjMGXS8m+8GiapYNwAdBTB
+ zgZBVKMQ==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tE2h8-00AJd9-Cg; Thu, 21 Nov 2024 09:37:46 +0100
+Date: Thu, 21 Nov 2024 08:37:45 +0000
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-next-fixes
+Message-ID: <Zz7xWbodMn9zZD_C@linux>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm/cirrus: Don't pretend to operate hardware
-To: airlied@redhat.com, kraxel@redhat.com
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
-References: <20241029143928.208349-1-tzimmermann@suse.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20241029143928.208349-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: F2ED41F449
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_TLS_ALL(0.00)[];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MID_RHS_MATCH_FROM(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
- TO_DN_NONE(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,32 +67,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ping ping
 
+Hi Dave, Sima,
 
-Am 29.10.24 um 15:34 schrieb Thomas Zimmermann:
-> The cirrus driver is only for qemu's emulation of that hardware. The
-> two patches in this series update cirrus to reflect this.
->
-> (The driver is still obsolete. Use something else if possible.)
->
-> Thomas Zimmermann (2):
->    drm/cirrus: Use virtual encoder and connector types
->    drm/cirrus: Rename to cirrus-qemu
->
->   MAINTAINERS                                      | 2 +-
->   drivers/gpu/drm/tiny/Makefile                    | 2 +-
->   drivers/gpu/drm/tiny/{cirrus.c => cirrus-qemu.c} | 6 +++---
->   3 files changed, 5 insertions(+), 5 deletions(-)
->   rename drivers/gpu/drm/tiny/{cirrus.c => cirrus-qemu.c} (99%)
->
+Just one fix for the merge window this week - fixing the HDCP flows on
+HDMI connectors.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Regards,
 
+Tvrtko
+
+drm-intel-next-fixes-2024-11-21:
+- Fix when the first read and write are retried [hdcp] (Suraj Kandpal)
+The following changes since commit a163b895077861598be48c1cf7f4a88413c28b22:
+
+  Merge tag 'drm-xe-next-fixes-2024-11-15' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-next (2024-11-18 13:38:46 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-fixes-2024-11-21
+
+for you to fetch changes up to 376a33c4a0d8344bb575e1a6eeb748ee4d4675d3:
+
+  drm/i915/hdcp: Fix when the first read and write are retried (2024-11-19 08:11:11 +0000)
+
+----------------------------------------------------------------
+- Fix when the first read and write are retried [hdcp] (Suraj Kandpal)
+
+----------------------------------------------------------------
+Suraj Kandpal (1):
+      drm/i915/hdcp: Fix when the first read and write are retried
+
+ drivers/gpu/drm/i915/display/intel_hdcp.c | 32 +++++++++++++++++++------------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
