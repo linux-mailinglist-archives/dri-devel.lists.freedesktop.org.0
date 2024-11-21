@@ -2,78 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5B49D4928
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 09:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4919B9D4948
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 09:55:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7151710E8AB;
-	Thu, 21 Nov 2024 08:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA6B510E8B7;
+	Thu, 21 Nov 2024 08:55:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Qh1A3DZS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MAU3vaTh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E03810E8AB
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 08:47:37 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AKJpaCW005741;
- Thu, 21 Nov 2024 08:47:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 4AvMX6aXFHbqw/g7dZS4/asi8D2KEz0bf+nG6W9+gv0=; b=Qh1A3DZSqw9E9Eap
- je26cNK0UwuTLJsQ4luvi+EZ++YfdI01xRDWbJ+rtSfKhr5By1aebF25U5S4PSmv
- LaLAjNErlMKzSEvcpiQUwUQ/Py73dBGb5mmPBV11scpDzSEBmuu/TSGoZXoypQW2
- 2s8bWdWo2Elb37asAQFSsxwY0vI8lvW0EZw3ibbxqWjvJ1aNeyC5+rD23WXDxyKQ
- Msmzlq0ZjBbvzkWs7P/dDh5N4Sx5/kelmjTpNohy+CWsMS+ChbNSlzXLh1VQ98U8
- v+9C48j3u5YAc3dw3bTSi/64wetIwUyRZ5B8jt7mh9Ohc8h9CS16twLwrzNQACIz
- mXcQMg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4308y80nrk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Nov 2024 08:47:34 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AL8lXJD012526
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Nov 2024 08:47:33 GMT
-Received: from hu-ekangupt-hyd.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 21 Nov 2024 00:47:29 -0800
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>
-CC: <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
- <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
-Subject: [PATCH v4 2/2] misc: fastrpc: Rename tgid and pid to client_id
-Date: Thu, 21 Nov 2024 14:17:13 +0530
-Message-ID: <20241121084713.2599904-3-quic_ekangupt@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241121084713.2599904-1-quic_ekangupt@quicinc.com>
-References: <20241121084713.2599904-1-quic_ekangupt@quicinc.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D8310E8C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 08:55:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1732179311;
+ bh=esX6pNIA4mdgAouLBmxFqcD5UvWUX2OcANV49HJchSs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=MAU3vaThPKsD/1L/Zm+bwQdn1YX5Us5vGulfNUH3TnJIcJ8/hqH9BIhEw7XxzfyoU
+ Q1XUAf78dZwv9qYtCoNjJ7Xe+bgjm4OOcoqXtdgTs8ZlNlHQ/IMtZcfTKptZbt3+V0
+ r6U7/e0oDlT0Ulim2IXuDb3bxcWCF2iRNfowHVzrTfDjq1TZS8F7myWw3Bajp4DxXZ
+ 5dXKJAf53L+C97Qo3P1MwZbkg+Inw7SQhewVYvMKs6lGtvIFldKjoaqII01ahDIrfM
+ rWWScEjKE3oG8DzOsLy35mai5+Ac2hmErQ+KcijVRs+HmxAMVPNJ2lRiBCjgjNnTWv
+ k1QG2KiWg3cag==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6A81F17E132F;
+ Thu, 21 Nov 2024 09:55:10 +0100 (CET)
+Message-ID: <72c1e62b-0bbf-4213-adbb-972caa1ebfee@collabora.com>
+Date: Thu, 21 Nov 2024 09:55:09 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: JIzm28MtTpBheIxjUmQtAJghv7yaW2fZ
-X-Proofpoint-GUID: JIzm28MtTpBheIxjUmQtAJghv7yaW2fZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- mlxlogscore=999 clxscore=1015 suspectscore=0 adultscore=0
- priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2411210067
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] Add GCE support for MT8196
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Moudy Ho <moudy.ho@mediatek.com>, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
+ Nancy Lin <nancy.lin@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20241121042602.32730-1-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241121042602.32730-1-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,199 +72,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The information passed as request tgid and pid is actually the
-client id of the process. This client id is used as an
-identifier by DSP to identify the DSP PD corresponding to the
-process. Currently process tgid is getting passed as the
-identifier which is getting replaced by a custom client id.
-Rename the data which uses this client id.
+Il 21/11/24 05:25, Jason-JH.Lin ha scritto:
+> This patch series adds support for the MediaTek MT8196 SoC in the CMDQ
+> driver and related subsystems. The changes include adding compatible
+> names and properties, updating driver data to accommodate hardware
+> changes, and modifying the CMDQ API to support non-subsys ID hardware.
+> 
+> Jason-JH.Lin (8):
+>    dt-bindings: mailbox: mediatek: Add GCE header file for MT8196
+>    dt-bindings: mailbox: mediatek: Add MT8196 support for gce-mailbox
+>    mailbox: mtk-cmdq: Add driver data to support for MT8196
+>    soc: mediatek: mtk-cmdq: Add unsupported subsys ID programing flow
+>    soc: mediatek: mtk-cmdq: Add mminfra_offset compatibility for DRAM
+>      address
+>    soc: mediatek: Add pa_base due to CMDQ API change
+>    drm/mediatek: Add pa_base due to CMDQ API change
+>    media: mediatek: mdp3: Add pa_base due to CMDQ API change
+> 
+>   .../mailbox/mediatek,gce-mailbox.yaml         |    4 +
+>   drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |    6 +-
+>   drivers/mailbox/mtk-cmdq-mailbox.c            |  107 +-
+>   .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    |    4 +-
+>   .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |    4 +-
+>   drivers/soc/mediatek/mtk-cmdq-helper.c        |  133 +-
+>   drivers/soc/mediatek/mtk-mmsys.c              |    1 +
+>   drivers/soc/mediatek/mtk-mutex.c              |    2 +-
+>   .../dt-bindings/mailbox/mediatek,mt8196-gce.h | 1449 +++++++++++++++++
+>   include/linux/mailbox/mtk-cmdq-mailbox.h      |    3 +
+>   include/linux/soc/mediatek/mtk-cmdq.h         |   22 +-
+>   11 files changed, 1698 insertions(+), 37 deletions(-)
+>   create mode 100755 include/dt-bindings/mailbox/mediatek,mt8196-gce.h
+> 
 
-Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
----
- drivers/misc/fastrpc.c | 48 +++++++++++++++++++++---------------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index 08f223c95c33..93826de9c191 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -140,14 +140,14 @@ struct fastrpc_mmap_rsp_msg {
- };
- 
- struct fastrpc_mmap_req_msg {
--	s32 pgid;
-+	s32 client_id;
- 	u32 flags;
- 	u64 vaddr;
- 	s32 num;
- };
- 
- struct fastrpc_mem_map_req_msg {
--	s32 pgid;
-+	s32 client_id;
- 	s32 fd;
- 	s32 offset;
- 	u32 flags;
-@@ -157,20 +157,20 @@ struct fastrpc_mem_map_req_msg {
- };
- 
- struct fastrpc_munmap_req_msg {
--	s32 pgid;
-+	s32 client_id;
- 	u64 vaddr;
- 	u64 size;
- };
- 
- struct fastrpc_mem_unmap_req_msg {
--	s32 pgid;
-+	s32 client_id;
- 	s32 fd;
- 	u64 vaddrin;
- 	u64 len;
- };
- 
- struct fastrpc_msg {
--	int pid;		/* process group id */
-+	int client_id;		/* process client id */
- 	int tid;		/* thread id */
- 	u64 ctx;		/* invoke caller context */
- 	u32 handle;	/* handle to invoke */
-@@ -235,7 +235,7 @@ struct fastrpc_invoke_ctx {
- 	int nbufs;
- 	int retval;
- 	int pid;
--	int tgid;
-+	int client_id;
- 	u32 sc;
- 	u32 *crc;
- 	u64 ctxid;
-@@ -615,7 +615,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
- 	ctx->sc = sc;
- 	ctx->retval = -1;
- 	ctx->pid = current->pid;
--	ctx->tgid = user->client_id;
-+	ctx->client_id = user->client_id;
- 	ctx->cctx = cctx;
- 	init_completion(&ctx->work);
- 	INIT_WORK(&ctx->put_work, fastrpc_context_put_wq);
-@@ -1116,11 +1116,11 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
- 	int ret;
- 
- 	cctx = fl->cctx;
--	msg->pid = fl->client_id;
-+	msg->client_id = fl->client_id;
- 	msg->tid = current->pid;
- 
- 	if (kernel)
--		msg->pid = 0;
-+		msg->client_id = 0;
- 
- 	msg->ctx = ctx->ctxid | fl->pd;
- 	msg->handle = handle;
-@@ -1245,7 +1245,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
- 	int err;
- 	bool scm_done = false;
- 	struct {
--		int pgid;
-+		int client_id;
- 		u32 namelen;
- 		u32 pageslen;
- 	} inbuf;
-@@ -1294,7 +1294,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
- 		}
- 	}
- 
--	inbuf.pgid = fl->client_id;
-+	inbuf.client_id = fl->client_id;
- 	inbuf.namelen = init.namelen;
- 	inbuf.pageslen = 0;
- 	fl->pd = USER_PD;
-@@ -1364,7 +1364,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
- 	int memlen;
- 	int err;
- 	struct {
--		int pgid;
-+		int client_id;
- 		u32 namelen;
- 		u32 filelen;
- 		u32 pageslen;
-@@ -1396,7 +1396,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
- 		goto err;
- 	}
- 
--	inbuf.pgid = fl->client_id;
-+	inbuf.client_id = fl->client_id;
- 	inbuf.namelen = strlen(current->comm) + 1;
- 	inbuf.filelen = init.filelen;
- 	inbuf.pageslen = 1;
-@@ -1504,12 +1504,12 @@ static void fastrpc_session_free(struct fastrpc_channel_ctx *cctx,
- static int fastrpc_release_current_dsp_process(struct fastrpc_user *fl)
- {
- 	struct fastrpc_invoke_args args[1];
--	int tgid = 0;
-+	int client_id = 0;
- 	u32 sc;
- 
--	tgid = fl->client_id;
--	args[0].ptr = (u64)(uintptr_t) &tgid;
--	args[0].length = sizeof(tgid);
-+	client_id = fl->client_id;
-+	args[0].ptr = (u64)(uintptr_t) &client_id;
-+	args[0].length = sizeof(client_id);
- 	args[0].fd = -1;
- 	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_RELEASE, 1, 0);
- 
-@@ -1649,11 +1649,11 @@ static int fastrpc_dmabuf_alloc(struct fastrpc_user *fl, char __user *argp)
- static int fastrpc_init_attach(struct fastrpc_user *fl, int pd)
- {
- 	struct fastrpc_invoke_args args[1];
--	int tgid = fl->client_id;
-+	int client_id = fl->client_id;
- 	u32 sc;
- 
--	args[0].ptr = (u64)(uintptr_t) &tgid;
--	args[0].length = sizeof(tgid);
-+	args[0].ptr = (u64)(uintptr_t) &client_id;
-+	args[0].length = sizeof(client_id);
- 	args[0].fd = -1;
- 	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_ATTACH, 1, 0);
- 	fl->pd = pd;
-@@ -1805,7 +1805,7 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
- 	int err;
- 	u32 sc;
- 
--	req_msg.pgid = fl->client_id;
-+	req_msg.client_id = fl->client_id;
- 	req_msg.size = buf->size;
- 	req_msg.vaddr = buf->raddr;
- 
-@@ -1891,7 +1891,7 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
- 		return err;
- 	}
- 
--	req_msg.pgid = fl->client_id;
-+	req_msg.client_id = fl->client_id;
- 	req_msg.flags = req.flags;
- 	req_msg.vaddr = req.vaddrin;
- 	req_msg.num = sizeof(pages);
-@@ -1980,7 +1980,7 @@ static int fastrpc_req_mem_unmap_impl(struct fastrpc_user *fl, struct fastrpc_me
- 		return -EINVAL;
- 	}
- 
--	req_msg.pgid = fl->client_id;
-+	req_msg.client_id = fl->client_id;
- 	req_msg.len = map->len;
- 	req_msg.vaddrin = map->raddr;
- 	req_msg.fd = map->fd;
-@@ -2033,7 +2033,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
- 		return err;
- 	}
- 
--	req_msg.pgid = fl->client_id;
-+	req_msg.client_id = fl->client_id;
- 	req_msg.fd = req.fd;
- 	req_msg.offset = req.offset;
- 	req_msg.vaddrin = req.vaddrin;
--- 
-2.34.1
+Hello Jason,
+I had a fast look at the changes that you're proposing with this series.
 
+The reasons behind this are more or less understood on my side, but the
+actual changes look a bit odd in the sense that passing a physical address
+like this, on a first glance, not only looks like it may be dangerous, but
+also looks like there's a lot of room for improvement.
+
+Can you please point me at some driver/code (or a reference downsream kernel
+for this SoC, which would be even better) so that I can take a look at how
+is that being used?
+
+Thanks,
+Angelo
