@@ -2,94 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B079A9D55A8
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 23:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7D99D49E8
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 10:24:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB8D610E415;
-	Thu, 21 Nov 2024 22:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C303F10E8BA;
+	Thu, 21 Nov 2024 09:24:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="QsNu8m7A";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lAUUn9Ob";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E35B010E8BD;
- Thu, 21 Nov 2024 09:24:12 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AL9KiEh007711;
- Thu, 21 Nov 2024 09:24:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- QJzek0bdbC3Ntd/IGsSF3/5x+fHEg6vM7YVqfg+K9ec=; b=QsNu8m7A+mTFf1Vx
- 03rdLjUJ7NtLTmJTOz+pqeLDvcOWK7N6Hw9hGUsolH4ekUzW/GhugfUltAHPs7Sn
- J7yFSr1wcY4JxGZekFpHN3dzfKiu7ZGuuZtGi/7bpBAUpTrBwv22bp++0zWOGP7B
- gHCIRReUc7lR0nclyIv0IViTgpTnXAN5+6QuNRtrae6EbpKn3pKXQm5T0yym8+NL
- 93ZsOWoYfad3Yza+mr1L5vBvH9C6I7iPbe49qadTMxQWsJuFaaYlteQ3c4pfItkN
- 7gqQx1q99GjirjfaOvpQVYZOk6XNaUVHhXtGezXJFPzQ80vilMiDvvdVkEOqgWR4
- 2g/efQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4318uvm1xw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Nov 2024 09:24:02 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AL9O1hv032359
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Nov 2024 09:24:01 GMT
-Received: from [10.64.16.151] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 21 Nov
- 2024 01:23:53 -0800
-Message-ID: <ddd6325a-c50e-4602-80b3-848faea6a266@quicinc.com>
-Date: Thu, 21 Nov 2024 17:23:50 +0800
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F420110E8CA;
+ Thu, 21 Nov 2024 09:24:15 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-a99f646ff1bso105499866b.2; 
+ Thu, 21 Nov 2024 01:24:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1732181054; x=1732785854; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=L7j4QqoxhFbCgJwkjEEmxm2qKB1etaPM/Wk727FzG74=;
+ b=lAUUn9ObVMD3mNxCqwFcZ7CyMPvfmmS4TFRq3IIXYapNCrugBOB7pKhHFKqrJVnrCu
+ T+VX/d4qyXxkPHBHNvB6hzGjjLjYOd+KfJN8f62k+n7IHz06DypytBN5zv/+E3TO2tBP
+ cIpb+mjJASRU4FUM/R5paacAVII9nKbu1ub5zuRQOJFZ8gE+QJ2YbFWeNUGrWEe5XQAC
+ uEGsD2IX3B1X8KwX1xLchu80Mp2htbaHzlas7QDk9yCidoCgKHzzWfF3wxwAwmStOk3u
+ 02XQq/unqn+buEudRiJNnirDHnyA1tjn/isOoWoyy0J4UwfiaHPOz4huHqYSASs7bsOG
+ jR6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732181054; x=1732785854;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=L7j4QqoxhFbCgJwkjEEmxm2qKB1etaPM/Wk727FzG74=;
+ b=hg6gcvQDIb9g2Nr2Thmwg2NSMqVuKRKJJrxXJzjG+UdedInORwr3rXWZBr14p5z206
+ sgrawYwARV6AiBu3Y9SGLPpPF5niTrvYst6MDM8TZwZAC2Yrj795ytL2hH4JtB2VWkUf
+ S8M/xBFuMI5LHNkiUGoMoJtBR7odF6/kl82uUbRAvNV6FsIrRFzrADt8dJXqC62XO30M
+ AeOovZq9Bzlqinf/svMOKn8F+VmSndcWckRlEl5ktvHcCZBtrPpMuBEQsiKGPbSmaWHE
+ QXWGS1HQFfoKr4umwRm59CvZb9MDMeaISZ30eMjTjBPudiikBYkCVsBkuGq2RnkduoJx
+ LEow==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUwrcvv2sSVFK6mHSW4dBWC9/6JhhaMUmepZWzuAJ7VD5kR8woO3uSL50/YLnWyWbz6pr0weI72Zg==@lists.freedesktop.org,
+ AJvYcCVXh++vOjIWer5WQBZGf7Pjiv9Cp9QVfP/GLEyzlD90+RNBre28x1Vp43YvXuzDoUVbOCnhCMMt2oI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw0fFiXrUyQbDk1H6Lj5Mf8pflcSfi99rP8cvEuck6ns/Z86qhd
+ NjS5TVIhMK/cdPiYzunrps6BN1QfiT+wePlmISM+dqRJ0ZpoP1IH
+X-Google-Smtp-Source: AGHT+IEZYPG7qh/PlestFeKGHpZh1lDojcSBdGkG+BBHCtprwgWlBnbq7O9VkXEfLN5oXr+sCBlAcg==
+X-Received: by 2002:a17:907:7ba3:b0:aa4:9ab1:1985 with SMTP id
+ a640c23a62f3a-aa4dd760d98mr510243766b.51.1732181054107; 
+ Thu, 21 Nov 2024 01:24:14 -0800 (PST)
+Received: from localhost.localdomain (62-178-82-42.cable.dynamic.surfer.at.
+ [62.178.82.42]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aa4f4153741sm59112066b.20.2024.11.21.01.24.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Nov 2024 01:24:13 -0800 (PST)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel-dev@igalia.com, tursulin@igalia.com,
+ Christian Gmeiner <cgmeiner@igalia.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/etnaviv: Add fdinfo support for memory stats
+Date: Thu, 21 Nov 2024 10:24:08 +0100
+Message-ID: <20241121092409.3859592-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/9] drm/msm/dsi: Add support for QCS615
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- "Marijn Suijten" <marijn.suijten@somainline.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Krishna
- Manikandan" <quic_mkrishn@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, "Catalin
- Marinas" <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Li Liu
- <quic_lliu6@quicinc.com>, Xiangxu Yin <quic_xiangxuy@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-References: <20241113-add-display-support-for-qcs615-platform-v2-0-2873eb6fb869@quicinc.com>
- <20241113-add-display-support-for-qcs615-platform-v2-6-2873eb6fb869@quicinc.com>
- <404f006b-46e5-44db-9f22-ec2139468ecc@oss.qualcomm.com>
-Content-Language: en-US
-From: fange zhang <quic_fangez@quicinc.com>
-In-Reply-To: <404f006b-46e5-44db-9f22-ec2139468ecc@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: fdm6g5vZ7vFP0pGBLjjxZTAH_bUfj3qQ
-X-Proofpoint-GUID: fdm6g5vZ7vFP0pGBLjjxZTAH_bUfj3qQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- priorityscore=1501 phishscore=0 adultscore=0 malwarescore=0 mlxscore=0
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411210073
-X-Mailman-Approved-At: Thu, 21 Nov 2024 22:47:36 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,40 +85,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Christian Gmeiner <cgmeiner@igalia.com>
 
+Use the new helper to export stats about memory usage.
 
-On 2024/11/14 21:32, Konrad Dybcio wrote:
-> On 13.11.2024 12:51 PM, Fange Zhang wrote:
->> From: Li Liu <quic_lliu6@quicinc.com>
->>
->> Add support for DSI 2.3.1 (block used on QCS615).
->> Add phy configuration for QCS615
->>
->> Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
->> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/dsi/dsi_cfg.c          | 17 +++++++++++++++++
->>   drivers/gpu/drm/msm/dsi/dsi_cfg.h          |  1 +
->>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c      |  2 ++
->>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h      |  1 +
->>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 21 +++++++++++++++++++++
->>   5 files changed, 42 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
->> index 10ba7d153d1cfc9015f527c911c4658558f6e29e..edbe50305d6e85fb615afa41f3b0db664d2f4413 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
->> @@ -221,6 +221,21 @@ static const struct msm_dsi_config sc7280_dsi_cfg = {
->>   	},
->>   };
->>   
->> +static const struct regulator_bulk_data qcs615_dsi_regulators[] = {
->> +	{ .supply = "vdda", .init_load_uA = 21800 },
->> +};
-> 
-> I believe refgen is also present here and you can reuse dsi_v2_4_regulators
-yes, will fix them in next patch
-will remove qcs615_dsi_regulators and reuse dsi_v2_4_regulators
-> 
-> Konrad
+Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 12 +++++++++++-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 12 ++++++++++++
+ 2 files changed, 23 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 6500f3999c5f..35f47dd6367f 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -488,7 +488,16 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+ 	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+ };
+ 
+-DEFINE_DRM_GEM_FOPS(fops);
++static void etnaviv_show_fdinfo(struct drm_printer *p, struct drm_file *file)
++{
++	drm_show_memory_stats(p, file);
++}
++
++static const struct file_operations fops = {
++	.owner = THIS_MODULE,
++	DRM_GEM_FOPS,
++	.show_fdinfo = drm_show_fdinfo,
++};
+ 
+ static const struct drm_driver etnaviv_drm_driver = {
+ 	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
+@@ -498,6 +507,7 @@ static const struct drm_driver etnaviv_drm_driver = {
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init       = etnaviv_debugfs_init,
+ #endif
++	.show_fdinfo        = etnaviv_show_fdinfo,
+ 	.ioctls             = etnaviv_ioctls,
+ 	.num_ioctls         = DRM_ETNAVIV_NUM_IOCTLS,
+ 	.fops               = &fops,
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index 5c0c9d4e3be1..e81c261b0017 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -527,6 +527,17 @@ void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
+ 	mutex_unlock(&priv->gem_lock);
+ }
+ 
++static enum drm_gem_object_status etnaviv_gem_status(struct drm_gem_object *obj)
++{
++	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
++	enum drm_gem_object_status status = 0;
++
++	if (etnaviv_obj->pages)
++		status |= DRM_GEM_OBJECT_RESIDENT;
++
++	return status;
++}
++
+ static const struct vm_operations_struct vm_ops = {
+ 	.fault = etnaviv_gem_fault,
+ 	.open = drm_gem_vm_open,
+@@ -540,6 +551,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+ 	.get_sg_table = etnaviv_gem_prime_get_sg_table,
+ 	.vmap = etnaviv_gem_prime_vmap,
+ 	.mmap = etnaviv_gem_mmap,
++	.status = etnaviv_gem_status,
+ 	.vm_ops = &vm_ops,
+ };
+ 
+-- 
+2.47.0
 
