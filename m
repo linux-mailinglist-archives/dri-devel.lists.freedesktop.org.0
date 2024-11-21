@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB69F9D48F3
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 09:38:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8AAD9D48FD
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 09:39:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57B4810E410;
-	Thu, 21 Nov 2024 08:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3071A10E895;
+	Thu, 21 Nov 2024 08:39:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dBsgoE3h";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AKsvwfjA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A939B10E410;
- Thu, 21 Nov 2024 08:38:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=VtBi+f20ClxPstpY1s34ETTNl1yj/o2tuMHXizWHhj0=; b=dBsgoE3hqpU8Z/qnmEvukyl159
- Ox7tzTF4IPnVC+bfk+kVWAH7lHYsjyqYfVvLi4Q4uq1PDNqoiow/ty5ufiCB3VOOK/vRYhdBHuUC3
- UjJCRlmDf51FQDt1CkoUiK64YJIOlu2WLYmMyQ6L0+FKKxTdewxk5bna6DeprTOwEciQgxtcJh6aR
- QmSgxzzUNlJ+Yl6YpJwD79nrCQt4Xm9V/mXE4EWYGwRPUZo4ecBpxE7RUFLSD+MuN2ldJJGkBEMCY
- kQFvNZKhsbwTUPOu7VLAjR1I7Fud+9A3IJ4m/mEpAe/PcQ8ymEkRhysqjMGXS8m+8GiapYNwAdBTB
- zgZBVKMQ==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tE2h8-00AJd9-Cg; Thu, 21 Nov 2024 09:37:46 +0100
-Date: Thu, 21 Nov 2024 08:37:45 +0000
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <Zz7xWbodMn9zZD_C@linux>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7902810E898
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 08:39:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 10096A40311;
+ Thu, 21 Nov 2024 08:37:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E740C4CECC;
+ Thu, 21 Nov 2024 08:39:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732178373;
+ bh=SUvWzbHGe7kApkeBmO6P2id2KlN/J7nuQhPn4eL2GIA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AKsvwfjAZ6SGQoFQEVeGNmAIkbQkY477sov7z1nGhsTVAXulxrk7umXUn1ZbJDzha
+ e5YoQG1nbBXnmLiBCX6ASPmve/V5n3WjfecR2IO8hDKD9M0l4zmVk+iE1DOVaANvUr
+ A2pHOMwTsvZRVr+/A/LK1XVstnPv+1cm06LIaGicbSL2uVIItj3HaVGtwVdpQT2DlT
+ JtaizkXMAwgtphjzkdHVqijdl/q08BiE6MO4TfPraoP/zBgYWICw+bVE9iFumkAN+k
+ 2ZFsN93OCPMBkuJgnLxmpvxgVCd3z4l0b5/i4yToeGONZoLtxKTO2IiqCv7iFArc2l
+ 1Oog9ipylULig==
+Date: Thu, 21 Nov 2024 09:39:29 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ matthias.bgg@gmail.com, ck.hu@mediatek.com, jitao.shi@mediatek.com, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v1 1/6] dt-bindings: display: mediatek: dpi: Add MT8195
+ and MT8188 compat
+Message-ID: <tutddhqzp37frzi7fkvljrjemfwfmcfgv44eetaalodc5pmauc@h4hklzisfyfk>
+References: <20241120124420.133914-1-angelogioacchino.delregno@collabora.com>
+ <20241120124420.133914-2-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20241120124420.133914-2-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,36 +66,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Nov 20, 2024 at 01:44:15PM +0100, AngeloGioacchino Del Regno wrote:
+> Add compatibles for the Digital Parallel Interface (DPI) block
+> found in the MT8195 and MT8188 SoCs: inside of the chip, this one
+> is directly connected to the HDMI block.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../devicetree/bindings/display/mediatek/mediatek,dpi.yaml   | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-Hi Dave, Sima,
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Just one fix for the merge window this week - fixing the HDCP flows on
-HDMI connectors.
+Best regards,
+Krzysztof
 
-Regards,
-
-Tvrtko
-
-drm-intel-next-fixes-2024-11-21:
-- Fix when the first read and write are retried [hdcp] (Suraj Kandpal)
-The following changes since commit a163b895077861598be48c1cf7f4a88413c28b22:
-
-  Merge tag 'drm-xe-next-fixes-2024-11-15' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-next (2024-11-18 13:38:46 +1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-fixes-2024-11-21
-
-for you to fetch changes up to 376a33c4a0d8344bb575e1a6eeb748ee4d4675d3:
-
-  drm/i915/hdcp: Fix when the first read and write are retried (2024-11-19 08:11:11 +0000)
-
-----------------------------------------------------------------
-- Fix when the first read and write are retried [hdcp] (Suraj Kandpal)
-
-----------------------------------------------------------------
-Suraj Kandpal (1):
-      drm/i915/hdcp: Fix when the first read and write are retried
-
- drivers/gpu/drm/i915/display/intel_hdcp.c | 32 +++++++++++++++++++------------
- 1 file changed, 20 insertions(+), 12 deletions(-)
