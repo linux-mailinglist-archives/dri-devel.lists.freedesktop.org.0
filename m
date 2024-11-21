@@ -2,86 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A187B9D5535
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 23:10:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777449D554C
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 23:17:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E34A710E1EA;
-	Thu, 21 Nov 2024 22:10:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 617C110E2F5;
+	Thu, 21 Nov 2024 22:17:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JZHfXkr1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oGFOQGfg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D82710E1EA
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 22:10:41 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2ff64e5d31bso15702821fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 14:10:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732227040; x=1732831840; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=gFDuP7IjDwDMv6NR+DnprUqGpxBiP59fQ/sq6qPsJrg=;
- b=JZHfXkr1u/+krjRzURm8r3Bgw/JNTcJwd7DbNAWU0mNmZYrStouH/NiamOAx7HJ6wU
- j5cPBpCrS4fVpqcmfipynDYPMkz6BettRkvHuuZ2DpWoHbU+ScqPdNoT8nLpizW4m20o
- O1ppz1z2Lu/Olr4W9MQHco2egWHKXYHj7SJtZFCV00taqFu0DgBPGnbNu3W72xSuim4x
- Dyw5dO6aKVz5E2sLs9N7tKzaO591CjLkxcF9LlFl/g+91XHbSxE7YeZcqe8SdU7thxUN
- Tb/Kn0UvPY/nKMTyq5R1W0GQ3lkCejA4N8hWI6pyQAgLOoIsC206Jpn2o+WdhrmpKaSB
- xUyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732227040; x=1732831840;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gFDuP7IjDwDMv6NR+DnprUqGpxBiP59fQ/sq6qPsJrg=;
- b=NU+YvPl6jEwq1w8ey369f7WYw6WNuBDGyToSoBttw7SxISGCCg8P/g01+gDzxJ8FUU
- 4r2abb1/9HuwpMNS/6BVvNAtfxEgp7SDDUWEpf+uoKhK3Zkhm7gzRu8IgQ4fycW8XtnL
- gl9JjNyfzKXA6vsDbs/SshNJNOOHdyGebR68b1+kqnterujtI6gO1je5MDdnAIfHDWYb
- iIBStnAylW8wV9H5aXt9d0sSQSE9K/WgnEJosDZ5OMg0HHARu8RXeDpT4ARefybVsJFH
- i1ASAdj1fGbcYD78MtcUfTh2VzqBBytUKlOH+a9Z4Uk9aA6KE3818kk9agKe4fIQDMov
- iCVw==
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BECEA10E2EF;
+ Thu, 21 Nov 2024 22:17:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id EC2EB5C5549;
+ Thu, 21 Nov 2024 22:16:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CEE8C4CED2;
+ Thu, 21 Nov 2024 22:17:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732227447;
+ bh=MLlq8+M+tw64hFOX9c9IBrDEY8JRJbyJBDIrXXaqd+k=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=oGFOQGfggCJy5L2K6kG9BCE2IChc89FYc/HSCB1upfT0yICiKWAW+pm4UZ+LJox6+
+ vVZTsriZv4j1zYIBm0Or/lC1CZV+BI3ZWTAUDdzL0rqgrxyzwSHvPZEE/+LYYx48Bo
+ ee6kjUyic+rqdCeAQbrwV0+dtmpORSs87xA0dgXbHgwgZAu9hNL/wXghccHbG8IjtN
+ eHJ3e5SzGgjUK5MQkUSLotDpg1VH+CjeR8DGCD5l1iPuDY2aWlEn37V7b2VwOtmKqN
+ g+yWDlskxerZYOg2dCSITNsVja2OhqLhY7hkX0Yf4KuQop4pTS2y9rFKwGX4nRvaA7
+ aP47c1kzR5gFQ==
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53d9ff92edaso1586264e87.1; 
+ Thu, 21 Nov 2024 14:17:27 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXncrNzkVE9FgKqXmh5aJUEq38qytsY1SNvGUKCs4KWUmD+hcvQn3Qpqa4c3HDKft0fn7rd3py3HT4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxH/uDtmEAakZ/4kejr6OQpxJsAg0nGu5T+YhOtaxFKNNxtAqfj
- c2eAR1bn6dwoxcDUa/Gq+nqYxu1AEmO9eVdNnU0sLP7J0cYSNtgVBaVJ92sIoAc=
-X-Gm-Gg: ASbGncvFxSCeMkjnxxtt4lKy1ehh79D1lp+Vv1wVgPb+dceQeMe/mQnOrbYLQxZr0Jl
- kTsWKZI4bbKB9Tscy1RX7HcvGueffdNo+dprwx+SV+0Vrva82OtLcEMfKuqnj7gOvniEAv3eHLn
- UagLPDqFi9P6HaO1nU8tPSSDpo3RYeZcDcElvNQyss4bBDE40fSlpQQ/S+C4l4hNy5XuMyDuyGe
- J4TLHmwyMTYNXXuymUnHxZVoUSnCmH16qjzDrJ2+nfloiCI7q4fm0Ch3OtgWEPujm0l3KbBV3UI
- FFbJvv8tR/sgblpHpGWndCLofwsS8Q==
-X-Google-Smtp-Source: AGHT+IF5UEvVH8EwlVFvDbA8yqDXP2EnIvz85XTHp+jyVxMS03tfkpla0bwll8dc1ETCUfCWi+KKfg==
-X-Received: by 2002:a05:651c:2208:b0:2f4:3de7:ac4c with SMTP id
- 38308e7fff4ca-2ffa70f0968mr1996351fa.8.1732227039935; 
- Thu, 21 Nov 2024 14:10:39 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ffa538f100sm593151fa.103.2024.11.21.14.10.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Nov 2024 14:10:38 -0800 (PST)
-Date: Fri, 22 Nov 2024 00:10:36 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, quic_msavaliy@quicinc.com,
- quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v3 3/3] i2c: i2c-qcom-geni: Update compile dependenices
- for I2C GENI driver
-Message-ID: <zfkhbjm6wrmcocqcvluov3nbrpb2ozbo52c6nlwxro44gublcw@5645ksz4cfm2>
-References: <20241121130134.29408-1-quic_jseerapu@quicinc.com>
- <20241121130134.29408-4-quic_jseerapu@quicinc.com>
+ AJvYcCX/U2f8kpgv6aJJmJuZVXJVbW6wLcfqe1elSroww4h3lz+5zqBRiHyWsUH+iZEME7HMd70bhzLO4lk=@lists.freedesktop.org,
+ AJvYcCXHmrIvroWq8UriMs156XaWSQeZa73t73bWqp3uiK48/FgbyX9EccyVsMrwKpaZ6Yp3bKYh2tjSt/fX@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxGPVfWUGpfA5Y+kmiP7VNa3XtyFXetM8OVM85LabiGsUqUILEo
+ +x7sUvzin8nVv61drVau/gYbTEVtawWVAOc+6PzTWKbnirY4KIxXiecHR2HxgM8jBSUSLP41o0M
+ QzLfXQmXFmAYJyvyhvmBAwZwDGeM=
+X-Google-Smtp-Source: AGHT+IEDF/pd/Sz3sl47bUiAWd6bAMOR+fWYehca9LHB3zJLcbn10+vWnVIxV5UhcwMI+r07eJGD8MGL4Aptk38j+GA=
+X-Received: by 2002:a05:6512:31ce:b0:53d:d125:c26b with SMTP id
+ 2adb3069b0e04-53dd35a55edmr201881e87.9.1732227446129; Thu, 21 Nov 2024
+ 14:17:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241121130134.29408-4-quic_jseerapu@quicinc.com>
+References: <20241120204125.52644-1-pvorel@suse.cz>
+ <CAK7LNASYr+pjUs-W40d_Gc+vP67nX7NHXyE0AnOpXxXgxrCtqQ@mail.gmail.com>
+ <20241121011720.GA69389@pevik>
+In-Reply-To: <20241121011720.GA69389@pevik>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 22 Nov 2024 07:16:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARc4Cp1a8G9p0KiCGyu0WL3BNEd0BY0COMPL4U8bLr8gA@mail.gmail.com>
+Message-ID: <CAK7LNARc4Cp1a8G9p0KiCGyu0WL3BNEd0BY0COMPL4U8bLr8gA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] init/Kconfig: add python3 availability config
+To: Petr Vorel <pvorel@suse.cz>
+Cc: linux-arm-msm@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,47 +77,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 21, 2024 at 06:31:34PM +0530, Jyothi Kumar Seerapu wrote:
-> I2C functionality has dependencies on the GPI driver.
-> Ensure that the GPI driver is enabled when using the I2C
-> driver functionality.
-> Therefore, update the I2C GENI driver to depend on the GPI driver.
-> 
-> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-> ---
-> v2 -> v3:
->    - Moved this change to patch3.
->    - Updated commit description.
-> 
-> v1 -> v2:
->    -  This patch is added in v2 to address the kernel test robot
->       reported compilation error.
->       ERROR: modpost: "gpi_multi_desc_process" [drivers/i2c/busses/i2c-qcom-geni.ko] undefined!
-> 
->  drivers/i2c/busses/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-> index 0aa948014008..87634a682855 100644
-> --- a/drivers/i2c/busses/Kconfig
-> +++ b/drivers/i2c/busses/Kconfig
-> @@ -1049,6 +1049,7 @@ config I2C_QCOM_GENI
->  	tristate "Qualcomm Technologies Inc.'s GENI based I2C controller"
->  	depends on ARCH_QCOM || COMPILE_TEST
->  	depends on QCOM_GENI_SE
-> +	depends on QCOM_GPI_DMA
+On Thu, Nov 21, 2024 at 10:17=E2=80=AFAM Petr Vorel <pvorel@suse.cz> wrote:
+>
+> > On Thu, Nov 21, 2024 at 5:41=E2=80=AFAM Petr Vorel <pvorel@suse.cz> wro=
+te:
+>
+> > > It will be used in the next commit for DRM_MSM.
+>
+> > > Suggested-by: Rob Clark <robdclark@gmail.com>
+> > > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> > > ---
+> > > Changes v3->v4:
+> > > * Move definition to the end of the file
+>
+>
+> > I prefer to not check the tool.
+>
+> Ack.
+>
+> > Why don't you install python3?
+>
+> Everybody installs it when it's required, the question is how to inform a=
+bout
+> the dependency.
+>
+> There build environments are minimal environments:
+> * chroot (e.g. cross compilation)
+> * container
+>
+> These are used by both developers and distros.
 
-So... without this change the previous patch is broken, which is a
-no-go. And anyway, adding dependency onto a particular DMA driver is a
-bad idea. Please make use of the DMA API instead.
 
->  	help
->  	  This driver supports GENI serial engine based I2C controller in
->  	  master mode on the Qualcomm Technologies Inc.'s SoCs. If you say
-> -- 
-> 2.17.1
-> 
+Documentation/process/changes.rst
+documents basic tools necessary for building the kernel.
 
--- 
-With best wishes
-Dmitry
+Python3 is listed as "optional" because it is required
+only for some CONFIG options.
+
+If the exact dependency is unclear, it is better to install
+all tools listed in that table.
+
+
+
+
+> Kind regards,
+> Petr
+>
+> > >  init/Kconfig | 3 +++
+> > >  1 file changed, 3 insertions(+)
+>
+> > > diff --git a/init/Kconfig b/init/Kconfig
+> > > index fbd0cb06a50a..c77e45484e81 100644
+> > > --- a/init/Kconfig
+> > > +++ b/init/Kconfig
+> > > @@ -2047,3 +2047,6 @@ config ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
+> > >  # <asm/syscall_wrapper.h>.
+> > >  config ARCH_HAS_SYSCALL_WRAPPER
+> > >         def_bool n
+> > > +
+> > > +config HAVE_PYTHON3
+> > > +       def_bool $(success,$(PYTHON3) -V)
+> > > --
+> > > 2.45.2
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
