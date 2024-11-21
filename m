@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5759D4A0A
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 10:33:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA1E9D4A2F
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 10:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 169C910E8BD;
-	Thu, 21 Nov 2024 09:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75A1610E8E7;
+	Thu, 21 Nov 2024 09:47:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J+20egHJ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gMn7qclb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AAD710E8BD
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 09:33:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732181603; x=1763717603;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=g6rCyxelui5PQH0qtuZhDsS3ZB+oTsRyFTtYMB9+WzE=;
- b=J+20egHJV9E8bOySZTcIcle2f9urp4saQEbRV2E/7gSZcUbEqX5m87Pg
- WHAB8dVToIM8etOeUql5kLfGDjaSYZ/U1Asu5MEB9SnJ/yEeY1j+phnyO
- k87AiYkNxCbqX5v/XzjY4azRGjB5qr1PjlogoiLFkqBUuWrvyDnHl0E4v
- c+/u5nv7IoPWWKgeS8fFfetoBuMECtFz7LyphXdkUqMkASSB8+0V33XzD
- pBsD1JJ4sNgrn7tg7pirDfHVnCQYNAlqbZDbZQQp/t+b9sADlKi6wITOL
- VQISoOyPVInFjhxDemJCX2E6qUbjwgINRjPyfOYWvyJqAnpQl/z5O/gA6 w==;
-X-CSE-ConnectionGUID: odl1xWVhQfigGSyjuSO4rw==
-X-CSE-MsgGUID: xQGnyJBtSD6YIxmO35jXDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="43668020"
-X-IronPort-AV: E=Sophos;i="6.12,172,1728975600"; d="scan'208";a="43668020"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2024 01:33:22 -0800
-X-CSE-ConnectionGUID: WVErexUeQDqHnHXMiDN4Xw==
-X-CSE-MsgGUID: KYwx0OHXTPibgX2i/RxFYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,172,1728975600"; d="scan'208";a="113468358"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.95])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2024 01:33:19 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ian Forbes <ian.forbes@broadcom.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- zack.rusin@broadcom.com, martin.krastev@broadcom.com,
- maaz.mombasawala@broadcom.com
-Subject: Re: [PATCH] drm/vmwgfx: Add Fake EDID
-In-Reply-To: <CAO6MGtiP4iCwLh1ZbYWqCwCgqzcgTnX=bZ25ow4ED8hc1JdGKQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241119194038.530779-1-ian.forbes@broadcom.com>
- <40815234-baa2-4990-9f30-0a0632871a0c@suse.de> <878qte2oj3.fsf@intel.com>
- <CAO6MGtiP4iCwLh1ZbYWqCwCgqzcgTnX=bZ25ow4ED8hc1JdGKQ@mail.gmail.com>
-Date: Thu, 21 Nov 2024 11:33:16 +0200
-Message-ID: <87ldxd0w4j.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B35F310E8E7;
+ Thu, 21 Nov 2024 09:47:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+f/DS4eIhc6HJDHU7gW/93mS9sHoEQHIU8oWWCmNg0E=; b=gMn7qclbdFVAnDNBlsZg1SpwQ7
+ 9fka/v6UnK16oqpjoopcr6QWnUO26WS2iYyjYzCeqHZNASqkztfzzLz+wxOXc4JMxfhAvnAz4gdTP
+ 4+WKXe2aNEgfaaxXwe5EaAkb9AuqzdDNdV4IgPv9lo9ZV5jSZ5QYSa/CjTZbrPje5XAcfTH2I/unt
+ 8Nlr8+GBB1WG7hDtYRz/nVvOQ4uWphsu817xDAmK0JbBeR2rrMzBo9x773/UiUzrsee+K9tSMULKl
+ NKORwsi2b751DJD36z6fiMXJ7G0KSBj7zKoAzRJZsGSXjN+skHxz41viDlsnoTVoYkoAb2/7XTryg
+ pjREgyTg==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tE3mG-00ALcg-8Q; Thu, 21 Nov 2024 10:47:08 +0100
+Message-ID: <d0c0802f-6fce-4112-a228-e484cebff383@igalia.com>
+Date: Thu, 21 Nov 2024 09:47:07 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/etnaviv: Add fdinfo support for memory stats
+To: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel-dev@igalia.com, tursulin@igalia.com,
+ Christian Gmeiner <cgmeiner@igalia.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241121092409.3859592-1-christian.gmeiner@gmail.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20241121092409.3859592-1-christian.gmeiner@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,105 +65,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 20 Nov 2024, Ian Forbes <ian.forbes@broadcom.com> wrote:
-> On Wed, Nov 20, 2024 at 4:22=E2=80=AFAM Jani Nikula <jani.nikula@linux.in=
-tel.com>
-> wrote:
->>
->> Please avoid all struct edid based interfaces, in this case
->> drm_connector_update_edid_property(). They will be removed in the
->> future, and adding more is counter-productive. Everything should be
->> struct drm_edid based going forward.
->>
->> Of course, actually grafting the EDID needs struct edid. And that's kind
->> of annoying too. Do we really want to spread the EDID details all over
->> the place? This one combines drm_edid.h structs and magic numbers in a
->> jumble. I'm kind of hoping we'd get rid of driver usage of struct edid,
->> though that's a long road. But we've made a lot of progress towards it,
->> there aren't that many places left that directly look at the guts of
->> EDID, and most of it is centralized in drm_edid.c.
->>
->
-> drm_edid isn't exported so we can't use it. I know you've read the EDID
-> spec so complaining about the magic numbers is silly.
-> I didn't choose to make the whole spec based on bizarrely packed 10 and 12
-> bit numbers, they are unavoidable.
 
-I'm complaining about adding those details in drivers. That is, if we
-really have to have EDID generation.
+On 21/11/2024 09:24, Christian Gmeiner wrote:
+> From: Christian Gmeiner <cgmeiner@igalia.com>
+> 
+> Use the new helper to export stats about memory usage.
+> 
+> Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+> ---
+>   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 12 +++++++++++-
+>   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 12 ++++++++++++
+>   2 files changed, 23 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 6500f3999c5f..35f47dd6367f 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -488,7 +488,16 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+>   	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+>   };
+>   
+> -DEFINE_DRM_GEM_FOPS(fops);
+> +static void etnaviv_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+> +{
+> +	drm_show_memory_stats(p, file);
+> +}
+> +
+> +static const struct file_operations fops = {
+> +	.owner = THIS_MODULE,
+> +	DRM_GEM_FOPS,
+> +	.show_fdinfo = drm_show_fdinfo,
+> +};
+>   
+>   static const struct drm_driver etnaviv_drm_driver = {
+>   	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
+> @@ -498,6 +507,7 @@ static const struct drm_driver etnaviv_drm_driver = {
+>   #ifdef CONFIG_DEBUG_FS
+>   	.debugfs_init       = etnaviv_debugfs_init,
+>   #endif
+> +	.show_fdinfo        = etnaviv_show_fdinfo,
+>   	.ioctls             = etnaviv_ioctls,
+>   	.num_ioctls         = DRM_ETNAVIV_NUM_IOCTLS,
+>   	.fops               = &fops,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> index 5c0c9d4e3be1..e81c261b0017 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -527,6 +527,17 @@ void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
+>   	mutex_unlock(&priv->gem_lock);
+>   }
+>   
+> +static enum drm_gem_object_status etnaviv_gem_status(struct drm_gem_object *obj)
+> +{
+> +	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+> +	enum drm_gem_object_status status = 0;
+> +
+> +	if (etnaviv_obj->pages)
+> +		status |= DRM_GEM_OBJECT_RESIDENT;
+> +
+> +	return status;
 
-It's hard to get all the EDID details right. Drivers would invariably
-get them wrong, in different ways. The main reason struct drm_edid is
-opaque is to prevent drivers from attempting to parse it
-themselves. (Yes, drm_edid.c gets stuff wrong too, but at least it's the
-same for everyone and can be fixed in one place.)
+Or just:
 
->>
->> > Maybe it resolves problems with
->> > compositors, but it is a step backwards for the overall ecosystem. If
->> > the connector changes, your driver should increment the epoch counter.
->> > [1] That will send a hotplug event to userspace. The EDID alone does n=
-ot
->> > say anything about connector status.
->>
->> Yeah, unplugging and replugging the same display with the same EDID
->> isn't a problem for other drivers, and they don't have to do this kind
->> of stuff to trick userspace. Maybe vmwgfx should handle (or simulate)
->> hotplugs better?
->>
->> And preferrably let the EDID functions handle epoch counter updates
->> instead of doing it yourself, if at all possible.
->>
->> BR,
->> Jani.
->>
->
-> You're both missing the fact that virtual devices never disconnect active
-> displays. We don't have to do a disconnect/connect cycle like a physical
-> monitor and we wouldn't want to because it would be poor user experience.
-> The issue is not sending the hotplug event, it's that userspace will igno=
-re
-> hotplug events on connectors that were previously connected because they
-> assume a disconnect/connect cycle must occur for changes to occur. The
-> whole point of hotplug_mode_update was as a hint to userspace that the
-> display can be "re-plugged" without a disconnect first and to always resc=
-an
-> the connector for changes on hotplug.
->
-> Currently compositors are taking an arbitrary set of connector properties
-> that they've organically collected over the years and doing a diff to
-> trigger a refresh in the modes/display layout. EDID is the only property
-> that they universally agree should trigger a display layout change. The
-> fact that Autofit works on any compsitors using vmwgfx, qxl, or virtio is
-> completely by accident.
->
-> EDID is also a standardized connector property so it's not really fair to
-> say that all devices should export this property and then when we fix our
-> deficiency to block it. Now that it's standardized it is part of the uapi
-> and if userspace does weird things with it it's not really our concern. T=
-he
-> fact that it's standardized is also likely the reason it is being used in
-> such a fashion.
+return etnaviv_obj->pages ? DRM_GEM_OBJECT_RESIDENT : 0;
 
-If you want standardized, you should probably consider using
-drm_edid_read_custom() to fetch the generated EDID the same way all the
-other EDIDs get fetched, with support for firmware/debugfs EDID, and
-validity checks. And you get to use drm_edid based interfaces. And you
-get connector->display_info filled with the parsed data, so it aligns
-with everyone else.
+But it is inconsequential, or maybe even you plan to add purgeable at 
+some point.
 
-Arguably it's also backwards to first generate modes, update them using
-drm_mode_probed_add() and drm_add_modes_noedid(), then generate an EDID
-based on them and update the property with that. Userspace should not
-even look at the modes from the EDID directly, only the modes provided
-via KMS API, and nobody would even know if they differ. So if we go the
-EDID generation route, IMO this should go all the way. Generate EDID
-based on modes, and then use drm_edid_connector_add_modes() to add the
-modes.
+> +}
+> +
+>   static const struct vm_operations_struct vm_ops = {
+>   	.fault = etnaviv_gem_fault,
+>   	.open = drm_gem_vm_open,
+> @@ -540,6 +551,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+>   	.get_sg_table = etnaviv_gem_prime_get_sg_table,
+>   	.vmap = etnaviv_gem_prime_vmap,
+>   	.mmap = etnaviv_gem_mmap,
+> +	.status = etnaviv_gem_status,
+>   	.vm_ops = &vm_ops,
+>   };
+>  
+Either way LGTM.
 
-BR,
-Jani.
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
+Regards,
 
---=20
-Jani Nikula, Intel
+Tvrtko
