@@ -2,67 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F39709D4ADE
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 11:27:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162E09D4AE0
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 11:27:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45DE210E3EF;
-	Thu, 21 Nov 2024 10:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE6810E8D5;
+	Thu, 21 Nov 2024 10:27:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gaWoy+d8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WjaRVcyD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7928C10E1CB
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 10:27:32 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-43161e7bb25so5833025e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 02:27:32 -0800 (PST)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5114410E8D0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 10:27:34 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-431ac30d379so6254745e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 02:27:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732184851; x=1732789651; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1732184852; x=1732789652; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PYMtQG0K1uLGcFRjKmLUyHDkhjP7h2itooaM3D64bWI=;
- b=gaWoy+d8JL3OZ83cCLnyZYi9LbV5EU0l1Yonfa25Pf7X1T96k6oesxGsQJIWGo1q1p
- wiB5coWvSgIDnsD7MjF71MSJjXOA50xQ3Gvh0H1SruHvO7U5VL/wfcSeOfAvL74XQ/OD
- vz51hZpu+mOOkeAoAB0K6OJ0htoI9zV8Sx36ipRyLLIW4bj0tPuoDkMnuKZJtQx4FNFK
- H3Hnc6duMi0vAFWiY01FF4Jk2Gn06E0FC7TQGxz8ryGsrY/xrc/rz/tAsHKTRHvvYnhf
- 4bFJcSeWGbBLIGiXfS00XtbOpKy4CcGUYG/bNh6qOwtpn/dtzM97SjyDzxpdABBujrFw
- DqJg==
+ bh=ETDe7un/JWIbuM3P/iFQm3j6qLUZiVYIWE/wIZIF+UQ=;
+ b=WjaRVcyDDg0r3z2/4J/XmTuJZ/Znyyv626SmPUgoRDVPkO7LvRBl7Ci4G4s7+ncMAZ
+ zwjvPjcd58vO1gZf3Y/6WfIMWTRG0QVlk1Go9JMsNdKRChZJoeDyRc0Xl3cvFYd7aQu9
+ FXlNRSzrDQBRjtrCRR7RvwqtFhN6prvM5txQGWkSZXuP0OrMHS49tc5AhjK9tm5uWOsp
+ ay50pVIX5f3fED34N/fHI4C+SiVp3E3XVionmDbi/j5PstBuXpRWVG8cKxVut6HIlBei
+ RSbLhJshybzcxEBcwH91y70yEQpy2slHhL5UrApSfuhWPAmrZlaIJc6Xm7yHuGuMD/Eo
+ 7GLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732184851; x=1732789651;
+ d=1e100.net; s=20230601; t=1732184852; x=1732789652;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PYMtQG0K1uLGcFRjKmLUyHDkhjP7h2itooaM3D64bWI=;
- b=KlCAfX6nuHU/bM6C+yFOdrEwLMiA7cRiiLP8cZQ47i/x3RjXA2V9iMJjjVpIe8rptQ
- RIvv75TxLCXAPRmwP2EMyZ21Z5qM0umGqLbuXK5uwksGyiPwlrGmop4Tbf22NsQsJZkP
- UVca4s7pWh1Xtsl+vE+rGdV1rEqs0FRSf2WgS/yu5lyB77ijYpcbuoNfptSxUAtl2bb1
- z7tLoYozl1IXJjBS9VpUqua2UZJWfZ9++U3rrcL4Bh1jNezT8CP0mP/IA+fJhEZF5FfH
- hOySUWCmNfiiKwCzVLtFTwfAPytpJAKTLmzZhjfSfBeF5/M4garn/qLEw6UFDQJ1piTQ
- VwJQ==
-X-Gm-Message-State: AOJu0Yzul6sJssHRqZSX5vB/48xeJJ/Mtb6q/c4CNM83PCokuFculTaW
- r2JCV7M4BTmG7pB7BcMK7+Rx5xymCaf4QXg9NyzsYMy8x1/8LS/dFVwU8+9mtjw=
-X-Google-Smtp-Source: AGHT+IHCW9U59/QsOmVZhyrINz3WffBvVWXwxJOw7T9S63c2of35Oly3dtiUiZtIAjuTPbGh8fakcQ==
-X-Received: by 2002:a05:600c:4685:b0:42c:b80e:5e50 with SMTP id
- 5b1f17b1804b1-433489054a7mr59363895e9.0.1732184850581; 
- Thu, 21 Nov 2024 02:27:30 -0800 (PST)
+ bh=ETDe7un/JWIbuM3P/iFQm3j6qLUZiVYIWE/wIZIF+UQ=;
+ b=EufbDtyxdZNG9SILQeDqT2kZx2LX+ks21VjpJPmpYjLP9+o7h6Stf8LHBZjeGrQy8G
+ Q6PHREsLwl5zKl+b18LxDv1pyvTW2+bmRzy1p0QzboZO5b4bqPxh0AkaT1PzcHbBc0a5
+ pg7ihzWExtHlwpi+2qsEljECYiOti70FUO/tUIcNtCfZWKIKvri9CpchAxh6z3RZK6tL
+ AgiLnk3N954EjXkF+5vePRL9uEtQskv8nKBv+ruaWAxnkSC0wr6ywWg7T6hcPG3aATGt
+ irHkxnyb0EuDfVv/GaCKh9PIkbKjs6aEWPSr+rVGAugV8pMRuwRqvOi0iQ1b30qv9yh7
+ dN3w==
+X-Gm-Message-State: AOJu0Ywi2j8ZzCG46pz8l5M0jK6G/Ne/JxRuMdpntJxcHgVbv+rhCdG7
+ AvkFiEK4LV+6nn6qTMUIgnXT6T3KRCxQ9eRxkCSxGTN8kR7Q6yK6z6Dh+5WKTfY=
+X-Gm-Gg: ASbGnctTqbXsSYZm0+bK1c/fWUxqFFqRJk2o8UJUqcDuxDYdvfqNQHYB2H6vLoty3K2
+ Raelr9qnBUPqr8jcPkQg7o438hUBhLyfCzQkln8gwbQ+icO/ZOECvfzytTycUHeO3yt+xpL8MPm
+ FvY7UpqKUNkLq5BpaZo6HVyVAcd7EcXH9mI0G8cf24sBn/JYfENy9aBJjN2CLqTH7LR2/XS5CTN
+ dKN2hgCQZpLbaTPtjX6q1WJ+NktLBXZniHUaqvDsWXuRkPLn0HV7k380wdPeg==
+X-Google-Smtp-Source: AGHT+IGXA/+mcIJaoEwFfDHSfe2OCn7hM4js3SpD/iGDIhd9SdjZizJ/yu+8/GlaJXxHCZF4+LTyLw==
+X-Received: by 2002:a05:600c:444f:b0:42c:b4f2:7c30 with SMTP id
+ 5b1f17b1804b1-4334f017137mr46609585e9.23.1732184852451; 
+ Thu, 21 Nov 2024 02:27:32 -0800 (PST)
 Received: from able.fritz.box ([2a00:e180:1564:d000:2ed:2997:a6e4:61cb])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-433b45d17ccsm52533165e9.6.2024.11.21.02.27.29
+ 5b1f17b1804b1-433b45d17ccsm52533165e9.6.2024.11.21.02.27.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Nov 2024 02:27:30 -0800 (PST)
+ Thu, 21 Nov 2024 02:27:32 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: zack.rusin@broadcom.com
 Cc: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/vmwgfx: replace ttm_validate_buffer with separate
- struct
-Date: Thu, 21 Nov 2024 11:27:24 +0100
-Message-Id: <20241121102725.4195-4-christian.koenig@amd.com>
+Subject: [PATCH 4/4] drm/ttm: remove ttm_execbug_util
+Date: Thu, 21 Nov 2024 11:27:25 +0100
+Message-Id: <20241121102725.4195-5-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241121102725.4195-1-christian.koenig@amd.com>
 References: <20241121102725.4195-1-christian.koenig@amd.com>
@@ -84,479 +87,324 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Finish remove the ttm_eu depoendency.
-
-No functional difference.
+Replaced by drm_exec and not used any more.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_context.c       | 16 ++++++-------
- drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c       | 12 +++++-----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  1 -
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      | 14 ++++-------
- drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h |  4 ++--
- drivers/gpu/drm/vmwgfx/vmwgfx_shader.c        | 16 ++++++-------
- drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c  |  8 +++----
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       | 24 +++++++++----------
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.c    |  5 ++--
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.h    | 10 ++++++++
- 10 files changed, 57 insertions(+), 53 deletions(-)
+ drivers/gpu/drm/ttm/Makefile           |   4 +-
+ drivers/gpu/drm/ttm/ttm_execbuf_util.c | 161 -------------------------
+ include/drm/ttm/ttm_execbuf_util.h     | 119 ------------------
+ 3 files changed, 2 insertions(+), 282 deletions(-)
+ delete mode 100644 drivers/gpu/drm/ttm/ttm_execbuf_util.c
+ delete mode 100644 include/drm/ttm/ttm_execbuf_util.h
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_context.c b/drivers/gpu/drm/vmwgfx/vmwgfx_context.c
-index ecc503e42790..c496413e7c86 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_context.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_context.c
-@@ -48,17 +48,17 @@ vmw_user_context_base_to_res(struct ttm_base_object *base);
+diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
+index dad298127226..25937e4ad91a 100644
+--- a/drivers/gpu/drm/ttm/Makefile
++++ b/drivers/gpu/drm/ttm/Makefile
+@@ -3,8 +3,8 @@
+ # Makefile for the drm device driver.  This driver provides support for the
  
- static int vmw_gb_context_create(struct vmw_resource *res);
- static int vmw_gb_context_bind(struct vmw_resource *res,
--			       struct ttm_validate_buffer *val_buf);
-+			       struct vmw_validate_buffer *val_buf);
- static int vmw_gb_context_unbind(struct vmw_resource *res,
- 				 bool readback,
--				 struct ttm_validate_buffer *val_buf);
-+				 struct vmw_validate_buffer *val_buf);
- static int vmw_gb_context_destroy(struct vmw_resource *res);
- static int vmw_dx_context_create(struct vmw_resource *res);
- static int vmw_dx_context_bind(struct vmw_resource *res,
--			       struct ttm_validate_buffer *val_buf);
-+			       struct vmw_validate_buffer *val_buf);
- static int vmw_dx_context_unbind(struct vmw_resource *res,
- 				 bool readback,
--				 struct ttm_validate_buffer *val_buf);
-+				 struct vmw_validate_buffer *val_buf);
- static int vmw_dx_context_destroy(struct vmw_resource *res);
+ ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
+-	ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
+-	ttm_device.o ttm_sys_manager.o
++	ttm_range_manager.o ttm_resource.o ttm_pool.o ttm_device.o \
++	ttm_sys_manager.o
+ ttm-$(CONFIG_AGP) += ttm_agp_backend.o
  
- static const struct vmw_user_resource_conv user_context_conv = {
-@@ -339,7 +339,7 @@ static int vmw_gb_context_create(struct vmw_resource *res)
- }
- 
- static int vmw_gb_context_bind(struct vmw_resource *res,
--			       struct ttm_validate_buffer *val_buf)
-+			       struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct {
-@@ -367,7 +367,7 @@ static int vmw_gb_context_bind(struct vmw_resource *res,
- 
- static int vmw_gb_context_unbind(struct vmw_resource *res,
- 				 bool readback,
--				 struct ttm_validate_buffer *val_buf)
-+				 struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct ttm_buffer_object *bo = val_buf->bo;
-@@ -506,7 +506,7 @@ static int vmw_dx_context_create(struct vmw_resource *res)
- }
- 
- static int vmw_dx_context_bind(struct vmw_resource *res,
--			       struct ttm_validate_buffer *val_buf)
-+			       struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct {
-@@ -576,7 +576,7 @@ void vmw_dx_context_scrub_cotables(struct vmw_resource *ctx,
- 
- static int vmw_dx_context_unbind(struct vmw_resource *res,
- 				 bool readback,
--				 struct ttm_validate_buffer *val_buf)
-+				 struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct ttm_buffer_object *bo = val_buf->bo;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-index a7c07692262b..2714238e21da 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-@@ -122,10 +122,10 @@ const SVGACOTableType vmw_cotable_scrub_order[] = {
- };
- 
- static int vmw_cotable_bind(struct vmw_resource *res,
--			    struct ttm_validate_buffer *val_buf);
-+			    struct vmw_validate_buffer *val_buf);
- static int vmw_cotable_unbind(struct vmw_resource *res,
- 			      bool readback,
--			      struct ttm_validate_buffer *val_buf);
-+			      struct vmw_validate_buffer *val_buf);
- static int vmw_cotable_create(struct vmw_resource *res);
- static int vmw_cotable_destroy(struct vmw_resource *res);
- 
-@@ -214,14 +214,14 @@ static int vmw_cotable_unscrub(struct vmw_resource *res)
-  * vmw_cotable_bind - Undo a cotable unscrub operation
-  *
-  * @res: Pointer to the cotable resource
-- * @val_buf: Pointer to a struct ttm_validate_buffer prepared by the caller
-+ * @val_buf: Pointer to a struct vmw_validate_buffer prepared by the caller
-  * for convenience / fencing.
-  *
-  * This function issues commands to (re)bind the cotable to
-  * its backing mob, which needs to be validated and reserved at this point.
-  */
- static int vmw_cotable_bind(struct vmw_resource *res,
--			    struct ttm_validate_buffer *val_buf)
-+			    struct vmw_validate_buffer *val_buf)
- {
- 	/*
- 	 * The create() callback may have changed @res->backup without
-@@ -313,14 +313,14 @@ int vmw_cotable_scrub(struct vmw_resource *res, bool readback)
-  *
-  * @res: Pointer to the cotable resource.
-  * @readback: Whether to read back cotable data to the backup buffer.
-- * @val_buf: Pointer to a struct ttm_validate_buffer prepared by the caller
-+ * @val_buf: Pointer to a struct vmw_validate_buffer prepared by the caller
-  * for convenience / fencing.
-  *
-  * Unbinds the cotable from the device and fences the backup buffer.
-  */
- static int vmw_cotable_unbind(struct vmw_resource *res,
- 			      bool readback,
--			      struct ttm_validate_buffer *val_buf)
-+			      struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_cotable *vcotbl = vmw_cotable(res);
- 	struct vmw_private *dev_priv = res->dev_priv;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index b21831ef214a..0542e24a80e0 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -38,7 +38,6 @@
- #include <drm/drm_file.h>
- #include <drm/drm_rect.h>
- 
+ obj-$(CONFIG_DRM_TTM) += ttm.o
+diff --git a/drivers/gpu/drm/ttm/ttm_execbuf_util.c b/drivers/gpu/drm/ttm/ttm_execbuf_util.c
+deleted file mode 100644
+index f1c60fa80c2d..000000000000
+--- a/drivers/gpu/drm/ttm/ttm_execbuf_util.c
++++ /dev/null
+@@ -1,161 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+-/**************************************************************************
+- *
+- * Copyright (c) 2006-2009 VMware, Inc., Palo Alto, CA., USA
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the
+- * "Software"), to deal in the Software without restriction, including
+- * without limitation the rights to use, copy, modify, merge, publish,
+- * distribute, sub license, and/or sell copies of the Software, and to
+- * permit persons to whom the Software is furnished to do so, subject to
+- * the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+- * USE OR OTHER DEALINGS IN THE SOFTWARE.
+- *
+- **************************************************************************/
+-
 -#include <drm/ttm/ttm_execbuf_util.h>
- #include <drm/ttm/ttm_tt.h>
- #include <drm/ttm/ttm_placement.h>
- #include <drm/ttm/ttm_bo.h>
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-index 0002b2f9a6c9..6816607a1ce6 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-@@ -130,10 +130,9 @@ static void vmw_resource_release(struct kref *kref)
- 		BUG_ON(ret);
- 		if (vmw_resource_mob_attached(res) &&
- 		    res->func->unbind != NULL) {
--			struct ttm_validate_buffer val_buf;
-+			struct vmw_validate_buffer val_buf;
- 
- 			val_buf.bo = bo;
--			val_buf.num_shared = 0;
- 			res->func->unbind(res, false, &val_buf);
- 		}
- 		res->guest_memory_size = false;
-@@ -370,7 +369,7 @@ static int vmw_resource_buf_alloc(struct vmw_resource *res,
-  * should be retried once resources have been freed up.
-  */
- static int vmw_resource_do_validate(struct vmw_resource *res,
--				    struct ttm_validate_buffer *val_buf,
-+				    struct vmw_validate_buffer *val_buf,
- 				    bool dirtying)
- {
- 	int ret = 0;
-@@ -614,14 +613,13 @@ int vmw_resource_reserve(struct vmw_resource *res, bool interruptible,
- static int vmw_resource_do_evict(struct ww_acquire_ctx *ticket,
- 				 struct vmw_resource *res, bool interruptible)
- {
--	struct ttm_validate_buffer val_buf;
-+	struct vmw_validate_buffer val_buf;
- 	const struct vmw_res_func *func = res->func;
- 	int ret;
- 
- 	BUG_ON(!func->may_evict);
- 
- 	val_buf.bo = NULL;
--	val_buf.num_shared = 0;
- 	ret = vmw_resource_check_buffer(ticket, res, interruptible, &val_buf.bo);
- 	if (unlikely(ret != 0))
- 		return ret;
-@@ -668,14 +666,13 @@ int vmw_resource_validate(struct vmw_resource *res, bool intr,
- 	struct vmw_resource *evict_res;
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct list_head *lru_list = &dev_priv->res_lru[res->func->res_type];
--	struct ttm_validate_buffer val_buf;
-+	struct vmw_validate_buffer val_buf;
- 	unsigned err_count = 0;
- 
- 	if (!res->func->create)
- 		return 0;
- 
- 	val_buf.bo = NULL;
--	val_buf.num_shared = 0;
- 	if (res->guest_memory_bo)
- 		val_buf.bo = &res->guest_memory_bo->tbo;
- 	do {
-@@ -742,9 +739,8 @@ int vmw_resource_validate(struct vmw_resource *res, bool intr,
-  */
- void vmw_resource_unbind_list(struct vmw_bo *vbo)
- {
--	struct ttm_validate_buffer val_buf = {
-+	struct vmw_validate_buffer val_buf = {
- 		.bo = &vbo->tbo,
--		.num_shared = 0
- 	};
- 
- 	dma_resv_assert_held(vbo->tbo.base.resv);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h
-index aa7cbd396bea..ac2ea9d688c1 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h
-@@ -93,10 +93,10 @@ struct vmw_res_func {
- 	int (*create) (struct vmw_resource *res);
- 	int (*destroy) (struct vmw_resource *res);
- 	int (*bind) (struct vmw_resource *res,
--		     struct ttm_validate_buffer *val_buf);
-+		     struct vmw_validate_buffer *val_buf);
- 	int (*unbind) (struct vmw_resource *res,
- 		       bool readback,
--		       struct ttm_validate_buffer *val_buf);
-+		       struct vmw_validate_buffer *val_buf);
- 	void (*commit_notify)(struct vmw_resource *res,
- 			      enum vmw_cmdbuf_res_state state);
- 	int (*dirty_alloc)(struct vmw_resource *res);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-index a01ca3226d0a..b1eea51b2aba 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-@@ -60,18 +60,18 @@ vmw_user_shader_base_to_res(struct ttm_base_object *base);
- 
- static int vmw_gb_shader_create(struct vmw_resource *res);
- static int vmw_gb_shader_bind(struct vmw_resource *res,
--			       struct ttm_validate_buffer *val_buf);
-+			       struct vmw_validate_buffer *val_buf);
- static int vmw_gb_shader_unbind(struct vmw_resource *res,
- 				 bool readback,
--				 struct ttm_validate_buffer *val_buf);
-+				 struct vmw_validate_buffer *val_buf);
- static int vmw_gb_shader_destroy(struct vmw_resource *res);
- 
- static int vmw_dx_shader_create(struct vmw_resource *res);
- static int vmw_dx_shader_bind(struct vmw_resource *res,
--			       struct ttm_validate_buffer *val_buf);
-+			       struct vmw_validate_buffer *val_buf);
- static int vmw_dx_shader_unbind(struct vmw_resource *res,
- 				 bool readback,
--				 struct ttm_validate_buffer *val_buf);
-+				 struct vmw_validate_buffer *val_buf);
- static void vmw_dx_shader_commit_notify(struct vmw_resource *res,
- 					enum vmw_cmdbuf_res_state state);
- static bool vmw_shader_id_ok(u32 user_key, SVGA3dShaderType shader_type);
-@@ -243,7 +243,7 @@ static int vmw_gb_shader_create(struct vmw_resource *res)
- }
- 
- static int vmw_gb_shader_bind(struct vmw_resource *res,
--			      struct ttm_validate_buffer *val_buf)
-+			      struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct {
-@@ -271,7 +271,7 @@ static int vmw_gb_shader_bind(struct vmw_resource *res,
- 
- static int vmw_gb_shader_unbind(struct vmw_resource *res,
- 				bool readback,
--				struct ttm_validate_buffer *val_buf)
-+				struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct {
-@@ -443,7 +443,7 @@ static int vmw_dx_shader_create(struct vmw_resource *res)
-  *
-  */
- static int vmw_dx_shader_bind(struct vmw_resource *res,
--			      struct ttm_validate_buffer *val_buf)
-+			      struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct ttm_buffer_object *bo = val_buf->bo;
-@@ -505,7 +505,7 @@ static int vmw_dx_shader_scrub(struct vmw_resource *res)
-  */
- static int vmw_dx_shader_unbind(struct vmw_resource *res,
- 				bool readback,
--				struct ttm_validate_buffer *val_buf)
-+				struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct vmw_fence_obj *fence;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c b/drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c
-index edcc40659038..4d6dcf585f58 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c
-@@ -55,9 +55,9 @@ struct vmw_dx_streamoutput {
- 
- static int vmw_dx_streamoutput_create(struct vmw_resource *res);
- static int vmw_dx_streamoutput_bind(struct vmw_resource *res,
--				    struct ttm_validate_buffer *val_buf);
-+				    struct vmw_validate_buffer *val_buf);
- static int vmw_dx_streamoutput_unbind(struct vmw_resource *res, bool readback,
--				      struct ttm_validate_buffer *val_buf);
-+				      struct vmw_validate_buffer *val_buf);
- static void vmw_dx_streamoutput_commit_notify(struct vmw_resource *res,
- 					      enum vmw_cmdbuf_res_state state);
- 
-@@ -136,7 +136,7 @@ static int vmw_dx_streamoutput_create(struct vmw_resource *res)
- }
- 
- static int vmw_dx_streamoutput_bind(struct vmw_resource *res,
--				    struct ttm_validate_buffer *val_buf)
-+				    struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct ttm_buffer_object *bo = val_buf->bo;
-@@ -191,7 +191,7 @@ static int vmw_dx_streamoutput_scrub(struct vmw_resource *res)
- }
- 
- static int vmw_dx_streamoutput_unbind(struct vmw_resource *res, bool readback,
--				      struct ttm_validate_buffer *val_buf)
-+				      struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct vmw_fence_obj *fence;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-index 5721c74da3e0..f16f0d85fe2c 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-@@ -81,18 +81,18 @@ static void vmw_user_surface_free(struct vmw_resource *res);
- static struct vmw_resource *
- vmw_user_surface_base_to_res(struct ttm_base_object *base);
- static int vmw_legacy_srf_bind(struct vmw_resource *res,
--			       struct ttm_validate_buffer *val_buf);
-+			       struct vmw_validate_buffer *val_buf);
- static int vmw_legacy_srf_unbind(struct vmw_resource *res,
- 				 bool readback,
--				 struct ttm_validate_buffer *val_buf);
-+				 struct vmw_validate_buffer *val_buf);
- static int vmw_legacy_srf_create(struct vmw_resource *res);
- static int vmw_legacy_srf_destroy(struct vmw_resource *res);
- static int vmw_gb_surface_create(struct vmw_resource *res);
- static int vmw_gb_surface_bind(struct vmw_resource *res,
--			       struct ttm_validate_buffer *val_buf);
-+			       struct vmw_validate_buffer *val_buf);
- static int vmw_gb_surface_unbind(struct vmw_resource *res,
- 				 bool readback,
--				 struct ttm_validate_buffer *val_buf);
-+				 struct vmw_validate_buffer *val_buf);
- static int vmw_gb_surface_destroy(struct vmw_resource *res);
- static int
- vmw_gb_surface_define_internal(struct drm_device *dev,
-@@ -461,7 +461,7 @@ static int vmw_legacy_srf_create(struct vmw_resource *res)
-  *
-  * @res:            Pointer to a struct vmw_res embedded in a struct
-  *                  vmw_surface.
-- * @val_buf:        Pointer to a struct ttm_validate_buffer containing
-+ * @val_buf:        Pointer to a struct vmw_validate_buffer containing
-  *                  information about the backup buffer.
-  * @bind:           Boolean wether to DMA to the surface.
-  *
-@@ -473,7 +473,7 @@ static int vmw_legacy_srf_create(struct vmw_resource *res)
-  * will also be returned reserved iff @bind is true.
-  */
- static int vmw_legacy_srf_dma(struct vmw_resource *res,
--			      struct ttm_validate_buffer *val_buf,
-+			      struct vmw_validate_buffer *val_buf,
- 			      bool bind)
- {
- 	SVGAGuestPtr ptr;
-@@ -515,14 +515,14 @@ static int vmw_legacy_srf_dma(struct vmw_resource *res,
-  *
-  * @res:            Pointer to a struct vmw_res embedded in a struct
-  *                  vmw_surface.
-- * @val_buf:        Pointer to a struct ttm_validate_buffer containing
-+ * @val_buf:        Pointer to a struct vmw_validate_buffer containing
-  *                  information about the backup buffer.
-  *
-  * This function will copy backup data to the surface if the
-  * backup buffer is dirty.
-  */
- static int vmw_legacy_srf_bind(struct vmw_resource *res,
--			       struct ttm_validate_buffer *val_buf)
-+			       struct vmw_validate_buffer *val_buf)
- {
- 	if (!res->guest_memory_dirty)
- 		return 0;
-@@ -538,14 +538,14 @@ static int vmw_legacy_srf_bind(struct vmw_resource *res,
-  * @res:            Pointer to a struct vmw_res embedded in a struct
-  *                  vmw_surface.
-  * @readback:       Readback - only true if dirty
-- * @val_buf:        Pointer to a struct ttm_validate_buffer containing
-+ * @val_buf:        Pointer to a struct vmw_validate_buffer containing
-  *                  information about the backup buffer.
-  *
-  * This function will copy backup data from the surface.
-  */
- static int vmw_legacy_srf_unbind(struct vmw_resource *res,
- 				 bool readback,
--				 struct ttm_validate_buffer *val_buf)
-+				 struct vmw_validate_buffer *val_buf)
- {
- 	if (unlikely(readback))
- 		return vmw_legacy_srf_dma(res, val_buf, false);
-@@ -1285,7 +1285,7 @@ static int vmw_gb_surface_create(struct vmw_resource *res)
- 
- 
- static int vmw_gb_surface_bind(struct vmw_resource *res,
--			       struct ttm_validate_buffer *val_buf)
-+			       struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct {
-@@ -1331,7 +1331,7 @@ static int vmw_gb_surface_bind(struct vmw_resource *res,
- 
- static int vmw_gb_surface_unbind(struct vmw_resource *res,
- 				 bool readback,
--				 struct ttm_validate_buffer *val_buf)
-+				 struct vmw_validate_buffer *val_buf)
- {
- 	struct vmw_private *dev_priv = res->dev_priv;
- 	struct ttm_buffer_object *bo = val_buf->bo;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-index fdcc45cd4f57..f4c0335657dd 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-@@ -43,7 +43,7 @@
-  * large numbers and space conservation is desired.
-  */
- struct vmw_validation_bo_node {
--	struct ttm_validate_buffer base;
-+	struct vmw_validate_buffer base;
- 	struct vmwgfx_hash_item hash;
- 	unsigned int coherent_count;
- };
-@@ -250,7 +250,7 @@ int vmw_validation_add_bo(struct vmw_validation_context *ctx,
- 
- 	bo_node = vmw_validation_find_bo_dup(ctx, vbo);
- 	if (!bo_node) {
--		struct ttm_validate_buffer *val_buf;
-+		struct vmw_validate_buffer *val_buf;
- 
- 		bo_node = vmw_validation_mem_alloc(ctx, sizeof(*bo_node));
- 		if (!bo_node)
-@@ -265,7 +265,6 @@ int vmw_validation_add_bo(struct vmw_validation_context *ctx,
- 		val_buf->bo = ttm_bo_get_unless_zero(&vbo->tbo);
- 		if (!val_buf->bo)
- 			return -ESRCH;
--		val_buf->num_shared = 0;
- 		list_add_tail(&val_buf->head, &ctx->bo_list);
- 	}
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
-index 55a7d8b68d5c..f68cc1fd1eb4 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
-@@ -65,6 +65,16 @@ struct vmw_validation_context {
- 	u8 *page_address;
- };
- 
-+/**
-+ * struct vmw_validate_buffer - Linked list of TTM BOs for validation
-+ * @head: linked list node
-+ * @bo: The TTM BO
-+ */
-+struct vmw_validate_buffer {
-+	struct list_head head;
-+	struct ttm_buffer_object *bo;
-+};
-+
- struct vmw_bo;
- struct vmw_resource;
- struct vmw_fence_obj;
+-#include <drm/ttm/ttm_bo.h>
+-
+-static void ttm_eu_backoff_reservation_reverse(struct list_head *list,
+-					      struct ttm_validate_buffer *entry)
+-{
+-	list_for_each_entry_continue_reverse(entry, list, head) {
+-		struct ttm_buffer_object *bo = entry->bo;
+-
+-		dma_resv_unlock(bo->base.resv);
+-	}
+-}
+-
+-void ttm_eu_backoff_reservation(struct ww_acquire_ctx *ticket,
+-				struct list_head *list)
+-{
+-	struct ttm_validate_buffer *entry;
+-
+-	if (list_empty(list))
+-		return;
+-
+-	list_for_each_entry(entry, list, head) {
+-		struct ttm_buffer_object *bo = entry->bo;
+-
+-		ttm_bo_move_to_lru_tail_unlocked(bo);
+-		dma_resv_unlock(bo->base.resv);
+-	}
+-
+-	if (ticket)
+-		ww_acquire_fini(ticket);
+-}
+-EXPORT_SYMBOL(ttm_eu_backoff_reservation);
+-
+-/*
+- * Reserve buffers for validation.
+- *
+- * If a buffer in the list is marked for CPU access, we back off and
+- * wait for that buffer to become free for GPU access.
+- *
+- * If a buffer is reserved for another validation, the validator with
+- * the highest validation sequence backs off and waits for that buffer
+- * to become unreserved. This prevents deadlocks when validating multiple
+- * buffers in different orders.
+- */
+-
+-int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
+-			   struct list_head *list, bool intr,
+-			   struct list_head *dups)
+-{
+-	struct ttm_validate_buffer *entry;
+-	int ret;
+-
+-	if (list_empty(list))
+-		return 0;
+-
+-	if (ticket)
+-		ww_acquire_init(ticket, &reservation_ww_class);
+-
+-	list_for_each_entry(entry, list, head) {
+-		struct ttm_buffer_object *bo = entry->bo;
+-		unsigned int num_fences;
+-
+-		ret = ttm_bo_reserve(bo, intr, (ticket == NULL), ticket);
+-		if (ret == -EALREADY && dups) {
+-			struct ttm_validate_buffer *safe = entry;
+-			entry = list_prev_entry(entry, head);
+-			list_del(&safe->head);
+-			list_add(&safe->head, dups);
+-			continue;
+-		}
+-
+-		num_fences = max(entry->num_shared, 1u);
+-		if (!ret) {
+-			ret = dma_resv_reserve_fences(bo->base.resv,
+-						      num_fences);
+-			if (!ret)
+-				continue;
+-		}
+-
+-		/* uh oh, we lost out, drop every reservation and try
+-		 * to only reserve this buffer, then start over if
+-		 * this succeeds.
+-		 */
+-		ttm_eu_backoff_reservation_reverse(list, entry);
+-
+-		if (ret == -EDEADLK) {
+-			ret = ttm_bo_reserve_slowpath(bo, intr, ticket);
+-		}
+-
+-		if (!ret)
+-			ret = dma_resv_reserve_fences(bo->base.resv,
+-						      num_fences);
+-
+-		if (unlikely(ret != 0)) {
+-			if (ticket) {
+-				ww_acquire_done(ticket);
+-				ww_acquire_fini(ticket);
+-			}
+-			return ret;
+-		}
+-
+-		/* move this item to the front of the list,
+-		 * forces correct iteration of the loop without keeping track
+-		 */
+-		list_del(&entry->head);
+-		list_add(&entry->head, list);
+-	}
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(ttm_eu_reserve_buffers);
+-
+-void ttm_eu_fence_buffer_objects(struct ww_acquire_ctx *ticket,
+-				 struct list_head *list,
+-				 struct dma_fence *fence)
+-{
+-	struct ttm_validate_buffer *entry;
+-
+-	if (list_empty(list))
+-		return;
+-
+-	list_for_each_entry(entry, list, head) {
+-		struct ttm_buffer_object *bo = entry->bo;
+-
+-		dma_resv_add_fence(bo->base.resv, fence, entry->num_shared ?
+-				   DMA_RESV_USAGE_READ : DMA_RESV_USAGE_WRITE);
+-		ttm_bo_move_to_lru_tail_unlocked(bo);
+-		dma_resv_unlock(bo->base.resv);
+-	}
+-	if (ticket)
+-		ww_acquire_fini(ticket);
+-}
+-EXPORT_SYMBOL(ttm_eu_fence_buffer_objects);
+diff --git a/include/drm/ttm/ttm_execbuf_util.h b/include/drm/ttm/ttm_execbuf_util.h
+deleted file mode 100644
+index fac1e3e57ebd..000000000000
+--- a/include/drm/ttm/ttm_execbuf_util.h
++++ /dev/null
+@@ -1,119 +0,0 @@
+-/**************************************************************************
+- *
+- * Copyright (c) 2006-2009 VMware, Inc., Palo Alto, CA., USA
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the
+- * "Software"), to deal in the Software without restriction, including
+- * without limitation the rights to use, copy, modify, merge, publish,
+- * distribute, sub license, and/or sell copies of the Software, and to
+- * permit persons to whom the Software is furnished to do so, subject to
+- * the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+- * USE OR OTHER DEALINGS IN THE SOFTWARE.
+- *
+- **************************************************************************/
+-/*
+- * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
+- */
+-
+-#ifndef _TTM_EXECBUF_UTIL_H_
+-#define _TTM_EXECBUF_UTIL_H_
+-
+-#include <linux/list.h>
+-
+-struct ww_acquire_ctx;
+-struct dma_fence;
+-struct ttm_buffer_object;
+-
+-/**
+- * struct ttm_validate_buffer
+- *
+- * @head:           list head for thread-private list.
+- * @bo:             refcounted buffer object pointer.
+- * @num_shared:     How many shared fences we want to add.
+- */
+-
+-struct ttm_validate_buffer {
+-	struct list_head head;
+-	struct ttm_buffer_object *bo;
+-	unsigned int num_shared;
+-};
+-
+-/**
+- * ttm_eu_backoff_reservation
+- *
+- * @ticket:   ww_acquire_ctx from reserve call
+- * @list:     thread private list of ttm_validate_buffer structs.
+- *
+- * Undoes all buffer validation reservations for bos pointed to by
+- * the list entries.
+- */
+-void ttm_eu_backoff_reservation(struct ww_acquire_ctx *ticket,
+-				struct list_head *list);
+-
+-/**
+- * ttm_eu_reserve_buffers
+- *
+- * @ticket:  [out] ww_acquire_ctx filled in by call, or NULL if only
+- *           non-blocking reserves should be tried.
+- * @list:    thread private list of ttm_validate_buffer structs.
+- * @intr:    should the wait be interruptible
+- * @dups:    [out] optional list of duplicates.
+- *
+- * Tries to reserve bos pointed to by the list entries for validation.
+- * If the function returns 0, all buffers are marked as "unfenced",
+- * taken off the lru lists and are not synced for write CPU usage.
+- *
+- * If the function detects a deadlock due to multiple threads trying to
+- * reserve the same buffers in reverse order, all threads except one will
+- * back off and retry. This function may sleep while waiting for
+- * CPU write reservations to be cleared, and for other threads to
+- * unreserve their buffers.
+- *
+- * If intr is set to true, this function may return -ERESTARTSYS if the
+- * calling process receives a signal while waiting. In that case, no
+- * buffers on the list will be reserved upon return.
+- *
+- * If dups is non NULL all buffers already reserved by the current thread
+- * (e.g. duplicates) are added to this list, otherwise -EALREADY is returned
+- * on the first already reserved buffer and all buffers from the list are
+- * unreserved again.
+- *
+- * Buffers reserved by this function should be unreserved by
+- * a call to either ttm_eu_backoff_reservation() or
+- * ttm_eu_fence_buffer_objects() when command submission is complete or
+- * has failed.
+- */
+-int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
+-			   struct list_head *list, bool intr,
+-			   struct list_head *dups);
+-
+-/**
+- * ttm_eu_fence_buffer_objects
+- *
+- * @ticket:      ww_acquire_ctx from reserve call
+- * @list:        thread private list of ttm_validate_buffer structs.
+- * @fence:       The new exclusive fence for the buffers.
+- *
+- * This function should be called when command submission is complete, and
+- * it will add a new sync object to bos pointed to by entries on @list.
+- * It also unreserves all buffers, putting them on lru lists.
+- *
+- */
+-void ttm_eu_fence_buffer_objects(struct ww_acquire_ctx *ticket,
+-				 struct list_head *list,
+-				 struct dma_fence *fence);
+-
+-#endif
 -- 
 2.34.1
 
