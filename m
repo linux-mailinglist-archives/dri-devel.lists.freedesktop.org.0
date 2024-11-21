@@ -2,114 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762929D4904
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 09:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147069D455C
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 02:46:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED1710E89D;
-	Thu, 21 Nov 2024 08:40:22 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="WTfy/D8l";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sHoe/EPT";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WTfy/D8l";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sHoe/EPT";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88F3310E1EE;
+	Thu, 21 Nov 2024 01:46:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D906710E3E8;
- Thu, 21 Nov 2024 01:17:24 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA6810E800
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 01:46:12 +0000 (UTC)
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-582-mfNYNHxuOzmIGbP58CgUVQ-1; Wed,
+ 20 Nov 2024 20:46:07 -0500
+X-MC-Unique: mfNYNHxuOzmIGbP58CgUVQ-1
+X-Mimecast-MFC-AGG-ID: mfNYNHxuOzmIGbP58CgUVQ
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 33ACB218E8;
- Thu, 21 Nov 2024 01:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1732151843;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qLQJlwjvQ2Dbsxi9xrvB3E+w9FqEmidg2MsLHAlaruU=;
- b=WTfy/D8lXXnS1RCYj/kN8ybXIRGdK9y77RgIIzyC2F+xZxevqn2DN5XCMEVnC/Do6cMl0H
- M2AJae9CvW7tMxtUVDf0Ipiqi8tjNeii2nWDh9zG2MCCsJ8B8NebR1eH2oOVVAu9q8jRFX
- 271J45VO7uiuqFTr+2DFW7/HtOhaQy4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1732151843;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qLQJlwjvQ2Dbsxi9xrvB3E+w9FqEmidg2MsLHAlaruU=;
- b=sHoe/EPT2FszmRf+WJP9eUtps0tEwuPNJ1TVh409aaJnFORCnA18Tw2+KbajPc5Kla0CRO
- QcJELP0LMHFpTNDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1732151843;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qLQJlwjvQ2Dbsxi9xrvB3E+w9FqEmidg2MsLHAlaruU=;
- b=WTfy/D8lXXnS1RCYj/kN8ybXIRGdK9y77RgIIzyC2F+xZxevqn2DN5XCMEVnC/Do6cMl0H
- M2AJae9CvW7tMxtUVDf0Ipiqi8tjNeii2nWDh9zG2MCCsJ8B8NebR1eH2oOVVAu9q8jRFX
- 271J45VO7uiuqFTr+2DFW7/HtOhaQy4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1732151843;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qLQJlwjvQ2Dbsxi9xrvB3E+w9FqEmidg2MsLHAlaruU=;
- b=sHoe/EPT2FszmRf+WJP9eUtps0tEwuPNJ1TVh409aaJnFORCnA18Tw2+KbajPc5Kla0CRO
- QcJELP0LMHFpTNDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93B9A1376E;
- Thu, 21 Nov 2024 01:17:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id cNZzHyKKPme0XgAAD6G6ig
- (envelope-from <pvorel@suse.cz>); Thu, 21 Nov 2024 01:17:22 +0000
-Date: Thu, 21 Nov 2024 02:17:20 +0100
-From: Petr Vorel <pvorel@suse.cz>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v4 1/2] init/Kconfig: add python3 availability config
-Message-ID: <20241121011720.GA69389@pevik>
-References: <20241120204125.52644-1-pvorel@suse.cz>
- <CAK7LNASYr+pjUs-W40d_Gc+vP67nX7NHXyE0AnOpXxXgxrCtqQ@mail.gmail.com>
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 9FF46195609E; Thu, 21 Nov 2024 01:46:06 +0000 (UTC)
+Received: from dreadlord.lan (unknown [10.64.136.106])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 970A619560A3; Thu, 21 Nov 2024 01:46:04 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org,
+	dakr@redhat.com
+Subject: [PATCH] nouveau/gsp: drop WARN_ON in ACPI probes
+Date: Thu, 21 Nov 2024 11:46:01 +1000
+Message-ID: <20241121014601.229391-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASYr+pjUs-W40d_Gc+vP67nX7NHXyE0AnOpXxXgxrCtqQ@mail.gmail.com>
-X-Spam-Score: -3.50
-X-Spamd-Result: default: False [-3.50 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- NEURAL_HAM_LONG(-1.00)[-1.000]; MID_RHS_NOT_FQDN(0.50)[];
- HAS_REPLYTO(0.30)[pvorel@suse.cz];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MISSING_XM_UA(0.00)[]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCPT_COUNT_SEVEN(0.00)[9];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[vger.kernel.org,linaro.org,linux-foundation.org,lists.freedesktop.org,gmail.com];
- DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:replyto,suse.cz:email];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- REPLYTO_EQ_FROM(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Mailman-Approved-At: Thu, 21 Nov 2024 08:40:20 +0000
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: GlXvOuQt6xHgIgzHy8jqcAJmn38hz9DdxcLgYhSF0MQ_1732153566
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,52 +56,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Petr Vorel <pvorel@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On Thu, Nov 21, 2024 at 5:41 AM Petr Vorel <pvorel@suse.cz> wrote:
+From: Dave Airlie <airlied@redhat.com>
 
-> > It will be used in the next commit for DRM_MSM.
+These WARN_ONs seem to trigger a lot, and we don't seem to have a
+plan to fix them, so just drop them, as they are most likely
+harmless.
 
-> > Suggested-by: Rob Clark <robdclark@gmail.com>
-> > Signed-off-by: Petr Vorel <pvorel@suse.cz>
-> > ---
-> > Changes v3->v4:
-> > * Move definition to the end of the file
+Cc: stable@vger.kernel.org
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/d=
+rm/nouveau/nvkm/subdev/gsp/r535.c
+index cf58f9da9139..8c5f4ed85f45 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+@@ -1466,8 +1466,8 @@ r535_gsp_acpi_caps(acpi_handle handle, CAPS_METHOD_DA=
+TA *caps)
+ =09if (!obj)
+ =09=09return;
+=20
+-=09if (WARN_ON(obj->type !=3D ACPI_TYPE_BUFFER) ||
+-=09    WARN_ON(obj->buffer.length !=3D 4))
++=09if (obj->type !=3D ACPI_TYPE_BUFFER ||
++=09    obj->buffer.length !=3D 4)
+ =09=09return;
+=20
+ =09caps->status =3D 0;
+@@ -1498,8 +1498,8 @@ r535_gsp_acpi_jt(acpi_handle handle, JT_METHOD_DATA *=
+jt)
+ =09if (!obj)
+ =09=09return;
+=20
+-=09if (WARN_ON(obj->type !=3D ACPI_TYPE_BUFFER) ||
+-=09    WARN_ON(obj->buffer.length !=3D 4))
++=09if (obj->type !=3D ACPI_TYPE_BUFFER ||
++=09    obj->buffer.length !=3D 4)
+ =09=09return;
+=20
+ =09jt->status =3D 0;
+@@ -1585,8 +1585,8 @@ r535_gsp_acpi_dod(acpi_handle handle, DOD_METHOD_DATA=
+ *dod)
+=20
+ =09_DOD =3D output.pointer;
+=20
+-=09if (WARN_ON(_DOD->type !=3D ACPI_TYPE_PACKAGE) ||
+-=09    WARN_ON(_DOD->package.count > ARRAY_SIZE(dod->acpiIdList)))
++=09if (_DOD->type !=3D ACPI_TYPE_PACKAGE ||
++=09    _DOD->package.count > ARRAY_SIZE(dod->acpiIdList))
+ =09=09return;
+=20
+ =09for (int i =3D 0; i < _DOD->package.count; i++) {
+--=20
+2.47.0
 
-> I prefer to not check the tool.
-
-Ack.
-
-> Why don't you install python3?
-
-Everybody installs it when it's required, the question is how to inform about
-the dependency.
-
-There build environments are minimal environments:
-* chroot (e.g. cross compilation)
-* container
-
-These are used by both developers and distros.
-
-Kind regards,
-Petr
-
-> >  init/Kconfig | 3 +++
-> >  1 file changed, 3 insertions(+)
-
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index fbd0cb06a50a..c77e45484e81 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -2047,3 +2047,6 @@ config ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
-> >  # <asm/syscall_wrapper.h>.
-> >  config ARCH_HAS_SYSCALL_WRAPPER
-> >         def_bool n
-> > +
-> > +config HAVE_PYTHON3
-> > +       def_bool $(success,$(PYTHON3) -V)
-> > --
-> > 2.45.2
