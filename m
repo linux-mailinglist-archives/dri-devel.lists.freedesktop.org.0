@@ -2,81 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79EF9D4D58
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 14:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4D49D4D99
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 14:18:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8CE10E92A;
-	Thu, 21 Nov 2024 13:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B43AD10E94B;
+	Thu, 21 Nov 2024 13:18:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ByfvWtlA";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ceWtK439";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rvRemHBd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ceWtK439";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rvRemHBd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 754C610E936
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 13:02:12 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ALAb2rF004466;
- Thu, 21 Nov 2024 13:02:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=yBGeM6vuRogPGAF8P1BzmJ83
- U0RJOxSb3xjUKacSltM=; b=ByfvWtlA7t7DPuX4kQsCTGmY51s6GRDWR92P//Bq
- WfbqGWilCTW3J78/zaCqSbGJ5l7vDIysbv4gzWat2l34MzKBtoZo3ttTt+58zhWW
- q66jwU5nNtR7daBQOY+PSnLR3I266JRtmVVTy0IjxwquLnlDZVRqOPBYCuRMTve0
- BZwBVPNtSLAYR9HAKsfvw4XWF3SqmgiDvxsp7nO6KAOVdO+cpGmfLzyioopYwPe8
- 6Riy8Oubq+x2mP4nXSXed+Of6Kk4pNojovl4cxot+v+LaANE/zosC/m9UHWNHFm7
- LxvXuCxghVPNT1FvNeXCDuiTRRSuWPHI2ol7sZOVShcMfg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 431ea73qs8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Nov 2024 13:02:07 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ALD27bV011694
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Nov 2024 13:02:07 GMT
-Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 21 Nov 2024 05:02:02 -0800
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-To: Vinod Koul <vkoul@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
- <quic_vtanuku@quicinc.com>
-Subject: [PATCH v3 3/3] i2c: i2c-qcom-geni: Update compile dependenices for
- I2C GENI driver
-Date: Thu, 21 Nov 2024 18:31:34 +0530
-Message-ID: <20241121130134.29408-4-quic_jseerapu@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20241121130134.29408-1-quic_jseerapu@quicinc.com>
-References: <20241121130134.29408-1-quic_jseerapu@quicinc.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA68110E942;
+ Thu, 21 Nov 2024 13:18:13 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1AFB521A0B;
+ Thu, 21 Nov 2024 13:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1732195092; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=tDGR2/fvbh2DPeK7oawXV7qiE2TNgjoh/HhzsBJ/Dgk=;
+ b=ceWtK439rlZY0HYOj1e0liOQo9JtPk0wlVvSLOUAjNlycs9VCuWGbDBMzHihd1lpbB0jxs
+ sj7FWN0W6oRi8sbMhUuyLv3kdXMTpWR74Whw5jzyzlNhG1gwuOjbq1vQ5G6JzVev2GwIDV
+ TI3pFn1X9wErZgyy3uieLqIR0Mxk6TE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1732195092;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=tDGR2/fvbh2DPeK7oawXV7qiE2TNgjoh/HhzsBJ/Dgk=;
+ b=rvRemHBdbxlzHn8igLRuO5DzStibcgcCMO0BA7+/quZVRGhTCDtxXaSZ3kH9VWZnsvPCGA
+ rpe2F4Wg1v3vjyAA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ceWtK439;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rvRemHBd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1732195092; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=tDGR2/fvbh2DPeK7oawXV7qiE2TNgjoh/HhzsBJ/Dgk=;
+ b=ceWtK439rlZY0HYOj1e0liOQo9JtPk0wlVvSLOUAjNlycs9VCuWGbDBMzHihd1lpbB0jxs
+ sj7FWN0W6oRi8sbMhUuyLv3kdXMTpWR74Whw5jzyzlNhG1gwuOjbq1vQ5G6JzVev2GwIDV
+ TI3pFn1X9wErZgyy3uieLqIR0Mxk6TE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1732195092;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=tDGR2/fvbh2DPeK7oawXV7qiE2TNgjoh/HhzsBJ/Dgk=;
+ b=rvRemHBdbxlzHn8igLRuO5DzStibcgcCMO0BA7+/quZVRGhTCDtxXaSZ3kH9VWZnsvPCGA
+ rpe2F4Wg1v3vjyAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE20C137CF;
+ Thu, 21 Nov 2024 13:18:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4VlKKRMzP2eIJAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 21 Nov 2024 13:18:11 +0000
+Date: Thu, 21 Nov 2024 14:18:10 +0100
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20241121131810.GA54208@linux.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: aPYn11NHq_NjbRDSyoA7m7bcQ01cmrop
-X-Proofpoint-ORIG-GUID: aPYn11NHq_NjbRDSyoA7m7bcQ01cmrop
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- bulkscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 malwarescore=0 mlxlogscore=999
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411210102
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Rspamd-Queue-Id: 1AFB521A0B
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MISSING_XM_UA(0.00)[];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,37 +122,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I2C functionality has dependencies on the GPI driver.
-Ensure that the GPI driver is enabled when using the I2C
-driver functionality.
-Therefore, update the I2C GENI driver to depend on the GPI driver.
+Hi Dave, Sima,
 
-Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
----
-v2 -> v3:
-   - Moved this change to patch3.
-   - Updated commit description.
+only two patches in this week's drm-misc-fixes PR.
 
-v1 -> v2:
-   -  This patch is added in v2 to address the kernel test robot
-      reported compilation error.
-      ERROR: modpost: "gpi_multi_desc_process" [drivers/i2c/busses/i2c-qcom-geni.ko] undefined!
+Best regards
+Thomas
 
- drivers/i2c/busses/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+drm-misc-fixes-2024-11-21:
+Short summary of fixes pull:
 
-diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index 0aa948014008..87634a682855 100644
---- a/drivers/i2c/busses/Kconfig
-+++ b/drivers/i2c/busses/Kconfig
-@@ -1049,6 +1049,7 @@ config I2C_QCOM_GENI
- 	tristate "Qualcomm Technologies Inc.'s GENI based I2C controller"
- 	depends on ARCH_QCOM || COMPILE_TEST
- 	depends on QCOM_GENI_SE
-+	depends on QCOM_GPI_DMA
- 	help
- 	  This driver supports GENI serial engine based I2C controller in
- 	  master mode on the Qualcomm Technologies Inc.'s SoCs. If you say
+dma-fence:
+- Fix reference leak on fence-merge failure path
+- Simplify fence merging with kernel's sort()
+The following changes since commit 32c4514455b2b8fde506f8c0962f15c7e4c26f1d:
+
+  drm/bridge: tc358768: Fix DSI command tx (2024-11-14 11:29:42 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-11-21
+
+for you to fetch changes up to fe52c649438b8489c9456681d93a9b3de3d38263:
+
+  dma-fence: Use kernel's sort for merging fences (2024-11-15 13:10:24 +0100)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+dma-fence:
+- Fix reference leak on fence-merge failure path
+- Simplify fence merging with kernel's sort()
+
+----------------------------------------------------------------
+Tvrtko Ursulin (2):
+      dma-fence: Fix reference leak on fence merge failure path
+      dma-fence: Use kernel's sort for merging fences
+
+ drivers/dma-buf/dma-fence-unwrap.c | 126 ++++++++++++++++++-------------------
+ 1 file changed, 61 insertions(+), 65 deletions(-)
+
 -- 
-2.17.1
-
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
