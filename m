@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65FD9D55AA
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 23:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C07B89D55AF
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 23:47:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF24910E416;
-	Thu, 21 Nov 2024 22:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 114D410E41F;
+	Thu, 21 Nov 2024 22:47:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="jyk0mZFC";
+	dkim=pass (1024-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="FKI2hFuo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A15B10EA03
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4143D10E145
  for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 17:33:10 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
- by linux1587.grserver.gr (Postfix) with ESMTPSA id 849D92E0963A;
- Thu, 21 Nov 2024 19:22:57 +0200 (EET)
+ by linux1587.grserver.gr (Postfix) with ESMTPSA id 301052E0966E;
+ Thu, 21 Nov 2024 19:22:59 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1732209778;
- bh=nIjR2p0YcBkL2caLKP7kGbNnMWaOSQpHKmr9UXjFGMg=; h=From:To:Subject;
- b=jyk0mZFCN3AlzgxqXnHx9+sIXZY525QfHl6fWv/1HzQ3MdLpxMcL3qRBNazW0xyGd
- P3vQ1Jlt3BB9JiWHSYdGNwdnsSVSQ8/Eyd2qdq7Pu3UDxK7PDr8ELj5gIabHiW/f/I
- t4XZVGMzjYIN0uHLtstsgD2ZqAhd0xwwMyXvr9F4=
+ s=default; t=1732209781;
+ bh=ciKMesMP9Mc1IdOCWc4ppsKpGwJlPYfRDo95aaXXzt4=; h=From:To:Subject;
+ b=FKI2hFuoBYe4NdD4JqhxeV0tCjKnTThOqV+7FE+B+xeZTusiOjcSkPCT0kQAoOhjp
+ Umwj3OUKc85zGq7E0PifEkeWWyMu+CxfaCV/i6Y7UaE+rxxfAjZro7qVECCzKMYIiU
+ ZXS1EMM40U4hPZ0BcG3tCYICee/MyCUW9uRrcS54=
 Authentication-Results: linux1587.grserver.gr;
  spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd)
  smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
@@ -36,15 +36,15 @@ Cc: platform-driver-x86@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Hans de Goede <hdegoede@redhat.com>,
  Kyle Gospodnetich <me@kylegospodneti.ch>,
  Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [RFC 06/13] acpi/x86: s2idle: rename Screen On/Off to Display On/Off
-Date: Thu, 21 Nov 2024 18:22:31 +0100
-Message-ID: <20241121172239.119590-7-lkml@antheas.dev>
+Subject: [RFC 07/13] acpi/x86: s2idle: call Display On/Off as part of callbacks
+Date: Thu, 21 Nov 2024 18:22:32 +0100
+Message-ID: <20241121172239.119590-8-lkml@antheas.dev>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241121172239.119590-1-lkml@antheas.dev>
 References: <20241121172239.119590-1-lkml@antheas.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <173220977865.5739.5786625115036377066@linux1587.grserver.gr>
+X-PPP-Message-ID: <173220978051.6005.3661749764522674078@linux1587.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
 X-Virus-Status: Clean
@@ -64,105 +64,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Microsoft and Intel use the term "Display" to refer to the _DSM 3,4
-calls and the term "Screen" for the state ("Screen Off"). Currently,
-the code uses "Screen On/Off" to name the variables, which is about
-to become confusing as they become callbacks. To prepare for that,
-rename the variables to "Display On/Off".
+Move the Display On/Off notifications into dedicated callbacks that gate
+the ACPI mutex, so they can be called outside of the suspend path.
 
+Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
- drivers/acpi/x86/s2idle.c | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ drivers/acpi/x86/s2idle.c | 67 +++++++++++++++++++++++++++++----------
+ 1 file changed, 51 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/acpi/x86/s2idle.c b/drivers/acpi/x86/s2idle.c
-index dd0b40b9bbe8..7391f87f3aa0 100644
+index 7391f87f3aa0..8b39e3b12ec0 100644
 --- a/drivers/acpi/x86/s2idle.c
 +++ b/drivers/acpi/x86/s2idle.c
-@@ -39,8 +39,8 @@ static const struct acpi_device_id lps0_device_ids[] = {
- #define ACPI_LPS0_DSM_UUID	"c4eb40a0-6cd2-11e2-bcfd-0800200c9a66"
+@@ -60,6 +60,7 @@ static int lps0_dsm_func_mask;
+ static guid_t lps0_dsm_guid_microsoft;
+ static int lps0_dsm_func_mask_microsoft;
+ static int lps0_dsm_state;
++static bool lsp0_dsm_in_display_off;
  
- #define ACPI_LPS0_GET_DEVICE_CONSTRAINTS	1
--#define ACPI_LPS0_SCREEN_OFF	3
--#define ACPI_LPS0_SCREEN_ON	4
-+#define ACPI_LPS0_DISPLAY_OFF	3
-+#define ACPI_LPS0_DISPLAY_ON	4
- #define ACPI_LPS0_ENTRY		5
- #define ACPI_LPS0_EXIT		6
- #define ACPI_LPS0_MS_ENTRY      7
-@@ -50,8 +50,8 @@ static const struct acpi_device_id lps0_device_ids[] = {
- #define ACPI_LPS0_DSM_UUID_AMD      "e3f32452-febc-43ce-9039-932122d37721"
- #define ACPI_LPS0_ENTRY_AMD         2
- #define ACPI_LPS0_EXIT_AMD          3
--#define ACPI_LPS0_SCREEN_OFF_AMD    4
--#define ACPI_LPS0_SCREEN_ON_AMD     5
-+#define ACPI_LPS0_DISPLAY_OFF_AMD   4
-+#define ACPI_LPS0_DISPLAY_ON_AMD    5
+ /* Device constraint entry structure */
+ struct lpi_device_info {
+@@ -539,17 +540,18 @@ static struct acpi_scan_handler lps0_handler = {
+ 	.attach = lps0_device_attach,
+ };
  
- static acpi_handle lps0_device_handle;
- static guid_t lps0_dsm_guid;
-@@ -361,10 +361,10 @@ static const char *acpi_sleep_dsm_state_to_str(unsigned int state)
+-int acpi_s2idle_prepare_late(void)
++static int acpi_s2idle_display_off(void)
  {
- 	if (lps0_dsm_func_mask_microsoft || !acpi_s2idle_vendor_amd()) {
- 		switch (state) {
--		case ACPI_LPS0_SCREEN_OFF:
--			return "screen off";
--		case ACPI_LPS0_SCREEN_ON:
--			return "screen on";
-+		case ACPI_LPS0_DISPLAY_OFF:
-+			return "display off";
-+		case ACPI_LPS0_DISPLAY_ON:
-+			return "display on";
- 		case ACPI_LPS0_ENTRY:
- 			return "lps0 entry";
- 		case ACPI_LPS0_EXIT:
-@@ -376,10 +376,10 @@ static const char *acpi_sleep_dsm_state_to_str(unsigned int state)
- 		}
- 	} else {
- 		switch (state) {
--		case ACPI_LPS0_SCREEN_ON_AMD:
--			return "screen on";
--		case ACPI_LPS0_SCREEN_OFF_AMD:
--			return "screen off";
-+		case ACPI_LPS0_DISPLAY_ON_AMD:
-+			return "display on";
-+		case ACPI_LPS0_DISPLAY_OFF_AMD:
-+			return "display off";
- 		case ACPI_LPS0_ENTRY_AMD:
- 			return "lps0 entry";
- 		case ACPI_LPS0_EXIT_AMD:
-@@ -552,12 +552,12 @@ int acpi_s2idle_prepare_late(void)
- 	/* Screen off */
+-	struct acpi_s2idle_dev_ops *handler;
+-
+ 	if (!lps0_device_handle || sleep_no_lps0)
+ 		return 0;
+ 
+-	if (pm_debug_messages_on)
+-		lpi_check_constraints();
++	if (WARN_ON(lsp0_dsm_in_display_off))
++		return -EINVAL;
++
++	lsp0_dsm_in_display_off = true;
++	acpi_scan_lock_acquire();
+ 
+-	/* Screen off */
++	/* Display off */
  	if (lps0_dsm_func_mask > 0)
  		acpi_sleep_run_lps0_dsm(acpi_s2idle_vendor_amd() ?
--					ACPI_LPS0_SCREEN_OFF_AMD :
--					ACPI_LPS0_SCREEN_OFF,
-+					ACPI_LPS0_DISPLAY_OFF_AMD :
-+					ACPI_LPS0_DISPLAY_OFF,
- 					lps0_dsm_func_mask, lps0_dsm_guid);
- 
- 	if (lps0_dsm_func_mask_microsoft > 0)
--		acpi_sleep_run_lps0_dsm(ACPI_LPS0_SCREEN_OFF,
-+		acpi_sleep_run_lps0_dsm(ACPI_LPS0_DISPLAY_OFF,
+ 					ACPI_LPS0_DISPLAY_OFF_AMD :
+@@ -560,6 +562,47 @@ int acpi_s2idle_prepare_late(void)
+ 		acpi_sleep_run_lps0_dsm(ACPI_LPS0_DISPLAY_OFF,
  				lps0_dsm_func_mask_microsoft, lps0_dsm_guid_microsoft);
  
- 	/* LPS0 entry */
-@@ -626,12 +626,12 @@ void acpi_s2idle_restore_early(void)
- 
- 	/* Screen on */
- 	if (lps0_dsm_func_mask_microsoft > 0)
--		acpi_sleep_run_lps0_dsm(ACPI_LPS0_SCREEN_ON,
++	acpi_scan_lock_release();
++
++	return 0;
++}
++
++static int acpi_s2idle_display_on(void)
++{
++	if (!lps0_device_handle || sleep_no_lps0)
++		return 0;
++
++	if (WARN_ON(!lsp0_dsm_in_display_off))
++		return -EINVAL;
++
++	lsp0_dsm_in_display_off = false;
++	acpi_scan_lock_acquire();
++
++	/* Display on */
++	if (lps0_dsm_func_mask_microsoft > 0)
 +		acpi_sleep_run_lps0_dsm(ACPI_LPS0_DISPLAY_ON,
++				lps0_dsm_func_mask_microsoft, lps0_dsm_guid_microsoft);
++	if (lps0_dsm_func_mask > 0)
++		acpi_sleep_run_lps0_dsm(acpi_s2idle_vendor_amd() ?
++					ACPI_LPS0_DISPLAY_ON_AMD :
++					ACPI_LPS0_DISPLAY_ON,
++					lps0_dsm_func_mask, lps0_dsm_guid);
++
++	acpi_scan_lock_release();
++
++	return 0;
++}
++
++int acpi_s2idle_prepare_late(void)
++{
++	struct acpi_s2idle_dev_ops *handler;
++
++	if (!lps0_device_handle || sleep_no_lps0)
++		return 0;
++
++	if (pm_debug_messages_on)
++		lpi_check_constraints();
++
+ 	/* LPS0 entry */
+ 	if (lps0_dsm_func_mask > 0 && acpi_s2idle_vendor_amd())
+ 		acpi_sleep_run_lps0_dsm(ACPI_LPS0_ENTRY_AMD,
+@@ -623,19 +666,10 @@ void acpi_s2idle_restore_early(void)
+ 		acpi_sleep_run_lps0_dsm(ACPI_LPS0_MS_EXIT,
  				lps0_dsm_func_mask_microsoft, lps0_dsm_guid_microsoft);
- 	if (lps0_dsm_func_mask > 0)
- 		acpi_sleep_run_lps0_dsm(acpi_s2idle_vendor_amd() ?
--					ACPI_LPS0_SCREEN_ON_AMD :
--					ACPI_LPS0_SCREEN_ON,
-+						ACPI_LPS0_DISPLAY_ON_AMD :
-+						ACPI_LPS0_DISPLAY_ON,
- 					lps0_dsm_func_mask, lps0_dsm_guid);
+ 	}
+-
+-	/* Screen on */
+-	if (lps0_dsm_func_mask_microsoft > 0)
+-		acpi_sleep_run_lps0_dsm(ACPI_LPS0_DISPLAY_ON,
+-				lps0_dsm_func_mask_microsoft, lps0_dsm_guid_microsoft);
+-	if (lps0_dsm_func_mask > 0)
+-		acpi_sleep_run_lps0_dsm(acpi_s2idle_vendor_amd() ?
+-						ACPI_LPS0_DISPLAY_ON_AMD :
+-						ACPI_LPS0_DISPLAY_ON,
+-					lps0_dsm_func_mask, lps0_dsm_guid);
  }
  
+ static const struct platform_s2idle_ops acpi_s2idle_ops_lps0 = {
++	.display_off = acpi_s2idle_display_off,
+ 	.begin = acpi_s2idle_begin,
+ 	.prepare = acpi_s2idle_prepare,
+ 	.prepare_late = acpi_s2idle_prepare_late,
+@@ -644,6 +678,7 @@ static const struct platform_s2idle_ops acpi_s2idle_ops_lps0 = {
+ 	.restore_early = acpi_s2idle_restore_early,
+ 	.restore = acpi_s2idle_restore,
+ 	.end = acpi_s2idle_end,
++	.display_on = acpi_s2idle_display_on,
+ };
+ 
+ void __init acpi_s2idle_setup(void)
 -- 
 2.47.0
 
