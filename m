@@ -2,111 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4D49D4D99
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 14:18:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559239D4DC8
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 14:30:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B43AD10E94B;
-	Thu, 21 Nov 2024 13:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7096110E40B;
+	Thu, 21 Nov 2024 13:30:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ceWtK439";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rvRemHBd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ceWtK439";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rvRemHBd";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DntPCbB6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA68110E942;
- Thu, 21 Nov 2024 13:18:13 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1AFB521A0B;
- Thu, 21 Nov 2024 13:18:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1732195092; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=tDGR2/fvbh2DPeK7oawXV7qiE2TNgjoh/HhzsBJ/Dgk=;
- b=ceWtK439rlZY0HYOj1e0liOQo9JtPk0wlVvSLOUAjNlycs9VCuWGbDBMzHihd1lpbB0jxs
- sj7FWN0W6oRi8sbMhUuyLv3kdXMTpWR74Whw5jzyzlNhG1gwuOjbq1vQ5G6JzVev2GwIDV
- TI3pFn1X9wErZgyy3uieLqIR0Mxk6TE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1732195092;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=tDGR2/fvbh2DPeK7oawXV7qiE2TNgjoh/HhzsBJ/Dgk=;
- b=rvRemHBdbxlzHn8igLRuO5DzStibcgcCMO0BA7+/quZVRGhTCDtxXaSZ3kH9VWZnsvPCGA
- rpe2F4Wg1v3vjyAA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ceWtK439;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rvRemHBd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1732195092; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=tDGR2/fvbh2DPeK7oawXV7qiE2TNgjoh/HhzsBJ/Dgk=;
- b=ceWtK439rlZY0HYOj1e0liOQo9JtPk0wlVvSLOUAjNlycs9VCuWGbDBMzHihd1lpbB0jxs
- sj7FWN0W6oRi8sbMhUuyLv3kdXMTpWR74Whw5jzyzlNhG1gwuOjbq1vQ5G6JzVev2GwIDV
- TI3pFn1X9wErZgyy3uieLqIR0Mxk6TE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1732195092;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=tDGR2/fvbh2DPeK7oawXV7qiE2TNgjoh/HhzsBJ/Dgk=;
- b=rvRemHBdbxlzHn8igLRuO5DzStibcgcCMO0BA7+/quZVRGhTCDtxXaSZ3kH9VWZnsvPCGA
- rpe2F4Wg1v3vjyAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE20C137CF;
- Thu, 21 Nov 2024 13:18:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 4VlKKRMzP2eIJAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 21 Nov 2024 13:18:11 +0000
-Date: Thu, 21 Nov 2024 14:18:10 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20241121131810.GA54208@linux.fritz.box>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 112D310E40B
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 13:30:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 548E65C5837;
+ Thu, 21 Nov 2024 13:29:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6D2EC4CECC;
+ Thu, 21 Nov 2024 13:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1732195835;
+ bh=ASgXHVNuV9rj2VXsDVEXv70EB7Y5fnU8w3EOoPXXK30=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DntPCbB6E0le/iKyoX/744ERaY6tkAuSukHl3qFZyuZyBVJvGFTqqIO0GZ1s37VCg
+ tKi39aE84OJMuJeOF/U/S7l69XWKA5FwRlVKGss4AK8TcVtLi2iSKoqqtU+6HjNZqb
+ iQ7fYiqBwCOqoNKVqoKzZLYDa0ogxPPaQOIjgC+E=
+Date: Thu, 21 Nov 2024 14:30:10 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ekansh Gupta <quic_ekangupt@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org,
+ quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de
+Subject: Re: [PATCH v1 4/4] misc: fastrpc: Add debugfs support for fastrpc
+Message-ID: <2024112120-sandal-reach-2e09@gregkh>
+References: <20241118084046.3201290-1-quic_ekangupt@quicinc.com>
+ <20241118084046.3201290-5-quic_ekangupt@quicinc.com>
+ <2024111804-doze-reflected-0feb@gregkh>
+ <c3b285b0-33d1-4bfa-b8ab-6783ff5ed78d@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Rspamd-Queue-Id: 1AFB521A0B
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MISSING_XM_UA(0.00)[];
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
- MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+In-Reply-To: <c3b285b0-33d1-4bfa-b8ab-6783ff5ed78d@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,50 +58,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+On Thu, Nov 21, 2024 at 12:12:17PM +0530, Ekansh Gupta wrote:
+> On 11/18/2024 7:32 PM, Greg KH wrote:
+> > On Mon, Nov 18, 2024 at 02:10:46PM +0530, Ekansh Gupta wrote:
+> >> +		/*
+> >> +		 * Use HLOS process name, HLOS PID, fastrpc user TGID,
+> >> +		 * domain_id in debugfs filename to create unique file name
+> >> +		 */
+> >> +		snprintf(debugfs_buf, size, "%.10s_%d_%d_%d",
+> >> +			cur_comm, current->pid, fl->tgid, domain_id);
+> >> +		fl->debugfs_file = debugfs_create_file(debugfs_buf, 0644,
+> >> +				debugfs_dir, fl, &fastrpc_debugfs_fops);
+> > Why are you saving the debugfs file?  What do you need to do with it
+> > that you can't just delete the whole directory, or look up the name
+> > again in the future when removing it?
+> fl structure is specific to a process using fastrpc driver. The reason to save
+> this debugfs file is to delete is when the process releases fastrpc device.
+> If the file is not deleted, it might flood multiple files in debugfs directory.
+> 
+> As part of this change, only the file that is getting created by a process is
+> getting removed when process is releasing device and I don't think we
+> can clean up the whole directory at this point.
+> 
+> Do you suggest that looking up the name is a better approach that saving
+> the file?
 
-only two patches in this week's drm-misc-fixes PR.
+Yes.
 
-Best regards
-Thomas
+> >> +}
+> >> +
+> >> +struct dentry *fastrpc_create_debugfs_dir(const char *name)
+> >> +{
+> >> +	return debugfs_create_dir(name, NULL);
+> > At the root of debugfs?  Why is this function even needed?
+> creating a dir named "fastrpc_adsp", "fastrpc_cdsp" etc. to create debugfs
+> file for the processes using adsp, cdsp etc.
 
-drm-misc-fixes-2024-11-21:
-Short summary of fixes pull:
+Then just call debugfs_create_dir() you do not need a wrapper function
+for this.
 
-dma-fence:
-- Fix reference leak on fence-merge failure path
-- Simplify fence merging with kernel's sort()
-The following changes since commit 32c4514455b2b8fde506f8c0962f15c7e4c26f1d:
+thanks,
 
-  drm/bridge: tc358768: Fix DSI command tx (2024-11-14 11:29:42 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-11-21
-
-for you to fetch changes up to fe52c649438b8489c9456681d93a9b3de3d38263:
-
-  dma-fence: Use kernel's sort for merging fences (2024-11-15 13:10:24 +0100)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-dma-fence:
-- Fix reference leak on fence-merge failure path
-- Simplify fence merging with kernel's sort()
-
-----------------------------------------------------------------
-Tvrtko Ursulin (2):
-      dma-fence: Fix reference leak on fence merge failure path
-      dma-fence: Use kernel's sort for merging fences
-
- drivers/dma-buf/dma-fence-unwrap.c | 126 ++++++++++++++++++-------------------
- 1 file changed, 61 insertions(+), 65 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+greg k-h
