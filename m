@@ -2,67 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4951C9D502F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 16:54:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29CC9D5073
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2024 17:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B4110E1D6;
-	Thu, 21 Nov 2024 15:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4490C10E9B1;
+	Thu, 21 Nov 2024 16:05:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NBHTalCa";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="HvUnsxGu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33A2610E1D6;
- Thu, 21 Nov 2024 15:54:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732204466; x=1763740466;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=IWOHRX2Hgf/ezbJUq+hEAMDlWu99oXhuzpek5N1G16Y=;
- b=NBHTalCaCN/CDp4NV+Eza0wDrLagJQWS3FuR00wp5Gr2GkNtWlN/JwZj
- jIU809S+EI3u1nDJH8SvXZUwgpQR50y78AasSzot/2oVRhW4kAn9gXCxC
- QxTfTjgZ8F+KPEdm9F4uyof5Q96wzeZs5GSdomou3Paq+pNSKkNENGHbf
- qf0TYA6IQ86SQiMKsWDuyHqo6j7cX7I0l7fyHHsrXLSbcUgkg49TE54w6
- ONEDO9hvn9wY1VHtwG6VdnxaQTwlLTNK2uss7bdo2YolFpNWa8H/FPY/8
- WiOckNCArNzeq+WyNtVVqlI3ozy6fdsqV1Xcg4+GZ/ZspDmLVyygArSvH A==;
-X-CSE-ConnectionGUID: HUUuGEHGRHusLREGqwY42g==
-X-CSE-MsgGUID: WbtKbwrPTIeuMzCHiSPSng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="36234097"
-X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; d="scan'208";a="36234097"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2024 07:54:26 -0800
-X-CSE-ConnectionGUID: bjV6sd2rQY+NKjbGYCip2Q==
-X-CSE-MsgGUID: Ply1mVrrTvKZ43/qVNZ+/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; d="scan'208";a="91100010"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.246.104])
- ([10.245.246.104])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2024 07:54:23 -0800
-Message-ID: <0ce73ccf4f0b2151ea888e8ea921fde2abbdf03a.camel@linux.intel.com>
-Subject: Re: [PATCH v14 1/8] drm/ttm: Balance ttm_resource_cursor_init() and
- ttm_resource_cursor_fini()
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>, Somalapuram Amaranath
- <Amaranath.Somalapuram@amd.com>, Paulo Zanoni <paulo.r.zanoni@intel.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
-Date: Thu, 21 Nov 2024 16:54:19 +0100
-In-Reply-To: <8709c4a6-549b-4e19-8bb7-f0d4740ff57d@amd.com>
-References: <20241115150120.3280-1-thomas.hellstrom@linux.intel.com>
- <20241115150120.3280-2-thomas.hellstrom@linux.intel.com>
- <8709c4a6-549b-4e19-8bb7-f0d4740ff57d@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C7310E9B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 16:05:49 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-43161e7bb25so8966755e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 08:05:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1732205147; x=1732809947;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vEAaIFollmGbkAyp3AHhRVP5SIOvpa6F1CuzSDWZFfM=;
+ b=HvUnsxGukdqf8a1SzhiYeGo/D6OK3YitR4t7dtZF4T1r0/h4SxIwYo67gMJVaOFjqf
+ sEKWEX3BgQhYqV6qL6gEjODnxjdbUH9gv7bIe+HAu78Itr7R/IPm3av68aZ9wHAX/3rM
+ EEoMcE/k3Qj1sV7X3XM5k6JkqZyEJeiLWPxaCLqJQU/MApLh2IHFwuATT9RhQN1J08j0
+ j18gX3ChhKpJn/MY5/GKmBa61JnTMB4up7g7XXVpShvyiY2KA9oJmcWqop6QZeelwvuV
+ qvwlYnwubMe7S59dRA5v6yYINLCs/vJb8ld6a7/5N/ZShQnm/NypmZcQEjCiBdf4UfX9
+ W6bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732205147; x=1732809947;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vEAaIFollmGbkAyp3AHhRVP5SIOvpa6F1CuzSDWZFfM=;
+ b=T9hgC1ZwFKYlwNxLkVphhGBrj0gdN6sLIhijW5s5hMk1io+4jzF3VkI+wjIe4SYt4G
+ YskNYIyyYMCOInNK51e4qSz1eZjPYue8cwek//REGkm0eOWnrREevgY8o4JHIV+tpIGC
+ YiNlt45FCcjaUxJgWfG0iFOXT+HuMkBcuy474cgJowBQJGbJuKWLoWfZHZA0QNKykGVz
+ 0pxVC3vxWG3nVW1xGVtEd7LaLmYsyo1yaMWA0367SXBfGJGzQy+Ix7D8wTH6TyTjBeKT
+ N+dC2wmsESfsiPhNjB/OyDGrmdc9WRV4O1NzD6wkltOa/iJZ03HFjGJsa5nocgKHGXAc
+ yqaw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX8qzzieC4TIXzoodHqGadyUYcR6VskEusO+KwZIqSjVEY0FENuhPbj+4zsSAx4ys6lpIQWv6U38SU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgiZSJ/ozm9DPUGQWTQ9UAeHlfboCGwUci2eF/STVIZUY/lSKE
+ XgGO6oGuumtntJBykIPcATArLHefSAEF+dBS+QiM/BMNGUDRw6D3EElD1DF2Mw4Ny58dP5ZPe9i
+ vd/M9TxK80CP2xTZbQqTj7iyNyot1EDSoZv2t
+X-Gm-Gg: ASbGncv5Gntwvz4GH7vzX+a/+lbOEDxAzgk59Du2L5c6CaAuCtt7sVJuJlsesumDK1+
+ OnkYsMozNB1hhHDW+Ne4XuOeLNCGjQYeglBsxzidRyJaDknpf15ROkS8h9NuyhQ==
+X-Google-Smtp-Source: AGHT+IGmNqvNXb2DSqa03STb7qfR1tFxwoMJdZnTGvCUv2SFAeidQb5w5dsrd1AhJ92533DrXXthWiLaMUqXQW4DGSk=
+X-Received: by 2002:a05:6000:184f:b0:382:45e7:9bb9 with SMTP id
+ ffacd0b85a97d-38254b1f2abmr5347282f8f.54.1732205146402; Thu, 21 Nov 2024
+ 08:05:46 -0800 (PST)
+MIME-Version: 1.0
+References: <20241115103548.90605-2-pstanner@redhat.com>
+In-Reply-To: <20241115103548.90605-2-pstanner@redhat.com>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Thu, 21 Nov 2024 17:05:34 +0100
+Message-ID: <CAH5fLghFVxYUz0PRKq3_xsvaYpaaCGXBg9AOUnkYfiUpo70dTg@mail.gmail.com>
+Subject: Re: [PATCH] drm/sched: Extend and update documentation
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ Luben Tuikov <ltuikov89@gmail.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-3.fc39) 
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,210 +89,339 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-11-20 at 11:51 +0100, Christian K=C3=B6nig wrote:
-> Am 15.11.24 um 16:01 schrieb Thomas Hellstr=C3=B6m:
-> > Make the interface more symmetric by providing and using a
-> > ttm_resource_cursor_init().
-> >=20
-> > v10:
-> > - Fix a stray newline (Matthew Brost)
-> > - Update kerneldoc (Matthew Brost)
-> >=20
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->=20
-> Did you plan to merge this through drm-misc-next or the XE branch?
->=20
-> If through drm-misc-next then I would go ahead and push this patch
-> since=20
-> that is really a stand alone cleanup.
+On Fri, Nov 15, 2024 at 11:36=E2=80=AFAM Philipp Stanner <pstanner@redhat.c=
+om> wrote:
+>
+> The various objects defined and used by the GPU scheduler are currently
+> not fully documented. Furthermore, there is no documentation yet
+> informing drivers about how they should handle timeouts.
+>
+> Add documentation describing the scheduler's objects and timeout
+> procedure. Consistently, update drm_sched_backend_ops.timedout_job()'s
+> documentation.
+>
+> Co-developed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+> I shamelessly stole- ahm, borrowed this documentation patch that
+> Christian had submitted a year ago:
+>
+> https://lore.kernel.org/dri-devel/20231116141547.206695-1-christian.koeni=
+g@amd.com/
+>
+> I took feedback from last year into account where applicable, but it's
+> probably a good idea if you all take a close look again.
+>
+> P.
+> ---
+>  Documentation/gpu/drm-mm.rst           |  36 +++++
+>  drivers/gpu/drm/scheduler/sched_main.c | 200 ++++++++++++++++++++++---
+>  include/drm/gpu_scheduler.h            |  16 +-
+>  3 files changed, 225 insertions(+), 27 deletions(-)
+>
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index d55751cad67c..95ee95fd987a 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -556,12 +556,48 @@ Overview
+>  .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+>     :doc: Overview
+>
+> +Job Object
+> +----------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +   :doc: Job Object
+> +
+> +Entity Object
+> +-------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +   :doc: Entity Object
+> +
+> +Hardware Fence Object
+> +---------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +   :doc: Hardware Fence Object
+> +
+> +Scheduler Fence Object
+> +----------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +   :doc: Scheduler Fence Object
+> +
+> +Scheduler and Run Queue Objects
+> +-------------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +   :doc: Scheduler and Run Queue Objects
+> +
+>  Flow Control
+>  ------------
+>
+>  .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+>     :doc: Flow Control
+>
+> +Error and Timeout handling
+> +--------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +   :doc: Error and Timeout handling
+> +
+>  Scheduler Function References
+>  -----------------------------
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index e97c6c60bc96..76eb46281985 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -24,28 +24,155 @@
+>  /**
+>   * DOC: Overview
+>   *
+> - * The GPU scheduler provides entities which allow userspace to push job=
+s
+> - * into software queues which are then scheduled on a hardware run queue=
+.
+> - * The software queues have a priority among them. The scheduler selects=
+ the entities
+> - * from the run queue using a FIFO. The scheduler provides dependency ha=
+ndling
+> - * features among jobs. The driver is supposed to provide callback funct=
+ions for
+> - * backend operations to the scheduler like submitting a job to hardware=
+ run queue,
+> - * returning the dependencies of a job etc.
+> + * The GPU scheduler is shared infrastructure intended to help drivers m=
+anaging
+> + * command submission to their hardware.
+>   *
+> - * The organisation of the scheduler is the following:
+> + * To do so, it offers a set of scheduling facilities that interact with=
+ the
+> + * driver through callbacks which the latter can register.
+>   *
+> - * 1. Each hw run queue has one scheduler
+> - * 2. Each scheduler has multiple run queues with different priorities
+> - *    (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
+> - * 3. Each scheduler run queue has a queue of entities to schedule
+> - * 4. Entities themselves maintain a queue of jobs that will be schedule=
+d on
+> - *    the hardware.
+> + * In particular, the scheduler takes care of:
+> + *   - Ordering command submissions
+> + *   - Signalling DMA fences, e.g., for finished commands
+> + *   - Taking dependencies between command submissions into account
+> + *   - Handling timeouts for command submissions
 
-I was planning to merge it all through drm-xe-next, so I'll hold off
-merging that patch.
+For the signalling case, you say "e.g.". Does that mean it also
+signals DMA fences in other cases?
 
-Thanks,
-Thomas
-
->=20
-> Regards,
-> Christian.
->=20
-> > ---
-> > =C2=A0 drivers/gpu/drm/ttm/ttm_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 3 ++-
-> > =C2=A0 drivers/gpu/drm/ttm/ttm_bo_util.c=C2=A0 |=C2=A0 3 ++-
-> > =C2=A0 drivers/gpu/drm/ttm/ttm_resource.c | 35 ++++++++++++++++++++----=
--
-> > -----
-> > =C2=A0 include/drm/ttm/ttm_resource.h=C2=A0=C2=A0=C2=A0=C2=A0 | 11 ++++=
-+-----
-> > =C2=A0 4 files changed, 34 insertions(+), 18 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> > b/drivers/gpu/drm/ttm/ttm_bo.c
-> > index 48c5365efca1..06d6a452c4f4 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > @@ -450,7 +450,8 @@ int ttm_bo_evict_first(struct ttm_device *bdev,
-> > struct ttm_resource_manager *man
-> > =C2=A0=C2=A0	int ret =3D 0;
-> > =C2=A0=20
-> > =C2=A0=C2=A0	spin_lock(&bdev->lru_lock);
-> > -	res =3D ttm_resource_manager_first(man, &cursor);
-> > +	ttm_resource_cursor_init(&cursor, man);
-> > +	res =3D ttm_resource_manager_first(&cursor);
-> > =C2=A0=C2=A0	ttm_resource_cursor_fini(&cursor);
-> > =C2=A0=C2=A0	if (!res) {
-> > =C2=A0=C2=A0		ret =3D -ENOENT;
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > index d939925efa81..917096bd5f68 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> > @@ -865,7 +865,8 @@ s64 ttm_lru_walk_for_evict(struct ttm_lru_walk
-> > *walk, struct ttm_device *bdev,
-> > =C2=A0=C2=A0	s64 lret;
-> > =C2=A0=20
-> > =C2=A0=C2=A0	spin_lock(&bdev->lru_lock);
-> > -	ttm_resource_manager_for_each_res(man, &cursor, res) {
-> > +	ttm_resource_cursor_init(&cursor, man);
-> > +	ttm_resource_manager_for_each_res(&cursor, res) {
-> > =C2=A0=C2=A0		struct ttm_buffer_object *bo =3D res->bo;
-> > =C2=A0=C2=A0		bool bo_needs_unlock =3D false;
-> > =C2=A0=C2=A0		bool bo_locked =3D false;
-> > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c
-> > b/drivers/gpu/drm/ttm/ttm_resource.c
-> > index a87665eb28a6..e19360cc7930 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> > @@ -81,6 +81,23 @@ static void ttm_bulk_move_drop_cursors(struct
-> > ttm_lru_bulk_move *bulk)
-> > =C2=A0=C2=A0		ttm_resource_cursor_clear_bulk(cursor);
-> > =C2=A0 }
-> > =C2=A0=20
-> > +/**
-> > + * ttm_resource_cursor_init() - Initialize a struct
-> > ttm_resource_cursor
-> > + * @cursor: The cursor to initialize.
-> > + * @man: The resource manager.
-> > + *
-> > + * Initialize the cursor before using it for iteration.
-> > + */
-> > +void ttm_resource_cursor_init(struct ttm_resource_cursor *cursor,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_resource_manager *man)
-> > +{
-> > +	cursor->priority =3D 0;
-> > +	cursor->man =3D man;
-> > +	ttm_lru_item_init(&cursor->hitch, TTM_LRU_HITCH);
-> > +	INIT_LIST_HEAD(&cursor->bulk_link);
-> > +	INIT_LIST_HEAD(&cursor->hitch.link);
-> > +}
-> > +
-> > =C2=A0 /**
-> > =C2=A0=C2=A0 * ttm_resource_cursor_fini() - Finalize the LRU list curso=
+> - * The jobs in a entity are always scheduled in the order that they were=
+ pushed.
+> + * All callbacks the driver needs to implement are restricted by DMA-fen=
+ce
+> + * signaling rules to guarantee deadlock free forward progress. This esp=
+ecially
+> + * means that for normal operation no memory can be allocated in a callb=
+ack.
+> + * All memory which is needed for pushing the job to the hardware must b=
+e
+> + * allocated before arming a job. It also means that no locks can be tak=
+en
+> + * under which memory might be allocated as well.
+>   *
+> - * Note that once a job was taken from the entities queue and pushed to =
+the
+> - * hardware, i.e. the pending queue, the entity must not be referenced a=
+nymore
+> - * through the jobs entity pointer.
+> + * Memory which is optional to allocate, for example for device core dum=
+ping or
+> + * debugging, *must* be allocated with GFP_NOWAIT and appropriate error
+> + * handling if that allocation fails. GFP_ATOMIC should only be used if
+> + * absolutely necessary since dipping into the special atomic reserves i=
+s
+> + * usually not justified for a GPU driver.
+> + *
+> + * Note especially the following about the scheduler's historic backgrou=
+nd that
+> + * lead to sort of a double role it plays today:
+> + *
+> + * In classic setups N entities share one scheduler, and the scheduler d=
+ecides
+> + * which job to pick from which entity and move it to the hardware ring =
+next
+> + * (that is: "scheduling").
+> + *
+> + * Many (especially newer) GPUs, however, can have an almost arbitrary n=
+umber
+> + * of hardware rings and it's a firmware scheduler which actually decide=
+s which
+> + * job will run next. In such setups, the GPU scheduler is still used (e=
+.g., in
+> + * Nouveau) but does not "schedule" jobs in the classical sense anymore.=
+ It
+> + * merely serves to queue and dequeue jobs and resolve dependencies. In =
+such a
+> + * scenario, it is recommended to have one scheduler per entity.
+> + */
+> +
+> +/**
+> + * DOC: Job Object
+> + *
+> + * The base job object (drm_sched_job) contains submission dependencies =
+in the
+> + * form of DMA-fence objects. Drivers can also implement an optional
+> + * prepare_job callback which returns additional dependencies as DMA-fen=
+ce
+> + * objects. It's important to note that this callback can't allocate mem=
+ory or
+> + * grab locks under which memory is allocated.
+> + *
+> + * Drivers should use this as base class for an object which contains th=
+e
+> + * necessary state to push the command submission to the hardware.
+> + *
+> + * The lifetime of the job object needs to last at least from submitting=
+ it to
+> + * the scheduler (through drm_sched_job_arm()) until the scheduler has i=
+nvoked
+> + * drm_sched_backend_ops.free_job() and, thereby, has indicated that it =
+does
+> + * not need the job anymore. Drivers can of course keep their job object=
+ alive
+> + * for longer than that, but that's outside of the scope of the schedule=
 r
-> > usage
-> > =C2=A0=C2=A0 * @cursor: The struct ttm_resource_cursor to finalize.
-> > @@ -593,7 +610,6 @@ ttm_resource_cursor_check_bulk(struct
-> > ttm_resource_cursor *cursor,
-> > =C2=A0 /**
-> > =C2=A0=C2=A0 * ttm_resource_manager_first() - Start iterating over the
-> > resources
-> > =C2=A0=C2=A0 * of a resource manager
-> > - * @man: resource manager to iterate over
-> > =C2=A0=C2=A0 * @cursor: cursor to record the position
-> > =C2=A0=C2=A0 *
-> > =C2=A0=C2=A0 * Initializes the cursor and starts iterating. When done
-> > iterating,
-> > @@ -602,17 +618,16 @@ ttm_resource_cursor_check_bulk(struct
-> > ttm_resource_cursor *cursor,
-> > =C2=A0=C2=A0 * Return: The first resource from the resource manager.
-> > =C2=A0=C2=A0 */
-> > =C2=A0 struct ttm_resource *
-> > -ttm_resource_manager_first(struct ttm_resource_manager *man,
-> > -			=C2=A0=C2=A0 struct ttm_resource_cursor *cursor)
-> > +ttm_resource_manager_first(struct ttm_resource_cursor *cursor)
-> > =C2=A0 {
-> > -	lockdep_assert_held(&man->bdev->lru_lock);
-> > +	struct ttm_resource_manager *man =3D cursor->man;
-> > =C2=A0=20
-> > -	cursor->priority =3D 0;
-> > -	cursor->man =3D man;
-> > -	ttm_lru_item_init(&cursor->hitch, TTM_LRU_HITCH);
-> > -	INIT_LIST_HEAD(&cursor->bulk_link);
-> > -	list_add(&cursor->hitch.link, &man->lru[cursor-
-> > >priority]);
-> > +	if (WARN_ON_ONCE(!man))
-> > +		return NULL;
-> > +
-> > +	lockdep_assert_held(&man->bdev->lru_lock);
-> > =C2=A0=20
-> > +	list_move(&cursor->hitch.link, &man->lru[cursor-
-> > >priority]);
-> > =C2=A0=C2=A0	return ttm_resource_manager_next(cursor);
-> > =C2=A0 }
-> > =C2=A0=20
-> > @@ -648,8 +663,6 @@ ttm_resource_manager_next(struct
-> > ttm_resource_cursor *cursor)
-> > =C2=A0=C2=A0		ttm_resource_cursor_clear_bulk(cursor);
-> > =C2=A0=C2=A0	}
-> > =C2=A0=20
-> > -	ttm_resource_cursor_fini(cursor);
-> > -
-> > =C2=A0=C2=A0	return NULL;
-> > =C2=A0 }
-> > =C2=A0=20
-> > diff --git a/include/drm/ttm/ttm_resource.h
-> > b/include/drm/ttm/ttm_resource.h
-> > index be034be56ba1..e1f3b95d73b6 100644
-> > --- a/include/drm/ttm/ttm_resource.h
-> > +++ b/include/drm/ttm/ttm_resource.h
-> > @@ -325,6 +325,9 @@ struct ttm_resource_cursor {
-> > =C2=A0=C2=A0	unsigned int priority;
-> > =C2=A0 };
-> > =C2=A0=20
-> > +void ttm_resource_cursor_init(struct ttm_resource_cursor *cursor,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_resource_manager *man);
-> > +
-> > =C2=A0 void ttm_resource_cursor_fini(struct ttm_resource_cursor
-> > *cursor);
-> > =C2=A0=20
-> > =C2=A0 /**
-> > @@ -456,8 +459,7 @@ void ttm_resource_manager_debug(struct
-> > ttm_resource_manager *man,
-> > =C2=A0=C2=A0				struct drm_printer *p);
-> > =C2=A0=20
-> > =C2=A0 struct ttm_resource *
-> > -ttm_resource_manager_first(struct ttm_resource_manager *man,
-> > -			=C2=A0=C2=A0 struct ttm_resource_cursor *cursor);
-> > +ttm_resource_manager_first(struct ttm_resource_cursor *cursor);
-> > =C2=A0 struct ttm_resource *
-> > =C2=A0 ttm_resource_manager_next(struct ttm_resource_cursor *cursor);
-> > =C2=A0=20
-> > @@ -466,14 +468,13 @@ ttm_lru_first_res_or_null(struct list_head
-> > *head);
-> > =C2=A0=20
-> > =C2=A0 /**
-> > =C2=A0=C2=A0 * ttm_resource_manager_for_each_res - iterate over all res=
-ources
-> > - * @man: the resource manager
-> > =C2=A0=C2=A0 * @cursor: struct ttm_resource_cursor for the current posi=
-tion
-> > =C2=A0=C2=A0 * @res: the current resource
-> > =C2=A0=C2=A0 *
-> > =C2=A0=C2=A0 * Iterate over all the evictable resources in a resource
-> > manager.
-> > =C2=A0=C2=A0 */
-> > -#define ttm_resource_manager_for_each_res(man, cursor,
-> > res)		\
-> > -	for (res =3D ttm_resource_manager_first(man, cursor);
-> > res;	\
-> > +#define ttm_resource_manager_for_each_res(cursor, res)	\
-> > +	for (res =3D ttm_resource_manager_first(cursor); res;	\
-> > =C2=A0=C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0 res =3D ttm_resource_manager_next=
-(cursor))
-> > =C2=A0=20
-> > =C2=A0 struct ttm_kmap_iter *
->=20
+> + * component.
+> + *
+> + * Job initialization is split into two stages:
+> + *   1. drm_sched_job_init() which serves for basic preparation of a job=
+.
+> + *      Drivers don't have to be mindful of this function's consequences=
+ and
+> + *      its effects can be reverted through drm_sched_job_cleanup().
+> + *   2. drm_sched_job_arm() which irrevokably arms a job for execution. =
+This
+> + *      activates the job's fence, i.e., it registers the callbacks. Thu=
+s,
+> + *      inevitably, the callbacks will access the job and its memory at =
+some
+> + *      point in the future. This means that once drm_sched_job_arm() ha=
+s been
+> + *      called, the job structure has to be valid until the scheduler in=
+voked
+> + *      drm_sched_backend_ops.free_job().
 
+This is written as-if there could be multiple callbacks in a single
+job. Is that the case?
+
+Also typo: "invoked" -> "invokes".
+
+> + * It's important to note that after arming a job drivers must follow th=
+e
+> + * DMA-fence rules and can't easily allocate memory or takes locks under=
+ which
+> + * memory is allocated.
+
+comma? "job, drivers"
+typo: "or takes" -> "or take"
+
+> +
+> +/**
+> + * DOC: Entity Object
+> + *
+> + * The entity object (drm_sched_entity) which is a container for jobs wh=
+ich
+> + * should execute sequentially. Drivers should create an entity for each
+> + * individual context they maintain for command submissions which can ru=
+n in
+> + * parallel.
+
+This is a bit awkward, how about: "The entity object is a container
+for jobs that should execute sequentially."
+
+> + * The lifetime of the entity *should not* exceed the lifetime of the
+> + * userspace process it was created for and drivers should call the
+> + * drm_sched_entity_flush() function from their file_operations.flush()
+> + * callback. It is possible that an entity object is not alive anymore
+> + * while jobs previously fetched from it are still running on the hardwa=
+re.
+
+To be clear ... this is about not letting processes run code after
+dying, and not because something you're using gets freed after
+flush(), correct?
+
+> + * This is done because all results of a command submission should becom=
+e
+> + * visible externally even after a process exits. This is normal POSIX
+> + * behavior for I/O operations.
+> + *
+> + * The problem with this approach is that GPU submissions contain execut=
+able
+> + * shaders enabling processes to evade their termination by offloading w=
+ork to
+> + * the GPU. So when a process is terminated with a SIGKILL the entity ob=
+ject
+> + * makes sure that jobs are freed without running them while still maint=
+aining
+> + * correct sequential order for signaling fences.
+> + */
+> +
+> +/**
+> + * DOC: Hardware Fence Object
+> + *
+> + * The hardware fence object is a DMA-fence provided by the driver as re=
+sult of
+> + * running jobs. Drivers need to make sure that the normal DMA-fence sem=
+antics
+> + * are followed for this object. It's important to note that the memory =
+for
+> + * this object can *not* be allocated in drm_sched_backend_ops.run_job()=
+ since
+> + * that would violate the requirements for the DMA-fence implementation.=
+ The
+> + * scheduler maintains a timeout handler which triggers if this fence do=
+esn't
+> + * signal within a configurable amount of time.
+> + *
+> + * The lifetime of this object follows DMA-fence refcounting rules. The
+> + * scheduler takes ownership of the reference returned by the driver and
+> + * drops it when it's not needed any more.
+> + */
+> +
+> +/**
+> + * DOC: Scheduler Fence Object
+> + *
+> + * The scheduler fence object (drm_sched_fence) which encapsulates the w=
+hole
+> + * time from pushing the job into the scheduler until the hardware has f=
+inished
+> + * processing it. This is internally managed by the scheduler, but drive=
+rs can
+> + * grab additional reference to it after arming a job. The implementatio=
+n
+> + * provides DMA-fence interfaces for signaling both scheduling of a comm=
+and
+> + * submission as well as finishing of processing.
+
+typo: "an additional reference" or "additional references"
+
+> + * The lifetime of this object also follows normal DMA-fence refcounting=
+ rules.
+> + * The finished fence is the one normally exposed to the outside world, =
+but the
+> + * driver can grab references to both the scheduled as well as the finis=
+hed
+> + * fence when needed for pipelining optimizations.
+
+When you refer to the "scheduled fence" and the "finished fence",
+these are referring to "a fence indicating when the job was scheduled
+/ finished", rather than "a fence which was scheduled for execution
+and has now become finished", correct? I think the wording could be a
+bit clearer here.
+
+Alice
