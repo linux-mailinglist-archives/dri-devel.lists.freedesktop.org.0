@@ -2,75 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79819D6560
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 22:28:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522E59D6636
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 00:09:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 260DF10E00E;
-	Fri, 22 Nov 2024 21:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE4810E434;
+	Fri, 22 Nov 2024 23:09:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="RuGKbsxt";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="pz+qUQ9o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 930D310E00E
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 21:28:13 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-3823cae4be1so1630003f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 13:28:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1732310892; x=1732915692;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Inu1YrDiEoZiawEHsCIJ2vIR2WeRDwuWrAFeiKfr+Ko=;
- b=RuGKbsxtGRG1wOEBjgdFKeWeol0lKBMZ0HLsNUIo2PZovRNtnLEWvYL57eRMapCBER
- 1jhwobqMpyC8XY9F2+Ab5o2W+bm/xYOTg6n1Bs3PJd1gDJOXJtrIb0vN0Y2LqEFQll/T
- LwXQz6QoNBCMpMaJNhMELWW8O5DDrp6OOrEeM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732310892; x=1732915692;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Inu1YrDiEoZiawEHsCIJ2vIR2WeRDwuWrAFeiKfr+Ko=;
- b=Q2l4I0uPdfME1qoSiQlztDgPC4CkLt2pHH6TPP5OvSw/nG+eF092KJmhAGrs8/Q3V/
- GIrczOLoXgvK5GYeylRDUq5oxx30rP2tJf9T6Ef3pQ6jC1HB7sVGdwiWvAs0lAN3wpD+
- b0SNHFYQlZUrd4eOuGZEhDsavVc+Mv5NGhMFgyPcQsd+TwJA32LII3hoXInAdIW8Bugc
- K6NKbaV5t6f4i18Y82CEW00/Yi5mYUv+UO6fBsQXfMUfbZO7YtNOLHYRR8R2SwpcVB0k
- TNMAxHKmkZAwRn7wlFNx5Fxh7XiGGymwELdjzSKbPHDiomszffb0g6ZEV1jEXxqzHNMc
- NaOA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXi2EcWAD1efl53Fjf9YtTvjlLqEHkT0Q3PyQO36ERh2Ox9Va7MmtR9DFLXLyR/06GxWQjAt9+J6Uk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmHWRRrR5nlbQ/b8NkR+KqSo9UV2CNL2bMhPBw9dLLod5Z9ynX
- UrucIfprKr/DsRBY6dFyqEMGaDuh3jIXRfpmbin8zl0s5zxhERZr6s+qU8tPB7n5gHV+Dv08/SG
- i53CrzAMTKyE4nLueS1Cwiou1APXcMkjgJ3F9
-X-Gm-Gg: ASbGncuXdVL8t0GbaP6W+6KfexfxofwjNe7JTPon6NaVHUtGYF4GBHtzCNsQf7k6Jty
- TVvTcyY+IthKzZN9Eg1F74GidO61feSxq
-X-Google-Smtp-Source: AGHT+IGtMNuDYJLYRRIB6wP42xa6e1P3TgJSXUrfsr4yViA8LmGx95MOGbzji6uGfd8CrYJJGpyvLfDnTzZUTlzDhVA=
-X-Received: by 2002:a5d:5f55:0:b0:382:4b80:abdd with SMTP id
- ffacd0b85a97d-38260b73d1fmr3787505f8f.21.1732310891686; Fri, 22 Nov 2024
- 13:28:11 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B7BD10E31F;
+ Fri, 22 Nov 2024 23:09:31 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AMHVGQf015521;
+ Fri, 22 Nov 2024 23:09:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=WiMlvrwkPosfBz2ctCmK2s
+ nOyJ8A+EyYdYrryfeNcEI=; b=pz+qUQ9o0cbnMCszL2VYgXzUKPDJomFUg5t6li
+ lzROxzFsHX+w7Ao9tjL/RhkyEL6egC9FdgwwnFTrJWA03o4sTOy16tuBT/XHWYtj
+ oWFgq0Zyds/VOgi+aInZrnX/D9/E7MYt6Fqfju5YpRjdBCCYF41V/dS0cy27tSVf
+ mKxgTT4vWd1HJHV1/ui+OkRnSNaSYJX8J/qPYAaU8KT5QT8AKbo0bHDqXVhMfjYd
+ z73/k+sF0JZdu6FukOPboCQmfHVeCe8nJYjum6w+r/dWC0r+uc9NxnVO5Vo8cXbs
+ 5b55d8y06Ris4GAuFA21ND06uK4o92jq/7lt4WkCzOsguU+g==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4320y9nhd6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Nov 2024 23:09:27 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AMN9RlM025232
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Nov 2024 23:09:27 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 22 Nov 2024 15:09:26 -0800
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Date: Fri, 22 Nov 2024 15:09:10 -0800
+Subject: [PATCH] drm/msm/dpu: Add VBIF to DPU snapshot
 MIME-Version: 1.0
-References: <20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com>
- <20241122-google-remove-crtc-index-from-parameter-v2-17-81540742535a@bootlin.com>
-In-Reply-To: <20241122-google-remove-crtc-index-from-parameter-v2-17-81540742535a@bootlin.com>
-From: Ian Forbes <ian.forbes@broadcom.com>
-Date: Fri, 22 Nov 2024 15:28:00 -0600
-Message-ID: <CAO6MGtiYbPZvL=2ycHb50ATaikUg+mR8xRcxGLyme7FcCTkDpg@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 17/18] drm/vkms: Introduce config for connector EDID
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- arthurgrillo@riseup.net, 
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
- thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20241122-vbif-snapshot-v1-1-6e8fedd16fdf@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIABUPQWcC/x3MQQqAIBBA0avIrBNSo6KrRAuzsWaj4oQE0t2Tl
+ m/xfwXGTMiwiAoZCzHF0KA6Ae6y4URJRzPoXg9KaS3LTl5ysImveMt9nMzsj8lY56E1KaOn5/+
+ t2/t+ZW9+Q18AAAA=
+X-Change-ID: 20241122-vbif-snapshot-b6738fd73acf
+To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>
+CC: <quic_abhinavk@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>
+X-Mailer: b4 0.15-dev-355e8
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732316966; l=1222;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=TJOLdSpE1fHET9ApFeylxGcqytAo8E17FRHaAgSGC40=;
+ b=Iizvuq/vZQmlQPiypKszQNU+lN/yHM7hbto87+25xTZtAHzuTMU65pKQazOpyAPcKKxT5FSnV
+ mPemYxkt6ABCBiqe6kdtqRt6osXDm/kVs6Gmt+JP8NgyYMPvm9+gTmT
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Q695kx613nNHlAvXGyWyEbtsvLBl0AP8
+X-Proofpoint-ORIG-GUID: Q695kx613nNHlAvXGyWyEbtsvLBl0AP8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0
+ mlxlogscore=915 spamscore=0 mlxscore=0 malwarescore=0 clxscore=1011
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411220196
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,8 +100,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I didn't see a `drm_connector_attach_edid_property` call in this
-series. Did you forget this? Virtual connectors don't have this
-property by default.
+Add VBIF registers to the DPU snapshot to help with debugging.
 
-Ian,
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index ca4847b2b73876c59dedff1e3ec4188ea70860a7..df90b080be5a1a07bea76bad4f282d80cc0e4397 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1024,6 +1024,14 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
+ 		msm_disp_snapshot_add_block(disp_state, cat->cdm->len,
+ 					    dpu_kms->mmio + cat->cdm->base, cat->cdm->name);
+ 
++	for (i = 0; i < dpu_kms->catalog->vbif_count; i++) {
++		const struct dpu_vbif_cfg *vbif = &dpu_kms->catalog->vbif[i];
++
++		msm_disp_snapshot_add_block(disp_state, vbif->len,
++					    dpu_kms->vbif[vbif->id] + vbif->base,
++					    vbif->name);
++	}
++
+ 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+ }
+ 
+
+---
+base-commit: 86313a9cd152330c634b25d826a281c6a002eb77
+change-id: 20241122-vbif-snapshot-b6738fd73acf
+
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
+
