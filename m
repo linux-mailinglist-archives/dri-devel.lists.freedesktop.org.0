@@ -2,140 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614FB9D647E
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 20:13:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7EA09D648D
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 20:26:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61BD210E1DE;
-	Fri, 22 Nov 2024 19:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B81B889C86;
+	Fri, 22 Nov 2024 19:26:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="P4rrs/KK";
+	dkim=pass (2048-bit key; secure) header.d=kde.org header.i=@kde.org header.b="ExJ0L6Pv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2084.outbound.protection.outlook.com [40.107.223.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A31F10E1DE
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 19:13:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=igz7Z84Xqv0HJ1qi0IQ7cjHFoLx+DV/Fs2xTmD8ArSrRU8k9IQD08ojb0oMpkfp61cvRnJiGWFCGiteehYvg19UtAcreIAIrLB/rrldA5nmf8t+uW4CkoB383pLq/Z9ROa+HFVAyvcAW6upoQcbeSCdCCgZ1IENqFWR7nilBaep1hzZNE1Kqg38MRvbtc3PM85wwCn4o5JpqajjUmTaQcrFN2r3tgJcNN6NxkVl1/5+86mAYr+NCbwn6d4qxjSAxSP2jSGmiK45xxtPfEtA9+aN0kjtCzOrOQ4tPESQWAe+nBJG2KuLIdCi4O/gFgVo6TJgFluKoEhpJ8iUOeZklcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QPazKCNs5PLub1xTsqloGQz9vEoDmcFt5U782DESdqg=;
- b=RNWhziNhzAZH/62Dy8FsPrOOC7YrfhnaSgzT397Kc2onSpe0ennIrcJyZSz9ZHTUtwCJ3o7CqruzcyoUN7Ess1ZRvGnnyRGtQoMQKK6jikbnS5JEUvkadlMP8skIH5KgejkOVaYq7ZPN5mPltRXMYvShxp/Z68Ff4vXoSzk7yA6eAGrZBCPSLRnwIUK5xcimiphO9DLaFuaq2aIa+JZ8UtjuWy14nyRcELeS1R/tSXRgGpK71iAp/FAWKr8+/KW17GH+qDgy9Vg7gi6ROm4Nqq7TXOSe6+iNsZQp2DKPG3G1qVTzOsvo8LF3lsgukZOql4GlANYIJW5ND2t7Pbz7ww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.12) smtp.rcpttodomain=quicinc.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QPazKCNs5PLub1xTsqloGQz9vEoDmcFt5U782DESdqg=;
- b=P4rrs/KKvBoIikRw9LpuvQe1As3w0k0H1kHGv27lD+Jkf1HUpzr7/CgbXEZk9/4z5E1oA+jAa2uzL8rr+rDQydPeMSP353Sd3XRyK0CRzQnJBdwRlRBBzqmvlaGNxtobmGmpd8sNEx6oa8NrShLgmSOGM9WskUuQLB+vRYtR8jc=
-Received: from BYAPR04CA0029.namprd04.prod.outlook.com (2603:10b6:a03:40::42)
- by SA1PR12MB8945.namprd12.prod.outlook.com (2603:10b6:806:375::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.27; Fri, 22 Nov
- 2024 19:13:38 +0000
-Received: from SJ1PEPF000023D4.namprd21.prod.outlook.com
- (2603:10b6:a03:40:cafe::8b) by BYAPR04CA0029.outlook.office365.com
- (2603:10b6:a03:40::42) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8182.16 via Frontend Transport; Fri,
- 22 Nov 2024 19:13:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.12)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.12 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.12; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.12) by
- SJ1PEPF000023D4.mail.protection.outlook.com (10.167.244.69) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8207.0 via Frontend Transport; Fri, 22 Nov 2024 19:13:38 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 22 Nov
- 2024 13:13:37 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 22 Nov
- 2024 13:13:37 -0600
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Fri, 22 Nov 2024 13:13:36 -0600
-Message-ID: <896ffe9f-bddb-39e1-6ac9-b784abcc0b7b@amd.com>
-Date: Fri, 22 Nov 2024 11:13:36 -0800
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D628B89C86
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 19:25:59 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54]) (Authenticated sender: zamundaaa)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 1CDCD33E1AE
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 19:25:58 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1732303558; bh=DklyLP4ID5juKFUX6zxmrl7+y8rTw8JIAgOSUGDDoic=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ExJ0L6PvJ1e4oN4U6bgngf1TAGYqqYxSkE2ZLu0p/eZhWVLOb7TPJc30sAb9kUJwA
+ iKcFAoMItjpEmQjDYigsGR0xmZ3weMLWtx58rYmmjlTc8hxRC/J/NO4UsBIhmL1Ym2
+ m/Q7s29O3+vM9YbrO4jYeWhcfOj5OvvQpnlAwBW6Yolg8vL3rasNl51LiuL48AMQax
+ LWNLe/cdjH4/kllV3R3Hwu95vK2umRB9C7+Ngt6mFVCYgVkefRzpDJLBa0oosDMXJf
+ Yao98sT8uVYWvkcJO5awir9kADtsBHkJLNmAQXmh5R66+svfN1HBEyAUFhlgHWsl1d
+ rXscuNquzD7UA==
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-a9ef275b980so391876366b.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 11:25:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU3QVOZ22LZn1Ee4Kzugx2Juu0zQH3JPUBCquzv6fxKicq+8x171BU9SrkqKnDmOM0/uLfuKRqJ9oo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDXIeGhWVScH0Nddx07UjY+DKbJ3b7XiXG30cfraIxUeCHnHE2
+ RtWFF1eMLn/GJG7XOHDAOYVxpy1hyE60e3VZ/f/fhNEKPqg2ZDn8I+VUQEuSuHzpvG2nR2Sw99q
+ /gLTY3DrmzYDEH1Bjn3edVLTdXQg=
+X-Google-Smtp-Source: AGHT+IHs0kiTYKVCEWddfpf8wOrS4FFtiJIfIKSGge5HiEZPlJIaAJXPV569eM0U7PVx3IkyY4koujDfRPQurE7g/OQ=
+X-Received: by 2002:a17:906:18a2:b0:a99:f4c3:580d with SMTP id
+ a640c23a62f3a-aa509b9f98emr299635466b.42.1732303557239; Fri, 22 Nov 2024
+ 11:25:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V11 00/10] AMD XDNA driver
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <ogabbay@kernel.org>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
- <sonal.santan@amd.com>, <king.tam@amd.com>
-References: <20241118172942.2014541-1-lizhi.hou@amd.com>
- <778990df-cfdf-bdab-9f11-83a9bfc25ba0@quicinc.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <778990df-cfdf-bdab-9f11-83a9bfc25ba0@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: None (SATLEXMB05.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D4:EE_|SA1PR12MB8945:EE_
-X-MS-Office365-Filtering-Correlation-Id: e92f6119-390f-405a-8db3-08dd0b29c50e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cGl4R3hXcFJJdjV2b0F1czFwREd4MmMvYld0Y29uVDJjSDRWZ1FKZWh2djlm?=
- =?utf-8?B?QWlNeVltendsZlJGWG0yL0VHMHZGUmVhYThEQVQyZHA2WTFmRGNqaGN4azNT?=
- =?utf-8?B?Vmk0V0RoYzFtMVZuWXlUYjBWdVdoVWJJakNhUjVySGNJeWdsdUlUOW4xSFhy?=
- =?utf-8?B?V1JUQnNsMHFOSXpzaDIwWTlFakwvbmpGN2tueExtR1A3cGNKRTJrMmgrMnA3?=
- =?utf-8?B?cWp0eUtybTNLYWFKK2lseERNUDBQTVFYQjB4amlxdXdUTHhxZDVma3RwOWZC?=
- =?utf-8?B?TURsUEZUT0pFRUZOTjRxMG1xaGt5dW84c09rYnBZOXBuT1RIanFVeEJ5dU1X?=
- =?utf-8?B?UE1xWVRZRzRPUnpLWUlQem5UU28wQTRxV2VxR3RwVlNOYlV3NkIrbTdsZzNU?=
- =?utf-8?B?cnRISWtrZEx5NzJWTEQwUno5cVp5bnRrK2dZcGVHeS9xZ256UlB2ZDJTWkRN?=
- =?utf-8?B?YTJMdG5WTk1pd3IvckoyNkpOREZVQi9wMm9jcCtJMkZqMlJBZld0TjZGaS9H?=
- =?utf-8?B?K01ESHBYbDMyMVhHZDhwbnBkSlduaHBqTWR6a3c5NlROTzN6YjEyVEQyYXN6?=
- =?utf-8?B?NlZuUDQxWFlVTk55YVFqbk05MG5BeDRuS1ZiSDRYaEtleHEyZ09JVmF2ZGM4?=
- =?utf-8?B?TEl2Nkt6YUF4UUNQSVlZc29lOUVJWnVUNFVSanUzWjFwd01OcDEzVjM0VkJD?=
- =?utf-8?B?VFZ4Y0RYcExQRHdxRzJRN1lsMXVBMmxROFpTeThCRktnUko3TWFnYVBMK2lr?=
- =?utf-8?B?NFB5cUVpdTR1M3VPd0tQYTBXT1pxZWRRc2FZQnp5ODJlNExsVFZLc0c4RFZy?=
- =?utf-8?B?ZDJIRHowdEUzTG45OWN1YlFoRzlpVWlhV0Y2d3g3dFZWQzAxdE4rRUZIZHdj?=
- =?utf-8?B?MU5rcTlqbXVUQngzYzZkTUFFd2RPSkpvMFYwbmVaS2x3RG9KMzhWVzR4dzFq?=
- =?utf-8?B?R0prZ2VtRGt4em00M0ZPaHVqTk9xMDNMVVR4b3M2OHpxT1hUUG5PeE45MlJR?=
- =?utf-8?B?WVQ1TUY4RzladVZoMGVYSSt0d3pBejNhcE8vUk9XOWc3K2s3RUJydG51dVhB?=
- =?utf-8?B?MzI4aDhONFRmUURKQ3hwRUtFaTJXcmt0TlFjSDc5SksyR09pUXA1YnBnbXhR?=
- =?utf-8?B?bkg1ejc3Mm5DQlJuZjVTdHhHOGJoamdtOVMwbUh4ZWxTMmt5SDM4UncvOXNT?=
- =?utf-8?B?cGplRllMYW1rZTFPVkpYYllSc1h1R1ZlWnRIbi93SzZicjB0MnkyTURzT21Y?=
- =?utf-8?B?YkhUc2gzc3RodzFNMGovVlJxaDMrTnBmdlQwckp1S1NMT3hraUtSZkUwSDZR?=
- =?utf-8?B?ZzI2OW5mZ1VDeFlYTGloY0drZk0raXY1S2FtU1o5WW1MbkMzMUpCR3k2WHpU?=
- =?utf-8?B?M2liVnE5TG1KSDR4VDRtbkdoc2hML2R3WVpzTHlvbHU3UnNzN2hiczZBYVcy?=
- =?utf-8?B?c0w0bnVCR2pqZUd2dzhlZE5kcmtvcUVZSG11WDNqWlNlSVJZdFg1dXJaRVU5?=
- =?utf-8?B?K2RJbkR0dyt4RmQ4TGdYNlU2NjZxME9ZWHdzeWRVdUthOGlsTmJ3dnYzRmtZ?=
- =?utf-8?B?NFk1SEwvS1NaSnZWWTJtU1RpZXZCb01UNEVsaEY4c1hNU0hGK2Z6dkFDSGVj?=
- =?utf-8?B?YnA4WFc5c1Mwbng3S3V5TDhqa1Q5WCtNSlcvOWpOVkdoR1J2eTlYOCsyU0Jj?=
- =?utf-8?B?TVhzMCtvbFhJYWc0bm9QdkxoOXZFM1loSVdTVFQwWmx5WUIyV3ZFMzFUZnNM?=
- =?utf-8?B?WVhPUnVERWMzZzMvNmVJMS9pckRFdEt1TlM5VHVrNDQrV2duTHBtekJhT1dH?=
- =?utf-8?B?UXV1b00zemRtNTVOc1I1b3FlQlBzV1RCWnJTOG8yVHgya0FOelhFOGllZDI5?=
- =?utf-8?B?ZWRpYnhGeHlyZHZEcDIzdDNIcE95UVFIcWJQMGVBVW9wS2g0R0JtWm1HUVVt?=
- =?utf-8?Q?+oyrdMCE0Kg1cn57BqugR7FwjKbdEm3z?=
-X-Forefront-Antispam-Report: CIP:165.204.84.12; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:atlvpn-bp.amd.com; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2024 19:13:38.2389 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e92f6119-390f-405a-8db3-08dd0b29c50e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.12];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000023D4.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8945
+References: <20241121172239.119590-1-lkml@antheas.dev>
+In-Reply-To: <20241121172239.119590-1-lkml@antheas.dev>
+From: Xaver Hugl <xaver.hugl@kde.org>
+Date: Fri, 22 Nov 2024 20:25:46 +0100
+X-Gmail-Original-Message-ID: <CAFZQkGytgJO0JwkTrGBmY8GxS099RLOPNMAbyjWwEO=fBxY6eQ@mail.gmail.com>
+Message-ID: <CAFZQkGytgJO0JwkTrGBmY8GxS099RLOPNMAbyjWwEO=fBxY6eQ@mail.gmail.com>
+Subject: Re: [RFC 00/13] acpi/x86: s2idle: implement Modern Standby transition
+ states and expose to userspace
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>, 
+ Kyle Gospodnetich <me@kylegospodneti.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,17 +71,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cool! You made my day. :) Appreciate all your help.
-
-
-Lizhi
-
-On 11/22/24 10:52, Jeffrey Hugo wrote:
-> On 11/18/2024 10:29 AM, Lizhi Hou wrote:
->> This patchset introduces a new Linux Kernel Driver, amdxdna for AMD 
->> NPUs.
->> The driver is based on Linux accel subsystem.
+Am Do., 21. Nov. 2024 um 18:22 Uhr schrieb Antheas Kapenekakis
+<lkml@antheas.dev>:
 >
-> Merged to drm-misc-next
+> The following series moves the _DSM 3,4,7,8 firmware notifications outside
+> the suspend sequence, and makes them part of a transition function, where
+> the system can transition freely between them when it is not suspended.
+> This transition function is exposed to userspace, which now gains the
+> ability to control the presentation of the device (e.g., pulse the suspend
+> light) without forcing the kernel to suspend. In addition, it adds support
+> for the _DSM 9 call Turn Display On, which was introduced in Windows 22H2
+> and aims to speed up device wake-up while remaining in the "Sleep" state.
+> If userspace is not standby aware, the kernel will bring the system into
+> the "Sleep" state before beginning the suspend sequence.
 >
-> -Jeff
+> This series requires a bit of background on how modern standby works in
+> Windows. Windows has a concept of "Modern Standby" [1], where it performs
+> an elaborate userspace and kernel suspend choreography while the device is
+> inactive in order to maintain fast wake-up times and connectivity while the
+> display of the device is off. This is done through 5 hardware states and
+> the OS takes the liberty of transitioning between them, by following a set
+> of rules (e.g., "Adaptive Hibernate").
+>
+> ```
+>                                  \/-> "Hibernate (S4)"
+> "Active" <-> "Screen Off" <-> "Sleep" <-> "DRIPS"
+>                   /\-  "Resume"  <-         <-
+> ```
+>
+> When the display is on and the user is interacting with the device, it is
+> in the "Active" state. The moment the display turns off, the device
+> transitions to the "Screen Off" state, where hardware and userspace are
+> fully active. Userspace will then decide when appropriate to freeze major
+> components (such as the DE) and transition into the "Sleep" state, where
+> the kernel is still active and connectivity is maintained. Finally, the
+> conventional "Suspend-to-idle" path can be used to bring the system into
+> the deepest runtime idle platform state (DRIPS) state, which is named
+> "s2idle" in the Linux kernel.
+>
+> After wake-up, the system re-transitions into the "Sleep" state, where
+> userspace can run housekeeping and/or hibernate if the wake-up was not user
+> initiated (e.g., timer). If user-initiated, userspace can hasten the
+> transition out of the "Sleep" state by transitioning into the state
+> "Resume" that certain devices use to boost the Power Limit (PLx) while
+> remaining in sleep (support for this new notification is rare). Then, it
+> transitions back into "Screen Off" and "Active" to prepare for the user.
+>
+> All transitions between these states feature unique firmware notifications
+> [3] that change the presentation of the device (e.g., pulse the suspend
+> light, turn off RGB). For more information, see the docs in [8]. Making
+> these transitions accessible from userspace moves them out of the suspend
+> sequence and has them happen while the kernel is fully active, mirroring
+> Windows.
+>
+> As a side effect, this patch series completely fixes the ROG Ally
+> controller issue [5], which expects for .5s to lapse before its
+> controller's USB hub goes into D3 and otherwise malfunctions. It also fixes
+> an issue present in (allegedly only) older firmwares where they check the
+> USB subsystem is not in D3 before allowing the controller to wake up while
+> in powersave mode (for avoiding spurious wake-ups). As such, this patch
+> series is also a universal fix for the ROG Ally controller.
+>
+> Moreover, this patch series allows turning off the controller and RGB of
+> most Windows handhelds (OneXPlayer, Lenovo Legion Go, GPD, and Asus ROG
+> Ally), opening the possibility of implementing suspend-then-hibernate and
+> other standby features, such as background downloads, without waking up the
+> RGB/controller of those devices. A Thinkpad T14 2021 was also tested, and
+> it pulses its suspend light during sleep.
+>
+> There is still the question of where LSP0 entry/exit (_DSM 5,6) should be
+> fired or whether they should be fired in the path to hibernation. However,
+> as they cause no issues currently, and they fire when software activity has
+> seized, they are fine where they are.
+>
+> It is important to note that the effects of these _DSMs persist during
+> reboots. I.e., if the Legion Go reboots while in the "Sleep" state, it will
+> boot into the "Sleep" state and have its controller disabled and suspend
+> light pulsing. The reboot persistence is undesirable, so the reboot path
+> will need to include a transition to active prior to reboot (not
+> included in this series). This is not the case after shutdown and
+> hibernation, where the device boots into the "Active" state.
+>
+> The issue of DPMS is still present. Currently, gamescope and KDE (at least)
+> do not fire DPMS before suspending. This causes an undesirable frozen
+> screen while the system is suspending and looks quite ugly in general. This
+> is especially true if the firmware notifications fire earlier. Therefore,
+> should the kernel fire DPMS before forcing the transition to sleep for
+> backwards compat.?
+
+FWIW in KDE we already planned to turn the screen off before suspend
+to deal better with spurious wakeups, and that'll be in the next
+version of Plasma. I think it's fine if you just leave this up to
+userspace, and maybe write to wayland-devel, so that other compositor
+developers are aware they should do the same.
+
+> If yes, it will be quite the effort. Moreover, should
+> the kernel allow graphics drivers hook the transition function and block
+> transitions to "Screen Off" if there is an active CRTC? As that would be a
+> significant undertaking, there should be proof that there exists such a
+> device that has an issue firing the notifications with an active CRTC.
+>
+> A variant of this series has been tested by thousands of users by now,
+> where the notifications fire around .5s before the CRTC is disabled and no
+> ill-effects have found in regard to this quirk. AFAIK, it is a visual
+> quirk. Making DPMS fire before the backwards compat. transition is a good
+> idea in any case, as it will sync the 200ms between Display Off/Sleep Entry
+> firing and the graphics driver turning off the display, but it might not be
+> worth the effort.
+>
+> We are currently testing a DPMS patch for gamescope and it completely fixes
+> this visual quirk while allowing for e.g., hibernation without turning on
+> the screen. The DPMS gamescope patch + performing the transitions in
+> userspace in such a way where it blends the Ally's suspend delay halves the
+> user perceived delay to sleep and results in a very professional
+> presentation. This presentation extends to other devices as well, such as
+> the Legion Go.
+>
+> Link: https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/prepare-hardware-for-modern-standby [1]
+> Link: https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/adaptive-hibernate [2]
+> Link: https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/modern-standby-firmware-notifications [3]
+> Link: https://github.com/hhd-dev/hwinfo/tree/master/devices [4]
+> Link: https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git/log/?h=superm1/dsm-screen-on-off [5]
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2719 [6]
+> Link: https://dl.dell.com/manuals/all-products/esuprt_solutions_int/esuprt_solutions_int_solutions_resources/client-mobile-solution-resources_white-papers45_en-us.pdf [7]
+> File: Documentation/admin-guide/pm/standby-states.rst [8]
+>
+> Changes from previous series (`acpi/x86: s2idle: move Display off/on calls
+>   outside suspend (fixes ROG Ally suspend)`):
+>   - Separate Display On/Off rename into its own commit (suggested by Hans)
+>   - Move delay quirks into s2idle.c (suggested by Hans)
+>   - Add documentation on Documentation/admin-guide/pm/standby-states.rst
+>   - Callbacks are now static and a transition function is used
+>   - Fixed all checkpatch warnings
+>   - The rest of the series is completely re-written
+>
+> Antheas Kapenekakis (13):
+>   Documentation: PM: Add documentation for S0ix Standby States
+>   acpi/x86: s2idle: add support for Display Off and Display On callbacks
+>   acpi/x86: s2idle: add support for Sleep Entry and Sleep Exit callbacks
+>   acpi/x86: s2idle: add support for Turn On Display callback
+>   acpi/x86: s2idle: add modern standby transition function
+>   acpi/x86: s2idle: rename Screen On/Off to Display On/Off
+>   acpi/x86: s2idle: call Display On/Off as part of callbacks
+>   acpi/x86: s2idle: rename MS Exit/Entry to Sleep Exit/Entry
+>   acpi/x86: s2idle: call Sleep Entry/Exit as part of callbacks
+>   acpi/x86: s2idle: add Turn On Display and call as part of callback
+>   acpi/x86: s2idle: add quirk table for modern standby delays
+>   platform/x86: asus-wmi: remove Ally (1st gen) and Ally X suspend quirk
+>   PM: standby: Add sysfs attribute for modern standby transitions
+>
+>  Documentation/ABI/testing/sysfs-power         |  34 +++
+>  .../admin-guide/pm/standby-states.rst         | 133 ++++++++++
+>  Documentation/admin-guide/pm/system-wide.rst  |   1 +
+>  drivers/acpi/x86/s2idle.c                     | 249 ++++++++++++++----
+>  drivers/platform/x86/asus-wmi.c               |  54 ----
+>  include/linux/suspend.h                       |  16 ++
+>  kernel/power/main.c                           |  75 ++++++
+>  kernel/power/power.h                          |   1 +
+>  kernel/power/suspend.c                        | 154 +++++++++++
+>  9 files changed, 616 insertions(+), 101 deletions(-)
+>  create mode 100644 Documentation/admin-guide/pm/standby-states.rst
+>
+> --
+> 2.47.0
+>
+>
