@@ -2,100 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980F49D5CB7
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:59:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9DA49D5CD7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 11:03:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EF3810E22C;
-	Fri, 22 Nov 2024 09:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F2B10EB38;
+	Fri, 22 Nov 2024 10:03:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CFFSo42n";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZEE53tjr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D10EF10E22C;
- Fri, 22 Nov 2024 09:59:54 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ALLxffO020278;
- Fri, 22 Nov 2024 09:59:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- scdyXJJftyY/PeuNXHAziEWkXGtahj/4g5kKCJXysnw=; b=CFFSo42nyk2kluhL
- LMqF35zMl/mNV4IUqJ5Z9HKHsu4JknQPDe+OTA9oPU/INPzcpjilU0bz5UDEA+Ji
- Y3Xmv5m9bPQcunDqnG+eo6rE7eKc7zsVGLdhWFzWtBjziotoZK61QwzwRpjTL+kV
- Fc5OV9Gwsr1Z4ALq/4Oyt6OM5f4ZF5kvBVannNl/woZ3W3XBPv+kzNg1ZS356Zka
- u8IEq8RVxTVFWhyTDNN084jLF8F1VOyJB7vu/BhVW0s7UooONwvOgg1hWKRa4EIW
- wmYXmyZc168nZi06qvaYZAHZsDcS76alQQPeuN2tMzMsOzoBxkIdwfx+moI8kO+I
- 1magJw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 431sv2mskw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Nov 2024 09:59:45 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AM9xiHo009039
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Nov 2024 09:59:44 GMT
-Received: from robotics-lnxbld017.ap.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 22 Nov 2024 01:59:37 -0800
-From: Fange Zhang <quic_fangez@quicinc.com>
-Date: Fri, 22 Nov 2024 17:56:52 +0800
-Subject: [PATCH v3 9/9] arm64: dts: qcom: Add display support for QCS615
- RIDE board
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20241122-add-display-support-for-qcs615-platform-v3-9-35252e3a51fe@quicinc.com>
-References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
-In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8CD410EB38
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 10:03:40 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-53dd0cb9ce3so1355261e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 02:03:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1732269819; x=1732874619; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=6ZLT8I4KDbe++vNVuiTZLA4WW9vKk6hhxnM+ns9I/LY=;
+ b=ZEE53tjrixeCLndJUJ5rKvXbP2T62CasgH65NYW3B5CfNwNqoekF3kegDZAQByy3Fa
+ pEFb3WgLxsg2Nyb5HXFU5JTv8rB9sT+2bVh8+KocYh+v9j/+XbJwSWpmyznReAzL0MLX
+ LBlDpf/CXyNXcatsXsZ3E2F3np4hegrGXn+tkGQNynNZtt4c/QKbjuynuUOXtCZOHrJu
+ oJbTnrkltjmuwX3CPXoaJJyc+3G8pLXUgw6bR4McNj5+/mN3BHHdb0L4Qhch4fwElO4F
+ c5PuGsaCuo3kK9uYKe3oARufivG9t/Bx4HtYj9ic4NNK13QmrIH0SWbISkx6sv5IJFzK
+ 2ACQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732269819; x=1732874619;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6ZLT8I4KDbe++vNVuiTZLA4WW9vKk6hhxnM+ns9I/LY=;
+ b=p81uXwsRKM/IBU7NiWh/RV8xPN6J/VHWM+iAfXXFJlpLG38KvXFuQDcRFhAnhR1imk
+ 9SQnVeaNsXl0/jqFQTeN7M+z2IJdaSpu5+m1DGJueWFD3Cx0qdCVu1iiLrmYZo4WM90z
+ /fs7WDPkJ9vIYvNzRsthp3OD7Kl8MbWRSwDhj/Ka+RwkuQazyrYEou1MCgswUWZDvBOn
+ tqa+6N75bvric4213zJK6CZRqGn7AyHQzGyEtLHka9AsvFS81Q2bdv+ZkTWAyA4jeZFn
+ TZZ/pBoVzeML/i5pWJZEuvrUPfM+hStE3ivUhgZYYEu/jWTFoXKGjkN6wjE/Adm+CpAc
+ /8dA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXgTy6ufZIZqTwOJKjLB7PNJIvjKTDYnFQSMXSmWuQhYLztzBm+yGpbM02Ov30jlBczUZ3XyzcoseQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz5jHwFIYNMRj6Bts+wDcTW7GBO1dLiWEvARwwGvxk1bgVPP6Wq
+ jdUR+wsPdMGlsCgy/niqWRV/FT2WUxxocmHbGvUgIo03YgEY2IXmKeQj54HKzDM=
+X-Gm-Gg: ASbGnctNWJA6lTkSUIlXrsc3n94A+RvxfJRBl0HQXQztk5beyw/zyoAl8Klo+f2Mo12
+ w7T9QfWbL0mkU11Dhkyz7kovZdsOp1piM1KI06vxY+Q7SR9YB8FT4YZQplWj8rIaUDzGN88oEVz
+ ZrkVS+QgL+OFN8IrSs0vAHd9UePm4/R3tONMed7ryf9yndif99kexfxoxh0O/KJXSXUIDWgf6D9
+ 09tJ3O2vSn3+gljpcEggATEGnVOEedRze3fcZXXEmHjLy4G+PeiPdGXqVXF8Kk+UzpD0XmtqCiH
+ Lz+SS2WvWCCoYMJsEWFGgHAxtUVG/Q==
+X-Google-Smtp-Source: AGHT+IE3PHq2qPNqY+QbYoKQGe6R086mqzI0wJSLMJ+g6h7CmPQMNZmjuqoEun+JNczYZAXDctuzeg==
+X-Received: by 2002:a05:6512:2311:b0:539:ee0a:4f8f with SMTP id
+ 2adb3069b0e04-53dd39b2dbemr1081114e87.44.1732269818813; 
+ Fri, 22 Nov 2024 02:03:38 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53dd24517e8sm318249e87.91.2024.11.22.02.03.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Nov 2024 02:03:37 -0800 (PST)
+Date: Fri, 22 Nov 2024 12:03:33 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Fange Zhang <quic_fangez@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
- "Bjorn Andersson" <andersson@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>, 
  Konrad Dybcio <konradybcio@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, "Li Liu" <quic_lliu6@quicinc.com>,
- Fange Zhang <quic_fangez@quicinc.com>,
- "Xiangxu Yin" <quic_xiangxuy@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732269516; l=2161;
- i=quic_fangez@quicinc.com; s=20241014; h=from:subject:message-id;
- bh=Y3zCh4vn5C3Sas3/HQmWseBY0SsIsy4jjIWjfBUdJtg=;
- b=kRC9L9olZJFkRxpiQj+5IvCaWULOnCGYT9XlEuHLBpmQwmP3fkVtJoDKMUEqtnW3k2krjU8FL
- Ujtzi3i/ePiAoZRq3K3+XwXGKXjyBKrwrbZtlhLJVSF0YPQ2xJKL40x
-X-Developer-Key: i=quic_fangez@quicinc.com; a=ed25519;
- pk=tJv8Cz0npA34ynt53o5GaQfBC0ySFhyb2FGj+V2Use4=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: go3-ln70NRFtFGvoem0a8R5M75jpSJC4
-X-Proofpoint-ORIG-GUID: go3-ln70NRFtFGvoem0a8R5M75jpSJC4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 clxscore=1015 bulkscore=0 adultscore=0 suspectscore=0
- spamscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411220084
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Li Liu <quic_lliu6@quicinc.com>, 
+ Xiangxu Yin <quic_xiangxuy@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 4/9] drm/msm: mdss: Add SM6150 support
+Message-ID: <jquwvnj7s3n5ki63ooz52ys3cbenuedr7mkrdkdujrnza3ewa7@i4y2uhy63yvq>
+References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
+ <20241122-add-display-support-for-qcs615-platform-v3-4-35252e3a51fe@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-4-35252e3a51fe@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,105 +104,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Li Liu <quic_lliu6@quicinc.com>
+On Fri, Nov 22, 2024 at 05:56:47PM +0800, Fange Zhang wrote:
+> From: Li Liu <quic_lliu6@quicinc.com>
+> 
+> Add support for MDSS on SM6150.
+> 
+> Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
+> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/msm_mdss.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
 
-Add display MDSS and DSI configuration for QCS615 RIDE board.
-QCS615 has a DP port, and DP support will be added in a later patch.
-
-Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
-Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
----
- arch/arm64/boot/dts/qcom/qcs615-ride.dts | 76 ++++++++++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index ee6cab3924a6d71f29934a8debba3a832882abdd..cc7dadc411ab79b9e60ccb15eaff84ea5f997c4c 100644
---- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -202,6 +202,82 @@ &gcc {
- 		 <&sleep_clk>;
- };
- 
-+&i2c2 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+
-+	ioexp: gpio@3e {
-+		compatible = "semtech,sx1509q";
-+		reg = <0x3e>;
-+		interrupt-parent = <&tlmm>;
-+		interrupts = <58 0>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		semtech,probe-reset;
-+	};
-+
-+	i2c-mux@77 {
-+		compatible = "nxp,pca9542";
-+		reg = <0x77>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		i2c@0 {
-+			reg = <0>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			anx7625@58 {
-+				compatible = "analogix,anx7625";
-+				reg = <0x58>;
-+				interrupt-parent = <&ioexp>;
-+				interrupts = <0 0>;
-+				enable-gpios = <&tlmm 4 GPIO_ACTIVE_HIGH>;
-+				reset-gpios = <&tlmm 5 GPIO_ACTIVE_HIGH>;
-+				wakeup-source;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						anx_7625_in: endpoint {
-+							remote-endpoint = <&mdss_dsi0_out>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+						anx_7625_out: endpoint {
-+						};
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&mdss {
-+	status = "okay";
-+};
-+
-+&mdss_dsi0 {
-+	vdda-supply = <&vreg_l11a>;
-+	status = "okay";
-+};
-+
-+&mdss_dsi0_out {
-+	remote-endpoint = <&anx_7625_in>;
-+	data-lanes = <0 1 2 3>;
-+};
-+
-+&mdss_dsi0_phy {
-+	vdds-supply = <&vreg_l5a>;
-+	status = "okay";
-+};
-+
- &qupv3_id_0 {
- 	status = "okay";
- };
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
-2.34.1
-
+With best wishes
+Dmitry
