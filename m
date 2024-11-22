@@ -2,60 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459119D5EBC
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 13:22:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917069D5F8F
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 14:13:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15F0D10EB66;
-	Fri, 22 Nov 2024 12:22:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA9810EB88;
+	Fri, 22 Nov 2024 13:13:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YHxOm46a";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GpsxC0tO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44C1B10EB5D;
- Fri, 22 Nov 2024 12:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732278173; x=1763814173;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=6N0+DV+e9pImJDMgKq8tG7PZiU4DXS+78Ssm1ANdnv4=;
- b=YHxOm46alyhHO+iw7UpZsLvzD6lIEl9oZ5Dt25nfZHmpFnD7LA9qRpqw
- 3tB2b+BVkQQeyIXTbhKxHZO8oNFUSz1JylIY8+liHZfMNyh0fOAub6oqX
- tAxxCxxrUmiOn0PJ5SPd/HAh6ZI0sFMkdplZRf2pLxkubh4tlPCF02f6s
- wIZ6pKTxJgFaOAMG3IQtRI+f15i21cq3WcpuIQgl5tSb8R5WyzT61N/zg
- BZbquxJoZ7pdlDSfZpGUizh/YoC3Joa2+6puKOpMJcMUvr3n00a+bieXi
- 3YlQiYvaZ0oW9iL4XHrQBh7k71O4rvFQtbP6X2p2/E81dbo1tlvr5Tt8R w==;
-X-CSE-ConnectionGUID: ptR2aI93QjCNNp786HuYdQ==
-X-CSE-MsgGUID: Om2SBtveQe69PavZ7VEnbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32289751"
-X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; d="scan'208";a="32289751"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2024 04:22:53 -0800
-X-CSE-ConnectionGUID: lYqwBKy7T9qqVT3HW1T1NA==
-X-CSE-MsgGUID: zeBFSAYwSuaPsr3k8gEaZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="95626860"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.157])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2024 04:22:50 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: imre.deak@intel.com
-Cc: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH 1/3] drm/dp: extract drm_dp_dpcd_poll_act_handled()
-In-Reply-To: <Zz345xhVgGlshsJN@ideak-desk.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1731942780.git.jani.nikula@intel.com>
- <3d91f7b6639960fe688eb6ae0236254adae3e82d.1731942780.git.jani.nikula@intel.com>
- <Zz345xhVgGlshsJN@ideak-desk.fi.intel.com>
-Date: Fri, 22 Nov 2024 14:22:44 +0200
-Message-ID: <87bjy7zcdn.fsf@intel.com>
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C93C410EB88
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 13:13:46 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 11493240008;
+ Fri, 22 Nov 2024 13:13:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1732281224;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RpjcytXARFHgg+G4vhzFoyRdY+y49Eg38xChPTFQdN0=;
+ b=GpsxC0tO6+7F7hSEbWnc3JaT4++AIDxsur6L66pw1g30v4iq8NnF2RmBpbgPf/UscfH+ir
+ h4dBsaZ1bJwE6ugV+tZwg1jqRDnJopnLERP2po4r8qjnvshpV6Kys5MTiqvn4skIyMwxUm
+ PUE57DE5Gur/rfVR938af/Kg9AJ8EKy2Qe8okGGBXpAD5AZw0EsfHUM4nY8DQyQ1blR/DQ
+ 04kje1USkKrazK5QbpMct+dIbj7/p5ExdEzMTPMiECOdUSSaCqUqqP4cFRFfBdONdX/54/
+ pW5z7N7wLAoDoa/6y+bKiDs6EVj1HnACBK1aZM8Eo+vVmdGnmvduoPA+fNgGCQ==
+Date: Fri, 22 Nov 2024 14:13:40 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>,
+ Helen Koike <helen.koike@collabora.com>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Subject: Re: [PATCH v14 0/9] drm/vkms: Reimplement line-per-line pixel
+ conversion for plane reading
+Message-ID: <Z0CDhPvxHxqR9JSo@louis-chauvet-laptop>
+Mail-Followup-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>,
+ Helen Koike <helen.koike@collabora.com>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+References: <20241118-yuv-v14-0-2dbc2f1e222c@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241118-yuv-v14-0-2dbc2f1e222c@bootlin.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,211 +95,294 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 20 Nov 2024, Imre Deak <imre.deak@intel.com> wrote:
-> On Mon, Nov 18, 2024 at 05:14:52PM +0200, Jani Nikula wrote:
->> SST with 128b/132b channel coding needs this too. Extract to a separate
->> helper, independent of MST.
->> 
->> Pass timeout in as a parameter, anticipating that we can reduce the
->> timeout for SST.
->
-> I wish there was a DP Standard section making the above clear,
-> but I suppose we just deduct that except of the side-band messaging,
-> every other payload programming and ACT signaling is required for
-> 128b/132b SST.
+On 18/11/24 - 19:28, Louis Chauvet wrote:
+> This patchset is the second version of [1]. It is almost a complete
+> rewrite to use a line-by-line algorithm for the composition.
+> 
+> It can be divided in multiple parts:
+> - PATCH 1 to 3: no functional change is intended, only some formatting and
+>   documenting (PATCH 2 is taken from [2])
+> - PATCH 4 to 7: Some preparation work not directly related to the
+>   line-by-line algorithm
+> - PATCH 8: main patch for this series, it reintroduce the
+>   line-by-line algorithm
+> - PATCH 9: Remove useless drm_simplify_rotation
+> - Rest of the series: moved to a new series to merge this one, see the new 
+>   series "Add YUV ad R1..8 formats support to VKMS"
+> 
+> The PATCH 8 aims to restore the line-by-line pixel reading algorithm. It
+> was introduced in 8ba1648567e2 ("drm: vkms: Refactor the plane composer to
+> accept new formats") but removed in 8ba1648567e2 ("drm: vkms: Refactor the
+> plane composer to accept new formats") in a over-simplification effort.
+> At this time, nobody noticed the performance impact of this commit. After
+> the first iteration of my series, poeple notice performance impact, and it
+> was the case. Pekka suggested to reimplement the line-by-line algorithm.
+> 
+> Expiriments on my side shown great improvement for the line-by-line
+> algorithm, and the performances are the same as the original line-by-line
+> algorithm. I targeted my effort to make the code working for all the
+> rotations and translations. The usage of helpers from drm_rect_* avoid
+> reimplementing existing logic.
+> 
+> The only "complex" part remaining is the clipping of the coordinate to
+> avoid reading/writing outside of src/dst. Thus I added a lot of comments
+> to help when someone will want to add some features (framebuffer resizing
+> for example).
+> 
+> I did not changed any expected test results as VKMS seems to have some 
+> existing issue:
+> https://gitlab.freedesktop.org/jim.cromie/kernel-drm-next-dd/-/jobs/61484201
+> https://gitlab.freedesktop.org/jim.cromie/kernel-drm-next-dd/-/jobs/61803193
+> https://gitlab.freedesktop.org/louischauvet/kernel/-/jobs/65944002
+> 
+> To properly test the rotation algorithm, I had to implement a new IGT
+> test [8]. This helped to found one issue in the YUV rotation algortihm.
+> 
+> My series was mainly tested with:
+> - kms_plane (for color conversions)
+> - kms_rotation_crc (for a subset of rotation and formats)
+> - kms_rotation (to test all rotation and formats combinations) [8]
+> - kms_cursor_crc (for translations)
+> The benchmark used to measure the improvment was done with
+> kms_fb_stress [10] with some modifications:
+> - Fixing the writeback format to XRGB8888
+> - Using a primary plane with odd dimension to avoid failures due to YUV
+>   alignment
+> The KMS structure was:
+> 	CRTC:
+> 		rectangle: 4096x2160+0+0
+> 	primary:
+> 		format: ABGR16161616
+> 		rectangle: 3640x2160+101+0
+> 	writeback:
+> 		format: XRGB8888
+> 		rectangle: 4096x2160+0+0
+> Results (on my computer):
+> 
+> 8356b9790650: drm/test: Add test cases for drm_rect_rotate_inv() (before any regression)
+> 322d716a3e8a: drm/vkms: isolate pixel conversion functionality (first regression)
+> cc4fd2934d41: drm/vkms: Isolate writeback pixel conversion functions (second regression)
+> 2c3d1bd284c5: drm/panel: simple: Add Microtips Technology MF-103HIEB0GA0 panel (current drm-misc-next)
+> 
+>  Used format  | This series | 2c3d1bd284c5 | cc4fd2934d41 | 322d716a3e8a | 8356b9790650 |
+> --------------+-------------+--------------+--------------+--------------+--------------+
+>  XRGB8888     |  13.261666s |   14.289582s |   10.731272s |    9.480001s |    9.277507s |
+>  XRGB16161616 |  13.282479s |   13.918926s |   10.712616s |    9.776903s |    9.291766s |
+>  RGB565       | 136.154163s |  141.646489s |  101.744050s |  103.712164s |   87.860923s |
+> 
+> This is a 5-10% improvment of the performance. More work need to be done
+> on the writeback to gain more.
+> 
+> [1]: https://lore.kernel.org/all/20240201-yuv-v1-0-3ca376f27632@bootlin.com
+> [2]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/
+> [3]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-3-952fcaa5a193@riseup.net/
+> [4]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-5-952fcaa5a193@riseup.net/
+> [5]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-6-952fcaa5a193@riseup.net/
+> [6]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-7-952fcaa5a193@riseup.net/
+> [8]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
+> [9]: https://lore.kernel.org/dri-devel/20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net/
+> [10]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
+> 
+> To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> To: Melissa Wen <melissa.srw@gmail.com>
+> To: Maíra Canal <mairacanal@riseup.net>
+> To: Haneen Mohammed <hamohammed.sa@gmail.com>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> To: Maxime Ripard <mripard@kernel.org>
+> To: Thomas Zimmermann <tzimmermann@suse.de>
+> To: David Airlie <airlied@gmail.com>
+> To: rdunlap@infradead.org
+> To: arthurgrillo@riseup.net
+> To: Jonathan Corbet <corbet@lwn.net>
+> To: pekka.paalanen@haloniitty.fi
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: jeremie.dautheribes@bootlin.com
+> Cc: miquel.raynal@bootlin.com
+> Cc: thomas.petazzoni@bootlin.com
+> Cc: seanpaul@google.com
+> Cc: marcheu@google.com
+> Cc: nicolejadeyee@google.com
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Ping. Okay to merge, or do we want to mull over the the timeout?
+Applied on drm-misc-next:
+https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/22f16c50beb6b7c4e2744eb7ea998dae0d2cdbdc
 
-I'm primarily trying to do a non-functional change. I could omit the
-timeout parameter, but for non-hubs three seconds seems excessive, and
-reducing it for hubs too is a can of worms I prefer keeping the lid on
-top.
-
-> Cc: Lyude Paul <lyude@redhat.com>
->
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/display/drm_dp_helper.c       | 54 ++++++++++++++++++-
->>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 36 +------------
->>  include/drm/display/drm_dp_helper.h           |  2 +
->>  3 files changed, 57 insertions(+), 35 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
->> index 6ee51003de3c..b7e03bf02cd8 100644
->> --- a/drivers/gpu/drm/display/drm_dp_helper.c
->> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
->> @@ -22,15 +22,16 @@
->>  
->>  #include <linux/backlight.h>
->>  #include <linux/delay.h>
->> +#include <linux/dynamic_debug.h>
->>  #include <linux/errno.h>
->>  #include <linux/i2c.h>
->>  #include <linux/init.h>
->> +#include <linux/iopoll.h>
->>  #include <linux/kernel.h>
->>  #include <linux/module.h>
->>  #include <linux/sched.h>
->>  #include <linux/seq_file.h>
->>  #include <linux/string_helpers.h>
->> -#include <linux/dynamic_debug.h>
->>  
->>  #include <drm/display/drm_dp_helper.h>
->>  #include <drm/display/drm_dp_mst_helper.h>
->> @@ -779,6 +780,57 @@ int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
->>  }
->>  EXPORT_SYMBOL(drm_dp_dpcd_read_phy_link_status);
->>  
->> +static int read_payload_update_status(struct drm_dp_aux *aux)
->> +{
->> +	int ret;
->> +	u8 status;
->> +
->> +	ret = drm_dp_dpcd_readb(aux, DP_PAYLOAD_TABLE_UPDATE_STATUS, &status);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	return status;
->> +}
->> +
->> +/**
->> + * drm_dp_dpcd_poll_act_handled() - Polls for ACT handled status.
->> + * @aux: DisplayPort AUX channel
->> + * @timeout_ms: Timeout in ms
->> + *
->> + * Tries waiting for the sink to finish updating its payload table by polling
->> + * for the ACT handled bit for up to @timeout_ms milliseconds, defaulting to
->> + * 3000 ms if 0.
->> + *
->> + * Returns:
->> + * 0 if the ACT was handled in time, negative error code on failure.
->> + */
->> +int drm_dp_dpcd_poll_act_handled(struct drm_dp_aux *aux, int timeout_ms)
->
-> I wonder if it'd make sense to namespace these helpers using ll_mtp or mtp.
-
-Honestly I think there's already enough of an acronym jumble in the
-name. At least "drm_dp_dpcd" is common for most functions around here.
-
-
-BR,
-Jani.
-
->
->> +{
->> +	int ret, status;
->> +
->
-> Extra w/s.
->
-> Regardless of the namespace comment:
->
-> Reviewed-by: Imre Deak <imre.deak@intel.com>
->
->> +	/* default to 3 seconds, this is arbitrary */
->> +	timeout_ms = timeout_ms ?: 3000;
->> +
->> +	ret = readx_poll_timeout(read_payload_update_status, aux, status,
->> +				 status & DP_PAYLOAD_ACT_HANDLED || status < 0,
->> +				 200, timeout_ms * USEC_PER_MSEC);
->> +	if (ret < 0 && status >= 0) {
->> +		drm_err(aux->drm_dev, "Failed to get ACT after %d ms, last status: %02x\n",
->> +			timeout_ms, status);
->> +		return -EINVAL;
->> +	} else if (status < 0) {
->> +		/*
->> +		 * Failure here isn't unexpected - the hub may have
->> +		 * just been unplugged
->> +		 */
->> +		drm_dbg_kms(aux->drm_dev, "Failed to read payload table status: %d\n", status);
->> +		return status;
->> +	}
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL(drm_dp_dpcd_poll_act_handled);
->> +
->>  static bool is_edid_digital_input_dp(const struct drm_edid *drm_edid)
->>  {
->>  	/* FIXME: get rid of drm_edid_raw() */
->> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
->> index ac90118b9e7a..2bdbc1eb282b 100644
->> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
->> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
->> @@ -29,7 +29,6 @@
->>  #include <linux/random.h>
->>  #include <linux/sched.h>
->>  #include <linux/seq_file.h>
->> -#include <linux/iopoll.h>
->>  
->>  #if IS_ENABLED(CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS)
->>  #include <linux/stacktrace.h>
->> @@ -4723,18 +4722,6 @@ static int drm_dp_dpcd_write_payload(struct drm_dp_mst_topology_mgr *mgr,
->>  	return ret;
->>  }
->>  
->> -static int do_get_act_status(struct drm_dp_aux *aux)
->> -{
->> -	int ret;
->> -	u8 status;
->> -
->> -	ret = drm_dp_dpcd_readb(aux, DP_PAYLOAD_TABLE_UPDATE_STATUS, &status);
->> -	if (ret < 0)
->> -		return ret;
->> -
->> -	return status;
->> -}
->> -
->>  /**
->>   * drm_dp_check_act_status() - Polls for ACT handled status.
->>   * @mgr: manager to use
->> @@ -4752,28 +4739,9 @@ int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr)
->>  	 * There doesn't seem to be any recommended retry count or timeout in
->>  	 * the MST specification. Since some hubs have been observed to take
->>  	 * over 1 second to update their payload allocations under certain
->> -	 * conditions, we use a rather large timeout value.
->> +	 * conditions, we use a rather large timeout value of 3 seconds.
->>  	 */
->> -	const int timeout_ms = 3000;
->> -	int ret, status;
->> -
->> -	ret = readx_poll_timeout(do_get_act_status, mgr->aux, status,
->> -				 status & DP_PAYLOAD_ACT_HANDLED || status < 0,
->> -				 200, timeout_ms * USEC_PER_MSEC);
->> -	if (ret < 0 && status >= 0) {
->> -		drm_err(mgr->dev, "Failed to get ACT after %dms, last status: %02x\n",
->> -			timeout_ms, status);
->> -		return -EINVAL;
->> -	} else if (status < 0) {
->> -		/*
->> -		 * Failure here isn't unexpected - the hub may have
->> -		 * just been unplugged
->> -		 */
->> -		drm_dbg_kms(mgr->dev, "Failed to read payload table status: %d\n", status);
->> -		return status;
->> -	}
->> -
->> -	return 0;
->> +	return drm_dp_dpcd_poll_act_handled(mgr->aux, 3000);
->>  }
->>  EXPORT_SYMBOL(drm_dp_check_act_status);
->>  
->> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
->> index 279624833ea9..38eea21d1082 100644
->> --- a/include/drm/display/drm_dp_helper.h
->> +++ b/include/drm/display/drm_dp_helper.h
->> @@ -567,6 +567,8 @@ int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
->>  				     enum drm_dp_phy dp_phy,
->>  				     u8 link_status[DP_LINK_STATUS_SIZE]);
->>  
->> +int drm_dp_dpcd_poll_act_handled(struct drm_dp_aux *aux, int timeout_ms);
->> +
->>  bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
->>  				    u8 real_edid_checksum);
->>  
->> -- 
->> 2.39.5
->> 
-
--- 
-Jani Nikula, Intel
+> Changes in v14:
+> - Rebased on drm-misc-next... Sorry for the quick iteration, next time I 
+>   will push patches before sending a new iteration... I kept the Acked-by 
+>   from Pekka as it is a minor fix.
+> - Nitpicks from José
+> - The only minor change is in PATCH 8/9, replacing 
+>     vkms_state->base->crtc->mode
+>   by
+>     vkms_state->base->mode
+>   as suggested by Ville Syrjälä ([11])
+>   [11]:https://lore.kernel.org/all/Zv8IPRKcPqYXgL2B@intel.com/
+> - Link to v13: https://lore.kernel.org/r/20241031-yuv-v13-0-bd5463126faa@bootlin.com
+> Changes in v13:
+> - Removed the YUV part to prepare the merge
+> - Add Acked-by from Maíra
+> - Link to v12: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+> Changes in v12:
+> - Fix documentation issues as suggested by Randy
+> - Link to v11: https://lore.kernel.org/r/20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com
+> Changes in v11:
+> - Remove documentation patch (already merged)
+> - Fix sparse warning about documentation
+> - Link to v10: https://lore.kernel.org/r/20240809-yuv-v10-0-1a7c764166f7@bootlin.com
+> Changes in v10:
+> - Properly remove the patch introducing dummy read/write functions
+> - PATCH 8/16: Format fixups
+> - PATCH 9/16: Format fixups
+> - PATCH 11/16: Format fixups
+> - PATCH 14/16: Fix test compilation, add module description
+> - Link to v9: https://lore.kernel.org/r/20240802-yuv-v9-0-08a706669e16@bootlin.com
+> Changes in v9:
+> - PATCH 3/17: Fix docs as Maíra suggested
+> - PATCH 4,6,10,12,15,17/17: Fix sparse warning about __le16 casting
+> - Link to v8: https://lore.kernel.org/all/20240516-yuv-v8-0-cf8d6f86430e@bootlin.com/
+> Changes in v8:
+> - PATCH 7/17: Update pitch access to use the proper value for block
+>   formats
+> - PATCH 9/17: Update pitch access to use the proper value for block
+>   formats
+> - Link to v7: https://lore.kernel.org/r/20240513-yuv-v7-0-380e9ffec502@bootlin.com
+> Changes in v7:
+> - Some typos and indent fixes
+> - Add Review-By, Acked-By
+> - PATCH 3/17: Clarify src/dst unit
+> - PATCH 9/17: Clarify documentation
+> - PATCH 9/17: Restrict conditions for direction
+> - PATCH 9/17: Rename get_block_step_byte to get_block_step_bytes
+> - PATCH 10/17: Clarify kernel doc for clamp_line_coordinates, blend_line,
+>   pixel_read_line_t
+> - PATCH 10/17: Fix the case when src_*_start >= fb->width/height
+> - PATCH 10/17: Change y in blend to be an int
+> - PATCH 10/17: Clarify documentation for read functions
+> - PATCH 12/17: Fix the type of rgb variables in argb_u16_from_yuv888
+> - PATCH 12/17: Move comments at the right place, remove useless ones
+> - PATCH 12/17: Add missing const
+> - PATCH 17/17: Use drm_format_info_bpp and computation to avoid hard-coded
+>   values
+> - Link to v6: https://lore.kernel.org/r/20240409-yuv-v6-0-de1c5728fd70@bootlin.com
+> Changes in v6:
+> - Add Randy
+> - Add Review-By and Acked-By
+> - PATCH 2/17: Remove useless newline
+> - PATCH 3/17: Fix kernel doc
+> - PATCH 4/17: Fix typo in git commit
+> - PATCH 4/17: Fix kernel doc and simplify brief description of typedef
+> - PATCH 5/17: Change black default color to Magenta
+> - PATCH 5/17: Fix wording in comment
+> - PATCH 7/17: Fix typo in packed_pixel_offset
+> - PATCH 7/17: Add WARN_ON for currently not supported formats
+> - PATCH 8/17: Rename x_limit to pixel_count
+> - PATCH 8/17: Clarify kernel doc for pre_mul_alpha_blend
+> - PATCH 9/17: Rename get_step_next_block to get_block_step_bytes
+> - PATCH 9/17: Change kernel doc order
+> - PATCH 9/17: Rework the direction_for_rotation function to use drm
+>   helpers
+> - PATCH 9/17: Add a warn in direction_for_rotation if the result is not
+>   expected
+> - PATCH 10/17: Reword the comment of pixel color conversion functions
+> - PATCH 10/17: Refactor the blending function to extract functions
+> - PATCH 11/17: Remove useless drm_rotation_simplify
+> - PATCH 12/17: Fix typo in comments
+> - PATCH 12/17: Remove useless define
+> - PATCH 12/17: Fix some comments typo and kernel doc
+> - PATCH 12/17: Add a comma at the end of the vkms_formats list
+> - PATCH 12/17: Use copy of matrix instead of pointers
+> - PATCH 12/17: Use 16 bit range for yuv conversion
+> - PATCH 17/17: Add a comma at the end of the vkms_formats list
+> - PATCH 17/17: Add assertions
+> - PATCH 17/17: Fix color conversion... Next time I will read the doc
+>   twice...
+> - Link to v5: https://lore.kernel.org/r/20240313-yuv-v5-0-e610cbd03f52@bootlin.com
+> Changes in v5:
+> - All patches: fix some formatting issues
+> - PATCH 4/16: Use the correct formatter for 4cc code
+> - PATCH 7/16: Update the pixel accessors to also return the pixel position
+>   inside a block.
+> - PATCH 8/16: Fix a temporary bug
+> - PATCH 9/16: Update the get_step_1x1 to get_step_next_block and update
+>   the documentation
+> - PATCH 10/16: Update to uses the new pixel accessors
+> - PATCH 10/16: Reword some comments
+> - PATCH 11/16: Update to use the new pixel accessors
+> - PATCH 11/16: Fix a bug in the subsampling offset for inverted reading
+>   (right to left/bottom to top). Found by [8].
+> - PATCH 11/16: Apply Arthur's modifications (comments, algorithm
+>   clarification)
+> - PATCH 11/16: Use the correct formatter for 4cc code
+> - PATCH 11/16: Update to use the new get_step_next_block
+> - PATCH 14/16: Apply Arthur's modification (comments, compilation issue)
+> - PATCH 15/16: Add Arthur's patch to explain the kunit tests
+> - PATCH 16/16: Introduce DRM_FORMAT_R* support.
+> - Link to v4: https://lore.kernel.org/r/20240304-yuv-v4-0-76beac8e9793@bootlin.com
+> Changes in v4:
+> - PATCH 3/14: Update comments for get_pixel_* functions
+> - PATCH 4/14: Add WARN when trying to get unsupported pixel_* functions
+> - PATCH 5/14: Create dummy pixel reader/writer to avoid NULL
+>   function pointers and kernel OOPS
+> - PATCH 6/14: Added the usage of const pointers when needed
+> - PATCH 7/14: Extraction of pixel accessors modification
+> - PATCH 8/14: Extraction of the blending function modification
+> - PATCH 9/14: Extraction of the pixel_read_direction enum
+> - PATCH 10/14: Update direction_for_rotation documentation
+> - PATCH 10/14: Rename conversion functions to be explicit
+> - PATCH 10/14: Replace while(count) by while(out_pixel<end) in read_line
+>   callbacks. It avoid a new variable+addition in the composition hot path.
+> - PATCH 11/14: Rename conversion functions to be explicit
+> - PATCH 11/14: Update the documentation for get_subsampling_offset
+> - PATCH 11/14: Add the matrix_conversion structure to remove a test from
+>   the hot path.
+> - PATCH 11/14: Upadate matrix values to use 32.32 fixed floats for
+>   conversion
+> - PATCH 12/14: Update commit message
+> - PATCH 14/14: Change kunit expected value
+> - Link to v3: https://lore.kernel.org/r/20240226-yuv-v3-0-ff662f0994db@bootlin.com
+> Changes in v3:
+> - Correction of remaining git-rebase artefacts
+> - Added Pekka in copy of this patch
+> - Link to v2: https://lore.kernel.org/r/20240223-yuv-v2-0-aa6be2827bb7@bootlin.com
+> Changes in v2:
+> - Rebased the series on top of drm-misc/drm-misc-net
+> - Extract the typedef for pixel_read/pixel_write
+> - Introduce the line-by-line algorithm per pixel format
+> - Add some documentation for existing and new code
+> - Port the series [1] to use line-by-line algorithm
+> - Link to v1: https://lore.kernel.org/r/20240201-yuv-v1-0-3ca376f27632@bootlin.com
+> 
+> ---
+> Arthur Grillo (1):
+>       drm/vkms: Use drm_frame directly
+> 
+> Louis Chauvet (8):
+>       drm/vkms: Code formatting
+>       drm/vkms: Add typedef and documentation for pixel_read and pixel_write functions
+>       drm/vkms: Use const for input pointers in pixel_read an pixel_write functions
+>       drm/vkms: Update pixels accessor to support packed and multi-plane formats.
+>       drm/vkms: Avoid computing blending limits inside pre_mul_alpha_blend
+>       drm/vkms: Introduce pixel_read_direction enum
+>       drm/vkms: Re-introduce line-per-line composition algorithm
+>       drm/vkms: Remove useless drm_rotation_simplify
+> 
+>  drivers/gpu/drm/vkms/vkms_composer.c  | 312 ++++++++++++++++++++------
+>  drivers/gpu/drm/vkms/vkms_crtc.c      |   6 +-
+>  drivers/gpu/drm/vkms/vkms_drv.c       |   3 +-
+>  drivers/gpu/drm/vkms/vkms_drv.h       |  55 ++++-
+>  drivers/gpu/drm/vkms/vkms_formats.c   | 409 ++++++++++++++++++++++++----------
+>  drivers/gpu/drm/vkms/vkms_formats.h   |   4 +-
+>  drivers/gpu/drm/vkms/vkms_plane.c     |  17 +-
+>  drivers/gpu/drm/vkms/vkms_writeback.c |   5 -
+>  8 files changed, 588 insertions(+), 223 deletions(-)
+> ---
+> base-commit: 7d2faa8dbb7055a115fe0cd6068d7090094a573d
+> change-id: 20240201-yuv-1337d90d9576
+> 
+> Best regards,
+> -- 
+> Louis Chauvet <louis.chauvet@bootlin.com>
+> 
