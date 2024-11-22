@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810A79D5B85
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:13:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A73E9D5B86
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:13:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F95610EB02;
-	Fri, 22 Nov 2024 09:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B922B10EB03;
+	Fri, 22 Nov 2024 09:13:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KptW0JlX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QsFdvBzI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FC5E10EB02
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 09:13:16 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-53dd1829b56so1472665e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 01:13:16 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4D9310EB03
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 09:13:18 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-53dd59a2bc1so365405e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 01:13:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732266794; x=1732871594; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732266797; x=1732871597; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=HoL3aWMtjL9qLbqtGe43c2BpbewS4aE5M6KHnAUYZyA=;
- b=KptW0JlX/jGiIWAowZ3bvxitOHZyqw30dtYdJ0ad+FNUvh1mNkBytxWKfNc4xA9RZk
- XXG7mXj4yglCKCRpk/FOUKwY7iAi5Gcn9HNsix7afQ9NMZnRVXRkNB34uZUgjgiT+ehu
- Lk9WrOefRSWZCIQPw9n+88TgZxMFIE6vpgeHD/AN1KX2CmGHsh0DXrXNkeDiOOS5Sc4x
- dy2VdDsVbokREse6T7XLQcOPgNZUpcprdYjYqXpmNKtYcnBxQCmOMdAh03tFpiCgNEvp
- YKEbnYzva5ADrQXdgVe0Gqj2NIMY5UVVXo6MQ6CTIpW5vd4+/dMcG6d7yWat20yBxnIx
- J8DQ==
+ :reply-to; bh=bn7n+Ij/Vq2ciN8r7fMFmAZOh0BG4t/fByh+MoATRM4=;
+ b=QsFdvBzIvM7ElQb/ch2kmjEdFuh+LLiqzwVI2CEV+7qNsrwYqp7kahYb+RnvEFZEek
+ DYUmB/qjVsEnHnOvx9XchyY4/RRZGk3lDMKwfG6JKxPbeimEadYnBVxEBRpO6GGvM57G
+ jPHqAe20ahbid1kFEEkIRXFajgQA0MQKBw4s65Uoe+tevLEwn9iXtUV/j6RGicn8GvaK
+ ljswh9i5cDw+V0HHU2xDxnQS6vj5YD6voY+Bx/3f6/eRjjTKtA0b2MSvPpgGRXUUUNhj
+ N4Un/z1UICX+4sEOdNrrFNn+k9tj2tmJgJRozEkgrl+vS46IhvnOLrvwbAHYHThZIWoW
+ 4YaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732266794; x=1732871594;
+ d=1e100.net; s=20230601; t=1732266797; x=1732871597;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HoL3aWMtjL9qLbqtGe43c2BpbewS4aE5M6KHnAUYZyA=;
- b=IKlO6XYROLd7QS6gNVNW5NINtFpmLx4IlpSnnHsfmZhGpdfQGEFN3BzUI1FZFbSpFm
- ho0WKjPxUHcsP2XinhxdrTrjE2lEZX/CZSP8IB95KKQW7KZ8kyvqpNo1TO4X95ZmZhgR
- Bd4QbSlnKBu70Vqnp6icDxP1EaKwhmEm1ddSLLO/YER0JUUiAfCRa+NzDaxbU0IgGwzQ
- iQW1LgPc7LBxNu+zzLszdTt/vVH9+Jf2fkCxe1y9WOmF+0BzEOjIrgiEHlOraJCzz4V5
- Lj+9uM+KNGdyWXJcksHhZ57PqMYiMCgVRMokAH8K9k7AmyTXa34FR2Q54uxgwZrDB6SQ
- GMpw==
-X-Gm-Message-State: AOJu0YzOGxjjhDnD5YFSAhxXP7yfckExZuRVEb8Ud/1l5F1IdOu91jEe
- sTV6elw+h3YcJS5PL3R0HTLVUpDDMchLr4cFn44QUewaq2En+6lS+4sSXfBup2I=
-X-Gm-Gg: ASbGnctsn9ohL5AhOca+7aLMdUdC3f2tMHO7I2JcplDnlqnHWmtCYZ8lWU3Q7kt4MNI
- idIqWCdHuMnskpJDaThwzCkijpqQOEL75mzsPiVgvO0kEZvwP1Zcak7pXBxegXSbOKSu8R3qO+r
- dajIPSeB9SwUHKoLeZUP3vU4t3K2Lp2x1HqqJAf6x0aHyaJEwWvlctMKxxxvPn3P2rbNc5UehRE
- neg+L+5P5sX7bkn0bKtrgwuROyYUcLOV/Qz7OWQICXZEVMpZlakCeRW6A==
-X-Google-Smtp-Source: AGHT+IGsVNjOq27k776zE/cKgwN70tM6uYhT0eEceng2yr5gRWog07KJFnzoL9IEms+6bvRWR289/w==
-X-Received: by 2002:a05:6512:b8a:b0:53d:d2d0:7c8f with SMTP id
- 2adb3069b0e04-53dd389d8c5mr910882e87.34.1732266794264; 
- Fri, 22 Nov 2024 01:13:14 -0800 (PST)
+ bh=bn7n+Ij/Vq2ciN8r7fMFmAZOh0BG4t/fByh+MoATRM4=;
+ b=MsojBj0vqq0sbWQnrKayGMymTzPpsaHKXbAXdNsDu8CKXxHJatYQYJdOVpESre111+
+ T58xreUCyF9hIvKAdfGGoMDNQvFbfC9IdUc5oS29pBI5YgiZ0g3PjAZ0WVaOyK+hyOX3
+ D9lPufGQ+XcyNa5J/UAulaUUDi0uvWwLpBlxElrd5W/iop23AnVrFyXiUa2Hvf0rrVy5
+ zEAc4ZB7KOHSPYNtBJDBY9058hxZ6ATqJE/ru47+X0iDAf3RvGyyDHTKU1x4OdjAl263
+ nprOy29NK++gnmFzXY75bMDkf89ckzhpOOkdwvZ+OjoGwM/zeLVOCNRqHIRyPFEwIqmv
+ rSLA==
+X-Gm-Message-State: AOJu0YxMYhZm12jWqoZDIIWYrkBzymdaPYzTT52FKm9mr/hK0ooG4vgh
+ sMIpFLAoCcPFisEbiZKXq2LHzIz3He2QKJTtG8y1xP6jRg9dDkWhvzFZXxrKbEg=
+X-Gm-Gg: ASbGncs3YK4vlHK2NeOMcF8+h+z0ViFUwcFRDgtBHRZHgNmWGhv6h5jjOYnrRReYqXd
+ Cl8RpHAhK4DPdXIxuT58OHeKyIlQYsUE5Z061Q6YFved2Aaj/QSNrLlV7ZPTYkVThyf4SXBYHMm
+ lWln6pPJCKMWjAnl9ZRenfGrbVJ2qdOX0QOHoC7Gu4urQxhyqlC2QNG3iC4y2UKqJAOTVrmrl3L
+ m8MeIx9vLa/Og8vsuvMET7lwYrXzFDn8zhnQy8lUOLhDMtf/k+4k8kAuw==
+X-Google-Smtp-Source: AGHT+IFq3zbQ0De3BTK0sXYYbItGqTSGZgyN0ksGm0iVTU9b2Y4WWbgSyJUSMBI6BlqGlAARhL7baw==
+X-Received: by 2002:a05:6512:3c83:b0:539:f7ab:e161 with SMTP id
+ 2adb3069b0e04-53dd39a4c72mr747793e87.45.1732266796855; 
+ Fri, 22 Nov 2024 01:13:16 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd2451386sm299530e87.77.2024.11.22.01.13.11
+ 2adb3069b0e04-53dd2451386sm299530e87.77.2024.11.22.01.13.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Nov 2024 01:13:12 -0800 (PST)
+ Fri, 22 Nov 2024 01:13:15 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 22 Nov 2024 11:12:58 +0200
-Subject: [PATCH v4 02/10] drm/tests: hdmi: rename connector creation function
+Date: Fri, 22 Nov 2024 11:12:59 +0200
+Subject: [PATCH v4 03/10] drm/tests: hdmi: return meaningful value from
+ set_connector_edid()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241122-hdmi-mode-valid-v4-2-2fee4a83ab79@linaro.org>
+Message-Id: <20241122-hdmi-mode-valid-v4-3-2fee4a83ab79@linaro.org>
 References: <20241122-hdmi-mode-valid-v4-0-2fee4a83ab79@linaro.org>
 In-Reply-To: <20241122-hdmi-mode-valid-v4-0-2fee4a83ab79@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -80,16 +81,16 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11003;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6697;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=g90UV4snbYK1PCsg8Vi4l6YeLj+54jyCttfyA/beoL8=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnQEshr58WmNMo81MG4tiQNHQeSCPOdq5T4NQZ4
- z8ZTDVJEraJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0BLIQAKCRCLPIo+Aiko
- 1fMGB/9ZOhAOQVgQ06z4Dsew8aMKvh7Gsx2b8vApxlPuSYhFhnespRjpeyhSCxW5AAYYPlS87N3
- OpezjjaXuXIKqiV1jqN8LW1Mdu4T94LRA30YeLbaImenTe4zJULUTIPgSb0YhDqlBtKMplZ+ztr
- xZa14xzq/fyMB1B0/kW6cpcS8Aija2dpwz7SD2cUXZ+WnR2224RqWvRC5r+3Yh3JTatsclMYRqT
- zFyZjeJDH8l2dK/pK7ipe0HJbkZdttc3WuNvlFBXzitXJaNC1t8gP7mfTF4ENXVC6Tna2YUX3un
- gPH6KVG+TF4XJf8zdGy9/ks9y9P+2SD6uG+UcQHbET/Akc4+
+ bh=ua4QBZ4riM6Opp9fYNSoyg41GZXfyIYINU+ndYQUB6k=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnQEshxoQTVi+os/StFFK828rJmRTkBm3HXf3HO
+ zvtKRVX30SJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0BLIQAKCRCLPIo+Aiko
+ 1dt8CACsBNzvug3dVlllsHPsfMwgWOnSIMgZwk0MWkGA0gAUUoTWpzd8byhb5O2YUsxEjhr8Pkc
+ rf4sGlX9xHatXY1VjWmQallOgJ47yMezHGxAXqU2PIBMvbWSRERsZLvhhV88v00dmoXIvnRK1Ft
+ aJl73es6aUazP/Y54Ew7mQ67iwgmpbwBjLtXuP3QjxU34fWTp0ca1GTepxqcEtGyG/w24eNDcqW
+ K3Wm9uQY70CNwQUwLIPOI50MQCd0FBUrZ2vx6S0JW3yvojemLbXB4Hz4Yhk+OscNHFE0URzxFq3
+ UmTvOfjhJp4j5t73KK4l+jKMfEuWyAuHtsPfjDgiEftV8Snk
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,281 +108,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As pointed out by Maxime, the drm_atomic_helper_connector_hdmi_init()
-isn't a good name for a function inside KUnit tests. Rename it to
-drm_kunit_helper_connector_hdmi_init().
+The set_connector_edid() function returns a bogus 0, performing the
+check on the connector->funcs->fill_modes() result internally. Make the
+function pass the fill_modes()'s return value to the caller and move
+corresponding checks to the caller site.
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 58 +++++++++++-----------
- 1 file changed, 29 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 31 +++++++++++-----------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index 1e77689af6549f162eb3026c7bd2bbd59516ed98..d81254d46975e8af0d782249928217a1ebb7646e 100644
+index d81254d46975e8af0d782249928217a1ebb7646e..c963d7015d179ac36e646d4c19d986ac5997dd2c 100644
 --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
 +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -164,7 +164,7 @@ static const struct drm_connector_funcs dummy_connector_funcs = {
+@@ -105,9 +105,8 @@ static int set_connector_edid(struct kunit *test, struct drm_connector *connecto
+ 	mutex_lock(&drm->mode_config.mutex);
+ 	ret = connector->funcs->fill_modes(connector, 4096, 4096);
+ 	mutex_unlock(&drm->mode_config.mutex);
+-	KUNIT_ASSERT_GT(test, ret, 0);
  
- static
- struct drm_atomic_helper_connector_hdmi_priv *
--drm_atomic_helper_connector_hdmi_init(struct kunit *test,
-+drm_kunit_helper_connector_hdmi_init(struct kunit *test,
- 				      unsigned int formats,
- 				      unsigned int max_bpc)
- {
-@@ -247,7 +247,7 @@ static void drm_test_check_broadcast_rgb_crtc_mode_changed(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+-	return 0;
++	return ret;
+ }
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -310,7 +310,7 @@ static void drm_test_check_broadcast_rgb_crtc_mode_not_changed(struct kunit *tes
- 	struct drm_crtc *crtc;
- 	int ret;
+ static const struct drm_connector_hdmi_funcs dummy_connector_hdmi_funcs = {
+@@ -223,7 +222,7 @@ drm_kunit_helper_connector_hdmi_init(struct kunit *test,
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_max_200mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -373,7 +373,7 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	return priv;
+ }
+@@ -728,7 +727,7 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -429,7 +429,7 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode_vic_1(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+@@ -802,7 +801,7 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -485,7 +485,7 @@ static void drm_test_check_broadcast_rgb_full_cea_mode(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+@@ -873,7 +872,7 @@ static void drm_test_check_output_bpc_dvi(struct kunit *test)
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_dvi_1080p,
+ 				 ARRAY_SIZE(test_edid_dvi_1080p));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -543,7 +543,7 @@ static void drm_test_check_broadcast_rgb_full_cea_mode_vic_1(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	info = &conn->display_info;
+ 	KUNIT_ASSERT_FALSE(test, info->is_hdmi);
+@@ -920,7 +919,7 @@ static void drm_test_check_tmds_char_rate_rgb_8bpc(struct kunit *test)
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_max_200mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -601,7 +601,7 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+@@ -967,7 +966,7 @@ static void drm_test_check_tmds_char_rate_rgb_10bpc(struct kunit *test)
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -659,7 +659,7 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode_vic_1(struct kunit *te
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+@@ -1014,7 +1013,7 @@ static void drm_test_check_tmds_char_rate_rgb_12bpc(struct kunit *test)
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -719,7 +719,7 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+@@ -1121,7 +1120,7 @@ static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     10);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -793,7 +793,7 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	info = &conn->display_info;
+ 	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
+@@ -1190,7 +1189,7 @@ static void drm_test_check_max_tmds_rate_format_fallback(struct kunit *test)
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     10);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -862,7 +862,7 @@ static void drm_test_check_output_bpc_dvi(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	info = &conn->display_info;
+ 	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
+@@ -1254,7 +1253,7 @@ static void drm_test_check_output_bpc_format_vic_1(struct kunit *test)
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB) |
- 						     BIT(HDMI_COLORSPACE_YUV422) |
- 						     BIT(HDMI_COLORSPACE_YUV444),
-@@ -911,7 +911,7 @@ static void drm_test_check_tmds_char_rate_rgb_8bpc(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	info = &conn->display_info;
+ 	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
+@@ -1314,7 +1313,7 @@ static void drm_test_check_output_bpc_format_driver_rgb_only(struct kunit *test)
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -958,7 +958,7 @@ static void drm_test_check_tmds_char_rate_rgb_10bpc(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	info = &conn->display_info;
+ 	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
+@@ -1381,7 +1380,7 @@ static void drm_test_check_output_bpc_format_display_rgb_only(struct kunit *test
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_max_200mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     10);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1005,7 +1005,7 @@ static void drm_test_check_tmds_char_rate_rgb_12bpc(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	info = &conn->display_info;
+ 	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
+@@ -1447,7 +1446,7 @@ static void drm_test_check_output_bpc_format_driver_8bpc_only(struct kunit *test
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     12);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1056,7 +1056,7 @@ static void drm_test_check_hdmi_funcs_reject_rate(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
+ 	info = &conn->display_info;
+ 	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
+@@ -1507,7 +1506,7 @@ static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *tes
+ 	ret = set_connector_edid(test, conn,
+ 				 test_edid_hdmi_1080p_rgb_max_340mhz,
+ 				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_340mhz));
+-	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_GT(test, ret, 0);
  
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1112,7 +1112,7 @@ static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     12);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1179,7 +1179,7 @@ static void drm_test_check_max_tmds_rate_format_fallback(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB) |
- 						     BIT(HDMI_COLORSPACE_YUV422) |
- 						     BIT(HDMI_COLORSPACE_YUV444),
-@@ -1242,7 +1242,7 @@ static void drm_test_check_output_bpc_format_vic_1(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB) |
- 						     BIT(HDMI_COLORSPACE_YUV422) |
- 						     BIT(HDMI_COLORSPACE_YUV444),
-@@ -1305,7 +1305,7 @@ static void drm_test_check_output_bpc_format_driver_rgb_only(struct kunit *test)
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     12);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1370,7 +1370,7 @@ static void drm_test_check_output_bpc_format_display_rgb_only(struct kunit *test
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB) |
- 						     BIT(HDMI_COLORSPACE_YUV422) |
- 						     BIT(HDMI_COLORSPACE_YUV444),
-@@ -1438,7 +1438,7 @@ static void drm_test_check_output_bpc_format_driver_8bpc_only(struct kunit *test
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1496,7 +1496,7 @@ static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *tes
- 	struct drm_crtc *crtc;
- 	int ret;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB) |
- 						     BIT(HDMI_COLORSPACE_YUV422) |
- 						     BIT(HDMI_COLORSPACE_YUV444),
-@@ -1593,7 +1593,7 @@ static void drm_test_check_broadcast_rgb_value(struct kunit *test)
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1615,7 +1615,7 @@ static void drm_test_check_bpc_8_value(struct kunit *test)
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     8);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1639,7 +1639,7 @@ static void drm_test_check_bpc_10_value(struct kunit *test)
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     10);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1663,7 +1663,7 @@ static void drm_test_check_bpc_12_value(struct kunit *test)
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB),
- 						     12);
- 	KUNIT_ASSERT_NOT_NULL(test, priv);
-@@ -1685,7 +1685,7 @@ static void drm_test_check_format_value(struct kunit *test)
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB) |
- 						     BIT(HDMI_COLORSPACE_YUV422) |
- 						     BIT(HDMI_COLORSPACE_YUV444),
-@@ -1707,7 +1707,7 @@ static void drm_test_check_tmds_char_value(struct kunit *test)
- 	struct drm_connector_state *conn_state;
- 	struct drm_connector *conn;
- 
--	priv = drm_atomic_helper_connector_hdmi_init(test,
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
- 						     BIT(HDMI_COLORSPACE_RGB) |
- 						     BIT(HDMI_COLORSPACE_YUV422) |
- 						     BIT(HDMI_COLORSPACE_YUV444),
+ 	info = &conn->display_info;
+ 	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
 
 -- 
 2.39.5
