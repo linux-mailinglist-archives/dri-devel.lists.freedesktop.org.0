@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119429D56D4
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 01:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3429D56D7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 01:47:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 868B810EAA0;
-	Fri, 22 Nov 2024 00:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8546B10EA9D;
+	Fri, 22 Nov 2024 00:47:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vaY/gK9O";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="an7o9tTj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDDC110EA9D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 00:47:46 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2fb4af0b6beso27184881fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 16:47:46 -0800 (PST)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F1D610EA9D
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 00:47:49 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id
+ 38308e7fff4ca-2fb5111747cso17975891fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 16:47:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732236465; x=1732841265; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732236468; x=1732841268; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Ak8gRHgoBR7wXxN3OTsHJhxEAFWfUvaDSuz/ZDqmUPU=;
- b=vaY/gK9O1XzyahcAh9FNcaVFbfOsby+tr4FRTPZwJ7S4VkfSLgSlJUrrU2PJWRKo5I
- 9p+0AjSiLCFqtbpDHsy7yrsnCK5VduuIdBc2jYRaSoyFTPT4ooKx3USkknemufvQsMKX
- d7iBY9+8ihxNyENMDxgzcAVSm+IXISSS7YI19EkcNRTZftkLi4y2bBaEeA6BemQ86qs5
- +YtO03wdBpMSs7KCQpySHid0b2WTR+z3HTvPjV1KLiJKwG0xx/4jQ+qMwy5bHsSafKE8
- WMBPd8x4xWBArRmu/s+fqq1zj9Q/+w6Q32RFZ8BWINqynPhcl5NLJuk8OH+CuDecr12g
- xcxA==
+ :reply-to; bh=kUsRn0052tIDeO/cBuLCGWRoGXp1tAzW+Qpn79ZJEc0=;
+ b=an7o9tTjC+MjhzbkukVYRoY7I0eipcjoqz+j18rLy1Xs522AF7kFIFqrJDZ4nCz/cq
+ NWD367HLBpd41xXjnxRenX0wr112GHdncIfvC1W8iaxeS45yUjBhdmeHQHdzQ0v9zv6h
+ +sj88pNeYQep0SyGSusjkxm95H1R50ppXLNuS3iDeV+F9z5bB8kzIypK5zldp15xiWjT
+ k6qBlNzyp5iEvGoz5yBz/UsDpBvQBg/VUSTPcv/8EVAdncsgbmjV6yhnDj+waNN7S3ta
+ 5ClIp7xzacgXqyTDIubvwQBj7Hg7VEOHO+IDuKEMfA4LWMH3JrX1RFqTLnW92h1HAotZ
+ AzJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732236465; x=1732841265;
+ d=1e100.net; s=20230601; t=1732236468; x=1732841268;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ak8gRHgoBR7wXxN3OTsHJhxEAFWfUvaDSuz/ZDqmUPU=;
- b=lzb4CsSWHZfxJVJ6Tj4Idh6/mB571ehCeHgZ6HU4f20QLpEpx2Vg1hyCwHUJdCFZqw
- GSZoPjGQtay3+wJJix7HIDKYrbscYJ89EF4G5O52TNkuhol3nZKKBSsQppf4x+u4FXdR
- ZlkyQ2sr9vbQ8n+cJkcBM/VIjy1KFLu2AeTHx54KyFQjSBQicXicjlKA/S2RIzVfdOew
- iMVtqissXseiWS0GJ01nUi4xCTKsQPocIs7mjCN+eI4GGVeQh0INA7PJ8LT6WvVw023Z
- qPeJ29B4LcnJjLnCnTKf/TAdgYz1C+ZsmvLxE1W88HGvluBn6o3eI85YV1gQkJWa06vR
- pylw==
+ bh=kUsRn0052tIDeO/cBuLCGWRoGXp1tAzW+Qpn79ZJEc0=;
+ b=kpkPwGM9wr7ChvHLC9vnfqpEmcnU0SesbMxV1+G7cZklVQkX+nK7t2QgfkS7pUX72l
+ ukJRsFYrSKjbj4ArreKR4GJta6lYGxLCeI2lE0XsQDivmIj4Qmo0kvZAQMSQ0DBO6aoZ
+ X35JnbW/zK/nHUp9t/DkoGLjv4Riori5uMwQyNC9UuA8muRMShOGV/K0Z3LtFw9Eg0B2
+ SEFTvYBnBS7ywII4Voxf3gui2vXRKQqN2bSVJUWbiQF0WKz6sAXZcpq+bMl+eG8LCtIM
+ q2b5q2w0SsZDMdqQTUC5qCSpQsc/ZTjv0GIpu3The28ZYCu85HI2+OS/pne1nSwy7cgZ
+ D4aw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU2B3A7WXbeKFsTE/490zANroBaBjwLcJhx/x3wPbtQJXD6O+j/QVlQKAk2DQzP+e5UyTTksYN0YFE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzhvsc5G24MCxZMJYxuRel0bkNN7lGKipo8IfLDoTfiGLXPwWcl
- bLbjuDQ756VUmFaMBYoDKBedDD3/iCAyfNLlwxTNNjocyzmISnKZxDEAW2sdNmY=
-X-Gm-Gg: ASbGncto4zUqHFeN8BMk4akxQa+VgFy91fdzdP3BGg6pWvE9N6BVrO+Thljxc58Ad2S
- P3w2MkJ9MJgGlGehjJqPF2cRpNrY+Lys6+9aH6m9buA/mB8BsVqweIQM0yhFD2pq2mEth37AsIk
- TM5veVW/Au+IRtIb2DrFafv63Tt8PRgDWoeNIe3G550tbN0/sfx3y00XtVtBdUtfTSrtpk36lzE
- Kp1t5c9sdso2nlFZtcvSjGbSbuHQ6l5oBWa3tZVXYg/TKmHGdHdDrA0FA==
-X-Google-Smtp-Source: AGHT+IGmZbXKNzuaVctS0Pej9crIvWrOV7VdQgJgHI3Iy10PqIaNo/7gHPJCX3fH8j0NUWfmoyf6NA==
-X-Received: by 2002:a05:651c:985:b0:2ff:95d7:9ed2 with SMTP id
- 38308e7fff4ca-2ffa716ed4fmr6047761fa.32.1732236464826; 
- Thu, 21 Nov 2024 16:47:44 -0800 (PST)
+ AJvYcCUX/3OYUDRBVdBoUwH160XAYAFuhjIoA2ANmc31RZS9C2UQ9oPexuKAqFozPw5T4GLqWWxDvVw/GL4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YznNQVBoLKXhZ6OLlnnYzFHqeVVnGQFUtQkegyN3TJhdo7gqvv8
+ MIwg0MKU5bDNjeC47oBwUd7lRcISOGd8kZD9FqaFRBRKx2bOffLGvtrmjc2wr90=
+X-Gm-Gg: ASbGncsA15jdaTEJcjDvoDGz2pU3M9mtfQiK4suSGLBcsFCxeH0Z7zdJEJQ4yddvjkG
+ GEkgKCqGz5kfHUCiAy5+k/e8oDqTIK3lHhx3TIXN98dTOWMNZsMR96JSCCmRI/gmfjvbStGOJSg
+ C4Xu8gCf/GBGjyJCTxjFCrAB4J7/fss0wlTLdv9xoI/cgsjJLXgTNs3o3Mp//Y4ST/hGRTxv+Vo
+ HOdv+pkTiJtZEHJFtIR/mWBebxOGKHs/rKSo/YcGqBWm2NNytf1wZIhmw==
+X-Google-Smtp-Source: AGHT+IH0ngFsUmrHxVFXRYZ8IQTN2xYiOvGwCUNgKSsisACK/yWk3bJkWF/S2L9Vmlglv32JfDmhqg==
+X-Received: by 2002:a2e:8809:0:b0:2ff:a7cd:ef7c with SMTP id
+ 38308e7fff4ca-2ffa7cdf066mr1168911fa.17.1732236467533; 
+ Thu, 21 Nov 2024 16:47:47 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ffa5375caesm1083071fa.85.2024.11.21.16.47.42
+ 38308e7fff4ca-2ffa5375caesm1083071fa.85.2024.11.21.16.47.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Nov 2024 16:47:43 -0800 (PST)
+ Thu, 21 Nov 2024 16:47:46 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 22 Nov 2024 02:47:32 +0200
-Subject: [PATCH v4 2/7] ASoC: hdmi-codec: move no_capture_mute to struct
- hdmi_codec_pdata
+Date: Fri, 22 Nov 2024 02:47:33 +0200
+Subject: [PATCH v4 3/7] drm/connector: implement generic HDMI codec helpers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241122-drm-bridge-hdmi-connector-v4-2-b4d69d6e3bd9@linaro.org>
+Message-Id: <20241122-drm-bridge-hdmi-connector-v4-3-b4d69d6e3bd9@linaro.org>
 References: <20241122-drm-bridge-hdmi-connector-v4-0-b4d69d6e3bd9@linaro.org>
 In-Reply-To: <20241122-drm-bridge-hdmi-connector-v4-0-b4d69d6e3bd9@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -96,16 +95,16 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
  linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8709;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12999;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=QgvPV95aCKZk0jjfModEdw/2ZuJp4AQ4+MiWPaLAiFs=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnP9SoX/WmdVL8hw73RcqrNT84gccFs0OOWDEXZ
- w3h4HUZ23+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZz/UqAAKCRCLPIo+Aiko
- 1QMmB/0dJ0r46o68jwO2QWL6u3ieZBudls3bPrbQFSj3kdlVf4OzvJiHRbz3uIg+R6fVdURhqax
- 40uuRhOaV/URnc2TQK1U/JprQosppitU8ihj6YuNOIe2Z9OUE4afZhKnTeWFAROF/nPrWAQuupM
- Z8ZwVvXukodqTzRDxbLTrGa0bZ5gILu71rza7D4pXqkg/wZErRmQ/ewRVaaXMk+phLcwGB5Q0Wp
- 9wcLj4k2+2xuYvYFkB4DZstDx0s+cbvFRt3gpodNiEpHRaeY0/oMhKcvgXL/kpOl6P9XX9qGSJV
- qrX/rlQv98PaJj4uN8xLqNNFKmSTFTNR4RX6rby8CFsrYTpL
+ bh=m9zfJO4BshYapRasGcJd4L8a7HQu0P+fqRupSDJ+fRk=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnP9SoviORIVo7TBWsSstKi+38c7+SpUj8oiIQE
+ 9oEECNhQViJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZz/UqAAKCRCLPIo+Aiko
+ 1XTwCACp0JnCB0kVzW01osJCn4CmwoLmqtPHBi6DbWqXGiRIsVW6mxsF3UGofNWR+ZG+U8ye+u+
+ TxyANB46vZR8DSG9DngHzY78xPC+zvLnnbkI78iRHQzKVdeA4jyVo4pZTO2QMO1m4JrVKHGq+5o
+ OznpDfQTusMKV37P9UkX2sAa9vHDEFSnoSRzeLzd3pGc+DSO2MGDBlcPKf2ZCoQKTiXeTDa4yhz
+ G1TnDvVp1dkUj7MrxxiLigrsmIQl18wfc5kcfJk/txmi9EAtU11aTrMg95Esi3Pt3TGP9dR1u4q
+ AF+igFZD712+/RnQ/xsTAIo4kCRcDBnpztxJm2ZkyOPP4lXt
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,221 +122,410 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The no_capture_mute flag might differ from platform to platform,
-especially in the case of the wrapping implementations, like the
-upcoming DRM HDMI Codec framework. Move the flag next to all other flags
-in struct hdmi_codec_pdata.
+Several DRM drivers implement HDMI codec support (despite its name it
+applies to both HDMI and DisplayPort drivers). Implement generic
+framework to be used by these drivers. This removes a requirement to
+implement get_eld() callback and provides default implementation for
+codec's plug handling.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+The framework is integrated with the DRM HDMI Connector framework, but
+can be used by DisplayPort drivers.
+
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/bridge/ite-it66121.c   | 2 +-
- drivers/gpu/drm/bridge/sii902x.c       | 2 +-
- drivers/gpu/drm/exynos/exynos_hdmi.c   | 2 +-
- drivers/gpu/drm/i2c/tda998x_drv.c      | 2 +-
- drivers/gpu/drm/mediatek/mtk_dp.c      | 2 +-
- drivers/gpu/drm/mediatek/mtk_hdmi.c    | 2 +-
- drivers/gpu/drm/rockchip/cdn-dp-core.c | 2 +-
- drivers/gpu/drm/sti/sti_hdmi.c         | 2 +-
- include/sound/hdmi-codec.h             | 4 +---
- sound/soc/codecs/hdmi-codec.c          | 2 +-
- 10 files changed, 10 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/Makefile                   |   1 +
+ drivers/gpu/drm/drm_connector.c            |  10 ++
+ drivers/gpu/drm/drm_connector_hdmi_codec.c | 186 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_internal.h             |   5 +
+ include/drm/drm_connector.h                |  80 +++++++++++++
+ 5 files changed, 282 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 35ae3f0e8f51f768229e055a086b53a419ffcd9f..98669470d1e955fef36bb4592795fed6ca97139c 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -1464,7 +1464,6 @@ static const struct hdmi_codec_ops it66121_audio_codec_ops = {
- 	.audio_shutdown = it66121_audio_shutdown,
- 	.mute_stream = it66121_audio_mute,
- 	.get_eld = it66121_audio_get_eld,
--	.no_capture_mute = 1,
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 1677c1f335fbb0c6114bdb4cc0b12eb407d84564..afdd9268ca23ac7602e73bbe45f3f9cd090a3afd 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -42,6 +42,7 @@ drm-y := \
+ 	drm_cache.o \
+ 	drm_color_mgmt.o \
+ 	drm_connector.o \
++	drm_connector_hdmi_codec.o \
+ 	drm_crtc.o \
+ 	drm_displayid.o \
+ 	drm_drv.o \
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index fc35f47e2849ed6786d6223ac9c69e1c359fc648..1a155a9fb401f687e5a88e72faca1e81d944b6d2 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -279,6 +279,7 @@ static int __drm_connector_init(struct drm_device *dev,
+ 	mutex_init(&connector->mutex);
+ 	mutex_init(&connector->edid_override_mutex);
+ 	mutex_init(&connector->hdmi.infoframes.lock);
++	mutex_init(&connector->hdmi_codec.lock);
+ 	connector->edid_blob_ptr = NULL;
+ 	connector->epoch_counter = 0;
+ 	connector->tile_blob_ptr = NULL;
+@@ -533,6 +534,12 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+ 
+ 	connector->hdmi.funcs = hdmi_funcs;
+ 
++	if (connector->hdmi_codec.i2s || connector->hdmi_codec.spdif) {
++		ret = drm_connector_hdmi_codec_init(connector);
++		if (ret)
++			return ret;
++	}
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drmm_connector_hdmi_init);
+@@ -631,6 +638,8 @@ void drm_connector_cleanup(struct drm_connector *connector)
+ 		    DRM_CONNECTOR_REGISTERED))
+ 		drm_connector_unregister(connector);
+ 
++	drm_connector_hdmi_codec_cleanup(connector);
++
+ 	if (connector->privacy_screen) {
+ 		drm_privacy_screen_put(connector->privacy_screen);
+ 		connector->privacy_screen = NULL;
+@@ -669,6 +678,7 @@ void drm_connector_cleanup(struct drm_connector *connector)
+ 		connector->funcs->atomic_destroy_state(connector,
+ 						       connector->state);
+ 
++	mutex_destroy(&connector->hdmi_codec.lock);
+ 	mutex_destroy(&connector->hdmi.infoframes.lock);
+ 	mutex_destroy(&connector->mutex);
+ 
+diff --git a/drivers/gpu/drm/drm_connector_hdmi_codec.c b/drivers/gpu/drm/drm_connector_hdmi_codec.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..e362852c186109644e9033eb8eaf63b864166d5a
+--- /dev/null
++++ b/drivers/gpu/drm/drm_connector_hdmi_codec.c
+@@ -0,0 +1,186 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright (c) 2024 Linaro Ltd
++ */
++
++#include <linux/mutex.h>
++#include <linux/of_graph.h>
++#include <linux/platform_device.h>
++
++#include <drm/drm_connector.h>
++#include <drm/drm_device.h>
++
++#include <sound/hdmi-codec.h>
++
++#include "drm_internal.h"
++
++static int drm_connector_hdmi_codec_audio_startup(struct device *dev, void *data)
++{
++	struct drm_connector *connector = data;
++	const struct drm_connector_hdmi_codec_funcs *funcs =
++		connector->hdmi.funcs->codec_funcs;
++
++	if (funcs->audio_startup)
++		return funcs->audio_startup(connector);
++
++	return 0;
++}
++
++static int drm_connector_hdmi_codec_prepare(struct device *dev, void *data,
++					    struct hdmi_codec_daifmt *fmt,
++					    struct hdmi_codec_params *hparms)
++{
++	struct drm_connector *connector = data;
++	const struct drm_connector_hdmi_codec_funcs *funcs =
++		connector->hdmi.funcs->codec_funcs;
++
++	return funcs->prepare(connector, fmt, hparms);
++}
++
++static void drm_connector_hdmi_codec_audio_shutdown(struct device *dev, void *data)
++{
++	struct drm_connector *connector = data;
++	const struct drm_connector_hdmi_codec_funcs *funcs =
++		connector->hdmi.funcs->codec_funcs;
++
++	return funcs->audio_shutdown(connector);
++}
++
++static int drm_connector_hdmi_codec_mute_stream(struct device *dev, void *data,
++						bool enable, int direction)
++{
++	struct drm_connector *connector = data;
++	const struct drm_connector_hdmi_codec_funcs *funcs =
++		connector->hdmi.funcs->codec_funcs;
++
++	if (funcs->mute_stream)
++		return funcs->mute_stream(connector, enable, direction);
++
++	return -ENOTSUPP;
++}
++
++static int drm_connector_hdmi_codec_get_dai_id(struct snd_soc_component *comment,
++		  struct device_node *endpoint,
++		  void *data)
++{
++	struct drm_connector *connector = data;
++	struct of_endpoint of_ep;
++	int ret;
++
++	if (connector->hdmi_codec.sound_dai_port < 0)
++		return -ENOTSUPP;
++
++	ret = of_graph_parse_endpoint(endpoint, &of_ep);
++	if (ret < 0)
++		return ret;
++
++	if (of_ep.port == connector->hdmi_codec.sound_dai_port)
++		return 0;
++
++	return -EINVAL;
++}
++
++static int drm_connector_hdmi_codec_get_eld(struct device *dev, void *data,
++					    uint8_t *buf, size_t len)
++{
++	struct drm_connector *connector = data;
++
++	//  FIXME: locking against drm_edid_to_eld ?
++	memcpy(buf, connector->eld, min(sizeof(connector->eld), len));
++
++	return 0;
++}
++
++static int drm_connector_hdmi_codec_hook_plugged_cb(struct device *dev,
++						    void *data,
++						    hdmi_codec_plugged_cb fn,
++						    struct device *codec_dev)
++{
++	struct drm_connector *connector = data;
++
++	mutex_lock(&connector->hdmi_codec.lock);
++
++	connector->hdmi_codec.plugged_cb = fn;
++	connector->hdmi_codec.plugged_cb_dev = codec_dev;
++
++	fn(codec_dev, connector->hdmi_codec.last_state);
++
++	mutex_unlock(&connector->hdmi_codec.lock);
++
++	return 0;
++}
++
++void drm_connector_hdmi_codec_plugged_notify(struct drm_connector *connector,
++					     bool plugged)
++{
++	mutex_lock(&connector->hdmi_codec.lock);
++
++	connector->hdmi_codec.last_state = plugged;
++
++	if (connector->hdmi_codec.plugged_cb &&
++	    connector->hdmi_codec.plugged_cb_dev)
++		connector->hdmi_codec.plugged_cb(connector->hdmi_codec.plugged_cb_dev,
++						 connector->hdmi_codec.last_state);
++
++	mutex_unlock(&connector->hdmi_codec.lock);
++}
++EXPORT_SYMBOL(drm_connector_hdmi_codec_plugged_notify);
++
++static const struct hdmi_codec_ops drm_connector_hdmi_codec_ops = {
++	.audio_startup = drm_connector_hdmi_codec_audio_startup,
++	.prepare = drm_connector_hdmi_codec_prepare,
++	.audio_shutdown = drm_connector_hdmi_codec_audio_shutdown,
++	.mute_stream = drm_connector_hdmi_codec_mute_stream,
++	.get_eld = drm_connector_hdmi_codec_get_eld,
++	.get_dai_id = drm_connector_hdmi_codec_get_dai_id,
++	.hook_plugged_cb = drm_connector_hdmi_codec_hook_plugged_cb,
++};
++
++/**
++ * drm_connector_hdmi_codec_cleanup - Cleanup the HDMI Codec for the connector
++ * @connector: A pointer to the connector to cleanup
++ *
++ * Cleanup the HDMI codec device created for the specified connector.
++ * Can be called even if the codec wasn't allocated.
++ */
++void drm_connector_hdmi_codec_cleanup(struct drm_connector *connector)
++{
++	platform_device_unregister(connector->hdmi_codec.codec_pdev);
++}
++
++/**
++ * drm_connector_hdmi_codec_init - Initialize HDMI Codec device for the DRM connector
++ * @connector: A pointer to the connector to allocate codec for
++ *
++ * Create a HDMI codec device to be used with the specified connector.
++ *
++ * Returns:
++ * Zero on success, error code on failure.
++ */
++int drm_connector_hdmi_codec_init(struct drm_connector *connector)
++{
++	struct hdmi_codec_pdata codec_pdata = {};
++	struct platform_device *pdev;
++
++	if (!connector->hdmi.funcs->codec_funcs->prepare ||
++	    !connector->hdmi.funcs->codec_funcs->audio_shutdown ||
++	    !connector->hdmi_codec.dev)
++		return -EINVAL;
++
++	codec_pdata.ops = &drm_connector_hdmi_codec_ops;
++	codec_pdata.i2s = connector->hdmi_codec.i2s,
++	codec_pdata.spdif = connector->hdmi_codec.spdif,
++	codec_pdata.max_i2s_channels = connector->hdmi_codec.max_i2s_channels,
++	codec_pdata.data = connector;
++
++	pdev = platform_device_register_data(connector->hdmi_codec.dev,
++					     HDMI_CODEC_DRV_NAME,
++					     PLATFORM_DEVID_AUTO,
++					     &codec_pdata, sizeof(codec_pdata));
++	if (IS_ERR(pdev))
++		return PTR_ERR(pdev);
++
++	connector->hdmi_codec.codec_pdev = pdev;
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index b2b6a8e49dda46f1cb3b048ef7b28356dd3aaa4e..8ed58e482fac4662b659276e8bc17690e1fdb9b7 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -280,4 +280,9 @@ void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
+ 				const struct drm_framebuffer *fb);
+ void drm_framebuffer_debugfs_init(struct drm_device *dev);
+ 
++/* drm_connector_hdmi_codec.c */
++
++int drm_connector_hdmi_codec_init(struct drm_connector *connector);
++void drm_connector_hdmi_codec_cleanup(struct drm_connector *connector);
++
+ #endif /* __DRM_INTERNAL_H__ */
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index e3fa43291f449d70f3b92a00985336c4f2237bc6..b89f791cfa2be86ce1c5aa124c0f071d7c8a6489 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -46,6 +46,8 @@ struct drm_property_blob;
+ struct drm_printer;
+ struct drm_privacy_screen;
+ struct edid;
++struct hdmi_codec_daifmt;
++struct hdmi_codec_params;
+ struct i2c_adapter;
+ 
+ enum drm_connector_force {
+@@ -1141,6 +1143,52 @@ struct drm_connector_state {
+ 	struct drm_connector_hdmi_state hdmi;
  };
  
- static int it66121_audio_codec_init(struct it66121_ctx *ctx, struct device *dev)
-@@ -1474,6 +1473,7 @@ static int it66121_audio_codec_init(struct it66121_ctx *ctx, struct device *dev)
- 		.i2s = 1, /* Only i2s support for now */
- 		.spdif = 0,
- 		.max_i2s_channels = 8,
-+		.no_capture_mute = 1,
- 	};
- 
- 	dev_dbg(dev, "%s\n", __func__);
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index f0be803cc2274ca2199ed7661cf752b0a91434b6..5248676b0036a7e8f2142bd2f099c36efb529471 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -841,7 +841,6 @@ static const struct hdmi_codec_ops sii902x_audio_codec_ops = {
- 	.mute_stream = sii902x_audio_mute,
- 	.get_eld = sii902x_audio_get_eld,
- 	.get_dai_id = sii902x_audio_get_dai_id,
--	.no_capture_mute = 1,
++struct drm_connector_hdmi_codec_funcs {
++	/**
++	 * @audio_startup:
++	 *
++	 * Called when ASoC starts an audio stream setup. The
++	 * @hdmi_audio_startup is optional.
++	 *
++	 * Returns:
++	 * 0 on success, a negative error code otherwise
++	 */
++	int (*audio_startup)(struct drm_connector *connector);
++
++	/**
++	 * @prepare:
++	 * Configures HDMI-encoder for audio stream. Can be called
++	 * multiple times for each setup. Mandatory.
++	 *
++	 * Returns:
++	 * 0 on success, a negative error code otherwise
++	 */
++	int (*prepare)(struct drm_connector *connector,
++		       struct hdmi_codec_daifmt *fmt,
++		       struct hdmi_codec_params *hparms);
++	/**
++	 * @audio_shutdown:
++	 *
++	 * Shut down the audio stream. Mandatory.
++	 *
++	 * Returns:
++	 * 0 on success, a negative error code otherwise
++	 */
++	void (*audio_shutdown)(struct drm_connector *connector);
++
++	/**
++	 * @mute_stream:
++	 *
++	 * Mute/unmute HDMI audio stream. The @mute_stream callback is
++	 * optional.
++	 *
++	 * Returns:
++	 * 0 on success, a negative error code otherwise
++	 */
++	int (*mute_stream)(struct drm_connector *connector,
++			   bool enable, int direction);
++};
++
+ /**
+  * struct drm_connector_hdmi_funcs - drm_hdmi_connector control functions
+  */
+@@ -1198,6 +1246,14 @@ struct drm_connector_hdmi_funcs {
+ 	int (*write_infoframe)(struct drm_connector *connector,
+ 			       enum hdmi_infoframe_type type,
+ 			       const u8 *buffer, size_t len);
++
++	/**
++	 * @codec_funcs:
++	 *
++	 * Implementation of the HDMI codec functionality to be used by the DRM
++	 * HDMI Codec framework.
++	 */
++	const struct drm_connector_hdmi_codec_funcs *codec_funcs;
  };
  
- static int sii902x_audio_codec_init(struct sii902x *sii902x,
-@@ -864,6 +863,7 @@ static int sii902x_audio_codec_init(struct sii902x *sii902x,
- 		.i2s = 1, /* Only i2s support for now. */
- 		.spdif = 0,
- 		.max_i2s_channels = 0,
-+		.no_capture_mute = 1,
- 	};
- 	u8 lanes[4];
- 	int num_lanes, i;
-diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-index c9d4b9146df95bb46cb6bea4849c331616c2b463..2a74396ac846dc34d87fadea700c387d597ba307 100644
---- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-+++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-@@ -1658,7 +1658,6 @@ static const struct hdmi_codec_ops audio_codec_ops = {
- 	.audio_shutdown = hdmi_audio_shutdown,
- 	.mute_stream = hdmi_audio_mute,
- 	.get_eld = hdmi_audio_get_eld,
--	.no_capture_mute = 1,
+ /**
+@@ -1660,6 +1716,22 @@ struct drm_cmdline_mode {
+ 	bool tv_mode_specified;
  };
  
- static int hdmi_register_audio_device(struct hdmi_context *hdata)
-@@ -1667,6 +1666,7 @@ static int hdmi_register_audio_device(struct hdmi_context *hdata)
- 		.ops = &audio_codec_ops,
- 		.max_i2s_channels = 6,
- 		.i2s = 1,
-+		.no_capture_mute = 1,
- 	};
- 
- 	hdata->audio.pdev = platform_device_register_data(
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index 2160f05bbd16d2346e27365e5549b75ad26fdcb9..10a4195d667ff577183788f8fc7ca806660e2b9c 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -1165,7 +1165,6 @@ static const struct hdmi_codec_ops audio_codec_ops = {
- 	.audio_shutdown = tda998x_audio_shutdown,
- 	.mute_stream = tda998x_audio_mute_stream,
- 	.get_eld = tda998x_audio_get_eld,
--	.no_capture_mute = 1,
- };
- 
- static int tda998x_audio_codec_init(struct tda998x_priv *priv,
-@@ -1176,6 +1175,7 @@ static int tda998x_audio_codec_init(struct tda998x_priv *priv,
- 		.max_i2s_channels = 2,
- 		.no_i2s_capture = 1,
- 		.no_spdif_capture = 1,
-+		.no_capture_mute = 1,
- 	};
- 
- 	if (priv->audio_port_enable[AUDIO_ROUTE_I2S])
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 1cc916b164713d71461a0b2ad370032a14604be6..6a42459792ec75692fadb45a75b138fc43cc37a2 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2615,7 +2615,6 @@ static const struct hdmi_codec_ops mtk_dp_audio_codec_ops = {
- 	.audio_shutdown = mtk_dp_audio_shutdown,
- 	.get_eld = mtk_dp_audio_get_eld,
- 	.hook_plugged_cb = mtk_dp_audio_hook_plugged_cb,
--	.no_capture_mute = 1,
- };
- 
- static int mtk_dp_register_audio_driver(struct device *dev)
-@@ -2626,6 +2625,7 @@ static int mtk_dp_register_audio_driver(struct device *dev)
- 		.max_i2s_channels = 8,
- 		.i2s = 1,
- 		.data = mtk_dp,
-+		.no_capture_mute = 1,
- 	};
- 
- 	mtk_dp->audio_pdev = platform_device_register_data(dev,
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 7687f673964ec7df0d76328a43ed76d71b192350..a4b144b3bda8362a6c6c303723c6d3eef9ca338e 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1660,7 +1660,6 @@ static const struct hdmi_codec_ops mtk_hdmi_audio_codec_ops = {
- 	.mute_stream = mtk_hdmi_audio_mute,
- 	.get_eld = mtk_hdmi_audio_get_eld,
- 	.hook_plugged_cb = mtk_hdmi_audio_hook_plugged_cb,
--	.no_capture_mute = 1,
- };
- 
- static int mtk_hdmi_register_audio_driver(struct device *dev)
-@@ -1671,6 +1670,7 @@ static int mtk_hdmi_register_audio_driver(struct device *dev)
- 		.max_i2s_channels = 2,
- 		.i2s = 1,
- 		.data = hdmi,
-+		.no_capture_mute = 1,
- 	};
- 	struct platform_device *pdev;
- 
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-index f576b1aa86d1434d75b3770e08d91537aca4f5c4..5c2c124a7a38fbadaec554f08797020260e29045 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
-+++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-@@ -885,7 +885,6 @@ static const struct hdmi_codec_ops audio_codec_ops = {
- 	.mute_stream = cdn_dp_audio_mute_stream,
- 	.get_eld = cdn_dp_audio_get_eld,
- 	.hook_plugged_cb = cdn_dp_audio_hook_plugged_cb,
--	.no_capture_mute = 1,
- };
- 
- static int cdn_dp_audio_codec_init(struct cdn_dp_device *dp,
-@@ -896,6 +895,7 @@ static int cdn_dp_audio_codec_init(struct cdn_dp_device *dp,
- 		.spdif = 1,
- 		.ops = &audio_codec_ops,
- 		.max_i2s_channels = 8,
-+		.no_capture_mute = 1,
- 	};
- 
- 	dp->audio_pdev = platform_device_register_data(
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index 847470f747c0efad61c2ebdc3fb3746a7a13a863..dfb8e2887fae10cf3275e8f8427f39279982c5e6 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -1235,7 +1235,6 @@ static const struct hdmi_codec_ops audio_codec_ops = {
- 	.audio_shutdown = hdmi_audio_shutdown,
- 	.mute_stream = hdmi_audio_mute,
- 	.get_eld = hdmi_audio_get_eld,
--	.no_capture_mute = 1,
- };
- 
- static int sti_hdmi_register_audio_driver(struct device *dev,
-@@ -1245,6 +1244,7 @@ static int sti_hdmi_register_audio_driver(struct device *dev,
- 		.ops = &audio_codec_ops,
- 		.max_i2s_channels = 8,
- 		.i2s = 1,
-+		.no_capture_mute = 1,
- 	};
- 
- 	DRM_DEBUG_DRIVER("\n");
-diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
-index b3407b47b4a7878532ecf3b08eeecd443d6fdb07..b220072cfa1baf503efbe2d530d7e8392dc16603 100644
---- a/include/sound/hdmi-codec.h
-+++ b/include/sound/hdmi-codec.h
-@@ -115,9 +115,6 @@ struct hdmi_codec_ops {
- 	int (*hook_plugged_cb)(struct device *dev, void *data,
- 			       hdmi_codec_plugged_cb fn,
- 			       struct device *codec_dev);
--
--	/* bit field */
--	unsigned int no_capture_mute:1;
- };
- 
- /* HDMI codec initalization data */
-@@ -129,6 +126,7 @@ struct hdmi_codec_pdata {
- 	uint spdif:1;
- 	uint no_spdif_playback:1;
- 	uint no_spdif_capture:1;
-+	uint no_capture_mute:1;
- 	int max_i2s_channels;
- 	void *data;
- };
-diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index abd7c9b0fda9ee6fa6c4efde1f583af667716611..e8aac8069587785bcd2bd09b5f9e0140304fb8fb 100644
---- a/sound/soc/codecs/hdmi-codec.c
-+++ b/sound/soc/codecs/hdmi-codec.c
-@@ -700,7 +700,7 @@ static int hdmi_codec_mute(struct snd_soc_dai *dai, int mute, int direction)
++struct drm_connector_hdmi_codec {
++	struct platform_device *codec_pdev;
++	struct device *dev;
++
++	struct mutex lock; /* protects last_state and plugged_cb */
++	void (*plugged_cb)(struct device *dev, bool plugged);
++	struct device *plugged_cb_dev;
++	bool last_state;
++
++	int max_i2s_channels;
++	uint i2s: 1;
++	uint spdif: 1;
++
++	int sound_dai_port;
++};
++
+ /*
+  * struct drm_connector_hdmi - DRM Connector HDMI-related structure
+  */
+@@ -2118,6 +2190,11 @@ struct drm_connector {
+ 	 * @hdmi: HDMI-related variable and properties.
  	 */
- 	if (hcp->hcd.ops->mute_stream &&
- 	    (direction == SNDRV_PCM_STREAM_PLAYBACK ||
--	     !hcp->hcd.ops->no_capture_mute))
-+	     !hcp->hcd.no_capture_mute))
- 		return hcp->hcd.ops->mute_stream(dai->dev->parent,
- 						 hcp->hcd.data,
- 						 mute, direction);
+ 	struct drm_connector_hdmi hdmi;
++
++	/**
++	 * @hdmi_codec: HDMI codec properties and non-DRM state.
++	 */
++	struct drm_connector_hdmi_codec hdmi_codec;
+ };
+ 
+ #define obj_to_connector(x) container_of(x, struct drm_connector, base)
+@@ -2151,6 +2228,9 @@ void drm_connector_unregister(struct drm_connector *connector);
+ int drm_connector_attach_encoder(struct drm_connector *connector,
+ 				      struct drm_encoder *encoder);
+ 
++void drm_connector_hdmi_codec_plugged_notify(struct drm_connector *connector,
++					     bool plugged);
++
+ void drm_connector_cleanup(struct drm_connector *connector);
+ 
+ static inline unsigned int drm_connector_index(const struct drm_connector *connector)
 
 -- 
 2.39.5
