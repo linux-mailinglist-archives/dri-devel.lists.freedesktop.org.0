@@ -2,48 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CDD9D62D7
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 18:20:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AAC9D62DA
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 18:20:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE08810EC1E;
-	Fri, 22 Nov 2024 17:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B16610EC23;
+	Fri, 22 Nov 2024 17:20:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jVUAxXej";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="CLo1lUIU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 952FF10EC1D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 17:20:21 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5D1C21C0006;
- Fri, 22 Nov 2024 17:20:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C98A10EC1D
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 17:20:22 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2FC1A1C0007;
+ Fri, 22 Nov 2024 17:20:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1732296020;
+ t=1732296021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rBwHBA6dWoUeKSehEikgJW7RDC/rJZpF5R9dFSy1Qes=;
- b=jVUAxXejhtibC4POGltXHV5ptmSkAD+AZKzkwElQkfrOiknr+PEmvj9Wv/fTYRqObgib1g
- XHrhBla0DAT4nuEwh4tErPXMrgBPR+3mOlySu5I/SqkcFSJu5wymMuodyNMXHbRiXLThzj
- 1FdBZrDyNgFuCiDwTTXaarDn6nlhjfdpAQjEDbRJeCgH5a2mPvoVy9CWrb5KDHF7eUdRhA
- fp4NyMbyvc5s/TJA3xiJuktsoetTPAQ3EOsywtPoKov0EI3nyEtO4poTNhFmrx5fOAKC+S
- RhHBxET5fOsaqxQZQvqNCFO444Dwcp05hiRvXNLPkgh9+nB7vDmYffrXo6RLNA==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eu7h5ilmMqLJECKzMclaLaNavWHuvKtTDIPmJsUemdk=;
+ b=CLo1lUIUsiNvCpq9BgXZll0Q7QePH8QKNx4jd9MJomEQ3U5Tbl8anYsXL9ne9QopLf6/jN
+ bDurQ+4TFH7jrL+3KbvS3PfGvvrFX/Rohk7R7hPBMcn+HnavXjwtJAdgUze1xFg2MKuEUa
+ 0ZMcIL6w+8alLOHzcA4aF2Ma/Fb3oPbWXypELq/KK+f/pVphFNuH6pq8xFvSdDg8E+Q82m
+ EPdzIU0vR9iwJpHxv3eUCTDxVN4HfKwpW4oQMrw072L1s3GqXHQGoRrjxwjVbv7ojIJA2H
+ yrxakjbYBxKq6UwbMelKuN7gZzgDKlCEiYpof2XQxvko/u8SUKSx/6Ib9D90kw==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: [PATCH RFC v2 00/18] drm/vkms: Introduce detailed configuration
-Date: Fri, 22 Nov 2024 18:20:04 +0100
-Message-Id: <20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com>
+Date: Fri, 22 Nov 2024 18:20:05 +0100
+Subject: [PATCH RFC v2 01/18] drm/vkms: Extract vkms_config header
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAEW9QGcC/42RzW5CIRCFX8WwLi1w/101adIH6LZpDD+DEi9gg
- V41xnfveK0LF01cwcyQ7xzOnEiG5CCT5eJEEkwuuxiwEE8LojcyrIE6gzURTNSsEZyuY1yPQBP
- 4OAHVqWjqgoEDtSl6upNJeiiQqB2kVYLrTvYNQdougXWHWemTfLy/ka9rM8H3D6qWv4mSGanRe
- 1eWC5M89S7rl9uFBjiUC81DznI2h17RGudC3KxNW5+plwHnhk4NZZRL1bKaVTC07FXFWEYXnlH
- kX5KqrxQ5jlHLcuEI5FjbKWOUZcqqRzkB9vifMWIiMXlZMp0qRInKdl3X8qHTw0OofcKMlNTbF
- b6ElTrO5xXG+sY0PWe2heoOdsl443KJ6ThveOJzyPMye14/vMyJo0oLvBuksoM19b3K+Xz+BYQ
- ChNBJAgAA
-X-Change-ID: 20240521-google-remove-crtc-index-from-parameter-f9afb21c7a85
+Message-Id: <20241122-google-remove-crtc-index-from-parameter-v2-1-81540742535a@bootlin.com>
+References: <20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com>
+In-Reply-To: <20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com>
 To: =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
  Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Melissa Wen <melissa.srw@gmail.com>, 
@@ -56,21 +51,21 @@ Cc: arthurgrillo@riseup.net, jeremie.dautheribes@bootlin.com,
  dri-devel@lists.freedesktop.org, Louis Chauvet <louis.chauvet@bootlin.com>, 
  =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5181;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8173;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=BSvo1YAbhpgWkDemhSjZsTbg54rbwWtUrf3IRGx/XKo=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnQL1MY+Vb0R/CdSWRpuR9goOwAGdEVHccMeOM0
- up/WMjoZD6JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ0C9TAAKCRAgrS7GWxAs
- 4tsgEACxCoITw/hawU7UDF4QN755NOjEMNb48BFyGpX1nvqQ1RPqDhH2Q02j2x0zu6LWx6xUTve
- zyGJU/uY5VDQ24R15dSvuhA23g/BHRETbvL6BIZUgsFydGWQ5ilNE5bUbUrH+z+odtmvgeA+coe
- NI0Tzd85kEhSGf1wtqOdNvcM3UsOAHiocFlvlPu5BQsxKfv8jaGecdWe82eMvFkEVDoGHLsMGk+
- lt4SM8r8BKgTfWEq7Q3QTt/EQX/KS8bbqVbUEmcLz2kSsMrR8n50yVrrCX6iyJoiY9gs73Vv1H7
- Cs31bHqhMTDIAAb2YH7DrSUta2xljPEYRtI9FdS/mlBk647erA87a92WldeKrz4Ta/ZAaowiWR9
- XBjiKWRzA49Pt0kzNn9EMXIGdDxxIO9Q1XWqC96n26abcgkhffdNtM5vUKKLES8oWpCbyq/Ghmi
- ifnEU2wIibmYqbZ2cfiG72+Ubu1Or99aOjRTxfLd0y6t7inlQYzil4rVztj5+jYJNlLSX+5n+RV
- qTQag2UbddYgccvZh1h9N4t5+kQ9iPQFnrNCJKd5lNVTpfkBDe5TVYz4SAKwFIu5zl6pSnotLWo
- iDVAvx7WzQHWLQXaPHvOAmUjnl4h5kytNYEZF5Mbd8fCU0+WOJnGrwTQFbzXLm+4LO19EB8686k
- qDSK8+edpURwrkg==
+ bh=taBxjKE927SBRvVW38khWBgHEz1/XX80j/rtAWPpCuQ=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnQL1MDnNrWxVEv6/B3PvsG0UOgenKVPTiTTKHb
+ l3BE549KamJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ0C9TAAKCRAgrS7GWxAs
+ 4tmJD/4t/4nVKMaZyL/1YsSkLQdb4ddgbJLBu4s+r3TC4oj1OfFDXw55/2rQ211DTE40zUK/f+U
+ FpCuZXL3Wj9wVDRLK455mXHVNyugRUFc2OzpHCOpK8lZ1EExYTPMi441qoLycbp2Ggosm1e1EEH
+ 5h3HOqBNzMn0U9d3VsiUhLmg644Ay3jxi1reAvr1q4XmgSqjWgZUequbZ5ZBubUOTQRtihe5T2j
+ 8CfZrAZVAXX8xIEOQ82x9hLVb2AkQoRJwXvegcmY6BIKZikelPyPhUPOfxsWwLFId0drtLU1szH
+ lhRUYkVV0yHpqkCf+i5zFLggb9Zz0fn0tav2dz2JtEkyytJmAZZQYu8bzz33ZvOr/9eF25tfJ0i
+ t/ePUXI52Ta+sayZWlNCt2i3zWOidIe0Hp9aP81pbDBdGHTrPlZIPRXyGBqEKUMSAa8p+QLslGv
+ dPz7sBIFZGH4CNskYH3WrJfKRFKiio6D7hqFH3C4RjBq/1oGrgA1fvb0p1cpoeqv4E3qmKoKmoI
+ pa/kTZIsqsvKsmVMT178+XH6YqDKhAjeIJ85ZmChC/JQclZ9q7ppEWJuKHKzUwRfRv9dOdwDPKh
+ oPe19qbpzwrty+OzYGlEGWp3Hgg6tz8wGB0iix7IvRlNcYiTLyHpGB/5rvcLrlXkWWg0d22WuYo
+ alcCAdqoTp4dAnw==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -89,115 +84,256 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current code is not flexible to configure the VKMS device. In
-preparation for ConfigFS interface introduce few structure that can be
-used to configure the device creation: `vkms_config`.
+Creating a new vkms_config structure will be more complex once we
+start adding more options.
 
-This part is splitted from the ConfigFS implementation itself to avoid
-mixing two complex interfaces.
+Extract the vkms_config structure to its own header and source files
+and add functions to create and delete a vkms_config and to initialize
+debugfs.
 
-The vkms_config structure will allows the configuration of:
-- planes
-    - name
-    - possible_crtcs
-    - supported_color_encodings
-    - supported_rotations
-    - supported_color_ranges
-    - default_rotation
-    - default_color_range
-    - default_color_encoding
-    - type
-    - format
-- crtcs
-    - name
-    - possible_planes [automatically filled by helpers]
-    - possible_encoders [automatically filled by helpers]
-- encoders
-    - name
-    - type
-    - possible_crtcs
-- connectors:
-    - type
-    - status
-    - EDID
-
-This series depends on:
-https://lore.kernel.org/all/20241122-google-vkms-managed-v5-0-1ab60403e960@bootlin.com
-https://lore.kernel.org/all/20241122-b4-vkms-allocated-v2-0-ff7bddbf0bfb@bootlin.com
-https://lore.kernel.org/all/20241122-b4-new-color-formats-v3-0-23f7776197c9@bootlin.com
-https://lore.kernel.org/all/20241122-writeback_line_by_line-v3-0-085d5810f6e3@bootlin.com
-
-As there are some conflicts, you can find a working branch here:
-https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/b4/vkms-config
+Refactor, no functional changes.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+[Changes: Cherry picked and conflict solve]
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
-Changes in v2:
-- Rebased on drm-misc-next
-- Added support for many new configuration
-- Link to v1: https://lore.kernel.org/r/20240814-google-remove-crtc-index-from-parameter-v1-0-6e179abf9fd4@bootlin.com
+ drivers/gpu/drm/vkms/Makefile      |  3 ++-
+ drivers/gpu/drm/vkms/vkms_config.c | 48 ++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_config.h | 32 +++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_drv.c    | 41 +++++++++-----------------------
+ drivers/gpu/drm/vkms/vkms_drv.h    | 15 +-----------
+ drivers/gpu/drm/vkms/vkms_output.c |  1 +
+ 6 files changed, 95 insertions(+), 45 deletions(-)
 
----
-Louis Chauvet (18):
-      drm/vkms: Extract vkms_config header
-      drm/vkms: Add a validation function for vkms configuration
-      drm/vkms: Move default_config creation to its own function
-      drm/vkms: Introduce config for plane
-      drm/vkms: Introduce config for plane name
-      drm/vkms: Introduce config for plane rotation
-      drm/vkms: Introduce config for plane color encoding
-      drm/vkms: Introduce config for plane color range
-      drm/vkms: Introduce config for CRTCs and encoders
-      drm/vkms: Introduce config for encoder name
-      drm/vkms: Introduce config for CRTC name
-      drm/vkms: Add test for config structure
-      drm/vkms: Introduce config for connector
-      drm/vkms: Introduce config for connector type
-      drm/vkms: Introduce config for plane format
-      drm/vkms: Introduce config for connector status
-      drm/vkms: Introduce config for connector EDID
-      drm/vkms: Introduce config for encoder type
+diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+index 8d3e46dde6350558a0aab4254df0dfe863f9c6ce..2b6db5870b977f6e5013982af89a48aec6c11983 100644
+--- a/drivers/gpu/drm/vkms/Makefile
++++ b/drivers/gpu/drm/vkms/Makefile
+@@ -6,7 +6,8 @@ vkms-y := \
+ 	vkms_formats.o \
+ 	vkms_crtc.o \
+ 	vkms_composer.o \
+-	vkms_writeback.o
++	vkms_writeback.o \
++	vkms_config.o
+ 
+ obj-$(CONFIG_DRM_VKMS) += vkms.o
+ obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += tests/
+diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..76355174a6ca54b880218c2bd458c8339a3dabaa
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/vkms_config.c
+@@ -0,0 +1,48 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++#include <kunit/visibility.h>
++#include <drm/drm_debugfs.h>
++
++#include "vkms_config.h"
++#include "vkms_drv.h"
++
++struct vkms_config *vkms_config_create(void)
++{
++	struct vkms_config *config;
++
++	config = kzalloc(sizeof(*config), GFP_KERNEL);
++	if (!config)
++		return ERR_PTR(-ENOMEM);
++
++	return config;
++}
++EXPORT_SYMBOL_IF_KUNIT(vkms_config_create);
++
++void vkms_config_destroy(struct vkms_config *config)
++{
++	kfree(config);
++}
++EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy);
++
++static int vkms_config_show(struct seq_file *m, void *data)
++{
++	struct drm_debugfs_entry *entry = m->private;
++	struct drm_device *dev = entry->dev;
++	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
++
++	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
++	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
++	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
++
++	return 0;
++}
++
++static const struct drm_debugfs_info vkms_config_debugfs_list[] = {
++	{ "vkms_config", vkms_config_show, 0 },
++};
++
++void vkms_config_register_debugfs(struct vkms_device *vkms_device)
++{
++	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
++			      ARRAY_SIZE(vkms_config_debugfs_list));
++}
+diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..b284831738743f6d7c452be03f917a7d3975d173
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/vkms_config.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++#ifndef _VKMS_CONFIG_H
++#define _VKMS_CONFIG_H
++
++#include <linux/types.h>
++#include "vkms_drv.h"
++
++/**
++ * struct vkms_config - General configuration for VKMS driver
++ *
++ * @writeback: If true, a writeback buffer can be attached to the CRTC
++ * @cursor: If true, a cursor plane is created in the VKMS device
++ * @overlay: If true, NUM_OVERLAY_PLANES will be created for the VKMS device
++ * @dev: Used to store the current vkms device. Only set when the device is instancied.
++ */
++struct vkms_config {
++	bool writeback;
++	bool cursor;
++	bool overlay;
++	struct vkms_device *dev;
++};
++
++/**
++ * vkms_config_register_debugfs() - Register the debugfs file to display current configuration
++ */
++void vkms_config_register_debugfs(struct vkms_device *vkms_device);
++
++struct vkms_config *vkms_config_create(void);
++void vkms_config_destroy(struct vkms_config *config);
++
++#endif //_VKMS_CONFIG_H
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index c54504e590a18ae8af07cc1cc48179c38c4e6c0f..e399566a5b5d6a6cf92a41c72910e857fc4e743f 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -28,6 +28,7 @@
+ #include <drm/drm_vblank.h>
+ 
+ #include "vkms_drv.h"
++#include "vkms_config.h"
+ 
+ #include <drm/drm_print.h>
+ #include <drm/drm_debugfs.h>
+@@ -82,22 +83,6 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+ 	drm_atomic_helper_cleanup_planes(dev, old_state);
+ }
+ 
+-static int vkms_config_show(struct seq_file *m, void *data)
+-{
+-	struct drm_debugfs_entry *entry = m->private;
+-	struct drm_device *dev = entry->dev;
+-	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+-
+-	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
+-	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
+-	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
+-
+-	return 0;
+-}
+-
+-static const struct drm_debugfs_info vkms_config_debugfs_list[] = {
+-	{ "vkms_config", vkms_config_show, 0 },
+-};
+ 
+ static const struct drm_driver vkms_driver = {
+ 	.driver_features	= DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
+@@ -210,8 +195,7 @@ static int vkms_create(struct vkms_config *config)
+ 	if (ret)
+ 		goto out_devres;
+ 
+-	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
+-			      ARRAY_SIZE(vkms_config_debugfs_list));
++	vkms_config_register_debugfs(vkms_device);
+ 
+ 	ret = drm_dev_register(&vkms_device->drm, 0);
+ 	if (ret)
+@@ -231,21 +215,18 @@ static int vkms_create(struct vkms_config *config)
+ static int __init vkms_init(void)
+ {
+ 	int ret;
+-	struct vkms_config *config;
+-
+-	config = kmalloc(sizeof(*config), GFP_KERNEL);
+-	if (!config)
+-		return -ENOMEM;
+ 
+-	default_config = config;
++	default_config = vkms_config_create();
++	if (IS_ERR(default_config))
++		return PTR_ERR(default_config);
+ 
+-	config->cursor = enable_cursor;
+-	config->writeback = enable_writeback;
+-	config->overlay = enable_overlay;
++	default_config->cursor = enable_cursor;
++	default_config->writeback = enable_writeback;
++	default_config->overlay = enable_overlay;
+ 
+-	ret = vkms_create(config);
++	ret = vkms_create(default_config);
+ 	if (ret)
+-		kfree(config);
++		vkms_config_destroy(default_config);
+ 
+ 	return ret;
+ }
+@@ -274,7 +255,7 @@ static void __exit vkms_exit(void)
+ 	if (default_config->dev)
+ 		vkms_destroy(default_config);
+ 
+-	kfree(default_config);
++	vkms_config_destroy(default_config);
+ }
+ 
+ module_init(vkms_init);
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index ddb6bf94514d9364521ff7c38a04d9aa69fc09dc..6dde780d0515394faf2a4763f9bb7447a28d1472 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -212,20 +212,7 @@ struct vkms_crtc {
+ 	spinlock_t composer_lock;
+ };
+ 
+-/**
+- * struct vkms_config - General configuration for VKMS driver
+- *
+- * @writeback: If true, a writeback buffer can be attached to the CRTC
+- * @cursor: If true, a cursor plane is created in the VKMS device
+- * @overlay: If true, NUM_OVERLAY_PLANES will be created for the VKMS device
+- * @dev: Used to store the current VKMS device. Only set when the device is instantiated.
+- */
+-struct vkms_config {
+-	bool writeback;
+-	bool cursor;
+-	bool overlay;
+-	struct vkms_device *dev;
+-};
++struct vkms_config;
+ 
+ /**
+  * struct vkms_device - Description of a VKMS device
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index 1c6d41856e317eb7b9b79f56fdf7473d0a339250..34b6e761bce8a1f2153e1e47c795bad1a52a3454 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ 
+ #include "vkms_drv.h"
++#include "vkms_config.h"
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_managed.h>
 
- drivers/gpu/drm/vkms/Makefile                 |   3 +-
- drivers/gpu/drm/vkms/tests/Makefile           |   1 +
- drivers/gpu/drm/vkms/tests/vkms_config_test.c | 137 ++++++
- drivers/gpu/drm/vkms/vkms_config.c            | 613 ++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_config.h            | 245 ++++++++++
- drivers/gpu/drm/vkms/vkms_crtc.c              |  16 +-
- drivers/gpu/drm/vkms/vkms_drv.c               |  42 +-
- drivers/gpu/drm/vkms/vkms_drv.h               |  25 +-
- drivers/gpu/drm/vkms/vkms_output.c            | 183 +++++---
- drivers/gpu/drm/vkms/vkms_plane.c             |  62 +--
- 10 files changed, 1152 insertions(+), 175 deletions(-)
----
-base-commit: 98efdd02e220fea84c1491012d7292749a71faeb
-change-id: 20240521-google-remove-crtc-index-from-parameter-f9afb21c7a85
-prerequisite-message-id: 20241122-google-vkms-managed-v5-0-1ab60403e960@bootlin.com
-prerequisite-patch-id: b608594ad493a41000ee703792eac4b23f9e35dc
-prerequisite-patch-id: 5697aa87c44bbf3eda8a1ba424465dc792545d4c
-prerequisite-patch-id: 223d59c407ce28dacf3f563b5c0148d2398303f1
-prerequisite-patch-id: 720b75b21d06ce3d3f060fb9238f7903834da0e1
-prerequisite-patch-id: 30a1e033fa43241ca6a43006fd4f29f8e9217224
-prerequisite-message-id: 20241122-b4-vkms-allocated-v2-0-ff7bddbf0bfb@bootlin.com
-prerequisite-patch-id: 9741873a5f0a7a3cf117dec7837354c3ad38ac3a
-prerequisite-patch-id: 1a383d1494e4f2142b62822f2ba482a3b813563a
-prerequisite-patch-id: 7d3f49fee4d3553d52fc075b7868da9dea9209cd
-prerequisite-patch-id: 57f5aeff2a9e8f2b6f47569e44dcd8fa587ed4bf
-prerequisite-message-id: 20241122-b4-new-color-formats-v3-0-23f7776197c9@bootlin.com
-prerequisite-patch-id: e6717b75d79ae5cfb0815bab88d722082107dc0e
-prerequisite-patch-id: 4b3b1ea5ad2e3ba1922cd4b3d3d46214b27c8c2d
-prerequisite-patch-id: 060874d5a7433cc8cc654bc63e0b411036727ebb
-prerequisite-patch-id: 43115d21842e508d9d8b0468e15f67d442bffe3c
-prerequisite-patch-id: 627d0970e76d4154c982d0d4172e7a0c4dfb9a4c
-prerequisite-patch-id: 582445144ac0ab11175ef96262060b08a5e1467e
-prerequisite-patch-id: a98fac5a2c60fe23fbc6a455e9a4ab8b0f187ee8
-prerequisite-patch-id: 62c8d109a22b9978f755255b67f13fe74fb7008d
-prerequisite-message-id: 20241122-writeback_line_by_line-v3-0-085d5810f6e3@bootlin.com
-prerequisite-patch-id: 07868dd9c7bbb1ed96d675c689de86f0cf293248
-prerequisite-patch-id: 736638b76050ef7a99cfad2c1560f7af114d5fbd
-prerequisite-patch-id: 20d8823f9c1d372ab2b88f969f5110f77e49c7f9
-
-Best regards,
 -- 
-Louis Chauvet <louis.chauvet@bootlin.com>
+2.47.0
 
