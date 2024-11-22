@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221139D5CA4
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464709D5CA8
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:59:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9052E10E231;
-	Fri, 22 Nov 2024 09:59:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00B910EB35;
+	Fri, 22 Nov 2024 09:59:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="V/FiIVjf";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mFOx7pMT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C0FA10E22C;
- Fri, 22 Nov 2024 09:59:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EE8910EB29;
+ Fri, 22 Nov 2024 09:59:19 +0000 (UTC)
 Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AM6Hkj7007168;
- Fri, 22 Nov 2024 09:59:05 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AM6I4aW007379;
+ Fri, 22 Nov 2024 09:59:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- rRbNXMb4328Hgah3yHnpsFUY4FatUlzU6p67j0JXqmA=; b=V/FiIVjf+Qe8ByAF
- lCscozxsJ5liwRnkhFKZ/4IVHe56iNvQ3vDxmuGtucfeFCmqpVxJvAdFXiliCvYD
- iToY4kaGmRx3yjqgOrVWjEUzQvbbfE/8833xRvP39C2OUvMdVRNxio+v5JbjAxll
- 4jFYb2cNdYUNWtUf01ogRivL7Wmdvy7ZGcqCap8AXIjWlnwtWGeu0/Ba/ybmxA4O
- IEWZMHWPJVrG3V6fHHVBhjm4j3hR86Eq50E4gw8lrvL/tOGa2Ck5Fzt1mOEBNnfT
- zGL9dI655Xk6JdyDBPfmLWmk9yNPu9zm8kshUE66AqH01mWrohKBcC+yb18Ax9ni
- 1qnpCA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ 1KX2GD28z/ZJOGHzR+CY4Gv3kmMAuTvsKU/u4hW+kMg=; b=mFOx7pMTE3yoGnC0
+ UTthnlG40M+QdLHsdgr0nPay0IRd9ztqg2vR7hO7B4IZ98E2l65FMtuN8Cw9NGqG
+ GIr+/3Xe4RSlA4rI0xYWuu/y7k/AKlx2itFRZzBk/OFb+xhNlrF0MhvAl/40+Sf1
+ sHG8JgvLYNoxZL7KG6m2sAi0C/Cr22ce7CBPZfMzqKIvn3VoVyofoOxY1xvjUa6l
+ 962Xe2PI4Y9fJ80tXsfhQfu77NOsFdiSHv/ztjdfetNgPtkRBg+McJhUOv0Uyxtq
+ dQJhfkXiHFLpQhH7TK8EQb+Zwds2COErGL1wNmLoylBs7oEL3TzOvkWl+wiEwoa8
+ eqdZCw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 432mjh8j90-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 432mjh8j98-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Nov 2024 09:59:04 +0000 (GMT)
+ Fri, 22 Nov 2024 09:59:11 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
  [10.47.209.197])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AM9x3in016695
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AM9xA3L031848
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Nov 2024 09:59:03 GMT
+ Fri, 22 Nov 2024 09:59:10 GMT
 Received: from robotics-lnxbld017.ap.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 22 Nov 2024 01:58:57 -0800
+ 15.2.1544.9; Fri, 22 Nov 2024 01:59:03 -0800
 From: Fange Zhang <quic_fangez@quicinc.com>
-Date: Fri, 22 Nov 2024 17:56:46 +0800
-Subject: [PATCH v3 3/9] dt-bindings: display/msm: Add SM6150 MDSS & DPU
+Date: Fri, 22 Nov 2024 17:56:47 +0800
+Subject: [PATCH v3 4/9] drm/msm: mdss: Add SM6150 support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241122-add-display-support-for-qcs615-platform-v3-3-35252e3a51fe@quicinc.com>
+Message-ID: <20241122-add-display-support-for-qcs615-platform-v3-4-35252e3a51fe@quicinc.com>
 References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
 In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -71,11 +71,11 @@ CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732269514; l=11776;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732269514; l=1409;
  i=quic_fangez@quicinc.com; s=20241014; h=from:subject:message-id;
- bh=QJJILLMZ6C82NU8tc0aySlWL7ZQb+tddBELH8GhYvV4=;
- b=efYh6nICFeS6JMBwrvBQN73hYp9sW9H1NNp6qLUReC8jCleB+TLZZ3BTljQms45mKYIGPE23X
- mjp8UqISGQZDK5yFiNJPMKv/+9WI2Ym98xcl2bCfLYS0wnLxaFdeyOn
+ bh=+M691Y0goYQD1NCkCUgziGxV2ScE12MlvWG9FjqAhMU=;
+ b=mTHbJqi+UxKQGmpNm1nKpv7sgFAzxPGE/cnuqH1lwoEP+3sddO6xyXsfQYI1B63YEX4OOjNDT
+ eqCZmAgPigsBjg9vKleZEoESDMDv3GiutzNtv0aHwDjV1RYlpxm+IWP
 X-Developer-Key: i=quic_fangez@quicinc.com; a=ed25519;
  pk=tJv8Cz0npA34ynt53o5GaQfBC0ySFhyb2FGj+V2Use4=
 X-Originating-IP: [10.80.80.8]
@@ -84,8 +84,8 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: 5X_0rFCsUas6Jcuznc25eRTb352CmJEl
-X-Proofpoint-ORIG-GUID: 5X_0rFCsUas6Jcuznc25eRTb352CmJEl
+X-Proofpoint-GUID: JeeeRmuDlycJLB29O9SoskjgT-JRlWLY
+X-Proofpoint-ORIG-GUID: JeeeRmuDlycJLB29O9SoskjgT-JRlWLY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
@@ -112,390 +112,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Li Liu <quic_lliu6@quicinc.com>
 
-Document the MDSS and DPU hardware found on the Qualcomm SM6150 platform.
+Add support for MDSS on SM6150.
 
 Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
 Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
 ---
- .../bindings/display/msm/qcom,sm6150-dpu.yaml      | 113 ++++++++++
- .../bindings/display/msm/qcom,sm6150-mdss.yaml     | 250 +++++++++++++++++++++
- 2 files changed, 363 insertions(+)
+ drivers/gpu/drm/msm/msm_mdss.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-dpu.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..b9783ebb047ed19858928bb035e61a550feecea9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-dpu.yaml
-@@ -0,0 +1,113 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/qcom,sm6150-dpu.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm SM6150 Display DPU
-+
-+maintainers:
-+  - Abhinav Kumar <quic_abhinavk@quicinc.com>
-+  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+
-+$ref: /schemas/display/msm/dpu-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: qcom,sm6150-dpu
-+
-+  reg:
-+    items:
-+      - description: Address offset and size for mdp register set
-+      - description: Address offset and size for vbif register set
-+
-+  reg-names:
-+    items:
-+      - const: mdp
-+      - const: vbif
-+
-+  clocks:
-+    items:
-+      - description: Display ahb clock
-+      - description: Display hf axi clock
-+      - description: Display core clock
-+      - description: Display vsync clock
-+
-+  clock-names:
-+    items:
-+      - const: iface
-+      - const: bus
-+      - const: core
-+      - const: vsync
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/qcom,rpmhpd.h>
-+
-+    display-controller@ae01000 {
-+        compatible = "qcom,sm6150-dpu";
-+        reg = <0x0ae01000 0x8f000>,
-+              <0x0aeb0000 0x2008>;
-+        reg-names = "mdp", "vbif";
-+
-+        clocks = <&dispcc_mdss_ahb_clk>,
-+                 <&gcc_disp_hf_axi_clk>,
-+                 <&dispcc_mdss_mdp_clk>,
-+                 <&dispcc_mdss_vsync_clk>;
-+        clock-names = "iface", "bus", "core", "vsync";
-+
-+        assigned-clocks = <&dispcc_mdss_vsync_clk>;
-+        assigned-clock-rates = <19200000>;
-+
-+        operating-points-v2 = <&mdp_opp_table>;
-+        power-domains = <&rpmhpd RPMHPD_CX>;
-+
-+        interrupt-parent = <&mdss>;
-+        interrupts = <0>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                dpu_intf0_out: endpoint {
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+                dpu_intf1_out: endpoint {
-+                  remote-endpoint = <&mdss_dsi0_in>;
-+                };
-+            };
-+        };
-+
-+        mdp_opp_table: opp-table {
-+            compatible = "operating-points-v2";
-+
-+            opp-375000000 {
-+                opp-hz = /bits/ 64 <375000000>;
-+                required-opps = <&rpmhpd_opp_svs_l1>;
-+            };
-+
-+            opp-500000000 {
-+                opp-hz = /bits/ 64 <500000000>;
-+                required-opps = <&rpmhpd_opp_nom>;
-+            };
-+
-+            opp-575000000 {
-+                opp-hz = /bits/ 64 <575000000>;
-+                required-opps = <&rpmhpd_opp_turbo>;
-+            };
-+
-+            opp-650000000 {
-+                opp-hz = /bits/ 64 <650000000>;
-+                required-opps = <&rpmhpd_opp_turbo_l1>;
-+            };
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..f750567fe1918d815e4af4ca214f817ca3f1c1fd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
-@@ -0,0 +1,250 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/qcom,sm6150-mdss.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm SM6150 Display MDSS
-+
-+maintainers:
-+  - Abhinav Kumar <quic_abhinavk@quicinc.com>
-+  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+
-+description:
-+  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
-+  sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
-+  bindings of MDSS are mentioned for SM6150 target.
-+
-+$ref: /schemas/display/msm/mdss-common.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: qcom,sm6150-mdss
-+
-+  clocks:
-+    items:
-+      - description: Display AHB clock from gcc
-+      - description: Display hf axi clock
-+      - description: Display core clock
-+
-+  clock-names:
-+    items:
-+      - const: iface
-+      - const: bus
-+      - const: core
-+
-+  iommus:
-+    maxItems: 1
-+
-+  interconnects:
-+    maxItems: 2
-+
-+  interconnect-names:
-+    maxItems: 2
-+
-+patternProperties:
-+  "^display-controller@[0-9a-f]+$":
-+    type: object
-+    additionalProperties: true
-+    properties:
-+      compatible:
-+        const: qcom,sm6150-dpu
-+
-+  "^dsi@[0-9a-f]+$":
-+    type: object
-+    additionalProperties: true
-+    properties:
-+      compatible:
-+        items:
-+          - const: qcom,sm6150-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
-+
-+  "^phy@[0-9a-f]+$":
-+    type: object
-+    additionalProperties: true
-+    properties:
-+      compatible:
-+        const: qcom,sm6150-dsi-phy-14nm
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,rpmh.h>
-+    #include <dt-bindings/interconnect/qcom,icc.h>
-+    #include <dt-bindings/interconnect/qcom,qcs615-rpmh.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/qcom,rpmhpd.h>
-+
-+    display-subsystem@ae00000 {
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+        compatible = "qcom,sm6150-mdss";
-+        reg = <0x0ae00000 0x1000>;
-+        reg-names = "mdss";
-+
-+        interconnects = <&mmss_noc MASTER_MDP0 QCOM_ICC_TAG_ALWAYS
-+                         &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
-+                        <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
-+                         &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
-+        interconnect-names = "mdp0-mem", "cpu-cfg";
-+
-+        power-domains = <&dispcc_mdss_gdsc>;
-+
-+        clocks = <&dispcc_mdss_ahb_clk>,
-+                 <&gcc_disp_hf_axi_clk>,
-+                 <&dispcc_mdss_mdp_clk>;
-+
-+        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-controller;
-+        #interrupt-cells = <1>;
-+
-+        iommus = <&apps_smmu 0x800 0x0>;
-+
-+        ranges;
-+
-+        display-controller@ae01000 {
-+            compatible = "qcom,sm6150-dpu";
-+            reg = <0x0ae01000 0x8f000>,
-+                  <0x0aeb0000 0x2008>;
-+            reg-names = "mdp", "vbif";
-+
-+            clocks = <&dispcc_mdss_ahb_clk>,
-+                     <&gcc_disp_hf_axi_clk>,
-+                     <&dispcc_mdss_mdp_clk>,
-+                     <&dispcc_mdss_vsync_clk>;
-+            clock-names = "iface", "bus", "core", "vsync";
-+
-+            assigned-clocks = <&dispcc_mdss_vsync_clk>;
-+            assigned-clock-rates = <19200000>;
-+
-+            operating-points-v2 = <&mdp_opp_table>;
-+            power-domains = <&rpmhpd RPMHPD_CX>;
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                  reg = <0>;
-+                  dpu_intf0_out: endpoint {
-+                  };
-+                };
-+
-+                port@1 {
-+                  reg = <1>;
-+                  dpu_intf1_out: endpoint {
-+                      remote-endpoint = <&mdss_dsi0_in>;
-+                  };
-+                };
-+            };
-+
-+            mdp_opp_table: opp-table {
-+                compatible = "operating-points-v2";
-+
-+                opp-375000000 {
-+                    opp-hz = /bits/ 64 <375000000>;
-+                    required-opps = <&rpmhpd_opp_svs_l1>;
-+                };
-+
-+                opp-500000000 {
-+                    opp-hz = /bits/ 64 <500000000>;
-+                    required-opps = <&rpmhpd_opp_nom>;
-+                };
-+
-+                opp-575000000 {
-+                    opp-hz = /bits/ 64 <575000000>;
-+                    required-opps = <&rpmhpd_opp_turbo>;
-+                };
-+
-+                opp-650000000 {
-+                    opp-hz = /bits/ 64 <650000000>;
-+                    required-opps = <&rpmhpd_opp_turbo_l1>;
-+                };
-+            };
-+        };
-+
-+        dsi@ae94000 {
-+            compatible = "qcom,sm6150-dsi-ctrl",
-+                         "qcom,mdss-dsi-ctrl";
-+            reg = <0x0ae94000 0x400>;
-+            reg-names = "dsi_ctrl";
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <4>;
-+
-+            clocks = <&dispcc_mdss_byte0_clk>,
-+                     <&dispcc_mdss_byte0_intf_clk>,
-+                     <&dispcc_mdss_pclk0_clk>,
-+                     <&dispcc_mdss_esc0_clk>,
-+                     <&dispcc_mdss_ahb_clk>,
-+                     <&gcc_disp_hf_axi_clk>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+
-+            assigned-clocks = <&dispcc_mdss_byte0_clk_src>,
-+                              <&dispcc_mdss_pclk0_clk_src>;
-+            assigned-clock-parents = <&mdss_dsi0_phy 0>,
-+                                     <&mdss_dsi0_phy 1>;
-+
-+            operating-points-v2 = <&dsi0_opp_table>;
-+
-+            phys = <&mdss_dsi0_phy>;
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    mdss_dsi0_in: endpoint {
-+                        remote-endpoint = <&dpu_intf1_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    mdss_dsi0_out: endpoint {
-+                    };
-+                };
-+            };
-+
-+            dsi0_opp_table: opp-table {
-+                compatible = "operating-points-v2";
-+
-+                opp-164000000 {
-+                    opp-hz = /bits/ 64 <164000000>;
-+                    required-opps = <&rpmhpd_opp_low_svs>;
-+                };
-+            };
-+        };
-+
-+        mdss_dsi0_phy: phy@ae94400 {
-+            compatible = "qcom,sm6150-dsi-phy-14nm";
-+            reg = <0x0ae94400 0x100>,
-+                  <0x0ae94500 0x300>,
-+                  <0x0ae94800 0x188>;
-+            reg-names = "dsi_phy",
-+                        "dsi_phy_lane",
-+                        "dsi_pll";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+
-+            clocks = <&dispcc_mdss_ahb_clk>,
-+                     <&rpmhcc RPMH_CXO_CLK>;
-+            clock-names = "iface", "ref";
-+        };
-+    };
-+...
+diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+index b7bd899ead44bf86998e7295bccb31a334fa6811..b9661312bbdab2473f0a7b54b09fb5480cc2589c 100644
+--- a/drivers/gpu/drm/msm/msm_mdss.c
++++ b/drivers/gpu/drm/msm/msm_mdss.c
+@@ -667,6 +667,13 @@ static const struct msm_mdss_data sm6125_data = {
+ 	.highest_bank_bit = 1,
+ };
+ 
++static const struct msm_mdss_data sm6150_data = {
++	.ubwc_enc_version = UBWC_2_0,
++	.ubwc_dec_version = UBWC_2_0,
++	.highest_bank_bit = 1,
++	.reg_bus_bw = 76800,
++};
++
+ static const struct msm_mdss_data sm8250_data = {
+ 	.ubwc_enc_version = UBWC_4_0,
+ 	.ubwc_dec_version = UBWC_4_0,
+@@ -724,6 +731,7 @@ static const struct of_device_id mdss_dt_match[] = {
+ 	{ .compatible = "qcom,sc8280xp-mdss", .data = &sc8280xp_data },
+ 	{ .compatible = "qcom,sm6115-mdss", .data = &sm6115_data },
+ 	{ .compatible = "qcom,sm6125-mdss", .data = &sm6125_data },
++	{ .compatible = "qcom,sm6150-mdss", .data = &sm6150_data },
+ 	{ .compatible = "qcom,sm6350-mdss", .data = &sm6350_data },
+ 	{ .compatible = "qcom,sm6375-mdss", .data = &sm6350_data },
+ 	{ .compatible = "qcom,sm7150-mdss", .data = &sm7150_data },
 
 -- 
 2.34.1
