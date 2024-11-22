@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329C89D6232
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 17:25:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA089D6243
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 17:28:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76C9E10EC05;
-	Fri, 22 Nov 2024 16:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 400EC10EC10;
+	Fri, 22 Nov 2024 16:28:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Pg/9AsI3";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XYlXDhrJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD02E10EC03
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 16:25:08 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8C611E0008;
- Fri, 22 Nov 2024 16:25:06 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1155310EC10
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 16:28:02 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A7082FF80A;
+ Fri, 22 Nov 2024 16:27:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1732292707;
+ t=1732292881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4+cxTF9KCJO78YUV+0ZHhBWyFhLzGz4nnDy5LMx5b6s=;
- b=Pg/9AsI3WIp0tF98BPvN4L7upd3O+X7DoubntwCwOmpcDVM3clHX2iM4mZd/DUSAPcbV34
- 3jmgilU3DnEyabD4NGHdcS1BMxXb/nikqLpRtC69J7HoDO8wt3OWlj6YOD4vV6cd/Kx7Ne
- R9Hnvbht5CvLs6vbz5OUBYSBz5IF+Gt2Y67nCnvgOuiXmKF4teevHVNkdqAGejflxiByM0
- LMuBeaJLOGluwEuDpEi+Nb8d29Nf6EPKxp+m0rIwy/m3hsFxe9TkLlEowaRwt0KMQ7SDWm
- 4FMbvWHgPYV6WNUnvEaWpow6O5JskjqNRUjo2w9ssMdQFVwpSSFftwDujindLg==
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LU6gbsQShqZCx3WrJuxI/JRiigMCYgE3TNnA7yxnsb8=;
+ b=XYlXDhrJ5XnMql26AwcYg/+8bqgUD2W0T+Oi6QCOGbInqV69zQkQOLkTLUP/vDHlEQZR6N
+ QFbXz3nwN1yxKPk1DRRZVH7U8GgfQ5qHgeRwTtIPxkMI/iho2afDvccHaQpvXI2eiePNBj
+ yJxlfEza7Ot4uAF3MEjJ2zsB4Bcf9y4I4ouGUPI3WYiNff32e2Ab+sBv/0Uc08CzHDLgOQ
+ UXrTEqB2yQZJJgJBPnfZ+tNcFizxmr/c+C9DMQjn3vycj0cmo6fIOAQ8bkQrPhSrlfeguz
+ RfrSixOCngZmP+NhhSiMJYi4pHHF7+HBIQ6sVUXv8NInDThnpIPHx9B7xKHMmQ==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 22 Nov 2024 17:25:02 +0100
-Subject: [PATCH v3 3/3] drm/vkms: Add support for XRGB2101010
+Subject: [PATCH v5 0/5] drm/vkms: Switch all vkms object to DRM managed objects
+Date: Fri, 22 Nov 2024 17:27:55 +0100
+Message-Id: <20241122-google-vkms-managed-v5-0-1ab60403e960@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241122-writeback_line_by_line-v3-3-085d5810f6e3@bootlin.com>
-References: <20241122-writeback_line_by_line-v3-0-085d5810f6e3@bootlin.com>
-In-Reply-To: <20241122-writeback_line_by_line-v3-0-085d5810f6e3@bootlin.com>
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAuxQGcC/23PTW7DIBQE4KtYrEsLz9jYWfUeVRdgXhzUAClQl
+ Cry3Usc9UeNdwzSfAwXkjBaTGTXXEjEYpMNvobuoSHTQfkZqTU1E2AgWAecziHMR6TlzSXqlFc
+ zGioUTuMoeq6kJLV5iri351V9eb3liO8fFc+3S6JVQjoF52zeNSY66myanr4P1OM5k2vzYFMO8
+ XOdV/haXZcMXGwuKZwyKpUe9DAC56x91iHko/WP9bFVLPBHAbmtQFX2ovZF17UK9b3S/iojh22
+ lvW6RbDC9MtCDuVfEj8IZZ9uKqAoaJlQPlcF/P1qW5Qu/J07vxAEAAA==
+X-Change-ID: 20240521-google-vkms-managed-4aec99461a77
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
  Melissa Wen <melissa.srw@gmail.com>, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
@@ -53,21 +56,21 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  seanpaul@google.com, nicolejadeyee@google.com, 
  Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2493;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2863;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=UoxOHiMTNSZuKXnSQuqgBjDi8qYlisedSJdTUWJ8t7k=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnQLBeEgU50nN/Jsq9saN6JiwszSPcxZECtubdO
- WvEhQD9nfWJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ0CwXgAKCRAgrS7GWxAs
- 4jn3EAC/ztIduKbgnP6ONI9LAQmfqHBsju5aJlvQ5lZpWSIt764Ky2t9qSDaKRi541wJ3axPjux
- zYIeQ7oTx3cRLg30YK6IkaauV7RBlwzcp4ybJKk+1Z/GUVkV4RfL58NdEuDw0cQc4arRl0nQd3R
- wJPt6S78SnJsnJE95IZuzCQMmcI/zY83bIzmr2HUcb4+dFRczy6DVmh1VFMmj1RkaFsyyQ6UQID
- Vsy8RC79MorPCdClpC6GM3j6Yz4DFTNBtNWI5dngrQwpIkv7tOCqcrFanR/NpPVqCHIVVZhVvRn
- 9+LyBDVcUIBpjb6LgXbCYfNZNve1QM9o1QkKPzD3NqFIE50j/IdHrOEs8gQvwQMHhBf+6WD0CCt
- 9f4cmNUwknKKiaM4oBE9kXu+6CYloMZo/X/yiyqEZ/LCZ29JUSlrBl7dkeyeQyZtXgAiVvI7R0t
- Strpq15GjTATAMIZPYEZV1W9oTayNVmi8/uxYMDRXHTid2XJR/5w4DCGM7/voUl4/F2PPJlDFK3
- /QcDsGvgNoFYnuVjrAtrkwXdS1JJCpzGgOWRpvai8hJbHU0z4PXGN7C+FASJZTyTXuOVRE/zp7R
- iieQ6YFAwAjSSU2mtGJRbW3OmMB1zKMBhsKo5psIABS598mMVtgSAoZ655gT5iftTnY0giuViGu
- c1+RREemk3A5m2Q==
+ bh=ZhfnABr7/0v+IKoElmwmDDns/QME0eBgVjAC+RDBUrM=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnQLENlewUY9ZaxyWAoiGc7hbws81gacGor/kB/
+ gxFoQmajmSJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ0CxDQAKCRAgrS7GWxAs
+ 4rbUEACpMmTvptfzfmQ1qjJsGJndT4acpMhmnI0yh5gim8oY0i7Y+KVbA2kVwvd4uXNTj3OL1QM
+ Ak9NB7v2WM9Rg/1xzaFoaH4UDop1QhLL+KYOUnINpSgr7wa65B47x71UGgvxXPEuq6IhL3G0KTn
+ OZMhCyjmVsvFlf/HGNQhE7Re6Daflnun7W16dzNpL0ApLmkTxmP4MQVFd0OFaKFVQTVph9W1+jg
+ 0MAi7cgq1KCxYpaxTMaLh+MJDGoNLtTeeQjfLVsKhzpEhuSPBr4YU0gEg0t9e6zwn+2LLo2Wfza
+ hf8men2vW/WNL3YTLzQqU+hXfm7MCyBeVgPuskxSHU7YcnQiTxyiZnWjHV84nsTBNelJqJ6eFZl
+ J9hjfSUzmWZuw38j8K1lO/vaEFHH0nIQ7REgUCQv+XYqh/4q6G8ObQdNSLHlv+l7/YXoKBlabK6
+ BwJAQkuTjppcJnvPARx2O6MVk75vkb4ecydEFK0o3n1FyshSLByGXlVJ63mG4sN2KuSmSjCWhAA
+ 4q3Dt/vDp9WgvqBatk/HhmdHZj9sLJY6qmPO8pWdpMiKgWAYRWC+71d6G5+TDOamX9HoCQkd2Q8
+ zEo9uTh16+rEbS+lMWoRvCNBx96FTewa1JRQ4RsUzBldeQhBm4A3mcQxF76nx0eKkR8anRZVUTs
+ wEIp8EpzUccYxGQ==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -86,66 +89,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks to the WRITE_LINE macro, adding the format XRGB210101010 is trivial.
+To simplify the memory managment this series replace all manual drm 
+object managment by drm-managed one. This way the VKMS code don't have to 
+manage it directly and the DRM core will handle the object destruction.
+
+No functional changes are intended in this series. 
+
+PATCH 1/5: Migrate connector managment to drmm
+PATCH 2/5: Migrate encoder managment to drmm
+PATCH 3/5: Migrate connector management to drm
+PATCH 4/5: Introduce drmm_writeback helpers
+PATCH 5/5: Migrate writeback connector management to drm
+
+For the drmm_writeback helpers, you can find some discussions here [3].
+
+[3]:https://lore.kernel.org/all/20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com/
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c   | 12 ++++++++++++
- drivers/gpu/drm/vkms/vkms_writeback.c |  3 ++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+Changes in v5:
+- Rebased on drm-misc-next
+- Link to v4: https://lore.kernel.org/r/20241010-google-vkms-managed-v4-0-ed04a62ad2e3@bootlin.com
 
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 6a50a86291e50edab2058cf7d40c7efc8fcb4c12..2177310580ae19382d5fc2f095d6b49984033b61 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -656,6 +656,14 @@ static void argb_u16_to_RGB565(u8 *out_pixel, const struct pixel_argb_u16 *in_pi
- 	*pixel = cpu_to_le16(r << 11 | g << 5 | b);
- }
- 
-+static void argb_u16_to_XRGB2101010(u8 *out_pixel, const struct pixel_argb_u16 *in_pixel)
-+{
-+	out_pixel[0] = (u8)(in_pixel->b & 0xFF);
-+	out_pixel[1] = (u8)((in_pixel->b >> 8) & 0x03) | (u8)((in_pixel->g << 2) & 0xFC);
-+	out_pixel[2] = (u8)((in_pixel->g >> 6) & 0x0F) | (u8)((in_pixel->r << 4) & 0xF0);
-+	out_pixel[3] = (u8)((in_pixel->r >> 4) & 0x3F);
-+}
-+
- /**
-  * WRITE_LINE() - Generic generator for write_line functions
-  *
-@@ -700,6 +708,8 @@ WRITE_LINE(XRGB16161616_write_line, argb_u16_to_XRGB16161616)
- 
- WRITE_LINE(RGB565_write_line, argb_u16_to_RGB565)
- 
-+WRITE_LINE(XRGB2101010_write_line, argb_u16_to_XRGB2101010)
-+
- /**
-  * get_pixel_read_line_function() - Retrieve the correct read_line function for a specific
-  * format. The returned pointer is NULL for unsupported pixel formats. The caller must ensure that
-@@ -980,6 +990,8 @@ pixel_write_line_t get_pixel_write_line_function(u32 format)
- 		return &XRGB16161616_write_line;
- 	case DRM_FORMAT_RGB565:
- 		return &RGB565_write_line;
-+	case DRM_FORMAT_XRGB2101010:
-+		return &XRGB2101010_write_line;
- 	default:
- 		/*
- 		 * This is a bug in vkms_writeback_atomic_check. All the supported
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 0b31628e1b532367cc79cd7432aa070661f41a57..f25468bf4cd7b9253528869576111e7a3745a42f 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -19,7 +19,8 @@ static const u32 vkms_wb_formats[] = {
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_XRGB16161616,
- 	DRM_FORMAT_ARGB16161616,
--	DRM_FORMAT_RGB565
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_XRGB2101010,
- };
- 
- static const struct drm_connector_funcs vkms_wb_connector_funcs = {
+Changes in v4:
+- No changes for the managed part
+- Add the patch to introduce drmm_writeback helpers
+- Link to v3: https://lore.kernel.org/r/20240912-google-vkms-managed-v3-0-7708d6ad262d@bootlin.com
 
+Changes in v3:
+- As suggested by Maxime, split the managed and the dynamic allocation 
+  parts in different series
+- To reduce the diff in this series, extract the "remove crtc index" part, 
+  see https://lore.kernel.org/all/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com/
+- Link to v2: https://lore.kernel.org/r/20240827-google-vkms-managed-v2-0-f41104553aeb@bootlin.com
+
+Changes in v2:
+- Applied comments from José
+- Extract the rename vkms_output -> vkms_crtc to avoid useless changes in 
+  the last commit
+- Extract the rename to_vkms_crtc_state to
+  drm_crtc_state_to_vkms_crtc_state to avoid useless changes in last 
+  commit
+- Extract the drm_mode_crtc_set_gamma_size result check in its own commit
+- Rebased on drm-misc/drm-misc-next
+- Link to v1: https://lore.kernel.org/r/20240814-google-vkms-managed-v1-0-7ab8b8921103@bootlin.com
+
+---
+Louis Chauvet (5):
+      drm/vkms: Switch to managed for connector
+      drm/vkms: Switch to managed for encoder
+      drm/vkms: Switch to managed for crtc
+      drm: writeback: Introduce drm managed helpers
+      drm/vkms: Switch to managed for writeback connector
+
+ drivers/gpu/drm/drm_connector.c       |   4 +
+ drivers/gpu/drm/drm_writeback.c       | 224 +++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/vkms/vkms_crtc.c      |  14 +++
+ drivers/gpu/drm/vkms/vkms_drv.c       |   9 --
+ drivers/gpu/drm/vkms/vkms_output.c    |  24 ++--
+ drivers/gpu/drm/vkms/vkms_writeback.c |  13 +-
+ include/drm/drm_writeback.h           |  10 ++
+ 7 files changed, 235 insertions(+), 63 deletions(-)
+---
+base-commit: 98efdd02e220fea84c1491012d7292749a71faeb
+change-id: 20240521-google-vkms-managed-4aec99461a77
+
+Best regards,
 -- 
-2.47.0
+Louis Chauvet <louis.chauvet@bootlin.com>
 
