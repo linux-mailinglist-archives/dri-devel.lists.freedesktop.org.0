@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5219D5679
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 00:57:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556A59D5687
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 01:05:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 796EA10E0C1;
-	Thu, 21 Nov 2024 23:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D85710E201;
+	Fri, 22 Nov 2024 00:05:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ySJgz6w5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tFGumjMU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E7F410E433
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 23:57:18 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-539f84907caso1629024e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 15:57:18 -0800 (PST)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9F710E201
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 00:05:39 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-539d9fffea1so1480263e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 16:05:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732233436; x=1732838236; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732233937; x=1732838737; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=FGZRbTR/uK+ftQ2TfPgufc2P+z5Ye/l5g2WR5F5d4JQ=;
- b=ySJgz6w5oBzFXYhOuPe/nGsNhU+zNJG2b8L9PVbn/bUs3VWON3eNoa9uStkEHfeVhw
- P8hTd5+IBAxnwKAQwHiGpUN3PzKQu2YdEAI1knXqSAV1fi7O+RGbxfu5X4NzNGIsqaIc
- FwHqF3Ord5WPhSKGVU6NCfXVmZ7WqRcBmV2qLVSL59WwWEf9BsOrIfwMdXRxePS22nOW
- TUOTj4cq8JA1XOjjTO1eMyoZMHs8+GR9jHnYZ1XNhHvwE5ArXu2iNKeGSe5p4tqTNqNG
- ZplqhYKJ5+o7YyCPor0OAE+YUAOSMIjD7QUU4IBaAwuARGRbZkblg2WVNepuyepbM8kV
- zpGg==
+ bh=1KAyJQfZm0CmYLeM6T1KNFUS7Aq70PuFpi7a8qa4S44=;
+ b=tFGumjMUvaAkSPNpcChXdg1L1PLeTX9s2VBY0/S7nk54ceU6+UJf4CHUTYpGbeKpkx
+ XjOjV7+nBensmMvp+NAe+rSB9jT5NSsnXiu/w1V3HsmnW8FzaczkfxKuE4JLdEz4FfHL
+ qCIQzKvzvtRkR0eFhHNf8+bngpVfxdYKdsJi6gPC5kngS+dps9SYo55BDnbneGvhuImG
+ 15t2BN+TAErDqSOiMmBt/VBSL/5ykMd/FH0TbvqxB4ooDnmeOEsMoftk/s1WibHmFJJ3
+ xBadeUIFp+myAY5R8LTfrH+eJ6RXWi4sEEYPcj5YjewpQbnq6TzCpqLXfcJDaoRXHmEn
+ AWGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732233436; x=1732838236;
+ d=1e100.net; s=20230601; t=1732233937; x=1732838737;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FGZRbTR/uK+ftQ2TfPgufc2P+z5Ye/l5g2WR5F5d4JQ=;
- b=o26+t4K1X4F/qfZsgAW0N+xojsQ70QRtUEEBBTPIbaXJvWxVN90WvNuZdPOR8sHLKV
- 12rl1mPVJ7nRWdmZLlr7pROxGi8WDT/4/Ofq3HfKwzDnH7T26O7VPhqVS4Qlmf8yZ/BB
- g2qjQ3PBb74Lz9lTi7X68vaedoQYICQW/4zZA1+AszANvPbuBZj3JmJKBIQSO4esQkNQ
- HQDud6kxpS6bclegIildFftDFD6S7aRcQ1Rog5tlM8MPQBzLMDQ991QPJoyedHZc+SjM
- v2OSc1qlsXJ5FG/50ZnBUDNEjnCG0Hm/0Hj4AaGCmhLmW/qQV8hDyF6GyjvvBD3GPvrs
- otBw==
+ bh=1KAyJQfZm0CmYLeM6T1KNFUS7Aq70PuFpi7a8qa4S44=;
+ b=n7fSOoWyh4Du/7yt482LyfcHP+k9OxiXkqtZZv4ZPmhfjMpi1EDAwXJNzA5d8j4e+J
+ Aw/gc7ViAszS/Xw8JGmsJW6PfqH8sDuX6yxqv44h7YCrpWRs/uFWMYdQfELxxJTj4nD6
+ g3+OxNqiyuXk3Hp1RZH1oumu1RlyduX2rGPysz83EiQurfX4uJTm2dEsZQBDuKBwrIEt
+ bWa5xPMxkxUOK5s7gNluBux2chH6DW16mb8WPhi/5FFoPyQA11X++vYauHAJ0y0pQ7uJ
+ xCe2VoabPbSdCqGVsfh2STVaF0xQlL2KVPKtGIwTu6Wp1trtq6iSjrxLtM8VTKKPX4M8
+ L5ig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX8wKTZfVhN8WUsEo2dJo6eNgj+Cwpw2UGjcrz20eahCCyzGmZHGJQ4OEBfWLPIXZYhvgp79Os1Wxc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxTAAeasM/uhOQR5mTV9BhsMTxJqCtLV6swhNcOxMcxGkab1AeR
- tM8fHqYc0C91mTVa6itoSADf/qGPnN//f4Xs2qpUq7EOXa18N6IDq778WligQQE=
-X-Gm-Gg: ASbGnctnuCcQPB8oOA7oAWdeJMns2VgRf9Yok9ZfcF51aLaCb7lOfF1C0dg49c76wQQ
- F4wF6ag9j7MHEJpYlLTZZXm+sKgiSF3uIiKFe7NMhwzKQzUylKpbGlENlm8ucXeSh4uD5ASc0RM
- /ueBIPMZ+SuyIWHl8tPJWACEP79irvkeGaximAm5Llr2PJpacMfph5bkyezJ/QI9mj0e2Q8hQJ3
- 69dZqjeH8JEZIuveQpQPG0ddUTyTs5vGcTEgi8ooJ0bN888GSXkc7xodSkZLeb7QnBJWypJrUCe
- NwjK1HMT9sTK+cEbdmVOE9idpdQ4EA==
-X-Google-Smtp-Source: AGHT+IEmXbDQJcAUYj6lojIiC9JM4M4ujCCevK4TnX7twcBWShy1O7UHHnGrFWe77gpB0XWeTqJyWw==
-X-Received: by 2002:a05:6512:b10:b0:539:adb0:b91 with SMTP id
- 2adb3069b0e04-53dd3ab11a5mr254370e87.57.1732233436333; 
- Thu, 21 Nov 2024 15:57:16 -0800 (PST)
+ AJvYcCWRZHyywuYA29ppZEsNUaRXS4/k+iZLP6St6cz/WA76tP/mdR/Yc01ghwJ6awAXZiNA+8sl44c2fKk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyno7iMznZouKKuY3GsL4lIFiTvEinz9NRvE2N98lkSLVA8NZhM
+ dbLOMXTIw2cqzz4yUh1eYMgbMqbg4wzZZO6VSy3GvA2fZvqNCoBkYsstb9QSU1c=
+X-Gm-Gg: ASbGncv0gkDa3KchUMgfC/m4M2419FTzAeIHyLxhxOyWNIUnHbqdW/CN1Ji5xubitGX
+ iD8xDxibzHYPEl49/pQwMME8yx8UmsAGpzYWhR7Aw4ks1Ej3Qlf37ChEDgEPev99twz2ahPOrMq
+ 70CIt5eD2XRwgn4f1Vm2ksMdpn86BpM/D/LzbnFPD/7dZL3Ogn3p/1tF+sv0Bjdmnv5dnZB3F0o
+ 3M4CBlIi1PZADXjBaYTJrAhgDkXTrGPfPC+snOToife35Op5ADIxrEz+VDpnVJt+5SuixUsQJbs
+ nWSZFvouAHbjriBlEOLXnyITZs7lwQ==
+X-Google-Smtp-Source: AGHT+IGIMj4eDI4++nV9lsviqxg12ESwR9WEilZyyjFk+Pe0y3db1ZelPCRJMMwTSxiydGqYm4vhag==
+X-Received: by 2002:a05:6512:b9a:b0:53d:d137:d7a4 with SMTP id
+ 2adb3069b0e04-53dd3aac10bmr293144e87.53.1732233937136; 
+ Thu, 21 Nov 2024 16:05:37 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd2481e38sm114731e87.123.2024.11.21.15.57.13
+ 2adb3069b0e04-53dd2445843sm123234e87.19.2024.11.21.16.05.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Nov 2024 15:57:14 -0800 (PST)
-Date: Fri, 22 Nov 2024 01:57:12 +0200
+ Thu, 21 Nov 2024 16:05:35 -0800 (PST)
+Date: Fri, 22 Nov 2024 02:05:33 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: keith zhao <keith.zhao@starfivetech.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
@@ -75,14 +75,14 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
  p.zabel@pengutronix.de, changhuang.liang@starfivetech.com,
  jack.zhu@starfivetech.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/9] drm: bridge: inno-hdmi: add inno bridge driver.
-Message-ID: <u4iaxbpuozap5rhjraxktq2wzxwdpqxj7ldglpvsmvpnxcutuz@ak2eiwtb5fg5>
+Subject: Re: [PATCH v5 4/9] drm/vs: Add Hardware Functions for VS DC8200
+Message-ID: <kuoayjr6gfwsq3zbdeafmzx3kw27amkhmljlbpk4brgjkizm37@7wwjwg3tckjz>
 References: <20241120061848.196754-1-keith.zhao@starfivetech.com>
- <20241120061848.196754-4-keith.zhao@starfivetech.com>
+ <20241120061848.196754-5-keith.zhao@starfivetech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241120061848.196754-4-keith.zhao@starfivetech.com>
+In-Reply-To: <20241120061848.196754-5-keith.zhao@starfivetech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,56 +98,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 20, 2024 at 02:18:42PM +0800, keith zhao wrote:
-> move rochchip inno hdmi connector to a newly created directory named
-> inno-hdmi.c, and rename rockchip/inno_hdmi.c to
-> rockchip/inno_hdmi-rockchip.c
-> 
-> This patch refines the Innosilicon HDMI architecture by abstracting
-> the existing connector into a bridge architecture.
-> The drm_bridge_connector_init function is used to create the connector.
+On Wed, Nov 20, 2024 at 02:18:43PM +0800, keith zhao wrote:
+> This commit introduces hardware-based APIs for
+> the VS DRM related to the DC8200
+
+This doesn't describe anything. I've asked to describe the hardware.
+Also please don't use phrases as "This commit does this and this". See
+Documentation/process/submitting-patches.rst
+
 > 
 > Signed-off-by: keith zhao <keith.zhao@starfivetech.com>
 > ---
->  MAINTAINERS                                   |    2 +
->  drivers/gpu/drm/bridge/Kconfig                |    2 +
->  drivers/gpu/drm/bridge/Makefile               |    1 +
->  drivers/gpu/drm/bridge/innosilicon/Kconfig    |    6 +
->  drivers/gpu/drm/bridge/innosilicon/Makefile   |    2 +
->  .../gpu/drm/bridge/innosilicon/inno-hdmi.c    |  376 ++++++
->  .../gpu/drm/bridge/innosilicon/inno-hdmi.h    |   34 +
->  drivers/gpu/drm/rockchip/Kconfig              |    1 +
->  drivers/gpu/drm/rockchip/Makefile             |    2 +-
->  drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c |  690 +++++++++++
->  .../{inno_hdmi.h => inno_hdmi-rockchip.h}     |    0
->  drivers/gpu/drm/rockchip/inno_hdmi.c          | 1025 -----------------
->  include/drm/bridge/inno_hdmi.h                |   56 +
->  13 files changed, 1171 insertions(+), 1026 deletions(-)
->  create mode 100644 drivers/gpu/drm/bridge/innosilicon/Kconfig
->  create mode 100644 drivers/gpu/drm/bridge/innosilicon/Makefile
->  create mode 100644 drivers/gpu/drm/bridge/innosilicon/inno-hdmi.c
->  create mode 100644 drivers/gpu/drm/bridge/innosilicon/inno-hdmi.h
->  create mode 100644 drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c
->  rename drivers/gpu/drm/rockchip/{inno_hdmi.h => inno_hdmi-rockchip.h} (100%)
->  delete mode 100644 drivers/gpu/drm/rockchip/inno_hdmi.c
->  create mode 100644 include/drm/bridge/inno_hdmi.h
+>  MAINTAINERS                            |    1 +
+>  drivers/gpu/drm/Kconfig                |    2 +
+>  drivers/gpu/drm/Makefile               |    1 +
+>  drivers/gpu/drm/verisilicon/Kconfig    |   13 +
+>  drivers/gpu/drm/verisilicon/Makefile   |    5 +
+>  drivers/gpu/drm/verisilicon/vs_dc_hw.c | 1104 ++++++++++++++++++++++++
+>  drivers/gpu/drm/verisilicon/vs_dc_hw.h |  492 +++++++++++
+>  drivers/gpu/drm/verisilicon/vs_type.h  |   54 ++
+>  8 files changed, 1672 insertions(+)
+>  create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
+>  create mode 100644 drivers/gpu/drm/verisilicon/Makefile
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_type.h
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f787dd625497..7766ee0bdd74 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7439,6 +7439,8 @@ S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/bridge/innosilicon,inno-hdmi.yaml
->  F:	Documentation/devicetree/bindings/display/starfive/
-> +F:	drivers/gpu/drm/bridge/innosilicon/
-> +F:	include/drm/bridge/inno_hdmi.h
 
-Separate entry, please. This is not specific to StarFive.
+[...]
 
->  
->  DRM DRIVER FOR SYNAPTICS R63353 PANELS
->  M:	Michael Trimarchi <michael@amarulasolutions.com>
+> +
+> +struct dc_hw {
+> +	enum dc_hw_out		out[DC_DISPLAY_NUM];
+> +	void __iomem		*hi_base;
+> +	void __iomem		*reg_base;
+> +	struct dc_hw_plane_reg	reg[DC_LAYER_NUM];
+> +
+> +	struct dc_hw_gamma	gamma[DC_DISPLAY_NUM];
+> +	struct vs_dc_info	*info;
+> +};
+> +
+> +struct vs_dc_plane {
+> +	enum dc_hw_plane_id id;
+> +	u32 offset;
+> +};
+> +
+> +struct vs_dc {
+> +	struct vs_crtc		*crtc[DC_DISPLAY_NUM];
+
+"Not defined here. Please drop and add when it is actually defined.",
+this was in v4.
+
+> +	struct dc_hw		hw;
+> +
+> +	struct vs_dc_plane	planes[PLANE_NUM];
+> +};
+> +
+> +int dc_hw_init(struct vs_dc *dc);
+> +void dc_hw_disable_plane(struct vs_dc *dc, u8 id);
+> +void dc_hw_update_cursor(struct dc_hw *hw, u8 id, dma_addr_t dma_addr,
+> +			 u32 crtc_w, u32 crtc_x, u32 crtc_y,
+> +			 s32 hotspot_x, int32_t hotspot_y);
+> +void dc_hw_disable_cursor(struct dc_hw *hw, u8 id);
+> +void dc_hw_update_gamma(struct dc_hw *hw, u8 id, u16 index,
+> +			u16 r, u16 g, u16 b);
+> +void dc_hw_enable_gamma(struct dc_hw *hw, u8 id, bool enable);
+> +void dc_hw_enable(struct dc_hw *hw, int id, struct drm_display_mode *mode,
+> +		  u8 encoder_type, u32 output_fmt);
+> +void dc_hw_disable(struct dc_hw *hw, int id);
+> +void dc_hw_enable_interrupt(struct dc_hw *hw);
+> +void dc_hw_disable_interrupt(struct dc_hw *hw);
+> +void dc_hw_get_interrupt(struct dc_hw *hw, u8 *status);
+> +void dc_hw_enable_shadow_register(struct vs_dc *dc, bool enable);
+> +void dc_hw_set_out(struct dc_hw *hw, enum dc_hw_out out, u8 id);
+> +void dc_hw_commit(struct dc_hw *hw);
+> +void dc_plane_hw_update_format_colorspace(struct vs_dc *dc, u32 format,
+> +					  enum drm_color_encoding encoding, u8 id, bool is_yuv);
+> +void dc_plane_hw_update_address(struct vs_dc *dc, u8 id, u32 format, dma_addr_t *dma_addr,
+> +				struct drm_framebuffer *drm_fb, struct drm_rect *src);
+> +void dc_plane_hw_update_format(struct vs_dc *dc, u32 format, enum drm_color_encoding encoding,
+> +			       unsigned int rotation, bool visible, unsigned int zpos,
+> +			       u8 id, u8 display_id);
+> +void dc_plane_hw_update_scale(struct vs_dc *dc, struct drm_rect *src, struct drm_rect *dst,
+> +			      u8 id, u8 display_id, unsigned int rotation);
+> +void dc_plane_hw_update_blend(struct vs_dc *dc, u16 alpha, u16 pixel_blend_mode,
+> +			      u8 id, u8 display_id);
+> +
+> +#endif /* __VS_DC_HW_H__ */
+> diff --git a/drivers/gpu/drm/verisilicon/vs_type.h b/drivers/gpu/drm/verisilicon/vs_type.h
+> new file mode 100644
+> index 000000000000..e9c4ef3cacd6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/verisilicon/vs_type.h
+> @@ -0,0 +1,54 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) VeriSilicon Holdings Co., Ltd.
+> + */
+> +
+> +#ifndef __VS_TYPE_H__
+> +#define __VS_TYPE_H__
+> +
+> +enum drm_plane_type;
+> +
+> +struct vs_plane_data {
+> +	unsigned int num_formats;
+> +	const u32 *formats;
+> +	u8 num_modifiers;
+> +	const u64 *modifiers;
+> +	unsigned int min_width;
+> +	unsigned int min_height;
+> +	unsigned int max_width;
+> +	unsigned int max_height;
+> +	unsigned int rotation;
+> +	unsigned int blend_mode;
+> +	unsigned int color_encoding;
+> +	int min_scale; /* 16.16 fixed point */
+> +	int max_scale; /* 16.16 fixed point */
+> +	u8   zpos;
+> +};
+
+Doesn't seem to be used in this patch. I think in v4 I've already asked
+to drop everything (data types, fields, defines) that are not used by
+_this_ patch. Readd them later, as required.
+
+> +
+> +struct vs_plane_info {
+> +	u32 id;
+> +	const struct vs_plane_data *data;
+> +	enum drm_plane_type type;
+> +};
+> +
+> +struct vs_dc_info {
+> +	const char *name;
+> +
+> +	u8 panel_num;
+> +
+> +	/* planes */
+> +	u8 plane_num;
+> +
+> +	u8 layer_num;
+> +	u8 primary_num;
+> +	u8 overlay_num;
+> +	u8 cursor_num;
+> +	const struct vs_plane_info *info;
+> +	/* 0 means no gamma LUT */
+> +	u16 gamma_size;
+> +	u8 gamma_bits;
+> +
+> +	u16 pitch_alignment;
+> +};
+> +
+> +#endif /* __VS_TYPE_H__ */
+> -- 
+> 2.34.1
+> 
 
 -- 
 With best wishes
