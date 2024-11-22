@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84AB9D6246
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 17:28:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E909E9D625B
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 17:35:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45FEA10EC14;
-	Fri, 22 Nov 2024 16:28:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDDCD10EC15;
+	Fri, 22 Nov 2024 16:35:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="L0R5LLuX";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IiQIUBUJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D8B710EC14
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 16:28:07 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7B9D6FF80C;
- Fri, 22 Nov 2024 16:28:05 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4977610EC0D
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 16:35:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B3D8E0006;
+ Fri, 22 Nov 2024 16:35:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1732292886;
+ t=1732293313;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J7mrH4nMB6P5AeJ5Mz8Ak1miBGu6SgNHfqh2MFhH/Sk=;
- b=L0R5LLuX33gt5SA18g0DlnbRhP05jPVopQIj9c8WQDAC/jFD7ycEhQNGsXnYZ0ns4uurRb
- vDJzvl+isW0pX9tmJQ7Z3pXDuq6eD48AJFtvrapfR9RJTqKsZAWqiNofNikWzgish73YvB
- jSKHYfpKwOeWEQ1RnVZ44yZcG4iHH6p3GoMcnVZ/jRgWj2+eib1Y9sKWf/KxHSxi1xcMge
- ZG9x+QlBgP018yuR+/xDCx1FZipLzXsgcIZyEyb4YJgE3ayw/DlRslzveiziyUjmis73ry
- EKcr4P8W0Ocm1TntOdPZSVRkA2ZpmyQ3EJdnoQcrc5hgHHEmeNd67Uj4yFhEIQ==
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EU4DnaB/CA53h0OcQFrCX75CUQhx9xDEfk3liT83+mA=;
+ b=IiQIUBUJZfuwhDaagzN1rvoElRm17ZsDCI994fGk4ih6fjKYXieFtSRjAH+6j2ILusupUf
+ Du9BEzs7oxb4EBFBlrDf+799Kd7jpbYsNOCronuY8dNNFAWoZRcRrymup6Z76nFI49EXz0
+ rIOIUuLz4H14z4Y8NUXZEvighRXmxL5wka/5fJ4ErBK/KCoevhLFoxGVk5wp2gCZZDFviJ
+ XLQc/9El0GE26ezzk4rEzVA7mpuwXGyGmln56hBvcQ5x53Wiuem/zxyi24WTvHIoXBTOSn
+ hv+TIgZP2zWfwusFYesBGB4Kc8cLIdOoCweTPqaAVPYjjoTGqEtYBbgKXS8XuQ==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 22 Nov 2024 17:28:00 +0100
-Subject: [PATCH v5 5/5] drm/vkms: Switch to managed for writeback connector
+Subject: [PATCH v2 0/4] drm/vkms: Switch to allocated for drm objects
+Date: Fri, 22 Nov 2024 17:35:08 +0100
+Message-Id: <20241122-b4-vkms-allocated-v2-0-ff7bddbf0bfb@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241122-google-vkms-managed-v5-5-1ab60403e960@bootlin.com>
-References: <20241122-google-vkms-managed-v5-0-1ab60403e960@bootlin.com>
-In-Reply-To: <20241122-google-vkms-managed-v5-0-1ab60403e960@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIALyyQGcC/22PQW7DIBBFr2Kx7rRAcVSy6j2iLgZ77KAaSIGgV
+ JHv3omtLiqVFX8Qb96/i0LZUxHH7i4yNV98ihz0UyeGM8aZwI+chZbaSCstOAPtMxTAZUkDVhr
+ BTn0v3ybDBwX/u2Sa/G1jnj72nOnryui6D4XDQjCkEHw9dmMOEHwZXn4vEOlWH6BApeBmwEK8X
+ ymtYU5pXmh3CBj5fYTWgwSF7iCNfCV7kO8upbr4+MxLxMPh7EtN+Xur2dQmsTdS+p9GTTFPW3Q
+ OURmc7F/euq4/bJBrOjgBAAA=
+X-Change-ID: 20240909-b4-vkms-allocated-9f5508f4444a
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
  Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net, 
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
- seanpaul@google.com, nicolejadeyee@google.com, 
- Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1671;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1983;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=xbDbD69KZNScHlgCMisg2HJq8BICvN3NQAqTm8bzP/k=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnQLEPFkspIJns27wzQHp2ZOPEZwLqsuzSD1Zw5
- l0evx6X0wyJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ0CxDwAKCRAgrS7GWxAs
- 4ljQEACMYE8CiMHmW/LFkuycRe9+cFYBWwhAixe0AubRsW5P53/jwu2qWrHkWb60Xb85+uAAwm5
- Ob3U1y0Te1PtYzFxopxxl7Bw0NZzxjZkzyACVodyfDkAvBI6SdVfwLE0gruCaXNd5FigQq3C2DT
- cM9FQdH2LvnoRTW7uI5QTW+5RB5kvitp/TzSWx9umlBsk3ummiNj4lkvdMCuT9+5ucBhWVb8QCa
- 9GqqYu0SJGC+jhi5or065XHJ/iKhoyjHMil+XPJYnPhmEKMM5DV/g74jWUXPLNitDjeiylyFAUT
- f8iwL+UILfmK1i+nQe1GWMWAqkr8kDhkjD4JcBW5Op/pj/FF9PdiMLL6mpoVZuqu1GLI1/5zcew
- rW/VPJ4RMzKC0x/1OfRe2juj/eIF/xsnMlyjn6dXuu7jwwEsTQwL7KPaZ+qa9anzGvuDIV84WW/
- G86rgq5FUBDv177fa5WZWsCtUkAs5cX3ljlxttUjG3tycvY107SaGC/IzxXnOOMEfbAVoHDdmds
- q7sVF9C5yNl/PiljOEaGwQ+U/AyjckHHpTPEFESZXDqMdnRri9DZTzCk179RpCW16poFAVqZojH
- oElfpbVz9ZgTqQu6y5p6LtObOhyfbksL/iS88fxdD+a9doNHK7tQVtK2W861oPc1qvyC1iIeI/q
- yFEubUDCBY+XkdA==
+ bh=5/hbZ+E9BqSb3A600Iqwyv3NoK2rcGUGx/rP095HNXA=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnQLK+FwJVDvWLWMSXnTlA1WdOzqsB3odboUWnl
+ sgdOkeP6jiJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ0CyvgAKCRAgrS7GWxAs
+ 4l8WD/4rqL7I83iwPXi5DARD+/5Y8ahY9RxM4auBKuphvVgJ/UUGoq7UXFWLsXYMlIlvjgJD+Ly
+ S9w/4IoVdW4XNIpLJsSSTpfdHqaI8vyN/74TYbxTG64AsS2eUCHKFZFP7WUVUCsfEaqi5GwzhcS
+ 5yGf0vC0O5346goPJDoU2e/TwgrCpkZeOMc7CkIXxGvER1bCqt4trgo2Horw/ZE1fY7kkqQCYe6
+ hpYOAAqgmZI2uKqVz1nDKu9fJFvSXyjkYBtQnOBG6oNA0GTQXm2W4/7Xl5msvK3IqrnBCnByITX
+ JA6ukL2bhUdcvTDBPhVhOexrKzGvmozH430Jdsq6rAzhR+lp8sOdfWyxLVSIeL8o9Cxv9MQFeC0
+ wnHn8KCwJp15ef/7cZYds3nKEftffD36VPgfM2AN0QpRg8YBbGg+waugWwOJsi1D9kiXx/OQiwr
+ D5K+GYvCW7fmmEN2qanbdaYe3lvBMkJ0AqFWKmA275GmmhYlFoBBRESr0RS+eC/8p5x1GuaRyiy
+ DshZRPfuJCqkUjOrLWJx8/5No6pVTqhWslQLdW9oG9SCXIsmLYbjBcCJ3Y3JYHp21BLLjg2V9b7
+ p1kUvKySFJQsqwGJPOB23gEJnK6313WoD7Qu1+AEJcBMsqksVkxEmjbpd5FD5LCGCCJdxiMSnzd
+ 5Sg17qrSO5DkPhQ==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -86,46 +86,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current VKMS driver uses non-managed function to create
-writeback connectors. It is not an issue yet, but in order
-to support multiple devices easily, convert this code to
-use drm and device managed helpers.
+Specific allocations for each DRM object is not strictly needed in VKMS 
+right now, but in order to implement dynamic configuration of VKMS 
+(configFS), it will be easier to have one allocation per DRM object.
+
+There is no need for a dynamic allocation for the writeback connector as 
+there can only be one per CRTC
+
+No functionnal changes are intented in this series.
+
+This series requires [1] to switch vkms objects to drm-managed objects.
+
+[1]:https://lore.kernel.org/all/20241122-google-vkms-managed-v5-0-1ab60403e960@bootlin.com/
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_writeback.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+Changes in v2:
+- Rebased on drm-misc-next
+- Apply comments from Jose
+- Link to v1: https://lore.kernel.org/r/20240912-b4-vkms-allocated-v1-0-29abbaa14af9@bootlin.com
 
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 79918b44fedd7ae2451d1d530fc6d5aabf2d99a3..f12417b2d24803a33e4ff56108cc89704a500faf 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -24,7 +24,6 @@ static const u32 vkms_wb_formats[] = {
- 
- static const struct drm_connector_funcs vkms_wb_connector_funcs = {
- 	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = drm_connector_cleanup,
- 	.reset = drm_atomic_helper_connector_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-@@ -169,10 +168,10 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
- 
- 	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
- 
--	return drm_writeback_connector_init(&vkmsdev->drm, wb,
--					    &vkms_wb_connector_funcs,
--					    NULL,
--					    vkms_wb_formats,
--					    ARRAY_SIZE(vkms_wb_formats),
--					    1);
-+	return drmm_writeback_connector_init(&vkmsdev->drm, wb,
-+					     &vkms_wb_connector_funcs,
-+					     NULL, NULL,
-+					     vkms_wb_formats,
-+					     ARRAY_SIZE(vkms_wb_formats),
-+					     1);
- }
+---
+Louis Chauvet (4):
+      drm/vkms: Switch to dynamic allocation for connector
+      drm/vkms: Switch to dynamic allocation for encoder
+      drm/vkms: Switch to dynamic allocation for CRTC
+      drm/vkms: Rename vkms_output to vkms_crtc
 
+ drivers/gpu/drm/vkms/vkms_composer.c  |  30 +++++-----
+ drivers/gpu/drm/vkms/vkms_crtc.c      | 100 ++++++++++++++++++----------------
+ drivers/gpu/drm/vkms/vkms_drv.h       |  21 ++++---
+ drivers/gpu/drm/vkms/vkms_output.c    |  41 +++++++++-----
+ drivers/gpu/drm/vkms/vkms_writeback.c |  25 +++++----
+ 5 files changed, 118 insertions(+), 99 deletions(-)
+---
+base-commit: 98efdd02e220fea84c1491012d7292749a71faeb
+change-id: 20240909-b4-vkms-allocated-9f5508f4444a
+prerequisite-message-id: 20241122-google-vkms-managed-v5-0-1ab60403e960@bootlin.com
+prerequisite-patch-id: b608594ad493a41000ee703792eac4b23f9e35dc
+prerequisite-patch-id: 5697aa87c44bbf3eda8a1ba424465dc792545d4c
+prerequisite-patch-id: 223d59c407ce28dacf3f563b5c0148d2398303f1
+prerequisite-patch-id: 720b75b21d06ce3d3f060fb9238f7903834da0e1
+prerequisite-patch-id: 30a1e033fa43241ca6a43006fd4f29f8e9217224
+
+Best regards,
 -- 
-2.47.0
+Louis Chauvet <louis.chauvet@bootlin.com>
 
