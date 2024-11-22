@@ -2,71 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D659D637A
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 18:44:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E649D643F
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 19:38:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D176D10EC4E;
-	Fri, 22 Nov 2024 17:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A5AB10E160;
+	Fri, 22 Nov 2024 18:38:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="NOmh0ROa";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="C3+TWYqw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3CA110EC4E
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 17:44:22 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D45CF1C0005;
- Fri, 22 Nov 2024 17:44:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1732297461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AdyHtCv1wL4VKWQwWV1p+h54gX2Q8uYJc9uLZKJoGjA=;
- b=NOmh0ROa0uuR361y6qeihtW21hrKTDuGvsQcAmiwRYXVXWe14xpRWZdA9XBhdwBX1fteJL
- wMyQOkrXyKnA7eF44SaUrrZqOT1P8FWeRHKHVz3KryIvGNB8qqbSDYhJbcyoLfo92thakR
- XKmgLrHsgzw7XZmE1uR1iHIRLDRPS6V4ztWQCE7i25zXCzwFwYPlw2yZ6svBzkzdVGkK7Q
- VK11j3QDgZmi8fwoqYS1Wgaq6ReJnOc4prfr4TwcqbytqTbRpzwbg5Wq6dtTUEZ7tuyeNA
- Cazfyh51zRwBVwrQFTff1POOu9fNlcW7GlcZKJoZ7rA/eRSIe5YuoNLG6SQBtw==
-Date: Fri, 22 Nov 2024 18:44:18 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: jose.exposito89@gmail.com, dri-devel@lists.freedesktop.org,
- arthurgrillo@riseup.net, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH RFC v2 00/16] drm/vkms: ConfigFS interface
-Message-ID: <Z0DC8nd1ZFN4A82-@louis-chauvet-laptop>
-Mail-Followup-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>, jose.exposito89@gmail.com,
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, nicolejadeyee@google.com
-References: <20241122-google-config-fs-v2-0-4b7e6f183320@bootlin.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51B4310E160
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 18:38:46 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AMBxowQ004608;
+ Fri, 22 Nov 2024 18:38:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ KJV7+5jrID/ChUcEkj99nCNJ4KK80LJ+d7p6tlWha2g=; b=C3+TWYqw5eZEF7o1
+ OBOZourZ6LoDffEIkfnn1NjY2DxvqySt1lKMXwktyI5jHsl7zkFM70+c8J4o6230
+ reQ5PG3HhTk68wig81RpZC9X6iVtU1xUW25SUCicH5b95a1bzsbQlxdiLx1nBinZ
+ DT2NgTz1NzBLrTvwjUXFa4LcbZULxOX5MWxbLe9/M30LPv+4BUK+ALpctkm8KvAI
+ pcpJFoWdlH96a2Jf1tyz0d0TGhc/xNcIr6Jxc/kVZ++CEgiAJA/gaiE2HRAtbmyS
+ MTpTGudMNlZCv/x1QTt9HlqROgDZTkUbM7dD8FcdAJmAKGNytkdl54vTGzlifgYU
+ XWrmwA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 431ea77t53-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Nov 2024 18:38:42 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AMIcg2N006113
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Nov 2024 18:38:42 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 22 Nov
+ 2024 10:38:41 -0800
+Message-ID: <e88d420f-4dd0-a362-404c-f8e347cd2df2@quicinc.com>
+Date: Fri, 22 Nov 2024 11:38:40 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241122-google-config-fs-v2-0-4b7e6f183320@bootlin.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/qaic: Drop redundant vfree() null check in sahara
+Content-Language: en-US
+To: <quic_carlv@quicinc.com>, <andersson@kernel.org>,
+ <quic_yabdulra@quicinc.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ "kernel test robot" <lkp@intel.com>
+References: <20241117202629.1681358-1-quic_jhugo@quicinc.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20241117202629.1681358-1-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: mDqpIVDk1B3MK-d8nx-ahPnWTI-dhgAO
+X-Proofpoint-ORIG-GUID: mDqpIVDk1B3MK-d8nx-ahPnWTI-dhgAO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ bulkscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 malwarescore=0 mlxlogscore=746
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411220157
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,75 +91,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/11/24 - 18:38, Louis Chauvet wrote:
-> VKMS is manly used to test userspace program and its behavior. The current 
-> implementation is not very configurable as you can only have one device, 
-> with few specific planes.
+On 11/17/2024 1:26 PM, Jeffrey Hugo wrote:
+> The documentation for vfree() says that passing in NULL is ok. Therefore
+> we can drop the null check as redundant.
 > 
-> This series aims to introduce a new interface, using ConfigFS, to create 
-> and configure more devices. This will introduce:
-> - Device creation
-> - Plane creation
-> - Plane configuration (type, color encoding, color range, rotations)
-> - Encoder creation
-> - CRTC creation
-> - Linking between CRTC and planes/encoders
-> 
-> The proposition is:
-> /config/vkms
-> 	DEVICE_1
-> 	┣━ enable
-> 	┣━ writeback
-> 	┣━ planes
-> 	┃  ┣━ PLANE_1
-> 	┃  ┃  ┣━ type
-> 	┃  ┃  ┣━ supported_rotations
-> 	┃  ┃  ┣━ color_range
-> 	┃  ┃  ┣━ color_encoding
-> 	┃  ┃  ┣━ default_color_encoding
-> 	┃  ┃  ┣━ default_rotations
-> 	┃  ┃  ┣━ default_color_range
-> 	┃  ┃  ┗━ possible_crtcs
-> 	┃  ┃     ┗━ >> /config/vkms/DEVICE_1/crtc/CRTC_1 
-> 	┃  ┣━ PLANE_2
-> 	┃  ┃  ┗━ ditto
-> 	┃  ┗━ PLANE_3
-> 	┃     ┗━ ditto
-> 	┃
-> 	┣━ encoders
-> 	┃  ┣━ ENCODER_1
-> 	┃  ┃  ┗━ possible_crtcs
-> 	┃  ┃     ┗━ >> /config/vkms/DEVICE_1/crtc/CRTC_1
-> 	┃  ┗━ ENCODER_2
-> 	┃     ┗━ ditto
-> 	┃
-> 	┗━ crtc
-> 	   ┗━ CRTC_1
-> 	
-> This interface aims to be extendable (new property can easly be added in 
-> objects) and easy to use (objects are created simply by creating folders, 
-> and configured by writing files).
-> 
-> This series depends on 
-> https://lore.kernel.org/all/20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com
-> but as this is a bit complex to rebase, you can find a working branch 
-> here:
-> https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/b4/vkms-configfs
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202410301732.abF5Md4e-lkp@intel.com/
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Hi all,
+Applied to drm-misc-next
 
-I am also currently working on MST emulation for VKMS. If someone can read 
-what I already did and at tell me if my implementation seems on the right 
-track it could be nice.
-
-The current status is not very advanced: I can emulate a mst HUB, but not 
-a screen. I am currently working on properly emulating the HUB by using an 
-other hub.
-
-You can find the branch for this work here:
-https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/b4/vkms-mst
-
-Thanks a lot,
-Louis Chauvet
+-Jeff
