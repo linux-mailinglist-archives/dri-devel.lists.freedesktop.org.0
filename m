@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE879D62DF
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 18:20:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C529D62E6
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 18:20:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7329C10EC2E;
-	Fri, 22 Nov 2024 17:20:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED95A10EC24;
+	Fri, 22 Nov 2024 17:20:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="guAscFtj";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TW0wPuCv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B65510EC1D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 17:20:32 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 26CB11C000C;
- Fri, 22 Nov 2024 17:20:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA3310EC1D
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 17:20:33 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 124F51C000F;
+ Fri, 22 Nov 2024 17:20:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1732296030;
+ t=1732296031;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FPjoDbbnyRr8NB8CQTYsw04Lz1RI3/dvKXG1g5TXNeU=;
- b=guAscFtjUM5GWTCaMvjH05hO+2BPd06hoQ3+8ckboIHNlY2LvEyzyKH7C3+0NDzAQ9/zCt
- uLD4gLQmo1HcSODPFcZDsVavZ1NxeGhBCGr5wNGv4gfw2x44k4JTcoS/n9CLWmNwiZsdxg
- ajK0L6ON9e2ABBdnRB0tazulxjak8BoAZ6snqWRHouXQ4SriP0dtXrn9P+8yFwvXh6Co60
- AU2Kml+rrJZwxeargv6oHabLKpG3PNpWuz4fipuVJTfy23Fy4kQUKgOysh1rXcuMfKjtms
- CUNM/RS3fjMXSfT4mdrlFb8tJcz4HtyzOgPt2LJtb39wWDC15cXBBh0ghWkmuw==
+ bh=3pZcj0NZ2YBqvq/J6zcsQjddfQSR7x65pN9aBnV0Z70=;
+ b=TW0wPuCvZtLUIvB5O8cXj9uyD7EojxDl5I/0Q3Dofj86gHyLnhKpAbX7W9JSjNSeXCjLYk
+ LfkSgUiaVwWcIrM468zW7jJVZv3/0gOIC5imG/8IdYtZeIDHQm5oZe4Q19LOduVu8KDJlT
+ dQobElcq+yUqf/ylZlpxXAELH65eL9C2pQt+PMAw0F5jlLjw/Woc3FX0x6iecmED9ULCFc
+ dAL1ks4d+zkSHve0skstAIPuU+6PcX/pcjrTpIpzb+j/GzgDcZs3uVxAMsRgek+FkTXett
+ g17UF7HNbxHlpWxaO7soz6S94rQ2xVOpYdGBC4MEuv9PlyRrtjmZqEyOp+takA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 22 Nov 2024 18:20:15 +0100
-Subject: [PATCH RFC v2 11/18] drm/vkms: Introduce config for CRTC name
+Date: Fri, 22 Nov 2024 18:20:16 +0100
+Subject: [PATCH RFC v2 12/18] drm/vkms: Add test for config structure
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241122-google-remove-crtc-index-from-parameter-v2-11-81540742535a@bootlin.com>
+Message-Id: <20241122-google-remove-crtc-index-from-parameter-v2-12-81540742535a@bootlin.com>
 References: <20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com>
 In-Reply-To: <20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com>
 To: =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
@@ -50,21 +50,21 @@ Cc: arthurgrillo@riseup.net, jeremie.dautheribes@bootlin.com,
  seanpaul@google.com, nicolejadeyee@google.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2727;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7146;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=XPH7g+AmIjMlHLLHQSbiTuo8nFUzQItzE3jlEy5xM9M=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnQL1PdImx4wMcOGyY7gXf+uKLYlrrpEEym4oWq
- P349JzMu6OJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ0C9TwAKCRAgrS7GWxAs
- 4rmBEACowjbfGf2hpsh6W6gtRuxg7jRi9OFoNB49utSwzHIu9NQeCdubJ5A+j9lDEPoGxEA/0Zv
- NIhMzd/6pY5OZeTZs0LkDFV/QzsmbRkcEoy9yr2emPy3xgcYEEoCjK3R2Mtv1UXt68O2S7RwaYe
- YlOkB51CjGzLY0s9eEFFQNKEE0TsGGymiLRxwqJ2XfDlC5yOmpCh901ZJ515S3nEsM0pEimMuj/
- c1m43ptqyLLng0ekpSHN+GgW7jcp+/BBEz+FOrNxmw7/269Xjxcj3Bt1O01ZEAxKyfHOt/Z7tq9
- DLtqZb9TJDaRRqJbGJyuwVDuvjOEoo32e4i3K8puhF4iL7T3IXQ9rOFNR73J0JvmeLLZrvezxXM
- cbqMP5LqfJ9QYQ0gOle46mP15NUb2OA8aE7rDzFxdh2yXlMJn6Dp5HR4AV3rWAVr62zrkAOsqD2
- ne9nQ2Si/iTvD26SP1UZh7qteb9L866opG8eysqtSlqiYnqLl//w1BislyXhDQPXQXkW/AHnz7+
- M6KIdEVqB142N7yb2VJBJlu56Pzo7lA9pN3zkEOZ5pRFSm2jo90zXG6Hp674qGj7Y3SJyUsvJwv
- 20XTQQL22fYZ6XvREZBS1eiD5w4OSatuDigDnUpnWA1TybGG0Us9y91v6aF+BQ56/VtGhAd3xU+
- VClVQRKcvHk0OIA==
+ bh=oBmYPdGSswsqPrnaij5RkMl4T5hw1Ka1JTJFwGsUKVM=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnQL1QFXRgp9FfoKX1rGti1LDTphZeiZUud6LF5
+ koAkx53Sp+JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ0C9UAAKCRAgrS7GWxAs
+ 4m7RD/99H8lhoNGL5h2CeYT8EfUFiQmDiffEHDEn1cmYZ86xgSNCEUYd2Ouy4uEBYAZa7Y8EPRG
+ 8XA7X2JOUJNYTZvvi+hw6D/iEbc3IUNQT83qzs90KtwUvftvMea4pNSJ/bu1Jw0Ned0mkjxJdl3
+ t77KufmVq8vKfM5IAqMrPTPPWGjqHWXhnqA2FGVa1M8Qi+kzhjy2aTdxaJBBQUdghhG2XxruGn0
+ Md6UfFIPfsOhGPpRfTSXwcN2XQEPmu/r4evPvCrb5ASa5pjmzlrI44ooJDtehpV/4D1MSOPj90O
+ PdgGpMIDvj/ezzPNLJuRFJTDfOFAjkL61yZjdxwVa0evFIYrx9Sdk0yelTB54LsOvCzVWGhqkb4
+ fDIfwEjpGxJ4e1A2xI8rZbLMse6L2bX+9ki8IUEbM1Mi9Mqin6orlpBb7MrIugityljs35c4R/z
+ INv0qSTdRrUJnUExl2ENFi0IhjIDkhVHOjXdpm9ZnCxpdPlKQju+RjgS11CZGQQfoEh1vcSlSPx
+ A6b+KHCsiQT5tpKHkZJb2QFdx3bcywFmWQV3XxgT2W/2gvwImUtwRVRb52dFIY0w/0xCJMTUb8r
+ 1u3V+wTtHGMq3uM6WKBXJAXF6cZq8kg2IoESYLRGmZaHVZsCj4cY1htFI5Q9k1TT6OwYCoWjP9x
+ iQKkMTBAi29kpQQ==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -83,73 +83,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As a CRTC will be a directory in ConfigFS, add the name configuration for
-CRTC name so we will be able to reflect the configfs directory name in the
-drm name.
+The config structure is a bit complex in term of memory management. Add
+basic test to avoid breaking it in the future.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_config.c | 5 +++++
- drivers/gpu/drm/vkms/vkms_config.h | 2 ++
- drivers/gpu/drm/vkms/vkms_crtc.c   | 2 +-
- 3 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vkms/tests/Makefile           |   1 +
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c | 137 ++++++++++++++++++++++++++
+ 2 files changed, 138 insertions(+)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index a2539fb56b602569b75748fdf9c4784f104b0bff..3252f657ce515c0193a8c0e709bfe861feba0aca 100644
---- a/drivers/gpu/drm/vkms/vkms_config.c
-+++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -37,6 +37,10 @@ struct vkms_config *vkms_config_alloc_default(bool enable_writeback, bool enable
- 	if (!crtc)
- 		goto err_alloc;
- 	crtc->writeback = enable_writeback;
-+	crtc->name = kzalloc(sizeof("Main CRTC"), GFP_KERNEL);
-+	if (!crtc->name)
-+		goto err_alloc;
-+	sprintf(crtc->name, "Main CRTC");
+diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/tests/Makefile
+index 2d1df668569e4f243ed9a06c1e16e595c131c4f6..ec71b5fe7f9d957eeeabd233bb75c4c250789ff4 100644
+--- a/drivers/gpu/drm/vkms/tests/Makefile
++++ b/drivers/gpu/drm/vkms/tests/Makefile
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
  
- 	encoder = vkms_config_create_encoder(vkms_config);
- 	if (!encoder)
-@@ -219,6 +223,7 @@ void vkms_config_delete_crtc(struct vkms_config_crtc *vkms_config_crtc,
- 		}
- 	}
- 
-+	kfree(vkms_config_crtc->name);
- 	kfree(vkms_config_crtc);
- }
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index 4223edd94ec270915dd658c0b5efd489554d33a5..4a4c16dea7855cf36060986ef247be698974fafc 100644
---- a/drivers/gpu/drm/vkms/vkms_config.h
-+++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -29,6 +29,7 @@ struct vkms_config {
-  * struct vkms_config_crtc
-  *
-  * @link: Link to the others CRTCs
-+ * @name: Name of the CRTC
-  * @possible_planes: List of planes that can be used with this CRTC
-  * @possible_encoders: List of encoders that can be used with this CRTC
-  * @crtc: Internal usage. This pointer should never be considered as valid. It can be used to
-@@ -38,6 +39,7 @@ struct vkms_config {
- struct vkms_config_crtc {
- 	struct list_head link;
- 
-+	char *name;
- 	bool writeback;
- 	struct xarray possible_planes;
- 	struct xarray possible_encoders;
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 3825fba57c012f84cbe67114e053dcd7fcfa283d..25a3d97a362afd0d40f3e023d9cce985d447a880 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -292,7 +292,7 @@ struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkms_device,
- 
- 	vkms_crtc = drmm_crtc_alloc_with_planes(dev, struct vkms_crtc, base,
- 						primary, cursor,
--						&vkms_crtc_funcs, NULL);
-+						&vkms_crtc_funcs, config->name);
- 	if (IS_ERR(vkms_crtc)) {
- 		DRM_DEV_ERROR(dev->dev, "Failed to init CRTC\n");
- 		return vkms_crtc;
+ obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += vkms_format_test.o
++obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += vkms_config_test.o
+diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..12b845bc358aaa44434c6b66184cf17d19656596
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+@@ -0,0 +1,137 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++#include <kunit/test.h>
++
++#include "../vkms_config.h"
++
++MODULE_IMPORT_NS(EXPORTED_FOR_KUNIT_TESTING);
++
++static void vkms_config_test_basic_allocation(struct kunit *test)
++{
++	struct vkms_config *config = vkms_config_create();
++
++	KUNIT_EXPECT_TRUE_MSG(test, list_empty(&config->encoders),
++			      "Encoder list is not empty after allocation");
++	KUNIT_EXPECT_TRUE_MSG(test, list_empty(&config->crtcs),
++			      "CRTC list is not empty after allocation");
++	KUNIT_EXPECT_TRUE_MSG(test, list_empty(&config->planes),
++			      "Plane list is not empty after allocation");
++
++	vkms_config_destroy(config);
++}
++
++static void vkms_config_test_simple_config(struct kunit *test)
++{
++	struct vkms_config *config = vkms_config_create();
++
++	struct vkms_config_plane *plane_1 = vkms_config_create_plane(config);
++	struct vkms_config_plane *plane_2 = vkms_config_create_plane(config);
++	struct vkms_config_crtc *crtc = vkms_config_create_crtc(config);
++	struct vkms_config_encoder *encoder = vkms_config_create_encoder(config);
++
++	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->planes), 2);
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->crtcs), 1);
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->encoders), 1);
++
++	plane_1->type = DRM_PLANE_TYPE_PRIMARY;
++	plane_2->type = DRM_PLANE_TYPE_CURSOR;
++
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_1, crtc), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_2, crtc), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_encoder_attach_crtc(encoder, crtc), 0);
++
++	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
++
++	vkms_config_delete_plane(plane_1, config);
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->planes), 1);
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->crtcs), 1);
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->encoders), 1);
++
++	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
++
++	plane_2->type = DRM_PLANE_TYPE_PRIMARY;
++
++	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
++
++	vkms_config_destroy(config);
++}
++
++static void vkms_config_test_complex_config(struct kunit *test)
++{
++	struct vkms_config *config = vkms_config_create();
++
++	struct vkms_config_plane *plane_1 = vkms_config_create_plane(config);
++	struct vkms_config_plane *plane_2 = vkms_config_create_plane(config);
++	struct vkms_config_plane *plane_3 = vkms_config_create_plane(config);
++	struct vkms_config_plane *plane_4 = vkms_config_create_plane(config);
++	struct vkms_config_plane *plane_5 = vkms_config_create_plane(config);
++	struct vkms_config_plane *plane_6 = vkms_config_create_plane(config);
++	struct vkms_config_plane *plane_7 = vkms_config_create_plane(config);
++	struct vkms_config_plane *plane_8 = vkms_config_create_plane(config);
++	struct vkms_config_crtc *crtc_1 = vkms_config_create_crtc(config);
++	struct vkms_config_crtc *crtc_2 = vkms_config_create_crtc(config);
++	struct vkms_config_encoder *encoder_1 = vkms_config_create_encoder(config);
++	struct vkms_config_encoder *encoder_2 = vkms_config_create_encoder(config);
++	struct vkms_config_encoder *encoder_3 = vkms_config_create_encoder(config);
++	struct vkms_config_encoder *encoder_4 = vkms_config_create_encoder(config);
++
++	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->planes), 8);
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->crtcs), 2);
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->encoders), 4);
++
++	plane_1->type = DRM_PLANE_TYPE_PRIMARY;
++	plane_2->type = DRM_PLANE_TYPE_CURSOR;
++	plane_3->type = DRM_PLANE_TYPE_OVERLAY;
++	plane_4->type = DRM_PLANE_TYPE_OVERLAY;
++	plane_5->type = DRM_PLANE_TYPE_PRIMARY;
++	plane_6->type = DRM_PLANE_TYPE_CURSOR;
++	plane_7->type = DRM_PLANE_TYPE_OVERLAY;
++	plane_8->type = DRM_PLANE_TYPE_OVERLAY;
++
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_1, crtc_1), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_2, crtc_1), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_3, crtc_1), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_4, crtc_1), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_5, crtc_2), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_6, crtc_2), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_7, crtc_2), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_8, crtc_2), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_3, crtc_2), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_plane_attach_crtc(plane_4, crtc_2), 0);
++
++	KUNIT_EXPECT_EQ(test, vkms_config_encoder_attach_crtc(encoder_1, crtc_1), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_encoder_attach_crtc(encoder_2, crtc_1), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_encoder_attach_crtc(encoder_3, crtc_1), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_encoder_attach_crtc(encoder_3, crtc_2), 0);
++	KUNIT_EXPECT_EQ(test, vkms_config_encoder_attach_crtc(encoder_4, crtc_2), 0);
++
++	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
++
++	vkms_config_delete_plane(plane_4, config);
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->planes), 7);
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->crtcs), 2);
++	KUNIT_EXPECT_EQ(test, list_count_nodes(&config->encoders), 4);
++
++	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
++
++	vkms_config_destroy(config);
++}
++
++static struct kunit_case vkms_config_test_cases[] = {
++	KUNIT_CASE(vkms_config_test_basic_allocation),
++	KUNIT_CASE(vkms_config_test_simple_config),
++	KUNIT_CASE(vkms_config_test_complex_config),
++	{}
++};
++
++static struct kunit_suite vkms_config_test_suite = {
++	.name = "vkms-config",
++	.test_cases = vkms_config_test_cases,
++};
++
++kunit_test_suite(vkms_config_test_suite);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Kunit test for vkms config utility");
 
 -- 
 2.47.0
