@@ -2,58 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F189D5C80
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA539D5C9C
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:58:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFA0510E227;
-	Fri, 22 Nov 2024 09:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66B5510E22D;
+	Fri, 22 Nov 2024 09:58:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KxroAW/X";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="AEYLFD6b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E500510E227
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 09:54:59 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 177374000D;
- Fri, 22 Nov 2024 09:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1732269297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=L+aBVqr7lmdXm3Wn3wbMrPw5OiE0VNIMGsehmxwhImM=;
- b=KxroAW/X/yTXmXDjzIRxtBnIZqU9ltO4G6GxfFSjIUDzHakeOGYxFHr2yYgPl0LdbpRZ1t
- OK6YiNdDecwOfmbXL8YUX1u99ZZ9fkUtTBcd8adBRey04y+ZzxIczzjDxyGoi0R35UlHIx
- sqp/Ec5LU3YN7qIcY1mJ130gZV1JpGIbpR3iSEXbt1jHXwfkz5IiGWjewXExTo+iEfIbV7
- JVwL2V2FwXAZRKllWRBOutFYx5+5vEmgse6BEvbUiSRZ4wYQPyDowLPGGdswdD67jpHd7u
- r1AUxkQCP+3OTwg9wrmi11Rsbji2mL5Lj0XO/eTxdKGgdZaCM1GYWmx5fbP4TA==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Abel Vesa <abelvesa@kernel.org>,  Peng Fan <peng.fan@nxp.com>,  Michael
- Turquette <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
- <festevam@gmail.com>,  Marek Vasut <marex@denx.de>,  Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,  linux-clk@vger.kernel.org,
- imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org,  dri-devel@lists.freedesktop.org,  Abel
- Vesa <abel.vesa@linaro.org>,  Herve Codina <herve.codina@bootlin.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,  Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>,  Ian Ray <ian.ray@ge.com>,
- stable@vger.kernel.org
-Subject: Re: [PATCH 0/5] clk: Fix simple video pipelines on i.MX8
-In-Reply-To: <b98fdf46-3d09-4693-86fe-954fc723e3a6@nxp.com> (Liu Ying's
- message of "Fri, 22 Nov 2024 14:01:49 +0800")
-References: <20241121-ge-ian-debug-imx8-clk-tree-v1-0-0f1b722588fe@bootlin.com>
- <b98fdf46-3d09-4693-86fe-954fc723e3a6@nxp.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Fri, 22 Nov 2024 10:54:55 +0100
-Message-ID: <87zflrpp8w.fsf@bootlin.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A451D10E22C;
+ Fri, 22 Nov 2024 09:58:54 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AM86MwS015290;
+ Fri, 22 Nov 2024 09:58:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=Oo7HikWZjO7o4h8uvE+hBs
+ svbZ8a0Y9HAjNRBm40WBc=; b=AEYLFD6b/ub2x+7u9ki5P2oe+NnhIz46nGyZ23
+ iTMy0KvCvufbCd89ztRohxYjzfupHXqWY1a7HhHCQPjBmI6LdnolwsU3p8lfI91e
+ 23SfO8HG1C/Jxby+8210vGJfLLA6vL25a3tv+rfA2QZZJ9QnCaJWn3bqWj1JBlGa
+ SWRGIQkS/CBtMJ2SKwpvZ7I9Xma7K0nB77RJyeSYgKTVapzJOnipUmejEyp6Z+Q2
+ XarQ/pObcQKTV3Ki5mQGoddpsEHIaBkqoYeRjwwLcxzMmgfbwKiRmJ47eO5t/3WZ
+ sEeUy1impFOX4uNbzlF/XrqdPV6MDSA1x8pgjXpkjhy3BjwQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4320y9krgq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Nov 2024 09:58:43 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AM9whGv007649
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Nov 2024 09:58:43 GMT
+Received: from robotics-lnxbld017.ap.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 22 Nov 2024 01:58:36 -0800
+From: Fange Zhang <quic_fangez@quicinc.com>
+Subject: [PATCH v3 0/9] Add display support for QCS615 platform
+Date: Fri, 22 Nov 2024 17:56:43 +0800
+Message-ID: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGlVQGcC/52S3YrbMBCFXyX4ehX0LzuU0vdYFiNrRo2obSWSY
+ 7pd8u6V7SwltBdJL2dgvnN0dD6qjClgrg67jyrhHHKIYxnEy65yRzt+RxKgzBWnXDLGOLEABEI
+ +9fad5MvpFNNEfEzk7LJmipT9VMaBaCMRtKuRKVoV2imhDz9Xpde3bU54vhTBaVtWA+ZsV8HD7
+ suqRzn/5Lo+uh8EUpgxkVkSTgQYpi1QaGrzrYBcGN3exeHrovYUSz7LYlQuObRhDFOwfXvLoS0
+ Pb28asyKUNABYg+lq2tGHsIoKzqjZN0rxYms5ac/nX8d4eeS8AGopBNtzpaWWgrCNMIOF8pfhI
+ Qv1Z0rDsAXl4jil2PdLVqI8yoDoOHChPPiniTCRMQJmMrOC6rjWjbOOai7/QnU2IynDEKbDruF
+ Nh9Z3aKxzKLg25YgxhUwgFd5rVFTJ2lZLtY4hTzG9r52e2dqtW0Di4fqu/tCZhvHGSy/v/K0qM
+ /9DpmwrxI38z0IsQInesoZBB3APfNn9h0VeiLw2Ajvtu1o39xav1+tv7Z7s4d4DAAA=
+X-Change-ID: 20241112-add-display-support-for-qcs615-platform-674ed6c8e150
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ "Bjorn Andersson" <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, "Li Liu" <quic_lliu6@quicinc.com>,
+ Fange Zhang <quic_fangez@quicinc.com>,
+ "Xiangxu Yin" <quic_xiangxuy@quicinc.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732269514; l=7370;
+ i=quic_fangez@quicinc.com; s=20241014; h=from:subject:message-id;
+ bh=hWA2D4wHps5pueio3pYCUA1Rqom0bBEVdMwteSrKAFs=;
+ b=VX+AvZl0xeQt3wxbfrrHLOeXezFOI+qIgfmeOuw82KJe1LMivhg1oXJhDRm/fYyv2BmRQaVjV
+ GyihA1icA6HDwQCQKyBYiFU6zKyenFkuuTem1QMEd6Haoy/VGiFu7BU
+X-Developer-Key: i=quic_fangez@quicinc.com; a=ed25519;
+ pk=tJv8Cz0npA34ynt53o5GaQfBC0ySFhyb2FGj+V2Use4=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: XGYdlXSlf7zHHntipg-iiUssa7r6MNeS
+X-Proofpoint-ORIG-GUID: XGYdlXSlf7zHHntipg-iiUssa7r6MNeS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0
+ mlxlogscore=999 spamscore=0 mlxscore=0 malwarescore=0 clxscore=1015
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411220084
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,183 +116,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Liu,
+This series aims to enable display on the QCS615 platform
 
-Thanks for the feedback!
+1.Add MDSS & DPU support for QCS615
+2.Add DSI support for QCS615     
 
-On 22/11/2024 at 14:01:49 +08, Liu Ying <victor.liu@nxp.com> wrote:
+QCS615 platform supports DisplayPort, and this feature will be added in a future patch
 
-> Hi Miquel,
->
-> On 11/22/2024, Miquel Raynal wrote:
->> Recent changes in the clock tree have set CLK_SET_RATE_PARENT to the two
->> LCDIF pixel clocks. The idea is, instead of using assigned-clock
->> properties to set upstream PLL rates to high frequencies and hoping that
->> a single divisor (namely media_disp[12]_pix) will be close enough in
->> most cases, we should tell the clock core to use the PLL to properly
->> derive an accurate pixel clock rate in the first place. Here is the
->> situation.
->> 
->> [Before ff06ea04e4cf ("clk: imx: clk-imx8mp: Allow media_disp pixel clock reconfigure parent rate")]
->> 
->> Before setting CLK_SET_RATE_PARENT to the media_disp[12]_pix clocks, the sequence of events was:
->> - PLL is assigned to a high rate,
->> - media_disp[12]_pix is set to approximately freq A by using a single divisor,
->> - media_ldb is set to approximately freq 7*A by using another single divisor.
->> => The display was working, but the pixel clock was inaccurate.
->> 
->> [After ff06ea04e4cf ("clk: imx: clk-imx8mp: Allow media_disp pixel clock reconfigure parent rate")]
->> 
->> After setting CLK_SET_RATE_PARENT to the media_disp[12]_pix clocks, the
->> sequence of events became:
->> - media_disp[12]_pix is set to freq A by using a divisor of 1 and
->>   setting video_pll1 to freq A.
->> - media_ldb is trying to compute its divisor to set freq 7*A, but the
->>   upstream PLL is to low, it does not recompute it, so it ends up
->>   setting a divisor of 1 and being at freq A instead of 7*A.
->> => The display is sadly no longer working
->> 
->> [After applying PATCH "clk: imx: clk-imx8mp: Allow LDB serializer clock reconfigure parent rate"]
->> 
->> This is a commit from Marek, which is, I believe going in the right
->> direction, so I am including it. Just with this change, the situation is
->> slightly different, but the result is the same:
->> - media_disp[12]_pix is set to freq A by using a divisor of 1 and
->>   setting video_pll1 to freq A.
->> - media_ldb is set to 7*A by using a divisor of 1 and setting video_pll1
->>   to freq 7*A.
->>   /!\ This as the side effect of changing media_disp[12]_pix from freq A
->>   to freq 7*A.
->
-> Although I'm not of a fan of setting CLK_SET_RATE_PARENT flag to the
-> LDB clock and pixel clocks,
+This patch series depends on below patch series:
+- rpmhcc
+https://lore.kernel.org/all/20241022-qcs615-clock-driver-v4-2-3d716ad0d987@quicinc.com/
+- gcc
+https://lore.kernel.org/all/20241022-qcs615-clock-driver-v4-4-3d716ad0d987@quicinc.com/
+- base
+https://lore.kernel.org/all/20241104-add_initial_support_for_qcs615-v5-0-9dde8d7b80b0@quicinc.com/
+- Apps SMMU
+https://lore.kernel.org/all/20241105032107.9552-4-quic_qqzhou@quicinc.com/
+- I2C
+https://lore.kernel.org/all/20241111084331.2564643-1-quic_vdadhani@quicinc.com/
+- dispcc
+https://lore.kernel.org/all/20241108-qcs615-mm-clockcontroller-v3-0-7d3b2d235fdf@quicinc.com/
+- dispcc dts
+https://lore.kernel.org/lkml/20241108-qcs615-mm-dt-nodes-v1-0-b2669cac0624@quicinc.com/
 
-I haven't commented much on this. For me, inaccurate pixel clocks mostly
-work fine (if not too inaccurate), but it is true that having very
-powerful PLL like the PLL1443, it is a pity not to use them at their
-highest capabilities. However, I consider "not breaking users" more
-important than having "perfect clock rates".
+Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
+Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
+---
+Changes in v3:
+- Add reg_bus_bw for sm6150_data [Dmitry]
+- Remove patch for SX150X defconfig [Dmitry]
+- Remove dsi0_hpd_cfg_pins from ioexp [Dmitry]
+- Remove dsi0_cdet_cfg_pins from ioexpa [Dmitry]
+- Remove tlmm node for ioexp_intr_active and ioAexp_reset_active [Dmitry]
+- Remove qcs615_dsi_regulators and reuse sdm845_dsi_cfg [Dmitry, Konrad]
+- Rename qcs615/QCS615 to sm6150/SM6150 for whole patch [Dmitry]
+- Rename qcom,dsi-phy-14nm-615 to qcom,sm6150-dsi-phy-14nm [Dmitry]
+- Rename qcom,qcs615-dsi-ctrl to qcom,sm6150-dsi-ctrl [Dmitry]
+- Rename qcom,qcs615-dpu to qcom,sm6150-dpu [Dmitry]
+- Rename qcom,qcs615-mdss to qcom,sm6150-mdss [Dmitry]
+- Split drm dsi patch to dsi and dsi phy [Dmitry]
+- Update yaml clocks node with ephemeral nodes and remove unsed include [Dmitry, Rob]
+- Link to v2: https://lore.kernel.org/r/20241113-add-display-support-for-qcs615-platform-v2-0-2873eb6fb869@quicinc.com
 
-This series has one unique goal: accepting more accurate frequencies
-*and* not breaking users in the most simplest cases.
+Changes in v2:
+- Add QCS615 DP controller comment in commit message [Dmitry]
+- Add comments for dsi_dp_hpd_cfg_pins and dsi_dp_cdet_cfg_pins [Dmitry]
+- Add missing port@1 for connector for anx7625 [Dmitry]
+- Change 0 to QCOM_ICC_TAG_ALWAYS for mdss interconnects [Dmitry]
+- Change 0 to GPIO_ACTIVE_HIGH for GPIO flags [Dmitry]
+- Move anx_7625 to same node [Dmitry]
+- Move status to last in mdss_dsi0 [Dmitry]
+- Rename dsi0_hpd_cfg_pins to dsi_dp_hpd_cfg_pins in ioexp [Dmitry]
+- Rename dsi0_cdet_cfg_pins to dsi_dp_cdet_cfg_pins in ioexp [Dmitry]
+- Rename anx_7625_1 to dsi_anx_7625 in ioexp [Dmitry]
+- Remove absent block in qcs615_lm [Dmitry]
+- Remove merge_3d value in qcs615_pp [Dmitry]
+- Remove redundant annotation in qcs615_sspp [Dmitry]
+- Remove unsupported dsi clk from dsi0_opp_table [Dmitry]
+- Remove dp_hpd_cfg_pins node from ioexp [Dmitry]
+- Splite drm driver patches to mdss, dpu and dsi [Dmitry]
+- Link to v2: https://lore.kernel.org/r/20241014-add_display_support_for_qcs615-v1-0-4efa191dbdd4@quicinc.com
 
-> would it work if the pixel clock rate is
-> set after the LDB clock rate is set in fsl_ldb_atomic_enable()?
+---
+Li Liu (9):
+      dt-bindings: display/msm: Add SM6150 DSI phy
+      dt-bindings: display/msm: dsi-controller-main: Document SM6150
+      dt-bindings: display/msm: Add SM6150 MDSS & DPU
+      drm/msm: mdss: Add SM6150 support
+      drm/msm/dpu: Add SM6150 support
+      drm/msm/dsi: Add dsi phy support for SM6150
+      drm/msm/dsi: Add support for SM6150
+      arm64: dts: qcom: Add display support for QCS615
+      arm64: dts: qcom: Add display support for QCS615 RIDE board
 
-The situation would be:
-- media_ldb is set to 7*A by using a divisor of 1 and setting video_pll1
-  to freq 7*A.
-- media_disp[12]_pix is set to freq A by using a divisor of 7.
+ .../bindings/display/msm/dsi-controller-main.yaml  |   1 +
+ .../bindings/display/msm/dsi-phy-14nm.yaml         |   1 +
+ .../bindings/display/msm/qcom,sm6150-dpu.yaml      | 113 +++++++++
+ .../bindings/display/msm/qcom,sm6150-mdss.yaml     | 250 ++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts           |  76 ++++++
+ arch/arm64/boot/dts/qcom/qcs615.dtsi               | 186 ++++++++++++++-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h | 263 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |   4 +-
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c         |  21 ++
+ drivers/gpu/drm/msm/msm_mdss.c                     |   8 +
+ 16 files changed, 928 insertions(+), 2 deletions(-)
+---
+base-commit: 929beafbe7acce3267c06115e13e03ff6e50548a
+change-id: 20241112-add-display-support-for-qcs615-platform-674ed6c8e150
+prerequisite-message-id: <20241022-qcs615-clock-driver-v4-2-3d716ad0d987@quicinc.com>
+prerequisite-patch-id: cd9fc0a399ab430e293764d0911a38109664ca91
+prerequisite-patch-id: 07f2c7378c7bbd560f26b61785b6814270647f1b
+prerequisite-patch-id: a57054b890d767b45cca87e71b4a0f6bf6914c2f
+prerequisite-patch-id: 5a8e9ea15a2c3d60b4dbdf11b4e2695742d6333c
+prerequisite-message-id: <20241022-qcs615-clock-driver-v4-4-3d716ad0d987@quicinc.com>
+prerequisite-patch-id: cd9fc0a399ab430e293764d0911a38109664ca91
+prerequisite-patch-id: 07f2c7378c7bbd560f26b61785b6814270647f1b
+prerequisite-patch-id: a57054b890d767b45cca87e71b4a0f6bf6914c2f
+prerequisite-patch-id: 5a8e9ea15a2c3d60b4dbdf11b4e2695742d6333c
+prerequisite-message-id: <20241104-add_initial_support_for_qcs615-v5-0-9dde8d7b80b0@quicinc.com>
+prerequisite-patch-id: 09782474af7eecf1013425fd34f9d2f082fb3616
+prerequisite-patch-id: 04ca722967256efddc402b7bab94136a5174b0b9
+prerequisite-patch-id: 82481c82a20345548e2cb292d3098ed51843b809
+prerequisite-patch-id: 3bd8edd83297815fcb1b81fcd891d3c14908442f
+prerequisite-patch-id: fc1cfec4ecd56e669c161c4d2c3797fc0abff0ae
+prerequisite-message-id: <20241105032107.9552-4-quic_qqzhou@quicinc.com>
+prerequisite-patch-id: aaa7214fe86fade46ae5c245e0a44625fae1bad3
+prerequisite-patch-id: 4db9f55207af45c6b64fff4f8929648a7fb44669
+prerequisite-patch-id: 89ce719a863bf5e909989877f15f82b51552e449
+prerequisite-message-id: <20241111084331.2564643-1-quic_vdadhani@quicinc.com>
+prerequisite-patch-id: 3f9489c89f3e632abfc5c3ca2e8eca2ce23093b0
+prerequisite-message-id: <20241108-qcs615-mm-clockcontroller-v3-0-7d3b2d235fdf@quicinc.com>
+prerequisite-patch-id: 748a4e51bbedae9c6ebdbd642b2fd1badf958788
+prerequisite-patch-id: 72a894a3b19fdbd431e1cec9397365bc5b27abfe
+prerequisite-patch-id: da2b7a74f1afd58833c6a9a4544a0e271720641f
+prerequisite-patch-id: 40b79fe0b9101f5db3bddad23551c1123572aee5
+prerequisite-patch-id: cb93e5798f6bfe8cc3044c4ce973e3ae5f20dc6b
+prerequisite-patch-id: 13b0dbf97ac1865d241791afb4b46a28ca499523
+prerequisite-patch-id: 807019bedabd47c04f7ac78e9461d0b5a6e9131b
+prerequisite-patch-id: 8e2e841401fefbd96d78dd4a7c47514058c83bf2
+prerequisite-patch-id: 125bb8cb367109ba22cededf6e78754579e1ed03
+prerequisite-patch-id: b3cc42570d5826a4704f7702e7b26af9a0fe57b0
+prerequisite-patch-id: df8e2fdd997cbf6c0a107f1871ed9e2caaa97582
+prerequisite-message-id: <20241108-qcs615-mm-dt-nodes-v1-0-b2669cac0624@quicinc.com>
+prerequisite-patch-id: bcb1328b70868bb9c87c0e4c48e5c9d38853bc60
+prerequisite-patch-id: 8844a4661902eb44406639a3b7344416a0c88ed9
 
-So yes, and the explanation of why is there:
-https://elixir.bootlin.com/linux/v6.11.8/source/drivers/clk/clk-divider.c#L322
+Best regards,
+-- 
+fangez <quic_fangez@quicinc.com>
 
-> The
-> pixel clock can be got from LDB's remote input LCDIF DT node by
-> calling of_clk_get_by_name() in fsl_ldb_probe() like the below patch
-> does. Similar to setting pixel clock rate, I think a chance is that
-> pixel clock enablement can be moved from LCDIF driver to
-> fsl_ldb_atomic_enable() to avoid on-the-fly division ratio change.
-
-TBH, this sounds like a hack and is no longer required with this series.
-
-You are just trying to circumvent the fact that until now, applying a
-rate in an upper clock would unconfigure the downstream rates, and I
-think this is our first real problem.
-
-> https://patchwork.kernel.org/project/linux-clk/patch/20241114065759.3341908-6-victor.liu@nxp.com/
->
-> Actually, one sibling patch of the above patch reverts ff06ea04e4cf
-> because I thought "fixed PLL rate" is the only solution, though I'm
-> discussing any alternative solution of "dynamically changeable PLL
-> rate" with Marek in the thread of the sibling patch.
-
-I don't think we want fixed PLL rates. Especially if you start using
-external (hot-pluggable) displays with different needs: it just does not
-fly. There is one situation that cannot yet be handled and needs
-manual reparenting: using 3 displays with a non-divisible pixel
-frequency.
-
-FYI we managed this specific "advanced" case with assigned-clock-parents
-using an audio PLL as hinted by Marek. It mostly works, event though the
-PLL1416 are less precise and offer less accurate pixel clocks.
-
-> BTW, as you know the LDB clock rate is 3.5x faster than the pixel
-> clock rate in dual-link LVDS use cases, the lowest PLL rate needs to
-> be explicitly set to 7x faster than the pixel clock rate *before*
-> LDB clock rate is set.  This way, the pixel clock would be derived
-> from the PLL with integer division ratio = 7, not the unsupported
-> 3.5.
->
-> pixel    LDB         PLL
-> A        3.5*A       7*A      --> OK
-> A        3.5*A       3.5*A    --> not OK
-
-This series was mostly solving the simpler case, with one display, but I
-agree we should probably also consider the dual case.
-
-The situation here is that you require the LDB to be aware of some
-clocks constraints, like the fact that the downstream pixel clocks only
-feature simple dividors which cannot achieve a 3.5 rate. That is all.
-
-It is clearly the LDB driver duty to make this feasible. I cannot test
-the dual case so I didn't brought any solution to it in this series, but
-I already had a solution in mind. Please find a patch below, it is very
-simple, and should, in conjunction with this series, fix the dual case
-as well.
-
-FYI here is the final clock tree with this trick "manually" enabled. You
-can see video_pll1 is now twice media_ldb, and media ldb is still 7
-times media_disp[12]_pix (video_pll1 is assigned in DT to 1039500000, so
-it has effectively been reconfigured).
-
-       video_pll1                            1   1   0   1006600000
-          video_pll1_bypass                  1   1   0   1006600000
-             video_pll1_out                  2   2   0   1006600000
-                media_ldb                    1   1   0    503300000
-                   media_ldb_root_clk        1   1   0    503300000
-                media_disp2_pix              1   1   0     71900000
-                   media_disp2_pix_root_clk  1   1   0     71900000
-                media_disp1_pix              0   0   0     71900000
-                   media_disp1_pix_root_clk  0   0   0     71900000
-
----8<---
-Author: Miquel Raynal <miquel.raynal@bootlin.com>
-
-    drm: bridge: ldb: Make sure the upper PLL is compatible with dual output
-    
-    The i.MX8 display pipeline has a number of clock constraints, among which:
-    - The bridge clock must be 7 times faster than the pixel clock in single mode
-    - The bridge clock must be 3.5 times faster than the pixel clocks in dual mode
-    While a ratio of 7 is easy to build with simple divisors, 3.5 is not
-    achievable. In order to make sure we keep these clock ratios correct is
-    to configure the upper clock (usually video_pll1, but that does not
-    matter really) to twice it's usual value. This way, the bridge clock is
-    configured to divide the upstream rate by 2, and the pixel clocks are
-    configured to divide the upstream rate by 7, achieving a final 3.5 ratio
-    between the two.
-    
-    Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index 81ff4e5f52fa..069c960ee56b 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -177,6 +177,17 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
-        mode = &crtc_state->adjusted_mode;
- 
-        requested_link_freq = fsl_ldb_link_frequency(fsl_ldb, mode->clock);
-+       /*
-+        * Dual cases require a 3.5 rate division on the pixel clocks, which
-+        * cannot be achieved with regular single divisors. Instead, double the
-+        * parent PLL rate in the first place. In order to do that, we first
-+        * require twice the target clock rate, which will program the upper
-+        * PLL. Then, we ask for the actual targeted rate, which can be achieved
-+        * by dividing by 2 the already configured upper PLL rate, without
-+        * making further changes to it.
-+        */
-+       if (fsl_ldb_is_dual(fsl_ldb))
-+               clk_set_rate(fsl_ldb->clk, requested_link_freq * 2);
-        clk_set_rate(fsl_ldb->clk, requested_link_freq);
- 
-        configured_link_freq = clk_get_rate(fsl_ldb->clk);
