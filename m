@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556A59D5687
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 01:05:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52779D568D
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 01:08:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D85710E201;
-	Fri, 22 Nov 2024 00:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 625EB10E433;
+	Fri, 22 Nov 2024 00:08:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tFGumjMU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IU9jlZcX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9F710E201
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 00:05:39 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-539d9fffea1so1480263e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 16:05:39 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 922AA10E433
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 00:08:48 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-539f53973fdso1400680e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 16:08:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732233937; x=1732838737; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732234127; x=1732838927; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1KAyJQfZm0CmYLeM6T1KNFUS7Aq70PuFpi7a8qa4S44=;
- b=tFGumjMUvaAkSPNpcChXdg1L1PLeTX9s2VBY0/S7nk54ceU6+UJf4CHUTYpGbeKpkx
- XjOjV7+nBensmMvp+NAe+rSB9jT5NSsnXiu/w1V3HsmnW8FzaczkfxKuE4JLdEz4FfHL
- qCIQzKvzvtRkR0eFhHNf8+bngpVfxdYKdsJi6gPC5kngS+dps9SYo55BDnbneGvhuImG
- 15t2BN+TAErDqSOiMmBt/VBSL/5ykMd/FH0TbvqxB4ooDnmeOEsMoftk/s1WibHmFJJ3
- xBadeUIFp+myAY5R8LTfrH+eJ6RXWi4sEEYPcj5YjewpQbnq6TzCpqLXfcJDaoRXHmEn
- AWGw==
+ bh=Pb10zmYHQSv3I83zcr7E+6kREcna9ZYNd5sNu4/LV7s=;
+ b=IU9jlZcXVXGlhdYYuT/5k2pSK8eWklwsEfdf43pofN/YotlIlbaJGHbKV3iCrwa6+8
+ u299PNSA4ambO2FrwUlQ9+ZojgKv2N/ghRHCBdxlaftcIF81VT/z+e5eH9GTF8A8z3dq
+ hKUX90mbH5vrHLXcnGsbBTMFEGdb/kUnpDd+lwBcehwGzEvgeoiQxh2vlwjouUYurYWY
+ P6QAP9KDlWNwj3c8uCSI5yDP1S7iKWEUDWwh8f2pUQF0k7apGN6qpOJYD3gam0bhDRXo
+ oky3W9t0/ejO7LgWPtG4eRZS6LAshECalkTjPb+75CkhIie7Im+gqZZbBq2FyV/1kNP1
+ zP2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732233937; x=1732838737;
+ d=1e100.net; s=20230601; t=1732234127; x=1732838927;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1KAyJQfZm0CmYLeM6T1KNFUS7Aq70PuFpi7a8qa4S44=;
- b=n7fSOoWyh4Du/7yt482LyfcHP+k9OxiXkqtZZv4ZPmhfjMpi1EDAwXJNzA5d8j4e+J
- Aw/gc7ViAszS/Xw8JGmsJW6PfqH8sDuX6yxqv44h7YCrpWRs/uFWMYdQfELxxJTj4nD6
- g3+OxNqiyuXk3Hp1RZH1oumu1RlyduX2rGPysz83EiQurfX4uJTm2dEsZQBDuKBwrIEt
- bWa5xPMxkxUOK5s7gNluBux2chH6DW16mb8WPhi/5FFoPyQA11X++vYauHAJ0y0pQ7uJ
- xCe2VoabPbSdCqGVsfh2STVaF0xQlL2KVPKtGIwTu6Wp1trtq6iSjrxLtM8VTKKPX4M8
- L5ig==
+ bh=Pb10zmYHQSv3I83zcr7E+6kREcna9ZYNd5sNu4/LV7s=;
+ b=U+VTKUJIWy65vli+E3Fy8oSmSlCTx6FPHznQocV8Tc838LcR/PH2QyMfQq/iP2cG+L
+ /SlRaKBR6OMgtD0vPLwTuC9wMao21lF7uKRQhaKEA5CRPNjdLSUHKAmZrtHL51wgAlzG
+ 2N4fYpP7cVFGmotnOtQZeyrN31TzT6EjtpcVG5HkwVfqYGwlyH95icS2C0aIKsiTnb9W
+ BICa1FYyFCmKDuSty1bncCLNbpGG8VPhkwU/xINrHwoiJojg+zhrEyLnlynJ/H13Clho
+ LZgI7IJviBvvkxRSva2TJgmtTkX1eHh7W2fiDXP9b4xHFEsyL51XsxLhI/P8ZMu5zPSG
+ rAvQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWRZHyywuYA29ppZEsNUaRXS4/k+iZLP6St6cz/WA76tP/mdR/Yc01ghwJ6awAXZiNA+8sl44c2fKk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyno7iMznZouKKuY3GsL4lIFiTvEinz9NRvE2N98lkSLVA8NZhM
- dbLOMXTIw2cqzz4yUh1eYMgbMqbg4wzZZO6VSy3GvA2fZvqNCoBkYsstb9QSU1c=
-X-Gm-Gg: ASbGncv0gkDa3KchUMgfC/m4M2419FTzAeIHyLxhxOyWNIUnHbqdW/CN1Ji5xubitGX
- iD8xDxibzHYPEl49/pQwMME8yx8UmsAGpzYWhR7Aw4ks1Ej3Qlf37ChEDgEPev99twz2ahPOrMq
- 70CIt5eD2XRwgn4f1Vm2ksMdpn86BpM/D/LzbnFPD/7dZL3Ogn3p/1tF+sv0Bjdmnv5dnZB3F0o
- 3M4CBlIi1PZADXjBaYTJrAhgDkXTrGPfPC+snOToife35Op5ADIxrEz+VDpnVJt+5SuixUsQJbs
- nWSZFvouAHbjriBlEOLXnyITZs7lwQ==
-X-Google-Smtp-Source: AGHT+IGIMj4eDI4++nV9lsviqxg12ESwR9WEilZyyjFk+Pe0y3db1ZelPCRJMMwTSxiydGqYm4vhag==
-X-Received: by 2002:a05:6512:b9a:b0:53d:d137:d7a4 with SMTP id
- 2adb3069b0e04-53dd3aac10bmr293144e87.53.1732233937136; 
- Thu, 21 Nov 2024 16:05:37 -0800 (PST)
+ AJvYcCXHN11ZhYmYcvIuvmMecJmS4chezDrpsSfZ4DiWFU0/zvazC9tDgzEh3MD/BUe8NpAp/cs485UldwU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyLvY0rOnwbVrWaQkxD7eNGoeRnX+FGjdwiv1wDbWUgnfqimp88
+ hP4z7Y0xuBWPHZmkzteITwSPbEiUsjII+DhQe3HRo/8R4dQm1J56QF5G3rT9gsI=
+X-Gm-Gg: ASbGncv8O1JW0ef/d5ZBJWLBacxVweeKwWY/ocKeaXUnYdQeq9DtoK6NB2vUMBnbi6V
+ qOapExUs732j+ZmyvO4GmYmwM8NqMJZrxOMZStwz/y39DvUUhKThEH73RnbSnkXJ7RrGwFeXfJH
+ 51yY1HlzHqgwjOpmyHkCHW3PF2tjnytEB6gdMr5Siu2DPR2ZLQYY8FMCkVv3BD4sjmSW5JXaiOl
+ qW+qJ+F6KOxhytzGuIwYe5V5LJ9YZIbCeT7LySlITMpH/m+JAyLJJ1wOKOFkpkkdW/9u51O1O4r
+ 0bvqMUhWwX+3BTTGiSAMdeUSpJgMaw==
+X-Google-Smtp-Source: AGHT+IEuYo3TXwIBAta2+QFFKa258N+W0wLgiRkvqaQO6FoTfco4TU0xkpE/1Qfqy0nPr2pRscBPLQ==
+X-Received: by 2002:a05:6512:2247:b0:53d:d06c:cdf8 with SMTP id
+ 2adb3069b0e04-53dd06ccfbamr1006096e87.1.1732234126460; 
+ Thu, 21 Nov 2024 16:08:46 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd2445843sm123234e87.19.2024.11.21.16.05.35
+ 2adb3069b0e04-53dd2489841sm120742e87.178.2024.11.21.16.08.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Nov 2024 16:05:35 -0800 (PST)
-Date: Fri, 22 Nov 2024 02:05:33 +0200
+ Thu, 21 Nov 2024 16:08:44 -0800 (PST)
+Date: Fri, 22 Nov 2024 02:08:42 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: keith zhao <keith.zhao@starfivetech.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
@@ -75,14 +75,14 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
  p.zabel@pengutronix.de, changhuang.liang@starfivetech.com,
  jack.zhu@starfivetech.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/9] drm/vs: Add Hardware Functions for VS DC8200
-Message-ID: <kuoayjr6gfwsq3zbdeafmzx3kw27amkhmljlbpk4brgjkizm37@7wwjwg3tckjz>
+Subject: Re: [PATCH v5 5/9] drm/vs: Add Base API for VS Mode Configuration
+Message-ID: <6nztdhkgx5wm5byq46jbhivws4kvwpnmnc7r5jsqaqm5rlzb2k@dz7ohbcirnd4>
 References: <20241120061848.196754-1-keith.zhao@starfivetech.com>
- <20241120061848.196754-5-keith.zhao@starfivetech.com>
+ <20241120061848.196754-6-keith.zhao@starfivetech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241120061848.196754-5-keith.zhao@starfivetech.com>
+In-Reply-To: <20241120061848.196754-6-keith.zhao@starfivetech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,158 +98,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 20, 2024 at 02:18:43PM +0800, keith zhao wrote:
-> This commit introduces hardware-based APIs for
-> the VS DRM related to the DC8200
-
-This doesn't describe anything. I've asked to describe the hardware.
-Also please don't use phrases as "This commit does this and this". See
-Documentation/process/submitting-patches.rst
-
+On Wed, Nov 20, 2024 at 02:18:44PM +0800, keith zhao wrote:
+> This commit adds a base API for configuring VS modes,
+> which will streamline the setup and management of display modes
+> in the VS DRM subsystem.
 > 
+> In this implementation, we are using drm_atomic_helper_commit_tail_rpm()
+> instead of drm_atomic_helper_commit_tail() to ensure that
+> we skip planes related to inactive CRTCs.
+> 
+> This helps to optimize the commit process and reduces unnecessary overhead
+> when dealing with inactive display resources.
+
+ * This is an alternative implementation for the
+ * &drm_mode_config_helper_funcs.atomic_commit_tail hook, for drivers
+ * that support runtime_pm or need the CRTC to be enabled to perform a
+ * commit. Otherwise, one should use the default implementation
+ * drm_atomic_helper_commit_tail().
+
+Neither of the cases seem to apply here. Please use
+drm_atomic_helper_commit_tail().
+
 > Signed-off-by: keith zhao <keith.zhao@starfivetech.com>
 > ---
->  MAINTAINERS                            |    1 +
->  drivers/gpu/drm/Kconfig                |    2 +
->  drivers/gpu/drm/Makefile               |    1 +
->  drivers/gpu/drm/verisilicon/Kconfig    |   13 +
->  drivers/gpu/drm/verisilicon/Makefile   |    5 +
->  drivers/gpu/drm/verisilicon/vs_dc_hw.c | 1104 ++++++++++++++++++++++++
->  drivers/gpu/drm/verisilicon/vs_dc_hw.h |  492 +++++++++++
->  drivers/gpu/drm/verisilicon/vs_type.h  |   54 ++
->  8 files changed, 1672 insertions(+)
->  create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
->  create mode 100644 drivers/gpu/drm/verisilicon/Makefile
->  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.c
->  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.h
->  create mode 100644 drivers/gpu/drm/verisilicon/vs_type.h
+>  drivers/gpu/drm/verisilicon/Makefile     |  3 ++-
+>  drivers/gpu/drm/verisilicon/vs_modeset.c | 31 ++++++++++++++++++++++++
+>  drivers/gpu/drm/verisilicon/vs_modeset.h | 10 ++++++++
+>  3 files changed, 43 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_modeset.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_modeset.h
 > 
-
-[...]
-
-> +
-> +struct dc_hw {
-> +	enum dc_hw_out		out[DC_DISPLAY_NUM];
-> +	void __iomem		*hi_base;
-> +	void __iomem		*reg_base;
-> +	struct dc_hw_plane_reg	reg[DC_LAYER_NUM];
-> +
-> +	struct dc_hw_gamma	gamma[DC_DISPLAY_NUM];
-> +	struct vs_dc_info	*info;
-> +};
-> +
-> +struct vs_dc_plane {
-> +	enum dc_hw_plane_id id;
-> +	u32 offset;
-> +};
-> +
-> +struct vs_dc {
-> +	struct vs_crtc		*crtc[DC_DISPLAY_NUM];
-
-"Not defined here. Please drop and add when it is actually defined.",
-this was in v4.
-
-> +	struct dc_hw		hw;
-> +
-> +	struct vs_dc_plane	planes[PLANE_NUM];
-> +};
-> +
-> +int dc_hw_init(struct vs_dc *dc);
-> +void dc_hw_disable_plane(struct vs_dc *dc, u8 id);
-> +void dc_hw_update_cursor(struct dc_hw *hw, u8 id, dma_addr_t dma_addr,
-> +			 u32 crtc_w, u32 crtc_x, u32 crtc_y,
-> +			 s32 hotspot_x, int32_t hotspot_y);
-> +void dc_hw_disable_cursor(struct dc_hw *hw, u8 id);
-> +void dc_hw_update_gamma(struct dc_hw *hw, u8 id, u16 index,
-> +			u16 r, u16 g, u16 b);
-> +void dc_hw_enable_gamma(struct dc_hw *hw, u8 id, bool enable);
-> +void dc_hw_enable(struct dc_hw *hw, int id, struct drm_display_mode *mode,
-> +		  u8 encoder_type, u32 output_fmt);
-> +void dc_hw_disable(struct dc_hw *hw, int id);
-> +void dc_hw_enable_interrupt(struct dc_hw *hw);
-> +void dc_hw_disable_interrupt(struct dc_hw *hw);
-> +void dc_hw_get_interrupt(struct dc_hw *hw, u8 *status);
-> +void dc_hw_enable_shadow_register(struct vs_dc *dc, bool enable);
-> +void dc_hw_set_out(struct dc_hw *hw, enum dc_hw_out out, u8 id);
-> +void dc_hw_commit(struct dc_hw *hw);
-> +void dc_plane_hw_update_format_colorspace(struct vs_dc *dc, u32 format,
-> +					  enum drm_color_encoding encoding, u8 id, bool is_yuv);
-> +void dc_plane_hw_update_address(struct vs_dc *dc, u8 id, u32 format, dma_addr_t *dma_addr,
-> +				struct drm_framebuffer *drm_fb, struct drm_rect *src);
-> +void dc_plane_hw_update_format(struct vs_dc *dc, u32 format, enum drm_color_encoding encoding,
-> +			       unsigned int rotation, bool visible, unsigned int zpos,
-> +			       u8 id, u8 display_id);
-> +void dc_plane_hw_update_scale(struct vs_dc *dc, struct drm_rect *src, struct drm_rect *dst,
-> +			      u8 id, u8 display_id, unsigned int rotation);
-> +void dc_plane_hw_update_blend(struct vs_dc *dc, u16 alpha, u16 pixel_blend_mode,
-> +			      u8 id, u8 display_id);
-> +
-> +#endif /* __VS_DC_HW_H__ */
-> diff --git a/drivers/gpu/drm/verisilicon/vs_type.h b/drivers/gpu/drm/verisilicon/vs_type.h
+> diff --git a/drivers/gpu/drm/verisilicon/Makefile b/drivers/gpu/drm/verisilicon/Makefile
+> index 7da54b259940..842867dad4cb 100644
+> --- a/drivers/gpu/drm/verisilicon/Makefile
+> +++ b/drivers/gpu/drm/verisilicon/Makefile
+> @@ -1,5 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  
+> -vs_drm-objs := vs_dc_hw.o
+> +vs_drm-objs := vs_dc_hw.o \
+> +	       vs_modeset.o
+>  
+>  obj-$(CONFIG_DRM_VERISILICON_DC8200) += vs_drm.o
+> diff --git a/drivers/gpu/drm/verisilicon/vs_modeset.c b/drivers/gpu/drm/verisilicon/vs_modeset.c
 > new file mode 100644
-> index 000000000000..e9c4ef3cacd6
+> index 000000000000..0873a3465143
 > --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_type.h
-> @@ -0,0 +1,54 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
+> +++ b/drivers/gpu/drm/verisilicon/vs_modeset.c
+> @@ -0,0 +1,31 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +/*
 > + * Copyright (C) VeriSilicon Holdings Co., Ltd.
 > + */
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_fb_helper.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
 > +
-> +#ifndef __VS_TYPE_H__
-> +#define __VS_TYPE_H__
+> +#include "vs_modeset.h"
 > +
-> +enum drm_plane_type;
-> +
-> +struct vs_plane_data {
-> +	unsigned int num_formats;
-> +	const u32 *formats;
-> +	u8 num_modifiers;
-> +	const u64 *modifiers;
-> +	unsigned int min_width;
-> +	unsigned int min_height;
-> +	unsigned int max_width;
-> +	unsigned int max_height;
-> +	unsigned int rotation;
-> +	unsigned int blend_mode;
-> +	unsigned int color_encoding;
-> +	int min_scale; /* 16.16 fixed point */
-> +	int max_scale; /* 16.16 fixed point */
-> +	u8   zpos;
+> +static const struct drm_mode_config_funcs vs_mode_config_funcs = {
+> +	.fb_create			 = drm_gem_fb_create,
+> +	.atomic_check		 = drm_atomic_helper_check,
+> +	.atomic_commit		 = drm_atomic_helper_commit,
 > +};
+> +
+> +static struct drm_mode_config_helper_funcs vs_mode_config_helpers = {
+> +	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
+> +};
+> +
+> +void vs_mode_config_init(struct drm_device *dev)
+> +{
+> +	int ret;
+> +
+> +	ret = drmm_mode_config_init(dev);
+> +	if (ret)
+> +		return;
+> +
+> +	dev->mode_config.funcs = &vs_mode_config_funcs;
+> +	dev->mode_config.helper_private = &vs_mode_config_helpers;
+> +}
+> diff --git a/drivers/gpu/drm/verisilicon/vs_modeset.h b/drivers/gpu/drm/verisilicon/vs_modeset.h
+> new file mode 100644
+> index 000000000000..bd04f81d2ad2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/verisilicon/vs_modeset.h
+> @@ -0,0 +1,10 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2020 VeriSilicon Holdings Co., Ltd.
+> + */
+> +
+> +#ifndef __VS_MODESET_H__
+> +#define __VS_MODESET_H__
+> +
+> +void vs_mode_config_init(struct drm_device *dev);
+> +#endif /* __VS_FB_H__ */
 
-Doesn't seem to be used in this patch. I think in v4 I've already asked
-to drop everything (data types, fields, defines) that are not used by
-_this_ patch. Readd them later, as required.
+There is no point in having single-function headers, please find
+something more global.
 
-> +
-> +struct vs_plane_info {
-> +	u32 id;
-> +	const struct vs_plane_data *data;
-> +	enum drm_plane_type type;
-> +};
-> +
-> +struct vs_dc_info {
-> +	const char *name;
-> +
-> +	u8 panel_num;
-> +
-> +	/* planes */
-> +	u8 plane_num;
-> +
-> +	u8 layer_num;
-> +	u8 primary_num;
-> +	u8 overlay_num;
-> +	u8 cursor_num;
-> +	const struct vs_plane_info *info;
-> +	/* 0 means no gamma LUT */
-> +	u16 gamma_size;
-> +	u8 gamma_bits;
-> +
-> +	u16 pitch_alignment;
-> +};
-> +
-> +#endif /* __VS_TYPE_H__ */
 > -- 
 > 2.34.1
 > 
