@@ -2,64 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13B79D5BE1
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:26:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7B79D5BFF
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:33:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6398610EB20;
-	Fri, 22 Nov 2024 09:25:59 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JAQKhnad";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF4F10EB23;
+	Fri, 22 Nov 2024 09:33:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67FF010E21D;
- Fri, 22 Nov 2024 09:25:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732267558; x=1763803558;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=yw4x0hQe3k9KPm6YYncbQCpHw7cJuBKLSWGSHbEBsHs=;
- b=JAQKhnadGmqZPSGQhXwPJAUvXpxCMEKI8VyULRWm72J/zwqHdwdx6AaQ
- 5QRMeuMv5pVJiuQr9YwWCOSTZY5gqRJrSEzfdd7D+71MTLY+pxGrL4bX5
- 8/aOjDh8OBVvJd0vqxGGcaQfDvDzuxCueZWz1jlRgnuz8pJgbsAMdxo1R
- pJRp0dSNJZwnPvkr6r2JUfDS6GKtM0as9xxD/h9VSa5VebQvqABcNWxlb
- ErDDEB2HXRxt3nd6xmtKJoikqDwQ0Byx6Wz5G3XK5AzgjKHEvR+9+m/ze
- XqmURx/MQxmtTK+aKf8NJQqEiGP02olw4RJXcccsRFA8CEAiX7r8geuYJ A==;
-X-CSE-ConnectionGUID: isWgrgSsRr+KJmlH5+PP6A==
-X-CSE-MsgGUID: bBnTWqO+T9SRWtrE7oyxkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="57817075"
-X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; d="scan'208";a="57817075"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2024 01:25:57 -0800
-X-CSE-ConnectionGUID: iRs4PElvSq27OQWPHXMhZQ==
-X-CSE-MsgGUID: ssuPJiiZQxW13OWSVi9r9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; d="scan'208";a="95610690"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.157])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2024 01:25:53 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: "Zuo, Jerry" <Jerry.Zuo@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "lyude@redhat.com" <lyude@redhat.com>,
- "imre.deak@intel.com" <imre.deak@intel.com>, "simona@ffwll.ch"
- <simona@ffwll.ch>
-Cc: "Wentland, Harry" <Harry.Wentland@amd.com>, "Siqueira, Rodrigo"
- <Rodrigo.Siqueira@amd.com>, "Lin, Wayne" <Wayne.Lin@amd.com>
-Subject: RE: [PATCH v4 0/2] Refactor MST DSC Determination Policy
-In-Reply-To: <IA1PR12MB90631D65960DEFFCE3CFD4C0E5222@IA1PR12MB9063.namprd12.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241108174439.141418-1-Jerry.Zuo@amd.com>
- <IA1PR12MB90631D65960DEFFCE3CFD4C0E5222@IA1PR12MB9063.namprd12.prod.outlook.com>
-Date: Fri, 22 Nov 2024 11:25:46 +0200
-Message-ID: <87jzcvzkkl.fsf@intel.com>
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 589BC10EB23
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 09:33:19 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-6eebc318242so18627637b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 01:33:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732267997; x=1732872797;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xM8g64sET8hw7b+gyg+vsiEnmYLC8RSZn0rXhR5lgBE=;
+ b=DJTr2ShX9dHnavzqzR+FSI5Kci0EI3DVQk5MRa1NaBvQ6YxIfwsBr68hYiildprtBb
+ IVXCQyuWLrnYhzrgF3iZFAojomazMHy7kkw64cLHsdZw+wv7TubkRbBVoHLALP1SeBGZ
+ uVI0Hx/XlnjoKQXu6oH6cVRc8TEFu8HzjjtTUn+R99wZlhtANv53IgOM73TyP50Vl3HL
+ LvOZ6tjVp+Jr1U/GyvLsxGNSijXLL0peZsdY8FKkBfQkGEX1vFOevGUUCZPMcPAh21u2
+ iZ21gLaOefI3a7P38IFAu9QBFheaLwuQyu34uwLDOa20Rxi4MTQXuRRLaQQPkGanZ0T4
+ RcSQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXFAWbDIQrQyAMklVx5NJJ58YLGMUoE1Xw8kW5ojaNuMOaGjtjVasoCWOHe3vKORRDxmmW+i8ZjC5U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwSMXksjrZGXnN+od1qg92s2G9sMxUBwHWXHBU+ahu8c7jKkae4
+ qnXXO1rFtfgljvl5Fq9teXRjkWe4W6ImGLFRhATYUufoFnQv3emKoozu/Fip
+X-Gm-Gg: ASbGncug9t7G1hfgAvP21N9PjmaWDsw4ZoWyLFja1tqUwUQo8POROD+xpcrLk49MNRh
+ f+kThiaU+WJ0coY67kuPBddlWuGiMJe0Slkmhwqv18JlN1JpEcm7Gi1CVaWql5NOpLTgXnEopmF
+ nBljklQIRYH+Tz4I8Sms1xj4vj4zt2UszzxS/y42ktg7neb+aPs6JHpnUiebAyl6sttAoRMnjUU
+ /ak9e8N+RWLfB+kjdc9ZvMJq30KMNs+QD0af51i8SYVVltSxEHQ/GA/u/U5Q78KKyVkw+IpxDuA
+ amy+hsIoXCZkaaB7
+X-Google-Smtp-Source: AGHT+IECElOI7NBkd8kfKdSt7dNbvGrSVogipezz/QNHJ+Ma36b7dYaCVy2kPkE1Aek4w2N+m1a2fg==
+X-Received: by 2002:a05:690c:688c:b0:6e7:e76e:5852 with SMTP id
+ 00721157ae682-6eee0a51237mr28622727b3.32.1732267997125; 
+ Fri, 22 Nov 2024 01:33:17 -0800 (PST)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
+ [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6eedfc6ebedsm3763667b3.0.2024.11.22.01.33.16
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Nov 2024 01:33:16 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-6eebc318242so18627257b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 01:33:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU2/K0mx7t8viemzGn9pherB37+9qzApewtBiJLVYgDES0xT6o2tyvVGc//++YcXPBEuJqu07gHvd4=@lists.freedesktop.org
+X-Received: by 2002:a05:690c:6e09:b0:6ee:9cb7:dc31 with SMTP id
+ 00721157ae682-6eee08b5abemr26651957b3.3.1732267996019; Fri, 22 Nov 2024
+ 01:33:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20241018151016.3496613-1-arnd@kernel.org>
+ <20241104172950.GA741087@thelio-3990X>
+ <CAMuHMdXrrCiLm2sQmpegtVHV8X5AUp-8E5BejDxRpMbeAfHhvQ@mail.gmail.com>
+ <20241122-rebel-donkey-of-atheism-a0b8b6@houat>
+In-Reply-To: <20241122-rebel-donkey-of-atheism-a0b8b6@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 22 Nov 2024 10:33:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUGfCWyFHnAKeg4YViErzX5BReb2A-8gtqECstUMn2Oeg@mail.gmail.com>
+Message-ID: <CAMuHMdUGfCWyFHnAKeg4YViErzX5BReb2A-8gtqECstUMn2Oeg@mail.gmail.com>
+Subject: Re: [PATCH] drm/rockchip: avoid 64-bit division
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Algea Cao <algea.cao@rock-chips.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Arnd Bergmann <arnd@arndb.de>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,77 +96,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Nov 2024, "Zuo, Jerry" <Jerry.Zuo@amd.com> wrote:
-> [AMD Official Use Only - AMD Internal Distribution Only]
+Hi Maxime,
+
+On Fri, Nov 22, 2024 at 10:15=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+ wrote:
+> On Fri, Nov 22, 2024 at 09:36:16AM +0100, Geert Uytterhoeven wrote:
+> > On Mon, Nov 4, 2024 at 6:30=E2=80=AFPM Nathan Chancellor <nathan@kernel=
+.org> wrote:
+> > > On Fri, Oct 18, 2024 at 03:10:10PM +0000, Arnd Bergmann wrote:
+> > > > From: Arnd Bergmann <arnd@arndb.de>
+> > > >
+> > > > Dividing a 64-bit integer prevents building this for 32-bit targets=
+:
+> > > >
+> > > > ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/rockchip/rockch=
+ipdrm.ko] undefined!
+> > > >
+> > > > As this function is not performance criticial, just Use the div_u64=
+() helper.
+> > > >
+> > > > Fixes: 128a9bf8ace2 ("drm/rockchip: Add basic RK3588 HDMI output su=
+pport")
+> > > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > >
+> > > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> > >
+> > > Can someone please pick this up? It is still broken in next-20241104.=
+..
+> > >
+> > > https://storage.tuxsuite.com/public/clangbuiltlinux/continuous-integr=
+ation2/builds/2oNvJFRj8tkDieb6VfrMf4rh1Kn/build.log
+> > >
+> > > > ---
+> > > >  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drive=
+rs/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> > > > index 9c796ee4c303..c8b362cc2b95 100644
+> > > > --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> > > > +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> > > > @@ -82,7 +82,7 @@ static void dw_hdmi_qp_rockchip_encoder_enable(st=
+ruct drm_encoder *encoder)
+> > > >                * comment in rk_hdptx_phy_power_on() from
+> > > >                * drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
+> > > >                */
+> > > > -             phy_set_bus_width(hdmi->phy, rate / 100);
+> > > > +             phy_set_bus_width(hdmi->phy, div_u64(rate, 100));
+> > > >       }
+> > > >  }
+> >
+> > noreply@ellerman.id.au has just told me this build issue is now upstrea=
+m:
+> >
+> >     FAILED linus/m68k-allmodconfig/m68k-gcc8.1 Fri Nov 22, 05:34
+> >     http://kisskb.ellerman.id.au/kisskb/buildresult/15277242/
+> >
+> >     Commit:   Merge tag 'drm-next-2024-11-21' of
+> > https://gitlab.freedesktop.org/drm/kernel
+> >               28eb75e178d389d325f1666e422bc13bbbb9804c
+> >     Compiler: m68k-linux-gcc (GCC) 8.1.0 / GNU ld (GNU Binutils) 2.30
+> >
+> >     ERROR: modpost: "__udivdi3"
+> > [drivers/gpu/drm/rockchip/rockchipdrm.ko] undefined!
+> >
+> > Applying this patch fixes it, so
+> > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> >
+> > Do we really need +5 weeks to apply a fix for a reported build issue?
 >
-> Hi Lyude, Jani, Imre, Simona:
->
->      Please kindly review the patch series at your convenient
->      time. Thanks.
+> Do we really need that kind of comments?
 
-There's still way too much going on in one patch. It's too hard to do
-proper detailed review on this. I don't have that kind of time to spend.
+Perhaps not...
 
-If you were to get a regression report on this maybe a year down the
-line when it hits major distros, what are your chances of pinpointing
-what went wrong? What are your chances of quickly debugging and fixing
-it? I'm thinking slim.
+> It was applied already,
 
-MST is too complicated to trap ourselves in that scenario.
+Where was it applied?
+How would I know that, when the fix is not in linux-next?
 
-Please find a way to do incremental refactoring first to support your
-functional changes.
+> I made sure it's part of the next PR we send to
+> Linus. And it should be in linux-next tomorrow.
 
-BR,
-Jani.
+Thank you!
 
+The issue is that the reported build issue was not fixed in linux-next,
+despite the fix having been available for 5 weeks, thus reducing
+(build) test coverage for all affected architectures, possibly hiding
+other issues.
+In addition, a PR including the build issue was sent to Linus, so now
+the above applies to Linus' tree, too.
 
->
-> Regards,
-> Jerry
->
->> -----Original Message-----
->> From: Fangzhi Zuo <Jerry.Zuo@amd.com>
->> Sent: Friday, November 8, 2024 12:42 PM
->> To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; intel-
->> gfx@lists.freedesktop.org; lyude@redhat.com; jani.nikula@intel.com;
->> imre.deak@intel.com; simona@ffwll.ch; Lin, Wayne <Wayne.Lin@amd.com>
->> Cc: Wentland, Harry <Harry.Wentland@amd.com>; Siqueira, Rodrigo
->> <Rodrigo.Siqueira@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>
->> Subject: [PATCH v4 0/2] Refactor MST DSC Determination Policy
->>
->> The patch series is to refactor existing dsc determination policy for dsc
->> decompression and dsc passthrough given a mst output port.
->>
->> Original routine was written based on different peer device types which is not
->> accurate and shows difficulty when expanding support of products that do not fully
->> comply with DP specs.
->>
->> To make the routine more accurate and generic, the series includes below changes:
->> 1. Refactor MST DSC determination policy solely based on
->>    topology connection status and dsc dpcd capability info.
->> 2. Dependency changes required for each vendor due to interface change.
->>
->> v2: split original single patch into two
->> v3: rebase against the latest code
->> v4: fix a ci issue
->>
->> Fangzhi Zuo (2):
->>   drm/display/dsc: Refactor DRM MST DSC Determination Policy
->>   drm/display/dsc: MST DSC Interface Change
->>
->>  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |   2 +-
->>  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  20 +-
->>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  28 +-
->>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 261 ++++++++----------
->>  drivers/gpu/drm/i915/display/intel_dp.c       |   2 +-
->>  drivers/gpu/drm/i915/display/intel_dp_mst.c   |   3 +-
->>  include/drm/display/drm_dp_mst_helper.h       |   9 +-
->>  7 files changed, 147 insertions(+), 178 deletions(-)
->>
->> --
->> 2.43.0
->
+Gr{oetje,eeting}s,
 
--- 
-Jani Nikula, Intel
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
