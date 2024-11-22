@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870D69D61FD
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 17:19:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3731D9D620C
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 17:20:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F19EA10EBFB;
-	Fri, 22 Nov 2024 16:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8539110EC00;
+	Fri, 22 Nov 2024 16:20:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="PtHoLXWJ";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="Z0lXzGdd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCF9410EBF7
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 16:19:15 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AD73A60005;
- Fri, 22 Nov 2024 16:19:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1732292354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E53FflVZUbLnlF8wplWhxBERpMv4taFo3hTXjKtrZCU=;
- b=PtHoLXWJH0/6BA86CIHExNewbrAdsOGcPzSbF1IfrKNuZX4BJQTPeCS25v9OAc7Il5tZAm
- MCnKEcaqT4J40LrSHTKYrymGmOy5IRMnPI1IGWWvdeknfdMveIl8yQ89Bc0zol7FQaYHSy
- g84X3Ioa7SwFOTEwMPilTovRuPrRr/CzcFIuL2o50/X32xNg50mJa0Dhl351ugCCIBCEk7
- py4Ql/CtlEq1hGVa5Ii70aYhZtTzVhtVdux74DXVwSUYh2pSzhQqkpAUHsVgi1kERhLPyh
- WPstHDoe7S1ttQfkogGgO2rPoYreUfCk1hz1zPGsytIiUPSxiMaulKgftI9Tnw==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 22 Nov 2024 17:19:08 +0100
-Subject: [PATCH v3 8/8] drm/vkms: Add P01* formats
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76FAA10EC00
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 16:20:51 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-4315f24a6bbso18851295e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 08:20:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1732292449; x=1732897249;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=ELGCwQdqpo0f6gctSGc5Xu5MtnMn3sFyIRwEW9MjyUA=;
+ b=Z0lXzGddwL74wuGLp8QF6fF2Q9Lt6hwndlyxhZ826uG9B+c6fg6UQo4njgrDVR/Eyc
+ c5f4uXMi7yqryDkRgp5ENgWLk9vlt3eMnyaVY7l+P9t/3rtCAQMXoGTYtaJxiCHl2LkG
+ Ww7ar2NCZ/5uyyaD8vygoSE0IrpYEOMSmflUH0tDS2iKEz5u9Vb6zYNgpTE8Q0T6exB6
+ hCTWOwgDSPiWf3wV8JJPZyDRM6rJMw+WsKijJKiyk08wc5Xom+Nb5lJv7C1PbyBDSf4t
+ T2HFel3vs2mFv8MBMbUizIeKPWk4bDaWEXNcKAOOFaNbukxVbiiGlK/F+/6iC42imnst
+ s1Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732292449; x=1732897249;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ELGCwQdqpo0f6gctSGc5Xu5MtnMn3sFyIRwEW9MjyUA=;
+ b=CZ9htnOPF6YCg06pl8n8UYymx/APwYDe4AkQBo+MZBOAAikq+6wAW2ydoXer6BbaBQ
+ XQcUW+/CQ6CrsffDr9lz9u5JJ7KqrKb4hGZXBP/XNy75+ICBGsIXYcSauxUnHCKMf72o
+ wpP6JhablSeKCsqkS1AcZrgNU5E7vB/REnts0Jgb2yjZWCw22NIdbzy2soKwmmFX9DOr
+ uKsSCMC8V+VdlSPt4Xnu3sVp5Mf13Oq2kLfXf0E2WkZ4ZMLFApaFW77h6nrXjtqJJ3a3
+ wUT8ktCuMPVzxovUjw9WW2Uq6q2z0vI3XHuod3nNtiMNNuWnvPvx3HBumJnGjMz7Owcs
+ Vq6w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUvWJvxLuCglCf+XhDrkUx7gV5lUtJtzsIWvzlpPMUuOsNPnhpLgA40BZNV0bgHmupBKDEvx//IsuQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzhaf/xRpMKT5FAqSrBL/V3u9sZgB7nQiaPeKYmnuMllUfGI9rN
+ gVQiDC2Rl1s6sC78ii5ewA4vDSvpPFmHgAGq5tj1qqaNdWWsMtxZeTRsT7+oTnI=
+X-Gm-Gg: ASbGncu8ygvTLI0hHXuUalyPCRTL9ujvnrFRnj5bsTXR/QHMW+kW6wygwtyh9sbXOrp
+ pew6qUDX0XCNO8uEKOMY8cpmKC/TNJsVbjSKV92qc6O9whdQf8u1C6BFDBJcUIkjsI1mlTLyTbQ
+ hCLdnGb9thBN6Zp+7nzEbgvua8pWBcFKCWItSOBKb67Cq6U7b83y1bn5/5yrEo8zsbT1buvH1L5
+ 5R9PFd/CMkhpv4gTaKdwh8xTw5rL0iCLZjIte6W0zHFc5muhQ6ABxxnOqrOH1uwuw==
+X-Google-Smtp-Source: AGHT+IH34wGFMa9dudI3BXqogajIEg8q6PcI2UV7P/O1WJSKESHI59RlhiEgN7ApqSbwiZeY/eqTwg==
+X-Received: by 2002:a05:600c:4fc1:b0:42c:a6da:a149 with SMTP id
+ 5b1f17b1804b1-433ce4c21e9mr26826555e9.25.1732292449507; 
+ Fri, 22 Nov 2024 08:20:49 -0800 (PST)
+Received: from [192.168.0.101] ([90.241.98.187])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3825fb2760asm2790646f8f.52.2024.11.22.08.20.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Nov 2024 08:20:49 -0800 (PST)
+Message-ID: <9b65ab8b-22d9-44e5-9426-d0d6d1e14db0@ursulin.net>
+Date: Fri, 22 Nov 2024 16:20:48 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241122-b4-new-color-formats-v3-8-23f7776197c9@bootlin.com>
-References: <20241122-b4-new-color-formats-v3-0-23f7776197c9@bootlin.com>
-In-Reply-To: <20241122-b4-new-color-formats-v3-0-23f7776197c9@bootlin.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net, 
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
- Louis Chauvet <louis.chauvet@bootlin.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1997;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=DCYx66irwTSpBabckwUwZmGruKQUcBMtLxM8Do3N2IQ=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnQK74GL6Vhqnot+DzZiz2Gb2MKlgyveVzGXgPM
- +Jhf+j7xvuJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ0Cu+AAKCRAgrS7GWxAs
- 4mv9D/oDnKG8lR+N8flppo33NvpPhyMa8bD3jAMRvLb/FL2nu73pMXwIDsKcS92Q224p4AQiU6h
- RvEoCNeWOqp7mzon+d2i8S+mXEDZDq0tzEd+D4y5kvCLbvAhZNNfo8rcnW6mKON2r9se7u2yoL0
- sRvSV/xp723fSehYpiFLgisALxslaWswFvwvL16hlm0PnhowbsKPndzpuP+Ve6wgtddr8FI2R8j
- g/ClZPpE1CuKnfbxbqXBtbiWfvfkMnLWHcUudW22WPkceneYsfTd48U+cUbmN34Fu/QW6BQNDg3
- aFCDSSSbthn37VyK6ye+1E+1nb/uctHW734k7Xs54CWCwTXKBa2pk7QEunxOIet3b3GDf8bayCf
- pATVk/YipLYCz2yh/CIbIblgNVqhDA985ML/Gh/RnIaLgQ070U3m1wqHv633wCIsR+vDrqR7rY0
- JD3UsP/got/3HbmiIEadODNALWqy/Y6TNUhl+tPavfOa+0WL2K3ePW0/EW+cGUpkdu4Zja7P3ci
- xp26Py4YCP8f6t8kUNtltqwGxfLjVehXLgxCXiyp7VDXc8+uFlPi+fj6Uj9PSW4IkrBl+SO1qRL
- 7/f9RZKHCrXhHXjSCCxwe0qoTBY8KC32hdmYewnkcUo/gnNtYnWnMRyj5AAxByHI2o4Lljui+vF
- siTK1ZIx+hEr0XA==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-Sasl: louis.chauvet@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: fix dma_fence_array_signaled v4
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20241122153037.44079-1-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20241122153037.44079-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,58 +89,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The formats NV 12/16/24/21/61/42 were already supported.
-Add support for:
-- P010
-- P012
-- P016
 
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/vkms/vkms_formats.c | 7 ++++++-
- drivers/gpu/drm/vkms/vkms_plane.c   | 3 +++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+On 22/11/2024 15:30, Christian König wrote:
+> The function silently assumed that signaling was already enabled for the
+> dma_fence_array. This meant that without enabling signaling first we would
+> never see forward progress.
+> 
+> Fix that by falling back to testing each individual fence when signaling
+> isn't enabled yet.
+> 
+> v2: add the comment suggested by Boris why this is done this way
+> v3: fix the underflow pointed out by Tvrtko
+> v4: atomic_read_acquire() as suggested by Tvrtko
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Tested-by: Chia-I Wu <olvaffe@gmail.com>
+> ---
+>   drivers/dma-buf/dma-fence-array.c | 28 +++++++++++++++++++++++++++-
+>   1 file changed, 27 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+> index 8a08ffde31e7..6657d4b30af9 100644
+> --- a/drivers/dma-buf/dma-fence-array.c
+> +++ b/drivers/dma-buf/dma-fence-array.c
+> @@ -103,10 +103,36 @@ static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
+>   static bool dma_fence_array_signaled(struct dma_fence *fence)
+>   {
+>   	struct dma_fence_array *array = to_dma_fence_array(fence);
+> +	int num_pending;
+> +	unsigned int i;
+>   
+> -	if (atomic_read(&array->num_pending) > 0)
+> +	/*
+> +	 * We need to read num_pending before checking the enable_signal bit
+> +	 * to avoid racing with the enable_signaling() implementation, which
+> +	 * might decrement the counter, and cause a partial check.
+> +	 * atomic_read_acquire() pairs with atomic_dec_and_test() in
+> +	 * dma_fence_array_enable_signaling()
+> +	 *
+> +	 * The !--num_pending check is here to account for the any_signaled case
+> +	 * if we race with enable_signaling(), that means the !num_pending check
+> +	 * in the is_signalling_enabled branch might be outdated (num_pending
+> +	 * might have been decremented), but that's fine. The user will get the
+> +	 * right value when testing again later.
+> +	 */
+> +	num_pending = atomic_read_acquire(&array->num_pending);
+> +	if (test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &array->base.flags)) {
+> +		if (num_pending <= 0)
+> +			goto signal;
+>   		return false;
+> +	}
+> +
+> +	for (i = 0; i < array->num_fences; ++i) {
+> +		if (dma_fence_is_signaled(array->fences[i]) && !--num_pending)
+> +			goto signal;
+> +	}
+> +	return false;
+>   
+> +signal:
+>   	dma_fence_array_clear_pending_error(array);
+>   	return true;
+>   }
 
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index d2ce5848eb3fb667a882d1efd7c8af5baec97bf4..c895126e9136bff7820ac7dfc1a3b6418c9ca2b1 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -535,7 +535,8 @@ static void function_name(const struct vkms_plane_state *plane, int x_start,			\
- 
- READ_LINE_YUV_SEMIPLANAR(YUV888_semiplanar_read_line, y, uv, u8, u8, argb_u16_from_yuv161616,
- 			 y[0] * 257, uv[0] * 257, uv[1] * 257)
--
-+READ_LINE_YUV_SEMIPLANAR(YUV161616_semiplanar_read_line, y, uv, u16, u16, argb_u16_from_yuv161616,
-+			 y[0], uv[0], uv[1])
- /*
-  * This callback can be used for YUV format where each color component is
-  * stored in a different plane (often called planar formats). It will
-@@ -728,6 +729,10 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 	case DRM_FORMAT_NV61:
- 	case DRM_FORMAT_NV42:
- 		return &YUV888_semiplanar_read_line;
-+	case DRM_FORMAT_P010:
-+	case DRM_FORMAT_P012:
-+	case DRM_FORMAT_P016:
-+		return &YUV161616_semiplanar_read_line;
- 	case DRM_FORMAT_YUV420:
- 	case DRM_FORMAT_YUV422:
- 	case DRM_FORMAT_YUV444:
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index e82b60fcda4bc2f2337e9c1e65515548ee06c9ed..4ab0fab4dd09f4be14308afb2f52bc6465f6396d 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -41,6 +41,9 @@ static const u32 vkms_formats[] = {
- 	DRM_FORMAT_YVU420,
- 	DRM_FORMAT_YVU422,
- 	DRM_FORMAT_YVU444,
-+	DRM_FORMAT_P010,
-+	DRM_FORMAT_P012,
-+	DRM_FORMAT_P016,
- 	DRM_FORMAT_R1,
- 	DRM_FORMAT_R2,
- 	DRM_FORMAT_R4,
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
--- 
-2.47.0
+Regards,
 
+Tvrtko
