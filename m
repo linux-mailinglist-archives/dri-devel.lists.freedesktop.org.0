@@ -2,112 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D93B9D56DD
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 01:48:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39749D5724
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 02:42:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B3F510EAA8;
-	Fri, 22 Nov 2024 00:48:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F32910E15D;
+	Fri, 22 Nov 2024 01:42:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SO1vodoj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qWYFllim";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4093A10EAA7
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 00:48:00 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2fb5740a03bso17642651fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 16:48:00 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCBB610E15D
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 01:42:15 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53dd0cb9ce3so989594e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2024 17:42:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732236478; x=1732841278; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=0+2GniAkdmp4BwJcsCVeiFyEwNMIk2x1tb1O8W07KrE=;
- b=SO1vodojZeC0RrteH/kyixUZqhhKJ3Dte0Yra/C8E+A3+svDTbh24NzltmHIAD6piv
- LNQ24aUH6gzosmG6KgzQ0hDehpzxYwM8Ld/qcp83HAlgp+NmQpi8SVqZIljm6Zv08uyL
- 06O/dTpLTEnoUhR7k1+KJSvLS3KwnmZuTYUbAfHq/sgTxMCeePMaKVWvDfVmmKbjXzFZ
- p3sFiSBEWOrGDmrtK2JOII45MXD8OJg76877adQaQgfuJ7RuFLH632LPUyLsvmm0Mova
- 28tYxW+bTDipga7VO9tb2Zc94323/WF0hFZ5VoNEDw6nzrEEPCUiUs/2GbAGqPor4dLd
- 0Q1w==
+ d=linaro.org; s=google; t=1732239733; x=1732844533; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=LVsCrs+2Zy1Cw9Biz6G59m8BJmA0z0mEYpX+dAlvRnk=;
+ b=qWYFllimEIyTuHsRycNJgUC8u+657CXWWj2+XCbTxJQ7LLLKsflihC/JEF6HUm6FF1
+ rf3mXDaFxxMsMVanNL1EN3E1tbef6AmthEUG8yAFivwJeMVFaWpMAmcl1d6Ta1zz1tk7
+ 8RaqZedcLlh8E1Myi69MlJrt7YrumG6HuiqGhAgrh76DG5ldYDLr9U2pP1CqIXH8QNRB
+ kMZUjYHKRMaoOBCqDPkXuYva0/GJuGOP9X3yhLVfuimGX/jWyUsDV+164K6XziaWegLY
+ sk3xKEk8LDwrhQOKDuDDbvMLCx1dlb1SIBwq4E2vdNJk0h3ylR6q9iZLwwOTWYG2RWVf
+ r0BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732236478; x=1732841278;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0+2GniAkdmp4BwJcsCVeiFyEwNMIk2x1tb1O8W07KrE=;
- b=qRHu5ignfYx+Dt7X3oI0OIiuYp3ydSvRJr8BXBF4LeH71P5f4ugPgnHvbo4yk4QiUQ
- KwDL7yBtMZeSMYKH7X06SqCED7dXmqNBX5N95xUFd3XhpSJ/G0M4rKfOmhNcIH90uUJO
- CaZ3r+VBBsgTsQp4qMn8YoCOyBulHmI82qZhFNA6FUnhz952VFjuE9RqnIEzAxCDWs5U
- npKcToxVvXldUEcHL01rYiuIukThMk88QEwBnCB2CV1DVISIEGAnJRdEVdO1W9DsitZL
- wZwS/U2t4TD46vlPf5rQho7QgZkCmh+n43VWzcH2VLL2G+7v5jvOoavHJ4hK0tUqdr+Y
- 16Ew==
+ d=1e100.net; s=20230601; t=1732239733; x=1732844533;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LVsCrs+2Zy1Cw9Biz6G59m8BJmA0z0mEYpX+dAlvRnk=;
+ b=FOhFbl5GaQJMtbfgwnEJ+lkzgeUel1WIMQVxSlWw0uBnM9/iI6qIwHL4Q0imEBrQi6
+ DGbwZs+UYCGQaCwyHsnePTC984pSdgNGErVtdVALlvkJqMR6fbrkJ/sWk55PZrVFybax
+ ui9vQL/4yU9qf/Q/nwxIfMak2c71x8opid7tNnW+pjDkf36yz6AVIZpLy4WxCaLrwB+U
+ hZRM84eV83AuV1m6WTyQNj+1+r8e9qwU/cxJAkiHrnRVKnmjnHs3OF4YR5Cz6Ru+pNfq
+ BnzjkNuTM0x0cXJU/DXWbDKrJ3bQd4/9kd9AjVmy+/pGb3yCzHVPEDceNk9/sO+YkVvy
+ duXw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXrQDV3XTs27NXk87Lm2h3uEu7eUOo8UHdHTmXI/VYSArf4A1ag37DpUEF6x2Vy2yOwuHYm0Avk5q8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylQ2PDwEfTV1lxPCNK16P+JoI7ekwJ4AnOxgLT+pXDo/7xCr9X
- VpsNTSWh96/x9ncLycPZ68JKTT/FBHCVfIbBLHKJXLdUId+DWJbJPSBVisdH4gY=
-X-Gm-Gg: ASbGncvVQlSiY/HKxZqgr4Q5XK18Hy1dklWHRK26zjlaBGVxb8d9YL2/FjO8DquZ54p
- Lo0PeZ4BANrJCOpFsH4I8/olHpEvdlaqs5bnpFKwhvo+E1tGupmo4A0iHzvOe8b68YK+jdfsnJr
- nRAqEWgn5erEPn+S6pDbKkXYNhNSPtgsgJ3BQLt+TqECaFAzykItCRiQySiuoiPnr8JOXW8y44p
- 0HmEePD/C2GcDalUNhPCd7J1+5MNmwSu/qjXAeGIR+Hs05LKeHxT7dzHg==
-X-Google-Smtp-Source: AGHT+IHaHNlUP8086xz3tRzLnaul8Avo5PbX/8+kDiLnQ5OGtpX084LsUh/kakZmuNiZbNZCIacxWw==
-X-Received: by 2002:a2e:a58d:0:b0:2fa:d978:a6a2 with SMTP id
- 38308e7fff4ca-2ffa716cecamr3853321fa.27.1732236478310; 
- Thu, 21 Nov 2024 16:47:58 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ffa5375caesm1083071fa.85.2024.11.21.16.47.55
+ AJvYcCVolwQa6J8FDlNV2ULjmfVNeROI0Xw76OcQb9XxlXkFOrzFjuntNTTDIWab2ZGjwwCo7ZOWtWSNT9M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQGqXbKcuQ1Y2EEgWjUVOd6njwEcK2dn71/EHJteVU7+Sa/EvC
+ pOtNl9P0iUo4FSnWuE2GSpq/IMBIk0qOaCWzQAJ5XU97Z1UxM2FbNBilrM6FYfU=
+X-Gm-Gg: ASbGnctmHlfgQFHBqh7bXtXuk1uhu5Ht5im8MtESeCXliXNTXTNyBhtVAfHMes6V9YF
+ WNXbXEmM2J3tQcldojFN5h1WAi0hNdzB3lzDwlTTkbqba1xNNeoe3Zlr8B46YOU9KWypLG/u7Gu
+ /nwx/HQiS8nDNlOKBtTO1RDQVNFmcKokF2WbYc0ETEwjBePZ3WXf1zh9IlHhAG5VLbev5iCcsN1
+ JfxRXyt8jit/yQRjK548oegvarX2HEMLUYKx28ivRRkJAbgIpAmpD1RCyj4G7f1GAoydK7aQcDT
+ pCpulzL05h9jNSwcJ16pDY5Uwsp/EQ==
+X-Google-Smtp-Source: AGHT+IHpfDtdPrVUJ86s9RzE+gzLjX2pCHQyP8l5PBeNQbVWR7A9L0or9Vj6WEDx5TVLxd5lYm/wtQ==
+X-Received: by 2002:a05:6512:1303:b0:53d:cb7e:225a with SMTP id
+ 2adb3069b0e04-53dd36aa62cmr423873e87.24.1732239733327; 
+ Thu, 21 Nov 2024 17:42:13 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53dd2450a7dsm154141e87.59.2024.11.21.17.42.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Nov 2024 16:47:56 -0800 (PST)
+ Thu, 21 Nov 2024 17:42:11 -0800 (PST)
+Date: Fri, 22 Nov 2024 03:42:09 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 22 Nov 2024 02:47:37 +0200
-Subject: [PATCH v4 7/7] drm/bridge_connector: hook
- drm_atomic_helper_connector_hdmi_update_edid()
+To: Yongbang Shi <shiyongbang@huawei.com>
+Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, liangjian010@huawei.com, 
+ chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
+ shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 drm-dp 1/5] drm/hisilicon/hibmc: add dp aux in hibmc
+Message-ID: <augqwu7iv42ges4x53ysulbfv43x6hadku7rgwjlscelsx5iwk@xmpeutszvjev>
+References: <20241118142805.3326443-1-shiyongbang@huawei.com>
+ <20241118142805.3326443-2-shiyongbang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241122-drm-bridge-hdmi-connector-v4-7-b4d69d6e3bd9@linaro.org>
-References: <20241122-drm-bridge-hdmi-connector-v4-0-b4d69d6e3bd9@linaro.org>
-In-Reply-To: <20241122-drm-bridge-hdmi-connector-v4-0-b4d69d6e3bd9@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-rockchip@lists.infradead.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4107;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=yRmYAaGG5FuJnzbiAwK+r8Wa4ofx1aRyHEGe3Ks/gxw=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnP9SpVDpn/N8z6K6hlLcRgonLl5v1k8kXcTVuO
- Og+AMEkfmSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZz/UqQAKCRCLPIo+Aiko
- 1dLPB/wLm/x1f8KlUeomrCfmp3UZ6g0DI5BUacJw80/8n2QLtYdBuGeBGuVq2z7lkL3AHGUhaHY
- gZn/7tubJGIZ3vjMeKLSgs49f7JxTUS6dJBGNbBYpupT5L25MoRX3pe9lCr+eDE/wpGoALXBcmE
- PYfPqUfPhHmNEOGYcD1oL742/t4WqmXtKa1ni1Hv+otodOq367Sfr44Xyqic+u1VV5eN4WWqpoU
- LtUDOu58YxNAOkrtyEGmrV/bbh6D4P9e6DioI4eij6CMhhiLhAp29UjK/+78DvZ3TgpR5uqrrOb
- ERZMg7fJCawdHkXiMo8nIfO8uK5pR0cgN6c6V904Ac5pSqFu
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241118142805.3326443-2-shiyongbang@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,129 +94,320 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend drm_bridge_connector code to read the EDID and use it to update
-connector status if the bridge chain implements HDMI bridge. Performing
-it from the generic location minimizes individual bridge's code and
-enforces standard behaviour from all corresponding drivers.
+On Mon, Nov 18, 2024 at 10:28:01PM +0800, Yongbang Shi wrote:
+> From: baihan li <libaihan@huawei.com>
+> 
+> Add dp aux read/write functions. They are basic functions
+> and will be used later.
+> 
+> Signed-off-by: Baihan Li <libaihan@huawei.com>
+> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+> ---
+> ChangeLog:
+> v4 -> v5:
+>   - fixing build errors reported by kernel test robot <lkp@intel.com>
+>     Closes: https://lore.kernel.org/oe-kbuild-all/202411131438.RZWYrWTE-lkp@intel.com/
+> v3 -> v4:
+>   - retun error codes in  result incorrect branch, suggested by Dmitry Baryshkov.
+>   - replacing all ret= with returns, suggested by Dmitry Baryshkov.
+>   - moving the comment below the judgment statement, suggested by Dmitry Baryshkov.
+>   - moving definations to the source file and clearing headers, suggested by Dmitry Baryshkov.
+>   - reanaming dp_prefix to hibmc_dp_prefix, suggested by Dmitry Baryshkov.
+>   - changing hibmc_dp_reg_write_field to static inline and lock, suggested by Dmitry Baryshkov.
+>   - moving some structs to later patch, suggested by Dmitry Baryshkov.
+> v2 -> v3:
+>   - put the macro definations in latter patch where they are actually used, suggested by Dmitry Baryshkov.
+>   - rename some macro definations to make them sensible, suggested by Dmitry Baryshkov.
+>   - using FIELD_PREP and FIELD_GET, suggested by Dmitry Baryshkov.
+>   - using DP_DPCD_REV_foo, suggested by Dmitry Baryshkov.
+>   - fix build errors reported by kernel test robot <lkp@intel.com>
+>     Closes: https://lore.kernel.org/oe-kbuild-all/202410250305.UHKDhtxy-lkp@intel.com/
+> v1 -> v2:
+>   - using drm_dp_aux frame implement dp aux read and write functions, suggested by Jani Nikula.
+>   - using drm dp header files' dp macros instead, suggested by Andy Yan.
+>   v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/Makefile     |   3 +-
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c  | 164 +++++++++++++++++++
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h |  38 +++++
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h  |  27 +++
+>  4 files changed, 231 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+>  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+>  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+> 
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> index d25c75e60d3d..8770ec6dfffd 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> -hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o
+> +hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
+> +	       dp/dp_aux.o
+>  
+>  obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+> new file mode 100644
+> index 000000000000..16bdfefbf255
+> --- /dev/null
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+> @@ -0,0 +1,164 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-laterHIBMC_BYTES_IN_U32
+> +// Copyright (c) 2024 Hisilicon Limited.
+> +
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/minmax.h>
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_print.h>
+> +#include "dp_comm.h"
+> +#include "dp_reg.h"
+> +
+> +#define HIBMC_AUX_CMD_REQ_LEN		GENMASK(7, 4)
+> +#define HIBMC_AUX_CMD_ADDR		GENMASK(27, 8)
+> +#define HIBMC_AUX_CMD_I2C_ADDR_ONLY	BIT(28)
+> +#define HIBMC_BYTES_IN_U32		4
+> +#define HIBMC_AUX_I2C_WRITE_SUCCESS	0x1
+> +#define HIBMC_DP_MIN_PULSE_NUM		0x9
+> +#define BITS_IN_U8			8
+> +
+> +static inline void hibmc_dp_aux_reset(struct hibmc_dp_dev *dp)
+> +{
+> +	hibmc_dp_reg_write_field(dp, HIBMC_DP_DPTX_RST_CTRL, HIBMC_DP_CFG_AUX_RST_N, 0x0);
+> +	usleep_range(10, 15);
+> +	hibmc_dp_reg_write_field(dp, HIBMC_DP_DPTX_RST_CTRL, HIBMC_DP_CFG_AUX_RST_N, 0x1);
+> +}
+> +
+> +static void hibmc_dp_aux_read_data(struct hibmc_dp_dev *dp, u8 *buf, u8 size)
+> +{
+> +	u32 reg_num;
+> +	u32 value;
+> +	u32 num;
+> +	u8 i, j;
+> +
+> +	reg_num = DIV_ROUND_UP(size, HIBMC_BYTES_IN_U32);
+> +	for (i = 0; i < reg_num; i++) {
+> +		/* number of bytes read from a single register */
+> +		num = min(size - i * HIBMC_BYTES_IN_U32, HIBMC_BYTES_IN_U32);
+> +		value = readl(dp->base + HIBMC_DP_AUX_RD_DATA0 + i * HIBMC_BYTES_IN_U32);
+> +		/* convert the 32-bit value of the register to the buffer. */
+> +		for (j = 0; j < num; j++)
+> +			buf[i * HIBMC_BYTES_IN_U32 + j] = value >> (j * BITS_IN_U8);
+> +	}
+> +}
+> +
+> +static void hibmc_dp_aux_write_data(struct hibmc_dp_dev *dp, u8 *buf, u8 size)
+> +{
+> +	u32 reg_num;
+> +	u32 value;
+> +	u32 num;
+> +	u8 i, j;
+> +
+> +	reg_num = DIV_ROUND_UP(size, HIBMC_BYTES_IN_U32);
+> +	for (i = 0; i < reg_num; i++) {
+> +		/* number of bytes written to a single register */
+> +		num = min_t(u8, size - i * HIBMC_BYTES_IN_U32, HIBMC_BYTES_IN_U32);
+> +		value = 0;
+> +		/* obtain the 32-bit value written to a single register. */
+> +		for (j = 0; j < num; j++)
+> +			value |= buf[i * HIBMC_BYTES_IN_U32 + j] << (j * BITS_IN_U8);
+> +		/* writing data to a single register */
+> +		writel(value, dp->base + HIBMC_DP_AUX_WR_DATA0 + i * HIBMC_BYTES_IN_U32);
+> +	}
+> +}
+> +
+> +static u32 hibmc_dp_aux_build_cmd(const struct drm_dp_aux_msg *msg)
+> +{
+> +	u32 aux_cmd = msg->request;
+> +
+> +	if (msg->size)
+> +		aux_cmd |= FIELD_PREP(HIBMC_AUX_CMD_REQ_LEN, (msg->size - 1));
+> +	else
+> +		aux_cmd |= FIELD_PREP(HIBMC_AUX_CMD_I2C_ADDR_ONLY, 1);
+> +
+> +	aux_cmd |= FIELD_PREP(HIBMC_AUX_CMD_ADDR, msg->address);
+> +
+> +	return aux_cmd;
+> +}
+> +
+> +/* ret >= 0, ret is size; ret < 0, ret is err code */
+> +static int hibmc_dp_aux_parse_xfer(struct hibmc_dp_dev *dp, struct drm_dp_aux_msg *msg)
+> +{
+> +	u32 buf_data_cnt;
+> +	u32 aux_status;
+> +
+> +	aux_status = readl(dp->base + HIBMC_DP_AUX_STATUS);
+> +	msg->reply = FIELD_GET(HIBMC_DP_CFG_AUX_STATUS, aux_status);
+> +
+> +	if (aux_status & HIBMC_DP_CFG_AUX_TIMEOUT)
+> +		return -ETIMEDOUT;
+> +
+> +	/* only address */
+> +	if (!msg->size)
+> +		return 0;
+> +
+> +	if (msg->reply != DP_AUX_NATIVE_REPLY_ACK)
+> +		return -EIO;
+> +
+> +	buf_data_cnt = FIELD_GET(HIBMC_DP_CFG_AUX_READY_DATA_BYTE, aux_status);
+> +
+> +	switch (msg->request) {
+> +	case DP_AUX_NATIVE_WRITE:
+> +		return msg->size;
+> +	case DP_AUX_I2C_WRITE | DP_AUX_I2C_MOT:
+> +		if (buf_data_cnt == HIBMC_AUX_I2C_WRITE_SUCCESS)
+> +			return msg->size;
+> +		else
+> +			return FIELD_GET(HIBMC_DP_CFG_AUX, aux_status);
+> +	case DP_AUX_NATIVE_READ:
+> +	case DP_AUX_I2C_READ | DP_AUX_I2C_MOT:
+> +		buf_data_cnt--;
+> +		if (buf_data_cnt != msg->size) {
+> +			/* only the successful part of data is read */
+> +			return -EBUSY;
+> +		}
+> +
+> +		/* all data is successfully read */
+> +		hibmc_dp_aux_read_data(dp, msg->buffer, msg->size);
+> +		return msg->size;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +/* ret >= 0 ,ret is size; ret < 0, ret is err code */
+> +static ssize_t hibmc_dp_aux_xfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
+> +{
+> +	struct hibmc_dp_dev *dp = container_of(aux, struct hibmc_dp_dev, aux);
+> +	u32 aux_cmd;
+> +	int ret;
+> +	u32 val; /* val will be assigned at the beginning of readl_poll_timeout function */
+> +
+> +	writel(0, dp->base + HIBMC_DP_AUX_WR_DATA0);
+> +	writel(0, dp->base + HIBMC_DP_AUX_WR_DATA1);
+> +	writel(0, dp->base + HIBMC_DP_AUX_WR_DATA2);
+> +	writel(0, dp->base + HIBMC_DP_AUX_WR_DATA3);
+> +
+> +	hibmc_dp_aux_write_data(dp, msg->buffer, msg->size);
+> +
+> +	aux_cmd = hibmc_dp_aux_build_cmd(msg);
+> +	writel(aux_cmd, dp->base + HIBMC_DP_AUX_CMD_ADDR);
+> +
+> +	/* enable aux transfer */
+> +	hibmc_dp_reg_write_field(dp, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_REQ, 0x1);
+> +	ret = readl_poll_timeout(dp->base + HIBMC_DP_AUX_REQ, val,
+> +				 !(val & HIBMC_DP_CFG_AUX_REQ), 50, 5000);
+> +	if (ret) {
+> +		hibmc_dp_aux_reset(dp);
+> +		return ret;
+> +	}
+> +
+> +	return hibmc_dp_aux_parse_xfer(dp, msg);
+> +}
+> +
+> +void hibmc_dp_aux_init(struct hibmc_dp_dev *dp)
+> +{
+> +	hibmc_dp_reg_write_field(dp, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_SYNC_LEN_SEL, 0x0);
+> +	hibmc_dp_reg_write_field(dp, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_TIMER_TIMEOUT, 0x1);
+> +	hibmc_dp_reg_write_field(dp, HIBMC_DP_AUX_REQ, HIBMC_DP_CFG_AUX_MIN_PULSE_NUM,
+> +				 HIBMC_DP_MIN_PULSE_NUM);
+> +
+> +	dp->aux.transfer = hibmc_dp_aux_xfer;
+> +	dp->aux.is_remote = 0;
+> +	drm_dp_aux_init(&dp->aux);
+> +}
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+> new file mode 100644
+> index 000000000000..ce3b6fa4ea9e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+> @@ -0,0 +1,38 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/* Copyright (c) 2024 Hisilicon Limited. */
+> +
+> +#ifndef DP_COMM_H
+> +#define DP_COMM_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/bitops.h>
+> +#include <linux/errno.h>
+> +#include <linux/mutex.h>
+> +#include <linux/kernel.h>
+> +#include <linux/bitfield.h>
+> +#include <linux/io.h>
+> +#include <drm/display/drm_dp_helper.h>
+> +
+> +struct hibmc_dp_dev {
+> +	struct drm_dp_aux aux;
+> +	struct drm_device *dev;
+> +	void __iomem *base;
+> +	struct mutex lock; /* protects concurrent RW in hibmc_dp_reg_write_field() */
+> +};
+> +
+> +#define dp_field_modify(reg_value, mask, val) ({		\
+> +	(reg_value) &= ~(mask);					\
+> +	(reg_value) |= FIELD_PREP(mask, val); })
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/display/drm_bridge_connector.c | 67 ++++++++++++++++++++------
- 1 file changed, 53 insertions(+), 14 deletions(-)
+do { ... } while (0) or static inline. Or just inline into the calling
+function, if there is just one place where it is used.
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 12ab9f14cc8a8672478ae2804c9a68d766d88ea5..71ae3b2c9049016d1cc0d39a787f6461633efd53 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -17,6 +17,7 @@
- #include <drm/drm_edid.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/display/drm_hdmi_state_helper.h>
- 
-@@ -175,17 +176,55 @@ static void drm_bridge_connector_disable_hpd(struct drm_connector *connector)
-  * Bridge Connector Functions
-  */
- 
-+static const struct drm_edid *
-+drm_bridge_connector_read_edid(struct drm_connector *connector,
-+			       enum drm_connector_status status)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	const struct drm_edid *drm_edid;
-+	struct drm_bridge *bridge;
-+
-+	bridge = bridge_connector->bridge_edid;
-+	if (!bridge)
-+		return NULL;
-+
-+	if (status != connector_status_connected)
-+		return NULL;
-+
-+	drm_edid = drm_bridge_edid_read(bridge, connector);
-+	if (!drm_edid_valid(drm_edid)) {
-+		drm_edid_free(drm_edid);
-+		return NULL;
-+	}
-+
-+	return drm_edid;
-+}
-+
- static enum drm_connector_status
- drm_bridge_connector_detect(struct drm_connector *connector, bool force)
- {
- 	struct drm_bridge_connector *bridge_connector =
- 		to_drm_bridge_connector(connector);
- 	struct drm_bridge *detect = bridge_connector->bridge_detect;
-+	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
- 	enum drm_connector_status status;
- 
- 	if (detect) {
- 		status = detect->funcs->detect(detect);
- 
-+		if (hdmi) {
-+			const struct drm_edid *drm_edid;
-+			int ret;
-+
-+			drm_edid = drm_bridge_connector_read_edid(connector, status);
-+			ret = drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
-+			if (ret)
-+				drm_warn(connector->dev, "updating EDID failed with %d\n", ret);
-+
-+			drm_edid_free(drm_edid);
-+		}
-+
- 		drm_bridge_connector_hpd_notify(connector, status);
- 	} else {
- 		switch (connector->connector_type) {
-@@ -246,29 +285,29 @@ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
- static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
- 					       struct drm_bridge *bridge)
- {
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
- 	enum drm_connector_status status;
- 	const struct drm_edid *drm_edid;
--	int n;
- 
- 	status = drm_bridge_connector_detect(connector, false);
- 	if (status != connector_status_connected)
--		goto no_edid;
-+		return 0;
- 
--	drm_edid = drm_bridge_edid_read(bridge, connector);
--	if (!drm_edid_valid(drm_edid)) {
-+	/* In HDMI setup the EDID has been read and handled as a part of .detect() */
-+	if (!hdmi) {
-+		drm_edid = drm_bridge_connector_read_edid(connector, status);
-+		if (!drm_edid) {
-+			drm_edid_connector_update(connector, NULL);
-+			return 0;
-+		}
-+
-+		drm_edid_connector_update(connector, drm_edid);
- 		drm_edid_free(drm_edid);
--		goto no_edid;
- 	}
- 
--	drm_edid_connector_update(connector, drm_edid);
--	n = drm_edid_connector_add_modes(connector);
--
--	drm_edid_free(drm_edid);
--	return n;
--
--no_edid:
--	drm_edid_connector_update(connector, NULL);
--	return 0;
-+	return drm_edid_connector_add_modes(connector);
- }
- 
- static int drm_bridge_connector_get_modes(struct drm_connector *connector)
+> +
+> +#define hibmc_dp_reg_write_field(dp, offset, mask, val) ({	\
+> +	typeof(dp) _dp = dp;					\
+> +	typeof(_dp->base) addr = (_dp->base + (offset));	\
+> +	mutex_lock(&_dp->lock);					\
+> +	u32 reg_value = readl(addr);				\
+> +	dp_field_modify(reg_value, mask, val);			\
+> +	writel(reg_value, addr);				\
+> +	mutex_unlock(&_dp->lock); })
+
+I'd prefer a static inline function. Other than that:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
+> +
+> +void hibmc_dp_aux_init(struct hibmc_dp_dev *dp);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+> new file mode 100644
+> index 000000000000..f3e6781e111a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/* Copyright (c) 2024 Hisilicon Limited. */
+> +
+> +#ifndef DP_REG_H
+> +#define DP_REG_H
+> +
+> +#define HIBMC_DP_AUX_CMD_ADDR			0x50
+> +#define HIBMC_DP_AUX_WR_DATA0			0x54
+> +#define HIBMC_DP_AUX_WR_DATA1			0x58
+> +#define HIBMC_DP_AUX_WR_DATA2			0x5c
+> +#define HIBMC_DP_AUX_WR_DATA3			0x60
+> +#define HIBMC_DP_AUX_RD_DATA0			0x64
+> +#define HIBMC_DP_AUX_REQ			0x74
+> +#define HIBMC_DP_AUX_STATUS			0x78
+> +#define HIBMC_DP_DPTX_RST_CTRL			0x700
+> +
+> +#define HIBMC_DP_CFG_AUX_SYNC_LEN_SEL		BIT(1)
+> +#define HIBMC_DP_CFG_AUX_TIMER_TIMEOUT		BIT(2)
+> +#define HIBMC_DP_CFG_AUX_MIN_PULSE_NUM		GENMASK(13, 9)
+> +#define HIBMC_DP_CFG_AUX_REQ			BIT(0)
+> +#define HIBMC_DP_CFG_AUX_RST_N			BIT(4)
+> +#define HIBMC_DP_CFG_AUX_TIMEOUT		BIT(0)
+> +#define HIBMC_DP_CFG_AUX_READY_DATA_BYTE	GENMASK(16, 12)
+> +#define HIBMC_DP_CFG_AUX			GENMASK(24, 17)
+> +#define HIBMC_DP_CFG_AUX_STATUS			GENMASK(11, 4)
+> +
+> +#endif
+> -- 
+> 2.33.0
+> 
 
 -- 
-2.39.5
-
+With best wishes
+Dmitry
