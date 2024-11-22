@@ -2,56 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D229A9D5E81
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 13:00:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669309D5EB7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 13:21:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB8C410E178;
-	Fri, 22 Nov 2024 11:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 897F910EB54;
+	Fri, 22 Nov 2024 12:21:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="HtnHBx3e";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ceTL7KBv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6659410E178
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 11:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=o8WeUfkNhuU0xebIZYnnpfdPy1pYAgywRjfJ3vGwYgk=; b=HtnHBx3e6l+svFqC2GJZCgVr6b
- F4IQLw9wKNnWVVWnWHq2Bt+/UYpnu47b6Xr2Y2Pv5n9/I14omt526ZAHefefR32bR52texkq6IqRj
- Svreeer6Dz1JzD6jbPp/pJVbZgEf3RPOb8Bv3Z55FxYwFJozdLGw/igKT/1rQdwBp1wB2JViEcip8
- eqVssdOaXdbR1OytUowUc/Eq9b564xRa2kM3CjzrU2nN8kTc6AGFiQ5sjWxiu+1OE3af5nG77ypkm
- yCNCvXzDukboVxIj0Jl7eEVEnwNyylqd2zOlF3k0JY4ZaPHx1dlf6jAcRb3eH9tfm7xRuPh0elinJ
- Bmz7r6Gg==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tESKB-00AvjT-G3; Fri, 22 Nov 2024 12:59:47 +0100
-Message-ID: <c00c6436-8abf-4b8d-a5a1-dfcab45b6f7d@igalia.com>
-Date: Fri, 22 Nov 2024 08:59:41 -0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E48F810E2EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 12:21:49 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AM36w7F025224
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 12:21:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 2zyqdqOWon+Bb6KDq9EFahJ8KwOZlSLq3h9cfnJbehE=; b=ceTL7KBvdCZ22zVi
+ udzdRY3CYZAS9dHzjhEXUYpMQFNAUEyJJWx0j9AWTrlU1Sv50SUvlGWeV1wBj3ZV
+ xGDxL/L6fh9buUgSMMSoZGS2b5L4akX3K/u3qqbXWwWJuVwvF9Zs7E9S8GNSp9+a
+ G/idSgVQg/kUfpi8Syq65G0aCwvt/YCBlgQshS8wLWWw3wshLoznkEOghhIv2/q3
+ AV1vQs78BgOValB+FPpJW+G4Kw2OUqBrW4b6lBmf12UfSBYMgJoCfM4qmpdcHDkx
+ ibuMyzc6hyysA70lfHAv2OaPegJF7bTAYNPFj40x7aiCJwHHVIjtgHDhogLw3nne
+ Y1zz4A==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43251nka2p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 12:21:48 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7b1437d6f6cso25597485a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 04:21:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732278108; x=1732882908;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2zyqdqOWon+Bb6KDq9EFahJ8KwOZlSLq3h9cfnJbehE=;
+ b=EySIhuAeazAjlRmzyCJOFIs4NzLPK8dGFC1ZKoymxlydvmga4RXc5F4V7DcrWZ5Xl9
+ IVjRSE+cL2igZ8oSphPJ5BjQIKrL+o76+3/n0FtLL0HS7/4CeeYjYcRosrjhtRjKg3gW
+ icv7VDh9EdlcMwL+JkM3iYmOuPhYMe3HpRQ54AvA7VF97eXds7XqIiRxJyAkDIZsqpKL
+ +j3ldVhGn/ZLfi3GIGnVMLo7DxQUhSWd+O8BRhxli60q+dhbj7ItR2HxalgnHXeDBh7P
+ hNEWZIj3Alv0XyR6Xz4KXuzgs52K4+MsDZvQwF2a97JEzKHivk9gjd56mcPyMlqgz6P1
+ gqHQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVbCdQ0Ijmw8yMKIxBo86g2kzo/2cmL9VOVyy18ey0dyR7LwzEzMFlK5lmVr+3Giy62TyHyUPSDVyQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywsd4owdvuQ4bH6TPrDWl6HJ6trWoDzJ4Nkm8k46GBI5FE/5ET3
+ AXoxwME5pJJdLOHHtjC0t7u65ysrUr4F3evXUvG4EZ+QYgJcmyoHM27e9FKgeL3tqucvScIzA5L
+ Vrfz0IgOSPFtIBv9og6UgUa/L4GAQgROo1ZJdQhkYt5bm/LdUvTQMSzNCca5xBfbC85s=
+X-Gm-Gg: ASbGncuqVyEpk965630ssweOiji0ZoPFSRR1ynqiM/X15pknyst+5lCPqYXWaH7aU2p
+ bb9946JXM6uqiVwhgi9FaDqUX2CilFP+q9D1R0Wlg5DQBEgso+uARJc7WV8XwP2tR8dLBGvPga6
+ sveEyFtB1Ex/VVDwR1B8/CJEsuP1CkTd6x6nnS7hwaNRj+/rpPfm5MVLGtX/ZLI5th33zya+o7c
+ ptIhFez+8zuMklQkUsH/031mEs+Js0GCHxnXTzIXd5VYSYulOaXq//1h27bOoM0IAIrJfE6WCuz
+ pPFjglWMt6Avq04uB6yabH0L5wmetks=
+X-Received: by 2002:a05:620a:1a16:b0:7a9:c0f2:75fc with SMTP id
+ af79cd13be357-7b51457fd82mr154414585a.12.1732278107949; 
+ Fri, 22 Nov 2024 04:21:47 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGHmLTbwm8pNChveHbGVRdyKfjc2M6rbis5hRH/aHBrK0D9jZQQS3R1hjWKmaZIuM4R3iO+zw==
+X-Received: by 2002:a05:620a:1a16:b0:7a9:c0f2:75fc with SMTP id
+ af79cd13be357-7b51457fd82mr154411085a.12.1732278107496; 
+ Fri, 22 Nov 2024 04:21:47 -0800 (PST)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aa50b57c19esm92298166b.154.2024.11.22.04.21.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Nov 2024 04:21:46 -0800 (PST)
+Message-ID: <54601d79-4156-41f4-b1b7-250c5c970641@oss.qualcomm.com>
+Date: Fri, 22 Nov 2024 13:21:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/v3d: Stop active perfmon if it is being destroyed
-To: Christian Gmeiner <christian.gmeiner@gmail.com>,
- Melissa Wen <mwen@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Subject: Re: [PATCH] drm/msm: UAPI error reporting
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "Juan A. Suarez Romero" <jasuarez@igalia.com>
-Cc: kernel-dev@igalia.com, Christian Gmeiner <cgmeiner@igalia.com>,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241118221948.1758130-1-christian.gmeiner@gmail.com>
+ open list <linux-kernel@vger.kernel.org>
+References: <20241121164858.457921-1-robdclark@gmail.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20241118221948.1758130-1-christian.gmeiner@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241121164858.457921-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: te_bnmeNTjcwGUb47O3oK9H8bTnTmf0c
+X-Proofpoint-GUID: te_bnmeNTjcwGUb47O3oK9H8bTnTmf0c
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ spamscore=0 impostorscore=0 phishscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2411220105
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,57 +117,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
-On 18/11/24 19:19, Christian Gmeiner wrote:
-> From: Christian Gmeiner <cgmeiner@igalia.com>
+On 21.11.2024 5:48 PM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> If the active performance monitor (v3d->active_perfmon) is being
-> destroyed, stop it first. Currently, the active perfmon is not
-> stopped during destruction, leaving the v3d->active_perfmon pointer
-> stale. This can lead to undefined behavior and instability.
+> Debugging incorrect UAPI usage tends to be a bit painful, so add a
+> helper macro to make it easier to add debug logging which can be enabled
+> at runtime via drm.debug.
 > 
-> This patch ensures that the active perfmon is stopped before being
-> destroyed, aligning with the behavior introduced in commit
-> 7d1fd3638ee3 ("drm/v3d: Stop the active perfmon before being destroyed").
-> 
-> Cc: stable@vger.kernel.org # v5.15+
-> Fixes: 26a4dc29b74a ("drm/v3d: Expose performance counters to userspace")
-> Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
-
-Applied to misc/kernel.git (drm-misc-next).
-
-Maxime, Thomas, if possible, could you cherry-pick this commit to be 
-included in 6.13? Thanks!
-
-Best Regards,
-- Maíra
-
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 > ---
->   drivers/gpu/drm/v3d/v3d_perfmon.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
-> index 00cd081d7873..909288d43f2f 100644
-> --- a/drivers/gpu/drm/v3d/v3d_perfmon.c
-> +++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
-> @@ -383,6 +383,7 @@ int v3d_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
->   {
->   	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
->   	struct drm_v3d_perfmon_destroy *req = data;
-> +	struct v3d_dev *v3d = v3d_priv->v3d;
->   	struct v3d_perfmon *perfmon;
->   
->   	mutex_lock(&v3d_priv->perfmon.lock);
-> @@ -392,6 +393,10 @@ int v3d_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
->   	if (!perfmon)
->   		return -EINVAL;
->   
-> +	/* If the active perfmon is being destroyed, stop it first */
-> +	if (perfmon == v3d->active_perfmon)
-> +		v3d_perfmon_stop(v3d, perfmon, false);
-> +
->   	v3d_perfmon_put(perfmon);
->   
->   	return 0;
 
+[...]
+
+> +/* Helper for returning a UABI error with optional logging which can make
+> + * it easier for userspace to understand what it is doing wrong.
+> + */
+> +#define UERR(err, drm, fmt, ...) \
+> +	({ DRM_DEV_DEBUG_DRIVER((drm)->dev, fmt, ##__VA_ARGS__); -(err); })
+> +
+>  #define DBG(fmt, ...) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
+>  #define VERB(fmt, ...) if (0) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
+
+I'm generally not a fan of adding driver-specific debug prints..
+
+Maybe that's something that could be pushed to the drm-common layer
+or even deeper down the stack?
+
+Konrad
