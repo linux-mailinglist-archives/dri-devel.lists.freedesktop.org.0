@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9DA49D5CD7
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 11:03:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3B09D5CE5
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 11:07:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71F2B10EB38;
-	Fri, 22 Nov 2024 10:03:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 487E010EB3A;
+	Fri, 22 Nov 2024 10:07:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZEE53tjr";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="URCsgubp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8CD410EB38
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 10:03:40 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-53dd0cb9ce3so1355261e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 02:03:40 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B83FE10EB39
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 10:07:18 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-539ee1acb86so2130958e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 02:07:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732269819; x=1732874619; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732270037; x=1732874837; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=6ZLT8I4KDbe++vNVuiTZLA4WW9vKk6hhxnM+ns9I/LY=;
- b=ZEE53tjrixeCLndJUJ5rKvXbP2T62CasgH65NYW3B5CfNwNqoekF3kegDZAQByy3Fa
- pEFb3WgLxsg2Nyb5HXFU5JTv8rB9sT+2bVh8+KocYh+v9j/+XbJwSWpmyznReAzL0MLX
- LBlDpf/CXyNXcatsXsZ3E2F3np4hegrGXn+tkGQNynNZtt4c/QKbjuynuUOXtCZOHrJu
- oJbTnrkltjmuwX3CPXoaJJyc+3G8pLXUgw6bR4McNj5+/mN3BHHdb0L4Qhch4fwElO4F
- c5PuGsaCuo3kK9uYKe3oARufivG9t/Bx4HtYj9ic4NNK13QmrIH0SWbISkx6sv5IJFzK
- 2ACQ==
+ bh=GO7fVK+g5VXFiw6jUirAsxcaeR1tJ6lVtHXzxXnqFYQ=;
+ b=URCsgubpsuoJ2HBqn9lMYqUy22fiRQoDgXD0ubcFiC4tG1PKoFAvLyWzyA6l7UWTiA
+ 51OwDel3y7bkynps26LzE97oOw1XEGF8TKrCQ8tyqg2VP0zX4Yhu/MEL9WDMIvRbmj1l
+ kUai0dbQ+RFl5mto2hFiHHCvyhp34V1G/TCyhAJW9pfa7EyAHqhqQWKZRRiFDdvhVWWB
+ 3PhLkCniOopf5nGYWYLrwFKAd/zxsRVD5KKEYDcwFeXjwLS0Ix4s6OF+weiziFsSg5uu
+ R5GRqhZkQOEDWH6z+DUbyImH0QdbwKMJjIYRcM+LvZItWcmSw+W1TfmtRy32Vsipqtk8
+ BfxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732269819; x=1732874619;
+ d=1e100.net; s=20230601; t=1732270037; x=1732874837;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6ZLT8I4KDbe++vNVuiTZLA4WW9vKk6hhxnM+ns9I/LY=;
- b=p81uXwsRKM/IBU7NiWh/RV8xPN6J/VHWM+iAfXXFJlpLG38KvXFuQDcRFhAnhR1imk
- 9SQnVeaNsXl0/jqFQTeN7M+z2IJdaSpu5+m1DGJueWFD3Cx0qdCVu1iiLrmYZo4WM90z
- /fs7WDPkJ9vIYvNzRsthp3OD7Kl8MbWRSwDhj/Ka+RwkuQazyrYEou1MCgswUWZDvBOn
- tqa+6N75bvric4213zJK6CZRqGn7AyHQzGyEtLHka9AsvFS81Q2bdv+ZkTWAyA4jeZFn
- TZZ/pBoVzeML/i5pWJZEuvrUPfM+hStE3ivUhgZYYEu/jWTFoXKGjkN6wjE/Adm+CpAc
- /8dA==
+ bh=GO7fVK+g5VXFiw6jUirAsxcaeR1tJ6lVtHXzxXnqFYQ=;
+ b=peUfugV3lob6f1lA9U3lfoGL13I6LF1EUlnGTR7wOMODsqu3XvHYLXSz5cSb8VBkuB
+ 7/JU518cocIP2s17itfNKh12AUp5yJ6Y6URnWRrV31p1Vg4II+eQH88DCGLhn4eqQas0
+ TldkyhKCoSaw9IGOm55zzKlrf05MZRxr13n/50PrIysImJSJwYt/RVHvNNTUpDgG8+xH
+ Jd5CIDTWd7D57Pzp2XVp8zLSCO5ZivmOgFZLBEikXxuyY7I/+3SMsM/yUiTdjzUoK6tk
+ MSfUPWHmlr3kp4BNdvGXEuoUIpYd9v2BdaiO6AXK72jyuPKsQtLGLz5JlSt62uYuXwyr
+ PWnA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXgTy6ufZIZqTwOJKjLB7PNJIvjKTDYnFQSMXSmWuQhYLztzBm+yGpbM02Ov30jlBczUZ3XyzcoseQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5jHwFIYNMRj6Bts+wDcTW7GBO1dLiWEvARwwGvxk1bgVPP6Wq
- jdUR+wsPdMGlsCgy/niqWRV/FT2WUxxocmHbGvUgIo03YgEY2IXmKeQj54HKzDM=
-X-Gm-Gg: ASbGnctNWJA6lTkSUIlXrsc3n94A+RvxfJRBl0HQXQztk5beyw/zyoAl8Klo+f2Mo12
- w7T9QfWbL0mkU11Dhkyz7kovZdsOp1piM1KI06vxY+Q7SR9YB8FT4YZQplWj8rIaUDzGN88oEVz
- ZrkVS+QgL+OFN8IrSs0vAHd9UePm4/R3tONMed7ryf9yndif99kexfxoxh0O/KJXSXUIDWgf6D9
- 09tJ3O2vSn3+gljpcEggATEGnVOEedRze3fcZXXEmHjLy4G+PeiPdGXqVXF8Kk+UzpD0XmtqCiH
- Lz+SS2WvWCCoYMJsEWFGgHAxtUVG/Q==
-X-Google-Smtp-Source: AGHT+IE3PHq2qPNqY+QbYoKQGe6R086mqzI0wJSLMJ+g6h7CmPQMNZmjuqoEun+JNczYZAXDctuzeg==
-X-Received: by 2002:a05:6512:2311:b0:539:ee0a:4f8f with SMTP id
- 2adb3069b0e04-53dd39b2dbemr1081114e87.44.1732269818813; 
- Fri, 22 Nov 2024 02:03:38 -0800 (PST)
+ AJvYcCV3RPiF3Y85yx9osGQi7nDUTI0dB/q0Qp7SqrfczSZ8cfObF3BlRPH3Yi6MhILBT51GYI513/UNEzM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyNpNP59L56xgzoDV4n9BYRTxkEUUWxecnliMGpxaWHCCGl5ixU
+ 2Z8RdQ6Q/jujbZuZxUzMvmEWR88kXSsvqvERmGPJxGdxNHK4ohxqfc26FnCD+iY=
+X-Gm-Gg: ASbGnctn1L1GUo8i040geF7XIfSeRSpmdcAShRD8OwszBdPQ61NRryOzglrjptS7FMl
+ WbrB5TbABrkHY77/d9aW342tYQouDS/tq+p9irKSq2o3xSo7/kTRijTVrEFHM5Z3d0tyycZNMYz
+ 56P//5p2V8fm2yMCU86FkZUhklx3O3tRJ7rMakg9WfytoKkMyOXZuoooHNRjzGC71HwtDEDIjfa
+ y30AJ3qhs0uS1mKA6HA0Tcuje0EJirB9YQmR/GB8yJi+7SfkkyXrZ/6FYnNsdk1HbwlFUq0pwWp
+ noqf4EJ1eoD3wRjGBUk8SzKCrFUOfQ==
+X-Google-Smtp-Source: AGHT+IEAFmL7UZg1uTfDDRPoy0BBuksKzzgZGM3TutSiUK4Zl501M3PKPyCwG30hNRGeBsF6mBGDwg==
+X-Received: by 2002:a05:6512:1110:b0:536:a695:942c with SMTP id
+ 2adb3069b0e04-53dd35a4f17mr1072878e87.7.1732270036793; 
+ Fri, 22 Nov 2024 02:07:16 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd24517e8sm318249e87.91.2024.11.22.02.03.35
+ 2adb3069b0e04-53dd2445712sm314765e87.40.2024.11.22.02.07.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Nov 2024 02:03:37 -0800 (PST)
-Date: Fri, 22 Nov 2024 12:03:33 +0200
+ Fri, 22 Nov 2024 02:07:16 -0800 (PST)
+Date: Fri, 22 Nov 2024 12:07:13 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Fange Zhang <quic_fangez@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -81,14 +81,14 @@ Cc: Rob Clark <robdclark@gmail.com>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 4/9] drm/msm: mdss: Add SM6150 support
-Message-ID: <jquwvnj7s3n5ki63ooz52ys3cbenuedr7mkrdkdujrnza3ewa7@i4y2uhy63yvq>
+Subject: Re: [PATCH v3 5/9] drm/msm/dpu: Add SM6150 support
+Message-ID: <bhylewwvztm7gsmkjwo6asceuph2jlqgvy2lhocdvg6r7y4i6w@duvbnsko3xg2>
 References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
- <20241122-add-display-support-for-qcs615-platform-v3-4-35252e3a51fe@quicinc.com>
+ <20241122-add-display-support-for-qcs615-platform-v3-5-35252e3a51fe@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-4-35252e3a51fe@quicinc.com>
+In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-5-35252e3a51fe@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,19 +104,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 22, 2024 at 05:56:47PM +0800, Fange Zhang wrote:
+On Fri, Nov 22, 2024 at 05:56:48PM +0800, Fange Zhang wrote:
 > From: Li Liu <quic_lliu6@quicinc.com>
 > 
-> Add support for MDSS on SM6150.
+> Add definitions for the display hardware used on the Qualcomm SM6150
+> platform.
 > 
 > Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
 > Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/msm_mdss.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h | 263 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+>  4 files changed, 266 insertions(+)
 > 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..e8b7f694b885d69a9bbfaa85b0faf0c7af677a75
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+> @@ -0,0 +1,263 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef _DPU_5_3_SM6150_H
+> +#define _DPU_5_3_SM6150_H
+> +
+> +	}, {
+> +		.name = "intf_2", .id = INTF_2,
+> +		.base = 0x6b000, .len = 0x2c0,
+> +		.features = INTF_SC7180_MASK,
+> +		.type = INTF_NONE,
+> +		.controller_id = 0,
+> +		.prog_fetch_lines_worst_case = 24,
+> +		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+> +		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
+
+Please drop. No need to declare missing blocks.
+
+Other than that:
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
+> +	}, {
+> +		.name = "intf_3", .id = INTF_3,
+> +		.base = 0x6b800, .len = 0x280,
+> +		.features = INTF_SC7180_MASK,
+> +		.type = INTF_DP,
+> +		.controller_id = MSM_DP_CONTROLLER_1,
+> +		.prog_fetch_lines_worst_case = 24,
+> +		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+> +		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
+> +	},
+> +};
+> +
 
 -- 
 With best wishes
