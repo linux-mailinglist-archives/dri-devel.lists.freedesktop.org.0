@@ -2,106 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669309D5EB7
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 13:21:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459119D5EBC
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 13:22:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 897F910EB54;
-	Fri, 22 Nov 2024 12:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15F0D10EB66;
+	Fri, 22 Nov 2024 12:22:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ceTL7KBv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YHxOm46a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E48F810E2EB
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 12:21:49 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AM36w7F025224
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 12:21:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 2zyqdqOWon+Bb6KDq9EFahJ8KwOZlSLq3h9cfnJbehE=; b=ceTL7KBvdCZ22zVi
- udzdRY3CYZAS9dHzjhEXUYpMQFNAUEyJJWx0j9AWTrlU1Sv50SUvlGWeV1wBj3ZV
- xGDxL/L6fh9buUgSMMSoZGS2b5L4akX3K/u3qqbXWwWJuVwvF9Zs7E9S8GNSp9+a
- G/idSgVQg/kUfpi8Syq65G0aCwvt/YCBlgQshS8wLWWw3wshLoznkEOghhIv2/q3
- AV1vQs78BgOValB+FPpJW+G4Kw2OUqBrW4b6lBmf12UfSBYMgJoCfM4qmpdcHDkx
- ibuMyzc6hyysA70lfHAv2OaPegJF7bTAYNPFj40x7aiCJwHHVIjtgHDhogLw3nne
- Y1zz4A==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43251nka2p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 12:21:48 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7b1437d6f6cso25597485a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 04:21:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732278108; x=1732882908;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2zyqdqOWon+Bb6KDq9EFahJ8KwOZlSLq3h9cfnJbehE=;
- b=EySIhuAeazAjlRmzyCJOFIs4NzLPK8dGFC1ZKoymxlydvmga4RXc5F4V7DcrWZ5Xl9
- IVjRSE+cL2igZ8oSphPJ5BjQIKrL+o76+3/n0FtLL0HS7/4CeeYjYcRosrjhtRjKg3gW
- icv7VDh9EdlcMwL+JkM3iYmOuPhYMe3HpRQ54AvA7VF97eXds7XqIiRxJyAkDIZsqpKL
- +j3ldVhGn/ZLfi3GIGnVMLo7DxQUhSWd+O8BRhxli60q+dhbj7ItR2HxalgnHXeDBh7P
- hNEWZIj3Alv0XyR6Xz4KXuzgs52K4+MsDZvQwF2a97JEzKHivk9gjd56mcPyMlqgz6P1
- gqHQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVbCdQ0Ijmw8yMKIxBo86g2kzo/2cmL9VOVyy18ey0dyR7LwzEzMFlK5lmVr+3Giy62TyHyUPSDVyQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywsd4owdvuQ4bH6TPrDWl6HJ6trWoDzJ4Nkm8k46GBI5FE/5ET3
- AXoxwME5pJJdLOHHtjC0t7u65ysrUr4F3evXUvG4EZ+QYgJcmyoHM27e9FKgeL3tqucvScIzA5L
- Vrfz0IgOSPFtIBv9og6UgUa/L4GAQgROo1ZJdQhkYt5bm/LdUvTQMSzNCca5xBfbC85s=
-X-Gm-Gg: ASbGncuqVyEpk965630ssweOiji0ZoPFSRR1ynqiM/X15pknyst+5lCPqYXWaH7aU2p
- bb9946JXM6uqiVwhgi9FaDqUX2CilFP+q9D1R0Wlg5DQBEgso+uARJc7WV8XwP2tR8dLBGvPga6
- sveEyFtB1Ex/VVDwR1B8/CJEsuP1CkTd6x6nnS7hwaNRj+/rpPfm5MVLGtX/ZLI5th33zya+o7c
- ptIhFez+8zuMklQkUsH/031mEs+Js0GCHxnXTzIXd5VYSYulOaXq//1h27bOoM0IAIrJfE6WCuz
- pPFjglWMt6Avq04uB6yabH0L5wmetks=
-X-Received: by 2002:a05:620a:1a16:b0:7a9:c0f2:75fc with SMTP id
- af79cd13be357-7b51457fd82mr154414585a.12.1732278107949; 
- Fri, 22 Nov 2024 04:21:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGHmLTbwm8pNChveHbGVRdyKfjc2M6rbis5hRH/aHBrK0D9jZQQS3R1hjWKmaZIuM4R3iO+zw==
-X-Received: by 2002:a05:620a:1a16:b0:7a9:c0f2:75fc with SMTP id
- af79cd13be357-7b51457fd82mr154411085a.12.1732278107496; 
- Fri, 22 Nov 2024 04:21:47 -0800 (PST)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aa50b57c19esm92298166b.154.2024.11.22.04.21.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Nov 2024 04:21:46 -0800 (PST)
-Message-ID: <54601d79-4156-41f4-b1b7-250c5c970641@oss.qualcomm.com>
-Date: Fri, 22 Nov 2024 13:21:44 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44C1B10EB5D;
+ Fri, 22 Nov 2024 12:22:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1732278173; x=1763814173;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=6N0+DV+e9pImJDMgKq8tG7PZiU4DXS+78Ssm1ANdnv4=;
+ b=YHxOm46alyhHO+iw7UpZsLvzD6lIEl9oZ5Dt25nfZHmpFnD7LA9qRpqw
+ 3tB2b+BVkQQeyIXTbhKxHZO8oNFUSz1JylIY8+liHZfMNyh0fOAub6oqX
+ tAxxCxxrUmiOn0PJ5SPd/HAh6ZI0sFMkdplZRf2pLxkubh4tlPCF02f6s
+ wIZ6pKTxJgFaOAMG3IQtRI+f15i21cq3WcpuIQgl5tSb8R5WyzT61N/zg
+ BZbquxJoZ7pdlDSfZpGUizh/YoC3Joa2+6puKOpMJcMUvr3n00a+bieXi
+ 3YlQiYvaZ0oW9iL4XHrQBh7k71O4rvFQtbP6X2p2/E81dbo1tlvr5Tt8R w==;
+X-CSE-ConnectionGUID: ptR2aI93QjCNNp786HuYdQ==
+X-CSE-MsgGUID: Om2SBtveQe69PavZ7VEnbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32289751"
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; d="scan'208";a="32289751"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2024 04:22:53 -0800
+X-CSE-ConnectionGUID: lYqwBKy7T9qqVT3HW1T1NA==
+X-CSE-MsgGUID: zeBFSAYwSuaPsr3k8gEaZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="95626860"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.157])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2024 04:22:50 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: imre.deak@intel.com
+Cc: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH 1/3] drm/dp: extract drm_dp_dpcd_poll_act_handled()
+In-Reply-To: <Zz345xhVgGlshsJN@ideak-desk.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1731942780.git.jani.nikula@intel.com>
+ <3d91f7b6639960fe688eb6ae0236254adae3e82d.1731942780.git.jani.nikula@intel.com>
+ <Zz345xhVgGlshsJN@ideak-desk.fi.intel.com>
+Date: Fri, 22 Nov 2024 14:22:44 +0200
+Message-ID: <87bjy7zcdn.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm: UAPI error reporting
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-References: <20241121164858.457921-1-robdclark@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241121164858.457921-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: te_bnmeNTjcwGUb47O3oK9H8bTnTmf0c
-X-Proofpoint-GUID: te_bnmeNTjcwGUb47O3oK9H8bTnTmf0c
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- spamscore=0 impostorscore=0 phishscore=0 mlxlogscore=999 adultscore=0
- malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2411220105
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,30 +71,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21.11.2024 5:48 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Debugging incorrect UAPI usage tends to be a bit painful, so add a
-> helper macro to make it easier to add debug logging which can be enabled
-> at runtime via drm.debug.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
+On Wed, 20 Nov 2024, Imre Deak <imre.deak@intel.com> wrote:
+> On Mon, Nov 18, 2024 at 05:14:52PM +0200, Jani Nikula wrote:
+>> SST with 128b/132b channel coding needs this too. Extract to a separate
+>> helper, independent of MST.
+>> 
+>> Pass timeout in as a parameter, anticipating that we can reduce the
+>> timeout for SST.
+>
+> I wish there was a DP Standard section making the above clear,
+> but I suppose we just deduct that except of the side-band messaging,
+> every other payload programming and ACT signaling is required for
+> 128b/132b SST.
 
-[...]
+Ping. Okay to merge, or do we want to mull over the the timeout?
 
-> +/* Helper for returning a UABI error with optional logging which can make
-> + * it easier for userspace to understand what it is doing wrong.
-> + */
-> +#define UERR(err, drm, fmt, ...) \
-> +	({ DRM_DEV_DEBUG_DRIVER((drm)->dev, fmt, ##__VA_ARGS__); -(err); })
-> +
->  #define DBG(fmt, ...) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
->  #define VERB(fmt, ...) if (0) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
+I'm primarily trying to do a non-functional change. I could omit the
+timeout parameter, but for non-hubs three seconds seems excessive, and
+reducing it for hubs too is a can of worms I prefer keeping the lid on
+top.
 
-I'm generally not a fan of adding driver-specific debug prints..
+> Cc: Lyude Paul <lyude@redhat.com>
+>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  drivers/gpu/drm/display/drm_dp_helper.c       | 54 ++++++++++++++++++-
+>>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 36 +------------
+>>  include/drm/display/drm_dp_helper.h           |  2 +
+>>  3 files changed, 57 insertions(+), 35 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+>> index 6ee51003de3c..b7e03bf02cd8 100644
+>> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+>> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+>> @@ -22,15 +22,16 @@
+>>  
+>>  #include <linux/backlight.h>
+>>  #include <linux/delay.h>
+>> +#include <linux/dynamic_debug.h>
+>>  #include <linux/errno.h>
+>>  #include <linux/i2c.h>
+>>  #include <linux/init.h>
+>> +#include <linux/iopoll.h>
+>>  #include <linux/kernel.h>
+>>  #include <linux/module.h>
+>>  #include <linux/sched.h>
+>>  #include <linux/seq_file.h>
+>>  #include <linux/string_helpers.h>
+>> -#include <linux/dynamic_debug.h>
+>>  
+>>  #include <drm/display/drm_dp_helper.h>
+>>  #include <drm/display/drm_dp_mst_helper.h>
+>> @@ -779,6 +780,57 @@ int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
+>>  }
+>>  EXPORT_SYMBOL(drm_dp_dpcd_read_phy_link_status);
+>>  
+>> +static int read_payload_update_status(struct drm_dp_aux *aux)
+>> +{
+>> +	int ret;
+>> +	u8 status;
+>> +
+>> +	ret = drm_dp_dpcd_readb(aux, DP_PAYLOAD_TABLE_UPDATE_STATUS, &status);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	return status;
+>> +}
+>> +
+>> +/**
+>> + * drm_dp_dpcd_poll_act_handled() - Polls for ACT handled status.
+>> + * @aux: DisplayPort AUX channel
+>> + * @timeout_ms: Timeout in ms
+>> + *
+>> + * Tries waiting for the sink to finish updating its payload table by polling
+>> + * for the ACT handled bit for up to @timeout_ms milliseconds, defaulting to
+>> + * 3000 ms if 0.
+>> + *
+>> + * Returns:
+>> + * 0 if the ACT was handled in time, negative error code on failure.
+>> + */
+>> +int drm_dp_dpcd_poll_act_handled(struct drm_dp_aux *aux, int timeout_ms)
+>
+> I wonder if it'd make sense to namespace these helpers using ll_mtp or mtp.
 
-Maybe that's something that could be pushed to the drm-common layer
-or even deeper down the stack?
+Honestly I think there's already enough of an acronym jumble in the
+name. At least "drm_dp_dpcd" is common for most functions around here.
 
-Konrad
+
+BR,
+Jani.
+
+>
+>> +{
+>> +	int ret, status;
+>> +
+>
+> Extra w/s.
+>
+> Regardless of the namespace comment:
+>
+> Reviewed-by: Imre Deak <imre.deak@intel.com>
+>
+>> +	/* default to 3 seconds, this is arbitrary */
+>> +	timeout_ms = timeout_ms ?: 3000;
+>> +
+>> +	ret = readx_poll_timeout(read_payload_update_status, aux, status,
+>> +				 status & DP_PAYLOAD_ACT_HANDLED || status < 0,
+>> +				 200, timeout_ms * USEC_PER_MSEC);
+>> +	if (ret < 0 && status >= 0) {
+>> +		drm_err(aux->drm_dev, "Failed to get ACT after %d ms, last status: %02x\n",
+>> +			timeout_ms, status);
+>> +		return -EINVAL;
+>> +	} else if (status < 0) {
+>> +		/*
+>> +		 * Failure here isn't unexpected - the hub may have
+>> +		 * just been unplugged
+>> +		 */
+>> +		drm_dbg_kms(aux->drm_dev, "Failed to read payload table status: %d\n", status);
+>> +		return status;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL(drm_dp_dpcd_poll_act_handled);
+>> +
+>>  static bool is_edid_digital_input_dp(const struct drm_edid *drm_edid)
+>>  {
+>>  	/* FIXME: get rid of drm_edid_raw() */
+>> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+>> index ac90118b9e7a..2bdbc1eb282b 100644
+>> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+>> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+>> @@ -29,7 +29,6 @@
+>>  #include <linux/random.h>
+>>  #include <linux/sched.h>
+>>  #include <linux/seq_file.h>
+>> -#include <linux/iopoll.h>
+>>  
+>>  #if IS_ENABLED(CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS)
+>>  #include <linux/stacktrace.h>
+>> @@ -4723,18 +4722,6 @@ static int drm_dp_dpcd_write_payload(struct drm_dp_mst_topology_mgr *mgr,
+>>  	return ret;
+>>  }
+>>  
+>> -static int do_get_act_status(struct drm_dp_aux *aux)
+>> -{
+>> -	int ret;
+>> -	u8 status;
+>> -
+>> -	ret = drm_dp_dpcd_readb(aux, DP_PAYLOAD_TABLE_UPDATE_STATUS, &status);
+>> -	if (ret < 0)
+>> -		return ret;
+>> -
+>> -	return status;
+>> -}
+>> -
+>>  /**
+>>   * drm_dp_check_act_status() - Polls for ACT handled status.
+>>   * @mgr: manager to use
+>> @@ -4752,28 +4739,9 @@ int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr)
+>>  	 * There doesn't seem to be any recommended retry count or timeout in
+>>  	 * the MST specification. Since some hubs have been observed to take
+>>  	 * over 1 second to update their payload allocations under certain
+>> -	 * conditions, we use a rather large timeout value.
+>> +	 * conditions, we use a rather large timeout value of 3 seconds.
+>>  	 */
+>> -	const int timeout_ms = 3000;
+>> -	int ret, status;
+>> -
+>> -	ret = readx_poll_timeout(do_get_act_status, mgr->aux, status,
+>> -				 status & DP_PAYLOAD_ACT_HANDLED || status < 0,
+>> -				 200, timeout_ms * USEC_PER_MSEC);
+>> -	if (ret < 0 && status >= 0) {
+>> -		drm_err(mgr->dev, "Failed to get ACT after %dms, last status: %02x\n",
+>> -			timeout_ms, status);
+>> -		return -EINVAL;
+>> -	} else if (status < 0) {
+>> -		/*
+>> -		 * Failure here isn't unexpected - the hub may have
+>> -		 * just been unplugged
+>> -		 */
+>> -		drm_dbg_kms(mgr->dev, "Failed to read payload table status: %d\n", status);
+>> -		return status;
+>> -	}
+>> -
+>> -	return 0;
+>> +	return drm_dp_dpcd_poll_act_handled(mgr->aux, 3000);
+>>  }
+>>  EXPORT_SYMBOL(drm_dp_check_act_status);
+>>  
+>> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+>> index 279624833ea9..38eea21d1082 100644
+>> --- a/include/drm/display/drm_dp_helper.h
+>> +++ b/include/drm/display/drm_dp_helper.h
+>> @@ -567,6 +567,8 @@ int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
+>>  				     enum drm_dp_phy dp_phy,
+>>  				     u8 link_status[DP_LINK_STATUS_SIZE]);
+>>  
+>> +int drm_dp_dpcd_poll_act_handled(struct drm_dp_aux *aux, int timeout_ms);
+>> +
+>>  bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
+>>  				    u8 real_edid_checksum);
+>>  
+>> -- 
+>> 2.39.5
+>> 
+
+-- 
+Jani Nikula, Intel
