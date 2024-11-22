@@ -2,68 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08E09D60FC
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 15:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8289D615C
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 16:30:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E3C110EB53;
-	Fri, 22 Nov 2024 14:59:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A34EB10E01F;
+	Fri, 22 Nov 2024 15:30:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TjNAW22n";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RmeIQW4i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4492710EB53
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 14:59:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732287585; x=1763823585;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=GkCbSmjhBBgXZcXWF7U1crMu95bSOWEu0XweMi7WfYI=;
- b=TjNAW22nvKLwOS7m4PH6GhdaRGtLnvWBtZ3mfdP+9rZd1alr7FbL8jEz
- ygtPNofO1IIWFK/hPKIZ8PZuM6f0toTKidcXpYJk8IV9KFlrwumEMzBbu
- pJsdnseMQ38tizGPtO2DHKJvbeoGOfveTDSoXyizSAHVJZ1DthGINskfp
- IsGtW/cA7NIq5xBlmXazIQwdJHdBgWiaTlg9IXxprxNFw6IQK/Zym9Wt1
- PhJhWfXamUHc8uhKVqMqsxr8d0BLQnnNuD7ECcENcWJ3bc9Ki2GeftbXh
- Q9NVc9NQD8hmeAJ1C/PzZtFn/ZsrWxN8b44fWeY7r62qbrAqAb3aVXH3n w==;
-X-CSE-ConnectionGUID: Jr81rB/9TkyUylo7hbxVww==
-X-CSE-MsgGUID: HDE1BqJjQWyMCw43rQ6KzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="31803419"
-X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; d="scan'208";a="31803419"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2024 06:59:45 -0800
-X-CSE-ConnectionGUID: X/vZvrrqSM6nIRO9u/AdxQ==
-X-CSE-MsgGUID: SNnfAXWDTluSkmRUnCgJUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; d="scan'208";a="95544425"
-Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
- by orviesa005.jf.intel.com with ESMTP; 22 Nov 2024 06:59:40 -0800
-Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tEV8D-000401-19;
- Fri, 22 Nov 2024 14:59:37 +0000
-Date: Fri, 22 Nov 2024 22:59:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, p.zabel@pengutronix.de,
- airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v1 3/7] drm/mediatek: mtk_cec: Switch to register as
- module_platform_driver
-Message-ID: <202411222245.WS9U5m9I-lkp@intel.com>
-References: <20241120124512.134278-4-angelogioacchino.delregno@collabora.com>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DC0210E01F
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 15:30:45 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3824446d2bcso1889809f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 07:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1732289444; x=1732894244; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=nZYzC8/qbp8uYldU3RtFW20PuBvBN5BAeIz25F9W1rE=;
+ b=RmeIQW4iVtY7iHDfQ3rdT69Xu6moqN5/Rl1Lmms7TWlb7dUHseeRYL8SX6Oi+q8RAo
+ BTYLG5vHpDzv+nCzCFDJ4Ufd18qqow/jWpuUGk8eJpOJu5RruQTN8eP006StvGLnUX6F
+ xZmb9sqslqQ3+IoLLia3LW17rsX6n4Kuo3GnAp68VCpDXnRpVIVO9DW46WZXWO35/idn
+ CBMDF26EnBWjGfjM7AmHSG5WpSSPyh7u0A6/xSpCmvUbTZczD7RE3ug3LK23U/eNy6Pa
+ rBw0TMKptwYBNclEehvw7qeKUgjyG2YwmmksRI0wBOXa3qyeW1mA90YHDIdTfT87g/mb
+ 14+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732289444; x=1732894244;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nZYzC8/qbp8uYldU3RtFW20PuBvBN5BAeIz25F9W1rE=;
+ b=tChgBJrnUCEI/w9oIclLZiTMaF/Rzf0iQYqQnHwIb+yuk5AvPjY024U3Uahya6W6N+
+ wL1xW+xQo7hXzMcZ4DPlhtG03SOI7WPYwFcLs5Dagkafrv1NLXuC5aEvDaZxj4oELIpr
+ +0KIG/C7gQ9gJc+l6842TC4/hLBmPvtE9GQYw2fWlh7ACLcPlAl0yvu4mjTVnbCZYokT
+ 9ZVSlBvOt76Uj4WRxfM2i78spaJnB9yBk+zVVEo6u1o9LkpFVI0kuEEykmDGGviIErN4
+ Crn+JtzJqTBTE57JyX+qpev66Cw33gRmRHNO5vwr8nc6LB0OfnEKYduSbSL4h0Jf3fcH
+ zdSg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWE0TMrn2sI18BCpG+v3gpz2sgSi5b8ld0WHINx067kJDhsXikeBZEjAupJzuO11RgETjMQke0IVcQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxBBDsuxrfyxRN6hOx4gbh9qQ2ZRybfflruK/KQ04HHZ2I6Z79Y
+ 5y/ckBL3JHCx1ETTXmdJcKrJDjmTEdhyLQyelQqaYT2SoP6o28HKqYdFA/W6W/k=
+X-Gm-Gg: ASbGncs6kp42JSFyfS6xOt4vPuP8rI1ABd0u4ARy1feUA0fmlIxSVSVGtYpP8rM9PrH
+ Q4oivnynb50vvS4fMb5hRYNzmwR9hJLxA1CknGt8juAa0QcqnpVAfTkROz0LmizKQplqkjvBcYH
+ qu/ho5v77iNjavikUAETwuZ7eLjhpmijGEATzDSJz1OcqP2vYHLwauI95OXu8GuxzmuqYdeBMWm
+ x9EFlX9ZmVglnaaLvpjRT2XKWTmr9ZSpvNzXzurN3sqEETo0Q3TUHI6ujshVQ==
+X-Google-Smtp-Source: AGHT+IFyf43o/Vii7nkRDfZwAAgP9+t3+U/bgwCjZTu7yt2147qx/dGOP44d+lmi/uigqylNYEndlw==
+X-Received: by 2002:a05:6000:1a8e:b0:382:4a87:6681 with SMTP id
+ ffacd0b85a97d-38260b61f7dmr3214988f8f.28.1732289443348; 
+ Fri, 22 Nov 2024 07:30:43 -0800 (PST)
+Received: from able.fritz.box ([2a00:e180:157b:ce00:e5bb:3b9:2ec9:95a3])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3825fafe3cbsm2653098f8f.38.2024.11.22.07.30.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Nov 2024 07:30:41 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: tursulin@ursulin.net,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] dma-buf: fix dma_fence_array_signaled v4
+Date: Fri, 22 Nov 2024 16:30:37 +0100
+Message-Id: <20241122153037.44079-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241120124512.134278-4-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,54 +85,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi AngeloGioacchino,
+The function silently assumed that signaling was already enabled for the
+dma_fence_array. This meant that without enabling signaling first we would
+never see forward progress.
 
-kernel test robot noticed the following build errors:
+Fix that by falling back to testing each individual fence when signaling
+isn't enabled yet.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on pza/reset/next linus/master drm-misc/drm-misc-next v6.12 next-20241122]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+v2: add the comment suggested by Boris why this is done this way
+v3: fix the underflow pointed out by Tvrtko
+v4: atomic_read_acquire() as suggested by Tvrtko
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-Add-binding-for-HDMIv2-DDC/20241121-132321
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241120124512.134278-4-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v1 3/7] drm/mediatek: mtk_cec: Switch to register as module_platform_driver
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241122/202411222245.WS9U5m9I-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411222245.WS9U5m9I-lkp@intel.com/reproduce)
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Tested-by: Chia-I Wu <olvaffe@gmail.com>
+---
+ drivers/dma-buf/dma-fence-array.c | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411222245.WS9U5m9I-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   aarch64-linux-ld: drivers/gpu/drm/mediatek/mtk_hdmi.o: in function `mtk_hdmitx_init':
->> drivers/gpu/drm/mediatek/mtk_hdmi.c:1812: multiple definition of `init_module'; drivers/gpu/drm/mediatek/mtk_cec.o:drivers/gpu/drm/mediatek/mtk_cec.c:249: first defined here
-   aarch64-linux-ld: drivers/gpu/drm/mediatek/mtk_hdmi.o: in function `mtk_hdmitx_exit':
->> drivers/gpu/drm/mediatek/mtk_hdmi.c:1818: multiple definition of `cleanup_module'; drivers/gpu/drm/mediatek/mtk_cec.o:drivers/gpu/drm/mediatek/mtk_cec.c:249: first defined here
-
-
-vim +1812 drivers/gpu/drm/mediatek/mtk_hdmi.c
-
-8f83f26891e125 Jie Qiu       2016-01-04  1810  
-8f83f26891e125 Jie Qiu       2016-01-04  1811  static int __init mtk_hdmitx_init(void)
-8f83f26891e125 Jie Qiu       2016-01-04 @1812  {
-446b8c542f8551 Philipp Zabel 2017-03-17  1813  	return platform_register_drivers(mtk_hdmi_drivers,
-446b8c542f8551 Philipp Zabel 2017-03-17  1814  					 ARRAY_SIZE(mtk_hdmi_drivers));
-8f83f26891e125 Jie Qiu       2016-01-04  1815  }
-8f83f26891e125 Jie Qiu       2016-01-04  1816  
-8f83f26891e125 Jie Qiu       2016-01-04  1817  static void __exit mtk_hdmitx_exit(void)
-8f83f26891e125 Jie Qiu       2016-01-04 @1818  {
-446b8c542f8551 Philipp Zabel 2017-03-17  1819  	platform_unregister_drivers(mtk_hdmi_drivers,
-446b8c542f8551 Philipp Zabel 2017-03-17  1820  				    ARRAY_SIZE(mtk_hdmi_drivers));
-8f83f26891e125 Jie Qiu       2016-01-04  1821  }
-8f83f26891e125 Jie Qiu       2016-01-04  1822  
-
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index 8a08ffde31e7..6657d4b30af9 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -103,10 +103,36 @@ static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
+ static bool dma_fence_array_signaled(struct dma_fence *fence)
+ {
+ 	struct dma_fence_array *array = to_dma_fence_array(fence);
++	int num_pending;
++	unsigned int i;
+ 
+-	if (atomic_read(&array->num_pending) > 0)
++	/*
++	 * We need to read num_pending before checking the enable_signal bit
++	 * to avoid racing with the enable_signaling() implementation, which
++	 * might decrement the counter, and cause a partial check.
++	 * atomic_read_acquire() pairs with atomic_dec_and_test() in
++	 * dma_fence_array_enable_signaling()
++	 *
++	 * The !--num_pending check is here to account for the any_signaled case
++	 * if we race with enable_signaling(), that means the !num_pending check
++	 * in the is_signalling_enabled branch might be outdated (num_pending
++	 * might have been decremented), but that's fine. The user will get the
++	 * right value when testing again later.
++	 */
++	num_pending = atomic_read_acquire(&array->num_pending);
++	if (test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &array->base.flags)) {
++		if (num_pending <= 0)
++			goto signal;
+ 		return false;
++	}
++
++	for (i = 0; i < array->num_fences; ++i) {
++		if (dma_fence_is_signaled(array->fences[i]) && !--num_pending)
++			goto signal;
++	}
++	return false;
+ 
++signal:
+ 	dma_fence_array_clear_pending_error(array);
+ 	return true;
+ }
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
