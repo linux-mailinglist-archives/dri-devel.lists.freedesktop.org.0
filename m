@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76AD69D5BD3
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:21:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAB69D5BD4
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:22:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE13710EB1E;
-	Fri, 22 Nov 2024 09:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6AD10EB1F;
+	Fri, 22 Nov 2024 09:21:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="f2cx4Iav";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="HZk7vcO3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9C610EB1E
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 09:21:57 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4AM80ENR014706;
- Fri, 22 Nov 2024 02:00:14 -0600
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCEDB10EB1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 09:21:56 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4AM80qim015202;
+ Fri, 22 Nov 2024 02:00:52 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1732262414;
- bh=NzwBJ9hoNy9zYFQF0RIjxpT+VZivN/OIvGYGZWYheJw=;
+ s=ti-com-17Q1; t=1732262452;
+ bh=QJjoCW1qT2TYG2ypJf4/FVAqbU0v/j3s33/VLB1sBcQ=;
  h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=f2cx4IavxdZ3ahzhjXIx07KhHeXhX9ET4PWQ56OAfnq8uVuu1ADYhF8umzu4HI1kZ
- VRFxR3Vk2N/vtk+/QEWYa6Azsgrg8kPSDUAPVuAkEB3zXoCmMCXJ7Ih8smwig0+jWZ
- j3INL2XAbltdIFGt9+wqIqTGcPwilYT1B9OB4sxE=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4AM80EaC049337
+ b=HZk7vcO3hEeilzGNc3Oz+lPJN6YbR2Dvggx6XUML0q/vwnvnPCzsAHwvPi5rXJc9U
+ kDGUTSJN5CShzHqHzwZ3cr6JaguKr7pH15WCX3S+Itn0070cy5cPb7x7Q6iB6WT9j8
+ jC2seGfZqsfSmk4aejpF6rex97FIKZv90Hb/RDTw=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4AM80qsL025322
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 22 Nov 2024 02:00:14 -0600
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ Fri, 22 Nov 2024 02:00:52 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 22
- Nov 2024 02:00:14 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2024 02:00:52 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 22 Nov 2024 02:00:14 -0600
+ Frontend Transport; Fri, 22 Nov 2024 02:00:52 -0600
 Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be
  forged))
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4AM80AMi052433;
- Fri, 22 Nov 2024 02:00:11 -0600
-Message-ID: <1f47c3c3-812d-2e0e-16f8-db0209f1ebad@ti.com>
-Date: Fri, 22 Nov 2024 13:30:10 +0530
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4AM80m54055112;
+ Fri, 22 Nov 2024 02:00:49 -0600
+Message-ID: <315e2d6a-4d9f-fb91-6584-92f622c54d96@ti.com>
+Date: Fri, 22 Nov 2024 13:30:48 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 2/7] drm/tidss: Remove unused OCP error flag
+Subject: Re: [PATCH 3/7] drm/tidss: Remove extra K2G check
 Content-Language: en-US
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
  <jyri.sarha@iki.fi>
@@ -56,9 +56,9 @@ CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, Jonathan
  Cormier <jcormier@criticallink.com>
 References: <20241021-tidss-irq-fix-v1-0-82ddaec94e4a@ideasonboard.com>
- <20241021-tidss-irq-fix-v1-2-82ddaec94e4a@ideasonboard.com>
+ <20241021-tidss-irq-fix-v1-3-82ddaec94e4a@ideasonboard.com>
 From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <20241021-tidss-irq-fix-v1-2-82ddaec94e4a@ideasonboard.com>
+In-Reply-To: <20241021-tidss-irq-fix-v1-3-82ddaec94e4a@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
@@ -80,8 +80,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 21/10/24 19:37, Tomi Valkeinen wrote:
-> We never use the DSS_IRQ_DEVICE_OCP_ERR flag, and the HW doesn't even
-> have such a bit... So remove it.
+> We check if the platform is K2G in dispc_k3_clear_irqstatus(), and
+> return early if so. This cannot happen, as the _k3_ functions are never
+> called on K2G in the first place. So remove the check.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
@@ -90,52 +91,20 @@ Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
 Regards
 Devarsh
 > ---
->  drivers/gpu/drm/tidss/tidss_irq.c | 5 +----
->  drivers/gpu/drm/tidss/tidss_irq.h | 4 +---
->  2 files changed, 2 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/tidss/tidss_dispc.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
-> index 604334ef526a..91498ff664a2 100644
-> --- a/drivers/gpu/drm/tidss/tidss_irq.c
-> +++ b/drivers/gpu/drm/tidss/tidss_irq.c
-> @@ -78,9 +78,6 @@ static irqreturn_t tidss_irq_handler(int irq, void *arg)
->  			tidss_crtc_error_irq(crtc, irqstatus);
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index f81111067578..99a1138f3e69 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -789,8 +789,6 @@ void dispc_k3_clear_irqstatus(struct dispc_device *dispc, dispc_irq_t clearmask)
+>  		if (clearmask & DSS_IRQ_PLANE_MASK(i))
+>  			dispc_k3_vid_write_irqstatus(dispc, i, clearmask);
 >  	}
+> -	if (dispc->feat->subrev == DISPC_K2G)
+> -		return;
 >  
-> -	if (irqstatus & DSS_IRQ_DEVICE_OCP_ERR)
-> -		dev_err_ratelimited(tidss->dev, "OCP error\n");
-> -
->  	return IRQ_HANDLED;
->  }
->  
-> @@ -105,7 +102,7 @@ int tidss_irq_install(struct drm_device *ddev, unsigned int irq)
->  	if (ret)
->  		return ret;
->  
-> -	tidss->irq_mask = DSS_IRQ_DEVICE_OCP_ERR;
-> +	tidss->irq_mask = 0;
->  
->  	for (unsigned int i = 0; i < tidss->num_crtcs; ++i) {
->  		struct tidss_crtc *tcrtc = to_tidss_crtc(tidss->crtcs[i]);
-> diff --git a/drivers/gpu/drm/tidss/tidss_irq.h b/drivers/gpu/drm/tidss/tidss_irq.h
-> index b512614d5863..dd61f645f662 100644
-> --- a/drivers/gpu/drm/tidss/tidss_irq.h
-> +++ b/drivers/gpu/drm/tidss/tidss_irq.h
-> @@ -19,15 +19,13 @@
->   * bit use   |D  |fou|FEOL|FEOL|FEOL|FEOL|  UUUU  |          |
->   * bit number|0  |1-3|4-7 |8-11|  12-19  | 20-23  |  24-31   |
->   *
-> - * device bits:	D = OCP error
-> + * device bits:	D = Unused
->   * WB bits:	f = frame done wb, o = wb buffer overflow,
->   *		u = wb buffer uncomplete
->   * vp bits:	F = frame done, E = vsync even, O = vsync odd, L = sync lost
->   * plane bits:	U = fifo underflow
->   */
->  
-> -#define DSS_IRQ_DEVICE_OCP_ERR			BIT(0)
-> -
->  #define DSS_IRQ_DEVICE_FRAMEDONEWB		BIT(1)
->  #define DSS_IRQ_DEVICE_WBBUFFEROVERFLOW		BIT(2)
->  #define DSS_IRQ_DEVICE_WBUNCOMPLETEERROR	BIT(3)
+>  	/* always clear the top level irqstatus */
+>  	dispc_write(dispc, DISPC_IRQSTATUS, dispc_read(dispc, DISPC_IRQSTATUS));
 > 
