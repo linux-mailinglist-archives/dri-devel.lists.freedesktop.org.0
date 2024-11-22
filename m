@@ -2,73 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9AA9D5B83
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A7A9D5B84
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 10:13:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AEA810E16E;
-	Fri, 22 Nov 2024 09:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A030A10EAF5;
+	Fri, 22 Nov 2024 09:13:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="myAOie3/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mivTKmfV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7586910E16E
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 09:13:11 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-53da24e9673so1984587e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 01:13:11 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD3AE10E1E2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 09:13:13 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-53d9ff8f1e4so2042469e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 01:13:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732266789; x=1732871589; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=yPJBOfYSV90IcFVSxfOZG/ZLElTJvS62cOj1dS8TNSc=;
- b=myAOie3/nShIgxBxnJiiHuuAaU0kUFUvwKA18mX1w3N1O71n7GQEJRvwfDyAH8K5dn
- Ypd/JrHCu+5NOjJrk2c2HImk3mCgEW9KbM6MR3MBvO7tvVsVY0j+ILE4duGpiUgFGit5
- DTqSDxixKxw8UlLYkNT4QV4NYVSTqsMnQfH+S4ol169/QxqwbJSBocndsj47vOAAiVir
- W0rJKbp9gBlTs1p2Eg8KpzUjTper5/VKAGvxU9W5kZisHd7lO/w+gtnMMebKjEh5iIMw
- ey9afLXbTF0P98BolCoQegjqMXSVaSGxeCNGGhlWvarjiSVuZ+XzfIdYUjk+lwsBhL/T
- gYcg==
+ d=linaro.org; s=google; t=1732266792; x=1732871592; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=6W3bqmSBPUsE+fVjxjecsCfWlJC1+mE/7mRAcZKJqvU=;
+ b=mivTKmfVrJqQIZgLXnbqWQcHKcMmXXjlXBNfdL+3sDCSr7Zg/6WEeHp5GY+O9W0nux
+ NmJksjzbHfRDwuSjj3mX8NT72/MUn2jJx2HyazuwPlE3dxTp4aQ+9ZCEpsrZv0MaD2pn
+ TW8a1c4W1STahCswKawt2ssQOpLP4txXAAiG6pZHJwYMtHRBeug9xybxevyNRFZXfkPT
+ Lfi2HqQeEkUliJfHYRRdmbmPlRQa6pMgrfsHtKCFGahy2dy2Y2Cxl+ur9IcO8NCLUbjB
+ d5a9HQtrSdP8+XOHqzCTg9IczDODtO04V69HmzrMtK8Q7Xg22NitEFLmmpW4CRXaTMFQ
+ fuvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732266789; x=1732871589;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yPJBOfYSV90IcFVSxfOZG/ZLElTJvS62cOj1dS8TNSc=;
- b=CLv3VYnihHJ2sglinXTiYA5dibn0CpxBmf8aKLSbEhKFysM6UK8vc2g3fg7MULfRbt
- hCdfF7HrwPh099TrxTtWQ1082ZiiUqJZl36gVmPonc4qPqMyTafI9adkLuPKAo+m23ik
- aY7HUH+1KlgQywEzljfT7x1lJySQhqWYmLzbZCq9dbQjHjpwoqmdlnDiB9/xB/m1QdYt
- HhrJsq2iKbmEUZ0aFzp5K/lQAI5d4m5QzVNH6f3evNa+pknvH3yS4RY0I/O6J0TGM+Oh
- 9R5GpemJffTe1oeOs4aLRBUvEwnrK+0ifYiBLR49uLZnStBRZ2rJDD8xNto+2DyXz5yq
- SeKQ==
-X-Gm-Message-State: AOJu0YxHZbhMMvBzH6LfVJzIVn2pm3Sc08Jnp50HCOgmtwoVEw7TqrA0
- 674O/xJF8mdSzzRyBJ8XDAuVcQ75pWk2lKvyCWexZPUg8XXUxLDvJHEKOon0RnA=
-X-Gm-Gg: ASbGncvwSQwXxhIJJYRe40xRVizE3n8GuyMY+hBMrJKDGDceVBGRE1sMkDXLzUAywt6
- JJbL8oPEZnlLxg/wrKiNs+JgrQKpYgAmlcZBShTat5pEw1vZtYLJoDJuCBI0XFvk3m+U5QnPOWg
- icw3FXx4dONRjec3uiBnSKVFoqGuUbMBOVQlLPcCigxg3KosNzHUCYEbxUBbbdIYQ0Ed4XYkY3d
- J+uGWOLc96349grUwuB9HVzPp6p3BHMr/qtIv5uiY54z7IK316S2IDMAw==
-X-Google-Smtp-Source: AGHT+IGEb5tRInMFtVE9GZficnUTiVO1xCATodroM7GK3ZevvdEIuIB/MI+jMs/pCyFMTD+eeIO8JQ==
-X-Received: by 2002:a05:6512:10ca:b0:53d:a9b9:fdc0 with SMTP id
- 2adb3069b0e04-53dd389d8a1mr1112818e87.31.1732266789361; 
- Fri, 22 Nov 2024 01:13:09 -0800 (PST)
+ d=1e100.net; s=20230601; t=1732266792; x=1732871592;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6W3bqmSBPUsE+fVjxjecsCfWlJC1+mE/7mRAcZKJqvU=;
+ b=lAQLXRgLw9jOzKUlVWJdbR7XBBBkb1JutuKLBd7y1y25VAZixEN1HL7hjp36I//p5H
+ u3nNEayKtgbsB+E9nRG6hmB7KVNF3LCE0Oy4HPxUO2Fu5BMynPRtjO6bVnQa2+auhzbE
+ PJ3rgQpmsEwWRxxnqY3ZdLR9C2x7Fbtv2sUTiz6YtTOXvvkIjqSnRd7aI2DWfpdr2K0m
+ IOyVqRs0RdqdoTaoewzUtlzcnqYHWCIbsBk2H97VHR16fl2qcqn+DiuT0RD+CCNoXtL6
+ WsibKsyqzAzOviC0TZ0gzunndxD3jpY/wqh5Fj6I0hwD12oLgbeNDVT5CCiOWyDgDPyc
+ SyuA==
+X-Gm-Message-State: AOJu0YzBnOg4gwpIHON5WxQTYSVCkCDaaMigxUOtnKSB8XQM4gVksluh
+ qkDglNNBth/ArGTBGhiBKBkC3ryJCZITHHIRmJcX1sVZLr3iXapUDaYmTiE+Sjw=
+X-Gm-Gg: ASbGncuHKrhC99Wl4PyxJbjnGMR7eXsDYIgAd/R7XaNJggBvJrqQ26Bv8lhHKHjddp+
+ Mr1tKBZeRjZ71SVc3bQTTnTumUmKubjCEX8M3kEZD8TsXfNBdoojLeVNaurvDeqX7vEAL8nOKF0
+ +G3rsZ2QeYTIN47R2neG87cQ2esP73hF0nf8brBOG6ELIQ37CHdteu02pAMBL9qFTCRBpTIYL4o
+ IsoOmj/SgYwnNqLXeilLqQQGYPy8hZd3queu20mjRhdaBkGZRXssB8a8g==
+X-Google-Smtp-Source: AGHT+IF9ThfWnsEQI6UyED7pA9h6Wf7FpGWyg1saUJdib/WRVSKuqZ2ksQYV61QNiecHx3mAhZLedA==
+X-Received: by 2002:ac2:568f:0:b0:53d:a024:ddb2 with SMTP id
+ 2adb3069b0e04-53dd37a6c3bmr1142300e87.24.1732266791780; 
+ Fri, 22 Nov 2024 01:13:11 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd2451386sm299530e87.77.2024.11.22.01.13.06
+ 2adb3069b0e04-53dd2451386sm299530e87.77.2024.11.22.01.13.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Nov 2024 01:13:08 -0800 (PST)
+ Fri, 22 Nov 2024 01:13:10 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v4 00/10] drm/display: hdmi: add
- drm_hdmi_connector_mode_valid()
-Date: Fri, 22 Nov 2024 11:12:56 +0200
-Message-Id: <20241122-hdmi-mode-valid-v4-0-2fee4a83ab79@linaro.org>
+Date: Fri, 22 Nov 2024 11:12:57 +0200
+Subject: [PATCH v4 01/10] drm/tests: hdmi: handle empty modes in
+ find_preferred_mode()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABhLQGcC/3XNTQrCMBCG4auUrI3kr2l05T3ERUim7UDbSCJBK
- b27aTcqxeX7wTwzkwQRIZFzNZMIGROGqYQ6VMT1duqAoi9NBBOKM25o70ekY/BAsx3QU2vBKSV
- Mzbgj5eoeocXnJl5vpXtMjxBf24PM1/W/lTllVIM6WVCG8ba5DDjZGI4hdmTFsvgARdgDogBWq
- 8a0XrDW6h0gv4HTHpAFqKUyTkhtWPMLLMvyBlx47n8xAQAA
-X-Change-ID: 20241018-hdmi-mode-valid-aaec4428501c
+Message-Id: <20241122-hdmi-mode-valid-v4-1-2fee4a83ab79@linaro.org>
+References: <20241122-hdmi-mode-valid-v4-0-2fee4a83ab79@linaro.org>
+In-Reply-To: <20241122-hdmi-mode-valid-v4-0-2fee4a83ab79@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -84,16 +81,16 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3023;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1147;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=dAGoBfBZPrQ28ollGsFDqICLzpx3eGynrKY+liYfcfc=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnQEsh97cY2ewxrd1QdOkVWNxJCVibvExTdRJp9
- 9bHLnJ6vOeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0BLIQAKCRCLPIo+Aiko
- 1aIBB/9UOalIiiDyCESbhN5VK1zX78Q2v5Cu6GR9StRIoyHvHhPD2SZblaTT0rK2OUduQIaCzil
- e43PDFRCRm4oTpATivZAvHM+yi203AUBJiwIOMAe3JA+lhIvMk3+ifawcrw9Cl72SEbVds3dBNt
- BIFRNdKbfHdX7wqjMVc2sNYXaGiXlxNEvRrur+Q56Z5uoO+XYx/CdGPi1clyXilpj3fMjPiIs5o
- dtyVnROt60CnOjUDof0ueLHTqnMk2Ydx3ZhtWbgLtC5avyxhU0xLPgjLAqQDjkW3BXf65sD++Ux
- wdtO/dYUJ6BFYYLwt4PattfJC/Uz53ohOyAbm08X1xxiSoWn
+ bh=cHHtfh9y6/Xe5pWD0imwgSoaSzh5tOQpdFVxQZ5xP/s=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnQEshW4nqOdXL0T4IVeWcFtdcIU865J/geaZOs
+ dJST3YPq1iJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0BLIQAKCRCLPIo+Aiko
+ 1aCMB/4mAMbVULeSJaQKgD/thf0SdySNUWeV6CvGlRgfogZod1ZMqfju5iE0YiqI7xy28Ycv74E
+ B0vuUvxyNt+MKQbKrGS8BTlEhjMqCpiI/CHQBw9F6k2HpfGFkrWHDIoMHaaoW5DaERqX6xacG/s
+ DhPpiLyKV55OciJGf0cj7Okd9I+OzcIvE3aVDAo8uG6emEXX0UO2hya4rXHN74Rwop72ki1rJn+
+ 7Co2fSv5VYDWughxDBVCLzuLe6u6WeSCbhxlSg97MXogFyunITxmcV5RlLk5Z5TQWDhuX4634jq
+ pnHjEf3jhAkLQer5IkvtUgJ1d8uMHBw5CJY0WH/gX/wWSOgj
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,67 +108,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several HDMI drivers have common code pice in the .mode_valid function
-that validates RGB / 8bpc rate using the TMDS char rate callbacks.
-
-Move this code piece to the common helper and remove the need to perform
-this check manually. In case of DRM_BRIDGE_OP_HDMI bridges, they can
-skip the check in favour of performing it in drm_bridge_connector.
+If the connector->modes list is empty, then list_first_entry() returns a
+bogus entry. Change that to use list_first_entry_or_null().
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Changes in v4:
-- Fixed build warning in VC4 driver by adding .mode_valid to
-  vc4_hdmi_connector_helper_funcs (LKP)
-- Reworked HDMI test helpers (Maxime)
-- Expanded test descriptions and comments (Maxime)
-- Added new EDID to test info.max_tmds_clock filtering (Maxime)
-- Link to v3: https://lore.kernel.org/r/20241109-hdmi-mode-valid-v3-0-5348c2368076@linaro.org
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v3:
-- Moved drm_hdmi_connector_mode_valid() to drm_hdmi_state_helper.c
-  (Maxime)
-- Added commnt next to the preferred = list_first_entry() assignment
-  (Maxime)
-- Added comments to new tests, describing what is being tested (Maxime)
-- Replaced sun4i_hdmi_connector_atomic_check() with
-  drm_atomic_helper_connector_hdmi_check() (Maxime)
-- Link to v2: https://lore.kernel.org/r/20241101-hdmi-mode-valid-v2-0-a6478fd20fa6@linaro.org
+diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+index 294773342e710dc56772f839c2db9c2e487bbc1e..1e77689af6549f162eb3026c7bd2bbd59516ed98 100644
+--- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+@@ -46,7 +46,7 @@ static struct drm_display_mode *find_preferred_mode(struct drm_connector *connec
+ 	struct drm_display_mode *mode, *preferred;
+ 
+ 	mutex_lock(&drm->mode_config.mutex);
+-	preferred = list_first_entry(&connector->modes, struct drm_display_mode, head);
++	preferred = list_first_entry_or_null(&connector->modes, struct drm_display_mode, head);
+ 	list_for_each_entry(mode, &connector->modes, head)
+ 		if (mode->type & DRM_MODE_TYPE_PREFERRED)
+ 			preferred = mode;
 
-Changes in v2:
-- Switched drm_hdmi_connector_mode_valid() to use common helper
-  (ex-hdmi_clock_valid()) (Maxime)
-- Added simple unit tests for drm_hdmi_connector_mode_valid().
-- Link to v1: https://lore.kernel.org/r/20241018-hdmi-mode-valid-v1-0-6e49ae4801f7@linaro.org
-
----
-Dmitry Baryshkov (10):
-      drm/tests: hdmi: handle empty modes in find_preferred_mode()
-      drm/tests: hdmi: rename connector creation function
-      drm/tests: hdmi: return meaningful value from set_connector_edid()
-      drm/display: hdmi: add generic mode_valid helper
-      drm/sun4i: use drm_hdmi_connector_mode_valid()
-      drm/vc4: use drm_hdmi_connector_mode_valid()
-      drm/display: bridge_connector: use drm_bridge_connector_mode_valid()
-      drm/bridge: lontium-lt9611: drop TMDS char rate check in mode_valid
-      drm/bridge: dw-hdmi-qp: replace mode_valid with tmds_char_rate
-      drm/sun4i: use drm_atomic_helper_connector_hdmi_check()
-
- drivers/gpu/drm/bridge/lontium-lt9611.c            |   4 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       |  12 +-
- drivers/gpu/drm/display/drm_bridge_connector.c     |  16 +-
- drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  21 ++
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |  32 +--
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 269 +++++++++++++++++----
- drivers/gpu/drm/tests/drm_kunit_edid.h             | 102 ++++++++
- drivers/gpu/drm/vc4/vc4_hdmi.c                     |   5 +-
- include/drm/display/drm_hdmi_state_helper.h        |   4 +
- 9 files changed, 371 insertions(+), 94 deletions(-)
----
-base-commit: d80b5c5b9be6b2e1cdeaaeaa8259523b63cae292
-change-id: 20241018-hdmi-mode-valid-aaec4428501c
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.5
 
