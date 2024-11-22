@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A9A9D5D00
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 11:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CB39D5D35
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2024 11:22:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 078E010EB3D;
-	Fri, 22 Nov 2024 10:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9DDB10EB45;
+	Fri, 22 Nov 2024 10:22:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SM+0gPnH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FR9AfqRB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81F1210EB3D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 10:10:23 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-53dd0cb9ce3so1362678e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 02:10:23 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C210510EB45
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 10:22:48 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-539f6e1f756so2130330e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 02:22:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732270222; x=1732875022; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732270967; x=1732875767; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=XshnFRtBSr7UhB3YJV64KxbBeRECk31YK3bPI5LBXvg=;
- b=SM+0gPnHz+FkqfnSQT3xOmUQc7F3Q+wsyQ1J8goBSlLxP4D8FwQGMK3HMSpy6m/gaq
- Iq311qeBr46ui8IOsZvT0gEl6a/eYFEJHl76OAbzw923V6D+yuf/w8XIJpvRNRCnEnUR
- LiEhVkXzTdLl4KGYGs06MoSzs0tVFP+u3bfQhWLA2DIlnrRKvFtre3AgwJqKbLaSGPff
- V4Wwg1W4+o4v8jbqE5jvOiOjDxRkhSmgTI75BPPy9ovau5HoVAhxVxPVbPR2DSFyenBc
- Lyj/lruBbFp7aVhPrzlW9h8AQj2ML/MVCd3BtMax80NiYWRAheVcO6NpmFpY/lNWyHrC
- jhbg==
+ bh=ISPB4u0k/IY3WdqyYBfvJI1MUBGbBsUm1AW/lweuam4=;
+ b=FR9AfqRBLS5R9ufOepmJg7X+Cvhmt1ZwD+i9jFacrdwze9+ALh9p4XqYt+9JFwz+u4
+ 9hNBdcXuxyTL5srLkCTPXSd3YNodDE7KRz9v/1UPBSOtGoKOszPUgrTJKYdGY+rrbOwq
+ /Wt3CZYk2ql1/R54dRbPkQgkYSWBVUBvnIteNeeZSCQuNR43i/QdVXwFAMOL1Ij/F9IJ
+ ErGBz+E8Rce4asaWzy9Dy8TeiUKgJ4cSK2piwBzKJNBiwMpOd259UyDTnygsWCT1t9Xh
+ fSvKbFyVtmEA5k1nxrvc0nxRgZse0usY7N1oErwnKJirw4Nr0bCSes+ejO1C4sDCoocd
+ sMNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732270222; x=1732875022;
+ d=1e100.net; s=20230601; t=1732270967; x=1732875767;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XshnFRtBSr7UhB3YJV64KxbBeRECk31YK3bPI5LBXvg=;
- b=cwiNOAd0O8fypx7aVX0XkZEmh9cdLBze6H84zD6QScjasFW0WqRf3nnuiUDsUZZzin
- NhTgWyfkMV/aC1pWHo3bsnP7TLns3hOg5dfAXvdPEYMpJ0v9GdgEgVMkWqnDw25rW4W9
- EdwSvLLugBZJ6/ul4z6YWeu7Oxbki6yCvpRw5y5O4iC3xM8pGUMCxNA1eNIOwSwI+dEY
- YvsTUknmQHIFlzWpgQlpo4LQeJGxqg0woGxZJ9864Iswpt9F1z1LFM1HXMtV+/kwCwLM
- HWUZMkTjY8npE5mjLEIZnD58JdFtBkPNls2KN1VbigeFBO/nLSCkipdCed+9PxlXyCLe
- r0BQ==
+ bh=ISPB4u0k/IY3WdqyYBfvJI1MUBGbBsUm1AW/lweuam4=;
+ b=b+FWQDuv3xq0ZJSY9Q9ZQKtimqOMaEp87bIgDDM5heo+8IbpIfiBcggMOW0dNAyhpc
+ c7rNALlX3+eoaKFEaL14TqghSKC2Mh+QGA8bjW7mbxqRPP4KLjamDmfWkUBsxjF2xbyq
+ N6+x+ql/JL3g55at9Q5pmGvaqEqd3GRZLgQHzUnYwxJ01UwRNVTmwPKnrqTev3ADmgRd
+ 2OaYwFlzpu5IF46s/DC97RQKGZbbtbx0BbmyGbEbKa7Ppihg9G5uPT67n6ghNq8ElyPy
+ LJPRw3nHglq5vbnXn70Zz1Z3tawuPJZPdsezHUYRlVl2gLjAiXmumhQdZUO29VEPCbb+
+ NRJg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUDi+t6E2Cc/3L69jCxCbI3i81uKIWKwOyF4UQTl5wC7FRo+rNom4lwb9JglO3TA5qvrB33Mgd+3oo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvOZXNF6lFvqnuEycN95rsQgqgKOlre0YDURbdcwTYCW3E1GOL
- 5BEBliMC6z6eLXmzGypmvP9GBtMxS6/RnS6gS3K/JYX1uTslxvktwWBQ44yGWAE=
-X-Gm-Gg: ASbGnctPoQO4vg2bSL/jyW9K0UZUFV0LxquTWOlGWU4/+Oim4orRFq5pJeaJyFc597l
- nirbguA+hlSk3E/1qM3DNKV39uO1/x1xqlRdPGKVtUHYCKnYfpwGE8eoMEWwbzD88aajcxn00zO
- 3hr0jaa6KZuyaL2OqxzW1CEhoPMcGKMw9D8lp0QiEj3WVwXx8JsdW9gPxQ5keXzjtlHcaAd23U2
- PgdCkXhT85Z+jPm47p7Kx6xgRvFhMGOQOx7XIeq2P+vVw1nsCJYANEuZZoTsw0X/2ashj5Vq7vb
- l3EARKIbKzYndO53wygP4HNi1hFA0Q==
-X-Google-Smtp-Source: AGHT+IFPiycj5qeplibnOojl42rf2zmubg4BvxwbPRG3LEmjxqFIgmgvbEd9YnOjveQDfC+hRoc1Ig==
-X-Received: by 2002:a05:6512:2395:b0:53d:d5fb:5111 with SMTP id
- 2adb3069b0e04-53dd5fb51a5mr687991e87.18.1732270221653; 
- Fri, 22 Nov 2024 02:10:21 -0800 (PST)
+ AJvYcCXJ+jGHBeiSi3y7DpGFOJznRFzTN5DjSfOcCSfvTZ8Gmn3GA216aKBMoFzmQflRY2NhWJ5wmTikcbM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxhE7aTjqIh5RiuHHdqIozYuPmwnvmQmQbb5/o74RNx1hvfOpdb
+ hPsZctwX2KznTLFjFb4ZiHcHtXUBn5tB/susOE1uSrDypXtu+bQ48LJl3ij/yZo=
+X-Gm-Gg: ASbGncsxBjbodLZREkbhtzpQOD2vx2Ml1YG5c7x8ziQebBe9aCq1RcUFexGeP7kQayo
+ 7tBqQmpBLaEU7Shyxa8qRcMaANTbg5sBOgQTzxFncR9cFW0IcCyZ1b8X+fge2jFjFSdUZRmHbKA
+ qnjp5iPumRi+FLtJDb9M/M97uOCAw+7W8KXBcKW6Q8zjuVSQYb8QzT8C6vtGFDJrxtaxfOQPZKj
+ FG5wfaTrxjGqEPl43F9ti4tb39Fhtv/75GoFDUzWAErIb2wgSESNxvHpITmCfYtC/RU1qEgftvo
+ bfqeZWayKsAvO4NwNSuNhi93SGEAuw==
+X-Google-Smtp-Source: AGHT+IFS7C183Wt8hN7C/INKvkL1qt9YbaPn5aBu73dBkn87fnUOLWLXeKl+x6xSQFdRyLKoKS4qmA==
+X-Received: by 2002:ac2:51b5:0:b0:53d:d3ff:77f6 with SMTP id
+ 2adb3069b0e04-53dd3ff77fdmr829792e87.46.1732270966827; 
+ Fri, 22 Nov 2024 02:22:46 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd249c927sm311682e87.279.2024.11.22.02.10.19
+ 2adb3069b0e04-53dd88b54cbsm62838e87.214.2024.11.22.02.22.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Nov 2024 02:10:20 -0800 (PST)
-Date: Fri, 22 Nov 2024 12:10:17 +0200
+ Fri, 22 Nov 2024 02:22:45 -0800 (PST)
+Date: Fri, 22 Nov 2024 12:22:43 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Fange Zhang <quic_fangez@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -81,14 +81,15 @@ Cc: Rob Clark <robdclark@gmail.com>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 7/9] drm/msm/dsi: Add support for SM6150
-Message-ID: <mcvhfkh3ycrx2ganumsxlc7lx53ed55yk4syh5qev3jqqgkeqj@h5vnfpgjwtj5>
+Subject: Re: [PATCH v3 9/9] arm64: dts: qcom: Add display support for QCS615
+ RIDE board
+Message-ID: <azdmcs7uafw3n6cqbq4ei66oybzhtyvdyz2xl4wtaf3u5zextb@vdhbs6wnbeg4>
 References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
- <20241122-add-display-support-for-qcs615-platform-v3-7-35252e3a51fe@quicinc.com>
+ <20241122-add-display-support-for-qcs615-platform-v3-9-35252e3a51fe@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-7-35252e3a51fe@quicinc.com>
+In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-9-35252e3a51fe@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,55 +105,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 22, 2024 at 05:56:50PM +0800, Fange Zhang wrote:
+On Fri, Nov 22, 2024 at 05:56:52PM +0800, Fange Zhang wrote:
 > From: Li Liu <quic_lliu6@quicinc.com>
 > 
-> Add support for DSI 2.3.1 (block used on SM6150).
+> Add display MDSS and DSI configuration for QCS615 RIDE board.
+> QCS615 has a DP port, and DP support will be added in a later patch.
 > 
 > Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
 > Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/dsi/dsi_cfg.c | 4 +++-
->  drivers/gpu/drm/msm/dsi/dsi_cfg.h | 1 +
->  2 files changed, 4 insertions(+), 1 deletion(-)
+>  arch/arm64/boot/dts/qcom/qcs615-ride.dts | 76 ++++++++++++++++++++++++++++++++
+>  1 file changed, 76 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> index 10ba7d153d1cfc9015f527c911c4658558f6e29e..fe02724bddf69c2e8d6816589f4ea410fa666e5b 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> @@ -171,7 +171,7 @@ static const struct msm_dsi_config sdm845_dsi_cfg = {
->  	.num_bus_clks = ARRAY_SIZE(dsi_v2_4_clk_names),
->  	.io_start = {
->  		{ 0xae94000, 0xae96000 }, /* SDM845 / SDM670 */
-> -		{ 0x5e94000 }, /* QCM2290 / SM6115 / SM6125 / SM6375 */
-> +		{ 0x5e94000 }, /* QCM2290 / SM6115 / SM6125 / SM6150 / SM6375 */
-
-Not true
-
->  	},
+> diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+> index ee6cab3924a6d71f29934a8debba3a832882abdd..cc7dadc411ab79b9e60ccb15eaff84ea5f997c4c 100644
+> --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+> +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+> @@ -202,6 +202,82 @@ &gcc {
+>  		 <&sleep_clk>;
 >  };
 >  
-> @@ -286,6 +286,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
->  		&sdm845_dsi_cfg, &msm_dsi_6g_v2_host_ops},
->  	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_3_0,
->  		&sdm845_dsi_cfg, &msm_dsi_6g_v2_host_ops},
-> +	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_3_1,
-> +		&sdm845_dsi_cfg, &msm_dsi_6g_v2_host_ops},
->  	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_4_0,
->  		&sdm845_dsi_cfg, &msm_dsi_6g_v2_host_ops},
->  	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_4_1,
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-> index 4c9b4b37681b066dbbc34876c38d99deee24fc82..120cb65164c1ba1deb9acb513e5f073bd560c496 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-> @@ -23,6 +23,7 @@
->  #define MSM_DSI_6G_VER_MINOR_V2_2_0	0x20000000
->  #define MSM_DSI_6G_VER_MINOR_V2_2_1	0x20020001
->  #define MSM_DSI_6G_VER_MINOR_V2_3_0	0x20030000
-> +#define MSM_DSI_6G_VER_MINOR_V2_3_1	0x20030001
->  #define MSM_DSI_6G_VER_MINOR_V2_4_0	0x20040000
->  #define MSM_DSI_6G_VER_MINOR_V2_4_1	0x20040001
->  #define MSM_DSI_6G_VER_MINOR_V2_5_0	0x20050000
+> +&i2c2 {
+> +	clock-frequency = <400000>;
+> +	status = "okay";
+> +
+> +	ioexp: gpio@3e {
+> +		compatible = "semtech,sx1509q";
+> +		reg = <0x3e>;
+> +		interrupt-parent = <&tlmm>;
+> +		interrupts = <58 0>;
+> +		gpio-controller;
+> +		#gpio-cells = <2>;
+> +		interrupt-controller;
+> +		#interrupt-cells = <2>;
+> +		semtech,probe-reset;
+> +	};
+> +
+> +	i2c-mux@77 {
+> +		compatible = "nxp,pca9542";
+> +		reg = <0x77>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		i2c@0 {
+> +			reg = <0>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			anx7625@58 {
+> +				compatible = "analogix,anx7625";
+> +				reg = <0x58>;
+> +				interrupt-parent = <&ioexp>;
+> +				interrupts = <0 0>;
+> +				enable-gpios = <&tlmm 4 GPIO_ACTIVE_HIGH>;
+> +				reset-gpios = <&tlmm 5 GPIO_ACTIVE_HIGH>;
+> +				wakeup-source;
+> +
+> +				ports {
+> +					#address-cells = <1>;
+> +					#size-cells = <0>;
+> +
+> +					port@0 {
+> +						reg = <0>;
+> +						anx_7625_in: endpoint {
+> +							remote-endpoint = <&mdss_dsi0_out>;
+> +						};
+> +					};
+> +
+> +					port@1 {
+> +						reg = <1>;
+> +						anx_7625_out: endpoint {
+> +						};
+
+Where is it connected? Is it DP port? USB-C? eDP?
+
+> +					};
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&mdss {
+> +	status = "okay";
+> +};
+> +
+> +&mdss_dsi0 {
+> +	vdda-supply = <&vreg_l11a>;
+> +	status = "okay";
+> +};
+> +
+> +&mdss_dsi0_out {
+> +	remote-endpoint = <&anx_7625_in>;
+> +	data-lanes = <0 1 2 3>;
+> +};
+> +
+> +&mdss_dsi0_phy {
+> +	vdds-supply = <&vreg_l5a>;
+> +	status = "okay";
+> +};
+> +
+>  &qupv3_id_0 {
+>  	status = "okay";
+>  };
 > 
 > -- 
 > 2.34.1
