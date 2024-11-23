@@ -2,87 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD0F9D6B10
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 20:26:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD959D6B15
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 20:26:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F66310E147;
-	Sat, 23 Nov 2024 19:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4EA110E25F;
+	Sat, 23 Nov 2024 19:26:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ToBDugRi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eKb4+iX0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A686410E147;
- Sat, 23 Nov 2024 19:26:28 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ANFl84c013054;
- Sat, 23 Nov 2024 19:26:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=NRXy+WaClMyD5mBSqvP8rvqS
- m5kZz4d92lObXBf9Tv4=; b=ToBDugRiDcrOaGD0AMxVdIsS85LLTy2xtP41PfLf
- mGsYu/uzm3D+ITo37eRb/c8ftGHHra/uqpkkubHtQLA1lcbDSrzgRdYI1ORbBU/w
- lWcF/hBVTTPTM7uszRU9Ic1Fg8EWVutEcuTmZpa//A0cqK71lDK73QCym7QFto83
- Rh0fxF+fqYX1sLLTfcTzn3gBfOeQi/X6Sqg9ZOya/fZigHGPDVEbhvmGl4knG3gD
- Iogw8eAAG46UDNiJgyJjMo/So9Cc7EjN2GXo+PSbh3u4brpP83HTzFmRw1tTfRQD
- xeZ035P3jVI9X7dMhSsVcG/uKFkmVqfONaXftTbEUgmwgQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4336cfh8vf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 23 Nov 2024 19:26:22 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ANJQ2iQ016077
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 23 Nov 2024 19:26:02 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sat, 23 Nov 2024 11:25:55 -0800
-Date: Sun, 24 Nov 2024 00:55:51 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-CC: Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, "Stephen
- Boyd" <sboyd@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
- <konradybcio@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>,
- Connor Abbott <cwabbott0@gmail.com>, <linux-pm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v2 02/11] drm/msm: adreno: rename quirks that are features
-Message-ID: <20241123192551.ederap4nmtjifrdq@hu-akhilpo-hyd.qualcomm.com>
-References: <20241119-topic-sm8x50-gpu-bw-vote-v2-0-4deb87be2498@linaro.org>
- <20241119-topic-sm8x50-gpu-bw-vote-v2-2-4deb87be2498@linaro.org>
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAF1910E25F
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 19:26:46 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-723f37dd76cso3159052b3a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 11:26:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1732390006; x=1732994806; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EKFqWwSN5qTyHdwloGljW7z+Rtw5u2QrsWqXju4EFjo=;
+ b=eKb4+iX0fmrjNfAsiH6Qiv/OJVisbJOHRboQn0NZzzoAHIDmIEDfMKGMw373QpSjrF
+ jGUV70BVNkz1G9RlGN0IXowujelENd44+CFld3VSE0zh2wBRjMxiRoRPVr4he3XAYC4T
+ 4sqh/Juc7S0ncFd2jwyqBMiMt8PsP2J3eMytW/uT62zYj6Eydx7LeOAKI6v5jYNm1rYH
+ xwe1N91HFozv5N5FdeCTJRM/Fy4VGhwfXCihGOHHtnPpBPbDH2J9pufBYlRXaOvVWzb4
+ Oy+tQKrDzkc+bNvgQYtvUjB7qmgbgXzu2dhz2NNLmwQXwEkC5NVBcodgsWMXCwxR7YdK
+ HAKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732390006; x=1732994806;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EKFqWwSN5qTyHdwloGljW7z+Rtw5u2QrsWqXju4EFjo=;
+ b=Q3F5csueYbsv2uDWXTlS8nJBK4rz9coSdbCXLo+f6+vmk1gcs/9MRtDxqeZjCxJaAf
+ Afpf5XycjMDigRiZc95Usfmpm9HWQjSVG2BGsSUBfLMMm9TT2eW4y13AgIB1G5Rd7QXw
+ cqCr+2OdaFvVdCmeZy+ISsax5l/z37UkOVEE4h65NIETJeRvKTlWE+zGP/741axgsc3e
+ uPZ7m7erNhdda9G41pg5LNeEoudG0qcPGoDj5FtTCnyQ1bs5n91/CK+wALJejz50CZda
+ n4P5v/2pbjFLSPdsxQlk7AOWqjhY8YWhHngMjGoSck1oM3lS4T8edCDgPxOP9JYsqShb
+ 18lQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXU2zWQgdhKkONBdCf3M8XO9pSY2wEy4b4zMtOZfF81iEvvyKIgrdxBZUbANU2x3yBPwuPBaKJS/6Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxl6UhaVSf6ErILgZUNLDYVxDqJNmGSH+Yfqj8+yngCVlfH44PG
+ IUaDJYeRDeCMXy715gUCte0Bnier+vhQM45U6qsXIxXLG75mxaZf
+X-Gm-Gg: ASbGnct0l3317vam8xuWRSWH9QUpprC3V/F0tv9gp/x6vkqSOv1LRJ4r8E0a+03hKTg
+ 5xmxxgMYcedGi2QquS9KmOGiVDLedeawAFmVhdopw5CMUDNLDd8KIRmyaoOAl6BsUkDLfsqCNUP
+ pbofZHXzXZAWR4n/54Y0PDRX6CZLGYo+OJq4z8K4Z0IbblJi0C3uaZau6wIEr/e8UBqCqA2hTPw
+ /skCwLKfdxVfhzRG5Edomj6YPO3Dgk8vJFBUjRMfFXwGrHwLwwtG9iauf3GTy62NTf22aUA29c=
+X-Google-Smtp-Source: AGHT+IHqe/epLud/t0Z0A5XPkXsAE+8YfobMQ1Kd10MhS+puwhDCWnm4VHQZFS7J5N/OC/pbwoUcwA==
+X-Received: by 2002:a05:6a21:33a2:b0:1db:de9a:bb01 with SMTP id
+ adf61e73a8af0-1e09e5d90femr12799969637.40.1732390006051; 
+ Sat, 23 Nov 2024 11:26:46 -0800 (PST)
+Received: from mighty.kangaroo-insen.ts.net ([45.64.12.174])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-7fbcc225e45sm3689734a12.42.2024.11.23.11.26.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 23 Nov 2024 11:26:45 -0800 (PST)
+From: Mithil Bavishi <bavishimithil@gmail.com>
+To: andreas@kemnade.info
+Cc: Laurent.pinchart@ideasonboard.com, aaro.koskinen@iki.fi, airlied@gmail.com,
+ bavishimithil@gmail.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ khilman@baylibre.com, krzk+dt@kernel.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ quic_jesszhan@quicinc.com, rfoss@kernel.org, robh@kernel.org,
+ rogerq@kernel.org, simona@ffwll.ch, thierry.reding@gmail.com,
+ tony@atomide.com, tzimmermann@suse.de
+Subject: Re: [PATCH v3 10/10] ARM: dts: ti: omap: samsung-espresso10: Add
+ initial support for Galaxy Tab 2 10.1
+Date: Sat, 23 Nov 2024 19:26:33 +0000
+Message-ID: <20241123192633.2049-1-bavishimithil@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241123200202.684d8bc5@akair>
+References: <20241123200202.684d8bc5@akair>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241119-topic-sm8x50-gpu-bw-vote-v2-2-4deb87be2498@linaro.org>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: pzO3esH0_xtko1A528ZAYHMs4ugmBeD0
-X-Proofpoint-ORIG-GUID: pzO3esH0_xtko1A528ZAYHMs4ugmBeD0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 malwarescore=0
- mlxscore=0 suspectscore=0 mlxlogscore=998 clxscore=1015 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2411230160
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,270 +96,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 19, 2024 at 06:56:37PM +0100, Neil Armstrong wrote:
-> Half of the current "Quirks" are in fact features, so rename
-> the defines with FEAT instead of QUIRK.
-> 
-> They will be moved in a separate bitfield in a second time.
-> 
-> No functional changes.
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_catalog.c  | 62 +++++++++++++++---------------
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  4 +-
->  drivers/gpu/drm/msm/adreno/adreno_device.c |  2 +-
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  7 ++--
->  4 files changed, 38 insertions(+), 37 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> index 0c560e84ad5a53bb4e8a49ba4e153ce9cf33f7ae..825c820def315968d508973c8ae40c7c7b646569 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> @@ -743,7 +743,7 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_512K,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a615_zap.mbn",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -769,7 +769,7 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_512K,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT,
->  		.init = a6xx_gpu_init,
->  		.a6xx = &(const struct a6xx_info) {
->  			.protect = &a630_protect,
-> @@ -839,7 +839,7 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_512K,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a615_zap.mdt",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -864,8 +864,8 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_512K,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> -			  ADRENO_QUIRK_HAS_HW_APRIV,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT |
-> +			  ADRENO_FEAT_HAS_HW_APRIV,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a620_zap.mbn",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -892,7 +892,7 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_1M,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a630_zap.mdt",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -911,7 +911,7 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_1M,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a640_zap.mdt",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -934,8 +934,8 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_1M + SZ_128K,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> -			ADRENO_QUIRK_HAS_HW_APRIV,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT |
-> +			ADRENO_FEAT_HAS_HW_APRIV,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a650_zap.mdt",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -961,8 +961,8 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_1M + SZ_512K,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> -			ADRENO_QUIRK_HAS_HW_APRIV,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT |
-> +			ADRENO_FEAT_HAS_HW_APRIV,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a660_zap.mdt",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -981,8 +981,8 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_1M + SZ_512K,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> -			ADRENO_QUIRK_HAS_HW_APRIV,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT |
-> +			ADRENO_FEAT_HAS_HW_APRIV,
->  		.init = a6xx_gpu_init,
->  		.a6xx = &(const struct a6xx_info) {
->  			.hwcg = a690_hwcg,
-> @@ -1000,8 +1000,8 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_512K,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> -			ADRENO_QUIRK_HAS_HW_APRIV,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT |
-> +			ADRENO_FEAT_HAS_HW_APRIV,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a660_zap.mbn",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -1028,7 +1028,7 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_2M,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a640_zap.mdt",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -1046,8 +1046,8 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = SZ_4M,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> -			ADRENO_QUIRK_HAS_HW_APRIV,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT |
-> +			ADRENO_FEAT_HAS_HW_APRIV,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a690_zap.mdt",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -1331,7 +1331,7 @@ static const struct adreno_info a7xx_gpus[] = {
->  		},
->  		.gmem = SZ_128K,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
-> +		.quirks = ADRENO_FEAT_HAS_HW_APRIV,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a702_zap.mbn",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -1355,9 +1355,9 @@ static const struct adreno_info a7xx_gpus[] = {
->  		},
->  		.gmem = SZ_2M,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> -			  ADRENO_QUIRK_HAS_HW_APRIV |
-> -			  ADRENO_QUIRK_PREEMPTION,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT |
-> +			  ADRENO_FEAT_HAS_HW_APRIV |
-> +			  ADRENO_FEAT_PREEMPTION,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a730_zap.mdt",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -1377,9 +1377,9 @@ static const struct adreno_info a7xx_gpus[] = {
->  		},
->  		.gmem = 3 * SZ_1M,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> -			  ADRENO_QUIRK_HAS_HW_APRIV |
-> -			  ADRENO_QUIRK_PREEMPTION,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT |
-> +			  ADRENO_FEAT_HAS_HW_APRIV |
-> +			  ADRENO_FEAT_PREEMPTION,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a740_zap.mdt",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -1400,9 +1400,9 @@ static const struct adreno_info a7xx_gpus[] = {
->  		},
->  		.gmem = 3 * SZ_1M,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> -			  ADRENO_QUIRK_HAS_HW_APRIV |
-> -			  ADRENO_QUIRK_PREEMPTION,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT |
-> +			  ADRENO_FEAT_HAS_HW_APRIV |
-> +			  ADRENO_FEAT_PREEMPTION,
->  		.init = a6xx_gpu_init,
->  		.a6xx = &(const struct a6xx_info) {
->  			.hwcg = a740_hwcg,
-> @@ -1422,9 +1422,9 @@ static const struct adreno_info a7xx_gpus[] = {
->  		},
->  		.gmem = 3 * SZ_1M,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> -			  ADRENO_QUIRK_HAS_HW_APRIV |
-> -			  ADRENO_QUIRK_PREEMPTION,
-> +		.quirks = ADRENO_FEAT_HAS_CACHED_COHERENT |
-> +			  ADRENO_FEAT_HAS_HW_APRIV |
-> +			  ADRENO_FEAT_PREEMPTION,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "gen70900_zap.mbn",
->  		.a6xx = &(const struct a6xx_info) {
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 019610341df1506c89f44e86b8d1deeb27d61857..2ebd3fac212576a1507e0b6afe2560cd0408dd89 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -2478,7 +2478,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->  	adreno_gpu->gmu_is_wrapper = of_device_is_compatible(node, "qcom,adreno-gmu-wrapper");
->  
->  	adreno_gpu->base.hw_apriv =
-> -		!!(config->info->quirks & ADRENO_QUIRK_HAS_HW_APRIV);
-> +		!!(config->info->quirks & ADRENO_FEAT_HAS_HW_APRIV);
->  
->  	/* gpu->info only gets assigned in adreno_gpu_init() */
->  	is_a7xx = config->info->family == ADRENO_7XX_GEN1 ||
-> @@ -2495,7 +2495,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->  	}
->  
->  	if ((enable_preemption == 1) || (enable_preemption == -1 &&
-> -	    (config->info->quirks & ADRENO_QUIRK_PREEMPTION)))
-> +	    (config->info->quirks & ADRENO_FEAT_PREEMPTION)))
->  		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7xx, 4);
->  	else if (is_a7xx)
->  		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7xx, 1);
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> index 9ffe91920fbfb4841b28aabec9fbde94539fdd83..09d4569f77528c2a20cabc814668c4c930dd07f1 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> @@ -207,7 +207,7 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
->  
->  	priv->is_a2xx = info->family < ADRENO_3XX;
->  	priv->has_cached_coherent =
-> -		!!(info->quirks & ADRENO_QUIRK_HAS_CACHED_COHERENT);
-> +		!!(info->quirks & ADRENO_FEAT_HAS_CACHED_COHERENT);
->  
->  	gpu = info->init(drm);
->  	if (IS_ERR(gpu)) {
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> index e71f420f8b3a8e6cfc52dd1c4d5a63ef3704a07f..8782c25e8a393ec7d9dc23ad450908d039bd08c5 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -54,9 +54,10 @@ enum adreno_family {
->  #define ADRENO_QUIRK_TWO_PASS_USE_WFI		BIT(0)
->  #define ADRENO_QUIRK_FAULT_DETECT_MASK		BIT(1)
->  #define ADRENO_QUIRK_LMLOADKILL_DISABLE		BIT(2)
-> -#define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
-> -#define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
-> -#define ADRENO_QUIRK_PREEMPTION			BIT(5)
-> +
+> well, look at the schematics and see how it is wired ;-)
 
-IMO, we should not keep features separate. In future, we should just append the next
-quirk/feature at the bottom without disturbing the existing bit
-mappings. Just to ensure we don't accidentally duplicate a bit number.
+Schematic mentions vddtx, vdda, vdd and vbus, so unsure about that.
+VDDTX is the one with 2.8V, VDD and VBUS are at 1.8V and VDDA is grounded,
+it just gets the input from GDNA from the same touch sensor.
 
-I agree on using 'ADRENO_FEAT' to distinguish features.
+> As the vendor kernel seem to
+> set i2c to gpio mode, so probably because the vio-supply is powered
+> down according to the board file you posted.
+> So it might be vio-supply only or vio and vdd-supply combined.
+> In any case document what you have seen in the vendor kernel.
 
--Akhil
+https://github.com/Unlegacy-Android/android_kernel_ti_omap4/blob/3.4/common/arch/arm/mach-omap2/board-espresso-input.c
+This just makes it more confusing. Very confused on what is what now xD.
+reg_touch_ldo_en is 2.8V which goes to VDDTX, it is gpmc_nwp.gpio_54 - TSP_LDO_ON
+ldo6 is 1.8V presumably ldo6 (VAP_IO_1.8V) which goes to VDD, VBUS.
 
-> +#define ADRENO_FEAT_HAS_HW_APRIV		BIT(3)
-> +#define ADRENO_FEAT_HAS_CACHED_COHERENT		BIT(4)
-> +#define ADRENO_FEAT_PREEMPTION			BIT(5)
->  
->  /* Helper for formating the chip_id in the way that userspace tools like
->   * crashdec expect.
-> 
-> -- 
-> 2.34.1
-> 
+> basically says that standard touchscreen properties are accepted below
+> rmi4-f11. 
+
+But we do not use any of those properties. If you're talking about the
+touchscreen-size-x/y, even in the examples those are out of rmi4-f11, in
+the parent node.
+
+Best Regards,
+Mithil
