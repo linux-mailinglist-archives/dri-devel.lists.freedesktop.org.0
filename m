@@ -2,91 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F469D67B5
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 06:45:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17BBF9D682C
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 09:32:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37DA410E46E;
-	Sat, 23 Nov 2024 05:45:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB40E10E02A;
+	Sat, 23 Nov 2024 08:32:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zPCRWrBL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xyx9FjeF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 506CE10E30F
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 05:45:09 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2fb5111747cso33389841fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2024 21:45:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732340707; x=1732945507; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=/hEtTqrfQSr9pI7m+IfwZIAeqdoTOG6+nBJQtRsFkFE=;
- b=zPCRWrBLTuC/UO1SLwk2wDjX6UjqUil6Bk6+5N3rAX7bDO3EjUn0TRCYt/gF7Apgmb
- lyWw8D7V5It3iZXuNv7TN78cxcbU+fPX08wJqvb8DluAEQ3jD1w8t8oAV/n6YeWldbAu
- rcA7kjVV2fpxHBaKh9HQO1N1GSS9MUlDfIdRZWySXkB6QubXl43uYK6OOPxvbnMzwFbq
- GILH1Il8jMjJNMmwmYwwSj9F4KPDW0Iz1Vpdly5DfFvlHgbmrW9RYvBZw+FuGDSBD+bH
- cJp/tNSQ+mnK/FFsjA6PaP13PVdHRT2G9QVOUoPI1QSOacN3KHsiu4N8Z7jecALkuRtt
- WMqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732340707; x=1732945507;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/hEtTqrfQSr9pI7m+IfwZIAeqdoTOG6+nBJQtRsFkFE=;
- b=S1D1rLYgU9okt5Rq67EatNwwpbzy5WEKqy5xc7q47BvccU8smUHkqUScg4jt2591fH
- aWapa68mhZKLC5hqvzWkNd4UBQijcpX3Bp3D/L3mNUUna98ie4jeTexdC4dTj3IF+GdA
- hyJ4axfxF7krSR5yxiBggs34igaDZ0Hq1Zsr/vksKH3GYClraY1qh7SY2LpO2CWm2bpb
- EARb6uC977CpiPK3Xvrm/ARi6uffJcP3taw6DJ7szcE6ZOzy8VxMwmqAbWdimVUDFbav
- AQLhEP0XYt3IVWISY/JexBs1vVA+n7WAY9plPTJPUFcYANXmVlMhtl9SUR4M1HdLJ7w3
- kQNg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQIs01jge60ncs8IRNwo7NUa5CySXAmRU3iC2jgzPQNKldsxom3jf0CWHK0aVM210I+2T2PGoTUHE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1Z8t2ZcIbgZy9T8bU6ICjgGnXZY6sA3JHHy6dswdzLicMblqW
- xQtzqYu/nlosQ6Sn0eDYmOncJMGUe9Ozli1rCPf691CapeUyn7JYrp8PFM2joec=
-X-Gm-Gg: ASbGncuGgOvuogSA5ZEJUdlzvyVvR2U/eKPXToO55MsovpezN6bE3mtJTQgiYJVZFv4
- uloHHFwibN+UqXG4O+q2zgaERO3zIm/dvU3cCzeqbkpxldtJQDLv8k3KRVz87iiB30otnVJlEaQ
- ZNS7EZvyuY61k5BPHPPZVxHdOor4Uo+WP/yZaJ6ZHzyZtoO3Y9q2vhx57q3asY1ohsFwhIvVBMu
- 6F/oKbvh5i3SxZJtsTjewlNWKXu6H9Xno4p8I1tSSipUykQXR+p430wTA==
-X-Google-Smtp-Source: AGHT+IEJNfzSkuCdzOOYuqLdhThDbipynbQzrrmzQe+8Fcb8wjmn7htIVDE2uytHwA9HycVmGGo/ww==
-X-Received: by 2002:a05:6512:3a8d:b0:53d:dbec:9fca with SMTP id
- 2adb3069b0e04-53ddbeca289mr516396e87.0.1732340707412; 
- Fri, 22 Nov 2024 21:45:07 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd24457e1sm740143e87.34.2024.11.22.21.45.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Nov 2024 21:45:07 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 23 Nov 2024 07:44:56 +0200
-Subject: [PATCH v2 3/3] drm/msm/mdss: use boolean values for macrotile_mode
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 823B110E02A;
+ Sat, 23 Nov 2024 08:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1732350749; x=1763886749;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=QVVQVUkwUKvj4AcABye2tB/9AricLFsjzdPmpmeWWtg=;
+ b=Xyx9FjeFtn/34yEbsgnDZ0ytjtN6r8LOZREZ7gH4U2KSdNxvkshBBU1r
+ n74V4VLuOlacnQ93WYHxYm2lPQqqDJtwnWSQ4ozsCvyPzT0+I2bs5pkFC
+ nZe7u00S3BichV0ys3k4/67cuiTMawZT/6LawPbRi40nQ3TeMDWj5tv2z
+ TBjdEXxMr1I7HPTfHzeKyiuLQ4W3wcZCawJNy1MPMnFyNpw8LbyhRMJgm
+ RjqNowHflgBqsK09EMM1z5E07bfr6lJUq9VAWndxtF4sKF7FKLgzcuVBv
+ c+2u3oAiccrAu/POjfD/BmRgQvuXdkSlThRHFr0fggc945dlzvC1sH2iI w==;
+X-CSE-ConnectionGUID: R2ahCvxUSs+f//PdIuntWA==
+X-CSE-MsgGUID: swhPaGuMQFeMc59wpAf2wQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="36170895"
+X-IronPort-AV: E=Sophos;i="6.12,178,1728975600"; d="scan'208";a="36170895"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2024 00:32:28 -0800
+X-CSE-ConnectionGUID: iFKF55+nTgWHLfTFRbv9zA==
+X-CSE-MsgGUID: GgiivKJNRWeqMgs9wXzwPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,178,1728975600"; d="scan'208";a="91144616"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 23 Nov 2024 00:32:24 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tElZ0-0004WV-1g;
+ Sat, 23 Nov 2024 08:32:22 +0000
+Date: Sat, 23 Nov 2024 16:31:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mika Laitio <lamikr@gmail.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ Hawking.Zhang@amd.com, sunil.khatri@amd.com, lijo.lazar@amd.com,
+ kevinyang.wang@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] ammdgpu fix for gfx1103 queue evict/restore crash
+Message-ID: <202411231603.PMbyCkko-lkp@intel.com>
+References: <20241121195233.10679-1-lamikr@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241123-msm-mdss-ubwc-v2-3-41344bc6ef9c@linaro.org>
-References: <20241123-msm-mdss-ubwc-v2-0-41344bc6ef9c@linaro.org>
-In-Reply-To: <20241123-msm-mdss-ubwc-v2-0-41344bc6ef9c@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Connor Abbott <cwabbott0@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2536;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=gdM2PmIA7KXreNC4e0p5DKW62M8digF3+8KzLk+7N4s=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnQWvaGO+Y6FoVYTBQaZpzt8UIWJKd7OgPZXoQb
- 1CWB/ILgCCJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0Fr2gAKCRCLPIo+Aiko
- 1aiHCACm2sH3vJTnYnx5BmVp1ztQ3EUYnPTFk6PpxdglQX8AeznE9hDRIEelD+LPW43iHWofTU6
- pkI62suQqYHajFWAEqWMO18EwqVqy8xODNIIV0GBVjgYSpuWvZlSix4uU/5q/T/Kwi9ygdrhe2z
- sNdynfWUQE2Ey1w1uwdNpWI2v/n4ETEGp+y50kNNaroNRRgX0nJOy4Qt4zwdij2pr6Fg/QvqHi5
- 6DpG0F50H4ZDjhi8BmRCgHDpijcmR2jRVWR9JaGB2LlmjHrVbRK0IiWFItjDK72fIio18UrkFxZ
- Ek0kVpOmVc/k+s/ED6PQDFAFrTg+2vnXABrRLWw9SGP24yXx
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241121195233.10679-1-lamikr@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,91 +73,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The macrotile_mode is a flag, not a bit value. Use true/false values to
-set it rather than 1/0.
+Hi Mika,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_mdss.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 2fdad0fa4bc159e9a10755da2c0402fd87734aee..2d9db179accb0fd8666fe80371ea44a1fcc15e1f 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -588,7 +588,7 @@ static const struct msm_mdss_data sa8775p_data = {
- 	.ubwc_swizzle = 4,
- 	.ubwc_bank_spread = true,
- 	.highest_bank_bit = 0,
--	.macrotile_mode = 1,
-+	.macrotile_mode = true,
- 	.reg_bus_bw = 74000,
- };
- 
-@@ -607,7 +607,7 @@ static const struct msm_mdss_data sc7280_data = {
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
- 	.highest_bank_bit = 1,
--	.macrotile_mode = 1,
-+	.macrotile_mode = true,
- 	.reg_bus_bw = 74000,
- };
- 
-@@ -615,7 +615,7 @@ static const struct msm_mdss_data sc8180x_data = {
- 	.ubwc_enc_version = UBWC_3_0,
- 	.ubwc_dec_version = UBWC_3_0,
- 	.highest_bank_bit = 3,
--	.macrotile_mode = 1,
-+	.macrotile_mode = true,
- 	.reg_bus_bw = 76800,
- };
- 
-@@ -625,7 +625,7 @@ static const struct msm_mdss_data sc8280xp_data = {
- 	.ubwc_swizzle = 6,
- 	.ubwc_bank_spread = true,
- 	.highest_bank_bit = 3,
--	.macrotile_mode = 1,
-+	.macrotile_mode = true,
- 	.reg_bus_bw = 76800,
- };
- 
-@@ -689,7 +689,7 @@ static const struct msm_mdss_data sm8250_data = {
- 	.ubwc_bank_spread = true,
- 	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
- 	.highest_bank_bit = 3,
--	.macrotile_mode = 1,
-+	.macrotile_mode = true,
- 	.reg_bus_bw = 76800,
- };
- 
-@@ -700,7 +700,7 @@ static const struct msm_mdss_data sm8350_data = {
- 	.ubwc_bank_spread = true,
- 	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
- 	.highest_bank_bit = 3,
--	.macrotile_mode = 1,
-+	.macrotile_mode = true,
- 	.reg_bus_bw = 74000,
- };
- 
-@@ -711,7 +711,7 @@ static const struct msm_mdss_data sm8550_data = {
- 	.ubwc_bank_spread = true,
- 	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
- 	.highest_bank_bit = 3,
--	.macrotile_mode = 1,
-+	.macrotile_mode = true,
- 	.reg_bus_bw = 57000,
- };
- 
-@@ -722,7 +722,7 @@ static const struct msm_mdss_data x1e80100_data = {
- 	.ubwc_bank_spread = true,
- 	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
- 	.highest_bank_bit = 3,
--	.macrotile_mode = 1,
-+	.macrotile_mode = true,
- 	/* TODO: Add reg_bus_bw with real value */
- };
- 
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-tip/drm-tip v6.12 next-20241122]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mika-Laitio/ammdgpu-fix-for-gfx1103-queue-evict-restore-crash/20241122-035602
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241121195233.10679-1-lamikr%40gmail.com
+patch subject: [PATCH] ammdgpu fix for gfx1103 queue evict/restore crash
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241123/202411231603.PMbyCkko-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411231603.PMbyCkko-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411231603.PMbyCkko-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:32:
+   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_priv.h:37:
+   In file included from include/linux/kfifo.h:40:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:1354:1: warning: unused label 'out_unlock' [-Wunused-label]
+    1354 | out_unlock:
+         | ^~~~~~~~~~~
+   5 warnings generated.
+
+
+vim +/out_unlock +1354 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c
+
+  1292	
+  1293	static int restore_process_queues_cpsch(struct device_queue_manager *dqm,
+  1294						struct qcm_process_device *qpd)
+  1295	{
+  1296		struct queue *q;
+  1297		struct device *dev = dqm->dev->adev->dev;
+  1298		struct kfd_process_device *pdd;
+  1299		uint64_t eviction_duration;
+  1300		int retval = 0;
+  1301	
+  1302		// gfx1103 APU fails to remove the queue usually after 10-50 attempts
+  1303		if (dqm->dev->adev->flags & AMD_IS_APU)
+  1304			goto out;
+  1305		pdd = qpd_to_pdd(qpd);
+  1306	
+  1307		dqm_lock(dqm);
+  1308		if (WARN_ON_ONCE(!qpd->evicted)) /* already restored, do nothing */
+  1309			goto out;
+  1310		if (qpd->evicted > 1) { /* ref count still > 0, decrement & quit */
+  1311			qpd->evicted--;
+  1312			goto out;
+  1313		}
+  1314	
+  1315		/* The debugger creates processes that temporarily have not acquired
+  1316		 * all VMs for all devices and has no VMs itself.
+  1317		 * Skip queue restore on process restore.
+  1318		 */
+  1319		if (!pdd->drm_priv)
+  1320			goto vm_not_acquired;
+  1321	
+  1322		pr_debug_ratelimited("Restoring PASID 0x%x queues\n",
+  1323				    pdd->process->pasid);
+  1324	
+  1325		/* Update PD Base in QPD */
+  1326		qpd->page_table_base = amdgpu_amdkfd_gpuvm_get_process_page_dir(pdd->drm_priv);
+  1327		pr_debug("Updated PD address to 0x%llx\n", qpd->page_table_base);
+  1328	
+  1329		/* activate all active queues on the qpd */
+  1330		list_for_each_entry(q, &qpd->queues_list, list) {
+  1331			q->properties.is_evicted = false;
+  1332			if (!QUEUE_IS_ACTIVE(q->properties))
+  1333				continue;
+  1334	
+  1335			q->properties.is_active = true;
+  1336			increment_queue_count(dqm, &pdd->qpd, q);
+  1337	
+  1338			if (dqm->dev->kfd->shared_resources.enable_mes) {
+  1339				retval = add_queue_mes(dqm, q, qpd);
+  1340				if (retval) {
+  1341					dev_err(dev, "Failed to restore queue %d\n",
+  1342						q->properties.queue_id);
+  1343					goto out;
+  1344				}
+  1345			}
+  1346		}
+  1347		if (!dqm->dev->kfd->shared_resources.enable_mes)
+  1348			retval = execute_queues_cpsch(dqm,
+  1349						      KFD_UNMAP_QUEUES_FILTER_DYNAMIC_QUEUES, 0, USE_DEFAULT_GRACE_PERIOD);
+  1350		eviction_duration = get_jiffies_64() - pdd->last_evict_timestamp;
+  1351		atomic64_add(eviction_duration, &pdd->evict_duration_counter);
+  1352	vm_not_acquired:
+  1353		qpd->evicted = 0;
+> 1354	out_unlock:
+  1355		dqm_unlock(dqm);
+  1356	out:
+  1357		return retval;
+  1358	}
+  1359	
 
 -- 
-2.39.5
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
