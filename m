@@ -2,66 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989659D6A69
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 18:00:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D02D9D6A9F
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 18:44:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C78B10E14A;
-	Sat, 23 Nov 2024 17:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6491110E138;
+	Sat, 23 Nov 2024 17:44:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ntPQB099";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ntuZyoeT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDDAF10E14A
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 17:00:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1732381216;
- bh=DM4//eNbZfyM12Q86uc6Jzb8gKZsqYiM1dGZdtheaPA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ntPQB099Xe19Nq1wv7qUNrHaeM30rWPpT/0tCTr7/2/I1VxyUxq4dzUB3X/Qx2+Pr
- ssWMaXRb+iQ6kHWhEjHjuleGLSzpFBbUC+FqcjTQ7N/+8YPv/MwyCCkPBlHrSv/C8c
- dcxMeVjxDntGglRfxBlg25WvG5lXuWkGpnqo5zvf2bRkr6nH+uZSDgtMEUmULmZzgK
- p6nm3MDAnTgVKHJAMP3rpPvnY77VDQeP0VzNqgiVoXDjw1C+SWVhm5g878K8EGyqWe
- n4Mb1x0NV9FbimSGm3PcNTJuw3AepCY0p1ydHcr8G8gnBrGPDON0nBZINGEDV3qJlk
- NB7JO8wocAd/Q==
-Received: from [192.168.1.90] (unknown [86.120.21.57])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3840417E376B;
- Sat, 23 Nov 2024 18:00:15 +0100 (CET)
-Message-ID: <2c7fc07c-b431-4384-8dc6-3ae77b18367e@collabora.com>
-Date: Sat, 23 Nov 2024 19:00:14 +0200
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A17B510E138
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 17:44:27 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id
+ d2e1a72fcca58-724f41d550cso326419b3a.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 09:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1732383867; x=1732988667; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Taj+3YSfAKDsLQncrgYkDoFlJMoLmNKBtRtkmtpeCa8=;
+ b=ntuZyoeTVmXdpReFMzktO1R53o8cOllBsDFPxGuK7RzSJJxlT3dTYRGxNwy4SBwSg8
+ dvDDxApJsBu0qx2kUmdTTaMfShPs0AOsg9JOHOFmcBOnVKbWKOSdywp+ukJBEObyaJYy
+ 4/Vwb55u+Qa1EqFiBe0/dtJfDGZiiuqhw0p2iJUqT0Yuv6w68eQ98Tlrr4OhIT+AsdSm
+ C49KiJ+252OKlISg/MffEysqBzKa5FmpMCPr/6kkil6WxueU3tSxxAmqP0bkO4STNEQO
+ bAbPLxiQv4rqpWIMEc1NX8wVRVNwge96D3vgXtKzAvXy7sI7QyoEEcEy9g8KfKZ7YkCz
+ n7RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732383867; x=1732988667;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Taj+3YSfAKDsLQncrgYkDoFlJMoLmNKBtRtkmtpeCa8=;
+ b=Ax2zOwJhWU2BCsNPfTvUZgRncCD3Gho1BpFnzoh8aY+zQfxSZCTffHXhcqlpuuVFLw
+ 0MJUGDVI4Yf0ZMPrNmXgaNAXTHD+2m8ZhLa2a8OfoVqFFVQAcL8LHyOTEziG3wFbrT88
+ 8D6wnVN+ry3PkD/Okq/Vtl5Ao4jlp6PF3iaoh3LANIF6EQZIMGUtPgUD6+Q/zPI9iJsO
+ rC4FO7D60FJpz0xjGyyxi8Z5L5NbZWtey9F6zmvCHs/T1Pdveel6rN6Rpd0rGCH5CmMm
+ TnuEyJazDAjXpNIoxlbkqFpHAdrde9bKo5yJO2UifvLisU7AgQj3q0GPSmdycsJtcwai
+ dVlQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXBjD3CcqsFwvFNYiJZrHw/HIZIQWlD+jgew1BVt/PkF6JcOjfeOwhApyF1cKAQEGrl0ITFTKJUk9I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6EdJNi8tIx7OwG/EaMVjt8VytkidRPu5txWuvUM+j3Ru3zW46
+ eltWaiQ+y2wFh0rEqeaOxpdzNp7a9qHwZKY6nQInVteC4jd54uUf
+X-Gm-Gg: ASbGnctiPmW7yys7WMuho+NDM8en4KIJveiHnl7eYf3YoSfO5+8X8jW/zt0X8f/DghQ
+ ty4uCH1CSrhvZK+jJRbJfh6zO4cEMsLikyRuXhT3pOlOeLAjQnbJpZ8iA1Fn7lZ+FUlabK5kuQa
+ nMIcKfHdVHmBhxgDdFqdev9cIKQtoiywPKBVGWETUI+9+8AgJH0tJy4a4JEuwEqxCA3aZuR9qOe
+ ZudI2DkIOmAqjc3K5DxiYv17FAfIJbmrj6zS+wPdqe7L+ZmQfJ29nMCw7bNrgdh+FPzEWZPOEQ=
+X-Google-Smtp-Source: AGHT+IFEV5sx5M3llOMv5oeDGg6jrj5DSo4Cp/i06uwAuBbD/AfbChJ11DKh4isN2KMwLs0D/5WqjA==
+X-Received: by 2002:a17:902:f54a:b0:20b:951f:6dff with SMTP id
+ d9443c01a7336-2129f1aa923mr117259275ad.0.1732383866948; 
+ Sat, 23 Nov 2024 09:44:26 -0800 (PST)
+Received: from mighty.kangaroo-insen.ts.net ([45.64.12.174])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2129dba6aa3sm35213735ad.101.2024.11.23.09.44.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 23 Nov 2024 09:44:24 -0800 (PST)
+From: Mithil Bavishi <bavishimithil@gmail.com>
+To: andreas@kemnade.info
+Cc: Laurent.pinchart@ideasonboard.com, aaro.koskinen@iki.fi, airlied@gmail.com,
+ bavishimithil@gmail.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ khilman@baylibre.com, krzk+dt@kernel.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ quic_jesszhan@quicinc.com, rfoss@kernel.org, robh@kernel.org,
+ rogerq@kernel.org, simona@ffwll.ch, thierry.reding@gmail.com,
+ tony@atomide.com, tzimmermann@suse.de
+Subject: Re: Re: [PATCH v3 08/10] ARM: dts: ti: omap: samsung-espresso7: Add
+ initial support for Galaxy Tab 2 7.0
+Date: Sat, 23 Nov 2024 17:44:14 +0000
+Message-ID: <20241123174414.721-1-bavishimithil@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241112120020.7f9e0680@akair>
+References: <20241112120020.7f9e0680@akair>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v10,3/3] drm/rockchip: Add basic RK3588 HDMI output support
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
- Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
-References: <20241016-b4-rk3588-bridge-upstream-v10-3-87ef92a6d14e@collabora.com>
- <790091a1-00af-43bb-8cdf-814f4cc38d83@roeck-us.net>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Content-Language: en-US
-In-Reply-To: <790091a1-00af-43bb-8cdf-814f4cc38d83@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,54 +96,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/23/24 5:56 PM, Guenter Roeck wrote:
-> On Wed, Oct 16, 2024 at 11:06:53PM +0300, Cristian Ciocaltea wrote:
->> The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2.1
->> Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on a
->> Samsung IP block.
->>
->> Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
->> without audio, CEC or any of the HDMI 2.1 specific features.
->>
->> Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
->> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
->> Tested-by: Heiko Stuebner <heiko@sntech.de>
->> Reviewed-by: Maxime Ripard <mripard@kernel.org>
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
-> [ ... ]
-> 
->> +static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
->> +{
->> +	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
->> +	struct drm_crtc *crtc = encoder->crtc;
->> +	unsigned long long rate;
->> +
->> +	/* Unconditionally switch to TMDS as FRL is not yet supported */
->> +	gpiod_set_value(hdmi->enable_gpio, 1);
->> +
->> +	if (crtc && crtc->state) {
->> +		rate = drm_hdmi_compute_mode_clock(&crtc->state->adjusted_mode,
->> +						   8, HDMI_COLORSPACE_RGB);
->> +		clk_set_rate(hdmi->ref_clk, rate);
->> +		/*
->> +		 * FIXME: Temporary workaround to pass pixel clock rate
->> +		 * to the PHY driver until phy_configure_opts_hdmi
->> +		 * becomes available in the PHY API. See also the related
->> +		 * comment in rk_hdptx_phy_power_on() from
->> +		 * drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
->> +		 */
->> +		phy_set_bus_width(hdmi->phy, rate / 100);
-> 
-> On 32-bit systems:
-> 
-> ERROR: modpost: "__udivdi3" [drivers/gpu/drm/rockchip/rockchipdrm.ko] undefined!
-> 
-> in the mainline kernel.
+> > +&i2c3 {
+> > +	touchscreen@48 {
+> > +		compatible = "melfas,mms136";
+> > +		reg = <0x48>;
+> > +		interrupt-parent = <&gpio2>;
+> > +		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
+> > +		touchscreen-size-x = <1023>;
+>
+> Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml:
+> horizontal resolution of touchscreen (maximum x coordinate reported + 1)
+>
+> So this touchscreen reports max 1022?
+>
+> > +		touchscreen-size-y = <599>;
+>
+> same question.
 
-Yeah, that's a known issue and has been already fixed:
+My apologies, it should be 1023+1 (1024) and 599+1(600) respectively.
+Will fix it in the next revision.
 
-https://lore.kernel.org/lkml/20241018151016.3496613-1-arnd@kernel.org/
+https://github.com/Unlegacy-Android/android_kernel_ti_omap4/blob/3.4/common/arch/arm/mach-omap2/board-espresso-input.c#L145
 
-Thanks,
-Cristian
+Best Regards,
+Mithil
