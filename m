@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6AA9D69F2
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 17:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5C89D69F5
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 17:15:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 061D910E460;
-	Sat, 23 Nov 2024 16:14:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 631BC10E471;
+	Sat, 23 Nov 2024 16:15:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fCgDdIaH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WlL8wfQI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E78110E246;
- Sat, 23 Nov 2024 16:14:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C979510E246;
+ Sat, 23 Nov 2024 16:15:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 708175C5583;
- Sat, 23 Nov 2024 16:13:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D9FDC4CECD;
- Sat, 23 Nov 2024 16:14:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8216D5C0740;
+ Sat, 23 Nov 2024 16:14:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34638C4CECD;
+ Sat, 23 Nov 2024 16:15:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732378472;
- bh=E02GaD6C2zW4KVX9ewnciYeUTWpwJEUwwnHlZ+OyWAA=;
+ s=k20201202; t=1732378530;
+ bh=aFqOexa4IuS4Qk6HkPBylQSk76DY92gyVsr7yse+4R0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fCgDdIaHZ/hdTwWsN6WgLvT5q0urJF4+Z5E/Sa8AebGnhIzjcjzdtMv6lQT0jgxWH
- 9Q7kcXz2wXkEUfRPjU/pr/3HijAkVNFBs3IbCVREQlCA0kzZTm2OMGUqMa9nrIvTCG
- hI3w87j2uxmb/Ma4j2q79eV7AM1WYYzS09T+EEyci8RdtdOa9nExvQx4FwY5XA6eUw
- 8uN9zRfIfcMu21Qbz5sBoLo0PgV+eFT0i4FhwAO1Pcyp/og3VKhJ2EegX/qVntPKbt
- yRoU4YqT7JkZL15r1sGVOapWJckzUEXe7c7UeTIlWOGJl3ol2qXdLF4+CY4EOYaRoM
- t31g5QM/vq8sA==
-Date: Sat, 23 Nov 2024 17:14:29 +0100
+ b=WlL8wfQIQ175OPh+ZQsI3Mbu5COm0FMjfoeeoe8OIAXddyOGZ9DNI7H+Sv2NqnmO4
+ AWw7VHKrl1r1e134LWh6sixEKc+SO/74Ef2Om2bBmqKHN67VJR8ShdoZ73hKYJooWY
+ j4FbxdNFTvcAJcV/0YLjJ4bJwg0m+rlRqMlqbGzfURFhaEC/jz+xjcRqJJc1A+c9vj
+ 0MZPozl9ujeR3Mi68h5iSTbMFgcBfKOj6u7996nTYOBXGi9CS5ZlZf9PbUHqrgd5wP
+ QzdUMDD8qRQoX1zvywnF6MXRwiw68cEPPYvAf2MYejUnfFKquR6lbfKRk8oGqvBJB5
+ vdeaoEqkN7B0Q==
+Date: Sat, 23 Nov 2024 17:15:27 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Fange Zhang <quic_fangez@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -51,13 +51,14 @@ Cc: Rob Clark <robdclark@gmail.com>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 0/9] Add display support for QCS615 platform
-Message-ID: <2ihy463xjiguluacmd3qhlskjtrpotk4mmflqdtgm3qhjzcrif@x2ckw5h6xqyj>
+Subject: Re: [PATCH v3 3/9] dt-bindings: display/msm: Add SM6150 MDSS & DPU
+Message-ID: <2nqtuatl63ajcahsmhvg3bmfipfhppfkygwh6as7zzwgxzipoo@hcvuv57sqpqu>
 References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
+ <20241122-add-display-support-for-qcs615-platform-v3-3-35252e3a51fe@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
+In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-3-35252e3a51fe@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,32 +74,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 22, 2024 at 05:56:43PM +0800, Fange Zhang wrote:
-> This series aims to enable display on the QCS615 platform
+On Fri, Nov 22, 2024 at 05:56:46PM +0800, Fange Zhang wrote:
+> From: Li Liu <quic_lliu6@quicinc.com>
 > 
-> 1.Add MDSS & DPU support for QCS615
-> 2.Add DSI support for QCS615     
+> Document the MDSS and DPU hardware found on the Qualcomm SM6150 platform.
 > 
-> QCS615 platform supports DisplayPort, and this feature will be added in a future patch
-> 
-> This patch series depends on below patch series:
-> - rpmhcc
-> https://lore.kernel.org/all/20241022-qcs615-clock-driver-v4-2-3d716ad0d987@quicinc.com/
-> - gcc
-> https://lore.kernel.org/all/20241022-qcs615-clock-driver-v4-4-3d716ad0d987@quicinc.com/
-> - base
-> https://lore.kernel.org/all/20241104-add_initial_support_for_qcs615-v5-0-9dde8d7b80b0@quicinc.com/
-> - Apps SMMU
-> https://lore.kernel.org/all/20241105032107.9552-4-quic_qqzhou@quicinc.com/
-> - I2C
-> https://lore.kernel.org/all/20241111084331.2564643-1-quic_vdadhani@quicinc.com/
-> - dispcc
-> https://lore.kernel.org/all/20241108-qcs615-mm-clockcontroller-v3-0-7d3b2d235fdf@quicinc.com/
-> - dispcc dts
-> https://lore.kernel.org/lkml/20241108-qcs615-mm-dt-nodes-v1-0-b2669cac0624@quicinc.com/
+> Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
+> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
+> ---
 
-Which makes it unmergeable and untestable. I suggest decouple
-dependencies.
+This has a build failure, but nothing here explains dependency.
+
+This cannot be merged and due to build failure cannot be tested by
+automation.
+
+Sorry, no review from me, please wait till dependencies come in or
+decouple series. Anyway otherwise this *CANNOT* be applied by
+maintainers...
 
 Best regards,
 Krzysztof
