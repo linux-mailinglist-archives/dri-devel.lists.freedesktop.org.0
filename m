@@ -2,92 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94BC9D69CE
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 16:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6AA9D69F2
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 17:14:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567FC10E1C1;
-	Sat, 23 Nov 2024 15:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 061D910E460;
+	Sat, 23 Nov 2024 16:14:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mI2sGGCI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fCgDdIaH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F155010E1C1
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 15:56:44 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-21278f3d547so24045325ad.1
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 07:56:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732377404; x=1732982204; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=wdhhpCg+taJ4xsLRypTZUl8HmDm+NFsq0ODj29ISJ0M=;
- b=mI2sGGCIv9UmZXzS/whM/eB2vjTx09hSVPTGhnlUdro6o2u2OBHd0iGoo9Yds/4clO
- C8zGtlxC6gD/BYNUvP1TyyJCX4z3FGV17N+R34GrZnFqHXf0khEXOEmU+Bd//YxC5wMD
- d1pzF8Y41D8YpkKJ4v6wrIGkf/yUUdoSllxTLRZn3XSr5QDS6+V5Ynm48wESU6kt0mJf
- 59zkHwMbNCFh8/BThy+09ixHJUURVqmjwcgpydHud4NQo9N9yKjC2wg5d/gjx+fHFQUn
- uXJG+D3YjxN1wbMgK/4vGm1M/29PffeOsjaDTLmo4Fn4vYGItlRm24cmxJBvXFkxoBZ7
- W9eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732377404; x=1732982204;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wdhhpCg+taJ4xsLRypTZUl8HmDm+NFsq0ODj29ISJ0M=;
- b=vOEEK3XMFaNRzEgC6gIOhOJhbuLA9NctCy7RGLSvcS04xKUUrew8eiUoygXG11gO50
- bXH6O9gXuCr8pnngZwv+NsxOxMB3LRpYccp8n+t4q1sKWOUG8OXkZWuYSAXb8kAHgPHT
- wySrhP525PAOtXmWPA/AP5vf8u7C70DiWkNSh39jCElF1xFvV7t0rZ/VkFdlYt69ZgaQ
- 7wtctkifD9ql2ycJzl3VyUlEW+LP23yyvHha8tB4qOuXuYwSaDTDJJnZ0tUKzGxhSRPd
- PsFWevxWLYymAoBEyzm1w4ERYCyaKCtrwAq1vzL5el7IcNXmcqGGgcb1xw8mOU6enT5V
- Cotw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaBXAEDUQoC/CA6vyqYOC+JDi9FTwF0osxNmONbbVmdTDvNVKJ8FVDuuJMrIOl6O241oQBkh4P1nw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxXOo54y08RDVLY9Smo08EHZJRNyaN2slCJ689m1pcQia5ok7KJ
- GahK0+h5+dLKD64bekchFSi2nWkG5uNVHoLOn5M5wupHrG0XgqI5
-X-Gm-Gg: ASbGnct6L6Yda4AKltevMye+l7TX4DxXpuBy1iqw+TPT7hN4BZ+Xba0wzpmr/YCVBtR
- dTp1tP+Rl0h2LhYbvD5Q+jbD5CruuZs+W82XrvHspiC2bF5Iaz7LxsLZgM7s6IytKE44LJXXOIp
- SI0mXGFyR701A9Zh1DRA83oM+ma/UggojLx7CvRcfg5F1tiGJJcafAzPJIqxjnjJOovCTOtwyGo
- SeKlOgvN1pmMiy0gOI45lBJzIJWnchbOEU0sE0O3cYvZucg45tBpkHXt1Jpx8Y=
-X-Google-Smtp-Source: AGHT+IHB49Ds6XF42rhaBzmjNmAHIN7vXsDlDSoz7p5lUyfP90T9HB2pni6uH8yauXHUV/+wJVdjQw==
-X-Received: by 2002:a17:903:283:b0:20e:57c8:6ab3 with SMTP id
- d9443c01a7336-2129f7300c2mr99379585ad.4.1732377404385; 
- Sat, 23 Nov 2024 07:56:44 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2129dc131d1sm34098095ad.187.2024.11.23.07.56.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Nov 2024 07:56:43 -0800 (PST)
-Date: Sat, 23 Nov 2024 07:56:42 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E78110E246;
+ Sat, 23 Nov 2024 16:14:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 708175C5583;
+ Sat, 23 Nov 2024 16:13:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D9FDC4CECD;
+ Sat, 23 Nov 2024 16:14:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732378472;
+ bh=E02GaD6C2zW4KVX9ewnciYeUTWpwJEUwwnHlZ+OyWAA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fCgDdIaHZ/hdTwWsN6WgLvT5q0urJF4+Z5E/Sa8AebGnhIzjcjzdtMv6lQT0jgxWH
+ 9Q7kcXz2wXkEUfRPjU/pr/3HijAkVNFBs3IbCVREQlCA0kzZTm2OMGUqMa9nrIvTCG
+ hI3w87j2uxmb/Ma4j2q79eV7AM1WYYzS09T+EEyci8RdtdOa9nExvQx4FwY5XA6eUw
+ 8uN9zRfIfcMu21Qbz5sBoLo0PgV+eFT0i4FhwAO1Pcyp/og3VKhJ2EegX/qVntPKbt
+ yRoU4YqT7JkZL15r1sGVOapWJckzUEXe7c7UeTIlWOGJl3ol2qXdLF4+CY4EOYaRoM
+ t31g5QM/vq8sA==
+Date: Sat, 23 Nov 2024 17:14:29 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Fange Zhang <quic_fangez@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
- Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [v10,3/3] drm/rockchip: Add basic RK3588 HDMI output support
-Message-ID: <790091a1-00af-43bb-8cdf-814f4cc38d83@roeck-us.net>
-References: <20241016-b4-rk3588-bridge-upstream-v10-3-87ef92a6d14e@collabora.com>
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Li Liu <quic_lliu6@quicinc.com>, 
+ Xiangxu Yin <quic_xiangxuy@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 0/9] Add display support for QCS615 platform
+Message-ID: <2ihy463xjiguluacmd3qhlskjtrpotk4mmflqdtgm3qhjzcrif@x2ckw5h6xqyj>
+References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241016-b4-rk3588-bridge-upstream-v10-3-87ef92a6d14e@collabora.com>
+In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,52 +73,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 16, 2024 at 11:06:53PM +0300, Cristian Ciocaltea wrote:
-> The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2.1
-> Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on a
-> Samsung IP block.
+On Fri, Nov 22, 2024 at 05:56:43PM +0800, Fange Zhang wrote:
+> This series aims to enable display on the QCS615 platform
 > 
-> Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
-> without audio, CEC or any of the HDMI 2.1 specific features.
+> 1.Add MDSS & DPU support for QCS615
+> 2.Add DSI support for QCS615     
 > 
-> Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
-> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
-[ ... ]
+> QCS615 platform supports DisplayPort, and this feature will be added in a future patch
+> 
+> This patch series depends on below patch series:
+> - rpmhcc
+> https://lore.kernel.org/all/20241022-qcs615-clock-driver-v4-2-3d716ad0d987@quicinc.com/
+> - gcc
+> https://lore.kernel.org/all/20241022-qcs615-clock-driver-v4-4-3d716ad0d987@quicinc.com/
+> - base
+> https://lore.kernel.org/all/20241104-add_initial_support_for_qcs615-v5-0-9dde8d7b80b0@quicinc.com/
+> - Apps SMMU
+> https://lore.kernel.org/all/20241105032107.9552-4-quic_qqzhou@quicinc.com/
+> - I2C
+> https://lore.kernel.org/all/20241111084331.2564643-1-quic_vdadhani@quicinc.com/
+> - dispcc
+> https://lore.kernel.org/all/20241108-qcs615-mm-clockcontroller-v3-0-7d3b2d235fdf@quicinc.com/
+> - dispcc dts
+> https://lore.kernel.org/lkml/20241108-qcs615-mm-dt-nodes-v1-0-b2669cac0624@quicinc.com/
 
-> +static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
-> +{
-> +	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
-> +	struct drm_crtc *crtc = encoder->crtc;
-> +	unsigned long long rate;
-> +
-> +	/* Unconditionally switch to TMDS as FRL is not yet supported */
-> +	gpiod_set_value(hdmi->enable_gpio, 1);
-> +
-> +	if (crtc && crtc->state) {
-> +		rate = drm_hdmi_compute_mode_clock(&crtc->state->adjusted_mode,
-> +						   8, HDMI_COLORSPACE_RGB);
-> +		clk_set_rate(hdmi->ref_clk, rate);
-> +		/*
-> +		 * FIXME: Temporary workaround to pass pixel clock rate
-> +		 * to the PHY driver until phy_configure_opts_hdmi
-> +		 * becomes available in the PHY API. See also the related
-> +		 * comment in rk_hdptx_phy_power_on() from
-> +		 * drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-> +		 */
-> +		phy_set_bus_width(hdmi->phy, rate / 100);
+Which makes it unmergeable and untestable. I suggest decouple
+dependencies.
 
-On 32-bit systems:
+Best regards,
+Krzysztof
 
-ERROR: modpost: "__udivdi3" [drivers/gpu/drm/rockchip/rockchipdrm.ko] undefined!
-
-in the mainline kernel.
-
-If the driver is not build tested (much less working) on 32-bit builds,
-please consider restricting it to 64 bit builds.
-
-Thanks,
-Guenter
