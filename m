@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF589D68C2
+	by mail.lfdr.de (Postfix) with ESMTPS id 6114E9D68C3
 	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 12:06:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A53410E436;
-	Sat, 23 Nov 2024 11:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0A310E1B6;
+	Sat, 23 Nov 2024 11:06:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ERPDPUi2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uL1ifB10";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA1410E436
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82AA510E436
  for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 11:06:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AF1DF5C54A7;
+ by dfw.source.kernel.org (Postfix) with ESMTP id DEC0D5C54FF;
  Sat, 23 Nov 2024 11:05:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9D9AFC4CED0;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AC12AC4CED8;
  Sat, 23 Nov 2024 11:06:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1732359974;
- bh=hCWPTU0oR6gGA6LruaUb8nCr9j4CS/MKpzMxuv9RgoA=;
+ bh=LHfsO5qRzd6WqqQsGBjv8BrVc2ugUkxtkoGwPGbCg3c=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=ERPDPUi2habuW4Fa58YZFzlQmnKH0YTjoA+uCpBdi6hsD5s0ssQzBdqf4t2ZkfssR
- +QRkpcf17/p+BNzUwW8ms7nd4nljffj0n7yIH+4fktTDgoaAzsJL6PK+7Z1Uivqq4X
- DeKF8BIyiObo/M9rKB6XAnn1eGWTWWWqgMGxBk9y5fz19OHqCRcfle6A0Lu1BNOy9S
- SapHeBb0NNth6umeyx8kwKL1HvHjvlu93NTFJikt/hvdfrY88eDD75QDnqGxKKK5kG
- sJ816ctCNzrX6f6khSwnE8kTMGtodBhCntOowS1L7h9H+RxPtNPmwIGOYRdeCNDGvt
- 7dEb5izK2uAfQ==
+ b=uL1ifB10vwZGhR+3cBk2edR6kyfFWToeNM/rIBxV4XIhQ+oyUjzP3OjsBFSu81N7p
+ nw0x0Y/T08qPx1ZIivNY79JdD6xog4RTD9YiFSErCRpMiCcGIMLaWv3/AADk6pDKx+
+ J5+hp2OfijDSG7JtINDB6ItrWuPiO8xjksLbDxFx5Pmd+jcXtdg9ZCHRrHHrujUS4x
+ t9dtojXOrJ3GQXtwdDo5vtYH8SEjR9zeaHGnOe0nQN096gdifAAywACOexurulTdPy
+ mKB0IfOTYje+rWL3doDffXWZtzQ9szJopn/Quab5+igKLbTDt4gmNlIWVS65d3Zz4k
+ 8lr07f9i9aB7Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 8F67BE6ADF3;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id A0D1EE6ADF7;
  Sat, 23 Nov 2024 11:06:14 +0000 (UTC)
 From: Maud Spierings via B4 Relay
  <devnull+maud_spierings.hotmail.com@kernel.org>
-Date: Sat, 23 Nov 2024 12:05:52 +0100
-Subject: [PATCH 2/4] arm64: dts: qcom: x1e80100-vivobook-s15: Use the
- samsung,atna33xc20 panel driver
+Date: Sat, 23 Nov 2024 12:05:53 +0100
+Subject: [PATCH 3/4] arm64: dts: qcom: x1e80100-vivobook-s15: Add lid
+ switch
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241123-asus_qcom_display-v1-2-85a9ff9240aa@hotmail.com>
+Message-Id: <20241123-asus_qcom_display-v1-3-85a9ff9240aa@hotmail.com>
 References: <20241123-asus_qcom_display-v1-0-85a9ff9240aa@hotmail.com>
 In-Reply-To: <20241123-asus_qcom_display-v1-0-85a9ff9240aa@hotmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -59,11 +59,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  Maud Spierings <maud_spierings@hotmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732359972; l=1388;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732359972; l=1398;
  i=maud_spierings@hotmail.com; s=20241110; h=from:subject:message-id;
- bh=yLKoqyn/v9BZdCsCAd3cnvw+zKCdySrKEuedXGKA2QA=;
- b=uoCHBqf7ckxd0xmfXWvIkgvHSp97O+FFjRU3cLN+A3IzRcAdaRUf8vPZceLIgWhz9KUwxBZFU
- 50fBmignuwpBfka5TRx272hEUxjLmkded/cIEBFEwiLc0WqVWM7NiKF
+ bh=2Fsv6gofTnQRjFCbk36VF6plX1Xp9Ps/3F/wjNK21VE=;
+ b=Um8NXi0h8NeArK/WBUEadfl1aT/oMvEnxcaHDshwHy+Y1tzpsA2MGi46Hw25Te+E0YS1lt1DH
+ I4a6W+NvsPqBpY8Y/PONwP6Pyo2mTdUv0LnEHhq0qIwCqVYOpp9yznZ
 X-Developer-Key: i=maud_spierings@hotmail.com; a=ed25519;
  pk=CeFKVnZvRfX2QjB1DpdiAe2N+MEjwLEB9Yhx/OAcxRc=
 X-Endpoint-Received: by B4 Relay for maud_spierings@hotmail.com/20241110
@@ -87,51 +87,50 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maud Spierings <maud_spierings@hotmail.com>
 
-The Asus vivobook s15 uses the ATNA56AC03 panel.
-This panel is controlled by the atna33xc20 driver
-instead of the generic edp-panel driver
+Add the lid switch for the Asus vivobook s15
 
 Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
 ---
- arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts      | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-index f25991b887de3fca0092c5f81c881c5d8bd71aac..dbc85aff50a95bfc2ac11528d1901979ec7b1501 100644
+index dbc85aff50a95bfc2ac11528d1901979ec7b1501..109b9d8816d26550ccfcb9906d69f2745d02f1d3 100644
 --- a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
 +++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-@@ -407,9 +407,13 @@ &mdss_dp3 {
+@@ -17,6 +17,19 @@ / {
+ 	compatible = "asus,vivobook-s15", "qcom,x1e80100";
+ 	chassis-type = "laptop";
  
- 	aux-bus {
- 		panel {
--			compatible = "edp-panel";
-+			compatible = "samsung,atna56ac03", "samsung,atna33xc20";
-+			enable-gpios = <&pmc8380_3_gpios 4 GPIO_ACTIVE_HIGH>;
- 			power-supply = <&vreg_edp_3p3>;
- 
-+			pinctrl-0 = <&edp_bl_en>;
-+			pinctrl-names = "default";
-+
- 			port {
- 				edp_panel_in: endpoint {
- 					remote-endpoint = <&mdss_dp3_out>;
-@@ -475,6 +479,16 @@ &pcie6a_phy {
- 	status = "okay";
- };
- 
-+&pmc8380_3_gpios {
-+	edp_bl_en: edp-bl-en-state {
-+		pins = "gpio4";
-+		function = "normal";
-+		power-source = <0>;
-+		input-disable;
-+		output-enable;
++	gpio-keys {
++		compatible = "gpio-keys";
++		pinctrl-0 = <&hall_int_n_default>;
++		pinctrl-names = "default";
++		switch-lid {
++			gpios = <&tlmm 92 GPIO_ACTIVE_LOW>;
++			linux,input-type = <EV_SW>;
++			linux,code = <SW_LID>;
++			wakeup-source;
++			wakeup-event-action = <EV_ACT_DEASSERTED>;
++		};
 +	};
-+};
 +
- &qupv3_0 {
- 	status = "okay";
- };
+ 	pmic-glink {
+ 		compatible = "qcom,x1e80100-pmic-glink",
+ 			     "qcom,sm8550-pmic-glink",
+@@ -537,6 +550,12 @@ edp_reg_en: edp-reg-en-state {
+ 		bias-disable;
+ 	};
+ 
++	hall_int_n_default: hall-int-n-state {
++			pins = "gpio92";
++			function = "gpio";
++		bias-disable;
++	};
++
+ 	kybd_default: kybd-default-state {
+ 		pins = "gpio67";
+ 		function = "gpio";
 
 -- 
 2.47.0
