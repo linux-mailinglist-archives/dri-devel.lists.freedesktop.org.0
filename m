@@ -2,72 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE7B9D6919
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 13:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94BC9D69CE
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 16:56:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B8BF10E21C;
-	Sat, 23 Nov 2024 12:59:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 567FC10E1C1;
+	Sat, 23 Nov 2024 15:56:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LubYlHIM";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mI2sGGCI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C36010E21C
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 12:59:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A365E5C55A5;
- Sat, 23 Nov 2024 12:58:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2BA45C4CEDB;
- Sat, 23 Nov 2024 12:58:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732366739;
- bh=rJ3P/EwNpRpfkOloeZcwIZCsX0PzORmTXOM1R5SR4gU=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=LubYlHIMr5OnyMfeNHXytxf+Hr0BMlp2/kvtWYg2mp5b/Gji9qDwA82Ku0QUm85Vq
- Wup9CUG2gc60FI+ZowAHyx5vA7m+Giiu5jkxNaNjVE8M1356NFHWTsZ9Z5lzh6GaRY
- oUBXMNENXQ8y9VXpLXtz53m4z8lTEUQ8YxqAJZAaJGK+mwpvgo8XF8227K0ssDI9H4
- yJh64C69ds+u5wFiJf1EdIxSn8UFxUCgGUIUtSXzkhzef10ZP3oCw5/Kxwb0D/ePR0
- yCrXMcGPKSvp4hXOXubDoGYLvfW9RTogreThW34h87s642UmbwMFKNBw1AkTnMsYN8
- Ghxm8A5JFWccA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 19A81E6ADFF;
- Sat, 23 Nov 2024 12:58:59 +0000 (UTC)
-From: Maud Spierings via B4 Relay
- <devnull+maud_spierings.hotmail.com@kernel.org>
-Date: Sat, 23 Nov 2024 13:58:56 +0100
-Subject: [PATCH v2 4/4] arm64: dts: qcom: x1e80100-vivobook-s15: Add bluetooth
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F155010E1C1
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 15:56:44 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-21278f3d547so24045325ad.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 07:56:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1732377404; x=1732982204; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=wdhhpCg+taJ4xsLRypTZUl8HmDm+NFsq0ODj29ISJ0M=;
+ b=mI2sGGCIv9UmZXzS/whM/eB2vjTx09hSVPTGhnlUdro6o2u2OBHd0iGoo9Yds/4clO
+ C8zGtlxC6gD/BYNUvP1TyyJCX4z3FGV17N+R34GrZnFqHXf0khEXOEmU+Bd//YxC5wMD
+ d1pzF8Y41D8YpkKJ4v6wrIGkf/yUUdoSllxTLRZn3XSr5QDS6+V5Ynm48wESU6kt0mJf
+ 59zkHwMbNCFh8/BThy+09ixHJUURVqmjwcgpydHud4NQo9N9yKjC2wg5d/gjx+fHFQUn
+ uXJG+D3YjxN1wbMgK/4vGm1M/29PffeOsjaDTLmo4Fn4vYGItlRm24cmxJBvXFkxoBZ7
+ W9eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732377404; x=1732982204;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wdhhpCg+taJ4xsLRypTZUl8HmDm+NFsq0ODj29ISJ0M=;
+ b=vOEEK3XMFaNRzEgC6gIOhOJhbuLA9NctCy7RGLSvcS04xKUUrew8eiUoygXG11gO50
+ bXH6O9gXuCr8pnngZwv+NsxOxMB3LRpYccp8n+t4q1sKWOUG8OXkZWuYSAXb8kAHgPHT
+ wySrhP525PAOtXmWPA/AP5vf8u7C70DiWkNSh39jCElF1xFvV7t0rZ/VkFdlYt69ZgaQ
+ 7wtctkifD9ql2ycJzl3VyUlEW+LP23yyvHha8tB4qOuXuYwSaDTDJJnZ0tUKzGxhSRPd
+ PsFWevxWLYymAoBEyzm1w4ERYCyaKCtrwAq1vzL5el7IcNXmcqGGgcb1xw8mOU6enT5V
+ Cotw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUaBXAEDUQoC/CA6vyqYOC+JDi9FTwF0osxNmONbbVmdTDvNVKJ8FVDuuJMrIOl6O241oQBkh4P1nw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXOo54y08RDVLY9Smo08EHZJRNyaN2slCJ689m1pcQia5ok7KJ
+ GahK0+h5+dLKD64bekchFSi2nWkG5uNVHoLOn5M5wupHrG0XgqI5
+X-Gm-Gg: ASbGnct6L6Yda4AKltevMye+l7TX4DxXpuBy1iqw+TPT7hN4BZ+Xba0wzpmr/YCVBtR
+ dTp1tP+Rl0h2LhYbvD5Q+jbD5CruuZs+W82XrvHspiC2bF5Iaz7LxsLZgM7s6IytKE44LJXXOIp
+ SI0mXGFyR701A9Zh1DRA83oM+ma/UggojLx7CvRcfg5F1tiGJJcafAzPJIqxjnjJOovCTOtwyGo
+ SeKlOgvN1pmMiy0gOI45lBJzIJWnchbOEU0sE0O3cYvZucg45tBpkHXt1Jpx8Y=
+X-Google-Smtp-Source: AGHT+IHB49Ds6XF42rhaBzmjNmAHIN7vXsDlDSoz7p5lUyfP90T9HB2pni6uH8yauXHUV/+wJVdjQw==
+X-Received: by 2002:a17:903:283:b0:20e:57c8:6ab3 with SMTP id
+ d9443c01a7336-2129f7300c2mr99379585ad.4.1732377404385; 
+ Sat, 23 Nov 2024 07:56:44 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2129dc131d1sm34098095ad.187.2024.11.23.07.56.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 23 Nov 2024 07:56:43 -0800 (PST)
+Date: Sat, 23 Nov 2024 07:56:42 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
+Subject: Re: [v10,3/3] drm/rockchip: Add basic RK3588 HDMI output support
+Message-ID: <790091a1-00af-43bb-8cdf-814f4cc38d83@roeck-us.net>
+References: <20241016-b4-rk3588-bridge-upstream-v10-3-87ef92a6d14e@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241123-asus_qcom_display-v2-4-a0bff8576024@hotmail.com>
-References: <20241123-asus_qcom_display-v2-0-a0bff8576024@hotmail.com>
-In-Reply-To: <20241123-asus_qcom_display-v2-0-a0bff8576024@hotmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Douglas Anderson <dianders@chromium.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Maud Spierings <maud_spierings@hotmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732366736; l=1600;
- i=maud_spierings@hotmail.com; s=20241110; h=from:subject:message-id;
- bh=vMJXwGXqcYHA1iOq+F9o2RBWr2fMV7IxMGdC4E6B5Pk=;
- b=365x96YE6AP/LybGpULNt3Vr0JG9Hmfnj6O5ZshBhwY8zwRr+XMHMUjn9K5v/i9xyCtSGfNCA
- g3MHJQw82pbDiDQAjwkV5+BmmzWObPa1+W1LULiSmFWb4nvQy0K9mvZ
-X-Developer-Key: i=maud_spierings@hotmail.com; a=ed25519;
- pk=CeFKVnZvRfX2QjB1DpdiAe2N+MEjwLEB9Yhx/OAcxRc=
-X-Endpoint-Received: by B4 Relay for maud_spierings@hotmail.com/20241110
- with auth_id=273
-X-Original-From: Maud Spierings <maud_spierings@hotmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241016-b4-rk3588-bridge-upstream-v10-3-87ef92a6d14e@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,70 +100,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: maud_spierings@hotmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maud Spierings <maud_spierings@hotmail.com>
+On Wed, Oct 16, 2024 at 11:06:53PM +0300, Cristian Ciocaltea wrote:
+> The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2.1
+> Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on a
+> Samsung IP block.
+> 
+> Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
+> without audio, CEC or any of the HDMI 2.1 specific features.
+> 
+> Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
+> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
+> Tested-by: Heiko Stuebner <heiko@sntech.de>
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+[ ... ]
 
-Add bluetooth for the asus vivobook s15
+> +static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
+> +{
+> +	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
+> +	struct drm_crtc *crtc = encoder->crtc;
+> +	unsigned long long rate;
+> +
+> +	/* Unconditionally switch to TMDS as FRL is not yet supported */
+> +	gpiod_set_value(hdmi->enable_gpio, 1);
+> +
+> +	if (crtc && crtc->state) {
+> +		rate = drm_hdmi_compute_mode_clock(&crtc->state->adjusted_mode,
+> +						   8, HDMI_COLORSPACE_RGB);
+> +		clk_set_rate(hdmi->ref_clk, rate);
+> +		/*
+> +		 * FIXME: Temporary workaround to pass pixel clock rate
+> +		 * to the PHY driver until phy_configure_opts_hdmi
+> +		 * becomes available in the PHY API. See also the related
+> +		 * comment in rk_hdptx_phy_power_on() from
+> +		 * drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
+> +		 */
+> +		phy_set_bus_width(hdmi->phy, rate / 100);
 
-Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
----
- .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts   | 24 ++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+On 32-bit systems:
 
-diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-index d0bee4b6fc0be6fe40d335f4d50dde495853b315..caf7509692db84c69ad375b5dd07054ac0adcb52 100644
---- a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-+++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-@@ -18,6 +18,11 @@ / {
- 	compatible = "asus,vivobook-s15", "qcom,x1e80100";
- 	chassis-type = "laptop";
- 
-+	aliases {
-+		serial0 = &uart21;
-+		serial1 = &uart14;
-+	};
-+
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 		pinctrl-0 = <&hall_int_n_default>;
-@@ -545,6 +550,14 @@ &tlmm {
- 			       <44 4>, /* SPI (TPM) */
- 			       <238 1>; /* UFS Reset */
- 
-+	bt_en_default: bt-en-sleep {
-+		pins = "gpio116";
-+		function = "gpio";
-+		output-low;
-+		bias-disable;
-+		qcom,drive-strength = <16>;
-+	};
-+
- 	edp_reg_en: edp-reg-en-state {
- 		pins = "gpio70";
- 		function = "gpio";
-@@ -624,6 +637,17 @@ tpad_default: tpad-default-state {
- 	};
- };
- 
-+&uart14 {
-+	status = "okay";
-+	bluetooth: bt_wcn7850 {
-+		compatible = "qcom,wcn7850-bt";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&bt_en_default>;
-+		enable-gpios = <&tlmm 116 GPIO_ACTIVE_HIGH>;
-+		max-speed = <3200000>;
-+	};
-+};
-+
- &usb_1_ss0_hsphy {
- 	vdd-supply = <&vreg_l3j_0p8>;
- 	vdda12-supply = <&vreg_l2j_1p2>;
+ERROR: modpost: "__udivdi3" [drivers/gpu/drm/rockchip/rockchipdrm.ko] undefined!
 
--- 
-2.47.0
+in the mainline kernel.
 
+If the driver is not build tested (much less working) on 32-bit builds,
+please consider restricting it to 64 bit builds.
 
+Thanks,
+Guenter
