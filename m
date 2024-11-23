@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BBF9D682C
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 09:32:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D54D59D6889
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 11:05:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB40E10E02A;
-	Sat, 23 Nov 2024 08:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 709B610E344;
+	Sat, 23 Nov 2024 10:05:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xyx9FjeF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DVygJJJJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 823B110E02A;
- Sat, 23 Nov 2024 08:32:28 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0FE410E1A0;
+ Sat, 23 Nov 2024 10:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732350749; x=1763886749;
+ t=1732356335; x=1763892335;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=QVVQVUkwUKvj4AcABye2tB/9AricLFsjzdPmpmeWWtg=;
- b=Xyx9FjeFtn/34yEbsgnDZ0ytjtN6r8LOZREZ7gH4U2KSdNxvkshBBU1r
- n74V4VLuOlacnQ93WYHxYm2lPQqqDJtwnWSQ4ozsCvyPzT0+I2bs5pkFC
- nZe7u00S3BichV0ys3k4/67cuiTMawZT/6LawPbRi40nQ3TeMDWj5tv2z
- TBjdEXxMr1I7HPTfHzeKyiuLQ4W3wcZCawJNy1MPMnFyNpw8LbyhRMJgm
- RjqNowHflgBqsK09EMM1z5E07bfr6lJUq9VAWndxtF4sKF7FKLgzcuVBv
- c+2u3oAiccrAu/POjfD/BmRgQvuXdkSlThRHFr0fggc945dlzvC1sH2iI w==;
-X-CSE-ConnectionGUID: R2ahCvxUSs+f//PdIuntWA==
-X-CSE-MsgGUID: swhPaGuMQFeMc59wpAf2wQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="36170895"
-X-IronPort-AV: E=Sophos;i="6.12,178,1728975600"; d="scan'208";a="36170895"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2024 00:32:28 -0800
-X-CSE-ConnectionGUID: iFKF55+nTgWHLfTFRbv9zA==
-X-CSE-MsgGUID: GgiivKJNRWeqMgs9wXzwPw==
+ bh=VfFjtMVJJGAyXRv2MDPvzehn2J0t4usVdu6w1H6HT4o=;
+ b=DVygJJJJQaBbMkZ72GkS6vDts++hwhXFLNLnJSu35JCFgcz8aiyWT/KR
+ J8/Hw1YMyB3z8jgkhKEffEepYS3NJRnXxgenDJqNEJ0cX+uGvmdCC/H+I
+ s0SBWSJT7U+BJc1X0mcowSwpMOGTADI5qbpE2I8GZk45oZ22CXNvi/Q1j
+ 7uTFqYUcff/bfmNDOXIIi4F0Ljxkekfj81YHRX3jJ+jPeqRA2SFkkZCTX
+ Zu+o+V7Rdn3MhuUYsNQt/ntQiwsgyT+NZ1kXbylG7/GEEQ+U1y1a/+IFq
+ 0RXLNxfOdyqJ/+suiQfBAoF3brlUZ0wJU62vY8sB5eJzhZXce6FAIjLcY Q==;
+X-CSE-ConnectionGUID: if5SDLfLQp2rOMG85j3K7g==
+X-CSE-MsgGUID: bmSxtB1TQ9GC72yzoPvqyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="55016039"
+X-IronPort-AV: E=Sophos;i="6.12,178,1728975600"; d="scan'208";a="55016039"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2024 02:05:34 -0800
+X-CSE-ConnectionGUID: hw0wb8yPRbu/4r9ZMEGp4w==
+X-CSE-MsgGUID: mDTNnOiESrmz+mqlvhquBw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,178,1728975600"; d="scan'208";a="91144616"
+X-IronPort-AV: E=Sophos;i="6.12,178,1728975600"; d="scan'208";a="114087048"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
- by fmviesa010.fm.intel.com with ESMTP; 23 Nov 2024 00:32:24 -0800
+ by fmviesa002.fm.intel.com with ESMTP; 23 Nov 2024 02:05:31 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tElZ0-0004WV-1g;
- Sat, 23 Nov 2024 08:32:22 +0000
-Date: Sat, 23 Nov 2024 16:31:57 +0800
+ (envelope-from <lkp@intel.com>) id 1tEn17-0004YV-05;
+ Sat, 23 Nov 2024 10:05:29 +0000
+Date: Sat, 23 Nov 2024 18:05:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Mika Laitio <lamikr@gmail.com>, christian.koenig@amd.com,
  Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
  Hawking.Zhang@amd.com, sunil.khatri@amd.com, lijo.lazar@amd.com,
  kevinyang.wang@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH] ammdgpu fix for gfx1103 queue evict/restore crash
-Message-ID: <202411231603.PMbyCkko-lkp@intel.com>
+Message-ID: <202411231721.vBNjHNvr-lkp@intel.com>
 References: <20241121195233.10679-1-lamikr@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -87,45 +87,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Mika-Laitio/ammdgpu-fix-f
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
 patch link:    https://lore.kernel.org/r/20241121195233.10679-1-lamikr%40gmail.com
 patch subject: [PATCH] ammdgpu fix for gfx1103 queue evict/restore crash
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241123/202411231603.PMbyCkko-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411231603.PMbyCkko-lkp@intel.com/reproduce)
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20241123/202411231721.vBNjHNvr-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411231721.vBNjHNvr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411231603.PMbyCkko-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411231721.vBNjHNvr-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:32:
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_priv.h:37:
-   In file included from include/linux/kfifo.h:40:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:1354:1: warning: unused label 'out_unlock' [-Wunused-label]
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c: In function 'restore_process_queues_cpsch':
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:1354:1: warning: label 'out_unlock' defined but not used [-Wunused-label]
     1354 | out_unlock:
-         | ^~~~~~~~~~~
-   5 warnings generated.
+         | ^~~~~~~~~~
 
 
 vim +/out_unlock +1354 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c
