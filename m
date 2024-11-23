@@ -2,90 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EAE29D6A5D
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 17:53:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989659D6A69
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2024 18:00:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5386210E488;
-	Sat, 23 Nov 2024 16:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C78B10E14A;
+	Sat, 23 Nov 2024 17:00:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UQ0s9NER";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ntPQB099";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F331810E488
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 16:53:22 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-53dd59a2bc1so1955783e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 08:53:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732380801; x=1732985601; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=uGUPwF57lUpDM+09PDJEdBkBeZ3TV2DKEpTu1KqQPqA=;
- b=UQ0s9NERNdDpbFSFXpSDki6KLfFMeKSDZzmAuxb8YaltcaQR1aT6O7eksF6ncHYr7a
- YyghFRPDNFtFlUtsMpy/ArRJkgBSyAproqg+cL+taOnJY+DyUMUz9kgoI017aGpjqhnZ
- aaq2ZKAmVLnZkEEsqjswbDDVymJiPGKRXWLVyQveYC6+guB7TiLUN40aeFZtvRpqAi3M
- 7D4986zK84Z5YuKtNPf2Z9JsLT3mkmqhVpUKkB7mNNYTlgG7rWll3w8aHN3AuzqBlXtz
- k45V9oBJDDongnooW4HlEhvNTV3BQGHnmBm+FI/Z11Fjs+PIIXPp2AQp9uaDzSW+cNuD
- A3Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732380801; x=1732985601;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uGUPwF57lUpDM+09PDJEdBkBeZ3TV2DKEpTu1KqQPqA=;
- b=gZd12DIXn7YtbityibhdyXT21Y32fWeY2LPv5pwzpTvdW/0YErE0K6ItGy/tTk18yn
- +luutAmZOydLoky2gfV9i+6ym0EvzlNuXRmRjt6T5osffPTuE81YtjN2EKKkmCIxrbs9
- LWcVsMYwBNEoiBuk0RaMazHXMm7joOVuhV1PI3svreZk0tsExlpRgu/lHmQCMSM0Vw1x
- fyPNSE6JmenojxSg4FhzIfyKJC1tfmxQknW2xYP+y3EgfMssYkKR+FugONWLT684nhfF
- TpQUj61JTk7JihUXesfdt/3a49AIwJlUlWaMjYvxMlrYYQJFSlnueb2dDT/LNgS1GDWT
- gztw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXHn/DBE+KRnFAbCfGHDeI2LpQJVYZPytyalrLy19D8jyx0wk57c+6f4CoXB4ulJ0mH5OJ+AitjE2Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKunTeRv2DedSoSKw3rJQmTAfAYZeftXd1pMWk3lduA3mUVCKz
- /A0NS9JNjzlrPtSJKwQGPiwU9pM7PGc6JwXarBfmJQk20RtlU4AA8s06MOVnAHOVS9OucCNSYcl
- w
-X-Gm-Gg: ASbGnctv7rqhUmUKecIfWEEt2UCpPEtS6D7DG8q7Z19XesCNJh2lL+DU3SJN/ixei47
- 6zVcy5sKtT691itF7EhIN2zL1EsrEbEctFWaMr0FzgD/eRM6bMp8DvvSQmkP71y53ER3bVAMnSa
- ipg8icwhnddXd01lQJPWpMG83aT0GvWVLBSIQ/iwmLeIAP1NAQW5hIbOWz+hPdyU3jF5PLlypUO
- 1w8h43B742kwBo3BpZH/G2Ab6xIhqpWfwPi2el/31jhx0lcrrcW65ZVfQUPgmVqYxFqjqe5eVrO
- UZsDkMKECf67Z6j14+gaTdD+2wyDqw==
-X-Google-Smtp-Source: AGHT+IEGUEUW/qjW1XWol/fb/+AKJJnBh0CubV0b0MiwHenTkb70vpQEXvskpJZN/kj1uuxbzT7hnA==
-X-Received: by 2002:a05:6512:308b:b0:53d:de12:f344 with SMTP id
- 2adb3069b0e04-53dde12f5acmr825645e87.9.1732380801124; 
- Sat, 23 Nov 2024 08:53:21 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd2481424sm982082e87.133.2024.11.23.08.53.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Nov 2024 08:53:19 -0800 (PST)
-Date: Sat, 23 Nov 2024 18:53:18 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: maud_spierings@hotmail.com
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Douglas Anderson <dianders@chromium.org>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: x1e80100-vivobook-s15: Add
- bluetooth
-Message-ID: <si5njacaffc3iajhjqwtdfsouj4vrhzvdicp2tu4t32ra5d6xj@gsppoxpxw2xh>
-References: <20241123-asus_qcom_display-v2-0-a0bff8576024@hotmail.com>
- <20241123-asus_qcom_display-v2-4-a0bff8576024@hotmail.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDDAF10E14A
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 17:00:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1732381216;
+ bh=DM4//eNbZfyM12Q86uc6Jzb8gKZsqYiM1dGZdtheaPA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ntPQB099Xe19Nq1wv7qUNrHaeM30rWPpT/0tCTr7/2/I1VxyUxq4dzUB3X/Qx2+Pr
+ ssWMaXRb+iQ6kHWhEjHjuleGLSzpFBbUC+FqcjTQ7N/+8YPv/MwyCCkPBlHrSv/C8c
+ dcxMeVjxDntGglRfxBlg25WvG5lXuWkGpnqo5zvf2bRkr6nH+uZSDgtMEUmULmZzgK
+ p6nm3MDAnTgVKHJAMP3rpPvnY77VDQeP0VzNqgiVoXDjw1C+SWVhm5g878K8EGyqWe
+ n4Mb1x0NV9FbimSGm3PcNTJuw3AepCY0p1ydHcr8G8gnBrGPDON0nBZINGEDV3qJlk
+ NB7JO8wocAd/Q==
+Received: from [192.168.1.90] (unknown [86.120.21.57])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3840417E376B;
+ Sat, 23 Nov 2024 18:00:15 +0100 (CET)
+Message-ID: <2c7fc07c-b431-4384-8dc6-3ae77b18367e@collabora.com>
+Date: Sat, 23 Nov 2024 19:00:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241123-asus_qcom_display-v2-4-a0bff8576024@hotmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v10,3/3] drm/rockchip: Add basic RK3588 HDMI output support
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
+References: <20241016-b4-rk3588-bridge-upstream-v10-3-87ef92a6d14e@collabora.com>
+ <790091a1-00af-43bb-8cdf-814f4cc38d83@roeck-us.net>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <790091a1-00af-43bb-8cdf-814f4cc38d83@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,74 +77,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 23, 2024 at 01:58:56PM +0100, Maud Spierings via B4 Relay wrote:
-> From: Maud Spierings <maud_spierings@hotmail.com>
+On 11/23/24 5:56 PM, Guenter Roeck wrote:
+> On Wed, Oct 16, 2024 at 11:06:53PM +0300, Cristian Ciocaltea wrote:
+>> The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2.1
+>> Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on a
+>> Samsung IP block.
+>>
+>> Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
+>> without audio, CEC or any of the HDMI 2.1 specific features.
+>>
+>> Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
+>> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
+>> Tested-by: Heiko Stuebner <heiko@sntech.de>
+>> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+> [ ... ]
 > 
-> Add bluetooth for the asus vivobook s15
+>> +static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
+>> +{
+>> +	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
+>> +	struct drm_crtc *crtc = encoder->crtc;
+>> +	unsigned long long rate;
+>> +
+>> +	/* Unconditionally switch to TMDS as FRL is not yet supported */
+>> +	gpiod_set_value(hdmi->enable_gpio, 1);
+>> +
+>> +	if (crtc && crtc->state) {
+>> +		rate = drm_hdmi_compute_mode_clock(&crtc->state->adjusted_mode,
+>> +						   8, HDMI_COLORSPACE_RGB);
+>> +		clk_set_rate(hdmi->ref_clk, rate);
+>> +		/*
+>> +		 * FIXME: Temporary workaround to pass pixel clock rate
+>> +		 * to the PHY driver until phy_configure_opts_hdmi
+>> +		 * becomes available in the PHY API. See also the related
+>> +		 * comment in rk_hdptx_phy_power_on() from
+>> +		 * drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
+>> +		 */
+>> +		phy_set_bus_width(hdmi->phy, rate / 100);
 > 
-> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
-> ---
->  .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts   | 24 ++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+> On 32-bit systems:
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-> index d0bee4b6fc0be6fe40d335f4d50dde495853b315..caf7509692db84c69ad375b5dd07054ac0adcb52 100644
-> --- a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-> +++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-> @@ -18,6 +18,11 @@ / {
->  	compatible = "asus,vivobook-s15", "qcom,x1e80100";
->  	chassis-type = "laptop";
->  
-> +	aliases {
-> +		serial0 = &uart21;
-> +		serial1 = &uart14;
-> +	};
-> +
->  	gpio-keys {
->  		compatible = "gpio-keys";
->  		pinctrl-0 = <&hall_int_n_default>;
-> @@ -545,6 +550,14 @@ &tlmm {
->  			       <44 4>, /* SPI (TPM) */
->  			       <238 1>; /* UFS Reset */
->  
-> +	bt_en_default: bt-en-sleep {
-> +		pins = "gpio116";
-> +		function = "gpio";
-> +		output-low;
-> +		bias-disable;
-> +		qcom,drive-strength = <16>;
-> +	};
-> +
->  	edp_reg_en: edp-reg-en-state {
->  		pins = "gpio70";
->  		function = "gpio";
-> @@ -624,6 +637,17 @@ tpad_default: tpad-default-state {
->  	};
->  };
->  
-> +&uart14 {
-> +	status = "okay";
-> +	bluetooth: bt_wcn7850 {
-> +		compatible = "qcom,wcn7850-bt";
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&bt_en_default>;
-> +		enable-gpios = <&tlmm 116 GPIO_ACTIVE_HIGH>;
-> +		max-speed = <3200000>;
+> ERROR: modpost: "__udivdi3" [drivers/gpu/drm/rockchip/rockchipdrm.ko] undefined!
+> 
+> in the mainline kernel.
 
-Please describe the PMU as per the qualcomm-bluetooth.yaml
+Yeah, that's a known issue and has been already fixed:
 
-> +	};
-> +};
-> +
->  &usb_1_ss0_hsphy {
->  	vdd-supply = <&vreg_l3j_0p8>;
->  	vdda12-supply = <&vreg_l2j_1p2>;
-> 
-> -- 
-> 2.47.0
-> 
-> 
+https://lore.kernel.org/lkml/20241018151016.3496613-1-arnd@kernel.org/
 
--- 
-With best wishes
-Dmitry
+Thanks,
+Cristian
