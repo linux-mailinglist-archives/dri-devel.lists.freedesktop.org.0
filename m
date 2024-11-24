@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5D69D7140
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:46:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1AC9D7141
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:46:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D59010E52B;
-	Sun, 24 Nov 2024 13:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD5310E52D;
+	Sun, 24 Nov 2024 13:46:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bu3GSnAK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cLNB+Z2D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1FBE10E52B
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:46:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D5A10E52C
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:46:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 944355C56DD;
- Sun, 24 Nov 2024 13:45:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB178C4CED1;
- Sun, 24 Nov 2024 13:46:38 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1ECCB5C56D4;
+ Sun, 24 Nov 2024 13:45:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57842C4CED1;
+ Sun, 24 Nov 2024 13:46:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732455999;
- bh=qdiB0thozglpFuFyTlIZMBwLPGTZmLhXJH68DX3ouZU=;
- h=From:To:Cc:Subject:Date:From;
- b=bu3GSnAKhYTk1rnzyvSx1LlcXKhcSht4Vnk0JWVS4hT2f0PsXqNcdRXDU21QESWop
- Miq4DtlBIr5WK6wGUlMLqfH6QmAUhJU4tjQMAWaNrJw2obaMpU+WepO4sQYQwdmU+D
- mQuZtN6ut3qkEr40lGkK7ie20TBjoVaQbj1sJy3I2Lm8OrqOBGEgPQyPi31+AARzyq
- Hh3CO75/PfbhLKc7OBO52JXbF0qvorXmAgn8u465kqmGlMuCsRF5ep1XfcLHx+8pij
- M78dPiiZrU4PiK5BE+ZDMppmNXqFWA/LVSICNbRzsCKue3FmVbMAz9RjlQ0POg4jPA
- 3TuxvJgz2FBrw==
+ s=k20201202; t=1732456001;
+ bh=TGY2yGGAe+1YXMUR63rNphBSEVUK/it2zX+cS+cyeiE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=cLNB+Z2DRLRzlyJrooq70f6KnKc9y/L7fBJ1qCrcmjEA18PpbZbi4klBb3cV6aHTk
+ k/wIil3fhYwwDlBcO2MzJhcrP43Bs9zwLCTWwjv7G+gtv6EUmRT1KulevKKutEEB79
+ SGLwXj/MD7Oe++MbO+trbKuzxNjWMrIO/MPwh8vTVNkE25tWXYv5lcVPxubdUq/Mve
+ YjpjSwpAneI0KB1D5wln+DvY84SETcolku2cip3tutzM0jFy17MG2HnXQ9JqQWesoH
+ Uptg9IcoEq4Z5k5izipP41aXbW+WoYYXzsxR8fIf/Y/DJKJv/aQQlH5dArb79x9o+r
+ XWExAGj2QHDPw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Dom Cobley <popcornmix@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 01/61] drm/vc4: hdmi: Avoid log spam for audio
- start failure
-Date: Sun, 24 Nov 2024 08:44:36 -0500
-Message-ID: <20241124134637.3346391-1-sashal@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 02/61] drm/vc4: hvs: Set AXI panic modes for the
+ HVS
+Date: Sun, 24 Nov 2024 08:44:37 -0500
+Message-ID: <20241124134637.3346391-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241124134637.3346391-1-sashal@kernel.org>
+References: <20241124134637.3346391-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,44 +64,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dom Cobley <popcornmix@gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-[ Upstream commit b4e5646178e86665f5caef2894578600f597098a ]
+[ Upstream commit 014eccc9da7bfc76a3107fceea37dd60f1d63630 ]
 
-We regularly get dmesg error reports of:
-[   18.184066] hdmi-audio-codec hdmi-audio-codec.3.auto: ASoC: error at snd_soc_dai_startup on i2s-hifi: -19
-[   18.184098]  MAI: soc_pcm_open() failed (-19)
+The HVS can change AXI request mode based on how full the COB
+FIFOs are.
+Until now the vc4 driver has been relying on the firmware to
+have set these to sensible values.
 
-These are generated for any disconnected hdmi interface when pulseaudio
-attempts to open the associated ALSA device (numerous times). Each open
-generates a kernel error message, generating general log spam.
+With HVS channel 2 now being used for live video, change the
+panic mode for all channels to be explicitly set by the driver,
+and the same for all channels.
 
-The error messages all come from _soc_pcm_ret in sound/soc/soc-pcm.c#L39
-which suggests returning ENOTSUPP, rather that ENODEV will be quiet.
-And indeed it is.
-
-Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240621152055.4180873-5-dave.stevenson@raspberrypi.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20240621152055.4180873-7-dave.stevenson@raspberrypi.com
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index c6e986f71a26f..7cabfa1b883d2 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -2392,7 +2392,7 @@ static int vc4_hdmi_audio_startup(struct device *dev, void *data)
- 	}
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index 04af672caacb1..267c9fde7362d 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -951,6 +951,17 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 			      SCALER_DISPCTRL_SCLEIRQ);
  
- 	if (!vc4_hdmi_audio_can_stream(vc4_hdmi)) {
--		ret = -ENODEV;
-+		ret = -ENOTSUPP;
- 		goto out_dev_exit;
- 	}
  
++	/* Set AXI panic mode.
++	 * VC4 panics when < 2 lines in FIFO.
++	 * VC5 panics when less than 1 line in the FIFO.
++	 */
++	dispctrl &= ~(SCALER_DISPCTRL_PANIC0_MASK |
++		      SCALER_DISPCTRL_PANIC1_MASK |
++		      SCALER_DISPCTRL_PANIC2_MASK);
++	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC0);
++	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC1);
++	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC2);
++
+ 	/* Set AXI panic mode.
+ 	 * VC4 panics when < 2 lines in FIFO.
+ 	 * VC5 panics when less than 1 line in the FIFO.
 -- 
 2.43.0
 
