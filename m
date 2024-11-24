@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12BF9D70DA
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:41:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6185A9D70DC
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:41:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13B9810E502;
-	Sun, 24 Nov 2024 13:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87A2310E504;
+	Sun, 24 Nov 2024 13:41:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="piNTJuPp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j7B0nEyo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A47C610E4FE;
- Sun, 24 Nov 2024 13:41:16 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30F5510E502;
+ Sun, 24 Nov 2024 13:41:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7A3F45C4A5F;
- Sun, 24 Nov 2024 13:40:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F902C4CED1;
- Sun, 24 Nov 2024 13:41:13 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2B3C0A40B7D;
+ Sun, 24 Nov 2024 13:39:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41EF0C4CED3;
+ Sun, 24 Nov 2024 13:41:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732455675;
- bh=hQ5NY1jaizmgk7a+NJFuengPPuLOsa5k6ked4uj/5pA=;
+ s=k20201202; t=1732455678;
+ bh=M8vWynzc5IbnBUi2s8iUj8xr3SRbhHvpKk1BCl3C+H8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=piNTJuPpftAEQlx21ZBYy22p5Oj/p24yI9WbnmaA/1eAB4zgzSwWk29RG1Uz78rMf
- Ay9iAkmYlRQunRZBwp+nhqXx76yNXfLIzo7KLgGnTPwjPVI3B2VzuABnl9uZWRXbbk
- UOFUmhKZ1Oi4ZQVqAdfobh8iftroI/2sCZKESV0lqb2istaEXCJLLl8wQFb+Pak48k
- EZe04taAJdM4OuvEtWZLGaZbrFIykpJZkwsYo1BWV4AwTd/IaXHR6cruTmPNlz2AKM
- 80Dw2rZaV23Niy3NmZZRt5wtVIsocu9ccOCDwk5ZOdDpTRuNrd2DphG7Ikw64W+qZv
- 7W6RmhyLH588A==
+ b=j7B0nEyo9DbQ8XqPCQakpeLGNgDaUbu6Lw589cgIpdsuPgokC0jJjWguoZ/CW6NCT
+ iUjJ4FeaVkGfoD978fa/ckyd6bR3pX0kk1izlTnPB4C6BGGd6XTsS8cCFLaAkMEgwm
+ zDUjHvO/CtqiGGV5cPkw5RP331O/2ykQmTdaBChvZniciZB8MSALOmhXBDpT4N6f30
+ wHYj7KQsg2dTw22R4xY1oyMdePzGaArFKwULGAseGfUJ/bfVCODAzjXZp/a3A/jhma
+ cRp0qam5G1lj793F0SN/xWXJgHVWUZEPqXtSwPKgE/GeKIjIyBoWgtREN6KBG4Sdwv
+ gkY1utDeruYIw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@intel.com>, Sasha Levin <sashal@kernel.org>,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, airlied@gmail.com, simona@ffwll.ch,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 06/87] drm/xe/pciids: Add PVC's PCI device ID
- macros
-Date: Sun, 24 Nov 2024 08:37:44 -0500
-Message-ID: <20241124134102.3344326-6-sashal@kernel.org>
+Cc: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>,
+ Sai Teja Pottumuttu <sai.teja.pottumuttu@intel.com>,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, Sasha Levin <sashal@kernel.org>,
+ jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+ lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ simona@ffwll.ch, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.11 07/87] drm/xe/pciid: Add new PCI id for ARL
+Date: Sun, 24 Nov 2024 08:37:45 -0500
+Message-ID: <20241124134102.3344326-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124134102.3344326-1-sashal@kernel.org>
 References: <20241124134102.3344326-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.11.10
@@ -71,53 +68,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+From: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
 
-[ Upstream commit 5b40191152282e1f25d7b9826bcda41be927b39f ]
+[ Upstream commit 35667a0330612bb25a689e4d3a687d47cede1d7a ]
 
-Add PVC PCI IDs to the xe_pciids.h header. They're not yet used in the
-driver.
+Add new PCI id for ARL platform.
 
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/6ac1829493a53a3fec889c746648d627a0296892.1725624296.git.jani.nikula@intel.com
+v2: Fix typo in PCI id (SaiTeja)
+
+Signed-off-by: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
+Reviewed-by: Sai Teja Pottumuttu <sai.teja.pottumuttu@intel.com>
+Reviewed-by: Tejas Upadhyay <tejas.upadhyay@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240912115906.2730577-1-dnyaneshwar.bhadane@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/drm/intel/xe_pciids.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ include/drm/intel/xe_pciids.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/include/drm/intel/xe_pciids.h b/include/drm/intel/xe_pciids.h
-index 67dad09e62bc8..59233eb008628 100644
+index 59233eb008628..4ba88d2dccd4b 100644
 --- a/include/drm/intel/xe_pciids.h
 +++ b/include/drm/intel/xe_pciids.h
-@@ -189,6 +189,22 @@
- 	MACRO__(0x7D60, ## __VA_ARGS__),	\
- 	MACRO__(0x7DD5, ## __VA_ARGS__)
+@@ -179,7 +179,8 @@
+ 	MACRO__(0x7D41, ## __VA_ARGS__),	\
+ 	MACRO__(0x7D51, ## __VA_ARGS__),        \
+ 	MACRO__(0x7D67, ## __VA_ARGS__),	\
+-	MACRO__(0x7DD1, ## __VA_ARGS__)
++	MACRO__(0x7DD1, ## __VA_ARGS__),	\
++	MACRO__(0xB640, ## __VA_ARGS__)
  
-+/* PVC */
-+#define XE_PVC_IDS(MACRO__, ...)		\
-+	MACRO__(0x0B69, ## __VA_ARGS__),	\
-+	MACRO__(0x0B6E, ## __VA_ARGS__),	\
-+	MACRO__(0x0BD4, ## __VA_ARGS__),	\
-+	MACRO__(0x0BD5, ## __VA_ARGS__),	\
-+	MACRO__(0x0BD6, ## __VA_ARGS__),	\
-+	MACRO__(0x0BD7, ## __VA_ARGS__),	\
-+	MACRO__(0x0BD8, ## __VA_ARGS__),	\
-+	MACRO__(0x0BD9, ## __VA_ARGS__),	\
-+	MACRO__(0x0BDA, ## __VA_ARGS__),	\
-+	MACRO__(0x0BDB, ## __VA_ARGS__),	\
-+	MACRO__(0x0BE0, ## __VA_ARGS__),	\
-+	MACRO__(0x0BE1, ## __VA_ARGS__),	\
-+	MACRO__(0x0BE5, ## __VA_ARGS__)
-+
- #define XE_LNL_IDS(MACRO__, ...) \
- 	MACRO__(0x6420, ## __VA_ARGS__), \
- 	MACRO__(0x64A0, ## __VA_ARGS__), \
+ /* MTL */
+ #define XE_MTL_IDS(MACRO__, ...)		\
 -- 
 2.43.0
 
