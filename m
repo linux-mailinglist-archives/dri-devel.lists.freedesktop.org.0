@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B256A9D7184
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:50:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699B99D718B
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:50:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09E6810E54A;
-	Sun, 24 Nov 2024 13:50:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE2AD10E548;
+	Sun, 24 Nov 2024 13:50:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GVZLs84B";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FS1HSVjB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A23310E549
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:50:10 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3165A10E548
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:50:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F0A0E5C54A1;
- Sun, 24 Nov 2024 13:49:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8884C4CECC;
- Sun, 24 Nov 2024 13:50:07 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 52248A40D2E;
+ Sun, 24 Nov 2024 13:48:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B708EC4CECC;
+ Sun, 24 Nov 2024 13:50:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732456209;
- bh=v2AETwvszsaxg3r7uA01/4mHUF0zeFnmwO/A5luv1MM=;
+ s=k20201202; t=1732456238;
+ bh=uln1lei77Pj53kB085hGFKEWhBGmqGJ63WaSDGh13gI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GVZLs84BsTGmnMlgkPjN4TgUc0gp2EHL/RIeF5bGhGUVmRrUm+95t6Zweav0NkGsu
- eUtD8OzmkNbfOR8BlWzY2m30G3iBaCuFdrJZhl0M4MEdLPJR2xhZkHrb4Ev5MDTWX7
- YBmr9mY0TsgJ/QysrJlu8lwAi4WHIG+fxF7j/YcTDeWzyEtPjtzdcl1vmqxTtHnf/Q
- VX+U1mv3kdiXve/aUvZ0Pn0ymmO+BpLOYa4xRzBZkVWyKb2hefluXyUmL6z1OovG6E
- mQjYrJUkM1Ei/dKd6gFaPZV3x0VmRB91P+8QcxjLj40QOWlU+2iROch7EvAfCIigBY
- zx1FeMqZQlq8g==
+ b=FS1HSVjBntE+8Ji+P+a+N43PQbtcyxYBrgGO6OysXe5hQ/9B0LhC2uM5uKVldM5V9
+ WrSBaUTxx6HErlU1vXXoT40H22jh+vrZKwaw1vxPtZCLlmTYeTApf0nnAi5HRtea27
+ uLbf/lVgTDMDwUmul+csr0I42Nx6wkKzj/WeB/7cG6s4yaMQHpKEE+LbJ3fxQenQUD
+ MYWWELSfhNSuMgfJ7xMndq0HU5dVDPkQCe10zAjRNofHWitnTjBKNZCN0pfT260+W0
+ RERcfsm65PXgjGyf275cgquVWC8kWdcMeqvBY+tYEzcCx8ijRWyklFUNNzLecMRyhe
+ U/DkasdB/SKiQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Brahmajit Das <brahmajit.xyz@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, Sasha Levin <sashal@kernel.org>,
+Cc: Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Dharma Balasubiramani <dharma.b@microchip.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sasha Levin <sashal@kernel.org>, neil.armstrong@linaro.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dmitry.baryshkov@linaro.org,
- rdunlap@infradead.org, oleksandr@natalenko.name,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 09/48] drm/display: Fix building with GCC 15
-Date: Sun, 24 Nov 2024 08:48:32 -0500
-Message-ID: <20241124134950.3348099-9-sashal@kernel.org>
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 24/48] drm/panel: simple: Add Microchip AC69T88A
+ LVDS Display panel
+Date: Sun, 24 Nov 2024 08:48:47 -0500
+Message-ID: <20241124134950.3348099-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124134950.3348099-1-sashal@kernel.org>
 References: <20241124134950.3348099-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.119
@@ -66,50 +66,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Brahmajit Das <brahmajit.xyz@gmail.com>
+From: Manikandan Muralidharan <manikandan.m@microchip.com>
 
-[ Upstream commit a500f3751d3c861be7e4463c933cf467240cca5d ]
+[ Upstream commit 40da1463cd6879f542238b36c1148f517927c595 ]
 
-GCC 15 enables -Werror=unterminated-string-initialization by default.
-This results in the following build error
+Add support for Microchip AC69T88A 5 inch TFT LCD 800x480
+Display module with LVDS interface.The panel uses the Sitronix
+ST7262 800x480 Display driver
 
-drivers/gpu/drm/display/drm_dp_dual_mode_helper.c: In function ‘is_hdmi_adaptor’:
-drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:164:17: error: initializer-string for array of
- ‘char’ is too long [-Werror=unterminated-string-initialization]
-  164 |                 "DP-HDMI ADAPTOR\x04";
-      |                 ^~~~~~~~~~~~~~~~~~~~~
-
-After discussion with Ville, the fix was to increase the size of
-dp_dual_mode_hdmi_id array by one, so that it can accommodate the NULL
-line character. This should let us build the kernel with GCC 15.
-
-Signed-off-by: Brahmajit Das <brahmajit.xyz@gmail.com>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241002092311.942822-1-brahmajit.xyz@gmail.com
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240919091548.430285-2-manikandan.m@microchip.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-index bd61e20770a5b..719da3610310f 100644
---- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-@@ -160,11 +160,11 @@ EXPORT_SYMBOL(drm_dp_dual_mode_write);
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index b560d62b6e219..a35e94e2ffd06 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3908,6 +3908,31 @@ static const struct panel_desc yes_optoelectronics_ytc700tlag_05_201c = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
  
- static bool is_hdmi_adaptor(const char hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN])
- {
--	static const char dp_dual_mode_hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN] =
-+	static const char dp_dual_mode_hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN + 1] =
- 		"DP-HDMI ADAPTOR\x04";
- 
- 	return memcmp(hdmi_id, dp_dual_mode_hdmi_id,
--		      sizeof(dp_dual_mode_hdmi_id)) == 0;
-+		      DP_DUAL_MODE_HDMI_ID_LEN) == 0;
- }
- 
- static bool is_type1_adaptor(uint8_t adaptor_id)
++static const struct drm_display_mode mchp_ac69t88a_mode = {
++	.clock = 25000,
++	.hdisplay = 800,
++	.hsync_start = 800 + 88,
++	.hsync_end = 800 + 88 + 5,
++	.htotal = 800 + 88 + 5 + 40,
++	.vdisplay = 480,
++	.vsync_start = 480 + 23,
++	.vsync_end = 480 + 23 + 5,
++	.vtotal = 480 + 23 + 5 + 1,
++};
++
++static const struct panel_desc mchp_ac69t88a = {
++	.modes = &mchp_ac69t88a_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 108,
++		.height = 65,
++	},
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++};
++
+ static const struct drm_display_mode arm_rtsm_mode[] = {
+ 	{
+ 		.clock = 65000,
+@@ -4325,6 +4350,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "yes-optoelectronics,ytc700tlag-05-201c",
+ 		.data = &yes_optoelectronics_ytc700tlag_05_201c,
++	}, {
++		.compatible = "microchip,ac69t88a",
++		.data = &mchp_ac69t88a,
+ 	}, {
+ 		/* Must be the last entry */
+ 		.compatible = "panel-dpi",
 -- 
 2.43.0
 
