@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F569D759E
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 17:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5F29D75A0
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 17:00:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4152910E1B2;
-	Sun, 24 Nov 2024 16:00:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0EE10E2B1;
+	Sun, 24 Nov 2024 16:00:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IBB2/rfT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PU2Uo9sr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC3510E1B2
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 16:00:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D69F110E2B1
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 16:00:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B420DA40EB8;
- Sun, 24 Nov 2024 15:58:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E72C4C4CECC;
- Sun, 24 Nov 2024 16:00:16 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id DED67A406A2;
+ Sun, 24 Nov 2024 15:58:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C9ADC4CECC;
+ Sun, 24 Nov 2024 16:00:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732464022;
- bh=TtwQa7Cz64NiyiL7yQQi9MM3whYRpW1ChtxiMW8VdCA=;
+ s=k20201202; t=1732464027;
+ bh=yPM2R8H9WSiMzfazSl3eDQEsjHow+ps+HZ013vUoWM0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IBB2/rfTaGp3UHxlmRQAMJwWGG/quVAwflubbqadX8kOX52TS4D8vpUZjBDafEgX9
- uA+l1ohGbmo8Wy3Y6xPWCt3NWajrr2+wUbnz6w0Lgq7BGEyLj7BlLN3jtGiHq/DwaE
- pj9tz6BCn+E880qL2j6mheszCPlWy7t1B7PvsatDb6iqLW7uwR+iXEyEDOojLXy+bd
- gsIblAG6D8nbe1aNwx7xsL05SYG9rPmLOHaKn73xPtdIqF647j336TrN7jlBEE4WDz
- NnUtQJ4IHuL/XB66EtdJt+zA/4FcVii8TvLIKg0YIyWJCZSVEodeBbQ1Dsh9stZUWh
- WkjHtrMh82KHA==
-Message-ID: <e36ef337-034b-47df-8225-636616aa2fcb@kernel.org>
-Date: Sun, 24 Nov 2024 17:00:13 +0100
+ b=PU2Uo9srwS7CExnm1A2xUMMtL4KmTtO2tz2KGYRMKbBfO0vOyrGMrRURu3OH6gTtp
+ x2HbFW7wY/s0VCL8OPkxM4gqJXrE5Sh1bqlPwpwscICdmJWaCiG1lLO6dWzGe4+Lz4
+ B6y9oeH7xAzY/gL/+gig/EYGNMWxsTchZBd23YG3rZj4NyCINU0T6Owy41i3rdyNBg
+ 5Ho/uF4eECx2g2PvVTi/IHMDvmo82T23+faaVYE1jQEokRZbw1vY/qsK/FqpkhuzB4
+ +qWVPA0Zxz5xBrdlFFGdfpdS9enw0krH/D/1mU/0F1LtFKvjhBgHw097IfCnsrNZDT
+ wQwUGV7fHLL3w==
+Message-ID: <55088a30-c32e-4012-ac9d-755df085f6b0@kernel.org>
+Date: Sun, 24 Nov 2024 17:00:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 1/4] dt-bindings: display: panel: samsung,atna56ac03:
  Document ATNA56AC03
-To: Maud Spierings <maud_spierings@hotmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+To: maud_spierings@hotmail.com, Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -45,13 +44,11 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Douglas Anderson
  <dianders@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
 References: <20241124-asus_qcom_display-v3-0-002b723b1920@hotmail.com>
  <20241124-asus_qcom_display-v3-1-002b723b1920@hotmail.com>
- <k27rqbfvuon3uppgyhcfhcmlqv7ritbn35fmhuljnw2ievqnia@rey3cljv2p2n>
- <VE1P189MB1024FED800B8291EFAA52B15E32D2@VE1P189MB1024.EURP189.PROD.OUTLOOK.COM>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -97,7 +94,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <VE1P189MB1024FED800B8291EFAA52B15E32D2@VE1P189MB1024.EURP189.PROD.OUTLOOK.COM>
+In-Reply-To: <20241124-asus_qcom_display-v3-1-002b723b1920@hotmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,21 +112,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/11/2024 13:29, Maud Spierings wrote:
->> If a tag was not added on purpose, please state why and what changed.
->> </form letter>
->>
->> Best regards,
->> Krzysztof
->>
-> I did indeed completely miss it, only focussed on the correction, Should 
-> I make a new version?
-> Also this is my first time replying on the list so I hope this goes well.
+On 24/11/2024 11:00, Maud Spierings via B4 Relay wrote:
+> From: Maud Spierings <maud_spierings@hotmail.com>
 > 
-> When I add one of these tags it should be in the commit message of that 
-> patch below three dashes?
+> The Samsung ATNA56AC03 panel is an AMOLED eDP panel.
+> It is similar to the ATNA33xc20 except it is larger and has a different
+> resolution.
+> 
+> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
 
-b4 trailers -u
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
