@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A3F9D71AE
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7743D9D71AF
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:53:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 256CC10E55C;
-	Sun, 24 Nov 2024 13:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4FB410E55D;
+	Sun, 24 Nov 2024 13:52:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uaQ5M04K";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h+bHCKzw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E75E10E55C
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:52:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2FC010E55D;
+ Sun, 24 Nov 2024 13:52:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2973EA40D97;
- Sun, 24 Nov 2024 13:51:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A45FC4CECC;
- Sun, 24 Nov 2024 13:52:51 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D62E8A40D92;
+ Sun, 24 Nov 2024 13:51:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3217FC4CED1;
+ Sun, 24 Nov 2024 13:52:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732456372;
- bh=yAGSKL+sNXerdLO0tQVXU9hiIG+bMw/XbZPTfn+ECVE=;
+ s=k20201202; t=1732456376;
+ bh=KY3M96KF9jlDyoFEBSf9p2tiVAmi4xoq3ddWZKaXixw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uaQ5M04KQhfgyQs5xol33YdDFNmkrtwdZjh5dmEG1+q53TmXzNYVRtli1pynNj0MV
- soqfXCQU4mnSpJpF0ktGqzpLe6ixy6OnQ6u/x/I7zKOhVSSQDLy12sYwLegHQtjO3u
- 1I64JB3+mYR8ACBdg2E4CX6nmqbGyxCjVJUfSli5Pban6d6ZpiHNq+gA1qrl8nsHAy
- E6uw3zNvXw7tWgkh50EKvcIGp/X4OQrZaxOmRsI7EChhMZzH4tvU2CIz+xxO7xuOLH
- +2eOHD64nXFFRNOBPGOgf3Uz/KUGt2AnhLwbzdTyTIo8ij0HhUNr2HOjy6J8i26+nH
- VBhEs/6FYzI6A==
+ b=h+bHCKzwC2K/XBzS5WB4JxQoaxMu38Jbn311evQ+MYIu97Dz7SlOGgnNxuBIMK5Jm
+ YOrGWzHzokzfmNp/60HJFQJdKydQWuoHb+zAOktkavPqGaz2g9jPqGq7AqygpN3lqK
+ WQWzFB377btGWTHh8dV9F22zY/JsO6Zc8ZBTgXQULQ8o+qxl8BocmYKnLKLFKGrpLg
+ wYDH6uWk9X4VAeoo0uxCquaecaB2ec4IATE6K3tIiMNETw6Bt4gttTfDf8wFNpws3m
+ FCRVS2ExvaASdbcKMNDpF1zJcYCdrLY815ov6av0/XEieSoLmYdk3v8i0d7dCib7Gf
+ Hrc5bJTKdPP1A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Manikandan Muralidharan <manikandan.m@microchip.com>,
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sasha Levin <sashal@kernel.org>, neil.armstrong@linaro.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 18/36] drm/panel: simple: Add Microchip AC69T88A
- LVDS Display panel
-Date: Sun, 24 Nov 2024 08:51:32 -0500
-Message-ID: <20241124135219.3349183-18-sashal@kernel.org>
+Cc: Victor Lu <victorchengchi.lu@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, sunil.khatri@amd.com, friedrich.vock@gmx.de,
+ Hawking.Zhang@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.15 19/36] drm/amdgpu: clear RB_OVERFLOW bit when
+ enabling interrupts for vega20_ih
+Date: Sun, 24 Nov 2024 08:51:33 -0500
+Message-ID: <20241124135219.3349183-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124135219.3349183-1-sashal@kernel.org>
 References: <20241124135219.3349183-1-sashal@kernel.org>
@@ -66,70 +66,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
+From: Victor Lu <victorchengchi.lu@amd.com>
 
-[ Upstream commit 40da1463cd6879f542238b36c1148f517927c595 ]
+[ Upstream commit 8b22f048331dfd45fdfbf0efdfb1d43deff7518d ]
 
-Add support for Microchip AC69T88A 5 inch TFT LCD 800x480
-Display module with LVDS interface.The panel uses the Sitronix
-ST7262 800x480 Display driver
+Port this change to vega20_ih.c:
+commit afbf7955ff01 ("drm/amdgpu: clear RB_OVERFLOW bit when enabling interrupts")
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240919091548.430285-2-manikandan.m@microchip.com
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Original commit message:
+"Why:
+Setting IH_RB_WPTR register to 0 will not clear the RB_OVERFLOW bit
+if RB_ENABLE is not set.
+
+How to fix:
+Set WPTR_OVERFLOW_CLEAR bit after RB_ENABLE bit is set.
+The RB_ENABLE bit is required to be set, together with
+WPTR_OVERFLOW_ENABLE bit so that setting WPTR_OVERFLOW_CLEAR bit
+would clear the RB_OVERFLOW."
+
+Signed-off-by: Victor Lu <victorchengchi.lu@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c | 27 ++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 26c99ffe787cd..67412115b4b30 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -4453,6 +4453,31 @@ static const struct panel_desc yes_optoelectronics_ytc700tlag_05_201c = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
+diff --git a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
+index 87edd1908e8b9..9e1ed14cc3141 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
+@@ -109,6 +109,33 @@ static int vega20_ih_toggle_ring_interrupts(struct amdgpu_device *adev,
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, RB_ENABLE, (enable ? 1 : 0));
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, RB_GPU_TS_ENABLE, 1);
  
-+static const struct drm_display_mode mchp_ac69t88a_mode = {
-+	.clock = 25000,
-+	.hdisplay = 800,
-+	.hsync_start = 800 + 88,
-+	.hsync_end = 800 + 88 + 5,
-+	.htotal = 800 + 88 + 5 + 40,
-+	.vdisplay = 480,
-+	.vsync_start = 480 + 23,
-+	.vsync_end = 480 + 23 + 5,
-+	.vtotal = 480 + 23 + 5 + 1,
-+};
++	if (enable) {
++		/* Unset the CLEAR_OVERFLOW bit to make sure the next step
++		 * is switching the bit from 0 to 1
++		 */
++		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++		if (amdgpu_sriov_vf(adev) && amdgpu_sriov_reg_indirect_ih(adev)) {
++			if (psp_reg_program(&adev->psp, ih_regs->psp_reg_id, tmp))
++				return -ETIMEDOUT;
++		} else {
++			WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
++		}
 +
-+static const struct panel_desc mchp_ac69t88a = {
-+	.modes = &mchp_ac69t88a_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 108,
-+		.height = 65,
-+	},
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
++		/* Clear RB_OVERFLOW bit */
++		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
++		if (amdgpu_sriov_vf(adev) && amdgpu_sriov_reg_indirect_ih(adev)) {
++			if (psp_reg_program(&adev->psp, ih_regs->psp_reg_id, tmp))
++				return -ETIMEDOUT;
++		} else {
++			WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
++		}
 +
- static const struct drm_display_mode arm_rtsm_mode[] = {
- 	{
- 		.clock = 65000,
-@@ -4915,6 +4940,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "yes-optoelectronics,ytc700tlag-05-201c",
- 		.data = &yes_optoelectronics_ytc700tlag_05_201c,
-+	}, {
-+		.compatible = "microchip,ac69t88a",
-+		.data = &mchp_ac69t88a,
- 	}, {
- 		/* Must be the last entry */
- 		.compatible = "panel-dpi",
++		/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++		 * can be detected.
++		 */
++		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++	}
++
+ 	/* enable_intr field is only valid in ring0 */
+ 	if (ih == &adev->irq.ih)
+ 		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, ENABLE_INTR, (enable ? 1 : 0));
 -- 
 2.43.0
 
