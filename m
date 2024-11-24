@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DBB9D705C
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:33:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41689D705A
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:33:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCB1B10E4C2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58A9A10E4C3;
 	Sun, 24 Nov 2024 13:33:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RsrOZnBe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nu7+cdT7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9A710E4C2
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:33:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60F2910E2AA
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:33:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6D0EF5C4ABA;
- Sun, 24 Nov 2024 13:32:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C0D4C4CECC;
- Sun, 24 Nov 2024 13:33:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 455665C4ABE;
+ Sun, 24 Nov 2024 13:32:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3168EC4CED3;
+ Sun, 24 Nov 2024 13:33:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732455199;
- bh=jVug0B5z0yu25jHuiw9klU8LOF+X8Zb4FdA8H54E8Dc=;
+ s=k20201202; t=1732455201;
+ bh=gn5ZlkcJ4bGW2KoF/vP1dAgEOQgOyNSNHjnDrT+t3yw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RsrOZnBeQW5ERhpJCn/6DTSPjiY4ilCYZfTJTzB5OLal/tSzON11x/CyRrOQxfjza
- 7V7r4fF95KHSTD6Hngaq6s5urabUaBJ05Oq1wirrZNUCmOA0Gxo+ftfl5lLfPTK1hW
- Q6fjUweKwuS6trfHRqh4bw7DNZh0MexswIvdc9KFyVq9ufCmZmSZUFYDsytrxhRbOA
- URsGpjawer8oMTlTKTMXKibTwFO9Gtltq+IjAaYR0yfygpE0GaUyLJwTS7S850WbXo
- WI7lN3/JzmScwSi0XRvmxABihL9HGMStxpH5z1YFHqXLP2epDVILqw653RTYO8pof1
- VZqgAUmYGqDKw==
+ b=nu7+cdT7h8FTOwbr4DcKsk+r3eeV9myuMKMBOe5klxFgz5ti6bcjN4M6X32PmHsbp
+ 6XFPZBGtwe2YAFFHjOK3BsY3bdmqqht8/o53GUH3y19IVLfL5Ne1viur/XBImd8bgF
+ oXchI/GZlI+NvfVigEStu4Z7KS+naJLn9eMxOOgE9xKaVeWMq7q+yYXCKMR1DFCkw2
+ Qv7isAZ9gDIHXKx1esOGFjveVwFSJutN7VN/8ZSGZIzvKXpPLggCAzheDiXSARtNRL
+ i7894ZcLWHktMEGMnaSfU9LHhSqxBBr0L7+j9iUBz7DQYHZt/tV2/LBBUhcAN02pVs
+ rhDRXBMGlNPNw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Huan Yang <link@vivo.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Sasha Levin <sashal@kernel.org>, kraxel@redhat.com,
- sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.12 009/107] udmabuf: change folios array from
- kmalloc to kvmalloc
-Date: Sun, 24 Nov 2024 08:28:29 -0500
-Message-ID: <20241124133301.3341829-9-sashal@kernel.org>
+Cc: =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>, 
+ Tobias Jakobi <tjakobi@math.uni-bielefeld.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 010/107] drm: panel-orientation-quirks: Add quirk
+ for AYA NEO 2 model
+Date: Sun, 24 Nov 2024 08:28:30 -0500
+Message-ID: <20241124133301.3341829-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124133301.3341829-1-sashal@kernel.org>
 References: <20241124133301.3341829-1-sashal@kernel.org>
@@ -67,141 +67,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Huan Yang <link@vivo.com>
+From: Joaquín Ignacio Aramendía <samsagax@gmail.com>
 
-[ Upstream commit 1c0844c6184e658064e14c4335885785ad3bf84b ]
+[ Upstream commit 361ebf5ef843b0aa1704c72eb26b91cf76c3c5b7 ]
 
-When PAGE_SIZE 4096, MAX_PAGE_ORDER 10, 64bit machine,
-page_alloc only support 4MB.
-If above this, trigger this warn and return NULL.
+Add quirk orientation for AYA NEO 2. The name appears without spaces in
+DMI strings. That made it difficult to reuse the 2021 match. Also the
+display is larger in resolution.
 
-udmabuf can change size limit, if change it to 3072(3GB), and then alloc
-3GB udmabuf, will fail create.
+Tested by the JELOS team that has been patching their own kernel for a
+while now and confirmed by users in the AYA NEO and ChimeraOS discord
+servers.
 
-[ 4080.876581] ------------[ cut here ]------------
-[ 4080.876843] WARNING: CPU: 3 PID: 2015 at mm/page_alloc.c:4556 __alloc_pages+0x2c8/0x350
-[ 4080.878839] RIP: 0010:__alloc_pages+0x2c8/0x350
-[ 4080.879470] Call Trace:
-[ 4080.879473]  <TASK>
-[ 4080.879473]  ? __alloc_pages+0x2c8/0x350
-[ 4080.879475]  ? __warn.cold+0x8e/0xe8
-[ 4080.880647]  ? __alloc_pages+0x2c8/0x350
-[ 4080.880909]  ? report_bug+0xff/0x140
-[ 4080.881175]  ? handle_bug+0x3c/0x80
-[ 4080.881556]  ? exc_invalid_op+0x17/0x70
-[ 4080.881559]  ? asm_exc_invalid_op+0x1a/0x20
-[ 4080.882077]  ? udmabuf_create+0x131/0x400
-
-Because MAX_PAGE_ORDER, kmalloc can max alloc 4096 * (1 << 10), 4MB
-memory, each array entry is pointer(8byte), so can save 524288 pages(2GB).
-
-Further more, costly order(order 3) may not be guaranteed that it can be
-applied for, due to fragmentation.
-
-This patch change udmabuf array use kvmalloc_array, this can fallback
-alloc into vmalloc, which can guarantee allocation for any size and does
-not affect the performance of kmalloc allocations.
-
-Signed-off-by: Huan Yang <link@vivo.com>
-Acked-by: Christian König <christian.koenig@amd.com>
-Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240918025238.2957823-3-link@vivo.com
+Signed-off-by: Joaquín Ignacio Aramendía <samsagax@gmail.com>
+Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/2b35545b77a9fd8c9699b751ca282226dcecb1dd.1726492131.git.tjakobi@math.uni-bielefeld.de
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/dma-buf/udmabuf.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 047c3cd2cefff..bc94c194e172d 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -80,7 +80,7 @@ static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
- 
- 	dma_resv_assert_held(buf->resv);
- 
--	pages = kmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
-+	pages = kvmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
- 	if (!pages)
- 		return -ENOMEM;
- 
-@@ -88,7 +88,7 @@ static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
- 		pages[pg] = &ubuf->folios[pg]->page;
- 
- 	vaddr = vm_map_ram(pages, ubuf->pagecount, -1);
--	kfree(pages);
-+	kvfree(pages);
- 	if (!vaddr)
- 		return -EINVAL;
- 
-@@ -196,8 +196,8 @@ static void release_udmabuf(struct dma_buf *buf)
- 		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
- 
- 	unpin_all_folios(&ubuf->unpin_list);
--	kfree(ubuf->offsets);
--	kfree(ubuf->folios);
-+	kvfree(ubuf->offsets);
-+	kvfree(ubuf->folios);
- 	kfree(ubuf);
- }
- 
-@@ -322,14 +322,14 @@ static long udmabuf_create(struct miscdevice *device,
- 	if (!ubuf->pagecount)
- 		goto err;
- 
--	ubuf->folios = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->folios),
--				    GFP_KERNEL);
-+	ubuf->folios = kvmalloc_array(ubuf->pagecount, sizeof(*ubuf->folios),
-+				      GFP_KERNEL);
- 	if (!ubuf->folios) {
- 		ret = -ENOMEM;
- 		goto err;
- 	}
--	ubuf->offsets = kcalloc(ubuf->pagecount, sizeof(*ubuf->offsets),
--				GFP_KERNEL);
-+	ubuf->offsets = kvcalloc(ubuf->pagecount, sizeof(*ubuf->offsets),
-+				 GFP_KERNEL);
- 	if (!ubuf->offsets) {
- 		ret = -ENOMEM;
- 		goto err;
-@@ -343,7 +343,7 @@ static long udmabuf_create(struct miscdevice *device,
- 			goto err;
- 
- 		pgcnt = list[i].size >> PAGE_SHIFT;
--		folios = kmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
-+		folios = kvmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
- 		if (!folios) {
- 			ret = -ENOMEM;
- 			goto err;
-@@ -353,7 +353,7 @@ static long udmabuf_create(struct miscdevice *device,
- 		ret = memfd_pin_folios(memfd, list[i].offset, end,
- 				       folios, pgcnt, &pgoff);
- 		if (ret <= 0) {
--			kfree(folios);
-+			kvfree(folios);
- 			if (!ret)
- 				ret = -EINVAL;
- 			goto err;
-@@ -382,7 +382,7 @@ static long udmabuf_create(struct miscdevice *device,
- 			}
- 		}
- 
--		kfree(folios);
-+		kvfree(folios);
- 		fput(memfd);
- 		memfd = NULL;
- 	}
-@@ -398,8 +398,8 @@ static long udmabuf_create(struct miscdevice *device,
- 	if (memfd)
- 		fput(memfd);
- 	unpin_all_folios(&ubuf->unpin_list);
--	kfree(ubuf->offsets);
--	kfree(ubuf->folios);
-+	kvfree(ubuf->offsets);
-+	kvfree(ubuf->folios);
- 	kfree(ubuf);
- 	return ret;
- }
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 2d84d7ea1ab7a..4864d8406db41 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -184,6 +184,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T103HAF"),
+ 		},
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* AYA NEO AYANEO 2 */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYANEO 2"),
++		},
++		.driver_data = (void *)&lcd1200x1920_rightside_up,
+ 	}, {	/* AYA NEO 2021 */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYADEVICE"),
 -- 
 2.43.0
 
