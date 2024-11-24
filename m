@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68749D7157
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF649D715A
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:48:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5649F10E537;
-	Sun, 24 Nov 2024 13:47:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF2510E539;
+	Sun, 24 Nov 2024 13:48:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JYz5aa6S";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PQxjAE19";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4FA10E537;
- Sun, 24 Nov 2024 13:47:57 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1A7A10E535;
+ Sun, 24 Nov 2024 13:48:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A4CF0A40CD6;
- Sun, 24 Nov 2024 13:46:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8AC9C4CED3;
- Sun, 24 Nov 2024 13:47:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C86CC5C5717;
+ Sun, 24 Nov 2024 13:47:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80153C4CED1;
+ Sun, 24 Nov 2024 13:47:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732456076;
- bh=qkgcVKR8Ql1xpozKQZGpIzlv1QYsIHMvwC7wX7DV7nQ=;
+ s=k20201202; t=1732456080;
+ bh=iYr0doZHlv3la6k3A7nFvvkFC/k6o8kxlRWPd2yitJM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JYz5aa6SGhx6gzbgr15yr2DY1f1voetTIYStPKDba/jdiL12mpy0EeZ1IaIRaB0tI
- cVDVDSGjmTbqnL1xlyN4kuTg/f5Sy8rBuZk+XscAThVeJpobXmYShJlNrCXi2vv5jM
- w7MG91XV2VnIxgIdvyaf6RbzOuX0XFYNfnZD7zcyd+qiCyTmygnLxL83TfC8ywJt8O
- ivOtrGjz6h0kENOyQiTNnPSpcshrhsvaANQ7HKZJUDrmjSIJ/+pN5OLRy3G7Gf6Wo8
- AxcmcgDmo9lfvuFxQD32Bql4xBJcgkJ986Ptpv9eayIBhTQ5kCMVpb3RJfLKyf4UM/
- rh4ZqOkzgMn5g==
+ b=PQxjAE19YOZt6xOSrPmLYtcreELnsgqRay2b1kiGET8cuggayicEBaJizZk9arIZg
+ bqeR5ozxEHlvxV/I5wfhDu9bKhm5Q4XPcfubHwdCxxTiU99lvghiLVAcPo7q9oV4PQ
+ N1sFA3XHC7IZ2PH284GHoI8nbxCrsVFD9Ozvmzq1eiEGgOZt+9aHC992ephSPWu8kR
+ nw5ye+yaXd9z6q+3D2Xa/2fCbpE4RCe8CFiwzNbhZGCCCvFO7dTK2GhQ7lCmiSHC3k
+ C9kcfD+8eM8FW6SDEc9dUxBWbwhs+1y9tjTzu5zFxz6x6uvTZJWKX53+bRj8mZcmiw
+ xe/Nr7N3CKlgA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Victor Lu <victorchengchi.lu@amd.com>,
+Cc: Prike Liang <Prike.Liang@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, sunil.khatri@amd.com, friedrich.vock@gmx.de,
- Hawking.Zhang@amd.com, amd-gfx@lists.freedesktop.org,
+ simona@ffwll.ch, mario.limonciello@amd.com, antonio@mandelbit.com,
+ Jun.Ma2@amd.com, sunpeng.li@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 33/61] drm/amdgpu: clear RB_OVERFLOW bit when
- enabling interrupts for vega20_ih
-Date: Sun, 24 Nov 2024 08:45:08 -0500
-Message-ID: <20241124134637.3346391-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 34/61] drm/amdgpu: Dereference the ATCS ACPI buffer
+Date: Sun, 24 Nov 2024 08:45:09 -0500
+Message-ID: <20241124134637.3346391-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124134637.3346391-1-sashal@kernel.org>
 References: <20241124134637.3346391-1-sashal@kernel.org>
@@ -66,70 +65,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Victor Lu <victorchengchi.lu@amd.com>
+From: Prike Liang <Prike.Liang@amd.com>
 
-[ Upstream commit 8b22f048331dfd45fdfbf0efdfb1d43deff7518d ]
+[ Upstream commit 32e7ee293ff476c67b51be006e986021967bc525 ]
 
-Port this change to vega20_ih.c:
-commit afbf7955ff01 ("drm/amdgpu: clear RB_OVERFLOW bit when enabling interrupts")
+Need to dereference the atcs acpi buffer after
+the method is executed, otherwise it will result in
+a memory leak.
 
-Original commit message:
-"Why:
-Setting IH_RB_WPTR register to 0 will not clear the RB_OVERFLOW bit
-if RB_ENABLE is not set.
-
-How to fix:
-Set WPTR_OVERFLOW_CLEAR bit after RB_ENABLE bit is set.
-The RB_ENABLE bit is required to be set, together with
-WPTR_OVERFLOW_ENABLE bit so that setting WPTR_OVERFLOW_CLEAR bit
-would clear the RB_OVERFLOW."
-
-Signed-off-by: Victor Lu <victorchengchi.lu@amd.com>
+Signed-off-by: Prike Liang <Prike.Liang@amd.com>
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/vega20_ih.c | 27 ++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
-index 131e7b769519c..8ab2011e82098 100644
---- a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
-@@ -114,6 +114,33 @@ static int vega20_ih_toggle_ring_interrupts(struct amdgpu_device *adev,
- 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, RB_ENABLE, (enable ? 1 : 0));
- 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, RB_GPU_TS_ENABLE, 1);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+index 12a0ac42fcfea..8b2f2b921d9de 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+@@ -798,6 +798,7 @@ int amdgpu_acpi_power_shift_control(struct amdgpu_device *adev,
+ 		return -EIO;
+ 	}
  
-+	if (enable) {
-+		/* Unset the CLEAR_OVERFLOW bit to make sure the next step
-+		 * is switching the bit from 0 to 1
-+		 */
-+		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
-+		if (amdgpu_sriov_vf(adev) && amdgpu_sriov_reg_indirect_ih(adev)) {
-+			if (psp_reg_program(&adev->psp, ih_regs->psp_reg_id, tmp))
-+				return -ETIMEDOUT;
-+		} else {
-+			WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
-+		}
-+
-+		/* Clear RB_OVERFLOW bit */
-+		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
-+		if (amdgpu_sriov_vf(adev) && amdgpu_sriov_reg_indirect_ih(adev)) {
-+			if (psp_reg_program(&adev->psp, ih_regs->psp_reg_id, tmp))
-+				return -ETIMEDOUT;
-+		} else {
-+			WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
-+		}
-+
-+		/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
-+		 * can be detected.
-+		 */
-+		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
-+	}
-+
- 	/* enable_intr field is only valid in ring0 */
- 	if (ih == &adev->irq.ih)
- 		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, ENABLE_INTR, (enable ? 1 : 0));
++	kfree(info);
+ 	return 0;
+ }
+ 
 -- 
 2.43.0
 
