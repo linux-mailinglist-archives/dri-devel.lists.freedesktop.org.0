@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1FC9D7153
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:47:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BB49D7155
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DE3E10E0DB;
-	Sun, 24 Nov 2024 13:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12F1A10E340;
+	Sun, 24 Nov 2024 13:47:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tICWTlLM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mVGf6u5h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9602510E0DB
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:47:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98B9310E340
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:47:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6D8A35C5746;
- Sun, 24 Nov 2024 13:47:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52D3AC4CED1;
- Sun, 24 Nov 2024 13:47:45 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6E8675C56F6;
+ Sun, 24 Nov 2024 13:47:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 440C0C4CED1;
+ Sun, 24 Nov 2024 13:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732456066;
- bh=SQ4C4hrbqGoQpJQVxZd8jkK60k0aXxT/93qJjofxkos=;
+ s=k20201202; t=1732456072;
+ bh=rJkcQimjp1uU4jhz0XfPNPy2BjS79UgvD7VZN3ivLsQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tICWTlLMAnHgqdqNC5HshSJmYBa+D3UsgvW7qcNGXLU1bC/25dLMcCFAgr+lIR8bW
- H86SwZz1M7c+xr6xtLAaoOWq2IbzXiVpl2e7IzJeJH5mz6FghQxc+tb1wcupnoihGR
- An0lnW9CCym8uIJaQ52XUAElGsRayfBQLcQ6xw6JtswmN5rqewl9wGygxVsYIpSqUc
- 5LiqDnFd9wpGEQqF07x78GaW/gcNnOkKTO9F1goo2l21W7RxK95ckZ1CrP73llUBoV
- Ai9+EjbhGRQQc4RSZGYVZLEMoIm15XF+1nl9dVvNhnzTpq21YCX8wWfp0gYM5+9NUv
- OrKZTxV8s1hXA==
+ b=mVGf6u5hf+ENdGh04KL32ennhTkXZQfwnUvTNaXuR01Ahe80q/uZyTBDLdzl48tBB
+ HXOjwE1BnuNUpM8KF5m0UJC7k+Bb1Sw17VyBuxQn2dWrISqw2+TQITt0Sw+aUKyn82
+ oEX9xveDUXv9XBPD6hDsgHN4vulglemIZzDKxRXkXjcoDI1U8fIHdOKwD5T2XWCzeT
+ /gfCb5rv0qS6fPM0t+vHE03WAvnLcoORaUzU1MiSHHpDjdA44kEm9SVSAhxk7cUHLe
+ Tg0JE/PAf3Hv7WeF3OpP8vXImFi+/Pi+sO074cD8xsEu4t+FjqwacpMq0jHK3djVkR
+ uts9kqnJZ1AGQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Manikandan Muralidharan <manikandan.m@microchip.com>,
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sasha Levin <sashal@kernel.org>, neil.armstrong@linaro.org,
+Cc: Philipp Stanner <pstanner@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sasha Levin <sashal@kernel.org>, ltuikov89@gmail.com,
+ matthew.brost@intel.com, dakr@kernel.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 29/61] drm/panel: simple: Add Microchip AC69T88A
- LVDS Display panel
-Date: Sun, 24 Nov 2024 08:45:04 -0500
-Message-ID: <20241124134637.3346391-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 32/61] drm/sched: memset() 'job' in
+ drm_sched_job_init()
+Date: Sun, 24 Nov 2024 08:45:07 -0500
+Message-ID: <20241124134637.3346391-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124134637.3346391-1-sashal@kernel.org>
 References: <20241124134637.3346391-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.63
@@ -66,70 +67,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
+From: Philipp Stanner <pstanner@redhat.com>
 
-[ Upstream commit 40da1463cd6879f542238b36c1148f517927c595 ]
+[ Upstream commit 2320c9e6a768d135c7b0039995182bb1a4e4fd22 ]
 
-Add support for Microchip AC69T88A 5 inch TFT LCD 800x480
-Display module with LVDS interface.The panel uses the Sitronix
-ST7262 800x480 Display driver
+drm_sched_job_init() has no control over how users allocate struct
+drm_sched_job. Unfortunately, the function can also not set some struct
+members such as job->sched.
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240919091548.430285-2-manikandan.m@microchip.com
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This could theoretically lead to UB by users dereferencing the struct's
+pointer members too early.
+
+It is easier to debug such issues if these pointers are initialized to
+NULL, so dereferencing them causes a NULL pointer exception.
+Accordingly, drm_sched_entity_init() does precisely that and initializes
+its struct with memset().
+
+Initialize parameter "job" to 0 in drm_sched_job_init().
+
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241021105028.19794-2-pstanner@redhat.com
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ drivers/gpu/drm/scheduler/sched_main.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 11ade6bac592f..37fe54c34b141 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -4087,6 +4087,31 @@ static const struct panel_desc yes_optoelectronics_ytc700tlag_05_201c = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 5a3a622fc672f..fa4652f234718 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -635,6 +635,14 @@ int drm_sched_job_init(struct drm_sched_job *job,
+ 	if (!entity->rq)
+ 		return -ENOENT;
  
-+static const struct drm_display_mode mchp_ac69t88a_mode = {
-+	.clock = 25000,
-+	.hdisplay = 800,
-+	.hsync_start = 800 + 88,
-+	.hsync_end = 800 + 88 + 5,
-+	.htotal = 800 + 88 + 5 + 40,
-+	.vdisplay = 480,
-+	.vsync_start = 480 + 23,
-+	.vsync_end = 480 + 23 + 5,
-+	.vtotal = 480 + 23 + 5 + 1,
-+};
++	/*
++	 * We don't know for sure how the user has allocated. Thus, zero the
++	 * struct so that unallowed (i.e., too early) usage of pointers that
++	 * this function does not set is guaranteed to lead to a NULL pointer
++	 * exception instead of UB.
++	 */
++	memset(job, 0, sizeof(*job));
 +
-+static const struct panel_desc mchp_ac69t88a = {
-+	.modes = &mchp_ac69t88a_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 108,
-+		.height = 65,
-+	},
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct drm_display_mode arm_rtsm_mode[] = {
- 	{
- 		.clock = 65000,
-@@ -4522,6 +4547,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "yes-optoelectronics,ytc700tlag-05-201c",
- 		.data = &yes_optoelectronics_ytc700tlag_05_201c,
-+	}, {
-+		.compatible = "microchip,ac69t88a",
-+		.data = &mchp_ac69t88a,
- 	}, {
- 		/* Must be the last entry */
- 		.compatible = "panel-dpi",
+ 	job->entity = entity;
+ 	job->s_fence = drm_sched_fence_alloc(entity, owner);
+ 	if (!job->s_fence)
 -- 
 2.43.0
 
