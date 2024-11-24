@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BB49D7155
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68749D7157
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:47:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F1A10E340;
-	Sun, 24 Nov 2024 13:47:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5649F10E537;
+	Sun, 24 Nov 2024 13:47:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mVGf6u5h";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JYz5aa6S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98B9310E340
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:47:53 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4FA10E537;
+ Sun, 24 Nov 2024 13:47:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6E8675C56F6;
- Sun, 24 Nov 2024 13:47:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 440C0C4CED1;
- Sun, 24 Nov 2024 13:47:51 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id A4CF0A40CD6;
+ Sun, 24 Nov 2024 13:46:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8AC9C4CED3;
+ Sun, 24 Nov 2024 13:47:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732456072;
- bh=rJkcQimjp1uU4jhz0XfPNPy2BjS79UgvD7VZN3ivLsQ=;
+ s=k20201202; t=1732456076;
+ bh=qkgcVKR8Ql1xpozKQZGpIzlv1QYsIHMvwC7wX7DV7nQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mVGf6u5hf+ENdGh04KL32ennhTkXZQfwnUvTNaXuR01Ahe80q/uZyTBDLdzl48tBB
- HXOjwE1BnuNUpM8KF5m0UJC7k+Bb1Sw17VyBuxQn2dWrISqw2+TQITt0Sw+aUKyn82
- oEX9xveDUXv9XBPD6hDsgHN4vulglemIZzDKxRXkXjcoDI1U8fIHdOKwD5T2XWCzeT
- /gfCb5rv0qS6fPM0t+vHE03WAvnLcoORaUzU1MiSHHpDjdA44kEm9SVSAhxk7cUHLe
- Tg0JE/PAf3Hv7WeF3OpP8vXImFi+/Pi+sO074cD8xsEu4t+FjqwacpMq0jHK3djVkR
- uts9kqnJZ1AGQ==
+ b=JYz5aa6SGhx6gzbgr15yr2DY1f1voetTIYStPKDba/jdiL12mpy0EeZ1IaIRaB0tI
+ cVDVDSGjmTbqnL1xlyN4kuTg/f5Sy8rBuZk+XscAThVeJpobXmYShJlNrCXi2vv5jM
+ w7MG91XV2VnIxgIdvyaf6RbzOuX0XFYNfnZD7zcyd+qiCyTmygnLxL83TfC8ywJt8O
+ ivOtrGjz6h0kENOyQiTNnPSpcshrhsvaANQ7HKZJUDrmjSIJ/+pN5OLRy3G7Gf6Wo8
+ AxcmcgDmo9lfvuFxQD32Bql4xBJcgkJ986Ptpv9eayIBhTQ5kCMVpb3RJfLKyf4UM/
+ rh4ZqOkzgMn5g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Philipp Stanner <pstanner@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Sasha Levin <sashal@kernel.org>, ltuikov89@gmail.com,
- matthew.brost@intel.com, dakr@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 32/61] drm/sched: memset() 'job' in
- drm_sched_job_init()
-Date: Sun, 24 Nov 2024 08:45:07 -0500
-Message-ID: <20241124134637.3346391-32-sashal@kernel.org>
+Cc: Victor Lu <victorchengchi.lu@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, sunil.khatri@amd.com, friedrich.vock@gmx.de,
+ Hawking.Zhang@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 33/61] drm/amdgpu: clear RB_OVERFLOW bit when
+ enabling interrupts for vega20_ih
+Date: Sun, 24 Nov 2024 08:45:08 -0500
+Message-ID: <20241124134637.3346391-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124134637.3346391-1-sashal@kernel.org>
 References: <20241124134637.3346391-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.63
@@ -67,51 +66,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philipp Stanner <pstanner@redhat.com>
+From: Victor Lu <victorchengchi.lu@amd.com>
 
-[ Upstream commit 2320c9e6a768d135c7b0039995182bb1a4e4fd22 ]
+[ Upstream commit 8b22f048331dfd45fdfbf0efdfb1d43deff7518d ]
 
-drm_sched_job_init() has no control over how users allocate struct
-drm_sched_job. Unfortunately, the function can also not set some struct
-members such as job->sched.
+Port this change to vega20_ih.c:
+commit afbf7955ff01 ("drm/amdgpu: clear RB_OVERFLOW bit when enabling interrupts")
 
-This could theoretically lead to UB by users dereferencing the struct's
-pointer members too early.
+Original commit message:
+"Why:
+Setting IH_RB_WPTR register to 0 will not clear the RB_OVERFLOW bit
+if RB_ENABLE is not set.
 
-It is easier to debug such issues if these pointers are initialized to
-NULL, so dereferencing them causes a NULL pointer exception.
-Accordingly, drm_sched_entity_init() does precisely that and initializes
-its struct with memset().
+How to fix:
+Set WPTR_OVERFLOW_CLEAR bit after RB_ENABLE bit is set.
+The RB_ENABLE bit is required to be set, together with
+WPTR_OVERFLOW_ENABLE bit so that setting WPTR_OVERFLOW_CLEAR bit
+would clear the RB_OVERFLOW."
 
-Initialize parameter "job" to 0 in drm_sched_job_init().
-
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241021105028.19794-2-pstanner@redhat.com
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Victor Lu <victorchengchi.lu@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c | 27 ++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 5a3a622fc672f..fa4652f234718 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -635,6 +635,14 @@ int drm_sched_job_init(struct drm_sched_job *job,
- 	if (!entity->rq)
- 		return -ENOENT;
+diff --git a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
+index 131e7b769519c..8ab2011e82098 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
+@@ -114,6 +114,33 @@ static int vega20_ih_toggle_ring_interrupts(struct amdgpu_device *adev,
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, RB_ENABLE, (enable ? 1 : 0));
+ 	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, RB_GPU_TS_ENABLE, 1);
  
-+	/*
-+	 * We don't know for sure how the user has allocated. Thus, zero the
-+	 * struct so that unallowed (i.e., too early) usage of pointers that
-+	 * this function does not set is guaranteed to lead to a NULL pointer
-+	 * exception instead of UB.
-+	 */
-+	memset(job, 0, sizeof(*job));
++	if (enable) {
++		/* Unset the CLEAR_OVERFLOW bit to make sure the next step
++		 * is switching the bit from 0 to 1
++		 */
++		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++		if (amdgpu_sriov_vf(adev) && amdgpu_sriov_reg_indirect_ih(adev)) {
++			if (psp_reg_program(&adev->psp, ih_regs->psp_reg_id, tmp))
++				return -ETIMEDOUT;
++		} else {
++			WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
++		}
 +
- 	job->entity = entity;
- 	job->s_fence = drm_sched_fence_alloc(entity, owner);
- 	if (!job->s_fence)
++		/* Clear RB_OVERFLOW bit */
++		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
++		if (amdgpu_sriov_vf(adev) && amdgpu_sriov_reg_indirect_ih(adev)) {
++			if (psp_reg_program(&adev->psp, ih_regs->psp_reg_id, tmp))
++				return -ETIMEDOUT;
++		} else {
++			WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
++		}
++
++		/* Unset the CLEAR_OVERFLOW bit immediately so new overflows
++		 * can be detected.
++		 */
++		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 0);
++	}
++
+ 	/* enable_intr field is only valid in ring0 */
+ 	if (ih == &adev->irq.ih)
+ 		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, ENABLE_INTR, (enable ? 1 : 0));
 -- 
 2.43.0
 
