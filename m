@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5F29D75A0
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 17:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFA29D75A5
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 17:02:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0EE10E2B1;
-	Sun, 24 Nov 2024 16:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F47510E2B2;
+	Sun, 24 Nov 2024 16:02:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PU2Uo9sr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dDWOK3C0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D69F110E2B1
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 16:00:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3726410E2B2
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 16:02:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DED67A406A2;
- Sun, 24 Nov 2024 15:58:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C9ADC4CECC;
- Sun, 24 Nov 2024 16:00:22 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2CF83A40ED6;
+ Sun, 24 Nov 2024 16:00:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9B1C4CECC;
+ Sun, 24 Nov 2024 16:02:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732464027;
- bh=yPM2R8H9WSiMzfazSl3eDQEsjHow+ps+HZ013vUoWM0=;
+ s=k20201202; t=1732464125;
+ bh=0grkUlSSt+CBbPaRjx1R/V5AdzNtLdNvHIfPzoapiAE=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=PU2Uo9srwS7CExnm1A2xUMMtL4KmTtO2tz2KGYRMKbBfO0vOyrGMrRURu3OH6gTtp
- x2HbFW7wY/s0VCL8OPkxM4gqJXrE5Sh1bqlPwpwscICdmJWaCiG1lLO6dWzGe4+Lz4
- B6y9oeH7xAzY/gL/+gig/EYGNMWxsTchZBd23YG3rZj4NyCINU0T6Owy41i3rdyNBg
- 5Ho/uF4eECx2g2PvVTi/IHMDvmo82T23+faaVYE1jQEokRZbw1vY/qsK/FqpkhuzB4
- +qWVPA0Zxz5xBrdlFFGdfpdS9enw0krH/D/1mU/0F1LtFKvjhBgHw097IfCnsrNZDT
- wQwUGV7fHLL3w==
-Message-ID: <55088a30-c32e-4012-ac9d-755df085f6b0@kernel.org>
-Date: Sun, 24 Nov 2024 17:00:20 +0100
+ b=dDWOK3C0T3eSiiggspDBe5yCGnmmeN9olqtnxw1FaSdkbowkYcnS+NIyX6wapuft0
+ kWpYdq4WHV6L/urN2ZhpLVE/7se5RjrhvSvsuUL8p3XilNGbMGioEqQ2vmpyzZ0blt
+ cQ4gj+rcuQZCFYrnY/yyF8lIdQ3IB5Kt7eqjq+f3dor2/1bq54ofiqDVrB5Wm6kw3b
+ bDsdiI2wn66BkZ2t2jAlaTT3wjlg4G3v1t1x/HY1RKJA5vhm5lB4QPX57qf0eZjRu+
+ HX7BmkZ/ZsApAtWLTfUzVKYUBfUbvWtCAtor5osdJomhdV4emaoDYE1KQeCQ+CNQ9n
+ TRuGGEQX+mAbQ==
+Message-ID: <f0d983f7-5f60-4cb7-9522-ef4429359c52@kernel.org>
+Date: Sun, 24 Nov 2024 17:01:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: panel: samsung,atna56ac03:
- Document ATNA56AC03
-To: maud_spierings@hotmail.com, Neil Armstrong <neil.armstrong@linaro.org>,
+Subject: Re: [PATCH 1/6] dt-bindings: display: panel: Add another panel for
+ RG35XX Plus (Rev6)
+To: Hironori KIKUCHI <kikuchan98@gmail.com>, linux-kernel@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Douglas Anderson
- <dianders@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20241124-asus_qcom_display-v3-0-002b723b1920@hotmail.com>
- <20241124-asus_qcom_display-v3-1-002b723b1920@hotmail.com>
+ Conor Dooley <conor+dt@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
+ Christophe Branchereau <cbranchereau@gmail.com>,
+ Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <20241124080220.1657238-1-kikuchan98@gmail.com>
+ <20241124080220.1657238-2-kikuchan98@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -94,7 +94,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241124-asus_qcom_display-v3-1-002b723b1920@hotmail.com>
+In-Reply-To: <20241124080220.1657238-2-kikuchan98@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,16 +112,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/11/2024 11:00, Maud Spierings via B4 Relay wrote:
-> From: Maud Spierings <maud_spierings@hotmail.com>
-> 
-> The Samsung ATNA56AC03 panel is an AMOLED eDP panel.
-> It is similar to the ATNA33xc20 except it is larger and has a different
-> resolution.
-> 
-> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
+On 24/11/2024 09:02, Hironori KIKUCHI wrote:
+> +++ b/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml
+> @@ -0,0 +1,60 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Anbernic RG35XX series (YLM-LBV0345001H-V2) 3.45" 640x480 24-bit IPS LCD panel
+> +
+> +maintainers:
+> +  - Hironori KIKUCHI <kikuchan98@gmail.com>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: anbernic,rg35xx-plus-rev6-panel
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Everything is the same here. Add new compatible to existing schema
+respecting compatibility (fallback) or not (no fallback).
+
 
 Best regards,
 Krzysztof
