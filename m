@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E566D9D707E
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7989D708A
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:36:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50F9F10E4D8;
-	Sun, 24 Nov 2024 13:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB6AC10E4DD;
+	Sun, 24 Nov 2024 13:36:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ck1zLRPs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B0b86pTB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7600510E4D8;
- Sun, 24 Nov 2024 13:35:07 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9B110E4DB;
+ Sun, 24 Nov 2024 13:36:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 356145C4857;
- Sun, 24 Nov 2024 13:34:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F81C4CECC;
- Sun, 24 Nov 2024 13:35:03 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 27800A40AC6;
+ Sun, 24 Nov 2024 13:34:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C90C4CED1;
+ Sun, 24 Nov 2024 13:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732455306;
- bh=2anxHsz/SZySMW4OBHpARWhGlY5VdP5awuCbrZY+VmE=;
+ s=k20201202; t=1732455360;
+ bh=juvZpPMZICGteH+IeDccZe5iw94T8otHKKCkwOAJIyE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ck1zLRPs9tOH5fq21JIiphvThtNmH+wkYya+LFx1mHqau0lSK43Xfr/9ZY050UdMZ
- Ty8l5zHSKZfVZVUpTRvklw95HsuiB9irkZ91jjsESIerCjKXspqrKv0BoFhgLPT6Rl
- veQRYr8cFI+E9OeAKnzhgEZE80+VnpGM9dJ96xspoFRNr6o7nITu4bS4MdrRU1cGly
- oQz9LRGcOvyHZNdVBqTAvk7xmkbQ2qzPxhCIUgD4rmpj6Uw2X26PmVoSFRs6JDZ9uj
- IBe/I0G55HwhcdX51foupM0zN9tHZdhh7qndvEXvEWKNkFGtC6cZ3dvuOTNuGabzj4
- Qut6qYHd6Ngyg==
+ b=B0b86pTBVq+WBhKkMkcHKSP5Z6NEZj1tfNfDm6kNVBynlIZ3XhUcQ6xYeweIcnWRA
+ 6nFX8b4qa860QsO6inGGTV3O4S5babnFYoQGPB1O13lY/pwNiexzBzQAEUZcRkLnUy
+ U14hTWEUCHfZvjaEPZIdhASUQTms1TFgpGjeVzJY0vyfvmTff8E0EpJn1nnRzTjsPZ
+ 6ha1OsHn7FrI44FzNPCy/3I498UszNyGY2M0CigVDIsmwGxWqUF/t5uecQTUgkz/mw
+ Uwt+b08KnjxeUHHyPQrL7pqglCi9UCn+ImEeoprc+CmdlGd0ZSiWEPHAM5Fr6eqOMI
+ TpG7hCsItir+w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Leo Chen <leo.chen@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Roman Li <roman.li@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, wayne.lin@amd.com, alvin.lee2@amd.com,
- dillon.varone@amd.com, alex.hung@amd.com, srinivasan.shanmugam@amd.com,
- aurabindo.pillai@amd.com, Ovidiu.Bunea@amd.com, Roman.Li@amd.com,
- samson.tam@amd.com, anthony.koo@amd.com, zaeem.mohamed@amd.com,
- chiahsuan.chung@amd.com, ChunTao.Tso@amd.com, Syed.Hassan@amd.com,
- aric.cyr@amd.com, amd-gfx@lists.freedesktop.org,
+Cc: Badal Nilawar <badal.nilawar@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 034/107] drm/amd/display: Full exit out of IPS2
- when all allow signals have been cleared
-Date: Sun, 24 Nov 2024 08:28:54 -0500
-Message-ID: <20241124133301.3341829-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 054/107] drm/xe/guc/ct: Flush g2h worker in case
+ of g2h response timeout
+Date: Sun, 24 Nov 2024 08:29:14 -0500
+Message-ID: <20241124133301.3341829-54-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124133301.3341829-1-sashal@kernel.org>
 References: <20241124133301.3341829-1-sashal@kernel.org>
@@ -73,75 +70,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leo Chen <leo.chen@amd.com>
+From: Badal Nilawar <badal.nilawar@intel.com>
 
-[ Upstream commit 0fe33e115fec305c35c66b78ad26e3755ab54b9c ]
+[ Upstream commit e5152723380404acb8175e0777b1cea57f319a01 ]
 
-[Why]
-A race condition occurs between cursor movement and vertical interrupt control
-thread from OS, with both threads trying to exit IPS2.
-Vertical interrupt control thread clears the prev driver allow signal while not fully
-finishing the IPS2 exit process.
+In case if g2h worker doesn't get opportunity to within specified
+timeout delay then flush the g2h worker explicitly.
 
-[How]
-We want to detect all the allow signals have been cleared before we perform the full exit.
+v2:
+  - Describe change in the comment and add TODO (Matt B/John H)
+  - Add xe_gt_warn on fence done after G2H flush (John H)
+v3:
+  - Updated the comment with root cause
+  - Clean up xe_gt_warn message (John H)
 
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Signed-off-by: Leo Chen <leo.chen@amd.com>
-Signed-off-by: Roman Li <roman.li@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Closes: https://gitlab.freedesktop.org/drm/xe/kernel/issues/1620
+Closes: https://gitlab.freedesktop.org/drm/xe/kernel/issues/2902
+Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Reviewed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Acked-by: Matthew Brost <matthew.brost@intel.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241017111410.2553784-2-badal.nilawar@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c    | 6 ++++--
- drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h | 3 ++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/xe_guc_ct.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-index 1e7de0f03290a..ec5009f411eb0 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-+++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-@@ -1294,6 +1294,8 @@ static void dc_dmub_srv_notify_idle(const struct dc *dc, bool allow_idle)
- 
- 		memset(&new_signals, 0, sizeof(new_signals));
- 
-+		new_signals.bits.allow_idle = 1; /* always set */
-+
- 		if (dc->config.disable_ips == DMUB_IPS_ENABLE ||
- 		    dc->config.disable_ips == DMUB_IPS_DISABLE_DYNAMIC) {
- 			new_signals.bits.allow_pg = 1;
-@@ -1389,7 +1391,7 @@ static void dc_dmub_srv_exit_low_power_state(const struct dc *dc)
- 		 */
- 		dc_dmub_srv->needs_idle_wake = false;
- 
--		if (prev_driver_signals.bits.allow_ips2 &&
-+		if ((prev_driver_signals.bits.allow_ips2 || prev_driver_signals.all == 0) &&
- 		    (!dc->debug.optimize_ips_handshake ||
- 		     ips_fw->signals.bits.ips2_commit || !ips_fw->signals.bits.in_idle)) {
- 			DC_LOG_IPS(
-@@ -1450,7 +1452,7 @@ static void dc_dmub_srv_exit_low_power_state(const struct dc *dc)
+diff --git a/drivers/gpu/drm/xe/xe_guc_ct.c b/drivers/gpu/drm/xe/xe_guc_ct.c
+index 9c505d3517cd1..cd6a5f09d631e 100644
+--- a/drivers/gpu/drm/xe/xe_guc_ct.c
++++ b/drivers/gpu/drm/xe/xe_guc_ct.c
+@@ -906,6 +906,24 @@ static int guc_ct_send_recv(struct xe_guc_ct *ct, const u32 *action, u32 len,
  		}
+ 	}
  
- 		dc_dmub_srv_notify_idle(dc, false);
--		if (prev_driver_signals.bits.allow_ips1) {
-+		if (prev_driver_signals.bits.allow_ips1 || prev_driver_signals.all == 0) {
- 			DC_LOG_IPS(
- 				"wait for IPS1 commit clear (ips1_commit=%u ips2_commit=%u)",
- 				ips_fw->signals.bits.ips1_commit,
-diff --git a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-index ebcf68bfae2b3..7835100b37c41 100644
---- a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-+++ b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-@@ -747,7 +747,8 @@ union dmub_shared_state_ips_driver_signals {
- 		uint32_t allow_ips1 : 1; /**< 1 is IPS1 is allowed */
- 		uint32_t allow_ips2 : 1; /**< 1 is IPS1 is allowed */
- 		uint32_t allow_z10 : 1; /**< 1 if Z10 is allowed */
--		uint32_t reserved_bits : 28; /**< Reversed bits */
-+		uint32_t allow_idle : 1; /**< 1 if driver is allowing idle */
-+		uint32_t reserved_bits : 27; /**< Reversed bits */
- 	} bits;
- 	uint32_t all;
- };
++	/*
++	 * Occasionally it is seen that the G2H worker starts running after a delay of more than
++	 * a second even after being queued and activated by the Linux workqueue subsystem. This
++	 * leads to G2H timeout error. The root cause of issue lies with scheduling latency of
++	 * Lunarlake Hybrid CPU. Issue dissappears if we disable Lunarlake atom cores from BIOS
++	 * and this is beyond xe kmd.
++	 *
++	 * TODO: Drop this change once workqueue scheduling delay issue is fixed on LNL Hybrid CPU.
++	 */
++	if (!ret) {
++		flush_work(&ct->g2h_worker);
++		if (g2h_fence.done) {
++			xe_gt_warn(gt, "G2H fence %u, action %04x, done\n",
++				   g2h_fence.seqno, action[0]);
++			ret = 1;
++		}
++	}
++
+ 	/*
+ 	 * Ensure we serialize with completion side to prevent UAF with fence going out of scope on
+ 	 * the stack, since we have no clue if it will fire after the timeout before we can erase
 -- 
 2.43.0
 
