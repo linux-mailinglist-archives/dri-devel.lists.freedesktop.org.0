@@ -2,88 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4C19D6C01
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 00:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D68F49D6CF8
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 08:44:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CC2610E291;
-	Sat, 23 Nov 2024 23:00:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1308410E125;
+	Sun, 24 Nov 2024 07:44:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BozWns9o";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lVa3Gniu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7546B10E291;
- Sat, 23 Nov 2024 23:00:12 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ANMlUeN020736;
- Sat, 23 Nov 2024 23:00:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=z1Th407nZNKUJgy0+yOGqGyJ
- +2HnOT3I/5BrbLrTlfc=; b=BozWns9ohixfdCf/+oBB1JgFEV4/p+Xp3tL5mk0o
- G0qoOVnYU+zXFlvZpFXFM+967ltCskaIY0adtU7eMt+4kmzJM9Ix1A9m6lVOY7Sh
- CTNiZZorID+yINvafUZfL2YWSzI7e/WbTiPEeLv96Au2Us2crm5MfNamZ0M058f4
- tpH3hXETpeY7YqmXijN9KlWnQJPLLHAJCgBJev0sJYm/aMDs9TKLxRs8N+/0bifD
- ct9ACYBiI9T3e+zveC/6I4ou2YkW5q1NjqFOw+h6ufUHhWT00uqLBIknlBLddey8
- FTAzhKGW902OJPtBi/z8ElBOS/foZjbtFX0sLMaZpQObfQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4336mx9dnh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 23 Nov 2024 23:00:06 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ANN05PF028434
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 23 Nov 2024 23:00:05 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sat, 23 Nov 2024 14:59:58 -0800
-Date: Sun, 24 Nov 2024 04:29:54 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-CC: Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, "Stephen
- Boyd" <sboyd@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
- <konradybcio@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>,
- Connor Abbott <cwabbott0@gmail.com>, <linux-pm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v2 08/11] drm/msm: adreno: request for maximum bus
- bandwidth usage
-Message-ID: <20241123225954.lv3k2fxk7rxyh67z@hu-akhilpo-hyd.qualcomm.com>
-References: <20241119-topic-sm8x50-gpu-bw-vote-v2-0-4deb87be2498@linaro.org>
- <20241119-topic-sm8x50-gpu-bw-vote-v2-8-4deb87be2498@linaro.org>
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 985F710E125
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 07:44:47 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-2ea68cd5780so2914735a91.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 23:44:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1732434287; x=1733039087; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Aq2f37XpxmkvDg9k6RPxNwitNinOPVD09l4HgvPD3Nw=;
+ b=lVa3Gnium3rZxuASaGMPxNDGo4w0qegp0Y5QqTLdchw/A9fv45Ja+Un+I7zfsz7PwW
+ OotPJCZvsJmMCDBTUvurIdiom34BowEtyjVfQWBzIg4ZR95dIXaH00pSPvFbN4SUtvse
+ vh7AVH6ZJmCjaeaaFS0czbO6mUHLeA01cl2UB4RgMISxUXi4rRuJmzpFl21i/xHQucCB
+ 3cIamzyguYJvgXtDq3A+a58iqgCYBVCtm+H02RS6OkvaFU7LlnOTEvUJMQ5JnOYc/nuW
+ yGC8gu2OLo0JL10uqH7VGmoyqkqNkwJSpvNH2tzaw9fgW8hTnBRf/DrJmgRGPD/RFdnc
+ Y/Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732434287; x=1733039087;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Aq2f37XpxmkvDg9k6RPxNwitNinOPVD09l4HgvPD3Nw=;
+ b=rYGy7KB8SJeDvlNMfsu7Ein54ASpqAdIsStxuhB/Q6GAiedLZUyq6bnoxH+6ffe9kW
+ 3aywue7NtzAnYc2kPlkZVMCvfprpUE61wRKb9cwC5paD3vsCiqeSYfA0aUfOJr4h2GAd
+ tTYeZaT2Oml0F9XRw2Pw+7FHAvocYa4hAxRLyTHG/4W7TpXY7tOA5b83fYdRJIobhgAR
+ R30xXlCi0pmKFcCuBCKH+hPaGHgRPciqhjfJcE3dhTmFLnSH9KXczPX9TrEv+71tgnAl
+ 0S3c45IaIyAv6V8cn9SjGwyuvOjsNWafDW/3kur8pFWL3MLY/SrcAK4MULesXC0LDuQA
+ UC0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVbvxKNOndC3uzcxsu3N/tbVleEX236AjouCFoB4oLH4CC13CzPqWAqthprNMseUOEsEXleJdp9r6A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzVm4gzqA6EbBDpOeJVOtKlrVjvcPTMOJDsCSl6ovv+D7qWfHK9
+ NrO5wmQzdGbWaGkIfyHF9tAcTbXCjTeNN2dDV9YGn45mG+iy5Nf4
+X-Gm-Gg: ASbGncsp0iYWeYgFI0LhbSWGPdpieItXloEdkD9aTc7XqauZcE7+0gAVcoLGe8CqmKT
+ oF8xQ31Rj/39QQPjJU98CpZaAD3J9BfY0H35NiNZYY0yUf8va7SKqR7hBPjG4umkSrR1pfMXzXh
+ PoUH5zRO064kTAQmRJytj7uzSU8UTV8n20AUyov0zbruO+EaYaO1RjrwKDmGdshVktNyJ0TgWIe
+ /8El2cmuuhie8n5TBpAvYD0msuH3IDgNlbDFnG8IX1EOxz/klUKphl8/S22IsufvfOT2ks4p0U=
+X-Google-Smtp-Source: AGHT+IGmkHiMH8U4JrZGmeZGNyxfAdia1O9NuHDN7UBXQpwBwxx7QaDqfGke2FmpU6dpMC+J18Wgmw==
+X-Received: by 2002:a17:90b:4e8c:b0:2ea:525e:14a7 with SMTP id
+ 98e67ed59e1d1-2eb0e866014mr11327597a91.29.1732434286850; 
+ Sat, 23 Nov 2024 23:44:46 -0800 (PST)
+Received: from mighty.kangaroo-insen.ts.net ([45.64.12.219])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2ead02eca46sm7870925a91.7.2024.11.23.23.44.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 23 Nov 2024 23:44:46 -0800 (PST)
+From: Mithil Bavishi <bavishimithil@gmail.com>
+To: andreas@kemnade.info
+Cc: Laurent.pinchart@ideasonboard.com, aaro.koskinen@iki.fi, airlied@gmail.com,
+ bavishimithil@gmail.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ khilman@baylibre.com, krzk+dt@kernel.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ quic_jesszhan@quicinc.com, rfoss@kernel.org, robh@kernel.org,
+ rogerq@kernel.org, simona@ffwll.ch, thierry.reding@gmail.com,
+ tony@atomide.com, tzimmermann@suse.de
+Subject: Re: [PATCH v3 10/10] ARM: dts: ti: omap: samsung-espresso10: Add
+ initial support for Galaxy Tab 2 10.1
+Date: Sun, 24 Nov 2024 07:44:34 +0000
+Message-ID: <20241124074434.534-1-bavishimithil@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241123223150.28d4002b@akair>
+References: <20241123223150.28d4002b@akair>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241119-topic-sm8x50-gpu-bw-vote-v2-8-4deb87be2498@linaro.org>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: v9k5cxrwlBXoB2WC5EZWTBQoTzJsZLpU
-X-Proofpoint-GUID: v9k5cxrwlBXoB2WC5EZWTBQoTzJsZLpU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0
- adultscore=0 impostorscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
- clxscore=1015 suspectscore=0 bulkscore=0 priorityscore=1501
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411230192
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,64 +96,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 19, 2024 at 06:56:43PM +0100, Neil Armstrong wrote:
-> When requesting a DDR bandwidth level along a GPU frequency
-> level via the GMU, we can also specify the bus bandwidth usage in a 16bit
-> quantitized value.
-> 
-> For now simply request the maximum bus usage.
+> well, I think I2C bus runs at 1.8V, and there is IO_1.8V in the name,
+> so vio-supply should be something at 1.8V, so probably ldo6 is
+> vio-supply. Maybe add a remark in the comments. But then it might be
+> not a good idea to turn that off in suspend. if the other regulator is
+> kept on.
 
-Why? You don't care about power efficiency?
-Lets drop this patch. We don't care about AB vote yet.
+But we are not sure if it is the same, also I personally cannot test it
+since I own the 7 inch version. Let's remove avdd supply for now and see
+if someone with 10 inch version can test it again later. This is better
+than putting potentially incorrect information.
 
--Akhil
+> We have also the warning from dtbs_check:
+> arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb:
+> synaptics-rmi4-i2c@20: Unevaluated properties are not allowed
+> ('avdd-supply', 'touchscreen-size-x', 'touchscreen-size-y' were
+> unexpected)
 
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 11 +++++++++++
->  drivers/gpu/drm/msm/adreno/a6xx_hfi.h |  5 +++++
->  2 files changed, 16 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index dc2d0035544e7848e5c4ea27f1ea9a191f9c4991..36c0f67fd8e109aabf09a0804bacbed3593c39d7 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -134,6 +134,17 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
->  			if (bw == gmu->gpu_bw_table[bw_index])
->  				break;
->  		}
-> +
-> +		if (bw_index) {
-> +			/*
-> +			 * Append AB vote to the maximum bus usage.
-> +			 * AB represents a quantitized 16bit value of the
-> +			 * max ddr bandwidth we could use, let's simply
-> +			 * request the maximum for now.
-> +			 */
-> +			bw_index |= AB_VOTE(MAX_AB_VOTE);
-> +			bw_index |= AB_VOTE_ENABLE;
-> +		}
->  	}
->  
->  	gmu->current_perf_index = perf_index;
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h b/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
-> index 528110169398f69f16443a29a1594d19c36fb595..52ba4a07d7b9a709289acd244a751ace9bdaab5d 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
-> @@ -173,6 +173,11 @@ struct a6xx_hfi_gx_bw_perf_vote_cmd {
->  	u32 bw;
->  };
->  
-> +#define AB_VOTE_MASK		GENMASK(31, 16)
-> +#define MAX_AB_VOTE		(FIELD_MAX(AB_VOTE_MASK) - 1)
-> +#define AB_VOTE(vote)		FIELD_PREP(AB_VOTE_MASK, (vote))
-> +#define AB_VOTE_ENABLE		BIT(8)
-> +
->  #define HFI_H2F_MSG_PREPARE_SLUMBER 33
->  
->  struct a6xx_hfi_prep_slumber_cmd {
-> 
-> -- 
-> 2.34.1
-> 
+Ah, indeed. I missed it, will fix it as you've mentioned.
+
+Best Regards,
+Mithil
