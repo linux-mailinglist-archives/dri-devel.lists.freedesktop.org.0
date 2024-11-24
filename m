@@ -2,51 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7596D9D76B7
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 18:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 448E69D76CB
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 18:38:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3F3A10E5A0;
-	Sun, 24 Nov 2024 17:30:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA5310E5A2;
+	Sun, 24 Nov 2024 17:38:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="nSqf4itm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iuLcgPE6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com
- [91.218.175.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1011D10E5A0
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 17:30:18 +0000 (UTC)
-Message-ID: <561af7e3-dd81-4b56-abf5-46dbc29e722d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1732469416;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rK1mzmJ7vpkr+04+AqkMIb5woGMrT4y42UHtCqLFTmo=;
- b=nSqf4itmaNqH9PVzApKVjjqJlI8hDj18w/GAfwGpTjMBDORyMJI65keO8zwBWzyi2vSXI1
- wQm6mYniY5rEzTwWwYxWhg7Yz49e6duo9dl3Z0HA6bQ5u1xqU6QpdyFVPOPUe5/vLDYvLZ
- ysHRTLdrmrrdXuiXdbmlzF/B64lK5mQ=
-Date: Sun, 24 Nov 2024 23:00:03 +0530
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3ECE10E5A2
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 17:38:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 76C54A40F7B;
+ Sun, 24 Nov 2024 17:36:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D09E2C4CED8;
+ Sun, 24 Nov 2024 17:38:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732469911;
+ bh=HxTYlh3ZiQ6RZupeK62kAyRgWiWDGmzBXEGGc5CWI4k=;
+ h=Date:From:To:Subject:From;
+ b=iuLcgPE6ckXSU0xRVeNsTB6l2H0Gv2iF1wq7juLYDbQEW3sy7bx5LG+izQkra0srH
+ CI7K9HNj6TiRYUY7h+y7V3nBEZAMdroJhR8oqEzE+fpTI8QdTsvN43Wc9Z8L+JJUfm
+ sR5HtDb0a5Mlh/QUww5BwAs4dXY4ZMVI10tXMa45lEoisHrOa+pWhyxDcsIQ6CNmpx
+ cqUrMKeeQvDWUp8TFoVLZd+Cxkc9DsQhgMH5U/qrsDIlObFkpwFU417I3Wrn7Sc4VH
+ UMqFTtZoSDnjah7E4bwMRs4dX1qqA5a1PRCbklbKDcnQp45wykrBi+ilTGMnLytiEv
+ qceZq+Qcg4F4w==
+Date: Sun, 24 Nov 2024 18:38:26 +0100
+From: Helge Deller <deller@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes and cleanups for v6.13-rc1
+Message-ID: <Z0NkkihDqEwi3k9Y@carbonx1>
 MIME-Version: 1.0
-Subject: Re: [PATCH 7/7] drm/tidss: Rename 'wait_lock' to 'irq_lock'
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Devarsh Thakkar <devarsht@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jonathan Cormier <jcormier@criticallink.com>
-References: <20241021-tidss-irq-fix-v1-0-82ddaec94e4a@ideasonboard.com>
- <20241021-tidss-irq-fix-v1-7-82ddaec94e4a@ideasonboard.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-In-Reply-To: <20241021-tidss-irq-fix-v1-7-82ddaec94e4a@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,19 +55,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Linus,
 
+please pull two patches for fbdev for this merge window:
+One removes a memory leak in an error path, the other drops unused code.
 
-On 10/21/24 19:37, Tomi Valkeinen wrote:
-> The 'wait_lock' name seems to be a copy-paste from omapdrm, and makes no
-> sense here. Rename it to 'irq_lock'. Also clarify the related comment to
-> make it clear what it protects, and drop any comments related to
-> 'wait_list' which doesn't exist in tidss.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Thanks,
+Helge
 
-Reviewed-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+----------------------------------------------------------------
+The following changes since commit 2d5404caa8c7bb5c4e0435f94b28834ae5456623:
 
-Regards
-Aradhya
+  Linux 6.12-rc7 (2024-11-10 14:19:35 -0800)
 
-[...]
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.13-rc1
+
+for you to fetch changes up to 8d7493133bfd89322349be3daaf39a256e4354ac:
+
+  fbdev: omapfb: Remove some deadcode (2024-11-14 15:30:36 +0100)
+
+----------------------------------------------------------------
+fbdev fixes and updates for 6.13-rc1:
+
+- omapfb: Remove unused code (Dr. David Alan Gilbert)
+- sh7760fb: Fix memory leak in error path of sh7760fb_alloc_mem()
+  (Zhen Lei)
+
+----------------------------------------------------------------
+Dr. David Alan Gilbert (1):
+      fbdev: omapfb: Remove some deadcode
+
+Zhen Lei (1):
+      fbdev: sh7760fb: Fix a possible memory leak in sh7760fb_alloc_mem()
+
+ drivers/video/fbdev/omap2/omapfb/dss/dispc.c | 27 ---------------------------
+ drivers/video/fbdev/omap2/omapfb/dss/dss.h   |  3 ---
+ drivers/video/fbdev/sh7760fb.c               |  3 +--
+ 3 files changed, 1 insertion(+), 32 deletions(-)
