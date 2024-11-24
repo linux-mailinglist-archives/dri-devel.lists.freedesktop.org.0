@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D709D709B
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:36:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4AA9D709F
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:37:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAC8F10E4E5;
-	Sun, 24 Nov 2024 13:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2845C10E4E9;
+	Sun, 24 Nov 2024 13:37:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gPpWuRCs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BiRaPziq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69D1810E4E2;
- Sun, 24 Nov 2024 13:36:51 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1CAC10E4E7;
+ Sun, 24 Nov 2024 13:37:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 7C308A40AC6;
- Sun, 24 Nov 2024 13:34:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55D44C4CED1;
- Sun, 24 Nov 2024 13:36:48 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8FBBC5C53B8;
+ Sun, 24 Nov 2024 13:36:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42EE7C4CECC;
+ Sun, 24 Nov 2024 13:37:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732455410;
- bh=2Kl0frRTSpeSxs8adDTnrwdbyKJvtH2WS6/Cb/idmxY=;
+ s=k20201202; t=1732455431;
+ bh=DqWiCfpkrzTx2envKHNBpAO1sH0IGlyIeYuu6hZ0jJo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gPpWuRCsj9XW3OSn/hKRgozWcMAvnLRJ19k6EOirIpuqshE87mwZxe2uUF8m9B2kY
- KQ6fs8OCSARZ4MIA7hWs11pymkXTXh9ubUaeMVI+AE1sP5ElHHjyNUtLZ48Rk9GZcS
- +sIaYiBERHNHA+heni45u60nXCq5pz1WRAitny/JpIt09UbPkN0V/QbU6ZyymqTzsw
- 9677Dg8qtA026HhdAJBil3GnscndRVGzaPWavz+XKiym96nel5pHuBrZpD1PuQJKmm
- ezMQJHM1klO45ICh3otXVesD0tygoWOQpvVSHBghJHE2wet9QNA0rrMJ6446BzuYEw
- WRIBZFGPP0HLQ==
+ b=BiRaPziq31VWRl9Hskl+THHZ5X2w16QQ5ABPp2CdKLbcBIZSrc5auJaD1ph8SYaP1
+ y2CxlRkAJqzQ3bK3HKlvJ89fqSGVyyPSHSfueEItjNiU2XawJbDU/NTSjFoxIbHZeb
+ hWUfJnijKBSXSpLhgAhg/allSfbJNpwm4FSmPJI7mUYqUqPi5EuIR+Llnk/dAhva0E
+ 17VERAVVE2IxO3rUKWaLueg6GrACngVFzxHSeYJiGJOwkavLw1bloHHp7xxjQKhWzI
+ rQpGypoMSnQM7W0aEOr2Xaz/NzqobQhxuP8t07/gGBAd+frtBvOC/j/yIzvrESLZqx
+ y4fLcmYS7dccw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Lang Yu <lang.yu@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch, Frank.Min@amd.com,
- Hawking.Zhang@amd.com, Philip.Yang@amd.com, shashank.sharma@amd.com,
- mdaenzer@redhat.com, Arunpravin.PaneerSelvam@amd.com,
- Amaranath.Somalapuram@amd.com, amd-gfx@lists.freedesktop.org,
+Cc: Leo Ma <hanghong.ma@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Dillon Varone <dillon.varone@amd.com>, Tom Chung <chiahsuan.chung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ chaitanya.dhere@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch, Alvin.Lee2@amd.com,
+ Samson.Tam@amd.com, aurabindo.pillai@amd.com, alex.hung@amd.com,
+ joshua.aberback@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 064/107] drm/amdgpu: refine error handling in
- amdgpu_ttm_tt_pin_userptr
-Date: Sun, 24 Nov 2024 08:29:24 -0500
-Message-ID: <20241124133301.3341829-64-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 067/107] drm/amd/display: Fix underflow when
+ playing 8K video in full screen mode
+Date: Sun, 24 Nov 2024 08:29:27 -0500
+Message-ID: <20241124133301.3341829-67-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124133301.3341829-1-sashal@kernel.org>
 References: <20241124133301.3341829-1-sashal@kernel.org>
@@ -67,42 +70,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lang Yu <lang.yu@amd.com>
+From: Leo Ma <hanghong.ma@amd.com>
 
-[ Upstream commit 46186667f98fb7158c98f4ff5da62c427761ffcd ]
+[ Upstream commit 4007f07a47de4a277f4760cac3aed1b31d973eea ]
 
-Free sg table when dma_map_sgtable() failed to avoid memory leak.
+[Why&How]
+Flickering observed while playing 8k HEVC-10 bit video in full screen
+mode with black border. We didn't support this case for subvp.
+Make change to the existing check to disable subvp for this corner case.
 
-Signed-off-by: Lang Yu <lang.yu@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Signed-off-by: Leo Ma <hanghong.ma@amd.com>
+Signed-off-by: Dillon Varone <dillon.varone@amd.com>
+Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 74adb983ab03e..0637414fc70e0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -812,7 +812,7 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_device *bdev,
- 	/* Map SG to device */
- 	r = dma_map_sgtable(adev->dev, ttm->sg, direction, 0);
- 	if (r)
--		goto release_sg;
-+		goto release_sg_table;
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
+index 8697eac1e1f7e..6c9e1a10911e2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
+@@ -859,7 +859,7 @@ static void populate_dml21_plane_config_from_plane_state(struct dml2_context *dm
+ 	plane->immediate_flip = plane_state->flip_immediate;
  
- 	/* convert SG to linear array of pages and dma addresses */
- 	drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_address,
-@@ -820,6 +820,8 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_device *bdev,
+ 	plane->composition.rect_out_height_spans_vactive =
+-		plane_state->dst_rect.height >= stream->timing.v_addressable &&
++		plane_state->dst_rect.height >= stream->src.height &&
+ 		stream->dst.height >= stream->timing.v_addressable;
+ }
  
- 	return 0;
- 
-+release_sg_table:
-+	sg_free_table(ttm->sg);
- release_sg:
- 	kfree(ttm->sg);
- 	ttm->sg = NULL;
 -- 
 2.43.0
 
