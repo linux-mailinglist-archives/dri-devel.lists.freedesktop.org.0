@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4799D70A8
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614EC9D70AF
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:37:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ECCC10E4E7;
-	Sun, 24 Nov 2024 13:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD48810E4ED;
+	Sun, 24 Nov 2024 13:37:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F01qzbw8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T6LqQG59";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8E5610E4E7;
- Sun, 24 Nov 2024 13:37:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5E7C10E4EC;
+ Sun, 24 Nov 2024 13:37:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A90985C48E9;
- Sun, 24 Nov 2024 13:36:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA2FDC4CECC;
- Sun, 24 Nov 2024 13:37:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AA8645C5628;
+ Sun, 24 Nov 2024 13:37:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BA4DC4CECC;
+ Sun, 24 Nov 2024 13:37:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732455462;
- bh=8E0zxXlJhERkU6dY0p0wmypLqUVuTj51YrRPg2MOAk0=;
+ s=k20201202; t=1732455467;
+ bh=oddvh8vUISydeyfq5mfog7VYlX2ELwy6ZEqEGG+WSTA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=F01qzbw87iPDfhi8q05DUCRO/LQTAzfqap6xryDsvb6V8wazV3TQ3DeLffW5Us+Q+
- +RgZrxL32ag2XjHfZJARHNU4AUu4aMddjgQUQuRTPZjZYLZ1bkTgaJgm5D5HCOwrLu
- 4vxLEuMWqbCFFYOScPFDtBzM7XQDZKheOM5d4B4GgwvLtJ8HXTbzKVqE+7pkHdKrsD
- 4lYSzdUMCxtDBHZ7zIg9YV0+vPIWrK3mUT00Emd+Bv3zbCHWbHV8KEnYjj27mQ1SQx
- AJ3nqS/akj8An09/faUGVoOowsJDre7hCgaeo7LL7yKBHIxmlgaitmoE9LClfsOOsj
- 4PQGzhv4fUUSg==
+ b=T6LqQG594rggJg616z+AprVS0oBKvhuQUhFN/lve14UN3BEZBXSKHZPbjsKcjKxXa
+ UEyV0m0Jc9Bcctsnlele7Wx1CfCE7goryR4oQvI8wV34RP8B55190jaiKbom8a+uFW
+ wp72lA5GnKCuNvVigpIbPTw2jnG0EtQ6TpJvFyN0s41dtGW4mz+zRZA4yktGo6fAW4
+ bxwGZyUc93waRJ2TvFFMt5F19EuA0mFeqhpu8F2okLKJGEO4x14E931U2IZvtcpvyI
+ ts3z2/ZNVoWQCGHjYq9jiGa+zGpqh515XwO9kMj5uvENaFkzPAhh4vL5lwQtpaSH7i
+ 0p5g27ASuvzqQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -39,13 +39,15 @@ Cc: Ausef Yousof <Ausef.Yousof@amd.com>, Charlene Liu <charlene.liu@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, wenjing.liu@amd.com, alex.hung@amd.com,
- michael.strauss@amd.com, george.shen@amd.com, daniel.sa@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 079/107] Revert "drm/amd/display: Block UHBR
- Based On USB-C PD Cable ID"
-Date: Sun, 24 Nov 2024 08:29:39 -0500
-Message-ID: <20241124133301.3341829-79-sashal@kernel.org>
+ simona@ffwll.ch, nicholas.kazlauskas@amd.com, Charlene.Liu@amd.com,
+ chiahsuan.chung@amd.com, hamza.mahfooz@amd.com, Nicholas.Susanto@amd.com,
+ sungjoon.kim@amd.com, roman.li@amd.com, zhongwei.zhang@amd.com,
+ michael.strauss@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 080/107] drm/amd/display: Remove hw w/a toggle if
+ on DP2/HPO
+Date: Sun, 24 Nov 2024 08:29:40 -0500
+Message-ID: <20241124133301.3341829-80-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124133301.3341829-1-sashal@kernel.org>
 References: <20241124133301.3341829-1-sashal@kernel.org>
@@ -71,13 +73,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ausef Yousof <Ausef.Yousof@amd.com>
 
-[ Upstream commit d7b86a002cf7e1b55ec311c11264f70d079860b9 ]
+[ Upstream commit b4c804628485af2b46f0d24a87190735cac37d61 ]
 
-This reverts commit 4f01a68751194d05280d659a65758c09e4af04d6.
-
-[why & how]
-The offending commit caused a lighting issue for Samsung Odyssey G9
-monitors when connecting via USB-C. The commit was intended to block certain UHBR rates.
+[why&how]
+Applying a hw w/a only relevant to DIG FIFO causing corruption
+using HPO, do not apply the w/a if on DP2/HPO
 
 Reviewed-by: Charlene Liu <charlene.liu@amd.com>
 Signed-off-by: Ausef Yousof <Ausef.Yousof@amd.com>
@@ -86,63 +86,38 @@ Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../dc/link/protocols/link_dp_capability.c    | 22 +++++--------------
- 1 file changed, 6 insertions(+), 16 deletions(-)
+ .../drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c  | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-index fe4aa2c158eae..d78c8ec4de79e 100644
---- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-@@ -1409,8 +1409,7 @@ static bool get_usbc_cable_id(struct dc_link *link, union dp_cable_id *cable_id)
- 
- 	if (!link->ctx->dmub_srv ||
- 			link->ep_type != DISPLAY_ENDPOINT_PHY ||
--			link->link_enc->features.flags.bits.DP_IS_USB_C == 0 ||
--			link->link_enc->features.flags.bits.IS_DP2_CAPABLE == 0)
-+			link->link_enc->features.flags.bits.DP_IS_USB_C == 0)
- 		return false;
- 
- 	memset(&cmd, 0, sizeof(cmd));
-@@ -1423,9 +1422,7 @@ static bool get_usbc_cable_id(struct dc_link *link, union dp_cable_id *cable_id)
- 		cable_id->raw = cmd.cable_id.data.output_raw;
- 		DC_LOG_DC("usbc_cable_id = %d.\n", cable_id->raw);
- 	}
--
--	ASSERT(cmd.cable_id.header.ret_status);
--	return true;
-+	return cmd.cable_id.header.ret_status == 1;
- }
- 
- static void retrieve_cable_id(struct dc_link *link)
-@@ -2106,8 +2103,6 @@ struct dc_link_settings dp_get_max_link_cap(struct dc_link *link)
- 	/* get max link encoder capability */
- 	if (link_enc)
- 		link_enc->funcs->get_max_link_cap(link_enc, &max_link_cap);
--	else
--		return max_link_cap;
- 
- 	/* Lower link settings based on sink's link cap */
- 	if (link->reported_link_cap.lane_count < max_link_cap.lane_count)
-@@ -2141,15 +2136,10 @@ struct dc_link_settings dp_get_max_link_cap(struct dc_link *link)
- 	 */
- 	cable_max_link_rate = get_cable_max_link_rate(link);
- 
--	if (!link->dc->debug.ignore_cable_id) {
--		if (cable_max_link_rate != LINK_RATE_UNKNOWN)
--			// cable max link rate known
--			max_link_cap.link_rate = MIN(max_link_cap.link_rate, cable_max_link_rate);
--		else if (link_enc->funcs->is_in_alt_mode && link_enc->funcs->is_in_alt_mode(link_enc))
--			// cable max link rate ambiguous, DP alt mode, limit to HBR3
--			max_link_cap.link_rate = MIN(max_link_cap.link_rate, LINK_RATE_HIGH3);
--		//else {}
--			// cable max link rate ambiguous, DP, do nothing
-+	if (!link->dc->debug.ignore_cable_id &&
-+			cable_max_link_rate != LINK_RATE_UNKNOWN) {
-+		if (cable_max_link_rate < max_link_cap.link_rate)
-+			max_link_cap.link_rate = cable_max_link_rate;
- 
- 		if (!link->dpcd_caps.cable_id.bits.UHBR13_5_CAPABILITY &&
- 				link->dpcd_caps.cable_id.bits.CABLE_TYPE >= 2)
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+index 7d68006137a97..3bd0d46c17010 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+@@ -132,6 +132,8 @@ static void dcn35_disable_otg_wa(struct clk_mgr *clk_mgr_base, struct dc_state *
+ 	for (i = 0; i < dc->res_pool->pipe_count; ++i) {
+ 		struct pipe_ctx *old_pipe = &dc->current_state->res_ctx.pipe_ctx[i];
+ 		struct pipe_ctx *new_pipe = &context->res_ctx.pipe_ctx[i];
++		struct clk_mgr_internal *clk_mgr_internal = TO_CLK_MGR_INTERNAL(clk_mgr_base);
++		struct dccg *dccg = clk_mgr_internal->dccg;
+ 		struct pipe_ctx *pipe = safe_to_lower
+ 			? &context->res_ctx.pipe_ctx[i]
+ 			: &dc->current_state->res_ctx.pipe_ctx[i];
+@@ -148,8 +150,13 @@ static void dcn35_disable_otg_wa(struct clk_mgr *clk_mgr_base, struct dc_state *
+ 		new_pipe->stream_res.stream_enc &&
+ 		new_pipe->stream_res.stream_enc->funcs->is_fifo_enabled &&
+ 		new_pipe->stream_res.stream_enc->funcs->is_fifo_enabled(new_pipe->stream_res.stream_enc);
+-		if (pipe->stream && (pipe->stream->dpms_off || dc_is_virtual_signal(pipe->stream->signal) ||
+-			!pipe->stream->link_enc) && !stream_changed_otg_dig_on) {
++		bool has_active_hpo = dccg->ctx->dc->link_srv->dp_is_128b_132b_signal(old_pipe) && dccg->ctx->dc->link_srv->dp_is_128b_132b_signal(new_pipe);
++
++		if (!has_active_hpo && !dccg->ctx->dc->link_srv->dp_is_128b_132b_signal(pipe) &&
++					(pipe->stream && (pipe->stream->dpms_off || dc_is_virtual_signal(pipe->stream->signal) ||
++					!pipe->stream->link_enc) && !stream_changed_otg_dig_on)) {
++
++
+ 			/* This w/a should not trigger when we have a dig active */
+ 			if (disable) {
+ 				if (pipe->stream_res.tg && pipe->stream_res.tg->funcs->immediate_disable_crtc)
 -- 
 2.43.0
 
