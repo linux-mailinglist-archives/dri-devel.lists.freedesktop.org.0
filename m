@@ -2,83 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D68F49D6CF8
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 08:44:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42DC09D6D02
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 09:03:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1308410E125;
-	Sun, 24 Nov 2024 07:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2FD210E126;
+	Sun, 24 Nov 2024 08:03:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lVa3Gniu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SJgIlfCp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 985F710E125
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 07:44:47 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-2ea68cd5780so2914735a91.3
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2024 23:44:47 -0800 (PST)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C684210E126
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 08:03:01 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-7eda47b7343so2691308a12.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 00:03:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732434287; x=1733039087; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Aq2f37XpxmkvDg9k6RPxNwitNinOPVD09l4HgvPD3Nw=;
- b=lVa3Gnium3rZxuASaGMPxNDGo4w0qegp0Y5QqTLdchw/A9fv45Ja+Un+I7zfsz7PwW
- OotPJCZvsJmMCDBTUvurIdiom34BowEtyjVfQWBzIg4ZR95dIXaH00pSPvFbN4SUtvse
- vh7AVH6ZJmCjaeaaFS0czbO6mUHLeA01cl2UB4RgMISxUXi4rRuJmzpFl21i/xHQucCB
- 3cIamzyguYJvgXtDq3A+a58iqgCYBVCtm+H02RS6OkvaFU7LlnOTEvUJMQ5JnOYc/nuW
- yGC8gu2OLo0JL10uqH7VGmoyqkqNkwJSpvNH2tzaw9fgW8hTnBRf/DrJmgRGPD/RFdnc
- Y/Xg==
+ d=gmail.com; s=20230601; t=1732435381; x=1733040181; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=okZX6pXA4mfS/KAXJ+4rw/o+tdcSDmzhi/SRAL4gwz4=;
+ b=SJgIlfCpcl+6A3OKn0cWGStmlSGWfY17Tc3sdn4ByDDUeWNsO6F4NLGgq3HO5Wlh6i
+ gJmecjm6YaiTbXl6kATFAUudHA4o3rjirUG89RzzPhSCtYGQcKTHRJiWCxww1PuTVubc
+ lMr5Ha7B7FaOco7/ehyFC+myvyQjKnLwJb8zlxxgZXlnGNUGf2c5jdOh0cR4ilKEhibj
+ xUi8BaiqNyUP/7r8dwIXLScHgpUqkXL6zM7ZPGQvOglMuBNQqXmDppy2C96uXyGeWISO
+ /K85jA9XY5h6Lq52v4IguDUICoGq5hZN508XiGqLyPo9HptJrfkF9Mm+Xus/tMhtGzDd
+ MpxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732434287; x=1733039087;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Aq2f37XpxmkvDg9k6RPxNwitNinOPVD09l4HgvPD3Nw=;
- b=rYGy7KB8SJeDvlNMfsu7Ein54ASpqAdIsStxuhB/Q6GAiedLZUyq6bnoxH+6ffe9kW
- 3aywue7NtzAnYc2kPlkZVMCvfprpUE61wRKb9cwC5paD3vsCiqeSYfA0aUfOJr4h2GAd
- tTYeZaT2Oml0F9XRw2Pw+7FHAvocYa4hAxRLyTHG/4W7TpXY7tOA5b83fYdRJIobhgAR
- R30xXlCi0pmKFcCuBCKH+hPaGHgRPciqhjfJcE3dhTmFLnSH9KXczPX9TrEv+71tgnAl
- 0S3c45IaIyAv6V8cn9SjGwyuvOjsNWafDW/3kur8pFWL3MLY/SrcAK4MULesXC0LDuQA
- UC0A==
+ d=1e100.net; s=20230601; t=1732435381; x=1733040181;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=okZX6pXA4mfS/KAXJ+4rw/o+tdcSDmzhi/SRAL4gwz4=;
+ b=VyBfnBb0vm5osgblZ3e1MDDo0Z2L+YIPv5++HtNeucfKjApahKyFgcuVEYi+hqkjUa
+ CCtBR/8Q68uA4cEo2q2Pm4f7WS1cd5E7PyoflKyLUkKgYI48SBZo8TCEUHjjUNmu0SdH
+ 3KqSaQ8ohl7iLgGG/53oSE76lMa1MuPhRk9XfMT0tILeElv0U4j+zhC2vwktSjMo4vC9
+ Grt+jq2TS4fu8fVyv1OBYBYsW6K9bHRK/L5l3kyV04n3GfN6+6VCGJ14aggJS+8mHGr2
+ hR/uqg6DSBHqY1h8slVULhQ0id2OlAq/pHrLfgne5raZGeq5Oetvk1yFvLNyahS4sLma
+ W4Gg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVbvxKNOndC3uzcxsu3N/tbVleEX236AjouCFoB4oLH4CC13CzPqWAqthprNMseUOEsEXleJdp9r6A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzVm4gzqA6EbBDpOeJVOtKlrVjvcPTMOJDsCSl6ovv+D7qWfHK9
- NrO5wmQzdGbWaGkIfyHF9tAcTbXCjTeNN2dDV9YGn45mG+iy5Nf4
-X-Gm-Gg: ASbGncsp0iYWeYgFI0LhbSWGPdpieItXloEdkD9aTc7XqauZcE7+0gAVcoLGe8CqmKT
- oF8xQ31Rj/39QQPjJU98CpZaAD3J9BfY0H35NiNZYY0yUf8va7SKqR7hBPjG4umkSrR1pfMXzXh
- PoUH5zRO064kTAQmRJytj7uzSU8UTV8n20AUyov0zbruO+EaYaO1RjrwKDmGdshVktNyJ0TgWIe
- /8El2cmuuhie8n5TBpAvYD0msuH3IDgNlbDFnG8IX1EOxz/klUKphl8/S22IsufvfOT2ks4p0U=
-X-Google-Smtp-Source: AGHT+IGmkHiMH8U4JrZGmeZGNyxfAdia1O9NuHDN7UBXQpwBwxx7QaDqfGke2FmpU6dpMC+J18Wgmw==
-X-Received: by 2002:a17:90b:4e8c:b0:2ea:525e:14a7 with SMTP id
- 98e67ed59e1d1-2eb0e866014mr11327597a91.29.1732434286850; 
- Sat, 23 Nov 2024 23:44:46 -0800 (PST)
-Received: from mighty.kangaroo-insen.ts.net ([45.64.12.219])
+ AJvYcCVC248d9bfZcthztkuknX9whgIMFaF+SxShcSNsewPKS0yHcuHhlzSvJVz0SQhoT3zwvJuPv47IuQM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwAzeqeMMfInQU3O8T8pLQdNwdlLiZqd96DTyOqFSbB/SqSHmYh
+ IEKpwqMOvMA0lrjFegdcPO4SbxxCqh3RO9Yh65JD7sHyQV5dLOlj
+X-Gm-Gg: ASbGncvqFVCCjcNJT7GHIH+HfPNdXoz1CtGjrVaka5YWL4xaURxUu1XQe0V7seHbBqP
+ PEn7O1jlRhPMW+ZmxYESfJhJxl51YqSQTAOjiLg0AKzibnDBQE8AjklQ8UhUalyrlGzA5zBjm2p
+ 4x4ZrZzTudbI9JLp1I3cPWlK6AjIIS1erIa+tzYOacDOVTX7+g1ZmPRcYMBgqbx2W57TyFZ8CvY
+ inVFg9j76vP/D9Azf7peGpLhCAUQpsmdyIrb+5cy8IebhhFQAhxIblSxfAweGQ=
+X-Google-Smtp-Source: AGHT+IFpKGhehrzqjP+Je2lUITne1F2+KG/GZH3kSIJmjMcz3C+YkJc34BMHDi5B9s701wdNb2J8ig==
+X-Received: by 2002:a17:90b:3e8c:b0:2ea:7a22:539c with SMTP id
+ 98e67ed59e1d1-2eb0e125416mr11955627a91.7.1732435381155; 
+ Sun, 24 Nov 2024 00:03:01 -0800 (PST)
+Received: from noel.flets-west.jp ([2405:6586:4480:a10:fa8f:7c3e:835f:c642])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2ead02eca46sm7870925a91.7.2024.11.23.23.44.37
+ 98e67ed59e1d1-2ead03de6f6sm7956708a91.34.2024.11.24.00.02.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Nov 2024 23:44:46 -0800 (PST)
-From: Mithil Bavishi <bavishimithil@gmail.com>
-To: andreas@kemnade.info
-Cc: Laurent.pinchart@ideasonboard.com, aaro.koskinen@iki.fi, airlied@gmail.com,
- bavishimithil@gmail.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
- khilman@baylibre.com, krzk+dt@kernel.org, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
- quic_jesszhan@quicinc.com, rfoss@kernel.org, robh@kernel.org,
- rogerq@kernel.org, simona@ffwll.ch, thierry.reding@gmail.com,
- tony@atomide.com, tzimmermann@suse.de
-Subject: Re: [PATCH v3 10/10] ARM: dts: ti: omap: samsung-espresso10: Add
- initial support for Galaxy Tab 2 10.1
-Date: Sun, 24 Nov 2024 07:44:34 +0000
-Message-ID: <20241124074434.534-1-bavishimithil@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241123223150.28d4002b@akair>
-References: <20241123223150.28d4002b@akair>
+ Sun, 24 Nov 2024 00:03:00 -0800 (PST)
+From: Hironori KIKUCHI <kikuchan98@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
+ Christophe Branchereau <cbranchereau@gmail.com>,
+ Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH 0/6] drm/panel: nv3052c: Add support for new Anbernic panels
+Date: Sun, 24 Nov 2024 17:02:11 +0900
+Message-ID: <20241124080220.1657238-1-kikuchan98@gmail.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,24 +94,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> well, I think I2C bus runs at 1.8V, and there is IO_1.8V in the name,
-> so vio-supply should be something at 1.8V, so probably ldo6 is
-> vio-supply. Maybe add a remark in the comments. But then it might be
-> not a good idea to turn that off in suspend. if the other regulator is
-> kept on.
+Add support for new panels used in the Anbernic RG XX series.
 
-But we are not sure if it is the same, also I personally cannot test it
-since I own the 7 inch version. Let's remove avdd supply for now and see
-if someone with 10 inch version can test it again later. This is better
-than putting potentially incorrect information.
+This patch series adds:
+* YLM-LBV0345001H-V2 `anbernic,rg35xx-plus-rev6-panel`, for the RG35XX Plus (Rev6)
+* YLM-LBV0400001X-V1 `anbernic,rg40xx-panel`, for the RG40XX series
+* YLM-LBN0395004H-V1 `anbernic,rgcubexx-panel`, for the RG CubeXX
 
-> We have also the warning from dtbs_check:
-> arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dtb:
-> synaptics-rmi4-i2c@20: Unevaluated properties are not allowed
-> ('avdd-supply', 'touchscreen-size-x', 'touchscreen-size-y' were
-> unexpected)
+Hironori KIKUCHI (6):
+  dt-bindings: display: panel: Add another panel for RG35XX Plus (Rev6)
+  drm: panel: nv3052c: Add another panel for RG35XX Plus (Rev6)
+  dt-bindings: display: panel: Add a panel for RG40XX series
+  drm: panel: nv3052c: Add a panel for RG40XX series
+  dt-bindings: display: panel: Add a panel for RG CubeXX
+  drm: panel: nv3052c: Add a panel for RG CubeXX
 
-Ah, indeed. I missed it, will fix it as you've mentioned.
+ .../anbernic,rg35xx-plus-rev6-panel.yaml      |  60 ++
+ .../display/panel/anbernic,rg40xx-panel.yaml  |  60 ++
+ .../panel/anbernic,rgcubexx-panel.yaml        |  60 ++
+ .../gpu/drm/panel/panel-newvision-nv3052c.c   | 588 ++++++++++++++++++
+ 4 files changed, 768 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/panel/anbernic,rg40xx-panel.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/panel/anbernic,rgcubexx-panel.yaml
 
-Best Regards,
-Mithil
+-- 
+2.47.0
+
