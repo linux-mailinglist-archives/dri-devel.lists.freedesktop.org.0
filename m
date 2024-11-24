@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41689D705A
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:33:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56EEE9D705B
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:33:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58A9A10E4C3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93F2410E4BF;
 	Sun, 24 Nov 2024 13:33:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nu7+cdT7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OZtizp+j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60F2910E2AA
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:33:22 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EAF710E2AA
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:33:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 455665C4ABE;
- Sun, 24 Nov 2024 13:32:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3168EC4CED3;
- Sun, 24 Nov 2024 13:33:20 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9F1F7A40A2C;
+ Sun, 24 Nov 2024 13:31:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C3BC4CECC;
+ Sun, 24 Nov 2024 13:33:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732455201;
- bh=gn5ZlkcJ4bGW2KoF/vP1dAgEOQgOyNSNHjnDrT+t3yw=;
+ s=k20201202; t=1732455203;
+ bh=bzhSVrwZXLtsJ5pvz9QQuHBjTJBk6Lp7rOsaZcq/+Do=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nu7+cdT7h8FTOwbr4DcKsk+r3eeV9myuMKMBOe5klxFgz5ti6bcjN4M6X32PmHsbp
- 6XFPZBGtwe2YAFFHjOK3BsY3bdmqqht8/o53GUH3y19IVLfL5Ne1viur/XBImd8bgF
- oXchI/GZlI+NvfVigEStu4Z7KS+naJLn9eMxOOgE9xKaVeWMq7q+yYXCKMR1DFCkw2
- Qv7isAZ9gDIHXKx1esOGFjveVwFSJutN7VN/8ZSGZIzvKXpPLggCAzheDiXSARtNRL
- i7894ZcLWHktMEGMnaSfU9LHhSqxBBr0L7+j9iUBz7DQYHZt/tV2/LBBUhcAN02pVs
- rhDRXBMGlNPNw==
+ b=OZtizp+jjCywYRqzXgAuXQ1i5xKdjy1INTzH3hx/XkPI0zzk+px96EYV0AaIHEL4D
+ P+tABDmwduy1V+MotXWeItaxYpVgSQcwX/s96ThsGAcEsvCn2dpQu8+LSi0lr7WPu/
+ axK15Ijb52m+mPC12FrwuZJp+qydE2yQgKVKIugt2PGjAtBYqJEHJmuHeViH7Fj8qh
+ Xugw72NsqYSkXlWC5GV2sQQGFprp6UKFL/6Te8el4T6eqSwe9lFyDfmdZZzwwLSpR8
+ 7bLIP4JQGocpkLULLXyXGmzkrT0wNBtE3HPz6khVNc14pebTOu6OMdgeSif69Q7I6S
+ eKGN+B3wUAN2A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -39,10 +39,10 @@ Cc: =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>,
  Hans de Goede <hdegoede@redhat.com>, Sasha Levin <sashal@kernel.org>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 010/107] drm: panel-orientation-quirks: Add quirk
- for AYA NEO 2 model
-Date: Sun, 24 Nov 2024 08:28:30 -0500
-Message-ID: <20241124133301.3341829-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 011/107] drm: panel-orientation-quirks: Add quirk
+ for AYA NEO Founder edition
+Date: Sun, 24 Nov 2024 08:28:31 -0500
+Message-ID: <20241124133301.3341829-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124133301.3341829-1-sashal@kernel.org>
 References: <20241124133301.3341829-1-sashal@kernel.org>
@@ -69,11 +69,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Joaquín Ignacio Aramendía <samsagax@gmail.com>
 
-[ Upstream commit 361ebf5ef843b0aa1704c72eb26b91cf76c3c5b7 ]
+[ Upstream commit d7972d735ca80a40a571bf753c138263981a5698 ]
 
-Add quirk orientation for AYA NEO 2. The name appears without spaces in
-DMI strings. That made it difficult to reuse the 2021 match. Also the
-display is larger in resolution.
+Add quirk orientation for AYA NEO Founder. The name appears with spaces in
+DMI strings as other devices of the brand. The panel is the same as the
+NEXT and 2021 models. Those could not be reused as the former has VENDOR
+name as "AYANEO" without spaces and the latter has "AYADEVICE".
 
 Tested by the JELOS team that has been patching their own kernel for a
 while now and confirmed by users in the AYA NEO and ChimeraOS discord
@@ -83,7 +84,7 @@ Signed-off-by: Joaquín Ignacio Aramendía <samsagax@gmail.com>
 Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/2b35545b77a9fd8c9699b751ca282226dcecb1dd.1726492131.git.tjakobi@math.uni-bielefeld.de
+Link: https://patchwork.freedesktop.org/patch/msgid/f71889a0b39f13f4b78481bd030377ca15035680.1726492131.git.tjakobi@math.uni-bielefeld.de
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -91,22 +92,22 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 2d84d7ea1ab7a..4864d8406db41 100644
+index 4864d8406db41..01a33d33c4aaf 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -184,6 +184,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T103HAF"),
+@@ -202,6 +202,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_MATCH(DMI_PRODUCT_NAME, "AIR"),
  		},
- 		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {	/* AYA NEO AYANEO 2 */
+ 		.driver_data = (void *)&lcd1080x1920_leftside_up,
++	}, {	/* AYA NEO Founder */
 +		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYANEO 2"),
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYA NEO"),
++		  DMI_MATCH(DMI_PRODUCT_NAME, "AYA NEO Founder"),
 +		},
-+		.driver_data = (void *)&lcd1200x1920_rightside_up,
- 	}, {	/* AYA NEO 2021 */
++		.driver_data = (void *)&lcd800x1280_rightside_up,
+ 	}, {	/* AYA NEO NEXT */
  		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYADEVICE"),
+ 		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
 -- 
 2.43.0
 
