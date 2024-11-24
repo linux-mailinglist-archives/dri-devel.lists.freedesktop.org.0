@@ -2,49 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1AC9D7141
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:46:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196179D7142
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:46:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD5310E52D;
-	Sun, 24 Nov 2024 13:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9BB10E52C;
+	Sun, 24 Nov 2024 13:46:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cLNB+Z2D";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jXMYS/Lb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38D5A10E52C
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:46:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9882E10E52C
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:46:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1ECCB5C56D4;
- Sun, 24 Nov 2024 13:45:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57842C4CED1;
- Sun, 24 Nov 2024 13:46:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6E3645C576A;
+ Sun, 24 Nov 2024 13:46:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8DE3C4CECC;
+ Sun, 24 Nov 2024 13:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732456001;
- bh=TGY2yGGAe+1YXMUR63rNphBSEVUK/it2zX+cS+cyeiE=;
+ s=k20201202; t=1732456003;
+ bh=+51QeUBN4M9K92HwNzazFbjTwcp160yXqTKo0qzhx1k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cLNB+Z2DRLRzlyJrooq70f6KnKc9y/L7fBJ1qCrcmjEA18PpbZbi4klBb3cV6aHTk
- k/wIil3fhYwwDlBcO2MzJhcrP43Bs9zwLCTWwjv7G+gtv6EUmRT1KulevKKutEEB79
- SGLwXj/MD7Oe++MbO+trbKuzxNjWMrIO/MPwh8vTVNkE25tWXYv5lcVPxubdUq/Mve
- YjpjSwpAneI0KB1D5wln+DvY84SETcolku2cip3tutzM0jFy17MG2HnXQ9JqQWesoH
- Uptg9IcoEq4Z5k5izipP41aXbW+WoYYXzsxR8fIf/Y/DJKJv/aQQlH5dArb79x9o+r
- XWExAGj2QHDPw==
+ b=jXMYS/LbLvvXFDqurJ8vVRPrXTHPQCY3EzpI6bst3EwEutJU70fahrLWcrQj13pj3
+ sfGBSNjsI3JKRjOFdpwaWRFZiz0apOR5OGTzL6lE3zHjcnSCd/l62uWfN0I8+JXLFr
+ 7DL8oTwxpq8ZPzWRWGqhBuuU5gx0p/rjczciqOyyJIU2xLeRhQIYAmnuSPfOXNf+7M
+ cL1ITcDezdCaw/oBqLfhEWbMj3KsThtS8j1lNx4GYI5fGpkFlEF4zmE4/+1QJUYXoc
+ gOtB2yiQMkHlUe1BXUG8Td4oVFPJ31dgRbylPUXPj2LGJKQYL/y0aC+zyME4CMkmoF
+ 872YWQALnm1ag==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 02/61] drm/vc4: hvs: Set AXI panic modes for the
- HVS
-Date: Sun, 24 Nov 2024 08:44:37 -0500
-Message-ID: <20241124134637.3346391-2-sashal@kernel.org>
+Cc: =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>, 
+ Tobias Jakobi <tjakobi@math.uni-bielefeld.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 03/61] drm: panel-orientation-quirks: Add quirk
+ for AYA NEO 2 model
+Date: Sun, 24 Nov 2024 08:44:38 -0500
+Message-ID: <20241124134637.3346391-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124134637.3346391-1-sashal@kernel.org>
 References: <20241124134637.3346391-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.63
@@ -64,49 +67,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+From: Joaquín Ignacio Aramendía <samsagax@gmail.com>
 
-[ Upstream commit 014eccc9da7bfc76a3107fceea37dd60f1d63630 ]
+[ Upstream commit 361ebf5ef843b0aa1704c72eb26b91cf76c3c5b7 ]
 
-The HVS can change AXI request mode based on how full the COB
-FIFOs are.
-Until now the vc4 driver has been relying on the firmware to
-have set these to sensible values.
+Add quirk orientation for AYA NEO 2. The name appears without spaces in
+DMI strings. That made it difficult to reuse the 2021 match. Also the
+display is larger in resolution.
 
-With HVS channel 2 now being used for live video, change the
-panic mode for all channels to be explicitly set by the driver,
-and the same for all channels.
+Tested by the JELOS team that has been patching their own kernel for a
+while now and confirmed by users in the AYA NEO and ChimeraOS discord
+servers.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240621152055.4180873-7-dave.stevenson@raspberrypi.com
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Joaquín Ignacio Aramendía <samsagax@gmail.com>
+Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/2b35545b77a9fd8c9699b751ca282226dcecb1dd.1726492131.git.tjakobi@math.uni-bielefeld.de
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 04af672caacb1..267c9fde7362d 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -951,6 +951,17 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 			      SCALER_DISPCTRL_SCLEIRQ);
- 
- 
-+	/* Set AXI panic mode.
-+	 * VC4 panics when < 2 lines in FIFO.
-+	 * VC5 panics when less than 1 line in the FIFO.
-+	 */
-+	dispctrl &= ~(SCALER_DISPCTRL_PANIC0_MASK |
-+		      SCALER_DISPCTRL_PANIC1_MASK |
-+		      SCALER_DISPCTRL_PANIC2_MASK);
-+	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC0);
-+	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC1);
-+	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC2);
-+
- 	/* Set AXI panic mode.
- 	 * VC4 panics when < 2 lines in FIFO.
- 	 * VC5 panics when less than 1 line in the FIFO.
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 5b2506c65e952..69a38e1034cad 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -184,6 +184,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T103HAF"),
+ 		},
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* AYA NEO AYANEO 2 */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYANEO 2"),
++		},
++		.driver_data = (void *)&lcd1200x1920_rightside_up,
+ 	}, {	/* AYA NEO 2021 */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYADEVICE"),
 -- 
 2.43.0
 
