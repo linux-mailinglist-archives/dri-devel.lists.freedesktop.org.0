@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D679D7183
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B256A9D7184
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:50:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C14310E549;
-	Sun, 24 Nov 2024 13:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09E6810E54A;
+	Sun, 24 Nov 2024 13:50:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oF1DU/OU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GVZLs84B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9606810E546;
- Sun, 24 Nov 2024 13:50:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A23310E549
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 13:50:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6CE775C4AA9;
- Sun, 24 Nov 2024 13:49:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82DB0C4CED1;
- Sun, 24 Nov 2024 13:50:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id F0A0E5C54A1;
+ Sun, 24 Nov 2024 13:49:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8884C4CECC;
+ Sun, 24 Nov 2024 13:50:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732456205;
- bh=eO3m00Z3UyT2yYPSOrZkiKbUamp6g9UCUDM1OHjpmHI=;
+ s=k20201202; t=1732456209;
+ bh=v2AETwvszsaxg3r7uA01/4mHUF0zeFnmwO/A5luv1MM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oF1DU/OUp2kovKtxurS+br+BJfP5SSIVa9x/YWFIBZMCnbcjSl84gQbvAKBqMu69w
- ISgCZ6RiHLhQfX7kn86Kbq+YRWbaN9ElXgFCkn2j6I/esWgi4oj9G2fEjYWIKOD+SL
- nmfBxSmvo3nYzkgTE6L9eHz9GGQ9hrzvWsXkdSmX5PxESe5hI+MKA4XZL7O7kG/Tlu
- EJlw0RmjYZuOO5P4pAjJ+jLxTxkIU4cMIYG1NEBOEdfzWWP7cEFPRyFXWuR6A5k9hV
- 2/CiBl76bqPn+b9yX7d6ey63fRh/i9pmpKFmRI+ezLoDwYaWZWUsi72jeCEgJHl6Un
- R+mPiqjCUR0Bg==
+ b=GVZLs84BsTGmnMlgkPjN4TgUc0gp2EHL/RIeF5bGhGUVmRrUm+95t6Zweav0NkGsu
+ eUtD8OzmkNbfOR8BlWzY2m30G3iBaCuFdrJZhl0M4MEdLPJR2xhZkHrb4Ev5MDTWX7
+ YBmr9mY0TsgJ/QysrJlu8lwAi4WHIG+fxF7j/YcTDeWzyEtPjtzdcl1vmqxTtHnf/Q
+ VX+U1mv3kdiXve/aUvZ0Pn0ymmO+BpLOYa4xRzBZkVWyKb2hefluXyUmL6z1OovG6E
+ mQjYrJUkM1Ei/dKd6gFaPZV3x0VmRB91P+8QcxjLj40QOWlU+2iROch7EvAfCIigBY
+ zx1FeMqZQlq8g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+Cc: Brahmajit Das <brahmajit.xyz@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.baryshkov@linaro.org,
+ rdunlap@infradead.org, oleksandr@natalenko.name,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 08/48] drm/radeon/r600_cs: Fix possible int
- overflow in r600_packet3_check()
-Date: Sun, 24 Nov 2024 08:48:31 -0500
-Message-ID: <20241124134950.3348099-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 09/48] drm/display: Fix building with GCC 15
+Date: Sun, 24 Nov 2024 08:48:32 -0500
+Message-ID: <20241124134950.3348099-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124134950.3348099-1-sashal@kernel.org>
 References: <20241124134950.3348099-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.119
@@ -65,38 +66,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+From: Brahmajit Das <brahmajit.xyz@gmail.com>
 
-[ Upstream commit a1e2da6a5072f8abe5b0feaa91a5bcd9dc544a04 ]
+[ Upstream commit a500f3751d3c861be7e4463c933cf467240cca5d ]
 
-It is possible, although unlikely, that an integer overflow will occur
-when the result of radeon_get_ib_value() is shifted to the left.
+GCC 15 enables -Werror=unterminated-string-initialization by default.
+This results in the following build error
 
-Avoid it by casting one of the operands to larger data type (u64).
+drivers/gpu/drm/display/drm_dp_dual_mode_helper.c: In function ‘is_hdmi_adaptor’:
+drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:164:17: error: initializer-string for array of
+ ‘char’ is too long [-Werror=unterminated-string-initialization]
+  164 |                 "DP-HDMI ADAPTOR\x04";
+      |                 ^~~~~~~~~~~~~~~~~~~~~
 
-Found by Linux Verification Center (linuxtesting.org) with static
-analysis tool SVACE.
+After discussion with Ville, the fix was to increase the size of
+dp_dual_mode_hdmi_id array by one, so that it can accommodate the NULL
+line character. This should let us build the kernel with GCC 15.
 
-Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Brahmajit Das <brahmajit.xyz@gmail.com>
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241002092311.942822-1-brahmajit.xyz@gmail.com
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/radeon/r600_cs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/r600_cs.c b/drivers/gpu/drm/radeon/r600_cs.c
-index 6cf54a747749d..780352f794e91 100644
---- a/drivers/gpu/drm/radeon/r600_cs.c
-+++ b/drivers/gpu/drm/radeon/r600_cs.c
-@@ -2104,7 +2104,7 @@ static int r600_packet3_check(struct radeon_cs_parser *p,
- 				return -EINVAL;
- 			}
+diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+index bd61e20770a5b..719da3610310f 100644
+--- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+@@ -160,11 +160,11 @@ EXPORT_SYMBOL(drm_dp_dual_mode_write);
  
--			offset = radeon_get_ib_value(p, idx+1) << 8;
-+			offset = (u64)radeon_get_ib_value(p, idx+1) << 8;
- 			if (offset != track->vgt_strmout_bo_offset[idx_value]) {
- 				DRM_ERROR("bad STRMOUT_BASE_UPDATE, bo offset does not match: 0x%llx, 0x%x\n",
- 					  offset, track->vgt_strmout_bo_offset[idx_value]);
+ static bool is_hdmi_adaptor(const char hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN])
+ {
+-	static const char dp_dual_mode_hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN] =
++	static const char dp_dual_mode_hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN + 1] =
+ 		"DP-HDMI ADAPTOR\x04";
+ 
+ 	return memcmp(hdmi_id, dp_dual_mode_hdmi_id,
+-		      sizeof(dp_dual_mode_hdmi_id)) == 0;
++		      DP_DUAL_MODE_HDMI_ID_LEN) == 0;
+ }
+ 
+ static bool is_type1_adaptor(uint8_t adaptor_id)
 -- 
 2.43.0
 
