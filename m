@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55199D71B4
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D98699D71BA
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 14:53:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 012C710E564;
-	Sun, 24 Nov 2024 13:53:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A77210E55B;
+	Sun, 24 Nov 2024 13:53:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y1Eks06Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MXKp5iC2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEEA210E562;
- Sun, 24 Nov 2024 13:53:05 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A19C10E55B;
+ Sun, 24 Nov 2024 13:53:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id CFC2CA40DC0;
- Sun, 24 Nov 2024 13:51:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C64DC4CECC;
- Sun, 24 Nov 2024 13:53:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 412FD5C53E4;
+ Sun, 24 Nov 2024 13:52:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBB4AC4CED1;
+ Sun, 24 Nov 2024 13:53:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732456384;
- bh=8IoLvwcyzeCWFjdki+mSfCqcwkMcpjAquu8mCJ5g4hc=;
+ s=k20201202; t=1732456403;
+ bh=+9pyVCoxl4h8+DKMMrcQrcYcR+YPXJMG6l3BihSvykU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Y1Eks06YZF5Qno4zrYmT5FMCW3gdW9+9/6u/yFPfKv/24z70mPmE25vSUdc2bXDPR
- aMaj/pPL3jf/GE8gmTK7VQL23lw0BD3dj7nhc7qUwHgzCK5susjsgnH7NXZqYun8+V
- TDzX5hYgPHtMh/FHf77+5dfDr596688yLNqdHmmfswTQD5gYfk61V8Am/9J2nyY1bH
- CQ4drioIYNRL42z/MJy0/rVyxUj9RiGUyXiPPjTkBZHDJfjF54/TC4w+nAAqetgXQK
- J+VhxyK+txQtKtJb4NHL3/qSlAwdaoKz9PkmCm4OrqdDvvLOImli6eBl9kvK40WkIN
- DRsG6YxCTDZWw==
+ b=MXKp5iC2yv9QOX4OOUGyEKZXCF/8PakTC0gttAQ7UQrd6WRSE9wA9SIus0KTDgiQx
+ x90EPr3AiVv2NL1izessJvsPxIeeZadfqM3aC1n3d7UhmgW+GVBIdBoU3ZsG9TAz6A
+ yK8f3MehJOYV1goF77i87FQdrjeQiD7G8Rn+4C4fREbNFcQMC7fG+680L1teTojR6W
+ uEBmxACWuM+KA5Z5lhDliOlymFbKO8WexEonMBIl80bBNMzA6yYslhnTzBWL4wAshV
+ vrOLSHR03T+hJs01mMhUyCI8V9dkC1Ou42Q5caU5VE+X+HRVElioNIoXzaBtqOA+NY
+ HikoPKkNFjIzg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Lang Yu <lang.yu@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch, Frank.Min@amd.com,
- felix.kuehling@amd.com, Likun.Gao@amd.com, Philip.Yang@amd.com,
- mdaenzer@redhat.com, Arunpravin.PaneerSelvam@amd.com,
- Amaranath.Somalapuram@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 21/36] drm/amdgpu: refine error handling in
- amdgpu_ttm_tt_pin_userptr
-Date: Sun, 24 Nov 2024 08:51:35 -0500
-Message-ID: <20241124135219.3349183-21-sashal@kernel.org>
+Cc: Victor Zhao <Victor.Zhao@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, sunil.khatri@amd.com, Hawking.Zhang@amd.com,
+ mario.limonciello@amd.com, Jun.Ma2@amd.com, Yunxiang.Li@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.15 28/36] drm/amdgpu: skip
+ amdgpu_device_cache_pci_state under sriov
+Date: Sun, 24 Nov 2024 08:51:42 -0500
+Message-ID: <20241124135219.3349183-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124135219.3349183-1-sashal@kernel.org>
 References: <20241124135219.3349183-1-sashal@kernel.org>
@@ -67,42 +66,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lang Yu <lang.yu@amd.com>
+From: Victor Zhao <Victor.Zhao@amd.com>
 
-[ Upstream commit 46186667f98fb7158c98f4ff5da62c427761ffcd ]
+[ Upstream commit afe260df55ac280cd56306248cb6d8a6b0db095c ]
 
-Free sg table when dma_map_sgtable() failed to avoid memory leak.
+Under sriov, host driver will save and restore vf pci cfg space during
+reset. And during device init, under sriov, pci_restore_state happens after
+fullaccess released, and it can have race condition with mmio protection
+enable from host side leading to missing interrupts.
 
-Signed-off-by: Lang Yu <lang.yu@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+So skip amdgpu_device_cache_pci_state for sriov.
+
+Signed-off-by: Victor Zhao <Victor.Zhao@amd.com>
+Acked-by: Lijo Lazar <lijo.lazar@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 9a1b19e3d4378..ca00a2d5e38b5 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -775,7 +775,7 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_device *bdev,
- 	/* Map SG to device */
- 	r = dma_map_sgtable(adev->dev, ttm->sg, direction, 0);
- 	if (r)
--		goto release_sg;
-+		goto release_sg_table;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 042f27af6856c..4be8d2ca50f3a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -5743,6 +5743,9 @@ bool amdgpu_device_cache_pci_state(struct pci_dev *pdev)
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int r;
  
- 	/* convert SG to linear array of pages and dma addresses */
- 	drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_address,
-@@ -783,6 +783,8 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_device *bdev,
- 
- 	return 0;
- 
-+release_sg_table:
-+	sg_free_table(ttm->sg);
- release_sg:
- 	kfree(ttm->sg);
- 	ttm->sg = NULL;
++	if (amdgpu_sriov_vf(adev))
++		return false;
++
+ 	r = pci_save_state(pdev);
+ 	if (!r) {
+ 		kfree(adev->pci_state);
 -- 
 2.43.0
 
