@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487969D75AC
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 17:03:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2DF9D75AF
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Nov 2024 17:05:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE33D10E2B6;
-	Sun, 24 Nov 2024 16:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2530010E34B;
+	Sun, 24 Nov 2024 16:05:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UBoSk+ew";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t1rkeLLv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB10410E2B6
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 16:03:11 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BDB510E34B
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Nov 2024 16:05:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8B9A15C3D5F;
- Sun, 24 Nov 2024 16:02:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CE6FC4CECC;
- Sun, 24 Nov 2024 16:03:05 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id EB6E4A40EDE;
+ Sun, 24 Nov 2024 16:03:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7503CC4CECC;
+ Sun, 24 Nov 2024 16:05:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732464190;
- bh=TiuuV2/gWj9AkWTL9A2jFvW5nIEX/9hAfvZkZWZO6Ks=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UBoSk+ewNWeZddO+XJ1We2sTDo6MWe0FPt/6mVEcjx89+ct2zEUq1BsYtyF9zg9gE
- Fr3Oz8auVVhjqR80gyBYXPmArMVm1fIn5PQbtEC13VSuzD2kAmLnL58ie6f/59eNtd
- 2JTJwUxVqtTxlRwb7dHsvKqMxvNx/716n+jrU7yx7nMU7NWPItoRA0O22erdrKH+UU
- 6DaEen1smqwJaMsOLgg9ytnDLyp6qkhG3PaOmCApPU7yjDTx6ZSFWYeKwIENMZfcnY
- iO9AKPap+FyIyapfisbC0PlhFwmGL0W0rrsdIQFCDPhGNkGWiMuSILAbrdl8pBWCxB
- 78gXuQs2VukQw==
-Message-ID: <c8620f8d-6a09-4855-b8f5-436a498157a2@kernel.org>
-Date: Sun, 24 Nov 2024 17:03:03 +0100
+ s=k20201202; t=1732464352;
+ bh=zzNQ/g5KRecVcFHwFPRkAiGht0QlqJPq6nHE9qpl6pI=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=t1rkeLLvwc6doDJxln7h2v6aBbWZvkAfL8viuSYDDMBLz1JwUHihu9GlEo9z7SZ9f
+ 20ljfovmDT0cNEqFKkCcHo9T7J30GBvbyNLj6cqolSgUjM2ovau8YLPMvQGEHOtLyf
+ apBnh4UOUDuwP55VUZkq+ua3WCOef6/qNwT+rmlUrWlmACA/Gpf5gv8l7OkZzGqx4s
+ ZqDZlqsrUD84gPxmAnQ3B+0iG0tTJK0T/X9YdkSZDX4FNp5CM8AMeKG4F+FXo5E1Bf
+ YPDEt+X3N49bLlaY7RV6ICqlgGYnlDPzgv1QmLmqhLSZcdmbI/0O9EW5ZsYh3oCJyr
+ IuY4pqAwzHVBA==
+Message-ID: <945786cc-1d6d-4a45-b9df-26d9335fd271@kernel.org>
+Date: Sun, 24 Nov 2024 17:05:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] dt-bindings: display: panel: Add a panel for RG CubeXX
+Subject: Re: [PATCH 1/6] dt-bindings: display: panel: Add another panel for
+ RG35XX Plus (Rev6)
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Hironori KIKUCHI <kikuchan98@gmail.com>, linux-kernel@vger.kernel.org
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
@@ -47,8 +49,8 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org
 References: <20241124080220.1657238-1-kikuchan98@gmail.com>
- <20241124080220.1657238-6-kikuchan98@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <20241124080220.1657238-2-kikuchan98@gmail.com>
+ <f0d983f7-5f60-4cb7-9522-ef4429359c52@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -93,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241124080220.1657238-6-kikuchan98@gmail.com>
+In-Reply-To: <f0d983f7-5f60-4cb7-9522-ef4429359c52@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,44 +113,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/11/2024 09:02, Hironori KIKUCHI wrote:
-> This is a display panel used in the Anbernic RG CubeXX, a handheld
-> gaming device from Anbernic. It is 3.95 inches in size (diagonally)
-> with a resolution of 720x720.
+On 24/11/2024 17:01, Krzysztof Kozlowski wrote:
+> On 24/11/2024 09:02, Hironori KIKUCHI wrote:
+>> +++ b/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml
+>> @@ -0,0 +1,60 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Anbernic RG35XX series (YLM-LBV0345001H-V2) 3.45" 640x480 24-bit IPS LCD panel
+>> +
+>> +maintainers:
+>> +  - Hironori KIKUCHI <kikuchan98@gmail.com>
+>> +
+>> +allOf:
+>> +  - $ref: panel-common.yaml#
+>> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: anbernic,rg35xx-plus-rev6-panel
 > 
-> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
-> ---
->  .../panel/anbernic,rgcubexx-panel.yaml        | 60 +++++++++++++++++++
->  1 file changed, 60 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/anbernic,rgcubexx-panel.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/anbernic,rgcubexx-panel.yaml b/Documentation/devicetree/bindings/display/panel/anbernic,rgcubexx-panel.yaml
-> new file mode 100644
-> index 00000000000..47c5174fad2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/anbernic,rgcubexx-panel.yaml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/anbernic,rgcubexx-panel.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Anbernic RG CubeXX (YLM-LBN0395004H-V1) 3.95" 720x720 24-bit IPS LCD panel
-> +
-> +maintainers:
-> +  - Hironori KIKUCHI <kikuchan98@gmail.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: anbernic,rgcubexx-panel
+> Everything is the same here. Add new compatible to existing schema
+> respecting compatibility (fallback) or not (no fallback).
 
-Same comments, no wildcards, don't duplicate schemas. See how other
-files are doing it.
+BTW, isn't this v2? Where is the changelog and proper versioning of
+patches? The changes against previous version are quite unexpected. You
+removed specific compatibles and went with wildcard, so this needs
+thorough explanation (why standard bindings rules do not apply here).
+
+Anyway next version *will be v3*. Please start using b4 tool.
+
 
 Best regards,
 Krzysztof
