@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BB79D823B
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 10:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A7B9D823E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 10:29:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E88810E0D5;
-	Mon, 25 Nov 2024 09:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81F8410E3AC;
+	Mon, 25 Nov 2024 09:29:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h77z6FrV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jp4SfiF1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EB5110E0D5
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:28:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49A4810E3AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:29:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732526935; x=1764062935;
+ t=1732526967; x=1764062967;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=jT1D3Zn8az8eiWph3b8NMgGwTVOZfRsofkxmcWzwRQ0=;
- b=h77z6FrVKnG6Vp/5rrHgsBkEFZ221LyF63HY0VpNomdGIjm9GmSUJXZ5
- LD3dzYoYa7iQuVKsxZHvLzqehw6zTxYs7N5L1prifLgyka89wJ56TvYYF
- hTpkH0/qc+UXQuAdLPlhC7zlo2sn3KqGs+ZsSDPcc55+5ZT+oyGvWwmSf
- aE2j+CACzgWaYgNaCZIyF9aTHeo3wSCmX9Ul5o6MXE/jTyKFIOvcXM2C8
- SjDn5Vp6DkTZVOTneR+zzPedmF4SN31K7mgRmVIogvy7fig0pWjM7YJ5x
- Q/WSOgY50Vm4mjwRdRp/NENvbpQBisqkleVISkkwGeTgAFT7rzGCcYftg Q==;
-X-CSE-ConnectionGUID: 5mDh6qBwSnW9xng4aqBmiA==
-X-CSE-MsgGUID: JmAupr0xRU6DQB2agGGg+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="44002141"
-X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; d="scan'208";a="44002141"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2024 01:28:54 -0800
-X-CSE-ConnectionGUID: 6xwJc5UeRWeVfJ0Sjh6cfg==
-X-CSE-MsgGUID: nchpINuHTwOctLRQCYOQcQ==
+ bh=l/q2gxxyKo7+bYwAJ2zy18y5mBbZiypPDofxassGcHA=;
+ b=Jp4SfiF1us9Sf1qbhKk9V7eeG384jQLYWuM7reovTNa6tq+mwPbxBqsq
+ 8R4WgW1qTnmVxQq3m1WCKmiPMFF0hwAuIlNHmW1vWmjLxapBH1v340OXB
+ it2WPBOcsXJrOCtHcuEjraKeJggThSghW6Ly29QOtIXZYUQ/yH+qBDsrf
+ f/KG4mFCbsfabfmU+3NWDAgK2asSST4QNIFPmVD9Y0cp6MYysQguCN7Fa
+ UqSLnnC4YONOPQ67QmEAlYi9KMq5rqJ1aK2mUM1SAsxORHnwsBPNumA+m
+ F1QYRU3JPVDdZ2F11MfmnygenFoqBBk3a8ruoO5tIrfgF5sTz3a0VwhXn Q==;
+X-CSE-ConnectionGUID: +nsYVrC4Ts6MY6ksYIz/HA==
+X-CSE-MsgGUID: hYIJJo2aTrq3csoy0pQrsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="50032650"
+X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; d="scan'208";a="50032650"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2024 01:29:27 -0800
+X-CSE-ConnectionGUID: 7QBII2+CSEi2FEIoGsVC1w==
+X-CSE-MsgGUID: vhG3nDZhRvSETyB5fdRrUw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; d="scan'208";a="96266214"
+X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; d="scan'208";a="91167848"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.243])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2024 01:28:47 -0800
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2024 01:29:21 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Louis Chauvet <louis.chauvet@bootlin.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
  <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Simona
@@ -54,13 +54,13 @@ Cc: arthurgrillo@riseup.net, jeremie.dautheribes@bootlin.com,
  seanpaul@google.com, nicolejadeyee@google.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Louis
  Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH RFC v2 10/18] drm/vkms: Introduce config for encoder name
-In-Reply-To: <20241122-google-remove-crtc-index-from-parameter-v2-10-81540742535a@bootlin.com>
+Subject: Re: [PATCH RFC v2 11/18] drm/vkms: Introduce config for CRTC name
+In-Reply-To: <20241122-google-remove-crtc-index-from-parameter-v2-11-81540742535a@bootlin.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com>
- <20241122-google-remove-crtc-index-from-parameter-v2-10-81540742535a@bootlin.com>
-Date: Mon, 25 Nov 2024 11:28:44 +0200
-Message-ID: <87ttbvy84z.fsf@intel.com>
+ <20241122-google-remove-crtc-index-from-parameter-v2-11-81540742535a@bootlin.com>
+Date: Mon, 25 Nov 2024 11:29:17 +0200
+Message-ID: <87r06zy842.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,84 +79,76 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, 22 Nov 2024, Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> As an encoder will be a directory in ConfigFS, add the configuration for
-> encoder name so we will be able to reflect the configfs directory name in
-> the drm name.
+> As a CRTC will be a directory in ConfigFS, add the name configuration for
+> CRTC name so we will be able to reflect the configfs directory name in the
+> drm name.
 >
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
->  drivers/gpu/drm/vkms/vkms_config.c | 6 ++++++
+>  drivers/gpu/drm/vkms/vkms_config.c | 5 +++++
 >  drivers/gpu/drm/vkms/vkms_config.h | 2 ++
->  drivers/gpu/drm/vkms/vkms_output.c | 2 +-
->  3 files changed, 9 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/vkms/vkms_crtc.c   | 2 +-
+>  3 files changed, 8 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-> index e44ed904cefb97b8b6ab8fc27623e315397e0106..a2539fb56b602569b75748fdf9c4784f104b0bff 100644
+> index a2539fb56b602569b75748fdf9c4784f104b0bff..3252f657ce515c0193a8c0e709bfe861feba0aca 100644
 > --- a/drivers/gpu/drm/vkms/vkms_config.c
 > +++ b/drivers/gpu/drm/vkms/vkms_config.c
-> @@ -41,6 +41,10 @@ struct vkms_config *vkms_config_alloc_default(bool enable_writeback, bool enable
->  	encoder = vkms_config_create_encoder(vkms_config);
->  	if (!encoder)
+> @@ -37,6 +37,10 @@ struct vkms_config *vkms_config_alloc_default(bool enable_writeback, bool enable
+>  	if (!crtc)
 >  		goto err_alloc;
-> +	encoder->name = kzalloc(sizeof("Main Encoder"), GFP_KERNEL);
-> +	if (!encoder->name)
+>  	crtc->writeback = enable_writeback;
+> +	crtc->name = kzalloc(sizeof("Main CRTC"), GFP_KERNEL);
+> +	if (!crtc->name)
 > +		goto err_alloc;
-> +	sprintf(encoder->name, "Main Encoder");
+> +	sprintf(crtc->name, "Main CRTC");
 
-Drive-by comment, maybe kstrdup()?
+Ditto, kstrdup()
 
 >  
->  	if (vkms_config_encoder_attach_crtc(encoder, crtc))
->  		goto err_alloc;
-> @@ -238,6 +242,7 @@ void vkms_config_delete_encoder(struct vkms_config_encoder *vkms_config_encoder,
+>  	encoder = vkms_config_create_encoder(vkms_config);
+>  	if (!encoder)
+> @@ -219,6 +223,7 @@ void vkms_config_delete_crtc(struct vkms_config_crtc *vkms_config_crtc,
 >  		}
 >  	}
 >  
-> +	kfree(vkms_config_encoder->name);
->  	kfree(vkms_config_encoder);
+> +	kfree(vkms_config_crtc->name);
+>  	kfree(vkms_config_crtc);
 >  }
 >  
-> @@ -403,6 +408,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
->  
->  	list_for_each_entry(config_encoder, &vkmsdev->config->encoders, link) {
->  		seq_puts(m, "encoder:\n");
-> +		seq_printf(m, "\tname: %s\n", config_encoder->name);
->  	}
->  
->  	list_for_each_entry(config_crtc, &vkmsdev->config->crtcs, link) {
 > diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-> index 8f247fc09373fb2c8145e83be05c6afec1ffac1c..4223edd94ec270915dd658c0b5efd489554d33a5 100644
+> index 4223edd94ec270915dd658c0b5efd489554d33a5..4a4c16dea7855cf36060986ef247be698974fafc 100644
 > --- a/drivers/gpu/drm/vkms/vkms_config.h
 > +++ b/drivers/gpu/drm/vkms/vkms_config.h
-> @@ -50,6 +50,7 @@ struct vkms_config_crtc {
->   * struct vkms_config_encoder
+> @@ -29,6 +29,7 @@ struct vkms_config {
+>   * struct vkms_config_crtc
 >   *
->   * @link: Link to the others encoders
-> + * @name: Name of the encoder
->   * @possible_crtcs: List of CRTC that can be used with this encoder
->   * @encoder: Internal usage. This pointer should never be considered as valid. It can be used to
->   *         store a temporary reference to a vkms encoder during device creation. This pointer is
-> @@ -58,6 +59,7 @@ struct vkms_config_crtc {
->  struct vkms_config_encoder {
+>   * @link: Link to the others CRTCs
+> + * @name: Name of the CRTC
+>   * @possible_planes: List of planes that can be used with this CRTC
+>   * @possible_encoders: List of encoders that can be used with this CRTC
+>   * @crtc: Internal usage. This pointer should never be considered as valid. It can be used to
+> @@ -38,6 +39,7 @@ struct vkms_config {
+>  struct vkms_config_crtc {
 >  	struct list_head link;
 >  
 > +	char *name;
->  	struct xarray possible_crtcs;
+>  	bool writeback;
+>  	struct xarray possible_planes;
+>  	struct xarray possible_encoders;
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index 3825fba57c012f84cbe67114e053dcd7fcfa283d..25a3d97a362afd0d40f3e023d9cce985d447a880 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -292,7 +292,7 @@ struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkms_device,
 >  
->  	/* Internal usage */
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 03498a20d78dd8a66f9fc66b360c5ea57fc48d88..6277ad72fdd476d1eff52ad037389bdb1a254f5e 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -92,7 +92,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->  		if (!config_encoder->encoder)
->  			return -ENOMEM;
->  		ret = drmm_encoder_init(dev, config_encoder->encoder, NULL,
-> -					DRM_MODE_ENCODER_VIRTUAL, NULL);
-> +					DRM_MODE_ENCODER_VIRTUAL, config_encoder->name);
->  		if (ret) {
->  			DRM_ERROR("Failed to init encoder\n");
->  			return ret;
+>  	vkms_crtc = drmm_crtc_alloc_with_planes(dev, struct vkms_crtc, base,
+>  						primary, cursor,
+> -						&vkms_crtc_funcs, NULL);
+> +						&vkms_crtc_funcs, config->name);
+>  	if (IS_ERR(vkms_crtc)) {
+>  		DRM_DEV_ERROR(dev->dev, "Failed to init CRTC\n");
+>  		return vkms_crtc;
 
 -- 
 Jani Nikula, Intel
