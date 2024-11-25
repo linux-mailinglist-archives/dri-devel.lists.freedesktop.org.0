@@ -2,56 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E968C9D8C44
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 19:34:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18F69D8CA2
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 20:11:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3E2310E044;
-	Mon, 25 Nov 2024 18:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0021810E2D5;
+	Mon, 25 Nov 2024 19:11:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p0ynx1E/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="URsTvXtI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7701A10E044
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 18:34:34 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE73E10E115
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 19:11:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5871C5C5BCC;
- Mon, 25 Nov 2024 18:33:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6216C4CECE;
- Mon, 25 Nov 2024 18:34:30 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6E99DA418D0;
+ Mon, 25 Nov 2024 19:09:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0ADA5C4CECE;
+ Mon, 25 Nov 2024 19:11:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732559673;
- bh=JlD8cOO1Yjm2yGyyTDVEs+BQCZaC+W9ZTw/SyE3P7q4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p0ynx1E/us39O/NKjbBoX2iW7NgQq5slVY5bvWwklfBD5F0aeIJjWsKiI4QIKu278
- wusA9VPa60doThLFtHVqHoc9sIr/tOxGf4wzihNZawoztdL5gXSIQBENoCh1IWIze1
- n5RVeMfrtMe/Q5Gd/Kv124pR5HUyEQq2chm2iGwl2/MP4WHOz3JF0+FQeZRtuj6YkB
- 0LwQojEIZPJPLQpF3oB5YnxGbZmDFr06lZmTi4+XmAy9r0SHocLF18xLsQ/dgIBuvf
- 3XBJlxO/nMl4bueD4TrfH/tGolncGWrYgpjeGx7aRWxeVCX65qS7LK2O5ri1+1EzIn
- CxdJTe3qoSf2w==
-Date: Mon, 25 Nov 2024 18:34:28 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Herring <robh@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Simona Vetter <simona@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: display: simple: Document Multi-Inno
- Technology MI0700A2T-30 panel
-Message-ID: <20241125-scrambler-deflate-94d3d8287dae@spud>
-References: <20241125013413.160725-1-marex@denx.de>
+ s=k20201202; t=1732561891;
+ bh=eFUTVbLHQaMj7xbeYC7nH7CHXsIUv43Pb2cwsd9S9X4=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=URsTvXtICky+cYvwmMQh/znQ2zUfi51g7JaSoz8xIKxbmaUbChqU41od8klBB42kv
+ Wcd5zlMMy91tkXqVUw7xdC7RyfEMnHJQVPYOVILa7MFkmvCKn7bwnxaPENsehRkwGS
+ foVLg/slZCDJue6fSSjWYA/lAVssHT7IjAqHKax3EVwTb85HzwTUFIuq5yox1wKwYp
+ 0sXBwlOMWuNr2XzGk06yjNzs780ceTySxoBr4mABG5PsGuSCyFjdhpkUImlxI/q/ES
+ 2Ze62LrjbTWYvcbX7fcxwhpB3OdvrTVeU188uFXcatKV18YsvLy/kYNUualmCC+DI1
+ tVOt/pt0U1pMA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id ED2C2D3B7C1;
+ Mon, 25 Nov 2024 19:11:30 +0000 (UTC)
+From: Maud Spierings via B4 Relay
+ <devnull+maud_spierings.hotmail.com@kernel.org>
+Subject: [PATCH v4 0/3] Asus vivobook s15 improvements
+Date: Mon, 25 Nov 2024 20:11:16 +0100
+Message-Id: <20241125-asus_qcom_display-v4-0-61a4da162406@hotmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="er50jnaB09MzuKld"
-Content-Disposition: inline
-In-Reply-To: <20241125013413.160725-1-marex@denx.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANTLRGcC/4XNTQ6CMBAF4KuQrq1pp+XPlfcwhhRopQlQbLGRE
+ O5uIS40krh8k/e+mZGTVkuHTtGMrPTaadOHwA8RqhrR3yTWdcgICHBKaYKFe7jiXpmuqLUbWjH
+ hSsZKpZAzxgkKu8FKpZ+bebmG3Gg3GjttLzxdr28N2I7mKSY4i0WuVA6cCHFuzNgJ3R5DC62eh
+ 78GBEOQUqksTpPQ+zXYp8H3DBYMQqBMgZU0B/JtLMvyAn/F1wY8AQAA
+X-Change-ID: 20241116-asus_qcom_display-ce5ff7293340
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Douglas Anderson <dianders@chromium.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Maud Spierings <maud_spierings@hotmail.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732561888; l=1871;
+ i=maud_spierings@hotmail.com; s=20241110; h=from:subject:message-id;
+ bh=eFUTVbLHQaMj7xbeYC7nH7CHXsIUv43Pb2cwsd9S9X4=;
+ b=Id8inyzU8O10Eg3QvPqZBZb3O9cdwzrt+zEAv1gLliZeIDkn0BpXbQbU3ituB1KbKD2Oq/Un1
+ KL8Rilx5LdnBnDuxOrqAA70SGOU/b3GC+LmHg1q/9QWAS1Lm1gdygyJ
+X-Developer-Key: i=maud_spierings@hotmail.com; a=ed25519;
+ pk=CeFKVnZvRfX2QjB1DpdiAe2N+MEjwLEB9Yhx/OAcxRc=
+X-Endpoint-Received: by B4 Relay for maud_spierings@hotmail.com/20241110
+ with auth_id=273
+X-Original-From: Maud Spierings <maud_spierings@hotmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,34 +84,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: maud_spierings@hotmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Improves several parts of the devicetree:
+1. The eDP panel bindings
+2. Add a lid switch
+3. Add bluetooth and describe wlan (depends on [1])
 
---er50jnaB09MzuKld
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[1]: https://lore.kernel.org/all/20241007-x1e80100-pwrseq-qcp-v1-0-f7166510ab17@linaro.org/
 
-On Mon, Nov 25, 2024 at 02:33:35AM +0100, Marek Vasut wrote:
-> Add Multi-Inno Technology MI0700A2T-30 7" 800x480 LVDS panel
-> compatible string.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
+---
+I seem to get a warning that the pci17cb vendor is undocumented (wlan)
+I can find this compatible in
+Documentation/devicetree/bindings/net/wireless/qcom,ath12k.yaml
+But pci17cb doesn't really seem like a vendor name to me, I have ignored
+this warning for now.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Changes in v4:
+- Fixed the pin parameters for the backlight enable pin
+- Fixed the wcn_sw_en drive-strength, this was not in the acpi table I
+  checked.
+- Fixed the ordering of several nodes in the bluetooth/wifi patch
+- Link to v3: https://lore.kernel.org/r/20241124-asus_qcom_display-v3-0-002b723b1920@hotmail.com
 
---er50jnaB09MzuKld
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes in v3:
+- Fixed commit message formatting (line wrapping)
+- Fixed bad indentation (lid switch pinctrl)
+- Fixed bluetooth addition and added wifi description
+- Link to v2: https://lore.kernel.org/r/20241123-asus_qcom_display-v2-0-a0bff8576024@hotmail.com
 
------BEGIN PGP SIGNATURE-----
+Changes in v2:
+- Add missing gpiokeys include in the lid switch patch
+- Add depends on for the bluetooth patch
+- Link to v1: https://lore.kernel.org/r/20241123-asus_qcom_display-v1-0-85a9ff9240aa@hotmail.com
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ0TDNAAKCRB4tDGHoIJi
-0t+BAPwJK3sTtY0Ga9f59jbW26X1wmXT3KOYrwebq7Er4STrwgEAuax7ZtUusMoU
-xQTNnrutqcE48mD9J8OGL31h2IZZrwQ=
-=/V7M
------END PGP SIGNATURE-----
+---
+Maud Spierings (3):
+      arm64: dts: qcom: x1e80100-vivobook-s15: Use the samsung,atna33xc20 panel driver
+      arm64: dts: qcom: x1e80100-vivobook-s15: Add lid switch
+      arm64: dts: qcom: x1e80100-vivobook-s15: Add bluetooth
 
---er50jnaB09MzuKld--
+ .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts   | 203 ++++++++++++++++++++-
+ 1 file changed, 202 insertions(+), 1 deletion(-)
+---
+base-commit: 5f48de798324665d18f539ee09a61de1a9221f33
+change-id: 20241116-asus_qcom_display-ce5ff7293340
+
+Best regards,
+-- 
+Maud Spierings <maud_spierings@hotmail.com>
+
+
