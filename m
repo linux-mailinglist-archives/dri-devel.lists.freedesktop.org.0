@@ -2,59 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE709D8A76
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 17:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A69F9D934D
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 09:27:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0854A10E6AE;
-	Mon, 25 Nov 2024 16:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F35610E7EC;
+	Tue, 26 Nov 2024 08:27:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="D9rbVBn2";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linumiz.com header.i=@linumiz.com header.b="X5nCCmgO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9D3910E6AE
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 16:34:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732552478; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Ip8385kyC8Rz6loFN6xFAL9xoYe24YdopvjbPNZjmVdc0rM0Vrg96Fu8rJjFLR2xQiLdj0TBeHavyZ63j0xd8HwXSpZ+HTDO0Tk60iSIQiHYealdM1+cjlf7vHMpqQ6hLtjv/r/oCKCkMRZr51rPsITj7C7dGmyIFdirPBMZ6tU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732552478;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=It34dkvIg3K+YCp8MVFRqktM7HO2VhDEvVdjm/IhPxo=; 
- b=Eq11csd86v2vja2XQFrdZtW4kl403OHx16ogevtB7l2PQ/Quu+XnsPBOSEv32eKxG1nXerywZFS45bQMRN+astXNvKhVfRO57nht4MGv3VcPTcJsakLt+eSShRujFdD08H6zp1VOcUrmBRInug7AExc6BZXO85dEf2VooJb2hiE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732552478; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=It34dkvIg3K+YCp8MVFRqktM7HO2VhDEvVdjm/IhPxo=;
- b=D9rbVBn2spvV0K3Mbaa4pp/Bulp1KYDOgQGOuqAji0w9dZVOxHjbUelwF35SxtzO
- JkuCT+9xaWDHeGyeGk0R1BuFpBgzK01EP2VL/Av6cGl04hg0dvr3KoHVv+m8ZLOHZW/
- BmetkJxvbYHJEbS2r56S6PikgWVbPj1oarfSNq9U=
-Received: by mx.zohomail.com with SMTPS id 1732552477447737.8687669728856;
- Mon, 25 Nov 2024 08:34:37 -0800 (PST)
-Message-ID: <fc4223c0-0346-4a14-96fd-8dced8b41167@collabora.com>
-Date: Mon, 25 Nov 2024 19:34:34 +0300
+Received: from omta36.uswest2.a.cloudfilter.net
+ (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A6BB10E6B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 16:37:38 +0000 (UTC)
+Received: from eig-obgw-6002a.ext.cloudfilter.net ([10.0.30.222])
+ by cmsmtp with ESMTPS
+ id FZdftmYJGqvuoFc5htQrmo; Mon, 25 Nov 2024 16:37:37 +0000
+Received: from md-in-79.webhostbox.net ([43.225.55.182]) by cmsmtp with ESMTPS
+ id Fc5etSMb165gFFc5gtBZLH; Mon, 25 Nov 2024 16:37:36 +0000
+X-Authority-Analysis: v=2.4 cv=Z58nH2RA c=1 sm=1 tr=0 ts=6744a7d1
+ a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
+ a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10 a=e5mUnYsNAAAA:8
+ a=vU9dKmh3AAAA:8 a=gA2AQYKQ_t_7bDYX36IA:9 a=QEXdDO2ut3YA:10
+ a=Vxmtnl_E_bksehYqCbjh:22 a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
+ ; s=default;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=/R/8ktimgFp1MMUEeMZMmyHbqIU8LGVD2WqjYNvUGFE=; b=X5nCCmgOO/4M6SaRVygGHlMosa
+ Z2I+Vtjx8InQ77ZPoBVhdqpZH03tjmrnott8KX8q+r2oExie8CzkwaNK9+Lrvf6kNTKRQm4V6O0pm
+ 1/ScB5APAJGpSWNMQcGYsojceruQ39f2QIh7RdwfNZT5pcXHV6zy56uvndWuKE9v+tTOMAYmbXs05
+ 1gaSl0P3Yf6ysklEzf9M1Ug0/xzPMm3XrUaW+lbzTLwobqtHYqYbwomBiXEVnAaO8FN7vO2n5FSSu
+ EKnPl+cxmfewNjwnx+rkV+iHoahG8gOZ4jtmBD0pc4lsKQmEwKTB+VxfZ3I9qI08JbL+aJsrAbgEY
+ 6ta38asA==;
+Received: from [122.165.245.213] (port=38110 helo=[127.0.1.1])
+ by md-in-79.webhostbox.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <parthiban@linumiz.com>) id 1tFc5Y-001iXQ-1j;
+ Mon, 25 Nov 2024 22:07:28 +0530
+From: Parthiban Nallathambi <parthiban@linumiz.com>
+Subject: [PATCH 0/2] drm/imagination: add reset handling
+Date: Mon, 25 Nov 2024 22:07:02 +0530
+Message-Id: <20241125-pvr-reset-v1-0-b437b8052948@linumiz.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/5] drm/virtio: Import prime buffers from other
- devices as guest blobs
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Rob Clark <robdclark@gmail.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>
-References: <20241125073313.3361612-1-vivek.kasireddy@intel.com>
- <20241125073313.3361612-5-vivek.kasireddy@intel.com>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20241125073313.3361612-5-vivek.kasireddy@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+X-B4-Tracking: v=1; b=H4sIAK6nRGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDQyNT3YKyIt2i1OLUEl2DRCPztKTEVNPUpGQloPqCotS0zAqwWdGxtbU
+ A7ZjsblsAAAA=
+To: Frank Binns <frank.binns@imgtec.com>, 
+ Matt Coster <matt.coster@imgtec.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Parthiban Nallathambi <parthiban@linumiz.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732552647; l=1066;
+ i=parthiban@linumiz.com; s=20241125; h=from:subject:message-id;
+ bh=wz0d94cMgk2jCkE3+IUok1zC9AYzGdZePCRqqYnV2r4=;
+ b=prlb1b6SvCi9nOD4ZuXRpjN3ycPphZdm3U7z2CuLxBqeP06ltjCHnpgCBs4WZrh3PWYzKtMzq
+ I3feoCWA7x9D0nKi9/eRCw41q3mazGk/LyHX3DVTG5x4ceRX/F5m/MQ
+X-Developer-Key: i=parthiban@linumiz.com; a=ed25519;
+ pk=PrcMZ/nwnHbeXNFUFUS833wF3DAX4hziDHEbBp1eNb8=
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - linumiz.com
+X-BWhitelist: no
+X-Source-IP: 122.165.245.213
+X-Source-L: No
+X-Exim-ID: 1tFc5Y-001iXQ-1j
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([127.0.1.1]) [122.165.245.213]:38110
+X-Source-Auth: parthiban@linumiz.com
+X-Email-Count: 1
+X-Org: HG=dishared_whb_net_legacy;ORG=directi;
+X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfIxNEB6HWRhx4l4N25DT+2/cDOPGua6N+ltqBenCOzpBBCk3DF5WvnMRVTCiX9sXPoWjPwMljt0iyxVqcb5HZ8Lm7fvjUJzPBc2U/IDC5jFWrgAz45GA
+ iZHw2+zCW/iboQQ0j3mj4zLwFZgrFCsLu5gylhMElNivD5qLHRcNG4uktp1n6klT9rj/VGtJzhhsUoHhuKC7S26HmCwLfXAUDPVVIGVRc8q/k2JuGcK5lsvK
+X-Mailman-Approved-At: Tue, 26 Nov 2024 08:26:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,55 +108,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/25/24 10:31, Vivek Kasireddy wrote:
->  struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
->  						struct dma_buf *buf)
->  {
-> +	struct virtio_gpu_device *vgdev = dev->dev_private;
-> +	struct dma_buf_attachment *attach;
-> +	struct virtio_gpu_object *bo;
->  	struct drm_gem_object *obj;
-> +	int ret;
->  
->  	if (buf->ops == &virtgpu_dmabuf_ops.ops) {
->  		obj = buf->priv;
-> @@ -275,7 +304,32 @@ struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
->  		}
->  	}
->  
-> -	return drm_gem_prime_import(dev, buf);
-> +	if (!vgdev->has_resource_blob || vgdev->has_virgl_3d)
-> +		return drm_gem_prime_import(dev, buf);
-> +
-> +	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
-> +	if (!bo)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	obj = &bo->base.base;
-> +	obj->funcs = &virtgpu_gem_dma_buf_funcs;
-> +	drm_gem_private_object_init(dev, obj, buf->size);
-> +
-> +	attach = dma_buf_dynamic_attach(buf, dev->dev,
-> +					&virtgpu_dma_buf_attach_ops, obj);
-> +	if (IS_ERR(attach)) {
-> +		kfree(bo);
-> +		return ERR_CAST(attach);
-> +	}
-> +
-> +	obj->import_attach = attach;
-> +	get_dma_buf(buf);
-> +
-> +	ret = virtgpu_dma_buf_init_obj(dev, bo, attach);
-> +	if (ret < 0)
-> +		return ERR_PTR(ret);
+reset control is included in platforms from Allwinner, specifically
+A133, A733. Add reset control from devicetree and these changes are
+tested with A133 based helper board, which will be upstremed after
+Allwinner power domain controller.
 
-Perhaps for a future improvement. Think we can defer
-virtgpu_dma_buf_init_obj() until first use of the object in a case where
-exporter supports dynamic attachment. Otherwise, we're pinning object at
-the import time, partially defeating the purpose of the dynamic
-attachment, AFAICT. I.e. if importer never uses object, then there is no
-need to bother the exporter with the pinning.
+Firmware is used from [1].
 
--- 
+[1]: https://gitlab.freedesktop.org/imagination/linux-firmware/-/issues/5
+
+Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+---
+Parthiban Nallathambi (2):
+      dt-bindings: gpu: add reset control property
+      drm/imagination: add reset control support
+
+ .../devicetree/bindings/gpu/img,powervr-rogue.yaml       |  3 +++
+ drivers/gpu/drm/imagination/pvr_device.h                 |  8 ++++++++
+ drivers/gpu/drm/imagination/pvr_drv.c                    |  5 +++++
+ drivers/gpu/drm/imagination/pvr_power.c                  | 16 +++++++++++++++-
+ 4 files changed, 31 insertions(+), 1 deletion(-)
+---
+base-commit: adc218676eef25575469234709c2d87185ca223a
+change-id: 20241125-pvr-reset-0a27fbae5ebc
+
 Best regards,
-Dmitry
+-- 
+Parthiban Nallathambi <parthiban@linumiz.com>
+
