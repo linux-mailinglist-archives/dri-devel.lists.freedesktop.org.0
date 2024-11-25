@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C89B9D87B4
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 15:20:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FC59D87B3
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 15:20:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F10510E65C;
-	Mon, 25 Nov 2024 14:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBA2510E2CC;
+	Mon, 25 Nov 2024 14:20:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="KAQdbuXs";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="SeTmP87U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 1798 seconds by postgrey-1.36 at gabe;
+ Mon, 25 Nov 2024 14:20:12 UTC
 Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9C410E656
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 14:20:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7487910E2CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 14:20:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com; 
  s=default2211; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID;
- bh=GbS/T/h9zSMqC3sdnyIAxaPCqFU4fMlM51TlmewgPUo=; b=KAQdbuXsj5xCJKm50TjrtGNp+V
- i209reSTd1vjASfKxdLD8fBDDFo9rw7cbgKuOh/DDBW6EMo0qPOscLeGyn1M+GXrejoZvGn5K9SOS
- j2a8UIvr5WaMs8p4V0eGw2tpSsrW+idP/6onXmnuUfos7yNXIZjM6ANr1FSITg076CIVZF8x3LRO1
- qP5jrh1DAi5vzDgFB+sCaoAKQnSbFb6M7nATGPlb63OEveVmQrYumytEoV18oGd5qGM4VaS0q0zCv
- EPgQXwJ0++mejMsU7xuInz2xTdUqq0DeCx2jUYXW5W88KX07VHVOJTCDDqxaEtecaTeocN3dxO43g
- DOLW70ow==;
+ bh=Fxz5Fki1U5+hxMHiHWwSLT/o9JnSwind+K7SOw8JtPg=; b=SeTmP87Ulssn1N+zq4bzaecqeE
+ a984bOYP2C3jRAFNWKGLoTtJNY/4+PoaZ2BfVzNKGNHz97YFRdA8epnhik12eWD8ImhEn0darPJsD
+ tfb/Gx+nMFQjKwNiATZueHa55XOeFS2/gh44Hoya7GDzP5ZpK7ZrSUHL/cV2aJB96ZTL/hoMjUxC+
+ vpKSEXzx4gGkOx3omj81UoWPf/eNR30qUeqU8W9JsgyNRMZoDB2NaYS2diNiztXNgbvP9sZSIN03b
+ qqbm6aD8catHJy/wkvJ6pv3DghSMdyQr2NiW5AhTe+TTzWSYvX3dCNZP2CBn+VYpS2WAAB6qkAdUN
+ bVUXNdDg==;
 Received: from sslproxy08.your-server.de ([78.47.166.52])
  by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
  (Exim 4.94.2) (envelope-from <sean@geanix.com>)
- id 1tFZTB-000CcZ-3G; Mon, 25 Nov 2024 14:49:41 +0100
+ id 1tFZTB-000Ccj-GN; Mon, 25 Nov 2024 14:49:41 +0100
 Received: from [185.17.218.86] (helo=zen.localdomain)
  by sslproxy08.your-server.de with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.96) (envelope-from <sean@geanix.com>) id 1tFZTA-000A3a-0S;
+ (Exim 4.96) (envelope-from <sean@geanix.com>) id 1tFZTA-000A3a-1j;
  Mon, 25 Nov 2024 14:49:40 +0100
 From: Sean Nyekjaer <sean@geanix.com>
-Date: Mon, 25 Nov 2024 14:49:26 +0100
-Subject: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
+Date: Mon, 25 Nov 2024 14:49:27 +0100
+Subject: [PATCH v2 2/3] drm/sun4i: use drm_mode_validate_mode() helper function
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
+Message-Id: <20241125-dsi-relax-v2-2-9113419f4a40@geanix.com>
 References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
 In-Reply-To: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -75,74 +76,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check if the required pixel clock is in within .5% range of the
-desired pixel clock.
-This will match the requirement for HDMI where a .5% tolerance is allowed.
+Use new helper function for HDMI mode validation
 
 Signed-off-by: Sean Nyekjaer <sean@geanix.com>
 ---
- drivers/gpu/drm/drm_modes.c | 34 ++++++++++++++++++++++++++++++++++
- include/drm/drm_modes.h     |  2 ++
- 2 files changed, 36 insertions(+)
+ drivers/gpu/drm/sun4i/sun4i_rgb.c | 22 ++++------------------
+ 1 file changed, 4 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf80502efde6e4d977b297f5d5359 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(const struct drm_display_mode *mode1,
+diff --git a/drivers/gpu/drm/sun4i/sun4i_rgb.c b/drivers/gpu/drm/sun4i/sun4i_rgb.c
+index dfb6acc42f02efc40f36914e2925510cd8056d0b..4f8100e32769cf31c25f5dd849a18f5b77376090 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_rgb.c
++++ b/drivers/gpu/drm/sun4i/sun4i_rgb.c
+@@ -51,14 +51,6 @@ static int sun4i_rgb_get_modes(struct drm_connector *connector)
+ 	return drm_panel_get_modes(rgb->panel, connector);
  }
- EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
  
-+/**
-+ * drm_mode_validate_mode
-+ * @mode: mode to check
-+ * @rounded_rate: output pixel clock
-+ *
-+ * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
-+ * CVT spec reuses that tolerance in its examples, so it looks to be a
-+ * good default tolerance for the EDID-based modes. Define it to 5 per
-+ * mille to avoid floating point operations.
-+ *
-+ * Returns:
-+ * The mode status
-+ */
-+enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mode *mode,
-+					    unsigned long long rounded_rate)
-+{
-+	enum drm_mode_status status;
-+	unsigned long long rate = mode->clock * 1000;
-+	unsigned long long lowest, highest;
-+
-+	lowest = rate * (1000 - 5);
-+	do_div(lowest, 1000);
-+	if (rounded_rate < lowest)
-+		return MODE_CLOCK_LOW;
-+
-+	highest = rate * (1000 + 5);
-+	do_div(highest, 1000);
-+	if (rounded_rate > highest)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+EXPORT_SYMBOL(drm_mode_validate_mode);
-+
- static enum drm_mode_status
- drm_mode_validate_basic(const struct drm_display_mode *mode)
+-/*
+- * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
+- * CVT spec reuses that tolerance in its examples, so it looks to be a
+- * good default tolerance for the EDID-based modes. Define it to 5 per
+- * mille to avoid floating point operations.
+- */
+-#define SUN4I_RGB_DOTCLOCK_TOLERANCE_PER_MILLE	5
+-
+ static enum drm_mode_status sun4i_rgb_mode_valid(struct drm_encoder *crtc,
+ 						 const struct drm_display_mode *mode)
  {
-diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-index b9bb92e4b0295a5cbe0eb0da13e77449ff04f51d..4b638992f3e50d2aba5088644744457d72dbe10a 100644
---- a/include/drm/drm_modes.h
-+++ b/include/drm/drm_modes.h
-@@ -549,6 +549,8 @@ bool drm_mode_equal_no_clocks(const struct drm_display_mode *mode1,
- 			      const struct drm_display_mode *mode2);
- bool drm_mode_equal_no_clocks_no_stereo(const struct drm_display_mode *mode1,
- 					const struct drm_display_mode *mode2);
-+enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mode *mode,
-+					    unsigned long long rounded_rate);
+@@ -67,8 +59,8 @@ static enum drm_mode_status sun4i_rgb_mode_valid(struct drm_encoder *crtc,
+ 	u32 hsync = mode->hsync_end - mode->hsync_start;
+ 	u32 vsync = mode->vsync_end - mode->vsync_start;
+ 	unsigned long long rate = mode->clock * 1000;
+-	unsigned long long lowest, highest;
+ 	unsigned long long rounded_rate;
++	int ret;
  
- /* for use by the crtc helper probe functions */
- enum drm_mode_status drm_mode_validate_driver(struct drm_device *dev,
+ 	DRM_DEBUG_DRIVER("Validating modes...\n");
+ 
+@@ -122,15 +114,9 @@ static enum drm_mode_status sun4i_rgb_mode_valid(struct drm_encoder *crtc,
+ 	tcon->dclk_max_div = 127;
+ 	rounded_rate = clk_round_rate(tcon->dclk, rate);
+ 
+-	lowest = rate * (1000 - SUN4I_RGB_DOTCLOCK_TOLERANCE_PER_MILLE);
+-	do_div(lowest, 1000);
+-	if (rounded_rate < lowest)
+-		return MODE_CLOCK_LOW;
+-
+-	highest = rate * (1000 + SUN4I_RGB_DOTCLOCK_TOLERANCE_PER_MILLE);
+-	do_div(highest, 1000);
+-	if (rounded_rate > highest)
+-		return MODE_CLOCK_HIGH;
++	ret = drm_mode_validate_mode(mode, rounded_rate);
++	if (ret)
++		return ret;
+ 
+ out:
+ 	DRM_DEBUG_DRIVER("Clock rate OK\n");
 
 -- 
 2.46.2
