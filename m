@@ -2,48 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0139D841C
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 12:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518C19D844C
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 12:22:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A00910E600;
-	Mon, 25 Nov 2024 11:11:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C70F210E608;
+	Mon, 25 Nov 2024 11:22:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WjFGld3D";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CED5910E600
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 11:11:11 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E8BA202C
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 03:11:41 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 125083F66E
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 03:11:10 -0800 (PST)
-Date: Mon, 25 Nov 2024 11:10:51 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: cgzones@googlemail.com
-Cc: linux-security-module@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Richard Weinberger <richard@nod.at>,
- Zhihao Cheng <chengzhihao1@huawei.com>, Serge Hallyn <serge@hallyn.com>,
- Julia Lawall <Julia.Lawall@inria.fr>,
- Nicolas Palix <nicolas.palix@imag.fr>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mtd@lists.infradead.org,
- cocci@inria.fr
-Subject: Re: [PATCH 06/11] ubifs: reorder capability check last
-Message-ID: <Z0RbO1lSXoUnAtxj@e110455-lin.cambridge.arm.com>
-References: <20241125104011.36552-1-cgoettsche@seltendoof.de>
- <20241125104011.36552-5-cgoettsche@seltendoof.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6DDF10E608
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 11:22:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1732533772;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+sllFXXJNcJZ+f5cFnwVtlcSwPFXESaku6gH0Ws76pc=;
+ b=WjFGld3Dbpj+30K6VEqmb4H4HV+ockg/Ix0nNAn5e2WQ65iXIX/Cv0IUBpi/iz0SKVSwP9
+ NegnpQsY2EaaGLA92J3JSbFN6W673K2vMK3Hq92YYuQZinpPpMCXbKBbjm02Tar/zJMfQB
+ fKqPzq9XScTv8SaCOFmF2hvta8i6L5s=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-606-O1huZqNjMeW5-jwNl8FMJw-1; Mon,
+ 25 Nov 2024 06:22:51 -0500
+X-MC-Unique: O1huZqNjMeW5-jwNl8FMJw-1
+X-Mimecast-MFC-AGG-ID: O1huZqNjMeW5-jwNl8FMJw
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 0E5351956088; Mon, 25 Nov 2024 11:22:50 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.111])
+ by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 3FC1030000DF; Mon, 25 Nov 2024 11:22:49 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 152DA1800392; Mon, 25 Nov 2024 12:22:47 +0100 (CET)
+Date: Mon, 25 Nov 2024 12:22:47 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com, 
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH 1/2] drm/cirrus: Use virtual encoder and connector types
+Message-ID: <6m4dw6orj6frsmufdoeea3cllssvmwxzf7r44fwmd5t45pc7te@4oz27uvldojr>
+References: <20241029143928.208349-1-tzimmermann@suse.de>
+ <20241029143928.208349-2-tzimmermann@suse.de>
+ <y74662j6zqvocvpa3zbig5owhqu2o43xdrwkeswgwd5mak2cx7@esgliauvzkh5>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <y74662j6zqvocvpa3zbig5owhqu2o43xdrwkeswgwd5mak2cx7@esgliauvzkh5>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: wpr6y4sE9A9eNbB3vnNSRAEfKpx6OejFuaVaPKpZit4_1732533770
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241125104011.36552-5-cgoettsche@seltendoof.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,79 +77,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On Sat, Nov 23, 2024 at 06:28:30PM +0200, Dmitry Baryshkov wrote:
+> On Tue, Oct 29, 2024 at 03:34:23PM +0100, Thomas Zimmermann wrote:
+> > The cirrus driver only works on emulated Cirrus hardware. Use the
+> > correct types for encoder and connector.
 
-On Mon, Nov 25, 2024 at 11:39:58AM +0100, Christian Göttsche wrote:
-> From: Christian Göttsche <cgzones@googlemail.com>
+> >  	connector = &cirrus->connector;
+> >  	ret = drm_connector_init(dev, connector, &cirrus_connector_funcs,
+> > -				 DRM_MODE_CONNECTOR_VGA);
+> > +				 DRM_MODE_CONNECTOR_VIRTUAL);
 > 
-> capable() calls refer to enabled LSMs whether to permit or deny the
-> request.  This is relevant in connection with SELinux, where a
-> capability check results in a policy decision and by default a denial
-> message on insufficient permission is issued.
-> It can lead to three undesired cases:
->   1. A denial message is generated, even in case the operation was an
->      unprivileged one and thus the syscall succeeded, creating noise.
->   2. To avoid the noise from 1. the policy writer adds a rule to ignore
->      those denial messages, hiding future syscalls, where the task
->      performs an actual privileged operation, leading to hidden limited
->      functionality of that task.
->   3. To avoid the noise from 1. the policy writer adds a rule to permit
->      the task the requested capability, while it does not need it,
->      violating the principle of least privilege.
-> 
-> Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 2 +-
->  fs/ubifs/budget.c                     | 5 +++--
->  2 files changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index ac7e53f6e3f0..2de0c3627fbf 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -791,7 +791,7 @@ static int group_priority_permit(struct drm_file *file,
->  		return 0;
->  
->  	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
-> -	if (capable(CAP_SYS_NICE) || drm_is_current_master(file))
-> +	if (drm_is_current_master(file) || capable(CAP_SYS_NICE))
->  		return 0;
->  
->  	return -EACCES;
+> This will also remove the EDID property from this connector. I'm not
+> sore if that is an expected behaviour or not.
 
-Can the patch above be split into a separate one? It's for a different subsystem than ubifs.
+Well, the qemu cirrus emulation does not actually provide an EDID,
+so this is probably a good thing (even if possibly not intentional).
 
-Otherwise, it looks good to me, so you can add my Reviewed-by to the new patch.
+take care,
+  Gerd
 
-Best regards,
-Liviu
-
-> diff --git a/fs/ubifs/budget.c b/fs/ubifs/budget.c
-> index d76eb7b39f56..6137aeadec3f 100644
-> --- a/fs/ubifs/budget.c
-> +++ b/fs/ubifs/budget.c
-> @@ -256,8 +256,9 @@ long long ubifs_calc_available(const struct ubifs_info *c, int min_idx_lebs)
->   */
->  static int can_use_rp(struct ubifs_info *c)
->  {
-> -	if (uid_eq(current_fsuid(), c->rp_uid) || capable(CAP_SYS_RESOURCE) ||
-> -	    (!gid_eq(c->rp_gid, GLOBAL_ROOT_GID) && in_group_p(c->rp_gid)))
-> +	if (uid_eq(current_fsuid(), c->rp_uid) ||
-> +	    (!gid_eq(c->rp_gid, GLOBAL_ROOT_GID) && in_group_p(c->rp_gid)) ||
-> +	    capable(CAP_SYS_RESOURCE))
->  		return 1;
->  	return 0;
->  }
-> -- 
-> 2.45.2
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
