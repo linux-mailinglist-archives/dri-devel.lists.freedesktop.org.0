@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D639D8E89
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 23:32:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 037879D8E8C
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 23:33:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14BFF10E0C0;
-	Mon, 25 Nov 2024 22:32:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2B310E1FB;
+	Mon, 25 Nov 2024 22:33:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QdbKn0WM";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="SLcs1C5I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 826C210E0C0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 22:32:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7916F10E1FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 22:33:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,21 +22,21 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=TqVNrxG3v2f+O0cNNwlQZrO9juHOFBUp1hcXjRuvHaY=; b=QdbKn0WMKRfwHuuwzSIQW3F1hf
- Ly32WYxQnhQafH2zt6wIHzwfQILizvdZdG0AEVlgK30YU6dZMWCioFDfGEa9GsbBhIDtOVDAgfwBt
- ySaluIETsPDVLXz9Eio52POfA+M0GAg1dhtW+0ZoEtWaHYFqNYPZJ80/tp7SkdRsL085Kd5Knh1PW
- 9Kje4pH4eGNdBvdH5hABI37Tdgyt4CXUpO/wzQ2iYD04lxZhddn4fXA0o2+dGKIg1FSoUUU5BejcF
- n3CwKzMSyXxmdt0JrlXhgTCTm3KlNjN0aPj3xZT+hyKb1F1J1ksanxFaChuiCZouxm9/4NRAdk15M
- Ew3INqtA==;
+ bh=B396JNk2S3O9embWWP/GtQqDR3zSeL68MQw2q9D629s=; b=SLcs1C5IOSGowt0/ST8LpfNyuw
+ gSLDpIDB+32l3Hmmj7uhwjKxBE7R8oPnK/Itvmu8XoZVtvYSmaFkTf8uN+qLcAjV5ZD2vaJLv9PMU
+ F7sZqrq56VphD0buzl6qu+Q5BQW/+EORLLeOyk7OmcROJCip1ndgEYi6HyKt8Re+IrcrKQeL00UbT
+ FEIDNTwcQ7repYr2V4Hj1tUtIFk1tv4mCYlHUJxDJqd6jkRplpCrKVKfxmr1eCSkU3kO2aZvq7+au
+ CRT52FmpXVGvE0q62L5AZgfgKTq2MbCPkiHDjRWBBCrOK/4ygne5T+obzEyesQe9m5BWx69Zg/lRx
+ HTTslVmA==;
 Received: from [187.36.213.55] (helo=[192.168.1.103])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tFhcY-00CspU-GB; Mon, 25 Nov 2024 23:31:54 +0100
-Message-ID: <81d53fbc-966e-4e7e-a89e-541bb61f3431@igalia.com>
-Date: Mon, 25 Nov 2024 19:31:46 -0300
+ id 1tFhda-00CsrK-Ml; Mon, 25 Nov 2024 23:32:58 +0100
+Message-ID: <53db4581-5db7-41a2-89ae-694324f8db83@igalia.com>
+Date: Mon, 25 Nov 2024 19:32:51 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/5] drm/vkms: Switch to managed for connector
+Subject: Re: [PATCH v5 2/5] drm/vkms: Switch to managed for encoder
 To: Louis Chauvet <louis.chauvet@bootlin.com>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>,
@@ -50,10 +50,10 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
  seanpaul@google.com, nicolejadeyee@google.com
 References: <20241122-google-vkms-managed-v5-0-1ab60403e960@bootlin.com>
- <20241122-google-vkms-managed-v5-1-1ab60403e960@bootlin.com>
+ <20241122-google-vkms-managed-v5-2-1ab60403e960@bootlin.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20241122-google-vkms-managed-v5-1-1ab60403e960@bootlin.com>
+In-Reply-To: <20241122-google-vkms-managed-v5-2-1ab60403e960@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,7 +74,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Louis,
 
 On 22/11/24 13:27, Louis Chauvet wrote:
-> The current VKMS driver uses non-managed function to create connectors. It
+> The current VKMS driver uses non-managed function to create encoders. It
 > is not an issue yet, but in order to support multiple devices easily,
 > convert this code to use drm and device managed helpers.
 > 
@@ -86,54 +86,50 @@ Best Regards,
 - Maíra
 
 > ---
->   drivers/gpu/drm/vkms/vkms_output.c | 12 ++++--------
->   1 file changed, 4 insertions(+), 8 deletions(-)
+>   drivers/gpu/drm/vkms/vkms_output.c | 12 +++---------
+>   1 file changed, 3 insertions(+), 9 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 8f4bd5aef087b459d37d0cbbf90fe0145090917a..570823ecb28f589e6323036590ec05a2f633bc9b 100644
+> index 570823ecb28f589e6323036590ec05a2f633bc9b..ab9affa75b66ce9f00fe025052439405206144ec 100644
 > --- a/drivers/gpu/drm/vkms/vkms_output.c
 > +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -3,11 +3,11 @@
->   #include "vkms_drv.h"
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_edid.h>
-> +#include <drm/drm_managed.h>
->   #include <drm/drm_probe_helper.h>
->   
->   static const struct drm_connector_funcs vkms_connector_funcs = {
->   	.fill_modes = drm_helper_probe_single_connector_modes,
-> -	.destroy = drm_connector_cleanup,
->   	.reset = drm_atomic_helper_connector_reset,
->   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> @@ -13,10 +13,6 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
 >   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> @@ -75,8 +75,8 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->   		}
->   	}
+>   };
 >   
-> -	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
-> -				 DRM_MODE_CONNECTOR_VIRTUAL);
-> +	ret = drmm_connector_init(dev, connector, &vkms_connector_funcs,
-> +				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
->   	if (ret) {
->   		DRM_ERROR("Failed to init connector\n");
->   		return ret;
-> @@ -88,7 +88,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->   			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> -static const struct drm_encoder_funcs vkms_encoder_funcs = {
+> -	.destroy = drm_encoder_cleanup,
+> -};
+> -
+>   static int vkms_conn_get_modes(struct drm_connector *connector)
+>   {
+>   	int count;
+> @@ -84,8 +80,8 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>   
+>   	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
+>   
+> -	ret = drm_encoder_init(dev, encoder, &vkms_encoder_funcs,
+> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> +	ret = drmm_encoder_init(dev, encoder, NULL,
+> +				DRM_MODE_ENCODER_VIRTUAL, NULL);
 >   	if (ret) {
 >   		DRM_ERROR("Failed to init encoder\n");
-> -		goto err_encoder;
+>   		return ret;
+> @@ -95,7 +91,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>   	ret = drm_connector_attach_encoder(connector, encoder);
+>   	if (ret) {
+>   		DRM_ERROR("Failed to attach connector to encoder\n");
+> -		goto err_attach;
 > +		return ret;
 >   	}
->   	encoder->possible_crtcs = drm_crtc_mask(crtc);
 >   
-> @@ -110,9 +110,5 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>   	if (vkmsdev->config->writeback) {
+> @@ -108,7 +104,5 @@ int vkms_output_init(struct vkms_device *vkmsdev)
 >   
->   err_attach:
->   	drm_encoder_cleanup(encoder);
-> -
-> -err_encoder:
-> -	drm_connector_cleanup(connector);
-> -
+>   	return 0;
+>   
+> -err_attach:
+> -	drm_encoder_cleanup(encoder);
 >   	return ret;
 >   }
 > 
