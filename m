@@ -2,83 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0319D9345
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 09:27:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFFE9D855A
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 13:21:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65CAA10E7E3;
-	Tue, 26 Nov 2024 08:26:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D370210E229;
+	Mon, 25 Nov 2024 12:21:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="AeukbDqz";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HtGERbQF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0631A10E27A
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 11:48:38 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-6eeee645605so22397447b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 03:48:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1732535318; x=1733140118;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=476juWLLXH68WdEd6CCvoohOL74hVP8YdxJenm7T9uk=;
- b=AeukbDqzbBlWXMowElCAl/NEhPdCsOmzZbvo8XF3NEnOn5blm+IPPzu8K3oKIc9VJW
- 75VvNr1cag5ni+ndmg8ADa/keAV1GE4zs34XPI3td0pnrGzqcJu7ZriB9EAhzA3E94hY
- YlwuRppNo16WiqGBRHzkT4l5WjsYZFAZ3lv2g1IuUj2mcaDkJpFCTRK60VwXMCkymBwo
- NJtBUBTE++8RIJvDEuFOKBvRyFM5VwcRLLtJAMwCD0nNajLMU5jw2YfKQAj3QQj+YNoR
- PAxzU/qHwA5cOxWIxJNwBcEsvskzDkC8pPQ2DExoxegzvE6AbaRIiz0hZ5Y+1MLtwhub
- HeaQ==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91D2A10E229
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 12:21:23 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AP8glYi014343
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 12:21:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ gDBzRlkGCEyYFmZ5YmtwhBflQYtmhi09NNPtB9yI/i0=; b=HtGERbQFnQFOzFv4
+ Uz7ujJTSAXT7EXMgN3uKT3vyXeickcjmAyfD859wdZZAkCUOfG4fV0J3rgMMj4P0
+ QsBvxJ29cTZ3hWFR2a1bajVLKJy9rrSGOgCljd+jsG1Gtz78QgokY0zpgyv8xMps
+ hXQa2iCeTh77aNDIZAcvX+7q0LSw4IHrwKDbMVk2PvaLOthdAFvx40NhVPRnH7Rd
+ r9VMBZQ6gtPmm9dNZ1fT1ztZundGV4EBbblKA7N7igeUw469O5t8/8ACOZG4Cve8
+ bc660XCK9qxbONvjxyFTfDrYSKioLzV2NmR+M/FMfDSQ5aw/LllDnMpGOPXpnm2k
+ Hr3iPQ==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 434nyg0p88-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 12:21:22 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4668f02aeebso2772041cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 04:21:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732535318; x=1733140118;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=476juWLLXH68WdEd6CCvoohOL74hVP8YdxJenm7T9uk=;
- b=wtBvVsivHOTOqr7JZ5ezHRz8nHcq+N2wllc1A46XP+YTzGUigCAqTrMyq4Rx0j/Nvj
- JQgbt0gb8dQyvJlAHdRzTJ4gvIOz/wP2S6CotKjdLfQgSwA3HtlPlyAQWR5xTmsBZbSm
- iP9X+c29y3f2OcT6cJji1KubPg1G4LKI8aP3ENX7vRDLzDID/FONd1doYfw/9xOfD9lS
- oiR86BWZEhc0jRt2PUnFeLjGi299zUzWHL4dSLoIJgNfcBDog7j5nnUKOR4QTnw/y0LO
- OZcg00+C6ZLy1FJleESlW0mII6g7OXeoqznw+RE6TvHJ9Ppm5RkySHXWhBIuzDb2BuXl
- 3VdA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWuVx8Nd0Mv7XQTFkSxNX4a5wPl34oL5G+YreMzcd0YxuSazHm5pl94C3TwxSw82vhszCN62wD4tLE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJQyXTMfe9KCL0swK/PtnRmqL7262gU+81BUY/V7WuVX+ATOTY
- opOFsh8rHmKKHxlAHkQrttMh1rtXtwAKa4ftZicQLhSJ++wMPWiGCkZlq4izgL7YA/6swEW/rZw
- yXPxMLL1YfQclVKpLHCv2weOnlXo=
-X-Gm-Gg: ASbGncsJUi6lqC/ChLrSXUXn+YMXBwe+wbhryqaqoENMf6Z0VjlVCpKH459IjTjZVot
- nHG6hr0aIPmDuidEvWf8q/nJVZG94ydg6
-X-Google-Smtp-Source: AGHT+IGYP2SKdODKsnDK/PfBnKLbQWqO3MML2UPkyylWYXOgHgp7Wt8KYifNK0fRtunrvJy8VyVVbVwzaUlM3QnofG0=
-X-Received: by 2002:a05:6902:2084:b0:e38:ea81:d01e with SMTP id
- 3f1490d57ef6-e38f8aca119mr9503432276.8.1732535317875; Mon, 25 Nov 2024
- 03:48:37 -0800 (PST)
+ d=1e100.net; s=20230601; t=1732537266; x=1733142066;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gDBzRlkGCEyYFmZ5YmtwhBflQYtmhi09NNPtB9yI/i0=;
+ b=eRIhQccpwqjhYTgRCNkjflOqHdsjMxsEeXNIyhxbCg4TUM1eLZheaFNNiIlVUY2jII
+ Jt5uLarq0/h7n9GRK47mDI1YVwyacO3+sBU9Yz+yDTbJ0Qbwmq0JN0xD+/BecOf9qwZT
+ 9H6G38DxZP27t7+WkDPYtvT1D4bvL4WvIKQvGe/WkUvijArdqqFD1t8Gr2CvzifDgRLz
+ sJmOvae8JA30VE57uP3hU2xNWzMv/alehQV+AT8rousM7DSQCeTnTEpQoEPhoFQPsxWS
+ 5XNnzo848B2yP0jM6TxHlT8U9qON6Yt/O9nnHB1afOvzEsZiMrPT5SUXtPEExTsZwxMI
+ c6dw==
+X-Gm-Message-State: AOJu0Yw1p/eU4DzycoimUIV5k/KV3yBnYNHkAlcmP3kNO4ZnS0R9NsT8
+ PtOpZc53WdX1i049haf3WBDWJ47W2SQxLpukvkF8U7Mzwv2cK3m3J3oxYWTsYeY/ZZgrj06CpuB
+ tfSKzdCc9TMLZ0+zB0RIC4S93O7hXlYrAVVOVoB2En1+t+yzNqdWuGKJu2mq37ldkWyA=
+X-Gm-Gg: ASbGncvJdeHdD0jIqBpzlmS0dXwqz9/F/ck3PVrf9YPh8S3Xw2W3zoH0G1g6rE3FnOF
+ +ype1Ij2X9H6Iyi0gh11J5fBHUspjpbGczKGk2JaSYoaSgOEDL/RbiyKXuk4WQoYKHCy9DlqKMS
+ lu8bpdfVONAx3eFvmTGSWHSeYJkiVzv4JEAljaXS7jUhzAofuYMMm+y7uFOjazNrTUOtGcbuF8P
+ ym3c/dXNKl/ezQ9HQEayTZmnseeq49+ejCggI8bPjFDMOY+P3TqXijQHP6Sk6KlMTqAut385hYM
+ gVOuzS8H01uLbfW53O59mfAwhxsWLLo=
+X-Received: by 2002:a05:622a:2994:b0:466:8c48:7222 with SMTP id
+ d75a77b69052e-4668c488b82mr26078321cf.3.1732537265764; 
+ Mon, 25 Nov 2024 04:21:05 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG897EHQwM/DGNzZZKU4h1dAJu36wkURTvQ3FH3Ph9u3QiO5bPEdDagAHgNEDb2GbIGXUHf9g==
+X-Received: by 2002:a05:622a:2994:b0:466:8c48:7222 with SMTP id
+ d75a77b69052e-4668c488b82mr26078101cf.3.1732537265315; 
+ Mon, 25 Nov 2024 04:21:05 -0800 (PST)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5d01f9c2dd2sm3976328a12.18.2024.11.25.04.21.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Nov 2024 04:21:04 -0800 (PST)
+Message-ID: <af6f4b48-7e9b-4561-818d-150fe954d821@oss.qualcomm.com>
+Date: Mon, 25 Nov 2024 13:21:01 +0100
 MIME-Version: 1.0
-References: <20241125104011.36552-1-cgoettsche@seltendoof.de>
- <20241125104011.36552-5-cgoettsche@seltendoof.de>
- <1045101183.70157813.1732534258584.JavaMail.zimbra@nod.at>
-In-Reply-To: <1045101183.70157813.1732534258584.JavaMail.zimbra@nod.at>
-From: =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-Date: Mon, 25 Nov 2024 12:48:27 +0100
-Message-ID: <CAJ2a_Dd_sz2LYEEJJhiJE=JP81V4AvET=jgSyRe73eF-YjeXhg@mail.gmail.com>
-Subject: Re: [PATCH 06/11] ubifs: reorder capability check last
-To: Richard Weinberger <richard@nod.at>
-Cc: LSM <linux-security-module@vger.kernel.org>, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- chengzhihao1 <chengzhihao1@huawei.com>, "Serge E. Hallyn" <serge@hallyn.com>, 
- Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
- linux-kernel <linux-kernel@vger.kernel.org>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-mtd <linux-mtd@lists.infradead.org>, cocci <cocci@inria.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 26 Nov 2024 08:26:46 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] arm64: dts: qcom: x1e80100-vivobook-s15: Use the
+ samsung,atna33xc20 panel driver
+To: maud_spierings@hotmail.com, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Douglas Anderson
+ <dianders@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20241124-asus_qcom_display-v3-0-002b723b1920@hotmail.com>
+ <20241124-asus_qcom_display-v3-2-002b723b1920@hotmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241124-asus_qcom_display-v3-2-002b723b1920@hotmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: d_5xCHsB_ZZ3xzzlBztm9AcwSUERipfN
+X-Proofpoint-ORIG-GUID: d_5xCHsB_ZZ3xzzlBztm9AcwSUERipfN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ mlxlogscore=999 clxscore=1015 mlxscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411250106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,75 +120,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Nov 2024 at 12:31, Richard Weinberger <richard@nod.at> wrote:
->
-> ----- Urspr=C3=BCngliche Mail -----
-> > Von: "Christian G=C3=B6ttsche" <cgoettsche@seltendoof.de>
-> > capable() calls refer to enabled LSMs whether to permit or deny the
-> > request.  This is relevant in connection with SELinux, where a
-> > capability check results in a policy decision and by default a denial
-> > message on insufficient permission is issued.
-> > It can lead to three undesired cases:
-> >  1. A denial message is generated, even in case the operation was an
-> >     unprivileged one and thus the syscall succeeded, creating noise.
-> >  2. To avoid the noise from 1. the policy writer adds a rule to ignore
-> >     those denial messages, hiding future syscalls, where the task
-> >     performs an actual privileged operation, leading to hidden limited
-> >     functionality of that task.
-> >  3. To avoid the noise from 1. the policy writer adds a rule to permit
-> >     the task the requested capability, while it does not need it,
-> >     violating the principle of least privilege.
-> >
-> > Signed-off-by: Christian G=C3=B6ttsche <cgzones@googlemail.com>
-> > ---
-> > drivers/gpu/drm/panthor/panthor_drv.c | 2 +-
->
-> This change is unrelated, please remove it.
+On 24.11.2024 11:00 AM, Maud Spierings via B4 Relay wrote:
+> From: Maud Spierings <maud_spierings@hotmail.com>
+> 
+> The Asus vivobook s15 uses the ATNA56AC03 panel.
+> This panel is controlled by the atna33xc20 driver instead of the generic
+> edp-panel driver
+> 
+> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
+> ---
+>  arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
+> index f25991b887de3fca0092c5f81c881c5d8bd71aac..dbc85aff50a95bfc2ac11528d1901979ec7b1501 100644
+> --- a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
+> +++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
+> @@ -407,9 +407,13 @@ &mdss_dp3 {
+>  
+>  	aux-bus {
+>  		panel {
+> -			compatible = "edp-panel";
+> +			compatible = "samsung,atna56ac03", "samsung,atna33xc20";
+> +			enable-gpios = <&pmc8380_3_gpios 4 GPIO_ACTIVE_HIGH>;
+>  			power-supply = <&vreg_edp_3p3>;
+>  
+> +			pinctrl-0 = <&edp_bl_en>;
+> +			pinctrl-names = "default";
+> +
+>  			port {
+>  				edp_panel_in: endpoint {
+>  					remote-endpoint = <&mdss_dp3_out>;
+> @@ -475,6 +479,16 @@ &pcie6a_phy {
+>  	status = "okay";
+>  };
+>  
+> +&pmc8380_3_gpios {
+> +	edp_bl_en: edp-bl-en-state {
+> +		pins = "gpio4";
+> +		function = "normal";
+> +		power-source = <0>;
 
-Sorry, somehow these two changes got erroneously combined in a single patch=
-.
-I'll send a v2 with them split into separate ones.
+This is <1> on other boards.. I'm guessing you verified this against
+at-boot values?
 
->
-> > fs/ubifs/budget.c                     | 5 +++--
-> > 2 files changed, 4 insertions(+), 3 deletions(-)
->
-> [...]
->
-> > diff --git a/fs/ubifs/budget.c b/fs/ubifs/budget.c
-> > index d76eb7b39f56..6137aeadec3f 100644
-> > --- a/fs/ubifs/budget.c
-> > +++ b/fs/ubifs/budget.c
-> > @@ -256,8 +256,9 @@ long long ubifs_calc_available(const struct ubifs_i=
-nfo *c,
-> > int min_idx_lebs)
-> >  */
-> > static int can_use_rp(struct ubifs_info *c)
-> > {
-> > -     if (uid_eq(current_fsuid(), c->rp_uid) || capable(CAP_SYS_RESOURC=
-E) ||
-> > -         (!gid_eq(c->rp_gid, GLOBAL_ROOT_GID) && in_group_p(c->rp_gid)=
-))
-> > +     if (uid_eq(current_fsuid(), c->rp_uid) ||
-> > +         (!gid_eq(c->rp_gid, GLOBAL_ROOT_GID) && in_group_p(c->rp_gid)=
-) ||
-> > +         capable(CAP_SYS_RESOURCE))
-> >               return 1;
-> >       return 0;
-> > }
->
-> The UBIFS part looks ok:
->
-> Acked-by: Richard Weinberger <richard@nod.at>
->
-> Since I was not CC'ed to the whole series, I miss a lot of context.
-
-The series consists of similar patches to other subsystems and a
-coccinelle script addition.
-See https://lore.kernel.org/linux-security-module/20241125104011.36552-11-c=
-goettsche@seltendoof.de/#t
-
-> Will this series merged as a whole? By whom?
->
-> Thanks,
-> //richard
+Konrad
