@@ -2,57 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A819D82D9
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 10:50:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B859B9D82F5
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 11:00:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30EF210E1BD;
-	Mon, 25 Nov 2024 09:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B34810E3C9;
+	Mon, 25 Nov 2024 10:00:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TO9X7ZIj";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="b/d0flUB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1809F10E1BD
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:50:09 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A83481C000C;
- Mon, 25 Nov 2024 09:50:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1732528208;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2AF210E3C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 10:00:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1732528827;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jqZBXXpYqlZ47ruOLuRIl9U+AjdNaJHZhWEuBmxnpx4=;
- b=TO9X7ZIjxELNyehRFohEvZu5Ytg4Orkmwagi8FV3r9FnxdqYF495c70sCD3W3/8+OeG/pI
- Kzc2tCscyRjUfmXzzL+Nnna+IOP7AAwHDMCyJFNnRgqJeosB3788l5ESCunMLd1tnNsQ/v
- M4RrHbGEVD10+8A4pW01fCq8ESW1VMz7uiyHmZktOTo6o7gjZaZaJwgsvjmy7cJ+2QW0/H
- 7oAzP7NKHf6dtg1LDs+xLJuj5x3lKbU9UNw3Jp+Vgsohc2HjgCkyEwgmFOAEQWxwQS2NJG
- VTHMFK2d6fjFoE70ad2L7fMeVzsDh/oAjMjZhXTCpVmjm9D0YBP02DXICYBUgg==
-Date: Mon, 25 Nov 2024 09:50:01 +0000
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- =?ISO-8859-1?Q?Ma=EDra_Canal?= <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>
-CC: arthurgrillo@riseup.net, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, seanpaul@google.com, 
- nicolejadeyee@google.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v2 10/18] drm/vkms: Introduce config for encoder name
-In-Reply-To: <87ttbvy84z.fsf@intel.com>
-References: <20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com>
- <20241122-google-remove-crtc-index-from-parameter-v2-10-81540742535a@bootlin.com>
- <87ttbvy84z.fsf@intel.com>
-Message-ID: <65C56D17-EDFE-42E6-A8E0-57DEFF577886@bootlin.com>
+ bh=3DEn3H7sA4YThDVCXh6Hlvh1uMxnLhykOCcAR8z1u5w=;
+ b=b/d0flUBcZ9xL9N2GI6Phi4ypEy+QVIyDFMuYFc/FJxRyXPyPRLvN2VPp8hN954+6o2HEV
+ SI0v4VSmGlOyx45DW1kJIYB087cYq2yIumxuXGppZ9tpJGS9IkIsnGFxHd4pHqRtR/wYaU
+ EHamiIlRpXAT/0CPW+z+bhHuZMam0qM=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-354-VzbM01juNYm2biJVvxE0xg-1; Mon, 25 Nov 2024 05:00:23 -0500
+X-MC-Unique: VzbM01juNYm2biJVvxE0xg-1
+X-Mimecast-MFC-AGG-ID: VzbM01juNYm2biJVvxE0xg
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-aa53116660fso160937666b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 02:00:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732528822; x=1733133622;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=3DEn3H7sA4YThDVCXh6Hlvh1uMxnLhykOCcAR8z1u5w=;
+ b=JLPDTgHuPLQvv0dQneIKHXtjUKM758k0QJzxDpNK1W1xAAJ0spCax470We7xjdXtT0
+ I/vi2sK99GkSZLQw2mmOJdwIBkS1owdY3dOCi4ybTbyoVPRClTZ2UCZYc4HS1Zds1CIj
+ cSDtuc4aWFtYAdfhxkhw3oqsnSsAhgLQA8/q5bdT7zKkNnfPN8B5sWUacjh14zdiqlEg
+ yMkUScH5QfcAuqXdQWJsUa/dUe4qQJaU+4I3fTx3cSnkVIhgiN1uQPUd2GQ1Cu/EX0H1
+ 71GFdxs6DmphgAzgjkJULSqf+mRjbCrTbq/E16w/YFxCHvl73NyEoraC9TC9JPls8yWx
+ INKA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVVrv4YXyuo82J79A1W/EpmYwYRBIkToHbxYrnJPzTg3D9MdRFku4Dapo5gN6QyQjThfkJtiSMe41o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUETCR5VXRn0mjcEtu4lHQoQ++oGEbGwZXqry+r2kA526rq3NH
+ cliAjg4+uTjdnuqCJ+dTBXc38eqCZ0Sg6yHIUx0LIUgh/EH7thzEeZI+ngYA4JZy06mWsIcMoN5
+ D6A43EfFKW5HPKZCEKeUXt5QvPKfv87ISMTD0jRFieJUHkqy7ZvnyzdPl4Qk2gXd1LQ==
+X-Gm-Gg: ASbGncsRjRqXgVdASUMDKIqJ56rs+EWBmiKgPd+5esB0WuyO5/KHvWJl31dNh5F0kFN
+ ChVkjqWuzJwuQbrc3kVdOKOmM4Oujo309wzaRMi4RaPsE9Ik3FATNIsdELKNxeQtI6z3dgCmbDJ
+ 09R9kbD6sw9yo8TNl1uwiQHNwkA9o0u7GyA6dwaPViNyVl8R+Z53m+H6QRqbqfIrM6o8xnOkf05
+ bG632bwfB2VBJ2bRARwh+NphheYWrIbrK5tbblns9CtdI62No3Hdi5NmKPBDHFxuxMwp2eZWsh0
+ k4EAw2j4vW7866PpxFcpfPlh
+X-Received: by 2002:a17:906:31c1:b0:aa5:226a:658f with SMTP id
+ a640c23a62f3a-aa5226a65d5mr901180566b.2.1732528822198; 
+ Mon, 25 Nov 2024 02:00:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEjIwaKOeFJ52jcqkM4BmWh0ypszamdytF2th75k3h9D7KBAjJ7rAmUe7VKN5OqcAsR4y7eGQ==
+X-Received: by 2002:a17:906:31c1:b0:aa5:226a:658f with SMTP id
+ a640c23a62f3a-aa5226a65d5mr901178066b.2.1732528821863; 
+ Mon, 25 Nov 2024 02:00:21 -0800 (PST)
+Received: from ?IPv6:2001:16b8:3d40:1c00:e57a:25ed:3c10:67c4?
+ ([2001:16b8:3d40:1c00:e57a:25ed:3c10:67c4])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aa53683eafbsm286688166b.189.2024.11.25.02.00.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Nov 2024 02:00:21 -0800 (PST)
+Message-ID: <a53b8e1576f66c87d652ff58de2a2305e721b418.camel@redhat.com>
+Subject: Re: [PATCH 2/2] drm/sched: clarify the documentation on
+ drm_sched_entity_error
+From: Philipp Stanner <pstanner@redhat.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ dakr@kernel.org, dri-devel@lists.freedesktop.org, ltuikov89@gmail.com
+Date: Mon, 25 Nov 2024 11:00:20 +0100
+In-Reply-To: <20240918133956.26557-2-christian.koenig@amd.com>
+References: <20240918133956.26557-1-christian.koenig@amd.com>
+ <20240918133956.26557-2-christian.koenig@amd.com>
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Jke95QvKQT2DLR9_h8VToae1UZGPGq3_6U9dX6sRb2o_1732528822
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,107 +102,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 2024-09-18 at 15:39 +0200, Christian K=C3=B6nig wrote:
+> Sima requested that in a discussion, just copy&paste my explanation
+> from
+> the mail.
+>=20
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 17 +++++++++++++++--
+> =C2=A01 file changed, 15 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 58c8161289fe..571e2f2365a1 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -166,8 +166,21 @@ bool drm_sched_entity_is_ready(struct
+> drm_sched_entity *entity)
+> =C2=A0 * drm_sched_entity_error - return error of last scheduled job
+> =C2=A0 * @entity: scheduler entity to check
+
+Please move the "Returns:" section to here, so we get a unified style
+for the scheduler.
+
+"Returns: the negative error code of the last scheduled job, 0 if there
+has been no error, or no job yet."
+
+Regarding your sentence from below:
+
+> "Returns the error of the last scheduled job. Result can change any
+> time when
+> + * new jobs are pushed to the hw.
+
+what does the last sentence mean? It seems you just want to say that
+each time the function is called it can return a new error code?
+
+IMO it should be relatively obvious that this function is racy. If you
+want to emphasize it nevertheless I'd do that in a sentence separate
+from the "Returns: " section
+
+> =C2=A0 *
+> - * Opportunistically return the error of the last scheduled job.
+> Result can
+> - * change any time when new jobs are pushed to the hw.
+> + * Drivers should use this function in two ways:
+
+maybe "in one of two ways" ?
+
+> + *
+> + * 1. In it's prepare callback so that when one submission fails all
+> following
+
+s/it's/their
+
+> + * from the same ctx are marked with an error number as well.
+> + *
+> + * This is intentionally done in a driver callback so that driver
+> decides if
+
+s/so that driver/so that the driver
+
+> + * they want subsequent submissions to fail or not. That can be
+> helpful for
+> + * example for in kernel paging queues where submissions don't
+
+s/for in kernel/in kernel
+
+> depend on each
+> + * other and a failed submission shouldn't cancel all following.
+> + *
+> + * 2. In it's submission IOCTL to reject new submissions and inform
+> userspace
+
+s/In it's/In their
+
+> + * that it needs to kick of some error handling.
+> + *
+> + * Returns the error of the last scheduled job. Result can change
+> any time when
+> + * new jobs are pushed to the hw.
+> =C2=A0 */
+> =C2=A0int drm_sched_entity_error(struct drm_sched_entity *entity)
+> =C2=A0{
+
+btw I talked to Dave about the other patch. I think if you provide a v2
+with Janis suggestions and mine here we can merge this
 
 
-Le 25 novembre 2024 09:28:44 UTC, Jani Nikula <jani=2Enikula@linux=2Eintel=
-=2Ecom> a =C3=A9crit=C2=A0:
->On Fri, 22 Nov 2024, Louis Chauvet <louis=2Echauvet@bootlin=2Ecom> wrote:
->> As an encoder will be a directory in ConfigFS, add the configuration fo=
-r
->> encoder name so we will be able to reflect the configfs directory name =
-in
->> the drm name=2E
->>
->> Signed-off-by: Louis Chauvet <louis=2Echauvet@bootlin=2Ecom>
->> ---
->>  drivers/gpu/drm/vkms/vkms_config=2Ec | 6 ++++++
->>  drivers/gpu/drm/vkms/vkms_config=2Eh | 2 ++
->>  drivers/gpu/drm/vkms/vkms_output=2Ec | 2 +-
->>  3 files changed, 9 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_config=2Ec b/drivers/gpu/drm/vkm=
-s/vkms_config=2Ec
->> index e44ed904cefb97b8b6ab8fc27623e315397e0106=2E=2Ea2539fb56b602569b75=
-748fdf9c4784f104b0bff 100644
->> --- a/drivers/gpu/drm/vkms/vkms_config=2Ec
->> +++ b/drivers/gpu/drm/vkms/vkms_config=2Ec
->> @@ -41,6 +41,10 @@ struct vkms_config *vkms_config_alloc_default(bool e=
-nable_writeback, bool enable
->>  	encoder =3D vkms_config_create_encoder(vkms_config);
->>  	if (!encoder)
->>  		goto err_alloc;
->> +	encoder->name =3D kzalloc(sizeof("Main Encoder"), GFP_KERNEL);
->> +	if (!encoder->name)
->> +		goto err_alloc;
->> +	sprintf(encoder->name, "Main Encoder");
->
->Drive-by comment, maybe kstrdup()?
+Danke,
+P.
 
-Nice catch, thank you!
-I will update for next version=2E
-
-Thanks,
-Louis Chauvet
-
->> =20
->>  	if (vkms_config_encoder_attach_crtc(encoder, crtc))
->>  		goto err_alloc;
->> @@ -238,6 +242,7 @@ void vkms_config_delete_encoder(struct vkms_config_=
-encoder *vkms_config_encoder,
->>  		}
->>  	}
->> =20
->> +	kfree(vkms_config_encoder->name);
->>  	kfree(vkms_config_encoder);
->>  }
->> =20
->> @@ -403,6 +408,7 @@ static int vkms_config_show(struct seq_file *m, voi=
-d *data)
->> =20
->>  	list_for_each_entry(config_encoder, &vkmsdev->config->encoders, link)=
- {
->>  		seq_puts(m, "encoder:\n");
->> +		seq_printf(m, "\tname: %s\n", config_encoder->name);
->>  	}
->> =20
->>  	list_for_each_entry(config_crtc, &vkmsdev->config->crtcs, link) {
->> diff --git a/drivers/gpu/drm/vkms/vkms_config=2Eh b/drivers/gpu/drm/vkm=
-s/vkms_config=2Eh
->> index 8f247fc09373fb2c8145e83be05c6afec1ffac1c=2E=2E4223edd94ec270915dd=
-658c0b5efd489554d33a5 100644
->> --- a/drivers/gpu/drm/vkms/vkms_config=2Eh
->> +++ b/drivers/gpu/drm/vkms/vkms_config=2Eh
->> @@ -50,6 +50,7 @@ struct vkms_config_crtc {
->>   * struct vkms_config_encoder
->>   *
->>   * @link: Link to the others encoders
->> + * @name: Name of the encoder
->>   * @possible_crtcs: List of CRTC that can be used with this encoder
->>   * @encoder: Internal usage=2E This pointer should never be considered=
- as valid=2E It can be used to
->>   *         store a temporary reference to a vkms encoder during device=
- creation=2E This pointer is
->> @@ -58,6 +59,7 @@ struct vkms_config_crtc {
->>  struct vkms_config_encoder {
->>  	struct list_head link;
->> =20
->> +	char *name;
->>  	struct xarray possible_crtcs;
->> =20
->>  	/* Internal usage */
->> diff --git a/drivers/gpu/drm/vkms/vkms_output=2Ec b/drivers/gpu/drm/vkm=
-s/vkms_output=2Ec
->> index 03498a20d78dd8a66f9fc66b360c5ea57fc48d88=2E=2E6277ad72fdd476d1eff=
-52ad037389bdb1a254f5e 100644
->> --- a/drivers/gpu/drm/vkms/vkms_output=2Ec
->> +++ b/drivers/gpu/drm/vkms/vkms_output=2Ec
->> @@ -92,7 +92,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->>  		if (!config_encoder->encoder)
->>  			return -ENOMEM;
->>  		ret =3D drmm_encoder_init(dev, config_encoder->encoder, NULL,
->> -					DRM_MODE_ENCODER_VIRTUAL, NULL);
->> +					DRM_MODE_ENCODER_VIRTUAL, config_encoder->name);
->>  		if (ret) {
->>  			DRM_ERROR("Failed to init encoder\n");
->>  			return ret;
->
