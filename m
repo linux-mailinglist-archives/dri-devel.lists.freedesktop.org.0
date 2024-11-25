@@ -2,84 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC2A9D8A98
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 17:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C839D8AB0
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 17:55:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 648B310E6A6;
-	Mon, 25 Nov 2024 16:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23B3D10E6BB;
+	Mon, 25 Nov 2024 16:55:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="czlhJIHn";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="F8ckYirK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68BAF10E6A6
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 16:46:43 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-53de652f242so831788e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 08:46:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732553201; x=1733158001; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8ykbKQkuo2I4PEhIhBhe30Yc7TSw4jX5a63Tm3U6voo=;
- b=czlhJIHnjbr86+EL4yEVj06djN3gjs50TL2j329l8+gjstb2VDZNo3aZe9KkZpV6nY
- fnJ3aPxFWB9UPZn2mzG8OKgmtkiYumU3eNet/V09Fd/SDW/DMrFm5S/hRrTRW/Jcmbtq
- 6cDsGAQZqO+lzxzku+TpaFWaY37S0jTzreqjbo0In2oe8gB1MIItZe6/gKA6G+rj8yYA
- P+4yCzvlf+/sWA7JZpFuTd3rumE9qW2GdwExX8CmwxGenpC5/GYwtZ0GD0UOzKDcxyj+
- U2C3yg4ej4g+vSAu+KRaX5d5kr7sxmr5ebeZ6frORhIpHFEDCx6gy+YpsHbMh1cIgO80
- sj2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732553201; x=1733158001;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8ykbKQkuo2I4PEhIhBhe30Yc7TSw4jX5a63Tm3U6voo=;
- b=Twc1ufSXKTgkMg6fQ5tmfYug0Psgp8kJC4GxV8a2ES81sTrFnPBgc4BDZBifu1wMVB
- 0F2XnxR/CYJO3B0Boe4cw/Afsf2ZlImhLIgLR4/zFo90hgciWL7yKsFX6ErG5o9L5uYL
- h1QucUx/jv4AX2EpCDBd4lYNPF5Q7JNBu2OMvtCgQjBQM1fGzx149UkkpaGb2h2cvGuG
- ruQKnh3Cr2rztspX3+WlFt5TvBzq9Zqru06BNEmXwR/YMzY5EbSYUp+Zt265jIxB6l0F
- 4ke/DOo1vZxbGIkeDkQmRY5Riopga1RoswVgTQq+eQ3CVtpP7uPIwBYSyJD62iL4Lw4R
- YyyA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUDCDjaFJ9luz81cHCg9I6Y4SUgX/coEx2keqt5pxz9qrh0LkzXbMjk9HycS25OGJyyYD7HWjkFzb4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxbwm7ZaJHGOXhtJwfaQsSCccTaiKbSaSvd1NVuWZliW8ikePgF
- h8982deIDdMXV8EJEwfOD42luMSvAfxkci8YgUDQXzJ72mKxVqKZoog2czxNbD8=
-X-Gm-Gg: ASbGncvBRlI88n8ZCXBrmv/G1+qVBIDKhlEZ4ykksKSidB6hxoZiIAXj/btpZULEbVN
- YtRQp11fCtNiPbHpLR5KE59DW1spCqP5OC+HRJPZrfh9gVKnA8jgC+TU6vHud90qadPURCpBBof
- Y8IlDnKRBRRsJbiwAKhsCxJUCBiQO+nzvR7KCcuPZbWErq9aO0RbdWCIYvt4DUZ6Ult9UeW7XNm
- Q46bD0ftAt9hvJrEb7G/Wtc5in9Pt8NzXsEeIlPpmP8hrHwk1QpuUDDH8FbwNrhcFYYoGeBt5L6
- oIRF9dHr2lVKhsv76XgsOEIxcTg/VQ==
-X-Google-Smtp-Source: AGHT+IEIEs10x32BmBHwyCvNs3GkmUc0gOFBfdig3YObcsa/6Cquloa5nXm0+6tXaumC980PBV2hcw==
-X-Received: by 2002:a05:6512:1593:b0:53d:dd50:1a94 with SMTP id
- 2adb3069b0e04-53ddd501c1dmr3313733e87.53.1732553201410; 
- Mon, 25 Nov 2024 08:46:41 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd2451091sm1715437e87.65.2024.11.25.08.46.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Nov 2024 08:46:40 -0800 (PST)
-Date: Mon, 25 Nov 2024 18:46:37 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] drm/msm/adreno: Introduce ADRENO_QUIRK_NO_SYSCACHE
-Message-ID: <vfbklrbereo3j5dp2w4pvctef364sb2dqogccmaevjerkm5u43@jytwobqwvuv2>
-References: <20241125-a612-gpu-support-v2-0-b7cc38e60191@quicinc.com>
- <20241125-a612-gpu-support-v2-1-b7cc38e60191@quicinc.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 029CC10E6BA
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 16:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1732553724;
+ bh=g7ZFlFRwgvLlLhUGEJJ8enN5gy7+MkcR980Ufjiw3N0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=F8ckYirKSeB1nSa/dAQa+nGHYDN6IFCY2QLCzMNSq7/dlav3MOXuwyvaMi9j1FxIw
+ 8VGqeXiqYUMGsUQy/nRSgKlBqc/p4zpNI9GESE6g2skvZbqW3UeqbiDS6fq2EFmLqY
+ 7/I+Dud7vqPzeBRhPevUAOgsfE1Y6fiol+JZ5wkfjnHOpFssXl3A/9ChHGZWPpkXYA
+ sFZZS5z05n8vpifBuQgwEvF93qDvgpIXbz4DMfvGghnXdUCgeHqMmzeetJ9fdQ31pk
+ VKH3PWyJ+a7BVqlqcM0+kXSFhKLLDL21nwzEehBgGRqQWcAz88mqM6MJoZ2HNSww2n
+ aMGx/GQrEBJOw==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C9CF617E376B;
+ Mon, 25 Nov 2024 17:55:23 +0100 (CET)
+Message-ID: <15864b39-c68d-4240-926b-87d5d3876c8c@collabora.com>
+Date: Mon, 25 Nov 2024 17:55:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241125-a612-gpu-support-v2-1-b7cc38e60191@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/6] drm/mediatek: mtk_dpi: Use an array for pixclk
+ factor calculation
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>
+References: <20241120124420.133914-1-angelogioacchino.delregno@collabora.com>
+ <20241120124420.133914-4-angelogioacchino.delregno@collabora.com>
+ <6e07043e70111920848cc3d22e5c60371c0fb65d.camel@mediatek.com>
+ <120c65e7c21821a72fa5165e578cc1c39cf0c864.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <120c65e7c21821a72fa5165e578cc1c39cf0c864.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,88 +83,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 25, 2024 at 10:03:00PM +0530, Akhil P Oommen wrote:
-> There are a few chipsets which don't have system cache a.k.a LLC.
-> Currently, the assumption in the driver is that the system cache
-> availability correlates with the presence of GMU or RPMH, which
-> is not true. For instance, Snapdragon 6 Gen 1 has RPMH and a GPU
-> with a full blown GMU, but doesnot have a system cache. So,
-> introduce an Adreno Quirk flag to check support for system cache
-> instead of using gmu_wrapper flag.
+Il 22/11/24 07:23, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
 > 
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 3 ++-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 7 +------
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 1 +
->  3 files changed, 4 insertions(+), 7 deletions(-)
+> On Fri, 2024-11-22 at 11:54 +0800, CK Hu wrote:
+>> Hi, Angelo:
+>>
+>> On Wed, 2024-11-20 at 13:44 +0100, AngeloGioacchino Del Regno wrote:
+>>> External email : Please do not click links or open attachments until you have verified the sender or the content.
+>>>
+>>>
+>>> Setting the TVD PLL clock requires to multiply the target pixel
+>>> clock by a specific constant factor to achieve the target PLL
+>>> frequency, and this is done to reduce jitter to acceptable levels.
+>>>
+>>> On all MediaTek SoCs, the factor is not retrieved by any real kind
+>>> of calculation but rather by checking if the target pixel clock
+>>> is less than a specified frequency, hence assigning a function
+>>> pointer for just a bunch of if branches does enlarge the code
+>>> size for little reason.
+>>>
+>>> Remove all SoC-specific functions, add a structure `mtk_dpi_factor`
+>>> that holds a clock frequency and corresponding PLL factor, and
+>>> declare the constraints for each SoC in form of an array of said
+>>> structure.
+>>> Instead of function pointers, this structure (and its size) is then
+>>> assigned to each SoC's platform data.
+>>>
+>>> The "calculation" is then performed with a new static function
+>>> mtk_dpi_calculate_factor(dpi, mode_clk) that iterates through all
+>>> of the entries of the aforementioned array and returns the right
+>>> factor.
+>>>
+>>> If no factor is found, the lowest possible factor is returned,
+>>> mimicking the same flow as all of the old per-SoC calculation
+>>> functions.
+>>>
+>>> This commit brings no functional change.
+>>
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> index 0c560e84ad5a..5e389f6b8b8a 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> @@ -682,6 +682,7 @@ static const struct adreno_info a6xx_gpus[] = {
->  		},
->  		.gmem = (SZ_128K + SZ_4K),
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> +		.quirks = ADRENO_QUIRK_NO_SYSCACHE,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a610_zap.mdt",
->  		.a6xx = &(const struct a6xx_info) {
-> @@ -1331,7 +1332,7 @@ static const struct adreno_info a7xx_gpus[] = {
->  		},
->  		.gmem = SZ_128K,
->  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> -		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
-> +		.quirks = ADRENO_QUIRK_HAS_HW_APRIV | ADRENO_QUIRK_NO_SYSCACHE,
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a702_zap.mbn",
->  		.a6xx = &(const struct a6xx_info) {
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 019610341df1..a8b928d0f320 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -1863,10 +1863,6 @@ static void a7xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
->  
->  static void a6xx_llc_slices_destroy(struct a6xx_gpu *a6xx_gpu)
->  {
-> -	/* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
-> -	if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
-> -		return;
-> -
-
-Shouldn't it also be a NO_SYSCACHE check?
-
->  	llcc_slice_putd(a6xx_gpu->llc_slice);
->  	llcc_slice_putd(a6xx_gpu->htw_llc_slice);
->  }
-> @@ -1876,8 +1872,7 @@ static void a6xx_llc_slices_init(struct platform_device *pdev,
->  {
->  	struct device_node *phandle;
->  
-> -	/* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
-> -	if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
-> +	if (a6xx_gpu->base.info->quirks & ADRENO_QUIRK_NO_SYSCACHE)
->  		return;
->  
->  	/*
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> index e71f420f8b3a..398be2218110 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -57,6 +57,7 @@ enum adreno_family {
->  #define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
->  #define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
->  #define ADRENO_QUIRK_PREEMPTION			BIT(5)
-> +#define ADRENO_QUIRK_NO_SYSCACHE		BIT(6)
->  
->  /* Helper for formating the chip_id in the way that userspace tools like
->   * crashdec expect.
+> [snip]
 > 
-> -- 
-> 2.45.2
+>>>   static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+>>>                                      struct drm_display_mode *mode)
+>>>   {
+>>> @@ -529,7 +550,7 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+>>>          unsigned int factor;
+>>>
+>>>          /* let pll_rate can fix the valid range of tvdpll (1G~2GHz) */
+>>> -       factor = dpi->conf->cal_factor(mode->clock);
+>>> +       factor = mtk_dpi_calculate_factor(dpi, mode_clk);
+> 
+> mode_clk is defined in next patch.
+> keep mode->clock in this patch to keep my reviewed-by tag.
 > 
 
--- 
-With best wishes
-Dmitry
+Oh! Nice catch!
+That happened during the final cleanup, heh :-)
+
+Thanks btw, I will fix that in v2.
+
+Cheers,
+Angelo
+
+> Regards,
+> CK
+> 
+>>>          drm_display_mode_to_videomode(mode, &vm);
+>>>          pll_rate = vm.pixelclock * factor;
+>>>
+>>> @@ -964,48 +985,6 @@ static const struct component_ops mtk_dpi_component_ops = {
+>>>          .unbind = mtk_dpi_unbind,
+>>>   };
+>>>
+> 
+> 
+
+
+
