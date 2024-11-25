@@ -2,76 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A53A9D8E4D
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 23:08:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108D59D8E51
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 23:08:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 096E810E743;
-	Mon, 25 Nov 2024 22:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0B910E3D8;
+	Mon, 25 Nov 2024 22:08:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="umjGnLGD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hq5ihD1q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 659F810E3D8
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 22:07:22 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-6eeba477fcaso50794177b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 14:07:22 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 141C910E033
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 22:08:22 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-e388186edbfso4755897276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 14:08:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732572441; x=1733177241; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732572501; x=1733177301; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RPi5jrqjhXKSqTS16v5yE8N94Wa7BBdoaQgCXgjWXWE=;
- b=umjGnLGDnXdigV0+aVvrl/Z5v4kW8ihi9B0e+KVt6TlHG20NePeO8LGdjV/+CrLOhs
- naeFbWpKvT0jtLe7PsNJYWvgWSuFtaKi46jbXo1l0i28AIqsPJ3G81O6FvTgVZgVXkjq
- Ja2WzuBN/M4eiOJ8zdsjmPgPAWZ5vT0abE1eH5FuCb2lJY0FXwnUw0aJqXKuvhdleuHu
- 1ShAkr+jxAt6nqSgCpJvd2n2pE1XOryAQTMma6/2BHt4o5Ui7R2teAViDAXn0qxMZs8r
- hRRtmv3K/c7g9IYW99QgH+LFKdnvczmvULyc3hBSodhrNrzaDO7wfdgzYH91+NaBpQlQ
- PTXA==
+ bh=2eAVON7HGIpJamTV+1ul/jOyH9ikQLUzIAIpUaFRKeE=;
+ b=hq5ihD1qczCJ3WGh7tbutwy/gAsjTFlYaTOY0O8QEFVczM5rPMFJ4fPuB2j5q/BLch
+ vCydzYuNbCKWCZSZXAKy4E7zG3NeH7vK+Mtsd35pG9qNXAq2S7Xg3bvYr4FvY/RlLzXb
+ skDSonysG1u3/Ge8gxwdbK5ljaIEN3LKTzdKIeOTXHaDce3DFGz57+Bf1VaDC50sKpVl
+ Z5r06baIq+FXITdK5MHYgpvXTP+RZ2RXgI4hznmIKiz9n69Tfh2nD++B0onlhyyOGojQ
+ /YkZ+rp4FzMIKEIfQJAW1BlO6+2qjyNdd90SvvU+JA4CkO5U2/PizRCHGi74c6BAm926
+ ESnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732572441; x=1733177241;
+ d=1e100.net; s=20230601; t=1732572501; x=1733177301;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=RPi5jrqjhXKSqTS16v5yE8N94Wa7BBdoaQgCXgjWXWE=;
- b=P/imAW5eUmrHBMTCtpAEYpSmfDFs2mDIqcQzULg31Lfv5ximx7cXmc5Kg1U3ph5pYq
- v6DrQUQfW0f4nOrsJ1P+xEp3R194ykuUhr0pS8rSIpaQPMgS4RdSCl6qUUK14R3LmLjF
- jxKfL4GgHQiww0FuVgtZsmLyAbLZx3VjLejZRMXc8TFMGwj+PdHK+oU/9lc6XHynJ0nx
- Qw7ChfaRaH1kzSfQjZe6ZJg1fwy68Q8DoeGxQN6BJGGFjIMUms+8kOLkgW24/kRb3j8F
- SkpMN0w0W6iENc/V7pX5o+42IgM1y04K6QL3xFVBHVa+4j0yYj8bO6831bqEBSioehhV
- Cp0w==
+ bh=2eAVON7HGIpJamTV+1ul/jOyH9ikQLUzIAIpUaFRKeE=;
+ b=sKBoZqIQC9pB6G2YI9tG7itjsAJlKqF/LJkJLyDtwBtzVrJsQAtPkGv2tbUdq1nVuK
+ I0GZ1mtHm9FEFtLicAPPGzXruz9FMGjuK/xMDwB6ZwGHPqdxRRd1sAn4QhmEAruI0pey
+ c7riROseUgsPLZ44dQtlOJsyTJK+B8SkeehBvdaEAQJPejW5Q7P7LaplsCTLEyMTExzg
+ dwYwTp9hPez5Tm+RkCiS/oHMfNrqsxWihO9ghhUmYH0pbsFJFWWgMuV6lp4v93zfYhym
+ HBINjGtZWHoWjFR3y4AobR82AyibarMNFgymeSckY56pFjKttW2vgMa0CEly+UBYt9SS
+ s8Fg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVRjsEnhOPsXbWfDss9tVV5pUuzwVCnV2HvE/5V1ftoH38UEfR3miiSMNJD/KGPQJQJvpbB20Db2Q4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyKkxKMrYQEvy0d7GC/XFn18k95m9yQ5+4vV35D029ypsBgWAyR
- K/VIQ9oRfCdb/ZEAAIHbqtv80lhKn9viRCDmFME39hGYmeOUqAsrSJ9TylWFiykEJ8oJUdFWEMY
- FgTwhktSYEx/3n/F051u3d2GJLBZy/21lHJxLxg==
-X-Gm-Gg: ASbGncu9phFxU8Nifuc+YpLO4Dtbq9hifOaX/Eg5nGevPkoqQgE+lLkwc749hU3zRwW
- nC9Vubq/tt72pkrW9XWohqg0uIU7Dk81LNq39b7AWj2BqtQ==
-X-Google-Smtp-Source: AGHT+IF0LB1oTokSYOVCojNNQj0SHtic5b4JS0/hXk/21P6l6P1uwqUIpMQIbn7r6cI7Lwj6yMh88JqNBMNZRtlpL/I=
-X-Received: by 2002:a05:690c:338c:b0:6ec:b74d:a013 with SMTP id
- 00721157ae682-6eee08b7ef8mr140646657b3.19.1732572441276; Mon, 25 Nov 2024
- 14:07:21 -0800 (PST)
+ AJvYcCUHFBZCS3ycq0UWfRDOeLZxM1RdHneyNrQOAEDq4pYebGthomvuN35SeCBhMKUm/D/q+2fNyBxqvAY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzp2kn35/8ub8l2v3AAWNFwVijiFgFUr2FU5MiFEU+g63qUpas/
+ DUEcggrB+qDo5RepL2bZbseV6yqezLTLFm2YwGOn8xP8+aRzE+WccrqFIvXUT2JC1rbGufCl9pn
+ GSyOIbB7BOhjhe7hF5TUjPeTJeAzQusGHFaDJNA==
+X-Gm-Gg: ASbGnctGFM0FKtCKQnpbLINzGo7ae5FWWj9TLhmhZvMjgM6Qbtnbb5RObMr3rsnAy+s
+ vGdCOeyWI34AmEzw7fkMhdowZFJ460HpWIBsKKhGArhSzzA==
+X-Google-Smtp-Source: AGHT+IH3FXdPBpJiJnoxYtZf5OcPuzoBCcHTS63VZoNzGC8i3tQMMu8CiFEfyuzsoE5SpSq1X+HyPrst164d4mk4PR4=
+X-Received: by 2002:a05:6902:2b85:b0:e38:bec9:527d with SMTP id
+ 3f1490d57ef6-e38f8b22061mr11846744276.26.1732572501125; Mon, 25 Nov 2024
+ 14:08:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20241112020737.335297-1-marex@denx.de>
- <20241112020737.335297-2-marex@denx.de>
- <bqmcs6dtcidr6lr6r74t5vm72kjantanaq26dfipkqtsiqhacd@ngdoaqim42ck>
- <20241125-nondescript-grouse-of-joy-c22dbf@houat>
-In-Reply-To: <20241125-nondescript-grouse-of-joy-c22dbf@houat>
+References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
+ <20241122-add-display-support-for-qcs615-platform-v3-9-35252e3a51fe@quicinc.com>
+ <azdmcs7uafw3n6cqbq4ei66oybzhtyvdyz2xl4wtaf3u5zextb@vdhbs6wnbeg4>
+ <520419eb-cedf-465b-a14a-12d97ab257a0@quicinc.com>
+In-Reply-To: <520419eb-cedf-465b-a14a-12d97ab257a0@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 26 Nov 2024 00:07:10 +0200
-Message-ID: <CAA8EJpqGV-Me8_wwj7nd6g3vRMxwmObNT94nMBvktYV5sxgr-Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: tc358767: Improve DPI output pixel
- clock accuracy
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org, 
- Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Date: Tue, 26 Nov 2024 00:08:10 +0200
+Message-ID: <CAA8EJpqvkeMWgeWCx9D-HcJhRfipZJdEvpvag0wk-WXazkPahA@mail.gmail.com>
+Subject: Re: [PATCH v3 9/9] arm64: dts: qcom: Add display support for QCS615
+ RIDE board
+To: fange zhang <quic_fangez@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Li Liu <quic_lliu6@quicinc.com>, 
+ Xiangxu Yin <quic_xiangxuy@quicinc.com>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,84 +98,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Nov 2024 at 15:17, Maxime Ripard <mripard@kernel.org> wrote:
+On Mon, 25 Nov 2024 at 09:39, fange zhang <quic_fangez@quicinc.com> wrote:
 >
-> On Fri, Nov 22, 2024 at 03:32:57PM +0200, Dmitry Baryshkov wrote:
-> > On Tue, Nov 12, 2024 at 03:05:37AM +0100, Marek Vasut wrote:
-> > > The Pixel PLL is not very capable and may come up with wildly inaccurate
-> > > clock. Since DPI panels are often tolerant to slightly higher pixel clock
-> > > without being operated outside of specification, calculate two Pixel PLL
-> > > from either mode clock or display_timing .pixelclock.max , whichever is
-> > > higher. Since the Pixel PLL output clock frequency calculation always
-> > > returns lower frequency than the requested clock frequency, passing in
-> > > the higher clock frequency should result in output clock frequency which
-> > > is closer to the expected pixel clock.
-> > >
-> > > For the Chefree CH101 panel with 13 MHz Xtal input clock, the frequency
-> > > without this patch is 65 MHz which is out of the panel specification of
-> > > 68.9..73.4 MHz, while with this patch it is 71.5 MHz which is well within
-> > > the specification and far more accurate.
+>
+>
+> On 2024/11/22 18:22, Dmitry Baryshkov wrote:
+> > On Fri, Nov 22, 2024 at 05:56:52PM +0800, Fange Zhang wrote:
+> >> From: Li Liu <quic_lliu6@quicinc.com>
+> >>
+> >> Add display MDSS and DSI configuration for QCS615 RIDE board.
+> >> QCS615 has a DP port, and DP support will be added in a later patch.
+> >>
+> >> Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
+> >> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
+> >> ---
+> >>   arch/arm64/boot/dts/qcom/qcs615-ride.dts | 76 ++++++++++++++++++++++++++++++++
+> >>   1 file changed, 76 insertions(+)
+> >>
+> >> diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+> >> index ee6cab3924a6d71f29934a8debba3a832882abdd..cc7dadc411ab79b9e60ccb15eaff84ea5f997c4c 100644
+> >> --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+> >> +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+> >> @@ -202,6 +202,82 @@ &gcc {
+> >>               <&sleep_clk>;
+> >>   };
+> >>
+> >> +&i2c2 {
+> >> +    clock-frequency = <400000>;
+> >> +    status = "okay";
+> >> +
+> >> +    ioexp: gpio@3e {
+> >> +            compatible = "semtech,sx1509q";
+> >> +            reg = <0x3e>;
+> >> +            interrupt-parent = <&tlmm>;
+> >> +            interrupts = <58 0>;
+> >> +            gpio-controller;
+> >> +            #gpio-cells = <2>;
+> >> +            interrupt-controller;
+> >> +            #interrupt-cells = <2>;
+> >> +            semtech,probe-reset;
+> >> +    };
+> >> +
+> >> +    i2c-mux@77 {
+> >> +            compatible = "nxp,pca9542";
+> >> +            reg = <0x77>;
+> >> +            #address-cells = <1>;
+> >> +            #size-cells = <0>;
+> >> +            i2c@0 {
+> >> +                    reg = <0>;
+> >> +                    #address-cells = <1>;
+> >> +                    #size-cells = <0>;
+> >> +
+> >> +                    anx7625@58 {
+> >> +                            compatible = "analogix,anx7625";
+> >> +                            reg = <0x58>;
+> >> +                            interrupt-parent = <&ioexp>;
+> >> +                            interrupts = <0 0>;
+> >> +                            enable-gpios = <&tlmm 4 GPIO_ACTIVE_HIGH>;
+> >> +                            reset-gpios = <&tlmm 5 GPIO_ACTIVE_HIGH>;
+> >> +                            wakeup-source;
+> >> +
+> >> +                            ports {
+> >> +                                    #address-cells = <1>;
+> >> +                                    #size-cells = <0>;
+> >> +
+> >> +                                    port@0 {
+> >> +                                            reg = <0>;
+> >> +                                            anx_7625_in: endpoint {
+> >> +                                                    remote-endpoint = <&mdss_dsi0_out>;
+> >> +                                            };
+> >> +                                    };
+> >> +
+> >> +                                    port@1 {
+> >> +                                            reg = <1>;
+> >> +                                            anx_7625_out: endpoint {
+> >> +                                            };
 > >
-> > Granted that most of the panel drivers do not implement get_timings()
-> > and granted that there are no current users of that interface, I think
-> > we should move away from it (and maybe even drop it completely from
-> > drm_panel).
->
-> I think we should do the opposite :)
->
-> Panels usually have a pretty large operating window, and the current
-> construct only works because nobody really uses the same panels (or
-> we're hiding that behind different compatibles) across SoCs or
-> generation. Or we're working around it.
->
-> It's kind of a mess, and it gets messy in encoders too: some will filter
-> out panel modes, some won't. Some will adjust timings to fit their
-> clocks, some won't. etc.
+> > Where is it connected? Is it DP port? USB-C? eDP?
+> yes, it's DP port
 
-Well... I think it's messy because we have so many different
-interfaces. Some encoders can poke directly into the panel, some
-drivers use bridge chains and panel bridge. Some do even a messier
-thing and try both at the same time.
-I think that in the long-term nobody should be using the drm_panel
-interface directly.
+So, I'd expect to see a dp-connector node at the end, not the
+unterminated anx7625.
 
->
-> Going forward, switching everyone to a timing-like interface and
-> providing a set of helpers to adjust timings within possible boundaries
-> to fit a clock rate is doable and should be done imo.
-
-... and then it might help with the command-mode DSI panels with DSC...
-
->
-> > What about achieving the same via slightly different approach: register
-> > a non-preferred mode with the clock equal to the max clock allowed. The
-> > bridge driver can then use the default and the "max" mode to select PLL
-> > clock.
 > >
-> > I understand that this suggestion doesn't follow the DPI panel
-> > specifics, which are closer to the continuous timings rather than fixed
-> > set of modes, however I really don't think that it's worth keeping the
-> > interface for the sake of a single driver. Original commit 2938931f3732
-> > ("drm/panel: Add display timing support") from 2014 mentions using those
-> > timings for .mode_fixup(), but I couldn't find a trace of the
-> > corresponding implementation.
+> >> +                                    };
+> >> +                            };
+> >> +                    };
+> >> +            };
+> >> +    };
+> >> +};
+> >> +
+> >> +&mdss {
+> >> +    status = "okay";
+> >> +};
+> >> +
+> >> +&mdss_dsi0 {
+> >> +    vdda-supply = <&vreg_l11a>;
+> >> +    status = "okay";
+> >> +};
+> >> +
+> >> +&mdss_dsi0_out {
+> >> +    remote-endpoint = <&anx_7625_in>;
+> >> +    data-lanes = <0 1 2 3>;
+> >> +};
+> >> +
+> >> +&mdss_dsi0_phy {
+> >> +    vdds-supply = <&vreg_l5a>;
+> >> +    status = "okay";
+> >> +};
+> >> +
+> >>   &qupv3_id_0 {
+> >>      status = "okay";
+> >>   };
+> >>
+> >> --
+> >> 2.34.1
+> >>
 > >
-> > Another possible option might be to impletent adjusting modes in
-> > .atomic_check() / .mode_fixup().
 >
-> It's unused because we don't have an easy API for encoders to use it. We
-> should fix *that*.
-
-Sounds good to me too.
-I'm not sure what it should look like though. We barely scratched our
-heads when looking at the DSC / CMD stuff, but nothing came out of it.
-
-Ideally... there should be some kind of get_timings being available
-through the full bridge chain, so that the encoders can use it. But
-I'm not sure how that should work, because some bridges would like to
-manipulate those timings. And some bridges will completely drop
-get_timings() and produce raw modes even after consuming the timings
-set.
 
 
 -- 
