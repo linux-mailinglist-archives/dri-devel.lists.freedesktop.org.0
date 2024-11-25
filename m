@@ -2,97 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852A69D8B2D
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 18:19:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F179D8B42
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 18:25:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8105110E6CE;
-	Mon, 25 Nov 2024 17:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C6DE10E6D0;
+	Mon, 25 Nov 2024 17:25:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="T4FHk17t";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lzc7aCpA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0A5B10E6CE
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 17:19:24 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-53dd57589c8so3439073e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:19:24 -0800 (PST)
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
+ [209.85.219.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4617D10E0ED;
+ Mon, 25 Nov 2024 17:25:43 +0000 (UTC)
+Received: by mail-qv1-f67.google.com with SMTP id
+ 6a1803df08f44-6d40263adbaso36789066d6.0; 
+ Mon, 25 Nov 2024 09:25:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1732555160; x=1733159960;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rMzxcC5wsaZiCOOJDSmAWDv3eoVe+TCnixOaVa1nGDY=;
- b=T4FHk17tp9Owq4zyH1NAT4tTuwwpxqi8h+cwShmCoZceHjd6H52CMJ4kpZxxCXHGf3
- eGOJXt6Io1ksz9Uk6HnHgREwdml1o4jd3MyJYMYjbn3eM13j9IS9ENufDEn44s4BExAr
- 9rJ+ZuUvg0A4ecu7KFNH0mj5+4qjxKALmqztc=
+ d=gmail.com; s=20230601; t=1732555542; x=1733160342; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UVDQspBi0nK52468djjhcLsHS6suKDvQYTgpSTpGaWI=;
+ b=lzc7aCpAIaqD8rI4R/k3DgsipBRbhgooEM6f09wRdGM+eRAyyY63wTay4dp9qedHZo
+ OD5EDpmauIkyIE2q4Vbk/NM0KHGymH0v/smq2C3YfGiYlro5ByX6hNS5MmhnkNLmo9pV
+ xHKpJDcUUn3zBUsvlAGdU5xnsKJxTPwiEiChtyzAYw/H1HXrYEEoeqrsRwNxUdEHU2u2
+ vFdAyYVTEjLXUCjUwNIa4CR2zyZPxW1uoAdiNWsKzSoeRX6MIgXlsSr3IJstw7Rbkews
+ PoYeryYbJlxRBfyjMv+kg9v0MDmTm2JSuesY7Ye/2cioUWgwInu1z7YDAsXqxgxblDrE
+ 1/fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732555160; x=1733159960;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rMzxcC5wsaZiCOOJDSmAWDv3eoVe+TCnixOaVa1nGDY=;
- b=EwNCsJFwrs9H3dB3AxDmlkA24avB0Wyqy601jbLYGGcExCCf6ZacENfx/CLgEDWBmT
- VeWPRjtmDM9amNNrjHugrXoTgaAoFaxJPgz3w+OXO9ef9mRLXi+I9JhzrElyZSXNV3Uh
- RRtgiH+cR8JjU+nnPzIDvPsL6QDmYsH55I2phLJh1xA5OtPDeKxwv0kPvLTxQUzSdI29
- p/eANIlPQGge3x47pIDNmp52E6txSN0dLUN+/D8oaclj4/oUvA32zDYJIDAh51Jo1StN
- Cubngw2q6MF1H7piBxj4I8XhdXjbQq96uZKxXJHIqfZgsxQgneQGnQ1dr1artGYGwqlK
- r1qg==
+ d=1e100.net; s=20230601; t=1732555542; x=1733160342;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UVDQspBi0nK52468djjhcLsHS6suKDvQYTgpSTpGaWI=;
+ b=pcuf/YNQz8jlCn44fetbfn4/kbyGoW7ODO8UFnhER5Ef8e6Ype6XpQyJesozMw0XZI
+ nloAN2loQ/HpAkwXqxFY+COhA35ga0cUtDX+JNK88Q4oSLmbAzPOv7MaZFWe1/FHloJg
+ g9D04PUCp6ST81PO+hc14jcM3vMQX+dQPMFwZ1XMqWCL/ME8RJx0mspjpemNZ02bBASE
+ N0bxlXUKWvWz4rVPKkmP96QWqeVefT+7xUSEXwgGva892LLrdi1DL4O4mu94gIpc4Yvh
+ 4fxUNMPlFRFx+ghI4D4iA2LrWRxQGeis6Kujh5/0XZhmcrz2a+fFTrPCTk2r2tnybhMp
+ /P1Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVR2lXBPFb5kVGGAJzJfAF58kHvUnSXtNgD56pTteTyAfMTPH82IX9DCtNWySLIkax9TjP+1p0hRfo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzIOMwhznETbtdtsycZBa+TR0SnE0Ovf9msSIrgeqTodHxtDDlV
- ynPVWI6JjscUAuzopoETA8pcDNJftvQJ6B4/x2e7x6zwdYAwsdIWuI/g30TdctS0jZcYC4RWs9A
- =
-X-Gm-Gg: ASbGncvkmtxqktll6TFWXA0b5JQiLT3cyPEVCH3Ya3Ii6GDyj2UJ5yrKlAKkiDf0KRc
- btcPk2UUFv5013zub4MYMQ2CXidfdpqtZk7x5TpnPjAuTJEn0fNdkl/eY/6MgRZA81uKeRhLd3y
- 3eYEeSIj3Om45rpGk6JZpiSu4MReJ1ugtnjVKkZOuW/htur5n/mqSNsW03qTxa78GWVTQgcFBYg
- qvV92iiVxPoaHzthtfsWQvMa1T+8Ch30jgaOQx9IvYCNPrheKiI2Lxh7U4ij4lDLbE1V4bP0Pa1
- IhDS7/Pu953i+Q==
-X-Google-Smtp-Source: AGHT+IF/+Jj034JqErmIs5aVZom4+CHU0sP8c4pcnqNipXDtXTDTeD3q9SeKYQRQO50VzCZuUT3JAw==
-X-Received: by 2002:a05:6512:10d6:b0:53d:dfbd:3e68 with SMTP id
- 2adb3069b0e04-53de8818efemr64196e87.7.1732555160299; 
- Mon, 25 Nov 2024 09:19:20 -0800 (PST)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
- [209.85.167.46]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd249c8c5sm1726625e87.268.2024.11.25.09.19.18
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Nov 2024 09:19:18 -0800 (PST)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-53dd57589c8so3438988e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:19:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVU9vtzDfRnPNCX7qgEuTdzIt4cl883q2EoVrtLRkGZCY9se6IV9nx5wYmzRllt8pJidRq1NjYqeHI=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:b8e:b0:53d:ced5:e9f3 with SMTP id
- 2adb3069b0e04-53de884971dmr59574e87.25.1732555157694; Mon, 25 Nov 2024
- 09:19:17 -0800 (PST)
+ AJvYcCUVmaQ3TMfYFrEP7z5BUt+C7UGBJWrsfNtEr24FNoFH0rgON02Ulg/Onx0lsCFSzBxLaDn2FOufjPn/Jrk=@lists.freedesktop.org,
+ AJvYcCUXOqDVCb/smkSutHTeNZxb74Rxq6oloz8Mr33E7E6k855gmht6e2YrBJOlxE7aB9fT43OyLBCawio=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxwrI4dQdzhG6fN7/7DjiKlF6CRV1Y+AD35DsomwT73peqvq8zQ
+ 3rJvpSZJQm3hCKDHoeUwHlMKmfVzvipVEoV5v2XYn/1Bw7Pmz/AE
+X-Gm-Gg: ASbGncuCF13nMNJ/RCJqPdvfQrVppvzzJNw2qLL3sAo/MbhCCmGE81h74Q35bVncuTd
+ EVwD57e9MxFSX8NQHHca1jr9n3Z2Tawgbj0PYfLlYbbke0bFs0c+F9eDsiGVOftXDbFY2iTb51a
+ YXrbuHSi2J9Esqg9yF8ye4IS7VMi8eWtsedAFnkie1jOKRUtZZywagMn2TY7Mm832rVDMiwlSyu
+ ZsD/JJqpGty9vWpjKVq4n/ZIufpZ6f3IyPqhEpCapRghaR96I4fMEw2o7jK+QOMH6VQFODid/B7
+ A2LrzvDC88I1hI2/dv9bo48fM1OMw5Ktr00o
+X-Google-Smtp-Source: AGHT+IFGvdFBb55MfpIRzxnpds3EDnlB90XnfhZ3sDfgc1tgDF7Qn6XtKH/y7aitBCCp0Ukgox6SIQ==
+X-Received: by 2002:a05:6214:1d0a:b0:6cb:d4e6:2507 with SMTP id
+ 6a1803df08f44-6d450e871f7mr221611656d6.22.1732555542124; 
+ Mon, 25 Nov 2024 09:25:42 -0800 (PST)
+Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu.
+ [130.126.255.54]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6d451ab4d8esm44702576d6.54.2024.11.25.09.25.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Nov 2024 09:25:41 -0800 (PST)
+From: Gax-c <zichenxie0106@gmail.com>
+To: airlied@redhat.com, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com
+Cc: virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Zichen Xie <zichenxie0106@gmail.com>
+Subject: [PATCH] drm: cast calculation to __u64 in qxl_mode_dumb_create()
+Date: Mon, 25 Nov 2024 11:25:17 -0600
+Message-Id: <20241125172516.9622-1-zichenxie0106@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20241124-asus_qcom_display-v3-0-002b723b1920@hotmail.com>
- <20241124-asus_qcom_display-v3-1-002b723b1920@hotmail.com>
-In-Reply-To: <20241124-asus_qcom_display-v3-1-002b723b1920@hotmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 25 Nov 2024 09:19:06 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XjWT16wC_cpnC-Y5=eSvnj7rXY1z2ENyWZQYDawmjs8g@mail.gmail.com>
-Message-ID: <CAD=FV=XjWT16wC_cpnC-Y5=eSvnj7rXY1z2ENyWZQYDawmjs8g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: panel: samsung,atna56ac03:
- Document ATNA56AC03
-To: maud_spierings@hotmail.com
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,26 +89,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Zichen Xie <zichenxie0106@gmail.com>
 
-On Sun, Nov 24, 2024 at 2:01=E2=80=AFAM Maud Spierings via B4 Relay
-<devnull+maud_spierings.hotmail.com@kernel.org> wrote:
->
-> From: Maud Spierings <maud_spierings@hotmail.com>
->
-> The Samsung ATNA56AC03 panel is an AMOLED eDP panel.
-> It is similar to the ATNA33xc20 except it is larger and has a different
-> resolution.
->
-> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
-> ---
->  Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml =
-| 2 ++
->  1 file changed, 2 insertions(+)
+Like commit b0b0d811eac6 ("drm/mediatek: Fix coverity issue with
+unintentional integer overflow"), directly multiply pitch and
+args->height may lead to integer overflow. Add a cast to avoid it.
 
-Pushed just this patch to drm-misc-next:
+Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+---
+ drivers/gpu/drm/qxl/qxl_dumb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1/4] dt-bindings: display: panel: samsung,atna56ac03: Document ATNA56AC03
-      commit: b1fe820d03e2e1b89315faf99f1065bdb4146a8f
+diff --git a/drivers/gpu/drm/qxl/qxl_dumb.c b/drivers/gpu/drm/qxl/qxl_dumb.c
+index 17df5c7ccf69..74076c87a002 100644
+--- a/drivers/gpu/drm/qxl/qxl_dumb.c
++++ b/drivers/gpu/drm/qxl/qxl_dumb.c
+@@ -41,7 +41,7 @@ int qxl_mode_dumb_create(struct drm_file *file_priv,
+ 	uint32_t pitch, format;
+ 
+ 	pitch = args->width * ((args->bpp + 1) / 8);
+-	args->size = pitch * args->height;
++	args->size = (__u64)pitch * args->height;
+ 	args->size = ALIGN(args->size, PAGE_SIZE);
+ 
+ 	switch (args->bpp) {
+-- 
+2.34.1
 
--Doug
