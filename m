@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A509D85D1
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 14:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B37A9D85D5
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 14:04:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F79B10E649;
-	Mon, 25 Nov 2024 13:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1A1910E64A;
+	Mon, 25 Nov 2024 13:04:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L+OBS5o0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SlcPsmsw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43A1D10E64F
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 13:04:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA69B10E64A
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 13:04:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3CC285C4D58;
- Mon, 25 Nov 2024 13:03:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19B4AC4CECE;
- Mon, 25 Nov 2024 13:04:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A3F2B5C4D58;
+ Mon, 25 Nov 2024 13:03:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 868D6C4CECE;
+ Mon, 25 Nov 2024 13:04:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732539849;
- bh=KHvW4Onn19WYFMw2iYzTcZkbAoTI3RCvTBDCiMQzLB4=;
+ s=k20201202; t=1732539856;
+ bh=r7HHe0SIRB/Xhhuek+OVQ0KZeGyRWxN7kMyA6beaWWg=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=L+OBS5o0qFxjQi0Wv4YmbLOAscDUh0xzwRIjHxUZTGyJmolfYpRXPSwr1qLq8XZQw
- AouBExp4obsp9u3wnyE7oN5dB9rSCIG+hRGOj1ztJ+FEnI74HDH7Eoc4EJYxnnApZb
- 3OmkWW/P4Iuylwz8ld8aLiiNTJKhVH6FpnsLlaZJ4kwRQE7Jkumj8CngZN66HYszEB
- KL34/NcPT3FkcMVMgSDP6uyGBMO3XrKeif3HJ+wgKwA4KFypsPySDdttBCrmRH5x7c
- V8vbtSF6EqiZzNgANJ2SRoji2ngxiUXNEQiIDIpBkdQSCcrGunzXu509trYVc+7Bdx
- 6s9hkXD8p4DKg==
-Message-ID: <ebed01d2da63995dce745cf9a4a6e676@kernel.org>
-Date: Mon, 25 Nov 2024 13:04:07 +0000
+ b=SlcPsmswDWw1qUPky6PGkkOP4b2wa0bm4kONi0Jn/5VHClT7MdVQIlp82tbtoAlAk
+ XMwmLYaCB1CpkKCUEaBCkT7zLP4BuTBdDo6HgzugoQQXJVzj4K6LLQbknKVX/69E0L
+ 7EbuaLl2NKQ5KDfCAjNwIC15K1sVB1chuXPqUMwG242zNz9mLJKJ68Klk5HiR2VDms
+ mk5iMuIgz7gD3zvfAdAeNWCPmrF67KuHh4mdy0RuN0LOW7A6sSV0W6tnYmM07bpstZ
+ qOlwraK5aKm1jL8jR822jS+GKjsx0dMIZrmzNU1T5B1dwxNZgncyZvRRD9qCDH9R6u
+ OPMw4ZChAm2Pg==
+Message-ID: <fd7766b66026ffbab54db6f134940efc@kernel.org>
+Date: Mon, 25 Nov 2024 13:04:14 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Louis Chauvet" <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v5 2/5] drm/vkms: Switch to managed for encoder
-In-Reply-To: <20241122-google-vkms-managed-v5-2-1ab60403e960@bootlin.com>
-References: <20241122-google-vkms-managed-v5-2-1ab60403e960@bootlin.com>
+Subject: Re: [PATCH v5 3/5] drm/vkms: Switch to managed for crtc
+In-Reply-To: <20241122-google-vkms-managed-v5-3-1ab60403e960@bootlin.com>
+References: <20241122-google-vkms-managed-v5-3-1ab60403e960@bootlin.com>
 Cc: arthurgrillo@riseup.net, dri-devel@lists.freedesktop.org,
  jeremie.dautheribes@bootlin.com, linux-kernel@vger.kernel.org,
  miquel.raynal@bootlin.com, nicolejadeyee@google.com, seanpaul@google.com,
@@ -65,12 +65,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 22 Nov 2024 17:27:57 +0100, Louis Chauvet wrote:
-> The current VKMS driver uses non-managed function to create encoders. It
-> is not an issue yet, but in order to support multiple devices easily,
+On Fri, 22 Nov 2024 17:27:58 +0100, Louis Chauvet wrote:
+> The current VKMS driver uses managed function to create crtc, but
+> don't use it to properly clean the crtc workqueue. It is not an
+> issue yet, but in order to support multiple devices easily,
 > convert this code to use drm and device managed helpers.
 > 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > 
 > [ ... ]
 
