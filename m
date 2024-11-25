@@ -2,95 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A999D934B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 09:27:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC2A9D8A98
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 17:46:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEA6010E7E8;
-	Tue, 26 Nov 2024 08:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 648B310E6A6;
+	Mon, 25 Nov 2024 16:46:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linumiz.com header.i=@linumiz.com header.b="MQ98TSnw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="czlhJIHn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from omta36.uswest2.a.cloudfilter.net
- (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B217D10E6B8
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 16:37:38 +0000 (UTC)
-Received: from eig-obgw-6003a.ext.cloudfilter.net ([10.0.30.151])
- by cmsmtp with ESMTPS
- id FawVtmtigqvuoFc5itQrnM; Mon, 25 Nov 2024 16:37:38 +0000
-Received: from md-in-79.webhostbox.net ([43.225.55.182]) by cmsmtp with ESMTPS
- id Fc5ft23CXCgT6Fc5htG9UT; Mon, 25 Nov 2024 16:37:38 +0000
-X-Authority-Analysis: v=2.4 cv=XvwxOkF9 c=1 sm=1 tr=0 ts=6744a7d2
- a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
- a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10 a=vU9dKmh3AAAA:8
- a=_CNdjClPJo_0AlPSAu4A:9 a=QEXdDO2ut3YA:10 a=rsP06fVo5MYu2ilr0aT5:22
- a=ZCPYImcxYIQFgLOT52_G:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
- ; s=default; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gwl6rW5/vPt5JBHz3XIzY0yjV5RcrGlmAAilgoFy4TQ=; b=MQ98TSnwomYCUUnXHh8qPIN7PN
- guT2WXlfQJF3o7wz9lwrLrmT2sV+0xMr5i3xi5ldOtzWvJcGplaTE7j7q63irxFNEZl7ZkoOoUQhH
- y/7XnyJvulT7fPPW1oWQBJId0FLENybgIbVOLUMOUUz/2+PG0pSLcLDzYW+Cq+9pRlw7If/vCedSf
- Mzv2J5oav3E+eMsHES6NP17G8tBKUSiYipwSJQE68hqftT9+2gJbH0i5ezbiW8m0zbt/bYOqnhjxO
- ETJ6ln+Z9rG8MypNNjF1bEtNGVAFzx/iN5mJrz/KLLltZqN/U1Um85s4Sfc/e7RCnTxZD94rp1czj
- uDlvU6vg==;
-Received: from [122.165.245.213] (port=38110 helo=[127.0.1.1])
- by md-in-79.webhostbox.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <parthiban@linumiz.com>) id 1tFc5b-001iXQ-17;
- Mon, 25 Nov 2024 22:07:31 +0530
-From: Parthiban Nallathambi <parthiban@linumiz.com>
-Date: Mon, 25 Nov 2024 22:07:04 +0530
-Subject: [PATCH 2/2] drm/imagination: add reset control support
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68BAF10E6A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 16:46:43 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-53de652f242so831788e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 08:46:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1732553201; x=1733158001; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8ykbKQkuo2I4PEhIhBhe30Yc7TSw4jX5a63Tm3U6voo=;
+ b=czlhJIHnjbr86+EL4yEVj06djN3gjs50TL2j329l8+gjstb2VDZNo3aZe9KkZpV6nY
+ fnJ3aPxFWB9UPZn2mzG8OKgmtkiYumU3eNet/V09Fd/SDW/DMrFm5S/hRrTRW/Jcmbtq
+ 6cDsGAQZqO+lzxzku+TpaFWaY37S0jTzreqjbo0In2oe8gB1MIItZe6/gKA6G+rj8yYA
+ P+4yCzvlf+/sWA7JZpFuTd3rumE9qW2GdwExX8CmwxGenpC5/GYwtZ0GD0UOzKDcxyj+
+ U2C3yg4ej4g+vSAu+KRaX5d5kr7sxmr5ebeZ6frORhIpHFEDCx6gy+YpsHbMh1cIgO80
+ sj2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732553201; x=1733158001;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8ykbKQkuo2I4PEhIhBhe30Yc7TSw4jX5a63Tm3U6voo=;
+ b=Twc1ufSXKTgkMg6fQ5tmfYug0Psgp8kJC4GxV8a2ES81sTrFnPBgc4BDZBifu1wMVB
+ 0F2XnxR/CYJO3B0Boe4cw/Afsf2ZlImhLIgLR4/zFo90hgciWL7yKsFX6ErG5o9L5uYL
+ h1QucUx/jv4AX2EpCDBd4lYNPF5Q7JNBu2OMvtCgQjBQM1fGzx149UkkpaGb2h2cvGuG
+ ruQKnh3Cr2rztspX3+WlFt5TvBzq9Zqru06BNEmXwR/YMzY5EbSYUp+Zt265jIxB6l0F
+ 4ke/DOo1vZxbGIkeDkQmRY5Riopga1RoswVgTQq+eQ3CVtpP7uPIwBYSyJD62iL4Lw4R
+ YyyA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDCDjaFJ9luz81cHCg9I6Y4SUgX/coEx2keqt5pxz9qrh0LkzXbMjk9HycS25OGJyyYD7HWjkFzb4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxbwm7ZaJHGOXhtJwfaQsSCccTaiKbSaSvd1NVuWZliW8ikePgF
+ h8982deIDdMXV8EJEwfOD42luMSvAfxkci8YgUDQXzJ72mKxVqKZoog2czxNbD8=
+X-Gm-Gg: ASbGncvBRlI88n8ZCXBrmv/G1+qVBIDKhlEZ4ykksKSidB6hxoZiIAXj/btpZULEbVN
+ YtRQp11fCtNiPbHpLR5KE59DW1spCqP5OC+HRJPZrfh9gVKnA8jgC+TU6vHud90qadPURCpBBof
+ Y8IlDnKRBRRsJbiwAKhsCxJUCBiQO+nzvR7KCcuPZbWErq9aO0RbdWCIYvt4DUZ6Ult9UeW7XNm
+ Q46bD0ftAt9hvJrEb7G/Wtc5in9Pt8NzXsEeIlPpmP8hrHwk1QpuUDDH8FbwNrhcFYYoGeBt5L6
+ oIRF9dHr2lVKhsv76XgsOEIxcTg/VQ==
+X-Google-Smtp-Source: AGHT+IEIEs10x32BmBHwyCvNs3GkmUc0gOFBfdig3YObcsa/6Cquloa5nXm0+6tXaumC980PBV2hcw==
+X-Received: by 2002:a05:6512:1593:b0:53d:dd50:1a94 with SMTP id
+ 2adb3069b0e04-53ddd501c1dmr3313733e87.53.1732553201410; 
+ Mon, 25 Nov 2024 08:46:41 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53dd2451091sm1715437e87.65.2024.11.25.08.46.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Nov 2024 08:46:40 -0800 (PST)
+Date: Mon, 25 Nov 2024 18:46:37 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] drm/msm/adreno: Introduce ADRENO_QUIRK_NO_SYSCACHE
+Message-ID: <vfbklrbereo3j5dp2w4pvctef364sb2dqogccmaevjerkm5u43@jytwobqwvuv2>
+References: <20241125-a612-gpu-support-v2-0-b7cc38e60191@quicinc.com>
+ <20241125-a612-gpu-support-v2-1-b7cc38e60191@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241125-pvr-reset-v1-2-b437b8052948@linumiz.com>
-References: <20241125-pvr-reset-v1-0-b437b8052948@linumiz.com>
-In-Reply-To: <20241125-pvr-reset-v1-0-b437b8052948@linumiz.com>
-To: Frank Binns <frank.binns@imgtec.com>, 
- Matt Coster <matt.coster@imgtec.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Parthiban Nallathambi <parthiban@linumiz.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732552647; l=3446;
- i=parthiban@linumiz.com; s=20241125; h=from:subject:message-id;
- bh=fOL6L5TlnzXNAKOAwbLxcTtHOaazgxdBU1plUoQ8Jzw=;
- b=b5t26Ndgj56MR2TOf8LgFXM36QxrcEz5U7oErfYXAw6qN5v+DaZzO20DX4Zb3bWg+evkKxHFo
- 9guvoLRCY90BWvRlawQIweJXlrhUKyTqVGlXyIyWttA0QtEzkD76Hkh
-X-Developer-Key: i=parthiban@linumiz.com; a=ed25519;
- pk=PrcMZ/nwnHbeXNFUFUS833wF3DAX4hziDHEbBp1eNb8=
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - linumiz.com
-X-BWhitelist: no
-X-Source-IP: 122.165.245.213
-X-Source-L: No
-X-Exim-ID: 1tFc5b-001iXQ-17
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([127.0.1.1]) [122.165.245.213]:38110
-X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 29
-X-Org: HG=dishared_whb_net_legacy;ORG=directi;
-X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfAcSOS9/6ayA6Y0+afPhAH3lXK0Xghd131K9fEegI5rDhtDsPKdtyzB/XtQGrPUgG34c623tz/+E7Xoytx8StDOJT4rlUW7z5Bye8qnQjtESNJFsTdZA
- n2tcA+pA6EB/qgWrTZ6m58MCbCNFyUqEzwfWK4xKc0obdYnacyc/x6gcESWg/OhwoTJXauib4JEdFkMB206VAXIehYFiqDfWWysPXow9jqicmkx1tYzmxxLL
-X-Mailman-Approved-At: Tue, 26 Nov 2024 08:26:46 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241125-a612-gpu-support-v2-1-b7cc38e60191@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,117 +95,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some platforms like Allwinner A133 with GE8300 includes
-reset control from reset control unit. Add reset control
-optionally from the devicetree.
+On Mon, Nov 25, 2024 at 10:03:00PM +0530, Akhil P Oommen wrote:
+> There are a few chipsets which don't have system cache a.k.a LLC.
+> Currently, the assumption in the driver is that the system cache
+> availability correlates with the presence of GMU or RPMH, which
+> is not true. For instance, Snapdragon 6 Gen 1 has RPMH and a GPU
+> with a full blown GMU, but doesnot have a system cache. So,
+> introduce an Adreno Quirk flag to check support for system cache
+> instead of using gmu_wrapper flag.
+> 
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 3 ++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 7 +------
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 1 +
+>  3 files changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> index 0c560e84ad5a..5e389f6b8b8a 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> @@ -682,6 +682,7 @@ static const struct adreno_info a6xx_gpus[] = {
+>  		},
+>  		.gmem = (SZ_128K + SZ_4K),
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.quirks = ADRENO_QUIRK_NO_SYSCACHE,
+>  		.init = a6xx_gpu_init,
+>  		.zapfw = "a610_zap.mdt",
+>  		.a6xx = &(const struct a6xx_info) {
+> @@ -1331,7 +1332,7 @@ static const struct adreno_info a7xx_gpus[] = {
+>  		},
+>  		.gmem = SZ_128K,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> -		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
+> +		.quirks = ADRENO_QUIRK_HAS_HW_APRIV | ADRENO_QUIRK_NO_SYSCACHE,
+>  		.init = a6xx_gpu_init,
+>  		.zapfw = "a702_zap.mbn",
+>  		.a6xx = &(const struct a6xx_info) {
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 019610341df1..a8b928d0f320 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1863,10 +1863,6 @@ static void a7xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+>  
+>  static void a6xx_llc_slices_destroy(struct a6xx_gpu *a6xx_gpu)
+>  {
+> -	/* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
+> -	if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
+> -		return;
+> -
 
-Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
----
- drivers/gpu/drm/imagination/pvr_device.h |  8 ++++++++
- drivers/gpu/drm/imagination/pvr_drv.c    |  5 +++++
- drivers/gpu/drm/imagination/pvr_power.c  | 16 +++++++++++++++-
- 3 files changed, 28 insertions(+), 1 deletion(-)
+Shouldn't it also be a NO_SYSCACHE check?
 
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index 6d0dfacb677b..21ec7dd64415 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -23,6 +23,7 @@
- #include <linux/kernel.h>
- #include <linux/math.h>
- #include <linux/mutex.h>
-+#include <linux/reset.h>
- #include <linux/spinlock_types.h>
- #include <linux/timer.h>
- #include <linux/types.h>
-@@ -131,6 +132,13 @@ struct pvr_device {
- 	 */
- 	struct clk *mem_clk;
- 
-+	/**
-+	 * @reset: Optional reset control
-+	 *
-+	 * This may be used on some platforms to reset the GPU module/IP.
-+	 */
-+	struct reset_control *reset;
-+
- 	/** @irq: IRQ number. */
- 	int irq;
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-index fb17196e05f4..d9b918410ea9 100644
---- a/drivers/gpu/drm/imagination/pvr_drv.c
-+++ b/drivers/gpu/drm/imagination/pvr_drv.c
-@@ -36,6 +36,7 @@
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/reset.h>
- #include <linux/xarray.h>
- 
- /**
-@@ -1427,6 +1428,10 @@ pvr_probe(struct platform_device *plat_dev)
- 	pm_runtime_use_autosuspend(&plat_dev->dev);
- 	pvr_watchdog_init(pvr_dev);
- 
-+	pvr_dev->reset = devm_reset_control_get_optional_exclusive(&plat_dev->dev, "ahb");
-+	if (PTR_ERR(pvr_dev->reset) == -EPROBE_DEFER)
-+		return PTR_ERR(pvr_dev->reset);
-+
- 	err = pvr_device_init(pvr_dev);
- 	if (err)
- 		goto err_watchdog_fini;
-diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
-index ba7816fd28ec..a24ed85f36c7 100644
---- a/drivers/gpu/drm/imagination/pvr_power.c
-+++ b/drivers/gpu/drm/imagination/pvr_power.c
-@@ -15,6 +15,7 @@
- #include <linux/mutex.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/reset.h>
- #include <linux/timer.h>
- #include <linux/types.h>
- #include <linux/workqueue.h>
-@@ -252,6 +253,9 @@ pvr_power_device_suspend(struct device *dev)
- 	clk_disable_unprepare(pvr_dev->sys_clk);
- 	clk_disable_unprepare(pvr_dev->core_clk);
- 
-+	if (!IS_ERR(pvr_dev->reset))
-+		reset_control_assert(pvr_dev->reset);
-+
- err_drm_dev_exit:
- 	drm_dev_exit(idx);
- 
-@@ -270,9 +274,15 @@ pvr_power_device_resume(struct device *dev)
- 	if (!drm_dev_enter(drm_dev, &idx))
- 		return -EIO;
- 
-+	if (!IS_ERR(pvr_dev->reset)) {
-+		err = reset_control_reset(pvr_dev->reset);
-+		if (err)
-+			goto err_drm_dev_exit;
-+	}
-+
- 	err = clk_prepare_enable(pvr_dev->core_clk);
- 	if (err)
--		goto err_drm_dev_exit;
-+		goto err_reset_exit;
- 
- 	err = clk_prepare_enable(pvr_dev->sys_clk);
- 	if (err)
-@@ -301,6 +311,10 @@ pvr_power_device_resume(struct device *dev)
- err_core_clk_disable:
- 	clk_disable_unprepare(pvr_dev->core_clk);
- 
-+err_reset_exit:
-+	if (!IS_ERR(pvr_dev->reset))
-+		reset_control_assert(pvr_dev->reset);
-+
- err_drm_dev_exit:
- 	drm_dev_exit(idx);
- 
+>  	llcc_slice_putd(a6xx_gpu->llc_slice);
+>  	llcc_slice_putd(a6xx_gpu->htw_llc_slice);
+>  }
+> @@ -1876,8 +1872,7 @@ static void a6xx_llc_slices_init(struct platform_device *pdev,
+>  {
+>  	struct device_node *phandle;
+>  
+> -	/* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
+> -	if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
+> +	if (a6xx_gpu->base.info->quirks & ADRENO_QUIRK_NO_SYSCACHE)
+>  		return;
+>  
+>  	/*
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index e71f420f8b3a..398be2218110 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -57,6 +57,7 @@ enum adreno_family {
+>  #define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
+>  #define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
+>  #define ADRENO_QUIRK_PREEMPTION			BIT(5)
+> +#define ADRENO_QUIRK_NO_SYSCACHE		BIT(6)
+>  
+>  /* Helper for formating the chip_id in the way that userspace tools like
+>   * crashdec expect.
+> 
+> -- 
+> 2.45.2
+> 
 
 -- 
-2.39.2
-
+With best wishes
+Dmitry
