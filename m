@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0949D8327
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 11:13:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A7D9D8348
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 11:25:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC2C10E177;
-	Mon, 25 Nov 2024 10:13:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBE610E010;
+	Mon, 25 Nov 2024 10:25:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ecXyt2kI";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SVGPM0Fk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B49410E177
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 10:13:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DEF2A5C5707;
- Mon, 25 Nov 2024 10:12:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0524C4CECE;
- Mon, 25 Nov 2024 10:13:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732529608;
- bh=hUO3cLlT3vdLxWhuhdutCmu0MQDfhoRgoCbEY54Csm8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ecXyt2kIURgzHaGqA6Om1ND2ZukCSUbhfaBgrTVsLdakQL+39aWUtBY8cVoSZlqdT
- dRUwWGz50dH5iV7nF6vRMvqpQpO6xflP3jTA2CWkLuo0/tSXMMPT9IZk533d3ETFFZ
- PUrlqfbTHHr6GC/Q7Nh/2CsDVLIG2Y9KTCtiw2GQvO1agESZR/y+t5VRVptpwuv4r6
- KCzDOe8VEYuNOTyeoKKxYb/vgGlz1h66d2Z4vRgBj17djGa0JjdWrWo7OwLQu3ud03
- SJMORycZfj959fobpZojpgvxp5bui2gfQ8cguN6GQ/nt9w6oroCQLb1zr3MpNrU5bt
- TD5FIj632msXg==
-Date: Mon, 25 Nov 2024 11:13:25 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, 
- ck.hu@mediatek.com, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v1 7/7] drm/mediatek: Introduce HDMI/DDC v2 for
- MT8195/MT8188
-Message-ID: <20241125-spirited-industrious-roadrunner-e8154d@houat>
-References: <20241120124512.134278-1-angelogioacchino.delregno@collabora.com>
- <20241120124512.134278-8-angelogioacchino.delregno@collabora.com>
- <20241122-cobra-of-authentic-discourse-e2c5b6@houat>
- <03b5a671-e0c0-4d18-a103-e7f0ab18e20e@collabora.com>
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB92910E010
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 10:25:03 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 60A19C0012;
+ Mon, 25 Nov 2024 10:24:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1732530301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xJJFpfF2OaBan+++5E0ZDBr6mIOGHUerMQJqN74GXvA=;
+ b=SVGPM0Fkf3Je9uOmJuAfKaWk/Z/L79pGzHVJFyTxZYZYE/uFuv8NJxGUGbf2MEEC2I6ftd
+ HGAx3lcL33gS1dqZEUfHjDBB6Kz5RDg2tmI/5+7G+veNIDfbBt8EZW7qiOukIRCiSxMvai
+ D9z/DhyYq2GD4uVDVBikfRltNCeTL1zp30yG2e2Tx4HwdY7csNn+wIhqcbGiDAzWoX5zfV
+ QxhsGsy8IX4B+9WFE3FCplLgZhF9P0hN0idH8Jb/bd1ko9sCGxTYfgoa5vi/eRUb8RyTqw
+ 5RRRduY1qmkRHiVNz1ngW+RMDwUVqHE3KkB/2R0U0ljvI3cQjMupVe0SEjADuQ==
+Date: Mon, 25 Nov 2024 10:19:49 +0000
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ =?ISO-8859-1?Q?Ma=EDra_Canal?= <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>
+CC: arthurgrillo@riseup.net, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, seanpaul@google.com, 
+ nicolejadeyee@google.com, linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_RFC_v2_17/18=5D_drm/vkms=3A_?=
+ =?US-ASCII?Q?Introduce_config_for_connector_EDID?=
+In-Reply-To: <87o723y7dr.fsf@intel.com>
+References: <20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com>
+ <20241122-google-remove-crtc-index-from-parameter-v2-17-81540742535a@bootlin.com>
+ <87o723y7dr.fsf@intel.com>
+Message-ID: <6913165B-FA17-4DED-B1D6-CA312B20576B@bootlin.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="h3ivafm5bqasam2u"
-Content-Disposition: inline
-In-Reply-To: <03b5a671-e0c0-4d18-a103-e7f0ab18e20e@collabora.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,56 +70,148 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---h3ivafm5bqasam2u
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1 7/7] drm/mediatek: Introduce HDMI/DDC v2 for
- MT8195/MT8188
-MIME-Version: 1.0
 
-On Mon, Nov 25, 2024 at 10:40:22AM +0100, AngeloGioacchino Del Regno wrote:
-> Il 22/11/24 10:20, Maxime Ripard ha scritto:
-> > Hi,
-> >=20
-> > On Wed, Nov 20, 2024 at 01:45:12PM +0100, AngeloGioacchino Del Regno wr=
-ote:
-> > > Add support for the newer HDMI-TX (Encoder) v2 and DDC v2 IPs
-> > > found in MediaTek's MT8195, MT8188 SoC and their variants, and
-> > > including support for display modes up to 4k60 and for HDMI
-> > > Audio, as per the HDMI 2.0 spec.
-> > >=20
-> > > HDCP and CEC functionalities are also supported by this hardware,
-> > > but are not included in this commit.
-> > >=20
-> > > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@=
-collabora.com>
-> >=20
-> > Just a heads-up, you should really be using the new HDMI helpers, it'll
-> > remove a lot of boilerplate and potential bugs.
+Le 25 novembre 2024 09:45:04 UTC, Jani Nikula <jani=2Enikula@linux=2Eintel=
+=2Ecom> a =C3=A9crit=C2=A0:
+>On Fri, 22 Nov 2024, Louis Chauvet <louis=2Echauvet@bootlin=2Ecom> wrote:
+>> To properly test the EDID reading without using the DRM override, add a=
+n
+>> option to configure the EDID for a connector=2E
+>>
+>> Signed-off-by: Louis Chauvet <louis=2Echauvet@bootlin=2Ecom>
+>> ---
+>>  drivers/gpu/drm/vkms/vkms_config=2Ec |  1 +
+>>  drivers/gpu/drm/vkms/vkms_config=2Eh |  2 ++
+>>  drivers/gpu/drm/vkms/vkms_output=2Ec | 37 ++++++++++++++++++++++++++++=
+++++++---
+>>  3 files changed, 37 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_config=2Ec b/drivers/gpu/drm/vkm=
+s/vkms_config=2Ec
+>> index ac1a9658c5075c118d59da965ca3392355ccb2b2=2E=2E1a1234d4f10fa8e5ea6=
+bd649139ecc10c991f875 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_config=2Ec
+>> +++ b/drivers/gpu/drm/vkms/vkms_config=2Ec
+>> @@ -199,6 +199,7 @@ struct vkms_config_connector *vkms_config_create_co=
+nnector(struct vkms_config *v
+>>  	xa_init_flags(&vkms_config_connector->possible_encoders, XA_FLAGS_ALL=
+OC);
+>>  	vkms_config_connector->type =3D DRM_MODE_CONNECTOR_VIRTUAL;
+>>  	vkms_config_connector->status =3D connector_status_unknown;
+>> +	vkms_config_connector->edid_blob_len =3D 0;
+>> =20
+>>  	return vkms_config_connector;
+>>  }
+>> diff --git a/drivers/gpu/drm/vkms/vkms_config=2Eh b/drivers/gpu/drm/vkm=
+s/vkms_config=2Eh
+>> index bba56c9d8aeceac97a4339ef42ab663c5dc54e65=2E=2E1220b16f6c98d1ebb0a=
+e55d662a84fe25e1a6a02 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_config=2Eh
+>> +++ b/drivers/gpu/drm/vkms/vkms_config=2Eh
+>> @@ -112,6 +112,8 @@ struct vkms_config_connector {
+>>  	struct xarray possible_encoders;
+>>  	int type;
+>>  	enum drm_connector_status status;
+>> +	char edid_blob[PAGE_SIZE];
+>> +	int edid_blob_len;
+>> =20
+>>  	/* Internal usage */
+>>  	struct drm_connector *connector;
+>> diff --git a/drivers/gpu/drm/vkms/vkms_output=2Ec b/drivers/gpu/drm/vkm=
+s/vkms_output=2Ec
+>> index fc6a0cdade0739b94820ed4e0924cf355137fe79=2E=2E56590afb33d75465971=
+d10a282040690840cdbee 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_output=2Ec
+>> +++ b/drivers/gpu/drm/vkms/vkms_output=2Ec
+>> @@ -31,13 +31,44 @@ static const struct drm_connector_funcs vkms_connec=
+tor_funcs =3D {
+>>  	=2Eatomic_destroy_state =3D drm_atomic_helper_connector_destroy_state=
+,
+>>  };
+>> =20
+>> +static int vkms_connector_read_block(void *context, u8 *buf, unsigned =
+int block, size_t len)
+>> +{
+>> +	struct vkms_config_connector *config =3D context;
+>> +
+>> +	if (block * len + len > config->edid_blob_len)
 >
-> Hmm... the state helper you mean? Or the inflight series from Dmitry?
+>The parameters to the read block function are a bit weird for historical
+>reasons=2E The start offset is indicated by block number, length by
+>len=2E The start byte offset is thus block * EDID_LENGTH! There's no
+>smaller granularity for start offset=2E However len can be < EDID_LENGTH!
+>
+>So the above should be (block * EDID_LENGTH + len > edid_blob_len)
+>
+>> +		return 1;
+>> +	memcpy(buf, &config->edid_blob[block * len], len);
+>
+>And this should be &config->edid_blob[block * EDID_LENGTH]=2E
+>
+>(Your patch would work, but just by coincidence due to the way the read
+>block function is currently called=2E)
 
-Ideally both, but targetting only the former would be great already :)
+Thanks for those clarifications!=20
 
-> In any case... yeah, you're right, let me check which helpers I can
-> use: that's going to be done for v2 :-)
+>> +	return 0;
+>> +}
+>> +
+>>  static int vkms_conn_get_modes(struct drm_connector *connector)
+>>  {
+>> +	const struct drm_edid *drm_edid =3D NULL;
+>>  	int count;
+>> +	struct vkms_config_connector *connector_cfg;
+>> +	struct vkms_device *vkmsdev =3D drm_device_to_vkms_device(connector->=
+dev);
+>> +	struct vkms_config_connector *context =3D NULL;
+>> +
+>> +	list_for_each_entry(connector_cfg, &vkmsdev->config->connectors, link=
+) {
+>> +		if (connector_cfg->connector =3D=3D connector) {
+>> +			context =3D connector_cfg;
+>> +			break;
+>> +		}
+>> +	}
+>> +	if (context)
+>> +		drm_edid =3D drm_edid_read_custom(connector, vkms_connector_read_blo=
+ck, context);
+>
+>Thanks for using drm_edid_read_custom() for this btw!
+>
+>> +
+>> +	/*
+>> +	 * Unconditionally update the connector=2E If the EDID was read
+>> +	 * successfully, fill in the connector information derived from the
+>> +	 * EDID=2E Otherwise, if the EDID is NULL, clear the connector
+>> +	 * information=2E
+>> +	 */
+>> +	drm_edid_connector_update(connector, drm_edid);
+>> +
+>> +	count =3D drm_edid_connector_add_modes(connector);
+>> =20
+>> -	/* Use the default modes list from DRM */
+>> -	count =3D drm_add_modes_noedid(connector, XRES_MAX, YRES_MAX);
+>> -	drm_set_preferred_mode(connector, XRES_DEF, YRES_DEF);
+>
+>I don't really know anything about your use case, but don't you want to
+>fall back to the above for drm_edid =3D=3D NULL? *shrug*
 
-I think the scrambler support would be great to add there, there's a lot
-of bugs in most drivers. If you feel like it :)
+You are right, I will probably fallback to noedid version, at least for VI=
+RTUAL connectors=2E
 
-Maxime
+Or maybe I will add something in VKMS configuration to use "empty edid", "=
+default modes_noedid" or "custom_edid"=2E
 
---h3ivafm5bqasam2u
-Content-Type: application/pgp-signature; name="signature.asc"
+This way you will be able to test all the scenarios for your userspace=2E
 
------BEGIN PGP SIGNATURE-----
+Thanks for your review,
+Louis Chauvet
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0RNvwAKCRAnX84Zoj2+
-du1BAYCjKyk+nF1tolybBaGVQDKxzLMP0aXHCAkIJNAu09aAHat9Y0MhN/kPIBXf
-tfkB+7MBfjQt2wnl1ouI79g9WFI8G9PRbpuZNHwGd7TOzG9Ro+rG6xY9J8nMPV8N
-WxjwIWRu/g==
-=mo8X
------END PGP SIGNATURE-----
-
---h3ivafm5bqasam2u--
+>BR,
+>Jani=2E
+>
+>> +	drm_edid_free(drm_edid);
+>> =20
+>>  	return count;
+>>  }
+>
