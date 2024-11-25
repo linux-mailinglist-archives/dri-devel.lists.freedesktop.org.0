@@ -2,109 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BC89D8560
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 13:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D3E9D85B8
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 13:58:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8534710E124;
-	Mon, 25 Nov 2024 12:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72A1310E002;
+	Mon, 25 Nov 2024 12:57:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UNLquEGo";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CuGDt2Vd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E038E10E282
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 12:22:40 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4APBEGGO019168
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 12:22:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- lGsgBh8DX/jnU4tUYXMAAVV50pnLwHeeReg1oTVAlu4=; b=UNLquEGoHdX7qF5a
- BpFSsqJ0XeN5kVIEySitp2WQ9UBVp/BFZX9eUrU5HbMPs+f8dg1HLl71sO6yqajS
- ZvfA3cjoGkb5KdooWlqkZ64kMSAN9RH8D8gBuL/9w0MB/cyTBHGIUoKmyI20GLJl
- y7N4Yeo2gzdb8ymmnm/yWLCVhmOWMwlR0enKkSDvcTAIz78g8eAb1OA4J8kdCSk7
- syajxlatH9wixOkEooQOSW//s7etUl4LjZdypeXozwqG4UoQgmbXD7wB6+BxqI4x
- afHIR6A0S5/tdwqL/QIE9HhhpKh8zCtSdO9TcL9lLU5KC5VhzDBZdM6cJxgthWHf
- at2fdw==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4334dmvw9y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 12:22:39 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-46698b09335so767731cf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 04:22:39 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A65910E002
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 12:57:55 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-432d9bb168cso30605735e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 04:57:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1732539474; x=1733144274; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=LK/o3FUGaKRZErsXHi8EyRs052osGciSWNJJ6Un26Ds=;
+ b=CuGDt2VdNjftQnScreEpp/z94oLZ+uKuaOQo/N0zPZCzgI4W9hFwuBfjaQcWVJyyAa
+ JvAygtjJHs2Ww+nzapW96IU+h7TwQ1AI/BzGlksi1BS1TBne909WXf6Vq8H4pH1EbDix
+ Rk4xKnYzNCqcyqZZtU5VVO94aEoBg2As1p00m1rHBsIYF2pL8N4N6WKLVWuZD6RZyvpW
+ yiCw/IRlVZgn5TZfokpPAp9/L9MXlz/LKTsYQLnOx6h3UCOhunOKlzsVDQtzn7PBmIgN
+ y9JNjGz70Tv/FnbfZSe8z77Cd+YshqiZkcdUAloSVfLelfQZMwaNtDsg92p/Z7aIQxgG
+ E7ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732537359; x=1733142159;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lGsgBh8DX/jnU4tUYXMAAVV50pnLwHeeReg1oTVAlu4=;
- b=l9cUJdnUc6a86WxB2nCcnzu6beNWY3R7L60/TL+yA585lVBv5M3P2ZWLXWjpwYCbGm
- V+h9Ryrt+SF+RqH1Pyym2JMvcTFBgttWTVG2aimhlh74WbY8QLSAapL6SWoIM2QP0AtC
- FQ860gT/W1CbzscBrpZwhkf1iPhq91z08V/KPQsETqMm3mHd+Ccy3TiJNl2XtFlY9pN2
- g6lhkbS9TOQvoO2PsSltLw9lcoQ9XZBanNzehVgqSQ/NOTRpgC9EjoEImyDlyXxqL9Bt
- UdJw3Skag2Ze34m1mEbsJCdPeT5Ho8Cs2r6a/Bs3iz8DdF9xEpAcBxXre6VHzQ4Kvy89
- Q6Iw==
-X-Gm-Message-State: AOJu0YyWqJJUCnpnt+9Ub+IT0j1LkPH9d5cFgoDSykCJaW3U3XkM2ere
- fkDea6Gv9FMg2M7hOHAGG54d/wfEIlAJ8KAWgCTnVzKib3xNOUkDC17qWfTLmgVRxhEIohZd+47
- QMPQaR9Y5xVkELdzLTIlj6iKI2THsVCh2y66ajCnkclMRuiSaETsIM4MzrksuABBQIIQ=
-X-Gm-Gg: ASbGncvtSZQgFXNAf7gMwcBF58HNC6Vq/M1teCLT4CkahOpPB71w9nvsdA+WufRQu5n
- qHsgAGCv0vaN2oS7YtRLFo7p8xaEtw81hi9UMGZAqAeI6slgCGprIVNAgCPm6sR46zC9m/1J01m
- OGcSxaxlbkZIMl4IBkTh8kMMkdGAiXRIy6yNgc7nCV6kHoZ2AKtjrFuscV0HuWVpbtCcFanlMYv
- EVBSprtXl4SQ2NXif2ci20yq++E8gn+SJCDAF5LVqPej7gBm3alF5zh0/1jGNFDuC++jO/D/nDJ
- TaSjk2VqAJj8mZmLDqifQSCjwlYKdO0=
-X-Received: by 2002:ac8:1246:0:b0:466:88ba:2031 with SMTP id
- d75a77b69052e-46688ba2359mr24593581cf.13.1732537359034; 
- Mon, 25 Nov 2024 04:22:39 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHp3cHKk6o39VMe0fU98GsfCHedykBDk3Eeru+jtD6QzHbQvQ5UtCYJJftsXO/hkoFpN8NJWQ==
-X-Received: by 2002:ac8:1246:0:b0:466:88ba:2031 with SMTP id
- d75a77b69052e-46688ba2359mr24593201cf.13.1732537358419; 
- Mon, 25 Nov 2024 04:22:38 -0800 (PST)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d01d41ae1fsm4042118a12.79.2024.11.25.04.22.35
+ d=1e100.net; s=20230601; t=1732539474; x=1733144274;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=LK/o3FUGaKRZErsXHi8EyRs052osGciSWNJJ6Un26Ds=;
+ b=UlptJ3OPUVLhbDn0JsMUX+trJW8Na4XIwh6RnMIQfcjKuEwM7hbH4u5msRWFgSL0Uc
+ DMGMlystQf5Gn3D0WL1pUZyvhcFmiRF7h2oMfS1b1LI+f41G7iacIzhVbH1xoijgLewk
+ FfGD9sVXxopweprnxciwCMbz0496dYTzLIR4pE8hNN+4r/6wG++jyDa03AOH2wrY+luK
+ EXFwH9EgxKXIfOsN4nq3u23mQHWMCifLA4YCB4ZSAJB5PS7Xqb8umPmFgcR7GDyAG5U1
+ pgmxQe1HHWirczK7bJgYIj86m8ZGPIpCCToeOJqljv8R5yN19/Kvwudf5xaWrlPIcwtt
+ a3yw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWklTaCrICfFogs3hcf70Qdn7qwr/WpDzgyvGVXKpqMlldNaZX3VjIEJG8KYKIULMIv+H3y+vpMEic=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzegs9aj0nHtyMaxbr4YKu5z82h3Mv1LqZuVSbnf9X+Z9glnuZK
+ GZz2Am1V+MDdAXtn4OHsooIeeyIAUd5Ue6tAS9Fkf/ntA3wdkb0bZeut7HCogNI=
+X-Gm-Gg: ASbGnct51WpyXnXUHp87plESZynibUwVzLCs9puxnp1dwR/zu/K2n9i3NeuuAaqCGzY
+ 61RkQDL++KAT+05wN7grFKBFVHzTZyTyRc5rEc/4lkAAVJw58KwqX/9C/6Te0+YDYqGlAfTpxW3
+ cesOIwDVEuY07CtGhYquGEARnSMFRN9fvjU2EsN5CywBsTe3JZI7feOqly5/zvu0JdVUpOpe+sD
+ qblZ2yhYyHExdsfoE3FyJdokRUMq+mrF/MCB22m1GVQsUTxvEzBAahTcAg0zQHmf1EPwz/yCzE5
+ qsb0JHoYyCu6xtynnDAN6uDYH0g=
+X-Google-Smtp-Source: AGHT+IHp9ZbYEEuOqvzmzN9bYFgBoyUQCliRxucIR2i6oG6nzBgRHtwS7cuLaCKRHjn/8s+t8OKggQ==
+X-Received: by 2002:a05:600c:1e1e:b0:42c:b603:422 with SMTP id
+ 5b1f17b1804b1-433cdb0b504mr101998665e9.8.1732539473751; 
+ Mon, 25 Nov 2024 04:57:53 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:9dc0:6c46:415c:5f8b?
+ ([2a01:e0a:982:cbb0:9dc0:6c46:415c:5f8b])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4349dc19fd3sm52076065e9.39.2024.11.25.04.57.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Nov 2024 04:22:38 -0800 (PST)
-Message-ID: <b13f35be-eeb8-4e29-965e-a7ac3cc4d3bc@oss.qualcomm.com>
-Date: Mon, 25 Nov 2024 13:22:35 +0100
+ Mon, 25 Nov 2024 04:57:53 -0800 (PST)
+Message-ID: <c6b0273f-16f3-4469-a4b8-9564f7355400@linaro.org>
+Date: Mon, 25 Nov 2024 13:57:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] arm64: dts: qcom: x1e80100-vivobook-s15: Add lid
- switch
-To: maud_spierings@hotmail.com, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH 2/5] gpu: drm: adp: Add Apple Display Pipe driver
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Douglas Anderson
- <dianders@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20241124-asus_qcom_display-v3-0-002b723b1920@hotmail.com>
- <20241124-asus_qcom_display-v3-3-002b723b1920@hotmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241124-asus_qcom_display-v3-3-002b723b1920@hotmail.com>
-Content-Type: text/plain; charset=UTF-8
+ Conor Dooley <conor+dt@kernel.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Janne Grunau <j@jannau.net>
+References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
+ <20241124-adpdrm-v1-2-3191d8e6e49a@gmail.com>
+ <10d0aa88-de2e-4856-a137-301519e58b2d@linaro.org>
+ <CAMT+MTRWZWj=3AP7wyooXr49-W4vcm0ZbAoqPyEuNkQBMOaJfw@mail.gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <CAMT+MTRWZWj=3AP7wyooXr49-W4vcm0ZbAoqPyEuNkQBMOaJfw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: MhcaImhlEmZVbbq18uFta-vmK-L2gDOH
-X-Proofpoint-ORIG-GUID: MhcaImhlEmZVbbq18uFta-vmK-L2gDOH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 mlxlogscore=816 phishscore=0 mlxscore=0
- lowpriorityscore=0 suspectscore=0 malwarescore=0 adultscore=0 spamscore=0
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2411250106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,17 +126,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24.11.2024 11:00 AM, Maud Spierings via B4 Relay wrote:
-> From: Maud Spierings <maud_spierings@hotmail.com>
+On 25/11/2024 12:24, Sasha Finkelstein wrote:
+> On Mon, 25 Nov 2024 at 09:50, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+>>
+>> So this controller only supports a single mode ???????
+>>
+> Most likely. On all devices it is connected to a single built-in display.
 > 
-> Add the lid switch for the Asus vivobook s15
-> 
-> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
-> ---
+> Ack on all other changes, will be fixed for v2.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+OK, so instead make the panel driver return this single mode
+and from the display driver just filter out anything that's
+not ADP_SCREEN_VSIZE & ADP_SCREEN_HSIZE.
 
-Konrad
+Neil
