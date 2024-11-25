@@ -2,162 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245259D8352
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 11:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457E99D837C
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 11:36:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6D2410E21F;
-	Mon, 25 Nov 2024 10:27:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="PBvq16iX";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81AF910E3B1;
+	Mon, 25 Nov 2024 10:36:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2058.outbound.protection.outlook.com [40.107.244.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D527C10E139;
- Mon, 25 Nov 2024 10:27:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JrsrLCFOkRDi/kH9f7pGPsVlXJGdgTVblXyP0sDtExO4krywKh171tjd0lV4BvZtIC42wjv35HBrf9XxyhmiI1asjRmKquu0wyxBCv3cUz/FZVJCDr9L80vrGUiYQR6wKVLM8C71Zpi8ETG1CE+i9z31kQAmlrbl7Zjy0NfH5j/QzHcYFOjTn19Pu5bvo+OeTKJmqzbwsXQMHS/QDRUs1BLi9wbPox1Hy0ctNH2sYIePFaZtKD3BbAPg3aH1XxgIMynt8UcrChjEwdCGpiWXcZetvhwj9eqPo5aNFK4cOVEPuvhgtNirH7XDSqcBlJZY2oRqMRzhkhv1BbHzRar6wg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zPz8GQJiqAge/9Atzdfs/Rs0NOa+rjfwmFreHaq77Kg=;
- b=R7cdVY0x8BSdzLfUEIwqDwyZYfMu69JJq6uDdTrdqVX7Z2XkzuChUQczO074iZDRa8U5gmBi63wx2I4ekCXFhWiDIwXJCW8CuqnyeN/SSRmdg/3SOq7/bB9TNxNkBUsKk5iHc1d/QjPucXVwkecITigOZ6xsYEML9HfL/1LFeYhfpAkejmbCTzAoUuHi6zIhXcEuh2dKKy3yk16K36Zf6DFt/njyhN18PX23QQCgfDUYeE1jGddymzrRZ1ZYngPo3hT144ThadlTPGQnJAwW2Py3kp2MkgngzkXqDOGXsuBr2jxy2JakYZdNv+gEMbYE1xnklLAhA2XxUrqKa7KuQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zPz8GQJiqAge/9Atzdfs/Rs0NOa+rjfwmFreHaq77Kg=;
- b=PBvq16iXOSMEcLLIaDnOLf1nrlzEPzVNzoBTKic7jWyNS8xFt81FYtsMI5sQCF/WUrRKG+oWp7ukxyWCEfpt5JJcULPsC/+80oHEfSxjJX/VqdURu09U+41kOV5Zeep5aSGf3nXWSklidAyx7ComJfPC/0pYzLJi5ML310OrtRg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA3PR12MB7921.namprd12.prod.outlook.com (2603:10b6:806:320::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.20; Mon, 25 Nov
- 2024 10:27:28 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8182.018; Mon, 25 Nov 2024
- 10:27:28 +0000
-Message-ID: <953f1201-fb7d-408d-8ce3-7f6105c7c158@amd.com>
-Date: Mon, 25 Nov 2024 11:27:20 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/4] drm: Introduce device wedged event
-To: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>,
- Raag Jadav <raag.jadav@intel.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
- andriy.shevchenko@linux.intel.com, lina@asahilina.net,
- michal.wajdeczko@intel.com, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, anshuman.gupta@intel.com,
- alexander.deucher@amd.com, andrealmeid@igalia.com,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20241115050733.806934-1-raag.jadav@intel.com>
- <20241115050733.806934-2-raag.jadav@intel.com>
- <8c7292c3-8459-4ddc-a899-b56b1d93076f@linux.intel.com>
- <Z0Atv3Zw1d0N8hvv@black.fi.intel.com>
- <3644d364-6021-46fe-b3a2-689821551984@amd.com>
- <Z0CrJ3C3wJqtySLp@black.fi.intel.com>
- <637aa694-d32b-4c9a-99b7-3b77996d96b6@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <637aa694-d32b-4c9a-99b7-3b77996d96b6@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0205.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a5::17) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39B7310E3B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 10:36:13 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-6eeffdff41dso9192107b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 02:36:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732530972; x=1733135772;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8d+g8WKkfE6s6pK+JrY3tSWdNLGevwdYmgstGGTm524=;
+ b=dt7TGua98JFOS7dZgJpdqqUk6B05BCW3tS/OYCLuipYESbuxEfxsO+ocBLwbgwoFr/
+ dj0tFjz+4Z1zI2fSxdFC7ZXzL5jhCJY3M/GqY/djALIY7qw36KzFX+iJItS7p9ZphCNV
+ o75Hvs1Gm07VHrnpxwowea069+hYAC/oWhigBtAlg+22M2bZwssqrJC9bQwSe4GVHVLQ
+ WC0XYHTFfnh7jznq1dn9mqnruvASamFKikeP0F2O0w+RctYJ3/wQqIXnJLWgyy+7XbDn
+ YtPdqw6T4M3SOQuMmgekzTlP2y2GudUcjsujwoW7yuUM/A/ZPt40d/8QXL/ubS2vu7iv
+ tA/Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXltkJ26aXW3xXZcjBqGOmeJ43Qn8MD1gwLAJGF+qm+P5roP1gSetP8YtX9RkEOSiWqgutXuvJgkB8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzh0Vd7BxgXXBf5ezDMu/KVyKMbrkTJcjpV7ZO6qxlcaosTe94T
+ fvAs8mMBm0slysg7wveEml3kgbXSafr56ncr5vZ6cpB4SX0XE/0FBR2MGTtU
+X-Gm-Gg: ASbGncsFi7fzkiqbeP5gxCDPDBm9pqThtiUhJg2CZjaZd8LtpYlqAEkPNfWiT+9ig8i
+ oElA31LWaV1WeztA4rnSDtigesJRewD61uvbhefzelhcjQW+K3YHtIBpaWxxlWq2lZ07T8q5OQd
+ 8Sf3tAgVNzfa/fbIVGVABUbgo3xREgFZhafEWRtjt8PzhEURzXdEgEcaL/3WPNtPxTyZwzFq2Jr
+ AMKyHSAVVXGr2K54tTVfRvE5iRz7BGcA8I1/7DBYaljGbeGKbRPhKd5EM5C5sLOyJUPhKXqlZ6p
+ 2vVhqP+LxJbQGuW0
+X-Google-Smtp-Source: AGHT+IFpyduuRFfRFRsVN0etL0c8CClw0IQso5NkltkeR5UZsZpUmDGauMixQZIbWQ1hldVMYFzWLA==
+X-Received: by 2002:a05:690c:998a:b0:6e5:a431:af41 with SMTP id
+ 00721157ae682-6eee0a4a7d0mr116919487b3.38.1732530971708; 
+ Mon, 25 Nov 2024 02:36:11 -0800 (PST)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
+ [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6eedfe16c5asm17296407b3.12.2024.11.25.02.36.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Nov 2024 02:36:11 -0800 (PST)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-6eeba477fcaso43269837b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 02:36:11 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUhs+dvwBf0KaqUhlo9wz9S/liOHPnDYt72P6lXNVGNlzJs1Uett5oQBMExDsMXBAiDbZSPLzvpYuk=@lists.freedesktop.org
+X-Received: by 2002:a05:690c:4a13:b0:6ee:cf8b:c6c1 with SMTP id
+ 00721157ae682-6eee0a24b1cmr108161527b3.29.1732530970890; Mon, 25 Nov 2024
+ 02:36:10 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB7921:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23a146c2-0403-4002-b27d-08dd0d3bc2dd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?U2JuZ2dRdkdwS0dFZ0dBZGc0cHdNT29HNUM2T0F1K0l3ZzgycDJBVm9xbW5w?=
- =?utf-8?B?eXR6OEpWV3JHNTUxQWc3czdTeXRhMUxZQXJDa2h3SUZyc3VlMUdTZDNnT3Z1?=
- =?utf-8?B?UHRDNjJTdlVmOXdtZXVLKzJGNWxDSWRjMGVPWEV6YUpuN2grWTlPY2YzN0hn?=
- =?utf-8?B?RFh6WGIxSzM5elRLL1lxUzFyendzSzRjTWkrNzBZVTBwTkUwM0ZNT2ZtNlFz?=
- =?utf-8?B?aEl4SHlsZzd2RVQ3QndEaDBUYmJpZDVkTGt2Njd6TldHZTRwcXdDU01ud0po?=
- =?utf-8?B?aWhHcWxKTHYrb20yMHpxRGZDNVVXS3VnRVVvMC9kRGpvaUVpOUxPdzlIMmtV?=
- =?utf-8?B?OHJQa1Nvc2dtSDkwMWwxNFNmb0Q2OHNEcElwY3FBakpDQ0dhN3RpTDE4Ukt3?=
- =?utf-8?B?Qm0vQWo0NG5QLzluYzlKKzVrNmhFbnhWeGx6TlZpMWZSWGk0T0VtTXdrU1Rh?=
- =?utf-8?B?ZGxzUnZCRFRpb1BVMUl1bFVMNEZNWDFuSGk3ODg3dUhPY2xlR0lZclAxOTB5?=
- =?utf-8?B?YU0zenlhWEFNSEQrSkNjZ1V3VHY5ejNneFhQNUc4dTNjMFNDdmM4Y1Y1ekl6?=
- =?utf-8?B?alVsQm5BWTVLQ3FMVFF6cndNWDE5YUpHRnFoa2gyZitjcEQwSzR5dE4vN3hJ?=
- =?utf-8?B?Vlo4V2N5WHQ2MERhNTRocmxrVWw5MFNSeHlVMXN2SkJhN0tFREZDQzRNRVhD?=
- =?utf-8?B?RXNSLzVQcldOUWVRdTMzVlZNVVdvQ3dlQVBGMzlpdFVTWDFuQmwwYllDVVVh?=
- =?utf-8?B?QW42elRXaU54ZjJDanBSQlJqb1BpbXhxRXBLMzhzVGJTd1A4dzZEWWxwS2pz?=
- =?utf-8?B?WERzL3lOU0VaUzB1RlByTUQzU1Y3RFgzNFZqVElCUFNFU3B2R1Y5WUoyZDBD?=
- =?utf-8?B?NGhkMjlVYkJLL1pibkIwN3k3ek1BdkcxTDBYQjRHVTZSbWdpNkw4NHB4dEI0?=
- =?utf-8?B?STduK2FZOXorcWJmUFlCUnlDZHhpMDhjWFlsZCtiMGJac0hjU2xKcTdvVWN1?=
- =?utf-8?B?UEpXOC9GWUVwOWVPOWpoMXp6Z09tTHg4Q3prbk1aNmlBTHdac09BS2hpZUkz?=
- =?utf-8?B?UFUybFBlUGtiREltb1NhQlVROUc0QzUxdFZvM01KQUQ3MDgxOVIyR2lXRExH?=
- =?utf-8?B?Uk1HaHBJM2JsanhTOVZFd2JDNGhrTC8zRkFQVlJsUWtMayt1enJ3NnFDblNR?=
- =?utf-8?B?b1ZQdmdPdFVrMEVmVGIxbUlGWTdjNXlBbTIxaENJSlV6amdvaFFEc0RBbllj?=
- =?utf-8?B?WklOQ010M2tkcWRBbURmSCs2ZUcyQXBHS3JMemx2SVdoUERZQnpWanNxSkw3?=
- =?utf-8?B?YWx2NUx4N1l2YURSVTFNNjlFeGxrSDVBcWFYVU9UeGI4Vkw4RldIUWp4eEcx?=
- =?utf-8?B?L3U2MEpidFRFTUdaOHZnTjk0RlZSVUJId3NBd0pCMk0xN090bkh6bTlKV2xJ?=
- =?utf-8?B?UStLZDUyYmZ2QzhhVk9aNTJzbW1KanFCZ0U0MlZBYW9IcXI3N1ZhK1hTVHRF?=
- =?utf-8?B?R1czNm5sd0dPZGNyOTNyQjdqMzY0N2k0KzlqUUtKZTdQY2xNYmFBUmRFc0dh?=
- =?utf-8?B?RElRbHZnNHljUnl6YnNUTVNOUEFwcmZZeHpBT3ZpVG1QK05nSWhNL2RSdWVI?=
- =?utf-8?B?dUQzMFlJUVpQVDIyQzMxSVVsZTBGdGI1NFFsYzRFQUNTbHVPQmlpalBoVSt6?=
- =?utf-8?B?QnlUSlYwTW1KV09wa21nWjcvSXpBaHJYOUFERk9Xa2wwNFUydEJoOFJaNyt3?=
- =?utf-8?B?QVhsSk5DWjRiSjJSYmhRSVUwR0hzWlV5UGNSQ290dmxibzNrTmpHeUhHQzZL?=
- =?utf-8?B?WFE2UXhPblgvZlNNcGRZQT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aFExMWRLcjdpdnptZGJPRktySG1rSGJDbzZxOGVhRm1NanM0TStYdEpmVXhu?=
- =?utf-8?B?QnVlVDFSSWJLQ2krVHJlVHB5eFZPbFVXNFFUUTVWSmx1V2ovbjY2bGIvSUlN?=
- =?utf-8?B?aEFtaXlPZm5sNnJrTDNEUXpjQjlJUjF5aG4rSmJpeUUySG1tMDlZcTFNVUpR?=
- =?utf-8?B?S21wbktXZWNLU0VScnpKbkZjeGhTUEZZOG9jcFJVdjQvclF3emdrRmF5UlRv?=
- =?utf-8?B?bU5Sc1MzVXo0UTF0aTRrcWExQ05WazZBbms2RkFDNlNKd2k0RDRDdGtYTDFY?=
- =?utf-8?B?Q2FaUElWWFVWTkc1TEx0cVE4K3ZYRmRtLzAvd0d6NytvWmsvYldXWjJJYkMy?=
- =?utf-8?B?WUZidVRmNmZvRlVPVG5PRDFuT0pDZUZabnY4VGZYWkhzc3Z6Q2NVWDFiQmE2?=
- =?utf-8?B?ZWxNWFNpUitlM0dRWUlVekpzRzBmYTlMa2U1Y3R5aTdJZzJpQ0xMclF2eVFv?=
- =?utf-8?B?d1N6UHlJeFlXZ1FibEltKzRjZy9oTVJ0cnNnTVduWGhaN2xrM3NabUdrMXRp?=
- =?utf-8?B?aUZHaTZkTmd2dDJkUFhHbjlPK0VQdzIrcGtveGxMYTFpZFloeGFhTDVFdHZD?=
- =?utf-8?B?RXBpdDZuakw2ekIrb3N4TkQ2bHVoYXJ6c3hMN0JwdVhvb290KzZtSk56NXd5?=
- =?utf-8?B?dzRNampqdjJnMkFDTDJMcDd6WGEyTkEvM2xNeHpEcW9POVI3MzVLU2Z4c20v?=
- =?utf-8?B?cEtvZjFZV2t4RGhyekVsYUZmVWRjY20vbnNjdmprbzh6dHZ4TnNFL3YrbWd0?=
- =?utf-8?B?VzZoT3BoQlRmVEx1a2ZNS3ltNEZzUlFST0hwM1liWURUQUIxc2hwWlZBOFZ1?=
- =?utf-8?B?SkhZc0c4V0ZkRzRWa3hFMC9wRWpOclRkbjdxbXB4L0hhU3J1a010RFkzelYw?=
- =?utf-8?B?UjF2d0NGMDdubmdXNUc1cjVhTWVkSWlxNVphRmI3dEY3bzBBZVFHSWljRVE5?=
- =?utf-8?B?Rm5PQk4xcEhEY2VhYS80eUZiemY1b1Y5YThQSUJmeHovWG1MVmZic3NYaW0r?=
- =?utf-8?B?dElObDkxMDlSbmRLMTNEODFSczMyNWNzWmdER0dlTytWRS9wWUVINERlZ29r?=
- =?utf-8?B?NGpZemtoN3FEWFRqeG4yTjdFbjlTaHl5SW4zTjh6cEpQSFRveVFhcUJGNXRZ?=
- =?utf-8?B?Qi8wQndBT0pFV0MzbXdSbkxLd1lCMnE1QU11V2tKenZHL1BrQ3B1cFpqSTZ1?=
- =?utf-8?B?ZzBMOXFrNmw2cFhZZHBlbFd3anBBbkFTOGZhdTdub2hpSDNPd29nN3E2UWN0?=
- =?utf-8?B?Z1FTNUJ3Y0lxb1RKbmdTbGJ4NndjWkVFQ1hvdVphcVRTMm9LKzhIYUE5bnpx?=
- =?utf-8?B?VGgrcVNVYjI3R0ZkWGZ4L05oTUdKTklReFhWRUd1Rnp0N29OaEJrTHZnRnJu?=
- =?utf-8?B?blhlY3NQWEs4K0JXcHFMVFB5dFRqcjN3Ylc0VzloV3RGUnBFeENwWWZ2aHE1?=
- =?utf-8?B?WUJBVThlTDdNTnBJa0krUzhjeENSSWsxay9XNVBNTkcyTTdTcEQ5ZWhSQnJ1?=
- =?utf-8?B?S3ZrTDJpeFh0T0pUazM4SlBoa1l4TWJWY0hETVZndjFlTlhHOXNRczFjd3Ra?=
- =?utf-8?B?dmVEMnY2dml2UEtMMFl3SVBRTHBkZTlxVzdSM0JYRGNvNEk1TFN5UXkva1p3?=
- =?utf-8?B?aGI3R2NGNHF4MVBMSkx1bU1SQmJnZWtXSjVrY0tCZFl0b3pYSUEvNkZlOHY2?=
- =?utf-8?B?NmtUV08wekZ1MEFTWkpYUStPQi9VdHVNbStvR0J1bWdqd1p4ZE0wbDZuVDVS?=
- =?utf-8?B?ejdCaHVsRDNodUJZekFIVXlwTHFCdDgwU2FKQjlvTGtGd3dqV2kvcnFHdmxa?=
- =?utf-8?B?UGNrV1hBak5lSy9SK29PUzdEZmRBVDlDWWpUWmhNdG5BbUVqa28yNE5vQWhD?=
- =?utf-8?B?V21pSXBWYzg0M1RMYmpkY3Q5SlJ2bUxVWGpXM0poRkE4S1NWdEQwSmdmRGx1?=
- =?utf-8?B?aDRpemdSbGhTMFV4akhGSDZPNnVHd2hJd3pIdXovWXZwWXZvcDJPQWZoeHkz?=
- =?utf-8?B?S25ZT2xrNlFKNkhBSit0a2g5d2pRQXVxNDd5N2hNN1pLbnZWWWY2TGhtS1BK?=
- =?utf-8?B?TW9rdng5dUtxbytwNVgvK29oUjBReFJlMlBROEIyaisyREd1c3BqZUlEb1Ux?=
- =?utf-8?Q?l3+2j9fo7t520jqxKG2n9BWKw?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23a146c2-0403-4002-b27d-08dd0d3bc2dd
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2024 10:27:28.1340 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wu4DHSI+A080UpYFTDJ6UaW6EX2RwR4y3RYScyeq0e7etZQVjI4gF5oVdhMe/d1P
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7921
+References: <20241018151016.3496613-1-arnd@kernel.org>
+ <20241104172950.GA741087@thelio-3990X>
+ <CAMuHMdXrrCiLm2sQmpegtVHV8X5AUp-8E5BejDxRpMbeAfHhvQ@mail.gmail.com>
+ <20241122-rebel-donkey-of-atheism-a0b8b6@houat>
+In-Reply-To: <20241122-rebel-donkey-of-atheism-a0b8b6@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 25 Nov 2024 11:35:58 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUC6cq+ybVzOC9n3XaT-x3oy+7tpA+Z=e8a4yd3B6Ykng@mail.gmail.com>
+Message-ID: <CAMuHMdUC6cq+ybVzOC9n3XaT-x3oy+7tpA+Z=e8a4yd3B6Ykng@mail.gmail.com>
+Subject: Re: [PATCH] drm/rockchip: avoid 64-bit division
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Algea Cao <algea.cao@rock-chips.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Arnd Bergmann <arnd@arndb.de>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,71 +96,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 25.11.24 um 06:56 schrieb Aravind Iddamsetty:
-> On 22/11/24 21:32, Raag Jadav wrote:
->> On Fri, Nov 22, 2024 at 11:09:32AM +0100, Christian König wrote:
->>> Am 22.11.24 um 08:07 schrieb Raag Jadav:
->>>> On Mon, Nov 18, 2024 at 08:26:37PM +0530, Aravind Iddamsetty wrote:
->>>>> On 15/11/24 10:37, Raag Jadav wrote:
->>>>>> Introduce device wedged event, which notifies userspace of 'wedged'
->>>>>> (hanged/unusable) state of the DRM device through a uevent. This is
->>>>>> useful especially in cases where the device is no longer operating as
->>>>>> expected and has become unrecoverable from driver context. Purpose of
->>>>>> this implementation is to provide drivers a generic way to recover with
->>>>>> the help of userspace intervention without taking any drastic measures
->>>>>> in the driver.
->>>>>>
->>>>>> A 'wedged' device is basically a dead device that needs attention. The
->>>>>> uevent is the notification that is sent to userspace along with a hint
->>>>>> about what could possibly be attempted to recover the device and bring
->>>>>> it back to usable state. Different drivers may have different ideas of
->>>>>> a 'wedged' device depending on their hardware implementation, and hence
->>>>>> the vendor agnostic nature of the event. It is up to the drivers to
->>>>>> decide when they see the need for recovery and how they want to recover
->>>>>> from the available methods.
->>>>>>
->>>>>> Prerequisites
->>>>>> -------------
->>>>>>
->>>>>> The driver, before opting for recovery, needs to make sure that the
->>>>>> 'wedged' device doesn't harm the system as a whole by taking care of the
->>>>>> prerequisites. Necessary actions must include disabling DMA to system
->>>>>> memory as well as any communication channels with other devices. Further,
->>>>>> the driver must ensure that all dma_fences are signalled and any device
->>>>>> state that the core kernel might depend on are cleaned up. Once the event
->>>>>> is sent, the device must be kept in 'wedged' state until the recovery is
->>>>>> performed. New accesses to the device (IOCTLs) should be blocked,
->>>>>> preferably with an error code that resembles the type of failure the
->>>>>> device has encountered. This will signify the reason for wegeding which
->>>>>> can be reported to the application if needed.
->>>>> should we even drop the mmaps we created?
->>>> Whatever is required for a clean recovery, yes.
->>>>
->>>> Although how would this play out? Do we risk loosing display?
->>>> Or any other possible side-effects?
->>> Before sending a wedge event all DMA transfers of the device have to be
->>> blocked.
->>>
->>> So yes, all display, mmap() and file descriptor connections you had with the
->>> device would need to be re-created.
->> Does it mean we'd have to rely on userspace to unmap()?
+Hi Maxime,
+
+On Fri, Nov 22, 2024 at 10:15=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+ wrote:
+> On Fri, Nov 22, 2024 at 09:36:16AM +0100, Geert Uytterhoeven wrote:
+> > On Mon, Nov 4, 2024 at 6:30=E2=80=AFPM Nathan Chancellor <nathan@kernel=
+.org> wrote:
+> > > On Fri, Oct 18, 2024 at 03:10:10PM +0000, Arnd Bergmann wrote:
+> > > > From: Arnd Bergmann <arnd@arndb.de>
+> > > >
+> > > > Dividing a 64-bit integer prevents building this for 32-bit targets=
+:
+> > > >
+> > > > ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/rockchip/rockch=
+ipdrm.ko] undefined!
+> > > >
+> > > > As this function is not performance criticial, just Use the div_u64=
+() helper.
+> > > >
+> > > > Fixes: 128a9bf8ace2 ("drm/rockchip: Add basic RK3588 HDMI output su=
+pport")
+> > > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > >
+> > > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> > >
+> > > Can someone please pick this up? It is still broken in next-20241104.=
+..
+> > >
+> > > https://storage.tuxsuite.com/public/clangbuiltlinux/continuous-integr=
+ation2/builds/2oNvJFRj8tkDieb6VfrMf4rh1Kn/build.log
+> > >
+> > > > ---
+> > > >  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drive=
+rs/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> > > > index 9c796ee4c303..c8b362cc2b95 100644
+> > > > --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> > > > +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> > > > @@ -82,7 +82,7 @@ static void dw_hdmi_qp_rockchip_encoder_enable(st=
+ruct drm_encoder *encoder)
+> > > >                * comment in rk_hdptx_phy_power_on() from
+> > > >                * drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
+> > > >                */
+> > > > -             phy_set_bus_width(hdmi->phy, rate / 100);
+> > > > +             phy_set_bus_width(hdmi->phy, div_u64(rate, 100));
+> > > >       }
+> > > >  }
+> >
+> > noreply@ellerman.id.au has just told me this build issue is now upstrea=
+m:
+> >
+> >     FAILED linus/m68k-allmodconfig/m68k-gcc8.1 Fri Nov 22, 05:34
+> >     http://kisskb.ellerman.id.au/kisskb/buildresult/15277242/
+> >
+> >     Commit:   Merge tag 'drm-next-2024-11-21' of
+> > https://gitlab.freedesktop.org/drm/kernel
+> >               28eb75e178d389d325f1666e422bc13bbbb9804c
+> >     Compiler: m68k-linux-gcc (GCC) 8.1.0 / GNU ld (GNU Binutils) 2.30
+> >
+> >     ERROR: modpost: "__udivdi3"
+> > [drivers/gpu/drm/rockchip/rockchipdrm.ko] undefined!
+> >
+> > Applying this patch fixes it, so
+> > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> >
+> > Do we really need +5 weeks to apply a fix for a reported build issue?
 >
-> I'm not sure of display, but at least all user mappings can be destroyed
-> using drm_vma_node_unmap.
-
-That is not really correct. The mappings are not destroy, they are 
-invalidated.
-
-On access a page fault is generated and TTM should redirect the access 
-to the dummy page.
-
-The userspace application still has to unmap the VMA to destroy it.
-
-Regards,
-Christian.
-
+> Do we really need that kind of comments?
 >
-> Thanks,
-> Aravind.
->> Raag
+> It was applied already, I made sure it's part of the next PR we send to
+> Linus. And it should be in linux-next tomorrow.
 
+Thank you, I can confirm it is now commit 818956c76517e127
+("drm/rockchip: avoid 64-bit division") in drm-misc/for-linux-next
+and next-20241125.
+
+Interestingly, the commit description contains:
+
+    (cherry picked from commit 4b64b4a81fcd51f570c046cf904aef19ec756d45)
+
+which is not in any tree on git.kernel.org, but the github collective
+does know about it:
+https://github.com/torvalds/linux/commit/4b64b4a81fcd51f570c046cf904aef19ec=
+756d45
+
+Probably you want to drop that line.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
