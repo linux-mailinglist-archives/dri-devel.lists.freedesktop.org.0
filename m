@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83F89D8F30
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 00:34:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2019D8F6B
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 01:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2D110E0E0;
-	Mon, 25 Nov 2024 23:33:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5BB10E050;
+	Tue, 26 Nov 2024 00:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L9MqDI9A";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="AAFuHeFB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF10F10E0E0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 23:33:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B29B85C5AE2;
- Mon, 25 Nov 2024 23:33:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3690BC4CECE;
- Mon, 25 Nov 2024 23:33:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732577636;
- bh=ZI88yhG9GI0DouWMQIl4znxd8wu87u5uaWf+pyuEVRU=;
- h=From:To:Cc:Subject:Date:From;
- b=L9MqDI9A8/KhvycwCCGcaVwWb8yODG0T+dRLdZeqzdDheGLoL7PkFNXvfI7WCSpzW
- llfh2jTJeI+nsQEpXwk7qan/ZPth4NVXXN72Zq6lNhs3Mam3bWimDBlS/x4AWG/hoK
- 3TGZ0U3jqz8HjZ153FaovFS5k/wLNJ4ucK0Nre7Fk4SA2jbbAOwhfWu0tc/Z0K43+q
- rXLBLzPjVmO3vOMxkrmHtScCjM+XRDjaZuwB35RX+xXLN5LOmzR9TJ8QNyAoah2RVL
- AmZk2gEmqUhKa0vLgYjp0xBDpvmeX2o6FMpBqnMtN+UkpxtZN4gpzr7auBq99ie+/F
- gEA4vVKFguUDw==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Jocelyn Falempe <jfalempe@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F30C10E050
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 00:05:19 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3CDEE89A0B;
+ Tue, 26 Nov 2024 01:05:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1732579517;
+ bh=iXEvEq6TE6wGikpGyU2LyhflPbJSbD9Cr1drzON7Bg0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AAFuHeFBQZMbvD3d0TLIFLVax0pz2+0YaLXW4T1BhY1XjnIrtU8stYh0mQAqvpAKG
+ a6F50FQR/+Llun0fEhLc6k8ILKcl4O/DTYyvFS2tvcNW06F6PUqg6QE3JCg0LCQDVN
+ RLX/F+gOh3yq4azBwX9yByAp57xWlZHIDj5IIpu7XbFF/FcRIwELUDmYK6wp0Nir41
+ 0PyOL0OWIZBTNZBckOSujrO5e7P/FWr83rMJB875GbzCuRZFoP2O3Ii06TH/Sc43L7
+ 23Polkn3SWYI0UqkUJ5w68JhQ1TeMZBZaN0sE3cKawMt4qiF8lklpjG6l58FNA1/rd
+ iO1BVPQatxo/g==
+Message-ID: <a17f2bf7-1ea3-4ba3-80a8-338623d9d888@denx.de>
+Date: Tue, 26 Nov 2024 00:48:20 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] drm/bridge: tc358767: Improve DPI output pixel
+ clock accuracy
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, patches@lists.linux.dev,
- stable@vger.kernel.org
-Subject: [PATCH] drm/panic: remove spurious empty line to clean warning
-Date: Tue, 26 Nov 2024 00:33:32 +0100
-Message-ID: <20241125233332.697497-1-ojeda@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20241112020737.335297-1-marex@denx.de>
+ <20241112020737.335297-2-marex@denx.de>
+ <bqmcs6dtcidr6lr6r74t5vm72kjantanaq26dfipkqtsiqhacd@ngdoaqim42ck>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <bqmcs6dtcidr6lr6r74t5vm72kjantanaq26dfipkqtsiqhacd@ngdoaqim42ck>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,57 +71,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clippy in the upcoming Rust 1.83.0 spots a spurious empty line since the
-`clippy::empty_line_after_doc_comments` warning is now enabled by default
-given it is part of the `suspicious` group [1]:
+On 11/22/24 2:32 PM, Dmitry Baryshkov wrote:
+> On Tue, Nov 12, 2024 at 03:05:37AM +0100, Marek Vasut wrote:
+>> The Pixel PLL is not very capable and may come up with wildly inaccurate
+>> clock. Since DPI panels are often tolerant to slightly higher pixel clock
+>> without being operated outside of specification, calculate two Pixel PLL
+>> from either mode clock or display_timing .pixelclock.max , whichever is
+>> higher. Since the Pixel PLL output clock frequency calculation always
+>> returns lower frequency than the requested clock frequency, passing in
+>> the higher clock frequency should result in output clock frequency which
+>> is closer to the expected pixel clock.
+>>
+>> For the Chefree CH101 panel with 13 MHz Xtal input clock, the frequency
+>> without this patch is 65 MHz which is out of the panel specification of
+>> 68.9..73.4 MHz, while with this patch it is 71.5 MHz which is well within
+>> the specification and far more accurate.
+> 
+> Granted that most of the panel drivers do not implement get_timings()
+> and granted that there are no current users of that interface, I think
+> we should move away from it (and maybe even drop it completely from
+> drm_panel).
 
-    error: empty line after doc comment
-       --> drivers/gpu/drm/drm_panic_qr.rs:931:1
-        |
-    931 | / /// They must remain valid for the duration of the function call.
-    932 | |
-        | |_
-    933 |   #[no_mangle]
-    934 | / pub unsafe extern "C" fn drm_panic_qr_generate(
-    935 | |     url: *const i8,
-    936 | |     data: *mut u8,
-    937 | |     data_len: usize,
-    ...   |
-    940 | |     tmp_size: usize,
-    941 | | ) -> u8 {
-        | |_______- the comment documents this function
-        |
-        = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#empty_line_after_doc_comments
-        = note: `-D clippy::empty-line-after-doc-comments` implied by `-D warnings`
-        = help: to override `-D warnings` add `#[allow(clippy::empty_line_after_doc_comments)]`
-        = help: if the empty line is unintentional remove it
+It does fit DPI and LVDS panels and their descriptions in datasheets the 
+best.
 
-Thus remove the empty line.
+> What about achieving the same via slightly different approach: register
+> a non-preferred mode with the clock equal to the max clock allowed. The
+> bridge driver can then use the default and the "max" mode to select PLL
+> clock.
+> 
+> I understand that this suggestion doesn't follow the DPI panel
+> specifics, which are closer to the continuous timings rather than fixed
+> set of modes, however I really don't think that it's worth keeping the
+> interface for the sake of a single driver. Original commit 2938931f3732
+> ("drm/panel: Add display timing support") from 2014 mentions using those
+> timings for .mode_fixup(), but I couldn't find a trace of the
+> corresponding implementation.
+> 
+> Another possible option might be to impletent adjusting modes in
+> .atomic_check() / .mode_fixup().
+Something like this ?
 
-Cc: stable@vger.kernel.org
-Fixes: cb5164ac43d0 ("drm/panic: Add a QR code panic screen")
-Link: https://github.com/rust-lang/rust-clippy/pull/13091 [1]
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
-I added the Fixes and stable tags since it would be nice to keep the 6.12 LTS
-Clippy-clean (since that one is the first that supports several Rust compilers).
+static const struct display_timing chefree_ch101olhlwh_002_timing = {
+   .pixelclock = { 68900000, 71100000, 73400000 },
+   ...
+};
 
- drivers/gpu/drm/drm_panic_qr.rs | 1 -
- 1 file changed, 1 deletion(-)
+static const struct panel_desc chefree_ch101olhlwh_002 = {
+   .timings = &chefree_ch101olhlwh_002_timing,
+   .num_timings = 1,
+   ...
+};
 
-diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-index 09500cddc009..ef2d490965ba 100644
---- a/drivers/gpu/drm/drm_panic_qr.rs
-+++ b/drivers/gpu/drm/drm_panic_qr.rs
-@@ -929,7 +929,6 @@ fn draw_all(&mut self, data: impl Iterator<Item = u8>) {
- /// * `tmp` must be valid for reading and writing for `tmp_size` bytes.
- ///
- /// They must remain valid for the duration of the function call.
--
- #[no_mangle]
- pub unsafe extern "C" fn drm_panic_qr_generate(
-     url: *const i8,
+... would turn into ...
 
-base-commit: b7ed2b6f4e8d7f64649795e76ee9db67300de8eb
---
-2.47.0
+static const struct drm_display_mode chefree_ch101olhlwh_002_mode[3] = {
+   {
+     .clock = 68900000,
+     ...
+   }, {
+     .clock = 71100000,
+     ...
+   }, {
+     .clock = 73400000,
+     ...
+   }
+};
+
+static const struct panel_desc chefree_ch101olhlwh_002 = {
+   .modes = &chefree_ch101olhlwh_002_mode,
+   .num_timings = 3,
+   ...
+};
+
+?
+
+Maybe some mode flag to specify which mode is MIN/TYP/MAX would be 
+useful with that change too ?
+
+Finally, the TC358767 driver would test all modes and find the most 
+accurate one ?
