@@ -2,58 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B272D9D79EF
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 03:06:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA3F9D79F6
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 03:07:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A4DD10E06F;
-	Mon, 25 Nov 2024 02:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE5210E37C;
+	Mon, 25 Nov 2024 02:07:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MYCyg9Na";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="QImrexVn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31B6510E06F
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 02:06:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DCCA25C5826;
- Mon, 25 Nov 2024 02:06:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B31A7C4CED9;
- Mon, 25 Nov 2024 02:06:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732500412;
- bh=Gu5Wu6oqy5RrPJGF75jiB8mV6u7GUvi00veqq4oAV6I=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=MYCyg9Na2ZSPDLA10+VfV7vvGR536PZbxkdwlN9SVGiZXCNzmI4JkyDU4ml3fYcz8
- HOYLlKb2i8HldOFxv15S6gVnl2YWa8yYMfxL9gqs9YYgLXWpcE/DVzlDug1xD9AIUs
- xgoTY0HkEL1a5n/pQBK1zMeJRptg9wNThp07WVrBCiIL5cFOpefCPGp8BjBHUqKHRN
- Kbj7ZpslOPuKDpu1i7WKRP9xiMw7t1d3k3MO99sMOmwKaAaBDL0ISNZb4MUcli10bc
- r/JBxZUf/mUqJvtjdoBd7DjhpSa0A2R2aT6B04oJ2vAL0JntI9gx2hsAYXZvxVmRzC
- wk+GWhxiBC0VA==
-Date: Sun, 24 Nov 2024 20:06:51 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1719110E37C
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 02:07:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732500446; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=jh5DT1YmzgwGvKL8dGgQ3qxYPD/z9P/yidu+cLCLyK8RpyTpqW47ndVZYCi5rjZiCE4ejqbSEpM/YOshpT6AhJs4Tc+FNg0HIs3NPwQH4eD3RqeuXXIwoUdVv3fYIf14g8BGSC+ZB+aEYG5Cc6sObqPivYxrD6OXV/iGhA4jJuQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1732500446;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=cc0/kpHg6qhOrq2BGcrlIxOmpbrIcOJrFlvoP4JP36Y=; 
+ b=a21wOSljO+88qRz1u84o/KEMjEjeP3XcUSTDik4Yf7iTyY1wFUnL+0jhamtYf3EmpYdSCFXaHe4iXkreZUr6K+Iqg38IhxJkQ3MJdhTK6LBtk/bG1L39VpMJhRJmfSBMj0ypDP54iAAspc18nh2nEEd+xKv8fXAMr0uHaNOkzB8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732500446; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=cc0/kpHg6qhOrq2BGcrlIxOmpbrIcOJrFlvoP4JP36Y=;
+ b=QImrexVnalJxJkcT5WnBo89bIf4XTBgF/TCMJQ2mvWauyai8LQCj/+HAE+XIhr4w
+ I+z7tKwHpcoSYgoQ8ecKPNw8J7B4JEdYmfgMtMZ91VrCHM3Oc1vaOb5Fyzxqsdpk0Xc
+ zZ0UDb7PtWVc0gJXTsgCcbRz1KfIOVEEZhXd2ixQ=
+Received: by mx.zohomail.com with SMTPS id 1732500442450806.2848280145149;
+ Sun, 24 Nov 2024 18:07:22 -0800 (PST)
+Message-ID: <868a7354-2286-42cf-87d6-9783f6547636@collabora.com>
+Date: Mon, 25 Nov 2024 05:07:19 +0300
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, asahi@lists.linux.dev, 
- David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- linux-arm-kernel@lists.infradead.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Hector Martin <marcan@marcan.st>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Simona Vetter <simona@ffwll.ch>, 
- Sven Peter <sven@svenpeter.dev>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-In-Reply-To: <20241124-adpdrm-v1-1-3191d8e6e49a@gmail.com>
-References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
- <20241124-adpdrm-v1-1-3191d8e6e49a@gmail.com>
-Message-Id: <173250040970.6667.2839660338071681474.robh@kernel.org>
-Subject: Re: [PATCH 1/5] dt-bindgins: display: Add Apple pre-DCP display
- controller bindings
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] drm/virtio: Add a helper to map and note the dma
+ addrs and lengths
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Rob Clark <robdclark@gmail.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>
+References: <20240813035509.3360760-1-vivek.kasireddy@intel.com>
+ <20240813035509.3360760-3-vivek.kasireddy@intel.com>
+ <45fbbd65-7e97-41c3-898a-49b6fa65e27e@collabora.com>
+ <IA0PR11MB7185625CF2B9E7635A0CF164F84C2@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <071a239f-50fd-44f3-9283-3dc928edb389@collabora.com>
+ <IA0PR11MB718548F4F8971C91FCA456CCF84E2@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <4feda09d-7a5e-4db4-83f8-f75eb0566b4a@collabora.com>
+ <IA0PR11MB7185C176AF07732D39AA4F86F84B2@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <e336b9ef-c8f3-44c8-904f-42736f6ac481@collabora.com>
+ <IA0PR11MB7185A20AA84175C4D44D44E3F8272@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <IA0PR11MB7185671D43889B076086940CF8202@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <666c6ce3-d713-48a8-af17-e8bc28956e38@collabora.com>
+ <IA0PR11MB718531B09D692B0BCEE6F81DF8212@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <IA0PR11MB718531B09D692B0BCEE6F81DF8212@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +81,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Sun, 24 Nov 2024 23:29:24 +0100, Sasha Finkelstein wrote:
-> Add bindings for a secondary display controller present on certain
-> Apple laptops.
+On 11/20/24 06:44, Kasireddy, Vivek wrote:
+> Hi Dmitry,
 > 
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  .../bindings/display/apple,display-pipe.yaml       | 59 ++++++++++++++++++++++
->  .../bindings/display/panel/apple,summit.yaml       | 24 +++++++++
->  2 files changed, 83 insertions(+)
-> 
+>> Subject: Re: [PATCH v2 2/5] drm/virtio: Add a helper to map and note the
+>> dma addrs and lengths
+>>
+>> ...
+>>> After rebasing v2 of this patch series on top of the above patch, I see that
+>>> this use-case works as expected with Qemu master. Let me send out v3,
+>>> which would be a rebase of v2 on top of the above patch.
+>> ...
+>>>>> Am I doing anything wrong? Suggestions are welcome.
+>>>> Could you please share your Qemu launch parameters? I'll try to recreate
+>> the
+>>>> issue you are seeing.
+>>
+>> Thanks a lot for sharing your Qemu command. I haven't used the
+>> `host-phys-bits` flags, will try again soon and then also check host
+>> errors if it still won't work.
+> Any chance you would be able to finish reviewing this patch series before
+> your upcoming vacation? 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Let's try, we have a week.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/apple,display-pipe.yaml:21:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+Good news, I got it to work with latest misc-next+v3 on guest and by
+using passthroughed AMD RDNA3 card instead of DG2. Haven't yet checked
+whether DG2 works with this guest kernel combination, maybe it will.
 
-dtschema/dtc warnings/errors:
+A bit bad news is that display flickers on each framebuffer flip (shows
+a black screen) using dynamic dmabuf attachment. Pinning imported
+dma-buf permanently fixes the flicker, i.e. dynamic dmabuf attachment
+doesn't work as expected. Disabling CONFIG_DMABUF_MOVE_NOTIFY helps.
 
-doc reference errors (make refcheckdocs):
+There are these virtio-gpu errors on each flicker:
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241124-adpdrm-v1-1-3191d8e6e49a@gmail.com
+[drm:virtio_gpu_dequeue_ctrl_func] *ERROR* response 0x1200 (command 0x106)
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+Overall, patches are good to me. I'll leave couple comments on the v3.
+The flickering issue isn't a blocker given that MOVE_NOTIFY is
+considered to be experimental today, we can fix it later.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+Best regards,
+Dmitry
