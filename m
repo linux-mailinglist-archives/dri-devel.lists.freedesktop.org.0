@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DBAB9D8061
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 10:05:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF689D81F5
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 10:14:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8384A10E117;
-	Mon, 25 Nov 2024 09:05:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0B3F10E3A6;
+	Mon, 25 Nov 2024 09:14:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DWcKaA79";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Njuiiomy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3D710E117
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:05:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732525510; x=1764061510;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=1HEwJ06OdfnNR7EruhIW+OMlB4IJ53R9E6nB3+JJJdI=;
- b=DWcKaA79Prfj2sB5WBoyVWXhoTbYXvmakQSdePBamx4vg1teNr/nIwEY
- HeSOralMrgRzwsL0eL88hruHP7BJwB5yDejuMOvuzDnGuJANFcR07j5cm
- zimqL/rUGafdjyfj8Lba7OJWIfERPA7geK8ocFkoHRDXfSNKK/lUwW23b
- 6BFQLYyOCpH1pODlMhjG4OFATQ2fS31nNOWXomoyj+mpWou6WbA7wXk11
- 6NwgVj2mrdL1ufPreYWmr/yI+Nd6R9F/kNXUBtUrgpkvgUzeXPoKaeHoB
- kTYTu5sX59LKdsSDAhHKYYRzt+nJ1SwI5U/iOd6WMVcEl0ZY8xa5gtwNg g==;
-X-CSE-ConnectionGUID: NDeSshVhQZajlN1sqpLnlg==
-X-CSE-MsgGUID: p02Q5Q9nTr2/Sf+SQiTZSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="36400625"
-X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; d="scan'208";a="36400625"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2024 01:05:09 -0800
-X-CSE-ConnectionGUID: R1kbqonqR++M9M/J5KxKdg==
-X-CSE-MsgGUID: iccNDivmR82kc2bbOfKeJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; d="scan'208";a="122049485"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.243])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2024 01:05:03 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sasha Finkelstein via B4 Relay
- <devnull+fnkl.kernel.gmail.com@kernel.org>, Hector Martin
- <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Neil
- Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Sasha
- Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH 2/5] gpu: drm: adp: Add Apple Display Pipe driver
-In-Reply-To: <20241124-adpdrm-v1-2-3191d8e6e49a@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
- <20241124-adpdrm-v1-2-3191d8e6e49a@gmail.com>
-Date: Mon, 25 Nov 2024 11:04:59 +0200
-Message-ID: <8734jfznt0.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C01B410E3A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:14:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 99AD4A41392;
+ Mon, 25 Nov 2024 09:12:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC643C4CECE;
+ Mon, 25 Nov 2024 09:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732526042;
+ bh=1XQUPazAG20tbs4O/Rn/xERWfHbxiKgQ/YgDItpVwZA=;
+ h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+ b=NjuiiomyOxo9MIeolvgNU5/PdZ8uJVY3aZYnHAiMjOY/fWRhiffon/RO4gq9Xt/eh
+ o/9UwTIymkTPJKSxnPeIqr/+Pqxtgw2rxUE1VyYMbAzCXL/0f2wRU6JGYcnbllv1F4
+ tbl9/GZcHjMnpXarIsNYN1dcA4u6dQRB2tU0DHeGhcKvmUn+x/D4Zcc9JA2EapnbdR
+ TD+8rzRSex7h1JL9U6oGwEYRbPIu6LM7Vje1mwpRlkjRai0F52GdF43nTpTQCyZdy3
+ e3vuamCeaJTGU17s23RDnxasS5vzQ/GEXJDnTM12bovr7VKE6u0kk8CnXAgoUoZNK6
+ 2b+pOjVmoTZTA==
+Message-ID: <b83f53e7bffcc7de692c2e478e083928@kernel.org>
+Date: Mon, 25 Nov 2024 09:13:59 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4 01/10] drm/tests: hdmi: handle empty modes in
+ find_preferred_mode()
+In-Reply-To: <20241122-hdmi-mode-valid-v4-1-2fee4a83ab79@linaro.org>
+References: <20241122-hdmi-mode-valid-v4-1-2fee4a83ab79@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, "Andrzej
+ Hajda" <andrzej.hajda@intel.com>, "Chen-Yu Tsai" <wens@csie.org>, "Dave
+ Stevenson" <dave.stevenson@raspberrypi.com>, "David Airlie" <airlied@gmail.com>,
+ "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime
+ Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Raspberry Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Robert
+ Foss" <rfoss@kernel.org>, "Samuel Holland" <samuel@sholland.org>, "Simona
+ Vetter" <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,48 +67,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 24 Nov 2024, Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org> wrote:
-> diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..36510194e18161ef6514885c764b2e7085c587e5
-> --- /dev/null
-> +++ b/drivers/gpu/drm/adp/adp_drv.c
-> @@ -0,0 +1,814 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/anon_inodes.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/io.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/file.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/types.h>
-> +
-> +#include <asm/current.h>
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_damage_helper.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_edid.h>
-> +#include <drm/drm_fb_dma_helper.h>
-> +#include <drm/drm_file.h>
-> +#include <drm/drm_framebuffer.h>
-> +#include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_gem_dma_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +#include <drm/drm_vblank.h>
+On Fri, 22 Nov 2024 11:12:57 +0200, Dmitry Baryshkov wrote:
+> If the connector->modes list is empty, then list_first_entry() returns a
+> bogus entry. Change that to use list_first_entry_or_null().
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Please only include what you use.
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel
+Thanks!
+Maxime
