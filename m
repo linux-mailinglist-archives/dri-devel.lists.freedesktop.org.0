@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA3F9D79F6
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 03:07:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06AD9D79F7
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 03:08:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE5210E37C;
-	Mon, 25 Nov 2024 02:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA8F10E37D;
+	Mon, 25 Nov 2024 02:08:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="QImrexVn";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="OL0NxSR6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1719110E37C
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 02:07:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732500446; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7966510E37D
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 02:08:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732500481; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=jh5DT1YmzgwGvKL8dGgQ3qxYPD/z9P/yidu+cLCLyK8RpyTpqW47ndVZYCi5rjZiCE4ejqbSEpM/YOshpT6AhJs4Tc+FNg0HIs3NPwQH4eD3RqeuXXIwoUdVv3fYIf14g8BGSC+ZB+aEYG5Cc6sObqPivYxrD6OXV/iGhA4jJuQ=
+ b=PlJrcSF8k6fT8zvPRgm4XLRvCW0PBPO46cNTcSLt4ypYHSgrq99FijZ+KI6ArHV7svIIz4MTlCw+22YY/y39+ytxShWyvfOWIxGH82XmDhA4yaUKCCXVzX5y44G5cQyIPM6rE8/6iv/nflVAoRUD503NMGgQyIBocK3EXnJkOrQ=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732500446;
+ s=zohoarc; t=1732500481;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=cc0/kpHg6qhOrq2BGcrlIxOmpbrIcOJrFlvoP4JP36Y=; 
- b=a21wOSljO+88qRz1u84o/KEMjEjeP3XcUSTDik4Yf7iTyY1wFUnL+0jhamtYf3EmpYdSCFXaHe4iXkreZUr6K+Iqg38IhxJkQ3MJdhTK6LBtk/bG1L39VpMJhRJmfSBMj0ypDP54iAAspc18nh2nEEd+xKv8fXAMr0uHaNOkzB8=
+ bh=CJK3wIeZu63wDw2RMahrFHD02TTMoqbjQb+a8C51wA0=; 
+ b=n8urYU5X61qTYZwUfxNDpWK47ObXjuHMfkAKp38chauRgsFnnh8m/Bv9mIcm1WzGHgK5OJEy8/1udlpdqnBZ+DtKH4Cqo+cAHFeFtnPBgeFOYlhAfhmnY3UCZdSXvezHXVpkwt8k3p6LmMD0QC7hGPcOIv7PwBDnnzMwzu+KEqU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732500446; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732500481; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
  h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=cc0/kpHg6qhOrq2BGcrlIxOmpbrIcOJrFlvoP4JP36Y=;
- b=QImrexVnalJxJkcT5WnBo89bIf4XTBgF/TCMJQ2mvWauyai8LQCj/+HAE+XIhr4w
- I+z7tKwHpcoSYgoQ8ecKPNw8J7B4JEdYmfgMtMZ91VrCHM3Oc1vaOb5Fyzxqsdpk0Xc
- zZ0UDb7PtWVc0gJXTsgCcbRz1KfIOVEEZhXd2ixQ=
-Received: by mx.zohomail.com with SMTPS id 1732500442450806.2848280145149;
- Sun, 24 Nov 2024 18:07:22 -0800 (PST)
-Message-ID: <868a7354-2286-42cf-87d6-9783f6547636@collabora.com>
-Date: Mon, 25 Nov 2024 05:07:19 +0300
+ bh=CJK3wIeZu63wDw2RMahrFHD02TTMoqbjQb+a8C51wA0=;
+ b=OL0NxSR6yOyq3Whq75y8ypVih7RJDnciSSzc3YTohCqjF1Ry3ARBgDj/lAIYU5Cf
+ /CDpbI7j5vsD96yAl7HrYvyCoYfk6hpBefNqOzbeGOGzYFdsBFYSau6xqHKJBudENfq
+ Zy6njGduSSd+qPBXthtDqeBGxQCpcgo3YyyEhzjk=
+Received: by mx.zohomail.com with SMTPS id 1732500478818668.7913579944168;
+ Sun, 24 Nov 2024 18:07:58 -0800 (PST)
+Message-ID: <5ced9a2c-3ac6-4dd6-aa98-a015f9287f17@collabora.com>
+Date: Mon, 25 Nov 2024 05:07:56 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] drm/virtio: Add a helper to map and note the dma
+Subject: Re: [PATCH v3 2/5] drm/virtio: Add a helper to map and note the dma
  addrs and lengths
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ dri-devel@lists.freedesktop.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, Rob Clark <robdclark@gmail.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>
-References: <20240813035509.3360760-1-vivek.kasireddy@intel.com>
- <20240813035509.3360760-3-vivek.kasireddy@intel.com>
- <45fbbd65-7e97-41c3-898a-49b6fa65e27e@collabora.com>
- <IA0PR11MB7185625CF2B9E7635A0CF164F84C2@IA0PR11MB7185.namprd11.prod.outlook.com>
- <071a239f-50fd-44f3-9283-3dc928edb389@collabora.com>
- <IA0PR11MB718548F4F8971C91FCA456CCF84E2@IA0PR11MB7185.namprd11.prod.outlook.com>
- <4feda09d-7a5e-4db4-83f8-f75eb0566b4a@collabora.com>
- <IA0PR11MB7185C176AF07732D39AA4F86F84B2@IA0PR11MB7185.namprd11.prod.outlook.com>
- <e336b9ef-c8f3-44c8-904f-42736f6ac481@collabora.com>
- <IA0PR11MB7185A20AA84175C4D44D44E3F8272@IA0PR11MB7185.namprd11.prod.outlook.com>
- <IA0PR11MB7185671D43889B076086940CF8202@IA0PR11MB7185.namprd11.prod.outlook.com>
- <666c6ce3-d713-48a8-af17-e8bc28956e38@collabora.com>
- <IA0PR11MB718531B09D692B0BCEE6F81DF8212@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Language: en-US
+References: <20241119060248.3312553-1-vivek.kasireddy@intel.com>
+ <20241119060248.3312553-3-vivek.kasireddy@intel.com>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <IA0PR11MB718531B09D692B0BCEE6F81DF8212@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Language: en-US
+In-Reply-To: <20241119060248.3312553-3-vivek.kasireddy@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
@@ -81,46 +70,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/20/24 06:44, Kasireddy, Vivek wrote:
-> Hi Dmitry,
-> 
->> Subject: Re: [PATCH v2 2/5] drm/virtio: Add a helper to map and note the
->> dma addrs and lengths
->>
->> ...
->>> After rebasing v2 of this patch series on top of the above patch, I see that
->>> this use-case works as expected with Qemu master. Let me send out v3,
->>> which would be a rebase of v2 on top of the above patch.
->> ...
->>>>> Am I doing anything wrong? Suggestions are welcome.
->>>> Could you please share your Qemu launch parameters? I'll try to recreate
->> the
->>>> issue you are seeing.
->>
->> Thanks a lot for sharing your Qemu command. I haven't used the
->> `host-phys-bits` flags, will try again soon and then also check host
->> errors if it still won't work.
-> Any chance you would be able to finish reviewing this patch series before
-> your upcoming vacation? 
+On 11/19/24 08:59, Vivek Kasireddy wrote:
+> +long virtgpu_dma_buf_import_sgt(struct virtio_gpu_mem_entry **ents,
+> +				unsigned int *nents,
+> +				struct virtio_gpu_object *bo,
+> +				struct dma_buf_attachment *attach)
 
-Let's try, we have a week.
-
-Good news, I got it to work with latest misc-next+v3 on guest and by
-using passthroughed AMD RDNA3 card instead of DG2. Haven't yet checked
-whether DG2 works with this guest kernel combination, maybe it will.
-
-A bit bad news is that display flickers on each framebuffer flip (shows
-a black screen) using dynamic dmabuf attachment. Pinning imported
-dma-buf permanently fixes the flicker, i.e. dynamic dmabuf attachment
-doesn't work as expected. Disabling CONFIG_DMABUF_MOVE_NOTIFY helps.
-
-There are these virtio-gpu errors on each flicker:
-
-[drm:virtio_gpu_dequeue_ctrl_func] *ERROR* response 0x1200 (command 0x106)
-
-Overall, patches are good to me. I'll leave couple comments on the v3.
-The flickering issue isn't a blocker given that MOVE_NOTIFY is
-considered to be experimental today, we can fix it later.
+Nit: No need to use long type for return here, usual int will be fine.
 
 -- 
 Best regards,
