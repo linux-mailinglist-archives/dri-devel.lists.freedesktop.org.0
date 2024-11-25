@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A69F9D934D
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 09:27:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C599D9341
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 09:26:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F35610E7EC;
-	Tue, 26 Nov 2024 08:27:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56C7E10E7DA;
+	Tue, 26 Nov 2024 08:26:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linumiz.com header.i=@linumiz.com header.b="X5nCCmgO";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linumiz.com header.i=@linumiz.com header.b="EwcZSLE5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from omta36.uswest2.a.cloudfilter.net
- (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A6BB10E6B5
+Received: from omta38.uswest2.a.cloudfilter.net
+ (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7999E10E6B6
  for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 16:37:38 +0000 (UTC)
-Received: from eig-obgw-6002a.ext.cloudfilter.net ([10.0.30.222])
+Received: from eig-obgw-6010a.ext.cloudfilter.net ([10.0.30.248])
  by cmsmtp with ESMTPS
- id FZdftmYJGqvuoFc5htQrmo; Mon, 25 Nov 2024 16:37:37 +0000
+ id Fam8tQO30umtXFc5itSpzK; Mon, 25 Nov 2024 16:37:38 +0000
 Received: from md-in-79.webhostbox.net ([43.225.55.182]) by cmsmtp with ESMTPS
- id Fc5etSMb165gFFc5gtBZLH; Mon, 25 Nov 2024 16:37:36 +0000
-X-Authority-Analysis: v=2.4 cv=Z58nH2RA c=1 sm=1 tr=0 ts=6744a7d1
+ id Fc5ft1yge5BVrFc5htVCWH; Mon, 25 Nov 2024 16:37:37 +0000
+X-Authority-Analysis: v=2.4 cv=Qv9Y30yd c=1 sm=1 tr=0 ts=6744a7d1
  a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
- a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10 a=e5mUnYsNAAAA:8
- a=vU9dKmh3AAAA:8 a=gA2AQYKQ_t_7bDYX36IA:9 a=QEXdDO2ut3YA:10
- a=Vxmtnl_E_bksehYqCbjh:22 a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
+ a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10 a=vU9dKmh3AAAA:8
+ a=jHB5UwbQy1EK6tLgU6AA:9 a=QEXdDO2ut3YA:10 a=rsP06fVo5MYu2ilr0aT5:22
+ a=ZCPYImcxYIQFgLOT52_G:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
- ; s=default;
- h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
- Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=/R/8ktimgFp1MMUEeMZMmyHbqIU8LGVD2WqjYNvUGFE=; b=X5nCCmgOO/4M6SaRVygGHlMosa
- Z2I+Vtjx8InQ77ZPoBVhdqpZH03tjmrnott8KX8q+r2oExie8CzkwaNK9+Lrvf6kNTKRQm4V6O0pm
- 1/ScB5APAJGpSWNMQcGYsojceruQ39f2QIh7RdwfNZT5pcXHV6zy56uvndWuKE9v+tTOMAYmbXs05
- 1gaSl0P3Yf6ysklEzf9M1Ug0/xzPMm3XrUaW+lbzTLwobqtHYqYbwomBiXEVnAaO8FN7vO2n5FSSu
- EKnPl+cxmfewNjwnx+rkV+iHoahG8gOZ4jtmBD0pc4lsKQmEwKTB+VxfZ3I9qI08JbL+aJsrAbgEY
- 6ta38asA==;
+ ; s=default; h=Cc:To:In-Reply-To:References:Message-Id:
+ Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ZkaQrEJQKXqjJUPUIzJYYL/fozoFlM4O9eaEZj14tUU=; b=EwcZSLE5Y7T94mFQ+8wbjatkn5
+ pP4PisXppncniVSlpyNhFVZ4SR70T9cZFSy+M+nBUXyOvhl7p6H2GPNI/ROkJRg/Qsv3j1DSipVRN
+ O7ChBvYyTop5neO+hDDI90+OMYEgFMZQx6alJR+bo2oyLAqn3LZCxg6zQeZIZ8DmFXADmwpFLZ2+Z
+ wIAfOdtxh4vcqnxBiS+KnioSWsMGDt4Jyioe/V6qIe3J1ZwDaWLdjhCmizZmQQZVk1e2PnSChBufD
+ Z9Hkx7d2/fePr/lXN0/MjJ+0uUGfA/oLSr2IfGjtbX33e2TWSAKFAZMBBvJbGl2mAu/IjqOpkNWUO
+ LNSYIbqw==;
 Received: from [122.165.245.213] (port=38110 helo=[127.0.1.1])
  by md-in-79.webhostbox.net with esmtpsa (TLS1.2) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <parthiban@linumiz.com>) id 1tFc5Y-001iXQ-1j;
- Mon, 25 Nov 2024 22:07:28 +0530
+ (envelope-from <parthiban@linumiz.com>) id 1tFc5Z-001iXQ-2q;
+ Mon, 25 Nov 2024 22:07:29 +0530
 From: Parthiban Nallathambi <parthiban@linumiz.com>
-Subject: [PATCH 0/2] drm/imagination: add reset handling
-Date: Mon, 25 Nov 2024 22:07:02 +0530
-Message-Id: <20241125-pvr-reset-v1-0-b437b8052948@linumiz.com>
+Date: Mon, 25 Nov 2024 22:07:03 +0530
+Subject: [PATCH 1/2] dt-bindings: gpu: add reset control property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAK6nRGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDQyNT3YKyIt2i1OLUEl2DRCPztKTEVNPUpGQloPqCotS0zAqwWdGxtbU
- A7ZjsblsAAAA=
+Message-Id: <20241125-pvr-reset-v1-1-b437b8052948@linumiz.com>
+References: <20241125-pvr-reset-v1-0-b437b8052948@linumiz.com>
+In-Reply-To: <20241125-pvr-reset-v1-0-b437b8052948@linumiz.com>
 To: Frank Binns <frank.binns@imgtec.com>, 
  Matt Coster <matt.coster@imgtec.com>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>, 
@@ -64,11 +62,11 @@ To: Frank Binns <frank.binns@imgtec.com>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Parthiban Nallathambi <parthiban@linumiz.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732552647; l=1066;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732552647; l=764;
  i=parthiban@linumiz.com; s=20241125; h=from:subject:message-id;
- bh=wz0d94cMgk2jCkE3+IUok1zC9AYzGdZePCRqqYnV2r4=;
- b=prlb1b6SvCi9nOD4ZuXRpjN3ycPphZdm3U7z2CuLxBqeP06ltjCHnpgCBs4WZrh3PWYzKtMzq
- I3feoCWA7x9D0nKi9/eRCw41q3mazGk/LyHX3DVTG5x4ceRX/F5m/MQ
+ bh=Ho9yE+w80J7VIUHdPNx6owMyuxUaKBtNAwOmDj2W8xQ=;
+ b=buSZC0mE82qD1h/SzkH5xIZDHBjoFSR9kNvw2We8/zoqNTYp/mcovVjufRcXBuJG6Vp+QMov1
+ jDbtSsXSmdACKwUzKF3xbkMLNPcJ5t90ukYAR67bwY0MKgjIXjcVOh+
 X-Developer-Key: i=parthiban@linumiz.com; a=ed25519;
  pk=PrcMZ/nwnHbeXNFUFUS833wF3DAX4hziDHEbBp1eNb8=
 X-AntiAbuse: This header was added to track abuse,
@@ -80,18 +78,18 @@ X-AntiAbuse: Sender Address Domain - linumiz.com
 X-BWhitelist: no
 X-Source-IP: 122.165.245.213
 X-Source-L: No
-X-Exim-ID: 1tFc5Y-001iXQ-1j
+X-Exim-ID: 1tFc5Z-001iXQ-2q
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
 X-Source-Sender: ([127.0.1.1]) [122.165.245.213]:38110
 X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 1
+X-Email-Count: 15
 X-Org: HG=dishared_whb_net_legacy;ORG=directi;
 X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
 X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfIxNEB6HWRhx4l4N25DT+2/cDOPGua6N+ltqBenCOzpBBCk3DF5WvnMRVTCiX9sXPoWjPwMljt0iyxVqcb5HZ8Lm7fvjUJzPBc2U/IDC5jFWrgAz45GA
- iZHw2+zCW/iboQQ0j3mj4zLwFZgrFCsLu5gylhMElNivD5qLHRcNG4uktp1n6klT9rj/VGtJzhhsUoHhuKC7S26HmCwLfXAUDPVVIGVRc8q/k2JuGcK5lsvK
+X-CMAE-Envelope: MS4xfLa9rIM31dPpyN6grNOn+V8gBgC4WLnUODr30FfoWGqZJ1C7oYOW7LdowvI0jDSJG3JAynOhM2mY2oGwCCwa+D/CoaZGgRvOMmG6mHHSKFdNOApauUAK
+ EXvUKJ/NFWU0bAKePhB7cNcSjy9CtuTW2kf6lFHepBLnqBRvd48B+RgQqxmp19voo5Qyz9iGSNPMGdliq/3gwBIB+i+FMJoi8ThAbDfqDTqZo/93NVPO8Bju
 X-Mailman-Approved-At: Tue, 26 Nov 2024 08:26:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -108,31 +106,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-reset control is included in platforms from Allwinner, specifically
-A133, A733. Add reset control from devicetree and these changes are
-tested with A133 based helper board, which will be upstremed after
-Allwinner power domain controller.
-
-Firmware is used from [1].
-
-[1]: https://gitlab.freedesktop.org/imagination/linux-firmware/-/issues/5
+GE8300 in Allwinner A133 have reset control from the ccu.
+Add the resets property as optional one to control it.
 
 Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
 ---
-Parthiban Nallathambi (2):
-      dt-bindings: gpu: add reset control property
-      drm/imagination: add reset control support
+ Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
- .../devicetree/bindings/gpu/img,powervr-rogue.yaml       |  3 +++
- drivers/gpu/drm/imagination/pvr_device.h                 |  8 ++++++++
- drivers/gpu/drm/imagination/pvr_drv.c                    |  5 +++++
- drivers/gpu/drm/imagination/pvr_power.c                  | 16 +++++++++++++++-
- 4 files changed, 31 insertions(+), 1 deletion(-)
----
-base-commit: adc218676eef25575469234709c2d87185ca223a
-change-id: 20241125-pvr-reset-0a27fbae5ebc
+diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+index 256e252f8087..bb607d4b1e07 100644
+--- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
++++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+@@ -37,6 +37,9 @@ properties:
+   power-domains:
+     maxItems: 1
+ 
++  resets:
++    maxItems: 1
++
+ required:
+   - compatible
+   - reg
 
-Best regards,
 -- 
-Parthiban Nallathambi <parthiban@linumiz.com>
+2.39.2
 
