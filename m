@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297A39D8955
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 16:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F639D895A
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 16:29:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 173C610E0DE;
-	Mon, 25 Nov 2024 15:28:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4225610E2D0;
+	Mon, 25 Nov 2024 15:29:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Da0pwaU1";
+	dkim=pass (2048-bit key; unprotected) header.d=marcan.st header.i=@marcan.st header.b="dJ+nWxZG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 860D710E0DE
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 15:28:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id AFD72A4168B;
- Mon, 25 Nov 2024 15:26:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D468AC4CECE;
- Mon, 25 Nov 2024 15:28:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732548483;
- bh=3o//Lu3fWmlMgcsFVQWA/djmZOMPgOZzmS0G9hxrPVo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Da0pwaU1v/VXYIKR9vpfEmCRz+MZBboI4cZHvPssv6DeCpPNrfpNflLEh/TIP6XK8
- dCVMdbnsRji6BpFiuTodqUZna90xkkPoSYDION5+ZSTaEpqWG9bCcbmYSppNH/jjQX
- IU7taAut171vJ9zJyX6k0DNa3B+4kCDuI4/Ed5nOFLeHI4Tn1QOZi7/LbHpI8O69wW
- 6Mo4gm6o7vubm8WH2MzDMmSm7WOmiLhPspw+uXYQRdH3ZxADM/tYgonjq4uF+HjO6p
- fHbfCEaTX9qFxOHsiXc6GNLdk/tbhyZslH17z4vRbw04w0XxcgwJE6bWNmI86S3Rz7
- xaHW63CTTkyfw==
-Date: Mon, 25 Nov 2024 16:28:00 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>, neil.armstrong@linaro.org, 
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH 2/5] gpu: drm: adp: Add Apple Display Pipe driver
-Message-ID: <20241125-gabby-furry-rooster-cf28a9@houat>
-References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
- <20241124-adpdrm-v1-2-3191d8e6e49a@gmail.com>
- <10d0aa88-de2e-4856-a137-301519e58b2d@linaro.org>
- <CAMT+MTRWZWj=3AP7wyooXr49-W4vcm0ZbAoqPyEuNkQBMOaJfw@mail.gmail.com>
- <cc71021e-b53d-4eda-bad8-abb4df13575f@marcan.st>
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4602A10E2D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 15:29:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: marcan@marcan.st)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 498E641A48;
+ Mon, 25 Nov 2024 15:29:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+ t=1732548567; bh=mvds+Ny0lTliJWUMz64CS0VuR5pei/dhaTjax1anOBc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=dJ+nWxZGjxwcoLlWhkuPEQg/dDouRwFC78lnhdBZQnWhTG0+DEb29pZuEkPVatXAO
+ B17tvlgEtOkPmf7FMEDBpGaDTCmu8s8Jba3RhjHX8UpaJint1QbDKH8Oj02dGK4Ke/
+ 7FsioU8y5MGI/h7P5eYFGL8GHYy+n1vQq42CEKb0GClQBN1i8EzbDlqOQO6Hw4A9qr
+ cDKGp00yGAhdHLJtpZ9cRs8o1xIAJsmqxSxzHdluE2hLonH7xksXilHLQwK6u//oqV
+ 86s9/TdAUe09WziXe9mmDqPLYZ49vffCGw8Leo9QCCcgAlaBDLc6n/ct1MdXJ1uLyo
+ DwYijr47s0TAQ==
+Message-ID: <7fee8838-a365-4f33-a40f-26abab17d605@marcan.st>
+Date: Tue, 26 Nov 2024 00:29:25 +0900
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="3u5p24fwfin4nvod"
-Content-Disposition: inline
-In-Reply-To: <cc71021e-b53d-4eda-bad8-abb4df13575f@marcan.st>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] dt-bindgins: display: Add Apple pre-DCP display
+ controller bindings
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
+ <20241124-adpdrm-v1-1-3191d8e6e49a@gmail.com>
+ <ksdp54qj55v7igvvcshl6y2cxpmqy7rlsh4xsixpptjn7s7wlu@76ejtq6ytvbp>
+ <a9d1568e-6240-49a4-b6a0-dcc0d9229eb1@marcan.st>
+ <0dc16c95-6849-41c8-86da-d1c0c74cb3e4@kernel.org>
+From: Hector Martin <marcan@marcan.st>
+Content-Language: en-US
+In-Reply-To: <0dc16c95-6849-41c8-86da-d1c0c74cb3e4@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,61 +75,72 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---3u5p24fwfin4nvod
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/5] gpu: drm: adp: Add Apple Display Pipe driver
-MIME-Version: 1.0
 
-On Mon, Nov 25, 2024 at 11:24:25PM +0900, Hector Martin wrote:
->=20
->=20
-> On 2024/11/25 20:24, Sasha Finkelstein wrote:
-> > On Mon, 25 Nov 2024 at 09:50, Neil Armstrong <neil.armstrong@linaro.org=
-> wrote:
-> >>
-> >> So this controller only supports a single mode ???????
-> >>
-> > Most likely. On all devices it is connected to a single built-in displa=
-y.
->=20
-> More specifically, the controller obviously supports multiple modes but
-> it is pre-initialized by the bootloader for the single hardwired
-> display's only mode. So as far as the driver is concerned, there is a
-> single possible mode, and there's no point in trying to be more generic
-> if there is no hardware that would use that.
+On 2024/11/25 23:53, Krzysztof Kozlowski wrote:
+> On 25/11/2024 15:14, Hector Martin wrote:
+>>>> +
+>>>> +  "#address-cells":
+>>>> +    const: 1
+>>>> +
+>>>> +  "#size-cells":
+>>>> +    const: 0
+>>>> +
+>>>> +additionalProperties: true
+>>>
+>>> This cannot be true. Must be false.
+>>>
+>>>> +
+>>>> +required:
+>>>> +  - compatible
+>>>> +  - reg
+>>>> +  - interrupts
+>>>
+>>> This goes before additionalProperties.
+>>>
+>>> Missing example: that's a strong NAK and prove that this could not be
+>>> even tested.
+>>>
+>>> Do you see any device schema without example? No. Do not develop things
+>>> differently, Apple is not unique, special or exceptional.
+>>
+>> Krzysztof, it is entirely possible to express this same feedback without
+>> being condescending and rude. I'm pretty sure you can do better than this.
+> 
+> Please kindly trim the replies from unnecessary context. It makes it
+> much easier to find new content.
 
-It's not only about being generic, it's also about fitting nicely in the
-usual abstractions. You could also always register a single panel, with
-a single timing set, and the driver would never see anything else. And
-still fall within the usual pattern.
+Noted.
+ > Instead of patronizing, note that this was just pure observation - this
+> was done entirely than other bindings, which should be taken as an
+> example. Or example-schema should be taken as example... Pointing out
+> issues and inconsistencies is not rude or condescending. Basically now
+> you are condescending people's feedback which further restricts review
+> process allowing comments which you approve.
+> 
 
-> In general, it is not possible/practical to be generic for reverse
-> engineered hardware with no specs documenting how to drive it
-> generically. You just can't know how to implement the options that are
-> never used in practice. I spent a lot of time on exceptions to this
-> rule for the GPIO and SPI controllers, and that's not going to happen
-> for more complex hardware like MIPI DSI.
+No, that was certainly not pure observation. The observation is that the
+schema was inconsistent with other schemas, and was missing an example.
+The way you *expressed* that observation was unnecessarily rude and
+condescending, both in tone and message. Usage of "NAK" is strongly
+confrontational and discouraging to newcomers, and completely
+inappropriate here because the intent of the patch is clearly fine and
+it just needs some style and procedural issues fixed. "Do you ...? No."
+wording is condescending, like you're talking down to a child. The
+gratuitous Apple reference is completely unnecessary, implying we're
+attempting to be a special snowflake in any (non-technically-justified)
+way, never mind that none of us works nor has any professional
+relationship with Apple.
 
-How is GPIO or SPI even remotely related to that discussion? We are
-different maintainers, with different concerns, and different things to
-care about.
+Your observation and feedback could have been conveyed much more
+appropriately, kindly, and effectively, such as:
 
-Also, "My way or the highway" is never a great discussion opener.
+==
+The schema is missing an example. Examples are required for schemas, as
+they are part of how the schema is tested by the automated tooling.
+Please see other schemas and `example-schema.yaml` for examples on how
+to do this, and `writing-schema.rst` for more information and how to run
+the checks.
+==
 
-Maxime
+- Hector
 
---3u5p24fwfin4nvod
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0SXegAKCRAnX84Zoj2+
-dtRuAYDEMVFA/3C+t/k4bboWPpqx9fX0T++UXMqT1mD2/3yaz7RX4i1fL4wkiniM
-1/z1cnsBgJZJteTKP8wCeZmNA0nGQU5iRaW1WQwbcQQZO2JZnHgV423VVrkt03Bq
-ZMUX47opzA==
-=EgqE
------END PGP SIGNATURE-----
-
---3u5p24fwfin4nvod--
