@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50F459D9344
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 09:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CEE9D84A4
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 12:41:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6362710E7E0;
-	Tue, 26 Nov 2024 08:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A93E10E616;
+	Mon, 25 Nov 2024 11:41:05 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="TeBz95p6";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 566 seconds by postgrey-1.36 at gabe;
- Mon, 25 Nov 2024 11:40:27 UTC
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7CD10E616
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 11:40:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by lithops.sigma-star.at (Postfix) with ESMTP id B357B2E6142;
- Mon, 25 Nov 2024 12:30:59 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
- by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id zBiM6kBr8mqI; Mon, 25 Nov 2024 12:30:59 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by lithops.sigma-star.at (Postfix) with ESMTP id F0F482E613D;
- Mon, 25 Nov 2024 12:30:58 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
- by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 6isOqRtT0GRU; Mon, 25 Nov 2024 12:30:58 +0100 (CET)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
- by lithops.sigma-star.at (Postfix) with ESMTP id C3F6B2A87E6;
- Mon, 25 Nov 2024 12:30:58 +0100 (CET)
-Date: Mon, 25 Nov 2024 12:30:58 +0100 (CET)
-From: Richard Weinberger <richard@nod.at>
-To: cgzones@googlemail.com
-Cc: LSM <linux-security-module@vger.kernel.org>, 
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- chengzhihao1 <chengzhihao1@huawei.com>, 
- "Serge E. Hallyn" <serge@hallyn.com>, 
- Julia Lawall <Julia.Lawall@inria.fr>, 
- Nicolas Palix <nicolas.palix@imag.fr>, 
- linux-kernel <linux-kernel@vger.kernel.org>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>, 
- linux-mtd <linux-mtd@lists.infradead.org>, cocci <cocci@inria.fr>
-Message-ID: <1045101183.70157813.1732534258584.JavaMail.zimbra@nod.at>
-In-Reply-To: <20241125104011.36552-5-cgoettsche@seltendoof.de>
-References: <20241125104011.36552-1-cgoettsche@seltendoof.de>
- <20241125104011.36552-5-cgoettsche@seltendoof.de>
-Subject: Re: [PATCH 06/11] ubifs: reorder capability check last
+X-Greylist: delayed 354 seconds by postgrey-1.36 at gabe;
+ Mon, 25 Nov 2024 11:41:03 UTC
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA37910E616
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 11:41:03 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4XxkCF5Dtgz9sZP;
+ Mon, 25 Nov 2024 12:35:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1732534505;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7iJeUKBPm/FEIhTBZ51JqJOYigpfXL5/NXhpGKBiNNc=;
+ b=TeBz95p6cf7Ct6vYtjTYoNNTt0mFiiExDSGKJQ1D6rkpLEjeZpbqJkUEZzcYDWQb809e7M
+ fre9lO4RTINwKTPv1YHNi31zg0tMDZIHgJbOW5883ympi32P/WUtU+qis3haLMXaZTigEk
+ 9995aOZDR3l/vdFSc5OKxnlenPaT2grlIMyXfiZ7ovPV+rc2x6c+8lXNqfAW/lTC1IbEz7
+ EaOtrHJokKEKRErtd30tnfvB/eshZOyQYSu9K1Fo5ioqFoNWVc7pw/Ep54UqOCsLJynt0X
+ xDmPm8TCje9fyXLATTsGkcc6M1Mp8WyoqJHHevAUSmgofXYoWuL2LF7WnKqThQ==
+Message-ID: <b3a64de3-353c-4214-a876-f44d3f1de07b@mailbox.org>
+Date: Mon, 25 Nov 2024 12:35:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [195.201.40.130]
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF132
- (Linux)/8.8.12_GA_3809)
-Thread-Topic: ubifs: reorder capability check last
-Thread-Index: CIQyHdt2r7cFMRbn2TiAVM+y9UFUfA==
-X-Mailman-Approved-At: Tue, 26 Nov 2024 08:26:46 +0000
+Subject: Re: [PATCH AUTOSEL 6.12 079/107] Revert "drm/amd/display: Block UHBR
+ Based On USB-C PD Cable ID"
+To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20241124133301.3341829-1-sashal@kernel.org>
+ <20241124133301.3341829-79-sashal@kernel.org>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <20241124133301.3341829-79-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 7748cd16edbb6a14f78
+X-MBO-RS-META: 49edaesm5ea51jryu1wbphehxgxtgeya
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,60 +68,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
------ Urspr=C3=BCngliche Mail -----
-> Von: "Christian G=C3=B6ttsche" <cgoettsche@seltendoof.de>
-> capable() calls refer to enabled LSMs whether to permit or deny the
-> request.  This is relevant in connection with SELinux, where a
-> capability check results in a policy decision and by default a denial
-> message on insufficient permission is issued.
-> It can lead to three undesired cases:
->  1. A denial message is generated, even in case the operation was an
->     unprivileged one and thus the syscall succeeded, creating noise.
->  2. To avoid the noise from 1. the policy writer adds a rule to ignore
->     those denial messages, hiding future syscalls, where the task
->     performs an actual privileged operation, leading to hidden limited
->     functionality of that task.
->  3. To avoid the noise from 1. the policy writer adds a rule to permit
->     the task the requested capability, while it does not need it,
->     violating the principle of least privilege.
->=20
-> Signed-off-by: Christian G=C3=B6ttsche <cgzones@googlemail.com>
-> ---
-> drivers/gpu/drm/panthor/panthor_drv.c | 2 +-
+On 2024-11-24 14:29, Sasha Levin wrote:
+> From: Ausef Yousof <Ausef.Yousof@amd.com>
+> 
+> [ Upstream commit d7b86a002cf7e1b55ec311c11264f70d079860b9 ]
+> 
+> This reverts commit 4f01a68751194d05280d659a65758c09e4af04d6.
 
-This change is unrelated, please remove it.
+Which was patch 16 in this series...
 
-> fs/ubifs/budget.c                     | 5 +++--
-> 2 files changed, 4 insertions(+), 3 deletions(-)
 
-[...]
-
-> diff --git a/fs/ubifs/budget.c b/fs/ubifs/budget.c
-> index d76eb7b39f56..6137aeadec3f 100644
-> --- a/fs/ubifs/budget.c
-> +++ b/fs/ubifs/budget.c
-> @@ -256,8 +256,9 @@ long long ubifs_calc_available(const struct ubifs_inf=
-o *c,
-> int min_idx_lebs)
->  */
-> static int can_use_rp(struct ubifs_info *c)
-> {
-> -=09if (uid_eq(current_fsuid(), c->rp_uid) || capable(CAP_SYS_RESOURCE) |=
-|
-> -=09    (!gid_eq(c->rp_gid, GLOBAL_ROOT_GID) && in_group_p(c->rp_gid)))
-> +=09if (uid_eq(current_fsuid(), c->rp_uid) ||
-> +=09    (!gid_eq(c->rp_gid, GLOBAL_ROOT_GID) && in_group_p(c->rp_gid)) ||
-> +=09    capable(CAP_SYS_RESOURCE))
-> =09=09return 1;
-> =09return 0;
-> }
-
-The UBIFS part looks ok:
-
-Acked-by: Richard Weinberger <richard@nod.at>
-
-Since I was not CC'ed to the whole series, I miss a lot of context.
-Will this series merged as a whole? By whom?
-
-Thanks,
-//richard
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
