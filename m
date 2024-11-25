@@ -2,88 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C79E09D933D
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 09:26:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BB79D823B
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 10:28:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C14410E08A;
-	Tue, 26 Nov 2024 08:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E88810E0D5;
+	Mon, 25 Nov 2024 09:28:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XHwnp1Lz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h77z6FrV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34E2710E087
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:24:28 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id
- d2e1a72fcca58-724f1004c79so1255853b3a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 01:24:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732526668; x=1733131468; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GH47thgLGLAwhEyFYzkW0bapLRnqQvS6F+hSbhzlTX4=;
- b=XHwnp1LziL1zfbm5dKiOUrreyXDMHtNDJAKiY/86Kwb9LO7KYGh68jII8UNY/GAfT3
- LL1/hTGriu/7NpWtkfNc6QrQjg6p3YKZLT+SVE4lFqayC+OlusDF1oJH2JL/n4Y+VDB6
- 0KVfPQYRqCt90dS2Eu4o1/9shumDlkKTvwO66gvG2+KKhCDaszQasR/2cTp98yfUje7g
- HdWTNGcAAaLl7YQgOsRdzyuaqQe5eBdV/seHLi25yoiPKeJBJk5sO8ith9UUrVoxdKZS
- AxjQ7YLLpV1ET/u9u3nsnyoDj8VwcuG2xzftE4dE3PI8le8Gyc7eSSZwm/o2hBZ0YlXs
- +pRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732526668; x=1733131468;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GH47thgLGLAwhEyFYzkW0bapLRnqQvS6F+hSbhzlTX4=;
- b=cGinpMWKOt4ifdQaAvYWPA0D0Qn5iwdY2FAhRw4wwgms4jLhfKAqThqbMZhPCTe4s+
- ewC7MqJpWDAkct8o9hQ6ElBPM9eNewPYBtRU1uZWGsD9B+wdURdDI78EeUHEO5zwnGD4
- VOYs82LHq/r0RFEOrRSaNp8LBrFkg2wNsDw3ufPnjmpoLu+NsR2VPzwe1v7TEyX1hg4O
- PyB7l+kZy58au1w6jOeRN1vBDmAp624O/0dY9NrjFCkj4izUWy0KT8YbQynyhrwcyXgd
- RILm8UBsQu+ilufiUo/TjBCW6mWypDLGK7vt10G0H76evXsYvrDRfzZXLflGnuI2ogAS
- RqIA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWojWPT1l3BxPxIqZ5Ckx+x/aSoFp5x7y37onQgI7lrGDAP2RWc1uO2Mzplx/0D3K4fObeCpv+8dr8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxrOzZjtcH/VDXQMNf2i8NXbmZaIN0QYwmBfP455By8DDUfQzXy
- jZS9L/VrWQsw1EfSeaDoP6/RW0IUcpc+iGaoNzo4aFFMGOnpC81a
-X-Gm-Gg: ASbGncupm4hvGKYRdGskbivLOU3+b+0qFto+f+teTe23BfPRMTQlaNhOuT7R0NNuJSm
- W2IrBLRCWNYHHJAIHhRsxDoIdeYYEV0z0U3e1ozNcftjGRnN3BCR4VUSdRx+dtnafJe/OyQ0Dru
- xF2lwh/M4JO/RXOchFR5QW4/f+QnaCIzJ3DL05OWvHPtgXd5Ok4YFmviGJo1ayyVAL5Y8pAl9UA
- Ioq+XD7NkTsIp+ZGd1GDF2On1btQcZw2xu8LgR3JwvteZCqgOOiYrTJBT6z3ljyDF1E
-X-Google-Smtp-Source: AGHT+IGH/2hu7Jr9H6sYJsbkLS36GY64EFbufco7FimN9lRF0ny00OASpXVX5qeXHk77eHloKg29MQ==
-X-Received: by 2002:a05:6a00:a8f:b0:71e:410:4764 with SMTP id
- d2e1a72fcca58-724df5d453fmr19361348b3a.8.1732526667715; 
- Mon, 25 Nov 2024 01:24:27 -0800 (PST)
-Received: from [192.168.0.115] ([59.188.211.160])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-724de5762b4sm5950940b3a.179.2024.11.25.01.24.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Nov 2024 01:24:27 -0800 (PST)
-Message-ID: <54759f1f-2575-4e84-b351-119cefed2b17@gmail.com>
-Date: Mon, 25 Nov 2024 17:24:22 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EB5110E0D5
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1732526935; x=1764062935;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=jT1D3Zn8az8eiWph3b8NMgGwTVOZfRsofkxmcWzwRQ0=;
+ b=h77z6FrVKnG6Vp/5rrHgsBkEFZ221LyF63HY0VpNomdGIjm9GmSUJXZ5
+ LD3dzYoYa7iQuVKsxZHvLzqehw6zTxYs7N5L1prifLgyka89wJ56TvYYF
+ hTpkH0/qc+UXQuAdLPlhC7zlo2sn3KqGs+ZsSDPcc55+5ZT+oyGvWwmSf
+ aE2j+CACzgWaYgNaCZIyF9aTHeo3wSCmX9Ul5o6MXE/jTyKFIOvcXM2C8
+ SjDn5Vp6DkTZVOTneR+zzPedmF4SN31K7mgRmVIogvy7fig0pWjM7YJ5x
+ Q/WSOgY50Vm4mjwRdRp/NENvbpQBisqkleVISkkwGeTgAFT7rzGCcYftg Q==;
+X-CSE-ConnectionGUID: 5mDh6qBwSnW9xng4aqBmiA==
+X-CSE-MsgGUID: JmAupr0xRU6DQB2agGGg+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="44002141"
+X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; d="scan'208";a="44002141"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2024 01:28:54 -0800
+X-CSE-ConnectionGUID: 6xwJc5UeRWeVfJ0Sjh6cfg==
+X-CSE-MsgGUID: nchpINuHTwOctLRQCYOQcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; d="scan'208";a="96266214"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.243])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2024 01:28:47 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>
+Cc: arthurgrillo@riseup.net, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, nicolejadeyee@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Louis
+ Chauvet <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH RFC v2 10/18] drm/vkms: Introduce config for encoder name
+In-Reply-To: <20241122-google-remove-crtc-index-from-parameter-v2-10-81540742535a@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241122-google-remove-crtc-index-from-parameter-v2-0-81540742535a@bootlin.com>
+ <20241122-google-remove-crtc-index-from-parameter-v2-10-81540742535a@bootlin.com>
+Date: Mon, 25 Nov 2024 11:28:44 +0200
+Message-ID: <87ttbvy84z.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] MAINTAINERS: Add entries for touchbar display driver
-To: fnkl.kernel@gmail.com, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
- <20241124-adpdrm-v1-5-3191d8e6e49a@gmail.com>
-Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20241124-adpdrm-v1-5-3191d8e6e49a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 26 Nov 2024 08:26:46 +0000
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,41 +78,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Sasha Finkelstein via B4 Relay 於 2024/11/25 早上6:29 寫道:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> 
-> Add the MAINTAINERS entries for the driver
-> 
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On Fri, 22 Nov 2024, Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+> As an encoder will be a directory in ConfigFS, add the configuration for
+> encoder name so we will be able to reflect the configfs directory name in
+> the drm name.
+>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
->  MAINTAINERS | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e7f0170977013889ca7c39b17727ba36d32e92dc..1964bb705cae0b0f12e2174fc96c5cd123d31520 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2164,6 +2164,7 @@ F:	Documentation/devicetree/bindings/arm/apple.yaml
->  F:	Documentation/devicetree/bindings/arm/apple/*
->  F:	Documentation/devicetree/bindings/clock/apple,nco.yaml
->  F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
-> +F:	Documentation/devicetree/bindings/display/apple,display-pipe.yaml
+>  drivers/gpu/drm/vkms/vkms_config.c | 6 ++++++
+>  drivers/gpu/drm/vkms/vkms_config.h | 2 ++
+>  drivers/gpu/drm/vkms/vkms_output.c | 2 +-
+>  3 files changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> index e44ed904cefb97b8b6ab8fc27623e315397e0106..a2539fb56b602569b75748fdf9c4784f104b0bff 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -41,6 +41,10 @@ struct vkms_config *vkms_config_alloc_default(bool enable_writeback, bool enable
+>  	encoder = vkms_config_create_encoder(vkms_config);
+>  	if (!encoder)
+>  		goto err_alloc;
+> +	encoder->name = kzalloc(sizeof("Main Encoder"), GFP_KERNEL);
+> +	if (!encoder->name)
+> +		goto err_alloc;
+> +	sprintf(encoder->name, "Main Encoder");
 
-Missing F:
-Documentation/devicetree/bindings/display/panel/apple,summit.yaml
->  F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
->  F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
->  F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
-> @@ -2183,6 +2184,7 @@ F:	drivers/bluetooth/hci_bcm4377.c
->  F:	drivers/clk/clk-apple-nco.c
->  F:	drivers/cpufreq/apple-soc-cpufreq.c
->  F:	drivers/dma/apple-admac.c
-> +F:	drivers/gpu/drm/adp/
->  F:	drivers/pmdomain/apple/
->  F:	drivers/i2c/busses/i2c-pasemi-core.c
->  F:	drivers/i2c/busses/i2c-pasemi-platform.c
-> 
+Drive-by comment, maybe kstrdup()?
 
-Nick Chan
+>  
+>  	if (vkms_config_encoder_attach_crtc(encoder, crtc))
+>  		goto err_alloc;
+> @@ -238,6 +242,7 @@ void vkms_config_delete_encoder(struct vkms_config_encoder *vkms_config_encoder,
+>  		}
+>  	}
+>  
+> +	kfree(vkms_config_encoder->name);
+>  	kfree(vkms_config_encoder);
+>  }
+>  
+> @@ -403,6 +408,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>  
+>  	list_for_each_entry(config_encoder, &vkmsdev->config->encoders, link) {
+>  		seq_puts(m, "encoder:\n");
+> +		seq_printf(m, "\tname: %s\n", config_encoder->name);
+>  	}
+>  
+>  	list_for_each_entry(config_crtc, &vkmsdev->config->crtcs, link) {
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+> index 8f247fc09373fb2c8145e83be05c6afec1ffac1c..4223edd94ec270915dd658c0b5efd489554d33a5 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -50,6 +50,7 @@ struct vkms_config_crtc {
+>   * struct vkms_config_encoder
+>   *
+>   * @link: Link to the others encoders
+> + * @name: Name of the encoder
+>   * @possible_crtcs: List of CRTC that can be used with this encoder
+>   * @encoder: Internal usage. This pointer should never be considered as valid. It can be used to
+>   *         store a temporary reference to a vkms encoder during device creation. This pointer is
+> @@ -58,6 +59,7 @@ struct vkms_config_crtc {
+>  struct vkms_config_encoder {
+>  	struct list_head link;
+>  
+> +	char *name;
+>  	struct xarray possible_crtcs;
+>  
+>  	/* Internal usage */
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 03498a20d78dd8a66f9fc66b360c5ea57fc48d88..6277ad72fdd476d1eff52ad037389bdb1a254f5e 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -92,7 +92,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>  		if (!config_encoder->encoder)
+>  			return -ENOMEM;
+>  		ret = drmm_encoder_init(dev, config_encoder->encoder, NULL,
+> -					DRM_MODE_ENCODER_VIRTUAL, NULL);
+> +					DRM_MODE_ENCODER_VIRTUAL, config_encoder->name);
+>  		if (ret) {
+>  			DRM_ERROR("Failed to init encoder\n");
+>  			return ret;
+
+-- 
+Jani Nikula, Intel
