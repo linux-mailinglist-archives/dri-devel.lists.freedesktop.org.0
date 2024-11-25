@@ -2,99 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D7439D8BAD
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 18:54:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E244D9D9346
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 09:27:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2811110E042;
-	Mon, 25 Nov 2024 17:54:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C1410E7DC;
+	Tue, 26 Nov 2024 08:26:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Eoy8C+e7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linumiz.com header.i=@linumiz.com header.b="CGh1kUmZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1954210E042
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 17:53:59 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-53da209492cso6050131e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:53:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1732557236; x=1733162036;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bAoWd6DpzeBICi4AhBURcNm7laPx9KjIN0TBKhbYcUY=;
- b=Eoy8C+e7KYR2+f2yN13uVYbUIm7k7cGD8zfKuNXur8m8wQbq2dUjlbIVGARI6ouAos
- AcQB0cXS0ekLG/SKunee4iOOJDRcWY2ElTHrVHpnZMnsLlDcMbX1shVIl/Hvb+GOS2/p
- kGzJwUI9DnJ4Wdzz/6VyaZlD5gUeVp2DXKzsE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732557236; x=1733162036;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bAoWd6DpzeBICi4AhBURcNm7laPx9KjIN0TBKhbYcUY=;
- b=l8qA95NJZKZtuanTPc+1tBHg3uD1Y3DH6s9ARPBrJjn4Bg8OZzz5QrOx5hqSOZtyIt
- obp1TNO8uMwhm2K8Ubju9wxgN2TK/er1ZFF/NtLMxMDcV8iuGxBAJotdAWvjTabjg66e
- PVrxPGk3i4zrDJsexLcTx1PAy2QCEToMjEcmJ3pIQKhz9GlUfSjDQ24l/aqYn+aknqlm
- vISqljipgp68SE+OHjHjLHJCZkXVl+dBvI0WMKyhUDdV8IuQ0MvfsC5VV2fhiRgZPvK8
- kGxUla5ifnzjbAFtL+kgI5R0IDdr1IyglBvEq9TtVQ10YNqmva5sF0ionCbqvrDpm8Pe
- 5arA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU55PZQ4Vu7YuacsO3ZA922C5wxa6lrkNQWlTJELWhD2B+LBU+E+AgUa6PHtj3sYIs0DjCiSAWI1g0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0/44FXcQYZZUUL+ZAohNt9XVSC0b9w/n6F65LYyB5PmW1eGEV
- KQnHBSeon6yG9s9zoKGP1JuUGRNuiy8k1E+9K4BAgnVdOvK18Aq8TO3W/bL0JYL0wHz6twijWp5
- euQ==
-X-Gm-Gg: ASbGnctRZZ6vtJZwhEiPzyI9Y++WJbNYHi4lnD7uJmEtTtzUs3po2cYxW5pv8f9SkbV
- 81GPFbzb1jyeZeBvNAT9HD7UCmuwhTaMTVqCEV4asMd9CZ6gVfGkkv7LrW4HJr9yPczkXZocCvZ
- 57NyseN5GRyR/jIIryNWCfFFJLZ7fcvVZB2jIhkNLGEgbExy36PQTVSjxH/D2qlcvnawBNhwfKF
- uCYY53VGxRdWYkj1QeljBRMxsCev3BnJ6hO+/3d2JVJKF//a62M3+4NIzqXOuz1dVHVSyF8jwMq
- LWiGTQlV1Pt6JdK64w==
-X-Google-Smtp-Source: AGHT+IHUCOmsJBhEVb2nFcyeM9Tssk3XC+36uiZ2O1I+hYCXDWaoIUh9LmIXFpW7FQ6ZXpPj6tS5Xw==
-X-Received: by 2002:a05:6512:2391:b0:53d:d5be:4bd9 with SMTP id
- 2adb3069b0e04-53dd5be4bebmr6401422e87.22.1732557235574; 
- Mon, 25 Nov 2024 09:53:55 -0800 (PST)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com.
- [209.85.208.174]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53dd249c8c5sm1734778e87.268.2024.11.25.09.53.54
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Nov 2024 09:53:55 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2f75c56f16aso54534261fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 09:53:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVPQRRFZi1eJjMgYWxGFvE2vF3dp+qHd25Nhvdzz+YITrgCwWqJpXrR8Ja+jud6ICF/um5ciKYxMTA=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:1247:b0:536:56d8:24b4 with SMTP id
- 2adb3069b0e04-53dd35a4f22mr6019059e87.5.1732557234037; Mon, 25 Nov 2024
- 09:53:54 -0800 (PST)
+Received: from omta34.uswest2.a.cloudfilter.net
+ (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E89C510E6F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 18:03:05 +0000 (UTC)
+Received: from eig-obgw-5003a.ext.cloudfilter.net ([10.0.29.159])
+ by cmsmtp with ESMTPS
+ id FYhHtgOQzWxaEFdQPtx6qi; Mon, 25 Nov 2024 18:03:05 +0000
+Received: from md-in-79.webhostbox.net ([43.225.55.182]) by cmsmtp with ESMTPS
+ id FdQNtgjxF827nFdQOtw2Ka; Mon, 25 Nov 2024 18:03:04 +0000
+X-Authority-Analysis: v=2.4 cv=GeTcnhXL c=1 sm=1 tr=0 ts=6744bbd8
+ a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
+ a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=-pn6D5nKLtMA:10 a=VwQbUJbxAAAA:8
+ a=r_1tXGB3AAAA:8 a=nPvSCjySrd4d4ErWsagA:9 a=QEXdDO2ut3YA:10
+ a=t8nPyN_e6usw4ciXM-Pk:22 a=ZCPYImcxYIQFgLOT52_G:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
+ ; s=default;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=bCm9UlTWdb2qxa5v8L9Bnq+ht/sjL8QD4mAYIorGyD8=; b=CGh1kUmZpUQbUji4nDSybieovg
+ o4XMODgtlsf2z8f8vlURoA5TVD4//npaijouwsq5Jjnj1VX8S1fyttt0d1filEqhpaLM/YevPUV4Z
+ PGKFgWlDBlU0PfaXLmHAcS/bw7P4KBF4uj/NHggAmR8fHddHqMHFwlAPyXxLpjog/8tM3ykHJ6peV
+ t526+K77tY9SEiPoPIsORnDN89pKx6hBJtLZEIBKuhrZmNLrh1W+kuwxRbSD84KWc85kfqm/VpVhy
+ ykfUG1DIy3Gk3aNRk66c8Dep/M9ru0cIA2nqlgS2NDsxLCKfVXEiWpttjaSKcbnzxSUfk86q17Grv
+ rAL0s7SA==;
+Received: from [122.165.245.213] (port=55390 helo=[192.168.1.5])
+ by md-in-79.webhostbox.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <parthiban@linumiz.com>) id 1tFdQG-002YwW-2Y;
+ Mon, 25 Nov 2024 23:32:56 +0530
+Message-ID: <e9cbcc6f-67f5-43ac-a1ab-4222305087c3@linumiz.com>
+Date: Mon, 25 Nov 2024 23:32:50 +0530
 MIME-Version: 1.0
-References: <20241124-hp-omnibook-x14-v1-0-e4262f0254fa@oldschoolsolutions.biz>
- <20241124-hp-omnibook-x14-v1-3-e4262f0254fa@oldschoolsolutions.biz>
-In-Reply-To: <20241124-hp-omnibook-x14-v1-3-e4262f0254fa@oldschoolsolutions.biz>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 25 Nov 2024 09:53:42 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=V2JhWsK4-gHL72ttXdNA0U2p6YojN+DXtWxNSOjD-ZSw@mail.gmail.com>
-Message-ID: <CAD=FV=V2JhWsK4-gHL72ttXdNA0U2p6YojN+DXtWxNSOjD-ZSw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm/panel-edp: Add unknown BOE panel for HP Omnibook
- X14
-To: jens.glathe@oldschoolsolutions.biz
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/21] dt-bindings: gpu: img: Further constrain clocks
+To: Matt Coster <matt.coster@imgtec.com>, Frank Binns
+ <frank.binns@imgtec.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Kalle Valo <kvalo@kernel.org>, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Randolph Sapp <rs@ti.com>, Darren Etheridge <detheridge@ti.com>,
+ parthiban@linumiz.com
+References: <20241118-sets-bxs-4-64-patch-v1-v2-0-3fd45d9fb0cf@imgtec.com>
+ <20241118-sets-bxs-4-64-patch-v1-v2-2-3fd45d9fb0cf@imgtec.com>
+Content-Language: en-US
+From: Parthiban <parthiban@linumiz.com>
+Organization: Linumiz
+In-Reply-To: <20241118-sets-bxs-4-64-patch-v1-v2-2-3fd45d9fb0cf@imgtec.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - linumiz.com
+X-BWhitelist: no
+X-Source-IP: 122.165.245.213
+X-Source-L: No
+X-Exim-ID: 1tFdQG-002YwW-2Y
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:55390
+X-Source-Auth: parthiban@linumiz.com
+X-Email-Count: 6
+X-Org: HG=dishared_whb_net_legacy;ORG=directi;
+X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfOzpEEdHKh0DzNql/TN8aQ/ewTyIucS85V9kroY/7bwqcaJhT6vGbGDSWjuB6NouNF/GcNY49c+f5dFpMNpcoL1eupNa97KEFPZjkJ7ln8x6ZhhwdsxB
+ Jf55W/z9QlQtTJ2sl+wzeqaGstfcuz44tp7X7AkBGOsWiEWIlIey4qcXalrxhg95gJ4E2vuhghjomMO1TWp+hiboxnshHy9IPCYPgv39JILqdEBR0M+QNfjM
+X-Mailman-Approved-At: Tue, 26 Nov 2024 08:26:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,64 +106,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Sun, Nov 24, 2024 at 5:20=E2=80=AFAM Jens Glathe via B4 Relay
-<devnull+jens.glathe.oldschoolsolutions.biz@kernel.org> wrote:
->
-> From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
->
-> Seems to be like NV140DRM-N61 but with touch. Haven't disassembled
-> the lid to look.
->
-> Due to lack of information, use the delay_200_500_e200 timings like
-> many other BOE panels do for now.
->
-> The raw EDID of the panel is:
->
-> 00 ff ff ff ff ff ff 00 09 e5 93 0c 00 00 00 00
-> 25 21 01 04 a5 1e 13 78 03 ee 95 a3 54 4c 99 26
-> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 a4 57 c0 dc 80 78 78 50 30 20
-> f6 0c 2e bc 10 00 00 1a 6d 3a c0 dc 80 78 78 50
-> 30 20 f6 0c 2e bc 10 00 00 1a 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 02
-> 00 0d 36 ff 0a 3c 96 0f 09 15 96 00 00 00 01 8b
->
-> There are no timings in it, sadly.
-
-Yeah, and like other BOE panels also no model info in the EDID. Sigh.
-I guess "Unknown" it is until someone can officially add it.
-
-
-> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+On 11/18/24 6:31 PM, Matt Coster wrote:
+> All Imagination GPUs use three clocks: core, mem and sys. All reasonably
+> modern Imagination GPUs also support a single-clock mode where the SoC
+> only hooks up core and the other two are derived internally. On GPUs which
+> support this mode, it is the default and most commonly used integration.
+> 
+> Codify this "1 or 3" constraint in our bindings and hang the specifics off
+> the vendor compatible string to mirror the integration-time choice.
+> 
+> Signed-off-by: Matt Coster <matt.coster@imgtec.com>
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
-nel-edp.c
-> index 8566e9cf2f82a..403679e506fa4 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -1915,6 +1915,7 @@ static const struct edp_panel_entry edp_panels[] =
-=3D {
->         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c20, &delay_200_500_e80, "NT140=
-FHM-N47"),
->         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cb6, &delay_200_500_e200, "NT11=
-6WHM-N44"),
->         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cfa, &delay_200_500_e50, "NV116=
-WHM-A4D"),
-> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c93, &delay_200_500_e200, "Unkn=
-own"),
+> Changes in v2:
+> - Simplified clocks constraints (P2)
+> - Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-2-4ed30e865892@imgtec.com
+> ---
+>  .../devicetree/bindings/gpu/img,powervr-rogue.yaml   | 20 +++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> index ef7070daf213277d0190fe319e202fdc597337d4..3b5a5b966585ac29ad104c7aef19881eca73ce80 100644
+> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> @@ -29,16 +29,16 @@ properties:
+>    reg:
+>      maxItems: 1
+>  
+> -  clocks:
+> -    minItems: 1
+> -    maxItems: 3
+> +  clocks: true
+>  
+>    clock-names:
+> -    items:
+> -      - const: core
+> -      - const: mem
+> -      - const: sys
+> -    minItems: 1
+> +    oneOf:
+> +      - items:
+> +          - const: core
+> +      - items:
+> +          - const: core
+> +          - const: mem
+> +          - const: sys
+Clock for GE8300 in Allwinner A133 is organized with core, bus and additional pll as
+input. Where "bus" controlled as gate clock and optionally using pll.
 
-This is sorted incorrectly. I'll fix it for you this time while
-applying, but in the future make sure you sort numerically. 0x0c93
-should be before 0x0cb6.
+If am not wrong, GE8300 also comes under rogue architecture without mem and sys clocks.
+Does this needs to be considered into separate bindings?
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Thanks,
+Parthiban
 
-Pushed to drm-misc-next:
+>  
+>    interrupts:
+>      maxItems: 1
+> @@ -56,11 +56,13 @@ required:
+>  additionalProperties: false
+>  
+>  allOf:
+> +  # Vendor integrations using a single clock domain
+>    - if:
+>        properties:
+>          compatible:
+>            contains:
+> -            const: ti,am62-gpu
+> +            anyOf:
+> +              - const: ti,am62-gpu
+>      then:
+>        properties:
+>          clocks:
+> 
 
-[3/4] drm/panel-edp: Add unknown BOE panel for HP Omnibook X14
-      commit: c1bae6802ee9c8ad8e3c1df7ca3174d6b4b260e5
