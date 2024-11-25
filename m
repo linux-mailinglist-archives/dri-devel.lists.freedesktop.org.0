@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696A19D8875
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 15:50:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 882A59D8883
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2024 15:53:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EDBE10E013;
-	Mon, 25 Nov 2024 14:50:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83C7C10E140;
+	Mon, 25 Nov 2024 14:53:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TTPqzCy0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e5Mf+9vv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8541A10E013
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 14:50:05 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CAC310E140
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2024 14:53:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6674EA416E1;
- Mon, 25 Nov 2024 14:48:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DDBFC4CECE;
- Mon, 25 Nov 2024 14:49:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 521905C5B10;
+ Mon, 25 Nov 2024 14:52:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A86AC4CECE;
+ Mon, 25 Nov 2024 14:53:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732546204;
- bh=3E/gtn9GHrul6L6mZfw/TFiLD078vCQyG4pAMtXnGZA=;
+ s=k20201202; t=1732546420;
+ bh=/PdFxnnnB7ZeusudBrWfVqeBUiHXQORcT3/5JQBrRro=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TTPqzCy0WakTehonbaGeYqrp1CWOyqszZvHMfxwEXevQOUSLho9rIOc/nqVLU/+x3
- 1ryzXOSAptle6iuSyDX/5yohsMiz5X2nzg7E09RQp4UOTSV6KHqoY5dyomfNgAnQSx
- RZYlkgaZ1SCb0k5EmWP/Vti5fs1CnU0gxMqXxupu5oalfniXlot9HHmIOO/UNZtqzO
- 2V65jSJJco+8I7OrEwmA0pF1isekjjFazLKLsWpEOHoLQbJFyJL6mOZPVicjd1/3jS
- krlCndnleTZXJoSt5ygzWL0gw3kBm9c9K4wa3DRx+toNPAea7fElYhc2U4E4XWh9ER
- iBVkgC1wcyP0A==
-Message-ID: <f2181c71-db23-4d94-9afb-cb8f2fc46bea@kernel.org>
-Date: Mon, 25 Nov 2024 15:49:55 +0100
+ b=e5Mf+9vv9KtecbJbk63ha1DOvNxzmYPXI+6PxCqo1iq4P9ncD1y+rvsHYn3JbvP3v
+ 3tV55hjFXVAl9WcrgS6l5YxYBCKfqCrWMrZCKK37dcPZsoN0/rkyywbiEZ/hPDgTdM
+ 5LoKgSaE3q2My3y+QGIT4iSiLzENWDy9BO7dF+mLYv2rlGTs1gGjhClCQ3Q6tp3Tgy
+ vo/g3kz4oYq6FdIl0TL9H40LYvhqzjYrc/wYLeCKtaoltDcB1+dqxdpXgrnRT+THv1
+ HIAavrO+bU6mBlVycSXR++wklPxxn2SAqSoRgdVq/vUmNd9Wq8g9Niglo+Wt33v56Q
+ H+iCFjij3LPzw==
+Message-ID: <0dc16c95-6849-41c8-86da-d1c0c74cb3e4@kernel.org>
+Date: Mon, 25 Nov 2024 15:53:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] gpu: drm: adp: Add a backlight driver for the Summit
- LCD
-To: fnkl.kernel@gmail.com, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Nick Chan <towinchenmi@gmail.com>
+Subject: Re: [PATCH 1/5] dt-bindgins: display: Add Apple pre-DCP display
+ controller bindings
+To: Hector Martin <marcan@marcan.st>, Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
- <20241124-adpdrm-v1-3-3191d8e6e49a@gmail.com>
+ <20241124-adpdrm-v1-1-3191d8e6e49a@gmail.com>
+ <ksdp54qj55v7igvvcshl6y2cxpmqy7rlsh4xsixpptjn7s7wlu@76ejtq6ytvbp>
+ <a9d1568e-6240-49a4-b6a0-dcc0d9229eb1@marcan.st>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241124-adpdrm-v1-3-3191d8e6e49a@gmail.com>
+In-Reply-To: <a9d1568e-6240-49a4-b6a0-dcc0d9229eb1@marcan.st>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,36 +114,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/11/2024 23:29, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On 25/11/2024 15:14, Hector Martin wrote:
+>>> +
+>>> +  "#address-cells":
+>>> +    const: 1
+>>> +
+>>> +  "#size-cells":
+>>> +    const: 0
+>>> +
+>>> +additionalProperties: true
+>>
+>> This cannot be true. Must be false.
+>>
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - reg
+>>> +  - interrupts
+>>
+>> This goes before additionalProperties.
+>>
+>> Missing example: that's a strong NAK and prove that this could not be
+>> even tested.
+>>
+>> Do you see any device schema without example? No. Do not develop things
+>> differently, Apple is not unique, special or exceptional.
 > 
-> This is the display panel used for the touchbar on laptops that have it.
+> Krzysztof, it is entirely possible to express this same feedback without
+> being condescending and rude. I'm pretty sure you can do better than this.
 
+Please kindly trim the replies from unnecessary context. It makes it
+much easier to find new content.
 
-...
+Instead of patronizing, note that this was just pure observation - this
+was done entirely than other bindings, which should be taken as an
+example. Or example-schema should be taken as example... Pointing out
+issues and inconsistencies is not rude or condescending. Basically now
+you are condescending people's feedback which further restricts review
+process allowing comments which you approve.
 
-
-> +static int summit_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct backlight_properties props = { 0 };
-> +	struct device *dev = &dsi->dev;
-> +	struct summit_data *panel;
-> +
-> +	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
-> +	if (!panel)
-> +		return -ENOMEM;
-> +
-> +	mipi_dsi_set_drvdata(dsi, panel);
-> +	panel->dsi = dsi;
-> +
-> +	int ret = device_property_read_u32(dev, "max-brightness", &props.max_brightness);
-That's an undocumented property, which suggests you did not test your DTS.
-
-It does not look like you tested the DTS against bindings. Please run
-`make dtbs_check W=1` (see
-Documentation/devicetree/bindings/writing-schema.rst or
-https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
-for instructions).
+You got here one day review, enjoy that.
 
 Best regards,
 Krzysztof
