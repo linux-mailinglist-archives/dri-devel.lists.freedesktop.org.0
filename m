@@ -2,72 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6009D944D
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 10:25:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1960D9D9479
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 10:29:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24DE210E07B;
-	Tue, 26 Nov 2024 09:25:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eIHU92X4";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F68210E116;
+	Tue, 26 Nov 2024 09:29:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C23CB10E07B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 09:25:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1732613126;
- bh=q2gcjqVo2CyG1kSniuRv8nGxpUCYXEmQGCKgxWS+XDs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=eIHU92X404Ei+eJZb/9Itwx4Rr4WnjIIBxSufR6K2Ir/JF/jE5mvw2sX643UoDhOT
- bAj8dMiwIkgt9FONq3ervcV6Viky4Q2fbl2jh6EuFkxJUjeZZbSW2i1x4fkhaf69V+
- rJ+CeivsCv6JVSFl17xkWmT0Sc6YzcXuakw9wDssM+R5LDON8vyugxaqZ+PubmJDhR
- 7G/8NzEBg7KS+U2MAhs8sAI30acXwg+Vp73QUuDvlQRBu1BGOo0yO7X/30bH6QnBgV
- Rp9gY8ofr3zYHAAGfrUt/h38gQ3kRa3Xh5g2CuyBQ5kN6k7fSPvEXKFtSqUZdbrq/e
- ht+Qn/gi0Mugw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 55AC517E12D3;
- Tue, 26 Nov 2024 10:25:25 +0100 (CET)
-Message-ID: <f1d16db0-a7e1-4cfd-85c6-8beef4385701@collabora.com>
-Date: Tue, 26 Nov 2024 10:25:24 +0100
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C01B10E116
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 09:29:49 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1tFrsv-0007BB-JZ; Tue, 26 Nov 2024 10:29:29 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
+ helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1tFrst-000E0I-18;
+ Tue, 26 Nov 2024 10:29:28 +0100
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1tFrsu-0001mR-09;
+ Tue, 26 Nov 2024 10:29:28 +0100
+Message-ID: <74d4fc4c6f08fde2d6759633cb2280ecb18cbd91.camel@pengutronix.de>
+Subject: Re: [PATCH 2/2] drm/imagination: add reset control support
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Parthiban Nallathambi <parthiban@linumiz.com>, Frank Binns
+ <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Date: Tue, 26 Nov 2024 10:29:27 +0100
+In-Reply-To: <20241125-pvr-reset-v1-2-b437b8052948@linumiz.com>
+References: <20241125-pvr-reset-v1-0-b437b8052948@linumiz.com>
+ <20241125-pvr-reset-v1-2-b437b8052948@linumiz.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 6/6] drm/mediatek: Add support for MT8195 Digital
- Parallel Interface
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "kernel@collabora.com" <kernel@collabora.com>,
- =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "simona@ffwll.ch"
- <simona@ffwll.ch>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>
-References: <20241120124420.133914-1-angelogioacchino.delregno@collabora.com>
- <20241120124420.133914-7-angelogioacchino.delregno@collabora.com>
- <1b966a136f02b5586749a9c3d0bcec6c75224e49.camel@mediatek.com>
- <33acccd3-e543-493e-a61c-282d894ef2b1@collabora.com>
- <fd48c582e99d6c07be4b66919fb6c309379ad752.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <fd48c582e99d6c07be4b66919fb6c309379ad752.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,130 +67,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 26/11/24 04:07, CK Hu (胡俊光) ha scritto:
-> On Mon, 2024-11-25 at 17:55 +0100, AngeloGioacchino Del Regno wrote:
->> External email : Please do not click links or open attachments until you have verified the sender or the content.
->>
->>
->> Il 22/11/24 08:23, CK Hu (胡俊光) ha scritto:
->>> Hi, Angelo:
->>>
->>> On Wed, 2024-11-20 at 13:44 +0100, AngeloGioacchino Del Regno wrote:
->>>> External email : Please do not click links or open attachments until you have verified the sender or the content.
->>>>
->>>>
->>>> Add support for the DPI block found in the MT8195 and MT8188 SoCs.
->>>> Inside of the SoC, this block is directly connected to the HDMI IP.
->>>
->>> In MT8173, DPI0 is directly connected to HDMI.
->>> The first version of this driver is just for MT8173 DPI0.
->>> Does MT8173 DPI0 need this modification?
->>> Or this modification is just for MT8188 and MT8195, then the description should be more than 'directly connected'.
->>>
->>
->> This is only for MT8188 and MT8195, and MT8173 does *not* need any modification.
->>
->> Please, what would you like to see in the description of this commit?
-> 
-> This patch does four jobs.
-> 
-> 1. Enable/disable tvd_clk for MT8195/MT8188 DPI.
-> 2. Do not set pixel clock for MT8195/MT8188 DPI.
-> 3. New DPI_INPUT_XXX and DPI_OUTPUT_XXX control for MT8195/MT8188 DPI.
-> 4. Do not power on/off for MT8195/MT8188 DPI.
-> 
-> Maybe you should break into 4 patches and each one has different reason.
+On Mo, 2024-11-25 at 22:07 +0530, Parthiban Nallathambi wrote:
+> On some platforms like Allwinner A133 with GE8300 includes
+> reset control from reset control unit. Add reset control
+> optionally from the devicetree.
+>=20
+> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+> ---
+>  drivers/gpu/drm/imagination/pvr_device.h |  8 ++++++++
+>  drivers/gpu/drm/imagination/pvr_drv.c    |  5 +++++
+>  drivers/gpu/drm/imagination/pvr_power.c  | 16 +++++++++++++++-
+>  3 files changed, 28 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/i=
+magination/pvr_device.h
+> index 6d0dfacb677b..21ec7dd64415 100644
+> --- a/drivers/gpu/drm/imagination/pvr_device.h
+> +++ b/drivers/gpu/drm/imagination/pvr_device.h
+> @@ -23,6 +23,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/math.h>
+>  #include <linux/mutex.h>
+> +#include <linux/reset.h>
+>  #include <linux/spinlock_types.h>
+>  #include <linux/timer.h>
+>  #include <linux/types.h>
+> @@ -131,6 +132,13 @@ struct pvr_device {
+>  	 */
+>  	struct clk *mem_clk;
+> =20
+> +	/**
+> +	 * @reset: Optional reset control
+> +	 *
+> +	 * This may be used on some platforms to reset the GPU module/IP.
+> +	 */
+> +	struct reset_control *reset;
+> +
+>  	/** @irq: IRQ number. */
+>  	int irq;
+> =20
+> diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imag=
+ination/pvr_drv.c
+> index fb17196e05f4..d9b918410ea9 100644
+> --- a/drivers/gpu/drm/imagination/pvr_drv.c
+> +++ b/drivers/gpu/drm/imagination/pvr_drv.c
+> @@ -36,6 +36,7 @@
+>  #include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+>  #include <linux/xarray.h>
+> =20
+>  /**
+> @@ -1427,6 +1428,10 @@ pvr_probe(struct platform_device *plat_dev)
+>  	pm_runtime_use_autosuspend(&plat_dev->dev);
+>  	pvr_watchdog_init(pvr_dev);
+> =20
+> +	pvr_dev->reset =3D devm_reset_control_get_optional_exclusive(&plat_dev-=
+>dev, "ahb");
+> +	if (PTR_ERR(pvr_dev->reset) =3D=3D -EPROBE_DEFER)
+> +		return PTR_ERR(pvr_dev->reset);
 
-Yeah I thought about that as well, but there's a fundamental issue with splitting
-the thing in multiple patches...
+	pvr_dev->reset =3D devm_reset_control_get_optional_exclusive(&plat_dev->de=
+v, "ahb");
+	if (IS_ERR(pvr_dev->reset))
+		return PTR_ERR(pvr_dev->reset);
 
-For enabling the tvd_clk in a separate patch, there's no problem - however, for the
-others....
+Please don't ignore errors. devm_reset_control_get_optional_exclusive()
+returns NULL if the "ahb" reset control isn't specified in the device
+tree, and the reset_control_assert/deassert() functions accept that as
+a non-existing reset, see [1].
 
-1. We need to introduce support for MT8195/88 DPI-HDMI, or the other patches would
-    not make sense (nor apply, anyway); then
-2. We stop setting pixel clock with another patch; then
-3. we don't power on/off, etc etc
+[1] https://docs.kernel.org/driver-api/reset.html#optional-resets
 
-The problem with doing it like so is that the patch #1 that I described would be
-introducing *faulty code*, because the support for that really depends on all of
-the others being present (otherwise the block won't work correctly).
+> +
+>  	err =3D pvr_device_init(pvr_dev);
+>  	if (err)
+>  		goto err_watchdog_fini;
+> diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/im=
+agination/pvr_power.c
+> index ba7816fd28ec..a24ed85f36c7 100644
+> --- a/drivers/gpu/drm/imagination/pvr_power.c
+> +++ b/drivers/gpu/drm/imagination/pvr_power.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+>  #include <linux/timer.h>
+>  #include <linux/types.h>
+>  #include <linux/workqueue.h>
+> @@ -252,6 +253,9 @@ pvr_power_device_suspend(struct device *dev)
+>  	clk_disable_unprepare(pvr_dev->sys_clk);
+>  	clk_disable_unprepare(pvr_dev->core_clk);
+> =20
+> +	if (!IS_ERR(pvr_dev->reset))
+> +		reset_control_assert(pvr_dev->reset);
 
-So... if you want, I can easily split out the tvd_clk enable/disable, but splitting
-the rest wouldn't be clean.
+	reset_control_assert(pvr_dev->reset);
 
-Besides, keep in mind that... actually... for anything else that is not MT8195/88
-DPI0 (so, for other SoCs' DPI and for 95/88 DPINTF) the tvd_clk is already getting
-enabled by its child.. so, for those ones, a call to enable tvd_clk does exactly
-nothing apart from incrementing (enable) or decrementing (disable) the refcount for
-this clock by 1.
+This just returns 0 if pvr_dev->reset =3D=3D NULL.
 
-This means that the enablement/disablement of tvd_clk is actually important only
-for the MT8195/88 DPI and has literally no effect on anything else that is
-currently supported by the mtk_dpi driver anyway.
+> +
+>  err_drm_dev_exit:
+>  	drm_dev_exit(idx);
+> =20
+> @@ -270,9 +274,15 @@ pvr_power_device_resume(struct device *dev)
+>  	if (!drm_dev_enter(drm_dev, &idx))
+>  		return -EIO;
+> =20
+> +	if (!IS_ERR(pvr_dev->reset)) {
+> +		err =3D reset_control_reset(pvr_dev->reset);
+> +		if (err)
+> +			goto err_drm_dev_exit;
+> +	}
 
-Still - if you want me to split out the tvd_clk en/dis patch, just confirm and I
-will split that one out...
+	err =3D reset_control_reset(pvr_dev->reset);
+	if (err)
+		goto err_drm_dev_exit;
 
-> 
-> For #1 and #2, I've not reviewed the HDMI driver. Is the clock control influenced by new HDMI driver.
+> +
+>  	err =3D clk_prepare_enable(pvr_dev->core_clk);
+>  	if (err)
+> -		goto err_drm_dev_exit;
+> +		goto err_reset_exit;
+> =20
+>  	err =3D clk_prepare_enable(pvr_dev->sys_clk);
+>  	if (err)
+> @@ -301,6 +311,10 @@ pvr_power_device_resume(struct device *dev)
+>  err_core_clk_disable:
+>  	clk_disable_unprepare(pvr_dev->core_clk);
+> =20
+> +err_reset_exit:
+> +	if (!IS_ERR(pvr_dev->reset))
+> +		reset_control_assert(pvr_dev->reset);
 
-It kinda is - the HDMI-TX block gets its clock from the HDMI PHY's clock gen,
-but eventually it is the HDMI driver that tells to the PHY driver what clock it
-actually wants.
+err_reset_exit:
+	reset_control_assert(pvr_dev->reset);
 
-For #1, clk_prepare_enable() is ungating the clock that would otherwise gate the
-PHY's PLL output to the HDMI block.
+> +
+>  err_drm_dev_exit:
+>  	drm_dev_exit(idx);
+> =20
+>=20
 
-> If it is software reason, maybe we can modify the new HDMI driver and make DPI driver consistent with MT8173.
-> If it is hardware reason. just describe the hardware reason.
-
-Alright - the hardware reason is that the HDMIPHY generates the clock for the HDMI
-TX block, and that enabling the clock assigned to tvd_clk is necessary to ungate
-the PHY's ckgen output to the HDMI-TX (and I think - but not sure as I haven't
-analyzed that yet - that HDMI-RX should have the same gating technique, but that's
-definitely out of scope for this submission).
-
-> 
-> For #4, I don't know why DPI do not control power by its self?
-> Even though other driver may control the same power, power manager has reference count,
-> so each driver could control the same power by its self.
-
-#4 is there both for a SW and for a HW reason.
-
-The HW reason is that the DPI shall be powered on in a specific sequence in regard
-to HDMI-TX, due to the setup that is required by both (and ungating clocks before
-full configuration happens would lock up the hw block).
-
-The SW reason is that mtk_crtc.c calls mtk_crtc_ddp_hw_init()->mtk_ddp_comp_start()
-in its .atomic_enable() callback, which happens in the wrong sequence in regard to
-HDMI because of the "natural" components order in the DRM framework (for MT8195/88!
-because for the others it either is the inverse or it does not matter - so for
-performance it's okay for it to be like that both on older SoCs and on DPINTF for
-95/88) and this means that we *must not* call dpi_power_on() at that time but
-we must rather follow the atomic_enable()/bridge_enable() order imposed by DRM
-*also* for the clock en/dis calls in DPI.
-
-Cheers,
-Angelo
-
-> 
-> Regards,
-> CK
-> 
-> 
->>
->> Cheers,
->> Angelo
->>
->>> Regards,
->>> CK
->>>
->>>>
->>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>>> ---
->>
->>
-
-
-
+regards
+Philipp
