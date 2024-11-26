@@ -2,69 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F099D9CBC
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 18:41:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64BE9D9CCD
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 18:45:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 163F210E1E4;
-	Tue, 26 Nov 2024 17:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AB2110E96B;
+	Tue, 26 Nov 2024 17:45:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="V2WCb+Ql";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HV89K9zK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 477C810E1E4
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 17:41:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732642873; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=mU8ObQ/OAasMBkzcFvPwQKo4sBO2cC9gkN/zJB906dZtgy4L6dh0j5lIrqsuYhqu6u1KB75AxOkYsb8KNZXALxyyfSiEd6hoEAm6FD8F4M+UwGfl2+zeTyqTtGMjmhY+tjhVKUZ9npGu/rrLqm92JZwKXKMYi2TKiKFh8AVXIuU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732642873;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=AAZ0ziV0Ps+SEYxmzXSmejq4AyrtN53riw5JdtP05F0=; 
- b=ECae4fssoCytQMK457kvWbYJzVj3z1p/Wm+3kaAe9EPdTNwCoOiGSHM6BkJDNPKrpVP+kvXv5ZLEkjUBqG4T+HZk62lo2U+yvYD9PH283IR84iju4BzDXm8UXfL2GKcObuUK5g/o7r+izamzrDFnRSLyyCGJoLdryYfObcQ7QI0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732642873; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=AAZ0ziV0Ps+SEYxmzXSmejq4AyrtN53riw5JdtP05F0=;
- b=V2WCb+QlhgmujqFmfJJ01mbCKOmqJTsbtM8Oq44IrsxKyXukcU7ee1jt1hO4TM4S
- 57CCwcpTu8xcheP8z5GYjUhXjwmZsJXeUXlv5w45y6Y0pQfDSESL47PIo6JdnKLYM2/
- P6O1yMUds34rgkKQCbxoLoZTFN4b20B0tmITeiUY=
-Received: by mx.zohomail.com with SMTPS id 1732642870668244.09361775176467;
- Tue, 26 Nov 2024 09:41:10 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
-Subject: Re: [WIP RFC v2 01/35] WIP: rust/drm: Add fourcc bindings
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20240930233257.1189730-2-lyude@redhat.com>
-Date: Tue, 26 Nov 2024 14:40:54 -0300
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
- mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@redhat.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- open list <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <5A7B3FCB-0A97-4818-9AE4-A1911EA55B90@collabora.com>
-References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-2-lyude@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.200.121)
-X-ZohoMailClient: External
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEC83899A3;
+ Tue, 26 Nov 2024 17:45:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1732643140; x=1764179140;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PkWiFYslfaLNg6YRsbTeeDCnGjQC7oOlwil3ks27fnM=;
+ b=HV89K9zK5vJOrObgn8CvtMGCvO+zwVtBF8ZkBNcaujtfMks9N95e4bxk
+ ib5ITZ1NbpZo2BR8++LURnjrjXVTE6rAbx3F1gpP1sKZFQGcnQ6n5+ShM
+ 6VMX9k1pzmKylPQUnnlhOy2vJm8EPoNX7gr0X45IdXvMfa4zg3Wh/pcje
+ FQi4jE2+IFaJQR1nUoI9HE+fEOTloIMCu1cvr38ORkz+Snj93Ouh8F6p8
+ QDqjOzyCHAnDnsvKgtBu83d3QRx9Mev/dfvNsakXRE4lDGG9Qg3beNpOm
+ Byis4LsBV265irDWEcckxgNpu5w+4EdfKuPAnuBAccCtgFzcfqLKr+tjZ A==;
+X-CSE-ConnectionGUID: Ux85hBoDQ9mzT99jDO3CTg==
+X-CSE-MsgGUID: QPJZh7vZSYepeeFcyqdv2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32676907"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="32676907"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2024 09:45:40 -0800
+X-CSE-ConnectionGUID: EOKuP9mxQOy5ZN2lfnBCoA==
+X-CSE-MsgGUID: C1/Zl3+NTVSOiHaajANVIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="92152574"
+Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2024 09:45:39 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: christian.koenig@amd.com,
+	thomas.hellstrom@linux.intel.com
+Subject: [PATCH v7 0/8] Fix non-contiguous VRAM BO access in Xe
+Date: Tue, 26 Nov 2024 09:46:07 -0800
+Message-Id: <20241126174615.2665852-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,270 +68,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude, sorry for the late review!
+Fully reviewed and resending for final CI.
 
-> On 30 Sep 2024, at 20:09, Lyude Paul <lyude@redhat.com> wrote:
->=20
-> This adds some very basic rust bindings for fourcc. We only have a =
-single
-> format code added for the moment, but this is enough to get a driver
-> registered.
->=20
-> TODO:
-> * Write up something to automatically generate constants from the =
-fourcc
->  headers
+Dropping non-visible patch for now as it a bit larger, not strickly
+required to unblock EU debug, and be sent independently in a follow up.
 
-I assume this is blocked on [0], right?
+Matt
 
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
-> rust/bindings/bindings_helper.h |   1 +
-> rust/kernel/drm/fourcc.rs       | 127 ++++++++++++++++++++++++++++++++
-> rust/kernel/drm/mod.rs          |   1 +
-> 3 files changed, 129 insertions(+)
-> create mode 100644 rust/kernel/drm/fourcc.rs
->=20
-> diff --git a/rust/bindings/bindings_helper.h =
-b/rust/bindings/bindings_helper.h
-> index b2e05f8c2ee7d..04898f70ef1b8 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -9,6 +9,7 @@
-> #include <drm/drm_device.h>
-> #include <drm/drm_drv.h>
-> #include <drm/drm_file.h>
-> +#include <drm/drm_fourcc.h>
-> #include <drm/drm_gem.h>
-> #include <drm/drm_gem_shmem_helper.h>
-> #include <drm/drm_ioctl.h>
-> diff --git a/rust/kernel/drm/fourcc.rs b/rust/kernel/drm/fourcc.rs
-> new file mode 100644
-> index 0000000000000..b80eba99aa7e4
-> --- /dev/null
-> +++ b/rust/kernel/drm/fourcc.rs
-> @@ -0,0 +1,127 @@
-> +use bindings;
-> +use core::{ops::*, slice, ptr};
-> +
-> +const fn fourcc_code(a: u8, b: u8, c: u8, d: u8) -> u32 {
-> +    (a as u32) | (b as u32) << 8 | (c as u32) << 16 | (d as u32) << =
-24
-> +}
-> +
-> +// TODO: Figure out a more automated way of importing this
-> +pub const XRGB888: u32 =3D fourcc_code(b'X', b'R', b'2', b'4');
-> +
-> +#[derive(Copy, Clone)]
-> +#[repr(C)]
-> +pub struct FormatList<const COUNT: usize> {
-> +    list: [u32; COUNT],
-> +    _sentinel: u32,
-> +}
-> +
-> +impl<const COUNT: usize> FormatList<COUNT> {
-> +    /// Create a new [`FormatList`]
-> +    pub const fn new(list: [u32; COUNT]) -> Self {
-> +        Self {
-> +            list,
-> +            _sentinel: 0
-> +        }
-> +    }
-> +
-> +    /// Returns the number of entries in the list, including the =
-sentinel.
-> +    ///
-> +    /// This is generally only useful for passing [`FormatList`] to C =
-bindings.
-> +    pub const fn raw_len(&self) -> usize {
-> +        COUNT + 1
-> +    }
-> +}
-> +
-> +impl<const COUNT: usize> Deref for FormatList<COUNT> {
-> +    type Target =3D [u32; COUNT];
-> +
-> +    fn deref(&self) -> &Self::Target {
-> +        &self.list
-> +    }
-> +}
-> +
-> +impl<const COUNT: usize> DerefMut for FormatList<COUNT> {
-> +    fn deref_mut(&mut self) -> &mut Self::Target {
-> +        &mut self.list
-> +    }
-> +}
-> +
-> +#[derive(Copy, Clone)]
-> +#[repr(C)]
-> +pub struct ModifierList<const COUNT: usize> {
-> +    list: [u64; COUNT],
-> +    _sentinel: u64
-> +}
-> +
-> +impl<const COUNT: usize> ModifierList<COUNT> {
-> +    /// Create a new [`ModifierList`]
-> +    pub const fn new(list: [u64; COUNT]) -> Self {
-> +        Self {
-> +            list,
-> +            _sentinel: 0
-> +        }
-> +    }
-> +}
-> +
-> +impl<const COUNT: usize> Deref for ModifierList<COUNT> {
-> +    type Target =3D [u64; COUNT];
-> +
-> +    fn deref(&self) -> &Self::Target {
-> +        &self.list
-> +    }
-> +}
-> +
-> +impl<const COUNT: usize> DerefMut for ModifierList<COUNT> {
-> +    fn deref_mut(&mut self) -> &mut Self::Target {
-> +        &mut self.list
-> +    }
-> +}
-> +
-> +#[repr(transparent)]
-> +#[derive(Copy, Clone)]
-> +pub struct FormatInfo {
-> +    inner: bindings::drm_format_info,
-> +}
-> +
-> +impl FormatInfo {
-> +    // SAFETY: `ptr` must point to a valid instance of a =
-`bindings::drm_format_info`
-> +    pub(super) unsafe fn from_raw<'a>(ptr: *const =
-bindings::drm_format_info) -> &'a Self {
+Matthew Brost (8):
+  drm/xe: Add xe_bo_vm_access
+  drm/ttm: Add ttm_bo_access
+  drm/xe: Add xe_ttm_access_memory
+  drm/xe: Take PM ref in delayed snapshot capture worker
+  drm/xe/display: Update intel_bo_read_from_page to use ttm_bo_access
+  drm/xe: Use ttm_bo_access in xe_vm_snapshot_capture_delayed
+  drm/xe: Set XE_BO_FLAG_PINNED in migrate selftest BOs
+  drm/xe: Only allow contiguous BOs to use xe_bo_vmap
 
-I think FormatInfoRef would be more appropriate, since you seem to be =
-creating a reference type (IIUC)
-for a type that can also be owned.
+ drivers/gpu/drm/ttm/ttm_bo_vm.c       | 40 ++++++++---
+ drivers/gpu/drm/xe/display/intel_bo.c | 25 +------
+ drivers/gpu/drm/xe/tests/xe_migrate.c | 13 ++--
+ drivers/gpu/drm/xe/xe_bo.c            | 99 +++++++++++++++++++++++----
+ drivers/gpu/drm/xe/xe_devcoredump.c   |  6 ++
+ drivers/gpu/drm/xe/xe_vm.c            | 17 ++---
+ include/drm/ttm/ttm_bo.h              |  2 +
+ 7 files changed, 142 insertions(+), 60 deletions(-)
 
-This would be more in line with the GEM [1] patch, for example.
-
-In other words, using `Ref` here will allow for both an owned =
-`FormatInfo` and a `FormatInfoRef<=E2=80=98_>`.
-
-I am not sure about the role of lifetime =E2=80=98a here. If you wanted =
-to tie the lifetime of &Self to that of the pointer,
-this does not do it, specially considering that pointers do not have =
-lifetimes associated with them.
-
-> +        // SAFETY: Our data layout is identical
-> +        unsafe { &*ptr.cast() }
-
-It=E2=80=99s hard to know what is going on with both the reborrow and =
-the cast in the same statement.
-
-I am assuming that cast() is transforming to *Self, and the reborrow to =
-&Self.
-
-To be honest, I dislike this approach. My suggestion here is to rework =
-it to be similar to, e.g., what
-Alice did here for `ShrinkControl` [2].
-
-+/// This struct is used to pass information from page reclaim to the =
-shrinkers.
-+///
-+/// # Invariants
-+///
-+/// `ptr` has exclusive access to a valid `struct shrink_control`.
-+pub struct ShrinkControl<'a> {
-+ ptr: NonNull<bindings::shrink_control>,
-+ _phantom: PhantomData<&'a bindings::shrink_control>,
-+}
-+
-+impl<'a> ShrinkControl<'a> {
-+ /// Create a `ShrinkControl` from a raw pointer.
-+ ///
-+ /// # Safety
-+ ///
-+ /// The pointer should point at a valid `shrink_control` for the =
-duration of 'a.
-+ pub unsafe fn from_raw(ptr: *mut bindings::shrink_control) -> Self {
-+ Self {
-+ // SAFETY: Caller promises that this pointer is valid.
-+ ptr: unsafe { NonNull::new_unchecked(ptr) },
-+ _phantom: PhantomData,
-+ }
-+ }
-
-Notice the use of PhantomData in her patch.
-
-By the way, Alice, I wonder if we can just use Opaque here?
-
-> +    }
-
-> +
-> +    /// The number of color planes (1 to 3)
-> +    pub const fn num_planes(&self) -> u8 {
-> +        self.inner.num_planes
-> +    }
-> +
-> +    /// Does the format embed an alpha component?
-> +    pub const fn has_alpha(&self) -> bool {
-> +        self.inner.has_alpha
-> +    }
-> +
-> +    /// The total number of components (color planes + alpha channel, =
-if there is one)
-> +    pub const fn num_components(&self) -> u8 {
-> +        self.num_planes() + self.has_alpha() as u8
-> +    }
-> +
-> +    /// Number of bytes per block (per plane), where blocks are =
-defined as a rectangle of pixels
-> +    /// which are stored next to each other in a byte aligned memory =
-region.
-> +    pub fn char_per_block(&self) -> &[u8] {
-> +        // SAFETY: The union we access here is just for descriptive =
-purposes on the C side, both
-> +        // members are identical in data layout
-> +        unsafe { =
-&self.inner.__bindgen_anon_1.char_per_block[..self.num_components() as =
-_] }
-> +    }
-> +}
-> +
-> +impl AsRef<bindings::drm_format_info> for FormatInfo {
-> +    fn as_ref(&self) -> &bindings::drm_format_info {
-> +        &self.inner
-> +    }
-> +}
-> +
-> +impl From<bindings::drm_format_info> for FormatInfo {
-> +    fn from(value: bindings::drm_format_info) -> Self {
-> +        Self { inner: value }
-> +    }
-> +}
-> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-> index c44760a1332fa..2c12dbd181997 100644
-> --- a/rust/kernel/drm/mod.rs
-> +++ b/rust/kernel/drm/mod.rs
-> @@ -5,5 +5,6 @@
-> pub mod device;
-> pub mod drv;
-> pub mod file;
-> +pub mod fourcc;
-> pub mod gem;
-> pub mod ioctl;
-> --=20
-> 2.46.1
-
-=E2=80=94 Daniel
-
-[0]: https://github.com/rust-lang/rust-bindgen/issues/753
-
-
-[1]: =
-https://gitlab.freedesktop.org/drm/nova/-/commit/cfd66f531af29e0616c58b4cd=
-4c72770a5ac4081#71321381cbaa87053942373244bffe230e69392a_0_306
-
-[2]: =
-https://lore.kernel.org/rust-for-linux/20241014-shrinker-v2-1-04719efd2342=
-@google.com/
-
+-- 
+2.34.1
 
