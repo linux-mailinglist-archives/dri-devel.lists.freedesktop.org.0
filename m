@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3089D9CD0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 18:45:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926CD9D9CD4
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 18:45:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BC9910E988;
-	Tue, 26 Nov 2024 17:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF3A10E98E;
+	Tue, 26 Nov 2024 17:45:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ldNbc/4/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UU7AhRD5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0722899A3;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4A5710E973;
  Tue, 26 Nov 2024 17:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1732643141; x=1764179141;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Uh9Jwo9O+TNbDlkFULMypNtBNGe09Nh9IU4Xyq1WC2c=;
- b=ldNbc/4/u+F8CBwjAu+q4dFelO0zgCdTxbrJkLY0cLSYLuDBSFykWXRB
- usq/iYe6vv8K+0ZcAWuPglcwKRDBgy9DnuC75W9wE3uNIqvbZYgOSkf7T
- OLtMOQgHL2rnhODARMWcfILEvI1/l/ylltkQ5GGiKUvdPa0KK27JuhBry
- nIbgjSKRANXp1bcf0DddPO8hEkv+A883bOhA5WsNwaY+i3RyB0Sbgf9J9
- zSQ1sJQsF9VvPO6A2ce/VPVaGJq1ftExHCh56PpuEgEDVb5Xt+wlBKDYv
- 9FOSGWnoyNcOX71c0nd8fX6oKHpUJYBaFUnBhYA1kRJZi/OqSrsv/FqVF Q==;
-X-CSE-ConnectionGUID: 5XEwUwVFQT28Y56ZYy4TxA==
-X-CSE-MsgGUID: mZoV7wr9SW+S1QGjwS5iWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32676919"
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="32676919"
+ bh=nZMJwEdjNoBvlGVgeI7A/wYeq0nHCWPF1Z/N58o2JT8=;
+ b=UU7AhRD50HS9eYT0nff9uROoyDgUR8L8Sv2YrivlZXzmfSp/RXqfMmWi
+ /mB65MFjHM4hUfLJm7rImdFRGcjFkJWVpOJ3FuWlVFQ7PCV3UVN+G2pgA
+ YQbMgtIL7BpJ1lr9enRvUA3ZgtnLRR3g5zolFNH/Wg5G6xZdvlvHAf3bl
+ Ml1Qv3L26MMetDaTJMVaTUW7Bw/Dlyz3oLxaEtQY+dhe4/bBbC3XLgctZ
+ bBw//IFnv23JzdvBDZTcgL0IBPW0c4af1Zn7GAOXH3qmtEqaRNLP0k++E
+ Ct50nEopKx2HN0D+tlK7yjYEluI53MYUe9vrRTBIWFpwPx8c/SIX3N0+u Q==;
+X-CSE-ConnectionGUID: TqaUHgy/QLe5evRHCmv6ZA==
+X-CSE-MsgGUID: lkQy8JYVRVOYjJPA7dGhNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32676921"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="32676921"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Nov 2024 09:45:41 -0800
-X-CSE-ConnectionGUID: rJwy1/G4SDmaNF+oVE4Cew==
-X-CSE-MsgGUID: DhZZF/ZdQHq9lxsi20NTWQ==
+X-CSE-ConnectionGUID: RWsP5VpFSN64IY3/h09ONA==
+X-CSE-MsgGUID: FlKAl7ytQqSrNoNZpvfEKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="92152586"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="92152587"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Nov 2024 09:45:40 -0800
@@ -46,10 +46,9 @@ To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: christian.koenig@amd.com,
 	thomas.hellstrom@linux.intel.com
-Subject: [PATCH v7 6/8] drm/xe: Use ttm_bo_access in
- xe_vm_snapshot_capture_delayed
-Date: Tue, 26 Nov 2024 09:46:13 -0800
-Message-Id: <20241126174615.2665852-7-matthew.brost@intel.com>
+Subject: [PATCH v7 7/8] drm/xe: Set XE_BO_FLAG_PINNED in migrate selftest BOs
+Date: Tue, 26 Nov 2024 09:46:14 -0800
+Message-Id: <20241126174615.2665852-8-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241126174615.2665852-1-matthew.brost@intel.com>
 References: <20241126174615.2665852-1-matthew.brost@intel.com>
@@ -70,55 +69,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Non-contiguous mapping of BO in VRAM doesn't work, use ttm_bo_access
-instead.
+We only allow continguous BOs to be vmapped, set XE_BO_FLAG_PINNED on
+BOs in migrate selftest as this forces continguous BOs and selftest uses
+vmaps.
 
-v2:
- - Fix error handling
-
-Fixes: 0eb2a18a8fad ("drm/xe: Implement VM snapshot support for BO's and userptr")
-Suggested-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/xe/xe_vm.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/xe/tests/xe_migrate.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 1d7faeba157e..2492750505d6 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3309,7 +3309,6 @@ void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap)
+diff --git a/drivers/gpu/drm/xe/tests/xe_migrate.c b/drivers/gpu/drm/xe/tests/xe_migrate.c
+index 1a192a2a941b..4cef3b20bd17 100644
+--- a/drivers/gpu/drm/xe/tests/xe_migrate.c
++++ b/drivers/gpu/drm/xe/tests/xe_migrate.c
+@@ -83,7 +83,8 @@ static void test_copy(struct xe_migrate *m, struct xe_bo *bo,
+ 						   bo->size,
+ 						   ttm_bo_type_kernel,
+ 						   region |
+-						   XE_BO_FLAG_NEEDS_CPU_ACCESS);
++						   XE_BO_FLAG_NEEDS_CPU_ACCESS |
++						   XE_BO_FLAG_PINNED);
+ 	if (IS_ERR(remote)) {
+ 		KUNIT_FAIL(test, "Failed to allocate remote bo for %s: %pe\n",
+ 			   str, remote);
+@@ -642,7 +643,9 @@ static void validate_ccs_test_run_tile(struct xe_device *xe, struct xe_tile *til
  
- 	for (int i = 0; i < snap->num_snaps; i++) {
- 		struct xe_bo *bo = snap->snap[i].bo;
--		struct iosys_map src;
- 		int err;
+ 	sys_bo = xe_bo_create_user(xe, NULL, NULL, SZ_4M,
+ 				   DRM_XE_GEM_CPU_CACHING_WC,
+-				   XE_BO_FLAG_SYSTEM | XE_BO_FLAG_NEEDS_CPU_ACCESS);
++				   XE_BO_FLAG_SYSTEM |
++				   XE_BO_FLAG_NEEDS_CPU_ACCESS |
++				   XE_BO_FLAG_PINNED);
  
- 		if (IS_ERR(snap->snap[i].data))
-@@ -3322,16 +3321,12 @@ void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap)
- 		}
+ 	if (IS_ERR(sys_bo)) {
+ 		KUNIT_FAIL(test, "xe_bo_create() failed with err=%ld\n",
+@@ -666,7 +669,8 @@ static void validate_ccs_test_run_tile(struct xe_device *xe, struct xe_tile *til
  
- 		if (bo) {
--			xe_bo_lock(bo, false);
--			err = ttm_bo_vmap(&bo->ttm, &src);
--			if (!err) {
--				xe_map_memcpy_from(xe_bo_device(bo),
--						   snap->snap[i].data,
--						   &src, snap->snap[i].bo_ofs,
--						   snap->snap[i].len);
--				ttm_bo_vunmap(&bo->ttm, &src);
--			}
--			xe_bo_unlock(bo);
-+			err = ttm_bo_access(&bo->ttm, snap->snap[i].bo_ofs,
-+					    snap->snap[i].data, snap->snap[i].len, 0);
-+			if (!(err < 0) && err != snap->snap[i].len)
-+				err = -EIO;
-+			else if (!(err < 0))
-+				err = 0;
- 		} else {
- 			void __user *userptr = (void __user *)(size_t)snap->snap[i].bo_ofs;
+ 	ccs_bo = xe_bo_create_user(xe, NULL, NULL, SZ_4M,
+ 				   DRM_XE_GEM_CPU_CACHING_WC,
+-				   bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS);
++				   bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS |
++				   XE_BO_FLAG_PINNED);
  
+ 	if (IS_ERR(ccs_bo)) {
+ 		KUNIT_FAIL(test, "xe_bo_create() failed with err=%ld\n",
+@@ -690,7 +694,8 @@ static void validate_ccs_test_run_tile(struct xe_device *xe, struct xe_tile *til
+ 
+ 	vram_bo = xe_bo_create_user(xe, NULL, NULL, SZ_4M,
+ 				    DRM_XE_GEM_CPU_CACHING_WC,
+-				    bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS);
++				    bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS |
++				    XE_BO_FLAG_PINNED);
+ 	if (IS_ERR(vram_bo)) {
+ 		KUNIT_FAIL(test, "xe_bo_create() failed with err=%ld\n",
+ 			   PTR_ERR(vram_bo));
 -- 
 2.34.1
 
