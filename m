@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BCF9D983D
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 14:20:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0649D9839
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 14:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F41E10E884;
-	Tue, 26 Nov 2024 13:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B680310E87D;
+	Tue, 26 Nov 2024 13:19:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X/mT98Qk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eKKvbHvi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B83B10E3FD;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B61E10E3FD;
  Tue, 26 Nov 2024 13:19:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1732627192; x=1764163192;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uaYrBnr8HusQPV84ZfD0oR7ua58d/y276TTVnZFMZ6c=;
- b=X/mT98Qk1/Dj7gjcfcEUwxsGmOMoSfxu3owCi/v801R3qkHD2vmzQk7O
- 40s2yVAX1WFTG3I2NLEvy39/Fks9xwuqUEnx2YMkYqoTlpc7Ord9FGa++
- 66rCeEoGh5E3bhd6PjX58xWaoK7Zz7dHRinkT1qfsHBntd5gI9ycETXKF
- NU+/lNBSLxpDFsjgVzd704Kvcqgi70r2sbSmMSXL3bbLxzOZFMpFvUtDG
- iSII8pWcy3/MT0oO+t1KNDZt3UcRvEdFlxNiOlJ8CGB7k68By6tfmdLDu
- hQnJ5qEmRYCl5ldx4ryk2Mj1/73OMHfBLqhIHEVACSRPHslY53SPqdKUd g==;
-X-CSE-ConnectionGUID: M9xLhtTrR1S3oo8JC8EioQ==
-X-CSE-MsgGUID: lIuLKpxtTqq4UV/5sjSP7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="44170097"
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="44170097"
+ bh=dueB7zJH3XougMdJRpQAlmqGE5QIX/mDIBEFqxe/fss=;
+ b=eKKvbHviyBmlz4iY2vrDMSFUdjxT+FTGwgRoyV9U5CG+45oM+Qw8sh9D
+ OwzkOrT2eZ4Qjcj2MiFFDxfP227XI5SicPJ+ig/xHCt82CurwFDw+dY3P
+ PdcjlmeggXz0I9fzxaSbWXcyhbLwlSLnx0saRs1CaBuplT+S+79CuT/y+
+ jPdmWdWH/adXmeyaumzIWoRIsGhowFPbk/Sjil96L+GwyGK/jUCkL21sO
+ c79gGdGI/CS9T8rrspsinMokMm/yUuDWXvK5NG4i04FX2cHLJb4wjAUKo
+ eSetH9NiNr7oRjzWNnXuBqC0tbpz5yeeKPgWsqnu+kE2gR2lUkmFvQdn5 A==;
+X-CSE-ConnectionGUID: mFTelmPnQlqrs8fHhFMrJQ==
+X-CSE-MsgGUID: CIwyFfLkRZeRhBu+AJNDpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="44170112"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="44170112"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2024 05:19:44 -0800
-X-CSE-ConnectionGUID: CWIqICzNTfC1U3bSz5OgRA==
-X-CSE-MsgGUID: N8IJZYGNRGGpNFmzI6eviw==
+ 26 Nov 2024 05:19:47 -0800
+X-CSE-ConnectionGUID: RueklNUmSzqKV1NElCGbhQ==
+X-CSE-MsgGUID: +XMgWuhgR+u5ShuqPhW7Tg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="114874583"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="114874601"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by fmviesa002.fm.intel.com with ESMTP; 26 Nov 2024 05:19:40 -0800
+ by fmviesa002.fm.intel.com with ESMTP; 26 Nov 2024 05:19:43 -0800
 From: Uma Shankar <uma.shankar@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org
@@ -47,9 +47,9 @@ Cc: ville.syrjala@linux.intel.com, harry.wentland@amd.com,
  pekka.paalanen@haloniitty.fi, sebastian.wick@redhat.com, jadahl@redhat.com,
  mwen@igalia.com, contact@emersion.fr, naveen1.kumar@intel.com,
  Uma Shankar <uma.shankar@intel.com>
-Subject: [v2 03/25] drm: Add Enhanced LUT precision structure
-Date: Tue, 26 Nov 2024 18:57:08 +0530
-Message-ID: <20241126132730.1192571-4-uma.shankar@intel.com>
+Subject: [v2 04/25] drm: Add Color lut range attributes
+Date: Tue, 26 Nov 2024 18:57:09 +0530
+Message-ID: <20241126132730.1192571-5-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20241126132730.1192571-1-uma.shankar@intel.com>
 References: <20241126132730.1192571-1-uma.shankar@intel.com>
@@ -70,135 +70,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Existing LUT precision structure is having only 16 bit
-precision. This is not enough for upcoming enhanced hardwares
-and advance usecases like HDR processing. Hence added a new
-structure with 32 bit precision values.
+This defines a new structure to define color lut ranges,
+along with related macro definitions and enums. This will help
+describe segmented lut ranges/PWL LUTs in the hardware.
 
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 ---
- drivers/gpu/drm/drm_color_mgmt.c | 43 ++++++++++++++++++++++++++++++++
- include/drm/drm_color_mgmt.h     | 13 ++++++++++
- include/uapi/drm/drm_mode.h      | 18 +++++++++++++
- 3 files changed, 74 insertions(+)
+ include/uapi/drm/drm_mode.h | 64 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-index 3969dc548cff..83dc850d3b54 100644
---- a/drivers/gpu/drm/drm_color_mgmt.c
-+++ b/drivers/gpu/drm/drm_color_mgmt.c
-@@ -630,3 +630,46 @@ int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests)
- 	return 0;
- }
- EXPORT_SYMBOL(drm_color_lut_check);
-+
-+/**
-+ * drm_color_lut_32_check - check validity of extended lookup table
-+ * @lut: property blob containing extended LUT to check
-+ * @tests: bitmask of tests to run
-+ *
-+ * Helper to check whether a userspace-provided extended lookup table is valid and
-+ * satisfies hardware requirements.  Drivers pass a bitmask indicating which of
-+ * the tests in &drm_color_lut_tests should be performed.
-+ *
-+ * Returns 0 on success, -EINVAL on failure.
-+ */
-+int drm_color_lut_32_check(const struct drm_property_blob *lut, u32 tests)
-+{
-+	const struct drm_color_lut_32 *entry;
-+	int i;
-+
-+	if (!lut || !tests)
-+		return 0;
-+
-+	entry = lut->data;
-+	for (i = 0; i < drm_color_lut_32_size(lut); i++) {
-+		if (tests & DRM_COLOR_LUT_EQUAL_CHANNELS) {
-+			if (entry[i].red != entry[i].blue ||
-+			    entry[i].red != entry[i].green) {
-+				DRM_DEBUG_KMS("All LUT entries must have equal r/g/b\n");
-+				return -EINVAL;
-+			}
-+		}
-+
-+		if (i > 0 && tests & DRM_COLOR_LUT_NON_DECREASING) {
-+			if (entry[i].red < entry[i - 1].red ||
-+			    entry[i].green < entry[i - 1].green ||
-+			    entry[i].blue < entry[i - 1].blue) {
-+				DRM_DEBUG_KMS("LUT entries must never decrease.\n");
-+				return -EINVAL;
-+			}
-+		}
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_color_lut_32_check);
-diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
-index ed81741036d7..882253a82bf1 100644
---- a/include/drm/drm_color_mgmt.h
-+++ b/include/drm/drm_color_mgmt.h
-@@ -72,6 +72,18 @@ static inline int drm_color_lut_size(const struct drm_property_blob *blob)
- 	return blob->length / sizeof(struct drm_color_lut);
- }
- 
-+/**
-+ * drm_color_lut_32_size - calculate the number of entries in the extended LUT
-+ * @blob: blob containing the LUT
-+ *
-+ * Returns:
-+ * The number of entries in the color LUT stored in @blob.
-+ */
-+static inline int drm_color_lut_32_size(const struct drm_property_blob *blob)
-+{
-+	return blob->length / sizeof(struct drm_color_lut_32);
-+}
-+
- enum drm_color_encoding {
- 	DRM_COLOR_YCBCR_BT601,
- 	DRM_COLOR_YCBCR_BT709,
-@@ -118,4 +130,5 @@ enum drm_color_lut_tests {
- };
- 
- int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests);
-+int drm_color_lut_32_check(const struct drm_property_blob *lut, u32 tests);
- #endif
 diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index a4a7ab689631..e5090416c1ae 100644
+index e5090416c1ae..9ed8b1b1357a 100644
 --- a/include/uapi/drm/drm_mode.h
 +++ b/include/uapi/drm/drm_mode.h
-@@ -872,6 +872,23 @@ struct drm_color_lut {
- 	__u16 reserved;
- };
+@@ -1175,6 +1175,70 @@ struct hdr_output_metadata {
+ 				  DRM_MODE_PAGE_FLIP_ASYNC | \
+ 				  DRM_MODE_PAGE_FLIP_TARGET)
  
 +/**
-+ * struct drm_color_lut_32 - Represents high precision lut values
++ * DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE
 + *
-+ * Creating 32 bit palette entries for better data
-+ * precision. This will be required for HDR and
-+ * similar color processing usecases.
++ * linearly interpolate between the points
 + */
-+struct drm_color_lut_32 {
-+	/*
-+	 * Data for high precision LUTs
-+	 */
-+	__u32 red;
-+	__u32 green;
-+	__u32 blue;
-+	__u32 reserved;
++#define DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE BIT(0)
++
++/**
++ * DRM_COLOROP_1D_LUT_MULTSEG_REUSE_LAST
++ *
++ * the last value of the previous range is the
++ * first value of the current range.
++ */
++#define DRM_COLOROP_1D_LUT_MULTSEG_REUSE_LAST BIT(1)
++
++/**
++ * DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING
++ *
++ * the curve must be non-decreasing
++ */
++#define DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING BIT(2)
++
++/**
++ * DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE
++ *
++ *  the curve is reflected across origin for negative inputs
++ */
++#define DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE BIT(3)
++
++/**
++ * DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL
++ *
++ * the same curve (red) is used for blue and green channels as well
++ */
++#define DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL BIT(4)
++
++/**
++ * struct drm_color_lut_range
++ *
++ * structure to advertise capability of a color hardware
++ * block that accepts LUT values.  It can represent LUTs with
++ * varied number of entries and distributions
++ * (Multi segmented, Logarithmic etc).
++ */
++
++struct drm_color_lut_range {
++	/* DRM_COLOROP_1D_LUT_MULTSEG_* */
++	__u32 flags;
++	/* number of points on the curve in the segment */
++	__u16 count;
++	/* input start/end values of the segment */
++	__s32 start, end;
++	/* normalization factor. Represents 1.0 in terms of smallest step size */
++	__u32 norm_factor;
++
++	/* precision of HW LUT*/
++	struct {
++		/* Integer precision */
++		__u16 intp;
++		/* Fractional precision */
++		__u16 fracp;
++	} precision;
 +};
 +
- /**
-  * enum drm_colorop_type - Type of color operation
+ /*
+  * Request a page flip on the specified crtc.
   *
-@@ -879,6 +896,7 @@ struct drm_color_lut {
-  * and defines a different set of properties. This enum defines all types and
-  * gives a high-level description.
-  */
-+
- enum drm_colorop_type {
- 	/**
- 	 * @DRM_COLOROP_1D_CURVE:
 -- 
 2.42.0
 
