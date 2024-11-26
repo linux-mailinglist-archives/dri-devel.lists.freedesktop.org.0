@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64BE9D9CCD
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 18:45:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB15A9D9CD3
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 18:45:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AB2110E96B;
-	Tue, 26 Nov 2024 17:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAB9910E98A;
+	Tue, 26 Nov 2024 17:45:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HV89K9zK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B9J14hZ4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEC83899A3;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D27D910E96B;
  Tue, 26 Nov 2024 17:45:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1732643140; x=1764179140;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=PkWiFYslfaLNg6YRsbTeeDCnGjQC7oOlwil3ks27fnM=;
- b=HV89K9zK5vJOrObgn8CvtMGCvO+zwVtBF8ZkBNcaujtfMks9N95e4bxk
- ib5ITZ1NbpZo2BR8++LURnjrjXVTE6rAbx3F1gpP1sKZFQGcnQ6n5+ShM
- 6VMX9k1pzmKylPQUnnlhOy2vJm8EPoNX7gr0X45IdXvMfa4zg3Wh/pcje
- FQi4jE2+IFaJQR1nUoI9HE+fEOTloIMCu1cvr38ORkz+Snj93Ouh8F6p8
- QDqjOzyCHAnDnsvKgtBu83d3QRx9Mev/dfvNsakXRE4lDGG9Qg3beNpOm
- Byis4LsBV265irDWEcckxgNpu5w+4EdfKuPAnuBAccCtgFzcfqLKr+tjZ A==;
-X-CSE-ConnectionGUID: Ux85hBoDQ9mzT99jDO3CTg==
-X-CSE-MsgGUID: QPJZh7vZSYepeeFcyqdv2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32676907"
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="32676907"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=4ZqNF39QaBs83JHuzqa17bQtGi85tWe8GAWqSC8Hdqs=;
+ b=B9J14hZ4yPQNM2QaOI8rREdTy5yZYxlhITwyH0k8A/lowsO+FfNoq8En
+ vYVRnrujZ+IBgeCiM3qCeHFb8N0F69EflHnuXTZLX3+gjIuvy07jyx5rr
+ Pyxoc9gYletyBdzvquF7pr1c9F1jde0Cp35Fup4GC7uK1savSKlBQtY/X
+ uPVNUbrZEJ5sMJlo2x3tvcqBid96JJHKHY4siun75301U04oxsaaoodZa
+ Rg3loQPeZEfzqav/tGNNe52qK+qZdbw0HblYyuRL50vFAm0p9i/Hpke/e
+ fo/4tLLr0Iu3HrKbGzAPRgYld5czDquZ40uUk7Lc+AuAICxwEMAdnGra3 A==;
+X-CSE-ConnectionGUID: vlmZRpc5SZ+FJ9TO0P/dsw==
+X-CSE-MsgGUID: WKwc7UjdShSU9I1vdK3Dgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32676909"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="32676909"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Nov 2024 09:45:40 -0800
-X-CSE-ConnectionGUID: EOKuP9mxQOy5ZN2lfnBCoA==
-X-CSE-MsgGUID: C1/Zl3+NTVSOiHaajANVIQ==
+X-CSE-ConnectionGUID: Q+hpSm2nTaKkBhTq7AvK7Q==
+X-CSE-MsgGUID: KwrzFc3kSBy2UVIWNOc8Wg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="92152574"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="92152575"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Nov 2024 09:45:39 -0800
@@ -46,10 +46,12 @@ To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: christian.koenig@amd.com,
 	thomas.hellstrom@linux.intel.com
-Subject: [PATCH v7 0/8] Fix non-contiguous VRAM BO access in Xe
-Date: Tue, 26 Nov 2024 09:46:07 -0800
-Message-Id: <20241126174615.2665852-1-matthew.brost@intel.com>
+Subject: [PATCH v7 1/8] drm/xe: Add xe_bo_vm_access
+Date: Tue, 26 Nov 2024 09:46:08 -0800
+Message-Id: <20241126174615.2665852-2-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241126174615.2665852-1-matthew.brost@intel.com>
+References: <20241126174615.2665852-1-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -68,32 +70,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fully reviewed and resending for final CI.
+Add xe_bo_vm_access which is wrapper around ttm_bo_vm_access which takes
+rpm refs for device access.
 
-Dropping non-visible patch for now as it a bit larger, not strickly
-required to unblock EU debug, and be sent independently in a follow up.
+Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+---
+ drivers/gpu/drm/xe/xe_bo.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-Matt
-
-Matthew Brost (8):
-  drm/xe: Add xe_bo_vm_access
-  drm/ttm: Add ttm_bo_access
-  drm/xe: Add xe_ttm_access_memory
-  drm/xe: Take PM ref in delayed snapshot capture worker
-  drm/xe/display: Update intel_bo_read_from_page to use ttm_bo_access
-  drm/xe: Use ttm_bo_access in xe_vm_snapshot_capture_delayed
-  drm/xe: Set XE_BO_FLAG_PINNED in migrate selftest BOs
-  drm/xe: Only allow contiguous BOs to use xe_bo_vmap
-
- drivers/gpu/drm/ttm/ttm_bo_vm.c       | 40 ++++++++---
- drivers/gpu/drm/xe/display/intel_bo.c | 25 +------
- drivers/gpu/drm/xe/tests/xe_migrate.c | 13 ++--
- drivers/gpu/drm/xe/xe_bo.c            | 99 +++++++++++++++++++++++----
- drivers/gpu/drm/xe/xe_devcoredump.c   |  6 ++
- drivers/gpu/drm/xe/xe_vm.c            | 17 ++---
- include/drm/ttm/ttm_bo.h              |  2 +
- 7 files changed, 142 insertions(+), 60 deletions(-)
-
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index ec070af12662..aaf54131c89e 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -1249,11 +1249,26 @@ static vm_fault_t xe_gem_fault(struct vm_fault *vmf)
+ 	return ret;
+ }
+ 
++static int xe_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
++			   void *buf, int len, int write)
++{
++	struct ttm_buffer_object *ttm_bo = vma->vm_private_data;
++	struct xe_bo *bo = ttm_to_xe_bo(ttm_bo);
++	struct xe_device *xe = xe_bo_device(bo);
++	int ret;
++
++	xe_pm_runtime_get(xe);
++	ret = ttm_bo_vm_access(vma, addr, buf, len, write);
++	xe_pm_runtime_put(xe);
++
++	return ret;
++}
++
+ static const struct vm_operations_struct xe_gem_vm_ops = {
+ 	.fault = xe_gem_fault,
+ 	.open = ttm_bo_vm_open,
+ 	.close = ttm_bo_vm_close,
+-	.access = ttm_bo_vm_access
++	.access = xe_bo_vm_access,
+ };
+ 
+ static const struct drm_gem_object_funcs xe_gem_object_funcs = {
 -- 
 2.34.1
 
