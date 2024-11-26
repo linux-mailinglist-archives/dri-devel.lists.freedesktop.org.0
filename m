@@ -2,91 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC059D9A5F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 16:24:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AA699DA453
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 10:01:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3491E10E8EA;
-	Tue, 26 Nov 2024 15:24:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="iEMo2MWz";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C04E610EA4C;
+	Wed, 27 Nov 2024 09:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA26110E8DD;
- Tue, 26 Nov 2024 15:24:45 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQEteBo009477;
- Tue, 26 Nov 2024 15:24:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- /1cZnQT68TGHVierbrKfkfuNZesBX//u5csAVytjwqQ=; b=iEMo2MWz5aOUwmva
- 95lAnjY5+9nYXFQduIRGGOjcliMhkeKYrAzbUqY6tMwI1ANGJzQbFjKAwGon+ws3
- f1HnosXLMCvMu9r4t0Mtk+MNfRJ6MwArhA0w4NiEUCpwr7AwdkK3PlZn1t8vPkWj
- TQJ1YaIPJHxGYJ2t7Gmo3YbQtBX4BmtHUs19VVyDKSTTMOzNs6pQEAQdXT2WAybs
- C3m1IQMqX4chw9ygc179PDhJPWcII8zfOKXUUWHVQEJvqJOhSfmUwL4Ui2Rnegfh
- swU7XQuoB/tTPQWNDgV0TjH08BdypENzIgOwfYTvx8vaKjyj9vGTgohS7FTTiIJo
- HGKXeg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 435gha82ep-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Nov 2024 15:24:36 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AQFOZMg030262
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Nov 2024 15:24:35 GMT
-Received: from [10.216.49.153] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 26 Nov
- 2024 07:24:29 -0800
-Message-ID: <56b6f58e-e100-4dfd-b764-a9c3f5aad887@quicinc.com>
-Date: Tue, 26 Nov 2024 20:54:26 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: display/msm: gpu: Document A612 GPU
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- "Abhinav Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Bjorn
- Andersson" <andersson@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241126-qcs615-gpu-dt-v1-0-a87782976dad@quicinc.com>
- <20241126-qcs615-gpu-dt-v1-1-a87782976dad@quicinc.com>
- <680a9f92-1d29-410b-bc63-a998d2d64e9e@kernel.org>
-Content-Language: en-US
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <680a9f92-1d29-410b-bc63-a998d2d64e9e@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 1dm9BEiApSTMSpTxBBdyVG4XYFulg3k1
-X-Proofpoint-GUID: 1dm9BEiApSTMSpTxBBdyVG4XYFulg3k1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 phishscore=0 mlxscore=0 malwarescore=0 impostorscore=0
- clxscore=1015 bulkscore=0 priorityscore=1501 suspectscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411260124
+X-Greylist: delayed 362 seconds by postgrey-1.36 at gabe;
+ Tue, 26 Nov 2024 17:32:21 UTC
+Received: from mail.steuer-voss.de (mail.steuer-voss.de [85.183.69.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B25F510E96B
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 17:32:21 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.steuer-voss.de
+Received: by mail.steuer-voss.de (Postfix, from userid 1000)
+ id AD8B51622C; Tue, 26 Nov 2024 18:26:10 +0100 (CET)
+From: Nikolaus Voss <nv@vosn.de>
+Date: Tue, 26 Nov 2024 16:45:54 +0100
+Subject: [PATCH] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Fabio Estevam <festevam@denx.de>, Marek Vasut <marex@denx.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nikolaus.voss@haag-streit.com
+Message-Id: <20241126172610.AD8B51622C@mail.steuer-voss.de>
+X-Mailman-Approved-At: Wed, 27 Nov 2024 09:01:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,68 +47,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/26/2024 7:42 PM, Krzysztof Kozlowski wrote:
-> On 26/11/2024 15:06, Akhil P Oommen wrote:
->> A612 GPU requires an additional smmu_vote clock. Update the bindings to
->> reflect this.
->>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
->>  .../devicetree/bindings/display/msm/gpu.yaml       | 28 ++++++++++++----------
->>  1 file changed, 16 insertions(+), 12 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
->> index 6ddc72fd85b04537ea270754a897b4e7eb269641..201150d3151b55c26c95832d36f4e02f66060a25 100644
->> --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
->> +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
->> @@ -187,6 +187,7 @@ allOf:
->>              enum:
->>                - qcom,adreno-610.0
->>                - qcom,adreno-619.1
->> +              - qcom,adreno-612.0
-> 
-> Keep things ordered.
+LDB clock has to be a fixed multiple of the pixel clock.
+As LDB and pixel clock are derived from different clock sources
+(at least on imx8mp), this constraint cannot be satisfied for
+any pixel clock, which leads to flickering and incomplete
+lines on the attached display.
 
-Ack.
+To overcome this, check this condition in mode_fixup() and
+adapt the pixel clock accordingly.
 
-> 
->>      then:
->>        properties:
->>          clocks:
->> @@ -195,18 +196,21 @@ allOf:
->>  
->>          clock-names:
->>            items:
->> -            - const: core
->> -              description: GPU Core clock
->> -            - const: iface
->> -              description: GPU Interface clock
->> -            - const: mem_iface
->> -              description: GPU Memory Interface clock
->> -            - const: alt_mem_iface
->> -              description: GPU Alternative Memory Interface clock
->> -            - const: gmu
->> -              description: CX GMU clock
->> -            - const: xo
->> -              description: GPUCC clocksource clock
->> +            anyOf:
-> 
-> No, this makes everything total mess. Why xo now is allowed to be first
-> clock?
-> 
-> Drop and explain in commit msg why other devices now get smmu clock.
+Cc: <stable@vger.kernel.org>
 
-I thought it was okay to make this list a bit flexible. Btw, the other
-existing clock-names list for a5x and older gpus uses "anyOf".
+Signed-off-by: Nikolaus Voss <nv@vosn.de>
+---
+ drivers/gpu/drm/bridge/fsl-ldb.c | 40 ++++++++++++++++++++++++++++----
+ 1 file changed, 36 insertions(+), 4 deletions(-)
 
-I suppose the suggestion is to add a separate clock-names list for A612
-with strict ordering. Is that correct?
-
--Akhil
-
-> 
-> BTW, I am pretty sure this breaks existing platforms.
-> 
-> Best regards,
-> Krzysztof
+diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+index 0e4bac7dd04ff..e341341b8c600 100644
+--- a/drivers/gpu/drm/bridge/fsl-ldb.c
++++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+@@ -104,12 +104,14 @@ static inline struct fsl_ldb *to_fsl_ldb(struct drm_bridge *bridge)
+ 	return container_of(bridge, struct fsl_ldb, bridge);
+ }
+ 
++static unsigned int fsl_ldb_link_freq_factor(const struct fsl_ldb *fsl_ldb)
++{
++	return fsl_ldb_is_dual(fsl_ldb) ? 3500 : 7000;
++}
++
+ static unsigned long fsl_ldb_link_frequency(struct fsl_ldb *fsl_ldb, int clock)
+ {
+-	if (fsl_ldb_is_dual(fsl_ldb))
+-		return clock * 3500;
+-	else
+-		return clock * 7000;
++	return clock * fsl_ldb_link_freq_factor(fsl_ldb);
+ }
+ 
+ static int fsl_ldb_attach(struct drm_bridge *bridge,
+@@ -121,6 +123,35 @@ static int fsl_ldb_attach(struct drm_bridge *bridge,
+ 				 bridge, flags);
+ }
+ 
++static bool fsl_ldb_mode_fixup(struct drm_bridge *bridge,
++				const struct drm_display_mode *mode,
++				struct drm_display_mode *adjusted_mode)
++{
++	const struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
++	unsigned long requested_link_freq =
++		mode->clock * fsl_ldb_link_freq_factor(fsl_ldb);
++	unsigned long freq = clk_round_rate(fsl_ldb->clk, requested_link_freq);
++
++	if (freq != requested_link_freq) {
++		/*
++		 * this will lead to flicker and incomplete lines on
++		 * the attached display, adjust the CRTC clock
++		 * accordingly.
++		 */
++		int pclk = freq / fsl_ldb_link_freq_factor(fsl_ldb);
++
++		if (adjusted_mode->clock != pclk) {
++			dev_warn(fsl_ldb->dev, "Adjusted pixel clk to match LDB clk (%d kHz -> %d kHz)!\n",
++				 adjusted_mode->clock, pclk);
++
++			adjusted_mode->clock = pclk;
++			adjusted_mode->crtc_clock = pclk;
++		}
++	}
++
++	return true;
++}
++
+ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
+ 				  struct drm_bridge_state *old_bridge_state)
+ {
+@@ -280,6 +311,7 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
+ 
+ static const struct drm_bridge_funcs funcs = {
+ 	.attach = fsl_ldb_attach,
++	.mode_fixup = fsl_ldb_mode_fixup,
+ 	.atomic_enable = fsl_ldb_atomic_enable,
+ 	.atomic_disable = fsl_ldb_atomic_disable,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+-- 
+2.43.0
 
