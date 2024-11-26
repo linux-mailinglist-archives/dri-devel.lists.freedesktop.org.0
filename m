@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1CF9D9843
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 14:20:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0CE39D9847
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 14:20:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B24610E893;
-	Tue, 26 Nov 2024 13:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F26610E89C;
+	Tue, 26 Nov 2024 13:20:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Vr5H8N5A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iNv0m3T8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A457C10E406;
- Tue, 26 Nov 2024 13:20:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF5610E899;
+ Tue, 26 Nov 2024 13:20:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732627206; x=1764163206;
+ t=1732627209; x=1764163209;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=zXJOnJ+ydwCLUm1ahNcP3eWqJbbSNOzgsZgSQ3HEw0s=;
- b=Vr5H8N5A5hHlxfOk2ixnnk3n9rlf1Dnq/8Gj5l6BHTpwXTAKAGoDKWGu
- jkV/GfifeoA7CmANMak/Ej2HfQ13TikZ/QOx89erXLztEsfycA1wRg4J8
- yZ6Lf6yTEVdAKmO1GpbdMHJSfgRJPxS0HzsKDo2mDbmdSwXDOOOqivinS
- yMCx2Y1BbZiE+QVNqzJrmkiU7T5G0P9xw3EIKBzb1VVOUgbNEiV8s+PmS
- mp8jvV6g7Mt2EBskqo8zKvIQASyEeo43n/45+nrlQmP/7XJPT0Fz7yx0L
- ViQbgQOz1D4Nys0zRgiHgQsHxnNTh/6wkw4vPjreynjXvl32bkpC22PZ+ w==;
-X-CSE-ConnectionGUID: ySv0V3cZSW2bpyR6QP8rKQ==
-X-CSE-MsgGUID: CMzOY7YhT6Cq/9hrPM3z2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="44170181"
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="44170181"
+ bh=rehJkBC3pvblNXstRixXxh8m67FRuMMLfQ9XcFwQIRU=;
+ b=iNv0m3T8mhmJU5xG8T2fs6d6g9QI0ENmJU43D3fQQfMcAuitRMs78HpY
+ kn1b4U/eGsnynZKvDtVhoPKnv157GHPFYZah4Sth72kQsIhYhcDfqlKkH
+ dSnf+t6lebrWiXBjsOXP8cQsjLOcIApebEzvvnk0TGhviYENd1YRA763f
+ pIJ1vxnuDfbAeqKSBzSD/jUe4blP9yeUtNQBbC5c8S2v+rRdqYcZpfwjK
+ IsfvQIJVYrC4bFobBgGcPu1lfED+2dlTVBvmrbEHXvoVpYFqn9+h98XXc
+ nSveGbHb1Jl1ZWFk8qqWGM1eT7pfYeUAV9bdulIw55MNHGNwyoYj3wf3K g==;
+X-CSE-ConnectionGUID: 4sAxZEcURuWkvhf+9dHukw==
+X-CSE-MsgGUID: 4lcBRZusTDqYOvrg8f6Dwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="44170209"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="44170209"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2024 05:20:05 -0800
-X-CSE-ConnectionGUID: 55y5iyLHRcqLv00VicJ7tw==
-X-CSE-MsgGUID: vd/juZMCT9yW+zEbhw/zRA==
+ 26 Nov 2024 05:20:09 -0800
+X-CSE-ConnectionGUID: U9Gq+YPdRua/eQMvX4K0NA==
+X-CSE-MsgGUID: iDvVCuaATZya1P4BNgnnRA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="114874676"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="114874695"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by fmviesa002.fm.intel.com with ESMTP; 26 Nov 2024 05:20:01 -0800
+ by fmviesa002.fm.intel.com with ESMTP; 26 Nov 2024 05:20:05 -0800
 From: Uma Shankar <uma.shankar@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org
@@ -48,9 +48,9 @@ Cc: ville.syrjala@linux.intel.com, harry.wentland@amd.com,
  mwen@igalia.com, contact@emersion.fr, naveen1.kumar@intel.com,
  Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
  Uma Shankar <uma.shankar@intel.com>
-Subject: [v2 09/25] drm: Add helper to initialize segmented 1D LUT
-Date: Tue, 26 Nov 2024 18:57:14 +0530
-Message-ID: <20241126132730.1192571-10-uma.shankar@intel.com>
+Subject: [v2 10/25] drm/i915: Add identifiers for intel color blocks
+Date: Tue, 26 Nov 2024 18:57:15 +0530
+Message-ID: <20241126132730.1192571-11-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20241126132730.1192571-1-uma.shankar@intel.com>
 References: <20241126132730.1192571-1-uma.shankar@intel.com>
@@ -73,75 +73,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 
-Add helper to initialize 1D segmented LUT
+Add macros to identify intel color blocks. It will help
+in mapping drm_color_ops to intel color HW blocks
 
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/drm_colorop.c | 27 ++++++++++++++++++++++++++-
- include/drm/drm_colorop.h     |  4 ++++
- 2 files changed, 30 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_display_limits.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index 111517c08216..871d5660e3b2 100644
---- a/drivers/gpu/drm/drm_colorop.c
-+++ b/drivers/gpu/drm/drm_colorop.c
-@@ -104,7 +104,6 @@ static int drm_create_colorop_capability_prop(struct drm_device *dev,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/i915/display/intel_display_limits.h b/drivers/gpu/drm/i915/display/intel_display_limits.h
+index f0fa27e365ab..97c960cc16aa 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_limits.h
++++ b/drivers/gpu/drm/i915/display/intel_display_limits.h
+@@ -138,4 +138,17 @@ enum hpd_pin {
+ 	HPD_NUM_PINS
+ };
  
--__maybe_unused
- static int drm_colorop_lutcaps_init(struct drm_colorop *colorop,
- 				    struct drm_plane *plane,
- 				    const struct drm_color_lut_range *ranges,
-@@ -338,6 +337,32 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
- }
- EXPORT_SYMBOL(drm_colorop_curve_1d_lut_init);
- 
-+int drm_colorop_curve_1d_lut_multseg_init(struct drm_device *dev, struct drm_colorop *colorop,
-+					  struct drm_plane *plane,
-+					  const struct drm_color_lut_range *ranges,
-+					  size_t length, bool allow_bypass)
-+{
-+	int ret;
++/*
++ * Intel Color Blocks
++ *
++ */
 +
-+	ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_LUT_MULTSEG, allow_bypass);
-+	if (ret)
-+		return ret;
++enum intel_color_block {
++	CB_PLANE_PRE_CSC_LUT,
++	CB_PLANE_CSC,
++	CB_PLANE_POST_CSC_LUT,
 +
-+	ret = drm_colorop_lutcaps_init(colorop, plane, ranges, length);
-+	if (ret)
-+		return ret;
++	I915_MAX_CB
++};
 +
-+	/* data */
-+	ret = drm_colorop_create_data_prop(dev, colorop);
-+	if (ret)
-+		return ret;
-+
-+	drm_colorop_reset(colorop);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_colorop_curve_1d_lut_multseg_init);
-+
- int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
- 			     struct drm_plane *plane, bool allow_bypass)
- {
-diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-index 58e5b87c6d56..9268fffd04f6 100644
---- a/include/drm/drm_colorop.h
-+++ b/include/drm/drm_colorop.h
-@@ -391,6 +391,10 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
- 				  bool allow_bypass);
- int drm_colorop_ctm_3x3_init(struct drm_device *dev, struct drm_colorop *colorop,
- 			     struct drm_plane *plane, bool allow_bypass);
-+int drm_colorop_curve_1d_lut_multseg_init(struct drm_device *dev, struct drm_colorop *colorop,
-+					  struct drm_plane *plane,
-+					  const struct drm_color_lut_range *ranges,
-+					  size_t length, bool allow_bypass);
- int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
- 			     struct drm_plane *plane, bool allow_bypass);
- int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+ #endif /* __INTEL_DISPLAY_LIMITS_H__ */
 -- 
 2.42.0
 
