@@ -2,83 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10BB89DA44E
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 10:01:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36BF09D9545
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 11:15:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF18810EA45;
-	Wed, 27 Nov 2024 09:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F7610E814;
+	Tue, 26 Nov 2024 10:15:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="ZFYpHJTe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g3z2Knzn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0376410E80B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 10:03:21 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B21BC10E815
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 10:15:32 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-434a45f05feso10853415e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 02:15:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oldschoolsolutions.biz; s=s1-ionos; t=1732615388; x=1733220188;
- i=jens.glathe@oldschoolsolutions.biz;
- bh=UqgJ48Ha4CrAwJTSYwvED1Nl9FQ6CTIHGQ+zfspe6IA=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=ZFYpHJTeVmiUWMNO63QGXvBqWzvbL+yRFXwGO/dzj2aAU4ZOuHg/DOPtYnMJohQi
- 11BPkAd4Xgm5hrOvVCgGIH+y8Yiq6zbBjmalY8hAhjpMRzIMcXT9ic+T2Sry9oZ2J
- Cos2TOFSQwQtY4AX6qI24sALujX7HsfvqhVn2KFk0aGGlpRd759YXaQBdf4frH4GW
- J532fA2S+NoiRkZNC6zW2G2G1kebfb0uZ9ZLhfuksm7URj2n+pkZG15+qaN+1NMmg
- 750r7SkyQMUYBHxYv5mzofbZlezSwvA3h/yeuDNDwbSYuocME9SVWN/jfs07vJOpH
- oMeUmunHfJ40vjSQRA==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from [192.168.0.128] ([91.64.229.215]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MsI0K-1ta9Je12z4-012Kg7; Tue, 26 Nov 2024 11:03:08 +0100
-Message-ID: <1fb0ffd8-1e11-4d9e-a935-29ea4e30c8fd@oldschoolsolutions.biz>
-Date: Tue, 26 Nov 2024 11:03:06 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: arm: qcom: Add HP Omnibook X 14
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ d=gmail.com; s=20230601; t=1732616131; x=1733220931; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=iMHlNehhUeJtZXiuS3qHdRgWnpyVBbD3di8vAnUvhDQ=;
+ b=g3z2KnznrNs+RV/E16T9U08AcHFpxd6UeEqLIwSM3njWEhM5y1yxw86Q0MfG1guxhK
+ 6mLA0yKnpQWeb48SbHJobaDxpcSFx3X8DRuY++b0gubrbsstmts2pLQhoqBxziOgBZcQ
+ q0j1qAmHc4L592DvLg0vSsQkmxR4i72nXcQ1qANlUWA1QLlai25e6Ujs6A8RM8QvqR67
+ PSE/oDLm3UbX3W839xpdhddEzhp41xzzeXlzL5S2Hk21xFVRvNxhRcTYGDnlBovYMlab
+ YvwQm3sJuNw63U+j+mqQ5M5zGNufSPrsiNeMlpTc0VbqybzcQIndxvAAeus7GHneys8P
+ TOWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732616131; x=1733220931;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iMHlNehhUeJtZXiuS3qHdRgWnpyVBbD3di8vAnUvhDQ=;
+ b=BrZKmsnqQbSGnI91Ix5RaEYmt+SzQ1ksYvGQ/Z37UkHIAMcIFLnz1XrwmWCe3GicJr
+ v5YMDaiyn90nR8TMwCdvtLyQoOtJnC6KdSyAT9h1I6Vwoh3+3/KbgMb8GkbAyWTPLOJf
+ u3GK3rpvQFAbD7BLua33oKBsNrBRIVget3SzWkVOZneMl+HIwaszN6o5Ro9P54R8N1fX
+ xa9FWuATiijyRgTKrpFQZCl5xpCNrmCzQVifWaUTGjfq+Rm2rD5Me0mJTVUe4bp7y4AO
+ m7bRCmSPNlKiXb75E+imurU+1My6C85Y+a0/6D645UcWAmxNJehR8Ub1O2h1eI68zFNy
+ 5Y8w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXrdpJ8MUi1tereZl3IrP4QBd+9Gb9rqkUE09PC+pZDUgUK1oOSWKMp9DMuG9GKT1SGvGIxlU7QqzA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwxFMxlvz2sVhyPXt2b4Qcj9RI3hjdBRJEJMmWQFcSjMSBNbZMA
+ wPLER8X8/ULAUDpKzfuH1U1qVN4GjnEXrJr7VakNUY20uj+FfEqx
+X-Gm-Gg: ASbGncvJqCVtJ16v0Y1xzn5QyJ1aMIyvbveqK/nfFJVs6Cw/a2awYb7SGts8FgyL8NU
+ ANCTzxWfftM+SxO46SNbfC/I2Ux2OFW7rkYNqdD95V+fG2ljANy1iNy3YLvCmJARoPeKRCPQUy0
+ 3mM25px0m4jIRloBIhWKnG410LURa8vzvwGGZ+1/fjwk2zaSMPpTNKDp9pn4pt58ls+mSNtZ15K
+ 7BuLk6CUAf7kKzHqaNn7vYuTtGZs1+7VXzx5+nRvRPcOIL9HjIxPfi49LcyYPXKBp7DApEVBtXh
+ yZEZRYYP8dNvYOA6Huxq
+X-Google-Smtp-Source: AGHT+IGSUVR4ktjx520waynJHg6uz+q+sQ70n8ebOF0pRuJy89VrdCGC9kyQeWZfvcRuqeeAHVawjA==
+X-Received: by 2002:a05:600c:4f06:b0:431:5f8c:ccb9 with SMTP id
+ 5b1f17b1804b1-433ce426a01mr176891285e9.17.1732616130901; 
+ Tue, 26 Nov 2024 02:15:30 -0800 (PST)
+Received: from tom-desktop (net-188-217-53-234.cust.vodafonedsl.it.
+ [188.217.53.234]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-434a0876a41sm56191495e9.11.2024.11.26.02.15.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Nov 2024 02:15:30 -0800 (PST)
+Date: Tue, 26 Nov 2024 11:15:28 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieram Bingham <kieran.bingham+renesas@ideasonboard.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Kalle Valo <kvalo@kernel.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20241124-hp-omnibook-x14-v1-0-e4262f0254fa@oldschoolsolutions.biz>
- <20241124-hp-omnibook-x14-v1-1-e4262f0254fa@oldschoolsolutions.biz>
- <dgilzuguxfvzqndp4rjm4hlhejgporfvollk4sqwquk34g4pka@dinzg2kfk4x2>
-Content-Language: en-US
-From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-In-Reply-To: <dgilzuguxfvzqndp4rjm4hlhejgporfvollk4sqwquk34g4pka@dinzg2kfk4x2>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:p95dLl39HAqGZyMZQe3at5sITGCOt38D4bkBO1HRwGKLBRasN+l
- miro5BoYdM1w3n66ThYdEwzBMMV/X5cVGMQKSKjAqCvl56jp526rZjoffmPRBm4oKlfZZiX
- PNHMfTivmIFPnk9f04D8kBEWxdJpB/FSrtFMXo/bDSwFIlWohIaVIBiK2/uoEWcLJR7eZiO
- OQeUjc1mXLQOcuIsjCfww==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:pRIZmmqolrU=;hI/eIL1WwJvTXkalpqND3TlMDP1
- gqqG2QsshkTSDqWGZe0a6NJrfMXGKzq9WHm657kLz53Ys92mm2JOFkCdP4MoNnZvASI9FA7RA
- klWOpkJ5AtuhyFDL3H4YN5hqg1ltPIEmOWqqd/KbhztiKwr9Vuq6onAcNYHAAe2kwIH15vvjV
- hF1pRO0Zcw+6628ddWR4Yp2hVS9eVK1M60X+BVl0dbINjsd0lMCxkLjUYW8jI5x0miJdw33WQ
- 3Jy8z8xp1Q3EZbatqU14roUUai6CwF1e/hLxEElPbS9xw0qiLl4YYnbWLP1E+P+5Cu1i0adLb
- ZCyrkCmGoAySBZtW5LGqMNp9JvboCw8ZcxD5jHPj1MZ76jLBuxLk6BgPA0xDdwx2CPdDsk8Z3
- Tl9nk7HxUU0THr1m4rbdGMwXy7N9T7LjgX6gjq32dUnXDHKxmnfIJWTat8s0H7XNht0kSlsqX
- Httow8a8xOjV6XG860cFF1mV+VKI/IMSS1Ky2vqGHdZCCLyLUcG/HHTXfypmAv4bS2NOmgXg/
- xe45z3rsaImV0t6qVFDzfVOXdo0H83IQFbfNRyyIQeqyFyrnOUvBQk/kKYIvnetkdvczJQJvP
- yyqwJ/fKpEoaI0XFp7T5OQVczTt6sjj3GxzYJJOk5XKT0j9Shsisa6EnKiQSBTYxh5d7c/joC
- PBS1Rv18hBvgTLjbew5yxpOgHpRc+uLcUWn0JL3MR4wRjQBvjHGghy76chTq69+TT+WnK9/4c
- y1c/81f0KV68g6Aw58/qdiNfD4Qt79u7s2oK++ULpVTr+W6zVYCAg6xH63dp7hwd5hbApApX5
- Z24fAab67bLjNo/1ptOPh84dReQJCC/ZIE8GRnaXQP/ffj200lRc4wRAUIU7t2V9+e
-X-Mailman-Approved-At: Wed, 27 Nov 2024 09:01:48 +0000
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: hints around rcar_lvds.c :)
+Message-ID: <Z0WfwMJVCQOEZM3c@tom-desktop>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,23 +85,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26.11.24 08:34, Krzysztof Kozlowski wrote:
+Hi Laurent, All,
 
-> On Sun, Nov 24, 2024 at 02:20:15PM +0100, Jens Glathe wrote:
->> Add compatible values for the HP Omnibook X Laptop 14-fe0750ng,
->> using "hp,omnibook-x14"
->>
->> The laptop is based on the Snapdragon X Elite (x1e80100) SoC.
->>
->> PDF link: https://www8.hp.com/h20195/V2/GetPDF.aspx/c08989140
->>
->> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
->> ---
->>   Documentation/devicetree/bindings/arm/qcom.yaml | 1 +
->>   1 file changed, 1 insertion(+)
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> Best regards,
-> Krzysztof
->
-Thanks!
+Sorry for bothering.
+Looking for some feedback :)
+
+I have a similar rcar_lvds.c IP's to handle but in my case:
+I have lvds0 and lvds1 that are sharing some common regs (lvds_cmn).
+
+ ----------------------
+|    -------------     |
+|   |lvds_cmn_regs|    |
+|    -------------     |
+|                      |
+|    -----------       |
+|   | lvds0_regs |     |-----> ch0
+|    ------------      |
+|                      |
+|    -----------       |
+|   | lvds1_regs |     |-----> ch1
+|    ------------      |
+ ----------------------
+
+
+So I'm checking 2 drm dts/driver architecture:
+
+1st architecture:
+ - Using a single lvds driver to handle both lvds0 and lvds1.
+
+		 ----------------------
+		|                      |
+		|                      |
+		|                      |
+du_lvds0 ------>|                      |----> ch0_lvds
+		|      lvds_bridge     |
+		|                      |
+		|                      |
+du_lvds1 ------>|                      |----> ch1_lvds
+		|                      |
+		 ----------------------
+
+
+Issue:
+
+Problem here is the 1 single link 2ch mode.
+lvds0 and lvds1 can drive 2 display with 2 differents fb (fb0 and fb1).
+
+Having a single drm_bridge to drive both channel give me the following issue:
+
+In single link 2ch mode when for the first time the du encoder drm_attach()
+the lvds bridge to the encoder(du) all goes fine and fb0 is created correctly.
+
+Then again the du encoder is trying again to drm_attach() the lvds bridge
+but this return -EBUSY obviously because is already attached.
+
+Then I think this is not the way to follow because I need 2 drm_bridges
+from the same drm drive, and I think this is not correct.
+----------
+
+2nd architecture:
+ - Follow rcar_lvds.c way using 2 nodes for lvds0 and lvds1:
+
+		 ------------
+du_lvds0 -----> |lvds0_bridge|----> ch0_lvds
+		 ------------
+
+		 ------------
+du_lvds1 -----> |lvds1_bridge|----> ch1_lvds
+		 ------------
+
+Issue:
+I thinks this is an optimal approach but in my case here
+the problem is that lvds0 and lvds1 share a set of common registers
+some common clocks and common reset:
+
+My plan is to manipulate those common regs (lvds_cmn) using
+compatible = "simple-mfd", "syscon"; as follow:
+
+lvds_cmn: lvds-cmn {
+	compatible = "simple-mfd", "syscon";
+	reg = <common_regs>;
+
+	lvds0: lvds0-encoder {
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clocks = <&common_clk>, <&dotclok0>, <&phyclock0>;
+			resets = <&common_rst>;
+
+			port@0 {
+				reg = <0>;
+				lvds0_in: endpoint {
+					remote-endpoint = <&du_out_lvds0>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+				lvds_ch0: endpoint {
+				};
+			};
+		};
+	};
+
+	lvds1: lvds1-encoder {
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clocks = <&common_clk>, <&dotclok1>, <&phyclock1>;
+                        resets = <&common_rst>;
+
+			port@0 {
+				reg = <0>;
+				lvds1_in: endpoint {
+					remote-endpoint = <&du_out_lvds1>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+				lvds_ch1: endpoint {
+				};
+			};
+		};
+	};
+};
+----------
+
+I'm asking to find the best way to represent those IP's.
+What do you think?
+Any hints/tips would be nice.
+Thanks in advance.
+
+Thanks & Regards,
+Tommaso
