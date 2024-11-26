@@ -2,85 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5959DA455
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 10:02:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A599D9B86
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 17:34:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C765210EA4F;
-	Wed, 27 Nov 2024 09:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1B7B10E941;
+	Tue, 26 Nov 2024 16:34:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i+AivvOY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a99O8UWv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
- [209.85.219.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A7C10E411
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 16:34:21 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-e388d853727so5304929276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 08:34:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732638861; x=1733243661; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=81kUDK2FfLp/WGQa7o8TpKjDjzqNKseVMcIR/5Kc37Q=;
- b=i+AivvOYV1tL77Okghy4vPHyFXBDDpt0Y677VlMIvMaaQSg3iKegjXKgAH31LlFjDQ
- ReLT7gteSjtijDuNG8lSiaaG4gY2duKH0vt7//QGXu7Du54axQm3AtDwcRRbVwfu6TXF
- CbFvJQ2+GJrIO2yzLuSZp8r/5LiMR303cmzpYAY+CleXRN3j1WhxRwyMNN2SYBi/tktI
- QPuKbXn9cRQm0gIxpDezV0oiMsJF1VpiUdJLBWwjN4URrUh/NrmUD5D9hKQXuaay6zro
- 1zKBFIlm+69QFYAsbAJvIoemaf1xwtKOd/53vR6vsZdmLElWw4aUm8TPR8r0kxa/Mt67
- 9r8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732638861; x=1733243661;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=81kUDK2FfLp/WGQa7o8TpKjDjzqNKseVMcIR/5Kc37Q=;
- b=BLPpFUefg5WPAWQn54mDC9+ZcCWNNP8G/HimKlcjYqbwGORQ7T1jlkrwI0HlHNb44B
- Qipa772Z4IzA7IVIowG5Pb16GH9+zQdJiPIzx0SzkT06a6/KILL3zrlDIvcyI0+MnNS+
- Bk9KVLksjOMFQHg8wIhR6Virp5RKDMOj3ikkkfgOnCKBvVivjAepz4dD8Vkix0LzeJdO
- OTTYmUxodQ3i4FuYDL6Kb5q639uDGW3eWPiv3dJH8gtk+s0DA3EdxPvL1RgPBB44GEzo
- aOb+kCIhwjL2MQg7/hOj8iDkXd8tsm9CkV3avZQS7OJNJj14SP39R/bupdbP0fjpKIrx
- Hh4g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnwRlJTVtW8smB/FN9NLrG23I/HpsHKb4raqIdPUbVIeCTZKy4yV4eSutIBE+XVTWrpumR4PXwxFw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQghzdE1sb/NbcYftu5uUtHxOwyWXDbpH2Tkh7Ob+4PP/l0B3M
- ntUvE1JbWk0arpFO+1XycqRvJAgANusT2kBBOC4794FkDWT60LF/iTB2UQG5605ZS7mqJuWt3Yk
- FFq2sEvyGewtwPlNG3IN0DAIraiY=
-X-Gm-Gg: ASbGncvPlDeY4Ge6iG13D5vJ3NH8LXbzBCtWiJkaJeO9bVsnRjlDC+/hDlFppfOk30b
- eaO+YYcsGJk1O55MZQW/0GMd8J++tvm0q
-X-Google-Smtp-Source: AGHT+IH0rBw+xuH2VbnRPCa0ythGe+vmqwLZcKnDRV9jeUgWhfvMABxWAASqLF5EJD3NVkEYkOzdFIsrWd4Mu4/XXZw=
-X-Received: by 2002:a05:6902:703:b0:e2b:d4c8:c5e9 with SMTP id
- 3f1490d57ef6-e38f8ad708dmr15164230276.11.1732638860727; Tue, 26 Nov 2024
- 08:34:20 -0800 (PST)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD5A510E941
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 16:34:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 0F1CCA40EE9;
+ Tue, 26 Nov 2024 16:32:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B4865C4CED3;
+ Tue, 26 Nov 2024 16:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732638865;
+ bh=/LDcePj0XDKsYma0zK+FP7xyH1ASdKtuEO+PZnGEDFc=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=a99O8UWvqNcfnyMxK2dxnhjfTBiX2N75eQ/DkDrR+dQA6DZluHFfy88xA0PWdPhzu
+ DRAGNJkMHf2pRK7rIi5zMgTk0dbFtMuhUCBtawk6M1fHm44i6sOjHcQZSDHj7HOAyW
+ 3m78QcpINTiKv/Lf2wo2E1dwQgz5zNDpp3dabtm229Nlw17itUow0JlSWqRzI1aH53
+ v3ZS6HensCtlQI9ft2UwzHvKoszRdb07g9bfgCJUi7AOfePesWu1kDlISbU+EJ+IqC
+ +rFNcpNz+zoJLDql0cxBrXBOC9jDXm+iEdophb3ptSV7fi0TP0NAaGEQ/Qt6U5ekm5
+ EqVl5OtcNDRLA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id A0BBBD3B9BE;
+ Tue, 26 Nov 2024 16:34:25 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v2 0/5] Driver for pre-DCP apple display controller.
+Date: Tue, 26 Nov 2024 17:34:19 +0100
+Message-Id: <20241126-adpdrm-v2-0-c90485336c09@gmail.com>
 MIME-Version: 1.0
-References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
- <20241124-adpdrm-v1-3-3191d8e6e49a@gmail.com>
- <f2181c71-db23-4d94-9afb-cb8f2fc46bea@kernel.org>
- <3a6fb7fd-eb3d-428b-a37c-f04d81e7fbd0@gmail.com>
- <e647e8c7-6df9-44f5-abcc-34db74b8e266@kernel.org>
-In-Reply-To: <e647e8c7-6df9-44f5-abcc-34db74b8e266@kernel.org>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Tue, 26 Nov 2024 17:34:09 +0100
-Message-ID: <CAMT+MTSetzODw-cbteQOgEYmEgpiFBVP5eDgjvyHGqofCU=VXg@mail.gmail.com>
-Subject: Re: [PATCH 3/5] gpu: drm: adp: Add a backlight driver for the Summit
- LCD
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>, 
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIv4RWcC/2XMQQ6CMBCF4auQWVvDlKrAynsYFk1ngEkskNY0G
+ tK7W9m6/F9evh0iB+EIfbVD4CRR1qWEPlXgZrtMrIRKg661QdRGWdooeKUvo+OGqLU3hHLeAo/
+ yPqDHUHqW+FrD53AT/tY/IqGqVYMdUstXNp29T97K8+xWD0PO+QtOmwltnAAAAA==
+X-Change-ID: 20241124-adpdrm-25fce3dd8a71
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 27 Nov 2024 09:01:48 +0000
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>, 
+ Nick Chan <towinchenmi@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732638864; l=2009;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=/LDcePj0XDKsYma0zK+FP7xyH1ASdKtuEO+PZnGEDFc=;
+ b=OZR7bklMcaizua9kd4TjpLz0AjqB1X+Vunzk81NYY7+bDd6YxbJUoKnvBPvak/Wdfbw4r/1u6
+ ivWR35297jmCQnjxOTmbOKHjfiKdJI/RzDIBL6aOxGv6AdRQodof9IX
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,12 +81,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: fnkl.kernel@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Nov 2024 at 16:07, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> BTW, max-brightness is a property of backlight, not panel, I think.
-This is an oled panel, so no separate backlight device, the mipi commands
-just change the pixel brightness. There is prior art in other bindings on having
-the max-brightness property attached to the panel itself.
+Hi.
+
+This patch series adds support for a secondary display controller
+present on Apple M1/M2 chips and used to drive the display of the
+"touchbar" touch panel present on those. 
+
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v2:
+- Addressing the review feedback.
+- Split out the mipi part of the display controller into a separate device
+- Link to v1: https://lore.kernel.org/r/20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com
+
+---
+Sasha Finkelstein (5):
+      dt-bindings: display: Add Apple pre-DCP display controller bindings
+      drm: adp: Add Apple Display Pipe driver
+      drm: panel: Add a panel driver for the Summit display
+      arm64: dts: apple: Add touchbar screen nodes
+      MAINTAINERS: Add entries for touchbar display driver
+
+ .../display/apple,h7-display-pipe-mipi.yaml        |  89 +++
+ .../bindings/display/apple,h7-display-pipe.yaml    |  77 +++
+ .../bindings/display/panel/apple,summit.yaml       |  58 ++
+ MAINTAINERS                                        |   5 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |  31 ++
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  61 +++
+ arch/arm64/boot/dts/apple/t8112-j493.dts           |  31 ++
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  62 +++
+ drivers/gpu/drm/Kconfig                            |   2 +
+ drivers/gpu/drm/Makefile                           |   1 +
+ drivers/gpu/drm/adp/Kconfig                        |  16 +
+ drivers/gpu/drm/adp/Makefile                       |   4 +
+ drivers/gpu/drm/adp/adp-mipi.c                     | 251 +++++++++
+ drivers/gpu/drm/adp/adp_drv.c                      | 594 +++++++++++++++++++++
+ drivers/gpu/drm/panel/Kconfig                      |   9 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-summit.c               | 143 +++++
+ 17 files changed, 1435 insertions(+)
+---
+base-commit: 9f16d5e6f220661f73b36a4be1b21575651d8833
+change-id: 20241124-adpdrm-25fce3dd8a71
+
+
