@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B829D9CCF
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 18:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3FA9D9CD2
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 18:45:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE88F10E984;
-	Tue, 26 Nov 2024 17:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82D3810E989;
+	Tue, 26 Nov 2024 17:45:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JiS4gvzv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jg+s9C6r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAEE10E96E;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF79899A3;
  Tue, 26 Nov 2024 17:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732643140; x=1764179140;
+ t=1732643141; x=1764179141;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=i9vSL4DAuDLWzDNTn8Skfuqr9p6KQPGc9GqEIMr3nrs=;
- b=JiS4gvzvqee/+0fLvKOyvXr0L53TGFbsY91As04Sy9t2x0V7Ha+n+wc3
- UnzyfeOyxux5Iw3OqmMQ+j4Art29xVw53k6C7eIQeNrLq4wShnH4ZRSWW
- hluUx+YegjQ3a93Mmi4m68LjspihlVBszR3sFZCa+9DZjtCn4tHj+GLrQ
- A/lXcd1kaiUpa3fqLFr6ImeDcaCz9OMnVUZ4ZaCPEvT9HIrFm+HaELP22
- 5RyhB/pcJn/3YLhhA6yvTSLZI69q4ts0sMhpwdZRMIVdUINH7+U7NsXoC
- aBFGTQZCpmMFG8hF5Q3IDlxZ6Lom56633HujFJmy78/GUemP1lt9iiYQj Q==;
-X-CSE-ConnectionGUID: 6PmvAooTRii1dQ2Nm8ZKAQ==
-X-CSE-MsgGUID: hcCAzIn2RL671uGKqgaGLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32676915"
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="32676915"
+ bh=2UtGyq/lRvOedV6NogXlhOKXVU2SqJ38dULZ3utOG9I=;
+ b=Jg+s9C6ruhf3VZdm22+OFnXuWCpHHXFJvyg6io7g6Fks66IcW9HNjIkK
+ 3AX4sRDaVDL2CNIqn1n1IMYp1CVi4K9T6EP1NtQR33gNFz90SqDVLFDnW
+ MR+Hnf1UQ04ZwPWTUt4aJ7IvHN3tV9ksCETHrjU9+9Ge48+yJ1CdxHA3W
+ I/gi28Brt8cNplfdnE3cnwBxXqF7Pax8XJwZFFDWOZ7+JBXcnEx6XXzXO
+ INVSIliVe3F2GHxXEhxtqdksskqmt0UNqvnasWIyIqNFcJiTQXNLf/CEU
+ 5hzobk0oxWge9ceuj0+0mZfnzOhwPE0VqTK/SyDkXAjkPNubxSdbus562 g==;
+X-CSE-ConnectionGUID: DPgLdBboSyePcITtD20ldg==
+X-CSE-MsgGUID: lgNNJxPGRACkyjLXtcsXXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32676917"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="32676917"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Nov 2024 09:45:40 -0800
-X-CSE-ConnectionGUID: doGWteCgRu2bmYiLSLLpCg==
-X-CSE-MsgGUID: hGDpTNrMTEuJ0JPoD4Ff1w==
+X-CSE-ConnectionGUID: MXR9KQy8QiO/EZH43oZQsg==
+X-CSE-MsgGUID: z32JHp2ATBujHbrZyXghhw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="92152582"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; d="scan'208";a="92152585"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Nov 2024 09:45:40 -0800
@@ -46,9 +46,10 @@ To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: christian.koenig@amd.com,
 	thomas.hellstrom@linux.intel.com
-Subject: [PATCH v7 4/8] drm/xe: Take PM ref in delayed snapshot capture worker
-Date: Tue, 26 Nov 2024 09:46:11 -0800
-Message-Id: <20241126174615.2665852-5-matthew.brost@intel.com>
+Subject: [PATCH v7 5/8] drm/xe/display: Update intel_bo_read_from_page to use
+ ttm_bo_access
+Date: Tue, 26 Nov 2024 09:46:12 -0800
+Message-Id: <20241126174615.2665852-6-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241126174615.2665852-1-matthew.brost@intel.com>
 References: <20241126174615.2665852-1-matthew.brost@intel.com>
@@ -69,51 +70,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The delayed snapshot capture worker can access the GPU or VRAM both of
-which require a PM reference. Take a reference in this worker.
+Don't open code vmap of a BO, use ttm_bo_access helper which is safe for
+non-contiguous BOs and non-visible BOs.
 
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Fixes: 4f04d07c0a94 ("drm/xe: Faster devcoredump")
+Suggested-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/xe/xe_devcoredump.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/xe/display/intel_bo.c | 25 +------------------------
+ 1 file changed, 1 insertion(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
-index 0e5edf14a241..0d3a4dc87a7f 100644
---- a/drivers/gpu/drm/xe/xe_devcoredump.c
-+++ b/drivers/gpu/drm/xe/xe_devcoredump.c
-@@ -23,6 +23,7 @@
- #include "xe_guc_submit.h"
- #include "xe_hw_engine.h"
- #include "xe_module.h"
-+#include "xe_pm.h"
- #include "xe_sched_job.h"
- #include "xe_vm.h"
- 
-@@ -167,8 +168,11 @@ static void xe_devcoredump_deferred_snap_work(struct work_struct *work)
+diff --git a/drivers/gpu/drm/xe/display/intel_bo.c b/drivers/gpu/drm/xe/display/intel_bo.c
+index 9f54fad0f1c0..43141964f6f2 100644
+--- a/drivers/gpu/drm/xe/display/intel_bo.c
++++ b/drivers/gpu/drm/xe/display/intel_bo.c
+@@ -40,31 +40,8 @@ int intel_bo_fb_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+ int intel_bo_read_from_page(struct drm_gem_object *obj, u64 offset, void *dst, int size)
  {
- 	struct xe_devcoredump_snapshot *ss = container_of(work, typeof(*ss), work);
- 	struct xe_devcoredump *coredump = container_of(ss, typeof(*coredump), snapshot);
-+	struct xe_device *xe = coredump_to_xe(coredump);
- 	unsigned int fw_ref;
+ 	struct xe_bo *bo = gem_to_xe_bo(obj);
+-	struct ttm_bo_kmap_obj map;
+-	void *src;
+-	bool is_iomem;
+-	int ret;
  
-+	xe_pm_runtime_get(xe);
-+
- 	/* keep going if fw fails as we still want to save the memory and SW data */
- 	fw_ref = xe_force_wake_get(gt_to_fw(ss->gt), XE_FORCEWAKE_ALL);
- 	if (!xe_force_wake_ref_has_domain(fw_ref, XE_FORCEWAKE_ALL))
-@@ -177,6 +181,8 @@ static void xe_devcoredump_deferred_snap_work(struct work_struct *work)
- 	xe_guc_exec_queue_snapshot_capture_delayed(ss->ge);
- 	xe_force_wake_put(gt_to_fw(ss->gt), fw_ref);
+-	ret = xe_bo_lock(bo, true);
+-	if (ret)
+-		return ret;
+-
+-	ret = ttm_bo_kmap(&bo->ttm, offset >> PAGE_SHIFT, 1, &map);
+-	if (ret)
+-		goto out_unlock;
+-
+-	offset &= ~PAGE_MASK;
+-	src = ttm_kmap_obj_virtual(&map, &is_iomem);
+-	src += offset;
+-	if (is_iomem)
+-		memcpy_fromio(dst, (void __iomem *)src, size);
+-	else
+-		memcpy(dst, src, size);
+-
+-	ttm_bo_kunmap(&map);
+-out_unlock:
+-	xe_bo_unlock(bo);
+-	return ret;
++	return ttm_bo_access(&bo->ttm, offset, dst, size, 0);
+ }
  
-+	xe_pm_runtime_put(xe);
-+
- 	/* Calculate devcoredump size */
- 	ss->read.size = __xe_devcoredump_read(NULL, INT_MAX, coredump);
- 
+ struct intel_frontbuffer *intel_bo_get_frontbuffer(struct drm_gem_object *obj)
 -- 
 2.34.1
 
