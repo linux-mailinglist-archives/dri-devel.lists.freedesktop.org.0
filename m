@@ -2,36 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA699DA453
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 10:01:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD229D9AA1
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 16:49:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C04E610EA4C;
-	Wed, 27 Nov 2024 09:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 256C810E8F8;
+	Tue, 26 Nov 2024 15:49:57 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P8xuwu7s";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 362 seconds by postgrey-1.36 at gabe;
- Tue, 26 Nov 2024 17:32:21 UTC
-Received: from mail.steuer-voss.de (mail.steuer-voss.de [85.183.69.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B25F510E96B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 17:32:21 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.steuer-voss.de
-Received: by mail.steuer-voss.de (Postfix, from userid 1000)
- id AD8B51622C; Tue, 26 Nov 2024 18:26:10 +0100 (CET)
-From: Nikolaus Voss <nv@vosn.de>
-Date: Tue, 26 Nov 2024 16:45:54 +0100
-Subject: [PATCH] drm: bridge: fsl-ldb: fixup mode on freq mismatch
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Fabio Estevam <festevam@denx.de>, Marek Vasut <marex@denx.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nikolaus.voss@haag-streit.com
-Message-Id: <20241126172610.AD8B51622C@mail.steuer-voss.de>
-X-Mailman-Approved-At: Wed, 27 Nov 2024 09:01:48 +0000
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 175B810E8F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 15:49:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D3E6AA4068C;
+ Tue, 26 Nov 2024 15:48:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2231EC4CECF;
+ Tue, 26 Nov 2024 15:49:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732636193;
+ bh=6Rt7X6trwtI4ie0hc51FZJdn4GbvbMtfe8wO6UjtBzw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=P8xuwu7sljAdjyfrf+RgyQtiiUPiAvBND0E7GJKfgtMXKO7b2Dirk9Z69rkLX5U93
+ 9oL+NRUzPoh8B66YJTC4vdSy0qsyqrqF23DrC+klqLF02NtyfX2TsVl8bJnovzIK8I
+ qbQJhIVt7w4Etk2f1T8ISxhrDbbx7YpoHn6aaTB+X3i78RofhU4tnTyNY1TFHsqD21
+ iUWgLBqJyuYVgi/a8Ypn/ylYz+u5T3thSUKT5f0OX3evZi2d92ZMdojGOTg+QjBnVv
+ zhUujVEK0bnX655teG4S/T2pY68QY3aqPeGlierI88/+395AN7zrwztaWvOVxiY4R3
+ jAvEAgdK+9bHg==
+Date: Tue, 26 Nov 2024 16:49:50 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Sean Nyekjaer <sean@geanix.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
+ helper function
+Message-ID: <20241126-tentacled-busy-catfish-c451fc@houat>
+References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
+ <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
+ <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
+ <874j3uxptp.fsf@intel.com>
+ <20241126-spry-wildebeest-of-cubism-da0a9e@houat>
+ <871pyyxjwz.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="g7loz4mo7azlnu2z"
+Content-Disposition: inline
+In-Reply-To: <871pyyxjwz.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,89 +76,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LDB clock has to be a fixed multiple of the pixel clock.
-As LDB and pixel clock are derived from different clock sources
-(at least on imx8mp), this constraint cannot be satisfied for
-any pixel clock, which leads to flickering and incomplete
-lines on the attached display.
 
-To overcome this, check this condition in mode_fixup() and
-adapt the pixel clock accordingly.
+--g7loz4mo7azlnu2z
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
+ helper function
+MIME-Version: 1.0
 
-Cc: <stable@vger.kernel.org>
+On Tue, Nov 26, 2024 at 02:24:12PM +0200, Jani Nikula wrote:
+> On Tue, 26 Nov 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> > On Tue, Nov 26, 2024 at 12:16:34PM +0200, Jani Nikula wrote:
+> >> On Mon, 25 Nov 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> >> > I wonder about the naming though (and prototype). I doesn't really
+> >> > validates a mode, but rather makes sure that a given rate is a good
+> >> > approximation of a pixel clock. So maybe something like
+> >> > drm_mode_check_pixel_clock?
+> >>=20
+> >> Quoting myself from a few weeks back:
+> >>=20
+> >> """
+> >> Random programming thought of the day: "check" is generally a terrible
+> >> word in a function name.
+> >>=20
+> >> Checking stuff is great, but what do you expect to happen if the check
+> >> passes/fails? Do you expect the function to return on fail, or throw an
+> >> exception? Or just log about it? If you return a value, what should the
+> >> return value mean? It's hard to know without looking it up.
+> >>=20
+> >> Prefer predicates instead, is_stuff_okay() is better than
+> >> check_stuff(). Or assert_stuff() if you don't return on failures.
+> >> """
+> >
+> > Both is_stuff_okay() or assert_stuff() return a boolean in my mind. If
+> > you want to return a mode status enum, I don't think they are better
+> > names.
+>=20
+> Most functions returning enum drm_mode_status are called
+> something_something_mode_valid(). Not check something.
 
-Signed-off-by: Nikolaus Voss <nv@vosn.de>
----
- drivers/gpu/drm/bridge/fsl-ldb.c | 40 ++++++++++++++++++++++++++++----
- 1 file changed, 36 insertions(+), 4 deletions(-)
+But it doesn't check whether the mode is valid or not. It checks whether
+a given clock rate is within reasonable tolerance from the expected
+pixel clock.
 
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index 0e4bac7dd04ff..e341341b8c600 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -104,12 +104,14 @@ static inline struct fsl_ldb *to_fsl_ldb(struct drm_bridge *bridge)
- 	return container_of(bridge, struct fsl_ldb, bridge);
- }
- 
-+static unsigned int fsl_ldb_link_freq_factor(const struct fsl_ldb *fsl_ldb)
-+{
-+	return fsl_ldb_is_dual(fsl_ldb) ? 3500 : 7000;
-+}
-+
- static unsigned long fsl_ldb_link_frequency(struct fsl_ldb *fsl_ldb, int clock)
- {
--	if (fsl_ldb_is_dual(fsl_ldb))
--		return clock * 3500;
--	else
--		return clock * 7000;
-+	return clock * fsl_ldb_link_freq_factor(fsl_ldb);
- }
- 
- static int fsl_ldb_attach(struct drm_bridge *bridge,
-@@ -121,6 +123,35 @@ static int fsl_ldb_attach(struct drm_bridge *bridge,
- 				 bridge, flags);
- }
- 
-+static bool fsl_ldb_mode_fixup(struct drm_bridge *bridge,
-+				const struct drm_display_mode *mode,
-+				struct drm_display_mode *adjusted_mode)
-+{
-+	const struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
-+	unsigned long requested_link_freq =
-+		mode->clock * fsl_ldb_link_freq_factor(fsl_ldb);
-+	unsigned long freq = clk_round_rate(fsl_ldb->clk, requested_link_freq);
-+
-+	if (freq != requested_link_freq) {
-+		/*
-+		 * this will lead to flicker and incomplete lines on
-+		 * the attached display, adjust the CRTC clock
-+		 * accordingly.
-+		 */
-+		int pclk = freq / fsl_ldb_link_freq_factor(fsl_ldb);
-+
-+		if (adjusted_mode->clock != pclk) {
-+			dev_warn(fsl_ldb->dev, "Adjusted pixel clk to match LDB clk (%d kHz -> %d kHz)!\n",
-+				 adjusted_mode->clock, pclk);
-+
-+			adjusted_mode->clock = pclk;
-+			adjusted_mode->crtc_clock = pclk;
-+		}
-+	}
-+
-+	return true;
-+}
-+
- static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
- 				  struct drm_bridge_state *old_bridge_state)
- {
-@@ -280,6 +311,7 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs funcs = {
- 	.attach = fsl_ldb_attach,
-+	.mode_fixup = fsl_ldb_mode_fixup,
- 	.atomic_enable = fsl_ldb_atomic_enable,
- 	.atomic_disable = fsl_ldb_atomic_disable,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
--- 
-2.43.0
+Maxime
 
+--g7loz4mo7azlnu2z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJQEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0XuHgAKCRAnX84Zoj2+
+dohPAX0YE0oc7Ylv3K+UerPmQNwXmwiAn6twEbExXtsLUXP4id5aKXyzo9JTq04u
+X1BMcUcBeKSLYRTuhVuJctlLHOuKqmXClpJuleYA41+uZ/r34Z8EwLT1++YgVE/q
+CITAXPq+
+=/XnF
+-----END PGP SIGNATURE-----
+
+--g7loz4mo7azlnu2z--
