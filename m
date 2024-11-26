@@ -2,58 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754C09D9ACD
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 16:56:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F439D9AE3
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 16:57:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2EFA10E8DD;
-	Tue, 26 Nov 2024 15:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 806B710E40E;
+	Tue, 26 Nov 2024 15:57:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ojaPfyD4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KiEpM04z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1713810E8DD
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 15:56:12 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4E5C10E40E;
+ Tue, 26 Nov 2024 15:57:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5BE21A40485;
- Tue, 26 Nov 2024 15:54:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72D06C4CECF;
- Tue, 26 Nov 2024 15:56:10 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 85FED5C5B03;
+ Tue, 26 Nov 2024 15:57:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1906C4CECF;
+ Tue, 26 Nov 2024 15:57:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732636571;
- bh=kTB/KTl4ktdYWAb+/ER8PbnGndEUnt+9rOdPb1VDVB8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ojaPfyD45mZzw7bRYYzS6z6V/qc/8FnHwxUF9UXNjdDCUWh6p5DY7xzT8DQ8y3Mt5
- 4zoH9L+y4jZ3K8nJWKrpk7WLdlEOt4yhoh3FZUfpms2dxpASnHqM1x1vQ0XNYlO0QI
- kqfhb1l1lL9znFyAnsUuq6FiKLqD7wiI2pYr6a4cPeB7U6Vw8nLe7HzR2qpWYD7UIT
- yLX2MpoUMK97DA6zyJUXzTMnSwcg6rScabOzg3oRq4ZRY3dAJp2+Shtfywaqzj+F2H
- QyRYW2e99ODCHrlZyVaEQeY9ITf6FGdWV34wcUcoR0Gqph1/6VTaT3VQCKCiPGbT1n
- GcW9j3LwKzggw==
-Date: Tue, 26 Nov 2024 16:56:08 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 2/2] drm/bridge: tc358767: Improve DPI output pixel
- clock accuracy
-Message-ID: <20241126-splendid-amber-bobcat-164efa@houat>
-References: <20241112020737.335297-1-marex@denx.de>
- <20241112020737.335297-2-marex@denx.de>
- <bqmcs6dtcidr6lr6r74t5vm72kjantanaq26dfipkqtsiqhacd@ngdoaqim42ck>
- <a17f2bf7-1ea3-4ba3-80a8-338623d9d888@denx.de>
+ s=k20201202; t=1732636671;
+ bh=ZcRRe+aPriZPzBE2pe1SDdmVBe9BC1ro/wbA3TDf3dw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KiEpM04zndVgqXbKC6cHK7B25Wl/3glFJwedSDv8TtNgW051VomjEa/HcmIi5S+cz
+ 1UCvOs72EYUhITwbBTTy19o6jS+13VKy19Hdr0sdXWVTJaI5wplvz0Qndg5A1x3DS3
+ xCRBfojeoj199cI5aRSccrB1LVMLVR+QN8Fo/CtmhTfpnS0Je8Z+oD4Ml/KFDodm+o
+ SdfmuSjHc+VMce3qYVAvtmqPmEnlrHRPsmvWdmszWqF+gq2k6s5pdKlarifX6BgtR5
+ oQFVd10XjYlt9b1vId/df0+GTnZK7WOEQYSL8lVjXt0sp3HbLPDWQGIgFICRVkYx5R
+ vrNfAbIW24dXQ==
+Message-ID: <e27fee40-eaaa-40d8-b2eb-9e0fc96bf2be@kernel.org>
+Date: Tue, 26 Nov 2024 16:57:43 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="cxk356jgylmlzcy7"
-Content-Disposition: inline
-In-Reply-To: <a17f2bf7-1ea3-4ba3-80a8-338623d9d888@denx.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: display/msm: gpu: Document A612 GPU
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241126-qcs615-gpu-dt-v1-0-a87782976dad@quicinc.com>
+ <20241126-qcs615-gpu-dt-v1-1-a87782976dad@quicinc.com>
+ <680a9f92-1d29-410b-bc63-a998d2d64e9e@kernel.org>
+ <56b6f58e-e100-4dfd-b764-a9c3f5aad887@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <56b6f58e-e100-4dfd-b764-a9c3f5aad887@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,116 +116,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 26/11/2024 16:24, Akhil P Oommen wrote:
+>> No, this makes everything total mess. Why xo now is allowed to be first
+>> clock?
+>>
+>> Drop and explain in commit msg why other devices now get smmu clock.
+> 
+> I thought it was okay to make this list a bit flexible. Btw, the other
+> existing clock-names list for a5x and older gpus uses "anyOf".
+> 
+> I suppose the suggestion is to add a separate clock-names list for A612
+> with strict ordering. Is that correct?
 
---cxk356jgylmlzcy7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 2/2] drm/bridge: tc358767: Improve DPI output pixel
- clock accuracy
-MIME-Version: 1.0
+Yes
 
-On Tue, Nov 26, 2024 at 12:48:20AM +0100, Marek Vasut wrote:
-> On 11/22/24 2:32 PM, Dmitry Baryshkov wrote:
-> > On Tue, Nov 12, 2024 at 03:05:37AM +0100, Marek Vasut wrote:
-> > > The Pixel PLL is not very capable and may come up with wildly inaccur=
-ate
-> > > clock. Since DPI panels are often tolerant to slightly higher pixel c=
-lock
-> > > without being operated outside of specification, calculate two Pixel =
-PLL
-> > > from either mode clock or display_timing .pixelclock.max , whichever =
-is
-> > > higher. Since the Pixel PLL output clock frequency calculation always
-> > > returns lower frequency than the requested clock frequency, passing in
-> > > the higher clock frequency should result in output clock frequency wh=
-ich
-> > > is closer to the expected pixel clock.
-> > >=20
-> > > For the Chefree CH101 panel with 13 MHz Xtal input clock, the frequen=
-cy
-> > > without this patch is 65 MHz which is out of the panel specification =
-of
-> > > 68.9..73.4 MHz, while with this patch it is 71.5 MHz which is well wi=
-thin
-> > > the specification and far more accurate.
-> >=20
-> > Granted that most of the panel drivers do not implement get_timings()
-> > and granted that there are no current users of that interface, I think
-> > we should move away from it (and maybe even drop it completely from
-> > drm_panel).
->=20
-> It does fit DPI and LVDS panels and their descriptions in datasheets the
-> best.
->=20
-> > What about achieving the same via slightly different approach: register
-> > a non-preferred mode with the clock equal to the max clock allowed. The
-> > bridge driver can then use the default and the "max" mode to select PLL
-> > clock.
-> >=20
-> > I understand that this suggestion doesn't follow the DPI panel
-> > specifics, which are closer to the continuous timings rather than fixed
-> > set of modes, however I really don't think that it's worth keeping the
-> > interface for the sake of a single driver. Original commit 2938931f3732
-> > ("drm/panel: Add display timing support") from 2014 mentions using those
-> > timings for .mode_fixup(), but I couldn't find a trace of the
-> > corresponding implementation.
-> >=20
-> > Another possible option might be to impletent adjusting modes in
-> > .atomic_check() / .mode_fixup().
-> Something like this ?
->=20
-> static const struct display_timing chefree_ch101olhlwh_002_timing =3D {
->   .pixelclock =3D { 68900000, 71100000, 73400000 },
->   ...
-> };
->=20
-> static const struct panel_desc chefree_ch101olhlwh_002 =3D {
->   .timings =3D &chefree_ch101olhlwh_002_timing,
->   .num_timings =3D 1,
->   ...
-> };
->=20
-> ... would turn into ...
->=20
-> static const struct drm_display_mode chefree_ch101olhlwh_002_mode[3] =3D {
->   {
->     .clock =3D 68900000,
->     ...
->   }, {
->     .clock =3D 71100000,
->     ...
->   }, {
->     .clock =3D 73400000,
->     ...
->   }
-> };
->=20
-> static const struct panel_desc chefree_ch101olhlwh_002 =3D {
->   .modes =3D &chefree_ch101olhlwh_002_mode,
->   .num_timings =3D 3,
->   ...
-> };
->=20
-> ?
 
-Except that doesn't work if you want to keep your driver at the expected
-framerate. To reduce the pixel clock, you also need to reduce the
-blanking period within the acceptable boundaries if you want to keep the
-same framerate.
-
-Maxime
-
---cxk356jgylmlzcy7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0XvlwAKCRAnX84Zoj2+
-dnHWAX9hMTk38EU/OZvc6nysqKt3PDwLQO9lJIqCLQPgS3JSEvLN7lW7g6Q53Ret
-g/6aQ5wBfijqzfKtMtbGds8kCpcMIXLYORAOWzd3Qu9AnNMJxoxP8M3fwhSh6Sh6
-5IK14qFOwQ==
-=z3dZ
------END PGP SIGNATURE-----
-
---cxk356jgylmlzcy7--
+Best regards,
+Krzysztof
