@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA7C9D9369
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 09:39:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB7C9D9376
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2024 09:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C44C010E404;
-	Tue, 26 Nov 2024 08:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88C9210E18C;
+	Tue, 26 Nov 2024 08:42:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nSGeqoOn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N5+SU8It";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AAB910E18C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 08:38:59 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1669510E18C
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 08:42:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 78EFEA41ABD;
- Tue, 26 Nov 2024 08:37:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1860C4CED2;
- Tue, 26 Nov 2024 08:38:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B1CAE5C005C;
+ Tue, 26 Nov 2024 08:41:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86160C4CED0;
+ Tue, 26 Nov 2024 08:42:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732610338;
- bh=np3gVh2vdVMzwJbdelK/6cS6+cbSugtEMQAtU2/XSG0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nSGeqoOn1S3dD4mvA4bOozPQKUShhg1mWWMrX9sdkefP4KreZ5C12Lvw13dCIlF8o
- dBax9EngjiuB2f3zEbgw3yXwgrIPUef8ZT1q0Un11iqeJx3tcTJtqEURMF15ZZNqUP
- CWmTLCHLhGw5sJVGMd4MjASQsdDnT6i1Kj3qRj0ehClBz0uRhDRmZZbriJjx9ul450
- YVp5bDU5Y2piARlIPhRDCulRvmgGCPLExHoKIUfWzkoK4lVFRBNsJTf9OmHlKCTUVz
- XTM+V5WBnj0mx8jrGJkSazCeedawve01dDdUTxnkdM2zemIF222ICHxzmoeNZ85EjD
- cUg84GF5JgSKg==
-Date: Tue, 26 Nov 2024 09:38:55 +0100
+ s=k20201202; t=1732610524;
+ bh=V/yPxtYnSXeUAycUhW+5heG32rTY664RPc7ZwK/MLOg=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=N5+SU8Itke6cV9eeV1LK6jEDRblhjXUlpBGkqf014uNsxXTKUsXnX0Q3ZLMQylyKX
+ OiEdDw96IrWbvWcibkwA5M1w3zb80e8Uj7QOGsXvHFk6+4Bkkm4zNlukDLD3O/Mo6N
+ QjQeUKZpCR/JcenNB9uNrJC6dVx+yCcWQyU0rXjvqM1g8FM/wJYl/m4otG0EkVvHxh
+ YRYCuU0GS64mIQol9zjA+uUHIug8gXBfAOldsrtkWGXNTb/tJf998P5KrDFbZuMJ1c
+ q7y1hu7n48r8hY2U5RpW7QcXO+9zG47A9Rab0iQNmcTUjggxg0vYWws8iEEvwxG9vr
+ 4+YTBD3M3pr3w==
+Date: Tue, 26 Nov 2024 09:42:02 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
-Message-ID: <20241126-refreshing-slick-pig-baebab@houat>
-References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
- <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
- <20241125-gleaming-anteater-of-perfection-42bd2b@houat>
- <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ jose.exposito89@gmail.com, dri-devel@lists.freedesktop.org,
+ arthurgrillo@riseup.net, 
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, 
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH RFC v2 00/16] drm/vkms: ConfigFS interface
+Message-ID: <20241126-overjoyed-knowing-cuttlefish-c8d0f6@houat>
+References: <20241122-google-config-fs-v2-0-4b7e6f183320@bootlin.com>
+ <Z0DC8nd1ZFN4A82-@louis-chauvet-laptop>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="lhbvkcbp3c3gosel"
+ protocol="application/pgp-signature"; boundary="xrwipcbs3gmonqgv"
 Content-Disposition: inline
-In-Reply-To: <bfuj6w6hsbfpdw24th6dl3ugvj45op6jb45gx5ab5pulud7hiz@o2zbn45z3lt4>
+In-Reply-To: <Z0DC8nd1ZFN4A82-@louis-chauvet-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,112 +69,117 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---lhbvkcbp3c3gosel
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--xrwipcbs3gmonqgv
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
+Subject: Re: [PATCH RFC v2 00/16] drm/vkms: ConfigFS interface
 MIME-Version: 1.0
 
 Hi,
 
-On Tue, Nov 26, 2024 at 08:36:00AM +0100, Sean Nyekjaer wrote:
-> On Mon, Nov 25, 2024 at 05:00:56PM +0100, Maxime Ripard wrote:
-> > On Mon, Nov 25, 2024 at 02:49:26PM +0100, Sean Nyekjaer wrote:
-> > > Check if the required pixel clock is in within .5% range of the
-> > > desired pixel clock.
-> > > This will match the requirement for HDMI where a .5% tolerance is all=
-owed.
-> > >=20
-> > > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_modes.c | 34 ++++++++++++++++++++++++++++++++++
-> > >  include/drm/drm_modes.h     |  2 ++
-> > >  2 files changed, 36 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> > > index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf80502efd=
-e6e4d977b297f5d5359 100644
-> > > --- a/drivers/gpu/drm/drm_modes.c
-> > > +++ b/drivers/gpu/drm/drm_modes.c
-> > > @@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(const =
-struct drm_display_mode *mode1,
-> > >  }
-> > >  EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
-> > > =20
-> > > +/**
-> > > + * drm_mode_validate_mode
-> > > + * @mode: mode to check
-> > > + * @rounded_rate: output pixel clock
-> > > + *
-> > > + * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
-> > > + * CVT spec reuses that tolerance in its examples, so it looks to be=
- a
-> > > + * good default tolerance for the EDID-based modes. Define it to 5 p=
-er
-> > > + * mille to avoid floating point operations.
-> > > + *
-> > > + * Returns:
-> > > + * The mode status
-> > > + */
-> > > +enum drm_mode_status drm_mode_validate_mode(const struct drm_display=
-_mode *mode,
-> > > +					    unsigned long long rounded_rate)
-> > > +{
-> > > +	enum drm_mode_status status;
-> > > +	unsigned long long rate =3D mode->clock * 1000;
-> > > +	unsigned long long lowest, highest;
-> > > +
-> > > +	lowest =3D rate * (1000 - 5);
-> > > +	do_div(lowest, 1000);
-> > > +	if (rounded_rate < lowest)
-> > > +		return MODE_CLOCK_LOW;
-> > > +
-> > > +	highest =3D rate * (1000 + 5);
-> > > +	do_div(highest, 1000);
-> > > +	if (rounded_rate > highest)
-> > > +		return MODE_CLOCK_HIGH;
-> > > +
-> > > +	return MODE_OK;
-> > > +}
-> > > +EXPORT_SYMBOL(drm_mode_validate_mode);
+On Fri, Nov 22, 2024 at 06:44:18PM +0100, Louis Chauvet wrote:
+> On 22/11/24 - 18:38, Louis Chauvet wrote:
+> > VKMS is manly used to test userspace program and its behavior. The curr=
+ent=20
+> > implementation is not very configurable as you can only have one device=
+,=20
+> > with few specific planes.
 > >=20
-> > Thanks a lot for doing that!
+> > This series aims to introduce a new interface, using ConfigFS, to creat=
+e=20
+> > and configure more devices. This will introduce:
+> > - Device creation
+> > - Plane creation
+> > - Plane configuration (type, color encoding, color range, rotations)
+> > - Encoder creation
+> > - CRTC creation
+> > - Linking between CRTC and planes/encoders
 > >=20
-> > I wonder about the naming though (and prototype). I doesn't really
-> > validates a mode, but rather makes sure that a given rate is a good
-> > approximation of a pixel clock. So maybe something like
-> > drm_mode_check_pixel_clock?
+> > The proposition is:
+> > /config/vkms
+> > 	DEVICE_1
+> > 	=E2=94=A3=E2=94=81 enable
+> > 	=E2=94=A3=E2=94=81 writeback
+> > 	=E2=94=A3=E2=94=81 planes
+> > 	=E2=94=83  =E2=94=A3=E2=94=81 PLANE_1
+> > 	=E2=94=83  =E2=94=83  =E2=94=A3=E2=94=81 type
+> > 	=E2=94=83  =E2=94=83  =E2=94=A3=E2=94=81 supported_rotations
+> > 	=E2=94=83  =E2=94=83  =E2=94=A3=E2=94=81 color_range
+> > 	=E2=94=83  =E2=94=83  =E2=94=A3=E2=94=81 color_encoding
+> > 	=E2=94=83  =E2=94=83  =E2=94=A3=E2=94=81 default_color_encoding
+> > 	=E2=94=83  =E2=94=83  =E2=94=A3=E2=94=81 default_rotations
+> > 	=E2=94=83  =E2=94=83  =E2=94=A3=E2=94=81 default_color_range
+> > 	=E2=94=83  =E2=94=83  =E2=94=97=E2=94=81 possible_crtcs
+> > 	=E2=94=83  =E2=94=83     =E2=94=97=E2=94=81 >> /config/vkms/DEVICE_1/c=
+rtc/CRTC_1=20
+> > 	=E2=94=83  =E2=94=A3=E2=94=81 PLANE_2
+> > 	=E2=94=83  =E2=94=83  =E2=94=97=E2=94=81 ditto
+> > 	=E2=94=83  =E2=94=97=E2=94=81 PLANE_3
+> > 	=E2=94=83     =E2=94=97=E2=94=81 ditto
+> > 	=E2=94=83
+> > 	=E2=94=A3=E2=94=81 encoders
+> > 	=E2=94=83  =E2=94=A3=E2=94=81 ENCODER_1
+> > 	=E2=94=83  =E2=94=83  =E2=94=97=E2=94=81 possible_crtcs
+> > 	=E2=94=83  =E2=94=83     =E2=94=97=E2=94=81 >> /config/vkms/DEVICE_1/c=
+rtc/CRTC_1
+> > 	=E2=94=83  =E2=94=97=E2=94=81 ENCODER_2
+> > 	=E2=94=83     =E2=94=97=E2=94=81 ditto
+> > 	=E2=94=83
+> > 	=E2=94=97=E2=94=81 crtc
+> > 	   =E2=94=97=E2=94=81 CRTC_1
+> > =09
+> > This interface aims to be extendable (new property can easly be added i=
+n=20
+> > objects) and easy to use (objects are created simply by creating folder=
+s,=20
+> > and configured by writing files).
+> >=20
+> > This series depends on=20
+> > https://lore.kernel.org/all/20241122-google-remove-crtc-index-from-para=
+meter-v2-0-81540742535a@bootlin.com
+> > but as this is a bit complex to rebase, you can find a working branch=
+=20
+> > here:
+> > https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/b4/vkms-confi=
+gfs
+> >=20
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 >=20
-> Naming is hard :) I will use drm_mode_check_pixel_clock() for V2.
+> Hi all,
 >=20
-> Would it make sense to have the pixel clock requirement as a input
-> parameter? For HDMI it is 0.5%
+> I am also currently working on MST emulation for VKMS. If someone can rea=
+d=20
+> what I already did and at tell me if my implementation seems on the right=
+=20
+> track it could be nice.
+>=20
+> The current status is not very advanced: I can emulate a mst HUB, but not=
+=20
+> a screen. I am currently working on properly emulating the HUB by using a=
+n=20
+> other hub.
+>=20
+> You can find the branch for this work here:
+> https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/b4/vkms-mst
 
-This code was only used for panels so far. It reuses the same tolerance
-than HDMI because we couldn't come up with anything better, but it
-should totally apply to other things.
-
-> and in my case the LVDS panel 10%.
-
-10% is a lot, and I'm not sure we'll want that. The framerate being
-anywhere between 54 and 66 fps will trip a lot of applications too.
-
-Why do you need such a big tolerance?
+I think this is exactly the kind of things where we'll want eBPF I
+think. There's no way you'll be able to model each possible test
+scenarios for MST through configfs, even more so with a stable
+interface.
 
 Maxime
 
---lhbvkcbp3c3gosel
+--xrwipcbs3gmonqgv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0WJGgAKCRAnX84Zoj2+
-dgyFAYDpVbD0+B1OXcBahhvUgiMgYgY8W64szTv09wv/4HohtzWS1pIp3K2R38QQ
-wOL5h3QBf0hLFnVFqmeGdio6nM2Us2phuUAbokXf6Z7YXiUN8CVJPQw1vBRsPHG9
-zYgs3yNCQA==
-=bqF0
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0WJ2QAKCRAnX84Zoj2+
+drsbAX98D4pY1sEdKCD7Z8mgxWgEHD3aUX6925/SBQt8pDMZ+HVuSbzMHr2jhyCV
+Jjm5t80BfR7PeV64r1jr5sqCEguDw5iLM04n9Zv6ILWCxSrstT0Z0IxuHnZsWLLb
+A2nJIVqueA==
+=v8th
 -----END PGP SIGNATURE-----
 
---lhbvkcbp3c3gosel--
+--xrwipcbs3gmonqgv--
