@@ -2,79 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3104C9DA715
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 12:47:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AEEC9DA71F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 12:49:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9705110EAA8;
-	Wed, 27 Nov 2024 11:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D785910E233;
+	Wed, 27 Nov 2024 11:49:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lTv2R8kn";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="h9rQkJwC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D290310EAA7;
- Wed, 27 Nov 2024 11:47:13 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-212884028a3so5071045ad.0; 
- Wed, 27 Nov 2024 03:47:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732708033; x=1733312833; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=MuylmfZA3oDT64r9NGCB6xYFcj/Ra9P9EYBkVyg6c3M=;
- b=lTv2R8knJvBZQ7TJPrftiqy5+8kKZEpoLhAcKIb3YsMXwyqB3iQjCW639KaDjn7+kL
- PYKoGUuWLt6ZCslfTrsIhq00wUp5YpQVVqWcVLl2n69h7HASDcLKUllMkPxkloZnuY82
- yEHsrpGg668uqOMLVXhrk98hMFobygHgfqXzGXZvIjERTiqvKE+H7omJV49cQz9RJkRZ
- J0R5+LKuk5MS01NuWzMUi5zwS0rT68opiXTc2YmHgpsFBJFJPsUj50+saIh5Fo3tI1vM
- LrsAw+xJHUwrNdZNUgPo/hjqS/elN4nWTXlhazhw7YwoSlIvj9DSceurnqf2VxikOqiX
- f3QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732708033; x=1733312833;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MuylmfZA3oDT64r9NGCB6xYFcj/Ra9P9EYBkVyg6c3M=;
- b=oyb9Ki3yq4fuYayOk2UDZS8WvvRsZS90k1jS1kac1rivXjm7YIvlxBOS38t7sJBVAt
- ZE3cKndnpLffab6svClR5pLeM0TFuk8Asdq2knKz8zlfAaE2cuLlVBp3u9LcNoN0CjI2
- 4zZScUwbnEPH0+cY6ie71qApvrQcklO7rQZcbYUtXlURlPnI3ErFDl5DyMKCMjAtSZlh
- iNVZ6TTVmV9C4EYR5dXyrCxH19iFWPhGYWuVDGxceNuHiQcz8xIPmz0PciXdf3vqs1Nj
- KVZ9L0GQwYgahzmIck5hJSCtmmGpHy3TwccBKHoRFS4DvWClDzwX17BbrWWT5i2SUXsB
- mt3A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV/y9jVzPvHoV+QSrSJFH7aMQlQ384ju8E3P40D92kc3dzsFF2wLNyJjbuzcKd5k5JQkUV2NE7Z@lists.freedesktop.org,
- AJvYcCWS1HGp8GjzaEHEpZyEZQgGvwNCsougekXgl/c30jsSBvRlyhewvDoYc8mUzvbnWIyMRXzUT3zRHGhs@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwuhLMFDlwurEqjr1PVuULBYkknN5EAtqypxMAF9r0QjkG+wc2q
- l6KMbTB5SKasek9ITP54PULgc55OA4T9BxKirneK6oTtCClARxZx
-X-Gm-Gg: ASbGnctxu2x0R2K9myhajnKih3q7hs8KH+7hqhKCk8of3vfEGPYP7XhqYjO3tsxN1//
- qkjHLvwOX2y0+oT5QXMFOflld2JjlFphSqb+twyL2IUMvP6yel7T5q4Yg8mcQRA7jHhSCa69ePj
- umzn/F60y7hlc9pcug4JnnWeCoSNEvgA+ecdQ/F4ybq/oTG2Q8hIPMF91BLDnShi0VBSkKZ/8zp
- R9IuOPcFM+ZNn3HQBPjM+yA/HMtwUgKntzrzEPmUPfbenJxh21KeVYTB6Xl8rv3ovRMxEGmHUyT
- 7A==
-X-Google-Smtp-Source: AGHT+IHoX3eDCwwyCInnqKWFs872hvgjGvyI4beYdRcCyyPD9WI1QnVw1OwIhB5AgQuCLd1pLGXWxA==
-X-Received: by 2002:a17:903:1c2:b0:20c:b3ea:9006 with SMTP id
- d9443c01a7336-214e6e5b6a2mr90909195ad.6.1732708033193; 
- Wed, 27 Nov 2024 03:47:13 -0800 (PST)
-Received: from miley.lan (c-73-162-202-2.hsd1.ca.comcast.net. [73.162.202.2])
- by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-2129dbfa834sm100805645ad.117.2024.11.27.03.47.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Nov 2024 03:47:12 -0800 (PST)
-From: Mika Laitio <lamikr@gmail.com>
-To: christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, Hawking.Zhang@amd.com, sunil.khatri@amd.com,
- lijo.lazar@amd.com, kevinyang.wang@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lamikr@gmail.com
-Subject: [PATCH 1/1] amdgpu fix for gfx1103 queue evict/restore crash
-Date: Wed, 27 Nov 2024 03:46:38 -0800
-Message-ID: <20241127114638.11216-2-lamikr@gmail.com>
-X-Mailer: git-send-email 2.41.1
-In-Reply-To: <20241127114638.11216-1-lamikr@gmail.com>
-References: <20241127114638.11216-1-lamikr@gmail.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3340710E233
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 11:49:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732708185; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=AR72L5IgYTGl7uCdqoD4e1qTcvQWRmSA9iTZuG+0l0rJJ0KNDB7gB9ChG87qinuYyQZspse5Mjx1B7wbftI0sC4gakzsJRfJVoC5r9yVs8hotaxP6/tIyljwmsZoqXqWxukm+OlCO9+27pCPL1+jtaLEUyXqUm6Z4QpsrFApZK0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1732708185;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=upzdM1GFTUfMKKjxZsoEPeNZkHJirkc0OuGxxjm7FAU=; 
+ b=kk/9iEkDZTTLqnmKPaSUXeA8fddfNQvkiO4yE/Cm8+xKMhVygJMcKkbJVOyKYUmgMdKb2sgtTezbVyk11xu2wNH9GleXmR31Zi1uwCSvSZemfJdRRp1dv1QfnJOvmz+1UnqIhlsIX4/Dcwy0K+KA0lJPZTjNuRutKc26fofeXus=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732708185; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=upzdM1GFTUfMKKjxZsoEPeNZkHJirkc0OuGxxjm7FAU=;
+ b=h9rQkJwC6L4o8lxC9AGik/GODrySBbjBqXVcslPDIJjD0FWJDaDBwKpe/40IZfdI
+ 5xYzBs4yN/VDDvjVIB83Yooj3+ZXERD34atVMmg6RVVOFjW7tYxGnDnj4UASO2d4Ms+
+ Ie6VfBc2HRO4lxNZYGuPj+bLmqgYtla2l3gw04Hc=
+Received: by mx.zohomail.com with SMTPS id 1732708183184182.55659774222272;
+ Wed, 27 Nov 2024 03:49:43 -0800 (PST)
+Message-ID: <34ba6dd1-a5a7-4d0e-b3d4-c30c61710137@collabora.com>
+Date: Wed, 27 Nov 2024 14:49:40 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/5] drm/virtio: Add a helper to map and note the dma
+ addrs and lengths
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Rob Clark <robdclark@gmail.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>
+References: <20241125073313.3361612-1-vivek.kasireddy@intel.com>
+ <20241125073313.3361612-3-vivek.kasireddy@intel.com>
+ <a10f9b16-9cbf-4e51-a4ce-a408f792cafc@collabora.com>
+ <IA0PR11MB7185AD723F92BAECA4D56E2CF82F2@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <250c5b23-86b7-418d-a2df-fd7f1aff63de@collabora.com>
+ <IA0PR11MB718536D3A822E95550426917F8282@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <IA0PR11MB718536D3A822E95550426917F8282@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,148 +74,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AMD gfx1103 / M780 iGPU will crash eventually when used for
-pytorch ML/AI operations on rocm sdk stack. After kernel error
-the application exits on error and linux desktop can itself
-sometimes either freeze or reset back to login screen.
+On 11/27/24 09:20, Kasireddy, Vivek wrote:
+...
+>> Recap of the DG2 problem:
+>>
+>> The virtio-gpu PCIe accesses in guest are becoming rejected as soon as Intel
+>> driver (either i915 or Xe) is probed. My theory is that Intel driver causes PCIe
+>> config change that indirectly breaks virtio-gpu PCIe. This problem isn't
+>> observed by swapping DG2 card with AMD card. AMD setup works perfectly
+>> fine on the same machine with GPU card plugged into the same PCIe slot as
+>> DG2 was on host.
+>>
+>> $ lspci | grep DG2
+>> 0c:00.0 VGA compatible controller: Intel Corporation DG2 [Arc A750] (rev 08)
+>> 0d:00.0 Audio device: Intel Corporation DG2 Audio Controller
+> Looks like the GPU and the audio devices are on different buses (I see the same
+> in my setup as well) but you are making them appear as different functions of
+> the same device in Guest VM:
+> 01:00.0 VGA compatible controller [0300]: Intel Corporation DG2 [Intel Graphics] [8086:56bd] (rev 05) (prog-if 00 [VGA controller])
+>         Subsystem: Intel Corporation Device [8086:1211]
+>         Physical Slot: 0
+>         Kernel driver in use: i915
+>         Kernel modules: i915, xe
+> 01:00.1 Audio device [0403]: Intel Corporation DG2 Audio Controller [8086:4f92]
+>         Subsystem: Intel Corporation Device [8086:1211]
+>         Physical Slot: 0
+> 
+> I am not sure if this a valid config or not. Regardless, the presence of i915 preventing
+> virtio-gpu from probing correctly in this situation is indeed a problem that I am able
+> to see in my setup as well (with your Qemu parameters, especially the pcie-port ones).
+> I'll definitely take a look at this issue next week. 
 
-Error will happen randomly when kernel calls evict_process_queues_cpsch and
-restore_process_queues_cpsch methods to remove and restore the queues
-that has been created earlier.
+Great, thank you
 
-The fix is to remove the evict and restore calls when device used is
-iGPU. The queues that has been added during the user space application execution
-time will still be removed when the application exits
+>> qemu-system-x86_64 \
+>> -kernel linux-guest/arch/x86_64/boot/bzImage \
+>> -append "console=ttyS0 nokaslr root=/dev/sda init=/lib/systemd/systemd
+>> vt.global_cursor_default=0 log_buf_len=16M" \
+>> -netdev user,id=u1,hostfwd=tcp::10022-:22 \
+>> -device virtio-net-pci,netdev=u1 \
+>> -serial mon:stdio -m 24G \
+>> --enable-kvm \
+>> -cpu host,host-phys-bits=on,host-phys-bits-limit=39 \
+>> -device virtio-vga,max_outputs=1,xres=1920,yres=1080,blob=true \
+>> -device virtio-tablet-pci \
+>> -device virtio-balloon \
+>> -device virtio-keyboard-pci \
+>> -display gtk,gl=on \
+>> -smp 16 \
+>> -machine q35,accel=kvm,kernel-irqchip=split,memory-backend=mem1 \
+>> -object memory-backend-memfd,id=mem1,size=24G \
+>> -d guest_errors \
+>> -drive file=disk.img,format=raw \
+>> -device pcie-root-
+>> port,id=pcie.1,bus=pcie.0,addr=1c.0,slot=1,chassis=1,multifunction=on \
+>> -device vfio-pci,host=0c:00.0,bus=pcie.1,addr=00.0,x-
+>> vga=on,multifunction=on \
+>> -device vfio-pci,host=0d:00.0,bus=pcie.1,addr=00.1
+> Passthrough'ng the devices directly instead of creating a new pcie root port
+> enables virtio-gpu to work correctly in my setup. That is, having just
+> -device vfio-pci,host=0c:00.0,x-vga=on -device vfio-pci,host=0d:00.0
+> 
+> instead of the last few lines in your Qemu parameters list makes virtio-gpu
+> to work as expected. Could you please try it out and let me know if it works?
 
-On evety test attempts the crash has always happened on the
-same location while removing the 2nd queue of 3 with doorbell id 0x1002.
+Indeed, that worked! With AMD card all GPU devices are on the same bus
+and I was re-using same QEMU command without noticing it. Good catch :)
 
-Below is the trace captured by adding more printouts to problem
-location to print message also when the queue is evicted or resrored
-succesfully.
-
-[  948.324174] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added hardware queue to MES, doorbell=0x1202, queue: 2, caller: restore_process_queues_cpsch
-[  948.334344] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added hardware queue to MES, doorbell=0x1002, queue: 1, caller: restore_process_queues_cpsch
-[  948.344499] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added hardware queue to MES, doorbell=0x1000, queue: 0, caller: restore_process_queues_cpsch
-[  952.380614] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed hardware queue from MES, doorbell=0x1202, queue: 2, caller: evict_process_queues_cpsch
-[  952.391330] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed hardware queue from MES, doorbell=0x1002, queue: 1, caller: evict_process_queues_cpsch
-[  952.401634] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed hardware queue from MES, doorbell=0x1000, queue: 0, caller: evict_process_queues_cpsch
-[  952.414507] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added hardware queue to MES, doorbell=0x1202, queue: 2, caller: restore_process_queues_cpsch
-[  952.424618] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added hardware queue to MES, doorbell=0x1002, queue: 1, caller: restore_process_queues_cpsch
-[  952.434922] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added hardware queue to MES, doorbell=0x1000, queue: 0, caller: restore_process_queues_cpsch
-[  952.446272] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed hardware queue from MES, doorbell=0x1202, queue: 2, caller: evict_process_queues_cpsch
-[  954.460341] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
-[  954.460356] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes failed to remove hardware queue from MES, doorbell=0x1002, queue: 1, caller: evict_process_queues_cpsch
-[  954.460360] amdgpu 0000:c4:00.0: amdgpu: MES might be in unrecoverable state, issue a GPU reset
-[  954.460366] amdgpu 0000:c4:00.0: amdgpu: Failed to evict queue 1
-[  954.460368] amdgpu 0000:c4:00.0: amdgpu: Failed to evict process queues
-[  954.460439] amdgpu 0000:c4:00.0: amdgpu: GPU reset begin!
-[  954.460464] amdgpu 0000:c4:00.0: amdgpu: remove_all_queues_mes: Failed to remove queue 0 for dev 5257
-[  954.460515] amdgpu 0000:c4:00.0: amdgpu: Dumping IP State
-[  954.462637] amdgpu 0000:c4:00.0: amdgpu: Dumping IP State Completed
-[  955.865591] amdgpu: process_termination_cpsch started
-[  955.866432] amdgpu: process_termination_cpsch started
-[  955.866445] amdgpu 0000:c4:00.0: amdgpu: Failed to remove queue 0
-[  956.503043] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
-[  956.503059] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
-[  958.507491] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
-[  958.507507] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
-[  960.512077] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
-[  960.512093] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
-[  960.785816] [drm:gfx_v11_0_hw_fini [amdgpu]] *ERROR* failed to halt cp gfx
-
-Signed-off-by: Mika Laitio <lamikr@gmail.com>
----
- .../drm/amd/amdkfd/kfd_device_queue_manager.c | 24 ++++++++++++-------
- 1 file changed, 16 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index c79fe9069e22..96088d480e09 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -1187,9 +1187,12 @@ static int evict_process_queues_cpsch(struct device_queue_manager *dqm,
- 	struct kfd_process_device *pdd;
- 	int retval = 0;
- 
-+	// gfx1103 APU can fail to remove queue on evict/restore cycle
-+	if (dqm->dev->adev->flags & AMD_IS_APU)
-+		goto out;
- 	dqm_lock(dqm);
- 	if (qpd->evicted++ > 0) /* already evicted, do nothing */
--		goto out;
-+		goto out_unlock;
- 
- 	pdd = qpd_to_pdd(qpd);
- 
-@@ -1198,7 +1201,7 @@ static int evict_process_queues_cpsch(struct device_queue_manager *dqm,
- 	 * Skip queue eviction on process eviction.
- 	 */
- 	if (!pdd->drm_priv)
--		goto out;
-+		goto out_unlock;
- 
- 	pr_debug_ratelimited("Evicting PASID 0x%x queues\n",
- 			    pdd->process->pasid);
-@@ -1219,7 +1222,7 @@ static int evict_process_queues_cpsch(struct device_queue_manager *dqm,
- 			if (retval) {
- 				dev_err(dev, "Failed to evict queue %d\n",
- 					q->properties.queue_id);
--				goto out;
-+				goto out_unlock;
- 			}
- 		}
- 	}
-@@ -1231,8 +1234,9 @@ static int evict_process_queues_cpsch(struct device_queue_manager *dqm,
- 					      KFD_UNMAP_QUEUES_FILTER_DYNAMIC_QUEUES, 0,
- 					      USE_DEFAULT_GRACE_PERIOD);
- 
--out:
-+out_unlock:
- 	dqm_unlock(dqm);
-+out:
- 	return retval;
- }
- 
-@@ -1326,14 +1330,17 @@ static int restore_process_queues_cpsch(struct device_queue_manager *dqm,
- 	uint64_t eviction_duration;
- 	int retval = 0;
- 
-+	// gfx1103 APU can fail to remove queue on evict/restore cycle
-+	if (dqm->dev->adev->flags & AMD_IS_APU)
-+		goto out;
- 	pdd = qpd_to_pdd(qpd);
- 
- 	dqm_lock(dqm);
- 	if (WARN_ON_ONCE(!qpd->evicted)) /* already restored, do nothing */
--		goto out;
-+		goto out_unlock;
- 	if (qpd->evicted > 1) { /* ref count still > 0, decrement & quit */
- 		qpd->evicted--;
--		goto out;
-+		goto out_unlock;
- 	}
- 
- 	/* The debugger creates processes that temporarily have not acquired
-@@ -1364,7 +1371,7 @@ static int restore_process_queues_cpsch(struct device_queue_manager *dqm,
- 			if (retval) {
- 				dev_err(dev, "Failed to restore queue %d\n",
- 					q->properties.queue_id);
--				goto out;
-+				goto out_unlock;
- 			}
- 		}
- 	}
-@@ -1375,8 +1382,9 @@ static int restore_process_queues_cpsch(struct device_queue_manager *dqm,
- 	atomic64_add(eviction_duration, &pdd->evict_duration_counter);
- vm_not_acquired:
- 	qpd->evicted = 0;
--out:
-+out_unlock:
- 	dqm_unlock(dqm);
-+out:
- 	return retval;
- }
- 
 -- 
-2.43.0
-
+Best regards,
+Dmitry
