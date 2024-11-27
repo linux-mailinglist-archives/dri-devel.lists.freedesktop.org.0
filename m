@@ -2,122 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF19A9DAD76
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 20:01:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B769DADCE
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 20:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D76410EBC2;
-	Wed, 27 Nov 2024 19:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA8B10E1D4;
+	Wed, 27 Nov 2024 19:26:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="k3u0L/bf";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Li2z0z9T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C052B10EBC2
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 19:01:56 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-434a1833367so618215e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 11:01:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732734115; x=1733338915; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=z1yiyWo2SoYBonA2AnEougX0aSnWZiu2p9ZQOE6p3sA=;
- b=k3u0L/bf1xihR6ZKJP+KbRAbbdz2qgAp8KLvXYYzV3VqfKAFHec6G3L2fwcFuyp9IG
- Ff2L3wXxyCZWEOIhCDHl14jNWF81JAMc0jReErmwliRXNVke79veJjoNJhzwOyo5XMwv
- 6lMv9rVZa9YqtWOsmPuP64MVFx42l+bS3pdCES+bj9mMXkjiUgKDw/kketWlf1K6VNvd
- 9h4NAQH2qvb/4Vct8LKS57PSq5Z/GlEuBbXGE8tes+uL6uC5r79aG7ztWcx3SDWMnV7M
- mYJpPK+JorsxhVJpxiRnsjp9LnekGN+/G3aNCFQr1RtcMLWnt5PrXmpWkCEi16KrM4Oe
- uiSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732734115; x=1733338915;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=z1yiyWo2SoYBonA2AnEougX0aSnWZiu2p9ZQOE6p3sA=;
- b=ughsL6FOccSpEvJmYLXW+wz62djidxF9+V8IHUT3iPfDKrM2e6JojBoE8FxLzSz6fN
- bK+DUxs/eXDY2iCU08ZzmTIHPE0gm4Ei/vioahAxJNK23ha4TpVES/U1D4pPYUoFMdHC
- 9a7blwA/ryk5Dc8gSW0WH5CqJmFuYVy6Pu1XwxHaU66/2F9c8uZyoGwEXrzXrXmpl3OV
- S43xf5D9HPNWP9GADFAHzm2usKVwxD+tz+975Bxd/rCLfZqY+lr9HKo9lGzgNbWtoIpO
- DUnmuovC7ZOxsXOm3/CibMwjBpsto0ri0AACGl2uh/vTfdb1c4VOYtyMtL1OjBTtuLjz
- iIww==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVbzO3djnW71n+OZArgZ7pIpriYwEJBk75kLCyUe45TNSD4kUXS3k8of2GNc8j0R1j7V64LG03GoBw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxEXiLGRkgN/4wToUPumZ7kvGmhTedQJZKohZfFMwHjkSz++O1d
- L+kDozMMuJzgDG82e37Jmf6vtQeIWfJgkyGOnwtRepFiwozykLUHwfY6Sh4OWhY=
-X-Gm-Gg: ASbGncshgok3gHtwrZpPW7N7WZBjHYc/2xAeQasCP2Swp6osaV95xIEB9WdcjLvYVJ1
- RG6PBNdJCUsyipEY1ua9Wxzqc2DfxkECFID1fXRp0eKTCOWlEcKVRefXw27hJGUi7zkYnQ9P4/L
- cNHeLZFbR0zFBIzLqmiyOeLyEcUU3508BPPN6JVCsEDb5wTtWa6ei83ONfWlvKNLoXItGpqMW5u
- zjGBAkbPwZe1GN3WUSeStv7Qe0SgPqpXqVBfy4PV5U7AjmJLhE0lLwAOIIoeqee6xBiio/1Wv+s
- UbbC0MCVc5wMwAntVtE+NjQCNLM=
-X-Google-Smtp-Source: AGHT+IE0EkuY37ILnPKptg6uGReSxnPJE0X/fqU/3PWi9f79qp1lbwcINs44bUUuSRvUsJiz99sxZA==
-X-Received: by 2002:a05:600c:2d4b:b0:42c:baf1:4c7 with SMTP id
- 5b1f17b1804b1-434afb94427mr4280355e9.4.1732734114928; 
- Wed, 27 Nov 2024 11:01:54 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:8ad2:e64c:f150:ebc6?
- ([2a01:e0a:982:cbb0:8ad2:e64c:f150:ebc6])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-434aa7e5e59sm30134885e9.44.2024.11.27.11.01.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Nov 2024 11:01:54 -0800 (PST)
-Message-ID: <4d237348-2128-479c-8122-b194ffb19e5c@linaro.org>
-Date: Wed, 27 Nov 2024 20:01:51 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 04/11] drm/msm: adreno: add GMU_BW_VOTE feature flag
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Connor Abbott <cwabbott0@gmail.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <20241119-topic-sm8x50-gpu-bw-vote-v2-0-4deb87be2498@linaro.org>
- <20241119-topic-sm8x50-gpu-bw-vote-v2-4-4deb87be2498@linaro.org>
- <20241123194316.yqvovktcptfep4dr@hu-akhilpo-hyd.qualcomm.com>
- <a936a9fc-6632-4f44-94d1-db304218b5a5@linaro.org>
- <fe8f40aa-b9c7-4a85-9cb6-63df81190fab@quicinc.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <fe8f40aa-b9c7-4a85-9cb6-63df81190fab@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 765E810E1D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 19:26:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732735584; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=kTsdsC6upmSd6l9rP6fjrCIJTU8U+4weBu0WWXSZJsBh3ncMDkcl0uP+GF+aVS7f8lWclS4y/kVVXXhDrqefu1pZpa0cGwtqrQAsad9IuO7BneMQSu30sLxwtMHlSbV5/qPoQUYR27Esj+E+vv8C3efftJuUd1XS7jv9y4fLNUc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1732735584;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=RX2Qxk8Q8vCZMNnquh0zQky0kuIksspy8X4nlKr9Wa4=; 
+ b=RU5OzG5/WYF0rooLuXFku7RZvN8EHAn4OM1AeFXhiTDMvs+0krCDxtCaqTDFZ/4QjsnEN/iJMg0KTm4WdndTj1GpA8FsD0R5cKspa49zADVKuyY50kCaAWQ31zBGbfSBJSqwpdn3MhQMxlRcJlEoKvcljvWvdzorvvngK6p8oRQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732735584; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=RX2Qxk8Q8vCZMNnquh0zQky0kuIksspy8X4nlKr9Wa4=;
+ b=Li2z0z9TF8VTmmVVSPHSTt2M+wJTSea2pPKhQsaG7NSyCGjNOUmq9zqIEKC40vvl
+ ubKC0N8n27ckA2rP0d1XIVEoM4KqqHpGXf7GZs7RW51zDYM9EnpkKQjc5aAcEXX04yM
+ ht/l2gxmk3ReqSzQHyuyr8QHu6udKyJrrOoZ9yfg=
+Received: by mx.zohomail.com with SMTPS id 1732735582329215.8868752125901;
+ Wed, 27 Nov 2024 11:26:22 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
+Subject: Re: [WIP RFC v2 16/35] rust: drm/kms: Add RawConnector and
+ RawConnectorState
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20240930233257.1189730-17-lyude@redhat.com>
+Date: Wed, 27 Nov 2024 16:26:06 -0300
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
+ mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
+ jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <B8CBF3CE-1591-4624-816D-9A528B76E1B2@collabora.com>
+References: <20240930233257.1189730-1-lyude@redhat.com>
+ <20240930233257.1189730-17-lyude@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+X-Mailer: Apple Mail (2.3826.200.121)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,76 +76,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/11/2024 17:00, Akhil P Oommen wrote:
-> On 11/25/2024 1:46 PM, Neil Armstrong wrote:
->> On 23/11/2024 20:43, Akhil P Oommen wrote:
->>> On Tue, Nov 19, 2024 at 06:56:39PM +0100, Neil Armstrong wrote:
->>>> The Adreno GMU Management Unit (GNU) can also scale the DDR Bandwidth
->>>> along the Frequency and Power Domain level, but by default we leave the
->>>> OPP core vote for the interconnect ddr path.
->>>>
->>>> While scaling via the interconnect path was sufficient, newer GPUs
->>>> like the A750 requires specific vote paremeters and bandwidth to
->>>> achieve full functionality.
->>>>
->>>> While the feature will require some data in a6xx_info, it's safer
->>>> to only enable tested platforms with this flag first.
->>>>
->>>> Add a new feature enabling DDR Bandwidth vote via GMU.
->>>>
->>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>> ---
->>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h | 1 +
->>>>    1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/
->>>> drm/msm/adreno/adreno_gpu.h
->>>> index
->>>> 4702d4cfca3b58fb3cbb25cb6805f1c19be2ebcb..394b96eb6c83354ae008b15b562bedb96cd391dd 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>>> @@ -58,6 +58,7 @@ enum adreno_family {
->>>>    #define ADRENO_FEAT_HAS_HW_APRIV        BIT(0)
->>>>    #define ADRENO_FEAT_HAS_CACHED_COHERENT        BIT(1)
->>>>    #define ADRENO_FEAT_PREEMPTION            BIT(2)
->>>> +#define ADRENO_FEAT_GMU_BW_VOTE            BIT(3)
->>>
->>> Do we really need a feature flag for this? We have to carry this for
->>> every
->>> GPU going forward. IB voting is supported on all GMUs from A6xx GEN2 and
->>> newer. So we can just check that along with whether the bw table is
->>> dynamically generated or not.
->>
->> It depends on the bw table _and_ the a6xx_info.gmu table, I don't want to
->> check both in all parts on the driver.
->>
-> Thats fine then.
+Hi Lyude,
 
-Finally I converted the a6xx_info to a pointer, and it's fine checking
-this pointer instead of the quirk, since anyway we already check num_bws.
+> On 30 Sep 2024, at 20:09, Lyude Paul <lyude@redhat.com> wrote:
+>=20
+> Now that we have more then one way to refer to connectors, we also =
+want to
 
-Neil
+nit: typo here, s/then/than
 
-> 
-> -Akhil.
-> 
->> Neil
->>
->>>
->>> -Akhil
->>>
->>>>      /* Helper for formating the chip_id in the way that userspace
->>>> tools like
->>>>     * crashdec expect.
->>>>
->>>> -- 
->>>> 2.34.1
->>>>
->>
->>
-> 
+> ensure that any methods which are common to any kind of connector type =
+can
+> be used on all connector representations. This is where RawConnector =
+and
+> RawConnectorState come in: we implement these traits for any type =
+which
+> implements AsRawConnector or AsRawConnectorState respectively.
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+> rust/kernel/drm/kms/connector.rs | 34 ++++++++++++++++++++++++++++++++
+> 1 file changed, 34 insertions(+)
+>=20
+> diff --git a/rust/kernel/drm/kms/connector.rs =
+b/rust/kernel/drm/kms/connector.rs
+> index 98ac7fb781d4e..f62740d7f6469 100644
+> --- a/rust/kernel/drm/kms/connector.rs
+> +++ b/rust/kernel/drm/kms/connector.rs
+> @@ -331,6 +331,27 @@ unsafe fn from_raw<'a>(ptr: *mut =
+bindings::drm_connector) -> &'a Self {
+>     }
+> }
+>=20
+> +/// Common methods available on any type which implements =
+[`AsRawConnector`].
+> +///
+> +/// This is implemented internally by DRM, and provides many of the =
+basic methods for working with
+> +/// connectors.
+> +pub trait RawConnector: AsRawConnector {
+> +    /// Return the index of this DRM connector
+> +    #[inline]
+> +    fn index(&self) -> u32 {
+> +        // SAFETY: The index is initialized by the time we expose DRM =
+connector objects to users,
+> +        // and is invariant throughout the lifetime of the connector
+> +        unsafe { (*self.as_raw()).index }
+> +    }
+> +
+> +    /// Return the bitmask derived from this DRM connector's index
+> +    #[inline]
+> +    fn mask(&self) -> u32 {
+> +        1 << self.index()
+> +    }
+> +}
+> +impl<T: AsRawConnector> RawConnector for T {}
+> +
+> unsafe extern "C" fn connector_destroy_callback<T: DriverConnector>(
+>     connector: *mut bindings::drm_connector,
+> ) {
+> @@ -523,6 +544,19 @@ pub trait FromRawConnectorState: =
+AsRawConnectorState {
+>     unsafe fn from_raw_mut<'a>(ptr: *mut =
+bindings::drm_connector_state) -> &'a mut Self;
+> }
+>=20
+> +/// Common methods available on any type which implements =
+[`AsRawConnectorState`].
+> +///
+> +/// This is implemented internally by DRM, and provides many of the =
+basic methods for working with
+> +/// the atomic state of [`Connector`]s.
+> +pub trait RawConnectorState: AsRawConnectorState {
+> +    fn connector(&self) -> &Self::Connector {
+> +        // SAFETY: This is guaranteed safe by type invariance, and =
+we're guaranteed by DRM that
+> +        // `self.state.connector` points to a valid instance of a =
+`Connector<T>`
+> +        unsafe { =
+Self::Connector::from_raw((*self.as_raw()).connector) }
+> +    }
+> +}
+> +impl<T: AsRawConnectorState> RawConnectorState for T {}
+> +
+> /// The main interface for a [`struct drm_connector_state`].
+> ///
+> /// This type is the main interface for dealing with the atomic state =
+of DRM connectors. In
+> --=20
+> 2.46.1
+>=20
+>=20
+
+LGTM,
+
+=E2=80=94 Daniel
 
