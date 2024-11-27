@@ -2,68 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91EB9DAB0C
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 16:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAD19DAB23
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 16:55:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B99A10E1E9;
-	Wed, 27 Nov 2024 15:51:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5938410EB45;
+	Wed, 27 Nov 2024 15:55:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="TmQLfqeM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Qzg5UHFR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC0510E1E9
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 15:51:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732722686; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=YceCFUfleDVLVuVqNZaZSf4R9oAGEkV/c1LdoG7KsstEbGT0KCBZ9LxGPOif5sZFna0RA8/e+TYrgXy2tA9/qLcVtCMC5OfOWYb9rtZLtppHICU0J5KwB9w0poAvWJv7jwVg3jU/mCLk4np+BK2PgtJoTIwkvx6top3R0MZvuBY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732722686;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=7q+DFe+ccil4UuLk4eXxWFKTqHPcG7ZDXacnhP9DcqQ=; 
- b=moipWZypw3Chzg6E+Os0IPFmC5cVHlWHUodtVWA3tQMECz8Otp6F40btCcd8pTRHcXQgkVZ34K/O8f5IPRHYp/3WkHXXJhxx5+KlsmO8l5LCAyRorkpIRIdCr3RccQ780RcuMOB9VKfRMjiAxQAIrRQrX8DqqMoCz+EOdgDhFw0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732722686; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=7q+DFe+ccil4UuLk4eXxWFKTqHPcG7ZDXacnhP9DcqQ=;
- b=TmQLfqeM4z6PcWvRm5xeqmXGdaJtX0rtwtMnLS6SyU/DBAocjrtGO4Z5KKyWSya2
- g7pez23mGKThBR3ALGUjVPdcyGVc1a/Ox+dRrC2X/cnwvxiDh8YJvRIuWGnfvZEvGOH
- wvkxc3UcBlIXVxONrXUwFQFgu0aSIt+wPD1YWJSA=
-Received: by mx.zohomail.com with SMTPS id 1732722684393678.2520263607371;
- Wed, 27 Nov 2024 07:51:24 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
-Subject: Re: [WIP RFC v2 13/35] WIP: rust: drm/kms: Add OpaqueConnector and
- OpaqueConnectorState
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20240930233257.1189730-14-lyude@redhat.com>
-Date: Wed, 27 Nov 2024 12:51:08 -0300
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
- mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- open list <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C75763C3-A2A4-410F-934D-582B44A3B550@collabora.com>
-References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-14-lyude@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.200.121)
-X-ZohoMailClient: External
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFFC310EB45
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 15:55:30 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-434a752140eso16336295e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 07:55:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1732722929; x=1733327729; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=+fZHHyi9lrufyt8LGbh+sPd+B86keKpYadbG8L8712E=;
+ b=Qzg5UHFR5ZAcaqWLEB5x/huet3cRcgK0gRSjn2T7t91YfU1yoSteIalru0YlGVG17C
+ SfS6hZaoZYD729D0qa51ouscaFnXgs5goDu7+KdqBgwd2LJFDvfm648PIEx64vTbsLcH
+ rexoLUdJzWrfBhzeHwe3HR/P+fLWvUlY3e4nL6s0bQSzED9twhjmXmpvZn1C1M/7JJHM
+ K2XTBkvSpE1T+rs3qkOiWSNgizQkEjptqVehZ5ge0C+BNK9rImfxahf4Mzhf9MRsGHKK
+ V14CTTF6BrOLntLmM1GTkDK7e1ebWfwVtXay5Wj5w+YsTgG6rqU1WVK3T3X03gI++hgM
+ o+6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732722929; x=1733327729;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=+fZHHyi9lrufyt8LGbh+sPd+B86keKpYadbG8L8712E=;
+ b=i4/dUiSARH69cgDNSK75JkpyCL/wbwkF/vqUuLOPKJNYr08vJ5tq4GW1Fk4h/by+Sr
+ AKyWf4XzC3O45UkfWosK0Zze7EJIyyCZVfxHHc6OPp+/baRbGDfZSI9tKj1QdX3rIhqK
+ JNlRZSd5+3RPm3DKCaOKlU3Khs/tkXKvkhJMPOU+5stwx0MUCHdG133e9Xtxy86wKVle
+ HkxpGSANfXfu5L40pwTriZ0LszK1ualSU4CU3AbcO0tN81/AvdOOu/n8CsCcyE83pTvj
+ QiAtjQGt0Z5NvaTsNghTpoubw0ZgzCirVEkHkdnOM80BYknki3VnV+u/BSQbv6IMzrsF
+ NFNA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVYDoBxH9PBfmA9Qjufhwe7uSve21ASB61VVKgYDERhYIhn0bYt/76XefNnFjNxRCYCCpwmYOfAVKY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzW9ZQfbrKKYGvdBJ0DrPjh8VyzONrUwujlr+ARpTJSnjflqUPN
+ xfmznSACdWqX2hhXHMXB5kHN7KRudLae0AnqWguQ7ReQEG9y5eS4piczUwPnZ0U=
+X-Gm-Gg: ASbGncsv1eYYpzUbxmjZlgzySLvokvPAJB1egNcwHAPnaO2EnBtbSIy27+kab22dD7K
+ vUS5gNn9UA/whmcfwJO6otRqHMydZB8uMmIipp+9K4X8NHjYOHGhcj0H/ZNOyqUZZfIMFZdcDiF
+ gojRmfT8uiujIChcWnbAa4/zyKlXpJAA4nth9ImwNj5pWqlcatd1S34jl7OOGeUUPutxciCNe9d
+ Sz7Kc9mRHghbcsLAD6M8JEWd4exl4zCdbYjf6ylN/0PGsqd9+16wcTg2MR5rIDylDHCWSz87r9d
+ 0eHa+EjTmWb6batA4mYASrit/f8=
+X-Google-Smtp-Source: AGHT+IH0D2BTFO4lLWrwOI5qlHZb/ab3iD4eTxYpRNpC5w+FLQ9G/yFTXTi/l1wQsEuQuG8y3L4+Pw==
+X-Received: by 2002:a05:600c:354e:b0:434:a802:e9b2 with SMTP id
+ 5b1f17b1804b1-434a9dbc589mr34098165e9.4.1732722929148; 
+ Wed, 27 Nov 2024 07:55:29 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:8ad2:e64c:f150:ebc6?
+ ([2a01:e0a:982:cbb0:8ad2:e64c:f150:ebc6])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-434aa7a4f69sm25388865e9.3.2024.11.27.07.55.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Nov 2024 07:55:28 -0800 (PST)
+Message-ID: <79e76b0d-15df-444e-ab14-24cf32678b96@linaro.org>
+Date: Wed, 27 Nov 2024 16:55:27 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 08/11] drm/msm: adreno: request for maximum bus
+ bandwidth usage
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Connor Abbott <cwabbott0@gmail.com>,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+References: <20241119-topic-sm8x50-gpu-bw-vote-v2-0-4deb87be2498@linaro.org>
+ <20241119-topic-sm8x50-gpu-bw-vote-v2-8-4deb87be2498@linaro.org>
+ <20241123225954.lv3k2fxk7rxyh67z@hu-akhilpo-hyd.qualcomm.com>
+ <1965cd01-7b31-4f16-82b2-27fd56fcb77e@linaro.org>
+ <2d3a77da-cf73-4888-bc4d-68482181c908@quicinc.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <2d3a77da-cf73-4888-bc4d-68482181c908@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,224 +131,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude,
+On 27/11/2024 16:46, Akhil P Oommen wrote:
+> On 11/25/2024 1:44 PM, Neil Armstrong wrote:
+>> On 23/11/2024 23:59, Akhil P Oommen wrote:
+>>> On Tue, Nov 19, 2024 at 06:56:43PM +0100, Neil Armstrong wrote:
+>>>> When requesting a DDR bandwidth level along a GPU frequency
+>>>> level via the GMU, we can also specify the bus bandwidth usage in a
+>>>> 16bit
+>>>> quantitized value.
+>>>>
+>>>> For now simply request the maximum bus usage.
+>>>
+>>> Why? You don't care about power efficiency?
+>>> Lets drop this patch. We don't care about AB vote yet.
+>>
+>> I care about functionality, without this AB vote the spillall use
+>> case that fails on SM8650 HDK fails on the SM8650 QRD.
+> 
+> This should have been documented as a comment so that someone doesn't
+> remove it in future.
+> 
+>>
+>> AB is a quantitized value of the BW voted, so yes I expect we can have
+>> 100% of the BW voted, but since we scale the BW it's perfectly fine.
+> 
+> Ah! no. MAX AB vote here is equal to the Max IB vote value in the hfi
+> table. This is why I was asking about including all BW levels from the
+> DT in the hfi table in the other patch.
+> 
+> So you are always voting for Max DDR Freq which is probably helping (or
+> masking?) the spill all issue. We can just add a quirk to vote for MAX
+> IB probably.
 
-> On 30 Sep 2024, at 20:09, Lyude Paul <lyude@redhat.com> wrote:
->=20
-> Since we allow drivers to have multiple implementations of =
-DriverConnector
-> and DriverConnectorState (in C, the equivalent of this is having =
-multiple
-> structs which embed drm_connector) - there are some situations we will =
-run
-> into where it's not possible for us to know the corresponding
-> DriverConnector or DriverConnectorState for a given connector. The =
-most
-> obvious one is iterating through all connectors on a KMS device.
->=20
-> So, take advantage of the various connector traits we added to =
-introduce
-> OpaqueConnector<> and OpaqueConnectorState<> which both can be used as =
-a
-> DRM connector and connector state respectively without needing to know =
-the
-> corresponding traits.
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
->=20
-> ---
->=20
-> TODO:
-> * Add upcast functions for these types
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
-> rust/kernel/drm/kms/connector.rs | 108 +++++++++++++++++++++++++++++++
-> 1 file changed, 108 insertions(+)
->=20
-> diff --git a/rust/kernel/drm/kms/connector.rs =
-b/rust/kernel/drm/kms/connector.rs
-> index ec842ebc111ae..98ac7fb781d4e 100644
-> --- a/rust/kernel/drm/kms/connector.rs
-> +++ b/rust/kernel/drm/kms/connector.rs
-> @@ -359,6 +359,64 @@ unsafe fn from_raw<'a>(ptr: *mut =
-bindings::drm_connector) -> &'a Self {
->     T::get_modes(connector.guard(&guard), &guard)
-> }
->=20
-> +/// A [`struct drm_connector`] without a known [`DriverConnector`] =
-implementation.
-> +///
-> +/// This is mainly for situations where our bindings can't infer the =
-[`DriverConnector`]
-> +/// implementation for a [`struct drm_connector`] automatically. It =
-is identical to [`Connector`],
-> +/// except that it does not provide access to the driver's private =
-data.
-> +///
-> +/// TODO: Add upcast methods for this
+Oh, indeed I've been re-reading gen7_bus_ab_quantize() and it seems
+I should calculate the AB vote when building the bw_table.
 
-You mean a way to go from OpaqueConnector to Connector?
+Thanks,
+Neil
 
-> +///
-> +/// # Invariants
-> +///
-> +/// - `connector` is initialized for as long as this object is =
-exposed to users.
-> +/// - The data layout of this type is equivalent to [`struct =
-drm_connector`].
-> +///
-> +/// [`struct drm_connector`]: srctree/include/drm/drm_connector.h
-> +#[repr(transparent)]
-> +pub struct OpaqueConnector<T: KmsDriver> {
-> +    connector: Opaque<bindings::drm_connector>,
-> +    _p: PhantomData<T>
-> +}
-> +
-> +impl<T: KmsDriver> Sealed for OpaqueConnector<T> {}
-> +
-> +impl<T: KmsDriver> AsRawConnector for OpaqueConnector<T> {
-> +    type Driver =3D T;
-> +    type State =3D OpaqueConnectorState<T>;
-> +
-> +    fn as_raw(&self) -> *mut bindings::drm_connector {
-> +        self.connector.get()
-> +    }
-> +
-> +    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_connector) -> &'a =
-Self {
-> +        // SAFETY: Our data layout is identical to =
-`bindings::drm_connector`
-> +        unsafe { &*ptr.cast() }
-> +    }
-> +}
-> +
-> +impl<T: KmsDriver> ModeObject for OpaqueConnector<T> {
-> +    type Driver =3D T;
-> +
-> +    fn drm_dev(&self) -> &Device<Self::Driver> {
-> +        // SAFETY: The parent device for a DRM connector will never =
-outlive the connector, and this
-> +        // pointer is invariant through the lifetime of the connector
-> +        unsafe { Device::borrow((*self.as_raw()).dev) }
-> +    }
-> +
-> +    fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
-> +        // SAFETY: We don't expose DRM connectors to users before =
-`base` is initialized
-> +        unsafe { &mut (*self.as_raw()).base }
-> +    }
-> +}
-> +
-> +// SAFETY: Connectors are reference counted mode objects
-> +unsafe impl<T: KmsDriver> RcModeObject for OpaqueConnector<T> {}
-> +
-> +// SAFETY: Our connector interfaces are guaranteed to be thread-safe
-> +unsafe impl<T: KmsDriver> Send for OpaqueConnector<T> {}
-> +unsafe impl<T: KmsDriver> Sync for OpaqueConnector<T> {}
-> +
-> /// A privileged [`Connector`] obtained while holding a =
-[`ModeConfigGuard`].
-> ///
-> /// This provides access to various methods for [`Connector`] that =
-must happen under lock, such as
-> @@ -537,6 +595,56 @@ unsafe fn from_raw_mut<'a>(ptr: *mut =
-bindings::drm_connector_state) -> &'a mut S
->     }
-> }
->=20
-> +/// A [`struct drm_connector_state`] without a known =
-[`DriverConnectorState`] implementation.
-> +///
-> +/// This is mainly for situations where our bindings can't infer the =
-[`DriverConnectorState`]
-> +/// implementation for a [`struct drm_connector_state`] =
-automatically. It is identical to
-> +/// [`Connector`], except that it does not provide access to the =
-driver's private data.
-> +///
-> +/// TODO: Add upcast functions
-> +///
-> +/// # Invariants
-> +///
-> +/// - `state` is initialized for as long as this object is exposed to =
-users.
-> +/// - The data layout of this type is identical to [`struct =
-drm_connector_state`].
-> +/// - The DRM C API and our interface guarantees that only the user =
-has mutable access to `state`,
-> +///   up until [`drm_atomic_helper_commit_hw_done`] is called. =
-Therefore, `connector` follows rust's
-> +///   data aliasing rules and does not need to be behind an =
-[`Opaque`] type.
-
-By the way, as you did in a previous commit, I wonder whether it would =
-be better to have the invariants
-in a single place, since I=E2=80=99ve noticed that most of them are =
-quite similar.
-
-Something like =E2=80=9CThe invariants for this type are the same as the =
-ones for Foo=E2=80=9D
-
-This way, if you need to update your design, these will not get out of =
-sync that easily.
-
-> +///
-> +/// [`struct drm_connector_state`]: =
-srctree/include/drm/drm_connector.h
-> +/// [`drm_atomic_helper_commit_hw_done`]: =
-srctree/include/drm/drm_atomic_helper.h
-> +#[repr(transparent)]
-> +pub struct OpaqueConnectorState<T: KmsDriver> {
-> +    state: bindings::drm_connector_state,
-> +    _p: PhantomData<T>
-> +}
-> +
-> +impl<T: KmsDriver> AsRawConnectorState for OpaqueConnectorState<T> {
-> +    type Connector =3D OpaqueConnector<T>;
-> +}
-> +
-> +impl<T: KmsDriver> private::AsRawConnectorState for =
-OpaqueConnectorState<T> {
-> +    fn as_raw(&self) -> &bindings::drm_connector_state {
-> +        &self.state
-> +    }
-> +
-> +    unsafe fn as_raw_mut(&mut self) -> &mut =
-bindings::drm_connector_state {
-> +        &mut self.state
-> +    }
-> +}
-> +
-> +impl<T: KmsDriver> FromRawConnectorState for OpaqueConnectorState<T> =
-{
-> +    unsafe fn from_raw<'a>(ptr: *const bindings::drm_connector_state) =
--> &'a Self {
-> +        // SAFETY: Our data layout is identical to =
-`bindings::drm_connector_state`
-> +        unsafe { &*ptr.cast() }
-> +    }
-> +
-> +    unsafe fn from_raw_mut<'a>(ptr: *mut =
-bindings::drm_connector_state) -> &'a mut Self {
-> +        // SAFETY: Our data layout is identical to =
-`bindings::drm_connector_state`
-> +        unsafe { &mut *ptr.cast() }
-> +    }
-> +}
-> +
-> unsafe extern "C" fn atomic_duplicate_state_callback<T: =
-DriverConnectorState>(
->     connector: *mut bindings::drm_connector
-> ) -> *mut bindings::drm_connector_state
-> --=20
-> 2.46.1
->=20
-
-This LGTM overall.
-
-=E2=80=94 Daniel
+> 
+> -Akhil
+> 
+>>
+>> Neil
+>>
+>>>
+>>> -Akhil
+>>>
+>>>>
+>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 11 +++++++++++
+>>>>    drivers/gpu/drm/msm/adreno/a6xx_hfi.h |  5 +++++
+>>>>    2 files changed, 16 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/
+>>>> msm/adreno/a6xx_gmu.c
+>>>> index
+>>>> dc2d0035544e7848e5c4ea27f1ea9a191f9c4991..36c0f67fd8e109aabf09a0804bacbed3593c39d7 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>>> @@ -134,6 +134,17 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu,
+>>>> struct dev_pm_opp *opp,
+>>>>                if (bw == gmu->gpu_bw_table[bw_index])
+>>>>                    break;
+>>>>            }
+>>>> +
+>>>> +        if (bw_index) {
+>>>> +            /*
+>>>> +             * Append AB vote to the maximum bus usage.
+>>>> +             * AB represents a quantitized 16bit value of the
+>>>> +             * max ddr bandwidth we could use, let's simply
+>>>> +             * request the maximum for now.
+>>>> +             */
+>>>> +            bw_index |= AB_VOTE(MAX_AB_VOTE);
+>>>> +            bw_index |= AB_VOTE_ENABLE;
+>>>> +        }
+>>>>        }
+>>>>          gmu->current_perf_index = perf_index;
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h b/drivers/gpu/drm/
+>>>> msm/adreno/a6xx_hfi.h
+>>>> index
+>>>> 528110169398f69f16443a29a1594d19c36fb595..52ba4a07d7b9a709289acd244a751ace9bdaab5d 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
+>>>> @@ -173,6 +173,11 @@ struct a6xx_hfi_gx_bw_perf_vote_cmd {
+>>>>        u32 bw;
+>>>>    };
+>>>>    +#define AB_VOTE_MASK        GENMASK(31, 16)
+>>>> +#define MAX_AB_VOTE        (FIELD_MAX(AB_VOTE_MASK) - 1)
+>>>> +#define AB_VOTE(vote)        FIELD_PREP(AB_VOTE_MASK, (vote))
+>>>> +#define AB_VOTE_ENABLE        BIT(8)
+>>>> +
+>>>>    #define HFI_H2F_MSG_PREPARE_SLUMBER 33
+>>>>      struct a6xx_hfi_prep_slumber_cmd {
+>>>>
+>>>> -- 
+>>>> 2.34.1
+>>>>
+>>
+> 
 
