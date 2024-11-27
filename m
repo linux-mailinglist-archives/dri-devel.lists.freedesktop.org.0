@@ -2,68 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E877C9DAC2E
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 18:04:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BE89DAD0C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 19:29:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F02910E048;
-	Wed, 27 Nov 2024 17:04:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94BE710EBA4;
+	Wed, 27 Nov 2024 18:29:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="ckZybp51";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M9gqIb5g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 464FA10E048
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 17:04:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732727037; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=jIF6WcFsa7I0SVmYvBQiGg86iB7nlnV0i/9U4SrBCqUb/xp1zBp7n9E+Upzh8fGkNTRYoihRMBMHVFZWZptABwMwTR30EZhHOvlmQzHgVA5X+eunqI5J8FHTn+h80VrHPffgZh9Jp7QTpgoYDvb5E7acHQPG/1S0jT1m6RbM5Is=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732727037;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=ThqB6Cw1Jz5IsPrydDGEs7scPjQXlxcw0xZC/VMUBio=; 
- b=M47wD+ldu5Rd5vv+QW4ajan+iTOSVOSrCAVqDqFHznuG5htUYvxiCDQH7To6abMlGDtqS7bThh2qxr6BjmONdBVPVWJDiUJ6VmCX+bJ4wtOUy7ubN78hzkXxwEchTmEpuETIZ2NgftXkvXo5EVXHFrGVwtRub8Nvwfg3wBhzeQI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732727037; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=ThqB6Cw1Jz5IsPrydDGEs7scPjQXlxcw0xZC/VMUBio=;
- b=ckZybp51h0i6ipcllrZLB5l8jXfgjNJzJGy+S71P1LMZkCIlaqu+H+DbvnSG+aGC
- gtGEe0wy/JIURPNLz0/DNvdvMY7XSnSSklJgKrvSG/aZoH53/fsF54ghsKd6YM6l/9E
- CL+vcyk/PXb/k1+En7vvaeeZ7o1uxZU/zwOdbK1U=
-Received: by mx.zohomail.com with SMTPS id 1732727035170332.7762190998259;
- Wed, 27 Nov 2024 09:03:55 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
-Subject: Re: [WIP RFC v2 15/35] WIP: rust: drm/kms: Add OpaquePlane and
- OpaquePlaneState
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20240930233257.1189730-16-lyude@redhat.com>
-Date: Wed, 27 Nov 2024 14:03:39 -0300
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
- mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- open list <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <46A2C748-0EC5-481D-8473-09182C1D44DF@collabora.com>
-References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-16-lyude@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.200.121)
-X-ZohoMailClient: External
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF14F10E1DD;
+ Wed, 27 Nov 2024 18:29:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id B55C0A439A3;
+ Wed, 27 Nov 2024 18:27:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68651C4CECC;
+ Wed, 27 Nov 2024 18:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732732142;
+ bh=hsvAzJbsOippFpgaQxLr33LtX30TWw3xnnUFBVplrpY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=M9gqIb5gWafJ07ZhcUqkbVFDi717sJVbne+4d64HlGCKeYc9fyzN2VR3s2ffAwPV5
+ csiCYh7nyzCqzyi5CZqh1aWQoEkCXpj0YFxI2nwcFAh47hCqyWig3uxq3ejblPA2dz
+ 4Qzmm+gqwG0B/fI9vSzzlaaNW/eNXRJSA9Y52z89kcZxj17mOsNKKQaGNfnwiGkF9Q
+ UXT6eZs1nobLg6vyEWxNSd2KOJHwYEWDhGoDfJ5AOaCX7cJDKvjWKjcGEuaiHREMwu
+ dbDUp2u45OrZ5kuMRS3ujnMy3ExeXxPETnw8gWKTZ6zjhIQNCPmP7V1O9B369vbwSM
+ b8/uQh8OGUaKQ==
+Message-ID: <3729bdcb-5f3d-4845-8f96-dbb0616b88f4@kernel.org>
+Date: Wed, 27 Nov 2024 19:28:52 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dt-bindings: phy: Add eDP PHY compatible for qcs8300
+To: Yongxing Mou <quic_yongmou@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Ritesh Kumar <quic_riteshk@quicinc.com>
+References: <20241127-qcs8300_dp-v1-0-0d30065c8c58@quicinc.com>
+ <20241127-qcs8300_dp-v1-1-0d30065c8c58@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241127-qcs8300_dp-v1-1-0d30065c8c58@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,245 +115,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude,
+On 27/11/2024 09:15, Yongxing Mou wrote:
+> Add compatible string for the supported eDP PHY on qcs8300 platform.
 
-> On 30 Sep 2024, at 20:09, Lyude Paul <lyude@redhat.com> wrote:
->=20
-> Same thing as OpaqueCrtc and OpaqueCrtcState, but for plane states =
-now.
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
->=20
-> ---
->=20
-> TODO:
-> * Finish adding upcast functions.
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
-> rust/kernel/drm/kms/plane.rs | 143 +++++++++++++++++++++++++++++++++++
-> 1 file changed, 143 insertions(+)
->=20
-> diff --git a/rust/kernel/drm/kms/plane.rs =
-b/rust/kernel/drm/kms/plane.rs
-> index 3040c4546b121..3ace487316d46 100644
-> --- a/rust/kernel/drm/kms/plane.rs
-> +++ b/rust/kernel/drm/kms/plane.rs
-> @@ -217,6 +217,43 @@ pub fn new<'a, 'b: 'a, const FMT_COUNT: usize, =
-const MOD_COUNT: usize>(
->         // SAFETY: We don't move anything
->         Ok(unsafe { &*Box::into_raw(Pin::into_inner_unchecked(this)) =
-})
->     }
-> +
-> +    /// Attempt to convert an [`OpaquePlane`] into a fully qualified =
-[`Plane`].
-> +    ///
-> +    /// This checks if the given [`OpaquePlane`] uses the same =
-[`DriverPlane`] implementation, and
-> +    /// returns the [`OpaquePlane`] as a [`Plane`] object if so.
-> +    pub fn try_from_opaque<'a, D>(opaque: &'a OpaquePlane<D>) -> =
-Option<&'a Self>
-> +    where
-> +        D: KmsDriver,
-> +        T: DriverPlane<Driver =3D D>
-> +    {
-> +        // SAFETY: The vtables for a `Plane` are initialized by the =
-time that we expose `Plane`
-> +        // objects to users, and their values are invariant =
-throughout the lifetime of the device.
-> +        let funcs =3D unsafe { (*opaque.plane.get()).funcs };
-> +
-> +        // SAFETY: We just guaranteed that the opaque plane shares =
-our vtable pointers, which means
-> +        // it must belong to our `DriverPlane` implementation. As =
-well, all `Plane<DriverPlane>`
-> +        // objects start with an identical data layout to =
-`OpaquePlane`
-> +        ptr::eq(funcs, &T::OPS.funcs).then(|| unsafe { =
-mem::transmute(opaque) })
-> +    }
-> +
-> +    /// Convert a [`OpaquePlane`] into its fully qualified [`Plane`].
-> +    ///
-> +    /// This is an infallible version of [`Self::try_from_opaque`]. =
-This function is mainly useful
-> +    /// for drivers where only a single [`DriverPlane`] =
-implementation exists.
-> +    ///
-> +    /// # Panics
-> +    ///
-> +    /// This function will panic if the underlying [`Plane`] which =
-contains the provided
-> +    /// [`OpaquePlane`] does not belong to the same [`DriverPlane`] =
-implementation.
-> +    pub fn from_opaque<'a, D>(opaque: &'a OpaquePlane<D>) -> &'a Self
-> +    where
-> +        D: KmsDriver,
-> +        T: DriverPlane<Driver =3D D>
-> +    {
-> +        Self::try_from_opaque(opaque)
-> +            .expect("Passed OpaquePlane does not share this =
-DriverPlane implementation")
-> +    }
 
-I guess the same question from the previous patch applies. If a driver =
-has only a single implementor for
-`DriverPlane`, why should it care about OpaquePlane?
+What is supported eDP PHY? Can it be unsupported? Anyway, this repeats
+the diff. Say something useful instead, like why this is not compatible
+with sa8775p.
 
-> }
->=20
-> /// A trait implemented by any type that acts as a [`struct =
-drm_plane`] interface.
-> @@ -275,6 +312,63 @@ unsafe impl<T: DriverPlane> Send for Plane<T> {}
-> // SAFETY: Our interface is thread-safe.
-> unsafe impl<T: DriverPlane> Sync for Plane<T> {}
->=20
-> +/// A [`struct drm_plane`] without a known [`DriverPlane`] =
-implementation.
-> +///
-> +/// This is mainly for situations where our bindings can't infer the =
-[`DriverPlane`] implementation
-> +/// for a [`struct drm_plane`] automatically. It is identical to =
-[`Plane`], except that it does not
-> +/// provide access to the driver's private data.
-> +///
-> +/// It may be upcasted to a full [`Plane`] using =
-[`Plane::from_opaque`] or
-> +/// [`Plane::try_from_opaque`].
-> +///
-> +/// # Invariants
-> +///
-> +/// - `plane` is initialized for as long as this object is made =
-available to users.
-> +/// - The data layout of this structure is equivalent to [`struct =
-drm_plane`].
-> +///
-> +/// [`struct drm_plane`]: srctree/include/drm/drm_plane.h
-> +#[repr(transparent)]
-> +pub struct OpaquePlane<T: KmsDriver> {
-> +    plane: Opaque<bindings::drm_plane>,
-> +    _p: PhantomData<T>,
-> +}
-> +
-> +impl<T: KmsDriver> Sealed for OpaquePlane<T> {}
-> +
-> +impl<T: KmsDriver> AsRawPlane for OpaquePlane<T> {
-> +    type State =3D OpaquePlaneState<T>;
-> +
-> +    fn as_raw(&self) -> *mut bindings::drm_plane {
-> +        self.plane.get()
-> +    }
-> +
-> +    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_plane) -> &'a Self =
-{
-> +        // SAFETY: Our data layout is identical to =
-`bindings::drm_plane`
-> +        unsafe { &*ptr.cast() }
-> +    }
-> +}
-> +
-> +impl<T: KmsDriver> ModeObject for OpaquePlane<T> {
-> +    type Driver =3D T;
-> +
-> +    fn drm_dev(&self) -> &Device<Self::Driver> {
-> +        // SAFETY: DRM planes exist for as long as the device does, =
-so this pointer is always valid
-> +        unsafe { Device::borrow((*self.as_raw()).dev) }
-> +    }
-> +
-> +    fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
-> +        // SAFETY: We don't expose DRM planes to users before `base` =
-is initialized
-> +        unsafe { &mut ((*self.as_raw()).base) }
-> +    }
-> +}
-> +
-> +// SAFETY: Planes do not have a refcount
-> +unsafe impl<T: KmsDriver> StaticModeObject for OpaquePlane<T> {}
-> +
-> +// SAFETY: Our plane interfaces are guaranteed to be thread-safe
-> +unsafe impl<T: KmsDriver> Send for OpaquePlane<T> {}
-> +unsafe impl<T: KmsDriver> Sync for OpaquePlane<T> {}
-> +
-> /// A trait implemented by any type which can produce a reference to a =
-[`struct drm_plane_state`].
-> ///
-> /// This is implemented internally by DRM.
-> @@ -419,6 +513,55 @@ fn deref_mut(&mut self) -> &mut Self::Target {
->     }
-> }
->=20
-> +/// A [`struct drm_plane_state`] without a known [`DriverPlaneState`] =
-implementation.
-> +///
-> +/// This is mainly for situations where our bindings can't infer the =
-[`DriverPlaneState`]
-> +/// implementation for a [`struct drm_plane_state`] automatically. It =
-is identical to [`Plane`],
-> +/// except that it does not provide access to the driver's private =
-data.
-> +///
-> +/// TODO: Add upcast functions
-> +///
-> +/// # Invariants
-> +///
-> +/// - The DRM C API and our interface guarantees that only the user =
-has mutable access to `state`,
-> +///   up until [`drm_atomic_helper_commit_hw_done`] is called. =
-Therefore, `plane` follows rust's
-> +///   data aliasing rules and does not need to be behind an =
-[`Opaque`] type.
-> +/// - `state` is initialized for as long as this object is exposed to =
-users.
-> +/// - The data layout of this structure is identical to [`struct =
-drm_plane_state`].
-> +///
-> +/// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
-> +/// [`drm_atomic_helper_commit_hw_done`]: =
-srctree/include/drm/drm_atomic_helper.h
-> +#[repr(transparent)]
-> +pub struct OpaquePlaneState<T: KmsDriver> {
-> +    state: bindings::drm_plane_state,
-> +    _p: PhantomData<T>,
-> +}
-> +
-> +impl<T: KmsDriver> AsRawPlaneState for OpaquePlaneState<T> {
-> +    type Plane =3D OpaquePlane<T>;
-> +}
-> +
-> +impl<T: KmsDriver> private::AsRawPlaneState for OpaquePlaneState<T> {
-> +    fn as_raw(&self) -> &bindings::drm_plane_state {
-> +        &self.state
-> +    }
-> +
-> +    unsafe fn as_raw_mut(&mut self) -> &mut bindings::drm_plane_state =
-{
-> +        &mut self.state
-> +    }
-> +}
-> +
-> +impl<T: KmsDriver> FromRawPlaneState for OpaquePlaneState<T> {
-> +    unsafe fn from_raw<'a>(ptr: *const bindings::drm_plane_state) -> =
-&'a Self {
-> +        // SAFETY: Our data layout is identical to `ptr`
-> +        unsafe { &*ptr.cast() }
-> +    }
-> +
-> +    unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_plane_state) =
--> &'a mut Self {
-> +        // SAFETY: Our data layout is identical to `ptr`
-> +        unsafe { &mut *ptr.cast() }
-> +    }
-> +}
-> unsafe extern "C" fn plane_destroy_callback<T: DriverPlane>(
->     plane: *mut bindings::drm_plane
-> ) {
-> --=20
-> 2.46.1
->=20
-
-Apart for the clarification I asked above, this patch looks good.
-
-=E2=80=94 Daniel
-
+Best regards,
+Krzysztof
