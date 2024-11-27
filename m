@@ -2,92 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A359DA633
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 11:54:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1E69DAF4D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 23:47:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3CBB10E221;
-	Wed, 27 Nov 2024 10:54:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDB8B10E427;
+	Wed, 27 Nov 2024 22:47:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jZZf7clD";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="MHKppqx3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B351110E221;
- Wed, 27 Nov 2024 10:54:28 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AR93TN2004424;
- Wed, 27 Nov 2024 10:54:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- rEMqPPtfJwiWelzz0hRF2xRvmtFgCOZyATXF6ddQuHA=; b=jZZf7clDnMgEw2sS
- jJsrBWwIhVKcpZlVjPbd9lL2MA9PUX9CXvYp1wQMfjMLyRP0/AdESMrovJejtrms
- z/+KlX+h2Cc2inmDf+2ByLN4CsD8reLkacqQaKWeWzoo9yH1lkjmWyZTndLnV2yZ
- jZ1v0upIJV75dr1wmAzuLsKgmWq+H9XAvewCVuE0s/2LJy3Zuj0vI6lXdnOYvHAF
- yp53gcgq1wQz9VP5ZtsiplLcmHXYY0+zedzDZR5CBp8CHLRsWoBfK+ZAcuHm96Si
- tApyA7WV29VlU+jttSL2rtH/5LWAp1Cek1CcCoiL3RzEF333tFmEhBR/nK8pfVqI
- EiKEsw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 435839cdh6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Nov 2024 10:54:21 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ARAsKVL015882
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Nov 2024 10:54:20 GMT
-Received: from [10.64.68.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 27 Nov
- 2024 02:54:13 -0800
-Message-ID: <8982d065-9bc6-4036-8004-80b1681eaf3c@quicinc.com>
-Date: Wed, 27 Nov 2024 18:54:10 +0800
+Received: from mail-m19731110.qiye.163.com (mail-m19731110.qiye.163.com
+ [220.197.31.110])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD5910E22C
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 11:00:19 +0000 (UTC)
+Received: from [172.16.12.26] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 3fe683f3;
+ Wed, 27 Nov 2024 19:00:10 +0800 (GMT+08:00)
+Message-ID: <8df0acc8-b7aa-453f-b55c-30144f51d7cf@rock-chips.com>
+Date: Wed, 27 Nov 2024 19:00:10 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] Display enablement changes for Qualcomm QCS8300
- platform
-To: Krzysztof Kozlowski <krzk@kernel.org>, Ritesh Kumar
- <quic_riteshk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
-CC: Abhinav Kumar <quic_abhinavk@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20241127-mdss_qcs8300-v1-0-29b2c3ee95b8@quicinc.com>
- <675c41cb-afa8-4386-8dc9-026a36bc1152@kernel.org>
+Subject: Re: [PATCH v1 04/10] phy: phy-rockchip-samsung-hdptx: Add support for
+ eDP mode
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com,
+ cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
+ andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com,
+ kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org
+References: <20241127075157.856029-1-damon.ding@rock-chips.com>
+ <20241127075157.856029-5-damon.ding@rock-chips.com>
+ <4260470.1IzOArtZ34@diego>
 Content-Language: en-US
-From: Yongxing Mou <quic_yongmou@quicinc.com>
-In-Reply-To: <675c41cb-afa8-4386-8dc9-026a36bc1152@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Gpp7Knmg-xPkJylILt6Rf0k6FYHYWrFs
-X-Proofpoint-ORIG-GUID: Gpp7Knmg-xPkJylILt6Rf0k6FYHYWrFs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0
- phishscore=0 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=969 lowpriorityscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411270090
+From: Damon Ding <damon.ding@rock-chips.com>
+In-Reply-To: <4260470.1IzOArtZ34@diego>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQxgZQ1ZIQ0tCTx0ZHxlDHR5WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
+ NVSktLVUpCS0tZBg++
+X-HM-Tid: 0a936d4752a703a3kunm3fe683f3
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NRA6Lgw5CDIpHS5NEwE3NhMU
+ ChYaCh9VSlVKTEhJTEtOSUpJTENMVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJSUNPNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=MHKppqx3/69QuoNhREUlt7wo6qUNbztr929L0BnEn2+9UfVCaFP8Pa0GA4fZZ92lKe+e0VQmieBZpCBg75bzcV0dR7PpPw1l8coEQLKAFbFB7lTzqcHTw1KeCKSnVxEtDGd6zJvbgLCQtA1pTrUMzV+fyCIcN/UadJcRfpp7tzA=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=GgVLM+pxB0mTT4Xgy0u5pynEp9OkHXXnOP4d8il9bhA=;
+ h=date:mime-version:subject:message-id:from;
+X-Mailman-Approved-At: Wed, 27 Nov 2024 22:47:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,27 +72,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Heiko:
 
-
-On 2024/11/27 15:13, Krzysztof Kozlowski wrote:
-> On 27/11/2024 08:05, Yongxing Mou wrote:
->> This series introduces support to enable the Mobile Display Subsystem (MDSS)
->> and Display Processing Unit (DPU) for the Qualcomm QCS8300 target. It
->> includes the addition of the hardware catalog, compatible string,
->> relevant device tree changes, and their YAML bindings.
+On 2024/11/27 17:29, Heiko Stübner wrote:
+> Hi Damon,
+> 
+> Am Mittwoch, 27. November 2024, 08:51:51 CET schrieb Damon Ding:
+>> Add basic support for RBR/HBR/HBR2 link rates, and the voltage swing and
+>> pre-emphasis configurations of each link rate have been verified according
+>> to the eDP 1.3 requirements.
 >>
->> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+>> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 >> ---
->> This series depends on following series:
->> https://lore.kernel.org/all/20241114-qcs8300-mm-cc-dt-patch-v1-1-7a974508c736@quicinc.com/
->> https://lore.kernel.org/all/20240925-qcs8300_initial_dtsi-v2-0-494c40fa2a42@quicinc.com/
-> Above was not part of this merge window, so nothing from your patchset
-> can be merged for this v6.14.
 > 
-> If you want things to get merged, I suggest decoupling dependencies.
+> [ ... huge block of DP phy support ...]
 > 
-Thanks for reviewing.Can we keep the dependency on above changes and 
-merge our changes after the dependent changes are merged?
-> Best regards,
-> Krzysztof
+> yes that block was huge, but I also don't see a way to split that up in a
+> useful way, so it should be fine.
+> 
+
+As for the huge block of DP phy support, I will try to use the existing 
+rk_hdptx_multi_reg_write() to set regs in next version, maybe the way 
+can make the codes more concise.
+
+> 
+>> +static int rk_hdptx_phy_set_mode(struct phy *phy, enum phy_mode mode,
+>> +				 int submode)
+>> +{
+>> +	return 0;
+>> +}
+> 
+> I think it might make sense to go the same way as the DCPHY and also
+> naneng combophy, to use #phy-cells = 1 to select the phy-mode via DT .
+> 
+> See [0] for Sebastians initial suggestion regarding the DC-PHY.
+> The naneng combophy already uses that scheme of mode-selection too.
+> 
+> There is of course the issue of backwards-compatibility, but that can be
+> worked around in the binding with something like:
+> 
+>   '#phy-cells':
+>      enum: [0, 1]
+>      description: |
+>        If #phy-cells is 0, PHY mode is set to PHY_TYPE_HDMI
+>        If #phy-cells is 1 mode is set in the PHY cells. Supported modes are:
+>          - PHY_TYPE_HDMI
+>          - PHY_TYPE_DP
+>        See include/dt-bindings/phy/phy.h for constants.
+> 
+> PHY_TYPE_HDMI needs to be added to include/dt-bindings/phy/phy.h
+> but PHY_TYPE_DP is already there.
+> 
+> That way we would standardize on one form of accessing phy-types
+> on rk3588 :-) .
+> 
+> Also see the Mediatek CSI rx phy doing this too already [1]
+> 
+> 
+> Heiko
+> 
+> [0] https://lore.kernel.org/linux-rockchip/udad4qf3o7kt45nuz6gxsvsmprh4rnyfxfogopmih6ucznizih@7oj2jrnlfonz/
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml
+> 
+
+It is really a nice way to separate HDMI and DP modes.
+
+> 
+> 
+> 
+> 
+
+Best regards,
+Damon
 
