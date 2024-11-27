@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09569DA8F2
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 14:46:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3359DA900
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 14:49:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7593610EAD6;
-	Wed, 27 Nov 2024 13:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 713D110EAD9;
+	Wed, 27 Nov 2024 13:49:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VEU2gMiV";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gRQK3gvJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AED6E10EAD6
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 13:46:47 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-2ffb3cbcbe4so46293521fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 05:46:47 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85DFA10E283
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 13:49:35 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-53de84e4005so2963098e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 05:49:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732715206; x=1733320006; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732715374; x=1733320174; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=gTlm0pK08VxN90bSYKa0+atSkrR5Fs4v3H4AKqAzKv8=;
- b=VEU2gMiV1ysMVCoif1HiP9u/zupDgyJIorUDZjUPerekRBPPjnJKrIHoXYOf8F3Z6C
- CyLY8HGpJlzH1xCHckBuqTkcvhxSVhwl16bQGG79ja0z2FY1bAkM9GOKfprsTuYRBLTC
- 3m0BauzOqjU8U3uXJ8RDv1T4Dn90jlQxbrp/yhIDtEEzwcljoIAXUk3sgGpWZHGVpmIl
- pHUbf/ZibdildOceAjrlvFgsA8BOX9e3ULpjMuE8vVgsHiDolOKtFHBONV5naaun00z9
- V103GGoDDPeLKTyiEG0Y/p8XOmjomSvYUnjSDwhXY8FANJH65KDBF8ssKBJkXm97h5Hf
- TDSA==
+ bh=sjfACckMsQ0RDEAnMAJcWOckCYMyrNJCIYP5z1ys8TA=;
+ b=gRQK3gvJnM8sYhCCl/W01/kHyvzIUa2Me/9I4DfXs6+ALkfx2+EnX4MeJEvGokiEV6
+ 2KN61HEZ63D1kC66zzMSglhRxrt50BySwwcoZf+7WF+ZUDTIksQ07pPiv3rdAtoQFFjX
+ IBPqzIUxu9m4VUoDirmHEXpMR3z9CnvkZ6Rg9CdDaVON9devgi79hj5olrmzi/791wkz
+ 3Hq/yWQUDKNKkD35znhfmE3ZXZ7rXUJPfbjuML1/fxCe/Q32XRLg4vu0AbGaVDQvwQL3
+ YVwxioYBYxLGBkBC3MwLifSqHbq8/QRsyNmffZdLiL5ZueO350dx5H9kxGGMq2onrN6x
+ lugg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732715206; x=1733320006;
+ d=1e100.net; s=20230601; t=1732715374; x=1733320174;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gTlm0pK08VxN90bSYKa0+atSkrR5Fs4v3H4AKqAzKv8=;
- b=VTR9tVS4kVUOpxYUQz5oTEN7anqr72kWDMKzBS3cwbnqg1BEAX46u9yV2gqr1y5mmg
- rv95gPen4ptPtqCepfOVHB70rRL9tPhU9WrH3EeOZdQs+bEbIktKcsgPxId0eTR/TamI
- Pa56Yeyj5SQj0jTdLDPL4+6qeFkIpPZpzR5cdapbg+hdwx0lZt2vzeO5Z2AaW6yn4U+D
- csV4EIHmtMdL4tvuLl9xlQQPjdrTa++k0VjvQNy9XQWFXdguSKRCe3W2iqFExf9EF6Yi
- vgFltSYzOgWKoxe4crH6H7D9FE7yFHiBf0DL/05K6hLNmvSwQrqf8CFL6L0BMapQTOme
- 5vAQ==
+ bh=sjfACckMsQ0RDEAnMAJcWOckCYMyrNJCIYP5z1ys8TA=;
+ b=mc1UqvxfVHiz+uq7ddBW/ww975c+HD1ovHYgP5JxqJ+/HO2ZTwQ5FoKvmznHMaP/sw
+ J/Q7jlcGRkUepeTr3htPc1NVjlvVxEvRVtK6psh8Kled4LL0eIoGzJUpnAfsoMorp+9y
+ ormSrNgT1ve8V6oAhrTxQxBxYc56N2jCqJULBz8SU31vRLMo6EEp9scGxJ908V2M1HtR
+ 6PgjE9AHocbkQohApuFUDTr1yK9VV50k5YmGBTetFQrZ84A8dh0FG1bV21ibgaoSdH8g
+ ULo/geXwwqcT/QkTLJ4Z5kuHRIyzRGTLaTEMK67QQtdXI1diMuAVbpke5TWZzfV8SjkF
+ yMNg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVla9otuXn7en+9tMpQLW3Hvg1O7108tM5fxA0sWXVvWELpEuFV+zXlVoM0YFN5BUcKgsgXsEev58I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzVg96uuavwiJUDpCzV2DYLbBWZzD3sfYjsjdu/P/v0gbdIZ5Rc
- AJSpLRGf3dRJx71gWl+3BRXDvv80/Q+gyntKGOrhdGmDk8yfPOp+bap9WFRj2nE=
-X-Gm-Gg: ASbGncsoavu8saHY07RWxbuq/B4iWKZ2LeXwnOlgh75CE7HY+ocawA4SklLvdvDP8Qz
- hvf5uwPqlvPYhSW7b+UDcP+6OYqEn4HuAB2INv+rvzleK3rnc8ln8dq79K6SDTbpFCnG5wIR3GS
- TStA7UH8uwfsj5hS39MJA1Fc44i6UOeis3+nvG4z6m9PaOYybD9Ynm4K//j/MsM9CybNp5qXwW9
- bhLZQQbkflkO0IjhmX+cu2Hj+3RGQjKdSuPiROmDkT0wCpzaoQcSzt+UnVE2WpYaGLXMln3cHp9
- 1cC2V+4zWVar+u162KKORpyrsvKAqQ==
-X-Google-Smtp-Source: AGHT+IE5YvUnBxv51yjqkhV3Fi45R5BfRmA/OHDbr1MX0yiJhZssNxaHBIh9Ihr9OWpmi0uPhR+jZg==
-X-Received: by 2002:a05:651c:220d:b0:2ff:a8e9:a64d with SMTP id
- 38308e7fff4ca-2ffd5ff5131mr17990441fa.2.1732715205762; 
- Wed, 27 Nov 2024 05:46:45 -0800 (PST)
+ AJvYcCWnmhYwTLiAmz2KS6gLZzMcl/O71lpiiEqv8wMs9xOKxJw1gwMx3mMX3AjoinbD3tBzZemnV+R7Wck=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzw1WwXpJO+jlSdLb4QtD4ZCta6jFjpVdLMER+7ZtsxToMBhmtu
+ Yf9pPJenu8WlFmmnZjruiwSsZEdSKo6kh47Hk9Eq7L15k+0vAdv9T79Uv59il+Tyu6Nq0dIqeIq
+ W
+X-Gm-Gg: ASbGncsmHF96Ovk7ClZ3OzzIwJY9i5xyCfxAEWhO0pCnjGBG0Ow61dIQ8lS5dNWRW7X
+ 4fw0YcvYl7VzGKoq/pAvecGqoDP2uQgy0VozliVJ/Nvb0rvPcThfRiRvTrNE/4xFX8q1i+Tg3gM
+ 2Sd9Z8XD+sSAUSXmDP5FLV6RgaofD96WPqbd/CI0touq1Sk5VVoXxKsWmhUI9R085ygjaGHL4Nz
+ LArH14uDTsxaIC2gbPz+wwMb2QkbkOOWqybk+qGhh4IaWoJUqhtCmH/7uZRZnitTvCqZJbA5mxp
+ /AvV2R4GChqxRxVJElDkpAIC2FSIlA==
+X-Google-Smtp-Source: AGHT+IFxQkhy+KuEro7ZMNIqjxBcDKQk66j1eoYtbfEaE+Xo2Ghx/5z0Ju7Gw0TpK1R+/8bJQWa42w==
+X-Received: by 2002:a05:6512:4012:b0:539:f7ba:c982 with SMTP id
+ 2adb3069b0e04-53df00de5aamr1541730e87.33.1732715373671; 
+ Wed, 27 Nov 2024 05:49:33 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ffd3269561sm3194711fa.45.2024.11.27.05.46.44
+ 2adb3069b0e04-53de0c3ce8bsm1323963e87.116.2024.11.27.05.49.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Nov 2024 05:46:45 -0800 (PST)
-Date: Wed, 27 Nov 2024 15:46:42 +0200
+ Wed, 27 Nov 2024 05:49:32 -0800 (PST)
+Date: Wed, 27 Nov 2024 15:49:29 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Yongxing Mou <quic_yongmou@quicinc.com>
 Cc: Ritesh Kumar <quic_riteshk@quicinc.com>, 
@@ -79,14 +80,14 @@ Cc: Ritesh Kumar <quic_riteshk@quicinc.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] drm/msm: mdss: Add QCS8300 support
-Message-ID: <nllulh3vskl3hm3hvjux4khxtanqj7cpoytodwkzphwn4ajmo7@g46rgnhp637b>
+Subject: Re: [PATCH 4/5] drm/msm/dpu: Add QCS8300 support
+Message-ID: <f5kqdxkhniwwxu6wm2q323vvlsfn3yyig7mfg3h5ctqo7jjxc7@7g32tirseuqs>
 References: <20241127-mdss_qcs8300-v1-0-29b2c3ee95b8@quicinc.com>
- <20241127-mdss_qcs8300-v1-3-29b2c3ee95b8@quicinc.com>
+ <20241127-mdss_qcs8300-v1-4-29b2c3ee95b8@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241127-mdss_qcs8300-v1-3-29b2c3ee95b8@quicinc.com>
+In-Reply-To: <20241127-mdss_qcs8300-v1-4-29b2c3ee95b8@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,52 +103,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 27, 2024 at 03:05:03PM +0800, Yongxing Mou wrote:
-> Add Mobile Display Subsystem (MDSS) support for the QCS8300 platform.
-
-Please mention, why do you need it at all. I see that the UBWC swizzle
-and HBB settings are different. Is this really the case? Is it because
-of the different memory being used on those platforms?
-
+On Wed, Nov 27, 2024 at 03:05:04PM +0800, Yongxing Mou wrote:
+> Add definitions for the display hardware used on the
+> Qualcomm QCS8300 platform.
 > 
 > Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/msm_mdss.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  .../drm/msm/disp/dpu1/catalog/dpu_8_4_qcs8300.h    | 485 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+>  4 files changed, 488 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> index b7bd899ead44bf86998e7295bccb31a334fa6811..90d8fe469d3134ec73f386153509ac257d75930a 100644
-> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> @@ -568,6 +568,16 @@ static const struct msm_mdss_data qcm2290_data = {
->  	.reg_bus_bw = 76800,
->  };
->  
-> +static const struct msm_mdss_data qcs8300_data = {
-> +	.ubwc_enc_version = UBWC_4_0,
-> +	.ubwc_dec_version = UBWC_4_0,
-> +	.ubwc_swizzle = 6,
-> +	.ubwc_static = 1,
-> +	.highest_bank_bit = 3,
-> +	.macrotile_mode = 1,
-> +	.reg_bus_bw = 74000,
-> +};
-> +
->  static const struct msm_mdss_data sa8775p_data = {
->  	.ubwc_enc_version = UBWC_4_0,
->  	.ubwc_dec_version = UBWC_4_0,
-> @@ -715,6 +725,7 @@ static const struct of_device_id mdss_dt_match[] = {
->  	{ .compatible = "qcom,mdss" },
->  	{ .compatible = "qcom,msm8998-mdss", .data = &msm8998_data },
->  	{ .compatible = "qcom,qcm2290-mdss", .data = &qcm2290_data },
-> +	{ .compatible = "qcom,qcs8300-mdss", .data = &qcs8300_data },
->  	{ .compatible = "qcom,sa8775p-mdss", .data = &sa8775p_data },
->  	{ .compatible = "qcom,sdm670-mdss", .data = &sdm670_data },
->  	{ .compatible = "qcom,sdm845-mdss", .data = &sdm845_data },
 > 
-> -- 
-> 2.34.1
-> 
+
+NAK, there is no need for this.
+
 
 -- 
 With best wishes
