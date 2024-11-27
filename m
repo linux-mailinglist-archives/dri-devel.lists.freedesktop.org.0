@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62809DA74B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 13:01:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3F39DA752
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 13:02:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC7210EAAB;
-	Wed, 27 Nov 2024 12:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1139C10EAB1;
+	Wed, 27 Nov 2024 12:02:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IjFRese9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rhARbqg7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E162610EAAD;
- Wed, 27 Nov 2024 12:01:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C9B310EAAF;
+ Wed, 27 Nov 2024 12:02:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A5FA95C569A;
- Wed, 27 Nov 2024 12:00:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE0C8C4CECC;
- Wed, 27 Nov 2024 12:01:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 291245C5927;
+ Wed, 27 Nov 2024 12:01:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E57DC4CED2;
+ Wed, 27 Nov 2024 12:02:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732708873;
- bh=l8Y87yoQEdyXuP6xZbRrWD7FatUpzs4zW88la++jh5Q=;
+ s=k20201202; t=1732708926;
+ bh=qrf4kicubqIpGh1eXcdG8o3eHzgO34mObfDiCh8Bf4c=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IjFRese9ysTQdVyc/xnxkc9GB+5OpLdUhPEOeNhtYMbfgeN0EAcPHJr18VwywFEqV
- OPZijlfEDT47CGTH4iIbmDP0YhfQzCIKPHB2XcM/x4SpS2fR1vf4nRyg2nx5bxzUrm
- u5e8gRUEs4+/o4CEzh6iMQHdu+MlXss/HKOrNRuF6MZDxy0emp4AWYf/xNGJ6XrngQ
- 436HfpFWjFiLCpoQmsscMDXkWElo4L7fYXnvLfqRBfu71ZVpBtnGj0AO5QNrAUJ7TL
- GlpHiFr7erDfydx3cZm55gHddiSYNW3PKSSRzmI6NH5dPGg1n7P4nDoRIrhe98bAU0
- l/N8pTSQJ0W3g==
-Message-ID: <d4145905-68d3-40ba-bb66-15747eb0d54d@kernel.org>
-Date: Wed, 27 Nov 2024 13:01:06 +0100
+ b=rhARbqg7g9YJfBBTKhMkJLrkeGkGKS2rNvo/wb5/bIUojWDYGW1OQdwJmhlTcRzcJ
+ GawPi4dCjWC5qNhaGXm5Wg3ydf199wRmo8lURaP1pL9XpmJl/mqW65VeGY5fqoz6Ks
+ V60XtlEibo5IPlUkSLGuSrcy0QsXZd7tkeL+aD2JCRmhdrovsRXkU4IamUS6Odfw9I
+ mFa7tmOsbvupx3QEZyp+Vh3XD/xs0RB1UMeCjNm4h8bdZqOfXRMDigyVu13nppNAVi
+ Ri1rXwGqGWl0EKa+RKGumYXNJ8H8ZQFmFcyVAPFSXUIeehMFmkMJHGEqz/798Q7Gzs
+ qj92Fx+E8+xSA==
+Message-ID: <e3c47041-51ab-403c-a217-a39f071e0d55@kernel.org>
+Date: Wed, 27 Nov 2024 13:01:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] dt-bindings: display/msm: Document MDSS on QCS8300
+Subject: Re: [PATCH 0/5] Display enablement changes for Qualcomm QCS8300
+ platform
 To: Yongxing Mou <quic_yongmou@quicinc.com>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Ritesh Kumar <quic_riteshk@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Ritesh Kumar <quic_riteshk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, freedreno@lists.freedesktop.org,
- Simona Vetter <simona@ffwll.ch>, Neil Armstrong <neil.armstrong@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20241127-mdss_qcs8300-v1-0-29b2c3ee95b8@quicinc.com>
- <20241127-mdss_qcs8300-v1-1-29b2c3ee95b8@quicinc.com>
- <173269567235.2233485.7286772244329561840.robh@kernel.org>
- <f433283d-e203-41f7-acc6-59fe606722a5@quicinc.com>
+ <675c41cb-afa8-4386-8dc9-026a36bc1152@kernel.org>
+ <8982d065-9bc6-4036-8004-80b1681eaf3c@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +99,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <f433283d-e203-41f7-acc6-59fe606722a5@quicinc.com>
+In-Reply-To: <8982d065-9bc6-4036-8004-80b1681eaf3c@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,33 +117,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/11/2024 12:02, Yongxing Mou wrote:
->>
->> doc reference errors (make refcheckdocs):
->>
->> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241127-mdss_qcs8300-v1-1-29b2c3ee95b8@quicinc.com
->>
->> The base for the series is generally the latest rc1. A different dependency
->> should be noted in *this* patch.
->>
->> If you already ran 'make dt_binding_check' and didn't see the above
->> error(s), then make sure 'yamllint' is installed and dt-schema is up to
->> date:
->>
->> pip3 install dtschema --upgrade
->>
->> Please check and re-submit after running the above command yourself. Note
->> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
->> your schema. However, it must be unset to test all examples with your schema.
->>
-> Thank you for your checking. I rechecked this file and indeed found some 
-> issues. I will fix them in the next patchset. But i did not see issues 
-> related to this header file in local. Maybe it is dependency or tool 
-> issues. I will and update tool and recheck this issue and fix it in the 
-> next patchset.
+On 27/11/2024 11:54, Yongxing Mou wrote:
 > 
-
-Read the instruction carefully, including statement about base.
+> 
+> On 2024/11/27 15:13, Krzysztof Kozlowski wrote:
+>> On 27/11/2024 08:05, Yongxing Mou wrote:
+>>> This series introduces support to enable the Mobile Display Subsystem (MDSS)
+>>> and Display Processing Unit (DPU) for the Qualcomm QCS8300 target. It
+>>> includes the addition of the hardware catalog, compatible string,
+>>> relevant device tree changes, and their YAML bindings.
+>>>
+>>> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+>>> ---
+>>> This series depends on following series:
+>>> https://lore.kernel.org/all/20241114-qcs8300-mm-cc-dt-patch-v1-1-7a974508c736@quicinc.com/
+>>> https://lore.kernel.org/all/20240925-qcs8300_initial_dtsi-v2-0-494c40fa2a42@quicinc.com/
+>> Above was not part of this merge window, so nothing from your patchset
+>> can be merged for this v6.14.
+>>
+>> If you want things to get merged, I suggest decoupling dependencies.
+>>
+> Thanks for reviewing.Can we keep the dependency on above changes and 
+> merge our changes after the dependent changes are merged?
+So merged in 4 months? for v6.15-rc1? You can.
 
 Best regards,
 Krzysztof
