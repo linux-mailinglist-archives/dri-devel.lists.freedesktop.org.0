@@ -2,58 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C789DA3CB
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 09:21:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDF29DA40F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 09:41:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B998910EA1F;
-	Wed, 27 Nov 2024 08:21:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF57E10EA28;
+	Wed, 27 Nov 2024 08:41:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ewpMAi6M";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KlA8V3df";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4348810EA18;
- Wed, 27 Nov 2024 08:21:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 79A74A437BB;
- Wed, 27 Nov 2024 08:19:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1CE5C4CECC;
- Wed, 27 Nov 2024 08:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732695674;
- bh=id+aTLaJGkl5TLeYDuyrx5kMCJuL6YRs6MH/F+wlEOI=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=ewpMAi6MGGWdMkdebEubYl1DCfaacM++ANTuAZSa7N0oVKYmhw9hf/VLbvFPUp0V2
- PG+KRKTyE8GuSrESVPfDLxO7uhKPNBTQAazlNDrO751JylvbyA6U6lv/dtX2a9m86w
- vnf67ND7Or5ae7sTJoceHsYFLWOjmEK9Oaf5LJJN2KRO0FaqMMH0kb2cIIoIxHdp1b
- DBQ+4q0GTQwPFAyv5kLuaIN4r6BS9ao/sSBozNeSAx2AyFfhxh38tISvolaidUXfbP
- 92Un52aKvvsriH1Qa7AAzHYkSniu1b4i1mT3RmsARtwEBCHxnyGS6oRHD3o3QTjnAW
- MrKCIQH/mv4Hw==
-Date: Wed, 27 Nov 2024 02:21:12 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7047C10E431
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 08:41:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1732696902;
+ bh=QY0zX5UAJoB0SwbYtPt49iXXD7dMFKMNb+Syf6LpEEM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KlA8V3dfz8u7wjY6YTcZcifvqwJWZCcvfNzWEUWsTxWpBZ6ojidGINQY5JslvLJtB
+ s79i7FlLsnSXfCuPSxYB2FPsnextL/5MJymBbNcN/uUiJnICGvxj0bs2Sw4ivsDf8M
+ XwnefSv99MssdHOoT0ztvtxYiJCuS3A/Cfmy701eggpR3QOi/uh7n6t66KVaAnkAad
+ KBu4mwwNA8UTx84qSUKKEO7nielBWmcRDNbiioOou+UVoXCa7Us2Co4m6VMeLKi4gu
+ 2ih54sFUJnrNd9IP3P2IWniclVpXKAKPFt38BRqQhqSyRmjFM1Azp4HFnZ0NQIapWK
+ kCf+MVOhOdV3A==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 070AF17E1330;
+ Wed, 27 Nov 2024 09:41:41 +0100 (CET)
+Message-ID: <8e70d921-1420-4a57-a994-dc28abda25b7@collabora.com>
+Date: Wed, 27 Nov 2024 09:41:41 +0100
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org, 
- Ritesh Kumar <quic_riteshk@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, freedreno@lists.freedesktop.org, 
- Simona Vetter <simona@ffwll.ch>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org
-To: Yongxing Mou <quic_yongmou@quicinc.com>
-In-Reply-To: <20241127-mdss_qcs8300-v1-1-29b2c3ee95b8@quicinc.com>
-References: <20241127-mdss_qcs8300-v1-0-29b2c3ee95b8@quicinc.com>
- <20241127-mdss_qcs8300-v1-1-29b2c3ee95b8@quicinc.com>
-Message-Id: <173269567235.2233485.7286772244329561840.robh@kernel.org>
-Subject: Re: [PATCH 1/5] dt-bindings: display/msm: Document MDSS on QCS8300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 6/6] drm/mediatek: Add support for MT8195 Digital
+ Parallel Interface
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>
+References: <20241120124420.133914-1-angelogioacchino.delregno@collabora.com>
+ <20241120124420.133914-7-angelogioacchino.delregno@collabora.com>
+ <1b966a136f02b5586749a9c3d0bcec6c75224e49.camel@mediatek.com>
+ <33acccd3-e543-493e-a61c-282d894ef2b1@collabora.com>
+ <fd48c582e99d6c07be4b66919fb6c309379ad752.camel@mediatek.com>
+ <f1d16db0-a7e1-4cfd-85c6-8beef4385701@collabora.com>
+ <a8ca9d1314f12dbb95ac4e4b9e8929adab35eaba.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <a8ca9d1314f12dbb95ac4e4b9e8929adab35eaba.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,44 +86,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Wed, 27 Nov 2024 15:05:01 +0800, Yongxing Mou wrote:
-> Document the MDSS hardware found on the Qualcomm QCS8300 platform.
+Il 27/11/24 08:02, CK Hu (胡俊光) ha scritto:
+> On Tue, 2024-11-26 at 10:25 +0100, AngeloGioacchino Del Regno wrote:
+>> External email : Please do not click links or open attachments until you have verified the sender or the content.
+>>
+>>
+>> Il 26/11/24 04:07, CK Hu (胡俊光) ha scritto:
+>>> On Mon, 2024-11-25 at 17:55 +0100, AngeloGioacchino Del Regno wrote:
+>>>> External email : Please do not click links or open attachments until you have verified the sender or the content.
+>>>>
+>>>>
+>>>> Il 22/11/24 08:23, CK Hu (胡俊光) ha scritto:
+>>>>> Hi, Angelo:
+>>>>>
+>>>>> On Wed, 2024-11-20 at 13:44 +0100, AngeloGioacchino Del Regno wrote:
+>>>>>> External email : Please do not click links or open attachments until you have verified the sender or the content.
+>>>>>>
+>>>>>>
+>>>>>> Add support for the DPI block found in the MT8195 and MT8188 SoCs.
+>>>>>> Inside of the SoC, this block is directly connected to the HDMI IP.
+>>>>>
+>>>>> In MT8173, DPI0 is directly connected to HDMI.
+>>>>> The first version of this driver is just for MT8173 DPI0.
+>>>>> Does MT8173 DPI0 need this modification?
+>>>>> Or this modification is just for MT8188 and MT8195, then the description should be more than 'directly connected'.
+>>>>>
+>>>>
+>>>> This is only for MT8188 and MT8195, and MT8173 does *not* need any modification.
+>>>>
+>>>> Please, what would you like to see in the description of this commit?
+>>>
+>>> This patch does four jobs.
+>>>
+>>> 1. Enable/disable tvd_clk for MT8195/MT8188 DPI.
+>>> 2. Do not set pixel clock for MT8195/MT8188 DPI.
+>>> 3. New DPI_INPUT_XXX and DPI_OUTPUT_XXX control for MT8195/MT8188 DPI.
+>>> 4. Do not power on/off for MT8195/MT8188 DPI.
+>>>
+>>> Maybe you should break into 4 patches and each one has different reason.
+>>
+>> Yeah I thought about that as well, but there's a fundamental issue with splitting
+>> the thing in multiple patches...
+>>
+>> For enabling the tvd_clk in a separate patch, there's no problem - however, for the
+>> others....
+>>
+>> 1. We need to introduce support for MT8195/88 DPI-HDMI, or the other patches would
+>>      not make sense (nor apply, anyway); then
+>> 2. We stop setting pixel clock with another patch; then
+>> 3. we don't power on/off, etc etc
+>>
+>> The problem with doing it like so is that the patch #1 that I described would be
+>> introducing *faulty code*, because the support for that really depends on all of
+>> the others being present (otherwise the block won't work correctly).
+>>
+>> So... if you want, I can easily split out the tvd_clk enable/disable, but splitting
+>> the rest wouldn't be clean.
+>>
+>> Besides, keep in mind that... actually... for anything else that is not MT8195/88
+>> DPI0 (so, for other SoCs' DPI and for 95/88 DPINTF) the tvd_clk is already getting
+>> enabled by its child.. so, for those ones, a call to enable tvd_clk does exactly
+>> nothing apart from incrementing (enable) or decrementing (disable) the refcount for
+>> this clock by 1.
+>>
+>> This means that the enablement/disablement of tvd_clk is actually important only
+>> for the MT8195/88 DPI and has literally no effect on anything else that is
+>> currently supported by the mtk_dpi driver anyway.
+>>
+>> Still - if you want me to split out the tvd_clk en/dis patch, just confirm and I
+>> will split that one out...
+>>
+>>>
+>>> For #1 and #2, I've not reviewed the HDMI driver. Is the clock control influenced by new HDMI driver.
+>>
+>> It kinda is - the HDMI-TX block gets its clock from the HDMI PHY's clock gen,
+>> but eventually it is the HDMI driver that tells to the PHY driver what clock it
+>> actually wants.
+>>
+>> For #1, clk_prepare_enable() is ungating the clock that would otherwise gate the
+>> PHY's PLL output to the HDMI block.
+>>
+>>> If it is software reason, maybe we can modify the new HDMI driver and make DPI driver consistent with MT8173.
+>>> If it is hardware reason. just describe the hardware reason.
+>>
+>> Alright - the hardware reason is that the HDMIPHY generates the clock for the HDMI
+>> TX block, and that enabling the clock assigned to tvd_clk is necessary to ungate
+>> the PHY's ckgen output to the HDMI-TX (and I think - but not sure as I haven't
+>> analyzed that yet - that HDMI-RX should have the same gating technique, but that's
+>> definitely out of scope for this submission).
 > 
-> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
-> ---
->  .../bindings/display/msm/qcom,qcs8300-mdss.yaml    | 239 +++++++++++++++++++++
->  1 file changed, 239 insertions(+)
+> I think tvd_clk is the clock source of DPI, HDMI, and HDMI-PHY, so these hardware could work in the same frequency.
+> That means drivers of DPI, HDMI, and HDMI-PHY are equal to control tvd_clk.
+> In MT8173. software choose DPI driver to control tvd_clk.
+> In MT8195, software choose HDMI-PHY driver to control tvd_clk.
+
+Yes, but in MT8195 the tvd is gated by a clock that is controller by the HDMI
+driver only, and not by the PHY - so, PHY sets the frequency, mtk_hdmi_v2 ungates
+that to the HDMITX block (with clk_prepare_enable(tvd_clk)).
+
+> 
+> I would like to have the same control flow.
+> If "HDMI-PHY driver to control tvd_clk" is better, we could temporarily let MT8195 has different flow with MT8173.
+> So, is "HDMI-PHY driver to control tvd_clk" better?
 > 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+I'm not sure I understand this last part, can you please rephrase?
 
-yamllint warnings/errors:
+>>
+>>>
+>>> For #4, I don't know why DPI do not control power by its self?
+>>> Even though other driver may control the same power, power manager has reference count,
+>>> so each driver could control the same power by its self.
+>>
+>> #4 is there both for a SW and for a HW reason.
+>>
+>> The HW reason is that the DPI shall be powered on in a specific sequence in regard
+>> to HDMI-TX, due to the setup that is required by both (and ungating clocks before
+>> full configuration happens would lock up the hw block).
+>>
+>> The SW reason is that mtk_crtc.c calls mtk_crtc_ddp_hw_init()->mtk_ddp_comp_start()
+>> in its .atomic_enable() callback, which happens in the wrong sequence in regard to
+>> HDMI because of the "natural" components order in the DRM framework (for MT8195/88!
+>> because for the others it either is the inverse or it does not matter - so for
+>> performance it's okay for it to be like that both on older SoCs and on DPINTF for
+>> 95/88) and this means that we *must not* call dpi_power_on() at that time but
+>> we must rather follow the atomic_enable()/bridge_enable() order imposed by DRM
+>> *also* for the clock en/dis calls in DPI.
+> 
+> It looks like the #4 could be a separate patch.
+> The commit message is what you describe here.
+> And
+> 
+> if (!dpi->conf->support_hdmi_power_sequence)
+> 	mtk_dpi_power_on();
+> 
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/msm/qcom,qcs8300-mdss.example.dts:26:18: fatal error: dt-bindings/clock/qcom,qcs8300-gcc.h: No such file or directory
-   26 |         #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[2]: *** [scripts/Makefile.dtbs:129: Documentation/devicetree/bindings/display/msm/qcom,qcs8300-mdss.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1442: dt_binding_check] Error 2
-make: *** [Makefile:224: __sub-make] Error 2
+This means that I'd have to introduce the "hdmi power sequence" before actually
+introducing the real support for MT8195 HDMI....
+I honestly don't like that "too much", but it's fine, I don't have *too strong*
+opinions about that, so I will separate #4 as you suggested for v2.
 
-doc reference errors (make refcheckdocs):
+Cheers,
+Angelo
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241127-mdss_qcs8300-v1-1-29b2c3ee95b8@quicinc.com
+> Regards,
+> CK
+> 
+>>
+>> Cheers,
+>> Angelo
+>>
+>>>
+>>> Regards,
+>>> CK
+>>>
+>>>
+>>>>
+>>>> Cheers,
+>>>> Angelo
+>>>>
+>>>>> Regards,
+>>>>> CK
+>>>>>
+>>>>>>
+>>>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>>>> ---
+>>>>
+>>>>
+>>
+>>
+>>
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
