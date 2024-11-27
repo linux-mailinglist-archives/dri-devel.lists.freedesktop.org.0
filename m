@@ -2,90 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0599DAA07
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 15:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A119DAA4E
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 16:03:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9AD210EB17;
-	Wed, 27 Nov 2024 14:44:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067E910E0E8;
+	Wed, 27 Nov 2024 15:03:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="TckfAQhN";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="aPOtoNAI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A81EC10EB07
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 14:43:59 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2ffa8092e34so66655461fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 06:43:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1732718638; x=1733323438;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=9YVIFse3ZChPt5rxLEsxZQnkg/jV/uGoXgcbdEaGy7I=;
- b=TckfAQhNGbk0YsuxOGFJrnw4gpf4J/W+60stlgFH8GiZQ1OHSst4CVX6PRR3S4Mw72
- vfJqNkCj0+kl4BuKh0cc3ZBWbsnOZbh7KVviVcbaQnlDdTBhauGcMXt3bDgemgIDlDL/
- 0E7I3qpOVCG/Gsr284xTGkKKdj7bfjIhPDezL6t+2dzlBEpuL1DvtkaCPxJ3bxj2ZY9V
- UnO8IM4pjzdOl4V1PUHgcq9tDzLUh2PSrli5FPScf5mO8JfbvZDmifW/lcMNiCFpz4YS
- XP0LYXIYg8VbE+irvn+TJQLs7nBzLTUnQM5BOU5T7q4hrHowiAo77cPA8ECZALrGZ1u3
- UsmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732718638; x=1733323438;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9YVIFse3ZChPt5rxLEsxZQnkg/jV/uGoXgcbdEaGy7I=;
- b=jbVl3E4pxg2jT4PXxXilunAzVPfjBhTXZogdunCJbJZP9nM8LMPQrX4qg6xbm0jyIN
- Mh6SSYDWwMUuyv1PWFVIYo2JdOAkep6RGDBnltMAErmNJvTQAlyAn4Ij7WL6Pt0VEJET
- Hk6lVFpEi2XV4KKoHFSlriI9QH5zJ4hvlq8Ct2glOtbBi1HxbzH4e/Ahq8JQHg8ju+sI
- 76gUbZxMyIAh4Jx5ZwfJu6sXCD89awb/q21Y+MA6lgYyisiJHBajrWiqPLi7+3T72YNr
- 9UYqEXtVKy7ORgOV0aMCeBJEYNKdTWIHat+hJ4Sn/gIbM14xfK/EPazm2nRs8XJKjkir
- uzAQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0ZG2Mbc7cBZ8UdM9cHczvC6ukaKcOctIBSg2cZFyE6jOJpafbQMRImq0gwzuWeY2SXz+xSGq669U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxD/Bz8i0NF3knoDIPOiAZpDN+M+XhW/C4YRWlqM+O2mxLk9UML
- G1uvZDHYhSb63nmfOH2RNOp9Vv6aBbrdnTFiCMll2tqrZv5v4TCFU1KV60Hq4ypHJvlu8VyqIg8
- Gaqwa+SlQOzs38Of/iDmWuklD5+7CneBgeKZsSg==
-X-Gm-Gg: ASbGncv/P7Q21eCJrG6RZ5jeJqd0bqIWx1r3EAD/zdoQjTUlm866NsMGZQms1h1Gb6n
- yi6R/Z4I/J7bwsiAFRFIm4xxjEi0C8pE=
-X-Google-Smtp-Source: AGHT+IGRc+pnEqrVmcTeiSgm588KNdJoqDkUIBr6k6jJMRMMQfn38OBTZLWXgC+yJZqrBBmbWXdkKEpuJmNNp8+huYY=
-X-Received: by 2002:a2e:b8c9:0:b0:2ff:8a1b:547f with SMTP id
- 38308e7fff4ca-2ffd60201f0mr16551901fa.14.1732718637613; Wed, 27 Nov 2024
- 06:43:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
- <CAPY8ntBM=34pTiQ=t-CjtYEE5Ax6D=EtiY-sLT1keUkUMXuLeA@mail.gmail.com>
- <20241122-orthodox-mantis-of-reading-2dcdcf@houat>
- <13cfb66b-f904-4720-8829-a6d9db85aaa5@broadcom.com>
-In-Reply-To: <13cfb66b-f904-4720-8829-a6d9db85aaa5@broadcom.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 27 Nov 2024 14:43:38 +0000
-Message-ID: <CAPY8ntD7tf6+PXKdWe8_KjCiPoemR0RQDiaHHndtjutOLGbR1w@mail.gmail.com>
-Subject: Re: [PATCH 00/37] drm/vc4: Add support for BCM2712 / Pi5 display
- hardware
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
- Stephen Boyd <sboyd@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Stefan Wahren <wahrenst@gmx.net>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-clk@vger.kernel.org, Dom Cobley <popcornmix@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1305410E0E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 15:03:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732719810; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ic+sSeblIlMzNmyx93ijjM1GVdyzE8/eGMi0aumB5MO+91VUZg0htzi62u5hSN9WpJ56wqeFH/UhXH9uj+JQgZgIg6DSxqmf6l+w0lc+wkgHg5CSiD7GK1nfrZE0NzFBfUhTLmQ3xElUHpISB5wpQ7grX701ZMKN6YiGzAGnW7U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1732719810;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=FW2BjeUhmf7EpI5P3+7+Tgb5Vu35+00rH6VSDQTpzOs=; 
+ b=gz6heiuUIt8N6kz6ksWOgP1BLJgCM4qQADfmxgNNNk2QR5KLU7/ARiu5O9EK3yVrd54llobMhPzzjsIN0D0cFlePh/vtaxO6QKu0ZuW/X2izzdaBRsWS4N2281B/jCBRKoDrnajn1JSlBXAdw+ucroTXFA9pnxfb2iKB/6zV8uI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732719810; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=FW2BjeUhmf7EpI5P3+7+Tgb5Vu35+00rH6VSDQTpzOs=;
+ b=aPOtoNAIrmmuzLep4Wzb6pO4kc3Cln6MTfq7VDzbpP1q6Hjt5bMFdi1cZt2ugBcS
+ FcBbo2qKnUZWqm0KB9/ZCoDmoNMp3StxSiWsA+RrE3cdhfAUrAV1rba+TXysScyR7Dv
+ MihD8dBvkVtVtYRv/8dH6K2icKJWl6GQJn+1ZkvY=
+Received: by mx.zohomail.com with SMTPS id 1732719808969656.9652960943769;
+ Wed, 27 Nov 2024 07:03:28 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
+Subject: Re: [WIP RFC v2 10/35] rust: drm/kms: Add DriverConnector::get_mode
+ callback
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20240930233257.1189730-11-lyude@redhat.com>
+Date: Wed, 27 Nov 2024 12:03:14 -0300
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
+ mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
+ jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <36E11299-A121-46DB-8F8D-45AC4B99BCE6@collabora.com>
+References: <20240930233257.1189730-1-lyude@redhat.com>
+ <20240930233257.1189730-11-lyude@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+X-Mailer: Apple Mail (2.3826.200.121)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,66 +79,315 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 24 Nov 2024 at 17:00, Florian Fainelli
-<florian.fainelli@broadcom.com> wrote:
->
->
->
-> On 11/22/2024 12:06 AM, Maxime Ripard wrote:
-> > On Thu, Nov 21, 2024 at 03:37:00PM +0000, Dave Stevenson wrote:
-> >> On Wed, 23 Oct 2024 at 17:50, Dave Stevenson
-> >> <dave.stevenson@raspberrypi.com> wrote:
-> >>>
-> >>> This series adds the required DRM, clock, and DT changes
-> >>> required to support the display hardware on Pi5.
-> >>> There are a couple of minor fixes first before the main patches.
-> >>>
-> >>> Many of the patches were authored by Maxime whilst working
-> >>> for us, however there have been a number of fixes squashed
-> >>> into his original patches as issues have been found. I also
-> >>> reworked the way UBM allocations are done to avoid double
-> >>> buffering of the handles as they are quite a limited resource.
-> >>>
-> >>> There are 2 variants of the IP. Most Pi5's released to date
-> >>> have used the C1 step of the SoC, whilst the 2GB Pi5 released
-> >>> in August is using the D0 step, as will other boards in future.
-> >>>
-> >>> Due to various reasons the register map got reworked between
-> >>> the steps, so there is extra code to handle the differences.
-> >>> Which step is in use is read out of the hardware, so they
-> >>> share a compatible string.
-> >>
-> >> A gentle ping on the patches for clk-raspberrypi (patches 29-33) and
-> >> Broadcom DT (patches 34-36).
-> >>
-> >> All the DRM and dtbinding ones are reviewed or acked (thank you!).
-> >
-> > If the bindings and DRM patches are all merged, you can merge these at
-> > least.
->
-> I will be taking in the DTS patche shortly. Thanks!
+Hi Lyude,
 
-Thank you Florian and Stephen.
+> On 30 Sep 2024, at 20:09, Lyude Paul <lyude@redhat.com> wrote:
+>=20
+> Next up is filling out some of the basic connector hotplugging =
+callbacks -
+> which we'll need for setting up the fbdev helpers for KMS devices. =
+Note
+> that connector hotplugging in DRM follows a BFL scheme: pretty much =
+all
 
-I messed up and pinged the v1 cover note :( V2 is
-https://lore.kernel.org/linux-arm-kernel/20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com/
-Thank you Florian for grabbing the correct version anyway, although
-there weren't any changes to the DT side anyway.
+A what scheme?
 
-V2 includes fixing Maxime's comment on "[PATCH 31/37] clk: bcm: rpi:
-Allow cpufreq driver to also adjust gpu clocks" that Stephen also
-commented on.
+> probing is protected under the mighty drm_device->mode_config.lock, =
+which
+> of course is a bit counter-intuitive to rust's locking schemes where =
+data
+> is always associated with its lock.
+>=20
+> Since that lock is embedded in an FFI type and not a rust type, we =
+need to
+> introduce our own wrapper type that acts as a lock acquisition for =
+this.
+> This brings us to introducing a few new types:
+>=20
+> * ModeConfigGuard - the most basic lock guard, as long as this object =
+is
+>  alive we are guaranteed to be holding drm_device->mode_config.lock. =
+This
+>  object doesn't do much else on its own currently.
+> * ConnectorGuard - an object which corresponds to a specific typed DRM
+>  connector. This can only be acquired with a ModeConfigGuard, and will =
+be
+>  used to allow calling methods that are only safe to call with
+>  drm_device->mode_config.lock held. Since it implements
+>  Deref<Target=3DConnector<T>> as well, it can also be used for any =
+other
+>  operations that would normally be available on a DRM connector.
+>=20
+> And finally, we add the DriverConnector::get_modes() trait method =
+which
+> drivers can use to implement the drm_connector_helper_funcs.get_modes
+> callback. Note that while we make this trait method mandatory, we only =
+do
+> so for the time being since VKMS doesn't do very much with DRM =
+connectors -
+> and as such we have no need yet to implement alternative connector =
+probing
+> schemes outside of get_modes().
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+> rust/kernel/drm/kms.rs           | 70 ++++++++++++++++++++++++++++++++
+> rust/kernel/drm/kms/connector.rs | 57 ++++++++++++++++++++++++--
+> 2 files changed, 124 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/rust/kernel/drm/kms.rs b/rust/kernel/drm/kms.rs
+> index d5cad598f016f..d74267c78864f 100644
+> --- a/rust/kernel/drm/kms.rs
+> +++ b/rust/kernel/drm/kms.rs
+> @@ -18,6 +18,8 @@
+>     types::*,
+>     error::to_result,
+>     private::Sealed,
+> +    sync::{Mutex, MutexGuard},
+> +    container_of
+> };
+> use core::{
+>     ops::Deref,
+> @@ -233,6 +235,21 @@ impl<T, K> KmsDriver for T
+>     T: Driver<Kms =3D K>,
+>     K: Kms<Driver =3D T> {}
+>=20
+> +impl<T: KmsDriver> Device<T> {
+> +    /// Retrieve a pointer to the mode_config mutex
+> +    #[inline]
+> +    pub(crate) fn mode_config_mutex(&self) -> &Mutex<()> {
+> +        // SAFETY: This lock is initialized for as long as =
+`Device<T>` is exposed to users
+> +        unsafe { Mutex::from_raw(&mut =
+(*self.as_raw()).mode_config.mutex) }
 
-Stephen: Sorry, maintaining newbie, particularly for clocks. I see in
-linux-clk patchwork they are marked as "Awaiting Upstream". What, if
-anything, do I need to do on those?
+Again, a bit hard to understand what=E2=80=99s going on here, since =
+everything is on a single line.
 
-I've pushed the v2 DRM patches with dtbindings, so the clock changes
-are the only ones left.
+> +    }
+> +
+> +    /// Acquire the [`mode_config.mutex`] for this [`Device`].
+> +    #[inline]
+> +    pub fn mode_config_lock(&self) -> ModeConfigGuard<'_, T> {
+> +        ModeConfigGuard(self.mode_config_mutex().lock(), PhantomData)
+> +    }
+> +}
+> +
+> /// A modesetting object in DRM.
+> ///
+> /// This is any type of object where the underlying C object contains =
+a [`struct drm_mode_object`].
+> @@ -339,3 +356,56 @@ unsafe fn dec_ref(obj: ptr::NonNull<Self>) {
+>         unsafe { =
+bindings::drm_mode_object_put(obj.as_ref().raw_mode_obj()) }
+>     }
+> }
+> +
+> +/// A mode config guard.
+> +///
+> +/// This is an exclusive primitive that represents when =
+[`drm_device.mode_config.mutex`] is held - as
+> +/// some modesetting operations (particularly ones related to =
+[`connectors`](connector)) are still
+> +/// protected under this single lock. The lock will be dropped once =
+this object is dropped.
+> +///
+> +/// # Invariants
+> +///
+> +/// - `self.0` is contained within a [`struct drm_mode_config`], =
+which is contained within a
+> +///   [`struct drm_device`].
+> +/// - The [`KmsDriver`] implementation of that [`struct drm_device`] =
+is always `T`.
+> +/// - This type proves that [`drm_device.mode_config.mutex`] is =
+acquired.
+> +///
+> +/// [`struct drm_mode_config`]: (srctree/include/drm/drm_device.h)
+> +/// [`drm_device.mode_config.mutex`]: =
+(srctree/include/drm/drm_device.h)
+> +/// [`struct drm_device`]: (srctree/include/drm/drm_device.h)
+> +pub struct ModeConfigGuard<'a, T: KmsDriver>(MutexGuard<'a, ()>, =
+PhantomData<T>);
+> +
+> +impl<'a, T: KmsDriver> ModeConfigGuard<'a, T> {
+> +    /// Construct a new [`ModeConfigGuard`].
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// The caller must ensure that [`drm_device.mode_config.mutex`] =
+is acquired.
+> +    ///
+> +    /// [`drm_device.mode_config.mutex`]: =
+(srctree/include/drm/drm_device.h)
+> +    pub(crate) unsafe fn new(drm: &'a Device<T>) -> Self {
+> +        // SAFETY: Our safety contract fulfills the requirements of =
+`MutexGuard::new()`
+> +        Self(unsafe { MutexGuard::new(drm.mode_config_mutex(), ()) }, =
+PhantomData)
+> +    }
+> +
+> +    /// Return the [`Device`] that this [`ModeConfigGuard`] belongs =
+to.
+> +    pub fn drm_dev(&self) -> &'a Device<T> {
+> +        // SAFETY:
+> +        // - `self` is embedded within a `drm_mode_config` via our =
+type invariants
+> +        // - `self.0.lock` has an equivalent data type to `mutex` via =
+its type invariants.
+> +        let mode_config =3D unsafe { container_of!(self.0.lock, =
+bindings::drm_mode_config, mutex) };
+> +
+> +        // SAFETY: And that `drm_mode_config` lives in a `drm_device` =
+via type invariants.
+> +        unsafe { Device::borrow(container_of!(mode_config, =
+bindings::drm_device, mode_config)) }
+> +    }
+> +
+> +    /// Assert that the given device is the owner of this mode config =
+guard.
+> +    ///
+> +    /// # Panics
+> +    ///
+> +    /// Panics if `dev` is different from the owning device for this =
+mode config guard.
+> +    #[inline]
+> +    pub(crate) fn assert_owner(&self, dev: &Device<T>) {
+> +        assert!(ptr::eq(self.drm_dev(), dev));
+> +    }
+> +}
+> diff --git a/rust/kernel/drm/kms/connector.rs =
+b/rust/kernel/drm/kms/connector.rs
+> index 54457b327c365..57ab29473c344 100644
+> --- a/rust/kernel/drm/kms/connector.rs
+> +++ b/rust/kernel/drm/kms/connector.rs
+> @@ -19,7 +19,7 @@
+> use core::{
+>     marker::*,
+>     ptr::null_mut,
+> -    mem,
+> +    mem::{self, ManuallyDrop},
+>     ptr::{self, NonNull, addr_of_mut},
+>     ffi::*,
+>     ops::*,
+> @@ -28,6 +28,7 @@
+> use super::{
+>     ModeObject,
+>     RcModeObject,
+> +    ModeConfigGuard,
+>     encoder::*,
+>     KmsDriver,
+> };
+> @@ -93,7 +94,7 @@ pub trait DriverConnector: Send + Sync + Sized {
+>             destroy: Some(connector_destroy_callback::<Self>),
+>             force: None,
+>             detect: None,
+> -            fill_modes: None,
+> +            fill_modes: =
+Some(bindings::drm_helper_probe_single_connector_modes),
+>             debugfs_init: None,
+>             oob_hotplug_event: None,
+>             atomic_duplicate_state: =
+Some(atomic_duplicate_state_callback::<Self::State>),
+> @@ -101,7 +102,7 @@ pub trait DriverConnector: Send + Sync + Sized {
+>         helper_funcs: bindings::drm_connector_helper_funcs {
+>             mode_valid: None,
+>             atomic_check: None,
+> -            get_modes: None,
+> +            get_modes: Some(get_modes_callback::<Self>),
+>             detect_ctx: None,
+>             enable_hpd: None,
+>             disable_hpd: None,
+> @@ -132,6 +133,12 @@ pub trait DriverConnector: Send + Sync + Sized {
+>     ///
+>     /// Drivers may use this to instantiate their [`DriverConnector`] =
+object.
+>     fn new(device: &Device<Self::Driver>, args: Self::Args) -> impl =
+PinInit<Self, Error>;
+> +
+> +    /// Retrieve a list of available display modes for this =
+[`Connector`].
+> +    fn get_modes<'a>(
+> +        connector: ConnectorGuard<'a, Self>,
+> +        guard: &ModeConfigGuard<'a, Self::Driver>
+> +    ) -> i32;
+> }
+>=20
+> /// The generated C vtable for a [`DriverConnector`].
+> @@ -229,6 +236,19 @@ pub fn new(
+>         })
+>     }
+>=20
+> +    /// Acquire a [`ConnectorGuard`] for this connector from a =
+[`ModeConfigGuard`].
+> +    ///
+> +    /// This verifies using the provided reference that the given =
+guard is actually for the same
+> +    /// device as this connector's parent.
+> +    ///
+> +    /// # Panics
+> +    ///
+> +    /// Panics if `guard` is not a [`ModeConfigGuard`] for this =
+connector's parent [`Device`].
+> +    pub fn guard<'a>(&'a self, guard: &ModeConfigGuard<'a, =
+T::Driver>) -> ConnectorGuard<'a, T> {
+> +        guard.assert_owner(self.drm_dev());
+> +        ConnectorGuard(self)
+> +    }
+> +
+>     /// Attach an encoder to this [`Connector`].
+>     ///
+>     /// TODO: Move this to an `UnregisteredConnector` interface =
+somehow=E2=80=A6
+> @@ -327,6 +347,37 @@ unsafe fn from_raw<'a>(ptr: *mut =
+bindings::drm_connector) -> &'a Self {
+>     drop(unsafe { Box::from_raw(connector as *mut Connector<T>) });
+> }
+>=20
+> +unsafe extern "C" fn get_modes_callback<T: DriverConnector>(
+> +    connector: *mut bindings::drm_connector,
+> +) -> c_int {
+> +    // SAFETY: This is safe via `DriverConnector`s type invariants.
+> +    let connector =3D unsafe { Connector::<T>::from_raw(connector) };
+> +
+> +    // SAFETY: This FFI callback is only called while =
+`mode_config.lock` is held
+> +    let guard =3D ManuallyDrop::new(unsafe { =
+ModeConfigGuard::new(connector.drm_dev()) });
 
-Thanks again.
-  Dave
+I=E2=80=99m confused. Can you explain what this ManuallyDrop is being =
+used for?
 
-> --
-> Florian
->
+> +
+> +    T::get_modes(connector.guard(&guard), &guard)
+> +}
+> +
+> +/// A privileged [`Connector`] obtained while holding a =
+[`ModeConfigGuard`].
+> +///
+> +/// This provides access to various methods for [`Connector`] that =
+must happen under lock, such as
+> +/// setting resolution preferences and adding display modes.
+> +///
+> +/// # Invariants
+> +///
+> +/// Shares the invariants of [`ModeConfigGuard`].
+> +#[derive(Copy, Clone)]
+> +pub struct ConnectorGuard<'a, T: DriverConnector>(&'a Connector<T>);
+> +
+> +impl<T: DriverConnector> Deref for ConnectorGuard<'_, T> {
+> +    type Target =3D Connector<T>;
+> +
+> +    fn deref(&self) -> &Self::Target {
+> +        self.0
+> +    }
+> +}
+> +
+> // SAFETY: DRM expects this struct to be zero-initialized
+> unsafe impl Zeroable for bindings::drm_connector_state {}
+>=20
+> --=20
+> 2.46.1
+>=20
+
+=E2=80=94 Daniel
+
