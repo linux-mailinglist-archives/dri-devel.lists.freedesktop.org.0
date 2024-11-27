@@ -2,58 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8296C9DA52F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 10:53:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1073F9DA53B
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 10:58:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65EAE10E179;
-	Wed, 27 Nov 2024 09:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA8710E21D;
+	Wed, 27 Nov 2024 09:58:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hQYnUyMe";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="RzECImDM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFE9B10E179
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 09:53:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732701206; x=1764237206;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=E+bY82Gis3/BBcmHaMtq5QQ5xGpac+6OObJvpOS1ieg=;
- b=hQYnUyMe5Vcch6Fzv5GOB368g07DsR0sQTEfy2BG0AI6V9DO6fmWZDBh
- fgmRZpA2borymKwzbSe3vm/q02G7TZn/UeI9UaEL1NMgLU14qjBUf/h3n
- A7dnUoQKF1daALNXSqjhZqcVlAHjM3YnDMapiAXGzk8gkAC1Jw/poLYBN
- H0IipdnD8Id4za5J+K3ohkG9AvR8yNWYP61Bk+sIhR0BY2oW6JRwf8f1d
- M/Kak2gjbEGX9dw+rVwQ0CuSxnJ680YlCUamfS6YjBoM6l7yqPnIzJxVi
- omm0WtqckXMCIxNm3ZP+wR8f5PcF92DbEVwvLWCwY0S3N4klHKGxcklml w==;
-X-CSE-ConnectionGUID: JlJ197J5TFScgo9sMHYyuA==
-X-CSE-MsgGUID: jlnE+z4ARC2/6Wj6LONR4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="36820455"
-X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; d="scan'208";a="36820455"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2024 01:53:15 -0800
-X-CSE-ConnectionGUID: 8WjVvBW2R2K/GuoEfNQ/hw==
-X-CSE-MsgGUID: BGUAjkkZTUG1Fia+ac9M0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; d="scan'208";a="92297124"
-Received: from carterle-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.110])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2024 01:53:13 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: linux-media@vger.kernel.org
-Cc: jani.nikula@intel.com, dri-devel@lists.freedesktop.org,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] media: cec: include linux/debugfs.h and linux/seq_file.h
- where needed
-Date: Wed, 27 Nov 2024 11:53:08 +0200
-Message-Id: <20241127095308.3149411-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.5
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7A3F10E21D
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 09:58:44 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-53de771c5ebso3091976e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 01:58:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1732701523; x=1733306323;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MSwBpe7A1WU6doSfB6DCRay342117jvdCAZmr4IsSos=;
+ b=RzECImDMy6rRQAp/Rhj9lcAQ5i0IKuVE9ioFXcN9+HJefEZ+rXW73UneFISIFf2nzV
+ sYWEgq7EqwPO0Z2v605jy1lrFka+CZaxA1axPQReDo1w6WUiiNOziIlcdGqt65Kdn1mh
+ K2hfY8u7hhmiYPutmNa5fRt5XpBu7vfdL0hts=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732701523; x=1733306323;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MSwBpe7A1WU6doSfB6DCRay342117jvdCAZmr4IsSos=;
+ b=UHIpuTzoGmTCh8Bc9pLdmge0PYGlvveGQ3ijsz5oCINnEWJti50/3fxX1/cJH7GQXP
+ WwZaIp7pRIQ70RyUNETOuulstUD8KLqSTK1V2aJWKHB/lCxGQujighKM1PQrbONhGHMD
+ zAswSuLMZnVPtRhsIo+p3ZVQBFVUG5klLX+tnO2HOhJhHUgc04r71Kbm8w7ua3cEYGoA
+ r++PKcpGl00lNBDvgjc6rv8IDplGqOP/ajztkgWmNupsNSV5WonUWG4jjb4491ZNVyHE
+ t0V/X3uBdItO72k3m/rf6uoEvCuQrOwHIAaSeLN4UyCxqs+ulwBSdaxWqVpxKbKVrVQz
+ Dspg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWTl5N++ob8TYJdh0EniJPXIw1/OKAZLv5lJuDuetshFqPpm6jqyOOHSl5Oo1IsEL6Ln3GNogJw0E8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywmph9oqigsK64cEIv/x4plp6F1OZt+19Tsz+nHOWkPBif0EQwl
+ iq8R2C3juTEQItCvQDmC8cFhahHEsIIQRH9ejA6RTbjLMz4CDuBh50ew7pBl2HQxeYnyYgtyNri
+ R3SOx7/k8klpsCqsvK1wAO1VW9ACcTFMe16RO
+X-Gm-Gg: ASbGnct1eruT+9QvvjO/DdaVH3oKMxmmEccDWRAADT7KzXbVtvTPx0vd9LsBEy1HgBm
+ upCLjApc8CCG75lD2zoqxJwFXogbFbEvJkNAisDvN366zp2uo8yub5jUQj9I=
+X-Google-Smtp-Source: AGHT+IGleoyHiMc5UekJdmwzwoaHJ99Sqt7ibutxuWqjuRAHyMFlhRlwsg+RWwpv8+r4qDN/FtBJnxVPgL0QKDwrwuI=
+X-Received: by 2002:a05:6512:3c81:b0:53d:ea1d:50fc with SMTP id
+ 2adb3069b0e04-53df0111f03mr1289736e87.48.1732701522167; Wed, 27 Nov 2024
+ 01:58:42 -0800 (PST)
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <20241009052402.411978-1-fshao@chromium.org>
+ <20241024-stalwart-bandicoot-of-music-bc6b29@houat>
+ <CAC=S1niZuiJkWBvci+bmrU-BvahhXyWWAYAMOB200a3Ppu=rTg@mail.gmail.com>
+ <20241114-gray-corgi-of-youth-f992ec@houat>
+In-Reply-To: <20241114-gray-corgi-of-youth-f992ec@houat>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 27 Nov 2024 17:58:31 +0800
+Message-ID: <CAGXv+5EmVj6S2iioYgMKvY8NM3_jzCDS9-GC-GOMU44j0ikmKA@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Fei Shao <fshao@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ David Airlie <airlied@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,96 +90,292 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Having cec.h include linux/debugfs.h leads to all users of all cec
-headers include and depend on debugfs.h and its dependencies for no
-reason. Drop the include from cec.h, and include debugfs.h and
-seq_file.h where needed.
+Revisiting this thread since I just stepped on the same problem on a
+different device.
 
-Sort all the modified include lists while at it.
+On Thu, Nov 14, 2024 at 9:12=E2=80=AFPM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> On Tue, Oct 29, 2024 at 10:53:49PM +0800, Fei Shao wrote:
+> > On Thu, Oct 24, 2024 at 8:36=E2=80=AFPM Maxime Ripard <mripard@kernel.o=
+rg> wrote:
+> > >
+> > > On Wed, Oct 09, 2024 at 01:23:31PM +0800, Fei Shao wrote:
+> > > > In the mtk_dsi driver, its DSI host attach callback calls
+> > > > devm_drm_of_get_bridge() to get the next bridge. If that next bridg=
+e is
+> > > > a panel bridge, a panel_bridge object is allocated and managed by t=
+he
+> > > > panel device.
+> > > >
+> > > > Later, if the attach callback fails with -EPROBE_DEFER from subsequ=
+ent
+> > > > component_add(), the panel device invoking the callback at probe ti=
+me
+> > > > also fails, and all device-managed resources are freed accordingly.
+> > > >
+> > > > This exposes a drm_bridge bridge_list corruption due to the unbalan=
+ced
+> > > > lifecycle between the DSI host and the panel devices: the panel_bri=
+dge
+> > > > object managed by panel device is freed, while drm_bridge_remove() =
+is
+> > > > bound to DSI host device and never gets called.
+> > > > The next drm_bridge_add() will trigger UAF against the freed bridge=
+ list
+> > > > object and result in kernel panic.
+> > > >
+> > > > This bug is observed on a MediaTek MT8188-based Chromebook with MIP=
+I DSI
+> > > > outputting to a DSI panel (DT is WIP for upstream).
+> > > >
+> > > > As a fix, using devm_drm_bridge_add() with the panel device in the =
+panel
+> > > > path seems reasonable. This also implies a chain of potential clean=
+up
+> > > > actions:
+> > > >
+> > > > 1. Removing drm_bridge_remove() means devm_drm_panel_bridge_release=
+()
+> > > >    becomes hollow and can be removed.
+> > > >
+> > > > 2. devm_drm_panel_bridge_add_typed() is almost emptied except for t=
+he
+> > > >    `bridge->pre_enable_prev_first` line. Itself can be also removed=
+ if
+> > > >    we move the line into drm_panel_bridge_add_typed(). (maybe?)
+> > > >
+> > > > 3. drm_panel_bridge_add_typed() now calls all the needed devm_* cal=
+ls,
+> > > >    so it's essentially the new devm_drm_panel_bridge_add_typed().
+> > > >
+> > > > 4. drmm_panel_bridge_add() needs to be updated accordingly since it
+> > > >    calls drm_panel_bridge_add_typed(). But now there's only one bri=
+dge
+> > > >    object to be freed, and it's already being managed by panel devi=
+ce.
+> > > >    I wonder if we still need both drmm_ and devm_ version in this c=
+ase.
+> > > >    (maybe yes from DRM PoV, I don't know much about the context)
+> > > >
+> > > > This is a RFC patch since I'm not sure if my understanding is corre=
+ct
+> > > > (for both the fix and the cleanup). It fixes the issue I encountere=
+d,
+> > > > but I don't expect it to be picked up directly due to the redundant
+> > > > commit message and the dangling devm_drm_panel_bridge_release().
+> > > > I plan to resend the official patch(es) once I know what I supposed=
+ to
+> > > > do next.
+> > > >
+> > > > For reference, here's the KASAN report from the device:
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >  BUG: KASAN: slab-use-after-free in drm_bridge_add+0x98/0x230
+> > > >  Read of size 8 at addr ffffff80c4e9e100 by task kworker/u32:1/69
+> > > >
+> > > >  CPU: 1 UID: 0 PID: 69 Comm: kworker/u32:1 Not tainted 6.12.0-rc1-n=
+ext-20241004-kasan-00030-g062135fa4046 #1
+> > > >  Hardware name: Google Ciri sku0/unprovisioned board (DT)
+> > > >  Workqueue: events_unbound deferred_probe_work_func
+> > > >  Call trace:
+> > > >   dump_backtrace+0xfc/0x140
+> > > >   show_stack+0x24/0x38
+> > > >   dump_stack_lvl+0x40/0xc8
+> > > >   print_report+0x140/0x700
+> > > >   kasan_report+0xcc/0x130
+> > > >   __asan_report_load8_noabort+0x20/0x30
+> > > >   drm_bridge_add+0x98/0x230
+> > > >   devm_drm_panel_bridge_add_typed+0x174/0x298
+> > > >   devm_drm_of_get_bridge+0xe8/0x190
+> > > >   mtk_dsi_host_attach+0x130/0x2b0
+> > > >   mipi_dsi_attach+0x8c/0xe8
+> > > >   hx83102_probe+0x1a8/0x368
+> > > >   mipi_dsi_drv_probe+0x6c/0x88
+> > > >   really_probe+0x1c4/0x698
+> > > >   __driver_probe_device+0x160/0x298
+> > > >   driver_probe_device+0x7c/0x2a8
+> > > >   __device_attach_driver+0x2a0/0x398
+> > > >   bus_for_each_drv+0x198/0x200
+> > > >   __device_attach+0x1c0/0x308
+> > > >   device_initial_probe+0x20/0x38
+> > > >   bus_probe_device+0x11c/0x1f8
+> > > >   deferred_probe_work_func+0x80/0x250
+> > > >   worker_thread+0x9b4/0x2780
+> > > >   kthread+0x274/0x350
+> > > >   ret_from_fork+0x10/0x20
+> > > >
+> > > >  Allocated by task 69:
+> > > >   kasan_save_track+0x40/0x78
+> > > >   kasan_save_alloc_info+0x44/0x58
+> > > >   __kasan_kmalloc+0x84/0xa0
+> > > >   __kmalloc_node_track_caller_noprof+0x228/0x450
+> > > >   devm_kmalloc+0x6c/0x288
+> > > >   devm_drm_panel_bridge_add_typed+0xa0/0x298
+> > > >   devm_drm_of_get_bridge+0xe8/0x190
+> > > >   mtk_dsi_host_attach+0x130/0x2b0
+> > > >   mipi_dsi_attach+0x8c/0xe8
+> > > >   hx83102_probe+0x1a8/0x368
+> > > >   mipi_dsi_drv_probe+0x6c/0x88
+> > > >   really_probe+0x1c4/0x698
+> > > >   __driver_probe_device+0x160/0x298
+> > > >   driver_probe_device+0x7c/0x2a8
+> > > >   __device_attach_driver+0x2a0/0x398
+> > > >   bus_for_each_drv+0x198/0x200
+> > > >   __device_attach+0x1c0/0x308
+> > > >   device_initial_probe+0x20/0x38
+> > > >   bus_probe_device+0x11c/0x1f8
+> > > >   deferred_probe_work_func+0x80/0x250
+> > > >   worker_thread+0x9b4/0x2780
+> > > >   kthread+0x274/0x350
+> > > >   ret_from_fork+0x10/0x20
+> > > >
+> > > >  Freed by task 69:
+> > > >   kasan_save_track+0x40/0x78
+> > > >   kasan_save_free_info+0x58/0x78
+> > > >   __kasan_slab_free+0x48/0x68
+> > > >   kfree+0xd4/0x750
+> > > >   devres_release_all+0x144/0x1e8
+> > > >   really_probe+0x48c/0x698
+> > > >   __driver_probe_device+0x160/0x298
+> > > >   driver_probe_device+0x7c/0x2a8
+> > > >   __device_attach_driver+0x2a0/0x398
+> > > >   bus_for_each_drv+0x198/0x200
+> > > >   __device_attach+0x1c0/0x308
+> > > >   device_initial_probe+0x20/0x38
+> > > >   bus_probe_device+0x11c/0x1f8
+> > > >   deferred_probe_work_func+0x80/0x250
+> > > >   worker_thread+0x9b4/0x2780
+> > > >   kthread+0x274/0x350
+> > > >   ret_from_fork+0x10/0x20
+> > > >
+> > > >  The buggy address belongs to the object at ffffff80c4e9e000
+> > > >   which belongs to the cache kmalloc-4k of size 4096
+> > > >  The buggy address is located 256 bytes inside of
+> > > >   freed 4096-byte region [ffffff80c4e9e000, ffffff80c4e9f000)
+> > > >
+> > > >  The buggy address belongs to the physical page:
+> > > >  head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pinco=
+unt:0
+> > > >  flags: 0x8000000000000040(head|zone=3D2)
+> > > >  page_type: f5(slab)
+> > > >  page: refcount:1 mapcount:0 mapping:0000000000000000
+> > > >  index:0x0 pfn:0x104e98
+> > > >  raw: 8000000000000040 ffffff80c0003040 dead000000000122 0000000000=
+000000
+> > > >  raw: 0000000000000000 0000000000040004 00000001f5000000 0000000000=
+000000
+> > > >  head: 8000000000000040 ffffff80c0003040 dead000000000122 000000000=
+0000000
+> > > >  head: 0000000000000000 0000000000040004 00000001f5000000 000000000=
+0000000
+> > > >  head: 8000000000000003 fffffffec313a601 ffffffffffffffff 000000000=
+0000000
+> > > >  head: 0000000000000008 0000000000000000 00000000ffffffff 000000000=
+0000000
+> > > >  page dumped because: kasan: bad access detected
+> > > >
+> > > >  Memory state around the buggy address:
+> > > >   ffffff80c4e9e000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > > >   ffffff80c4e9e080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > > >  >ffffff80c4e9e100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > > >                     ^
+> > > >   ffffff80c4e9e180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > > >   ffffff80c4e9e200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >
+> > > > Signed-off-by: Fei Shao <fshao@chromium.org>
+> > >
+> > > I was looking at the driver to try to follow your (awesome btw, thank=
+s)
+> > > commit log, and it does have a quite different structure compared to
+> > > what we recommend.
+> > >
+> > > Would following
+> > > https://docs.kernel.org/gpu/drm-kms-helpers.html#special-care-with-mi=
+pi-dsi-bridges
+> > > help?
+> >
+> > Hi Maxime,
+> >
+> > Thank you for the pointer.
+> > I read the suggested pattern in the doc and compared it with the
+> > drivers. If I understand correctly, both the MIPI-DSI host and panel
+> > drivers follow the instructions:
+> >
+> > 1. The MIPI-DSI host driver must run mipi_dsi_host_register() in its pr=
+obe hook.
+> >    >> drm/mediatek/mtk_dsi.c runs mipi_dsi_host_register() in the probe=
+ hook.
+> > 2. In its probe hook, the bridge driver must try to find its MIPI-DSI
+> > host, register as a MIPI-DSI device and attach the MIPI-DSI device to
+> > its host.
+> >    >> drm/panel/panel-himax-hx83102.c follows and runs
+> > mipi_dsi_attach() at the end of probe hook.
+> > 3. In its struct mipi_dsi_host_ops.attach hook, the MIPI-DSI host can
+> > now add its component.
+> >    >> drm/mediatek/mtk_dsi.c calls component_add() in the attach callba=
+ck.
+> >
+> > Could you elaborate on the "different structures" you mentioned?
+>
+> Yeah, you're right, sorry.
+>
+> > To clarify my point: the issue is that component_add() may return
+> > -EPROBE_DEFER if the component (e.g. DSI encoder) is not ready,
+> > causing the panel bridge to be removed. However, drm_bridge_remove()
+> > is bound to MIPI-DSI host instead of panel bridge, which owns the
+> > actual list_head object.
+> >
+> > This might be reproducible with other MIPI-DSI host + panel
+> > combinations by forcibly returning -EPROBE_DEFER in the host attach
+> > hook (verification with another device is needed), so the fix may be
+> > required in drm/bridge/panel.c.
 
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> Yeah, I think you're just hitting another bridge lifetime issue, and
+> it's not the only one unfortunately. Tying the bridge structure lifetime
+> itself to the device is wrong, it should be tied to the DRM device
+> lifetime instead.
 
----
+I think the more immediate issue is that the bridge object's lifetime
+and drm_bridge_add/remove are inconsistent when devm_drm_of_get_bridge()
+or drmm_of_get_bridge() are used.
 
-Depends on commit ae19ba915eb7 ("drm/i915/display: include
-media/cec-notifier.h and linux/debugfs.h where needed")
----
- drivers/media/cec/core/cec-adap.c | 5 +++--
- drivers/media/cec/core/cec-core.c | 5 +++--
- drivers/media/cec/core/cec-pin.c  | 3 ++-
- include/media/cec.h               | 1 -
- 4 files changed, 8 insertions(+), 6 deletions(-)
+These helpers tie the bridge add/removal to the device or drm_device
+passed in, but internally they call down to drm_panel_bridge_add_typed()
+which allocates the bridge object tied to the panel device.
+> But then, the discussion becomes that bridges typically probe outside of
+> the "main" DRM device probe path, so you don't have access to the DRM
+> device structure until attach at best.
+>
+> That's why I'm a bit skeptical about your patch. It might workaround
+> your issue, but it doesn't actually solve the problem. I guess the best
+> way about it would be to convert bridges to reference counting, with the
+> device taking a reference at probe time when it allocates the structure
+> (and giving it back at remove time), and the DRM device taking one when
+> it's attached and one when it's detached.
 
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index c7d36010c890..ba6828ef540e 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -7,12 +7,13 @@
- 
- #include <linux/errno.h>
- #include <linux/init.h>
--#include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/kmod.h>
- #include <linux/ktime.h>
--#include <linux/slab.h>
- #include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/seq_file.h>
-+#include <linux/slab.h>
- #include <linux/string.h>
- #include <linux/types.h>
- 
-diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
-index 48282d272fe6..941a7d3cb9dc 100644
---- a/drivers/media/cec/core/cec-core.c
-+++ b/drivers/media/cec/core/cec-core.c
-@@ -5,13 +5,14 @@
-  * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
-  */
- 
-+#include <linux/debugfs.h>
- #include <linux/errno.h>
- #include <linux/init.h>
--#include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/kmod.h>
--#include <linux/slab.h>
- #include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
- #include <linux/string.h>
- #include <linux/types.h>
- 
-diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
-index 330d5d5d86ab..a70451d99ebc 100644
---- a/drivers/media/cec/core/cec-pin.c
-+++ b/drivers/media/cec/core/cec-pin.c
-@@ -4,8 +4,9 @@
-  */
- 
- #include <linux/delay.h>
--#include <linux/slab.h>
- #include <linux/sched/types.h>
-+#include <linux/seq_file.h>
-+#include <linux/slab.h>
- 
- #include <media/cec-pin.h>
- #include "cec-pin-priv.h"
-diff --git a/include/media/cec.h b/include/media/cec.h
-index 16b412b3131b..0c8e86115b6f 100644
---- a/include/media/cec.h
-+++ b/include/media/cec.h
-@@ -10,7 +10,6 @@
- 
- #include <linux/poll.h>
- #include <linux/fs.h>
--#include <linux/debugfs.h>
- #include <linux/device.h>
- #include <linux/cdev.h>
- #include <linux/kthread.h>
--- 
-2.39.5
+Without going as far, it's probably better to align the lifecycle of
+the two parts. Most other bridge drivers in the kernel have |drm_bridge|
+lifecycle tied to their underlying |device|, either with explicit
+drm_bridge_{add,remove}() calls in their probe/bind and remove/unbind
+callbacks respectively, or with devm_drm_bridge_add in the probe/bind
+path. The only ones with a narrower lifecycle are the DSI hosts, which
+add the bridge in during host attach and remove it during host detach.
 
+I'm thinking about fixing the panel_bridge lifecycle such that it is
+tied to the panel itself. Maybe that would involve making
+devm_drm_of_get_bridge() correctly return bridges even if a panel was
+found, and then making the panels create and add panel bridges directly,
+possibly within drm_panel_add(). Would that make sense?
+
+
+Thanks
+ChenYu
+
+> It's much more involved than just another helper though :/
+>
+> Maxime
