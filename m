@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDF29DA40F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 09:41:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1199DA412
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 09:42:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF57E10EA28;
-	Wed, 27 Nov 2024 08:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D9D10EA2D;
+	Wed, 27 Nov 2024 08:42:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KlA8V3df";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XerAHcE/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7047C10E431
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 08:41:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 215E710EA2D
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 08:42:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1732696902;
- bh=QY0zX5UAJoB0SwbYtPt49iXXD7dMFKMNb+Syf6LpEEM=;
+ s=mail; t=1732696941;
+ bh=1SruQ6equFJEJ3DDQvtA5uhMPF4SVyogTYV0u07VntU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=KlA8V3dfz8u7wjY6YTcZcifvqwJWZCcvfNzWEUWsTxWpBZ6ojidGINQY5JslvLJtB
- s79i7FlLsnSXfCuPSxYB2FPsnextL/5MJymBbNcN/uUiJnICGvxj0bs2Sw4ivsDf8M
- XwnefSv99MssdHOoT0ztvtxYiJCuS3A/Cfmy701eggpR3QOi/uh7n6t66KVaAnkAad
- KBu4mwwNA8UTx84qSUKKEO7nielBWmcRDNbiioOou+UVoXCa7Us2Co4m6VMeLKi4gu
- 2ih54sFUJnrNd9IP3P2IWniclVpXKAKPFt38BRqQhqSyRmjFM1Azp4HFnZ0NQIapWK
- kCf+MVOhOdV3A==
+ b=XerAHcE/bSIaVT+gDx5+/EXDHU4d77hSNKsYcHdGjAyUawEmdllA2suX/9cM4ePtZ
+ +cMuz99nwjOx2nUQl5hhrazHxLAPvVZZ0yhfYtDxWLe4RVqVglSgh2DyWYp2d5D71i
+ NNhbWNfuUWtOz+xhx2B5W+zwblnPOee4AdFrzTTwZ75SAb3e2jKuCMn0I+YGOra6vm
+ O11LKMWWkJ/6qMAo3cgUTP64fUemDdu/UGxStaO+Jgc/ZYZ4mkG8sr2Udll4NZqQ3e
+ vOoSXnkwUPO51ZeUCkC9/B+PttGmc9e0tv2hkM7uBhrZb1v85/U/7gNyKvYmIMp4Ma
+ 0g9Gn6jLlVYeQ==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 070AF17E1330;
- Wed, 27 Nov 2024 09:41:41 +0100 (CET)
-Message-ID: <8e70d921-1420-4a57-a994-dc28abda25b7@collabora.com>
-Date: Wed, 27 Nov 2024 09:41:41 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 08DD017E1330;
+ Wed, 27 Nov 2024 09:42:21 +0100 (CET)
+Message-ID: <8fec2c21-9d72-4a6b-9f00-01f2e6375831@collabora.com>
+Date: Wed, 27 Nov 2024 09:42:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 6/6] drm/mediatek: Add support for MT8195 Digital
- Parallel Interface
+Subject: Re: [PATCH v1 7/7] drm/mediatek: Introduce HDMI/DDC v2 for
+ MT8195/MT8188
 To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
  "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
 Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -46,9 +46,8 @@ Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  "simona@ffwll.ch" <simona@ffwll.ch>,
  "kernel@collabora.com" <kernel@collabora.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
  "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "mripard@kernel.org" <mripard@kernel.org>,
  "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
  "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
  "conor+dt@kernel.org" <conor+dt@kernel.org>,
@@ -59,16 +58,14 @@ Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>,
  "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
  "krzk+dt@kernel.org" <krzk+dt@kernel.org>
-References: <20241120124420.133914-1-angelogioacchino.delregno@collabora.com>
- <20241120124420.133914-7-angelogioacchino.delregno@collabora.com>
- <1b966a136f02b5586749a9c3d0bcec6c75224e49.camel@mediatek.com>
- <33acccd3-e543-493e-a61c-282d894ef2b1@collabora.com>
- <fd48c582e99d6c07be4b66919fb6c309379ad752.camel@mediatek.com>
- <f1d16db0-a7e1-4cfd-85c6-8beef4385701@collabora.com>
- <a8ca9d1314f12dbb95ac4e4b9e8929adab35eaba.camel@mediatek.com>
+References: <20241120124512.134278-1-angelogioacchino.delregno@collabora.com>
+ <20241120124512.134278-8-angelogioacchino.delregno@collabora.com>
+ <133167aa2a3fab40547f5dc6602adf2c3d9e01e5.camel@mediatek.com>
+ <4143b793-c5b1-4b6d-8547-26a9dc526957@collabora.com>
+ <0711c097f724409941239696f5ab790b302d194a.camel@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <a8ca9d1314f12dbb95ac4e4b9e8929adab35eaba.camel@mediatek.com>
+In-Reply-To: <0711c097f724409941239696f5ab790b302d194a.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,145 +83,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/11/24 08:02, CK Hu (胡俊光) ha scritto:
-> On Tue, 2024-11-26 at 10:25 +0100, AngeloGioacchino Del Regno wrote:
+Il 27/11/24 04:08, CK Hu (胡俊光) ha scritto:
+> On Tue, 2024-11-26 at 09:57 +0100, AngeloGioacchino Del Regno wrote:
 >> External email : Please do not click links or open attachments until you have verified the sender or the content.
 >>
 >>
->> Il 26/11/24 04:07, CK Hu (胡俊光) ha scritto:
->>> On Mon, 2024-11-25 at 17:55 +0100, AngeloGioacchino Del Regno wrote:
+>> Il 26/11/24 08:42, CK Hu (胡俊光) ha scritto:
+>>> Hi, Angelo:
+>>>
+>>> On Wed, 2024-11-20 at 13:45 +0100, AngeloGioacchino Del Regno wrote:
 >>>> External email : Please do not click links or open attachments until you have verified the sender or the content.
 >>>>
 >>>>
->>>> Il 22/11/24 08:23, CK Hu (胡俊光) ha scritto:
->>>>> Hi, Angelo:
->>>>>
->>>>> On Wed, 2024-11-20 at 13:44 +0100, AngeloGioacchino Del Regno wrote:
->>>>>> External email : Please do not click links or open attachments until you have verified the sender or the content.
->>>>>>
->>>>>>
->>>>>> Add support for the DPI block found in the MT8195 and MT8188 SoCs.
->>>>>> Inside of the SoC, this block is directly connected to the HDMI IP.
->>>>>
->>>>> In MT8173, DPI0 is directly connected to HDMI.
->>>>> The first version of this driver is just for MT8173 DPI0.
->>>>> Does MT8173 DPI0 need this modification?
->>>>> Or this modification is just for MT8188 and MT8195, then the description should be more than 'directly connected'.
->>>>>
+>>>> Add support for the newer HDMI-TX (Encoder) v2 and DDC v2 IPs
+>>>> found in MediaTek's MT8195, MT8188 SoC and their variants, and
+>>>> including support for display modes up to 4k60 and for HDMI
+>>>> Audio, as per the HDMI 2.0 spec.
 >>>>
->>>> This is only for MT8188 and MT8195, and MT8173 does *not* need any modification.
->>>>
->>>> Please, what would you like to see in the description of this commit?
+>>>> HDCP and CEC functionalities are also supported by this hardware,
+>>>> but are not included in this commit.
 >>>
->>> This patch does four jobs.
+>>> Both MT8173 HDMI and MT8173 CEC has hot plug detection interrupt.
+>>> I don't know why but MT8173 choose CEC to detect hot plug.
 >>>
->>> 1. Enable/disable tvd_clk for MT8195/MT8188 DPI.
->>> 2. Do not set pixel clock for MT8195/MT8188 DPI.
->>> 3. New DPI_INPUT_XXX and DPI_OUTPUT_XXX control for MT8195/MT8188 DPI.
->>> 4. Do not power on/off for MT8195/MT8188 DPI.
+>>> Does MT8195 CEC has hot plug detection interrupt?
+>>> If it has, may we align the hot plug detection flow with MT8173?
 >>>
->>> Maybe you should break into 4 patches and each one has different reason.
 >>
->> Yeah I thought about that as well, but there's a fundamental issue with splitting
->> the thing in multiple patches...
+>> The CEC on MT8195 does have an hotplug detection interrupt, but that *must* be
+>> used exclusively for CEC for one important reason.
 >>
->> For enabling the tvd_clk in a separate patch, there's no problem - however, for the
->> others....
+>> While on MT8188 we only have the HDMI (TX) Encoder, MT8195 features both HDMI TX
+>> and HDMI RX and in the specific case of this SoCs, the CEC block is shared between
+>> the two controllers.
 >>
->> 1. We need to introduce support for MT8195/88 DPI-HDMI, or the other patches would
->>      not make sense (nor apply, anyway); then
->> 2. We stop setting pixel clock with another patch; then
->> 3. we don't power on/off, etc etc
+>> If we use the CEC hotplug detection for HDMI-TX, we wouldn't be able to share the
+>> block with the HDMI-RX without hacks.
 >>
->> The problem with doing it like so is that the patch #1 that I described would be
->> introducing *faulty code*, because the support for that really depends on all of
->> the others being present (otherwise the block won't work correctly).
->>
->> So... if you want, I can easily split out the tvd_clk enable/disable, but splitting
->> the rest wouldn't be clean.
->>
->> Besides, keep in mind that... actually... for anything else that is not MT8195/88
->> DPI0 (so, for other SoCs' DPI and for 95/88 DPINTF) the tvd_clk is already getting
->> enabled by its child.. so, for those ones, a call to enable tvd_clk does exactly
->> nothing apart from incrementing (enable) or decrementing (disable) the refcount for
->> this clock by 1.
->>
->> This means that the enablement/disablement of tvd_clk is actually important only
->> for the MT8195/88 DPI and has literally no effect on anything else that is
->> currently supported by the mtk_dpi driver anyway.
->>
->> Still - if you want me to split out the tvd_clk en/dis patch, just confirm and I
->> will split that one out...
->>
->>>
->>> For #1 and #2, I've not reviewed the HDMI driver. Is the clock control influenced by new HDMI driver.
->>
->> It kinda is - the HDMI-TX block gets its clock from the HDMI PHY's clock gen,
->> but eventually it is the HDMI driver that tells to the PHY driver what clock it
->> actually wants.
->>
->> For #1, clk_prepare_enable() is ungating the clock that would otherwise gate the
->> PHY's PLL output to the HDMI block.
->>
->>> If it is software reason, maybe we can modify the new HDMI driver and make DPI driver consistent with MT8173.
->>> If it is hardware reason. just describe the hardware reason.
->>
->> Alright - the hardware reason is that the HDMIPHY generates the clock for the HDMI
->> TX block, and that enabling the clock assigned to tvd_clk is necessary to ungate
->> the PHY's ckgen output to the HDMI-TX (and I think - but not sure as I haven't
->> analyzed that yet - that HDMI-RX should have the same gating technique, but that's
->> definitely out of scope for this submission).
+>> This is why we need to use the HTPLG/PORD provided by the HDMI-TX block instead of
+>> the CEC one.
 > 
-> I think tvd_clk is the clock source of DPI, HDMI, and HDMI-PHY, so these hardware could work in the same frequency.
-> That means drivers of DPI, HDMI, and HDMI-PHY are equal to control tvd_clk.
-> In MT8173. software choose DPI driver to control tvd_clk.
-> In MT8195, software choose HDMI-PHY driver to control tvd_clk.
-
-Yes, but in MT8195 the tvd is gated by a clock that is controller by the HDMI
-driver only, and not by the PHY - so, PHY sets the frequency, mtk_hdmi_v2 ungates
-that to the HDMITX block (with clk_prepare_enable(tvd_clk)).
-
-> 
-> I would like to have the same control flow.
-> If "HDMI-PHY driver to control tvd_clk" is better, we could temporarily let MT8195 has different flow with MT8173.
-> So, is "HDMI-PHY driver to control tvd_clk" better?
+> OK, please add this information to commit message so that we know why not use CEC to detect hot plug.
 > 
 
-I'm not sure I understand this last part, can you please rephrase?
-
->>
->>>
->>> For #4, I don't know why DPI do not control power by its self?
->>> Even though other driver may control the same power, power manager has reference count,
->>> so each driver could control the same power by its self.
->>
->> #4 is there both for a SW and for a HW reason.
->>
->> The HW reason is that the DPI shall be powered on in a specific sequence in regard
->> to HDMI-TX, due to the setup that is required by both (and ungating clocks before
->> full configuration happens would lock up the hw block).
->>
->> The SW reason is that mtk_crtc.c calls mtk_crtc_ddp_hw_init()->mtk_ddp_comp_start()
->> in its .atomic_enable() callback, which happens in the wrong sequence in regard to
->> HDMI because of the "natural" components order in the DRM framework (for MT8195/88!
->> because for the others it either is the inverse or it does not matter - so for
->> performance it's okay for it to be like that both on older SoCs and on DPINTF for
->> 95/88) and this means that we *must not* call dpi_power_on() at that time but
->> we must rather follow the atomic_enable()/bridge_enable() order imposed by DRM
->> *also* for the clock en/dis calls in DPI.
-> 
-> It looks like the #4 could be a separate patch.
-> The commit message is what you describe here.
-> And
-> 
-> if (!dpi->conf->support_hdmi_power_sequence)
-> 	mtk_dpi_power_on();
-> 
-
-This means that I'd have to introduce the "hdmi power sequence" before actually
-introducing the real support for MT8195 HDMI....
-I honestly don't like that "too much", but it's fine, I don't have *too strong*
-opinions about that, so I will separate #4 as you suggested for v2.
+Sure, I'll do that for v2.
 
 Cheers,
 Angelo
@@ -233,6 +135,12 @@ Angelo
 > CK
 > 
 >>
+>>> This is not a strong suggestion because I don't know why MT8173 choose CEC to detect.
+>>> I just want more function to be common.
+>>
+>> Yeah, I got the point and I would've asked the same question, but for the reasons
+>> that I explained, that's unfortunately not possible :-)
+>>
 >> Cheers,
 >> Angelo
 >>
@@ -240,18 +148,9 @@ Angelo
 >>> Regards,
 >>> CK
 >>>
->>>
 >>>>
->>>> Cheers,
->>>> Angelo
->>>>
->>>>> Regards,
->>>>> CK
->>>>>
->>>>>>
->>>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>>>>> ---
->>>>
+>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>> ---
 >>>>
 >>
 >>
