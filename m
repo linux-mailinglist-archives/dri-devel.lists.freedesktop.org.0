@@ -2,71 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1199DA412
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 09:42:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D829DA44A
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 10:01:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66D9D10EA2D;
-	Wed, 27 Nov 2024 08:42:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D245310EA3E;
+	Wed, 27 Nov 2024 09:01:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XerAHcE/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RbpjAyuw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 215E710EA2D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 08:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1732696941;
- bh=1SruQ6equFJEJ3DDQvtA5uhMPF4SVyogTYV0u07VntU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=XerAHcE/bSIaVT+gDx5+/EXDHU4d77hSNKsYcHdGjAyUawEmdllA2suX/9cM4ePtZ
- +cMuz99nwjOx2nUQl5hhrazHxLAPvVZZ0yhfYtDxWLe4RVqVglSgh2DyWYp2d5D71i
- NNhbWNfuUWtOz+xhx2B5W+zwblnPOee4AdFrzTTwZ75SAb3e2jKuCMn0I+YGOra6vm
- O11LKMWWkJ/6qMAo3cgUTP64fUemDdu/UGxStaO+Jgc/ZYZ4mkG8sr2Udll4NZqQ3e
- vOoSXnkwUPO51ZeUCkC9/B+PttGmc9e0tv2hkM7uBhrZb1v85/U/7gNyKvYmIMp4Ma
- 0g9Gn6jLlVYeQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 08DD017E1330;
- Wed, 27 Nov 2024 09:42:21 +0100 (CET)
-Message-ID: <8fec2c21-9d72-4a6b-9f00-01f2e6375831@collabora.com>
-Date: Wed, 27 Nov 2024 09:42:20 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB2810EA3B;
+ Wed, 27 Nov 2024 09:01:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1732698105; x=1764234105;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=h3CMnL4eliTX9gzLSTV1y6gHQDFmYxmyCKxh3w3Jy2k=;
+ b=RbpjAyuw3lYcFNu2ZxeO71Q5f6VsMdSTbvKYZAtpllbrjbvYwOXIDqki
+ qeJNq3mR2TZo8Y/Yz2oKYEfaTj1T02KPQNWPuOfKdqJB5bJGmYky3SAHf
+ dZydJjo/FqhcmhnzVM8NCksvu15SZ3dVBWLmAWy/sjT2je282uMcMS+zh
+ laVGBX13h72XfvRJ3GoNbPllrqmmu8fdSMvoBo8Ze5SoBo5EvfrQGR6SO
+ gqnjYDJ9cEKNZfYBVbCRzQZxlG0BDwDKiKr1YKOacrDdxE8pT6tsK1ATV
+ 9d2K4gjyN1NN0QPKWey8NOa/86uOnsEyx9pskXGvFRML4UXgqS8+z+9RI Q==;
+X-CSE-ConnectionGUID: /pYye/4hRP6FipCQ9YIWNg==
+X-CSE-MsgGUID: urUFDL6ITDejduE/58Js4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32642289"
+X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; d="scan'208";a="32642289"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2024 00:54:47 -0800
+X-CSE-ConnectionGUID: gornYM1SR22nc/eA2n46mw==
+X-CSE-MsgGUID: L7UM9o2cQUaYxolxdRcCog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; d="scan'208";a="91826973"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO fedora..)
+ ([10.245.246.103])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2024 00:54:44 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
+ Boqun Feng <boqun.feng@gmail.com>,
+ Maarten Lankhorst <maarten@lankhorst.se>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] locking/ww_mutex: Fix ww_mutex dummy lockdep map selftest
+ warnings
+Date: Wed, 27 Nov 2024 09:54:30 +0100
+Message-ID: <20241127085430.3045-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 7/7] drm/mediatek: Introduce HDMI/DDC v2 for
- MT8195/MT8188
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>
-References: <20241120124512.134278-1-angelogioacchino.delregno@collabora.com>
- <20241120124512.134278-8-angelogioacchino.delregno@collabora.com>
- <133167aa2a3fab40547f5dc6602adf2c3d9e01e5.camel@mediatek.com>
- <4143b793-c5b1-4b6d-8547-26a9dc526957@collabora.com>
- <0711c097f724409941239696f5ab790b302d194a.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <0711c097f724409941239696f5ab790b302d194a.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,77 +74,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/11/24 04:08, CK Hu (胡俊光) ha scritto:
-> On Tue, 2024-11-26 at 09:57 +0100, AngeloGioacchino Del Regno wrote:
->> External email : Please do not click links or open attachments until you have verified the sender or the content.
->>
->>
->> Il 26/11/24 08:42, CK Hu (胡俊光) ha scritto:
->>> Hi, Angelo:
->>>
->>> On Wed, 2024-11-20 at 13:45 +0100, AngeloGioacchino Del Regno wrote:
->>>> External email : Please do not click links or open attachments until you have verified the sender or the content.
->>>>
->>>>
->>>> Add support for the newer HDMI-TX (Encoder) v2 and DDC v2 IPs
->>>> found in MediaTek's MT8195, MT8188 SoC and their variants, and
->>>> including support for display modes up to 4k60 and for HDMI
->>>> Audio, as per the HDMI 2.0 spec.
->>>>
->>>> HDCP and CEC functionalities are also supported by this hardware,
->>>> but are not included in this commit.
->>>
->>> Both MT8173 HDMI and MT8173 CEC has hot plug detection interrupt.
->>> I don't know why but MT8173 choose CEC to detect hot plug.
->>>
->>> Does MT8195 CEC has hot plug detection interrupt?
->>> If it has, may we align the hot plug detection flow with MT8173?
->>>
->>
->> The CEC on MT8195 does have an hotplug detection interrupt, but that *must* be
->> used exclusively for CEC for one important reason.
->>
->> While on MT8188 we only have the HDMI (TX) Encoder, MT8195 features both HDMI TX
->> and HDMI RX and in the specific case of this SoCs, the CEC block is shared between
->> the two controllers.
->>
->> If we use the CEC hotplug detection for HDMI-TX, we wouldn't be able to share the
->> block with the HDMI-RX without hacks.
->>
->> This is why we need to use the HTPLG/PORD provided by the HDMI-TX block instead of
->> the CEC one.
-> 
-> OK, please add this information to commit message so that we know why not use CEC to detect hot plug.
-> 
+The below commit introduces a dummy lockdep map, but didn't get
+the initialization quite right (it should mimic the initialization
+of the real ww_mutex lockdep maps). It also introduced a separate
+locking api selftest failure. Fix these.
 
-Sure, I'll do that for v2.
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Waiman Long <longman@redhat.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>
+Cc: Maarten Lankhorst <maarten@lankhorst.se>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Suggested-by: Boqun Feng <boqun.feng@gmail.com>
+Reported-by: Boqun Feng <boqun.feng@gmail.com>
+Closes: https://lore.kernel.org/lkml/Zw19sMtnKdyOVQoh@boqun-archlinux/
+Fixes: 823a566221a5 ("locking/ww_mutex: Adjust to lockdep nest_lock requirements")
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ include/linux/ww_mutex.h | 4 ++--
+ lib/locking-selftest.c   | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Cheers,
-Angelo
-
-> Regards,
-> CK
-> 
->>
->>> This is not a strong suggestion because I don't know why MT8173 choose CEC to detect.
->>> I just want more function to be common.
->>
->> Yeah, I got the point and I would've asked the same question, but for the reasons
->> that I explained, that's unfortunately not possible :-)
->>
->> Cheers,
->> Angelo
->>
->>>
->>> Regards,
->>> CK
->>>
->>>>
->>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>>> ---
->>>>
->>
->>
->>
-
+diff --git a/include/linux/ww_mutex.h b/include/linux/ww_mutex.h
+index a401a2f31a77..45ff6f7a872b 100644
+--- a/include/linux/ww_mutex.h
++++ b/include/linux/ww_mutex.h
+@@ -156,8 +156,8 @@ static inline void ww_acquire_init(struct ww_acquire_ctx *ctx,
+ 	debug_check_no_locks_freed((void *)ctx, sizeof(*ctx));
+ 	lockdep_init_map(&ctx->dep_map, ww_class->acquire_name,
+ 			 &ww_class->acquire_key, 0);
+-	lockdep_init_map(&ctx->first_lock_dep_map, ww_class->mutex_name,
+-			 &ww_class->mutex_key, 0);
++	lockdep_init_map_wait(&ctx->first_lock_dep_map, ww_class->mutex_name,
++			      &ww_class->mutex_key, 0, LD_WAIT_SLEEP);
+ 	mutex_acquire(&ctx->dep_map, 0, 0, _RET_IP_);
+ 	mutex_acquire_nest(&ctx->first_lock_dep_map, 0, 0, &ctx->dep_map, _RET_IP_);
+ #endif
+diff --git a/lib/locking-selftest.c b/lib/locking-selftest.c
+index 6e0c019f71b6..ed99344317f5 100644
+--- a/lib/locking-selftest.c
++++ b/lib/locking-selftest.c
+@@ -1720,8 +1720,6 @@ static void ww_test_normal(void)
+ {
+ 	int ret;
+ 
+-	WWAI(&t);
+-
+ 	/*
+ 	 * None of the ww_mutex codepaths should be taken in the 'normal'
+ 	 * mutex calls. The easiest way to verify this is by using the
+@@ -1770,6 +1768,8 @@ static void ww_test_normal(void)
+ 	ww_mutex_base_unlock(&o.base);
+ 	WARN_ON(o.ctx != (void *)~0UL);
+ 
++	WWAI(&t);
++
+ 	/* nest_lock */
+ 	o.ctx = (void *)~0UL;
+ 	ww_mutex_base_lock_nest_lock(&o.base, &t);
+-- 
+2.47.0
 
