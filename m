@@ -2,11 +2,11 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C7B9DA99F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 15:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E34A9DA99E
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 15:05:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3BF010EAE4;
-	Wed, 27 Nov 2024 14:05:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBD0410EAE3;
+	Wed, 27 Nov 2024 14:05:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
 	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="UTd8aLZ/";
 	dkim-atps=neutral
@@ -14,8 +14,8 @@ X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07B0410EAE4
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 14:05:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4DC10EAE3
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 14:05:30 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; t=1732716328; cv=none; 
  d=zohomail.com; s=zohoarc; 
  b=oB1NqOPYGTI2V007+mAEJvbGKvpIq5yRhTlTqdEH4IUi/bK2f4L2xK/9tWMmf1L9OLqqDRJS5Y8fLlZm19bFIfJ79rvwVsAY1GltBrIbYJGBagfPswDJT/3t1qwmST8iv7Y5aD42Aj7dnGOqL10guKN0/cXqt5LyN4sOuQJW56U=
@@ -35,7 +35,7 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732716328;
  b=UTd8aLZ/zLIXg3Kn6F/Vvpdbcu4dzVj6CC1GYvw/CIJgw5QwZUF4mKVF6JrlFNLY
  16YYZZiEjXBnmGocDpeSQn0DOO3gZmpu3zLavjkijFQifhYA1C+MlZ8PsI22jYnjn7D
  V8wGDp7JZ2qWBm80OPRbxDxst0NW2URBJgoX68C8=
-Received: by mx.zohomail.com with SMTPS id 1732716325936125.44940223774336;
+Received: by mx.zohomail.com with SMTPS id 1732716325951864.0172514414779;
  Wed, 27 Nov 2024 06:05:25 -0800 (PST)
 Content-Type: text/plain;
 	charset=utf-8
