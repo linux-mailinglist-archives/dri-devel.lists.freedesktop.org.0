@@ -2,83 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1679DA124
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 04:32:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79B89DA189
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2024 05:43:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 145C910E0F6;
-	Wed, 27 Nov 2024 03:32:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18E7210E03C;
+	Wed, 27 Nov 2024 04:43:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gohCSeHn";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="KX6HgwrV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C84310E0F6
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 03:32:15 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-6eeb66727e7so62233347b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 19:32:15 -0800 (PST)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
+ [209.85.167.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9B5E10E03C
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2024 04:43:13 +0000 (UTC)
+Received: by mail-oi1-f174.google.com with SMTP id
+ 5614622812f47-3ea53011deaso1183557b6e.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2024 20:43:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732678334; x=1733283134; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=whLrwTDQh9Q1vAtIf5Ue5wkiYoi+msqtQm0tKNkrgkc=;
- b=gohCSeHnImFC7HzYO+5kuQL5CwGzwMNAC2mYnSmjMSDVaRMZdRJoFqApbua0EJ/0YA
- XqpXRxR8U2VxF2fXQnxG2qviCA3CqFQMYwSOIPP2ONlPwaaBddnagsCWvxAwJeWrzlug
- drzPUpw5zzpmvhiAWhDLuVjJDYZs5rfy8poyYxf6cOc5uRw0KRMu+x1mKXPlw2Gn7ogU
- W6MCnqGP7e5BuI8mi+Qa/n/tX7VLOuPbQpVPAyOiC7SHyG2BXv6IGM6oOG2cm53UAaCe
- 4bgYXQkinP2F0xnIPWy2XVpqE0EKr4DLeh7EBXqo1UYG/AOD265VLGIGHJKaTDRhZKud
- 4H3A==
+ d=chromium.org; s=google; t=1732682593; x=1733287393;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=buIj9lD4l7EjMTWNqbbtXYSQ2Eo8RWol7XgFHIWEhAQ=;
+ b=KX6HgwrV/fv0wpNLrgwl9Nmvlghp9fWpR0GiVAr2nQszKmOTrY3o5aS9abtAXtZO6C
+ 3v/rAUBiZMkkev2O43eyJI15PZJUXoFRiaO8VzAoVFrg8BRKduhbRVpkvDM7XjfM/c3k
+ QDQm6QyGlKqHI1QMJyElbqWyQ2msNmkMnvNPg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732678334; x=1733283134;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=whLrwTDQh9Q1vAtIf5Ue5wkiYoi+msqtQm0tKNkrgkc=;
- b=GxPDg5LaD0Vqbxm3jH6zMCkGVwPPkLkt9iSQbHJbxvl2as4twkr8pxI6h8q6IpdTgs
- vzCgp9UigOcvD2WyMbQWaOgYL8Up/GvgVZZ/7AQetHNfAUKRBcDUe45S9yB0QQapp/ji
- 0XzjKq7en+O/plco5NlFcIun0fToT69Siyf++qtgmIlRVbJC73gB32lPIv9oaCVGcKWf
- Wpv7Q80afmqf1kJPFXT8cYcBpIGymPumU9cd4izrH1x3mIkrRo1AaTxczWJZTa8bLQBg
- 6ycPf6q/9tdDRktFbSu/QtvA9bWc5qMb6nccUaH/SEtd1FL9s2jUwYpga8wrL33uFs4l
- Zcfw==
+ d=1e100.net; s=20230601; t=1732682593; x=1733287393;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=buIj9lD4l7EjMTWNqbbtXYSQ2Eo8RWol7XgFHIWEhAQ=;
+ b=MSo/DByAfFNLHiW/dZ2VGV078MFvPqAEavNKqpNUujPQHYLvG0+OALrCy4kfbFB9oQ
+ GE7v81tR+zspPngzuqmBhEQlhWLAJX9inKm9U7sEmqzl/GqObGKxApcXLZPKq2bSqxgh
+ qob8iTqCCTiy6wgoQkL1xKJK+RiaWu5LXh9IxaxH4+OQgmMr1jhUF9YDUWypmqZOIlo1
+ Yj4kcK7oHk9tpVKak1IN3lEZsxTAiFQup/dAxIMcGazTgNYCLnUbq4D5rsSjWKs8aYAt
+ BI9ZXyw/WAw3TA2xl7gbBu5Vux6pRS4AYBVD1OdktgMVdyHwhRzHkBTgTPMFGjBriiM0
+ Li2g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW+OpF4DerHzXZdi6wTcHX+t6Bp27V4TqLunnWo0ULxLcTKWNzgAy7AEhhD7Q1LWM6hYXST05F/Pf8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxuCKEUX66PAOArxA46OcQc9n6t1U6fPu59/s903cnngRfEGhGX
- qV6zRsSDQ1ZIa9Tr8fJnr+9a5z4JRArLWFMBSxnxTG+jG29caYptSEXMcpUA4GWeoBQo7xtWAYl
- LbJsYl1/KfZ9aCMJEZtJtR05CTtM=
-X-Gm-Gg: ASbGnctB4AXp2xYg4pG30Q+f+wG3b3LBVQo0BRZH0cQMPs1eMFQUBd0XrofLbfcLZjQ
- IlR2n1i19tvs3ey5k+qBVJ/etmZFr9XVyDHImrB2WPofqiONJeqxhv0m8oTyST6S5
-X-Google-Smtp-Source: AGHT+IHJCdr9O45hf+S6imwyWvr7pTvHFpMglC2qsULtDAO0dw5VM3D7UbhCff2gplz1CWWQtUTkOpjnHRrkcXyhwow=
-X-Received: by 2002:a05:690c:23c5:b0:6e3:b6c:d114 with SMTP id
- 00721157ae682-6ef37281d02mr21558447b3.38.1732678334297; Tue, 26 Nov 2024
- 19:32:14 -0800 (PST)
+ AJvYcCVSr5oou7QUiGqsPCzFc3Unri8JrzyDN8KtKFhTw3hjjJOqitSnuhpxn8L6Qjee+Fd2X/2I6GP2Caw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxg4QAdxEW/1LjWLLXrWSqpO81SAAloNHgZ1YSMXWIQNYNlvoEU
+ /4Q9hvOhWIgDXSdw+J+KgK3FvDsPmiXupacFdO+3Gt2nVL+O6RoGW65iWY8CgVTxOoCz9InZdVE
+ /r6mxwskBMz4ftXHkmy94OvQbAoiROOX/XZuN
+X-Gm-Gg: ASbGnct0cHhfPQ2UyE2I9M96mRM0grCuAG8jZ6hR+HPOz2C2V8whRbwT2ifrBWlu2Cu
+ y5qKqfP+azgsNCh1CLKSPayfTZlmK7Z31sQDYT9Q20ZhpfwrjXkAmnfwH+Jc=
+X-Google-Smtp-Source: AGHT+IHzVwgmp24HNWYR9QgilyN0+vKnYnhsqeCOo3U9Uzr8ko0VEjMW3SCABnxFA+zY3W8ifSeKNUAKmHsycZau8KU=
+X-Received: by 2002:a05:6808:3082:b0:3ea:5a0e:941c with SMTP id
+ 5614622812f47-3ea6dbc8cb9mr1709943b6e.10.1732682592979; Tue, 26 Nov 2024
+ 20:43:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20241124080220.1657238-1-kikuchan98@gmail.com>
- <20241124080220.1657238-2-kikuchan98@gmail.com>
- <f0d983f7-5f60-4cb7-9522-ef4429359c52@kernel.org>
- <945786cc-1d6d-4a45-b9df-26d9335fd271@kernel.org>
- <CAG40kxH8bQHauBAd1B=UpC7LLAJoS=ETKczL=QWBKqvk=VKh_w@mail.gmail.com>
- <d1e8b3e9-526d-4910-8b15-6cce2c8526db@kernel.org>
-In-Reply-To: <d1e8b3e9-526d-4910-8b15-6cce2c8526db@kernel.org>
-From: Hironori KIKUCHI <kikuchan98@gmail.com>
-Date: Wed, 27 Nov 2024 12:32:03 +0900
-Message-ID: <CAG40kxGZ=BKU4H5D=XhzTkMYMNqEsJuHMpaTh2awVd60jCjrMQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: display: panel: Add another panel for
- RG35XX Plus (Rev6)
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+References: <20241127030221.1586352-1-xji@analogixsemi.com>
+In-Reply-To: <20241127030221.1586352-1-xji@analogixsemi.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Wed, 27 Nov 2024 12:43:02 +0800
+Message-ID: <CAEXTbpe=3mN-wCJGRVe7SSbzr5J=zFhWOF30jm5HH4cN_GyK_w@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge:anx7625: Update HDCP status at atomic_disable()
+To: Xin Ji <xji@analogixsemi.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
- Christophe Branchereau <cbranchereau@gmail.com>, 
- Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org
+ bliang@analogixsemi.com, qwen@analogixsemi.com, treapking@google.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,22 +88,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Krzysztof,
+On Wed, Nov 27, 2024 at 11:02=E2=80=AFAM Xin Ji <xji@analogixsemi.com> wrot=
+e:
+>
+> Update HDCP content_protection to DRM_MODE_CONTENT_PROTECTION_UNDESIRED
+> in bridge .atomic_disable().
+>
+> Signed-off-by: Xin Ji <xji@analogixsemi.com>
 
-Thank you for your reply.
-
-> > The old schemas "leadtek,ltk035c5444t", "fascontek,fs035vg158", and
-> > "anbernic,rg35xx-plus-panel" exist independently.
-> So you duplicate them. I wrote: Don't duplicate.
-
-Ok, thanks. I won't duplicate.
-
-They are already duplicated in the tree with their own file names.
-The panels I want to add are not directly relevant to them, so there
-is no single file suitable for the panels.
-
-Should I merge these files into a single file with a file name such as
-`newvision,nv3052c.yaml`, taken from the driver name?
-
-Best regards,
-kikuchan
+Tested-by: Pin-yen Lin <treapking@chromium.org>
+> ---
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 25 ++++++++++++++++++-----
+>  1 file changed, 20 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/=
+bridge/analogix/anx7625.c
+> index a2675b121fe4..a75f519ddcb8 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -861,6 +861,22 @@ static int anx7625_hdcp_disable(struct anx7625_data =
+*ctx)
+>                                  TX_HDCP_CTRL0, ~HARD_AUTH_EN & 0xFF);
+>  }
+>
+> +static void anx7625_hdcp_disable_and_update_cp(struct anx7625_data *ctx)
+> +{
+> +       struct device *dev =3D ctx->dev;
+> +
+> +       if (!ctx->connector)
+> +               return;
+> +
+> +       anx7625_hdcp_disable(ctx);
+> +
+> +       ctx->hdcp_cp =3D DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
+> +       drm_hdcp_update_content_protection(ctx->connector,
+> +                                          ctx->hdcp_cp);
+> +
+> +       dev_dbg(dev, "update CP to UNDESIRE\n");
+> +}
+> +
+>  static int anx7625_hdcp_enable(struct anx7625_data *ctx)
+>  {
+>         u8 bcap;
+> @@ -2165,11 +2181,8 @@ static int anx7625_connector_atomic_check(struct a=
+nx7625_data *ctx,
+>                         dev_err(dev, "current CP is not ENABLED\n");
+>                         return -EINVAL;
+>                 }
+> -               anx7625_hdcp_disable(ctx);
+> -               ctx->hdcp_cp =3D DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
+> -               drm_hdcp_update_content_protection(ctx->connector,
+> -                                                  ctx->hdcp_cp);
+> -               dev_dbg(dev, "update CP to UNDESIRE\n");
+> +
+> +               anx7625_hdcp_disable_and_update_cp(ctx);
+>         }
+>
+>         if (cp =3D=3D DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+> @@ -2449,6 +2462,8 @@ static void anx7625_bridge_atomic_disable(struct dr=
+m_bridge *bridge,
+>
+>         dev_dbg(dev, "drm atomic disable\n");
+>
+> +       anx7625_hdcp_disable_and_update_cp(ctx);
+> +
+>         ctx->connector =3D NULL;
+>         anx7625_dp_stop(ctx);
+>
