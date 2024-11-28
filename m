@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796919DB791
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 13:28:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903DD9DB799
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 13:29:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80FF210E1B7;
-	Thu, 28 Nov 2024 12:28:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16DAC10E36F;
+	Thu, 28 Nov 2024 12:29:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SR+2143n";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Jq/53W59";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4BBB10E1B7
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 12:28:55 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6AE810E36F
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 12:29:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1732796934;
+ s=mimecast20190719; t=1732796958;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZACMslqIaF7iVtmlx12c8LPoSlN7TzLegXngDuX2z78=;
- b=SR+2143n/ny/c1ljGZjDnEADm/Ip4JnzZKHEGegX2fSpQuWWcE1/kNzNUvhvIvpffUaami
- pQnV8KfkLGfnmwFF1tW7gB4vxoTu6M1GGF94HZMZeKWCvFMHdHksmJydcDHl7j7pLyw10t
- usmZaRSuxFMIGWqNTbACv75cFVGLQL0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0Nxf6CkGK3NslY+JLgqPcTLt32q1OCumzkrHYUKQkbE=;
+ b=Jq/53W59pPenUxjAm376VhsQppZUhS+gOz2TZIdqdG1AgoHmZiK4pRr3J6KGSMDY03rD/S
+ qyiX9M2Gs16irK9gSz0fdVdPMvipV/ohjHijyMxUaMefJBjrT29v3j+SZYtlbdzeUfijB2
+ PZ2nElKbyKvkl/WBixDZDqn9WMkEY9I=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-541-qffbpSQyMKW_YlRRofAb9Q-1; Thu, 28 Nov 2024 07:28:53 -0500
-X-MC-Unique: qffbpSQyMKW_YlRRofAb9Q-1
-X-Mimecast-MFC-AGG-ID: qffbpSQyMKW_YlRRofAb9Q
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-38240d9ed31so455802f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 04:28:53 -0800 (PST)
+ us-mta-206-9aiuMoxPNRqarBQWwBfj9Q-1; Thu, 28 Nov 2024 07:29:15 -0500
+X-MC-Unique: 9aiuMoxPNRqarBQWwBfj9Q-1
+X-Mimecast-MFC-AGG-ID: 9aiuMoxPNRqarBQWwBfj9Q
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-5cfb912729dso487208a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 04:29:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732796932; x=1733401732;
+ d=1e100.net; s=20230601; t=1732796952; x=1733401752;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZACMslqIaF7iVtmlx12c8LPoSlN7TzLegXngDuX2z78=;
- b=GGPjTJtL9i3Dq32bMn1RKAak96ADeiCbC1sjE0i8G9KkN3D2Q3WXpYaMvFjaERKlXP
- su7RFM6vivK2EVQzI68g3wNfD1r+1ahWgu+QUGfs5hkzX1B7swGEFm2zXNXy+0UqDaSt
- CQ8mrtddhHnQeyYvhTy7yivYPy7g7QQcuaEgVUj+O0aHz6XQ0DXhMpGW1LczuDeG3d2r
- eIhwN+/95z6lZih9V3XzAqWtlQF9l/YpSse6gdoJtHqMncowBgEMLhPqJTYlcCO4/JmM
- xc+9dc61Z302ktH1d29iUq049uEOZKSDABUiHUm7hXVs15beYVTAPOpMTqoOOWk4cU/V
- 0g4w==
+ bh=0Nxf6CkGK3NslY+JLgqPcTLt32q1OCumzkrHYUKQkbE=;
+ b=RSHJPMn55lrqsnEWnS7e8KUppYOcs62q/d9krsK7l8db9x3HJkzOm7DWyJoFMopDT/
+ 4CHoAAtDAFQp1PAzaje30tAz0DNtIryGkozM0XwCUnfGHMPCvHSIBhtaWJpVlS16DhR3
+ 8BA4f410LtqKw0APdyZWELfmWqDIe5YNrure9LB0GlNMLb7inmvge7iw5nuyDpjz/l63
+ BUUW5Mg2AAbAVi8zDUzFwJCAZUQ9QwxNJVdeudpIps5FFYKR/339YDb3DgFeRxUXXKX3
+ 7PGUg0/OJslMRngOUw1cuWTRZIGcGIywS0p5llX2e5YiHE2y22EMc5rl7CgC6DLpkbUo
+ pW8Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX7ps3eyItozhmI1t6JYO1ie9f7Z7xeOIhStXNScRSiVjcQosKWV05jouEhPe1Gmp2FDbQaG8j/Bic=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy16m7UQTKObMTFYHDZH8MCP1G+Nn4PejrUQWLok6zEsniyJ3sx
- KWpmgjvh5tDVwkJ5r7CamnMKgtFyt2GXgB48uYpqc1SMHFNgdgM0ycwXGCG6FYKuh0PW6iRwfuk
- Guu51mwD2dWNpWO1/hx9OofBlqrWjKXlHNh3WFtPu8+h+TJijDlJCVcqvh6NL5Us2gYLiST8R2s
- xf188bUIo/7rMWTBEeV+7MsSJ82PytbaDZGTVLDV8m
-X-Gm-Gg: ASbGnctE0h4/aV0/zumNRk7p+Ip4nZnmEOMhgiotaTnhwK3kR3p2reYdE3G1VzblBvx
- N7auepsgfibrcu4vPtMrBtSkbGceN4sA=
-X-Received: by 2002:a05:6000:18ac:b0:382:4a27:1319 with SMTP id
- ffacd0b85a97d-385c6eb5840mr5776160f8f.6.1732796932008; 
- Thu, 28 Nov 2024 04:28:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGGOqoP8tsZ6KQpRsoqtGa6KHF61EJ3NUmj3Aw3MlprtODTvHQ/TDY7uTpa3Nw0Vy2Is2RlK3QrcXMwzmVV8rU=
-X-Received: by 2002:a05:6000:18ac:b0:382:4a27:1319 with SMTP id
- ffacd0b85a97d-385c6eb5840mr5776067f8f.6.1732796931576; Thu, 28 Nov 2024
- 04:28:51 -0800 (PST)
+ AJvYcCVEeruRCxd3nRiPcSHwFgUq2mk6cchB7toGqoWBwrq+JtkW6BZdPlU02SjYFOha98QRt5qJVOX/HhA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNA1agIQHHLEogA6rnMaBlCKevKNQ6XycsdRauuxxgHgeSZiA5
+ TLPr4mOVovRoF/RlBCpvz+Azh4Clbf13T88pyUktQFdFHvrq0p7unarWxBcqxXnlICbNQNpXtFo
+ oQpacExOeM/gd6ojoDHUodMJ/yY6s2lcNAPCzyA2sblaPssAY83xbknK+ehv100AJX3SrGmS+rQ
+ lkg/kOzN8bYliPKV7p8SATGcndFufYotKtVnBp9sNy
+X-Gm-Gg: ASbGncu6xsZY05c2VXzvf9pGxkHhjKvutCjnbVjRtoZzPvzFsEB3whR9m6adrI68WNP
+ EGfAdOPSXE9AStfNT/q9n6R0KAXTRP24=
+X-Received: by 2002:a05:6402:5243:b0:5cf:e26b:9797 with SMTP id
+ 4fb4d7f45d1cf-5d080c604fcmr5605095a12.29.1732796951923; 
+ Thu, 28 Nov 2024 04:29:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGuE0zkJ6zJza+fGet7qX+06h7Jmet7/bu0xRwgqC9A06SMAgod8PaoQJd1k5pY7KRDfw0cJAGqmNIglvOyUZo=
+X-Received: by 2002:a05:6402:5243:b0:5cf:e26b:9797 with SMTP id
+ 4fb4d7f45d1cf-5d080c604fcmr5605060a12.29.1732796951475; Thu, 28 Nov 2024
+ 04:29:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
- <20241115-converge-secs-to-jiffies-v2-18-911fb7595e79@linux.microsoft.com>
-In-Reply-To: <20241115-converge-secs-to-jiffies-v2-18-911fb7595e79@linux.microsoft.com>
+References: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
+ <20241115-converge-secs-to-jiffies-v1-18-19aadc34941b@linux.microsoft.com>
+In-Reply-To: <20241115-converge-secs-to-jiffies-v1-18-19aadc34941b@linux.microsoft.com>
 From: Alex Markuze <amarkuze@redhat.com>
-Date: Thu, 28 Nov 2024 14:28:40 +0200
-Message-ID: <CAO8a2SgQ-==SjhDFZpi2s3r9FUGA96jwuJL7kTDwE=Hw4UcgUg@mail.gmail.com>
-Subject: Re: [PATCH v2 18/21] ceph: Convert timeouts to secs_to_jiffies()
+Date: Thu, 28 Nov 2024 14:29:00 +0200
+Message-ID: <CAO8a2SjKS2nWWVkAcqXkZhR+Q1TocULkwRk09ABf8XQjjzwJPQ@mail.gmail.com>
+Subject: Re: [PATCH 18/22] ceph: Convert timeouts to secs_to_jiffies()
 To: Easwar Hariharan <eahariha@linux.microsoft.com>
 Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
  Jozsef Kadlecsik <kadlec@netfilter.org>, 
@@ -134,7 +134,7 @@ Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
  oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org, 
  Anna-Maria Behnsen <anna-maria@linutronix.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 7yeiQyIiFbHxVyRxFbmmoEU5NQt_xFuknlYKtisGYqw_1732796932
+X-Mimecast-MFC-PROC-ID: J5q0dKJ8oALR4SrToWuZTOOGXj_xDoIwt0_P9KGl61o_1732796952
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -155,7 +155,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 looks good
 
-On Sat, Nov 16, 2024 at 12:32=E2=80=AFAM Easwar Hariharan
+On Fri, Nov 15, 2024 at 11:35=E2=80=AFPM Easwar Hariharan
 <eahariha@linux.microsoft.com> wrote:
 >
 > Changes made with the following Coccinelle rules:
