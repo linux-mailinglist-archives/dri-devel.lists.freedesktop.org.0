@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 241129DB6AF
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 12:45:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3FA69DB6E4
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 12:48:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9204510E0B0;
-	Thu, 28 Nov 2024 11:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8354F10E1F1;
+	Thu, 28 Nov 2024 11:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WpgNi9de";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ArYOpwNG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9600110E0B0
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 11:45:12 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A07310E0D4;
+ Thu, 28 Nov 2024 11:48:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732794312; x=1764330312;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=iX5o/BZVDyrvl+aCVdHs4HzTN4nl9aeKKOXztJ3BvMM=;
- b=WpgNi9de239BOdcFV5zgXJVz67HlzbpZRRljyKEVNDTaevQ/YKJOLgXl
- AQQ8ysd902A49EDaL4/4SpDln0O8+N1FcJMDjdwn6KnDsdWwZ5vjDYgh0
- amq9dPnxcGvRDIQq/eXEj9XHKype+0bLGZTINSMMsJEuiq0KfvLuwOkeF
- bpWTDv8Wovyk6B4AgXla1GLRV3kLPMQyhwugZdXi1hswLRsiOUDDtbkMn
- Kgz2cV4/F5kfC3T84oy0NqtnJ+EkpB1MgAFmQAylQRmVaVJQozFyOCRov
- t6ZluXf0MfpAF1CGQqKSmSvTEBfSgFY/IeD2vuFF/gd8l7DJfGO9qtskW w==;
-X-CSE-ConnectionGUID: 73jDMSK2TNKS6CMj6J7prQ==
-X-CSE-MsgGUID: VZDRR3xSRkqX8sqnxjBpUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="32970382"
-X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; d="scan'208";a="32970382"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2024 03:45:12 -0800
-X-CSE-ConnectionGUID: mFpD3BQvTAGQETYMm9BxZg==
-X-CSE-MsgGUID: S0aAHS/kQa+3W3QPltqk0Q==
+ t=1732794526; x=1764330526;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=1z7JkOtGu3oguHkHpEdwAnaqNk5e6McbHqCPM/nUY5g=;
+ b=ArYOpwNGN3AsgsedkGBwKjZvF8FBJh/zIRHyzeRro6F1cqdR1xj8HTSz
+ sXPdeMhJjnTPxrJesr0lRnGJdFYuRvZ3MDFMYLRYXgKUWG2QE5LR9KEg5
+ ibrjmMvWhM9Z7/+J2vEQvVOir2sMdBvGZclVXEBYZOnomIh4cu32DbuWH
+ Lz/JU40ULKbX12mk1ICrERQsD2CV0zWwDZjm3/EbZlXPZMX34XWcpOolk
+ hG3dIyoYXJbR8B4Oul6pTG/hlgKcz7hpM+FKyaV6CZnPgba0f0aKD2AMI
+ 2Cd8AXzW7EDlRpUQsJobE4rrxAkQqEkd4FWvdh6BCw6W+zz8Gl6BvmlHQ w==;
+X-CSE-ConnectionGUID: sO9hFFsFRH2dT0YLlyRHkA==
+X-CSE-MsgGUID: 9JEfGMoVQJeVoioYa9S2tQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="33268093"
+X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; d="scan'208";a="33268093"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2024 03:48:45 -0800
+X-CSE-ConnectionGUID: YCpBMwp+TGy9HtqSxvOd+A==
+X-CSE-MsgGUID: W8jUaiktQs+93EeM8vuljg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; d="scan'208";a="92148153"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.43])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2024 03:45:09 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 28 Nov 2024 13:45:07 +0200 (EET)
-To: Antheas Kapenekakis <lkml@antheas.dev>
-cc: linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Kyle Gospodnetich <me@kylegospodneti.ch>
-Subject: Re: [RFC 13/13] PM: standby: Add sysfs attribute for modern standby
- transitions
-In-Reply-To: <20241121172239.119590-14-lkml@antheas.dev>
-Message-ID: <ae43443d-74a8-799d-26aa-608af973a9e8@linux.intel.com>
-References: <20241121172239.119590-1-lkml@antheas.dev>
- <20241121172239.119590-14-lkml@antheas.dev>
+X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; d="scan'208";a="96311749"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.166])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2024 03:48:40 -0800
+Date: Thu, 28 Nov 2024 12:48:36 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+Cc: nirmoy.das@linux.intel.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tursulin@ursulin.net, airlied@gmail.com, daniel@ffwll.ch,
+ chris@chris-wilson.co.uk, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jiasheng Jiang <jiashengjiangcool@outlook.com>,
+ stable@vger.kernel.org, Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH RESEND v2] drm/i915: Fix memory leak by correcting cache
+ object name in error handler
+Message-ID: <Z0hYlNey1zyinvby@ashyti-mobl2.lan>
+References: <20241127201042.29620-1-jiashengjiangcool@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241127201042.29620-1-jiashengjiangcool@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,182 +75,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Nov 2024, Antheas Kapenekakis wrote:
+Hi Jiasheng,
 
-> Add a sysfs attribute to allow informing the kernel about the current
-> standby state, those being: "active", "screen_off", "sleep", and
-> "resume" (to prepare turning the display on). The final modern
-> standby state DRIPS is omitted, as that is entered during the kernel
-> suspend process and userspace will never see it.
+On Wed, Nov 27, 2024 at 08:10:42PM +0000, Jiasheng Jiang wrote:
+> From: Jiasheng Jiang <jiashengjiangcool@outlook.com>
 > 
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> ---
->  Documentation/ABI/testing/sysfs-power | 34 ++++++++++++
->  kernel/power/main.c                   | 75 +++++++++++++++++++++++++++
->  2 files changed, 109 insertions(+)
+> Replace "slab_priorities" with "slab_dependencies" in the error handler
+> to avoid memory leak.
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-power b/Documentation/ABI/testing/sysfs-power
-> index a3942b1036e2..eff13980cc7c 100644
-> --- a/Documentation/ABI/testing/sysfs-power
-> +++ b/Documentation/ABI/testing/sysfs-power
-> @@ -39,6 +39,40 @@ Description:
->  		See Documentation/admin-guide/pm/sleep-states.rst for more
->  		information.
->  
-> +What:		/sys/power/standby
-> +Date:		November 2024
-> +Contact:	Antheas Kapenekakis <lkml@antheas.dev>
-> +Description:
-> +		The /sys/power/standby file controls the standby state of the
-> +		system. Modern S0ix capable systems can enter a set of low power
-> +		states while the kernel is still active. Transitioning into those
-> +		states may 1) deactivate tertiary hardware, and 2) change the
-> +		presentation of the device (e.g., pulse the suspend light, turn
-> +		off the keyboard backlight).
-> +
-> +		Available states are "active" (fully active), "screen-off" (fully
-> +		active but all displays of the system are off; virtual and real),
-> +		"sleep" (major userspace components have been frozen; light
-> +		background tasks may still run; this state may affect the power
-> +		envelope of the device). The final state is DRIPS or LSP0, where
-> +		the kernel suspends, and is entered by writing "mem" to
-> +		/sys/power/state. There is a secondary sleep state called "resume"
-> +		that can only be entered from "sleep" and is used in certain
-> +		devices to boost the Power Limit (PLx) while remaining in sleep
-> +		to hasten preparing for transitioning to "active".
-> +
-> +		Writing one of the above strings to this file causes the system
-> +		to transition into the corresponding state, by firing the
-> +		corresponding firmware notifications during the transition.
-> +
-> +		DRIPS or LSP0 (i.e., mem "s2idle") can only be entered from the
-> +		"sleep" state. If the kernel is asked to transition to DRIPS from
-> +		a different state, it will transition to "sleep" and then suspend.
-> +		On wakeup, the kernel will transition back to the previous state.
-> +
-> +		See Documentation/admin-guide/pm/standby-states.rst for more
-> +		information.
-> +
->  What:		/sys/power/disk
->  Date:		September 2006
->  Contact:	Rafael J. Wysocki <rjw@rjwysocki.net>
-> diff --git a/kernel/power/main.c b/kernel/power/main.c
-> index 6254814d4817..4377fdaf4a8d 100644
-> --- a/kernel/power/main.c
-> +++ b/kernel/power/main.c
-> @@ -748,6 +748,80 @@ static ssize_t state_store(struct kobject *kobj, struct kobj_attribute *attr,
->  
->  power_attr(state);
->  
-> +#ifdef CONFIG_SUSPEND
-> +/*
-> + * standby - control system s2idle standby state.
-> + *
-> + * show() returns available standby states, which may be "active", "screen_off",
-> + * "sleep" and "resume" (still in sleep but preparing to turn on display).
-> + * See Documentation/admin-guide/pm/standby-states.rst for a description of
-> + * what they mean.
-> + *
-> + * store() accepts one of those strings, translates it into the proper
-> + * enumerated value, and initiates a transition to that standby state.
-> + *
-> + * When the system suspends, it will first enter the state "sleep", suspend,
-> + * and then restore the last state before entering "sleep". I.e., if userspace
-> + * is not S0ix-aware, the transitions expected by Modern Standby devices will
-> + * always be performed.
-> + */
-> +static ssize_t standby_show(struct kobject *kobj, struct kobj_attribute *attr,
-> +			  char *buf)
-> +{
-> +	char *s = buf;
+> Fixes: 32eb6bcfdda9 ("drm/i915: Make request allocation caches global")
+> Cc: <stable@vger.kernel.org> # v5.2+
+> Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+> Signed-off-by: Jiasheng Jiang <jiashengjiangcool@outlook.com>
 
-Instead of char *, add size_t len for the offset.
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Order these to reverse xmas tree.
-
-> +	standby_state_t i;
-> +	standby_state_t curr = pm_standby_state();
-> +
-> +	if (curr < 0)
-> +		return -EBUSY;
-> +
-> +	for (i = PM_STANDBY_MIN; i < PM_STANDBY_MAX; i++)
-> +		if (standby_states[i])
-> +			s += sprintf(s, curr == i ? "[%s] " : "%s ", standby_states[i]);
-
-Do not use sprintf() for anything new.
-
-For sysfs, sysfs_emit_at() (or sysfs_emit()) is the correct function.
-
-You could consider using reverse logic + continue to bring down the 
-indentation level.
-
-> +
-> +	if (s != buf)
-> +		/* convert the last space to a newline */
-> +		*(s - 1) = '\n';
-> +	return (s - buf);
-> +}
-> +
-> +static standby_state_t decode_standby_state(const char *buf, size_t n)
-> +{
-> +	standby_state_t state;
-> +	char *p;
-> +	int len;
-
-size_t
-
-> +	p = memchr(buf, '\n', n);
-> +	len = p ? p - buf : n;
-> +
-> +	for (state = PM_STANDBY_MIN; state < PM_STANDBY_MAX; state++) {
-> +		const char *label = standby_states[state];
-> +
-> +		if (label && len == strlen(label) && !strncmp(buf, label, len))
-
-Isn't len == strlen(label) && !strncmp(buf, label, len) same as using just
-using !strcmp() ?
-
-> +			return state;
-> +	}
-> +
-> +	return PM_STANDBY_MAX;
-> +}
-> +
-> +static ssize_t standby_store(struct kobject *kobj, struct kobj_attribute *attr,
-> +			   const char *buf, size_t n)
-> +{
-> +	int error;
-> +	standby_state_t state;
-> +
-> +	state = decode_standby_state(buf, n);
-> +
-> +	if (state >= PM_STANDBY_MAX)
-> +		return -EINVAL;
-> +
-> +	error = pm_standby_transition(state);
-> +	return error ? error : n;
-
-return error ?: n
-
-> +}
-> +
-> +power_attr(standby);
-> +#endif
-> +
->  #ifdef CONFIG_PM_SLEEP
->  /*
->   * The 'wakeup_count' attribute, along with the functions defined in
-> @@ -974,6 +1048,7 @@ static struct attribute * g[] = {
->  #ifdef CONFIG_SUSPEND
->  	&mem_sleep_attr.attr,
->  	&sync_on_suspend_attr.attr,
-> +	&standby_attr.attr,
->  #endif
->  #ifdef CONFIG_PM_AUTOSLEEP
->  	&autosleep_attr.attr,
-> 
-
--- 
- i.
-
+Thanks,
+Andi
