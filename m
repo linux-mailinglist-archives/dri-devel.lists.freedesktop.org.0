@@ -2,103 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B169DB592
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 11:26:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47B79DB5B8
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 11:29:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A81A910EC64;
-	Thu, 28 Nov 2024 10:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25F7C10E32D;
+	Thu, 28 Nov 2024 10:29:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fwIDA0z7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vLmuCLCj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5DB910E34E
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 10:25:56 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-434a2f3bae4so5880545e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 02:25:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732789555; x=1733394355; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=MV2f7FQ+IZLtcez7+tYl5S56MAb02gKSe/ez4DkB/II=;
- b=fwIDA0z7HPW4Q4aG1855Luk2Pjc8JWXEWpjB7PT8OJxShv7lshvBaUB8dl3XuSZfT8
- D0fn3Me3NNbyu3+qrU3vYsyOsTa64HULdWYNcXxeopkZWd0aekrSwITIki6z2qAFKW74
- ivCX6tcaXuHjhiyPTywSLmqYxCrMhMcKUvX+L+55GmpKdxxAalRJGrGvNmKR0rOOwTRI
- rU2j3FRCNLbY3VLsXXVWyrk2eB52YoUHXZOl/LU7jIgSJrj6qNbBiZpcTGtTpNRjHQ35
- 5eynQt1Fb03BMg/sIVbRQmmWSIUK7Ag317eqAKQYHJrqV1xw1ckvPSNi4XMKjq5nDW9Y
- 9kpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732789555; x=1733394355;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MV2f7FQ+IZLtcez7+tYl5S56MAb02gKSe/ez4DkB/II=;
- b=ZjppxrZLJA//RUmkW7vHqwwD/q4EVjFNw9WIFEA5zMn74oQY2ZNuik/UcHaCPS5TRx
- n2pRWjxrzVmB01BVskJ7T5xuKnUBgkxmJET9yDc6ChHnywzLeQKVl0whMRaqDzQHrqdf
- ZSbr7v6nZkpIOLYq7cAkXbuK6+gkAg69bcLtcAwjJidA+Md4mExfdd6jeu5adZJbObc3
- zYMy066zCcY3hHfA0HIVNdm6P+kgqDD6grOSTzAsgpdtfRV69r1e50gylHhQPppgn31i
- OR4ckoQek3nZZNTaBbhtwYmO+O3KdQLjUEQmZtJQV7672EpcRQHXH1JFkZY/4tlqUWRQ
- tT2w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUKLV0Yw0MJNIzqJZ/2OMJ7aUQ/4cl3DYKRNe2837gC0dhwlo2oFoSKGic0tSqP5/20UC6uAjqv4Q4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw5+OxMQWGHu0TkyCCPZBbGqwrUN23ShE+NTJI38su7nhYVf60z
- Kk+Q1q5Dh90aeeW+9y7CcyWD7km7COpyinXbNcHzHYsTyla/QF6p0n6lQK2trmk=
-X-Gm-Gg: ASbGnct6j0ijVZ26HnXd6xWF0k/8MFd6QlIcpOL3BK5693PCcwYKEPmVKpAzOdI5XrR
- XPygTCR31Tf9rluJfmLkXAIYrO1ulLrBK++9PvMD5usb7qUzsmA357JxXs1ByfD0MBKm8iQ/CdQ
- psmIb2wR1CX+cnUBgZL2pWA64wqoGezBxptXzIpbBIaMTXGUqNJYFudmL2/hpy20Uap7lt0hsIW
- BFG/NvoIUysYunUEQSfUNH1Q0/inu1zHKIRrN+yD11mWYQZm/9puUXgDzaxFVN7o2xyBCk=
-X-Google-Smtp-Source: AGHT+IFDPNwfPwU7WoDGxeoMVmod7G7Th8E2EFadkBA7uRFVnWAcSGDgmzTL1DRYsdo/WKpUznV5Jw==
-X-Received: by 2002:a05:600c:3b16:b0:434:a4fe:cd6d with SMTP id
- 5b1f17b1804b1-434a9dc02c5mr60957305e9.12.1732789555076; 
- Thu, 28 Nov 2024 02:25:55 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-385ccd2db59sm1265909f8f.11.2024.11.28.02.25.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Nov 2024 02:25:54 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 28 Nov 2024 11:25:47 +0100
-Subject: [PATCH v3 7/7] arm64: qcom: dts: sm8650: add interconnect and
- opp-peak-kBps for GPU
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D10010E32D
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 10:29:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id AE9205C59FD;
+ Thu, 28 Nov 2024 10:28:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C5CC4CECE;
+ Thu, 28 Nov 2024 10:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732789763;
+ bh=UN9E/IslKJJ6kXg07JlJB5mwNZgSYgjjqJXv+tdg8to=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vLmuCLCjnYq+kiQoVtx+OI6vriP/NyPLzBqvfhzYve/l4WNpbc1wYdDQssVor5zdt
+ p5KtJ1sm9eTKXSYshjV2SkAmRd2LCrMJwq890kcxask80KqdRBvGJ7ABwVAP42ztkp
+ kh0u1amEpZ7e+XlAmgQYbDL3QhpVrbm7sHWPw7dJAaVUEZc6Og232TsDsyV5Y2BBsJ
+ T7lrV9F+V1tHkasuVo5nhpjqYgLc7V4P3enqP+dX4UXJwbqeb5uQZhUZ/Xmn7l8aWx
+ 1XsM9pjx8udc9EV2jBiSUdvch42d6NKcruq7zzYhGoMRw04jX4HlIjkWokSNcZTWQ8
+ fB+i97A77k18w==
+Date: Thu, 28 Nov 2024 11:29:20 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Andrej Picej <andrej.picej@norik.com>
+Cc: Rob Herring <robh@kernel.org>, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, krzk+dt@kernel.org,
+ conor+dt@kernel.org, 
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ festevam@gmail.com, marex@denx.de, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/3] dt-bindings: drm/bridge: ti-sn65dsi83: Add optional
+ property ti,lvds-vcom
+Message-ID: <20241128-mottled-nostalgic-oriole-be31ce@houat>
+References: <20241127103031.1007893-1-andrej.picej@norik.com>
+ <20241127103031.1007893-2-andrej.picej@norik.com>
+ <20241127151630.GA3515396-robh@kernel.org>
+ <3b5768e5-dcb6-436d-837c-418676e13b2e@norik.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241128-topic-sm8x50-gpu-bw-vote-v3-7-81d60c10fb73@linaro.org>
-References: <20241128-topic-sm8x50-gpu-bw-vote-v3-0-81d60c10fb73@linaro.org>
-In-Reply-To: <20241128-topic-sm8x50-gpu-bw-vote-v3-0-81d60c10fb73@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2636;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=Z/fubARSNKiSdA4saAVoRo6dxj5fjC0/InYw7gi/1hw=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBnSEUq+h8O+EIw/Wmn20ule4XeaTlABW5canDbHBVJ
- hvj0Tk+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZ0hFKgAKCRB33NvayMhJ0YUlD/
- 9AklTjzKjHTXsDNhxoMU2vlELfn13KBdQEWIH7QLvqednKgEWEfQJF/QAYc8iiDJEHIHnmaCbXADHa
- JHCBES8HZ7L1U8mnXKneTx3HJ92mYMbWKtjcderjdusT4Lxwv3uoj9WejleepYfBS3GGTIW3SspHtK
- +69uE+EeNwMP7zLvfSDiCvEhppZ4Vjg3lmAjp5d+2C0aQFFAWBie75uXLei3mO20W1nNCmo95Vgpv6
- sxbYN9NKLGDhQv2/5i+ZwjkpPN8s7CPji3gdO4ODau44hzRvcbUetfP/ZSZVPRj3C0f78ho42pz7t3
- 9U26Ay/sNCKAt/b638J6YA0jJd4StYkw7Q1A1f0hufut+1Mo208B3truFKCTiyfTGY5bg/n6p+sC5k
- qS719wFR2pr3CpuU/lC94xsSFhyK7WIhxcntyygzVphL8u4GpKx6yA//9FnIgZY6r4vJysR7qF18ZT
- G671aFiMFhH7OzHPqY+SAlEtAuFY23udPGTfeD6Mco3VXICcf3gahprPPZfg7L2nadNnqBWSD7fC4u
- EPOuQW6szIx32FHqvgumi6Ss5bXUlcfVAq2Q6idXkNDTCNY+t80e1qv/jIEoM2C/9o9P3X4BrGEU40
- pJTEJ5PKOxQpg7RVNZ/H/Jv2oWqt85dgvAgt5qnYBdU/N0xgrT6Lamw9+Uig==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="tvgn3pzm6x2sclac"
+Content-Disposition: inline
+In-Reply-To: <3b5768e5-dcb6-436d-837c-418676e13b2e@norik.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,97 +69,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Each GPU OPP requires a specific peak DDR bandwidth, let's add
-those to each OPP and also the related interconnect path.
 
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- arch/arm64/boot/dts/qcom/sm8650.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+--tvgn3pzm6x2sclac
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/3] dt-bindings: drm/bridge: ti-sn65dsi83: Add optional
+ property ti,lvds-vcom
+MIME-Version: 1.0
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-index 25e47505adcb790d09f1d2726386438487255824..dc85ba8fe1d8f20981b6d7e9672fd7137b915b98 100644
---- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-@@ -2636,6 +2636,9 @@ gpu: gpu@3d00000 {
- 			qcom,gmu = <&gmu>;
- 			#cooling-cells = <2>;
- 
-+			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
-+			interconnect-names = "gfx-mem";
-+
- 			status = "disabled";
- 
- 			zap-shader {
-@@ -2649,56 +2652,67 @@ gpu_opp_table: opp-table {
- 				opp-231000000 {
- 					opp-hz = /bits/ 64 <231000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D2>;
-+					opp-peak-kBps = <2136718>;
- 				};
- 
- 				opp-310000000 {
- 					opp-hz = /bits/ 64 <310000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
-+					opp-peak-kBps = <6074218>;
- 				};
- 
- 				opp-366000000 {
- 					opp-hz = /bits/ 64 <366000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D0>;
-+					opp-peak-kBps = <6074218>;
- 				};
- 
- 				opp-422000000 {
- 					opp-hz = /bits/ 64 <422000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-+					opp-peak-kBps = <8171875>;
- 				};
- 
- 				opp-500000000 {
- 					opp-hz = /bits/ 64 <500000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_L1>;
-+					opp-peak-kBps = <8171875>;
- 				};
- 
- 				opp-578000000 {
- 					opp-hz = /bits/ 64 <578000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+					opp-peak-kBps = <12449218>;
- 				};
- 
- 				opp-629000000 {
- 					opp-hz = /bits/ 64 <629000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L0>;
-+					opp-peak-kBps = <12449218>;
- 				};
- 
- 				opp-680000000 {
- 					opp-hz = /bits/ 64 <680000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-+					opp-peak-kBps = <16500000>;
- 				};
- 
- 				opp-720000000 {
- 					opp-hz = /bits/ 64 <720000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
-+					opp-peak-kBps = <16500000>;
- 				};
- 
- 				opp-770000000 {
- 					opp-hz = /bits/ 64 <770000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
-+					opp-peak-kBps = <16500000>;
- 				};
- 
- 				opp-834000000 {
- 					opp-hz = /bits/ 64 <834000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
-+					opp-peak-kBps = <16500000>;
- 				};
- 			};
- 		};
+On Thu, Nov 28, 2024 at 09:46:33AM +0100, Andrej Picej wrote:
+> On 27. 11. 24 16:16, Rob Herring wrote:
+> > On Wed, Nov 27, 2024 at 11:30:29AM +0100, Andrej Picej wrote:
+> > > From: Janine Hagemann <j.hagemann@phytec.de>
+> > >=20
+> > > Add an optional property to change LVDS output voltage. This depends =
+on
+> > > the connected display specifications. With this property we directly =
+set
+> > > the LVDS_VCOM (0x19) register.
+> > > Better register property mapping would be quite tricky. Please check
+> > > bridge's datasheet for details on how register values set the LVDS
+> > > data lines and LVDS clock output voltage.
+> > >=20
+> > > Signed-off-by: Janine Hagemann <j.hagemann@phytec.de>
+> > > Signed-off-by: Andrej Picej <andrej.picej@norik.com>
+> > > ---
+> > >   .../bindings/display/bridge/ti,sn65dsi83.yaml      | 14 +++++++++++=
+++-
+> > >   1 file changed, 13 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65=
+dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.=
+yaml
+> > > index 48a97bb3e2e0..5b2c0c281824 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.y=
+aml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.y=
+aml
+> > > @@ -58,6 +58,12 @@ properties:
+> > >                     - const: 2
+> > >                     - const: 3
+> > >                     - const: 4
+> > > +              ti,lvds-vcom:
+> > > +                $ref: /schemas/types.yaml#/definitions/uint32
+> > > +                description: LVDS output voltage configuration. This=
+ defines
+> > > +                  LVDS_VCOM (0x19) register value. Check bridge's da=
+tasheet for
+> > > +                  details on how register values set the LVDS data l=
+ines and
+> > > +                  LVDS clock output voltage.
+> >=20
+> > Constraints? 0 - 2^32 are all valid values?
+>=20
+> Not really, only first 6 bits, which also means that this can be uint8 th=
+en.
+> Will fix with other issues.
 
--- 
-2.34.1
+Also, generally speaking directly using register values is really
+frowned upon, even more so when they match a value expressed in a
+standard unit.
 
+Maxime
+
+--tvgn3pzm6x2sclac
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0hF9wAKCRAnX84Zoj2+
+dhSoAX9Uu3UcKpopfFbkrgWp56OEJeL/hrbtsgKELqjxdDABI0ujjZDWXpMg1rM8
+FxDYFLkBgMOgSjdgLtFASjWYBF1ZOJauobTk1LyMFCHiK30f0SS5gjfI+r7wL/pr
+FqWXHi0wAw==
+=sZjc
+-----END PGP SIGNATURE-----
+
+--tvgn3pzm6x2sclac--
