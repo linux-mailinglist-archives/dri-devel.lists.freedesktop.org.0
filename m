@@ -2,88 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398C99DB8AE
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 14:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C211F9DB8E3
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 14:37:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F77B10E26F;
-	Thu, 28 Nov 2024 13:30:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBE5410E0BD;
+	Thu, 28 Nov 2024 13:37:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LfZh7tK4";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="GEfRPRGV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 774D110E26D
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 13:30:16 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53de880c77eso966041e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 05:30:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732800614; x=1733405414; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yCjaLIoqKd3bBOokmeosaZwBTg8Xdv4t4ZzkEjKsEdE=;
- b=LfZh7tK4aqIOojmhtZd++ImVWw1VQ81zEIdKl5zDZkcl6NYJemDjtSTwtDwAh7JK1B
- 1dz8QIntbNYmu1f/sA8KXmGqsT9mhiplEAKHDelecRnRtMQ8ST+Qcf0AfYGt3UuB1q6h
- rMpRE02r3SlGEYjP0jlMHqb/leyjhl9AQeA3rUlelp61hqEZiL/rbVUjnQGgQXFoBgUw
- nMmj56qjvmI/hwikbB/gwaws1bnzu841TJWMkaxpWwIWkkhOw5W3W7J2l8OLFkBdEUO1
- W6Qh1yEDmigu+cPT0N0TGP6EU6PAvBYc5JifZXZgF1cF9MTvrtBeSYyHGVskWF2E/YHP
- qYhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732800614; x=1733405414;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yCjaLIoqKd3bBOokmeosaZwBTg8Xdv4t4ZzkEjKsEdE=;
- b=qQAnAU2pns+pBILX3AFzJcteyLeZ9C/2Ww8D56Rq7KE4SNTZiMxkDUMuQOI3fGDNtT
- yOhtZU0e2uZBjVpG22e2wBgmzZ3MoIjblt2j9kILTbafcqz2WFXbXT/Qey7uDg1CtFkg
- Nkqdx6pX1HjeetsOGCtABpO631KjYAqMMpHTzb5b9AOiJBGcL3Wh95EoXfo4V+jT/ugA
- 5XHnlOe2dtruyBY2EZHRQnvWUoK3xzqi8cV6aydJFt7P9u4lIhoFyzSduq10vnsuumkm
- /HZh8DzU3qMXCqHzKMDBgevlduEPdtpddhN251yqyFwPq6h3J6wK4hj+V+dMRPpTd40z
- 3zgw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX8849C9qM3x+Skig5vHIVnOqqWuWAm/MgRwk2C84Mb6fWmw5uHFx+FYq3repb0OciinEzP4yyZkjw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGtBvLSVhfUsFfq1hKMGySOfMnmVRIdOAiSe9brIXDMHN2ZYFn
- 2k56NeHaCKjkYLDhEFEU9g1TwRLKzSk1wV7Ho+bTk/138E3h2ufUcIxGdUOUF1E=
-X-Gm-Gg: ASbGncu/6QesvCTjJrnn6OJ7jJuVsAZCbMZ39oV7S7KJ6dX7M9YWxDjxCKoebVsR/L9
- nYGYsG72BQ00tZLYuvWDqJ7w62/EDQTUchC9LMTr+smlypCNAC6xxkVhcAreg19+Aam9HHRCBn9
- ZlC32IcY7D1DOTOIpTmWSGoA8BcD4D2jo+KYEU0Ks4hH0+jxd1Dmh5zkBVZCsYN/9YEE7axHNfm
- RdHrPkxR0sl8IFQGHiKAqlTBRqe0f+KTqltCqzHtpmUnVw3Oh5MDIiXps3OnTiWlv4zC97ME4Z3
- TOOSJWcxcqFY68N4E2FDgAhAAlblFA==
-X-Google-Smtp-Source: AGHT+IExPmce5P4ZT632z2IC0da+T/+lWJvFnMY6sShZcO7cz0kH9x97oQAlFQTrdXw86Rylra8OBQ==
-X-Received: by 2002:a05:6512:238a:b0:53d:cb7e:2251 with SMTP id
- 2adb3069b0e04-53df010471fmr3419369e87.36.1732800614564; 
- Thu, 28 Nov 2024 05:30:14 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df64310d2sm178615e87.48.2024.11.28.05.30.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Nov 2024 05:30:13 -0800 (PST)
-Date: Thu, 28 Nov 2024 15:30:10 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Akhil P Oommen <quic_akhilpo@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 5/7] drm/msm: adreno: enable GMU bandwidth for A740
- and A750
-Message-ID: <lseuso7qmbgtt36jrpzipip2e5m6r4wbi4ixxss5mi6ssi3thx@dzt5tlsjbyu7>
-References: <20241128-topic-sm8x50-gpu-bw-vote-v3-0-81d60c10fb73@linaro.org>
- <20241128-topic-sm8x50-gpu-bw-vote-v3-5-81d60c10fb73@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241128-topic-sm8x50-gpu-bw-vote-v3-5-81d60c10fb73@linaro.org>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D13F110E0BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 13:37:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732801051; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=a4sPCVWFbtmlTYEKygiqDDmLR3oqC0ouqwWk+2601UyvS1wz9M6OYLuXvWbVfSqDOMPjeef9UQUO7qFgCFGRVxFSjZv2jPHej8g9eCWxse5gn8Z2OwuyFjyV/q+LVo6lB8KxYNyHa/uVWcJsENeUnoWtQcGnHr+vVYaiWYmR71c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1732801051;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=8ixZhmmSEhwQiWsN6iV1hHytd5tiR7EWF10aS4cvfPQ=; 
+ b=SYwtNttWo1Ckj8Zwq4KgsSS662BRzAFPOHaMgaLqUIrFGHoto0easJViyDLoHehY0KRWl6tP9t4u9F2Bph0hRIYsq90bH0XpEj0Ku++XSgmNpaQhiWdNJ6cM1T0cwmv3bnlKiPrMMq/zeLKzvNkGgR5heOAhZQ9oIWMpDPyrzOQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732801050; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=8ixZhmmSEhwQiWsN6iV1hHytd5tiR7EWF10aS4cvfPQ=;
+ b=GEfRPRGV3x2CFC/KzNwCDKOd6Jq3n++dy4a6resfcgF9Spii/1gloI20XIub/z8L
+ d7Ui6etrFJdld5QKaWY4Jz4vdb35UoIuXcONmFs6KFCfDPi6o1JmWZRPL+WdACy5Wkh
+ xkXw+GyfebN3uXEkJkE2VO6v9CIy48x+yvTkjFoQ=
+Received: by mx.zohomail.com with SMTPS id 1732801048593235.7251758614393;
+ Thu, 28 Nov 2024 05:37:28 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
+Subject: Re: [WIP RFC v2 21/35] rust: drm/kms: Introduce
+ DriverCrtc::atomic_check()
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20240930233257.1189730-22-lyude@redhat.com>
+Date: Thu, 28 Nov 2024 10:37:13 -0300
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
+ mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
+ jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <94CA8996-2993-434F-AE98-989D346461FF@collabora.com>
+References: <20240930233257.1189730-1-lyude@redhat.com>
+ <20240930233257.1189730-22-lyude@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+X-Mailer: Apple Mail (2.3826.200.121)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,20 +79,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 28, 2024 at 11:25:45AM +0100, Neil Armstrong wrote:
-> Now all the DDR bandwidth voting via the GPU Management Unit (GMU)
-> is in place, declare the Bus Control Modules (BCMs) and the
-> corresponding parameters in the GPU info struct and add the
-> GMU_BW_VOTE feature bit to enable it.
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+Hi Lyude,
+
+> On 30 Sep 2024, at 20:10, Lyude Paul <lyude@redhat.com> wrote:
+>=20
+> An optional trait method for implementing a CRTC's atomic state check.
+
+A more thorough explanation like you had in your last patch would be =
+nice here.
+
+By `atomic state check` you mean after the state has been duplicated, =
+and mutated, right?
+
+So it=E2=80=99s the stage where we check whether the hardware can accept =
+the new parameters?
+
+
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
+> rust/kernel/drm/kms/crtc.rs | 46 +++++++++++++++++++++++++++++++++++--
+> 1 file changed, 44 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/rust/kernel/drm/kms/crtc.rs b/rust/kernel/drm/kms/crtc.rs
+> index 7864540705f76..43c7264402b07 100644
+> --- a/rust/kernel/drm/kms/crtc.rs
+> +++ b/rust/kernel/drm/kms/crtc.rs
+> @@ -27,7 +27,7 @@
+>     marker::*,
+>     ptr::{NonNull, null, null_mut, addr_of_mut, self},
+>     ops::{Deref, DerefMut},
+> -    mem,
+> +    mem::{self, ManuallyDrop},
+> };
+> use macros::vtable;
+>=20
+> @@ -82,7 +82,7 @@ pub trait DriverCrtc: Send + Sync + Sized {
+>         helper_funcs: bindings::drm_crtc_helper_funcs {
+>             atomic_disable: None,
+>             atomic_enable: None,
+> -            atomic_check: None,
+> +            atomic_check: if Self::HAS_ATOMIC_CHECK { =
+Some(atomic_check_callback::<Self>) } else { None },
+>             dpms: None,
+>             commit: None,
+>             prepare: None,
+> @@ -117,6 +117,21 @@ pub trait DriverCrtc: Send + Sync + Sized {
+>     ///
+>     /// Drivers may use this to instantiate their [`DriverCrtc`] =
+object.
+>     fn new(device: &Device<Self::Driver>, args: &Self::Args) -> impl =
+PinInit<Self, Error>;
+> +
+> +    /// The optional [`drm_crtc_helper_funcs.atomic_check`] hook for =
+this crtc.
+> +    ///
+> +    /// Drivers may use this to customize the atomic check phase of =
+their [`Crtc`] objects. The
+> +    /// result of this function determines whether the atomic check =
+passed or failed.
+> +    ///
+> +    /// [`drm_crtc_helper_funcs.atomic_check`]: =
+srctree/include/drm/drm_modeset_helper_vtables.h
+> +    fn atomic_check(
+> +        crtc: &Crtc<Self>,
+> +        old_state: &CrtcState<Self::State>,
+> +        new_state: BorrowedCrtcState<'_, CrtcState<Self::State>>,
+> +        state: &AtomicStateComposer<Self::Driver>
+> +    ) -> Result {
+> +        build_error::build_error("This should not be reachable")
+> +    }
+> }
+>=20
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+I am confused. If this is optional, why do we have a default =
+implementation with a build_error ?
 
--- 
-With best wishes
-Dmitry
+> /// The generated C vtable for a [`DriverCrtc`].
+> @@ -726,3 +741,30 @@ fn as_raw(&self) -> *mut bindings::drm_crtc_state =
+{
+>         )
+>     };
+> }
+> +
+> +unsafe extern "C" fn atomic_check_callback<T: DriverCrtc>(
+> +    crtc: *mut bindings::drm_crtc,
+> +    state: *mut bindings::drm_atomic_state,
+> +) -> i32 {
+> +    // SAFETY:
+> +    // * We're guaranteed `crtc` is of type `Crtc<T>` via type =
+invariants.
+> +    // * We're guaranteed by DRM that `crtc` is pointing to a valid =
+initialized state.
+> +    let crtc =3D unsafe { Crtc::from_raw(crtc) };
+> +
+> +    // SAFETY: DRM guarantees `state` points to a valid =
+`drm_atomic_state`
+> +    let state =3D unsafe {
+> +        =
+ManuallyDrop::new(AtomicStateComposer::new(NonNull::new_unchecked(state)))=
+
+> +    };
+> +
+
+Some comments on why ManuallyDrop is required here would also be useful. =
+Is it related to the
+use of ManuallyDrop in the preceding patch?
+
+> +    // SAFETY: Since we are in the atomic update callback, we're =
+guaranteed by DRM that both the old
+> +    // and new atomic state are present within `state`
+> +    let (old_state, new_state) =3D unsafe {(
+> +        state.get_old_crtc_state(crtc).unwrap_unchecked(),
+> +        state.get_new_crtc_state(crtc).unwrap_unchecked(),
+> +    )};
+> +
+> +    from_result(|| {
+> +        T::atomic_check(crtc, old_state, new_state, &state)?;
+> +        Ok(0)
+> +    })
+> +}
+> --=20
+> 2.46.1
+>=20
+
+=E2=80=94 Daniel
+
