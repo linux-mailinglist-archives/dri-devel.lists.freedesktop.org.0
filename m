@@ -2,155 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79AB89DAFF2
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 00:50:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135999DB039
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 01:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C820F10E430;
-	Wed, 27 Nov 2024 23:50:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 126D910E43E;
+	Thu, 28 Nov 2024 00:19:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="C/z+ambY";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WojIdcAS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE71010E1D0;
- Wed, 27 Nov 2024 23:50:15 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2068.outbound.protection.outlook.com [40.107.220.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82F2F10E43E;
+ Thu, 28 Nov 2024 00:19:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m6/md4594JdrGoNN3cK7MKxyoFYICFQPaz9rjBSdhOip8g46lUdZeAKxOpxXrzs6md4sC5Hd/EggVZRq4apOCR4Rj6cU+OhiHdDjr5+Tdm7sHWw72Ywy/1z+lgMkINeWk+2XUxbznqf5P11m7EWwZCWQPmZaCYg3nlR2Vg+IJzjT1m6/VP7btgv73uqAvVU0P5xPeTMcHgXXSZfQXx6XQAUtVD4DuljBdnXPU+z9YxQ1uuSuhXGF+93zw0enYZ7xbgq6cF4HBl6TEJwomV3KaKQVi9twxvEy7xewC+M5GC0enzRnT7KFCWhOAeeyYK5kfTTxvn83XR6D/Q7f4QgDuw==
+ b=eSSx+9f744Z/vAocEeQ+ls2W3hBBr9oa1BRFEhxO6/SVdKBDk2+NURfCwjYiO8TShSr7jAmZm0/kv8XrIEfqSOowKIqlju7ycFH1oui502LJxGDVhGQ0+TgYEAhoMTWjyMqBo7vbgQIxhjAbXjBbIkp3G6C20kosgCwzsccSZ8DLJANRebuJFSLNjZ0v6Ij9rZ5p1+OD9UImrtaM90TLt2MscsX8YZ2lItKo5IGw1Z4z2uquqLATLJEbrNekBVT0WaAa4IPEL6ZY0unzR980UKoEgk80Q9U89/cNC2LIlJzHTfikrQ62RvO6/WHOftTU+W7DO9d9GkZvoKGcZ7SjWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ugfx1iX26dLLfk68JVY82VTLglyEtKh2iSSUB98jUh0=;
- b=xuwhwyFQM11rwdkpKbOA5nMNxCcq2wEsMvR/uN/Dk0XUkKKl+cW+a4+l3qKLimiQU8PA1cNfTo4+gXW9xHsRjlnCzQ1EVYVAhJTYI85jQyyGPUzz6ZZlwDvTE/dUZUAZSR0WZeUkQGQNP4WNjeKcRvwwdgt788dsSFTcY6mxAmGnjHuJ4kcJ3M8AVRuj7gvgg00NUi/PtUc13JQgR6qNtH58VyZ5Ygtmkdggc76Nl+EmWuh6YdHi5/kTJQwc5XZjmiMjMmS6BYYdXzvA4VrpAkv62dhSGTwXD5+0En05EtF3N95GWB34hapv5pfvbKXxH1M1GNGtUwoae3++6sEb8Q==
+ bh=xqZdirYXrYQNx+30J3JAz34QXJ7fm3tZlGR2krHdZYQ=;
+ b=oyjV+3I5IHkZhJIWu+8d764XddFgGYHynVTzPNpCj9RzvmQ6TMraZJGbOOsaIh5UZir8fDqZEAjrty3YdCAa+hCbO2ELWOklRHNRpmKxfoJsKkvx35QQA2FlOYtANgjehtwfXOMy9sl0w/Lr+3Jo8wGQPhrydOrPYEu6IWou9pAsA2/2YEBdEFy5QGh2lcLZ5Ifk708j8r9lq6WHeW/aM7x1V9CbMkT3v6fWgze7uJD0bOE2/DXX6n0Q/mRMrJcFtbac1U329rvB2diqsd0RAOErPJVMr0UjULOTp73YuNNSINGGVFsxn6QFL7SeggEJPnaiC86dQ3KizWDnVkkKXA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ugfx1iX26dLLfk68JVY82VTLglyEtKh2iSSUB98jUh0=;
- b=C/z+ambYtM0zldzuzk5TPgM814e3usq0n00cQlhy3PMTOWnpfHbB0M5fw0blAdpB8WC9vM4ZfWSja/WpwtP1I3Tj5q9SH/20tFU86E0T775CkJ3u4vcCx1Hxe2PNItmxoxohQwpRcmmX97c571bApocP2JkTjXZkfA1k3Ls0hHY=
+ bh=xqZdirYXrYQNx+30J3JAz34QXJ7fm3tZlGR2krHdZYQ=;
+ b=WojIdcAS1UfZT2pDkz+6S84GrA2DmjNVaySxkT+p1HSaLmGj02eoYCjyCoapoXkFykKBQyD/7r91tPzE8XrlgTfy5SdMr9NNRju5hNGNPP48MCyOwiCkAWukUn5qZ02lDvtGbe9UtVzBrC82aaPt5NQEtVzbxPehxz2QtM8HOp4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by MW4PR12MB5667.namprd12.prod.outlook.com (2603:10b6:303:18a::10)
+ by CY5PR12MB6036.namprd12.prod.outlook.com (2603:10b6:930:2c::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.13; Wed, 27 Nov
- 2024 23:50:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.20; Thu, 28 Nov
+ 2024 00:19:52 +0000
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81%6]) with mapi id 15.20.8207.010; Wed, 27 Nov 2024
- 23:50:10 +0000
-Message-ID: <744cb13e-d46c-40b0-8d88-b223db5178da@amd.com>
-Date: Wed, 27 Nov 2024 18:50:07 -0500
+ ([fe80::9269:317f:e85:cf81%6]) with mapi id 15.20.8207.010; Thu, 28 Nov 2024
+ 00:19:52 +0000
+Message-ID: <1f4134b0-3330-4254-b7b7-d17bafe81d4a@amd.com>
+Date: Wed, 27 Nov 2024 19:19:49 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] amdgpu fix for gfx1103 queue evict/restore crash
+Subject: Re: [PATCH v6.1] drm/amdkfd: amdkfd_free_gtt_mem clear the correct
+ pointer
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mika Laitio <lamikr@gmail.com>, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, Hawking.Zhang@amd.com, sunil.khatri@amd.com,
- lijo.lazar@amd.com, kevinyang.wang@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241127114638.11216-1-lamikr@gmail.com>
- <20241127114638.11216-2-lamikr@gmail.com>
- <8266003e-eb98-44cb-a326-1e4f688eeb4c@amd.com>
+ Vamsi Krishna Brahmajosyula <vamsi-krishna.brahmajosyula@broadcom.com>,
+ stable@vger.kernel.org, gregkh@linuxfoundation.org
+Cc: Philip.Yang@amd.com, alexander.deucher@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ ajay.kaher@broadcom.com, alexey.makhalov@broadcom.com,
+ vasavi.sirnapalli@broadcom.com, Sasha Levin <sashal@kernel.org>
+References: <20241113121030.2405520-1-vamsi-krishna.brahmajosyula@broadcom.com>
+ <7615f2ae-2563-4939-934d-0b02e3f2d10e@amd.com>
 Content-Language: en-US
 From: Felix Kuehling <felix.kuehling@amd.com>
 Organization: AMD Inc.
-In-Reply-To: <8266003e-eb98-44cb-a326-1e4f688eeb4c@amd.com>
+In-Reply-To: <7615f2ae-2563-4939-934d-0b02e3f2d10e@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0102.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:4::35) To BN9PR12MB5115.namprd12.prod.outlook.com
+X-ClientProxiedBy: YQZPR01CA0097.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:83::29) To BN9PR12MB5115.namprd12.prod.outlook.com
  (2603:10b6:408:118::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|MW4PR12MB5667:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9962f0f7-8b77-4a22-c8da-08dd0f3e3a71
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|CY5PR12MB6036:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82b10322-c0a8-451a-93c7-08dd0f4260aa
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dXdmRmdXR2RiTjBQbTFrRkpFQTM4MEJyT3J0OXNPaXV3NlRYTG1FaEdGVVVK?=
- =?utf-8?B?L3V0L2ZaWlpNd0pKNVg0VzFLeWNXTCtkMnR2M3hqWUpMbHVzRjdqdm5ra05m?=
- =?utf-8?B?T0lTaFZPanNJeW9rOUVwU2hEWkVmeXdqckNjbTVzVVlDNnZYTkVWTVlhZHJQ?=
- =?utf-8?B?MFpJK0FOTGhreW5jM2lYVG1reVdrYVpmdHcxK3F1SU9qWFBvUlNaUGlYbkFt?=
- =?utf-8?B?ZVJQMjEwV0h1TFlLK1ZQZFF6UXZNUHR3Y3dFa2wzZzFpWUhCZ3ZwMDZieWV5?=
- =?utf-8?B?UUFjeUhTa1dvVkYxVXlCMWZTSlBTZ1BYZTc2VVMreUcyNnJtUHdvd0U1ZnpZ?=
- =?utf-8?B?dVA0VDVIUHh5Ni8zMUMzSENQWjc5Wnd2KzgrMFV1M1k0MUt6VlNzNlpPNUNL?=
- =?utf-8?B?NnNUcThacnYvc0VlY2k4NkRxd21SazBCN3lNajFTamVHdUZkN1BGVkZJNjlP?=
- =?utf-8?B?d0JNWFVaTmJiTkoyU0R1cHVRVlJHUlAyZCtlNEJRWnR6TEVVR3VSVjF0NkRC?=
- =?utf-8?B?OStQcU9JYkNJMXhNNWZxUmxCOXNNTmp4WTRWazVaNzFpYzhheVI3cWozYUhR?=
- =?utf-8?B?TlNiLzBlUFFuOHBsSlZ0VWQ1MExZdndoYmFvSCt0bUV4a2I5RG5LQnBLb2dR?=
- =?utf-8?B?UDlrRTdqa1RDQ2dUZzAwUTQwS1JOT0FmdXN5SzlHMS9KSTF2d2ZlU3gzTC82?=
- =?utf-8?B?bGV5QnduNUZjT1B5dEFpSjBCcXFYQ01hdlZySExMVXVYTENHdURUdmhGb0Zi?=
- =?utf-8?B?dEhkMXZTeE5IMFhxVkUvNDFjZ0ZCRzdhbUgyTjlnOVlYV29rNUVWY2huUFVP?=
- =?utf-8?B?bEp5WVVMSzc0UkxSRzJuWXJWWXFqMkZPeWd0Y0Z4TzRCMi9LS2t3OUJLZWI3?=
- =?utf-8?B?d3dFRER0c0ZXeHFrQnkrV0daSURISHJ1NG42NFlzZnZFMm5lMUd0TGhhT3hx?=
- =?utf-8?B?ZUx5MmxOTFRjS2oxWjN0aDJON212amNWUjBYL0JkN3FFdGQrSjBVOW9uYWlJ?=
- =?utf-8?B?aE9vc3EyVWtpZFdiNlJHbDRLaTJQV0loNWlEOTNQSW90WjBWTEtSN2J2ME9j?=
- =?utf-8?B?K1FSU2pnMnRPK2FZWFhFOFlTVThqZGtjL3BoTno3OExlQlVnVlBjcDNWeXNM?=
- =?utf-8?B?UzhTNnFQYlFscXFOdm1lUzR6QmdURFE0UlBUSE1vL3RjYWRnOUhZYkRWQmEz?=
- =?utf-8?B?T09jQnZZYTN6Vks0aG9LclhNSTBmUmFpTjRwU0k0WVhIelhtREVsZkp5YldE?=
- =?utf-8?B?UzdneVNVa0xBcjVmS2xkd0YzcFFMaVhjRGZIcDlGTzRwdTBPNFRhWDdlUk1H?=
- =?utf-8?B?TE92bmdVbWQ2UW5qZTM3aGVZaWUzYnBXbTM1b1IvU25mdmE4b2hTbFpoc0tR?=
- =?utf-8?B?Z0s0bWhSVnVraTNZcnVPa285a0pFRTVndHhkU2lxRU82MHNWUlo3d1A3Yk1q?=
- =?utf-8?B?Q29iOVducWFlYzJhUDh6U1FKL0E2b1lwSDlseGtMU1FyUXBhdi8zaUJJbTRo?=
- =?utf-8?B?bDhpKzZBaGszNXYzUFEzZDZZdk5wWnJtYnZ6S1EzckdTTy9NQUxvM0dRcVp2?=
- =?utf-8?B?NW02MGJGODNZcGdqNXhQTDBtbGthdk9YaDZsayt3UmZZakd5VzJpa3JTYm5D?=
- =?utf-8?B?Mk1ERSsrQUgrWkZjMmVHOEZKdzJTQjJoTkZYcGo5bE5wVjBtY2d0WWRTaitl?=
- =?utf-8?B?Nmdub2xEU2hlSkxGYUtqc1JXUi9EQUJ4VXcwNTB1S3JMcGY2djlXY0xpTDlt?=
- =?utf-8?B?Nmk1TWFRZGp4VElxRjNxdkM2T1hnTHUzTC9scVRPNktPb0VmUFk5Z0pvNWg1?=
- =?utf-8?B?VnRQSStkcENUZXJ2aXFXK1ZndklLMU5hRkgzY2RBL0lrMHk3YUtuaFJhVEwv?=
- =?utf-8?B?ZWh6MzdXZDJ1dWsxelBkMVRpbVFZUkNKS21zL05yRlN1dWc9PQ==?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M0FmY29ML0RUMmxwVHdXb1RTQnZUWkZDUDVkRUNkNTZvZTljMk9Pdmh0NGFU?=
+ =?utf-8?B?dldMZUp5NHhyQUFRa2RGbTZMQlhQbG85blozbG1tZVZ0b2JGa0cxVEhWOWpO?=
+ =?utf-8?B?NFFRbUFFcGI1R09QME1KN0ZwaUM3dDV0TU9SUnBxcHVSSW1qbHR1TlRsdGw3?=
+ =?utf-8?B?Zy80WWlONDVzL01mN3ZxNzZzMUpSSFRZRldCNnQxanVkOEg2ci8rak51VU85?=
+ =?utf-8?B?UndXNGZBWFBuZ2VDVUpCNGdHOXZhNTlNYTdmaUF4WXg0UnhONHR5aytuRyt5?=
+ =?utf-8?B?ZldvLzZvY013cHpmKzhuN0R6QjlPMHFJVytRM3ZxWHlRWmNhektqVy94L2RT?=
+ =?utf-8?B?Tzk2YkJhQkw5eVlxWGpRSEY2VDFNeXpuV1hNVzEwOWIzZG8welJvRklGZGxX?=
+ =?utf-8?B?bGMvSGlPdElLa1hORmRmY21yU3hVbGpaYlJOOHliNzZleVJmeFdBRi9JZnh1?=
+ =?utf-8?B?VGNuT1NyR0dVZlF6NzlBS3RGRmFnaXFtSkdHN2cxZTNDenB3ck5aNEw5ajBF?=
+ =?utf-8?B?NlpLMTNrT1BkcWNqS1EwaXgxT1M1ZmVVR2s2NUpKU1hyNHlta2xoei9RK3dM?=
+ =?utf-8?B?VzRJV1hwTk5MU2tvUDUwV01aNm12S1lDbkhlQVQ0T2JYaDlzN1pJZnUrckw3?=
+ =?utf-8?B?K3FUd3BLd0ViYlpHWUJQTUhaNXY3QzcrZEFLT3d2YWEwMnR2NS9zdnY4OWNr?=
+ =?utf-8?B?SGtrWHpoK2E0M3BpZDd6ZURCK0FNdmIzYlhML1BCWGw4Z3NBbzZLS0ZXTUw2?=
+ =?utf-8?B?Ny92TU14MXhBblZuUWhwS0d4c0NSd0hHNzc3dVlzaDc1Vlk2TUJZa1VhQTJK?=
+ =?utf-8?B?NHlRZFFFdTQwbjg2WUFlNWRhUzdWR2Jvei9xdjI2WmlYTHJkTUJUSHNOOVhZ?=
+ =?utf-8?B?ajNDNWZZT0IvODdZTzNja0Ywa013ejRQMWxLd250WVRLeVZaYitHMUYvVHpu?=
+ =?utf-8?B?Wk5aODdjR3VKekJ4bjRMVnFDQUNGY1YzWGZOSmpuMVk5NzZpYnFuY2pqVmxK?=
+ =?utf-8?B?TGlsZW0rUXhQTEpNWEJNd251d1ZhcHUyREVuZGRUM2lHSU1md3lNVVlpVFRZ?=
+ =?utf-8?B?VW5nSHRtcHhpNDVXSktTcWR1ampWZzBQNFdubHJMSWUraytmUmJnVFRKM1Ay?=
+ =?utf-8?B?enF0TjQ0NWZDSUdTWFJ2My8vN1c3eWtZaXJHVmtsY1Z6VEx4WGdPVDlwL3Rw?=
+ =?utf-8?B?QVp2UVhSbUkzMlJYdFFIMElNMnZ1M0o5cDVPTHRyVDZVRzdmR0NOeXZVcDJT?=
+ =?utf-8?B?SUZxQXZQWjB1R3c5aCtQM09lbVFqR3lkQXJLSWZNNnJPckxFUUhyRCt1L21s?=
+ =?utf-8?B?UktoRmUrcHh1MURNRG5YcFRiQUtkaFZmYjVUTndnaUhhKys4U0FJdUt6VDBC?=
+ =?utf-8?B?R2Q5ZmhwOW1LdDUzUEh0YzQ1YmcwRjlrUXNoV2ZXclllR0JHem94TU1iODdi?=
+ =?utf-8?B?K0hqRlcvRkV3RndabHJRYVdneWI3bU1HN3hCQnVXYk5XdFhxMTNvVWJ2VzNn?=
+ =?utf-8?B?R0krRUhhZGVzc0RMaktVcEZ6UFl5RW5uSU9NczRDUDgybjdvenZkRkJYK1BO?=
+ =?utf-8?B?Mno2eDhYMEdqLzhOV1hzbHJnRWV3akRhQ0JOVFAyUFlZbW1TR1N3STEzZWQ4?=
+ =?utf-8?B?VTdTZ2g0N3RHcnVGN0Viak00Q1FTYUNaSmJCWG04YkdSQzlyeHVrR1Brb0JT?=
+ =?utf-8?B?aTRSTjZ6cThBVmFZZVNZRVpIdWVBSmxFV0ZwUUY2NFR1YWlKQ0UyUkViczBI?=
+ =?utf-8?B?V0Z1d01WT0p2aUtlamhNQ3IwZjZMclU5eVAvNzMzU05vdlBaWklxakJFd3lO?=
+ =?utf-8?B?elcwdzlMN3NBK3NTY0N5QT09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(921020); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NFFYWUo1ZWNIK1k1dTJhaGREQ1RWSE5TVGZtVXUxUmpieVNETUIxQlhLVkUv?=
- =?utf-8?B?WkZzK0Y2WUxvN2pqdDNSTTIwWXJqNzhNZkVQT1ozaStLNjMxVVc3MkgxY0dH?=
- =?utf-8?B?RExONHJVWFNaSEZpL0VyZCthSmdyZUZSQ1NMczlSUlFFemlRNmtZUWt2Nmw2?=
- =?utf-8?B?VnkvNGtONWtnaHVZbnB6N1R5TUhBNVo1Y2Nva284TFI0UVBhTURWNmJJNmVG?=
- =?utf-8?B?b3pzL21oVkxrRTBraHJYbnFuVGhWMHVTNE85ZE1oN1FZbkRtMmJvVXlqRCtl?=
- =?utf-8?B?K2VUT1JqOTFhd0lEOXQ0bzF3bGFxMUJWN1FrUXNJdWMvd2lRR3RTTkRZaUZo?=
- =?utf-8?B?VHFnelZpQ2Mzd2hnVDltQnlBRUxmczNtMHdUUnQvWnI5QmhhVjlyOXkycDFZ?=
- =?utf-8?B?SXZBYUQ3Um1ZVVZvUU1ZRlFPYVE4c05oR3VEQmdDVzlPQmtwR2tleUI3bEFX?=
- =?utf-8?B?SldpeDhraWJXbkJzY3FycE44UVp4c3E5SFMrRndVaHZZeTJ2emxqa0wyN2ty?=
- =?utf-8?B?bDVzWEQ0YjNSdDJPdzRRc3huQ29LZW5MVHFIM0MwR0ZKU2gycjNLcEREUlBm?=
- =?utf-8?B?eEhYSUszbTlpOC9KQzZQRmZGMEc3SUdDTzNleDdCUENsd2kvVjlQRmxvaFB6?=
- =?utf-8?B?bnF5NTlXYUxiOXhwdkQ0SHZXTlRscWV1ZGpVMlhVQ01UQi85Si85MW5QVTQz?=
- =?utf-8?B?N0hVY0VYeDVvRGtsL3RISXJsRmE4c0NCczE4QlVxdS9zdE9LbFdiTVZ2S0dO?=
- =?utf-8?B?WVdyOW8vU0pSZWdvZXdXclJwYzY4TXdncnUzZVRXR0lsOVVQWnA0bU05cnJ2?=
- =?utf-8?B?VzY2VysvdE1HUWE1V0xnZ2c0aU00QW93cDJYcVpXTE12YjRETmtOejRCZ3dG?=
- =?utf-8?B?SXhYUHVvMVRtQzFaVk5QbThJcUR3c0NtSFpCNmw5WkFFUVBQdXpVcWM4S05j?=
- =?utf-8?B?RHNneHNsNlZSb3pUV0Jub2phMFRBcE1tSDBvU1RPaFg0dFpQK291eU81RXps?=
- =?utf-8?B?Z3JKSHU1ZkhGUFBnR003eU5MU0hmVjA2cHhBMDFYL2pkaFpZZVQ3UnNiRVBl?=
- =?utf-8?B?Qlc1aGRwTEVEQ2t1YzlRbVpOL252aDZIWG9lUXZUaXIwL1FUYm9Ba0pkOHBt?=
- =?utf-8?B?enlxTmJ0Z1ZjVkRtYWFsZEZpTGFWa3dUOTNlL0VEeGFXbGdFV2FiZXNHSy8x?=
- =?utf-8?B?MDd3TmJMRld1VVdROVpZa0lqMlNjUHd5UDNIT0hmM1JJQnR1OEdIcDUrdnp1?=
- =?utf-8?B?MDdEVzAzZHZSSEM4WUNCRnhSU0ZGZnlLa2NwdzdYUENhamFOVXM3a2IrQy9w?=
- =?utf-8?B?Z09sZFhNVldGNERYVHJGOW9lNjQvWW5FVTg5MU9ZVUc0Yy84dVJWZlRFeWxG?=
- =?utf-8?B?aThUaTlidmxFekt6Y3hOQi82Z0xuQnZoazhPZ3ZZL3Zwam5sYmhPaEk0M0w3?=
- =?utf-8?B?cXNNM1l5MFpKZVpwOVpPM2JGaWZ5ck1Cb1pNNFhmN2VFekxLNEZkRTNkV1hZ?=
- =?utf-8?B?YXhFUW42OENrVnpMV09NYkU2Nzk1RHU2MzExVUhtQ3ZwOGR1bUtCS0IyeEhC?=
- =?utf-8?B?V1FmWkd4U2pWb0JtNmxXcTdyd1FBOEJkaW54VDkydTFxZGdnRTV2MGZWQmVL?=
- =?utf-8?B?dlJ6TkpONkdISkh5SU5PNGt2R0g5VDRhMjNDdnJsVklpMVVFQ2pTdkxQY0Ns?=
- =?utf-8?B?SlhXUjhjNDB1MVVySTgyUGlyKzNKaFdpbjlUemhHTGw5L3lNbzBIVGt3dTNx?=
- =?utf-8?B?dWphZkVmbVgxd2xuYXZQZWdyalpVYUg2QmwyWWtFMmtrWmRzdCs0SGJDcjVt?=
- =?utf-8?B?alRPRDlqK2wwU2xTZE1oWWhyNHRmTFQ3VGVaVXhqM2szK0Y5UE5Hd1pmam01?=
- =?utf-8?B?aFllc3Q1YmxKUVhpZXFIQ2QxRGRodGhQeEtCNkVNZy9KMXNvZ3p0cnFWYnRD?=
- =?utf-8?B?cnJRQ3RWQzNTbElYRWZQem1JckN6Z0VHdmQ2dStyYVE4anhST0hYVjBob3JB?=
- =?utf-8?B?ZG1vZlRFMmdsY0p3Wjd1YzRTWi9wR1lJaTBwUzA0ZS9oVTJ5U2hjZFN4dEo1?=
- =?utf-8?B?OTJhLzhpMVJRbm5XNW5abmFzcVJXVi9GV0FYUmQ2clh1V0gxR1ZxOUZnK2ZP?=
- =?utf-8?Q?sntnXHtu5OIioVK0d2VT1uVDE?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3k1RUtwVTdCNzZMTlFxc053MlFzRDJuUHRYRWlxN2xoNmZ6NE11K1hac3Zk?=
+ =?utf-8?B?NzV5ZWlVYXBvWDZIUEVmcTJEMXhUOEc0bVBpeCtpbXNlakVTV1pCZnNSRUZ4?=
+ =?utf-8?B?eWZaUkhqWm5rVUgrOW5CVnEwaHBxeWJLSVA0TTl0a1g0MFQ1OXVBOFFPay92?=
+ =?utf-8?B?WjlOZUh1Mkk5N1ozTlpLdEM0cEM5WDE3MG1ic1RwRDczcFE1TnRHL3psaFg0?=
+ =?utf-8?B?ejRJbXEzcEdtcVZTQjFOMUgrUjZYTDlCTzA5VWJqckUva2hMOTMwempMSFVk?=
+ =?utf-8?B?NlllcmtjNXg5VTBXNTFUSVhGSElDYzl3T0NnSkNwSTlac1U0aVZnMmY4Tk9T?=
+ =?utf-8?B?VCtURU9TRW9WbG1ML1lkcytZRHNRVXRrMUx4eFFrOFNXSXplSElBZEFmQ0Rn?=
+ =?utf-8?B?d3BHMUdiUThnSFBLSTRTS0Y5Y0dCVXBxNktPdnNla2tzcC83Szlsb2hIOUti?=
+ =?utf-8?B?TWpHckptNGtwRE1wNTRpZ0ZhRGdqZVJPSk5nMys3Z1NwWlo2TnpZQktPd1I4?=
+ =?utf-8?B?cEZUaWFNb2dBNVRUWlJaYmxza3h5YmRzb3ZuKzVRWVlwaXFJQXF2VytyZHpt?=
+ =?utf-8?B?VmFid2N2eXordmVNVk8yNEE1TkF3b0g5SUZVeXBvZnpYOVpHL250RjU5Qnp0?=
+ =?utf-8?B?WnhwTkNHTThKZG9FalNKR3UwR3VXajE2Q3hXcUlLd3MraDJQcWI5U3Q3YzRu?=
+ =?utf-8?B?aDVST3BxeEpUeUJoalkrVmk3S2JsRkVaLzVUa096Z2RoOGtSVTBNMFpKV0di?=
+ =?utf-8?B?Wm8vN0hDdklNa0d2RjhQOEEzdEpHbWV2eTJzVjVrdUZ4bW9mVE5JVnEwNW5S?=
+ =?utf-8?B?T0Q5VnZTODhNYzRUanRPU0EyTjlFanlpRlhIclNQSmZ2M1drd05MekdJV2pT?=
+ =?utf-8?B?WUhIeVl4WUptSWIrQjljYzFqZzd2b0c2dkdHL3drczY4bHVUcDRQMFFXZ2Jq?=
+ =?utf-8?B?REQ2QmEzS2VZcVZtV2hwT2pqMWgzWU5RMjA1NGVlUkdFTUIvc0h6YlJOeFhw?=
+ =?utf-8?B?NUZ5UmVGK3EwczRsVk8zK1FVNEwzK0pTbFFqQlgwZzdWWDdaOFZnSXg3OFhH?=
+ =?utf-8?B?SWRZTGdsWlM0MVlFZldUTkNWdUR1NWlxczY4aFJ2WHVsdXQ4bzZaTGtUUUg3?=
+ =?utf-8?B?QVpBWko0MFZwcmc3ZmJFdGxSQVBrN0I3VlI5MmZsaVFvditkTGZPNFc2dW1B?=
+ =?utf-8?B?UHQxTUVPVHErTVR6clVCaysxT0JRSlBDUEhERXc3bUljbkdod3hsWUllVERY?=
+ =?utf-8?B?QzdNeUlaL1pGOW52Nll0TVdNY0YvakloS3hyZDYxM2x3d3lkbS9iemNrcWlt?=
+ =?utf-8?B?Y012SzJKbllmL2FZb3J1dGFsODcvbXhyU1pSc3ViamZINmNXTFhlT0ZoVDc5?=
+ =?utf-8?B?a3ZmT2lpUFBNaDlhYXdJYVpzeTQrYWp5cCt0RHpnSEdUaG8yNHZPcWFucU1S?=
+ =?utf-8?B?Q2pNNnUvd09hSTgwczhEdXdlcUZPNDc0dkdUVW5MUU9vOTNuSkp6RnAvZlU3?=
+ =?utf-8?B?Y2lMVmMxa2JKR0ZKLzBGZkFWSmIvczkvWlB5VVFYSFJYeW8rZTIyUUw3a1Jt?=
+ =?utf-8?B?Q3JjRXNGVXRBalhZakw3QjVPMG5oZlVvaE80dTMwVjJXeHpVYTVlbUhQN2NY?=
+ =?utf-8?B?ajBPc2U4M1dEQllLTXhWdG91cnl2eURlVVl6cnZBSEtJQ1NJNjNYUlE1YmN6?=
+ =?utf-8?B?a2dkdWRhVVdtSkMwUHkxL1ladnZMWWVIQmZkbEFqNmU3eHZTNElvRHFGSjhV?=
+ =?utf-8?B?Yzc4N05lV0cwdEZOd2trbjBVcjdtbU9teXlybWJXQXM5UXJoT1lQUmExR1Vu?=
+ =?utf-8?B?WU9TZk5ZNFBFTWFtYzRpUXNpTXJNY2lKejE5elo5dzJWeHBzaDdIb0IveDZ6?=
+ =?utf-8?B?WW9TZ2FYK3gyVHU2SDBHK3AwRElLcE0wdjdBQzU5SGh4VERPMlBwS2FBNUJO?=
+ =?utf-8?B?ZElUVnV4MTliaXFDRlBUQ29MbDFKSUxneVVXMllZVUpTakJxdmc4VWJUZFZN?=
+ =?utf-8?B?bGNEVlNOU08yekI5MXcxcEk4b0M5K3ZETzQrdyt5MExyb01KakVidTI2anNX?=
+ =?utf-8?B?eUpaSWNMK01ZRk1kbzA2RHgwSFJHc0QzSkQ1ekFiVDR5Vm0veE84dkFZS2NL?=
+ =?utf-8?Q?YBMojcD0+HWE9C1EcXyQVjyBT?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9962f0f7-8b77-4a22-c8da-08dd0f3e3a71
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82b10322-c0a8-451a-93c7-08dd0f4260aa
 X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2024 23:50:10.1084 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2024 00:19:52.1811 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FS5T7cHZs9jZJJ6goHzWfsaRDskRLUw4z2TTgRIXsJUNjgAtr2bQvBOBP6uQTbBI90DzufqzpZJYQzpbIfIPUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5667
+X-MS-Exchange-CrossTenant-UserPrincipalName: v+68zW3Basgdu4QBdakMDOelyQEUUAAv+jLitqtkT1Ij7HDPxtw0F5C94SAz2t7NbdDDU3jq/n/Nn/saEn/7ew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6036
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,39 +171,83 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2024-11-27 06:51, Christian König wrote:
-> Am 27.11.24 um 12:46 schrieb Mika Laitio:
->> AMD gfx1103 / M780 iGPU will crash eventually when used for
->> pytorch ML/AI operations on rocm sdk stack. After kernel error
->> the application exits on error and linux desktop can itself
->> sometimes either freeze or reset back to login screen.
+On 2024-11-13 07:13, Christian König wrote:
+> Am 13.11.24 um 13:10 schrieb Vamsi Krishna Brahmajosyula:
+>> From: Philip Yang <Philip.Yang@amd.com>
 >>
->> Error will happen randomly when kernel calls 
->> evict_process_queues_cpsch and
->> restore_process_queues_cpsch methods to remove and restore the queues
->> that has been created earlier.
+>> [ Upstream commit c86ad39140bbcb9dc75a10046c2221f657e8083b ]
 >>
->> The fix is to remove the evict and restore calls when device used is
->> iGPU. The queues that has been added during the user space 
->> application execution
->> time will still be removed when the application exits
+>> Pass pointer reference to amdgpu_bo_unref to clear the correct pointer,
+>> otherwise amdgpu_bo_unref clear the local variable, the original pointer
+>> not set to NULL, this could cause use-after-free bug.
+>>
+>> Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+>> Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+>> Acked-by: Christian König <christian.koenig@amd.com>
+>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> Signed-off-by: Vamsi Krishna Brahmajosyula 
+>> <vamsi-krishna.brahmajosyula@broadcom.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         | 14 +++++++-------
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |  2 +-
+>>   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |  2 +-
+>>   drivers/gpu/drm/amd/amdkfd/kfd_device.c            |  4 ++--
+>>   .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  2 +-
+>>   drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c       |  2 +-
+>>   drivers/gpu/drm/amd/amdkfd/kfd_process.c           |  2 +-
+>>   .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |  4 ++--
+>>   8 files changed, 16 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+>> index 5d9a34601a1a..c31e5f9d63da 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+>> @@ -344,15 +344,15 @@ int amdgpu_amdkfd_alloc_gtt_mem(struct 
+>> amdgpu_device *adev, size_t size,
+>>       return r;
+>>   }
+>>   -void amdgpu_amdkfd_free_gtt_mem(struct amdgpu_device *adev, void 
+>> *mem_obj)
+>> +void amdgpu_amdkfd_free_gtt_mem(struct amdgpu_device *adev, void 
+>> **mem_obj)
+>>   {
+>> -    struct amdgpu_bo *bo = (struct amdgpu_bo *) mem_obj;
+>> +    struct amdgpu_bo **bo = (struct amdgpu_bo **) mem_obj;
+>>   -    amdgpu_bo_reserve(bo, true);
+>> -    amdgpu_bo_kunmap(bo);
+>> -    amdgpu_bo_unpin(bo);
+>> -    amdgpu_bo_unreserve(bo);
+>> -    amdgpu_bo_unref(&(bo));
+>> +    amdgpu_bo_reserve(*bo, true);
+>> +    amdgpu_bo_kunmap(*bo);
+>> +    amdgpu_bo_unpin(*bo);
+>> +    amdgpu_bo_unreserve(*bo);
+>> +    amdgpu_bo_unref(bo);
+>>   }
+>>     int amdgpu_amdkfd_alloc_gws(struct amdgpu_device *adev, size_t size,
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+>> index 4b694886715c..c7672a1d1560 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+>> @@ -210,7 +210,7 @@ int amdgpu_amdkfd_evict_userptr(struct kgd_mem 
+>> *mem, struct mm_struct *mm)
+>>   int amdgpu_amdkfd_alloc_gtt_mem(struct amdgpu_device *adev, size_t 
+>> size,
+>>                   void **mem_obj, uint64_t *gpu_addr,
+>>                   void **cpu_ptr, bool mqd_gfx9);
+>> -void amdgpu_amdkfd_free_gtt_mem(struct amdgpu_device *adev, void 
+>> *mem_obj);
+>> +void amdgpu_amdkfd_free_gtt_mem(struct amdgpu_device *adev, void 
+>> **mem_obj);
 >
-> As far as I can see that is absolutely not a fix but rather a 
-> obviously broken workaround.
->
-> Evicting and restoring queues is usually mandatory for correct operation.
->
-> So just ignore that this doesn't work will just is not something you 
-> can do.
+> Why is that a pointer to a void* in the first place? It looks like all 
+> callers should work with an amdgpu_bo object as well.
 
-I agree. Eviction happens for example in MMU notifiers where we need to 
-assure the kernel that memory won't be accessed by the GPU once the 
-notifier returns, until the memory mappings in the GPU page tables can 
-be revalidated.
-
-This looks like a crude workaround for an MES firmware problem or some 
-other kind of intermittent hang that needs to be root-caused. It's a 
-NACK from me as well.
+Historical reasons. When KFD was a separate module, mem_obj was opaque 
+to KFD, so the call from KFD to KGD used a void*.
 
 Regards,
    Felix
@@ -209,168 +257,106 @@ Regards,
 > Regards,
 > Christian.
 >
->>
->> On evety test attempts the crash has always happened on the
->> same location while removing the 2nd queue of 3 with doorbell id 0x1002.
->>
->> Below is the trace captured by adding more printouts to problem
->> location to print message also when the queue is evicted or resrored
->> succesfully.
->>
->> [  948.324174] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added 
->> hardware queue to MES, doorbell=0x1202, queue: 2, caller: 
->> restore_process_queues_cpsch
->> [  948.334344] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added 
->> hardware queue to MES, doorbell=0x1002, queue: 1, caller: 
->> restore_process_queues_cpsch
->> [  948.344499] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added 
->> hardware queue to MES, doorbell=0x1000, queue: 0, caller: 
->> restore_process_queues_cpsch
->> [  952.380614] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed 
->> hardware queue from MES, doorbell=0x1202, queue: 2, caller: 
->> evict_process_queues_cpsch
->> [  952.391330] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed 
->> hardware queue from MES, doorbell=0x1002, queue: 1, caller: 
->> evict_process_queues_cpsch
->> [  952.401634] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed 
->> hardware queue from MES, doorbell=0x1000, queue: 0, caller: 
->> evict_process_queues_cpsch
->> [  952.414507] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added 
->> hardware queue to MES, doorbell=0x1202, queue: 2, caller: 
->> restore_process_queues_cpsch
->> [  952.424618] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added 
->> hardware queue to MES, doorbell=0x1002, queue: 1, caller: 
->> restore_process_queues_cpsch
->> [  952.434922] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added 
->> hardware queue to MES, doorbell=0x1000, queue: 0, caller: 
->> restore_process_queues_cpsch
->> [  952.446272] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed 
->> hardware queue from MES, doorbell=0x1202, queue: 2, caller: 
->> evict_process_queues_cpsch
->> [  954.460341] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to 
->> msg=REMOVE_QUEUE
->> [  954.460356] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes failed 
->> to remove hardware queue from MES, doorbell=0x1002, queue: 1, caller: 
->> evict_process_queues_cpsch
->> [  954.460360] amdgpu 0000:c4:00.0: amdgpu: MES might be in 
->> unrecoverable state, issue a GPU reset
->> [  954.460366] amdgpu 0000:c4:00.0: amdgpu: Failed to evict queue 1
->> [  954.460368] amdgpu 0000:c4:00.0: amdgpu: Failed to evict process 
->> queues
->> [  954.460439] amdgpu 0000:c4:00.0: amdgpu: GPU reset begin!
->> [  954.460464] amdgpu 0000:c4:00.0: amdgpu: remove_all_queues_mes: 
->> Failed to remove queue 0 for dev 5257
->> [  954.460515] amdgpu 0000:c4:00.0: amdgpu: Dumping IP State
->> [  954.462637] amdgpu 0000:c4:00.0: amdgpu: Dumping IP State Completed
->> [  955.865591] amdgpu: process_termination_cpsch started
->> [  955.866432] amdgpu: process_termination_cpsch started
->> [  955.866445] amdgpu 0000:c4:00.0: amdgpu: Failed to remove queue 0
->> [  956.503043] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to 
->> msg=REMOVE_QUEUE
->> [  956.503059] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* 
->> failed to unmap legacy queue
->> [  958.507491] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to 
->> msg=REMOVE_QUEUE
->> [  958.507507] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* 
->> failed to unmap legacy queue
->> [  960.512077] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to 
->> msg=REMOVE_QUEUE
->> [  960.512093] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* 
->> failed to unmap legacy queue
->> [  960.785816] [drm:gfx_v11_0_hw_fini [amdgpu]] *ERROR* failed to 
->> halt cp gfx
->>
->> Signed-off-by: Mika Laitio <lamikr@gmail.com>
->> ---
->>   .../drm/amd/amdkfd/kfd_device_queue_manager.c | 24 ++++++++++++-------
->>   1 file changed, 16 insertions(+), 8 deletions(-)
->>
+>>   int amdgpu_amdkfd_alloc_gws(struct amdgpu_device *adev, size_t size,
+>>                   void **mem_obj);
+>>   void amdgpu_amdkfd_free_gws(struct amdgpu_device *adev, void 
+>> *mem_obj);
+>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c 
+>> b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+>> index e3cd66c4d95d..f83574107eb8 100644
+>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+>> @@ -408,7 +408,7 @@ static int kfd_ioctl_create_queue(struct file 
+>> *filep, struct kfd_process *p,
+>>     err_create_queue:
+>>       if (wptr_bo)
+>> -        amdgpu_amdkfd_free_gtt_mem(dev->adev, wptr_bo);
+>> +        amdgpu_amdkfd_free_gtt_mem(dev->adev, (void **)&wptr_bo);
+>>   err_wptr_map_gart:
+>>   err_alloc_doorbells:
+>>   err_bind_process:
+>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c 
+>> b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+>> index 27820f0a282d..e2c055abfea9 100644
+>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+>> @@ -673,7 +673,7 @@ bool kgd2kfd_device_init(struct kfd_dev *kfd,
+>>   kfd_doorbell_error:
+>>       kfd_gtt_sa_fini(kfd);
+>>   kfd_gtt_sa_init_error:
+>> -    amdgpu_amdkfd_free_gtt_mem(kfd->adev, kfd->gtt_mem);
+>> +    amdgpu_amdkfd_free_gtt_mem(kfd->adev, &kfd->gtt_mem);
+>>   alloc_gtt_mem_failure:
+>>       if (kfd->gws)
+>>           amdgpu_amdkfd_free_gws(kfd->adev, kfd->gws);
+>> @@ -693,7 +693,7 @@ void kgd2kfd_device_exit(struct kfd_dev *kfd)
+>>           kfd_doorbell_fini(kfd);
+>>           ida_destroy(&kfd->doorbell_ida);
+>>           kfd_gtt_sa_fini(kfd);
+>> -        amdgpu_amdkfd_free_gtt_mem(kfd->adev, kfd->gtt_mem);
+>> +        amdgpu_amdkfd_free_gtt_mem(kfd->adev, &kfd->gtt_mem);
+>>           if (kfd->gws)
+>>               amdgpu_amdkfd_free_gws(kfd->adev, kfd->gws);
+>>       }
 >> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c 
 >> b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
->> index c79fe9069e22..96088d480e09 100644
+>> index 1b7b29426480..3ab0a796af06 100644
 >> --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
 >> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
->> @@ -1187,9 +1187,12 @@ static int evict_process_queues_cpsch(struct 
->> device_queue_manager *dqm,
->>       struct kfd_process_device *pdd;
->>       int retval = 0;
->>   +    // gfx1103 APU can fail to remove queue on evict/restore cycle
->> +    if (dqm->dev->adev->flags & AMD_IS_APU)
->> +        goto out;
->>       dqm_lock(dqm);
->>       if (qpd->evicted++ > 0) /* already evicted, do nothing */
->> -        goto out;
->> +        goto out_unlock;
->>         pdd = qpd_to_pdd(qpd);
->>   @@ -1198,7 +1201,7 @@ static int evict_process_queues_cpsch(struct 
->> device_queue_manager *dqm,
->>        * Skip queue eviction on process eviction.
->>        */
->>       if (!pdd->drm_priv)
->> -        goto out;
->> +        goto out_unlock;
->>         pr_debug_ratelimited("Evicting PASID 0x%x queues\n",
->>                   pdd->process->pasid);
->> @@ -1219,7 +1222,7 @@ static int evict_process_queues_cpsch(struct 
->> device_queue_manager *dqm,
->>               if (retval) {
->>                   dev_err(dev, "Failed to evict queue %d\n",
->>                       q->properties.queue_id);
->> -                goto out;
->> +                goto out_unlock;
->>               }
->>           }
->>       }
->> @@ -1231,8 +1234,9 @@ static int evict_process_queues_cpsch(struct 
->> device_queue_manager *dqm,
->> KFD_UNMAP_QUEUES_FILTER_DYNAMIC_QUEUES, 0,
->>                             USE_DEFAULT_GRACE_PERIOD);
->>   -out:
->> +out_unlock:
->>       dqm_unlock(dqm);
->> +out:
->>       return retval;
+>> @@ -2392,7 +2392,7 @@ static void deallocate_hiq_sdma_mqd(struct 
+>> kfd_dev *dev,
+>>   {
+>>       WARN(!mqd, "No hiq sdma mqd trunk to free");
+>>   -    amdgpu_amdkfd_free_gtt_mem(dev->adev, mqd->gtt_mem);
+>> +    amdgpu_amdkfd_free_gtt_mem(dev->adev, &mqd->gtt_mem);
 >>   }
->>   @@ -1326,14 +1330,17 @@ static int 
->> restore_process_queues_cpsch(struct device_queue_manager *dqm,
->>       uint64_t eviction_duration;
->>       int retval = 0;
->>   +    // gfx1103 APU can fail to remove queue on evict/restore cycle
->> +    if (dqm->dev->adev->flags & AMD_IS_APU)
->> +        goto out;
->>       pdd = qpd_to_pdd(qpd);
->>         dqm_lock(dqm);
->>       if (WARN_ON_ONCE(!qpd->evicted)) /* already restored, do 
->> nothing */
->> -        goto out;
->> +        goto out_unlock;
->>       if (qpd->evicted > 1) { /* ref count still > 0, decrement & 
->> quit */
->>           qpd->evicted--;
->> -        goto out;
->> +        goto out_unlock;
->>       }
->>         /* The debugger creates processes that temporarily have not 
->> acquired
->> @@ -1364,7 +1371,7 @@ static int restore_process_queues_cpsch(struct 
->> device_queue_manager *dqm,
->>               if (retval) {
->>                   dev_err(dev, "Failed to restore queue %d\n",
->>                       q->properties.queue_id);
->> -                goto out;
->> +                goto out_unlock;
->>               }
->>           }
->>       }
->> @@ -1375,8 +1382,9 @@ static int restore_process_queues_cpsch(struct 
->> device_queue_manager *dqm,
->>       atomic64_add(eviction_duration, &pdd->evict_duration_counter);
->>   vm_not_acquired:
->>       qpd->evicted = 0;
->> -out:
->> +out_unlock:
->>       dqm_unlock(dqm);
->> +out:
->>       return retval;
->>   }
+>>     void device_queue_manager_uninit(struct device_queue_manager *dqm)
+>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c 
+>> b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
+>> index 623ccd227b7d..c733d6888c30 100644
+>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
+>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
+>> @@ -204,7 +204,7 @@ void kfd_free_mqd_cp(struct mqd_manager *mm, void 
+>> *mqd,
+>>             struct kfd_mem_obj *mqd_mem_obj)
+>>   {
+>>       if (mqd_mem_obj->gtt_mem) {
+>> -        amdgpu_amdkfd_free_gtt_mem(mm->dev->adev, 
+>> mqd_mem_obj->gtt_mem);
+>> +        amdgpu_amdkfd_free_gtt_mem(mm->dev->adev, 
+>> &mqd_mem_obj->gtt_mem);
+>>           kfree(mqd_mem_obj);
+>>       } else {
+>>           kfd_gtt_sa_free(mm->dev, mqd_mem_obj);
+>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c 
+>> b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+>> index 5bca6abd55ae..9582c9449fff 100644
+>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+>> @@ -1052,7 +1052,7 @@ static void kfd_process_destroy_pdds(struct 
+>> kfd_process *p)
+>>             if (pdd->dev->shared_resources.enable_mes)
+>>               amdgpu_amdkfd_free_gtt_mem(pdd->dev->adev,
+>> -                           pdd->proc_ctx_bo);
+>> +                           &pdd->proc_ctx_bo);
+>>           /*
+>>            * before destroying pdd, make sure to report availability
+>>            * for auto suspend
+>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c 
+>> b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+>> index 99aa8a8399d6..1918a3c06ac8 100644
+>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+>> @@ -441,9 +441,9 @@ int pqm_destroy_queue(struct 
+>> process_queue_manager *pqm, unsigned int qid)
+>>             if (dev->shared_resources.enable_mes) {
+>>               amdgpu_amdkfd_free_gtt_mem(dev->adev,
+>> -                           pqn->q->gang_ctx_bo);
+>> +                           &pqn->q->gang_ctx_bo);
+>>               if (pqn->q->wptr_bo)
+>> -                amdgpu_amdkfd_free_gtt_mem(dev->adev, pqn->q->wptr_bo);
+>> +                amdgpu_amdkfd_free_gtt_mem(dev->adev, (void 
+>> **)&pqn->q->wptr_bo);
+>>             }
+>>           uninit_queue(pqn->q);
 >
