@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682A79DBD03
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 21:45:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D499DBD33
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 22:12:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18F1310E286;
-	Thu, 28 Nov 2024 20:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 064DF10ED60;
+	Thu, 28 Nov 2024 21:12:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HGtAJQlS";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="Rc1HfQh8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99A5E10E286
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 20:45:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1732826709; x=1764362709;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=1LrchDCjEdNm4I8cUzhajgos7MSsh00JuB3wx7lQfPA=;
- b=HGtAJQlSCdU/n0i+zh50X6Yv5cCSNA0KQHuDUcZoMrBy4Oh/yJvNi/IG
- fVxtuHhTcrtOQO0zcV4VTLvDl9fyZ58H6MUTBKatWHeU2dxWZ7wX/uuqn
- dGKMbweBOYWk4cDTxrAZvnvwH4qQFNO0Wi0eNoRBWvggS1if6jey62DJE
- qrt7oTmXPo69labTUbWHRwc0NG+wM9t8bgKTUBTY8kzoOH79LR/MSptlL
- jDr0eljwQxoKRrrM2iAH8UH2iqMS0sI4aQPuM3Ol7Q1dkpa0aONimPcGG
- YVEeD3YjRIBUFsebSuhYO0FmJ9BnB5JbDZvuU+6uwNDbyy0oGt2TFayav g==;
-X-CSE-ConnectionGUID: rsDrp3SlSIOPEcC0FrS0eA==
-X-CSE-MsgGUID: z2IO/zkyS/21Nmpyqd0wEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="32810608"
-X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; d="scan'208";a="32810608"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2024 12:45:08 -0800
-X-CSE-ConnectionGUID: A0a2q+oeSqmE+RzyZbI8Lg==
-X-CSE-MsgGUID: KcAqwsdSRXG54JfaQ8xkSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; d="scan'208";a="123275468"
-Received: from szeng-desk.jf.intel.com ([10.165.21.160])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2024 12:45:08 -0800
-From: Oak Zeng <oak.zeng@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Thomas.Hellstrom@linux.intel.com
-Subject: [PATCH] drm/xe: Avoid evicting object of the same vm in none fault
- mode
-Date: Thu, 28 Nov 2024 15:58:41 -0500
-Message-Id: <20241128205841.1820680-1-oak.zeng@intel.com>
-X-Mailer: git-send-email 2.26.3
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63E8210ED59
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 21:12:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732828358; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=fmHMTOpk7VbqBlZccsNcptSbYwPyS9knyfkbMRnKPmZhkawQ++79sNQoodUdhPv//2JnhRNBeBAV9gT1jMMBdLM0IjWhwjBsJiOeDOIOCk5fIOfAI5QVsfKORHku31YMAwJysZ3tjj+q8e7c8gtoonTCHsL188Oe21HsNj0SeJI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1732828358;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=3tYBP50ESNPd772Z53QfhHT3Uqd4F/skk0jQayoesP0=; 
+ b=MKrV9vNGMN4bI9JmdlnPavf/xKaRVkvXU86XiLmqZkGU6qxbueu1kmv3qrfpbkeuret7GMwHiD6o/4hJktvGXXBGokjnufkBQDPbzwT1Tx5g6xswKRHSa/mJ/G/+CcXdSCTncn5SnRn2lqcwE2Qah8/FroK2gIHOvj8sW3JmV9g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732828358; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=3tYBP50ESNPd772Z53QfhHT3Uqd4F/skk0jQayoesP0=;
+ b=Rc1HfQh8oPf2qHjT8iYCd4v7adp5YEYHUFwzCU/PJCwWRUyNkOpLidst5bwG2WfI
+ /vl0FVgieQidf1iYfyjzvOPzQH8SVxxXV9ZyvGwBzRdsl1N59aeFl37I5VTGWpRN+5g
+ 8pVrEVCxt+qafdIfVxlbJOe74ymYTx7vk4fpKn3w=
+Received: by mx.zohomail.com with SMTPS id 173282835791530.02219913833926;
+ Thu, 28 Nov 2024 13:12:37 -0800 (PST)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: kernel@collabora.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/8] Some Panfrost fixes and improvements
+Date: Thu, 28 Nov 2024 21:06:15 +0000
+Message-ID: <20241128211223.1805830-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -67,51 +69,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-BO validation during vm_bind could trigger memory eviction when
-system runs under memory pressure. Right now we blindly evict
-BOs of all VMs. This scheme has a problem when system runs in
-none recoverable page fault mode: even though the vm_bind could
-be successful by evicting BOs, the later the rebinding of the
-evicted BOs would fail. So it is better to report an out-of-
-memory failure at vm_bind time than at time of rebinding where
-xekmd currently doesn't have a good mechanism to report error
-to user space.
+This is v2 of https://lore.kernel.org/dri-devel/20241014233758.994861-1-adrian.larumbe@collabora.com/
 
-This patch implemented a scheme to only evict objects of other
-VMs during vm_bind time. Object of the same VM will skip eviction.
-If we failed to find enough memory for vm_bind, we report error
-to user space at vm_bind time.
+This patch series is a collection of minor fixes and improvements I came up
+with while working on driver related stuff.
 
-This scheme is not needed for recoverable page fault mode under
-what we can dynamically fault-in pages on demand.
+Changelog:
 
-Signed-off-by: Oak Zeng <oak.zeng@intel.com>
-Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/xe/xe_vm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+v2:
+ - Removed commit that provided an explicit fence cleanup function
+ - Added commit for removing unused Panfrost device structure member
+ - Refactored how optional job interrupt reenabling during reset is handled
+ - Make the way errors and successful return values are delivered from inside
+  panfrost_mmu_as_get more according to standard.
+ - Simplify unmapping of already mapped area when mapping the pages of a BO
+ - Fixing management of runtime-PM reference counts when failing HW job submission.
 
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 2492750505d69..c005c96b88167 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -2359,13 +2359,15 @@ static int vma_lock_and_validate(struct drm_exec *exec, struct xe_vma *vma,
- 				 bool validate)
- {
- 	struct xe_bo *bo = xe_vma_bo(vma);
-+	struct xe_vm *vm = xe_vma_vm(vma);
-+	bool preempt_mode = xe_vm_in_preempt_fence_mode(vm);
- 	int err = 0;
- 
- 	if (bo) {
- 		if (!bo->vm)
- 			err = drm_exec_lock_obj(exec, &bo->ttm.base);
- 		if (!err && validate)
--			err = xe_bo_validate(bo, xe_vma_vm(vma), true);
-+			err = xe_bo_validate(bo, vm, !preempt_mode);
- 	}
- 
- 	return err;
+Adrián Larumbe (8):
+  drm/panfrost: Replace DRM driver allocation method with newer one
+  drm/panfrost: Handle inexistent GPU during probe
+  drm/panfrost: Handle job HW submit errors
+  drm/panfrost: Handle error when allocating AS number
+  drm/panfrost: Handle page mapping failure
+  drm/panfrost: Make re-enabling job interrupts at device reset optional
+  drm/panfrost: Add forward declaration and types header
+  drm/panfrost: Remove unused device property
+
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c   |  4 +-
+ drivers/gpu/drm/panfrost/panfrost_device.c    | 60 ++++++------
+ drivers/gpu/drm/panfrost/panfrost_device.h    |  9 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       | 68 +++++--------
+ drivers/gpu/drm/panfrost/panfrost_dump.c      |  8 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  6 +-
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  4 +-
+ drivers/gpu/drm/panfrost/panfrost_gpu.c       | 64 +++++++-----
+ drivers/gpu/drm/panfrost/panfrost_job.c       | 97 +++++++++++--------
+ drivers/gpu/drm/panfrost/panfrost_job.h       |  3 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       | 90 ++++++++++++-----
+ drivers/gpu/drm/panfrost/panfrost_mmu.h       |  3 +-
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c   | 31 +++---
+ 13 files changed, 256 insertions(+), 191 deletions(-)
+
+
+base-commit: e511f8fc3b2786999987901dad94c1548e091040
 -- 
-2.26.3
+2.47.0
 
