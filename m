@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5089DB9AC
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 15:32:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E850A9DB9AD
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 15:32:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C77710ECA4;
-	Thu, 28 Nov 2024 14:32:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67F1110EC9F;
+	Thu, 28 Nov 2024 14:32:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="CdD7NmTl";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="GQEsLY3U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B75D10ECA4
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 14:32:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732804333; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEC5510ECA8
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 14:32:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732804335; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=lPOzg+dQ6Ut7xQnwqFaF0fc0bWMILyYV97VxkZs/MryZi/w5hi+oN07trvEXYRNml3sTu1+dfsdOLSMQNa8InZlzOqENHN+j37skhY01mO5O8VRepcSyQuViPbiTWBhivSlzdc8UkfigZ7PueHzd4iZYR+1riqiZHQFI/EB1Kvc=
+ b=g17js4q0Bg6i0NirWuDG7S/eGBqopayOzZ2liR7giYf8nnzJhZcygPnunQ7hAp9cEwc6C6JM1chpGrpdfw6yiSGfT6Hy7NL6uuFLTAFh/XaOFdK7Eu4vQOuCa89QYDre9BQQJ2uB0IPSfNQePfeYpy8ilHich+FSGqTPeah4eiQ=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732804333;
+ s=zohoarc; t=1732804335;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
  bh=/Taw2CQT9QcMUAy17zboa+dBaCxiBOPrIgOOMmxKd7M=; 
- b=F9WPVqZ8O7qEpV88yI+X2K3HrYPVmJZ0aBAS2z9y12Y3OibVvRXO6oYJassA/icx7mO15o+Wffnr5WRX6vmGsgy6N6/T6CmwKSI7Jibyl0br78UFa536kmhH0tjWnmlRK8lvJAvu8U6XKYqvPPpoqAQ1HaoBvK2K7ie0SwxuVFw=
+ b=g4B1gnKdPKe1OTuzk6mEzS+5Q7FvjkO+XXyq35hOftJZSwKXh63YjXZs7fl7g0UPP3MNXZvwWf+F3fI1cVBWB9zsZANqzEXz31HuA7U6qlgH19VbPSmW6zTkDHbqv+hRVbc/e95ta4itVnA5aD+OOsm99DUB3Rv6r66wv/CKrLI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
  dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732804333; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732804335; 
  s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
  h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
  bh=/Taw2CQT9QcMUAy17zboa+dBaCxiBOPrIgOOMmxKd7M=;
- b=CdD7NmTlUQ/CSJ+wXfMv7ZaMFrpISTQlqkIu+7X0mS06fcMksc59dnSWn1G2BxbT
- BQ0xMwbkzFxD/ilkrVQjYsTCWJrQwVjEdInw0cFtkJDnZeBxy1LDQ8O6bL97f61kSWx
- t58r8ngvyC+QjFXTgKG0RvBxL858bjYQ49jT+hIY=
-Received: by mx.zohomail.com with SMTPS id 1732804332353252.4456748863455;
- Thu, 28 Nov 2024 06:32:12 -0800 (PST)
+ b=GQEsLY3UFAJLxq35ZVM6FnYp4Q62S79c6wxTXEF7cd5OM3wiv1xQATwaH1d8Ub0m
+ BjODP2Ae4tqIZslKb9JGTG4Rs27HKKOjs8YnFflV2FyH0Baug2Yg3q24jh14H5MhJ90
+ G2f7wFORVTueKYU+LZzlHZHx90qHMqRdKsGJlBU4=
+Received: by mx.zohomail.com with SMTPS id 1732804334972328.15791998227326;
+ Thu, 28 Nov 2024 06:32:14 -0800 (PST)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
