@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BA69DB203
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 04:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471329DB217
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 05:21:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A63C10E1E6;
-	Thu, 28 Nov 2024 03:59:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 281A510E0DC;
+	Thu, 28 Nov 2024 04:21:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="3S0nIS5x";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dD9XeIQX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2206810E1E6;
- Thu, 28 Nov 2024 03:59:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=l19eVKsY53JL2VQByhBNrJ9l0f6j+JQvqDa2L42Z2s0=; b=3S0nIS5xt0KG9YqSq+lGL6/5Nq
- ZkGnr2iZmxTK4qK3A8yZxaNWrnLY8mq+HA0528nCHYON14ZDHKoaQjT1Jz0XCLPloIJ1xm/z0v7V/
- jSmcIzyxb/vI6sjVaOiwZSUm4gQAte253+kaVpu8CFFG236J0dH7HrVuYRb1pxXMD+PRyyu05QL2Q
- cv0vrGQl+ShCEjybwdn+rBUo9t4kdkrqrOd+gjBqTOfzLEfD35Q7elwOCrTo1FE1Tcmvw4TROZO/5
- t7vH8d0IbGoKeDCjKx59+Q2Nv/EijZfhlnJA3PilFjSIdmqn9Uabef1h7pjyV2wJIftToH38rai9W
- 1MKqHdpg==;
-Received: from [50.53.2.24] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
- id 1tGVgE-0000000EeTB-1gzE; Thu, 28 Nov 2024 03:59:02 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/xe/vm_doc: fix more doc typos
-Date: Wed, 27 Nov 2024 19:58:59 -0800
-Message-ID: <20241128035901.375399-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.47.0
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E217510E0DC
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 04:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1732767680;
+ bh=wQmBhpaZkflxWhHgpRCNXR0O8vTWJ+J0iFv8bWASh6s=;
+ h=From:To:Cc:Subject:Date:From;
+ b=dD9XeIQXksmNb/9F/I/M1ucSOdAP8lywD/6FnTBewTxPEMt6Ks3P75wrNl/6Ml1R8
+ QOTkdmAc1HXP/im1Oezki03snF/i/uoXCg8uWdAwGUQxOliHnvSqEdKoU4KpbR+8xa
+ aVwXiSyKQ0AKj14qZrodPrWeoxVevUiSRB/AltqcQpQW2l4R8eCuAxINvptVcYTaF9
+ 5+fBI21hOGNU378jUPMOB+7pGy+7no/nGdcyTh8DXkYpCLU9BwwrkNqXKMGYMUjxOr
+ PTlayMMZgB1Iejzkst+DIp+GOSgnggA71MpcO6kMWTCUuK2BCWHCmwu4+MlTKjoYsk
+ RHjybs5WFCt2Q==
+Received: from localhost.localdomain (unknown [171.76.86.133])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 175D117E0FA6;
+ Thu, 28 Nov 2024 05:21:17 +0100 (CET)
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
+ daniel@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, jani.nikula@linux.intel.com,
+ dmitry.baryshkov@linaro.org, mripard@kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] drm/ci: uprev mesa and modify gitlab rules
+Date: Thu, 28 Nov 2024 09:50:19 +0530
+Message-ID: <20241128042025.611659-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,94 +60,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix all typos in xe_vm_doc.h as reported by codespell.
+Uprev mesa to adapt to the latest changes in mesa-ci,
+including new container jobs and stages. Update the
+lava-submit script to align with recent mesa-ci changes
+for using LAVA rootfs overlays. Modify gitLab rules
+to include scheduled pipelines.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: intel-xe@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/xe/xe_vm_doc.h |   22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+Pipeline link,
+https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1318024
 
---- linux-next-20241125.orig/drivers/gpu/drm/xe/xe_vm_doc.h
-+++ linux-next-20241125/drivers/gpu/drm/xe/xe_vm_doc.h
-@@ -64,8 +64,8 @@
-  *	update page level 2 PDE[1] to page level 3b phys address (GPU)
-  *
-  *	bind BO2 0x1ff000-0x201000
-- *	update page level 3a PTE[511] to BO2 phys addres (GPU)
-- *	update page level 3b PTE[0] to BO2 phys addres + 0x1000 (GPU)
-+ *	update page level 3a PTE[511] to BO2 phys address (GPU)
-+ *	update page level 3b PTE[0] to BO2 phys address + 0x1000 (GPU)
-  *
-  * GPU bypass
-  * ~~~~~~~~~~
-@@ -192,7 +192,7 @@
-  *
-  * If a VM is in fault mode (TODO: link to fault mode), new bind operations that
-  * create mappings are by default deferred to the page fault handler (first
-- * use). This behavior can be overriden by setting the flag
-+ * use). This behavior can be overridden by setting the flag
-  * DRM_XE_VM_BIND_FLAG_IMMEDIATE which indicates to creating the mapping
-  * immediately.
-  *
-@@ -209,7 +209,7 @@
-  *
-  * Since this a core kernel managed memory the kernel can move this memory
-  * whenever it wants. We register an invalidation MMU notifier to alert XE when
-- * a user poiter is about to move. The invalidation notifier needs to block
-+ * a user pointer is about to move. The invalidation notifier needs to block
-  * until all pending users (jobs or compute mode engines) of the userptr are
-  * idle to ensure no faults. This done by waiting on all of VM's dma-resv slots.
-  *
-@@ -252,7 +252,7 @@
-  * Rebind worker
-  * -------------
-  *
-- * The rebind worker is very similar to an exec. It is resposible for rebinding
-+ * The rebind worker is very similar to an exec. It is responsible for rebinding
-  * evicted BOs or userptrs, waiting on those operations, installing new preempt
-  * fences, and finally resuming executing of engines in the VM.
-  *
-@@ -317,11 +317,11 @@
-  * are not allowed, only long running workloads and ULLS are enabled on a faulting
-  * VM.
-  *
-- * Defered VM binds
-+ * Deferred VM binds
-  * ----------------
-  *
-  * By default, on a faulting VM binds just allocate the VMA and the actual
-- * updating of the page tables is defered to the page fault handler. This
-+ * updating of the page tables is deferred to the page fault handler. This
-  * behavior can be overridden by setting the flag DRM_XE_VM_BIND_FLAG_IMMEDIATE in
-  * the VM bind which will then do the bind immediately.
-  *
-@@ -500,18 +500,18 @@
-  * Slot waiting
-  * ------------
-  *
-- * 1. The exection of all jobs from kernel ops shall wait on all slots
-+ * 1. The execution of all jobs from kernel ops shall wait on all slots
-  * (DMA_RESV_USAGE_PREEMPT_FENCE) of either an external BO or VM (depends on if
-  * kernel op is operating on external or private BO)
-  *
-- * 2. In non-compute mode, the exection of all jobs from rebinds in execs shall
-+ * 2. In non-compute mode, the execution of all jobs from rebinds in execs shall
-  * wait on the DMA_RESV_USAGE_KERNEL slot of either an external BO or VM
-  * (depends on if the rebind is operatiing on an external or private BO)
-  *
-- * 3. In non-compute mode, the exection of all jobs from execs shall wait on the
-+ * 3. In non-compute mode, the execution of all jobs from execs shall wait on the
-  * last rebind job
-  *
-- * 4. In compute mode, the exection of all jobs from rebinds in the rebind
-+ * 4. In compute mode, the execution of all jobs from rebinds in the rebind
-  * worker shall wait on the DMA_RESV_USAGE_KERNEL slot of either an external BO
-  * or VM (depends on if rebind is operating on external or private BO)
-  *
+Vignesh Raman (2):
+  drm/ci: uprev mesa
+  drm/ci: update gitlab rules
+
+ drivers/gpu/drm/ci/build.sh       |   2 +-
+ drivers/gpu/drm/ci/build.yml      | 104 ++++++++++++++++-
+ drivers/gpu/drm/ci/container.yml  |  22 ++--
+ drivers/gpu/drm/ci/gitlab-ci.yml  | 185 ++++++++++++++++--------------
+ drivers/gpu/drm/ci/image-tags.yml |  11 +-
+ drivers/gpu/drm/ci/lava-submit.sh |  99 +++++++++++-----
+ drivers/gpu/drm/ci/test.yml       |  33 +++---
+ 7 files changed, 314 insertions(+), 142 deletions(-)
+
+-- 
+2.43.0
+
