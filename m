@@ -2,79 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1FF29DB183
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 03:37:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA629DB1B8
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 04:09:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3333710E23F;
-	Thu, 28 Nov 2024 02:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1ECF10E452;
+	Thu, 28 Nov 2024 03:09:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="ciVsT9Nk";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="pIcHdo6L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9D3810E23F
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 02:37:45 +0000 (UTC)
-X-UUID: bda3737ead3111efbd192953cf12861f-20241128
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02AB210E452
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 03:09:49 +0000 (UTC)
+X-UUID: 37864e42ad3611ef99858b75a2457dd9-20241128
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=ihUogkJ3FW2Gqhs9h36UD6fhHJRJ+i0c245MwkyAcrU=; 
- b=ciVsT9Nky5WFa9owOX9jUHEjm4Z1jP+lRk0pV8a4JuPcNZIIRS2wnPUuptwsh16p3H/55jRm2BzXaH0ifEsV3c34F6Q6UQxBmnW93hOMmrzZ4cBiqgcItHlvv2clCgIBc4/7E6X30bibhqHH+zqi73jDQ6Kvob2mriUkC3I0Ibs=;
+ bh=AOBziDuT5YTUhpLHkhqSfJSif72YhhrKJJn81tVZRIs=; 
+ b=pIcHdo6LwbbOQcYdfdw4V+y4Pe3znAEA+7+mnTN+2mOjrP2i6MgG6LpMTTp7SU9Fa9Iwlj9yrKVxJdnMDm8Tjw+j3S+IwKEJmE5PrtoKY1LtGVjC9ms6HdRqz/wc7iKNjmKXOxeEzpuWBq797WxA20i64jkMuIhg4wIfHtY86SM=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.44, REQID:b6ecde63-fd05-4b9e-ac81-1e4d3b93f993, IP:0,
+X-CID-O-INFO: VERSION:1.1.44, REQID:9018310c-7c2f-4ea1-9ef5-27f2c83d5f30, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:464815b, CLOUDID:b7749e23-634f-4016-85ba-2d63e55c9400,
+X-CID-META: VersionHash:464815b, CLOUDID:09099f23-634f-4016-85ba-2d63e55c9400,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
  SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: bda3737ead3111efbd192953cf12861f-20241128
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
- mailgw02.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
+X-UUID: 37864e42ad3611ef99858b75a2457dd9-20241128
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2133131880; Thu, 28 Nov 2024 10:37:41 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ with ESMTP id 1645286274; Thu, 28 Nov 2024 11:09:44 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 28 Nov 2024 10:37:38 +0800
+ 15.2.1118.26; Thu, 28 Nov 2024 11:09:42 +0800
 Received: from mszsdclx1211.gcn.mediatek.inc (10.16.7.31) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 28 Nov 2024 10:37:38 +0800
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 28 Nov 2024 11:09:42 +0800
 From: Liankun Yang <liankun.yang@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
  <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
+ <angelogioacchino.delregno@collabora.com>, <ck.hu@mediatek.com>,
+ <granquet@baylibre.com>, <dmitry.osipenko@collabora.com>,
+ <rex-bc.chen@mediatek.com>, <jitao.shi@mediatek.com>,
  <mac.shen@mediatek.com>, <peng.liu@mediatek.com>,
  <liankun.yang@mediatek.com>,
  <Project_Global_Chrome_Upstream_Group@mediatek.com>
 CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 1/1] drm/mediatek: dp: Add sdp path reset
-Date: Thu, 28 Nov 2024 10:37:21 +0800
-Message-ID: <20241128023733.16294-1-liankun.yang@mediatek.com>
+Subject: [PATCH v2 1/1] drm/mediatek: Add return value check when reading DPCD
+Date: Thu, 28 Nov 2024 11:08:16 +0800
+Message-ID: <20241128030940.25657-1-liankun.yang@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--3.187400-8.000000
-X-TMASE-MatchedRID: d+BGjaEADBWvhOOX3csmVw0QY5VnQyAN6SXuwUgGH0iyrCkM9r1bWpVD
- ZsT0rYWC8MF78pseROBIT4SOZxkibrGaAH5r9EhkhK8o4aoss8pZT2gl0gqGyo5RXzY0MfgCcHj
- giTON9jJOFu8ssjxG8xp0MHP646G7Xcx4M+DrsF7huXUWQoMQt63iVpZ0luwMXaZ/Rba9vHG9E+
- yWHMdHvIJcsHHt88vbfjWeJX0rKbMfE8yM4pjsD7fIDYp/ogjHxEHRux+uk8jfhP1xgyx3DI9Iw
- OwJvhdTjFYSmlsXcFYbKWuoGkRlU90Y22Zk8+IQQiUfzB96MHWijOQaxDKu8qPapq2aFl88gSb5
- 10g5A6p+YIbiC0qUfG1Rjoup2VCcWve+eVz4Pp5Vk5utmQ1VlGVF3+d9rnoxpI8EFEZVbig=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--3.187400-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 43089957CAFD153865D27ECE052C0FF448EEC90AA7150D7E68B797BFEA6F72A52000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,83 +80,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using type-c to type-c to connect to the monitor,
-the sound plays normally. If you unplug the type-c and
-connect the type-c to hdmi dongle to the monitor, there will be noise.
+Returns the number of bytes transferred (1) on success.
+Check the return value to confirm that AUX communication is successful.
 
-By capturing the audio data, it is found that
-the data position is messy, and there is no error in the data.
-
-Through experiments, it can be restored by resetting the SDP path
-when unplugging it.
+Fixes: d9e6ea02fc3f ("drm/mediatek: dp: Add MT8195 External DisplayPort support")
 
 Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
-Changes in V4:
-- Fix align to the right of '('.
-Per suggestion from the previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240925064854.23065-1-liankun.yang@mediatek.com/
-
-Changes in V3:
-- No change.
-Per suggestion from the previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240923132521.22785-1-liankun.yang@mediatek.com/
-
 Changes in V2:
-- Fix build error.
+- Modify Fixes in Commit Message.
 Per suggestion from the previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240923133610.23728-1-liankun.yang@mediatek.com/
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240930092000.5385-1-liankun.yang@mediatek.com/
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c     | 15 +++++++++++++++
- drivers/gpu/drm/mediatek/mtk_dp_reg.h |  1 +
- 2 files changed, 16 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_dp.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 1cc916b16471..4f4233bd83f7 100644
+index 1cc916b16471..9dc68ec2ff43 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dp.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -1135,6 +1135,18 @@ static void mtk_dp_digital_sw_reset(struct mtk_dp *mtk_dp)
- 			   0, DP_TX_TRANSMITTER_4P_RESET_SW_DP_TRANS_P0);
- }
+@@ -2101,6 +2101,7 @@ static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
+ 	enum drm_connector_status ret = connector_status_disconnected;
+ 	bool enabled = mtk_dp->enabled;
+ 	u8 sink_count = 0;
++	size_t value;
  
-+static void mtk_dp_sdp_path_reset(struct mtk_dp *mtk_dp)
-+{
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-+			   SDP_RESET_SW_DP_ENC0_P0,
-+			   SDP_RESET_SW_DP_ENC0_P0);
+ 	if (!mtk_dp->train_info.cable_plugged_in)
+ 		return ret;
+@@ -2115,7 +2116,12 @@ static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
+ 	 * function, we just need to check the HPD connection to check
+ 	 * whether we connect to a sink device.
+ 	 */
+-	drm_dp_dpcd_readb(&mtk_dp->aux, DP_SINK_COUNT, &sink_count);
++	value = drm_dp_dpcd_readb(&mtk_dp->aux, DP_SINK_COUNT, &sink_count);
++	if (value < 0) {
++		drm_err(mtk_dp->drm_dev, "Failed to read DP Sink Count: %zd\n", value);
++		return ret;
++	}
 +
-+	/* Wait for sdp path reset to complete */
-+	usleep_range(1000, 5000);
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-+			   0, SDP_RESET_SW_DP_ENC0_P0);
-+}
-+
- static void mtk_dp_set_lanes(struct mtk_dp *mtk_dp, int lanes)
- {
- 	mtk_dp_update_bits(mtk_dp, MTK_DP_TRANS_P0_35F0,
-@@ -2397,6 +2409,9 @@ static void mtk_dp_bridge_atomic_disable(struct drm_bridge *bridge,
- 			   DP_PWR_STATE_BANDGAP_TPLL,
- 			   DP_PWR_STATE_MASK);
+ 	if (DP_GET_SINK_COUNT(sink_count))
+ 		ret = connector_status_connected;
  
-+	/* SDP path reset sw*/
-+	mtk_dp_sdp_path_reset(mtk_dp);
-+
- 	/* Ensure the sink is muted */
- 	msleep(20);
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-index 709b79480693..8ad7a9cc259e 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-+++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-@@ -86,6 +86,7 @@
- #define MTK_DP_ENC0_P0_3004			0x3004
- #define VIDEO_M_CODE_SEL_DP_ENC0_P0_MASK		BIT(8)
- #define DP_TX_ENCODER_4P_RESET_SW_DP_ENC0_P0		BIT(9)
-+#define SDP_RESET_SW_DP_ENC0_P0				BIT(13)
- #define MTK_DP_ENC0_P0_3010			0x3010
- #define HTOTAL_SW_DP_ENC0_P0_MASK			GENMASK(15, 0)
- #define MTK_DP_ENC0_P0_3014			0x3014
 -- 
 2.45.2
 
