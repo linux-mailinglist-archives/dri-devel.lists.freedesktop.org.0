@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689929DB8EB
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 14:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839FD9DB90D
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 14:49:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1C8D10E26D;
-	Thu, 28 Nov 2024 13:38:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A5E210E47B;
+	Thu, 28 Nov 2024 13:49:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="e3XtsTit";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="ZLNeeI2u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF3C510E26D
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 13:38:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732801133; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C590610E0BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 13:49:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732801777; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=PIf59cW+Sas0TJFgqiA1Gqd4l01sMigk8oWrPjVwhJtE44Bhzak3qa6G3NeiBj4Qq/Xa8CogrJXcWYANts66SX5TifPEaiiCmHSYQ2zk48tICoORGzcrJNeZ7z3GUgjWZ23ONnKwjlLeek9QpYFIOsliYpdWfy3yE9yE6ZJCa1A=
+ b=E9Y0zhgcPvtu5RGK7bsqqY9jEZw6Z8DBNya8WjXsHruIjxrTZglwLSzy6F9zToc4zdNp/cC5AugeWgMg91j1HcS37GnWOMABV2BANwrakjtyyEo1qUNUcOboyVRvKKl9kASFg+u3ON0M0tavOUXeBgwprXsUE2tQzwqKCoeN1N8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732801133;
+ s=zohoarc; t=1732801777;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=EsxzMZa25WfDL+pgn4fFAhwPmv5kUt6UME3E/AmO0pc=; 
- b=VaQVKGlZB2ApfrqBvIHeAijPQlGBmTJI7R7hbskrVSm9G/pWU6Mq6b2SMFNg57/U8DiyUJ2n6bqxCEchYJLXxEv0G58frknEGao08hIJ3BknN+ua21ssho6NpDKVb8fuzBvh2hWs0lFry6zKd/yskDPG1p+TObxMbvssxCxUiOY=
+ bh=3DkiWP3kR0ePPXt7DZna7mWR/xlNXx0EHhC2aTvPrmY=; 
+ b=nOTvWmNcuxe6fzYhPOk2by6HnDBBOHxIBBuAoDWcgnpbdy+Wq9FDdzCvS0Ohl+J3CAkTntvMxeiMK2AJG3JAQku8K/Zo2JgoMmbd6g0e2uLvv5JwMm7fgPVil6XhoX5TC6PHL3/LYIz5xmQ405subHFiyKqPgZ8Igh5yK0fp56k=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
  dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732801133; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732801777; 
  s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
  h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=EsxzMZa25WfDL+pgn4fFAhwPmv5kUt6UME3E/AmO0pc=;
- b=e3XtsTit+wD3FqtPfGio/zA0Jz33pnuOzojOx40wQ0Kzj6Cp4OYT0JWy5iKs7AAf
- WusFk1C+mFQalgugw1nC0SgO+txV698xz8SP8+g2n7K+EPCHjPLz77CnAUZV6tHCVL/
- 1Tb3fJvH7PD0n5g3efm+MYes8hBk5CiDpqZ+WV30=
-Received: by mx.zohomail.com with SMTPS id 17328011321711013.0878817486588;
- Thu, 28 Nov 2024 05:38:52 -0800 (PST)
+ bh=3DkiWP3kR0ePPXt7DZna7mWR/xlNXx0EHhC2aTvPrmY=;
+ b=ZLNeeI2uY9UtKdQBwLIAOa5hJ69VqRdu7wM+MsMII9Ya56Aa02zX5mU2+WpOUGy2
+ 7Tc4GyvXp9fNEzx7TixHmzLpPreTKnQstq/71FjWeQzNvZNeG8Rfeo6UGkv15g87n2z
+ PCu13dm2f92nenKtqFc1FUcLnuXlZtZKnrOezm40=
+Received: by mx.zohomail.com with SMTPS id 173280177603854.46413577602539;
+ Thu, 28 Nov 2024 05:49:36 -0800 (PST)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
-Subject: Re: [WIP RFC v2 22/35] rust: drm/kms: Add DriverPlane::atomic_update()
+Subject: Re: [WIP RFC v2 23/35] rust: drm/kms: Add DriverPlane::atomic_check()
 From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20240930233257.1189730-23-lyude@redhat.com>
-Date: Thu, 28 Nov 2024 10:38:36 -0300
+In-Reply-To: <20240930233257.1189730-24-lyude@redhat.com>
+Date: Thu, 28 Nov 2024 10:49:21 -0300
 Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
  mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
@@ -57,9 +57,9 @@ Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  open list <linux-kernel@vger.kernel.org>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <65D59594-7E60-4407-835A-991B2D7C2203@collabora.com>
+Message-Id: <B531D8E8-056C-4081-9741-373EE835B0F4@collabora.com>
 References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-23-lyude@redhat.com>
+ <20240930233257.1189730-24-lyude@redhat.com>
 To: Lyude Paul <lyude@redhat.com>
 X-Mailer: Apple Mail (2.3826.200.121)
 X-ZohoMailClient: External
@@ -82,71 +82,67 @@ Hi Lyude,
 
 > On 30 Sep 2024, at 20:10, Lyude Paul <lyude@redhat.com> wrote:
 >=20
-> A mandatory trait method used for implementing DRM's atomic plane =
-update
-> callback.
+> Optional trait method for implementing a plane's atomic_check().
 >=20
 > Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
-> rust/kernel/drm/kms/plane.rs | 39 +++++++++++++++++++++++++++++++++++-
-> 1 file changed, 38 insertions(+), 1 deletion(-)
+> rust/kernel/drm/kms/plane.rs | 41 +++++++++++++++++++++++++++++++++++-
+> 1 file changed, 40 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/rust/kernel/drm/kms/plane.rs =
 b/rust/kernel/drm/kms/plane.rs
-> index d6e11a65cc101..506ed5ced1270 100644
+> index 506ed5ced1270..04f1bdfbb1ea2 100644
 > --- a/rust/kernel/drm/kms/plane.rs
 > +++ b/rust/kernel/drm/kms/plane.rs
-> @@ -75,7 +75,7 @@ pub trait DriverPlane: Send + Sync + Sized {
+> @@ -74,7 +74,7 @@ pub trait DriverPlane: Send + Sync + Sized {
+>             cleanup_fb: None,
 >             begin_fb_access: None, // TODO: someday?
 >             end_fb_access: None, // TODO: someday?
->             atomic_check: None,
-> -            atomic_update: None,
-> +            atomic_update: if Self::HAS_ATOMIC_UPDATE { =
+> -            atomic_check: None,
+> +            atomic_check: if Self::HAS_ATOMIC_CHECK { =
+Some(atomic_check_callback::<Self>) } else { None },
+>             atomic_update: if Self::HAS_ATOMIC_UPDATE { =
 Some(atomic_update_callback::<Self>) } else { None },
 >             atomic_enable: None, // TODO
 >             atomic_disable: None, // TODO
->             atomic_async_check: None, // TODO
-> @@ -103,6 +103,21 @@ pub trait DriverPlane: Send + Sync + Sized {
->     ///
->     /// Drivers may use this to instantiate their [`DriverPlane`] =
-object.
->     fn new(device: &Device<Self::Driver>, args: Self::Args) -> impl =
-PinInit<Self, Error>;
+> @@ -118,6 +118,21 @@ fn atomic_update(
+>     ) {
+>         build_error::build_error("This should not be reachable")
+>     }
 > +
-> +    /// The optional [`drm_plane_helper_funcs.atomic_update`] hook =
-for this plane.
+> +    /// The optional [`drm_plane_helper_funcs.atomic_check`] hook for =
+this plane.
 > +    ///
-> +    /// Drivers may use this to customize the atomic update phase of =
-their [`Plane`] objects. If not
-> +    /// specified, this function is a no-op.
+> +    /// Drivers may use this to customize the atomic check phase of =
+their [`Plane`] objects. The
+> +    /// result of this function determines whether the atomic check =
+passed or failed.
 > +    ///
-> +    /// [`drm_plane_helper_funcs.atomic_update`]: =
+> +    /// [`drm_plane_helper_funcs.atomic_check`]: =
 srctree/include/drm/drm_modeset_helper_vtables.h
-> +    fn atomic_update(
+> +    fn atomic_check(
 > +        plane: &Plane<Self>,
 > +        new_state: BorrowedPlaneState<'_, PlaneState<Self::State>>,
 > +        old_state: &PlaneState<Self::State>,
-> +        state: &AtomicStateMutator<Self::Driver>
-> +    ) {
+> +        state: &AtomicStateComposer<Self::Driver>
+> +    ) -> Result {
 > +        build_error::build_error("This should not be reachable")
 > +    }
 
-Same comment as the last patch.
+Also same comment from the last two patches apply here.
 
 > }
 >=20
 > /// The generated C vtable for a [`DriverPlane`].
-> @@ -757,3 +772,25 @@ fn deref_mut(&mut self) -> &mut Self::Target {
->     // - The cast to `drm_plane_state` is safe via `PlaneState`s type =
-invariants.
->     unsafe { bindings::__drm_atomic_helper_plane_reset(plane, =
-Box::into_raw(new).cast()) };
+> @@ -794,3 +809,27 @@ fn deref_mut(&mut self) -> &mut Self::Target {
+>=20
+>     T::atomic_update(plane, new_state, old_state, &state);
 > }
 > +
-> +unsafe extern "C" fn atomic_update_callback<T: DriverPlane>(
+> +unsafe extern "C" fn atomic_check_callback<T: DriverPlane>(
 > +    plane: *mut bindings::drm_plane,
 > +    state: *mut bindings::drm_atomic_state,
-> +) {
+> +) -> i32 {
 > +    // SAFETY:
 > +    // * We're guaranteed `plane` is of type `Plane<T>` via type =
 invariants.
@@ -154,27 +150,37 @@ invariants.
 initialized state.
 > +    let plane =3D unsafe { Plane::from_raw(plane) };
 > +
-> +    // SAFETY: DRM guarantees `state` points to a valid =
-`drm_atomic_state`
-> +    let state =3D unsafe { =
-AtomicStateMutator::new(NonNull::new_unchecked(state)) };
+> +    // SAFETY: We're guaranteed by DRM that `state` points to a valid =
+instance of `drm_atomic_state`
+> +    let state =3D ManuallyDrop::new(unsafe {
+> +        =
+AtomicStateComposer::<T::Driver>::new(NonNull::new_unchecked(state))
+> +    });
 
-No ManuallyDrop here?
+By the way, let me see if I get the bigger picture here: drivers get a =
+composer, from which they can derive a mutator
+(i.e. BorrowedPlaneState, BorrowedCrtcState, BorrowedConnectorState) =
+that they can use to optionally mutate the
+modes before atomic_update, right?
+
+Where do the Opaque versions introduced in previous commits come in?=20
 
 > +
-> +    // SAFETY: Since we are in the atomic update callback, we're =
-guaranteed by DRM that both the old
-> +    // and new atomic state are present within `state`
+> +    // SAFETY: We're guaranteed by DRM that both the old and new =
+atomic state are present within
+> +    // this `drm_atomic_state`
 > +    let (old_state, new_state) =3D unsafe {(
 > +        state.get_old_plane_state(plane).unwrap_unchecked(),
 > +        state.get_new_plane_state(plane).unwrap_unchecked(),
 > +    )};
 > +
-> +    T::atomic_update(plane, new_state, old_state, &state);
+> +    from_result(|| T::atomic_check(plane, new_state, old_state, =
+&state).map(|_| 0))
 > +}
 > --=20
 > 2.46.1
 >=20
+>=20
 
-=E2=80=94 Daniel
 
+=E2=80=94 Daniel=
