@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8A39DB630
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 12:03:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D792A9DB62D
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2024 12:03:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48B7110E333;
-	Thu, 28 Nov 2024 11:03:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE7F210E330;
+	Thu, 28 Nov 2024 11:03:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FfJXlVxH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DjxWLZ1E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A16D10E324
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD4910E324
  for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2024 11:03:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1732791778;
- bh=ZT87oCtHqSN+H/miUypKOHhbFtIg+p+f8bPhluyOgVA=;
+ s=mail; t=1732791779;
+ bh=bBAhQtDoLi8hQ/At6Oml6NZkOXig43lfQGNWZiZav3o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FfJXlVxHOxewDFZ5hzam35BGF7BoDSX0GmaBwT/oeDfulSeFS6hKRfHFN2+uQs3Fa
- 8lkgVNGa9J8zBBpgBlK7X4W4dMXWQ4vVjWeUAW4O/lcnktmaDNt9BvRDQGRu6jY54r
- Z2U3wcIhVrw9fh2yJbx8KQxEYsxgb/rggYhvxUgpoGEPzCevGqH76HVwNNw780T010
- oKZK0SrV/SM4mCY/xaDt6WUoOylkU10lRGX9XlZ8c8x31GGbsGRLFX1EHxcds6gTA1
- 9FOUGwZ5RV1CcLYVPehGT3IC0zE6G3mGUEqMNADN/cyHJsmJhtxIj4rBTv0FrcnVgx
- rprATRtTzGZvw==
+ b=DjxWLZ1Eloa5ITWcw7I8RWVrFmeG871ayDZ3gAFiOvxlz8RuJiEnX5SLiMoHANtAG
+ teLMXck314rzIEGmSLfdGEkA197QPd/ujO43yA2VIZhwp1XvhgUZCRl9LuSlj4OuPG
+ s7FtiLK1OrAXMYQx/7aMohYdQ5hZGfMe6pcMq55f7nMjzmwycEBMEXxYLu11goFXmv
+ 8irY5Ch9wLwZ5Bm+gFVWnqZ4pYbWsNLJ60TpTmdtLQm4/q3+DUWhVRgBC46kk4MJl8
+ SspaiciG3Exrp2fzvSORiYodOzoXj7mrMU9MsRFNOkDrtuLVeF8akmiifqY3U4RGzR
+ xKPOVHysNlATQ==
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 7F02A17E3612;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E3B8617E3615;
  Thu, 28 Nov 2024 12:02:58 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -39,10 +39,10 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org,
 	kernel@collabora.com
-Subject: [PATCH v2 2/5] drm/panthor: Be robust against runtime PM resume
- failures in the suspend path
-Date: Thu, 28 Nov 2024 12:02:51 +0100
-Message-ID: <20241128110255.3182366-3-boris.brezillon@collabora.com>
+Subject: [PATCH v2 3/5] drm/panthor: Ignore devfreq_{suspend,
+ resume}_device() failures
+Date: Thu, 28 Nov 2024 12:02:52 +0100
+Message-ID: <20241128110255.3182366-4-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241128110255.3182366-1-boris.brezillon@collabora.com>
 References: <20241128110255.3182366-1-boris.brezillon@collabora.com>
@@ -63,89 +63,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The runtime PM resume operation is not guaranteed to succeed, but if it
-fails, the device should be in a suspended state. Make sure we're robust
-to resume failures in the unplug path.
+devfreq_{resume,suspend}_device() don't bother undoing the suspend_count
+modifications if something fails, so either it assumes failures are
+harmless, or it's super fragile/buggy. In either case it's not something
+we can address at the driver level, so let's just assume failures are
+harmless for now, like is done in panfrost.
 
 v2:
-- Move the bit that belonged in the next commit
-- Drop the panthor_device_unplug() changes
+- Add R-b
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_fw.c  | 14 +++++++++-----
- drivers/gpu/drm/panthor/panthor_gpu.c |  3 ++-
- drivers/gpu/drm/panthor/panthor_mmu.c |  3 ++-
- 3 files changed, 13 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/panthor/panthor_devfreq.c | 12 ++++----
+ drivers/gpu/drm/panthor/panthor_devfreq.h |  4 +--
+ drivers/gpu/drm/panthor/panthor_device.c  | 35 ++---------------------
+ 3 files changed, 11 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index ebf8980ca9a3..f3d3d8fbe13d 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -12,6 +12,7 @@
- #include <linux/iosys-map.h>
- #include <linux/mutex.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- 
- #include <drm/drm_drv.h>
- #include <drm/drm_managed.h>
-@@ -1190,11 +1191,13 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
- 
- 	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
- 
--	/* Make sure the IRQ handler can be called after that point. */
--	if (ptdev->fw->irq.irq)
--		panthor_job_irq_suspend(&ptdev->fw->irq);
-+	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev)) {
-+		/* Make sure the IRQ handler can be called after that point. */
-+		if (ptdev->fw->irq.irq)
-+			panthor_job_irq_suspend(&ptdev->fw->irq);
- 
--	panthor_fw_stop(ptdev);
-+		panthor_fw_stop(ptdev);
-+	}
- 
- 	list_for_each_entry(section, &ptdev->fw->sections, node)
- 		panthor_kernel_bo_destroy(section->mem);
-@@ -1207,7 +1210,8 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
- 	panthor_vm_put(ptdev->fw->vm);
- 	ptdev->fw->vm = NULL;
- 
--	panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
-+	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
-+		panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
+diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
+index ecc7a52bd688..3686515d368d 100644
+--- a/drivers/gpu/drm/panthor/panthor_devfreq.c
++++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+@@ -243,26 +243,26 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+ 	return 0;
  }
  
- /**
-diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-index 0f3cac6ec88e..ee85a371bc38 100644
---- a/drivers/gpu/drm/panthor/panthor_gpu.c
-+++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-@@ -180,7 +180,8 @@ void panthor_gpu_unplug(struct panthor_device *ptdev)
- 	unsigned long flags;
- 
- 	/* Make sure the IRQ handler is not running after that point. */
--	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
-+	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
-+		panthor_gpu_irq_suspend(&ptdev->gpu->irq);
- 
- 	/* Wake-up all waiters. */
- 	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 9478ee2093d1..6716463903bc 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -2681,7 +2681,8 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
-  */
- void panthor_mmu_unplug(struct panthor_device *ptdev)
+-int panthor_devfreq_resume(struct panthor_device *ptdev)
++void panthor_devfreq_resume(struct panthor_device *ptdev)
  {
--	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
-+	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
-+		panthor_mmu_irq_suspend(&ptdev->mmu->irq);
+ 	struct panthor_devfreq *pdevfreq = ptdev->devfreq;
  
- 	mutex_lock(&ptdev->mmu->as.slots_lock);
- 	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
+ 	if (!pdevfreq->devfreq)
+-		return 0;
++		return;
+ 
+ 	panthor_devfreq_reset(pdevfreq);
+ 
+-	return devfreq_resume_device(pdevfreq->devfreq);
++	drm_WARN_ON(&ptdev->base, devfreq_resume_device(pdevfreq->devfreq));
+ }
+ 
+-int panthor_devfreq_suspend(struct panthor_device *ptdev)
++void panthor_devfreq_suspend(struct panthor_device *ptdev)
+ {
+ 	struct panthor_devfreq *pdevfreq = ptdev->devfreq;
+ 
+ 	if (!pdevfreq->devfreq)
+-		return 0;
++		return;
+ 
+-	return devfreq_suspend_device(pdevfreq->devfreq);
++	drm_WARN_ON(&ptdev->base, devfreq_suspend_device(pdevfreq->devfreq));
+ }
+ 
+ void panthor_devfreq_record_busy(struct panthor_device *ptdev)
+diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.h b/drivers/gpu/drm/panthor/panthor_devfreq.h
+index 83a5c9522493..b7631de695f7 100644
+--- a/drivers/gpu/drm/panthor/panthor_devfreq.h
++++ b/drivers/gpu/drm/panthor/panthor_devfreq.h
+@@ -12,8 +12,8 @@ struct panthor_devfreq;
+ 
+ int panthor_devfreq_init(struct panthor_device *ptdev);
+ 
+-int panthor_devfreq_resume(struct panthor_device *ptdev);
+-int panthor_devfreq_suspend(struct panthor_device *ptdev);
++void panthor_devfreq_resume(struct panthor_device *ptdev);
++void panthor_devfreq_suspend(struct panthor_device *ptdev);
+ 
+ void panthor_devfreq_record_busy(struct panthor_device *ptdev);
+ void panthor_devfreq_record_idle(struct panthor_device *ptdev);
+diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+index e701e605d013..e3b22107b268 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.c
++++ b/drivers/gpu/drm/panthor/panthor_device.c
+@@ -453,9 +453,7 @@ int panthor_device_resume(struct device *dev)
+ 	if (ret)
+ 		goto err_disable_stacks_clk;
+ 
+-	ret = panthor_devfreq_resume(ptdev);
+-	if (ret)
+-		goto err_disable_coregroup_clk;
++	panthor_devfreq_resume(ptdev);
+ 
+ 	if (panthor_device_is_initialized(ptdev) &&
+ 	    drm_dev_enter(&ptdev->base, &cookie)) {
+@@ -492,8 +490,6 @@ int panthor_device_resume(struct device *dev)
+ 
+ err_suspend_devfreq:
+ 	panthor_devfreq_suspend(ptdev);
+-
+-err_disable_coregroup_clk:
+ 	clk_disable_unprepare(ptdev->clks.coregroup);
+ 
+ err_disable_stacks_clk:
+@@ -510,7 +506,7 @@ int panthor_device_resume(struct device *dev)
+ int panthor_device_suspend(struct device *dev)
+ {
+ 	struct panthor_device *ptdev = dev_get_drvdata(dev);
+-	int ret, cookie;
++	int cookie;
+ 
+ 	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_ACTIVE)
+ 		return -EINVAL;
+@@ -542,36 +538,11 @@ int panthor_device_suspend(struct device *dev)
+ 		drm_dev_exit(cookie);
+ 	}
+ 
+-	ret = panthor_devfreq_suspend(ptdev);
+-	if (ret) {
+-		if (panthor_device_is_initialized(ptdev) &&
+-		    drm_dev_enter(&ptdev->base, &cookie)) {
+-			panthor_gpu_resume(ptdev);
+-			panthor_mmu_resume(ptdev);
+-			drm_WARN_ON(&ptdev->base, panthor_fw_resume(ptdev));
+-			panthor_sched_resume(ptdev);
+-			drm_dev_exit(cookie);
+-		}
+-
+-		goto err_set_active;
+-	}
++	panthor_devfreq_suspend(ptdev);
+ 
+ 	clk_disable_unprepare(ptdev->clks.coregroup);
+ 	clk_disable_unprepare(ptdev->clks.stacks);
+ 	clk_disable_unprepare(ptdev->clks.core);
+ 	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+ 	return 0;
+-
+-err_set_active:
+-	/* If something failed and we have to revert back to an
+-	 * active state, we also need to clear the MMIO userspace
+-	 * mappings, so any dumb pages that were mapped while we
+-	 * were trying to suspend gets invalidated.
+-	 */
+-	mutex_lock(&ptdev->pm.mmio_lock);
+-	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_ACTIVE);
+-	unmap_mapping_range(ptdev->base.anon_inode->i_mapping,
+-			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
+-	mutex_unlock(&ptdev->pm.mmio_lock);
+-	return ret;
+ }
 -- 
 2.46.2
 
