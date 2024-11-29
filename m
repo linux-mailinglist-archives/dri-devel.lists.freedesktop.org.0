@@ -2,75 +2,204 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548509DBECC
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 03:51:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D95DF9DBEEE
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 05:02:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC9310ED3C;
-	Fri, 29 Nov 2024 02:51:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE2910E027;
+	Fri, 29 Nov 2024 04:02:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="immzUK87";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="Cz7IY7y/";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="OoJzcGpA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com
- [209.85.161.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C800710ECBE;
- Fri, 29 Nov 2024 02:51:45 +0000 (UTC)
-Received: by mail-oo1-f50.google.com with SMTP id
- 006d021491bc7-5f1e79c2f81so600723eaf.2; 
- Thu, 28 Nov 2024 18:51:45 -0800 (PST)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D86310E027
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 04:02:12 +0000 (UTC)
+X-UUID: b1c1c742ae0611efbd192953cf12861f-20241129
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=e89WMM2gtxdJjtX8JGYaApFCGfUVxmiMzkV2RK4N6qM=; 
+ b=Cz7IY7y/jhTHGOwFyT6R+aDJTF2fzSfbyA5P07d2AgFlyfhGWooqCl4Ot7H+fXrYN8HLTLyEdpe4n7SXI8KiNRjx/MFl5FcsOlgU2FHV4N8IxP0JrBz4X7NahZrI94o3VT0clwPM8RXwB1YU12azPwFVxnb9lYA2yyz7dD3G8/Y=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.44, REQID:8b819562-f668-40cd-be1d-73cd522907e4, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:464815b, CLOUDID:345a93b9-596a-4e31-81f2-cae532fa1b81,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0,EDM
+ :-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+ ,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: b1c1c742ae0611efbd192953cf12861f-20241129
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 546321859; Fri, 29 Nov 2024 12:02:04 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 29 Nov 2024 12:02:04 +0800
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 29 Nov 2024 12:02:03 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=J2eXDAUxUgu3BomhF+gyNdsvO8FNz2A6Ue/dHPS0MRyG+xDytxE1A/aswIt9khpjb7gBamObcnMprFMVZE95Azh4OWq3fS0YLa0ai7t4yykvJ7yhz6vjy2eYZmQhY458VYLYG8oBfntxBdGEJJndywIWtEXSb4OkN3J0VMkgr7EMjMT9IPxUDl8BYv0UU1GMhRkNmY/tmz+qXvz6piiJBMIlSV1XLR6fooiH9oFNYHhd9ptIcfJ0tsbp8TSRAd1ii5kmPSXtq3p5a2bnOeUbuBCDgkzsgGhqZg1T4eXwAuqMbNYmiwqwudpSQFoRCSrXvKt7CqkWXVLIHjtZvTLmeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kq5lIPoQcVg/xtqL8NRo5yXZrRUOPr9fzVfv0xIYvH0=;
+ b=ELQQQXNES2QMF8Y5X7wMh1Wz2aEsAEtuKzfgQmzg/qr1KW7grSP5tk1OUa1RWKmbQtjDl2u8NZ6zD4crIYUDCo7FO6JSqw8u5cmBbYQLw/0eCvdabMI4AoerHrC2cELVCoxRX2Jid/Hk4HYMsDJ5yfjBynmnCJo97GGSwL4MNaBKIk/qNtDj3fRamoAObBgKTZ0tuFrHzhM5w6UJUDaz0TUAmBT3AH2bXHRkVwTkf9Ni2joT4f/LC3GCUxZ/SOVqjujFWoTasqa8OaVQurfE4rgSwJ6DBzLJmqlzORBWfhsypZBXZOAofdngd471jPm0PYtI//2lxTTS9hzWddkRKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1732848705; x=1733453505; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hTDWXU7a1GroAbQyi6OFMJaNXGCrsIxc9k/JH4be/VE=;
- b=immzUK87qbDNV+GRu/59WM4slVIVqhfY9b5S33xlPZ/1zFbAH2xRG7M22d+b29Bqse
- v9yX11EoOLgtBue6hU2VpLqcG11qGpw4yXDogtiifYzd5DJHMWmmrCN+toYD6JWtafI9
- yNc4acNM0q0CAhX6tdCigNDEQXGJ83b/25PPyvmBZM0fHPthcOlbZJ1eRhF4xfKE71Ja
- yqBk9qpkmoU4D0M2OBI2Yc7ngk/ehwIOEXreCGy+nrqvsNV7Y7VqOR9JXc0yhkkErTf3
- rYKL+kmEjCXtpHJCoG73fYh/hAJB4qhlAryj+ysJr2qhWFLMommvPEt7r9CjBtRY/TZP
- 4XAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732848705; x=1733453505;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hTDWXU7a1GroAbQyi6OFMJaNXGCrsIxc9k/JH4be/VE=;
- b=pzdKDl/J1pqRVRfp6v4wl3k/JyaEduIopDNExqqDPGsdKsL/G0hOtpzhdc4W1OAmo1
- T3k/rKhoEKyOdV0hBdn82+xmsqVbvpzPxKkum0NkT2d3H/lwyqtWGBQWvj3rR2lUo9eR
- 7/YBYTs60K6YknHgeTijOU3fqbhw/YtsMjw24UW1GZ701GSd3jH3nsPzEXjVbQqjDoMD
- rCULor9Y4bI9jSmVwhFomDPWf6fj9TzRXVVnkLJzNtMi9D9dzJDZKJw8Cc+RNLD2pTxn
- XB7s8u4ZSbNJKOg6tH6hdpPTcfFyIVrAHnWg+g3R5EV1Qa8oh1HU8TiFsgn9pO+vm6Qb
- sFXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVt1gTg0gp9qeqxBUs9MvueWUN7EU6L8PMO/VxUB63+MmLKYFbdTTF54zl9QxyuttzfwPC+6M79@lists.freedesktop.org,
- AJvYcCW9B+vdXtLz1OlmdwKpfEdNoW1he14oVIUkLCRO59/BCyjhweuDTKDcjcv+ovAqiO6+atll5Z61oDi3@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwOi51Q+dIh7bi5iX8GIjG9jSaXRKvi9FRfOd/jWDh+bTWYo5dU
- 0yr1ERwIgBj+2O1Y5UbhFoZQTyF1S9bsFGfUSM3ynUJaHY15SNzkaxgitcLpgaFQVYVd8t+1RKv
- kQPAdW5IR6GBztaRRlrs+2A0JdUA=
-X-Gm-Gg: ASbGncsbdN8gR7iwB/QGGguVasTrUQEScg+/s+0eqg8+y42tdFxJ0SheTcvLsUi6m40
- xCk38F9yqrqObRFExYXi1lbTtDDhAMA==
-X-Google-Smtp-Source: AGHT+IHtRRmMEO4CCKHIFmsn6MPdIqC7fELoYypYWvCLswW04Y5MRX0Ng7ER4nFXW2eCDd6ZAHIgjnduGiTsNU8jcis=
-X-Received: by 2002:a05:6820:3082:b0:5e5:c517:4d88 with SMTP id
- 006d021491bc7-5f209fc793cmr6825413eaf.0.1732848704854; Thu, 28 Nov 2024
- 18:51:44 -0800 (PST)
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kq5lIPoQcVg/xtqL8NRo5yXZrRUOPr9fzVfv0xIYvH0=;
+ b=OoJzcGpAZSjbNxDjHy5l6Qi8sooUuOALoJhAFXetPdhhG/pnhSC3MINUVyug0V/fF7GvqcOgZJRoLa18RgZrItBtF7gxCG7wy/YcVmyCX4SxFCA+UYsiZ9H9fdDSuqT9Q2w4kCB07FqXFUmpxCNsiUaQO1dKteOBy/x1BsGLBHk=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by TYZPR03MB8424.apcprd03.prod.outlook.com (2603:1096:405:76::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.20; Fri, 29 Nov
+ 2024 04:02:00 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%3]) with mapi id 15.20.8182.018; Fri, 29 Nov 2024
+ 04:02:00 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+CC: "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, "simona@ffwll.ch"
+ <simona@ffwll.ch>, "mripard@kernel.org" <mripard@kernel.org>,
+ "kernel@collabora.com" <kernel@collabora.com>, "p.zabel@pengutronix.de"
+ <p.zabel@pengutronix.de>, "maarten.lankhorst@linux.intel.com"
+ <maarten.lankhorst@linux.intel.com>, "conor+dt@kernel.org"
+ <conor+dt@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
+ <matthias.bgg@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>
+Subject: Re: [PATCH v1 6/7] drm/mediatek: mtk_hdmi: Split driver and add
+ common probe function
+Thread-Topic: [PATCH v1 6/7] drm/mediatek: mtk_hdmi: Split driver and add
+ common probe function
+Thread-Index: AQHbO0pOdhPnCCfvPUeRqumGFBNh8LLNsEuA
+Date: Fri, 29 Nov 2024 04:02:00 +0000
+Message-ID: <3d71a690f2a4b478120bdb854fb05be894bba35c.camel@mediatek.com>
+References: <20241120124512.134278-1-angelogioacchino.delregno@collabora.com>
+ <20241120124512.134278-7-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20241120124512.134278-7-angelogioacchino.delregno@collabora.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYZPR03MB8424:EE_
+x-ms-office365-filtering-correlation-id: 2ba94093-5493-42fe-fd09-08dd102a9352
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?M3VOTVhROEZ1M3dFeEp6S2FuM09HTExKYi8yWlZOMnpRb1JLdFoxN2JBSWRC?=
+ =?utf-8?B?cC91ek01dkdpL2ZmK2ZqWXNQYVBUVVNIdzcvVlhtK2JXQ1ZuQ2pOckg0Tkhq?=
+ =?utf-8?B?Wi84eHQxSTh2dFVUVWlqbTNtRVpscjZGbm03ejArNWxuY2RHM3djelZwNmsr?=
+ =?utf-8?B?dmltWlJrVnJLVVhieFJ5V1lpeTd1ZzlFZnNDQzF4d1piRkw1ckJLT0E2MzJm?=
+ =?utf-8?B?dTN0bjhGTThkdlY4VjF4T0RXYVp4UEkvSG9XY1FYLzAyUk9EdGhlRjYrZG5Q?=
+ =?utf-8?B?WUhIUGx0OWJtMGh0YjZMNDA1b2t4VmtiL1Y1V1Y0TGpRSUtYblhMODVVNkpk?=
+ =?utf-8?B?YjQ0dlFncHEzV3c5eGJxa2owUkNxMGlGZDNnQ09tc3hFRG9kNGhpaW9Iblly?=
+ =?utf-8?B?OXFLQlRKM050Z0pST29jVmM3TUhwQnF3cTFsZGFaRXZkVEpqeWVPbFFHSGkw?=
+ =?utf-8?B?dHVPdXdxQWpWazZWbk1reGlWQ3J5cGs5MmY0elVrVW52VDhqWWtYMHZ3d2lJ?=
+ =?utf-8?B?ZWJSWmFHaTBjcGNVWFc4b2J6TG4wZXgyUUNFdExQWEtyK2I2S3dmbHdvbmc3?=
+ =?utf-8?B?RDFMMlhiNWFOVXZaeGFJYkIreHRmUW9UNDI5a2dzQTdDMkNnaGF0UXRjSzlv?=
+ =?utf-8?B?a0Zqa0Z6aGJ1MnUwa3VQdjRCdUtmR1B0SUxGWjBmQXo1emxRQ2N1aTBYNmFx?=
+ =?utf-8?B?OEJJOG1mNGJSZWtrYk8zMDB6UXlneEUrZk5SNGNCRm9IWmNFL1FxRW5GSzNU?=
+ =?utf-8?B?TkNQYXBuT1FtN0FSMHp1Y0s1RE5NbCt3WW1rbFA0T0F3cTBUUmxZWEtqYTh4?=
+ =?utf-8?B?RnpaZGF4dmZzaDFWeGxZb1ZsVlB4dDBYSE5TcU9Cci9Eb0xDWTNSWS9zOGp1?=
+ =?utf-8?B?V0VWbHBIR2o0aVg3cVY0MGJHQWVYd2NGMTJDUGthWTNDcTNaQ2JmeGZHbm5n?=
+ =?utf-8?B?SXF2bm1ValdDSCtodWl4YVhzRnc1cFFUVFZPVnp5RTdZREZhalpGa0ViVWxG?=
+ =?utf-8?B?QTgrdmk4UUFmM0Q1bUNRRWNjZ2dqdFhBQ0ZRNWVtUktLVTIxcG5iYStMbGI5?=
+ =?utf-8?B?dTY4RXhiZTM3b0VmTnlyR3VCYk9yWHdCQVNQNDBSdzE5MVBmVHNJQ05xN2hS?=
+ =?utf-8?B?aFFZQ202ZGw2cUx3OFU0R1RxeWZBVzRQUzc3ZXlua0lOYWxzaFFrZUtjYU12?=
+ =?utf-8?B?Q3hRZkRFSjF1d01ncmZ0L05DWHJLY3BOY0loOWlCSjRocW9pZzZoSFlSTnBF?=
+ =?utf-8?B?d1c4TXNYaWFSVEJZYnluYys0ZUU5UlJSSHNCL0pWTHFFcklIOGkreWpMcmJs?=
+ =?utf-8?B?aDFxWWNrN0JQS2VjS0s5Yi94YW4waEUwL3JIQ2RQTytJcmRYNmVpR1NVOHMy?=
+ =?utf-8?B?Q2VaZXpOL0dtY0JEbHlHZ2ZDMGYxdkxLeFY0Wjk1bXJPVGNLditJRUQyOFBq?=
+ =?utf-8?B?U0hKTUY2NnZlelVyNWZOcHdSNzQ1ZmhGNlJZb1VYR01JV1dSQnlmTVhZblpM?=
+ =?utf-8?B?dm9TTk9oTVdEZy9wd1JOTGZ5Q0wvWkl4Z0tTZS94WHk4RzZvcGRnMG9GdXdR?=
+ =?utf-8?B?d2xyY3lRNHRMYjFFc0lMdTVFTDZtQVczTFcwZUtDazZ4SnV5UE42bTBkOUpl?=
+ =?utf-8?B?SE1yKzB1RWNlL3ZxdDcxSUt3ajY0aFZURXVUTUlwb2dGbnk1Z1hwMTA1Wjhv?=
+ =?utf-8?B?UHNzbERUOVNIaklUSTkxWUY4WGF5RHpQbEVuYlVoQzFWUjk0S1NQdzlteVBy?=
+ =?utf-8?B?ZEJyelBVMldQWWw2M1NTUmZQdy8zdUx2RHRMUEwxVXJqaE1Tbzg0dEpjeW9j?=
+ =?utf-8?B?cHhaYTNhcGlJa2pmNGQ3NWpXc3FPUXVBa1VKVHQrUFZLbDVsSWFYeVE3YjZn?=
+ =?utf-8?B?eDVqTExhMW1lTFBiR1lEMTZKMUlHRTA1bjRQRTBGbEJDNnc9PQ==?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZUd6dFl6NWZEcHZJdzdyNWZPdGxrMldSdi9BajRaLzJGY2hTUGRZZXVzOWhi?=
+ =?utf-8?B?TUlTM2tkNWdqemdQem9FdktkSVViN3BnSWw0L1ZSSHVCWUNnUVRNS2pnSE8v?=
+ =?utf-8?B?NFBRczFYcEVWUCtoOWxWMWo5MGNZUXNMM2x1SUx2UGc0ZDdLYldtRCtYd3BE?=
+ =?utf-8?B?bkFsVTg5cGl5V1JRN1VzTjM3ejBUcStkQUVLNXdmYVQ3WjJwQ1ZhNzUrZDUv?=
+ =?utf-8?B?dzNyZzBpTGQrcEtJSmk3VVM0enZoMWNGTEw4bUxWNkgyKzduTHYyb1Nxek9B?=
+ =?utf-8?B?dmFDYW5ZSVpwTmRVZFQyV3ZjaWVGQ2NlOVNVbEMxTjBBc0Nmb0pyRDlneGdM?=
+ =?utf-8?B?cXl0a25pSkgxSHV4dFZ0NTJPQk93QTg3US85Y0ZqSGwrWHo3d3pHZ0FvU0Jr?=
+ =?utf-8?B?NHJhNHkrR0duSEZhRTZqcUxQa2o3SWxvemJYdjZZUHI1dEhRSE1IT2JPMmZq?=
+ =?utf-8?B?N1h6OTNXOWtaNFZMQWlOWFRHVVVRTnI5S2dUeFc1SXhnYmtqYklBTzZpZUh6?=
+ =?utf-8?B?eU40Wk9RSTNqcTZpRmY3SCtKY1NkVWloSWtaeWFPYlZldS9LRlRMRERrODdM?=
+ =?utf-8?B?SDZrOHQ5OGg1WWthRWoxQXhmSUROWU9mcUxVdm5sRTluTHFzclpoTlNXQ0ky?=
+ =?utf-8?B?UDI1VkFiRXRPeXYvb0xoQUZyTC9DN01VTFZ2V3JycmhwQ1FEVE9GTm1aRTRy?=
+ =?utf-8?B?WlA5U1Flcmk2cVl6V0Y3cE9naFNoQkx6ZDFWSEx5YVhOMHpXYmlCUDlHbWtz?=
+ =?utf-8?B?aGZXRU5jWmMxTFRHb2NxR0F1R0lGYjhpVWNKR1R2cUczRmlTYW9SUmNSczFk?=
+ =?utf-8?B?VmFxalJGQnpkenpTUXBmODFlcXdWLzVRWlFwZFAwNWFYVS8wKzBSTnhaVnRD?=
+ =?utf-8?B?U2h3QlRPS21DT1V1QmdkR09oSWxzLzd1Y2VrVDIyZ2JwUmZFbFRrazZvL1Ni?=
+ =?utf-8?B?SWdFaWhPRXhqQTc3c1NabkRxaDc2YkJSMVVTemQ1NXR1QTl1NHRoTTFISnBl?=
+ =?utf-8?B?M0ZxVGhPVkpjdjJHQWFJcEZwL1ZkT05CY0pHZWNBbTdCc20yUk55dHR2eHB2?=
+ =?utf-8?B?SERYM2lyWkZTU0s3YVhxUVZPbndyUDNzc3QrdHNDTTFaamtmWUxqaUZmczV3?=
+ =?utf-8?B?a2M0bkluanorNmVMZnRzS0tyZmRWZGVpS3J4ZWxGa2F0ZHVSa3hUK3lyRkJW?=
+ =?utf-8?B?NytTVG9ueHhEMTErL0VRbi9kZk51ak1FcDdpMnJnVkR1S0laUW5JS2VlR2o4?=
+ =?utf-8?B?WTFkc29DaG16dCtzU2RSeWNlRUUyY3FSMDg5VXRnMkdSNiszUHQvMVgyVWt2?=
+ =?utf-8?B?L09tTzVDZUg4VU14M1dIUHluYTY2TDhxbjZTRE9WSFUyOUhmRnRGRk5mYjJZ?=
+ =?utf-8?B?ZDZjbkdteTNMSXkwaEd3TmQvNStGNFRCSFFFaDdIZFRoR05XUzZ4VjBCdHhq?=
+ =?utf-8?B?WmFTellXLyt0QVRnYWdDb3dtRThvOWFVVUxJbFFwY0s5am5BcEtvSm5DWUZB?=
+ =?utf-8?B?M3lPR1FzdFQxRXZvb29ieEUzSmlubFlYSkZsdWIzQTlIUXRLWE15VlVJNkVB?=
+ =?utf-8?B?Z1VhVVgrWU1FYTQrWUZUWldPR0lLZEwzcEtZQ0F3bXd1MzJ2ektIbnFqRkdx?=
+ =?utf-8?B?T3RvSGdiUmUvQlpISlpxbHRKVkowVFVFRXZ3czN2dWxPaXRmRVdsYXlLMDE3?=
+ =?utf-8?B?U1pSVUc5anFXVGd1eEMybVdLZlNmR0Y2bHJGVFNEZmcxeEliNXlrU1k2dE43?=
+ =?utf-8?B?QkgwdHpKMWNhc20rK2podUtVYzZVMWs3aTZXNVBkRnBzUDhKU24zQXJQV1I4?=
+ =?utf-8?B?Vm1JSll3dHJPUlV2UTlYZGR2K29VUFIvanQrbU9HQ0xKZWhvaTJ0dlFFZGhK?=
+ =?utf-8?B?TTJZQkN1UHJlQnBFVlhpWEcwNWIvL1FWWDJSaUhMMURER1FINnNVTWJnYmlT?=
+ =?utf-8?B?UllKSGtHUUZWQkgvUlRMVXFzc2NpdG9mNVpLeFJHOUlrSHhCRlowZkRVTUtr?=
+ =?utf-8?B?V29ROE5sdHRaWHF6MFVkZEhjNGpiK0I2TzZQQXBiRGduY0ZITGswWmlXaWds?=
+ =?utf-8?B?L0NLSklBazFKSmtKemtpdW9pM3FaYllQTXhuNE9ucDhJMjQ2Yk9HUEhZbFlZ?=
+ =?utf-8?Q?TmHPG2EryMxccIlKa3MPuq8QM?=
+Content-ID: <E489D6EF650BAE45865B375B95D2BEB5@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20241127114638.11216-1-lamikr@gmail.com>
- <20241127114638.11216-2-lamikr@gmail.com>
- <8266003e-eb98-44cb-a326-1e4f688eeb4c@amd.com>
- <744cb13e-d46c-40b0-8d88-b223db5178da@amd.com>
-In-Reply-To: <744cb13e-d46c-40b0-8d88-b223db5178da@amd.com>
-From: Mika Laitio <lamikr@gmail.com>
-Date: Thu, 28 Nov 2024 18:51:33 -0800
-Message-ID: <CAJ+8kEYDRozboMpybdqMVZx+S77s_zHNXURJ-pp_Lrx_fESkgA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] amdgpu fix for gfx1103 queue evict/restore crash
-To: Felix Kuehling <felix.kuehling@amd.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch, Hawking.Zhang@amd.com, 
- sunil.khatri@amd.com, lijo.lazar@amd.com, kevinyang.wang@amd.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: multipart/alternative; boundary="00000000000080a51206280447f8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ba94093-5493-42fe-fd09-08dd102a9352
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2024 04:02:00.2718 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vHO07dntAX75kt7wkMzq7a2L7PL+jLjZutPelAPu1+lUSnA7kNr0DEO7mIW+sGkTlOTCV37wUtIwqbwM44xn9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB8424
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_008_2030566294.172161956"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,815 +215,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000080a51206280447f8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--__=_Part_Boundary_008_2030566294.172161956
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Thanks for the feedback, the problem is anyway real breaking userspace apps
-if my patch is not in use. I have actually spend this day for investigating
-and testing another gpu hang bug that has been reported originally by
-others on gfx1010/AMD RX 5700. I thought originally that the bug is
-different because I was not able to trigger it in the test app that crashes
-the kernel on gfx1103.
+SGksIEFuZ2VsbzoNCg0KT24gV2VkLCAyMDI0LTExLTIwIGF0IDEzOjQ1ICswMTAwLCBBbmdlbG9H
+aW9hY2NoaW5vIERlbCBSZWdubyB3cm90ZToNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8g
+bm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwgeW91IGhhdmUgdmVyaWZp
+ZWQgdGhlIHNlbmRlciBvciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBJbiBwcmVwYXJhdGlvbiBm
+b3IgYWRkaW5nIGEgbmV3IGRyaXZlciBmb3IgdGhlIEhETUkgVFggdjIgSVAsDQo+IHNwbGl0IG91
+dCB0aGUgZnVuY3Rpb25zIHRoYXQgd2lsbCBiZSBjb21tb24gYmV0d2VlbiB0aGUgYWxyZWFkeQ0K
+PiBwcmVzZW50IG10a19oZG1pICh2MSkgZHJpdmVyIGFuZCB0aGUgbmV3IG9uZS4NCj4gDQo+IFNp
+bmNlIHRoZSBwcm9iZSBmbG93IGZvciBib3RoIGRyaXZlcnMgaXMgOTAlIHNpbWlsYXIsIGFkZCBh
+IGNvbW1vbg0KPiBwcm9iZSBmdW5jdGlvbiB0aGF0IHdpbGwgYmUgY2FsbGVkIGZyb20gZWFjaCBk
+cml2ZXIncyAucHJvYmUoKQ0KPiBjYWxsYmFjaywgYXZvaWRpbmcgbG90cyBvZiBjb2RlIGR1cGxp
+Y2F0aW9uLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQW5nZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8g
+PGFuZ2Vsb2dpb2FjY2hpbm8uZGVscmVnbm9AY29sbGFib3JhLmNvbT4NCj4gLS0tDQoNCltzbmlw
+XQ0KDQo+ICtpbnQgbXRrX2hkbWlfY29tbW9uX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2Ug
+KnBkZXYsIHN0cnVjdCBtdGtfaGRtaSAqaGRtaSkNCj4gK3sNCj4gKyAgICAgICBjb25zdCBzdHJ1
+Y3QgbXRrX2hkbWlfdmVyX2NvbmYgKnZlcl9jb25mOw0KPiArICAgICAgIHN0cnVjdCBkZXZpY2Ug
+KmRldiA9ICZwZGV2LT5kZXY7DQo+ICsgICAgICAgaW50IHJldDsNCj4gKw0KPiArICAgICAgIGhk
+bWktPmRldiA9IGRldjsNCj4gKyAgICAgICBoZG1pLT5jb25mID0gb2ZfZGV2aWNlX2dldF9tYXRj
+aF9kYXRhKGRldik7DQo+ICsgICAgICAgdmVyX2NvbmYgPSBoZG1pLT5jb25mLT52ZXJfY29uZjsN
+Cj4gKw0KPiArICAgICAgIGhkbWktPmNsayA9IGRldm1fa2NhbGxvYyhkZXYsIHZlcl9jb25mLT5u
+dW1fY2xvY2tzLCBzaXplb2YoKmhkbWktPmNsayksIEdGUF9LRVJORUwpOw0KPiArICAgICAgIGlm
+ICghaGRtaS0+Y2xrKQ0KPiArICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9NRU07DQo+ICsNCj4g
+KyAgICAgICBoZG1pLT5waHkgPSBkZXZtX3BoeV9nZXQoZGV2LCAiaGRtaSIpOw0KPiArICAgICAg
+IGlmIChJU19FUlIoaGRtaS0+cGh5KSkNCj4gKyAgICAgICAgICAgICAgIHJldHVybiBkZXZfZXJy
+X3Byb2JlKGRldiwgUFRSX0VSUihoZG1pLT5waHkpLCAiRmFpbGVkIHRvIGdldCBIRE1JIFBIWVxu
+Iik7DQo+ICsNCj4gKyAgICAgICByZXQgPSBtdGtfaGRtaV9kdF9wYXJzZV9wZGF0YShoZG1pLCBw
+ZGV2LCB2ZXJfY29uZi0+bXRrX2hkbWlfY2xvY2tfbmFtZXMsDQo+ICsgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgdmVyX2NvbmYtPm51bV9jbG9ja3MpOw0KPiArICAgICAgIGlm
+IChyZXQpDQo+ICsgICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPiArDQo+ICsgICAgICAgcGxh
+dGZvcm1fc2V0X2RydmRhdGEocGRldiwgaGRtaSk7DQo+ICsNCj4gKyAgICAgICByZXQgPSBtdGtf
+aGRtaV9yZWdpc3Rlcl9hdWRpb19kcml2ZXIoZGV2KTsNCj4gKyAgICAgICBpZiAocmV0KQ0KPiAr
+ICAgICAgICAgICAgICAgcmV0dXJuIGRldl9lcnJfcHJvYmUoZGV2LCByZXQsICJDYW5ub3QgcmVn
+aXN0ZXIgSERNSSBBdWRpbyBkcml2ZXJcbiIpOw0KPiArDQo+ICsgICAgICAgaGRtaS0+YnJpZGdl
+LmZ1bmNzID0gdmVyX2NvbmYtPmJyaWRnZV9mdW5jczsNCj4gKyAgICAgICBoZG1pLT5icmlkZ2Uu
+b3BzID0gRFJNX0JSSURHRV9PUF9ERVRFQ1QgfCBEUk1fQlJJREdFX09QX0VESUQgfCBEUk1fQlJJ
+REdFX09QX0hQRDsNCj4gKyAgICAgICBoZG1pLT5icmlkZ2UudHlwZSA9IERSTV9NT0RFX0NPTk5F
+Q1RPUl9IRE1JQTsNCj4gKyAgICAgICBoZG1pLT5icmlkZ2Uub2Zfbm9kZSA9IHBkZXYtPmRldi5v
+Zl9ub2RlOw0KPiArICAgICAgIGhkbWktPmJyaWRnZS5kZGMgPSBoZG1pLT5kZGNfYWRwdDsNCg0K
+SSB0aGluayB0aGlzIHBhdGNoIGlzIGp1c3QgdG8gbW92ZSBjb21tb24gcGFydCBvdXQgb2YgdjEg
+ZHJpdmVyLg0KSW4gb3JpZ2luYWwgdjEgZHJpdmVyLCBpdCBkb2VzIG5vdCBzZXQgaGRtaS0+YnJp
+ZGdlLmRkYy4NClNvIHRoaXMgcGF0Y2ggbGV0IHYxIGRyaXZlciB0byBzZXQgaGRtaS0+YnJpZGdl
+LmRkYyBhbmQgdGhpcyBjaGFuZ2UgdGhlIGJlaGF2aW9yIG9mIHYxLg0KSSBkb24ndCBrbm93IGl0
+J3MgbmVjZXNzYXJ5IG9yIG5vdC4NCklmIGl0J3MgbmVjZXNzYXJ5LCBzZXBhcmF0ZSB0aGlzIHRv
+IGEgdjEgcmVmaW5lbWVudCBwYXRjaCBpbiBmcm9udCBvZiB0aGlzIHBhdGNoLg0KTGV0IHRoaXMg
+cGF0Y2ggbm90IGNoYW5nZSBiZWhhdmlvciBvZiB2MS4NCg0KUmVnYXJkcywNCkNLDQoNCj4gKw0K
+PiArICAgICAgIHJldCA9IGRldm1fZHJtX2JyaWRnZV9hZGQoZGV2LCAmaGRtaS0+YnJpZGdlKTsN
+Cj4gKyAgICAgICBpZiAocmV0KQ0KPiArICAgICAgICAgICAgICAgcmV0dXJuIGRldl9lcnJfcHJv
+YmUoZGV2LCByZXQsICJGYWlsZWQgdG8gYWRkIGJyaWRnZVxuIik7DQo+ICsNCj4gKyAgICAgICBy
+ZXR1cm4gMDsNCj4gK30NCj4gKw0K
 
-With gfx1010 I need to run the pytorch gpu benchmark which does more heavy
-calculation. In kernel side the symptom is same, kernel fails to remove the
-queue on similar type of evict/restore cycle that the kernel seems to do
-constantly. This bug has one annoying side-effect, regular user level
-reboot will hang requiring to use power button to shut down the device.
-(echo b >/proc/sysrq-trigger works sometimes)
+--__=_Part_Boundary_008_2030566294.172161956
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Anyway, I have managed to get the gfx1010 to also stay stable and finish
-the benchmarks if I do a similar type of fix/workaround that prevents the
-queue remove/restore to happen on evict and restore methods.
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGksJiMzMjtBbmdlbG86DQoNCk9uJiMzMjtXZWQsJiMz
+MjsyMDI0LTExLTIwJiMzMjthdCYjMzI7MTM6NDUmIzMyOyswMTAwLCYjMzI7QW5nZWxvR2lvYWNj
+aGlubyYjMzI7RGVsJiMzMjtSZWdubyYjMzI7d3JvdGU6DQomZ3Q7JiMzMjtFeHRlcm5hbCYjMzI7
+ZW1haWwmIzMyOzomIzMyO1BsZWFzZSYjMzI7ZG8mIzMyO25vdCYjMzI7Y2xpY2smIzMyO2xpbmtz
+JiMzMjtvciYjMzI7b3BlbiYjMzI7YXR0YWNobWVudHMmIzMyO3VudGlsJiMzMjt5b3UmIzMyO2hh
+dmUmIzMyO3ZlcmlmaWVkJiMzMjt0aGUmIzMyO3NlbmRlciYjMzI7b3ImIzMyO3RoZSYjMzI7Y29u
+dGVudC4NCiZndDsmIzMyOw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtJbiYjMzI7cHJlcGFyYXRpb24m
+IzMyO2ZvciYjMzI7YWRkaW5nJiMzMjthJiMzMjtuZXcmIzMyO2RyaXZlciYjMzI7Zm9yJiMzMjt0
+aGUmIzMyO0hETUkmIzMyO1RYJiMzMjt2MiYjMzI7SVAsDQomZ3Q7JiMzMjtzcGxpdCYjMzI7b3V0
+JiMzMjt0aGUmIzMyO2Z1bmN0aW9ucyYjMzI7dGhhdCYjMzI7d2lsbCYjMzI7YmUmIzMyO2NvbW1v
+biYjMzI7YmV0d2VlbiYjMzI7dGhlJiMzMjthbHJlYWR5DQomZ3Q7JiMzMjtwcmVzZW50JiMzMjtt
+dGtfaGRtaSYjMzI7KHYxKSYjMzI7ZHJpdmVyJiMzMjthbmQmIzMyO3RoZSYjMzI7bmV3JiMzMjtv
+bmUuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1NpbmNlJiMzMjt0aGUmIzMyO3Byb2JlJiMzMjtmbG93
+JiMzMjtmb3ImIzMyO2JvdGgmIzMyO2RyaXZlcnMmIzMyO2lzJiMzMjs5MCUmIzMyO3NpbWlsYXIs
+JiMzMjthZGQmIzMyO2EmIzMyO2NvbW1vbg0KJmd0OyYjMzI7cHJvYmUmIzMyO2Z1bmN0aW9uJiMz
+Mjt0aGF0JiMzMjt3aWxsJiMzMjtiZSYjMzI7Y2FsbGVkJiMzMjtmcm9tJiMzMjtlYWNoJiMzMjtk
+cml2ZXImIzM5O3MmIzMyOy5wcm9iZSgpDQomZ3Q7JiMzMjtjYWxsYmFjaywmIzMyO2F2b2lkaW5n
+JiMzMjtsb3RzJiMzMjtvZiYjMzI7Y29kZSYjMzI7ZHVwbGljYXRpb24uDQomZ3Q7JiMzMjsNCiZn
+dDsmIzMyO1NpZ25lZC1vZmYtYnk6JiMzMjtBbmdlbG9HaW9hY2NoaW5vJiMzMjtEZWwmIzMyO1Jl
+Z25vJiMzMjsmbHQ7YW5nZWxvZ2lvYWNjaGluby5kZWxyZWdub0Bjb2xsYWJvcmEuY29tJmd0Ow0K
+Jmd0OyYjMzI7LS0tDQoNCltzbmlwXQ0KDQomZ3Q7JiMzMjsraW50JiMzMjttdGtfaGRtaV9jb21t
+b25fcHJvYmUoc3RydWN0JiMzMjtwbGF0Zm9ybV9kZXZpY2UmIzMyOypwZGV2LCYjMzI7c3RydWN0
+JiMzMjttdGtfaGRtaSYjMzI7KmhkbWkpDQomZ3Q7JiMzMjsrew0KJmd0OyYjMzI7KyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7Y29uc3QmIzMyO3N0cnVjdCYjMzI7bXRrX2hkbWlf
+dmVyX2NvbmYmIzMyOyp2ZXJfY29uZjsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyO3N0cnVjdCYjMzI7ZGV2aWNlJiMzMjsqZGV2JiMzMjs9JiMzMjsmYW1wO3Bk
+ZXYtJmd0O2RldjsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+O2ludCYjMzI7cmV0Ow0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7aGRtaS0mZ3Q7ZGV2JiMzMjs9JiMzMjtkZXY7DQomZ3Q7JiMzMjsrJiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtoZG1pLSZndDtjb25mJiMzMjs9JiMzMjtv
+Zl9kZXZpY2VfZ2V0X21hdGNoX2RhdGEoZGV2KTsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyO3Zlcl9jb25mJiMzMjs9JiMzMjtoZG1pLSZndDtjb25mLSZndDt2
+ZXJfY29uZjsNCiZndDsmIzMyOysNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyO2hkbWktJmd0O2NsayYjMzI7PSYjMzI7ZGV2bV9rY2FsbG9jKGRldiwmIzMyO3Zl
+cl9jb25mLSZndDtudW1fY2xvY2tzLCYjMzI7c2l6ZW9mKCpoZG1pLSZndDtjbGspLCYjMzI7R0ZQ
+X0tFUk5FTCk7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtp
+ZiYjMzI7KCFoZG1pLSZndDtjbGspDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7cmV0dXJu
+JiMzMjstRU5PTUVNOw0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7aGRtaS0mZ3Q7cGh5JiMzMjs9JiMzMjtkZXZtX3BoeV9nZXQoZGV2LCYj
+MzI7JnF1b3Q7aGRtaSZxdW90Oyk7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjtpZiYjMzI7KElTX0VSUihoZG1pLSZndDtwaHkpKQ0KJmd0OyYjMzI7KyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyO3JldHVybiYjMzI7ZGV2X2Vycl9wcm9iZShkZXYsJiMzMjtQVFJfRVJSKGhk
+bWktJmd0O3BoeSksJiMzMjsmcXVvdDtGYWlsZWQmIzMyO3RvJiMzMjtnZXQmIzMyO0hETUkmIzMy
+O1BIWSYjOTI7biZxdW90Oyk7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjtyZXQmIzMyOz0mIzMyO210a19oZG1pX2R0X3BhcnNlX3BkYXRh
+KGhkbWksJiMzMjtwZGV2LCYjMzI7dmVyX2NvbmYtJmd0O210a19oZG1pX2Nsb2NrX25hbWVzLA0K
+Jmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7dmVyX2NvbmYtJmd0O251bV9jbG9ja3MpOw0KJmd0OyYj
+MzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7aWYmIzMyOyhyZXQpDQomZ3Q7
+JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7cmV0dXJuJiMzMjtyZXQ7DQomZ3Q7JiMzMjsrDQomZ3Q7
+JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtwbGF0Zm9ybV9zZXRfZHJ2
+ZGF0YShwZGV2LCYjMzI7aGRtaSk7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtyZXQmIzMyOz0mIzMyO210a19oZG1pX3JlZ2lzdGVyX2F1
+ZGlvX2RyaXZlcihkZXYpOw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7aWYmIzMyOyhyZXQpDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7cmV0dXJuJiMz
+MjtkZXZfZXJyX3Byb2JlKGRldiwmIzMyO3JldCwmIzMyOyZxdW90O0Nhbm5vdCYjMzI7cmVnaXN0
+ZXImIzMyO0hETUkmIzMyO0F1ZGlvJiMzMjtkcml2ZXImIzkyO24mcXVvdDspOw0KJmd0OyYjMzI7
+Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7aGRtaS0mZ3Q7
+YnJpZGdlLmZ1bmNzJiMzMjs9JiMzMjt2ZXJfY29uZi0mZ3Q7YnJpZGdlX2Z1bmNzOw0KJmd0OyYj
+MzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7aGRtaS0mZ3Q7YnJpZGdlLm9w
+cyYjMzI7PSYjMzI7RFJNX0JSSURHRV9PUF9ERVRFQ1QmIzMyO3wmIzMyO0RSTV9CUklER0VfT1Bf
+RURJRCYjMzI7fCYjMzI7RFJNX0JSSURHRV9PUF9IUEQ7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtoZG1pLSZndDticmlkZ2UudHlwZSYjMzI7PSYjMzI7RFJN
+X01PREVfQ09OTkVDVE9SX0hETUlBOw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7aGRtaS0mZ3Q7YnJpZGdlLm9mX25vZGUmIzMyOz0mIzMyO3BkZXYtJmd0O2Rl
+di5vZl9ub2RlOw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+aGRtaS0mZ3Q7YnJpZGdlLmRkYyYjMzI7PSYjMzI7aGRtaS0mZ3Q7ZGRjX2FkcHQ7DQoNCkkmIzMy
+O3RoaW5rJiMzMjt0aGlzJiMzMjtwYXRjaCYjMzI7aXMmIzMyO2p1c3QmIzMyO3RvJiMzMjttb3Zl
+JiMzMjtjb21tb24mIzMyO3BhcnQmIzMyO291dCYjMzI7b2YmIzMyO3YxJiMzMjtkcml2ZXIuDQpJ
+biYjMzI7b3JpZ2luYWwmIzMyO3YxJiMzMjtkcml2ZXIsJiMzMjtpdCYjMzI7ZG9lcyYjMzI7bm90
+JiMzMjtzZXQmIzMyO2hkbWktJmd0O2JyaWRnZS5kZGMuDQpTbyYjMzI7dGhpcyYjMzI7cGF0Y2gm
+IzMyO2xldCYjMzI7djEmIzMyO2RyaXZlciYjMzI7dG8mIzMyO3NldCYjMzI7aGRtaS0mZ3Q7YnJp
+ZGdlLmRkYyYjMzI7YW5kJiMzMjt0aGlzJiMzMjtjaGFuZ2UmIzMyO3RoZSYjMzI7YmVoYXZpb3Im
+IzMyO29mJiMzMjt2MS4NCkkmIzMyO2RvbiYjMzk7dCYjMzI7a25vdyYjMzI7aXQmIzM5O3MmIzMy
+O25lY2Vzc2FyeSYjMzI7b3ImIzMyO25vdC4NCklmJiMzMjtpdCYjMzk7cyYjMzI7bmVjZXNzYXJ5
+LCYjMzI7c2VwYXJhdGUmIzMyO3RoaXMmIzMyO3RvJiMzMjthJiMzMjt2MSYjMzI7cmVmaW5lbWVu
+dCYjMzI7cGF0Y2gmIzMyO2luJiMzMjtmcm9udCYjMzI7b2YmIzMyO3RoaXMmIzMyO3BhdGNoLg0K
+TGV0JiMzMjt0aGlzJiMzMjtwYXRjaCYjMzI7bm90JiMzMjtjaGFuZ2UmIzMyO2JlaGF2aW9yJiMz
+MjtvZiYjMzI7djEuDQoNClJlZ2FyZHMsDQpDSw0KDQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrJiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtyZXQmIzMyOz0mIzMyO2Rldm1fZHJtX2Jy
+aWRnZV9hZGQoZGV2LCYjMzI7JmFtcDtoZG1pLSZndDticmlkZ2UpOw0KJmd0OyYjMzI7KyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7aWYmIzMyOyhyZXQpDQomZ3Q7JiMzMjsrJiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7cmV0dXJuJiMzMjtkZXZfZXJyX3Byb2JlKGRldiwmIzMyO3JldCwmIzMy
+OyZxdW90O0ZhaWxlZCYjMzI7dG8mIzMyO2FkZCYjMzI7YnJpZGdlJiM5MjtuJnF1b3Q7KTsNCiZn
+dDsmIzMyOysNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3Jl
+dHVybiYjMzI7MDsNCiZndDsmIzMyOyt9DQomZ3Q7JiMzMjsrDQoNCjwvcHJlPg0KPC9wPjwvYm9k
+eT48L2h0bWw+PCEtLXR5cGU6dGV4dC0tPjwhLS17LS0+PHByZT4qKioqKioqKioqKioqIE1FRElB
+VEVLIENvbmZpZGVudGlhbGl0eSBOb3RpY2UgKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZv
+cm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSAN
+CmF0dGFjaG1lbnRzKSBtYXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdl
+ZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUg
+bGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25h
+dGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24s
+IHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5n
+IGl0cyANCmF0dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3Rs
+eSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50
+ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlIA0KdGhhdCB5b3UgaGF2
+ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVy
+IA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5aW5nIHRvIHRoaXMgZS1tYWlsKSwgZGVsZXRlIGFueSBh
+bmQgYWxsIGNvcGllcyBvZiANCnRoaXMgZS1tYWlsIChpbmNsdWRpbmcgYW55IGF0dGFjaG1lbnRz
+KSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQgZG8gbm90DQpkaXNjbG9zZSB0aGUgY29udGVudCBvZiB0
+aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVyc29uLiBUaGFuayB5b3UhDQo8L3ByZT48IS0tfS0t
+Pg==
 
-It may or may not be in reality a firmware bug, hard to debug as I do not
-access to firmware code. But I think this should be fixed somehow anyway.
-(Kernel has tons of workaround anyway for other broken firmware and hw
-problems)
+--__=_Part_Boundary_008_2030566294.172161956--
 
-I can however try to approach this in some other way also, would you have
-any suggestion? I have played with the recent AMD gpu kernel driver stack
-for a couple of days, so I probably miss something but here are 2
-observations/questions I have in my mind?
-
-1) Is it really necessary to evict/restore the queues also on firmware
-until they really need to be deleted more permanently? I mean would it be
-just enough to mark queues disabled/enabled in kernel-structure when
-pre-emption happens?
-
-2) dqm_lock that is used to protect the queue-lists that are
-removed/restored uses memalloc_noreclaim_save/restore calls that according
-to documentation can easily cause problems if there happens some fs calls
-or recursions. Could the userspace be able to trigger that problem by using
-some amdgpu specific sysfs interface calls. Or can the MES firmware somehow
-call back to kernel functions that cause recursive loop while performing
-the queue remove method calls?
-
-Below is the gfx1010 dmesg with added trace calls that reveals kernel
-problems with queues while using that device.
-I have again added some extra strace to to print out the function name when
-its started and what is the caller method.
-
-884.437695] amdgpu: kgd2kfd_quiesce_mm called by amdgpu_amdkfd_evict_userpt=
-r
-[  884.437704] amdgpu: evict_process_queues_cpsch started
-[  884.443511] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  884.443520] amdgpu: restore_process_queues_cpsch started
-[  907.375917] amdgpu: evict_process_queues_cpsch started
-[  907.375981] amdgpu: evict_process_worker Finished evicting pasid 0x8005
-[  907.483535] amdgpu: restore_process_queues_cpsch started
-[  909.013279] amdgpu: kgd2kfd_quiesce_mm called by svm_range_evict
-[  909.013286] amdgpu: evict_process_queues_cpsch started
-[  909.033675] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  909.033681] amdgpu: evict_process_queues_cpsch started
-[  909.059674] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  909.059680] amdgpu: restore_process_queues_cpsch started
-[  909.082565] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  909.082572] amdgpu: evict_process_queues_cpsch started
-[  909.295184] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  909.295190] amdgpu: restore_process_queues_cpsch started
-[  909.608840] amdgpu: kgd2kfd_resume_mm called by svm_range_restore_work
-[  909.608846] amdgpu: restore_process_queues_cpsch started
-[  966.354867] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  966.354876] amdgpu: evict_process_queues_cpsch started
-[  966.361293] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  966.361303] amdgpu: restore_process_queues_cpsch started
-[  984.457200] amdgpu: evict_process_queues_cpsch started
-[  984.457261] amdgpu: evict_process_worker Finished evicting pasid 0x8005
-[  984.562403] amdgpu: restore_process_queues_cpsch started
-[  984.628620] amdgpu: kgd2kfd_quiesce_mm called by svm_range_evict
-[  984.628627] amdgpu: evict_process_queues_cpsch started
-[  984.650436] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  984.650443] amdgpu: evict_process_queues_cpsch started
-[  984.718544] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  984.718550] amdgpu: restore_process_queues_cpsch started
-[  984.738360] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  984.738367] amdgpu: evict_process_queues_cpsch started
-[  984.765031] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  984.765038] amdgpu: restore_process_queues_cpsch started
-[  984.785180] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  984.785187] amdgpu: evict_process_queues_cpsch started
-[  984.907430] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  984.907435] amdgpu: restore_process_queues_cpsch started
-[  984.930399] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  984.930405] amdgpu: evict_process_queues_cpsch started
-[  984.956551] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  984.956561] amdgpu: restore_process_queues_cpsch started
-[  985.288614] amdgpu: kgd2kfd_resume_mm called by svm_range_restore_work
-[  985.288621] amdgpu: restore_process_queues_cpsch started
-[  998.410978] amdgpu: evict_process_queues_cpsch started
-[  998.411041] amdgpu: evict_process_worker Finished evicting pasid 0x8005
-[  998.513922] amdgpu: restore_process_queues_cpsch started
-[  998.531861] amdgpu: kgd2kfd_quiesce_mm called by svm_range_evict
-[  998.531867] amdgpu: evict_process_queues_cpsch started
-[  998.553650] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  998.553656] amdgpu: evict_process_queues_cpsch started
-[  998.581235] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  998.581241] amdgpu: restore_process_queues_cpsch started
-[  998.607168] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  998.607174] amdgpu: evict_process_queues_cpsch started
-[  998.700499] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  998.700506] amdgpu: restore_process_queues_cpsch started
-[  998.718179] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  998.718187] amdgpu: evict_process_queues_cpsch started
-[  998.810595] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  998.810603] amdgpu: restore_process_queues_cpsch started
-[  998.831776] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  998.831782] amdgpu: evict_process_queues_cpsch started
-[  998.858199] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  998.858205] amdgpu: restore_process_queues_cpsch started
-[  998.880604] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[  998.880611] amdgpu: evict_process_queues_cpsch started
-[  998.912335] amdgpu: kgd2kfd_resume_mm called by
-amdgpu_amdkfd_restore_userptr_worker
-[  998.912343] amdgpu: restore_process_queues_cpsch started
-[  999.237449] amdgpu: kgd2kfd_resume_mm called by svm_range_restore_work
-[  999.237455] amdgpu: restore_process_queues_cpsch started
-[ 1058.513361] amdgpu: kgd2kfd_quiesce_mm called by
-amdgpu_amdkfd_evict_userptr
-[ 1058.513373] amdgpu: evict_process_queues_cpsch started
-[ 1062.513487] amdgpu 0000:03:00.0: amdgpu: Queue preemption failed for
-queue with doorbell_id: 80004008
-[ 1062.513500] amdgpu 0000:03:00.0: amdgpu: Failed to evict process queue
-0, caller: kgd2kfd_quiesce_mm
-[ 1062.513503] amdgpu: Failed to quiesce KFD
-[ 1062.513551] amdgpu 0000:03:00.0: amdgpu: GPU reset begin!
-[ 1062.513628] amdgpu: evict_process_queues_cpsch started
-[ 1062.513694] amdgpu 0000:03:00.0: amdgpu: Dumping IP State
-[ 1062.517229] amdgpu 0000:03:00.0: amdgpu: Dumping IP State Completed
-[ 1062.866910] amdgpu 0000:03:00.0: [drm:amdgpu_ring_test_helper [amdgpu]]
-*ERROR* ring kiq_0.2.1.0 test failed (-110)
-[ 1062.867435] [drm:gfx_v10_0_hw_fini [amdgpu]] *ERROR* KCQ disable failed
-[ 1062.915075] amdgpu 0000:03:00.0: amdgpu: BACO reset
-[ 1062.937902] amdgpu: kgd2kfd_quiesce_mm called by svm_range_evict
-[ 1062.937907] amdgpu: evict_process_queues_cpsch started
-
-
-
-
-On Wed, Nov 27, 2024 at 3:50=E2=80=AFPM Felix Kuehling <felix.kuehling@amd.=
-com>
-wrote:
-
->
-> On 2024-11-27 06:51, Christian K=C3=B6nig wrote:
-> > Am 27.11.24 um 12:46 schrieb Mika Laitio:
-> >> AMD gfx1103 / M780 iGPU will crash eventually when used for
-> >> pytorch ML/AI operations on rocm sdk stack. After kernel error
-> >> the application exits on error and linux desktop can itself
-> >> sometimes either freeze or reset back to login screen.
-> >>
-> >> Error will happen randomly when kernel calls
-> >> evict_process_queues_cpsch and
-> >> restore_process_queues_cpsch methods to remove and restore the queues
-> >> that has been created earlier.
-> >>
-> >> The fix is to remove the evict and restore calls when device used is
-> >> iGPU. The queues that has been added during the user space
-> >> application execution
-> >> time will still be removed when the application exits
-> >
-> > As far as I can see that is absolutely not a fix but rather a
-> > obviously broken workaround.
-> >
-> > Evicting and restoring queues is usually mandatory for correct operatio=
-n.
-> >
-> > So just ignore that this doesn't work will just is not something you
-> > can do.
->
-> I agree. Eviction happens for example in MMU notifiers where we need to
-> assure the kernel that memory won't be accessed by the GPU once the
-> notifier returns, until the memory mappings in the GPU page tables can
-> be revalidated.
->
-> This looks like a crude workaround for an MES firmware problem or some
-> other kind of intermittent hang that needs to be root-caused. It's a
-> NACK from me as well.
->
-> Regards,
->    Felix
->
->
-> >
-> > Regards,
-> > Christian.
-> >
-> >>
-> >> On evety test attempts the crash has always happened on the
-> >> same location while removing the 2nd queue of 3 with doorbell id 0x100=
-2.
-> >>
-> >> Below is the trace captured by adding more printouts to problem
-> >> location to print message also when the queue is evicted or resrored
-> >> succesfully.
-> >>
-> >> [  948.324174] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added
-> >> hardware queue to MES, doorbell=3D0x1202, queue: 2, caller:
-> >> restore_process_queues_cpsch
-> >> [  948.334344] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added
-> >> hardware queue to MES, doorbell=3D0x1002, queue: 1, caller:
-> >> restore_process_queues_cpsch
-> >> [  948.344499] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added
-> >> hardware queue to MES, doorbell=3D0x1000, queue: 0, caller:
-> >> restore_process_queues_cpsch
-> >> [  952.380614] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed
-> >> hardware queue from MES, doorbell=3D0x1202, queue: 2, caller:
-> >> evict_process_queues_cpsch
-> >> [  952.391330] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed
-> >> hardware queue from MES, doorbell=3D0x1002, queue: 1, caller:
-> >> evict_process_queues_cpsch
-> >> [  952.401634] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed
-> >> hardware queue from MES, doorbell=3D0x1000, queue: 0, caller:
-> >> evict_process_queues_cpsch
-> >> [  952.414507] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added
-> >> hardware queue to MES, doorbell=3D0x1202, queue: 2, caller:
-> >> restore_process_queues_cpsch
-> >> [  952.424618] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added
-> >> hardware queue to MES, doorbell=3D0x1002, queue: 1, caller:
-> >> restore_process_queues_cpsch
-> >> [  952.434922] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes added
-> >> hardware queue to MES, doorbell=3D0x1000, queue: 0, caller:
-> >> restore_process_queues_cpsch
-> >> [  952.446272] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes removed
-> >> hardware queue from MES, doorbell=3D0x1202, queue: 2, caller:
-> >> evict_process_queues_cpsch
-> >> [  954.460341] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to
-> >> msg=3DREMOVE_QUEUE
-> >> [  954.460356] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes failed
-> >> to remove hardware queue from MES, doorbell=3D0x1002, queue: 1, caller=
-:
-> >> evict_process_queues_cpsch
-> >> [  954.460360] amdgpu 0000:c4:00.0: amdgpu: MES might be in
-> >> unrecoverable state, issue a GPU reset
-> >> [  954.460366] amdgpu 0000:c4:00.0: amdgpu: Failed to evict queue 1
-> >> [  954.460368] amdgpu 0000:c4:00.0: amdgpu: Failed to evict process
-> >> queues
-> >> [  954.460439] amdgpu 0000:c4:00.0: amdgpu: GPU reset begin!
-> >> [  954.460464] amdgpu 0000:c4:00.0: amdgpu: remove_all_queues_mes:
-> >> Failed to remove queue 0 for dev 5257
-> >> [  954.460515] amdgpu 0000:c4:00.0: amdgpu: Dumping IP State
-> >> [  954.462637] amdgpu 0000:c4:00.0: amdgpu: Dumping IP State Completed
-> >> [  955.865591] amdgpu: process_termination_cpsch started
-> >> [  955.866432] amdgpu: process_termination_cpsch started
-> >> [  955.866445] amdgpu 0000:c4:00.0: amdgpu: Failed to remove queue 0
-> >> [  956.503043] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to
-> >> msg=3DREMOVE_QUEUE
-> >> [  956.503059] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR*
-> >> failed to unmap legacy queue
-> >> [  958.507491] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to
-> >> msg=3DREMOVE_QUEUE
-> >> [  958.507507] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR*
-> >> failed to unmap legacy queue
-> >> [  960.512077] amdgpu 0000:c4:00.0: amdgpu: MES failed to respond to
-> >> msg=3DREMOVE_QUEUE
-> >> [  960.512093] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR*
-> >> failed to unmap legacy queue
-> >> [  960.785816] [drm:gfx_v11_0_hw_fini [amdgpu]] *ERROR* failed to
-> >> halt cp gfx
-> >>
-> >> Signed-off-by: Mika Laitio <lamikr@gmail.com>
-> >> ---
-> >>   .../drm/amd/amdkfd/kfd_device_queue_manager.c | 24 ++++++++++++-----=
---
-> >>   1 file changed, 16 insertions(+), 8 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-> >> b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-> >> index c79fe9069e22..96088d480e09 100644
-> >> --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-> >> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-> >> @@ -1187,9 +1187,12 @@ static int evict_process_queues_cpsch(struct
-> >> device_queue_manager *dqm,
-> >>       struct kfd_process_device *pdd;
-> >>       int retval =3D 0;
-> >>   +    // gfx1103 APU can fail to remove queue on evict/restore cycle
-> >> +    if (dqm->dev->adev->flags & AMD_IS_APU)
-> >> +        goto out;
-> >>       dqm_lock(dqm);
-> >>       if (qpd->evicted++ > 0) /* already evicted, do nothing */
-> >> -        goto out;
-> >> +        goto out_unlock;
-> >>         pdd =3D qpd_to_pdd(qpd);
-> >>   @@ -1198,7 +1201,7 @@ static int evict_process_queues_cpsch(struct
-> >> device_queue_manager *dqm,
-> >>        * Skip queue eviction on process eviction.
-> >>        */
-> >>       if (!pdd->drm_priv)
-> >> -        goto out;
-> >> +        goto out_unlock;
-> >>         pr_debug_ratelimited("Evicting PASID 0x%x queues\n",
-> >>                   pdd->process->pasid);
-> >> @@ -1219,7 +1222,7 @@ static int evict_process_queues_cpsch(struct
-> >> device_queue_manager *dqm,
-> >>               if (retval) {
-> >>                   dev_err(dev, "Failed to evict queue %d\n",
-> >>                       q->properties.queue_id);
-> >> -                goto out;
-> >> +                goto out_unlock;
-> >>               }
-> >>           }
-> >>       }
-> >> @@ -1231,8 +1234,9 @@ static int evict_process_queues_cpsch(struct
-> >> device_queue_manager *dqm,
-> >> KFD_UNMAP_QUEUES_FILTER_DYNAMIC_QUEUES, 0,
-> >>                             USE_DEFAULT_GRACE_PERIOD);
-> >>   -out:
-> >> +out_unlock:
-> >>       dqm_unlock(dqm);
-> >> +out:
-> >>       return retval;
-> >>   }
-> >>   @@ -1326,14 +1330,17 @@ static int
-> >> restore_process_queues_cpsch(struct device_queue_manager *dqm,
-> >>       uint64_t eviction_duration;
-> >>       int retval =3D 0;
-> >>   +    // gfx1103 APU can fail to remove queue on evict/restore cycle
-> >> +    if (dqm->dev->adev->flags & AMD_IS_APU)
-> >> +        goto out;
-> >>       pdd =3D qpd_to_pdd(qpd);
-> >>         dqm_lock(dqm);
-> >>       if (WARN_ON_ONCE(!qpd->evicted)) /* already restored, do
-> >> nothing */
-> >> -        goto out;
-> >> +        goto out_unlock;
-> >>       if (qpd->evicted > 1) { /* ref count still > 0, decrement &
-> >> quit */
-> >>           qpd->evicted--;
-> >> -        goto out;
-> >> +        goto out_unlock;
-> >>       }
-> >>         /* The debugger creates processes that temporarily have not
-> >> acquired
-> >> @@ -1364,7 +1371,7 @@ static int restore_process_queues_cpsch(struct
-> >> device_queue_manager *dqm,
-> >>               if (retval) {
-> >>                   dev_err(dev, "Failed to restore queue %d\n",
-> >>                       q->properties.queue_id);
-> >> -                goto out;
-> >> +                goto out_unlock;
-> >>               }
-> >>           }
-> >>       }
-> >> @@ -1375,8 +1382,9 @@ static int restore_process_queues_cpsch(struct
-> >> device_queue_manager *dqm,
-> >>       atomic64_add(eviction_duration, &pdd->evict_duration_counter);
-> >>   vm_not_acquired:
-> >>       qpd->evicted =3D 0;
-> >> -out:
-> >> +out_unlock:
-> >>       dqm_unlock(dqm);
-> >> +out:
-> >>       return retval;
-> >>   }
-> >
->
-
---00000000000080a51206280447f8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Thanks for the feedback, the problem is anyway real b=
-reaking userspace apps if my patch is not in use. I have actually spend thi=
-s day for investigating and testing another gpu hang bug that has been repo=
-rted originally by others on gfx1010/AMD RX 5700. I thought originally that=
- the bug is different because I was not able to trigger it in the test app =
-that crashes the kernel on gfx1103.</div><div><br></div><div>With gfx1010 I=
- need to run the pytorch gpu benchmark which does more heavy calculation. I=
-n kernel side the symptom is same, kernel fails to remove the queue on simi=
-lar type of evict/restore cycle that the kernel seems to do constantly. Thi=
-s bug has one annoying side-effect, regular user level reboot will hang req=
-uiring to use power button to shut down the device. (echo b &gt;/proc/sysrq=
--trigger works sometimes)</div><div><br></div><div>Anyway, I have managed t=
-o get the gfx1010 to also stay stable and finish the benchmarks if I do a s=
-imilar type of fix/workaround that prevents the queue remove/restore to hap=
-pen on evict and restore methods.<br></div><div><br></div><div>It may or ma=
-y not be in reality a firmware bug, hard to debug as I do not access to fir=
-mware code. But I think this should be fixed somehow anyway. (Kernel has to=
-ns of workaround anyway for other broken firmware and hw problems)<br></div=
-><div><br></div><div>I can however try to approach this in some other way a=
-lso, would you have any suggestion? I have played with the recent AMD gpu k=
-ernel driver stack for a couple of days, so I probably miss something but h=
-ere are 2 observations/questions I have in my mind?<br></div><div><br></div=
-><div>1) Is it really necessary to evict/restore the queues also on firmwar=
-e until they really need to be deleted more permanently? I mean would it be=
- just enough to mark queues disabled/enabled in kernel-structure when pre-e=
-mption happens?<br></div><div><br></div><div>2) dqm_lock that is used to pr=
-otect the queue-lists that are removed/restored uses memalloc_noreclaim_sav=
-e/restore calls that according to documentation can easily cause problems i=
-f there happens some fs calls or recursions. Could the userspace be able to=
- trigger that problem by using some amdgpu specific sysfs interface calls. =
-Or can the MES firmware somehow call back to kernel functions that cause re=
-cursive loop while performing the queue remove method calls?</div><div><br>=
-</div><div>Below is the gfx1010 dmesg with added trace calls that reveals k=
-ernel problems with queues while using that device.</div><div>I have again =
-added some extra strace to to print out the function name when its started =
-and what is the caller method.<br></div><div><br></div><div>884.437695] amd=
-gpu: kgd2kfd_quiesce_mm called by amdgpu_amdkfd_evict_userptr<br>[ =C2=A088=
-4.437704] amdgpu: evict_process_queues_cpsch started<br>[ =C2=A0884.443511]=
- amdgpu: kgd2kfd_resume_mm called by amdgpu_amdkfd_restore_userptr_worker<b=
-r>[ =C2=A0884.443520] amdgpu: restore_process_queues_cpsch started<br>[ =C2=
-=A0907.375917] amdgpu: evict_process_queues_cpsch started<br>[ =C2=A0907.37=
-5981] amdgpu: evict_process_worker Finished evicting pasid 0x8005<br>[ =C2=
-=A0907.483535] amdgpu: restore_process_queues_cpsch started<br>[ =C2=A0909.=
-013279] amdgpu: kgd2kfd_quiesce_mm called by svm_range_evict<br>[ =C2=A0909=
-.013286] amdgpu: evict_process_queues_cpsch started<br>[ =C2=A0909.033675] =
-amdgpu: kgd2kfd_quiesce_mm called by amdgpu_amdkfd_evict_userptr<br>[ =C2=
-=A0909.033681] amdgpu: evict_process_queues_cpsch started<br>[ =C2=A0909.05=
-9674] amdgpu: kgd2kfd_resume_mm called by amdgpu_amdkfd_restore_userptr_wor=
-ker<br>[ =C2=A0909.059680] amdgpu: restore_process_queues_cpsch started<br>=
-[ =C2=A0909.082565] amdgpu: kgd2kfd_quiesce_mm called by amdgpu_amdkfd_evic=
-t_userptr<br>[ =C2=A0909.082572] amdgpu: evict_process_queues_cpsch started=
-<br>[ =C2=A0909.295184] amdgpu: kgd2kfd_resume_mm called by amdgpu_amdkfd_r=
-estore_userptr_worker<br>[ =C2=A0909.295190] amdgpu: restore_process_queues=
-_cpsch started<br>[ =C2=A0909.608840] amdgpu: kgd2kfd_resume_mm called by s=
-vm_range_restore_work<br>[ =C2=A0909.608846] amdgpu: restore_process_queues=
-_cpsch started<br>[ =C2=A0966.354867] amdgpu: kgd2kfd_quiesce_mm called by =
-amdgpu_amdkfd_evict_userptr<br>[ =C2=A0966.354876] amdgpu: evict_process_qu=
-eues_cpsch started<br>[ =C2=A0966.361293] amdgpu: kgd2kfd_resume_mm called =
-by amdgpu_amdkfd_restore_userptr_worker<br>[ =C2=A0966.361303] amdgpu: rest=
-ore_process_queues_cpsch started<br>[ =C2=A0984.457200] amdgpu: evict_proce=
-ss_queues_cpsch started<br>[ =C2=A0984.457261] amdgpu: evict_process_worker=
- Finished evicting pasid 0x8005<br>[ =C2=A0984.562403] amdgpu: restore_proc=
-ess_queues_cpsch started<br>[ =C2=A0984.628620] amdgpu: kgd2kfd_quiesce_mm =
-called by svm_range_evict<br>[ =C2=A0984.628627] amdgpu: evict_process_queu=
-es_cpsch started<br>[ =C2=A0984.650436] amdgpu: kgd2kfd_quiesce_mm called b=
-y amdgpu_amdkfd_evict_userptr<br>[ =C2=A0984.650443] amdgpu: evict_process_=
-queues_cpsch started<br>[ =C2=A0984.718544] amdgpu: kgd2kfd_resume_mm calle=
-d by amdgpu_amdkfd_restore_userptr_worker<br>[ =C2=A0984.718550] amdgpu: re=
-store_process_queues_cpsch started<br>[ =C2=A0984.738360] amdgpu: kgd2kfd_q=
-uiesce_mm called by amdgpu_amdkfd_evict_userptr<br>[ =C2=A0984.738367] amdg=
-pu: evict_process_queues_cpsch started<br>[ =C2=A0984.765031] amdgpu: kgd2k=
-fd_resume_mm called by amdgpu_amdkfd_restore_userptr_worker<br>[ =C2=A0984.=
-765038] amdgpu: restore_process_queues_cpsch started<br>[ =C2=A0984.785180]=
- amdgpu: kgd2kfd_quiesce_mm called by amdgpu_amdkfd_evict_userptr<br>[ =C2=
-=A0984.785187] amdgpu: evict_process_queues_cpsch started<br>[ =C2=A0984.90=
-7430] amdgpu: kgd2kfd_resume_mm called by amdgpu_amdkfd_restore_userptr_wor=
-ker<br>[ =C2=A0984.907435] amdgpu: restore_process_queues_cpsch started<br>=
-[ =C2=A0984.930399] amdgpu: kgd2kfd_quiesce_mm called by amdgpu_amdkfd_evic=
-t_userptr<br>[ =C2=A0984.930405] amdgpu: evict_process_queues_cpsch started=
-<br>[ =C2=A0984.956551] amdgpu: kgd2kfd_resume_mm called by amdgpu_amdkfd_r=
-estore_userptr_worker<br>[ =C2=A0984.956561] amdgpu: restore_process_queues=
-_cpsch started<br>[ =C2=A0985.288614] amdgpu: kgd2kfd_resume_mm called by s=
-vm_range_restore_work<br>[ =C2=A0985.288621] amdgpu: restore_process_queues=
-_cpsch started<br>[ =C2=A0998.410978] amdgpu: evict_process_queues_cpsch st=
-arted<br>[ =C2=A0998.411041] amdgpu: evict_process_worker Finished evicting=
- pasid 0x8005<br>[ =C2=A0998.513922] amdgpu: restore_process_queues_cpsch s=
-tarted<br>[ =C2=A0998.531861] amdgpu: kgd2kfd_quiesce_mm called by svm_rang=
-e_evict<br>[ =C2=A0998.531867] amdgpu: evict_process_queues_cpsch started<b=
-r>[ =C2=A0998.553650] amdgpu: kgd2kfd_quiesce_mm called by amdgpu_amdkfd_ev=
-ict_userptr<br>[ =C2=A0998.553656] amdgpu: evict_process_queues_cpsch start=
-ed<br>[ =C2=A0998.581235] amdgpu: kgd2kfd_resume_mm called by amdgpu_amdkfd=
-_restore_userptr_worker<br>[ =C2=A0998.581241] amdgpu: restore_process_queu=
-es_cpsch started<br>[ =C2=A0998.607168] amdgpu: kgd2kfd_quiesce_mm called b=
-y amdgpu_amdkfd_evict_userptr<br>[ =C2=A0998.607174] amdgpu: evict_process_=
-queues_cpsch started<br>[ =C2=A0998.700499] amdgpu: kgd2kfd_resume_mm calle=
-d by amdgpu_amdkfd_restore_userptr_worker<br>[ =C2=A0998.700506] amdgpu: re=
-store_process_queues_cpsch started<br>[ =C2=A0998.718179] amdgpu: kgd2kfd_q=
-uiesce_mm called by amdgpu_amdkfd_evict_userptr<br>[ =C2=A0998.718187] amdg=
-pu: evict_process_queues_cpsch started<br>[ =C2=A0998.810595] amdgpu: kgd2k=
-fd_resume_mm called by amdgpu_amdkfd_restore_userptr_worker<br>[ =C2=A0998.=
-810603] amdgpu: restore_process_queues_cpsch started<br>[ =C2=A0998.831776]=
- amdgpu: kgd2kfd_quiesce_mm called by amdgpu_amdkfd_evict_userptr<br>[ =C2=
-=A0998.831782] amdgpu: evict_process_queues_cpsch started<br>[ =C2=A0998.85=
-8199] amdgpu: kgd2kfd_resume_mm called by amdgpu_amdkfd_restore_userptr_wor=
-ker<br>[ =C2=A0998.858205] amdgpu: restore_process_queues_cpsch started<br>=
-[ =C2=A0998.880604] amdgpu: kgd2kfd_quiesce_mm called by amdgpu_amdkfd_evic=
-t_userptr<br>[ =C2=A0998.880611] amdgpu: evict_process_queues_cpsch started=
-<br>[ =C2=A0998.912335] amdgpu: kgd2kfd_resume_mm called by amdgpu_amdkfd_r=
-estore_userptr_worker<br>[ =C2=A0998.912343] amdgpu: restore_process_queues=
-_cpsch started<br>[ =C2=A0999.237449] amdgpu: kgd2kfd_resume_mm called by s=
-vm_range_restore_work<br>[ =C2=A0999.237455] amdgpu: restore_process_queues=
-_cpsch started<br>[ 1058.513361] amdgpu: kgd2kfd_quiesce_mm called by amdgp=
-u_amdkfd_evict_userptr<br>[ 1058.513373] amdgpu: evict_process_queues_cpsch=
- started<br>[ 1062.513487] amdgpu 0000:03:00.0: amdgpu: Queue preemption fa=
-iled for queue with doorbell_id: 80004008<br>[ 1062.513500] amdgpu 0000:03:=
-00.0: amdgpu: Failed to evict process queue 0, caller: kgd2kfd_quiesce_mm<b=
-r>[ 1062.513503] amdgpu: Failed to quiesce KFD<br>[ 1062.513551] amdgpu 000=
-0:03:00.0: amdgpu: GPU reset begin!<br>[ 1062.513628] amdgpu: evict_process=
-_queues_cpsch started<br>[ 1062.513694] amdgpu 0000:03:00.0: amdgpu: Dumpin=
-g IP State<br>[ 1062.517229] amdgpu 0000:03:00.0: amdgpu: Dumping IP State =
-Completed<br>[ 1062.866910] amdgpu 0000:03:00.0: [drm:amdgpu_ring_test_help=
-er [amdgpu]] *ERROR* ring kiq_0.2.1.0 test failed (-110)<br>[ 1062.867435] =
-[drm:gfx_v10_0_hw_fini [amdgpu]] *ERROR* KCQ disable failed<br>[ 1062.91507=
-5] amdgpu 0000:03:00.0: amdgpu: BACO reset<br>[ 1062.937902] amdgpu: kgd2kf=
-d_quiesce_mm called by svm_range_evict<br>[ 1062.937907] amdgpu: evict_proc=
-ess_queues_cpsch started</div><div><br></div><br><div><br></div></div><br><=
-div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"g=
-mail_attr">On Wed, Nov 27, 2024 at 3:50=E2=80=AFPM Felix Kuehling &lt;<a hr=
-ef=3D"mailto:felix.kuehling@amd.com">felix.kuehling@amd.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-On 2024-11-27 06:51, Christian K=C3=B6nig wrote:<br>
-&gt; Am 27.11.24 um 12:46 schrieb Mika Laitio:<br>
-&gt;&gt; AMD gfx1103 / M780 iGPU will crash eventually when used for<br>
-&gt;&gt; pytorch ML/AI operations on rocm sdk stack. After kernel error<br>
-&gt;&gt; the application exits on error and linux desktop can itself<br>
-&gt;&gt; sometimes either freeze or reset back to login screen.<br>
-&gt;&gt;<br>
-&gt;&gt; Error will happen randomly when kernel calls <br>
-&gt;&gt; evict_process_queues_cpsch and<br>
-&gt;&gt; restore_process_queues_cpsch methods to remove and restore the que=
-ues<br>
-&gt;&gt; that has been created earlier.<br>
-&gt;&gt;<br>
-&gt;&gt; The fix is to remove the evict and restore calls when device used =
-is<br>
-&gt;&gt; iGPU. The queues that has been added during the user space <br>
-&gt;&gt; application execution<br>
-&gt;&gt; time will still be removed when the application exits<br>
-&gt;<br>
-&gt; As far as I can see that is absolutely not a fix but rather a <br>
-&gt; obviously broken workaround.<br>
-&gt;<br>
-&gt; Evicting and restoring queues is usually mandatory for correct operati=
-on.<br>
-&gt;<br>
-&gt; So just ignore that this doesn&#39;t work will just is not something y=
-ou <br>
-&gt; can do.<br>
-<br>
-I agree. Eviction happens for example in MMU notifiers where we need to <br=
->
-assure the kernel that memory won&#39;t be accessed by the GPU once the <br=
->
-notifier returns, until the memory mappings in the GPU page tables can <br>
-be revalidated.<br>
-<br>
-This looks like a crude workaround for an MES firmware problem or some <br>
-other kind of intermittent hang that needs to be root-caused. It&#39;s a <b=
-r>
-NACK from me as well.<br>
-<br>
-Regards,<br>
-=C2=A0=C2=A0 Felix<br>
-<br>
-<br>
-&gt;<br>
-&gt; Regards,<br>
-&gt; Christian.<br>
-&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; On evety test attempts the crash has always happened on the<br>
-&gt;&gt; same location while removing the 2nd queue of 3 with doorbell id 0=
-x1002.<br>
-&gt;&gt;<br>
-&gt;&gt; Below is the trace captured by adding more printouts to problem<br=
->
-&gt;&gt; location to print message also when the queue is evicted or resror=
-ed<br>
-&gt;&gt; succesfully.<br>
-&gt;&gt;<br>
-&gt;&gt; [=C2=A0 948.324174] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes add=
-ed <br>
-&gt;&gt; hardware queue to MES, doorbell=3D0x1202, queue: 2, caller: <br>
-&gt;&gt; restore_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 948.334344] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes add=
-ed <br>
-&gt;&gt; hardware queue to MES, doorbell=3D0x1002, queue: 1, caller: <br>
-&gt;&gt; restore_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 948.344499] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes add=
-ed <br>
-&gt;&gt; hardware queue to MES, doorbell=3D0x1000, queue: 0, caller: <br>
-&gt;&gt; restore_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 952.380614] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes =
-removed <br>
-&gt;&gt; hardware queue from MES, doorbell=3D0x1202, queue: 2, caller: <br>
-&gt;&gt; evict_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 952.391330] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes =
-removed <br>
-&gt;&gt; hardware queue from MES, doorbell=3D0x1002, queue: 1, caller: <br>
-&gt;&gt; evict_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 952.401634] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes =
-removed <br>
-&gt;&gt; hardware queue from MES, doorbell=3D0x1000, queue: 0, caller: <br>
-&gt;&gt; evict_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 952.414507] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes add=
-ed <br>
-&gt;&gt; hardware queue to MES, doorbell=3D0x1202, queue: 2, caller: <br>
-&gt;&gt; restore_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 952.424618] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes add=
-ed <br>
-&gt;&gt; hardware queue to MES, doorbell=3D0x1002, queue: 1, caller: <br>
-&gt;&gt; restore_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 952.434922] amdgpu 0000:c4:00.0: amdgpu: add_queue_mes add=
-ed <br>
-&gt;&gt; hardware queue to MES, doorbell=3D0x1000, queue: 0, caller: <br>
-&gt;&gt; restore_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 952.446272] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes =
-removed <br>
-&gt;&gt; hardware queue from MES, doorbell=3D0x1202, queue: 2, caller: <br>
-&gt;&gt; evict_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 954.460341] amdgpu 0000:c4:00.0: amdgpu: MES failed to res=
-pond to <br>
-&gt;&gt; msg=3DREMOVE_QUEUE<br>
-&gt;&gt; [=C2=A0 954.460356] amdgpu 0000:c4:00.0: amdgpu: remove_queue_mes =
-failed <br>
-&gt;&gt; to remove hardware queue from MES, doorbell=3D0x1002, queue: 1, ca=
-ller: <br>
-&gt;&gt; evict_process_queues_cpsch<br>
-&gt;&gt; [=C2=A0 954.460360] amdgpu 0000:c4:00.0: amdgpu: MES might be in <=
-br>
-&gt;&gt; unrecoverable state, issue a GPU reset<br>
-&gt;&gt; [=C2=A0 954.460366] amdgpu 0000:c4:00.0: amdgpu: Failed to evict q=
-ueue 1<br>
-&gt;&gt; [=C2=A0 954.460368] amdgpu 0000:c4:00.0: amdgpu: Failed to evict p=
-rocess <br>
-&gt;&gt; queues<br>
-&gt;&gt; [=C2=A0 954.460439] amdgpu 0000:c4:00.0: amdgpu: GPU reset begin!<=
-br>
-&gt;&gt; [=C2=A0 954.460464] amdgpu 0000:c4:00.0: amdgpu: remove_all_queues=
-_mes: <br>
-&gt;&gt; Failed to remove queue 0 for dev 5257<br>
-&gt;&gt; [=C2=A0 954.460515] amdgpu 0000:c4:00.0: amdgpu: Dumping IP State<=
-br>
-&gt;&gt; [=C2=A0 954.462637] amdgpu 0000:c4:00.0: amdgpu: Dumping IP State =
-Completed<br>
-&gt;&gt; [=C2=A0 955.865591] amdgpu: process_termination_cpsch started<br>
-&gt;&gt; [=C2=A0 955.866432] amdgpu: process_termination_cpsch started<br>
-&gt;&gt; [=C2=A0 955.866445] amdgpu 0000:c4:00.0: amdgpu: Failed to remove =
-queue 0<br>
-&gt;&gt; [=C2=A0 956.503043] amdgpu 0000:c4:00.0: amdgpu: MES failed to res=
-pond to <br>
-&gt;&gt; msg=3DREMOVE_QUEUE<br>
-&gt;&gt; [=C2=A0 956.503059] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *=
-ERROR* <br>
-&gt;&gt; failed to unmap legacy queue<br>
-&gt;&gt; [=C2=A0 958.507491] amdgpu 0000:c4:00.0: amdgpu: MES failed to res=
-pond to <br>
-&gt;&gt; msg=3DREMOVE_QUEUE<br>
-&gt;&gt; [=C2=A0 958.507507] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *=
-ERROR* <br>
-&gt;&gt; failed to unmap legacy queue<br>
-&gt;&gt; [=C2=A0 960.512077] amdgpu 0000:c4:00.0: amdgpu: MES failed to res=
-pond to <br>
-&gt;&gt; msg=3DREMOVE_QUEUE<br>
-&gt;&gt; [=C2=A0 960.512093] [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *=
-ERROR* <br>
-&gt;&gt; failed to unmap legacy queue<br>
-&gt;&gt; [=C2=A0 960.785816] [drm:gfx_v11_0_hw_fini [amdgpu]] *ERROR* faile=
-d to <br>
-&gt;&gt; halt cp gfx<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Mika Laitio &lt;<a href=3D"mailto:lamikr@gmail.com"=
- target=3D"_blank">lamikr@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; =C2=A0 .../drm/amd/amdkfd/kfd_device_queue_manager.c | 24 ++++++++=
-++++-------<br>
-&gt;&gt; =C2=A0 1 file changed, 16 insertions(+), 8 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c=
- <br>
-&gt;&gt; b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c<br>
-&gt;&gt; index c79fe9069e22..96088d480e09 100644<br>
-&gt;&gt; --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c<br>
-&gt;&gt; +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c<br>
-&gt;&gt; @@ -1187,9 +1187,12 @@ static int evict_process_queues_cpsch(struc=
-t <br>
-&gt;&gt; device_queue_manager *dqm,<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct kfd_process_device *pdd;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int retval =3D 0;<br>
-&gt;&gt; =C2=A0 +=C2=A0=C2=A0=C2=A0 // gfx1103 APU can fail to remove queue=
- on evict/restore cycle<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0 if (dqm-&gt;dev-&gt;adev-&gt;flags &amp; AMD_I=
-S_APU)<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dqm_lock(dqm);<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (qpd-&gt;evicted++ &gt; 0) /* al=
-ready evicted, do nothing */<br>
-&gt;&gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unlock;<br>
-&gt;&gt; =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pdd =3D qpd_to_pdd(qpd);<br>
-&gt;&gt; =C2=A0 @@ -1198,7 +1201,7 @@ static int evict_process_queues_cpsch=
-(struct <br>
-&gt;&gt; device_queue_manager *dqm,<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Skip queue eviction on proc=
-ess eviction.<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!pdd-&gt;drm_priv)<br>
-&gt;&gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unlock;<br>
-&gt;&gt; =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pr_debug_ratelimited(&quot;E=
-victing PASID 0x%x queues\n&quot;,<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pdd-&gt;process-&gt;pasid);<br>
-&gt;&gt; @@ -1219,7 +1222,7 @@ static int evict_process_queues_cpsch(struct=
- <br>
-&gt;&gt; device_queue_manager *dqm,<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 if (retval) {<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, &quot;Failed to evict que=
-ue %d\n&quot;,<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 q-&gt;properti=
-es.queue_id);<br>
-&gt;&gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unlock;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 }<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
-&gt;&gt; @@ -1231,8 +1234,9 @@ static int evict_process_queues_cpsch(struct=
- <br>
-&gt;&gt; device_queue_manager *dqm,<br>
-&gt;&gt; KFD_UNMAP_QUEUES_FILTER_DYNAMIC_QUEUES, 0,<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 USE_DEFAULT_GRACE_PERIOD);<br>
-&gt;&gt; =C2=A0 -out:<br>
-&gt;&gt; +out_unlock:<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dqm_unlock(dqm);<br>
-&gt;&gt; +out:<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return retval;<br>
-&gt;&gt; =C2=A0 }<br>
-&gt;&gt; =C2=A0 @@ -1326,14 +1330,17 @@ static int <br>
-&gt;&gt; restore_process_queues_cpsch(struct device_queue_manager *dqm,<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint64_t eviction_duration;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int retval =3D 0;<br>
-&gt;&gt; =C2=A0 +=C2=A0=C2=A0=C2=A0 // gfx1103 APU can fail to remove queue=
- on evict/restore cycle<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0 if (dqm-&gt;dev-&gt;adev-&gt;flags &amp; AMD_I=
-S_APU)<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pdd =3D qpd_to_pdd(qpd);<br>
-&gt;&gt; =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dqm_lock(dqm);<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (WARN_ON_ONCE(!qpd-&gt;evicted))=
- /* already restored, do <br>
-&gt;&gt; nothing */<br>
-&gt;&gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unlock;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (qpd-&gt;evicted &gt; 1) { /* re=
-f count still &gt; 0, decrement &amp; <br>
-&gt;&gt; quit */<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qpd-&gt;evi=
-cted--;<br>
-&gt;&gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unlock;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
-&gt;&gt; =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* The debugger creates proc=
-esses that temporarily have not <br>
-&gt;&gt; acquired<br>
-&gt;&gt; @@ -1364,7 +1371,7 @@ static int restore_process_queues_cpsch(stru=
-ct <br>
-&gt;&gt; device_queue_manager *dqm,<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 if (retval) {<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, &quot;Failed to restore q=
-ueue %d\n&quot;,<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 q-&gt;properti=
-es.queue_id);<br>
-&gt;&gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_unlock;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 }<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
-&gt;&gt; @@ -1375,8 +1382,9 @@ static int restore_process_queues_cpsch(stru=
-ct <br>
-&gt;&gt; device_queue_manager *dqm,<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 atomic64_add(eviction_duration, &am=
-p;pdd-&gt;evict_duration_counter);<br>
-&gt;&gt; =C2=A0 vm_not_acquired:<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qpd-&gt;evicted =3D 0;<br>
-&gt;&gt; -out:<br>
-&gt;&gt; +out_unlock:<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dqm_unlock(dqm);<br>
-&gt;&gt; +out:<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return retval;<br>
-&gt;&gt; =C2=A0 }<br>
-&gt;<br>
-</blockquote></div>
-
---00000000000080a51206280447f8--
