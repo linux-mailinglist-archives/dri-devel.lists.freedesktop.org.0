@@ -2,74 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FD29DECAF
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 21:29:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283B19DECF5
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 22:32:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2317510E596;
-	Fri, 29 Nov 2024 20:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 261F610E093;
+	Fri, 29 Nov 2024 21:32:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="nn8A0dv3";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="DFnwdzXj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDD6C10E596
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 20:29:00 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AT83fIL004209;
- Fri, 29 Nov 2024 20:29:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=ozSH48AQ8QskLuRPYuvhAv
- nTRX0ybLsc1XXKdSESFJ8=; b=nn8A0dv3tfNtWN09jGDmZS2zZSH77jYU0f9Cz0
- iz/L5czq8Y2i4v4l+brZ0jWCQs0wuYqZEhmqbCIwNnL8YeP49Fnu14pHoGzPoOmA
- +AfPkZ9nmAOsQdEXxjFDI1cBIvPPowU5XT6ydB+59WNKnp+moaIA4ThzI6Mh0pJm
- kihf0GCbEXnFHUxDSjess7Vbpoqo9oRvb85nAXGRAnqCle4PRdFYlmK5cvdhd/0I
- 7x/CLDQgnLhHTa5BUZEOk9PKP3sdi1Oxd2TvqEtfMeT4IMiSQzFG/g7+r1mk/LSG
- ErrA0UGvkJ+RZBGF3FmDV5NiK3iwUaqyUh82E4wN3zLzr0tQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4379s6sqdb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Nov 2024 20:29:00 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ATKSxw7009206
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Nov 2024 20:28:59 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 29 Nov 2024 12:28:59 -0800
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <quic_yabdulra@quicinc.com>, <quic_carlv@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH] accel/qaic: Fix typo for struct qaic_manage_trans_passthrough
-Date: Fri, 29 Nov 2024 13:28:45 -0700
-Message-ID: <20241129202845.3579306-1-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44E4710E093
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 21:31:58 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2ffa49f623cso30768371fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 13:31:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1732915916; x=1733520716;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=tzXAb2AynyjsC1brv/v5xtyGzPL78eXMtSvB4G/f/z4=;
+ b=DFnwdzXjZf6klVOs9Gz7ZZta0TmJhhgblrtz2PsU4aeA0P9W9lsUVZ4lmxmeNKT+/4
+ TRDGOA2lQ6oof1T/Su1hDvrujfD1G3rR/pwv4dBqIuEGEWvkpqHBRpkeREBF6vBV+ibL
+ C5allk/bqXl38uLKDisjLnc7U/81ddt9SaHtU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732915916; x=1733520716;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tzXAb2AynyjsC1brv/v5xtyGzPL78eXMtSvB4G/f/z4=;
+ b=RSDHr+MMr3MNgZyuinsTSBrR0fkZfziJK1ArLOk/c8iqtl3wlYyOh8qKZmNILcSaAA
+ 22jBXuUHhc+sxY7fsqZOwLfKmR41Y03K69IMGLTtnHKFJRPHewXUmW/JuuOAMQSMgqwl
+ rOGvoii85nAQwe3fyiIsN1deYXy4jhfFyxbzlZ17ZEGsMRtDpu7xRNzajVzVUOvGmAF+
+ EwSaztW4v1yilAQY1alEVIjtF5LIKlmHMIRGHuOAb/DuxR/Wo3Kj7Z0taKbUJ1jsoLxD
+ EyzOs5k2GopxjzYxFTNnOYU61olei2hjIZ2X11YXW5NqajyRPDieuAX5Pm/HzoaB3cxs
+ iiAA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUByHwdwZGa4c5GyAcUIBsMFYnDIEFW7MgfjMxLkU3trnVEQKUMnU14CAhPyzph/X/VIG3OU9prSzA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWyo0vKaVXQfQyx+nyjljZRL47X5FpbqAVrHS9ZHUfdXBQDmy1
+ 2/ABmBNygSUGtH8y2g5lhj2EPdf/c7dR14/xl7htgnCqttz0B2YJX/oIV4OZoCKuggXPkd9mxPk
+ 0OMkujg==
+X-Gm-Gg: ASbGncsTcToxfQWApZkNWGijIBEIX2dB/gIvNmLf7zCJhyiBBGNiB48c5uZ61SQ5tLk
+ QHktsbe8xC3cyr4k3z7HoSyCJd1m7MQTwbdU3FY4I7vinXBysfgAEvK/6ZajFVmaIbYF12iEuvZ
+ tXZ5/HSxrhmuvpnezRYDOnfVZJlN2MksGmjT/B+4RrbOVy+i1IYmfLwvbZq6QNAFtbyycE/TvvG
+ a88jEduIx3Nv3QRtf7l6/5uqEQeu3cV5SCecce0Qcfe7NGHhwrQ3mQjZvztorKUzlRSxBwQC5Be
+ KJsJMjzI+Gsy6h114FYpYlna
+X-Google-Smtp-Source: AGHT+IFcw4DKoo7nUVaU+0Kvy3jHqHxqFC+1BD8JUQiHjNPDwWsOn0KCTbFaGh8XCr0xuYBZjcaCQg==
+X-Received: by 2002:a05:651c:2211:b0:2ff:bb68:4233 with SMTP id
+ 38308e7fff4ca-2ffd60e1ed1mr82044891fa.33.1732915915708; 
+ Fri, 29 Nov 2024 13:31:55 -0800 (PST)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com.
+ [209.85.218.47]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aa599953d53sm213332066b.181.2024.11.29.13.31.54
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Nov 2024 13:31:55 -0800 (PST)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-aa549f2f9d2so262769066b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 13:31:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW63GPZrt8h2rOSJ4i6g22UpUiFJsnf7zrN+HwUzCxY/qXetizJXerxzl8nF3Zz/pbaGwFvKP5af20=@lists.freedesktop.org
+X-Received: by 2002:a17:906:18aa:b0:aa5:2c1b:d2cd with SMTP id
+ a640c23a62f3a-aa580f353c5mr803914866b.34.1732915914141; Fri, 29 Nov 2024
+ 13:31:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: Ygur-hW5AQgDp1zp2f89XbymLBy6OBtf
-X-Proofpoint-GUID: Ygur-hW5AQgDp1zp2f89XbymLBy6OBtf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 clxscore=1015
- mlxlogscore=671 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2411290163
+References: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
+In-Reply-To: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 29 Nov 2024 13:31:37 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wh74-reWGqpP+i3O8usrS1Jr12UGGMCfaK58_0aK5Lw_Q@mail.gmail.com>
+Message-ID: <CAHk-=wh74-reWGqpP+i3O8usrS1Jr12UGGMCfaK58_0aK5Lw_Q@mail.gmail.com>
+Subject: Re: [git pull] drm fixes for 6.13-rc1
+To: Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ Sasha Levin <sashal@kernel.org>
+Cc: Sima Vetter <sima@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>, 
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,27 +96,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The documentation header for struct qaic_manage_trans_passthrough has a
-typo - "t" is missing in "transaction".
+On Thu, 28 Nov 2024 at 12:42, Dave Airlie <airlied@gmail.com> wrote:
+>
+> Merge window fixes, mostly amdgpu and xe, with a few other minor ones,
+> all looks fairly normal,
 
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
----
- include/uapi/drm/qaic_accel.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hmm. I've pulled this, but do note the report by Sasha.
 
-diff --git a/include/uapi/drm/qaic_accel.h b/include/uapi/drm/qaic_accel.h
-index d3ca876a08e9..c92d0309d583 100644
---- a/include/uapi/drm/qaic_accel.h
-+++ b/include/uapi/drm/qaic_accel.h
-@@ -64,7 +64,7 @@ struct qaic_manage_trans_hdr {
- /**
-  * struct qaic_manage_trans_passthrough - Defines a passthrough transaction.
-  * @hdr: In. Header to identify this transaction.
-- * @data: In. Payload of this ransaction. Opaque to the driver. Userspace must
-+ * @data: In. Payload of this transaction. Opaque to the driver. Userspace must
-  *	  encode in little endian and align/pad to 64-bit.
-  */
- struct qaic_manage_trans_passthrough {
--- 
-2.34.1
+The
 
+        if (WARN_ON(!work->func))
+                return false;
+
+from __flush_work() looks odd, and is fairly obviously triggered by
+this one liner in commit 93df74873703 ("drm/amdgpu/jpeg: cancel the
+jpeg worker")
+
+-       bool set_clocks = !cancel_delayed_work_sync(&adev->vcn.idle_work);
++       bool set_clocks = !cancel_delayed_work_sync(&adev->jpeg.idle_work);
+
+where apparently the jpeg.idle_work isn't initialized at that point.
+
+It looks like the initialization is done by amdgpu_jpeg_sw_init(), and
+it looks like that cancel_delayed_work_sync() is just done too early.
+But I don't know the code. Alex?
+
+The other report by Sasha seems to be a 32-bit issue, where something
+calls roundup_pow_of_two() on a thing that would round up past the
+32-bit limit. Presumably it works on 64-bit.
+
+But I'm not seeing anything that looks like a likely *cause* of the new warning.
+
+There's a couple possible cases, although this one looks suspicious:
+
+        adev->vm_manager.max_pfn = (uint64_t)vm_size << 18;
+
+        tmp = roundup_pow_of_two(adev->vm_manager.max_pfn);
+
+because it explicitly uses 64-bit types for that max_pfn thing, but
+then does that roundup_pow_of_two() that only works on "unsigned
+long".
+
+Sasha - it would help if your warning stack dumps had line numbers
+(using decode_stacktrace.sh, which you should be familiar with, since
+you wrote it...)
+
+I realize that requires some debug info, which might slow down builds
+etc, but it would be really nice.
+
+          Linus
