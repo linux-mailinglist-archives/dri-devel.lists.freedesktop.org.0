@@ -2,83 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF7F9DC2BF
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 12:23:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44E59DC342
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 13:13:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E29DC10E1ED;
-	Fri, 29 Nov 2024 11:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3751310E4B1;
+	Fri, 29 Nov 2024 12:13:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="N17PuwrQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hWTm9Ypb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D03D110E1ED
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 11:23:06 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ATAFLOk003154;
- Fri, 29 Nov 2024 11:23:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- upsY0EPNIr6gt4kIzgkAEMRHahTuyjFtzcxQkRDoriY=; b=N17PuwrQ5tAz8trV
- X40NoxbkynF6miVPvTlO1ZMhNF1T+ZijUuW7aSkaaKMD/CPH+h1TYZP8MeldsCiQ
- pvShzR1AXNwvYXyDbrRms3AyhTgxLwznXbFJeeS+II24tweC7Nn0yljBW3792o7H
- 7j570zaqrERTsXG/p/GZNSnJDE4OmNwceNRIIh+zOIUTAoNszS3EJouxpVkj/d7o
- ZvKEjNF4zXF0xR/ZRxl6ENQTxigbnA2nbozWZIK1Rw9ccAr+9myGjkdss1sPAK25
- aJHUC/AX1A+tiJG03RsVDwYUG82+VXlLLSg5AmPTA9OwYwz2WMBE7BnulBSuwUmR
- thy3Tw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437bpv85nx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Nov 2024 11:23:03 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ATBN2D8014659
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Nov 2024 11:23:02 GMT
-Received: from [10.204.65.49] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 29 Nov
- 2024 03:22:59 -0800
-Message-ID: <d9289a55-9732-4ce6-bff4-741df752b9b1@quicinc.com>
-Date: Fri, 29 Nov 2024 16:52:56 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D316810E4B1;
+ Fri, 29 Nov 2024 12:13:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1732882383; x=1764418383;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ocQppVVNFhRwq7ha/VHFUhe3KayUiaBEiHqz3BhEtu0=;
+ b=hWTm9YpbmQi5kKIo8gy2zY9bu1xG6cNPx6GhWtrRQULxUYNunqCyXRfd
+ QbH2te0szxSyNujOXL0pZwk4LDEI/kkyRFKk7LwhMlSTX6p9B3T4njjxz
+ ryNJKM4QOOBfsG3ahUnUBy+wFuVtLrcWASaZKIyRfkkJPl+SUSnFoW71V
+ m51n0YgRGPwrWxGQ4LUT9hqveexjRUHXGbSmORdHAqpHFNsnpfhA3BJjs
+ Y78x/4kTedmbZbDmKIFenWf1lvPAM974p3LnlGkyzYZZOenNSZIs4bREF
+ hTjRImva/2sMQuqDdnq1nyFbPdlMFGRJAplA0FJTPL4zA+pZUBijxsPIJ w==;
+X-CSE-ConnectionGUID: 16SjNKpZT5uSi0vJlYOheQ==
+X-CSE-MsgGUID: UpyWWD+9QtyUlCR+9L1oSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="32486080"
+X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; d="scan'208";a="32486080"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2024 04:13:02 -0800
+X-CSE-ConnectionGUID: vwrFvSoWRaiFVOXbhsOqwg==
+X-CSE-MsgGUID: fJbP48qZT6m6AmlfXsrmzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; d="scan'208";a="97577588"
+Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
+ by orviesa004.jf.intel.com with ESMTP; 29 Nov 2024 04:12:56 -0800
+Received: from kbuild by 5e2646291792 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tGzrh-0000It-18;
+ Fri, 29 Nov 2024 12:12:53 +0000
+Date: Fri, 29 Nov 2024 20:12:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xiangxu Yin <quic_xiangxuy@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, quic_lliu6@quicinc.com,
+ quic_fangez@quicinc.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-gpio@vger.kernel.org, Xiangxu Yin <quic_xiangxuy@quicinc.com>
+Subject: Re: [PATCH 3/8] phy: qcom: qmp-usbc: Add DP phy mode support on QCS615
+Message-ID: <202411292042.NDeS4BGv-lkp@intel.com>
+References: <20241129-add-displayport-support-for-qcs615-platform-v1-3-09a4338d93ef@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] misc: fastrpc: Add support for multiple PD from
- one process
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
- <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
-References: <20241121084713.2599904-1-quic_ekangupt@quicinc.com>
- <20241121084713.2599904-2-quic_ekangupt@quicinc.com>
- <kq7vgfvzqhkq6kzu2zg7vr2ya5tp3igrhnqjaztwqkarh35hsf@xylvm4b4r6bu>
-Content-Language: en-US
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-In-Reply-To: <kq7vgfvzqhkq6kzu2zg7vr2ya5tp3igrhnqjaztwqkarh35hsf@xylvm4b4r6bu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: OzScbKxp6-bJfWTCVfOhJzAT4dBO1K92
-X-Proofpoint-GUID: OzScbKxp6-bJfWTCVfOhJzAT4dBO1K92
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- priorityscore=1501 impostorscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
- adultscore=0 suspectscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2411290092
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241129-add-displayport-support-for-qcs615-platform-v1-3-09a4338d93ef@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,186 +87,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Xiangxu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on f486c8aa16b8172f63bddc70116a0c897a7f3f02]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiangxu-Yin/dt-bindings-display-msm-Document-DP-on-QCS615/20241129-160612
+base:   f486c8aa16b8172f63bddc70116a0c897a7f3f02
+patch link:    https://lore.kernel.org/r/20241129-add-displayport-support-for-qcs615-platform-v1-3-09a4338d93ef%40quicinc.com
+patch subject: [PATCH 3/8] phy: qcom: qmp-usbc: Add DP phy mode support on QCS615
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241129/202411292042.NDeS4BGv-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411292042.NDeS4BGv-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411292042.NDeS4BGv-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/phy/qualcomm/phy-qcom-qmp-usbc.c:17:
+   In file included from include/linux/phy/phy.h:17:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/phy/qualcomm/phy-qcom-qmp-usbc.c:721:24: warning: variable 'pre_emphasis_cfg' is uninitialized when used here [-Wuninitialized]
+     721 |         if ((v_level > 4) || (pre_emphasis_cfg > 4)) {
+         |                               ^~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp-usbc.c:708:40: note: initialize the variable 'pre_emphasis_cfg' to silence this warning
+     708 |         u8 voltage_swing_cfg, pre_emphasis_cfg;
+         |                                               ^
+         |                                                = '\0'
+>> drivers/phy/qualcomm/phy-qcom-qmp-usbc.c:1801:47: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+    1801 |                 dev_err(dev, "get resource fail, ret:%d\n", ret);
+         |                                                             ^~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp-usbc.c:1797:9: note: initialize the variable 'ret' to silence this warning
+    1797 |         int ret;
+         |                ^
+         |                 = 0
+>> drivers/phy/qualcomm/phy-qcom-qmp-usbc.c:2082:13: warning: variable 'np' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    2082 |         } else if (qmp->type == QMP_PHY_USBC_DP) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp-usbc.c:2150:14: note: uninitialized use occurs here
+    2150 |         of_node_put(np);
+         |                     ^~
+   drivers/phy/qualcomm/phy-qcom-qmp-usbc.c:2082:9: note: remove the 'if' if its condition is always true
+    2082 |         } else if (qmp->type == QMP_PHY_USBC_DP) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp-usbc.c:2027:24: note: initialize the variable 'np' to silence this warning
+    2027 |         struct device_node *np;
+         |                               ^
+         |                                = NULL
+   7 warnings generated.
 
 
-On 11/22/2024 3:51 AM, Dmitry Baryshkov wrote:
-> On Thu, Nov 21, 2024 at 02:17:12PM +0530, Ekansh Gupta wrote:
->> Memory intensive applications(which requires more tha 4GB) that wants
->> to offload tasks to DSP might have to split the tasks to multiple
->> user PD to make the resources available.
->>
->> For every call to DSP, fastrpc driver passes the process tgid which
->> works as an identifier for the DSP to enqueue the tasks to specific PD.
->> With current design, if any process opens device node more than once
->> and makes PD init request, same tgid will be passed to DSP which will
->> be considered a bad request and this will result in failure as the same
->> identifier cannot be used for multiple DSP PD.
->>
->> Assign and pass a client ID to DSP which would be assigned during device
->> open and will be dependent on the index of session allocated for the PD.
->> This will allow the same process to open the device more than once and
->> spawn multiple dynamic PD for ease of processing.
->>
->> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
->> ---
->>  drivers/misc/fastrpc.c | 30 ++++++++++++++++--------------
->>  1 file changed, 16 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->> index 74181b8c386b..08f223c95c33 100644
->> --- a/drivers/misc/fastrpc.c
->> +++ b/drivers/misc/fastrpc.c
->> @@ -39,6 +39,7 @@
->>  #define FASTRPC_INIT_HANDLE	1
->>  #define FASTRPC_DSP_UTILITIES_HANDLE	2
->>  #define FASTRPC_CTXID_MASK (0xFF0)
->> +#define FASTRPC_CLIENTID_MASK GENMASK(4, 4)
-> GENMASK(4,4) is just BIT(4), isn't it?
->
->>  #define INIT_FILELEN_MAX (2 * 1024 * 1024)
->>  #define INIT_FILE_NAMELEN_MAX (128)
->>  #define FASTRPC_DEVICE_NAME	"fastrpc"
->> @@ -299,7 +300,7 @@ struct fastrpc_user {
->>  	struct fastrpc_session_ctx *sctx;
->>  	struct fastrpc_buf *init_mem;
->>  
->> -	int tgid;
->> +	int client_id;
->>  	int pd;
->>  	bool is_secure_dev;
->>  	/* Lock for lists */
->> @@ -614,7 +615,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
->>  	ctx->sc = sc;
->>  	ctx->retval = -1;
->>  	ctx->pid = current->pid;
->> -	ctx->tgid = user->tgid;
->> +	ctx->tgid = user->client_id;
->>  	ctx->cctx = cctx;
->>  	init_completion(&ctx->work);
->>  	INIT_WORK(&ctx->put_work, fastrpc_context_put_wq);
->> @@ -1115,7 +1116,7 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
->>  	int ret;
->>  
->>  	cctx = fl->cctx;
->> -	msg->pid = fl->tgid;
->> +	msg->pid = fl->client_id;
->>  	msg->tid = current->pid;
->>  
->>  	if (kernel)
->> @@ -1293,7 +1294,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
->>  		}
->>  	}
->>  
->> -	inbuf.pgid = fl->tgid;
->> +	inbuf.pgid = fl->client_id;
->>  	inbuf.namelen = init.namelen;
->>  	inbuf.pageslen = 0;
->>  	fl->pd = USER_PD;
->> @@ -1395,7 +1396,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
->>  		goto err;
->>  	}
->>  
->> -	inbuf.pgid = fl->tgid;
->> +	inbuf.pgid = fl->client_id;
->>  	inbuf.namelen = strlen(current->comm) + 1;
->>  	inbuf.filelen = init.filelen;
->>  	inbuf.pageslen = 1;
->> @@ -1469,8 +1470,9 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
->>  }
->>  
->>  static struct fastrpc_session_ctx *fastrpc_session_alloc(
->> -					struct fastrpc_channel_ctx *cctx)
->> +					struct fastrpc_user *fl)
->>  {
->> +	struct fastrpc_channel_ctx *cctx = fl->cctx;
->>  	struct fastrpc_session_ctx *session = NULL;
->>  	unsigned long flags;
->>  	int i;
->> @@ -1480,6 +1482,7 @@ static struct fastrpc_session_ctx *fastrpc_session_alloc(
->>  		if (!cctx->session[i].used && cctx->session[i].valid) {
->>  			cctx->session[i].used = true;
->>  			session = &cctx->session[i];
->> +			fl->client_id = FASTRPC_CLIENTID_MASK | i;
-> So, it's not a mask, but a flag. Why is it necessary at all? Can you
-> just pass i? Or i+1?
-This also works as I just need to pass a non-zero unique identifier to DSP. I'll update this
-in the next patch.
+vim +/pre_emphasis_cfg +721 drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
 
-Thanks for reviewing.
+   699	
+   700	static int qcs615_qmp_configure_dp_voltages(struct qmp_usbc *qmp)
+   701	{
+   702		struct qmp_phy_dp_layout *layout = to_dp_layout(qmp);
+   703		struct qmp_phy_dp_cfg *cfg = to_dp_cfg(qmp);
+   704		const struct phy_configure_opts_dp *dp_opts = &layout->dp_opts;
+   705		void __iomem *tx = layout->dp_tx;
+   706		void __iomem *tx2 = layout->dp_tx2;
+   707		unsigned int v_level = 0, p_level = 0;
+   708		u8 voltage_swing_cfg, pre_emphasis_cfg;
+   709		int i;
+   710	
+   711		if (dp_opts->lanes > 4) {
+   712			dev_err(qmp->dev, "Invalid lane_num(%d)\n", dp_opts->lanes);
+   713			return -EINVAL;
+   714		}
+   715	
+   716		for (i = 0; i < dp_opts->lanes; i++) {
+   717			v_level = max(v_level, dp_opts->voltage[i]);
+   718			p_level = max(p_level, dp_opts->pre[i]);
+   719		}
+   720	
+ > 721		if ((v_level > 4) || (pre_emphasis_cfg > 4)) {
+   722			dev_err(qmp->dev, "Invalid v(%d) | p(%d) level)\n",
+   723				v_level, pre_emphasis_cfg);
+   724			return -EINVAL;
+   725		}
+   726	
+   727		voltage_swing_cfg = (*cfg->swing_tbl)[v_level][p_level];
+   728		pre_emphasis_cfg = (*cfg->pre_emphasis_tbl)[v_level][p_level];
+   729	
+   730		/* Enable MUX to use Cursor values from these registers */
+   731		voltage_swing_cfg |= DP_PHY_TXn_TX_DRV_LVL_MUX_EN;
+   732		pre_emphasis_cfg |= DP_PHY_TXn_TX_EMP_POST1_LVL_MUX_EN;
+   733	
+   734		if (voltage_swing_cfg == 0xFF && pre_emphasis_cfg == 0xFF)
+   735			return -EINVAL;
+   736	
+   737		/* program default setting first */
+   738		writel(0x2A, tx + QSERDES_V3_TX_TX_DRV_LVL);
+   739		writel(0x20, tx + QSERDES_V3_TX_TX_EMP_POST1_LVL);
+   740		writel(0x2A, tx2 + QSERDES_V3_TX_TX_DRV_LVL);
+   741		writel(0x20, tx2 + QSERDES_V3_TX_TX_EMP_POST1_LVL);
+   742	
+   743		writel(voltage_swing_cfg, tx + QSERDES_V3_TX_TX_DRV_LVL);
+   744		writel(pre_emphasis_cfg, tx + QSERDES_V3_TX_TX_EMP_POST1_LVL);
+   745		writel(voltage_swing_cfg, tx2 + QSERDES_V3_TX_TX_DRV_LVL);
+   746		writel(pre_emphasis_cfg, tx2 + QSERDES_V3_TX_TX_EMP_POST1_LVL);
+   747	
+   748		return 0;
+   749	}
+   750	
 
---ekansh
->
->>  			break;
->>  		}
->>  	}
->> @@ -1504,7 +1507,7 @@ static int fastrpc_release_current_dsp_process(struct fastrpc_user *fl)
->>  	int tgid = 0;
->>  	u32 sc;
->>  
->> -	tgid = fl->tgid;
->> +	tgid = fl->client_id;
->>  	args[0].ptr = (u64)(uintptr_t) &tgid;
->>  	args[0].length = sizeof(tgid);
->>  	args[0].fd = -1;
->> @@ -1579,11 +1582,10 @@ static int fastrpc_device_open(struct inode *inode, struct file *filp)
->>  	INIT_LIST_HEAD(&fl->maps);
->>  	INIT_LIST_HEAD(&fl->mmaps);
->>  	INIT_LIST_HEAD(&fl->user);
->> -	fl->tgid = current->tgid;
->>  	fl->cctx = cctx;
->>  	fl->is_secure_dev = fdevice->secure;
->>  
->> -	fl->sctx = fastrpc_session_alloc(cctx);
->> +	fl->sctx = fastrpc_session_alloc(fl);
->>  	if (!fl->sctx) {
->>  		dev_err(&cctx->rpdev->dev, "No session available\n");
->>  		mutex_destroy(&fl->mutex);
->> @@ -1647,7 +1649,7 @@ static int fastrpc_dmabuf_alloc(struct fastrpc_user *fl, char __user *argp)
->>  static int fastrpc_init_attach(struct fastrpc_user *fl, int pd)
->>  {
->>  	struct fastrpc_invoke_args args[1];
->> -	int tgid = fl->tgid;
->> +	int tgid = fl->client_id;
->>  	u32 sc;
->>  
->>  	args[0].ptr = (u64)(uintptr_t) &tgid;
->> @@ -1803,7 +1805,7 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
->>  	int err;
->>  	u32 sc;
->>  
->> -	req_msg.pgid = fl->tgid;
->> +	req_msg.pgid = fl->client_id;
->>  	req_msg.size = buf->size;
->>  	req_msg.vaddr = buf->raddr;
->>  
->> @@ -1889,7 +1891,7 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
->>  		return err;
->>  	}
->>  
->> -	req_msg.pgid = fl->tgid;
->> +	req_msg.pgid = fl->client_id;
->>  	req_msg.flags = req.flags;
->>  	req_msg.vaddr = req.vaddrin;
->>  	req_msg.num = sizeof(pages);
->> @@ -1978,7 +1980,7 @@ static int fastrpc_req_mem_unmap_impl(struct fastrpc_user *fl, struct fastrpc_me
->>  		return -EINVAL;
->>  	}
->>  
->> -	req_msg.pgid = fl->tgid;
->> +	req_msg.pgid = fl->client_id;
->>  	req_msg.len = map->len;
->>  	req_msg.vaddrin = map->raddr;
->>  	req_msg.fd = map->fd;
->> @@ -2031,7 +2033,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
->>  		return err;
->>  	}
->>  
->> -	req_msg.pgid = fl->tgid;
->> +	req_msg.pgid = fl->client_id;
->>  	req_msg.fd = req.fd;
->>  	req_msg.offset = req.offset;
->>  	req_msg.vaddrin = req.vaddrin;
->> -- 
->> 2.34.1
->>
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
