@@ -2,112 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB67C9DE985
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 16:33:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFCB9DE9E0
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 16:44:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5565D10E27B;
-	Fri, 29 Nov 2024 15:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1996410E2A1;
+	Fri, 29 Nov 2024 15:44:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mhPNY0Xq";
+	dkim=pass (2048-bit key; unprotected) header.d=hotmail.com header.i=@hotmail.com header.b="fZTLxAzb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE26810E4F1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 15:33:41 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ATCbroo025069
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 15:33:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- shaW82SALXb2Kh8WEaB1wWyqmB0pJy4OE+cwXVqtroA=; b=mhPNY0XqQfzyWk6j
- Z71lpa2MSZLp6PGgBCT0RqH+AXWVpCpM+mbFK39YjEXA8P385s2HNEySkMkHfgjU
- eBmYQdaECTUiTjoFxAgtXPz0GjHpPNfxyzCb/69s2XvzLOGFJlwaofXG/NCRkYVO
- 7YOhpb5pIPoq6NXTugLpsTY+yKJNk0c+z/ZLbhdDV2lxKo0qqr8sx88zLsyhxNPp
- TWmd0vxxG0DkCeR4pgjk5KUGlVaaozAHPE4RH9hdx6E61lUyS2GN7ZQwKMIgtGdf
- rR7JEj1p1Sts8MAQUB5hcuGNE/UwsxUNytQVbbaaH8J7J3l08gN7X0ZEtrcScaWD
- 6Gupzg==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437dsqgd8s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 15:33:40 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6d880eea0a1so3475756d6.3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 07:33:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732894420; x=1733499220;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=shaW82SALXb2Kh8WEaB1wWyqmB0pJy4OE+cwXVqtroA=;
- b=N+9KKPO02MIhabnMyzhD2QkujHXEN4UFsPzS/nUm6r6jUy8y00yOoD4Zifv3HKHRqA
- nD1UQc6VkCV14AKIquA3xAhf7m+Kb1NxjWICguRbuEqhTJECvxh6eJGNkxgd62/Hb7Oi
- Y3IL67TyP+hAOVEukmtnOP67/5vONOgvuVFWJUWko7U2lMskdHBzNfgaQrJgY/3ARC+k
- Py4mMFglyKyv4vnmhD/qIrBHQeezRomHt+SlXhw6ilQCO2LpfPJnfiiA7Q7FyQ70CvlT
- 1OiUW1a4H8JxkM4aDAngW7MilGxOhJNorVsDVEZHDImd4r3xIYyCgJN5xTLA8HKgdH6/
- 8/5w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXax9INgEcdLIgz75imMMu34ZSlB67zQqv2ZcFqPBuS0mgeMICPd0hf4zDCnkSPjuDiLFJmTnzL0zA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzI3QZv1ApO2FbtQAnqfII4n6iDdpuXNk2/8+BhGPmoxGcUpgMZ
- Nm7BH8SASkJiwZ+pcK3ioUbOkhn9rwp/jpv2F0omRu4vTQn8rGfq0ux7sFUcFxpex/9rV4NHXEU
- x1WUVbIzY5qJCZBLysVkaqIWA5IGuAUxj1rpQ8fjqJFT8xz9vekHGm2D/v69LomaEq8g=
-X-Gm-Gg: ASbGncuRMQ3jCQBnMSfMv92Xqp+dyFFiZ82IwDSKE0/8Q68NwpINo0mlpMu3UjwJk47
- 7cY1T12TbodlhvCVGd6rVIuLINlDSHsFcqMkP/FOeXLFT+PNIYb75IJ9GYupEm/0sO7oDbS20HE
- YypIfVeOLtpISDXvHQju2mXvrTn+Nn5b3+CmlAw+1UfE3yD04+EPyFAvdx9+8b0hHdRPxCRQZjt
- lHSs2TmdRkUz9vcHUwhCxxdl0pCwQxSegmoWJtdL2bCR0Z5x+HCU2neDzN1pkS+5NSKFO+MjDl6
- eDG/C24Jj5DnRhakGDXXLpHFre6E6Vk=
-X-Received: by 2002:a05:620a:2447:b0:7b3:2107:2eef with SMTP id
- af79cd13be357-7b67c50621dmr664299885a.16.1732894419886; 
- Fri, 29 Nov 2024 07:33:39 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHjvimuE9VJMKaI6/pwzXY6EhhoZkPvjvninXPgPQEWRNX1VJCXzVg7RD/kix02hgfkfKIAyg==
-X-Received: by 2002:a05:620a:2447:b0:7b3:2107:2eef with SMTP id
- af79cd13be357-7b67c50621dmr664298385a.16.1732894419463; 
- Fri, 29 Nov 2024 07:33:39 -0800 (PST)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d097e8dcefsm1995978a12.55.2024.11.29.07.33.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Nov 2024 07:33:38 -0800 (PST)
-Message-ID: <e3bb3f66-9cad-40a4-ab55-f1d5a8e34d4d@oss.qualcomm.com>
-Date: Fri, 29 Nov 2024 16:33:36 +0100
-MIME-Version: 1.0
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05olkn2078.outbound.protection.outlook.com [40.92.89.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAD8410E2A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 15:44:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lEtPbME7Fgv2yxnO+nFTCNCIRxVsv5XtKi4rBl4SoPgE+Ewxjm4v7iTGU8B2Oza8WRTH96L7Sql5VKLiQ+OJlloPhjb2qG3gkJj9vnV8SWXBQaP7i7jH1Ik70FHWPVbEeiUUgFr1/R57xzV3FC4pvT30s1An9IjgWVVRkNUmo9VMMOgvGvsydooRzCtnS9SvDz1N0m+em8t25df3FpXkp03Doh3DqkNtKSqSU1vUnDCefvlZKXAhITpyxC7z4rja05Ja6o51f0tIztEPx+3Ah7+GkTHhSZQnD/c0IX+UZDacDn7anqPqmmLUgX4y3/G51ixOeNaD6sOZV4DL96Tiug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KeQdtDxVi6cvx4UvdNfUcwlPIm6QFv3dl0ZNEbiTpZo=;
+ b=h0LtyTrChcoQ3OWXzoaq+eAec9MqFeP1/lfDr/+qKZ8UGt3tLv/FI8BbRAaZZEG9AXA+DHA0frjfm23FdB9o6jYFMUBbd6j259u2yqN6q41H55kR//Staq3lwM8QIrSWbsEiUIkBoDKqxkQhMgORFWM0W8I/eetsZt+6tnU9a8NC6Y4BlHgMF25a6NzrlMBuxzAWCTC50Q4lVIK5FdsQjwfOeM2f3MA2fNecg3DZiVydr9R+BuydPhQbNB1PjrmjDHPpME1yUhkSQ1AeOfNfcwrXnjQQVWRV7gw2ypOzUVa2akUuvAeIXltJe/HyJDEJaN/JDJXJZ6SjFmkokV4Mrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KeQdtDxVi6cvx4UvdNfUcwlPIm6QFv3dl0ZNEbiTpZo=;
+ b=fZTLxAzb0H8XaaSmvj9Ozq3dd9NLmAEpD6HV++NcEfY13IT5tLguWrfUkCoPC9+BsBvS/c46Wo9DjjGxdiXeulqlmR+XtD0Sh73UUXnBZFO6fG/CnuCRk1MzlUjCiFUgJOUNgGQb2kCXbPQD0GjU5LUk+aHNBsOrt2OeuyFL2/hd+D+rh7oPA5CSuU1esH4jbPc1patVUKrmkAJyNQq62GddIFAivVqAlKQglAbxCem6xyQSm2x5MEBk9WyHaDmJnJFseAYynDriVSy2jJJBhHC7ovvOnka997IySstt3wQsT9cTyyFFIalHSdhkq7m/c7p4v3beHcpA3kjd5436dg==
+Received: from VE1P189MB1024.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:149::13)
+ by GV1P189MB2243.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:9c::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.18; Fri, 29 Nov
+ 2024 15:44:28 +0000
+Received: from VE1P189MB1024.EURP189.PROD.OUTLOOK.COM
+ ([fe80::4c0a:a901:4d3c:e0bb]) by VE1P189MB1024.EURP189.PROD.OUTLOOK.COM
+ ([fe80::4c0a:a901:4d3c:e0bb%4]) with mapi id 15.20.8158.024; Fri, 29 Nov 2024
+ 15:44:28 +0000
+Message-ID: <VE1P189MB1024A30BA75185CDB5FCEC91E32A2@VE1P189MB1024.EURP189.PROD.OUTLOOK.COM>
+Date: Fri, 29 Nov 2024 16:44:26 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/7] drm/msm: adreno: find bandwidth index of OPP and
- set it along freq index
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Subject: Re: [PATCH v4 3/3] arm64: dts: qcom: x1e80100-vivobook-s15: Add
+ bluetooth
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20241128-topic-sm8x50-gpu-bw-vote-v3-0-81d60c10fb73@linaro.org>
- <20241128-topic-sm8x50-gpu-bw-vote-v3-4-81d60c10fb73@linaro.org>
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Douglas Anderson
+ <dianders@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20241125-asus_qcom_display-v4-0-61a4da162406@hotmail.com>
+ <20241125-asus_qcom_display-v4-3-61a4da162406@hotmail.com>
+ <7mmnvrgzmqujse4bz2eosdnqmogyvfdi3ei5ez3es562qncks3@yqre7fakszbb>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241128-topic-sm8x50-gpu-bw-vote-v3-4-81d60c10fb73@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: q6mozvo8bE5QKW-tM7JeKXgBYQbl8Q4Q
-X-Proofpoint-GUID: q6mozvo8bE5QKW-tM7JeKXgBYQbl8Q4Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- impostorscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
- spamscore=0 mlxscore=0 suspectscore=0 adultscore=0 clxscore=1015
- bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2411290127
+From: Maud Spierings <maud_spierings@hotmail.com>
+In-Reply-To: <7mmnvrgzmqujse4bz2eosdnqmogyvfdi3ei5ez3es562qncks3@yqre7fakszbb>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS4P250CA0006.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5df::8) To VE1P189MB1024.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:800:149::13)
+X-Microsoft-Original-Message-ID: <233f0a6d-a092-4edc-98a2-6d99a85e0b29@hotmail.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1P189MB1024:EE_|GV1P189MB2243:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4bc3bfd5-46da-4eb5-d558-08dd108cb566
+X-Microsoft-Antispam: BCL:0;
+ ARA:14566002|19110799003|461199028|8060799006|6090799003|5072599009|15080799006|440099028|3412199025;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q3kzVE5HeU5JcWlmZXY2UVdab0s5Vit0bGF6Z3puV0c5SjN1TWg2dDlkaXBX?=
+ =?utf-8?B?cGtuYnRIUFpWanJDbWJwMmozU3pqYnVzbWUrYlRFSEdLZHJSM3k1aG0zeVRH?=
+ =?utf-8?B?Z0o2MmsvUlRINlViYitDUk8yUkZpZjVLTkhhVU9MZ0g3QlVsRjNIZ2dpM2Jt?=
+ =?utf-8?B?WWRFWW40WCtmMncxbnRsTDVXZXFWMzc0cGVSbmV3SUFJTkpWRlhrQVc3VTBM?=
+ =?utf-8?B?RWh1TFZjUFV4NEMvWjFUNG1YUTFOeFFOd0JlOWVjby9OTFQvODFrMkhYM1JQ?=
+ =?utf-8?B?eE9ZcnZhM1VyWjhpOFZVZ3NheVhQNTFWZDdER0VQSjB0S0NPRDRPY3VmbnEy?=
+ =?utf-8?B?WEMzT05jNitKSXVqNElPNFN4bHpvbUVpeUxidlptK3pHSGtTZmo4dm5ybGJs?=
+ =?utf-8?B?QUtQOXlIY1ZYNHArbFVQNzl4UVpMeEgyMHd6ZU54MDZLbnRRMU5uTWY2K0Za?=
+ =?utf-8?B?SHJUQ09nbWpyd29JWjVLTGgzUnJaRVZGM25rL2Z4L0Z0bUM3UkZiWGpDaVZF?=
+ =?utf-8?B?R1JYYlFzRzVobk5GZ3VLSDJEbUMvRlJIVUR4TkEvYkZZL2grbkt4OFZEVTZ5?=
+ =?utf-8?B?NlBwRVNlQWMrNGxKWWY3VGFMaFhNR1dIOFRteEJ2VE5hYzFpRG41S0tTQ3Br?=
+ =?utf-8?B?Ym9sY1lXSm9xT3JyZE9kMnNPWnBZb1cvWlVDTW1Jc1BCR1laQ0hYamJxUkhR?=
+ =?utf-8?B?M21ibWlla1QwNFcwWXplR1BGMTZZN09IQ2NxTnNxQWU2aHYyeWc4Wk13TDVa?=
+ =?utf-8?B?L3l6VEdKVHV6c0pvOWowV1cwM2s1M0lVOWkxWUVLVC8wblJzZTFmdVl6VnJB?=
+ =?utf-8?B?WDA4KzFXTXU4eGRhTERKS25oNWppaGZOQ3hQOFhLdXFxTG0xQStoR1NZdHhi?=
+ =?utf-8?B?b01wT3pIUDVQaDR3Wk95c2p6ZFRIZ2Fud3FhUVFmTGp1di9FK3hib25kamYr?=
+ =?utf-8?B?NmdpWmp1WWlpZWdodjR6cXEzVit1cDFHQkFiNy9pUkpMdGV6T01ZUzUreC9Z?=
+ =?utf-8?B?QmlNVnJZZGU5TTZDRHVidnl0OGk1Wm1hdjRWTVk4aTdqK0trdUJiTVhjN3U1?=
+ =?utf-8?B?V1hSbkRWdWlZRXY5K2VVUGg4RUpXa2NZcUpYTXVLN1ZGNldRd3pOSVZHa1FD?=
+ =?utf-8?B?S3ZYRmhLNlUyQk5zcnczL2VseFlQakFPbnpZTXVoaWxKRzl1dno3SGh1T0Vx?=
+ =?utf-8?B?VVVIT1E3SnNLTTBFL3hVS3RCL2hmeXpBanEyalVPRXRJRTBSbUY0NFBQbTd3?=
+ =?utf-8?B?YW5hK3RjQ0JzSVlPTGMvUUNOQWVENE8vcHBDTm5RV0xkNGVaUXdueWhPa3d4?=
+ =?utf-8?B?azhVakorOEFOL3lrRXJYS2hoREJYT0RJK3d0MG1leVc5UjFtdkRVY0hITldO?=
+ =?utf-8?Q?2fjq/O+/TnVtr0g+71ecRkZVCZkiWYg4=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QjJIRk9aQTM3RWlnb0lPU1VzODcyMHVwd2xyQXpjdERqdTNSRGttdVN2cUVV?=
+ =?utf-8?B?aEdJNFVzcFpNTE41eEZQc2pkSEVPWFM5MHl5Y2QycytJSW8zNjM0NzJOYThv?=
+ =?utf-8?B?TmF0NE9jY1hXaEhWZUdUSzBOcURmam44N2tQZkMvWllLTFpSMDFkZlhUU0Ez?=
+ =?utf-8?B?ZFR6bm9GWnp6Snk3aURIbWRDb0s0Sm1EMGFUNk92UUlBNlNVQnBWSUkrenFE?=
+ =?utf-8?B?enZQbnI0SUVJaXpaaTA1MVFESmRhYk9aY2Rqa052VDh1a0cyeWN3N3lKQU1u?=
+ =?utf-8?B?S3FEMWYrNXhyOWtZOEtGR0l2YVRmMHhKTWg4Qzhrb3Y5Tlg4TmtoUElhY1lv?=
+ =?utf-8?B?QTN6LzIrR0VRZkN4VGVJbkErVFZJWU1mS2lHYStEeDlWR040eThNdWNxV3B4?=
+ =?utf-8?B?SW9NbUh3M3Q2TmplWDl5aFp0d2hhbElDcW5hd054dmpHZmFRZjVLMGZEdjJh?=
+ =?utf-8?B?MTZuZW1FMXhQYUVhMGVKVUQwYVZiZUFzTzFGa05CeVYxY251Sk53SzNsU2g3?=
+ =?utf-8?B?V24xNDY3MDZ6a01jdFk5OERGbnFCN25ZcjJodTB6WWlXem5oNFl6dlNKSmVX?=
+ =?utf-8?B?aVdLbE9jWWoyRUtPZTUvbU5ORkJOV1hCS0Y0QWp1blBDUU1FZ2dka3hoSURp?=
+ =?utf-8?B?SStEcThHT0t0QytrUVpaNk8xWWpwY29acFFGYlZzNlhmU25haTQ0anR3VHhw?=
+ =?utf-8?B?Y0pIRmFuYWFhdndRWFBNUFFJZUpSNGQ2QmdONlhHUTVKK01DSDFtaHVzQk56?=
+ =?utf-8?B?NytvU3ZYekowMU4yZUhXSWdQQURZdlE2aEVHMjBTbGg1dm41elFRNDlEa2Fz?=
+ =?utf-8?B?dlZSSXY3UFBDMkRJK1h0WmU0VWJpY2RRMENGWnhSb0h1YTN2TXlwc2NQckha?=
+ =?utf-8?B?bGdoYk56NGw3Mjc1THRSaXNvUWJndE9pY29QcjBTdzg5b0NPYTAzSXlIYU5F?=
+ =?utf-8?B?ZE4ySS83VG9mNklTc1AvNk9kcno5MkJzajNwcGMvSUpWdXRVYnhLbUxBa3NC?=
+ =?utf-8?B?aWxXTVJHdnQxRkpLR1haNXV5c3VjQjljMDFxL3liWlpBY21VK0FhL1lSamtW?=
+ =?utf-8?B?WnVCelczN3pNUEN3SDl2RmNHSFRCaXQ0cFNPTlFRVDVnSGdPc2xjOUorQ2RO?=
+ =?utf-8?B?emtaNDB0cGFpck9PeCtMWlk3QndMdnFDblUySjZ5alJtTktKd1o2SHJUM1JY?=
+ =?utf-8?B?NUJMYThrVjJpaWhUY2QyWTNMN3NmWXBBbW1LeDhVQUhrc291NEw4MHFQV0Va?=
+ =?utf-8?B?cXV1YWhCYWRjblhXWkVyTGd0eG5STVFwQktyVHhVM1MrWkNPWXV1clJISXU3?=
+ =?utf-8?B?L1ZNUmsxR21LcDlPblRFMlRWUDdFbXZnamFxcnVZT0x0R0VtdGptZjB3VFFk?=
+ =?utf-8?B?YWxUdzFmUkVSMExyWWRERFJXdlFPK09qZnV4N09wVnY3ek5aK2lZVlhUZ1Ez?=
+ =?utf-8?B?RmkweWcrd215Wldvc0MyOWxlMXVQS0V1b1hCS2xiM2hTdUV5Z05zYnJ2V0pW?=
+ =?utf-8?B?N0lvZkhpMDRPa0U5MFJZSHRweldLV044OUZBU1ppMVFsbWpzZUNnY2ZDUlNE?=
+ =?utf-8?B?VDVDazhsRlo5UFdEQ2JGaUdyeTNKRmFGY3dGMERyenAxaFlNb2Y1dzRxKzZW?=
+ =?utf-8?B?SlNFekxmQXNVaVlVNnlUUUl4c1ZwUDZFN1ptTUdFbGhBdDMyU0MvZHFjL1Jz?=
+ =?utf-8?B?d1lOQ1NmK1RnVjZFWVZNRWhsZU9IWUJQaW9wVkl0cENuMkk3LzJiV09RRkJu?=
+ =?utf-8?Q?Ew0f9wwOS4eWpMvuRD9VY7ZHkni87dzDVg3JB/2?=
+X-OriginatorOrg: sct-15-20-7719-19-msonline-outlook-3b3e0.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bc3bfd5-46da-4eb5-d558-08dd108cb566
+X-MS-Exchange-CrossTenant-AuthSource: VE1P189MB1024.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2024 15:44:28.6105 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2243
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,85 +154,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.11.2024 11:25 AM, Neil Armstrong wrote:
-> The Adreno GPU Management Unit (GMU) can also scale the DDR Bandwidth
-> along the Frequency and Power Domain level, until now we left the OPP
-> core scale the OPP bandwidth via the interconnect path.
-> 
-> In order to enable bandwidth voting via the GPU Management
-> Unit (GMU), when an opp is set by devfreq we also look for
-> the corresponding bandwidth index in the previously generated
-> bw_table and pass this value along the frequency index to the GMU.
-> 
-> The AB pre-calculated vote is appended to the bandwidth index
-> to inform the GMU firmware the quantity of bandwidth we need.
-> 
-> Since we now vote for all resources via the GMU, setting the OPP
-> is no more needed, so we can completely skip calling
-> dev_pm_opp_set_opp() in this situation.
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 23 +++++++++++++++++++++--
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  2 +-
->  drivers/gpu/drm/msm/adreno/a6xx_hfi.c |  6 +++---
->  3 files changed, 25 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index ee2010a01186721dd377f1655fcf05ddaff77131..c09442ecc861c4e56c81e7e775b9e57baf7d2e51 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -110,9 +110,11 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
->  		       bool suspended)
->  {
->  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> +	const struct a6xx_info *info = adreno_gpu->info->a6xx;
->  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->  	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->  	u32 perf_index;
-> +	u32 bw_index = 0;
->  	unsigned long gpu_freq;
->  	int ret = 0;
->  
-> @@ -125,6 +127,21 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
->  		if (gpu_freq == gmu->gpu_freqs[perf_index])
->  			break;
->  
-> +	/* If enabled, find the corresponding DDR bandwidth index */
-> +	if (info->bcms && gmu->nr_gpu_bws > 1) {
-> +		unsigned int bw = dev_pm_opp_get_bw(opp, true, 0);
-> +
-> +		for (bw_index = 0; bw_index < gmu->nr_gpu_bws - 1; bw_index++) {
-> +			if (bw == gmu->gpu_bw_table[bw_index])
-> +				break;
-> +		}
-> +
-> +		if (bw_index) {
-> +			bw_index |= AB_VOTE(gmu->gpu_ab_votes[bw_index]);
-> +			bw_index |= AB_VOTE_ENABLE;
-> +		}
-> +	}
+On 11/25/24 11:29 PM, Dmitry Baryshkov wrote:
+> On Mon, Nov 25, 2024 at 08:11:19PM +0100, Maud Spierings via B4 Relay wrote:
+>> From: Maud Spierings <maud_spierings@hotmail.com>
+>>
+>> Add bluetooth for the asus vivobook s15
+>> Describe wlan configuration
+>>
+>> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
+>> ---
+>>   .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts   | 164 +++++++++++++++++++++
+>>   1 file changed, 164 insertions(+)
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>
+I'm pretty sure I messed up the pinctrls in the wcn7850-pmu
+I believe it should be:
 
-If we couple frequency levels with bw levels (i.e. duplicate the highest
-bandwidth a couple times), we can drop all this search logic..
+pintctrl-0 = <&wcn_bt_en &wcn_wlan_en>;
 
-> +
->  	gmu->current_perf_index = perf_index;
->  	gmu->freq = gmu->gpu_freqs[perf_index];
->  
-> @@ -140,8 +157,10 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
->  		return;
->  
->  	if (!gmu->legacy) {
-> -		a6xx_hfi_set_freq(gmu, perf_index);
-> -		dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
-> +		a6xx_hfi_set_freq(gmu, perf_index, bw_index);
-> +		/* With Bandwidth voting, we now vote for all resources, so skip OPP set */
-> +		if (!bw_index)
-> +			dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+instead of a seperate pinctrl-0 and 1
+I'll fix this up  tomorrow/day after
 
-..and then it would come down to..
+Thanks for the review!
 
-if (!info->bcms)
+kind regards Maud
 
-Konrad
