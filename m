@@ -2,64 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A923C9DEAE6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 17:23:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2009DEB56
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 17:56:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28ABB10E537;
-	Fri, 29 Nov 2024 16:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05FBA10E53D;
+	Fri, 29 Nov 2024 16:56:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gbOwAxhP";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SRjC66XG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4822510E534
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 16:23:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1732897395;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VJlxlZmTa08VOsuEjaOxWp0N1N2M/sWSw22y2ruZ4u0=;
- b=gbOwAxhPzG1VUq9b1LNqqRJZMetCZhF/EFCEJI4jC77A+n2GcZmXgRGhziXAxQSN3BYqHz
- ZVqgmyH4Eq5B9k9dNXyrijYl2C/z/OLOvYStNjfvdtqYqil+R5lu3pXKHYk1l5aTROYL2V
- pbZdRZfXJCR4pt99G19OM9xszWNyogA=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-262-3T72GyoROBCxh-SBJwwstA-1; Fri,
- 29 Nov 2024 11:23:11 -0500
-X-MC-Unique: 3T72GyoROBCxh-SBJwwstA-1
-X-Mimecast-MFC-AGG-ID: 3T72GyoROBCxh-SBJwwstA
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 48FA21944DDC; Fri, 29 Nov 2024 16:23:09 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.192.13])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 5140D1955F41; Fri, 29 Nov 2024 16:23:06 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH 5/5] drm/i915: Add drm_panic support
-Date: Fri, 29 Nov 2024 17:20:30 +0100
-Message-ID: <20241129162232.7594-6-jfalempe@redhat.com>
-In-Reply-To: <20241129162232.7594-1-jfalempe@redhat.com>
-References: <20241129162232.7594-1-jfalempe@redhat.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E552B10E546
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 16:56:20 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ATCe0Ta032583
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 16:56:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 9N9+0StuwjFo78qzxGpA7gT4M9KWRW0S+SLyWV8Ydm4=; b=SRjC66XG6ukxUnql
+ QAhvEXXLmYdoqEywLif+5a3pD/fEzyeJuaE0KBFTyGuG1X+ROPeAHW7006tzhx1l
+ f9udFt63+k7gOJuAr+Mc+zVUSZ5f7NBfzvExm443ilGKpTkSSu5TN8LIpnPYZ6O1
+ osmCx1REcNLc9/9SBWPmRVHX6kDBmL/zXwY1HMimUH4Qc7vWmGcsA9cYqrMH7dZa
+ TbYxQN9uEe479CJDCsHoWQtAU4/t2f8V/LOJ70kMhqyjlKHMzIhAolRiTrXwibC2
+ 9UKh85kPXc/1SwY7hg49nqJDvgzXwmHTulsifK4301kz1u7eKafttQGiiyPIOk1G
+ H0dyRg==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43671ee1qu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 16:56:20 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4667cab5e1bso3164601cf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 08:56:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732899373; x=1733504173;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9N9+0StuwjFo78qzxGpA7gT4M9KWRW0S+SLyWV8Ydm4=;
+ b=jkm/lV7LOIGjwA2o0O3MQU9JPjVwdzljCFEa07OwtgnrvZCvRgPHca0SitIMjDHXrs
+ ByIEo6QSh+9qmhdfGCoeYPjPi6neailZhO7DdedUZPQkJO6s389gAvEN14+TlqQ18Dps
+ Q53AuaWRUcINm+dV8l7oLkBNze+Pn50Ba5XYm/VDt6LisOqNqvYotPD7RpRidLYmHtep
+ 0aFxoZKz+cudLlwEVntIo2lxkOVSa0ntmu1luJVS6Tnpn5iuvw2g19idB0RwvIHay/XB
+ sluMS1rxtdD2BysViKT9eoZeRiRcxFL6feA+tzlkHlC+0SR+myFstPr6Ov4osX591RJy
+ b3cg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUz2tlcb7VmZF8RJxQ46SKxTWfCQaH7RfSgx2CFpO8X1HfK3nQ37pevL34IXuWq31AznF6X988GlhQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyz6tqinb4dAPz2HjovDfneQamTO8kgfH/hgNJ2EwBOblAKs+PN
+ dDx3o57uBR78OMR/0olpCfTJSoSqutAUH4o2zV+2uEAz4r0AuDvdKnY9jnPKjdcuM7s+7nF17m6
+ SLRe/HVztXsS8KwlrHeUTrFhVwKXSt9hYdgZ7OvfReYyQOnXKFIKQcO4Rc29iaQhEQk4=
+X-Gm-Gg: ASbGncu6qYb8t3fdDssUwcfS/c0k/fxtM5OfvSKBDgOwA76zOWjnEZAOsHajyPBpotB
+ iRbInK7B0IYXn46cjr+Dv3Xhf0uEipYJfcYaYJI6L1mTGeCHbTKzJLIOc0gV8UeP7tlUTcyLfIf
+ LPgjO35AdMXLI228ebQUvgY9kGcJ+qoL/basocU/lybgEywgLQhTHqg3+X5pS/4bwBDWVpzxA4s
+ 0k/D4p4+m7tApWQjFPVMaFSyKfFtWz97jE+MN5jDw9+W0OXK+MyiO7/H3UTq707IDu2V3RazNFq
+ E49wg/LCaxtks8FkbBTh8zbU49Fu15E=
+X-Received: by 2002:a05:622a:389:b0:462:fb65:cbb5 with SMTP id
+ d75a77b69052e-466b36886b8mr76651391cf.16.1732899372944; 
+ Fri, 29 Nov 2024 08:56:12 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGVQSLO78wLDzRLA3VpDJ6fBlRPS9lgHqu+R15VZlArJvaDZj5w/JO/kqnnSs0mQp12UhVnIQ==
+X-Received: by 2002:a05:622a:389:b0:462:fb65:cbb5 with SMTP id
+ d75a77b69052e-466b36886b8mr76651111cf.16.1732899372416; 
+ Fri, 29 Nov 2024 08:56:12 -0800 (PST)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aa5998e64c4sm190708566b.97.2024.11.29.08.56.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Nov 2024 08:56:11 -0800 (PST)
+Message-ID: <00941d91-7366-4836-9d3a-7e505528a4e8@oss.qualcomm.com>
+Date: Fri, 29 Nov 2024 17:56:09 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/7] drm/msm: adreno: dynamically generate GMU bw table
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20241128-topic-sm8x50-gpu-bw-vote-v3-0-81d60c10fb73@linaro.org>
+ <20241128-topic-sm8x50-gpu-bw-vote-v3-3-81d60c10fb73@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241128-topic-sm8x50-gpu-bw-vote-v3-3-81d60c10fb73@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: byCq2muMdZ2q6qiBBXPsuiOXAAx43b-c
+X-Proofpoint-GUID: byCq2muMdZ2q6qiBBXPsuiOXAAx43b-c
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ impostorscore=0 mlxscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ bulkscore=0 lowpriorityscore=0 spamscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2411290137
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,160 +122,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds drm_panic support for a wide range of Intel GPU. I've
-tested it only on 3 laptops, haswell (with 128MB of eDRAM),
-cometlake and alderlake.
+On 28.11.2024 11:25 AM, Neil Armstrong wrote:
+> The Adreno GPU Management Unit (GMU) can also scale the ddr
+> bandwidth along the frequency and power domain level, but for
+> now we statically fill the bw_table with values from the
+> downstream driver.
+> 
+> Only the first entry is used, which is a disable vote, so we
+> currently rely on scaling via the linux interconnect paths.
+> 
+> Let's dynamically generate the bw_table with the vote values
+> previously calculated from the OPPs.
+> 
+> Those entried will then be used by the GMU when passing the
 
- * DPT: if I disable tiling on a framebuffer using DPT, then it
-   displays some other memory location. As DPT is enabled only for
-   tiled framebuffer, there might be some hardware limitations.
- * fbdev: On my haswell laptop, the fbdev framebuffer is configured
-   with tiling enabled, but really it's linear, because fbcon don't
-   know about tiling, and the panic screen is perfect when it's drawn
-   as linear.
+entries
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- .../gpu/drm/i915/display/intel_atomic_plane.c | 98 ++++++++++++++++++-
- 1 file changed, 97 insertions(+), 1 deletion(-)
+> appropriate bandwidth level while voting for a gpu frequency.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
 
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-index b7e462075ded3..43dac5538a648 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-@@ -33,13 +33,17 @@
- 
- #include <linux/dma-fence-chain.h>
- #include <linux/dma-resv.h>
-+#include <linux/iosys-map.h>
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_blend.h>
-+#include <drm/drm_cache.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_panic.h>
- 
-+#include "gem/i915_gem_object.h"
- #include "i915_config.h"
- #include "i9xx_plane_regs.h"
- #include "intel_atomic_plane.h"
-@@ -50,6 +54,7 @@
- #include "intel_display_types.h"
- #include "intel_fb.h"
- #include "intel_fb_pin.h"
-+#include "intel_fbdev.h"
- #include "skl_scaler.h"
- #include "skl_watermark.h"
- 
-@@ -1198,14 +1203,105 @@ intel_cleanup_plane_fb(struct drm_plane *plane,
- 	intel_plane_unpin_fb(old_plane_state);
- }
- 
-+/* Only used by drm_panic get_scanout_buffer() and panic_flush(), so it is
-+ * protected by the drm panic spinlock
-+ */
-+static struct iosys_map panic_map;
-+
-+static void intel_panic_flush(struct drm_plane *plane)
-+{
-+	struct intel_plane_state *plane_state = to_intel_plane_state(plane->state);
-+	struct drm_i915_private *dev_priv = to_i915(plane->dev);
-+	struct drm_framebuffer *fb = plane_state->hw.fb;
-+	struct intel_plane *iplane = to_intel_plane(plane);
-+
-+	/* Force a cache flush, otherwise the new pixels won't show up */
-+	drm_clflush_virt_range(panic_map.vaddr, fb->height * fb->pitches[0]);
-+
-+	/* Don't disable tiling if it's the fbdev framebuffer.*/
-+	if (to_intel_framebuffer(fb) == intel_fbdev_framebuffer(dev_priv->display.fbdev.fbdev))
-+		return;
-+
-+	if (fb->modifier && iplane->disable_tiling)
-+		iplane->disable_tiling(iplane);
-+}
-+
-+static int intel_get_scanout_buffer(struct drm_plane *plane,
-+				    struct drm_scanout_buffer *sb)
-+{
-+	struct intel_plane_state *plane_state;
-+	struct drm_gem_object *gem_obj;
-+	struct drm_i915_gem_object *obj;
-+	struct drm_framebuffer *fb;
-+	struct drm_i915_private *dev_priv = to_i915(plane->dev);
-+	void *ptr;
-+	enum i915_map_type has_type;
-+
-+	if (!plane->state || !plane->state->fb || !plane->state->visible)
-+		return -ENODEV;
-+
-+	plane_state = to_intel_plane_state(plane->state);
-+	fb = plane_state->hw.fb;
-+	gem_obj = intel_fb_bo(fb);
-+	if (!gem_obj)
-+		return -ENODEV;
-+
-+	obj = to_intel_bo(gem_obj);
-+
-+	if (to_intel_framebuffer(fb) == intel_fbdev_framebuffer(dev_priv->display.fbdev.fbdev)) {
-+		ptr = intel_fbdev_getvaddr(dev_priv->display.fbdev.fbdev);
-+		if (!ptr)
-+			return -ENOMEM;
-+	} else {
-+		/* can't disable tiling if DPT is in use */
-+		if (fb->modifier && HAS_DPT(dev_priv))
-+			return -EOPNOTSUPP;
-+
-+		/* Taken from i915_gem_object_pin_map() */
-+		ptr = page_unpack_bits(obj->mm.mapping, &has_type);
-+		if (!ptr) {
-+			if (i915_gem_object_has_struct_page(obj))
-+				ptr = i915_gem_object_map_page(obj, I915_MAP_WB);
-+			else
-+				ptr = i915_gem_object_map_pfn(obj, I915_MAP_WB);
-+			if (IS_ERR(ptr))
-+				return -ENOMEM;
-+		}
-+	}
-+
-+	if (i915_gem_object_has_iomem(obj))
-+		iosys_map_set_vaddr_iomem(&panic_map, ptr);
-+	else
-+		iosys_map_set_vaddr(&panic_map, ptr);
-+
-+	sb->map[0] = panic_map;
-+	sb->width = fb->width;
-+	sb->height = fb->height;
-+	sb->format = fb->format;
-+	sb->pitch[0] = fb->pitches[0];
-+
-+	return 0;
-+}
-+
- static const struct drm_plane_helper_funcs intel_plane_helper_funcs = {
- 	.prepare_fb = intel_prepare_plane_fb,
- 	.cleanup_fb = intel_cleanup_plane_fb,
- };
- 
-+
-+static const struct drm_plane_helper_funcs intel_primary_plane_helper_funcs = {
-+	.prepare_fb = intel_prepare_plane_fb,
-+	.cleanup_fb = intel_cleanup_plane_fb,
-+	.get_scanout_buffer = intel_get_scanout_buffer,
-+	.panic_flush = intel_panic_flush,
-+};
-+
- void intel_plane_helper_add(struct intel_plane *plane)
- {
--	drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
-+	if (plane->base.type == DRM_PLANE_TYPE_PRIMARY)
-+		drm_plane_helper_add(&plane->base, &intel_primary_plane_helper_funcs);
-+	else
-+		drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
- }
- 
- void intel_plane_init_cursor_vblank_work(struct intel_plane_state *old_plane_state,
--- 
-2.47.0
+[...]
 
+>  drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 39 ++++++++++++++++++++++++++++++++---
+>  1 file changed, 36 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> index cb8844ed46b29c4569d05eb7a24f7b27e173190f..fe1946650425b749bad483dad1e630bc8be83abc 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> @@ -621,6 +621,35 @@ static void a740_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  	msg->cnoc_cmds_data[1][0] = 0x60000001;
+>  }
+>  
+> +static void a740_generate_bw_table(const struct a6xx_info *info, struct a6xx_gmu *gmu,
+> +				   struct a6xx_hfi_msg_bw_table *msg)
+
+This should work for all targets
+
+> +{
+> +	unsigned int i, j;
+> +
+> +	msg->ddr_wait_bitmask = 0x7;
+
+GENMASK; also should be generated based on BCM data dynamically, there's
+logic for it in bcm-voter.c : tcs_list_gen()
+
+> +
+> +	for (i = 0; i < GMU_MAX_BCMS; i++) {
+> +		if (!info->bcms[i].name)
+> +			break;
+> +		msg->ddr_cmds_addrs[i] = cmd_db_read_addr(info->bcms[i].name);
+
+A7xx share a common list of BCMs, the buswidth may differ per soc and it's
+something already stored in ICC drivers
+
+> +	}
+> +	msg->ddr_cmds_num = i;
+> +
+> +	for (i = 0; i < gmu->nr_gpu_bws; ++i)
+> +		for (j = 0; j < msg->ddr_cmds_num; j++)
+> +			msg->ddr_cmds_data[i][j] = gmu->gpu_ib_votes[i][j];
+> +	msg->bw_level_num = gmu->nr_gpu_bws;
+> +
+> +	/* TODO also generate CNOC commands */
+
+We only do on/off (0/100 units - kbps?), it seems
+
+> +
+> +	msg->cnoc_cmds_num = 1;
+> +	msg->cnoc_wait_bitmask = 0x1;
+> +
+> +	msg->cnoc_cmds_addrs[0] = cmd_db_read_addr("CN0");
+> +	msg->cnoc_cmds_data[0][0] = 0x40000000;
+> +	msg->cnoc_cmds_data[1][0] = 0x60000001;
+> +}
+> +
+>  static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	/* Send a single "off" entry since the 630 GMU doesn't do bus scaling */
+> @@ -664,6 +693,7 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
+>  	struct a6xx_hfi_msg_bw_table *msg;
+>  	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
+>  	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+> +	const struct a6xx_info *info = adreno_gpu->info->a6xx;
+>  
+>  	if (gmu->bw_table)
+>  		goto send;
+> @@ -690,9 +720,12 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
+>  		a690_build_bw_table(msg);
+>  	else if (adreno_is_a730(adreno_gpu))
+>  		a730_build_bw_table(msg);
+> -	else if (adreno_is_a740_family(adreno_gpu))
+> -		a740_build_bw_table(msg);
+> -	else
+> +	else if (adreno_is_a740_family(adreno_gpu)) {
+> +		if (info->bcms && gmu->nr_gpu_bws > 1)
+> +			a740_generate_bw_table(info, gmu, msg);
+
+This if should come before the hardcoded if-else chain, as it
+applies to all platforms
+
+Konrad
