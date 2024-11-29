@@ -2,112 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394529DE941
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 16:21:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D5C9DE945
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 16:22:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7B9210E4FA;
-	Fri, 29 Nov 2024 15:21:48 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mHTC/nPp";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF03E10E4F5;
+	Fri, 29 Nov 2024 15:22:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE9210E4F6
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 15:21:46 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ATAFtX6004149
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 15:21:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- IJ5mIRsH3o55KXnabuNYt4mdIaB82lRdAStGmMYH8Ps=; b=mHTC/nPpbmztynUd
- 6C3NhK5OlOdVnYswxs2VRl+6zV6i5RC9FMf78gOBnBVPnJQX8Jm2wDMzdSKp6t5b
- Ddt7aRW3cBQJanMh2ss+Y/P155/CEtobtYKNNO18uXSvMFoJuRhj26fDgNCrUqih
- D0MwQUlDU2db3EzGj56Aozvw35MYWG0pbQDfjXHOsHs1NZeFzK9+eQn+VO6+O3Ly
- Nnj20iGK4I3oy5lHh10wvFt0DpnARFf3n3WFvDGGH8E8yk+6R8FpF0QkKsmaTZJh
- OcTZ7cyL+4ggGu/RM8UcYT1F9excORDRVYc6Q2LiiVqdo+8WucmevfRHnq7ufuQh
- I4Gd0g==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437bpv8q4a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 15:21:45 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-466d3ec228bso433581cf.2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 07:21:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732893705; x=1733498505;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IJ5mIRsH3o55KXnabuNYt4mdIaB82lRdAStGmMYH8Ps=;
- b=TJY+S488U2rVrexj0JwFvnVmEezEnTSs16kWRLJJRoEfRZdLcfpiBJGNdfGj8vZsZ2
- vuEpYqFad9YnsXuZm0A87MRNRiymH6fCS9FhWYpXcdLyqiiu9GdO86K6SZ/WSFtwCNb2
- zNgUj6K+F5x6ZEVIcK/R7ELXAHcJFahTSnyHBwl9si9O8lGLslCvS3euSsPlHoSKQ+cn
- 9yoYVS1RBfkq+br7KkL1WizGK0p+UqBoW+DS5Ux/uWQwa/E2bMJikIM/Rk5Hv7jQTzhU
- K79EEKU8OQzTZMm3hswAdRJZ2JqJ3vc6Nwy3XaE8oSz0Lh/YyjHDEJDJFxb4Ha7uOLNS
- uqbw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUxkGdaV7gOaeSESzKnpgtj7uTaToQrkDAoQa4N5wGP1w2ObT5eHx6MtNvu5eFo39F8shDh/un3dr8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVdpy2qrRHJrLnAVrimoi3of8Pnbu/Ndhs2OjUvYzxuGdE743K
- /q6IyMcBSA1F/nIXfIUjSm/bCjuvPFVXlMublJCu1mZh4jB2gJxKNmxXEQ612g4dEQx1kqY76vJ
- +Qp3oD3KKqX/LdqIM52vGSQx4eZb2XB0TGJHWnNGRI5tX8f0VryjaxxuPvXG6XrPJR/U=
-X-Gm-Gg: ASbGnctXG7GmN5Ur+lQj4dE3ceRRv2Qkm//3Knje19Ol9llupcSCHBMsML6/iJe+yGK
- 6DQp5gBCdrRpeUhESdsGNLCgqtSPsE/666YH5ArOjMP2hMPpP+Ma2uHWIDH8YrifFzWFCtFdzRv
- /OaYDQRd0dxE4sTNPPejUVbmb8aeVcFI32o5bMizxsZhi45Z73K5LNxUrptTPkZ343B6fV7UwG7
- 2QHBlUwRjPIwOyeHF3zufHQDSHYeIhMEkMbC8qVDI8y65lMxEjFDcH83p2IStOejTs1QurJVx6K
- M6er+7dlznPQd27rK9iC7x4gUmY6R2c=
-X-Received: by 2002:a05:622a:19a2:b0:460:9acd:68be with SMTP id
- d75a77b69052e-466b34ed7b1mr72740061cf.5.1732893705113; 
- Fri, 29 Nov 2024 07:21:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFqnFCjvQhGdMrBi/YsC5bYvvrCBQFiBOX8WXQuxWzWQXGXy14AWNHZB3lTPTK/1au+rgfZ1g==
-X-Received: by 2002:a05:622a:19a2:b0:460:9acd:68be with SMTP id
- d75a77b69052e-466b34ed7b1mr72739851cf.5.1732893704650; 
- Fri, 29 Nov 2024 07:21:44 -0800 (PST)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d097d9f6c1sm1913718a12.11.2024.11.29.07.21.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Nov 2024 07:21:43 -0800 (PST)
-Message-ID: <0dabac7a-bc7e-4075-86ed-3d4c25908ffb@oss.qualcomm.com>
-Date: Fri, 29 Nov 2024 16:21:40 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ED21A10E4F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 15:22:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DCEE612FC;
+ Fri, 29 Nov 2024 07:22:36 -0800 (PST)
+Received: from [10.57.92.242] (unknown [10.57.92.242])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 66C533F66E;
+ Fri, 29 Nov 2024 07:22:00 -0800 (PST)
+Message-ID: <349942ec-aab0-4b6a-bddc-246d549d6d66@arm.com>
+Date: Fri, 29 Nov 2024 15:21:57 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/7] drm/msm: adreno: add plumbing to generate
- bandwidth vote table for GMU
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20241128-topic-sm8x50-gpu-bw-vote-v3-0-81d60c10fb73@linaro.org>
- <20241128-topic-sm8x50-gpu-bw-vote-v3-2-81d60c10fb73@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241128-topic-sm8x50-gpu-bw-vote-v3-2-81d60c10fb73@linaro.org>
+Subject: Re: [PATCH v2 2/5] drm/panthor: Be robust against runtime PM resume
+ failures in the suspend path
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
+References: <20241128110255.3182366-1-boris.brezillon@collabora.com>
+ <20241128110255.3182366-3-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20241128110255.3182366-3-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: a-kKldzAgrclHCSkFk2dYV4hl01tnDOz
-X-Proofpoint-GUID: a-kKldzAgrclHCSkFk2dYV4hl01tnDOz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- priorityscore=1501 impostorscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
- adultscore=0 suspectscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2411290125
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,117 +50,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.11.2024 11:25 AM, Neil Armstrong wrote:
-> The Adreno GPU Management Unit (GMU) can also scale DDR Bandwidth along
-> the Frequency and Power Domain level, but by default we leave the
-> OPP core scale the interconnect ddr path.
+On 28/11/2024 11:02, Boris Brezillon wrote:
+> The runtime PM resume operation is not guaranteed to succeed, but if it
+> fails, the device should be in a suspended state. Make sure we're robust
+> to resume failures in the unplug path.
 > 
-> While scaling via the interconnect path was sufficient, newer GPUs
-> like the A750 requires specific vote paremeters and bandwidth to
-> achieve full functionality.
+> v2:
+> - Move the bit that belonged in the next commit
+> - Drop the panthor_device_unplug() changes
 > 
-> In order to calculate vote values used by the GPU Management
-> Unit (GMU), we need to parse all the possible OPP Bandwidths and
-> create a vote value to be sent to the appropriate Bus Control
-> Modules (BCMs) declared in the GPU info struct.
-> 
-> This vote value is called IB, while on the othe side the GMU also
-> takes another vote called AB which is a 16bit quantized value
-> of the bandwidth against the maximum supported bandwidth.
-> 
-> The vote array will then be used to dynamically generate the GMU
-> bw_table sent during the GMU power-up.
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+With the comment fix:
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 174 ++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  14 +++
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h |   1 +
->  drivers/gpu/drm/msm/adreno/a6xx_hfi.h |   5 +
->  4 files changed, 194 insertions(+)
+>  drivers/gpu/drm/panthor/panthor_fw.c  | 14 +++++++++-----
+>  drivers/gpu/drm/panthor/panthor_gpu.c |  3 ++-
+>  drivers/gpu/drm/panthor/panthor_mmu.c |  3 ++-
+>  3 files changed, 13 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 14db7376c712d19446b38152e480bd5a1e0a5198..ee2010a01186721dd377f1655fcf05ddaff77131 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -9,6 +9,7 @@
->  #include <linux/pm_domain.h>
->  #include <linux/pm_opp.h>
->  #include <soc/qcom/cmd-db.h>
-> +#include <soc/qcom/tcs.h>
->  #include <drm/drm_gem.h>
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index ebf8980ca9a3..f3d3d8fbe13d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/iosys-map.h>
+>  #include <linux/mutex.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
 >  
->  #include "a6xx_gpu.h"
-> @@ -1287,6 +1288,131 @@ static int a6xx_gmu_memory_probe(struct a6xx_gmu *gmu)
->  	return 0;
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_managed.h>
+> @@ -1190,11 +1191,13 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+>  
+>  	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
+>  
+> -	/* Make sure the IRQ handler can be called after that point. */
+> -	if (ptdev->fw->irq.irq)
+> -		panthor_job_irq_suspend(&ptdev->fw->irq);
+> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev)) {
+> +		/* Make sure the IRQ handler can be called after that point. */
+> +		if (ptdev->fw->irq.irq)
+> +			panthor_job_irq_suspend(&ptdev->fw->irq);
+>  
+> -	panthor_fw_stop(ptdev);
+> +		panthor_fw_stop(ptdev);
+> +	}
+>  
+>  	list_for_each_entry(section, &ptdev->fw->sections, node)
+>  		panthor_kernel_bo_destroy(section->mem);
+> @@ -1207,7 +1210,8 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+>  	panthor_vm_put(ptdev->fw->vm);
+>  	ptdev->fw->vm = NULL;
+>  
+> -	panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
+> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
+> +		panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
 >  }
 >  
-> +/**
-> + * struct bcm_db - Auxiliary data pertaining to each Bus Clock Manager (BCM)
-> + * @unit: divisor used to convert bytes/sec bw value to an RPMh msg
-> + * @width: multiplier used to convert bytes/sec bw value to an RPMh msg
-> + * @vcd: virtual clock domain that this bcm belongs to
-> + * @reserved: reserved field
-> + */
-> +struct bcm_db {
-> +	__le32 unit;
-> +	__le16 width;
-> +	u8 vcd;
-> +	u8 reserved;
-> +};
-> +
-> +static u64 bcm_div(u64 num, u32 base)
-> +{
-> +	/* Ensure that small votes aren't lost. */
-> +	if (num && num < base)
-> +		return 1;
-> +
-> +	do_div(num, base);
-> +
-> +	return num;
-> +}
+>  /**
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 0f3cac6ec88e..ee85a371bc38 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -180,7 +180,8 @@ void panthor_gpu_unplug(struct panthor_device *ptdev)
+>  	unsigned long flags;
+>  
+>  	/* Make sure the IRQ handler is not running after that point. */
+> -	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
+> +		panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+>  
+>  	/* Wake-up all waiters. */
+>  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 9478ee2093d1..6716463903bc 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -2681,7 +2681,8 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
+>   */
+>  void panthor_mmu_unplug(struct panthor_device *ptdev)
+>  {
+> -	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
+> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
+> +		panthor_mmu_irq_suspend(&ptdev->mmu->irq);
+>  
+>  	mutex_lock(&ptdev->mmu->as.slots_lock);
+>  	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
 
-This should live in include/soc/qcom/bcm.h, similarly to tcs.h in
-that directory
-
-> +static int a6xx_gmu_rpmh_bw_votes_init(const struct a6xx_info *info,
-> +				       struct a6xx_gmu *gmu)
-> +{
-> +	const struct bcm_db *bcm_data[GMU_MAX_BCMS] = { 0 };
-> +	unsigned int bcm_index, bw_index, bcm_count = 0;
-> +
-> +	if (!info->bcms)
-> +		return 0;
-> +
-> +	/* Retrieve BCM data from cmd-db */
-> +	for (bcm_index = 0; bcm_index < GMU_MAX_BCMS; bcm_index++) {
-> +		size_t count;
-> +
-> +		/* Stop at first unconfigured bcm */
-> +		if (!info->bcms[bcm_index].name)
-> +			break;
-> +
-> +		bcm_data[bcm_index] = cmd_db_read_aux_data(
-> +						info->bcms[bcm_index].name,
-> +						&count);
-> +		if (IS_ERR(bcm_data[bcm_index]))
-> +			return PTR_ERR(bcm_data[bcm_index]);
-> +
-> +		if (!count)
-> +			return -EINVAL;
-> +
-> +		++bcm_count;
-> +	}
-> +
-> +	/* Generate BCM votes values for each bandwidth & BCM */
-> +	for (bw_index = 0; bw_index < gmu->nr_gpu_bws; bw_index++) {
-> +		u32 *data = gmu->gpu_ib_votes[bw_index];
-> +		u32 bw = gmu->gpu_bw_table[bw_index];
-> +
-> +		/* Calculations loosely copied from bcm_aggregate() & tcs_cmd_gen() */
-
-Ditto, perhaps this should be exported from icc
-
-[...]
-
-Konrad
