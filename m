@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD979DE79D
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 14:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEE49DE7B9
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 14:37:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60FC410EE22;
-	Fri, 29 Nov 2024 13:32:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20DFA10EE16;
+	Fri, 29 Nov 2024 13:37:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dWL18wr5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VbVBZBS9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 211E310E0A9
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 13:32:48 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-e3988fdb580so551374276.2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 05:32:48 -0800 (PST)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
+ [209.85.219.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CE6E10E0A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 13:37:42 +0000 (UTC)
+Received: by mail-yb1-f176.google.com with SMTP id
+ 3f1490d57ef6-e3985aabf43so647958276.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 05:37:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732887167; x=1733491967; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732887461; x=1733492261; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4rk8EqcQBJedHgZVFcqE3LAsuROmL1X9WJEUhmB7OiE=;
- b=dWL18wr5hfLjfi8E0ObbGp9nq0eCZs6KwcqtxSg3Y14mkB3yXlb71wKyIKMle6Bz9Q
- gs9HEnKj1LCcatFGHwB2Y4NSdYLnJkOZ34bzxRBLam6SZqVntkDTBoiotDqQPZzjdVva
- QuiKz6WwpeDdTkSW4y8g7jZ4Ubqju1PJ1OigPnVBGPlObGzVFDBeyCj3rSaNCqtr/PH4
- I6r3mRgepHqWTaJ56IgDnqungn6BKmLdxkIVUHrBsRjIcFeflvJT1Xbwzgc/VMWlpn6I
- DDv7JTt9I/OI/4sIhI1tG2VMrWNEis1vJAY8ch1Fke6JtB8dAxsnzOcn0K6ihpVgvuzN
- 3g5g==
+ bh=58OMzBUym1v3QZatsP+eIIFv2sSi0+p3zj755X8dJ8Q=;
+ b=VbVBZBS9Rd0pF+ISwOdsxVcFXn2Whzpm48klu1SOjcScdo6b4Oj8/AxyjVUpCf3RWi
+ l+t2+Z80gXOKW7XRvQXKLAanwAH1Vr/gPaf9Rt+jKcU+mbbe4ULsE6sPiFSwl7HKAKN6
+ +RtCJbjPZm6Umf3Hx9pVQHtgKqnEmE887zmK/MG4RqlEj+U6hDqpb4r+EV1Z/11mKiYC
+ lHWMDT6yL6CLaZl6WkWSwJ+fwwXgBjcFzSa/Paro5nXLjufReJ3Cz8uhlaAW6bSI71OO
+ fj5r1DCPFYI/KpWtc4YAL1ksbKd08HSVKbzw5WuE0vTQALql6IsktR1FpX4feWbAqzhR
+ 2ffg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732887167; x=1733491967;
+ d=1e100.net; s=20230601; t=1732887461; x=1733492261;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4rk8EqcQBJedHgZVFcqE3LAsuROmL1X9WJEUhmB7OiE=;
- b=ZBUxHzALkYSWSVT9mQkBDck/yqI0ttTu7bV2jNKN4mp4aq+OBmlJ2sDludF8skPBym
- yowFxbWLYVk6aZUv1B1BI4M1SMI5PFwbWrl+xKbPL5Mxz1SkXNN8zW3ToBxZoJN4bK8f
- otNx7OpLLEUuhYObFj1XVKS1Yjv046zSmSrDzI2x28Xkce17u2EtBsCu89m3P4t9DcZh
- rkyuIpMMcJUI7VyAHG1a2cRq7h0twulATAjBwy8uqFQioMrBx/qjCZQ6/lAgy8wbHR+r
- bB6TT9rOiB0VIWezbMZZwlu/QoUsHFWpLXQmAxLHZkcR6pSml/Mcslftw4HjG9ajIqoG
- DrsQ==
+ bh=58OMzBUym1v3QZatsP+eIIFv2sSi0+p3zj755X8dJ8Q=;
+ b=Hp4UV51EZ6GvtWgSMMw1i77fJEZsCAmB7NSB/JC52tUa00gwW1pGrdCgBc9wparTyB
+ mHoNCXIcPowBhoQvHb7bMOxO5fI16AtO9JY5tZ1AZJBwiB6dbwb0TmvBM08HxWIcaufn
+ wgArX1HC6M47ineO9wMbxEz0iGEnrJt6QOz05k4nG1OdQM2Rk3ZJpj6s52oXFZAUcxUQ
+ M1hFMtKBHfVTMake2RU6yCM9I266MlKMCmJfsppXlA6FZqmtJeIUdbSc5PK1pH3E84hT
+ PKdvfTSxury+EPaTzXybK0poGIbPR/N28ZbYwm4ia9VqvLV13Nl4EMDGz1O/RxGa2J5J
+ F7ZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXd4rzBsvANLuifQVb+yp3aSRSTkaktaYs3QJtULnFCFp7fWjVIxVFuCMJa25x55C6LcUBFezXFRjk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXMMFaCYKARV0JP3vKJr+qVHDr8M7uwabUByjBPevx5HpM1RvS
- ApDK++eCvtoNgpJMBGBj7B+K/sR03fPF62j+rzXiQZkZQ8vw1Lr3NnOPcBlJrgthG8FkrT+HxgN
- BvDFW1nA2JrqFONELh7B+xX8s8/C2KiWoILqqKQ==
-X-Gm-Gg: ASbGnctalC+iQtFa0qnzKPsL9fDlddX9nGrqJXrAYh5QD0hegXrgO+LFAib/Q0KRFSk
- f2GW1+kEkxsOWOvyXrFq5jx63yijAKAg=
-X-Google-Smtp-Source: AGHT+IHfjxXnTdn0iSp1AqYYDcm5/K9nEAphNu1TQKr2ozphQmTsKuv3nB1lPh4zZEbpx4kmGb4PSCSBKcPFfDN6tJ4=
-X-Received: by 2002:a05:6902:1504:b0:e28:e407:610 with SMTP id
- 3f1490d57ef6-e395b957479mr11164613276.47.1732887166767; Fri, 29 Nov 2024
- 05:32:46 -0800 (PST)
+ AJvYcCUSprhJyIR2xxEw1Sn9ftKqXXzZRHeZOLhqR6PhmzTRwhYNSIRVpX6PrFKGDK37QfSrzTMWAJWGAA0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyRuBob09UXg6v2z3A2FAz2UqbMRq7O6Lw2d6f5QMnmR2PkGA5C
+ 98xrdQk+C4u5qy/eFblKJsIe6YXDpAEdW44hDOKSqr0GsQBcbstALUZ/LWXesLS3EYytlsU49oA
+ tCXpq+uT9c6hp4J+LecijPdduhwg37wYzvQV1Iw==
+X-Gm-Gg: ASbGnctHb+YMzT5ZW1H+GKIb+xM6Y/Wle9DWEFUegCgbvRyMM2UCx8IhbbH/oCvi596
+ 0FC7QbrGfoZAUQ0WDiQjSVApqcCGeECk=
+X-Google-Smtp-Source: AGHT+IFrkQj4k5kVrrQDIL9m2/Jvz3+WCa9PDtXeRIXqBRMzU6Wvt9L6VaM1TYObS+1ILE0ANh43T1BRSKVu2mYCPeA=
+X-Received: by 2002:a05:6902:f84:b0:e38:b6be:1d58 with SMTP id
+ 3f1490d57ef6-e395b893aaemr14088801276.21.1732887461424; Fri, 29 Nov 2024
+ 05:37:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20241127-mdss_qcs8300-v1-0-29b2c3ee95b8@quicinc.com>
- <20241127-mdss_qcs8300-v1-4-29b2c3ee95b8@quicinc.com>
- <f5kqdxkhniwwxu6wm2q323vvlsfn3yyig7mfg3h5ctqo7jjxc7@7g32tirseuqs>
- <9821c4d5-8d1d-4bed-b3e0-879d0aeba017@quicinc.com>
-In-Reply-To: <9821c4d5-8d1d-4bed-b3e0-879d0aeba017@quicinc.com>
+ <20241127-mdss_qcs8300-v1-3-29b2c3ee95b8@quicinc.com>
+ <nllulh3vskl3hm3hvjux4khxtanqj7cpoytodwkzphwn4ajmo7@g46rgnhp637b>
+ <4b4a7609-0d9e-4b52-9193-a79583419902@quicinc.com>
+In-Reply-To: <4b4a7609-0d9e-4b52-9193-a79583419902@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 29 Nov 2024 15:32:41 +0200
-Message-ID: <CAA8EJppDomrYvtJ46pi1_hDsf3zFeeTfrkQfVwE8UTN01KfKpw@mail.gmail.com>
-Subject: Re: [PATCH 4/5] drm/msm/dpu: Add QCS8300 support
+Date: Fri, 29 Nov 2024 15:37:35 +0200
+Message-ID: <CAA8EJprGLfa2H1VMAG7uYJOEUyf9aMbC9-V6Q_J-pDz4pGV1yQ@mail.gmail.com>
+Subject: Re: [PATCH 3/5] drm/msm: mdss: Add QCS8300 support
 To: Yongxing Mou <quic_yongmou@quicinc.com>
 Cc: Ritesh Kumar <quic_riteshk@quicinc.com>, Rob Clark <robdclark@gmail.com>, 
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
@@ -95,33 +95,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 29 Nov 2024 at 12:01, Yongxing Mou <quic_yongmou@quicinc.com> wrote:
+On Fri, 29 Nov 2024 at 11:56, Yongxing Mou <quic_yongmou@quicinc.com> wrote:
 >
 >
 >
-> On 2024/11/27 21:49, Dmitry Baryshkov wrote:
-> > On Wed, Nov 27, 2024 at 03:05:04PM +0800, Yongxing Mou wrote:
-> >> Add definitions for the display hardware used on the
-> >> Qualcomm QCS8300 platform.
+> On 2024/11/27 21:46, Dmitry Baryshkov wrote:
+> > On Wed, Nov 27, 2024 at 03:05:03PM +0800, Yongxing Mou wrote:
+> >> Add Mobile Display Subsystem (MDSS) support for the QCS8300 platform.
+> >
+> > Please mention, why do you need it at all. I see that the UBWC swizzle
+> > and HBB settings are different. Is this really the case? Is it because
+> > of the different memory being used on those platforms?
+> >
+> Thanks, will modify the comment to add more information .QCS8300 UBWC
+> setting is quite different with SA8775P,it use different memory,so their
+> recommended configurations are not quite the same.this is really setting.
+
+We had several cases where the platform should be using different HBB
+if it uses different memory type. Is that the case here? If so, rather
+than adding another compat entry please extend the msm_mdss to read
+memory type and select HBB based on that. This will also fix several
+TODO items in the driver.
+
+As a side note, I see that your config has different ubwc_swizzle. If
+that's actually different, then maybe you are right and there should
+be a separate entry.
+
 > >>
 > >> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
 > >> ---
-> >>   .../drm/msm/disp/dpu1/catalog/dpu_8_4_qcs8300.h    | 485 +++++++++++++++++++++
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
-> >>   4 files changed, 488 insertions(+)
+> >>   drivers/gpu/drm/msm/msm_mdss.c | 11 +++++++++++
+> >>   1 file changed, 11 insertions(+)
 > >>
+> >> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> >> index b7bd899ead44bf86998e7295bccb31a334fa6811..90d8fe469d3134ec73f386153509ac257d75930a 100644
+> >> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> >> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> >> @@ -568,6 +568,16 @@ static const struct msm_mdss_data qcm2290_data = {
+> >>      .reg_bus_bw = 76800,
+> >>   };
+> >>
+> >> +static const struct msm_mdss_data qcs8300_data = {
+> >> +    .ubwc_enc_version = UBWC_4_0,
+> >> +    .ubwc_dec_version = UBWC_4_0,
+> >> +    .ubwc_swizzle = 6,
+> >> +    .ubwc_static = 1,
+> >> +    .highest_bank_bit = 3,
+> >> +    .macrotile_mode = 1,
+> >> +    .reg_bus_bw = 74000,
+> >> +};
+> >> +
+> >>   static const struct msm_mdss_data sa8775p_data = {
+> >>      .ubwc_enc_version = UBWC_4_0,
+> >>      .ubwc_dec_version = UBWC_4_0,
+> >> @@ -715,6 +725,7 @@ static const struct of_device_id mdss_dt_match[] = {
+> >>      { .compatible = "qcom,mdss" },
+> >>      { .compatible = "qcom,msm8998-mdss", .data = &msm8998_data },
+> >>      { .compatible = "qcom,qcm2290-mdss", .data = &qcm2290_data },
+> >> +    { .compatible = "qcom,qcs8300-mdss", .data = &qcs8300_data },
+> >>      { .compatible = "qcom,sa8775p-mdss", .data = &sa8775p_data },
+> >>      { .compatible = "qcom,sdm670-mdss", .data = &sdm670_data },
+> >>      { .compatible = "qcom,sdm845-mdss", .data = &sdm845_data },
+> >>
+> >> --
+> >> 2.34.1
 > >>
 > >
-> > NAK, there is no need for this.
-> Got it,thanks. will modify it in next patchset.Compared to sa8775p, they
-> use same dpu but qcs8300 has one less intf and two fewer dp intfs. Other
-> configurations are the same.can we reuse it or a new catalog file to
-> show it.
+>
 
-Is it actually not populated in the silicon? What happens if one
-access those INTF_n registers?
 
 -- 
 With best wishes
