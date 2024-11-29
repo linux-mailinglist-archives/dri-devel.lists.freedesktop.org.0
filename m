@@ -2,55 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E9D9DE7FE
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 14:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19509DE803
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 14:50:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F11BA10E4C0;
-	Fri, 29 Nov 2024 13:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5018210E4C6;
+	Fri, 29 Nov 2024 13:50:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="Z2FaFcfs";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="R2eV/khG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B31C910E4C0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 13:46:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732888004; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Z1/fxVpt2FBzKl/+KHKSrrq/JpB3eQOn6ECJ79O0AWiC5aUDkuqZAtHuU6RiX8w7NpsemampEKdYaw0Rk0r/5nj9vV8DrYx/uqw6i8cjBFTju2bCs+TK8AOZu6aYkQ+7Gzha/jm+m2pwOX7uh36XDGnx06Wm1i8W4MnkufNFj44=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732888004;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=72J66gZXIF/dzc28O+2YziYb0aWmNzPaI1KSEpjbm0A=; 
- b=Vabx7XED3u3kWwnxVgJC5MY4Oks0yxTzt4iyr6vGktg+BLFJwueIZnYhC9Ml7otaNs1P86zNpA3AikhGesibkYAJOYeBOjqk2nZd6jR2HtD6ZdkIMusripMdJpkired1yrJkKSjcIBYE1M6AKgvbwXEwvr4MbJxPSB3xewNsLpU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732888004; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=72J66gZXIF/dzc28O+2YziYb0aWmNzPaI1KSEpjbm0A=;
- b=Z2FaFcfsgvTvij/rOS8ABmGTjnWOvQR7yDZ6afrYFrvbJmmOUWpph1KNNXs7wiyM
- 9jySWpVJSQ8M2ROL+n4mXeoIW1XOn+/wZfqK+N/og13iu5gM03D9i0ZYxhAUHrSzhD/
- 42CP8aQsTbjWwghvpowa0lBSMEAbdeKtzT0bdKDk=
-Received: by mx.zohomail.com with SMTPS id 1732888003217729.5646658688657;
- Fri, 29 Nov 2024 05:46:43 -0800 (PST)
-Date: Fri, 29 Nov 2024 13:46:41 +0000
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v2 3/5] drm/panthor: Ignore
- devfreq_{suspend,resume}_device() failures
-Message-ID: <ufwgsrxqxzbdfqqwoxejhn4bxtsakif6wil44rg24bdiimgx6x@odfex4htsy2d>
-References: <20241128110255.3182366-1-boris.brezillon@collabora.com>
- <20241128110255.3182366-4-boris.brezillon@collabora.com>
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47C5910E4C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 13:50:46 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-e3983426f80so970382276.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 05:50:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1732888245; x=1733493045; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7WQXtZAjWFqN8mKK3853FsLiUq722zhwbqGIVz24roM=;
+ b=R2eV/khG4oLg8GBs6FW7eqNgYaXSsBBN1lSBFqyLvoC24XmENkU+OGDpidiIN4KnSX
+ m65lVilXJ0ZTAGfxsmYZB/nINutj1Rb6Wvh/C3/fMmN9OpolXmjnZyQHsa56H3gc1cBS
+ onNeRHtdACZY6H+9x2d/Q1cCtfVwX8VeWmCd6XeQEzR1CyLPT1lbmhE23SMtvQSfTrb3
+ AR8uRBoUjtVVYEK/HmbhRZhyO/Yg/LxUxLVfDZpdB0aY7hb7ZZxD4JCiAdPw8u0YvP3p
+ iG6Fk1LcehJT2fSlXfI08u0tuHsQIgnojOZSOxF1RkGHgIaO/R0t4aeCDsqU3Fj8LcSL
+ Eisg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732888245; x=1733493045;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7WQXtZAjWFqN8mKK3853FsLiUq722zhwbqGIVz24roM=;
+ b=X1tkK+G6gpnlH/j4szVkVLJkWj83wTgmRqke3lXQ52Fev2S+iffo4OQNhrzCepLNml
+ 6Gdsen48H5eQcFxXSEIQ558nN60R9+Uq8rz4RQRPrFlDqjbSiMA3Xvf+H8NJErtunFKr
+ cuWsguFGAIdistBtHw8AMr/GNLxF4vyx1sjFahXfJLxzDSpcznYTOaK/6+9sH861Zq2W
+ EzlzTD0la1TibXLJI8oVuxiESx71dowxdGGnngoIttCSMv5+BdKIld4FxJeP8mh1KOB8
+ DRIod+MSuXZA78O2hCdCnG7eq7dkSsFuVkHKCYll4hO+UGB8A4F5fXH1Ptx0owWxROWE
+ G2kg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUlr+dRNAvHEYYpCVVA7VO0poqWelK+yB4p9chOaRp+f9LX/7+TI3vzNnH5fkhGoXayioKvqS8tyjo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyUUmYnBjPETl5PF1DFlvSI/hH3oL834q0axa0ZBx/g1fyyhVmm
+ fw+DdcX+p3ndOdQdul2gNDFwwF1f+45HdaEnGJqkxuzsAP+Ky0qIghSMziivYEkADnoFlIrw2Tg
+ CVFObDyH2nRjLpOqKtVfr7ZemkJmLgxj/IYuilQ==
+X-Gm-Gg: ASbGncuCw0fWUmLG6ryXayNl0BbMFBYWV8sFwYS8zWsdk9MDBunTIUuqdEJjW5frdfw
+ MXPTnWDmd0DPupx/yVNRPaqlJihoFmFE=
+X-Google-Smtp-Source: AGHT+IE0BIIdCa1JDpOjyTRYlwlbjuOqEl95UYxl+xvUnPElLVGBvG1eFLCUkRkyHmX0HZXqS4NsAg2SmNUQAHEPcuE=
+X-Received: by 2002:a05:6902:2b0e:b0:e38:f30e:9b52 with SMTP id
+ 3f1490d57ef6-e395b8698e0mr9367911276.4.1732888245294; Fri, 29 Nov 2024
+ 05:50:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241128110255.3182366-4-boris.brezillon@collabora.com>
+References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
+ <20241129-add-displayport-support-for-qcs615-platform-v1-5-09a4338d93ef@quicinc.com>
+In-Reply-To: <20241129-add-displayport-support-for-qcs615-platform-v1-5-09a4338d93ef@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 29 Nov 2024 15:50:40 +0200
+Message-ID: <CAA8EJpoY8hySQd00yODGeHjSpVZpEBLjF3aBiKGJPUhpr-2mgw@mail.gmail.com>
+Subject: Re: [PATCH 5/8] drm/msm/dp: Add support for lane mapping configuration
+To: Xiangxu Yin <quic_xiangxuy@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, quic_lliu6@quicinc.com,
+ quic_fangez@quicinc.com, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,152 +95,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Adrian Larumbe <adrian.larumbe@collabora.com>
-
-On 28.11.2024 12:02, Boris Brezillon wrote:
-> devfreq_{resume,suspend}_device() don't bother undoing the suspend_count
-> modifications if something fails, so either it assumes failures are
-> harmless, or it's super fragile/buggy. In either case it's not something
-> we can address at the driver level, so let's just assume failures are
-> harmless for now, like is done in panfrost.
-
-In my experience, when devfreq_suspend_device fails in the PM suspend path, then
-FW resumption will always fail, even after a slow reset, although I guess
-with the latest patch in this series that is already addressed.   
-
-> v2:
-> - Add R-b
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
+On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
+>
+> Add the ability to configure lane mapping for the DP controller. This is
+> required when the platform's lane mapping does not follow the default
+> order (0, 1, 2, 3). The mapping rules are now configurable via the
+> `data-lane` property in the devicetree. This property defines the
+> logical-to-physical lane mapping sequence, ensuring correct lane
+> assignment for non-default configurations.
+>
+> Signed-off-by: Xiangxu Yin <quic_xiangxuy@quicinc.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_devfreq.c | 12 ++++----
->  drivers/gpu/drm/panthor/panthor_devfreq.h |  4 +--
->  drivers/gpu/drm/panthor/panthor_device.c  | 35 ++---------------------
->  3 files changed, 11 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
-> index ecc7a52bd688..3686515d368d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
-> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
-> @@ -243,26 +243,26 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
->  	return 0;
+>  drivers/gpu/drm/msm/dp/dp_catalog.c | 11 +++++------
+>  drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    |  2 +-
+>  drivers/gpu/drm/msm/dp/dp_panel.c   | 13 ++++++++++---
+>  drivers/gpu/drm/msm/dp/dp_panel.h   |  3 +++
+>  5 files changed, 20 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index b4c8856fb25d01dd1b30c5ec33ce821aafa9551d..34439d0709d2e1437e5669fd0b995936420ee16f 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -361,17 +361,16 @@ void msm_dp_catalog_ctrl_config_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32
+>         msm_dp_write_link(catalog, REG_DP_CONFIGURATION_CTRL, cfg);
 >  }
->  
-> -int panthor_devfreq_resume(struct panthor_device *ptdev)
-> +void panthor_devfreq_resume(struct panthor_device *ptdev)
+>
+> -void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog)
+> +void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog, u32 *l_map)
+
+lane_map, not l_map.
+
 >  {
->  	struct panthor_devfreq *pdevfreq = ptdev->devfreq;
->  
->  	if (!pdevfreq->devfreq)
-> -		return 0;
-> +		return;
->  
->  	panthor_devfreq_reset(pdevfreq);
->  
-> -	return devfreq_resume_device(pdevfreq->devfreq);
-> +	drm_WARN_ON(&ptdev->base, devfreq_resume_device(pdevfreq->devfreq));
->  }
->  
-> -int panthor_devfreq_suspend(struct panthor_device *ptdev)
-> +void panthor_devfreq_suspend(struct panthor_device *ptdev)
+>         struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
+>                                 struct msm_dp_catalog_private, msm_dp_catalog);
+> -       u32 ln_0 = 0, ln_1 = 1, ln_2 = 2, ln_3 = 3; /* One-to-One mapping */
+>         u32 ln_mapping;
+>
+> -       ln_mapping = ln_0 << LANE0_MAPPING_SHIFT;
+> -       ln_mapping |= ln_1 << LANE1_MAPPING_SHIFT;
+> -       ln_mapping |= ln_2 << LANE2_MAPPING_SHIFT;
+> -       ln_mapping |= ln_3 << LANE3_MAPPING_SHIFT;
+> +       ln_mapping = l_map[0] << LANE0_MAPPING_SHIFT;
+> +       ln_mapping |= l_map[1] << LANE1_MAPPING_SHIFT;
+> +       ln_mapping |= l_map[2] << LANE2_MAPPING_SHIFT;
+> +       ln_mapping |= l_map[3] << LANE3_MAPPING_SHIFT;
+>
+>         msm_dp_write_link(catalog, REG_DP_LOGICAL2PHYSICAL_LANE_MAPPING,
+>                         ln_mapping);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> index e932b17eecbf514070cd8cd0b98ca0fefbe81ab7..8b8de2a7d3ad561c1901e1bdaad92d4fab12e808 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> @@ -69,7 +69,7 @@ u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog);
+>  /* DP Controller APIs */
+>  void msm_dp_catalog_ctrl_state_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32 state);
+>  void msm_dp_catalog_ctrl_config_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32 config);
+> -void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog);
+> +void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog, u32 *l_map);
+>  void msm_dp_catalog_ctrl_mainlink_ctrl(struct msm_dp_catalog *msm_dp_catalog, bool enable);
+>  void msm_dp_catalog_ctrl_psr_mainlink_enable(struct msm_dp_catalog *msm_dp_catalog, bool enable);
+>  void msm_dp_catalog_setup_peripheral_flush(struct msm_dp_catalog *msm_dp_catalog);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index bc2ca8133b790fc049e18ab3b37a629558664dd4..49c8ce9b2d0e57a613e50865be3fe98e814d425a 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -177,7 +177,7 @@ static void msm_dp_ctrl_configure_source_params(struct msm_dp_ctrl_private *ctrl
 >  {
->  	struct panthor_devfreq *pdevfreq = ptdev->devfreq;
->  
->  	if (!pdevfreq->devfreq)
-> -		return 0;
-> +		return;
->  
-> -	return devfreq_suspend_device(pdevfreq->devfreq);
-> +	drm_WARN_ON(&ptdev->base, devfreq_suspend_device(pdevfreq->devfreq));
->  }
->  
->  void panthor_devfreq_record_busy(struct panthor_device *ptdev)
-> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.h b/drivers/gpu/drm/panthor/panthor_devfreq.h
-> index 83a5c9522493..b7631de695f7 100644
-> --- a/drivers/gpu/drm/panthor/panthor_devfreq.h
-> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.h
-> @@ -12,8 +12,8 @@ struct panthor_devfreq;
->  
->  int panthor_devfreq_init(struct panthor_device *ptdev);
->  
-> -int panthor_devfreq_resume(struct panthor_device *ptdev);
-> -int panthor_devfreq_suspend(struct panthor_device *ptdev);
-> +void panthor_devfreq_resume(struct panthor_device *ptdev);
-> +void panthor_devfreq_suspend(struct panthor_device *ptdev);
->  
->  void panthor_devfreq_record_busy(struct panthor_device *ptdev);
->  void panthor_devfreq_record_idle(struct panthor_device *ptdev);
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index e701e605d013..e3b22107b268 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -453,9 +453,7 @@ int panthor_device_resume(struct device *dev)
->  	if (ret)
->  		goto err_disable_stacks_clk;
->  
-> -	ret = panthor_devfreq_resume(ptdev);
-> -	if (ret)
-> -		goto err_disable_coregroup_clk;
-> +	panthor_devfreq_resume(ptdev);
->  
->  	if (panthor_device_is_initialized(ptdev) &&
->  	    drm_dev_enter(&ptdev->base, &cookie)) {
-> @@ -492,8 +490,6 @@ int panthor_device_resume(struct device *dev)
->  
->  err_suspend_devfreq:
->  	panthor_devfreq_suspend(ptdev);
-> -
-> -err_disable_coregroup_clk:
->  	clk_disable_unprepare(ptdev->clks.coregroup);
->  
->  err_disable_stacks_clk:
-> @@ -510,7 +506,7 @@ int panthor_device_resume(struct device *dev)
->  int panthor_device_suspend(struct device *dev)
->  {
->  	struct panthor_device *ptdev = dev_get_drvdata(dev);
-> -	int ret, cookie;
-> +	int cookie;
->  
->  	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_ACTIVE)
->  		return -EINVAL;
-> @@ -542,36 +538,11 @@ int panthor_device_suspend(struct device *dev)
->  		drm_dev_exit(cookie);
->  	}
->  
-> -	ret = panthor_devfreq_suspend(ptdev);
-> -	if (ret) {
-> -		if (panthor_device_is_initialized(ptdev) &&
-> -		    drm_dev_enter(&ptdev->base, &cookie)) {
-> -			panthor_gpu_resume(ptdev);
-> -			panthor_mmu_resume(ptdev);
-> -			drm_WARN_ON(&ptdev->base, panthor_fw_resume(ptdev));
-> -			panthor_sched_resume(ptdev);
-> -			drm_dev_exit(cookie);
-> -		}
-> -
-> -		goto err_set_active;
-> -	}
-> +	panthor_devfreq_suspend(ptdev);
->  
->  	clk_disable_unprepare(ptdev->clks.coregroup);
->  	clk_disable_unprepare(ptdev->clks.stacks);
->  	clk_disable_unprepare(ptdev->clks.core);
->  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
->  	return 0;
-> -
-> -err_set_active:
-> -	/* If something failed and we have to revert back to an
-> -	 * active state, we also need to clear the MMIO userspace
-> -	 * mappings, so any dumb pages that were mapped while we
-> -	 * were trying to suspend gets invalidated.
-> -	 */
-> -	mutex_lock(&ptdev->pm.mmio_lock);
-> -	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_ACTIVE);
-> -	unmap_mapping_range(ptdev->base.anon_inode->i_mapping,
-> -			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
-> -	mutex_unlock(&ptdev->pm.mmio_lock);
-> -	return ret;
->  }
-> -- 
-> 2.46.2
+>         u32 cc, tb;
+>
+> -       msm_dp_catalog_ctrl_lane_mapping(ctrl->catalog);
+> +       msm_dp_catalog_ctrl_lane_mapping(ctrl->catalog, ctrl->panel->lane_map);
+>         msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, true);
+>         msm_dp_catalog_setup_peripheral_flush(ctrl->catalog);
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+> index 5d7eaa31bf3176566f40f01ff636bee64e81c64f..8654180aa259234bbd41f4f88c13c485f9791b1d 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+> @@ -11,7 +11,6 @@
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
+>
+> -#define DP_MAX_NUM_DP_LANES    4
+>  #define DP_LINK_RATE_HBR2      540000 /* kbytes */
+>
+>  struct msm_dp_panel_private {
+> @@ -461,6 +460,7 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
+>         struct msm_dp_panel_private *panel;
+>         struct device_node *of_node;
+>         int cnt;
+> +       u32 lane_map[DP_MAX_NUM_DP_LANES] = {0, 1, 2, 3};
+>
+>         panel = container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
+>         of_node = panel->dev->of_node;
+> @@ -474,10 +474,17 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
+>                 cnt = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
+>         }
+>
+> -       if (cnt > 0)
+> +       if (cnt > 0) {
+> +               struct device_node *endpoint;
+> +
+>                 msm_dp_panel->max_dp_lanes = cnt;
+> -       else
+> +               endpoint = of_graph_get_endpoint_by_regs(of_node, 1, -1);
+> +               of_property_read_u32_array(endpoint, "data-lanes", lane_map, cnt);
+> +       } else {
+>                 msm_dp_panel->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
+> +       }
+
+Why? This sounds more like dp_catalog or (after the refactoring at
+[1]) dp_ctrl. But not the dp_panel.
+
+[1] https://patchwork.freedesktop.org/project/freedreno/series/?ordering=-last_updated
+
+> +
+> +       memcpy(msm_dp_panel->lane_map, lane_map, msm_dp_panel->max_dp_lanes * sizeof(u32));
+>
+>         msm_dp_panel->max_dp_link_rate = msm_dp_panel_link_frequencies(of_node);
+>         if (!msm_dp_panel->max_dp_link_rate)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+> index 0e944db3adf2f187f313664fe80cf540ec7a19f2..7603b92c32902bd3d4485539bd6308537ff75a2c 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+> @@ -11,6 +11,8 @@
+>  #include "dp_aux.h"
+>  #include "dp_link.h"
+>
+> +#define DP_MAX_NUM_DP_LANES    4
+> +
+>  struct edid;
+>
+>  struct msm_dp_display_mode {
+> @@ -46,6 +48,7 @@ struct msm_dp_panel {
+>         bool video_test;
+>         bool vsc_sdp_supported;
+>
+> +       u32 lane_map[DP_MAX_NUM_DP_LANES];
+>         u32 max_dp_lanes;
+>         u32 max_dp_link_rate;
+>
+>
+> --
+> 2.25.1
+>
+
+
+-- 
+With best wishes
+Dmitry
