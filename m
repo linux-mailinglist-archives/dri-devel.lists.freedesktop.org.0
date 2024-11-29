@@ -2,143 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFCB9DE9E0
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 16:44:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584F89DE9F3
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 16:52:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1996410E2A1;
-	Fri, 29 Nov 2024 15:44:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 335A310E030;
+	Fri, 29 Nov 2024 15:51:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=hotmail.com header.i=@hotmail.com header.b="fZTLxAzb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tI9l5WHN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05olkn2078.outbound.protection.outlook.com [40.92.89.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAD8410E2A1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 15:44:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lEtPbME7Fgv2yxnO+nFTCNCIRxVsv5XtKi4rBl4SoPgE+Ewxjm4v7iTGU8B2Oza8WRTH96L7Sql5VKLiQ+OJlloPhjb2qG3gkJj9vnV8SWXBQaP7i7jH1Ik70FHWPVbEeiUUgFr1/R57xzV3FC4pvT30s1An9IjgWVVRkNUmo9VMMOgvGvsydooRzCtnS9SvDz1N0m+em8t25df3FpXkp03Doh3DqkNtKSqSU1vUnDCefvlZKXAhITpyxC7z4rja05Ja6o51f0tIztEPx+3Ah7+GkTHhSZQnD/c0IX+UZDacDn7anqPqmmLUgX4y3/G51ixOeNaD6sOZV4DL96Tiug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KeQdtDxVi6cvx4UvdNfUcwlPIm6QFv3dl0ZNEbiTpZo=;
- b=h0LtyTrChcoQ3OWXzoaq+eAec9MqFeP1/lfDr/+qKZ8UGt3tLv/FI8BbRAaZZEG9AXA+DHA0frjfm23FdB9o6jYFMUBbd6j259u2yqN6q41H55kR//Staq3lwM8QIrSWbsEiUIkBoDKqxkQhMgORFWM0W8I/eetsZt+6tnU9a8NC6Y4BlHgMF25a6NzrlMBuxzAWCTC50Q4lVIK5FdsQjwfOeM2f3MA2fNecg3DZiVydr9R+BuydPhQbNB1PjrmjDHPpME1yUhkSQ1AeOfNfcwrXnjQQVWRV7gw2ypOzUVa2akUuvAeIXltJe/HyJDEJaN/JDJXJZ6SjFmkokV4Mrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KeQdtDxVi6cvx4UvdNfUcwlPIm6QFv3dl0ZNEbiTpZo=;
- b=fZTLxAzb0H8XaaSmvj9Ozq3dd9NLmAEpD6HV++NcEfY13IT5tLguWrfUkCoPC9+BsBvS/c46Wo9DjjGxdiXeulqlmR+XtD0Sh73UUXnBZFO6fG/CnuCRk1MzlUjCiFUgJOUNgGQb2kCXbPQD0GjU5LUk+aHNBsOrt2OeuyFL2/hd+D+rh7oPA5CSuU1esH4jbPc1patVUKrmkAJyNQq62GddIFAivVqAlKQglAbxCem6xyQSm2x5MEBk9WyHaDmJnJFseAYynDriVSy2jJJBhHC7ovvOnka997IySstt3wQsT9cTyyFFIalHSdhkq7m/c7p4v3beHcpA3kjd5436dg==
-Received: from VE1P189MB1024.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:149::13)
- by GV1P189MB2243.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:9c::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.18; Fri, 29 Nov
- 2024 15:44:28 +0000
-Received: from VE1P189MB1024.EURP189.PROD.OUTLOOK.COM
- ([fe80::4c0a:a901:4d3c:e0bb]) by VE1P189MB1024.EURP189.PROD.OUTLOOK.COM
- ([fe80::4c0a:a901:4d3c:e0bb%4]) with mapi id 15.20.8158.024; Fri, 29 Nov 2024
- 15:44:28 +0000
-Message-ID: <VE1P189MB1024A30BA75185CDB5FCEC91E32A2@VE1P189MB1024.EURP189.PROD.OUTLOOK.COM>
-Date: Fri, 29 Nov 2024 16:44:26 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] arm64: dts: qcom: x1e80100-vivobook-s15: Add
- bluetooth
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Douglas Anderson
- <dianders@chromium.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20241125-asus_qcom_display-v4-0-61a4da162406@hotmail.com>
- <20241125-asus_qcom_display-v4-3-61a4da162406@hotmail.com>
- <7mmnvrgzmqujse4bz2eosdnqmogyvfdi3ei5ez3es562qncks3@yqre7fakszbb>
-Content-Language: en-US
-From: Maud Spierings <maud_spierings@hotmail.com>
-In-Reply-To: <7mmnvrgzmqujse4bz2eosdnqmogyvfdi3ei5ez3es562qncks3@yqre7fakszbb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS4P250CA0006.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:5df::8) To VE1P189MB1024.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:800:149::13)
-X-Microsoft-Original-Message-ID: <233f0a6d-a092-4edc-98a2-6d99a85e0b29@hotmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFCCD10E4E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 15:51:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id EC2645C31EC;
+ Fri, 29 Nov 2024 15:51:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABD52C4CED2;
+ Fri, 29 Nov 2024 15:51:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732895515;
+ bh=cC7g//YZlXZQLesdTIo2E8ORnvcod1v2gyyt9pbt9GI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tI9l5WHNh32qQkQlGnT+MRouJUqKewiydJhKPvKs9hzCuwprZVcEePaemkrJy29sN
+ tfu34qL8yCn4lvZX39NzUVxIWtL10x64A2Z/H/rgenV5SD75hD35jC2coftvOLv2VT
+ 9mvdHV7sJtJgPZfyNYSmrgaxBRLZJsSP+v5jK/f7I/JiJNjyqj56Gl0i4dWcHZDqNx
+ 8F/+N1O/5sG+WF65EmuzdHZegSFvRsC6ylhHSy0jMdd5Ngbl4OIbPijbtQPcmoUf6W
+ XekDlM7rY527ojn/INbtZI16ICg6HuoAcdldGtAi21QvfG/m9IQuXiWJnghhrtSkV+
+ YdKcCdQY/7ksw==
+Date: Fri, 29 Nov 2024 10:51:54 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Sima Vetter <sima@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [git pull] drm fixes for 6.13-rc1
+Message-ID: <Z0njGuEof47TzpMc@sashalap>
+References: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1P189MB1024:EE_|GV1P189MB2243:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4bc3bfd5-46da-4eb5-d558-08dd108cb566
-X-Microsoft-Antispam: BCL:0;
- ARA:14566002|19110799003|461199028|8060799006|6090799003|5072599009|15080799006|440099028|3412199025;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q3kzVE5HeU5JcWlmZXY2UVdab0s5Vit0bGF6Z3puV0c5SjN1TWg2dDlkaXBX?=
- =?utf-8?B?cGtuYnRIUFpWanJDbWJwMmozU3pqYnVzbWUrYlRFSEdLZHJSM3k1aG0zeVRH?=
- =?utf-8?B?Z0o2MmsvUlRINlViYitDUk8yUkZpZjVLTkhhVU9MZ0g3QlVsRjNIZ2dpM2Jt?=
- =?utf-8?B?WWRFWW40WCtmMncxbnRsTDVXZXFWMzc0cGVSbmV3SUFJTkpWRlhrQVc3VTBM?=
- =?utf-8?B?RWh1TFZjUFV4NEMvWjFUNG1YUTFOeFFOd0JlOWVjby9OTFQvODFrMkhYM1JQ?=
- =?utf-8?B?eE9ZcnZhM1VyWjhpOFZVZ3NheVhQNTFWZDdER0VQSjB0S0NPRDRPY3VmbnEy?=
- =?utf-8?B?WEMzT05jNitKSXVqNElPNFN4bHpvbUVpeUxidlptK3pHSGtTZmo4dm5ybGJs?=
- =?utf-8?B?QUtQOXlIY1ZYNHArbFVQNzl4UVpMeEgyMHd6ZU54MDZLbnRRMU5uTWY2K0Za?=
- =?utf-8?B?SHJUQ09nbWpyd29JWjVLTGgzUnJaRVZGM25rL2Z4L0Z0bUM3UkZiWGpDaVZF?=
- =?utf-8?B?R1JYYlFzRzVobk5GZ3VLSDJEbUMvRlJIVUR4TkEvYkZZL2grbkt4OFZEVTZ5?=
- =?utf-8?B?NlBwRVNlQWMrNGxKWWY3VGFMaFhNR1dIOFRteEJ2VE5hYzFpRG41S0tTQ3Br?=
- =?utf-8?B?Ym9sY1lXSm9xT3JyZE9kMnNPWnBZb1cvWlVDTW1Jc1BCR1laQ0hYamJxUkhR?=
- =?utf-8?B?M21ibWlla1QwNFcwWXplR1BGMTZZN09IQ2NxTnNxQWU2aHYyeWc4Wk13TDVa?=
- =?utf-8?B?L3l6VEdKVHV6c0pvOWowV1cwM2s1M0lVOWkxWUVLVC8wblJzZTFmdVl6VnJB?=
- =?utf-8?B?WDA4KzFXTXU4eGRhTERKS25oNWppaGZOQ3hQOFhLdXFxTG0xQStoR1NZdHhi?=
- =?utf-8?B?b01wT3pIUDVQaDR3Wk95c2p6ZFRIZ2Fud3FhUVFmTGp1di9FK3hib25kamYr?=
- =?utf-8?B?NmdpWmp1WWlpZWdodjR6cXEzVit1cDFHQkFiNy9pUkpMdGV6T01ZUzUreC9Z?=
- =?utf-8?B?QmlNVnJZZGU5TTZDRHVidnl0OGk1Wm1hdjRWTVk4aTdqK0trdUJiTVhjN3U1?=
- =?utf-8?B?V1hSbkRWdWlZRXY5K2VVUGg4RUpXa2NZcUpYTXVLN1ZGNldRd3pOSVZHa1FD?=
- =?utf-8?B?S3ZYRmhLNlUyQk5zcnczL2VseFlQakFPbnpZTXVoaWxKRzl1dno3SGh1T0Vx?=
- =?utf-8?B?VVVIT1E3SnNLTTBFL3hVS3RCL2hmeXpBanEyalVPRXRJRTBSbUY0NFBQbTd3?=
- =?utf-8?B?YW5hK3RjQ0JzSVlPTGMvUUNOQWVENE8vcHBDTm5RV0xkNGVaUXdueWhPa3d4?=
- =?utf-8?B?azhVakorOEFOL3lrRXJYS2hoREJYT0RJK3d0MG1leVc5UjFtdkRVY0hITldO?=
- =?utf-8?Q?2fjq/O+/TnVtr0g+71ecRkZVCZkiWYg4=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QjJIRk9aQTM3RWlnb0lPU1VzODcyMHVwd2xyQXpjdERqdTNSRGttdVN2cUVV?=
- =?utf-8?B?aEdJNFVzcFpNTE41eEZQc2pkSEVPWFM5MHl5Y2QycytJSW8zNjM0NzJOYThv?=
- =?utf-8?B?TmF0NE9jY1hXaEhWZUdUSzBOcURmam44N2tQZkMvWllLTFpSMDFkZlhUU0Ez?=
- =?utf-8?B?ZFR6bm9GWnp6Snk3aURIbWRDb0s0Sm1EMGFUNk92UUlBNlNVQnBWSUkrenFE?=
- =?utf-8?B?enZQbnI0SUVJaXpaaTA1MVFESmRhYk9aY2Rqa052VDh1a0cyeWN3N3lKQU1u?=
- =?utf-8?B?S3FEMWYrNXhyOWtZOEtGR0l2YVRmMHhKTWg4Qzhrb3Y5Tlg4TmtoUElhY1lv?=
- =?utf-8?B?QTN6LzIrR0VRZkN4VGVJbkErVFZJWU1mS2lHYStEeDlWR040eThNdWNxV3B4?=
- =?utf-8?B?SW9NbUh3M3Q2TmplWDl5aFp0d2hhbElDcW5hd054dmpHZmFRZjVLMGZEdjJh?=
- =?utf-8?B?MTZuZW1FMXhQYUVhMGVKVUQwYVZiZUFzTzFGa05CeVYxY251Sk53SzNsU2g3?=
- =?utf-8?B?V24xNDY3MDZ6a01jdFk5OERGbnFCN25ZcjJodTB6WWlXem5oNFl6dlNKSmVX?=
- =?utf-8?B?aVdLbE9jWWoyRUtPZTUvbU5ORkJOV1hCS0Y0QWp1blBDUU1FZ2dka3hoSURp?=
- =?utf-8?B?SStEcThHT0t0QytrUVpaNk8xWWpwY29acFFGYlZzNlhmU25haTQ0anR3VHhw?=
- =?utf-8?B?Y0pIRmFuYWFhdndRWFBNUFFJZUpSNGQ2QmdONlhHUTVKK01DSDFtaHVzQk56?=
- =?utf-8?B?NytvU3ZYekowMU4yZUhXSWdQQURZdlE2aEVHMjBTbGg1dm41elFRNDlEa2Fz?=
- =?utf-8?B?dlZSSXY3UFBDMkRJK1h0WmU0VWJpY2RRMENGWnhSb0h1YTN2TXlwc2NQckha?=
- =?utf-8?B?bGdoYk56NGw3Mjc1THRSaXNvUWJndE9pY29QcjBTdzg5b0NPYTAzSXlIYU5F?=
- =?utf-8?B?ZE4ySS83VG9mNklTc1AvNk9kcno5MkJzajNwcGMvSUpWdXRVYnhLbUxBa3NC?=
- =?utf-8?B?aWxXTVJHdnQxRkpLR1haNXV5c3VjQjljMDFxL3liWlpBY21VK0FhL1lSamtW?=
- =?utf-8?B?WnVCelczN3pNUEN3SDl2RmNHSFRCaXQ0cFNPTlFRVDVnSGdPc2xjOUorQ2RO?=
- =?utf-8?B?emtaNDB0cGFpck9PeCtMWlk3QndMdnFDblUySjZ5alJtTktKd1o2SHJUM1JY?=
- =?utf-8?B?NUJMYThrVjJpaWhUY2QyWTNMN3NmWXBBbW1LeDhVQUhrc291NEw4MHFQV0Va?=
- =?utf-8?B?cXV1YWhCYWRjblhXWkVyTGd0eG5STVFwQktyVHhVM1MrWkNPWXV1clJISXU3?=
- =?utf-8?B?L1ZNUmsxR21LcDlPblRFMlRWUDdFbXZnamFxcnVZT0x0R0VtdGptZjB3VFFk?=
- =?utf-8?B?YWxUdzFmUkVSMExyWWRERFJXdlFPK09qZnV4N09wVnY3ek5aK2lZVlhUZ1Ez?=
- =?utf-8?B?RmkweWcrd215Wldvc0MyOWxlMXVQS0V1b1hCS2xiM2hTdUV5Z05zYnJ2V0pW?=
- =?utf-8?B?N0lvZkhpMDRPa0U5MFJZSHRweldLV044OUZBU1ppMVFsbWpzZUNnY2ZDUlNE?=
- =?utf-8?B?VDVDazhsRlo5UFdEQ2JGaUdyeTNKRmFGY3dGMERyenAxaFlNb2Y1dzRxKzZW?=
- =?utf-8?B?SlNFekxmQXNVaVlVNnlUUUl4c1ZwUDZFN1ptTUdFbGhBdDMyU0MvZHFjL1Jz?=
- =?utf-8?B?d1lOQ1NmK1RnVjZFWVZNRWhsZU9IWUJQaW9wVkl0cENuMkk3LzJiV09RRkJu?=
- =?utf-8?Q?Ew0f9wwOS4eWpMvuRD9VY7ZHkni87dzDVg3JB/2?=
-X-OriginatorOrg: sct-15-20-7719-19-msonline-outlook-3b3e0.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4bc3bfd5-46da-4eb5-d558-08dd108cb566
-X-MS-Exchange-CrossTenant-AuthSource: VE1P189MB1024.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2024 15:44:28.6105 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2243
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,28 +58,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/25/24 11:29 PM, Dmitry Baryshkov wrote:
-> On Mon, Nov 25, 2024 at 08:11:19PM +0100, Maud Spierings via B4 Relay wrote:
->> From: Maud Spierings <maud_spierings@hotmail.com>
->>
->> Add bluetooth for the asus vivobook s15
->> Describe wlan configuration
->>
->> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
->> ---
->>   .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts   | 164 +++++++++++++++++++++
->>   1 file changed, 164 insertions(+)
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Fri, Nov 29, 2024 at 06:42:18AM +1000, Dave Airlie wrote:
+>Hi Linus,
 >
-I'm pretty sure I messed up the pinctrls in the wcn7850-pmu
-I believe it should be:
+>Merge window fixes, mostly amdgpu and xe, with a few other minor ones,
+>all looks fairly normal,
 
-pintctrl-0 = <&wcn_bt_en &wcn_wlan_en>;
+Hi folks,
 
-instead of a seperate pinctrl-0 and 1
-I'll fix this up  tomorrow/day after
+I've also started seeing the following warning after the merge into
+linus-next:
 
-Thanks for the review!
+[    4.495349] UBSAN: shift-out-of-bounds in ./include/linux/log2.h:57:13
+[    4.501876] shift exponent 32 is too large for 32-bit type 'long unsigned int'
+[    4.509101] CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.12.0 #1
+[    4.510096] Hardware name: Google Shuboz/Shuboz, BIOS Google_Shuboz.13434.780.2022_10_13_1418 09/12/2022
+[    4.510096] Call Trace:
+[    4.510096]  dump_stack_lvl+0x94/0xa4
+[    4.510096]  dump_stack+0x12/0x18
+[    4.510096]  __ubsan_handle_shift_out_of_bounds+0x156/0x320
+[    4.510096]  amdgpu_vm_adjust_size.cold+0x64/0x6c
+[    4.510096]  ? __lock_release.isra.0+0x5d/0x170
+[    4.510096]  ? amdgpu_device_skip_hw_access.part.0+0x6a/0x70
+[    4.510096]  ? gmc_v9_0_init_mem_ranges+0x14c/0x14c
+[    4.510096]  gmc_v9_0_sw_init+0x436/0x7c0
+[    4.510096]  ? nbio_v7_0_vcn_doorbell_range+0x74/0x74
+[    4.510096]  ? gmc_v9_0_init_mem_ranges+0x14c/0x14c
+[    4.510096]  amdgpu_device_ip_init+0xd4/0xa74
+[    4.510096]  amdgpu_device_init+0xc4a/0x1458
+[    4.510096]  amdgpu_driver_load_kms+0x19/0x9c
+[    4.510096]  amdgpu_pci_probe+0x153/0x570
+[    4.510096]  ? _raw_spin_unlock_irqrestore+0x2f/0x58
+[    4.510096]  pci_device_probe+0x8c/0x118
+[    4.510096]  ? sysfs_create_link+0x1d/0x38
+[    4.510096]  really_probe+0xc2/0x2ac
+[    4.510096]  ? _raw_spin_unlock_irq+0x1d/0x38
+[    4.510096]  ? pm_runtime_barrier+0x52/0x90
+[    4.510096]  __driver_probe_device+0x7a/0x180
+[    4.510096]  ? __driver_attach+0x8e/0x188
+[    4.510096]  driver_probe_device+0x23/0x108
+[    4.510096]  __driver_attach+0x97/0x188
+[    4.510096]  ? __device_attach_driver+0x120/0x120
+[    4.510096]  bus_for_each_dev+0x71/0xc0
+[    4.510096]  driver_attach+0x19/0x20
+[    4.510096]  ? __device_attach_driver+0x120/0x120
+[    4.510096]  bus_add_driver+0xc9/0x208
+[    4.510096]  driver_register+0x52/0x10c
+[    4.510096]  ? drm_sched_fence_slab_init+0x80/0x80
+[    4.510096]  __pci_register_driver+0x5f/0x68
+[    4.510096]  amdgpu_init+0x62/0xb0
+[    4.510096]  do_one_initcall+0x63/0x2a8
+[    4.510096]  ? rdinit_setup+0x40/0x40
+[    4.510096]  ? parse_args+0x14b/0x3f4
+[    4.510096]  do_initcalls+0xbc/0x148
+[    4.510096]  ? rdinit_setup+0x40/0x40
+[    4.510096]  kernel_init_freeable+0x15b/0x1fc
+[    4.510096]  ? kernel_init+0x18/0x1f4
+[    4.510096]  ? rest_init+0x1cc/0x1cc
+[    4.510096]  kernel_init+0x18/0x1f4
+[    4.510096]  ? schedule_tail+0x50/0x60
+[    4.510096]  ret_from_fork+0x38/0x44
+[    4.510096]  ? rest_init+0x1cc/0x1cc
+[    4.510096]  ret_from_fork_asm+0x12/0x18
+[    4.510096]  entry_INT80_32+0x108/0x108
 
-kind regards Maud
-
+-- 
+Thanks,
+Sasha
