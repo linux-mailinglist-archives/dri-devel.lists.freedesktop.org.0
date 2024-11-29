@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C425E9DE83B
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 15:05:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290D49DE83F
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 15:06:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3ECE10E2AB;
-	Fri, 29 Nov 2024 14:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3E0110E4BB;
+	Fri, 29 Nov 2024 14:06:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qBlc6fi9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AKLNmRw0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482D610E2AB;
- Fri, 29 Nov 2024 14:05:24 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE7E10E4BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 14:06:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 826DEA43EA6;
- Fri, 29 Nov 2024 14:03:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87B5FC4CECF;
- Fri, 29 Nov 2024 14:05:22 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6C69E5C4540;
+ Fri, 29 Nov 2024 14:06:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06E69C4CECF;
+ Fri, 29 Nov 2024 14:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732889122;
- bh=qnn7jF7scUdP+uRzWLU+k8s5eIGMfPm2GBZjlbmhg5A=;
+ s=k20201202; t=1732889207;
+ bh=hk1dUhkqjezd5sMyR4uDv6jROMQ7Fj21mY6aqTI1bHA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qBlc6fi9WGn1K/dmj6c5hN2SkeKQglvLFbqtgokrimgGtnqtwIEaw6D+MpPBVQslT
- aKfmKIRU3fYNq6CFWutopmFIBlToXlH2jyjUnMo8DCZmwkVj7BuiXebJfMvqezQ0g2
- qhjf2sVuZxZHizrRtxLAa925Ms47v1WXmd4V8CqoOJipAhiwxhQUOGICYDFIXX6UDj
- TkmevdAX7kbwMzVq6sl2ATCoGE5c52WHuua/eM58sNcF63XYlUXs3De8ie5HTtwpWv
- 0Z57xOWorLFao9rJAyyzCn4of7FiIg99nT2s5xetZcUAh4/CSVINJ1sNPWrfjzYPZj
- zhGA5pHbBizTw==
-Date: Fri, 29 Nov 2024 15:05:20 +0100
+ b=AKLNmRw0/SmMLjWf+LL6tx7jA+Cty4jeXsBltSfyWq2f8yPLdphKCN3NDf6CH77Lh
+ xubeGc/YpGEJLFEQPoomgCxfU3hdIf2sXi9pn+eN6Fm06No8TT1X6PzCVxBeIIkQKh
+ D3wuBSYp9RT9pGEZsI/t3POtxx1pDYW7UnWNDEQew8lM024tMt1CKZLqxwWdCUP9ub
+ Q7EVqGZ6UyETBDNPtkkwLaBhVmUOhJ9W56axmGbD3C6FP1IEYYzMjBVH8ZyIkfPaWo
+ L9lmL/0r+QQJ96h83+71s/Jj2rzfYtjFGfW6kiRJDtiaW3Ge3ykLrWBtW39JzRNODc
+ mvAxNcQL6leAw==
+Date: Fri, 29 Nov 2024 15:06:45 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- Matthew Brost <matthew.brost@intel.com>, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- thomas.hellstrom@linux.intel.com
-Subject: Re: [PATCH v7 2/8] drm/ttm: Add ttm_bo_access
-Message-ID: <20241129-abstract-flawless-kestrel-d36df9@houat>
-References: <20241126174615.2665852-1-matthew.brost@intel.com>
- <20241126174615.2665852-3-matthew.brost@intel.com>
- <0554dd02-06a5-4da1-821a-e2b26b651402@amd.com>
- <Z0hKSYRokwJoi_T1@intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@kernel.org>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Algea Cao <algea.cao@rock-chips.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/rockchip: avoid 64-bit division
+Message-ID: <20241129-mottled-satisfied-dormouse-7caf27@houat>
+References: <20241018151016.3496613-1-arnd@kernel.org>
+ <20241104172950.GA741087@thelio-3990X>
+ <CAMuHMdXrrCiLm2sQmpegtVHV8X5AUp-8E5BejDxRpMbeAfHhvQ@mail.gmail.com>
+ <20241122-rebel-donkey-of-atheism-a0b8b6@houat>
+ <CAMuHMdUC6cq+ybVzOC9n3XaT-x3oy+7tpA+Z=e8a4yd3B6Ykng@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="f74bwaksphzeszv5"
+ protocol="application/pgp-signature"; boundary="7i2k3qplgecpqbs7"
 Content-Disposition: inline
-In-Reply-To: <Z0hKSYRokwJoi_T1@intel.com>
+In-Reply-To: <CAMuHMdUC6cq+ybVzOC9n3XaT-x3oy+7tpA+Z=e8a4yd3B6Ykng@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,57 +72,119 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---f74bwaksphzeszv5
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+--7i2k3qplgecpqbs7
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 2/8] drm/ttm: Add ttm_bo_access
+Subject: Re: [PATCH] drm/rockchip: avoid 64-bit division
 MIME-Version: 1.0
 
-On Thu, Nov 28, 2024 at 05:47:37AM -0500, Rodrigo Vivi wrote:
-> On Wed, Nov 27, 2024 at 02:19:32PM +0100, Christian K=F6nig wrote:
-> > Am 26.11.24 um 18:46 schrieb Matthew Brost:
-> > > Non-contiguous VRAM cannot easily be mapped in TTM nor can non-visible
-> > > VRAM easily be accessed. Add ttm_bo_access, which is similar to
-> > > ttm_bo_vm_access, to access such memory.
-> > >=20
-> > > v4:
-> > >   - Fix checkpatch warnings (CI)
-> > > v5:
-> > >   - Fix checkpatch warnings (CI)
-> > > v6:
-> > >   - Fix kernel doc (Auld)
-> > > v7:
-> > >   - Move ttm_bo_access to ttm_bo_vm.c (Christian)
-> > >=20
-> > > Cc: Christian K=F6nig <christian.koenig@amd.com>
-> > > Reported-by: Christoph Manszewski <christoph.manszewski@intel.com>
-> > > Suggested-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > Tested-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> > > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> >=20
-> > Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
+On Mon, Nov 25, 2024 at 11:35:58AM +0100, Geert Uytterhoeven wrote:
+> Hi Maxime,
 >=20
-> Thank you!
+> On Fri, Nov 22, 2024 at 10:15=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
+g> wrote:
+> > On Fri, Nov 22, 2024 at 09:36:16AM +0100, Geert Uytterhoeven wrote:
+> > > On Mon, Nov 4, 2024 at 6:30=E2=80=AFPM Nathan Chancellor <nathan@kern=
+el.org> wrote:
+> > > > On Fri, Oct 18, 2024 at 03:10:10PM +0000, Arnd Bergmann wrote:
+> > > > > From: Arnd Bergmann <arnd@arndb.de>
+> > > > >
+> > > > > Dividing a 64-bit integer prevents building this for 32-bit targe=
+ts:
+> > > > >
+> > > > > ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/rockchip/rock=
+chipdrm.ko] undefined!
+> > > > >
+> > > > > As this function is not performance criticial, just Use the div_u=
+64() helper.
+> > > > >
+> > > > > Fixes: 128a9bf8ace2 ("drm/rockchip: Add basic RK3588 HDMI output =
+support")
+> > > > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > > >
+> > > > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> > > >
+> > > > Can someone please pick this up? It is still broken in next-2024110=
+4...
+> > > >
+> > > > https://storage.tuxsuite.com/public/clangbuiltlinux/continuous-inte=
+gration2/builds/2oNvJFRj8tkDieb6VfrMf4rh1Kn/build.log
+> > > >
+> > > > > ---
+> > > > >  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/dri=
+vers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> > > > > index 9c796ee4c303..c8b362cc2b95 100644
+> > > > > --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> > > > > +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> > > > > @@ -82,7 +82,7 @@ static void dw_hdmi_qp_rockchip_encoder_enable(=
+struct drm_encoder *encoder)
+> > > > >                * comment in rk_hdptx_phy_power_on() from
+> > > > >                * drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
+> > > > >                */
+> > > > > -             phy_set_bus_width(hdmi->phy, rate / 100);
+> > > > > +             phy_set_bus_width(hdmi->phy, div_u64(rate, 100));
+> > > > >       }
+> > > > >  }
+> > >
+> > > noreply@ellerman.id.au has just told me this build issue is now upstr=
+eam:
+> > >
+> > >     FAILED linus/m68k-allmodconfig/m68k-gcc8.1 Fri Nov 22, 05:34
+> > >     http://kisskb.ellerman.id.au/kisskb/buildresult/15277242/
+> > >
+> > >     Commit:   Merge tag 'drm-next-2024-11-21' of
+> > > https://gitlab.freedesktop.org/drm/kernel
+> > >               28eb75e178d389d325f1666e422bc13bbbb9804c
+> > >     Compiler: m68k-linux-gcc (GCC) 8.1.0 / GNU ld (GNU Binutils) 2.30
+> > >
+> > >     ERROR: modpost: "__udivdi3"
+> > > [drivers/gpu/drm/rockchip/rockchipdrm.ko] undefined!
+> > >
+> > > Applying this patch fixes it, so
+> > > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > >
+> > > Do we really need +5 weeks to apply a fix for a reported build issue?
+> >
+> > Do we really need that kind of comments?
+> >
+> > It was applied already, I made sure it's part of the next PR we send to
+> > Linus. And it should be in linux-next tomorrow.
 >=20
-> Ack on get this through drm-xe-next?
+> Thank you, I can confirm it is now commit 818956c76517e127
+> ("drm/rockchip: avoid 64-bit division") in drm-misc/for-linux-next
+> and next-20241125.
 >=20
-> drm-misc-maintainers?
-Acked-by: Maxime Ripard <mripard@kernel.org>
+> Interestingly, the commit description contains:
+>=20
+>     (cherry picked from commit 4b64b4a81fcd51f570c046cf904aef19ec756d45)
+>=20
+> which is not in any tree on git.kernel.org, but the github collective
+> does know about it:
+> https://github.com/torvalds/linux/commit/4b64b4a81fcd51f570c046cf904aef19=
+ec756d45
+
+The commit is in drm-misc-next, which will land in 6.14.
+
+> Probably you want to drop that line.
+
+We don't rebase anyway :/
 
 Maxime
 
---f74bwaksphzeszv5
+--7i2k3qplgecpqbs7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0nKHwAKCRAnX84Zoj2+
-diQQAYDDrclgQ221d/+68zwJ08lbl0KSaHp2wE9ORtvqXvlshV+3ncynugfWTd39
-LHf4iW4BgNZVqLjOLNgqyvb44wJs+jOdaLqSwPBTPmO7hIQp1rH0rwjVIIWt2imV
-jY4M9YNQpw==
-=kEVr
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0nKdAAKCRAnX84Zoj2+
+dikEAYDvsIQwG9bew2mXnojYuIclQccLNeCFpo3HINAJB6xIl9WdMYU4OfeC95n2
+u/XxOu4Bf0YtqfO3bC542YUr94xAXt80D93ZW1hfv0QIXyOCiVmf7WvGrzYqIYOT
+VzevyU2hMg==
+=f5Cd
 -----END PGP SIGNATURE-----
 
---f74bwaksphzeszv5--
+--7i2k3qplgecpqbs7--
