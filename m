@@ -2,96 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB829DBF22
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 05:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624F79DBF2B
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 06:12:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD77310EDA0;
-	Fri, 29 Nov 2024 04:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD1A10EDA1;
+	Fri, 29 Nov 2024 05:12:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="pP34Ozw0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dPzi2WBf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9A3F10E49C;
- Fri, 29 Nov 2024 04:55:24 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ASMBJFV005202;
- Fri, 29 Nov 2024 04:55:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- PfeJXRYiD6OxAQIRHwQBONi9OeXoG+H3tiX8WCnNxPc=; b=pP34Ozw09qTZDNRm
- q4+Fm4D3woD5y2XTk1NaDRNNerZQygoRLrtDr0Jf0EY6AwyiaaV49K8SC5qt6Mw9
- fXo20Sp56RG8oYn7q5PT4rJlDDhl8AUPXAb9+ng6wgXbK7aS6vFsLSpFECjGN6wZ
- 1UMC9Nsm0g2yTIVoQDfx42hmYNYmXVf/WKO7my9r9UGTiSpEBjL1ogUvKEAu0mR+
- sZxYJY7WxBFRVcUSEc6KAh2iOBDbpOzuaj69s99Ih24/zsjZLj3BIO7vZiOSfu+K
- 7AS78GYdzBkYcGYw0ZNNiTNtiUjxtGFII8nCJdXmmsgm/NxsrUj1et3CmhRDfZLa
- G9jWrA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4366xxmfru-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Nov 2024 04:55:12 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AT4tBrH006092
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Nov 2024 04:55:11 GMT
-Received: from [10.64.16.151] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 28 Nov
- 2024 20:55:05 -0800
-Message-ID: <ce4210dc-9bd6-4b21-a7ff-f6a9afa22741@quicinc.com>
-Date: Fri, 29 Nov 2024 12:55:02 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1963E10EDA1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 05:12:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4BCF95C290C;
+ Fri, 29 Nov 2024 05:11:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF281C4CECF;
+ Fri, 29 Nov 2024 05:11:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732857118;
+ bh=ewKUzNkkmm1F81JQF8takT9WY9ilvobsHvSDTcyENMM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dPzi2WBftshaB9WMiFLX+iPdQ0VuJs0PIhFyOp9zT7rLpGA1JqmS4Ghb2zaEwc0ku
+ YqcNiIlpWbW385cfS47giQKNzBypTyFbAGRybKqoDDk96cwtG+IPYd7rwfTLHGaPDB
+ h9wZDcvI56X615xuJjvsU/uCGzA8HVme7Dsm6aDUa3G34UYutlQ3D1q3LKwOjamdk8
+ 5/V/7QzHRHDRp8p+ReB1xv72XAJ2VHA0pzdkS9WoQGRQRD6lgWqFoRiDBM+HK9IGZI
+ UExCvtq4VwLcaIaczkFyJekh9hz5ollXII0nwe4C4gW8/684Q1BPSyA1dUCv5ISfza
+ ncNoS1U6a6Big==
+Date: Fri, 29 Nov 2024 00:11:57 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Sima Vetter <sima@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, alexander.deucher@amd.com
+Subject: Re: [git pull] drm fixes for 6.13-rc1
+Message-ID: <Z0lNHdwQ3rODHQ2c@sashalap>
+References: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 9/9] arm64: dts: qcom: Add display support for QCS615
- RIDE board
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Krishna
- Manikandan" <quic_mkrishn@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, "Catalin
- Marinas" <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Li Liu
- <quic_lliu6@quicinc.com>, Xiangxu Yin <quic_xiangxuy@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
- <20241122-add-display-support-for-qcs615-platform-v3-9-35252e3a51fe@quicinc.com>
- <azdmcs7uafw3n6cqbq4ei66oybzhtyvdyz2xl4wtaf3u5zextb@vdhbs6wnbeg4>
- <520419eb-cedf-465b-a14a-12d97ab257a0@quicinc.com>
- <CAA8EJpqvkeMWgeWCx9D-HcJhRfipZJdEvpvag0wk-WXazkPahA@mail.gmail.com>
-Content-Language: en-US
-From: fange zhang <quic_fangez@quicinc.com>
-In-Reply-To: <CAA8EJpqvkeMWgeWCx9D-HcJhRfipZJdEvpvag0wk-WXazkPahA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: wSxIzY7Q56qwHsCqgxI6Muy0vK8xA0Tf
-X-Proofpoint-ORIG-GUID: wSxIzY7Q56qwHsCqgxI6Muy0vK8xA0Tf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0
- lowpriorityscore=0 impostorscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2411290037
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,140 +58,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+[+cc Alex]
+
+On Fri, Nov 29, 2024 at 06:42:18AM +1000, Dave Airlie wrote:
+>Alex Deucher (3):
+>      drm/amdgpu/jpeg: cancel the jpeg worker
+
+Hi folks,
+
+When merging this PR into linus-next I've started the following warning
+triggered by the commit above:
+
+[    4.356975] WARNING: CPU: 1 PID: 1 at kernel/workqueue.c:4192 __flush_work+0x29f/0x2c0
+[    4.364893] Modules linked in:
+[    4.367954] CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.12.0 #1 2142668e2e0d420da59d54376b9563eacab27615
+[    4.378035] Hardware name: HP Berknip/Berknip, BIOS Google_Berknip.13434.796.2023_03_03_1148 09/12/2022
+[    4.387422] RIP: 0010:__flush_work+0x29f/0x2c0
+[    4.391870] Code: 48 8b 15 24 53 70 65 48 89 54 24 58 48 8b 73 40 8b 4b 30 e9 b6 fe ff ff 40 30 f6 4c 8b 26 e9 f2 fd ff ff 0f 0b e9 33 ff ff ff <0f> 0b e9 2c ff ff ff 0f 0b e9 d2 fe ff ff e8 8e 62 26 01 66 66 2e
+[    4.410618] RSP: 0018:ffffa38540037b60 EFLAGS: 00010246
+[    4.415846] RAX: 0000000000000000 RBX: ffff974c87b3bd08 RCX: 0000000000000000
+[    4.422977] RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffffa38540037bc0
+[    4.430108] RBP: ffff974c87b3bd08 R08: ffff974c87b31fa0 R09: ffff974c818ad000
+[    4.437238] R10: 0000000000000040 R11: ffffffff9df2fd88 R12: ffff974c87b00000
+[    4.444371] R13: ffff974c87b34fe0 R14: ffffa38540037b68 R15: 0000000000000001
+[    4.451503] FS:  0000000000000000(0000) GS:ffff974da7080000(0000) knlGS:0000000000000000
+[    4.459587] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    4.465333] CR2: 0000000000000000 CR3: 0000000162c28000 CR4: 00000000003506f0
+[    4.472463] Call Trace:
+[    4.474916]  <TASK>
+[    4.477022]  ? __warn+0x85/0x130
+[    4.480256]  ? __flush_work+0x29f/0x2c0
+[    4.484098]  ? report_bug+0x160/0x190
+[    4.487767]  ? handle_bug+0x53/0x90
+[    4.491263]  ? exc_invalid_op+0x13/0x60
+[    4.495102]  ? asm_exc_invalid_op+0x16/0x20
+[    4.499291]  ? __flush_work+0x29f/0x2c0
+[    4.503132]  cancel_delayed_work_sync+0x6e/0x90
+[    4.507667]  jpeg_v1_0_ring_begin_use+0x1d/0xb0
+[    4.512204]  amdgpu_ring_alloc+0x3f/0x60
+[    4.516135]  amdgpu_jpeg_dec_ring_test_ring+0x31/0x180
+[    4.521274]  amdgpu_ring_test_helper+0x1c/0x90
+[    4.525721]  amdgpu_device_init+0x205f/0x26f0
+[    4.530083]  amdgpu_driver_load_kms+0x15/0x80
+[    4.534445]  amdgpu_pci_probe+0x17e/0x4f0
+[    4.538458]  pci_device_probe+0x98/0x120
+[    4.542387]  really_probe+0xd1/0x2b0
+[    4.545969]  ? __device_attach_driver+0xc0/0xc0
+[    4.550503]  __driver_probe_device+0x73/0x120
+[    4.554862]  driver_probe_device+0x1f/0x90
+[    4.558962]  __driver_attach+0x84/0x130
+[    4.562804]  bus_for_each_dev+0x84/0xd0
+[    4.566645]  bus_add_driver+0xe4/0x210
+[    4.570400]  driver_register+0x55/0x100
+[    4.574240]  ? drm_sched_fence_slab_init+0x90/0x90
+[    4.579033]  do_one_initcall+0x57/0x300
+[    4.582868]  kernel_init_freeable+0x1be/0x300
+[    4.587231]  ? rest_init+0xc0/0xc0
+[    4.590638]  kernel_init+0x16/0x1b0
+[    4.594129]  ret_from_fork+0x30/0x50
+[    4.597711]  ? rest_init+0xc0/0xc0
+[    4.601116]  ret_from_fork_asm+0x11/0x20
+[    4.605046]  </TASK>
 
 
-On 2024/11/26 6:08, Dmitry Baryshkov wrote:
-> On Mon, 25 Nov 2024 at 09:39, fange zhang <quic_fangez@quicinc.com> wrote:
->>
->>
->>
->> On 2024/11/22 18:22, Dmitry Baryshkov wrote:
->>> On Fri, Nov 22, 2024 at 05:56:52PM +0800, Fange Zhang wrote:
->>>> From: Li Liu <quic_lliu6@quicinc.com>
->>>>
->>>> Add display MDSS and DSI configuration for QCS615 RIDE board.
->>>> QCS615 has a DP port, and DP support will be added in a later patch.
->>>>
->>>> Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
->>>> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
->>>> ---
->>>>    arch/arm64/boot/dts/qcom/qcs615-ride.dts | 76 ++++++++++++++++++++++++++++++++
->>>>    1 file changed, 76 insertions(+)
->>>>
->>>> diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
->>>> index ee6cab3924a6d71f29934a8debba3a832882abdd..cc7dadc411ab79b9e60ccb15eaff84ea5f997c4c 100644
->>>> --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
->>>> +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
->>>> @@ -202,6 +202,82 @@ &gcc {
->>>>                <&sleep_clk>;
->>>>    };
->>>>
->>>> +&i2c2 {
->>>> +    clock-frequency = <400000>;
->>>> +    status = "okay";
->>>> +
->>>> +    ioexp: gpio@3e {
->>>> +            compatible = "semtech,sx1509q";
->>>> +            reg = <0x3e>;
->>>> +            interrupt-parent = <&tlmm>;
->>>> +            interrupts = <58 0>;
->>>> +            gpio-controller;
->>>> +            #gpio-cells = <2>;
->>>> +            interrupt-controller;
->>>> +            #interrupt-cells = <2>;
->>>> +            semtech,probe-reset;
->>>> +    };
->>>> +
->>>> +    i2c-mux@77 {
->>>> +            compatible = "nxp,pca9542";
->>>> +            reg = <0x77>;
->>>> +            #address-cells = <1>;
->>>> +            #size-cells = <0>;
->>>> +            i2c@0 {
->>>> +                    reg = <0>;
->>>> +                    #address-cells = <1>;
->>>> +                    #size-cells = <0>;
->>>> +
->>>> +                    anx7625@58 {
->>>> +                            compatible = "analogix,anx7625";
->>>> +                            reg = <0x58>;
->>>> +                            interrupt-parent = <&ioexp>;
->>>> +                            interrupts = <0 0>;
->>>> +                            enable-gpios = <&tlmm 4 GPIO_ACTIVE_HIGH>;
->>>> +                            reset-gpios = <&tlmm 5 GPIO_ACTIVE_HIGH>;
->>>> +                            wakeup-source;
->>>> +
->>>> +                            ports {
->>>> +                                    #address-cells = <1>;
->>>> +                                    #size-cells = <0>;
->>>> +
->>>> +                                    port@0 {
->>>> +                                            reg = <0>;
->>>> +                                            anx_7625_in: endpoint {
->>>> +                                                    remote-endpoint = <&mdss_dsi0_out>;
->>>> +                                            };
->>>> +                                    };
->>>> +
->>>> +                                    port@1 {
->>>> +                                            reg = <1>;
->>>> +                                            anx_7625_out: endpoint {
-+ remote-endpoint = <&dp_connector_out>;
->>>> +                                            };
->>>
->>> Where is it connected? Is it DP port? USB-C? eDP?
->> yes, it's DP port
-> 
-> So, I'd expect to see a dp-connector node at the end, not the
-> unterminated anx7625.
-got it, will add it in next patch
-+       dp-connector {
-+               compatible = "dp-connector";
-+               label = "DP";
-+               type = "mini";
-+
-+               port {
-+                       dp_connector_out: endpoint {
-+                               remote-endpoint = <&anx_7625_out>;
-+                       };
-+               };
-+       };
-> 
->>>
->>>> +                                    };
->>>> +                            };
->>>> +                    };
->>>> +            };
->>>> +    };
->>>> +};
->>>> +
->>>> +&mdss {
->>>> +    status = "okay";
->>>> +};
->>>> +
->>>> +&mdss_dsi0 {
->>>> +    vdda-supply = <&vreg_l11a>;
->>>> +    status = "okay";
->>>> +};
->>>> +
->>>> +&mdss_dsi0_out {
->>>> +    remote-endpoint = <&anx_7625_in>;
->>>> +    data-lanes = <0 1 2 3>;
->>>> +};
->>>> +
->>>> +&mdss_dsi0_phy {
->>>> +    vdds-supply = <&vreg_l5a>;
->>>> +    status = "okay";
->>>> +};
->>>> +
->>>>    &qupv3_id_0 {
->>>>       status = "okay";
->>>>    };
->>>>
->>>> --
->>>> 2.34.1
->>>>
->>>
->>
-> 
-> 
-
+-- 
+Thanks,
+Sasha
