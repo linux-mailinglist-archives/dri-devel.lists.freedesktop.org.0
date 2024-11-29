@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AEA49DC24F
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 11:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA639DC251
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 11:41:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB71510EDF5;
-	Fri, 29 Nov 2024 10:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54B9210EDF1;
+	Fri, 29 Nov 2024 10:41:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fWsfyuDA";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="FUH0/8mW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9101F10EDB6;
- Fri, 29 Nov 2024 07:59:24 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ASLaNnN005340;
- Fri, 29 Nov 2024 07:59:16 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F11F010EDB9;
+ Fri, 29 Nov 2024 07:59:29 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AT7kb44021829;
+ Fri, 29 Nov 2024 07:59:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 5vazB+Ionp0PSKd7IWWqKrZgvudBsapwrpYb6Ty25p4=; b=fWsfyuDAS07nce20
- 0SrMqezYTx7LsDqZPbK6+5h4vrnbjc709z6tqcYPPcRsTZJA09iLCzayFVV+EdTh
- 5Cyee58Jcn3pWb+old6GhlQNhF87BNihg219b5P7zHNVmsyCkpQg+zGirVKJqPU6
- 2sOrHZEk7C4G0nc++3JQ25xwVB0bMzJRrs7yULYSFQOixeoWR8pR8+1TTbDOHJpV
- Chy/868oRy26Q1CzqgECjSdMzN19CjhsAuETY45H9npTVXFlRCRrygjPh/sd1VFv
- vvCobPAAGzP/XLTskENcbhCbEabIJeGf0m2rvwpbxmOmEzVUwwVWeocOanM/LTWc
- k1K7wQ==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ TbFElqNPhwIjgusYstPdi/mfDQMF/VQe9i3wtdDMMJ4=; b=FUH0/8mWXRqskF/U
+ c20BYQwKlRiFDjtvGS7O6dgT6ojvXzd9Wg04nOni7LIOfPzzKEVeG5m2I4+uxoFC
+ i4VyIcZGg2gVuQbBhHbHrW7mrwe0rdLYGP6SJonphvEeSvU+fJ6gmmY4sRU5Bsa8
+ dPRVShOBbLzSOSpOe6Yl10HhqLYszX7PRgrLnBB4iEsz/6r22IN2RnntyzxuGhrj
+ lEQ15CVoWMNvydhyNX88wJq811vB1cy8gCi/gyE4virCySltLEwKVY3f/Bduh8Ve
+ EaVbIXfg6N/JHhUrJ+Ra0s3EdDIaenj9mmH/vkRMo5m8XbQGFZvEUuV2w53jBLsk
+ U2vUbQ==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 436h2mkh38-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4379h680ub-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Nov 2024 07:59:16 +0000 (GMT)
+ Fri, 29 Nov 2024 07:59:23 +0000 (GMT)
 Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
  [10.45.79.139])
- by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AT7xEao008543
+ by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AT7xNxJ030756
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Nov 2024 07:59:15 GMT
+ Fri, 29 Nov 2024 07:59:23 GMT
 Received: from szioemm-lnxbld002.qualcomm.com (10.80.80.8) by
  nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 28 Nov 2024 23:59:06 -0800
+ 15.2.1544.9; Thu, 28 Nov 2024 23:59:15 -0800
 From: Xiangxu Yin <quic_xiangxuy@quicinc.com>
-Date: Fri, 29 Nov 2024 15:57:45 +0800
-Subject: [PATCH 5/8] drm/msm/dp: Add support for lane mapping configuration
+Date: Fri, 29 Nov 2024 15:57:46 +0800
+Subject: [PATCH 6/8] drm/msm/dp: Add maximum width limitation for modes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241129-add-displayport-support-for-qcs615-platform-v1-5-09a4338d93ef@quicinc.com>
+Message-ID: <20241129-add-displayport-support-for-qcs615-platform-v1-6-09a4338d93ef@quicinc.com>
 References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
 In-Reply-To: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -70,11 +70,11 @@ CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>,
  <linux-gpio@vger.kernel.org>, Xiangxu Yin <quic_xiangxuy@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732867104; l=5838;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732867104; l=3265;
  i=quic_xiangxuy@quicinc.com; s=20241125; h=from:subject:message-id;
- bh=/IgyM/liAriauN4eF/1R+rpbTJIiazRez7scLYygZYw=;
- b=wUyFz4XSuL1HBC5BRc0E3JmDFI+Z10ugIrepp52Bfxzy2+VTam2Pfq++pf7oYMtxzuBphH6pY
- 4nDVuhikwQqBUS9nu3SNxn/ZF3I+LUuW1UpwMt7tZr/pJRBHaPtQb3T
+ bh=DbkEW7dSUNNaGIQMV5aGvjb+lO1ylplI6eCfwM9os9s=;
+ b=IuT1G4L5LXDkuuCsNfiXfFmVT9EqanDRhFrTr+/pRef7XoWDDo65u1sCWLAX8mr5yhZwAvzRa
+ iPow7dAopf3Dij7r6LrnqiEQtW8Ts/xsW/3+a/Cfi4/YGvP7gTZ6ekt
 X-Developer-Key: i=quic_xiangxuy@quicinc.com; a=ed25519;
  pk=F1TwipJzpywfbt3n/RPi4l/A4AVF+QC89XzCHgZYaOc=
 X-Originating-IP: [10.80.80.8]
@@ -83,17 +83,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: Lu6ie7qPRZkLez5-hjh4ZyU5sMt2psKG
-X-Proofpoint-ORIG-GUID: Lu6ie7qPRZkLez5-hjh4ZyU5sMt2psKG
+X-Proofpoint-GUID: tXBegRoUrXuzxO5kusLoerYuLVkFxDS3
+X-Proofpoint-ORIG-GUID: tXBegRoUrXuzxO5kusLoerYuLVkFxDS3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0 adultscore=0
- spamscore=0 lowpriorityscore=0 mlxscore=0 impostorscore=0 clxscore=1011
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2411290064
+ impostorscore=0
+ malwarescore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 phishscore=0
+ adultscore=0 spamscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2411290064
 X-Mailman-Approved-At: Fri, 29 Nov 2024 10:41:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -110,136 +110,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the ability to configure lane mapping for the DP controller. This is
-required when the platform's lane mapping does not follow the default
-order (0, 1, 2, 3). The mapping rules are now configurable via the
-`data-lane` property in the devicetree. This property defines the
-logical-to-physical lane mapping sequence, ensuring correct lane
-assignment for non-default configurations.
+Introduce a maximum width constraint for modes during validation. This
+ensures that the modes are filtered based on hardware capabilities,
+specifically addressing the line buffer limitations of individual pipes.
 
 Signed-off-by: Xiangxu Yin <quic_xiangxuy@quicinc.com>
 ---
- drivers/gpu/drm/msm/dp/dp_catalog.c | 11 +++++------
- drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c    |  2 +-
- drivers/gpu/drm/msm/dp/dp_panel.c   | 13 ++++++++++---
- drivers/gpu/drm/msm/dp/dp_panel.h   |  3 +++
- 5 files changed, 20 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c |  3 +++
+ drivers/gpu/drm/msm/dp/dp_display.h |  1 +
+ drivers/gpu/drm/msm/dp/dp_panel.c   | 13 +++++++++++++
+ drivers/gpu/drm/msm/dp/dp_panel.h   |  1 +
+ 4 files changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index b4c8856fb25d01dd1b30c5ec33ce821aafa9551d..34439d0709d2e1437e5669fd0b995936420ee16f 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -361,17 +361,16 @@ void msm_dp_catalog_ctrl_config_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32
- 	msm_dp_write_link(catalog, REG_DP_CONFIGURATION_CTRL, cfg);
- }
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 4c83402fc7e0d41cb7621fa2efda043269d0a608..eb6fb76c68e505fafbec563440e9784f51e1894b 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -944,6 +944,9 @@ enum drm_mode_status msm_dp_bridge_mode_valid(struct drm_bridge *bridge,
+ 	msm_dp_display = container_of(dp, struct msm_dp_display_private, msm_dp_display);
+ 	link_info = &msm_dp_display->panel->link_info;
  
--void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog)
-+void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog, u32 *l_map)
- {
- 	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
- 				struct msm_dp_catalog_private, msm_dp_catalog);
--	u32 ln_0 = 0, ln_1 = 1, ln_2 = 2, ln_3 = 3; /* One-to-One mapping */
- 	u32 ln_mapping;
++	if (mode->hdisplay > msm_dp_display->panel->max_dp_width)
++		return MODE_BAD;
++
+ 	if (drm_mode_is_420_only(&dp->connector->display_info, mode) &&
+ 	    msm_dp_display->panel->vsc_sdp_supported)
+ 		mode_pclk_khz /= 2;
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+index ecbc2d92f546a346ee53adcf1b060933e4f54317..7a11f7eeb691976f06afc7aff67650397d7deb90 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.h
++++ b/drivers/gpu/drm/msm/dp/dp_display.h
+@@ -11,6 +11,7 @@
+ #include "disp/msm_disp_snapshot.h"
  
--	ln_mapping = ln_0 << LANE0_MAPPING_SHIFT;
--	ln_mapping |= ln_1 << LANE1_MAPPING_SHIFT;
--	ln_mapping |= ln_2 << LANE2_MAPPING_SHIFT;
--	ln_mapping |= ln_3 << LANE3_MAPPING_SHIFT;
-+	ln_mapping = l_map[0] << LANE0_MAPPING_SHIFT;
-+	ln_mapping |= l_map[1] << LANE1_MAPPING_SHIFT;
-+	ln_mapping |= l_map[2] << LANE2_MAPPING_SHIFT;
-+	ln_mapping |= l_map[3] << LANE3_MAPPING_SHIFT;
+ #define DP_MAX_PIXEL_CLK_KHZ	675000
++#define DP_MAX_WIDTH	7680
  
- 	msm_dp_write_link(catalog, REG_DP_LOGICAL2PHYSICAL_LANE_MAPPING,
- 			ln_mapping);
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index e932b17eecbf514070cd8cd0b98ca0fefbe81ab7..8b8de2a7d3ad561c1901e1bdaad92d4fab12e808 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -69,7 +69,7 @@ u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog);
- /* DP Controller APIs */
- void msm_dp_catalog_ctrl_state_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32 state);
- void msm_dp_catalog_ctrl_config_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32 config);
--void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog);
-+void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog, u32 *l_map);
- void msm_dp_catalog_ctrl_mainlink_ctrl(struct msm_dp_catalog *msm_dp_catalog, bool enable);
- void msm_dp_catalog_ctrl_psr_mainlink_enable(struct msm_dp_catalog *msm_dp_catalog, bool enable);
- void msm_dp_catalog_setup_peripheral_flush(struct msm_dp_catalog *msm_dp_catalog);
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index bc2ca8133b790fc049e18ab3b37a629558664dd4..49c8ce9b2d0e57a613e50865be3fe98e814d425a 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -177,7 +177,7 @@ static void msm_dp_ctrl_configure_source_params(struct msm_dp_ctrl_private *ctrl
- {
- 	u32 cc, tb;
- 
--	msm_dp_catalog_ctrl_lane_mapping(ctrl->catalog);
-+	msm_dp_catalog_ctrl_lane_mapping(ctrl->catalog, ctrl->panel->lane_map);
- 	msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, true);
- 	msm_dp_catalog_setup_peripheral_flush(ctrl->catalog);
- 
+ struct msm_dp {
+ 	struct drm_device *drm_dev;
 diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 5d7eaa31bf3176566f40f01ff636bee64e81c64f..8654180aa259234bbd41f4f88c13c485f9791b1d 100644
+index 8654180aa259234bbd41f4f88c13c485f9791b1d..10501e301c5e073d8d34093b86a15d72e646a01f 100644
 --- a/drivers/gpu/drm/msm/dp/dp_panel.c
 +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -11,7 +11,6 @@
- #include <drm/drm_of.h>
- #include <drm/drm_print.h>
+@@ -4,6 +4,7 @@
+  */
  
--#define DP_MAX_NUM_DP_LANES	4
- #define DP_LINK_RATE_HBR2	540000 /* kbytes */
+ #include "dp_panel.h"
++#include "dp_display.h"
+ #include "dp_utils.h"
  
- struct msm_dp_panel_private {
-@@ -461,6 +460,7 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
+ #include <drm/drm_connector.h>
+@@ -455,6 +456,16 @@ static u32 msm_dp_panel_link_frequencies(struct device_node *of_node)
+ 	return frequency;
+ }
+ 
++static u32 msm_dp_panel_max_width(struct device_node *of_node)
++{
++	u32 max_width = 0;
++
++	if (of_property_read_u32(of_node, "max-width", &max_width))
++		max_width = DP_MAX_WIDTH;
++
++	return max_width;
++}
++
+ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
+ {
  	struct msm_dp_panel_private *panel;
- 	struct device_node *of_node;
- 	int cnt;
-+	u32 lane_map[DP_MAX_NUM_DP_LANES] = {0, 1, 2, 3};
- 
- 	panel = container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
- 	of_node = panel->dev->of_node;
-@@ -474,10 +474,17 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
- 		cnt = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
- 	}
- 
--	if (cnt > 0)
-+	if (cnt > 0) {
-+		struct device_node *endpoint;
-+
- 		msm_dp_panel->max_dp_lanes = cnt;
--	else
-+		endpoint = of_graph_get_endpoint_by_regs(of_node, 1, -1);
-+		of_property_read_u32_array(endpoint, "data-lanes", lane_map, cnt);
-+	} else {
- 		msm_dp_panel->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
-+	}
-+
-+	memcpy(msm_dp_panel->lane_map, lane_map, msm_dp_panel->max_dp_lanes * sizeof(u32));
- 
- 	msm_dp_panel->max_dp_link_rate = msm_dp_panel_link_frequencies(of_node);
+@@ -490,6 +501,8 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
  	if (!msm_dp_panel->max_dp_link_rate)
+ 		msm_dp_panel->max_dp_link_rate = DP_LINK_RATE_HBR2;
+ 
++	msm_dp_panel->max_dp_width = msm_dp_panel_max_width(of_node);
++
+ 	return 0;
+ }
+ 
 diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-index 0e944db3adf2f187f313664fe80cf540ec7a19f2..7603b92c32902bd3d4485539bd6308537ff75a2c 100644
+index 7603b92c32902bd3d4485539bd6308537ff75a2c..61513644161209c243bbb623ee4ded951b2a0597 100644
 --- a/drivers/gpu/drm/msm/dp/dp_panel.h
 +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-@@ -11,6 +11,8 @@
- #include "dp_aux.h"
- #include "dp_link.h"
- 
-+#define DP_MAX_NUM_DP_LANES	4
-+
- struct edid;
- 
- struct msm_dp_display_mode {
-@@ -46,6 +48,7 @@ struct msm_dp_panel {
- 	bool video_test;
- 	bool vsc_sdp_supported;
- 
-+	u32 lane_map[DP_MAX_NUM_DP_LANES];
+@@ -51,6 +51,7 @@ struct msm_dp_panel {
+ 	u32 lane_map[DP_MAX_NUM_DP_LANES];
  	u32 max_dp_lanes;
  	u32 max_dp_link_rate;
++	u32 max_dp_width;
  
+ 	u32 max_bw_code;
+ };
 
 -- 
 2.25.1
