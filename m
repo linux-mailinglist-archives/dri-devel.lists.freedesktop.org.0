@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95EC59DE706
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 14:12:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8D69DE711
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 14:15:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D18A410EE0E;
-	Fri, 29 Nov 2024 13:12:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 770D710EE15;
+	Fri, 29 Nov 2024 13:15:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="RrMUdUpi";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="VcU6qFYh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C8C710EE0E
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 13:12:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732885923; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C29110EE15
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 13:15:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732886102; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=KkV3JdZc5loR9OCk3LmythD9NGnOfmQcMugqub2TML3Xhib0jTmgAD9PwJYAz8YpOT1/vxn9DiBPaVxRC3VwTaaCd31DclcTqo4ItK3aiJU1yJ2O80uyvyfoEeQNnm1UyulozT4aN1Nz6paHMsokDPJrvKN1ybmQzBa05I/zrBQ=
+ b=EPYX9ePTkigu82lf27tAuOHFRkSrmK4uSaYdYGK1p2JfquNYjTISe7ty6HYDqswLdjAVaT0RajEL3wiJB6gGF3tPmwnXs26DvakdxLVpg28eiTUiw1j7n4t3h6pAiHVkxILEtO+oz7aP2QcmOBItTBpcY9f2cOrbdPQ/AapYnuc=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732885923;
+ s=zohoarc; t=1732886102;
  h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Tg/AOK0DIca83WVw9pFtFXFtEk4+UICG1iHoodkbXAI=; 
- b=Y/FGg17voNh6ShO5nIWh1wCBu3hIU99IZO6IobW9rU9CAh4M3WgHgzuwlsnAjxaQg96z5y0Grc5LOY6mfvhf8uaDWNl2WB0QjrN6pW8+wOhZq3L6EXzGCeNyilTcfBaN+ZJFgO18H2TG2rMXLI45JuE9+Z8EBLXksvD01IqYcJk=
+ bh=tL3qklCA2ufBqhMoSINKqRQnp77HyDUBoB5Q+9T4wWs=; 
+ b=NK7p6ACPkkXULS2k8ILs+aZhcN5CB6YR4FRWv/Ilq8P697XsiqWitqYJyLFYAdEHfFB8mdLuczH1dBjAtfmk54y2OgJSwrRkHRmDIrA0cfaGpYo/sJiiW5JMis8t+/YxgzpgTsakmW1L32PrtrlvjyefKEZMwu4xzAm7WVoxkWs=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732885923; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732886102; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
  h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=Tg/AOK0DIca83WVw9pFtFXFtEk4+UICG1iHoodkbXAI=;
- b=RrMUdUpize2fzTFcmR3SF6RJePMdvHOBEkL8VWRB7thPB/RYvm9mxcLqzzWqEvpu
- 2ik7nnp0EeoyyJfbFphUWZrCkyoi9uyx5iRSUewC790D9qFxx4/r9oasrdNYwH/ewVo
- a2NA8DybvjTyo2PTveXhqMoaJFlRuWxU2PWMjk+k=
-Received: by mx.zohomail.com with SMTPS id 1732885922223692.3296776257824;
- Fri, 29 Nov 2024 05:12:02 -0800 (PST)
-Date: Fri, 29 Nov 2024 13:11:59 +0000
+ bh=tL3qklCA2ufBqhMoSINKqRQnp77HyDUBoB5Q+9T4wWs=;
+ b=VcU6qFYhrUEmDdlGeXjqIUW9invuBvFMoXkvTsRlCNLjYb1qqWf4t45Fs8TjnB3s
+ ZqPPwlLb/xL5G23aehcVcVz4B6OjWXLx3zF32lmarAllmrwh+F1M7sKBK6KLmGjrZsd
+ nWqqtQjJjgIqBpKjJ2Pvdh8LdONV5CuPUiComylI=
+Received: by mx.zohomail.com with SMTPS id 173288610067344.00738005853407;
+ Fri, 29 Nov 2024 05:15:00 -0800 (PST)
+Date: Fri, 29 Nov 2024 13:14:58 +0000
 From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
  dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v2 1/5] drm/panthor: Preserve the result returned by
- panthor_fw_resume()
-Message-ID: <36skiy7ozegfn5tcrjdbhmrd2ibwmqgli625wjuuivltglarsc@ap23t4tmmjna>
+Subject: Re: [PATCH v2 2/5] drm/panthor: Be robust against runtime PM resume
+ failures in the suspend path
+Message-ID: <dyvywyidxz5scfg4fl4oqgcpg6qvh27wvekfovoomreriqqnim@3osvn3joyfeu>
 References: <20241128110255.3182366-1-boris.brezillon@collabora.com>
- <20241128110255.3182366-2-boris.brezillon@collabora.com>
+ <20241128110255.3182366-3-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241128110255.3182366-2-boris.brezillon@collabora.com>
+In-Reply-To: <20241128110255.3182366-3-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,35 +69,91 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Reviewed-by: Adrian Larumbe <adrian.larumbe@collabora.com>
 
 On 28.11.2024 12:02, Boris Brezillon wrote:
-> WARN() will return true if the condition is true, false otherwise.
-> If we store the return of drm_WARN_ON() in ret, we lose the actual
-> error code.
+> The runtime PM resume operation is not guaranteed to succeed, but if it
+> fails, the device should be in a suspended state. Make sure we're robust
+> to resume failures in the unplug path.
 > 
 > v2:
-> - Add R-b
+> - Move the bit that belonged in the next commit
+> - Drop the panthor_device_unplug() changes
 > 
-> Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_device.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_fw.c  | 14 +++++++++-----
+>  drivers/gpu/drm/panthor/panthor_gpu.c |  3 ++-
+>  drivers/gpu/drm/panthor/panthor_mmu.c |  3 ++-
+>  3 files changed, 13 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 984615f4ed27..e701e605d013 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -461,8 +461,8 @@ int panthor_device_resume(struct device *dev)
->  	    drm_dev_enter(&ptdev->base, &cookie)) {
->  		panthor_gpu_resume(ptdev);
->  		panthor_mmu_resume(ptdev);
-> -		ret = drm_WARN_ON(&ptdev->base, panthor_fw_resume(ptdev));
-> -		if (!ret) {
-> +		ret = panthor_fw_resume(ptdev);
-> +		if (!drm_WARN_ON(&ptdev->base, ret)) {
->  			panthor_sched_resume(ptdev);
->  		} else {
->  			panthor_mmu_suspend(ptdev);
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index ebf8980ca9a3..f3d3d8fbe13d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/iosys-map.h>
+>  #include <linux/mutex.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+>  
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_managed.h>
+> @@ -1190,11 +1191,13 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+>  
+>  	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
+>  
+> -	/* Make sure the IRQ handler can be called after that point. */
+> -	if (ptdev->fw->irq.irq)
+> -		panthor_job_irq_suspend(&ptdev->fw->irq);
+> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev)) {
+> +		/* Make sure the IRQ handler can be called after that point. */
+
+Did you mean 'cannot be called' ?
+
+> +		if (ptdev->fw->irq.irq)
+> +			panthor_job_irq_suspend(&ptdev->fw->irq);
+>  
+> -	panthor_fw_stop(ptdev);
+> +		panthor_fw_stop(ptdev);
+> +	}
+>  
+>  	list_for_each_entry(section, &ptdev->fw->sections, node)
+>  		panthor_kernel_bo_destroy(section->mem);
+> @@ -1207,7 +1210,8 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+>  	panthor_vm_put(ptdev->fw->vm);
+>  	ptdev->fw->vm = NULL;
+>  
+> -	panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
+> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
+> +		panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
+>  }
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 0f3cac6ec88e..ee85a371bc38 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -180,7 +180,8 @@ void panthor_gpu_unplug(struct panthor_device *ptdev)
+>  	unsigned long flags;
+>  
+>  	/* Make sure the IRQ handler is not running after that point. */
+> -	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
+> +		panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+>  
+>  	/* Wake-up all waiters. */
+>  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 9478ee2093d1..6716463903bc 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -2681,7 +2681,8 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
+>   */
+>  void panthor_mmu_unplug(struct panthor_device *ptdev)
+>  {
+> -	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
+> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
+> +		panthor_mmu_irq_suspend(&ptdev->mmu->irq);
+>  
+>  	mutex_lock(&ptdev->mmu->as.slots_lock);
+>  	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
 > -- 
 > 2.46.2
-
