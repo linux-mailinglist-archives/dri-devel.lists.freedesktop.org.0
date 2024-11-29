@@ -2,56 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845A89DECF8
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 22:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456BF9DED01
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 22:44:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0693210E0B5;
-	Fri, 29 Nov 2024 21:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F333E10E358;
+	Fri, 29 Nov 2024 21:44:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="olmrFY2o";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=derek.foreman@collabora.com header.b="Acz7UcyQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A05510E0B5
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 21:33:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 9FF1CA40F90;
- Fri, 29 Nov 2024 21:31:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDA6EC4CECF;
- Fri, 29 Nov 2024 21:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732916016;
- bh=4LPxw8NLKEvTsTwQkiku9k9b0iolpwIs1mbFwwujtwc=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=olmrFY2oxHsXuGqXxZj8gMCUUnTDxytOjDfWX7IV+9K6CCCmDuZZOY2UD7xfo8tcg
- en5PdbYOXk+8/TyiLdtNhGV/Iwr7DwDN/2qba0gVwDfQ7j7qQAO6Okit5x8v4+XDdu
- 1Ai+GhdopMrwCRdigm54tpbVNaJjh3sYevftcRvGEeiR9qcS3WD4GloJvHxdKld6CK
- +usJOeAjnNJC8FtawNvfoI27IYd23525KopLTOGf6mIZ+NaiCLgTbWYcOp2yr/aDS4
- vYKWb/Zi0C+7rROczm7oTIvLySfYl83TjsI2Q1D8aknhPvJSACVIwkhJWF5d+jtCp5
- 6hcGn3PMh0GVA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
- by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
- ADDB7380A944; Fri, 29 Nov 2024 21:33:50 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.13-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
-References: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-next-2024-11-29
-X-PR-Tracked-Commit-Id: 9794b89c50f7fc972c6b4ddc69693c9f9d1ae7d7
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2ba9f676d0a2e408aef14d679984c26373bf37b7
-Message-Id: <173291602931.2191389.5966734357629265259.pr-tracker-bot@kernel.org>
-Date: Fri, 29 Nov 2024 21:33:49 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55C7F10E358
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 21:44:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1732916677; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=m4XVPzjU4cXzlZDHvYbWcsBAcHrkwKeFOPQlzxta/z20vjBDlRuAjjWmhnR180JSf9iqVfsTspei3v246ZNdaSV9gYMdGbbIAreavRJLEkZZk/Pz6gLdc4CdBgvp/TrfyruUTUXb4weHnTp/wI4EJhHxdI0QBXNN4tP0NIepLJY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1732916677;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=Xsw4bh8PMFznn6F6qu3Dih39da2oNzNdYQmTQZY9vaQ=; 
+ b=Vm9BJtl1dvzQyL7FZvGiXvsQqdmXmIMJyusQZJECB41e+NM8/JflFcLJe1vLeK1MVVWJM1s/dlkkrTU6MKzfaHa+xUBcBi2yhAVvLYpLO3PbUckATrDNigehAjzuKWMT/8C0aWPwy0rxJHJLBCxu2zUuKfeXn3BXifkSHG9egYY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=derek.foreman@collabora.com;
+ dmarc=pass header.from=<derek.foreman@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732916677; 
+ s=zohomail; d=collabora.com; i=derek.foreman@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=Xsw4bh8PMFznn6F6qu3Dih39da2oNzNdYQmTQZY9vaQ=;
+ b=Acz7UcyQj0cF/Y/knIyhlTWYR1hMs1HHgJJwDS5USLSDp678edrKQyc8WZyduVg0
+ hDzRm8IsT6ruBFfvf8QHHnjwDYv1mE75idWGKo+/7Klkz2fUaqAybM2C7YsXLqx4D/y
+ S5sTJ109Gkt7uBm9QN1am/7RijCEqAh78FTIqa6U=
+Received: by mx.zohomail.com with SMTPS id 1732916676181235.41714579008203;
+ Fri, 29 Nov 2024 13:44:36 -0800 (PST)
+From: Derek Foreman <derek.foreman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: mripard@kernel.org, kernel@collabora.com,
+ Derek Foreman <derek.foreman@collabora.com>
+Subject: [PATCH] drm/connector: Allow clearing hdr infoframe
+Date: Fri, 29 Nov 2024 15:38:01 -0600
+Message-ID: <20241129213801.617864-1-derek.foreman@collabora.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,15 +63,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 29 Nov 2024 06:42:18 +1000:
+When a display isn't presenting HDR content, the infoframe shouldn't be
+present at all. Currently if we set the HDR_OUTPUT_METADATA blob, we'll
+set a Dynamic Range and Mastering (DRM) infoframe. If we remove that
+blob later, the DRM infoframe will linger in its previous state, when
+we expect it to clear.
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2024-11-29
+Disable the infoframe when no output metadata is present to prevent
+this from happening.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2ba9f676d0a2e408aef14d679984c26373bf37b7
+Fixes: f378b77227bc4 ("drm/connector: hdmi: Add Infoframes generation")
+Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
+---
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thank you!
-
+diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+index feb7a3a75981..1cc4b49b1013 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+@@ -398,6 +398,8 @@ static int hdmi_generate_hdr_infoframe(const struct drm_connector *connector,
+ 		&infoframe->data.drm;
+ 	int ret;
+ 
++	infoframe->set = false;
++
+ 	if (connector->max_bpc < 10)
+ 		return 0;
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.45.2
+
