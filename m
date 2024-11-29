@@ -2,59 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14AD9DC263
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 11:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF7F9DC2BF
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 12:23:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCBC10EE00;
-	Fri, 29 Nov 2024 10:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E29DC10E1ED;
+	Fri, 29 Nov 2024 11:23:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NeC3MjxY";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="N17PuwrQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5413610EE00
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 10:51:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3C2E2A43B98;
- Fri, 29 Nov 2024 10:49:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E5EBC4CECF;
- Fri, 29 Nov 2024 10:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732877488;
- bh=KXK9+n+Cr3Ltza7CQyUyuUF52CXDR7shbfXmLqF5V1Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NeC3MjxY0zB1Bv5WK0yW32RlBYHNBST8ymR9qaw5Jpc0V6bzyruWfrEm7yIKamB/K
- Cgx0ZGiXwDnadoKCn3gfM7cQ4lr9IUmywbGRcNO29ILMMlgr4VsrPBoYVKf9pETZS+
- 4do45+22f2Ev4+jUZSA0Pst3itpZpNhw58AAnJk56sNwVDAdun67awyaQcnp3CVIck
- /ufOXS5QBVokAZ6ZkQ7Ud8newi2om40oWitabwGwo0n16yY7R6E+zS5hEKE0meHPao
- t/nxmpvifwKtXeztjzbKuha3haTmdqXpwdDv0lp4BKUpfuaEHNEFT6/yaIwplGMT1O
- LZ7u05UhmV8cw==
-Date: Fri, 29 Nov 2024 11:51:25 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Fei Shao <fshao@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- David Airlie <airlied@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
-Message-ID: <20241129-meticulous-pumpkin-echidna-dff6df@houat>
-References: <20241009052402.411978-1-fshao@chromium.org>
- <20241024-stalwart-bandicoot-of-music-bc6b29@houat>
- <CAC=S1niZuiJkWBvci+bmrU-BvahhXyWWAYAMOB200a3Ppu=rTg@mail.gmail.com>
- <20241114-gray-corgi-of-youth-f992ec@houat>
- <CAGXv+5EmVj6S2iioYgMKvY8NM3_jzCDS9-GC-GOMU44j0ikmKA@mail.gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D03D110E1ED
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 11:23:06 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ATAFLOk003154;
+ Fri, 29 Nov 2024 11:23:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ upsY0EPNIr6gt4kIzgkAEMRHahTuyjFtzcxQkRDoriY=; b=N17PuwrQ5tAz8trV
+ X40NoxbkynF6miVPvTlO1ZMhNF1T+ZijUuW7aSkaaKMD/CPH+h1TYZP8MeldsCiQ
+ pvShzR1AXNwvYXyDbrRms3AyhTgxLwznXbFJeeS+II24tweC7Nn0yljBW3792o7H
+ 7j570zaqrERTsXG/p/GZNSnJDE4OmNwceNRIIh+zOIUTAoNszS3EJouxpVkj/d7o
+ ZvKEjNF4zXF0xR/ZRxl6ENQTxigbnA2nbozWZIK1Rw9ccAr+9myGjkdss1sPAK25
+ aJHUC/AX1A+tiJG03RsVDwYUG82+VXlLLSg5AmPTA9OwYwz2WMBE7BnulBSuwUmR
+ thy3Tw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437bpv85nx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Nov 2024 11:23:03 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ATBN2D8014659
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Nov 2024 11:23:02 GMT
+Received: from [10.204.65.49] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 29 Nov
+ 2024 03:22:59 -0800
+Message-ID: <d9289a55-9732-4ce6-bff4-741df752b9b1@quicinc.com>
+Date: Fri, 29 Nov 2024 16:52:56 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="dibqwofld7dmurev"
-Content-Disposition: inline
-In-Reply-To: <CAGXv+5EmVj6S2iioYgMKvY8NM3_jzCDS9-GC-GOMU44j0ikmKA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] misc: fastrpc: Add support for multiple PD from
+ one process
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>,
+ <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
+ <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
+References: <20241121084713.2599904-1-quic_ekangupt@quicinc.com>
+ <20241121084713.2599904-2-quic_ekangupt@quicinc.com>
+ <kq7vgfvzqhkq6kzu2zg7vr2ya5tp3igrhnqjaztwqkarh35hsf@xylvm4b4r6bu>
+Content-Language: en-US
+From: Ekansh Gupta <quic_ekangupt@quicinc.com>
+In-Reply-To: <kq7vgfvzqhkq6kzu2zg7vr2ya5tp3igrhnqjaztwqkarh35hsf@xylvm4b4r6bu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: OzScbKxp6-bJfWTCVfOhJzAT4dBO1K92
+X-Proofpoint-GUID: OzScbKxp6-bJfWTCVfOhJzAT4dBO1K92
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ adultscore=0 suspectscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2411290092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,321 +95,185 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---dibqwofld7dmurev
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
-MIME-Version: 1.0
 
-On Wed, Nov 27, 2024 at 05:58:31PM +0800, Chen-Yu Tsai wrote:
-> Revisiting this thread since I just stepped on the same problem on a
-> different device.
->=20
-> On Thu, Nov 14, 2024 at 9:12=E2=80=AFPM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> >
-> > On Tue, Oct 29, 2024 at 10:53:49PM +0800, Fei Shao wrote:
-> > > On Thu, Oct 24, 2024 at 8:36=E2=80=AFPM Maxime Ripard <mripard@kernel=
-=2Eorg> wrote:
-> > > >
-> > > > On Wed, Oct 09, 2024 at 01:23:31PM +0800, Fei Shao wrote:
-> > > > > In the mtk_dsi driver, its DSI host attach callback calls
-> > > > > devm_drm_of_get_bridge() to get the next bridge. If that next bri=
-dge is
-> > > > > a panel bridge, a panel_bridge object is allocated and managed by=
- the
-> > > > > panel device.
-> > > > >
-> > > > > Later, if the attach callback fails with -EPROBE_DEFER from subse=
-quent
-> > > > > component_add(), the panel device invoking the callback at probe =
-time
-> > > > > also fails, and all device-managed resources are freed accordingl=
-y.
-> > > > >
-> > > > > This exposes a drm_bridge bridge_list corruption due to the unbal=
-anced
-> > > > > lifecycle between the DSI host and the panel devices: the panel_b=
-ridge
-> > > > > object managed by panel device is freed, while drm_bridge_remove(=
-) is
-> > > > > bound to DSI host device and never gets called.
-> > > > > The next drm_bridge_add() will trigger UAF against the freed brid=
-ge list
-> > > > > object and result in kernel panic.
-> > > > >
-> > > > > This bug is observed on a MediaTek MT8188-based Chromebook with M=
-IPI DSI
-> > > > > outputting to a DSI panel (DT is WIP for upstream).
-> > > > >
-> > > > > As a fix, using devm_drm_bridge_add() with the panel device in th=
-e panel
-> > > > > path seems reasonable. This also implies a chain of potential cle=
-anup
-> > > > > actions:
-> > > > >
-> > > > > 1. Removing drm_bridge_remove() means devm_drm_panel_bridge_relea=
-se()
-> > > > >    becomes hollow and can be removed.
-> > > > >
-> > > > > 2. devm_drm_panel_bridge_add_typed() is almost emptied except for=
- the
-> > > > >    `bridge->pre_enable_prev_first` line. Itself can be also remov=
-ed if
-> > > > >    we move the line into drm_panel_bridge_add_typed(). (maybe?)
-> > > > >
-> > > > > 3. drm_panel_bridge_add_typed() now calls all the needed devm_* c=
-alls,
-> > > > >    so it's essentially the new devm_drm_panel_bridge_add_typed().
-> > > > >
-> > > > > 4. drmm_panel_bridge_add() needs to be updated accordingly since =
-it
-> > > > >    calls drm_panel_bridge_add_typed(). But now there's only one b=
-ridge
-> > > > >    object to be freed, and it's already being managed by panel de=
-vice.
-> > > > >    I wonder if we still need both drmm_ and devm_ version in this=
- case.
-> > > > >    (maybe yes from DRM PoV, I don't know much about the context)
-> > > > >
-> > > > > This is a RFC patch since I'm not sure if my understanding is cor=
-rect
-> > > > > (for both the fix and the cleanup). It fixes the issue I encounte=
-red,
-> > > > > but I don't expect it to be picked up directly due to the redunda=
-nt
-> > > > > commit message and the dangling devm_drm_panel_bridge_release().
-> > > > > I plan to resend the official patch(es) once I know what I suppos=
-ed to
-> > > > > do next.
-> > > > >
-> > > > > For reference, here's the KASAN report from the device:
-> > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > >  BUG: KASAN: slab-use-after-free in drm_bridge_add+0x98/0x230
-> > > > >  Read of size 8 at addr ffffff80c4e9e100 by task kworker/u32:1/69
-> > > > >
-> > > > >  CPU: 1 UID: 0 PID: 69 Comm: kworker/u32:1 Not tainted 6.12.0-rc1=
--next-20241004-kasan-00030-g062135fa4046 #1
-> > > > >  Hardware name: Google Ciri sku0/unprovisioned board (DT)
-> > > > >  Workqueue: events_unbound deferred_probe_work_func
-> > > > >  Call trace:
-> > > > >   dump_backtrace+0xfc/0x140
-> > > > >   show_stack+0x24/0x38
-> > > > >   dump_stack_lvl+0x40/0xc8
-> > > > >   print_report+0x140/0x700
-> > > > >   kasan_report+0xcc/0x130
-> > > > >   __asan_report_load8_noabort+0x20/0x30
-> > > > >   drm_bridge_add+0x98/0x230
-> > > > >   devm_drm_panel_bridge_add_typed+0x174/0x298
-> > > > >   devm_drm_of_get_bridge+0xe8/0x190
-> > > > >   mtk_dsi_host_attach+0x130/0x2b0
-> > > > >   mipi_dsi_attach+0x8c/0xe8
-> > > > >   hx83102_probe+0x1a8/0x368
-> > > > >   mipi_dsi_drv_probe+0x6c/0x88
-> > > > >   really_probe+0x1c4/0x698
-> > > > >   __driver_probe_device+0x160/0x298
-> > > > >   driver_probe_device+0x7c/0x2a8
-> > > > >   __device_attach_driver+0x2a0/0x398
-> > > > >   bus_for_each_drv+0x198/0x200
-> > > > >   __device_attach+0x1c0/0x308
-> > > > >   device_initial_probe+0x20/0x38
-> > > > >   bus_probe_device+0x11c/0x1f8
-> > > > >   deferred_probe_work_func+0x80/0x250
-> > > > >   worker_thread+0x9b4/0x2780
-> > > > >   kthread+0x274/0x350
-> > > > >   ret_from_fork+0x10/0x20
-> > > > >
-> > > > >  Allocated by task 69:
-> > > > >   kasan_save_track+0x40/0x78
-> > > > >   kasan_save_alloc_info+0x44/0x58
-> > > > >   __kasan_kmalloc+0x84/0xa0
-> > > > >   __kmalloc_node_track_caller_noprof+0x228/0x450
-> > > > >   devm_kmalloc+0x6c/0x288
-> > > > >   devm_drm_panel_bridge_add_typed+0xa0/0x298
-> > > > >   devm_drm_of_get_bridge+0xe8/0x190
-> > > > >   mtk_dsi_host_attach+0x130/0x2b0
-> > > > >   mipi_dsi_attach+0x8c/0xe8
-> > > > >   hx83102_probe+0x1a8/0x368
-> > > > >   mipi_dsi_drv_probe+0x6c/0x88
-> > > > >   really_probe+0x1c4/0x698
-> > > > >   __driver_probe_device+0x160/0x298
-> > > > >   driver_probe_device+0x7c/0x2a8
-> > > > >   __device_attach_driver+0x2a0/0x398
-> > > > >   bus_for_each_drv+0x198/0x200
-> > > > >   __device_attach+0x1c0/0x308
-> > > > >   device_initial_probe+0x20/0x38
-> > > > >   bus_probe_device+0x11c/0x1f8
-> > > > >   deferred_probe_work_func+0x80/0x250
-> > > > >   worker_thread+0x9b4/0x2780
-> > > > >   kthread+0x274/0x350
-> > > > >   ret_from_fork+0x10/0x20
-> > > > >
-> > > > >  Freed by task 69:
-> > > > >   kasan_save_track+0x40/0x78
-> > > > >   kasan_save_free_info+0x58/0x78
-> > > > >   __kasan_slab_free+0x48/0x68
-> > > > >   kfree+0xd4/0x750
-> > > > >   devres_release_all+0x144/0x1e8
-> > > > >   really_probe+0x48c/0x698
-> > > > >   __driver_probe_device+0x160/0x298
-> > > > >   driver_probe_device+0x7c/0x2a8
-> > > > >   __device_attach_driver+0x2a0/0x398
-> > > > >   bus_for_each_drv+0x198/0x200
-> > > > >   __device_attach+0x1c0/0x308
-> > > > >   device_initial_probe+0x20/0x38
-> > > > >   bus_probe_device+0x11c/0x1f8
-> > > > >   deferred_probe_work_func+0x80/0x250
-> > > > >   worker_thread+0x9b4/0x2780
-> > > > >   kthread+0x274/0x350
-> > > > >   ret_from_fork+0x10/0x20
-> > > > >
-> > > > >  The buggy address belongs to the object at ffffff80c4e9e000
-> > > > >   which belongs to the cache kmalloc-4k of size 4096
-> > > > >  The buggy address is located 256 bytes inside of
-> > > > >   freed 4096-byte region [ffffff80c4e9e000, ffffff80c4e9f000)
-> > > > >
-> > > > >  The buggy address belongs to the physical page:
-> > > > >  head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pin=
-count:0
-> > > > >  flags: 0x8000000000000040(head|zone=3D2)
-> > > > >  page_type: f5(slab)
-> > > > >  page: refcount:1 mapcount:0 mapping:0000000000000000
-> > > > >  index:0x0 pfn:0x104e98
-> > > > >  raw: 8000000000000040 ffffff80c0003040 dead000000000122 00000000=
-00000000
-> > > > >  raw: 0000000000000000 0000000000040004 00000001f5000000 00000000=
-00000000
-> > > > >  head: 8000000000000040 ffffff80c0003040 dead000000000122 0000000=
-000000000
-> > > > >  head: 0000000000000000 0000000000040004 00000001f5000000 0000000=
-000000000
-> > > > >  head: 8000000000000003 fffffffec313a601 ffffffffffffffff 0000000=
-000000000
-> > > > >  head: 0000000000000008 0000000000000000 00000000ffffffff 0000000=
-000000000
-> > > > >  page dumped because: kasan: bad access detected
-> > > > >
-> > > > >  Memory state around the buggy address:
-> > > > >   ffffff80c4e9e000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb =
-fb
-> > > > >   ffffff80c4e9e080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb =
-fb
-> > > > >  >ffffff80c4e9e100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb =
-fb
-> > > > >                     ^
-> > > > >   ffffff80c4e9e180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb =
-fb
-> > > > >   ffffff80c4e9e200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb =
-fb
-> > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > >
-> > > > > Signed-off-by: Fei Shao <fshao@chromium.org>
-> > > >
-> > > > I was looking at the driver to try to follow your (awesome btw, tha=
-nks)
-> > > > commit log, and it does have a quite different structure compared to
-> > > > what we recommend.
-> > > >
-> > > > Would following
-> > > > https://docs.kernel.org/gpu/drm-kms-helpers.html#special-care-with-=
-mipi-dsi-bridges
-> > > > help?
-> > >
-> > > Hi Maxime,
-> > >
-> > > Thank you for the pointer.
-> > > I read the suggested pattern in the doc and compared it with the
-> > > drivers. If I understand correctly, both the MIPI-DSI host and panel
-> > > drivers follow the instructions:
-> > >
-> > > 1. The MIPI-DSI host driver must run mipi_dsi_host_register() in its =
-probe hook.
-> > >    >> drm/mediatek/mtk_dsi.c runs mipi_dsi_host_register() in the pro=
-be hook.
-> > > 2. In its probe hook, the bridge driver must try to find its MIPI-DSI
-> > > host, register as a MIPI-DSI device and attach the MIPI-DSI device to
-> > > its host.
-> > >    >> drm/panel/panel-himax-hx83102.c follows and runs
-> > > mipi_dsi_attach() at the end of probe hook.
-> > > 3. In its struct mipi_dsi_host_ops.attach hook, the MIPI-DSI host can
-> > > now add its component.
-> > >    >> drm/mediatek/mtk_dsi.c calls component_add() in the attach call=
-back.
-> > >
-> > > Could you elaborate on the "different structures" you mentioned?
-> >
-> > Yeah, you're right, sorry.
-> >
-> > > To clarify my point: the issue is that component_add() may return
-> > > -EPROBE_DEFER if the component (e.g. DSI encoder) is not ready,
-> > > causing the panel bridge to be removed. However, drm_bridge_remove()
-> > > is bound to MIPI-DSI host instead of panel bridge, which owns the
-> > > actual list_head object.
-> > >
-> > > This might be reproducible with other MIPI-DSI host + panel
-> > > combinations by forcibly returning -EPROBE_DEFER in the host attach
-> > > hook (verification with another device is needed), so the fix may be
-> > > required in drm/bridge/panel.c.
->=20
-> > Yeah, I think you're just hitting another bridge lifetime issue, and
-> > it's not the only one unfortunately. Tying the bridge structure lifetime
-> > itself to the device is wrong, it should be tied to the DRM device
-> > lifetime instead.
->=20
-> I think the more immediate issue is that the bridge object's lifetime
-> and drm_bridge_add/remove are inconsistent when devm_drm_of_get_bridge()
-> or drmm_of_get_bridge() are used.
->=20
-> These helpers tie the bridge add/removal to the device or drm_device
-> passed in, but internally they call down to drm_panel_bridge_add_typed()
-> which allocates the bridge object tied to the panel device.
-> > But then, the discussion becomes that bridges typically probe outside of
-> > the "main" DRM device probe path, so you don't have access to the DRM
-> > device structure until attach at best.
-> >
-> > That's why I'm a bit skeptical about your patch. It might workaround
-> > your issue, but it doesn't actually solve the problem. I guess the best
-> > way about it would be to convert bridges to reference counting, with the
-> > device taking a reference at probe time when it allocates the structure
-> > (and giving it back at remove time), and the DRM device taking one when
-> > it's attached and one when it's detached.
->=20
-> Without going as far, it's probably better to align the lifecycle of
-> the two parts. Most other bridge drivers in the kernel have |drm_bridge|
-> lifecycle tied to their underlying |device|, either with explicit
-> drm_bridge_{add,remove}() calls in their probe/bind and remove/unbind
-> callbacks respectively, or with devm_drm_bridge_add in the probe/bind
-> path. The only ones with a narrower lifecycle are the DSI hosts, which
-> add the bridge in during host attach and remove it during host detach.
->=20
-> I'm thinking about fixing the panel_bridge lifecycle such that it is
-> tied to the panel itself. Maybe that would involve making
-> devm_drm_of_get_bridge() correctly return bridges even if a panel was
-> found, and then making the panels create and add panel bridges directly,
-> possibly within drm_panel_add(). Would that make sense?
+On 11/22/2024 3:51 AM, Dmitry Baryshkov wrote:
+> On Thu, Nov 21, 2024 at 02:17:12PM +0530, Ekansh Gupta wrote:
+>> Memory intensive applications(which requires more tha 4GB) that wants
+>> to offload tasks to DSP might have to split the tasks to multiple
+>> user PD to make the resources available.
+>>
+>> For every call to DSP, fastrpc driver passes the process tgid which
+>> works as an identifier for the DSP to enqueue the tasks to specific PD.
+>> With current design, if any process opens device node more than once
+>> and makes PD init request, same tgid will be passed to DSP which will
+>> be considered a bad request and this will result in failure as the same
+>> identifier cannot be used for multiple DSP PD.
+>>
+>> Assign and pass a client ID to DSP which would be assigned during device
+>> open and will be dependent on the index of session allocated for the PD.
+>> This will allow the same process to open the device more than once and
+>> spawn multiple dynamic PD for ease of processing.
+>>
+>> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+>> ---
+>>  drivers/misc/fastrpc.c | 30 ++++++++++++++++--------------
+>>  1 file changed, 16 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+>> index 74181b8c386b..08f223c95c33 100644
+>> --- a/drivers/misc/fastrpc.c
+>> +++ b/drivers/misc/fastrpc.c
+>> @@ -39,6 +39,7 @@
+>>  #define FASTRPC_INIT_HANDLE	1
+>>  #define FASTRPC_DSP_UTILITIES_HANDLE	2
+>>  #define FASTRPC_CTXID_MASK (0xFF0)
+>> +#define FASTRPC_CLIENTID_MASK GENMASK(4, 4)
+> GENMASK(4,4) is just BIT(4), isn't it?
+>
+>>  #define INIT_FILELEN_MAX (2 * 1024 * 1024)
+>>  #define INIT_FILE_NAMELEN_MAX (128)
+>>  #define FASTRPC_DEVICE_NAME	"fastrpc"
+>> @@ -299,7 +300,7 @@ struct fastrpc_user {
+>>  	struct fastrpc_session_ctx *sctx;
+>>  	struct fastrpc_buf *init_mem;
+>>  
+>> -	int tgid;
+>> +	int client_id;
+>>  	int pd;
+>>  	bool is_secure_dev;
+>>  	/* Lock for lists */
+>> @@ -614,7 +615,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+>>  	ctx->sc = sc;
+>>  	ctx->retval = -1;
+>>  	ctx->pid = current->pid;
+>> -	ctx->tgid = user->tgid;
+>> +	ctx->tgid = user->client_id;
+>>  	ctx->cctx = cctx;
+>>  	init_completion(&ctx->work);
+>>  	INIT_WORK(&ctx->put_work, fastrpc_context_put_wq);
+>> @@ -1115,7 +1116,7 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
+>>  	int ret;
+>>  
+>>  	cctx = fl->cctx;
+>> -	msg->pid = fl->tgid;
+>> +	msg->pid = fl->client_id;
+>>  	msg->tid = current->pid;
+>>  
+>>  	if (kernel)
+>> @@ -1293,7 +1294,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+>>  		}
+>>  	}
+>>  
+>> -	inbuf.pgid = fl->tgid;
+>> +	inbuf.pgid = fl->client_id;
+>>  	inbuf.namelen = init.namelen;
+>>  	inbuf.pageslen = 0;
+>>  	fl->pd = USER_PD;
+>> @@ -1395,7 +1396,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
+>>  		goto err;
+>>  	}
+>>  
+>> -	inbuf.pgid = fl->tgid;
+>> +	inbuf.pgid = fl->client_id;
+>>  	inbuf.namelen = strlen(current->comm) + 1;
+>>  	inbuf.filelen = init.filelen;
+>>  	inbuf.pageslen = 1;
+>> @@ -1469,8 +1470,9 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
+>>  }
+>>  
+>>  static struct fastrpc_session_ctx *fastrpc_session_alloc(
+>> -					struct fastrpc_channel_ctx *cctx)
+>> +					struct fastrpc_user *fl)
+>>  {
+>> +	struct fastrpc_channel_ctx *cctx = fl->cctx;
+>>  	struct fastrpc_session_ctx *session = NULL;
+>>  	unsigned long flags;
+>>  	int i;
+>> @@ -1480,6 +1482,7 @@ static struct fastrpc_session_ctx *fastrpc_session_alloc(
+>>  		if (!cctx->session[i].used && cctx->session[i].valid) {
+>>  			cctx->session[i].used = true;
+>>  			session = &cctx->session[i];
+>> +			fl->client_id = FASTRPC_CLIENTID_MASK | i;
+> So, it's not a mask, but a flag. Why is it necessary at all? Can you
+> just pass i? Or i+1?
+This also works as I just need to pass a non-zero unique identifier to DSP. I'll update this
+in the next patch.
 
-Not really. Or rather, it doesn't fix the root cause that is that tieing
-the bridge lifetime to the device is wrong. It needs to be tied to the
-DRM device somehow. Your suggestion might indeed work around your issue,
-but it doesn't fix the actual problem.
+Thanks for reviewing.
 
-Maxime
+--ekansh
+>
+>>  			break;
+>>  		}
+>>  	}
+>> @@ -1504,7 +1507,7 @@ static int fastrpc_release_current_dsp_process(struct fastrpc_user *fl)
+>>  	int tgid = 0;
+>>  	u32 sc;
+>>  
+>> -	tgid = fl->tgid;
+>> +	tgid = fl->client_id;
+>>  	args[0].ptr = (u64)(uintptr_t) &tgid;
+>>  	args[0].length = sizeof(tgid);
+>>  	args[0].fd = -1;
+>> @@ -1579,11 +1582,10 @@ static int fastrpc_device_open(struct inode *inode, struct file *filp)
+>>  	INIT_LIST_HEAD(&fl->maps);
+>>  	INIT_LIST_HEAD(&fl->mmaps);
+>>  	INIT_LIST_HEAD(&fl->user);
+>> -	fl->tgid = current->tgid;
+>>  	fl->cctx = cctx;
+>>  	fl->is_secure_dev = fdevice->secure;
+>>  
+>> -	fl->sctx = fastrpc_session_alloc(cctx);
+>> +	fl->sctx = fastrpc_session_alloc(fl);
+>>  	if (!fl->sctx) {
+>>  		dev_err(&cctx->rpdev->dev, "No session available\n");
+>>  		mutex_destroy(&fl->mutex);
+>> @@ -1647,7 +1649,7 @@ static int fastrpc_dmabuf_alloc(struct fastrpc_user *fl, char __user *argp)
+>>  static int fastrpc_init_attach(struct fastrpc_user *fl, int pd)
+>>  {
+>>  	struct fastrpc_invoke_args args[1];
+>> -	int tgid = fl->tgid;
+>> +	int tgid = fl->client_id;
+>>  	u32 sc;
+>>  
+>>  	args[0].ptr = (u64)(uintptr_t) &tgid;
+>> @@ -1803,7 +1805,7 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
+>>  	int err;
+>>  	u32 sc;
+>>  
+>> -	req_msg.pgid = fl->tgid;
+>> +	req_msg.pgid = fl->client_id;
+>>  	req_msg.size = buf->size;
+>>  	req_msg.vaddr = buf->raddr;
+>>  
+>> @@ -1889,7 +1891,7 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+>>  		return err;
+>>  	}
+>>  
+>> -	req_msg.pgid = fl->tgid;
+>> +	req_msg.pgid = fl->client_id;
+>>  	req_msg.flags = req.flags;
+>>  	req_msg.vaddr = req.vaddrin;
+>>  	req_msg.num = sizeof(pages);
+>> @@ -1978,7 +1980,7 @@ static int fastrpc_req_mem_unmap_impl(struct fastrpc_user *fl, struct fastrpc_me
+>>  		return -EINVAL;
+>>  	}
+>>  
+>> -	req_msg.pgid = fl->tgid;
+>> +	req_msg.pgid = fl->client_id;
+>>  	req_msg.len = map->len;
+>>  	req_msg.vaddrin = map->raddr;
+>>  	req_msg.fd = map->fd;
+>> @@ -2031,7 +2033,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
+>>  		return err;
+>>  	}
+>>  
+>> -	req_msg.pgid = fl->tgid;
+>> +	req_msg.pgid = fl->client_id;
+>>  	req_msg.fd = req.fd;
+>>  	req_msg.offset = req.offset;
+>>  	req_msg.vaddrin = req.vaddrin;
+>> -- 
+>> 2.34.1
+>>
 
---dibqwofld7dmurev
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0mcqAAKCRAnX84Zoj2+
-dlRvAYCJLtKyE8Wx10kWBlDW5i8fwBZL/5NbMOvKeyVqwxnxlE0FDPIQy7l23lA/
-C5lewxoBf0ac9SZfjX6XTZdTdsQkGp0gO7P+0/mOb1SNrAZD9dSePBbxg1gz3LxS
-gbKAEqPDag==
-=i2Bc
------END PGP SIGNATURE-----
-
---dibqwofld7dmurev--
