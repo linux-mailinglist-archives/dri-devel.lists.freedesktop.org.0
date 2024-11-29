@@ -2,55 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8D69DE711
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 14:15:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD979DE79D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2024 14:32:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 770D710EE15;
-	Fri, 29 Nov 2024 13:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60FC410EE22;
+	Fri, 29 Nov 2024 13:32:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="VcU6qFYh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dWL18wr5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C29110EE15
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 13:15:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1732886102; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=EPYX9ePTkigu82lf27tAuOHFRkSrmK4uSaYdYGK1p2JfquNYjTISe7ty6HYDqswLdjAVaT0RajEL3wiJB6gGF3tPmwnXs26DvakdxLVpg28eiTUiw1j7n4t3h6pAiHVkxILEtO+oz7aP2QcmOBItTBpcY9f2cOrbdPQ/AapYnuc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1732886102;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=tL3qklCA2ufBqhMoSINKqRQnp77HyDUBoB5Q+9T4wWs=; 
- b=NK7p6ACPkkXULS2k8ILs+aZhcN5CB6YR4FRWv/Ilq8P697XsiqWitqYJyLFYAdEHfFB8mdLuczH1dBjAtfmk54y2OgJSwrRkHRmDIrA0cfaGpYo/sJiiW5JMis8t+/YxgzpgTsakmW1L32PrtrlvjyefKEZMwu4xzAm7WVoxkWs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732886102; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=tL3qklCA2ufBqhMoSINKqRQnp77HyDUBoB5Q+9T4wWs=;
- b=VcU6qFYhrUEmDdlGeXjqIUW9invuBvFMoXkvTsRlCNLjYb1qqWf4t45Fs8TjnB3s
- ZqPPwlLb/xL5G23aehcVcVz4B6OjWXLx3zF32lmarAllmrwh+F1M7sKBK6KLmGjrZsd
- nWqqtQjJjgIqBpKjJ2Pvdh8LdONV5CuPUiComylI=
-Received: by mx.zohomail.com with SMTPS id 173288610067344.00738005853407;
- Fri, 29 Nov 2024 05:15:00 -0800 (PST)
-Date: Fri, 29 Nov 2024 13:14:58 +0000
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v2 2/5] drm/panthor: Be robust against runtime PM resume
- failures in the suspend path
-Message-ID: <dyvywyidxz5scfg4fl4oqgcpg6qvh27wvekfovoomreriqqnim@3osvn3joyfeu>
-References: <20241128110255.3182366-1-boris.brezillon@collabora.com>
- <20241128110255.3182366-3-boris.brezillon@collabora.com>
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
+ [209.85.219.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 211E310E0A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 13:32:48 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id
+ 3f1490d57ef6-e3988fdb580so551374276.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 05:32:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1732887167; x=1733491967; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=4rk8EqcQBJedHgZVFcqE3LAsuROmL1X9WJEUhmB7OiE=;
+ b=dWL18wr5hfLjfi8E0ObbGp9nq0eCZs6KwcqtxSg3Y14mkB3yXlb71wKyIKMle6Bz9Q
+ gs9HEnKj1LCcatFGHwB2Y4NSdYLnJkOZ34bzxRBLam6SZqVntkDTBoiotDqQPZzjdVva
+ QuiKz6WwpeDdTkSW4y8g7jZ4Ubqju1PJ1OigPnVBGPlObGzVFDBeyCj3rSaNCqtr/PH4
+ I6r3mRgepHqWTaJ56IgDnqungn6BKmLdxkIVUHrBsRjIcFeflvJT1Xbwzgc/VMWlpn6I
+ DDv7JTt9I/OI/4sIhI1tG2VMrWNEis1vJAY8ch1Fke6JtB8dAxsnzOcn0K6ihpVgvuzN
+ 3g5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1732887167; x=1733491967;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4rk8EqcQBJedHgZVFcqE3LAsuROmL1X9WJEUhmB7OiE=;
+ b=ZBUxHzALkYSWSVT9mQkBDck/yqI0ttTu7bV2jNKN4mp4aq+OBmlJ2sDludF8skPBym
+ yowFxbWLYVk6aZUv1B1BI4M1SMI5PFwbWrl+xKbPL5Mxz1SkXNN8zW3ToBxZoJN4bK8f
+ otNx7OpLLEUuhYObFj1XVKS1Yjv046zSmSrDzI2x28Xkce17u2EtBsCu89m3P4t9DcZh
+ rkyuIpMMcJUI7VyAHG1a2cRq7h0twulATAjBwy8uqFQioMrBx/qjCZQ6/lAgy8wbHR+r
+ bB6TT9rOiB0VIWezbMZZwlu/QoUsHFWpLXQmAxLHZkcR6pSml/Mcslftw4HjG9ajIqoG
+ DrsQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXd4rzBsvANLuifQVb+yp3aSRSTkaktaYs3QJtULnFCFp7fWjVIxVFuCMJa25x55C6LcUBFezXFRjk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzXMMFaCYKARV0JP3vKJr+qVHDr8M7uwabUByjBPevx5HpM1RvS
+ ApDK++eCvtoNgpJMBGBj7B+K/sR03fPF62j+rzXiQZkZQ8vw1Lr3NnOPcBlJrgthG8FkrT+HxgN
+ BvDFW1nA2JrqFONELh7B+xX8s8/C2KiWoILqqKQ==
+X-Gm-Gg: ASbGnctalC+iQtFa0qnzKPsL9fDlddX9nGrqJXrAYh5QD0hegXrgO+LFAib/Q0KRFSk
+ f2GW1+kEkxsOWOvyXrFq5jx63yijAKAg=
+X-Google-Smtp-Source: AGHT+IHfjxXnTdn0iSp1AqYYDcm5/K9nEAphNu1TQKr2ozphQmTsKuv3nB1lPh4zZEbpx4kmGb4PSCSBKcPFfDN6tJ4=
+X-Received: by 2002:a05:6902:1504:b0:e28:e407:610 with SMTP id
+ 3f1490d57ef6-e395b957479mr11164613276.47.1732887166767; Fri, 29 Nov 2024
+ 05:32:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241128110255.3182366-3-boris.brezillon@collabora.com>
+References: <20241127-mdss_qcs8300-v1-0-29b2c3ee95b8@quicinc.com>
+ <20241127-mdss_qcs8300-v1-4-29b2c3ee95b8@quicinc.com>
+ <f5kqdxkhniwwxu6wm2q323vvlsfn3yyig7mfg3h5ctqo7jjxc7@7g32tirseuqs>
+ <9821c4d5-8d1d-4bed-b3e0-879d0aeba017@quicinc.com>
+In-Reply-To: <9821c4d5-8d1d-4bed-b3e0-879d0aeba017@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 29 Nov 2024 15:32:41 +0200
+Message-ID: <CAA8EJppDomrYvtJ46pi1_hDsf3zFeeTfrkQfVwE8UTN01KfKpw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] drm/msm/dpu: Add QCS8300 support
+To: Yongxing Mou <quic_yongmou@quicinc.com>
+Cc: Ritesh Kumar <quic_riteshk@quicinc.com>, Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,94 +95,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Adrian Larumbe <adrian.larumbe@collabora.com>
+On Fri, 29 Nov 2024 at 12:01, Yongxing Mou <quic_yongmou@quicinc.com> wrote:
+>
+>
+>
+> On 2024/11/27 21:49, Dmitry Baryshkov wrote:
+> > On Wed, Nov 27, 2024 at 03:05:04PM +0800, Yongxing Mou wrote:
+> >> Add definitions for the display hardware used on the
+> >> Qualcomm QCS8300 platform.
+> >>
+> >> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> >> ---
+> >>   .../drm/msm/disp/dpu1/catalog/dpu_8_4_qcs8300.h    | 485 +++++++++++++++++++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+> >>   4 files changed, 488 insertions(+)
+> >>
+> >>
+> >
+> > NAK, there is no need for this.
+> Got it,thanks. will modify it in next patchset.Compared to sa8775p, they
+> use same dpu but qcs8300 has one less intf and two fewer dp intfs. Other
+> configurations are the same.can we reuse it or a new catalog file to
+> show it.
 
-On 28.11.2024 12:02, Boris Brezillon wrote:
-> The runtime PM resume operation is not guaranteed to succeed, but if it
-> fails, the device should be in a suspended state. Make sure we're robust
-> to resume failures in the unplug path.
-> 
-> v2:
-> - Move the bit that belonged in the next commit
-> - Drop the panthor_device_unplug() changes
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.c  | 14 +++++++++-----
->  drivers/gpu/drm/panthor/panthor_gpu.c |  3 ++-
->  drivers/gpu/drm/panthor/panthor_mmu.c |  3 ++-
->  3 files changed, 13 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index ebf8980ca9a3..f3d3d8fbe13d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -12,6 +12,7 @@
->  #include <linux/iosys-map.h>
->  #include <linux/mutex.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
->  
->  #include <drm/drm_drv.h>
->  #include <drm/drm_managed.h>
-> @@ -1190,11 +1191,13 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
->  
->  	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
->  
-> -	/* Make sure the IRQ handler can be called after that point. */
-> -	if (ptdev->fw->irq.irq)
-> -		panthor_job_irq_suspend(&ptdev->fw->irq);
-> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev)) {
-> +		/* Make sure the IRQ handler can be called after that point. */
+Is it actually not populated in the silicon? What happens if one
+access those INTF_n registers?
 
-Did you mean 'cannot be called' ?
-
-> +		if (ptdev->fw->irq.irq)
-> +			panthor_job_irq_suspend(&ptdev->fw->irq);
->  
-> -	panthor_fw_stop(ptdev);
-> +		panthor_fw_stop(ptdev);
-> +	}
->  
->  	list_for_each_entry(section, &ptdev->fw->sections, node)
->  		panthor_kernel_bo_destroy(section->mem);
-> @@ -1207,7 +1210,8 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
->  	panthor_vm_put(ptdev->fw->vm);
->  	ptdev->fw->vm = NULL;
->  
-> -	panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
-> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
-> +		panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
->  }
->  
->  /**
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 0f3cac6ec88e..ee85a371bc38 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -180,7 +180,8 @@ void panthor_gpu_unplug(struct panthor_device *ptdev)
->  	unsigned long flags;
->  
->  	/* Make sure the IRQ handler is not running after that point. */
-> -	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
-> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
-> +		panthor_gpu_irq_suspend(&ptdev->gpu->irq);
->  
->  	/* Wake-up all waiters. */
->  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 9478ee2093d1..6716463903bc 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -2681,7 +2681,8 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
->   */
->  void panthor_mmu_unplug(struct panthor_device *ptdev)
->  {
-> -	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
-> +	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
-> +		panthor_mmu_irq_suspend(&ptdev->mmu->irq);
->  
->  	mutex_lock(&ptdev->mmu->as.slots_lock);
->  	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
-> -- 
-> 2.46.2
+-- 
+With best wishes
+Dmitry
