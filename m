@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD8B9DEFA7
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 10:44:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AADE89DEFA9
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 10:46:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47AA310E39B;
-	Sat, 30 Nov 2024 09:44:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D38AF10E3A2;
+	Sat, 30 Nov 2024 09:46:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KbP6iO5q";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fSZvnln/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C445E10E12A
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 09:44:28 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2ffbf4580cbso27757691fa.2
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 01:44:28 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5B010E3A2
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 09:46:36 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-53de880c77eso3143655e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 01:46:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732959867; x=1733564667; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732959994; x=1733564794; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=FbvaH9LKCnPT0pbZACKdx7vQLf3R9MTqB1SqayWa8ck=;
- b=KbP6iO5qE2U/7p+u6HgZl8bucWifXvjOOhUw2KAA6HYTbOL1ZM5ySGRG2XJwwI+eri
- T8mSOakWRqaMNFI/9M7plsljgyCz6Dpk5vaxIwvEDg79MKE4+51mn8qwbtTpGJaUzID0
- lDw8B+RA/kAOjNNVvSxm8pN/+C6jf0z83UiGSYrAH26iv8g1jtcbYUEZJux3UKppJ17L
- X2sn59cfOPJ70/u4IsBbag0hISITNK/4OBn1LQrrpX6ASOIawp1SDdu+v7OiOdiY+HLW
- ejfEYLAs76jpeHZXvrezWimkOwJmZizZoBKHKMdqxkUgaR+VnWVsazeot1yFol2UtmYs
- HbHQ==
+ bh=O7ukQKCjj+sldLQHYrJwAT1f/L5D9PF1X7vziPXtA6w=;
+ b=fSZvnln/cu+Ech3kTOFxIj9jZCskibDk+Yq8synRp+DQg23xcuYF4wisehl1Zkb1zF
+ m6OTEqkn2lPjwz91Md9KpOkJjkyqEbeZ/3BdZ5Tx+Gv0UYOUoYDnpz5/PdJbhIE3KPvY
+ xIpVxVduahWw3E+kF7lJBWQa9qDHoDAATfc6SpUa60GWjWIHdfAULSQQA5+hdp6nzYWF
+ I6KK78YfwT2X3NLLVTZPS/jKtH7YX3CUAi+j3i6M8yXToJCWkoxIEortdGcr9LisxKu5
+ eyx8k2Jzy89F1wwtpo0G4E7pV054XR5PGB/q4D9SQKM9mLVKSigjkKQMqtEp9Jd6153t
+ eVjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732959867; x=1733564667;
+ d=1e100.net; s=20230601; t=1732959994; x=1733564794;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FbvaH9LKCnPT0pbZACKdx7vQLf3R9MTqB1SqayWa8ck=;
- b=WmFgYsStypO269zMVdATsSxdN+eR3anioAmRFuoyYcxx5KDyGq4D4Yh7ht9zAR4IfQ
- bJorTl2sBJLTFj652YMxiL3jecqai2SHs4OXAJYcrFcJrS+PfiAC2oCTyTJo+7k35O9R
- u/kXv2Jx/1zNfrS6v8RJQr7Ox9vug9eoFkjvEw034vXROLJRBcPMQU/WolpXqeqL7NoJ
- oBuirzasZ5m/olETi8RZsdK873lO4pCI3BN/cswnSASbjIrzDFnf6VBlmZK0B6HPGW1z
- 2nQTQpHEsy/834ogCitp3/BUe+qPaqLAfZG8la+tVfgu4Wtj2+YVLMNZFcGGqy8p2MZU
- ivcQ==
-X-Gm-Message-State: AOJu0YwTfQq7Kfff3xvPJHFo3iS0itas7yIq2hSQj2ssGfPjSh4IjabB
- wEi/3H25DGwsIUyq5wvYOVmsUpkuHXP1BMbG/PJ2aqpXbErkmP3khuWrKSIdEYE=
-X-Gm-Gg: ASbGncsDWhKd2jXndts64p7bPHWZG/6pqY8PjO2gS+B9E9oyJPyKjD87EdY9cDa7ILd
- WYqOqPb0P+yoXKvxHiIYa/95BjYdo1sf4MAete1vAg2lPx6HwusN0tUFCKjt1Gs2Cdg5q5RzfaY
- CtA/Gc7Lvh7NxnBWPtBtSy10krRu+uqGGW4S9+0y12sbomKee+Da0NfiK5W4AJXErrBNMUYbPAF
- EjdLxpX7+lfySDTdvk77WlQ4bEIRgEA5cKobjzrGSgYw2xJOBQWoK1gDGiCeylIKoXHx0lRaMEL
- Ik9xHBfWC4xsU+f8gh7lyhKtVo6ulg==
-X-Google-Smtp-Source: AGHT+IHN3SeiVY9d9SC6fNYYL0H9b7UBPVcL/sDLpopdHvVTNUVyuvrlWLxctDx0XOn2cw7ryWlWYQ==
-X-Received: by 2002:a2e:a543:0:b0:2ff:dee8:1d18 with SMTP id
- 38308e7fff4ca-2ffdee81d96mr63966471fa.34.1732959866933; 
- Sat, 30 Nov 2024 01:44:26 -0800 (PST)
+ bh=O7ukQKCjj+sldLQHYrJwAT1f/L5D9PF1X7vziPXtA6w=;
+ b=AH3DCjiIDxqht0bpvGltmcdcnfop7aSJOjfy69WDT7pjI+BgKXM+TmLZwnPJNf9c1n
+ qi/7uUu+5ZsxzzZ1MIgjZLfmj5pnfCVD9szMO+Z5F1XZgpt6ls55D8PcyN0GnPasxOoQ
+ YkTcnQH9vIkMFloJB7eQJDTk4wLEM1mkGZxCFE26y3ihRpDKHjntB237ZEdC+RdiHv0w
+ rcVt+W5vqDSyyyjlMepekiXEGcHvqpTcwuaS9fYTiZNUFRvMA8ysLgrvEr5TySv6u0eh
+ J7AN7CT0RJ95vtfWHj3F2KLIdrsPZhdOYDChg72DsVsgo4AhBbK88r+0e8zBqnUsov6x
+ Ovtw==
+X-Gm-Message-State: AOJu0YzQM7FoAzmSkXzCFDnr/sZtxFn7V7lBf8t1wI4JzJxkJFWuwZct
+ IAC7jrLfOdWZ4X2Yazxv9Ysb02feEb3jDlyTElsx6rqPdfaHGvBj1f3IwhbPaKI=
+X-Gm-Gg: ASbGncsSXhF7OBwk3u/T26xbkRoYjWqvYoS0Wk2IQVFcxr8eFdj+D7B2p14/VeV1XHg
+ nNHGxtscQbqm3+3WYLJthzAG2LbEse9cxTEtGrnf78m9UH9tscc1wHF0CEP5kXu67Uftlpmx+jA
+ 7B+NTBzRNQmRTU/fQvRtZBxhsVy81m15cVvF6MgySJHXUVrjlJOG03Wd+MpdbGy33LyBGP/Phoo
+ mBIiAtPGymcnVW/jkJIuKx1lC2YEhx8jGkPIpDh57scfJB6AH3hxLIqrrPuGaMieW5+/8KkbFDA
+ hVzFpT7IQJbbLsWK8sB5hb3pbaSEJw==
+X-Google-Smtp-Source: AGHT+IGGGm0wLvdw3rzGApBnosBq0rIEyEKzpB6WvavDO1jpjLzwEUcFhhstL3HqJPE15XR8fgV2sw==
+X-Received: by 2002:a05:6512:2215:b0:53d:a321:db74 with SMTP id
+ 2adb3069b0e04-53df0112176mr9569064e87.50.1732959994479; 
+ Sat, 30 Nov 2024 01:46:34 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ffdfca1c79sm6157271fa.101.2024.11.30.01.44.24
+ 2adb3069b0e04-53df6496a38sm717132e87.214.2024.11.30.01.46.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Nov 2024 01:44:25 -0800 (PST)
-Date: Sat, 30 Nov 2024 11:44:23 +0200
+ Sat, 30 Nov 2024 01:46:33 -0800 (PST)
+Date: Sat, 30 Nov 2024 11:46:30 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Uma Shankar <uma.shankar@intel.com>
 Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
@@ -68,14 +68,14 @@ Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  pekka.paalanen@haloniitty.fi, sebastian.wick@redhat.com, jadahl@redhat.com,
  mwen@igalia.com, contact@emersion.fr, naveen1.kumar@intel.com, 
  Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Subject: Re: [v2 07/25] drm: Add 1D LUT multi-segmented color op
-Message-ID: <loqr5fyomwdp7ip4vjk5onxdsmtttgtwh3nctejzcguss5phav@6amw6gzksokr>
+Subject: Re: [v2 09/25] drm: Add helper to initialize segmented 1D LUT
+Message-ID: <bhjkznwq2776cpjun56fqi6qgfu7ezojxs6mv4itb3njws3aeu@ixhixfv6uknj>
 References: <20241126132730.1192571-1-uma.shankar@intel.com>
- <20241126132730.1192571-8-uma.shankar@intel.com>
+ <20241126132730.1192571-10-uma.shankar@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241126132730.1192571-8-uma.shankar@intel.com>
+In-Reply-To: <20241126132730.1192571-10-uma.shankar@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,71 +91,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 26, 2024 at 06:57:12PM +0530, Uma Shankar wrote:
+On Tue, Nov 26, 2024 at 06:57:14PM +0530, Uma Shankar wrote:
 > From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 > 
-> Add support for color ops that can be programmed
-> by 1 dimensional multi segmented Look Up Tables.
+> Add helper to initialize 1D segmented LUT
 > 
 > Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 > Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 > ---
->  drivers/gpu/drm/drm_atomic.c      | 4 ++++
->  drivers/gpu/drm/drm_atomic_uapi.c | 3 +++
->  include/uapi/drm/drm_mode.h       | 8 ++++++++
->  3 files changed, 15 insertions(+)
+>  drivers/gpu/drm/drm_colorop.c | 27 ++++++++++++++++++++++++++-
+>  include/drm/drm_colorop.h     |  4 ++++
+>  2 files changed, 30 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 8a75f4a0637a..f344d64d42ce 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -802,6 +802,10 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
->  		drm_printf(p, "\tinterpolation=%s\n", drm_get_colorop_lut1d_interpolation_name(colorop->lut1d_interpolation));
->  		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
->  		break;
-> +	case DRM_COLOROP_1D_LUT_MULTSEG:
-> +		drm_printf(p, "\thw cap blob id=%d\n", state->hw_caps ? state->hw_caps->base.id : 0);
-> +		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
-> +		break;
->  	case DRM_COLOROP_CTM_3X3:
->  		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
->  		break;
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index 46cc7b0df6e8..326159bff91c 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -720,6 +720,9 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
->  		size = modes[index].lut_stride[0] * modes[index].lut_stride[1] * modes[index].lut_stride[2] *
->  		       sizeof(struct drm_color_lut);
->  		break;
-> +	case DRM_COLOROP_1D_LUT_MULTSEG:
-> +		elem_size = sizeof(struct drm_color_lut_32);
-> +		break;
->  	default:
->  		/* should never get here */
->  		return -EINVAL;
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 9ed8b1b1357a..d126a5410eea 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -923,6 +923,14 @@ enum drm_colorop_type {
->  	 */
->  	DRM_COLOROP_CTM_3X4,
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index 111517c08216..871d5660e3b2 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -104,7 +104,6 @@ static int drm_create_colorop_capability_prop(struct drm_device *dev,
+>  	return 0;
+>  }
 >  
-> +	/**
-> +	 * @DRM_COLOROP_1D_LUT_MULTSEG:
-> +	 *
-> +	 * A 3x4 matrix. Its values are specified via the
-> +	 * &drm_color_ctm_3x4 struct provided via the DATA property.
+> -__maybe_unused
 
-The comment is incorrect
+Squash all three patches so that you don't have to play with
+__maybe_unused. Then please expand commit message to describe the
+problem that you are solving.
 
-> +	 */
-> +	DRM_COLOROP_1D_LUT_MULTSEG,
+>  static int drm_colorop_lutcaps_init(struct drm_colorop *colorop,
+>  				    struct drm_plane *plane,
+>  				    const struct drm_color_lut_range *ranges,
+> @@ -338,6 +337,32 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
+>  }
+>  EXPORT_SYMBOL(drm_colorop_curve_1d_lut_init);
+>  
+
+Missing kerneldoc
+
+> +int drm_colorop_curve_1d_lut_multseg_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +					  struct drm_plane *plane,
+> +					  const struct drm_color_lut_range *ranges,
+> +					  size_t length, bool allow_bypass)
+> +{
+> +	int ret;
 > +
->  	/**
->  	 * @DRM_COLOROP_CTM_3X3:
->  	 *
+> +	ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_LUT_MULTSEG, allow_bypass);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = drm_colorop_lutcaps_init(colorop, plane, ranges, length);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* data */
+> +	ret = drm_colorop_create_data_prop(dev, colorop);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_colorop_reset(colorop);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_colorop_curve_1d_lut_multseg_init);
+> +
+>  int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+>  			     struct drm_plane *plane, bool allow_bypass)
+>  {
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index 58e5b87c6d56..9268fffd04f6 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -391,6 +391,10 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
+>  				  bool allow_bypass);
+>  int drm_colorop_ctm_3x3_init(struct drm_device *dev, struct drm_colorop *colorop,
+>  			     struct drm_plane *plane, bool allow_bypass);
+> +int drm_colorop_curve_1d_lut_multseg_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +					  struct drm_plane *plane,
+> +					  const struct drm_color_lut_range *ranges,
+> +					  size_t length, bool allow_bypass);
+>  int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+>  			     struct drm_plane *plane, bool allow_bypass);
+>  int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
 > -- 
 > 2.42.0
 > 
