@@ -2,95 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5220E9DEE73
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 02:53:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F079DEE7E
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 02:55:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 082ED10EE42;
-	Sat, 30 Nov 2024 01:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5615D10EE46;
+	Sat, 30 Nov 2024 01:55:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vMiy7yaH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="p+gHlQ9H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07FA310EE3F
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 01:53:02 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-53de8ecafeeso2740905e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 17:53:01 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8CD210EE44
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 01:55:23 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-53de771c5ebso2832684e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 17:55:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732931580; x=1733536380; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=z1lXYCxrn128DpMjUx/X3ynnQZTeAwK/ttm0jSS1k6c=;
- b=vMiy7yaHDJSKFPeV2ArixK1ShqjX5JexcvVmEIs9k8+7COaFPhW54S1/z9XEGeznYM
- Jfh1OA3NjketQT4mVpA1R4czSN1djf+B+GDNHehawZnw1waJoSN7DSFnpPcw8fPs+BNg
- xsbxN8GNQPHkFfXV0j8mRwYpHqBmgyVG6+mYP3FTEy7KwVVKqWFtnEpUmTUO6/RjN/zx
- BxYEffQxhZKoEO32jftQE1wqrBb2WLMxDbBbDVhhnuULgzE6zRrDIIOtIxKRCyFOKeI3
- Oh+16DiU3bYbrWkcYXMxmmRDMnHJudN/IR7kRcn8KfEno+P1GIYwyPwiSVML4OuCHWlo
- +XZw==
+ d=linaro.org; s=google; t=1732931722; x=1733536522; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TxZss+jNi0+17IT96EOP8YI8ZZP9Ocvt1i9TZYayBN4=;
+ b=p+gHlQ9H5zzn+CShr6ry4Ulzq4iFewOl7HsmL6pKfsrn5W6lfQ6cseYIjzUr1vKHUs
+ pYWd2u83SrxMoYt9VjARQyN6wbl0atknaD5A2nocDiA/jtSNCN8Wv5Rln1sM3MRdFRVR
+ seR9dzWdHwEHTvsz6LQnkUBXztpspYOFm41Zx/9EaaoO+kSggjNoWQIFi1gFiq80iCI3
+ HWxxjC2pKLnbscia513RTAXSFAkMzTbofFRlBGBuLRTHlVTu+JFxk7IqUFodGaKygyrQ
+ lz9ZmKts+CzZ/3CZroIBU1IyaPbwNLCa4CHr4fVe1kDEMt/XHKcbb52GJo9f4AFwCjec
+ UUOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732931580; x=1733536380;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=z1lXYCxrn128DpMjUx/X3ynnQZTeAwK/ttm0jSS1k6c=;
- b=pZo9Q57G4x6xlvf9bWqjwAIu7++dXp7x8afLlHKCFGemujP3wOeOSg0Raojb45xra+
- 5r/Guh5l8W3Dcn0uSNIsFdZBpXrLPyg6SIoqsgVlyxmZgn+BHkh5j3yvrUBEKXnj/Cek
- d7AJQ44PcIT99pdTug9QNq+YseErLVcGIhlpMfsBuscB3CkP135r4PvM6XYEp92bZoQ0
- 7wpm0X3DTm4INvxmnomjsTezshBAtGQKMIl7mi1v3IPBlYCNhTuLQ2hS0QZunW9xmWI4
- u5Qf9/DxNPV9FHAXQqdhzSLrfEGQxCnz/tHyOgTv1jGxHYWzSxRpeZ8Alxjtp39QS4rn
- L7Ng==
-X-Gm-Message-State: AOJu0YwabfnXzLom1QgfK8Uu9laoLezLzigsE7ftxeVoP4d3kwsousfj
- RJaZbfbBlG5mZx2N0YweftlfrU+ydy69QdmvEw3Fo2aCqFYeiIdaSpwYWnmF6xE=
-X-Gm-Gg: ASbGncs0IGBiR3IqTQZVKmQQlvq0YElqiJ3ADCvomMaqNOOBxRo3zYYh0qdRmzkjkwd
- w2fzLKM3bHKADVFalFJ+PDMFElSnvLpYiS9szx3DzjgUat56y7uwOEWuluZn8bDqihrOiGNrhQB
- vGkMNQfiOrMdI0oPGeF1Xx9L64N8ru/Ivdoi40rawJiRWaObh2B7/DLdhbRsbIe36sAThWTPly5
- z3a1tOZUjwUQIKi3cuiHyVwF1NMheEDVLP5ap3RhmB3BW2/8zRjQTCGuw==
-X-Google-Smtp-Source: AGHT+IF1zZCeJZP0c56HDhB3dZvzfBBbMK+T1fbyelhZdZGvyXwekGQxsUf0KFWRtcl6qeCukozDbg==
-X-Received: by 2002:a05:6512:3ba2:b0:53d:ab21:4e17 with SMTP id
- 2adb3069b0e04-53df010e3dcmr8347283e87.55.1732931580177; 
- Fri, 29 Nov 2024 17:53:00 -0800 (PST)
+ d=1e100.net; s=20230601; t=1732931722; x=1733536522;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TxZss+jNi0+17IT96EOP8YI8ZZP9Ocvt1i9TZYayBN4=;
+ b=HUg+mZ3zitCb3kSDLaA4JLYSQvtNatndri1Qz3VH22jtYKXGaiDYX9ife9+rWRSVX7
+ VDkwF2MVXyn9zEH/ESWO64Gs/3Rw+HXDgqhFgLC/1gXFS0GLKHS8O7YKmA/vMEshVV+5
+ Cglkcmetvrp0gzYiGZ9q61ZCulvxFK0K6rsg6NJcjgGwnvXFh/o8LHOM6zgAhAIereoM
+ nYxQpPfQjI/75JnWijGdBG4uemZGJPRScwSwUjcylKwBdcuzRDplTR6V899sH6WW+dMK
+ SE0Bjnw02YLslBTxXlxl0kiKC8UZEu/oQgsSv4zDFRnGAwi0til7ZCIDQMlrHnx/NE4R
+ p0zg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1e6jSY9md4KPVxJ0szxBaKJf9qICwOSiXun8OxBlFAUvT4m8uyh5IWj08gTPzo8RKHsf+ZlWfOFg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzOhy+rF6HJi3qg8lvCUs6SYFswTwWNMNGNJZzgy5qq4DhsylAk
+ vXkCFcvDeGRB1FrnP5Mzn5wWMSTK7AOC1nf7jbezBJ79UERfkAmiM5Q3S1oQhDg=
+X-Gm-Gg: ASbGnctUTF5g/dLOJdh3KvCvg8PCSaTMuXSdD90l4gcOTjKhlN3eUxA12RERCSwm+Wg
+ v7hae+5MRQdXQ9lTWmvqhpOavncRAh8LeRVZn355Qp6iZ0aeWphkfHkK+oNEHgJeZFymLhWHpZ6
+ 5b1dNiyGs5mF1MT1ThQsejHwJutOo2PaZks3KMfHWsaHtdrBrOvNcH1kZ0w003WV9pSMsbvF5gg
+ bqzyhNeGbiztI1Qxcm22gpIuQLw3aHJyv7YIxq5Du4kiAFwq8lJyfIutg==
+X-Google-Smtp-Source: AGHT+IG+JLl7qsTn5FPckMQo1MLbci5ofQR5z1K3kw4R71u9Gt/sDVozi/MWvxfjcUJ7gUZrvI5UJA==
+X-Received: by 2002:a05:6512:3ba5:b0:535:82eb:21d1 with SMTP id
+ 2adb3069b0e04-53df01178e6mr9267268e87.57.1732931721924; 
+ Fri, 29 Nov 2024 17:55:21 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df6443172sm636408e87.84.2024.11.29.17.52.57
+ 2adb3069b0e04-53df6430cc8sm635601e87.31.2024.11.29.17.55.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Nov 2024 17:52:58 -0800 (PST)
+ Fri, 29 Nov 2024 17:55:20 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 30 Nov 2024 03:52:35 +0200
-Subject: [PATCH v5 10/10] drm/sun4i: use
- drm_atomic_helper_connector_hdmi_check()
+Subject: [PATCH v7 0/3] drm/msm/dpu: support virtual wide planes
+Date: Sat, 30 Nov 2024 03:55:16 +0200
+Message-Id: <20241130-dpu-virtual-wide-v7-0-991053fcf63c@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241130-hdmi-mode-valid-v5-10-742644ec3b1f@linaro.org>
-References: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
-In-Reply-To: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+X-B4-Tracking: v=1; b=H4sIAIRwSmcC/23Oy27DIBCF4VeJWHesgRhcsup7VFlAwPGoiYkGh
+ 9SK/O7FkXpTuzyL8+m/ixyZYha7zV1wLJQpjXV0TxtxGNx4jEChbqFQtWiUgXC5QiGeru4ENwo
+ RfIy971rjLKKotwvHnt4f5Ou+7p7TGaaBo/uGtrJFRCVNs7VKtxYkhDNNPDfe8ZyHt1ReTjQ6T
+ k3i46oOlKfE86Oz6NX+TOr+JhUNCLpmWTx4/+zjT2xtKuZLkKj0P4KpQs3EPmhpO6N/CcuyfAB
+ N77ToOQEAAA==
+X-Change-ID: 20240626-dpu-virtual-wide-beefb746a900
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2060;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3719;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=tt33sNy4EHSANTDHQAExXai1314OqzFqkWnpPj2YPOw=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnSm/hEd3SJUPYNRrY3fgh17VdYvds7f7Q168Zy
- EaL3JawgciJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0pv4QAKCRCLPIo+Aiko
- 1X26CACq+Vplt9h/bOf8vjWm6vdUiW7JOHiBTGnHe70WgxSHu/ZuvlCePWg1uh99nqgs2ima6WF
- a9lLDOxqI+EJiL4HXVW/9rMgRI9+kPpvRo4ZpFhSzWDzSDLhXw69MnpuoryWhAMHZUyDDqAaP6O
- eiqfS2m9WWGLc9eup/Hiiuc2DkZeZRIUpCxUytQsfiM08yjPmolqxG1B6UJFaoNBNQnoAiB6NKV
- 6yENKHrcdPICm1HbAhl90zh1cQYxOeCxuPr/++Vj6Lb/96pS3lioxQ+HZxLy35xyxCP5nSvsOIB
- IF09MJu53IVZkYd6054wQHgHWjrTHeEygEM+tXSOP4m5zQ6Z
+ bh=xq6nGgVJ3hLPGwL0aMu+xi3aav9I/mBH+GZszTQ9WpE=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnSnCGGhtClVK8P7SVPfk6TR+BwydRYmpK+MNCT
+ 1EPzizAxCGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0pwhgAKCRCLPIo+Aiko
+ 1TdiB/oDPfpCFH3TWfmYxUxcbPx8VG89rmv+4cnUNOLUXsd7CWDgKZXPvMUNvO3GeTGESIB0y0c
+ JU9Jm7jHO1/zlnyb4FjX3+rsypwu/MVvGyqN3hlKZeGYh62+jviIFz8IoksgWLlYugkGVoP2gdu
+ kAF3ywaZegLPTNr2wo6ZqBBHWYpk74YSFJU3fVNQ2hyF2l3s5yAIrUrsSm9r8GeT1OYiRWes2LV
+ jrwX05yh0tZUtHvhtFkLjFNzv6UvxTi1veBli+ecA6px6ecsVcNbVdJ7RkcZU9BkkSJ8xW2RppI
+ bYFSBAE5wgi5NZbngCb9DcUsu6hNDZRlA6cR9XyPDLBH2sjz
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,56 +105,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace sun4i_hdmi_connector_atomic_check(), which performs just TMDS
-char rate check, with drm_atomic_helper_connector_hdmi_check(), which
-performs additional checks basing on the HDMI Connector's state.
+As promised in the basic wide planes support ([1]) here comes a series
+supporting 2*max_linewidth for all the planes.
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Note: Unlike v1 and v2 this series finally includes support for
+additional planes - having more planes than the number of SSPP blocks.
+
+Note: this iteration features handling of rotation and reflection of the
+wide plane. However rot90 is still not tested: it is enabled on sc7280
+and it only supports UBWC (tiled) framebuffers, it was quite low on my
+priority list.
+
+IGT tests were manually exectuted at [2].
+
+[1] https://patchwork.freedesktop.org/series/99909/
+[2] https://gitlab.freedesktop.org/drm/msm/-/merge_requests/142/pipelines
+
 ---
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+Changes in v7:
+- Unify code between dpu_plane_atomic_check() and
+  dpu_plane_virtual_assign_resources() (Abhinav)
+- Link to v6: https://lore.kernel.org/r/20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 54b72fe220afacc208b3fd48d5160031127ea14a..b05fd77870b00aac97d003f3fb9c2b98cb73abc0 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -187,24 +187,6 @@ sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
- 	return MODE_NOCLOCK;
- }
- 
--static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
--					     struct drm_atomic_state *state)
--{
--	struct drm_connector_state *conn_state =
--		drm_atomic_get_new_connector_state(state, connector);
--	struct drm_crtc *crtc = conn_state->crtc;
--	struct drm_crtc_state *crtc_state = crtc->state;
--	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
--	enum drm_mode_status status;
--
--	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  conn_state->hdmi.tmds_char_rate);
--	if (status != MODE_OK)
--		return -EINVAL;
--
--	return 0;
--}
--
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -258,7 +240,7 @@ static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
- };
- 
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
--	.atomic_check	= sun4i_hdmi_connector_atomic_check,
-+	.atomic_check	= drm_atomic_helper_connector_hdmi_check,
- 	.mode_valid	= drm_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
+Changes in v6:
+- Renamed dpu_plane_atomic_check_nopipe() ->
+  dpu_plane_atomic_check_nosspp() and dpu_plane_atomic_check_pipes() ->
+  dpu_plane_atomic_check_sspp() (Abhinav)
+- In dpu_rm_reserve_sspp() replaced hweight usage with explicit type
+  allocation (Abhinav)
+- In dpu_plane_atomic_check() set r_pipe->sspp (Jun Nie)
+- In dpu_rm_reserve_sspp() check hw_sspp->ops.setup_scaler to rule out
+  SSPP blocks with unsupported scaler blocks (RGB, QSEED2)
+- Link to v5: https://lore.kernel.org/r/20240627-dpu-virtual-wide-v5-0-5efb90cbb8be@linaro.org
 
+Changes in v5:
+- Dropped extra dpu_kms instance from dpu_plane_atomic_check() (Abhinav)
+- Use DRM_PLANE_NO_SCALING instead of (1 << 16) (Abhinav)
+- Dropped excess returns documentation for dpu_rm_reserve_sspp() (Sui
+  Jingfeng, Abhinav)
+- best_weght -> best_weight (Abhinav)
+- Moved drm_rect_width() call back to the the patch "split
+  dpu_plane_atomic_check()" (Abhinav)
+- Got rid of saved_fmt / saved dimensions (Abhinav)
+- Expanded the commit message to describe SSPP allocation per CRTC id
+  (Abhinav)
+- Added comment on why the size change also causes resource reallocation
+  (Abhinav)
+- Dropeed several last "feature" patches, leaving only SSPP reallocation
+  and using 2 SSPPs per plane for now. The rest will be submitted
+  separately.
+
+Changes since v3:
+- Dropped the drm_atomic_helper_check_plane_noscale (Ville)
+- Reworked the scaling factor according to global value and then check
+  if SSPP has scaler_blk later on.
+- Split drm_rect_fp_to_int from the rotation-related fix (Abhinav)
+
+Changes since v2:
+- Dropped the encoder-related parts, leave all resource allocation as is
+  (Abhinav)
+- Significantly reworked the SSPP allocation code
+- Added debugging code to dump RM state in dri/N/state
+
+Changes since v1:
+- Fixed build error due to me missing one of fixups, it was left
+  uncommitted.
+- Implementated proper handling of wide plane rotation & reflection.
+
+---
+Dmitry Baryshkov (3):
+      drm/msm/dpu: add support for virtual planes
+      drm/msm/dpu: allow using two SSPP blocks for a single plane
+      drm/msm/dpu: include SSPP allocation state into the dumped state
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  50 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c   |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h   |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 396 ++++++++++++++++++++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  13 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c    |  89 +++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h    |  14 ++
+ 7 files changed, 498 insertions(+), 78 deletions(-)
+---
+base-commit: 86313a9cd152330c634b25d826a281c6a002eb77
+change-id: 20240626-dpu-virtual-wide-beefb746a900
+
+Best regards,
 -- 
-2.39.5
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
