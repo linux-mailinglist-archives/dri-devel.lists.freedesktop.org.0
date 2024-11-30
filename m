@@ -2,86 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E6A9DEF9A
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 10:35:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4139DEF9E
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 10:38:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E67FF10E04A;
-	Sat, 30 Nov 2024 09:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFC7F10E393;
+	Sat, 30 Nov 2024 09:38:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fJ7LEr96";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tA08bMJL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0176D10E393
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 09:35:38 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-53dd0cb9ce3so2259830e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 01:35:38 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAAE410E393
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 09:38:09 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-53df19bf6a9so3148604e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 01:38:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732959337; x=1733564137; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732959488; x=1733564288; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=DJpAceZsvwXrkIr1FtmUK4kMCTXmq7VlVQ0IrLAf8OE=;
- b=fJ7LEr96P93A/OfgPOt9/zOiVKN1TdBTSXjy0jkAkCrxyRId9ssUCWAzYXPL4zbq1W
- kGOG7ju91PdGBXirnH0mHbjx7xkiYW3GEUvodE/7OEhCMFUtriKCZR4DP+vecjp1maSH
- P6xb5BZO16xBFo9cUjyOnZuLfvaBKkUxkY3co+mCKsMXq/F2UBkparGwaklY+F8Ti6Ux
- bOflaOjaFpX1YTxOnohDit67ztF32eVqWW+91Z9Ty8eHmNpAbPwPt15qsgl5dxXh4jmj
- qyOfzwqPu68ps6fpD0il6EhWoSGMtebJdjsEeXHXnGC/hFfM7xuSOJtTeCb2+6vi+Pfn
- p75Q==
+ bh=rXbDCCZyHLHcmMdbmbUACkYa+PAWDK6pAgsVmGxmS7E=;
+ b=tA08bMJLIcHaSOH3/BnLTry7PkgZCPtO4wTqyx4xbT995gUVHSx7IUrZSyOvsaFnir
+ JezdWhk5rnijvzffjnxMTtXU5t6taapPgh7NIaOm7vyLnMnjubx227O27Jkfm0+fAf4i
+ JTCa8DRz5N/R0wp7PDaJPA5yuNGfVU6Fk+UsLXkIYZuiSjD4djEBIV4P6TIkMdOguZNB
+ eLHjhoN9EiXI5rKF0RYkFJZX+lJt1l8zWYIomd9l1hDQ0ScpbxQGDKakg9Rj8KvghXdo
+ zmPa59FnZyzoquKvxqtjwHXr3IX1CXtcF3tLa1gc0HEs8NnDTXDMkc+wqvBQREGkH9op
+ qz7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732959337; x=1733564137;
+ d=1e100.net; s=20230601; t=1732959488; x=1733564288;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DJpAceZsvwXrkIr1FtmUK4kMCTXmq7VlVQ0IrLAf8OE=;
- b=fiPVnqpqFndqPskvLOrlsNAByBQ7YYT+Rz/ny6Jho6/hEK+OyhiQshJMT+d3dTk7lc
- nJlzwNZYeCwCiUHyOL5Lf9cAJQsEmcdwedx0X4s3x2XaHgQtgz8Yxec+rWjHowQg9l0O
- feBE5SDK9xKffzKpm834RW1u/llqf+VH2uh0someXOvKpHnsG+dX16ZrfpUpclQWShMb
- xfXDS8VEcnLU8UKvpeYpSFwhGcdtKNth4IGcX741FmX4leT0L984HiZaXBhhOwu8z083
- HTe211mSXBLdIVD7fY/IBz63Kk3UFzTdtJrUP0JZrEUVmLMAMFlkPXjToYPx0WuCEomQ
- m8Vw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUV5uJtWz5MlpXu4tKLFOQO5GieUggGwhig/GgIA0v1+m8Q6x7mtZb9CWT8FEYQnBXvzNsKMroRinc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyL/isfqZRqO/roKhgUx/+ODZ6xl/k/uBpGDSeuUdjL6/hqom1k
- 5rlotodEPE4EbRgAh4plrkynUjjxYjynQKJATCD6JbKGR1c1ip3pUPhG//ZwLlc=
-X-Gm-Gg: ASbGncsSfCZ3erYUpX+Nnp/8sKBrZe/3ZlUwfUYpU16HO2r5RN09AdGEaGJ7QzVbbHN
- /ht4bCMJXpfyArT0BJD25zUNLItS1zKk15n02QEZ4VwGssqwlGxb9i7rv4hxsh2o74zE2ANsaL+
- 4PnYV4lbQ2wE6FHcOOVGFJAcfD2Y7Kn0sjQLfrJhTH3+BDox2JEjXpPWPXV6/LE5FJY6t4QRg84
- t19E6u1FQj3QuP6B5rzA8CxyiZi5erG2uWU6n8ZUmkzgSnIk0VR05p/naVsZmnZw/ApLKLD8YTT
- iC8Q11ukaD+dL/FpOKE8xFwE85HFhg==
-X-Google-Smtp-Source: AGHT+IFbMjYux+SSZ96v0jN8KYReJVZhl0TeMioEfshmhbV98iI9mESjw7Z64iU8uw4lxUzUNRlHYg==
-X-Received: by 2002:a05:6512:39d0:b0:53d:e5f0:32bb with SMTP id
- 2adb3069b0e04-53df01120a0mr5805994e87.51.1732959336835; 
- Sat, 30 Nov 2024 01:35:36 -0800 (PST)
+ bh=rXbDCCZyHLHcmMdbmbUACkYa+PAWDK6pAgsVmGxmS7E=;
+ b=SrAzvUrKSn2jn406emMa7UzzWcJxbGJUKC9qIra/lzRmQjsd5c0jLs1nGNRDU5yemp
+ tihEZhu5FRxhVSc2KFM2IuJsMPct7A5Odw3/hXbV5a2WGeySD0yWJgYIJ5uX64114u83
+ YS+UqdGADwetOwqLcIKsn0HFDL+7rqHQSynTh+D3nKuOdZGh7mluICyqr8AJqteB0SpB
+ f9gu3Ddtd8o7up1q9zf1zB8RocRaFwYJ1BoAIq+VM+8LvxRfq12j8PnohZQW8Rr9Thb3
+ QK/xdtU4XtzOePl8eA2HUHqzKUTX7ydfYpuiOOtMXUhWr/inA3J8E7s7FbDj+al2pYFj
+ tHFg==
+X-Gm-Message-State: AOJu0YylpGsKdoTMo6NW5UDh/dErcnS+1UyTE8lAeIVy8rdjB7tYH9fE
+ GOBs14AHw8HLG9F47M2mHxv5sh0s6ZQOne/wKXeUloXM2AACk/j3f4baDRllMYY=
+X-Gm-Gg: ASbGncspsyQW7KIvgzDABqCheKxEEwDf3jqpUn9K4Hjuhpdd7wqqgy899PyhdzJsL6A
+ nesjEv6IU4riXPuLxO1T4C+ZE3yQamC48bcaQpkDYUdnXVCnad4EeaXFt6Seinekdg619e4nk8r
+ +UfUKzxKtu++m3QM/wJ93d7YqqoNNZAV0urmKIlB46O5tjGO7T8lFD7TOWLwlRVBc66dP+rk4NY
+ eJ4Sht0oIYO39MIcOJku50nNc7iPHDakTA7ZwYw5B6Noqq2dNU4UIQx+0+adRDsDGgRY13XOwKH
+ Z3OOX7eHSW39VZb0xvqwp9VG+lvqmw==
+X-Google-Smtp-Source: AGHT+IEwCyy0WLYAusUAieyWyy7Z2W/Lw9UaoxPrndoadcpQX8tCHP7mp6kBuNlB8fMn/6H2hs0LBA==
+X-Received: by 2002:a05:6512:3f1f:b0:53d:d3ff:77f6 with SMTP id
+ 2adb3069b0e04-53df010900cmr9843422e87.46.1732959488071; 
+ Sat, 30 Nov 2024 01:38:08 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df64432d6sm722760e87.85.2024.11.30.01.35.35
+ 2adb3069b0e04-53df6443199sm721008e87.98.2024.11.30.01.38.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Nov 2024 01:35:35 -0800 (PST)
-Date: Sat, 30 Nov 2024 11:35:34 +0200
+ Sat, 30 Nov 2024 01:38:06 -0800 (PST)
+Date: Sat, 30 Nov 2024 11:38:04 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Nikolaus Voss <nv@vosn.de>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>, 
- Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Fabio Estevam <festevam@denx.de>, Marek Vasut <marex@denx.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, nikolaus.voss@haag-streit.com
-Subject: Re: [PATCH] drm: bridge: fsl-ldb: fixup mode on freq mismatch
-Message-ID: <lio6natmz5d5hdmdxwuj5ghfbpl4medb2orhw2m27m6g3rvaga@tanmydgbufg2>
-References: <20241126172610.AD8B51622C@mail.steuer-voss.de>
+To: Uma Shankar <uma.shankar@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, ville.syrjala@linux.intel.com,
+ harry.wentland@amd.com, 
+ pekka.paalanen@haloniitty.fi, sebastian.wick@redhat.com, jadahl@redhat.com,
+ mwen@igalia.com, contact@emersion.fr, naveen1.kumar@intel.com, 
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Subject: Re: [v2 02/25] drm: Add support for 3x3 CTM
+Message-ID: <yalwndln5a7apkfj27txgbvwxjgfhdut27wlor6wm6pn2slx7m@jjm6rwfjbfdc>
+References: <20241126132730.1192571-1-uma.shankar@intel.com>
+ <20241126132730.1192571-3-uma.shankar@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241126172610.AD8B51622C@mail.steuer-voss.de>
+In-Reply-To: <20241126132730.1192571-3-uma.shankar@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,95 +91,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 26, 2024 at 04:45:54PM +0100, Nikolaus Voss wrote:
-> LDB clock has to be a fixed multiple of the pixel clock.
-> As LDB and pixel clock are derived from different clock sources
-> (at least on imx8mp), this constraint cannot be satisfied for
-> any pixel clock, which leads to flickering and incomplete
-> lines on the attached display.
+On Tue, Nov 26, 2024 at 06:57:07PM +0530, Uma Shankar wrote:
+> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 > 
-> To overcome this, check this condition in mode_fixup() and
-> adapt the pixel clock accordingly.
+> Add support for 3x3 Color Transformation Matrices in Color Pipeline.
 > 
-> Cc: <stable@vger.kernel.org>
-> 
-> Signed-off-by: Nikolaus Voss <nv@vosn.de>
+> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 > ---
->  drivers/gpu/drm/bridge/fsl-ldb.c | 40 ++++++++++++++++++++++++++++----
->  1 file changed, 36 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/drm_atomic.c      |  3 +++
+>  drivers/gpu/drm/drm_atomic_uapi.c |  3 +++
+>  drivers/gpu/drm/drm_colorop.c     | 29 +++++++++++++++++++++++++++++
+>  include/drm/drm_colorop.h         |  2 ++
+>  include/uapi/drm/drm_mode.h       |  8 ++++++++
+>  5 files changed, 45 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-> index 0e4bac7dd04ff..e341341b8c600 100644
-> --- a/drivers/gpu/drm/bridge/fsl-ldb.c
-> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-> @@ -104,12 +104,14 @@ static inline struct fsl_ldb *to_fsl_ldb(struct drm_bridge *bridge)
->  	return container_of(bridge, struct fsl_ldb, bridge);
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 3161e2ab4efc..8a75f4a0637a 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -802,6 +802,9 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
+>  		drm_printf(p, "\tinterpolation=%s\n", drm_get_colorop_lut1d_interpolation_name(colorop->lut1d_interpolation));
+>  		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
+>  		break;
+> +	case DRM_COLOROP_CTM_3X3:
+> +		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
+> +		break;
+>  	case DRM_COLOROP_CTM_3X4:
+>  		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
+>  		break;
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index d6c71135f290..ba68358c0ffe 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -708,6 +708,9 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
+>  	case DRM_COLOROP_CTM_3X4:
+>  		size = sizeof(struct drm_color_ctm_3x4);
+>  		break;
+> +	case DRM_COLOROP_CTM_3X3:
+> +		size = sizeof(struct drm_color_ctm);
+> +		break;
+>  	case DRM_COLOROP_3D_LUT:
+>  		index = state->lut_3d_mode_index;
+>  		if (index >= (state->lut_3d_modes->length / sizeof(struct drm_mode_3dlut_mode)))
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index fd1cd934df48..a427cfc5bbbc 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -315,6 +315,35 @@ int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop
 >  }
+>  EXPORT_SYMBOL(drm_colorop_ctm_3x4_init);
 >  
-> +static unsigned int fsl_ldb_link_freq_factor(const struct fsl_ldb *fsl_ldb)
-> +{
-> +	return fsl_ldb_is_dual(fsl_ldb) ? 3500 : 7000;
-> +}
-> +
->  static unsigned long fsl_ldb_link_frequency(struct fsl_ldb *fsl_ldb, int clock)
->  {
-> -	if (fsl_ldb_is_dual(fsl_ldb))
-> -		return clock * 3500;
-> -	else
-> -		return clock * 7000;
-> +	return clock * fsl_ldb_link_freq_factor(fsl_ldb);
->  }
->  
->  static int fsl_ldb_attach(struct drm_bridge *bridge,
-> @@ -121,6 +123,35 @@ static int fsl_ldb_attach(struct drm_bridge *bridge,
->  				 bridge, flags);
->  }
->  
-> +static bool fsl_ldb_mode_fixup(struct drm_bridge *bridge,
-> +				const struct drm_display_mode *mode,
-> +				struct drm_display_mode *adjusted_mode)
+> +/**
+> + * drm_colorop_ctm_3x3 - Initialize a DRM_COLOROP_CTM_3X3
 
-The driver uses atomic callbacks. Please use .atomic_check() instead.
+Please build with W=1 to trigger kerneldoc warnings. Here the prototype
+in the doc comment doesn't match the actual function name.
 
+> + *
+> + * @dev: DRM device
+> + * @colorop: The drm_colorop object to initialize
+> + * @plane: The associated drm_plane
+> + * @allow_bypass: true if BYPASS property should be created, false if bypass of
+> + *                this colorop is not possible
+> + * @return zero on success, -E value on failure
+> + */
+> +int drm_colorop_ctm_3x3_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +			     struct drm_plane *plane, bool allow_bypass)
 > +{
-> +	const struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
-> +	unsigned long requested_link_freq =
-> +		mode->clock * fsl_ldb_link_freq_factor(fsl_ldb);
-> +	unsigned long freq = clk_round_rate(fsl_ldb->clk, requested_link_freq);
+> +	int ret;
 > +
-> +	if (freq != requested_link_freq) {
-> +		/*
-> +		 * this will lead to flicker and incomplete lines on
-> +		 * the attached display, adjust the CRTC clock
-> +		 * accordingly.
-> +		 */
-> +		int pclk = freq / fsl_ldb_link_freq_factor(fsl_ldb);
+> +	ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_CTM_3X3, allow_bypass);
+> +	if (ret)
+> +		return ret;
 > +
-> +		if (adjusted_mode->clock != pclk) {
-> +			dev_warn(fsl_ldb->dev, "Adjusted pixel clk to match LDB clk (%d kHz -> %d kHz)!\n",
-> +				 adjusted_mode->clock, pclk);
+> +	ret = drm_colorop_create_data_prop(dev, colorop);
+> +	if (ret)
+> +		return ret;
 > +
-> +			adjusted_mode->clock = pclk;
-> +			adjusted_mode->crtc_clock = pclk;
-> +		}
-> +	}
+> +	drm_colorop_reset(colorop);
 > +
-> +	return true;
+> +	return 0;
 > +}
+> +EXPORT_SYMBOL(drm_colorop_ctm_3x3_init);
 > +
->  static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
->  				  struct drm_bridge_state *old_bridge_state)
->  {
-> @@ -280,6 +311,7 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
+>  /**
+>   * drm_colorop_mult_init - Initialize a DRM_COLOROP_MULTIPLIER
+>   *
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index bf5117f30c80..56b51fafebdf 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -377,6 +377,8 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
+>  				  struct drm_plane *plane, uint32_t lut_size,
+>  				  enum drm_colorop_lut1d_interpolation_type lut1d_interpolation,
+>  				  bool allow_bypass);
+> +int drm_colorop_ctm_3x3_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +			     struct drm_plane *plane, bool allow_bypass);
+>  int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+>  			     struct drm_plane *plane, bool allow_bypass);
+>  int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 290c2e32f692..a4a7ab689631 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -905,6 +905,14 @@ enum drm_colorop_type {
+>  	 */
+>  	DRM_COLOROP_CTM_3X4,
 >  
->  static const struct drm_bridge_funcs funcs = {
->  	.attach = fsl_ldb_attach,
-> +	.mode_fixup = fsl_ldb_mode_fixup,
->  	.atomic_enable = fsl_ldb_atomic_enable,
->  	.atomic_disable = fsl_ldb_atomic_disable,
->  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +	/**
+> +	 * @DRM_COLOROP_CTM_3X3:
+> +	 *
+> +	 * A 3x3 matrix. Its values are specified via the
+> +	 * &drm_color_ctm struct provided via the DATA property.
+> +	 */
+> +	DRM_COLOROP_CTM_3X3,
+> +
+>  	/**
+>  	 * @DRM_COLOROP_MULTIPLIER:
+>  	 *
 > -- 
-> 2.43.0
+> 2.42.0
 > 
 
 -- 
