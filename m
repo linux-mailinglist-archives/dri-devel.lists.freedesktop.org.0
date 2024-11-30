@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20129DF2C8
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 20:09:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 040999DF2CA
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 20:09:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6595710E5CF;
-	Sat, 30 Nov 2024 19:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7858A10E5D1;
+	Sat, 30 Nov 2024 19:09:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Pszb30Jv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qhhObjV8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F04F810E5C2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFE7C10E3F4
  for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 19:08:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E47C1A406C4;
- Sat, 30 Nov 2024 19:07:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D4FC9C4CED4;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 17D2EA406C7;
+ Sat, 30 Nov 2024 19:07:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DEB97C4CED3;
  Sat, 30 Nov 2024 19:08:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1732993737;
- bh=hKo6wpT2lQ4WiPM+HGouzNx2yDZfJADULnxPu3Jm2o4=;
+ bh=COLrg2AbV+4KaQRU2Xw2S5L8rp55JjS366Yv/REeB7o=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=Pszb30Jvb/fWTxg039G6PaA6tNDJ+NZUSvoz8WQUhBWFKWBbd+K3/ISJz89lXCSuL
- YgsMaasuNT+VvnydprNpiLLWyToAhbNCmVOhfUsU5Khd0EXQ6r01eOnkgeSTXyAwu5
- CbVmMJhR1HCVN7B63LLzrM69X+EPFPsyT+78LTGVuVtOiit1LPAoLjYLDsoUadjfEs
- n3F2oFUtgT6RKkgGj5Kyrn6erot5piQH4r9RnTPcjis1v5Yw9kOdN5Qf6F7bSq5wsm
- W1hph5TQ//r5hnAVela/R9je7aiaDQEHOtO24Lu76fQpmso8bFanGIJ+S4YVnMgUCn
- QVqeq+PzOCQyg==
+ b=qhhObjV8Agq1RVuZLApCE5YRrxz9fbAaeoQ2nLXkG2I83MHph/tvlug3c38sU1Wrc
+ DPwmsZPujKtGymMvLTrP3qax+JASEGmXvH/+EvsOhLty/AlIePafDWhysPq9IkzZAI
+ s/QFQ4INuMpcwgRyzZTTlg6iv46pMDV+gTVNZJH1INXhOz4ZYfJ6ZYMNMbrXwsx/2D
+ tklmAM+NORuhfhbB6t9dlhAqvJEt/5sipsyZmPaMLS6NO/YtkQtLSuBo+BszOILE/P
+ 0/ilD18MPrAA132NSGA5TDuQ6NE8zGFGIpq8oLJUNpL6ydx5POZGKulfFGlsOqfRYP
+ OSeyqMhpgUH1A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id BA777D7360E;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id CE4F3D7360D;
  Sat, 30 Nov 2024 19:08:57 +0000 (UTC)
 From: Jens Glathe via B4 Relay
  <devnull+jens.glathe.oldschoolsolutions.biz@kernel.org>
-Date: Sat, 30 Nov 2024 20:08:52 +0100
-Subject: [PATCH v2 1/4] dt-bindings: arm: qcom: Add HP Omnibook X 14
+Date: Sat, 30 Nov 2024 20:08:53 +0100
+Subject: [PATCH v2 2/4] firmware: qcom: scm: Allow QSEECOM for HP Omnibook X14
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241130-hp-omnibook-x14-v2-1-72227bc6bbf4@oldschoolsolutions.biz>
+Message-Id: <20241130-hp-omnibook-x14-v2-2-72227bc6bbf4@oldschoolsolutions.biz>
 References: <20241130-hp-omnibook-x14-v2-0-72227bc6bbf4@oldschoolsolutions.biz>
 In-Reply-To: <20241130-hp-omnibook-x14-v2-0-72227bc6bbf4@oldschoolsolutions.biz>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -57,15 +57,14 @@ To: Bjorn Andersson <andersson@kernel.org>,
  Kalle Valo <kvalo@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Jens Glathe <jens.glathe@oldschoolsolutions.biz>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732993736; l=999;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732993736; l=867;
  i=jens.glathe@oldschoolsolutions.biz; s=20240919;
  h=from:subject:message-id;
- bh=zU4xt99XOiquqKqTwjoKoYgCTiyjZq1Va7AXUhaFOkI=;
- b=4VrQrCGoK2IFk+7PHKWVO51MN5Y7p6Y0RHfFiNzsdLRHWIIcrkSCPtld/Khe70vXTAZ8cezUY
- C/i3Ejw3dS8CV3dCnVBIKP865eL8Y0rbWYN5Y0+8OklYyJ/AGF9PKZ+
+ bh=5Oq4MdNKXVyJJvjmJFPu8lXVv7qb44phd5FkFC6DLHc=;
+ b=O6Ef9bMEZALmt1jprKWjgnFNVSDP0/hTLPL6W/T72hBmrwqMQ3G07oaSkY2M+d26So6K6bDeQ
+ 2jFkD5KRIILCK860mL8YHDMAzU6S8xex9f3XcEsEefotmwJ6ql6+zoN
 X-Developer-Key: i=jens.glathe@oldschoolsolutions.biz; a=ed25519;
  pk=JcRJqJc/y8LsxOlPakALD3juGfOKmFBWtO+GfELMJVg=
 X-Endpoint-Received: by B4 Relay for
@@ -89,31 +88,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 
-Add compatible values for the HP Omnibook X Laptop 14-fe0750ng,
-using "hp,omnibook-x14"
+add "hp,omnibook-x14" as compatible device for QSEECOM
 
-The laptop is based on the Snapdragon X Elite (x1e80100) SoC.
+This is required to get access to efivars and uefi boot loader support.
 
-PDF link: https://www8.hp.com/h20195/V2/GetPDF.aspx/c08989140
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 ---
- Documentation/devicetree/bindings/arm/qcom.yaml | 1 +
+ drivers/firmware/qcom/qcom_scm.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
-index ca39903935104..62e197a1e7603 100644
---- a/Documentation/devicetree/bindings/arm/qcom.yaml
-+++ b/Documentation/devicetree/bindings/arm/qcom.yaml
-@@ -1103,6 +1103,7 @@ properties:
-           - enum:
-               - asus,vivobook-s15
-               - dell,xps13-9345
-+              - hp,omnibook-x14
-               - lenovo,yoga-slim7x
-               - microsoft,romulus13
-               - microsoft,romulus15
+diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+index 72bf87ddcd969..2e148fb7167be 100644
+--- a/drivers/firmware/qcom/qcom_scm.c
++++ b/drivers/firmware/qcom/qcom_scm.c
+@@ -1769,6 +1769,7 @@ EXPORT_SYMBOL_GPL(qcom_scm_qseecom_app_send);
+  */
+ static const struct of_device_id qcom_scm_qseecom_allowlist[] __maybe_unused = {
+ 	{ .compatible = "dell,xps13-9345" },
++	{ .compatible = "hp,omnibook-x14" },
+ 	{ .compatible = "lenovo,flex-5g" },
+ 	{ .compatible = "lenovo,thinkpad-t14s" },
+ 	{ .compatible = "lenovo,thinkpad-x13s", },
 
 -- 
 2.43.0
