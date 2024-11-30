@@ -2,80 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADE89DEFA9
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 10:46:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F43D9DEFB5
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 10:54:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D38AF10E3A2;
-	Sat, 30 Nov 2024 09:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9304010E5C5;
+	Sat, 30 Nov 2024 09:54:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fSZvnln/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hjERwQIt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5B010E3A2
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 09:46:36 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-53de880c77eso3143655e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 01:46:36 -0800 (PST)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE5FB10E0D5
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 09:54:16 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2ffc380b1d0so26050391fa.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 01:54:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732959994; x=1733564794; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732960455; x=1733565255; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=O7ukQKCjj+sldLQHYrJwAT1f/L5D9PF1X7vziPXtA6w=;
- b=fSZvnln/cu+Ech3kTOFxIj9jZCskibDk+Yq8synRp+DQg23xcuYF4wisehl1Zkb1zF
- m6OTEqkn2lPjwz91Md9KpOkJjkyqEbeZ/3BdZ5Tx+Gv0UYOUoYDnpz5/PdJbhIE3KPvY
- xIpVxVduahWw3E+kF7lJBWQa9qDHoDAATfc6SpUa60GWjWIHdfAULSQQA5+hdp6nzYWF
- I6KK78YfwT2X3NLLVTZPS/jKtH7YX3CUAi+j3i6M8yXToJCWkoxIEortdGcr9LisxKu5
- eyx8k2Jzy89F1wwtpo0G4E7pV054XR5PGB/q4D9SQKM9mLVKSigjkKQMqtEp9Jd6153t
- eVjQ==
+ bh=9Lc9DfCXaFvHVBMdEeSwVvJlevNEtc41NoCu48KM7Oc=;
+ b=hjERwQItGZC2/FDyjGw+K4xazT9U1u5lNSoxlgrPYyHze0C1rMY+QKojL0/AlLW/a9
+ rEnb6Bl6i60skAUHREmgR68erauIixJTb4+2j2IHM9Cr+VwdB/BLyikTcUMSwZgwR+66
+ LQY5mX9Q7OEXxs02TXhP/iDpK4YbGJY/f0AY6My9j36rlFih+EgZovAlRtUJ9ONzRyiS
+ UM0ynjWpcoD26Pt6IkvbLgkQUia1EqTczl5ZnGjBrXAoTp/5VQXCZaRxYaDj32qWOXFt
+ 8ULvVMMCjZndWsabHEYCBglZZVykZagEvbD8GY0ydvmAOe2t0rpkjPMdpW5JW2IvcX5O
+ h8Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732959994; x=1733564794;
+ d=1e100.net; s=20230601; t=1732960455; x=1733565255;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=O7ukQKCjj+sldLQHYrJwAT1f/L5D9PF1X7vziPXtA6w=;
- b=AH3DCjiIDxqht0bpvGltmcdcnfop7aSJOjfy69WDT7pjI+BgKXM+TmLZwnPJNf9c1n
- qi/7uUu+5ZsxzzZ1MIgjZLfmj5pnfCVD9szMO+Z5F1XZgpt6ls55D8PcyN0GnPasxOoQ
- YkTcnQH9vIkMFloJB7eQJDTk4wLEM1mkGZxCFE26y3ihRpDKHjntB237ZEdC+RdiHv0w
- rcVt+W5vqDSyyyjlMepekiXEGcHvqpTcwuaS9fYTiZNUFRvMA8ysLgrvEr5TySv6u0eh
- J7AN7CT0RJ95vtfWHj3F2KLIdrsPZhdOYDChg72DsVsgo4AhBbK88r+0e8zBqnUsov6x
- Ovtw==
-X-Gm-Message-State: AOJu0YzQM7FoAzmSkXzCFDnr/sZtxFn7V7lBf8t1wI4JzJxkJFWuwZct
- IAC7jrLfOdWZ4X2Yazxv9Ysb02feEb3jDlyTElsx6rqPdfaHGvBj1f3IwhbPaKI=
-X-Gm-Gg: ASbGncsSXhF7OBwk3u/T26xbkRoYjWqvYoS0Wk2IQVFcxr8eFdj+D7B2p14/VeV1XHg
- nNHGxtscQbqm3+3WYLJthzAG2LbEse9cxTEtGrnf78m9UH9tscc1wHF0CEP5kXu67Uftlpmx+jA
- 7B+NTBzRNQmRTU/fQvRtZBxhsVy81m15cVvF6MgySJHXUVrjlJOG03Wd+MpdbGy33LyBGP/Phoo
- mBIiAtPGymcnVW/jkJIuKx1lC2YEhx8jGkPIpDh57scfJB6AH3hxLIqrrPuGaMieW5+/8KkbFDA
- hVzFpT7IQJbbLsWK8sB5hb3pbaSEJw==
-X-Google-Smtp-Source: AGHT+IGGGm0wLvdw3rzGApBnosBq0rIEyEKzpB6WvavDO1jpjLzwEUcFhhstL3HqJPE15XR8fgV2sw==
-X-Received: by 2002:a05:6512:2215:b0:53d:a321:db74 with SMTP id
- 2adb3069b0e04-53df0112176mr9569064e87.50.1732959994479; 
- Sat, 30 Nov 2024 01:46:34 -0800 (PST)
+ bh=9Lc9DfCXaFvHVBMdEeSwVvJlevNEtc41NoCu48KM7Oc=;
+ b=jmjWva5Y4TTVbaH032XPXKXX4UwCwPNpvIY4pb0vI5rwWFvO4CKEV4rngAfgYtLMzB
+ SU+5cPfEzR6jmQgwiYNL8Zcl4rLesDg56PT679h17p6mFR4hwFdMfhhAu9IH5QQaq76S
+ cxbHRO56N+SQjXcd41XVdc1KGsvTTU/5ewFDJ1gTNHfQbVHFoS0vUaR8213TazSSPObu
+ 97deu3RKyJQTEm8iDNh/KNrewXBaA2+f6bqpY50fMzoFhS+tEUrZ3yxyn8dwfKaVD7fN
+ civ2rJzYUxTsXzjgqM+0pxmvkvhhFZZgsaoyUmoShb4F5Q+ruXigtVPB+lomxjvuHvMj
+ 4LSQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU10GLgntXs4BSmW1ZwdRxx8OptzGkp1IkUOIya0BsfQhjPvZsWw/9JPVweK0YcRnDE//dmvRK+Noo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPVIxe+nqpFPXp5w+MF+/AiVUR0JtY4aKmYGM2IwDZmCnjoGFu
+ DFNIoW0604qIrknH+j/HysYo/I8FYwiC5lIb3i5U8GJw0XDF6M2QgM+O9NL10ks=
+X-Gm-Gg: ASbGnct0CE/CB6F4wobF71MC8cxtT3pXeVJPDHqJtrYr/uRmnK6rIkSiNktZiILV84/
+ jtvaEPQnCt6rnfboHdDrxf07tOkbLRgGH4HTk2/IYzmL6ig58EMQnEIatBnKjkxlopMnR0l2Q7+
+ Xgg9d2AGp2LZDQBKjfG8Xa0FaFfK5L3F9ZUxH5bZlWOz7Z9CaaTdCYl8OZrkfifYGWcbXFp4mn9
+ xg8vp0O+WElqZPor6wXes4KGsODv27satVEiZr9P41Q6e+hqeu9EtZ8pUXYuMfyVOnrpB2d+Cs0
+ SFyTP43nPHYlL0xCzmTJOlG8W4YsCQ==
+X-Google-Smtp-Source: AGHT+IFkfMrwigSf+zgzstB/hgJoOKRZVbjeqFCsdGsPsNseLBJrUIenMSlGkjvt/K+9OUdn2YEiGQ==
+X-Received: by 2002:a05:651c:2220:b0:2ff:d728:bbc1 with SMTP id
+ 38308e7fff4ca-2ffde1f3281mr37422461fa.5.1732960455087; 
+ Sat, 30 Nov 2024 01:54:15 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df6496a38sm717132e87.214.2024.11.30.01.46.32
+ 38308e7fff4ca-2ffdfbb8f59sm6538471fa.17.2024.11.30.01.54.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Nov 2024 01:46:33 -0800 (PST)
-Date: Sat, 30 Nov 2024 11:46:30 +0200
+ Sat, 30 Nov 2024 01:54:13 -0800 (PST)
+Date: Sat, 30 Nov 2024 11:54:11 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Uma Shankar <uma.shankar@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- harry.wentland@amd.com, 
- pekka.paalanen@haloniitty.fi, sebastian.wick@redhat.com, jadahl@redhat.com,
- mwen@igalia.com, contact@emersion.fr, naveen1.kumar@intel.com, 
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Subject: Re: [v2 09/25] drm: Add helper to initialize segmented 1D LUT
-Message-ID: <bhjkznwq2776cpjun56fqi6qgfu7ezojxs6mv4itb3njws3aeu@ixhixfv6uknj>
-References: <20241126132730.1192571-1-uma.shankar@intel.com>
- <20241126132730.1192571-10-uma.shankar@intel.com>
+To: "Bauer, Markus" <Markus.Bauer2@avnet.eu>
+Cc: "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, 
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH] sn65dsi83.c: fix dual-channel LVDS output also divide
+ porches
+Message-ID: <4iow25webuwskjbx6gfft45x3jhxvg3diulfpjzonesgjmszhz@dk54ylmq7tnd>
+References: <BE0P281MB0211EB59ADE02F4DB8F9D0CDC22F2@BE0P281MB0211.DEUP281.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241126132730.1192571-10-uma.shankar@intel.com>
+In-Reply-To: <BE0P281MB0211EB59ADE02F4DB8F9D0CDC22F2@BE0P281MB0211.DEUP281.PROD.OUTLOOK.COM>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,89 +95,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 26, 2024 at 06:57:14PM +0530, Uma Shankar wrote:
-> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+On Tue, Nov 26, 2024 at 09:42:45AM +0000, Bauer, Markus wrote:
+> sn65dsi83.c: fix dual-channel LVDS output also divide porches
+
+Please use drm/bridge: ti-sn65dsi83: as subject prefix. Drop the first
+line of the commit message.
+
 > 
-> Add helper to initialize 1D segmented LUT
+> When generating dual-channel LVDS to a single display, the
+> horizontal part has to be divided in halves for each channel.
+> This was done correctly for hactive, but not for the porches.
+
+I don't see this being handled for hactive. Could you please point out
+the code?
+
 > 
-> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> Of course this does only apply to sn65dsi84, which is also covered
+> by this driver.
+> 
+> Cc: stable@vger.kernel.org
+
+Also:
+
+Fixes: ceb515ba29ba ("drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and SN65DSI84 driver")
+
+> Signed-off-by: Markus Bauer <markus.bauer2@avnet.com>
 > ---
->  drivers/gpu/drm/drm_colorop.c | 27 ++++++++++++++++++++++++++-
->  include/drm/drm_colorop.h     |  4 ++++
->  2 files changed, 30 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index 111517c08216..871d5660e3b2 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -104,7 +104,6 @@ static int drm_create_colorop_capability_prop(struct drm_device *dev,
->  	return 0;
->  }
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> index ad73f69d768d..d71f752e79ec 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -399,7 +399,7 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+>  	unsigned int pval;
+>  	__le16 le16val;
+>  	u16 val;
+> -	int ret;
+> +	int ret, hfront, hback;
 >  
-> -__maybe_unused
-
-Squash all three patches so that you don't have to play with
-__maybe_unused. Then please expand commit message to describe the
-problem that you are solving.
-
->  static int drm_colorop_lutcaps_init(struct drm_colorop *colorop,
->  				    struct drm_plane *plane,
->  				    const struct drm_color_lut_range *ranges,
-> @@ -338,6 +337,32 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
->  }
->  EXPORT_SYMBOL(drm_colorop_curve_1d_lut_init);
->  
-
-Missing kerneldoc
-
-> +int drm_colorop_curve_1d_lut_multseg_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +					  struct drm_plane *plane,
-> +					  const struct drm_color_lut_range *ranges,
-> +					  size_t length, bool allow_bypass)
-> +{
-> +	int ret;
+>  	ret = regulator_enable(ctx->vcc);
+>  	if (ret) {
+> @@ -521,12 +521,22 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+>  	le16val = cpu_to_le16(mode->vsync_end - mode->vsync_start);
+>  	regmap_bulk_write(ctx->regmap, REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
+>  			  &le16val, 2);
 > +
-> +	ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_LUT_MULTSEG, allow_bypass);
-> +	if (ret)
-> +		return ret;
+> +	hback = mode->htotal - mode->hsync_end;
+> +	if (ctx->lvds_dual_link)
+> +		hback /= 2;
 > +
-> +	ret = drm_colorop_lutcaps_init(colorop, plane, ranges, length);
-> +	if (ret)
-> +		return ret;
+>  	regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_BACK_PORCH,
+> -		     mode->htotal - mode->hsync_end);
+> +		     hback);
+>  	regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_BACK_PORCH,
+>  		     mode->vtotal - mode->vsync_end);
 > +
-> +	/* data */
-> +	ret = drm_colorop_create_data_prop(dev, colorop);
-> +	if (ret)
-> +		return ret;
+> +	hfront = mode->hsync_start - mode->hdisplay;
+> +	if (ctx->lvds_dual_link)
+> +		hfront /= 2;
 > +
-> +	drm_colorop_reset(colorop);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_colorop_curve_1d_lut_multseg_init);
-> +
->  int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
->  			     struct drm_plane *plane, bool allow_bypass)
->  {
-> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-> index 58e5b87c6d56..9268fffd04f6 100644
-> --- a/include/drm/drm_colorop.h
-> +++ b/include/drm/drm_colorop.h
-> @@ -391,6 +391,10 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
->  				  bool allow_bypass);
->  int drm_colorop_ctm_3x3_init(struct drm_device *dev, struct drm_colorop *colorop,
->  			     struct drm_plane *plane, bool allow_bypass);
-> +int drm_colorop_curve_1d_lut_multseg_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +					  struct drm_plane *plane,
-> +					  const struct drm_color_lut_range *ranges,
-> +					  size_t length, bool allow_bypass);
->  int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
->  			     struct drm_plane *plane, bool allow_bypass);
->  int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+>  	regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
+> -		     mode->hsync_start - mode->hdisplay);
+> +		     hfront);
+>  	regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_FRONT_PORCH,
+>  		     mode->vsync_start - mode->vdisplay);
+>  	regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN, 0x00);
 > -- 
-> 2.42.0
+> 2.34.1
 > 
+> 
+> --
+> Markus Bauer
+> 
+> Avnet Embedded is becoming TRIA:
+> www.tria-technologies.com
+> 
+> 
+> 
+> We continuously commit to comply with the applicable data protection laws and ensure fair and transparent processing of your personal data. 
+> Please read our privacy statement including an information notice and data protection policy for detailed information on our website.
 
 -- 
 With best wishes
