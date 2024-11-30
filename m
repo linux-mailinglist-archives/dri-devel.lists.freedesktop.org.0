@@ -2,55 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14519DF2BB
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 20:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C879DF2C2
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 20:09:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3452410E094;
-	Sat, 30 Nov 2024 19:05:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA51210E5C2;
+	Sat, 30 Nov 2024 19:09:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WPQTCV2v";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VWVUB/8G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B3C610E094
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 19:05:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1732993530;
- bh=ek7RYw4xwoblLAdujwbp98Ocgk+BFMHHW7AT1mVVMPM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WPQTCV2vOisCQKF9yGCv5IBGziCapwnmPdq+DL1aWJ5mBdkef2AsWBAVXKN0+gUuB
- UBDJ7qbvWLGFYgXRB5WMImheW6xO/pmpqg2S9VemtfshUfF/uj8w02yJPZ8z5CYqQm
- AVcF+Vfbx/94H0YAf6H7B9DsKTdalBeiNNyyH9UOXEIMLYExy1Q02GmqLJqkRRMsiH
- A+OGDzTUoGEjCmCJfjNehv21ZCDzSldoWVckB2eLPGPT5/gpqD3YnFfVSFLWArOsVA
- 96W/UEg6zryf+vex9wAbMKphy/bX7uiStkPXDXoyqi9QDoDcukbi8q0JnHQmlipGaD
- jYw3vihyvP3Hg==
-Received: from [192.168.1.90] (unknown [86.120.21.57])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 90CBD17E37C5;
- Sat, 30 Nov 2024 20:05:30 +0100 (CET)
-Message-ID: <ca8c796e-fa89-412e-acdc-2515efeb6ca5@collabora.com>
-Date: Sat, 30 Nov 2024 21:05:29 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF9910E3F4
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 19:08:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id EFB185C567A;
+ Sat, 30 Nov 2024 19:08:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BB82FC4CECC;
+ Sat, 30 Nov 2024 19:08:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1732993737;
+ bh=hqAKmns3GJfToP3zAXRQaDGsgbUUADfXFp5gbTXfOJY=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=VWVUB/8GESqTBU7id9i4jq3YWmrDhf3kX9p1BuDBxt+vAdmo0nfVEfKNHPk5qxjnh
+ 2rdE7jLt1LI2LheNMlFv3eY+Xx6K6H0g7G20aUkKy4a992Fd3Y67wCgmPObTl0tK1p
+ 9taTVXtoQRBEJLLGMuOv4Rg1tuRT/cYoJ2URkYAyrsfenVDUsouyxJu71eb3kXToHV
+ S5fmPSFh+uo1GUW3nro65f9it3u6Pv4OstQjRisf4lMI1IwUgXZONbBTJNz7XOZrNV
+ F1MaAQxgadaiP02JR5+44oL9MRteweDExyZD6QqnofgjNpv950oKzGrHqgjr7d+BXc
+ VI0f9jFljqp7g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 9C565D7360A;
+ Sat, 30 Nov 2024 19:08:57 +0000 (UTC)
+From: Jens Glathe via B4 Relay
+ <devnull+jens.glathe.oldschoolsolutions.biz@kernel.org>
+Subject: [PATCH v2 0/4] arm64: dts: qcom: x1e80100-hp-x14: dt for HP
+ Omnibook X Laptop 14
+Date: Sat, 30 Nov 2024 20:08:51 +0100
+Message-Id: <20241130-hp-omnibook-x14-v2-0-72227bc6bbf4@oldschoolsolutions.biz>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] drm/connector: hdmi: Allow using the YUV420 output
- format
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241130-hdmi-conn-yuv-v1-0-254279a08671@collabora.com>
- <6hcjgagu7hvbnn6rp5znwjxeaa6wqkeecgvvqkzvtma2ni6mfz@lrbmtbogkzgm>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Content-Language: en-US
-In-Reply-To: <6hcjgagu7hvbnn6rp5znwjxeaa6wqkeecgvvqkzvtma2ni6mfz@lrbmtbogkzgm>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMNiS2cC/2WOzQ6CMBCEX8Xs2ZpuLRg8+R6GAz+t3Ygs6SJBC
+ e9uJd48fpPMN7OAuEhO4LxbILqJhLhPYPY7aELV35yiNjEYbSwi5ioMih891cx3NaNVhc6Oha+
+ aE2YtpNYQnad5M17LxIFk5PjaBib8pj+XsX+uCZVWzprceG0y66sLd600gbkT7p5j+iaHmt5Qr
+ uv6ATUhK2u7AAAA
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Douglas Anderson <dianders@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Kalle Valo <kvalo@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Jens Glathe <jens.glathe@oldschoolsolutions.biz>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732993736; l=3019;
+ i=jens.glathe@oldschoolsolutions.biz; s=20240919;
+ h=from:subject:message-id;
+ bh=hqAKmns3GJfToP3zAXRQaDGsgbUUADfXFp5gbTXfOJY=;
+ b=pu3b5VwGlHRyNkzkQoKDekoTp+dNcxUAkccnJSuHeKGE41aXN0iRC+QxT0xLXdzhlBZsutEOn
+ hD4VfeEnzI6CkKI3ZvGMB2yXAwIWVQQacQxDpn8Mf6OLj4VVbm6aFkr
+X-Developer-Key: i=jens.glathe@oldschoolsolutions.biz; a=ed25519;
+ pk=JcRJqJc/y8LsxOlPakALD3juGfOKmFBWtO+GfELMJVg=
+X-Endpoint-Received: by B4 Relay for
+ jens.glathe@oldschoolsolutions.biz/20240919 with auth_id=216
+X-Original-From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,18 +86,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: jens.glathe@oldschoolsolutions.biz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/30/24 10:38 AM, Dmitry Baryshkov wrote:
-> On Sat, Nov 30, 2024 at 01:56:31AM +0200, Cristian Ciocaltea wrote:
->> Provide the basic support to enable using YUV420 as an RGB fallback when
->> computing the best output format and color depth.
-> 
-> The HDMI Connector functionality has pretty good KUnit coverage. Please
-> expand KUnits to cover your patches too.
+Introduce device tree for the HP Omnibook X Laptop 14-fe0750ng
+(hp-omnibook-x14). It is a Laptop based on the Qualcomm Snapdragon
+X Elite SoC. There seem to be other SKUs, some with Wifi-7 (WCN7850)
+instead of Wifi-6E (WCN6855). This dt explicitly supports WCN6855,
+I haven't found a good way yet to describe both.
+    
+PDF link: https://www8.hp.com/h20195/V2/GetPDF.aspx/c08989140
 
-Sure, will handle this in v2.
+Supported features:
+    
+- Keyboard (no function keys though)
+- Display (IPS 2240x1400, 300nits)
+- PWM brightness control (works via brightnessctl)
+- Touchpad
+- Touchscreen
+- PCIe ports (pcie4, pcie6a)
+- USB type-c, type-a
+- WCN6855 Wifi-6E
+- WCN6855 Bluetooth
+- ADSP and CDSP
+- X1 GPU
+- GPIO Keys (Lid switch)
+- Audio definition (works via USB)
+- prepared for DP Altmode
 
-Thanks for reviewing,
-Cristian
+Bringup work has started with the Asus Vivobook S15 as initial template,
+worked from there by comparing and copying from the CRD, QCP, 
+Yoga Slim 7, Thinkpad T14s. Special thanks to all the people that helped
+on #aarch64-laptops [1] with comments and suggestions.
+I tested on my laptop, mostly. Since the dt is also in Ubuntu-Concept X1E
+[2] there is also test exposure there, with some feedback.
+
+For WiFi to work you need a board file matching the board string [3]. By 
+experiment and pure guess I found the already existing calibration for
+HP_G8_LANCIA_14 to be quite nice, it gives 866MB/s link speed here. A 
+patch proposal is on its way.
+
+For this patchset to work you also need patch [4] in the tree,
+otherwise uart14 for BT will be mising.
+
+[1] https://oftc.irclog.whitequark.org/aarch64-laptops
+[2] https://discourse.ubuntu.com/t/ubuntu-24-10-concept-snapdragon-x-elite/48800
+[3] "bus=pci,vendor=17cb,device=1103,subsystem-vendor=105b,subsystem-device=e108,qmi-chip-id=2,qmi-board-id=255"
+[4] https://lore.kernel.org/all/20241007-x1e80100-pwrseq-qcp-v1-0-f7166510ab17@linaro.org/
+
+Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+---
+Changes in v2:
+- amended usb_mp_dwc3 definition to reference both phys that are used,
+  as suggested by Krishna Kurapati
+- Link to v1: https://lore.kernel.org/r/20241124-hp-omnibook-x14-v1-0-e4262f0254fa@oldschoolsolutions.biz
+
+---
+Jens Glathe (4):
+      dt-bindings: arm: qcom: Add HP Omnibook X 14
+      firmware: qcom: scm: Allow QSEECOM for HP Omnibook X14
+      drm/panel-edp: Add unknown BOE panel for HP Omnibook X14
+      arm64: dts: qcom: x1e80100-hp-x14: dt for HP Omnibook X Laptop 14
+
+ Documentation/devicetree/bindings/arm/qcom.yaml    |    1 +
+ arch/arm64/boot/dts/qcom/Makefile                  |    1 +
+ .../boot/dts/qcom/x1e80100-hp-omnibook-x14.dts     | 1693 ++++++++++++++++++++
+ drivers/firmware/qcom/qcom_scm.c                   |    1 +
+ drivers/gpu/drm/panel/panel-edp.c                  |    1 +
+ 5 files changed, 1697 insertions(+)
+---
+base-commit: 02d920be494a5f953319e7589d23a8ba3f00ce05
+change-id: 20241116-hp-omnibook-x14-90539fac715d
+
+Best regards,
+-- 
+Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+
+
