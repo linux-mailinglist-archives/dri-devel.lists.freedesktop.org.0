@@ -2,82 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F7A9DEE8F
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 02:58:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8183B9DEEF1
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 05:30:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC1110EE48;
-	Sat, 30 Nov 2024 01:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27C6A10E0FD;
+	Sat, 30 Nov 2024 04:29:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SrKC7Gjw";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Fr0LQfQ+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F312110EE44
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 01:58:07 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-2ffe28c12bdso21476771fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 17:58:07 -0800 (PST)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2DE910E0FD
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 04:29:56 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-5d0c098c870so1158411a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 20:29:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732931886; x=1733536686; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=E8OZWsrIrTwnUzalAhGoRoN2jmtZFU/SWdczT+zM8Bg=;
- b=SrKC7GjwoPOZLO3Pdr9dIezm8SlLp25U8yeYRoenAVQgvA+4HaGhHAJw2Aps2iZP3j
- DM4BRobr5ArATE5WHo8Gkqjtwh/1lC3Tk2p63qcMlE1EEY4ixBs+6hDwu3L1lFkSsdbp
- 64msB3hgx2uWn7myc5hVtHuSnZbZzHagSNFpCJMIjSzg3k8Ka8ZelemnohpIc4kcgMc8
- A4qlBqrGikQqKFVpG5/1DcL1hyH1o76Kq7O25TZ9Cn9hJp7pdWwfFNBfSCLl+ATn3QuS
- bIc1FpGtEoaZUKDxZ3wQyd8kUp7aNWsR9+nMDAwwwixwO35Nejd4aZTwu7v+ZJFlWCgR
- um/A==
+ d=linux-foundation.org; s=google; t=1732940994; x=1733545794;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fMKf0aAkTvoFZcRKLAWGSKUXjtHVT1NNnWsxVoZ3Ync=;
+ b=Fr0LQfQ+OEjjnxN8aWg/1MJ2nnwR8FMhClzrtHIN0JvmILfLcXBJjwMVwbdHBXly1b
+ 5046UX4W8V1RRyOT3xlc1Os43l7jRaty302TJUArymWSl7uMEehrOPfwaO5HfPHa8Lnt
+ lIvOsKnXi1YesQOq7eC5f3ePrTM8lGABfWg1c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732931886; x=1733536686;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E8OZWsrIrTwnUzalAhGoRoN2jmtZFU/SWdczT+zM8Bg=;
- b=Og2cqnyFzvp+7TrhikLsuzS12Al224s5PKJHG48vbViI8ZU7vRDi930dAZCtJ1L4wB
- is6Q5mHTsb3tv/K/h75FTe/aERfP46Q9rwJe2WEMLNxX/UB6e1TUKNF5dRFgYhZP2h+P
- NNmIP2aOjWx/wre4A6FDoXbe2SXuC2Z/oSPi2eafqrNnHFZw/W8sTnk2Pyukp0Q2LRi3
- 98erGJzB/sPO54WMbWt/CDQl23eh2XZ4DUWwg0umMxjm/MxGa7pmsFEu3Fwf93MAcTzr
- UUKBfJi3+AiTspfEoW/36XE7CL4ZfkK5Nt22lZ3XFZPKSVC6W0yDW8Dk/e5aB1AQQRjF
- Qm8w==
+ d=1e100.net; s=20230601; t=1732940994; x=1733545794;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fMKf0aAkTvoFZcRKLAWGSKUXjtHVT1NNnWsxVoZ3Ync=;
+ b=eD8uqwVGxVXad4hlRjec8zEyT6ioEwImCr0hWNbdCvNul53eLxGiU8DvsAll/rRsOh
+ w+PlcWp73ApL21shIugaOZzX83AT4BgwoAlifo6vzt5NK+o1AbIyck3ZppFOjcnWsheY
+ jBCKD7aRGbRzhUv1k+OWXnojhZ9PxAQ/Ti8OKLwiPU43u6HbCdmMA64gaQdZ6fqpPP5B
+ MQ0+yYJMtay+bimTlKO1zW8iYS1K3nAnU3dw1YaTjAhyLa10HjHKQRv1mcTpUesghfWE
+ bpl9YMjmj4B6Iq1epq1k7ny9X0jNbkj5UGUoi7htDELMruPXh5hup3cOyP9kKbzIIxtL
+ sGJw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVqjVPEtbs8RMUwhVMGFvwxuhv9A3yPDIs/ZCaksZFCNs+Bf+G3L5fQdj2Ts/oIl+aCbGG8CaqYgVk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzCIwr+rcpsZLER1LPaFh3BykOzlxyNMh8qRbB7qCzQSyDEK74d
- HKKx306N4KRjieV6CRxpDmp6MilvfXpA6bPM7uETvN5E1V0XSslmG7s9fpBuBdw=
-X-Gm-Gg: ASbGncsK7cTvkir2rPFKvMihPm4ubCp3EN5MV/PhruqIQpR7Tu499PRGw0ZtaWGF+EA
- pnjagbTSCxh2zKY6svrdItlZlznlyexIipHgeNuta2BZcwKxgDLvMbHfFSXUqfGcKF2B77FAhO8
- Dk29l31/730VtWdqKXS18zvBUfhe7cGRP8JnBnw1C2OB5laeptuj3U1drSOGJEcc3R3vOagwhr6
- TbvaWTWynTRVFXk4Wj5JOM6SXzhm4UFO+Xx3jkbNdsfx4x7xLWZe8ZCn69A3DkP2F0o5MTncQSb
- hvg1tCD7Nu8dOPEPhCawM4YUM3ATog==
-X-Google-Smtp-Source: AGHT+IH3PxC/7zsS1K0DnMW67rOahIA/SiVj7/NI8dYtx07JEByEXiIOKaepX+9HHyKUtQ3n8U7v3g==
-X-Received: by 2002:a05:6512:3181:b0:53d:a4f9:6141 with SMTP id
- 2adb3069b0e04-53df00d1b1cmr7390373e87.14.1732931886173; 
- Fri, 29 Nov 2024 17:58:06 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ffdfbb915esm5675341fa.19.2024.11.29.17.58.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Nov 2024 17:58:04 -0800 (PST)
-Date: Sat, 30 Nov 2024 03:58:03 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm: Check return value of of_dma_configure()
-Message-ID: <6hunbphnn2m647swkujhyjywp3e7vnlxhrbye5tjakvlfclimc@j64qbwen2hh4>
-References: <20241104090738.529848-1-sui.jingfeng@linux.dev>
+ AJvYcCVJgWOXpm/Dwx3ZLpql0OBD6i24IR77y1pq1NnZbln3KGLhmyGwHwvbcOJNdygQLsJS3UAJs5dbz64=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNxFQAk3A6vezDg1noACtVY4LZ8q1hNNRKYCRbyq84gmxh2ItL
+ FY7v8vHDbNjmD6n2Q2FELMN4v7R1GyDo039L6lKe7tJKyo9XCwS8MOV2lqPf+at7FoxaYtjMSKB
+ hN9DcYg==
+X-Gm-Gg: ASbGnctag+QVKXQtQPbTG7uCHSvcBbnfjNGU9x6xlXkZkfVewb1ZamjCYNmkrX9I9SK
+ dNMTQrVeV3MaqJzoJDlWMt/MTZsdTCo6dxvNa7oDOzaSyP1JVEPzJY/4pKDc7S+oZpVQwu5IN83
+ ppc7VwKqzJvUoAFC2iRNaE3bbpWy7FwgF5+JgdXcCAW4doXf6LR9ASx1VpBzJsyO3e1crxXnr3N
+ mX76hN++Awa07GVnKKhnco4q8BeOFx3yQqq1LXsr/MN0fFeFYjX3U2ImORpHVbwAXn1dj5eXpNq
+ uGx703OZqSoijVWJcPRpbWyr
+X-Google-Smtp-Source: AGHT+IF/HscBMS/dBtXZHVHUnY+Ure/FVQILcnsKkGz1lswPC7HsV3GEZD/PqtEpoSkdJ2Y5BbJ7Hg==
+X-Received: by 2002:a05:6402:5248:b0:5d0:9c15:7efc with SMTP id
+ 4fb4d7f45d1cf-5d09c157f83mr8994081a12.13.1732940994295; 
+ Fri, 29 Nov 2024 20:29:54 -0800 (PST)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com.
+ [209.85.218.49]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5d0ccbf4e3fsm254560a12.47.2024.11.29.20.29.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Nov 2024 20:29:53 -0800 (PST)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-aa52edbcb63so616366666b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2024 20:29:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/WDaG9pMLPz4t4DRfgwITm53wfUY1EF26pyRIcU+fdKG7byZJ9G3e7hM6HkB5yCzB8xziZ5I8QPE=@lists.freedesktop.org
+X-Received: by 2002:a17:906:4789:b0:aa5:2056:f43 with SMTP id
+ a640c23a62f3a-aa5945355cfmr1271655966b.10.1732940992140; Fri, 29 Nov 2024
+ 20:29:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241104090738.529848-1-sui.jingfeng@linux.dev>
+References: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
+ <CAHk-=wh74-reWGqpP+i3O8usrS1Jr12UGGMCfaK58_0aK5Lw_Q@mail.gmail.com>
+ <Z0pHQ-Uxgj2snWvm@sashalap>
+In-Reply-To: <Z0pHQ-Uxgj2snWvm@sashalap>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 29 Nov 2024 20:29:36 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wismrb=xrr_S5aCuJq6P1svhhbiaUMSJb9BXMpOppzMMQ@mail.gmail.com>
+Message-ID: <CAHk-=wismrb=xrr_S5aCuJq6P1svhhbiaUMSJb9BXMpOppzMMQ@mail.gmail.com>
+Subject: Re: [git pull] drm fixes for 6.13-rc1
+To: Sasha Levin <sashal@kernel.org>
+Cc: Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ Sima Vetter <sima@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>, 
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,55 +98,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 04, 2024 at 05:07:38PM +0800, Sui Jingfeng wrote:
-> Because the of_dma_configure() will returns '-EPROBE_DEFER' if the probe
-> procedure of the specific platform IOMMU driver is not finished yet. It
-> can also return other error code for various reasons.
-> 
-> Stop pretending that it will always suceess, quit if it fail.
-> 
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+On Fri, 29 Nov 2024 at 14:59, Sasha Levin <sashal@kernel.org> wrote:
+>
+> I should be able to reuse their config and just add debug info, no?
 
-Fixes: 29ac8979cdf7 ("drm/msm/a6xx: use msm_gem for GMU memory objects")
-Fixes: 5a903a44a984 ("drm/msm/a6xx: Introduce GMU wrapper support")
+Sadly, no. Not unless you exactly match their compiler version. And it
+looks like you don't, because the line numbers make no sense.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+For example, this is the thing I would expect shows exactly *which* of
+the roundup_pow_of_two()'s it is that causes it, but:
 
+> [    4.510096] amdgpu_vm_adjust_size.cold (drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2083 (discriminator 1))
 
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 37927bdd6fbe..b26dfe0a76c5 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -1605,7 +1605,9 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
->  
->  	gmu->dev = &pdev->dev;
->  
-> -	of_dma_configure(gmu->dev, node, true);
-> +	ret = of_dma_configure(gmu->dev, node, true);
-> +	if (ret)
-> +		return ret;
->  
->  	pm_runtime_enable(gmu->dev);
->  
-> @@ -1670,7 +1672,9 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
->  
->  	gmu->dev = &pdev->dev;
->  
-> -	of_dma_configure(gmu->dev, node, true);
-> +	ret = of_dma_configure(gmu->dev, node, true);
-> +	if (ret)
-> +		return ret;
->  
->  	/* Fow now, don't do anything fancy until we get our feet under us */
->  	gmu->idle_level = GMU_IDLE_STATE_ACTIVE;
-> -- 
-> 2.34.1
-> 
+that amdgpu_vm.c:2083 line doesn't match anything, and isn't even
+inside amdgpu_vm_adjust_size() - or something it would be inlining -
+at all.
 
--- 
-With best wishes
-Dmitry
+So I'm afraid it would have to be done at the KernelCI/LKFT side.
+
+            Linus
