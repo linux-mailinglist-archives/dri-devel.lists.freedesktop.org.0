@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02139DF3ED
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Dec 2024 00:55:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5DF9DF3F3
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Dec 2024 00:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4E8A10E3FE;
-	Sat, 30 Nov 2024 23:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76D9D10E5EF;
+	Sat, 30 Nov 2024 23:55:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yE2c93YY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MADDvrQV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3BD310E5DC
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 23:55:38 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-53ddb99e9dcso2957628e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 15:55:38 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CADE10E5E8
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 23:55:41 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-53de5ec22adso3662446e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 15:55:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733010937; x=1733615737; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1733010939; x=1733615739; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=zsbxRwNfx7fnCx+o56uBYxIXkBxgdk/p+7MwRahv2so=;
- b=yE2c93YYAeCJu2UqCYPH9mvqB4Wu4+9EyosX19xnyeWxzjo7LchC6TAuwWIKMz1GRF
- TFD3GejzzPBxAuapFWRmyLcwIS87F6/INXqsXo5CNRjr7/C8r+qP5Sa43/+IgoCH6m16
- HtL1qVZ4NE8WU+IaKUlZogGoHhyM1MAv1hPfxdAyppVfrtu4w19MfOG0hWOOdVH4T9q9
- vpb7A0tgdr2EJBuKssSGsOBBpcJ1OY85XTgSKCtUAe1xiAIi/kuKw8tR2UqvvmVIWjOW
- p6GBBlsEzRBkSmyWyB+03WD/0icvwTK9/dPkebO4j/92XptQQXEs+4t1t2lBHCzA7xi6
- 9iNQ==
+ :reply-to; bh=4cxY+K4yZx53tAspmDt/c32sXFm2om2yzHiockIbOqk=;
+ b=MADDvrQVO7btR+DX7XBmwH0KtkDPAtaNQjeJbGRbNNI6TDy185ZOHkgzr3w8LeJG5x
+ bNOxf7Z4F0tP5BolVFBpbXPvLCMU2FXDoqtz6d2/lqfqy4ptwOwhsByDc2aI6MqDAiNV
+ u1bK/yLkVGCgWT3h7MeW4LQwyMnapKSjqxLJ+OLnMjOUh8aXWloBDhvEUVXQJ442UXWi
+ OUTOj7uhFJvtC9/G0ZVBwBiHS6OLn6GYXaU5vJWQW+pCwvgkgdpHD0SOOSFWnuV9L7bt
+ BwS1eKRWJcmtzki0n0Lu9bl9rtidBwGf/stpbuzajQ1iw9qk7j3LJQWw8Hk21EE/poyN
+ /JUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733010937; x=1733615737;
+ d=1e100.net; s=20230601; t=1733010939; x=1733615739;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zsbxRwNfx7fnCx+o56uBYxIXkBxgdk/p+7MwRahv2so=;
- b=ASCSrP5RNLl3iJias31gBGNMrbTMZIPRQV8sWx0Ch/pO7+Mv4Ij48GQsSsHgEhoBp0
- mMaI0mIKkIeZ+gF9/g+Vz0hP3/hb2c4jWIciW3DuzZFpAZBe1R3kJmXC9TPqnx6vUJnF
- H2V63jJCDlnwX3G4fL/e+IET4YMxi1VMPzRuD4m9mDQUBnAOs7TmxBxC9rNJM+pAHFia
- dBQyhz/FXMO50fbLGsFWonDfK77wu+LBsQ2+BWf6/ndtFkbmDgzHS5DxARi9K1PnIkq6
- 3sIsO/dVYPtbKcHoNxxUNeKbCVJFGD3LUAEgcZ1rRfm1YU9tiEvNQqsob+Lt9702tzuA
- rsuQ==
-X-Gm-Message-State: AOJu0Yy8ZKF5cqbNpji+437rCvAqxaYi9YQ/Jcs57Za91L0TRTbxQIxE
- XwlTVZsGfPYtPQw6GY70HM613I9BzIovBPd6B/Y3vWJSPyhexIOfrrBCf2Vo8pA=
-X-Gm-Gg: ASbGnctSUOssEcIr6QiaGPVd286OVyQyGbDsLjZzH/Dpcb5lyq2Gl0m7qOStyTZub5e
- RzgDYRUZRz69Zi3qaI8KNcCQ3GUTI0LrzflofCbcPQLR1GdqvQIEQlvm40/+CapWO1tuCSGEXqd
- 3M2eXFY6uBfS/RkLjZKDhyaUDh+CBETzW1z2kda4p0KbezNHJwT9Mjc5akN7lV6DCVnnsTdpKHB
- yHh7oeUvIrN1qQWBw4id0At6XnPayuerku/RlC8eTQQnJJtGyHD5uj7/g==
-X-Google-Smtp-Source: AGHT+IGcKx3qxr+rKjFg6uN+w/t1xLv8z34zeudztpmb02c9r0uba4ZBSNTSBCZfWNmdHrXgT/XSFQ==
-X-Received: by 2002:a05:6512:3e2a:b0:53d:d431:7f3a with SMTP id
- 2adb3069b0e04-53df0108f71mr9006077e87.44.1733010936909; 
- Sat, 30 Nov 2024 15:55:36 -0800 (PST)
+ bh=4cxY+K4yZx53tAspmDt/c32sXFm2om2yzHiockIbOqk=;
+ b=ELMIOkqr76oDfzM6VbXcGJTt3WzH/dyRLUGF97ZRdB1DRvY93Qggcvq3SJZTYAl+Mw
+ Iuw1HAiKIiQv9ayPLw9FjHJjhWANFA6QyFHK9t27+QRwGsTGnZEsihWbDez6STC3JjVk
+ YTaKlMAEgJmabku4Lbk9TCwRckYHlsO3s/UxvCD2k8+6+Q0e9o3AkbPo0ZBIUmyfyyzo
+ 7QMd1PTeTh8Hh46hC24/sY+O+MEf2lEW6K7GkwDMU/Joo6h7+cV+f2sy+11nxsIOHFS5
+ ppgMrOzFAnQcMtZChvaAxKxayZS5V2UOXmlhedW+F5KOjsY4aWTj3DHogkgT5i8dswvv
+ 21UQ==
+X-Gm-Message-State: AOJu0YzGMj7mjGrR/hoyKgzTr5BHHdJJVLMjRWweT6IB7WoHrwEIiu5x
+ u1yQ1//w+/sb4NIzP9eioliF1VYkPQuFErU93sP7iJPgg5NF1/JosrbgHVhq42c=
+X-Gm-Gg: ASbGncsDz8I3Z9d+41dQjGWkGePd37s8OYjYgL/wOLIIlk+UGkp7ZgMO+gNj0QHcZZN
+ OILBU4DdxXHzPMlYWqmb15G9G86w99uuft1JdYB7Aw64ltfZT03zbArwXW/9MM71F/kv8/MU20b
+ M3TGTZ3Z8AtsgeJbyq9vvti7IDHfzPiKTkhY+gomyVgiu4+neQm4sqY14nX4seWOx2vpsaefxmn
+ UHE9q/hU+uRReuFfF/SvSoTUeIVn+zVZbgk/mLj5v9RAL886LkCHNLHBg==
+X-Google-Smtp-Source: AGHT+IEqhH9kCuwXPt69aMI3EvWDASBu5c9Vx1nORTc0e8euAsFhVw9NvHYYoIvx2navJeV6UfeSbQ==
+X-Received: by 2002:a05:6512:3d89:b0:539:f9b9:e6d2 with SMTP id
+ 2adb3069b0e04-53df00ff7c6mr10203616e87.35.1733010939471; 
+ Sat, 30 Nov 2024 15:55:39 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df649647dsm900706e87.195.2024.11.30.15.55.34
+ 2adb3069b0e04-53df649647dsm900706e87.195.2024.11.30.15.55.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Nov 2024 15:55:35 -0800 (PST)
+ Sat, 30 Nov 2024 15:55:38 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 01 Dec 2024 01:55:20 +0200
-Subject: [PATCH 03/10] drm/bridge: ite-it66121: use eld_mutex to protect
- access to connector->eld
+Date: Sun, 01 Dec 2024 01:55:21 +0200
+Subject: [PATCH 04/10] drm/amd/display: use eld_mutex to protect access to
+ connector->eld
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241201-drm-connector-eld-mutex-v1-3-ba56a6545c03@linaro.org>
+Message-Id: <20241201-drm-connector-eld-mutex-v1-4-ba56a6545c03@linaro.org>
 References: <20241201-drm-connector-eld-mutex-v1-0-ba56a6545c03@linaro.org>
 In-Reply-To: <20241201-drm-connector-eld-mutex-v1-0-ba56a6545c03@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -99,16 +99,16 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1044;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1033;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Ze1FOtye6ODMMZl22hb9QRrfAdzUkHN5Ex5hTjwt+GA=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnS6Xt8KExBULQDlnc0kG9cX6l7/Qf0gOZJfErh
- qwvys0sxCOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0ul7QAKCRCLPIo+Aiko
- 1X53B/9fdxZ832w1hRpbTcoyQFQHmA0ikcvv4VCzfB6ZaFGrG9T+SoyXM0lcIGKSaZczbYgwyYG
- VSyLd0BAxUhrC8MwHfMgp8Y4wCleisRxlVFA1vUdBWDg5Ra1tMCGv5yeTI8xG89vZvV7H1L56LH
- NJTuXCDHoAtdxiJGvpFCcxy/iyg5+gZ/1OqAZ21gCgzFdy4w/2V+gH4ahWa0JjEUHnsqPrt4sw9
- GAq6r6bDqlUd/3uTwG/u/zV5dSLxpZwsGi5tupF0T0d+UKSbAj73ZOj0Mc5cIt2otyZ3ATuZeIK
- E5n0SMo3O3r0wqRpMmCiTAGk3no1OeU6uM+duf39jYehwa8p
+ bh=tW4andf3hq3R7WEIVc+7/mi1YkJBAZuwRdePwQe7SPw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnS6XtKnM5W7YbjO8PfgAgXIKJMU347EHoG7pN6
+ bC7slgMtUeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0ul7QAKCRCLPIo+Aiko
+ 1UpAB/98T+k5U79sPWHDEfdVoK/uxOqdWekFRUGXmaXz8lVAUaoc1w3Ob2vgVsHEmXEpRZcEqWq
+ bqDqWhVxSkMp+nC/KP4LYMkzeAhQdwu6z7o3M+cI/LhyEPck5mRwoKlsIKia5ENA0q+YRaJX8R8
+ D/MbaqjEkVX7h5ODRsXt0b8del0LoST99BcdJPq6yynl2AInKf1mwGTeXOm09nkJ7B6JX9D3N0r
+ XnUieG4H8ZtcZAOSBh2bHBQePXm7XUKBlvFoHDklRqI/YU7jyKDWow4es6KEqLKgoa9z5zUayj2
+ 4MDN8Hi3OJ8XFsnfXmBTUuMae75l5OufjL1fj5yqKjhqazvg
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,24 +132,24 @@ order to protect connector->eld from concurrent access.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/bridge/ite-it66121.c | 2 ++
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 35ae3f0e8f51f768229e055a086b53a419ffcd9f..940083e5d2ddbfc56f14e2bdc6ddd0b9dd50b1f8 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -1450,8 +1450,10 @@ static int it66121_audio_get_eld(struct device *dev, void *data,
- 		dev_dbg(dev, "No connector present, passing empty EDID data");
- 		memset(buf, 0, len);
- 	} else {
-+		mutex_lock(&ctx->connector->eld_mutex);
- 		memcpy(buf, ctx->connector->eld,
- 		       min(sizeof(ctx->connector->eld), len));
-+		mutex_unlock(&ctx->connector->eld_mutex);
- 	}
- 	mutex_unlock(&ctx->lock);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index a0bcc62f280f8e80f5d174cd2f567a8ec616e54f..2843283375551b0b85f5f897acdb2aeab652892c 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -1037,8 +1037,10 @@ static int amdgpu_dm_audio_component_get_eld(struct device *kdev, int port,
+ 			continue;
  
+ 		*enabled = true;
++		mutex_lock(&connector->eld_mutex);
+ 		ret = drm_eld_size(connector->eld);
+ 		memcpy(buf, connector->eld, min(max_bytes, ret));
++		mutex_unlock(&connector->eld_mutex);
+ 
+ 		break;
+ 	}
 
 -- 
 2.39.5
