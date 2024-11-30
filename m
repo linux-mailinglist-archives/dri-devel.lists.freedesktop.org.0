@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040999DF2CA
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 20:09:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C499DF2C7
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 20:09:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7858A10E5D1;
-	Sat, 30 Nov 2024 19:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE52A10E5CC;
+	Sat, 30 Nov 2024 19:09:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qhhObjV8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BsqIfThv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFE7C10E3F4
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 19:08:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A9E510E3F4
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 19:09:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 17D2EA406C7;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 54062A406D5;
  Sat, 30 Nov 2024 19:07:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DEB97C4CED3;
- Sat, 30 Nov 2024 19:08:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 02B77C4CEDD;
+ Sat, 30 Nov 2024 19:08:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1732993737;
- bh=COLrg2AbV+4KaQRU2Xw2S5L8rp55JjS366Yv/REeB7o=;
+ s=k20201202; t=1732993738;
+ bh=UP3uAuEyN+fS1KPwCsp/qLmO2/LWPK4Z2KzNa1ayggA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=qhhObjV8Agq1RVuZLApCE5YRrxz9fbAaeoQ2nLXkG2I83MHph/tvlug3c38sU1Wrc
- DPwmsZPujKtGymMvLTrP3qax+JASEGmXvH/+EvsOhLty/AlIePafDWhysPq9IkzZAI
- s/QFQ4INuMpcwgRyzZTTlg6iv46pMDV+gTVNZJH1INXhOz4ZYfJ6ZYMNMbrXwsx/2D
- tklmAM+NORuhfhbB6t9dlhAqvJEt/5sipsyZmPaMLS6NO/YtkQtLSuBo+BszOILE/P
- 0/ilD18MPrAA132NSGA5TDuQ6NE8zGFGIpq8oLJUNpL6ydx5POZGKulfFGlsOqfRYP
- OSeyqMhpgUH1A==
+ b=BsqIfThv/fpXtBR0Io8eZqmJ1jZghWJCSJ77DEmTCVSFdPyzij6V+jRB6fUTaVGKs
+ Fmuhe6SOPHPnswNYH+HqNZgvYN4HRhatrxH4y/jL7hzh/+7RrthQ8EUq7bRixLHuuP
+ XJUjAxWeqhiJ+OlCpfX9wNTYKiVLwRB0uIzFAC8GElgdywwnPUC17tY6BkFHt+PzU1
+ AJb6LXS3xY6t1AQcxsgWfxHTE0m0Jxlqjej7U3vZObyQbwT2Mk9W9xDcr440TAI/dP
+ 9TtzEI9T5kdHupsYKyNll+ldEwq+xu4R5Z61c1iHm3G7DkWG+A24qNirYoIuC5c7wS
+ AmLhr8gJDtwkw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id CE4F3D7360D;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id E388AD73610;
  Sat, 30 Nov 2024 19:08:57 +0000 (UTC)
 From: Jens Glathe via B4 Relay
  <devnull+jens.glathe.oldschoolsolutions.biz@kernel.org>
-Date: Sat, 30 Nov 2024 20:08:53 +0100
-Subject: [PATCH v2 2/4] firmware: qcom: scm: Allow QSEECOM for HP Omnibook X14
+Date: Sat, 30 Nov 2024 20:08:54 +0100
+Subject: [PATCH v2 3/4] drm/panel-edp: Add unknown BOE panel for HP
+ Omnibook X14
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241130-hp-omnibook-x14-v2-2-72227bc6bbf4@oldschoolsolutions.biz>
+Message-Id: <20241130-hp-omnibook-x14-v2-3-72227bc6bbf4@oldschoolsolutions.biz>
 References: <20241130-hp-omnibook-x14-v2-0-72227bc6bbf4@oldschoolsolutions.biz>
 In-Reply-To: <20241130-hp-omnibook-x14-v2-0-72227bc6bbf4@oldschoolsolutions.biz>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -59,12 +60,12 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732993736; l=867;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732993736; l=1635;
  i=jens.glathe@oldschoolsolutions.biz; s=20240919;
  h=from:subject:message-id;
- bh=5Oq4MdNKXVyJJvjmJFPu8lXVv7qb44phd5FkFC6DLHc=;
- b=O6Ef9bMEZALmt1jprKWjgnFNVSDP0/hTLPL6W/T72hBmrwqMQ3G07oaSkY2M+d26So6K6bDeQ
- 2jFkD5KRIILCK860mL8YHDMAzU6S8xex9f3XcEsEefotmwJ6ql6+zoN
+ bh=iL7DMtHFbxAUIu5T3NccEsTftcpTXU3a6x7x4LX1jD8=;
+ b=RF0XvyFvYWJEdQgWfmDpbfZz+Ix6DxQNOOk6rmSefj5e0Sd7WPOjIp0fK8/eJ9wxe5jTh5Eo+
+ ogDv1GslgN9Ah696sXJ6nUixoJLeMEHUGQdOGTUsGrdMLJmVRtTU2cZ
 X-Developer-Key: i=jens.glathe@oldschoolsolutions.biz; a=ed25519;
  pk=JcRJqJc/y8LsxOlPakALD3juGfOKmFBWtO+GfELMJVg=
 X-Endpoint-Received: by B4 Relay for
@@ -88,27 +89,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 
-add "hp,omnibook-x14" as compatible device for QSEECOM
+Seems to be like NV140DRM-N61 but with touch. Haven't disassembled
+the lid to look.
 
-This is required to get access to efivars and uefi boot loader support.
+Due to lack of information, use the delay_200_500_e200 timings like
+many other BOE panels do for now.
 
+The raw EDID of the panel is:
+
+00 ff ff ff ff ff ff 00 09 e5 93 0c 00 00 00 00
+25 21 01 04 a5 1e 13 78 03 ee 95 a3 54 4c 99 26
+0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 a4 57 c0 dc 80 78 78 50 30 20
+f6 0c 2e bc 10 00 00 1a 6d 3a c0 dc 80 78 78 50
+30 20 f6 0c 2e bc 10 00 00 1a 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 02
+00 0d 36 ff 0a 3c 96 0f 09 15 96 00 00 00 01 8b
+
+There are no timings in it, sadly.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 ---
- drivers/firmware/qcom/qcom_scm.c | 1 +
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
-index 72bf87ddcd969..2e148fb7167be 100644
---- a/drivers/firmware/qcom/qcom_scm.c
-+++ b/drivers/firmware/qcom/qcom_scm.c
-@@ -1769,6 +1769,7 @@ EXPORT_SYMBOL_GPL(qcom_scm_qseecom_app_send);
-  */
- static const struct of_device_id qcom_scm_qseecom_allowlist[] __maybe_unused = {
- 	{ .compatible = "dell,xps13-9345" },
-+	{ .compatible = "hp,omnibook-x14" },
- 	{ .compatible = "lenovo,flex-5g" },
- 	{ .compatible = "lenovo,thinkpad-t14s" },
- 	{ .compatible = "lenovo,thinkpad-x13s", },
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 8566e9cf2f82a..77c48528108f4 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1913,6 +1913,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b66, &delay_200_500_e80, "NE140WUM-N6G"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c20, &delay_200_500_e80, "NT140FHM-N47"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c93, &delay_200_500_e200, "Unknown"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cb6, &delay_200_500_e200, "NT116WHM-N44"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cfa, &delay_200_500_e50, "NV116WHM-A4D"),
+ 
 
 -- 
 2.43.0
