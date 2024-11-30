@@ -2,103 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877E99DEF5B
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 09:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3623F9DEF5E
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 09:31:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00C9010E14B;
-	Sat, 30 Nov 2024 08:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDE3510E151;
+	Sat, 30 Nov 2024 08:31:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xcDVthL4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vwo78bS9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F40D110E14B
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 08:29:48 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-53de101525eso3469660e87.0
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 00:29:48 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11C0410E151
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 08:31:44 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2ffd711274dso30985131fa.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 00:31:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732955387; x=1733560187; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1732955502; x=1733560302; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YwEfcn5Pby1DuMjHVg1b1o/lcfJvv/jFNZtuiy5rgCw=;
- b=xcDVthL4mQfmDx58fOkT4HI2rn/o0oa9zKDPVHhBTk2PvUzCTbx7iY2qaJZmB5F4a8
- VP9oCtp7BHOXHfx/rDnh7Y5khyjNKeuSIErnk0CqtczvtXAMo7/PXmxd+K0BMGwLSP0E
- Cr1GggoznpF27+z4+wXRFzJVr7En2R9Ujyj12nsiD3YEO76NTY+l9geGlWnHJlOEBTro
- pAyO5SgSv60OdrFMGbdTLiYjAjA4GApjf9d7R8KuwXBAfOVRBFcTd80ivUmJa2cQiI15
- H0WVNIDF1+8wx3DN26dYSDoJKGsRU0ll8qOSV22rbDhUQdr/3KmhS9xg6ysaxgLTqydm
- 70nw==
+ bh=jAlLAAAGM9bVH738rgOjUvG+kp8ufe3wXv46mmUzS24=;
+ b=vwo78bS9Hu96SlMVXODNx4iJhs/8zuKJB85Ger3I42KnI5WL3TLjjDFS9KhYLqv7Mq
+ FUTjv2iE108+n0rZic0bC6J+t465FrXyn8801YOF25HEiWb3apHBPIWi6s8ziYmTXdCh
+ fyAgBsYpftbIq21hdXuDV8C9g+AwMxuXQ2GH2TP2Sonhc/U3ApSQ9kAvfCq2zS5rXMdU
+ NmfuaYkcL3liLkZYo9o0PCn3SKnp6UNl9cGCR563Z+6eqOc3CHh6RipufjT6TBtHCNA3
+ a7KiZiGB1SKoM9f2PheEWXHNW0L+wFI3Ci252ttU3d2WCli6ekFFwGSxciWLynZRPbQH
+ rRfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732955387; x=1733560187;
+ d=1e100.net; s=20230601; t=1732955502; x=1733560302;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YwEfcn5Pby1DuMjHVg1b1o/lcfJvv/jFNZtuiy5rgCw=;
- b=HbGta3FF+e9zY8UkIFYKYc2dNUe6rbRuGzdgYnyUyc0SJI0IJMa6JI9MK42MWiiDlq
- pDiqJZzbBe6nsV8CNZHDY4hX+yHeGflLF8idUxyQGT1BJ02/hwJQhSqwUT1WtGCOQZNG
- XHOX1e4DU3Eye43I183MBHnuXrPv/8m7T4SRtAGiiwQh/1bEeoxoOQ9XHKpBtyWW3wfh
- 0HffB9UOQIpEEtBzzUFfGUlqqFmPtvBsN6UgfsyIxdCj60Sy039unYrkn5dnJpV8e5KC
- SUFrwWhL2VWzuFBVKOQ8XsaTlihDKBS1HtfwHyWjcp6dsoafY1zAMDa9gPGyzidl7GU0
- s/og==
+ bh=jAlLAAAGM9bVH738rgOjUvG+kp8ufe3wXv46mmUzS24=;
+ b=i0spWIlMaS9ezRUsoMVYL24tfNoFqOOuU0LCPGEiU4R6sMdfgWXW8vYg9fgXz3Rok3
+ MsgKUr9V+ZzUMXu4GFno6sjP+hsEYstjW3FKEGcao6S9TTT/951c6WOoB4lCZPj3gSbC
+ dOkYDHF2IvedKqxUBMIds5DsiKxb/Md4W/N4o7wAHVPRiu85eM3OcBqF7Hr/xnNIluhD
+ mdd9gDuKHps2H4MzmdOc7TDJlR/Q1zQdP4ykx8n5Sap4U79N2mI3KdSsWcpnu9am62k9
+ ew8TgeAXcVrPDA9JFDZNlbbkl0TvNmvb8qzgJHc2BM54EawGFnfkqUFCD0HbQjLeYznH
+ vomg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWbPwUKwS5Q71j9vfXnfdNTldy9p6YZsg/+VOGopsbMwXqY2k3eMtTpRYaYNRzpayxCul+HmSl/gJ8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw2n3xjyPejze+wNpeBdRS3ur7/v5ixVA5uki7LPFuFT+IsblKa
- X8nAopRZkCtN68CGvm8CIm91PgWWI87fKokCNr//KvUKjRn8/jl4KBMLRot3+Ac=
-X-Gm-Gg: ASbGnctoEmhnpDCjq3wD8M0n0cn+nMaiGpuNCdOJrOJHgCponn6ZtmndybluEly4fPt
- Nj0GSW82WATLD2x76AgrFC67SZR8nw3pDUeEA3eE9ioOE1YhtDAjiRKZDA81PIYzFagENQmx8wK
- Up77jR1W+lazci8KaMwxOpIcZUAudE56p/VB13wwc5fX+/L1Q/gdqryNxfb3guWWpZTtstyMyLi
- O01glrlMdOYrFIOhs8J7Bz7H6uNYUe3Vbl05uQGap0hBf8spJ4RfvK3mc3JlrkXtKMzWOwppCcM
- Vb7k27oidpo4e5KwtBhgXkM8dt0cMg==
-X-Google-Smtp-Source: AGHT+IG7msEs9hgIu3ta16vL9mWEiaIEtxRrnODIuHdyaMtVbZhaiQTdxZhi9NhcUgHBW26OK3t30w==
-X-Received: by 2002:a05:6512:3f7:b0:53d:f583:81df with SMTP id
- 2adb3069b0e04-53df5838209mr2781109e87.28.1732955387112; 
- Sat, 30 Nov 2024 00:29:47 -0800 (PST)
+ AJvYcCVl4OSwJAu7mEbguy+SLVyU9rk4BRjTwK8F0Ig7ejVW0jxK/5k2MaGOFR+ppEMtLcRCHMOiQZQCNrY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzJGAXHky/HCwh/ms6dgQrRs0DRfV6/yqG7ho84fpM78a01qUop
+ wtSrLIem5YGBO27d4O+EkaSpk9X4t/tTEC7RQXe/8oBPOf789Lc/H/gQ3T4AWNI=
+X-Gm-Gg: ASbGncs4jAn0RNMIAcbJFcrH8fuMAeY4TRuN92snK+Swk6am2+1yc5Bo2yGkYbMU2ZJ
+ Y0adK6zP/L9NDz6FAiHHWVkqQh9rnipTBkKe6MrBmIHJqZwFl0vQW7qiPc5aooc2bVBIWAvI6/R
+ tU/B9X7S2GWzfNALeDiKmBr77PmAtaqZ0BB4nrIxy0MaKYpUhjZ5BICnaAzOdjbVywGohGpY9Dq
+ V2lCyTAiFOxAinf3cdUR8nY3ATQ/UjjfF8OjTfXAiDGeQ7UfzPVPUCb80JPD51I/HP8CSdiHS0o
+ W4fG0dzo64Wro6E2uz3GlZtclOlRyQ==
+X-Google-Smtp-Source: AGHT+IHqlibCJpfN5cUZPPd4TL/8XxztYBv4PAhJSEPCWQRqaxNuibgDwkMBYYVSBLF2QupVe40mkw==
+X-Received: by 2002:a2e:b8c3:0:b0:2ef:28ed:1ff5 with SMTP id
+ 38308e7fff4ca-2ffde23dfe7mr37315291fa.15.1732955502004; 
+ Sat, 30 Nov 2024 00:31:42 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df64a05ebsm703544e87.255.2024.11.30.00.29.44
+ 38308e7fff4ca-2ffdfbb8fc5sm6296371fa.22.2024.11.30.00.31.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Nov 2024 00:29:45 -0800 (PST)
-Date: Sat, 30 Nov 2024 10:29:43 +0200
+ Sat, 30 Nov 2024 00:31:40 -0800 (PST)
+Date: Sat, 30 Nov 2024 10:31:38 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sandor Yu <sandor.yu@nxp.com>
-Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "robh+dt@kernel.org" <robh+dt@kernel.org>, 
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>, 
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>, 
- "vkoul@kernel.org" <vkoul@kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "mripard@kernel.org" <mripard@kernel.org>, 
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- dl-linux-imx <linux-imx@nxp.com>, Oliver Brown <oliver.brown@nxp.com>, 
- "alexander.stein@ew.tq-group.com" <alexander.stein@ew.tq-group.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: Re: [EXT] Re: [PATCH v18 6/8] phy: freescale: Add DisplayPort/HDMI
- Combo-PHY driver for i.MX8MQ
-Message-ID: <foi2sizfkppmunq4yqt4pex47alsvsjyqi3rk32fwyz4f5xepn@zdsx74bzzda4>
-References: <cover.1730172244.git.Sandor.yu@nxp.com>
- <411e42c70e71dce33a80059f663fb6c58fb2ac8c.1730172244.git.Sandor.yu@nxp.com>
- <efciuvoptv7qxwauswfseb6zlt5w4fmjdbm3huxfsn63a6bm7u@kfgkkvqoz5x4>
- <PAXPR04MB9448F638D47B5495CF78007AF4522@PAXPR04MB9448.eurprd04.prod.outlook.com>
- <z6p6bewmykmufsghdojr4lvziurmmfpnrr5m4w3pfjlqzobpwr@zq2d2ukjvtac>
- <PAXPR04MB9448D68A5CA9755036E9B23DF42F2@PAXPR04MB9448.eurprd04.prod.outlook.com>
+To: Guy Chronister <guyc.linux.patches@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm:panel-orientation-quirks Added DeckHD support to
+ panel orientation quirks for Steam Deck This commit introduces a new quirk
+ to handle specific orientation issues for DeckHD panels on the Steam Deck.
+ The quirk ensures the correct display orientation for these panels,
+ enhancing the user experience on Steam Deck devices. Tested on my Steam Deck
+ to ensure reliability. Feedback and further testing are welcome.
+Message-ID: <t4faz7cyi5lnib2zsxxv3j5ykltrecsjee6hrb3ky2g6gdypju@6u6ggrhuisjr>
+References: <20241127203545.17475-1-guyc.linux.patches@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR04MB9448D68A5CA9755036E9B23DF42F2@PAXPR04MB9448.eurprd04.prod.outlook.com>
+In-Reply-To: <20241127203545.17475-1-guyc.linux.patches@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,60 +93,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 26, 2024 at 02:12:19PM +0000, Sandor Yu wrote:
->  
-> > 
-> > On Tue, Nov 05, 2024 at 02:05:51PM +0000, Sandor Yu wrote:
-> > > >
-> > > > On Tue, Oct 29, 2024 at 02:02:14PM +0800, Sandor Yu wrote:
-> > > > > Add Cadence HDP-TX DisplayPort and HDMI PHY driver for i.MX8MQ.
-> > > > >
-> > > > > Cadence HDP-TX PHY could be put in either DP mode or HDMI mode
-> > > > > base on the configuration chosen.
-> > > > > DisplayPort or HDMI PHY mode is configured in the driver.
-> > > > >
-> > > > > Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> > > > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > > > ---
-> > > > > v17->v18:
-> > > > > - fix build error as code rebase to latest kernel version.
-> > > > >
-> > > > >  drivers/phy/freescale/Kconfig                |   10 +
-> > > > >  drivers/phy/freescale/Makefile               |    1 +
-> > > > >  drivers/phy/freescale/phy-fsl-imx8mq-hdptx.c | 1337
-> > > > ++++++++++++++++++
-> > > > >  3 files changed, 1348 insertions(+)  create mode 100644
-> > > > > drivers/phy/freescale/phy-fsl-imx8mq-hdptx.c
-> > > > >
-> > > > > diff --git a/drivers/phy/freescale/Kconfig
-> > > > > b/drivers/phy/freescale/Kconfig index dcd9acff6d01a..2b1210367b31c
-> > > > > 100644
-> > > > > --- a/drivers/phy/freescale/Kconfig
-> > > > > +++ b/drivers/phy/freescale/Kconfig
-> > 
-> > [...]
-> > 
-> > I'm sorry, my email client cut the email.
-> > 
-> > > > > +static int cdns_hdptx_dp_configure(struct phy *phy,
-> > > > > +                                union phy_configure_opts
-> > *opts) {
-> > > > > +     struct cdns_hdptx_phy *cdns_phy = phy_get_drvdata(phy);
-> > > > > +
-> > > > > +     cdns_phy->dp.link_rate = opts->dp.link_rate;
-> > > > > +     cdns_phy->dp.lanes = opts->dp.lanes;
-> > > >
-> > > > Shouldn't this be conditional on set_rate / set_lanes ?
-> > >
-> > > PHY do not support reconfigure link rate and lane count.
-> > 
-> > So, you don't support reconfiguring the rate / count, but you still copy the new
-> > rate and lanes into your driver data. That sounds strange.
-> 
-> The PHY will use link rate and lane count to configure its registers
+On Wed, Nov 27, 2024 at 02:35:45PM -0600, Guy Chronister wrote:
+> Signed-off-by: Guy Chronister <guyc.linux.patches@gmail.com>
+> ---
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-I'm not sure if I follow it. Do you mean that rate / count configuration
-is static?
+It seems that you didn't break the subject / commit message properly.
+Please add an empty line after the subject line in the Git commit
+message and post v2.
+
+> 
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index 3f2e2b851cbc..c412273799cb 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -456,6 +456,13 @@ static const struct dmi_system_id orientation_data[] = {
+>  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galaxy Book 10.6"),
+>  		},
+>  		.driver_data = (void *)&lcd1280x1920_rightside_up,
+> +	}, {	/* Valve Steam Deck (Jupiter) with DeckHD */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
+> +		},
+> +		.driver_data = (void *)&lcd1200x1920_rightside_up,
+>  	}, {	/* Valve Steam Deck (Jupiter) */
+>  		.matches = {
+>  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+> -- 
+> 2.45.2
+> 
 
 -- 
 With best wishes
