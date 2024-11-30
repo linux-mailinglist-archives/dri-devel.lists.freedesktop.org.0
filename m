@@ -2,89 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69649DF2ED
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 21:14:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 461189DF2F7
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2024 21:25:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A26C110E00C;
-	Sat, 30 Nov 2024 20:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 451DB10E0A3;
+	Sat, 30 Nov 2024 20:25:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nF/I/iBW";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="0zKLputJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A2F510E00C
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 20:14:14 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-53dd59a2bc1so3201854e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 12:14:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1732997652; x=1733602452; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YQnwH/LUU+Smj6DytGhxhh3Q/k+FhhcvJy+0gsHfMM0=;
- b=nF/I/iBWjLlbSaaiInnUl3rlazA6fwLvBJE8+gPud4Y/jhahAD0+Msc3qvElGE/Xxz
- q7UhExurhnIqqwz8drHMdzo1A2BWUWTRg7JlHGGyoiqfWfL3iNOoGnCb1uKpxdaFm9BL
- EONcP2nSgjlMZ3Wrgh5/aUM8sfMJF3zptdgk7zRZlGu1QtJHf+vXo0nSWr6XRyFKCPMf
- Bvn6Pm7MGmab1RSfR0mZlFZ8FCVs1+NRSMYH7fcaevAJHP2+mnxe2wwXX7lZaV8W1/Yv
- 9dzAEl559N+VGFvd+s9XadtaVbugEZ8iFTK/Amui79OrQIknfgWnR5osAQEQYcwcht15
- +urg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732997652; x=1733602452;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YQnwH/LUU+Smj6DytGhxhh3Q/k+FhhcvJy+0gsHfMM0=;
- b=Nhp/ojw92Qz6VqNS44n4yDKyJaJKZLDMBrMFzZZW/6TilE/E7TYGGaDJdHR4r5vXoS
- H7TP37Cv9PlKBqRWck2wJSUouneQSgxUXox9XnmYo8lfWpGA2N/tR2YFp4MwLyLhkN+d
- 7IHQWAXspfAv/DCa421ID0MOHTncmzdK9O4kVO5DhzljLz9jq/zASl0UwlxySoEfE1Rx
- iAUADeJ3pOKLUrjiPez4USP9l69xsIhpLiGgGpTl+HM4ZJQxXkyrOz5f/7aovuBGvxJw
- GS71pFVo4QIarnFNR+u7MUBN3O95PFaZPDLV2IeILvTeEFwsNAQ2feUhg9brjeiiRDku
- gsEA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWDzrF7uelfMBu73ON9a2CT5y9OzVkPDcAp6CE3uyMsFg0p2qXlCg4OuvBcxeL5GnpH4rm5mj1OHSg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+bhicP4CY3sjAFiewb9Yf7plu6tDkh74Wew/klj5QMTclgNAc
- cJoLUU0qS+YXPcqeBtspO4tcmWJYZzV5DRZ5oOox+4z2p2RaUgT1CLpJksbUO60=
-X-Gm-Gg: ASbGnctTo+e/Mio4rSTvnifJllqLa5ERSPlRFaJvEfv5z79PniJ7HPLNNgG1MFCe3/L
- 78MgJX4+bUMnZsfT/LrCY2JrNcOq4YDMa8r1Wf2Po0/CxgjSF+PhDGOzFRaWA3uA/XWzNALtyaz
- K6OX6fR6dhV1FXMDNEG4Q0NgHUOxpcqfDvHvHF29fUvXv/LiDroL+hn1P509yJnQt+n/J5aLtym
- mCRNe4+CrwYUPkIQ69a0mdGV6oGdpuDhFiA7P3q3W8ov0y/w4nMHlqKU+9Z7910u2P4PWsyI2rW
- Nle2I4uRarAERi01CxdrOd2tXhExHg==
-X-Google-Smtp-Source: AGHT+IGfLTfcEm+aaMxybBxbVKL1US/VY5OZiq/tUksfQrDmttijCUwRwCJjRKEGbqDV/mDp0pZhPw==
-X-Received: by 2002:a05:6512:b14:b0:53d:dda4:8b0c with SMTP id
- 2adb3069b0e04-53df00d0332mr10008210e87.18.1732997650904; 
- Sat, 30 Nov 2024 12:14:10 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df6496467sm858800e87.187.2024.11.30.12.14.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Nov 2024 12:14:09 -0800 (PST)
-Date: Sat, 30 Nov 2024 22:14:07 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Nikolaus Voss <nv@vosn.de>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>, 
- Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Fabio Estevam <festevam@denx.de>, Marek Vasut <marex@denx.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>, 
- nikolaus.voss@haag-streit.com
-Subject: Re: [PATCH] drm: bridge: fsl-ldb: fixup mode on freq mismatch
-Message-ID: <ljxbp7e6ywj2btbo22gvh3ijuwq6hzaahcph2vcsh6xiyzdyla@vuz437cyxe3e>
-References: <20241126172610.AD8B51622C@mail.steuer-voss.de>
- <lio6natmz5d5hdmdxwuj5ghfbpl4medb2orhw2m27m6g3rvaga@tanmydgbufg2>
- <c05e762f-a9c3-4655-7b21-8490d91fd858@vosn.de>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29DCF10E0A3
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 20:25:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=7zLaGCMDGsCJKOc1IwLPI+bZJjfcisw70zunW0yk10M=; b=0zKLputJip9nTRlXLWyCCTQ13n
+ 1f/TZEKJPD/pkyR4NLE51GUwc7dCni98FZE/XXSaF9f0Ih5jKhQoUMWm2vcG4vAw95L/qERg2x67l
+ S/tTkfeWDzDr38USyDKIzP6O9sjp1tWRMpBoYORU8GccFAXgGaqL2rwEihHXg2QhAixwg/fPfAK3K
+ 7ivms/2XXWzV6dkE8eX6HVMxNkZjX2yXpXFVz193aqEhvOG2i6w8TylQrCdRgFrKRB4K/6hv9tCPj
+ 7egDlw08oLvW1tEHuAJv819qMZFd1gnkaBft7CofvqxX6l9FROxThpBfvGdWuUY9VXvjqqFZCoPh1
+ B4GIpIOg==;
+Received: from i5e86190f.versanet.de ([94.134.25.15] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tHU1h-0005Ux-7S; Sat, 30 Nov 2024 21:25:13 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com,
+ cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
+ andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com,
+ kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org
+Subject: Re: [PATCH v1 04/10] phy: phy-rockchip-samsung-hdptx: Add support for
+ eDP mode
+Date: Sat, 30 Nov 2024 21:25:12 +0100
+Message-ID: <2886747.Y6S9NjorxK@diego>
+In-Reply-To: <6e1f35c0-5ea8-414f-b3ea-4e7222c605ef@rock-chips.com>
+References: <20241127075157.856029-1-damon.ding@rock-chips.com>
+ <2131853.KlZ2vcFHjT@diego>
+ <6e1f35c0-5ea8-414f-b3ea-4e7222c605ef@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c05e762f-a9c3-4655-7b21-8490d91fd858@vosn.de>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,128 +69,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 30, 2024 at 07:57:17PM +0100, Nikolaus Voss wrote:
-> Hi Dmitry,
-> 
-> On Sat, 30 Nov 2024, Dmitry Baryshkov wrote:
-> > On Tue, Nov 26, 2024 at 04:45:54PM +0100, Nikolaus Voss wrote:
-> > > LDB clock has to be a fixed multiple of the pixel clock.
-> > > As LDB and pixel clock are derived from different clock sources
-> > > (at least on imx8mp), this constraint cannot be satisfied for
-> > > any pixel clock, which leads to flickering and incomplete
-> > > lines on the attached display.
-> > > 
-> > > To overcome this, check this condition in mode_fixup() and
-> > > adapt the pixel clock accordingly.
-> > > 
-> > > Cc: <stable@vger.kernel.org>
-> > > 
-> > > Signed-off-by: Nikolaus Voss <nv@vosn.de>
-> > > ---
-> > >  drivers/gpu/drm/bridge/fsl-ldb.c | 40 ++++++++++++++++++++++++++++----
-> > >  1 file changed, 36 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-> > > index 0e4bac7dd04ff..e341341b8c600 100644
-> > > --- a/drivers/gpu/drm/bridge/fsl-ldb.c
-> > > +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-> > > @@ -104,12 +104,14 @@ static inline struct fsl_ldb *to_fsl_ldb(struct drm_bridge *bridge)
-> > >  	return container_of(bridge, struct fsl_ldb, bridge);
-> > >  }
-> > > 
-> > > +static unsigned int fsl_ldb_link_freq_factor(const struct fsl_ldb *fsl_ldb)
-> > > +{
-> > > +	return fsl_ldb_is_dual(fsl_ldb) ? 3500 : 7000;
-> > > +}
-> > > +
-> > >  static unsigned long fsl_ldb_link_frequency(struct fsl_ldb *fsl_ldb, int clock)
-> > >  {
-> > > -	if (fsl_ldb_is_dual(fsl_ldb))
-> > > -		return clock * 3500;
-> > > -	else
-> > > -		return clock * 7000;
-> > > +	return clock * fsl_ldb_link_freq_factor(fsl_ldb);
-> > >  }
-> > > 
-> > >  static int fsl_ldb_attach(struct drm_bridge *bridge,
-> > > @@ -121,6 +123,35 @@ static int fsl_ldb_attach(struct drm_bridge *bridge,
-> > >  				 bridge, flags);
-> > >  }
-> > > 
-> > > +static bool fsl_ldb_mode_fixup(struct drm_bridge *bridge,
-> > > +				const struct drm_display_mode *mode,
-> > > +				struct drm_display_mode *adjusted_mode)
-> > 
-> > The driver uses atomic callbacks. Please use .atomic_check() instead.
-> 
-> So it is okay to modify drm_crtc_state->adjusted_mode in .atomic_check()? I
+Hi Damon,
 
-Yes. samsung-dsim, anx7625 do that (I stopped checking after the second
-one).
+Am Freitag, 29. November 2024, 03:43:57 CET schrieb Damon Ding:
+> On 2024/11/27 19:04, Heiko St=FCbner wrote:
+> > Am Mittwoch, 27. November 2024, 12:00:10 CET schrieb Damon Ding:
+> >> On 2024/11/27 17:29, Heiko St=FCbner wrote:
+> >>> Am Mittwoch, 27. November 2024, 08:51:51 CET schrieb Damon Ding:
+> >>>> +static int rk_hdptx_phy_set_mode(struct phy *phy, enum phy_mode mod=
+e,
+> >>>> +				 int submode)
+> >>>> +{
+> >>>> +	return 0;
+> >>>> +}
+> >>>
+> >>> I think it might make sense to go the same way as the DCPHY and also
+> >>> naneng combophy, to use #phy-cells =3D 1 to select the phy-mode via D=
+T .
+> >>>
+> >>> See [0] for Sebastians initial suggestion regarding the DC-PHY.
+> >>> The naneng combophy already uses that scheme of mode-selection too.
+> >>>
+> >>> There is of course the issue of backwards-compatibility, but that can=
+ be
+> >>> worked around in the binding with something like:
+> >>>
+> >>>    '#phy-cells':
+> >>>       enum: [0, 1]
+> >>>       description: |
+> >>>         If #phy-cells is 0, PHY mode is set to PHY_TYPE_HDMI
+> >>>         If #phy-cells is 1 mode is set in the PHY cells. Supported mo=
+des are:
+> >>>           - PHY_TYPE_HDMI
+> >>>           - PHY_TYPE_DP
+> >>>         See include/dt-bindings/phy/phy.h for constants.
+> >>>
+> >>> PHY_TYPE_HDMI needs to be added to include/dt-bindings/phy/phy.h
+> >>> but PHY_TYPE_DP is already there.
+> >>>
+> >>> That way we would standardize on one form of accessing phy-types
+> >>> on rk3588 :-) .
+> >>>
+> >>> Also see the Mediatek CSI rx phy doing this too already [1]
+> >>>
+> >>>
+> >>> Heiko
+> >>>
+> >>> [0] https://lore.kernel.org/linux-rockchip/udad4qf3o7kt45nuz6gxsvsmpr=
+h4rnyfxfogopmih6ucznizih@7oj2jrnlfonz/
+> >>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/tree/Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml
+> >>>
+> >>
+> >> It is really a nice way to separate HDMI and DP modes.
+>=20
+> I apologize for reopening the discussion about the phy-types setting.
 
-> chose .mode_fixup() because the function name and args make it more obvious
-> what is done there. Btw, the API reference doesn't say this call is
-> deprecated.
+there is definitly no need to apologize. We're trying to find the best
+solution afterall :-) .
 
-It's not deprecated. But as the driver is using atomic calls (vs legacy
-calls) it makes more sense to use atomic_check() too.
 
-> A second thought:
-> Maybe it would be a good idea to reject modes which result in an adjusted
-> mode pclk that is not within certain boundaries, even if this patch doesn't
-> do it yet. As I see it, that would be only possible in mode_fixup().
+> With the .set_mode() of struct phy_ops, the HDMI and eDP dynamic=20
+> switching can be achieved, which just depends on the right setting of
+> enum phy_mode in include/linux/phy/phy.h. So the previous way of=20
+> configuring phy mode may be also good.
 
-atomic_check() can definitely reject whatever is being stuffed to it.
+I think the deciding factor is, is there a use-case for needing to switch
+modes at runtime.
 
-> 
-> > 
-> > > +{
-> > > +	const struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
-> > > +	unsigned long requested_link_freq =
-> > > +		mode->clock * fsl_ldb_link_freq_factor(fsl_ldb);
-> > > +	unsigned long freq = clk_round_rate(fsl_ldb->clk, requested_link_freq);
-> > > +
-> > > +	if (freq != requested_link_freq) {
-> > > +		/*
-> > > +		 * this will lead to flicker and incomplete lines on
-> > > +		 * the attached display, adjust the CRTC clock
-> > > +		 * accordingly.
-> > > +		 */
-> > > +		int pclk = freq / fsl_ldb_link_freq_factor(fsl_ldb);
-> > > +
-> > > +		if (adjusted_mode->clock != pclk) {
-> > > +			dev_warn(fsl_ldb->dev, "Adjusted pixel clk to match LDB clk (%d kHz -> %d kHz)!\n",
-> > > +				 adjusted_mode->clock, pclk);
-> > > +
-> > > +			adjusted_mode->clock = pclk;
-> > > +			adjusted_mode->crtc_clock = pclk;
-> > > +		}
-> > > +	}
-> > > +
-> > > +	return true;
-> > > +}
-> > > +
-> > >  static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
-> > >  				  struct drm_bridge_state *old_bridge_state)
-> > >  {
-> > > @@ -280,6 +311,7 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
-> > > 
-> > >  static const struct drm_bridge_funcs funcs = {
-> > >  	.attach = fsl_ldb_attach,
-> > > +	.mode_fixup = fsl_ldb_mode_fixup,
-> > >  	.atomic_enable = fsl_ldb_atomic_enable,
-> > >  	.atomic_disable = fsl_ldb_atomic_disable,
-> > >  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> > > --
-> > > 2.43.0
-> > > 
-> > 
-> > 
-> 
-> -- 
-> Nikolaus Voss
-> 
+I do think the mode for the dc-phy and also the hdptx-phy is pretty much
+decided by the board design.
 
--- 
-With best wishes
-Dmitry
+I.e. when you end up in a DP-connector (or eDP-panel) on your board you
+need DP mode, and when you end up in a hdmi-connector you need the
+HDMI phy mode.
+
+So I think the phy-mode for the hdptx-phy is largely dictated by the static
+board definition (like devicetree), hence going with the dt-argument for
+the mode.
+
+Like similar to the Naneng combophy, selecting its mode via argument
+because deciding if it ends up in a sata port is a board-design thing.
+
+
+Is there a use-case where you need to switch at runtime between
+hdmi and eDP? Like starting the phy in eDP mode but then needing
+to switch to HDMI mode, while the device is running?
+
+
+> And other phys may want to support dynamic switching too, like the=20
+> Rockchip USBDP combo phy.
+
+I guess USBDP is special in that in also does both modes dynamical
+depending on its use (like type-c with option DP altmode)
+
+
+Have a great weekend
+Heiko
+
+
