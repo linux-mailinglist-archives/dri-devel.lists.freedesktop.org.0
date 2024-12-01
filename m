@@ -2,115 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2479DF441
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Dec 2024 01:44:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912609DF4D7
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Dec 2024 06:37:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89EC610E5F0;
-	Sun,  1 Dec 2024 00:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A8310E09F;
+	Sun,  1 Dec 2024 05:37:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="O1gQaRem";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="EpmJUQuJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01BA010E5F0
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Dec 2024 00:44:43 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-5d0cfb9fecaso1017590a12.2
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Nov 2024 16:44:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733013882; x=1733618682; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=YDP6TwU0/tWdPmghJyb5pX8fLQAMwFaK6bFPGzZBnzs=;
- b=O1gQaRemvUPPC+81K8jHl0ep/3ZJ+Ay+JmQ9I+XGMquwlIf66Mgyjbzezi8JYLW/WU
- FUrwGwWArZqpwPC5/BzjWrNBgxYilxwLkAf7y5L5+vve4Oa8zsoSxXi6MdvT9yvL4i+O
- z9Qvb6y8QJBorpf5xR4BSBdJCl6klTjtqcQD+9hn2ZtCZj/gFuQ8LRS5wqObUmztVUa/
- 9GAXX3wVWfAObGPsK+06R7hv0SKZjHDJP4FK9wYrKRQMIl7sYO5XZZj2Ic9VZ7NaykXm
- yy/LpVNCaW367zV6+3VwlCC9CRzQOL8iDR3KrrREFoHYd79od4uSGBkOrI3r4fZqeJGB
- Ez7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733013882; x=1733618682;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YDP6TwU0/tWdPmghJyb5pX8fLQAMwFaK6bFPGzZBnzs=;
- b=hgmKx4gbvZd6gExxdz8yKC+vWiR2VxAbo6xc3IfRFlPeHU6VhN+p6xF8WEqmf0SAtn
- Jq3yJQl5hEPT2d8nR3AeJY6oUIPXpjYqRvF4GDw7z9f5079jcVEHjnTpSN0jVBtcgtkz
- Qp7W8RjQ7VPTuKaoHDn6QLs7WWAiGAjHrrIXi9FO2U5qszQhHuTPbmNa6SI9W596oCa0
- BRTyM7qohOUAxE2Cbk7fdgr93oVhGIycVzqX5EOGEB+2lat/YhJ4laNaXWH7b/aZZx3l
- xvsBZx+Ax88AdTSLBsiEktOBDMdnF2DVWNuj8TUWI/aZGOqGiUyIwas78qTDuUwkXEFR
- 1J3Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9WRLvVrVXCJKYwDG+L+h/fIHB4ZXndO5rQZIeU2TI/+x+tbSQQ32IlJj0Hdqk3XJbBLK0DMkt5Q0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylHldwbmUhTm72IF5TmLTi+qWHfI7qG5vZGO+O8LoNgKlQpB+t
- FJFm8XmaaTvWMUFHp8x3u+oSAx/P2mag5U/43TOpfQypDTVsSkGAnC0pKFbxyNo=
-X-Gm-Gg: ASbGnct0y0tnLuiFyxmJte6t/UFY2cfUNsCIWYzz+oqeBufrND1sIzCnv1W/uQWthqo
- FYjLp4ttUwLUf46Vg/UZeHV+Azzq4cyaCK1apwiV3GEwU+7R4a9lS/7kQGyHt82sLaGHUvxaDPD
- A6Zft30FUaygdShrMXIdMQiLbYMkNGz/BUuz9ywMkcfrBzv2LhzYNcZrFieFczCu5epLY47SlIm
- nu2Y17jUVj5UOs8t3t1T5qGIcf+NM6nRg76CPlc3oAW7AAIxKhnNEpVyA==
-X-Google-Smtp-Source: AGHT+IE5Iodta2UQP6qjtd0G2oZywxiR+z/FGF+U8cJWDKR8GZEI1K1wlfh9Q8JImD1VouVwulpc4Q==
-X-Received: by 2002:a05:6402:26cf:b0:5d0:8f25:24ff with SMTP id
- 4fb4d7f45d1cf-5d08f252625mr12479352a12.14.1733013882366; 
- Sat, 30 Nov 2024 16:44:42 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d097e8d817sm3400359a12.63.2024.11.30.16.44.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Nov 2024 16:44:41 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 01 Dec 2024 02:44:13 +0200
-Subject: [PATCH v5 9/9] drm/vc4: hdmi: use
- drm_atomic_helper_connector_hdmi_update_edid()
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3757810E09F
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Dec 2024 05:37:01 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E7030E0002;
+ Sun,  1 Dec 2024 05:36:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1733031419;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pG3aq7ChDFKR5kxszkO7RJhggVK2WiMzGe31zZp8WjM=;
+ b=EpmJUQuJ/u6gYkCs8YkwbPIch//T9TaQEG3mI7pU4HKwsmou6w4XDhS7td5y+uiinjvguE
+ z41xfna0ngdtJ9ha8O3/VxUe9NFtpup8/jSsTQGxm9bFOQiCiSMuRPnc9U61vuu9sa5m+Q
+ C7FdiJo7oAbRzFWBlPfGFpH90gWRzSKU6OY063wCRI5eUv39VreMU+3eC7D0jZ59I7igev
+ l7Nte1hnRkzfiVFsUQJlVC69XDh/ZAFiutdSbo/97/xTf6EL7koR4YWYT/vxjmB/hz4ygY
+ HUCttssjpd0LXLic4qaaB6Qspmp+Ks0kDYzkWM8VE6/SlGiU/fOl8FqLiIUcCg==
+Date: Sun, 1 Dec 2024 06:36:53 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Ananta Srikar Puranam <srikarananta01@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Subject: Re: Interest in Contributing to VKMS Development
+Message-ID: <Z0v19YeZa2IAooUV@fedora>
+References: <09cf19a7-b153-4da4-8704-f702f41909d3@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241201-drm-bridge-hdmi-connector-v5-9-b5316e82f61a@linaro.org>
-References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
-In-Reply-To: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-rockchip@lists.infradead.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1798;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=m9cAK5FN1NFJb6UQkn9k+gemX+2/diBeTweGL7F7R7w=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnS7FZMmMFV20DgQUuh8v5FF4nWRo8BcSipooZa
- EIAyUUoJziJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0uxWQAKCRCLPIo+Aiko
- 1dDwB/wJfW4xZABPDcU/eL/SukBx0cSr5TyqsC+NOU/8rIY3SPpHoNzt2tfD+tYhv2vKAqVGaT+
- Y0Pd3xmibwzv12VUOjFt+1ZbNthzF8qyG6keOs747UGZJQ69PhRds6t4Rw0KD2DFD1qgLnoX/w3
- NmWud73M/PrrwTQ2hUm3HuLVNhUfXRhEp/60uu1faJkCzG0RKUK8ibOREThgoBWt/fKvWDG+Ohf
- Vsyc20q84GR6TrucJQRzobBfpKYBr77Vpb3pn0XZ9hGN3YwhCtLPDipCwnoXnmPkM17bSL8dJW4
- kP1LucL4uQp1AahjZxJZFLIhzCNDNlresD4ccZFTjoNzadBW
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <09cf19a7-b153-4da4-8704-f702f41909d3@gmail.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,49 +58,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the helper function to update the connector's information. This
-makes sure that HDMI-related events are handled in a generic way.
-Currently it is limited to the HDMI state reporting to the sound system.
++Cc: dri-devel@lists.freedesktop.org 
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+On 30/11/24 - 13:49, Ananta Srikar Puranam wrote:
+> Dear Louis Chauvet,
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index d0a9aff7ad43016647493263c00d593296a1e3ad..d83f587ab69f4b8f7d5c37a00777f11da8301bc1 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -401,13 +401,16 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
- 	 */
+Hi Srikar!
+
+> I was able to successfully compile Linux with VKMS enabled and have set up
+> igt-gpu-tests in a QEMU machine. I can now run some tests successfully.
+
+Congratulation!
  
- 	if (status == connector_status_disconnected) {
-+		drm_atomic_helper_connector_hdmi_update_edid(connector, NULL);
- 		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
- 		return;
- 	}
- 
- 	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
- 
--	drm_edid_connector_update(connector, drm_edid);
-+	// TODO: use drm_atomic_helper_connector_hdmi_update() once it gains
-+	// CEC support
-+	drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
- 	cec_s_phys_addr(vc4_hdmi->cec_adap,
- 			connector->display_info.source_physical_address, false);
- 
-@@ -487,7 +490,9 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
- 	 */
- 
- 	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
--	drm_edid_connector_update(connector, drm_edid);
-+	// TODO: use drm_atomic_helper_connector_hdmi_update() once it gains
-+	// CEC support
-+	drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
- 	cec_s_phys_addr(vc4_hdmi->cec_adap,
- 			connector->display_info.source_physical_address, false);
- 	if (!drm_edid)
+> I have a surface-level understanding of the DRM and KMS subsystems
+> (framebuffers, planes, CRTCs, encoders, and connectors) and am eager to dive
+> deeper into the VKMS module and contribute.
+
+I am very happy to see some interest in VKMS development, do you have a 
+specific feature that you want to test?
+
+> I understand VKMS helps test the DRM subsystem, but I’m struggling to fully
+> grasp how the absence of visible display output aligns with its testing
+> goals. Any guidance on this would be highly appreciated.
+
+That the whole point of "V"KMS, everything is virtual, even the display 
+output :)
+
+There are two way to get some information about the output content:
+- CRC compuation [1]
+- Writeback connector [2]
+
+The CRC will allows you to write a test like this:
+
+	create_reference_image();
+	ref_crc = grab_crc();
+
+	test_procedure();
+	test_crc = grab_crc();
+
+	assert(ref_crc, test_crc);
+
+This is used in the igt test "kms_plane" to test color conversion, they 
+compute a reference CRC and then test the conversion between multiple 
+formats [3].
+
+The writeback connector is useful to grab a "screenshot" of the output, 
+but it is a bit less efficient. It can be used when a simple "reference 
+CRC" is not possible. 
+To grab a picture from the writeback connector, you have to do something 
+like this:
+
+	setup_pipeline();
+	wb_fb = create_fb();
+	while (true) {
+		send_fb_to_wb_connector(wb_fb);
+		wait_for_picture();
+		do_something_with_result(wb_fb);
+	}
+
+There is a writeback example in igt [4], but I don't know how it works.
+
+[1]:https://elixir.bootlin.com/linux/v6.12.1/source/drivers/gpu/drm/vkms/vkms_composer.c#L209
+[2]:https://elixir.bootlin.com/linux/v6.12.1/source/drivers/gpu/drm/vkms/vkms_writeback.c#L171
+[3]:https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tests/kms_plane.c#L1036
+[4]:https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tests/kms_writeback.c
+
+> Additionally, I noticed the TODO item to add the plane feature (background
+> color KMS property). It seems like a good starting point, and I would be
+> grateful for direction on how to approach it.
+
+I think this is the good direction, yes!
+
+All your patches must be on top of drm-misc-next [5]. If you are not 
+familiar with kernel contribution, I invite you to look at the kernel 
+documentation [6] and at the amazing b4 tool [7].
+
+For the implementation itself, I think you have to work in the function 
+blend, probably around the fill_background function [8]. You also need to 
+attach a BACKGROUND property on the CRTC [9]. I think you have to do it 
+somewhere in crtc initialization [10].
+
+[5]:https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-misc-next 
+[6]:https://docs.kernel.org/process/contribution-maturity-model.html
+[7]:https://b4.docs.kernel.org/
+[8]:https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/vkms/vkms_composer.c#L389
+[9]:https://drmdb.emersion.fr/properties/3435973836/BACKGROUND
+[10]:https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/vkms/vkms_crtc.c?ref_type=heads#L273
+
+> Thank you for your time, and I look forward to your guidance.
+> 
+> Best regards,
+> Srikar
 
 -- 
-2.39.5
-
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
