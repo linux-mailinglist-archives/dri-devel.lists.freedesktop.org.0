@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0209DF536
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Dec 2024 11:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DC79DF539
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Dec 2024 11:38:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AFFA10E216;
-	Sun,  1 Dec 2024 10:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 548D410E3E9;
+	Sun,  1 Dec 2024 10:38:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="J7kLu88k";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="NclyeTDx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2080.outbound.protection.outlook.com [40.107.244.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD69E10E216;
- Sun,  1 Dec 2024 10:38:17 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2087.outbound.protection.outlook.com [40.107.92.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C06AA10E3F7;
+ Sun,  1 Dec 2024 10:38:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l2eEo3JjBbLTQYmp7JaASfZ+08c2xUiSPMRSCJxNZonGKUR9kKEUYOAiosWiBx0zxpD0ura8P3PlT0MA5ifyiS/SFWVU1BeR3zSvKpBpBo5pBRFRI6wKpPINOS9lhsnNFeUuwmfVKDgOD9cPBiIFrxWZUsbv8bSUGeCWd2/Tgj8pZhwfdPjXEpRZofMapyf1EGvygvYShOgX48sarHfTGyZdeYYfr9eRV1sqoefMxjVFggMOE9KNnuznetSWxp6+4jSUgIRrPaJdLsfsa5D9heZ1ap5kLiv1jW3ZzK56mVBX3hUBR1+ubSRDIlVlj2ARhLdSLRoxijFrY6caW5Fo/g==
+ b=coZf6enY2JBnvm4OLwRB7JgceBNOiI7U4xaMYBAHGjNDFlnLZlSCmoy+2dcG3QU6FudTnxDYKuWKufl75C9YfUFYgyS2flpFJVQXjNmadWff0d4ULmQcu+5uawAlMDL9WXLEkuD94UeMoDqmPwvPvbUyUR1WK7dv/tHePIKVL3x+bsjBNyfbqCQ0mXFgOcN39aA8TPydA7rCY7rb/h24Hg0+S5lohqqYrXby4rOUescTlkOeXXMC5ynkECPE86nrZAA96vQcmwjDCZyMVAUi+MEMiTq4pOwGQdDt4dWByBYSbIz/1mCRTwVtt+g31KpskCLuIJBCCJde8sSb4aWX/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UA/4IxtsjDCMtBq0SlhR9bcQvXIpvvmGq2lJk5dRHR4=;
- b=YFR0hPn4TAMd0ljg+5Rsn1f7SzbtmM0jbSrPybw1+kn40+58X19wXjZvr04BKFEceKISYuWCdHJ1Ig37846HqEH5I4aPfgFqFZZwoJSG2lLgTztunsgwyCdrhoZgON1D1OTCBE9eMNX1xh4niFlKpp1DT5TBJAHkodgtEqKJamnbPaQPpNpMwusfdFVCN4pKsKxSJy2uwYVaAYK3o3MZD3XG0mN7pSILY6Xb9k9iTJ/23RxIJ+XsM1HWxWc4bmlcU7EhENJOSYqd0wgg5/QOMRZ6gV98z6NWewsDpOfBnz9SjZCgK3aw0gDfu+hyR1aR6My3PSYWLcRtOhr7kyWydQ==
+ bh=kbyg+LGFlJ8ejF7f5+c17QNDW/EF3rYADtqdJApzx3s=;
+ b=e4gOfd70LeeZyPKSvZN9NvGgdfezc6iG51jm+X/e6bq3wz29elY0UaFJbJ4HXzn2UCkLjPKlRXfd61zV4V1OUrBTvp3rMVHi8hcG0Coxc7xjh0i7VXzjChYhyyycmWO2Ypg0d4yQ+FNnpqm9jmBhh6bQnp+Pw18T1dCS5bNA2KWEHK8bvMHS3omTCLLTYmQc8pQwkLLnZ4YAZVNPdPjVEadfFKO17c7xjCc1mvDMFwaOejxysxEwYoHtu3THPA3+O25nLJ00rNaQ7oS/b6BcIkOp4tm7g/4nlhd6QPW9bTflaLHfczUJWiSKYfgsHHR7iPLVwc0dAnjAvXsmjJMtcg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ 216.228.118.233) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UA/4IxtsjDCMtBq0SlhR9bcQvXIpvvmGq2lJk5dRHR4=;
- b=J7kLu88kTOcBPx3vqLhtD5Q7ANddfM2NN5b9z+Jj6nJuh3bzGFMF+ssoaqsvz9B9zVOngS0xCcvy1ozISCWVXUU75aUECHNOQlxtlGkY047i7IgZQ6aUwUWzvLvN0FK63v2HEqlqZEGu/ArSljRbyXXe1Qzz5Lr468Zqutbz9Y2BIuDsMKO5XiynaYL8/3/l1UesxfL5XAXaBqfFZnC0/LXaxYQ6PLL3X8S8HRRTWNTg4eZ6COx/+qbeMK9BbnnF3Kwcm9Pos95lKnh7wkK9WMGeopXpK+e5i3P+yxfIXq2/euOSAMIurqddDT2siB1R5jlQbO0T6MbgI3SR4GEAYA==
-Received: from CH0PR03CA0258.namprd03.prod.outlook.com (2603:10b6:610:e5::23)
- by PH7PR12MB6657.namprd12.prod.outlook.com (2603:10b6:510:1fe::7)
+ bh=kbyg+LGFlJ8ejF7f5+c17QNDW/EF3rYADtqdJApzx3s=;
+ b=NclyeTDxNisNJmR9xwDac4qKn+fI9eC2DdkCOQpcty40fxUri1vd3LV1olE8n4QvKQanJVU/LDZ5CRH+sjbDc7uy1SvGSQPpQRf3dbTTTC2ZncgmTS6sF63Qptc0YPTQmjlR52aEcm+CguSZCVSUM9xJVEB3KX+7ltsgQWzWgB7ndk7C/cQVW091kw/qAO/CwABlFd2T9lW3c+KaxLOZdV4Nzh0wFt+gDLGuJZ4p8FAEV9HhBBDYBE1j6mxQU+53bjNw58htgjVBue/JgncyTi1JVhhYUjHOiIMuilcTSh39Lbazpl71/CMQEDVwFzLKB0kylRDgDcKRmKwNSgu+rg==
+Received: from BLAPR03CA0051.namprd03.prod.outlook.com (2603:10b6:208:32d::26)
+ by IA1PR12MB7688.namprd12.prod.outlook.com (2603:10b6:208:420::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.17; Sun, 1 Dec
- 2024 10:38:07 +0000
-Received: from DS3PEPF0000C37D.namprd04.prod.outlook.com
- (2603:10b6:610:e5:cafe::7e) by CH0PR03CA0258.outlook.office365.com
- (2603:10b6:610:e5::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.15; Sun, 1 Dec
+ 2024 10:38:16 +0000
+Received: from BL02EPF0001A0FA.namprd03.prod.outlook.com
+ (2603:10b6:208:32d:cafe::57) by BLAPR03CA0051.outlook.office365.com
+ (2603:10b6:208:32d::26) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8207.16 via Frontend Transport; Sun,
- 1 Dec 2024 10:38:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ 1 Dec 2024 10:38:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- DS3PEPF0000C37D.mail.protection.outlook.com (10.167.23.7) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8230.7 via Frontend Transport; Sun, 1 Dec 2024 10:38:06 +0000
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ BL02EPF0001A0FA.mail.protection.outlook.com (10.167.242.101) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8230.7 via Frontend Transport; Sun, 1 Dec 2024 10:38:16 +0000
 Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Sun, 1 Dec 2024
- 02:37:59 -0800
+ 02:38:06 -0800
 Received: from drhqmail202.nvidia.com (10.126.190.181) by
  drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Sun, 1 Dec 2024 02:37:59 -0800
+ 15.2.1544.4; Sun, 1 Dec 2024 02:38:06 -0800
 Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.126.190.181)
  with Microsoft SMTP Server id 15.2.1544.4 via Frontend Transport;
- Sun, 1 Dec 2024 02:37:55 -0800
+ Sun, 1 Dec 2024 02:38:02 -0800
 From: Yonatan Maman <ymaman@nvidia.com>
 To: <kherbst@redhat.com>, <lyude@redhat.com>, <dakr@redhat.com>,
  <airlied@gmail.com>, <simona@ffwll.ch>, <jgg@ziepe.ca>, <leon@kernel.org>,
@@ -72,9 +72,9 @@ To: <kherbst@redhat.com>, <lyude@redhat.com>, <dakr@redhat.com>,
  <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
  <linux-tegra@vger.kernel.org>
-Subject: [RFC 2/5] nouveau/dmem: HMM P2P DMA for private dev pages
-Date: Sun, 1 Dec 2024 12:36:56 +0200
-Message-ID: <20241201103659.420677-3-ymaman@nvidia.com>
+Subject: [RFC 3/5] IB/core: P2P DMA for device private pages
+Date: Sun, 1 Dec 2024 12:36:57 +0200
+Message-ID: <20241201103659.420677-4-ymaman@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241201103659.420677-1-ymaman@nvidia.com>
 References: <20241201103659.420677-1-ymaman@nvidia.com>
@@ -84,51 +84,51 @@ Content-Type: text/plain
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF0000C37D:EE_|PH7PR12MB6657:EE_
-X-MS-Office365-Filtering-Correlation-Id: 124e31bd-e88b-4ca1-39ff-08dd11f43e3b
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FA:EE_|IA1PR12MB7688:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad54d123-a9c9-4cc4-275a-08dd11f443c8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|1800799024|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JlS2ib7zLFQeVi6ncrc2kdUZJp2r0qik4WAftnohOi3NKtCjGgBHNVCHagKJ?=
- =?us-ascii?Q?VsVtDZLUGjbL0hXTaXVHlFhDYjmLET7+lsD1Ocj6Wi8/5NhRqBAHt8weob7r?=
- =?us-ascii?Q?qsh7rIQyOn6D0C0lD8s30oVBrjQ1g87nHBqXDhDMkVVgjLrhrIrg7rFKf7J9?=
- =?us-ascii?Q?WPppxEghzj/1NXOSxQ41IacPlMaR6zyu1qoMiw8DlIvZ/QyQqqKGgtvxwf63?=
- =?us-ascii?Q?ga0TxfqoB3Jnylq5Va7atDb3F/9K9h0gpn5et5D58nx+J1Nw54YbavFq+bdS?=
- =?us-ascii?Q?PWM5rSVSAp/fF8tFbh/AUcQkcs+Z9gPtrNKRkKKp3UKLdfJLxXcBHzRnu5rA?=
- =?us-ascii?Q?eYwrfjOcMghYwxYuRt77TC/hlzdrODOABw7YyhiKWTS4KnzwoyKvmGoJ6M+f?=
- =?us-ascii?Q?qOfXdG3J9ToXTVJv/hIx9EShZMCrAsbcqLnhC38pmbbAS/VcpejWft2aI25C?=
- =?us-ascii?Q?FXkHKWQ7CTj57YNj6f+j3IunJIWTy0HLaEWitjA8vJqiZIZAr9LjYqNdD0T9?=
- =?us-ascii?Q?PlCYtDuTYNJXewpkPlHPOFduxaZvQn5ZaV/5ddO28DJ2sthzuL/3BtPb4WfN?=
- =?us-ascii?Q?KJIfXElem7lBOZKeutUgVBAtnbnec2nP3v9sTT2euD1OQD3VlFHuvExwFMGW?=
- =?us-ascii?Q?nb9SInN31LApKows2OytZB5RKBBBR1QOThncUqHE3eoiynkOpwp3i/cVaLaw?=
- =?us-ascii?Q?nsBHyc3aGAcKgehPgw1ctrYmdGC7X6PnsdNWsXrhPT57afgb80s+mePrwiVJ?=
- =?us-ascii?Q?Dpye96Rrlx+lY40PuGBdiOKA5+uOg++sxXTRb73LYt1P8Tc0a/OvIJInmn44?=
- =?us-ascii?Q?oe8gflN9w7kAMWFXpqHJz5NSoLhw4AZrigCuVFHU3bpj/snpS+GzZWGHEOQe?=
- =?us-ascii?Q?foVUw4luvt4lTb33UlAVpexBi/H7ltDAKewwfXZgx3oktCo5REFn7NVI5FS4?=
- =?us-ascii?Q?HecdrOqw1cCaoUHtZWKzHTyuMAhSQFE3oUStkwtz7QhuNnsPVhqB6GUTrKoT?=
- =?us-ascii?Q?v4M+eKD5je3Om74v3QNFs/j9H9Ezy1Y6lGF9JE/9OquA8V7fkqkkJDndNmW9?=
- =?us-ascii?Q?zN/4jaszSGnVSZ/d4WYUk6MVC3QwcnqBUJ9i1Gk95EkiI6F6AFzqBWexKQDX?=
- =?us-ascii?Q?gH5f9HFV2f8JfMJDVjTsSDG6MXUOm+zOdlLUsucl/FkFBjKPz3t4z5sNgYP8?=
- =?us-ascii?Q?nxGluyzoVbCPSfOUiVaiNSexx/M7/Opz/Rm8+uWQsUGwaBZwrdzUPMtrRKNb?=
- =?us-ascii?Q?pyto0ES7MR9IXWiRzU1w4BCVYuvcTDpXJfZ8R2tDPhwmMJVqLxtsw39EUHBF?=
- =?us-ascii?Q?Tgq3j7Yzn4rnIScVU0wUDoju9kJErnqA1q/cKrICzN19bHOsif0Bkdg4X2nl?=
- =?us-ascii?Q?LeNTbsexiBf71RlZuS+XTedCM37Oz71H4dMHGw0YX2dHCK4t5UeVhUqyAQE5?=
- =?us-ascii?Q?tPe2rdH0hECam+IxIUJ8Hz8ab3k/pT+WX876AtQpUNMdhClFKXyYIQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.118.232; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge1.nvidia.com; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(1800799024)(7416014)(376014)(921020);
+ ARA:13230040|376014|7416014|82310400026|1800799024|36860700013|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?KZmezP+Wq3JGWwEB6N2WfTCFWHXrLwv6y4ywRh7UDxP1riQyHowo0PqAEKLN?=
+ =?us-ascii?Q?gkvKmbu7GXRKLQOLbYdmny38oYZjVTmGWWfICCTb7xFQmtziftdTch5u9//d?=
+ =?us-ascii?Q?HUqYpFlG3Wmj2SKp2fabhu5Rf47KRSWos9iYi+QHlsPNSYrE/m2HtMhcjZVF?=
+ =?us-ascii?Q?lTkvbcEcZ49KhFZyC5u3blC3tQhHarQdfbArMDq2DN+XqUUyq8Ph6Jcr470V?=
+ =?us-ascii?Q?sxuiD3FB4J4TtFPNhCI56HyzBF52Ks+FpEREKeto+ItnWsA2Oa884y0d/zsN?=
+ =?us-ascii?Q?iejgvcgE8CAnVPIBEHRy2NICJ3EC1Z8aXHwktsHbYn2iMIg32NmYUR/xPjY9?=
+ =?us-ascii?Q?mbAePwr/WoHkZnU8y+odqIUsy/epypEPqh123pLnw4GmPZEbLIa+3jUe9GaJ?=
+ =?us-ascii?Q?bUgfRBWxWCW9k8xmd660o+jt8yQJLAQmb/fxG7nEp7QQLpPCbmclIFEkIFXp?=
+ =?us-ascii?Q?Jp/jMMFmmv63aHkjAACwtIrbGSDUpJFHCPWBe8eSr9qk7N2U6TB4MAGwqq4Z?=
+ =?us-ascii?Q?3BRCwQzZRdsVku+yvQ/ooqEa1ukT96ontW0U6ONKkkt41v8KbnEX5a9VsPHJ?=
+ =?us-ascii?Q?TuNn2F4/T3sKRbbGimdGDHQAMmkvwtIDZGSBRSdgzbvNnlHMSVhteiQwcLYY?=
+ =?us-ascii?Q?BvWD9eNyI+a6IBf3jzl4DJNookWHeOOQQWWMgxeBZskaJjgqrd1IB+QB6P2X?=
+ =?us-ascii?Q?BWo1POzLuJ67VQMKp7pAwL/QLJ3GUB+5W4YWBytOMamvWPjamGL68mVzw0eB?=
+ =?us-ascii?Q?B8K6/G1GKhWQuOc0UXf47SfDN1XhWms3wGASdVzSXgqsWMYQ0mtHaL5XqY9x?=
+ =?us-ascii?Q?BXyyQI58le43hx+8XfWDSGJvAX47B6+DItbrjugC8KTKDpz7R4DdFnddtVBq?=
+ =?us-ascii?Q?HfgDLV2oG7WzCPDc1zuFvBdxJ7dk8IOX3rxKYdOHlbkOOS1cZXCr+AAuLnke?=
+ =?us-ascii?Q?LToXDOwLuVASYPxmq6/5LYtpFirYtaHsXnx6nFEcobnel2JXnRv4zUyMDWFC?=
+ =?us-ascii?Q?En2684DiFv40aSZ1ns71shiHfxQDWjvaLnrst1SobrkjUOeLRfnzW4wn5K8I?=
+ =?us-ascii?Q?jGtovmhS839NstxI0/gxlXjCHODaqblTBVKtXLJPSJB7oX19XUR+ebj9t4yc?=
+ =?us-ascii?Q?xqYBotFhKQ3LBifRuE71Cw2PVC7Bs4YF8jiIfIqqkb/WafICTe0HIco8D71B?=
+ =?us-ascii?Q?Xms9vLPeC9qIwC0lUaAJ8TC1UQxAeQIFRvE//JcJUY8QBAdmF9LVMySen1fV?=
+ =?us-ascii?Q?cTWdLdzZAndu60Irp8XKfC841fsIKFjh5y3eyGVv9VKm2+PHRlQkWQmJyvkM?=
+ =?us-ascii?Q?rA8q3LzO9RSAj9wQqfO2Ptv339a4A1jJ0CNOuqDbQEoAgWaSoDdlsX9RhHb3?=
+ =?us-ascii?Q?tkhmvCTJOk9mIVQAePaID/mbywlkVM2ssdWRrmjeUroF+m9DZKRTxEw2uDhi?=
+ =?us-ascii?Q?IzdU9EUyJBFKIFt9YtQ1J7yquiKICbIwpyaO987Y7hwwoNWdaU6P4A=3D=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.118.233; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(36860700013)(921020);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2024 10:38:06.8833 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 124e31bd-e88b-4ca1-39ff-08dd11f43e3b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2024 10:38:16.1486 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad54d123-a9c9-4cc4-275a-08dd11f443c8
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.232];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.233];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF0000C37D.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FA.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6657
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7688
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,226 +146,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yonatan Maman <Ymaman@Nvidia.com>
 
-Enabling Peer-to-Peer DMA (P2P DMA) access in GPU-centric applications
-is crucial for minimizing data transfer overhead (e.g., for RDMA use-
-case).
+Add Peer-to-Peer (P2P) DMA request for hmm_range_fault calling,
+utilizing capabilities introduced in mm/hmm. By setting
+range.default_flags to HMM_PFN_REQ_FAULT | HMM_PFN_REQ_TRY_P2P, HMM
+attempts to initiate P2P DMA connections for device private pages
+(instead of page fault handling).
 
-This change aims to enable that capability for Nouveau over HMM device
-private pages. P2P DMA for private device pages allows the GPU to
-directly exchange data with other devices (e.g., NICs) without needing
-to traverse system RAM.
-
-To fully support Peer-to-Peer for device private pages, the following
-changes are made:
-
- - Introduce struct nouveau_dmem_hmm_p2p within struct nouveau_dmem
-   to manage BAR1 PCI P2P memory. p2p_start_addr holds the virtual
-   address allocated with pci_alloc_p2pmem(), and p2p_size represents
-   the allocated size of the PCI P2P memory.
-
- - nouveau_dmem_init - Ensure BAR1 accessibility and assign struct
-   pages (PCI_P2P_PAGE) for all BAR1 pages. Introduce
-   nouveau_alloc_bar1_pci_p2p_mem in nouveau_dmem to expose BAR1 for
-   use as P2P memory via pci_p2pdma_add_resource and implement static
-   allocation and assignment of struct pages using pci_alloc_p2pmem.
-   This function will be called from nouveau_dmem_init, and failure
-   triggers a warning message instead of driver failure.
-
- - nouveau_dmem_fini - Ensure BAR1 PCI P2P memory is properly
-   destroyed during driver cleanup. Introduce
-   nouveau_destroy_bar1_pci_p2p_mem to handle freeing of PCI P2P
-   memory associated with Nouveau BAR1. Modify nouveau_dmem_fini to
-   call nouveau_destroy_bar1_pci_p2p_mem.
-
- - Implement Nouveau `p2p_page` callback function - Implement BAR1
-   mapping for the chunk using `io_mem_reserve` if no mapping exists.
-   Retrieve the pre-allocated P2P virtual address and size from
-   `hmm_p2p`. Calculate the page offset within BAR1 and return the
-   corresponding P2P page.
+This enhancement utilizes P2P DMA to reduce performance overhead
+during data migration between devices (e.g., GPU) and system memory,
+providing performance benefits for GPU-centric applications that
+utilize RDMA and device private pages.
 
 Signed-off-by: Yonatan Maman <Ymaman@Nvidia.com>
-Reviewed-by: Gal Shalom <GalShalom@Nvidia.com>
+Signed-off-by: Gal Shalom <GalShalom@Nvidia.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_dmem.c | 110 +++++++++++++++++++++++++
- 1 file changed, 110 insertions(+)
+ drivers/infiniband/core/umem_odp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-index 1a072568cef6..003e74895ff4 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-@@ -40,6 +40,9 @@
- #include <linux/hmm.h>
- #include <linux/memremap.h>
- #include <linux/migrate.h>
-+#include <linux/pci-p2pdma.h>
-+#include <nvkm/core/pci.h>
- 
- /*
-  * FIXME: this is ugly right now we are using TTM to allocate vram and we pin
-@@ -77,9 +80,15 @@ struct nouveau_dmem_migrate {
- 	struct nouveau_channel *chan;
- };
- 
-+struct nouveau_dmem_hmm_p2p {
-+	size_t p2p_size;
-+	void *p2p_start_addr;
-+};
-+
- struct nouveau_dmem {
- 	struct nouveau_drm *drm;
- 	struct nouveau_dmem_migrate migrate;
-+	struct nouveau_dmem_hmm_p2p hmm_p2p;
- 	struct list_head chunks;
- 	struct mutex mutex;
- 	struct page *free_pages;
-@@ -158,6 +167,60 @@ static int nouveau_dmem_copy_one(struct nouveau_drm *drm, struct page *spage,
- 	return 0;
- }
- 
-+static int nouveau_dmem_bar1_mapping(struct nouveau_bo *nvbo,
-+				     unsigned long long *bus_addr)
-+{
-+	int ret;
-+	struct ttm_resource *mem = nvbo->bo.resource;
-+
-+	if (mem->bus.offset) {
-+		*bus_addr = mem->bus.offset;
-+		return 0;
-+	}
-+
-+	if (PFN_UP(nvbo->bo.base.size) > PFN_UP(nvbo->bo.resource->size))
-+		return -EINVAL;
-+
-+	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = nvbo->bo.bdev->funcs->io_mem_reserve(nvbo->bo.bdev, mem);
-+	*bus_addr = mem->bus.offset;
-+
-+	ttm_bo_unreserve(&nvbo->bo);
-+	return ret;
-+}
-+
-+static int nouveau_dmem_get_dma_pfn(struct page *private_page,
-+				    unsigned long *dma_pfn)
-+{
-+	int ret;
-+	unsigned long long offset_in_chunk;
-+	unsigned long long chunk_bus_addr;
-+	unsigned long long bar1_base_addr;
-+	struct nouveau_drm *drm = page_to_drm(private_page);
-+	struct nouveau_bo *nvbo = nouveau_page_to_chunk(private_page)->bo;
-+	struct nvkm_device *nv_device = nvxx_device(drm);
-+	size_t p2p_size = drm->dmem->hmm_p2p.p2p_size;
-+
-+	bar1_base_addr = nv_device->func->resource_addr(nv_device, 1);
-+	offset_in_chunk =
-+		(page_to_pfn(private_page) << PAGE_SHIFT) -
-+		nouveau_page_to_chunk(private_page)->pagemap.range.start;
-+
-+	ret = nouveau_dmem_bar1_mapping(nvbo, &chunk_bus_addr);
-+	if (ret)
-+		return ret;
-+
-+	*dma_pfn = chunk_bus_addr + offset_in_chunk;
-+	if (!p2p_size || *dma_pfn > bar1_base_addr + p2p_size ||
-+	    *dma_pfn < bar1_base_addr)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
- static vm_fault_t nouveau_dmem_migrate_to_ram(struct vm_fault *vmf)
- {
- 	struct nouveau_drm *drm = page_to_drm(vmf->page);
-@@ -221,6 +284,7 @@ static vm_fault_t nouveau_dmem_migrate_to_ram(struct vm_fault *vmf)
- static const struct dev_pagemap_ops nouveau_dmem_pagemap_ops = {
- 	.page_free		= nouveau_dmem_page_free,
- 	.migrate_to_ram		= nouveau_dmem_migrate_to_ram,
-+	.get_dma_pfn_for_device = nouveau_dmem_get_dma_pfn,
- };
- 
- static int
-@@ -413,14 +477,31 @@ nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
- 	kvfree(dma_addrs);
- }
- 
-+static void nouveau_destroy_bar1_pci_p2p_mem(struct nouveau_drm *drm,
-+					     struct pci_dev *pdev,
-+					     void *p2p_start_addr,
-+					     size_t p2p_size)
-+{
-+	if (p2p_size)
-+		pci_free_p2pmem(pdev, p2p_start_addr, p2p_size);
-+
-+	NV_INFO(drm, "PCI P2P memory freed(%p)\n", p2p_start_addr);
-+}
-+
- void
- nouveau_dmem_fini(struct nouveau_drm *drm)
- {
- 	struct nouveau_dmem_chunk *chunk, *tmp;
-+	struct nvkm_device *nv_device = nvxx_device(drm);
- 
- 	if (drm->dmem == NULL)
- 		return;
- 
-+	nouveau_destroy_bar1_pci_p2p_mem(drm,
-+					 nv_device->func->pci(nv_device)->pdev,
-+					 drm->dmem->hmm_p2p.p2p_start_addr,
-+					 drm->dmem->hmm_p2p.p2p_size);
-+
- 	mutex_lock(&drm->dmem->mutex);
- 
- 	list_for_each_entry_safe(chunk, tmp, &drm->dmem->chunks, list) {
-@@ -586,10 +667,28 @@ nouveau_dmem_migrate_init(struct nouveau_drm *drm)
- 	return -ENODEV;
- }
- 
-+static int nouveau_alloc_bar1_pci_p2p_mem(struct nouveau_drm *drm,
-+					  struct pci_dev *pdev, size_t size,
-+					  void **pp2p_start_addr)
-+{
-+	int ret;
-+
-+	ret = pci_p2pdma_add_resource(pdev, 1, size, 0);
-+	if (ret)
-+		return ret;
-+
-+	*pp2p_start_addr = pci_alloc_p2pmem(pdev, size);
-+
-+	NV_INFO(drm, "PCI P2P memory allocated(%p)\n", *pp2p_start_addr);
-+	return 0;
-+}
-+
- void
- nouveau_dmem_init(struct nouveau_drm *drm)
- {
- 	int ret;
-+	struct nvkm_device *nv_device = nvxx_device(drm);
-+	size_t bar1_size;
- 
- 	/* This only make sense on PASCAL or newer */
- 	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_PASCAL)
-@@ -610,6 +709,17 @@ nouveau_dmem_init(struct nouveau_drm *drm)
- 		kfree(drm->dmem);
- 		drm->dmem = NULL;
+diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
+index 51d518989914..4c2465b9bdda 100644
+--- a/drivers/infiniband/core/umem_odp.c
++++ b/drivers/infiniband/core/umem_odp.c
+@@ -332,6 +332,10 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
+ 			range.default_flags |= HMM_PFN_REQ_WRITE;
  	}
-+
-+	/* Expose BAR1 for HMM P2P Memory */
-+	bar1_size = nv_device->func->resource_size(nv_device, 1);
-+	ret = nouveau_alloc_bar1_pci_p2p_mem(drm,
-+					     nv_device->func->pci(nv_device)->pdev,
-+					     bar1_size,
-+					     &drm->dmem->hmm_p2p.p2p_start_addr);
-+	drm->dmem->hmm_p2p.p2p_size = (ret) ? 0 : bar1_size;
-+	if (ret)
-+		NV_WARN(drm,
-+			"PCI P2P memory allocation failed, HMM P2P won't be supported\n");
- }
  
- static unsigned long nouveau_dmem_migrate_copy_one(struct nouveau_drm *drm,
++	if (access_mask & HMM_PFN_ALLOW_P2P)
++		range.default_flags |= HMM_PFN_ALLOW_P2P;
++
++	range.pfn_flags_mask = HMM_PFN_ALLOW_P2P;
+ 	range.hmm_pfns = &(umem_odp->map.pfn_list[pfn_start_idx]);
+ 	timeout = jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+ 
 -- 
 2.34.1
 
