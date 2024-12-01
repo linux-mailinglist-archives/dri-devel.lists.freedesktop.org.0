@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4DC79DF539
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Dec 2024 11:38:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E919E9DF53C
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Dec 2024 11:38:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 548D410E3E9;
-	Sun,  1 Dec 2024 10:38:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6C310E3F7;
+	Sun,  1 Dec 2024 10:38:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="NclyeTDx";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ju7jO10U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2087.outbound.protection.outlook.com [40.107.92.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C06AA10E3F7;
- Sun,  1 Dec 2024 10:38:22 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2085.outbound.protection.outlook.com [40.107.223.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 673F310E3F7;
+ Sun,  1 Dec 2024 10:38:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=coZf6enY2JBnvm4OLwRB7JgceBNOiI7U4xaMYBAHGjNDFlnLZlSCmoy+2dcG3QU6FudTnxDYKuWKufl75C9YfUFYgyS2flpFJVQXjNmadWff0d4ULmQcu+5uawAlMDL9WXLEkuD94UeMoDqmPwvPvbUyUR1WK7dv/tHePIKVL3x+bsjBNyfbqCQ0mXFgOcN39aA8TPydA7rCY7rb/h24Hg0+S5lohqqYrXby4rOUescTlkOeXXMC5ynkECPE86nrZAA96vQcmwjDCZyMVAUi+MEMiTq4pOwGQdDt4dWByBYSbIz/1mCRTwVtt+g31KpskCLuIJBCCJde8sSb4aWX/w==
+ b=k9dML4BQOGhYdlULdXPLescpYREcpwyP+gI/Wqk0F6LKybELoTDPCeEDJlkUGFWj5+/IS4Xa9/yJtzYxjuGB4U+NaydsT2MbO25AwO9waKrdw9ug1/N2XHvaSt2hK1WKog9EvwYXZF/9taAIuCu+3n4EeK8VCzIxiqxWOvcxVsQ31TBEuUo1ahoCPokigqWIgeYzqta3Xkw9HPI2iK4q6Hf6AAcuZSz8Kuc8qnROywGUJlUJtdUX2Lnvc1ImmVQQEjRzmEWEJvrylnN90PtxNwi+euwSh6bVHdMmiK+8HbcLGDp8g2S3uifP5DgbKdPrZaLe6OWNoQ5LJxzyt0LDxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kbyg+LGFlJ8ejF7f5+c17QNDW/EF3rYADtqdJApzx3s=;
- b=e4gOfd70LeeZyPKSvZN9NvGgdfezc6iG51jm+X/e6bq3wz29elY0UaFJbJ4HXzn2UCkLjPKlRXfd61zV4V1OUrBTvp3rMVHi8hcG0Coxc7xjh0i7VXzjChYhyyycmWO2Ypg0d4yQ+FNnpqm9jmBhh6bQnp+Pw18T1dCS5bNA2KWEHK8bvMHS3omTCLLTYmQc8pQwkLLnZ4YAZVNPdPjVEadfFKO17c7xjCc1mvDMFwaOejxysxEwYoHtu3THPA3+O25nLJ00rNaQ7oS/b6BcIkOp4tm7g/4nlhd6QPW9bTflaLHfczUJWiSKYfgsHHR7iPLVwc0dAnjAvXsmjJMtcg==
+ bh=G5lebes+3vCSQ2c73btKjDroQu3/xg9vnF+gZ5x1ies=;
+ b=qcNa8aQa4F2oo5STzR1V7B/QrCRj5jkxPnY9cHCsXZIEo2Hz/zP8OwMJn6m/OVTlvHDuNkewhj/KzT0kc4njdyCJjNOceDhrIKwO+1Ndlg8olaSijZUX/I19kZR3apfQBWjKMeyUg6dGTb5cxYzgojahBbCPnTYD12yWZnyYMyHYe9jwhHzirYD+nzzo9vErE83xdJ8WkXMxZD2aSiaOOH7MnfSwT/G7vSlQAcF6wsyAy9m+Bf8k1vw8JVCgj4bG5vOfPqPaTKE6XDm5qqMWpxzNgRw8JPrnihov+ZlHHYvUx+ebvthWgB/cvl9BDWp2zYVpnQb4Ia4xbNhpBq3C8g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.118.233) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -30,18 +30,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kbyg+LGFlJ8ejF7f5+c17QNDW/EF3rYADtqdJApzx3s=;
- b=NclyeTDxNisNJmR9xwDac4qKn+fI9eC2DdkCOQpcty40fxUri1vd3LV1olE8n4QvKQanJVU/LDZ5CRH+sjbDc7uy1SvGSQPpQRf3dbTTTC2ZncgmTS6sF63Qptc0YPTQmjlR52aEcm+CguSZCVSUM9xJVEB3KX+7ltsgQWzWgB7ndk7C/cQVW091kw/qAO/CwABlFd2T9lW3c+KaxLOZdV4Nzh0wFt+gDLGuJZ4p8FAEV9HhBBDYBE1j6mxQU+53bjNw58htgjVBue/JgncyTi1JVhhYUjHOiIMuilcTSh39Lbazpl71/CMQEDVwFzLKB0kylRDgDcKRmKwNSgu+rg==
-Received: from BLAPR03CA0051.namprd03.prod.outlook.com (2603:10b6:208:32d::26)
- by IA1PR12MB7688.namprd12.prod.outlook.com (2603:10b6:208:420::13)
+ bh=G5lebes+3vCSQ2c73btKjDroQu3/xg9vnF+gZ5x1ies=;
+ b=ju7jO10U7pE96ufbXoZ9BffptrFQJEnU/yIKGbzekfWQA7tUaOjvIzMzOd6n3MszQP4AZG3XqgFwqpusZKXuZQnRVV/qwygsNLb/rCz/eaYa5Jm/AYHHDH0dA28b2i2DrKQbJluSnkXAxE6D83WjoRcV10iaa0wILDKTMsWgVH1mm0wf31YWC28kSHdiekYheRv2+0/kIU8NBCQYq6UMFW4YMC+fbJ9Og/fSGugfw0hSCsoSXQ6kzNzwBXfu5P+xwABhtQeh1lSCvYQ1kZvDJb2itSJ04BEjEQhmIyEd7NvkgeVyXcVGjgTrz8DgmUyUw6BXJ2uXVf1mGqrsk4OW4g==
+Received: from BN1PR10CA0010.namprd10.prod.outlook.com (2603:10b6:408:e0::15)
+ by IA1PR12MB9524.namprd12.prod.outlook.com (2603:10b6:208:596::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.15; Sun, 1 Dec
- 2024 10:38:16 +0000
-Received: from BL02EPF0001A0FA.namprd03.prod.outlook.com
- (2603:10b6:208:32d:cafe::57) by BLAPR03CA0051.outlook.office365.com
- (2603:10b6:208:32d::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8207.16 via Frontend Transport; Sun,
- 1 Dec 2024 10:38:16 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.17; Sun, 1 Dec
+ 2024 10:38:24 +0000
+Received: from BL02EPF0001A0FC.namprd03.prod.outlook.com
+ (2603:10b6:408:e0:cafe::cf) by BN1PR10CA0010.outlook.office365.com
+ (2603:10b6:408:e0::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8207.17 via Frontend Transport; Sun,
+ 1 Dec 2024 10:38:24 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
@@ -50,20 +50,20 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.118.233 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.118.233) by
- BL02EPF0001A0FA.mail.protection.outlook.com (10.167.242.101) with Microsoft
+ BL02EPF0001A0FC.mail.protection.outlook.com (10.167.242.103) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8230.7 via Frontend Transport; Sun, 1 Dec 2024 10:38:16 +0000
+ 15.20.8230.7 via Frontend Transport; Sun, 1 Dec 2024 10:38:23 +0000
 Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
  (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Sun, 1 Dec 2024
- 02:38:06 -0800
+ 02:38:11 -0800
 Received: from drhqmail202.nvidia.com (10.126.190.181) by
  drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Sun, 1 Dec 2024 02:38:06 -0800
+ 15.2.1544.4; Sun, 1 Dec 2024 02:38:11 -0800
 Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.126.190.181)
  with Microsoft SMTP Server id 15.2.1544.4 via Frontend Transport;
- Sun, 1 Dec 2024 02:38:02 -0800
+ Sun, 1 Dec 2024 02:38:07 -0800
 From: Yonatan Maman <ymaman@nvidia.com>
 To: <kherbst@redhat.com>, <lyude@redhat.com>, <dakr@redhat.com>,
  <airlied@gmail.com>, <simona@ffwll.ch>, <jgg@ziepe.ca>, <leon@kernel.org>,
@@ -72,9 +72,9 @@ To: <kherbst@redhat.com>, <lyude@redhat.com>, <dakr@redhat.com>,
  <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>,
  <linux-tegra@vger.kernel.org>
-Subject: [RFC 3/5] IB/core: P2P DMA for device private pages
-Date: Sun, 1 Dec 2024 12:36:57 +0200
-Message-ID: <20241201103659.420677-4-ymaman@nvidia.com>
+Subject: [RFC 4/5] RDMA/mlx5: Add fallback for P2P DMA errors
+Date: Sun, 1 Dec 2024 12:36:58 +0200
+Message-ID: <20241201103659.420677-5-ymaman@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241201103659.420677-1-ymaman@nvidia.com>
 References: <20241201103659.420677-1-ymaman@nvidia.com>
@@ -84,51 +84,51 @@ Content-Type: text/plain
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FA:EE_|IA1PR12MB7688:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad54d123-a9c9-4cc4-275a-08dd11f443c8
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FC:EE_|IA1PR12MB9524:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1202fbe9-9a6b-47be-1980-08dd11f4485a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|82310400026|1800799024|36860700013|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?KZmezP+Wq3JGWwEB6N2WfTCFWHXrLwv6y4ywRh7UDxP1riQyHowo0PqAEKLN?=
- =?us-ascii?Q?gkvKmbu7GXRKLQOLbYdmny38oYZjVTmGWWfICCTb7xFQmtziftdTch5u9//d?=
- =?us-ascii?Q?HUqYpFlG3Wmj2SKp2fabhu5Rf47KRSWos9iYi+QHlsPNSYrE/m2HtMhcjZVF?=
- =?us-ascii?Q?lTkvbcEcZ49KhFZyC5u3blC3tQhHarQdfbArMDq2DN+XqUUyq8Ph6Jcr470V?=
- =?us-ascii?Q?sxuiD3FB4J4TtFPNhCI56HyzBF52Ks+FpEREKeto+ItnWsA2Oa884y0d/zsN?=
- =?us-ascii?Q?iejgvcgE8CAnVPIBEHRy2NICJ3EC1Z8aXHwktsHbYn2iMIg32NmYUR/xPjY9?=
- =?us-ascii?Q?mbAePwr/WoHkZnU8y+odqIUsy/epypEPqh123pLnw4GmPZEbLIa+3jUe9GaJ?=
- =?us-ascii?Q?bUgfRBWxWCW9k8xmd660o+jt8yQJLAQmb/fxG7nEp7QQLpPCbmclIFEkIFXp?=
- =?us-ascii?Q?Jp/jMMFmmv63aHkjAACwtIrbGSDUpJFHCPWBe8eSr9qk7N2U6TB4MAGwqq4Z?=
- =?us-ascii?Q?3BRCwQzZRdsVku+yvQ/ooqEa1ukT96ontW0U6ONKkkt41v8KbnEX5a9VsPHJ?=
- =?us-ascii?Q?TuNn2F4/T3sKRbbGimdGDHQAMmkvwtIDZGSBRSdgzbvNnlHMSVhteiQwcLYY?=
- =?us-ascii?Q?BvWD9eNyI+a6IBf3jzl4DJNookWHeOOQQWWMgxeBZskaJjgqrd1IB+QB6P2X?=
- =?us-ascii?Q?BWo1POzLuJ67VQMKp7pAwL/QLJ3GUB+5W4YWBytOMamvWPjamGL68mVzw0eB?=
- =?us-ascii?Q?B8K6/G1GKhWQuOc0UXf47SfDN1XhWms3wGASdVzSXgqsWMYQ0mtHaL5XqY9x?=
- =?us-ascii?Q?BXyyQI58le43hx+8XfWDSGJvAX47B6+DItbrjugC8KTKDpz7R4DdFnddtVBq?=
- =?us-ascii?Q?HfgDLV2oG7WzCPDc1zuFvBdxJ7dk8IOX3rxKYdOHlbkOOS1cZXCr+AAuLnke?=
- =?us-ascii?Q?LToXDOwLuVASYPxmq6/5LYtpFirYtaHsXnx6nFEcobnel2JXnRv4zUyMDWFC?=
- =?us-ascii?Q?En2684DiFv40aSZ1ns71shiHfxQDWjvaLnrst1SobrkjUOeLRfnzW4wn5K8I?=
- =?us-ascii?Q?jGtovmhS839NstxI0/gxlXjCHODaqblTBVKtXLJPSJB7oX19XUR+ebj9t4yc?=
- =?us-ascii?Q?xqYBotFhKQ3LBifRuE71Cw2PVC7Bs4YF8jiIfIqqkb/WafICTe0HIco8D71B?=
- =?us-ascii?Q?Xms9vLPeC9qIwC0lUaAJ8TC1UQxAeQIFRvE//JcJUY8QBAdmF9LVMySen1fV?=
- =?us-ascii?Q?cTWdLdzZAndu60Irp8XKfC841fsIKFjh5y3eyGVv9VKm2+PHRlQkWQmJyvkM?=
- =?us-ascii?Q?rA8q3LzO9RSAj9wQqfO2Ptv339a4A1jJ0CNOuqDbQEoAgWaSoDdlsX9RhHb3?=
- =?us-ascii?Q?tkhmvCTJOk9mIVQAePaID/mbywlkVM2ssdWRrmjeUroF+m9DZKRTxEw2uDhi?=
- =?us-ascii?Q?IzdU9EUyJBFKIFt9YtQ1J7yquiKICbIwpyaO987Y7hwwoNWdaU6P4A=3D=3D?=
+ ARA:13230040|36860700013|1800799024|82310400026|7416014|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?lggH5GV1eeXpGR81zJS92Pi/2C8pUZROuRntiu1vQfJEBRAw3t/d7cOMJ0dF?=
+ =?us-ascii?Q?iaSe/wiolGsxLqWdglPM64sJb8lJafSxRJmuEHmAPqlgR/S8ii/nCy0xcRFN?=
+ =?us-ascii?Q?1M6w6QQTESz5EOuYW+N38n5l07E8kXcLzd0ZPA8RzSL4dVJLgKdJe/g6+GRo?=
+ =?us-ascii?Q?mHajRSlDM32RmesXrsU+nsWQhrWCMIXIwzG7hTX+lSbSpgLebt5KhrFVgqPB?=
+ =?us-ascii?Q?JqswdCo73IRWb8bGb51nww/JrSmYrbgQOc4Z3uExNRxG+OqQb23jRDv4UypQ?=
+ =?us-ascii?Q?G/19zZ8prTBhgcZPgQNKQKeyHNMGftOY/kFtg6eNzTEv229vSkH72fehR9Ep?=
+ =?us-ascii?Q?B8OB9XfU0UyAq3BCvMVRN6g7RLLyAoHTjbjHT+NCNkj7nS8AwLg/z/t+je3c?=
+ =?us-ascii?Q?O3EXmjqI4/OSIhKkjlCpaTYY3wjLUmkhS9TLVTr2JTZxHPsX07jOhtXycUyC?=
+ =?us-ascii?Q?vT+GWso8NosLDyJFrEtMB5wXXO4ZKBirZqhgkFi6rkD2HdGipL3ZKo3WVKrx?=
+ =?us-ascii?Q?4t/8jjimHlNcYhapu9N8+Gldp/Z80B7HnXydjSKtSGwvSesQ2d4hRMrWvBpz?=
+ =?us-ascii?Q?A8ziv1xak0LmkmPHud8kaOo4cRtX6Gm3+HtWTB9mDvMz8+2JDdjOggeyHAJG?=
+ =?us-ascii?Q?65L3PAFCszfuOrj/8kTblGvzTUmFTD6wst5Iwd/5D7DFaTrLfl6RlvKcRzoV?=
+ =?us-ascii?Q?/xfOzZnx0XjBDLKQyT9wclE3InYCDYe0hP7W3qEhRi83uU3UbKVmOeyAIQ5a?=
+ =?us-ascii?Q?mrjulxusEzdSqkiTzdaudxBxc2xfKpB8Gglc+1zyPwaglvUQ+iZWif1Lu+cJ?=
+ =?us-ascii?Q?7dp4DwUw3Ql2lr7QzRcSrzjBB3eLntCe/DcXE9luBYSgs1Hw89/peG0vyzdt?=
+ =?us-ascii?Q?k8YUQmz8RewPIje59VaTmGPeZ988Vr2c56UlwOq6FLn9VWNDdUa14zawVzQt?=
+ =?us-ascii?Q?s/AHPW52nvTbhn6iM+0uSPTm6zTogPOm3vnsY0V38Ru/u9I7oVw7EWXp2wPf?=
+ =?us-ascii?Q?2i5plvYe5b+A2u69lDzB8NGufVMW2jQVO2FllhMlI8r34kSlCdj8hLE52Ve7?=
+ =?us-ascii?Q?b+XDp8EOFtzri3578SIXZkk/h7q7YjX5xSru3h2rUCVZVIh8K9Q0fTdP1LBb?=
+ =?us-ascii?Q?Cxop+WQQlF8aM98kF9yzO7Udo8y5+pwirapeR6zgmKMFhyxCYVPAt3spcTEW?=
+ =?us-ascii?Q?0RTbFm3rjsFk655rqqeRizK7YfWTQeRUK10IIowqTteabWEDjRb6gFBSOZTM?=
+ =?us-ascii?Q?qfgMLbEJmoHPqlgMi0N7hhQAI3700M5/Not7Z4L/492r8pjKjgZ+x1TtGFqu?=
+ =?us-ascii?Q?ImlPsauUghTqzD2gUw1MqTY492ZbuGWEd6f0KejAIIhvnayXdt+XKIC+NoJx?=
+ =?us-ascii?Q?sImmyOvL9IxgeMcgEkrTAhCLBORCwmxLCwddg9ChHTuJaqcIo408nTo7luyI?=
+ =?us-ascii?Q?nTwrj5YWhcY5A0NLm3ISxlXoZ26CXr3qoEpSOSNgxLTm+dcLImT/cA=3D=3D?=
 X-Forefront-Antispam-Report: CIP:216.228.118.233; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(36860700013)(921020);
+ SFS:(13230040)(36860700013)(1800799024)(82310400026)(7416014)(376014)(921020);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2024 10:38:16.1486 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad54d123-a9c9-4cc4-275a-08dd11f443c8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2024 10:38:23.8003 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1202fbe9-9a6b-47be-1980-08dd11f4485a
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.233];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FA.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FC.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7688
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9524
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,38 +146,86 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yonatan Maman <Ymaman@Nvidia.com>
 
-Add Peer-to-Peer (P2P) DMA request for hmm_range_fault calling,
-utilizing capabilities introduced in mm/hmm. By setting
-range.default_flags to HMM_PFN_REQ_FAULT | HMM_PFN_REQ_TRY_P2P, HMM
-attempts to initiate P2P DMA connections for device private pages
-(instead of page fault handling).
+Handle P2P DMA mapping errors when the transaction requires traversing
+an inaccessible host bridge that is not in the allowlist:
 
-This enhancement utilizes P2P DMA to reduce performance overhead
-during data migration between devices (e.g., GPU) and system memory,
-providing performance benefits for GPU-centric applications that
-utilize RDMA and device private pages.
+- In `populate_mtt`, if a P2P mapping fails, the `HMM_PFN_ALLOW_P2P` flag
+  is cleared only for the PFNs that returned a mapping error.
+
+- In `pagefault_real_mr`, if a P2P mapping error occurs, the mapping is
+  retried with the `HMM_PFN_ALLOW_P2P` flag only for the PFNs that didn't
+  fail, ensuring a fallback to standard DMA(host memory) for the rest,
+if possible.
 
 Signed-off-by: Yonatan Maman <Ymaman@Nvidia.com>
 Signed-off-by: Gal Shalom <GalShalom@Nvidia.com>
 ---
- drivers/infiniband/core/umem_odp.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/infiniband/hw/mlx5/odp.c | 24 +++++++++++++++++++++---
+ 1 file changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
-index 51d518989914..4c2465b9bdda 100644
---- a/drivers/infiniband/core/umem_odp.c
-+++ b/drivers/infiniband/core/umem_odp.c
-@@ -332,6 +332,10 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
- 			range.default_flags |= HMM_PFN_REQ_WRITE;
+diff --git a/drivers/infiniband/hw/mlx5/odp.c b/drivers/infiniband/hw/mlx5/odp.c
+index fbb2a5670c32..f7a1291ec7d1 100644
+--- a/drivers/infiniband/hw/mlx5/odp.c
++++ b/drivers/infiniband/hw/mlx5/odp.c
+@@ -169,6 +169,7 @@ static int populate_mtt(__be64 *pas, size_t start, size_t nentries,
+ 	struct pci_p2pdma_map_state p2pdma_state = {};
+ 	struct ib_device *dev = odp->umem.ibdev;
+ 	size_t i;
++	int ret = 0;
+ 
+ 	if (flags & MLX5_IB_UPD_XLT_ZAP)
+ 		return 0;
+@@ -184,8 +185,11 @@ static int populate_mtt(__be64 *pas, size_t start, size_t nentries,
+ 
+ 		dma_addr = hmm_dma_map_pfn(dev->dma_device, &odp->map,
+ 					   start + i, &p2pdma_state);
+-		if (ib_dma_mapping_error(dev, dma_addr))
+-			return -EFAULT;
++		if (ib_dma_mapping_error(dev, dma_addr)) {
++			odp->map.pfn_list[start + i] &= ~(HMM_PFN_ALLOW_P2P);
++			ret = -EFAULT;
++			continue;
++		}
+ 
+ 		dma_addr |= MLX5_IB_MTT_READ;
+ 		if ((pfn & HMM_PFN_WRITE) && !downgrade)
+@@ -194,7 +198,7 @@ static int populate_mtt(__be64 *pas, size_t start, size_t nentries,
+ 		pas[i] = cpu_to_be64(dma_addr);
+ 		odp->npages++;
  	}
+-	return 0;
++	return ret;
+ }
  
-+	if (access_mask & HMM_PFN_ALLOW_P2P)
-+		range.default_flags |= HMM_PFN_ALLOW_P2P;
-+
-+	range.pfn_flags_mask = HMM_PFN_ALLOW_P2P;
- 	range.hmm_pfns = &(umem_odp->map.pfn_list[pfn_start_idx]);
- 	timeout = jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+ int mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
+@@ -696,6 +700,10 @@ static int pagefault_real_mr(struct mlx5_ib_mr *mr, struct ib_umem_odp *odp,
+ 	if (odp->umem.writable && !downgrade)
+ 		access_mask |= HMM_PFN_WRITE;
  
++	/*
++	 * try fault with HMM_PFN_ALLOW_P2P flag
++	 */
++	access_mask |= HMM_PFN_ALLOW_P2P;
+ 	np = ib_umem_odp_map_dma_and_lock(odp, user_va, bcnt, access_mask, fault);
+ 	if (np < 0)
+ 		return np;
+@@ -705,6 +713,16 @@ static int pagefault_real_mr(struct mlx5_ib_mr *mr, struct ib_umem_odp *odp,
+ 	 * ib_umem_odp_map_dma_and_lock already checks this.
+ 	 */
+ 	ret = mlx5r_umr_update_xlt(mr, start_idx, np, page_shift, xlt_flags);
++	if (ret == -EFAULT) {
++		/*
++		 * Indicate P2P Mapping Error, retry with no HMM_PFN_ALLOW_P2P
++		 */
++		access_mask &= ~HMM_PFN_ALLOW_P2P;
++		np = ib_umem_odp_map_dma_and_lock(odp, user_va, bcnt, access_mask, fault);
++		if (np < 0)
++			return np;
++		ret = mlx5r_umr_update_xlt(mr, start_idx, np, page_shift, xlt_flags);
++	}
+ 	mutex_unlock(&odp->umem_mutex);
+ 
+ 	if (ret < 0) {
 -- 
 2.34.1
 
