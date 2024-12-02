@@ -2,72 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6479E014E
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 13:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525429E016F
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 13:06:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7CA10E04E;
-	Mon,  2 Dec 2024 12:04:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8641710E22C;
+	Mon,  2 Dec 2024 12:06:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="GKrlcZjF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hbHRhY2l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CFA010E04E
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 12:04:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1733141031; x=1733745831; i=wahrenst@gmx.net;
- bh=nWGDAmxiHyIBg8+U2A+dscE96ndlmhSiOSdyCCYeSDo=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
- MIME-Version:Content-Transfer-Encoding:cc:
- content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=GKrlcZjFceQ7v4ieNhv0AwvOHZaLGi8yQxN8MRUiOij1q+tzEeYjuM/yyDu72oO3
- 9GXyG/ObBNdRjKGVc2awYW0oAxG930SPoCbJLekAzJ1pcU49GaCOiVhDZ2X1OzlQf
- ddqNawt78CwyA6NlHG4ce6I93ZFiWLTVG2NuOeISR857E7mUOHYRrYaJQnIQxCQSV
- IOIn9z9ptOA//Hom8gDNoaKvGsZIi3tKnURbXKJ+FpwB3NZEN/GUFAKGS6SBhizNY
- +lC5jo5ZDmxfRhBwNE+8bAtUHrP1L+NcEEmGzziSzmpbm83C2+iaGeksXbbeGKUFo
- 21vVM+H5Ux+gDRa+Og==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MSKyI-1t77s72iFc-00P08g; Mon, 02
- Dec 2024 13:03:51 +0100
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Maxime Ripard <mripard@kernel.org>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48D8610E22C
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 12:06:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 909855C545C;
+ Mon,  2 Dec 2024 12:05:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC0A9C4CED1;
+ Mon,  2 Dec 2024 12:06:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733141171;
+ bh=gonlDT3L++kFgkgr8dwEbfsoVRovNYHWTLew/Kf9tDA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hbHRhY2lub2ExTdOJetcBFDhwu+3jfa+EiLOFKIZCj5FsnpxL5dkE4OSA/5YzfCiN
+ BytwJIUKzld/skAfD1J8BjcoBn766ZcovPof/X2UuZ3ijUE+wkrD4YfKUheuGHuYiS
+ tc+HuLijZQ9cTgJqM7EIAUrRszprQLw63h3LN7njOsUB4o24JXn/sjx1ulgtyy5Sh1
+ jp7CXNyPFcIeh0ROCIoDm7k1QgaJd0UBSYQsythHssl+2kNqrCAdwlPDY+UWTOnm/9
+ gzbkFc2ly+khQjDQORZIQaw4D+o72MclNW80EuUB3aFpsXy6+mcARrVDfYMdVQbMgy
+ 00ORvUoOAUqgQ==
+Date: Mon, 2 Dec 2024 13:06:09 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Phong LE <ple@baylibre.com>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, kernel-list@raspberrypi.com,
- dri-devel@lists.freedesktop.org, Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH] drm/vc4: plane: Remove WARN on state being set in plane_reset
-Date: Mon,  2 Dec 2024 13:03:43 +0100
-Message-Id: <20241202120343.33726-1-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.34.1
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v5 2/9] ASoC: hdmi-codec: move no_capture_mute to struct
+ hdmi_codec_pdata
+Message-ID: <20241202-bald-just-guan-c5d41b@houat>
+References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
+ <20241201-drm-bridge-hdmi-connector-v5-2-b5316e82f61a@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:chj0iYZyJ/v9u10nwi5jhAacEexf49tbwWkSfPx/PpXOmXXpzgY
- y4G66L35hZJ9jTpVD490opw7wTASmR3emLU/AdVXvumTMYCysabcJBKxkvx7qSLJAvn8I/y
- oSQGW41KN2Kjbu4fAev3DnxquPDL0fzgZfo+4yX4eV5owQurgLqobCLW8teL+7ti/B2JbYw
- wO5jFmDlikFEzzNxYDpag==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NXsHU+Nu4Nc=;I9rn0ai/qeE4V5ANw9s7bo2KFZK
- 9Aaw4NutBpTt2gUwwDYB5u+T0um4/4AL+MGm5NTQIbsmwiSkW2HkW+UKeiuwEfBiX34oDx+Qu
- ReDJLpyqZ7oAZebwYH1TKbNvnwX+Tq4BJ6QDx1zyBlhafNnhDLZy21O2fVY4GFHdniPCfd46I
- C4e9tbKqH7Wg/o+PH1zVFUQqD5GFwgFrwwLWHgx7A9ex4bW+8ydhOHmbM43rrBLX3F3XrC0SD
- TnVg0PMhXRZUe8oiH2SapxQB4zUw/rZURdBhH3/RrHp0HoY8kj4z000Sw5mgCziGDb5kecFMr
- apOCJd1qLb8MnhUf5eyI7z1YAJI2L3fh8jRKrjYxw6esssQb5lOzGQrySxZqvY6CML0T4zv5m
- dy67xYhHcPaJe4TSEiNqikQFQslrxWuY9yM2q/7pwpHcZhiYvT7G0TTUy3AZFaAUQ1yyQmrKN
- xTsjGfIH91ZuHWPaf8s4hL4OhshWs/tpEOi2mDxFKLWNl/oWDZp/5DUlhwbes9v2pwjlySFD+
- GD/wGn9+eOyeV4lXIk6b0kp88b84QhZnp1IL9Fiax72HYMpjLjxm76FAWe0IpVqOXK+YhM6b4
- 3c3ItLKrQg/kKJc0YPkUnd9YgX4kB+GbyoEWuvEpMu2ZRJGwh2Y3mhoZNidQNR3cHDrARv9m6
- ileS/eeLHtqfKFNfzlH9vm1F1hd1nbBoZv56TvUydm/J4iUJycyka2JJ2x2QFFym64D32IJeC
- W2nJ9/xVofDoLvYClXzGNTjzdJVKm5ohZrhTC4PVc91jswTqCPq/JFQrK5TVBms+PJkih5YiU
- VjQeRjJ7fG2zMJz+OFIyaGQN4cbkzzzWxWI6vSFK7o+qieW4m+TUPHT1b59od+opW4tkMWMid
- tEprO6Yn9tmp4DytWhUCyy4PY4SqnTkEhyPuHU8B8YcOkeIhOat/U44G7+A8KSlrTIrjykuGG
- uo29NEU2N9LAAYdRtoqEano0NcxR4WVYXmEHncwWzpe7nCvNf3CWj6AEuY3neDM5tyX4iUscU
- YQIV04rKm4/AzZy6K/Lg9NGGYh/C5GUgExVrragCJd2QQq8Bmn8AtPZUC/PDOZk0OOoXhOPwF
- 0csUSPeZiJi0Y0wePZqf6K49o2lYW3
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="6bleloymsoph6swm"
+Content-Disposition: inline
+In-Reply-To: <20241201-drm-bridge-hdmi-connector-v5-2-b5316e82f61a@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,34 +89,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-It is permitted on situations such as system resume for plane->state
-to be non-NULL, and that should be handled by freeing it. Do so.
+--6bleloymsoph6swm
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 2/9] ASoC: hdmi-codec: move no_capture_mute to struct
+ hdmi_codec_pdata
+MIME-Version: 1.0
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- drivers/gpu/drm/vc4/vc4_plane.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_pla=
-ne.c
-index ba6e86d62a77..1aaa4938824b 100644
-=2D-- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -330,7 +330,10 @@ static void vc4_plane_reset(struct drm_plane *plane)
- {
- 	struct vc4_plane_state *vc4_state;
+On Sun, Dec 01, 2024 at 02:44:06AM +0200, Dmitry Baryshkov wrote:
+> The no_capture_mute flag might differ from platform to platform,
+> especially in the case of the wrapping implementations, like the
+> upcoming DRM HDMI Codec framework. Move the flag next to all other flags
+> in struct hdmi_codec_pdata.
+>=20
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
--	WARN_ON(plane->state);
-+	if (plane->state)
-+		__drm_atomic_helper_plane_destroy_state(plane->state);
-+
-+	kfree(plane->state);
+I appreciate it might be a dumb question, but I never really understood
+what no_capture_mute was all about. And in that context, why some
+drivers would need / use it, and some won't.
 
- 	vc4_state =3D kzalloc(sizeof(*vc4_state), GFP_KERNEL);
- 	if (!vc4_state)
-=2D-
-2.34.1
+Maxime
 
+--6bleloymsoph6swm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ02isAAKCRAnX84Zoj2+
+dh7cAX0XHBjVLJpBJcVNDhUwsok/1i+5fU7IyNojyr9o2nI4uQUWrlieIDKy+bqP
+ioHa5RoBfjSfWzdwDB7Ep7QSE5U9JkH9uF5girAsucCKcCXGsKLVLM1wLOEDZrqo
+t4ux4qxeCw==
+=KL7e
+-----END PGP SIGNATURE-----
+
+--6bleloymsoph6swm--
