@@ -2,58 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613A19E0651
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:08:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20389E069D
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:17:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E244310E79D;
-	Mon,  2 Dec 2024 15:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E908910E796;
+	Mon,  2 Dec 2024 15:17:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bpQLzgI0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Rq2WOtSZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A73C810E790;
- Mon,  2 Dec 2024 15:07:59 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9756E10E796
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:17:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 41B7AA40EDD;
- Mon,  2 Dec 2024 15:06:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20ACDC4CEDA;
- Mon,  2 Dec 2024 15:07:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 962E15C67BA;
+ Mon,  2 Dec 2024 15:16:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 950ECC4CED1;
+ Mon,  2 Dec 2024 15:17:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733152078;
- bh=Znclq/zzTXpSoR6+meWmkAfqzY+2c5VrITqNiZrZqQM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bpQLzgI0JGP8xrDGf/kxIl5TcRYS37pFNZ115YibxagwtFonaQVpXcnjcFCBesx3B
- 949hAUEU7V8hMO+LYZt5K9RoG1oWOicf8GB2dP/e72EYziw9XjcjRTTXecFqFztOhO
- /TdhiuM+9mIty2DC6bG6Bdmj8BF+UblnejQPA8sWKhiT2g520du3JwuGBwMDznZEX1
- hU+f8CF0pf7Yz5Lcwvbo/JAohSaSOhVFI2o+dBFCXvvN7HbmM37RiqtVwNlt/50W51
- vi8YO9RJKP2G5fjRx1lBrBhFJEUMJVg3XG9wveQItOQ8XLZd6706/25lF8G4S/PNWp
- cWephrEHpVXvg==
-Date: Mon, 2 Dec 2024 16:07:56 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Imre Deak <imre.deak@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH v2 1/4] drm/dp: Add a way to init/add a connector in
- separate steps
-Message-ID: <20241202-bald-finicky-coyote-e9ff4c@houat>
-References: <20241126161859.1858058-1-imre.deak@intel.com>
- <20241126161859.1858058-2-imre.deak@intel.com>
- <Z0nO-bwpbWPVryd6@ideak-desk.fi.intel.com>
- <20241129-wild-cobra-of-thunder-829d1f@houat>
- <Z0nn0VzawSCdOCKY@ideak-desk.fi.intel.com>
- <20241202-real-benevolent-skunk-a9f5e0@houat>
- <87ldwy5lvb.fsf@intel.com>
- <Z021G3tmmRTi4iyl@ideak-desk.fi.intel.com>
+ s=k20201202; t=1733152628;
+ bh=SoX6p1yA2O8NnnyxuSjhY3p8fMe5bc9Az3QhUnQrqNM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Rq2WOtSZ8e/nyoYmqqWhc1AyEyiXxAGjZqUGOZ02LDFoLwpSQFxQ31jaKciYAK8EZ
+ lz9quxcAAscQP+wh9Gld5g9v7Eipm7W5D7kso8XhlA38LnjbjLG+IJaB7DbuAJ0NvX
+ BvZKbpDqowDreMnlbEg9I9Km4PqP/ZZKE4PsugfiOMbY75xsxn9Ayf7Vl88KasAl2G
+ GIzwht0Wf+G7RcmSjzF4b9Jtjjz+J9mP2OYakm5iCiIlPAXY0Srs+3sXvs/+05IuW2
+ JB+6qbRs0KhjYIuzj770vJF4HXUoQtk4jx5IYsoCUO2UmJKNWOU8m1PShKPl4FdeP/
+ OeuB1ARmvFP3Q==
+Message-ID: <0167e83b-7b73-4784-b022-903272866fe1@kernel.org>
+Date: Mon, 2 Dec 2024 16:16:58 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="zlixp4geqfwx2xs4"
-Content-Disposition: inline
-In-Reply-To: <Z021G3tmmRTi4iyl@ideak-desk.fi.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] dtbindings: display: bcm2711-hdmi: Correct bindings
+ for 2712
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Eric Anholt <eric@anholt.net>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Doug Berger <opendmb@gmail.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
+ linux-gpio@vger.kernel.org
+References: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
+ <20241202-dt-bcm2712-fixes-v1-1-fac67cc2f98a@raspberrypi.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241202-dt-bcm2712-fixes-v1-1-fac67cc2f98a@raspberrypi.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,66 +119,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 02/12/2024 15:31, Dave Stevenson wrote:
+> The previous patch just adding the compatible missed out that the
 
---zlixp4geqfwx2xs4
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/4] drm/dp: Add a way to init/add a connector in
- separate steps
-MIME-Version: 1.0
 
-On Mon, Dec 02, 2024 at 03:24:43PM +0200, Imre Deak wrote:
-> On Mon, Dec 02, 2024 at 02:07:36PM +0200, Jani Nikula wrote:
-> > On Mon, 02 Dec 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> > > It's not about whether we have a problem or not: you introduce new
-> > > framework functions, you need to have kunit tests to check their
-> > > behaviour.
-> >=20
-> > I don't fundamentally disagree with that goal, but it does seem like a
-> > pretty drastic policy change. I don't recall a discussion where we made
-> > that decision, nor can I find any documentation stating this. Or what
-> > exactly the requirement is; it's totally unclear to me.
-> >=20
-> > Had I been involved, I would've pointed out that while adding tests is
-> > good, it inevitably increases the friction of adding new stuff to drm
-> > core. It's super tempting for people to just get their jobs done. If
-> > doing the right thing adds yet another hurdle, we may see more stuff
-> > being added in drivers instead of drm core.
-> >=20
-> > (Case in point, we already hacked around the problem being solved here
-> > with commit d58f65df2dcb ("drm/i915/dp_mst: Fix connector initialization
-> > in intel_dp_add_mst_connector()"). We could've just dropped the ball
-> > right there.)
->=20
-> Fwiw, in this case adding tests for drm_connector_init_core() and
-> drm_connector_add() looks simple enough.
->=20
-> IIUC it's the 3 testcases in drmm_connector_init_tests[] performed for
-> drm_connector_init_core() and additional 3 test cases checking that (1)
-> drm_connector_init_core() doesn't add the connector to the connector
-> list, (2) drm_connector_add() adds it and (3) drm_connector_add() fails
-> (by not adding the connector to the list and emitting a dmesg WARN) if
-> drm_connector_init_core() was not called for the connector previously.
-> For the last test I actually need to add the corresponding assert/early
-> return to drm_connector_add().
->=20
-> If Maxim could confirm the above, I could resend the patchset adding
-> these tests.
+"The previous" is meaningless in this context. There is nothing
+previous. Refer to commit (see submitting patches).
 
-Yep, sounds great, thanks!
-Maxime
+> number of interrupts changed
+> 
+> Fixes: 62948c62abca ("dt-bindings: display: Add BCM2712 HDMI bindings")
 
---zlixp4geqfwx2xs4
-Content-Type: application/pgp-signature; name="signature.asc"
+There is no such commit in linux-next. Fix patches while they are on the
+mailing list. If you refer here to broken DRM process, then basically
+you are on your own because we won't able to see it.
 
------BEGIN PGP SIGNATURE-----
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ03NSwAKCRAnX84Zoj2+
-dm1SAYC5dcscCqJzr68dXCO5+48WpeGh/Ekh0Ojqf69MbFSay4iiFW1UjPIgE8if
-qd5FAIcBgKpIIgO8h1VjlWTo8ZpYnYtLzn4SRLihYzQIfDKFK86iHpiu7g9D9cEn
-qFfbYTW+wQ==
-=5UCA
------END PGP SIGNATURE-----
+Typo in subject prefix. It's dt-bindings.
 
---zlixp4geqfwx2xs4--
+> ---
+>  .../bindings/display/brcm,bcm2711-hdmi.yaml        | 44 +++++++++++++++-------
+>  1 file changed, 30 insertions(+), 14 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> index 6d11f5955b51..6af342c9b6b8 100644
+> --- a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> @@ -56,22 +56,38 @@ properties:
+>        - const: cec
+>  
+>    interrupts:
+> -    items:
+> -      - description: CEC TX interrupt
+> -      - description: CEC RX interrupt
+> -      - description: CEC stuck at low interrupt
+> -      - description: Wake-up interrupt
+> -      - description: Hotplug connected interrupt
+> -      - description: Hotplug removed interrupt
+> +    oneOf:
+> +      - items:
+> +        - description: CEC TX interrupt
+> +        - description: CEC RX interrupt
+> +        - description: CEC stuck at low interrupt
+> +        - description: Wake-up interrupt
+> +        - description: Hotplug connected interrupt
+> +        - description: Hotplug removed interrupt
+
+You need to narrow these per variant in allOf:if:then.
+Best regards,
+Krzysztof
