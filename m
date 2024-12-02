@@ -2,95 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01789DFF40
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 11:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B939DFF48
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 11:48:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 205C410E6C4;
-	Mon,  2 Dec 2024 10:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4D010E226;
+	Mon,  2 Dec 2024 10:48:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dh9oDKVD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J68k75t5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14AB710E6C4
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 10:46:17 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-53de6b7da14so4065684e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 02:46:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733136375; x=1733741175; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=sW5g5zNCxuwuA9CkgMzqa+U4e2iYbFVfy38zh54cXVg=;
- b=dh9oDKVDUQJo40Us2JnD4UykEZdFf0vFoDceWnnjeiMOqJXGF75piy+Lc9es6g/k4n
- 1A54aH+zpmfUlAOMUAMT+qM55xrFo7Idwc8f87RaRPxpOe/JudeVGDO7va0bN8nfCNQl
- DheYhRTa33CJihAukZX8FaHHzwiiuXNnC+Z4mrc6EnRMurv1h6hVlvgEO4v0dEEa7soQ
- p2xIFU9Q3po1eA3ZGIS91ZbIQuQ6RnFmVGE9sjxEmt0kkyqkZT7AjbDAv2t6hTxpoaxN
- nUtHuidoiBM1sZqLlJYjQfHjy0HYhLpVww+/vGubB+Yl0/spu/Dh334d+YvNqIlUEL6P
- Qntw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733136375; x=1733741175;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sW5g5zNCxuwuA9CkgMzqa+U4e2iYbFVfy38zh54cXVg=;
- b=A25gGKHX8Cl/zuYADZZGPTJBCGeL0T7y/W+GnYuB+Hw9FhoKNkS8m0gK5xSESbb0Ib
- Bq8shpyS1DMuzcT3y+B7H5Mbclesj+RecHUyImO5eorne0xPLpJoIfE+/yF4MaHtOSbZ
- VZBqX1Lf8RsofjgEE7+fJsMXbpqxDIqP01sSRsBmQuTX6rHp0Rm0u9enx246St9lBzF0
- sR5zq9kJn7KNAGMG7QnG2lwZRnOm+YJ0BzMJ+ieNmWdJ0UnuFVy16phbGtPNFT5oN13o
- iThktLnpU0DFirJzaR3pIq22mMUp/k8LvioxH83xA6GjhDX4fRQ4uvMXfKJxBITaeeOP
- i8rw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUraELmqhtfWTsG/XSy/kfsJxREHVfcBvfvGRl9YTn6ZNPNEwXuXrILKSjRY312k09LuykRGdBD9xQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyl2T7QW/uuwk+WNHdTiOBX8QvgCWoTNUXDfh9x+feUddZgOAzy
- aIk4mu6h+fgd9sxe+B/JBokYi64jRjmHWoz0Z8iyqm3OQXE4BQiJclkdlX8UxYA=
-X-Gm-Gg: ASbGncubk8MIayX1tj85ijl4A1g/4pjpniQRml0TnS0jZi42QPF8YdvRS2rWULxlyr0
- xiaLJk+SvYVBkwH/OI+/BwjZta1iEo4o+hFsdbSSUc4DyGSl9w1GV0A/AVh/vcYQNuJsp74sVGb
- Lk2dbvx4/vRqLQAx6rrpJY66S5ZNzLrv+JlefTEwDdDmDEx48A0K5cDjBV/6YqfCXdLMku8QMCm
- jqum0Q54rcWW6svzvPpGxMbfHfjEzV6ay5JSKnS3cFs7x0W7z6kfTGr6hom+QuhAhZj0cZ2mGo8
- +rr8zUumYB5YH+/DonDhZJSU7r8yYA==
-X-Google-Smtp-Source: AGHT+IHSCZMOjWupesy5/0HxHZeda2UBmkbWGoOoF1ozJXCQtPgXFWsr4uPvfC7x0xE42+mBQm6WWA==
-X-Received: by 2002:a05:6512:124e:b0:53d:d3bc:cc11 with SMTP id
- 2adb3069b0e04-53df0112095mr7509493e87.48.1733136374959; 
- Mon, 02 Dec 2024 02:46:14 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df644341bsm1424070e87.99.2024.12.02.02.46.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2024 02:46:14 -0800 (PST)
-Date: Mon, 2 Dec 2024 12:46:12 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Xiangxu Yin <quic_xiangxuy@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, quic_lliu6@quicinc.com,
- quic_fangez@quicinc.com, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 5/8] drm/msm/dp: Add support for lane mapping configuration
-Message-ID: <zvapsvfftai4fp6vwrn33edqsyuuprq2pxz6spij6j7t4y6xmn@zzgp7gbsivbk>
-References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
- <20241129-add-displayport-support-for-qcs615-platform-v1-5-09a4338d93ef@quicinc.com>
- <CAA8EJpoY8hySQd00yODGeHjSpVZpEBLjF3aBiKGJPUhpr-2mgw@mail.gmail.com>
- <d2a3cd6f-1077-4edb-9f0c-0c940a639050@quicinc.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1AFD10E16E;
+ Mon,  2 Dec 2024 10:48:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id DF1EB5C569D;
+ Mon,  2 Dec 2024 10:47:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CA7CC4CED1;
+ Mon,  2 Dec 2024 10:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733136517;
+ bh=89vNuhLsrmdTY2Ip4W/JjkXrXXeOpOVt8Rb/LnmjjcM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=J68k75t5+80a42+Rzplg0Eg5PPZyRX+AuSFCOIQqr6e17yM/Tleo8+RyxqO2acLuk
+ d/wTby0EgJD2AOTUTYVlPYFLLW5v3XWwcF8RxA6pMu5ifwMtFGZGH2Db79QQ9aJA2d
+ 2YnueY5LOzh1aQf2BQbX2Llr6QZMPJfFGHy2v1TC0ENliukF894D2LcjJDVzUSc9qi
+ Ny7T3Ab2mBgrG95ZLUNlDBhkPBmhCvWZ17stKtROvnZpfXlVSFpVD02gHZmbJ/jwQa
+ 1ewVVPfQSJ2yirBHTv7DDhhMPda/v0hKXHR/GLL03VdJSPt0bo2g3Fa+XlmUbhfxNE
+ LDy1lWDMWy5HA==
+Date: Mon, 2 Dec 2024 11:48:34 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Imre Deak <imre.deak@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH v2 1/4] drm/dp: Add a way to init/add a connector in
+ separate steps
+Message-ID: <20241202-real-benevolent-skunk-a9f5e0@houat>
+References: <20241126161859.1858058-1-imre.deak@intel.com>
+ <20241126161859.1858058-2-imre.deak@intel.com>
+ <Z0nO-bwpbWPVryd6@ideak-desk.fi.intel.com>
+ <20241129-wild-cobra-of-thunder-829d1f@houat>
+ <Z0nn0VzawSCdOCKY@ideak-desk.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="s7whx7f4sgh23yvn"
 Content-Disposition: inline
-In-Reply-To: <d2a3cd6f-1077-4edb-9f0c-0c940a639050@quicinc.com>
+In-Reply-To: <Z0nn0VzawSCdOCKY@ideak-desk.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,114 +67,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2024 at 04:40:05PM +0800, Xiangxu Yin wrote:
-> 
-> 
-> On 11/29/2024 9:50 PM, Dmitry Baryshkov wrote:
-> > On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
-> >>
-> >> Add the ability to configure lane mapping for the DP controller. This is
-> >> required when the platform's lane mapping does not follow the default
-> >> order (0, 1, 2, 3). The mapping rules are now configurable via the
-> >> `data-lane` property in the devicetree. This property defines the
-> >> logical-to-physical lane mapping sequence, ensuring correct lane
-> >> assignment for non-default configurations.
-> >>
-> >> Signed-off-by: Xiangxu Yin <quic_xiangxuy@quicinc.com>
-> >> ---
-> >>  drivers/gpu/drm/msm/dp/dp_catalog.c | 11 +++++------
-> >>  drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
-> >>  drivers/gpu/drm/msm/dp/dp_ctrl.c    |  2 +-
-> >>  drivers/gpu/drm/msm/dp/dp_panel.c   | 13 ++++++++++---
-> >>  drivers/gpu/drm/msm/dp/dp_panel.h   |  3 +++
-> >>  5 files changed, 20 insertions(+), 11 deletions(-)
-> >>
 
-> >> @@ -461,6 +460,7 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
-> >>         struct msm_dp_panel_private *panel;
-> >>         struct device_node *of_node;
-> >>         int cnt;
-> >> +       u32 lane_map[DP_MAX_NUM_DP_LANES] = {0, 1, 2, 3};
-> >>
-> >>         panel = container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
-> >>         of_node = panel->dev->of_node;
-> >> @@ -474,10 +474,17 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
-> >>                 cnt = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
-> >>         }
-> >>
-> >> -       if (cnt > 0)
-> >> +       if (cnt > 0) {
-> >> +               struct device_node *endpoint;
-> >> +
-> >>                 msm_dp_panel->max_dp_lanes = cnt;
-> >> -       else
-> >> +               endpoint = of_graph_get_endpoint_by_regs(of_node, 1, -1);
-> >> +               of_property_read_u32_array(endpoint, "data-lanes", lane_map, cnt);
-> >> +       } else {
-> >>                 msm_dp_panel->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
-> >> +       }
-> > 
-> > Why? This sounds more like dp_catalog or (after the refactoring at
-> > [1]) dp_ctrl. But not the dp_panel.
-> > 
-> > [1] https://patchwork.freedesktop.org/project/freedreno/series/?ordering=-last_updated
-> > 
-> We are used the same prop 'data-lanes = <3 2 0 1>' in mdss_dp_out to keep similar behaviour with dsi_host_parse_lane_data.
-> From the modules used, catalog seems more appropriate, but since the max_dp_lanes is parsed at dp_panel, it has been placed here.
-> Should lane_map parsing in msm_dp_catalog_get, and keep max_dp_lanes parsing at the dp_panel?
+--s7whx7f4sgh23yvn
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/4] drm/dp: Add a way to init/add a connector in
+ separate steps
+MIME-Version: 1.0
 
-msm_dp_catalog_get() is going to be removed. Since the functions that
-are going to use it are in dp_ctrl module, I thought that dp_ctrl.c is
-the best place. A better option might be to move max_dp_lanes and
-max_dp_link_rate to dp_link.c as those are link params. Then
-lane_mapping also logically becomes a part of dp_link module.
+On Fri, Nov 29, 2024 at 06:12:01PM +0200, Imre Deak wrote:
+> On Fri, Nov 29, 2024 at 03:46:28PM +0100, Maxime Ripard wrote:
+> > On Fri, Nov 29, 2024 at 04:26:01PM +0200, Imre Deak wrote:
+> > > Adding more people from DRM core domain. Any comment, objection to th=
+is
+> > > change?
+> > >=20
+> > > On Tue, Nov 26, 2024 at 06:18:56PM +0200, Imre Deak wrote:
+> > > > Atm when the connector is added to the drm_mode_config::connector_l=
+ist,
+> > > > the connector may not be fully initialized yet. This is not a probl=
+em
+> > > > for user space, which will see the connector only after it's regist=
+ered
+> > > > later, it could be a problem for in-kernel users looking up connect=
+ors
+> > > > via the above list.
+> >=20
+> > It could be, or it actually is a problem? If so, in what situation?
+>=20
+> An actual problem is that after an MST connector is created and added to
+> the connector list, the connector could be probed without the connector
+> being fully initialized during a hotplug event handling along with all
+> the other connectors on the list. The connector's helper functions could
+> be still unset leading to a NULL deref while trying to call the
+> connector's detect/detect_ctx callbacks, or if these callbacks are set
+> already, the detect handler could see a connector which is not yet
+> initialized fully.
 
-But now I have a more important question (triggered by Krishna's email
-about SAR2130P's USB): if the lanes are swapped, does USB 3 work on that
-platform? Or is it being demoted to USB 2 with nobody noticing that?
+Ack. Like I said to Jani, this needs to be in the commit log then.
 
-If lanes 0/1 and 2/3 are swapped, shouldn't it be handled in the QMP
-PHY, where we handle lanes and orientation switching?
+> > > > To resolve the above issue, add a way to separately initialize the =
+DRM
+> > > > core specific parts of the connector and add it to the above list. =
+This
+> > > > will move adding the connector to the list after the properties on =
+the
+> > > > connector have been added, this is ok since these steps don't have a
+> > > > dependency.
+> > > >
+> > > > v2: (Jani)
+> > > > - Let initing DDC as well via drm_connector_init_core().
+> > > > - Rename __drm_connector_init to drm_connector_init_core_and_add().
+> > > >=20
+> > > > Cc: Jani Nikula <jani.nikula@intel.com>
+> > > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> (v1)
+> > > > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> >=20
+> > If we do have an actual problem to solve, we'll need kunit tests too.
+>=20
+> I don't have a good idea for this. The problem is not in a parituclar
+> function, rather in the order a connector is initialized and added to
+> the connector list. The above is an actual problem though, so I don't
+> think fixing that should be blocked by this.
 
-> >> +
-> >> +       memcpy(msm_dp_panel->lane_map, lane_map, msm_dp_panel->max_dp_lanes * sizeof(u32));
-> >>
-> >>         msm_dp_panel->max_dp_link_rate = msm_dp_panel_link_frequencies(of_node);
-> >>         if (!msm_dp_panel->max_dp_link_rate)
-> >> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-> >> index 0e944db3adf2f187f313664fe80cf540ec7a19f2..7603b92c32902bd3d4485539bd6308537ff75a2c 100644
-> >> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
-> >> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-> >> @@ -11,6 +11,8 @@
-> >>  #include "dp_aux.h"
-> >>  #include "dp_link.h"
-> >>
-> >> +#define DP_MAX_NUM_DP_LANES    4
-> >> +
-> >>  struct edid;
-> >>
-> >>  struct msm_dp_display_mode {
-> >> @@ -46,6 +48,7 @@ struct msm_dp_panel {
-> >>         bool video_test;
-> >>         bool vsc_sdp_supported;
-> >>
-> >> +       u32 lane_map[DP_MAX_NUM_DP_LANES];
-> >>         u32 max_dp_lanes;
-> >>         u32 max_dp_link_rate;
-> >>
-> >>
-> >> --
-> >> 2.25.1
-> >>
-> > 
-> > 
-> 
-> 
-> -- 
-> linux-phy mailing list
-> linux-phy@lists.infradead.org
-> https://lists.infradead.org/mailman/listinfo/linux-phy
+It's not about whether we have a problem or not: you introduce new
+framework functions, you need to have kunit tests to check their
+behaviour.
 
--- 
-With best wishes
-Dmitry
+Maxime
+
+--s7whx7f4sgh23yvn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ02QggAKCRAnX84Zoj2+
+dtTTAX4pXX18ZHkszooeoE6K3VyNoN/a8f3f35KH5P+Xn8Sx3qWaiBAd9DutE0kY
+MfdYv0MBf1ajOaxcAaNa8Cxq2OgGWL+JYBBMckdDzO24Jei1QAOPfZCUbeUvLQZk
+ELMK8wd4Hg==
+=RWZk
+-----END PGP SIGNATURE-----
+
+--s7whx7f4sgh23yvn--
