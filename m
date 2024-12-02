@@ -2,44 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37139DFE78
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 11:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447519DFE7E
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 11:14:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5BA10E69E;
-	Mon,  2 Dec 2024 10:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEFE110E6A5;
+	Mon,  2 Dec 2024 10:14:02 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ebV9hk7s";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.steuer-voss.de (mail.steuer-voss.de [85.183.69.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB2610E69E
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 10:13:41 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.steuer-voss.de
-Received: from mail.steuer-voss.de (localhost [127.0.0.1])
- by mail.steuer-voss.de (Postfix) with ESMTP id 030D614D;
- Mon,  2 Dec 2024 11:13:36 +0100 (CET)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E01B110E6A3;
+ Mon,  2 Dec 2024 10:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733134441; x=1764670441;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=PCh5CFahs17OyUo39cXmgx8SufDC79laiLIbFtOwY6E=;
+ b=ebV9hk7sMRuBG232Q9zGquqKX7mkwvPKXTIzJGQRJv/vorPI2qnMXxlj
+ OAbrKh9/ohRy0h2Nzy9KchFl433ygWx3aMbF9mSqcnjseYvbUNU8L6e1/
+ bcaDY6cwcUmMn2S5FAULtbkngEnBJ7mE/3WGMi91WOuuwJ5SY1XTdMWPg
+ tG54cb57GoBJfy+b0rAUy0PR42nYfPZ17u8iINCeUKjtWKn4AKSBkQarG
+ kcOZezsgHltdXWp0xBkBqOLYNcYIKrmLj4LydKPugD/ebingIy+CqEoKe
+ YkxV2Q5EiPvOsHg5bk1rPT/J5tysvOVlEFwtYZ9kArIX1RJyjH0kWOyPi g==;
+X-CSE-ConnectionGUID: NGs/z7A3TE6qQkAlBrbDmg==
+X-CSE-MsgGUID: r2DVv/3/QfiSNqxRaFjLMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="37068856"
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="37068856"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 02:14:00 -0800
+X-CSE-ConnectionGUID: yYnKso3PR1uqN0YVjaexmg==
+X-CSE-MsgGUID: RlF1LYakS66+Z1KqetYprQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="93238192"
+Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.72])
+ ([10.245.246.72])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 02:13:57 -0800
+Message-ID: <f3726a7297943fb5316ab16c1943bc6fbe42be24.camel@linux.intel.com>
+Subject: Re: [PATCH v2 19/29] drm/xe: Add GPUSVM devic memory copy vfunc
+ functions
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: apopple@nvidia.com, airlied@gmail.com, christian.koenig@amd.com, 
+ simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
+Date: Mon, 02 Dec 2024 11:13:55 +0100
+In-Reply-To: <20241016032518.539495-20-matthew.brost@intel.com>
+References: <20241016032518.539495-1-matthew.brost@intel.com>
+ <20241016032518.539495-20-matthew.brost@intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 MIME-Version: 1.0
-Date: Mon, 02 Dec 2024 11:13:36 +0100
-From: Nikolaus Voss <nv@vosn.de>
-To: Liu Ying <victor.liu@oss.nxp.com>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>, Liu Ying
- <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Fabio
- Estevam <festevam@denx.de>, Marek Vasut <marex@denx.de>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, nikolaus.voss@haag-streit.com,
- miquel.raynal@bootlin.com
-Subject: Re: [PATCH] drm: bridge: fsl-ldb: fixup mode on freq mismatch
-In-Reply-To: <1f0a307a-666f-4647-9f73-e9bddd6c7eff@oss.nxp.com>
-References: <20241126172610.AD8B51622C@mail.steuer-voss.de>
- <1f0a307a-666f-4647-9f73-e9bddd6c7eff@oss.nxp.com>
-User-Agent: Roundcube Webmail/1.5.0
-Message-ID: <000b34cdd1591c82265ce1f9848828d1@vosn.de>
-X-Sender: nv@vosn.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,163 +74,230 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
+On Tue, 2024-10-15 at 20:25 -0700, Matthew Brost wrote:
+> Add GPUSVM devic memory copy vfunc functions and connect to migration
 
-On 02.12.2024 07:32, Liu Ying wrote:
-> On 11/27/2024, Nikolaus Voss wrote:
->> LDB clock has to be a fixed multiple of the pixel clock.
->> As LDB and pixel clock are derived from different clock sources
->> (at least on imx8mp), this constraint cannot be satisfied for
->> any pixel clock, which leads to flickering and incomplete
->> lines on the attached display.
->> 
->> To overcome this, check this condition in mode_fixup() and
->> adapt the pixel clock accordingly.
->> 
->> Cc: <stable@vger.kernel.org>
-> 
-> It looks like stable is not effectively Cc'ed.
-> Need a Fixes tag?
+s/devic/device=20
+>=20
 
-I will include
-Fixes: 463db5c2ed4a ("drm: bridge: ldb: Implement simple Freescale 
-i.MX8MP LDB bridge")
-in v2.
+> layer.
+>=20
+> v2:
+> =C2=A0- Allow NULL device pages in xe_svm_copy
+> =C2=A0- Use new drm_gpusvm_devmem_ops
+>=20
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+> =C2=A0drivers/gpu/drm/xe/xe_svm.c | 150
+> ++++++++++++++++++++++++++++++++++++
+> =C2=A01 file changed, 150 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> b/drivers/gpu/drm/xe/xe_svm.c
+> index 22e6341117bd..b33fd42d035b 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.c
+> +++ b/drivers/gpu/drm/xe/xe_svm.c
+> @@ -6,6 +6,7 @@
+> =C2=A0#include "drm_gpusvm.h"
+> =C2=A0
+> =C2=A0#include "xe_gt_tlb_invalidation.h"
+> +#include "xe_migrate.h"
+> =C2=A0#include "xe_pt.h"
+> =C2=A0#include "xe_svm.h"
+> =C2=A0#include "xe_vm.h"
+> @@ -269,6 +270,155 @@ static void
+> xe_svm_garbage_collector_work_func(struct work_struct *w)
+> =C2=A0	up_write(&vm->lock);
+> =C2=A0}
+> =C2=A0
+> +static struct xe_mem_region *page_to_mr(struct page *page)
+> +{
+> +	return container_of(page->pgmap, struct xe_mem_region,
+> pagemap);
+> +}
+> +
+> +static struct xe_tile *mr_to_tile(struct xe_mem_region *mr)
+> +{
+> +	return container_of(mr, struct xe_tile, mem.vram);
+> +}
+> +
+> +static u64 xe_mem_region_page_to_dpa(struct xe_mem_region *mr,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 struct page *page)
+> +{
+> +	u64 dpa;
+> +	struct xe_tile *tile =3D mr_to_tile(mr);
+> +	u64 pfn =3D page_to_pfn(page);
+> +	u64 offset;
+> +
+> +	xe_tile_assert(tile, is_device_private_page(page));
+> +	xe_tile_assert(tile, (pfn << PAGE_SHIFT) >=3D mr->hpa_base);
+> +
+> +	offset =3D (pfn << PAGE_SHIFT) - mr->hpa_base;
+> +	dpa =3D mr->dpa_base + offset;
+> +
+> +	return dpa;
+> +}
+> +
+> +enum xe_svm_copy_dir {
+> +	XE_SVM_COPY_TO_VRAM,
+> +	XE_SVM_COPY_TO_SRAM,
+> +};
+> +
+> +static int xe_svm_copy(struct page **pages, dma_addr_t *dma_addr,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long npages, const enum
+> xe_svm_copy_dir dir)
+> +{
+> +	struct xe_mem_region *mr =3D NULL;
+> +	struct xe_tile *tile;
+> +	struct dma_fence *fence =3D NULL;
+> +	unsigned long i;
+> +#define VRAM_ADDR_INVALID	~0x0ull
+> +	u64 vram_addr =3D VRAM_ADDR_INVALID;
+> +	int err =3D 0, pos =3D 0;
+> +	bool sram =3D dir =3D=3D XE_SVM_COPY_TO_SRAM;
+> +
+> +	for (i =3D 0; i < npages; ++i) {
+> +		struct page *spage =3D pages[i];
+> +		struct dma_fence *__fence;
+> +		u64 __vram_addr;
+> +		bool match =3D false, chunk, last;
+> +
+> +		chunk =3D (i - pos) =3D=3D (SZ_2M / PAGE_SIZE);
+> +		last =3D (i + 1) =3D=3D npages;
+> +
+> +		if (!dma_addr[i] && vram_addr =3D=3D VRAM_ADDR_INVALID)
+> +			continue;
+> +
+> +		if (!mr && spage) {
+> +			mr =3D page_to_mr(spage);
+> +			tile =3D mr_to_tile(mr);
+> +		}
+> +
+> +		if (dma_addr[i] && spage) {
+> +			__vram_addr =3D xe_mem_region_page_to_dpa(mr,
+> spage);
+> +			if (vram_addr =3D=3D VRAM_ADDR_INVALID) {
+> +				vram_addr =3D __vram_addr;
+> +				pos =3D i;
+> +			}
+> +
+> +			match =3D vram_addr + PAGE_SIZE * (i - pos) =3D=3D
+> __vram_addr;
+> +		}
+> +
+> +		if (!match || chunk || last) {
+> +			int incr =3D (match && last) ? 1 : 0;
+> +
+> +			if (vram_addr !=3D VRAM_ADDR_INVALID) {
+> +				if (sram)
+> +					__fence =3D
+> xe_migrate_from_vram(tile->migrate,
+> +								=C2=A0=C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0 i - pos + incr,
+> +								=C2=A0=C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0 vram_addr,
+> +								=C2=A0=C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0 dma_addr + pos);
+> +				else
+> +					__fence =3D
+> xe_migrate_to_vram(tile->migrate,
+> +								=C2=A0=C2=A0=C2=A0=C2=A0
+> i - pos + incr,
+> +								=C2=A0=C2=A0=C2=A0=C2=A0
+> dma_addr + pos,
+> +								=C2=A0=C2=A0=C2=A0=C2=A0
+> vram_addr);
+> +				if (IS_ERR(__fence)) {
+> +					err =3D PTR_ERR(__fence);
+> +					goto err_out;
+> +				}
+> +
+> +				dma_fence_put(fence);
+> +				fence =3D __fence;
+> +			}
+> +
+> +			if (dma_addr[i] && spage) {
+> +				vram_addr =3D __vram_addr;
+> +				pos =3D i;
+> +			} else {
+> +				vram_addr =3D VRAM_ADDR_INVALID;
+> +			}
+> +
+> +			if (!match && last && dma_addr[i] && spage)
+> {
+> +				if (sram)
+> +					__fence =3D
+> xe_migrate_from_vram(tile->migrate, 1,
+> +								=C2=A0=C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0 vram_addr,
+> +								=C2=A0=C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0 dma_addr + pos);
+> +				else
+> +					__fence =3D
+> xe_migrate_to_vram(tile->migrate, 1,
+> +								=C2=A0=C2=A0=C2=A0=C2=A0
+> dma_addr + pos,
+> +								=C2=A0=C2=A0=C2=A0=C2=A0
+> vram_addr);
+> +				if (IS_ERR(__fence)) {
+> +					err =3D PTR_ERR(__fence);
+> +					goto err_out;
+> +				}
+> +
+> +				dma_fence_put(fence);
+> +				fence =3D __fence;
+> +			}
 
-> 
->> 
->> Signed-off-by: Nikolaus Voss <nv@vosn.de>
->> ---
->>  drivers/gpu/drm/bridge/fsl-ldb.c | 40 
->> ++++++++++++++++++++++++++++----
->>  1 file changed, 36 insertions(+), 4 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c 
->> b/drivers/gpu/drm/bridge/fsl-ldb.c
->> index 0e4bac7dd04ff..e341341b8c600 100644
->> --- a/drivers/gpu/drm/bridge/fsl-ldb.c
->> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
->> @@ -104,12 +104,14 @@ static inline struct fsl_ldb *to_fsl_ldb(struct 
->> drm_bridge *bridge)
->>  	return container_of(bridge, struct fsl_ldb, bridge);
->>  }
->> 
->> +static unsigned int fsl_ldb_link_freq_factor(const struct fsl_ldb 
->> *fsl_ldb)
->> +{
->> +	return fsl_ldb_is_dual(fsl_ldb) ? 3500 : 7000;
->> +}
->> +
->>  static unsigned long fsl_ldb_link_frequency(struct fsl_ldb *fsl_ldb, 
->> int clock)
->>  {
->> -	if (fsl_ldb_is_dual(fsl_ldb))
->> -		return clock * 3500;
->> -	else
->> -		return clock * 7000;
->> +	return clock * fsl_ldb_link_freq_factor(fsl_ldb);
->>  }
->> 
->>  static int fsl_ldb_attach(struct drm_bridge *bridge,
->> @@ -121,6 +123,35 @@ static int fsl_ldb_attach(struct drm_bridge 
->> *bridge,
->>  				 bridge, flags);
->>  }
->> 
->> +static bool fsl_ldb_mode_fixup(struct drm_bridge *bridge,
->> +				const struct drm_display_mode *mode,
->> +				struct drm_display_mode *adjusted_mode)
->> +{
->> +	const struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
-> 
-> Why const?
-> If no const, then ...
-> 
->> +	unsigned long requested_link_freq =
->> +		mode->clock * fsl_ldb_link_freq_factor(fsl_ldb);
-> 
-> ... this could be
->         unsigned long requested_link_freq =
-> 
->                                 fsl_ldb_link_frequency(fsl_ldb, 
-> mode->clock);
+I think the flow in this function is a bit hard to follow. Could it
+perhaps be simplified? If not, perhaps add a comment to the function
+what it expects from the input arguments and the possible corner cases
+that complicates it?
 
-I used fsl_ldb_link_freq_factor(fsl_ldb) to point out the symmetry to 
-recalculate
-pclk = freq / fsl_ldb_link_freq_factor(fsl_ldb) below:
 
->> +	unsigned long freq = clk_round_rate(fsl_ldb->clk, 
->> requested_link_freq);
->> +
->> +	if (freq != requested_link_freq) {
->> +		/*
->> +		 * this will lead to flicker and incomplete lines on
->> +		 * the attached display, adjust the CRTC clock
->> +		 * accordingly.
->> +		 */
->> +		int pclk = freq / fsl_ldb_link_freq_factor(fsl_ldb);
-> 
-> I doubt that pixel clock tree cannot find appropriate division ratios
-> for some pixel clock rates, especially for dual-link LVDS on i.MX8MP
-> and i.MX93 platforms, because PLL clock rate should be 7x faster than
-> pixel clock rate and 2x faster than "ldb" clock rate so that the 3.5
-> folder between "ldb" clock and pixel clock can be met. That means the
-> PLL clock rate needs to be explicitly set first for this case.
-> 
-> Can you assign the PLL clock rate in DT to satisfy the "ldb" and pixel
-> clock rates like the below commit does, if you use a LVDS panel?
-> 
-> 4fbb73416b10 ("arm64: dts: imx8mp-phyboard-pollux: Set Video PLL1
-> frequency to 506.8 MHz")
+> +		}
+> +	}
+> +
+> +err_out:
+> +	if (fence) {
+> +		dma_fence_wait(fence, false);
+> +		dma_fence_put(fence);
+> +	}
+> +
+> +	return err;
+> +#undef VRAM_ADDR_INVALID
+> +}
+> +
+> +static int xe_svm_copy_to_devmem(struct page **pages, dma_addr_t
+> *dma_addr,
+> +				 unsigned long npages)
+> +{
+> +	return xe_svm_copy(pages, dma_addr, npages,
+> XE_SVM_COPY_TO_VRAM);
+> +}
+> +
+> +static int xe_svm_copy_to_ram(struct page **pages, dma_addr_t
+> *dma_addr,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long npages)
+> +{
+> +	return xe_svm_copy(pages, dma_addr, npages,
+> XE_SVM_COPY_TO_SRAM);
+> +}
+> +
+> +__maybe_unused
 
-I probably could. The point of my patch is you don't have to know in
-advance which LVDS panel is connected, and you don't have to calculate
-the base PLL clock by hand and store it in the device tree.
+Is this __maybe_unused to be removed in a follow-up patch? If so could
+you add a comment stating that?
 
-In my test system, I have three different LVDS panels with EDID EEPROM,
-none of which worked with the stock driver, but all work with this 
-patch.
-With slightly adapted pixel clocks though.
+> +static const struct drm_gpusvm_devmem_ops gpusvm_devmem_ops =3D {
+> +	.copy_to_devmem =3D xe_svm_copy_to_devmem,
+> +	.copy_to_ram =3D xe_svm_copy_to_ram,
+> +};
+> +
+> =C2=A0static const struct drm_gpusvm_ops gpusvm_ops =3D {
+> =C2=A0	.range_alloc =3D xe_svm_range_alloc,
+> =C2=A0	.range_free =3D xe_svm_range_free,
 
-The driver already warns if LDB and PCLK don't match, because this is a
-hardware constraint and violating this will lead to no image or image
-distortion. With the patch the driver tries to fix that.
+Thanks,
+Thomas
 
-I don't know if it works for all or at least most panels, but for my 
-panels
-it does. And if the clocks match, by chance or by refconfiguring the PLL 
-base
-clock, the patch does nothing.
 
-> 
->> +
->> +		if (adjusted_mode->clock != pclk) {
->> +			dev_warn(fsl_ldb->dev, "Adjusted pixel clk to match LDB clk (%d 
->> kHz -> %d kHz)!\n",
->> +				 adjusted_mode->clock, pclk);
->> +
->> +			adjusted_mode->clock = pclk;
->> +			adjusted_mode->crtc_clock = pclk;
->> +		}
->> +	}
->> +
->> +	return true;
->> +}
->> +
->>  static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
->>  				  struct drm_bridge_state *old_bridge_state)
->>  {
->> @@ -280,6 +311,7 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
->> 
->>  static const struct drm_bridge_funcs funcs = {
->>  	.attach = fsl_ldb_attach,
->> +	.mode_fixup = fsl_ldb_mode_fixup,
->>  	.atomic_enable = fsl_ldb_atomic_enable,
->>  	.atomic_disable = fsl_ldb_atomic_disable,
->>  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> --
-> Regards,
-> Liu Ying
-
--- 
-Nikolaus Voss
