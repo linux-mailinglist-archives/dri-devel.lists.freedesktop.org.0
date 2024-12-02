@@ -2,99 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61D89E07F4
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 17:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B6C9E0823
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 17:14:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D121C10E0F5;
-	Mon,  2 Dec 2024 16:07:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 112E910E7BF;
+	Mon,  2 Dec 2024 16:14:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="LR3Ohizc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eSvSFljv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FCBA10E0F5
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 16:07:17 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2ffdbc0c103so60678181fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 08:07:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1733155633; x=1733760433;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QZViN9u7WEeef4ck6iMwRDaJEybzCZmgvmXDAyqUy/E=;
- b=LR3OhizczAqAfgIBN6Y2Jn31ew43wYfFa6Irq3GREM85XTCNMWS/oxIEcNTTAzPJly
- pTpFGKTKXkchNypN6k9S7sRmo8R066CPSOW+xFHap+cLyjFPzCU0kPNFAWhBo49tVGmu
- I3JX+6OJsAn7sgjN0p9ivNZtCiNUHSAWRbMOQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733155633; x=1733760433;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QZViN9u7WEeef4ck6iMwRDaJEybzCZmgvmXDAyqUy/E=;
- b=U/d1zMQksRm0Yu8/wuYgHM42QOqy2/+oATCAjLEKDKhxoDSVzX6KSlRJdNOLFmToQV
- WPXcDUWtYkG6fwVOijOYYkHl4rKwkrgdrqIrPmnpl8CkUHp2XbJj3luOvfY2ymhbqKDW
- jnLW+ZXTeIvvjSQkWBljMFu8RGwzrX9aBZmuYUpS2KqCLOobIF4j4luay6z2w2vCiWFH
- DlqwoPGTIJNC2CXOo1N5c4eXvPDNDdclLH91mi9xUtu22NkDt48n67WaHWAlb7ViJjPT
- LPEd4SPfzs0bpDYerpgBsB2Xcj01EPAsKj2IB0lGcR7iSr/TUGieMCcoWJbnzF7O1mtT
- xRGQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWF6nu4hmoL57LP2O0021CMxpTHah85DaqnIGqco0LMevdtoubZWf/EaYl3P0UfFvzkgaScGZ9kRDM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxvZbt/q+0AjwzIP8RpjKDWV2hyK3Av4PiaMJQWq+OqyTBNv+76
- ffHIJSv4Kc+gqLg8YWzD+tzYwr84RQurSC3hIe/3S58GiKK1L3GA/oB95WxKHzgOqzpfvPoQ7WA
- mHw==
-X-Gm-Gg: ASbGncsatzOt3ztg6mJJxz2yjplgLMdMKKEobZJk5a41PLHRxwIkRnRQPnKD1mDOseW
- Y/z/SvzsmqYEJJtXrtXe8U0JB5estVYSSuZupBq7JSmTJOy18+3QB7O3WkOmsiOagl9rmYcRkKT
- FIv7b4D5pL725wwjH8F+wk0Br166PSN4XR/s3bZKo7/1wXbpGwUyI8u0fnHApvr6W78YrJWc/IQ
- TrokwayoISAXrPCTzt1hayhYoCznsBDzSxxUxs7z3Rh2cDISFnEqGSj+Rnvwq16IGGh9Z5Q9mvi
- 5uQm7fVW+7clBw==
-X-Google-Smtp-Source: AGHT+IHOArZvEylp5v1mLriBHHlyfOU/HhdSgbrcnefA1IQ5pFCbKAnisiPIIHgd4o9++FSHAWcvAw==
-X-Received: by 2002:a2e:be87:0:b0:2ff:d0aa:11b with SMTP id
- 38308e7fff4ca-2ffd60230cbmr166793171fa.16.1733155631772; 
- Mon, 02 Dec 2024 08:07:11 -0800 (PST)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com.
- [209.85.167.52]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ffdfc09aa5sm13730241fa.64.2024.12.02.08.07.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Dec 2024 08:07:09 -0800 (PST)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9F410E7BF
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 16:14:32 +0000 (UTC)
 Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-53de92be287so6390091e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 08:07:09 -0800 (PST)
+ 2adb3069b0e04-53ddb99e9dcso4445636e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 08:14:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733156070; x=1733760870; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=F8VHlod5uJC4/6n5wVNLJGfi6u4uDM+LMK7JP0/rK8c=;
+ b=eSvSFljvnAbLzQnClf5/u2ouTOZtlPeqG5LqHe6l/cKWohldROt3elnA4/HoiHHM3k
+ iw8f67LHyXeRHnZRdgvack6vxxvIrVIiRB4VF9WF9uKUJ2Zx0Aajj7xaC4jj55o05OQf
+ xE0DTb3UIkMOG2qT/gdEvv53ffQkJHZT1eMCrYqcSil0WsEk5G4rmEz9I9ZwGrJZsDuz
+ EU6extal0DnY38ySY3nziImfJaVRLjCOvm8XfE6Nvr/3jAXLZIM1ztko69Zd+WF0BX+V
+ 4HGUSVeE1Q14QuPhteRH83FtgCnKs0wiCJZh59edwqXAtU03+Inc+LAh3H2eKO79DjlW
+ ozdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733156070; x=1733760870;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=F8VHlod5uJC4/6n5wVNLJGfi6u4uDM+LMK7JP0/rK8c=;
+ b=cs9U+vbMyuNPrr1ISBfBG/RFwfDYxX/hYvqzllt6cRjMlZu7Wj3k0Jr1mtIWuXgtye
+ WB5e9uXiGHWv9OtS/KW7d1f5DWk5FamIt0doqi7NpeSRh8vs3FKS26dkLhsWu8PQKeal
+ zp9SSWt7/CN1sKPjj68nsOYdAfhLPDfHy2dig+9+kY2ZJaQ2KgEDPSg1lRriICXHvJkX
+ uaZvUTG16W1hzfXD0L8KbkzGmwaoIiZ5tfr+8MRxFJj6jmyTMUU8tC5LhXwnEdB17dgm
+ la7QODOaFUglR0f/pwwln4wDgZ+f4eaCdX3yFSMS17GqywalSOXDxQxgiyb3t3NE2SLB
+ sbgg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWLShWG/zCc1vftkxntDe4cZt9tIHpnuEVlBP8Wd1LqXwXBqX8ciJV9m/vfFRmM98E6HEF6snrn5Nw=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:2396:b0:53d:ed0a:8113 with SMTP id
- 2adb3069b0e04-53df00d01b2mr15721785e87.14.1733155628493; Mon, 02 Dec 2024
- 08:07:08 -0800 (PST)
+ AJvYcCWlO7wj9ZTZ1CiCD2FKYWtY4EV/RoTPYkzEe+3Ir4OX+QqQ7qQ18/ZDIjIiSdaRUuO1AOuhW/p6OeY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyyEGyU1MHHDBgJFFp5aw6aI+ItwylAJz6arb2KxdhVRlqYqv+L
+ rw1tthXqNt0qOCY2DQjXhGt00pfhYyM5/zH+/Uqb1E8AZJbsavAYm7Uqs4aP9+c=
+X-Gm-Gg: ASbGncsq+1z6bCewsgrBm3iB0FSeM1GxURO/FHo5A7BGoZ4+hT6Z68yoJjz0UEZeIh+
+ s3Z7ZUEEI/7weQLyMz62IiJKDZLkJNnnDskCtxd81i61qWFyzrS1Deanwm4BI7Yl+Zf71qCijax
+ UMdCvvf1NFJQ3bArNUmjYdsGoR36iObgxKrJU1aE0CkMboGBZzDxbGlmGY807smV+1KHzzspffp
+ /zg3PzPimcmyDB+kUIqhFrhQl7Yw1IL8/NdZ1DhR2JaSFt+a8Pa9rxx/2PvM3Ix5AN4RXbOVW4m
+ dyAIq/6KZ0KjcfoFxdyc4knfE6152w==
+X-Google-Smtp-Source: AGHT+IGljYe4BdTzBDXyCqgaBRdYgKurtEw8NIhKOjqu0TbXgCFVoYTwi8WuQ2J0dQRrYvQOHVQyLA==
+X-Received: by 2002:a05:6512:2356:b0:53d:a58c:c5a4 with SMTP id
+ 2adb3069b0e04-53df0108fe6mr11691188e87.40.1733156063012; 
+ Mon, 02 Dec 2024 08:14:23 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53df649633asm1510854e87.176.2024.12.02.08.14.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Dec 2024 08:14:21 -0800 (PST)
+Date: Mon, 2 Dec 2024 18:14:19 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Yongbang Shi <shiyongbang@huawei.com>
+Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, liangjian010@huawei.com, 
+ chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
+ shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 drm-dp 1/5] drm/hisilicon/hibmc: add dp aux in hibmc
+Message-ID: <anxttocvrziwstm3h2q4lles2zyeld4uuv2hwrs3vthldekz6w@bjn262y4efcc>
+References: <20241202131322.1847078-1-shiyongbang@huawei.com>
+ <20241202131322.1847078-2-shiyongbang@huawei.com>
 MIME-Version: 1.0
-References: <20241130-hp-omnibook-x14-v2-0-72227bc6bbf4@oldschoolsolutions.biz>
- <20241130-hp-omnibook-x14-v2-3-72227bc6bbf4@oldschoolsolutions.biz>
-In-Reply-To: <20241130-hp-omnibook-x14-v2-3-72227bc6bbf4@oldschoolsolutions.biz>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 2 Dec 2024 08:06:57 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VJR3O=8xHtdPapwtDS2ShL3SVTyvzNgOTNjp4U7OGO4A@mail.gmail.com>
-Message-ID: <CAD=FV=VJR3O=8xHtdPapwtDS2ShL3SVTyvzNgOTNjp4U7OGO4A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] drm/panel-edp: Add unknown BOE panel for HP
- Omnibook X14
-To: jens.glathe@oldschoolsolutions.biz
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Kalle Valo <kvalo@kernel.org>, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241202131322.1847078-2-shiyongbang@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,38 +94,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Sat, Nov 30, 2024 at 11:09=E2=80=AFAM Jens Glathe via B4 Relay
-<devnull+jens.glathe.oldschoolsolutions.biz@kernel.org> wrote:
->
-> From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
->
-> Seems to be like NV140DRM-N61 but with touch. Haven't disassembled
-> the lid to look.
->
-> Due to lack of information, use the delay_200_500_e200 timings like
-> many other BOE panels do for now.
->
-> The raw EDID of the panel is:
->
-> 00 ff ff ff ff ff ff 00 09 e5 93 0c 00 00 00 00
-> 25 21 01 04 a5 1e 13 78 03 ee 95 a3 54 4c 99 26
-> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 a4 57 c0 dc 80 78 78 50 30 20
-> f6 0c 2e bc 10 00 00 1a 6d 3a c0 dc 80 78 78 50
-> 30 20 f6 0c 2e bc 10 00 00 1a 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 02
-> 00 0d 36 ff 0a 3c 96 0f 09 15 96 00 00 00 01 8b
->
-> There are no timings in it, sadly.
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+On Mon, Dec 02, 2024 at 09:13:18PM +0800, Yongbang Shi wrote:
+> From: baihan li <libaihan@huawei.com>
+> 
+> Add dp aux read/write functions. They are basic functions
+> and will be used later.
+> 
+> Signed-off-by: Baihan Li <libaihan@huawei.com>
+> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+> ChangeLog:
+> v5 -> v6:
+>   - adding do{} while(0) in macro defination function, suggested by Dmitry Baryshkov.
+> v4 -> v5:
+>   - fixing build errors reported by kernel test robot <lkp@intel.com>
+>     Closes: https://lore.kernel.org/oe-kbuild-all/202411131438.RZWYrWTE-lkp@intel.com/
+> v3 -> v4:
+>   - retun error codes in  result incorrect branch, suggested by Dmitry Baryshkov.
+>   - replacing all ret= with returns, suggested by Dmitry Baryshkov.
+>   - moving the comment below the judgment statement, suggested by Dmitry Baryshkov.
+>   - moving definations to the source file and clearing headers, suggested by Dmitry Baryshkov.
+>   - reanaming dp_prefix to hibmc_dp_prefix, suggested by Dmitry Baryshkov.
+>   - changing hibmc_dp_reg_write_field to static inline and lock, suggested by Dmitry Baryshkov.
+>   - moving some structs to later patch, suggested by Dmitry Baryshkov.
+> v2 -> v3:
+>   - put the macro definations in latter patch where they are actually used, suggested by Dmitry Baryshkov.
+>   - rename some macro definations to make them sensible, suggested by Dmitry Baryshkov.
+>   - using FIELD_PREP and FIELD_GET, suggested by Dmitry Baryshkov.
+>   - using DP_DPCD_REV_foo, suggested by Dmitry Baryshkov.
+>   - fix build errors reported by kernel test robot <lkp@intel.com>
+>     Closes: https://lore.kernel.org/oe-kbuild-all/202410250305.UHKDhtxy-lkp@intel.com/
+> v1 -> v2:
+>   - using drm_dp_aux frame implement dp aux read and write functions, suggested by Jani Nikula.
+>   - using drm dp header files' dp macros instead, suggested by Andy Yan.
+>   v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/Makefile     |   3 +-
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c  | 164 +++++++++++++++++++
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h |  42 +++++
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h  |  27 +++
+>  4 files changed, 235 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+>  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+>  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+> 
 
-You should drop this patch from your series since I already landed v1:
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-c1bae6802ee9 drm/panel-edp: Add unknown BOE panel for HP Omnibook X14
+-- 
+With best wishes
+Dmitry
