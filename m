@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18DAE9DF923
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 03:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488FD9DF926
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 03:57:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9747510E2F2;
-	Mon,  2 Dec 2024 02:57:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD7D310E3E3;
+	Mon,  2 Dec 2024 02:57:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="EeLl5F2V";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="FbW4uUys";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com
- (mail-am0eur02on2069.outbound.protection.outlook.com [40.107.247.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B36B10E2F2
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 02:57:07 +0000 (UTC)
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur02on2040.outbound.protection.outlook.com [40.107.241.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0656410E2F8
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 02:57:18 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=anErY7Icq20oKxnfmJaiodJcymnxTcaucO00fGf7udvh3AEAVroE1CsrMbZXSQqBlTOZX0OWIbWmBOVgXO6aBlhp13REQyRuO40Q32G9vzfzRlwnRjw2qX7kwC5OMqR0M9iVL54zNaVvKRDlPm5hJ7l77N5cX/H2SMK045wifzE3ZVjwRqS83jn/ZjfAbExB93JNfjqCTbj9SjzCYmLLPCIK0dhlcweYY57Ai0uCjP/rc9fOFWLqujFFnJHm3bBMO5/6jq1uiyCr3L1UJPrOylgjTmGFMNki1XA6nbROmugvSw6rp+Vt1VXhjZw4OPw/4zb8X4EQ1aQ8xVFAhxT8xA==
+ b=NdxKXBPWfWXLJEMBohAbuR2VDWUBuNydUMerWsp3w3LkF4+iWsNPa8+TSG18KH9GzVgIhNaliRDi3muJjfXq87l1HRfwEirz/xdJhEWLIy8ztYfyHWiEMh1au8V/6u8OI7RZykwde5XhsUm+ZOMQW173IdLnNSeWpzN2ZJPs12Uq6c8E90t0hPlPvpYBjBvpVyEoqHKlGUP57C4CqE84p1AOghqugN2yqzqi8AgBF94xlzZR9wgZsz6/5P8e5cOcNMXrslRYhEcpwbshw/jrmC/IRh060R4hBDmNEQG058I9NZhIkenn2xppFc54uF/lfjY0iwumGgPdEw1tYt2XIQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rPS25qix5oSxvleV7DCckXOJ7Y6uAI7TqTcvsXwaH3Y=;
- b=oWhMrg+et7DrC4q95W2ivTtr+Ltnxt/Z6bfaAwO4vrL180DLjbkMGl7Y7iYeIE/Qqnk30/YgHEFR0ZdHnEaiLYioJUw1/K+7iowbGZlAQJLYWGM0ax5uJ+hJ0LuE8/2lzT1V1g38mG4ELYdiVgY51C9UeWPcbgfsDPVCo/p/hcI5uZQyBKfEflz4eWpEvu+th3WCezxrXgfVyca8uK+wKntv3SBGRauCwjgEYWKBID5un0cuRj7Kw0ECOE6yLj6hj4DZI8Xk2MusgtZkdOmrzD7Wc7tXaeNsYysC7RIJjFxpMpMvUqt0i0BoyBpgOIvqRubvWvAg119ZatjNT3DLjw==
+ bh=ZlYCszjOb9ae4enBB14z9kgjSacz+U6zrDT+54z7UpY=;
+ b=qB17mNW2iigAlrWLjHL98POWxIHEwu3EC/cRzTMjvUCxuM1GsKWBWF8IlKcRgonddX3CAV9AN04xlQYx8sHdM/pM1qCqOEyTJF547hTjSLfPneuCJddKD3FTH+RI87Nt17zNDcJsA17XTqv/LXF1xndglZ/YgdsybIo48bUX66Hj5s2lBDxq73/PKSgiGJS9BAOIXwLjJeKj3pD29yY2afcmzgSW7uG99f8nXlN8PySndd0MKPj0Svklu7y8rryL1m9RPSOE5v0/gqQ60p2chijajgnF+IUZWKkSyCLPT+tdfPYdEYmA/AOk0zK4dXsq2BLvgKqm+AZiVeFGj7txuQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rPS25qix5oSxvleV7DCckXOJ7Y6uAI7TqTcvsXwaH3Y=;
- b=EeLl5F2V9H0FcExXEtOyi4QrSc5mDg410T7rsnFs9UsPIMuj2PyswkxQVvpPxXPwECSZoTDOCsFfMjh8ZnFIkglgZ85UKyQ4MVGO9160LELTYuxAAvap5B5PeGZcnQzD7C1mkTPgq+WBzSDXCgoAI54RPHLrU19NCqdR5UJEB2QQM3QhUBnifmfF0YNxzD3IXgCT6OF9yJdGW8QE8TuxDa7gePobDxwefBtn9X+qRWoQhKljj0NpSfWJkLzJaOtmlhWnNkV8l4OwNvm96kWVPRfBvArDVtojhRyRQwWORFGbpk6mfwx1mIYlDzB7UP/BpfpsI17D1xZ0SueeZ+6Dow==
+ bh=ZlYCszjOb9ae4enBB14z9kgjSacz+U6zrDT+54z7UpY=;
+ b=FbW4uUys2D7U589Q/41kGkriT373i6WygUhHd5QkEcZmxdpv8tOvuIFUH7iVZ6JYmUjY1xGH7zwOLW2f1rLmHNUDOXOIgPvYVhCoc5fRuqgHZKBfC2MubOouWGk3wDytLmoe3N8/e17ytQVX/WYUrSP4PuFPOTl2xme86u3Y6Hn7HZNizc8LKark0NwY4AaJQhyGNp0+FjHc8bykohFLnon2fuu8rdka30Hw6mIe8KpsLbvPXFujcdLIDapNgEjzE5D87JWOzBl1Atlb4AXT3EYgSve5znN7/40fwkK1FRpgA5bAL6W0rZ4K/WybWqnfI/QKS6aKhAUufVdtXNsbPQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by PA4PR04MB9318.eurprd04.prod.outlook.com (2603:10a6:102:2a5::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.17; Mon, 2 Dec
- 2024 02:57:04 +0000
+ 2024 02:57:12 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%6]) with mapi id 15.20.8207.017; Mon, 2 Dec 2024
- 02:57:04 +0000
+ 02:57:12 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
@@ -52,10 +52,10 @@ Cc: p.zabel@pengutronix.de, maarten.lankhorst@linux.intel.com,
  festevam@gmail.com, glx@linutronix.de, vkoul@kernel.org, kishon@kernel.org,
  aisheng.dong@nxp.com, agx@sigxcpu.org, francesco@dolcini.it,
  frank.li@nxp.com, dmitry.baryshkov@linaro.org, u.kleine-koenig@baylibre.com
-Subject: [PATCH v5 05/19] dt-bindings: display: imx: Add i.MX8qxp Display
- Controller AXI performance counter
-Date: Mon,  2 Dec 2024 10:56:21 +0800
-Message-Id: <20241202025635.1274467-6-victor.liu@nxp.com>
+Subject: [PATCH v5 06/19] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller command sequencer
+Date: Mon,  2 Dec 2024 10:56:22 +0800
+Message-Id: <20241202025635.1274467-7-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241202025635.1274467-1-victor.liu@nxp.com>
 References: <20241202025635.1274467-1-victor.liu@nxp.com>
@@ -67,75 +67,75 @@ X-ClientProxiedBy: SI2PR06CA0005.apcprd06.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB9318:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac31a5dd-ead9-4beb-5239-08dd127d0031
+X-MS-Office365-Filtering-Correlation-Id: 8c53728f-64c3-46b5-aea1-08dd127d04f9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|1800799024|366016|52116014|7416014|376014|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?R3sXNFlamHel94Puw8sDN0NB/OE+xQhGo9NPY6qjbIFB7mSLYzWDr+OMral6?=
- =?us-ascii?Q?yZQA2AMRzpQDhTHvtIroWRcNvjHR870aHrUH/zZNqKbbDV5rdmDx96ctp9A4?=
- =?us-ascii?Q?ZlES/0uE/0sMzFeX4HIT0TdzSPoeLEb0UQfpe5CKdeWgladjzHMwpvLKYdbw?=
- =?us-ascii?Q?EIgQ0RooLWILRwlUWl/BTjGM0BLhb49toesDQvVQe1CwbfnL6Wibd/Zgo0EJ?=
- =?us-ascii?Q?4KarDpzq/w+vz0xeIPeaJ8Dazv98GFRPa9Ot+/nZGBQThm/NV7/bDx660w/f?=
- =?us-ascii?Q?WTdjSCx112cw7Td1mJXdHj0Jsfr1w803yQ77VC+jNX+LLImx8sGo03c9XFvY?=
- =?us-ascii?Q?OjndgfWcMCg4x2MavYifhsZ+4ucEgURtWXNoGUnIlhOHblpcTRMyUrHLQN1r?=
- =?us-ascii?Q?siCPGSkQCxdG7I3H5R7rDjFyRu8kPm6E/00QP6bj3KoRfgc2EqXNo+ue0hSo?=
- =?us-ascii?Q?nWs3krNSup7+Aa/I6Ccjn8FHzwV6cCNT+fJOoRD1XYZT7B22XgFYrCbzImae?=
- =?us-ascii?Q?nOoxkc6RFUB3hEejt1kJKX3neJjedJW4Cu7EY4m2TDU1ibsxGn0QxYgOL43a?=
- =?us-ascii?Q?2ySUiU3Ha8aR3zdnJmZSvyQDmVdcQbfXJmT3D/WBhfcOq9TVuQXS7ouJ+07d?=
- =?us-ascii?Q?u2YufIC92+OTmEEgsvlNf74Gnxz54XO+V5lCWD0ii2oo8QLQho0nsdtREtep?=
- =?us-ascii?Q?Cc18spZLhoKfgWOx+Knwciw/L2W8Iw8s5QP+nmmzcV7bfIzR4xyq8opQwPtD?=
- =?us-ascii?Q?Q07d00F9ZbWxHpEmZq6wSsNXVI4SFOIni4MSNi0ExzkBnOoVqAvNAOjZm4sW?=
- =?us-ascii?Q?z/+IWCiBVg4Qn4ZyXYquwFi4zvf95QQ3SepqdeNf9XBCaLwOy5VS4USGiHhy?=
- =?us-ascii?Q?la2BGRxawVEIioMoLrym2pJDhzAF6aD/Kw95EtuHigjkpoA24m2ySQ2qh+kr?=
- =?us-ascii?Q?fJ9aATWi1NRlBvFmZhqEZrrRIXOT7FrNtHixezWyUVYIcbJond5zgNr92L8T?=
- =?us-ascii?Q?j7ZX7pXjuNe6PpWEpMKyEdyiWc+JCZboyF9ysuacLJ2rB6ioRYi5ATbD/Ygk?=
- =?us-ascii?Q?GQarhcFsdHvNlhrYlEEU+ZihLucXKgnbUoxiJtNrHDGhS4qjyorzJgbZ7jPN?=
- =?us-ascii?Q?U9TJXeJAt6iTt2gogVdu4mDfZE838GVkfw2WgbZwvFWUWcGak9BNzhJOlZUk?=
- =?us-ascii?Q?UlJBpwaGzJSPUps3sII5xEktz5KQAaGNZwdCNc7A+og1eflM0JhFT1F3ZjCD?=
- =?us-ascii?Q?8cHoTAEhHZTLILtQWL+EA/TuQnYTlUmzsPoH0b4VDl2OzzAzbfK+MTFGVGg6?=
- =?us-ascii?Q?CQLiSI/wefuVeHIhVzBuGsupiosDTjHslQRodOYtDDdzPw=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?4sW3YAH2UrzULNawPO6prtp2QJEcE1Nlg37u/LzDshdvZHaC/2htUc7AAjl5?=
+ =?us-ascii?Q?g0R3OI3AhW/rbLUCOm7G9YvP5GHc3YOJtdIkD0o9wupCrVD+C/YRrzAgMdwE?=
+ =?us-ascii?Q?y6rPZ5CQ7GAafbMxmFAdaCLOmTKLUZSKWSQtCRr8S/RbDbjlnmPbxnMmXR4o?=
+ =?us-ascii?Q?BmsMQWgnuf5NoMlO3WXGKLBUfGJYo589vIwJh1g7gwaffwVjix0Xk5A9e/EF?=
+ =?us-ascii?Q?ETcibQ5v7XOF4LnOYMUqimoJzy4fJDBYSB5dRiWG4EkL1oUB8zH06I2mk120?=
+ =?us-ascii?Q?aw8CpGXLusupcX/SPM+LWwi+a4TGYhHzop61yGkbhTtfX7yUQYUpheg+RYKM?=
+ =?us-ascii?Q?EuV4E35bnj5myau6HJok5nbO6euMv2veXwltIQMjtWR75drWCHDApehxUQvx?=
+ =?us-ascii?Q?cH4/2c8n+Cb0AJvRUMvczRsmQHaAm50XbRLfj7XAHAwTf2QKns3wmIvlO/d9?=
+ =?us-ascii?Q?wqUfaPWMmlK3nnyKB1EKcKODcKnil5TlnWFwM3gCAErLlZ/UDmY5dfv9MolQ?=
+ =?us-ascii?Q?87oi9imI33nkABDZOQi7lkmezpPEJyo/H5ExxX8wkJGrTH5I3elCaM/kgRnh?=
+ =?us-ascii?Q?tc6t0EaAUnIdOXzBksJN4Tu/N5HHpdi/6DfE9bvwECpxUYu71sG5KyWv4fk6?=
+ =?us-ascii?Q?ldSuzGtteWPpgLzM6CWkMiK+RA2kRJD8o61Qe+c7vcsBP44lhA1vmUrS7tMN?=
+ =?us-ascii?Q?PipmbQ8z2GGVF0G+1msas2EeBzIQyjZnR2HdpUAiaav6oV48irQtvAw+sKgn?=
+ =?us-ascii?Q?TKvBXHEeUN4PGYsJNbtLtjSiUG1lP1L/hFfBslA9wb8OJxitrj6+epycr/g4?=
+ =?us-ascii?Q?xFjaVZTLfwEJO0lQ5j5zrPydrhNgLrexRKgXLZAW5J6wrnNhIiP+4yG+yU3v?=
+ =?us-ascii?Q?qskkrac9CKKgY/MB6AwJSVvfrg+XCVNZ7DNKcdVY3OikY6oF7fkgNJpccP7J?=
+ =?us-ascii?Q?lU7XRsOoI8h8YiAmwd1DctinNotAr4lmFkWSc2RNz+zET4pjGcXRhDXSdRIM?=
+ =?us-ascii?Q?klNRh5e6tAEhg24NsKkCxL687JJLn0b5QIdRMVfXXTD+DQeTpJ/HFOXU+dPu?=
+ =?us-ascii?Q?CSjqXtlE3VlLRb3zE9FnPqT+6NfljcPCe76SgYZLaz0QxtBZuYxWYQvXqFtB?=
+ =?us-ascii?Q?5P3Br4gUfWDSCFQ/SFdEHe5UJo1/8A5JvmE7K9LPrA4ZXwZusfhVEZ2jPtIc?=
+ =?us-ascii?Q?o2/zHXzNy8a3J/mCEMeinDFAKxFM+6uiI59Pq1YWWKfH67FBlhc/xD43eNgS?=
+ =?us-ascii?Q?awEmr17PkHXXVvf0wZO6+1E5cpgCgdgToWB76gGDcw+mmsf8cKwxWBFpvCxp?=
+ =?us-ascii?Q?mGXxMz/3YzL/zclckxCnWaL8JJnSvVzYg/R9x6U55wY6LQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tBjGXfPrPKdY2kRY5Wj4rvTtDgfcKzIo0PoFw1sWmbrgpIqBoxr6VxaPa8KZ?=
- =?us-ascii?Q?VBYD1Lj2CvcP3fYHX79vN1uPYU/8VMTET36J4r24J/fIphS8hPK0TR+9gUMW?=
- =?us-ascii?Q?4DQbK7cf37QGrklYegDQuJz8U6niQElt5D/OFbRrftCJ18ttp2fiUYNUfIVr?=
- =?us-ascii?Q?CAvCFuQb7dQTgrSql9PnZrn/YaGTtCkXLZJ6LpBBSTwUX+HHkTdEJiR2tVaj?=
- =?us-ascii?Q?mgNxZB03wkkCCL4O5YYBeW0sdKCl6s7xFWhw+GupALItpA6xasNIRt+o7su8?=
- =?us-ascii?Q?34mMmcX0pPAKziAr0rCCO+du4T0hXaVHka4M39RihpSE9VWIGcBmz4gkOskh?=
- =?us-ascii?Q?KYr1mZkamocvAa8h/V2Sz9i6B8qqJbdelBrHycY40ct+pI4QjnKLbVj9mcre?=
- =?us-ascii?Q?a9djevHlE/FduCaHr4/NZUZZGLpmAylfZXyw2DKMxM4IH0QpYLT4tLyhbaXv?=
- =?us-ascii?Q?6EOAnoZgwCq4NQkjpUFuobL56N2UjDXX/+9xK0M/ol68GBwxY3U4ImoiY31R?=
- =?us-ascii?Q?nYdXfx/zj7QY50SKOufXN+GloG7Cp467a02KnQuvXG+AexF8xK+hJdUv9DiA?=
- =?us-ascii?Q?1UHd0puPgLV64zgUYJtR37UVppNrd2Q2k9bGRf3nV9EIrp229khTvnaB+Vhb?=
- =?us-ascii?Q?9bxJH211M3DddXi5Q/O6qDAyRe3pc4bGYDRjY3X7A0rTPfg7iM+FnuEjHAs3?=
- =?us-ascii?Q?2FfnKdUTzub9t5plBMy9MUdnMOLueCaECiRKpLhLkHdEHKT7WvTyfSqlPO/B?=
- =?us-ascii?Q?hgdkhfKdCaNneXxnUuA9cB7B2YdHAeTCh7J+iGdQQaU5VGEH9VX2mZgDsys4?=
- =?us-ascii?Q?zdp6ri6eSE201xXnkbYquVab7yetKI7z9shp83B8QzbguHV5Ow9dvRByhbTB?=
- =?us-ascii?Q?6Nevx5oSV0Emln1AdBFg+Kp2dbc6VTqvc7uIOrbBgRdsZOhILD3aXgxNhO+K?=
- =?us-ascii?Q?Lq1nHDivIHy9eGJnNvOOJhWHkeiHF2lNOd/EM+Baxb5p6iPbVak+pCOK82Zv?=
- =?us-ascii?Q?ODF6rrvtwuQ71NJvb9E2a+gzEfFVpMJFduuOWHY9TNr4Xga0okU0pYXC2P6D?=
- =?us-ascii?Q?YXirrZ1iF55Sq39vk6zIkRaY7q5f+KWbFle4N02sv3gcH0T7cU0WNKgZQ6bR?=
- =?us-ascii?Q?2uHBoq785oyE+tywvsyoRP/WriUvJ7aioZndHhpOvigWYf9FmqsIAXmMReCf?=
- =?us-ascii?Q?iobQedPETumnd5vfmDxnLLlMGlsy9yUbKcik2MguOz/k00XvT1xuyncl1P4L?=
- =?us-ascii?Q?OxCUBonzHO504mJs8cBcYyrdaiDkbg3MxoUDnOkxeJWkKUk4p1tgAFO/rYie?=
- =?us-ascii?Q?/FMXI9Y4X8ztCqsP4hT0TudhViwUcHynDFftNZOkIcqt0rKy/ttJ4OHeWghb?=
- =?us-ascii?Q?KS6UqnOPuuH0gMQG/twGDmAvmVwKwqLntThvmsJv3oM2OUnLhjO7YHdVrkg3?=
- =?us-ascii?Q?nYeQXzh/zlebkR1i2lYvJDXo3e0YsdxMEr4IClXlbhwgr7GYPmExFjkBfa/o?=
- =?us-ascii?Q?hvWk46cqTaTGVIKwuc3/luW4YxFW7oGlAVFilYMZ8CejroCKolGY4QY2ev3I?=
- =?us-ascii?Q?Vb0PXEckChtgNkdX+oDUtbmit1kgoeObEQMITzlj?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TkVlGjxVMYPb/nDsX9nQEc7JYol71tOdSND/0OnCZPCFiCvj6XNKzct88K7w?=
+ =?us-ascii?Q?4iI2KEDqXd0Q/IPCgGJLaNmmfcZuPJQW/F62ms5iZFKbCFY6kntW9+iz/VYI?=
+ =?us-ascii?Q?cbKFk8Sl+YEYVK1h1SE2bU1HHua5qBQ61cLFYfCe4t0TqgJ7+zKci5mP/YXM?=
+ =?us-ascii?Q?WEq7b2CIBzp62HqMOiwwyk3WghcwUBCnMVzk1zaFM6f1R/jKMvX44wkjgfqo?=
+ =?us-ascii?Q?KxTwDGMVk+BTDMRY5SGYo5tCEfStVc9obUpPlQBdAKT/apmxrQ+KVTS9v2gL?=
+ =?us-ascii?Q?96bVQpdgvwGUil7/WBHcAonRwybVu+s1trG+tbXo61REdNkew5TjR1qmJD03?=
+ =?us-ascii?Q?2BiFvtDxJJU19jC5pSOr3/u/uVOnT2nTXmH4FYuWsjaKRaay6GEYKy6m3RzF?=
+ =?us-ascii?Q?JVeDvqQDT+FY8mF9upnrjWS2h66sk2jOmznWaFXXLyhjWvO/jr0HfQ/NSOXG?=
+ =?us-ascii?Q?IlySjHEnWmqFcRE78IxOt4sa/uRqvJHXzOMg8iXMwAhK0WiKtQiyVwbvw5+Z?=
+ =?us-ascii?Q?h/w2MfxHxPZxcBFtnsZQ0p0bgZOScghLCQitNevfAay1vN3cDDiivCSgMnJu?=
+ =?us-ascii?Q?lj+pRnuuEs8nwe/T3Bh1AGCmcE8hHjXuhTMDgiBK+5phTm+HflxRRANY3rmr?=
+ =?us-ascii?Q?+mpt3bFULhLUONjKVUpK2a0zw2mQzDSrFIVOmOe0DXStA3i19l1Z+S70SE8/?=
+ =?us-ascii?Q?gzKexTRd2uzW2d0u3s4wpHMUxe/CfSZGyaW6FhGm6b8sKwzEosCB8F2lYYB6?=
+ =?us-ascii?Q?fzSI0U9n4saj1gGqkUEa12L3RH0/sALQNugepVM2qNh+JgjIyWupIn9/auRE?=
+ =?us-ascii?Q?JIUZo66d8KCVDSckonTjMC8bAB6mO13hQ5IhhQ4ZnLbsAtsKoPSmXZC8x1sK?=
+ =?us-ascii?Q?c08rgeqy7iz3gQT7bbXxoDetlBG7AanAjpI3NVoY9HjKTaO4sgqWDpePElu8?=
+ =?us-ascii?Q?7lYNIle24mRBkdNkki+3oebR1/umsuj9HSe9VPveFjLAzWOG3Tq30HMHaCZj?=
+ =?us-ascii?Q?hqyWX9VNoQoTw96sOJrSDg95r8NfntMEWmkWysZIjGAN/OGW3i9diRrqeIo6?=
+ =?us-ascii?Q?O5CCQ0glTXfmFMzV6+KluCGhNli80e1lPWx4apsU7WgBEOqveEs9l4jW9uMu?=
+ =?us-ascii?Q?NicsW316qRYSnqVUpNe9D9GAsdNpv35awKi+PHgxgt7X+3xEweewSW3SLKXV?=
+ =?us-ascii?Q?taKk/FmTJDXgwElokNhT++8KcP8+7qwaJd2Z6E9vul60Ief6UTgdm/LeqOTW?=
+ =?us-ascii?Q?wUNBjHZoQ8r03v3jFyaoxt74nrkxsY31UN8qeVJsdV4ST2lrhG3Qv7fDAFd9?=
+ =?us-ascii?Q?FBF7KdnEKsGAMGWX9uxWEn6i0oUrUEg4q3sjPNdHVmorRP6dwiFehU8xtYPC?=
+ =?us-ascii?Q?MhaYemeZpZmVGWt2EWNmHqtK4/8hdkf+ODP24DkLCNf7YxDD4HSSJ4C8TKcm?=
+ =?us-ascii?Q?BOosyBcDcN3oDezb1kXCLD1brew57ZIweVVM+cYkAKoXb/TH3/JIZtTRmKiT?=
+ =?us-ascii?Q?FJ+dhaqf+/qNSAnYNCMOWu0fRANXf7aGDACja9CsJRRh1L0Ww1muMIA9SE7C?=
+ =?us-ascii?Q?hUa4VRUEXiueHxWK2ARUeg6xDEI6EYzoSgf1wzsp?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac31a5dd-ead9-4beb-5239-08dd127d0031
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c53728f-64c3-46b5-aea1-08dd127d04f9
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2024 02:57:04.2613 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2024 02:57:12.3167 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kDrViIy0LCW+pvTlPCnwEKkHCXThEWVjZsTunXDLdTmzgK2GzmK4GswBrYYsNFFnhoHGTWdDYfwUViFL7DEINQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: wGTX1P2We9z/A1cecxC9pwb0/e9NrlMWts/JmtCJ8shhcP8VWIDqC92Zw6dAxWZU6neuJGryMfxWLWSwjp38Ag==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9318
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -152,65 +152,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i.MX8qxp Display Controller contains a AXI performance counter which allows
-measurement of average bandwidth and latency during operation.
+i.MX8qxp Display Controller contains a command sequencer is designed to
+autonomously process command lists.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 ---
 v5:
 * No change.
 
 v4:
-* Collect Rob's R-b tag.
+* Replace "fsl,iram" property with standard "sram" property. (Rob)
 
 v3:
 * New patch. (Rob)
 
- ...sl,imx8qxp-dc-axi-performance-counter.yaml | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-axi-performance-counter.yaml
+ .../imx/fsl,imx8qxp-dc-command-sequencer.yaml | 67 +++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-axi-performance-counter.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-axi-performance-counter.yaml
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml
 new file mode 100644
-index 000000000000..1d6501afc7f2
+index 000000000000..27118f4c0d28
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-axi-performance-counter.yaml
-@@ -0,0 +1,57 @@
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml
+@@ -0,0 +1,67 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-axi-performance-counter.yaml#
++$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-command-sequencer.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Freescale i.MX8qxp Display Controller AXI Performance Counter
++title: Freescale i.MX8qxp Display Controller Command Sequencer
 +
 +description: |
-+  Performance counters are provided to allow measurement of average bandwidth
-+  and latency during operation. The following features are supported:
-+
-+  * Manual and timer controlled measurement mode.
-+
-+  * Measurement counters:
-+    - GLOBAL_COUNTER for overall measurement time
-+    - BUSY_COUNTER for number of data bus busy cycles
-+    - DATA_COUNTER for number of data transfer cycles
-+    - TRANSFER_COUNTER for number of transfers
-+    - ADDRBUSY_COUNTER for number of address bus busy cycles
-+    - LATENCY_COUNTER for average latency
-+
-+  * Counter overflow detection.
-+
-+  * Outstanding Transfer Counters (OTC) which are used for latency measurement
-+    have to run immediately after reset, but can be disabled by software when
-+    there is no need for latency measurement.
++  The Command Sequencer is designed to autonomously process command lists.
++  By that it can load setups into the DC configuration and synchronize to
++  hardware events.  This releases a system's CPU from workload, because it
++  does not need to wait for certain events.  Also it simplifies SW architecture,
++  because no interrupt handlers are required.  Setups are read via AXI bus,
++  while write access to configuration registers occurs directly via an internal
++  bus.  This saves bandwidth for the AXI interconnect and improves the system
++  architecture in terms of safety aspects.
 +
 +maintainers:
 +  - Liu Ying <victor.liu@nxp.com>
 +
 +properties:
 +  compatible:
-+    const: fsl,imx8qxp-dc-axi-performance-counter
++    const: fsl,imx8qxp-dc-command-sequencer
 +
 +  reg:
 +    maxItems: 1
@@ -218,10 +207,27 @@ index 000000000000..1d6501afc7f2
 +  clocks:
 +    maxItems: 1
 +
++  interrupts:
++    maxItems: 5
++
++  interrupt-names:
++    items:
++      - const: error
++      - const: sw0
++      - const: sw1
++      - const: sw2
++      - const: sw3
++
++  sram:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: phandle pointing to the mmio-sram device node
++
 +required:
 +  - compatible
 +  - reg
 +  - clocks
++  - interrupts
++  - interrupt-names
 +
 +additionalProperties: false
 +
@@ -229,10 +235,13 @@ index 000000000000..1d6501afc7f2
 +  - |
 +    #include <dt-bindings/clock/imx8-lpcg.h>
 +
-+    pmu@5618f000 {
-+        compatible = "fsl,imx8qxp-dc-axi-performance-counter";
-+        reg = <0x5618f000 0x90>;
++    command-sequencer@56180400 {
++        compatible = "fsl,imx8qxp-dc-command-sequencer";
++        reg = <0x56180400 0x1a4>;
 +        clocks = <&dc0_lpcg IMX_LPCG_CLK_5>;
++        interrupt-parent = <&dc0_intc>;
++        interrupts = <36>, <37>, <38>, <39>, <40>;
++        interrupt-names = "error", "sw0", "sw1", "sw2", "sw3";
 +    };
 -- 
 2.34.1
