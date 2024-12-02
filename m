@@ -2,169 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0EF9E0CB9
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 21:03:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059DF9E0CC6
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 21:06:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05AFC10E85E;
-	Mon,  2 Dec 2024 20:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9BBB10E835;
+	Mon,  2 Dec 2024 20:06:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d7RxbVwJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BqHf5lTt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4A6610E160;
- Mon,  2 Dec 2024 20:03:10 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E62310E309;
+ Mon,  2 Dec 2024 20:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733169791; x=1764705791;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=ziatBRu7+8yQYDu9P/lYFdLJQ80U9DZUJLbPDJCsZQc=;
- b=d7RxbVwJ/xltv4NHnTup/ICAIVGctS5uqvguRbDtH1dih7FwQmWWlnYk
- hira/XCOzybd73BXkh70Uiuiys52jE6SWWUyVYNWd0JA/UU/kw0hzAnIX
- ph90TrKf1l7Z9FkOLKTeEbIkslC9//wvA6cXlLe8KmhYb5xTFugiDsPyR
- 7vd2/hE3cBjwGJhd5F7IoWlDKEWSp13j41E0ncm86jP5hOqEqHdi/ugDA
- I6ncNIu+fUAR4lRqZZVuGw2wgQunGNP1KKGa8Nzzy68kBS0zcvdZ/uoVK
- kWwfTf5Dzg6u5ZPNyw4gh8l6+12TABKov9hLLcIwfM1T6MkKuuUvnliP2 w==;
-X-CSE-ConnectionGUID: Xd3E+naMRNON3pQ9YOKewg==
-X-CSE-MsgGUID: 3T+q4VqcTMiyML7jcUGZng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33276713"
-X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; d="scan'208";a="33276713"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2024 12:03:10 -0800
-X-CSE-ConnectionGUID: mMDjjr4yR0SAMvoTNggx6A==
-X-CSE-MsgGUID: spKhmGZHQDKJElogI2filg==
+ t=1733170006; x=1764706006;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=wLO7/hYaZXgVibP9+ciA15a9mC2FjQiq3/tY89Ywvac=;
+ b=BqHf5lTtj9ZG1t/ViuHY0k5+iWoMZa5dbcl6gV/rpZtW7yyM0f8iBj6B
+ vrSJsSt15eELsH+/SnvMvGxK8spso07dzyzMqzUOQGYnllEGdnq0rjJcQ
+ x7HwjvfF3Ib3boFJYzHiPV0/lFlj2fnLGSBCe41VtwTZ5GPH/aTFI1nJg
+ TS8EemO5UQvj/XFNWhxKD4yTEVDFB0BrmOEnnplaNtBLbmItIEjmhs3xM
+ IF+YEjwRgeeM34bPDa8ao+0mdTM/pyjDZx/mUBnRWTDrgteCm4hBOqAT/
+ PgL2j5P7Q2qGVSRI9uNmgDrr3id/3OXJxqgTS5xh3LJMULJIJJHPk6f/b g==;
+X-CSE-ConnectionGUID: 9LNA+kxeT7OLptpKQNlAEw==
+X-CSE-MsgGUID: 0jU2QNvRRzekgWP7ZIPzxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="58765301"
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; d="scan'208";a="58765301"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 12:06:46 -0800
+X-CSE-ConnectionGUID: 3X+LYPn/S0iZTGL3bd+Vog==
+X-CSE-MsgGUID: evEwoG1LRHCv5sk0ZYRPVg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; d="scan'208";a="92862134"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 02 Dec 2024 12:03:09 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 2 Dec 2024 12:03:08 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 2 Dec 2024 12:03:08 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 2 Dec 2024 12:03:08 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=be1zcLtrzbidGp02lxFvKJ28rFIcqwMgK0WCVo2ob5aD60NyfXT89Mg8rhARF1+RYLBDcFlzbs/3+2P3ee1zbYmbngm/TjdOFgRwOGirZYOAUJUejoaEOIuSxSxAgCILunbSh9yVLB7WAwIeZNaqw5i2kODyTQHuicO1mKs5FaxsQHxeIZtPWLHEEDdUzWgvYbvpqviTZQ9LbRJJrJye+tMl2dmZ/dp71ixw7bD/W6HUXV7S2O0HjbjT/wWjj4TAJL6zufHPwI4wTUoytpEG7G6ba9sXmCnS+ne7w6BHZDreszGFqFwXhmt0dTLhcROUu5gmPEfmS7ZSJ5JDbK0XwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F7s2neFlvowg6XOn3hjFryWE8Oe3NUaaYohRQyf2Tb0=;
- b=JEKNwyfzT/+eYLj794FK/JGuBRpRZh0Fn93ZkzsND3T+hvC9RNxXZKfGdvBiwhL4K3H7Kevz9oFkLdjIiVKXb1uoakv0QGmHIxFBzUiSfsesnhPffZWDsu4/EvbufwhGyVvCkV585ubSxdyXW9sCN7QH7F54GBJfHQs4xab8i/aDN10MehWr2+dsJE+fYfcuJqWQ/CX+Zxt6UbyvxDJEWYHDgchBowkXr1+XoNAdxw+AbGFuBp+xsU/FQKzfsUQcCzJRxfDMHkQ3wG2uCVqKB71yiCVCfU9gdF+x6H03zL8qhm5Wegjl6gaJfhch0GUIbKSxToHu7HQXbZ9TpO7+2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB2854.namprd11.prod.outlook.com (2603:10b6:a02:c9::12)
- by CYYPR11MB8407.namprd11.prod.outlook.com (2603:10b6:930:c1::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.18; Mon, 2 Dec
- 2024 20:03:04 +0000
-Received: from BYAPR11MB2854.namprd11.prod.outlook.com
- ([fe80::8a98:4745:7147:ed42]) by BYAPR11MB2854.namprd11.prod.outlook.com
- ([fe80::8a98:4745:7147:ed42%5]) with mapi id 15.20.8207.014; Mon, 2 Dec 2024
- 20:03:04 +0000
-Date: Mon, 2 Dec 2024 15:02:56 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-CC: <linux-kernel@vger.kernel.org>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, <intel-xe@lists.freedesktop.org>, "David
- Airlie" <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/xe/vm_doc: fix more doc typos
-Message-ID: <Z04ScOZKhLIGI_MU@intel.com>
-References: <20241128035901.375399-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241128035901.375399-1-rdunlap@infradead.org>
-X-ClientProxiedBy: MW4PR03CA0255.namprd03.prod.outlook.com
- (2603:10b6:303:b4::20) To BYAPR11MB2854.namprd11.prod.outlook.com
- (2603:10b6:a02:c9::12)
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; d="scan'208";a="93608701"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 12:06:44 -0800
+Date: Mon, 2 Dec 2024 22:07:23 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH v2 1/4] drm/dp: Add a way to init/add a connector in
+ separate steps
+Message-ID: <Z04Te41DE_V5s2dB@ideak-desk.fi.intel.com>
+References: <20241126161859.1858058-1-imre.deak@intel.com>
+ <20241126161859.1858058-2-imre.deak@intel.com>
+ <Z03h1uNoAGgS0Rek@phenom.ffwll.local>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB2854:EE_|CYYPR11MB8407:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab39a34b-468c-44d2-0cf7-08dd130c54b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?6nYrJ/e4wVvv3X2BLFrdIkoYZk73QaQQeEZsdjksJpKoSnI2nra8KNcVli?=
- =?iso-8859-1?Q?X4XObUc+LtjwSeYWf9lmWJ8EWzzA5McrDnxUtYNdEc3YUdh2fvhmcXGAVY?=
- =?iso-8859-1?Q?fphFTEvpYfaSEj2LJMFi5VGVAL9rswix2JQI1Nv+i+9aXsR6yhn3SluP+k?=
- =?iso-8859-1?Q?h6TVjUUj6w4fp61lLXXgtYUcCzCVLVwgjsLP/A20+6aye95HjS4HVT7EJf?=
- =?iso-8859-1?Q?6TcxZ+co9KdFy5oyYs1HyCNP8KesRdnhPrqkHxdqtqtFeMRzauZeTCM15P?=
- =?iso-8859-1?Q?sMeBE2FvrDSa+5+8aERdc1DxTX0LsvOVY4wLZzjdPXLL3DSRsPR/v2d1c5?=
- =?iso-8859-1?Q?suCT9xJKMX4Yc4DBWeEBex3iwTOWeswYnCNLiZ3KIPWztPct3GjQGAVV7r?=
- =?iso-8859-1?Q?Fe/203S2XLeW+OahEimUXk0Ins5zbxIw2YxgFHp8KDkBO5vCP0ajqmIkev?=
- =?iso-8859-1?Q?w68mpUpclzuq50+onxD2JjHXr3ILDwtQqkZ9+fBQwGXn47g2Htvmf4e+Tz?=
- =?iso-8859-1?Q?crOQpn3yXibSnKTGLaeyfQtVPUUQYAGM/EaTcaEmTwMQebxcnb3qOyoBWl?=
- =?iso-8859-1?Q?czBEaljzD2z1Tn7OdnR59gGHuf2+vL4Ue4aq9T0cSwUabWum+mDrBm4SJk?=
- =?iso-8859-1?Q?qA6UJsfjkabqyZKsc02E4mGgpZFXKpd4GXKh19QJE3BBnsB1vC4K3c3eqo?=
- =?iso-8859-1?Q?vFhUmae6CH1Tfg1exxBZ9Ur6aUUS8EiGWlZgBzvVfFiH/Gz0m+w4qUbV8I?=
- =?iso-8859-1?Q?QVP7l0P2o99342IT0dt4xJ1QINVnxyjHEkDsos1/f4wJcCxFNDgIoGSFV/?=
- =?iso-8859-1?Q?Z31BDeNzQ8wkJMMuBY6zHMDgicu2yauiXj0OoDB1AMwPbqhED8eWevkO7a?=
- =?iso-8859-1?Q?LbUbxqrwun+CXlOB7kaRZt7yEIDcmSUYYjXcrHLkJxNxgKjx9cdWcvSRen?=
- =?iso-8859-1?Q?6PPClJpDRbEWi4hONi67/BQyeE7Zt/GN9rc4S9qJQEqRxCJyY1i2WLq5qD?=
- =?iso-8859-1?Q?BFkIVvfb/7YBF//wI1OMLHPs0eMb3VW1FglnsdWiH+KiweEWOZ3GMgZJTD?=
- =?iso-8859-1?Q?EkrPWZ8JXKxoZUirkdtp2WTE1LT8vlR4nlsUhAqzmTRXrsDsv6G5dP17/m?=
- =?iso-8859-1?Q?tZU/kt8/2o6MLMtSxr8R+PZ/YPcQ/MAJx/eWicXApX+BPYdjHa3TKUQhYJ?=
- =?iso-8859-1?Q?INPrYz17umT//luGDdbRgEvSL4f4/qPVcJLkokdJZwkFAkddVMd0gncmBQ?=
- =?iso-8859-1?Q?QbE2fzMBPXRr8ohOXhYwegxYwDIx9OaOHng/nExmr/AQ7izzIDTszjMtDW?=
- =?iso-8859-1?Q?qLrbdcIEAZVCOfB+xE3uA2bIpumSZ+pqkI02wnLhCKyPTok=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB2854.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?OpwaIljRpYPpXezINvZ9jjOZmGBxTst32MIX3tcsLEhcFrN2SubOvcyyf+?=
- =?iso-8859-1?Q?GZbsBMpfCJQr1dbPzqXuzm6saLb8tFHfQdtn6bUmA/Sz2YJWeWjDVpWEU3?=
- =?iso-8859-1?Q?myZ1DyAcltu9nDhcROTxst47SnPLIIaSJ0gq8RplkQwRNExBsUrwJHOWhB?=
- =?iso-8859-1?Q?BQMBKxrmvYmNwFstAPpruoN7SABfGa2brpVzwqAnr7YpxQmhCGdUlPaeot?=
- =?iso-8859-1?Q?krYozc/macKKTC15ID8dWSzJx7ERysNesFORv3xcJXa9Y4sImZzB6j1cPj?=
- =?iso-8859-1?Q?0YvL1JSKkAoll4NtOghvJvKG0Oe0bImQY3s0pRW8ZfW1/lN8XqqRjnmrOK?=
- =?iso-8859-1?Q?oAl9egrKV+cUnT9Cp/wLunBT36HcADhFy8nVkcWTDH0VABLrdwpsQMrzTY?=
- =?iso-8859-1?Q?erUaPzJ9prm/T9Z5WXoAVkEb4/7rmV39GOjzSKTM4Ve1Gs5gWl3rzorhJb?=
- =?iso-8859-1?Q?X7t0P8YVHZboXIMT5UMsNRXlSm4l3ocBz4bgGX+0Fch/vFuXejc+2KoviH?=
- =?iso-8859-1?Q?aw9goCNuI+ChgDllpFHrt9m2TFcco6sDC0RTdxGWLA4CnT9J6PFVgHMU3o?=
- =?iso-8859-1?Q?5dKL9xZ4fFhDvRJvEXlIN+Fl7dSSrIQOJAI4S1qlJ/TZXPDBa8Ya9mAzlY?=
- =?iso-8859-1?Q?HB5ZG1xGzh2/KRR752sugZmQBtyncV/d3nKQUpp6SJndjC6EWNmeH4ZEBA?=
- =?iso-8859-1?Q?wEKvE9pI8bL7MvLN6cxn69yIthzikqmDcmK4GAFkbocQuZRPB40BmD6+CU?=
- =?iso-8859-1?Q?1DQ+XPaz0LFeQgVn7rgLpVMDcFCh9udYPHfIj+ZMGKE4LW8V77fVPUUiFw?=
- =?iso-8859-1?Q?kKTEOOhCwGhRzlC7ahm8UDy9PwGTtXQfhMTj8nlE6F1n6OqXq7prxzn3aX?=
- =?iso-8859-1?Q?Cqwbhvm7/O2PiinrKMThxYPq4NCxI4r2YWO5QfaIz8hpVgQO2cKVEZpnLQ?=
- =?iso-8859-1?Q?7urx9q9MjHYoZjBLU6Ucb//r2ON/YkGwYBChvpUcXOMgMSnXH6GMAPhQ6n?=
- =?iso-8859-1?Q?LE0sHCxYAUHGSAgabWEsiQf5GGoJCqo9sEDrG1oTiypqbknEUJi9dJ7WQM?=
- =?iso-8859-1?Q?FmDGOj6r8DGiM2o0ez0YksqGIrlgQMplGqszs5Wd73zhgT2/Tch1PC8J/V?=
- =?iso-8859-1?Q?ws2oiaK99/2xZJqVXN0vlk9BhY6y5JqwJZyfcQTrkYGLynIr9ju9rDDW9d?=
- =?iso-8859-1?Q?YoXBtZL2VHf4j+t4jg6tJ6pnEeXEt/sstWtSLNQw25ob6k0TuJcUYziGVn?=
- =?iso-8859-1?Q?XqaOJ37htPCBpdcIj16YRWn4Dpg9dgvgQBNVhZUk35QdE37uvU+2ACYN3U?=
- =?iso-8859-1?Q?3W/927qtOVa5stfccAP8hAmJ9oqioKUJxYxNO3pqXPCUwiKOc/l468Sagx?=
- =?iso-8859-1?Q?n0NQvaZfPLYHW4b0Mgybb8JUGl5ePhKCFvTpmcF/J3q3NJiMueFm0s+9vr?=
- =?iso-8859-1?Q?9uzUgDMrC96i0XVQlistAjureqbdCXAcwdyaPTCRmDsbUiCpgiyelNXkYj?=
- =?iso-8859-1?Q?/0U+5FrRnppEZOgF5cuEe04aRVuN3N+p038uBp+Zfpfd4uy6NEiH3IAMn4?=
- =?iso-8859-1?Q?ILCx/QXPcmZ4+dEPtiq/vf6X6ptBnEWUJx/1HjADSA/lP89JEOT7t6f/qC?=
- =?iso-8859-1?Q?Omu+5LoBNZ8/tRglGS2I/7E33eM4/n1700oWjzMZTdJA2NPCA1Edjl5A?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab39a34b-468c-44d2-0cf7-08dd130c54b5
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2854.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2024 20:03:04.4507 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SVWuGKhqyMz6gIpgi2EgNWAxGRF3L8O2lGuOSDreLnThZNsLnZwriobnq/twVk4sofzyQ8VkiV2EGGzYz7RHJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8407
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z03h1uNoAGgS0Rek@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,104 +68,312 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 27, 2024 at 07:58:59PM -0800, Randy Dunlap wrote:
-> Fix all typos in xe_vm_doc.h as reported by codespell.
+On Mon, Dec 02, 2024 at 05:35:34PM +0100, Simona Vetter wrote:
+> On Tue, Nov 26, 2024 at 06:18:56PM +0200, Imre Deak wrote:
+> > Atm when the connector is added to the drm_mode_config::connector_list,
+> > the connector may not be fully initialized yet. This is not a problem
+> > for user space, which will see the connector only after it's registered
+> > later, it could be a problem for in-kernel users looking up connectors
+> > via the above list.
+> > 
+> > To resolve the above issue, add a way to separately initialize the DRM
+> > core specific parts of the connector and add it to the above list. This
+> > will move adding the connector to the list after the properties on the
+> > connector have been added, this is ok since these steps don't have a
+> > dependency.
+> > 
+> > v2: (Jani)
+> > - Let initing DDC as well via drm_connector_init_core().
+> > - Rename __drm_connector_init to drm_connector_init_core_and_add().
+> > 
+> > Cc: Jani Nikula <jani.nikula@intel.com>
+> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> (v1)
+> > Signed-off-by: Imre Deak <imre.deak@intel.com>
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: intel-xe@lists.freedesktop.org
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/xe/xe_vm_doc.h |   22 +++++++++++-----------
-
-Although I want to kill the _doc.h files and this file is likely
-outdated, let's at least go ahead with fixing the typos...
-
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-
->  1 file changed, 11 insertions(+), 11 deletions(-)
+> So looking at the thread, I guess it'd be good to document some consensus
+> stance on kunit tests, and whether or not we're at the point where for new
+> things or extensions of functions that already have kunit coverage we need
+> them. But I think that's orthogonal.
 > 
-> --- linux-next-20241125.orig/drivers/gpu/drm/xe/xe_vm_doc.h
-> +++ linux-next-20241125/drivers/gpu/drm/xe/xe_vm_doc.h
-> @@ -64,8 +64,8 @@
->   *	update page level 2 PDE[1] to page level 3b phys address (GPU)
->   *
->   *	bind BO2 0x1ff000-0x201000
-> - *	update page level 3a PTE[511] to BO2 phys addres (GPU)
-> - *	update page level 3b PTE[0] to BO2 phys addres + 0x1000 (GPU)
-> + *	update page level 3a PTE[511] to BO2 phys address (GPU)
-> + *	update page level 3b PTE[0] to BO2 phys address + 0x1000 (GPU)
->   *
->   * GPU bypass
->   * ~~~~~~~~~~
-> @@ -192,7 +192,7 @@
->   *
->   * If a VM is in fault mode (TODO: link to fault mode), new bind operations that
->   * create mappings are by default deferred to the page fault handler (first
-> - * use). This behavior can be overriden by setting the flag
-> + * use). This behavior can be overridden by setting the flag
->   * DRM_XE_VM_BIND_FLAG_IMMEDIATE which indicates to creating the mapping
->   * immediately.
->   *
-> @@ -209,7 +209,7 @@
->   *
->   * Since this a core kernel managed memory the kernel can move this memory
->   * whenever it wants. We register an invalidation MMU notifier to alert XE when
-> - * a user poiter is about to move. The invalidation notifier needs to block
-> + * a user pointer is about to move. The invalidation notifier needs to block
->   * until all pending users (jobs or compute mode engines) of the userptr are
->   * idle to ensure no faults. This done by waiting on all of VM's dma-resv slots.
->   *
-> @@ -252,7 +252,7 @@
->   * Rebind worker
->   * -------------
->   *
-> - * The rebind worker is very similar to an exec. It is resposible for rebinding
-> + * The rebind worker is very similar to an exec. It is responsible for rebinding
->   * evicted BOs or userptrs, waiting on those operations, installing new preempt
->   * fences, and finally resuming executing of engines in the VM.
->   *
-> @@ -317,11 +317,11 @@
->   * are not allowed, only long running workloads and ULLS are enabled on a faulting
->   * VM.
->   *
-> - * Defered VM binds
-> + * Deferred VM binds
->   * ----------------
->   *
->   * By default, on a faulting VM binds just allocate the VMA and the actual
-> - * updating of the page tables is defered to the page fault handler. This
-> + * updating of the page tables is deferred to the page fault handler. This
->   * behavior can be overridden by setting the flag DRM_XE_VM_BIND_FLAG_IMMEDIATE in
->   * the VM bind which will then do the bind immediately.
->   *
-> @@ -500,18 +500,18 @@
->   * Slot waiting
->   * ------------
->   *
-> - * 1. The exection of all jobs from kernel ops shall wait on all slots
-> + * 1. The execution of all jobs from kernel ops shall wait on all slots
->   * (DMA_RESV_USAGE_PREEMPT_FENCE) of either an external BO or VM (depends on if
->   * kernel op is operating on external or private BO)
->   *
-> - * 2. In non-compute mode, the exection of all jobs from rebinds in execs shall
-> + * 2. In non-compute mode, the execution of all jobs from rebinds in execs shall
->   * wait on the DMA_RESV_USAGE_KERNEL slot of either an external BO or VM
->   * (depends on if the rebind is operatiing on an external or private BO)
->   *
-> - * 3. In non-compute mode, the exection of all jobs from execs shall wait on the
-> + * 3. In non-compute mode, the execution of all jobs from execs shall wait on the
->   * last rebind job
->   *
-> - * 4. In compute mode, the exection of all jobs from rebinds in the rebind
-> + * 4. In compute mode, the execution of all jobs from rebinds in the rebind
->   * worker shall wait on the DMA_RESV_USAGE_KERNEL slot of either an external BO
->   * or VM (depends on if rebind is operating on external or private BO)
->   *
+> On the patch itself, I don't think it's the right fix. And by extension, I
+> don't think the i915 fix is correct either, because we have a bigger mess
+> here:
+> 
+> - GETCONNECTOR does indeed not show a connector that's not yet registers.
+> 
+> - But GETRESOURCES happily lists them. Which means we have a very silly
+>   race here, which isn't good.
+
+Right, didn't notice that, it needs to be fixed as well.
+
+> - I think the correct solution is to move the list_add to the registration
+>   step, which would also move connectors in-line with other dynamically
+>   added kms objects like blobs or fbs (although those have a single-step
+>   registration+init function, so it's less obvious what's going on).
+> 
+> - The same thing applies on the unregister side of things, once a
+>   connector is unregistered I don't think it should stick around in any
+>   list. But I'm not entirely sure, would need to check with Lyude to make
+>   sure this doesn't break anything in mst helpers.
+> 
+> Now implementing this is going to be a bit a mess:
+> 
+> - For static connectors drivers _really_ want the connectors to be on the
+>   lists, otherwise a lot of the driver setup code just wont work. And
+>   we've worked towards removing all the explicit drm_connector_register
+>   calls, readding feels a bit silly.
+> 
+> - I think short-term we could just use the connector type to decide this,
+>   if it's MST it's a dynamic connector, and the list_add would need to be
+>   done late in drm_connector_register.
+> 
+> - Once the need pops up for other connectors to be dynamic (like for
+>   dynamic drm_bridge hotplug) we can add a drm_connector_dynamic_init or
+>   similar. I don't think splitting up _init further like you do here in
+>   two functions is correct, because the only place where it's correct to
+>   add a dynamic/hotplugged connector to the lists is in
+>   drm_connector_register, not anywhere else.
+
+Afaiu the above means adding drm_connector_dynamic_init() which would
+only init the connector w/o adding it to the connector list (i.e. what
+drm_connector_init_core() does) and adding this connector to the list
+from drm_connector_register(), hence not needing the drm_connector_add()
+interface.
+
+I agree this would be better, in the following way: the deferred
+registration via drm_connector_register_all() should continue to work -
+if drm_connector_register() is called by the driver before the drm
+device is registered. So a dynamically inited connector should be added
+to the list - if not yet added - early in the function before returning
+if the drm device is not yet registered.
+
+Are you ok with the above for now, also fixing GETRESOURCES by checking
+there if the connector is already registered?
+
+Moving the addition of the connector to the list later could be done
+once the deferred registration happens in a different way (i.e. not via
+the current connector list).
+
+> - It would be really nice if we could add a check to
+>   drm_connector_register to make sure it's not called for any connector
+>   which is already on the connector list, since that's a driver bug. Of
+>   course this would mean we'd need to split that from the internal version
+>   we call from drm_dev_register.
+> 
+>   Unfortunately that's not yet doable because the following todo isn't
+>   completed yet:
+> 
+>   https://dri.freedesktop.org/docs/drm/gpu/todo.html#connector-register-unregister-fixes
+> 
+>   I guess just add another bullet there?
+> 
+> Does this sound like a plan or am I completely wrong here?
+> 
+> Cheers, Sima
+> 
+> 
+> > ---
+> >  drivers/gpu/drm/drm_connector.c | 111 ++++++++++++++++++++++++++------
+> >  include/drm/drm_connector.h     |   6 ++
+> >  2 files changed, 97 insertions(+), 20 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> > index fc35f47e2849e..fd7acae8656b2 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -218,11 +218,11 @@ void drm_connector_free_work_fn(struct work_struct *work)
+> >  	}
+> >  }
+> >  
+> > -static int __drm_connector_init(struct drm_device *dev,
+> > -				struct drm_connector *connector,
+> > -				const struct drm_connector_funcs *funcs,
+> > -				int connector_type,
+> > -				struct i2c_adapter *ddc)
+> > +static int __drm_connector_init_core(struct drm_device *dev,
+> > +				     struct drm_connector *connector,
+> > +				     const struct drm_connector_funcs *funcs,
+> > +				     int connector_type,
+> > +				     struct i2c_adapter *ddc)
+> >  {
+> >  	struct drm_mode_config *config = &dev->mode_config;
+> >  	int ret;
+> > @@ -273,6 +273,7 @@ static int __drm_connector_init(struct drm_device *dev,
+> >  	/* provide ddc symlink in sysfs */
+> >  	connector->ddc = ddc;
+> >  
+> > +	INIT_LIST_HEAD(&connector->head);
+> >  	INIT_LIST_HEAD(&connector->global_connector_list_entry);
+> >  	INIT_LIST_HEAD(&connector->probed_modes);
+> >  	INIT_LIST_HEAD(&connector->modes);
+> > @@ -288,14 +289,6 @@ static int __drm_connector_init(struct drm_device *dev,
+> >  
+> >  	drm_connector_get_cmdline_mode(connector);
+> >  
+> > -	/* We should add connectors at the end to avoid upsetting the connector
+> > -	 * index too much.
+> > -	 */
+> > -	spin_lock_irq(&config->connector_list_lock);
+> > -	list_add_tail(&connector->head, &config->connector_list);
+> > -	config->num_connector++;
+> > -	spin_unlock_irq(&config->connector_list_lock);
+> > -
+> >  	if (connector_type != DRM_MODE_CONNECTOR_VIRTUAL &&
+> >  	    connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
+> >  		drm_connector_attach_edid_property(connector);
+> > @@ -332,6 +325,86 @@ static int __drm_connector_init(struct drm_device *dev,
+> >  	return ret;
+> >  }
+> >  
+> > +/**
+> > + * drm_connector_init_core - Initialize the core state of a preallocated connector
+> > + * @dev: DRM device
+> > + * @connector: the connector to init
+> > + * @funcs: callbacks for this connector
+> > + * @connector_type: user visible type of the connector
+> > + * @ddc: pointer to the associated ddc adapter
+> > + *
+> > + * Initialises the core state of preallocated connector. This is
+> > + * equivalent to drm_connector_init(), without adding the connector to
+> > + * drm_mode_config::connector_list. This call must be followed by calling
+> > + * drm_connector_add() during initialization to expose the connector to
+> > + * in-kernel users via the above list.
+> > + *
+> > + * Returns:
+> > + * Zero on success, error code on failure.
+> > + */
+> > +int drm_connector_init_core(struct drm_device *dev,
+> > +			    struct drm_connector *connector,
+> > +			    const struct drm_connector_funcs *funcs,
+> > +			    int connector_type,
+> > +			    struct i2c_adapter *ddc)
+> > +{
+> > +	if (drm_WARN_ON(dev, !(funcs && funcs->destroy)))
+> > +		return -EINVAL;
+> > +
+> > +	return __drm_connector_init_core(dev, connector, funcs, connector_type, ddc);
+> > +}
+> > +EXPORT_SYMBOL(drm_connector_init_core);
+> > +
+> > +/**
+> > + * drm_connector_add - Add the connector
+> > + * @connector: the connector to add
+> > + *
+> > + * Add the connector to the drm_mode_config::connector_list, exposing the
+> > + * connector to in-kernel users. This call must be preceded by a call to
+> > + * drm_connector_init_core().
+> > + */
+> > +void drm_connector_add(struct drm_connector *connector)
+> > +{
+> > +	struct drm_device *dev = connector->dev;
+> > +	struct drm_mode_config *config = &dev->mode_config;
+> > +
+> > +	spin_lock_irq(&config->connector_list_lock);
+> > +	list_add_tail(&connector->head, &config->connector_list);
+> > +	config->num_connector++;
+> > +	spin_unlock_irq(&config->connector_list_lock);
+> > +}
+> > +EXPORT_SYMBOL(drm_connector_add);
+> > +
+> > +static void drm_connector_remove(struct drm_connector *connector)
+> > +{
+> > +	struct drm_device *dev = connector->dev;
+> > +
+> > +	if (list_empty(&connector->head))
+> > +		return;
+> > +
+> > +	spin_lock_irq(&dev->mode_config.connector_list_lock);
+> > +	list_del_init(&connector->head);
+> > +	dev->mode_config.num_connector--;
+> > +	spin_unlock_irq(&dev->mode_config.connector_list_lock);
+> > +}
+> > +
+> > +static int drm_connector_init_core_and_add(struct drm_device *dev,
+> > +					   struct drm_connector *connector,
+> > +					   const struct drm_connector_funcs *funcs,
+> > +					   int connector_type,
+> > +					   struct i2c_adapter *ddc)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = __drm_connector_init_core(dev, connector, funcs, connector_type, ddc);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	drm_connector_add(connector);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  /**
+> >   * drm_connector_init - Init a preallocated connector
+> >   * @dev: DRM device
+> > @@ -361,7 +434,7 @@ int drm_connector_init(struct drm_device *dev,
+> >  	if (drm_WARN_ON(dev, !(funcs && funcs->destroy)))
+> >  		return -EINVAL;
+> >  
+> > -	return __drm_connector_init(dev, connector, funcs, connector_type, NULL);
+> > +	return drm_connector_init_core_and_add(dev, connector, funcs, connector_type, NULL);
+> >  }
+> >  EXPORT_SYMBOL(drm_connector_init);
+> >  
+> > @@ -398,7 +471,7 @@ int drm_connector_init_with_ddc(struct drm_device *dev,
+> >  	if (drm_WARN_ON(dev, !(funcs && funcs->destroy)))
+> >  		return -EINVAL;
+> >  
+> > -	return __drm_connector_init(dev, connector, funcs, connector_type, ddc);
+> > +	return drm_connector_init_core_and_add(dev, connector, funcs, connector_type, ddc);
+> >  }
+> >  EXPORT_SYMBOL(drm_connector_init_with_ddc);
+> >  
+> > @@ -442,7 +515,7 @@ int drmm_connector_init(struct drm_device *dev,
+> >  	if (drm_WARN_ON(dev, funcs && funcs->destroy))
+> >  		return -EINVAL;
+> >  
+> > -	ret = __drm_connector_init(dev, connector, funcs, connector_type, ddc);
+> > +	ret = drm_connector_init_core_and_add(dev, connector, funcs, connector_type, ddc);
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > @@ -659,10 +732,8 @@ void drm_connector_cleanup(struct drm_connector *connector)
+> >  	connector->name = NULL;
+> >  	fwnode_handle_put(connector->fwnode);
+> >  	connector->fwnode = NULL;
+> > -	spin_lock_irq(&dev->mode_config.connector_list_lock);
+> > -	list_del(&connector->head);
+> > -	dev->mode_config.num_connector--;
+> > -	spin_unlock_irq(&dev->mode_config.connector_list_lock);
+> > +
+> > +	drm_connector_remove(connector);
+> >  
+> >  	WARN_ON(connector->state && !connector->funcs->atomic_destroy_state);
+> >  	if (connector->state && connector->funcs->atomic_destroy_state)
+> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > index e3fa43291f449..2476dcbd3c34d 100644
+> > --- a/include/drm/drm_connector.h
+> > +++ b/include/drm/drm_connector.h
+> > @@ -2122,6 +2122,12 @@ struct drm_connector {
+> >  
+> >  #define obj_to_connector(x) container_of(x, struct drm_connector, base)
+> >  
+> > +int drm_connector_init_core(struct drm_device *dev,
+> > +			    struct drm_connector *connector,
+> > +			    const struct drm_connector_funcs *funcs,
+> > +			    int connector_type,
+> > +			    struct i2c_adapter *ddc);
+> > +void drm_connector_add(struct drm_connector *connector);
+> >  int drm_connector_init(struct drm_device *dev,
+> >  		       struct drm_connector *connector,
+> >  		       const struct drm_connector_funcs *funcs,
+> > -- 
+> > 2.44.2
+> > 
+> 
+> -- 
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
