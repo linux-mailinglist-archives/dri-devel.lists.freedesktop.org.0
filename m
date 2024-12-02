@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A844E9E0A7C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 18:56:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F6F9E0B1F
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 19:35:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2C7310E110;
-	Mon,  2 Dec 2024 17:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 700CB8952F;
+	Mon,  2 Dec 2024 18:35:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CS6BG1VU";
-	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="iezFok7I";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=derek.foreman@collabora.com header.b="R/ImUEca";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
- Mon, 02 Dec 2024 17:56:28 UTC
-Received: from a7-42.smtp-out.eu-west-1.amazonses.com
- (a7-42.smtp-out.eu-west-1.amazonses.com [54.240.7.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE9010E110
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 17:56:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=bc7lryepznv65m6r2ewkpoafjt4fiq42; d=collabora.com; t=1733161757;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
- bh=2xnQmXby1RnaLSG1YeOAcmdH5qaeFqLVGukq5+J0BgY=;
- b=CS6BG1VU4omB+jC2xDOleFQIs19PFaoClqX/k6DoiGoZHdF8Bk/FzvNtfJEWnlhV
- nyYyReC4+uC5qa8gRZbqJ79tZZoTo9HIrKkYefd1YAJ5tmNg1FuABMHNqBXdmfkg++j
- oNry+CzwIxQ4ZmschP0tuWh8pgSV04uxzShYwJ8NwdjAnzkGadEQLsVwARGAEx788fA
- 6ID3EVgQToceaCtRR5zsWUFyObAHIcP5+UHcwlGH9GHDh9g5DuwJtTCJS9bBoBZMP1W
- 1j+tjhEmXpq8xoaI7DYp2GLP0C2It5KIbUN5SV+Tmgu0K1GcBVZsTmZCYVo7GGti8G2
- Nyr7izQYTA==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1733161757;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
- bh=2xnQmXby1RnaLSG1YeOAcmdH5qaeFqLVGukq5+J0BgY=;
- b=iezFok7ImPp6fFvZ0b79I4+mXRK5+fdue8gYS765eRPob7OpxHrse4h5CsjrX7RC
- 0is/6pB+VRv7yZyqHVjG7n32DM4Pc6LUAMFO0pTAWOOG7falMKqg1ufqOmHiGcb+RDT
- CIiuPYlM05+rWBus7VGoHz8XuYP2hiRPFA/eQ59M=
-Message-ID: <01020193887dac72-b1fb6a4d-17fd-4efe-bd62-d914c6d119b2-000000@eu-west-1.amazonses.com>
-Date: Mon, 2 Dec 2024 17:49:17 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/connector: Allow clearing hdr infoframe
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, mripard@kernel.org, kernel@collabora.com
-References: <20241129213801.617864-1-derek.foreman@collabora.com>
- <wsiaadwjc3txltrj4ygtshebwscfxcytmdafrhp6uhkwdl3dvf@zy52jv6g6enm>
-Content-Language: en-US
+X-Greylist: delayed 904 seconds by postgrey-1.36 at gabe;
+ Mon, 02 Dec 2024 18:35:16 UTC
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8192110E106
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 18:35:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1733163602; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=FNuB7lGW0c1JfdZrXBeXmVOAZQtTVBuqV9jxA3VnP4ovLHZDlqzDsfUCVjlB+21SrATMxxRRFjXjydWjVGgseLDIlku25sBQtEpPx0HYykFv+em4fNocNLPNk7PhagmSm6yF1vPp9EXBZj0CXshMN6Ciz1B6Wdu3ThKMGvzlKSM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1733163602;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=9NoMdQu2hwXtcLbGO/uDqJangdgfOFpomDmoHtRNlWc=; 
+ b=Lm4nZMPV0Q/dm9M07OnAG2Zi7HsogCH2hdlxsHR4REYMKuCD4lU4rPUkhjby8ISrs6Bv8nDIPVVhhnUhICb96k+avvQVb06YTAlZ0bLzLVnZ1FqbUfCQEPYggICOqaOyNaM1Eq6ITwSCPkGSRcTYrK6GHcnJ229y/d4yYKrUb4A=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=derek.foreman@collabora.com;
+ dmarc=pass header.from=<derek.foreman@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733163602; 
+ s=zohomail; d=collabora.com; i=derek.foreman@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=9NoMdQu2hwXtcLbGO/uDqJangdgfOFpomDmoHtRNlWc=;
+ b=R/ImUEcajaEKI5cJ05usme7ujcAtXxm3Dz+LLo8kY8kQ1L7+2NIkNO8sGKX1jbxx
+ 7lvdI4G2ZG8ZgOMA83voOmdvgdJg1kwsu7llkeVkeicBixKSRbR/1a01MqkgP+S25vY
+ HblJhsg/ZjQWtcmV4jrarhOEM8DGQSNTMvFA62so=
+Received: by mx.zohomail.com with SMTPS id 1733163599682952.0502819432988;
+ Mon, 2 Dec 2024 10:19:59 -0800 (PST)
 From: Derek Foreman <derek.foreman@collabora.com>
-In-Reply-To: <wsiaadwjc3txltrj4ygtshebwscfxcytmdafrhp6uhkwdl3dvf@zy52jv6g6enm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.12.02-54.240.7.42
+To: dri-devel@lists.freedesktop.org
+Cc: mripard@kernel.org, kernel@collabora.com, dmitry.baryshkov@linaro.org,
+ Derek Foreman <derek.foreman@collabora.com>
+Subject: [PATCH] drm/connector: Allow clearing HDMI infoframes
+Date: Mon,  2 Dec 2024 12:19:39 -0600
+Message-ID: <20241202181939.724011-1-derek.foreman@collabora.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,53 +65,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-11-29 17:40, Dmitry Baryshkov wrote:
-> On Fri, Nov 29, 2024 at 03:38:01PM -0600, Derek Foreman wrote:
->> When a display isn't presenting HDR content, the infoframe shouldn't be
->> present at all. Currently if we set the HDR_OUTPUT_METADATA blob, we'll
->> set a Dynamic Range and Mastering (DRM) infoframe. If we remove that
->> blob later, the DRM infoframe will linger in its previous state, when
->> we expect it to clear.
->>
->> Disable the infoframe when no output metadata is present to prevent
->> this from happening.
->>
->> Fixes: f378b77227bc4 ("drm/connector: hdmi: Add Infoframes generation")
->> Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
->> ---
->>   drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 ++
->>   1 file changed, 2 insertions(+)
-> The fix is fine, however please consider extending it to other infoframe
-> types. Clear infoframe->set in the beginning of the corresponding
-> function.
+Our infoframe setting code currently lacks the ability to clear
+infoframes. For some of the infoframes, we only need to replace them,
+so if an error occurred when generating a new infoframe we would leave
+a stale frame instead of clearing the frame.
 
-I thought that might be the case, but the other infoframes looked like 
-they would only be cleared if there was an error, where the DRM 
-infoframe was the only one that must be intentionally cleared.
+However, the Dynamic Range and Mastering (DRM) infoframe should only
+be present when displaying HDR content (ie: the HDR_OUTPUT_METADATA blob
+is set). If we can't clear infoframes, the stale DRM infoframe will
+remain and we can never set the display back to SDR mode.
 
-I wasn't certain if it was better to leave a stale infoframe in the 
-highly unlikely case that creating the new one caused an error, or to 
-have the infoframe disappear entirely.
+With this change, we clear infoframes when they can not, or should not,
+be generated. This fixes switching to an SDR mode from an HDR one.
 
-I'll make a new patch to replace this one, and include AVI, SPD, and 
-VSIF infoframes this time.
+Fixes: f378b77227bc4 ("drm/connector: hdmi: Add Infoframes generation")
+Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
+---
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thanks,
-Derek
+diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+index feb7a3a75981..936a8f95d80f 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+@@ -347,6 +347,8 @@ static int hdmi_generate_avi_infoframe(const struct drm_connector *connector,
+ 		is_limited_range ? HDMI_QUANTIZATION_RANGE_LIMITED : HDMI_QUANTIZATION_RANGE_FULL;
+ 	int ret;
+ 
++	infoframe->set = false;
++
+ 	ret = drm_hdmi_avi_infoframe_from_display_mode(frame, connector, mode);
+ 	if (ret)
+ 		return ret;
+@@ -376,6 +378,8 @@ static int hdmi_generate_spd_infoframe(const struct drm_connector *connector,
+ 		&infoframe->data.spd;
+ 	int ret;
+ 
++	infoframe->set = false;
++
+ 	ret = hdmi_spd_infoframe_init(frame,
+ 				      connector->hdmi.vendor,
+ 				      connector->hdmi.product);
+@@ -398,6 +402,8 @@ static int hdmi_generate_hdr_infoframe(const struct drm_connector *connector,
+ 		&infoframe->data.drm;
+ 	int ret;
+ 
++	infoframe->set = false;
++
+ 	if (connector->max_bpc < 10)
+ 		return 0;
+ 
+@@ -425,6 +431,8 @@ static int hdmi_generate_hdmi_vendor_infoframe(const struct drm_connector *conne
+ 		&infoframe->data.vendor.hdmi;
+ 	int ret;
+ 
++	infoframe->set = false;
++
+ 	if (!info->has_hdmi_infoframe)
+ 		return 0;
+ 
+-- 
+2.45.2
 
->> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->> index feb7a3a75981..1cc4b49b1013 100644
->> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->> @@ -398,6 +398,8 @@ static int hdmi_generate_hdr_infoframe(const struct drm_connector *connector,
->>   		&infoframe->data.drm;
->>   	int ret;
->>   
->> +	infoframe->set = false;
->> +
->>   	if (connector->max_bpc < 10)
->>   		return 0;
->>   
->> -- 
->> 2.45.2
->>
