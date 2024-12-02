@@ -2,73 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7189E0473
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 15:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30D89E04A3
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 15:18:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D0D310E742;
-	Mon,  2 Dec 2024 14:11:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 269FB10E75C;
+	Mon,  2 Dec 2024 14:18:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C8eoKQp9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QtqVFbwM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0AC10E742
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 14:11:02 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-725079e1499so251538b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 06:11:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733148661; x=1733753461; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZhG3GF72Fq8o/jk0lOvSw1REGfU3YheRFY4zkgPERm4=;
- b=C8eoKQp9b9vnoMCgq4R5HHMLzszAaIvGL2NLOyPikyNoCRrLv3j1nxGmjXreiNo/4+
- cnLkXMeGKPv6MoJf1BnJCkRManjXmbQFIHZvPDC0pUJQrNrznkMwXhP2m9gtM5vt/TdU
- vngUfeT+Z0PWKLJmLg+UpSVfrIEKonKK9R8RB8Prl+Aab/ia42OsJzYZ1JSEd9rHOoZl
- VkZ/6bgAoIMoAoUNFBs3H3Bl0ixzUDnqDT2O4GvaRXXutSqtTyqt4QXLaX3jzIu6E2QT
- S/M4iZyDYnZmoRMpSlVFmQQgmCzDut6ZyMo1ejw2YMGsmNalBj65umXzhpYaPKpcQrnB
- JD5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733148661; x=1733753461;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZhG3GF72Fq8o/jk0lOvSw1REGfU3YheRFY4zkgPERm4=;
- b=sBAi8u1LIiqCGV98FQngixKeLROnyvEukcXi85HpQ9Om4jaGHnellKS6VlWZLjnbCr
- Fm071SBL8G5OJbZPrC1fwJJqz3QLnO7Y4U3zZ5GBMwS/em3UEaqooaUULpRAKM3G9Jnh
- LYyKR+aLJ9Q33g5PnNIehT1n98bVrVD1oR4c0xPEbXGyXae6FLA4/p649Qu/iEtJIi1U
- nCNy6uylLaoVaBhajHyFqeQt3MB7LvUrH5n/FFYx+Io+O4OyeEB4T3qrlFSgw9NVOFCo
- kyES1KTBFErMVeMHsziRL5iuRVQjxHW/ytgEslsoL3IX1IRDoqA7N2Jth6cWQ1ov9FRu
- pNng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXcWG2zerKsuVmewZHWGsmixNIif3m4G+p85gndEFBqpMWWmH9A+vHooepv/hK/J6cJAa76/Bf245Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxeOJiinc4y2qrDZlDRDcrBRGQIPIGD7TAiL1aHbL6dCuqcr0QH
- 8UTPIsx//nBaYtzl27wGrgEiFDkQkWibRnlEIxve258sK0E7wVIF2xjPUbExCFEq6SiwHu9tlEe
- XTUDhLvW2iz/83QnRuhsQggI96cE=
-X-Gm-Gg: ASbGnctuarR7w27nTpbVRFuI99M+KS6ERD9ruSi7fECMl2zdd20gYPLh73fSJZd37Fx
- jEfbx5KXNVOLk+AxZjH1NGStI91bPX3c=
-X-Google-Smtp-Source: AGHT+IE16Z2x8BUgyY0P0StFngdqghpu4YG8qMPby96pkRXX+IYaBbPuSlm8Dx+FaTprGRT0KdZqOS+NHsz7SjNozoQ=
-X-Received: by 2002:a05:6a00:26f5:b0:725:322a:9229 with SMTP id
- d2e1a72fcca58-725322a930cmr12270990b3a.2.1733148661430; Mon, 02 Dec 2024
- 06:11:01 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A27EC10E75C;
+ Mon,  2 Dec 2024 14:18:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733149084; x=1764685084;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=JB4mgiJsE+p6EI61rz9n/0H7J08XaThpfbIpd7k81rI=;
+ b=QtqVFbwM8ExDc8A/mlS82eLPUcUMDZUVNGUKZ1a6436aAYXlzxnuxOy9
+ sHSS1M70Zh3QNzW5Y4HIucdAghChX5e04chKhA8b2L/0jgvhzBtegJlYT
+ ZyX/wc1Gk5D5O1kbGbwVEWwhhwta5Mjnn5lAPcJUKcVCQpoE2fsBLPYtQ
+ ZD0BHl1PlaVrvVZAFa9eSqerFBcqBC33Tz6bJcr6FEkfb6pZYE1tKv8kF
+ i917ETt2SGaSaBS1p1IGSOmZRcfA+r8nz0JANIAr5k80m1NJHWX9h+EAA
+ IcEF3IecA61ur3MX3roKp8zoMwJyaK4boEZ1JEmDt3YvhBNlwUzuhh+oM g==;
+X-CSE-ConnectionGUID: x22px8CATTaw4FBw1dBpgA==
+X-CSE-MsgGUID: Bqjs4kjISxGwL5m9GTosCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33565410"
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="33565410"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 06:18:03 -0800
+X-CSE-ConnectionGUID: lt8YnKJSTW2h7arR/vPhMQ==
+X-CSE-MsgGUID: ETOSaA5+TEeGXxcvFAeucw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="98086044"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.79])
+ ([10.245.244.79])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 06:18:02 -0800
+Message-ID: <39f2bbb3-5a53-4a6b-b066-be6be1ead293@intel.com>
+Date: Mon, 2 Dec 2024 14:17:46 +0000
 MIME-Version: 1.0
-References: <CAPM=9tzpFOhQN3yCb4+OpLsfYVrq4mLuUS+SP=H=gq=qSLDz7g@mail.gmail.com>
- <CAHk-=wh74-reWGqpP+i3O8usrS1Jr12UGGMCfaK58_0aK5Lw_Q@mail.gmail.com>
-In-Reply-To: <CAHk-=wh74-reWGqpP+i3O8usrS1Jr12UGGMCfaK58_0aK5Lw_Q@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 2 Dec 2024 09:10:50 -0500
-Message-ID: <CADnq5_PBLv4EDAPY23B6QztH6bnbht8Nzy9dd+=T4_dH4RwS_g@mail.gmail.com>
-Subject: Re: [git pull] drm fixes for 6.13-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
- Sasha Levin <sashal@kernel.org>, Sima Vetter <sima@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 5/8] drm/xe/display: Update intel_bo_read_from_page to
+ use ttm_bo_access
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: christian.koenig@amd.com, thomas.hellstrom@linux.intel.com
+References: <20241126174615.2665852-1-matthew.brost@intel.com>
+ <20241126174615.2665852-6-matthew.brost@intel.com> <87o71u5mza.fsf@intel.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <87o71u5mza.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,66 +74,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 29, 2024 at 4:57=E2=80=AFPM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Thu, 28 Nov 2024 at 12:42, Dave Airlie <airlied@gmail.com> wrote:
-> >
-> > Merge window fixes, mostly amdgpu and xe, with a few other minor ones,
-> > all looks fairly normal,
->
-> Hmm. I've pulled this, but do note the report by Sasha.
->
-> The
->
->         if (WARN_ON(!work->func))
->                 return false;
->
-> from __flush_work() looks odd, and is fairly obviously triggered by
-> this one liner in commit 93df74873703 ("drm/amdgpu/jpeg: cancel the
-> jpeg worker")
->
-> -       bool set_clocks =3D !cancel_delayed_work_sync(&adev->vcn.idle_wor=
-k);
-> +       bool set_clocks =3D !cancel_delayed_work_sync(&adev->jpeg.idle_wo=
-rk);
->
-> where apparently the jpeg.idle_work isn't initialized at that point.
->
-> It looks like the initialization is done by amdgpu_jpeg_sw_init(), and
-> it looks like that cancel_delayed_work_sync() is just done too early.
-> But I don't know the code. Alex?
+On 02/12/2024 11:43, Jani Nikula wrote:
+> On Tue, 26 Nov 2024, Matthew Brost <matthew.brost@intel.com> wrote:
+>> Don't open code vmap of a BO, use ttm_bo_access helper which is safe for
+>> non-contiguous BOs and non-visible BOs.
+>>
+>> Suggested-by: Matthew Auld <matthew.auld@intel.com>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> 
+> I've seen a few cases of [1] lately, and Thomas tipped me off to this
+> change. We get:
+> 
+> <4> [374.262965] xe 0000:03:00.0: [drm] drm_WARN_ON(ret)
+> <4> [374.262983] WARNING: CPU: 8 PID: 5462 at drivers/gpu/drm/i915/display/intel_display.c:7637 intel_atomic_commit_tail+0x16c7/0x17f0 [xe]
+> 
+> and that's intel_atomic_prepare_plane_clear_colors():
+> 
+> 		ret = intel_bo_read_from_page(intel_fb_bo(fb),
+> 					      fb->offsets[cc_plane] + 16,
+> 					      &plane_state->ccval,
+> 					      sizeof(plane_state->ccval));
+> 		/* The above could only fail if the FB obj has an unexpected backing store type. */
+> 		drm_WARN_ON(&i915->drm, ret);
+> 
+> 
+> So I don't have any conclusive evidence, but could this be the reason?
 
-Already fixed with this patch:
-https://patchwork.freedesktop.org/patch/625940/
-Will be in my fixes PR this week.
+@@ -40,8 +40,13 @@ int intel_bo_fb_mmap(struct drm_gem_object *obj, 
+struct vm_area_struct *vma)
+  int intel_bo_read_from_page(struct drm_gem_object *obj, u64 offset, 
+void *dst, int size)
+  {
+         struct xe_bo *bo = gem_to_xe_bo(obj);
++       int ret;
 
-Alex
+-       return ttm_bo_access(&bo->ttm, offset, dst, size, 0);
++       ret = ttm_bo_access(&bo->ttm, offset, dst, size, 0);
++       if (ret == size)
++               ret = 0;
++
++       return ret;
+  }
 
+I think we somehow missed that bo_access is returning @size on success?
 
->
-> The other report by Sasha seems to be a 32-bit issue, where something
-> calls roundup_pow_of_two() on a thing that would round up past the
-> 32-bit limit. Presumably it works on 64-bit.
->
-> But I'm not seeing anything that looks like a likely *cause* of the new w=
-arning.
->
-> There's a couple possible cases, although this one looks suspicious:
->
->         adev->vm_manager.max_pfn =3D (uint64_t)vm_size << 18;
->
->         tmp =3D roundup_pow_of_two(adev->vm_manager.max_pfn);
->
-> because it explicitly uses 64-bit types for that max_pfn thing, but
-> then does that roundup_pow_of_two() that only works on "unsigned
-> long".
->
-> Sasha - it would help if your warning stack dumps had line numbers
-> (using decode_stacktrace.sh, which you should be familiar with, since
-> you wrote it...)
->
-> I realize that requires some debug info, which might slow down builds
-> etc, but it would be really nice.
->
->           Linus
+> 
+> BR,
+> Jani.
+> 
+> 
+> 
+> [1] https://intel-gfx-ci.01.org/tree/intel-xe/xe-pw-138070v8/shard-dg2-434/igt@kms_flip_tiling@flip-change-tiling@pipe-d-dp-4-linear-to-4-rc-ccs-cc.html
+> 
+> 
+>> ---
+>>   drivers/gpu/drm/xe/display/intel_bo.c | 25 +------------------------
+>>   1 file changed, 1 insertion(+), 24 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/xe/display/intel_bo.c b/drivers/gpu/drm/xe/display/intel_bo.c
+>> index 9f54fad0f1c0..43141964f6f2 100644
+>> --- a/drivers/gpu/drm/xe/display/intel_bo.c
+>> +++ b/drivers/gpu/drm/xe/display/intel_bo.c
+>> @@ -40,31 +40,8 @@ int intel_bo_fb_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+>>   int intel_bo_read_from_page(struct drm_gem_object *obj, u64 offset, void *dst, int size)
+>>   {
+>>   	struct xe_bo *bo = gem_to_xe_bo(obj);
+>> -	struct ttm_bo_kmap_obj map;
+>> -	void *src;
+>> -	bool is_iomem;
+>> -	int ret;
+>>   
+>> -	ret = xe_bo_lock(bo, true);
+>> -	if (ret)
+>> -		return ret;
+>> -
+>> -	ret = ttm_bo_kmap(&bo->ttm, offset >> PAGE_SHIFT, 1, &map);
+>> -	if (ret)
+>> -		goto out_unlock;
+>> -
+>> -	offset &= ~PAGE_MASK;
+>> -	src = ttm_kmap_obj_virtual(&map, &is_iomem);
+>> -	src += offset;
+>> -	if (is_iomem)
+>> -		memcpy_fromio(dst, (void __iomem *)src, size);
+>> -	else
+>> -		memcpy(dst, src, size);
+>> -
+>> -	ttm_bo_kunmap(&map);
+>> -out_unlock:
+>> -	xe_bo_unlock(bo);
+>> -	return ret;
+>> +	return ttm_bo_access(&bo->ttm, offset, dst, size, 0);
+>>   }
+>>   
+>>   struct intel_frontbuffer *intel_bo_get_frontbuffer(struct drm_gem_object *obj)
+> 
+
