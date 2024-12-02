@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421719E06AF
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:19:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D69219E06BC
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:21:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 458E610E79C;
-	Mon,  2 Dec 2024 15:19:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51A7010E1F8;
+	Mon,  2 Dec 2024 15:20:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f5xonekb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ouXi79B4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6825010E1F8
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:19:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F70510E79B
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:20:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C8CBA5C67DF;
- Mon,  2 Dec 2024 15:18:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E2AC4CED1;
- Mon,  2 Dec 2024 15:18:53 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7F6A05C67B0;
+ Mon,  2 Dec 2024 15:20:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8918C4CED1;
+ Mon,  2 Dec 2024 15:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733152740;
- bh=XoFHIPAltC82OoSpVZ6ozybYAmhZuriiKQSdNzVonGA=;
+ s=k20201202; t=1733152856;
+ bh=yWb+tTceECTkMaeb3y5YPHK4Zn30bJgkuIO5Tpla1b4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=f5xonekbcd3epNYuMYmqBS4p3LztZuO16RNoc/cDahZSrVcYiuy3jADxZMqtXRDE4
- GBG4a1alCSvxJ6ktkMAeS6S5Wurzh5hX3xlAn2XJL9dNotqqAb/8WtfqQcItE04OWk
- oRAdIEB3Adc+KjfJb05do1mPSYKFqpoIdbdaPD3ynx8SotoKatud/BKudCfydEgAdQ
- q5gpLyApPQpyAGnSoR9bOMrUzl0xZN0lfRkPoxokaqBTS0zXtUQrOKkjb86E4lnE6L
- e5FThZaPrUGz+yNj3T99H2hCpcMWHZuh/f+OzjJ7/BFJ0bqsvuj9kdzuUdl8vtbioh
- vHZJd1/9TUWqg==
-Message-ID: <39c73599-9bea-4b2e-afa6-3780726e27f5@kernel.org>
-Date: Mon, 2 Dec 2024 16:18:51 +0100
+ b=ouXi79B4x2irSAs8JUO2Z3rqtcBcPVFYv0nfTfO3yR0059jrNuF+vUSTNUlhLUA4J
+ x2yaZAv0lxmKH4qwlwXZnYpQee3BK6N2F9OlogjRzmHd7NLq/WCL/1t27WefM1objS
+ kP99HHtq96cevjZH2cH9CcJmqR+89DeIFoQgouC/t7KQYISQ3D199HEDrvFB6lYcYQ
+ 25iSCIZZ14IuGbugBZxok815kXt7dVmsPz5uRKIn0cvayyuzfFZD1yP5kRxeDUcdon
+ Ht4uloJkpOsWFtfMPchDDhdOIeTGiUg4pFvK+1wOqBr/9An2KPHjIErKTxoTu3Zyh1
+ D5AuFu/7tDnjQ==
+Message-ID: <c8093283-f2c1-4a66-823a-50aeabb3c82b@kernel.org>
+Date: Mon, 2 Dec 2024 16:20:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] dt-bindings: gpio: brcmstb: add gpio-line-name
+Subject: Re: [PATCH 4/7] arm64: dts: broadcom: Fix device tree warnings for
+ BCM2712 display pipeline
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -54,7 +55,7 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
  linux-gpio@vger.kernel.org
 References: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
- <20241202-dt-bcm2712-fixes-v1-3-fac67cc2f98a@raspberrypi.com>
+ <20241202-dt-bcm2712-fixes-v1-4-fac67cc2f98a@raspberrypi.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -100,7 +101,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241202-dt-bcm2712-fixes-v1-3-fac67cc2f98a@raspberrypi.com>
+In-Reply-To: <20241202-dt-bcm2712-fixes-v1-4-fac67cc2f98a@raspberrypi.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,26 +120,50 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 02/12/2024 15:31, Dave Stevenson wrote:
-> Support comes from gpiolib, so permit it through the binding.
+> Fixes up errors on HDMI and interrupt controllers that weren't
+
+What errors? I can't find anything in the commit. Describe the error.
+
+> noticed before merging.
 > 
+> Fixes: de9bc2dba3db ("arm64: dts: broadcom: Add display pipeline support to BCM2712")
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > ---
->  Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  arch/arm64/boot/dts/broadcom/bcm2712.dtsi | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml b/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
-> index f096f286da19..086d016df6ef 100644
-> --- a/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
-> @@ -64,6 +64,8 @@ properties:
+> diff --git a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+> index 39305e0869ec..f42fad2d8b37 100644
+> --- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+> +++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+> @@ -336,7 +336,7 @@ ddc1: i2c@7d508280 {
+>  			#size-cells = <0>;
+>  		};
 >  
->    gpio-ranges: true
+> -		bsc_irq: intc@7d508380 {
+> +		bsc_irq: interrupt-controller@7d508380 {
+
+
+Do not mix cleanups with bugfixes.
+
+BTW, do not mix DTS to DRM. DRM has its own development style. DTS
+*cannot* be merged there, so combining these series is not welcomed and
+leads to issues (like DRM applying DTS!).
+
+>  			compatible = "brcm,bcm7271-l2-intc";
+>  			reg = <0x7d508380 0x10>;
+>  			interrupts = <GIC_SPI 242 IRQ_TYPE_LEVEL_HIGH>;
+> @@ -344,7 +344,7 @@ bsc_irq: intc@7d508380 {
+>  			#interrupt-cells = <1>;
+>  		};
 >  
-> +  gpio-line-names: true
-
-
-maxItems
-
-
+> -		main_irq: intc@7d508400 {
+> +		main_irq: interrupt-controller@7d508400 {
+>  			compatible = "brcm,bcm7271-l2-intc";
+>  			reg = <0x7d508400 0x10>;
+>  			interrupts = <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>;
+> @@ -352,7 +352,7 @@ main_irq: intc@7d508400 {
+>  			#interrupt-cells = <1>;
+>  		};
 Best regards,
 Krzysztof
