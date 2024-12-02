@@ -2,61 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 872A89DFDD7
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 10:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DF69DFDE4
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 10:57:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D286310E218;
-	Mon,  2 Dec 2024 09:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 462C110E07D;
+	Mon,  2 Dec 2024 09:57:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lTxRl2hL";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="VvH//XR+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A90A10E218;
- Mon,  2 Dec 2024 09:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733133325; x=1764669325;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=ERTsU77ihNE6p4SDvyMZYI+FLs3rv392ZJpoB5qQwYA=;
- b=lTxRl2hLrSEPAy5ZP+p0X8iPqZm0McKlLoAsCs8SjMZA57h5JbiQltfk
- bQVB2eTStcwMgFrfmORjqUoJR//2mMEHVtEAB0LvqL6c5+4xllyr2+qxY
- K/Qqtxc5D/yqjkWnGX4PGRioeQU4uvOdTE5lfm4YvyclV6HjbDsPwx/YY
- 3RHU+oylJoIaiu548txmBHYrPXQdMAO0jTFfBtyHbAPnAdF1riY2AwA5I
- Is22I/gTqKHunVxvcHmt4M1tAr/AEFrVVonOt4cFbE0Z0CHm5/9V8eG3j
- fuFhsmSvd8KgpHsAsWORh21dgnpJFy1hcmeuPY2h0QNsZThji8gmMh7uT A==;
-X-CSE-ConnectionGUID: 0fYJTNKPTRyx56xTPg1QVA==
-X-CSE-MsgGUID: qA+tjQlfT+6pSnPnjrKdBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33541678"
-X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="33541678"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2024 01:55:25 -0800
-X-CSE-ConnectionGUID: fNArhqJuQgmPWfJzf3Fh2w==
-X-CSE-MsgGUID: mUP9+ocNSfqlL7oqJI0DqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="93154845"
-Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.72])
- ([10.245.246.72])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2024 01:55:23 -0800
-Message-ID: <86d678fa510aa1647bb863606032875b3e93006a.camel@linux.intel.com>
-Subject: Re: Merging the xe / ttm shrinker series?
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 02 Dec 2024 10:55:11 +0100
-In-Reply-To: <f1c9230a-d0b8-4322-b7be-09afdfe938db@amd.com>
-References: <ce4c83dfa93e22487ed80e855318cd8f92a054f2.camel@linux.intel.com>
- <c0ba86c43497626c329a7c4ee9cf1ebc96279519.camel@linux.intel.com>
- <f1c9230a-d0b8-4322-b7be-09afdfe938db@amd.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD3B10E07D
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 09:57:54 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B28HFQT032619;
+ Mon, 2 Dec 2024 09:57:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ xE8h/72Aa3n0axcTtOzsPf1oUCC9MTHu1/c+uJaZaWY=; b=VvH//XR+X88Kc0z/
+ FiWBTK2OirCnLH9mg7mpBYEYVfAR/F4cccPztpi/GArTsV7YDh5/cL0+7aJuL3qQ
+ NIQdSqLx/zQKpFfRLHWUwHf69iEFivC/zKQoBiKp7o5A/oU1fBnXmBDubjYvmNXh
+ G674mBmYPCtU1rivoCg+GIaEORY2FYrZhrYKIFdgcYOYMPZMNPNlb1Ylg7pJ2oc/
+ jQDK5qnP8twgScwv8pMvDGrbftOsUGzWGbsrnHHejAo9jYSC6eLE/gXrZIJzQz1q
+ 5aNCEML51RYMZ/PsgN7AkOrG0g6G0jP4nKHraNq5EmsmWyNbBcAdmfdIMUSAvbIL
+ Wz5Y4g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437u36ccwx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 02 Dec 2024 09:57:50 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B29vnBv031431
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 2 Dec 2024 09:57:49 GMT
+Received: from [10.204.65.49] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 2 Dec 2024
+ 01:57:46 -0800
+Message-ID: <365c4709-b421-4af8-b521-a195630242de@quicinc.com>
+Date: Mon, 2 Dec 2024 15:27:43 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 4/4] misc: fastrpc: Add debugfs support for fastrpc
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Greg KH <gregkh@linuxfoundation.org>, <srinivas.kandagatla@linaro.org>,
+ <linux-arm-msm@vger.kernel.org>, <quic_bkumar@quicinc.com>,
+ <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
+References: <20241118084046.3201290-1-quic_ekangupt@quicinc.com>
+ <20241118084046.3201290-5-quic_ekangupt@quicinc.com>
+ <2024111804-doze-reflected-0feb@gregkh>
+ <c3b285b0-33d1-4bfa-b8ab-6783ff5ed78d@quicinc.com>
+ <cn7pqvhw4x4y7s5hbgzjpvyjnw4g6hoyepic4jai7x2fjdenxr@ikr4hkorbuwb>
+Content-Language: en-US
+From: Ekansh Gupta <quic_ekangupt@quicinc.com>
+In-Reply-To: <cn7pqvhw4x4y7s5hbgzjpvyjnw4g6hoyepic4jai7x2fjdenxr@ikr4hkorbuwb>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: hVsfgsixexTtICsium2SN9mM1exSnKbd
+X-Proofpoint-ORIG-GUID: hVsfgsixexTtICsium2SN9mM1exSnKbd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 mlxscore=0
+ clxscore=1015 bulkscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
+ mlxlogscore=999 phishscore=0 suspectscore=0 spamscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412020088
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,55 +95,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Christian,
-
-On Tue, 2024-11-19 at 14:04 +0100, Christian K=C3=B6nig wrote:
-> Am 19.11.24 um 12:22 schrieb Thomas Hellstr=C3=B6m:
-> > Hi, Christian,
-> >=20
-> > On Sun, 2024-11-03 at 13:38 +0100, Thomas Hellstr=C3=B6m wrote:
-> > > Hi, Christian,
-> > >=20
-> > > The TTM shrinker series is now at v12 with all patches R-B:d.
-> > >=20
-> > > Ack to merge through drm-xe-next?
-> > >=20
-> > > Thanks,
-> > > Thomas
-> > >=20
-> > Gentle ping on this,
-> > The requested change of the ttm_backup interface done and MBrost
-> > has
-> > extended his R-B.
->=20
-> Yeah and you guys keep pushing stuff on my TODO list additionally to
-> the=20
-> stuff the AMD guys are pushing for.
->=20
-> Give me a few more days, it looked mostly good. I just couldn't wrap
-> my=20
-> head around splitting the huge pages so far.
->=20
-> Regards,
-> Christian.
-
-Where are we on this? I have a small update on the series as a result
-of your last review comments, but are you planning to review more
-patches of the series or should I send the update and prepare for
-merging?
-
-It would be good if we could close on this one.
-
-Thanks,
-Thomas
 
 
+On 11/22/2024 12:23 AM, Dmitry Baryshkov wrote:
+> On Thu, Nov 21, 2024 at 12:12:17PM +0530, Ekansh Gupta wrote:
+>>
+>> On 11/18/2024 7:32 PM, Greg KH wrote:
+>>> On Mon, Nov 18, 2024 at 02:10:46PM +0530, Ekansh Gupta wrote:
+>>>> Add changes to support debugfs. The fastrpc directory will be
+>>>> created which will carry debugfs files for all fastrpc processes.
+>>>> The information of fastrpc user and channel contexts are getting
+>>>> captured as part of this change.
+>>>>
+>>>> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+>>>> ---
+>>>>  drivers/misc/fastrpc/Makefile        |   3 +-
+>>>>  drivers/misc/fastrpc/fastrpc_debug.c | 156 +++++++++++++++++++++++++++
+>>>>  drivers/misc/fastrpc/fastrpc_debug.h |  31 ++++++
+>>>>  drivers/misc/fastrpc/fastrpc_main.c  |  18 +++-
+>>>>  4 files changed, 205 insertions(+), 3 deletions(-)
+>>>>  create mode 100644 drivers/misc/fastrpc/fastrpc_debug.c
+>>>>  create mode 100644 drivers/misc/fastrpc/fastrpc_debug.h
+>>>>
+>>>> diff --git a/drivers/misc/fastrpc/Makefile b/drivers/misc/fastrpc/Makefile
+>>>> index 020d30789a80..4ff6b64166ae 100644
+>>>> --- a/drivers/misc/fastrpc/Makefile
+>>>> +++ b/drivers/misc/fastrpc/Makefile
+>>>> @@ -1,3 +1,4 @@
+>>>>  # SPDX-License-Identifier: GPL-2.0
+>>>>  obj-$(CONFIG_QCOM_FASTRPC)	+= fastrpc.o
+>>>> -fastrpc-objs	:= fastrpc_main.o
+>>>> \ No newline at end of file
+>>>> +fastrpc-objs	:= fastrpc_main.o \
+>>>> +		fastrpc_debug.o
+>>> Only build this file if debugfs is enabled.
+>>>
+>>> And again, "debug.c"?
+>> I'll add change to build this only if debugfs is enabled. Going forward I have plans to add
+>> few more debug specific changes, maybe then I'll need to change the build rules again.
+>>>> diff --git a/drivers/misc/fastrpc/fastrpc_debug.c b/drivers/misc/fastrpc/fastrpc_debug.c
+>>>> new file mode 100644
+>>>> index 000000000000..cdb4fc6845a8
+>>>> --- /dev/null
+>>>> +++ b/drivers/misc/fastrpc/fastrpc_debug.c
+>>>> @@ -0,0 +1,156 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +// Copyright (c) 2024 Qualcomm Innovation Center.
+>>>> +
+>>>> +#include <linux/debugfs.h>
+>>>> +#include <linux/seq_file.h>
+>>>> +#include "fastrpc_shared.h"
+>>>> +#include "fastrpc_debug.h"
+>>>> +
+>>>> +#ifdef CONFIG_DEBUG_FS
+>>> Please put the #ifdef in the .h file, not in the .c file.
+>> Ack
+>>>> +void fastrpc_create_user_debugfs(struct fastrpc_user *fl)
+>>>> +{
+>>>> +	char cur_comm[TASK_COMM_LEN];
+>>>> +	int domain_id, size;
+>>>> +	char *debugfs_buf;
+>>>> +	struct dentry *debugfs_dir = fl->cctx->debugfs_dir;
+>>>> +
+>>>> +	memcpy(cur_comm, current->comm, TASK_COMM_LEN);
+>>>> +	cur_comm[TASK_COMM_LEN-1] = '\0';
+>>>> +	if (debugfs_dir != NULL) {
+>>>> +		domain_id = fl->cctx->domain_id;
+>>>> +		size = snprintf(NULL, 0, "%.10s_%d_%d_%d", cur_comm,
+>>>> +				current->pid, fl->tgid, domain_id) + 1;
+>>>> +		debugfs_buf = kzalloc(size, GFP_KERNEL);
+>>>> +		if (debugfs_buf == NULL)
+>>>> +			return;
+>>>> +		/*
+>>>> +		 * Use HLOS process name, HLOS PID, fastrpc user TGID,
+>>>> +		 * domain_id in debugfs filename to create unique file name
+>>>> +		 */
+>>>> +		snprintf(debugfs_buf, size, "%.10s_%d_%d_%d",
+>>>> +			cur_comm, current->pid, fl->tgid, domain_id);
+>>>> +		fl->debugfs_file = debugfs_create_file(debugfs_buf, 0644,
+>>>> +				debugfs_dir, fl, &fastrpc_debugfs_fops);
+>>> Why are you saving the debugfs file?  What do you need to do with it
+>>> that you can't just delete the whole directory, or look up the name
+>>> again in the future when removing it?
+>> fl structure is specific to a process using fastrpc driver. The reason to save
+>> this debugfs file is to delete is when the process releases fastrpc device.
+>> If the file is not deleted, it might flood multiple files in debugfs directory.
+>>
+>> As part of this change, only the file that is getting created by a process is
+>> getting removed when process is releasing device and I don't think we
+>> can clean up the whole directory at this point.
+> My 2c: it might be better to create a single file that conains
+> information for all the processes instead of that. Or use fdinfo data to
+> export process / FD information to userspace.
+Thanks for your review. The reason of not having single file for all processes is that
+I can run 100s of iteration for any process(say calculator) and every time the properties
+of the process can differ(like buffer, session etc.). For this reason, I'm creating and
+deleting the debugfs files for every process run.
 
+Do you see any advantage of using fdinfo over debugfs? I'm not sure if we can add all
+the information(like in debugfs) here.
 
->=20
-> >=20
-> > Thanks,
-> > Thomas
-> >=20
->=20
+--ekansh
+>
+>
 
