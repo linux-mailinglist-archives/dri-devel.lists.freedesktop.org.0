@@ -2,72 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A079E0549
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 15:42:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C0E9E05AB
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 15:57:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE07510E778;
-	Mon,  2 Dec 2024 14:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 701FA10E785;
+	Mon,  2 Dec 2024 14:57:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="K4XJfP9w";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jEiyTb7z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9625410E778
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 14:42:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1733150530; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=kzIJqdKPHsE+h/I1bVb4WwROt1JmRDQXvovJ7VAW9HYw13UuMinvlVQrrnY4zOEUmwT8bbRFL4HFh77iOh9/jM61WSIBYwE0UREpblGiyujpifQRWAzBndKljiYjA1F2A8gL0GPQdZ/Po34+P4ebdMaZzhWeJByJxL22v9B0+cs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1733150530;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=PyoyGOlmk+ezHmLvq5i2fa6R0sXOpfhduauleI3aZu8=; 
- b=Qcg2qA+p3qls92P7rCygyJuLmklGFQCAWiOY61F57HlUGNi/+ZjA313BOhQhWTh1EGeVtX+wthDYPfbDuDuhNLxvkiMW59Hlm7f7ofdAfFokQfcZtmhpahwmVWC9aiTOw8c+j9lxvtGEvw+UFEhlcfnVPEVjIoY5yRN3X71Iu9U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733150524; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=PyoyGOlmk+ezHmLvq5i2fa6R0sXOpfhduauleI3aZu8=;
- b=K4XJfP9wymON87VKaDhOVYFPndiX+gggtIAZT25OJg5kf9wNwwMg4+d5DXK+BI1Z
- FZclUN5/K3WKu0QNrto1pHFHpJCIJJUoR3YYIFsoSMJLLQsFJL/DHvGsZFhtWIee/Mx
- K+pj353TTEL4R61UBpXWjzmjWSpPBpcLhQS9POjU=
-Received: by mx.zohomail.com with SMTPS id 1733150513461951.7229974767481;
- Mon, 2 Dec 2024 06:41:53 -0800 (PST)
-Received: by mercury (Postfix, from userid 1000)
- id B8AC010604CF; Mon, 02 Dec 2024 15:41:47 +0100 (CET)
-Date: Mon, 2 Dec 2024 15:41:47 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
- cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
- andy.yan@rock-chips.com, 
- hjc@rock-chips.com, algea.cao@rock-chips.com, kever.yang@rock-chips.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org
-Subject: Re: [PATCH v1 04/10] phy: phy-rockchip-samsung-hdptx: Add support
- for eDP mode
-Message-ID: <abzu2chif2g3urxoqbm3gbe6cciexbmqvn44qezrx4hgllfkkn@7bzi5jl3stqe>
-References: <20241127075157.856029-1-damon.ding@rock-chips.com>
- <2131853.KlZ2vcFHjT@diego>
- <6e1f35c0-5ea8-414f-b3ea-4e7222c605ef@rock-chips.com>
- <2886747.Y6S9NjorxK@diego>
- <h4giob7bcrh7qmtepti6huym2llw4ujfmeff76vrgpahb5zy6x@dz6zghsifww5>
- <2342f342-672c-447e-90d8-674b748af6a4@rock-chips.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 270BA10E77A
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 14:57:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 25C5A5C5F93;
+ Mon,  2 Dec 2024 14:56:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61204C4CED1;
+ Mon,  2 Dec 2024 14:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733151446;
+ bh=zi2Y8KnhH074XXMtquovnNIt4w/1S9hvg8VUmNuLcjM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jEiyTb7zUHYBgPZJfCUwe25oW3QW+AzOkP2v3OzyIEdoWCTSP/cwe9lSnOg85ZnBB
+ VFlLaaijABHJPyAP8pH45NKKnbPGdE9eD9nGsrMa2o8BPHiu2bdPwgYzXF67ms7GUj
+ qPY92B7OF5eRyLsJfbwRYjwqvr+xcIFU3TH++IrAqD/bTrT16WYh5kOgRw5TwhXrlE
+ RajxL6QBfd1Hrpj/FB39WqswQzPP5e6K7bdpRBXkw4ENfS8Ypgmgdy7T9LGCSBCtvU
+ D/xAmR8P/cx74JKJBHW94Jy0TcZQDAkWQvLw5HyDnH4nskgya2kcgzkf3jAZ1+0sgX
+ Gn0+Rw93a/Uug==
+Date: Mon, 2 Dec 2024 15:57:24 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Chen-Yu Tsai <wenst@chromium.org>, Fei Shao <fshao@chromium.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ David Airlie <airlied@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
+Message-ID: <20241202-rigorous-sensible-monkey-4b0f48@houat>
+References: <20241009052402.411978-1-fshao@chromium.org>
+ <20241024-stalwart-bandicoot-of-music-bc6b29@houat>
+ <CAC=S1niZuiJkWBvci+bmrU-BvahhXyWWAYAMOB200a3Ppu=rTg@mail.gmail.com>
+ <20241114-gray-corgi-of-youth-f992ec@houat>
+ <CAGXv+5EmVj6S2iioYgMKvY8NM3_jzCDS9-GC-GOMU44j0ikmKA@mail.gmail.com>
+ <20241129-meticulous-pumpkin-echidna-dff6df@houat>
+ <d47e57c2-271a-4ed6-8e00-bb1a84b7b3f6@linux.dev>
+ <20241129-blazing-granite-beetle-e9fecd@houat>
+ <CAGb2v65yu4ZSGegxH71eC+=7-pqPwz5F_Ajk_PAwRJH0+JAdYQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6udmcollucmigcpf"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="3pgxj6ts43wvawyl"
 Content-Disposition: inline
-In-Reply-To: <2342f342-672c-447e-90d8-674b748af6a4@rock-chips.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.3.1/233.118.59
-X-ZohoMailClient: External
+In-Reply-To: <CAGb2v65yu4ZSGegxH71eC+=7-pqPwz5F_Ajk_PAwRJH0+JAdYQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,228 +78,393 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---6udmcollucmigcpf
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+--3pgxj6ts43wvawyl
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1 04/10] phy: phy-rockchip-samsung-hdptx: Add support
- for eDP mode
+Subject: Re: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
 MIME-Version: 1.0
 
-Hi,
+On Fri, Nov 29, 2024 at 11:16:50PM +0800, Chen-Yu Tsai wrote:
+> On Fri, Nov 29, 2024 at 10:55=E2=80=AFPM Maxime Ripard <mripard@kernel.or=
+g> wrote:
+> >
+> > On Fri, Nov 29, 2024 at 10:12:02PM +0800, Sui Jingfeng wrote:
+> > > Hi,
+> > >
+> > > On 2024/11/29 18:51, Maxime Ripard wrote:
+> > > > On Wed, Nov 27, 2024 at 05:58:31PM +0800, Chen-Yu Tsai wrote:
+> > > > > Revisiting this thread since I just stepped on the same problem o=
+n a
+> > > > > different device.
+> > > > >
+> > > > > On Thu, Nov 14, 2024 at 9:12=E2=80=AFPM Maxime Ripard <mripard@ke=
+rnel.org> wrote:
+> > > > > > On Tue, Oct 29, 2024 at 10:53:49PM +0800, Fei Shao wrote:
+> > > > > > > On Thu, Oct 24, 2024 at 8:36=E2=80=AFPM Maxime Ripard <mripar=
+d@kernel.org> wrote:
+> > > > > > > > On Wed, Oct 09, 2024 at 01:23:31PM +0800, Fei Shao wrote:
+> > > > > > > > > In the mtk_dsi driver, its DSI host attach callback calls
+> > > > > > > > > devm_drm_of_get_bridge() to get the next bridge. If that =
+next bridge is
+> > > > > > > > > a panel bridge, a panel_bridge object is allocated and ma=
+naged by the
+> > > > > > > > > panel device.
+> > > > > > > > >
+> > > > > > > > > Later, if the attach callback fails with -EPROBE_DEFER fr=
+om subsequent
+> > > > > > > > > component_add(), the panel device invoking the callback a=
+t probe time
+> > > > > > > > > also fails, and all device-managed resources are freed ac=
+cordingly.
+> > > > > > > > >
+> > > > > > > > > This exposes a drm_bridge bridge_list corruption due to t=
+he unbalanced
+> > > > > > > > > lifecycle between the DSI host and the panel devices: the=
+ panel_bridge
+> > > > > > > > > object managed by panel device is freed, while drm_bridge=
+_remove() is
+> > > > > > > > > bound to DSI host device and never gets called.
+> > > > > > > > > The next drm_bridge_add() will trigger UAF against the fr=
+eed bridge list
+> > > > > > > > > object and result in kernel panic.
+> > > > > > > > >
+> > > > > > > > > This bug is observed on a MediaTek MT8188-based Chromeboo=
+k with MIPI DSI
+> > > > > > > > > outputting to a DSI panel (DT is WIP for upstream).
+> > > > > > > > >
+> > > > > > > > > As a fix, using devm_drm_bridge_add() with the panel devi=
+ce in the panel
+> > > > > > > > > path seems reasonable. This also implies a chain of poten=
+tial cleanup
+> > > > > > > > > actions:
+> > > > > > > > >
+> > > > > > > > > 1. Removing drm_bridge_remove() means devm_drm_panel_brid=
+ge_release()
+> > > > > > > > >     becomes hollow and can be removed.
+> > > > > > > > >
+> > > > > > > > > 2. devm_drm_panel_bridge_add_typed() is almost emptied ex=
+cept for the
+> > > > > > > > >     `bridge->pre_enable_prev_first` line. Itself can be a=
+lso removed if
+> > > > > > > > >     we move the line into drm_panel_bridge_add_typed(). (=
+maybe?)
+> > > > > > > > >
+> > > > > > > > > 3. drm_panel_bridge_add_typed() now calls all the needed =
+devm_* calls,
+> > > > > > > > >     so it's essentially the new devm_drm_panel_bridge_add=
+_typed().
+> > > > > > > > >
+> > > > > > > > > 4. drmm_panel_bridge_add() needs to be updated accordingl=
+y since it
+> > > > > > > > >     calls drm_panel_bridge_add_typed(). But now there's o=
+nly one bridge
+> > > > > > > > >     object to be freed, and it's already being managed by=
+ panel device.
+> > > > > > > > >     I wonder if we still need both drmm_ and devm_ versio=
+n in this case.
+> > > > > > > > >     (maybe yes from DRM PoV, I don't know much about the =
+context)
+> > > > > > > > >
+> > > > > > > > > This is a RFC patch since I'm not sure if my understandin=
+g is correct
+> > > > > > > > > (for both the fix and the cleanup). It fixes the issue I =
+encountered,
+> > > > > > > > > but I don't expect it to be picked up directly due to the=
+ redundant
+> > > > > > > > > commit message and the dangling devm_drm_panel_bridge_rel=
+ease().
+> > > > > > > > > I plan to resend the official patch(es) once I know what =
+I supposed to
+> > > > > > > > > do next.
+> > > > > > > > >
+> > > > > > > > > For reference, here's the KASAN report from the device:
+> > > > > > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > > > > > >   BUG: KASAN: slab-use-after-free in drm_bridge_add+0x98/=
+0x230
+> > > > > > > > >   Read of size 8 at addr ffffff80c4e9e100 by task kworker=
+/u32:1/69
+> > > > > > > > >
+> > > > > > > > >   CPU: 1 UID: 0 PID: 69 Comm: kworker/u32:1 Not tainted 6=
+=2E12.0-rc1-next-20241004-kasan-00030-g062135fa4046 #1
+> > > > > > > > >   Hardware name: Google Ciri sku0/unprovisioned board (DT)
+> > > > > > > > >   Workqueue: events_unbound deferred_probe_work_func
+> > > > > > > > >   Call trace:
+> > > > > > > > >    dump_backtrace+0xfc/0x140
+> > > > > > > > >    show_stack+0x24/0x38
+> > > > > > > > >    dump_stack_lvl+0x40/0xc8
+> > > > > > > > >    print_report+0x140/0x700
+> > > > > > > > >    kasan_report+0xcc/0x130
+> > > > > > > > >    __asan_report_load8_noabort+0x20/0x30
+> > > > > > > > >    drm_bridge_add+0x98/0x230
+> > > > > > > > >    devm_drm_panel_bridge_add_typed+0x174/0x298
+> > > > > > > > >    devm_drm_of_get_bridge+0xe8/0x190
+> > > > > > > > >    mtk_dsi_host_attach+0x130/0x2b0
+> > > > > > > > >    mipi_dsi_attach+0x8c/0xe8
+> > > > > > > > >    hx83102_probe+0x1a8/0x368
+> > > > > > > > >    mipi_dsi_drv_probe+0x6c/0x88
+> > > > > > > > >    really_probe+0x1c4/0x698
+> > > > > > > > >    __driver_probe_device+0x160/0x298
+> > > > > > > > >    driver_probe_device+0x7c/0x2a8
+> > > > > > > > >    __device_attach_driver+0x2a0/0x398
+> > > > > > > > >    bus_for_each_drv+0x198/0x200
+> > > > > > > > >    __device_attach+0x1c0/0x308
+> > > > > > > > >    device_initial_probe+0x20/0x38
+> > > > > > > > >    bus_probe_device+0x11c/0x1f8
+> > > > > > > > >    deferred_probe_work_func+0x80/0x250
+> > > > > > > > >    worker_thread+0x9b4/0x2780
+> > > > > > > > >    kthread+0x274/0x350
+> > > > > > > > >    ret_from_fork+0x10/0x20
+> > > > > > > > >
+> > > > > > > > >   Allocated by task 69:
+> > > > > > > > >    kasan_save_track+0x40/0x78
+> > > > > > > > >    kasan_save_alloc_info+0x44/0x58
+> > > > > > > > >    __kasan_kmalloc+0x84/0xa0
+> > > > > > > > >    __kmalloc_node_track_caller_noprof+0x228/0x450
+> > > > > > > > >    devm_kmalloc+0x6c/0x288
+> > > > > > > > >    devm_drm_panel_bridge_add_typed+0xa0/0x298
+> > > > > > > > >    devm_drm_of_get_bridge+0xe8/0x190
+> > > > > > > > >    mtk_dsi_host_attach+0x130/0x2b0
+> > > > > > > > >    mipi_dsi_attach+0x8c/0xe8
+> > > > > > > > >    hx83102_probe+0x1a8/0x368
+> > > > > > > > >    mipi_dsi_drv_probe+0x6c/0x88
+> > > > > > > > >    really_probe+0x1c4/0x698
+> > > > > > > > >    __driver_probe_device+0x160/0x298
+> > > > > > > > >    driver_probe_device+0x7c/0x2a8
+> > > > > > > > >    __device_attach_driver+0x2a0/0x398
+> > > > > > > > >    bus_for_each_drv+0x198/0x200
+> > > > > > > > >    __device_attach+0x1c0/0x308
+> > > > > > > > >    device_initial_probe+0x20/0x38
+> > > > > > > > >    bus_probe_device+0x11c/0x1f8
+> > > > > > > > >    deferred_probe_work_func+0x80/0x250
+> > > > > > > > >    worker_thread+0x9b4/0x2780
+> > > > > > > > >    kthread+0x274/0x350
+> > > > > > > > >    ret_from_fork+0x10/0x20
+> > > > > > > > >
+> > > > > > > > >   Freed by task 69:
+> > > > > > > > >    kasan_save_track+0x40/0x78
+> > > > > > > > >    kasan_save_free_info+0x58/0x78
+> > > > > > > > >    __kasan_slab_free+0x48/0x68
+> > > > > > > > >    kfree+0xd4/0x750
+> > > > > > > > >    devres_release_all+0x144/0x1e8
+> > > > > > > > >    really_probe+0x48c/0x698
+> > > > > > > > >    __driver_probe_device+0x160/0x298
+> > > > > > > > >    driver_probe_device+0x7c/0x2a8
+> > > > > > > > >    __device_attach_driver+0x2a0/0x398
+> > > > > > > > >    bus_for_each_drv+0x198/0x200
+> > > > > > > > >    __device_attach+0x1c0/0x308
+> > > > > > > > >    device_initial_probe+0x20/0x38
+> > > > > > > > >    bus_probe_device+0x11c/0x1f8
+> > > > > > > > >    deferred_probe_work_func+0x80/0x250
+> > > > > > > > >    worker_thread+0x9b4/0x2780
+> > > > > > > > >    kthread+0x274/0x350
+> > > > > > > > >    ret_from_fork+0x10/0x20
+> > > > > > > > >
+> > > > > > > > >   The buggy address belongs to the object at ffffff80c4e9=
+e000
+> > > > > > > > >    which belongs to the cache kmalloc-4k of size 4096
+> > > > > > > > >   The buggy address is located 256 bytes inside of
+> > > > > > > > >    freed 4096-byte region [ffffff80c4e9e000, ffffff80c4e9=
+f000)
+> > > > > > > > >
+> > > > > > > > >   The buggy address belongs to the physical page:
+> > > > > > > > >   head: order:3 mapcount:0 entire_mapcount:0 nr_pages_map=
+ped:0 pincount:0
+> > > > > > > > >   flags: 0x8000000000000040(head|zone=3D2)
+> > > > > > > > >   page_type: f5(slab)
+> > > > > > > > >   page: refcount:1 mapcount:0 mapping:0000000000000000
+> > > > > > > > >   index:0x0 pfn:0x104e98
+> > > > > > > > >   raw: 8000000000000040 ffffff80c0003040 dead000000000122=
+ 0000000000000000
+> > > > > > > > >   raw: 0000000000000000 0000000000040004 00000001f5000000=
+ 0000000000000000
+> > > > > > > > >   head: 8000000000000040 ffffff80c0003040 dead00000000012=
+2 0000000000000000
+> > > > > > > > >   head: 0000000000000000 0000000000040004 00000001f500000=
+0 0000000000000000
+> > > > > > > > >   head: 8000000000000003 fffffffec313a601 fffffffffffffff=
+f 0000000000000000
+> > > > > > > > >   head: 0000000000000008 0000000000000000 00000000fffffff=
+f 0000000000000000
+> > > > > > > > >   page dumped because: kasan: bad access detected
+> > > > > > > > >
+> > > > > > > > >   Memory state around the buggy address:
+> > > > > > > > >    ffffff80c4e9e000: fa fb fb fb fb fb fb fb fb fb fb fb =
+fb fb fb fb
+> > > > > > > > >    ffffff80c4e9e080: fb fb fb fb fb fb fb fb fb fb fb fb =
+fb fb fb fb
+> > > > > > > > >   >ffffff80c4e9e100: fb fb fb fb fb fb fb fb fb fb fb fb =
+fb fb fb fb
+> > > > > > > > >                      ^
+> > > > > > > > >    ffffff80c4e9e180: fb fb fb fb fb fb fb fb fb fb fb fb =
+fb fb fb fb
+> > > > > > > > >    ffffff80c4e9e200: fb fb fb fb fb fb fb fb fb fb fb fb =
+fb fb fb fb
+> > > > > > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Fei Shao <fshao@chromium.org>
+> > > > > > > > I was looking at the driver to try to follow your (awesome =
+btw, thanks)
+> > > > > > > > commit log, and it does have a quite different structure co=
+mpared to
+> > > > > > > > what we recommend.
+> > > > > > > >
+> > > > > > > > Would following
+> > > > > > > > https://docs.kernel.org/gpu/drm-kms-helpers.html#special-ca=
+re-with-mipi-dsi-bridges
+> > > > > > > > help?
+> > > > > > > Hi Maxime,
+> > > > > > >
+> > > > > > > Thank you for the pointer.
+> > > > > > > I read the suggested pattern in the doc and compared it with =
+the
+> > > > > > > drivers. If I understand correctly, both the MIPI-DSI host an=
+d panel
+> > > > > > > drivers follow the instructions:
+> > > > > > >
+> > > > > > > 1. The MIPI-DSI host driver must run mipi_dsi_host_register()=
+ in its probe hook.
+> > > > > > >     >> drm/mediatek/mtk_dsi.c runs mipi_dsi_host_register() i=
+n the probe hook.
+> > > > > > > 2. In its probe hook, the bridge driver must try to find its =
+MIPI-DSI
+> > > > > > > host, register as a MIPI-DSI device and attach the MIPI-DSI d=
+evice to
+> > > > > > > its host.
+> > > > > > >     >> drm/panel/panel-himax-hx83102.c follows and runs
+> > > > > > > mipi_dsi_attach() at the end of probe hook.
+> > > > > > > 3. In its struct mipi_dsi_host_ops.attach hook, the MIPI-DSI =
+host can
+> > > > > > > now add its component.
+> > > > > > >     >> drm/mediatek/mtk_dsi.c calls component_add() in the at=
+tach callback.
+> > > > > > >
+> > > > > > > Could you elaborate on the "different structures" you mention=
+ed?
+> > > > > > Yeah, you're right, sorry.
+> > > > > >
+> > > > > > > To clarify my point: the issue is that component_add() may re=
+turn
+> > > > > > > -EPROBE_DEFER if the component (e.g. DSI encoder) is not read=
+y,
+> > > > > > > causing the panel bridge to be removed. However, drm_bridge_r=
+emove()
+> > > > > > > is bound to MIPI-DSI host instead of panel bridge, which owns=
+ the
+> > > > > > > actual list_head object.
+> > > > > > >
+> > > > > > > This might be reproducible with other MIPI-DSI host + panel
+> > > > > > > combinations by forcibly returning -EPROBE_DEFER in the host =
+attach
+> > > > > > > hook (verification with another device is needed), so the fix=
+ may be
+> > > > > > > required in drm/bridge/panel.c.
+> > > > > > Yeah, I think you're just hitting another bridge lifetime issue=
+, and
+> > > > > > it's not the only one unfortunately. Tying the bridge structure=
+ lifetime
+> > > > > > itself to the device is wrong, it should be tied to the DRM dev=
+ice
+> > > > > > lifetime instead.
+> > > > > I think the more immediate issue is that the bridge object's life=
+time
+> > > > > and drm_bridge_add/remove are inconsistent when devm_drm_of_get_b=
+ridge()
+> > > > > or drmm_of_get_bridge() are used.
+> > > > >
+> > > > > These helpers tie the bridge add/removal to the device or drm_dev=
+ice
+> > > > > passed in, but internally they call down to drm_panel_bridge_add_=
+typed()
+> > > > > which allocates the bridge object tied to the panel device.
+> > > > > > But then, the discussion becomes that bridges typically probe o=
+utside of
+> > > > > > the "main" DRM device probe path, so you don't have access to t=
+he DRM
+> > > > > > device structure until attach at best.
+> > > > > >
+> > > > > > That's why I'm a bit skeptical about your patch. It might worka=
+round
+> > > > > > your issue, but it doesn't actually solve the problem. I guess =
+the best
+> > > > > > way about it would be to convert bridges to reference counting,=
+ with the
+> > > > > > device taking a reference at probe time when it allocates the s=
+tructure
+> > > > > > (and giving it back at remove time), and the DRM device taking =
+one when
+> > > > > > it's attached and one when it's detached.
+> > > > > Without going as far, it's probably better to align the lifecycle=
+ of
+> > > > > the two parts. Most other bridge drivers in the kernel have |drm_=
+bridge|
+> > > > > lifecycle tied to their underlying |device|, either with explicit
+> > > > > drm_bridge_{add,remove}() calls in their probe/bind and remove/un=
+bind
+> > > > > callbacks respectively, or with devm_drm_bridge_add in the probe/=
+bind
+> > > > > path. The only ones with a narrower lifecycle are the DSI hosts, =
+which
+> > > > > add the bridge in during host attach and remove it during host de=
+tach.
+> > > > >
+> > > > > I'm thinking about fixing the panel_bridge lifecycle such that it=
+ is
+> > > > > tied to the panel itself. Maybe that would involve making
+> > > > > devm_drm_of_get_bridge() correctly return bridges even if a panel=
+ was
+> > > > > found, and then making the panels create and add panel bridges di=
+rectly,
+> > > > > possibly within drm_panel_add(). Would that make sense?
+> > > > Not really.
+> > >
+> > >
+> > > [...]
+> > >
+> > >
+> > > > Or rather, it doesn't fix the root cause that is that tieing
+> > > > the bridge lifetime to the device is wrong.
+>=20
+> Well, yeah, but at least it aligns the panel_bridge case with every other
+> bridge driver: the bridge object and its duration existing in the list
+> of bridges are the same in every other bridge driver. The bridge driver
+> allocates the bridge object in its probe function (with devm or not),
+> and adds the bridge to the global list as probably the last step of
+> the probe function. In the remove function the reverse is done.
+>=20
+> Right now for the panel bridge, the bridge object is allocated with its
+> lifetime tied to the panel, but the adding and removing of the bridge
+> to/from the global list is tied to the caller of the panel_bridge API,
+> likely the previous bridge or encoder in the chain.
+>=20
+> This is what is blowing up for us, right now, with the Ciri Chromebooks.
+> If we fix this bit, then at least it reduces the problem to be only as
+> worse as the other bridge drivers.
 
-On Mon, Dec 02, 2024 at 11:28:13AM +0800, Damon Ding wrote:
-> Hi,
->=20
-> On 2024/12/2 6:59, Sebastian Reichel wrote:
-> > Hi,
-> >=20
-> > On Sat, Nov 30, 2024 at 09:25:12PM +0100, Heiko St=FCbner wrote:
-> > > Am Freitag, 29. November 2024, 03:43:57 CET schrieb Damon Ding:
-> > > > On 2024/11/27 19:04, Heiko St=FCbner wrote:
-> > > > > Am Mittwoch, 27. November 2024, 12:00:10 CET schrieb Damon Ding:
-> > > > > > On 2024/11/27 17:29, Heiko St=FCbner wrote:
-> > > > > > > Am Mittwoch, 27. November 2024, 08:51:51 CET schrieb Damon Di=
-ng:
-> > > > > > > > +static int rk_hdptx_phy_set_mode(struct phy *phy, enum phy=
-_mode mode,
-> > > > > > > > +				 int submode)
-> > > > > > > > +{
-> > > > > > > > +	return 0;
-> > > > > > > > +}
-> > > > > > > analogix_dp_phy_power_on
-> > > > > > > I think it might make sense to go the same way as the DCPHY a=
-nd also
-> > > > > > > naneng combophy, to use #phy-cells =3D 1 to select the phy-mo=
-de via DT .
-> > > > > > >=20
-> > > > > > > See [0] for Sebastians initial suggestion regarding the DC-PH=
-Y.
-> > > > > > > The naneng combophy already uses that scheme of mode-selectio=
-n too.
-> > > > > > >=20
-> > > > > > > There is of course the issue of backwards-compatibility, but =
-that can be
-> > > > > > > worked around in the binding with something like:
-> > > > > > >=20
-> > > > > > >     '#phy-cells':
-> > > > > > >        enum: [0, 1]
-> > > > > > >        description: |
-> > > > > > >          If #phy-cells is 0, PHY mode is set to PHY_TYPE_HDMI
-> > > > > > >          If #phy-cells is 1 mode is set in the PHY cells. Sup=
-ported modes are:
-> > > > > > >            - PHY_TYPE_HDMI
-> > > > > > >            - PHY_TYPE_DP
-> > > > > > >          See include/dt-bindings/phy/phy.h for constants.
-> > > > > > >=20
-> > > > > > > PHY_TYPE_HDMI needs to be added to include/dt-bindings/phy/ph=
-y.h
-> > > > > > > but PHY_TYPE_DP is already there.
-> > > > > > >=20
-> > > > > > > That way we would standardize on one form of accessing phy-ty=
-pes
-> > > > > > > on rk3588 :-) .
-> > > > > > >=20
-> > > > > > > Also see the Mediatek CSI rx phy doing this too already [1]
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > Heiko
-> > > > > > >=20
-> > > > > > > [0] https://lore.kernel.org/linux-rockchip/udad4qf3o7kt45nuz6=
-gxsvsmprh4rnyfxfogopmih6ucznizih@7oj2jrnlfonz/
-> > > > > > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/=
-linux.git/tree/Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx=
-=2Eyaml
-> > > > > > >=20
-> > > > > >=20
-> > > > > > It is really a nice way to separate HDMI and DP modes.
-> > > >=20
-> > > > I apologize for reopening the discussion about the phy-types settin=
-g.
-> > >=20
-> > > there is definitly no need to apologize. We're trying to find the best
-> > > solution afterall :-) .
-> > >=20
-> > > > With the .set_mode() of struct phy_ops, the HDMI and eDP dynamic
-> > > > switching can be achieved, which just depends on the right setting =
-of
-> > > > enum phy_mode in include/linux/phy/phy.h. So the previous way of
-> > > > configuring phy mode may be also good.
-> > >=20
-> > > I think the deciding factor is, is there a use-case for needing to sw=
-itch
-> > > modes at runtime.
-> > >=20
-> > > I do think the mode for the dc-phy and also the hdptx-phy is pretty m=
-uch
-> > > decided by the board design.
-> > >=20
-> > > I.e. when you end up in a DP-connector (or eDP-panel) on your board y=
-ou
-> > > need DP mode, and when you end up in a hdmi-connector you need the
-> > > HDMI phy mode.
-> > >=20
-> > > So I think the phy-mode for the hdptx-phy is largely dictated by the =
-static
-> > > board definition (like devicetree), hence going with the dt-argument =
-for
-> > > the mode.
-> > >=20
-> > > Like similar to the Naneng combophy, selecting its mode via argument
-> > > because deciding if it ends up in a sata port is a board-design thing.
-> > >=20
-> > > Is there a use-case where you need to switch at runtime between
-> > > HDMI and eDP? Like starting the phy in eDP mode but then needing
-> > > to switch to HDMI mode, while the device is running?
->=20
-> Indeed, we have the board as you described, on which the DP-connector and
-> HDMI-connector both have been configured.
->=20
-> And the dynamic switching is more useful for RK3576, which has the same
-> eDP/HDMI design as RK3588 but only one eDP controller/HDMI controller/HDP=
-TX
-> phy. We can only enable both of eDP/HDMI by this way.
->=20
-> >=20
-> > I believe the eDP controller can only use the PHY in eDP mode and
-> > the HDMI controller can only use it in HDMI mode. So in order to
-> > support runtime switching, the following options are possible:
-> >=20
-> > 1. Enable both controllers, the PHY decides which one is really
-> >     used, the other one is basically a non-functional dummy device
-> >     until the PHY is reconfigured. This requires the set_mode()
-> >     callback, since the HDMI and eDP drivers both expect their
-> >     PHY to be enabled.
-> >=20
-> > 2. Properly enable / disable the used controller, so that only one
-> >     controller is active at the same time. In this case the switching
-> >     is handled one layer above and the PHY has nothing to do with it.
-> >     The phy_enable call from each controller would just set it up in
-> >     the right mode.
-> >=20
-> > I guess option 1 is the hacked solution, which is easier to
-> > implement as DRM's hotplug abilities are quite limited at the moment
-> > as far as I know. I think the second solution looks much cleaner and
-> > should be prefered for upstream. That solution does not require
-> > calling set_mode() for runtime switching making this whole argument
-> > void :)
-> >=20
->=20
-> Your friendly and detailed analysis has brought me some valuable insights.
-> :)
->=20
-> The option 2 is really a better way to support the dynamic switching, and=
- we
-> still need the .set_mode() to select the configurations for either eDP or
-> HDMI in HDPTX phy at the controller level. Would you mind
-> elaborating on the useful way to choose the phy mode for the second
-> solution?
+It also creates a harmful function in the framework, and thus technical
+debt that we will have to deal with eventually. It's pretty clear that
+you don't want to fix it properly, but at the very least we shouldn't
+pile on more technical debt in the framework.
 
-The xlate function to handle the arguments is called when the PHY
-device is looked up. So the devm_phy_get(dp->dev, "dp") call in
-analogix_dp_probe() would setup the PHY in DP mode.
+Anyway, you both seem to have decided I'm wrong, so go ahead anyway you
+see fit.
 
-Similarily the call to devm_of_phy_get_by_index() in
-dw_hdmi_qp_rockchip_bind() would set the PHY in HDMI mode.
+Maxime
 
-So the PHY mode is correct as long as only one controller driver
-is bound at the same time.
-
-Greetings,
-
--- Sebastian
-
-> > FWIW I think the DT argument based mode setting and the runtime set_mode
-> > are not necessarily mutual exclusive. In theory one could support both
-> > and adding set_mode support later does not change any ABI as far as
-> > I can see. Basically handle it like pin mux/configuration settings,
-> > which are usually automatically handled by the device core based on
-> > DT information, except for some drivers which have special needs.
-> >=20
->=20
-> > > > And other phys may want to support dynamic switching too, like the
-> > > > Rockchip USBDP combo phy.
-> > >=20
-> > > I guess USBDP is special in that in also does both modes dynamical
-> > > depending on its use (like type-c with option DP altmode)
-> >=20
-> > The USBDP PHY is indeed quite different from the PHYs in your list
-> > above, but for a different reason: All the combined PHYs you listed
-> > above only support one mode at the same time. E.g. you need to
-> > decide between PCIe, SATA and USB3 mode for the Naneng combophy.
-> >=20
-> > For the USBDP PHY the modes are not mutually exclusive. The USB
-> > controller can request the USBDP PHY in USB mode at the same time
-> > as the DP controller requests it in DP mode. Some additional
-> > registers configure how the lanes are being muxed. A typcial setup
-> > would be 2 lanes for USB3 and 2 lanes for DP.
-> >=20
-> > Greetings,
-> >=20
-> > -- Sebastian
->=20
-> Best regards,
-> Damon
->=20
-
---6udmcollucmigcpf
+--3pgxj6ts43wvawyl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmdNxyUACgkQ2O7X88g7
-+ppNBg/+OodeJz9zzOuukrua6cpAm7TmVJxnPSs0TMsHKsY+ZHlUpFvLBzCgtOJT
-0Uzs1ae7DnwwOaZjqhm9eRjx3at63sy7LMSKl0LWb1wHMyr9Gg0yLouhvRj9O8NT
-3G9ZgGLK2IfhL5y5e0MQhBVDD8Ib/Q5OS5qzhxfQA9fKPpkji0NnJHVfiEDJzDTp
-vUxKZi635aPI/2FbsEMbiMgeItxHF1HyOSuccBhvA342l1R9bB5IXoK41rTKZQ3d
-9NsUpvB7KN62oDfLC6iZit0/fZzy4eH1iv9zEAGrA18h9E42EHVOJFey8OMRVBX+
-dL++z1draffk+MzsL+T5pnMvumqZdoHIgFp6avMxSgC9ppOYjPXNZ4JUJYNA6u3Z
-oivDNCr0z960fsI9ynZNXr9aS2u5eXPRVJfOL9WRic9AWpdscrAonBYFZJ1eUeeU
-C9dxORl8uWri/K6FUXc9SWWSVq34eY+DiRT8rOviH4ridpH0M71Dzpw8GfabWvjT
-z5233amu9arUqf5O6vySvqmwB7TvcXyzAZSJ2XYieHvDsuUEwoebAEl2WdFcwgFJ
-97TNcxCCGE0xJNzZ6QsQTCDKHA4DMza1ioo8YWGRuZEqwphpMZY7GapSUWXCVNGG
-L3RpcHdmehiyNg7ikKc2P8U3EU/3MBL8B9Qi2WV4Ufc+DIhmlfA=
-=Oin5
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ03KzwAKCRAnX84Zoj2+
+drNvAX9l0tth5bOlbgSIbgs/z+FCBSnf8t1kpQdDZSwN1dtZv15jpsiyhHa85Kjl
+/jfZKcQBfiUkIb3ghT2HSqKKs2tkiKoTEyL790gyz0nNLcvcPb0vVb4zWODUrhfg
+G3dtkYCfEA==
+=4lMk
 -----END PGP SIGNATURE-----
 
---6udmcollucmigcpf--
+--3pgxj6ts43wvawyl--
