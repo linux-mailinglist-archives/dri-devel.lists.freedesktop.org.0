@@ -2,58 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF359E0A01
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 18:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78DDF9E0A12
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 18:35:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E77C110E7E1;
-	Mon,  2 Dec 2024 17:32:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06D3810E7F4;
+	Mon,  2 Dec 2024 17:35:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YdtO8Nbo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cvO1Ds0k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B19FD10E7E1
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 17:32:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1733160767;
- bh=yw+iNGGUwDa0/UmWNpxi/ueecAQMEr0e7vBRD2y045I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YdtO8Nbomdme2pM8vkYAOPanqVsOinis40tIGPpOaC3a8gr7nmClKvdBaksshoXsD
- WaW90kGGYVJ0UtLAjQjlsK+HexVIJet4TSVRK2Gx7CYo3dvWA45vTXv0yDNNYBv++R
- hMy+UZtkFeK2SHzfbnrn59ZBIb4GU2m4TCKzkp98p72B+bPfJjabotdW2VzYFWDJjU
- /Z6rdwFyY6qoCn+Gh+0eheoDew1JOiaUo+Vz07qIjLWCEOEmi0anIyxhy5Ywl7NIJR
- wos2UXpd+y4ZaKBX+SWyQhfhaR/6MueTzXJj9ouH5eX5NwzG4Hx0CItZFkBeNUv92c
- RZTLVsJoRlsFQ==
-Received: from [192.168.1.90] (unknown [86.120.21.57])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C76E317E37A9;
- Mon,  2 Dec 2024 18:32:46 +0100 (CET)
-Message-ID: <9c890d1d-b25d-4b88-8560-1c3081e79eff@collabora.com>
-Date: Mon, 2 Dec 2024 19:32:46 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25E7710E75D;
+ Mon,  2 Dec 2024 17:35:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 320D35C0365;
+ Mon,  2 Dec 2024 17:34:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D02C2C4CED1;
+ Mon,  2 Dec 2024 17:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733160903;
+ bh=H6X4HxSuzHzBru4loE1fIv7uvjl0ePjrXaJ1JNnadsE=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=cvO1Ds0kUEVV4XP+U5TwsILj0wy1zw0nCs8k2BqpB3wKlYNvzoUniCJQW65nhjh1o
+ saSQvVKWHUB6swLh4BekAGHyuiL7dQGD057mzrrCfRUuwd10KzdXMc8tpFW/8BnkRB
+ 4HeDTCgax/W3CPuKaTfS5n8go2bgRAPSFtrer4xmE9FlWmX/LZZtPzC/Jez2CPdj9H
+ 5kh1QsTxfKRNhIuSLYUGggIwNioUd/ecVgh+aInzhkQwluvfUTcIwBJUfkw6rsCVyw
+ MzGKoRpR7joyAEBnq0jj5mfcJYOTeryL6ScLsY4B/FLWvv2G+zYK2fx6rQjA8yM9PF
+ DjJT9eyAXyZFA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id ABEF6D7831C;
+ Mon,  2 Dec 2024 17:35:03 +0000 (UTC)
+From: Vincent Mailhol via B4 Relay
+ <devnull+mailhol.vincent.wanadoo.fr@kernel.org>
+Subject: [PATCH 00/10] compiler.h: refactor __is_constexpr() into
+ is_const{,_true,_false}()
+Date: Tue, 03 Dec 2024 02:33:22 +0900
+Message-Id: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/bridge: dw-hdmi: Sync comments with actual bus
- formats order
-To: neil.armstrong@linaro.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241130-dw-hdmi-bus-fmt-order-v1-1-510b5fb6b990@collabora.com>
- <5bbd44dc-cbe8-4906-afa2-6866f5d39341@linaro.org>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <5bbd44dc-cbe8-4906-afa2-6866f5d39341@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGLvTWcC/x2MQQqAIBAAvxJ7TlCRqL4SEaJb7UVlNyII/550H
+ IaZFwSZUGDuXmC8SSinBqbvIJw+HagoNgarrTPGTopkCznJhU9hxbj7cGVWZnKD9hFjcCO0tjR
+ Dz/9d1lo/1Xd5X2cAAAA=
+X-Change-ID: 20241129-is_constexpr-refactor-19460adedc48
+To: Linus Torvalds <torvalds@linux-foundation.org>, 
+ David Laight <David.Laight@aculab.com>, 
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>, 
+ Martin Uecker <Martin.Uecker@med.uni-goettingen.de>
+Cc: linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, linux-hardening@vger.kernel.org, 
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+ Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2878;
+ i=mailhol.vincent@wanadoo.fr; h=from:subject:message-id;
+ bh=H6X4HxSuzHzBru4loE1fIv7uvjl0ePjrXaJ1JNnadsE=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDOm+749yHXE+efV7rnOkcu+WY3bx8n7fTmrbr7jmluH9X
+ F7W1cW8o5SFQYyLQVZMkWVZOSe3Qkehd9ihv5Ywc1iZQIYwcHEKwER4zRkZer+7/w40uWUXt65D
+ Rr+mWXn16tUHF2i6i7bLMZjcEecUZmQ4/WjnTadfPbbmk36KXW7f62Rq1pXeP+uB7A/2w3svHNv
+ MBgA=
+X-Developer-Key: i=mailhol.vincent@wanadoo.fr; a=openpgp;
+ fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
+X-Endpoint-Received: by B4 Relay for mailhol.vincent@wanadoo.fr/default
+ with auth_id=291
+X-Original-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,95 +95,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: mailhol.vincent@wanadoo.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/2/24 5:45 PM, Neil Armstrong wrote:
-> Hi,
-> 
-> On 30/11/2024 00:04, Cristian Ciocaltea wrote:
->> Commit d3d6b1bf85ae ("drm: bridge: dw_hdmi: fix preference of RGB modes
->> over YUV420") changed the order of the output bus formats, but missed to
->> update accordingly the affected comment blocks related to
->> dw_hdmi_bridge_atomic_get_output_bus_fmts().
->>
->> Fix the misleading comments and a context related typo.
->>
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
->>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 12 ++++++------
->>   1 file changed, 6 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/
->> drm/bridge/synopsys/dw-hdmi.c
->> index
->> 996733ed2c004c83a989cb8da54d8b630d9f2c02..d76aede757175d7ad5873c5d7623abf2d12da73c 100644
->> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> @@ -2621,6 +2621,7 @@ static int dw_hdmi_connector_create(struct
->> dw_hdmi *hdmi)
->>    * - MEDIA_BUS_FMT_UYYVYY12_0_5X36,
->>    * - MEDIA_BUS_FMT_UYYVYY10_0_5X30,
->>    * - MEDIA_BUS_FMT_UYYVYY8_0_5X24,
->> + * - MEDIA_BUS_FMT_RGB888_1X24,
->>    * - MEDIA_BUS_FMT_YUV16_1X48,
->>    * - MEDIA_BUS_FMT_RGB161616_1X48,
->>    * - MEDIA_BUS_FMT_UYVY12_1X24,
->> @@ -2631,7 +2632,6 @@ static int dw_hdmi_connector_create(struct
->> dw_hdmi *hdmi)
->>    * - MEDIA_BUS_FMT_RGB101010_1X30,
->>    * - MEDIA_BUS_FMT_UYVY8_1X16,
->>    * - MEDIA_BUS_FMT_YUV8_1X24,
->> - * - MEDIA_BUS_FMT_RGB888_1X24,
->>    */
->>     /* Can return a maximum of 11 possible output formats for a mode/
->> connector */
->> @@ -2669,7 +2669,7 @@ static u32
->> *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->>       }
->>         /*
->> -     * If the current mode enforces 4:2:0, force the output but format
->> +     * If the current mode enforces 4:2:0, force the output bus format
->>        * to 4:2:0 and do not add the YUV422/444/RGB formats
->>        */
->>       if (conn->ycbcr_420_allowed &&
->> @@ -2698,14 +2698,14 @@ static u32
->> *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->>           }
->>       }
->>   +    /* Default 8bit RGB fallback */
->> +    output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
-> 
-> Why did you move this ? the following comment mentions it
+This series is the spiritual successor of [1] which introduced
+const_true(). In [1], following a comment from David Laight, Linus
+came with a suggestion to simplify __is_constexpr() and its derived
+macros using a _Generic() selection. Because of the total change of
+scope, I am starting a new series.
 
-Before d3d6b1bf85ae ("drm: bridge: dw_hdmi: fix preference of RGB modes
-over YUV420"), this was the last format added to the list.  Hence I
-interpreted the comment below as referring to this particular last entry
-as a fallback, which is not the case anymore.
+The goal is to introduce a set of three macros:
 
-If you still prefer to keep the original comment, then maybe we should
-simply drop the "Default 8bit RGB fallback" one, as it's pretty
-redundant now.
+  - is_const(): a one to one replacement of __is_constexpr() in term
+    of features but written in a less hacky way thanks to _Generic().
 
-Thanks,
-Cristian
+  - is_const_true(): tells whether or not the argument is a true
+    integer constant expression.
 
->> +
->>       /*
->>        * Order bus formats from 16bit to 8bit and from YUV422 to RGB
->> -     * if supported. In any case the default RGB888 format is added
->> +     * if supported.
->>        */
->>   -    /* Default 8bit RGB fallback */
->> -    output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
->> -
->>       if (max_bpc >= 16 && info->bpc == 16) {
->>           if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
->>               output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
->>
->> ---
->> base-commit: f486c8aa16b8172f63bddc70116a0c897a7f3f02
->> change-id: 20241130-dw-hdmi-bus-fmt-order-7f6db5db2f0a
->>
-> 
+  - is_const_false(): tells whether or not the argument is a false
+    integer constant expression.
+
+Once defined, apply them tree-wide.
+
+All those three macros will rely on a single building block:
+__is_const_zero().
+
+Patch 1 adds statically_false(). This is just done so that at the end
+of this series, the full set of statically_true/false() and
+is_const_true/false() is present.
+
+Patch 2 adds __is_const_zero() and is_const().
+
+Patch 3 adds is_const_true() and is_const_false().
+
+Patch 4 to 9 do a tree-wide replacement to remove all the usages of
+__is_constexpr() and replace them by is_const_true() or
+is_const_false() whenever feasible, or by is_const() otherwise.
+
+Patch 10 finally remove __is_constexpr(). RIP!
+
+[1] add const_true() to simplify GENMASK_INPUT_CHECK()
+Link: https://lore.kernel.org/all/20241113172939.747686-4-mailhol.vincent@wanadoo.fr/
+
+Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+---
+Vincent Mailhol (10):
+      compiler.h: add statically_false()
+      compiler.h: add is_const() as a replacement of __is_constexpr()
+      compiler.h: add is_const_true() and is_const_false()
+      linux/bits.h: simplify GENMASK_INPUT_CHECK() by using is_const_true()
+      minmax: simplify __clamp_once() by using is_const_false()
+      fortify: replace __is_constexpr() by is_const() in strlen()
+      overflow: replace __is_constexpr() by is_const()
+      drm/i915/reg: replace __is_const_expr() by is_const_true() or is_const()
+      coresight: etm4x: replace __is_const_expr() by is_const()
+      compiler.h: remove __is_constexpr()
+
+ drivers/gpu/drm/i915/i915_reg_defs.h          |  47 +++++------
+ drivers/hwtracing/coresight/coresight-etm4x.h |   2 +-
+ include/linux/bits.h                          |   5 +-
+ include/linux/compiler.h                      | 112 +++++++++++++++-----------
+ include/linux/fortify-string.h                |   4 +-
+ include/linux/minmax.h                        |   3 +-
+ include/linux/overflow.h                      |   8 +-
+ 7 files changed, 97 insertions(+), 84 deletions(-)
+---
+base-commit: e70140ba0d2b1a30467d4af6bcfe761327b9ec95
+change-id: 20241129-is_constexpr-refactor-19460adedc48
+
+Best regards,
+-- 
+Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+
 
