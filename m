@@ -2,94 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995E89DFE3A
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 11:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7289DFE6F
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 11:13:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03DC310E6A9;
-	Mon,  2 Dec 2024 10:07:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9F010E179;
+	Mon,  2 Dec 2024 10:13:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KrxDmwxo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ap02JDsd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4515510E6AC
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 10:07:11 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-53de79c2be4so4602135e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 02:07:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733134029; x=1733738829; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=AUDwK6ibQ9+n49VL4sBKZ5FqDWKxTTiqoVr/EHDQWzA=;
- b=KrxDmwxo8plbbRPs4LPGgzj/Z1cnntamczxYGmJpgD2D+e4drduHH1M0VtHnYTqRj/
- aIuhANIpBs0NQ9NF3ypb6k2oEyPzfFdTHeY6vh0SsWH5iP1R+nflf7HHYLVGsoTmIAE7
- NrDs5u/B/6l7bJoQPmcRJan0f4ZoeFuhg8xJ6jMck2C3pykWv0UUqius8oByeSqz/KQE
- dTgG0aIn05oKmuQJ7MuuVmpT5ZCDs9eQ0U1MRCTX/ZY1pr5UQV9YSGlTZF8F266wLNlT
- YZ3hNmkaMw9eIdU9xl4g8dYMIBr4o/eDi4WIi9e5CDAYGcQetmcWAY4k2IGJs4hhgdKI
- YnzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733134029; x=1733738829;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AUDwK6ibQ9+n49VL4sBKZ5FqDWKxTTiqoVr/EHDQWzA=;
- b=crLe8ceAuaLNIuH6Nh2AXyxZzR5Gn9a4KI2JTC1Y7tPCnFwsJkcU1Cj8E7cBv8UBQV
- kBj/0RyLuJpayE+Ld1UYSPzV5QJjAW3Ngj1/VVbSeQaOZ8SjKQouZnXYO6JROKI5FEH8
- GruuYEpYDuc78zn1EX/SJ/jvszHQ8U5pxd7ymPV8RTtTcDlZDRcpBr0IrWMX95ZP4HX1
- n0Brykdyo8ANfKzq4odIOXAL1jerOSPpAcy7ncanDe+AXehuyZPNLrllH09aVwTKoCAs
- k3IduNW+FH4tAmE7bn65OxKY/WStx0dAYyDzIMrOaxSz63p2gn4ZTcwlmmlhbbAPF7QM
- /3aw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXxXkMuZ+8NvPZZ5XbyPio/fMIXCgB9obDsrcTYJf6hKKY2gFclNt3WTObwR+xM2zMldF71tMbXEL0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5mNTw6qY0d+grnDhIlwlb3K2vhHMxoBeG/d3oMPHHis2xSgLJ
- 4eRVhidlpdPTdU6xsNGUgwXVRMIgFcbr1U7cZpA4tooHNHeP0Q9e9m2gQotKr30=
-X-Gm-Gg: ASbGnctUeK+inhOx73PxtmR1IWFvRBfE1ojCiJnByiMWbLxq2Dr1z/rwJ93mZk98RjZ
- S4TpEVia8lU8pAaD2PfeYMIFGa4WWUTfHOGlOLirmE4j9Km/5yXvUTT8pXAO511TFkh4KC67UKi
- 7H36WQZ/Jwk0SKcO3hCQsKUEy94vzT7IzQsOp5HSTFz1BSXjOk8UxVaEJ49pcbUnfzHdEGxPzSJ
- tLAuDJf4iO2d471SGyfXotq3KhpwISyEaXahWZ9TgaFFR9MqZepzyYR9w==
-X-Google-Smtp-Source: AGHT+IEWfTLeU2++Km9krI7o6JmgvYik6Meu8GOITeGf9R0CXRHpHXiGnIlCAkQMl7S7JTwrW4qPgQ==
-X-Received: by 2002:a05:6512:b9c:b0:53d:ed62:e653 with SMTP id
- 2adb3069b0e04-53df00d102bmr11011656e87.15.1733134029276; 
- Mon, 02 Dec 2024 02:07:09 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df646f191sm1418314e87.136.2024.12.02.02.07.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2024 02:07:08 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 02 Dec 2024 12:06:44 +0200
-Subject: [PATCH v2 14/14] drm/msm/dp: move interrupt handling to dp_ctrl
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8847210E179
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 10:13:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 76E695C68FA;
+ Mon,  2 Dec 2024 10:12:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B490DC4CED1;
+ Mon,  2 Dec 2024 10:12:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733134380;
+ bh=GUtK6g0wYFpyQro5lSu/sf7XWXuHBj/A49iyuAXpteU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ap02JDsdjQzES8tUED9gIO+PICybq5yhAxYrrxToa2NDmOI4eoTj3BvvDVBK01mIq
+ /dOfFcAEDgF15M7ODX0fM2TknweBTnhdZFISyJfRBw5D713nULPrnzpGHWLo+Jk36G
+ 2a8RJVVDVr68ezV9OSWZYxfAyXl+NoDC8iKIl/Bpnr0tDJ+IbmGiDeAbVZu9k2TIkm
+ G+osy9Z74weK8MREA9nPjIPg/f/NxQ6OLtYStEKKlPyItFyIyAuzsA7sBvfgyB35ZT
+ +vFAkj+dUU6/OFarJd/8wa81v4vMW0kFHTOgGNq06KiLbIPzi+VhXnlkgngo+CeqEw
+ hNN3pHX0surQA==
+Date: Mon, 2 Dec 2024 11:12:57 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Fei Shao <fshao@chromium.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ David Airlie <airlied@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
+Message-ID: <20241202-diligent-uptight-gibbon-da8ff4@houat>
+References: <20241009052402.411978-1-fshao@chromium.org>
+ <20241024-stalwart-bandicoot-of-music-bc6b29@houat>
+ <CAC=S1niZuiJkWBvci+bmrU-BvahhXyWWAYAMOB200a3Ppu=rTg@mail.gmail.com>
+ <20241114-gray-corgi-of-youth-f992ec@houat>
+ <CAGXv+5EmVj6S2iioYgMKvY8NM3_jzCDS9-GC-GOMU44j0ikmKA@mail.gmail.com>
+ <20241129-meticulous-pumpkin-echidna-dff6df@houat>
+ <d47e57c2-271a-4ed6-8e00-bb1a84b7b3f6@linux.dev>
+ <20241129-blazing-granite-beetle-e9fecd@houat>
+ <4a2396cd-9c17-4a4f-90b8-d28a03120842@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241202-fd-dp-audio-fixup-v2-14-d9187ea96dad@linaro.org>
-References: <20241202-fd-dp-audio-fixup-v2-0-d9187ea96dad@linaro.org>
-In-Reply-To: <20241202-fd-dp-audio-fixup-v2-0-d9187ea96dad@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Paloma Arellano <quic_parellan@quicinc.com>
-Cc: Douglas Anderson <dianders@chromium.org>, 
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=19325;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=8C6rPsQS4FU2y6sH3qMMieCj3tGAmPNo6Yihp1+d1r4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnTYaufXeEzbytTF7FP9HWrccUsYJ3h+ygh6x4e
- JWrqWU6fQWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ02GrgAKCRCLPIo+Aiko
- 1VoBB/4mC5+Rfd+Rx3G3k+JouZYC9BK3tVvG08RqRtRbMnuHjWB0GC85M7l1IP9kqWFlcZvRQUh
- 1gd90f1iyZ0qmTrd8IPzQUcRHZNP22CsQbgfWbK0sjUWfSC7bkFPiTiTDAnP36asiR5dwJabVPF
- P3QYDM7SvKlGLhANYKEy7YTsbrrNJIoJcuT8UOQkGmBuP8zRy1K6kCCV7ph9N9/c5FVN9JHKwo+
- xwCt1HeGaEVQSqlpcVRZthKI7MUIdRsMU6hlXSktdRZdp6FjYwr8ZKRBg4zAJx2PzCZefg4Tbmm
- LvxlOEc2znpGoadjxOIOxQlyMrjhqeGkDnp573lp/qr1A/t7
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="n47u4sjvb2gewrzg"
+Content-Disposition: inline
+In-Reply-To: <4a2396cd-9c17-4a4f-90b8-d28a03120842@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,529 +76,474 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It makes it easier to keep all interrupts-related code in dp_ctrl
-submodule. Move all functions to dp_ctrl.c.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_aux.c     |   9 +--
- drivers/gpu/drm/msm/dp/dp_aux.h     |   2 +-
- drivers/gpu/drm/msm/dp/dp_catalog.c |  95 ------------------------
- drivers/gpu/drm/msm/dp/dp_catalog.h |  24 ------
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 142 ++++++++++++++++++++++++++++++------
- drivers/gpu/drm/msm/dp/dp_ctrl.h    |   5 +-
- drivers/gpu/drm/msm/dp/dp_display.c |   9 +--
- drivers/gpu/drm/msm/dp/dp_reg.h     |  17 +++++
- 8 files changed, 145 insertions(+), 158 deletions(-)
+--n47u4sjvb2gewrzg
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
+MIME-Version: 1.0
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index 7228955019b31f80257b86a470c9ef305b2549a0..1ae0bf9e4f51a98a01bf9eb5c36323e1743b5ab4 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.c
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -439,9 +439,8 @@ static ssize_t msm_dp_aux_transfer(struct drm_dp_aux *msm_dp_aux,
- 	return ret;
- }
- 
--irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux)
-+irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux, u32 isr)
- {
--	u32 isr;
- 	struct msm_dp_aux_private *aux;
- 
- 	if (!msm_dp_aux) {
-@@ -451,12 +450,6 @@ irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux)
- 
- 	aux = container_of(msm_dp_aux, struct msm_dp_aux_private, msm_dp_aux);
- 
--	isr = msm_dp_catalog_aux_get_irq(aux->catalog);
--
--	/* no interrupts pending, return immediately */
--	if (!isr)
--		return IRQ_NONE;
--
- 	if (!aux->cmd_busy) {
- 		DRM_ERROR("Unexpected DP AUX IRQ %#010x when not busy\n", isr);
- 		return IRQ_NONE;
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
-index 624395a41ed0a75ead4826e78d05ca21e8fb8967..83908c93b6a1baa6c4eb83a346b4498704008ca5 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.h
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-@@ -11,7 +11,7 @@
- 
- int msm_dp_aux_register(struct drm_dp_aux *msm_dp_aux);
- void msm_dp_aux_unregister(struct drm_dp_aux *msm_dp_aux);
--irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux);
-+irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux, u32 isr);
- void msm_dp_aux_enable_xfers(struct drm_dp_aux *msm_dp_aux, bool enabled);
- void msm_dp_aux_init(struct drm_dp_aux *msm_dp_aux);
- void msm_dp_aux_deinit(struct drm_dp_aux *msm_dp_aux);
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 754b30e35039618453df9ce863c0d2561fce2fda..e7c421b50127c6ef3b5ddbb0e3554570d169e544 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -15,41 +15,6 @@
- #include "dp_catalog.h"
- #include "dp_reg.h"
- 
--#define POLLING_SLEEP_US			1000
--#define POLLING_TIMEOUT_US			10000
--
--#define DP_INTERRUPT_STATUS_ACK_SHIFT	1
--#define DP_INTERRUPT_STATUS_MASK_SHIFT	2
--
--#define DP_INTERRUPT_STATUS1 \
--	(DP_INTR_AUX_XFER_DONE| \
--	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
--	DP_INTR_NACK_DEFER | DP_INTR_WRONG_DATA_CNT | \
--	DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER | \
--	DP_INTR_PLL_UNLOCKED | DP_INTR_AUX_ERROR)
--
--#define DP_INTERRUPT_STATUS1_ACK \
--	(DP_INTERRUPT_STATUS1 << DP_INTERRUPT_STATUS_ACK_SHIFT)
--#define DP_INTERRUPT_STATUS1_MASK \
--	(DP_INTERRUPT_STATUS1 << DP_INTERRUPT_STATUS_MASK_SHIFT)
--
--#define DP_INTERRUPT_STATUS2 \
--	(DP_INTR_READY_FOR_VIDEO | DP_INTR_IDLE_PATTERN_SENT | \
--	DP_INTR_FRAME_END | DP_INTR_CRC_UPDATED)
--
--#define DP_INTERRUPT_STATUS2_ACK \
--	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_ACK_SHIFT)
--#define DP_INTERRUPT_STATUS2_MASK \
--	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_MASK_SHIFT)
--
--#define DP_INTERRUPT_STATUS4 \
--	(PSR_UPDATE_INT | PSR_CAPTURE_INT | PSR_EXIT_INT | \
--	PSR_UPDATE_ERROR_INT | PSR_WAKE_ERROR_INT)
--
--#define DP_INTERRUPT_MASK4 \
--	(PSR_UPDATE_MASK | PSR_CAPTURE_MASK | PSR_EXIT_MASK | \
--	PSR_UPDATE_ERROR_MASK | PSR_WAKE_ERROR_MASK)
--
- #define DP_DEFAULT_AHB_OFFSET	0x0000
- #define DP_DEFAULT_AHB_SIZE	0x0200
- #define DP_DEFAULT_AUX_OFFSET	0x0200
-@@ -73,21 +38,6 @@ void msm_dp_catalog_snapshot(struct msm_dp_catalog *msm_dp_catalog, struct msm_d
- 	msm_disp_snapshot_add_block(disp_state, msm_dp_catalog->p0_len, msm_dp_catalog->p0_base, "dp_p0");
- }
- 
--u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog)
--{
--	u32 intr, intr_ack;
--
--	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS);
--	intr &= ~DP_INTERRUPT_STATUS1_MASK;
--	intr_ack = (intr & DP_INTERRUPT_STATUS1)
--			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS,
--		     intr_ack | DP_INTERRUPT_STATUS1_MASK);
--
--	return intr;
--
--}
--
- /**
-  * msm_dp_catalog_hw_revision() - retrieve DP hw revision
-  *
-@@ -101,51 +51,6 @@ u32 msm_dp_catalog_hw_revision(const struct msm_dp_catalog *msm_dp_catalog)
- 	return msm_dp_read_ahb(msm_dp_catalog, REG_DP_HW_VERSION);
- }
- 
--void msm_dp_catalog_ctrl_enable_irq(struct msm_dp_catalog *msm_dp_catalog,
--						bool enable)
--{
--	if (enable) {
--		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS,
--				DP_INTERRUPT_STATUS1_MASK);
--		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2,
--				DP_INTERRUPT_STATUS2_MASK);
--	} else {
--		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS, 0x00);
--		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2, 0x00);
--	}
--}
--
--u32 msm_dp_catalog_ctrl_read_psr_interrupt_status(struct msm_dp_catalog *msm_dp_catalog)
--{
--	u32 intr, intr_ack;
--
--	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS4);
--	intr_ack = (intr & DP_INTERRUPT_STATUS4)
--			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS4, intr_ack);
--
--	return intr;
--}
--
--void msm_dp_catalog_ctrl_config_psr_interrupt(struct msm_dp_catalog *msm_dp_catalog)
--{
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_MASK4, DP_INTERRUPT_MASK4);
--}
--
--int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog)
--{
--	u32 intr, intr_ack;
--
--	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2);
--	intr &= ~DP_INTERRUPT_STATUS2_MASK;
--	intr_ack = (intr & DP_INTERRUPT_STATUS2)
--			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
--	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2,
--			intr_ack | DP_INTERRUPT_STATUS2_MASK);
--
--	return intr;
--}
--
- static void __iomem *msm_dp_ioremap(struct platform_device *pdev, int idx, size_t *len)
- {
- 	struct resource *res;
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 830d9164188c0f7520809a99fa409b473bbfbfa4..c57792b134357933aa3c1f4d278f1c1a309688cf 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -11,23 +11,6 @@
- #include "dp_utils.h"
- #include "disp/msm_disp_snapshot.h"
- 
--/* interrupts */
--#define DP_INTR_HPD		BIT(0)
--#define DP_INTR_AUX_XFER_DONE	BIT(3)
--#define DP_INTR_WRONG_ADDR	BIT(6)
--#define DP_INTR_TIMEOUT		BIT(9)
--#define DP_INTR_NACK_DEFER	BIT(12)
--#define DP_INTR_WRONG_DATA_CNT	BIT(15)
--#define DP_INTR_I2C_NACK	BIT(18)
--#define DP_INTR_I2C_DEFER	BIT(21)
--#define DP_INTR_PLL_UNLOCKED	BIT(24)
--#define DP_INTR_AUX_ERROR	BIT(27)
--
--#define DP_INTR_READY_FOR_VIDEO		BIT(0)
--#define DP_INTR_IDLE_PATTERN_SENT	BIT(3)
--#define DP_INTR_FRAME_END		BIT(6)
--#define DP_INTR_CRC_UPDATED		BIT(9)
--
- #define DP_HW_VERSION_1_0	0x10000000
- #define DP_HW_VERSION_1_2	0x10020000
- 
-@@ -116,15 +99,8 @@ static inline void msm_dp_write_link(struct msm_dp_catalog *msm_dp_catalog,
- /* Debug module */
- void msm_dp_catalog_snapshot(struct msm_dp_catalog *msm_dp_catalog, struct msm_disp_state *disp_state);
- 
--/* AUX APIs */
--u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog);
--
- /* DP Controller APIs */
- u32 msm_dp_catalog_hw_revision(const struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_enable_irq(struct msm_dp_catalog *msm_dp_catalog, bool enable);
--int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog);
--void msm_dp_catalog_ctrl_config_psr_interrupt(struct msm_dp_catalog *msm_dp_catalog);
--u32 msm_dp_catalog_ctrl_read_psr_interrupt_status(struct msm_dp_catalog *msm_dp_catalog);
- 
- struct msm_dp_catalog *msm_dp_catalog_get(struct device *dev);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 5f32ee2fa0438cd12726540a59ab4849d47ee8c2..f978b599bf14c8fc418f0f2dfe40ca911f8957fe 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -30,6 +30,38 @@
- #define PSR_OPERATION_COMPLETION_TIMEOUT_JIFFIES       (300 * HZ / 1000) /* 300 ms */
- #define WAIT_FOR_VIDEO_READY_TIMEOUT_JIFFIES (HZ / 2)
- 
-+#define DP_INTERRUPT_STATUS_ACK_SHIFT	1
-+#define DP_INTERRUPT_STATUS_MASK_SHIFT	2
-+
-+#define DP_INTERRUPT_STATUS1 \
-+	(DP_INTR_AUX_XFER_DONE| \
-+	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
-+	DP_INTR_NACK_DEFER | DP_INTR_WRONG_DATA_CNT | \
-+	DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER | \
-+	DP_INTR_PLL_UNLOCKED | DP_INTR_AUX_ERROR)
-+
-+#define DP_INTERRUPT_STATUS1_ACK \
-+	(DP_INTERRUPT_STATUS1 << DP_INTERRUPT_STATUS_ACK_SHIFT)
-+#define DP_INTERRUPT_STATUS1_MASK \
-+	(DP_INTERRUPT_STATUS1 << DP_INTERRUPT_STATUS_MASK_SHIFT)
-+
-+#define DP_INTERRUPT_STATUS2 \
-+	(DP_INTR_READY_FOR_VIDEO | DP_INTR_IDLE_PATTERN_SENT | \
-+	DP_INTR_FRAME_END | DP_INTR_CRC_UPDATED)
-+
-+#define DP_INTERRUPT_STATUS2_ACK \
-+	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_ACK_SHIFT)
-+#define DP_INTERRUPT_STATUS2_MASK \
-+	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_MASK_SHIFT)
-+
-+#define DP_INTERRUPT_STATUS4 \
-+	(PSR_UPDATE_INT | PSR_CAPTURE_INT | PSR_EXIT_INT | \
-+	PSR_UPDATE_ERROR_INT | PSR_WAKE_ERROR_INT)
-+
-+#define DP_INTERRUPT_MASK4 \
-+	(PSR_UPDATE_MASK | PSR_CAPTURE_MASK | PSR_EXIT_MASK | \
-+	PSR_UPDATE_ERROR_MASK | PSR_WAKE_ERROR_MASK)
-+
- #define DP_CTRL_INTR_READY_FOR_VIDEO     BIT(0)
- #define DP_CTRL_INTR_IDLE_PATTERN_SENT  BIT(3)
- 
-@@ -126,8 +158,10 @@ static int msm_dp_aux_link_configure(struct drm_dp_aux *aux,
- /*
-  * NOTE: resetting DP controller will also clear any pending HPD related interrupts
-  */
--static void msm_dp_ctrl_reset(struct msm_dp_ctrl_private *ctrl)
-+void msm_dp_ctrl_reset(struct msm_dp_ctrl *msm_dp_ctrl)
- {
-+	struct msm_dp_ctrl_private *ctrl =
-+		container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
- 	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
- 	u32 sw_reset;
- 
-@@ -141,6 +175,79 @@ static void msm_dp_ctrl_reset(struct msm_dp_ctrl_private *ctrl)
- 	msm_dp_write_ahb(msm_dp_catalog, REG_DP_SW_RESET, sw_reset);
- }
- 
-+static u32 msm_dp_ctrl_get_aux_interrupt(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 intr, intr_ack;
-+
-+	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS);
-+	intr &= ~DP_INTERRUPT_STATUS1_MASK;
-+	intr_ack = (intr & DP_INTERRUPT_STATUS1)
-+			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS,
-+		     intr_ack | DP_INTERRUPT_STATUS1_MASK);
-+
-+	return intr;
-+
-+}
-+
-+static u32 msm_dp_ctrl_get_interrupt(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 intr, intr_ack;
-+
-+	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2);
-+	intr &= ~DP_INTERRUPT_STATUS2_MASK;
-+	intr_ack = (intr & DP_INTERRUPT_STATUS2)
-+			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2,
-+		     intr_ack | DP_INTERRUPT_STATUS2_MASK);
-+
-+	return intr;
-+}
-+
-+void msm_dp_ctrl_enable_irq(struct msm_dp_ctrl *msm_dp_ctrl)
-+{
-+	struct msm_dp_ctrl_private *ctrl =
-+		container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS,
-+			DP_INTERRUPT_STATUS1_MASK);
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2,
-+			DP_INTERRUPT_STATUS2_MASK);
-+}
-+
-+void msm_dp_ctrl_disable_irq(struct msm_dp_ctrl *msm_dp_ctrl)
-+{
-+	struct msm_dp_ctrl_private *ctrl =
-+		container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS, 0x00);
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2, 0x00);
-+}
-+
-+static u32 msm_dp_ctrl_get_psr_interrupt(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+	u32 intr, intr_ack;
-+
-+	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS4);
-+	intr_ack = (intr & DP_INTERRUPT_STATUS4)
-+			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS4, intr_ack);
-+
-+	return intr;
-+}
-+
-+static void msm_dp_ctrl_config_psr_interrupt(struct msm_dp_ctrl_private *ctrl)
-+{
-+	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-+
-+	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_MASK4, DP_INTERRUPT_MASK4);
-+}
-+
- static void msm_dp_ctrl_psr_mainlink_enable(struct msm_dp_ctrl_private *ctrl)
- {
- 	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-@@ -1630,23 +1737,6 @@ static int msm_dp_ctrl_enable_mainlink_clocks(struct msm_dp_ctrl_private *ctrl)
- 	return ret;
- }
- 
--void msm_dp_ctrl_reset_irq_ctrl(struct msm_dp_ctrl *msm_dp_ctrl, bool enable)
--{
--	struct msm_dp_ctrl_private *ctrl;
--
--	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
--
--	msm_dp_ctrl_reset(ctrl);
--
--	/*
--	 * all dp controller programmable registers will not
--	 * be reset to default value after DP_SW_RESET
--	 * therefore interrupt mask bits have to be updated
--	 * to enable/disable interrupts
--	 */
--	msm_dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
--}
--
- static void msm_dp_ctrl_enable_sdp(struct msm_dp_ctrl_private *ctrl)
- {
- 	struct msm_dp_catalog *msm_dp_catalog = ctrl->catalog;
-@@ -1699,7 +1789,7 @@ void msm_dp_ctrl_config_psr(struct msm_dp_ctrl *msm_dp_ctrl)
- 	cfg |= PSR1_SUPPORTED;
- 	msm_dp_write_link(msm_dp_catalog, REG_PSR_CONFIG, cfg);
- 
--	msm_dp_catalog_ctrl_config_psr_interrupt(msm_dp_catalog);
-+	msm_dp_ctrl_config_psr_interrupt(ctrl);
- 	msm_dp_ctrl_enable_sdp(ctrl);
- 
- 	cfg = DP_PSR_ENABLE;
-@@ -1824,7 +1914,7 @@ static int msm_dp_ctrl_deinitialize_mainlink(struct msm_dp_ctrl_private *ctrl)
- 
- 	msm_dp_ctrl_mainlink_disable(ctrl);
- 
--	msm_dp_ctrl_reset(ctrl);
-+	msm_dp_ctrl_reset(&ctrl->msm_dp_ctrl);
- 
- 	dev_pm_opp_set_rate(ctrl->dev, 0);
- 	msm_dp_ctrl_link_clk_disable(&ctrl->msm_dp_ctrl);
-@@ -2453,7 +2543,7 @@ void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl)
- 
- 	msm_dp_ctrl_mainlink_disable(ctrl);
- 
--	msm_dp_ctrl_reset(ctrl);
-+	msm_dp_ctrl_reset(&ctrl->msm_dp_ctrl);
- 
- 	if (ctrl->stream_clks_on) {
- 		clk_disable_unprepare(ctrl->pixel_clk);
-@@ -2480,7 +2570,7 @@ irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl)
- 	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
- 
- 	if (ctrl->panel->psr_cap.version) {
--		isr = msm_dp_catalog_ctrl_read_psr_interrupt_status(ctrl->catalog);
-+		isr = msm_dp_ctrl_get_psr_interrupt(ctrl);
- 
- 		if (isr)
- 			complete(&ctrl->psr_op_comp);
-@@ -2495,8 +2585,7 @@ irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl)
- 			drm_dbg_dp(ctrl->drm_dev, "PSR frame capture done\n");
- 	}
- 
--	isr = msm_dp_catalog_ctrl_get_interrupt(ctrl->catalog);
--
-+	isr = msm_dp_ctrl_get_interrupt(ctrl);
- 
- 	if (isr & DP_CTRL_INTR_READY_FOR_VIDEO) {
- 		drm_dbg_dp(ctrl->drm_dev, "dp_video_ready\n");
-@@ -2510,6 +2599,11 @@ irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl)
- 		ret = IRQ_HANDLED;
- 	}
- 
-+	/* DP aux isr */
-+	isr = msm_dp_ctrl_get_aux_interrupt(ctrl);
-+	if (isr)
-+		ret |= msm_dp_aux_isr(ctrl->aux, isr);
-+
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index b7abfedbf5749c25877a0b8ba3af3d8ed4b23d67..10a4b7cf0335a584b4db67baca882620d7bab74c 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -30,7 +30,7 @@ struct msm_dp_ctrl *msm_dp_ctrl_get(struct device *dev, struct msm_dp_link *link
- 			struct msm_dp_catalog *catalog,
- 			struct phy *phy);
- 
--void msm_dp_ctrl_reset_irq_ctrl(struct msm_dp_ctrl *msm_dp_ctrl, bool enable);
-+void msm_dp_ctrl_reset(struct msm_dp_ctrl *msm_dp_ctrl);
- void msm_dp_ctrl_phy_init(struct msm_dp_ctrl *msm_dp_ctrl);
- void msm_dp_ctrl_phy_exit(struct msm_dp_ctrl *msm_dp_ctrl);
- void msm_dp_ctrl_irq_phy_exit(struct msm_dp_ctrl *msm_dp_ctrl);
-@@ -41,4 +41,7 @@ void msm_dp_ctrl_config_psr(struct msm_dp_ctrl *msm_dp_ctrl);
- int msm_dp_ctrl_core_clk_enable(struct msm_dp_ctrl *msm_dp_ctrl);
- void msm_dp_ctrl_core_clk_disable(struct msm_dp_ctrl *msm_dp_ctrl);
- 
-+void msm_dp_ctrl_enable_irq(struct msm_dp_ctrl *msm_dp_ctrl);
-+void msm_dp_ctrl_disable_irq(struct msm_dp_ctrl *msm_dp_ctrl);
-+
- #endif /* _DP_CTRL_H_ */
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 8f8fa0cb8af67383ecfce026ee8840f70b82e6da..af39dc5e52cbe93c5b4d082dbdcbff5c4890036f 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -440,7 +440,8 @@ static void msm_dp_display_host_init(struct msm_dp_display_private *dp)
- 		dp->phy_initialized);
- 
- 	msm_dp_ctrl_core_clk_enable(dp->ctrl);
--	msm_dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
-+	msm_dp_ctrl_reset(dp->ctrl);
-+	msm_dp_ctrl_enable_irq(dp->ctrl);
- 	msm_dp_aux_init(dp->aux);
- 	dp->core_initialized = true;
- }
-@@ -451,7 +452,8 @@ static void msm_dp_display_host_deinit(struct msm_dp_display_private *dp)
- 		dp->msm_dp_display.connector_type, dp->core_initialized,
- 		dp->phy_initialized);
- 
--	msm_dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
-+	msm_dp_ctrl_reset(dp->ctrl);
-+	msm_dp_ctrl_disable_irq(dp->ctrl);
- 	msm_dp_aux_deinit(dp->aux);
- 	msm_dp_ctrl_core_clk_disable(dp->ctrl);
- 	dp->core_initialized = false;
-@@ -1165,9 +1167,6 @@ static irqreturn_t msm_dp_display_irq_handler(int irq, void *dev_id)
- 	/* DP controller isr */
- 	ret |= msm_dp_ctrl_isr(dp->ctrl);
- 
--	/* DP aux isr */
--	ret |= msm_dp_aux_isr(dp->aux);
--
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
-index 3835c7f5cb984406f8fc52ea765ef2315e0d175b..d17e077ded73251624b5fb1bfbd8f213b4a86d65 100644
---- a/drivers/gpu/drm/msm/dp/dp_reg.h
-+++ b/drivers/gpu/drm/msm/dp/dp_reg.h
-@@ -21,8 +21,25 @@
- 
- #define REG_DP_CLK_CTRL				(0x00000018)
- #define REG_DP_CLK_ACTIVE			(0x0000001C)
-+
- #define REG_DP_INTR_STATUS			(0x00000020)
-+#define DP_INTR_HPD		BIT(0)
-+#define DP_INTR_AUX_XFER_DONE	BIT(3)
-+#define DP_INTR_WRONG_ADDR	BIT(6)
-+#define DP_INTR_TIMEOUT		BIT(9)
-+#define DP_INTR_NACK_DEFER	BIT(12)
-+#define DP_INTR_WRONG_DATA_CNT	BIT(15)
-+#define DP_INTR_I2C_NACK	BIT(18)
-+#define DP_INTR_I2C_DEFER	BIT(21)
-+#define DP_INTR_PLL_UNLOCKED	BIT(24)
-+#define DP_INTR_AUX_ERROR	BIT(27)
-+
- #define REG_DP_INTR_STATUS2			(0x00000024)
-+#define DP_INTR_READY_FOR_VIDEO		BIT(0)
-+#define DP_INTR_IDLE_PATTERN_SENT	BIT(3)
-+#define DP_INTR_FRAME_END		BIT(6)
-+#define DP_INTR_CRC_UPDATED		BIT(9)
-+
- #define REG_DP_INTR_STATUS3			(0x00000028)
- 
- #define REG_DP_INTR_STATUS4			(0x0000002C)
+On Fri, Nov 29, 2024 at 11:24:18PM +0800, Sui Jingfeng wrote:
+> Hi,
+>=20
+> On 2024/11/29 22:54, Maxime Ripard wrote:
+> > On Fri, Nov 29, 2024 at 10:12:02PM +0800, Sui Jingfeng wrote:
+> > > Hi,
+> > >=20
+> > > On 2024/11/29 18:51, Maxime Ripard wrote:
+> > > > On Wed, Nov 27, 2024 at 05:58:31PM +0800, Chen-Yu Tsai wrote:
+> > > > > Revisiting this thread since I just stepped on the same problem o=
+n a
+> > > > > different device.
+> > > > >=20
+> > > > > On Thu, Nov 14, 2024 at 9:12=E2=80=AFPM Maxime Ripard <mripard@ke=
+rnel.org> wrote:
+> > > > > > On Tue, Oct 29, 2024 at 10:53:49PM +0800, Fei Shao wrote:
+> > > > > > > On Thu, Oct 24, 2024 at 8:36=E2=80=AFPM Maxime Ripard <mripar=
+d@kernel.org> wrote:
+> > > > > > > > On Wed, Oct 09, 2024 at 01:23:31PM +0800, Fei Shao wrote:
+> > > > > > > > > In the mtk_dsi driver, its DSI host attach callback calls
+> > > > > > > > > devm_drm_of_get_bridge() to get the next bridge. If that =
+next bridge is
+> > > > > > > > > a panel bridge, a panel_bridge object is allocated and ma=
+naged by the
+> > > > > > > > > panel device.
+> > > > > > > > >=20
+> > > > > > > > > Later, if the attach callback fails with -EPROBE_DEFER fr=
+om subsequent
+> > > > > > > > > component_add(), the panel device invoking the callback a=
+t probe time
+> > > > > > > > > also fails, and all device-managed resources are freed ac=
+cordingly.
+> > > > > > > > >=20
+> > > > > > > > > This exposes a drm_bridge bridge_list corruption due to t=
+he unbalanced
+> > > > > > > > > lifecycle between the DSI host and the panel devices: the=
+ panel_bridge
+> > > > > > > > > object managed by panel device is freed, while drm_bridge=
+_remove() is
+> > > > > > > > > bound to DSI host device and never gets called.
+> > > > > > > > > The next drm_bridge_add() will trigger UAF against the fr=
+eed bridge list
+> > > > > > > > > object and result in kernel panic.
+> > > > > > > > >=20
+> > > > > > > > > This bug is observed on a MediaTek MT8188-based Chromeboo=
+k with MIPI DSI
+> > > > > > > > > outputting to a DSI panel (DT is WIP for upstream).
+> > > > > > > > >=20
+> > > > > > > > > As a fix, using devm_drm_bridge_add() with the panel devi=
+ce in the panel
+> > > > > > > > > path seems reasonable. This also implies a chain of poten=
+tial cleanup
+> > > > > > > > > actions:
+> > > > > > > > >=20
+> > > > > > > > > 1. Removing drm_bridge_remove() means devm_drm_panel_brid=
+ge_release()
+> > > > > > > > >      becomes hollow and can be removed.
+> > > > > > > > >=20
+> > > > > > > > > 2. devm_drm_panel_bridge_add_typed() is almost emptied ex=
+cept for the
+> > > > > > > > >      `bridge->pre_enable_prev_first` line. Itself can be =
+also removed if
+> > > > > > > > >      we move the line into drm_panel_bridge_add_typed(). =
+(maybe?)
+> > > > > > > > >=20
+> > > > > > > > > 3. drm_panel_bridge_add_typed() now calls all the needed =
+devm_* calls,
+> > > > > > > > >      so it's essentially the new devm_drm_panel_bridge_ad=
+d_typed().
+> > > > > > > > >=20
+> > > > > > > > > 4. drmm_panel_bridge_add() needs to be updated accordingl=
+y since it
+> > > > > > > > >      calls drm_panel_bridge_add_typed(). But now there's =
+only one bridge
+> > > > > > > > >      object to be freed, and it's already being managed b=
+y panel device.
+> > > > > > > > >      I wonder if we still need both drmm_ and devm_ versi=
+on in this case.
+> > > > > > > > >      (maybe yes from DRM PoV, I don't know much about the=
+ context)
+> > > > > > > > >=20
+> > > > > > > > > This is a RFC patch since I'm not sure if my understandin=
+g is correct
+> > > > > > > > > (for both the fix and the cleanup). It fixes the issue I =
+encountered,
+> > > > > > > > > but I don't expect it to be picked up directly due to the=
+ redundant
+> > > > > > > > > commit message and the dangling devm_drm_panel_bridge_rel=
+ease().
+> > > > > > > > > I plan to resend the official patch(es) once I know what =
+I supposed to
+> > > > > > > > > do next.
+> > > > > > > > >=20
+> > > > > > > > > For reference, here's the KASAN report from the device:
+> > > > > > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > > > > > >    BUG: KASAN: slab-use-after-free in drm_bridge_add+0x98=
+/0x230
+> > > > > > > > >    Read of size 8 at addr ffffff80c4e9e100 by task kworke=
+r/u32:1/69
+> > > > > > > > >=20
+> > > > > > > > >    CPU: 1 UID: 0 PID: 69 Comm: kworker/u32:1 Not tainted =
+6.12.0-rc1-next-20241004-kasan-00030-g062135fa4046 #1
+> > > > > > > > >    Hardware name: Google Ciri sku0/unprovisioned board (D=
+T)
+> > > > > > > > >    Workqueue: events_unbound deferred_probe_work_func
+> > > > > > > > >    Call trace:
+> > > > > > > > >     dump_backtrace+0xfc/0x140
+> > > > > > > > >     show_stack+0x24/0x38
+> > > > > > > > >     dump_stack_lvl+0x40/0xc8
+> > > > > > > > >     print_report+0x140/0x700
+> > > > > > > > >     kasan_report+0xcc/0x130
+> > > > > > > > >     __asan_report_load8_noabort+0x20/0x30
+> > > > > > > > >     drm_bridge_add+0x98/0x230
+> > > > > > > > >     devm_drm_panel_bridge_add_typed+0x174/0x298
+> > > > > > > > >     devm_drm_of_get_bridge+0xe8/0x190
+> > > > > > > > >     mtk_dsi_host_attach+0x130/0x2b0
+> > > > > > > > >     mipi_dsi_attach+0x8c/0xe8
+> > > > > > > > >     hx83102_probe+0x1a8/0x368
+> > > > > > > > >     mipi_dsi_drv_probe+0x6c/0x88
+> > > > > > > > >     really_probe+0x1c4/0x698
+> > > > > > > > >     __driver_probe_device+0x160/0x298
+> > > > > > > > >     driver_probe_device+0x7c/0x2a8
+> > > > > > > > >     __device_attach_driver+0x2a0/0x398
+> > > > > > > > >     bus_for_each_drv+0x198/0x200
+> > > > > > > > >     __device_attach+0x1c0/0x308
+> > > > > > > > >     device_initial_probe+0x20/0x38
+> > > > > > > > >     bus_probe_device+0x11c/0x1f8
+> > > > > > > > >     deferred_probe_work_func+0x80/0x250
+> > > > > > > > >     worker_thread+0x9b4/0x2780
+> > > > > > > > >     kthread+0x274/0x350
+> > > > > > > > >     ret_from_fork+0x10/0x20
+> > > > > > > > >=20
+> > > > > > > > >    Allocated by task 69:
+> > > > > > > > >     kasan_save_track+0x40/0x78
+> > > > > > > > >     kasan_save_alloc_info+0x44/0x58
+> > > > > > > > >     __kasan_kmalloc+0x84/0xa0
+> > > > > > > > >     __kmalloc_node_track_caller_noprof+0x228/0x450
+> > > > > > > > >     devm_kmalloc+0x6c/0x288
+> > > > > > > > >     devm_drm_panel_bridge_add_typed+0xa0/0x298
+> > > > > > > > >     devm_drm_of_get_bridge+0xe8/0x190
+> > > > > > > > >     mtk_dsi_host_attach+0x130/0x2b0
+> > > > > > > > >     mipi_dsi_attach+0x8c/0xe8
+> > > > > > > > >     hx83102_probe+0x1a8/0x368
+> > > > > > > > >     mipi_dsi_drv_probe+0x6c/0x88
+> > > > > > > > >     really_probe+0x1c4/0x698
+> > > > > > > > >     __driver_probe_device+0x160/0x298
+> > > > > > > > >     driver_probe_device+0x7c/0x2a8
+> > > > > > > > >     __device_attach_driver+0x2a0/0x398
+> > > > > > > > >     bus_for_each_drv+0x198/0x200
+> > > > > > > > >     __device_attach+0x1c0/0x308
+> > > > > > > > >     device_initial_probe+0x20/0x38
+> > > > > > > > >     bus_probe_device+0x11c/0x1f8
+> > > > > > > > >     deferred_probe_work_func+0x80/0x250
+> > > > > > > > >     worker_thread+0x9b4/0x2780
+> > > > > > > > >     kthread+0x274/0x350
+> > > > > > > > >     ret_from_fork+0x10/0x20
+> > > > > > > > >=20
+> > > > > > > > >    Freed by task 69:
+> > > > > > > > >     kasan_save_track+0x40/0x78
+> > > > > > > > >     kasan_save_free_info+0x58/0x78
+> > > > > > > > >     __kasan_slab_free+0x48/0x68
+> > > > > > > > >     kfree+0xd4/0x750
+> > > > > > > > >     devres_release_all+0x144/0x1e8
+> > > > > > > > >     really_probe+0x48c/0x698
+> > > > > > > > >     __driver_probe_device+0x160/0x298
+> > > > > > > > >     driver_probe_device+0x7c/0x2a8
+> > > > > > > > >     __device_attach_driver+0x2a0/0x398
+> > > > > > > > >     bus_for_each_drv+0x198/0x200
+> > > > > > > > >     __device_attach+0x1c0/0x308
+> > > > > > > > >     device_initial_probe+0x20/0x38
+> > > > > > > > >     bus_probe_device+0x11c/0x1f8
+> > > > > > > > >     deferred_probe_work_func+0x80/0x250
+> > > > > > > > >     worker_thread+0x9b4/0x2780
+> > > > > > > > >     kthread+0x274/0x350
+> > > > > > > > >     ret_from_fork+0x10/0x20
+> > > > > > > > >=20
+> > > > > > > > >    The buggy address belongs to the object at ffffff80c4e=
+9e000
+> > > > > > > > >     which belongs to the cache kmalloc-4k of size 4096
+> > > > > > > > >    The buggy address is located 256 bytes inside of
+> > > > > > > > >     freed 4096-byte region [ffffff80c4e9e000, ffffff80c4e=
+9f000)
+> > > > > > > > >=20
+> > > > > > > > >    The buggy address belongs to the physical page:
+> > > > > > > > >    head: order:3 mapcount:0 entire_mapcount:0 nr_pages_ma=
+pped:0 pincount:0
+> > > > > > > > >    flags: 0x8000000000000040(head|zone=3D2)
+> > > > > > > > >    page_type: f5(slab)
+> > > > > > > > >    page: refcount:1 mapcount:0 mapping:0000000000000000
+> > > > > > > > >    index:0x0 pfn:0x104e98
+> > > > > > > > >    raw: 8000000000000040 ffffff80c0003040 dead00000000012=
+2 0000000000000000
+> > > > > > > > >    raw: 0000000000000000 0000000000040004 00000001f500000=
+0 0000000000000000
+> > > > > > > > >    head: 8000000000000040 ffffff80c0003040 dead0000000001=
+22 0000000000000000
+> > > > > > > > >    head: 0000000000000000 0000000000040004 00000001f50000=
+00 0000000000000000
+> > > > > > > > >    head: 8000000000000003 fffffffec313a601 ffffffffffffff=
+ff 0000000000000000
+> > > > > > > > >    head: 0000000000000008 0000000000000000 00000000ffffff=
+ff 0000000000000000
+> > > > > > > > >    page dumped because: kasan: bad access detected
+> > > > > > > > >=20
+> > > > > > > > >    Memory state around the buggy address:
+> > > > > > > > >     ffffff80c4e9e000: fa fb fb fb fb fb fb fb fb fb fb fb=
+ fb fb fb fb
+> > > > > > > > >     ffffff80c4e9e080: fb fb fb fb fb fb fb fb fb fb fb fb=
+ fb fb fb fb
+> > > > > > > > >    >ffffff80c4e9e100: fb fb fb fb fb fb fb fb fb fb fb fb=
+ fb fb fb fb
+> > > > > > > > >                       ^
+> > > > > > > > >     ffffff80c4e9e180: fb fb fb fb fb fb fb fb fb fb fb fb=
+ fb fb fb fb
+> > > > > > > > >     ffffff80c4e9e200: fb fb fb fb fb fb fb fb fb fb fb fb=
+ fb fb fb fb
+> > > > > > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > > > > > >=20
+> > > > > > > > > Signed-off-by: Fei Shao <fshao@chromium.org>
+> > > > > > > > I was looking at the driver to try to follow your (awesome =
+btw, thanks)
+> > > > > > > > commit log, and it does have a quite different structure co=
+mpared to
+> > > > > > > > what we recommend.
+> > > > > > > >=20
+> > > > > > > > Would following
+> > > > > > > > https://docs.kernel.org/gpu/drm-kms-helpers.html#special-ca=
+re-with-mipi-dsi-bridges
+> > > > > > > > help?
+> > > > > > > Hi Maxime,
+> > > > > > >=20
+> > > > > > > Thank you for the pointer.
+> > > > > > > I read the suggested pattern in the doc and compared it with =
+the
+> > > > > > > drivers. If I understand correctly, both the MIPI-DSI host an=
+d panel
+> > > > > > > drivers follow the instructions:
+> > > > > > >=20
+> > > > > > > 1. The MIPI-DSI host driver must run mipi_dsi_host_register()=
+ in its probe hook.
+> > > > > > >      >> drm/mediatek/mtk_dsi.c runs mipi_dsi_host_register() =
+in the probe hook.
+> > > > > > > 2. In its probe hook, the bridge driver must try to find its =
+MIPI-DSI
+> > > > > > > host, register as a MIPI-DSI device and attach the MIPI-DSI d=
+evice to
+> > > > > > > its host.
+> > > > > > >      >> drm/panel/panel-himax-hx83102.c follows and runs
+> > > > > > > mipi_dsi_attach() at the end of probe hook.
+> > > > > > > 3. In its struct mipi_dsi_host_ops.attach hook, the MIPI-DSI =
+host can
+> > > > > > > now add its component.
+> > > > > > >      >> drm/mediatek/mtk_dsi.c calls component_add() in the a=
+ttach callback.
+> > > > > > >=20
+> > > > > > > Could you elaborate on the "different structures" you mention=
+ed?
+> > > > > > Yeah, you're right, sorry.
+> > > > > >=20
+> > > > > > > To clarify my point: the issue is that component_add() may re=
+turn
+> > > > > > > -EPROBE_DEFER if the component (e.g. DSI encoder) is not read=
+y,
+> > > > > > > causing the panel bridge to be removed. However, drm_bridge_r=
+emove()
+> > > > > > > is bound to MIPI-DSI host instead of panel bridge, which owns=
+ the
+> > > > > > > actual list_head object.
+> > > > > > >=20
+> > > > > > > This might be reproducible with other MIPI-DSI host + panel
+> > > > > > > combinations by forcibly returning -EPROBE_DEFER in the host =
+attach
+> > > > > > > hook (verification with another device is needed), so the fix=
+ may be
+> > > > > > > required in drm/bridge/panel.c.
+> > > > > > Yeah, I think you're just hitting another bridge lifetime issue=
+, and
+> > > > > > it's not the only one unfortunately. Tying the bridge structure=
+ lifetime
+> > > > > > itself to the device is wrong, it should be tied to the DRM dev=
+ice
+> > > > > > lifetime instead.
+> > > > > I think the more immediate issue is that the bridge object's life=
+time
+> > > > > and drm_bridge_add/remove are inconsistent when devm_drm_of_get_b=
+ridge()
+> > > > > or drmm_of_get_bridge() are used.
+> > > > >=20
+> > > > > These helpers tie the bridge add/removal to the device or drm_dev=
+ice
+> > > > > passed in, but internally they call down to drm_panel_bridge_add_=
+typed()
+> > > > > which allocates the bridge object tied to the panel device.
+> > > > > > But then, the discussion becomes that bridges typically probe o=
+utside of
+> > > > > > the "main" DRM device probe path, so you don't have access to t=
+he DRM
+> > > > > > device structure until attach at best.
+> > > > > >=20
+> > > > > > That's why I'm a bit skeptical about your patch. It might worka=
+round
+> > > > > > your issue, but it doesn't actually solve the problem. I guess =
+the best
+> > > > > > way about it would be to convert bridges to reference counting,=
+ with the
+> > > > > > device taking a reference at probe time when it allocates the s=
+tructure
+> > > > > > (and giving it back at remove time), and the DRM device taking =
+one when
+> > > > > > it's attached and one when it's detached.
+> > > > > Without going as far, it's probably better to align the lifecycle=
+ of
+> > > > > the two parts. Most other bridge drivers in the kernel have |drm_=
+bridge|
+> > > > > lifecycle tied to their underlying |device|, either with explicit
+> > > > > drm_bridge_{add,remove}() calls in their probe/bind and remove/un=
+bind
+> > > > > callbacks respectively, or with devm_drm_bridge_add in the probe/=
+bind
+> > > > > path. The only ones with a narrower lifecycle are the DSI hosts, =
+which
+> > > > > add the bridge in during host attach and remove it during host de=
+tach.
+> > > > >=20
+> > > > > I'm thinking about fixing the panel_bridge lifecycle such that it=
+ is
+> > > > > tied to the panel itself. Maybe that would involve making
+> > > > > devm_drm_of_get_bridge() correctly return bridges even if a panel=
+ was
+> > > > > found, and then making the panels create and add panel bridges di=
+rectly,
+> > > > > possibly within drm_panel_add(). Would that make sense?
+> > > > Not really.
+> > >=20
+> > > [...]
+> > >=20
+> > >=20
+> > > > Or rather, it doesn't fix the root cause that is that tieing
+> > > > the bridge lifetime to the device is wrong.
+> > >=20
+> > > This is multiple kernel driver module probe issue, not an issue
+> > > about bridge's lifetime.
+> > >=20
+> > >=20
+> > > The life time of the bridge of an 'struct panel_bridge' has
+> > > been tied to the 'panel->dev' since 2017 [1].
+> > >=20
+> > > See commit 13dfc0540a575b47b2d640b093ac16e9e09474f6
+> > > ("drm/bridge: Refactor out the panel wrapper from the lvds-encoder br=
+idge.")
+> > >=20
+> > > [1] https://patchwork.freedesktop.org/patch/159673/
+> > Yeah, and it's been wrong since 2017.
+> >=20
+> > > >    It needs to be tied to the DRM device somehow.
+> > > Why?
+> > Because the DRM device is only free'd when the last userspace
+> > application has closed it's FD to it, which might much later than the
+> > device being removed. So if we tie that to the device lifetime, and the
+> > device goes away, we have a dangling pointer and potential
+> > use-after-free issue if the application continues to access its fd.
+> >=20
+> > > It's the underlying hardware device backing the bridge, if the
+> > > backing hardware device has been freed, How does the bound drm
+> > > bridge driver could continue to work?
+> > Using drm_dev_enter/drm_dev_exit.
+> >=20
+> > > How could the dangling pointer stored in the bridge_list still
+> > > will make sense?
+> > It's dangling only if the bridge has been free'd while still having a
+> > pointer to it. If you have a reference counted allocation, it's not
+> > dangling anymore.
+>=20
+> I meant that in the deferral context, the underlying panel device has
+> been freed. You could keep the allocated storage in memory, but this
+> is in vain.
 
--- 
-2.39.5
+It prevents memory safety issues.
 
+> The real hardware has gone, the reference counted allocation could
+> only stand for the panel bridge itself, without the real hardware
+> backing there. It can not fully functional.
+
+Yes, but that's not the point?
+
+> As far as I could understand, in the deferral context, tears down
+> everything is standard behavior. This is not very related to the
+> lifetime.
+>=20
+> > > The imx-lcdif could instantiate three DRM driver, which one
+> > > should be selected as the "main" DRM device to attach?
+> > The one the bridge attaches to?
+>
+> The point is how can we select one from it.
+
+bridge->dev ?
+
+> > > No, It is messy since day 0. And has been made worse since 2017,
+> > > from then, thedevm_drm_panel_bridge_add() [2] was initially introduce=
+d.
+> > > Which allow us to abuse the lifetime of bridge to a different device =
+or (any
+> > > device).
+> > I agree it's messy. I'm sure you'd agree that we do not want to make the
+> > situation any messier.
+> >=20
+> > > Maxime's patch just follow this way, but if the caller side
+> > > wise enough to refuse to use those helper, we should be still
+> > > safe. That why I suggest ChenYu to inline and with a little bit
+> > > revise.
+> > Hi! I'm that Maxime. And it was indeed a mistake in hindsight.
+> >=20
+> > Maxime
+> >=20
+> > > [2] https://patchwork.freedesktop.org/patch/167666/
+> > >=20
+> > > [3]
+> > > https://lore.kernel.org/dri-devel/20210910130941.1740182-2-maxime@cer=
+no.tech/
+> > >=20
+> > > > Your suggestion might indeed work around your issue,
+> > > To be clear, the mentioned problem in this thread is caused
+> > > by deferral probe. We should remove the dangling pointer
+> > > stored in the bridge_list, This is just something similar to
+> > > the fault cleanup or error handling, Right?
+> > >=20
+> > > But the fundamental=C2=A0thing is that the issue is happened in
+> > > the deferral probe context.
+> > The context doesn't matter here.
+>=20
+>=20
+> Its an important factor, it really matters.
+>=20
+> One fundamental criteria, I think, is that *if* other
+> bridge + KMS driver combinations suffer from the same problem.
+
+All of them do. We just collectively stick our head in the sand.
+
+> Apparently,=C2=A0other drm bridge users didn't report similar problem.
+> This means that non devm_drm_of_get_bridge() callers are different
+> with those devm_drm_of_get_bridge() callers.
+
+Nope. They are strictly equivalent.
+
+Maxime
+
+--n47u4sjvb2gewrzg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ02IIgAKCRAnX84Zoj2+
+dqAAAYD5bMuutsNSsaM9TphkpmFUO2nu1/Z185co6VIp5k6qkvDap7Plw5Z156ic
+k9bKvzgBfiAI+OeyEuN8OMoX2XTZ8aMxQUJDvavovTA4csCBNxwZ209VomxG5wt9
+22vP28hMIQ==
+=zux1
+-----END PGP SIGNATURE-----
+
+--n47u4sjvb2gewrzg--
