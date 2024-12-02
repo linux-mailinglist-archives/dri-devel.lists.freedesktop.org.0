@@ -2,81 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5059DFD45
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 10:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FE09DFD58
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 10:38:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6FB110E681;
-	Mon,  2 Dec 2024 09:35:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED8710E68C;
+	Mon,  2 Dec 2024 09:38:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="V8UUQJuq";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="rGLF/QZ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1491B10E681
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 09:35:32 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2ffa974b2b0so38744181fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 01:35:31 -0800 (PST)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6457010E68C
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 09:38:09 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id
+ 46e09a7af769-71d40573d03so1557064a34.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 01:38:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733132130; x=1733736930; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=dt2TVt20eO+6fZpSm814SQa3ex5u0vscKnXHANIdRWE=;
- b=V8UUQJuq77Dl/oXJaF0lsQzPpp5SqbcVT/14IBeQfHfPsXG3e3lCXM6dGvE+cqB2Kn
- odx6JfvhJEPMuO8l3FqJxftd82j+3zmeES/YHk4vEbGZg57H30lFk9KT4UK3q3VZIWMr
- VFCBc4En1Be4r+dGeEGrOTUFMt8urql8A1Cv2ybDPKnA2YUCekaDAd123uakQc6qF4pE
- Rbal7pGkN5YHFvhc5p+woKtoc9LDzdrfvV7Y02623RDTZJq5FtgtFH6xsgpPz4OYjGYX
- I3Vaz7zlHMI4vzvwZyd0xwDsuMSOfbN2SurQ3i5PMv0SMcAyxm0wcXHVWkg0i/8AzggB
- Hq3w==
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1733132288; x=1733737088;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
+ :user-agent:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=iTAHukQDOhRmCnoHVRWCZSaR6X9fYnJA+kiQMKbXQ6U=;
+ b=rGLF/QZ5E/oNad9mxGuArxqtGSpLcfDh3jRVDF4ouapAysxQKI9EPi4Onwicc0oKYl
+ w3/1V63RYflXZde0x4koOpTuoA6WJD3KSifo0MPI6CibarWTYCWLvOQWa5L4Sl0w39VE
+ e7UhibPR0a7ZasYuPMXbvzz+xUb1oLlz2br0uOE3Zk+FumdX5A0PmHPsuTPMiAj5SCCG
+ u9wU9pnMh9w7wmVKy5wx0t4EKb9ay09ELn/Ing6gzx1P+xWsuEJ7pKhkRRyW5vuZwvv7
+ DNWE39bZ8+jo565wZTw35Las5q/NeKDKK2SOEzIEtQAx9RknInit9zsL5hQJ8l8Ut3ZO
+ 8jXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733132130; x=1733736930;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1733132288; x=1733737088;
+ h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
+ :user-agent:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dt2TVt20eO+6fZpSm814SQa3ex5u0vscKnXHANIdRWE=;
- b=TuJUwMQ4hLDQtS1H9DNuJHeaP2p/b4GPxl1pt3hfsjV5qd9/tLLK4k6k0s5gWpn0WO
- xVnesrWJR/U5H7jo95+0rpalB6et3FMrp4K1KyB9LyncvZfzBhWYq9Jb6gZm6h2+y0NG
- tFvombR5lT/Ar3HqlE7jOGib9LyNAyjHiFLCGef4lrxMJhuutCsecCBXQTiCwB8Rm9Er
- n41to2hMe/3CzuLayCnBgWaRx9UQsoP4u9/mEUcbXemCKbvQa0gs4AhQ+kiVWxqZQEtA
- T8TUoP5X9C1D6cfJs9T+AVbzIP7gA6Y8BKUQqIVawF+dYBLNdOGmMppFTQIV7Cf8PZ2R
- nzeA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8VP31ZGkMci503NRV4F6CW3V1Yc+xwgBInvM18vS/WxSQ5uyl4Yl+2B1O6f/mNTWe2aKpuSrOMPE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1BNSFyubCeLvsGTyEpHrmaAWBY7VoYxI7YVr2jY1849dt3qC5
- /K4UlqFt7koaGikkE/UHqoTlpqyLlHdtD0HPj/OkNUSfv5I7GbMsJmEti1I7apo=
-X-Gm-Gg: ASbGnctQpyzSaoYdg20xF5reLHNJLsTc52DgCNgSgq2odJ9sV7xmfHx7dlJSXGlKIZa
- 8k3ifRRgD8BZDPcwf5ic9vVq0QHJPcFFromjRhpbTb8VHqVDNE7W/E96oZT1H8sq8OqEk/BWG5/
- LgUfg8OUzIn2+QiUtVdeicQ0bXnfjNiO6Pz6QczaXSou+k8I1R85oP7ZhZZjg2J6frKq/DEjIgx
- hETqc5rgjLE57YJq7Imthe11eqZiUMTIeRBz1mjHzk7r4zPPVSd6XPAdwAEuVRLmnD2sWMNtrkB
- wLxyaW9IedNPHANcg+U5Odcg1u6cVQ==
-X-Google-Smtp-Source: AGHT+IHNU47uQDa5zlYUyUe13GGmMqDc5+hiwAOH746/APHiIUBloLMtC0ny5VGjuUcBVKRBt4XeOw==
-X-Received: by 2002:a2e:a987:0:b0:2ff:c8a1:c4d1 with SMTP id
- 38308e7fff4ca-2ffd60ac1c8mr100084341fa.22.1733132130015; 
- Mon, 02 Dec 2024 01:35:30 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2ffdfca1302sm12472391fa.103.2024.12.02.01.35.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2024 01:35:28 -0800 (PST)
-Date: Mon, 2 Dec 2024 11:35:26 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Ekansh Gupta <quic_ekangupt@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org, 
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, 
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de
-Subject: Re: [PATCH v5 1/2] misc: fastrpc: Add support for multiple PD from
- one process
-Message-ID: <pqes6ixjbcvvicnfairzmy4gqokffy5aixqnadu2exi2d5rxar@ywify4ambmtr>
-References: <20241202064806.1164800-1-quic_ekangupt@quicinc.com>
- <20241202064806.1164800-2-quic_ekangupt@quicinc.com>
+ bh=iTAHukQDOhRmCnoHVRWCZSaR6X9fYnJA+kiQMKbXQ6U=;
+ b=MJggFFPjvyCh5qBF430i1U323COwPUJ7mXLRd7wzBKrwr1NaipxwvsGliYGVe/uZPI
+ ztkGqWcvF3glaXJxXBidf7n2Q/fS/ixL8GDq7oWipolE+s1rywUo7m274TbCoyTlzdOZ
+ mRq/sIAGEC+5cM0bDnZWfIHm8SFQsG+b3kdBAqMmAsiAh9pY4YDjAyUZbd+mA7+dW1Jm
+ zZuWFjrfmJNA9C8eeYLCcVmHroYhJeivWpbYlQyDXY0VtjYsBF3ukpVjBe/XGHcDxhX5
+ ZmcVANnBuwtMsP2JhmmnXJAWtwTBthc80xK4/u6y0NljhGjQGMnq/MFsQgzSzgL+nSb4
+ SfVg==
+X-Gm-Message-State: AOJu0YzF0oULE8kWi4IR+V5KBf9tai8VzavY4RyCAqBl0S4LOScrK58b
+ 71pDjImwuKRK4sMLUjTVepXz0VDxLyUc5SugdFhg+uMZkq1Q3cpVbOxdBiLuelbiqsyrV5cuWag
+ Onn0fdNy10HNa0krWYzv4Vt5kst/w4Xgu43HWTw==
+X-Gm-Gg: ASbGncsduAKLKE0OMaYbGaYENEd6MyUe2YP8cPXuZ2AVblvxfp+RFaugn1kfGUcuEj6
+ p/R6UrqtgqOv8pfwNmbp8g86v1B0T2w==
+X-Google-Smtp-Source: AGHT+IGFYBkRu+t9Rgm8uEYvRACv3R8GZFuyUPEoCQ2kFsszRxvWlytkFAb4tTArftXgRYmzaFXCGr9/hwxPw8QMZIA=
+X-Received: by 2002:a05:6830:6d84:b0:71d:559d:de29 with SMTP id
+ 46e09a7af769-71d65cce8femr13291782a34.17.1733132288329; Mon, 02 Dec 2024
+ 01:38:08 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 2 Dec 2024 03:38:07 -0600
+From: Guillaume Ranquet <granquet@baylibre.com>
+User-Agent: meli 0.8.9
+References: <20241128030940.25657-1-liankun.yang@mediatek.com>
+In-Reply-To: <20241128030940.25657-1-liankun.yang@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241202064806.1164800-2-quic_ekangupt@quicinc.com>
+Date: Mon, 2 Dec 2024 03:38:07 -0600
+Message-ID: <CABnWg9tDMkKkFbQpL8YphOBu3_2zr_q4YASnO-UYMrdM22wCuQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] drm/mediatek: Add return value check when reading
+ DPCD
+To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org, 
+ p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch, 
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+ ck.hu@mediatek.com, dmitry.osipenko@collabora.com, rex-bc.chen@mediatek.com, 
+ jitao.shi@mediatek.com, mac.shen@mediatek.com, peng.liu@mediatek.com, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,43 +87,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2024 at 12:18:05PM +0530, Ekansh Gupta wrote:
-> Memory intensive applications(which requires more tha 4GB) that wants
-> to offload tasks to DSP might have to split the tasks to multiple
-> user PD to make the resources available.
-> 
-> For every call to DSP, fastrpc driver passes the process tgid which
-> works as an identifier for the DSP to enqueue the tasks to specific PD.
-> With current design, if any process opens device node more than once
-> and makes PD init request, same tgid will be passed to DSP which will
-> be considered a bad request and this will result in failure as the same
-> identifier cannot be used for multiple DSP PD.
-> 
-> Assign and pass a client ID to DSP which would be assigned during device
-> open and will be dependent on the index of session allocated for the PD.
-> This will allow the same process to open the device more than once and
-> spawn multiple dynamic PD for ease of processing.
-> 
-> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
-> ---
->  drivers/misc/fastrpc.c | 29 +++++++++++++++--------------
->  1 file changed, 15 insertions(+), 14 deletions(-)
-> 
-> @@ -1480,6 +1481,7 @@ static struct fastrpc_session_ctx *fastrpc_session_alloc(
->  		if (!cctx->session[i].used && cctx->session[i].valid) {
->  			cctx->session[i].used = true;
->  			session = &cctx->session[i];
-> +			fl->client_id = i + 1;
+On Thu, 28 Nov 2024 04:08, Liankun Yang <liankun.yang@mediatek.com> wrote:
+>Returns the number of bytes transferred (1) on success.
+>Check the return value to confirm that AUX communication is successful.
+>
+>Fixes: d9e6ea02fc3f ("drm/mediatek: dp: Add MT8195 External DisplayPort support")
+>
+>Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+>---
+>Changes in V2:
+>- Modify Fixes in Commit Message.
+>Per suggestion from the previous thread:
+>https://patchwork.kernel.org/project/linux-mediatek/patch/20240930092000.5385-1-liankun.yang@mediatek.com/
+>---
+> drivers/gpu/drm/mediatek/mtk_dp.c | 8 +++++++-
+> 1 file changed, 7 insertions(+), 1 deletion(-)
+>
+>diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+>index 1cc916b16471..9dc68ec2ff43 100644
+>--- a/drivers/gpu/drm/mediatek/mtk_dp.c
+>+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+>@@ -2101,6 +2101,7 @@ static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
+> 	enum drm_connector_status ret = connector_status_disconnected;
+> 	bool enabled = mtk_dp->enabled;
+> 	u8 sink_count = 0;
+>+	size_t value;
+>
+> 	if (!mtk_dp->train_info.cable_plugged_in)
+> 		return ret;
+>@@ -2115,7 +2116,12 @@ static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
+> 	 * function, we just need to check the HPD connection to check
+> 	 * whether we connect to a sink device.
+> 	 */
+>-	drm_dp_dpcd_readb(&mtk_dp->aux, DP_SINK_COUNT, &sink_count);
+>+	value = drm_dp_dpcd_readb(&mtk_dp->aux, DP_SINK_COUNT, &sink_count);
+>+	if (value < 0) {
+>+		drm_err(mtk_dp->drm_dev, "Failed to read DP Sink Count: %zd\n", value);
+>+		return ret;
+>+	}
+>+
+> 	if (DP_GET_SINK_COUNT(sink_count))
+> 		ret = connector_status_connected;
 
-/* any non-zero ID will work, session_idx + 1 is the simplest one */
+Hi Liankun,
 
-With the comment in place, LGTM
+thx for your fix.
+I think your patch could be improved by using the drm_dp_helper
+function drm_dp_read_sink_count() ?
 
+Thx,
+Guillaume.
 
->  			break;
->  		}
->  	}
-
--- 
-With best wishes
-Dmitry
+>
+>--
+>2.45.2
