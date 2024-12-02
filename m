@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33EEC9E010C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 12:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2524F9E0118
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 12:59:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD30F10E221;
-	Mon,  2 Dec 2024 11:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A519910E6EA;
+	Mon,  2 Dec 2024 11:59:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pTG74Dfp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IQU65M29";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0952210E221
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 11:58:32 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAF6C10E6EA
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 11:59:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6020BA402F2;
- Mon,  2 Dec 2024 11:56:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3FBC4CED1;
- Mon,  2 Dec 2024 11:58:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A45BB5C63C7;
+ Mon,  2 Dec 2024 11:59:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11493C4CED1;
+ Mon,  2 Dec 2024 11:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733140710;
- bh=xWdd34sIxw1QC1x4Q76ZWScjmX8Hy+8IhaCa3EtPKkg=;
- h=From:To:Cc:Subject:Date:From;
- b=pTG74DfpO7n6pT6UlLdkSl6z8ruFuFabicESGoIsGLuFdOAEJz5VHSsCx7HBZqw4i
- 0dgtTI/hbPMOBs0miUx4pIcVFWR+jxDuYwITDqzh2e8kkTgZIVw6Fn2jGjIn02YNRT
- uqLPMxjp5KRnAUBpaCC5smc3PrSXYUA7b7J3UXIe75C4tPax25Vf4nYgkVYRD8ikk1
- ay+XCU0hQ0DWFGWWfX9m4qKw/Gge0DXZJCyAniIX6+0Xz8rAPx17XWjDn6kiZZHDE7
- MXWoH/tkYjJTPwwDvclNVJPdsDOrnCqbmHEh7d4aRfU3HzZpz/JS+YtIV6PIdhSY/m
- 3WiXN4BwAiFNg==
+ s=k20201202; t=1733140788;
+ bh=JT1goFQcBxa4ii8FS7z1ezsrRpulliTnkPm8vr3KN/0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IQU65M29d4OkFYaktMObE4+dzjrLv2EARU7k8bNOGcBEZKTpy11ajBjFV3NjkfxDc
+ ipAeZoa4J75VD+tj9FpOD1vSnEpb+wGzbwpcPpCQm2CEgEh5Dw29RVkE/CQUBRtZK/
+ VRO3oMkNytO3tw3kY25QZeiJ9vqn5EfonwofWCUNmO0/55tsQ4bHUrCCw7/kk962jp
+ h6wA9MFZZlJHxicg8reArWn21AGwxnociD8DQoeRpWEULZQwNDjvDNoWgXe7jMNmI4
+ zgeeXOcw6QavU+12hqcUqVYMBcwBBttzcAEzLOoegU3zto2RqbjyIOalcG490m/NWv
+ bkOOYIvgL1cHA==
+Date: Mon, 2 Dec 2024 12:59:45 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-media@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v2] Documentation: dma-buf: heaps: Add heap name definitions
-Date: Mon,  2 Dec 2024 12:58:27 +0100
-Message-ID: <20241202115827.50388-1-mripard@kernel.org>
-X-Mailer: git-send-email 2.47.1
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] drm/connector: hdmi: Add support for YUV420 format
+ verification
+Message-ID: <20241202-divergent-holistic-seal-b24cd6@houat>
+References: <20241130-hdmi-conn-yuv-v1-0-254279a08671@collabora.com>
+ <20241130-hdmi-conn-yuv-v1-2-254279a08671@collabora.com>
+ <20241202-determined-sloppy-impala-2ca0f1@houat>
+ <a00ba6bb-aa91-4ecf-a4e7-88d80e29dedc@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="qszps75hpkmz2px4"
+Content-Disposition: inline
+In-Reply-To: <a00ba6bb-aa91-4ecf-a4e7-88d80e29dedc@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,135 +64,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following a recent discussion at last Plumbers, John Stultz, Sumit
-Sewal, TJ Mercier and I came to an agreement that we should document
-what the dma-buf heaps names are expected to be, and what the buffers
-attributes you'll get should be documented.
 
-Let's create that doc to make sure those attributes and names are
-guaranteed going forward.
+--qszps75hpkmz2px4
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/3] drm/connector: hdmi: Add support for YUV420 format
+ verification
+MIME-Version: 1.0
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On Mon, Dec 02, 2024 at 01:15:36PM +0200, Cristian Ciocaltea wrote:
+> Hi Maxime,
+>=20
+> On 12/2/24 12:50 PM, Maxime Ripard wrote:
+> > On Sat, Nov 30, 2024 at 01:56:33AM +0200, Cristian Ciocaltea wrote:
+> >> Provide the necessary constraints verification in
+> >> sink_supports_format_bpc() in order to support handling of YUV420
+> >> output format.
+> >>
+> >> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> >> ---
+> >>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 40 ++++++++++++++++=
++++++++--
+> >>  1 file changed, 37 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers=
+/gpu/drm/display/drm_hdmi_state_helper.c
+> >> index 0cbcee7e77cd8dff387044487ce28ee5748f5587..3a55881a544a519bb12549=
+68db891c814f831a0f 100644
+> >> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> >> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> >> @@ -3,6 +3,7 @@
+> >>  #include <drm/drm_atomic.h>
+> >>  #include <drm/drm_connector.h>
+> >>  #include <drm/drm_edid.h>
+> >> +#include <drm/drm_modes.h>
+> >>  #include <drm/drm_print.h>
+> >> =20
+> >>  #include <drm/display/drm_hdmi_helper.h>
+> >> @@ -114,6 +115,12 @@ sink_supports_format_bpc(const struct drm_connect=
+or *connector,
+> >>  		return false;
+> >>  	}
+> >> =20
+> >> +	if (drm_mode_is_420_only(info, mode) && format !=3D HDMI_COLORSPACE_=
+YUV420) {
+> >> +		drm_dbg_kms(dev, "%s format unsupported by the sink for VIC%u.\n",
+> >> +			    drm_hdmi_connector_get_output_format_name(format), vic);
+> >> +		return false;
+> >> +	}
+> >> +
+> >>  	switch (format) {
+> >>  	case HDMI_COLORSPACE_RGB:
+> >>  		drm_dbg_kms(dev, "RGB Format, checking the constraints.\n");
+> >> @@ -144,9 +151,36 @@ sink_supports_format_bpc(const struct drm_connect=
+or *connector,
+> >>  		return true;
+> >> =20
+> >>  	case HDMI_COLORSPACE_YUV420:
+> >> -		/* TODO: YUV420 is unsupported at the moment. */
+> >> -		drm_dbg_kms(dev, "YUV420 format isn't supported yet.\n");
+> >> -		return false;
+> >> +		drm_dbg_kms(dev, "YUV420 format, checking the constraints.\n");
+> >> +
+> >> +		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR420)) {
+> >> +			drm_dbg_kms(dev, "Sink doesn't support YUV420.\n");
+> >> +			return false;
+> >> +		}
+> >> +
+> >> +		if (!drm_mode_is_420(info, mode)) {
+> >> +			drm_dbg_kms(dev, "Sink doesn't support YUV420 for VIC%u.\n", vic);
+> >> +			return false;
+> >> +		}
+> >> +
+> >> +		if (bpc =3D=3D 10 && !(info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420=
+_DC_30)) {
+> >> +			drm_dbg_kms(dev, "10 BPC but sink doesn't support Deep Color 30.\n=
+");
+> >> +			return false;
+> >> +		}
+> >> +
+> >> +		if (bpc =3D=3D 12 && !(info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420=
+_DC_36)) {
+> >> +			drm_dbg_kms(dev, "12 BPC but sink doesn't support Deep Color 36.\n=
+");
+> >> +			return false;
+> >> +		}
+> >> +
+> >> +		if (bpc =3D=3D 16 && !(info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420=
+_DC_48)) {
+> >> +			drm_dbg_kms(dev, "16 BPC but sink doesn't support Deep Color 48.\n=
+");
+> >> +			return false;
+> >> +		}
+> >> +
+> >> +		drm_dbg_kms(dev, "YUV420 format supported in that configuration.\n"=
+);
+> >> +
+> >> +		return true;
+> >=20
+> > We also need to check whether the source supports it or not.
+>=20
+> I assumed the following check does already handle that:
+>=20
+> 	if (!(connector->hdmi.supported_formats & BIT(format))) {
+> 		drm_dbg_kms(dev, "%s format unsupported by the connector.\n",
+>=20
+> Is there anything else missing?
 
----
-Changes from v1:
-  - Add the mention that the cma / reserved heap is optional.
+You're right, sorry for the noise :)
 
-To: Jonathan Corbet <corbet@lwn.net>
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: John Stultz <jstultz@google.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-media@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
----
- Documentation/userspace-api/dma-buf-heaps.rst | 76 +++++++++++++++++++
- Documentation/userspace-api/index.rst         |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
+Maxime
 
-diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-new file mode 100644
-index 000000000000..68be7ddea150
---- /dev/null
-+++ b/Documentation/userspace-api/dma-buf-heaps.rst
-@@ -0,0 +1,76 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+Allocating dma-buf using heaps
-+==============================
-+
-+Dma-buf Heaps are a way for userspace to allocate dma-buf objects. They are
-+typically used to allocate buffers from a specific allocation pool, or to share
-+buffers across frameworks.
-+
-+Heaps
-+=====
-+
-+A heap represent a specific allocator. The Linux kernel currently supports the
-+following heaps:
-+
-+ - The ``system`` heap allocates virtually contiguous, cacheable, buffers
-+
-+ - The ``reserved`` heap allocates physically contiguous, cacheable,
-+   buffers. Only present if a CMA region is present. Such a region is
-+   usually created either through the kernel commandline through the
-+   `cma` parameter, a memory region Device-Tree node with the
-+   `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
-+   `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
-+   might be called differently:
-+
-+    - Acer Iconia Tab A500: ``linux,cma``
-+    - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
-+    - Amlogic A1: ``linux,cma``
-+    - Amlogic G12A/G12B/SM1: ``linux,cma``
-+    - Amlogic GXBB/GXL: ``linux,cma``
-+    - ASUS EeePad Transformer TF101: ``linux,cma``
-+    - ASUS Google Nexus 7 (Project Bach / ME370TG) E1565: ``linux,cma``
-+    - ASUS Google Nexus 7 (Project Nakasi / ME370T) E1565: ``linux,cma``
-+    - ASUS Google Nexus 7 (Project Nakasi / ME370T) PM269: ``linux,cma``
-+    - Asus Transformer Infinity TF700T: ``linux,cma``
-+    - Asus Transformer Pad 3G TF300TG: ``linux,cma``
-+    - Asus Transformer Pad TF300T: ``linux,cma``
-+    - Asus Transformer Pad TF701T: ``linux,cma``
-+    - Asus Transformer Prime TF201: ``linux,cma``
-+    - ASUS Vivobook S 15: ``linux,cma``
-+    - Cadence KC705: ``linux,cma``
-+    - Digi International ConnectCore 6UL: ``linux,cma``
-+    - Freescale i.MX8DXL EVK: ``linux,cma``
-+    - Freescale TQMa8Xx: ``linux,cma``
-+    - Hisilicon Hikey: ``linux,cma``
-+    - Lenovo ThinkPad T14s Gen 6: ``linux,cma``
-+    - Lenovo ThinkPad X13s: ``linux,cma``
-+    - Lenovo Yoga Slim 7x: ``linux,cma``
-+    - LG Optimus 4X HD P880: ``linux,cma``
-+    - LG Optimus Vu P895: ``linux,cma``
-+    - Loongson 2k0500, 2k1000 and 2k2000: ``linux,cma``
-+    - Microsoft Romulus: ``linux,cma``
-+    - NXP i.MX8ULP EVK: ``linux,cma``
-+    - NXP i.MX93 9x9 QSB: ``linux,cma``
-+    - NXP i.MX93 11X11 EVK: ``linux,cma``
-+    - NXP i.MX93 14X14 EVK: ``linux,cma``
-+    - NXP i.MX95 19X19 EVK: ``linux,cma``
-+    - Ouya Game Console: ``linux,cma``
-+    - Pegatron Chagall: ``linux,cma``
-+    - PHYTEC phyCORE-AM62A SOM: ``linux,cma``
-+    - PHYTEC phyCORE-i.MX93 SOM: ``linux,cma``
-+    - Qualcomm SC8280XP CRD: ``linux,cma``
-+    - Qualcomm X1E80100 CRD: ``linux,cma``
-+    - Qualcomm X1E80100 QCP: ``linux,cma``
-+    - RaspberryPi: ``linux,cma``
-+    - Texas Instruments AM62x SK board family: ``linux,cma``
-+    - Texas Instruments AM62A7 SK: ``linux,cma``
-+    - Toradex Apalis iMX8: ``linux,cma``
-+    - TQ-Systems i.MX8MM TQMa8MxML: ``linux,cma``
-+    - TQ-Systems i.MX8MN TQMa8MxNL: ``linux,cma``
-+    - TQ-Systems i.MX8MPlus TQMa8MPxL: ``linux,cma``
-+    - TQ-Systems i.MX8MQ TQMa8MQ: ``linux,cma``
-+    - TQ-Systems i.MX93 TQMa93xxLA/TQMa93xxCA SOM: ``linux,cma``
-+    - TQ-Systems MBA6ULx Baseboard: ``linux,cma``
-+
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index 274cc7546efc..4901ce7c6cb7 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -41,10 +41,11 @@ Devices and I/O
- 
- .. toctree::
-    :maxdepth: 1
- 
-    accelerators/ocxl
-+   dma-buf-heaps
-    dma-buf-alloc-exchange
-    gpio/index
-    iommufd
-    media/index
-    dcdbas
--- 
-2.47.1
+--qszps75hpkmz2px4
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ02hMQAKCRAnX84Zoj2+
+dqoHAYCBfSK4ZS5Gd9mS0d+JLRzapEFV5fr78HzDzNKbnbEZQwdYlPBi81IbgIrM
+flOgo/ABf1u9jUouNbvdN0FJ83tM0gMkLAXQDn1b0cLqcqx96dSkBZmZwYN++jBs
+1ZvUEZJGEw==
+=Yos7
+-----END PGP SIGNATURE-----
+
+--qszps75hpkmz2px4--
