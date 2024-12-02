@@ -2,50 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C419DFFE0
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 12:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0DEC9DFFE1
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 12:14:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF14710E6D2;
-	Mon,  2 Dec 2024 11:14:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B0910E225;
+	Mon,  2 Dec 2024 11:14:11 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZtQ0OH60";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68C9410E6D2
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 11:13:59 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.252])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Y21LM4zCXzPpxH;
- Mon,  2 Dec 2024 19:11:07 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 9BFFF1800A2;
- Mon,  2 Dec 2024 19:13:56 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Mon, 2 Dec 2024 19:13:55 +0800
-Message-ID: <a69fa510-3729-4526-8b74-9c03bdd48369@huawei.com>
-Date: Mon, 2 Dec 2024 19:13:54 +0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F87810E6D5
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 11:14:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1733138049;
+ bh=fSLEP0Xznoe5DG2bDkv2mmSE1zr9GRef9sdxJ5jCOTM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ZtQ0OH60JrW5Fzz16wCGtnzgXokG7jqhstLHKJPJ6yJE2xKlqhA0dupEjOLZ/4+ea
+ fv+85nROVve4xdlCviyDXIVAxowexk+3eRkuMXDxkn3CRoJ3OJahbL74LpnzQbMA6P
+ HsjcbdSx/bqJoRpBGGCqCbBzFwD6yiB4/MIUOJzNDGKoxjHhJZ18HtcBsZ8nZJACqG
+ bJp6QvilIsnBaFcRN/qbOmC2oDrqNjV+BgcMvAXFB7pfgayYjemghXEQVlLQJaCbo8
+ R29PiiaYGadGZ4vtz8f37jyl3NTZ2o4rZefAbKvovtFYx7iecLQeQ9ELFGo9jZkNeT
+ Si19aANxm3jUg==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id ACA3217E3613;
+ Mon,  2 Dec 2024 12:14:08 +0100 (CET)
+Date: Mon, 2 Dec 2024 12:14:02 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Philipp Zabel
+ <p.zabel@pengutronix.de>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/8] drm/panfrost: Handle page mapping failure
+Message-ID: <20241202121402.0d564c5c@collabora.com>
+In-Reply-To: <20241128211223.1805830-6-adrian.larumbe@collabora.com>
+References: <20241128211223.1805830-1-adrian.larumbe@collabora.com>
+ <20241128211223.1805830-6-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 drm-dp 5/5] drm/hisilicon/hibmc: add dp module in hibmc
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
- <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <shiyongbang@huawei.com>
-References: <20241118142805.3326443-1-shiyongbang@huawei.com>
- <20241118142805.3326443-6-shiyongbang@huawei.com>
- <mdz2qe2lksowfzwxd5wfdynrsdsyzwjyism6qb5zozk2yb5tx5@zqghgeogothb>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <mdz2qe2lksowfzwxd5wfdynrsdsyzwjyism6qb5zozk2yb5tx5@zqghgeogothb>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,232 +66,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On Mon, Nov 18, 2024 at 10:28:05PM +0800, Yongbang Shi wrote:
->> From: baihan li <libaihan@huawei.com>
->>
->> To support DP interface displaying in hibmc driver. Add
->> a encoder and connector for DP modual.
->>
->> Signed-off-by: Baihan Li <libaihan@huawei.com>
->> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
->> ---
->> ChangeLog:
->> v3 -> v4:
->>    - static inline hibmc_dp_prepare(), suggested by Dmitry Baryshkov.
->> ---
->>   drivers/gpu/drm/hisilicon/hibmc/Makefile      |   2 +-
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 118 ++++++++++++++++++
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  12 ++
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   5 +
->>   4 files changed, 136 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> index 214228052ccf..95a4ed599d98 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> @@ -1,5 +1,5 @@
->>   # SPDX-License-Identifier: GPL-2.0-only
->>   hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
->> -	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o
->> +	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o hibmc_drm_dp.o
->>   
->>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> new file mode 100644
->> index 000000000000..603d6b198a54
->> --- /dev/null
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> @@ -0,0 +1,118 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +// Copyright (c) 2024 Hisilicon Limited.
->> +
->> +#include <linux/io.h>
->> +
->> +#include <drm/drm_probe_helper.h>
->> +#include <drm/drm_simple_kms_helper.h>
->> +#include <drm/drm_atomic_helper.h>
->> +#include <drm/drm_modes.h>
->> +#include <drm/drm_drv.h>
->> +#include <drm/drm_edid.h>
->> +
->> +#include "hibmc_drm_drv.h"
->> +#include "dp/dp_hw.h"
->> +
->> +static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
->> +{
->> +	int count;
->> +
->> +	count = drm_add_modes_noedid(connector, connector->dev->mode_config.max_width,
->> +				     connector->dev->mode_config.max_height);
->> +	drm_set_preferred_mode(connector, 1024, 768); // temporary implementation
-> Ideally this should be mentioned in the commit message.
->
->> +
->> +	return count;
->> +}
->> +
->> +static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
->> +	.get_modes = hibmc_dp_connector_get_modes,
->> +};
->> +
->> +static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
->> +	.reset = drm_atomic_helper_connector_reset,
->> +	.fill_modes = drm_helper_probe_single_connector_modes,
->> +	.destroy = drm_connector_cleanup,
->> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> No .detect / .detect_ctx ? No HPD support? Is it being targeted the DP
-> or eDP cases?
+On Thu, 28 Nov 2024 21:06:20 +0000
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Hi Dmitry,
-Thanks for your asking. Yes, I will add hpd and get edid functions in next patch,
-and I will mention these in the commit message in v6.
+> When mapping the pages of a BO, either a heap type at page fault time or
+> else a non-heap BO at object creation time, if the ARM page table mapping
+> function fails, we unmap what had been mapped so far and bail out.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c | 44 ++++++++++++++++++++++---
+>  1 file changed, 39 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_mmu.c
+> index 03ac527b35e7..5e30888bea0e 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -290,13 +290,31 @@ static void panfrost_mmu_flush_range(struct panfros=
+t_device *pfdev,
+>  	pm_runtime_put_autosuspend(pfdev->base.dev);
+>  }
+> =20
+> +static void mmu_unmap_range(size_t len, u64 iova, struct io_pgtable_ops =
+*ops)
 
-Sincerely,
-Baihan Li
+Can we use the following prototype instead?
 
+static void mmu_unmap_range(struct panfrost_mmu *mmu,
+			    u64 iova, size_t len)
 
->> +};
->> +
->> +static inline int hibmc_dp_prepare(struct hibmc_dp *dp, struct drm_display_mode *mode)
->> +{
->> +	int ret;
->> +
->> +	hibmc_dp_display_en(dp, false);
->> +
->> +	ret = hibmc_dp_mode_set(dp, mode);
->> +	if (ret)
->> +		drm_err(dp->drm_dev, "hibmc dp mode set failed: %d\n", ret);
->> +
->> +	return ret;
->> +}
->> +
->> +static void hibmc_dp_encoder_enable(struct drm_encoder *drm_encoder,
->> +				    struct drm_atomic_state *state)
->> +{
->> +	struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
->> +	struct drm_display_mode *mode = &drm_encoder->crtc->state->mode;
->> +
->> +	if (hibmc_dp_prepare(dp, mode))
->> +		return;
->> +
->> +	hibmc_dp_display_en(dp, true);
->> +}
->> +
->> +static void hibmc_dp_encoder_disable(struct drm_encoder *drm_encoder,
->> +				     struct drm_atomic_state *state)
->> +{
->> +	struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
->> +
->> +	hibmc_dp_display_en(dp, false);
->> +}
->> +
->> +static const struct drm_encoder_helper_funcs hibmc_dp_encoder_helper_funcs = {
->> +	.atomic_enable = hibmc_dp_encoder_enable,
->> +	.atomic_disable = hibmc_dp_encoder_disable,
->> +};
->> +
->> +int hibmc_dp_init(struct hibmc_drm_private *priv)
->> +{
->> +	struct drm_device *dev = &priv->dev;
->> +	struct drm_crtc *crtc = &priv->crtc;
->> +	struct hibmc_dp *dp = &priv->dp;
->> +	struct drm_connector *connector = &dp->connector;
->> +	struct drm_encoder *encoder = &dp->encoder;
->> +	int ret;
->> +
->> +	dp->mmio = priv->mmio;
->> +	dp->drm_dev = dev;
->> +
->> +	ret = hibmc_dp_hw_init(&priv->dp);
->> +	if (ret) {
->> +		drm_err(dev, "hibmc dp hw init failed: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	hibmc_dp_display_en(&priv->dp, false);
->> +
->> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
->> +	ret = drmm_encoder_init(dev, encoder, NULL, DRM_MODE_ENCODER_TMDS, NULL);
->> +	if (ret) {
->> +		drm_err(dev, "init dp encoder failed: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	drm_encoder_helper_add(encoder, &hibmc_dp_encoder_helper_funcs);
->> +
->> +	ret = drm_connector_init(dev, connector, &hibmc_dp_conn_funcs,
->> +				 DRM_MODE_CONNECTOR_DisplayPort);
->> +	if (ret) {
->> +		drm_err(dev, "init dp connector failed: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	drm_connector_helper_add(connector, &hibmc_dp_conn_helper_funcs);
->> +
->> +	drm_connector_attach_encoder(connector, encoder);
->> +
->> +	return 0;
->> +}
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->> index 9f9b19ea0587..39fd8c5c8227 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->> @@ -27,6 +27,10 @@
->>   #include "hibmc_drm_drv.h"
->>   #include "hibmc_drm_regs.h"
->>   
->> +#define HIBMC_DP_HOST_SERDES_CTRL		0x1f001c
->> +#define HIBMC_DP_HOST_SERDES_CTRL_VAL		0x8A00
->> +#define HIBMC_DP_HOST_SERDES_CTRL_MASK		0x7FFFF
->> +
->>   DEFINE_DRM_GEM_FOPS(hibmc_fops);
->>   
->>   static irqreturn_t hibmc_interrupt(int irq, void *arg)
->> @@ -116,6 +120,14 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
->>   		return ret;
->>   	}
->>   
->> +	/* if DP existed, init DP */
->> +	if ((readl(priv->mmio + HIBMC_DP_HOST_SERDES_CTRL) &
->> +	     HIBMC_DP_HOST_SERDES_CTRL_MASK) == HIBMC_DP_HOST_SERDES_CTRL_VAL) {
->> +		ret = hibmc_dp_init(priv);
->> +		if (ret)
->> +			drm_err(dev, "failed to init dp: %d\n", ret);
->> +	}
->> +
->>   	ret = hibmc_vdac_init(priv);
->>   	if (ret) {
->>   		drm_err(dev, "failed to init vdac: %d\n", ret);
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> index 42f0ab8f9b5a..d982f1e4b958 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->> @@ -20,6 +20,8 @@
->>   
->>   #include <drm/drm_framebuffer.h>
->>   
->> +#include "dp/dp_hw.h"
->> +
->>   struct hibmc_vdac {
->>   	struct drm_device *dev;
->>   	struct drm_encoder encoder;
->> @@ -37,6 +39,7 @@ struct hibmc_drm_private {
->>   	struct drm_plane primary_plane;
->>   	struct drm_crtc crtc;
->>   	struct hibmc_vdac vdac;
->> +	struct hibmc_dp dp;
->>   };
->>   
->>   static inline struct hibmc_vdac *to_hibmc_vdac(struct drm_connector *connector)
->> @@ -59,4 +62,6 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv);
->>   
->>   int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_vdac *connector);
->>   
->> +int hibmc_dp_init(struct hibmc_drm_private *priv);
->> +
->>   #endif
->> -- 
->> 2.33.0
->>
+> +{
+> +	size_t pgsize, unmapped_len =3D 0;
+> +	size_t unmapped_page, pgcount;
+> +
+> +	while (unmapped_len < len) {
+> +		pgsize =3D get_pgsize(iova, len - unmapped_len, &pgcount);
+> +
+> +		unmapped_page =3D ops->unmap_pages(ops, iova, pgsize, pgcount, NULL);
+> +		WARN_ON(unmapped_page !=3D pgsize * pgcount);
+> +
+> +		iova +=3D pgsize * pgcount;
+> +		unmapped_len +=3D pgsize * pgcount;
+> +	}
+> +}
+> +
+>  static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu=
+ *mmu,
+>  		      u64 iova, int prot, struct sg_table *sgt)
+>  {
+>  	unsigned int count;
+>  	struct scatterlist *sgl;
+>  	struct io_pgtable_ops *ops =3D mmu->pgtbl_ops;
+> +	size_t total_mapped =3D 0;
+>  	u64 start_iova =3D iova;
+> +	int ret =3D 0;
+> =20
+>  	for_each_sgtable_dma_sg(sgt, sgl, count) {
+>  		unsigned long paddr =3D sg_dma_address(sgl);
+> @@ -310,10 +328,15 @@ static int mmu_map_sg(struct panfrost_device *pfdev=
+, struct panfrost_mmu *mmu,
+>  			size_t pgcount, mapped =3D 0;
+>  			size_t pgsize =3D get_pgsize(iova | paddr, len, &pgcount);
+> =20
+> -			ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
+> +			ret =3D ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
+>  				       GFP_KERNEL, &mapped);
+> +			if (ret) {
+> +				mmu_unmap_range(total_mapped, start_iova, ops);
+> +				return ret;
+
+I general, I'm not a huge fan of those error paths where things are
+undone manually, because they tend to be overlooked when new steps are
+added. I'd rather have a  "goto error_unmap_pages;" here, and the
+according label defined at the end of the function.
+
+> +			}
+>  			/* Don't get stuck if things have gone wrong */
+>  			mapped =3D max(mapped, pgsize);
+> +			total_mapped +=3D mapped;
+>  			iova +=3D mapped;
+>  			paddr +=3D mapped;
+>  			len -=3D mapped;
+> @@ -333,6 +356,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *map=
+ping)
+>  	struct panfrost_device *pfdev =3D to_panfrost_device(obj->dev);
+>  	struct sg_table *sgt;
+>  	int prot =3D IOMMU_READ | IOMMU_WRITE;
+> +	int ret;
+> =20
+>  	if (WARN_ON(mapping->active))
+>  		return 0;
+> @@ -344,8 +368,13 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *ma=
+pping)
+>  	if (WARN_ON(IS_ERR(sgt)))
+>  		return PTR_ERR(sgt);
+> =20
+> -	mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
+> -		   prot, sgt);
+> +	ret =3D mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_S=
+HIFT,
+> +			 prot, sgt);
+> +	if (ret) {
+> +		drm_gem_shmem_put_pages(shmem);
+
+Same here.
+
+> +		return ret;
+> +	}
+> +
+>  	mapping->active =3D true;
+> =20
+>  	return 0;
+> @@ -532,8 +561,10 @@ static int panfrost_mmu_map_fault_addr(struct panfro=
+st_device *pfdev, int as,
+>  	if (ret)
+>  		goto err_map;
+> =20
+> -	mmu_map_sg(pfdev, bomapping->mmu, addr,
+> -		   IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
+> +	ret =3D mmu_map_sg(pfdev, bomapping->mmu, addr,
+> +			 IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
+> +	if (ret)
+> +		goto err_mmu_map_sg;
+> =20
+>  	bomapping->active =3D true;
+>  	bo->heap_rss_size +=3D SZ_2M;
+> @@ -547,6 +578,9 @@ static int panfrost_mmu_map_fault_addr(struct panfros=
+t_device *pfdev, int as,
+> =20
+>  	return 0;
+> =20
+> +err_mmu_map_sg:
+> +	dma_unmap_sgtable(pfdev->base.dev, sgt,
+> +			  DMA_BIDIRECTIONAL, 0);
+>  err_map:
+>  	sg_free_table(sgt);
+>  err_unlock:
+
