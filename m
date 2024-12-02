@@ -2,80 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C538C9E0DC9
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 22:26:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42859E0DD9
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 22:28:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92AA410E841;
-	Mon,  2 Dec 2024 21:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C68810E85A;
+	Mon,  2 Dec 2024 21:28:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GewdL3OG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E44KHE2l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2A310E1A1;
- Mon,  2 Dec 2024 21:26:13 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-2ee67ed00deso467111a91.0; 
- Mon, 02 Dec 2024 13:26:13 -0800 (PST)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E522B10E85D;
+ Mon,  2 Dec 2024 21:28:31 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-725471754c8so442969b3a.0; 
+ Mon, 02 Dec 2024 13:28:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733174772; x=1733779572; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1733174911; x=1733779711; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=r2XejICzXArLFcIiyqAnjcmXvCQg/37urb3NpURPZ9s=;
- b=GewdL3OGooQJq1LKDdn2rrly0GQJ042b56/INYBq4IpvT9f3Hr6BUHgkzLAP+vH0F/
- zhzzy1mO7QfhR5iCdHrNLcVY4PTR+tvuQcrxUc00tHkU1vaULwdLkkZn7J7SKbQ0so9C
- eBp2+EA1fWBzz99jKgcTBNmM2vtAfSwZ/SW+3553j7ehZyn0E5J25lmrSSZdixkHJwtC
- 2ocuy6Lyj5GULDvJl8NiEgPlM+kX3zFdlLlqRHcNMFj7ijAY6RbkHB9rBV8lMhkiycZL
- 7bdF12xRdiQeSkFpOH1Lm3AZ0rG5QLsWc40wE86zHClvxaGeuBueZmCWmzaDRRoKTVyF
- IiaA==
+ bh=+WnEN01ItTNuqqGVkEXPBp2mNHCCggqDABZD+PVrHmg=;
+ b=E44KHE2lELz7yc3+jejA0/0D4IcD52py5d+3hzuvOrk4u9RCZxxqgyABJsxJ4ejLF3
+ bC9ATRr2zvhbkQiZb6kwI9zgPdeGX+V1awBKkZevXzll7c4tO5/4VSQ9NDRFyka87+hL
+ oxCeLdLa+cAagHleIynVFKXgaLI5CKlT2x7zedb817vDQNR0iSmZ0nLTcjfLMreL6CGE
+ L3fpu8vNby79aW+ZgO0JLSFJXkHEst7AB+x9zcht9E+ZT1jFtWNfupVMwTDnN4/YLCnb
+ OAWy4LyTLdz4QFl2v945wzKg+hfPBaoMC7tScO0pihUD9LYIVYwslgVZ6X52KMYAQIos
+ SXCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733174772; x=1733779572;
+ d=1e100.net; s=20230601; t=1733174911; x=1733779711;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=r2XejICzXArLFcIiyqAnjcmXvCQg/37urb3NpURPZ9s=;
- b=AFFbI6a7tyl1sDhyXI0g3Mmb66rdfqOnD2/yVwXXrrelXFkKSL4v67fryZFBOCgYoL
- uQwIfnzhLt/p0I29cUJH4jvf9cGYleEtaXcB/t10K+iyYG5W7Nx336o8UGHKKhEs+uJk
- 7gZvNI2JKRgGXLkzo6m3U8vlh5jq8r6vbg/4ffeIMLKpzKFvPnUw4a26kQz0H3IPtObu
- HtmVc4Md5I+vF1XsBLhycGiOPOz3i16mVvOk5rNTX5LtLyTgUCfIA32joOk64XX5Jtwd
- 4deEdbY8snOdvZP4rVyCSMxuaBT5mvL1Ry2tcSZOjCuHMVgbuvGDUL+1NibNFpvrqxbw
- tAWg==
+ bh=+WnEN01ItTNuqqGVkEXPBp2mNHCCggqDABZD+PVrHmg=;
+ b=QAf3x6diBbGNogrvs0wYWh9yIO1wEY2s0Pi6Fw3efaZHMwQ7ub5NMIismGhGIr7muG
+ UpbidChm8hJaYFgA2/5mVVna3dEdYtwe+FdfU4+BqJ0MM9qw1E6vq5QkuznJqZJsk3zA
+ EAA/KWc38XONuL2U94QOINHa0QpA0w/F7VnKYft5HyXAmJNKMHTXvWFm2UGss8sTSqRR
+ C606Ej9zrM6EsPS+suDPnl3Y8koLWMscWiZ07TNtMB/i7Qu2UYgNFQA9wRgNMwCrP6MD
+ FKEd2tKPQ+1E1MZ0lfjjNUT6eskdTttW6w98Xk+FZoQEmL4kHbYLI37FATfPnuKvg2KR
+ Cu8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVvl27QA36Qbh83EanUVCAWMmP4atWAd7Hl27ZJtxNOspx7l/9YLBHE3OUHNZ/fmFnvwb2LcywTwPS3@lists.freedesktop.org,
- AJvYcCWjIkYRgUF3V9Nsd1ubjJPuSuGDM9Y++Q2u/s6IDr5QqAo5FSI5vLY0yxhIVva0qJXAlLzkUDOM@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw6+tlRXyqI2FdKbH9xUWZMQJPkbLhCkecQLeLR1jQn4DRLP7mX
- 1500N7LOqBoQI4PqpLWUpa3CDh5cYQZgvZuZxjWa/T8iquE/TUqjKJ31X+I0T97I6n7T14Ylyht
- ELKHl5jYI/4b+DY8Ogk5pBjlDmHk=
-X-Gm-Gg: ASbGncuxTrvh0cQW3UDFjXQtsqk0M1i0fXNa/HpB5PBbnZQ1t04G0bFfFZob1pB9oyn
- 7UL1sWXYgsZLyodw0JhB9wQZ0ZGpjZKk=
-X-Google-Smtp-Source: AGHT+IEXlg13b3ifBskkGZwkW8PNP/lLn1940BLZpT4v8S4oGQtGrOYide0iHSNd5F3UBGsaESmbS8Zb3m9xuMOOjqk=
-X-Received: by 2002:a17:90b:4c10:b0:2ee:3fa7:ef23 with SMTP id
- 98e67ed59e1d1-2ef01288ba7mr20504a91.8.1733174772464; Mon, 02 Dec 2024
- 13:26:12 -0800 (PST)
+ AJvYcCWfWXrAkmMFJwGcg136yVB0y7KVyLPFXpyil8JcasFb99bdTao1OAOIEHA6oTz8I2x12M1Q/hSi@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz2Y3zS2rhY8l2fVqz8XC7mKe/9rN6SVHk8zwDnZapPlamecgkH
+ xl64haYHWKuFS00aq+0Qv4eJ65amu3llxKT+MdBq6qKCIMzk4JconZIF5KBORSpmbxmKxdlm5Uv
+ 6mTcfeynK13BTuhFpygpRtrDqY3Y=
+X-Gm-Gg: ASbGncvTCs23MfIBYTy/bhGT1jI7+x5zvcXwiP5qChkhmAdz8e+LpOTgQny54atWtCR
+ j9qAdz8LyPfQu5Zy6Q1x7GvghfzKxBc0=
+X-Google-Smtp-Source: AGHT+IENTvi17eLmoTLao53OArSVxtjhTmkVbWAWihP8AZl590AAM/Tco4GMyi0JDKe7LSzoG6FmWqIFPAh81cVOQA8=
+X-Received: by 2002:a05:6a00:4296:b0:725:424b:e8f7 with SMTP id
+ d2e1a72fcca58-725424be92bmr11538645b3a.2.1733174911368; Mon, 02 Dec 2024
+ 13:28:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20241202080043.5343-1-sid@itb.spb.ru>
-In-Reply-To: <20241202080043.5343-1-sid@itb.spb.ru>
+References: <20241128032056.371989-1-rdunlap@infradead.org>
+In-Reply-To: <20241128032056.371989-1-rdunlap@infradead.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 2 Dec 2024 16:26:01 -0500
-Message-ID: <CADnq5_PTvhr=Wz2OBPthKwM3nsshfq0679VoN-pqPk1H+dZtJQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: amd: Fix potential NULL pointer dereference in
- atomctrl_get_smc_sclk_range_table
-To: Ivan Stepchenko <sid@itb.spb.ru>
-Cc: Kenneth Feng <kenneth.feng@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
+Date: Mon, 2 Dec 2024 16:28:19 -0500
+Message-ID: <CADnq5_MEFsFhLAipChNR2o78_A4WVghh4p-E5NyEFkGr6j3e7g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: device: fix spellos and punctuation
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>, 
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Tim Huang <Tim.Huang@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
- Alexander Richards <electrodeyt@gmail.com>, 
- Samasth Norway Ananda <samasth.norway.ananda@oracle.com>,
- Jesse Zhang <jesse.zhang@amd.com>, 
- Rex Zhu <Rex.Zhu@amd.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, lvc-project@linuxtesting.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
+ Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,49 +83,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 2, 2024 at 3:27=E2=80=AFAM Ivan Stepchenko <sid@itb.spb.ru> wro=
-te:
+Applied.  Thanks!
+
+On Wed, Nov 27, 2024 at 11:17=E2=80=AFPM Randy Dunlap <rdunlap@infradead.or=
+g> wrote:
 >
-> The function atomctrl_get_smc_sclk_range_table() does not check the retur=
-n
-> value of smu_atom_get_data_table(). If smu_atom_get_data_table() fails to
-> retrieve SMU_Info table, it returns NULL which is later dereferenced.
+> Make spelling and punctuation changes to ease reading of the comments.
 >
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->
-
-In practice this should never happen as this code only gets called on
-polaris chips and the vbios data table will always be present on those
-chips.  That said, I've applied it to align with the logic for other
-functions in this file.
-
-Thanks,
-
-Alex
-
-> Fixes: a23eefa2f461 ("drm/amd/powerplay: enable dpm for baffin.")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Ivan Stepchenko <sid@itb.spb.ru>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
 > ---
->  drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |   30 +++++++++----------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c b/driver=
-s/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c
-> index fe24219c3bf4..4bd92fd782be 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c
-> @@ -992,6 +992,8 @@ int atomctrl_get_smc_sclk_range_table(struct pp_hwmgr=
- *hwmgr, struct pp_atom_ctr
->                         GetIndexIntoMasterTable(DATA, SMU_Info),
->                         &size, &frev, &crev);
+> --- linux-next-20241125.orig/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ linux-next-20241125/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -204,9 +204,9 @@ static inline void amdgpu_device_stop_pe
+>   * DOC: pcie_replay_count
+>   *
+>   * The amdgpu driver provides a sysfs API for reporting the total number
+> - * of PCIe replays (NAKs)
+> + * of PCIe replays (NAKs).
+>   * The file pcie_replay_count is used for this and returns the total
+> - * number of replays as a sum of the NAKs generated and NAKs received
+> + * number of replays as a sum of the NAKs generated and NAKs received.
+>   */
 >
-> +       if (!psmu_info)
-> +               return -EINVAL;
+>  static ssize_t amdgpu_device_get_pcie_replay_count(struct device *dev,
+> @@ -429,8 +429,8 @@ bool amdgpu_device_supports_boco(struct
+>   * @dev: drm_device pointer
+>   *
+>   * Return:
+> - * 1 if the device supporte BACO;
+> - * 3 if the device support MACO (only works if BACO is supported)
+> + * 1 if the device supports BACO;
+> + * 3 if the device supports MACO (only works if BACO is supported)
+>   * otherwise return 0.
+>   */
+>  int amdgpu_device_supports_baco(struct drm_device *dev)
+> @@ -577,7 +577,7 @@ void amdgpu_device_mm_access(struct amdg
+>  }
 >
->         for (i =3D 0; i < psmu_info->ucSclkEntryNum; i++) {
->                 table->entry[i].ucVco_setting =3D psmu_info->asSclkFcwRan=
-geEntry[i].ucVco_setting;
-> --
-> 2.34.1
+>  /**
+> - * amdgpu_device_aper_access - access vram by vram aperature
+> + * amdgpu_device_aper_access - access vram by vram aperture
+>   *
+>   * @adev: amdgpu_device pointer
+>   * @pos: offset of the buffer in vram
+> @@ -668,7 +668,7 @@ bool amdgpu_device_skip_hw_access(struct
+>          * here is that the GPU reset is not running on another thread in=
+ parallel.
+>          *
+>          * For this we trylock the read side of the reset semaphore, if t=
+hat succeeds
+> -        * we know that the reset is not running in paralell.
+> +        * we know that the reset is not running in parallel.
+>          *
+>          * If the trylock fails we assert that we are either already hold=
+ing the read
+>          * side of the lock or are the reset thread itself and hold the w=
+rite side of
+> @@ -1733,7 +1733,7 @@ bool amdgpu_device_need_post(struct amdg
+>                         uint32_t fw_ver;
 >
+>                         err =3D request_firmware(&adev->pm.fw, "amdgpu/fi=
+ji_smc.bin", adev->dev);
+> -                       /* force vPost if error occured */
+> +                       /* force vPost if error occurred */
+>                         if (err)
+>                                 return true;
+>
+> @@ -2378,7 +2378,7 @@ int amdgpu_device_ip_block_add(struct am
+>   * the module parameter virtual_display.  This feature provides a virtua=
+l
+>   * display hardware on headless boards or in virtualized environments.
+>   * This function parses and validates the configuration string specified=
+ by
+> - * the user and configues the virtual display configuration (number of
+> + * the user and configures the virtual display configuration (number of
+>   * virtual connectors, crtcs, etc.) specified.
+>   */
+>  static void amdgpu_device_enable_virtual_display(struct amdgpu_device *a=
+dev)
+> @@ -2441,7 +2441,7 @@ void amdgpu_device_set_sriov_virtual_dis
+>   * @adev: amdgpu_device pointer
+>   *
+>   * Parses the asic configuration parameters specified in the gpu info
+> - * firmware and makes them availale to the driver for use in configuring
+> + * firmware and makes them available to the driver for use in configurin=
+g
+>   * the asic.
+>   * Returns 0 on success, -EINVAL on failure.
+>   */
+> @@ -2501,7 +2501,7 @@ static int amdgpu_device_parse_gpu_info_
+>                                                                 le32_to_c=
+pu(hdr->header.ucode_array_offset_bytes));
+>
+>                 /*
+> -                * Should be droped when DAL no longer needs it.
+> +                * Should be dropped when DAL no longer needs it.
+>                  */
+>                 if (adev->asic_type =3D=3D CHIP_NAVI12)
+>                         goto parse_soc_bounding_box;
+> @@ -3061,7 +3061,7 @@ init_failed:
+>   *
+>   * Writes a reset magic value to the gart pointer in VRAM.  The driver c=
+alls
+>   * this function before a GPU reset.  If the value is retained after a
+> - * GPU reset, VRAM has not been lost.  Some GPU resets may destry VRAM c=
+ontents.
+> + * GPU reset, VRAM has not been lost. Some GPU resets may destroy VRAM c=
+ontents.
+>   */
+>  static void amdgpu_device_fill_reset_magic(struct amdgpu_device *adev)
+>  {
+> @@ -3376,7 +3376,7 @@ static int amdgpu_device_ip_fini_early(s
+>
+>         amdgpu_amdkfd_suspend(adev, false);
+>
+> -       /* Workaroud for ASICs need to disable SMC first */
+> +       /* Workaround for ASICs need to disable SMC first */
+>         amdgpu_device_smu_fini_early(adev);
+>
+>         for (i =3D adev->num_ip_blocks - 1; i >=3D 0; i--) {
+> @@ -4271,7 +4271,7 @@ int amdgpu_device_init(struct amdgpu_dev
+>
+>         /*
+>          * Reset domain needs to be present early, before XGMI hive disco=
+vered
+> -        * (if any) and intitialized to use reset sem and in_gpu reset fl=
+ag
+> +        * (if any) and initialized to use reset sem and in_gpu reset fla=
+g
+>          * early on during init and before calling to RREG32.
+>          */
+>         adev->reset_domain =3D amdgpu_reset_create_reset_domain(SINGLE_DE=
+VICE, "amdgpu-reset-dev");
+> @@ -5862,7 +5862,7 @@ int amdgpu_device_gpu_recover(struct amd
+>                 amdgpu_amdkfd_pre_reset(tmp_adev, reset_context);
+>
+>                 /*
+> -                * Mark these ASICs to be reseted as untracked first
+> +                * Mark these ASICs to be reset as untracked first
+>                  * And add them back after reset completed
+>                  */
+>                 amdgpu_unregister_gpu_instance(tmp_adev);
+> @@ -6065,7 +6065,7 @@ static void amdgpu_device_partner_bandwi
+>   *
+>   * @adev: amdgpu_device pointer
+>   *
+> - * Fetchs and stores in the driver the PCIE capabilities (gen speed
+> + * Fetches and stores in the driver the PCIE capabilities (gen speed
+>   * and lanes) of the slot the device is in. Handles APUs and
+>   * virtualized environments where PCIE config space may not be available=
+.
+>   */
