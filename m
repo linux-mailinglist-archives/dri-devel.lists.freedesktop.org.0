@@ -2,70 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263939DFC76
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 09:54:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C679DFCF0
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 10:22:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2ABB10E669;
-	Mon,  2 Dec 2024 08:54:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B534D10E439;
+	Mon,  2 Dec 2024 09:22:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V/M25On8";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="P+/p7Rq3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4B0310E669
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 08:54:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733129676; x=1764665676;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=PONq1d8jm/n+OrIxFNgIUfhJojAh81OCYaZRqCUvHDM=;
- b=V/M25On8H60tj3aqDT/fl97LgVBpxgd7SyOB2DO4KVe8yRDVddGKaugg
- sVzZNvF+Q7helGW76o3C1f3EfYetbAuu14/yR0S/CJqwvOLC9oe+5C32f
- P8iw479d6zdmaqxy5EWY+DZdX78hwQjqAhMDGXN838WxEir8aSzDVTWUR
- tT6JHioTmz1lbT3DVAub7KpQMv8kRqS4/zTRieurTTJddQjc9KGPkkolH
- gi39FiN0kPLwC3O1+AztJf3G3EBLpgvV0Uo1aacSzfa1fGXkGTyw/bFPv
- u+004h6tOS2T5fYr0GbDahZlRsh1FI8Yby4VDA1aFZyU3EeomgIvXKiTj g==;
-X-CSE-ConnectionGUID: 2A6q5joHTP2hym7APj3xjA==
-X-CSE-MsgGUID: BCKH01hdQ4q1TClTOb9sjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="50700524"
-X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; d="scan'208";a="50700524"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2024 00:54:35 -0800
-X-CSE-ConnectionGUID: qbAJGnRwRRCsBXcsRguvnA==
-X-CSE-MsgGUID: WaVyTQKOSeCg2uYFMgFRUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; d="scan'208";a="123902060"
-Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
- by orviesa002.jf.intel.com with ESMTP; 02 Dec 2024 00:54:29 -0800
-Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tI2CI-0002Dj-12;
- Mon, 02 Dec 2024 08:54:26 +0000
-Date: Mon, 2 Dec 2024 16:54:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, p.zabel@pengutronix.de,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, glx@linutronix.de, vkoul@kernel.org,
- kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org,
- francesco@dolcini.it, frank.li@nxp.com, dmitry.baryshkov@linaro.org,
- u.kleine-koenig@baylibre.com
-Subject: Re: [PATCH v5 10/19] drm/imx: Add i.MX8qxp Display Controller pixel
- engine
-Message-ID: <202412021617.HmlPGJLh-lkp@intel.com>
-References: <20241202025635.1274467-11-victor.liu@nxp.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E359310E439
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 09:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1733131352;
+ bh=YDSKzOOX2ioPbI+g4xmEkyWIV44JCFQKlGuOTGFtBbc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=P+/p7Rq3Be2zY1Nk7hrHoRdVqDeGSomvgG9BKXr2maNACkaZuKihbJrXfKi6LR4yf
+ XDjH5o0cL1Z3JDmdGIa+EaQwEuDuFC8A1Ekhk4FJuib0qS3G3SvZ7KETP9tKAHXE5w
+ ZDuZWoNL1VHPmugQHJY6iQsS2YMO5destxUUTCNt3bBh/EBxTtnAZ9cnQrdRfR4ucZ
+ iXCnk+Ait8+CUixMRpY4KgWEDbfiHhhdcyNx0PutdZAhz0Ja3sxcyP6sN6LA/LVH84
+ LGohZC2d2Ez7j8Aidz3OnHRFXJnFbOneE/bYa6zjnb6QA0cbPgInVqJIiwWLMKP81o
+ qYuH86axLntNQ==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id DF7AF17E14EA;
+ Mon,  2 Dec 2024 10:22:31 +0100 (CET)
+Date: Mon, 2 Dec 2024 10:21:51 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Philipp Zabel
+ <p.zabel@pengutronix.de>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/8] drm/panfrost: Handle job HW submit errors
+Message-ID: <20241202102151.41cc3d4f@collabora.com>
+In-Reply-To: <20241128211223.1805830-4-adrian.larumbe@collabora.com>
+References: <20241128211223.1805830-1-adrian.larumbe@collabora.com>
+ <20241128211223.1805830-4-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241202025635.1274467-11-victor.liu@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,110 +66,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
+On Thu, 28 Nov 2024 21:06:18 +0000
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> Avoid waiting for the DRM scheduler job timedout handler, and instead, let
+> the DRM scheduler core signal the error fence immediately when HW job
+> submission fails.
+>=20
+> That means we must also decrement the runtime-PM refcnt for the device,
+> because the job will never be enqueued or inflight.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 20 ++++++++++++++++----
+>  1 file changed, 16 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_job.c
+> index f640d211cc3a..3f4f0682d69d 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -195,7 +195,7 @@ panfrost_enqueue_job(struct panfrost_device *pfdev, i=
+nt slot,
+>  	return 1;
+>  }
+> =20
+> -static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+> +static int panfrost_job_hw_submit(struct panfrost_job *job, int js)
+>  {
+>  	struct panfrost_device *pfdev =3D job->pfdev;
+>  	unsigned int subslot;
+> @@ -207,10 +207,11 @@ static void panfrost_job_hw_submit(struct panfrost_=
+job *job, int js)
+> =20
+>  	ret =3D pm_runtime_get_sync(pfdev->base.dev);
+>  	if (ret < 0)
+> -		return;
+> +		goto err_hwsubmit;
+> =20
+>  	if (WARN_ON(job_read(pfdev, JS_COMMAND_NEXT(js)))) {
+> -		return;
+> +		ret =3D -EINVAL;
+> +		goto err_hwsubmit;
+>  	}
+> =20
+>  	cfg =3D panfrost_mmu_as_get(pfdev, job->mmu);
+> @@ -261,6 +262,12 @@ static void panfrost_job_hw_submit(struct panfrost_j=
+ob *job, int js)
+>  			job, js, subslot, jc_head, cfg & 0xf);
+>  	}
+>  	spin_unlock(&pfdev->js->job_lock);
+> +
+> +	return 0;
+> +
+> +err_hwsubmit:
+> +	pm_runtime_put_autosuspend(pfdev->base.dev);
+> +	return ret;
+>  }
+> =20
+>  static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
+> @@ -382,6 +389,7 @@ static struct dma_fence *panfrost_job_run(struct drm_=
+sched_job *sched_job)
+>  	struct panfrost_device *pfdev =3D job->pfdev;
+>  	int slot =3D panfrost_job_get_slot(job);
+>  	struct dma_fence *fence =3D NULL;
+> +	int ret;
+> =20
+>  	if (unlikely(job->base.s_fence->finished.error))
+>  		return NULL;
+> @@ -400,7 +408,11 @@ static struct dma_fence *panfrost_job_run(struct drm=
+_sched_job *sched_job)
+>  		dma_fence_put(job->done_fence);
+>  	job->done_fence =3D dma_fence_get(fence);
+> =20
+> -	panfrost_job_hw_submit(job, slot);
+> +	ret =3D panfrost_job_hw_submit(job, slot);
+> +	if (ret) {
+> +		dma_fence_put(job->done_fence);
 
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on linus/master v6.13-rc1 next-20241128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+If you call dma_fence_put() here, you need to set job->done_fence to
+NULL, otherwise dma_fence_put() will be called again on an already
+freed fence in panfrost_job_cleanup(). Question is, do we really need
+to call dma_fence_put(job->done_fence) here? Can't we let the job
+destructor take care of that?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Liu-Ying/dt-bindings-display-imx-Add-i-MX8qxp-Display-Controller-processing-units/20241202-110331
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241202025635.1274467-11-victor.liu%40nxp.com
-patch subject: [PATCH v5 10/19] drm/imx: Add i.MX8qxp Display Controller pixel engine
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241202/202412021617.HmlPGJLh-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412021617.HmlPGJLh-lkp@intel.com/reproduce)
+> +		return ERR_PTR(ret);
+> +	}
+> =20
+>  	return fence;
+>  }
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412021617.HmlPGJLh-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/imx/dc/dc-fl.c: In function 'dc_fl_bind':
->> drivers/gpu/drm/imx/dc/dc-fl.c:136:57: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 3 [-Wformat-truncation=]
-     136 |         snprintf(fu->name, sizeof(fu->name), "FetchLayer%d", fl->id);
-         |                                                         ^~
-   drivers/gpu/drm/imx/dc/dc-fl.c:136:46: note: directive argument in the range [0, 2147483647]
-     136 |         snprintf(fu->name, sizeof(fu->name), "FetchLayer%d", fl->id);
-         |                                              ^~~~~~~~~~~~~~
-   drivers/gpu/drm/imx/dc/dc-fl.c:136:9: note: 'snprintf' output between 12 and 21 bytes into a destination of size 13
-     136 |         snprintf(fu->name, sizeof(fu->name), "FetchLayer%d", fl->id);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/gpu/drm/imx/dc/dc-fw.c: In function 'dc_fw_bind':
->> drivers/gpu/drm/imx/dc/dc-fw.c:175:56: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 4 [-Wformat-truncation=]
-     175 |         snprintf(fu->name, sizeof(fu->name), "FetchWarp%u", fw->id);
-         |                                                        ^~
-   drivers/gpu/drm/imx/dc/dc-fw.c:175:46: note: directive argument in the range [0, 2147483647]
-     175 |         snprintf(fu->name, sizeof(fu->name), "FetchWarp%u", fw->id);
-         |                                              ^~~~~~~~~~~~~
-   drivers/gpu/drm/imx/dc/dc-fw.c:175:9: note: 'snprintf' output between 11 and 20 bytes into a destination of size 13
-     175 |         snprintf(fu->name, sizeof(fu->name), "FetchWarp%u", fw->id);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +136 drivers/gpu/drm/imx/dc/dc-fl.c
-
-    92	
-    93	static int dc_fl_bind(struct device *dev, struct device *master, void *data)
-    94	{
-    95		struct platform_device *pdev = to_platform_device(dev);
-    96		struct dc_drm_device *dc_drm = data;
-    97		struct dc_pe *pe = dc_drm->pe;
-    98		void __iomem *base_cfg;
-    99		struct dc_fl *fl;
-   100		struct dc_fu *fu;
-   101		int i;
-   102	
-   103		fl = devm_kzalloc(dev, sizeof(*fl), GFP_KERNEL);
-   104		if (!fl)
-   105			return -ENOMEM;
-   106	
-   107		fu = &fl->fu;
-   108	
-   109		base_cfg = devm_platform_ioremap_resource_byname(pdev, "cfg");
-   110		if (IS_ERR(base_cfg))
-   111			return PTR_ERR(base_cfg);
-   112	
-   113		fu->reg_cfg = devm_regmap_init_mmio(dev, base_cfg,
-   114						    &dc_fl_cfg_regmap_config);
-   115		if (IS_ERR(fu->reg_cfg))
-   116			return PTR_ERR(fu->reg_cfg);
-   117	
-   118		fl->id = of_alias_get_id(dev->of_node, "dc0-fetchlayer");
-   119		if (fl->id < 0) {
-   120			dev_err(dev, "failed to get alias id: %d\n", fl->id);
-   121			return fl->id;
-   122		}
-   123	
-   124		fu->link_id = LINK_ID_FETCHLAYER0;
-   125		fu->id = DC_FETCHUNIT_FL0;
-   126		for (i = 0; i < DC_FETCHUNIT_FRAC_NUM; i++) {
-   127			fu->reg_baseaddr[i]		  = BASEADDRESS(i);
-   128			fu->reg_sourcebufferattributes[i] = SOURCEBUFFERATTRIBUTES(i);
-   129			fu->reg_sourcebufferdimension[i]  = SOURCEBUFFERDIMENSION(i);
-   130			fu->reg_layeroffset[i]		  = LAYEROFFSET(i);
-   131			fu->reg_clipwindowoffset[i]	  = CLIPWINDOWOFFSET(i);
-   132			fu->reg_clipwindowdimensions[i]	  = CLIPWINDOWDIMENSIONS(i);
-   133			fu->reg_constantcolor[i]	  = CONSTANTCOLOR(i);
-   134			fu->reg_layerproperty[i]	  = LAYERPROPERTY(i);
-   135		}
- > 136		snprintf(fu->name, sizeof(fu->name), "FetchLayer%d", fl->id);
-   137	
-   138		dc_fl_set_ops(fu);
-   139	
-   140		pe->fu_disp[fu->id] = fu;
-   141	
-   142		return 0;
-   143	}
-   144	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
