@@ -2,109 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DEFE9E05BE
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 15:59:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482C19E062D
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:03:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC4210E77A;
-	Mon,  2 Dec 2024 14:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 889D410E791;
+	Mon,  2 Dec 2024 15:03:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YpxYFMj6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T+7XcBNR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE8E10E77A
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 14:59:11 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-53dd2fdcebcso4923071e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 06:59:11 -0800 (PST)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED5DA10E283;
+ Mon,  2 Dec 2024 15:03:48 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-434a742481aso35385005e9.3; 
+ Mon, 02 Dec 2024 07:03:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733151549; x=1733756349; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Rju8sEpE6sdROgx04VbEZEe0Z4Dqml8d9fp2hAHZz1Q=;
- b=YpxYFMj6iylklz/89cibRzC/9t/f2gMHeiQWcoEY1WGcNihtqVU8a2r0EnZ7jnekVJ
- Nt2QBmMlvTfAqzFe0odxBG5zYpf1Pbcg6i88HdzaSKxZp7A3Drbq3Tq3pHRc++rvak3i
- fyxK6vNhrkEPBY7IpqbjD4bTNQbAdOUrw24uAbprweIF6/Pp5D4GV8bGHAxJ8yxZ1+t8
- jF0FSwbnbFX5VrorWh4DXTeF2OfJr36DRP0QfkDSuSu8WNrfts2p/b19ygGmh4E7qxaE
- Q0MsnEs6UOtWHl7yg4cysZWzU0/cBF7mcPrqp3Bu/gSoJAPzX7pml7y1FA2WVWrNvr2y
- wyww==
+ d=gmail.com; s=20230601; t=1733151827; x=1733756627; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qujM4d7qCY1L5TaGGSMsXfZ1apvo+jAfsCE8VLdjQ4I=;
+ b=T+7XcBNRWuMrN5dmxYuTZPo/OWfy8Hfox5UmYP1yzzvJnVDT1xMSDw6TVwVmLsSXOv
+ p1W4Lm4I+uj3BxxhqG1YXFo88YrZEdBB+fKyfqPcCNFz0518W/l6WZp7cEK+8pZPEV6+
+ OFR5M+eouJl0etUCwXOo+S8yVR7tAOe+tOK/qz8L57Vyjb9aAjS88xk6UviT6v6a/OHY
+ QEv1iC+385KIuGOj0DxzTS1QrCwMUlRDjJnVlvKI80WnmupnbCqeht5NpEd3AcjcF+Zh
+ 80hcHKHdHCSgzD+RrWEtzrxiMK4eABg+Eqeyx/iRias/wq0YjmuANwAX8oief2WDM7zz
+ dY7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733151549; x=1733756349;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Rju8sEpE6sdROgx04VbEZEe0Z4Dqml8d9fp2hAHZz1Q=;
- b=JrRAuLN5zJM8bUzPg7Jupv26mftlLdT59kETTcGYL0mL92aAclRBfRjjtFx1Mt4MGl
- yJYwxSCxYApQQYEWKaf4p0of0VlnkJxiVarguGB4Z3/ALNFdQ/nnm+QUn2VrK5MOUd25
- HZ1NCWzBymopckfxTKicy981PpHkYJ29xQxBg/J7jDnUyM20q6TwZa1pi8bWdbo1XgWj
- FnidPwbtgdY/bd81YQfIbuswOxV0Dv3vUiqOrx1PTbTYm1kcd2U/QrzNusKmskzeb88n
- dibMRs9kEpEJLm52mEBS2eh9swuYfJ89Pda0OiMhUMSVrJbYbb1NBsVPDZQv/tdmOUtQ
- 31XA==
+ d=1e100.net; s=20230601; t=1733151827; x=1733756627;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qujM4d7qCY1L5TaGGSMsXfZ1apvo+jAfsCE8VLdjQ4I=;
+ b=HY3Lug/LQttgXvkFAe6zN5EiQCmR2qJXZNcqxXKI1je2qVzef6mjeoDhHLEEW6bZ3s
+ B8CFRVrL3bVYZ4vNidwkVE2Qi6vLC6TdjeUXO1U979jI4Rf/Hpfkt5zPXz5p/7mUIJmO
+ wqZQBQA7NBvR/93/4tF8f0/IDi/8BMzgW7u7S98yqcH0qJ4BO2qD4VeG3XSGB1DFBPv3
+ O/krlaAbu853h9yaoS1jXbjjVKs/geD0/XezhKYq2vDpSGQhlJaGyaL1o1os4gwaY7xv
+ Qjr16mPk7qOa2F0AKZc3/GvU5HzZ77XoNbFqEdhtjYwpZ8OGYk75uzy4SXQMk6DZtJdv
+ PH0g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUO/sANN6ZcgaK4WgdTbf6HdtG/Qll5tjqaOBFpWLmzzGP54wRDY9yOum9Qc0GL4CBybROnxWWhm4Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw5m+peXephrgLQoiTuu4/E6Zkl7f5vaLTslYaFMSj2wgKpk/mp
- hcpUcC3zL3vRQLgJmuM5QK8LzVT2kNfm9aHUYZM1Qb5kfV+0B1nTEUh9ebCH8+s=
-X-Gm-Gg: ASbGncupomQryxxsNb99EHNRX26URaZKsP4Pc1z5G/B+zTL5KdIXfuYD1DoggN4aIDl
- Y/wk6YrblqIz6QFB208BpGx5k7Qoz14EWwpsWqNqdTuZMXycnUfwpxyKl6pLUWvXiQ8/swmMX7A
- 3phaQkzNS6DnyUbnd/Iouxlk5SqUGDpueso4J/emg+94ErEMN8pgABKXGwLwqSg6mmnmuUs433K
- 2nn9uZ94o7bwrnfugWUVT0l24/keLBvlDPhTkO/LcoheQdi9tMS2REdaaXuPxSm5nSs0EQXxNcO
- 09oywwDO234ynA0EayYprZ90EpUKuw==
-X-Google-Smtp-Source: AGHT+IFqUZg6UxbmPBpmmNDChC/PhM5ksog1SlPE5I3zx5OIy0xNoMEVpgKx1uItUxOnsjp3icE8UQ==
-X-Received: by 2002:a05:6512:b26:b0:53d:edba:d40b with SMTP id
- 2adb3069b0e04-53df00dc8d7mr12039335e87.33.1733151549347; 
- Mon, 02 Dec 2024 06:59:09 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ AJvYcCUPARCcDdV87+x6+JcQ1OtGA8SmNTdnKi6mUF6ht7cU4CsNp+nhPtfRNtyBLhy14loqqmA4SFsYMH0=@lists.freedesktop.org,
+ AJvYcCUuCa5RBPO+l/cgTin+SafUgpetmjpeK5jD684ce0/v37LcfYiPswQh05hSbjp63fafhYJzWJt4h+EG@lists.freedesktop.org,
+ AJvYcCVeu9yH3AtP1yKZZv7ncRgVBNGTiRvwq6PvongqQtCJKHDQYI5CblYa0/nGpMdlDWvWg26Sp1vRCz7D@lists.freedesktop.org,
+ AJvYcCXOt1U7l9U1lDcClyJyV5Ud24wdq6JAJNJPZT92kvDDrMdGXgA8UQJx9PeBzWQsLEcDgUtmw6//@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwHjGNioabcM13DRD88pSasny1gwZ7k/hLLoi1kvKazYwxTTsXb
+ EF8HUxm8zohEZxEN2b1sGTHjHaRURD8QqYR4a5gaE9fUZcUtnXFr
+X-Gm-Gg: ASbGncvKO+1XIHXeEPyajkKRaBRWnRS2BHF8yoql5LikIDjY8QGCjRelnxz1wZkxD9c
+ 2YIY1394NsDWTRllN+SBgv3gGae/CvB7ucGx+Y9OlOH40y7S73u5Q6jScHZMAEGPrNSfxKDnhFK
+ FRlKe+imLuzTeDDOOpNmGVDb/gAlanRjLVZcX5wdcDLmwHXFLpbSPydpkRH5yxLIq6lBtWB2/AN
+ GcjJPmOafLq/worvQgIjazf457353WzzBfJ9Hwpy1Mf59TpQj6Eu+HB8OObMisSBKWIB4wdgkd0
+ fojfWwqh3yaImeaLRE0=
+X-Google-Smtp-Source: AGHT+IGDnqoQPM9S2ZXAYcJFrCBwMFmcYVdD5NrlXMVFXBAOrzgALnyLT6wqVMw+fFjssl311bGusQ==
+X-Received: by 2002:a5d:64cc:0:b0:385:f092:e16 with SMTP id
+ ffacd0b85a97d-385f0a153ccmr4698133f8f.55.1733151825042; 
+ Mon, 02 Dec 2024 07:03:45 -0800 (PST)
+Received: from ?IPV6:2001:861:3385:e20:6384:4cf:52c5:3194?
+ ([2001:861:3385:e20:6384:4cf:52c5:3194])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df646f2c3sm1480384e87.126.2024.12.02.06.59.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2024 06:59:07 -0800 (PST)
-Date: Mon, 2 Dec 2024 16:59:06 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Phong LE <ple@baylibre.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 2/9] ASoC: hdmi-codec: move no_capture_mute to struct
- hdmi_codec_pdata
-Message-ID: <onq2djvtvxvr3a52s6sin3dstwdctyyz2lxpx47lk7ndxtza33@odldgvhryw4d>
-References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
- <20241201-drm-bridge-hdmi-connector-v5-2-b5316e82f61a@linaro.org>
- <20241202-bald-just-guan-c5d41b@houat>
+ ffacd0b85a97d-385ec6a3d8fsm5080310f8f.101.2024.12.02.07.03.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Dec 2024 07:03:44 -0800 (PST)
+Message-ID: <0eb908f2-2304-4a91-9c91-e7f291da9dcd@gmail.com>
+Date: Mon, 2 Dec 2024 16:03:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241202-bald-just-guan-c5d41b@houat>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/10] drm/sti: hdmi: use eld_mutex to protect access to
+ connector->eld
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+References: <20241201-drm-connector-eld-mutex-v1-0-ba56a6545c03@linaro.org>
+ <20241201-drm-connector-eld-mutex-v1-9-ba56a6545c03@linaro.org>
+Content-Language: en-US, fr
+From: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>
+In-Reply-To: <20241201-drm-connector-eld-mutex-v1-9-ba56a6545c03@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,32 +124,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2024 at 01:06:09PM +0100, Maxime Ripard wrote:
-> Hi,
+
+
+Le 01/12/2024 à 00:55, Dmitry Baryshkov a écrit :
+> Reading access to connector->eld can happen at the same time the
+> drm_edid_to_eld() updates the data. Take the newly added eld_mutex in
+> order to protect connector->eld from concurrent access.
 > 
-> On Sun, Dec 01, 2024 at 02:44:06AM +0200, Dmitry Baryshkov wrote:
-> > The no_capture_mute flag might differ from platform to platform,
-> > especially in the case of the wrapping implementations, like the
-> > upcoming DRM HDMI Codec framework. Move the flag next to all other flags
-> > in struct hdmi_codec_pdata.
-> > 
-> > Acked-by: Mark Brown <broonie@kernel.org>
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Hi Dmitry,
+
+Acked-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+
+Thanks,
+Raphaël
+> ---
+>   drivers/gpu/drm/sti/sti_hdmi.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> I appreciate it might be a dumb question, but I never really understood
-> what no_capture_mute was all about. And in that context, why some
-> drivers would need / use it, and some won't.
+> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+> index 847470f747c0efad61c2ebdc3fb3746a7a13a863..3c8f3532c79723e7b1a720c855c90e40584cc6ca 100644
+> --- a/drivers/gpu/drm/sti/sti_hdmi.c
+> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
+> @@ -1225,7 +1225,9 @@ static int hdmi_audio_get_eld(struct device *dev, void *data, uint8_t *buf, size
+>   	struct drm_connector *connector = hdmi->drm_connector;
+>   
+>   	DRM_DEBUG_DRIVER("\n");
+> +	mutex_lock(&connector->eld_mutex);
+>   	memcpy(buf, connector->eld, min(sizeof(connector->eld), len));
+> +	mutex_unlock(&connector->eld_mutex);
+>   
+>   	return 0;
+>   }
+> 
 
-Some platforms can not mute the HDMI capture (ARC?) path. See the
-following patches:
-- https://lore.kernel.org/all/1606372608-2329-1-git-send-email-shengjiu.wang@nxp.com/
-- https://lore.kernel.org/all/1606372608-2329-1-git-send-email-shengjiu.wang@nxp.com/
-
-Russell added a way to disable capture / playback support, but only TDA
-driver uses those. I think generally we should change those flags to be
-opt-in for capture, but that requires carefully reviewing all the
-platforms (and is a separate topic anyway).
-
--- 
-With best wishes
-Dmitry
