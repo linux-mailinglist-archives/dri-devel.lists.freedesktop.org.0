@@ -2,66 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADCD09E06E4
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:24:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4589E071B
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:31:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35F3B10E7A2;
-	Mon,  2 Dec 2024 15:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF70410E7AA;
+	Mon,  2 Dec 2024 15:31:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X6Itpbhg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DpKl0AmQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6373710E7A2
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:24:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B4D3E5C674E;
- Mon,  2 Dec 2024 15:23:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED517C4CED1;
- Mon,  2 Dec 2024 15:24:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733153073;
- bh=XYQ0z1Uam77lItbs5TmeenkmhhhYCbef5wkE8j7DNxg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X6Itpbhg32uZaAfl/yleMRcAyuFbk6hyY6q62CjSVT5ePkBcDTqgCHMQflCRZPk3M
- mS7yABdBHT0BwG2EFPgBmiZaN+/l2JUlG4zdXhFOD7Ogq4aBLnI7qFXDKJqUIzto9D
- lATKQwjmIsLNaRhRU+p8KxkOl4cY1wyskRvCZFvvXo0GhKusl62rhNtUAb7LVlHUpH
- DKjyzFmiu2dAdvHzb2VI8GOOD7gvqGB7E9zcfT7sJwsz/b503QjgNsurAdHPHryYhx
- fIK9u421jmN5QOPoXjC3innffMfVLT2HiNHnJyDvEGsx9qbKoyXhuBfNdSdbFdbB2c
- 5o7Xfgsz1Bg2w==
-Date: Mon, 2 Dec 2024 16:24:31 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD39210E7A6;
+ Mon,  2 Dec 2024 15:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733153487; x=1764689487;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=xy9bm06E42vnVMbka6YhC0lCJPaiurRtpUSaXv5qyNE=;
+ b=DpKl0AmQhgRpTd8Z0vKawt2DSlxsWIveV6Ytn3S9nV2f9W/5fytseU9r
+ iYXO+/rheoDs6a1hfxXiRDZAHeQue8eXigI5qApszFjvAskRjpdCaq44O
+ Yfs0AScF+d+MeVn3LmwjOFLcjZjxostrvDhHm2Z+LpZuMXpmdcOyvLTpL
+ oUtX6j+e7xezYIpgICrLNFYtjg+SysxhSX047jaG3c2yHd8wHlkidBcPJ
+ ScnpH3gqleb/Pn8w9NFNk+fFMX8iIJ00Yvy/HRJs5xMHX+NMzDUIa8LHz
+ EFu7xoXmDm9DNCCYhl1/tMMaGzLY56vT0CPJM0GanwzldTTSgOVNvctm1 Q==;
+X-CSE-ConnectionGUID: B9zZmsE4RuCOiXbOy7AyUA==
+X-CSE-MsgGUID: eCpbrZLoTUGdIR/U0uRcNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33204325"
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="33204325"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 07:31:09 -0800
+X-CSE-ConnectionGUID: IbnHEAmQQP6iKGMiB9P4nA==
+X-CSE-MsgGUID: kySFOHf8SlmLkDSxZuDvTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="116396332"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 07:31:04 -0800
+Date: Mon, 2 Dec 2024 17:31:43 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Eric Anholt <eric@anholt.net>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Doug Berger <opendmb@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>, 
- linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 4/7] arm64: dts: broadcom: Fix device tree warnings for
- BCM2712 display pipeline
-Message-ID: <20241202-goose-of-pragmatic-sympathy-3fbbe7@houat>
-References: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
- <20241202-dt-bcm2712-fixes-v1-4-fac67cc2f98a@raspberrypi.com>
- <c8093283-f2c1-4a66-823a-50aeabb3c82b@kernel.org>
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH v2 1/4] drm/dp: Add a way to init/add a connector in
+ separate steps
+Message-ID: <Z03S35Z-Vj94cW_7@ideak-desk.fi.intel.com>
+References: <20241126161859.1858058-1-imre.deak@intel.com>
+ <20241126161859.1858058-2-imre.deak@intel.com>
+ <Z0nO-bwpbWPVryd6@ideak-desk.fi.intel.com>
+ <20241129-wild-cobra-of-thunder-829d1f@houat>
+ <Z0nn0VzawSCdOCKY@ideak-desk.fi.intel.com>
+ <20241202-real-benevolent-skunk-a9f5e0@houat>
+ <87ldwy5lvb.fsf@intel.com>
+ <Z021G3tmmRTi4iyl@ideak-desk.fi.intel.com>
+ <20241202-bald-finicky-coyote-e9ff4c@houat>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="u7k2sfuk7gzxc7b7"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c8093283-f2c1-4a66-823a-50aeabb3c82b@kernel.org>
+In-Reply-To: <20241202-bald-finicky-coyote-e9ff4c@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,66 +77,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Dec 02, 2024 at 04:07:56PM +0100, Maxime Ripard wrote:
+> On Mon, Dec 02, 2024 at 03:24:43PM +0200, Imre Deak wrote:
+> > On Mon, Dec 02, 2024 at 02:07:36PM +0200, Jani Nikula wrote:
+> > > On Mon, 02 Dec 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> > > > It's not about whether we have a problem or not: you introduce new
+> > > > framework functions, you need to have kunit tests to check their
+> > > > behaviour.
+> > > 
+> > > I don't fundamentally disagree with that goal, but it does seem like a
+> > > pretty drastic policy change. I don't recall a discussion where we made
+> > > that decision, nor can I find any documentation stating this. Or what
+> > > exactly the requirement is; it's totally unclear to me.
+> > > 
+> > > Had I been involved, I would've pointed out that while adding tests is
+> > > good, it inevitably increases the friction of adding new stuff to drm
+> > > core. It's super tempting for people to just get their jobs done. If
+> > > doing the right thing adds yet another hurdle, we may see more stuff
+> > > being added in drivers instead of drm core.
+> > > 
+> > > (Case in point, we already hacked around the problem being solved here
+> > > with commit d58f65df2dcb ("drm/i915/dp_mst: Fix connector initialization
+> > > in intel_dp_add_mst_connector()"). We could've just dropped the ball
+> > > right there.)
+> > 
+> > Fwiw, in this case adding tests for drm_connector_init_core() and
+> > drm_connector_add() looks simple enough.
+> > 
+> > IIUC it's the 3 testcases in drmm_connector_init_tests[] performed for
+> > drm_connector_init_core() and additional 3 test cases checking that (1)
+> > drm_connector_init_core() doesn't add the connector to the connector
+> > list, (2) drm_connector_add() adds it and (3) drm_connector_add() fails
+> > (by not adding the connector to the list and emitting a dmesg WARN) if
+> > drm_connector_init_core() was not called for the connector previously.
+> > For the last test I actually need to add the corresponding assert/early
+> > return to drm_connector_add().
+> > 
+> > If Maxim could confirm the above, I could resend the patchset adding
+> > these tests.
+> 
+> Yep, sounds great, thanks!
 
---u7k2sfuk7gzxc7b7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 4/7] arm64: dts: broadcom: Fix device tree warnings for
- BCM2712 display pipeline
-MIME-Version: 1.0
+Ok. The subtest (3) above checking if drm_connector_add() fails as
+expected if drm_connector_init_core() was not called before would also
+generate a dmesg warn, via a
 
-On Mon, Dec 02, 2024 at 04:20:46PM +0100, Krzysztof Kozlowski wrote:
-> On 02/12/2024 15:31, Dave Stevenson wrote:
-> > Fixes up errors on HDMI and interrupt controllers that weren't
->=20
-> What errors? I can't find anything in the commit. Describe the error.
->=20
-> > noticed before merging.
-> >=20
-> > Fixes: de9bc2dba3db ("arm64: dts: broadcom: Add display pipeline suppor=
-t to BCM2712")
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > ---
-> >  arch/arm64/boot/dts/broadcom/bcm2712.dtsi | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi b/arch/arm64/boo=
-t/dts/broadcom/bcm2712.dtsi
-> > index 39305e0869ec..f42fad2d8b37 100644
-> > --- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
-> > +++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
-> > @@ -336,7 +336,7 @@ ddc1: i2c@7d508280 {
-> >  			#size-cells =3D <0>;
-> >  		};
-> > =20
-> > -		bsc_irq: intc@7d508380 {
-> > +		bsc_irq: interrupt-controller@7d508380 {
->=20
->=20
-> Do not mix cleanups with bugfixes.
->=20
-> BTW, do not mix DTS to DRM. DRM has its own development style. DTS
-> *cannot* be merged there, so combining these series is not welcomed and
-> leads to issues (like DRM applying DTS!).
+	if (drm_WARN_ON(dev, !connector->funcs))
+		return;
 
-When did that ever happen?
+early return I'm adding to drm_connector_add() in the new version of the
+patchset. This fails the kunit test, as always when an error or warn is
+printed to the log. I couldn't find a good way to suppress this warn
+(don't want to modify the function being tested) to make the testcase
+pass. I think this test case could be omitted, since it's tested by all
+users implicitly anyway via the above assert. Is this acceptable?
 
-Maxime
-
---u7k2sfuk7gzxc7b7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ03RLgAKCRAnX84Zoj2+
-dgeyAX9OFiJpZFQbio0wgmyjERHOVqZ0QnzuwU8/l4uYS3Js8d451pGqbMSkwSuV
-y4TIeoEBf1bUqFd30CrhbLvlNqnr2LgNABbYjWU0AzVWN6SzLXWEYk4U7injMDWQ
-ojUpgGixPg==
-=czBy
------END PGP SIGNATURE-----
-
---u7k2sfuk7gzxc7b7--
+> Maxime
