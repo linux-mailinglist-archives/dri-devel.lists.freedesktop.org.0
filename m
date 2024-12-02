@@ -2,94 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E979E15BB
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:28:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A065D9E15BA
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:28:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B49010E966;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED6E10E965;
 	Tue,  3 Dec 2024 08:28:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gPHIHzQA";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="JgoedNbD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B52310E6B3;
- Mon,  2 Dec 2024 10:32:02 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B28PD8r030509;
- Mon, 2 Dec 2024 10:31:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- V9JKIx72ZzU6OqC05+Y0cV4EzX/9xl6Xv4DQi1WQZEY=; b=gPHIHzQAq5b3PbBr
- 5zksYJJH7AjoF0Cyyx4OcUXfLi2YtKe126piVvjWtAqQTkkwGaWWoiG4ziEvSaY9
- t7+xhLEOjKZyIldwADuzca1oFHHg7u6rEuqkdW6T9OjfWFzX35H01yfck7j6LTsD
- 58sGy1dVSAaSrbC1JTAw4HS6NhGKJhn+jvu6dhzbkqsracwkV2SCqN875hebPIEV
- /U6HM5bawBWTrh4c9khrUgEWtnqmbcrztDA2i248cVi/gnLXZWWVG7CyG4fzNcCT
- IacBlmyiTWeO+QPXTN0gkvVhln2k4dLXJ9AaTivY8AamMAgOM6Se+N9V5rNePG9C
- /m9ujQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437sq64hfe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 Dec 2024 10:31:54 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
- [10.45.79.139])
- by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B2AVr7m000301
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 2 Dec 2024 10:31:53 GMT
-Received: from [10.64.16.135] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 2 Dec 2024
- 02:31:46 -0800
-Message-ID: <22600892-3b0d-4b0f-9c46-e74241960dda@quicinc.com>
-Date: Mon, 2 Dec 2024 18:31:44 +0800
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0ACAB10E7CA
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 16:07:33 +0000 (UTC)
+Received: from hm-sls2.lan
+ (bras-base-toroon4332w-grc-63-70-49-166-4.dsl.bell.ca [70.49.166.4])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 0D92220C5D7A;
+ Mon,  2 Dec 2024 08:07:32 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0D92220C5D7A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1733155653;
+ bh=+yWk1aM+6xS/I5eH1MvkZmT+Z617E4kmSWH70mVTvq8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=JgoedNbDpuny8u/V3OB4/GgiRp++si7+o2siC0GHEkfoupIfU/gi47k+zcWmwqan+
+ Ei6+ege3ewDtKzHkQ5SUujAkxhHePLA12gztYvwkspuJuDY1xiukUBiYvYkePxP5aR
+ iEJ20crET/owabo62/WhvdNIkNLbdfSbJ6Qn3BUo=
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "Rodrigo Siqueira" <rodrigo.siqueira@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>
+Subject: [PATCH RESEND v5] drm/edid: add CTA Video Format Data Block support
+Date: Mon,  2 Dec 2024 11:07:19 -0500
+Message-ID: <20241202160719.52464-1-hamzamahfooz@linux.microsoft.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] phy: qcom: qmp-usbc: Add DP phy mode support on QCS615
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Kuogee
- Hsieh" <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, "Kishon
- Vijay Abraham I" <kishon@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, <quic_lliu6@quicinc.com>,
- <quic_fangez@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>,
- <linux-gpio@vger.kernel.org>
-References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
- <20241129-add-displayport-support-for-qcs615-platform-v1-3-09a4338d93ef@quicinc.com>
- <b310587f-c6c3-41dd-83bf-6affbcc65730@kernel.org>
-From: Xiangxu Yin <quic_xiangxuy@quicinc.com>
-In-Reply-To: <b310587f-c6c3-41dd-83bf-6affbcc65730@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ouCZElGXG-cUky1JI7neTh2rj2duVt65
-X-Proofpoint-ORIG-GUID: ouCZElGXG-cUky1JI7neTh2rj2duVt65
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- priorityscore=1501 mlxscore=0 clxscore=1011 lowpriorityscore=0
- suspectscore=0 adultscore=0 spamscore=0 impostorscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412020093
 X-Mailman-Approved-At: Tue, 03 Dec 2024 08:28:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -106,210 +59,556 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Video Format Data Blocks (VFDBs) contain the necessary information that
+needs to be fed to the Optimized Video Timings (OVT) Algorithm.
+Also, we require OVT support to cover modes that aren't supported by
+earlier standards (e.g. CVT). So, parse all of the relevant VFDB data
+and feed it to the OVT Algorithm, to extract all of the missing OVT
+modes.
 
+Cc: Ian Forbes <ian.forbes@broadcom.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Suggested-by: Karol Herbst <kherbst@redhat.com>
+Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+---
+v3: move ovt stuff above add_cea_modes() and break up
+    calculate_ovt_mode() to make it easier to read.
 
-On 11/29/2024 4:18 PM, Krzysztof Kozlowski wrote:
-> On 29/11/2024 08:57, Xiangxu Yin wrote:
->> Extended DP support for QCS615 USB or DP phy. Differentiated between
->> USBC and DP PHY using the match table’s type, dynamically generating
->> different types of cfg and layout attributes during initialization based
->> on this type. Static variables are stored in cfg, while parsed values
->> are organized into the layout structure.
->>
->> Signed-off-by: Xiangxu Yin <quic_xiangxuy@quicinc.com>
->> ---
->>  drivers/phy/qualcomm/phy-qcom-qmp-dp-phy.h |    1 +
->>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c   | 1453 ++++++++++++++++++++++++----
->>  2 files changed, 1254 insertions(+), 200 deletions(-)
-> 
-> 
-> 
-> ...
-> 
->> +	/* program default setting first */
->> +	writel(0x2A, tx + QSERDES_V3_TX_TX_DRV_LVL);
->> +	writel(0x20, tx + QSERDES_V3_TX_TX_EMP_POST1_LVL);
->> +	writel(0x2A, tx2 + QSERDES_V3_TX_TX_DRV_LVL);
->> +	writel(0x20, tx2 + QSERDES_V3_TX_TX_EMP_POST1_LVL);
->> +
->> +	writel(voltage_swing_cfg, tx + QSERDES_V3_TX_TX_DRV_LVL);
->> +	writel(pre_emphasis_cfg, tx + QSERDES_V3_TX_TX_EMP_POST1_LVL);
->> +	writel(voltage_swing_cfg, tx2 + QSERDES_V3_TX_TX_DRV_LVL);
->> +	writel(pre_emphasis_cfg, tx2 + QSERDES_V3_TX_TX_EMP_POST1_LVL);
->> +
->> +	return 0;
->> +}
->> +
->> +static int qcs615_qmp_configure_dp_phy(struct qmp_usbc *qmp)
->> +{
->> +	struct qmp_phy_dp_layout *layout = to_dp_layout(qmp);
->> +	u32 status;
->> +
->> +	writel(0x01, layout->dp_phy + QSERDES_DP_PHY_CFG);
->> +	writel(0x05, layout->dp_phy + QSERDES_DP_PHY_CFG);
->> +	writel(0x01, layout->dp_phy + QSERDES_DP_PHY_CFG);
->> +	writel(0x09, layout->dp_phy + QSERDES_DP_PHY_CFG);
->> +
->> +	writel(0x20, layout->dp_serdes + QSERDES_COM_RESETSM_CNTRL);
->> +
->> +	// C_READY
-> 
-> Use Linux coding style.
-> 
-> Anyway, drop all useless comments. Say something useful or don't say
-> anything.
-> 
-Ok, will update in next seperated patches.
->> +	if (readl_poll_timeout(layout->dp_serdes + QSERDES_COM_C_READY_STATUS,
->> +			status,
->> +			((status & BIT(0)) > 0),
->> +			500,
->> +			10000)) {
->> +		dev_err(qmp->dev, "C_READY not ready\n");
->> +		return -ETIMEDOUT;
->> +	}
->> +
->> +	// FREQ_DONE
->> +	if (readl_poll_timeout(layout->dp_serdes + QSERDES_COM_CMN_STATUS,
->> +			status,
->> +			((status & BIT(0)) > 0),
->> +			500,
->> +			10000)){
->> +		dev_err(qmp->dev, "FREQ_DONE not ready\n");
->> +		return -ETIMEDOUT;
->> +	}
->> +
->> +	// PLL_LOCKED
->> +	if (readl_poll_timeout(layout->dp_serdes + QSERDES_COM_CMN_STATUS,
->> +			status,
->> +			((status & BIT(1)) > 0),
->> +			500,
->> +			10000)){
->> +		dev_err(qmp->dev, "PLL_LOCKED not ready\n");
->> +		return -ETIMEDOUT;
->> +	}
->> +
->> +	writel(0x19, layout->dp_phy + QSERDES_DP_PHY_CFG);
->> +	udelay(10);
->> +
->> +	// TSYNC_DONE
->> +	if (readl_poll_timeout(layout->dp_phy + QSERDES_V3_DP_PHY_STATUS,
->> +			status,
->> +			((status & BIT(0)) > 0),
->> +			500,
->> +			10000)){
->> +		dev_err(qmp->dev, "TSYNC_DONE not ready\n");
->> +		return -ETIMEDOUT;
->> +	}
->> +
->> +	// PHY_READY
->> +	if (readl_poll_timeout(layout->dp_phy + QSERDES_V3_DP_PHY_STATUS,
->> +			status,
->> +			((status & BIT(1)) > 0),
->> +			500,
->> +			10000)){
->> +		dev_err(qmp->dev, "PHY_READY not ready\n");
->> +		return -ETIMEDOUT;
->> +	}
->> +
->> +	writel(0x3f, layout->dp_tx + QSERDES_V3_TX_TRANSCEIVER_BIAS_EN);
->> +	writel(0x10, layout->dp_tx + QSERDES_V3_TX_HIGHZ_DRVR_EN);
->> +	writel(0x0a, layout->dp_tx + QSERDES_V3_TX_TX_POL_INV);
->> +	writel(0x3f, layout->dp_tx2 + QSERDES_V3_TX_TRANSCEIVER_BIAS_EN);
->> +	writel(0x10, layout->dp_tx2 + QSERDES_V3_TX_HIGHZ_DRVR_EN);
->> +	writel(0x0a, layout->dp_tx2 + QSERDES_V3_TX_TX_POL_INV);
->> +
->> +	writel(0x18, layout->dp_phy + QSERDES_DP_PHY_CFG);
->> +	writel(0x19, layout->dp_phy + QSERDES_DP_PHY_CFG);
->> +
->> +	if (readl_poll_timeout(layout->dp_phy + QSERDES_V3_DP_PHY_STATUS,
->> +			status,
->> +			((status & BIT(1)) > 0),
->> +			500,
->> +			10000)){
->> +		dev_err(qmp->dev, "PHY_READY not ready\n");
->> +		return -ETIMEDOUT;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int qcs615_qmp_calibrate_dp_phy(struct qmp_usbc *qmp)
->> +{
->> +	static const u8 cfg1_settings[] = {0x13, 0x23, 0x1d};
->> +	struct qmp_phy_dp_layout *layout = to_dp_layout(qmp);
->> +	u8 val;
->> +
->> +	layout->dp_aux_cfg++;
->> +	layout->dp_aux_cfg %= ARRAY_SIZE(cfg1_settings);
->> +	val = cfg1_settings[layout->dp_aux_cfg];
->> +
->> +	writel(val, layout->dp_phy + QSERDES_DP_PHY_AUX_CFG1);
->> +
->> +	qmp_usbc_check_dp_phy(qmp, "pos_calibrate");
->> +
->> +	return 0;
->> +}
->> +
->> +static int qmp_usbc_com_init(struct phy *phy)
->>  {
->>  	struct qmp_usbc *qmp = phy_get_drvdata(phy);
->> -	const struct qmp_phy_cfg *cfg = qmp->cfg;
->> -	void __iomem *pcs = qmp->pcs;
->> +	int num_vregs;
->>  	u32 val = 0;
->>  	int ret;
->> +	unsigned int reg_pwr_dn;
->>  
->> -	ret = regulator_bulk_enable(cfg->num_vregs, qmp->vregs);
->> +	if (qmp->type == QMP_PHY_USBC_USB) {
-> 
-> 
-> Sorry, all this code is unreviewable. Organize your changes in logical,
-> reviewable chunks.
-> 
-Will create new patch list and seperate patchsets.
->> +		struct qmp_phy_usb_cfg *cfg = to_usb_cfg(qmp);
->> +
->> +		num_vregs = cfg->num_vregs;
->> +		reg_pwr_dn = cfg->regs[QPHY_PCS_POWER_DOWN_CONTROL];
->> +	} else {
-> 
-> ...
-> 
->> +		.compatible = "qcom,qcs615-qmp-dp-phy",
->> +		.data =  &(struct dev_cfg) {
->> +			.type = QMP_PHY_USBC_DP,
->> +			.cfg = &qcs615_dpphy_cfg,
->> +		},
->>  	}, {
->>  		.compatible = "qcom,sdm660-qmp-usb3-phy",
->> -		.data = &sdm660_usb3phy_cfg,
->> +		.data =  &(struct dev_cfg) {
->> +			.type = QMP_PHY_USBC_USB,
->> +			.cfg = &sdm660_usb3phy_cfg,
->> +		},
->>  	}, {
->>  		.compatible = "qcom,sm6115-qmp-usb3-phy",
->> -		.data = &qcm2290_usb3phy_cfg,
->> +		.data =  &(struct dev_cfg) {
->> +			.type = QMP_PHY_USBC_USB,
->> +			.cfg = &qcm2290_usb3phy_cfg,
->> +		},
->>  	},
->>  	{ },
->>  };
->> +
-> 
-> 
-> You make some random changes all over this file. No, clean it up.
-> 
->>  MODULE_DEVICE_TABLE(of, qmp_usbc_of_match_table);
->>  
->>  static struct platform_driver qmp_usbc_driver = {
->>
-> 
-> 
-> Best regards,
-> Krzysztof
+v4: fix 32 bit build and constify read-only vars.
+
+v5: Implement suggestions from:
+    https://lore.kernel.org/dri-devel/87plpbk92h.fsf@intel.com/
+    and export drm_ovt_mode().
+---
+ drivers/gpu/drm/drm_edid.c | 465 +++++++++++++++++++++++++++++++++++++
+ include/drm/drm_edid.h     |   3 +
+ 2 files changed, 468 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 855beafb76ff..e5e34397be00 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -31,6 +31,7 @@
+ #include <linux/bitfield.h>
+ #include <linux/byteorder/generic.h>
+ #include <linux/cec.h>
++#include <linux/gcd.h>
+ #include <linux/hdmi.h>
+ #include <linux/i2c.h>
+ #include <linux/kernel.h>
+@@ -741,6 +742,87 @@ static const struct minimode extra_modes[] = {
+ 	{ 2048, 1536, 60, 0 },
+ };
+ 
++struct cta_rid {
++	u16 hactive;
++	u16 vactive;
++	u8 hratio;
++	u8 vratio;
++};
++
++/* CTA-861-I Table 11 - Resolution Identification (RID) */
++static const struct cta_rid rids[] = {
++	[0]  = { 0, 0, 0, 0 },
++	[1]  = { 1280, 720, 16, 9 },
++	[2]  = { 1280, 720, 64, 27 },
++	[3]  = { 1680, 720, 64, 27 },
++	[4]  = { 1920, 1080, 16, 9 },
++	[5]  = { 1920, 1080, 64, 27 },
++	[6]  = { 2560, 1080, 64, 27 },
++	[7]  = { 3840, 1080, 32, 9 },
++	[8]  = { 2560, 1440, 16, 9 },
++	[9]  = { 3440, 1440, 64, 27 },
++	[10] = { 5120, 1440, 32, 9 },
++	[11] = { 3840, 2160, 16, 9 },
++	[12] = { 3840, 2160, 64, 27 },
++	[13] = { 5120, 2160, 64, 27 },
++	[14] = { 7680, 2160, 32, 9 },
++	[15] = { 5120, 2880, 16, 9 },
++	[16] = { 5120, 2880, 64, 27 },
++	[17] = { 6880, 2880, 64, 27 },
++	[18] = { 10240, 2880, 32, 9 },
++	[19] = { 7680, 4320, 16, 9 },
++	[20] = { 7680, 4320, 64, 27 },
++	[21] = { 10240, 4320, 64, 27 },
++	[22] = { 15360, 4320, 32, 9 },
++	[23] = { 11520, 6480, 16, 9 },
++	[24] = { 11520, 6480, 64, 27 },
++	[25] = { 15360, 6480, 64, 27 },
++	[26] = { 15360, 8640, 16, 9 },
++	[27] = { 15360, 8640, 64, 27 },
++	[28] = { 20480, 8640, 64, 27 },
++};
++
++/* CTA-861-I Table 12 - AVI InfoFrame Video Format Frame Rate */
++static const u16 video_format_frame_rates[] = {
++	/* Frame Rate 0-7 */
++	0, 24, 25, 30, 48, 50, 60, 100,
++	/* Frame Rate 8-15 */
++	120, 144, 200, 240, 300, 360, 400, 480,
++};
++
++/* CTA-861-I Table 13 - RID To VIC Mapping */
++static const u8 rid_to_vic[][8] = {
++	[0]  = {},
++	[1]  = { 60, 61, 62, 108, 19, 4, 41, 47 },
++	[2]  = { 65, 66, 67, 109, 68, 69, 70, 71 },
++	[3]  = { 79, 80, 81, 110, 82, 83, 84, 85 },
++	[4]  = { 32, 33, 34, 111, 31, 16, 64, 63 },
++	[5]  = { 72, 73, 74, 112, 75, 76, 77, 78 },
++	[6]  = { 86, 87, 88, 113, 89, 90, 91, 92 },
++	[7]  = {},
++	[8]  = {},
++	[9]  = {},
++	[10] = {},
++	[11] = { 93, 94, 95, 114, 96, 97, 117, 118 },
++	[12] = { 103, 104, 105, 116, 106, 107, 119, 120 },
++	[13] = { 121, 122, 123, 124, 125, 126, 127, 193 },
++	[14] = {},
++	[15] = {},
++	[16] = {},
++	[17] = {},
++	[18] = {},
++	[19] = { 194, 195, 196, 197, 198, 199, 200, 201 },
++	[20] = { 202, 203, 204, 205, 206, 207, 208, 209 },
++	[21] = { 210, 211, 212, 213, 214, 215, 216, 217 },
++	[22] = {},
++	[23] = {},
++	[24] = {},
++	[25] = {},
++	[26] = {},
++	[27] = {},
++	[28] = {},
++};
++
+ /*
+  * From CEA/CTA-861 spec.
+  *
+@@ -4131,6 +4213,7 @@ static int add_detailed_modes(struct drm_connector *connector,
+ #define CTA_DB_VIDEO			2
+ #define CTA_DB_VENDOR			3
+ #define CTA_DB_SPEAKER			4
++#define CTA_DB_VIDEO_FORMAT		6
+ #define CTA_DB_EXTENDED_TAG		7
+ 
+ /* CTA-861-H Table 62 - CTA Extended Tag Codes */
+@@ -4972,6 +5055,16 @@ struct cea_db {
+ 	u8 data[];
+ } __packed;
+ 
++struct cta_vfd {
++	u8 rid;
++	u8 fr_fact;
++	bool bfr50;
++	bool fr24;
++	bool bfr60;
++	bool fr144;
++	bool fr48;
++};
++
+ static int cea_db_tag(const struct cea_db *db)
+ {
+ 	return db->tag_length >> 5;
+@@ -5250,6 +5343,376 @@ static int edid_hfeeodb_extension_block_count(const struct edid *edid)
+ 	return cta[4 + 2];
+ }
+ 
++/* CTA-861 Video Format Descriptor (CTA VFD) */
++static void parse_cta_vfd(struct cta_vfd *vfd, const u8 *data, int vfd_len)
++{
++	vfd->rid = data[0] & 0x3f;
++	vfd->bfr50 = data[0] & 0x80;
++	vfd->fr24 = data[0] & 0x40;
++	vfd->bfr60 = vfd_len > 1 ? (data[1] & 0x80) : true;
++	vfd->fr144 = vfd_len > 1 ? (data[1] & 0x40) : false;
++	vfd->fr_fact = vfd_len > 1 ? (data[1] & 0x3f) : 0x3;
++	vfd->fr48 = vfd_len > 2 ? (data[2] & 0x1) : false;
++}
++
++static bool vfd_has_fr(const struct cta_vfd *vfd, int rate)
++{
++	static const u8 factors[] = {
++		1, 2, 4, 8, 12, 16
++	};
++	int factor = 0;
++	int i;
++
++	switch (rate) {
++	case 24:
++		return vfd->fr24;
++	case 48:
++		return vfd->fr48;
++	case 144:
++		return vfd->fr144;
++	}
++
++	if (!(rate % 25)) {
++		if (!vfd->bfr50)
++			return false;
++
++		factor = rate / 25;
++	} else if (!(rate % 30)) {
++		if (!vfd->bfr60)
++			return false;
++
++		factor = rate / 30;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(factors); i++)
++		if (factor == factors[i] && (vfd->fr_fact & (1 << i)))
++			return true;
++
++	return false;
++}
++
++#define OVT_PIXEL_CLOCK_GRANULARITY	1000		/* Hz */
++#define OVT_MIN_HTOTAL_GRANULARITY	8		/* pixels */
++#define OVT_MIN_VBLANK_DURATION	460000000	/* ps */
++#define OVT_MIN_VBLANK_LINES		20
++#define OVT_MIN_VSYNC_LEADING_EDGE	400		/* us */
++#define OVT_MIN_VSYNC_LE_LINES		14
++#define OVT_MIN_CLOCK_RATE_420		590000000	/* Hz */
++#define OVT_PIXEL_FACTOR_420		2
++#define OVT_MIN_HBLANK_444		80		/* pixels */
++#define OVT_MIN_HBLANK_420		128		/* pixels */
++#define OVT_MAX_CHUNK_RATE		650000000	/* Hz */
++#define OVT_AUDIO_PACKET_RATE		195000		/* Hz */
++#define OVT_AUDIO_PACKET_SIZE		32
++#define OVT_LINE_OVERHEAD		32
++#define OVT_HSYNC_WIDTH		32
++#define OVT_VSYNC_WIDTH		8
++
++static u32 calculate_ovt_min_vtotal(const struct cta_rid *rid, u64 max_vrate,
++				    u32 vtotal_granularity)
++{
++	u64 max_active_time;
++	u32 min_line_time;
++	u32 min_vblank;
++	u32 min_vtotal;
++
++	/* step 2 */
++	max_active_time = div64_u64(1000000000000, max_vrate) -
++		(u64)OVT_MIN_VBLANK_DURATION;
++
++	min_line_time = div_u64(max_active_time, rid->vactive);
++
++	min_vblank = max_t(u64, (u64)OVT_MIN_VBLANK_LINES,
++			   DIV64_U64_ROUND_UP(OVT_MIN_VBLANK_DURATION,
++					      min_line_time));
++
++	min_vtotal = rid->vactive + min_vblank;
++
++	if (min_vtotal % vtotal_granularity)
++		min_vtotal += vtotal_granularity - (min_vtotal %
++						    vtotal_granularity);
++
++	return min_vtotal;
++}
++
++static u32 calculate_ovt_min_htotal(const struct cta_rid *rid,
++				    const u32 max_vrate,
++				    const u32 min_vtotal,
++				    u32 *min_hblank,
++				    u32 *htotal_granularity)
++{
++	u32 max_audio_packets_per_line;
++	u32 htotal_granularity_chunk;
++	u64 min_pixel_clock_rate;
++	u32 min_line_rate;
++	u32 min_htotal;
++
++	/* step 3 */
++	min_line_rate = max_vrate * min_vtotal;
++
++	max_audio_packets_per_line = DIV_ROUND_UP(OVT_AUDIO_PACKET_RATE,
++						  min_line_rate);
++
++	/* step 4 */
++	*min_hblank = OVT_LINE_OVERHEAD + OVT_AUDIO_PACKET_SIZE *
++		max_audio_packets_per_line;
++
++	min_htotal = rid->hactive + max(OVT_MIN_HBLANK_444, *min_hblank);
++
++	min_pixel_clock_rate = max_vrate * min_htotal * min_vtotal;
++
++	htotal_granularity_chunk =
++		roundup_pow_of_two(DIV64_U64_ROUND_UP(min_pixel_clock_rate,
++						      OVT_MAX_CHUNK_RATE));
++
++	*htotal_granularity = max(OVT_MIN_HTOTAL_GRANULARITY,
++				  htotal_granularity_chunk);
++
++	if (min_htotal % *htotal_granularity)
++		min_htotal += *htotal_granularity - (min_htotal %
++						     *htotal_granularity);
++
++	return min_htotal;
++}
++
++static u64 calculate_ovt_pixel_clock_rate(const struct cta_rid *rid,
++					  const u32 max_vrate,
++					  const u32 min_hblank,
++					  u32 min_htotal,
++					  u32 min_vtotal,
++					  const u32 htotal_granularity,
++					  const u32 vtotal_granularity,
++					  u32 *htotal, u32 *vtotal)
++{
++	u32 resolution_granularity;
++	u64 pixel_clock_rate;
++	u64 min_resolution;
++	u64 rem;
++	u32 h;
++	u64 r;
++	u32 v;
++
++	resolution_granularity = OVT_PIXEL_CLOCK_GRANULARITY /
++		gcd(OVT_PIXEL_CLOCK_GRANULARITY, max_vrate);
++
++	do {
++		/* step 5 */
++		min_resolution = 0;
++		v = min_vtotal;
++
++		goto loop_end;
++
++		while (!min_resolution || r <= min_resolution) {
++			goto inner_loop_end;
++
++			while (rem || div64_u64(max_vrate * r, (h & ~(h - 1))) >
++			       OVT_MAX_CHUNK_RATE) {
++				h += htotal_granularity;
++				r = (u64)h * (u64)v;
++inner_loop_end:
++				div64_u64_rem(r, resolution_granularity, &rem);
++			}
++
++			if (!min_resolution || r < min_resolution) {
++				*htotal = h;
++				*vtotal = v;
++				min_resolution = r;
++			}
++
++			v += vtotal_granularity;
++
++loop_end:
++			h = min_htotal;
++			r = (u64)h * (u64)v;
++		}
++
++		pixel_clock_rate = max_vrate * min_resolution;
++
++		/* step 6 */
++		min_htotal = rid->hactive + max(OVT_MIN_HBLANK_420,
++						OVT_PIXEL_FACTOR_420 *
++						min_hblank);
++
++	} while (pixel_clock_rate >= OVT_MIN_CLOCK_RATE_420 &&
++		 *htotal < min_htotal);
++
++	return pixel_clock_rate;
++}
++
++static const struct cta_rid *find_rid(u8 rid)
++{
++	if (!rid || rid >= ARRAY_SIZE(rids))
++		return NULL;
++
++	return &rids[rid];
++}
++
++/* OVT Algorthim as specified in CTA-861-I */
++struct drm_display_mode *drm_ovt_mode(struct drm_device *dev, int r_id,
++				      int vrefresh)
++{
++	const struct cta_rid *rid = find_rid(r_id);
++	struct drm_display_mode *mode;
++	u32 vtotal_granularity = 1;
++	u32 htotal_granularity;
++	u32 max_vrate = vrefresh;
++	u64 pixel_clock_rate;
++	u32 vsync_position;
++	u32 min_hblank;
++	u32 min_htotal;
++	u32 min_vtotal;
++	u32 htotal;
++	u32 vtotal;
++
++	if (!rid)
++		return NULL;
++
++	/* step 1 */
++	switch (vrefresh) {
++	case 24:
++	case 25:
++		max_vrate = 30;
++		fallthrough;
++	case 30:
++		vtotal_granularity = 20;
++		break;
++	case 48:
++	case 50:
++		max_vrate = 60;
++		fallthrough;
++	case 60:
++		vtotal_granularity = 20;
++		break;
++	case 100:
++		max_vrate = 120;
++		fallthrough;
++	case 120:
++		vtotal_granularity = 5;
++		break;
++	case 200:
++		max_vrate = 240;
++		fallthrough;
++	case 240:
++		vtotal_granularity = 5;
++		break;
++	case 300:
++		max_vrate = 360;
++		fallthrough;
++	case 360:
++		vtotal_granularity = 5;
++		break;
++	case 400:
++		max_vrate = 480;
++		fallthrough;
++	case 480:
++		vtotal_granularity = 5;
++		break;
++	}
++
++	min_vtotal = calculate_ovt_min_vtotal(rid, max_vrate,
++					      vtotal_granularity);
++
++	min_htotal = calculate_ovt_min_htotal(rid, max_vrate, min_vtotal,
++					      &min_hblank, &htotal_granularity);
++
++	pixel_clock_rate = calculate_ovt_pixel_clock_rate(rid, max_vrate,
++							  min_hblank,
++							  min_htotal,
++							  min_vtotal,
++							  htotal_granularity,
++							  vtotal_granularity,
++							  &htotal, &vtotal);
++
++	/* step 7 */
++	vtotal = vtotal * max_vrate / (u32)vrefresh;
++
++	/* step 8 */
++	vsync_position = max(OVT_MIN_VSYNC_LE_LINES,
++			     DIV64_U64_ROUND_UP((u64)OVT_MIN_VSYNC_LE_LINES *
++						pixel_clock_rate,
++						(u64)htotal * (u64)1000000));
++
++	mode = drm_mode_create(dev);
++
++	if (!mode)
++		return NULL;
++
++	/* step 10 */
++	mode->clock = div_u64(pixel_clock_rate, 1000);
++	mode->hdisplay = rid->hactive;
++	mode->hsync_start = htotal - OVT_HSYNC_WIDTH * 2;
++	mode->hsync_end = mode->hsync_start + OVT_HSYNC_WIDTH;
++	mode->htotal = htotal;
++
++	mode->vdisplay = rid->vactive;
++	mode->vsync_start = vtotal - vsync_position;
++	mode->vsync_end = mode->vsync_start + OVT_VSYNC_WIDTH;
++	mode->vtotal = vtotal;
++
++	return mode;
++}
++
++static u8 find_vic(u8 rid, int rate_idx)
++{
++	if (video_format_frame_rates[rate_idx] > 120 || !find_rid(rid))
++		return 0;
++
++	return rid_to_vic[rid][rate_idx - 1];
++}
++
++/* CTA-861 Video Format Data Block (CTA VFDB) */
++static int add_modes_from_vfdb(struct drm_connector *connector,
++			       const struct cea_db *db)
++{
++	const struct drm_display_info *info = &connector->display_info;
++	int vfdb_len = cea_db_payload_len(db);
++	struct drm_display_mode *mode;
++	struct cta_vfd vfd;
++	int num_modes = 0;
++	int rate_idx;
++	int vfd_len;
++	int rate;
++	int i;
++
++	if (!vfdb_len)
++		return 0;
++
++	vfd_len = (db->data[0] & 0x3);
++
++	if (!vfd_len)
++		return 0;
++
++	vfd_len++;
++	vfdb_len--;
++	vfdb_len -= (vfdb_len % vfd_len);
++
++	for (i = 0; i < vfdb_len; i += vfd_len) {
++		parse_cta_vfd(&vfd, &db->data[i + 1], vfd_len);
++
++		for (rate_idx = 1; rate_idx <
++		     ARRAY_SIZE(video_format_frame_rates); rate_idx++) {
++			rate = video_format_frame_rates[rate_idx];
++
++			if (!vfd_has_fr(&vfd, rate) || find_vic(vfd.rid,
++								rate_idx))
++				continue;
++
++			mode = drm_ovt_mode(connector->dev, vfd.rid, rate);
++
++			if (!mode)
++				continue;
++
++			mode->height_mm = info->height_mm;
++			mode->width_mm = info->width_mm;
++
++			drm_mode_probed_add(connector, mode);
++			num_modes++;
++		}
++	}
++
++	return num_modes;
++}
++
+ /*
+  * CTA-861 YCbCr 4:2:0 Capability Map Data Block (CTA Y420CMDB)
+  *
+@@ -5318,6 +5781,8 @@ static int add_cea_modes(struct drm_connector *connector,
+ 			/* Add 4:2:0(only) modes present in EDID */
+ 			modes += do_y420vdb_modes(connector, vdb420,
+ 						  cea_db_payload_len(db) - 1);
++		} else if (cea_db_tag(db) == CTA_DB_VIDEO_FORMAT) {
++			modes += add_modes_from_vfdb(connector, db);
+ 		}
+ 	}
+ 	cea_db_iter_end(&iter);
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index eaac5e665892..78831207ec65 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -450,6 +450,9 @@ struct drm_display_mode *
+ drm_display_mode_from_cea_vic(struct drm_device *dev,
+ 			      u8 video_code);
+ 
++struct drm_display_mode *drm_ovt_mode(struct drm_device *dev, int rid,
++				      int vrefresh);
++
+ /* Interface based on struct drm_edid */
+ const struct drm_edid *drm_edid_alloc(const void *edid, size_t size);
+ const struct drm_edid *drm_edid_dup(const struct drm_edid *drm_edid);
+-- 
+2.47.1
 
