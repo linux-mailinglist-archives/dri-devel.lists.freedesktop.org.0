@@ -2,113 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD759E0760
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:45:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 985EA9E0768
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:46:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54EC410E7AF;
-	Mon,  2 Dec 2024 15:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2369F10E7B2;
+	Mon,  2 Dec 2024 15:46:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iqrwOj2O";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="MRPqzPUx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB6E10E7AF
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:45:23 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-385ef8b64b3so1177427f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 07:45:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733154321; x=1733759121; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=PsAlaAuDi0Tk+rbL8JjCncmrpcl4/d9qDg5WbOHlB9w=;
- b=iqrwOj2OL4Rx2LDtw337HtgOrNxwNLCFC/V2nV3JQneoDmU2dqpcrocZ5LcJk92z1u
- AQQKqduOQSvvEY9jIzHBTMp0daSXLdUXoLLYE+BmdUNDiXZK3vugK4V3WQmfSZqdz8t1
- 0mL1I7KkwEnUPkRAT1t5pVQWLEFf5THKK6aX6mXVU9eUNElo4mm7BEGYSkjB2FOz8QKp
- 9H1P/XVzEI+AEt/dDgQH6CUZs5hcQ6BtdCVwWbNzWx+oeySiizLD5tTKMaUhxPvFRnzd
- PH3pvWTVF+G90BTHawRiOPtLp3WaVOcLjXOMYXYvuOTAK9w91EOt8slhfSM40DKS8Zl6
- Olfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733154321; x=1733759121;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=PsAlaAuDi0Tk+rbL8JjCncmrpcl4/d9qDg5WbOHlB9w=;
- b=TE40wBsGnGydac4B4E4rGGnP7+Mvp/QzIB98AVhTMvmGkvpOQfk9RLn/XOVPPeDKMO
- 0gNVVAa9zb59Y5haxs5r5WlAS+uudzN6hY+mjrEpw+Mf8cNuNSW383Nrp0cdfkyZ5cZA
- u66ggwyqEH6xcAj1CCNPWUtW4qnYkOle6Zr0QZPTqT55fs5gLqPmBP4LSrgRXgZ61V24
- f8LltHLdcc/Mi/o1PD24rkXb5YAwBMKvc0/rSHI4HhZSA4QVu3WSHClDwqe2vYLI5RuR
- jWzAbB/60WJmCRz/NWbWX+15emnUl4qUsLAzmUqcT5PM7OOADolWfn+L6Rw0Mzvo56Zs
- Rd+g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXbH21QVr/Kxb66AlPzhGOSaZPgsshAqAFFmtez0i226eHWXXBfFt/3InM0b2W9Pmq7IqzX1aqaLKY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzF2zC7oOanaw8UAZG+fix+FtgVRYtyjkAxrwR0CHXABUx0//KE
- so1b+8a9yGDwNURMNooIIxKQDccwPD+Tc0Xwvnq2p8zhvFT0XZt3uFHoEJdl2LY=
-X-Gm-Gg: ASbGnct/mQP4Q25HtkkgIWRCOH4OqiMS/ScApSg3EGD2QSvk+hKQntyy1sdy0Mpk+dP
- rh3fxMXlP1vju/JuTWfKi4Dj22KQR+IfeizV3BEfz6Lt6D21raU9EmLf7BCboRCB6PUwpFO9X0b
- +z1tGqtRx5DlMZKyfrMfDxti0UZSZNuvmRLKnlQHgjc79xBA4s6JsGLeBqWPn3fkLLJktkAnJXG
- RJepLGmbtQE6yCJpdNItMNtZMo8ic2YWjZAY0yVFYrRQspVRhsT+nA1ZYCEoniXQ1OUskwHRVJN
- 1l/wS5bjv+jKqp2LkjFCL205WRM=
-X-Google-Smtp-Source: AGHT+IHY/ZJesNDq8WcklgakuUkeQQ8aCpaHvI3UaYQnhebJTHXO8tn+nJwIo6alJ7oxVdeVNOzNMA==
-X-Received: by 2002:a05:6000:18a5:b0:385:df87:28de with SMTP id
- ffacd0b85a97d-385df8729admr12349605f8f.56.1733154321520; 
- Mon, 02 Dec 2024 07:45:21 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:1485:2a78:787c:c669?
- ([2a01:e0a:982:cbb0:1485:2a78:787c:c669])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-434aa74edb1sm191473505e9.3.2024.12.02.07.45.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Dec 2024 07:45:20 -0800 (PST)
-Message-ID: <5bbd44dc-cbe8-4906-afa2-6866f5d39341@linaro.org>
-Date: Mon, 2 Dec 2024 16:45:19 +0100
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E85D10E7B4
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1733154355; x=1733759155; i=wahrenst@gmx.net;
+ bh=S6AbZeNaZ6bTE249nttA7aUaHmMUAtPIQUa4jnYv9dg=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=MRPqzPUxvHdhDzn6BrdRf9grvVpT8loh0TtvRFigS/N98YMO1eGNg2fMgFa1dSMq
+ A6rbPAVQpkNh4opLucf/B62DtGd/jC7ZcbLP+KbiKZskMu2fA6wCez3Uw36yldNU6
+ xqw432FV8UqXo21pJtc6yzUJYboQdW2gLJmFMOdTQ0GPqua7Bx6HAubqoWlA0Vrdl
+ g4O/yXL5s/2BjEKL4dWmN+/2kyxxx+PH0S17cHZb2N48A3SZHfiNfmP1houYEQuEP
+ yLo3hILr2K31IMW/wWJ6IRqSjJkbR51Z2IPUj5XS0qVbvRTUV3Ro2uwUWecOnMRR7
+ e4CU2AzcVntMm0yiZA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.105] ([37.4.251.153]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MJVHU-1syHO72DwO-00LIU9; Mon, 02
+ Dec 2024 16:45:55 +0100
+Message-ID: <31d19aae-e2d2-4219-abe1-10516c42befe@gmx.net>
+Date: Mon, 2 Dec 2024 16:45:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/bridge: dw-hdmi: Sync comments with actual bus
- formats order
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Subject: Re: [PATCH 3/7] dt-bindings: gpio: brcmstb: add gpio-line-name
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241130-dw-hdmi-bus-fmt-order-v1-1-510b5fb6b990@collabora.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20241130-dw-hdmi-bus-fmt-order-v1-1-510b5fb6b990@collabora.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Doug Berger <opendmb@gmail.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
+ linux-gpio@vger.kernel.org
+References: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
+ <20241202-dt-bcm2712-fixes-v1-3-fac67cc2f98a@raspberrypi.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20241202-dt-bcm2712-fixes-v1-3-fac67cc2f98a@raspberrypi.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:IOMHa3ZcSMqatNTk+ufT5/RmKhqFiwzBeWyjcIAIec/+E8wlQQC
+ fdKZZK9TLuHh1jL1hDr4uBSd7nS/U5aDZZXZGyDz4LM1c9B7zrueEd8FSeezrohk31PE2Ao
+ kKWLjdrAAAN6ZIjGLWWXIzaRkfq57UuXqprcF0rbPF9DTt7UrdPhwz4zmOiMbtqMFSEu5rx
+ h1u1Qozkm5XfeKRDKaH+w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ArgobiVFoHY=;i5fh4paZoVkp5qjDIySZTSIapOP
+ L7gJtxwiztdtk86rYcuduxH+osuuESVmiV89rg7PrCpE8vVfLgYAoj+htWE2bgwEJ7BkvNC9F
+ xYhcb6QFIky4cTsN1RaAB3dexZ3fK/p/uo16OfnhqKMkFzu9Q1+0l8rT6jp4Id2XROEpRnyUY
+ QQi+N28duCW9gzvHwldDlAlJvrElZRvGtqDZGYzHJrln0zeUfVP82t1UJTaRoODibhzE642O3
+ wqX4ggf/+QVbcbtMSoryU1RAVXlenFa6paCaCkyylC1AljpyFkTsJ9Ue6qKyH1D26NqjoETOo
+ RF0Ky2fsAcQKxmg9IyzC88/69hxUxO4PL+SDoMUSpcDak6lgngvdhoge9dQ4HHCBwOavx5mAM
+ W4yUBiKYJqXv6sxnm1cmCyVEy2YtNRXoI0HT65XeXu7THGIdKqoQcPI9HjSKnQslf5faGyESj
+ Q3kEDNYOZ9jmUlVDXrKfRJZ6uzFMjW2WDka3AyRWc9+yQ3krpHDdeGjnPI4at5yRUu/R/Lk+S
+ Osv3zlNNwx1a7tRs4DiU6bPcP2RFk19+oEEPChPwPVc1UvCRnzBagB8PFReV9j20OaAgVG9NJ
+ 187DPQdiomDkE/yjplISD8km/cI9WZixQ3+afgMscNuAjqKBsnV5+7gKDvZsvlS/lXOvLnBSD
+ OwBUIgZfMp8whoIryacYaQiJLuIu4cAMcNxIo/pOrGzdZ5MgnJJPy05XChz4q2uiRBn6tFchE
+ rHW0SQZxwl6JIXeSymrp6wHivbnco8pxhP9bRcVt2FhkRFvMNPxGcOMsb5fLzd0ZZLoFOg45/
+ z/rSwz3UXEtDgcggdgYU40LxDztxQkpEdmt1rBItTNmSf0f94BB+7VVU21dzA03+jaekZyTGP
+ YAknUnwpXcurCo9GJG5ST2pn3tzC2+RyXXsr3klzJyCVAlkwlZbnMug7HKXcfiPWaPkGPsDhG
+ QiSLAEWPxysBdU8lRb/ARji75WJqVV4GdYR996jOYP34CgN5aXqgbZVMfpuoj9u6HkiBUEo2V
+ Jn8JmYeHpoJ+QgzPR2uTk1UQ5ud66S7WQN0iQuHHoBlCvaCZ8skO0qzFTkdWGGxYcP/oO1A2z
+ tEH+w4eM6q17dL9vVwB3u4yEtMGqP8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,79 +97,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave,
 
-On 30/11/2024 00:04, Cristian Ciocaltea wrote:
-> Commit d3d6b1bf85ae ("drm: bridge: dw_hdmi: fix preference of RGB modes
-> over YUV420") changed the order of the output bus formats, but missed to
-> update accordingly the affected comment blocks related to
-> dw_hdmi_bridge_atomic_get_output_bus_fmts().
-> 
-> Fix the misleading comments and a context related typo.
-> 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Am 02.12.24 um 15:31 schrieb Dave Stevenson:
+> Support comes from gpiolib, so permit it through the binding.
+Sorry for the nitpicking, but gpiolib is a software part of Linux and we
+should describe the hardware here.
+
+Best regards
+>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 996733ed2c004c83a989cb8da54d8b630d9f2c02..d76aede757175d7ad5873c5d7623abf2d12da73c 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2621,6 +2621,7 @@ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
->    * - MEDIA_BUS_FMT_UYYVYY12_0_5X36,
->    * - MEDIA_BUS_FMT_UYYVYY10_0_5X30,
->    * - MEDIA_BUS_FMT_UYYVYY8_0_5X24,
-> + * - MEDIA_BUS_FMT_RGB888_1X24,
->    * - MEDIA_BUS_FMT_YUV16_1X48,
->    * - MEDIA_BUS_FMT_RGB161616_1X48,
->    * - MEDIA_BUS_FMT_UYVY12_1X24,
-> @@ -2631,7 +2632,6 @@ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
->    * - MEDIA_BUS_FMT_RGB101010_1X30,
->    * - MEDIA_BUS_FMT_UYVY8_1X16,
->    * - MEDIA_BUS_FMT_YUV8_1X24,
-> - * - MEDIA_BUS_FMT_RGB888_1X24,
->    */
->   
->   /* Can return a maximum of 11 possible output formats for a mode/connector */
-> @@ -2669,7 +2669,7 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->   	}
->   
->   	/*
-> -	 * If the current mode enforces 4:2:0, force the output but format
-> +	 * If the current mode enforces 4:2:0, force the output bus format
->   	 * to 4:2:0 and do not add the YUV422/444/RGB formats
->   	 */
->   	if (conn->ycbcr_420_allowed &&
-> @@ -2698,14 +2698,14 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->   		}
->   	}
->   
-> +	/* Default 8bit RGB fallback */
-> +	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
-
-Why did you move this ? the following comment mentions it
-
+>   Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.ya=
+ml b/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
+> index f096f286da19..086d016df6ef 100644
+> --- a/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
+> @@ -64,6 +64,8 @@ properties:
+>
+>     gpio-ranges: true
+>
+> +  gpio-line-names: true
 > +
->   	/*
->   	 * Order bus formats from 16bit to 8bit and from YUV422 to RGB
-> -	 * if supported. In any case the default RGB888 format is added
-> +	 * if supported.
->   	 */
->   
-> -	/* Default 8bit RGB fallback */
-> -	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
-> -
->   	if (max_bpc >= 16 && info->bpc == 16) {
->   		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
->   			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
-> 
-> ---
-> base-commit: f486c8aa16b8172f63bddc70116a0c897a7f3f02
-> change-id: 20241130-dw-hdmi-bus-fmt-order-7f6db5db2f0a
-> 
+>     wakeup-source:
+>       type: boolean
+>       description: >
+>
 
