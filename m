@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2F09E06C9
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C899E06E3
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDCBF10E79B;
-	Mon,  2 Dec 2024 15:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19B3110E7A1;
+	Mon,  2 Dec 2024 15:24:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UUUx7lHf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c8E85m8H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F387010E79B
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:22:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F3B510E7A1
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:24:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 480AA5C621A;
- Mon,  2 Dec 2024 15:21:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F95FC4CED6;
- Mon,  2 Dec 2024 15:22:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 90A805C6816;
+ Mon,  2 Dec 2024 15:23:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B012C4CED1;
+ Mon,  2 Dec 2024 15:24:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733152936;
- bh=fMgv+yuJZSY3uaaQETMbs+RJU+yPn08IqtayuTbK6/c=;
+ s=k20201202; t=1733153070;
+ bh=G45+ggJZtAQkzmRMKCfMXNyn3c8grFThzBRCnhW+Rec=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UUUx7lHfUhva2ZxmhoIl2hQOl9DNlES3J4+BPvQ3+8OyGWmTKMFVE6zaT2pat5Nst
- ljE0gu0tVuCZUZDudHcX1odlZv9w2KqP42fLvARo42f1jTo8HT9twAjq92tCldRLJR
- gWkPziQX1V98Ksi6rxZSXqvtrEujuK7/DS7c3n3FFrh84TuL4oOj99Hj7VAZpbVx4k
- 1B/7bCop+HaUKysizSj/hE2xc5Q1a/Dhg6kKnqF5tnpFHkJx5axVYDrp/1rWkhDp5w
- pReLyOtZJRoZWsBdPU5q2F5XrqTYsDr93gUcCJVwv4ozBMuC0o39apjlJmMRaFcHdi
- ZiT873HdU4BwA==
-Message-ID: <8b2863e7-d504-49dc-a2ad-d34bfbeb6de8@kernel.org>
-Date: Mon, 2 Dec 2024 16:22:06 +0100
+ b=c8E85m8HZLO4Ae12bAlxjw7OGFCymA+RzRM6/lg2syPA7TcXk4X309S97bDKYXJoH
+ C2CnH1XF+moLXFrNu2yfjpqedK1nTIZ1K2LyqKNTFftX2iSs0iYWPP3MXm/GC34VEg
+ w17JYFMpyUYgG6snxO3zwVvlVDHtP7mieXfAhvrfzAAMuoYb8SkK52tiAA9tl2HRID
+ lh/ewUKXiXdSnZdRiSOKBY5hYHuY6fYjYw9URXHBoLF7yz2YkVvNgO4y0Q+ut6ew5w
+ suNOEITaOvFQ+LctAmHPM21xWTkvW46wrOsJyKU6Jzl7lTpt8SN6M16eqdv/jnEc7G
+ fO5R4M68wD9vg==
+Message-ID: <44c233d7-87d7-4dbb-a0d0-9e93ea497622@kernel.org>
+Date: Mon, 2 Dec 2024 16:24:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] arm64: dts: broadcom: Add interrupt-controller flag
- for intc on BCM2712
+Subject: Re: [PATCH 7/7] arm64: dts: broadcom: Fix device tree errors on
+ BCM2712.
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -55,7 +55,7 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
  linux-gpio@vger.kernel.org
 References: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
- <20241202-dt-bcm2712-fixes-v1-5-fac67cc2f98a@raspberrypi.com>
+ <20241202-dt-bcm2712-fixes-v1-7-fac67cc2f98a@raspberrypi.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -101,7 +101,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241202-dt-bcm2712-fixes-v1-5-fac67cc2f98a@raspberrypi.com>
+In-Reply-To: <20241202-dt-bcm2712-fixes-v1-7-fac67cc2f98a@raspberrypi.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,22 +119,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/12/2024 15:31, Dave Stevenson wrote:
-> BCM2712 DT was producing dtbinding validation errors of
+On 02/12/2024 15:32, Dave Stevenson wrote:
+> Resolves the issues on clocks and power nodes
 
-s/DT/DTS/
-No one uses term like "dtbinding". Use full make target name or DT schema.
-
+Which issues? Be specific. Such commit is unprecise and not really
+helpful. We see it from the diff that this is "some issue". What we do
+not see is WHY and WHAT the ISSUE is.
 
 > 
-> interrupt-controller@7cd00000: 'interrupt-controller' is a required
-> property
-> interrupt-controller@7cd00000: '#interrupt-cells' is a required property
-> 
-> Fix them by adding the required flags.
+> Fixes: 4254a647b6c9 ("arm64: dts: broadcom: Add firmware clocks and power nodes to Pi5 DT")
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-But are these valid? Why do you think that binding is correct? Or you
-just silence the warning regardless whether this matches the hardware?
+
+Nothing in the DTS patches suggested targeting DRM, so this patchset is
+organized in pretty surprising way. Please split them per subsystem. DTS
+is never for driver subsystem.
+
+Subject: drop full stop.
+
+> ---
+>  arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts
+> index fbc56309660f..26e05601416f 100644
+> --- a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts
+> +++ b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts
+> @@ -66,11 +66,7 @@ &sdio1 {
+>  &soc {
+>  	firmware: firmware {
+>  		compatible = "raspberrypi,bcm2835-firmware", "simple-mfd";
+> -		#address-cells = <1>;
+> -		#size-cells = <1>;
+> -
+>  		mboxes = <&mailbox>;
+> -		dma-ranges;
+>  
+>  		firmware_clocks: clocks {
+>  			compatible = "raspberrypi,firmware-clocks";
+> @@ -85,6 +81,11 @@ reset: reset {
+>  
+>  	power: power {
+>  		compatible = "raspberrypi,bcm2835-power";
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +		ranges;
+> +		dma-ranges;
+
+
+No address space here, so why ranges?
+
+> +
+>  		firmware = <&firmware>;
+>  		#power-domain-cells = <1>;
+>  	};
+> 
 
 
 Best regards,
