@@ -2,62 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CE69E02B2
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 14:00:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB0B9E032B
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 14:19:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1047610E730;
-	Mon,  2 Dec 2024 13:00:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kfWpwYJ/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id F10EA10E279;
+	Mon,  2 Dec 2024 13:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E210410E72F;
- Mon,  2 Dec 2024 13:00:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733144451; x=1764680451;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=A0NzQvgUaRVqkjJue2Vp7eQZGT0PFqqmEXPHOJdmJpM=;
- b=kfWpwYJ/fWpEBugrnAdRK9jqFhilYEe/2QG/wf8CN/4qYEAeIJlHEDVB
- 60FnlCIH53t6F0KgPdNJa/9TFwExwtfoDd4MvF7GnZCn/jC3K0FSFztDw
- openRsnV9J/bkFA3MtUAcewLyZejFM6sScwtqndeuDJ3uTeCZ+6WI7wNY
- C/PZVHPC/qmunN1whIYIaMRbNlWs4Jvb0YXXZsTLOYlzDJ7hlbCfSi5M/
- Zano6PTnZ9PW8lX/DajS5k3i/hKJaSA6R3Y25tlo3zJfmLu9nbM4AVfSk
- M8TY5zMuYHhPDezFqyZRpE3mxW5NxOGmlrnc6do8zLF+7U/MHFKXY7Std A==;
-X-CSE-ConnectionGUID: qApYWvWLT6WIirf+NlVtMA==
-X-CSE-MsgGUID: z+Ud8CvcS9a+TKDBPSS12A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44687352"
-X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="44687352"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2024 05:00:50 -0800
-X-CSE-ConnectionGUID: 4A7iq46XQ7yyPUzaR8L9Sw==
-X-CSE-MsgGUID: vaQdtLBjQcyuthw/TOUKUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="98060450"
-Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.72])
- ([10.245.246.72])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2024 05:00:47 -0800
-Message-ID: <bb203f1695b12ade536dde449023a894f3b22193.camel@linux.intel.com>
-Subject: Re: [PATCH v2 29/29] drm/doc: gpusvm: Add GPU SVM documentation
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: apopple@nvidia.com, airlied@gmail.com, christian.koenig@amd.com, 
- simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
-Date: Mon, 02 Dec 2024 14:00:44 +0100
-In-Reply-To: <20241016032518.539495-30-matthew.brost@intel.com>
-References: <20241016032518.539495-1-matthew.brost@intel.com>
- <20241016032518.539495-30-matthew.brost@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F03F310E04F
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 13:19:18 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Y247c5gPYz1T6HF;
+ Mon,  2 Dec 2024 21:17:00 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id C72D71A0188;
+ Mon,  2 Dec 2024 21:19:15 +0800 (CST)
+Received: from localhost.huawei.com (10.169.71.169) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Mon, 2 Dec 2024 21:19:14 +0800
+From: Yongbang Shi <shiyongbang@huawei.com>
+To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>
+CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
+ <lidongming5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v6 drm-dp 0/5] Add dp module in hibmc driver
+Date: Mon, 2 Dec 2024 21:13:17 +0800
+Message-ID: <20241202131322.1847078-1-shiyongbang@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.169.71.169]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,180 +56,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2024-10-15 at 20:25 -0700, Matthew Brost wrote:
-> Add documentation for agree upon GPU SVM design principles, current
-> status, and future plans.
->=20
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
-> =C2=A0Documentation/gpu/rfc/gpusvm.rst | 70
-> ++++++++++++++++++++++++++++++++
-> =C2=A0Documentation/gpu/rfc/index.rst=C2=A0 |=C2=A0 4 ++
-> =C2=A02 files changed, 74 insertions(+)
-> =C2=A0create mode 100644 Documentation/gpu/rfc/gpusvm.rst
->=20
-> diff --git a/Documentation/gpu/rfc/gpusvm.rst
-> b/Documentation/gpu/rfc/gpusvm.rst
-> new file mode 100644
-> index 000000000000..2d3f79a6c30a
-> --- /dev/null
-> +++ b/Documentation/gpu/rfc/gpusvm.rst
-> @@ -0,0 +1,70 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +GPU SVM Section
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Agreed upon design principles
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> +
-> +* migrate_to_ram path
-> +	* Rely on core MM concepts (migration ptes, page refs, and
-> page locking)
-> +	=C2=A0 only
-> +	* No driver specific locks other than locks for hardware
-> interaction in
-> +	=C2=A0 this path
+From: baihan li <libaihan@huawei.com>
 
-We have previously been discussing the bo lock to protect the bo from
-eviction during migrate, if the vram allocation is bo-based. This is a
-cross-driver lock with a well-established locking order and I suggest
-we allow this. Apart from that I think the above statement needs some
-elaboration: What is the problem we are trying to avoid with driver-
-specific locks, written so that it's easy to understand it's a bad
-idea.
+Realizing the basic display function of DP cable for DP connector
+displaying. Add DP module in hibmc drm driver, which is for Hisilicon
+Hibmc SoC which used for Out-of-band management. Blow is the general
+hardware connection, both the Hibmc and the host CPU are on the same
+mother board.
 
-> +	* Partial migration is supported
++----------+       +----------+      +----- ----+      +----------------+
+|          | PCIe  |  Hibmc   |      |          |      |                |
+|host CPU( |<----->| display  |<---->| dp kapi  |<---->| dp aux moduel  |
+|arm64,x86)|       |subsystem |      |  moduel  |<---->| dp link moduel |
++----------+       +----------+      +----------+      +----------------+
 
-Exactly what do we mean by partial migration.
+---
+ChangeLog:
+v5 -> v6:
+  - adding do{} while(0) in macro defination function, suggested by Dmitry Baryshkov.
+  - using drm_dbg_dp() to print debug info instead of drm_info(), suggested by Dmitry Baryshkov.
+  - adding code comments in hibmc_dp_set_sst(), suggested by Dmitry Baryshkov.
+  - adding hpd and get_edid comments in the beginning of patch, suggested by Dmitry Baryshkov.
+v4 -> v5:
+  - fixing build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202411131438.RZWYrWTE-lkp@intel.com/
+  v4:https://lore.kernel.org/all/20241112132348.2631150-1-shiyongbang@huawei.com/
+v3 -> v4:
+  - retun error codes in  result incorrect branch, suggested by Dmitry Baryshkov.
+  - replacing all ret= with returns, suggested by Dmitry Baryshkov.
+  - moving the comment below the judgment statement, suggested by Dmitry Baryshkov.
+  - moving definations to the source file and clearing headers, suggested by Dmitry Baryshkov.
+  - reanaming dp_prefix to hibmc_dp_prefix, suggested by Dmitry Baryshkov.
+  - changing hibmc_dp_reg_write_field to static inline and lock, suggested by Dmitry Baryshkov.
+  - moving some structs to later patch, suggested by Dmitry Baryshkov.
+  - optimizing hibmc_dp_link_get_adjust_train() to delete for loop, suggested by Dmitry Baryshkov.
+  - changing ELNRNG to EIO error code, suggested by Dmitry Baryshkov.
+  - deleting meaningless macro, suggested by Dmitry Baryshkov.
+  - fixing build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
+  - changed the type of train_set to array, suggested by Dmitry Baryshkov.
+  - using actual link rate instead of magic num, suggested by Dmitry Baryshkov.
+  - deleting hibmc_dp_hw_uninit(), suggested by Dmitry Baryshkov.
+  - separating hibmc_vdac and hibmc_dp changes into separate patche, suggested by Dmitry Baryshkov.
+  - static int hibmc_dp_prepare(), suggested by Dmitry Baryshkov.
+  v3:https://lore.kernel.org/all/20241101105028.2177274-1-shiyongbang@huawei.com/
+v2 -> v3:
+  - put the macro definations in latter patch where they are actually used, suggested by Dmitry Baryshkov.
+  - rename some macro definations to make them sensible, suggested by Dmitry Baryshkov.
+  - using FIELD_PREP and FIELD_GET, suggested by Dmitry Baryshkov.
+  - using DP_DPCD_REV_foo, suggested by Dmitry Baryshkov.
+  - using switchcase in dp_link_reduce_lane, suggested by Dmitry Baryshkov.
+  - deleting dp_link_pattern2dpcd function and using macros directly, suggested by Dmitry Baryshkov.
+  - deleting EFAULT error codes, suggested by Dmitry Baryshkov.
+  - fix build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410250305.UHKDhtxy-lkp@intel.com/
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410250931.UDQ9s66H-lkp@intel.com/
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410251136.1m7BlR68-lkp@intel.com/
+  v2:https://lore.kernel.org/all/20241022124148.1952761-1-shiyongbang@huawei.com/
+v1 -> v2:
+  - using drm_dp_aux frame implement dp aux read and write functions, suggested by Jani Nikula.
+  - using drm dp header files' dp macros instead, suggested by Andy Yan.
+  - using drm_dp_* functions implement dp link training process, suggested by Jani Nikula.
+  - changed some defines and functions to former patch, suggested by Dmitry Baryshkov.
+  - sorting the headers including in dp_hw.h and hibmc_drm_drv.c files, suggested by Dmitry Baryshkov.
+  - deleting struct dp_mode and dp_mode_cfg function, suggested by Dmitry Baryshkov.
+  - modifying drm_simple_encoder_init function, suggested by Dmitry Baryshkov.
+  - refactoring struct hibmc_connector, suggested by Dmitry Baryshkov.
+  - withdrawing the modification in hibmc_kms_init, suggested by Dmitry Baryshkov.
+  - fix build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410040328.VeVxM9yB-lkp@intel.com/
+  v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
+---
 
-> +	* Driver handles mixed migrations via retry loops rather
-> than locking
-> +* Eviction
-> +	* Only looking at physical memory datastructures and locks
-as opposed to...
+baihan li (5):
+  drm/hisilicon/hibmc: add dp aux in hibmc drivers
+  drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
+  drm/hisilicon/hibmc: add dp hw moduel in hibmc driver
+  drm/hisilicon/hibmc: refactored struct hibmc_drm_private
+  drm/hisilicon/hibmc: add dp module in hibmc
 
-> +	* No looking at mm/vma structs or relying on those being
-> locked
-We're violating this with the current implementation, aren't we?
+ drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   | 164 +++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  66 ++++
+ .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  19 +
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 220 ++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  28 ++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  | 339 ++++++++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  76 ++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 118 ++++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  12 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  19 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |  41 ++-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |  20 +-
+ 13 files changed, 1086 insertions(+), 39 deletions(-)
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
 
-
-> +* GPU fault side
-> +	* mmap_read only used around core MM functions which require
-> this lock
-> +	* Big retry loop to handle all races with the mmu notifier
-> under the gpu
-> +	=C2=A0 pagetable locks/mmu notifier range lock/whatever we end up
-> calling
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 those
-> +	* Races (especially against concurrent
-> eviction/migrate_to_ram) should
-> +	=C2=A0 not be handled on the fault side by trying to hold locks
-
-This actually contradicts my comment written above about using the bo
-lock to block eviction here. The alternative would be to pin vram
-allocations during migration until the mm_truct has references on the
-allocation, but it'd be good to clarify exactly why locking here is a
-bad idea, and why we can't rely on lockdep?
-
-> +* Physical memory to virtual backpointer
-> +	* Does not work, no pointers from physical memory to virtual
-> should
-> +	=C2=A0 exist
-
-We actually still have the private zdd structure, but it's strictly not
-to virtual but to the allocation metadata. Is it verified that the
-zone_device_data field is allowed to be modified by the pagemap between
-allocation and migration?
-
-
-> +* GPU pagetable locking
-> +	* Notifier lock only protects range tree, pages, pagetable
-> entries, and
-> +	=C2=A0 mmu notifier seqno tracking, it is not a global lock to
-> protect
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 against races
-> +	* All races handled with big retry as mentioned above
-
-Adding a note here about "pages valid" for subranges rather than
-relying on the wider notifer seqno. I.E. a subrange can be valid even
-if the notifier seqno says otherwise.
-
-Performance considerations:
-Perhaps mention that notifier (core mm) performance is more important
-than gpu fault (driver) performance when considering optimizations that
-improves one at the cost of the other?
-
-> +
-> +Overview of current design
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> +
-> +Current design is simple as possible to get a working basline in
-> which can built
-
-can be built
-
-> +upon.
-> +
-> +.. kernel-doc:: drivers/gpu/drm/xe/drm_gpusvm.c
-> +=C2=A0=C2=A0 :doc: Overview
-> +=C2=A0=C2=A0 :doc: Locking
-> +=C2=A0=C2=A0 :doc: Migrataion
-> +=C2=A0=C2=A0 :doc: Partial Unmapping of Ranges
-> +=C2=A0=C2=A0 :doc: Examples
-> +
-> +Possible future design features
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> +
-> +* Concurrent GPU faults
-> +	* CPU faults are concurrent so makes sense to have
-> concurrent GPU faults
-> +	* Should be possible with fined grained locking in the
-> driver GPU
-> +	=C2=A0 fault handler
-> +	* No expected GPU SVM changes required
-> +* Ranges with mixed system and device pages
-> +	* Can be added if required to drm_gpusvm_get_pages fairly
-> easily
-> +* Multi-GPU support
-> +	* Work in progress and patches expected after initially
-> landing on GPU
-> +	=C2=A0 SVM
-> +	* Ideally can be done with little to no changes to GPU SVM
-> +* Drop ranges in favor of radix tree
-> +	* May be desirable for faster notifiers
-> +* Compound device pages
-> +	* Nvidia, AMD, and Intel all have agreed expensive core MM
-> functions in
-> +	=C2=A0 migrate device layer are a performance bottleneck, having
-> compound
-> +	=C2=A0 device pages should help increase performance by reducing
-> the number
-> +	=C2=A0 of these expensive calls
-> +* Higher order dma mapping for migration
-> +	* 4k dma mapping adversely affects migration performance on
-> Intel
-> +	=C2=A0 hardware, higher order (2M) dma mapping should help here
-> diff --git a/Documentation/gpu/rfc/index.rst
-> b/Documentation/gpu/rfc/index.rst
-> index 476719771eef..396e535377fb 100644
-> --- a/Documentation/gpu/rfc/index.rst
-> +++ b/Documentation/gpu/rfc/index.rst
-> @@ -16,6 +16,10 @@ host such documentation:
-> =C2=A0* Once the code has landed move all the documentation to the right
-> places in
-> =C2=A0=C2=A0 the main core, helper or driver sections.
-> =C2=A0
-> +.. toctree::
-> +
-> +=C2=A0=C2=A0=C2=A0 gpusvm.rst
-> +
-> =C2=A0.. toctree::
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 i915_gem_lmem.rst
-
-Thanks,
-Thomas
+-- 
+2.33.0
 
