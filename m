@@ -2,105 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2389C9E0027
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 12:21:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1539E0037
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 12:23:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6B810E6E1;
-	Mon,  2 Dec 2024 11:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFABC10E22D;
+	Mon,  2 Dec 2024 11:23:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EBEJonka";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QJY4JO46";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB6410E1E5;
- Mon,  2 Dec 2024 11:21:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id ABF265C627A;
- Mon,  2 Dec 2024 11:21:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C4F6C4CED1;
- Mon,  2 Dec 2024 11:21:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733138506;
- bh=h7V4itdehktHD46fUWst5KRH50mJvVyk8uOc8fyCBYU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=EBEJonkaN9geDc0To2Gn+Ouok3l2wdE3vEUJ3JIVdHiWTVH53AFYQuCTaU71KnEpU
- j5VhwoHz0ii1egGK5s61E/CFRt7BObCgshJjrfAo4MXC6IlEa27kw70Id4R53LZsRl
- Dadveks3d5vxFajLtV//6kjiEWEZ8/myIwEotZqDJfWwl0rIYMVwH12UKqGtjMI1p3
- 17Joa3GIplMAi8nBIsICac+g1bUoj0QaCM1VRw5GaogyyIHS0w2FErX+YVQSJQUZnX
- dhNf6X7exoY4S35fdvPhBJ90dnyJmKyu0KQAwVmAh7hYYqQL4hlXHjTzymTmpVUxWA
- ZbKOdeK6sxadQ==
-Message-ID: <1df39be7-ed70-4b65-8640-c1d20c9feadf@kernel.org>
-Date: Mon, 2 Dec 2024 12:21:39 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A49FD10E22D
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 11:23:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1733138609;
+ bh=3CwUiYzQSS9zQX15Z8WynaPmt4FF3csoPX1C+MgznUY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=QJY4JO46MD8RaA3KdmhUPZ9xQ7YVc6mQkbjYEfAhYkhi2SGFwHcGVpbNZ26OKO9VN
+ ycW3Kc52HxivZNn0QoFo144355/t7+3FLJie14iQsyArF+GT8RMCAZ0nejyRuKvOg8
+ FNm68HWcUd7wjcbaEKMWFExOeRzJlcOcKSun21hm1GceDWKPC8jPUWqH3LwdG1DQ0w
+ CpIbH0PogSJ7DPZRmP8lB4rzh9n8mDeZdf1MrRK/CP2fl5gDDpGfR1we9Ahm6bdo0y
+ w9Om0UC/tOOQHl/P+epf+64HIdfkzrOTnfHuunwJQ+4So4uBdb1vuDdua51i1zYGmM
+ w6u75MoQnLjmQ==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id DD4B717E3624;
+ Mon,  2 Dec 2024 12:23:28 +0100 (CET)
+Date: Mon, 2 Dec 2024 12:23:09 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Philipp Zabel
+ <p.zabel@pengutronix.de>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 8/8] drm/panfrost: Remove unused device property
+Message-ID: <20241202122309.12cf8e25@collabora.com>
+In-Reply-To: <20241128211223.1805830-9-adrian.larumbe@collabora.com>
+References: <20241128211223.1805830-1-adrian.larumbe@collabora.com>
+ <20241128211223.1805830-9-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: display/msm: qcom, sa8775p-mdss: fix the
- example
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mahadevan <quic_mahap@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241112-fd-dp-fux-warning-v2-1-8cc4960094bd@linaro.org>
- <643d2935-65ce-4d86-9be6-c2faa1956365@quicinc.com>
- <CAA8EJpqBouv-f-QMpZ+hrA-vF4ojhUWBn5yMqYYB9LpW0TACdg@mail.gmail.com>
- <ba5d51f4-edfc-4bc5-a3d2-1a2d24ae4403@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <ba5d51f4-edfc-4bc5-a3d2-1a2d24ae4403@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,40 +66,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/11/2024 20:16, Abhinav Kumar wrote:
-> 
-> 
-> On 11/12/2024 5:15 AM, Dmitry Baryshkov wrote:
->> On Tue, 12 Nov 2024 at 05:40, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>
->>>
->>>
->>> On 11/11/2024 7:21 PM, Dmitry Baryshkov wrote:
->>>> Add p1 region to the list of DP registers in the SA8775p example. This
->>>> fixes the following warning:
->>>>
->>>> Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.example.dtb: displayport-controller@af54000: reg: [[183844864, 260], [183845376, 192], [183848960, 1904], [183853056, 156]] is too short
->>>>
->>>> Fixes: 409685915f00 ("dt-bindings: display/msm: Document MDSS on SA8775P")
->>>> Reported-by: Rob Herring <robh@kernel.org>
->>>> Closes: https://lore.kernel.org/dri-devel/CAL_JsqJ0zoyaZAgZtyJ8xMsPY+YzrbF-YG1vPN6tFoFXQaW09w@mail.gmail.com/c
->>>
->>> Thanks for the patch.
->>>
->>> I think this link has an extra 'c' at the end.
->>
->> Oh.. Can you fix that when picking it up for -fixes or would you
->> prefer to have a clean version in patchwork?
->>
-> 
-> Yes, I can fix it up while applying.
+On Thu, 28 Nov 2024 21:06:23 +0000
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-This was supposed to be send still for v6.13-rc1... I don't understand
-why not, but it happened so now v6.13-rc1 has a regression - binding
-warning (binding, not DTS!). All people testing on v6.13-rc1, all
-maintainer trees etc. now have this warning.
+> The as_in_use_mask device state variable is no longer in use.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
 
-Please send the fix soon, so maintainers can for example rebase their trees.
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Best regards,
-Krzysztof
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_device.h | 1 -
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c    | 1 -
+>  2 files changed, 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm=
+/panfrost/panfrost_device.h
+> index fc83d5e104a3..b91957f886ea 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -117,7 +117,6 @@ struct panfrost_device {
+>  	DECLARE_BITMAP(is_suspended, PANFROST_COMP_BIT_MAX);
+> =20
+>  	spinlock_t as_lock;
+> -	unsigned long as_in_use_mask;
+>  	unsigned long as_alloc_mask;
+>  	unsigned long as_faulty_mask;
+>  	struct list_head as_lru_list;
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_mmu.c
+> index 5e30888bea0e..95df39b463d8 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -604,7 +604,6 @@ static void panfrost_mmu_release_ctx(struct kref *kre=
+f)
+>  		pm_runtime_put_autosuspend(pfdev->base.dev);
+> =20
+>  		clear_bit(mmu->as, &pfdev->as_alloc_mask);
+> -		clear_bit(mmu->as, &pfdev->as_in_use_mask);
+>  		list_del(&mmu->list);
+>  	}
+>  	spin_unlock(&pfdev->as_lock);
+
