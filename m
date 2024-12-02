@@ -2,90 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F659E0742
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:40:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 359609E0758
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:44:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D378810E136;
-	Mon,  2 Dec 2024 15:40:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F95910E7AD;
+	Mon,  2 Dec 2024 15:44:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="D169VzNP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YOtEoVbx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2ED910E0F7
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1733154008; x=1733758808; i=wahrenst@gmx.net;
- bh=ie04BQKrraW4QBO6vajJjoLi/zc/N6fbE/aXMCjogQI=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=D169VzNPq7SZOZg+lDoCe8Qf9x4Ncfat6lSA8IyAbuNBnfUL/Q9MDGWnJUJCA0DW
- dLNnlNOjomMt4+Q6od04JHoYRtsywJQIu7SBcLHR2m31KbjMmE9kmITXY4H+6TMc0
- fx1vgPrZAZK6y0ZyocL24gTmDW53yv/yWXxVIX9vKqvGfGOR7jA4YON64tNOksEop
- +UQgz2Tg7rRUvWxOCrnd87YkIm2cfRgR/NZNAXsiP7XiwyEMyQXepO8xk+lII0oyb
- EbJaEEM+lJrfIhHaB/tspcParFHb/+W+79JIQSf37b4GbdiN+6SKoJQPDCHkeCmtH
- 0frRuODZCyztIYRkFQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.105] ([37.4.251.153]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M8ykg-1tLy0s1Jig-005GpS; Mon, 02
- Dec 2024 16:40:08 +0100
-Message-ID: <b80097a1-4c8b-43f1-920f-b31489619111@gmx.net>
-Date: Mon, 2 Dec 2024 16:40:04 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 428CF10E0F7;
+ Mon,  2 Dec 2024 15:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733154284; x=1764690284;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=o0SnThjgTbO+1dWFV+Wnfa9zBCfQzejr437smpq0Yaw=;
+ b=YOtEoVbxrxxDPCj1/vtYIERo/8dTbwOaO87r3bN4HNtS+1zi6J+in8HS
+ 9fqZ5wB52iutyKnZpuEIFJp1ej2vvVEI453zcU4IVdqhE9GdiU0+CCxed
+ zjci+i1mVWIPukiE9F5xmiwURoOuggxT6kTrgzVuWNGECNSvnZdrr41Sp
+ 2niTh4t86LS9qT4h7370HvbQRHKW+Cgak2ZsxuWweBNXireqhPCt8LLmw
+ z9f6hGdCiitlg9F+9xqKuNdiU61Rqb/TIXJ6dOGYI2+ulqwtAF8ibk/S4
+ ca2KyaP/FHqiCu7PpaRlboJGKQhnAXNZGTh1hmUc1uc0IRxpzdbWQFYWY Q==;
+X-CSE-ConnectionGUID: Wn82M9TLSbek/UIaSBQeaw==
+X-CSE-MsgGUID: zXucnA84S7iT/mQRSekU+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44704953"
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="44704953"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 07:44:44 -0800
+X-CSE-ConnectionGUID: or46eqjzQZOl6jD30d8OWg==
+X-CSE-MsgGUID: r4Kg0rIORECjMyhyFlpI2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="93046344"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.77])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 07:44:41 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH v2 1/4] drm/dp: Add a way to init/add a connector in
+ separate steps
+In-Reply-To: <20241202-accurate-jolly-hornet-8c2ca0@houat>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241126161859.1858058-1-imre.deak@intel.com>
+ <20241126161859.1858058-2-imre.deak@intel.com>
+ <Z0nO-bwpbWPVryd6@ideak-desk.fi.intel.com>
+ <20241129-wild-cobra-of-thunder-829d1f@houat>
+ <Z0nn0VzawSCdOCKY@ideak-desk.fi.intel.com>
+ <20241202-real-benevolent-skunk-a9f5e0@houat> <87ldwy5lvb.fsf@intel.com>
+ <20241202-accurate-jolly-hornet-8c2ca0@houat>
+Date: Mon, 02 Dec 2024 17:44:27 +0200
+Message-ID: <87bjxu5btw.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] arm: dts: broadcom: Add interrupt-controller flag for
- intc on BCM2711
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Doug Berger <opendmb@gmail.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- linux-gpio@vger.kernel.org
-References: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
- <20241202-dt-bcm2712-fixes-v1-6-fac67cc2f98a@raspberrypi.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20241202-dt-bcm2712-fixes-v1-6-fac67cc2f98a@raspberrypi.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Ua8NGna7H1m0vTQYmzbtvKSsnWt7yxjKDiRlZ6y6icjnDgqA/Rw
- /0PsbSmLeFBFOxkLDl9tr9eOyUv8wyP+8jY6Pp8QjoFFW8CIWEZpR+8ViC//uhoPH/8/0BG
- KRCx039CoaP1f1Vshra/aY7f3pxy5O6QWuXNpROz5+0avGCJ/KP9rqlPSQ6Zc9o9Truei2B
- dJa4Xg0fqCw+MNTU/dPVg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vuiMuJHOccw=;E9PY0fNnCVNiEPWlmRO41i52zgF
- rFS2qSJ+pK5e633kWJlXJlpMb39Y2KmLH5x0LfVzs+RS7FvzHzMVYSorFuF9szTvf6LuzVoj+
- 4gpR04bpsPfPXVqXMxsQSZWNY1JNV0d2qc4qMoyZ7l5RQpjD0oeemojGh8OOZ0xpyY1w0DT/T
- EouR1ODjvHLmYQKSNAfYXayUSVXFXp5WbLgcRQFnHDOIeiARhDGbahlxLc1UXBmCJeUNb9rvb
- tVg+MLbdtp8fw4q951b7aW/Q3CbnTUZIHUO0ogQWrg8ObpeTnTsLGAQRsppMJSHR2LF+z53tT
- hsCDz4jICvqTwuHMAsz6uw3yEgTjY0dbWSUoGpFTK+9YOu8HdprHYdomGc0MRz4DtFu9WeCyt
- lZYonEKUFDCCMn9QqDos2j9J7SEKytpy5Q/DHqbGCc/Mtx2v8ZY/RTAlxtLot0GYqimaeweiP
- a5YkzNRhquVIKZgKoxrU38AcKvjcnNHCtyBCaVqqKAgGmE0mDrdjsRliHxxWH1xG3B7LvlZCs
- VtpDBUghMkk9INyS4yXEdPuHQuAv2qzxLD3ilDXwJhFIDJE/2iZrJtwVrqNYDnfM6x8IgcRQF
- glqGd80UnGdT0nQmef1FzwedB364zKgdcrGKeAgm7bkI6ElhzSES/IMdMwH0KtCh+c5a1E6mC
- qdrREvnsecRJxZ4xqA9CK2mOouV0y1bKIq2HfRptRNngv4T3CQlUDllDTAYaai6573bB0v47H
- y2XoYu39+Rx/zvuvC+9vbmcAY0XtNEv7+wA4ApG/Nd18TDDDZEN7zqvMzxPdDHq7vFBznnrD/
- 89LN0H6qo38sQlJYGgG8Zy0E1NZO0CdlwmN2y1eMSJJruq+HTUUkkBDNzaz0VpPXlQJzLB0x1
- d5n95BQeSzxCzDNLMAkJZAkM8NxuvmGDTKqT82DMsFbsYouaulpG9JW/rrTM4O41t51zUZoJ1
- pnRDLI8wanLLFCnsgleMvJHJ655BpE8SYPv2OPfswSUZWsTrZXJhTfS7YqSAI4Qf8wrVVjsEu
- W5S1irsSQqfpipXhthvT/VdfrjIKCdkUUA8JB/lCrGEtFACr40tRhajeQcxV4FujgbZgVsuAr
- VHWXetzRWXT4gpU2KKzZOM2iBLyr9b
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,43 +79,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+On Mon, 02 Dec 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> On Mon, Dec 02, 2024 at 02:07:36PM +0200, Jani Nikula wrote:
+>> On Mon, 02 Dec 2024, Maxime Ripard <mripard@kernel.org> wrote:
+>> > It's not about whether we have a problem or not: you introduce new
+>> > framework functions, you need to have kunit tests to check their
+>> > behaviour.
+>> 
+>> I don't fundamentally disagree with that goal,
+>
+> You don't really have to agree. You asked for my review, you have it.
+>
+>> but it does seem like a pretty drastic policy change. I don't recall a
+>> discussion where we made that decision, nor can I find any
+>> documentation stating this. Or what exactly the requirement is; it's
+>> totally unclear to me.
+>
+> There isn't, because there's no such policy, even though it's definitely
+> something I'd like. This situation is different though:
+> drm_connector_init is already a function that is being tested. It seems
+> natural to not dilute testing when adding new variant, disregarding what
+> the policy of the rest of the framework is.
 
-Am 02.12.24 um 15:31 schrieb Dave Stevenson:
-> BCM2711 DT was producing dtbinding validation errors of
->
-> interrupt-controller@40000000: 'interrupt-controller' is a required
-> property
-> interrupt-controller@40000000: '#interrupt-cells' is a required property
->
-> Fix them by adding the required flags.
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Did you actually test these changes, because the last time [1] it broke
-the boot of RPi 4 and likely for RPi 5, too?
+"You do X, you need do have Y" coming from a maintainer sure sounded
+like hard rules. I was surprised.
 
-Best regards
+>> It's super tempting for people to just get their jobs done. If doing
+>> the right thing adds yet another hurdle, we may see more stuff being
+>> added in drivers instead of drm core.
+>
+> I really enjoy hidden threats.
 
-[1] -
-https://lore.kernel.org/linux-arm-kernel/07154679-42bc-43ba-8b72-62083ed78=
-a4d@gmx.net/
-> ---
->   arch/arm/boot/dts/broadcom/bcm2711.dtsi | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/broadcom/bcm2711.dtsi b/arch/arm/boot/dts=
-/broadcom/bcm2711.dtsi
-> index e4e42af21ef3..313b1046d74f 100644
-> --- a/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-> +++ b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-> @@ -51,6 +51,8 @@ soc {
->   		local_intc: interrupt-controller@40000000 {
->   			compatible =3D "brcm,bcm2836-l1-intc";
->   			reg =3D <0x40000000 0x100>;
-> +			interrupt-controller;
-> +			#interrupt-cells =3D <2>;
->   		};
->
->   		gicv2: interrupt-controller@40041000 {
->
+None were implied. That's your interpretation of what I honestly think
+is a plausible outcome. I try to push people towards contributing to drm
+core instead of drivers, and it's not always easy as it is. It's just a
+guess, but I'll bet the majority of drm contributors have never run
+kunit tests themselves.
 
+> And it's not like i915 is a great example there.
+
+Sincerely, is this the level of discussion we really want to have?
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
