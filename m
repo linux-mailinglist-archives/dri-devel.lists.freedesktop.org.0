@@ -2,53 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2524F9E0118
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 12:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C376E9E0128
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 13:00:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A519910E6EA;
-	Mon,  2 Dec 2024 11:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E714610E703;
+	Mon,  2 Dec 2024 12:00:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IQU65M29";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YNJkDSvb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAF6C10E6EA
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 11:59:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44EC510E6F2;
+ Mon,  2 Dec 2024 12:00:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A45BB5C63C7;
- Mon,  2 Dec 2024 11:59:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11493C4CED1;
- Mon,  2 Dec 2024 11:59:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7E8635C6468;
+ Mon,  2 Dec 2024 11:59:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89875C4CED2;
+ Mon,  2 Dec 2024 12:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733140788;
- bh=JT1goFQcBxa4ii8FS7z1ezsrRpulliTnkPm8vr3KN/0=;
+ s=k20201202; t=1733140826;
+ bh=uq6P50nPVqYzYznK6CDOgelQtYASy802lUz2VNa3X4k=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IQU65M29d4OkFYaktMObE4+dzjrLv2EARU7k8bNOGcBEZKTpy11ajBjFV3NjkfxDc
- ipAeZoa4J75VD+tj9FpOD1vSnEpb+wGzbwpcPpCQm2CEgEh5Dw29RVkE/CQUBRtZK/
- VRO3oMkNytO3tw3kY25QZeiJ9vqn5EfonwofWCUNmO0/55tsQ4bHUrCCw7/kk962jp
- h6wA9MFZZlJHxicg8reArWn21AGwxnociD8DQoeRpWEULZQwNDjvDNoWgXe7jMNmI4
- zgeeXOcw6QavU+12hqcUqVYMBcwBBttzcAEzLOoegU3zto2RqbjyIOalcG490m/NWv
- bkOOYIvgL1cHA==
-Date: Mon, 2 Dec 2024 12:59:45 +0100
+ b=YNJkDSvbo8lkY9GLqT/hIrlkLQ08AZHdWUxs5r6bl3m2EBQ5pBgHM/mjPWR+I6JMf
+ WHkFLn1IDnuQbsHQe0nadbr8vKz3xRW21XdUSdb4xT+i2Zor5fgGmzAoSEMfYcJPEX
+ fwGe0wsbkhNxUqOwQeGiP8NfPPrneSL6Q9Sw24mlIlLforIDucg4Oz6evGeFxOliV0
+ MWA8nqkra3Zn8VhWEpF06jAI0MaT8iKhzitPgCHIdv1qO0FwMpYUOE7uBvzD2uekk0
+ +LA/RyRMTlyePXs6iJYth+3uw/OLHT4f3rvhAG9K2jgL+C9JqGuyzaknOpMmRTdq0t
+ 0COIRkOoz/T+w==
+Date: Mon, 2 Dec 2024 13:00:23 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] drm/connector: hdmi: Add support for YUV420 format
- verification
-Message-ID: <20241202-divergent-holistic-seal-b24cd6@houat>
-References: <20241130-hdmi-conn-yuv-v1-0-254279a08671@collabora.com>
- <20241130-hdmi-conn-yuv-v1-2-254279a08671@collabora.com>
- <20241202-determined-sloppy-impala-2ca0f1@houat>
- <a00ba6bb-aa91-4ecf-a4e7-88d80e29dedc@collabora.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ David Airlie <airlied@gmail.com>, Harry Wentland <harry.wentland@amd.com>, 
+ Inki Dae <inki.dae@samsung.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Leo Li <sunpeng.li@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Phong LE <ple@baylibre.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Rob Clark <robdclark@gmail.com>, Robert Foss <rfoss@kernel.org>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Sean Paul <sean@poorly.run>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Xinhui Pan <Xinhui.Pan@amd.com>
+Subject: Re: [PATCH 00/10] drm/connector: add eld_mutex to protect
+ connector->eld
+Message-ID: <20241202-hummingbird-of-hypothetical-aptitude-646def@houat>
+References: <20241201-drm-connector-eld-mutex-v1-0-ba56a6545c03@linaro.org>
+ <77545786331df8bfaf5fdcb309437358@kernel.org>
+ <ohbtatnn33jj6y3q4milf4txi4n7yirnny2eefdjddlkn2dnhp@eqjedetct4q3>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="qszps75hpkmz2px4"
+ protocol="application/pgp-signature"; boundary="rf5ewnb7ayc4e2uu"
 Content-Disposition: inline
-In-Reply-To: <a00ba6bb-aa91-4ecf-a4e7-88d80e29dedc@collabora.com>
+In-Reply-To: <ohbtatnn33jj6y3q4milf4txi4n7yirnny2eefdjddlkn2dnhp@eqjedetct4q3>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,127 +91,48 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---qszps75hpkmz2px4
+--rf5ewnb7ayc4e2uu
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/3] drm/connector: hdmi: Add support for YUV420 format
- verification
+Subject: Re: [PATCH 00/10] drm/connector: add eld_mutex to protect
+ connector->eld
 MIME-Version: 1.0
 
-On Mon, Dec 02, 2024 at 01:15:36PM +0200, Cristian Ciocaltea wrote:
-> Hi Maxime,
->=20
-> On 12/2/24 12:50 PM, Maxime Ripard wrote:
-> > On Sat, Nov 30, 2024 at 01:56:33AM +0200, Cristian Ciocaltea wrote:
-> >> Provide the necessary constraints verification in
-> >> sink_supports_format_bpc() in order to support handling of YUV420
-> >> output format.
-> >>
-> >> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> >> ---
-> >>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 40 ++++++++++++++++=
-+++++++--
-> >>  1 file changed, 37 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers=
-/gpu/drm/display/drm_hdmi_state_helper.c
-> >> index 0cbcee7e77cd8dff387044487ce28ee5748f5587..3a55881a544a519bb12549=
-68db891c814f831a0f 100644
-> >> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> >> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> >> @@ -3,6 +3,7 @@
-> >>  #include <drm/drm_atomic.h>
-> >>  #include <drm/drm_connector.h>
-> >>  #include <drm/drm_edid.h>
-> >> +#include <drm/drm_modes.h>
-> >>  #include <drm/drm_print.h>
-> >> =20
-> >>  #include <drm/display/drm_hdmi_helper.h>
-> >> @@ -114,6 +115,12 @@ sink_supports_format_bpc(const struct drm_connect=
-or *connector,
-> >>  		return false;
-> >>  	}
-> >> =20
-> >> +	if (drm_mode_is_420_only(info, mode) && format !=3D HDMI_COLORSPACE_=
-YUV420) {
-> >> +		drm_dbg_kms(dev, "%s format unsupported by the sink for VIC%u.\n",
-> >> +			    drm_hdmi_connector_get_output_format_name(format), vic);
-> >> +		return false;
-> >> +	}
-> >> +
-> >>  	switch (format) {
-> >>  	case HDMI_COLORSPACE_RGB:
-> >>  		drm_dbg_kms(dev, "RGB Format, checking the constraints.\n");
-> >> @@ -144,9 +151,36 @@ sink_supports_format_bpc(const struct drm_connect=
-or *connector,
-> >>  		return true;
-> >> =20
-> >>  	case HDMI_COLORSPACE_YUV420:
-> >> -		/* TODO: YUV420 is unsupported at the moment. */
-> >> -		drm_dbg_kms(dev, "YUV420 format isn't supported yet.\n");
-> >> -		return false;
-> >> +		drm_dbg_kms(dev, "YUV420 format, checking the constraints.\n");
-> >> +
-> >> +		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR420)) {
-> >> +			drm_dbg_kms(dev, "Sink doesn't support YUV420.\n");
-> >> +			return false;
-> >> +		}
-> >> +
-> >> +		if (!drm_mode_is_420(info, mode)) {
-> >> +			drm_dbg_kms(dev, "Sink doesn't support YUV420 for VIC%u.\n", vic);
-> >> +			return false;
-> >> +		}
-> >> +
-> >> +		if (bpc =3D=3D 10 && !(info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420=
-_DC_30)) {
-> >> +			drm_dbg_kms(dev, "10 BPC but sink doesn't support Deep Color 30.\n=
-");
-> >> +			return false;
-> >> +		}
-> >> +
-> >> +		if (bpc =3D=3D 12 && !(info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420=
-_DC_36)) {
-> >> +			drm_dbg_kms(dev, "12 BPC but sink doesn't support Deep Color 36.\n=
-");
-> >> +			return false;
-> >> +		}
-> >> +
-> >> +		if (bpc =3D=3D 16 && !(info->hdmi.y420_dc_modes & DRM_EDID_YCBCR420=
-_DC_48)) {
-> >> +			drm_dbg_kms(dev, "16 BPC but sink doesn't support Deep Color 48.\n=
-");
-> >> +			return false;
-> >> +		}
-> >> +
-> >> +		drm_dbg_kms(dev, "YUV420 format supported in that configuration.\n"=
-);
-> >> +
-> >> +		return true;
+On Mon, Dec 02, 2024 at 01:03:07PM +0200, Dmitry Baryshkov wrote:
+> On Mon, Dec 02, 2024 at 10:19:41AM +0000, Maxime Ripard wrote:
+> > On Sun, 1 Dec 2024 01:55:17 +0200, Dmitry Baryshkov wrote:
+> > > The connector->eld is accessed by the .get_eld() callback. This access
+> > > can collide with the drm_edid_to_eld() updating the data at the same
+> > > time. Add drm_connector.eld_mutex to protect the data from concurrenct
+> > > access.
+> > >=20
+> > >=20
+> > > [ ... ]
 > >=20
-> > We also need to check whether the source supports it or not.
+> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
 >=20
-> I assumed the following check does already handle that:
+> Thanks!
 >=20
-> 	if (!(connector->hdmi.supported_formats & BIT(format))) {
-> 		drm_dbg_kms(dev, "%s format unsupported by the connector.\n",
->=20
-> Is there anything else missing?
+> I'm going to post v2 to fix Jani's comment, but what should be the merge
+> strategy? Merge patches 1-3, 5, 9-10 through drm-misc and the rest (AMD,
+> i915, MSM, radeon) through the driver trees?
 
-You're right, sorry for the noise :)
+The easiest is probably to merge everything through drm-misc if everyone ag=
+rees.
 
 Maxime
 
---qszps75hpkmz2px4
+--rf5ewnb7ayc4e2uu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ02hMQAKCRAnX84Zoj2+
-dqoHAYCBfSK4ZS5Gd9mS0d+JLRzapEFV5fr78HzDzNKbnbEZQwdYlPBi81IbgIrM
-flOgo/ABf1u9jUouNbvdN0FJ83tM0gMkLAXQDn1b0cLqcqx96dSkBZmZwYN++jBs
-1ZvUEZJGEw==
-=Yos7
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ02hVgAKCRAnX84Zoj2+
+did2AYCKqjIX2aHftKtybJaUPI3aEKi2s1lRBLYyjb1Uwicsybws1tIK08t+OLLX
+OfIShgYBfiJJHZ+4Gj/u8uuAs91T4EvzTss9Zo2aF+YDFdrV47edIsjbVE2McJQO
+YLEiS8Wy0Q==
+=Idbn
 -----END PGP SIGNATURE-----
 
---qszps75hpkmz2px4--
+--rf5ewnb7ayc4e2uu--
