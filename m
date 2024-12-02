@@ -2,81 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93ECC9E02A9
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 13:59:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CE69E02B2
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 14:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F413A10E729;
-	Mon,  2 Dec 2024 12:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1047610E730;
+	Mon,  2 Dec 2024 13:00:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DuPBiKxE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kfWpwYJ/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1D710E729
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 12:59:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 31DA5A40C41;
- Mon,  2 Dec 2024 12:57:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B027C4CED1;
- Mon,  2 Dec 2024 12:59:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733144373;
- bh=VkSc1OtoaIn5i9sUO8D5w8KXAZHM0RoZXTyJeEmffRA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DuPBiKxEPZ8hNvu7XY/JeqC22rHjoWHz8J4L9ZjAqJtP/ZLUdfnH0N2+6JuEuZYNS
- gjprWPIBrGlbdvouN6ch2AhZJMsdRbpxm/XHYH7Ho2mFhiflGP5NqBIWRyRQr63KY2
- dyNZ68wkucnwrhDO/niHJsWMeQYK/FBimmPHVagPS++j3LqGQLD84gN2MFTKCcmPvF
- SULgGPyKftHpxm0Puw/mC6m8e4zYDC68fIdm+wmU0/Zy+PXryK15FE7G1HF7Mzv9Dr
- DsaxcNzS0UEF+9JnnxJwAPupFgzMBwuSdklY8POOK9d0BHjmTUZCn3XBYh6+RBj7nK
- kPkHTUy0duybg==
-Date: Mon, 2 Dec 2024 12:59:22 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Phong LE <ple@baylibre.com>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Russell King <linux@armlinux.org.uk>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 2/9] ASoC: hdmi-codec: move no_capture_mute to struct
- hdmi_codec_pdata
-Message-ID: <0d4dfb60-e2e6-484a-993a-41d1229c62fb@sirena.org.uk>
-References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
- <20241201-drm-bridge-hdmi-connector-v5-2-b5316e82f61a@linaro.org>
- <20241202-bald-just-guan-c5d41b@houat>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E210410E72F;
+ Mon,  2 Dec 2024 13:00:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733144451; x=1764680451;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=A0NzQvgUaRVqkjJue2Vp7eQZGT0PFqqmEXPHOJdmJpM=;
+ b=kfWpwYJ/fWpEBugrnAdRK9jqFhilYEe/2QG/wf8CN/4qYEAeIJlHEDVB
+ 60FnlCIH53t6F0KgPdNJa/9TFwExwtfoDd4MvF7GnZCn/jC3K0FSFztDw
+ openRsnV9J/bkFA3MtUAcewLyZejFM6sScwtqndeuDJ3uTeCZ+6WI7wNY
+ C/PZVHPC/qmunN1whIYIaMRbNlWs4Jvb0YXXZsTLOYlzDJ7hlbCfSi5M/
+ Zano6PTnZ9PW8lX/DajS5k3i/hKJaSA6R3Y25tlo3zJfmLu9nbM4AVfSk
+ M8TY5zMuYHhPDezFqyZRpE3mxW5NxOGmlrnc6do8zLF+7U/MHFKXY7Std A==;
+X-CSE-ConnectionGUID: qApYWvWLT6WIirf+NlVtMA==
+X-CSE-MsgGUID: z+Ud8CvcS9a+TKDBPSS12A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44687352"
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="44687352"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 05:00:50 -0800
+X-CSE-ConnectionGUID: 4A7iq46XQ7yyPUzaR8L9Sw==
+X-CSE-MsgGUID: vaQdtLBjQcyuthw/TOUKUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="98060450"
+Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.72])
+ ([10.245.246.72])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 05:00:47 -0800
+Message-ID: <bb203f1695b12ade536dde449023a894f3b22193.camel@linux.intel.com>
+Subject: Re: [PATCH v2 29/29] drm/doc: gpusvm: Add GPU SVM documentation
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: apopple@nvidia.com, airlied@gmail.com, christian.koenig@amd.com, 
+ simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
+Date: Mon, 02 Dec 2024 14:00:44 +0100
+In-Reply-To: <20241016032518.539495-30-matthew.brost@intel.com>
+References: <20241016032518.539495-1-matthew.brost@intel.com>
+ <20241016032518.539495-30-matthew.brost@intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="26+IIHuKp7C8Awjo"
-Content-Disposition: inline
-In-Reply-To: <20241202-bald-just-guan-c5d41b@houat>
-X-Cookie: (null cookie
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,37 +73,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 2024-10-15 at 20:25 -0700, Matthew Brost wrote:
+> Add documentation for agree upon GPU SVM design principles, current
+> status, and future plans.
+>=20
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+> =C2=A0Documentation/gpu/rfc/gpusvm.rst | 70
+> ++++++++++++++++++++++++++++++++
+> =C2=A0Documentation/gpu/rfc/index.rst=C2=A0 |=C2=A0 4 ++
+> =C2=A02 files changed, 74 insertions(+)
+> =C2=A0create mode 100644 Documentation/gpu/rfc/gpusvm.rst
+>=20
+> diff --git a/Documentation/gpu/rfc/gpusvm.rst
+> b/Documentation/gpu/rfc/gpusvm.rst
+> new file mode 100644
+> index 000000000000..2d3f79a6c30a
+> --- /dev/null
+> +++ b/Documentation/gpu/rfc/gpusvm.rst
+> @@ -0,0 +1,70 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +GPU SVM Section
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Agreed upon design principles
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> +
+> +* migrate_to_ram path
+> +	* Rely on core MM concepts (migration ptes, page refs, and
+> page locking)
+> +	=C2=A0 only
+> +	* No driver specific locks other than locks for hardware
+> interaction in
+> +	=C2=A0 this path
 
---26+IIHuKp7C8Awjo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+We have previously been discussing the bo lock to protect the bo from
+eviction during migrate, if the vram allocation is bo-based. This is a
+cross-driver lock with a well-established locking order and I suggest
+we allow this. Apart from that I think the above statement needs some
+elaboration: What is the problem we are trying to avoid with driver-
+specific locks, written so that it's easy to understand it's a bad
+idea.
 
-On Mon, Dec 02, 2024 at 01:06:09PM +0100, Maxime Ripard wrote:
-> On Sun, Dec 01, 2024 at 02:44:06AM +0200, Dmitry Baryshkov wrote:
+> +	* Partial migration is supported
 
-> > The no_capture_mute flag might differ from platform to platform,
-> > especially in the case of the wrapping implementations, like the
+Exactly what do we mean by partial migration.
 
-> I appreciate it might be a dumb question, but I never really understood
-> what no_capture_mute was all about. And in that context, why some
-> drivers would need / use it, and some won't.
+> +	* Driver handles mixed migrations via retry loops rather
+> than locking
+> +* Eviction
+> +	* Only looking at physical memory datastructures and locks
+as opposed to...
 
-It's just what it says, it's a flag saying the device doesn't support
-muting the capture side.
+> +	* No looking at mm/vma structs or relying on those being
+> locked
+We're violating this with the current implementation, aren't we?
 
---26+IIHuKp7C8Awjo
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+> +* GPU fault side
+> +	* mmap_read only used around core MM functions which require
+> this lock
+> +	* Big retry loop to handle all races with the mmu notifier
+> under the gpu
+> +	=C2=A0 pagetable locks/mmu notifier range lock/whatever we end up
+> calling
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 those
+> +	* Races (especially against concurrent
+> eviction/migrate_to_ram) should
+> +	=C2=A0 not be handled on the fault side by trying to hold locks
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdNrykACgkQJNaLcl1U
-h9BXlAf/b2RCOldUO9D2uv21dvLwptK8t/qpPmm6L0SGtwbwCyejExyCcRcXDK2J
-6VM6BCDUGEH5VIKVo2XFEHzhQi8F4jLnCmdzgwi2kI4Lca8lWjQq/4OwiLPalaeg
-0TNUGBy91LjyXlGGoUoweRt8oc0VbsYIr0gEQayLOLfYujv4RiiWYEyIcw1OPDf1
-9MigRjCV1msQQXnBP2qTdZ1FrZQlZGD+syITQuFbYrmy+sqwEPxbY9/RYtHo4HBV
-A8CBOIE2YuK7W8Dk9VXSPQsN1sSwT3Hj8xvMO0Ka3mK/WjSVva2P8/K3wnBXj9nC
-6yKMam1wXDa8AU52tCUq2bS1snS2yA==
-=5ZI+
------END PGP SIGNATURE-----
+This actually contradicts my comment written above about using the bo
+lock to block eviction here. The alternative would be to pin vram
+allocations during migration until the mm_truct has references on the
+allocation, but it'd be good to clarify exactly why locking here is a
+bad idea, and why we can't rely on lockdep?
 
---26+IIHuKp7C8Awjo--
+> +* Physical memory to virtual backpointer
+> +	* Does not work, no pointers from physical memory to virtual
+> should
+> +	=C2=A0 exist
+
+We actually still have the private zdd structure, but it's strictly not
+to virtual but to the allocation metadata. Is it verified that the
+zone_device_data field is allowed to be modified by the pagemap between
+allocation and migration?
+
+
+> +* GPU pagetable locking
+> +	* Notifier lock only protects range tree, pages, pagetable
+> entries, and
+> +	=C2=A0 mmu notifier seqno tracking, it is not a global lock to
+> protect
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 against races
+> +	* All races handled with big retry as mentioned above
+
+Adding a note here about "pages valid" for subranges rather than
+relying on the wider notifer seqno. I.E. a subrange can be valid even
+if the notifier seqno says otherwise.
+
+Performance considerations:
+Perhaps mention that notifier (core mm) performance is more important
+than gpu fault (driver) performance when considering optimizations that
+improves one at the cost of the other?
+
+> +
+> +Overview of current design
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +
+> +Current design is simple as possible to get a working basline in
+> which can built
+
+can be built
+
+> +upon.
+> +
+> +.. kernel-doc:: drivers/gpu/drm/xe/drm_gpusvm.c
+> +=C2=A0=C2=A0 :doc: Overview
+> +=C2=A0=C2=A0 :doc: Locking
+> +=C2=A0=C2=A0 :doc: Migrataion
+> +=C2=A0=C2=A0 :doc: Partial Unmapping of Ranges
+> +=C2=A0=C2=A0 :doc: Examples
+> +
+> +Possible future design features
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> +
+> +* Concurrent GPU faults
+> +	* CPU faults are concurrent so makes sense to have
+> concurrent GPU faults
+> +	* Should be possible with fined grained locking in the
+> driver GPU
+> +	=C2=A0 fault handler
+> +	* No expected GPU SVM changes required
+> +* Ranges with mixed system and device pages
+> +	* Can be added if required to drm_gpusvm_get_pages fairly
+> easily
+> +* Multi-GPU support
+> +	* Work in progress and patches expected after initially
+> landing on GPU
+> +	=C2=A0 SVM
+> +	* Ideally can be done with little to no changes to GPU SVM
+> +* Drop ranges in favor of radix tree
+> +	* May be desirable for faster notifiers
+> +* Compound device pages
+> +	* Nvidia, AMD, and Intel all have agreed expensive core MM
+> functions in
+> +	=C2=A0 migrate device layer are a performance bottleneck, having
+> compound
+> +	=C2=A0 device pages should help increase performance by reducing
+> the number
+> +	=C2=A0 of these expensive calls
+> +* Higher order dma mapping for migration
+> +	* 4k dma mapping adversely affects migration performance on
+> Intel
+> +	=C2=A0 hardware, higher order (2M) dma mapping should help here
+> diff --git a/Documentation/gpu/rfc/index.rst
+> b/Documentation/gpu/rfc/index.rst
+> index 476719771eef..396e535377fb 100644
+> --- a/Documentation/gpu/rfc/index.rst
+> +++ b/Documentation/gpu/rfc/index.rst
+> @@ -16,6 +16,10 @@ host such documentation:
+> =C2=A0* Once the code has landed move all the documentation to the right
+> places in
+> =C2=A0=C2=A0 the main core, helper or driver sections.
+> =C2=A0
+> +.. toctree::
+> +
+> +=C2=A0=C2=A0=C2=A0 gpusvm.rst
+> +
+> =C2=A0.. toctree::
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 i915_gem_lmem.rst
+
+Thanks,
+Thomas
+
