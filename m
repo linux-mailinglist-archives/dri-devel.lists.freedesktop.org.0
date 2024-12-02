@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C376E9E0128
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 13:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6479E014E
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 13:04:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E714610E703;
-	Mon,  2 Dec 2024 12:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7CA10E04E;
+	Mon,  2 Dec 2024 12:04:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YNJkDSvb";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="GKrlcZjF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44EC510E6F2;
- Mon,  2 Dec 2024 12:00:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7E8635C6468;
- Mon,  2 Dec 2024 11:59:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89875C4CED2;
- Mon,  2 Dec 2024 12:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733140826;
- bh=uq6P50nPVqYzYznK6CDOgelQtYASy802lUz2VNa3X4k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YNJkDSvbo8lkY9GLqT/hIrlkLQ08AZHdWUxs5r6bl3m2EBQ5pBgHM/mjPWR+I6JMf
- WHkFLn1IDnuQbsHQe0nadbr8vKz3xRW21XdUSdb4xT+i2Zor5fgGmzAoSEMfYcJPEX
- fwGe0wsbkhNxUqOwQeGiP8NfPPrneSL6Q9Sw24mlIlLforIDucg4Oz6evGeFxOliV0
- MWA8nqkra3Zn8VhWEpF06jAI0MaT8iKhzitPgCHIdv1qO0FwMpYUOE7uBvzD2uekk0
- +LA/RyRMTlyePXs6iJYth+3uw/OLHT4f3rvhAG9K2jgL+C9JqGuyzaknOpMmRTdq0t
- 0COIRkOoz/T+w==
-Date: Mon, 2 Dec 2024 13:00:23 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Alain Volmat <alain.volmat@foss.st.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- David Airlie <airlied@gmail.com>, Harry Wentland <harry.wentland@amd.com>, 
- Inki Dae <inki.dae@samsung.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Leo Li <sunpeng.li@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Phong LE <ple@baylibre.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Rob Clark <robdclark@gmail.com>, Robert Foss <rfoss@kernel.org>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Sean Paul <sean@poorly.run>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Xinhui Pan <Xinhui.Pan@amd.com>
-Subject: Re: [PATCH 00/10] drm/connector: add eld_mutex to protect
- connector->eld
-Message-ID: <20241202-hummingbird-of-hypothetical-aptitude-646def@houat>
-References: <20241201-drm-connector-eld-mutex-v1-0-ba56a6545c03@linaro.org>
- <77545786331df8bfaf5fdcb309437358@kernel.org>
- <ohbtatnn33jj6y3q4milf4txi4n7yirnny2eefdjddlkn2dnhp@eqjedetct4q3>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CFA010E04E
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 12:04:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1733141031; x=1733745831; i=wahrenst@gmx.net;
+ bh=nWGDAmxiHyIBg8+U2A+dscE96ndlmhSiOSdyCCYeSDo=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+ MIME-Version:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=GKrlcZjFceQ7v4ieNhv0AwvOHZaLGi8yQxN8MRUiOij1q+tzEeYjuM/yyDu72oO3
+ 9GXyG/ObBNdRjKGVc2awYW0oAxG930SPoCbJLekAzJ1pcU49GaCOiVhDZ2X1OzlQf
+ ddqNawt78CwyA6NlHG4ce6I93ZFiWLTVG2NuOeISR857E7mUOHYRrYaJQnIQxCQSV
+ IOIn9z9ptOA//Hom8gDNoaKvGsZIi3tKnURbXKJ+FpwB3NZEN/GUFAKGS6SBhizNY
+ +lC5jo5ZDmxfRhBwNE+8bAtUHrP1L+NcEEmGzziSzmpbm83C2+iaGeksXbbeGKUFo
+ 21vVM+H5Ux+gDRa+Og==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MSKyI-1t77s72iFc-00P08g; Mon, 02
+ Dec 2024 13:03:51 +0100
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, kernel-list@raspberrypi.com,
+ dri-devel@lists.freedesktop.org, Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH] drm/vc4: plane: Remove WARN on state being set in plane_reset
+Date: Mon,  2 Dec 2024 13:03:43 +0100
+Message-Id: <20241202120343.33726-1-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="rf5ewnb7ayc4e2uu"
-Content-Disposition: inline
-In-Reply-To: <ohbtatnn33jj6y3q4milf4txi4n7yirnny2eefdjddlkn2dnhp@eqjedetct4q3>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:chj0iYZyJ/v9u10nwi5jhAacEexf49tbwWkSfPx/PpXOmXXpzgY
+ y4G66L35hZJ9jTpVD490opw7wTASmR3emLU/AdVXvumTMYCysabcJBKxkvx7qSLJAvn8I/y
+ oSQGW41KN2Kjbu4fAev3DnxquPDL0fzgZfo+4yX4eV5owQurgLqobCLW8teL+7ti/B2JbYw
+ wO5jFmDlikFEzzNxYDpag==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:NXsHU+Nu4Nc=;I9rn0ai/qeE4V5ANw9s7bo2KFZK
+ 9Aaw4NutBpTt2gUwwDYB5u+T0um4/4AL+MGm5NTQIbsmwiSkW2HkW+UKeiuwEfBiX34oDx+Qu
+ ReDJLpyqZ7oAZebwYH1TKbNvnwX+Tq4BJ6QDx1zyBlhafNnhDLZy21O2fVY4GFHdniPCfd46I
+ C4e9tbKqH7Wg/o+PH1zVFUQqD5GFwgFrwwLWHgx7A9ex4bW+8ydhOHmbM43rrBLX3F3XrC0SD
+ TnVg0PMhXRZUe8oiH2SapxQB4zUw/rZURdBhH3/RrHp0HoY8kj4z000Sw5mgCziGDb5kecFMr
+ apOCJd1qLb8MnhUf5eyI7z1YAJI2L3fh8jRKrjYxw6esssQb5lOzGQrySxZqvY6CML0T4zv5m
+ dy67xYhHcPaJe4TSEiNqikQFQslrxWuY9yM2q/7pwpHcZhiYvT7G0TTUy3AZFaAUQ1yyQmrKN
+ xTsjGfIH91ZuHWPaf8s4hL4OhshWs/tpEOi2mDxFKLWNl/oWDZp/5DUlhwbes9v2pwjlySFD+
+ GD/wGn9+eOyeV4lXIk6b0kp88b84QhZnp1IL9Fiax72HYMpjLjxm76FAWe0IpVqOXK+YhM6b4
+ 3c3ItLKrQg/kKJc0YPkUnd9YgX4kB+GbyoEWuvEpMu2ZRJGwh2Y3mhoZNidQNR3cHDrARv9m6
+ ileS/eeLHtqfKFNfzlH9vm1F1hd1nbBoZv56TvUydm/J4iUJycyka2JJ2x2QFFym64D32IJeC
+ W2nJ9/xVofDoLvYClXzGNTjzdJVKm5ohZrhTC4PVc91jswTqCPq/JFQrK5TVBms+PJkih5YiU
+ VjQeRjJ7fG2zMJz+OFIyaGQN4cbkzzzWxWI6vSFK7o+qieW4m+TUPHT1b59od+opW4tkMWMid
+ tEprO6Yn9tmp4DytWhUCyy4PY4SqnTkEhyPuHU8B8YcOkeIhOat/U44G7+A8KSlrTIrjykuGG
+ uo29NEU2N9LAAYdRtoqEano0NcxR4WVYXmEHncwWzpe7nCvNf3CWj6AEuY3neDM5tyX4iUscU
+ YQIV04rKm4/AzZy6K/Lg9NGGYh/C5GUgExVrragCJd2QQq8Bmn8AtPZUC/PDOZk0OOoXhOPwF
+ 0csUSPeZiJi0Y0wePZqf6K49o2lYW3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,49 +83,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
---rf5ewnb7ayc4e2uu
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 00/10] drm/connector: add eld_mutex to protect
- connector->eld
-MIME-Version: 1.0
+It is permitted on situations such as system resume for plane->state
+to be non-NULL, and that should be handled by freeing it. Do so.
 
-On Mon, Dec 02, 2024 at 01:03:07PM +0200, Dmitry Baryshkov wrote:
-> On Mon, Dec 02, 2024 at 10:19:41AM +0000, Maxime Ripard wrote:
-> > On Sun, 1 Dec 2024 01:55:17 +0200, Dmitry Baryshkov wrote:
-> > > The connector->eld is accessed by the .get_eld() callback. This access
-> > > can collide with the drm_edid_to_eld() updating the data at the same
-> > > time. Add drm_connector.eld_mutex to protect the data from concurrenct
-> > > access.
-> > >=20
-> > >=20
-> > > [ ... ]
-> >=20
-> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
->=20
-> Thanks!
->=20
-> I'm going to post v2 to fix Jani's comment, but what should be the merge
-> strategy? Merge patches 1-3, 5, 9-10 through drm-misc and the rest (AMD,
-> i915, MSM, radeon) through the driver trees?
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
+ drivers/gpu/drm/vc4/vc4_plane.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-The easiest is probably to merge everything through drm-misc if everyone ag=
-rees.
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_pla=
+ne.c
+index ba6e86d62a77..1aaa4938824b 100644
+=2D-- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -330,7 +330,10 @@ static void vc4_plane_reset(struct drm_plane *plane)
+ {
+ 	struct vc4_plane_state *vc4_state;
 
-Maxime
+-	WARN_ON(plane->state);
++	if (plane->state)
++		__drm_atomic_helper_plane_destroy_state(plane->state);
++
++	kfree(plane->state);
 
---rf5ewnb7ayc4e2uu
-Content-Type: application/pgp-signature; name="signature.asc"
+ 	vc4_state =3D kzalloc(sizeof(*vc4_state), GFP_KERNEL);
+ 	if (!vc4_state)
+=2D-
+2.34.1
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ02hVgAKCRAnX84Zoj2+
-did2AYCKqjIX2aHftKtybJaUPI3aEKi2s1lRBLYyjb1Uwicsybws1tIK08t+OLLX
-OfIShgYBfiJJHZ+4Gj/u8uuAs91T4EvzTss9Zo2aF+YDFdrV47edIsjbVE2McJQO
-YLEiS8Wy0Q==
-=Idbn
------END PGP SIGNATURE-----
-
---rf5ewnb7ayc4e2uu--
