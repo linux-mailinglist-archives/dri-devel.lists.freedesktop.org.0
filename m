@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFA59E0D39
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 21:42:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0A19E0D3A
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 21:42:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9C4B10E1DE;
-	Mon,  2 Dec 2024 20:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 946E510E855;
+	Mon,  2 Dec 2024 20:42:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="XEuFWHkS";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="PnfW2M6/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF1F10E30B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B775010E1DE;
  Mon,  2 Dec 2024 20:42:40 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B29XNBl026469;
- Mon, 2 Dec 2024 20:42:36 GMT
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B2K9dJc002804;
+ Mon, 2 Dec 2024 20:42:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 6BGp4ismpDEOyFPSZ2otVrrI661Oz81+8eHZ9x8VmKU=; b=XEuFWHkSWZXVTfCZ
- nSAkCYK+NgIwhzP87sLRyuhisuEHNDO2YWp9i70stx2J/lyp0lZ8jHpJUtpz7jK6
- 56Tsm+Kr2KdYRYvbXybY6m5Idr+KixnGMDsEP/bumBBErjsDnEd8DCZRMqb35TWH
- vviP9NyCPhkv51fSeLvhr2e8V+c3tkgUutd3god7n1lPyXRXBDEeI83W7NNmx1q8
- NbOFyzo672ZMNf0bOmEcYKerWdLtSmXsFjFXJVTw4FN9ibp95iwo8vMB2wy7PtrZ
- FGglAmcn//qfvGZz8GfjDTMGltwAgWXfaZJdSj/aOUn3VETV239Y5dcvppHTPvCK
- EvNvnQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ wVmZna+XbYf+uUPJxg0T3pmfRS7RDVjCkPeIXRm81gA=; b=PnfW2M6/apYhs833
+ yUh2DmFG15kprWwlFB5+P0kSrwuk18PeSwmZkxBJEJe6gg3G5TpN7ebnyzBRuuaW
+ 4Ih8ARynQNTkY6UYWEl1+ZJdUGq4kQs7L5aXGuHspLR7Wpuv9jdlnm9APOSSZolG
+ sohyFB6wfWrixKtNYtcgv+kfdtP7J3YQoJXiauGO6YMejF0Gu8WJgJTXHhzWMxwp
+ G3CtiE1RSIl2WVgiughfHGcuRdnofXGprMNqL5+ZiJYqGUqz0iUROGL2s/5YodLo
+ BDoO28MtYV8DsNFwP8M+nlBCCAG1px1NTutZiCo+hPquhlXQVwZvOVILNFFUdB5H
+ YpDNUw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437ufe5u6q-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437uvjwsdc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 02 Dec 2024 20:42:36 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B2KgZhk028654
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B2Kga9i029657
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 2 Dec 2024 20:42:35 GMT
+ Mon, 2 Dec 2024 20:42:36 GMT
 Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1544.9; Mon, 2 Dec 2024 12:42:35 -0800
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Date: Mon, 2 Dec 2024 12:41:59 -0800
-Subject: [PATCH 2/3] drm/msm/dp: do not touch the MMSS_DP_INTF_CONFIG for tpg
+Date: Mon, 2 Dec 2024 12:42:00 -0800
+Subject: [PATCH 3/3] drm/msm/dp: add a debugfs node for using tpg
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241202-tpg-v1-2-0fd6b518b914@quicinc.com>
+Message-ID: <20241202-tpg-v1-3-0fd6b518b914@quicinc.com>
 References: <20241202-tpg-v1-0-0fd6b518b914@quicinc.com>
 In-Reply-To: <20241202-tpg-v1-0-0fd6b518b914@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
@@ -62,11 +62,11 @@ CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  Zhang" <quic_jesszhan@quicinc.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733172154; l=1252;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733172154; l=3055;
  i=quic_abhinavk@quicinc.com; s=20240509; h=from:subject:message-id;
- bh=dIijZwoRaA6rxyvoqR4huEu7nEMw44IUyghyh0WYPc8=;
- b=4B7z7IF5pWVXkf23L/XprZeUT8sv4/9yuOhEZynQnUI085ig+bwm74lAgavAJnFmEgph/dlIx
- DYCsqg6D+cYClY+HIPBjOXcnTPdLsOe2tNjaBoqxZn8xRBlumWecxga
+ bh=8xU8eZvxuxJZRudg+03NMMrCYKY67CgFbv6HcpsX0CA=;
+ b=4/ROjG1S7kkiQW2W6xJJvNSX5rNWFt7upb0DJunvrd04bgETUqKSs9h8eftzb6NsxXhwVpFx9
+ JP/udaRE1NpA/kZpT9tCAjzKExBq+T0TG1TAzgV6Bgd391F+hWIpJec
 X-Developer-Key: i=quic_abhinavk@quicinc.com; a=ed25519;
  pk=SD3D8dOKDDh6BoX3jEYjsHrTFwuIK8+o0cLPgQok9ys=
 X-Originating-IP: [10.80.80.8]
@@ -75,17 +75,17 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: rkYBwRkElpsSTBXFBLVK7fUpvzg3hGDH
-X-Proofpoint-GUID: rkYBwRkElpsSTBXFBLVK7fUpvzg3hGDH
+X-Proofpoint-GUID: PJnDwuu67LYDulM6sF_bp-nAaWxHrNEM
+X-Proofpoint-ORIG-GUID: PJnDwuu67LYDulM6sF_bp-nAaWxHrNEM
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- spamscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- mlxlogscore=962 clxscore=1015 adultscore=0 bulkscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412020174
+ mlxscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=999 impostorscore=0 adultscore=0 phishscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412020173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,34 +101,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MMSS_DP_INTF_CONFIG has already been setup by the main datapath
-for DP to account for widebus to be used/unused etc.
+DP test pattern generator is a very useful tool to debug issues
+where monitor is showing incorrect output as it helps to isolate
+whether the issue is due to rest of DPU pipeline or in the DP
+controller itself. Expose a debugfs to use the TPG configuration
+to help debug DP issues.
 
-In current implementation, TPG only switches the DP controller
-to use the main datapath stream OR use the test pattern but expects
-the rest of the controller to be already setup.
-
-Keeping the same behavior intact, drop the clearing of MMSS_DP_INTF_CONFIG
-from the msm_dp_catalog_panel_tpg_enable() API.
-
-Fixes: 757a2f36ab09 ("drm/msm/dp: enable widebus feature for display port")
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- drivers/gpu/drm/msm/dp/dp_catalog.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/msm/dp/dp_debug.c | 61 +++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_panel.h |  2 ++
+ 2 files changed, 63 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 05c8e1996f60..36d3f3d248ca 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -1048,7 +1048,6 @@ void msm_dp_catalog_panel_tpg_enable(struct msm_dp_catalog *msm_dp_catalog,
- 	display_hctl = (hsync_end_x << 16) | hsync_start_x;
+diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
+index 22fd946ee201..843fe77268f8 100644
+--- a/drivers/gpu/drm/msm/dp/dp_debug.c
++++ b/drivers/gpu/drm/msm/dp/dp_debug.c
+@@ -197,6 +197,65 @@ static const struct file_operations test_active_fops = {
+ 	.write = msm_dp_test_active_write
+ };
  
++static ssize_t msm_dp_tpg_write(struct file *file, const char __user *ubuf,
++				size_t len, loff_t *offp)
++{
++	const struct msm_dp_debug_private *debug;
++	char *input_buffer;
++	int val;
++	int status = 0;
++	struct msm_dp_panel *dp_panel;
++
++	debug = ((struct seq_file *)file->private_data)->private;
++	dp_panel = debug->panel;
++
++	input_buffer = memdup_user_nul(ubuf, len);
++	if (IS_ERR(input_buffer))
++		return PTR_ERR(input_buffer);
++
++	status = kstrtoint(input_buffer, 10, &val);
++	if (status < 0) {
++		kfree(input_buffer);
++		return status;
++	}
++
++	msm_dp_panel_tpg_config(dp_panel, val);
++
++	dp_panel->tpg_enabled = val;
++
++	kfree(input_buffer);
++
++	*offp += len;
++	return len;
++}
++
++static int msm_dp_tpg_show(struct seq_file *f, void *data)
++{
++	struct msm_dp_debug_private *debug = f->private;
++	struct msm_dp_panel *dp_panel = debug->panel;
++
++	if (dp_panel->tpg_enabled)
++		seq_puts(f, "1");
++	else
++		seq_puts(f, "0");
++
++	return 0;
++}
++
++static int msm_dp_tpg_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, msm_dp_tpg_show, inode->i_private);
++}
++
++static const struct file_operations msm_dp_tpg_fops = {
++	.owner = THIS_MODULE,
++	.open = msm_dp_tpg_open,
++	.read = seq_read,
++	.llseek = seq_lseek,
++	.release = single_release,
++	.write = msm_dp_tpg_write
++};
++
+ int msm_dp_debug_init(struct device *dev, struct msm_dp_panel *panel,
+ 		  struct msm_dp_link *link,
+ 		  struct drm_connector *connector,
+@@ -231,6 +290,8 @@ int msm_dp_debug_init(struct device *dev, struct msm_dp_panel *panel,
+ 		debugfs_create_file("dp_test_type", 0444,
+ 				    root,
+ 				    debug, &msm_dp_test_type_fops);
++
++		debugfs_create_file("dp_tpg", 0444, root, debug, &msm_dp_tpg_fops);
+ 	}
  
--	msm_dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, 0x0);
- 	msm_dp_write_p0(catalog, MMSS_DP_INTF_HSYNC_CTL, hsync_ctl);
- 	msm_dp_write_p0(catalog, MMSS_DP_INTF_VSYNC_PERIOD_F0, vsync_period *
- 			hsync_period);
+ 	return 0;
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+index 0e944db3adf2..7910b11fd685 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.h
++++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+@@ -50,6 +50,8 @@ struct msm_dp_panel {
+ 	u32 max_dp_link_rate;
+ 
+ 	u32 max_bw_code;
++
++	bool tpg_enabled;
+ };
+ 
+ int msm_dp_panel_init_panel_info(struct msm_dp_panel *msm_dp_panel);
 
 -- 
 2.34.1
