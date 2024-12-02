@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD91A9E06AD
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:18:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421719E06AF
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 16:19:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4F310E7B3;
-	Mon,  2 Dec 2024 15:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 458E610E79C;
+	Mon,  2 Dec 2024 15:19:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jumvelwu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f5xonekb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BDFF10E1F8
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:18:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6825010E1F8
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 15:19:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F20435C6311;
- Mon,  2 Dec 2024 15:17:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EEA8C4CED1;
- Mon,  2 Dec 2024 15:18:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C8CBA5C67DF;
+ Mon,  2 Dec 2024 15:18:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E2AC4CED1;
+ Mon,  2 Dec 2024 15:18:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733152708;
- bh=aX7gzIhJGHF2/34tUKFIjYrdsoJxefhzoc+j5VP6raE=;
+ s=k20201202; t=1733152740;
+ bh=XoFHIPAltC82OoSpVZ6ozybYAmhZuriiKQSdNzVonGA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Jumvelwu0qO2UhKpEGXgqujPYdE5SjwbQGvnjZTenNXd/20idFBtejn/kDeze7Cue
- Xbzj2GVhZZs31zKLhujROYdyo77v8PEzS+ljcWIGimLO5O03rkujibvAx1KIFg9ljh
- mX4zYTEXJ6fvvf0IJinSIH/Lbf7WN50fwqsC8EXMKs1nVEQHFVO5WtTlQkyox5Zflc
- sSJY51BF9VedBSDFYCKXmZsL67iL0FNISSQORmginAoRrZM1EQsTWFt13A+5HsGDCT
- TiQh9UiKC2eEddtOjpeCwZVfsKvHliLowyle2b/BH+YX9HIT40vAyeo5JSY6z6gtWI
- qJGgqA+960XxQ==
-Message-ID: <36ea46ce-7add-4322-a030-1ee6c458d5db@kernel.org>
-Date: Mon, 2 Dec 2024 16:18:19 +0100
+ b=f5xonekbcd3epNYuMYmqBS4p3LztZuO16RNoc/cDahZSrVcYiuy3jADxZMqtXRDE4
+ GBG4a1alCSvxJ6ktkMAeS6S5Wurzh5hX3xlAn2XJL9dNotqqAb/8WtfqQcItE04OWk
+ oRAdIEB3Adc+KjfJb05do1mPSYKFqpoIdbdaPD3ynx8SotoKatud/BKudCfydEgAdQ
+ q5gpLyApPQpyAGnSoR9bOMrUzl0xZN0lfRkPoxokaqBTS0zXtUQrOKkjb86E4lnE6L
+ e5FThZaPrUGz+yNj3T99H2hCpcMWHZuh/f+OzjJ7/BFJ0bqsvuj9kdzuUdl8vtbioh
+ vHZJd1/9TUWqg==
+Message-ID: <39c73599-9bea-4b2e-afa6-3780726e27f5@kernel.org>
+Date: Mon, 2 Dec 2024 16:18:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] dtbindings: display: Fix BCM2835 HVS bindings for
- BCM2712
+Subject: Re: [PATCH 3/7] dt-bindings: gpio: brcmstb: add gpio-line-name
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -55,9 +54,9 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
  linux-gpio@vger.kernel.org
 References: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
- <20241202-dt-bcm2712-fixes-v1-2-fac67cc2f98a@raspberrypi.com>
-Content-Language: en-US
+ <20241202-dt-bcm2712-fixes-v1-3-fac67cc2f98a@raspberrypi.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -101,7 +100,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241202-dt-bcm2712-fixes-v1-2-fac67cc2f98a@raspberrypi.com>
+In-Reply-To: <20241202-dt-bcm2712-fixes-v1-3-fac67cc2f98a@raspberrypi.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,53 +119,26 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 02/12/2024 15:31, Dave Stevenson wrote:
-> The previous patch adding the compatible string missed out that
-> the number of interrupts and clocks changed with BCM2712 too.
+> Support comes from gpiolib, so permit it through the binding.
 > 
-> Update to validate clock and interrupts for the variants.
-> 
-> Fixes: 6cfcbe548a3a ("dt-bindings: display: Add BCM2712 HVS bindings")
-
-
-No such commit on current next.
-
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > ---
->  .../bindings/display/brcm,bcm2835-hvs.yaml         | 77 +++++++++++++++++-----
->  1 file changed, 61 insertions(+), 16 deletions(-)
+>  Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-> index f91c9dce2a44..ab59edbcf32c 100644
-> --- a/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-> +++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-> @@ -19,12 +19,13 @@ properties:
->    reg:
->      maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml b/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
+> index f096f286da19..086d016df6ef 100644
+> --- a/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
+> @@ -64,6 +64,8 @@ properties:
 >  
-> -  interrupts:
-> -    maxItems: 1
-> +  interrupts: true
-
-No, widest constrains are *always* here.
-
+>    gpio-ranges: true
 >  
-> -  clocks:
-> -    maxItems: 1
-> -    description: Core Clock
-> +  interrupt-names: true
-> +
-> +  clocks: true
-> +
-> +  clock-names: true
+> +  gpio-line-names: true
 
 
-No, this has to be complete (widest) here.
+maxItems
 
 
->  
->  required:
->    - compatible
-> @@ -33,17 +34,61 @@ required:
->  
 Best regards,
 Krzysztof
