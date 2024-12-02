@@ -2,88 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFF49E03C6
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 14:41:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28F49E045C
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 15:06:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8D210E28D;
-	Mon,  2 Dec 2024 13:41:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB5C010E740;
+	Mon,  2 Dec 2024 14:06:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Ry4sQfh+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AnM9tJs/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6B1310E28D
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 13:41:19 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B295HGc029895;
- Mon, 2 Dec 2024 13:41:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- MX5KQLsm/WIAcbTBfRrAshMCcMH8lF5bmCLJNudio6o=; b=Ry4sQfh+76UGt0n7
- 1Nu2Aimz8Obe+8eOUdlLIsvhDpKvCGf1lOq5YiEGj1qE2Am9UFz1OHzhXvHb84Qi
- xbdGcdIn7z2QzH5Lcp/VP1bPdB55I8uinVyB1IYH+Ad/PdUSufSgwNQEXF43SdRH
- 0pimXDos4jhtl/LlfMGeZzCzDvmcAYrTp3roQENS7hnM+Dfj6ltsCI2luDmaVXDZ
- v85Qecz+Xd7wDba9jdpyx1dvNavv6qwvCuJWBx1NOI6TBm0Rth7WQQXFsQpxDe6b
- +6EfLdKOq7cB7XzmaeUWiLJOKRi8S5nTOabyAL0yC+n8PxQIR4N8RKrtPpI3KCKP
- OczoNA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437v07mumn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 Dec 2024 13:41:13 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B2Df9Kt004596
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 2 Dec 2024 13:41:09 GMT
-Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 2 Dec 2024
- 05:41:05 -0800
-Message-ID: <499b32c0-480f-422d-8a2d-3972409a187f@quicinc.com>
-Date: Mon, 2 Dec 2024 19:11:02 +0530
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DB8C10E740
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 14:06:24 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-aa543c4db92so639177366b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 06:06:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1733148382; x=1733753182; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XOw5aKer918R+GPLPrMDEaNawIu96Hv3OhcGYY02/sE=;
+ b=AnM9tJs/5iqVBhKaI3VdRKAWEzmqUfGc2kyqdoS/Qg06ZCVwhMXGQcsLIvU/Q5WWJL
+ gS7PI6DdV71LZL5MU9gG9UG1P5MmbP7v+b8uMuaqWexu8zMhSPEqGaF4npDJf/7/x4uu
+ VS+wakiu/y9ciqc8zOFvDPNoxrObCYYzPONMQgDldNWldMrs+Q29oXcGrQJN4S/2Ok3u
+ TuxTnMMLkAZgdIEoxUW/uA+Kirrli3bQcbJ0lkH4vVqHatR9T61JtnVQjL5ppEz19+gp
+ ZCZfyHsLiAeIwa/oCv5mU+yYWMI8hacDBSc4LT7oJYGmTUQrxEMxdSaa1aCq7+M35+OU
+ ireA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733148382; x=1733753182;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XOw5aKer918R+GPLPrMDEaNawIu96Hv3OhcGYY02/sE=;
+ b=wkNwTN1MdAz9Gk2PKxr9A0lauwODtbot0y1cRA2kp6OdA295RgkiZvq9WBKKbWaZg3
+ j6sHyvzuBwhJPn4hSJboqfw0pKTtwbwMZgSsYgRnwdWgn7l4lVvC9A6ZRTgok9mj5tEF
+ yWMgnNF/TH4ecpuiUhWRR+BCz5L3VLKY3roVuOCbj9+yRZY3zhq3ZBX6B6oWnjV0wfOz
+ 5oy/rmg2Ls+azvg0jedxur7i468UoQMWCPk6lzJ1gVDT5rDALvADPsCOsWQhXQ7FPlHA
+ I/F3KMjZn3bYDszrghbCEjIXJD6tSfP/EFjEk00rxuWsFo2btzBEoF0kWQOAQ+q4/5KR
+ yaNA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWlE6sxWmYoNhZ5Rqg15RWrPcBfAlCXl1gYfHGr4E9PHh3F+9s8aOUL3eWm99OctSQ1GYAe+pnNfm8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwErCF29SQGEPLujyq93rCnKb635Q9PPQ758dNF/QAOq4sclboE
+ L+qNq6DgWINzJ2vKhtPX/9d9l/0I5nx2hTp/lA+h4pcbXjRDafMh
+X-Gm-Gg: ASbGncu4V6eZIoHcqQYxFMz0v8wNXDYMCCT6KMhMNv3CG2RTlfap3JB0QNIxw1sfogQ
+ 1o4n2ix4CTVsYr3QJg9ktY6swJ76LTtrDBMTy1alh5xdGjL5DJMIc+cgG98KbaLZkweauh5Zfkx
+ rp+EAgiGIa11q1AofnPhkcow34Sz7bH9iRxZyU6+rLqcMlgauImmHKjACEMfleVHRqxL4hBzfUw
+ uKgv7F9OYLWzJeDYmKN5yP43k4wfmLoh2783BTN/okMhNhetff69hBu8MlaGV25QA7WM19TkR/T
+ HLnifIVxJvkSHUVYVSlqeC/NATlDlp9RCqw=
+X-Google-Smtp-Source: AGHT+IH6ZCzkk1EA5lX0p1IOT+zymQfHxPv08GrP+s5FRfXJK4c5xSbCNlJ5zk2biFUBJY/zGu21vA==
+X-Received: by 2002:a17:906:9d2:b0:aa5:451c:ce29 with SMTP id
+ a640c23a62f3a-aa58102b501mr1859891366b.39.1733148381190; 
+ Mon, 02 Dec 2024 06:06:21 -0800 (PST)
+Received: from localhost.localdomain (62-178-82-42.cable.dynamic.surfer.at.
+ [62.178.82.42]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aa5996c11b4sm510616766b.7.2024.12.02.06.06.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Dec 2024 06:06:18 -0800 (PST)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: kernel-dev@igalia.com, Christian Gmeiner <cgmeiner@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] drm/v3d: Add DRM_IOCTL_V3D_PERFMON_SET_GLOBAL
+Date: Mon,  2 Dec 2024 15:06:13 +0100
+Message-ID: <20241202140615.74802-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 RESEND 3/3] i2c: i2c-qcom-geni: Add Block event
- interrupt support
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-To: Bjorn Andersson <andersson@kernel.org>
-CC: Vinod Koul <vkoul@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>,
- <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
- <quic_vtanuku@quicinc.com>
-References: <20241111140244.13474-1-quic_jseerapu@quicinc.com>
- <20241111140244.13474-4-quic_jseerapu@quicinc.com>
- <54iirnbdmcvbg2zpkajuwqjdb6mxlehpvtnq2hmxd4beuh4ish@mbuttdzzvebv>
- <661f17df-e376-4d6b-9509-d6771bfcb8ce@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <661f17df-e376-4d6b-9509-d6771bfcb8ce@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: b9djjGKBiXsqk9SaBjpl4e-5qnQbN9ZI
-X-Proofpoint-GUID: b9djjGKBiXsqk9SaBjpl4e-5qnQbN9ZI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- adultscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412020119
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,462 +90,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Christian Gmeiner <cgmeiner@igalia.com>
 
+Add a new ioctl, DRM_IOCTL_V3D_PERFMON_SET_GLOBAL, to allow
+configuration of a global performance monitor (perfmon).
+Use the global perfmon for all jobs to ensure consistent
+performance tracking across submissions. This feature is
+needed to implement a Perfetto datasources in user-space.
 
-On 11/21/2024 6:28 PM, Jyothi Kumar Seerapu wrote:
-> 
-> 
-> On 11/12/2024 10:03 AM, Bjorn Andersson wrote:
->> On Mon, Nov 11, 2024 at 07:32:44PM +0530, Jyothi Kumar Seerapu wrote:
->>> The I2C driver gets an interrupt upon transfer completion.
->>> For multiple messages in a single transfer, N interrupts will be
->>> received for N messages, leading to significant software interrupt
->>> latency. To mitigate this latency, utilize Block Event Interrupt (BEI)
->>
->> Please rewrite this to the tone that the reader doesn't know what Block
->> Event Interrupt is, or that it exists.
-> Sure, done.
->>
->>> only when an interrupt is necessary. This means large transfers can be
->>> split into multiple chunks of 8 messages internally, without expecting
->>> interrupts for the first 7 message completions, only the last one will
->>> trigger an interrupt indicating 8 messages completed.
->>>
->>> By implementing BEI, multi-message transfers can be divided into
->>> chunks of 8 messages, improving overall transfer time.
->>
->> You already wrote this in the paragraph above.
-> yeah removed it.
->>
->>
->> Where is this number 8 coming from btw?
-> Its documented in "qcom-gpi-dma.h" file.
-> Trigger an interrupt, after the completion of 8 messages.
->>
->>> This optimization reduces transfer time from 168 ms to 48 ms for a
->>> series of 200 I2C write messages in a single transfer, with a
->>> clock frequency support of 100 kHz.
->>>
->>> BEI optimizations are currently implemented for I2C write transfers 
->>> only,
->>> as there is no use case for multiple I2C read messages in a single 
->>> transfer
->>> at this time.
->>>
->>> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
->>> ---
->>>
->>> v1 -> v2:
->>>     - Moved gi2c_gpi_xfer->msg_idx_cnt to separate local variable.
->>>     - Updated goto labels for error scenarios in geni_i2c_gpi function
->>>     - memset tx_multi_xfer to 0.
->>>     - Removed passing current msg index to geni_i2c_gpi.
->>>     - Fixed kernel test robot reported compilation issues.
->>>
->>>   drivers/i2c/busses/i2c-qcom-geni.c | 203 +++++++++++++++++++++++++----
->>>   1 file changed, 178 insertions(+), 25 deletions(-)
->>>
->>> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c 
->>> b/drivers/i2c/busses/i2c-qcom-geni.c
->>> index 7a22e1f46e60..04a7d926dadc 100644
->>> --- a/drivers/i2c/busses/i2c-qcom-geni.c
->>> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
->>> @@ -100,6 +100,10 @@ struct geni_i2c_dev {
->>>       struct dma_chan *rx_c;
->>>       bool gpi_mode;
->>>       bool abort_done;
->>> +    bool is_tx_multi_xfer;
->>> +    u32 num_msgs;
->>> +    u32 tx_irq_cnt;
->>> +    struct gpi_i2c_config *gpi_config;
->>>   };
->>>   struct geni_i2c_desc {
->>> @@ -500,6 +504,7 @@ static int geni_i2c_tx_one_msg(struct 
->>> geni_i2c_dev *gi2c, struct i2c_msg *msg,
->>>   static void i2c_gpi_cb_result(void *cb, const struct 
->>> dmaengine_result *result)
->>>   {
->>>       struct geni_i2c_dev *gi2c = cb;
->>> +    struct gpi_multi_xfer *tx_multi_xfer;
->>>       if (result->result != DMA_TRANS_NOERROR) {
->>>           dev_err(gi2c->se.dev, "DMA txn failed:%d\n", result->result);
->>> @@ -508,7 +513,21 @@ static void i2c_gpi_cb_result(void *cb, const 
->>> struct dmaengine_result *result)
->>>           dev_dbg(gi2c->se.dev, "DMA xfer has pending: %d\n", 
->>> result->residue);
->>>       }
->>> -    complete(&gi2c->done);
->>> +    if (gi2c->is_tx_multi_xfer) {
->>
->> Wouldn't it be cleaner to treat the !is_tx_multi_xfer case as a
->> multi-xfer of length 1?
-> Sure, addressed the change in V3 patch.
->>
->>> +        tx_multi_xfer = &gi2c->gpi_config->multi_xfer;
->>> +
->>> +        /*
->>> +         * Send Completion for last message or multiple of 
->>> NUM_MSGS_PER_IRQ.
->>> +         */
->>> +        if ((tx_multi_xfer->irq_msg_cnt == gi2c->num_msgs - 1) ||
->>> +            (!((tx_multi_xfer->irq_msg_cnt + 1) % NUM_MSGS_PER_IRQ))) {
->>> +            tx_multi_xfer->irq_cnt++;
->>> +            complete(&gi2c->done);
->>
->> Why? You're removing the wait_for_completion_timeout() from
->> geni_i2c_gpi_xfer() when is_tx_multi_xfer is set.
-> For (!is_tx_multi_xfer) case, need to wait for every message.
-> But whereas for multi-message (when is_tx_multi_xfer is set) cases, 
-> "wait_for_completion_timeout" will trigger after queuing messages till 
-> QCOM_GPI_MAX_NUM_MSGS (32) or total number of i2c msgs and 
-> "wait_for_completion_timeout" for this case is handled in GPI driver.
->>
->>> +        }
->>> +        tx_multi_xfer->irq_msg_cnt++;
->>> +    } else {
->>> +        complete(&gi2c->done);
->>> +    }
->>>   }
->>>   static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct 
->>> i2c_msg *msg,
->>> @@ -526,7 +545,42 @@ static void geni_i2c_gpi_unmap(struct 
->>> geni_i2c_dev *gi2c, struct i2c_msg *msg,
->>>       }
->>>   }
->>> -static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->>> +/**
->>> + * gpi_i2c_multi_desc_unmap() - unmaps the buffers post multi 
->>> message TX transfers
->>> + * @dev: pointer to the corresponding dev node
->>> + * @gi2c: i2c dev handle
->>> + * @msgs: i2c messages array
->>> + * @peripheral: pointer to the gpi_i2c_config
->>> + */
->>> +static void gpi_i2c_multi_desc_unmap(struct geni_i2c_dev *gi2c, 
->>> struct i2c_msg msgs[],
->>> +                     struct gpi_i2c_config *peripheral)
->>> +{
->>> +    u32 msg_xfer_cnt, wr_idx = 0;
->>> +    struct gpi_multi_xfer *tx_multi_xfer = &peripheral->multi_xfer;
->>> +
->>> +    /*
->>> +     * In error case, need to unmap all messages based on the 
->>> msg_idx_cnt.
->>> +     * Non-error case unmap all the processed messages.
->>
->> What is the benefit of this optimization, compared to keeping things
->> simple and just unmap all buffers at the end of geni_i2c_gpi_xfer()?
-> 
-> The maximum number of messages can allocate and submit to GSI hardware 
-> is 16 (QCOM_GPI_MAX_NUM_MSGS) and to handle more messages beyond this 
-> need to unmap the processed messages.
-> If there is 200 messages or more in a transfer then we need to unmap the 
-> processed messages for handling all messages in a transfer.
-> So, instead of Unmap all messages together, here unmapping the chunk of 
-> messages.
-> 
->>
->>> +     */
->>> +    if (gi2c->err)
->>> +        msg_xfer_cnt = tx_multi_xfer->msg_idx_cnt;
->>> +    else
->>> +        msg_xfer_cnt = tx_multi_xfer->irq_cnt * NUM_MSGS_PER_IRQ;
->>> +
->>> +    /* Unmap the processed DMA buffers based on the received 
->>> interrupt count */
->>> +    for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; 
->>> tx_multi_xfer->unmap_msg_cnt++) {
->>> +        if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs)
->>> +            break;
->>> +        wr_idx = tx_multi_xfer->unmap_msg_cnt % QCOM_GPI_MAX_NUM_MSGS;
->>> +        geni_i2c_gpi_unmap(gi2c, &msgs[tx_multi_xfer->unmap_msg_cnt],
->>> +                   tx_multi_xfer->dma_buf[wr_idx],
->>> +                   tx_multi_xfer->dma_addr[wr_idx],
->>> +                   NULL, (dma_addr_t)NULL);
->>> +        tx_multi_xfer->freed_msg_cnt++;
->>> +    }
->>> +}
->>> +
->>> +static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg 
->>> msgs[],
->>>               struct dma_slave_config *config, dma_addr_t *dma_addr_p,
->>>               void **buf, unsigned int op, struct dma_chan *dma_chan)
->>>   {
->>> @@ -538,26 +592,48 @@ static int geni_i2c_gpi(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg *msg,
->>>       enum dma_transfer_direction dma_dirn;
->>>       struct dma_async_tx_descriptor *desc;
->>>       int ret;
->>> +    struct gpi_multi_xfer *gi2c_gpi_xfer;
->>> +    dma_cookie_t cookie;
->>> +    u32 msg_idx;
->>>       peripheral = config->peripheral_config;
->>> -
->>> -    dma_buf = i2c_get_dma_safe_msg_buf(msg, 1);
->>> -    if (!dma_buf)
->>> -        return -ENOMEM;
->>> +    gi2c_gpi_xfer = &peripheral->multi_xfer;
->>> +    dma_buf = gi2c_gpi_xfer->dma_buf[gi2c_gpi_xfer->buf_idx];
->>> +    addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
->>> +    msg_idx = gi2c_gpi_xfer->msg_idx_cnt;
->>> +
->>> +    dma_buf = i2c_get_dma_safe_msg_buf(&msgs[msg_idx], 1);
->>> +    if (!dma_buf) {
->>> +        ret = -ENOMEM;
->>> +        goto out;
->>> +    }
->>>       if (op == I2C_WRITE)
->>>           map_dirn = DMA_TO_DEVICE;
->>>       else
->>>           map_dirn = DMA_FROM_DEVICE;
->>> -    addr = dma_map_single(gi2c->se.dev->parent, dma_buf, msg->len, 
->>> map_dirn);
->>> +    addr = dma_map_single(gi2c->se.dev->parent, dma_buf,
->>> +                  msgs[msg_idx].len, map_dirn);
->>>       if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
->>> -        i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
->>> -        return -ENOMEM;
->>> +        i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
->>> +        ret = -ENOMEM;
->>> +        goto out;
->>> +    }
->>> +
->>> +    if (gi2c->is_tx_multi_xfer) {
->>> +        if (((msg_idx + 1) % NUM_MSGS_PER_IRQ))
->>> +            peripheral->flags |= QCOM_GPI_BLOCK_EVENT_IRQ;
->>> +        else
->>> +            peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
->>> +
->>> +        /* BEI bit to be cleared for last TRE */
->>> +        if (msg_idx == gi2c->num_msgs - 1)
->>> +            peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
->>>       }
->>>       /* set the length as message for rx txn */
->>> -    peripheral->rx_len = msg->len;
->>> +    peripheral->rx_len = msgs[msg_idx].len;
->>>       peripheral->op = op;
->>>       ret = dmaengine_slave_config(dma_chan, config);
->>> @@ -575,7 +651,8 @@ static int geni_i2c_gpi(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg *msg,
->>>       else
->>>           dma_dirn = DMA_DEV_TO_MEM;
->>> -    desc = dmaengine_prep_slave_single(dma_chan, addr, msg->len, 
->>> dma_dirn, flags);
->>> +    desc = dmaengine_prep_slave_single(dma_chan, addr, 
->>> msgs[msg_idx].len,
->>> +                       dma_dirn, flags);
->>>       if (!desc) {
->>>           dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
->>>           ret = -EIO;
->>> @@ -585,15 +662,48 @@ static int geni_i2c_gpi(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg *msg,
->>>       desc->callback_result = i2c_gpi_cb_result;
->>>       desc->callback_param = gi2c;
->>> -    dmaengine_submit(desc);
->>> -    *buf = dma_buf;
->>> -    *dma_addr_p = addr;
->>> +    if (!((msgs[msg_idx].flags & I2C_M_RD) && op == I2C_WRITE)) {
->>> +        gi2c_gpi_xfer->msg_idx_cnt++;
->>> +        gi2c_gpi_xfer->buf_idx = (msg_idx + 1) % QCOM_GPI_MAX_NUM_MSGS;
->>> +    }
->>> +    cookie = dmaengine_submit(desc);
->>> +    if (dma_submit_error(cookie)) {
->>> +        dev_err(gi2c->se.dev,
->>> +            "%s: dmaengine_submit failed (%d)\n", __func__, cookie);
->>> +        ret = -EINVAL;
->>> +        goto err_config;
->>> +    }
->>> +    if (gi2c->is_tx_multi_xfer) {
->>> +        dma_async_issue_pending(gi2c->tx_c);
->>> +        if ((msg_idx == (gi2c->num_msgs - 1)) ||
->>> +            (gi2c_gpi_xfer->msg_idx_cnt >=
->>> +             QCOM_GPI_MAX_NUM_MSGS + gi2c_gpi_xfer->freed_msg_cnt)) {
->>> +            ret = gpi_multi_desc_process(gi2c->se.dev, gi2c_gpi_xfer,
->>
->> A function call straight into the GPI driver? I'm not entirely familiar
->> with the details of the dmaengine API, but this doesn't look correct.
-> 
-> "gpi_multi_desc_process" can be used for the other protocols as well and 
-> so defined here. Please let me know if its not a good idea to make this 
-> as common function for all required protocols and keep in GPI driver.
-> 
-> Also, gpi_multi_desc_process can't be fit into dmaengine API and so 
-> invoked a function call to GPI driver.
+Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+---
+Changes in v4:
+- Rebased on drm-misc-next.
+- Factored out a small change as separate patch.
+- Fixed some grammar mistakes: s/job/jobs.
 
-Hi Bjorn, this function(gpi_multi_desc_process) does not fit into any 
-DMA engine API.
-So, I am considering moving this function to the I2C driver from GPI. 
-Please let me know if this is acceptable or if you have any suggestions.
->>
->>> +                             gi2c->num_msgs, XFER_TIMEOUT,
->>> +                             &gi2c->done);
->>> +            if (ret) {
->>> +                dev_err(gi2c->se.dev,
->>> +                    "I2C multi write msg transfer timeout: %d\n",
->>> +                    ret);
->>> +                gi2c->err = ret;
->>> +                goto err_config;
->>> +            }
->>> +        }
->>> +    } else {
->>> +        /* Non multi descriptor message transfer */
->>> +        *buf = dma_buf;
->>> +        *dma_addr_p = addr;
->>> +    }
->>>       return 0;
->>>   err_config:
->>> -    dma_unmap_single(gi2c->se.dev->parent, addr, msg->len, map_dirn);
->>> -    i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
->>> +    dma_unmap_single(gi2c->se.dev->parent, addr,
->>> +             msgs[msg_idx].len, map_dirn);
->>> +    i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
->>> +
->>> +out:
->>> +    gi2c->err = ret;
->>>       return ret;
->>>   }
->>> @@ -605,6 +715,7 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg msgs[], i
->>>       unsigned long time_left;
->>>       dma_addr_t tx_addr, rx_addr;
->>>       void *tx_buf = NULL, *rx_buf = NULL;
->>> +    struct gpi_multi_xfer *tx_multi_xfer;
->>>       const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
->>>       config.peripheral_config = &peripheral;
->>> @@ -618,6 +729,34 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg msgs[], i
->>>       peripheral.set_config = 1;
->>>       peripheral.multi_msg = false;
->>> +    gi2c->gpi_config = &peripheral;
->>> +    gi2c->num_msgs = num;
->>> +    gi2c->is_tx_multi_xfer = false;
->>> +    gi2c->tx_irq_cnt = 0;
->>> +
->>> +    tx_multi_xfer = &peripheral.multi_xfer;
->>> +    memset(tx_multi_xfer, 0, sizeof(struct gpi_multi_xfer));
->>> +
->>> +    /*
->>> +     * If number of write messages are four and higher then
->>
->> Why four?
-> It changed to 2 in V3, so that if the number of messages in a transfer 
-> are greter than 1, then "is_tx_multi_xfer" is set.
->>
->>> +     * configure hardware for multi descriptor transfers with BEI.
->>> +     */
->>> +    if (num >= MIN_NUM_OF_MSGS_MULTI_DESC) {
->>> +        gi2c->is_tx_multi_xfer = true;
->>> +        for (i = 0; i < num; i++) {
->>> +            if (msgs[i].flags & I2C_M_RD) {
->>> +                /*
->>> +                 * Multi descriptor transfer with BEI
->>> +                 * support is enabled for write transfers.
->>> +                 * Add BEI optimization support for read
->>> +                 * transfers later.
->>
->> Prefix this comment with "TODO:"
-> Done
->>
->>> +                 */
->>> +                gi2c->is_tx_multi_xfer = false;
->>> +                break;
->>> +            }
->>> +        }
->>> +    }
->>> +
->>>       for (i = 0; i < num; i++) {
->>>           gi2c->cur = &msgs[i];
->>>           gi2c->err = 0;
->>> @@ -628,14 +767,16 @@ static int geni_i2c_gpi_xfer(struct 
->>> geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->>>               peripheral.stretch = 1;
->>>           peripheral.addr = msgs[i].addr;
->>> +        if (i > 0 && (!(msgs[i].flags & I2C_M_RD)))
->>> +            peripheral.multi_msg = false;
->>> -        ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
->>> +        ret =  geni_i2c_gpi(gi2c, msgs, &config,
->>>                       &tx_addr, &tx_buf, I2C_WRITE, gi2c->tx_c);
->>>           if (ret)
->>>               goto err;
->>>           if (msgs[i].flags & I2C_M_RD) {
->>> -            ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
->>> +            ret =  geni_i2c_gpi(gi2c, msgs, &config,
->>>                           &rx_addr, &rx_buf, I2C_READ, gi2c->rx_c);
->>>               if (ret)
->>>                   goto err;
->>> @@ -643,18 +784,26 @@ static int geni_i2c_gpi_xfer(struct 
->>> geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->>>               dma_async_issue_pending(gi2c->rx_c);
->>>           }
->>> -        dma_async_issue_pending(gi2c->tx_c);
->>> -
->>> -        time_left = wait_for_completion_timeout(&gi2c->done, 
->>> XFER_TIMEOUT);
->>> -        if (!time_left)
->>> -            gi2c->err = -ETIMEDOUT;
->>> +        if (!gi2c->is_tx_multi_xfer) {
->>> +            dma_async_issue_pending(gi2c->tx_c);
->>> +            time_left = wait_for_completion_timeout(&gi2c->done, 
->>> XFER_TIMEOUT);
->>
->> By making this conditional on !is_tx_multi_xfer transfers, what makes
->> the loop wait for the transfer to complete before you below unmap the
->> buffers?
-> Yes, for (!is_tx_multi_xfer) case, need to wait for every message and 
-> then unmap it and for is_tx_multi_xfer transfers shouldn't unmap per 
-> message wise instead unmap the chunk of messages together.
-> 
->>
->>> +            if (!time_left) {
->>> +                dev_err(gi2c->se.dev, "%s:I2C timeout\n", __func__);
->>> +                gi2c->err = -ETIMEDOUT;
->>> +            }
->>> +        }
->>>           if (gi2c->err) {
->>>               ret = gi2c->err;
->>>               goto err;
->>>           }
->>> -        geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, 
->>> rx_addr);
->>> +        if (!gi2c->is_tx_multi_xfer) {
->>> +            geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, 
->>> rx_buf, rx_addr);
->>> +        } else if (gi2c->tx_irq_cnt != tx_multi_xfer->irq_cnt) {
->>> +            gi2c->tx_irq_cnt = tx_multi_xfer->irq_cnt;
->>> +            gpi_i2c_multi_desc_unmap(gi2c, msgs, &peripheral);
->>> +        }
->>>       }
->>>       return num;
->>> @@ -663,7 +812,11 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg msgs[], i
->>>       dev_err(gi2c->se.dev, "GPI transfer failed: %d\n", ret);
->>>       dmaengine_terminate_sync(gi2c->rx_c);
->>>       dmaengine_terminate_sync(gi2c->tx_c);
->>> -    geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, 
->>> rx_addr);
->>> +    if (gi2c->is_tx_multi_xfer)
->>> +        gpi_i2c_multi_desc_unmap(gi2c, msgs, &peripheral);
->>> +    else
->>> +        geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, 
->>> rx_addr);
->>> +
->>
->> As above, it would be nice if multi-xfer was just a special case with a
->> single buffer; rather than inflating the cyclomatic complexity.
-> 
-> For a single i2c message, data can be placed at contigious memory 
-> locations, but for multiple i2c messages in a transfer, all the messages 
-> offsets and data may not guarantee to placed at contigious memory 
-> locations.
-> So, looks single large buffer is not helpful here.
-> 
->>
->> Regards,
->> Bjorn
->>
->>>       return ret;
->>>   }
->>> -- 
->>> 2.17.1
->>>
->>>
+Changes in v3:
+- Reworked commit message.
+- Refined some code comments.
+- Added missing v3d_perfmon_stop(..) call to v3d_perfmon_destroy_ioctl(..).
+
+Changes in v2:
+- Reworked commit message.
+- Removed num_perfmon counter for tracking perfmon allocations.
+- Allowing allocation of perfmons when the global perfmon is active.
+- Return -EAGAIN for submissions with a per job perfmon if the global perfmon is active.
+---
+ drivers/gpu/drm/v3d/v3d_drv.c     |  1 +
+ drivers/gpu/drm/v3d/v3d_drv.h     |  8 +++++++
+ drivers/gpu/drm/v3d/v3d_perfmon.c | 37 +++++++++++++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_sched.c   | 14 +++++++++---
+ drivers/gpu/drm/v3d/v3d_submit.c  | 10 +++++++++
+ include/uapi/drm/v3d_drm.h        | 15 +++++++++++++
+ 6 files changed, 82 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index fb35c5c3f1a7..8e5cacfa38d3 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -224,6 +224,7 @@ static const struct drm_ioctl_desc v3d_drm_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(V3D_PERFMON_GET_VALUES, v3d_perfmon_get_values_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(V3D_SUBMIT_CPU, v3d_submit_cpu_ioctl, DRM_RENDER_ALLOW | DRM_AUTH),
+ 	DRM_IOCTL_DEF_DRV(V3D_PERFMON_GET_COUNTER, v3d_perfmon_get_counter_ioctl, DRM_RENDER_ALLOW),
++	DRM_IOCTL_DEF_DRV(V3D_PERFMON_SET_GLOBAL, v3d_perfmon_set_global_ioctl, DRM_RENDER_ALLOW),
+ };
+
+ static const struct drm_driver v3d_drm_driver = {
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index de73eefff9ac..dc1cfe2e14be 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -183,6 +183,12 @@ struct v3d_dev {
+ 		u32 num_allocated;
+ 		u32 pages_allocated;
+ 	} bo_stats;
++
++	/* To support a performance analysis tool in user space, we require
++	 * a single, globally configured performance monitor (perfmon) for
++	 * all jobs.
++	 */
++	struct v3d_perfmon *global_perfmon;
+ };
+
+ static inline struct v3d_dev *
+@@ -594,6 +600,8 @@ int v3d_perfmon_get_values_ioctl(struct drm_device *dev, void *data,
+ 				 struct drm_file *file_priv);
+ int v3d_perfmon_get_counter_ioctl(struct drm_device *dev, void *data,
+ 				  struct drm_file *file_priv);
++int v3d_perfmon_set_global_ioctl(struct drm_device *dev, void *data,
++				 struct drm_file *file_priv);
+
+ /* v3d_sysfs.c */
+ int v3d_sysfs_init(struct device *dev);
+diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
+index b4c3708ea781..a1429b9684e0 100644
+--- a/drivers/gpu/drm/v3d/v3d_perfmon.c
++++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
+@@ -313,6 +313,9 @@ static int v3d_perfmon_idr_del(int id, void *elem, void *data)
+ 	if (perfmon == v3d->active_perfmon)
+ 		v3d_perfmon_stop(v3d, perfmon, false);
+
++	/* If the global perfmon is being destroyed, set it to NULL */
++	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
++
+ 	v3d_perfmon_put(perfmon);
+
+ 	return 0;
+@@ -398,6 +401,9 @@ int v3d_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
+ 	if (perfmon == v3d->active_perfmon)
+ 		v3d_perfmon_stop(v3d, perfmon, false);
+
++	/* If the global perfmon is being destroyed, set it to NULL */
++	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
++
+ 	v3d_perfmon_put(perfmon);
+
+ 	return 0;
+@@ -457,3 +463,34 @@ int v3d_perfmon_get_counter_ioctl(struct drm_device *dev, void *data,
+
+ 	return 0;
+ }
++
++int v3d_perfmon_set_global_ioctl(struct drm_device *dev, void *data,
++				 struct drm_file *file_priv)
++{
++	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
++	struct drm_v3d_perfmon_set_global *req = data;
++	struct v3d_dev *v3d = to_v3d_dev(dev);
++	struct v3d_perfmon *perfmon;
++
++	if (req->flags & ~DRM_V3D_PERFMON_CLEAR_GLOBAL)
++		return -EINVAL;
++
++	perfmon = v3d_perfmon_find(v3d_priv, req->id);
++	if (!perfmon)
++		return -EINVAL;
++
++	/* If the request is to clear the global performance monitor */
++	if (req->flags & DRM_V3D_PERFMON_CLEAR_GLOBAL) {
++		if (!v3d->global_perfmon)
++			return -EINVAL;
++
++		xchg(&v3d->global_perfmon, NULL);
++
++		return 0;
++	}
++
++	if (cmpxchg(&v3d->global_perfmon, NULL, perfmon))
++		return -EBUSY;
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 99ac4995b5a1..a6c3760da6ed 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -120,11 +120,19 @@ v3d_cpu_job_free(struct drm_sched_job *sched_job)
+ static void
+ v3d_switch_perfmon(struct v3d_dev *v3d, struct v3d_job *job)
+ {
+-	if (job->perfmon != v3d->active_perfmon)
++	struct v3d_perfmon *perfmon = v3d->global_perfmon;
++
++	if (!perfmon)
++		perfmon = job->perfmon;
++
++	if (perfmon == v3d->active_perfmon)
++		return;
++
++	if (perfmon != v3d->active_perfmon)
+ 		v3d_perfmon_stop(v3d, v3d->active_perfmon, true);
+
+-	if (job->perfmon && v3d->active_perfmon != job->perfmon)
+-		v3d_perfmon_start(v3d, job->perfmon);
++	if (perfmon && v3d->active_perfmon != perfmon)
++		v3d_perfmon_start(v3d, perfmon);
+ }
+
+ static void
+diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
+index d607aa9c4ec2..9e439c9f0a93 100644
+--- a/drivers/gpu/drm/v3d/v3d_submit.c
++++ b/drivers/gpu/drm/v3d/v3d_submit.c
+@@ -981,6 +981,11 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 		goto fail;
+
+ 	if (args->perfmon_id) {
++		if (v3d->global_perfmon) {
++			ret = -EAGAIN;
++			goto fail_perfmon;
++		}
++
+ 		render->base.perfmon = v3d_perfmon_find(v3d_priv,
+ 							args->perfmon_id);
+
+@@ -1196,6 +1201,11 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 		goto fail;
+
+ 	if (args->perfmon_id) {
++		if (v3d->global_perfmon) {
++			ret = -EAGAIN;
++			goto fail_perfmon;
++		}
++
+ 		job->base.perfmon = v3d_perfmon_find(v3d_priv,
+ 						     args->perfmon_id);
+ 		if (!job->base.perfmon) {
+diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
+index 2376c73abca1..97b1faf04fc4 100644
+--- a/include/uapi/drm/v3d_drm.h
++++ b/include/uapi/drm/v3d_drm.h
+@@ -43,6 +43,7 @@ extern "C" {
+ #define DRM_V3D_PERFMON_GET_VALUES                0x0a
+ #define DRM_V3D_SUBMIT_CPU                        0x0b
+ #define DRM_V3D_PERFMON_GET_COUNTER               0x0c
++#define DRM_V3D_PERFMON_SET_GLOBAL                0x0d
+
+ #define DRM_IOCTL_V3D_SUBMIT_CL           DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_SUBMIT_CL, struct drm_v3d_submit_cl)
+ #define DRM_IOCTL_V3D_WAIT_BO             DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_WAIT_BO, struct drm_v3d_wait_bo)
+@@ -61,6 +62,8 @@ extern "C" {
+ #define DRM_IOCTL_V3D_SUBMIT_CPU          DRM_IOW(DRM_COMMAND_BASE + DRM_V3D_SUBMIT_CPU, struct drm_v3d_submit_cpu)
+ #define DRM_IOCTL_V3D_PERFMON_GET_COUNTER DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_PERFMON_GET_COUNTER, \
+ 						   struct drm_v3d_perfmon_get_counter)
++#define DRM_IOCTL_V3D_PERFMON_SET_GLOBAL  DRM_IOW(DRM_COMMAND_BASE + DRM_V3D_PERFMON_SET_GLOBAL, \
++						   struct drm_v3d_perfmon_set_global)
+
+ #define DRM_V3D_SUBMIT_CL_FLUSH_CACHE             0x01
+ #define DRM_V3D_SUBMIT_EXTENSION		  0x02
+@@ -766,6 +769,18 @@ struct drm_v3d_perfmon_get_counter {
+ 	__u8 reserved[7];
+ };
+
++#define DRM_V3D_PERFMON_CLEAR_GLOBAL    0x0001
++
++/**
++ * struct drm_v3d_perfmon_set_global - ioctl to define a global performance
++ * monitor that is used for all jobs. If a global performance monitor is
++ * defined, jobs with a self-defined performance monitor are not allowed.
++ */
++struct drm_v3d_perfmon_set_global {
++	__u32 flags;
++	__u32 id;
++};
++
+ #if defined(__cplusplus)
+ }
+ #endif
+--
+2.47.1
+
