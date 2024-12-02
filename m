@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB359E0509
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 15:32:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734449E0508
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 15:32:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFB910E767;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A289810E768;
 	Mon,  2 Dec 2024 14:32:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="cAU0YddG";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="fXguO9YP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFF610E76A
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 14:32:18 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-385e27c75f4so1545244f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 06:32:18 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D353710E770
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 14:32:19 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-434a83c6b01so37615455e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 06:32:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1733149937; x=1733754737;
+ d=raspberrypi.com; s=google; t=1733149938; x=1733754738;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=7AFVILEGG6inA8zYmU/doFUBGD/IkzUATf3B1mIzQMQ=;
- b=cAU0YddG/4tbVMui0SZmA78Bz6aDGsca5P1BB7NnL3jbnt2vUbc8/55CNv1JUgkw6h
- wrv3VC9nTMCsedLtSQMaJrKTwlPqtg25jlEaZOLxtYwI2irHEIBVZolwuQ5DGrQBdH+z
- R8F39MCSNlI/yqjhq1W49qHgsaCnsGM8fZppAJkAx8zCaStoRbgaPtr1sQwYXDpCwOM9
- RDVzQR0ivgLQ2HX0mzQYhm/V4UMFCIEgspAxGTMLR+mYv0j2Xo/o5NBGmR9Z/2Nqi6JB
- dWXudhQWz4xg/D2QVDhEh1VDuVssLsEfePa5piy+LxQpv+ZOxn8yNkU7HnZZJ4Yf2/Lw
- wjYA==
+ :reply-to; bh=ezuuCfz4dXYu4hmKXltppQihukLHouMCBa2+WZneZxU=;
+ b=fXguO9YPHRKfIyI1I3IoFWcrjq4bQe/WpXh8VwSsbMKkShzK+KYjt+5qnMoUHCkMdI
+ IGUsI73450+b0hCUyheGfwLEv5I8klEM8RQGLYLsf3BAkvGyK9SDXN5yuVNk9ZK3TwCb
+ LolVbkEZyVQi9DoDInxjiMm/zyCeiBWgnLoCuylv2TzfkWEgENJsaek2w8U3sv3s8Yrz
+ wqOuge1ps79UHwwD0kCsWdI1HkBxfgtCaJeHEttFYSZbqLAN8q2VAU5UwUAz342/bzkX
+ kVZS0ldKyswCueNg/OP/HcCcrOySANnZ5U58AQZcJRMklMoCJvfyQyh0NE6yAYX660/g
+ 8drw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733149937; x=1733754737;
+ d=1e100.net; s=20230601; t=1733149938; x=1733754738;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7AFVILEGG6inA8zYmU/doFUBGD/IkzUATf3B1mIzQMQ=;
- b=PRb7CIKxo2lv16W8Mu38mEu6QzJvgbDutCXXOUEoI/K75CBJAZ242VW2rCQvurirrC
- TD4MRfhYBj4AGEDdngn84mHZQ72GZj7Dzt9dCQ5uCoqV27uL0/qV7vqQ6NMYFZ5Nw6IW
- zp0IaqzVt1p6QrHu2z6QdQ42j3qcsrZ7to43FB3CUAhQMCZh4f9XPdC4ZZtxZL7L+W4z
- fNkQ1fyfXEMyefwli8gBz8Vjmj7vzTTNgUD3HJW+FY3EcCIlykv0+gsxUwJcmuttlXbw
- ixdJEx2javvkTHBOhiH5g6J3I6gpK7J+VyLlR9c6voWTwwXocGDChA4X5Wj04ySFPmL1
- vetw==
-X-Gm-Message-State: AOJu0Ywth2vM2+JHsBFSeYQQ28xvT2xYlEX/z0TrB8C3IyMQja8RxLi2
- f21N7jslDPGE1Ggyqly5I3MYO9S7rw+5aZ9F2T365TP9lcQ0oTLJYSr/mxOJl5w=
-X-Gm-Gg: ASbGnculnChd26Rcxhj4StMVGH7kLYmGjHTDBLLiuu0LgQ79cO77YifwdQq5NEhFgSE
- y+e0BgyWVOdTGhu0ciKjiitQWLKOXc1eRGwHcC8OPY+PcDAuOYrv+Z/tZixETDJkqyuHKsO35Mt
- 5Ya1k44h30GBKUSYoYSrJFxBrj1cniSLQik+gD6gCctHNHz3dkWJEn7a2V5Jw+5qpNqsD26obaw
- TQmnQ4W82eDHINb70H8oXHWRUEpHEB/QojLp5s0Vg==
-X-Google-Smtp-Source: AGHT+IEh8wUvPPp6fmiu8qi70G2dLIyR2cy0B8DQH6XpxZjumKSN1WVLLU9bXrhtMfH6hCylA9amQQ==
-X-Received: by 2002:a05:6000:4024:b0:385:e4a7:df07 with SMTP id
- ffacd0b85a97d-385e4a7e08dmr6305010f8f.42.1733149937090; 
- Mon, 02 Dec 2024 06:32:17 -0800 (PST)
+ bh=ezuuCfz4dXYu4hmKXltppQihukLHouMCBa2+WZneZxU=;
+ b=Cwn36mkY7ycPSuA33fVec2ztWMz8i8rqAPqvBIKvI1OWxuWFu7/axtB26VCt/Yqg7H
+ p2FeQo8YOjGjCnSWr/ie54cCdWKHsDmlkPpSEbG55NkqYH0lJYDOl/l9EN80XJXAK1MN
+ mSVi7ecgu/Vr9dLnHbhziawrSMWMNZcXEB80ELkT8tLKvAHhZD+xd+7hMmXeMGbTfKz+
+ TuiK3hFBNia2QFPM/RhX6oNnZMaStzDM0tL4Jvj2+4Vbxskdq6v18P0osa4mFd6NwRfM
+ O11GHBAG+wKA2kdTwgIOSUFrTAM3xWwpX8cVNW458RtUxpR7YxTiFfn1/5i5cKphCqaB
+ v5FA==
+X-Gm-Message-State: AOJu0YwI5uIgieSxzCywrLuwZpVBzhZ/0/GkUxJjICXjlPJeNSX8fU4X
+ pTw8XO7XTWbj8wx73FvPG1/5cB6TpazxD00dF/kg0+9P+LnpgEtFXT6yOGVOkJ8=
+X-Gm-Gg: ASbGnctra03byaGorJy6hXHvJ1APWZ9unlk1NnIuG5dBIv5/XUTj5Pjx9DUNxjWVpJi
+ 7LFkrG3jHdcuBOPU3z8b2oT7G4uyvv3pzzc4KXaLwRcd0z/MGDyBz4n65TM8w1MtIKVWlQJsjkO
+ 5h5eFIgEPung4LhAA2JwU8IihCrwMqdhK1H/r/Yn2i4HLZilPhT+Y55tg25i/bk6Ndv4RQ1uRdd
+ 1a28yBsFUKWaf+QBVXXDPDyd8CxB4hoFmeKL8T20w==
+X-Google-Smtp-Source: AGHT+IFOZoOXIOMn7ZNkA2Tq2IsupVCxJJKuWUAQoyj7TMD84BgwJO2qsC/1IZqo9dXxiJ/IAPakGA==
+X-Received: by 2002:a05:600c:474c:b0:431:5aea:95f with SMTP id
+ 5b1f17b1804b1-434a9dc824dmr223443175e9.16.1733149938198; 
+ Mon, 02 Dec 2024 06:32:18 -0800 (PST)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-434aa74f1e6sm188429555e9.9.2024.12.02.06.32.16
+ 5b1f17b1804b1-434aa74f1e6sm188429555e9.9.2024.12.02.06.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2024 06:32:16 -0800 (PST)
+ Mon, 02 Dec 2024 06:32:17 -0800 (PST)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 02 Dec 2024 14:31:55 +0000
-Subject: [PATCH 2/7] dtbindings: display: Fix BCM2835 HVS bindings for BCM2712
+Date: Mon, 02 Dec 2024 14:31:56 +0000
+Subject: [PATCH 3/7] dt-bindings: gpio: brcmstb: add gpio-line-name
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241202-dt-bcm2712-fixes-v1-2-fac67cc2f98a@raspberrypi.com>
+Message-Id: <20241202-dt-bcm2712-fixes-v1-3-fac67cc2f98a@raspberrypi.com>
 References: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
 In-Reply-To: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -100,113 +100,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous patch adding the compatible string missed out that
-the number of interrupts and clocks changed with BCM2712 too.
+Support comes from gpiolib, so permit it through the binding.
 
-Update to validate clock and interrupts for the variants.
-
-Fixes: 6cfcbe548a3a ("dt-bindings: display: Add BCM2712 HVS bindings")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- .../bindings/display/brcm,bcm2835-hvs.yaml         | 77 +++++++++++++++++-----
- 1 file changed, 61 insertions(+), 16 deletions(-)
+ Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-index f91c9dce2a44..ab59edbcf32c 100644
---- a/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-+++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-@@ -19,12 +19,13 @@ properties:
-   reg:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml b/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
+index f096f286da19..086d016df6ef 100644
+--- a/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
+@@ -64,6 +64,8 @@ properties:
  
--  interrupts:
--    maxItems: 1
-+  interrupts: true
+   gpio-ranges: true
  
--  clocks:
--    maxItems: 1
--    description: Core Clock
-+  interrupt-names: true
++  gpio-line-names: true
 +
-+  clocks: true
-+
-+  clock-names: true
- 
- required:
-   - compatible
-@@ -33,17 +34,61 @@ required:
- 
- additionalProperties: false
- 
--if:
--  properties:
--    compatible:
--      contains:
--        enum:
--          - brcm,bcm2711-hvs
--          - brcm,bcm2712-hvs
--
--then:
--  required:
--    - clocks
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: brcm,bcm2711-hvs
-+
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: Core Clock
-+
-+      required:
-+        - clocks
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: brcm,bcm2712-hvs
-+
-+    then:
-+      properties:
-+        clocks:
-+          maxItems: 2
-+        clock-names:
-+          items:
-+            - const: core
-+            - const: disp
-+        interrupts:
-+          items:
-+            - description: Channel 0 End of frame
-+            - description: Channel 1 End of frame
-+            - description: Channel 2 End of frame
-+        interrupt-names:
-+          items:
-+            - const: ch0-eof
-+            - const: ch1-eof
-+            - const: ch2-eof
-+      required:
-+        - clocks
-+        - clock-names
-+        - interrupt-names
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: brcm,bcm2835-hvs
-+
-+    then:
-+      properties:
-+        interrupts:
-+          maxItems: 1
- 
- examples:
-   - |
+   wakeup-source:
+     type: boolean
+     description: >
 
 -- 
 2.34.1
