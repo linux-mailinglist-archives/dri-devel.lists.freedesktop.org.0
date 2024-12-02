@@ -2,82 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE489E0277
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 13:50:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679989E02C6
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 14:04:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F80110E723;
-	Mon,  2 Dec 2024 12:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5974E10E2FC;
+	Mon,  2 Dec 2024 13:04:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="y+hGFBwA";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="h+yj/f3N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 611C010E723
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 12:50:35 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-53df1e063d8so5247830e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 04:50:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733143833; x=1733748633; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=gR00Y7aC6qABGWf6TSpdF1xwTEZztd/zYEK2dEs/vb4=;
- b=y+hGFBwAgh6Fq7Hdm2eT6X5qguvBdyamCIa0Gp0iYkCiN5p6Ik19ecOunF1iFfNhdU
- bgZDt2GQb9t6k9oBYCndX/ZWOkyQPPK5h/jSCxMRY9HzJEG4c41Y2jUjfbWbn4TIlTuV
- r8PFTzqflOBm84m8rALRZJORy1AXoB7tKABwfbsqPItkPEaKsNZXlMQ+RIhQE4408pAC
- OjXidYDrp1zLAa1MzgqwCfdMVquKFXr2O4fyYQ3a6Av546YPU/a3BsB9Amd8HYxlWpJ/
- WVirloD7dz2ad+LW0GzBU1NzgFSq2yoYfu95ubeFiTPtla2Flo1tQqp3BB44JgQOJb/d
- qhvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733143833; x=1733748633;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gR00Y7aC6qABGWf6TSpdF1xwTEZztd/zYEK2dEs/vb4=;
- b=OaknXbnIQkHbfuCQuYuOj7gzkwcMV2D49u9S0Bvie5l6I/prMGHRJ07OjhaLgEGAaW
- eXzE8twM1eAq4SVpFKyn0qk0o5RCC2emFTyM/IKo0kYvjJuIgaMyPCh1iR00SeW1vMMq
- BIda7WGP61xBx8PtfR09QdW6etVQveQINNjhVxRuMhLIeyJhAb7ZKrfMrCTguDAZE78B
- UDAWPcRUk4/gUGMU2j82y4rb0DlTdN1Cknt4eBHdfUO4/aXuECZ3pck14l+5gcppkN7i
- EBNcp3ZOu86G/p5DNb2ALHjqV4RDVJ6Y9h4qvx/aDGPUXKPUYUZPJsCoZeIZjpJZ3yI9
- 2qGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVtoMVbX/SrUhNyWrIiEJw3q7o9l4t6UgNr7K5aYvKr5/a37/AcnFir6h6QzW6IhTOJqsCeS0ZyqKQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwVNBKOYNiN340BPCXKoI9YmXyNkLCm+EUo5ahitCodgFQXRGSO
- hxq6ql6a+H9mSQKKQ1+YbZmZeJkCuqy7LYCIvcUlGVTEhaIFxIxdhJbtghVQNgM=
-X-Gm-Gg: ASbGncv2x87q2tdtxJnLbQl37mF8xwHax2dMiASQoJdQEMHkO8kgEkxfeVVbQRPU66W
- x7WBLdftRV4l7yU8GZJ/RBVV5U4yQ+SIi2S21DDyC8ZNnwEr0i5YzOlgYqK6CNiy/kOV+eKhvNo
- y6ua9rJRddLusOZkEcUSVR+BqC2/aSm4QYUz8pxOEZQvgJD9++UtCA+ykWpQEKAzMMEuFL9CI5I
- uGeI7toViZ+nvogqawu0mAIxIjXdqBRI34MwzZjShy+ToIc8H090wGm2NvUnUr+zy0b5Bdd8Cdr
- RuUc69epu9idYSCW3a5pl7eIVQ7d/w==
-X-Google-Smtp-Source: AGHT+IFOtbglEGI/q4pXr3wFhFC9dW1ANV1WehPk21HBJswjUAeAzRtsTqIj50RgnqdvfxR/wi+cIw==
-X-Received: by 2002:a05:6512:220d:b0:539:e65a:8a71 with SMTP id
- 2adb3069b0e04-53df00dd2cemr12320514e87.34.1733143833517; 
- Mon, 02 Dec 2024 04:50:33 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df649f62dsm1472540e87.245.2024.12.02.04.50.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2024 04:50:32 -0800 (PST)
-Date: Mon, 2 Dec 2024 14:50:29 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panel: visionox-rm69299: Remove redundant
- assignments of panel fields
-Message-ID: <h4nkbvwohp2izu4mzyv6nih42nqb4yspyxxqwyhojcgxvn5mj2@frar3tof42ds>
-References: <20241202062449.65593-1-wenst@chromium.org>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 050D810E1B3
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 13:04:23 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 6DB6988A3C;
+ Mon,  2 Dec 2024 14:04:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1733144661;
+ bh=b09IRayHwKFz5QGfAbSRVqGIdYJP6UQsFIWjXyUo8oY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=h+yj/f3NFDdx+V0dgz4eU4yQI74vVHUnS8pMIYyABCxKMdE9HLVtixAhSauNvfcgN
+ AVxxTdXdwbK+kcJ5V7GAbZWMfJu/XaIDeZpx5fiNBp20ApLDNA/BxZQjKTaY7G2JzP
+ uJv5+CtMqmavmHAa98O9KSzI96vmDbO03Kfa4Ep8kFKO2ESfbO7vaxX3nIAaKkaVQY
+ Vo9Wtvi2dT7RP+OBlzmZem9+OUyrWtdIO0/XPSkeSJlJK1K23F7GX0nL3ON9oYahWM
+ XKEWh8G9f+nQ6Uq5TCytf/VadexunrmWC93FifVLY/n4vBWIDZBFnJ7x13vo1MReKF
+ FcaosijILgbUQ==
+Message-ID: <50ee0207-b37a-4a6a-83fe-32a7a43645ce@denx.de>
+Date: Mon, 2 Dec 2024 13:56:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241202062449.65593-1-wenst@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+To: Liu Ying <victor.liu@oss.nxp.com>, Nikolaus Voss <nv@vosn.de>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Fabio Estevam <festevam@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nikolaus.voss@haag-streit.com
+References: <20241126172610.AD8B51622C@mail.steuer-voss.de>
+ <1f0a307a-666f-4647-9f73-e9bddd6c7eff@oss.nxp.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <1f0a307a-666f-4647-9f73-e9bddd6c7eff@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,46 +72,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2024 at 02:24:48PM +0800, Chen-Yu Tsai wrote:
-> drm_panel_init() was made to initialize the fields in |struct drm_panel|.
-> There is no need to separately initialize them again.
+On 12/2/24 7:32 AM, Liu Ying wrote:
+> On 11/27/2024, Nikolaus Voss wrote:
+>> LDB clock has to be a fixed multiple of the pixel clock.
+>> As LDB and pixel clock are derived from different clock sources
+>> (at least on imx8mp), this constraint cannot be satisfied for
+>> any pixel clock, which leads to flickering and incomplete
+>> lines on the attached display.
+>>
+>> To overcome this, check this condition in mode_fixup() and
+>> adapt the pixel clock accordingly.
+>>
+>> Cc: <stable@vger.kernel.org>
 > 
-> Drop the separate assignments that are redundant.
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
->  drivers/gpu/drm/panel/panel-visionox-rm69299.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> index 272490b9565b..1df5303eb57c 100644
-> --- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> @@ -193,7 +193,6 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
->  
->  	mipi_dsi_set_drvdata(dsi, ctx);
->  
-> -	ctx->panel.dev = dev;
+> It looks like stable is not effectively Cc'ed.
+> Need a Fixes tag?
+Isn't this fix effectively superseded by series
 
-No, this will break one of the following function calls. Please refactor
-them too.
+[PATCH 0/5] clk: Fix simple video pipelines on i.MX8
 
->  	ctx->dsi = dsi;
->  
->  	ctx->supplies[0].supply = "vdda";
-> @@ -215,8 +214,6 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
->  
->  	drm_panel_init(&ctx->panel, dev, &visionox_rm69299_drm_funcs,
->  		       DRM_MODE_CONNECTOR_DSI);
-> -	ctx->panel.dev = dev;
-> -	ctx->panel.funcs = &visionox_rm69299_drm_funcs;
->  	drm_panel_add(&ctx->panel);
->  
->  	dsi->lanes = 4;
-> -- 
-> 2.47.0.338.g60cca15819-goog
-> 
-
--- 
-With best wishes
-Dmitry
+?
