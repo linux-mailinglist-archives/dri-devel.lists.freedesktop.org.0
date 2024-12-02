@@ -2,77 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2843C9E0BC3
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 20:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4ED69E0BEF
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 20:22:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE3D310E818;
-	Mon,  2 Dec 2024 19:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E8110E825;
+	Mon,  2 Dec 2024 19:22:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="CIt96mwv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bvsNWSQI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6417C10E80C
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2024 19:12:37 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53de5ec22adso5802741e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 11:12:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1733166755; x=1733771555;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Y5P0+db7NElW+RfhzCk/WkVDLZpj6atKSAhLo042qRI=;
- b=CIt96mwv1YUfU17OBv0MAq8gMMsndqeL8XLHstQDeOGvy4pZUZo1NhK66HChZ9mNXK
- 2V/9Eq0iEwMfKQwMlNwhmFVhKmfJVsTEEZC9uQmS/3pkXd8+15LkF85KbDXBPrrAec2O
- nwbSorXoZWPU9oDkJYfI3stXNQJERBGEWkGWXFyFJvg2kq+cewt9Ax8EeSmg+/zGgEU2
- 7n0FWp9gdBieoUF0RJCAc5veGStg9luSagJ6AnVg4sqgMorSK6sh3phmObSAMijsV2kV
- BwsRmvVOs2tVAnzZ+cSWKW1J05zs3zJ+Sh1lLWBHWSUBzU26s+906BYIP+MYK/+cW5HY
- hrUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733166755; x=1733771555;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Y5P0+db7NElW+RfhzCk/WkVDLZpj6atKSAhLo042qRI=;
- b=N8gid1uHuERVnmdOAL+/xbbPk7rJkdfwSb58pET4KEoTanuZt8MXtq+Qr3nIiM/vVJ
- 8lfMEXCC86QHQ72TnWDVJxU2WBIv0eFXN5mmiE8+RNh1ZrMVhUl2jkcRlb6s8lSG6BZu
- 57dDmAjzGXd5AEw4AVUtjNpn5fsrj7zm7J+mfcAvk1wNVQjtl/8dxBJ0b1GjljFSxvLj
- 0qZKq+QDh4+NS0kWeRJHg3eTz2frVM3lC9FzmBiB6E0xfYOzufT3lw67HDZiYkdT9YjP
- YFuwzOJHVI6r1+KKqyu5p5vsdwfrP6hPuteQyGZrjHF1LE+119TRXwOYEurRQRIU1Nir
- NfhA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWDrVHxtI+9zB2kkNBu+Po4KHv46ISI5VmYk0m3NfDPfGWkpc9Pb0tryIAKqhSeu07+2wtzAcU9tXY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxlx6XE7E13C+xXuf2mTbw7v9+B8XptT0P4W3yilyxaxoiRwG44
- zUisM5oHhaH3pZkhAN3LhiE+uj3MW2IU1bhKGalwPyRntDik6l+jwn7vw1ZzmIOBbzTAO8s4/j3
- xpbDncTQIARoQrRXxK/9AvfzX2ouJNt7kpS8=
-X-Gm-Gg: ASbGncsVAWSyXsGLwz1ILy9ZFUoFB2SLC5w+W2MkYE46ufn+ziC1IdZVWyhDWa6DluM
- OXt3tEsUcSB2UL2DARSgDnw9IxUm5Q6pbOWVxmPxaAqtiLkyUmUHKVa1c2AHP
-X-Google-Smtp-Source: AGHT+IHZfCjhITQ3qERmJbAY1aREzd4BIcVZPSiVSRGk4ymF9wRxc0gWXYA3+kYFBl8DXbtnZqYMib0piYz7PcngqQY=
-X-Received: by 2002:a19:8c4e:0:b0:53d:f177:51d1 with SMTP id
- 2adb3069b0e04-53df17752b3mr9327407e87.13.1733166755293; Mon, 02 Dec 2024
- 11:12:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20241202115827.50388-1-mripard@kernel.org>
-In-Reply-To: <20241202115827.50388-1-mripard@kernel.org>
-From: John Stultz <jstultz@google.com>
-Date: Mon, 2 Dec 2024 11:12:23 -0800
-Message-ID: <CANDhNCpTnc6=YkjQgQngRCw1_xLWgOFrcjTxrrGX+bRhvGb5DQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name
- definitions
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-media@vger.kernel.org, linux-doc@vger.kernel.org
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1778210E072;
+ Mon,  2 Dec 2024 19:22:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733167345; x=1764703345;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=wgNs0Q9kAS34l6FO2aSnEXRFLXDW90y6KIaKQiHRaWo=;
+ b=bvsNWSQILDVUNeqhuMUcM7kbY4bFgpQbiD4W7IP5Kj9dQmljCnxLa9cE
+ UEY2oMoRwBHcgUAvDs4HQcza/9Czr6gL1hjNQhsy0Imco97uMBwP9WOMZ
+ dX8fNv+Stt1jW9VV0bwWs0KgIqsz4BAwACKFtLpKY1Sd1Qkzx4xu18ek4
+ /wyN2hsJNF04rmPC16XXZ9qgdjTMd3cYxlTHh+GxmIyC0ijxE7XzB/cyh
+ pQ2HjzTrN0OxpZhHhd3LWnjeM2Xb7Ntbca+aDtFqdRPDujPiZ1kIOEbUy
+ zjb70WRZ/yUBFVKVoYwfbY6hQ6UPhzIYGAjm+QD4rvlXm7An5bAyePUr2 g==;
+X-CSE-ConnectionGUID: hT1nwM0PTZ+WRTQv7+s3Uw==
+X-CSE-MsgGUID: 3KS0mgFlTECRHkD7dNWvOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33505286"
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; d="scan'208";a="33505286"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 11:22:16 -0800
+X-CSE-ConnectionGUID: SrDgd/iYTwOwMliq1pA38Q==
+X-CSE-MsgGUID: AUaawnwvTmebleqfO/u0+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; d="scan'208";a="124132566"
+Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.72])
+ ([10.245.246.72])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2024 11:22:13 -0800
+Message-ID: <c87fa6006f356f999a1d5165ee5e58422f68a3a3.camel@linux.intel.com>
+Subject: Re: 6.13-rc1 graphics fail
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Genes Lists <lists@sapience.com>, linux-kernel@vger.kernel.org, 
+ lucas.demarchi@intel.com, rodrigo.vivi@intel.com, airlied@gmail.com, 
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Date: Mon, 02 Dec 2024 20:22:10 +0100
+In-Reply-To: <3b097dddd7095bccabe6791b90899c689f271a35.camel@sapience.com>
+References: <3b097dddd7095bccabe6791b90899c689f271a35.camel@sapience.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,159 +73,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 2, 2024 at 3:58=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
-rote:
->
-> Following a recent discussion at last Plumbers, John Stultz, Sumit
-> Sewal, TJ Mercier and I came to an agreement that we should document
-> what the dma-buf heaps names are expected to be, and what the buffers
-> attributes you'll get should be documented.
->
-> Let's create that doc to make sure those attributes and names are
-> guaranteed going forward.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->
-> ---
-> Changes from v1:
->   - Add the mention that the cma / reserved heap is optional.
->
-> To: Jonathan Corbet <corbet@lwn.net>
-> To: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> Cc: John Stultz <jstultz@google.com>
-> Cc: "T.J. Mercier" <tjmercier@google.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/userspace-api/dma-buf-heaps.rst | 76 +++++++++++++++++++
->  Documentation/userspace-api/index.rst         |  1 +
->  2 files changed, 77 insertions(+)
->  create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
->
-> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentatio=
-n/userspace-api/dma-buf-heaps.rst
-> new file mode 100644
-> index 000000000000..68be7ddea150
-> --- /dev/null
-> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> @@ -0,0 +1,76 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> +Allocating dma-buf using heaps
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> +
-> +Dma-buf Heaps are a way for userspace to allocate dma-buf objects. They =
-are
-> +typically used to allocate buffers from a specific allocation pool, or t=
-o share
-> +buffers across frameworks.
-> +
-> +Heaps
-> +=3D=3D=3D=3D=3D
-> +
-> +A heap represent a specific allocator. The Linux kernel currently suppor=
-ts the
-> +following heaps:
-> +
-> + - The ``system`` heap allocates virtually contiguous, cacheable, buffer=
-s
-> +
-> + - The ``reserved`` heap allocates physically contiguous, cacheable,
+Hi,
 
-So, I think calling the heap name the "cma" heap might be clearer here?
-On some platforms the chardev is "reserved" because the default cma
-region is setup via dma_contiguous_reserve_area() (which calls it
-"reserved"), but the dma heap is exporting cma.
+On Mon, 2024-12-02 at 13:40 -0500, Genes Lists wrote:
+>=20
+> 6.12.1 on same system with same userspace works fine (as did 6.12)
+> while 6.13-rc1 boots, but without working graphics using gnome with
+> wayland.
+>=20
+> Laptop is raptor lake with Intel XE (lspci attached).
+> No kernel errors are logged, but GDM fails, leading to frozen screen
+> with some messages logged most notable seems to be quite a few of
+> this
+> one:
+>=20
+> =C2=A0 Failed to ensure KMS FB ID on /dev/dri/card1
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drmModeAddFB2WithModifiers failed: I=
+nvalid argument
+>=20
+> which does not happen with 6.12.
+>=20
+> I can switch to different VTs but GDM appears hung.
+>=20
+> This is my primary machine so will take some time before I can bisect
+> but thought it best to share sooner than later. Maybe this rings a
+> bell
+> to someone? Or does userspace GDM need to be changed to work with
+> 6.13?
 
-Additionally, on some downstream devices there can be multiple purpose
-separated CMA heaps. This hasn't made it upstream over objections to
-how downstream devices were enumerating the separate cma regions in
-their devicetrees. It was proposed to export all cma regions as
-separate cma heaps, but there was reasonable concern over kernel
-drivers not expecting userland to be able to allocate from special
-reservations, so that seemed like a bad idea.
+Your logs shows the i915 driver loading and not the xe driver. The i915
+driver is the correct one for your hardware unless you are
+experimenting.
 
-Ideally upstream drivers would want to explicitly export their special
-CMA region themselves and we would export something like
-add_cma_heap() to do so.
+So please file an issue here
+https://gitlab.freedesktop.org/drm/i915/kernel/-/issues
 
-All to say: this document really only covers the naming of the
-"default" CMA region that is exported via the cma heap.  Eventually
-there may be other CMA heaps as well upstream.
+And follow up on the intel-gfx list (CC'd)
 
-> +   buffers. Only present if a CMA region is present. Such a region is
-> +   usually created either through the kernel commandline through the
-> +   `cma` parameter, a memory region Device-Tree node with the
-> +   `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
-> +   `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
-> +   might be called differently:
-> +
-> +    - Acer Iconia Tab A500: ``linux,cma``
-> +    - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
-> +    - Amlogic A1: ``linux,cma``
-> +    - Amlogic G12A/G12B/SM1: ``linux,cma``
-> +    - Amlogic GXBB/GXL: ``linux,cma``
-> +    - ASUS EeePad Transformer TF101: ``linux,cma``
-> +    - ASUS Google Nexus 7 (Project Bach / ME370TG) E1565: ``linux,cma``
-> +    - ASUS Google Nexus 7 (Project Nakasi / ME370T) E1565: ``linux,cma``
-> +    - ASUS Google Nexus 7 (Project Nakasi / ME370T) PM269: ``linux,cma``
-> +    - Asus Transformer Infinity TF700T: ``linux,cma``
-> +    - Asus Transformer Pad 3G TF300TG: ``linux,cma``
-> +    - Asus Transformer Pad TF300T: ``linux,cma``
-> +    - Asus Transformer Pad TF701T: ``linux,cma``
-> +    - Asus Transformer Prime TF201: ``linux,cma``
-> +    - ASUS Vivobook S 15: ``linux,cma``
-> +    - Cadence KC705: ``linux,cma``
-> +    - Digi International ConnectCore 6UL: ``linux,cma``
-> +    - Freescale i.MX8DXL EVK: ``linux,cma``
-> +    - Freescale TQMa8Xx: ``linux,cma``
-> +    - Hisilicon Hikey: ``linux,cma``
-> +    - Lenovo ThinkPad T14s Gen 6: ``linux,cma``
-> +    - Lenovo ThinkPad X13s: ``linux,cma``
-> +    - Lenovo Yoga Slim 7x: ``linux,cma``
-> +    - LG Optimus 4X HD P880: ``linux,cma``
-> +    - LG Optimus Vu P895: ``linux,cma``
-> +    - Loongson 2k0500, 2k1000 and 2k2000: ``linux,cma``
-> +    - Microsoft Romulus: ``linux,cma``
-> +    - NXP i.MX8ULP EVK: ``linux,cma``
-> +    - NXP i.MX93 9x9 QSB: ``linux,cma``
-> +    - NXP i.MX93 11X11 EVK: ``linux,cma``
-> +    - NXP i.MX93 14X14 EVK: ``linux,cma``
-> +    - NXP i.MX95 19X19 EVK: ``linux,cma``
-> +    - Ouya Game Console: ``linux,cma``
-> +    - Pegatron Chagall: ``linux,cma``
-> +    - PHYTEC phyCORE-AM62A SOM: ``linux,cma``
-> +    - PHYTEC phyCORE-i.MX93 SOM: ``linux,cma``
-> +    - Qualcomm SC8280XP CRD: ``linux,cma``
-> +    - Qualcomm X1E80100 CRD: ``linux,cma``
-> +    - Qualcomm X1E80100 QCP: ``linux,cma``
-> +    - RaspberryPi: ``linux,cma``
-> +    - Texas Instruments AM62x SK board family: ``linux,cma``
-> +    - Texas Instruments AM62A7 SK: ``linux,cma``
-> +    - Toradex Apalis iMX8: ``linux,cma``
-> +    - TQ-Systems i.MX8MM TQMa8MxML: ``linux,cma``
-> +    - TQ-Systems i.MX8MN TQMa8MxNL: ``linux,cma``
-> +    - TQ-Systems i.MX8MPlus TQMa8MPxL: ``linux,cma``
-> +    - TQ-Systems i.MX8MQ TQMa8MQ: ``linux,cma``
-> +    - TQ-Systems i.MX93 TQMa93xxLA/TQMa93xxCA SOM: ``linux,cma``
-> +    - TQ-Systems MBA6ULx Baseboard: ``linux,cma``
->
+Thanks,
+Thomas
 
-Hrm. I'm not sure I see the value in enumerating things in this way,
-it seems like it will be a nuisance to keep current?  Maybe something
-like:
 
-On most systems the default cma region is named "linux, cma" or
-"reserved", with a few exceptions:
-    - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
+>=20
+>=20
+> regards
+>=20
+> gene
+>=20
+> Larger journal attached along with lspci and kernel config.
+> Some possibly relevant additional log bits:
+>=20
+> -- journal --
+>=20
+> gnome-shell[1380]: Thread 'KMS thread' will be using high priority
+> scheduling
+> gnome-shell[1380]: Device '/dev/dri/card1' prefers shadow buffer
+> gnome-shell[1380]: Added device '/dev/dri/card1' (i915) using atomic
+> mode setting.
+> gnome-shell[1380]: Created gbm renderer for '/dev/dri/card1'
+> gnome-shell[1380]: GPU /dev/dri/card1 selected primary from builtin
+> panel presence
+> gnome-shell[1380]: Obtained a high priority EGL context
+> gnome-shell[1380]: Running GNOME Shell (using mutter 47.2) as a
+> Wayland
+> display server
+>=20
+> /usr/lib/gdm-wayland-session[1367]: dbus-daemon[1367]: [session
+> uid=3D120
+> pid=3D1367] Activating service=C2=A0=C2=A0=20
+> name=3D'org.freedesktop.impl.portal.desktop.gnome' requested by=C2=A0=C2=
+=A0
+> ':1.39'
+> (uid=3D120 pid=3D1777 comm=3D"/usr>
+>=20
+> gnome-shell[1380]: Failed to ensure KMS FB ID on /dev/dri/card1:=C2=A0=C2=
+=A0=20
+> drmModeAddFB2WithModifiers failed: Invalid argument
+>=20
+> meta_frame_native_release: assertion '!frame_native->kms_update'
+> failed
+>=20
+> -- journal --
+>=20
 
-thanks
--john
