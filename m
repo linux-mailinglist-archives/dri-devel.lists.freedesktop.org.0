@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30D89E04A3
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 15:18:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 037459E04F6
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2024 15:30:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 269FB10E75C;
-	Mon,  2 Dec 2024 14:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D828810E765;
+	Mon,  2 Dec 2024 14:30:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QtqVFbwM";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="QgpXgil8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A27EC10E75C;
- Mon,  2 Dec 2024 14:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733149084; x=1764685084;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=JB4mgiJsE+p6EI61rz9n/0H7J08XaThpfbIpd7k81rI=;
- b=QtqVFbwM8ExDc8A/mlS82eLPUcUMDZUVNGUKZ1a6436aAYXlzxnuxOy9
- sHSS1M70Zh3QNzW5Y4HIucdAghChX5e04chKhA8b2L/0jgvhzBtegJlYT
- ZyX/wc1Gk5D5O1kbGbwVEWwhhwta5Mjnn5lAPcJUKcVCQpoE2fsBLPYtQ
- ZD0BHl1PlaVrvVZAFa9eSqerFBcqBC33Tz6bJcr6FEkfb6pZYE1tKv8kF
- i917ETt2SGaSaBS1p1IGSOmZRcfA+r8nz0JANIAr5k80m1NJHWX9h+EAA
- IcEF3IecA61ur3MX3roKp8zoMwJyaK4boEZ1JEmDt3YvhBNlwUzuhh+oM g==;
-X-CSE-ConnectionGUID: x22px8CATTaw4FBw1dBpgA==
-X-CSE-MsgGUID: Bqjs4kjISxGwL5m9GTosCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33565410"
-X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="33565410"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2024 06:18:03 -0800
-X-CSE-ConnectionGUID: lt8YnKJSTW2h7arR/vPhMQ==
-X-CSE-MsgGUID: ETOSaA5+TEeGXxcvFAeucw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; d="scan'208";a="98086044"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.79])
- ([10.245.244.79])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2024 06:18:02 -0800
-Message-ID: <39f2bbb3-5a53-4a6b-b066-be6be1ead293@intel.com>
-Date: Mon, 2 Dec 2024 14:17:46 +0000
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B59D010E764;
+ Mon,  2 Dec 2024 14:30:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1733149838; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KAYJ+SVldCKeFbNKK5my8RDHpbsYSjygxFmX+ZtQnxzFoypxjZRJ0/vG62Fdd15fIEN+dT5G7jTE+BzfweAoUr8jqfSQaELQPuAGuGHK5j1whvLtsvrQluufP1H3nvAsAj16aPCf2aIjRj8M60Cnm1ps6kYShPirVbZE2Ld5EC4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1733149838;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=Gurws+fL4kEYTQO93cSI4aYvOGLDtpvlUfKwFkPIM3Y=; 
+ b=gzTgrAfc67S/jbf4VWZrLvVQ3WOuDp98nYroK+At/ZwY4+5Rphk66VWa3K8NXrA9ne3NWc7L/MVReLF3ku4rWXA635hVU3C9WNvmN9FIi/x9dliU1drFrXjIMgyzQ/A5QSEnOBM3gpQ9IqVOInzZXGzr65H1Q//2e2hW538MMoY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733149838; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=Gurws+fL4kEYTQO93cSI4aYvOGLDtpvlUfKwFkPIM3Y=;
+ b=QgpXgil8+lczGYWgdKRNH4Y8MhkES3bEPK9VjAAdbva9a8WlAVkjkIqIwyLkzeCN
+ kLewsF89IReNkLIL+5sVdwCULCGIESLOJl4/6ZLK5F1bC7St11pqiaQG/52TOUcak+v
+ eZ9li+CzozbGtmV3YPQ+Ean/pvdeQGkgLppGTeyI=
+Received: by mx.zohomail.com with SMTPS id 1733149751274486.1128506514832;
+ Mon, 2 Dec 2024 06:29:11 -0800 (PST)
+Message-ID: <be01d2f7-8423-4e10-b65b-a84a7bc7c99e@collabora.com>
+Date: Mon, 2 Dec 2024 17:29:05 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/8] drm/xe/display: Update intel_bo_read_from_page to
- use ttm_bo_access
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: christian.koenig@amd.com, thomas.hellstrom@linux.intel.com
-References: <20241126174615.2665852-1-matthew.brost@intel.com>
- <20241126174615.2665852-6-matthew.brost@intel.com> <87o71u5mza.fsf@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <87o71u5mza.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v5] drm/virtio: Add drm_panic support
+To: Ryosuke Yasuoka <ryasuoka@redhat.com>, airlied@redhat.com,
+ kraxel@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, daniel@ffwll.ch, jfalempe@redhat.com,
+ christophe.jaillet@wanadoo.fr
+Cc: virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20241129122408.4167150-1-ryasuoka@redhat.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20241129122408.4167150-1-ryasuoka@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,100 +70,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/12/2024 11:43, Jani Nikula wrote:
-> On Tue, 26 Nov 2024, Matthew Brost <matthew.brost@intel.com> wrote:
->> Don't open code vmap of a BO, use ttm_bo_access helper which is safe for
->> non-contiguous BOs and non-visible BOs.
->>
->> Suggested-by: Matthew Auld <matthew.auld@intel.com>
->> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> 
-> I've seen a few cases of [1] lately, and Thomas tipped me off to this
-> change. We get:
-> 
-> <4> [374.262965] xe 0000:03:00.0: [drm] drm_WARN_ON(ret)
-> <4> [374.262983] WARNING: CPU: 8 PID: 5462 at drivers/gpu/drm/i915/display/intel_display.c:7637 intel_atomic_commit_tail+0x16c7/0x17f0 [xe]
-> 
-> and that's intel_atomic_prepare_plane_clear_colors():
-> 
-> 		ret = intel_bo_read_from_page(intel_fb_bo(fb),
-> 					      fb->offsets[cc_plane] + 16,
-> 					      &plane_state->ccval,
-> 					      sizeof(plane_state->ccval));
-> 		/* The above could only fail if the FB obj has an unexpected backing store type. */
-> 		drm_WARN_ON(&i915->drm, ret);
-> 
-> 
-> So I don't have any conclusive evidence, but could this be the reason?
+On 11/29/24 15:24, Ryosuke Yasuoka wrote:
+....
+> +static int virtio_drm_get_scanout_buffer(struct drm_plane *plane,
+> +					 struct drm_scanout_buffer *sb)
+> +{
+> +	struct virtio_gpu_object *bo;
+> +
+> +	if (!plane->state || !plane->state->fb || !plane->state->visible)
+> +		return -ENODEV;
+> +
+> +	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
+> +	if (virtio_gpu_is_vram(bo))
+> +		return -ENODEV;
 
-@@ -40,8 +40,13 @@ int intel_bo_fb_mmap(struct drm_gem_object *obj, 
-struct vm_area_struct *vma)
-  int intel_bo_read_from_page(struct drm_gem_object *obj, u64 offset, 
-void *dst, int size)
-  {
-         struct xe_bo *bo = gem_to_xe_bo(obj);
-+       int ret;
+VirtIO-GPU now supports importing external dmabufs, we should reject
+bo->base.base.import_attach here now too.
 
--       return ttm_bo_access(&bo->ttm, offset, dst, size, 0);
-+       ret = ttm_bo_access(&bo->ttm, offset, dst, size, 0);
-+       if (ret == size)
-+               ret = 0;
-+
-+       return ret;
-  }
+> +
+> +	/* try to vmap it if possible */
+> +	if (!bo->base.vaddr) {
+> +		int ret;
+> +
+> +		ret = drm_gem_shmem_vmap(&bo->base, &sb->map[0]);
+> +		if (ret)
+> +			return ret;
 
-I think we somehow missed that bo_access is returning @size on success?
+I've now noticed that drm_gem_shmem_vmap() expects BO reservation lock
+to be held and we can't take lock it at a panic time.
 
-> 
-> BR,
-> Jani.
-> 
-> 
-> 
-> [1] https://intel-gfx-ci.01.org/tree/intel-xe/xe-pw-138070v8/shard-dg2-434/igt@kms_flip_tiling@flip-change-tiling@pipe-d-dp-4-linear-to-4-rc-ccs-cc.html
-> 
-> 
->> ---
->>   drivers/gpu/drm/xe/display/intel_bo.c | 25 +------------------------
->>   1 file changed, 1 insertion(+), 24 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/xe/display/intel_bo.c b/drivers/gpu/drm/xe/display/intel_bo.c
->> index 9f54fad0f1c0..43141964f6f2 100644
->> --- a/drivers/gpu/drm/xe/display/intel_bo.c
->> +++ b/drivers/gpu/drm/xe/display/intel_bo.c
->> @@ -40,31 +40,8 @@ int intel_bo_fb_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
->>   int intel_bo_read_from_page(struct drm_gem_object *obj, u64 offset, void *dst, int size)
->>   {
->>   	struct xe_bo *bo = gem_to_xe_bo(obj);
->> -	struct ttm_bo_kmap_obj map;
->> -	void *src;
->> -	bool is_iomem;
->> -	int ret;
->>   
->> -	ret = xe_bo_lock(bo, true);
->> -	if (ret)
->> -		return ret;
->> -
->> -	ret = ttm_bo_kmap(&bo->ttm, offset >> PAGE_SHIFT, 1, &map);
->> -	if (ret)
->> -		goto out_unlock;
->> -
->> -	offset &= ~PAGE_MASK;
->> -	src = ttm_kmap_obj_virtual(&map, &is_iomem);
->> -	src += offset;
->> -	if (is_iomem)
->> -		memcpy_fromio(dst, (void __iomem *)src, size);
->> -	else
->> -		memcpy(dst, src, size);
->> -
->> -	ttm_bo_kunmap(&map);
->> -out_unlock:
->> -	xe_bo_unlock(bo);
->> -	return ret;
->> +	return ttm_bo_access(&bo->ttm, offset, dst, size, 0);
->>   }
->>   
->>   struct intel_frontbuffer *intel_bo_get_frontbuffer(struct drm_gem_object *obj)
-> 
+https://elixir.bootlin.com/linux/v6.12.1/source/drivers/gpu/drm/drm_gem_shmem_helper.c#L330
 
+This resv warning isn't triggered because bo->base.vaddr is set for VT
+framebufffer BO when panic happens.
+
+We actually should reject all BOs that don't have bo->base.vaddr set at
+the panic time. Please correct it in v6 and rebase on top of a recent
+drm-next tree.
+
+> +	} else {
+> +		iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
+> +	}
+> +
+> +	sb->format = plane->state->fb->format;
+> +	sb->height = plane->state->fb->height;
+> +	sb->width = plane->state->fb->width;
+> +	sb->pitch[0] = plane->state->fb->pitches[0];
+> +	return 0;
+> +}
+...
+> +static void virtio_panic_flush(struct drm_plane *plane)
+> +{
+> +	struct virtio_gpu_object *bo;
+> +	struct drm_device *dev = plane->dev;
+> +	struct virtio_gpu_device *vgdev = dev->dev_private;
+> +	struct drm_rect rect;
+> +	void *p_vbuf = vgdev->panic_vbuf;
+> +	struct virtio_gpu_vbuffer *vbuf_dumb_bo = p_vbuf;
+> +	struct virtio_gpu_vbuffer *vbuf_resource_flush = p_vbuf + VBUFFER_SIZE;
+
+This p_vbuf + VBUFFER_SIZE looks suspicious. The VBUFFER_SIZE macro
+isn't guarded with parentheses (), hence this vbuf_resource_flush is
+pointing at the CMD part of the vbuf_dumb_bo?
+
+Won't be using kmem_cache_zalloc(vgdev->vbufs, GFP_ATOMIC) to
+dynamically allocate both buffers make everything cleaner?
+
+...
+> -#define MAX_INLINE_CMD_SIZE   96
+> -#define MAX_INLINE_RESP_SIZE  24
+> -#define VBUFFER_SIZE          (sizeof(struct virtio_gpu_vbuffer) \
+> -			       + MAX_INLINE_CMD_SIZE		 \
+> -			       + MAX_INLINE_RESP_SIZE)...
+
+-- 
+Best regards,
+Dmitry
