@@ -2,63 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B299E17D1
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 10:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6519E17F1
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 10:40:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ABDD10E9B5;
-	Tue,  3 Dec 2024 09:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63FE810E99F;
+	Tue,  3 Dec 2024 09:40:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YKuB4AXb";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="fEoWVV5u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54EE910E9B5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 09:37:16 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C59994CE;
- Tue,  3 Dec 2024 10:36:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733218608;
- bh=jQXX/Tc40kph/7OBLJnEEHlRiFU1zhsnN3QXwzQG3EA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YKuB4AXbRMhscTWbDWfRTbNGPURysibT8ay+/BUsYsk5ruwPwvod/Z8ANtwVLPX+m
- 4YUAPFw7VbQrfWN2PeXlVZ4elGmpGiXE/IkctEaJ3V6P5Bhn17BRaPHmPKJMeiipoL
- 1eD1zdRGU6DB72E6rDe9aTcpZCkqD+QwOjko6uCk=
-Date: Tue, 3 Dec 2024 11:37:03 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH 8/9] arm64: dts: renesas: r8a779h0: Add display support
-Message-ID: <20241203093703.GL10736@pendragon.ideasonboard.com>
-References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
- <20241203-rcar-gh-dsi-v1-8-738ae1a95d2a@ideasonboard.com>
+Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90AA510E99F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 09:40:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
+ s=default;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Cc
+ :To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=maeXPvE+tKNblBFORvaPs0r+TMuJ79CuzqB7LrGx7Xw=; b=fEoWVV5uoTR82cn8GaHyfGL7FZ
+ DYEWuPSBZxTWVL4bXvMYL8mGPIne/Y6eaTobbJgToTUs8Y+XZwYw7sVealpuZLHcowch9MPAUCbhK
+ cYyEPzP0weLmOXjPNeedbGHyFXURLZBGK7ahJyX9vWsKBLYOPOVNPYQkjkrpVKjdKIR9DWExuLztZ
+ 6/D/By95EGFF3dqETgFE6uOQACT++ANzWLIUuQRha7m0ku9ozfnueR+D5Es63JXN0oOX2pox3rGky
+ Vmxs0XY0SqZ3blwJbtUTl5fhxbBpzbmtWFExtW4sdkZGvx+LOVJdLaFvYjKynL4ntmuxHIs/UI3hR
+ d6IjmlgA==;
+Received: from 77-38-14-103.dynamic.telemach.net ([77.38.14.103]:54096
+ helo=[192.168.0.15]) by cpanel.siel.si with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
+ (envelope-from <andrej.picej@norik.com>) id 1tIPOf-00BNdA-38;
+ Tue, 03 Dec 2024 10:40:45 +0100
+Message-ID: <e503b751-7c4b-4fac-ab8e-1724fd3639d2@norik.com>
+Date: Tue, 3 Dec 2024 10:40:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241203-rcar-gh-dsi-v1-8-738ae1a95d2a@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Upstream] [PATCH v2 2/3] drm/bridge: ti-sn65dsi83: Add ti,
+ lvds-vod-swing optional properties
+From: Andrej Picej <andrej.picej@norik.com>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, marex@denx.de
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
+ upstream@lists.phytec.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+References: <20241203085822.2475138-1-andrej.picej@norik.com>
+ <20241203085822.2475138-3-andrej.picej@norik.com>
+Content-Language: en-GB
+In-Reply-To: <20241203085822.2475138-3-andrej.picej@norik.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel.siel.si
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - norik.com
+X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id:
+ andrej.picej@norik.com
+X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,127 +83,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Hi all,
 
-Thank you for the patch.
-
-On Tue, Dec 03, 2024 at 10:01:42AM +0200, Tomi Valkeinen wrote:
-> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On 3. 12. 24 09:58, Andrej Picej wrote:
+> Add a optional properties to change LVDS output voltage. This should not
+> be static as this depends mainly on the connected display voltage
+> requirement. We have three properties:
+> - "ti,lvds-termination-ohms", which sets near end termination,
+> - "ti,lvds-vod-swing-data-microvolt" and
+> - "ti,lvds-vod-swing-clock-microvolt" which both set LVDS differential
+> output voltage for data and clock lanes. They are defined as an array
+> with min and max values. The appropriate bitfiled will be set if
+> selected constraints can be met.
 > 
-> Add the device nodes for supporting DU and DSI.
+> If "ti,lvds-termination-ohms" is not defined the default of 200 Ohm near
+> end termination will be used. Selecting only one:
+> "ti,lvds-vod-swing-data-microvolt" or
+> "ti,lvds-vod-swing-clock-microvolt" can be done, but the output voltage
+> constraint for only data/clock lanes will be met. Setting both is
+> recommended.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Signed-off-by: Andrej Picej <andrej.picej@norik.com>
 > ---
->  arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 77 +++++++++++++++++++++++++++++++
->  1 file changed, 77 insertions(+)
+> Changes in v2:
+> - use datasheet tables to get the proper configuration
+> - since major change was done change the authorship to myself
+> ---
+>   drivers/gpu/drm/bridge/ti-sn65dsi83.c | 144 +++++++++++++++++++++++++-
+>   1 file changed, 141 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> index 12d8be3fd579..82df6ee98afb 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> @@ -1828,6 +1828,54 @@ csi41isp1: endpoint {
->  			};
->  		};
->  
-> +		fcpvd0: fcp@fea10000 {
-> +			compatible = "renesas,fcpv";
-> +			reg = <0 0xfea10000 0 0x200>;
-> +			clocks = <&cpg CPG_MOD 508>;
-> +			power-domains = <&sysc R8A779H0_PD_C4>;
-> +			resets = <&cpg 508>;
-> +		};
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> index 57a7ed13f996..44445d7ad52a 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -132,6 +132,16 @@
+>   #define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
+>   #define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
+>   
+> +enum sn65dsi83_channel {
+> +	CHANNEL_A,
+> +	CHANNEL_B
+> +};
 > +
-> +		vspd0: vsp@fea20000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfea20000 0 0x8000>;
-> +			interrupts = <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
+> +enum sn65dsi83_lvds_term {
+> +	OHM_100,
+> +	OHM_200
+> +};
+> +
+>   enum sn65dsi83_model {
+>   	MODEL_SN65DSI83,
+>   	MODEL_SN65DSI84,
+> @@ -147,6 +157,10 @@ struct sn65dsi83 {
+>   	struct regulator		*vcc;
+>   	bool				lvds_dual_link;
+>   	bool				lvds_dual_link_even_odd_swap;
+> +	int				lvdsA_vod_swing_conf;
+> +	int				lvdsB_vod_swing_conf;
+> +	int				lvdsA_term_conf;
+> +	int				lvdsB_term_conf;
+>   };
+>   
+>   static const struct regmap_range sn65dsi83_readable_ranges[] = {
+> @@ -237,6 +251,36 @@ static const struct regmap_config sn65dsi83_regmap_config = {
+>   	.max_register = REG_IRQ_STAT,
+>   };
+>   
+> +static const int lvds_vod_swing_data_table[2][4][2] = {
+> +	{	/* 100 Ohm */
+> +		{ 180000, 313000 },
+> +		{ 215000, 372000 },
+> +		{ 250000, 430000 },
+> +		{ 290000, 488000 },
+> +	},
+> +	{	/* 200 Ohm */
+> +		{ 150000, 261000 },
+> +		{ 200000, 346000 },
+> +		{ 250000, 428000 },
+> +		{ 300000, 511000 },
+> +	},
+> +};
+> +
+> +static const int lvds_vod_swing_clock_table[2][4][2] = {
+> +	{	/* 100 Ohm */
+> +		{ 140000, 244000 },
+> +		{ 168000, 290000 },
+> +		{ 195000, 335000 },
+> +		{ 226000, 381000 },
+> +	},
+> +	{	/* 200 Ohm */
+> +		{ 117000, 204000 },
+> +		{ 156000, 270000 },
+> +		{ 195000, 334000 },
+> +		{ 234000, 399000 },
+> +	},
+> +};
+> +
+>   static struct sn65dsi83 *bridge_to_sn65dsi83(struct drm_bridge *bridge)
+>   {
+>   	return container_of(bridge, struct sn65dsi83, bridge);
+> @@ -435,12 +479,16 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+>   		val |= REG_LVDS_FMT_LVDS_LINK_CFG;
+>   
+>   	regmap_write(ctx->regmap, REG_LVDS_FMT, val);
+> -	regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
+> +	regmap_write(ctx->regmap, REG_LVDS_VCOM,
+> +			REG_LVDS_VCOM_CHA_LVDS_VOD_SWING(ctx->lvdsA_vod_swing_conf) |
+> +			REG_LVDS_VCOM_CHB_LVDS_VOD_SWING(ctx->lvdsB_vod_swing_conf));
+>   	regmap_write(ctx->regmap, REG_LVDS_LANE,
+>   		     (ctx->lvds_dual_link_even_odd_swap ?
+>   		      REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
+> -		     REG_LVDS_LANE_CHA_LVDS_TERM |
+> -		     REG_LVDS_LANE_CHB_LVDS_TERM);
+> +		     (ctx->lvdsA_term_conf ?
+> +			  REG_LVDS_LANE_CHA_LVDS_TERM : 0) |
+> +		     (ctx->lvdsB_term_conf ?
+> +			  REG_LVDS_LANE_CHB_LVDS_TERM : 0));
+>   	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
+>   
+>   	le16val = cpu_to_le16(mode->hdisplay);
+> @@ -576,10 +624,96 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
+>   	.atomic_get_input_bus_fmts = sn65dsi83_atomic_get_input_bus_fmts,
+>   };
+>   
+> +static int sn65dsi83_select_lvds_vod_swing(struct device *dev,
+> +	u32 lvds_vod_swing_data[2], u32 lvds_vod_swing_clk[2], u8 lvds_term)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i <= 3; i++) {
+> +		if (lvds_vod_swing_data_table[lvds_term][i][0] >= lvds_vod_swing_data[0] &&
+> +		lvds_vod_swing_data_table[lvds_term][i][1] <= lvds_vod_swing_data[1] &&
+> +		lvds_vod_swing_clock_table[lvds_term][i][0] >= lvds_vod_swing_clk[0] &&
+> +		lvds_vod_swing_clock_table[lvds_term][i][1] <= lvds_vod_swing_clk[1])
+> +			return i;
+> +	}
+> +
+> +	dev_err(dev, "failed to find appropriate LVDS_VOD_SWING configuration\n");
+> +	return -EINVAL;
+> +}
+> +
+> +static int sn65dsi83_parse_lvds_endpoint(struct sn65dsi83 *ctx, int channel)
+> +{
+> +	struct device *dev = ctx->dev;
+> +	struct device_node *endpoint;
+> +	/* Set so the property can be freely selected if not defined */
+> +	u32 lvds_vod_swing_data[2] = { 0, 1000 };
+> +	u32 lvds_vod_swing_clk[2] = { 0, 1000 };
 
-The documentation lists this interrupt as being LevelSensitive and
-Negative. I wouldn't expect the VSP to work at all with a wrong polarity
-in DT, so the level may get inverted somewhere.
+I moved the code from milivolts to standard kernel voltage units 
+microvolts quite recently and accidentaly forgot to apply these changes 
+from my src tree. These should be:
++	u32 lvds_vod_swing_data[2] = { 0, 1000000 };
++	u32 lvds_vod_swing_clk[2] = { 0, 1000000 };
 
-> +			clocks = <&cpg CPG_MOD 830>;
-> +			power-domains = <&sysc R8A779H0_PD_C4>;
-> +			resets = <&cpg 830>;
-> +			renesas,fcp = <&fcpvd0>;
-> +		};
-> +
-> +		du: display@feb00000 {
-> +			compatible = "renesas,du-r8a779h0";
-> +			reg = <0 0xfeb00000 0 0x40000>;
-> +			interrupts = <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 411>;
-> +			clock-names = "du.0";
-> +			power-domains = <&sysc R8A779H0_PD_C4>;
-> +			resets = <&cpg 411>;
-> +			reset-names = "du.0";
-> +			renesas,vsps = <&vspd0 0>;
-> +
-> +			status = "disabled";
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +					du_out_dsi0: endpoint {
-> +						remote-endpoint = <&dsi0_in>;
-> +					};
-> +				};
-> +
-> +				port@1 {
-> +					reg = <1>;
-> +				};
+The code was tested with it though.
 
-On V4M the DU has a single channel, so there should be a single port.
+Will send a v3 ASAP. Sorry for this.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+BR,
+Andrej
 
-> +			};
-> +		};
+> +	u32 lvds_term = 200;
+> +	u8 lvds_term_conf;
+> +	int endpoint_reg;
+> +	int lvds_vod_swing_conf;
+> +	int ret = 0;
+> +	int ret_data;
+> +	int ret_clock;
 > +
->  		isp0: isp@fed00000 {
->  			compatible = "renesas,r8a779h0-isp",
->  				     "renesas,rcar-gen4-isp";
-> @@ -1996,6 +2044,35 @@ isp1vin15: endpoint {
->  			};
->  		};
->  
-> +		dsi0: dsi-encoder@fed80000 {
-> +			compatible = "renesas,r8a779h0-dsi-csi2-tx";
-> +			reg = <0 0xfed80000 0 0x10000>;
-> +			clocks = <&cpg CPG_MOD 415>,
-> +				 <&cpg CPG_CORE R8A779H0_CLK_DSIEXT>,
-> +				 <&cpg CPG_CORE R8A779H0_CLK_DSIREF>;
-> +			clock-names = "fck", "dsi", "pll";
-> +			power-domains = <&sysc R8A779H0_PD_C4>;
-> +			resets = <&cpg 415>;
+> +	if (channel == CHANNEL_A)
+> +		endpoint_reg = 2;
+> +	else
+> +		endpoint_reg = 3;
 > +
-> +			status = "disabled";
+> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, endpoint_reg, -1);
+> +	of_property_read_u32(endpoint, "ti,lvds-termination-ohms", &lvds_term);
 > +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
+> +	if (lvds_term == 200)
+> +		lvds_term_conf = OHM_200;
+> +	else
+> +		lvds_term_conf = OHM_100;
 > +
-> +				port@0 {
-> +					reg = <0>;
-> +					dsi0_in: endpoint {
-> +						remote-endpoint = <&du_out_dsi0>;
-> +					};
-> +				};
+> +	if (channel == CHANNEL_A)
+> +		ctx->lvdsA_term_conf = lvds_term_conf;
+> +	else
+> +		ctx->lvdsB_term_conf = lvds_term_conf;
 > +
-> +				port@1 {
-> +					reg = <1>;
-> +				};
-> +			};
-> +		};
+> +	ret_data = of_property_read_u32_array(endpoint,
+> +			"ti,lvds-vod-swing-data-microvolt", lvds_vod_swing_data,
+> +			ARRAY_SIZE(lvds_vod_swing_data));
+> +	ret_clock = of_property_read_u32_array(endpoint,
+> +			"ti,lvds-vod-swing-clock-microvolt", lvds_vod_swing_clk,
+> +			ARRAY_SIZE(lvds_vod_swing_clk));
+> +	/* If any of the two properties is defined. */
+> +	if (!ret_data || !ret_clock) {
+> +		lvds_vod_swing_conf = sn65dsi83_select_lvds_vod_swing(dev,
+> +			lvds_vod_swing_data, lvds_vod_swing_clk,
+> +			lvds_term_conf);
+> +		if (lvds_vod_swing_conf < 0) {
+> +			ret = lvds_vod_swing_conf;
+> +			goto exit;
+> +		}
+> +		if (channel == CHANNEL_A)
+> +			ctx->lvdsA_vod_swing_conf = lvds_vod_swing_conf;
+> +		else
+> +			ctx->lvdsB_vod_swing_conf = lvds_vod_swing_conf;
+> +	}
+> +	ret = 0;
+> +exit:
+> +	of_node_put(endpoint);
+> +	return ret;
+> +}
 > +
->  		prr: chipid@fff00044 {
->  			compatible = "renesas,prr";
->  			reg = <0 0xfff00044 0 4>;
-
--- 
-Regards,
-
-Laurent Pinchart
+>   static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
+>   {
+>   	struct drm_bridge *panel_bridge;
+>   	struct device *dev = ctx->dev;
+> +	int ret;
+> +
+> +	ctx->lvdsA_vod_swing_conf = 0x1;
+> +	ctx->lvdsB_vod_swing_conf = 0x1;
+> +	ctx->lvdsA_term_conf = 0x1;
+> +	ctx->lvdsB_term_conf = 0x1;
+> +
+> +	ret = sn65dsi83_parse_lvds_endpoint(ctx, CHANNEL_A);
+> +	if (ret < 0)
+> +		return ret;
+>   
+>   	ctx->lvds_dual_link = false;
+>   	ctx->lvds_dual_link_even_odd_swap = false;
+> @@ -587,6 +721,10 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
+>   		struct device_node *port2, *port3;
+>   		int dual_link;
+>   
+> +		ret = sn65dsi83_parse_lvds_endpoint(ctx, CHANNEL_B);
+> +		if (ret < 0)
+> +			return ret;
+> +
+>   		port2 = of_graph_get_port_by_id(dev->of_node, 2);
+>   		port3 = of_graph_get_port_by_id(dev->of_node, 3);
+>   		dual_link = drm_of_lvds_get_dual_link_pixel_order(port2, port3);
