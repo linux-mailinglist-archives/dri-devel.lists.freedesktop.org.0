@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447F99E15B1
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:28:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48159E15B5
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:28:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873DD10E95B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCDC410E95F;
 	Tue,  3 Dec 2024 08:28:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icloud.com header.i=@icloud.com header.b="jXymdwgi";
+	dkim=pass (2048-bit key; unprotected) header.d=icloud.com header.i=@icloud.com header.b="RdJmst+O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from pv50p00im-zteg10011501.me.com (pv50p00im-zteg10011501.me.com
  [17.58.6.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 343AF10E8A0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51CB410E8AC
  for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 00:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
- s=1a1hai; t=1733186227;
- bh=TLSTsXB0mczbMt3mGzVPxQ8OhGxgNCZ6TAUMbiwY3B8=;
+ s=1a1hai; t=1733186249;
+ bh=+s67f8n4U38kNtBzbNjBtNPtsaYtVPWfyTOydyoL87U=;
  h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:
  x-icloud-hme;
- b=jXymdwgicR4eK64TnG8UOl/zIlCmDeKxoyug3tscaJQ6VYyjA9iiv14jOaoCtSZyZ
- 4fG29yUoEJmpPSdPiTAl1/TyLmaHumfqUUknIyeLxZXFixafQ3LkeoxcEf9HL/z74b
- IHkvT3/Ae4Q1PGFtdQZdpM+x2Qzb5BpK73NlRAd2rwKGWP75FBWGV7T1YhV1/rcq1M
- 2RuoLGUjlvsnS44SgzdIfqWT8MBWHPeno3+o8SxAgh6uK7+v3i49Go1zRIub3hS2tl
- EthoPgJROAtFCu/JVaNSaGiHCtJy5sTg6M+uel/G6l3zx8QG+mfAlvFbDi1LQRwZdl
- IevFqEkUispHA==
+ b=RdJmst+OGS1bX18zihPRnq3E4k8Mn0X9gd0De5cMNzdIENXb3O8qhxJoISLLIHPnX
+ SmVWOv6lgiW8uxFqHQVn6CIL8UWhU+SQ5/c/GaDeD/ZBOanvXDqxIB47dCFo4/Mg9S
+ Y7nXCVjY03OUPd8tAeu/s13OFpuatFHhJ9ranKymnlfaFEXP5HHYhXF0dGVFb7uXqO
+ U1Tfsb6uMZjwNnqQJ47gVvxhIu5AP5uoR1PmpdGvjUdq7Oan2xvuwvvrb3ROxUCIGX
+ 4JXq2krogrKZuYlhTFe06UWFxW1I8oIFHJR9yuwEC6FRuV/L//g7Y+QppMj7DwPT6C
+ BvaISGX1MT84g==
 Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com
  [17.56.9.10])
- by pv50p00im-zteg10011501.me.com (Postfix) with ESMTPSA id 5175C4A0429;
- Tue,  3 Dec 2024 00:36:46 +0000 (UTC)
+ by pv50p00im-zteg10011501.me.com (Postfix) with ESMTPSA id 626224A0614;
+ Tue,  3 Dec 2024 00:37:08 +0000 (UTC)
 From: Zijun Hu <zijun_hu@icloud.com>
-Date: Tue, 03 Dec 2024 08:33:28 +0800
-Subject: [PATCH v2 06/32] thunderbolt: Adapt for constified device_find_child()
+Date: Tue, 03 Dec 2024 08:33:29 +0800
+Subject: [PATCH v2 07/32] gpio: sim: Remove gpio_sim_dev_match_fwnode()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241203-const_dfc_done-v2-6-7436a98c497f@quicinc.com>
+Message-Id: <20241203-const_dfc_done-v2-7-7436a98c497f@quicinc.com>
 References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
 In-Reply-To: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -94,14 +94,14 @@ Cc: Zijun Hu <zijun_hu@icloud.com>, linux-kernel@vger.kernel.org,
  arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
  linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Proofpoint-GUID: TeEtLogdLeVrzNxTk5Sn7v7tNnyO2_Qq
-X-Proofpoint-ORIG-GUID: TeEtLogdLeVrzNxTk5Sn7v7tNnyO2_Qq
+X-Proofpoint-GUID: LUw6jrNTlWvafXG6SgNBaGnBoiXYHqLl
+X-Proofpoint-ORIG-GUID: LUw6jrNTlWvafXG6SgNBaGnBoiXYHqLl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-12-02_14,2024-12-02_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  bulkscore=0
- mlxlogscore=701 mlxscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 spamscore=0 suspectscore=0 malwarescore=0
  clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2308100000 definitions=main-2412030002
 X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
@@ -126,40 +126,39 @@ From: Zijun Hu <quic_zijuhu@quicinc.com>
 device_find_child() has been constified to take new match function type:
 typedef int (*device_match_t)(struct device *dev, const void *data);
 
-Make its match functions take a const pointer to adapt for the new type.
+So device_match_fwnode() is applicable for the new type directly, and
+remove its unnecessary wrapper gpio_sim_dev_match_fwnode().
 
 Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
 ---
- drivers/thunderbolt/retimer.c | 2 +-
- drivers/thunderbolt/xdomain.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpio/gpio-sim.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/thunderbolt/retimer.c b/drivers/thunderbolt/retimer.c
-index 89d2919d0193e8f5c68e669d054f3efc7abf78c8..21d2902c6102f0f593fb0c6d645acaff31ebb274 100644
---- a/drivers/thunderbolt/retimer.c
-+++ b/drivers/thunderbolt/retimer.c
-@@ -461,7 +461,7 @@ struct tb_retimer_lookup {
- 	u8 index;
- };
- 
--static int retimer_match(struct device *dev, void *data)
-+static int retimer_match(struct device *dev, const void *data)
- {
- 	const struct tb_retimer_lookup *lookup = data;
- 	struct tb_retimer *rt = tb_to_retimer(dev);
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 11a50c86a1e4302968f44dafeab47977bac01dd5..b0630e6d94726f9069c20017876ec7e212071686 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -1026,7 +1026,7 @@ static int remove_missing_service(struct device *dev, void *data)
- 	return 0;
+diff --git a/drivers/gpio/gpio-sim.c b/drivers/gpio/gpio-sim.c
+index f387dad81f2960b5ec3c1b5fd04081ee501cc75b..b1f33cbaaaa78aca324f99c45a868e7e79a9d672 100644
+--- a/drivers/gpio/gpio-sim.c
++++ b/drivers/gpio/gpio-sim.c
+@@ -413,11 +413,6 @@ static int gpio_sim_setup_sysfs(struct gpio_sim_chip *chip)
+ 	return devm_add_action_or_reset(dev, gpio_sim_sysfs_remove, chip);
  }
  
--static int find_service(struct device *dev, void *data)
-+static int find_service(struct device *dev, const void *data)
+-static int gpio_sim_dev_match_fwnode(struct device *dev, void *data)
+-{
+-	return device_match_fwnode(dev, data);
+-}
+-
+ static int gpio_sim_add_bank(struct fwnode_handle *swnode, struct device *dev)
  {
- 	const struct tb_property *p = data;
- 	struct tb_service *svc;
+ 	struct gpio_sim_chip *chip;
+@@ -503,7 +498,7 @@ static int gpio_sim_add_bank(struct fwnode_handle *swnode, struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
+-	chip->dev = device_find_child(dev, swnode, gpio_sim_dev_match_fwnode);
++	chip->dev = device_find_child(dev, swnode, device_match_fwnode);
+ 	if (!chip->dev)
+ 		return -ENODEV;
+ 
 
 -- 
 2.34.1
