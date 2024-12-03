@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B20E9E2456
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:48:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6D59E248C
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:50:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC6110E257;
-	Tue,  3 Dec 2024 15:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 142EC10EA6E;
+	Tue,  3 Dec 2024 15:50:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SDWDWe3p";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r1dypc95";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9EA010E257
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 15:48:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58C3010EA6E
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 15:49:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1D2E75C63E9;
- Tue,  3 Dec 2024 15:47:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC72EC4CECF;
- Tue,  3 Dec 2024 15:48:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D0B625C0267;
+ Tue,  3 Dec 2024 15:49:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CDDDC4CECF;
+ Tue,  3 Dec 2024 15:49:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733240910;
- bh=09cm8DxTfRGPy1cHmrwjDq3tedMQqJBJD51px4SlHfA=;
+ s=k20201202; t=1733240997;
+ bh=mo2eNlwmx704hDWUW46aIuAMajnwh8WGQqvrFgIwYgc=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SDWDWe3pWpl9SEY6EIx/nTRd9INAcofCe162CsaUchQXOQjXwrGfDop7Rmz81WKYm
- tUDI+TbvNUpF5P6TV8umf3Gd13W34QQAhdWoZh1Y4GnCpXQNEUapfceltSb9qOSiXi
- p+vdMCSZt5QiXxSc5wXkQcb8WuusGpVetS52lQu+MUuAudXQkXta99SKPVGQKKunt9
- H1a7UYwxGpjDFYLa4Og6AIt4r11NWfQ39WLZlTwj2w5KDLLhKc6/vdo/sL6qumcW45
- isUAi7kauWR+RW7V5q5DwI9+H/KvCrlZbJji8pTb61WjUcQ8HJo8HWm3gk+GpxCQ9Y
- qG40V6uyau05A==
-Message-ID: <e7af04b0-7c87-42da-9a3d-152a87aea81d@kernel.org>
-Date: Tue, 3 Dec 2024 16:48:19 +0100
+ b=r1dypc95hlsb7L7JFQUACDi2B9hUki7rh4OVT6W38L7/aN8P86pv0goz2IXeUaVwI
+ QdByPHqG3MqS8xFenSsBFgerb/ms6TpLOlK8ANXXXdDSDNTX+dFxw8lRwkor7VxlMg
+ yopbD7M8pzGCjddiK8cl9ETKROr3ziUo4DCs1bJ77FBaoNztkmjzag7ELSppU9jRa0
+ +BGrH+F4e0dOqUS3KADCJLlp0LFoft5TOL4GEQw9RSXMhoqR6ms3CwqgvgUp+IjlD+
+ N7GuNRLyNPns99c8cZT3ZuW0BI2PyRGHAJaFfAp3TgQVU91GBZOZL6uMQV7zLpQv8c
+ GKcZ564Pvxmvw==
+Message-ID: <37b65029-8310-48d1-bb6e-de5e47b2a403@kernel.org>
+Date: Tue, 3 Dec 2024 16:49:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 08/14] dt-bindings: power: thead,th1520: Add
- support for power domains
+Subject: Re: [RFC PATCH v1 10/14] drm/imagination: Add support for IMG
+ BXM-4-64 GPU
 To: Michal Wilczynski <m.wilczynski@samsung.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  drew@pdp7.com, guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
@@ -48,8 +48,8 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
 References: <20241203134137.2114847-1-m.wilczynski@samsung.com>
- <CGME20241203134159eucas1p1eafefef0dfe7f2b6343a639733012bcf@eucas1p1.samsung.com>
- <20241203134137.2114847-9-m.wilczynski@samsung.com>
+ <CGME20241203134202eucas1p26bdcec486ee42440ded94ff801678ba0@eucas1p2.samsung.com>
+ <20241203134137.2114847-11-m.wilczynski@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241203134137.2114847-9-m.wilczynski@samsung.com>
+In-Reply-To: <20241203134137.2114847-11-m.wilczynski@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,70 +114,42 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 03/12/2024 14:41, Michal Wilczynski wrote:
-> +
-> +title: T-HEAD TH1520 Power Domain Controller
-> +
-> +maintainers:
-> +  - Michal Wilczynski <m.wilczynski@samsung.com>
-> +
-> +description: |
-> +  The T-HEAD TH1520 SoC includes a power domain controller responsible for
-> +  managing the power states of various hardware domains such as the GPU.
-> +
-> +  This binding describes the power domain controller node, which can be used by
-
-Do not describe the binding. Describe the hardware. Entire paragraph
-feels pointless.
-
-> +  devices to manage their power domains.
-> +
-> +properties:
-> +  compatible:
-> +    const: "thead,th1520-pd"
+> The IMG BXM-4-64 GPU is integrated into the T-Head TH1520 SoC. This
+> commit adds the compatible string "img,img-bxm-4-64" to the device tree
+> match table in the drm/imagination driver, enabling support for this
+> GPU.
+> 
+> By including this GPU in the compatible devices list, the driver can
+> initialize and manage the BXM-4-64 GPU on the TH1520 SoC, providing
+> graphics acceleration capabilities upstream.
+> 
+> This commit doesn't touch the img,powervr-rogue.yaml on purpose, as the
+> new dt-bindings schema was proposed [1], but not merged yet.
 
 
-You never tested the code you sent. Drop quotes. Limited review follows.
+That's not related to the commit. This commit *cannot ever* touch the
+bindings.
 
-> +
-> +  thead,vosys-regmap:
+> 
+> Link: https://lore.kernel.org/all/20241118-sets-bxs-4-64-patch-v1-v2-1-3fd45d9fb0cf@imgtec.com/ [1]
+> 
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> ---
+>  drivers/gpu/drm/imagination/pvr_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
+> index 85ee9abd1811..8633a3a315b7 100644
+> --- a/drivers/gpu/drm/imagination/pvr_drv.c
+> +++ b/drivers/gpu/drm/imagination/pvr_drv.c
+> @@ -1475,6 +1475,7 @@ static void pvr_remove(struct platform_device *plat_dev)
+>  
+>  static const struct of_device_id dt_match[] = {
+>  	{ .compatible = "img,img-axe", .data = NULL },
+> +	{ .compatible = "img,img-bxm-4-64", .data = NULL },
 
-NAK.
-
-'reg' is for this.
-
-
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: |
-> +      Phandle to a syscon node representing the shared register space of the VO (Video Output) subsystem.
-
-Please wrap code according to coding style (checkpatch is not a coding
-style description, but only a tool).
-
-
-> +      This register space includes both clock control registers and other control registers used for
-> +      operations like resetting the GPU. Since these registers reside in the same address space,
-> +      access to them is coordinated through a shared syscon regmap provided by the specified syscon node.
-> +
-> +  '#power-domain-cells':
-> +    const: 1
-> +
-> +required:
-> +  - compatible
-> +  - thead,vosys-regmap
-> +  - '#power-domain-cells'
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    vosys_regmap: vosys@ffef528000 {
-> +        compatible = "syscon";
-> +        reg = <0xff 0xef528000 0x0 0x1000>;
-> +    };
-
-Drop, not related.
-
-
+Undocumented compatible. Combine relevant patches into one patchsets, so
+we see entire picture.
 
 Best regards,
 Krzysztof
