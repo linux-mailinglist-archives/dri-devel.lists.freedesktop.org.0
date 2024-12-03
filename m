@@ -2,86 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721389E2972
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:37:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497A89E2B19
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 19:39:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1984A10E474;
-	Tue,  3 Dec 2024 17:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A281210EB17;
+	Tue,  3 Dec 2024 18:39:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TD39L6sf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="apLcM6/1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3536710E474
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:37:07 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-53dd0cb9ce3so5146875e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 09:37:07 -0800 (PST)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4C7A10E480;
+ Tue,  3 Dec 2024 17:40:16 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2f7657f9f62so57433331fa.3; 
+ Tue, 03 Dec 2024 09:40:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733247425; x=1733852225; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Y0ycjfZzwnPcCeUDtH0/9f2OzsKqNdVBQ5imE6kMpyI=;
- b=TD39L6sfQBM9nBXd2KB2r9T5Wh363aJDzRNQmZqx+vh9Dy5N9dS+gb6mZFLjE+8PMA
- 9PU05mw1rzLvvJoxe7PG+D0lsikzpbH8u9Zmwu+Pt3R0QiJt5Hk+MirbtSEgCX8stf40
- AgiXX9sAlR3bjx/QQPVe3BwQtHpAANBdsxd3G4tIWkOesgCa8DqWo8bPRGf1XEHVo/Ey
- iNIchj6+K3vbq6ZQaTaKBn9MBJaSxqcY0lgMHv3eSDWtomW8kI/k36i77z92+y9NFFG3
- gQGHyKtyc9mjEWmOCe03gz5K0VSsThUx19/bTNHtjt/w3DalmyG2FRC2SJum3wn72MQf
- ISlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733247425; x=1733852225;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1733247615; x=1733852415; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Y0ycjfZzwnPcCeUDtH0/9f2OzsKqNdVBQ5imE6kMpyI=;
- b=ElSgTI4dNNH1xNXxzfNOjj76FWMq6SqCN0r/gbCXpoYk/HQVwRQGuFeaiyeH00U7uv
- VOuDGq0qTFiuWnhswsKhE+8zRXdXbrA7WrIRoMiUTF9Fj+gfJsBQ4i7yUVISyLtOwKa3
- N9ftKw936i3b10lP0QpO0cfE8HSA5jhU4wr4GXp2swDS1sVCjhUbSCVNCvkVfM6tYa0B
- +1raZiM6CFsdBFKN3WidguMcaS1ZEuz0Da6EoMTaT9vz3qQnjPzTiTgth7UKP+Pd1xOk
- pBgnMCl+r2zKW8F/Ce+QO2RIzcU5zjNmhXOxXsy2X6VwxCqbX8inlWHgy+h7s43I7nrL
- OVgw==
+ bh=o45TGeBjwffMHzroCW3wP027izyDAOnE5VUTAs6kvFc=;
+ b=apLcM6/1N2jQVYM91N2Kf8tKyTaxUFN3ay4EVzvMcNR8vQ44D3Ul2pqNdlwf6uPsci
+ 6Lwsj7cLON6S+msDNTf2E+TzZc/UY1V2i9Bgbi0PtInej/2WeyCWpeZh656KjJgblNx9
+ vycSD9UgQS1PzYAr9JBl1MVKt777rpU/BzUHWT6LloBvryltMaTaKQd3oUOZSG9LigLe
+ FvdHpMfe0neNU4rkjTiydgE+Hz+8s1WyT1hMh6Ro3iKVnt/+HddE6/NZ1TXq9RQwFhp+
+ X+KvG9CLTLfGFBf2g2qvPWeyiKZzDhOlp+CPwx4VwkTbUZTOVWFhpJ94H3bUuJ0P5Ups
+ vS9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733247615; x=1733852415;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=o45TGeBjwffMHzroCW3wP027izyDAOnE5VUTAs6kvFc=;
+ b=hMRk4BlHKaDiJdUjvA8jfhYdFKrq0rULG/cMPo6xxSsp1Ztas1pCgidSynYZiBmszC
+ TUjOnwBcpBU+xG68Ts/lL0ZnIZ8R7+O1qD5qWwIMgViNnHDRfM2Ux3DB0nwEQsKWagDi
+ pmjnGfGkAbOPLx5OZvV/nWFtnZuR0huHIlD+iIZS1lSpjGT4n7fOoqbj1HS+t/C9K/T4
+ FOEKum/ciaPM53m40Tt/8JLMIPqbHdtwms4swoCCBKyd1dCqrB8KtvcluPxXqL4nEVIp
+ nzh1wUVrReDX7IpPS652bz2o44LLEWUngsS7IOolKsELG7hZv7HAy7atH0P4xCLUADle
+ uULw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVBJu7yQbIzTbQdS0mIZrwO9yx/Bs4gX36yDIgyJgJ7spv9j32No190jie9nK4ATd06O0p8d3gPzUE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx46kIEHUvf7394md3PnTEFwMqvaFrTg4Ql0nUs+3ZBk91zSbfG
- sdCh2MbgJHgTkbru4sb27gRXOHz2PO2qS6EGIFbkBA25lNqZ+36Y8OP0n85ZJOo=
-X-Gm-Gg: ASbGnctJsdLh0EiuvSAFxy6VVqG6TJN70jsFmJ2HwfSuiDbGEOCU9Wzn0YbYybyZgNw
- AMsbCkK9nyJc1xeyiGWJXWhaWKE1/iMzPcK4KMIkErLgYginOwoCPEBi/iX7b+UC9Uh72xhmigE
- 6Y/wI9GAww8ljipGG0M+AAkHwJVIJPVgRfkcSmhKuUyCtwiTe885T5FJyMhgdt0s46tx1UD+3KE
- 8mejPGFXm0SiL+Ou5kIVwP61iZVFBbq556o28MVvH2md2NLWsNRcYDXD4yNvIHBlM9dbOU/eSfB
- L1n6d4j75nXMn2MMoNz+nhnlJPg3yw==
-X-Google-Smtp-Source: AGHT+IE+iThB2rDkPXhvDwKDCV995m9FRY0n6NLKd/YWSdF2FKr6uqn66k8o0X2h8rNCUXaQsEfXfg==
-X-Received: by 2002:a05:6512:4028:b0:53d:ec9a:4e6d with SMTP id
- 2adb3069b0e04-53e1b8b6f05mr505370e87.46.1733247425267; 
- Tue, 03 Dec 2024 09:37:05 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ AJvYcCUh/9noCN0VHC7mtkoLBydD0Y7UBTUlxpS16xsPbfzyM9ZsC9m2YQWUt4cYg5w+EcUxYPkNDI2jQf1A@lists.freedesktop.org,
+ AJvYcCWNz6qdDmUxUVo4yGE8Pm0UmOzNNf84UPei2XKiSoxbejIPWt49hrWwaFcyGf2TLqmek0c/3URSuJI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzbNePs7SrJa0xAkyqI0d2dgTGJd0UC/GBb2JbzpmuvWUe7EmeJ
+ CtBCTR/q6UYpN/xTTzk0UYtaaIYuP4qe4sG10qVHF/V4lvTa2dlQ
+X-Gm-Gg: ASbGncu3vTzF7v7ugi5kbtWbvivXzKof9D82qjsUWDGNgitDecuD8nxCFYc1RLsx+I3
+ i8Wd4vuDfdkKo5nElRj6RPKvVSZsgdBn6imuGsEazEhAgwrWGBhY6pYMULXxpkM5hubjKWgMkVW
+ ZQH93TGZiWKI8vi6WhjQh/5eSahPOyZR9clYDJsWfGvRi3D/wwz1NL7qNOMl3iRmjWcyzVEJrWI
+ h1Jz/2yOmnrvnv9Nux9VyYcAiZYWOFasaRLKk3tXknhroEH/cqZdIEXeYSc0z/H0On1cQ==
+X-Google-Smtp-Source: AGHT+IHyfyc9zXaTnCOmMl6VbehAO96siV58POqRcngPBtFnWCrliNbdFWBpVUngW+czn7b1hA2Hyw==
+X-Received: by 2002:a05:6512:10d6:b0:53d:cd25:4a61 with SMTP id
+ 2adb3069b0e04-53e12a22fd7mr2111831e87.42.1733247613145; 
+ Tue, 03 Dec 2024 09:40:13 -0800 (PST)
+Received: from archlinux.tail7f7b1.ts.net ([195.136.68.87])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df6443385sm1916238e87.95.2024.12.03.09.37.04
+ 2adb3069b0e04-53df644aab7sm1912115e87.106.2024.12.03.09.40.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2024 09:37:04 -0800 (PST)
-Date: Tue, 3 Dec 2024 19:37:03 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- biju.das.jz@bp.renesas.com, Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
-Message-ID: <hd2kom5acz47c3mkjuauxhauahkt7vq2qoilppwn34iidldhos@rb5ydcayhtlj>
-References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+ Tue, 03 Dec 2024 09:40:12 -0800 (PST)
+From: Danylo Piliaiev <danylo.piliaiev@gmail.com>
+X-Google-Original-From: Danylo Piliaiev <dpiliaiev@igalia.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, danylo.piliaiev@gmail.com
+Subject: [PATCH v2 0/1] Expose UCHE_TRAP_BASE value via uapi
+Date: Tue,  3 Dec 2024 18:40:10 +0100
+Message-ID: <20241203174011.731980-1-dpiliaiev@igalia.com>
+X-Mailer: git-send-email 2.46.2
+In-Reply-To: <20241203095920.505018-1-dpiliaiev@igalia.com>
+References: <20241203095920.505018-1-dpiliaiev@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 03 Dec 2024 18:39:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,54 +94,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 03, 2024 at 06:21:29PM +0100, tomm.merciai@gmail.com wrote:
-> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> 
-> Introduce it6263_is_input_bus_fmt_valid() and refactor the
-> it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
-> format by selecting the LVDS input format based on the LVDS data mapping
-> and thereby support both JEIDA and VESA input formats.
+Depends on https://patchwork.freedesktop.org/series/141667/
 
-For the patch itself,
+The parameter would be used in [1] to implement VK_KHR_shader_clock
+and GL_ARB_shader_clock. On at least a6xx+, shader could read 64b
+ALWAYSON counter from UCHE_TRAP_BASE+0 address.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Downstream driver exposes uche trap base via uapi only on A7XX+.
+However, from testing, we could get correct shader clock on A6XX.
+The uche trap base value is not used by Mesa for A4XX and A5XX.
 
-A more generic question: is the bridge limited to 4 lanes or does it
-support 3-lane or 5-lane configurations?
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29860
 
-> 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
->  drivers/gpu/drm/bridge/ite-it6263.c | 25 ++++++++++++++++++++++---
->  1 file changed, 22 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
-> index cbabd4e20d3e..83d1db29157a 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6263.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6263.c
-> @@ -48,6 +48,7 @@
->  #define  REG_COL_DEP			GENMASK(1, 0)
->  #define  BIT8				FIELD_PREP(REG_COL_DEP, 1)
->  #define  OUT_MAP			BIT(4)
-> +#define  VESA				BIT(4)
->  #define  JEIDA				0
->  #define  REG_DESSC_ENB			BIT(6)
->  #define  DMODE				BIT(7)
-> @@ -428,12 +429,30 @@ static inline void it6263_lvds_reset(struct it6263 *it)
->  	fsleep(10000);
->  }
->  
-> +static bool it6263_is_input_bus_fmt_valid(u32 input_fmt)
-> +{
-> +	switch (input_fmt) {
-> +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-> +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-> +		return true;
-> +	}
-> +	return false;
-> +}
-> +
+Danylo Piliaiev (1):
+  drm/msm: Expose uche trap base via uapi
+
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  6 ++++--
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c   | 10 ++++++----
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 12 +++++++-----
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  5 +++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h |  2 ++
+ include/uapi/drm/msm_drm.h              |  1 +
+ 6 files changed, 25 insertions(+), 11 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.46.2
+
