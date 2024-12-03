@@ -2,82 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857A49E2FFD
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 00:41:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3FF9E3013
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 00:51:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A72410E273;
-	Tue,  3 Dec 2024 23:41:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A12110E278;
+	Tue,  3 Dec 2024 23:51:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gw/zaVH7";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fe5X3b3L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3182010E273
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 23:41:34 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53df63230d0so7499119e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 15:41:34 -0800 (PST)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+ [209.85.222.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3418110E278
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 23:51:00 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id
+ af79cd13be357-7b6662bc408so480259585a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 15:51:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733269292; x=1733874092; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8VaC+AymHtSt0FKShOF4pPudg6QHjxqRoyWJzcS7cQs=;
- b=gw/zaVH7WqVhJxbraw999YeUs5b4jZ0pe+LAjXBSmdKmLxgTiJmk5tn1nc68Kkb3W6
- v3VmkqjYB3HRcpsN4QG6fuWzpFBHRzRAL5qaUNuhV5rTiGoKgB8le647EWbQbZLbj70W
- Pzfe6QV7jXSvyWSfvlvfZC28zRS0k04JV+nAVfzbx3BUpNFBhqLzGKvEC+HWsuzALNuD
- jgMBrhULq+Yx4v6q0i3kb/UwkgR/eAEGmJwNSoLBQAzxY9dzhT9WkDW0nWICM/no1uT5
- N1/Zk2TpWCMNNZHFUh+8UgpcAYLKQPNnyjRePoiQrqf34k2oNVWDG0J+uW35t5DSLs2k
- PkMg==
+ d=chromium.org; s=google; t=1733269859; x=1733874659;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=EnjgP+/pVl9iI2xT3/J2oBRnCck1VdgzOQo4g6wMy/Y=;
+ b=fe5X3b3L1uJwae/C95UCpByR4Z04Gelvcit2VZ9+HMjdZBsvgMbNeqiIkta+pUUbue
+ HTIITqPzdEBZFZ/9poSYjyu2nFHYRr7nrV3JNjQJBCSmAoh70EOiOaGc/lPjphLTYT6l
+ 69Mno33xKBpBhHv0cvO7s23alJ1jZWtu1VZp8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733269292; x=1733874092;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1733269859; x=1733874659;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8VaC+AymHtSt0FKShOF4pPudg6QHjxqRoyWJzcS7cQs=;
- b=qyyr4+Zi05Um3rX764lRqf0g+NAJo2uOevmGQYH3uOYfnZTcL8dMfNcPPDQZYvrT5f
- a4zJA5Rl4I5XGJa599ruGc3YyyL4Y7uyO++Gp50woMkuEmrc2nH4hRvIMGDDHBXZxmgz
- uX2ea6PnZ/n32CdLgibE9bV95ocSzoQDm0+U5Xr64gRPAmszuZZZrdTwAfmQs6qcnFUx
- W8cIoit9xW9tKKo3zLPeJiQ3Ho40dNfpF6ieBIArbbXpsD0vANnjlzQLy0EWti/E4uo1
- fHvzwc9SYqivHj7cGPM67KgDIRcfcY/fJbeNzyyt+5nhDTStfOyJ3AEcxwyTcKXSjFoE
- fpmA==
+ bh=EnjgP+/pVl9iI2xT3/J2oBRnCck1VdgzOQo4g6wMy/Y=;
+ b=D2i16PIhub3KQIaLZxOD/EO6+SETVFGa4vNiRoXyrvJ6jv/gAYLY02f7l0r11ozNVX
+ MwbayqdVIuO37050VtIWmCyLzN6+Z3MMFdRM4MpTqrJ+g3Ef58CYOYNDBv+KKDRHyiQ/
+ qHC3E8UPIQf0wJ/ZC+izvWGf88hn2u4sXnwZCtr9lsHO/eYwSGNPsl7Iq0/TlTpYerRJ
+ QjzPhAERiUOk2m245gqv9rRO8e4VUhbHN+ML3wM87H9Dg23XeukMSjjHzdHptDo6Xm/V
+ O6/B58eRlNwi3pVcBxTftrhqO1X0wmNjyOyJnuFJ0zsovio4lAum+hLtquHJxD1bcBW0
+ osXA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVZSi8VAy7H57OfKmt+8FD/byXDxp22VZb5KIR0dvUeEkEDCavwN4hqqu6m6wTqbxK0Evo0EC74v7I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywwhpj4Xj/44DIppO955ADXCbiXaExKzi6Ks9AYLS+Eo+sYZgQp
- v38Pc80pW4j4fK61WiPDJ8Er9uAD9SuZGvDJraRLQUBPqpFKzCbGpf1UkX7jpQs=
-X-Gm-Gg: ASbGncvtSOztgrxo9y441hCIF+/RMxNcjlcq8Sm3xBi5QEb6FJb6PPwLtBHEmZ3Ydp3
- fxQFyMRNB5fUHZzkVefkGobsi3zGVzppjnuaGjg+NJNyRrAR7BeZqUlDvjyNw5A3n9NIlTh8mEa
- tOBiFb+kPRgt+ssTEsKFyR95Zs02BdVISI7QuBl+Y3L/bsOijH+HxK68p4WQiLY4tXoMcU0EkEP
- Eqth2LwJ99ORjJXQ0/82eAGJ6PbDk7/tcev22SY9OxMQE8vhyJItGgInsBjEvz3P+7QhR9AM1Km
- v5besZRI/b7eJYAHRch41hf/akXqeA==
-X-Google-Smtp-Source: AGHT+IHKVny7lfTjFjv8vQ1LYIothrll+JFM6c9K9LYC/aAoAQoTnV/eiGZCUxd2b4XbU8ATpvpJTA==
-X-Received: by 2002:a05:6512:239a:b0:53e:1364:f982 with SMTP id
- 2adb3069b0e04-53e1364fa93mr2296539e87.17.1733269292308; 
- Tue, 03 Dec 2024 15:41:32 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e1356906esm371633e87.15.2024.12.03.15.41.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2024 15:41:30 -0800 (PST)
-Date: Wed, 4 Dec 2024 01:41:28 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Danylo Piliaiev <danylo.piliaiev@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/1] drm/msm: Expose uche trap base via uapi
-Message-ID: <owl2yqfvo3riismpltxu2puytquy63hrx375mxedntfjxq3wve@yhofuagrozeh>
-References: <20241203095920.505018-1-dpiliaiev@igalia.com>
- <20241203174011.731980-1-dpiliaiev@igalia.com>
- <20241203174011.731980-2-dpiliaiev@igalia.com>
+ AJvYcCU/jonfceiqZsCApAMYj6juMYBnY++FwYNU/ngqPq0CHcs7oqdCFUB6RpWB70dHXYoHg2+l/ZQkY5s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywp8Y5SrNw6Z1jMRuLkUukWbtqA5BaztURLgFEgk9RF1kHpCIUV
+ x0VPPIFNwiTGzmaiw5G2riabyH21Nd5mT5b6Sjz1OnM4fbj+J/bKM2rs6akOyyVKlnoWOfNxRY7
+ U9wEaDabJRqV/oLqhzypZme/e83a32yloJ6bV
+X-Gm-Gg: ASbGncs4ANPBvrE8AfIapEQvfgCyWiWXWrcButeV7a3vwXs8YpYsEuSCSukk9LW609s
+ wc++khrV4h3ekQUrOi/VMzmPqxxFmLLMAhY5dgeXD4ncs+ogMtIh/4AnfNRQ=
+X-Google-Smtp-Source: AGHT+IHEgBXWoi8BJHO3jSXOG7m1oHxpYBSZUKMhC1usrxD/ibe1QmfujCFJzYfILghK3QdcAVLyYpr9Sv5mqRngbJA=
+X-Received: by 2002:a05:6214:2029:b0:6d3:7a47:2034 with SMTP id
+ 6a1803df08f44-6d8c443cefdmr40855326d6.3.1733269858918; Tue, 03 Dec 2024
+ 15:50:58 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 3 Dec 2024 15:50:58 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241203174011.731980-2-dpiliaiev@igalia.com>
+In-Reply-To: <cartdeijkv6z23dgm7uif4lti3lahfqmuyxcmruzqbefhsp6yk@m6ocjhncs2ko>
+References: <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
+ <yk3xidaisbd56yndaucax7otijjauqmm7lqm6q4q633kdawlqo@qaq27lwxmvwd>
+ <CAE-0n501j+8bMnMKabFyZjn+MLUy3Z68Hiv1PsfW0APy5ggN8g@mail.gmail.com>
+ <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
+ <CAE-0n50z6MNa7WOsg-NU7k8BpFeJJyYfHX3ov6DsthLWauSNpA@mail.gmail.com>
+ <hqmx7jtkvrwvb27n56hw7rpefhp37lhr3a5fawz7gsl76uuj5s@h7m6wpdhibkk>
+ <CAE-0n50y1O2C47zOGJPmMjKXK_m6a=jhpEAP4nW+RymZbo2xyg@mail.gmail.com>
+ <5kisfv22tgqwzjpxqrbx56ywr7l4r7pny3pl2r7crv4rijqbwk@azricdasttg7>
+ <CAE-0n50Bxi2GfnxOmMwe-F+k5jMSiyAVPDb6K8pYm-i6hpJTOA@mail.gmail.com>
+ <cartdeijkv6z23dgm7uif4lti3lahfqmuyxcmruzqbefhsp6yk@m6ocjhncs2ko>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Date: Tue, 3 Dec 2024 15:50:58 -0800
+Message-ID: <CAE-0n51-QLLje0f7T4p3xK6Q-FRk4K0NUrVVm4cxkKoevuzktw@mail.gmail.com>
+Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
+ google,cros-ec-typec for DP altmode
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ patches@lists.linux.dev, devicetree@vger.kernel.org, 
+ Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, 
+ dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>, 
+ Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Ivan Orlov <ivan.orlov0322@gmail.com>, 
+ linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,39 +116,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 03, 2024 at 06:40:11PM +0100, Danylo Piliaiev wrote:
-> On at least a6xx+, shader could read 64b ALWAYSON counter
-> from UCHE_TRAP_BASE+0 address. In Mesa it will be used
-> to implement VK_KHR_shader_clock and GL_ARB_shader_clock.
-> These extensions provide shader functions to query a real-time or
-> monotonically incrementing counter at the subgroup level or
-> across the device level.
-> 
-> On a4xx and a5xx it was not tested what is at UCHE_TRAP_BASE
-> address, there uche trap base is exposed just for completeness.
-> 
-> Signed-off-by: Danylo Piliaiev <dpiliaiev@igalia.com>
-> ---
-> Changes in v2:
-> - Rebased on top of https://patchwork.freedesktop.org/series/141667/
->   in order to return error via UERR when there is no uche trap base.
-> - Updated commit message to explain why we need to expose the value.
-> 
-> ---
->  drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  6 ++++--
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c   | 10 ++++++----
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 12 +++++++-----
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  5 +++++
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h |  2 ++
->  include/uapi/drm/msm_drm.h              |  1 +
->  6 files changed, 25 insertions(+), 11 deletions(-)
-> 
+Quoting Dmitry Baryshkov (2024-11-21 14:59:42)
+> On Tue, Nov 19, 2024 at 08:09:31PM -0500, Stephen Boyd wrote:
+> >
+> > It sounds like we're debating how to handle lane assignment in the
+> > kernel. Either way, the code is going to be implemented in the bridge
+> > driver because it's the one that has to change what physical lane a
+> > logical lane is assigned to. The question is if it should be some sort
+> > of bridge_funcs callback, or should bridge drivers hook into the typec
+> > framework to expose an orientation switch, or something else?
+>
+> I was assuming that orientation switch is such kind of a hook.
+>
+> >
+> > I'm thinking we should introduce some sort of bridge_funcs callback that
+> > can be called from the DP altmode driver, either parallel to the
+> > drm_connector_oob_hotplug_event() function or from it directly. If we
+> > can pass the fwnode for the usb-c-connector to the oob_hotplug_event
+> > callback, maybe that's all we need to figure out which lanes go where.
+> > And then in the 2 DP connector muxing world we can call
+> > drm_connector_oob_hotplug_event() with one or the other DP connector
+> > node, which will likely be children nodes of the "HPD redriver" device.
+>
+> If you call it from drm_bridge_connector's oob_hotplug_event handler,
+> this should fly. Does it cover your 3-DP or 4-DP usecases?
+>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+I think it will work as long as we're able to add some sort of property
+to the usb-c-connector node to indicate that the DP lanes are flipped.
+It feels like that should be in the displayport altmode node to keep
+things tidy because the SuperSpeed port is overloaded. Maybe the drm
+framework can have some API that can take the fwnode from the
+oob_hotplug_event handler and tell the bridge driver which way the
+orientation is.
 
-Nit: in future please don't send new versions of the patch as a reply to
-the previous version. Please start a new thread for each new revision.
+ connector {
+   compatible = "usb-c-connector";
 
--- 
-With best wishes
-Dmitry
+   altmodes {
+     displayport {
+       orientation-reversed;
+     }
+   };
+
+   ports {
+     ...
+   };
+ };
+
+
+ int drm_dp_typec_orientation_flipped(struct fwnode_handle *fwnode)
+ {
+   struct fwnode_handle *altmodes;
+   struct fwnode_handle *dp;
+
+   altmodes = fwnode_get_named_child_node(fwnode, "altmodes");
+   if (!altmodes)
+     return -EINVAL;
+
+   dp = fwnode_get_named_child_node(altmodes, "displayport");
+   if (!dp)
+     return -EINVAL;
+
+   if (fwnode_property_read_bool(dp, "orientation-reversed"))
+     return 1;
+
+   return 0;
+ }
+
+There's another wrinkle on some Corsola devices where the EC says
+there's a usb-c-connector on the board, but in reality the DP lanes are
+connected to a DP-to-HDMI bridge that is controlled by the EC which goes
+to an HDMI connector on the side of the laptop. The EC does the
+arbitration as usual because there's only one DP source and one or two
+usb type-c connectors physically on the laptop in addition to the HDMI
+connector.
+
+The easiest way to imagine this is that we took the usb-c-connector and
+jammed an HDMI dongle in there with some glue so that it can never be
+removed. There isn't any USB going there either because it can't be
+used. I suppose we can continue to describe this with an
+altmodes/displayport node but then add some compatible like
+"usb-c-hdmi-connector" or another property to the altmodes/displayport
+node like "type = hdmi" that signifies this is a connector that only
+outputs HDMI.
