@@ -2,44 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252089E29DA
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:47:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615FF9E29DC
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:47:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6939B10EAFB;
-	Tue,  3 Dec 2024 17:47:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D02610EAFE;
+	Tue,  3 Dec 2024 17:47:35 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EM0+NzxM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFCF810EAFA
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:47:32 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1tIWzf-0004K2-Jw; Tue, 03 Dec 2024 18:47:27 +0100
-Message-ID: <14b8f44c080aff186898ace67b636568a91bd7d3.camel@pengutronix.de>
-Subject: Re: [PATCH v16] drm/etnaviv: Fix page property being used for non
- writecombine buffers
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Tue, 03 Dec 2024 18:47:27 +0100
-In-Reply-To: <20241104004156.8635-1-sui.jingfeng@linux.dev>
-References: <20241104004156.8635-1-sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D645010EAFC;
+ Tue,  3 Dec 2024 17:47:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733248054; x=1764784054;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Az1khvg3xd5CQqKIXYiMTVFwcV65oFFhTZcYD70Igpg=;
+ b=EM0+NzxMDOWR74C4sxiDJs+/djqdGr2RlZlf8iu6NnsX1Uq/3Gw6CMIF
+ aR6rIAK1DZwLIv3bPOBTFGMJSAqvlCwfs3UhRWGNLHNh8ASn7KOcOHQUV
+ WNF5WAvdffb/cyXytJQ99m95VgN+vuSWt/GOwhQOb/odUhbiXxFVMRuN8
+ 8vbZv5KRmDIwp8digPwBLdDFxDqAAZtJODU4UrpXmdQk/Ic9HX7JBFYTw
+ 0Gu8W7E+LYqmLZYcJj2aCkJGC9cI1UFHdrRLY4UMUiJKVLNY/HCpyFauT
+ A49WU/YW/Hkaz3HnesaVt4TD+roZXT2eMak6q5mEQBtmjydV31g6nluEP g==;
+X-CSE-ConnectionGUID: rV1IQg34TuOu50EcoIhOqQ==
+X-CSE-MsgGUID: jRX6ElGtQgm5XLbpV3yXXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="33610799"
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="33610799"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 09:47:34 -0800
+X-CSE-ConnectionGUID: KnlwlJtzTkO+R/BuiGrsRQ==
+X-CSE-MsgGUID: yAjn6gJ0SG2umS+AmSA3OA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="93856044"
+Received: from aalteres-desk1.fm.intel.com ([10.1.39.140])
+ by fmviesa010.fm.intel.com with ESMTP; 03 Dec 2024 09:47:33 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ John Harrison <john.c.harrison@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Zhanjun Dong <zhanjun.dong@intel.com>
+Subject: [PATCH v3 0/1] Maintenence of devcoredump <-> GuC-Err-Capture plumbing
+Date: Tue,  3 Dec 2024 09:47:31 -0800
+Message-Id: <20241203174732.3232351-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,66 +69,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, dem 04.11.2024 um 08:41 +0800 schrieb Sui Jingfeng:
-> In the etnaviv_gem_vmap_impl() function, the driver vmap whatever buffers
-> with write combine(WC) page property, this is incorrect. Cached buffers
-> should be mapped with the cached page property and uncached buffers shoul=
-d
-> be mapped with the uncached page property.
->=20
-Thanks, applied to etnaviv/next.
+The GuC-Error-Capture is currently reaching into xe_devcoredump
+structure to store its own place-holder snaphot to workaround
+the race between G2H-Error-Capture-Notification vs Drm-Scheduler
+triggering GuC-Submission-exec-queue-timeout/kill.
 
-Regards,
-Lucas
+Part of that race workaround design included GuC-Error-Capture taking
+on some of the front-end functions for xe_hw_engine_snapshot
+generation because of the orthogonal debugfs for raw dumps of engine
+registers without any job association. We want this to also be handled,
+even if indirectly, by GuC-Error-Capture since there is a lot to manage
+when it comes to reading and printing the register lists.
 
-> Fixes: a0a5ab3e99b8 ("drm/etnaviv: call correct function when trying to v=
-map a DMABUF")
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
-> Split from my PCIe device driver wrapper support series, since this proba=
-bly
-> should be resend as a standalone patch.
->=20
-> v15: Use `obj->flags & ETNA_BO_CACHE_MASK` (Lucas)
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
-viv/etnaviv_gem.c
-> index d51843d9a476..d2cb9dded051 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -362,6 +362,7 @@ static void etnaviv_gem_object_vunmap(struct drm_gem_=
-object *obj,
->  static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
->  {
->  	struct page **pages;
-> +	pgprot_t prot;
-> =20
->  	lockdep_assert_held(&obj->lock);
-> =20
-> @@ -369,8 +370,19 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_ge=
-m_object *obj)
->  	if (IS_ERR(pages))
->  		return NULL;
-> =20
-> -	return vmap(pages, obj->base.size >> PAGE_SHIFT,
-> -			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
-> +	switch (obj->flags & ETNA_BO_CACHE_MASK) {
-> +	case ETNA_BO_CACHED:
-> +		prot =3D PAGE_KERNEL;
-> +		break;
-> +	case ETNA_BO_UNCACHED:
-> +		prot =3D pgprot_noncached(PAGE_KERNEL);
-> +		break;
-> +	case ETNA_BO_WC:
-> +	default:
-> +		prot =3D pgprot_writecombine(PAGE_KERNEL);
-> +	}
-> +
-> +	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
->  }
-> =20
->  static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
+However, logically speaking, GuC-Error-Capture node management,
+despite being the majority of an engine-snapshot work, is still
+a subset of xe_hw_engine_snapshot.
+
+This series intends to re-design the plumbing for future
+maintenence and scalability, rearranging the layering
+back to what its should be (xe_devcoredump_snapshot owns
+xe_hw_engine_snapshot owns xe_guc_capture_snapshot)..
+
+Alan Previn (1):
+  drm/xe/guc/capture: Maintenence of devcoredump <-> GuC-Err-Capture
+    plumbing
+
+ drivers/gpu/drm/xe/xe_devcoredump.c           |   3 -
+ drivers/gpu/drm/xe/xe_devcoredump_types.h     |   6 -
+ drivers/gpu/drm/xe/xe_guc_capture.c           | 406 ++++++++----------
+ drivers/gpu/drm/xe/xe_guc_capture.h           |  10 +-
+ .../drm/xe/xe_guc_capture_snapshot_types.h    |  68 +++
+ drivers/gpu/drm/xe/xe_guc_submit.c            |  21 +-
+ drivers/gpu/drm/xe/xe_hw_engine.c             | 117 +++--
+ drivers/gpu/drm/xe/xe_hw_engine.h             |   4 +-
+ drivers/gpu/drm/xe/xe_hw_engine_types.h       |  13 +-
+ 9 files changed, 359 insertions(+), 289 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/xe_guc_capture_snapshot_types.h
+
+
+base-commit: 906c4b306e9340f6ffd6d44904ebc86e62e63627
+-- 
+2.34.1
 
