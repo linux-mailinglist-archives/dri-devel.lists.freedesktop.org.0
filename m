@@ -2,82 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829209E29D7
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754949E29CE
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:46:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8EF10EAF6;
-	Tue,  3 Dec 2024 17:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E97E110EAF5;
+	Tue,  3 Dec 2024 17:46:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5F610EAF6
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:47:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D311710EAF5
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:46:17 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1tIWyE-0003sq-Mm; Tue, 03 Dec 2024 18:45:58 +0100
-Message-ID: <fc624e3fd4a4a38dedf02e31be9e4f1c85fb40a0.camel@pengutronix.de>
-Subject: Re: [PATCH 09/22] drm/etnaviv: Convert timeouts to secs_to_jiffies()
+ id 1tIWyN-0003yC-P7; Tue, 03 Dec 2024 18:46:07 +0100
+Message-ID: <fa93f48960c9ea5f5cb5693e6870e885fb1957ee.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: Add fdinfo support for memory stats
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>, Pablo Neira Ayuso
- <pablo@netfilter.org>, Jozsef Kadlecsik <kadlec@netfilter.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,  Nicolas Palix
- <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>, Haojian Zhuang
- <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Russell King <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, Ofir
- Bitton <obitton@habana.ai>, Oded Gabbay <ogabbay@kernel.org>, Lucas De
- Marchi <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- James Smart <james.smart@broadcom.com>, Dick Kennedy
- <dick.kennedy@broadcom.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Roger Pau =?ISO-8859-1?Q?Monn=E9?=
- <roger.pau@citrix.com>, Jens Axboe <axboe@kernel.dk>, Kalle Valo
- <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, Jack
- Wang <jinpu.wang@cloud.ionos.com>, Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz
- <luiz.dentz@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Broadcom
- internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Xiubo
- Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,  Josh Poimboeuf
- <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>, Miroslav Benes
- <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, Joe Lawrence
- <joe.lawrence@redhat.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Russell King <linux+etnaviv@armlinux.org.uk>, Christian
- Gmeiner <christian.gmeiner@gmail.com>,  Louis Peens
- <louis.peens@corigine.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas
- Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr, 
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org, 
- linux-block@vger.kernel.org, linux-wireless@vger.kernel.org, 
- ath11k@lists.infradead.org, linux-mm@kvack.org,
- linux-bluetooth@vger.kernel.org,  linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org,  ceph-devel@vger.kernel.org,
- live-patching@vger.kernel.org,  linux-sound@vger.kernel.org,
- etnaviv@lists.freedesktop.org,  oss-drivers@corigine.com,
- linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen <anna-maria@linutronix.de>
-Date: Tue, 03 Dec 2024 18:45:50 +0100
-In-Reply-To: <20241115-converge-secs-to-jiffies-v1-9-19aadc34941b@linux.microsoft.com>
-References: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
- <20241115-converge-secs-to-jiffies-v1-9-19aadc34941b@linux.microsoft.com>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>
+Cc: kernel-dev@igalia.com, tursulin@igalia.com, Christian Gmeiner
+ <cgmeiner@igalia.com>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Tue, 03 Dec 2024 18:46:07 +0100
+In-Reply-To: <20241121092409.3859592-1-christian.gmeiner@gmail.com>
+References: <20241121092409.3859592-1-christian.gmeiner@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
@@ -102,44 +54,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, dem 15.11.2024 um 21:22 +0000 schrieb Easwar Hariharan:
-> Changes made with the following Coccinelle rules:
+Am Donnerstag, dem 21.11.2024 um 10:24 +0100 schrieb Christian Gmeiner:
+> From: Christian Gmeiner <cgmeiner@igalia.com>
 >=20
-> @@ constant C; @@
->=20
-> - msecs_to_jiffies(C * 1000)
-> + secs_to_jiffies(C)
->=20
-> @@ constant C; @@
->=20
-> - msecs_to_jiffies(C * MSEC_PER_SEC)
-> + secs_to_jiffies(C)
+> Use the new helper to export stats about memory usage.
 >=20
 Thanks, applied to etnaviv/next.
 
 Regards,
 Lucas
 
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 12 +++++++++++-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 12 ++++++++++++
+>  2 files changed, 23 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c b/drivers/gpu/drm/e=
-tnaviv/etnaviv_cmdbuf.c
-> index 721d633aece9d4c81f0019e4c55884f26ee61c60..0f5a2c885d0ab7029c7248e15=
-d6ea3c31823b782 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-> @@ -100,7 +100,7 @@ int etnaviv_cmdbuf_init(struct etnaviv_cmdbuf_suballo=
-c *suballoc,
->  		mutex_unlock(&suballoc->lock);
->  		ret =3D wait_event_interruptible_timeout(suballoc->free_event,
->  						       suballoc->free_space,
-> -						       msecs_to_jiffies(10 * 1000));
-> +						       secs_to_jiffies(10));
->  		if (!ret) {
->  			dev_err(suballoc->dev,
->  				"Timeout waiting for cmdbuf space\n");
->=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
+viv/etnaviv_drv.c
+> index 6500f3999c5f..35f47dd6367f 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -488,7 +488,16 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] =
+=3D {
+>  	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+>  };
+> =20
+> -DEFINE_DRM_GEM_FOPS(fops);
+> +static void etnaviv_show_fdinfo(struct drm_printer *p, struct drm_file *=
+file)
+> +{
+> +	drm_show_memory_stats(p, file);
+> +}
+> +
+> +static const struct file_operations fops =3D {
+> +	.owner =3D THIS_MODULE,
+> +	DRM_GEM_FOPS,
+> +	.show_fdinfo =3D drm_show_fdinfo,
+> +};
+> =20
+>  static const struct drm_driver etnaviv_drm_driver =3D {
+>  	.driver_features    =3D DRIVER_GEM | DRIVER_RENDER,
+> @@ -498,6 +507,7 @@ static const struct drm_driver etnaviv_drm_driver =3D=
+ {
+>  #ifdef CONFIG_DEBUG_FS
+>  	.debugfs_init       =3D etnaviv_debugfs_init,
+>  #endif
+> +	.show_fdinfo        =3D etnaviv_show_fdinfo,
+>  	.ioctls             =3D etnaviv_ioctls,
+>  	.num_ioctls         =3D DRM_ETNAVIV_NUM_IOCTLS,
+>  	.fops               =3D &fops,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gem.c
+> index 5c0c9d4e3be1..e81c261b0017 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -527,6 +527,17 @@ void etnaviv_gem_obj_add(struct drm_device *dev, str=
+uct drm_gem_object *obj)
+>  	mutex_unlock(&priv->gem_lock);
+>  }
+> =20
+> +static enum drm_gem_object_status etnaviv_gem_status(struct drm_gem_obje=
+ct *obj)
+> +{
+> +	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
+> +	enum drm_gem_object_status status =3D 0;
+> +
+> +	if (etnaviv_obj->pages)
+> +		status |=3D DRM_GEM_OBJECT_RESIDENT;
+> +
+> +	return status;
+> +}
+> +
+>  static const struct vm_operations_struct vm_ops =3D {
+>  	.fault =3D etnaviv_gem_fault,
+>  	.open =3D drm_gem_vm_open,
+> @@ -540,6 +551,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_=
+object_funcs =3D {
+>  	.get_sg_table =3D etnaviv_gem_prime_get_sg_table,
+>  	.vmap =3D etnaviv_gem_prime_vmap,
+>  	.mmap =3D etnaviv_gem_mmap,
+> +	.status =3D etnaviv_gem_status,
+>  	.vm_ops =3D &vm_ops,
+>  };
+> =20
 
