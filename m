@@ -2,85 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1179E2136
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:09:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5DD9E21C6
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:17:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFF0410E22B;
-	Tue,  3 Dec 2024 15:09:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91F8810EA58;
+	Tue,  3 Dec 2024 15:17:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Cg84JMa+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HW5wdex3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0143210EA55
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 15:09:14 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-2ffb3cbcbe4so60869181fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 07:09:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733238553; x=1733843353; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=W8QM3peqYBpltbi1DIHb+zoz79Kj1Hf/KKrtdC4QJc4=;
- b=Cg84JMa+gA/TaXz7U1zmiwmsYdbMJkzZ++bhjxyC+XLkWHyni2CdcUKWWL5nVqWk3O
- GCZRYLKWPHtHFCEflCfAZPvLKTuwCjRLIkZX/Hrk6pFdd2u4WwLnFrJlJLmKMMGQsvWk
- XktqrtMrpzRIf1knI46N9iktukuu1CDlxdp4BEEh1xO7iOvFjRYPIJDSf/mifm6ylpdh
- vBy5UZ0xQUIqS2LrJdkcJSezSnYcP+3X05Km9MvmGZtirK6//tXjmR1pjMT3ZZnX1361
- PlztWGOd3/DmgimQ4LXmYYhkq4ej5CLhDsG41M+gwagg5fvgxouyfhb/sY/ZnUPT8zYA
- P37g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733238553; x=1733843353;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W8QM3peqYBpltbi1DIHb+zoz79Kj1Hf/KKrtdC4QJc4=;
- b=GczHp/js41bmbZ3aFpol7bbQMDXSXQRedwzyjNFjN53vZ475c5ReE9VaFG42+XJ3df
- tJqejovZlqLDrLIH1wiFukfo58T3yKVMoAtI0rSxWqwt5j+4iPJFsZDMUJ2uZnXrE3Sg
- Gj2eLOcDmH/y+xsoEXQyc1GhBJCdOF0gmB2K/DANuj2GfhY2qnHEAAZ8RzPHvH8mfF/9
- fvge76H5r2aqVqedn0g101NYxTRI9HWi8QLocFE2V1K7VUcsq8eJrhU6cVfIJf40Yyzo
- F0GLJkKc0Z0dE+kq1SGzJLVJ1Bod7quesH8hgYEF72fdxnCfq10xtMgvUu13Cx9sNiz6
- 3pzw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQDpHb/u/iyOCgxcM3Rcku4HrMCLUdJSXS5qZctzb4qxxW/ajkLQup+mIGj07QnWOW1oojQnrb5XU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw2KeMw8B9sLLS8FCFVAGG9SarxzxfxElUJmvOBbwHKc3yXff4o
- x4mAbpVNqHAg0UapP7hb+VXHI2Igx/pUs2RKLeO+97gsVjagZqy7s8zcqmkC4DM=
-X-Gm-Gg: ASbGncsTJMceIuhObdlS1BLJ5Tpwi7pWQbkPhiIJOz2A8M3Bz5iGUtAIzq6Bzy91JCK
- 7cpBQ66KJGs52fuUKyGRGdGMrJFXfwi9lx6MrOP8go5tiMHYuw+dnQjM4OpFFsm0Y/x2tQCyp+D
- W6G8cXyTLC20weA/Rdc0DvBAd3PmGNwqf7q1h/HFK2bAjD7jdjLoEo3EN7Pr5NLGIkMDrhGg8bJ
- lXOyaTfnVBmqD9QJV3Imi7qxTeSSZIOKkiezrvI0a2hP2dP32+0xXCMEcaHXQCINQ9lZTNem77E
- NesSIG8v0zw1LKS6wdN4REf3sJxPFg==
-X-Google-Smtp-Source: AGHT+IEjlfUflJI02ZJGU+Y+a8G3HUQsKv6NYL+aTiOcebMKzBeRoE8K/ZaRgeCLnat3VtUDppoaYQ==
-X-Received: by 2002:a05:6512:31ca:b0:53e:1b79:ada3 with SMTP id
- 2adb3069b0e04-53e1b79aea5mr687508e87.6.1733238551539; 
- Tue, 03 Dec 2024 07:09:11 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df646f08csm1852548e87.164.2024.12.03.07.09.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2024 07:09:10 -0800 (PST)
-Date: Tue, 3 Dec 2024 17:09:08 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH 2/3] drm/msm/dp: do not touch the MMSS_DP_INTF_CONFIG for
- tpg
-Message-ID: <fieuuhtisu6ztpuzks32rvnjdfnusywmmcyj2oz7rg36ablo6l@thq5p2xha6jx>
-References: <20241202-tpg-v1-0-0fd6b518b914@quicinc.com>
- <20241202-tpg-v1-2-0fd6b518b914@quicinc.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9376A10E447;
+ Tue,  3 Dec 2024 15:17:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733239038; x=1764775038;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1yM98AJk6xMVV5jRFvRbtqL71ywi6RezWpInklvwe50=;
+ b=HW5wdex3B2A2BNsNI/Bl22gcLzb7zzeGx49CZs6PyHhuBu+5AZYajZ8N
+ 99ksrnaQP+/BVc72j7Phxd13jAdsoqY71YbfCM/1/uTueLSMBiUjxfFSf
+ wWiom5xCYw1um35Okilffdy/s2+NQ8dYFF3LpqKZ1k05vxge4WMpAc67V
+ hVLU+o78h+96w+DFfYPlAsBca7YjkdH52jI3r0O8D/Ou09XHQb8MaY729
+ vg7EsYj4ixLeNkdr0GLi3CrWIq0so3j/uD+ArUNqj1wSOOjuOz5qG0ygX
+ CQVh5XAsSjMiRgP22uw59oQNtaOw1+p6lEGzOel4YUCsWUh+whHByKgtC w==;
+X-CSE-ConnectionGUID: YPR6l2I3Q1Ovlc12OTImrQ==
+X-CSE-MsgGUID: wgCggKd0SN+UL1hoA29zhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="33708744"
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="33708744"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 07:17:17 -0800
+X-CSE-ConnectionGUID: 2FhMevIHRsOU1iTZs5kDJw==
+X-CSE-MsgGUID: /Kr5wR2MQlKbrrkvKsLO3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="97526154"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.135])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 07:17:15 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: jani.nikula@intel.com, imre.deak@intel.com, Lyude Paul <lyude@redhat.com>
+Subject: [PATCH v2 0/3] drm/dp: extract payload helpers
+Date: Tue,  3 Dec 2024 17:17:07 +0200
+Message-Id: <cover.1733238940.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241202-tpg-v1-2-0fd6b518b914@quicinc.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,26 +68,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2024 at 12:41:59PM -0800, Abhinav Kumar wrote:
-> MMSS_DP_INTF_CONFIG has already been setup by the main datapath
-> for DP to account for widebus to be used/unused etc.
-> 
-> In current implementation, TPG only switches the DP controller
-> to use the main datapath stream OR use the test pattern but expects
-> the rest of the controller to be already setup.
-> 
-> Keeping the same behavior intact, drop the clearing of MMSS_DP_INTF_CONFIG
-> from the msm_dp_catalog_panel_tpg_enable() API.
-> 
-> Fixes: 757a2f36ab09 ("drm/msm/dp: enable widebus feature for display port")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_catalog.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
+Add some mst topology manager independent payload helpers.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+v2 of [1] with some kernel-doc cleanups.
+
+BR,
+Jani.
+
+[1] https://lore.kernel.org/r/cover.1731942780.git.jani.nikula@intel.com
+
+Jani Nikula (3):
+  drm/dp: extract drm_dp_dpcd_poll_act_handled()
+  drm/dp: extract drm_dp_dpcd_write_payload()
+  drm/dp: extract drm_dp_dpcd_clear_payload()
+
+ drivers/gpu/drm/display/drm_dp_helper.c       | 125 +++++++++++++++++-
+ drivers/gpu/drm/display/drm_dp_mst_topology.c |  88 +-----------
+ include/drm/display/drm_dp_helper.h           |   5 +
+ 3 files changed, 134 insertions(+), 84 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.39.5
+
