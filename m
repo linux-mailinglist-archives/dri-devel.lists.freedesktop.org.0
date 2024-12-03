@@ -2,93 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10369E11F0
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 04:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA249E120D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 04:53:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB27010E8C2;
-	Tue,  3 Dec 2024 03:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF12A10E465;
+	Tue,  3 Dec 2024 03:53:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UNwfbjfv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E6/hE7Ig";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 791CA10E8D3;
- Tue,  3 Dec 2024 03:40:19 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B2LQxUF011828;
- Tue, 3 Dec 2024 03:40:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 8DgSpqJRZPX+nEFqGx7fJKzoWV179A77miN4DlIsejc=; b=UNwfbjfv3Ka2qSEO
- oPVq3Zh0gU13NxSZMRB+6GOS8S4NQq+8ckJVbCZV3ZB3c0kSgKs5eiRF0gjJ062A
- p4BZ/2/wlhH07Z24CQLbM7AJf9hjMoHzEYvJRcnF4ljXmPPBKI+Zm0TypwV4Iqko
- FPB0Upcfq8e41b7OKd/tl5fHJRTVG06TVOTT9PncgJJBkGJpMXOBA1eJeKnaWxy5
- Tm3QUE0ijXsOQdPdl10+vcFip2I+tD/v8j9/IhHkXxOSHo1tiNElJYGMJlYd50q9
- 55alzHtJZoGlco3V80eZ+Uf72t0AvJBCqJI6o4V9In7t0vcR9M7/bgrNy5t6r5gQ
- LJXZHg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4393mpbnce-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 03 Dec 2024 03:40:13 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B33eCM7001815
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 3 Dec 2024 03:40:12 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 2 Dec 2024
- 19:40:12 -0800
-Message-ID: <e93e7601-e768-4c13-9e66-b7f62565cb41@quicinc.com>
-Date: Mon, 2 Dec 2024 19:40:11 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: display/msm: qcom, sa8775p-mdss: fix the
- example
-To: Krzysztof Kozlowski <krzk@kernel.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EECDA10E465
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 03:53:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5AED5A412DF;
+ Tue,  3 Dec 2024 03:52:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F12A4C4CED6;
+ Tue,  3 Dec 2024 03:53:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733198033;
+ bh=O1RWkaeULx9ZPpdPzg3sbjMLr7t24XttgegNRluRTnY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=E6/hE7Ig4WEjC7Mj78y+e2UHlJFg02WpUMgIRzashRP8vLlsnpd+Rd1GvbD1he76n
+ rTIKmb1TGuOUW2tjamnsZVOWJdcJUt+uZAsC06FVa4vkKq3dt5rL28QJeWBU8a2/4p
+ JYCXLvg53BpaIUtFOnJnsNPgESVWI4+69E2onyWqtFzhHOwnZeSfdtT5PoLZGtHHNl
+ JV68rWUx9HKb4wJWI5lIK1hrWaKQepeHYvw9gEMsRQ8OBwGOJv+bYgwJTBogOWA956
+ Ihm2i7DMdgCCMs3y4MsSlWtsuEOiA32pK7u/d5w8zuFXwvYgRH91e24kTs4z9B5JBJ
+ t5KEMOnioLSkQ==
+From: Namhyung Kim <namhyung@kernel.org>
+To: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: Ian Rogers <irogers@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-perf-users@vger.kernel.org,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Mahadevan <quic_mahap@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241112-fd-dp-fux-warning-v2-1-8cc4960094bd@linaro.org>
- <643d2935-65ce-4d86-9be6-c2faa1956365@quicinc.com>
- <CAA8EJpqBouv-f-QMpZ+hrA-vF4ojhUWBn5yMqYYB9LpW0TACdg@mail.gmail.com>
- <ba5d51f4-edfc-4bc5-a3d2-1a2d24ae4403@quicinc.com>
- <1df39be7-ed70-4b65-8640-c1d20c9feadf@kernel.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <1df39be7-ed70-4b65-8640-c1d20c9feadf@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: W_LJybbTt_0LDwnpqFOMsGvHSjxlUHPd
-X-Proofpoint-GUID: W_LJybbTt_0LDwnpqFOMsGvHSjxlUHPd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- impostorscore=0 mlxscore=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 priorityscore=1501
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412030029
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: [PATCH 01/11] tools headers: Sync uapi/drm/drm.h with the kernel
+ sources
+Date: Mon,  2 Dec 2024 19:53:39 -0800
+Message-ID: <20241203035349.1901262-2-namhyung@kernel.org>
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+In-Reply-To: <20241203035349.1901262-1-namhyung@kernel.org>
+References: <20241203035349.1901262-1-namhyung@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,52 +64,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+To pick up the changes in this cset:
 
+  56c594d8df64e726 ("drm: add DRM_SET_CLIENT_NAME ioctl")
 
-On 12/2/2024 3:21 AM, Krzysztof Kozlowski wrote:
-> On 12/11/2024 20:16, Abhinav Kumar wrote:
->>
->>
->> On 11/12/2024 5:15 AM, Dmitry Baryshkov wrote:
->>> On Tue, 12 Nov 2024 at 05:40, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 11/11/2024 7:21 PM, Dmitry Baryshkov wrote:
->>>>> Add p1 region to the list of DP registers in the SA8775p example. This
->>>>> fixes the following warning:
->>>>>
->>>>> Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.example.dtb: displayport-controller@af54000: reg: [[183844864, 260], [183845376, 192], [183848960, 1904], [183853056, 156]] is too short
->>>>>
->>>>> Fixes: 409685915f00 ("dt-bindings: display/msm: Document MDSS on SA8775P")
->>>>> Reported-by: Rob Herring <robh@kernel.org>
->>>>> Closes: https://lore.kernel.org/dri-devel/CAL_JsqJ0zoyaZAgZtyJ8xMsPY+YzrbF-YG1vPN6tFoFXQaW09w@mail.gmail.com/c
->>>>
->>>> Thanks for the patch.
->>>>
->>>> I think this link has an extra 'c' at the end.
->>>
->>> Oh.. Can you fix that when picking it up for -fixes or would you
->>> prefer to have a clean version in patchwork?
->>>
->>
->> Yes, I can fix it up while applying.
-> 
-> This was supposed to be send still for v6.13-rc1... I don't understand
-> why not, but it happened so now v6.13-rc1 has a regression - binding
-> warning (binding, not DTS!). All people testing on v6.13-rc1, all
-> maintainer trees etc. now have this warning.
-> 
-> Please send the fix soon, so maintainers can for example rebase their trees.
-> 
-> Best regards,
-> Krzysztof
+This addresses these perf build warnings:
 
-I have queued this up in a MR and will make sure its included in a PR 
-for msm-fixes in a day or two.
+  Warning: Kernel ABI header differences:
+    diff -u tools/include/uapi/drm/drm.h include/uapi/drm/drm.h
 
-Sorry for the delay. Will be picked up soon.
+Please see tools/include/uapi/README for further details.
 
-Thanks
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Namhyung Kim <namhyung@kernel.org>
+---
+ tools/include/uapi/drm/drm.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Abhinav
+diff --git a/tools/include/uapi/drm/drm.h b/tools/include/uapi/drm/drm.h
+index 16122819edfeff87..7fba37b94401a6d5 100644
+--- a/tools/include/uapi/drm/drm.h
++++ b/tools/include/uapi/drm/drm.h
+@@ -1024,6 +1024,13 @@ struct drm_crtc_queue_sequence {
+ 	__u64 user_data;	/* user data passed to event */
+ };
+ 
++#define DRM_CLIENT_NAME_MAX_LEN		64
++struct drm_set_client_name {
++	__u64 name_len;
++	__u64 name;
++};
++
++
+ #if defined(__cplusplus)
+ }
+ #endif
+@@ -1288,6 +1295,16 @@ extern "C" {
+  */
+ #define DRM_IOCTL_MODE_CLOSEFB		DRM_IOWR(0xD0, struct drm_mode_closefb)
+ 
++/**
++ * DRM_IOCTL_SET_CLIENT_NAME - Attach a name to a drm_file
++ *
++ * Having a name allows for easier tracking and debugging.
++ * The length of the name (without null ending char) must be
++ * <= DRM_CLIENT_NAME_MAX_LEN.
++ * The call will fail if the name contains whitespaces or non-printable chars.
++ */
++#define DRM_IOCTL_SET_CLIENT_NAME	DRM_IOWR(0xD1, struct drm_set_client_name)
++
+ /*
+  * Device specific ioctls should only be in their respective headers
+  * The device specific ioctl range is from 0x40 to 0x9f.
+-- 
+2.47.0.338.g60cca15819-goog
+
