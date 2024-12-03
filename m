@@ -2,62 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F279E16FA
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 10:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11AF39E1737
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 10:22:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 630B110E99B;
-	Tue,  3 Dec 2024 09:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3B3A10E155;
+	Tue,  3 Dec 2024 09:22:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AJJHmeY6";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lQomKArm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C943F10E99B;
- Tue,  3 Dec 2024 09:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733217415; x=1764753415;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=I2zQ7EO3CGd28eCNenVKyQMSLC2mesZFA3OoilbDqi0=;
- b=AJJHmeY6ccSwLN8yrhDBwiRhAGQfEeX9mElqvrO92DxW86VUcziippCe
- Lv49QZOcbam6LrN4d1AikkT129PQlOKqafArUoc+Gfmdx1PrgHbdSnkAS
- GG3X3dojHObfwzmsyF4k9lHpB9ZIvoRKAXEVHs05En1TqM1cUw8ZByFHN
- iHgHohR6laPKNT4iKswCjXgSvoUkJfcOaL51U4s47FF1CIGFdxz/6Uaq1
- lhJMSKWQFdtU9A0b8DxqfcSgCZh+mPb3Ke/F5kVQ2yAFFRNapS0OB3l+0
- N6+oLHhocb4lsjNPJJy4RffDhu7lpA3jVNTorIxNSJ9wIREpuTBW+R1RP g==;
-X-CSE-ConnectionGUID: Ip82HMgJSlSxfPHwdiI3lg==
-X-CSE-MsgGUID: ZkYvG+EaTaayGaV66BcLsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33340426"
-X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; d="scan'208";a="33340426"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2024 01:16:55 -0800
-X-CSE-ConnectionGUID: L+DEmwe/QXSGw3R8sydsuA==
-X-CSE-MsgGUID: V2m+cSg1QAOtvEL89cxbKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; d="scan'208";a="93572855"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 03 Dec 2024 01:16:52 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 03 Dec 2024 11:16:51 +0200
-Date: Tue, 3 Dec 2024 11:16:51 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Genes Lists <lists@sapience.com>
-Cc: linux-kernel@vger.kernel.org, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- airlied@gmail.com, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: 6.13-rc1 graphics fail
-Message-ID: <Z07Mg2_6y2MW22qV@intel.com>
-References: <3b097dddd7095bccabe6791b90899c689f271a35.camel@sapience.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DE9F10E155
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 09:22:22 +0000 (UTC)
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
+ [91.157.155.49])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B3EB4CE;
+ Tue,  3 Dec 2024 10:21:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1733217713;
+ bh=4zy6CY0fpOLVqr3JTKJMWeLbeBgOZXh+WP+kci8xRF4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lQomKArm3pFthfuyWJmQUy7rsBHo8bnscV9hV0DSwVNI/GHicUuEEeJAR+tcTl1T8
+ reSM1ZC95+aR1Rzh85dDboMfrlkl/6VGbpnKr+Le+ktoWs02ErQafO5zLkDIV2+e0U
+ 21zm5NR8FNBFh7r30AkT7sY9ZNi4OoUUUyWl8bCo=
+Message-ID: <e155c9b1-a43f-4be3-9825-2639ac3bb61d@ideasonboard.com>
+Date: Tue, 3 Dec 2024 11:22:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3b097dddd7095bccabe6791b90899c689f271a35.camel@sapience.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] drm/rcar-du: Add support for r8a779h0
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
+ <20241203-rcar-gh-dsi-v1-6-738ae1a95d2a@ideasonboard.com>
+ <20241203085654.GJ10736@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20241203085654.GJ10736@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,22 +117,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2024 at 01:40:59PM -0500, Genes Lists wrote:
+On 03/12/2024 10:56, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> 6.12.1 on same system with same userspace works fine (as did 6.12)
-> while 6.13-rc1 boots, but without working graphics using gnome with
-> wayland.
+> Thank you for the patch.
 > 
-> Laptop is raptor lake with Intel XE (lspci attached).
-> No kernel errors are logged, but GDM fails, leading to frozen screen
-> with some messages logged most notable seems to be quite a few of this
-> one:
+> On Tue, Dec 03, 2024 at 10:01:40AM +0200, Tomi Valkeinen wrote:
+>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>
+>> Add support for r8a779h0. It is very similar to r8a779g0, but has only
+>> one output.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c   | 19 +++++++++++++++++++
+>>   drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h   |  1 +
+>>   drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 16 ++++++++++------
+>>   3 files changed, 30 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+>> index fb719d9aff10..afbc74e18cce 100644
+>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+>> @@ -545,6 +545,24 @@ static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
+>>   	.dsi_clk_mask =  BIT(1) | BIT(0),
+>>   };
+>>   
+>> +static const struct rcar_du_device_info rcar_du_r8a779h0_info = {
+>> +	.gen = 4,
+>> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+>> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>> +		  | RCAR_DU_FEATURE_NO_BLENDING
+>> +		  | RCAR_DU_FEATURE_NO_DPTSR,
+>> +	.channels_mask = BIT(0),
+>> +	.routes = {
+>> +		/* R8A779H0 has one MIPI DSI output. */
+>> +		[RCAR_DU_OUTPUT_DSI0] = {
+>> +			.possible_crtcs = BIT(0),
+>> +			.port = 0,
+>> +		},
+>> +	},
+>> +	.num_rpf = 5,
+>> +	.dsi_clk_mask = BIT(0),
+>> +};
+>> +
+>>   static const struct of_device_id rcar_du_of_table[] = {
+>>   	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
+>>   	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
+>> @@ -571,6 +589,7 @@ static const struct of_device_id rcar_du_of_table[] = {
+>>   	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
+>>   	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
+>>   	{ .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
+>> +	{ .compatible = "renesas,du-r8a779h0", .data = &rcar_du_r8a779h0_info },
+>>   	{ }
+>>   };
+>>   
+>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
+>> index 5cfa2bb7ad93..d7004f76f735 100644
+>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
+>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
+>> @@ -32,6 +32,7 @@ struct rcar_du_device;
+>>   #define RCAR_DU_FEATURE_INTERLACED	BIT(3)	/* HW supports interlaced */
+>>   #define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
+>>   #define RCAR_DU_FEATURE_NO_BLENDING	BIT(5)	/* PnMR.SPIM does not have ALP nor EOR bits */
+>> +#define RCAR_DU_FEATURE_NO_DPTSR	BIT(6)  /* V4M does not have DPTSR */
 > 
->   Failed to ensure KMS FB ID on /dev/dri/card1
->        drmModeAddFB2WithModifiers failed: Invalid argument
+> Do we need a quirk ? At first glance it seems the DPTSR register is only
+> used for DU instances that have two channels, so a check on the number
+> of channels should be enough ?
 
-Probably https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13057
+What do you mean with "DPTSR register is only used for DU instances that 
+have two channels"? The upstream code sets it for all SoCs, doesn't it, 
+without any checks?
 
--- 
-Ville Syrjälä
-Intel
+Most of the SoCs seem to have two channels, but r8a77970 has one. 
+However, I don't have docs for that one. It could be that it does not 
+have DPTSR register, and indeed we could use the num_crtcs > 1 check there.
+
+  Tomi
+
+> 
+>>   
+>>   #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
+>>   
+>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+>> index 2ccd2581f544..132d930670eb 100644
+>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+>> @@ -107,10 +107,12 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
+>>   		 */
+>>   		rcrtc = rcdu->crtcs;
+>>   		num_crtcs = rcdu->num_crtcs;
+>> -	} else if (rcdu->info->gen >= 3 && rgrp->num_crtcs > 1) {
+>> +	} else if ((rcdu->info->gen == 3 && rgrp->num_crtcs > 1) ||
+>> +		   rcdu->info->gen == 4) {
+>>   		/*
+>>   		 * On Gen3 dot clocks are setup through per-group registers,
+>>   		 * only available when the group has two channels.
+>> +		 * On Gen4 the registers are there for single channel too.
+>>   		 */
+>>   		rcrtc = &rcdu->crtcs[rgrp->index * 2];
+>>   		num_crtcs = rgrp->num_crtcs;
+>> @@ -185,11 +187,13 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+>>   		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
+>>   	rcar_du_group_write(rgrp, DORCR, dorcr);
+>>   
+>> -	/* Apply planes to CRTCs association. */
+>> -	mutex_lock(&rgrp->lock);
+>> -	rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
+>> -			    rgrp->dptsr_planes);
+>> -	mutex_unlock(&rgrp->lock);
+>> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_NO_DPTSR)) {
+>> +		/* Apply planes to CRTCs association. */
+>> +		mutex_lock(&rgrp->lock);
+>> +		rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
+>> +				    rgrp->dptsr_planes);
+>> +		mutex_unlock(&rgrp->lock);
+>> +	}
+>>   }
+>>   
+>>   /*
+> 
+
