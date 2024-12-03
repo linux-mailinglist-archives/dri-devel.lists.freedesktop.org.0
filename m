@@ -2,86 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565369E2B18
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 19:39:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7804F9E2B1F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 19:40:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E404110EB12;
-	Tue,  3 Dec 2024 18:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7F3910EB0F;
+	Tue,  3 Dec 2024 18:40:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G0Zm8b9/";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="SbbsQnMO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07C9210E193;
- Tue,  3 Dec 2024 13:10:03 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2ffc016f301so59656811fa.1; 
- Tue, 03 Dec 2024 05:10:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733231401; x=1733836201; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vBpVYUR537Z/UcSm2SUw7xuU7Lh2NWpzO6bN06e40uU=;
- b=G0Zm8b9/i7vEtKmoGIm0Y4AB10aS5YDL40cjMZpmToIWQ7te4kLX+4Lpt21hxS42xA
- zsi9ksSuwbKodis3i5c8DPysOwnQv9v1VrUV44sMel3r3vZY9zE3MIkF5K0T8TIcUDMk
- dLkXwLG0HeR9SYmsqQSBDIdqjEGkIKIhSvfZiBcUySv9fSfUgOcuLfzTW/KHUYgCUl+3
- 2Os+o3m6hr4fYwB/q/KlJ77Wn5It5UjB0F0AC01M1uC6wJIEV1iatyrLdzQqm3+t0XxU
- q6twFhtQHqo/NLDv6itTETQ7y5+Nepvz08aET5GIIZcs+gQ0//Lfku44nxNEQwWssVpT
- TCvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733231401; x=1733836201;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vBpVYUR537Z/UcSm2SUw7xuU7Lh2NWpzO6bN06e40uU=;
- b=HDpdIi5JvGB3bFFQR2jkYgRhe8XNNu0SiOCCeySgXzubfE0OGGej0mLToLYdJXlMVD
- 0JZX4f+EXjKapF7qxQ6MFiyaUW2oV1DOATD4Ar8YsbsgTxXWAhbMT1c+COdsHM1uw1j4
- m4qmrobXYhSdFUIsrb7tu2ADk2BNKzJaRKahi6adGSvN7R8P+g1LCoLkTuGyzFy/quog
- kkmh+1jBNiVZCwRJOU92pEMJhFd9BSFrTAMlXT6XshJc/dmvmBe8yXfICE+KadyyIMtn
- ci+zLIgjXkgmney8YYyQhYkJv0Wjnffh+CZeD5yHW2f5IWFRwYnOcQHRUqd+VHw7xX2e
- JRyg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWShC5gkUKESRYJMKQm70f4Em9wewITChFnP7mvMWe5FUblxsvZPjuc/hY5cSWJg5fy5F14oZ6wmKCq@lists.freedesktop.org,
- AJvYcCXL4gz2IdtWs6I7t/Eyhl3PcqHTE7oPxVUHiSeiBsOVyAP8EcY7bcDPn0xOWw9M3gU5A3QQG9cRp0M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzR7dElBWQ6XI+dMwwwpfWEwDbSwOLleSByv+gSUVw7k78FcO9R
- kYEJZfHXfmcuTc2Z3tJzhx50rO0JNzyUX57f/wVSmMqXAyvrOTAq
-X-Gm-Gg: ASbGncuYMgkO5Z4jxE7fHhX1L3WFPYn0aeCAqDkRJcaWGFYRKs231Qta2rG4/gFdZFW
- dxPH7U9W2y9Agk0CSCHHRf72SYP/XDbl7U4r/DSLP310icPinjwPpiDMfimrelbm7nOgwMQ1pDc
- NQlpNsyhy0pe35mwlSyJ94JSNkAw7hbjRMhKYiTihj3AiiHGxYSaxnThbj96znFV1fXt1BePigz
- 9yAdd6UeO/mFIznc9lhrqALdCCBX3YK1zdP9nIeST+r8U6X+wwc/dvn/ZR0Z4w=
-X-Google-Smtp-Source: AGHT+IE44eehjh4J99/+1OuXnz12zNWYEYZrb0qp3hsM6WiSlfMd9BI6rWO85gTg6shNHsRsITMGNA==
-X-Received: by 2002:a2e:bc07:0:b0:2ff:ce85:8c97 with SMTP id
- 38308e7fff4ca-30009c6cdfdmr17644481fa.27.1733231400727; 
- Tue, 03 Dec 2024 05:10:00 -0800 (PST)
-Received: from [192.168.50.169] ([195.136.68.87])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30014797f5csm285571fa.91.2024.12.03.05.09.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Dec 2024 05:10:00 -0800 (PST)
-Message-ID: <b63d73ce-0845-4c0b-a110-4e10b8f587eb@gmail.com>
-Date: Tue, 3 Dec 2024 14:09:59 +0100
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8DB10E470
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 13:49:17 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20241203134150euoutp010288a5cebe93814e779a47836dfa1e79~NroM1gzRu2539825398euoutp01P
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 13:41:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20241203134150euoutp010288a5cebe93814e779a47836dfa1e79~NroM1gzRu2539825398euoutp01P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1733233310;
+ bh=1/RUSqy8z7qqY1BjiCEiLnyHhx+pcleNn7qHqtrgwrU=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=SbbsQnMOtN/1EwGrDqpn/TiB2n/j0/7nTinqkLmZzeokcAkjdwMpqviNj8s/G6syy
+ Jc0wuufDZU3263B5BhTpzkhLicP6UbvS4RpoIrkIEqM67Lg+KWbauMZy8lfuGWj0iV
+ BNcH9loIVN+cKH6LrGlfFiwsgH/eO6DDVW5riazk=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20241203134149eucas1p26d4e37c6ebea696d2083970234bc1b49~NroMV1e_i1693616936eucas1p2R;
+ Tue,  3 Dec 2024 13:41:49 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 8E.BA.20821.D9A0F476; Tue,  3
+ Dec 2024 13:41:49 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20241203134148eucas1p1dd37e9cac92aada509d87f5178e337e8~NroLkLIBS1743017430eucas1p1V;
+ Tue,  3 Dec 2024 13:41:48 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20241203134148eusmtrp2e69bbb8091fed34d7595f5f864e76e5c~NroLjQb3U3035030350eusmtrp2r;
+ Tue,  3 Dec 2024 13:41:48 +0000 (GMT)
+X-AuditID: cbfec7f2-b09c370000005155-5a-674f0a9d697a
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 35.C8.19920.C9A0F476; Tue,  3
+ Dec 2024 13:41:48 +0000 (GMT)
+Received: from AMDC4942.home (unknown [106.210.136.40]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20241203134146eusmtip26b29909df8dbdb5a3135b5a036b07585~NroJfvIDp3010130101eusmtip2S;
+ Tue,  3 Dec 2024 13:41:46 +0000 (GMT)
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+To: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
+ wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
+ matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ ulf.hansson@linaro.org, jszhang@kernel.org, m.szyprowski@samsung.com
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org, Michal Wilczynski
+ <m.wilczynski@samsung.com>
+Subject: [RFC PATCH v1 00/14] Enable drm/imagination BXM-4-64 Support for
+ LicheePi 4A
+Date: Tue,  3 Dec 2024 14:41:23 +0100
+Message-Id: <20241203134137.2114847-1-m.wilczynski@samsung.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm/msm: Expose uche trap base via uapi
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-References: <20241203095920.505018-1-dpiliaiev@igalia.com>
- <20241203095920.505018-2-dpiliaiev@igalia.com>
- <lhi5ni5i4kuwzu2627nf5pnhhzcx7rglza5lxeadpkdekwtisj@3cacpo2r3tzx>
-Content-Language: en-US
-From: Danylo <danylo.piliaiev@gmail.com>
-In-Reply-To: <lhi5ni5i4kuwzu2627nf5pnhhzcx7rglza5lxeadpkdekwtisj@3cacpo2r3tzx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 03 Dec 2024 18:39:38 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf1RTZRjuu/fu3rnT4DIxv6gOuHPMsgT0UH6ZJ4LynGtWYh4Op6xoyW1T
+ x7BNpJITJLDDjyHJEcLNNbDlOEN+CZsbAUNAhkizJJH4sUDp2IgkfoZ6wDYulv897/O87/s8
+ 73c+Pi6qJYP4+xSHWKVCIheTAsLacce1QS/YKQ3/oSUEdV4/jSHLPS2Fzja5MGRod/GQ+2o9
+ hn6ZnSBR1e8/UeiPpq8I1Fuup1BGRzWJPFo3iSY1bh7qaThFoun8doCs05kkqmwfolD1rAFD
+ ZZMWAhltDQCpc87w0M9d25CnR4MjtdYf3W+0UWixt5ZAutsOCtWPH+chZ2UcynScIF59ipno
+ y6KYcY+HYNqyZyimaa6UYOzaIYrR2LsBc86cQzKDvY0k8+2lXcxveU6MqTOmMZmVHRgz0XyN
+ ZI7VmwFzNeM6xdRdPhIT8J5gawIr33eYVYa98pFAtlCoIw+60WfHR0qIdDAXmgtW8CEdAQ36
+ vykfFtHlAM7kruHwDIBF7rhcIPDiaQDNhVnUg4Hs/EaCE0wAloy08bhiHMDuUiPm6yLpTXDY
+ ZFgSAuk/cdg3+yvpK3D6FoDW0VOkr2slHQe7a+aX9hL0WugwLS7xQjoS9nw/h3F+wdBx4Uec
+ 4wPgpZOjhA/jXj7DosN9SyFdJoAV6gHADbwO8xfu8Di8Eo4565eDPwnv2w3LS5PgsGUK53Aq
+ tGucy/hlOOi66w3B9xo8C6sbwjg6Cvaf11M+GtJ+sO+vAC6CHyy0foNztBBmq0Vc99OwSJP/
+ n6mr3LpsysCL6fcI7nk/gNkLA8TXIET70GHahw7T/p+hFOBmsJpNViVKWdVGBZsSqpIkqpIV
+ 0tC9SYnngPdXX150TtmAfmwytBVgfNAKIB8XBwpN1TukImGC5PMvWGVSvDJZzqpawRN8Qrxa
+ uDYhmBXRUskh9gDLHmSVD1SMvyIoHSuoad1wcfeW/hSN+EBswbqYFy7MLMi2fqw9HW8cDGyJ
+ HfNEN5odbzBT24vRW9/FJj1+TTetPXz2uYIXc/YEdPuNRlJhJZtSbEdXuU3oZqSn7ZniSUGz
+ 6EOZQarZfGv/sfYd70vPy+VDMGv3kT5HXFZG0JXcmP4TJSfjTX7hR7u2sXdTH+k4Q4ilabIy
+ cW9LV8V6V1WnZT5xeHPKp0X734zS8zvVN952zecqVbvcz+dVvWS8ES8ayNvib/GPumlDiXF7
+ JjMjdlZE4++E1Mr+6W9+zD4YoagZuJKxd2QRwwLSw3XqcfPMow39r1neNUbfXvVJTWpxsKJA
+ sq6qRPfl9jqHOk1MqGSSjetxpUryL03qZglEBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAKsWRmVeSWpSXmKPExsVy+t/xe7pzuPzTDW4e1bQ4cX0Rk8XW37PY
+ LdbsPcdkMf/IOVaLe5e2MFlc+fqezWLd0wvsFi/2NrJYXFsxl92i+dh6NouXs+6xWXzsucdq
+ cXnXHDaLz71HGC22fW5hs1h75C67xfqv85ksFn7cymKxZMcuRou2zmWsFhdPuVq8vNzDbNE2
+ i9/i/54d7Bb/rm1ksZj9bj+7xZY3E1ktjq8Nt2jZP4XFQdbj/Y1Wdo83L1+yeBzu+MLusffb
+ AhaPnbPusnv07DzD6LFpVSebx51re9g85p0M9LjffZzJY/OSeo+WtceYPN7vu8rm0bdlFaPH
+ pebr7B6bT1cHCEbp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk5mSW
+ pRbp2yXoZfydNJut4J5FxcSHM1gaGL/pdTFyckgImEh09O5h6WLk4hASWMooce7tHRaIhIzE
+ te6XULawxJ9rXWwQRa8YJdZfaGMHSbAJGEk8WD6fFSQhItDJIvF281pGEIdZ4C2jxPWZG8Ha
+ hQVCJeYdPQjWwSKgKrF/+T82EJtXwF7i8tJvTBAr5CX2HzzLDBEXlDg58wlQLwfQIHWJ9fOE
+ QMLMQCXNW2czT2Dkn4WkahZC1SwkVQsYmVcxiqSWFuem5xYb6hUn5haX5qXrJefnbmIEJpVt
+ x35u3sE479VHvUOMTByMhxglOJiVRHiXr/dOF+JNSaysSi3Kjy8qzUktPsRoCnT1RGYp0eR8
+ YFrLK4k3NDMwNTQxszQwtTQzVhLndbt8Pk1IID2xJDU7NbUgtQimj4mDU6qBqUjhxq2nU9Rv
+ 9126t0i1avUSV9vZUU4Lz/zbqFlhNu0+h4lMMbN0vdx0oVsPv3WVCn51YjTzYLtxPddtb8cu
+ cQGvSzPvpmRp3F3eyi/wJjHp9oWq+isWoWfcJwS+9uQUMbz5lq+5452HS8EN5lMswb4fdaWT
+ rFYkCcnyt7a8U8hf/it1++HTqrvydU/bf0vq5/YzfLFWpq5avVm+zmBuQKGO+TuO6gnciyb0
+ r9z/JN9zxje25ZxHPi07Ys5okcn0PdW/5qDFc6nDcw7/a0tbI7EgI9Xp/Xb2O5riDIdOvGHv
+ //XYb4GQ5P/6fQUvHVpkfUUqb1cY79qikfkqKFuC0fpCmI1tw4Kpq3UFz1YpsRRnJBpqMRcV
+ JwIAiV7idrMDAAA=
+X-CMS-MailID: 20241203134148eucas1p1dd37e9cac92aada509d87f5178e337e8
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20241203134148eucas1p1dd37e9cac92aada509d87f5178e337e8
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20241203134148eucas1p1dd37e9cac92aada509d87f5178e337e8
+References: <CGME20241203134148eucas1p1dd37e9cac92aada509d87f5178e337e8@eucas1p1.samsung.com>
+X-Mailman-Approved-At: Tue, 03 Dec 2024 18:40:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,163 +132,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The LicheePi 4A board, featuring the T-HEAD TH1520 SoC, includes an Imagination
+Technologies BXM-4-64 GPU. Initial support for this GPU was provided through a
+downstream driver [1]. Recently, efforts have been made to upstream support for
+the Rogue family GPUs, which the BXM-4-64 is part of [2].
 
+While the initial upstream driver focused on the AXE-1-16 GPU, newer patches
+have introduced support for the BXS-4-64 GPU [3]. The modern upstream
+drm/imagination driver is expected to support the BXM-4-64 as well [4][5]. As
+this support is being developed, it's crucial to upstream the necessary glue
+code including clock and power-domain drivers so they're ready for integration
+with the drm/imagination driver.
 
+Recent Progress:
 
-On 12/3/24 13:52, Dmitry Baryshkov wrote:
-> On Tue, Dec 03, 2024 at 10:59:20AM +0100, Danylo Piliaiev wrote:
->> This adds MSM_PARAM_UCHE_TRAP_BASE that will be used by Mesa
->> implementation for VK_KHR_shader_clock and GL_ARB_shader_clock.
-> Could you please spend more words, describing what it is and why is it
-> necessary for those extensions. For a5xx+ it looks like some kind of an
-> internal address (what kind of?). For a4xx I'm completely lost.
-Yes, my bad. On at least a6xx+, shader could read 64b ALWAYSON counter
-from UCHE_TRAP_BASE+0 address. We use it to implement VK_KHR_shader_clock:
-  "This extension advertises the SPIR-V ShaderClockKHR capability for 
-Vulkan, which
-   allows a shader to query a real-time or monotonically incrementing 
-counter at
-   the subgroup level or across the device level."
-And there is no other proper way to get such counter. Same with 
-GL_ARB_shader_clock.
+Firmware Improvements:
+Since August, the vendor has provided updated firmware
+[6][7] that correctly initiates the firmware for the BXM-4-64.
 
-Not sure what's there on older gens, I exposed the value on them for the
-completeness sake. But I don't know whether it is desired or not (I 
-don't expect
-the value being read and used on a4xx/a5xx in Mesa).
+Mesa Driver Testing:
+The vendor-supplied Mesa driver [8] partially works with Vulkan examples, such
+as rendering a triangle using Sascha Willems' Vulkan samples [9]. Although the
+triangle isn't rendered correctly (only the blue background appears), shader
+job submissions function properly, and IOCTL calls are correctly invoked.  For
+testing, we used the following resources:
 
->> Signed-off-by: Danylo Piliaiev <dpiliaiev@igalia.com>
->> ---
->>   drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  6 ++++--
->>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c   | 10 ++++++----
->>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 12 +++++++-----
->>   drivers/gpu/drm/msm/adreno/adreno_gpu.c |  3 +++
->>   drivers/gpu/drm/msm/adreno/adreno_gpu.h |  2 ++
->>   include/uapi/drm/msm_drm.h              |  1 +
->>   6 files changed, 23 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
->> index 50c490b492f0..f1b18a6663f7 100644
->> --- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
->> @@ -251,8 +251,8 @@ static int a4xx_hw_init(struct msm_gpu *gpu)
->>   		gpu_write(gpu, REG_A4XX_UCHE_CACHE_WAYS_VFD, 0x07);
->>   
->>   	/* Disable L2 bypass to avoid UCHE out of bounds errors */
->> -	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_LO, 0xffff0000);
->> -	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_HI, 0xffff0000);
->> +	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
->> +	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
->>   
->>   	gpu_write(gpu, REG_A4XX_CP_DEBUG, (1 << 25) |
->>   			(adreno_is_a420(adreno_gpu) ? (1 << 29) : 0));
->> @@ -693,6 +693,8 @@ struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
->>   	if (ret)
->>   		goto fail;
->>   
->> +	adreno_gpu->uche_trap_base = 0xffff0000ffff0000ull;
->> +
->>   	if (!gpu->aspace) {
->>   		/* TODO we think it is possible to configure the GPU to
->>   		 * restrict access to VRAM carveout.  But the required
->> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->> index ee89db72e36e..caf2c0a7a29f 100644
->> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->> @@ -750,10 +750,10 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
->>   	gpu_write(gpu, REG_A5XX_UCHE_CACHE_WAYS, 0x02);
->>   
->>   	/* Disable L2 bypass in the UCHE */
->> -	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_LO, 0xFFFF0000);
->> -	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_HI, 0x0001FFFF);
->> -	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_LO, 0xFFFF0000);
->> -	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_HI, 0x0001FFFF);
->> +	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
->> +	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
->> +	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
->> +	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
->>   
->>   	/* Set the GMEM VA range (0 to gpu->gmem) */
->>   	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MIN_LO, 0x00100000);
->> @@ -1805,5 +1805,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
->>   	adreno_gpu->ubwc_config.macrotile_mode = 0;
->>   	adreno_gpu->ubwc_config.ubwc_swizzle = 0x7;
->>   
->> +	adreno_gpu->uche_trap_base = 0x0001ffffffff0000ull;
->> +
->>   	return gpu;
->>   }
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> index 019610341df1..0ae29a7c8a4d 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> @@ -1123,12 +1123,12 @@ static int hw_init(struct msm_gpu *gpu)
->>   
->>   	/* Disable L2 bypass in the UCHE */
->>   	if (adreno_is_a7xx(adreno_gpu)) {
->> -		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, 0x0001fffffffff000llu);
->> -		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, 0x0001fffffffff000llu);
->> +		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, adreno_gpu->uche_trap_base);
->> +		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, adreno_gpu->uche_trap_base);
->>   	} else {
->> -		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX, 0x0001ffffffffffc0llu);
->> -		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, 0x0001fffffffff000llu);
->> -		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, 0x0001fffffffff000llu);
->> +		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX, adreno_gpu->uche_trap_base + 0xfc0);
->> +		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, adreno_gpu->uche_trap_base);
->> +		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, adreno_gpu->uche_trap_base);
->>   	}
->>   
->>   	if (!(adreno_is_a650_family(adreno_gpu) ||
->> @@ -2533,6 +2533,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->>   		}
->>   	}
->>   
->> +	adreno_gpu->uche_trap_base = 0x1fffffffff000ull;
->> +
->>   	if (gpu->aspace)
->>   		msm_mmu_set_fault_handler(gpu->aspace->mmu, gpu,
->>   				a6xx_fault_handler);
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> index 076be0473eb5..774ff6eacb9f 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> @@ -385,6 +385,9 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
->>   	case MSM_PARAM_MACROTILE_MODE:
->>   		*value = adreno_gpu->ubwc_config.macrotile_mode;
->>   		return 0;
->> +	case MSM_PARAM_UCHE_TRAP_BASE:
->> +		*value = adreno_gpu->uche_trap_base;
->> +		return 0;
->>   	default:
->>   		DBG("%s: invalid param: %u", gpu->name, param);
->>   		return -EINVAL;
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> index e71f420f8b3a..9bd38dda4308 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> @@ -253,6 +253,8 @@ struct adreno_gpu {
->>   	bool gmu_is_wrapper;
->>   
->>   	bool has_ray_tracing;
->> +
->> +	u64 uche_trap_base;
->>   };
->>   #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
->>   
->> diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
->> index b916aab80dde..2342cb90857e 100644
->> --- a/include/uapi/drm/msm_drm.h
->> +++ b/include/uapi/drm/msm_drm.h
->> @@ -90,6 +90,7 @@ struct drm_msm_timespec {
->>   #define MSM_PARAM_RAYTRACING 0x11 /* RO */
->>   #define MSM_PARAM_UBWC_SWIZZLE 0x12 /* RO */
->>   #define MSM_PARAM_MACROTILE_MODE 0x13 /* RO */
->> +#define MSM_PARAM_UCHE_TRAP_BASE 0x14 /* RO */
->>   
->>   /* For backwards compat.  The original support for preemption was based on
->>    * a single ring per priority level so # of priority levels equals the #
->> -- 
->> 2.46.2
->>
+Kernel Source: Custom kernel with necessary modifications [10].
+Mesa Driver: Vendor-provided Mesa implementation [11].
+
+Dependencies:
+Testing required a functional Display Processing Unit (DPU) and HDMI driver,
+which are currently not upstreamed. Efforts are underway to upstream the DPU
+DC8200 driver used in StarFive boards [12], which is the same DPU used on the
+LicheePi 4A. Once the DPU and HDMI drivers are upstreamed, GPU support can be
+fully upstream.
+
+Testing Status:
+This series has been tested by performing a probe-only operation, confirming
+that the firmware begins execution. The probe function initiates firmware
+execution and waits for the firmware to flip a specific status bit.
+
+[   12.637880] powervr ffef400000.gpu: [drm] loaded firmware powervr/rogue_36.52.104.182_v1.fw
+[   12.648979] powervr ffef400000.gpu: [drm] FW version v1.0 (build 6645434 OS)
+[   12.678906] [drm] Initialized powervr 1.0.0 for ffef400000.gpu on minor 0
+
+Power Management:
+Full power management capabilities require implementing the T-HEAD SoC AON
+protocol messaging via the hardware mailbox. While support for the mailbox was
+merged in kernel 6.13 [13], the AON protocol implementation is still in development.
+Therefore, this series focuses on preparing the groundwork without full power
+management support at this time.
+
+References:
+
+[1] Downstream Driver Source:
+    https://gitlab.freedesktop.org/frankbinns/powervr/-/blob/cb1929932095649a24f051b9cfdd2cd2ceab35cb/drivers/gpu/drm/img-rogue/Kconfig
+
+[2] Initial Upstream Driver Series:
+    https://lore.kernel.org/all/cover.1700668843.git.donald.robson@imgtec.com/
+
+[3] BXS-4-64 GPU Support Patches:
+    https://lore.kernel.org/all/20241105-sets-bxs-4-64-patch-v1-v1-0-4ed30e865892@imgtec.com/
+
+[4] Firmware Issue Discussion 1:
+    https://gitlab.freedesktop.org/imagination/linux-firmware/-/issues/1
+
+[5] Firmware Issue Discussion 2:
+    https://gitlab.freedesktop.org/imagination/linux-firmware/-/issues/2
+
+[6] Firmware Update Commit 1:
+    https://gitlab.freedesktop.org/imagination/linux-firmware/-/commit/6ac2247e9a1d1837af495fb6d0fbd6f35547c2d1
+
+[7] Firmware Update Commit 2:
+    https://gitlab.freedesktop.org/imagination/linux-firmware/-/commit/efbebc90f25adb2b2e1499e3cc24ea3f3c3e4f4c
+
+[8] Vendor-Provided Mesa Driver:
+    https://gitlab.freedesktop.org/imagination/mesa/-/tree/dev/devinfo
+
+[9] Sascha Willems' Vulkan Samples:     https://github.com/SaschaWillems/Vulkan
+
+[10] Test Kernel Source:
+    https://github.com/mwilczy/linux/tree/2_December_reference_linux_kernel_imagination
+
+[11] Test Mesa Driver:
+    https://github.com/mwilczy/mesa-reference
+
+[12] DPU DC8200 Driver Upstream Attempt:
+    https://lore.kernel.org/all/20241120061848.196754-1-keith.zhao@starfivetech.com/
+
+[13] Pull request kernel 6.13 for mailbox
+    https://lore.kernel.org/all/CABb+yY33qnivK-PzqpSMgmtbFid4nS8wcNvP7wED9DXrYAyLKg@mail.gmail.com/
+
+Michal Wilczynski (14):
+  clk: thead: Refactor TH1520 clock driver to share common code
+  dt-bindings: clock: thead,th1520: Rename header file
+  clk: thead: Enable clock gates with regmaps
+  clk: thead: Add clock driver for TH1520 Video Output subsystem
+  dt-bindings: clock: thead,th1520: Add support for Video Output
+    subsystem
+  dt-bindings: clock: thead,th1520: Rename YAML schema file
+  soc: thead: power-domain: Add skeleton power-domain driver for TH1520
+  dt-bindings: power: thead,th1520: Add support for power domains
+  riscv: Enable PM_GENERIC_DOMAINS for T-Head SoCs
+  drm/imagination: Add support for IMG BXM-4-64 GPU
+  drm/imagination: Enable PowerVR driver for RISC-V
+  riscv: dts: Add Video Output clock and syscon regmap nodes
+  riscv: dts: Introduce power domain node with simple-bus compatible
+  riscv: dts: Add GPU node to TH1520 device tree
+
+ .../bindings/clock/thead,th1520-clk-ap.yaml   |  53 ---
+ .../bindings/clock/thead,th1520-clk.yaml      |  72 +++++
+ .../bindings/mailbox/thead,th1520-mbox.yaml   |   2 +-
+ .../bindings/power/thead,th1520-power.yaml    |  52 +++
+ MAINTAINERS                                   |   9 +-
+ arch/riscv/Kconfig.socs                       |   1 +
+ arch/riscv/boot/dts/thead/th1520.dtsi         |  37 ++-
+ drivers/clk/thead/Kconfig                     |  11 +
+ drivers/clk/thead/Makefile                    |   3 +-
+ drivers/clk/thead/clk-th1520-ap.c             | 301 +-----------------
+ drivers/clk/thead/clk-th1520-vo.c             | 168 ++++++++++
+ drivers/clk/thead/clk-th1520.c                | 194 +++++++++++
+ drivers/clk/thead/clk-th1520.h                | 149 +++++++++
+ drivers/gpu/drm/imagination/Kconfig           |   2 +-
+ drivers/gpu/drm/imagination/pvr_drv.c         |   1 +
+ drivers/pmdomain/Kconfig                      |   1 +
+ drivers/pmdomain/Makefile                     |   1 +
+ drivers/pmdomain/thead/Kconfig                |  12 +
+ drivers/pmdomain/thead/Makefile               |   2 +
+ drivers/pmdomain/thead/th1520-pm-domains.c    | 195 ++++++++++++
+ ...ead,th1520-clk-ap.h => thead,th1520-clk.h} |  34 ++
+ .../dt-bindings/power/thead,th1520-power.h    |  19 ++
+ 22 files changed, 960 insertions(+), 359 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
+ create mode 100644 Documentation/devicetree/bindings/clock/thead,th1520-clk.yaml
+ create mode 100644 Documentation/devicetree/bindings/power/thead,th1520-power.yaml
+ create mode 100644 drivers/clk/thead/clk-th1520-vo.c
+ create mode 100644 drivers/clk/thead/clk-th1520.c
+ create mode 100644 drivers/clk/thead/clk-th1520.h
+ create mode 100644 drivers/pmdomain/thead/Kconfig
+ create mode 100644 drivers/pmdomain/thead/Makefile
+ create mode 100644 drivers/pmdomain/thead/th1520-pm-domains.c
+ rename include/dt-bindings/clock/{thead,th1520-clk-ap.h => thead,th1520-clk.h} (71%)
+ create mode 100644 include/dt-bindings/power/thead,th1520-power.h
+
+-- 
+2.34.1
 
