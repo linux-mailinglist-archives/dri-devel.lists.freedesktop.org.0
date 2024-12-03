@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CE99E24DC
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C3A9E24EF
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:54:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D4010EA7A;
-	Tue,  3 Dec 2024 15:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9FA10E095;
+	Tue,  3 Dec 2024 15:54:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dAhPwoe+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eshV8lni";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9349610EA7A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 15:53:44 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4864E10E095
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 15:54:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8AA4BA41722;
- Tue,  3 Dec 2024 15:51:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43375C4CECF;
- Tue,  3 Dec 2024 15:53:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AF4F05C4B6A;
+ Tue,  3 Dec 2024 15:53:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44F8EC4CED8;
+ Tue,  3 Dec 2024 15:54:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733241223;
- bh=l8fINQy3Gnwqpw7GCZQguNQePxGrCID3r6VZRai5wPA=;
+ s=k20201202; t=1733241281;
+ bh=A4b90Jm2sShQwuCN/paWI3MCt1+oQzJQ35/KSVq/FCA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dAhPwoe+HQY613tN3sOKEVsCBcvdIvGyf+9kItT0385GyVBP3ex7VSH+pDyf1A/1K
- cuwpvqlutvh9SKF4HLjQgFQhwLO9naKi4Vwl/qEZOxF2MEjxJQ3PCPUf7F81DFt4lc
- 1Fg368XLD61lq8z0A8eoU3RZYrq7BCr3xuueC3zeXONA6yBdsuXUxvclNOjuNXP8JJ
- WcF/GQ/hnP+GRTR7dC+XB0QjUy0O+ZNeGIrqcYD3TYxGFsREA/eGi0Wnq0Hi1H6lNW
- CYLDpGpj6AKaOhptCPC6I1+gOPvqivuO4XimCGfnljaUjSwATcnuJos84yOOiq1oaR
- FhJm98p57Dyzg==
-Message-ID: <077f04d4-0419-4017-86e4-d518bd312e93@kernel.org>
-Date: Tue, 3 Dec 2024 16:53:32 +0100
+ b=eshV8lniIIqIwP0O9Yp6EbY8TvD6SLo0px6lIEeDZ3qLlSyhmxNB7vcGmRDJW2g06
+ kc0ps4ITtmItivplLOFB26lspmWgcwaCgj4CGPpdNw7bVow/Ui70SDgad4ctYsWghG
+ Z3AQD6K4aHaWp8geIYx7kZUI0hKwWcyyWqG4mXzG008xfpxrekdSqB0zno7VkNhcBM
+ UCawl3pFeJsNwNkfz9S2QvbxtFSMKA3crNn/7ZtxZhTDNtlB4DbZDaIi3nxErxJawK
+ Qgrx2LBc2k8mCzOjg0oF/UEIZGtlEOwdfo/4WS/yNDeL5E5mGl42tRcd9CAtxa5sIv
+ Nn4oCoDZPXdOQ==
+Message-ID: <ef484a30-a5e7-477f-95f6-0a4bb3a1b8f2@kernel.org>
+Date: Tue, 3 Dec 2024 16:54:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 14/14] riscv: dts: Add GPU node to TH1520 device
- tree
+Subject: Re: [RFC PATCH v1 04/14] clk: thead: Add clock driver for TH1520
+ Video Output subsystem
 To: Michal Wilczynski <m.wilczynski@samsung.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  drew@pdp7.com, guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
@@ -48,8 +48,8 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
 References: <20241203134137.2114847-1-m.wilczynski@samsung.com>
- <CGME20241203134207eucas1p29a2d095c527858729ae706d2a9027a5c@eucas1p2.samsung.com>
- <20241203134137.2114847-15-m.wilczynski@samsung.com>
+ <CGME20241203134154eucas1p12517024f618800141cd4e7e20e0da72d@eucas1p1.samsung.com>
+ <20241203134137.2114847-5-m.wilczynski@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241203134137.2114847-15-m.wilczynski@samsung.com>
+In-Reply-To: <20241203134137.2114847-5-m.wilczynski@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,45 +114,21 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 03/12/2024 14:41, Michal Wilczynski wrote:
-> Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
-> TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
-> the GPU using the drm/imagination driver.
+> The Video Output (VO) module on the T-Head TH1520 SoC has its own set of
+> clocks that need proper management. This commit introduces the
+> clk-th1520-vo driver to support the VO subsystem clocks.
 > 
-> By adding this node, the kernel can recognize and initialize the GPU,
-> providing graphics acceleration capabilities on the Lichee Pi 4A and
-> other boards based on the TH1520 SoC.
-> 
-> This commit is following convention introduced here [1].
-> 
-> Link: https://lore.kernel.org/all/20241118-sets-bxs-4-64-patch-v1-v2-1-3fd45d9fb0cf@imgtec.com/ [1]
+> Currently, only the clock gates are implemented, as they are the primary
+> relevant clocks for the VO subsystem at this stage.
 > 
 > Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 > ---
->  arch/riscv/boot/dts/thead/th1520.dtsi | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
-> index 58f93ad3eb6e..5023c0c29168 100644
-> --- a/arch/riscv/boot/dts/thead/th1520.dtsi
-> +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
-> @@ -500,6 +500,18 @@ clk: clock-controller@ffef010000 {
->  			#clock-cells = <1>;
->  		};
->  
-> +		gpu: gpu@ffef400000 {
-> +			compatible = "img,img-bxm-4-64", "img,img-rogue";
-> +			reg = <0xff 0xef400000 0x0 0x100000>;
-> +			interrupt-parent = <&plic>;
-> +			interrupts = <102 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&vosys_clk CLK_GPU_CORE>,
-> +				 <&vosys_clk CLK_GPU_CFG_ACLK>;
-> +			clock-names = "core", "sys";
-> +			power-domains = <&pd TH1520_AON_GPU_PD>;
-> +			status = "okay";
-
-Open existing DTSI and look how it is done. There is no single line like
-'status = okay', so please do not introduce some entirely different
-coding style.
+>  drivers/clk/thead/Kconfig                    |  11 ++
+>  drivers/clk/thead/Makefile                   |   1 +
+>  drivers/clk/thead/clk-th1520-vo.c            | 168 +++++++++++++++++++
+>  include/dt-bindings/clock/thead,th1520-clk.h |  34 ++++
+Please run scripts/checkpatch.pl and fix reported warnings. Then please
+run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.
 
 Best regards,
 Krzysztof
