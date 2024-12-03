@@ -2,88 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988429E7D9C
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Dec 2024 01:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72ADF9E7E8A
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Dec 2024 07:23:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78E4410E1FD;
-	Sat,  7 Dec 2024 00:49:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="OpS0FShT";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9334010E1A7;
+	Sat,  7 Dec 2024 06:23:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73BD610E1FD;
- Sat,  7 Dec 2024 00:49:02 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B70JxQX023369;
- Sat, 7 Dec 2024 00:48:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- AK74VPG6A9e2QYgKpR9cQJBVCOoLg7G7LnluO38hQd4=; b=OpS0FShTGFm0IoR/
- 6a64wEG/tISKcsQYtnmqcQQVyFbhRSZDPkh+D/Y/UUzcqL80PTLKhKl8xgDUbbLF
- 6vxADF+2/CztOaUPLELPJC7FbWbf3YbZJKsJRl6sqNUJWcA9mL63+EZdIJ6VN2CN
- 2gvvpwsbsDCC/+5T7IBMsra+cFIpRPrdRDMGGV9pPEHIndEjzugHM3ZG1dOwUnsh
- ybHwv5y77qP0o6htqAFDlfP0geOckmGewnGz+/s87BK1aeutBU8840IYzan04gPG
- DsQb+Ogelkz0Fn6rED2K54b2J0t/lboOiY1uzy833azMCB/tQOHZlEztvbtA1S8L
- Fepf9A==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43cbqn019d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 07 Dec 2024 00:48:45 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B70miY1011072
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 7 Dec 2024 00:48:44 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Dec 2024
- 16:48:44 -0800
-Message-ID: <80d08449-71de-4a7f-8b2a-8af565d8d701@quicinc.com>
-Date: Fri, 6 Dec 2024 16:48:43 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/22] drm: Add valid clones check
-To: Maxime Ripard <mripard@kernel.org>
-CC: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, <quic_ebharadw@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>
-References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
- <20240924-concurrent-wb-v2-2-7849f900e863@quicinc.com>
- <20240925-hasty-bald-caribou-eedbf5@houat>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240925-hasty-bald-caribou-eedbf5@houat>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: -zKcDFja7cx9ZYMB7kSujIe0CKHcr77J
-X-Proofpoint-GUID: -zKcDFja7cx9ZYMB7kSujIe0CKHcr77J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- spamscore=0 bulkscore=0 adultscore=0 clxscore=1015 mlxlogscore=999
- malwarescore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412070003
+Received: from mail.steuer-voss.de (mail.steuer-voss.de [85.183.69.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3174E10E1A7
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Dec 2024 06:23:11 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.steuer-voss.de
+Received: by mail.steuer-voss.de (Postfix, from userid 1000)
+ id 11BC72277; Sat,  7 Dec 2024 07:23:07 +0100 (CET)
+From: Nikolaus Voss <nv@vosn.de>
+Date: Tue, 3 Dec 2024 10:40:52 +0100
+Subject: [PATCH v3] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Fabio Estevam <festevam@denx.de>, Marek Vasut <marex@denx.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ miquel.raynal@bootlin.com, nikolaus.voss@haag-streit.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-Id: <20241207062307.11BC72277@mail.steuer-voss.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,75 +44,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+LDB clock has to be a fixed multiple of the pixel clock.
+Although LDB and pixel clock have a common source, this
+constraint cannot be satisfied for any pixel clock at a
+fixed source clock.
 
+Violating this constraint leads to flickering and distorted
+lines on the attached display.
 
-On 9/25/2024 12:23 AM, Maxime Ripard wrote:
-> On Tue, Sep 24, 2024 at 03:59:18PM GMT, Jessica Zhang wrote:
->> Check that all encoders attached to a given CRTC are valid
->> possible_clones of each other.
->>
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/drm_atomic_helper.c | 23 +++++++++++++++++++++++
->>   1 file changed, 23 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
->> index 43cdf39019a4..cc4001804fdc 100644
->> --- a/drivers/gpu/drm/drm_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_helper.c
->> @@ -574,6 +574,25 @@ mode_valid(struct drm_atomic_state *state)
->>   	return 0;
->>   }
->>   
->> +static int drm_atomic_check_valid_clones(struct drm_atomic_state *state,
->> +					 struct drm_crtc *crtc)
->> +{
->> +	struct drm_encoder *drm_enc;
->> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
->> +									  crtc);
->> +
->> +	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
->> +		if ((crtc_state->encoder_mask & drm_enc->possible_clones) !=
->> +		    crtc_state->encoder_mask) {
->> +			DRM_DEBUG("crtc%d failed valid clone check for mask 0x%x\n",
->> +				  crtc->base.id, crtc_state->encoder_mask);
->> +			return -EINVAL;
->> +		}
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->>   /**
->>    * drm_atomic_helper_check_modeset - validate state object for modeset changes
->>    * @dev: DRM device
->> @@ -745,6 +764,10 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
->>   		ret = drm_atomic_add_affected_planes(state, crtc);
->>   		if (ret != 0)
->>   			return ret;
->> +
->> +		ret = drm_atomic_check_valid_clones(state, crtc);
->> +		if (ret != 0)
->> +			return ret;
->>   	}
-> 
-> Pretty much the same comment, we should have kunit tests for this.
+To overcome this, there are these approches:
 
-Hey Maxime,
+1. Modify the base PLL clock statically by changing the
+   device tree, implies calculating the PLL clock by
+   hand, e.g. commit 4fbb73416b10 ("arm64: dts:
+   imx8mp-phyboard-pollux: Set Video PLL1 frequency to 506.8 MHz")
 
-I'm working on the kunit test for this and had a question on the design 
-for the unit test:
+2. Walk down the clock tree and modify the source clock.
+   Proposed patch series by Miquel Raynal:
+   [PATCH 0/5] clk: Fix simple video pipelines on i.MX8
 
-Since this is a static helper that returns a pretty common error code, 
-how would you recommend going about making sure that 
-`drm_atomic_check_valid_clones()` specifically is returning the error 
-(and not a different part of check_modeset) when testing the 
-check_valid_clones() failure path?
+3. This patch: check constraint violation in
+   drm_bridge_funcs.atomic_check() and adapt the pixel
+   clock in drm_display_mode.adjusted_mode accordingly.
 
-Thanks,
+Fixes: 463db5c2ed4a ("drm: bridge: ldb: Implement simple Freescale i.MX8MP LDB bridge")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Nikolaus Voss <nv@vosn.de>
 
-Jessica Zhang
+---
+v2:
+- use .atomic_check() instead of .mode_fixup() (Dmitry Baryshkov)
+- add Fixes tag (Liu Ying)
+- use fsl_ldb_link_frequency() and drop const qualifier for
+  struct fsl_ldb* (Liu Ying)
 
-> 
-> Maxime
+v3:
+- fix kernel test robot warning: fsl-ldb.c:125:30:
+  warning: omitting the parameter name in a function definition
+  is a C23 extension [-Wc23-extensions]
+- fix/rephrase commit text due to discussion with Marek Vasut,
+  Liu Ying and Miquel Raynal
+- only calculate and set pixel clock if ldb is not already
+  configured to the matching frequency
+---
+ drivers/gpu/drm/bridge/fsl-ldb.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+index 0e4bac7dd04ff..b8e3629e4df4d 100644
+--- a/drivers/gpu/drm/bridge/fsl-ldb.c
++++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+@@ -121,6 +121,37 @@ static int fsl_ldb_attach(struct drm_bridge *bridge,
+ 				 bridge, flags);
+ }
+ 
++static int fsl_ldb_atomic_check(struct drm_bridge *bridge,
++				struct drm_bridge_state *bridge_state,
++				struct drm_crtc_state *crtc_state,
++				struct drm_connector_state *connector_state)
++{
++	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
++	const struct drm_display_mode *mode = &crtc_state->mode;
++	unsigned long requested_freq =
++		fsl_ldb_link_frequency(fsl_ldb, mode->clock);
++	unsigned long freq = clk_round_rate(fsl_ldb->clk, requested_freq);
++	unsigned long configured_freq = clk_get_rate(fsl_ldb->clk);
++
++	if ((freq != configured_freq) && (freq != requested_freq)) {
++		/*
++		 * this will lead to flicker and incomplete lines on
++		 * the attached display, adjust the CRTC clock
++		 * accordingly.
++		 */
++		struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
++		int pclk = freq / fsl_ldb_link_frequency(fsl_ldb, 1);
++
++		dev_warn(fsl_ldb->dev, "Adjusted pixel clk to match LDB clk (%d kHz -> %d kHz)!\n",
++			 adjusted_mode->clock, pclk);
++
++		adjusted_mode->clock = pclk;
++		adjusted_mode->crtc_clock = pclk;
++	}
++
++	return 0;
++}
++
+ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
+ 				  struct drm_bridge_state *old_bridge_state)
+ {
+@@ -280,6 +311,7 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
+ 
+ static const struct drm_bridge_funcs funcs = {
+ 	.attach = fsl_ldb_attach,
++	.atomic_check = fsl_ldb_atomic_check,
+ 	.atomic_enable = fsl_ldb_atomic_enable,
+ 	.atomic_disable = fsl_ldb_atomic_disable,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+-- 
+2.43.0
 
