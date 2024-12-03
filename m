@@ -2,157 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAA39E2714
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 17:20:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A78D19E2765
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 17:28:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5B710E11E;
-	Tue,  3 Dec 2024 16:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC5710E247;
+	Tue,  3 Dec 2024 16:28:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VIY6Wvxs";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="NQCqxe7/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2075.outbound.protection.outlook.com [40.107.94.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0110F10E11E;
- Tue,  3 Dec 2024 16:20:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iikiIdUrt02BKppZm9g43Tq9BuZjxuys0HbvUwzcc5+c+FG4YlgeviyyiHupCpazxBrw1siG5PvOIFpSfHDasuG/sh2PJaLgO2WzzqaJIHDyfb83WQaBbOQkHDy4E2c8TnAUfUVsgH5P2PeLQPihP3mwEu0Eauh13xdVLkJFmiDYJwF7X1pjUrxa4+ypTl2BDaYrIpCaFvwN765558quLC9wiXs9Lyw9CT8Vj5rQP690qlAU5aHA6MIKp/QwUuP+v4LD6Jn7jc8l05ZBFmtJ2EAUrqlBEEjiz1TXzSONhW5Qw/ML1XbRouYEdN+j7wCkPVEhW9WgmeNAg9J4O1pAEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mMNdn+GsqsTUGse3ApWvgQN/6C7ne0OVgIR42kvQIeM=;
- b=deNaz407jFc19L4nu+vCAsrG2qaIy9Q7Z6b8QbH8sKkKRZiy2NdSOyoG28kztiCmhsUZwAhYtupwmZsX1IUcZKjk9PAEXpyLMpN4XP7Z5LK+0WBFm6nnrVMcx9w5Q2bM/eTH32BNPKEOU2h1JUTRTpKVBjvxCuVOdstG8rDHn9mKdbqTASqSn7PzBs6sIx6oDpN57Sjwjb8RVRR0ekUwhRn4dfNHoWUqTMjPKYhKm/y685DTc+8mHDQq+QEQ3tP4GISHIvdk1oL8dw9L2hCY9/THAxPrz0k5hbKaZ3P6VOnQZqO/TTNMPlMaJoADvoOEvEmf3gAWa4g2RhxvNo/0Ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mMNdn+GsqsTUGse3ApWvgQN/6C7ne0OVgIR42kvQIeM=;
- b=VIY6Wvxs3dV4gLV5QsY4ehkH8m8jPqSrDNdAjvNvyTszM/s/R0YM7uXpq2LNBjNACSTdB03G75kJtn4D0pDCtqvR4ighx+tQarOX8hWZkR6m07I7Yi+KxhkEm7KIUiU/kKGuDnw9EqWrbrTC+TDtp1tM9CGSNI9zFzSfhKgpmqM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY8PR12MB7538.namprd12.prod.outlook.com (2603:10b6:930:95::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.19; Tue, 3 Dec
- 2024 16:20:53 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8207.017; Tue, 3 Dec 2024
- 16:20:50 +0000
-Content-Type: multipart/alternative;
- boundary="------------hBEobJjB0QWdWP2sp1LeDwjv"
-Message-ID: <0595e4df-86d4-4082-86ab-b77902d3020b@amd.com>
-Date: Tue, 3 Dec 2024 17:20:44 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 3/8] drm/ttm/pool: Provide a helper to shrink pages
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
- Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-References: <20241115150120.3280-1-thomas.hellstrom@linux.intel.com>
- <20241115150120.3280-4-thomas.hellstrom@linux.intel.com>
- <800ee040-7c2e-47d0-81e6-a352f5f689fb@amd.com>
- <a07c93704bc7f59f51b5a6a13aeb3e13eee28e3c.camel@linux.intel.com>
- <d1e33436-9c1c-43d4-a86a-956926a7096c@amd.com>
- <73588525571a68f5638300ef171591de10ba5e5d.camel@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <73588525571a68f5638300ef171591de10ba5e5d.camel@linux.intel.com>
-X-ClientProxiedBy: FR3P281CA0149.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:95::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8E6A10E247
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 16:28:06 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-6ef6a67834fso34740697b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 08:28:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1733243285; x=1733848085;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=aULLNcOmywjlF4nnHH9KIr7vgO/OWTwbt0qLr6CxCkk=;
+ b=NQCqxe7/GQ2VBm7YeYe6p6BgDuVOulHqeSYLo70lKLkEJBgtltQLCYxlYX/3vRx+JD
+ ipyLpLqDhhRDUF6M5O44PjMwCRUD28fJ4ly/E2aCmOiHWevYxh/TcA2jmdRY9UqhHRRJ
+ O9JVpYuO0uffcCWtfG5QQoAkNZrc8dxuLPQVA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733243285; x=1733848085;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=aULLNcOmywjlF4nnHH9KIr7vgO/OWTwbt0qLr6CxCkk=;
+ b=g5v9wbizzx5YEOEMO8Ni7OP4kGS0FZ5qGSbpn1/USHieGLvlCfiRVhGAP3L+oGe7ej
+ Fi4lnCej+MAKzTKa+LeHX9WL6t81zOmlh9DJ/GWJ0th1KXhbS9rizLnST2ticRu2mjw4
+ IMF3LaqgnGPPQs2lj5b35iHEmzUJRrPTHAqjdrmchedUHKhcqnPr49ZEACzg002u0D/P
+ FLpsP9sN5ItnjDU3DF6P9zaZuCWQJEIRh1cGK7ySx+Ps6go50BXdUQA7YJsSqwgsolYh
+ Mo/R4xvYFi78SIPvB0U8NWwf+qdcqzSxIIjO/zcqSQpQIvGhHa4PK/Xsnhpm61hPFL4i
+ EanA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVBgQgc4/TRE2uBXtvl8mNYjMcMZN7kPGkxA+bRZrA9hE6UAN6aTylNCefkVWtgfKl91NYnFByxokI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6ZKC7tFTayX3iEFPR8/ix0GegWS9fF9rH4XYIjcgpE56+qyAe
+ jM6Kz4ZjuVTL4d5A3cFSBUJ9pbW3HczfnfLqk6rJTkDtaamv6T5Jal0wTO1UFxd5xZGt23GK65f
+ vVDRGI6BUxeQQd4DngjfDdHtjKAdCccTbg8Cf
+X-Gm-Gg: ASbGncuw18Wyh1mol8ZPbA7H7v3FlMZxeekvn8BnfNdNlc9UvHzXOvQ+cxzK3XfyT4r
+ M73WHjnSjld6uogK8FyeCIGWs6rn194pE
+X-Google-Smtp-Source: AGHT+IEPOOnxdCkqrcPHvJx4EX8FummhrhwZzNZWzwux7HdTgfqmFjiYuBn+49LzKmww1ZvvnuYDeKjL/rSVmpQq2+U=
+X-Received: by 2002:a05:6902:70a:b0:e39:6def:f777 with SMTP id
+ 3f1490d57ef6-e39d3a28c44mr2806995276.16.1733243284906; Tue, 03 Dec 2024
+ 08:28:04 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB7538:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9427791d-84ae-4d73-a2b3-08dd13b6734e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|8096899003;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SnY1Z1k2d29LMG9wNW9OZkZ0MHJNZDBmc0dtdHBiTklabFhUbzFLQUJjdzJ0?=
- =?utf-8?B?K2lTWXJaVkNKa3hpS3BGRkhOOWNRK1ZkWUNtUEFDZWI1U2Vnb08zRUlvaWlH?=
- =?utf-8?B?bnhXcmczWERyWWVjRnZwNVRBQi8yT2dYNHkycUNvZU5YSkJER2RPUVRETVFH?=
- =?utf-8?B?b05neEpPanJzVUhPVndTWHVxQWtQS0pHaVhlMG1zb24rUVZGR0xtNXBEWmtI?=
- =?utf-8?B?eHNMVWg0MHRrSzZEejU0QWQ2RkZqN0hRaXlIS2lFUjNhYS9IbGdUUmZNM0pl?=
- =?utf-8?B?MGFqSm4vU1pHY1E0YjNWdGxkblJJd1VHVkVJK0V6dkl4bWY1U2x4MmtNOUVq?=
- =?utf-8?B?U3YrZ3ZCa1YreWgwdzEzb3k0Ny9IUk55ejVmWHpCSkVMTEFURkJ0bzYwTzBS?=
- =?utf-8?B?d240MUtNRWNhSlgxSEhYMWtQYnVPL2ZTQ092TW9BcXMwbmdmOS9VSXUwTlVW?=
- =?utf-8?B?eEpLcXhHWTZHcE5tRHplaDE2WkJWMVZwSG16dnowMkZybjZxZmwydnRRUVVG?=
- =?utf-8?B?RjRWRHF2ZWhoNWt5Q0tXb2h5LzdYRnRleUx3a0ZoOENnbC9jV2J3UWUzaHp2?=
- =?utf-8?B?VHhpdUY0N2JrNnFaUGVPcHh4TU92TFYrTWUxZ1gza1o0ZEh6dXlBcUJHRE1E?=
- =?utf-8?B?eDZtMW1MUWJRdUpjby90YmlqeGM5UXYxdTRheE9ES1NNNmJQdVdteTlDRXZE?=
- =?utf-8?B?REp3eDFqdlFSc0U4VEgxa2hhcHIyemFnb3k5d3BjK2Flcks1N3o0blhEUFV5?=
- =?utf-8?B?OTh2TkNPbVdYY2xsREdUak5MZzZac1hGNnhtam9QdTNZSkxUNFVYekR4N0hm?=
- =?utf-8?B?ZVJwbVV0cE9lRVFwZnFsVXJ4UVVTaGI5aldUelFNY2VxbXVQbHlLNjJZazRS?=
- =?utf-8?B?WEFXM1ZaZDNONVd3OUkwdFErL2JNUkJjQ280T0NqQnBhUUFBTmVQOFJQZkIw?=
- =?utf-8?B?a2NIekwySWY0UTFmb3ZXSWVFVkFmTUN2ZHVtampSd2VrNXBBMU85YU5RcXk1?=
- =?utf-8?B?WTFSam5jRjB6U1JsYmtiMHRldVAzbWhBZk55aW5KVXBOYnRiVkV0T08xZGR2?=
- =?utf-8?B?Z0pBTDdoMkpKSExDaXBFdTd2em5QRW9zVTJjZEtDQWI1eEEyUVd5TkYvNE15?=
- =?utf-8?B?ZEpCaDUrS0lUM0MxbVA2dzBJQU1sYlJhV3A3VXhvZzJ3RDYxbVFORDE3aXNh?=
- =?utf-8?B?NjNCVytVOU8zd1pMSHZ0MzV3OTR0SnV2ZlNZc3EwRTlqRFcxNWdFRFcya1N1?=
- =?utf-8?B?bGsxVjUzS0N1MGwxTlFWVDlseWFhWVlaVTY3TTFmekVhSFJrY25aOVJJSzVB?=
- =?utf-8?B?aVNselhRQ3crVHJxV28zQW1OTGtoODVhU2FHRUFjZUlpbkkvREo0blljem15?=
- =?utf-8?B?TzZaQVZWbjZRRUF1aHl4b3pwUHRDbUMreTdhUWJYMFUrUjFPM2cxbGhLakQ2?=
- =?utf-8?B?MFhNQTlxQmhoNmp0VUZhQWZkb2VmMHhFNU8rL3BOQ0JBZ2lZTnlLLzIvTWxO?=
- =?utf-8?B?NTZHeE9SSHp3VkI1QVFzR3ZNOHZhdmk0TVQvdVR4QUhGNHkzNnpKQzJtWWlI?=
- =?utf-8?B?cWpMRVhqUUNhUXRvekNSSGNKaHpaRVJnN29INHdiQWhmSHpjZms2WWZHTXpI?=
- =?utf-8?B?Z2tYZExxaFR4ZmxCM05TenJWSGJmVzBQWjFVVENMTUlqMVJFOEJRR0NpR3Zw?=
- =?utf-8?B?N3B3blB1VEV0K2VrNVplZkJOdnlWN2tBUjJQR2J1bi9yaUJ0dWNySmZ2TVJY?=
- =?utf-8?B?NlpVd20zM0tMMkxFQVhyVE9aV29TVDU1ZWRlRW96YWJKMHpzRkJDWmdXMWVa?=
- =?utf-8?B?UGVFK21Xc1R0K0hxcStuUT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(8096899003); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWgrUis2cVo4dTdjb1E3WEN5T2Zta0VEYWd2d2V0Y3lzWTBmbENoQWkyd3dS?=
- =?utf-8?B?dUNpWmpnVmFEbEFMMUExNUpiNVJiekVydWZTM0xvMGtmYll1aVFsc1o2aG4x?=
- =?utf-8?B?T1lJK2k2ZlFDWm1lVXVKWi9BZ2xKY01SM0V4THFlY3pnbWZ2UDNIWXhmckdn?=
- =?utf-8?B?M05yWVJ4WVFXdEx2eXh3OGZHbU1VYllGQXVIQVh1Zkl3U01yUTJ6eFpXSGRB?=
- =?utf-8?B?SEo3NEd4cC9zNW9hRXdNRjlhbUQxamVieCtUQXlWSkR0WWgrQVlKQmNPeTZZ?=
- =?utf-8?B?cll1Rmg3c0Y4ODlXTmNmV25Sbzh4SzRkM24vWlArb0FkamlpK1Z6Um5MUXNU?=
- =?utf-8?B?R3h6eEtSaUE1MU01VjBIQndUZS92cW1lOVdmL1R2MzJMMlI0VVR1ZlEwTXdL?=
- =?utf-8?B?bmxtaEt0UzhSMzE4Q1p2Si83YllmMUg2SmY4RGJSYk4rNUo4R3M1YlI3THVU?=
- =?utf-8?B?R0NSRVZZaDBzRTRHbkhmTm5uN2YzQmlQWFlFZkQ4bVRFYWJsTjh5d0ZtZ1dT?=
- =?utf-8?B?WHZLekxZNDd3aEd4ZTZlZTFjeHRQdExsVEY2S3RtMCtMWEtXWEJFSWFyeWtD?=
- =?utf-8?B?QjlhNm4ycmhtdm13dWxhSUl1dE0zbFQ2aEdQZ1J4N0ViU0VQMFQ3VlFJUFIw?=
- =?utf-8?B?TGk0Wms1THBXU051UnBhQ2U5dnJnaEdHQlJxNUJSNm5JR0JPU0YySGR6NDVL?=
- =?utf-8?B?S1BFSDBEWFM1UHFvVXNNamUyNStHUVBRN1lCWGsrZm8vOVFhayt3MlJDYksz?=
- =?utf-8?B?TWdqTUl1TStxRHpTMG55VWVRN3FIMktGaVR0N0lLVWxTbExaRVZPck5VamtT?=
- =?utf-8?B?ZVZxL0J1MHVGcGhEaDZIalV0azk0VW1qTzVYTjgyWWhGaWlvNFhINWNOTHZL?=
- =?utf-8?B?TytHam5tTFZlZGxVU25uaklnODNzcXpLb0JwNDN2bXlFRy9wQk1XWDFCT1l6?=
- =?utf-8?B?Rk9VYWIrKzRlK0JQR1FDK05xRFNueGdCMXBQSm9nMDNyVnFoQ2dycm80MEww?=
- =?utf-8?B?VWNyaU95NElDREo1NjV6VzZWWWtCam1yeDltcS9hOHBsR2QvNnc0RUdhZGFT?=
- =?utf-8?B?Y05aengrQXJHZGErNnNpeUxEOFVjaTBKZHMvOFJJK05rbzUrWEJ2RTJFQTFr?=
- =?utf-8?B?V2x3dzgyT0lDbGpKdEJSMEd3RnNhbWFFaXArYzVsYzRwSXdJTTYvWFphUG43?=
- =?utf-8?B?MmdneDdqRzFVVjM5aEdTa0hNeENOY283OUFKc21MNCtJdlpOM0FZUnYrWmxH?=
- =?utf-8?B?ZjlZRDREak1mZGdJbjI5ZFpTdmd1ZWc3TVBndFRuVmxnYmY0MVVKNjNqa0tH?=
- =?utf-8?B?TFdwZDdEeUJ6SjEvUWx3WU1Qd251QjdiWmc5L1Eyb3F6dlNlZmFtS1podk1M?=
- =?utf-8?B?RENQTC8xZ3RmaU5tZFNuQ0huL29ycEdQQkpET2IxbGVvOTRDTHY0U3FwTTRJ?=
- =?utf-8?B?TjB4RVNtdVNlR295Z1dtTm9sb0JaNGxJcEM4UmNGRTNleGE1RmZjMmdaK2tS?=
- =?utf-8?B?NEZyOXlxem9wOGVzVkNJNlZ6T0owY09ITkIwVXdLcVZXVWhiYjZ4bVVHMXg0?=
- =?utf-8?B?cDZnWHphYWJlTE5ZZTROVUt0U0Rhd0ZpcDIrK3c4aU95TzlIQTB1ZVU4bVQ3?=
- =?utf-8?B?QUNRYjJXbHBBZk45bVRkMTFSRGpWMnA1MFROMklyelNxNjVmWE9vMXJSK0RO?=
- =?utf-8?B?Q28xRldzQ1k2SGZKd24rT1Myb2NKVldnY0NIZGhISFgyaHZpVk1DZHJvZEVI?=
- =?utf-8?B?elZkQkRiVW9EQXRwN290Vjd3S3pEVjFYOUluc2pjTWNiRTFIVWFzWFhqVW9W?=
- =?utf-8?B?L2xwMUNGUkpjVFJSZXZRVyszM1I1bmxtcmlzVGN5d0VPL2NSVEQ4SmhTSi8v?=
- =?utf-8?B?aEhvWHExUGEzMGdpSkxrellFMUdhZVNqb29pVkZna2p3L0hreXloN2NhZC9N?=
- =?utf-8?B?ajRzdHVsRU9KNmcwcXNzYUs0WlMyRjBROFN4RXVTZ0VXZkNNRHJ3Y3d3QXFn?=
- =?utf-8?B?QVNRYXY1RlFTbkhybVl6MTRQa1VIN0VJaVdhY2t6Nk96elhqdUNCdEFIeHZX?=
- =?utf-8?B?cVVuV2MvOVdlZ0FSelVIRGRxWUg4bkZtNG5uWFY0c2lQclRpaFdlMnVhc1I4?=
- =?utf-8?Q?E6jZq7KwJMzQ2uS7XiN3LcSiq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9427791d-84ae-4d73-a2b3-08dd13b6734e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2024 16:20:50.0779 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CzBlCbn3qQtR594KshY865FynszDz3+m7eNPoXpVa+KD1dEfbne1PtLV5pAYq49M
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7538
+References: <20241119194038.530779-1-ian.forbes@broadcom.com>
+ <40815234-baa2-4990-9f30-0a0632871a0c@suse.de> <878qte2oj3.fsf@intel.com>
+ <CABQX2QOWGW=Z3Ox8P5-rDktyepzxwqRTrWb5Ycr0MVtnEQH_uA@mail.gmail.com>
+ <Z08qdJUuerXOV-dR@gmail.com>
+In-Reply-To: <Z08qdJUuerXOV-dR@gmail.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Tue, 3 Dec 2024 11:27:52 -0500
+Message-ID: <CABQX2QOy0sD3QrmG-hxdDgwTrffz0tnPzqvs2BhORQ1w2pTgww@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Add Fake EDID
+To: =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org, 
+ bcm-kernel-feedback-list@broadcom.com, martin.krastev@broadcom.com, 
+ maaz.mombasawala@broadcom.com
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="00000000000054e7c40628602600"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,231 +84,233 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------hBEobJjB0QWdWP2sp1LeDwjv
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--00000000000054e7c40628602600
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[SNIP]
->>>>> @@ -453,9 +601,36 @@ int ttm_pool_alloc(struct ttm_pool *pool,
->>>>> struct ttm_tt *tt,
->>>>>     	else
->>>>>     		gfp_flags |= GFP_HIGHUSER;
->>>>>     
->>>>> -	for (order = min_t(unsigned int, MAX_PAGE_ORDER,
->>>>> __fls(num_pages));
->>>>> -	     num_pages;
->>>>> -	     order = min_t(unsigned int, order,
->>>>> __fls(num_pages)))
->>>>> {
->>>>> +	order = min_t(unsigned int, MAX_PAGE_ORDER,
->>>>> __fls(num_pages));
->>>>> +
->>>>> +	if (tt->page_flags & TTM_TT_FLAG_PRIV_BACKED_UP) {
->>>>> +		if (!tt->restore) {
->>>>> +			gfp_t gfp = GFP_KERNEL | __GFP_NOWARN;
->>>>> +
->>>>> +			if (ctx->gfp_retry_mayfail)
->>>>> +				gfp |= __GFP_RETRY_MAYFAIL;
->>>>> +
->>>>> +			tt->restore =
->>>>> +				kvzalloc(struct_size(tt-
->>>>>> restore,
->>>>> old_pages,
->>>>> +						     (size_t)1
->>>>> <<
->>>>> order), gfp);
->>>>> +			if (!tt->restore)
->>>>> +				return -ENOMEM;
->>>>> +		} else if (ttm_pool_restore_valid(tt-
->>>>>> restore)) {
->>>>> +			struct ttm_pool_tt_restore *restore =
->>>>> tt-
->>>>>> restore;
->>>>> +
->>>>> +			num_pages -= restore->alloced_pages;
->>>>> +			order = min_t(unsigned int, order,
->>>>> __fls(num_pages));
->>>>> +			pages += restore->alloced_pages;
->>>>> +			r = ttm_pool_restore_tt(restore, tt-
->>>>>> backup, ctx);
->>>>> +			if (r)
->>>>> +				return r;
->>>>> +			caching = restore->caching_divide;
->>>>> +		}
->>>>> +
->>>>> +		tt->restore->pool = pool;
->>>>> +	}
->>>> Hui? Why is that part of the allocation function now?
->>>>
->>>> At bare minimum I would expect that this is a new function.
->>> It's because we now have partially backed up tts, so the restore is
->>> interleaved on a per-page basis, replacing the backup handles with
->>> page-pointers. I'll see if I can separate out at least the
->>> initialization here.
->> Yeah, that kind of makes sense.
->>
->> My expectation was just that we now have explicit ttm_pool_swapout()
->> and
->> ttm_pool_swapin() functions.
-> I fully understand, although in the allocation step, that would also
-> increase the memory pressure since we might momentarily have twice the
-> bo-size allocated, if the shmem object was never swapped out, and we
-> don't want to unnecessarily risc OOM at recover time, although that
-> should be a recoverable situation now. If the OOM receiver can free up
-> system memory resources they can could potentially restart the recover.
-
-What I meant was more that we have ttm_pool_swapout() which does a mix 
-of moving each page to a swap backend and freeing one by one.
-
-And ttm_pool_swapin() which allocates a bit of memory (usually one huge 
-page) and then copies the content back in from the swap backend.
-
-Alternatively we could rename ttm_pool_alloc() into something like 
-ttm_pool_populate() and ttm_pool_free() into ttm_pool_unpopulate(), but 
-those names are not very descriptive either.
-
-It's just that we now do a bit more than just alloc and free in those 
-functions, so the naming doesn't really match that well any more.
-
-Christian.
-
+On Tue, Dec 3, 2024 at 10:57=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.com>=
+ wrote:
 >
-> /Thomas
+> On Wed, Nov 20, 2024 at 07:52:18AM -0500, Zack Rusin wrote:
+> > On Wed, Nov 20, 2024 at 5:22=E2=80=AFAM Jani Nikula <jani.nikula@linux.=
+intel.com> wrote:
+> > >
+> > > On Wed, 20 Nov 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > > Hi
+> > > >
+> > > >
+> > > > Am 19.11.24 um 20:40 schrieb Ian Forbes:
+> > > >> Most compositors are using a change in EDID as an indicator to
+> > > >> refresh their connector information on hotplug regardless of wheth=
+er the
+> > > >> connector was previously connected. Originally the hotplug_mode_up=
+date
+> > > >> property was supposed to provide a hint to userspace to always ref=
+resh
+> > > >> connector info on hotplug as virtual devices such as vmwgfx and QX=
+L
+> > > >> changed the connector without disconnecting it first. This was don=
+e to
+> > > >> implement Autofit. Unfortunately hotplug_mode_update was not widel=
+y
+> > > >> adopted and compositors used other heuristics to determine whether=
+ to
+> > > >> refresh the connector info.
+> > > >>
+> > > >> Currently a change in EDID is the one heuristic that seems to be u=
+niversal.
+> > > >> No compositors currently implement hotplug_mode_update correctly o=
+r at all.
+> > > >> By implementing a fake EDID blob we can ensure that our EDID chang=
+es on
+> > > >> hotplug and therefore userspace will refresh the connector info so=
+ that
+> > > >> Autofit will work. This is the approach that virtio takes.
+> > > >>
+> > > >> This also removes the need to add hotplug_mode_update support for =
+all
+> > > >> compositors as traditionally this niche feature has fallen on
+> > > >> virtualized driver developers to implement.
+> > > >
+> > > > Why don't you fix the compositors instead?
+> > > >
+> > > > I feel like NAK'ing this patch. The code itself is not so much a
+> > > > problem, but the commit message.
+> > >
+> > > Oh, I think the code is problematic too.
+> > >
+> > > Please avoid all struct edid based interfaces, in this case
+> > > drm_connector_update_edid_property(). They will be removed in the
+> > > future, and adding more is counter-productive. Everything should be
+> > > struct drm_edid based going forward.
+> > >
+> > > Of course, actually grafting the EDID needs struct edid. And that's k=
+ind
+> > > of annoying too. Do we really want to spread the EDID details all ove=
+r
+> > > the place? This one combines drm_edid.h structs and magic numbers in =
+a
+> > > jumble. I'm kind of hoping we'd get rid of driver usage of struct edi=
+d,
+> > > though that's a long road. But we've made a lot of progress towards i=
+t,
+> > > there aren't that many places left that directly look at the guts of
+> > > EDID, and most of it is centralized in drm_edid.c.
+> > >
+> > > Of course, not using the standard drm_edid_read* interfaces also lack=
+s
+> > > on features such as providing the EDID via the firmware loader or
+> > > debugfs, which can be handy for testing and debugging, but that's a
+> > > minor issue.
+> > >
+> > > > Maybe it resolves problems with
+> > > > compositors, but it is a step backwards for the overall ecosystem. =
+If
+> > > > the connector changes, your driver should increment the epoch count=
+er.
+> > > > [1] That will send a hotplug event to userspace. The EDID alone doe=
+s not
+> > > > say anything about connector status.
+> > >
+> > > Yeah, unplugging and replugging the same display with the same EDID
+> > > isn't a problem for other drivers, and they don't have to do this kin=
+d
+> > > of stuff to trick userspace. Maybe vmwgfx should handle (or simulate)
+> > > hotplugs better?
+> >
+> > I don't think that's what Ian is trying to fix. There's two different i=
+ssues:
+> > 1) The code using struct edid which is frowned upon.
+> > 2) The virtualized drivers not behaving like real GPU's and thus
+> > breaking userspace.
+> >
+> > vmwgfx and qxl do not provide edid at all. It's null. But every time
+> > someone resizes a host side window in which the para-virtualized
+> > driver is displaying, the preferred mode changes. Userspace kept
+> > checking whether the edid changes on each hotplug event to figure out
+> > if it got new modes and refresh if it noticed that edid changed.
+> > Because on qxl and vmwgfx the edid never changes (it's always null)
+> > Dave added hotplug_mode_update property which only qxl and vmwgfx send
+> > and its presence indicates that the userspace should refresh modes
+> > even if edid didn't change.
+> >
+> > Because that property is only used by qxl and vmwgfx everyone gets it
+> > wrong. The property was specifically added to fix gnome and Ian
+> > noticed that currently even gnome is broken:
+> > https://gitlab.gnome.org/GNOME/mutter/-/blob/main/src/backends/native/m=
+eta-kms-connector.c#L940
+> > hotplug_mode_update doesn't change, it's just a flag that indicates
+> > that userspace needs a  full mode rescan.
 >
---------------hBEobJjB0QWdWP2sp1LeDwjv
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+> The linked line just means the property value itself not changing
+> doesn't result in a full compositor side monitor reconfiguration.
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    [SNIP]<span style="white-space: pre-wrap">&nbsp;&nbsp; </span>
-    <blockquote type="cite" cite="mid:73588525571a68f5638300ef171591de10ba5e5d.camel@linux.intel.com">
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <blockquote type="cite">
-              <pre class="moz-quote-pre" wrap="">@@ -453,9 +601,36 @@ int ttm_pool_alloc(struct ttm_pool *pool,
-struct ttm_tt *tt,
-&nbsp;&nbsp;&nbsp;	else
-&nbsp;&nbsp;&nbsp;		gfp_flags |= GFP_HIGHUSER;
-&nbsp;&nbsp; 
--	for (order = min_t(unsigned int, MAX_PAGE_ORDER,
-__fls(num_pages));
--	&nbsp;&nbsp;&nbsp;&nbsp; num_pages;
--	&nbsp;&nbsp;&nbsp;&nbsp; order = min_t(unsigned int, order,
-__fls(num_pages)))
-{
-+	order = min_t(unsigned int, MAX_PAGE_ORDER,
-__fls(num_pages));
-+
-+	if (tt-&gt;page_flags &amp; TTM_TT_FLAG_PRIV_BACKED_UP) {
-+		if (!tt-&gt;restore) {
-+			gfp_t gfp = GFP_KERNEL | __GFP_NOWARN;
-+
-+			if (ctx-&gt;gfp_retry_mayfail)
-+				gfp |= __GFP_RETRY_MAYFAIL;
-+
-+			tt-&gt;restore =
-+				kvzalloc(struct_size(tt-
-</pre>
-              <blockquote type="cite">
-                <pre class="moz-quote-pre" wrap="">restore,
-</pre>
-              </blockquote>
-              <pre class="moz-quote-pre" wrap="">old_pages,
-+						&nbsp;&nbsp;&nbsp;&nbsp; (size_t)1
-&lt;&lt;
-order), gfp);
-+			if (!tt-&gt;restore)
-+				return -ENOMEM;
-+		} else if (ttm_pool_restore_valid(tt-
-</pre>
-              <blockquote type="cite">
-                <pre class="moz-quote-pre" wrap="">restore)) {
-</pre>
-              </blockquote>
-              <pre class="moz-quote-pre" wrap="">+			struct ttm_pool_tt_restore *restore =
-tt-
-</pre>
-              <blockquote type="cite">
-                <pre class="moz-quote-pre" wrap="">restore;
-</pre>
-              </blockquote>
-              <pre class="moz-quote-pre" wrap="">+
-+			num_pages -= restore-&gt;alloced_pages;
-+			order = min_t(unsigned int, order,
-__fls(num_pages));
-+			pages += restore-&gt;alloced_pages;
-+			r = ttm_pool_restore_tt(restore, tt-
-</pre>
-              <blockquote type="cite">
-                <pre class="moz-quote-pre" wrap="">backup, ctx);
-</pre>
-              </blockquote>
-              <pre class="moz-quote-pre" wrap="">+			if (r)
-+				return r;
-+			caching = restore-&gt;caching_divide;
-+		}
-+
-+		tt-&gt;restore-&gt;pool = pool;
-+	}
-</pre>
-            </blockquote>
-            <pre class="moz-quote-pre" wrap="">Hui? Why is that part of the allocation function now?
+Right, that's exactly the point I'm making :) The property isn't used
+correctly because the full-rescan is expected when that property is
+present, not if it changed.
 
-At bare minimum I would expect that this is a new function.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">It's because we now have partially backed up tts, so the restore is
-interleaved on a per-page basis, replacing the backup handles with
-page-pointers. I'll see if I can separate out at least the
-initialization here.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-Yeah, that kind of makes sense.
+z
 
-My expectation was just that we now have explicit ttm_pool_swapout()
-and 
-ttm_pool_swapin() functions.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I fully understand, although in the allocation step, that would also
-increase the memory pressure since we might momentarily have twice the
-bo-size allocated, if the shmem object was never swapped out, and we
-don't want to unnecessarily risc OOM at recover time, although that
-should be a recoverable situation now. If the OOM receiver can free up
-system memory resources they can could potentially restart the recover.</pre>
-    </blockquote>
-    <br>
-    What I meant was more that we have ttm_pool_swapout() which does a
-    mix of moving each page to a swap backend and freeing one by one.<br>
-    <br>
-    And ttm_pool_swapin() which allocates a bit of memory (usually one
-    huge page) and then copies the content back in from the swap
-    backend.<br>
-    <br>
-    Alternatively we could rename ttm_pool_alloc() into something like
-    ttm_pool_populate() and ttm_pool_free() into ttm_pool_unpopulate(),
-    but those names are not very descriptive either.<br>
-    <br>
-    It's just that we now do a bit more than just alloc and free in
-    those functions, so the naming doesn't really match that well any
-    more.<br>
-    <br>
-    Christian.<br>
-    <br>
-    <blockquote type="cite" cite="mid:73588525571a68f5638300ef171591de10ba5e5d.camel@linux.intel.com">
-      <pre class="moz-quote-pre" wrap="">
+--00000000000054e7c40628602600
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-/Thomas
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------hBEobJjB0QWdWP2sp1LeDwjv--
+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
+6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
+SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
+uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
+s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
+SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
+QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
+fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
+iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
+3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
+91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
+06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
+b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
+VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJkMIICYAIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIKR4
+t+PubpdoW4PKBAr0XgA3MOnzr4Nuvwcw1F0kiWP3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI0MTIwMzE2MjgwNVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJ
+KoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQA8FnP3q4YrtDK1zJPPza7h
+a8d6Bc9NxeuOz3evNUyfGULk3TTT1GCzXGjcOUQDtOj3jsReyrkqtNd6OWsHBSz6cExBq2+oFYAu
+3MtE+ddKZPxcaYtIhmqx9bcjWL2KVOyLjklsAU8E5G8zkymMWTcU9zgaAJmemirAz5FovS4wdl8a
+YNU0DAIAoi8wV1pbzSPBynREn52c4l+pCnbeitcOzo4OYU/Ahm5bBAkMC4P0UEsu/wXF+u7rSM7l
+E+KlV9kHpqOKjIwSfd3GlAm0uF29DnSCquqW4W4ifpm42P3DjdD9siZODKrs9u+lwFl3rgovZ4/r
+f+j7yr8+SjM8up2U
+--00000000000054e7c40628602600--
