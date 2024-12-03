@@ -2,58 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775439E2844
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 17:55:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A72EF9E2856
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 17:57:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFD9E10EAB9;
-	Tue,  3 Dec 2024 16:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37EBF10EAC1;
+	Tue,  3 Dec 2024 16:57:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="gEZ3kBy0";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="BKjQt3jp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D76E10EAAF
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 16:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=+j0lRdiJ2daLSC05gisWs0nIevUVzt3xTVJ8QXi4Ydc=; b=gEZ3kBy03lOENfZCNUgKd3q7rz
- 65hlEmuKd97k32+hKyCEU9jys5RKTUCOAkuO8mL1VFKM4Uqi5m8qT8b5tdfzXVMNck85z+GoBCigY
- F4JjxoHvANQ2h8d/2GJh5O6mjoRTZVAX46nE4cjLloyAuupN+dj60+R/kt5m1rKiSSuumxEr4vnAL
- n7j9GEfeDhnSboiC6ANps33sLNlKOFjrSZ+scK3CDHbAK/Dhzy9FB3kIUjAkiDDxfAQlhzUSxKWPn
- tndM3OD4dwsF7KAZbm3uDxNFaKeDXcXrFb45Obvcl1lRqkSzb4EHTvVlB6YQDPhZBZurE7ogD424I
- NOuV95ZQ==;
-Received: from i53875bc4.versanet.de ([83.135.91.196]
- helo=localhost.localdomain)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1tIWAv-0003jl-VD; Tue, 03 Dec 2024 17:55:02 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: heiko@sntech.de
-Cc: andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- quentin.schulz@cherry.de, Heiko Stuebner <heiko.stuebner@cherry.de>,
- Daniel Semkowicz <dse@thaumatec.com>
-Subject: [PATCH v3 3/3] drm/rockchip: Add MIPI DSI2 glue driver for RK3588
-Date: Tue,  3 Dec 2024 17:54:49 +0100
-Message-ID: <20241203165450.1501219-4-heiko@sntech.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241203165450.1501219-1-heiko@sntech.de>
-References: <20241203165450.1501219-1-heiko@sntech.de>
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6025110EAC1
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 16:57:22 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-e38938a55e7so4816189276.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 08:57:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1733245041; x=1733849841;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jgef/B8qea/fhFCPc7muYPhS8Kz7f8Lx8uaSz2g/CAg=;
+ b=BKjQt3jpUMtRQRDncY5bQc3uZ1+rFNBsUD/PDkvO4sm8tnjYewsyIdu48GHqgOvdE0
+ JyPX5mF5E87bysl8BTLqQceamNLkuo2/nl+1nCCZk+b0tc/DeNLTZdJr1lAiYEonfqL+
+ uyKFAjFCBmeb5NjSYB0vyx1dA5HAFUWeqYVDM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733245041; x=1733849841;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jgef/B8qea/fhFCPc7muYPhS8Kz7f8Lx8uaSz2g/CAg=;
+ b=okJPWoVMWr2kciji4H2ryFO1dqueyZElCPsGI6NF9eUJUHijidAc4FbyQ45yvotYK5
+ OQcUmMxykyuI0CR17tn37lBOcE7WPmlqPbcgen2KXV58ArGKHxoaCXaROTp4TTgHImDO
+ yHbq2b0Gw+lYJKfcVoHxJulCWCCm1vVOqEd8Uo4UbfdQHNw/zltTDrCJGHz/dHgnOUVW
+ nmUnPPHYPlWy+sCwlL5KPcV1dh6mVMkKIVmHPoUShOjKVNySUm3dXRovI14+efwjCpfH
+ h5WLhaMEteSCVvVEi37Bm4Udo/aMLmBIli/7YRlQ6yL96QuZBj7mq02PGTZzsvjE3qga
+ bLgQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWmZeOFDW73vPgLNk6DjPvfrZesK/v6F2v1d87DQpcmdGnPocngrkNBF42s1d8F1xJsNXM+kaO7Uxk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy7n+gvNIiMRisGhqv8F+2QV4DLxvTFqXMSOsg/l5CLbAIT0iOp
+ CI/rAclFs5FFDpJjXogQUHHS7j4PJc1nWpHQjGK78XcjNwMPmSD/kJxt+DmyNoDD+dxP+TKmkPw
+ 0MKUPVuDK91RbjhpO9Oi/RScFQSfGBg4QzM4b
+X-Gm-Gg: ASbGncsHa0U7Zj8wG6vTlKaQy1uz+z2ILSuY3W7dkOWhuWisk2crklTzWG0PIJY48XE
+ I5dtbqG4Uksme7xqkvKbH2YO6lHbjrRaj
+X-Google-Smtp-Source: AGHT+IErx+jlHZK/wvdhoWQrwgj5w1jB94nX6XH5RXotaftrq6sS+vrG9lGlfgv821dDk/anGHTz+2qMJLxopD9xZcY=
+X-Received: by 2002:a05:6902:2312:b0:e39:8408:d484 with SMTP id
+ 3f1490d57ef6-e39d3b27be2mr3666863276.21.1733245041391; Tue, 03 Dec 2024
+ 08:57:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241119194038.530779-1-ian.forbes@broadcom.com>
+ <40815234-baa2-4990-9f30-0a0632871a0c@suse.de> <878qte2oj3.fsf@intel.com>
+ <CABQX2QOWGW=Z3Ox8P5-rDktyepzxwqRTrWb5Ycr0MVtnEQH_uA@mail.gmail.com>
+ <Z08qdJUuerXOV-dR@gmail.com>
+ <CABQX2QOy0sD3QrmG-hxdDgwTrffz0tnPzqvs2BhORQ1w2pTgww@mail.gmail.com>
+ <Z08ygwwkmNp8dnHy@gmail.com>
+ <CABQX2QPah6M0jY38cTUO4D=kO9_aYDdaJ5hbX8Ah3z2zAucj9w@mail.gmail.com>
+ <72d3fa23-a67e-4ad3-ba8b-95bf71c4b03c@suse.de>
+In-Reply-To: <72d3fa23-a67e-4ad3-ba8b-95bf71c4b03c@suse.de>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Tue, 3 Dec 2024 11:57:09 -0500
+Message-ID: <CABQX2QNyjZ9380B1DXYB3x2yeOHzD9n9VBk_aijLm4XbOCCCfw@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Add Fake EDID
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Ian Forbes <ian.forbes@broadcom.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
+ martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="00000000000005a1960628608ffa"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,621 +87,267 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Heiko Stuebner <heiko.stuebner@cherry.de>
+--00000000000005a1960628608ffa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This adds the glue code for the MIPI DSI2 bridge on Rockchip SoCs and
-enables its use on the RK3588.
+On Tue, Dec 3, 2024 at 11:42=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+>
+> Hi
+>
+>
+> Am 03.12.24 um 17:39 schrieb Zack Rusin:
+> > On Tue, Dec 3, 2024 at 11:32=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.=
+com> wrote:
+> >> On Tue, Dec 03, 2024 at 11:27:52AM -0500, Zack Rusin wrote:
+> >>> On Tue, Dec 3, 2024 at 10:57=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmai=
+l.com> wrote:
+> >>>> On Wed, Nov 20, 2024 at 07:52:18AM -0500, Zack Rusin wrote:
+> >>>>> On Wed, Nov 20, 2024 at 5:22=E2=80=AFAM Jani Nikula <jani.nikula@li=
+nux.intel.com> wrote:
+> >>>>>> On Wed, 20 Nov 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote=
+:
+> >>>>>>> Hi
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> Am 19.11.24 um 20:40 schrieb Ian Forbes:
+> >>>>>>>> Most compositors are using a change in EDID as an indicator to
+> >>>>>>>> refresh their connector information on hotplug regardless of whe=
+ther the
+> >>>>>>>> connector was previously connected. Originally the hotplug_mode_=
+update
+> >>>>>>>> property was supposed to provide a hint to userspace to always r=
+efresh
+> >>>>>>>> connector info on hotplug as virtual devices such as vmwgfx and =
+QXL
+> >>>>>>>> changed the connector without disconnecting it first. This was d=
+one to
+> >>>>>>>> implement Autofit. Unfortunately hotplug_mode_update was not wid=
+ely
+> >>>>>>>> adopted and compositors used other heuristics to determine wheth=
+er to
+> >>>>>>>> refresh the connector info.
+> >>>>>>>>
+> >>>>>>>> Currently a change in EDID is the one heuristic that seems to be=
+ universal.
+> >>>>>>>> No compositors currently implement hotplug_mode_update correctly=
+ or at all.
+> >>>>>>>> By implementing a fake EDID blob we can ensure that our EDID cha=
+nges on
+> >>>>>>>> hotplug and therefore userspace will refresh the connector info =
+so that
+> >>>>>>>> Autofit will work. This is the approach that virtio takes.
+> >>>>>>>>
+> >>>>>>>> This also removes the need to add hotplug_mode_update support fo=
+r all
+> >>>>>>>> compositors as traditionally this niche feature has fallen on
+> >>>>>>>> virtualized driver developers to implement.
+> >>>>>>> Why don't you fix the compositors instead?
+> >>>>>>>
+> >>>>>>> I feel like NAK'ing this patch. The code itself is not so much a
+> >>>>>>> problem, but the commit message.
+> >>>>>> Oh, I think the code is problematic too.
+> >>>>>>
+> >>>>>> Please avoid all struct edid based interfaces, in this case
+> >>>>>> drm_connector_update_edid_property(). They will be removed in the
+> >>>>>> future, and adding more is counter-productive. Everything should b=
+e
+> >>>>>> struct drm_edid based going forward.
+> >>>>>>
+> >>>>>> Of course, actually grafting the EDID needs struct edid. And that'=
+s kind
+> >>>>>> of annoying too. Do we really want to spread the EDID details all =
+over
+> >>>>>> the place? This one combines drm_edid.h structs and magic numbers =
+in a
+> >>>>>> jumble. I'm kind of hoping we'd get rid of driver usage of struct =
+edid,
+> >>>>>> though that's a long road. But we've made a lot of progress toward=
+s it,
+> >>>>>> there aren't that many places left that directly look at the guts =
+of
+> >>>>>> EDID, and most of it is centralized in drm_edid.c.
+> >>>>>>
+> >>>>>> Of course, not using the standard drm_edid_read* interfaces also l=
+acks
+> >>>>>> on features such as providing the EDID via the firmware loader or
+> >>>>>> debugfs, which can be handy for testing and debugging, but that's =
+a
+> >>>>>> minor issue.
+> >>>>>>
+> >>>>>>> Maybe it resolves problems with
+> >>>>>>> compositors, but it is a step backwards for the overall ecosystem=
+. If
+> >>>>>>> the connector changes, your driver should increment the epoch cou=
+nter.
+> >>>>>>> [1] That will send a hotplug event to userspace. The EDID alone d=
+oes not
+> >>>>>>> say anything about connector status.
+> >>>>>> Yeah, unplugging and replugging the same display with the same EDI=
+D
+> >>>>>> isn't a problem for other drivers, and they don't have to do this =
+kind
+> >>>>>> of stuff to trick userspace. Maybe vmwgfx should handle (or simula=
+te)
+> >>>>>> hotplugs better?
+> >>>>> I don't think that's what Ian is trying to fix. There's two differe=
+nt issues:
+> >>>>> 1) The code using struct edid which is frowned upon.
+> >>>>> 2) The virtualized drivers not behaving like real GPU's and thus
+> >>>>> breaking userspace.
+> >>>>>
+> >>>>> vmwgfx and qxl do not provide edid at all. It's null. But every tim=
+e
+> >>>>> someone resizes a host side window in which the para-virtualized
+> >>>>> driver is displaying, the preferred mode changes. Userspace kept
+> >>>>> checking whether the edid changes on each hotplug event to figure o=
+ut
+> >>>>> if it got new modes and refresh if it noticed that edid changed.
+> >>>>> Because on qxl and vmwgfx the edid never changes (it's always null)
+> >>>>> Dave added hotplug_mode_update property which only qxl and vmwgfx s=
+end
+> >>>>> and its presence indicates that the userspace should refresh modes
+> >>>>> even if edid didn't change.
+> >>>>>
+> >>>>> Because that property is only used by qxl and vmwgfx everyone gets =
+it
+> >>>>> wrong. The property was specifically added to fix gnome and Ian
+> >>>>> noticed that currently even gnome is broken:
+> >>>>> https://gitlab.gnome.org/GNOME/mutter/-/blob/main/src/backends/nati=
+ve/meta-kms-connector.c#L940
+> >>>>> hotplug_mode_update doesn't change, it's just a flag that indicates
+> >>>>> that userspace needs a  full mode rescan.
+> >>>> The linked line just means the property value itself not changing
+> >>>> doesn't result in a full compositor side monitor reconfiguration.
+> >>> Right, that's exactly the point I'm making :) The property isn't used
+> >>> correctly because the full-rescan is expected when that property is
+> >>> present, not if it changed.
+> >> Well, a full rescan did happen, and the linked code only determines if
+> >> anything actually did change, including currently advertised modes, th=
+at
+> >> will have any potential effect on the final monitor configuration.
+> > The point I'm making is that no one is using this property correctly.
+> > Mutter triggering a full-rescan as a result of other changes doesn't
+> > change the fact that its usage of that property is broken. I think
+> > you're interpreting my comment that usage of that property is broken
+> > (or not used at all) everywhere as "Mutter is not refreshing
+> > correctly" which is not the case. Mutter does resize correctly despite
+> > the fact that the property check is broken.
+>
+> Just FTR, I still this patch is re-enforcing wrong behavior in
+> compositors instead of fixing them. It's not the driver's job to work
+> around compositor issues.
 
-Right now the DSI2 controller is always paired with a DC-phy based on a
-Samsung IP, so the interface values are set statically for now.
-This stays true for the upcoming RK3576 as well.
+I don't think anyone is particularly excited about putting fake edid
+into virtualized drivers. It's either that or we ourselves have to
+maintain the special paths that are required to make virtualized
+drivers work in userspace. We just don't have enough resources to
+maintain every piece of userspace, so having virtualized drivers look
+more like real gpu's is in the long term a much more sustainable path.
 
-Tested-by: Daniel Semkowicz <dse@thaumatec.com>
-Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
----
- drivers/gpu/drm/rockchip/Kconfig              |  10 +
- drivers/gpu/drm/rockchip/Makefile             |   1 +
- .../gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  | 524 ++++++++++++++++++
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   2 +
- drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |   1 +
- 5 files changed, 538 insertions(+)
- create mode 100644 drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
+z
 
-diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-index 448fadd4ba15..84af423b7f90 100644
---- a/drivers/gpu/drm/rockchip/Kconfig
-+++ b/drivers/gpu/drm/rockchip/Kconfig
-@@ -10,6 +10,7 @@ config DRM_ROCKCHIP
- 	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
- 	select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
- 	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
-+	select DRM_DW_MIPI_DSI2 if ROCKCHIP_DW_MIPI_DSI2
- 	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
- 	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
- 	select SND_SOC_HDMI_CODEC if ROCKCHIP_CDN_DP && SND_SOC
-@@ -81,6 +82,15 @@ config ROCKCHIP_DW_MIPI_DSI
- 	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
- 	  select this option.
- 
-+config ROCKCHIP_DW_MIPI_DSI2
-+	bool "Rockchip specific extensions for Synopsys DW MIPI DSI2"
-+	select GENERIC_PHY_MIPI_DPHY
-+	help
-+	  This selects support for Rockchip SoC specific extensions
-+	  for the Synopsys DesignWare dsi driver. If you want to
-+	  enable MIPI DSI on RK3576 or RK3588 based SoC, you should
-+	  select this option.
-+
- config ROCKCHIP_INNO_HDMI
- 	bool "Rockchip specific extensions for Innosilicon HDMI"
- 	select DRM_DISPLAY_HDMI_HELPER
-diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip/Makefile
-index 3eab662a5a1d..2b867cebbc12 100644
---- a/drivers/gpu/drm/rockchip/Makefile
-+++ b/drivers/gpu/drm/rockchip/Makefile
-@@ -13,6 +13,7 @@ rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) += cdn-dp-core.o cdn-dp-reg.o
- rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI) += dw_hdmi-rockchip.o
- rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI_QP) += dw_hdmi_qp-rockchip.o
- rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI) += dw-mipi-dsi-rockchip.o
-+rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI2) += dw-mipi-dsi2-rockchip.o
- rockchipdrm-$(CONFIG_ROCKCHIP_INNO_HDMI) += inno_hdmi.o
- rockchipdrm-$(CONFIG_ROCKCHIP_LVDS) += rockchip_lvds.o
- rockchipdrm-$(CONFIG_ROCKCHIP_RGB) += rockchip_rgb.o
-diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-new file mode 100644
-index 000000000000..55eed4001634
---- /dev/null
-+++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-@@ -0,0 +1,524 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2024 Rockchip Electronics Co.Ltd
-+ * Author:
-+ *      Guochun Huang <hero.huang@rock-chips.com>
-+ *      Heiko Stuebner <heiko.stuebner@cherry.de>
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/component.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/reset.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/phy/phy.h>
-+
-+#include <drm/bridge/dw_mipi_dsi2.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_simple_kms_helper.h>
-+
-+#include <uapi/linux/videodev2.h>
-+
-+#include "rockchip_drm_drv.h"
-+#include "rockchip_drm_vop.h"
-+
-+#define PSEC_PER_SEC			1000000000000LL
-+
-+struct dsigrf_reg {
-+	u16 offset;
-+	u16 lsb;
-+	u16 msb;
-+};
-+
-+enum grf_reg_fields {
-+	TXREQCLKHS_EN,
-+	GATING_EN,
-+	IPI_SHUTDN,
-+	IPI_COLORM,
-+	IPI_COLOR_DEPTH,
-+	IPI_FORMAT,
-+	MAX_FIELDS,
-+};
-+
-+#define IPI_DEPTH_5_6_5_BITS		0x02
-+#define IPI_DEPTH_6_BITS		0x03
-+#define IPI_DEPTH_8_BITS		0x05
-+#define IPI_DEPTH_10_BITS		0x06
-+
-+struct rockchip_dw_dsi2_chip_data {
-+	u32 reg;
-+	const struct dsigrf_reg *grf_regs;
-+	unsigned long long max_bit_rate_per_lane;
-+};
-+
-+struct dw_mipi_dsi2_rockchip {
-+	struct device *dev;
-+	struct rockchip_encoder encoder;
-+	struct regmap *regmap;
-+	struct clk *pclk;
-+	struct clk *sys_clk;
-+
-+	unsigned int lane_mbps; /* per lane */
-+	u32 format;
-+
-+	struct regmap *grf_regmap;
-+	struct phy *phy;
-+	union phy_configure_opts phy_opts;
-+
-+	struct dw_mipi_dsi2 *dmd;
-+	struct dw_mipi_dsi2_plat_data pdata;
-+	const struct rockchip_dw_dsi2_chip_data *cdata;
-+};
-+
-+static inline struct dw_mipi_dsi2_rockchip *to_dsi2(struct drm_encoder *encoder)
-+{
-+	struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
-+
-+	return container_of(rkencoder, struct dw_mipi_dsi2_rockchip, encoder);
-+}
-+
-+static void grf_field_write(struct dw_mipi_dsi2_rockchip *dsi2, enum grf_reg_fields index,
-+			    unsigned int val)
-+{
-+	const struct dsigrf_reg *field = &dsi2->cdata->grf_regs[index];
-+
-+	if (!field)
-+		return;
-+
-+	regmap_write(dsi2->grf_regmap, field->offset,
-+		     (val << field->lsb) | (GENMASK(field->msb, field->lsb) << 16));
-+}
-+
-+static int dw_mipi_dsi2_phy_init(void *priv_data)
-+{
-+	return 0;
-+}
-+
-+static void dw_mipi_dsi2_phy_power_on(void *priv_data)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+	int ret;
-+
-+	ret = phy_set_mode(dsi2->phy, PHY_MODE_MIPI_DPHY);
-+	if (ret) {
-+		dev_err(dsi2->dev, "Failed to set phy mode: %d\n", ret);
-+		return;
-+	}
-+
-+	phy_configure(dsi2->phy, &dsi2->phy_opts);
-+	phy_power_on(dsi2->phy);
-+}
-+
-+static void dw_mipi_dsi2_phy_power_off(void *priv_data)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+
-+	phy_power_off(dsi2->phy);
-+}
-+
-+static int
-+dw_mipi_dsi2_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
-+			   unsigned long mode_flags, u32 lanes, u32 format,
-+			   unsigned int *lane_mbps)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+	u64 max_lane_rate, target_phyclk;
-+	unsigned int lane_rate_kbps;
-+	int bpp;
-+
-+	max_lane_rate = dsi2->cdata->max_bit_rate_per_lane;
-+
-+	dsi2->format = format;
-+	bpp = mipi_dsi_pixel_format_to_bpp(format);
-+	if (bpp < 0) {
-+		dev_err(dsi2->dev, "failed to get bpp for pixel format %d\n", format);
-+		return bpp;
-+	}
-+
-+	lane_rate_kbps = mode->clock * bpp / lanes;
-+
-+	/*
-+	 * Set BW a little larger only in video burst mode in
-+	 * consideration of the protocol overhead and HS mode
-+	 * switching to BLLP mode, take 1 / 0.9, since Mbps must
-+	 * big than bandwidth of RGB
-+	 */
-+	if (mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
-+		lane_rate_kbps = (lane_rate_kbps * 10) / 9;
-+
-+	if (lane_rate_kbps > max_lane_rate) {
-+		dev_err(dsi2->dev, "DPHY clock frequency is out of range\n");
-+		return -ERANGE;
-+	}
-+
-+	dsi2->lane_mbps = lane_rate_kbps / 1000;
-+	*lane_mbps = dsi2->lane_mbps;
-+
-+	if (dsi2->phy) {
-+		target_phyclk = DIV_ROUND_CLOSEST_ULL(lane_rate_kbps * lanes * 1000, bpp);
-+		phy_mipi_dphy_get_default_config(target_phyclk, bpp, lanes,
-+						 &dsi2->phy_opts.mipi_dphy);
-+	}
-+
-+	return 0;
-+}
-+
-+static void dw_mipi_dsi2_phy_get_iface(void *priv_data, struct dw_mipi_dsi2_phy_iface *iface)
-+{
-+	/* PPI width is fixed to 16 bits in DCPHY */
-+	iface->ppi_width = 16;
-+	iface->phy_type = DW_MIPI_DSI2_DPHY;
-+}
-+
-+static int
-+dw_mipi_dsi2_phy_get_timing(void *priv_data, unsigned int lane_mbps,
-+			    struct dw_mipi_dsi2_phy_timing *timing)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+	struct phy_configure_opts_mipi_dphy *cfg = &dsi2->phy_opts.mipi_dphy;
-+	unsigned long long tmp, ui;
-+	unsigned long long hstx_clk;
-+
-+	hstx_clk = DIV_ROUND_CLOSEST_ULL(dsi2->lane_mbps * USEC_PER_SEC, 16);
-+
-+	ui = ALIGN(PSEC_PER_SEC, hstx_clk);
-+	do_div(ui, hstx_clk);
-+
-+	/* PHY_LP2HS_TIME = (TLPX + THS-PREPARE + THS-ZERO) / Tphy_hstx_clk */
-+	tmp = cfg->lpx + cfg->hs_prepare + cfg->hs_zero;
-+	tmp = DIV_ROUND_CLOSEST_ULL(tmp << 16, ui);
-+	timing->data_lp2hs = tmp;
-+
-+	/* PHY_HS2LP_TIME = (THS-TRAIL + THS-EXIT) / Tphy_hstx_clk */
-+	tmp = cfg->hs_trail + cfg->hs_exit;
-+	tmp = DIV_ROUND_CLOSEST_ULL(tmp << 16, ui);
-+	timing->data_hs2lp = tmp;
-+
-+	return 0;
-+}
-+
-+static const struct dw_mipi_dsi2_phy_ops dw_mipi_dsi2_rockchip_phy_ops = {
-+	.init = dw_mipi_dsi2_phy_init,
-+	.power_on = dw_mipi_dsi2_phy_power_on,
-+	.power_off = dw_mipi_dsi2_phy_power_off,
-+	.get_interface = dw_mipi_dsi2_phy_get_iface,
-+	.get_lane_mbps = dw_mipi_dsi2_get_lane_mbps,
-+	.get_timing = dw_mipi_dsi2_phy_get_timing,
-+};
-+
-+static void dw_mipi_dsi2_encoder_atomic_enable(struct drm_encoder *encoder,
-+					       struct drm_atomic_state *state)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = to_dsi2(encoder);
-+	u32 color_depth;
-+
-+	switch (dsi2->format) {
-+	case MIPI_DSI_FMT_RGB666:
-+	case MIPI_DSI_FMT_RGB666_PACKED:
-+		color_depth = IPI_DEPTH_6_BITS;
-+		break;
-+	case MIPI_DSI_FMT_RGB565:
-+		color_depth = IPI_DEPTH_5_6_5_BITS;
-+		break;
-+	case MIPI_DSI_FMT_RGB888:
-+		color_depth = IPI_DEPTH_8_BITS;
-+		break;
-+	default:
-+		/* Should've been caught by atomic_check */
-+		WARN_ON(1);
-+		return;
-+	}
-+
-+	grf_field_write(dsi2, IPI_COLOR_DEPTH, color_depth);
-+}
-+
-+static int
-+dw_mipi_dsi2_encoder_atomic_check(struct drm_encoder *encoder,
-+				  struct drm_crtc_state *crtc_state,
-+				  struct drm_connector_state *conn_state)
-+{
-+	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
-+	struct dw_mipi_dsi2_rockchip *dsi2 = to_dsi2(encoder);
-+	struct drm_connector *connector = conn_state->connector;
-+	struct drm_display_info *info = &connector->display_info;
-+
-+	switch (dsi2->format) {
-+	case MIPI_DSI_FMT_RGB666:
-+	case MIPI_DSI_FMT_RGB666_PACKED:
-+		s->output_mode = ROCKCHIP_OUT_MODE_P666;
-+		break;
-+	case MIPI_DSI_FMT_RGB565:
-+		s->output_mode = ROCKCHIP_OUT_MODE_P565;
-+		break;
-+	case MIPI_DSI_FMT_RGB888:
-+		s->output_mode = ROCKCHIP_OUT_MODE_P888;
-+		break;
-+	default:
-+		WARN_ON(1);
-+		return -EINVAL;
-+	}
-+
-+	if (info->num_bus_formats)
-+		s->bus_format = info->bus_formats[0];
-+	else
-+		s->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+
-+	s->output_type = DRM_MODE_CONNECTOR_DSI;
-+	s->bus_flags = info->bus_flags;
-+	s->color_space = V4L2_COLORSPACE_DEFAULT;
-+
-+	return 0;
-+}
-+
-+static const struct drm_encoder_helper_funcs
-+dw_mipi_dsi2_encoder_helper_funcs = {
-+	.atomic_enable = dw_mipi_dsi2_encoder_atomic_enable,
-+	.atomic_check = dw_mipi_dsi2_encoder_atomic_check,
-+};
-+
-+static int rockchip_dsi2_drm_create_encoder(struct dw_mipi_dsi2_rockchip *dsi2,
-+					    struct drm_device *drm_dev)
-+{
-+	struct drm_encoder *encoder = &dsi2->encoder.encoder;
-+	int ret;
-+
-+	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm_dev,
-+							     dsi2->dev->of_node);
-+
-+	ret = drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_DSI);
-+	if (ret) {
-+		dev_err(dsi2->dev, "Failed to initialize encoder with drm\n");
-+		return ret;
-+	}
-+
-+	drm_encoder_helper_add(encoder, &dw_mipi_dsi2_encoder_helper_funcs);
-+
-+	return 0;
-+}
-+
-+static int dw_mipi_dsi2_rockchip_bind(struct device *dev, struct device *master,
-+				      void *data)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-+	struct drm_device *drm_dev = data;
-+	int ret;
-+
-+	ret = rockchip_dsi2_drm_create_encoder(dsi2, drm_dev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to create drm encoder\n");
-+
-+	rockchip_drm_encoder_set_crtc_endpoint_id(&dsi2->encoder,
-+						  dev->of_node, 0, 0);
-+
-+	ret = dw_mipi_dsi2_bind(dsi2->dmd, &dsi2->encoder.encoder);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to bind\n");
-+
-+	return 0;
-+}
-+
-+static void dw_mipi_dsi2_rockchip_unbind(struct device *dev, struct device *master,
-+					 void *data)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-+
-+	dw_mipi_dsi2_unbind(dsi2->dmd);
-+}
-+
-+static const struct component_ops dw_mipi_dsi2_rockchip_ops = {
-+	.bind	= dw_mipi_dsi2_rockchip_bind,
-+	.unbind	= dw_mipi_dsi2_rockchip_unbind,
-+};
-+
-+static int dw_mipi_dsi2_rockchip_host_attach(void *priv_data,
-+					     struct mipi_dsi_device *device)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+	int ret;
-+
-+	ret = component_add(dsi2->dev, &dw_mipi_dsi2_rockchip_ops);
-+	if (ret)
-+		return dev_err_probe(dsi2->dev, ret, "Failed to register component\n");
-+
-+	return 0;
-+}
-+
-+static int dw_mipi_dsi2_rockchip_host_detach(void *priv_data,
-+					     struct mipi_dsi_device *device)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-+
-+	component_del(dsi2->dev, &dw_mipi_dsi2_rockchip_ops);
-+
-+	return 0;
-+}
-+
-+static const struct dw_mipi_dsi2_host_ops dw_mipi_dsi2_rockchip_host_ops = {
-+	.attach = dw_mipi_dsi2_rockchip_host_attach,
-+	.detach = dw_mipi_dsi2_rockchip_host_detach,
-+};
-+
-+static __maybe_unused int dw_mipi_dsi2_runtime_suspend(struct device *dev)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-+
-+	clk_disable_unprepare(dsi2->pclk);
-+	clk_disable_unprepare(dsi2->sys_clk);
-+
-+	return 0;
-+}
-+
-+static __maybe_unused int dw_mipi_dsi2_runtime_resume(struct device *dev)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-+
-+	clk_prepare_enable(dsi2->pclk);
-+	clk_prepare_enable(dsi2->sys_clk);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops dw_mipi_dsi2_rockchip_pm_ops = {
-+	SET_RUNTIME_PM_OPS(dw_mipi_dsi2_runtime_suspend,
-+			   dw_mipi_dsi2_runtime_resume, NULL)
-+};
-+
-+static const struct regmap_config dw_mipi_dsi2_rockchip_regmap_config = {
-+	.name = "dsi2-host",
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 4,
-+	.fast_io = true,
-+};
-+
-+static int dw_mipi_dsi2_rockchip_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np = dev->of_node;
-+	const struct rockchip_dw_dsi2_chip_data *cdata =
-+						of_device_get_match_data(dev);
-+	struct dw_mipi_dsi2_rockchip *dsi2;
-+	struct resource *res;
-+	void __iomem *base;
-+	int i;
-+
-+	dsi2 = devm_kzalloc(dev, sizeof(*dsi2), GFP_KERNEL);
-+	if (!dsi2)
-+		return -ENOMEM;
-+
-+	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(base))
-+		return dev_err_probe(dev, PTR_ERR(base), "Unable to get dsi registers\n");
-+
-+	dsi2->regmap = devm_regmap_init_mmio(dev, base, &dw_mipi_dsi2_rockchip_regmap_config);
-+	if (IS_ERR(dsi2->regmap))
-+		return dev_err_probe(dev, PTR_ERR(dsi2->regmap), "failed to init register map\n");
-+
-+	i = 0;
-+	while (cdata[i].reg) {
-+		if (cdata[i].reg == res->start) {
-+			dsi2->cdata = &cdata[i];
-+			break;
-+		}
-+
-+		i++;
-+	}
-+
-+	if (!dsi2->cdata)
-+		return dev_err_probe(dev, -EINVAL, "No dsi-config for %s node\n", np->name);
-+
-+	dsi2->pclk = devm_clk_get(dev, "pclk");
-+	if (IS_ERR(dsi2->pclk))
-+		return dev_err_probe(dev, PTR_ERR(dsi2->pclk), "Unable to get pclk\n");
-+
-+	dsi2->sys_clk = devm_clk_get(dev, "sys");
-+	if (IS_ERR(dsi2->sys_clk))
-+		return dev_err_probe(dev, PTR_ERR(dsi2->sys_clk), "Unable to get sys_clk\n");
-+
-+	dsi2->grf_regmap = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,grf");
-+	if (IS_ERR(dsi2->grf_regmap))
-+		return dev_err_probe(dsi2->dev, PTR_ERR(dsi2->grf_regmap), "Unable to get grf\n");
-+
-+	dsi2->phy = devm_phy_optional_get(dev, "dcphy");
-+	if (IS_ERR(dsi2->phy))
-+		return dev_err_probe(dev, PTR_ERR(dsi2->phy), "failed to get mipi phy\n");
-+
-+	dsi2->dev = dev;
-+	dsi2->pdata.regmap = dsi2->regmap;
-+	dsi2->pdata.max_data_lanes = 4;
-+	dsi2->pdata.phy_ops = &dw_mipi_dsi2_rockchip_phy_ops;
-+	dsi2->pdata.host_ops = &dw_mipi_dsi2_rockchip_host_ops;
-+	dsi2->pdata.priv_data = dsi2;
-+	platform_set_drvdata(pdev, dsi2);
-+
-+	dsi2->dmd = dw_mipi_dsi2_probe(pdev, &dsi2->pdata);
-+	if (IS_ERR(dsi2->dmd))
-+		return dev_err_probe(dev, PTR_ERR(dsi2->dmd), "Failed to probe dw_mipi_dsi2\n");
-+
-+	return 0;
-+}
-+
-+static void dw_mipi_dsi2_rockchip_remove(struct platform_device *pdev)
-+{
-+	struct dw_mipi_dsi2_rockchip *dsi2 = platform_get_drvdata(pdev);
-+
-+	dw_mipi_dsi2_remove(dsi2->dmd);
-+}
-+
-+static const struct dsigrf_reg rk3588_dsi0_grf_reg_fields[MAX_FIELDS] = {
-+	[TXREQCLKHS_EN]		= { 0x0000, 11, 11 },
-+	[GATING_EN]		= { 0x0000, 10, 10 },
-+	[IPI_SHUTDN]		= { 0x0000,  9,  9 },
-+	[IPI_COLORM]		= { 0x0000,  8,  8 },
-+	[IPI_COLOR_DEPTH]	= { 0x0000,  4,  7 },
-+	[IPI_FORMAT]		= { 0x0000,  0,  3 },
-+};
-+
-+static const struct dsigrf_reg rk3588_dsi1_grf_reg_fields[MAX_FIELDS] = {
-+	[TXREQCLKHS_EN]		= { 0x0004, 11, 11 },
-+	[GATING_EN]		= { 0x0004, 10, 10 },
-+	[IPI_SHUTDN]		= { 0x0004,  9,  9 },
-+	[IPI_COLORM]		= { 0x0004,  8,  8 },
-+	[IPI_COLOR_DEPTH]	= { 0x0004,  4,  7 },
-+	[IPI_FORMAT]		= { 0x0004,  0,  3 },
-+};
-+
-+static const struct rockchip_dw_dsi2_chip_data rk3588_chip_data[] = {
-+	{
-+		.reg = 0xfde20000,
-+		.grf_regs = rk3588_dsi0_grf_reg_fields,
-+		.max_bit_rate_per_lane = 4500000ULL,
-+	},
-+	{
-+		.reg = 0xfde30000,
-+		.grf_regs = rk3588_dsi1_grf_reg_fields,
-+		.max_bit_rate_per_lane = 4500000ULL,
-+	}
-+};
-+
-+static const struct of_device_id dw_mipi_dsi2_rockchip_dt_ids[] = {
-+	{
-+		.compatible = "rockchip,rk3588-mipi-dsi2",
-+		.data = &rk3588_chip_data,
-+	},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, dw_mipi_dsi2_rockchip_dt_ids);
-+
-+struct platform_driver dw_mipi_dsi2_rockchip_driver = {
-+	.probe	= dw_mipi_dsi2_rockchip_probe,
-+	.remove = dw_mipi_dsi2_rockchip_remove,
-+	.driver = {
-+		.of_match_table = dw_mipi_dsi2_rockchip_dt_ids,
-+		.pm = &dw_mipi_dsi2_rockchip_pm_ops,
-+		.name = "dw-mipi-dsi2",
-+	},
-+};
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-index ddf0be331c0a..5327ce035003 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-@@ -511,6 +511,8 @@ static int __init rockchip_drm_init(void)
- 				CONFIG_ROCKCHIP_DW_HDMI_QP);
- 	ADD_ROCKCHIP_SUB_DRIVER(dw_mipi_dsi_rockchip_driver,
- 				CONFIG_ROCKCHIP_DW_MIPI_DSI);
-+	ADD_ROCKCHIP_SUB_DRIVER(dw_mipi_dsi2_rockchip_driver,
-+				CONFIG_ROCKCHIP_DW_MIPI_DSI2);
- 	ADD_ROCKCHIP_SUB_DRIVER(inno_hdmi_driver, CONFIG_ROCKCHIP_INNO_HDMI);
- 	ADD_ROCKCHIP_SUB_DRIVER(rk3066_hdmi_driver,
- 				CONFIG_ROCKCHIP_RK3066_HDMI);
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-index 24b4ce5ceaf1..9c9d38a06cdf 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-@@ -90,6 +90,7 @@ extern struct platform_driver cdn_dp_driver;
- extern struct platform_driver dw_hdmi_rockchip_pltfm_driver;
- extern struct platform_driver dw_hdmi_qp_rockchip_pltfm_driver;
- extern struct platform_driver dw_mipi_dsi_rockchip_driver;
-+extern struct platform_driver dw_mipi_dsi2_rockchip_driver;
- extern struct platform_driver inno_hdmi_driver;
- extern struct platform_driver rockchip_dp_driver;
- extern struct platform_driver rockchip_lvds_driver;
--- 
-2.45.2
+--00000000000005a1960628608ffa
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
+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
+6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
+SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
+uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
+s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
+SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
+QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
+fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
+iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
+3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
+91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
+06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
+b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
+VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJkMIICYAIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIA/D
+P2fGd/Km0f8rARw/fM761hSih5e5azfbgb5kkgfDMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI0MTIwMzE2NTcyMVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJ
+KoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAPaVlSNODKqN+pqUPITxRZ
+clLheACOk+1dKNAPC43OKBzIJTONeitd0svEeGnH4zOYj9MK5fp5sqji15Zd4rWCc0jsUeiu9JGD
+Zg+dSd1dx/vwDfaUVfHkSSajh5QQp4n9ozzmFO9WW9gGjIp7VUb0JS30DtrgSTK56J16EdNHGewO
+i6KrA2lCPmmR5xqL/RvTN8OpIOFUTSBhkNYFtXkfkiG1eSKVa+u8vJTSUd1jhTiQHACQ1sFOCqil
+EJBu5gYzU97Qb5IaTBb6FkWWNBy0Y/Z3rksFxaMH/Uux/uMk0ssIkl0LXifMnsIXktEJVvAXjGAA
+CXHqIItnhr6wZw4e
+--00000000000005a1960628608ffa--
