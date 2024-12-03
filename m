@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5319E19C1
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 11:48:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E179E1A16
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 11:58:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B87710E261;
-	Tue,  3 Dec 2024 10:48:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBB5510E9DC;
+	Tue,  3 Dec 2024 10:58:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AJ4QnhJF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RlAPaW5Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D031010E261
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 10:48:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E022E1;
- Tue,  3 Dec 2024 11:47:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733222870;
- bh=dJFQEv4Xxhh02RxjGMUH5vLtFgBKBRerslEin2vZrbU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AJ4QnhJFmQYcexbMFey5y33sjiXDv4uCgfQrrQExkguUzzHT+hC5aWBsOlL6wpfaI
- xmU7o/WRG2ab23rcPtuX+a+XDKenJng/v2aJeW+NSW74dtaNnMuYyhgSkzpSW+3eGW
- kcARFRlFRWjc6Bnw+BG2R1rArLiky0pEXDoOwD/A=
-Date: Tue, 3 Dec 2024 12:48:06 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH 6/9] drm/rcar-du: Add support for r8a779h0
-Message-ID: <20241203104806.GN10736@pendragon.ideasonboard.com>
-References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
- <20241203-rcar-gh-dsi-v1-6-738ae1a95d2a@ideasonboard.com>
- <20241203085654.GJ10736@pendragon.ideasonboard.com>
- <e155c9b1-a43f-4be3-9825-2639ac3bb61d@ideasonboard.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA1510E318;
+ Tue,  3 Dec 2024 10:58:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733223504; x=1764759504;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=r5IzcIHpW1yeHzI+cxkcrwgUkSQv1jAL9yBPggXeYEM=;
+ b=RlAPaW5ZBeFZM2GBHL/pwYe6X5/GprtMWPYHL45jfCW5gvGqh4SkoCRW
+ Zr2Ff/o+vtkJmis6QDoaR4uBPFuarfbME5rbmfzU0RLRBO92NiT/TI+O3
+ zq+g4tzuxRmnmoqvcmTiU0zZYSdg4gQ6uubbiqkHUv4rIgYzVDuptD5vX
+ nZ55YelsuKZZL8S3t8RscXf1tl3+eGJBQjsrmEDBW2BqtkzaSr3K3LSHS
+ mqZ3ucZkCtI7sJdDwjcCgnIQY3qakxcRHIzyt6/hBcAgQ8Q179ER7sIza
+ A+WvA2zYXIkovA+SuZCXOqjUBFv2Q0rOITsiQ2l1Xd0skQADJ6kbH6Hww w==;
+X-CSE-ConnectionGUID: h0rGeIeHTVucPjkA+FKEjA==
+X-CSE-MsgGUID: A6wJY+c8Ts6kTV5e9GN+0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="43914260"
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="43914260"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 02:58:24 -0800
+X-CSE-ConnectionGUID: seQVHymXRPOzYEoDKLagXQ==
+X-CSE-MsgGUID: Tmu1TYCtSvCpZ6NYVzNtUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="98400962"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO [10.245.245.10])
+ ([10.245.245.10])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 02:58:20 -0800
+Message-ID: <4e67e781-df6d-45b8-be52-637ee5926bd7@linux.intel.com>
+Date: Tue, 3 Dec 2024 11:58:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e155c9b1-a43f-4be3-9825-2639ac3bb61d@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/5] drm/i915: Add drm_panic support
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241203092836.426422-1-jfalempe@redhat.com>
+ <20241203092836.426422-6-jfalempe@redhat.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20241203092836.426422-6-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,149 +77,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 03, 2024 at 11:22:15AM +0200, Tomi Valkeinen wrote:
-> On 03/12/2024 10:56, Laurent Pinchart wrote:
-> > On Tue, Dec 03, 2024 at 10:01:40AM +0200, Tomi Valkeinen wrote:
-> >> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >>
-> >> Add support for r8a779h0. It is very similar to r8a779g0, but has only
-> >> one output.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >> ---
-> >>   drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c   | 19 +++++++++++++++++++
-> >>   drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h   |  1 +
-> >>   drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 16 ++++++++++------
-> >>   3 files changed, 30 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> >> index fb719d9aff10..afbc74e18cce 100644
-> >> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> >> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> >> @@ -545,6 +545,24 @@ static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
-> >>   	.dsi_clk_mask =  BIT(1) | BIT(0),
-> >>   };
-> >>   
-> >> +static const struct rcar_du_device_info rcar_du_r8a779h0_info = {
-> >> +	.gen = 4,
-> >> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
-> >> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> >> +		  | RCAR_DU_FEATURE_NO_BLENDING
-> >> +		  | RCAR_DU_FEATURE_NO_DPTSR,
-> >> +	.channels_mask = BIT(0),
-> >> +	.routes = {
-> >> +		/* R8A779H0 has one MIPI DSI output. */
-> >> +		[RCAR_DU_OUTPUT_DSI0] = {
-> >> +			.possible_crtcs = BIT(0),
-> >> +			.port = 0,
-> >> +		},
-> >> +	},
-> >> +	.num_rpf = 5,
-> >> +	.dsi_clk_mask = BIT(0),
-> >> +};
-> >> +
-> >>   static const struct of_device_id rcar_du_of_table[] = {
-> >>   	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
-> >>   	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> >> @@ -571,6 +589,7 @@ static const struct of_device_id rcar_du_of_table[] = {
-> >>   	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
-> >>   	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
-> >>   	{ .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
-> >> +	{ .compatible = "renesas,du-r8a779h0", .data = &rcar_du_r8a779h0_info },
-> >>   	{ }
-> >>   };
-> >>   
-> >> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-> >> index 5cfa2bb7ad93..d7004f76f735 100644
-> >> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-> >> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-> >> @@ -32,6 +32,7 @@ struct rcar_du_device;
-> >>   #define RCAR_DU_FEATURE_INTERLACED	BIT(3)	/* HW supports interlaced */
-> >>   #define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
-> >>   #define RCAR_DU_FEATURE_NO_BLENDING	BIT(5)	/* PnMR.SPIM does not have ALP nor EOR bits */
-> >> +#define RCAR_DU_FEATURE_NO_DPTSR	BIT(6)  /* V4M does not have DPTSR */
-> > 
-> > Do we need a quirk ? At first glance it seems the DPTSR register is only
-> > used for DU instances that have two channels, so a check on the number
-> > of channels should be enough ?
+Hey,
+
+Den 2024-12-03 kl. 09:50, skrev Jocelyn Falempe:
+> This adds drm_panic support for a wide range of Intel GPU. I've
+> tested it only on 3 laptops, haswell (with 128MB of eDRAM),
+> cometlake and alderlake.
 > 
-> What do you mean with "DPTSR register is only used for DU instances that 
-> have two channels"? The upstream code sets it for all SoCs, doesn't it, 
-> without any checks?
+>  * DPT: if I disable tiling on a framebuffer using DPT, then it
+>    displays some other memory location. As DPT is enabled only for
+>    tiled framebuffer, there might be some hardware limitations.
+This is because DPT points to the pagetable, when you disable tiling DPT is no longer used so the DPT is interpreted as a linear FB instead of a lookup table.
 
-DPTSR is one of those registers that controls features shared between
-channels, in this specific case plane assignment to DU channels. The
-default register value (i.e. all 0's) splits resources between the
-channels. For DU groups with a single channel, there's no need for
-resource assignment. Logically speaking, the all 0's register value as
-documented in instances that have two channels would assign all the
-resources that exist in the single-channel group to the single channel.
-When computing the DPTSR value, the driver will (or at least should)
-therefore always come up with 0x00000000. Writing that to the register
-should be a no-op.
+The lookup table is necessarily smaller than the real FB, so you would need to overwrite part of the GGTT and point it to linear FB.
 
-It's not clear if the register is present or not when the group has a
-single channel. Some datasheets document the register is not being
-applicable. Writing to it has never caused issues, so we may be dealing
-with the hardware just ignoring writes to a non-implemented register, or
-the register may be there, with only 0x00000000 being a meaningful
-value. This being said, some people are concerned about writes to
-registers that are not documented as present, as they could possibly
-cause issues. Safety certification of the driver could be impacted.
-We've updated the DU driver over the past few years to avoid those
-writes for this reason.
+I'm not sure what the fix is here as it would require a real GGTT mapping to fix, needing an allocation which might not succeed. Perhaps indicates a limitation to require a real pageflip to fbdev fb?
 
-TL;DR: yes, the DU driver writes to DPTSR for DU groups with a single
-channel, but that seem it could be wrong, and we could fix it for all
-single-channel groups in one go without introducing this feature bit. I
-can test a patch on a M3 board that has a single channel in the second
-group.
+Have you tested rotated by any chance? Cursor enabled? Overlay?
 
-> Most of the SoCs seem to have two channels, but r8a77970 has one. 
-> However, I don't have docs for that one. It could be that it does not 
-> have DPTSR register, and indeed we could use the num_crtcs > 1 check there.
+I also think this may fail if there are flips queued. We should probably bite the bullet, reprogram the entire state into a known state, disable all overlay planes and cursor, reassign all watermarks for the primary and ensure any background work is killed where needed.
+
+Cheers,
+~Maarten
+
+>  * fbdev: On my haswell laptop, the fbdev framebuffer is configured
+>    with tiling enabled, but really it's linear, because fbcon don't
+>    know about tiling, and the panic screen is perfect when it's drawn
+>    as linear.
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>  .../gpu/drm/i915/display/intel_atomic_plane.c | 85 ++++++++++++++++++-
+>  1 file changed, 84 insertions(+), 1 deletion(-)
 > 
-> >>   #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
-> >>   
-> >> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> >> index 2ccd2581f544..132d930670eb 100644
-> >> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> >> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> >> @@ -107,10 +107,12 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
-> >>   		 */
-> >>   		rcrtc = rcdu->crtcs;
-> >>   		num_crtcs = rcdu->num_crtcs;
-> >> -	} else if (rcdu->info->gen >= 3 && rgrp->num_crtcs > 1) {
-> >> +	} else if ((rcdu->info->gen == 3 && rgrp->num_crtcs > 1) ||
-> >> +		   rcdu->info->gen == 4) {
-> >>   		/*
-> >>   		 * On Gen3 dot clocks are setup through per-group registers,
-> >>   		 * only available when the group has two channels.
-> >> +		 * On Gen4 the registers are there for single channel too.
-> >>   		 */
-> >>   		rcrtc = &rcdu->crtcs[rgrp->index * 2];
-> >>   		num_crtcs = rgrp->num_crtcs;
-> >> @@ -185,11 +187,13 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
-> >>   		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
-> >>   	rcar_du_group_write(rgrp, DORCR, dorcr);
-> >>   
-> >> -	/* Apply planes to CRTCs association. */
-> >> -	mutex_lock(&rgrp->lock);
-> >> -	rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
-> >> -			    rgrp->dptsr_planes);
-> >> -	mutex_unlock(&rgrp->lock);
-> >> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_NO_DPTSR)) {
-> >> +		/* Apply planes to CRTCs association. */
-> >> +		mutex_lock(&rgrp->lock);
-> >> +		rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
-> >> +				    rgrp->dptsr_planes);
-> >> +		mutex_unlock(&rgrp->lock);
-> >> +	}
-> >>   }
-> >>   
-> >>   /*
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> index b7e462075ded3..58eb3b4c55fa5 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> @@ -33,16 +33,20 @@
+>  
+>  #include <linux/dma-fence-chain.h>
+>  #include <linux/dma-resv.h>
+> +#include <linux/iosys-map.h>
+>  
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_blend.h>
+> +#include <drm/drm_cache.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_panic.h>
+>  
+>  #include "i915_config.h"
+>  #include "i9xx_plane_regs.h"
+>  #include "intel_atomic_plane.h"
+> +#include "intel_bo.h"
+>  #include "intel_cdclk.h"
+>  #include "intel_cursor.h"
+>  #include "intel_display_rps.h"
+> @@ -50,6 +54,7 @@
+>  #include "intel_display_types.h"
+>  #include "intel_fb.h"
+>  #include "intel_fb_pin.h"
+> +#include "intel_fbdev.h"
+>  #include "skl_scaler.h"
+>  #include "skl_watermark.h"
+>  
+> @@ -1198,14 +1203,92 @@ intel_cleanup_plane_fb(struct drm_plane *plane,
+>  	intel_plane_unpin_fb(old_plane_state);
+>  }
+>  
+> +/* Only used by drm_panic get_scanout_buffer() and panic_flush(), so it is
+> + * protected by the drm panic spinlock
+> + */
+> +static struct iosys_map panic_map;
+> +
+> +static void intel_panic_flush(struct drm_plane *plane)
+> +{
+> +	struct intel_plane_state *plane_state = to_intel_plane_state(plane->state);
+> +	struct drm_i915_private *dev_priv = to_i915(plane->dev);
+> +	struct drm_framebuffer *fb = plane_state->hw.fb;
+> +	struct intel_plane *iplane = to_intel_plane(plane);
+> +
+> +	/* Force a cache flush, otherwise the new pixels won't show up */
+> +	drm_clflush_virt_range(panic_map.vaddr, fb->height * fb->pitches[0]);
+> +
+> +	/* Don't disable tiling if it's the fbdev framebuffer.*/
+> +	if (to_intel_framebuffer(fb) == intel_fbdev_framebuffer(dev_priv->display.fbdev.fbdev))
+> +		return;
+> +
+> +	if (fb->modifier && iplane->disable_tiling)
+> +		iplane->disable_tiling(iplane);
+> +}
+> +
+> +static int intel_get_scanout_buffer(struct drm_plane *plane,
+> +				    struct drm_scanout_buffer *sb)
+> +{
+> +	struct intel_plane_state *plane_state;
+> +	struct drm_gem_object *obj;
+> +	struct drm_framebuffer *fb;
+> +	struct drm_i915_private *dev_priv = to_i915(plane->dev);
+> +	void *ptr;
+> +
+> +	if (!plane->state || !plane->state->fb || !plane->state->visible)
+> +		return -ENODEV;
+> +
+> +	plane_state = to_intel_plane_state(plane->state);
+> +	fb = plane_state->hw.fb;
+> +	obj = intel_fb_bo(fb);
+> +	if (!obj)
+> +		return -ENODEV;
+> +
+> +	if (to_intel_framebuffer(fb) == intel_fbdev_framebuffer(dev_priv->display.fbdev.fbdev)) {
+> +		ptr = intel_fbdev_get_vaddr(dev_priv->display.fbdev.fbdev);
+> +	} else {
+> +		/* can't disable tiling if DPT is in use */
+> +		if (intel_bo_is_tiled(obj) && HAS_DPT(dev_priv))
+> +			return -EOPNOTSUPP;
+> +
+> +		ptr = intel_bo_panic_map(obj);
+> +	}
+> +
+> +	if (!ptr)
+> +		return -ENOMEM;
+> +
+> +	if (intel_bo_has_iomem(obj))
+> +		iosys_map_set_vaddr_iomem(&panic_map, ptr);
+> +	else
+> +		iosys_map_set_vaddr(&panic_map, ptr);
+> +
+> +	sb->map[0] = panic_map;
+> +	sb->width = fb->width;
+> +	sb->height = fb->height;
+> +	sb->format = fb->format;
+> +	sb->pitch[0] = fb->pitches[0];
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct drm_plane_helper_funcs intel_plane_helper_funcs = {
+>  	.prepare_fb = intel_prepare_plane_fb,
+>  	.cleanup_fb = intel_cleanup_plane_fb,
+>  };
+>  
+> +static const struct drm_plane_helper_funcs intel_primary_plane_helper_funcs = {
+> +	.prepare_fb = intel_prepare_plane_fb,
+> +	.cleanup_fb = intel_cleanup_plane_fb,
+> +	.get_scanout_buffer = intel_get_scanout_buffer,
+> +	.panic_flush = intel_panic_flush,
+> +};
+> +
+>  void intel_plane_helper_add(struct intel_plane *plane)
+>  {
+> -	drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
+> +	if (plane->base.type == DRM_PLANE_TYPE_PRIMARY)
+> +		drm_plane_helper_add(&plane->base, &intel_primary_plane_helper_funcs);
+> +	else
+> +		drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
+>  }
+>  
+>  void intel_plane_init_cursor_vblank_work(struct intel_plane_state *old_plane_state,
 
--- 
-Regards,
-
-Laurent Pinchart
