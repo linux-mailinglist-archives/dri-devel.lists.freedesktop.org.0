@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FB29E14EE
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 364419E14EF
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:02:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4A4510E937;
-	Tue,  3 Dec 2024 08:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6379A10E938;
+	Tue,  3 Dec 2024 08:02:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vR7XK6yP";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TsNB795R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8A910E92D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 08:02:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6B6210E938
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 08:02:47 +0000 (UTC)
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85D03D49;
- Tue,  3 Dec 2024 09:02:16 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BB42E16;
+ Tue,  3 Dec 2024 09:02:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733212938;
- bh=w8HKVjZehvUbPU5HddVJpFqDx9BrkGtDnv6ZTLZw4KA=;
+ s=mail; t=1733212939;
+ bh=/DDTZDX+9wT9NSS30Bd6SH2pIISLBjVU8O1N/T4nsSk=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=vR7XK6yPe4XQKpue+g2B2WV1SvZaC41na97ek/DyXb/7iFPwXa6Ljfvh6BTot2NXg
- Km/aPzNJc7krhQum8aTbKwONheEXayXoTjr55SEacQ2mLeb82V87rsLxHsjntmizP3
- H8YvdSjAg0zzcm13M66biyh81LkwdCmqot8rc5Kk=
+ b=TsNB795RYivXYQlPgYQXVzt12bNZrpZJhULsr78M06RFP0CIG+5R9u8sn4GoQqUKZ
+ 68CadDPc6wy9sDh/p9KhYXEBq8+5YtInLqjm+xn9cVIp739rEbDgXvkqfL5KhK16v1
+ 9NmcG3umyDlrBa731qcmxyIsHESgfGux9C2n6Jr0=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 03 Dec 2024 10:01:36 +0200
-Subject: [PATCH 2/9] dt-bindings: display: renesas,du: Add r8a779h0
+Date: Tue, 03 Dec 2024 10:01:37 +0200
+Subject: [PATCH 3/9] clk: renesas: r8a779h0: Add display clocks
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241203-rcar-gh-dsi-v1-2-738ae1a95d2a@ideasonboard.com>
+Message-Id: <20241203-rcar-gh-dsi-v1-3-738ae1a95d2a@ideasonboard.com>
 References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
 In-Reply-To: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -58,21 +58,21 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  linux-clk@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=868;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1420;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=mmvnBmfnZpcyFaoVtTr/3fiY6NmCQCljN1ySkTzp71s=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnTrscAMUY0bAcmXrldnAhWXO/DSeOjQxdNvo+m
- 4nZCj5Qj6yJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ067HAAKCRD6PaqMvJYe
- 9dJ9EACdrb9AceYgubLmjYIho0wOtTFn5GyyEChx3dcjsBMLKusvUVPycUIBevKSpmtPoID1eYa
- QqusDTCt/yE+cDy2ZGtZHuqOmMm4vBgiyxDx2X2Lu9iJJvBFCEApsDRuiD63EhQMXgk30Hzurm+
- 5m7ZMMoiVO8+kOfl3/w0DJ4Q14u3rL6rvMotCo9GFrVRY8MtrSFV/UdxFh51Q8q1uKyhzJ6K+H9
- kqD7Jz8shdo1AKkXga1iy1sOQyhF5752CVNQNA15fY44sByQ2zWMVO+ri65vYwn4NyyEQDrYkx8
- QIjWRPGq3djxmsBj9a8GgkKvuO2fAoJs6osTSIpIjdMazmQkc+M0LPaUn12XUtCF+SOQapMXq3G
- cUIKOrk/RTdp3hYmG01UAk9G0U6wpJ19urJ/02/p72Ok02LHn/BQ5+8+Q3oosg8UQ9Pl7ETy6VA
- 8xE7ga6kRw6nE7iYs/KflNTwFN2Zdd6lkOFYa8cuCfhZa+SNapFKVCeiSm+LhGjpU7aN9zhmH34
- 1TFfwXQPUdJ4yzVRYbM76QNci3PmPrR8VwRcupJ6xDrISV49+RCUW0k1uactL+8fk8geKL7fnLb
- wgxASkD1GUd0Z5+3NOdAXu37QEv1u7DoU0SlObzEmEA24P12U1AaZ3q8vTOyWDNW6VWPXyjum/+
- sUrcAvzjjOazkkg==
+ bh=aAauG6pe25JfOkg9OusNCoT3g9WSvh9t6MFCRcjRERM=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnTrsdTf5Tj/KQYUcjw06xS8AyD7GLEfpTdqPNB
+ y5LnT3oVsuJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ067HQAKCRD6PaqMvJYe
+ 9elJD/4+6dOv5Ph+3mlL/WQNf5merHwNr+aCSHk6HK1JscMpe/npA8RGPtRfayl8tz8U2jPNx2y
+ m5xCkk86yL7tgL1N8Ekx8sP9ytAEh4B3wITeiiVfocX6tzz/cuzC/QXs1PT7JpnP1SuLpHEudKE
+ sa9IFX5lxP2LCItYPIEcstM5qep2QeWn+X9vf7V39Qt3rP46hiG+eKD1GpNL4qyD35nR5HxxOgD
+ I1ml5bCdWVRGrFdPU31yanlMWViAFqu/ly5S91qdsVsNsswmaae6Hos2btB+Q9meXNLaji7H959
+ LRBUkLEawCSTPgnGs9HOf4+0k6VWzycsqwDRozAFjabPYvFNxVzOaShmi8/9OGfxbRg5X7Yvb7d
+ uSo1iY+/TRfJsXzqsUVaxBBtHmBPO6yNi8io7YGwlGANuLCELIeJ7jWsjB5bn2eF+4h+PF6CGbQ
+ lFV0l3oojmHCH0eiSF3teNjINPcp6w2Al3l6HaGhKncsQAGboCwv60/bT8ZahHOw+LdwZln1RVn
+ +9qEq0ScnXQZc0WMB4A3HVt9G4PMw9RfaK9rJ1RCZP9yXBribvDOaxeGgtoV8vwilSz+h+Ol6Zk
+ WD/u8DO+Pl2eCfP3i0w8qRAKJ5r2tPse9TRPEvxnhmmcEafodOzxMrE7Tk0Xn0d/CAehcIM61KW
+ Cidxw6clV6QaG8g==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,25 +92,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Extend the Renesas DU display bindings to support the r8a779h0 V4M.
+Add display related clocks for DU, DSI, FCPVD, and VSPD.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- Documentation/devicetree/bindings/display/renesas,du.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/clk/renesas/r8a779h0-cpg-mssr.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-index c5b9e6812bce..d369953f16f7 100644
---- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-+++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-@@ -41,6 +41,7 @@ properties:
-       - renesas,du-r8a77995 # for R-Car D3 compatible DU
-       - renesas,du-r8a779a0 # for R-Car V3U compatible DU
-       - renesas,du-r8a779g0 # for R-Car V4H compatible DU
-+      - renesas,du-r8a779h0 # for R-Car V4M compatible DU
- 
-   reg:
-     maxItems: 1
+diff --git a/drivers/clk/renesas/r8a779h0-cpg-mssr.c b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+index e20c048bfa9b..dc37e987c0e6 100644
+--- a/drivers/clk/renesas/r8a779h0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+@@ -179,6 +179,9 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] __initconst = {
+ 	DEF_MOD("canfd0",	328,	R8A779H0_CLK_SASYNCPERD2),
+ 	DEF_MOD("csi40",	331,	R8A779H0_CLK_CSI),
+ 	DEF_MOD("csi41",	400,	R8A779H0_CLK_CSI),
++	DEF_MOD("dis0",		411,	R8A779H0_CLK_S0D3),
++	DEF_MOD("dsitxlink0",	415,	R8A779H0_CLK_DSIREF),
++	DEF_MOD("fcpvd0",	508,	R8A779H0_CLK_S0D3),
+ 	DEF_MOD("hscif0",	514,	R8A779H0_CLK_SASYNCPERD1),
+ 	DEF_MOD("hscif1",	515,	R8A779H0_CLK_SASYNCPERD1),
+ 	DEF_MOD("hscif2",	516,	R8A779H0_CLK_SASYNCPERD1),
+@@ -227,6 +230,7 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] __initconst = {
+ 	DEF_MOD("vin15",	811,	R8A779H0_CLK_S0D4_VIO),
+ 	DEF_MOD("vin16",	812,	R8A779H0_CLK_S0D4_VIO),
+ 	DEF_MOD("vin17",	813,	R8A779H0_CLK_S0D4_VIO),
++	DEF_MOD("vspd0",	830,	R8A779H0_CLK_S0D1_VIO),
+ 	DEF_MOD("wdt1:wdt0",	907,	R8A779H0_CLK_R),
+ 	DEF_MOD("cmt0",		910,	R8A779H0_CLK_R),
+ 	DEF_MOD("cmt1",		911,	R8A779H0_CLK_R),
 
 -- 
 2.43.0
