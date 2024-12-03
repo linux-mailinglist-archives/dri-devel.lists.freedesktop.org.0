@@ -2,106 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB229E1E76
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 14:58:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4BA19E1E81
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 14:59:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 257CA10EA05;
-	Tue,  3 Dec 2024 13:58:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E99410E9F7;
+	Tue,  3 Dec 2024 13:59:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="HLHxETwe";
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="HLHxETwe";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HpLumwtk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bedivere.hansenpartnership.com (unknown [96.44.175.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 555ED10EA05
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 13:58:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=hansenpartnership.com; s=20151216; t=1733234313;
- bh=7NNwpckgQb/l67lVPPgzzJ1thEv5O/hEE7t3+p7Tpdo=;
- h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
- b=HLHxETwehA3Cu0w4lwkW4nLObpF8Giff37u3+xj5dkxb4nBTSHgrTtWMnR+w58SOE
- yEYBvXR2CCr/Kc1wmc35T5+9wQoejSmzftZx9/tmvGj615/rjVQ8eb6mbyvYpjuerz
- gvQLnlkjlWO9gVzyf/ZR5y3X9FcM7fRyWzEozQGI=
-Received: from localhost (localhost [127.0.0.1])
- by bedivere.hansenpartnership.com (Postfix) with ESMTP id EA9E31287992;
- Tue, 03 Dec 2024 08:58:33 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id fwoc-_7eWgu1; Tue,  3 Dec 2024 08:58:33 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=hansenpartnership.com; s=20151216; t=1733234313;
- bh=7NNwpckgQb/l67lVPPgzzJ1thEv5O/hEE7t3+p7Tpdo=;
- h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
- b=HLHxETwehA3Cu0w4lwkW4nLObpF8Giff37u3+xj5dkxb4nBTSHgrTtWMnR+w58SOE
- yEYBvXR2CCr/Kc1wmc35T5+9wQoejSmzftZx9/tmvGj615/rjVQ8eb6mbyvYpjuerz
- gvQLnlkjlWO9gVzyf/ZR5y3X9FcM7fRyWzEozQGI=
-Received: from lingrow.int.hansenpartnership.com (unknown
- [IPv6:2601:5c4:4302:c21::a774])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 2A12D1287986;
- Tue, 03 Dec 2024 08:58:28 -0500 (EST)
-Message-ID: <8eb7c0c54b280b8eb72f82032ede802c001ab087.camel@HansenPartnership.com>
-Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
- and adapt for various existing usages
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Zijun Hu <zijun_hu@icloud.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Cc: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jean
- Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,  Martin
- Tuma <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, Michael
- Jamet <michael.jamet@intel.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>, Yehezkel Bernat <YehezkelShB@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>,  Vladimir Oltean
- <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Dan Williams
- <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
- Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Takashi
- Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,  Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Lee Duncan <lduncan@suse.com>, Chris
- Leech <cleech@redhat.com>,  Mike Christie <michael.christie@oracle.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali
- <njavali@marvell.com>, Manish Rangankar <mrangankar@marvell.com>, 
- GR-QLogic-Storage-Upstream@marvell.com, Davidlohr Bueso
- <dave@stgolabs.net>,  Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>, Andreas Larsson
- <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor
- <laurentiu.tudor@nxp.com>, Jens Axboe <axboe@kernel.dk>, Sudeep Holla
- <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, Ard
- Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-gpio@vger.kernel.org, netdev@vger.kernel.org,
- linux-pwm@vger.kernel.org,  nvdimm@lists.linux.dev,
- linux1394-devel@lists.sourceforge.net,  linux-serial@vger.kernel.org,
- linux-sound@vger.kernel.org,  open-iscsi@googlegroups.com,
- linux-scsi@vger.kernel.org,  linux-cxl@vger.kernel.org,
- sparclinux@vger.kernel.org,  linux-block@vger.kernel.org,
- arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
- linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Date: Tue, 03 Dec 2024 08:58:26 -0500
-In-Reply-To: <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
-References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
- <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
- <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
- <2024120320-manual-jockey-dfd1@gregkh>
- <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1273110E9F7
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 13:59:00 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53df67d6659so8708149e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 05:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733234338; x=1733839138; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ratoXWp/EmolcxNUAUNGQ1kmRPcGIDYTBbsytoKVT70=;
+ b=HpLumwtkdnyMDrp/OzbJgs/LjMnyOWRoNadhBgG9LoMhhzVm0FjrV9lM+R6z6mYdXw
+ NoLngG5qu2Jo37Csotlb8acwrfyUuyXNorArxdOt8xuNY6T9pj4l1vmYIVhbPYGQl6pt
+ plmrIxRWD9jLXw1bvGc0UW5Nty/4Cc+OEVA8WweghahSIHb59lWsHUnSA018sthi5xFq
+ v7XOet8kJ+JFJ86r+R5+jluFgoSiOeQyrabzeC1iyMWpO0aCnS1BcdYF0xtGoas7uBok
+ /EZeZGVDj7JPxx6VOv/S4s+1XjeSeQAREEliIh8QnmCfC2vpCTDOqNNaWk2as+JRY2vd
+ YJYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733234338; x=1733839138;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ratoXWp/EmolcxNUAUNGQ1kmRPcGIDYTBbsytoKVT70=;
+ b=nZRcu6oQOvVwqhYyAZXMLJGKBtC4pxmCqTJYXQoEUN47ZhJLdQmExHSEbjyRyuzzSw
+ d7u2Cw/vgCMcxHf2jF3TPpbtyPazYFxQBSbGr+fu+8JaVx0vl+DWZ8+xFn2hZ9FNaKKL
+ nTPeQnbvnSzkMUtJ0qD5zQsUMNTcUmNON+HP6Cu0azNfGHMSZbobJ0zJWeUFWEXrHx/X
+ 5r4eevzpnM+D5W7S3oc5nVmBPK0LasXAI8E5KWNWLYk0I3+BqeWXmKCbOZn1l5PXa1MI
+ 3/QizfLZgvpC8AAOCTWfYS9STglMslnxoMRs1pDvy8qPF/zVQqtl38c43FxyUZWeKOmG
+ Seew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUOAdX1UJPmwEtmVtxhqkh9bA6dv4bGh6xBFAPsW8UUiiPlJFf/cKuiRcTeOqlCL7Nj4hNkKmFrHvk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz0epJAlZQXjmkDj4wJwH2zeGRWsqk/0d6Zwm0DNUlVer9shEFf
+ /ah41uCF1jJZ5y/eLvfBCX0qpsCMc/VVEwafwCCje3pIX9t8D3jZ6J65D4VKQlM=
+X-Gm-Gg: ASbGncvoghxg50ESOJebAvI19xzG6X0xkB6MBCw6Q1Y5J9aWKGXDLZHIOlKXgOMFrjD
+ nwyhnkrXORJXhZWub0vvxxJVSsZOvQ6tzlqs6trytLawPWlAZP9npEZV1n7RUxgqfRwIAM5/Fm4
+ rZVwIfWTyc6bn2j2bZwz6NjGDiWc67gkEovWcV+GixLZSpNXwQ7EvG+i1ncJM6kxARGJaVOsSXq
+ TTmM+UONqDV4iGJYvzmqL6lADPgmXcv0yyL/55kuq/5Qz299ftLECqlr+Vs2otZsK2twn61m68C
+ 8fI2NdZBW97R6csCXHBjX4kJONDRAg==
+X-Google-Smtp-Source: AGHT+IGXwu7iAMc0T7nz4ZWr7DVCTldVmrbcWesEg5VeYru0HhyDfTDMH7KA7Bk8Gf9p7i1oKm3lyg==
+X-Received: by 2002:a05:6512:3182:b0:53d:a025:1142 with SMTP id
+ 2adb3069b0e04-53e12a39336mr2285402e87.54.1733234338202; 
+ Tue, 03 Dec 2024 05:58:58 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53df64a06fesm1843812e87.258.2024.12.03.05.58.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Dec 2024 05:58:56 -0800 (PST)
+Date: Tue, 3 Dec 2024 15:58:54 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Xiangxu Yin <quic_xiangxuy@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, quic_lliu6@quicinc.com,
+ quic_fangez@quicinc.com, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 6/8] drm/msm/dp: Add maximum width limitation for modes
+Message-ID: <fb6enh3wzusadc6r7clg7n7ik2jsucimoi7dnecnsstcz4r6e6@dtahvlm522jj>
+References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
+ <20241129-add-displayport-support-for-qcs615-platform-v1-6-09a4338d93ef@quicinc.com>
+ <CAA8EJpprTGRTxO+9BC6GRwxE4A3CuvmySsxS2Nh4Tqj0nDRT_Q@mail.gmail.com>
+ <95a78722-8266-4d5d-8d2f-e8efa1aa2e87@quicinc.com>
+ <CAA8EJpo-1o9i4JhZgdbvRxvoYQE2v18Lz_8dVg=Za7a_pk5EDA@mail.gmail.com>
+ <86b9a8be-8972-4c19-af0c-da6b3667cbf4@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <86b9a8be-8972-4c19-af0c-da6b3667cbf4@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,30 +110,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2024-12-03 at 21:02 +0800, Zijun Hu wrote:
-> On 2024/12/3 20:41, Greg Kroah-Hartman wrote:
-> > On Tue, Dec 03, 2024 at 08:23:45PM +0800, Zijun Hu wrote:
-[...]
-> > > or squash such patch series into a single patch ?
-> > > 
-> > > various subsystem maintainers may not like squashing way.
+On Tue, Dec 03, 2024 at 03:41:53PM +0800, Xiangxu Yin wrote:
+> 
+> 
+> On 12/2/2024 5:32 PM, Dmitry Baryshkov wrote:
+> > On Mon, 2 Dec 2024 at 11:05, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 11/29/2024 9:52 PM, Dmitry Baryshkov wrote:
+> >>> On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
+> >>>>
+> >>>> Introduce a maximum width constraint for modes during validation. This
+> >>>> ensures that the modes are filtered based on hardware capabilities,
+> >>>> specifically addressing the line buffer limitations of individual pipes.
+> >>>
+> >>> This doesn't describe, why this is necessary. What does "buffer
+> >>> limitations of individual pipes" mean?
+> >>> If the platforms have hw capabilities like being unable to support 8k
+> >>> or 10k, it should go to platform data
+> >>>
+> >> It's SSPP line buffer limitation for this platform and only support to 2160 mode width.
+> >> Then, shall I add max_width config to struct msm_dp_desc in next patch? for other platform will set defualt value to ‘DP_MAX_WIDTH 7680'
 > > 
-> > Agreed, so look into either doing it in a bisectable way if at all
-> > possible.  As I don't see a full series here, I can't suggest how
-> > it needs to happen :(
+> > SSPP line buffer limitations are to be handled in the DPU driver. The
+> > DP driver shouldn't care about those.
+> > 
+> Ok, Will drop this part in next patch.
+
+If you drop it, what will be left from the patch itself?
+
+> >>>>
+> >>>> Signed-off-by: Xiangxu Yin <quic_xiangxuy@quicinc.com>
+> >>>> ---
+> >>>>  drivers/gpu/drm/msm/dp/dp_display.c |  3 +++
+> >>>>  drivers/gpu/drm/msm/dp/dp_display.h |  1 +
+> >>>>  drivers/gpu/drm/msm/dp/dp_panel.c   | 13 +++++++++++++
+> >>>>  drivers/gpu/drm/msm/dp/dp_panel.h   |  1 +
+> >>>>  4 files changed, 18 insertions(+)
+> > 
 > > 
 > 
-> let me send you a full series later and discuss how to solve this
-> issue.
 
-It's only slightly more complex than what we normally do: modify all
-instances and then change the API.  In this case you have an additional
-problem because the prototype "const void *" will cause a mismatch if a
-function has "void *".  The easiest way to solve this is probably to
-make device_find_child a macro that coerces its function argument to
-having a non const "void *" and then passes off to the real function. 
-If you do that in the first patch, then you can constify all the
-consumers and finally remove the macro coercion in the last patch.
-
-James
-
+-- 
+With best wishes
+Dmitry
