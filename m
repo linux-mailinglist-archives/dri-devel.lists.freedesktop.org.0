@@ -2,69 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A7A9E1A26
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 12:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C2C9E1A57
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 12:06:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86CA010E9E8;
-	Tue,  3 Dec 2024 11:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 355CD10E327;
+	Tue,  3 Dec 2024 11:06:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="dtMb68y3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b0icqy8C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A41910E9E8
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 11:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
- s=default;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=GFOo5u8aTRK7DhrsU260UeP6FhrEO8wPjHVlLdKzJ1w=; b=dtMb68y3lpHLKU0c1tR4gkjF+V
- ad1pKfy/m7Ua/q0KSXO8jrUEzMoyOzkz2ocyB13GREkilWMp7Z5RYjxAc8vU95PiOcph+gavbGoh9
- WW8j7vYFHfHB3hOSIqSDEQcscVjYjFc2arm/fkJ3rW/FG3XJUIgMV4VpPf3P6DCskVHBTLeshk+Y4
- /X8stw+PIT+jYpr36osFhs+zTpGI5VhK30uFRjNskZYJZQX9Le1OtgGSUGRnPz/I/Hrbtbj+wzGjQ
- dpUPSGX82cpRRWw8vDUIJKlt5pPT1yvZUG83zCVK9MlcYZE+7BbqwqVCKNO464pp4mwgEfNWRUD/L
- KgUcYraw==;
-Received: from [89.212.21.243] (port=52296 helo=and-HP-Z4..)
- by cpanel.siel.si with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <andrej.picej@norik.com>) id 1tIQeX-00Bd83-0c;
- Tue, 03 Dec 2024 12:01:13 +0100
-From: Andrej Picej <andrej.picej@norik.com>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, marex@denx.de
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, upstream@lists.phytec.de
-Subject: [PATCH v3 3/3] arm64: dts: imx8mm-phyboard-polis-peb-av-10: Set
- lvds-vod-swing
-Date: Tue,  3 Dec 2024 12:00:54 +0100
-Message-Id: <20241203110054.2506123-4-andrej.picej@norik.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241203110054.2506123-1-andrej.picej@norik.com>
-References: <20241203110054.2506123-1-andrej.picej@norik.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDEBD10E327
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 11:06:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733224007; x=1764760007;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=hjW3UCXqD1FmULpVvmR64Z1CjnUFV+STroncPx1uBpI=;
+ b=b0icqy8CTJsYpiGVoSrR9K67eISfaxwQpZgTrFCLtTUEvoV1k8D8Rg+m
+ n0iBMwI4fSJtVAjfBoPbVApYmuAIjvAaWHDa00inrnWXzNg5TcordUTWQ
+ oaDvthzxGPTZfpaJbRTR9KiFUgWzVLYQRpMJduw9RiXvkwKcoh8CRf1t3
+ i5RkRQ2MOdzf0Q9fcGF3EcuKFlB58BeZ6YOK00Qk/j6l+N211FPDYnbZc
+ 7mOoUtpWzABFhl3yN6DqmngJPAwLrs14ksaOwxGtvM1RUQKxmb3UPszsT
+ sjdKbJ01TZ/ihDQo4Wh7aSGVVkvzmYYEQwNTPCJQOfJUtHwNdHWAA7rH0 A==;
+X-CSE-ConnectionGUID: n+aT8TcBQAOkWGrk01K2ZA==
+X-CSE-MsgGUID: XLUguZ+4SgezPQD2L1KXhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33580173"
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="33580173"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 03:06:47 -0800
+X-CSE-ConnectionGUID: YfgNoayMQHKcDVkIFVY9kg==
+X-CSE-MsgGUID: 0s0s+uOsQwKwhI+eoGJ7nw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="124231772"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.135])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 03:06:42 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, "Guilherme G . Piccoli"
+ <gpiccoli@igalia.com>, bluescreen_avenger@verizon.net, Caleb Connolly
+ <caleb.connolly@linaro.org>, Petr Mladek <pmladek@suse.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v8 1/6] drm/panic: Move drawing functions to drm_draw
+In-Reply-To: <20241115142950.1758007-2-jfalempe@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241115142950.1758007-1-jfalempe@redhat.com>
+ <20241115142950.1758007-2-jfalempe@redhat.com>
+Date: Tue, 03 Dec 2024 13:06:38 +0200
+Message-ID: <87y10x3u0x.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel.siel.si
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - norik.com
-X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id:
- andrej.picej@norik.com
-X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,34 +76,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set custom differential output voltage for LVDS, to fulfill requirements
-of the connected display. LVDS differential voltage for data-lanes and
-clock output has to be between 200 mV and 600 mV.
-Driver sets 200 Ohm near-end termination by default.
+On Fri, 15 Nov 2024, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+> Move the color conversions, blit and fill functions to drm_draw.c,
+> so that they can be re-used by drm_log.
+> drm_draw is internal to the drm subsystem, and shouldn't be used by
+> gpu drivers.
 
-Signed-off-by: Andrej Picej <andrej.picej@norik.com>
----
-Changes in v3:
-- no change
-Changes in v2:
-- use new properties from previous patches
----
- .../boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso     | 2 ++
- 1 file changed, 2 insertions(+)
+I started looking at this in patch 2:
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso b/arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso
-index a9de42cf14be..8bf9cc553bea 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso
-+++ b/arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso
-@@ -186,6 +186,8 @@ port@2 {
- 			reg = <2>;
- 			bridge_out: endpoint {
- 				remote-endpoint = <&panel_in>;
-+				ti,lvds-vod-swing-clock-microvolt = <200000 600000>;
-+				ti,lvds-vod-swing-data-microvolt = <200000 600000>;
- 			};
- 		};
- 	};
+> +#include "../drm_draw.h"
+
+I think we should avoid #includes with ../ like this.
+
+Either drm_draw.h belongs in include/drm, or maybe clients/Makefile
+needs to add subdir-ccflags-y += -I$(src)/.. or something like that?
+
+If it's supposed to be internal, I guess the latter, but then the
+current convention is to have _internal.h suffix. All drm headers under
+drivers/ have that.
+
+Is this the first drm subsystem internal thing that's a separate module?
+Should we use EXPORT_SYMBOL_NS() and MODULE_IMPORT_NS() to enforce it
+being internal?
+
+
+BR,
+Jani.
+
+
 -- 
-2.34.1
-
+Jani Nikula, Intel
