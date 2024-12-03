@@ -2,105 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3FF9E3013
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 00:51:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E5B9E30E5
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 02:44:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A12110E278;
-	Tue,  3 Dec 2024 23:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B591510E4A3;
+	Wed,  4 Dec 2024 01:44:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fe5X3b3L";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="OxiKsdGR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3418110E278
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 23:51:00 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id
- af79cd13be357-7b6662bc408so480259585a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 15:51:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1733269859; x=1733874659;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=EnjgP+/pVl9iI2xT3/J2oBRnCck1VdgzOQo4g6wMy/Y=;
- b=fe5X3b3L1uJwae/C95UCpByR4Z04Gelvcit2VZ9+HMjdZBsvgMbNeqiIkta+pUUbue
- HTIITqPzdEBZFZ/9poSYjyu2nFHYRr7nrV3JNjQJBCSmAoh70EOiOaGc/lPjphLTYT6l
- 69Mno33xKBpBhHv0cvO7s23alJ1jZWtu1VZp8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733269859; x=1733874659;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EnjgP+/pVl9iI2xT3/J2oBRnCck1VdgzOQo4g6wMy/Y=;
- b=D2i16PIhub3KQIaLZxOD/EO6+SETVFGa4vNiRoXyrvJ6jv/gAYLY02f7l0r11ozNVX
- MwbayqdVIuO37050VtIWmCyLzN6+Z3MMFdRM4MpTqrJ+g3Ef58CYOYNDBv+KKDRHyiQ/
- qHC3E8UPIQf0wJ/ZC+izvWGf88hn2u4sXnwZCtr9lsHO/eYwSGNPsl7Iq0/TlTpYerRJ
- QjzPhAERiUOk2m245gqv9rRO8e4VUhbHN+ML3wM87H9Dg23XeukMSjjHzdHptDo6Xm/V
- O6/B58eRlNwi3pVcBxTftrhqO1X0wmNjyOyJnuFJ0zsovio4lAum+hLtquHJxD1bcBW0
- osXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/jonfceiqZsCApAMYj6juMYBnY++FwYNU/ngqPq0CHcs7oqdCFUB6RpWB70dHXYoHg2+l/ZQkY5s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywp8Y5SrNw6Z1jMRuLkUukWbtqA5BaztURLgFEgk9RF1kHpCIUV
- x0VPPIFNwiTGzmaiw5G2riabyH21Nd5mT5b6Sjz1OnM4fbj+J/bKM2rs6akOyyVKlnoWOfNxRY7
- U9wEaDabJRqV/oLqhzypZme/e83a32yloJ6bV
-X-Gm-Gg: ASbGncs4ANPBvrE8AfIapEQvfgCyWiWXWrcButeV7a3vwXs8YpYsEuSCSukk9LW609s
- wc++khrV4h3ekQUrOi/VMzmPqxxFmLLMAhY5dgeXD4ncs+ogMtIh/4AnfNRQ=
-X-Google-Smtp-Source: AGHT+IHEgBXWoi8BJHO3jSXOG7m1oHxpYBSZUKMhC1usrxD/ibe1QmfujCFJzYfILghK3QdcAVLyYpr9Sv5mqRngbJA=
-X-Received: by 2002:a05:6214:2029:b0:6d3:7a47:2034 with SMTP id
- 6a1803df08f44-6d8c443cefdmr40855326d6.3.1733269858918; Tue, 03 Dec 2024
- 15:50:58 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 3 Dec 2024 15:50:58 -0800
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5EF110E4A3
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 01:44:16 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id AED348940F;
+ Wed,  4 Dec 2024 02:44:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1733276654;
+ bh=vY9kPGS0RdiXB0OHZCmI9kH/oWg2qyslJ/GlqgoS874=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OxiKsdGRxNS7Xdu0tMCPtS62mOtLM/7/zbKsln5bTnZxcCAxW4IyRydn6ckF5zToI
+ 2knwzr4uqjZctkqgfqG2/XdrW4teL8Yd8c16CFXDRjf6t5PlX9oK9oAHAtdnexaJQJ
+ P1rpf4NgH6zDZom1Gkf0pI6G2PkzuU+SkJs/V7Zfflf7kY7yEAJQJf01Ed4FwjiNDU
+ vQYsUY8CHQIsDSULugkcFEBnAwsh2/6m1BKQT/OCg93ykB0j1nRGqlFyA89S3F4+GS
+ 2rJieYBhNc99vWOLe01jqNFhSckRQyvWSwM1f9FBlKmGlJZy6n8MijvCDFehud213r
+ 5ZfrvtJrc0mbg==
+Message-ID: <b86666cc-da63-405d-9036-96cb4e69dafb@denx.de>
+Date: Wed, 4 Dec 2024 00:40:44 +0100
 MIME-Version: 1.0
-In-Reply-To: <cartdeijkv6z23dgm7uif4lti3lahfqmuyxcmruzqbefhsp6yk@m6ocjhncs2ko>
-References: <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
- <yk3xidaisbd56yndaucax7otijjauqmm7lqm6q4q633kdawlqo@qaq27lwxmvwd>
- <CAE-0n501j+8bMnMKabFyZjn+MLUy3Z68Hiv1PsfW0APy5ggN8g@mail.gmail.com>
- <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
- <CAE-0n50z6MNa7WOsg-NU7k8BpFeJJyYfHX3ov6DsthLWauSNpA@mail.gmail.com>
- <hqmx7jtkvrwvb27n56hw7rpefhp37lhr3a5fawz7gsl76uuj5s@h7m6wpdhibkk>
- <CAE-0n50y1O2C47zOGJPmMjKXK_m6a=jhpEAP4nW+RymZbo2xyg@mail.gmail.com>
- <5kisfv22tgqwzjpxqrbx56ywr7l4r7pny3pl2r7crv4rijqbwk@azricdasttg7>
- <CAE-0n50Bxi2GfnxOmMwe-F+k5jMSiyAVPDb6K8pYm-i6hpJTOA@mail.gmail.com>
- <cartdeijkv6z23dgm7uif4lti3lahfqmuyxcmruzqbefhsp6yk@m6ocjhncs2ko>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
-Date: Tue, 3 Dec 2024 15:50:58 -0800
-Message-ID: <CAE-0n51-QLLje0f7T4p3xK6Q-FRk4K0NUrVVm4cxkKoevuzktw@mail.gmail.com>
-Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
- google,cros-ec-typec for DP altmode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- patches@lists.linux.dev, devicetree@vger.kernel.org, 
- Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, 
- dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+To: Nikolaus Voss <nv@vosn.de>
+Cc: Liu Ying <victor.liu@oss.nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Fabio Estevam <festevam@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, 
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, 
- linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nikolaus.voss@haag-streit.com, miquel.raynal@bootlin.com
+References: <20241126172610.AD8B51622C@mail.steuer-voss.de>
+ <1f0a307a-666f-4647-9f73-e9bddd6c7eff@oss.nxp.com>
+ <000b34cdd1591c82265ce1f9848828d1@vosn.de>
+ <2c950130-84b4-4a81-84a2-b5e08af43616@oss.nxp.com>
+ <12a1b86e-8f25-4875-8503-1de98f125a62@denx.de>
+ <808d4092a9e97b95480d47c1bd84d930@vosn.de>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <808d4092a9e97b95480d47c1bd84d930@vosn.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,87 +75,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2024-11-21 14:59:42)
-> On Tue, Nov 19, 2024 at 08:09:31PM -0500, Stephen Boyd wrote:
-> >
-> > It sounds like we're debating how to handle lane assignment in the
-> > kernel. Either way, the code is going to be implemented in the bridge
-> > driver because it's the one that has to change what physical lane a
-> > logical lane is assigned to. The question is if it should be some sort
-> > of bridge_funcs callback, or should bridge drivers hook into the typec
-> > framework to expose an orientation switch, or something else?
->
-> I was assuming that orientation switch is such kind of a hook.
->
-> >
-> > I'm thinking we should introduce some sort of bridge_funcs callback that
-> > can be called from the DP altmode driver, either parallel to the
-> > drm_connector_oob_hotplug_event() function or from it directly. If we
-> > can pass the fwnode for the usb-c-connector to the oob_hotplug_event
-> > callback, maybe that's all we need to figure out which lanes go where.
-> > And then in the 2 DP connector muxing world we can call
-> > drm_connector_oob_hotplug_event() with one or the other DP connector
-> > node, which will likely be children nodes of the "HPD redriver" device.
->
-> If you call it from drm_bridge_connector's oob_hotplug_event handler,
-> this should fly. Does it cover your 3-DP or 4-DP usecases?
->
+On 12/3/24 8:20 AM, Nikolaus Voss wrote:
+> On 03.12.2024 04:12, Marek Vasut wrote:
+>> On 12/3/24 3:22 AM, Liu Ying wrote:
+>>
+>> [...]
+>>
+>>>>> I doubt that pixel clock tree cannot find appropriate division ratios
+>>>>> for some pixel clock rates, especially for dual-link LVDS on i.MX8MP
+>>>>> and i.MX93 platforms, because PLL clock rate should be 7x faster than
+>>>>> pixel clock rate and 2x faster than "ldb" clock rate so that the 3.5
+>>>>> folder between "ldb" clock and pixel clock can be met. That means the
+>>>>> PLL clock rate needs to be explicitly set first for this case.
+>>>>>
+>>>>> Can you assign the PLL clock rate in DT to satisfy the "ldb" and pixel
+>>>>> clock rates like the below commit does, if you use a LVDS panel?
+>>>>>
+>>>>> 4fbb73416b10 ("arm64: dts: imx8mp-phyboard-pollux: Set Video PLL1
+>>>>> frequency to 506.8 MHz")
+>>>>
+>>>> I probably could. The point of my patch is you don't have to know in
+>>>> advance which LVDS panel is connected, and you don't have to calculate
+>>>> the base PLL clock by hand and store it in the device tree.
+>>>>
+>>>> In my test system, I have three different LVDS panels with EDID EEPROM,
+>>>> none of which worked with the stock driver, but all work with this
+>>>> patch.
+>>>> With slightly adapted pixel clocks though.
+>>>
+>>> If each of the three LVDS panels has only one display mode, you may
+>>> assign the PLL clock rates in DT overlays for the panels.
+>> I temporarily agree.
+>>
+>> I also currently use DTOs for various panels including their PLL
+>> setting, but in the end, I think/hope the work of Miquel and co. is
+>> going to make that PLL setting part unnecessary.
+> 
+> That is exactly what my patch is about. I want to use one DT for all
+> panels
 
-I think it will work as long as we're able to add some sort of property
-to the usb-c-connector node to indicate that the DP lanes are flipped.
-It feels like that should be in the displayport altmode node to keep
-things tidy because the SuperSpeed port is overloaded. Maybe the drm
-framework can have some API that can take the fwnode from the
-oob_hotplug_event handler and tell the bridge driver which way the
-orientation is.
+Right
 
- connector {
-   compatible = "usb-c-connector";
-
-   altmodes {
-     displayport {
-       orientation-reversed;
-     }
-   };
-
-   ports {
-     ...
-   };
- };
-
-
- int drm_dp_typec_orientation_flipped(struct fwnode_handle *fwnode)
- {
-   struct fwnode_handle *altmodes;
-   struct fwnode_handle *dp;
-
-   altmodes = fwnode_get_named_child_node(fwnode, "altmodes");
-   if (!altmodes)
-     return -EINVAL;
-
-   dp = fwnode_get_named_child_node(altmodes, "displayport");
-   if (!dp)
-     return -EINVAL;
-
-   if (fwnode_property_read_bool(dp, "orientation-reversed"))
-     return 1;
-
-   return 0;
- }
-
-There's another wrinkle on some Corsola devices where the EC says
-there's a usb-c-connector on the board, but in reality the DP lanes are
-connected to a DP-to-HDMI bridge that is controlled by the EC which goes
-to an HDMI connector on the side of the laptop. The EC does the
-arbitration as usual because there's only one DP source and one or two
-usb type-c connectors physically on the laptop in addition to the HDMI
-connector.
-
-The easiest way to imagine this is that we took the usb-c-connector and
-jammed an HDMI dongle in there with some glue so that it can never be
-removed. There isn't any USB going there either because it can't be
-used. I suppose we can continue to describe this with an
-altmodes/displayport node but then add some compatible like
-"usb-c-hdmi-connector" or another property to the altmodes/displayport
-node like "type = hdmi" that signifies this is a connector that only
-outputs HDMI.
+> and store the panel's timing in EDID EEPROM.
+Oh, that is a new one. Does the EDID EEPROM store the entirety of 
+'struct display_timing {}' somehow , or is that a custom format ?
