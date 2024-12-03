@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A479E2419
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:46:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B20E9E2456
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:48:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6BBF10EA6B;
-	Tue,  3 Dec 2024 15:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABC6110E257;
+	Tue,  3 Dec 2024 15:48:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dHMpibXa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SDWDWe3p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6636A10EA6B
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 15:46:11 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9EA010E257
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 15:48:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3CD4DA413F9;
- Tue,  3 Dec 2024 15:44:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 960D9C4CECF;
- Tue,  3 Dec 2024 15:46:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1D2E75C63E9;
+ Tue,  3 Dec 2024 15:47:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC72EC4CECF;
+ Tue,  3 Dec 2024 15:48:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733240770;
- bh=dn8LjBbhrt8WWvRtmZ7EWYAwQ3mVvCiOwBxFtAvZTX4=;
+ s=k20201202; t=1733240910;
+ bh=09cm8DxTfRGPy1cHmrwjDq3tedMQqJBJD51px4SlHfA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dHMpibXaqK0yq9OaoKSg9V16Zdq1zQ3wAMLefrf1cYqT7huFlQ+U3kiz/5KoJl1eU
- Go9vBhDJxi8arAFFrZG4QTojSLxGFvuB8Jh/JlFLTjZki6ZKgPYq+v879eAyePbtVT
- DXuQ1gq+ljCtJsUnlbNF6syZeE3Qe+feqpLSykxk5dIjE6WyIV92mD6d1Hmicj+FUv
- e8DZWuXUAidrrrIZuPrhTWZLAG6s4oM5IzYpU5K09GhcYBMwgbczGPBYSg9pBKUOmD
- rU5+cnxz/NpbjS+Uyu+M8goAFRk+wHN2U8mKljZT+BUYsxoOtTQMM4DByPsG6yMfaI
- GOH6bl1gm7bcg==
-Message-ID: <7d09f311-b9a2-4c40-9fca-4b5d0acc112d@kernel.org>
-Date: Tue, 3 Dec 2024 16:45:59 +0100
+ b=SDWDWe3pWpl9SEY6EIx/nTRd9INAcofCe162CsaUchQXOQjXwrGfDop7Rmz81WKYm
+ tUDI+TbvNUpF5P6TV8umf3Gd13W34QQAhdWoZh1Y4GnCpXQNEUapfceltSb9qOSiXi
+ p+vdMCSZt5QiXxSc5wXkQcb8WuusGpVetS52lQu+MUuAudXQkXta99SKPVGQKKunt9
+ H1a7UYwxGpjDFYLa4Og6AIt4r11NWfQ39WLZlTwj2w5KDLLhKc6/vdo/sL6qumcW45
+ isUAi7kauWR+RW7V5q5DwI9+H/KvCrlZbJji8pTb61WjUcQ8HJo8HWm3gk+GpxCQ9Y
+ qG40V6uyau05A==
+Message-ID: <e7af04b0-7c87-42da-9a3d-152a87aea81d@kernel.org>
+Date: Tue, 3 Dec 2024 16:48:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 06/14] dt-bindings: clock: thead,th1520: Rename
- YAML schema file
+Subject: Re: [RFC PATCH v1 08/14] dt-bindings: power: thead,th1520: Add
+ support for power domains
 To: Michal Wilczynski <m.wilczynski@samsung.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  drew@pdp7.com, guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
@@ -48,8 +48,8 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
 References: <20241203134137.2114847-1-m.wilczynski@samsung.com>
- <CGME20241203134156eucas1p2326d84fcef2ee0914586122520b18dcc@eucas1p2.samsung.com>
- <20241203134137.2114847-7-m.wilczynski@samsung.com>
+ <CGME20241203134159eucas1p1eafefef0dfe7f2b6343a639733012bcf@eucas1p1.samsung.com>
+ <20241203134137.2114847-9-m.wilczynski@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241203134137.2114847-7-m.wilczynski@samsung.com>
+In-Reply-To: <20241203134137.2114847-9-m.wilczynski@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,23 +114,70 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 03/12/2024 14:41, Michal Wilczynski wrote:
-> As support for clocks from new subsystems is being added to the T-Head
-> TH1520 SoC, the Device Tree binding YAML schema file name should reflect
-> this broader scope.  The existing schema file 'thead,th1520-clk-ap.yaml'
-> includes the '-ap' suffix, indicating it's specific to the Application
-> Processor (AP) subsystem.
-> 
-> Rename the YAML schema file to 'thead,th1520-clk.yaml' to generalize it
-> for all subsystems. Update all references to this schema file
-> accordingly.
-> 
-> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> ---
->  .../clock/{thead,th1520-clk-ap.yaml => thead,th1520-clk.yaml}   | 2 +-
->  MAINTAINERS                                                     | 2 +-
+> +
+> +title: T-HEAD TH1520 Power Domain Controller
+> +
+> +maintainers:
+> +  - Michal Wilczynski <m.wilczynski@samsung.com>
+> +
+> +description: |
+> +  The T-HEAD TH1520 SoC includes a power domain controller responsible for
+> +  managing the power states of various hardware domains such as the GPU.
+> +
+> +  This binding describes the power domain controller node, which can be used by
 
-NAK, don't rename just because you added one more compatible (and anyway
-never a separate patch).
+Do not describe the binding. Describe the hardware. Entire paragraph
+feels pointless.
+
+> +  devices to manage their power domains.
+> +
+> +properties:
+> +  compatible:
+> +    const: "thead,th1520-pd"
+
+
+You never tested the code you sent. Drop quotes. Limited review follows.
+
+> +
+> +  thead,vosys-regmap:
+
+NAK.
+
+'reg' is for this.
+
+
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      Phandle to a syscon node representing the shared register space of the VO (Video Output) subsystem.
+
+Please wrap code according to coding style (checkpatch is not a coding
+style description, but only a tool).
+
+
+> +      This register space includes both clock control registers and other control registers used for
+> +      operations like resetting the GPU. Since these registers reside in the same address space,
+> +      access to them is coordinated through a shared syscon regmap provided by the specified syscon node.
+> +
+> +  '#power-domain-cells':
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - thead,vosys-regmap
+> +  - '#power-domain-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    vosys_regmap: vosys@ffef528000 {
+> +        compatible = "syscon";
+> +        reg = <0xff 0xef528000 0x0 0x1000>;
+> +    };
+
+Drop, not related.
+
+
 
 Best regards,
 Krzysztof
