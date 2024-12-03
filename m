@@ -2,80 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC819E14F5
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0DCF9E14E6
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:02:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BFAD10E93B;
-	Tue,  3 Dec 2024 08:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5686310E92F;
+	Tue,  3 Dec 2024 08:02:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uZ52XROu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tEKfuRrO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC26810E93B
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 08:02:57 +0000 (UTC)
-Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 634CD1624;
- Tue,  3 Dec 2024 09:02:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733212949;
- bh=Mc3akC/5Bf4EvpUpWHmUdecQDz7QPKV1NnLKxJl83cw=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=uZ52XROu3OO9WWfYNPWlNzcPuUZJSaSaPMK4uoAqw8yMia5EZCHPYAdkTPfiSlhB+
- GQiM8mYUbnGMl44+abXPR2RM3vmr5Du9eZkxz9oeO6D8NxK5x0/vDgLnpBd+wyBcoY
- 3VSvsCEL9IWOEXo/fBgKSbQI5vdWD+u/2Xyt0W1o=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 03 Dec 2024 10:01:43 +0200
-Subject: [PATCH 9/9] arm64: dts: renesas: gray-hawk-single: Add DisplayPort
- support
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A27F10E92D;
+ Tue,  3 Dec 2024 08:02:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 7CE61A40A30;
+ Tue,  3 Dec 2024 08:00:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C781C4CECF;
+ Tue,  3 Dec 2024 08:02:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733212927;
+ bh=TY2CTVQLZDBZSpPG3TOd4Vss8QMMAeKC2lgYdcC23NI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tEKfuRrOMJv8493iIDmbaFpdTTaIxxhGSqdGE+HDe5vdg47HuPFeVIYLq5UV8UyEb
+ WxipH4EVEilfFYaLgzl9DHb8flIM3ERVPomw0ldZLenyqb/lwaWhAp7Heur1FGtVJO
+ uSRulUdiYm3M/MVUKlRcKXurCfL0dXz7tME5T7hixBKmxg5ivlw+5B2CPly6fS38yh
+ DrxDCYrVzsP9oFvxlFwPKUZWoZoGQdSHlnXdig93bh7pbmtVcQRczKAuYeP7dsvkMC
+ O9pzCCerjVmdaeDMYVYs5O/RxId9KIHv2atpYgZAtDyrkyahX18AbSqkDIthANyyM7
+ B2R+9jH8DIZkg==
+Message-ID: <e8f2e17c-13c1-4485-8e9a-d67705e461d6@kernel.org>
+Date: Tue, 3 Dec 2024 09:01:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dt-bindings: display: msm: dp-controller: document
+ pixel clock stream
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Mahadevan <quic_mahap@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com>
+ <20241202-dp_mst_bindings-v1-1-9a9a43b0624a@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241202-dp_mst_bindings-v1-1-9a9a43b0624a@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241203-rcar-gh-dsi-v1-9-738ae1a95d2a@ideasonboard.com>
-References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
-In-Reply-To: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2975;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=zqkFHIbOVDDcC1NRxKnJ6UxWmD0e5V/71JMpsEHP56Q=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnTrsfD+7K/0Xel1r9eBekv76IuS1YQuyCnEW2E
- hUYb8m1pBKJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ067HwAKCRD6PaqMvJYe
- 9WyLD/9y3oW9hXKUDP8jTvEV+yP2+S18vbQ9f930ZsKEN3wxkMa18VRisgjVfw7ylFq3gwZx3F9
- pPGjb0wLqbG7HSnNL+gaIVVzweC5srmU8XNpANL3iXsmJ7mi9JVGPJl4r3DeO8V0MW2A3tMW30O
- GxTVGpZ3S4jLqbpUaRHsTHbFEXOgIBWMSGP6gXDYMYGGQZCgE209X2gZnn66+WZPFk/BIQvkmox
- tvzkQQz3nYiAFWjPh+S4HXdd2sAlkBjYkWSg5uA5aGy9wmQ83vwLk3P24kidXnC74Ys5crdniRQ
- UH3Kz5G88aVjSS9oHQgDDaHocIMUXinHASjrob1VSKJkBRk61IM8iPi6l7eZrymZsl5bEi/PC72
- 6gcD7tgnEGkVojK+SP6CMCd1XOrPc8pitp1obqstg25tADZXHK21gKdIXrreQ4BTjRhhBWQiDxS
- KbvoBUPr8UUS+RWtgG71Jvii+NyhSrBWFCUFifL2VI1UuF/lA2rh3o7oI/5+MJIRzCyBzPaY/e5
- CheAQBWW4OYzTLFgJFXE6+vVIwywL9HL3hMIuKjKJbMp8wILyrYVivCoQeL10tuSxt/dDkzpZOK
- 7EVJVpzfCkBU1MkCsh90z9MAw2m+HLkEE3KSBwdIkkO4eS682BTtdNVdksKIIuFB9O0mQYeBI3s
- a6b5KmGhMbsJeGA==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,150 +113,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On 03/12/2024 04:31, Abhinav Kumar wrote:
+> Display port controller on some MSM chipsets are capable of supporting
+> multiple streams. In order to distinguish the streams better, describe
+> the current pixel clock better to emphasize that it drives the stream 0.
+> 
+This should be squashed with patch adding stream 1.
 
-Add support for the mini DP output on the Gray Hawk board.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- .../boot/dts/renesas/r8a779h0-gray-hawk-single.dts | 95 ++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-index 057f959d67b3..7cdf07b6dde6 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-@@ -59,6 +59,12 @@ chosen {
- 		stdout-path = "serial0:921600n8";
- 	};
- 
-+	sn65dsi86_refclk: clk-x6 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <38400000>;
-+	};
-+
- 	keys {
- 		compatible = "gpio-keys";
- 
-@@ -126,6 +132,27 @@ memory@480000000 {
- 		reg = <0x4 0x80000000 0x1 0x80000000>;
- 	};
- 
-+	mini-dp-con {
-+		compatible = "dp-connector";
-+		label = "CN5";
-+		type = "mini";
-+
-+		port {
-+			mini_dp_con_in: endpoint {
-+				remote-endpoint = <&sn65dsi86_out0>;
-+			};
-+		};
-+	};
-+
-+	reg_1p2v: regulator-1p2v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-1.2V";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
- 	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
-@@ -200,6 +227,24 @@ channel1 {
- 	};
- };
- 
-+&dsi0 {
-+	status = "okay";
-+
-+	ports {
-+		port@1 {
-+			reg = <1>;
-+			dsi0_out: endpoint {
-+				remote-endpoint = <&sn65dsi86_in0>;
-+				data-lanes = <1 2 3 4>;
-+			};
-+		};
-+	};
-+};
-+
-+&du {
-+	status = "okay";
-+};
-+
- &extal_clk {
- 	clock-frequency = <16666666>;
- };
-@@ -269,6 +314,51 @@ eeprom@53 {
- 	};
- };
- 
-+&i2c1 {
-+	pinctrl-0 = <&i2c1_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+	clock-frequency = <400000>;
-+
-+	bridge@2c {
-+		compatible = "ti,sn65dsi86";
-+		reg = <0x2c>;
-+
-+		clocks = <&sn65dsi86_refclk>;
-+		clock-names = "refclk";
-+
-+		interrupt-parent = <&intc_ex>;
-+		interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-+
-+		enable-gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
-+
-+		vccio-supply = <&reg_1p8v>;
-+		vpll-supply = <&reg_1p8v>;
-+		vcca-supply = <&reg_1p2v>;
-+		vcc-supply = <&reg_1p2v>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				sn65dsi86_in0: endpoint {
-+					remote-endpoint = <&dsi0_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				sn65dsi86_out0: endpoint {
-+					remote-endpoint = <&mini_dp_con_in>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &i2c3 {
- 	pinctrl-0 = <&i2c3_pins>;
- 	pinctrl-names = "default";
-@@ -361,6 +451,11 @@ i2c0_pins: i2c0 {
- 		function = "i2c0";
- 	};
- 
-+	i2c1_pins: i2c1 {
-+		groups = "i2c1";
-+		function = "i2c1";
-+	};
-+
- 	i2c3_pins: i2c3 {
- 		groups = "i2c3";
- 		function = "i2c3";
-
--- 
-2.43.0
-
+Best regards,
+Krzysztof
