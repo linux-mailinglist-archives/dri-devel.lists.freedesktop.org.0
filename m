@@ -2,57 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04D09E29C6
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:45:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252089E29DA
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:47:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D78C10EAF0;
-	Tue,  3 Dec 2024 17:45:55 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VJbU0UBo";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6939B10EAFB;
+	Tue,  3 Dec 2024 17:47:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D99310EAF0;
- Tue,  3 Dec 2024 17:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733247955; x=1764783955;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=tqb7zp0+menYzgwWCTZOrH67+2p8i2CZtaOqiZ0YxJk=;
- b=VJbU0UBo1KbdhtlRJtmGnI3jI7hfiOzsT1ZpsgkkXcMwZfRbF7ttPmDR
- c20MaDJLpHrT7t2O2OokR2ctvx/do7RJIyNr5SgyFgKArus2K3bGILdXl
- 2DsvOML98NctSsUizoUqbFDogwdz7P7i/vuXbRnNRApBStycHahn/Fir6
- upVbhAcvhmxnlkKwasjCildVGZUBm40xcym6VkHRsPvOle3Vpg05El7nf
- cQGLD95QuTXItq/wHlTvn0D1b0MtzznElCQXppxRTLytasFqvEqCWBiWv
- gc5FT9mSKTD909GZkUIbIdHTpWR0uUw/DKzHItMj1bk/IQoDDAgAJlagJ A==;
-X-CSE-ConnectionGUID: tSEXMSrzTOqHIbfRvFNijQ==
-X-CSE-MsgGUID: 7p+Lh/XRRNSlR4GwKGoO8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="33355504"
-X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="33355504"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2024 09:45:54 -0800
-X-CSE-ConnectionGUID: GTcp+KC8RC64mDWhKpQCDA==
-X-CSE-MsgGUID: s4gziCP8Sqy0Cy0h7TvDRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="97569894"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2024 09:45:53 -0800
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
-	Lyude Paul <lyude@redhat.com>
-Subject: [PATCH v2 4/7] drm/dp_mst: Fix down request message timeout handling
-Date: Tue,  3 Dec 2024 19:46:32 +0200
-Message-ID: <20241203174632.2941402-1-imre.deak@intel.com>
-X-Mailer: git-send-email 2.44.2
-In-Reply-To: <20241203160223.2926014-5-imre.deak@intel.com>
-References: <20241203160223.2926014-5-imre.deak@intel.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFCF810EAFA
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:47:32 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1tIWzf-0004K2-Jw; Tue, 03 Dec 2024 18:47:27 +0100
+Message-ID: <14b8f44c080aff186898ace67b636568a91bd7d3.camel@pengutronix.de>
+Subject: Re: [PATCH v16] drm/etnaviv: Fix page property being used for non
+ writecombine buffers
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Tue, 03 Dec 2024 18:47:27 +0100
+In-Reply-To: <20241104004156.8635-1-sui.jingfeng@linux.dev>
+References: <20241104004156.8635-1-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,70 +55,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If receiving a reply for an MST down request message times out, the
-thread receiving the reply in drm_dp_mst_handle_down_rep() could try to
-dereference the drm_dp_sideband_msg_tx txmsg request message after the
-thread waiting for the reply - calling drm_dp_mst_wait_tx_reply() - has
-timed out and freed txmsg, hence leading to a use-after-free in
-drm_dp_mst_handle_down_rep().
+Am Montag, dem 04.11.2024 um 08:41 +0800 schrieb Sui Jingfeng:
+> In the etnaviv_gem_vmap_impl() function, the driver vmap whatever buffers
+> with write combine(WC) page property, this is incorrect. Cached buffers
+> should be mapped with the cached page property and uncached buffers shoul=
+d
+> be mapped with the uncached page property.
+>=20
+Thanks, applied to etnaviv/next.
 
-Prevent the above by holding the drm_dp_mst_topology_mgr::qlock in
-drm_dp_mst_handle_down_rep() for the whole duration txmsg is looked up
-from the request list and dereferenced.
+Regards,
+Lucas
 
-v2: Fix unlocking mgr->qlock after verify_rx_request_type() fails.
-
-Cc: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 6ec8680998d5a..ab21855d5c0f7 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -3984,9 +3984,9 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
- 
- 	/* find the message */
- 	mutex_lock(&mgr->qlock);
-+
- 	txmsg = list_first_entry_or_null(&mgr->tx_msg_downq,
- 					 struct drm_dp_sideband_msg_tx, next);
--	mutex_unlock(&mgr->qlock);
- 
- 	/* Were we actually expecting a response, and from this mstb? */
- 	if (!txmsg || txmsg->dst != mstb) {
-@@ -3995,11 +3995,17 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
- 		hdr = &msg->initial_hdr;
- 		drm_dbg_kms(mgr->dev, "Got MST reply with no msg %p %d %d %02x %02x\n",
- 			    mstb, hdr->seqno, hdr->lct, hdr->rad[0], msg->msg[0]);
-+
-+		mutex_unlock(&mgr->qlock);
-+
- 		goto out_clear_reply;
- 	}
- 
--	if (!verify_rx_request_type(mgr, txmsg, msg))
-+	if (!verify_rx_request_type(mgr, txmsg, msg)) {
-+		mutex_unlock(&mgr->qlock);
-+
- 		goto out_clear_reply;
-+	}
- 
- 	drm_dp_sideband_parse_reply(mgr, msg, &txmsg->reply);
- 
-@@ -4013,9 +4019,9 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
- 			    txmsg->reply.u.nak.nak_data);
- 	}
- 
--	mutex_lock(&mgr->qlock);
- 	txmsg->state = DRM_DP_SIDEBAND_TX_RX;
- 	list_del(&txmsg->next);
-+
- 	mutex_unlock(&mgr->qlock);
- 
- 	wake_up_all(&mgr->tx_waitq);
--- 
-2.44.2
+> Fixes: a0a5ab3e99b8 ("drm/etnaviv: call correct function when trying to v=
+map a DMABUF")
+> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> ---
+> Split from my PCIe device driver wrapper support series, since this proba=
+bly
+> should be resend as a standalone patch.
+>=20
+> v15: Use `obj->flags & ETNA_BO_CACHE_MASK` (Lucas)
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gem.c
+> index d51843d9a476..d2cb9dded051 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -362,6 +362,7 @@ static void etnaviv_gem_object_vunmap(struct drm_gem_=
+object *obj,
+>  static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+>  {
+>  	struct page **pages;
+> +	pgprot_t prot;
+> =20
+>  	lockdep_assert_held(&obj->lock);
+> =20
+> @@ -369,8 +370,19 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_ge=
+m_object *obj)
+>  	if (IS_ERR(pages))
+>  		return NULL;
+> =20
+> -	return vmap(pages, obj->base.size >> PAGE_SHIFT,
+> -			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
+> +	switch (obj->flags & ETNA_BO_CACHE_MASK) {
+> +	case ETNA_BO_CACHED:
+> +		prot =3D PAGE_KERNEL;
+> +		break;
+> +	case ETNA_BO_UNCACHED:
+> +		prot =3D pgprot_noncached(PAGE_KERNEL);
+> +		break;
+> +	case ETNA_BO_WC:
+> +	default:
+> +		prot =3D pgprot_writecombine(PAGE_KERNEL);
+> +	}
+> +
+> +	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
+>  }
+> =20
+>  static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
 
