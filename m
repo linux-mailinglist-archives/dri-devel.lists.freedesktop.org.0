@@ -2,85 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771859E1E4E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 14:54:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C289E1E5C
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 14:56:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBF9D10E477;
-	Tue,  3 Dec 2024 13:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5535710E469;
+	Tue,  3 Dec 2024 13:56:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PMfkfRx+";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Tm7U3i9l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D45410E477
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 13:54:33 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-53dde5262fdso6433450e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 05:54:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733234071; x=1733838871; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7uNJWGh5QWIcANOkbpAmV+WuUq2lB7oYxMgbIDfhiSY=;
- b=PMfkfRx+s37M0Mt657K49wQiD4Xw/WHZERw0HfxpbT1NnibekdJJgsZfqbK6t+WIeY
- Y/3NYpnLbITfE722ACcgsAjcsocfOzVugGPleDhFncXx9zBmfpbu0VivDB4PequXY0dR
- Y9FNdqnbI7xTFuIsXvjBZX7Ud0yp1Na2g7oBeYNH51CJRvgWfxE1uSKfNOiFE1IBTz3A
- H6Jt0gH5//dlnP5Wy/J1W+wt7CfZTKYFNq7KZzS9+aTdsB5FDnYyg5nIKE/NVAsKtYnT
- grLcOBGV+vNty/yFTHJ5jF6tj0rT03WQ3gyHZVk1FA6kNciRsHmvKkveC91C/bm5bCiM
- iLxQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F066410E469
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 13:56:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1733234183;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ofnRMwIQFTb4k+7X6/uoqTm17QN8QYgSAm6WdEndwGI=;
+ b=Tm7U3i9lFDb7CqaqWCYy5jmGz8JqapuWCM/IpMcRzfqYUQX48Yk3HeH9byjuAzzbDD1p87
+ Mqpz8yxeybn1Q+VYqEcDP3e3qQg6OMcVS3oFsCFrOAKFQDeU5KWIMbb5rPGLOyUkmUlKG/
+ 2UJFM1uGTZwt1eE2kDa3zNJb9J1APBw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-206-pZEGsaZvMciu7TPg0aNQZA-1; Tue, 03 Dec 2024 08:56:22 -0500
+X-MC-Unique: pZEGsaZvMciu7TPg0aNQZA-1
+X-Mimecast-MFC-AGG-ID: pZEGsaZvMciu7TPg0aNQZA
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4349e97bfc4so52091455e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 05:56:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733234071; x=1733838871;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7uNJWGh5QWIcANOkbpAmV+WuUq2lB7oYxMgbIDfhiSY=;
- b=TqXUlla2T2XIO0y6v9QfS0sBqVWpzEhSfHPbq8SoDA2HBqLc2PM3H+Xf2KZ6nzTb4S
- Oi6zE3EFwLOGsUralFcxYaMqyZQQR6WhxCWFCRxg1UmVqwIWp+3fzZAp6ABXMS21eQFY
- 4ZO6ceGRZgL54K+uH7fa4HankZ7qonZwOK9VoYfJeaVrcpQGwK8h+2v617tvwT/cYKU1
- 1cHvd0XvG1a4lzk0g8rHEH6pqxPJ/+Wsfv2IxE28e/8cyIx1bHhb++GnFzR1Fx2rZnus
- GiuUafsh/n7VcHfIHcTOBURvfXYwZ2YKg44Gx0QwH8ojyG1KumQjYc7qgwuvaOQXJWhe
- IroA==
+ d=1e100.net; s=20230601; t=1733234181; x=1733838981;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ofnRMwIQFTb4k+7X6/uoqTm17QN8QYgSAm6WdEndwGI=;
+ b=prBbx18XpnBgWdo4kPM6R5yx/1u0roZ0nBVP0Kx/B5oJ5MLfwAyy+JEo3cK56pGK+x
+ ewlMEydsJ+MQ7KjXfQUsQwJ5hQ380ffNFWM3nW+GJxSurYd5w7JKuXPqUBgio2TQsC4a
+ bboik7u65agSfQsGBShG9kbCG19NxIoWAW/w9wsXC78mupZvvxn/fDHVMCwhwDTNSKq5
+ IPrDnyDhYe8xQja5eDbtQFXOcuc1aeCclqU5cBxRJPzXpMBk9zpHixxKB3d2FgTTiAUC
+ nJ++NX6lR0Jw4J6ewyLdmcgSHwNQZOaX6LpKE7HmariL+wDYriVQ9fN85K8m/f9uz3X/
+ SI+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVQZLT17VESGqYYQs00zb8TfwHVDUjMLYsL9tFr57/2egQrw3l9CRsqRTgrBXVFqIBrAlIjTz8/654=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwyfaPqkrz5+RoxwxCCDvQ2WK/IKIxfpdy3ITigsFysQ4AsqOuH
- XxIvRpp2GTj7XT4ty7ct+2EHL1DG34H4OCQwDszI9rR+AaSr3OBQxDiB3exA64kyD9CbcEAHqEO
- 8
-X-Gm-Gg: ASbGncvjV2hN92z2YRMKH7lGekY8i6NUXAjETsjH64bOhGMKLK7WFv0qfJoIBHkq0GG
- IwVw4jXJ8WLFViupjVIZIsTnr7r5vw3mrObyWbAKizFo+HXwGu7trl7ghrzSB47QzPhgnz1eRVs
- pBDpHgj1u2Rha/ilQBjoUYMI+Ug8HgAouz/mfX8uVuyrlYLyIiuFoBCq4cDjOwvqXvSPvBAwRaE
- ZF2A1BVgtg6VZbmqTa6kAuQz9ZfVSVQ2M8QEs30zRbzHAysFZ6xrmMR3R0TBDr5FbpPtXbwPn8F
- TUHya3gBSNqIrYcQ9iYW9RCTY1KVLQ==
-X-Google-Smtp-Source: AGHT+IE7c1Kb8HtD45thYMsSVhmzZ9BdudadoQnajTE11NmQT7idsUke6l4BDT5LccQiDuRy+BsDXg==
-X-Received: by 2002:a05:6512:3ba3:b0:53d:d443:1ab0 with SMTP id
- 2adb3069b0e04-53e12a22f2dmr1693409e87.43.1733234071182; 
- Tue, 03 Dec 2024 05:54:31 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ AJvYcCUgdrx6EZNr/2NXAkw1v9LULSBkWkebSSgww0ElfkM58/hewtupblb5yrSQpNTdMoh9k1P2TQiMP34=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1IojgIj/EdV2PEHfrsxibzu4OHVAak6PXk2MpoAJenuP66+fZ
+ GL4u1SyYW9nsjCpRjZiyjbISrS8JS3q9QKedeKwDL2AqkkZsQJbvnaI+VXT7LP7yNv0YwKWHwZg
+ qBEC/nn/K3PAryHYzbO7THzqvbah32RkXdP0vlgfw/l6arhqjhV4KcY5bGKVHwrDQTQ==
+X-Gm-Gg: ASbGncsS4xYySDcvN0IJ5ZDmd5jE99pPb1JmYKDGh2ZZUqbAbAe7mw/rOQ+1R6+TArX
+ o8/SEUgk2apwBNVCVv2MWu1Ke9iUI4rKtMv5CIxWVRTeb53iCUgPsYeBQmeVoqoj/1BjKG7DMED
+ bQr1ioCMDAD57GEJ7Wub7f9yoWlzEsQzBIuI/iqrmdP/M6Rck+Pou5oS6VWNFHvozHen4A+iu83
+ 3D/Jp/Nv4FPV/FOA24VPVNS04ftvagsHHPxymIfoN9eSFSBUR881nEZi1Zx3WOt0FFY9TGBYK8d
+ rEHENAZv22FSCg==
+X-Received: by 2002:a05:600c:6b71:b0:432:d735:cc71 with SMTP id
+ 5b1f17b1804b1-434d0a0e3c4mr23173465e9.25.1733234181518; 
+ Tue, 03 Dec 2024 05:56:21 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFdQTYzrpTRAVfwmFeAbxgl2DVBKmVnO8fLYo0g42ay4ZV/6Sm256hFJYKinCixAGTd/lPzkA==
+X-Received: by 2002:a05:600c:6b71:b0:432:d735:cc71 with SMTP id
+ 5b1f17b1804b1-434d0a0e3c4mr23173175e9.25.1733234181147; 
+ Tue, 03 Dec 2024 05:56:21 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df646f0e6sm1833037e87.154.2024.12.03.05.54.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2024 05:54:29 -0800 (PST)
-Date: Tue, 3 Dec 2024 15:54:27 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>, 
- Doug Anderson <dianders@chromium.org>, Johan Hovold <johan@kernel.org>, 
- Bjorn Andersson <quic_bjorande@quicinc.com>
-Subject: Re: [PATCH 4/4] drm/msm/dp: remove ST_DISPLAY_OFF as a hpd_state
-Message-ID: <3fy3klftm7tlr3oki26dros4xbfs62hw3edw3ebsbcuxpcd4w4@l7uesddnkjbs>
-References: <20241202-hpd_display_off-v1-0-8d0551847753@quicinc.com>
- <20241202-hpd_display_off-v1-4-8d0551847753@quicinc.com>
+ 5b1f17b1804b1-434aa764474sm218475535e9.10.2024.12.03.05.56.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Dec 2024 05:56:20 -0800 (PST)
+Message-ID: <a51f2945-4eff-411e-83ad-838e69daeb6a@redhat.com>
+Date: Tue, 3 Dec 2024 14:56:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241202-hpd_display_off-v1-4-8d0551847753@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/6] drm/panic: Move drawing functions to drm_draw
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
+ Petr Mladek <pmladek@suse.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241115142950.1758007-1-jfalempe@redhat.com>
+ <20241115142950.1758007-2-jfalempe@redhat.com> <87y10x3u0x.fsf@intel.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <87y10x3u0x.fsf@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 4-INOLD3C7aoqmaKH-64sUavwHsSi4xJWI_fV_gKkpg_1733234181
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,26 +110,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2024 at 04:39:03PM -0800, Abhinav Kumar wrote:
-> ST_DISPLAY_OFF check in msm_dp_bridge_atomic_enable() is used to check
-> that if the display was disabled while still hotplugged, phy needs
-> to be re-initialized. This can be replaced with a different check as
-> it just means the hpd_state was still ST_CONNECTED but without display
-> being powered on. Replace the ST_DISPLAY_OFF check with a combination
-> of connected and power_on checks.
+On 03/12/2024 12:06, Jani Nikula wrote:
+> On Fri, 15 Nov 2024, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>> Move the color conversions, blit and fill functions to drm_draw.c,
+>> so that they can be re-used by drm_log.
+>> drm_draw is internal to the drm subsystem, and shouldn't be used by
+>> gpu drivers.
 > 
-> Since all consumers of ST_DISPLAY_OFF have now been removed,
-> drop ST_DISPLAY_OFF from the list of hpd_states as technically
-> this was never a 'hpd' state anyway.
+> I started looking at this in patch 2:
 > 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>> +#include "../drm_draw.h"
 > 
+> I think we should avoid #includes with ../ like this.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Sure, I've added it in v8, after the clients moved to drm/clients/, but 
+I didn't think much about it.
+
+> 
+> Either drm_draw.h belongs in include/drm, or maybe clients/Makefile
+> needs to add subdir-ccflags-y += -I$(src)/.. or something like that?
+> 
+> If it's supposed to be internal, I guess the latter, but then the
+> current convention is to have _internal.h suffix. All drm headers under
+> drivers/ have that.
+
+ok, I can rename drm_draw.h to drm_draw_internal.h, and add the include 
+in the Makefile.
+> 
+> Is this the first drm subsystem internal thing that's a separate module?
+> Should we use EXPORT_SYMBOL_NS() and MODULE_IMPORT_NS() to enforce it
+> being internal?
+
+It's not really a separate module, as it's built in the core drm module. 
+(the reason is that it's used by drm_panic too, which must be in the 
+core drm module).
+
+I don't know much about symbol namespace, but I can add that if needed.
+
+Best regards,
 
 -- 
-With best wishes
-Dmitry
+
+Jocelyn
+
+> 
+> 
+> BR,
+> Jani.
+> 
+> 
+
