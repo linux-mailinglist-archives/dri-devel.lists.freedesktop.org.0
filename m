@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617399E15BD
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:28:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8929E15B9
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:28:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C86D510E969;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2236B10E963;
 	Tue,  3 Dec 2024 08:28:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icloud.com header.i=@icloud.com header.b="u1JlnJt5";
+	dkim=pass (2048-bit key; unprotected) header.d=icloud.com header.i=@icloud.com header.b="D949jriR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from pv50p00im-zteg10011501.me.com (pv50p00im-zteg10011501.me.com
  [17.58.6.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8ED10E8AB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A26910E8A8
  for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 00:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
- s=1a1hai; t=1733186163;
- bh=8oKTqrAKebW9WBOlzoM4TxO8uixngvvulXc2gSncQpE=;
+ s=1a1hai; t=1733186184;
+ bh=IiwvAxmsMkXtcn4MTTv7QwRfPfONTV00nftEb1rZOV4=;
  h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:
  x-icloud-hme;
- b=u1JlnJt5TlikeEAdxSGIdqpUn09/s5OJrSutqhAw4UQ3FUbpKVcLtcZq/tzWPFj0S
- 2ni5MzccVAEzqLTN3RdwfISAmiwWmeIiS4kSTHOG7pnkJUCl8Ltzmb/r1WRNlRyWES
- dJj8uC3cfQmdAXSNDNa70S8/SnZ7MQcJak+7F6NmyWOEQQ+bYmPIrK8kX0p2eVESkt
- AkPLvyfKoS2LrvGv7rsGHXP9JWwaZgSAoMdL0mowmC4mEYB9IccdyQ+PpzYKumyllk
- Fg85uB1PM/2C0OiZlaQbjsQDPuOSbwcJcTTfWk5rY7BzUQgWUVmZGlBxXUOvbDvYVj
- zcNQ3TmSKjQJA==
+ b=D949jriRjnEuZv55IaXlTezpTBP0oTLN0tjcD66KylzVfRFBw5FJVnVNc4HzKEued
+ BSRukh6XUyf33FKsfmGlDk8dN+oY2dNTKTa6nMS2l44qgvuRByVm2v6+qhEIWFg4fK
+ lIlc8VhpxiiBHYqk5vUmEm3zlGDQJy5/RN4T55qbH6oM5KZBaViTjQ3nU2jXukxAeG
+ YYgoVOhnfwedNrVGZHSiDwSDPpc6wWi7XfhckaneCDIJ7mJ3fhmvdw/XrDSqTeCH4i
+ Z2tEHG5XQQnYmrEbxupyotVkgN3Wqn+jO1CSnQVck6og9N1GeAyOAmWta96i0owje9
+ 5szmAPOowFNYQ==
 Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com
  [17.56.9.10])
- by pv50p00im-zteg10011501.me.com (Postfix) with ESMTPSA id 26EF74A0457;
- Tue,  3 Dec 2024 00:35:41 +0000 (UTC)
+ by pv50p00im-zteg10011501.me.com (Postfix) with ESMTPSA id 804FE4A00B8;
+ Tue,  3 Dec 2024 00:36:03 +0000 (UTC)
 From: Zijun Hu <zijun_hu@icloud.com>
-Date: Tue, 03 Dec 2024 08:33:25 +0800
-Subject: [PATCH v2 03/32] drm/mediatek: Adapt for constified
- device_find_child()
+Date: Tue, 03 Dec 2024 08:33:26 +0800
+Subject: [PATCH v2 04/32] hwmon: Adapt for constified device_find_child()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241203-const_dfc_done-v2-3-7436a98c497f@quicinc.com>
+Message-Id: <20241203-const_dfc_done-v2-4-7436a98c497f@quicinc.com>
 References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
 In-Reply-To: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -95,8 +94,8 @@ Cc: Zijun Hu <zijun_hu@icloud.com>, linux-kernel@vger.kernel.org,
  arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
  linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Proofpoint-GUID: r2PHi7bIcwf9ElW8aqnD_T2_M0lSLrFl
-X-Proofpoint-ORIG-GUID: r2PHi7bIcwf9ElW8aqnD_T2_M0lSLrFl
+X-Proofpoint-GUID: hnVgDw1K1lIcz6xDWLO_ZLGwCsDdmTOX
+X-Proofpoint-ORIG-GUID: hnVgDw1K1lIcz6xDWLO_ZLGwCsDdmTOX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-12-02_14,2024-12-02_01,2024-11-22_01
@@ -127,26 +126,26 @@ From: Zijun Hu <quic_zijuhu@quicinc.com>
 device_find_child() has been constified to take new match function type:
 typedef int (*device_match_t)(struct device *dev, const void *data);
 
-Make mtk_drm_match() take a const pointer to adapt for the new type.
+Make hwmon_match_device() take a const pointer to adapt for the new type.
 
 Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 2 +-
+ drivers/hwmon/hwmon.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 9a8ef8558da921c75c1ab1986795bbc0a394899d..7a276c3965cd0e9147dffb28693fd9d1a1053fc7 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -359,7 +359,7 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
+diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
+index 49b366254529fe6c03e8af6870ebd269cdcfd70c..9325bec83ae52d6519bcbd72b2e6213cfaee0b6d 100644
+--- a/drivers/hwmon/hwmon.c
++++ b/drivers/hwmon/hwmon.c
+@@ -341,7 +341,7 @@ static int hwmon_attr_base(enum hwmon_sensor_types type)
  
--static int mtk_drm_match(struct device *dev, void *data)
-+static int mtk_drm_match(struct device *dev, const void *data)
+ static DEFINE_MUTEX(hwmon_pec_mutex);
+ 
+-static int hwmon_match_device(struct device *dev, void *data)
++static int hwmon_match_device(struct device *dev, const void *data)
  {
- 	if (!strncmp(dev_name(dev), "mediatek-drm", sizeof("mediatek-drm") - 1))
- 		return true;
+ 	return dev->class == &hwmon_class;
+ }
 
 -- 
 2.34.1
