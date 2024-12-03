@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6D59E248C
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:50:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F919E249A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:50:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 142EC10EA6E;
-	Tue,  3 Dec 2024 15:50:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5201510EA71;
+	Tue,  3 Dec 2024 15:50:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r1dypc95";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DVIq3Jb9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58C3010EA6E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 15:49:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C9F10EA71
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 15:50:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D0B625C0267;
- Tue,  3 Dec 2024 15:49:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CDDDC4CECF;
- Tue,  3 Dec 2024 15:49:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 830BE5C5F37;
+ Tue,  3 Dec 2024 15:50:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46A14C4CECF;
+ Tue,  3 Dec 2024 15:50:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733240997;
- bh=mo2eNlwmx704hDWUW46aIuAMajnwh8WGQqvrFgIwYgc=;
+ s=k20201202; t=1733241048;
+ bh=n570EuIKkUoOlNy2/evG9Hp7xcrgmKhixIkmq6odSOk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=r1dypc95hlsb7L7JFQUACDi2B9hUki7rh4OVT6W38L7/aN8P86pv0goz2IXeUaVwI
- QdByPHqG3MqS8xFenSsBFgerb/ms6TpLOlK8ANXXXdDSDNTX+dFxw8lRwkor7VxlMg
- yopbD7M8pzGCjddiK8cl9ETKROr3ziUo4DCs1bJ77FBaoNztkmjzag7ELSppU9jRa0
- +BGrH+F4e0dOqUS3KADCJLlp0LFoft5TOL4GEQw9RSXMhoqR6ms3CwqgvgUp+IjlD+
- N7GuNRLyNPns99c8cZT3ZuW0BI2PyRGHAJaFfAp3TgQVU91GBZOZL6uMQV7zLpQv8c
- GKcZ564Pvxmvw==
-Message-ID: <37b65029-8310-48d1-bb6e-de5e47b2a403@kernel.org>
-Date: Tue, 3 Dec 2024 16:49:45 +0100
+ b=DVIq3Jb9WNnCnWE+4MjokfsdEdsdVthLx80K0FNxA9Y5NyCIQdrJsKKgqO8/Qb8cB
+ dqxEZ3cjofXHsdxsEWGQQ/wyqom0G2srbFzbNGKKntbDRfIn11xovzS4MEBrVxyRWN
+ KFWXLDvwRwN4dIw2eQ16uVslgLJF+rRKbf9Tqi4se//x9I0JjNZxzGqzfQDZpgSlfW
+ TOBiY06rvErj1N77Dr/RMSj6yq8ZqqQMkDZ4mfiYejedThybvlmIS+VA3a+037XyVm
+ H43pD97ZHm3cZALD+7r6DQfGVXkQ/avEWTKHHbeBF4CnREfvV4xR98meNMzCh7ot0k
+ 6jE1s+gDVz1yQ==
+Message-ID: <2b6ffc5a-4021-459d-ae4c-b2c472960c60@kernel.org>
+Date: Tue, 3 Dec 2024 16:50:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 10/14] drm/imagination: Add support for IMG
- BXM-4-64 GPU
+Subject: Re: [RFC PATCH v1 12/14] riscv: dts: Add Video Output clock and
+ syscon regmap nodes
 To: Michal Wilczynski <m.wilczynski@samsung.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  drew@pdp7.com, guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
@@ -48,8 +48,8 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
 References: <20241203134137.2114847-1-m.wilczynski@samsung.com>
- <CGME20241203134202eucas1p26bdcec486ee42440ded94ff801678ba0@eucas1p2.samsung.com>
- <20241203134137.2114847-11-m.wilczynski@samsung.com>
+ <CGME20241203134204eucas1p1d0df90a265637542f0652fd407dc7989@eucas1p1.samsung.com>
+ <20241203134137.2114847-13-m.wilczynski@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241203134137.2114847-11-m.wilczynski@samsung.com>
+In-Reply-To: <20241203134137.2114847-13-m.wilczynski@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,42 +114,56 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 03/12/2024 14:41, Michal Wilczynski wrote:
-> The IMG BXM-4-64 GPU is integrated into the T-Head TH1520 SoC. This
-> commit adds the compatible string "img,img-bxm-4-64" to the device tree
-> match table in the drm/imagination driver, enabling support for this
-> GPU.
+> The address space controlling the Video Output (VO) subsystem clocks
+> also contains control registers for GPU resets. To properly synchronize
+> access to this shared address space, create a syscon Device Tree node
+> for the VO registers and reference it in the clock controller node.
 > 
-> By including this GPU in the compatible devices list, the driver can
-> initialize and manage the BXM-4-64 GPU on the TH1520 SoC, providing
-> graphics acceleration capabilities upstream.
-> 
-> This commit doesn't touch the img,powervr-rogue.yaml on purpose, as the
-> new dt-bindings schema was proposed [1], but not merged yet.
-
-
-That's not related to the commit. This commit *cannot ever* touch the
-bindings.
-
-> 
-> Link: https://lore.kernel.org/all/20241118-sets-bxs-4-64-patch-v1-v2-1-3fd45d9fb0cf@imgtec.com/ [1]
+> This change ensures coordinated access to the VO registers between the
+> clock controller and other drivers, preventing conflicts and maintaining
+> system stability.
 > 
 > Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 > ---
->  drivers/gpu/drm/imagination/pvr_drv.c | 1 +
->  1 file changed, 1 insertion(+)
+>  arch/riscv/boot/dts/thead/th1520.dtsi | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-> index 85ee9abd1811..8633a3a315b7 100644
-> --- a/drivers/gpu/drm/imagination/pvr_drv.c
-> +++ b/drivers/gpu/drm/imagination/pvr_drv.c
-> @@ -1475,6 +1475,7 @@ static void pvr_remove(struct platform_device *plat_dev)
+> diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
+> index dc2d554b4a71..39d39059160d 100644
+> --- a/arch/riscv/boot/dts/thead/th1520.dtsi
+> +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
+> @@ -489,6 +489,18 @@ clk: clock-controller@ffef010000 {
+>  			#clock-cells = <1>;
+>  		};
 >  
->  static const struct of_device_id dt_match[] = {
->  	{ .compatible = "img,img-axe", .data = NULL },
-> +	{ .compatible = "img,img-bxm-4-64", .data = NULL },
+> +		vosys_clk: clock-controller {
 
-Undocumented compatible. Combine relevant patches into one patchsets, so
-we see entire picture.
+Missing address space. You cannot have here nodes without unit address.
+
+It does not look like you tested the DTS against bindings. Please run
+`make dtbs_check W=1` (see
+Documentation/devicetree/bindings/writing-schema.rst or
+https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
+for instructions).
+
+> +			compatible = "thead,th1520-clk-vo";
+> +			thead,vosys-regmap = <&vosys_reg>;
+> +			#clock-cells = <1>;
+> +		};
+> +
+> +		vosys_reg: vosys@ffef528000 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+
+> +			compatible = "thead,th1520-vosys", "syscon";
+> +			reg = <0xff 0xef528000 0x0 0x1000>;
+> +			status = "okay";
+
+Where is it disabled? Drop.
 
 Best regards,
 Krzysztof
