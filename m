@@ -2,159 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07919E27BA
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 17:39:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053249E27D6
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 17:42:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19B0E10EAA9;
-	Tue,  3 Dec 2024 16:39:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6078F10EAAE;
+	Tue,  3 Dec 2024 16:42:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WrOBkBYi";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="b2XWslvP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tn1E8m/P";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="b2XWslvP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tn1E8m/P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2069.outbound.protection.outlook.com [40.107.243.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0856610EA9A;
- Tue,  3 Dec 2024 16:39:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jWrbkwoX4ieSL/pka4f1v9QhtjsbTCLF8ew9tEDzSypEw9koMiXXSjINvfGIaYeacvk3lg45Qh37EOEEcatibnh1/aLt1GIVP7s563MQR92fqsYRI25NUjUZSdXSM0vWM5vf+ryELiE9bCt66Azpm0ut6qjs/j5QNJ6by02DwBOq3Vtl+dBE39YaCCFS8GYvKjYB2WXMixrf7xhFngqwG63p6jWUUCr0TVZaF8AfQ0E+iKQ/2XrwJmQnpyIgEtVVFPAhNnuGNP7zEvR2TNeuGQMU+L+lrK4KHF2OQeDXc+6GrrmDRcLqS7EQtu0zp++XCuJsc18dqBYHq1CJ/NjM7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zlXPj5Dx/EVBA0KZeg+684YIX0iYwGnUCgAILDnoDNg=;
- b=p/m9YuxeDT4jd+fIjwdrKujGwSiwXJl3Dfh83MQlXL+lWNGICx1UrwJ0Y3WN2pM3nM0eX2prz5CxFopcYtWpZ3OwH75q8gHHcSBEBS70r0op9x0u36Ji1cYbP/HGtM4VRf4r321q4bbL948IQmF9t79LQlRTi5UEZNoXiDrK6rYTa4mQDmmhM8G9P7PxbMaukaZsk0AbtqBJNZWM0yvJKt0UcYNX1Sfu67ud/JsnDsvQXFqzwhnvnV6kCZghBjgy3ylNpklhGhTBJXNyhY+/kjeZBE9GmwgzgeE0IyYbec8hln1nGuBe2nFHP+1GmNSyclgtA94NrypTPAiOBF/QEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zlXPj5Dx/EVBA0KZeg+684YIX0iYwGnUCgAILDnoDNg=;
- b=WrOBkBYi7ojQ3yTKo2hpOPB2+OjCIJAPZYz4L0HPq/U0EtHBwyJ2fzuvIPhrFx8EKWkFm8pzqU3GBAWOzGFY67rMf+hrxkOMZPsB7qC1oL9B50Lk4+RIckujSu3bq96dYKZ9NZdBZ/UjttWkZjUT4IY9GZUuBL4DUmayFClti4c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BY5PR12MB4243.namprd12.prod.outlook.com (2603:10b6:a03:20f::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.20; Tue, 3 Dec
- 2024 16:39:52 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8207.017; Tue, 3 Dec 2024
- 16:39:52 +0000
-Message-ID: <bc762b0c-4fe3-48ff-b8df-14f741c91939@amd.com>
-Date: Tue, 3 Dec 2024 17:39:45 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE7E10EAAE
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 16:42:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 578AC1F44F;
+ Tue,  3 Dec 2024 16:42:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1733244160; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=w3zNaU0Gkb0MVKmPmbCn6a/wEQjG3bIruPQZdzjpczk=;
+ b=b2XWslvP8nEfnZjZYdtuGgCA2ONtyuZ62XXZxus+qXvPgAjtlbL1RXehxPCJjOhR/fWOaE
+ m5TdqmzNIll1yNBBT6p/I5+Xb/MAVAVzq+E0JGjDay3Eg5Ky/QzOBmPpWS0zjS3iBdce7l
+ 9o3DMxgCHEvZtN0lWLaj6htf+cBac14=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1733244160;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=w3zNaU0Gkb0MVKmPmbCn6a/wEQjG3bIruPQZdzjpczk=;
+ b=Tn1E8m/P7E/cgftwNeboIq3l251S/fGaeYJEUGC3j2B776w1xG88VKkm03UAVonny3UG0X
+ DWKqeRr2yEFk97AA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=b2XWslvP;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Tn1E8m/P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1733244160; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=w3zNaU0Gkb0MVKmPmbCn6a/wEQjG3bIruPQZdzjpczk=;
+ b=b2XWslvP8nEfnZjZYdtuGgCA2ONtyuZ62XXZxus+qXvPgAjtlbL1RXehxPCJjOhR/fWOaE
+ m5TdqmzNIll1yNBBT6p/I5+Xb/MAVAVzq+E0JGjDay3Eg5Ky/QzOBmPpWS0zjS3iBdce7l
+ 9o3DMxgCHEvZtN0lWLaj6htf+cBac14=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1733244160;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=w3zNaU0Gkb0MVKmPmbCn6a/wEQjG3bIruPQZdzjpczk=;
+ b=Tn1E8m/P7E/cgftwNeboIq3l251S/fGaeYJEUGC3j2B776w1xG88VKkm03UAVonny3UG0X
+ DWKqeRr2yEFk97AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1CDD8139C2;
+ Tue,  3 Dec 2024 16:42:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 5kqqBQA1T2dNYAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 03 Dec 2024 16:42:40 +0000
+Message-ID: <72d3fa23-a67e-4ad3-ba8b-95bf71c4b03c@suse.de>
+Date: Tue, 3 Dec 2024 17:42:39 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 3/8] drm/ttm/pool: Provide a helper to shrink pages
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
- Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-References: <20241115150120.3280-1-thomas.hellstrom@linux.intel.com>
- <20241115150120.3280-4-thomas.hellstrom@linux.intel.com>
- <800ee040-7c2e-47d0-81e6-a352f5f689fb@amd.com>
- <a07c93704bc7f59f51b5a6a13aeb3e13eee28e3c.camel@linux.intel.com>
- <d1e33436-9c1c-43d4-a86a-956926a7096c@amd.com>
- <73588525571a68f5638300ef171591de10ba5e5d.camel@linux.intel.com>
- <0595e4df-86d4-4082-86ab-b77902d3020b@amd.com>
- <cf722b696676b7383a94c2b846f8230e180ee527.camel@linux.intel.com>
+Subject: Re: [PATCH] drm/vmwgfx: Add Fake EDID
+To: Zack Rusin <zack.rusin@broadcom.com>, =?UTF-8?Q?Jonas_=C3=85dahl?=
+ <jadahl@gmail.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, martin.krastev@broadcom.com,
+ maaz.mombasawala@broadcom.com
+References: <20241119194038.530779-1-ian.forbes@broadcom.com>
+ <40815234-baa2-4990-9f30-0a0632871a0c@suse.de> <878qte2oj3.fsf@intel.com>
+ <CABQX2QOWGW=Z3Ox8P5-rDktyepzxwqRTrWb5Ycr0MVtnEQH_uA@mail.gmail.com>
+ <Z08qdJUuerXOV-dR@gmail.com>
+ <CABQX2QOy0sD3QrmG-hxdDgwTrffz0tnPzqvs2BhORQ1w2pTgww@mail.gmail.com>
+ <Z08ygwwkmNp8dnHy@gmail.com>
+ <CABQX2QPah6M0jY38cTUO4D=kO9_aYDdaJ5hbX8Ah3z2zAucj9w@mail.gmail.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <cf722b696676b7383a94c2b846f8230e180ee527.camel@linux.intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CABQX2QPah6M0jY38cTUO4D=kO9_aYDdaJ5hbX8Ah3z2zAucj9w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0258.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b5::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4243:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc9fdb8c-7ce1-4b57-3fee-08dd13b91c12
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bTg4dnN3UHYwUndCWXBxdm43QmhtL0Z4SGx1bmR4Tit5ampxQk9rb2xFbmlJ?=
- =?utf-8?B?bWxFQ2JYTU5nQURZRTQ4eWxSRjRZTXExWituMmRabDFSRVE2T1h3NFFRRGhp?=
- =?utf-8?B?b3FadE1kbGFHRmpGV1ZtYzdUWk9LS0dpRUp2bEk5MUhKeUduMGhnZDhmODZZ?=
- =?utf-8?B?UEhnMXNuTzg4ZkYyYXZNQ1VmZGRTV1NyaFJobjVzaXp4b2IraUd4dFl1TVdW?=
- =?utf-8?B?OHpndWpYcHc3WHdQSCtnbGIzdlYwd1huZE90NWxFeHJOckdJTjg4MUN3V0tn?=
- =?utf-8?B?bjdtbE83cmU2UHJvZCtmSkRRbnFEa3RldzYyTU10bXJrSXVFRFArek14akZj?=
- =?utf-8?B?UlJOQnZnNlBtQ3k0eE50c041NEkrbnlKam1uUU5QazVaMThROGRNaGlCOGQx?=
- =?utf-8?B?N256c0J6bE4zbTBlQU8zWVg3WStRNndWMnY0ZzAxY3o1YmJkRTA5WHh2WWV6?=
- =?utf-8?B?OGRnME1rL3FSQ0dsOEhzRHByeVFvMllqZnJSSnJlY3QvRlgwMVJ3QnovU1Jl?=
- =?utf-8?B?dlVPUHpnUjNBcmU4elJvcE9rRnRJRDREanJoR3JlM2tqVXRRNDBlRksxNlNm?=
- =?utf-8?B?MFRYWUF1eHdSMWNUd3NDbGdVS1NpTTVIV3JOSXFXOFFid291VERsVzFuYko0?=
- =?utf-8?B?bmpLYTFjRGgzVElES2lVekg4OXdiS3hKUTFMTEpwQm5kbG5yT0hlUitDQmtS?=
- =?utf-8?B?dy9zQUpZYzVrTHc1bVM3LzF4bEhrbE5ITFBvcUJqU29lYko0dkk2WWd0QWl6?=
- =?utf-8?B?enhVMWp0TlR4cmV3eitSOS90N0ZCUVJMbEg1RW0yOTdlNUdkNC9XRE1RWFQz?=
- =?utf-8?B?ZlpMYWoyZXNiaVlzelUxV3k1ZXlpT3A1SCtiQnk1NEI3SDFzbHdJcTNTTzlu?=
- =?utf-8?B?WERzVDdCOTd4Y3BTT0JsWUVvVXlJMFFuZ0ZjdkZBSUprRVYrNiszb3N4dFZr?=
- =?utf-8?B?RmR6emk0bWJadGZnZVE3MStvZHNBOVBKc1M0azVObDByWE80REdkMklVZG5r?=
- =?utf-8?B?UDhzVW94VjJZSTA2eDdJTzBXNmhSbWQzdFp0eHVjcURsZ2ptOFNnak5tSUhZ?=
- =?utf-8?B?cE8zZ2k2UmFlUWo5WkZRcitvWnFHK3ZhVVQ3dkViVVFBcXA4NnRSQnBvc1hp?=
- =?utf-8?B?U2JMektWUFBhU00vZDJYSm1Kb3M4eGJRNnd2RTRueFBNK2QzS3hmZU8vZkpX?=
- =?utf-8?B?QjZCbytCNzU0TGtDS1BmUFJZeXRHeUV5ZHhWK3U3RUp0a1VTUFIwWWZjYjUv?=
- =?utf-8?B?NGQ1TWRJbW54U2hBZk5xT0IxTTN2RjRRdGZNTHpYRmpDQnh2UTBqQUw4WHhq?=
- =?utf-8?B?emR0b2l0bmNLa0xqWTUxbXYxN0dKWEtyQ2Ywb1RqVHRHc29XdlU5N1VYbzFQ?=
- =?utf-8?B?dXU0YUUxRWVCd0ZZdUFOM3M4SDNyMXlvY3JDbUl6MEtBR1I4YWJiTkhqLzhv?=
- =?utf-8?B?YWNYTmpSaUdPeWtwb1AyeU80b090ek56TS9EN2xvTGkrazZiUEIyMEE2aDVR?=
- =?utf-8?B?aTIrMzBQZ2lrWU5lb1lsaTFNZXY0Z05xNUE1Zk10VzJrbjcrckRYd3dVdFE0?=
- =?utf-8?B?cFFVbkNRWG5Wam0zNFZDK2tRU0U5NUdMTTg5dm05K3JweXVQcUZHdDYyOU0r?=
- =?utf-8?B?VTBTYm9zcDBOcklwT0tZQ2VIckRIallRckZ6Q1dqN1NMV3ZBS3cxR1dPZElE?=
- =?utf-8?B?bjIrZlNsajVvZEx2K1Q2TTE4UTlzUkZoc0lIRGVZTmpoUVBlalV4ZC9POFJN?=
- =?utf-8?B?QUNobUpaZEdTVWNNQkw2YTErRjI1eVlIUC9vaFFROE9aMnJxRnVNSzN6SFN6?=
- =?utf-8?B?bXVESnFGdWhKSU5CL2VEdz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RWVMTExqSEYwc2c1RFJ3NFp0VWZoajdKQlVFQXRyNUxQQ0MyV1NWbEZCS3Bj?=
- =?utf-8?B?Y0dkbVhiMTUrTjV6dzZNeVBIcGlxWkFuNm9RZHo0TVZTYXlvemVpcXRHQkpK?=
- =?utf-8?B?bFhmL3lyOVNpYWZpaUJxWWpSVndBUzNsN1B1cXBRZWxZTFNGb2h1dFk1MC9V?=
- =?utf-8?B?OEhwTCs0NzB6RUpHLy9nSHlWRHkydStNZEdHdTBxKzEwTFowaXE3bVJSemZk?=
- =?utf-8?B?SGJPYURiekxvdGJ0M0JVcmlWYnllUTBRRnhBRlpBcEtESzJQMFBYQ1EwRC9o?=
- =?utf-8?B?RkpBYm9EUDBvYVlxOEhZdngrREQzN3R5S1pYRTNOZFR2cDNaYU1rYk9KYTBV?=
- =?utf-8?B?eXJ0L2RrU0h2dDc1THM1UGNYNE1Fdmo3VXdHMmJaaFFyTVBrOG9oeW1ycmp6?=
- =?utf-8?B?Zmc3NXpuOW5NY3dVVlpvWUZadnNXeTNKT0lDTDZqeGJQeXdKRkRrTFdKUUxM?=
- =?utf-8?B?SjMzMFFPc050cEZoREFsY1cvZEo4bUJ5b3grb00yY0hTdS9Ia2NJdlFoOWJu?=
- =?utf-8?B?cnZTbDNTNzNDQm0rSzJUZlVQV09ORUF3OUtpS0tsZlpKaHdYenl1TTFUdHkv?=
- =?utf-8?B?YmRGOWY5RmVNRFQ4RWVNbzI0OWVnQUZ1WnBjQklwOERHWHJ0YnU3RDJpSHJh?=
- =?utf-8?B?OWpnTGNuWWpzZHNxNjh2Q2x5T1ZFelpIR3dEWklBVTJhY05pajFqNzN5R1Vn?=
- =?utf-8?B?MlpKczV2ZTdoamEvTE9NeU1wMmJ6d2t4TGpGMENJYzVQV2kwRlcrVkt2bTMz?=
- =?utf-8?B?YjNyeURhOTk2eHJMRk1aKy9jTlUxcTZ6RHRXYVNncmRrbWtDNG5NbVgvcWhQ?=
- =?utf-8?B?TUJYU3hEa2llSUV6amR1NmVCVzRXOTVLUllGeHJKVjhzNjRmLzJoNnY4RUJk?=
- =?utf-8?B?dFZaT0dMQ01UKy9sNThzbGh0SmRLRnNyUlVPaFNBOExIOE5xd3BLenFvZW1D?=
- =?utf-8?B?YUcvb04rOUVZT3dTeUNUUGxWWEgyaUIvWTRQWm9yS3VTZzBuOC92OSs1WjNN?=
- =?utf-8?B?MjFEdDF3LzJKN2pnUzI3YzdUYUR1UTNvdGNYZzVxbEd4V2FEVE5BdmpBSTZR?=
- =?utf-8?B?WWk2VTVVVHhuSVo0YU91Y0VNOUZ6Zm9PTDFnUW9MUEY0dkxueEg5dXcwV0lM?=
- =?utf-8?B?Q0NZMFhTRTV0YkZPMDMzYTRHd0h4ajJTaHJCSFVBY014TUtzMFg5clE5aEVZ?=
- =?utf-8?B?Tjl6cGh4OWtzR0s0alRqT3cxMDlTUEl0a1BkMzc4NWZVTlFjK0Y0dzhGdTFN?=
- =?utf-8?B?T0kwalRwUktwN0w4c05zS01xL2h4SGxsZ0ZtTVpjQmRiUDNkVmxVV2ptQSty?=
- =?utf-8?B?bkc3WXdkY0NQTzZIRTgwS21mRDcwNi9TWnJMbHJUZDlEK1hidE5xZ1hOa2NT?=
- =?utf-8?B?YUJFbkdkK2hxZUFpbXV2L1lhZUtXN0pYUlFVVmE5SEhWeDd3bHA4RHNIYklB?=
- =?utf-8?B?V2hudjNmQ1YxUTRtaFpoV2hUbnkxbEw1THRpUmZCRWhxZ3pmVXRSUVpnWkJL?=
- =?utf-8?B?b1VCaFhraGpaaWI1UjNMWWRjaVgxNXZvN3lja0FvSmF5TElNeFZyL2RQVFJL?=
- =?utf-8?B?aXJXOEVuNFBTOXNwQ0tjWWVWL0RBZDZnMHBRNzlicmhudzdlZndxZVpaM2ho?=
- =?utf-8?B?LzVOU3FGT3J4VXBJMDJKN3Y3eGc1OTVnZGhzRzY5VlFFYVdERGNNbXYvUlA5?=
- =?utf-8?B?U25jRHJPa3RUbG5qcGdveldRVExaZUdHbVpZS3dRR1JTcER4OG9DeHF2bXQv?=
- =?utf-8?B?WGRZVTQwcmJxWnNTRDMyOHh5bjcwL05LYWxDWDMyZGV3cEtSTFVOMXAvdmlr?=
- =?utf-8?B?ZmZTQVRESEVjcC9ld1dEWWpBS3c0ZSs3YTBTb1FPc1VSbko2NWp0TDVQTjUz?=
- =?utf-8?B?eG9ranYxa2s0Q0tja1VmM3B4aFdiZzFKUWlNaG4yYUZCbEdBUWRqSXJZU2Yz?=
- =?utf-8?B?YzY4L0VBTDBidWpiMzM3ZTdUSnBRbC9kcE8ya1hscWEwTmJlb3htOGJmN3Np?=
- =?utf-8?B?VmlTTi81WUkxcTk0cTJWUWo3MmFzZHBxWmhwVUluQnFYVWdTM1pXSWlONXYw?=
- =?utf-8?B?dDVTOUhsMU5IOEhRSWVyQm5CZmp1a21HQ1gyaStoV2s1UkFnUFdtNUFWd3Zk?=
- =?utf-8?Q?Ax8knWsy2sZm0cC4VFCFwsidz?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc9fdb8c-7ce1-4b57-3fee-08dd13b91c12
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2024 16:39:52.0035 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OI2mjAGC08pXr2XX3XVSV53XSkDS479PWoNqcbwNIqj+LqiBystmGgYFyl9o2Jo6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4243
+X-Rspamd-Queue-Id: 578AC1F44F
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[broadcom.com,gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[8]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo, intel.com:email, suse.de:dkim, suse.de:mid,
+ suse.de:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,136 +159,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 03.12.24 um 17:31 schrieb Thomas Hellström:
-> On Tue, 2024-12-03 at 17:20 +0100, Christian König wrote:
->> [SNIP]
->>>>>>> @@ -453,9 +601,36 @@ int ttm_pool_alloc(struct ttm_pool
->>>>>>> *pool,
->>>>>>> struct ttm_tt *tt,
->>>>>>>      	else
->>>>>>>      		gfp_flags |= GFP_HIGHUSER;
->>>>>>>      
->>>>>>> -	for (order = min_t(unsigned int, MAX_PAGE_ORDER,
->>>>>>> __fls(num_pages));
->>>>>>> -	     num_pages;
->>>>>>> -	     order = min_t(unsigned int, order,
->>>>>>> __fls(num_pages)))
->>>>>>> {
->>>>>>> +	order = min_t(unsigned int, MAX_PAGE_ORDER,
->>>>>>> __fls(num_pages));
->>>>>>> +
->>>>>>> +	if (tt->page_flags & TTM_TT_FLAG_PRIV_BACKED_UP) {
->>>>>>> +		if (!tt->restore) {
->>>>>>> +			gfp_t gfp = GFP_KERNEL |
->>>>>>> __GFP_NOWARN;
->>>>>>> +
->>>>>>> +			if (ctx->gfp_retry_mayfail)
->>>>>>> +				gfp |=
->>>>>>> __GFP_RETRY_MAYFAIL;
->>>>>>> +
->>>>>>> +			tt->restore =
->>>>>>> +				kvzalloc(struct_size(tt-
->>>>>>>> restore,
->>>>>>> old_pages,
->>>>>>> +						
->>>>>>> (size_t)1
->>>>>>> <<
->>>>>>> order), gfp);
->>>>>>> +			if (!tt->restore)
->>>>>>> +				return -ENOMEM;
->>>>>>> +		} else if (ttm_pool_restore_valid(tt-
->>>>>>>> restore)) {
->>>>>>> +			struct ttm_pool_tt_restore
->>>>>>> *restore =
->>>>>>> tt-
->>>>>>>> restore;
->>>>>>> +
->>>>>>> +			num_pages -= restore-
->>>>>>>> alloced_pages;
->>>>>>> +			order = min_t(unsigned int, order,
->>>>>>> __fls(num_pages));
->>>>>>> +			pages += restore->alloced_pages;
->>>>>>> +			r = ttm_pool_restore_tt(restore,
->>>>>>> tt-
->>>>>>>> backup, ctx);
->>>>>>> +			if (r)
->>>>>>> +				return r;
->>>>>>> +			caching = restore->caching_divide;
->>>>>>> +		}
->>>>>>> +
->>>>>>> +		tt->restore->pool = pool;
->>>>>>> +	}
->>>>>> Hui? Why is that part of the allocation function now?
+Hi
+
+
+Am 03.12.24 um 17:39 schrieb Zack Rusin:
+> On Tue, Dec 3, 2024 at 11:32 AM Jonas Ådahl <jadahl@gmail.com> wrote:
+>> On Tue, Dec 03, 2024 at 11:27:52AM -0500, Zack Rusin wrote:
+>>> On Tue, Dec 3, 2024 at 10:57 AM Jonas Ådahl <jadahl@gmail.com> wrote:
+>>>> On Wed, Nov 20, 2024 at 07:52:18AM -0500, Zack Rusin wrote:
+>>>>> On Wed, Nov 20, 2024 at 5:22 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>>>>>> On Wed, 20 Nov 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>>>>>> Hi
+>>>>>>>
+>>>>>>>
+>>>>>>> Am 19.11.24 um 20:40 schrieb Ian Forbes:
+>>>>>>>> Most compositors are using a change in EDID as an indicator to
+>>>>>>>> refresh their connector information on hotplug regardless of whether the
+>>>>>>>> connector was previously connected. Originally the hotplug_mode_update
+>>>>>>>> property was supposed to provide a hint to userspace to always refresh
+>>>>>>>> connector info on hotplug as virtual devices such as vmwgfx and QXL
+>>>>>>>> changed the connector without disconnecting it first. This was done to
+>>>>>>>> implement Autofit. Unfortunately hotplug_mode_update was not widely
+>>>>>>>> adopted and compositors used other heuristics to determine whether to
+>>>>>>>> refresh the connector info.
+>>>>>>>>
+>>>>>>>> Currently a change in EDID is the one heuristic that seems to be universal.
+>>>>>>>> No compositors currently implement hotplug_mode_update correctly or at all.
+>>>>>>>> By implementing a fake EDID blob we can ensure that our EDID changes on
+>>>>>>>> hotplug and therefore userspace will refresh the connector info so that
+>>>>>>>> Autofit will work. This is the approach that virtio takes.
+>>>>>>>>
+>>>>>>>> This also removes the need to add hotplug_mode_update support for all
+>>>>>>>> compositors as traditionally this niche feature has fallen on
+>>>>>>>> virtualized driver developers to implement.
+>>>>>>> Why don't you fix the compositors instead?
+>>>>>>>
+>>>>>>> I feel like NAK'ing this patch. The code itself is not so much a
+>>>>>>> problem, but the commit message.
+>>>>>> Oh, I think the code is problematic too.
 >>>>>>
->>>>>> At bare minimum I would expect that this is a new function.
->>>>> It's because we now have partially backed up tts, so the
->>>>> restore is
->>>>> interleaved on a per-page basis, replacing the backup handles
->>>>> with
->>>>> page-pointers. I'll see if I can separate out at least the
->>>>> initialization here.
->>>> Yeah, that kind of makes sense.
->>>>
->>>> My expectation was just that we now have explicit
->>>> ttm_pool_swapout()
->>>> and
->>>> ttm_pool_swapin() functions.
->>> I fully understand, although in the allocation step, that would
->>> also
->>> increase the memory pressure since we might momentarily have twice
->>> the
->>> bo-size allocated, if the shmem object was never swapped out, and
->>> we
->>> don't want to unnecessarily risc OOM at recover time, although that
->>> should be a recoverable situation now. If the OOM receiver can free
->>> up
->>> system memory resources they can could potentially restart the
->>> recover.
->> What I meant was more that we have ttm_pool_swapout() which does a
->> mix
->> of moving each page to a swap backend and freeing one by one.
->>
->> And ttm_pool_swapin() which allocates a bit of memory (usually one
->> huge
->> page) and then copies the content back in from the swap backend.
->>
->> Alternatively we could rename ttm_pool_alloc() into something like
->> ttm_pool_populate() and ttm_pool_free() into ttm_pool_unpopulate(),
->> but
->> those names are not very descriptive either.
->>
->> It's just that we now do a bit more than just alloc and free in those
->> functions, so the naming doesn't really match that well any more.
-> So what about ttm_pool_alloc() and ttm_pool_recover/swapin(), both
-> pointing to the same code, but _alloc() asserts that the tt isn't
-> backed up?
->
-> That would give a clean interface at least.
+>>>>>> Please avoid all struct edid based interfaces, in this case
+>>>>>> drm_connector_update_edid_property(). They will be removed in the
+>>>>>> future, and adding more is counter-productive. Everything should be
+>>>>>> struct drm_edid based going forward.
+>>>>>>
+>>>>>> Of course, actually grafting the EDID needs struct edid. And that's kind
+>>>>>> of annoying too. Do we really want to spread the EDID details all over
+>>>>>> the place? This one combines drm_edid.h structs and magic numbers in a
+>>>>>> jumble. I'm kind of hoping we'd get rid of driver usage of struct edid,
+>>>>>> though that's a long road. But we've made a lot of progress towards it,
+>>>>>> there aren't that many places left that directly look at the guts of
+>>>>>> EDID, and most of it is centralized in drm_edid.c.
+>>>>>>
+>>>>>> Of course, not using the standard drm_edid_read* interfaces also lacks
+>>>>>> on features such as providing the EDID via the firmware loader or
+>>>>>> debugfs, which can be handy for testing and debugging, but that's a
+>>>>>> minor issue.
+>>>>>>
+>>>>>>> Maybe it resolves problems with
+>>>>>>> compositors, but it is a step backwards for the overall ecosystem. If
+>>>>>>> the connector changes, your driver should increment the epoch counter.
+>>>>>>> [1] That will send a hotplug event to userspace. The EDID alone does not
+>>>>>>> say anything about connector status.
+>>>>>> Yeah, unplugging and replugging the same display with the same EDID
+>>>>>> isn't a problem for other drivers, and they don't have to do this kind
+>>>>>> of stuff to trick userspace. Maybe vmwgfx should handle (or simulate)
+>>>>>> hotplugs better?
+>>>>> I don't think that's what Ian is trying to fix. There's two different issues:
+>>>>> 1) The code using struct edid which is frowned upon.
+>>>>> 2) The virtualized drivers not behaving like real GPU's and thus
+>>>>> breaking userspace.
+>>>>>
+>>>>> vmwgfx and qxl do not provide edid at all. It's null. But every time
+>>>>> someone resizes a host side window in which the para-virtualized
+>>>>> driver is displaying, the preferred mode changes. Userspace kept
+>>>>> checking whether the edid changes on each hotplug event to figure out
+>>>>> if it got new modes and refresh if it noticed that edid changed.
+>>>>> Because on qxl and vmwgfx the edid never changes (it's always null)
+>>>>> Dave added hotplug_mode_update property which only qxl and vmwgfx send
+>>>>> and its presence indicates that the userspace should refresh modes
+>>>>> even if edid didn't change.
+>>>>>
+>>>>> Because that property is only used by qxl and vmwgfx everyone gets it
+>>>>> wrong. The property was specifically added to fix gnome and Ian
+>>>>> noticed that currently even gnome is broken:
+>>>>> https://gitlab.gnome.org/GNOME/mutter/-/blob/main/src/backends/native/meta-kms-connector.c#L940
+>>>>> hotplug_mode_update doesn't change, it's just a flag that indicates
+>>>>> that userspace needs a  full mode rescan.
+>>>> The linked line just means the property value itself not changing
+>>>> doesn't result in a full compositor side monitor reconfiguration.
+>>> Right, that's exactly the point I'm making :) The property isn't used
+>>> correctly because the full-rescan is expected when that property is
+>>> present, not if it changed.
+>> Well, a full rescan did happen, and the linked code only determines if
+>> anything actually did change, including currently advertised modes, that
+>> will have any potential effect on the final monitor configuration.
+> The point I'm making is that no one is using this property correctly.
+> Mutter triggering a full-rescan as a result of other changes doesn't
+> change the fact that its usage of that property is broken. I think
+> you're interpreting my comment that usage of that property is broken
+> (or not used at all) everywhere as "Mutter is not refreshing
+> correctly" which is not the case. Mutter does resize correctly despite
+> the fact that the property check is broken.
 
-More or less ok. I would just put figuring out the gfp flags and the 
-stuff inside the for (order... loop into separate functions. And then 
-remove the if (tt->page_flags & TTM_TT_FLAG_PRIV_BACKED_UP) from the pool.
+Just FTR, I still this patch is re-enforcing wrong behavior in 
+compositors instead of fixing them. It's not the driver's job to work 
+around compositor issues.
 
-In other words you trigger the back restore by calling a different 
-function than the allocation one.
-
->
-> For a renaming change that touch all TTM drivers, I'd rather put that
-> as a last patch since getting acks for that from all TTM driver
-> maintainers seems like a hopeless undertaking.
-
-Yeah the acks are not the problem, merging it through the xe tree would be.
-
-Christian.
-
+Best regards
+Thomas
 
 >
-> /Thomas
->
->
->
->
->> Christian.
->>
->>> /Thomas
+> z
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
