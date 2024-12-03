@@ -2,126 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404729E15B7
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:28:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 176589E13DD
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 08:20:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E0210E961;
-	Tue,  3 Dec 2024 08:28:31 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RRde32nS";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 757B810E23C;
+	Tue,  3 Dec 2024 07:20:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50D4E10E17D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 02:30:12 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B2JiNhx002455;
- Tue, 3 Dec 2024 02:29:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- NIaI2elXEkKBTIlhVG0Yzqw6Bciw63poFYlLyhXrzLk=; b=RRde32nSzcRxMrSK
- 3YY48p5GhAm/mS3vg+lg0D3FxoLRUoXHl6L6mFOiaFQ0NUs64z4qP9NXbiSaNwuW
- UPDyDFwFPQRU0EmYGW3R+htK2LnFtwBpcL9NYc0cTlJz6+KZ7RnCcKlcHFXgdSBs
- 4hOmhReGBmYd+L5FIw+NNGPXBf4XxY1kh1YFOaRQ5bgqAurrXjKPjHQqP8meWo1S
- FxVJCDc7TPr9tPzg/n2iO1FNFr5TavnqdSHOfxEULmMuF/LuNqWO63aXcR4VMQ/m
- y/SzLtMKr0fs+aWdYnMz7AWmptfUSpVYKhOKRFY2AAOYWY0RgRGpiI0Fn4re0YZO
- 4VrQfg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437ufe6ers-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 03 Dec 2024 02:29:30 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com
- [10.52.223.231])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B32TTh9004144
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 3 Dec 2024 02:29:29 GMT
-Received: from [10.253.34.13] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 2 Dec 2024
- 18:29:13 -0800
-Message-ID: <e14311a5-6461-4834-9770-e74314d11f44@quicinc.com>
-Date: Tue, 3 Dec 2024 10:29:07 +0800
+Received: from mail.steuer-voss.de (mail.steuer-voss.de [85.183.69.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F84310E23C
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 07:20:10 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.steuer-voss.de
+Received: from mail.steuer-voss.de (localhost [127.0.0.1])
+ by mail.steuer-voss.de (Postfix) with ESMTP id B8F162CF;
+ Tue,  3 Dec 2024 08:20:05 +0100 (CET)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
- and adapt for various existing usages
-To: Zijun Hu <zijun_hu@icloud.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jean
- Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, Michael
- Jamet <michael.jamet@intel.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>, Yehezkel Bernat <YehezkelShB@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean
- <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Dan Williams
- <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
- Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Takashi
- Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>,
- Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>,
- Mike Christie <michael.christie@oracle.com>, "James E.J.
- Bottomley" <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, Manish
- Rangankar <mrangankar@marvell.com>,
- <GR-QLogic-Storage-Upstream@marvell.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron
- <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Andreas Larsson <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>,
- Laurentiu Tudor <laurentiu.tudor@nxp.com>,
- Jens Axboe <axboe@kernel.dk>, Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Ard Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-hwmon@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <netdev@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, <nvdimm@lists.linux.dev>,
- <linux1394-devel@lists.sourceforge.net>,
- <linux-serial@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <open-iscsi@googlegroups.com>, <linux-scsi@vger.kernel.org>,
- <linux-cxl@vger.kernel.org>, <sparclinux@vger.kernel.org>,
- <linux-block@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
- <linux-efi@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>
-References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
-Content-Language: en-US
-From: quic_zijuhu <quic_zijuhu@quicinc.com>
-In-Reply-To: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Date: Tue, 03 Dec 2024 08:20:05 +0100
+From: Nikolaus Voss <nv@vosn.de>
+To: Marek Vasut <marex@denx.de>
+Cc: Liu Ying <victor.liu@oss.nxp.com>, Alexander Stein
+ <alexander.stein@ew.tq-group.com>, Liu Ying <victor.liu@nxp.com>, Luca
+ Ceresoli <luca.ceresoli@bootlin.com>, Fabio Estevam <festevam@denx.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nikolaus.voss@haag-streit.com, miquel.raynal@bootlin.com
+Subject: Re: [PATCH] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+In-Reply-To: <12a1b86e-8f25-4875-8503-1de98f125a62@denx.de>
+References: <20241126172610.AD8B51622C@mail.steuer-voss.de>
+ <1f0a307a-666f-4647-9f73-e9bddd6c7eff@oss.nxp.com>
+ <000b34cdd1591c82265ce1f9848828d1@vosn.de>
+ <2c950130-84b4-4a81-84a2-b5e08af43616@oss.nxp.com>
+ <12a1b86e-8f25-4875-8503-1de98f125a62@denx.de>
+User-Agent: Roundcube Webmail/1.5.0
+Message-ID: <808d4092a9e97b95480d47c1bd84d930@vosn.de>
+X-Sender: nv@vosn.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: lKi-wmQMsP51n4Wn2N7vwhZDjLiVDpwn
-X-Proofpoint-GUID: lKi-wmQMsP51n4Wn2N7vwhZDjLiVDpwn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- spamscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- mlxlogscore=999 clxscore=1011 adultscore=0 bulkscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412030019
-X-Mailman-Approved-At: Tue, 03 Dec 2024 08:28:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,82 +58,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/3/2024 8:33 AM, Zijun Hu wrote:
-> This patch series is to constify the following API:
-> struct device *device_find_child(struct device *dev, void *data,
-> 		int (*match)(struct device *dev, void *data));
-> To :
-> struct device *device_find_child(struct device *dev, const void *data,
-> 				 device_match_t match);
-> typedef int (*device_match_t)(struct device *dev, const void *data);
+On 03.12.2024 04:12, Marek Vasut wrote:
+> On 12/3/24 3:22 AM, Liu Ying wrote:
 > 
-> Why to constify the API?
+> [...]
 > 
-> - Protect caller's match data @*data which is for comparison and lookup
->   and the API does not actually need to modify @*data.
+>>>> I doubt that pixel clock tree cannot find appropriate division 
+>>>> ratios
+>>>> for some pixel clock rates, especially for dual-link LVDS on i.MX8MP
+>>>> and i.MX93 platforms, because PLL clock rate should be 7x faster 
+>>>> than
+>>>> pixel clock rate and 2x faster than "ldb" clock rate so that the 3.5
+>>>> folder between "ldb" clock and pixel clock can be met. That means 
+>>>> the
+>>>> PLL clock rate needs to be explicitly set first for this case.
+>>>> 
+>>>> Can you assign the PLL clock rate in DT to satisfy the "ldb" and 
+>>>> pixel
+>>>> clock rates like the below commit does, if you use a LVDS panel?
+>>>> 
+>>>> 4fbb73416b10 ("arm64: dts: imx8mp-phyboard-pollux: Set Video PLL1
+>>>> frequency to 506.8 MHz")
+>>> 
+>>> I probably could. The point of my patch is you don't have to know in
+>>> advance which LVDS panel is connected, and you don't have to 
+>>> calculate
+>>> the base PLL clock by hand and store it in the device tree.
+>>> 
+>>> In my test system, I have three different LVDS panels with EDID 
+>>> EEPROM,
+>>> none of which worked with the stock driver, but all work with this
+>>> patch.
+>>> With slightly adapted pixel clocks though.
+>> 
+>> If each of the three LVDS panels has only one display mode, you may
+>> assign the PLL clock rates in DT overlays for the panels.
+> I temporarily agree.
 > 
-> - Make the API's parameters (@match)() and @data have the same type as
->   all of other device finding APIs (bus|class|driver)_find_device().
-> 
-> - All kinds of existing device matching functions can be directly taken
->   as the API's argument, they were exported by driver core.
-> 
-> How to constify the API?
-> 
-> - Now, no (@match)() argument of the API usages is modifying its match
->   data @*data after previous cleanup, so it is easy and safe to make its
->   parameter @data take const void * as type.
-> 
-> - Simplify involved codes further if it is possbile with benefits
->   brought by constifying the API.
-> 
-> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
-> ---
-> Changes in v2:
-> - Series v1 have no code review comments and are posted a long time ago, so may ignore differences.
-> - Link to v1: https://lore.kernel.org/r/20240811-const_dfc_done-
-> v1-0-9d85e3f943cb@quicinc.com
-> - Motivation link: https://lore.kernel.org/lkml/917359cc-a421-41dd-93f4-d28937fe2325@icloud.com
-> 
-> ---
-> Zijun Hu (32):
->       driver core: Constify API device_find_child()
->       driver core: Introduce device_match_type() to match device with a device type
->       drm/mediatek: Adapt for constified device_find_child()
->       hwmon: Adapt for constified device_find_child()
->       media: pci: mgb4: Adapt for constified device_find_child()
->       thunderbolt: Adapt for constified device_find_child()
->       gpio: sim: Remove gpio_sim_dev_match_fwnode()
->       net: dsa: Adapt for constified device_find_child()
->       pwm: Adapt for constified device_find_child()
->       nvdimm: Adapt for constified device_find_child()
->       libnvdimm: Simplify nd_namespace_store() implementation
->       firewire: core: Adapt for constified device_find_child()
->       serial: core: Adapt for constified device_find_child()
->       usb: typec: class: Remove both cable_match() and partner_match()
->       usb: typec: class: Adapt for constified device_find_child()
->       slimbus: core: Simplify of_find_slim_device() implementation
->       slimbus: core: Constify slim_eaddr_equal()
->       slimbus: core: Adapt for constified device_find_child()
->       scsi: iscsi: Constify API iscsi_find_flashnode_sess()
->       scsi: qla4xxx: Adapt for constified iscsi_find_flashnode_sess()
->       scsi: iscsi: Adapt for constified device_find_child()
->       cxl/region: Adapt for constified device_find_child()
->       cxl/pmem: Remove match_nvdimm_bridge()
->       cxl/core/pci: Adapt for constified device_find_child()
->       cxl/test: Adapt for constified device_find_child()
->       sparc: vio: Adapt for constified device_find_child()
->       bus: fsl-mc: Adapt for constified device_find_child()
->       block: sunvdc: Adapt for constified device_find_child()
->       firmware: arm_scmi: Adapt for constified device_find_child()
->       efi: dev-path-parser: Adapt for constified device_find_child()
->       rpmsg: core: Adapt for constified device_find_child()
->       driver core: Simplify API device_find_child_by_name() implementation
+> I also currently use DTOs for various panels including their PLL
+> setting, but in the end, I think/hope the work of Miquel and co. is
+> going to make that PLL setting part unnecessary.
 
-sorry for that only part of this series [0/32, 11/32] were sent out due
-to mail account capability limitation.
+That is exactly what my patch is about. I want to use one DT for all
+panels and store the panel's timing in EDID EEPROM.
 
-will solve the limitation and send out whole patch series as v3.
-
-thanks (^^)
-
+-- 
+Nikolaus Voss
