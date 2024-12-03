@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2751F9E162C
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:48:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A069E163C
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:50:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADE6210E97D;
-	Tue,  3 Dec 2024 08:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D84A10E986;
+	Tue,  3 Dec 2024 08:50:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="t9brO18N";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uDcOTWZs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2B4110E97D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 08:48:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 621DF10E984
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 08:50:26 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 785328DB;
- Tue,  3 Dec 2024 09:48:08 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEC408DB;
+ Tue,  3 Dec 2024 09:49:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733215688;
- bh=0OpAzWPuoryPxuF28/pNqAjWqcvclJtIH5b6VDVvfN0=;
+ s=mail; t=1733215798;
+ bh=Rb+1LimEOg2KyRvb49TqiGJHO6i5lsezJr9VXtmZ3YQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=t9brO18N9dPcCEATfgU02ojolfRs6YqdOaDkiWn8yJNW2atTCM8O/g2Vpd3wQepmp
- ump13EAQaDL8jKuuK21ZroYB2mMypvk/OS1PrO0EwnKrj05YkBaLle8XTBOoR9iEnd
- NepGOJeAQW124EcLase6euLcGdjJmhfO/N3nS0BI=
-Date: Tue, 3 Dec 2024 10:48:24 +0200
+ b=uDcOTWZsHL72Z+kjzinta4X89IEUrGtYEZxJWqRYQX3K70mrr9SGDhn7CU3Mi7tN6
+ WU4hOKrBxpPahgl/NICv7pMAaORwnERsCy6nJsjvAdXcp11MNv1bcsSzE02WV2YDse
+ zZJLnTiDh3bVOOP0OQSTfTEqLG/aG97coDylyK3E=
+Date: Tue, 3 Dec 2024 10:50:13 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
@@ -51,14 +52,17 @@ Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org,
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH 4/9] drm/rcar-du: dsi: Fix PHY lock bit check
-Message-ID: <20241203084824.GG10736@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/9] dt-bindings: display: renesas,du: Add r8a779h0
+Message-ID: <20241203085013.GH10736@pendragon.ideasonboard.com>
 References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
- <20241203-rcar-gh-dsi-v1-4-738ae1a95d2a@ideasonboard.com>
+ <20241203-rcar-gh-dsi-v1-2-738ae1a95d2a@ideasonboard.com>
+ <20241203081935.GE10736@pendragon.ideasonboard.com>
+ <CAMuHMdVZui9c4X0FQ3Xke4gzxa9gvs6Nsp0eh5avzr_G3wd=ig@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241203-rcar-gh-dsi-v1-4-738ae1a95d2a@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdVZui9c4X0FQ3Xke4gzxa9gvs6Nsp0eh5avzr_G3wd=ig@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,59 +78,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Tue, Dec 03, 2024 at 10:01:38AM +0200, Tomi Valkeinen wrote:
-> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On Tue, Dec 03, 2024 at 09:38:44AM +0100, Geert Uytterhoeven wrote:
+> Hi Laurent,
 > 
-> The driver checks for bit 16 (using CLOCKSET1_LOCK define) in CLOCKSET1
-> register when waiting for the PPI clock. However, the right bit to check
-> is bit 17 (CLOCKSET1_LOCK_PHY define). Not only that, but there's
-> nothing in the documents for bit 16 for V3U nor V4H.
+> On Tue, Dec 3, 2024 at 9:19 AM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> > On Tue, Dec 03, 2024 at 10:01:36AM +0200, Tomi Valkeinen wrote:
+> > > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > >
+> > > Extend the Renesas DU display bindings to support the r8a779h0 V4M.
+> > >
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/display/renesas,du.yaml | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > index c5b9e6812bce..d369953f16f7 100644
+> > > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > @@ -41,6 +41,7 @@ properties:
+> > >        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> > >        - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+> > >        - renesas,du-r8a779g0 # for R-Car V4H compatible DU
+> > > +      - renesas,du-r8a779h0 # for R-Car V4M compatible DU
+> > >
+> > >    reg:
+> > >      maxItems: 1
+> >
+> > You also need to add h0 to the g0 block in the conditional properties
+> > below. With that,
 > 
-> So, fix the check to use bit 17, and drop the define for bit 16.
-> 
-> Fixes: 155358310f01 ("drm: rcar-du: Add R-Car DSI driver")
-> Fixes: 11696c5e8924 ("drm: Place Renesas drivers in a separate dir")
+> Which is not sufficient, as the DU on R-Car V4M has only a single channel,
+> unlike on R-Car V3U and V4H.
 
-Should this have CC: stable ?
-
-> Signed-off-by: Tomi Valkeiben <tomi.valkeinen+renesas@ideasonboard.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      | 2 +-
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 1 -
->  2 files changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> index 2dba7c5ffd2c..92f4261305bd 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> @@ -587,7 +587,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
->  	for (timeout = 10; timeout > 0; --timeout) {
->  		if ((rcar_mipi_dsi_read(dsi, PPICLSR) & PPICLSR_STPST) &&
->  		    (rcar_mipi_dsi_read(dsi, PPIDLSR) & PPIDLSR_STPST) &&
-> -		    (rcar_mipi_dsi_read(dsi, CLOCKSET1) & CLOCKSET1_LOCK))
-> +		    (rcar_mipi_dsi_read(dsi, CLOCKSET1) & CLOCKSET1_LOCK_PHY))
->  			break;
->  
->  		usleep_range(1000, 2000);
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> index f8114d11f2d1..a6b276f1d6ee 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> @@ -142,7 +142,6 @@
->  
->  #define CLOCKSET1			0x101c
->  #define CLOCKSET1_LOCK_PHY		(1 << 17)
-> -#define CLOCKSET1_LOCK			(1 << 16)
->  #define CLOCKSET1_CLKSEL		(1 << 8)
->  #define CLOCKSET1_CLKINSEL_EXTAL	(0 << 2)
->  #define CLOCKSET1_CLKINSEL_DIG		(1 << 2)
+Ah, indeed, in that case the DT bindings also need to take that into
+account :-)
 
 -- 
 Regards,
