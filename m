@@ -2,122 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384169E2B1E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 19:40:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637379E2B15
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 19:39:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 221C210EB16;
-	Tue,  3 Dec 2024 18:40:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E5EF10EB08;
+	Tue,  3 Dec 2024 18:39:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="NFZj3W56";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jVqCzqpy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A62810E478
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 13:49:20 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20241203134204euoutp02ee77f919f06b1795d9faa6fc3bdc12d6~NroaWVihb3046930469euoutp02i
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 13:42:04 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20241203134204euoutp02ee77f919f06b1795d9faa6fc3bdc12d6~NroaWVihb3046930469euoutp02i
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1733233324;
- bh=DgeFHCAIbeFBF+0nDHhjAGX/VqaqfX2KAeQLuxONDpc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NFZj3W56ljtXnHvc1tmGFjM5qZGLUbULsATE25DYlUfR8PmHWh5XBugSUbSkHTo08
- Cmf06iPw+f5tBMp8R1PeseCefC0rYvp5MdArlhxQPmoouTsihyq1f11dOpljrg4D2Y
- ooHh0yjmlH2gKI0u/kHlojVBFmUXvseZ7zkUV/Go=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20241203134203eucas1p1bdae5662b85b434acdc7f54e36d382ed~NroZpJgjr2516025160eucas1p1G;
- Tue,  3 Dec 2024 13:42:03 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 5C.8F.20409.BAA0F476; Tue,  3
- Dec 2024 13:42:03 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20241203134203eucas1p11a2e36f777af362a333d8865bcb5d34e~NroZNpAIw1266212662eucas1p1-;
- Tue,  3 Dec 2024 13:42:03 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20241203134203eusmtrp1e72591d8410ed2d962a249230bcc7207~NroZG6yke0887308873eusmtrp1c;
- Tue,  3 Dec 2024 13:42:03 +0000 (GMT)
-X-AuditID: cbfec7f4-c39fa70000004fb9-9b-674f0aab1bb6
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 2A.D8.19920.BAA0F476; Tue,  3
- Dec 2024 13:42:03 +0000 (GMT)
-Received: from AMDC4942.home (unknown [106.210.136.40]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20241203134201eusmtip29d9c18c2428730d69c4023606adce934~NroXzhmyc3133331333eusmtip2j;
- Tue,  3 Dec 2024 13:42:01 +0000 (GMT)
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-To: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
- wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- ulf.hansson@linaro.org, jszhang@kernel.org, m.szyprowski@samsung.com
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org, Michal Wilczynski
- <m.wilczynski@samsung.com>
-Subject: [RFC PATCH v1 11/14] drm/imagination: Enable PowerVR driver for RISC-V
-Date: Tue,  3 Dec 2024 14:41:34 +0100
-Message-Id: <20241203134137.2114847-12-m.wilczynski@samsung.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241203134137.2114847-1-m.wilczynski@samsung.com>
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2B8B10EA34;
+ Tue,  3 Dec 2024 14:36:11 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-53de92be287so8313586e87.1; 
+ Tue, 03 Dec 2024 06:36:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1733236570; x=1733841370; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4UdbFlmq11p+eASdBnxObk/yRdYyyhts6n06xqRje/4=;
+ b=jVqCzqpyc2Niuk0KxX0L1PSd37T118A/gizZGsQM9C+twUxEbeiylqKaSdt/1s390v
+ 1rCKe3zxvpcew+qXo6aLDeOAt88kK4TZLH9HSixitmSE2VjiP7Ge3vKpfBb3S6LEjx/1
+ eLK7oKKObD09w2syVB3TDhyr+aySUR1ooJMMHfxk0IyDawNu6Y9ruSBMdVmzMY4fu5jO
+ UN2NPHnfgeVV8MzLhSQ139sx0KWo/hrYGRex1JIG/FJxvurxuXRG5PWQ9+nYZPu4RYNL
+ mZNNaIY4lMihxcdYzaRlsIHzWKjgX7TFRjjRvjVpOHisdojSGjXBlD1X40hdE+Jd79OB
+ 4xDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733236570; x=1733841370;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4UdbFlmq11p+eASdBnxObk/yRdYyyhts6n06xqRje/4=;
+ b=TqEUCxtgclNbe1Ie3YJrqfE/LyAZOkMSoSo+euxpIftecrlzPD5s8mpW+Et9ebDChg
+ Ztgkrq/2Zd7O9tvTN/JjDSEiW+sZ2HPlFFKriKuLf4laNQSiUQboC/YXMwxNYbBhJrSU
+ O98yYw+A59khBzsENVimzN8UptR707xPodsZmwys+bpIN0iT8mrIn9y1+HEGhGxXMgZI
+ 4NmShTtKR4dt6DFhQ8Q2nfNrIPOWrazm+ao7CKGfkJer9uCFkPDtbtQX7Gh2Uc/gnDVs
+ TEgfmtHwqdug9Q7lxntXtAN5DOBovqg3QvyhPOSm1pT14R2P68/8+JNo6w2dg/uvyPST
+ jZNg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUqnD+oPkPtsGG9Al3sqvGPZBehhlu8xQgW5AYcSwhNwg4gk1rmxi3Q/OQ4OdXTzANKc8G1KaJCq6U=@lists.freedesktop.org,
+ AJvYcCWCEHKeU7stGXrRq+5dedCCYo6KGC0rhELaJgtgUT4gVbfEKaLmGur4s4yKRxyj88MxgIn3YwTYG972@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzqo7LVMwSggS0c2/oibM6EAgxY469U0wq5jReSLgE38kOHgovG
+ VZc9O2Wati/yjHBe9CtFzxNp/EUE3mK/jEjcYzlH9ERAEm0wQUhn
+X-Gm-Gg: ASbGnctLn+/ZVseq7EiQFawQSB60Fg4rhfo2V+Hy7JixgNxI3fTpuuwlfmnmZegnjae
+ c1+UlVF+8eNpkFcJZIqt1JWktrLHcl9vkWedn5p/+DDBFV8Qdn4CBYK1SKCJ5S2+t/sQzYiK+jx
+ kTXR+aRleQcaktP8Vr7YSP1b59pnNh+hazeugNxYjIXWYI1lYty4m4bzRny3ZcBh/OXgpmQLQBo
+ fCXLo/cIb+OOAbJKhbgDNLnc9+vGYAmiUfzi7p6oji9KwHju4F9GLU8E3vbqZE=
+X-Google-Smtp-Source: AGHT+IEtiGgdnjzwS+6qliEstHFZt4D+WconNrWNE54EW5G6CLa24DZTyDgOoGvRfKazsixde2AXjQ==
+X-Received: by 2002:a05:6512:3096:b0:53b:4a6c:1849 with SMTP id
+ 2adb3069b0e04-53e12a3195bmr2515865e87.35.1733236569615; 
+ Tue, 03 Dec 2024 06:36:09 -0800 (PST)
+Received: from [192.168.50.169] ([195.136.68.87])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53df6443172sm1858540e87.84.2024.12.03.06.36.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Dec 2024 06:36:09 -0800 (PST)
+Message-ID: <38445cf6-0f09-42df-a033-cd2a00c71e0a@gmail.com>
+Date: Tue, 3 Dec 2024 15:36:08 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] drm/msm: Expose uche trap base via uapi
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+References: <20241203095920.505018-1-dpiliaiev@igalia.com>
+ <20241203095920.505018-2-dpiliaiev@igalia.com>
+ <lhi5ni5i4kuwzu2627nf5pnhhzcx7rglza5lxeadpkdekwtisj@3cacpo2r3tzx>
+ <b63d73ce-0845-4c0b-a110-4e10b8f587eb@gmail.com>
+ <s6yaog7kffvbfzz3uhwvkfzxxe2n32sdefia3g75gffqhgjcjw@6fbifjd36yr7>
+Content-Language: en-US
+From: Danylo <danylo.piliaiev@gmail.com>
+In-Reply-To: <s6yaog7kffvbfzz3uhwvkfzxxe2n32sdefia3g75gffqhgjcjw@6fbifjd36yr7>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf1CTdRzH+T7Ps+d5WDd6GHj7ShAnBld2oiJn38vqMLWezlDpnzrO0p08
- zQkM3ByZesmvFtAoSBg5SBYh0BBJxhYsafLjmLBcCIUQ8qOLMGS5kB9XGayNB8v/Xp/35/25
- 9+dz96FxcRMZQssVxzmlQpoSQQoJS/dfzo31wn2yzSOeLejazSoMme/rKXSxzYmhyi6nAI31
- N2PohwU3iS792keh39qyCDRY9xmFcrobSTStHyPRrHZMgAasFSSaK+wCyDKXS6KGrlEKNS5U
- YujzWTOBqlusAGnyawToRu9uND2gxZFG/yjyXGmh0PLgZQKV37VRqNlVLED2htdRrq2EiAtj
- 3UPvU6xreppgO/PmKbZt0UCwrfpRitW2fgfYJmM+yd4avEKy53sS2PEP7Rhrqj7D5jZ0Y6z7
- 2x9J9qNmI2D7c25SrMlxan9govC5JC5FnsEpN71wSHjkqvUelm6lTxRPLuGZ4AOqAPjTkImF
- dcvZRAEQ0mKmDkBdUSHOF/MAns01UHwxB2Bn+ceCByPnvyheGRcztQC6NQd4kwvA5XOTuK9B
- MjFworZS4GsEMzM4HFoYJn0FztwG0DJZQfpcQUwCvDw8ssIEEwk7bk9iPhYxcdCu7cH5uHBo
- a7++wv5efaa0QMB7AmHPuUnCx7jXk2MuX1kcMheEcNzgWD1vF+ztM5M8B8E79uZVPRQ6zmoJ
- ntPghPneathp2Kq1r/J2eMv5t3eW9gY8BRutm3h5B9S7C4BPhkwAHPo9kF8hAH5iKcN5WQTz
- NGLeHQVLtYX/hTrrLBjPLPz0n2ZBEVinf+gY/UPH6P/PNQDcCCScWpUq41QxCu6daJU0VaVW
- yKIPp6U2Ae9bO5bt8y2g9s5sdAfAaNABII1HBItqG/fIxKIk6bsnOWXaQaU6hVN1gMdoIkIi
- ikwK58SMTHqcS+a4dE75oIvR/iGZmJG2LZX5HTrhr5dkySq+OXbdefirhJKBN2p//j7b9efb
- r2hNnr2nD7gvnJHJbBtmrnnCl7IPtiX2HS08elenzlfv7fd7fsfwRnHMnl07e967KlkXHxW7
- pqqkKObl9mMvRT2TNE7ndAuqwiuSnqZCkk1bDV3y7DJDKPt1EMqzBYneWhtbSf4yrj+5dluv
- Kb3CdEk+l7Ho2bzwmm27rTPOocmc+oN50xmj/inglCv0xkh7SbDzCWWI9n70kwo59+z6pou7
- q2YXE4X1fVNme2LNqyOG+v2YLnGNLsS1/hHdzjbP1qnq+NLSdvOX8ROPJ0vqB4vDIo01WRlh
- Uy+SgdtGPfv8UG8EoToi3bIBV6qk/wJ0jQjbRQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEKsWRmVeSWpSXmKPExsVy+t/xe7qrufzTDRqb+S1OXF/EZLH19yx2
- izV7zzFZzD9yjtXi3qUtTBZXvr5ns1j39AK7xYu9jSwW11bMZbdoPraezeLlrHtsFh977rFa
- XN41h83ic+8RRottn1vYLNYeuctusf7rfCaLhR+3slgs2bGL0aKtcxmrxcVTrhYvL/cwW7TN
- 4rf4v2cHu8W/axtZLGa/289useXNRFaL42vDLVr2T2FxkPV4f6OV3ePNy5csHoc7vrB77P22
- gMVj56y77B49O88wemxa1cnmcefaHjaPeScDPe53H2fy2Lyk3qNl7TEmj/f7rrJ59G1Zxehx
- qfk6u8fm09UBglF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZll
- qUX6dgl6GQd2fWIq2MVRMfHJX+YGxnb2LkZODgkBE4l5iycC2VwcQgJLGSUa5pyHSshIXOt+
- yQJhC0v8udbFBlH0ilGi4/FhNpAEm4CRxIPl81lBEiICnSwSbzevZQRxmAXeMkpcn7kRrF1Y
- wF9i6sEnYGNZBFQlDj1/wgRi8wo4SBzvOckMsUJeYv/Bs2A2J1D89dQuVhBbSMBeYsffw6wQ
- 9YISJ2c+AZvJDFTfvHU28wRGgVlIUrOQpBYwMq1iFEktLc5Nzy021CtOzC0uzUvXS87P3cQI
- TCzbjv3cvINx3quPeocYmTgYDzFKcDArifAuX++dLsSbklhZlVqUH19UmpNafIjRFOjuicxS
- osn5wNSWVxJvaGZgamhiZmlgamlmrCTO63b5fJqQQHpiSWp2ampBahFMHxMHp1QDkx57bcDm
- FYkFPZfbZ9zfwdyUfplbcX/XoY0+Ts/nx1dZNe/xWJJw4lhzkgD/VDlZpiVrNtQujmG3iVLZ
- ++fr5NnfN1wQtDCSt+O+myuW87oxwt571/eFYf5XL3DKVOv5mh6b0KYpNlfFkkNEJnBfpALX
- jMNSia8zzG+ERizmiJmm9b437MWvJd6vd7ltZC1ROvHl6/t/07kFraJ26+ZfkUhheuFZ7HY7
- tTfjt/7vs8vcnrxuXd9j8MFxl4Jz/fTr4tPYPEy6jluL3XttMjN705ZP8x6+i9Ba6Sxfl9u2
- 97yYEteqRW98cm4vr/11Je1D6tGoQKtv77lXXfav+bU+bpn5tHlOX6YdKzp79DfbXyWW4oxE
- Qy3mouJEAFZ2wvS1AwAA
-X-CMS-MailID: 20241203134203eucas1p11a2e36f777af362a333d8865bcb5d34e
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20241203134203eucas1p11a2e36f777af362a333d8865bcb5d34e
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20241203134203eucas1p11a2e36f777af362a333d8865bcb5d34e
-References: <20241203134137.2114847-1-m.wilczynski@samsung.com>
- <CGME20241203134203eucas1p11a2e36f777af362a333d8865bcb5d34e@eucas1p1.samsung.com>
-X-Mailman-Approved-At: Tue, 03 Dec 2024 18:40:35 +0000
+X-Mailman-Approved-At: Tue, 03 Dec 2024 18:39:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,33 +99,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several RISC-V boards feature Imagination GPUs that are compatible with
-the PowerVR driver. An example is the IMG BXM-4-64 GPU on the Lichee Pi
-4A board. This commit adjusts the driver's Kconfig dependencies to allow
-the PowerVR driver to be compiled on the RISC-V architecture.
 
-By enabling compilation on RISC-V, we expand support for these GPUs,
-providing graphics acceleration capabilities and enhancing hardware
-compatibility on RISC-V platforms.
 
-Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
----
- drivers/gpu/drm/imagination/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
-index 3bfa2ac212dc..5f218896114c 100644
---- a/drivers/gpu/drm/imagination/Kconfig
-+++ b/drivers/gpu/drm/imagination/Kconfig
-@@ -3,7 +3,7 @@
- 
- config DRM_POWERVR
- 	tristate "Imagination Technologies PowerVR (Series 6 and later) & IMG Graphics"
--	depends on ARM64
-+	depends on (ARM64 || RISCV)
- 	depends on DRM
- 	depends on PM
- 	select DRM_EXEC
--- 
-2.34.1
+On 12/3/24 14:34, Dmitry Baryshkov wrote:
+> On Tue, Dec 03, 2024 at 02:09:59PM +0100, Danylo wrote:
+>>
+>>
+>> On 12/3/24 13:52, Dmitry Baryshkov wrote:
+>>> On Tue, Dec 03, 2024 at 10:59:20AM +0100, Danylo Piliaiev wrote:
+>>>> This adds MSM_PARAM_UCHE_TRAP_BASE that will be used by Mesa
+>>>> implementation for VK_KHR_shader_clock and GL_ARB_shader_clock.
+>>> Could you please spend more words, describing what it is and why is it
+>>> necessary for those extensions. For a5xx+ it looks like some kind of an
+>>> internal address (what kind of?). For a4xx I'm completely lost.
+>> Yes, my bad. On at least a6xx+, shader could read 64b ALWAYSON counter
+>> from UCHE_TRAP_BASE+0 address. We use it to implement VK_KHR_shader_clock:
+>>   "This extension advertises the SPIR-V ShaderClockKHR capability for Vulkan,
+>> which
+>>    allows a shader to query a real-time or monotonically incrementing counter
+>> at
+>>    the subgroup level or across the device level."
+>> And there is no other proper way to get such counter. Same with
+>> GL_ARB_shader_clock.
+> Yes, please add this to the commit message.
+Ok.
+
+>> Not sure what's there on older gens, I exposed the value on them for the
+>> completeness sake. But I don't know whether it is desired or not (I don't
+>> expect
+>> the value being read and used on a4xx/a5xx in Mesa).
+> Do you know if there is anything interesting in that region on a4xx /
+> a5xx (or at least if it's a region on a4xx?) Also how will that
+> GET_PARAM behave on a2xx-a3xx? Will it return 0 or some -EINVAL?
+I don't know if there is anything interesting there on a5xx or a4xx.
+I booted a5xx board I dug up, but found out that on a5xx we are
+even missing the instruction to read from memory address, so I wasn't
+able to check what's at that address.
+
+As for what to return on a2xx-a3xx, as suggested by Rob,
+I'll rebase on https://patchwork.freedesktop.org/series/141667/ then
+I will return EINVAL:
+         if (adreno_gpu->uche_trap_base == 0)
+             return UERR(EINVAL, drm, "no uche trap base");
+
+>>>> Signed-off-by: Danylo Piliaiev <dpiliaiev@igalia.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  6 ++++--
+>>>>    drivers/gpu/drm/msm/adreno/a5xx_gpu.c   | 10 ++++++----
+>>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 12 +++++++-----
+>>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.c |  3 +++
+>>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h |  2 ++
+>>>>    include/uapi/drm/msm_drm.h              |  1 +
+>>>>    6 files changed, 23 insertions(+), 11 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+>>>> index 50c490b492f0..f1b18a6663f7 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+>>>> @@ -251,8 +251,8 @@ static int a4xx_hw_init(struct msm_gpu *gpu)
+>>>>    		gpu_write(gpu, REG_A4XX_UCHE_CACHE_WAYS_VFD, 0x07);
+>>>>    	/* Disable L2 bypass to avoid UCHE out of bounds errors */
+>>>> -	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_LO, 0xffff0000);
+>>>> -	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_HI, 0xffff0000);
+>>>> +	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
+>>>> +	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
+>>>>    	gpu_write(gpu, REG_A4XX_CP_DEBUG, (1 << 25) |
+>>>>    			(adreno_is_a420(adreno_gpu) ? (1 << 29) : 0));
+>>>> @@ -693,6 +693,8 @@ struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
+>>>>    	if (ret)
+>>>>    		goto fail;
+>>>> +	adreno_gpu->uche_trap_base = 0xffff0000ffff0000ull;
+>>>> +
+>>>>    	if (!gpu->aspace) {
+>>>>    		/* TODO we think it is possible to configure the GPU to
+>>>>    		 * restrict access to VRAM carveout.  But the required
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>>>> index ee89db72e36e..caf2c0a7a29f 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>>>> @@ -750,10 +750,10 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
+>>>>    	gpu_write(gpu, REG_A5XX_UCHE_CACHE_WAYS, 0x02);
+>>>>    	/* Disable L2 bypass in the UCHE */
+>>>> -	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_LO, 0xFFFF0000);
+>>>> -	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_HI, 0x0001FFFF);
+>>>> -	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_LO, 0xFFFF0000);
+>>>> -	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_HI, 0x0001FFFF);
+>>>> +	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
+>>>> +	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
+>>>> +	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
+>>>> +	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
+>>>>    	/* Set the GMEM VA range (0 to gpu->gmem) */
+>>>>    	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MIN_LO, 0x00100000);
+>>>> @@ -1805,5 +1805,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+>>>>    	adreno_gpu->ubwc_config.macrotile_mode = 0;
+>>>>    	adreno_gpu->ubwc_config.ubwc_swizzle = 0x7;
+>>>> +	adreno_gpu->uche_trap_base = 0x0001ffffffff0000ull;
+>>>> +
+>>>>    	return gpu;
+>>>>    }
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>> index 019610341df1..0ae29a7c8a4d 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>> @@ -1123,12 +1123,12 @@ static int hw_init(struct msm_gpu *gpu)
+>>>>    	/* Disable L2 bypass in the UCHE */
+>>>>    	if (adreno_is_a7xx(adreno_gpu)) {
+>>>> -		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, 0x0001fffffffff000llu);
+>>>> -		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, 0x0001fffffffff000llu);
+>>>> +		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, adreno_gpu->uche_trap_base);
+>>>> +		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, adreno_gpu->uche_trap_base);
+>>>>    	} else {
+>>>> -		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX, 0x0001ffffffffffc0llu);
+>>>> -		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, 0x0001fffffffff000llu);
+>>>> -		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, 0x0001fffffffff000llu);
+>>>> +		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX, adreno_gpu->uche_trap_base + 0xfc0);
+>>>> +		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, adreno_gpu->uche_trap_base);
+>>>> +		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, adreno_gpu->uche_trap_base);
+>>>>    	}
+>>>>    	if (!(adreno_is_a650_family(adreno_gpu) ||
+>>>> @@ -2533,6 +2533,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>    		}
+>>>>    	}
+>>>> +	adreno_gpu->uche_trap_base = 0x1fffffffff000ull;
+>>>> +
+>>>>    	if (gpu->aspace)
+>>>>    		msm_mmu_set_fault_handler(gpu->aspace->mmu, gpu,
+>>>>    				a6xx_fault_handler);
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> index 076be0473eb5..774ff6eacb9f 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> @@ -385,6 +385,9 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+>>>>    	case MSM_PARAM_MACROTILE_MODE:
+>>>>    		*value = adreno_gpu->ubwc_config.macrotile_mode;
+>>>>    		return 0;
+>>>> +	case MSM_PARAM_UCHE_TRAP_BASE:
+>>>> +		*value = adreno_gpu->uche_trap_base;
+>>>> +		return 0;
+>>>>    	default:
+>>>>    		DBG("%s: invalid param: %u", gpu->name, param);
+>>>>    		return -EINVAL;
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> index e71f420f8b3a..9bd38dda4308 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> @@ -253,6 +253,8 @@ struct adreno_gpu {
+>>>>    	bool gmu_is_wrapper;
+>>>>    	bool has_ray_tracing;
+>>>> +
+>>>> +	u64 uche_trap_base;
+>>>>    };
+>>>>    #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
+>>>> diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+>>>> index b916aab80dde..2342cb90857e 100644
+>>>> --- a/include/uapi/drm/msm_drm.h
+>>>> +++ b/include/uapi/drm/msm_drm.h
+>>>> @@ -90,6 +90,7 @@ struct drm_msm_timespec {
+>>>>    #define MSM_PARAM_RAYTRACING 0x11 /* RO */
+>>>>    #define MSM_PARAM_UBWC_SWIZZLE 0x12 /* RO */
+>>>>    #define MSM_PARAM_MACROTILE_MODE 0x13 /* RO */
+>>>> +#define MSM_PARAM_UCHE_TRAP_BASE 0x14 /* RO */
+>>>>    /* For backwards compat.  The original support for preemption was based on
+>>>>     * a single ring per priority level so # of priority levels equals the #
+>>>> -- 
+>>>> 2.46.2
+>>>>
 
