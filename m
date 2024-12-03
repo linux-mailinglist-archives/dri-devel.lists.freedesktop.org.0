@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B9B9E29A2
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:43:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107D59E29A3
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:43:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2D3010EAE6;
-	Tue,  3 Dec 2024 17:43:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFF2A10EAE7;
+	Tue,  3 Dec 2024 17:43:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 834B510EAEE
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:43:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97F8410EAE9
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:43:17 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1tIWvB-000397-BW; Tue, 03 Dec 2024 18:42:49 +0100
-Message-ID: <805cd97f8050a9f7baa122e3c77f7fd4f8b4a353.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: Drop the 'struct
- etnaviv_iommu_global::pta_lock' data member
+ id 1tIWvL-0003Bm-7c; Tue, 03 Dec 2024 18:42:59 +0100
+Message-ID: <df8c5796a8103e0a4daa4e20b61251af82ab5a53.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: etnaviv_cmdbuf.c: Drop the unneeded
+ include of drm_mm.h
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
  <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
@@ -28,9 +28,9 @@ To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
 Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
-Date: Tue, 03 Dec 2024 18:42:48 +0100
-In-Reply-To: <20241025175136.414054-1-sui.jingfeng@linux.dev>
-References: <20241025175136.414054-1-sui.jingfeng@linux.dev>
+Date: Tue, 03 Dec 2024 18:42:58 +0100
+In-Reply-To: <20241025175620.414666-1-sui.jingfeng@linux.dev>
+References: <20241025175620.414666-1-sui.jingfeng@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
@@ -55,8 +55,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Samstag, dem 26.10.2024 um 01:51 +0800 schrieb Sui Jingfeng:
-> Because it is not get used, drop it.
+Am Samstag, dem 26.10.2024 um 01:56 +0800 schrieb Sui Jingfeng:
+> The etnaviv_cmdbuf.c doesn't reference any functions or data members
+> defined in drm_mm.h, remove unneeded headers may reduce kernel compile
+> times.
 >=20
 Thanks, applied to etnaviv/next.
 
@@ -65,20 +67,21 @@ Lucas
 
 > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_mmu.h | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c | 2 --
+>  1 file changed, 2 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.h b/drivers/gpu/drm/etna=
-viv/etnaviv_mmu.h
-> index c01a147f0dfd..7f8ac0178547 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
-> @@ -61,7 +61,6 @@ struct etnaviv_iommu_global {
->  			/* P(age) T(able) A(rray) */
->  			u64 *pta_cpu;
->  			dma_addr_t pta_dma;
-> -			struct spinlock pta_lock;
->  			DECLARE_BITMAP(pta_alloc, ETNAVIV_PTA_ENTRIES);
->  		} v2;
->  	};
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c b/drivers/gpu/drm/e=
+tnaviv/etnaviv_cmdbuf.c
+> index 66a407f1b3ee..7aa5f14d0c87 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
+> @@ -5,8 +5,6 @@
+> =20
+>  #include <linux/dma-mapping.h>
+> =20
+> -#include <drm/drm_mm.h>
+> -
+>  #include "etnaviv_cmdbuf.h"
+>  #include "etnaviv_gem.h"
+>  #include "etnaviv_gpu.h"
 
