@@ -2,102 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 838E39E1505
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:04:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045919E15B8
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:28:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C2FF10E946;
-	Tue,  3 Dec 2024 08:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6772510E964;
+	Tue,  3 Dec 2024 08:28:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E1OLJTvP";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ekr9OIgf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7281510E943;
- Tue,  3 Dec 2024 08:04:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 72F7E5C6808;
- Tue,  3 Dec 2024 08:04:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB014C4CECF;
- Tue,  3 Dec 2024 08:04:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733213088;
- bh=ogGT+tEgRtvtjmlcfLtQ/kpDFOq88/tpRAoBFCiwBaM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=E1OLJTvPW7aL/ytZ91En4Qv5s9bDlLu2RRY9dHv4QaFIhJzj0eNcqCmmSDx6b3Zq2
- lk6GcRXGj/o8I857pOw9AWhVcjnuXxyELZvmPY9xwvtZvUdXA7jJcI/yCehkHMpMSv
- fvm1Oqp4YKbyiGtN7S3AB5kHwdFeYsCcjZTcghAfSVOJg5TOxLZnXlKTKmQ/mQNaQ1
- kn82yo4q+CxS/xd8VXvgwRB1oyIsoBo2vHjQmjLG3ywMfC1E9Jw9BsXLprO1HVT+QE
- tHyPk8ye7D5aMmJZJIGD1CHbjTmRj3MG4efWlRsxufCSBDLxWVPMRUMEuPEbSy8suD
- 8FJ/4wV5L0aEA==
-Message-ID: <39f8e20a-e8c3-4625-abb1-9f35f416705d@kernel.org>
-Date: Tue, 3 Dec 2024 09:04:39 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D4A610E943;
+ Tue,  3 Dec 2024 08:13:39 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B38DHm7021372;
+ Tue, 3 Dec 2024 08:13:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ lyio5c/QsJpciT6SfoU0fRT+8D6R60aiIJYgWs6p97M=; b=ekr9OIgfslsb1awo
+ JKMf8PrdseqcAamEcRBSfXr0t60vThSOxHPKUYOKNVQNge/ROrx2xjIYczxAOHJX
+ c2XSjm2rA32/Kw7MR3b5Ms7y1eZIVFeae78357DdASe9spHdhiSYN+BTypIhVIO+
+ XLK+4DFyVZ3xpJmcLABse6PrWFhlayAYlUQ2qxxYOqo6IYIp+658abNSQ9MJeLWI
+ TRRixQrqmVl+7ZKErEDmDbvYmELIUuI6lxn+qDvBBIYBehoKxlfsGM2XqmVomdym
+ K/2wieTsaSZc5auVtrriwoXgp+/rJGaRdqJkJGCkWqvSynUHymiHSeXduXrSXMC+
+ 1RaMhw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437ufe79g4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 Dec 2024 08:13:32 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.45.79.139])
+ by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B38DV8n018083
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 3 Dec 2024 08:13:31 GMT
+Received: from [10.64.16.135] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Dec 2024
+ 00:13:25 -0800
+Message-ID: <b4345b9e-62c6-470d-b1b0-4758cef7f175@quicinc.com>
+Date: Tue, 3 Dec 2024 16:13:22 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] dt-bindings: display/msm: add stream 1 pixel clock
- binding
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+Subject: Re: [PATCH 7/8] drm/msm/dp: Retry Link Training 2 with lower pattern
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Mahadevan <quic_mahap@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com>
- <20241202-dp_mst_bindings-v1-3-9a9a43b0624a@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241202-dp_mst_bindings-v1-3-9a9a43b0624a@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Kuogee
+ Hsieh" <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, "Kishon
+ Vijay Abraham I" <kishon@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, <quic_lliu6@quicinc.com>,
+ <quic_fangez@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-phy@lists.infradead.org>, <linux-gpio@vger.kernel.org>
+References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
+ <20241129-add-displayport-support-for-qcs615-platform-v1-7-09a4338d93ef@quicinc.com>
+ <CAA8EJpoN1qBHyZrQJT_=e_26+tcaKRnSrhtxrK6zBP4BwpL=Hg@mail.gmail.com>
+From: Xiangxu Yin <quic_xiangxuy@quicinc.com>
+In-Reply-To: <CAA8EJpoN1qBHyZrQJT_=e_26+tcaKRnSrhtxrK6zBP4BwpL=Hg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: t1dX3nC9GUAWYDcJWQ-NfbM5Ailiyc0r
+X-Proofpoint-GUID: t1dX3nC9GUAWYDcJWQ-NfbM5Ailiyc0r
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ spamscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ mlxlogscore=999 clxscore=1015 adultscore=0 bulkscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412030069
+X-Mailman-Approved-At: Tue, 03 Dec 2024 08:28:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,110 +105,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/12/2024 04:31, Abhinav Kumar wrote:
-> On some chipsets the display port controller can support more
 
-Which chipsets?
 
-> than one pixel stream (multi-stream transport). To support MST
-> on such chipsets, add the binding for stream 1 pixel clock for
-> display port controller. Since this mode is not supported on all
-> chipsets, add exception rules and min/max items to clearly mark
-> which chipsets support only SST mode (single stream) and which ones
-> support MST.
+On 11/29/2024 9:53 PM, Dmitry Baryshkov wrote:
+> On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
+>>
+>> Add a mechanism to retry Link Training 2 by lowering the pattern level
+>> when the link training #2 first attempt fails. This approach enhances
+>> compatibility, particularly addressing issues caused by certain hub
+>> configurations.
 > 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  .../bindings/display/msm/dp-controller.yaml        | 32 ++++++++++++++++++++++
->  .../bindings/display/msm/qcom,sa8775p-mdss.yaml    |  9 ++++--
->  2 files changed, 38 insertions(+), 3 deletions(-)
+> Please reference corresponding part of the standard, describing this lowering.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> index 9fe2bf0484d8..650d19e58277 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> @@ -50,30 +50,38 @@ properties:
->      maxItems: 1
->  
->    clocks:
-> +    minItems: 5
->      items:
->        - description: AHB clock to enable register access
->        - description: Display Port AUX clock
->        - description: Display Port Link clock
->        - description: Link interface clock between DP and PHY
->        - description: Display Port stream 0 Pixel clock
-> +      - description: Display Port stream 1 Pixel clock
->  
->    clock-names:
-> +    minItems: 5
->      items:
->        - const: core_iface
->        - const: core_aux
->        - const: ctrl_link
->        - const: ctrl_link_iface
->        - const: stream_pixel
-> +      - const: stream_1_pixel
->  
->    assigned-clocks:
-> +    minItems: 2
->      items:
->        - description: link clock source
->        - description: stream 0 pixel clock source
-> +      - description: stream 1 pixel clock source
->  
->    assigned-clock-parents:
-> +    minItems: 2
->      items:
->        - description: Link clock PLL output provided by PHY block
->        - description: Stream 0 pixel clock PLL output provided by PHY block
-> +      - description: Stream 1 pixel clock PLL output provided by PHY block
->  
->    phys:
->      maxItems: 1
-> @@ -175,6 +183,30 @@ allOf:
->        required:
->          - "#sound-dai-cells"
->  
+Per DisplayPort 1.4a specification Section 3.5.1.2 and Table 3-10, while the standard doesn't explicitly define a TPS downgrade mechanism, it does specify:
+- All devices shall support TPS1 and TPS2
+- HDR2-capable devices shall support TPS3
+- HDR3-capable devices shall support TPS4
+While these capabilities are explicitly defined DPCD for sink devices, source device capabilities are less strictly defined, with the minimum requirement being support for TPS1 and TPS2.
+In QCS615 DP phy is only supporting to HBR2, we observed a critical interoperability scenario with a DP->HDMI bridge. When link training at TPS4 consistently failed, downgrading to the next lower training pattern successfully established the link and display output successfully.
 
-Missing if: narrowing this to 5 items for other devices.
+This experience suggests that implementing a flexible link training pattern downgrade mechanism can significantly improve compatibility with third-party, non-standard hubs and displays,
+especially in scenarios where strict adherence to the highest training pattern might prevent successful connection.
+>>
+>> Signed-off-by: Xiangxu Yin <quic_xiangxuy@quicinc.com>
+>> ---
+>>  drivers/gpu/drm/msm/dp/dp_ctrl.c | 34 ++++++++++++++++++++++++++++++----
+>>  1 file changed, 30 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> index 49c8ce9b2d0e57a613e50865be3fe98e814d425a..b1862294cb98c9f756b0108b7670cb42de37bae4 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> @@ -1220,7 +1220,7 @@ static void msm_dp_ctrl_clear_training_pattern(struct msm_dp_ctrl_private *ctrl)
+>>  }
+>>
+>>  static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
+>> -                       int *training_step)
+>> +                       int *training_step, bool downgrade)
+>>  {
+>>         int tries = 0, ret = 0;
+>>         u8 pattern;
+>> @@ -1243,6 +1243,28 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
+>>                 state_ctrl_bit = 2;
+>>         }
+>>
+>> +       /*
+>> +        * DP link training uses the highest allowed pattern by default.
+>> +        * If it fails, the pattern is downgraded to improve cable and monitor compatibility.
+>> +        */
+>> +       if (downgrade) {
+>> +               switch (pattern) {
+>> +               case DP_TRAINING_PATTERN_4:
+>> +                       pattern = DP_TRAINING_PATTERN_3;
+>> +                       state_ctrl_bit = 3;
+>> +                       break;
+>> +               case DP_TRAINING_PATTERN_3:
+>> +                       pattern = DP_TRAINING_PATTERN_2;
+>> +                       state_ctrl_bit = 2;
+>> +                       break;
+>> +               default:
+>> +                       break;
+>> +               }
+>> +       }
+>> +
+>> +       drm_dbg_dp(ctrl->drm_dev, "pattern(%d) state_ctrl_bit(%d) downgrade(%d)\n",
+>> +               pattern, state_ctrl_bit, downgrade);
+>> +
+>>         ret = msm_dp_catalog_ctrl_set_pattern_state_bit(ctrl->catalog, state_ctrl_bit);
+>>         if (ret)
+>>                 return ret;
+>> @@ -1311,10 +1333,14 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
+>>         /* print success info as this is a result of user initiated action */
+>>         drm_dbg_dp(ctrl->drm_dev, "link training #1 successful\n");
+>>
+>> -       ret = msm_dp_ctrl_link_train_2(ctrl, training_step);
+>> +       ret = msm_dp_ctrl_link_train_2(ctrl, training_step, false);
+>>         if (ret) {
+>> -               DRM_ERROR("link training #2 failed. ret=%d\n", ret);
+>> -               goto end;
+>> +               drm_dbg_dp(ctrl->drm_dev, "link training #2 failed, retry downgrade.\n");
+>> +               ret = msm_dp_ctrl_link_train_2(ctrl, training_step, true);
+>> +               if (ret) {
+>> +                       DRM_ERROR("link training #2 failed. ret=%d\n", ret);
+>> +                       goto end;
+>> +               }
+>>         }
+>>
+>>         /* print success info as this is a result of user initiated action */
+>>
+>> --
+>> 2.25.1
+>>
+> 
+> 
 
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - qcom,sa8775p-dp
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-
-Missing minItems, otherwise it is pointless.
-
-> +          maxItems: 6
-> +        clock-names:
-> +          items:
-> +            - const: core_iface
-> +            - const: core_aux
-> +            - const: ctrl_link
-> +            - const: ctrl_link_iface
-> +            - const: stream_pixel
-> +            - const: stream_1_pixel
-> +        assigned-clocks:
-> +          maxItems: 3
-
-Missing minItems... or just drop, it's not accurate or not even correct.
-I can assign 4 clocks, why not? Or rather: why do you stop users from
-assigning 4 clocks?
-
-
-> +        assigned-clock-parents:
-> +          maxItems: 3
-> +
->  additionalProperties: false
-
-
-
-Best regards,
-Krzysztof
