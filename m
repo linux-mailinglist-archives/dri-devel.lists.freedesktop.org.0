@@ -2,96 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B049E1EC2
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 15:13:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5249E1EAF
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 15:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51C2110E1CD;
-	Tue,  3 Dec 2024 14:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E6B110E47B;
+	Tue,  3 Dec 2024 14:08:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=t-8ch.de header.i=@t-8ch.de header.b="L1SEFC6C";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mqk4wOMl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 351 seconds by postgrey-1.36 at gabe;
- Tue, 03 Dec 2024 14:13:48 UTC
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 891EF10E1CD
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 14:13:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
- t=1733234875; bh=fHTskvsLjld8Oq3wof1WoW/ro1iLNuhMDVshgcSrpsQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=L1SEFC6CwLYUTcqqqze527r7IWIE4XsyoMQ1CGzSu2Lo7wpen1OO065Nb6zA+snIr
- s3/fB4myqry70R09PnBsloM8UYaMMYtq2RVACVaLKZRaHFcnQ6Cg6M23NYb/aG/4oS
- rGquyCmF69KPSlVFe8JS1cvEe5EsWFKP+TSwl24Y=
-Date: Tue, 3 Dec 2024 15:07:55 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Zijun Hu <zijun_hu@icloud.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Andreas Noever <andreas.noever@gmail.com>, 
- Michael Jamet <michael.jamet@intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- Yehezkel Bernat <YehezkelShB@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>, 
- Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, 
- Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Takashi Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>, 
- Mike Christie <michael.christie@oracle.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Nilesh Javali <njavali@marvell.com>, Manish Rangankar <mrangankar@marvell.com>,
- GR-QLogic-Storage-Upstream@marvell.com, Davidlohr Bueso <dave@stgolabs.net>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>, 
- Andreas Larsson <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>, 
- Laurentiu Tudor <laurentiu.tudor@nxp.com>, Jens Axboe <axboe@kernel.dk>, 
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>, 
- Ard Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
- linux-usb@vger.kernel.org, 
- linux-gpio@vger.kernel.org, netdev@vger.kernel.org, linux-pwm@vger.kernel.org, 
- nvdimm@lists.linux.dev, linux1394-devel@lists.sourceforge.net, 
- linux-serial@vger.kernel.org, linux-sound@vger.kernel.org,
- open-iscsi@googlegroups.com, 
- linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org,
- sparclinux@vger.kernel.org, 
- linux-block@vger.kernel.org, arm-scmi@vger.kernel.org,
- linux-efi@vger.kernel.org, 
- linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
- and adapt for various existing usages
-Message-ID: <8fb887a0-3634-4e07-9f0d-d8d7c72ca802@t-8ch.de>
-References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
- <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
- <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
- <2024120320-manual-jockey-dfd1@gregkh>
- <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
- <8eb7c0c54b280b8eb72f82032ede802c001ab087.camel@HansenPartnership.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7EFD10E47B
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 14:08:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733234912; x=1764770912;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=1vgb5I+p4PfXVR7FHAsBlaVB6byxIXF25/TD0XAhlNw=;
+ b=mqk4wOMll3L9pGr415K5j7Ug6YsVLl8SixyyOiuFM83fuRmqkczHkXuT
+ TdGHzCj/BN4J7cy6z5vNSU63KrPktkR7BRIY9MYBJvqDJiTf1dpxwe4hE
+ k3fTuHCToJHLH7jRX9TSYzm2yd/WeCwbTfHCIXvxAJF0i1TlPzG+I42YS
+ GLLH+7KNPPzlBHXy3VENvO9VxmSVSx4y5u9mj7yiEVFf3oUSMgBaE1Uz2
+ ukTED9WbUBznlPsh8ltO9qCLMNVvhAGlDFDr55rhbflLitc8k/AhORiju
+ 3UvNsG/nHuGo+JcXQwW2e4bpj0T1kP7sPzoVJYwznTgzMqv+T5aygzecB g==;
+X-CSE-ConnectionGUID: 64xycd2ERnmuozDAnduM8g==
+X-CSE-MsgGUID: kwdbWRRATUGhn2WEAF7Rmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="37384875"
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="37384875"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 06:08:31 -0800
+X-CSE-ConnectionGUID: OWm9m21qQL6Za5ni7Y/Hiw==
+X-CSE-MsgGUID: NEHMPwSWROOzM+6RvEul9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="94278786"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.135])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 06:08:27 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, "Guilherme G . Piccoli"
+ <gpiccoli@igalia.com>, bluescreen_avenger@verizon.net, Caleb Connolly
+ <caleb.connolly@linaro.org>, Petr Mladek <pmladek@suse.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 1/6] drm/panic: Move drawing functions to drm_draw
+In-Reply-To: <a51f2945-4eff-411e-83ad-838e69daeb6a@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241115142950.1758007-1-jfalempe@redhat.com>
+ <20241115142950.1758007-2-jfalempe@redhat.com> <87y10x3u0x.fsf@intel.com>
+ <a51f2945-4eff-411e-83ad-838e69daeb6a@redhat.com>
+Date: Tue, 03 Dec 2024 16:08:23 +0200
+Message-ID: <87ed2o506g.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8eb7c0c54b280b8eb72f82032ede802c001ab087.camel@HansenPartnership.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,39 +75,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-12-03 08:58:26-0500, James Bottomley wrote:
-> On Tue, 2024-12-03 at 21:02 +0800, Zijun Hu wrote:
-> > On 2024/12/3 20:41, Greg Kroah-Hartman wrote:
-> > > On Tue, Dec 03, 2024 at 08:23:45PM +0800, Zijun Hu wrote:
-> [...]
-> > > > or squash such patch series into a single patch ?
-> > > > 
-> > > > various subsystem maintainers may not like squashing way.
-> > > 
-> > > Agreed, so look into either doing it in a bisectable way if at all
-> > > possible.  As I don't see a full series here, I can't suggest how
-> > > it needs to happen :(
-> > > 
-> > 
-> > let me send you a full series later and discuss how to solve this
-> > issue.
-> 
-> It's only slightly more complex than what we normally do: modify all
-> instances and then change the API.  In this case you have an additional
-> problem because the prototype "const void *" will cause a mismatch if a
-> function has "void *".  The easiest way to solve this is probably to
-> make device_find_child a macro that coerces its function argument to
-> having a non const "void *" and then passes off to the real function. 
-> If you do that in the first patch, then you can constify all the
-> consumers and finally remove the macro coercion in the last patch.
+On Tue, 03 Dec 2024, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+> On 03/12/2024 12:06, Jani Nikula wrote:
+>> On Fri, 15 Nov 2024, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>>> Move the color conversions, blit and fill functions to drm_draw.c,
+>>> so that they can be re-used by drm_log.
+>>> drm_draw is internal to the drm subsystem, and shouldn't be used by
+>>> gpu drivers.
+>> 
+>> I started looking at this in patch 2:
+>> 
+>>> +#include "../drm_draw.h"
+>> 
+>> I think we should avoid #includes with ../ like this.
+>
+> Sure, I've added it in v8, after the clients moved to drm/clients/, but 
+> I didn't think much about it.
+>
+>> 
+>> Either drm_draw.h belongs in include/drm, or maybe clients/Makefile
+>> needs to add subdir-ccflags-y += -I$(src)/.. or something like that?
+>> 
+>> If it's supposed to be internal, I guess the latter, but then the
+>> current convention is to have _internal.h suffix. All drm headers under
+>> drivers/ have that.
+>
+> ok, I can rename drm_draw.h to drm_draw_internal.h, and add the include 
+> in the Makefile.
+>> 
+>> Is this the first drm subsystem internal thing that's a separate module?
+>> Should we use EXPORT_SYMBOL_NS() and MODULE_IMPORT_NS() to enforce it
+>> being internal?
+>
+> It's not really a separate module, as it's built in the core drm module. 
+> (the reason is that it's used by drm_panic too, which must be in the 
+> core drm module).
 
-Casting function pointers like that should be detected and trapped by
-control flow integrity checking (KCFI).
+Right, sorry, I got confused and looked at this the other way round.
 
-Another possibility would be to use a macro and _Generic to dispatch to
-two different backing functions. See __BIN_ATTR() in
-include/linux/sysfs.h for an inspiration.
-This also enables an incremental migration.
+drm_draw is part of drm.ko, drm log is part of drm_client_lib.ko, and
+uses drm_draw, right?
+
+So is drm_draw really internal if drm client uses it?
+
+I don't really deeply care either way, but it bugs me when it's
+somewhere in between. :)
+
+Either include/drm/drm_draw.h or drivers/gpu/drm/drm_draw_internal.h,
+the latter *possibly* with symbol namespace, but not a big deal.
 
 
-Thomas
+BR,
+Jani.
+
+
+>
+> I don't know much about symbol namespace, but I can add that if needed.
+>
+> Best regards,
+
+-- 
+Jani Nikula, Intel
