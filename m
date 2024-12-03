@@ -2,74 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392919E2941
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:29:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721389E2972
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:37:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D0110EADB;
-	Tue,  3 Dec 2024 17:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1984A10E474;
+	Tue,  3 Dec 2024 17:37:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="1Gbf6dKm";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TD39L6sf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A31CB10EADB
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:29:00 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-5d0c5c8cb5cso13a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 09:29:00 -0800 (PST)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3536710E474
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:37:07 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-53dd0cb9ce3so5146875e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 09:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1733246939; x=1733851739;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8zEoxOgatX3OgU4qGavIbeS/jNtTx+aBW797DF25fM4=;
- b=1Gbf6dKmDRDnGW8+w+LhxFBO+tEE+c99FgtYcXotLG13E7ap8ZBFYDLHzWiyqikSZ9
- /EVrRRPqp2m1oOQKmmzbrg0cx8qBFdrLahRBT2h0ieKh3DJKUN1PtZMRUSAtP29AAtDQ
- HFd6dihWmgJIsAEfjGM38PK6ssnnhmo5Kw3WXmKyKy6smfWYoZ8MZOHp6l4UnsXNw5Uz
- uZ058VrHI0jY/lCP5od3S60Weh2obuPx0JRTAYEHa9oUSUHZbrRmpJqX3KlEBf6khvx4
- 3F7DWVMnc12iCekNAQ3qyYL7UO+EbgocOLDrBzjkcLAB86OczUu9QSkxJ3uSb+bWcVuY
- b8fA==
+ d=linaro.org; s=google; t=1733247425; x=1733852225; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y0ycjfZzwnPcCeUDtH0/9f2OzsKqNdVBQ5imE6kMpyI=;
+ b=TD39L6sfQBM9nBXd2KB2r9T5Wh363aJDzRNQmZqx+vh9Dy5N9dS+gb6mZFLjE+8PMA
+ 9PU05mw1rzLvvJoxe7PG+D0lsikzpbH8u9Zmwu+Pt3R0QiJt5Hk+MirbtSEgCX8stf40
+ AgiXX9sAlR3bjx/QQPVe3BwQtHpAANBdsxd3G4tIWkOesgCa8DqWo8bPRGf1XEHVo/Ey
+ iNIchj6+K3vbq6ZQaTaKBn9MBJaSxqcY0lgMHv3eSDWtomW8kI/k36i77z92+y9NFFG3
+ gQGHyKtyc9mjEWmOCe03gz5K0VSsThUx19/bTNHtjt/w3DalmyG2FRC2SJum3wn72MQf
+ ISlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733246939; x=1733851739;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8zEoxOgatX3OgU4qGavIbeS/jNtTx+aBW797DF25fM4=;
- b=KaXAxpqJ+VPhv26673I3M8+/1/ybRLwrJu0fEMnYZd0+ahHumo2eW5oElbuWjmigD5
- OoKsjdxzVUZmohrHZs5gWAtZClfJFOzZUtvTtQ5OWbqYKSr0X/nTd5xgTXnnDn1q6Zm6
- zJAu/4tNEZ51lO6Tzaqt18CN83jRRmBzlzblbH7pq4Bp47PwZRjzD35HvHLLsdcpkZmy
- osDBMMx4zo/RyLI2cNWWnSUENM6OWuly4+ggIMBJVIBcc0B4fz94QgWhIqXmLOoWX7Fc
- KViJKm9toXH0nRGvgOqm0Oi/g37wWL3N/R74D6H3+UWQ0E78TEhkP8emndcdK/HYAbz8
- e9yQ==
+ d=1e100.net; s=20230601; t=1733247425; x=1733852225;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Y0ycjfZzwnPcCeUDtH0/9f2OzsKqNdVBQ5imE6kMpyI=;
+ b=ElSgTI4dNNH1xNXxzfNOjj76FWMq6SqCN0r/gbCXpoYk/HQVwRQGuFeaiyeH00U7uv
+ VOuDGq0qTFiuWnhswsKhE+8zRXdXbrA7WrIRoMiUTF9Fj+gfJsBQ4i7yUVISyLtOwKa3
+ N9ftKw936i3b10lP0QpO0cfE8HSA5jhU4wr4GXp2swDS1sVCjhUbSCVNCvkVfM6tYa0B
+ +1raZiM6CFsdBFKN3WidguMcaS1ZEuz0Da6EoMTaT9vz3qQnjPzTiTgth7UKP+Pd1xOk
+ pBgnMCl+r2zKW8F/Ce+QO2RIzcU5zjNmhXOxXsy2X6VwxCqbX8inlWHgy+h7s43I7nrL
+ OVgw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXAOWWh1Djrw9XEMZATxBnA1BcGdW5aS11RFSsiPxokuvzjnH/ga1qnm48MtWtF2/lJ83fV0bOBDn8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxql0BP6EJbOcTrez+Ywos8WYA9EwnLd/RR8W+DZYEm9x7c/h1T
- R9+2F5aGjz2phBzkbkHQbC4lzRmNNEnUG24OUH1muDMSqHWToWNm2u4XS3MREHUibLkHS75rF/q
- z8Yj7JAUOPBy36b25LYS1YfexpkhEmW5s1Hbt
-X-Gm-Gg: ASbGncukfkfUuoEsrQIcRB8NL49ITAfctIsXfDvTsGoLnoCJ7QJGV3iW9w2nkbxkLmR
- mZ50cwFL06J0BiqEGh/IeZSRzCKLUkzojHRm+OHjZj+1Ob2SDMC8CBLeKp2E=
-X-Google-Smtp-Source: AGHT+IEkU+zbQ8W8SOhd2ZkEGWuPQgYxHAiQC9NmnbLpt2BY3rA5dILHt1/UpotcudtM7dqmvzlcwmUDruhX9bjJ3gM=
-X-Received: by 2002:aa7:cb98:0:b0:5d1:10a4:de9 with SMTP id
- 4fb4d7f45d1cf-5d110a40e94mr50781a12.7.1733246938492; Tue, 03 Dec 2024
- 09:28:58 -0800 (PST)
+ AJvYcCVBJu7yQbIzTbQdS0mIZrwO9yx/Bs4gX36yDIgyJgJ7spv9j32No190jie9nK4ATd06O0p8d3gPzUE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx46kIEHUvf7394md3PnTEFwMqvaFrTg4Ql0nUs+3ZBk91zSbfG
+ sdCh2MbgJHgTkbru4sb27gRXOHz2PO2qS6EGIFbkBA25lNqZ+36Y8OP0n85ZJOo=
+X-Gm-Gg: ASbGnctJsdLh0EiuvSAFxy6VVqG6TJN70jsFmJ2HwfSuiDbGEOCU9Wzn0YbYybyZgNw
+ AMsbCkK9nyJc1xeyiGWJXWhaWKE1/iMzPcK4KMIkErLgYginOwoCPEBi/iX7b+UC9Uh72xhmigE
+ 6Y/wI9GAww8ljipGG0M+AAkHwJVIJPVgRfkcSmhKuUyCtwiTe885T5FJyMhgdt0s46tx1UD+3KE
+ 8mejPGFXm0SiL+Ou5kIVwP61iZVFBbq556o28MVvH2md2NLWsNRcYDXD4yNvIHBlM9dbOU/eSfB
+ L1n6d4j75nXMn2MMoNz+nhnlJPg3yw==
+X-Google-Smtp-Source: AGHT+IE+iThB2rDkPXhvDwKDCV995m9FRY0n6NLKd/YWSdF2FKr6uqn66k8o0X2h8rNCUXaQsEfXfg==
+X-Received: by 2002:a05:6512:4028:b0:53d:ec9a:4e6d with SMTP id
+ 2adb3069b0e04-53e1b8b6f05mr505370e87.46.1733247425267; 
+ Tue, 03 Dec 2024 09:37:05 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53df6443385sm1916238e87.95.2024.12.03.09.37.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Dec 2024 09:37:04 -0800 (PST)
+Date: Tue, 3 Dec 2024 19:37:03 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: tomm.merciai@gmail.com
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ biju.das.jz@bp.renesas.com, Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+ Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
+Message-ID: <hd2kom5acz47c3mkjuauxhauahkt7vq2qoilppwn34iidldhos@rb5ydcayhtlj>
+References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
 MIME-Version: 1.0
-References: <CAG48ez0w8HrFEZtJkfmkVKFDhE5aP7nz=obrimeTgpD+StkV9w@mail.gmail.com>
- <IA0PR11MB7185E2589D638EF287E627E0F8362@IA0PR11MB7185.namprd11.prod.outlook.com>
-In-Reply-To: <IA0PR11MB7185E2589D638EF287E627E0F8362@IA0PR11MB7185.namprd11.prod.outlook.com>
-From: Jann Horn <jannh@google.com>
-Date: Tue, 3 Dec 2024 18:28:22 +0100
-Message-ID: <CAG48ez0SOLxkpYyB=AiZBSPAxA7UFiFmyXW70Jq2OFKjsTV5HA@mail.gmail.com>
-Subject: Re: udmabuf: check_memfd_seals() is racy
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Julian Orth <ju.orth@gmail.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,44 +97,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 3, 2024 at 9:25=E2=80=AFAM Kasireddy, Vivek
-<vivek.kasireddy@intel.com> wrote:
-> > Julian Orth reported at
-> > https://bugzilla.kernel.org/show_bug.cgi?id=3D219106 that
-> Thank you for reporting this bug.
->
-> > udmabuf_create() checks for F_SEAL_WRITE in a racy way, so a udmabuf
-> > can end up holding references to pages in a write-sealed memfd, which
-> > theoretically breaks one of the security properties of memfd sealing.
-> > See also the discussion starting at
-> > <https://lore.kernel.org/linux-
-> > mm/CAHijbEV6wtTQy01djSfWBJksq4AEoZ=3DKYUsaKEKNSXbTTSM-
-> > Ww@mail.gmail.com/>.
-> AFAICS, this problem does not adversely affect the main user of udmabuf d=
-river
-> (Qemu) given that Qemu adds F_SEAL_SEAL while creating the memfd but
-> I can see how other users of udmabuf driver might be impacted by this iss=
-ue.
+On Tue, Dec 03, 2024 at 06:21:29PM +0100, tomm.merciai@gmail.com wrote:
+> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> 
+> Introduce it6263_is_input_bus_fmt_valid() and refactor the
+> it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
+> format by selecting the LVDS input format based on the LVDS data mapping
+> and thereby support both JEIDA and VESA input formats.
 
-The issue is that in theory, a nefarious process could maybe abuse
-udmabuf to write to a memfd that is supposed to be sealed. This could
-violate the assumption that a F_SEAL_WRITE-sealed memfd's memory is
-immutable in another process. So the affected process wouldn't have to
-be aware of udmabuf at all.
+For the patch itself,
 
-> > I think one possible correct pattern would be something like:
-> >
-> > mapping_map_writable() [with error bailout]
-> > check seals with F_GET_SEALS
-> > udmabuf_pin_folios()
-> > mapping_unmap_writable()
-> I believe this should probably work as mapping_map_writable() would preve=
-nt
-> F_SEAL_WRITE from getting added later. Do you plan to send a patch to fix
-> this issue in udmabuf driver?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Yes, I just sent fixes for this issue and two others at
-<https://lore.kernel.org/all/20241203-udmabuf-fixes-v1-0-f99281c345aa@googl=
-e.com/>
-(though I went with the inode lock instead of mapping_map_writable()
-to keep things simpler).
+A more generic question: is the bridge limited to 4 lanes or does it
+support 3-lane or 5-lane configurations?
+
+> 
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+>  drivers/gpu/drm/bridge/ite-it6263.c | 25 ++++++++++++++++++++++---
+>  1 file changed, 22 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
+> index cbabd4e20d3e..83d1db29157a 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6263.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6263.c
+> @@ -48,6 +48,7 @@
+>  #define  REG_COL_DEP			GENMASK(1, 0)
+>  #define  BIT8				FIELD_PREP(REG_COL_DEP, 1)
+>  #define  OUT_MAP			BIT(4)
+> +#define  VESA				BIT(4)
+>  #define  JEIDA				0
+>  #define  REG_DESSC_ENB			BIT(6)
+>  #define  DMODE				BIT(7)
+> @@ -428,12 +429,30 @@ static inline void it6263_lvds_reset(struct it6263 *it)
+>  	fsleep(10000);
+>  }
+>  
+> +static bool it6263_is_input_bus_fmt_valid(u32 input_fmt)
+> +{
+> +	switch (input_fmt) {
+> +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
+> +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
+> +		return true;
+> +	}
+> +	return false;
+> +}
+> +
+
+-- 
+With best wishes
+Dmitry
