@@ -2,84 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08919E2906
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:22:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCC79E2927
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:26:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7BD210E47E;
-	Tue,  3 Dec 2024 17:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3163610EAD1;
+	Tue,  3 Dec 2024 17:26:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dpsMnQQl";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="OZ4+e2Sf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2DBD10E47E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:22:04 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-434a14d6bf4so52475235e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 09:22:04 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9E3D10EAD1
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:26:48 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4349ea54db7so56515e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 09:26:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733246523; x=1733851323; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LDrSaH5SCKXFsRBXZmgdwR2EOhLbo3un31COyXQgzFk=;
- b=dpsMnQQls+XF5eLI8XujoKiydq2nvbJaEvxWzygLunL7umjNeeVIVeitkjI9hSX1iB
- kvdwzkjWuZGzgzqjq6s3gA4rfSOdcqZrr48z4V0AeL+sfxaVKQ58a915dJ4fIO/cw3YW
- NRvLivz720IZ4Ug9uDnj9lusB9Opt/Yo33yOq6ySlYONCzZmTGno/DU33ZEllkxFG3Y3
- N6lgatHaoxokaX7OiyzxghAnRRmWmFhMgnTVTs37oRmZXmesGdZSnOKGsh6iXmVwrRlA
- KLILTTHWexRrxvo7KhboHLUnQIh/ce0nfdkylTIStvXko6wZBnB6aIULleHZaUACMEWv
- zxbw==
+ d=google.com; s=20230601; t=1733246807; x=1733851607;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=esMBl0uOLbGzsFzbKrL9tw7lBRfURdjOWkpYSobO80c=;
+ b=OZ4+e2SfQFvTUxRmDGzxHGjTfwojq1dtXYtYUmZGxbsM5Y02IkVcJ7da+XFDbS5z4w
+ b8WuDTAyvy/N7qphNgO9r361maY0WH719trOM9kJesOP7sPSPu2S10vypTL1aJLFutUK
+ 6JeWNNgvaYJZyB/l70551e+JiBAKBJfvniwODmc24DjVi85dnovc7eOYGovBHP8jWnAD
+ PeMtfnY4KgrZ5MHMFimWVR9Ip1eahtco8eKwLy3ZPc2W5msFDc3ktoqzSH1Djmifyfyo
+ 6T1aEqUyQioAR1T7460nqVdRn4imsWOJASdPbyy8c2kmUwKBDhG6G+8ehByh1+6yIkjo
+ khqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733246523; x=1733851323;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1733246807; x=1733851607;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=LDrSaH5SCKXFsRBXZmgdwR2EOhLbo3un31COyXQgzFk=;
- b=WGaVLxwRXiCL4P/HqA6hfz8WAasCDiWAlmJbararLTdHOVII9CXm42ncgjJvhHA3XV
- JmD3wQ5DSfXoXX2Of+q4Nhq+NBV9EW75EVZ3acBIpWBtyD1Ehxw8iG9OwCSSKCkqMc8T
- O+Z7Mpzt0gQUPUiIfiWwh+Kwm0azWLmRNKDTJYkwYXLl2SFegtfgaFwLVtVHtd5rvTm+
- LMs3kOGAGFOGQd66mmLM3F+v/wOCvUbfyRkLf2yRCeQUuDpZOtRu7fu4PtBvkLuSrg5j
- OKQ+gOwg64Ijga4AMCrTMI7kgnRG9ujL+gx/LCZuvJNydzLZ7rXscmVvzoR37sIkohnh
- iIQg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUme6mSlsByNv/7hkX2q1AfG16OMy1la4D7JfBxOCxp2LmgWknNFLHA4/sLXzHY/Rs65CeEy/BFt5I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/kYz2QZRNP1ssKbI7o1mHiIeGmvW5WkKIk5lXzQk98hQ7Z1tz
- mSMNdMI6wjfhmN10AmRvDNJVKyczl44hM8v3ORGGw5XRhbT0nJn5
-X-Gm-Gg: ASbGncsGdTKk2LLw+R09dqTkMo/+JgazSd8KmzFuMLouz25zgt1qZT9AYsRL38QfKXV
- J0wTJdMDCZ3peUoMkeL9pHiBWP/BS2e5EUYrb/z0yyfP+Q59GHm/DHy0HPVXvONqDyn1UP5P34P
- HJEFRG7oID4EuimDyqJorso9cnts2jyKDKuhqtSj31O4YJLMtjgESL4IWxMcE6oiUPCLtnwLzt+
- yUo0QuhPnl4iUyhodkwQytyhOJDtdJpIUpglIBePzuY1kGD5xIdUlkUMv+gJvBG4bdXjRZAhPEn
- 8MrZxI+4vZ8dyOY/tHF8UstVtS6E2Z7Nw4Ai4LE2SJYC5Q==
-X-Google-Smtp-Source: AGHT+IHf2fdYtDx1rwtIPEdB0BycampUt/lo8/MCwVi4A8/NjisEkxdV8VZFFWTSSBwN37r6fxWJqA==
-X-Received: by 2002:a5d:5f94:0:b0:385:fae7:fe50 with SMTP id
- ffacd0b85a97d-385fd423b82mr2951236f8f.42.1733246522761; 
- Tue, 03 Dec 2024 09:22:02 -0800 (PST)
-Received: from tom-desktop.station (net-188-217-53-234.cust.vodafonedsl.it.
- [188.217.53.234]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-385ee2c7559sm7826658f8f.12.2024.12.03.09.22.01
+ bh=esMBl0uOLbGzsFzbKrL9tw7lBRfURdjOWkpYSobO80c=;
+ b=E8WGTPXIlyvxcT68xVJz8UoJCoDnyV7VMlsxuzMxGEwnJNYzfu1zw6D5FR5ygdAJj3
+ Kkd3MK5ErMvnTgWAlZxyVTEMWb7vPPKTYgynmHzjupouPBTjpSVGUChELDo6GjOqwdfQ
+ yiqAPA5OXxUX1Z94VPsmX01IjIPBdS2vSCEWhLE8zHVxAgzjyZqnxh+ZuKZFvYuD0EQu
+ PDqaGuq2cE291pJrWAqSK4VL/7JdA0bI4duuNaTMoQRvJvfj99+3m6NVZbedUyJ5Xkum
+ RMRgpkA17dJeLqcDG4Q/zRWnbLW9MO7D27B78CxCY6vZi/C0xzfElnbYN8LeYCYR88o+
+ FhAg==
+X-Gm-Message-State: AOJu0YwMiy5RLVasGzPLT+fgp33q1uOT4DVSV9Rn6gqn771QvIfBXDxF
+ 3b1H+InXjcejtM7W70TLCWe3ts+HlEMEd8y2q9tMWnnijVejYou009E9UXhYDQ==
+X-Gm-Gg: ASbGncvvF3JhbyR0mUHOTJAEcPDmsamHEePioqj7rW79fiEYc5vaZhwgLLltV2aE48q
+ EtdVT+U3bngrg+JLlaU/NpoPFWIAMHyF2KvuuUYNbM9HX5x9tVMcYmqCQCp+ORnFo/lzezzhdAq
+ BQ4UWJzoZJgfohe6T/oD0MTWMfhuoWlrELwsrLt2F+fw9HGCc/LVfjtWzgmBqkL1eimrdjq8CzA
+ 7Z9tzvzDvlkvuKswVsz72Vi2LVa2rAkl/1mLjw=
+X-Google-Smtp-Source: AGHT+IHu3tfTAoXvieXaIRaJiRZryx8cWpn3+5PzdcsLUtGUjPoPKMn6gY/KMYeGtkKYB5HV7URZ6Q==
+X-Received: by 2002:a05:600c:2144:b0:434:9d0b:bd7c with SMTP id
+ 5b1f17b1804b1-434d12b8df7mr1213685e9.3.1733246806576; 
+ Tue, 03 Dec 2024 09:26:46 -0800 (PST)
+Received: from localhost ([2a00:79e0:9d:4:92ba:3294:39ee:2d61])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-385f8448d32sm4515574f8f.96.2024.12.03.09.26.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2024 09:22:02 -0800 (PST)
-From: tomm.merciai@gmail.com
-X-Google-Original-From: tommaso.merciai.xr@bp.renesas.com
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- biju.das.jz@bp.renesas.com,
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/bridge: ite-it6263: Support VESA input format
-Date: Tue,  3 Dec 2024 18:21:29 +0100
-Message-Id: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+ Tue, 03 Dec 2024 09:26:45 -0800 (PST)
+From: Jann Horn <jannh@google.com>
+Subject: [PATCH 0/3] fixes for udmabuf (memfd sealing checks and a leak)
+Date: Tue, 03 Dec 2024 18:25:34 +0100
+Message-Id: <20241203-udmabuf-fixes-v1-0-f99281c345aa@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA4/T2cC/x3LTQqAIBBA4avIrBP8y0VXiRaaY80iC8UIpLsnL
+ T8er0HBTFhgYg0y3lToTB1yYLDuLm3IKXSDEspIJTSv4XC+Rh7pwcKDMHpE77y1GvpzZfxDX+b
+ lfT+rWACQXwAAAA==
+X-Change-ID: 20241203-udmabuf-fixes-d0435ebab663
+To: Gerd Hoffmann <kraxel@redhat.com>, 
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, 
+ John Stultz <john.stultz@linaro.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ Jann Horn <jannh@google.com>, Julian Orth <ju.orth@gmail.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733246801; l=2909;
+ i=jannh@google.com; s=20240730; h=from:subject:message-id;
+ bh=MCDy6HkUfDKHYjRUBvEabLuhWMTUUHI+2O5UXR9PdkA=;
+ b=7R1+MVXGDrX8ZjzD+lYpU8vJrqqQZsU/jjVE8x5Xvlp659inhHh4Hs6EU5+zsTLaWSIvHEjrU
+ U58t58Lkh24B4O1A8seSqKkOWQKwCT4vgQTfc8JN9wGpHh4WP31+uUE
+X-Developer-Key: i=jannh@google.com; a=ed25519;
+ pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,79 +104,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+I have tested that patches 2 and 3 work using the following reproducers.
+I did not write a reproducer for the issue described in patch 1.
 
-Introduce it6263_is_input_bus_fmt_valid() and refactor the
-it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
-format by selecting the LVDS input format based on the LVDS data mapping
-and thereby support both JEIDA and VESA input formats.
+Reproducer for F_SEAL_FUTURE_WRITE not being respected:
+```
+#define _GNU_SOURCE
+#include <err.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <linux/udmabuf.h>
 
-Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+#define SYSCHK(x) ({          \
+  typeof(x) __res = (x);      \
+  if (__res == (typeof(x))-1) \
+    err(1, "SYSCHK(" #x ")"); \
+  __res;                      \
+})
+
+int main(void) {
+  int memfd = SYSCHK(memfd_create("test", MFD_ALLOW_SEALING));
+  SYSCHK(ftruncate(memfd, 0x1000));
+  SYSCHK(fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK|F_SEAL_FUTURE_WRITE));
+  int udmabuf_fd = SYSCHK(open("/dev/udmabuf", O_RDWR));
+  struct udmabuf_create create_arg = {
+    .memfd = memfd,
+    .flags = 0,
+    .offset = 0,
+    .size = 0x1000
+  };
+  int buf_fd = SYSCHK(ioctl(udmabuf_fd, UDMABUF_CREATE, &create_arg));
+  printf("created udmabuf buffer fd %d\n", buf_fd);
+  char *map = SYSCHK(mmap(NULL, 0x1000, PROT_READ|PROT_WRITE, MAP_SHARED, buf_fd, 0));
+  *map = 'a';
+}
+```
+
+Reproducer for the memory leak (if you run this for a while, your memory
+usage will steadily go up, and /sys/kernel/debug/dma_buf/bufinfo will
+contain a ton of entries):
+```
+#define _GNU_SOURCE
+#include <err.h>
+#include <errno.h>
+#include <assert.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <sys/resource.h>
+#include <linux/udmabuf.h>
+
+#define SYSCHK(x) ({          \
+  typeof(x) __res = (x);      \
+  if (__res == (typeof(x))-1) \
+    err(1, "SYSCHK(" #x ")"); \
+  __res;                      \
+})
+
+int main(void) {
+  int memfd = SYSCHK(memfd_create("test", MFD_ALLOW_SEALING));
+  SYSCHK(ftruncate(memfd, 0x1000));
+  SYSCHK(fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK));
+  int udmabuf_fd = SYSCHK(open("/dev/udmabuf", O_RDWR));
+
+  // prevent creating new FDs
+  struct rlimit rlim = { .rlim_cur = 1, .rlim_max = 1 };
+  SYSCHK(setrlimit(RLIMIT_NOFILE, &rlim));
+
+  while (1) {
+    struct udmabuf_create create_arg = {
+      .memfd = memfd,
+      .flags = 0,
+      .offset = 0,
+      .size = 0x1000
+    };
+    int buf_fd = ioctl(udmabuf_fd, UDMABUF_CREATE, &create_arg);
+    assert(buf_fd == -1);
+    assert(errno == EMFILE);
+  }
+}
+```
+
+Signed-off-by: Jann Horn <jannh@google.com>
 ---
- drivers/gpu/drm/bridge/ite-it6263.c | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+Jann Horn (3):
+      udmabuf: fix racy memfd sealing check
+      udmabuf: also check for F_SEAL_FUTURE_WRITE
+      udmabuf: fix memory leak on last export_udmabuf() error path
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
-index cbabd4e20d3e..83d1db29157a 100644
---- a/drivers/gpu/drm/bridge/ite-it6263.c
-+++ b/drivers/gpu/drm/bridge/ite-it6263.c
-@@ -48,6 +48,7 @@
- #define  REG_COL_DEP			GENMASK(1, 0)
- #define  BIT8				FIELD_PREP(REG_COL_DEP, 1)
- #define  OUT_MAP			BIT(4)
-+#define  VESA				BIT(4)
- #define  JEIDA				0
- #define  REG_DESSC_ENB			BIT(6)
- #define  DMODE				BIT(7)
-@@ -428,12 +429,30 @@ static inline void it6263_lvds_reset(struct it6263 *it)
- 	fsleep(10000);
- }
- 
-+static bool it6263_is_input_bus_fmt_valid(u32 input_fmt)
-+{
-+	switch (input_fmt) {
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-+		return true;
-+	}
-+	return false;
-+}
-+
- static inline void it6263_lvds_set_interface(struct it6263 *it)
- {
-+	u8 fmt;
-+
- 	/* color depth */
- 	regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, REG_COL_DEP, BIT8);
-+
-+	if (it->lvds_data_mapping == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG)
-+		fmt = VESA;
-+	else
-+		fmt = JEIDA;
-+
- 	/* output mapping */
--	regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, OUT_MAP, JEIDA);
-+	regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, OUT_MAP, fmt);
- 
- 	if (it->lvds_dual_link) {
- 		regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, DMODE, DISO);
-@@ -714,14 +733,14 @@ it6263_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 
- 	*num_input_fmts = 0;
- 
--	if (it->lvds_data_mapping != MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA)
-+	if (!it6263_is_input_bus_fmt_valid(it->lvds_data_mapping))
- 		return NULL;
- 
- 	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
- 	if (!input_fmts)
- 		return NULL;
- 
--	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-+	input_fmts[0] = it->lvds_data_mapping;
- 	*num_input_fmts = 1;
- 
- 	return input_fmts;
+ drivers/dma-buf/udmabuf.c | 36 ++++++++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
+---
+base-commit: b86545e02e8c22fb89218f29d381fa8e8b91d815
+change-id: 20241203-udmabuf-fixes-d0435ebab663
+
 -- 
-2.34.1
+Jann Horn <jannh@google.com>
 
