@@ -2,43 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754949E29CE
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F04D09E29C6
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 18:45:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E97E110EAF5;
-	Tue,  3 Dec 2024 17:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D78C10EAF0;
+	Tue,  3 Dec 2024 17:45:55 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VJbU0UBo";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D311710EAF5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 17:46:17 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1tIWyN-0003yC-P7; Tue, 03 Dec 2024 18:46:07 +0100
-Message-ID: <fa93f48960c9ea5f5cb5693e6870e885fb1957ee.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: Add fdinfo support for memory stats
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King
- <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, tursulin@igalia.com, Christian Gmeiner
- <cgmeiner@igalia.com>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Tue, 03 Dec 2024 18:46:07 +0100
-In-Reply-To: <20241121092409.3859592-1-christian.gmeiner@gmail.com>
-References: <20241121092409.3859592-1-christian.gmeiner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D99310EAF0;
+ Tue,  3 Dec 2024 17:45:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733247955; x=1764783955;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=tqb7zp0+menYzgwWCTZOrH67+2p8i2CZtaOqiZ0YxJk=;
+ b=VJbU0UBo1KbdhtlRJtmGnI3jI7hfiOzsT1ZpsgkkXcMwZfRbF7ttPmDR
+ c20MaDJLpHrT7t2O2OokR2ctvx/do7RJIyNr5SgyFgKArus2K3bGILdXl
+ 2DsvOML98NctSsUizoUqbFDogwdz7P7i/vuXbRnNRApBStycHahn/Fir6
+ upVbhAcvhmxnlkKwasjCildVGZUBm40xcym6VkHRsPvOle3Vpg05El7nf
+ cQGLD95QuTXItq/wHlTvn0D1b0MtzznElCQXppxRTLytasFqvEqCWBiWv
+ gc5FT9mSKTD909GZkUIbIdHTpWR0uUw/DKzHItMj1bk/IQoDDAgAJlagJ A==;
+X-CSE-ConnectionGUID: tSEXMSrzTOqHIbfRvFNijQ==
+X-CSE-MsgGUID: 7p+Lh/XRRNSlR4GwKGoO8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="33355504"
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="33355504"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 09:45:54 -0800
+X-CSE-ConnectionGUID: GTcp+KC8RC64mDWhKpQCDA==
+X-CSE-MsgGUID: s4gziCP8Sqy0Cy0h7TvDRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="97569894"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2024 09:45:53 -0800
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+	Lyude Paul <lyude@redhat.com>
+Subject: [PATCH v2 4/7] drm/dp_mst: Fix down request message timeout handling
+Date: Tue,  3 Dec 2024 19:46:32 +0200
+Message-ID: <20241203174632.2941402-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.44.2
+In-Reply-To: <20241203160223.2926014-5-imre.deak@intel.com>
+References: <20241203160223.2926014-5-imre.deak@intel.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,88 +68,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 21.11.2024 um 10:24 +0100 schrieb Christian Gmeiner:
-> From: Christian Gmeiner <cgmeiner@igalia.com>
->=20
-> Use the new helper to export stats about memory usage.
->=20
-Thanks, applied to etnaviv/next.
+If receiving a reply for an MST down request message times out, the
+thread receiving the reply in drm_dp_mst_handle_down_rep() could try to
+dereference the drm_dp_sideband_msg_tx txmsg request message after the
+thread waiting for the reply - calling drm_dp_mst_wait_tx_reply() - has
+timed out and freed txmsg, hence leading to a use-after-free in
+drm_dp_mst_handle_down_rep().
 
-Regards,
-Lucas
+Prevent the above by holding the drm_dp_mst_topology_mgr::qlock in
+drm_dp_mst_handle_down_rep() for the whole duration txmsg is looked up
+from the request list and dereferenced.
 
-> Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 12 +++++++++++-
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 12 ++++++++++++
->  2 files changed, 23 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.c
-> index 6500f3999c5f..35f47dd6367f 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -488,7 +488,16 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] =
-=3D {
->  	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
->  };
-> =20
-> -DEFINE_DRM_GEM_FOPS(fops);
-> +static void etnaviv_show_fdinfo(struct drm_printer *p, struct drm_file *=
-file)
-> +{
-> +	drm_show_memory_stats(p, file);
-> +}
-> +
-> +static const struct file_operations fops =3D {
-> +	.owner =3D THIS_MODULE,
-> +	DRM_GEM_FOPS,
-> +	.show_fdinfo =3D drm_show_fdinfo,
-> +};
-> =20
->  static const struct drm_driver etnaviv_drm_driver =3D {
->  	.driver_features    =3D DRIVER_GEM | DRIVER_RENDER,
-> @@ -498,6 +507,7 @@ static const struct drm_driver etnaviv_drm_driver =3D=
- {
->  #ifdef CONFIG_DEBUG_FS
->  	.debugfs_init       =3D etnaviv_debugfs_init,
->  #endif
-> +	.show_fdinfo        =3D etnaviv_show_fdinfo,
->  	.ioctls             =3D etnaviv_ioctls,
->  	.num_ioctls         =3D DRM_ETNAVIV_NUM_IOCTLS,
->  	.fops               =3D &fops,
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
-viv/etnaviv_gem.c
-> index 5c0c9d4e3be1..e81c261b0017 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -527,6 +527,17 @@ void etnaviv_gem_obj_add(struct drm_device *dev, str=
-uct drm_gem_object *obj)
->  	mutex_unlock(&priv->gem_lock);
->  }
-> =20
-> +static enum drm_gem_object_status etnaviv_gem_status(struct drm_gem_obje=
-ct *obj)
-> +{
-> +	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
-> +	enum drm_gem_object_status status =3D 0;
-> +
-> +	if (etnaviv_obj->pages)
-> +		status |=3D DRM_GEM_OBJECT_RESIDENT;
-> +
-> +	return status;
-> +}
-> +
->  static const struct vm_operations_struct vm_ops =3D {
->  	.fault =3D etnaviv_gem_fault,
->  	.open =3D drm_gem_vm_open,
-> @@ -540,6 +551,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_=
-object_funcs =3D {
->  	.get_sg_table =3D etnaviv_gem_prime_get_sg_table,
->  	.vmap =3D etnaviv_gem_prime_vmap,
->  	.mmap =3D etnaviv_gem_mmap,
-> +	.status =3D etnaviv_gem_status,
->  	.vm_ops =3D &vm_ops,
->  };
-> =20
+v2: Fix unlocking mgr->qlock after verify_rx_request_type() fails.
+
+Cc: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+index 6ec8680998d5a..ab21855d5c0f7 100644
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -3984,9 +3984,9 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+ 
+ 	/* find the message */
+ 	mutex_lock(&mgr->qlock);
++
+ 	txmsg = list_first_entry_or_null(&mgr->tx_msg_downq,
+ 					 struct drm_dp_sideband_msg_tx, next);
+-	mutex_unlock(&mgr->qlock);
+ 
+ 	/* Were we actually expecting a response, and from this mstb? */
+ 	if (!txmsg || txmsg->dst != mstb) {
+@@ -3995,11 +3995,17 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+ 		hdr = &msg->initial_hdr;
+ 		drm_dbg_kms(mgr->dev, "Got MST reply with no msg %p %d %d %02x %02x\n",
+ 			    mstb, hdr->seqno, hdr->lct, hdr->rad[0], msg->msg[0]);
++
++		mutex_unlock(&mgr->qlock);
++
+ 		goto out_clear_reply;
+ 	}
+ 
+-	if (!verify_rx_request_type(mgr, txmsg, msg))
++	if (!verify_rx_request_type(mgr, txmsg, msg)) {
++		mutex_unlock(&mgr->qlock);
++
+ 		goto out_clear_reply;
++	}
+ 
+ 	drm_dp_sideband_parse_reply(mgr, msg, &txmsg->reply);
+ 
+@@ -4013,9 +4019,9 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+ 			    txmsg->reply.u.nak.nak_data);
+ 	}
+ 
+-	mutex_lock(&mgr->qlock);
+ 	txmsg->state = DRM_DP_SIDEBAND_TX_RX;
+ 	list_del(&txmsg->next);
++
+ 	mutex_unlock(&mgr->qlock);
+ 
+ 	wake_up_all(&mgr->tx_waitq);
+-- 
+2.44.2
 
