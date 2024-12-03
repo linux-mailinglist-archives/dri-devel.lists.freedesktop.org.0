@@ -2,106 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11AF39E1737
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 10:22:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 612A19E173D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 10:22:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3B3A10E155;
-	Tue,  3 Dec 2024 09:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 728A510E9A2;
+	Tue,  3 Dec 2024 09:22:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lQomKArm";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JLx99sYa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DE9F10E155
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 09:22:22 +0000 (UTC)
-Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
- [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B3EB4CE;
- Tue,  3 Dec 2024 10:21:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733217713;
- bh=4zy6CY0fpOLVqr3JTKJMWeLbeBgOZXh+WP+kci8xRF4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lQomKArm3pFthfuyWJmQUy7rsBHo8bnscV9hV0DSwVNI/GHicUuEEeJAR+tcTl1T8
- reSM1ZC95+aR1Rzh85dDboMfrlkl/6VGbpnKr+Le+ktoWs02ErQafO5zLkDIV2+e0U
- 21zm5NR8FNBFh7r30AkT7sY9ZNi4OoUUUyWl8bCo=
-Message-ID: <e155c9b1-a43f-4be3-9825-2639ac3bb61d@ideasonboard.com>
-Date: Tue, 3 Dec 2024 11:22:15 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9E110E9A2
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 09:22:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1733217756;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uuIioa/RetWfFDBs7Af7eXY+ivmFuGDXjAhfN3lId/8=;
+ b=JLx99sYawOn5hLK+v3rhT/J9lAC6P7XGrDORvLRgnUSWBAt+D723w+OUJggNSMFQPQEvN2
+ nJh+ZDQp8cNf4ypN5q32nnnNkOpSMowP59rlTxUPxVApVWbgPwWtZGZjF4QcDOVIofwHTq
+ oeowDBLiiaF5E8EVPA34B2hQSuThoW0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-645-5xeqBkbhP5u1zYFU3mn7Gg-1; Tue, 03 Dec 2024 04:22:34 -0500
+X-MC-Unique: 5xeqBkbhP5u1zYFU3mn7Gg-1
+X-Mimecast-MFC-AGG-ID: 5xeqBkbhP5u1zYFU3mn7Gg
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-385ea3a3fe2so1480345f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 01:22:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733217753; x=1733822553;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uuIioa/RetWfFDBs7Af7eXY+ivmFuGDXjAhfN3lId/8=;
+ b=WDsnVVHwJuj7lP+qFYG+6hd8lZ8xSKKSnE7E1GGn5UTlvBB1IUSwUt+4RpQIY/1j3D
+ 88tt0qmM5biQ8PwvFo4ye/B3j6/1F38dyOXyNtAKRoVEa3jIoB2N7sv5Of4kMdH9qTfS
+ HAtpYEbMQ32fQxeGhIrZZHs2AF/nVXDP5m84yIXEEuTry1+sg4fLJbeJzXzhmfl1bEyG
+ wQl2tIIO6sihDp1h1aNEDSNq93AzkbEyzQSruDfCgC00sn+VZtTkAWUB9RiLut5h/U2L
+ jQ3I308xUUIJrPruInH/XD2nOFQWtyUkVuWAQlI6FFojMjOSp9lrZuLJL0QKYVAuNNmc
+ MsTA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVgsgukTOk89491Kb9EYZEcypecwafRlSRtQcONrVxQexXG/F73E91HcaxUeV3sc2pCwtVQHNc2krU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzGc/tGesYendnN8sjdEAT06eSB4Blis5uNo+wT+96e11XZjrBX
+ a6uRYv3rCq2tQfr8os7EDS+LSz25tCX+jH3wi6PPOE4cPX+1Px2LOln5V8ds6vG44J5kbx2rcSb
+ nvrsr8btImETWeHsAVAGL0xmywFlxXuHi71bDOfvG7b70w6JjJBsWxoRP5eZ0kepusQ==
+X-Gm-Gg: ASbGncsuKiuSoO426S8+e3NxPA2xCGikieG8fRBwMKaKNEdSTlY2bYMfh2wUHOSGaGg
+ erPzG0zzjFDQHsfqYsgohJuoxx3kPNk2KSLa4RWILuXyxx3Wh3FQHCG0hD9WQk9gsvkmKMTQc4r
+ 8BGjZJAt4ghxaNIynFeZsNbwX+qV+7QN5h/j9O+FM0rCHDhSLTguXEtUNEztefeTrAra0m+av8u
+ KiI3EuUU5GLLQ+GQmn+iQHD8GJPcrvEEs85g00OdPdmD1WBlDE+9Z8ZZtguYwZjU5QRFUVOhiff
+ 1OoFZpggUWVWOg==
+X-Received: by 2002:a5d:5f45:0:b0:385:e4a7:def9 with SMTP id
+ ffacd0b85a97d-385fd532811mr1271305f8f.50.1733217753250; 
+ Tue, 03 Dec 2024 01:22:33 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFtJlcwK+6B6VQ1wv9XdHWlHPJ05od1R2iKoI+lPjWWtwUST2TLSXGqc430KU5Sl1J/TBCc3g==
+X-Received: by 2002:a5d:5f45:0:b0:385:e4a7:def9 with SMTP id
+ ffacd0b85a97d-385fd532811mr1271280f8f.50.1733217752647; 
+ Tue, 03 Dec 2024 01:22:32 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-385dea1e4ebsm12634938f8f.1.2024.12.03.01.22.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Dec 2024 01:22:32 -0800 (PST)
+Message-ID: <26a483f9-ec17-43aa-9edf-8d9c877a0ee1@redhat.com>
+Date: Tue, 3 Dec 2024 10:22:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/9] drm/rcar-du: Add support for r8a779h0
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Subject: Re: [PATCH v8 2/6] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+To: Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
- <20241203-rcar-gh-dsi-v1-6-738ae1a95d2a@ideasonboard.com>
- <20241203085654.GJ10736@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20241203085654.GJ10736@pendragon.ideasonboard.com>
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
+ Petr Mladek <pmladek@suse.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241115142950.1758007-1-jfalempe@redhat.com>
+ <20241115142950.1758007-3-jfalempe@redhat.com>
+ <0d1bd1b6-40a2-4626-b641-fb1e60ae781b@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <0d1bd1b6-40a2-4626-b641-fb1e60ae781b@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Ctr8Z5R-Zha-YWLP2AwN4M3_VSrwrwLLLfbW3CLC03w_1733217753
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,125 +111,668 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/12/2024 10:56, Laurent Pinchart wrote:
-> Hi Tomi,
+On 03/12/2024 09:48, Thomas Zimmermann wrote:
+> Hi
 > 
-> Thank you for the patch.
 > 
-> On Tue, Dec 03, 2024 at 10:01:40AM +0200, Tomi Valkeinen wrote:
->> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Am 15.11.24 um 14:40 schrieb Jocelyn Falempe:
+>> drm_log is a simple logger that uses the drm_client API to print the
+>> kmsg boot log on the screen. This is not a full replacement to fbcon,
+>> as it will only print the kmsg. It will never handle user input, or a
+>> terminal because this is better done in userspace.
 >>
->> Add support for r8a779h0. It is very similar to r8a779g0, but has only
->> one output.
+>> Design decisions:
+>>   * It uses the drm_client API, so it should work on all drm drivers
+>>     from the start.
+>>   * It doesn't scroll the message, that way it doesn't need to redraw
+>>     the whole screen for each new message.
+>>     It also means it doesn't have to keep drawn messages in memory, to
+>>     redraw them when scrolling.
+>>   * It uses the new non-blocking console API, so it should work well
+>>     with PREEMPT_RT.
 >>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> This patch also adds a Kconfig menu to select the drm client to use.
+>> It can be overwritten on the kernel command line with:
+>> drm_client_lib.default=log or drm_client_lib.default=fbdev
+>>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> Reviewed-by: John Ogness <john.ogness@linutronix.de> # console API
 >> ---
->>   drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c   | 19 +++++++++++++++++++
->>   drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h   |  1 +
->>   drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 16 ++++++++++------
->>   3 files changed, 30 insertions(+), 6 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
->> index fb719d9aff10..afbc74e18cce 100644
->> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
->> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
->> @@ -545,6 +545,24 @@ static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
->>   	.dsi_clk_mask =  BIT(1) | BIT(0),
->>   };
->>   
->> +static const struct rcar_du_device_info rcar_du_r8a779h0_info = {
->> +	.gen = 4,
->> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
->> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
->> +		  | RCAR_DU_FEATURE_NO_BLENDING
->> +		  | RCAR_DU_FEATURE_NO_DPTSR,
->> +	.channels_mask = BIT(0),
->> +	.routes = {
->> +		/* R8A779H0 has one MIPI DSI output. */
->> +		[RCAR_DU_OUTPUT_DSI0] = {
->> +			.possible_crtcs = BIT(0),
->> +			.port = 0,
->> +		},
->> +	},
->> +	.num_rpf = 5,
->> +	.dsi_clk_mask = BIT(0),
+>> v2:
+>>   * Use vmap_local() api, with that change, I've tested it 
+>> successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
+>>   * Stop drawing when the drm_master is taken. This avoid wasting CPU 
+>> cycle if the buffer is not visible.
+>>   * Use deferred probe. Only do the probe the first time there is a 
+>> log to draw. With this, if you boot with quiet, drm_log won't do any 
+>> modeset.
+>>   * Add color support for the timestamp prefix, like what dmesg does.
+>>   * Add build dependency on  disabling the fbdev emulation, as they 
+>> are both drm_client, and there is no way to choose which one gets the 
+>> focus.
+>>
+>> v3:
+>>   * Remove the work thread and circular buffer, and use the new 
+>> write_thread() console API.
+>>   * Register a console for each drm driver.
+>>
+>> v4:
+>>   * Can be built as a module, even if that's not really useful.
+>>   * Rebased on top of "drm: Introduce DRM client library" series from 
+>> Thomas Zimmermann.
+>>   * Add a Kconfig menu to choose between drm client.
+>> v5:
+>>   * Build drm_log in drm_client_lib module, to avoid circular dependency.
+>>
+>> v8:
+>>   * Rebased after drm client moved to drivers/gpu/drm/clients/
+>>   * Rename DRM_LOG to DRM_CLIENT_LOG (Thomas Zimmermann)
+>>   * Add an info message if no clients are initialized in 
+>> drm_client_setup()
+>>
+>>   drivers/gpu/drm/clients/Kconfig               |  48 +++
+>>   drivers/gpu/drm/clients/Makefile              |   1 +
+>>   drivers/gpu/drm/clients/drm_client_internal.h |   6 +
+>>   drivers/gpu/drm/clients/drm_client_setup.c    |  29 +-
+>>   drivers/gpu/drm/clients/drm_log.c             | 370 ++++++++++++++++++
+>>   5 files changed, 450 insertions(+), 4 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/clients/drm_log.c
+>>
+>> diff --git a/drivers/gpu/drm/clients/Kconfig b/drivers/gpu/drm/ 
+>> clients/Kconfig
+>> index 01ad3b0001303..7cbdb1b881b45 100644
+>> --- a/drivers/gpu/drm/clients/Kconfig
+>> +++ b/drivers/gpu/drm/clients/Kconfig
+>> @@ -13,6 +13,7 @@ config DRM_CLIENT_SELECTION
+>>       tristate
+>>       depends on DRM
+>>       select DRM_CLIENT_LIB if DRM_FBDEV_EMULATION
+>> +    select DRM_CLIENT_LIB if DRM_CLIENT_LOG
+> 
+> 'if <>' sorted alphabetically please.
+
+Yes, sure.
+> 
+>>       help
+>>         Drivers that support in-kernel DRM clients have to select this
+>>         option.
+>> @@ -70,4 +71,51 @@ config DRM_FBDEV_LEAK_PHYS_SMEM
+>>         If in doubt, say "N" or spread the word to your closed source
+>>         library vendor.
+>> +config DRM_CLIENT_LOG
+>> +    bool "Print the kernel boot message on the screen"
+>> +    depends on DRM_CLIENT_SELECTION
+>> +    select DRM_DRAW
+>> +    select DRM_CLIENT
+>> +    select DRM_CLIENT_SETUP
+> 
+> Select sorted alphabetically please.
+
+Agreed too
+> 
+>> +    help
+>> +      This enable a drm logger, that will print the kernel messages 
+>> to the
+>> +      screen until the userspace is ready to take over.
+>> +
+>> +      If you only need logs, but no terminal, or if you prefer userspace
+>> +      terminal, say "Y".
+>> +
+>> +choice
+>> +    prompt "Default DRM Client"
+>> +    depends on DRM_CLIENT_SELECTION
+>> +    default DRM_CLIENT_DEFAULT_FBDEV
+>> +    help
+>> +      Selects the default drm client.
+>> +
+>> +      The selection made here can be overridden by using the kernel
+>> +      command line 'drm_client_lib.default=fbdev' option.
+>> +
+>> +config DRM_CLIENT_DEFAULT_FBDEV
+>> +    bool "fbdev"
+>> +    depends on DRM_FBDEV_EMULATION
+>> +    help
+>> +      Use fbdev emulation as default drm client. This is needed to have
+>> +      fbcon on top of a drm driver.
+>> +
+>> +config DRM_CLIENT_DEFAULT_LOG
+>> +    bool "log"
+>> +    depends on DRM_CLIENT_LOG
+>> +    help
+>> +      Use drm log as default drm client. This will display boot logs 
+>> on the
+>> +      screen, but doesn't implement a full terminal. For that you 
+>> will need
+>> +      a userspace terminal using drm/kms.
+>> +
+>> +endchoice
+>> +
+>> +config DRM_CLIENT_DEFAULT
+>> +       string
+>> +       depends on DRM_CLIENT
+>> +       default "fbdev" if DRM_CLIENT_DEFAULT_FBDEV
+>> +       default "log" if DRM_CLIENT_DEFAULT_LOG
+>> +       default ""
+>> +
+>>   endmenu
+>> diff --git a/drivers/gpu/drm/clients/Makefile b/drivers/gpu/drm/ 
+>> clients/Makefile
+>> index 1d004ec92e1ea..9fb776590efe7 100644
+>> --- a/drivers/gpu/drm/clients/Makefile
+>> +++ b/drivers/gpu/drm/clients/Makefile
+>> @@ -2,4 +2,5 @@
+>>   drm_client_lib-y := drm_client_setup.o
+>>   drm_client_lib-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_client.o
+>> +drm_client_lib-$(CONFIG_DRM_CLIENT_LOG) += drm_log.o
+>>   obj-$(CONFIG_DRM_CLIENT_LIB) += drm_client_lib.o
+>> diff --git a/drivers/gpu/drm/clients/drm_client_internal.h b/drivers/ 
+>> gpu/drm/clients/drm_client_internal.h
+>> index 23258934956aa..6dc078bf6503b 100644
+>> --- a/drivers/gpu/drm/clients/drm_client_internal.h
+>> +++ b/drivers/gpu/drm/clients/drm_client_internal.h
+>> @@ -16,4 +16,10 @@ static inline int drm_fbdev_client_setup(struct 
+>> drm_device *dev,
+>>   }
+>>   #endif
+>> +#ifdef CONFIG_DRM_CLIENT_LOG
+>> +void drm_log_register(struct drm_device *dev);
+>> +#else
+>> +static inline void drm_log_register(struct drm_device *dev) {}
+>> +#endif
+>> +
+>>   #endif
+>> diff --git a/drivers/gpu/drm/clients/drm_client_setup.c b/drivers/gpu/ 
+>> drm/clients/drm_client_setup.c
+>> index 4b211a4812b5b..92a7b3c180d19 100644
+>> --- a/drivers/gpu/drm/clients/drm_client_setup.c
+>> +++ b/drivers/gpu/drm/clients/drm_client_setup.c
+>> @@ -7,6 +7,12 @@
+>>   #include "drm_client_internal.h"
+>> +static char drm_client_default[16] = CONFIG_DRM_CLIENT_DEFAULT;
+>> +module_param_string(client, drm_client_default, 
+>> sizeof(drm_client_default), 0444);
+>> +MODULE_PARM_DESC(client,
+>> +         "Choose which drm client to start, default is"
+>> +         CONFIG_DRM_CLIENT_DEFAULT "]");
+> 
+> CONFIG_DRM_CLIENT_DEFAULT is good for the config option. But using 
+> 'drm_client_lib.client=log' seems imprecise to me. The module parameter 
+> itself should maybe called something like 'setup' or 'active'.
+
+Ok, I can rename it to drm_client_lib.active=log
+
+> 
+> (As a sidenote, if we ever have more clients, we could then modify the 
+> parameter to be separated by comma. The user would then be able to 
+> specify a set of clients from the ones available.)
+
+I'm a bit confused about this.
+The goal is to allow to build any number of drm clients in the kernel, 
+but only one can run. There are no way to switch from one client to 
+another at runtime. So what would be the purpose of specifying multiple 
+clients?
+
+> 
+> 
+>> +
+>>   /**
+>>    * drm_client_setup() - Setup in-kernel DRM clients
+>>    * @dev: DRM device
+>> @@ -25,11 +31,26 @@
+>>    */
+>>   void drm_client_setup(struct drm_device *dev, const struct 
+>> drm_format_info *format)
+>>   {
+>> -    int ret;
+>> -    ret = drm_fbdev_client_setup(dev, format);
+>> -    if (ret)
+>> -        drm_warn(dev, "Failed to set up DRM client; error %d\n", ret);
+>> +#ifdef CONFIG_DRM_FBDEV_EMULATION
+>> +    if (!strcmp(drm_client_default, "fbdev")) {
+>> +        int ret;
+>> +
+>> +        ret = drm_fbdev_client_setup(dev, format);
+>> +        if (ret)
+>> +            drm_warn(dev, "Failed to set up DRM client; error %d\n", 
+>> ret);
+>> +        return;
+>> +    }
+>> +#endif
+>> +
+>> +#ifdef CONFIG_DRM_CLIENT_LOG
+>> +    if (!strcmp(drm_client_default, "log")) {
+>> +        drm_log_register(dev);
+>> +        return;
+>> +    }
+>> +#endif
+>> +
+>> +    drm_info(dev, "No drm client registered\n");
+> 
+> Let's remain silent here. If anything, debug please.
+
+If you get there, it's either a typo, or a misconfiguration, but yes I 
+can move it as debug.
+
+> 
+>>   }
+>>   EXPORT_SYMBOL(drm_client_setup);
+>> diff --git a/drivers/gpu/drm/clients/drm_log.c b/drivers/gpu/drm/ 
+>> clients/drm_log.c
+>> new file mode 100644
+>> index 0000000000000..cb793a348f1f9
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/clients/drm_log.c
+>> @@ -0,0 +1,370 @@
+>> +// SPDX-License-Identifier: GPL-2.0 or MIT
+>> +/*
+>> + * Copyright (c) 2024 Red Hat.
+>> + * Author: Jocelyn Falempe <jfalempe@redhat.com>
+>> + */
+>> +
+>> +#include <linux/console.h>
+>> +#include <linux/font.h>
+>> +#include <linux/init.h>
+>> +#include <linux/iosys-map.h>
+>> +#include <linux/module.h>
+>> +#include <linux/types.h>
+>> +
+>> +#include <drm/drm_client.h>
+>> +#include <drm/drm_drv.h>
+>> +#include <drm/drm_fourcc.h>
+>> +#include <drm/drm_framebuffer.h>
+>> +#include <drm/drm_print.h>
+>> +
+>> +#include "drm_client_internal.h"
+>> +#include "../drm_draw.h"
+>> +
+>> +MODULE_AUTHOR("Jocelyn Falempe");
+>> +MODULE_DESCRIPTION("DRM boot logger");
+>> +MODULE_LICENSE("GPL");
+>> +
+>> +/**
+>> + * DOC: overview
+>> + *
+>> + * This is a simple graphic logger, to print the kernel message on 
+>> screen, until
+>> + * a userspace application is able to take over.
+>> + * It is only for debugging purpose.
+>> + */
+>> +
+>> +struct drm_log_scanout {
+>> +    struct drm_client_buffer *buffer;
+>> +    const struct font_desc *font;
+>> +    u32 rows;
+>> +    u32 columns;
+>> +    u32 line;
+>> +    u32 format;
+>> +    u32 px_width;
+>> +    u32 front_color;
 >> +};
 >> +
->>   static const struct of_device_id rcar_du_of_table[] = {
->>   	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
->>   	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
->> @@ -571,6 +589,7 @@ static const struct of_device_id rcar_du_of_table[] = {
->>   	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
->>   	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
->>   	{ .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
->> +	{ .compatible = "renesas,du-r8a779h0", .data = &rcar_du_r8a779h0_info },
->>   	{ }
->>   };
->>   
->> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
->> index 5cfa2bb7ad93..d7004f76f735 100644
->> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
->> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
->> @@ -32,6 +32,7 @@ struct rcar_du_device;
->>   #define RCAR_DU_FEATURE_INTERLACED	BIT(3)	/* HW supports interlaced */
->>   #define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
->>   #define RCAR_DU_FEATURE_NO_BLENDING	BIT(5)	/* PnMR.SPIM does not have ALP nor EOR bits */
->> +#define RCAR_DU_FEATURE_NO_DPTSR	BIT(6)  /* V4M does not have DPTSR */
+>> +struct drm_log {
+>> +    struct mutex lock;
+>> +    struct drm_client_dev client;
+>> +    struct console con;
+>> +    bool probed;
+>> +    u32 n_scanout;
+>> +    struct drm_log_scanout *scanout;
+>> +};
+>> +
+>> +static struct drm_log *client_to_drm_log(struct drm_client_dev *client)
+>> +{
+>> +    return container_of(client, struct drm_log, client);
+>> +}
+>> +
+>> +static struct drm_log *console_to_drm_log(struct console *con)
+>> +{
+>> +    return container_of(con, struct drm_log, con);
+>> +}
+>> +
+>> +static void drm_log_blit(struct iosys_map *dst, unsigned int dst_pitch,
+>> +             const u8 *src, unsigned int src_pitch,
+>> +             u32 height, u32 width, u32 scale, u32 px_width, u32 color)
+>> +{
+>> +    switch (px_width) {
+>> +    case 2:
+>> +        drm_draw_blit16(dst, dst_pitch, src, src_pitch, height, 
+>> width, scale, color);
+>> +        break;
+>> +    case 3:
+>> +        drm_draw_blit24(dst, dst_pitch, src, src_pitch, height, 
+>> width, scale, color);
+>> +        break;
+>> +    case 4:
+>> +        drm_draw_blit32(dst, dst_pitch, src, src_pitch, height, 
+>> width, scale, color);
+>> +        break;
+>> +    default:
+>> +        WARN_ONCE(1, "Can't blit with pixel width %d\n", px_width);
+>> +    }
+>> +}
+>> +
+>> +static void drm_log_clear_line(struct drm_log_scanout *scanout, u32 
+>> line)
+>> +{
+>> +    struct drm_framebuffer *fb = scanout->buffer->fb;
+>> +    unsigned long height = scanout->font->height;
+>> +    struct iosys_map map;
+>> +    struct drm_rect r = DRM_RECT_INIT(0, line * height, fb->width, 
+>> height);
+>> +
+>> +    if (drm_client_buffer_vmap_local(scanout->buffer, &map))
+>> +        return;
+>> +    iosys_map_memset(&map, r.y1 * fb->pitches[0], 0, height * fb- 
+>> >pitches[0]);
+>> +    drm_client_buffer_vunmap_local(scanout->buffer);
+>> +    drm_client_framebuffer_flush(scanout->buffer, &r);
+>> +}
+>> +
+>> +static void drm_log_draw_line(struct drm_log_scanout *scanout, const 
+>> char *s,
+>> +                  unsigned int len)
+>> +{
+>> +    struct drm_framebuffer *fb = scanout->buffer->fb;
+>> +    struct iosys_map map;
+>> +    const struct font_desc *font = scanout->font;
+>> +    size_t font_pitch = DIV_ROUND_UP(font->width, 8);
+>> +    const u8 *src;
+>> +    u32 px_width = fb->format->cpp[0];
+>> +    struct drm_rect r = DRM_RECT_INIT(0, scanout->line * font->height,
+>> +                      fb->width, (scanout->line + 1) * font->height);
+>> +    u32 i;
+>> +
+>> +    if (drm_client_buffer_vmap_local(scanout->buffer, &map))
+>> +        return;
+>> +
+>> +    iosys_map_incr(&map, r.y1 * fb->pitches[0]);
+>> +    for (i = 0; i < len && i < scanout->columns; i++) {
+>> +        src = drm_draw_get_char_bitmap(font, s[i], font_pitch);
+>> +        drm_log_blit(&map, fb->pitches[0], src, font_pitch, font- 
+>> >height, font->width,
+>> +                 1, px_width, scanout->front_color);
+>> +        iosys_map_incr(&map, font->width * px_width);
+>> +    }
+>> +
+>> +    scanout->line++;
+>> +    if (scanout->line >= scanout->rows)
+>> +        scanout->line = 0;
+>> +    drm_client_buffer_vunmap_local(scanout->buffer);
+>> +    drm_client_framebuffer_flush(scanout->buffer, &r);
+>> +}
+>> +
+>> +static void drm_log_draw_new_line(struct drm_log_scanout *scanout,
+>> +                  const char *s, unsigned int len)
+>> +{
+>> +    if (scanout->line == 0) {
+>> +        drm_log_clear_line(scanout, 0);
+>> +        drm_log_clear_line(scanout, 1);
+>> +        drm_log_clear_line(scanout, 2);
+>> +    } else if (scanout->line + 2 < scanout->rows)
+>> +        drm_log_clear_line(scanout, scanout->line + 2);
+>> +
+>> +    drm_log_draw_line(scanout, s, len);
+>> +}
+>> +
+>> +static void drm_log_draw_kmsg_record(struct drm_log_scanout *scanout,
+>> +                     const char *s, unsigned int len)
+>> +{
+>> +    /* do not print the ending \n character */
+>> +    if (s[len - 1] == '\n')
+>> +        len--;
+>> +
+>> +    while (len > scanout->columns) {
+>> +        drm_log_draw_new_line(scanout, s, scanout->columns);
+>> +        s += scanout->columns;
+>> +        len -= scanout->columns;
+>> +    }
+>> +    if (len)
+>> +        drm_log_draw_new_line(scanout, s, len);
+>> +}
+>> +
+>> +static u32 drm_log_find_usable_format(struct drm_plane *plane)
+>> +{
+>> +    int i;
+>> +
+>> +    for (i = 0; i < plane->format_count; i++)
+>> +        if (drm_draw_color_from_xrgb8888(0xffffff, plane- 
+>> >format_types[i]) != 0)
+>> +            return plane->format_types[i];
+>> +    return DRM_FORMAT_INVALID;
+>> +}
+>> +
+>> +static int drm_log_setup_modeset(struct drm_client_dev *client,
+>> +                 struct drm_mode_set *mode_set,
+>> +                 struct drm_log_scanout *scanout)
+>> +{
+>> +    struct drm_crtc *crtc = mode_set->crtc;
+>> +    u32 width = mode_set->mode->hdisplay;
+>> +    u32 height = mode_set->mode->vdisplay;
+>> +    u32 format;
+>> +
+>> +    scanout->font = get_default_font(width, height, NULL, NULL);
+>> +    if (!scanout->font)
+>> +        return -ENOENT;
+>> +
+>> +    format = drm_log_find_usable_format(crtc->primary);
+>> +    if (format == DRM_FORMAT_INVALID)
+>> +        return -EINVAL;
+>> +
+>> +    scanout->buffer = drm_client_framebuffer_create(client, width, 
+>> height, format);
+>> +    if (IS_ERR(scanout->buffer)) {
+>> +        drm_warn(client->dev, "drm_log can't create framebuffer %d %d 
+>> %p4cc\n",
+>> +             width, height, &format);
+>> +        return -ENOMEM;
+>> +    }
+>> +    mode_set->fb = scanout->buffer->fb;
+>> +    scanout->rows = height / scanout->font->height;
+>> +    scanout->columns = width / scanout->font->width;
+>> +    scanout->front_color = drm_draw_color_from_xrgb8888(0xffffff, 
+>> format);
+>> +    return 0;
+>> +}
+>> +
+>> +static int drm_log_count_modeset(struct drm_client_dev *client)
+>> +{
+>> +    struct drm_mode_set *mode_set;
+>> +    int count = 0;
+>> +
+>> +    mutex_lock(&client->modeset_mutex);
+>> +    drm_client_for_each_modeset(mode_set, client)
+>> +        count++;
+>> +    mutex_unlock(&client->modeset_mutex);
+>> +    return count;
+>> +}
+>> +
+>> +static void drm_log_init_client(struct drm_log *dlog)
+>> +{
+>> +    struct drm_client_dev *client = &dlog->client;
+>> +    struct drm_mode_set *mode_set;
+>> +    int i, max_modeset;
+>> +    int n_modeset = 0;
+>> +
+>> +    dlog->probed = true;
+>> +
+>> +    if (drm_client_modeset_probe(client, 0, 0))
+>> +        return;
+>> +
+>> +    max_modeset = drm_log_count_modeset(client);
+>> +    if (!max_modeset)
+>> +        return;
+>> +
+>> +    dlog->scanout = kcalloc(max_modeset, sizeof(*dlog->scanout), 
+>> GFP_KERNEL);
+>> +    if (!dlog->scanout)
+>> +        return;
+>> +
+>> +    mutex_lock(&client->modeset_mutex);
+>> +    drm_client_for_each_modeset(mode_set, client) {
+>> +        if (!mode_set->mode)
+>> +            continue;
+>> +        if (drm_log_setup_modeset(client, mode_set, &dlog- 
+>> >scanout[n_modeset]))
+>> +            continue;
+>> +        n_modeset++;
+>> +    }
+>> +    mutex_unlock(&client->modeset_mutex);
+>> +    if (n_modeset == 0)
+>> +        goto err_nomodeset;
+>> +
+>> +    if (drm_client_modeset_commit(client))
+>> +        goto err_failed_commit;
+>> +
+>> +    dlog->n_scanout = n_modeset;
+>> +    return;
+>> +
+>> +err_failed_commit:
+>> +    for (i = 0; i < n_modeset; i++)
+>> +        drm_client_framebuffer_delete(dlog->scanout[i].buffer);
+>> +
+>> +err_nomodeset:
+>> +    kfree(dlog->scanout);
+>> +    dlog->scanout = NULL;
+>> +}
+>> +
+>> +static void drm_log_free_scanout(struct drm_client_dev *client)
+>> +{
+>> +    struct drm_log *dlog = client_to_drm_log(client);
+>> +    int i;
+>> +
+>> +    if (dlog->n_scanout) {
+>> +        for (i = 0; i < dlog->n_scanout; i++)
+>> +            drm_client_framebuffer_delete(dlog->scanout[i].buffer);
+>> +        dlog->n_scanout = 0;
+>> +        kfree(dlog->scanout);
+>> +        dlog->scanout = NULL;
+>> +    }
+>> +}
+>> +
+>> +static void drm_log_client_unregister(struct drm_client_dev *client)
+>> +{
+>> +    struct drm_log *dlog = client_to_drm_log(client);
+>> +    struct drm_device *dev = client->dev;
+>> +
+>> +    unregister_console(&dlog->con);
+>> +
+>> +    mutex_lock(&dlog->lock);
+>> +    drm_log_free_scanout(client);
+>> +    drm_client_release(client);
+>> +    mutex_unlock(&dlog->lock);
+>> +    kfree(dlog);
+>> +    drm_info(dev, "Unregistered with drm log\n");
 > 
-> Do we need a quirk ? At first glance it seems the DPTSR register is only
-> used for DU instances that have two channels, so a check on the number
-> of channels should be enough ?
+> We don't do such messages anywhere. So if anything, debug output here.
 
-What do you mean with "DPTSR register is only used for DU instances that 
-have two channels"? The upstream code sets it for all SoCs, doesn't it, 
-without any checks?
+Agreed.
+> 
+>> +}
+>> +
+>> +static int drm_log_client_hotplug(struct drm_client_dev *client)
+>> +{
+>> +    struct drm_log *dlog = client_to_drm_log(client);
+>> +
+>> +    mutex_lock(&dlog->lock);
+>> +    drm_log_free_scanout(client);
+>> +    dlog->probed = false;
+>> +    mutex_unlock(&dlog->lock);
+>> +    return 0;
+>> +}
+>> +
+>> +static const struct drm_client_funcs drm_log_client_funcs = {
+>> +    .owner        = THIS_MODULE,
+>> +    .unregister    = drm_log_client_unregister,
+>> +    .hotplug    = drm_log_client_hotplug,
+>> +};
+>> +
+>> +static void drm_log_write_thread(struct console *con, struct 
+>> nbcon_write_context *wctxt)
+>> +{
+>> +    struct drm_log *dlog = console_to_drm_log(con);
+>> +    int i;
+>> +
+>> +    if (!dlog->probed)
+>> +        drm_log_init_client(dlog);
+>> +
+>> +    for (i = 0; i < dlog->n_scanout; i++)
+>> +        drm_log_draw_kmsg_record(&dlog->scanout[i], wctxt->outbuf, 
+>> wctxt->len);
+>> +}
+>> +
+>> +static void drm_log_lock(struct console *con, unsigned long *flags)
+>> +{
+>> +    struct drm_log *dlog = console_to_drm_log(con);
+>> +
+>> +    mutex_lock(&dlog->lock);
+>> +    migrate_disable();
+>> +}
+>> +
+>> +static void drm_log_unlock(struct console *con, unsigned long flags)
+>> +{
+>> +    struct drm_log *dlog = console_to_drm_log(con);
+>> +
+>> +    migrate_enable();
+>> +    mutex_unlock(&dlog->lock);
+>> +}
+>> +
+>> +static void drm_log_register_console(struct console *con)
+>> +{
+>> +    strscpy(con->name, "drm_log");
+>> +    con->write_thread = drm_log_write_thread;
+>> +    con->device_lock = drm_log_lock;
+>> +    con->device_unlock = drm_log_unlock;
+>> +    con->flags = CON_PRINTBUFFER | CON_NBCON;
+>> +    con->index = -1;
+>> +
+>> +    register_console(con);
+>> +}
+>> +
+>> +/**
+>> + * drm_log_register() - Register a drm device to drm_log
+>> + * @dev: the drm device to register.
+>> + */
+>> +void drm_log_register(struct drm_device *dev)
+>> +{
+>> +    struct drm_log *new;
+>> +
+>> +    new = kzalloc(sizeof(*new), GFP_KERNEL);
+>> +    if (!new)
+>> +        goto err_warn;
+>> +
+>> +    mutex_init(&new->lock);
+>> +    if (drm_client_init(dev, &new->client, "drm_log", 
+>> &drm_log_client_funcs))
+>> +        goto err_free;
+>> +
+>> +    drm_client_register(&new->client);
+>> +
+>> +    drm_log_register_console(&new->con);
+>> +
+>> +    drm_info(dev, "Registered with drm log as %s\n", new->con.name);
+> 
+> Debug please. Don't spam the kernel log with status messages.
 
-Most of the SoCs seem to have two channels, but r8a77970 has one. 
-However, I don't have docs for that one. It could be that it does not 
-have DPTSR register, and indeed we could use the num_crtcs > 1 check there.
+Yes I will move that to debug, but it's still much less verbose than the 
+current situation with fbdev/fbcon.
 
-  Tomi
+[    1.631473] fbcon: Deferring console take-over
+[    1.631475] simple-framebuffer simple-framebuffer.0: [drm] fb0: 
+simpledrmdrmfb frame buffer device
+[    7.058770] fbcon: i915drmfb (fb0) is primary device
+[    7.058772] fbcon: Deferring console take-over
+[    7.058774] i915 0000:00:02.0: [drm] fb0: i915drmfb frame buffer device
 
 > 
->>   
->>   #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
->>   
->> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
->> index 2ccd2581f544..132d930670eb 100644
->> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
->> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
->> @@ -107,10 +107,12 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
->>   		 */
->>   		rcrtc = rcdu->crtcs;
->>   		num_crtcs = rcdu->num_crtcs;
->> -	} else if (rcdu->info->gen >= 3 && rgrp->num_crtcs > 1) {
->> +	} else if ((rcdu->info->gen == 3 && rgrp->num_crtcs > 1) ||
->> +		   rcdu->info->gen == 4) {
->>   		/*
->>   		 * On Gen3 dot clocks are setup through per-group registers,
->>   		 * only available when the group has two channels.
->> +		 * On Gen4 the registers are there for single channel too.
->>   		 */
->>   		rcrtc = &rcdu->crtcs[rgrp->index * 2];
->>   		num_crtcs = rgrp->num_crtcs;
->> @@ -185,11 +187,13 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
->>   		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
->>   	rcar_du_group_write(rgrp, DORCR, dorcr);
->>   
->> -	/* Apply planes to CRTCs association. */
->> -	mutex_lock(&rgrp->lock);
->> -	rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
->> -			    rgrp->dptsr_planes);
->> -	mutex_unlock(&rgrp->lock);
->> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_NO_DPTSR)) {
->> +		/* Apply planes to CRTCs association. */
->> +		mutex_lock(&rgrp->lock);
->> +		rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
->> +				    rgrp->dptsr_planes);
->> +		mutex_unlock(&rgrp->lock);
->> +	}
->>   }
->>   
->>   /*
+> Best regards
+> Thomas
+> 
+>> +    return;
+>> +
+>> +err_free:
+>> +    kfree(new);
+>> +err_warn:
+>> +    drm_warn(dev, "Failed to register with drm log\n");
+>> +}
 > 
 
