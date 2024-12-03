@@ -2,100 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992F89E1C5E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 13:41:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E745F9E1CC6
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 13:53:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD1F10E451;
-	Tue,  3 Dec 2024 12:41:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1118110E1B6;
+	Tue,  3 Dec 2024 12:53:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1Unb6vnj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IL11j3w6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8990710E451
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 12:41:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 0D707A41571;
- Tue,  3 Dec 2024 12:39:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95C16C4CECF;
- Tue,  3 Dec 2024 12:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1733229675;
- bh=2uEXSo5be+RCYE8wBlDOJXNuB/VT7ARg3i3C+zGOWYQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=1Unb6vnj0waeqg52vL3tNBxqazZ4YLEkRH6amdDr2bx43L5JPTkkH+pB+L4tMzH0J
- SCb6eYmqeMGHbFRdUm9eKf56OQESdHkQFoMknfazShRPcJP62eT8Z3A5bIfaHIyzv7
- mcuUv99lpsVEKyYu6Ycjcf2lp80AbgdlAJGG1ZwM=
-Date: Tue, 3 Dec 2024 13:41:10 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Zijun Hu <zijun_hu@icloud.com>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Andreas Noever <andreas.noever@gmail.com>,
- Michael Jamet <michael.jamet@intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Yehezkel Bernat <YehezkelShB@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>,
- Vladimir Oltean <olteanv@gmail.com>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Takashi Sakamoto <o-takashi@sakamocchi.jp>,
- Jiri Slaby <jirislaby@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>,
- Mike Christie <michael.christie@oracle.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Nilesh Javali <njavali@marvell.com>,
- Manish Rangankar <mrangankar@marvell.com>,
- GR-QLogic-Storage-Upstream@marvell.com,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Andreas Larsson <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>,
- Laurentiu Tudor <laurentiu.tudor@nxp.com>,
- Jens Axboe <axboe@kernel.dk>, Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Ard Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-gpio@vger.kernel.org, netdev@vger.kernel.org,
- linux-pwm@vger.kernel.org, nvdimm@lists.linux.dev,
- linux1394-devel@lists.sourceforge.net, linux-serial@vger.kernel.org,
- linux-sound@vger.kernel.org, open-iscsi@googlegroups.com,
- linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-block@vger.kernel.org,
- arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
- and adapt for various existing usages
-Message-ID: <2024120320-manual-jockey-dfd1@gregkh>
-References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
- <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
- <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 391FD10E1B6
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 12:53:03 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2ffc357ea33so58132221fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 04:53:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733230381; x=1733835181; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=cgOp9XciNPobuDZogrWrTiS66ohIUz+olcA2lkcJj8w=;
+ b=IL11j3w638APmpMd+6PhZOX0meaArgcGYR6MSGSclkVeVBtoz2oM/uVOUC8fIG+JnG
+ 98c7yHbNYoQ7Vrr4sWeJGVv/QWp3AAPC6CDKa2cPtqiHpuIinvqGmdsah8EEo+aYYP5p
+ Uh85rcyhdmbMVEZDijSkmgu6VIzMpXALdu0sXYD4zFgyqrEPh7ol3JTxZllKUEQiIoR7
+ IidAryG6JEMfVChWIqLYKj36H1X6NB270TujDKMxIrwrD6wVKNT2aQBUt5USJDnI/LB5
+ KrJMAdjQztq18J/McwDk4l3FBZCpG2CqtYQutfs0ZQh9V1tPj02T2qpVtoKPU67owF/p
+ Yjfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733230381; x=1733835181;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cgOp9XciNPobuDZogrWrTiS66ohIUz+olcA2lkcJj8w=;
+ b=HRKy94rTdhqRpkYyFHtHkJqkmY4UUdO/5quXKVtkNsbpbEqaBx2Ap3AnZpRZlafOrU
+ wdKkL2/iQg/J0tJFTA5XwKqUyqBj4SH7bl/9LCN9LtIvDXts/jlBFTOLAYoG7M0VXqCE
+ o4Gb3p7Jpzs/PCcIqkYqZIrXh3jP0C4+9NfDi6GGKG2LSy2Bc/wr1uc5RyKXknLyCfL/
+ qdnvUeOOivDdJt6wV0/n2GLnZUOLm3LeUb1trPVJ+C90p5n7vFPwf+OPMuR1cYH7O5th
+ OL5J3HlbPLHVkeuB/H4zrUC6t530srkv7cTGkeRZnzZoyFK9p8JbZI5F+Od4vGIDnAEu
+ /jWA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWfLcktAG164up8FTvtZtJzQpWJuZmgHUO5VKEEE6Nyan5VVO2ECQn3mdTOZA4y9Uv7EH9XN25abeY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXtOPiRyd9xUPqX83KJR8nZoH+GuPhiQ0XO56RLgLM/+KtSJz9
+ FX786XY9e+oZ1KzCnR5yCeHnwkCVLJNPnlKUVDH+Pc19GwwU39WMkN07BdNizAs=
+X-Gm-Gg: ASbGncscYnT8/JCSWgoNYZjWIh2BM1KdpujcaV8xIean71N0G3VTNFBIBSBDDqQZP7X
+ Jh1nLcemmj3rbSE2z3vjj5CABnbYhpisRljmvBmLBrGipSHHhu5bfQ16EOzlmq550cxfb+LmonN
+ pEw5aj9UGj6LfkupVlxSm+qfrcjyzrAkj0UIr1Eon0pPx8CENdnhD8IcWbFx2y0rSlFfd+bEt5z
+ c3HQt5jXrKtvjry+C8r/+1lZ5soJIHFgQU5p0Z+tPtw4Qkw36VCTm99RWeWljONL6qEEo+DlU6f
+ yLZPFA91uBRfRpMzTTWmUnsmKW3btw==
+X-Google-Smtp-Source: AGHT+IEpNqcECccRh4l7n5a+xTcPnLC8zwWnHNryhKJgbaE6P1ez0VKjp2pUHX9jWAZQKmTS2jZ21g==
+X-Received: by 2002:a05:651c:2204:b0:2ff:b7ff:53b1 with SMTP id
+ 38308e7fff4ca-30009caa37cmr15651031fa.25.1733230381206; 
+ Tue, 03 Dec 2024 04:53:01 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-300142fffaasm330231fa.10.2024.12.03.04.52.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Dec 2024 04:52:59 -0800 (PST)
+Date: Tue, 3 Dec 2024 14:52:57 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Danylo Piliaiev <danylo.piliaiev@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 1/1] drm/msm: Expose uche trap base via uapi
+Message-ID: <lhi5ni5i4kuwzu2627nf5pnhhzcx7rglza5lxeadpkdekwtisj@3cacpo2r3tzx>
+References: <20241203095920.505018-1-dpiliaiev@igalia.com>
+ <20241203095920.505018-2-dpiliaiev@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
+In-Reply-To: <20241203095920.505018-2-dpiliaiev@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,39 +92,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 03, 2024 at 08:23:45PM +0800, Zijun Hu wrote:
-> On 2024/12/3 20:00, Uwe Kleine-König wrote:
-> > Hello,
-> > 
-> > On Tue, Dec 03, 2024 at 08:33:22AM +0800, Zijun Hu wrote:
-> >> This patch series is to constify the following API:
-> >> struct device *device_find_child(struct device *dev, void *data,
-> >> 		int (*match)(struct device *dev, void *data));
-> >> To :
-> >> struct device *device_find_child(struct device *dev, const void *data,
-> >> 				 device_match_t match);
-> >> typedef int (*device_match_t)(struct device *dev, const void *data);
-> > 
-> > This series isn't bisectible. With only the first two patches applied I
-> > hit:
+On Tue, Dec 03, 2024 at 10:59:20AM +0100, Danylo Piliaiev wrote:
+> This adds MSM_PARAM_UCHE_TRAP_BASE that will be used by Mesa
+> implementation for VK_KHR_shader_clock and GL_ARB_shader_clock.
+
+Could you please spend more words, describing what it is and why is it
+necessary for those extensions. For a5xx+ it looks like some kind of an
+internal address (what kind of?). For a4xx I'm completely lost.
+
 > 
-> yes. such patch series needs to be merge as atomic way.
+> Signed-off-by: Danylo Piliaiev <dpiliaiev@igalia.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  6 ++++--
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c   | 10 ++++++----
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 12 +++++++-----
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  3 +++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h |  2 ++
+>  include/uapi/drm/msm_drm.h              |  1 +
+>  6 files changed, 23 insertions(+), 11 deletions(-)
 > 
-> Hi Greg,
+> diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> index 50c490b492f0..f1b18a6663f7 100644
+> --- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> @@ -251,8 +251,8 @@ static int a4xx_hw_init(struct msm_gpu *gpu)
+>  		gpu_write(gpu, REG_A4XX_UCHE_CACHE_WAYS_VFD, 0x07);
+>  
+>  	/* Disable L2 bypass to avoid UCHE out of bounds errors */
+> -	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_LO, 0xffff0000);
+> -	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_HI, 0xffff0000);
+> +	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
+> +	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
+>  
+>  	gpu_write(gpu, REG_A4XX_CP_DEBUG, (1 << 25) |
+>  			(adreno_is_a420(adreno_gpu) ? (1 << 29) : 0));
+> @@ -693,6 +693,8 @@ struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
+>  	if (ret)
+>  		goto fail;
+>  
+> +	adreno_gpu->uche_trap_base = 0xffff0000ffff0000ull;
+> +
+>  	if (!gpu->aspace) {
+>  		/* TODO we think it is possible to configure the GPU to
+>  		 * restrict access to VRAM carveout.  But the required
+> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> index ee89db72e36e..caf2c0a7a29f 100644
+> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> @@ -750,10 +750,10 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
+>  	gpu_write(gpu, REG_A5XX_UCHE_CACHE_WAYS, 0x02);
+>  
+>  	/* Disable L2 bypass in the UCHE */
+> -	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_LO, 0xFFFF0000);
+> -	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_HI, 0x0001FFFF);
+> -	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_LO, 0xFFFF0000);
+> -	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_HI, 0x0001FFFF);
+> +	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
+> +	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
+> +	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
+> +	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
+>  
+>  	/* Set the GMEM VA range (0 to gpu->gmem) */
+>  	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MIN_LO, 0x00100000);
+> @@ -1805,5 +1805,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+>  	adreno_gpu->ubwc_config.macrotile_mode = 0;
+>  	adreno_gpu->ubwc_config.ubwc_swizzle = 0x7;
+>  
+> +	adreno_gpu->uche_trap_base = 0x0001ffffffff0000ull;
+> +
+>  	return gpu;
+>  }
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 019610341df1..0ae29a7c8a4d 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1123,12 +1123,12 @@ static int hw_init(struct msm_gpu *gpu)
+>  
+>  	/* Disable L2 bypass in the UCHE */
+>  	if (adreno_is_a7xx(adreno_gpu)) {
+> -		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, 0x0001fffffffff000llu);
+> -		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, 0x0001fffffffff000llu);
+> +		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, adreno_gpu->uche_trap_base);
+> +		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, adreno_gpu->uche_trap_base);
+>  	} else {
+> -		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX, 0x0001ffffffffffc0llu);
+> -		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, 0x0001fffffffff000llu);
+> -		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, 0x0001fffffffff000llu);
+> +		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX, adreno_gpu->uche_trap_base + 0xfc0);
+> +		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, adreno_gpu->uche_trap_base);
+> +		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, adreno_gpu->uche_trap_base);
+>  	}
+>  
+>  	if (!(adreno_is_a650_family(adreno_gpu) ||
+> @@ -2533,6 +2533,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>  		}
+>  	}
+>  
+> +	adreno_gpu->uche_trap_base = 0x1fffffffff000ull;
+> +
+>  	if (gpu->aspace)
+>  		msm_mmu_set_fault_handler(gpu->aspace->mmu, gpu,
+>  				a6xx_fault_handler);
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index 076be0473eb5..774ff6eacb9f 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -385,6 +385,9 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+>  	case MSM_PARAM_MACROTILE_MODE:
+>  		*value = adreno_gpu->ubwc_config.macrotile_mode;
+>  		return 0;
+> +	case MSM_PARAM_UCHE_TRAP_BASE:
+> +		*value = adreno_gpu->uche_trap_base;
+> +		return 0;
+>  	default:
+>  		DBG("%s: invalid param: %u", gpu->name, param);
+>  		return -EINVAL;
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index e71f420f8b3a..9bd38dda4308 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -253,6 +253,8 @@ struct adreno_gpu {
+>  	bool gmu_is_wrapper;
+>  
+>  	bool has_ray_tracing;
+> +
+> +	u64 uche_trap_base;
+>  };
+>  #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
+>  
+> diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+> index b916aab80dde..2342cb90857e 100644
+> --- a/include/uapi/drm/msm_drm.h
+> +++ b/include/uapi/drm/msm_drm.h
+> @@ -90,6 +90,7 @@ struct drm_msm_timespec {
+>  #define MSM_PARAM_RAYTRACING 0x11 /* RO */
+>  #define MSM_PARAM_UBWC_SWIZZLE 0x12 /* RO */
+>  #define MSM_PARAM_MACROTILE_MODE 0x13 /* RO */
+> +#define MSM_PARAM_UCHE_TRAP_BASE 0x14 /* RO */
+>  
+>  /* For backwards compat.  The original support for preemption was based on
+>   * a single ring per priority level so # of priority levels equals the #
+> -- 
+> 2.46.2
 > 
-> is it possible to ONLY merge such patch series by atomic way into your
-> driver-core tree?
 
-Nope!
-
-> or squash such patch series into a single patch ?
-> 
-> various subsystem maintainers may not like squashing way.
-
-Agreed, so look into either doing it in a bisectable way if at all
-possible.  As I don't see a full series here, I can't suggest how it
-needs to happen :(
-
-thanks,
-
-greg k-h
+-- 
+With best wishes
+Dmitry
