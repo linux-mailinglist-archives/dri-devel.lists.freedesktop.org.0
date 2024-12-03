@@ -2,102 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1999E253F
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 16:58:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B36A79E2595
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 17:02:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6DC10EA7E;
-	Tue,  3 Dec 2024 15:58:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 192E710EA8F;
+	Tue,  3 Dec 2024 16:02:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UjXlOj3k";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BU3vKIM4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 518F410EA80
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 15:58:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 31611A416F7;
- Tue,  3 Dec 2024 15:56:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 060DBC4CED6;
- Tue,  3 Dec 2024 15:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733241523;
- bh=XIcKNOfiIWK3lnEygoZBuYhAOFl3mmPl+5JRrgpRj94=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UjXlOj3kmx95EVRr6poZcNT35j3F6GnAt6ahYy9BVBeUuYWKIvGzCuz7ebjkOgjmP
- xhYMZnp21cLCHWLwUHAuLe4U5s3st7DyUl09sBm6Qd/4wALJOxgSR2LT1qFzdDL0Yx
- thaq31UVv2cGr8+5T+qbgaEmzsIUWu6ezVpaiv8eeZNAarY6i6i1aV60dW+sebRNEx
- tLdigGZr/dFckxNmvsbvSypkg1zndloin8aQ+uQp6q669zsZK6xCg9BNi6sYFVD59Z
- 8OvMYNh5Otd1dk+wmLLxt6Ufkdji5ziDHv75+ItCZxAzNwqUbXXeTnDg5pAOlAiDzh
- K9XY5KWJ/Xt0w==
-Message-ID: <62fa5594-6245-4dff-a1f0-99f2702f5826@kernel.org>
-Date: Tue, 3 Dec 2024 16:58:24 +0100
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+ [209.85.160.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1AB10EA8F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 16:02:20 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id
+ d75a77b69052e-4668978858aso39642001cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 08:02:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1733241739; x=1733846539; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+WTzDeex6MvV2fYh0DDtmM+R3bGWHPFsxwrTc0tB2Uk=;
+ b=BU3vKIM4fnGSRcdkugAV/YO37bXbyOa84gHlKwvS9TbnrAsfoUCwqNaAbE7XoyQM+Y
+ aj9bBNP8dcSLVZAtJvbs3KLoWaTAnIczv4fFkBhPLRf011aajVq6tv+hSkUM6PtR9rPU
+ udrzklwsakJnN0QAm9Vih7XY13zFjrQOZlMfGRNJjAIm9rDhmOF1BTy2teSWuGw+ZiRq
+ ftKmNhoS9xmAYma7qAqNPRvzyCc26Fl32LKlHTpvxeS6duDIDTkAQZrntie/VCzId+kE
+ JGxhGwqrlx+H8HpWsKZtZ5c1wDewkGx8X7UsiKm3o5psT05Ht3BKkuh2hiPxH29+vEJf
+ 86Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733241739; x=1733846539;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+WTzDeex6MvV2fYh0DDtmM+R3bGWHPFsxwrTc0tB2Uk=;
+ b=hIwyeLyZgNyCi7H90Fp5m9x7AQmniSu9SQmL7n0RESqLSuhQMzjdHm0XUuASLyIYUR
+ mvp2ykfunp9bLmvr7JcEfTbvLAqsazboErdNS+dF8Ma+pg3W5BaXLhdorL9GvO7G1IvH
+ j8/xMSW9+TXW1QjJ9A2Dy7BFHA/wwqSM4q2cM0sZjHWRAu5/3ytnOFq2zP7xwOqQE7AT
+ e9T690dLJvbGwsAJqJUJ8INtuVzw1I+sEpqLEGVqtGBDDO5inb5PVTKq1Q5j+UqVf6IN
+ 04JrGVI0J8FyUBUGr9HWGmgY8oV6FqI2jdIWALC1QVHQkznbwyJmQXWnF1LMCe1zBgVH
+ G8hg==
+X-Gm-Message-State: AOJu0YyvpzxFqVMhImUJlHIJncUjQxFpd4mzT/f4k0TF+MTVx0L7I1h+
+ RodUlT/DVaPMb7ek125op8AEYZwSpFu9yx0o+ZEfl3kRX17j/17n
+X-Gm-Gg: ASbGnctg9479zIx4pQbIIkFru52lBkhx61DiPfBQEO7OpeYv4EaTWPeCQCkpacBAw7U
+ 8fvWLVvgRj969sD4qbw/wN7iOb8Oe43BPoLrJL2mcofBGrJmzL/hG5i3Hi9JcrMHGIScRjxD+tr
+ IY7upgBCmEz7i0eNnkZ9ngxBPh5FVaGAwMEO05vF1WSGCZEGG2YFaPEOrp8fM8ROZlZk0OUQ7i5
+ fldwJCoc4h/PTxHdXVqxDz95hJ0SHYAQN789hgZ+5uozXFOcN45Oj1UG7VMi8ZLXnDMzmggeNqr
+ 4A6wWhm1AK84ryU48biPsLZ5ACz9F5g4s5qMSc2V4/vaxRlNNvvJrLXtzSE=
+X-Google-Smtp-Source: AGHT+IGDeeGWcRCTKyUCOq7c8fevpRJKKIBDhzv1JtFZuhU7+1av0GGQHLhd5L0WUnUDcgzYEzYebw==
+X-Received: by 2002:ac8:5a8b:0:b0:466:ad0d:f0ca with SMTP id
+ d75a77b69052e-4670c6c5432mr40809661cf.50.1733241739116; 
+ Tue, 03 Dec 2024 08:02:19 -0800 (PST)
+Received: from localhost.localdomain
+ (host-36-26.ilcul54.champaign.il.us.clients.pavlovmedia.net. [68.180.36.26])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-466c42319b6sm62809341cf.77.2024.12.03.08.02.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Dec 2024 08:02:18 -0800 (PST)
+From: Gax-c <zichenxie0106@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, thierry.reding@gmail.com,
+ mperttunen@nvidia.com, jonathanh@nvidia.com, kraxel@redhat.com,
+ gurchetansingh@chromium.org, olvaffe@gmail.com, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, mst@redhat.com, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ virtualization@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, Zichen Xie <zichenxie0106@gmail.com>,
+ stable@vger.kernel.org
+Subject: [PATCH] drm: cast calculation to __u64 to fix potential integer
+ overflow
+Date: Tue,  3 Dec 2024 10:02:00 -0600
+Message-Id: <20241203160159.8129-1-zichenxie0106@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 07/14] soc: thead: power-domain: Add skeleton
- power-domain driver for TH1520
-To: Michal Wilczynski <m.wilczynski@samsung.com>, mturquette@baylibre.com,
- sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- drew@pdp7.com, guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
- paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- frank.binns@imgtec.com, matt.coster@imgtec.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, ulf.hansson@linaro.org,
- jszhang@kernel.org, m.szyprowski@samsung.com
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
-References: <20241203134137.2114847-1-m.wilczynski@samsung.com>
- <CGME20241203134158eucas1p1fae346180c0166570ea7e7723076225c@eucas1p1.samsung.com>
- <20241203134137.2114847-8-m.wilczynski@samsung.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241203134137.2114847-8-m.wilczynski@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,180 +91,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/12/2024 14:41, Michal Wilczynski wrote:
-> The T-Head TH1520 SoC contains multiple power islands that can be
-> programmatically turned on and off using the AON (Always-On) protocol
-> and a hardware mailbox [1]. The relevant mailbox driver has already been
-> merged into the mainline kernel in commit 5d4d263e1c6b ("mailbox:
-> Introduce support for T-head TH1520 Mailbox driver"); however, the AON
-> implementation is still under development.
-> 
-> This commit introduces a skeleton power-domain driver for the TH1520
-> SoC, designed to be easily extended to work with the AON protocol in the
-> future.  Currently, it only supports the GPU. Since there is no
-> mechanism yet to turn the GPU power island on, the driver will only set
-> the relevant registers to bring the GPU out of the reset state.  This
-> should be done after the power-up sequence requested through the mailbox
-> is completed.
-> 
-> Link: https://openbeagle.org/beaglev-ahead/beaglev-ahead/-/blob/main/docs/TH1520%20System%20User%20Manual.pdf [1]
-> 
-> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> ---
->  MAINTAINERS                                   |   2 +
->  drivers/pmdomain/Kconfig                      |   1 +
->  drivers/pmdomain/Makefile                     |   1 +
->  drivers/pmdomain/thead/Kconfig                |  12 ++
->  drivers/pmdomain/thead/Makefile               |   2 +
->  drivers/pmdomain/thead/th1520-pm-domains.c    | 195 ++++++++++++++++++
->  .../dt-bindings/power/thead,th1520-power.h    |  19 ++
->  7 files changed, 232 insertions(+)
+From: Zichen Xie <zichenxie0106@gmail.com>
 
+Like commit b0b0d811eac6 ("drm/mediatek: Fix coverity issue with
+unintentional integer overflow"), directly multiply pitch and
+height may lead to integer overflow. Add a cast to avoid it.
 
-Please run scripts/checkpatch.pl and fix reported warnings. Then please
-run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.
+Fixes: 6d1782919dc9 ("drm/cma: Introduce drm_gem_cma_dumb_create_internal()")
+Fixes: dc5698e80cf7 ("Add virtio gpu driver.")
+Fixes: dc6057ecb39e ("drm/tegra: gem: dumb: pitch and size are outputs")
+Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/drm_gem_dma_helper.c | 6 +++---
+ drivers/gpu/drm/tegra/gem.c          | 2 +-
+ drivers/gpu/drm/virtio/virtgpu_gem.c | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+index 870b90b78bc4..020c3b17fc02 100644
+--- a/drivers/gpu/drm/drm_gem_dma_helper.c
++++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+@@ -272,8 +272,8 @@ int drm_gem_dma_dumb_create_internal(struct drm_file *file_priv,
+ 	if (args->pitch < min_pitch)
+ 		args->pitch = min_pitch;
+ 
+-	if (args->size < args->pitch * args->height)
+-		args->size = args->pitch * args->height;
++	if (args->size < (__u64)args->pitch * args->height)
++		args->size = (__u64)args->pitch * args->height;
+ 
+ 	dma_obj = drm_gem_dma_create_with_handle(file_priv, drm, args->size,
+ 						 &args->handle);
+@@ -306,7 +306,7 @@ int drm_gem_dma_dumb_create(struct drm_file *file_priv,
+ 	struct drm_gem_dma_object *dma_obj;
+ 
+ 	args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+-	args->size = args->pitch * args->height;
++	args->size = (__u64)args->pitch * args->height;
+ 
+ 	dma_obj = drm_gem_dma_create_with_handle(file_priv, drm, args->size,
+ 						 &args->handle);
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index d275404ad0e9..a84acdbbbe3f 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -548,7 +548,7 @@ int tegra_bo_dumb_create(struct drm_file *file, struct drm_device *drm,
+ 	struct tegra_bo *bo;
+ 
+ 	args->pitch = round_up(min_pitch, tegra->pitch_align);
+-	args->size = args->pitch * args->height;
++	args->size = (__u64)args->pitch * args->height;
+ 
+ 	bo = tegra_bo_create_with_handle(file, drm, args->size, 0,
+ 					 &args->handle);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 7db48d17ee3a..d5407316b12e 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -72,7 +72,7 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
+ 		return -EINVAL;
+ 
+ 	pitch = args->width * 4;
+-	args->size = pitch * args->height;
++	args->size = (__u64)pitch * args->height;
+ 	args->size = ALIGN(args->size, PAGE_SIZE);
+ 
+ 	params.format = virtio_gpu_translate_format(DRM_FORMAT_HOST_XRGB8888);
+-- 
+2.34.1
 
->  create mode 100644 drivers/pmdomain/thead/Kconfig
->  create mode 100644 drivers/pmdomain/thead/Makefile
->  create mode 100644 drivers/pmdomain/thead/th1520-pm-domains.c
->  create mode 100644 include/dt-bindings/power/thead,th1520-power.h
-> 
-
-
-...
-
-> +
-> +static int th1520_pd_power_off(struct generic_pm_domain *domain)
-> +{
-> +	struct th1520_power_domain *pd = to_th1520_power_domain(domain);
-> +
-> +	/* The missing component here is the call to E902 core through the
-
-Use Linux coding style comments (see coding style). This applies to
-multiple places in your code.
-
-> +	 * AON protocol using hardware mailbox.
-> +	 */
-> +
-> +	/* Put the GPU into reset state after powering it off */
-> +	th1520_rst_gpu_disable(pd->reg);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct generic_pm_domain *th1520_pd_xlate(const struct of_phandle_args *spec,
-> +						 void *data)
-> +{
-> +	struct generic_pm_domain *domain = ERR_PTR(-ENOENT);
-> +	struct genpd_onecell_data *pd_data = data;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(th1520_pd_ranges); i++) {
-> +		struct th1520_power_domain *pd;
-> +
-> +		pd = to_th1520_power_domain(pd_data->domains[i]);
-> +		if (pd->rsrc == spec->args[0]) {
-> +			domain = &pd->genpd;
-> +			break;
-> +		}
-> +	}
-> +
-> +	return domain;
-> +}
-> +
-> +static struct th1520_power_domain *
-> +th1520_add_pm_domain(struct device *dev, const struct th1520_power_info *pi)
-> +{
-> +	struct th1520_power_domain *pd;
-> +	int ret;
-> +
-> +	pd = devm_kzalloc(dev, sizeof(*pd), GFP_KERNEL);
-> +	if (!pd)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	pd->rsrc = pi->rsrc;
-> +	pd->genpd.power_on = th1520_pd_power_on;
-> +	pd->genpd.power_off = th1520_pd_power_off;
-> +	pd->genpd.name = pi->name;
-> +
-> +	ret = pm_genpd_init(&pd->genpd, NULL, true);
-> +	if (ret) {
-> +		devm_kfree(dev, pd);
-
-You should rather fail the probe. Failures of power domains are important.
-
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	return pd;
-> +}
-> +
-> +static int th1520_pd_probe(struct platform_device *pdev)
-> +{
-> +	struct generic_pm_domain **domains;
-> +	struct genpd_onecell_data *pd_data;
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *np = dev->of_node;
-> +	struct regmap *reg;
-> +	int i;
-> +
-> +	reg = syscon_regmap_lookup_by_phandle(np, "thead,vosys-regmap");
-> +	if (IS_ERR(reg))
-> +		return PTR_ERR(reg);
-> +
-> +	domains = devm_kcalloc(dev, ARRAY_SIZE(th1520_pd_ranges),
-> +			       sizeof(*domains), GFP_KERNEL);
-> +	if (!domains)
-> +		return -ENOMEM;
-> +
-> +	pd_data = devm_kzalloc(dev, sizeof(*pd_data), GFP_KERNEL);
-> +	if (!pd_data)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(th1520_pd_ranges); i++) {
-> +		struct th1520_power_domain *pd;
-> +
-> +		pd = th1520_add_pm_domain(dev, &th1520_pd_ranges[i]);
-> +		if (IS_ERR_OR_NULL(pd))
-> +			continue;
-> +
-> +		pd->reg = reg;
-> +		domains[i] = &pd->genpd;
-> +		dev_dbg(dev, "added power domain %s\n", pd->genpd.name);
-> +	}
-> +
-> +	pd_data->domains = domains;
-> +	pd_data->num_domains = ARRAY_SIZE(th1520_pd_ranges);
-> +	pd_data->xlate = th1520_pd_xlate;
-> +
-> +	return of_genpd_add_provider_onecell(dev->of_node, pd_data);
-> +}
-> +
-> +static const struct of_device_id th1520_pd_match[] = {
-> +	{ .compatible = "thead,th1520-pd",},
-> +	{ /* sentinel */ }
-> +};
-> +
-
-
-Make the driver tristate and module. There is nothing here which
-prevents it being a module.
-
-
-> +builtin_platform_driver(th1520_pd_driver);
-> diff --git a/include/dt-bindings/power/thead,th1520-power.h b/include/dt-bindings/power/thead,th1520-power.h
-> new file mode 100644
-> index 000000000000..30fb4e9892e7
-> --- /dev/null
-> +++ b/include/dt-bindings/power/thead,th1520-power.h
-> @@ -0,0 +1,19 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-
-
-Wrong license. See checkpatch.
-
-
-
-Best regards,
-Krzysztof
