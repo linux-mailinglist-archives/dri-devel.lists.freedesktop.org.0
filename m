@@ -2,82 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109559E2B17
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 19:39:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40239E2B16
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 19:39:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8359310EB0A;
-	Tue,  3 Dec 2024 18:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 782BA10EB1E;
+	Tue,  3 Dec 2024 18:39:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TIbj15zB";
+	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="Xnz7J3/S";
+	dkim=pass (2048-bit key; secure) header.d=sapience.com header.i=@sapience.com header.b="QbfmX/CN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9E010E9C6;
- Tue,  3 Dec 2024 09:59:25 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-5d0bf6ac35aso2508990a12.1; 
- Tue, 03 Dec 2024 01:59:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733219964; x=1733824764; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QAdT/AkYZrS/JPMTUkdta47w083O08CKaY0xULIptt0=;
- b=TIbj15zBw6rSCdwHL6NH+aU5jE2Ae+0UE9s7bxWnJjz+9wHpLUau1A/Img+R5/OmpD
- Ck89V2BST1aFGuh4MFSzUNW9YaRaX+7dze9ZQz42HWX8KJ/+hUX0TW/LEwy7WB4ggZcn
- 6ZeZtYYpVjsL1+R5gJjXumGEp6BxWgC83eoAkWKGF6FEtXn6Gl1KAuw/r6CkKuw5M0Xi
- SqurOS3jy2gFJIzt2l1ddbMPMDAlg4cGPis84kwVR8R2YNWea+rRU7WHBNQPS9aSWy+R
- o8On6M6mt4SHGX/zaJVu6qdiaejf3rBQkI91o4Op9MUr+pVtb20t72c1CnR9ZFDWaiH2
- iGVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733219964; x=1733824764;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QAdT/AkYZrS/JPMTUkdta47w083O08CKaY0xULIptt0=;
- b=uGBLyARUiOx6odrp8MywufWUxRbZAwRscEhiK6MdnciGRTqSaG7TbYJiYpkBQCMxVc
- 7q13O/rLVWCgy0k5uvK8g+DUoNSLd+oWkvKQKbcmK79ZglpsI8ICi9awTS0VZppVDXt/
- oSt8Kj+pqCELjuV5tcE3onisD53wfVP4LlskmOnaiao15IVss5WCowuflCG0URbSKIxk
- KHnpkcoXQdCI0kqjXnlIvYgPdVNWCy4xPfzs6luMrPEMg+b3adifYclCqRfm72GSy+8M
- Gr+RWcSn44ZrVyFkC9+RmqTot8+kUNke6iHUaIS99LdkSUo8mT9o6zwZrsObQjH6qRpM
- 3XSQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVERXKRNIF6PuRoAu/8T8gwm+glxYfr3KpsBdmw7xCyRBDIl8BBHJkZ77TpX9SE6mEJ6pgDcuTw9fY=@lists.freedesktop.org,
- AJvYcCXzZ6lESqVLLJwXw5xQYP1fLlVlryxCC2tFmYAHhabTZmpHDA3SI63qGR6tHhDk4bHiV/zv9rGed1om@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyByL/NSdHDpWxuQmBLZX7lvzS7uWnP3bbyaaAHTRgYQDbQhK4v
- Ev/RzzcpJH4/XUNcl0H413DGz795yvhZuI9Ss3yU5HFnK04KU4A8kcneaydW
-X-Gm-Gg: ASbGncuphrvvpihfZbqEHAholAaARCDFnv3/g/bCyLive+OaNeioNVrQxsrrYTJzGje
- f9+jU/XbR0zqh/QifGU9v4Dn1gt3duVhPw/DWdql2CxWGV37FJ8aMRsLXIlBnufP5biMl9bIXJa
- jHfUIiq7MHwID+hk4n1G02S+48ZiNInmn35zQIMm7yxiQ38kI1qSi9EXwReHij7aLD4wJQwdVLR
- PrIGf466iVz/6QtAVOCTvktOR6g3DsStqq0KW12iEn68oDHZnbymN7xeOT9xXAKaRXeNA==
-X-Google-Smtp-Source: AGHT+IE+nKQiODkBKKztGbX5w++24oO3vwTU2xi/fRQzXUC8Vxl/wFOnwoz/+JerkyLYsF28728AGg==
-X-Received: by 2002:a05:6402:35d1:b0:5d0:d786:b894 with SMTP id
- 4fb4d7f45d1cf-5d10cb80107mr1823931a12.26.1733219963450; 
- Tue, 03 Dec 2024 01:59:23 -0800 (PST)
-Received: from archlinux.tail7f7b1.ts.net ([195.136.68.87])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d097d9f6b6sm5867365a12.2.2024.12.03.01.59.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2024 01:59:22 -0800 (PST)
-From: Danylo Piliaiev <danylo.piliaiev@gmail.com>
-X-Google-Original-From: Danylo Piliaiev <dpiliaiev@igalia.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, danylo.piliaiev@gmail.com
-Subject: [PATCH 1/1] drm/msm: Expose uche trap base via uapi
-Date: Tue,  3 Dec 2024 10:59:20 +0100
-Message-ID: <20241203095920.505018-2-dpiliaiev@igalia.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241203095920.505018-1-dpiliaiev@igalia.com>
-References: <20241203095920.505018-1-dpiliaiev@igalia.com>
+Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5358D10E1A0;
+ Tue,  3 Dec 2024 11:34:28 +0000 (UTC)
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+ signature) header.d=sapience.com header.i=@sapience.com 
+ header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+ header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
+ (No client certificate requested)
+ by s1.sapience.com (Postfix) with ESMTPS id 70019480A24;
+ Tue, 03 Dec 2024 06:34:27 -0500 (EST)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1733225667;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=FjIsCWIzubmEadMxCxRD+23+CAxaNUechI3CQvCtXx0=;
+ b=Xnz7J3/SZzrB63AjCyC/ry6atBJQehY7fYwydCQgX7jrWYPxWYRpjNzFDdjvXm+3foesw
+ 3bFLEAE5r/03w0NCw==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1733225667; 
+ cv=none;
+ b=Otf9ilu8vUl5mRseHp9NDhxlQgJRf+lp8QgAa1z8G1Ra1hmiwaPMRjjZabl9DEe+c4GNP34dYBudJOS/L3AhL0D1dzpA5qLjdX7xQ+zxUfohiz8c90O6Z07CCEa4p2Iit4c0DebSlFOnfsWOcP/QQWSQ7Scfy7uzy0lpC08o4O3DsxAe1zgrdTzVoNvJarofyvYQNZlmYpStcw1iJ2C/j1S0okE3FfDceoOI2bPiOaJ0QInt9UMRkDT2/vIiVJR8wYRYoyjgcm8Rqe0GrhIRQ/UFKjrAYV1aiHxcmxbC5BrDISkMJBTA241ByZKbY+ueEQyy5iPgX/afGMrnp+JppQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+ t=1733225667; c=relaxed/simple;
+ bh=HDQyOvsh2luRrVameeR+JVt226PJ1eteUZhAlxPdkoc=;
+ h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
+ In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
+ MIME-Version;
+ b=dmgoBp5/FloERMSBlsD8r/cs5B2lbP4lsnalIZ3vua6CdXvgdO3scrl07ZuPIddJV1YHPb/ArNloMwKfLgyjNhGTY1Dm9kycqmnhL3YOm4ZghI1CuuGZmUpmw9oJpyWYwi3XkwqSK4DWnjOK02M0n8ox4KCmk3161yDHh5PJab94c8oEtZ6IKgHmy2dT4FWeKxWfJ+OuC1oSZULvpXhPKrsBGQhP33aoibPy1e1W44x9TOJS7alm5crhxWRqUUjbVgmRA78Dg0C+vodHkUQKS96de+Qc77QgG+Q7fh8kemVJhMXSaur6YQ+fO5A7lmgt/HxiTvVk8vjdtXfxL+6ADw==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1733225667;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=FjIsCWIzubmEadMxCxRD+23+CAxaNUechI3CQvCtXx0=;
+ b=QbfmX/CNmvbAKXRB8cjqJEhNjdEvgQl4tzCmynQJKZ7fyNPNAdDdlXGFsXTiP1QkQeDmD
+ 2FdoUApdeThn3lQ1vBgybGDPorKAh08nAm2XmRL4E3u8KcM03ecjyCS1JAfvqnRL8ZN7s8b
+ cnPEXWOSO3xwU2icAgsIWNiC0+kRW1ZIF9Nc7kvcRKGhbLpAJqE3t9b4n2dARt9uk/R85FR
+ 842byfVDajfNaVbrDO+cGWKdVH9vffmYLVR+9PYrgWLaWAIMylCBh8obw/P33WGYtCNUNfL
+ kov2m4byjg3+ikLmPSsCZGq0YuKX3Yl+NIjQhwv+xB8G6220uS8X/49sjHNg==
+Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1)
+ server-digest SHA384) (No client certificate requested)
+ by srv8.sapience.com (Postfix) with ESMTPS id 44AB6280018;
+ Tue, 03 Dec 2024 06:34:27 -0500 (EST)
+Message-ID: <7db24095f935d874fae466853b0984103f97b40f.camel@sapience.com>
+Subject: Re: 6.13-rc1 graphics fail
+From: Genes Lists <lists@sapience.com>
+To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, lucas.demarchi@intel.com, 
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ airlied@gmail.com, 	tzimmermann@suse.de, dri-devel@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Date: Tue, 03 Dec 2024 06:34:25 -0500
+In-Reply-To: <Z07Mg2_6y2MW22qV@intel.com>
+References: <3b097dddd7095bccabe6791b90899c689f271a35.camel@sapience.com>
+ <Z07Mg2_6y2MW22qV@intel.com>
+Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
+ keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
+ 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
+ sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
+ vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
+ BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
+Content-Type: multipart/signed; micalg="pgp-sha384";
+ protocol="application/pgp-signature"; boundary="=-JUlQ6gVOaBB9Bh5Ok49w"
+User-Agent: Evolution 3.54.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 03 Dec 2024 18:39:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,140 +98,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds MSM_PARAM_UCHE_TRAP_BASE that will be used by Mesa
-implementation for VK_KHR_shader_clock and GL_ARB_shader_clock.
 
-Signed-off-by: Danylo Piliaiev <dpiliaiev@igalia.com>
----
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  6 ++++--
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c   | 10 ++++++----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 12 +++++++-----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c |  3 +++
- drivers/gpu/drm/msm/adreno/adreno_gpu.h |  2 ++
- include/uapi/drm/msm_drm.h              |  1 +
- 6 files changed, 23 insertions(+), 11 deletions(-)
+--=-JUlQ6gVOaBB9Bh5Ok49w
+Content-Type: multipart/alternative; boundary="=-itxtGDsHq12QHbd862EQ"
 
-diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-index 50c490b492f0..f1b18a6663f7 100644
---- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-@@ -251,8 +251,8 @@ static int a4xx_hw_init(struct msm_gpu *gpu)
- 		gpu_write(gpu, REG_A4XX_UCHE_CACHE_WAYS_VFD, 0x07);
- 
- 	/* Disable L2 bypass to avoid UCHE out of bounds errors */
--	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_LO, 0xffff0000);
--	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_HI, 0xffff0000);
-+	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
-+	gpu_write(gpu, REG_A4XX_UCHE_TRAP_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
- 
- 	gpu_write(gpu, REG_A4XX_CP_DEBUG, (1 << 25) |
- 			(adreno_is_a420(adreno_gpu) ? (1 << 29) : 0));
-@@ -693,6 +693,8 @@ struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
- 	if (ret)
- 		goto fail;
- 
-+	adreno_gpu->uche_trap_base = 0xffff0000ffff0000ull;
-+
- 	if (!gpu->aspace) {
- 		/* TODO we think it is possible to configure the GPU to
- 		 * restrict access to VRAM carveout.  But the required
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index ee89db72e36e..caf2c0a7a29f 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -750,10 +750,10 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
- 	gpu_write(gpu, REG_A5XX_UCHE_CACHE_WAYS, 0x02);
- 
- 	/* Disable L2 bypass in the UCHE */
--	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_LO, 0xFFFF0000);
--	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_HI, 0x0001FFFF);
--	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_LO, 0xFFFF0000);
--	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_HI, 0x0001FFFF);
-+	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
-+	gpu_write(gpu, REG_A5XX_UCHE_TRAP_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
-+	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_LO, lower_32_bits(adreno_gpu->uche_trap_base));
-+	gpu_write(gpu, REG_A5XX_UCHE_WRITE_THRU_BASE_HI, upper_32_bits(adreno_gpu->uche_trap_base));
- 
- 	/* Set the GMEM VA range (0 to gpu->gmem) */
- 	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MIN_LO, 0x00100000);
-@@ -1805,5 +1805,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
- 	adreno_gpu->ubwc_config.macrotile_mode = 0;
- 	adreno_gpu->ubwc_config.ubwc_swizzle = 0x7;
- 
-+	adreno_gpu->uche_trap_base = 0x0001ffffffff0000ull;
-+
- 	return gpu;
- }
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 019610341df1..0ae29a7c8a4d 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1123,12 +1123,12 @@ static int hw_init(struct msm_gpu *gpu)
- 
- 	/* Disable L2 bypass in the UCHE */
- 	if (adreno_is_a7xx(adreno_gpu)) {
--		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, 0x0001fffffffff000llu);
--		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, 0x0001fffffffff000llu);
-+		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, adreno_gpu->uche_trap_base);
-+		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, adreno_gpu->uche_trap_base);
- 	} else {
--		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX, 0x0001ffffffffffc0llu);
--		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, 0x0001fffffffff000llu);
--		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, 0x0001fffffffff000llu);
-+		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX, adreno_gpu->uche_trap_base + 0xfc0);
-+		gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE, adreno_gpu->uche_trap_base);
-+		gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE, adreno_gpu->uche_trap_base);
- 	}
- 
- 	if (!(adreno_is_a650_family(adreno_gpu) ||
-@@ -2533,6 +2533,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
- 		}
- 	}
- 
-+	adreno_gpu->uche_trap_base = 0x1fffffffff000ull;
-+
- 	if (gpu->aspace)
- 		msm_mmu_set_fault_handler(gpu->aspace->mmu, gpu,
- 				a6xx_fault_handler);
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 076be0473eb5..774ff6eacb9f 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -385,6 +385,9 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 	case MSM_PARAM_MACROTILE_MODE:
- 		*value = adreno_gpu->ubwc_config.macrotile_mode;
- 		return 0;
-+	case MSM_PARAM_UCHE_TRAP_BASE:
-+		*value = adreno_gpu->uche_trap_base;
-+		return 0;
- 	default:
- 		DBG("%s: invalid param: %u", gpu->name, param);
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index e71f420f8b3a..9bd38dda4308 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -253,6 +253,8 @@ struct adreno_gpu {
- 	bool gmu_is_wrapper;
- 
- 	bool has_ray_tracing;
-+
-+	u64 uche_trap_base;
- };
- #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
- 
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index b916aab80dde..2342cb90857e 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -90,6 +90,7 @@ struct drm_msm_timespec {
- #define MSM_PARAM_RAYTRACING 0x11 /* RO */
- #define MSM_PARAM_UBWC_SWIZZLE 0x12 /* RO */
- #define MSM_PARAM_MACROTILE_MODE 0x13 /* RO */
-+#define MSM_PARAM_UCHE_TRAP_BASE 0x14 /* RO */
- 
- /* For backwards compat.  The original support for preemption was based on
-  * a single ring per priority level so # of priority levels equals the #
--- 
-2.46.2
+--=-itxtGDsHq12QHbd862EQ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, 2024-12-03 at 11:16 +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > ...
+
+> Probably
+> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13057
+>=20
+Very helpful.
+
+I tested your patch set on Linus' tree commit
+cdd30ebb1b9f36159d66f088b61aee264e649d7a :
+
+=C2=A0 =C2=A0=C2=A0https://patchwork.freedesktop.org/series/141911/
+
+and confirm that this fixes the problem=C2=A0
+
+Thank you.
+
+
+--=20
+Gene
+
+
+--=-itxtGDsHq12QHbd862EQ
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div>On Tue, 2024-12-03 at 11:16 +0200, Ville Syrj=C3=
+=A4l=C3=A4 wrote:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex=
+; border-left:2px #729fcf solid;padding-left:1ex"><blockquote type=3D"cite"=
+ style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex=
+"><div>...</div></blockquote></blockquote><div><br></div><blockquote type=
+=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding=
+-left:1ex"><div>Probably <a href=3D"https://gitlab.freedesktop.org/drm/i915=
+/kernel/-/issues/13057">https://gitlab.freedesktop.org/drm/i915/kernel/-/is=
+sues/13057</a><br></div><div><br></div></blockquote><div>Very helpful.</div=
+><div><br></div><div>I tested your patch set on Linus' tree commit cdd30ebb=
+1b9f36159d66f088b61aee264e649d7a :</div><div><br></div><div>&nbsp; &nbsp;&n=
+bsp;<a href=3D"https://patchwork.freedesktop.org/series/141911/">https://pa=
+tchwork.freedesktop.org/series/141911/</a></div><div><br></div><div>and con=
+firm that this fixes the problem&nbsp;</div><div><br></div><div style=3D"ca=
+ret-color: rgb(238, 238, 236); color: rgb(238, 238, 236); font-family: Cant=
+arell; font-style: normal; font-variant-caps: normal; font-weight: 400; let=
+ter-spacing: normal; text-align: start; text-indent: 0px; text-transform: n=
+one; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: r=
+gba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">=
+Thank you.</div><br class=3D"Apple-interchange-newline"><div><br></div><div=
+><span><pre>-- <br></pre><div><span style=3D"background-color: inherit;">Ge=
+ne</span></div><div><br></div></span></div></body></html>
+
+--=-itxtGDsHq12QHbd862EQ--
+
+--=-JUlQ6gVOaBB9Bh5Ok49w
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZ07swQAKCRA5BdB0L6Ze
+2xjMAQCXYZGJ+24+9MzxNKobmrAdhhVfa3LEPOrGGTRQW0H2AwD/ZQgTxaBVaMvR
+TNwZTZjXU8DbH1iFzCdt5600iRf7uAM=
+=gz23
+-----END PGP SIGNATURE-----
+
+--=-JUlQ6gVOaBB9Bh5Ok49w--
