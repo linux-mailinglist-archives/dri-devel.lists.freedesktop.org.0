@@ -2,84 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A1A9E2FF4
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 00:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 857A49E2FFD
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 00:41:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8650910E252;
-	Tue,  3 Dec 2024 23:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A72410E273;
+	Tue,  3 Dec 2024 23:41:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Zx923ZpF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gw/zaVH7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD9010E252
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 23:38:16 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-53e1be0ec84so641245e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 15:38:16 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3182010E273
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 23:41:34 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-53df63230d0so7499119e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 15:41:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733269094; x=1733873894; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1733269292; x=1733874092; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=PvIkRrq0tXitj5MQqLQ3oqy5bggdWAmTtXbggggiuHU=;
- b=Zx923ZpFbExS3mfiBanPAE/5ezTrznc0aNJGC2vCXfHzGZ32np7MxrLdiKZeUr4cwb
- 3cDJ43oN+wD8Ueyr4sOVopzWbIdHkz1vXYA8T3uZRfwbsdfGMSNsaAdzqdkaBII6sXK9
- H0htBPalBT2sjqPse50ON9s/+x6DJfycZVs/lnMFBNdbKxp3T/e3CRWhdazpcUqdgjMO
- Xs+Nm2niN/Xez/qen+zQDo8jSCxoPvRODAPgGXdcRJfX/ThshyXgpe+46ngdjX/28g0d
- IT6g3bNnRnTGZucd+zcowUN7sycZO7PC28HUPhe+T9OTbAh7enjfTyxQeKKVM3cOGstW
- zFaA==
+ bh=8VaC+AymHtSt0FKShOF4pPudg6QHjxqRoyWJzcS7cQs=;
+ b=gw/zaVH7WqVhJxbraw999YeUs5b4jZ0pe+LAjXBSmdKmLxgTiJmk5tn1nc68Kkb3W6
+ v3VmkqjYB3HRcpsN4QG6fuWzpFBHRzRAL5qaUNuhV5rTiGoKgB8le647EWbQbZLbj70W
+ Pzfe6QV7jXSvyWSfvlvfZC28zRS0k04JV+nAVfzbx3BUpNFBhqLzGKvEC+HWsuzALNuD
+ jgMBrhULq+Yx4v6q0i3kb/UwkgR/eAEGmJwNSoLBQAzxY9dzhT9WkDW0nWICM/no1uT5
+ N1/Zk2TpWCMNNZHFUh+8UgpcAYLKQPNnyjRePoiQrqf34k2oNVWDG0J+uW35t5DSLs2k
+ PkMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733269094; x=1733873894;
+ d=1e100.net; s=20230601; t=1733269292; x=1733874092;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PvIkRrq0tXitj5MQqLQ3oqy5bggdWAmTtXbggggiuHU=;
- b=vZbEuB3ejKvOTLpu3eR8y8TchdsBXWFpt98d4tIDyfM3DfSSEo2ZiSkXnoXopQpSKS
- IiqFNN9eIMkYlr7qtMK2FgxDJo1ei4PaXrvCgFXUu1sLXw0fobFSvaUTM63+fviHYP4i
- XPpCwOLFa8S5LjXaNiztHonBqzICkOBsr9jQRQdRIpSYZqlCqQO5vCUiTmi6GjIwKh7q
- UIC7LVmKXmOzTIBiUzIXgh77pp/za/wL1jDU+X1oyi6h3EO+g/SLWj83790o5bkcXe5f
- XmTgIM7es84zm1VcccdhStV1iECDsxguJx/GBwR6lb0cePY9lzaKe7Hm5NDu5iI9VgMf
- sTOg==
+ bh=8VaC+AymHtSt0FKShOF4pPudg6QHjxqRoyWJzcS7cQs=;
+ b=qyyr4+Zi05Um3rX764lRqf0g+NAJo2uOevmGQYH3uOYfnZTcL8dMfNcPPDQZYvrT5f
+ a4zJA5Rl4I5XGJa599ruGc3YyyL4Y7uyO++Gp50woMkuEmrc2nH4hRvIMGDDHBXZxmgz
+ uX2ea6PnZ/n32CdLgibE9bV95ocSzoQDm0+U5Xr64gRPAmszuZZZrdTwAfmQs6qcnFUx
+ W8cIoit9xW9tKKo3zLPeJiQ3Ho40dNfpF6ieBIArbbXpsD0vANnjlzQLy0EWti/E4uo1
+ fHvzwc9SYqivHj7cGPM67KgDIRcfcY/fJbeNzyyt+5nhDTStfOyJ3AEcxwyTcKXSjFoE
+ fpmA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVtK1Bdn1ZeGWUb12U1VBPHAj5SEYqfec/3aTDhdgkEmmfxL87gl7Wii6Km62hQDrTlQ6X9USpTboQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwICUqMVx8ya/YkHjb3lFgYZ/x+h0C2+/2SM6kySRRlouD+ymfC
- 2mjvUk/toRxe4zoyl3mzELUadAVwnIaU4MwBLU7xrc2MzZK03zfhE0OOnpCWaXM=
-X-Gm-Gg: ASbGncunJ2EtAo8PG2AHxl3+j7CcoJW62N6LgKOAjpw1aq49L0D4KODtWAv5qWZRW4w
- Ai92AiXGO6daBJyjFTbBBKuCC+2COc10iU0DAhKq8dnGJEujjC0eu8o3vMQkiy206xausQkX8bo
- aM23oScly8D7qndvHHxQYC1UC2MP7I6N8DmUjTxNhmOvtfhC17Cs/l5jy0uml9AlxVZb1j+BUQo
- XdqWjQD4IB/QW57lYByuLCXSSV236hcQsksjMlrMLY8zX4hmBtaV/YLl3J7vnSd4MZa8Vkl7flN
- eqNfWm+jPVqbNF8SDbeI9SuK8Ugg6Q==
-X-Google-Smtp-Source: AGHT+IFEAY3DxNqKHxw8mhGMitDTHIqwhcTfqELsGsjzfMmTb1zcKOW4rDkr5UYxAPj+4eEnCeVPww==
-X-Received: by 2002:a05:6512:10c5:b0:53e:1c3d:d1ae with SMTP id
- 2adb3069b0e04-53e1c3dd2c2mr500865e87.29.1733269094445; 
- Tue, 03 Dec 2024 15:38:14 -0800 (PST)
+ AJvYcCVZSi8VAy7H57OfKmt+8FD/byXDxp22VZb5KIR0dvUeEkEDCavwN4hqqu6m6wTqbxK0Evo0EC74v7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywwhpj4Xj/44DIppO955ADXCbiXaExKzi6Ks9AYLS+Eo+sYZgQp
+ v38Pc80pW4j4fK61WiPDJ8Er9uAD9SuZGvDJraRLQUBPqpFKzCbGpf1UkX7jpQs=
+X-Gm-Gg: ASbGncvtSOztgrxo9y441hCIF+/RMxNcjlcq8Sm3xBi5QEb6FJb6PPwLtBHEmZ3Ydp3
+ fxQFyMRNB5fUHZzkVefkGobsi3zGVzppjnuaGjg+NJNyRrAR7BeZqUlDvjyNw5A3n9NIlTh8mEa
+ tOBiFb+kPRgt+ssTEsKFyR95Zs02BdVISI7QuBl+Y3L/bsOijH+HxK68p4WQiLY4tXoMcU0EkEP
+ Eqth2LwJ99ORjJXQ0/82eAGJ6PbDk7/tcev22SY9OxMQE8vhyJItGgInsBjEvz3P+7QhR9AM1Km
+ v5besZRI/b7eJYAHRch41hf/akXqeA==
+X-Google-Smtp-Source: AGHT+IHKVny7lfTjFjv8vQ1LYIothrll+JFM6c9K9LYC/aAoAQoTnV/eiGZCUxd2b4XbU8ATpvpJTA==
+X-Received: by 2002:a05:6512:239a:b0:53e:1364:f982 with SMTP id
+ 2adb3069b0e04-53e1364fa93mr2296539e87.17.1733269292308; 
+ Tue, 03 Dec 2024 15:41:32 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df6496903sm1980271e87.210.2024.12.03.15.38.11
+ 2adb3069b0e04-53e1356906esm371633e87.15.2024.12.03.15.41.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2024 15:38:13 -0800 (PST)
-Date: Wed, 4 Dec 2024 01:38:10 +0200
+ Tue, 03 Dec 2024 15:41:30 -0800 (PST)
+Date: Wed, 4 Dec 2024 01:41:28 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Danylo Piliaiev <danylo.piliaiev@gmail.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH 3/3] drm/msm/dp: add a debugfs node for using tpg
-Message-ID: <uv2phgi72mmw5c462ijsqlqedeiv4gahrwi26i2luqkhgwmfxc@ycj7jrujdj6w>
-References: <20241202-tpg-v1-0-0fd6b518b914@quicinc.com>
- <20241202-tpg-v1-3-0fd6b518b914@quicinc.com>
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/1] drm/msm: Expose uche trap base via uapi
+Message-ID: <owl2yqfvo3riismpltxu2puytquy63hrx375mxedntfjxq3wve@yhofuagrozeh>
+References: <20241203095920.505018-1-dpiliaiev@igalia.com>
+ <20241203174011.731980-1-dpiliaiev@igalia.com>
+ <20241203174011.731980-2-dpiliaiev@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202-tpg-v1-3-0fd6b518b914@quicinc.com>
+In-Reply-To: <20241203174011.731980-2-dpiliaiev@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,124 +93,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2024 at 12:42:00PM -0800, Abhinav Kumar wrote:
-> DP test pattern generator is a very useful tool to debug issues
-> where monitor is showing incorrect output as it helps to isolate
-> whether the issue is due to rest of DPU pipeline or in the DP
-> controller itself. Expose a debugfs to use the TPG configuration
-> to help debug DP issues.
+On Tue, Dec 03, 2024 at 06:40:11PM +0100, Danylo Piliaiev wrote:
+> On at least a6xx+, shader could read 64b ALWAYSON counter
+> from UCHE_TRAP_BASE+0 address. In Mesa it will be used
+> to implement VK_KHR_shader_clock and GL_ARB_shader_clock.
+> These extensions provide shader functions to query a real-time or
+> monotonically incrementing counter at the subgroup level or
+> across the device level.
 > 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> On a4xx and a5xx it was not tested what is at UCHE_TRAP_BASE
+> address, there uche trap base is exposed just for completeness.
+> 
+> Signed-off-by: Danylo Piliaiev <dpiliaiev@igalia.com>
 > ---
->  drivers/gpu/drm/msm/dp/dp_debug.c | 61 +++++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/msm/dp/dp_panel.h |  2 ++
->  2 files changed, 63 insertions(+)
+> Changes in v2:
+> - Rebased on top of https://patchwork.freedesktop.org/series/141667/
+>   in order to return error via UERR when there is no uche trap base.
+> - Updated commit message to explain why we need to expose the value.
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
-> index 22fd946ee201..843fe77268f8 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_debug.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_debug.c
-> @@ -197,6 +197,65 @@ static const struct file_operations test_active_fops = {
->  	.write = msm_dp_test_active_write
->  };
->  
-> +static ssize_t msm_dp_tpg_write(struct file *file, const char __user *ubuf,
-> +				size_t len, loff_t *offp)
-> +{
-> +	const struct msm_dp_debug_private *debug;
-> +	char *input_buffer;
-> +	int val;
-> +	int status = 0;
-> +	struct msm_dp_panel *dp_panel;
-> +
-> +	debug = ((struct seq_file *)file->private_data)->private;
-> +	dp_panel = debug->panel;
-> +
-> +	input_buffer = memdup_user_nul(ubuf, len);
-> +	if (IS_ERR(input_buffer))
-> +		return PTR_ERR(input_buffer);
-> +
-> +	status = kstrtoint(input_buffer, 10, &val);
-> +	if (status < 0) {
-> +		kfree(input_buffer);
-> +		return status;
-> +	}
-> +
-> +	msm_dp_panel_tpg_config(dp_panel, val);
-> +
-> +	dp_panel->tpg_enabled = val;
-
-Does this need any kind of locking? The driver performs some actions,
-then we write the global state. What if the user in parallel writes
-different values to the file?
-
-> +
-> +	kfree(input_buffer);
-> +
-> +	*offp += len;
-> +	return len;
-> +}
-> +
-> +static int msm_dp_tpg_show(struct seq_file *f, void *data)
-> +{
-> +	struct msm_dp_debug_private *debug = f->private;
-> +	struct msm_dp_panel *dp_panel = debug->panel;
-> +
-> +	if (dp_panel->tpg_enabled)
-> +		seq_puts(f, "1");
-> +	else
-> +		seq_puts(f, "0");
-> +
-> +	return 0;
-> +}
-> +
-> +static int msm_dp_tpg_open(struct inode *inode, struct file *file)
-> +{
-> +	return single_open(file, msm_dp_tpg_show, inode->i_private);
-> +}
-> +
-> +static const struct file_operations msm_dp_tpg_fops = {
-> +	.owner = THIS_MODULE,
-> +	.open = msm_dp_tpg_open,
-> +	.read = seq_read,
-> +	.llseek = seq_lseek,
-> +	.release = single_release,
-> +	.write = msm_dp_tpg_write
-> +};
-> +
->  int msm_dp_debug_init(struct device *dev, struct msm_dp_panel *panel,
->  		  struct msm_dp_link *link,
->  		  struct drm_connector *connector,
-> @@ -231,6 +290,8 @@ int msm_dp_debug_init(struct device *dev, struct msm_dp_panel *panel,
->  		debugfs_create_file("dp_test_type", 0444,
->  				    root,
->  				    debug, &msm_dp_test_type_fops);
-> +
-> +		debugfs_create_file("dp_tpg", 0444, root, debug, &msm_dp_tpg_fops);
-
-I'd say, skip the dp_ part of the name, everything in that dir is
-DP-related.
-
->  	}
->  
->  	return 0;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-> index 0e944db3adf2..7910b11fd685 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-> @@ -50,6 +50,8 @@ struct msm_dp_panel {
->  	u32 max_dp_link_rate;
->  
->  	u32 max_bw_code;
-> +
-> +	bool tpg_enabled;
->  };
->  
->  int msm_dp_panel_init_panel_info(struct msm_dp_panel *msm_dp_panel);
+> ---
+>  drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  6 ++++--
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c   | 10 ++++++----
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 12 +++++++-----
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  5 +++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h |  2 ++
+>  include/uapi/drm/msm_drm.h              |  1 +
+>  6 files changed, 25 insertions(+), 11 deletions(-)
 > 
-> -- 
-> 2.34.1
-> 
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Nit: in future please don't send new versions of the patch as a reply to
+the previous version. Please start a new thread for each new revision.
 
 -- 
 With best wishes
