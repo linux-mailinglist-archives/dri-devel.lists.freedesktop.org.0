@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0DCF9E14E6
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 838E39E1505
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:04:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5686310E92F;
-	Tue,  3 Dec 2024 08:02:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C2FF10E946;
+	Tue,  3 Dec 2024 08:04:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tEKfuRrO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E1OLJTvP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A27F10E92D;
- Tue,  3 Dec 2024 08:02:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7281510E943;
+ Tue,  3 Dec 2024 08:04:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 7CE61A40A30;
- Tue,  3 Dec 2024 08:00:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C781C4CECF;
- Tue,  3 Dec 2024 08:02:00 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 72F7E5C6808;
+ Tue,  3 Dec 2024 08:04:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB014C4CECF;
+ Tue,  3 Dec 2024 08:04:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733212927;
- bh=TY2CTVQLZDBZSpPG3TOd4Vss8QMMAeKC2lgYdcC23NI=;
+ s=k20201202; t=1733213088;
+ bh=ogGT+tEgRtvtjmlcfLtQ/kpDFOq88/tpRAoBFCiwBaM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tEKfuRrOMJv8493iIDmbaFpdTTaIxxhGSqdGE+HDe5vdg47HuPFeVIYLq5UV8UyEb
- WxipH4EVEilfFYaLgzl9DHb8flIM3ERVPomw0ldZLenyqb/lwaWhAp7Heur1FGtVJO
- uSRulUdiYm3M/MVUKlRcKXurCfL0dXz7tME5T7hixBKmxg5ivlw+5B2CPly6fS38yh
- DrxDCYrVzsP9oFvxlFwPKUZWoZoGQdSHlnXdig93bh7pbmtVcQRczKAuYeP7dsvkMC
- O9pzCCerjVmdaeDMYVYs5O/RxId9KIHv2atpYgZAtDyrkyahX18AbSqkDIthANyyM7
- B2R+9jH8DIZkg==
-Message-ID: <e8f2e17c-13c1-4485-8e9a-d67705e461d6@kernel.org>
-Date: Tue, 3 Dec 2024 09:01:59 +0100
+ b=E1OLJTvPW7aL/ytZ91En4Qv5s9bDlLu2RRY9dHv4QaFIhJzj0eNcqCmmSDx6b3Zq2
+ lk6GcRXGj/o8I857pOw9AWhVcjnuXxyELZvmPY9xwvtZvUdXA7jJcI/yCehkHMpMSv
+ fvm1Oqp4YKbyiGtN7S3AB5kHwdFeYsCcjZTcghAfSVOJg5TOxLZnXlKTKmQ/mQNaQ1
+ kn82yo4q+CxS/xd8VXvgwRB1oyIsoBo2vHjQmjLG3ywMfC1E9Jw9BsXLprO1HVT+QE
+ tHyPk8ye7D5aMmJZJIGD1CHbjTmRj3MG4efWlRsxufCSBDLxWVPMRUMEuPEbSy8suD
+ 8FJ/4wV5L0aEA==
+Message-ID: <39f8e20a-e8c3-4625-abb1-9f35f416705d@kernel.org>
+Date: Tue, 3 Dec 2024 09:04:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: display: msm: dp-controller: document
- pixel clock stream
+Subject: Re: [PATCH 3/4] dt-bindings: display/msm: add stream 1 pixel clock
+ binding
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
  <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
@@ -49,7 +49,7 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com>
- <20241202-dp_mst_bindings-v1-1-9a9a43b0624a@quicinc.com>
+ <20241202-dp_mst_bindings-v1-3-9a9a43b0624a@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241202-dp_mst_bindings-v1-1-9a9a43b0624a@quicinc.com>
+In-Reply-To: <20241202-dp_mst_bindings-v1-3-9a9a43b0624a@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,11 +114,109 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 03/12/2024 04:31, Abhinav Kumar wrote:
-> Display port controller on some MSM chipsets are capable of supporting
-> multiple streams. In order to distinguish the streams better, describe
-> the current pixel clock better to emphasize that it drives the stream 0.
+> On some chipsets the display port controller can support more
+
+Which chipsets?
+
+> than one pixel stream (multi-stream transport). To support MST
+> on such chipsets, add the binding for stream 1 pixel clock for
+> display port controller. Since this mode is not supported on all
+> chipsets, add exception rules and min/max items to clearly mark
+> which chipsets support only SST mode (single stream) and which ones
+> support MST.
 > 
-This should be squashed with patch adding stream 1.
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  .../bindings/display/msm/dp-controller.yaml        | 32 ++++++++++++++++++++++
+>  .../bindings/display/msm/qcom,sa8775p-mdss.yaml    |  9 ++++--
+>  2 files changed, 38 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index 9fe2bf0484d8..650d19e58277 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -50,30 +50,38 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> +    minItems: 5
+>      items:
+>        - description: AHB clock to enable register access
+>        - description: Display Port AUX clock
+>        - description: Display Port Link clock
+>        - description: Link interface clock between DP and PHY
+>        - description: Display Port stream 0 Pixel clock
+> +      - description: Display Port stream 1 Pixel clock
+>  
+>    clock-names:
+> +    minItems: 5
+>      items:
+>        - const: core_iface
+>        - const: core_aux
+>        - const: ctrl_link
+>        - const: ctrl_link_iface
+>        - const: stream_pixel
+> +      - const: stream_1_pixel
+>  
+>    assigned-clocks:
+> +    minItems: 2
+>      items:
+>        - description: link clock source
+>        - description: stream 0 pixel clock source
+> +      - description: stream 1 pixel clock source
+>  
+>    assigned-clock-parents:
+> +    minItems: 2
+>      items:
+>        - description: Link clock PLL output provided by PHY block
+>        - description: Stream 0 pixel clock PLL output provided by PHY block
+> +      - description: Stream 1 pixel clock PLL output provided by PHY block
+>  
+>    phys:
+>      maxItems: 1
+> @@ -175,6 +183,30 @@ allOf:
+>        required:
+>          - "#sound-dai-cells"
+>  
+
+Missing if: narrowing this to 5 items for other devices.
+
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sa8775p-dp
+> +
+> +    then:
+> +      properties:
+> +        clocks:
+
+Missing minItems, otherwise it is pointless.
+
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: core_iface
+> +            - const: core_aux
+> +            - const: ctrl_link
+> +            - const: ctrl_link_iface
+> +            - const: stream_pixel
+> +            - const: stream_1_pixel
+> +        assigned-clocks:
+> +          maxItems: 3
+
+Missing minItems... or just drop, it's not accurate or not even correct.
+I can assign 4 clocks, why not? Or rather: why do you stop users from
+assigning 4 clocks?
+
+
+> +        assigned-clock-parents:
+> +          maxItems: 3
+> +
+>  additionalProperties: false
+
+
 
 Best regards,
 Krzysztof
