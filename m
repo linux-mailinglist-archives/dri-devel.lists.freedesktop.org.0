@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7FF9E17CE
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 10:36:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B299E17D1
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 10:37:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42E4310E9B8;
-	Tue,  3 Dec 2024 09:36:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ABDD10E9B5;
+	Tue,  3 Dec 2024 09:37:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LAkHShM8";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YKuB4AXb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B27510E9B7;
- Tue,  3 Dec 2024 09:36:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1FF375C697C;
- Tue,  3 Dec 2024 09:36:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 752C2C4CED6;
- Tue,  3 Dec 2024 09:36:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733218604;
- bh=SVgeimaxMCy/0f2AoMe1mCp1DAEBQJ4X3mcrC+82vu8=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54EE910E9B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 09:37:16 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C59994CE;
+ Tue,  3 Dec 2024 10:36:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1733218608;
+ bh=jQXX/Tc40kph/7OBLJnEEHlRiFU1zhsnN3QXwzQG3EA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LAkHShM8v1EaacOOI6JrMuL7F2wP7Yllbl6bdB/wML1YeWiaVxpA0AOI8R7ZFFkcm
- yVS1h5Z1QOJVAE0hN+nYE/p9qPS2vF7P7aewrv8uvhwGy6uC5IwuxGd2FWnPPs1K/X
- dneKYnd8VUilyCpVmOngztT1WfsyfEU4c8pDulzvokQ6SWWjfLuTyNifOoNBlC8Y14
- jez9X05LjYsUl99pLp6iOUISN/MH6oYNdWAY8cGforpbGlOT0fT+B7zcvgOpT5Pe31
- KrFxOy1dnbBBfW85u2Wu6cxhobf8lCusYMaWnh2sMnXXMQ6haUda2CTRlM2iit9ION
- Eg+bQSqOS+EQg==
-Date: Tue, 3 Dec 2024 10:36:42 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org, 
+ b=YKuB4AXbRMhscTWbDWfRTbNGPURysibT8ay+/BUsYsk5ruwPwvod/Z8ANtwVLPX+m
+ 4YUAPFw7VbQrfWN2PeXlVZ4elGmpGiXE/IkctEaJ3V6P5Bhn17BRaPHmPKJMeiipoL
+ 1eD1zdRGU6DB72E6rDe9aTcpZCkqD+QwOjko6uCk=
+Date: Tue, 3 Dec 2024 11:37:03 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH v2 1/4] drm/dp: Add a way to init/add a connector in
- separate steps
-Message-ID: <20241203-simple-pigeon-of-infinity-babfee@houat>
-References: <20241126161859.1858058-1-imre.deak@intel.com>
- <20241126161859.1858058-2-imre.deak@intel.com>
- <Z0nO-bwpbWPVryd6@ideak-desk.fi.intel.com>
- <20241129-wild-cobra-of-thunder-829d1f@houat>
- <Z0nn0VzawSCdOCKY@ideak-desk.fi.intel.com>
- <20241202-real-benevolent-skunk-a9f5e0@houat>
- <87ldwy5lvb.fsf@intel.com>
- <20241202-accurate-jolly-hornet-8c2ca0@houat>
- <87bjxu5btw.fsf@intel.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH 8/9] arm64: dts: renesas: r8a779h0: Add display support
+Message-ID: <20241203093703.GL10736@pendragon.ideasonboard.com>
+References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
+ <20241203-rcar-gh-dsi-v1-8-738ae1a95d2a@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="335vxtzobacwcmvi"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87bjxu5btw.fsf@intel.com>
+In-Reply-To: <20241203-rcar-gh-dsi-v1-8-738ae1a95d2a@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,58 +74,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Tomi,
 
---335vxtzobacwcmvi
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/4] drm/dp: Add a way to init/add a connector in
- separate steps
-MIME-Version: 1.0
+Thank you for the patch.
 
-On Mon, Dec 02, 2024 at 05:44:27PM +0200, Jani Nikula wrote:
-> >> It's super tempting for people to just get their jobs done. If doing
-> >> the right thing adds yet another hurdle, we may see more stuff being
-> >> added in drivers instead of drm core.
-> >
-> > I really enjoy hidden threats.
->=20
-> None were implied. That's your interpretation of what I honestly think
-> is a plausible outcome.
+On Tue, Dec 03, 2024 at 10:01:42AM +0200, Tomi Valkeinen wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> 
+> Add the device nodes for supporting DU and DSI.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 77 +++++++++++++++++++++++++++++++
+>  1 file changed, 77 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+> index 12d8be3fd579..82df6ee98afb 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+> @@ -1828,6 +1828,54 @@ csi41isp1: endpoint {
+>  			};
+>  		};
+>  
+> +		fcpvd0: fcp@fea10000 {
+> +			compatible = "renesas,fcpv";
+> +			reg = <0 0xfea10000 0 0x200>;
+> +			clocks = <&cpg CPG_MOD 508>;
+> +			power-domains = <&sysc R8A779H0_PD_C4>;
+> +			resets = <&cpg 508>;
+> +		};
+> +
+> +		vspd0: vsp@fea20000 {
+> +			compatible = "renesas,vsp2";
+> +			reg = <0 0xfea20000 0 0x8000>;
+> +			interrupts = <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
 
-I obviously misinterpreted what you were saying then. Sorry for the
-whole tone of that mail.
+The documentation lists this interrupt as being LevelSensitive and
+Negative. I wouldn't expect the VSP to work at all with a wrong polarity
+in DT, so the level may get inverted somewhere.
 
-> I try to push people towards contributing to drm core instead of
-> drivers, and it's not always easy as it is. It's just a guess, but
-> I'll bet the majority of drm contributors have never run kunit tests
-> themselves.
+> +			clocks = <&cpg CPG_MOD 830>;
+> +			power-domains = <&sysc R8A779H0_PD_C4>;
+> +			resets = <&cpg 830>;
+> +			renesas,fcp = <&fcpvd0>;
+> +		};
+> +
+> +		du: display@feb00000 {
+> +			compatible = "renesas,du-r8a779h0";
+> +			reg = <0 0xfeb00000 0 0x40000>;
+> +			interrupts = <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&cpg CPG_MOD 411>;
+> +			clock-names = "du.0";
+> +			power-domains = <&sysc R8A779H0_PD_C4>;
+> +			resets = <&cpg 411>;
+> +			reset-names = "du.0";
+> +			renesas,vsps = <&vspd0 0>;
+> +
+> +			status = "disabled";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					du_out_dsi0: endpoint {
+> +						remote-endpoint = <&dsi0_in>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +				};
 
-Right, but I don't think it's worth worrying over either. If one stops
-contributing because they are afraid of running one documented command
-that takes a few seconds, they would have done so at any other obstacle.
-We have much bigger barriers of entry, at several levels.
+On V4M the DU has a single channel, so there should be a single port.
 
-All of them are here for a good reason, and because we have collectively
-judged that the trade-off between adding a barrier and increasing the
-quality of the framework was worth it.
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-I believe tests are worth it too.
+> +			};
+> +		};
+> +
+>  		isp0: isp@fed00000 {
+>  			compatible = "renesas,r8a779h0-isp",
+>  				     "renesas,rcar-gen4-isp";
+> @@ -1996,6 +2044,35 @@ isp1vin15: endpoint {
+>  			};
+>  		};
+>  
+> +		dsi0: dsi-encoder@fed80000 {
+> +			compatible = "renesas,r8a779h0-dsi-csi2-tx";
+> +			reg = <0 0xfed80000 0 0x10000>;
+> +			clocks = <&cpg CPG_MOD 415>,
+> +				 <&cpg CPG_CORE R8A779H0_CLK_DSIEXT>,
+> +				 <&cpg CPG_CORE R8A779H0_CLK_DSIREF>;
+> +			clock-names = "fck", "dsi", "pll";
+> +			power-domains = <&sysc R8A779H0_PD_C4>;
+> +			resets = <&cpg 415>;
+> +
+> +			status = "disabled";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					dsi0_in: endpoint {
+> +						remote-endpoint = <&du_out_dsi0>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +				};
+> +			};
+> +		};
+> +
+>  		prr: chipid@fff00044 {
+>  			compatible = "renesas,prr";
+>  			reg = <0 0xfff00044 0 4>;
 
-But anyway, it's really not what I had in mind.
+-- 
+Regards,
 
-Maxime
-
---335vxtzobacwcmvi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ07RJQAKCRAnX84Zoj2+
-dnwxAYDe/IszcN04v4HWortlFKTA1s7i2La9lFd8X6ZIU/KRLpkp6CYZzZdyOlwM
-1FT4QlQBf1zNZuEfheP4sas6up7A5DHcaMaTkoiYrRkR3pUnarv83HpYsj+PFEwh
-j5vmoKYo8w==
-=tMAm
------END PGP SIGNATURE-----
-
---335vxtzobacwcmvi--
+Laurent Pinchart
