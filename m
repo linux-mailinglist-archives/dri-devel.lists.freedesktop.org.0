@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDB59E2584
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 17:02:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6519E258D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 17:02:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65BE210EA86;
-	Tue,  3 Dec 2024 16:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A6010EA94;
+	Tue,  3 Dec 2024 16:02:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KblXPN6l";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NXZbP0xk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1C3110EA86;
- Tue,  3 Dec 2024 16:01:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22EDC10EA86;
+ Tue,  3 Dec 2024 16:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733241716; x=1764777716;
+ t=1733241717; x=1764777717;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=d+jzMWD2K9MP0F/iPu4a4Vfi4n1HNpD4IUCzlAmn7oU=;
- b=KblXPN6ltOlerT6xK2XX9JK9LnitqZ2mhFU19L5RdH4+e1vZHA6m4i9a
- 60UEmlAkNUyFJ1FZY/IY0zmawfmAb3Q7fCkoPkYcfD+L0Mnf0JTFl1SBJ
- 28v6mlPN0kmUj7fwn/JPQkzX5VylxSpf1WsrT5ob89DfmEnLrOKWT35NZ
- A0Y+67FLVc+VL8S+DoQ9sKbW+5iH7+B9kw+/yGJluOEicV3DVKvay06a8
- srpnUR+ifSAlGFlEAKMhKYdS3uOGcYlh4KcraOKJDQvjhummZENwC/Eyo
- JPabqKJyN4TYwW6ZYCs1YCgbEbkCx51S0p8S05beXu93hE6EmvCH6Knq4 Q==;
-X-CSE-ConnectionGUID: yTXGg4MLTt+4+iqyRpRuHw==
-X-CSE-MsgGUID: GYfcscu1TlK6g22adKWGLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="37236065"
-X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="37236065"
+ bh=DcDqu2kMLl3Jhzhpkj09vs1EWHuMxdN9uogwtIKB7fE=;
+ b=NXZbP0xk0eDRW7c63C/egow1fn1Tq0nJJNAO0Ofdpv+JioAblYE1jwUa
+ ZvVKZenddkCLHN0/MmjeOXLSRCnRex0Y36KcDKYp2p9wf0yxN7yN/Sigm
+ dtP02UflwL5msZk3nUXYCODPOvsQfem3XAyEVpgX3XULtOknUgCtzluak
+ 3tUTr31NWRMwpRf8Rcbg1SK4iTo4exJUjnJm3xPEUjoeczhcHo6URK6La
+ LN+vC0QSCi7rPdDyQL71JO7JOulLq7oNZBxsHHQX+5T73jip16LQW68yj
+ BVTxVRPYFhhadrcwoCnp4zUygYMHToV5H/rmexdxLFqamJ4ZQ0eUm8uwn Q==;
+X-CSE-ConnectionGUID: IvhgUaDzQcmmNqW1uHHwVQ==
+X-CSE-MsgGUID: hTSslBQwTfinkp5EwePP+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="37236068"
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="37236068"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Dec 2024 08:01:56 -0800
-X-CSE-ConnectionGUID: J7DQXDC0TkyT+X7fVZ/6Qg==
-X-CSE-MsgGUID: FDFipBAdTNiLpJ2Yb8wytw==
+X-CSE-ConnectionGUID: +Z7VP3NOS5W6uAgXJQIl5w==
+X-CSE-MsgGUID: OwAjsteiRXKIUg7vWM0GIg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="93313068"
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; d="scan'208";a="93313084"
 Received: from ideak-desk.fi.intel.com ([10.237.72.78])
  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2024 08:01:49 -0800
+ 03 Dec 2024 08:01:52 -0800
 From: Imre Deak <imre.deak@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
 	Lyude Paul <lyude@redhat.com>
-Subject: [PATCH 4/7] drm/dp_mst: Fix down request message timeout handling
-Date: Tue,  3 Dec 2024 18:02:20 +0200
-Message-ID: <20241203160223.2926014-5-imre.deak@intel.com>
+Subject: [PATCH 5/7] drm/dp_mst: Ensure mst_primary pointer is valid in
+ drm_dp_mst_handle_up_req()
+Date: Tue,  3 Dec 2024 18:02:21 +0200
+Message-ID: <20241203160223.2926014-6-imre.deak@intel.com>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20241203160223.2926014-1-imre.deak@intel.com>
 References: <20241203160223.2926014-1-imre.deak@intel.com>
@@ -68,59 +69,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If receiving a reply for an MST down request message times out, the
-thread receiving the reply in drm_dp_mst_handle_down_rep() could try to
-dereference the drm_dp_sideband_msg_tx txmsg request message after the
-thread waiting for the reply - calling drm_dp_mst_wait_tx_reply() - has
-timed out and freed txmsg, hence leading to a use-after-free in
-drm_dp_mst_handle_down_rep().
+While receiving an MST up request message from one thread in
+drm_dp_mst_handle_up_req(), the MST topology could be removed from
+another thread via drm_dp_mst_topology_mgr_set_mst(false), freeing
+mst_primary and setting drm_dp_mst_topology_mgr::mst_primary to NULL.
+This could lead to a NULL deref/use-after-free of mst_primary in
+drm_dp_mst_handle_up_req().
 
-Prevent the above by holding the drm_dp_mst_topology_mgr::qlock in
-drm_dp_mst_handle_down_rep() for the whole duration txmsg is looked up
-from the request list and dereferenced.
+Avoid the above by holding a reference for mst_primary in
+drm_dp_mst_handle_up_req() while it's used.
 
 Cc: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 23 ++++++++++++++-----
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 6ec8680998d5a..95742d82510a7 100644
+index 95742d82510a7..df37fde82d27c 100644
 --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -3984,9 +3984,9 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+@@ -4106,9 +4106,10 @@ static void drm_dp_mst_up_req_work(struct work_struct *work)
+ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ {
+ 	struct drm_dp_pending_up_req *up_req;
++	struct drm_dp_mst_branch *mst_primary;
  
- 	/* find the message */
- 	mutex_lock(&mgr->qlock);
-+
- 	txmsg = list_first_entry_or_null(&mgr->tx_msg_downq,
- 					 struct drm_dp_sideband_msg_tx, next);
--	mutex_unlock(&mgr->qlock);
+ 	if (!drm_dp_get_one_sb_msg(mgr, true, NULL))
+-		goto out;
++		goto out_clear_reply;
  
- 	/* Were we actually expecting a response, and from this mstb? */
- 	if (!txmsg || txmsg->dst != mstb) {
-@@ -3995,6 +3995,9 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
- 		hdr = &msg->initial_hdr;
- 		drm_dbg_kms(mgr->dev, "Got MST reply with no msg %p %d %d %02x %02x\n",
- 			    mstb, hdr->seqno, hdr->lct, hdr->rad[0], msg->msg[0]);
-+
-+		mutex_unlock(&mgr->qlock);
-+
- 		goto out_clear_reply;
+ 	if (!mgr->up_req_recv.have_eomt)
+ 		return 0;
+@@ -4126,10 +4127,18 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 		drm_dbg_kms(mgr->dev, "Received unknown up req type, ignoring: %x\n",
+ 			    up_req->msg.req_type);
+ 		kfree(up_req);
+-		goto out;
++		goto out_clear_reply;
  	}
  
-@@ -4013,9 +4016,9 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
- 			    txmsg->reply.u.nak.nak_data);
- 	}
- 
--	mutex_lock(&mgr->qlock);
- 	txmsg->state = DRM_DP_SIDEBAND_TX_RX;
- 	list_del(&txmsg->next);
+-	drm_dp_send_up_ack_reply(mgr, mgr->mst_primary, up_req->msg.req_type,
++	mutex_lock(&mgr->lock);
++	mst_primary = mgr->mst_primary;
++	if (!mst_primary || !drm_dp_mst_topology_try_get_mstb(mst_primary)) {
++		mutex_unlock(&mgr->lock);
++		goto out_clear_reply;
++	}
++	mutex_unlock(&mgr->lock);
 +
- 	mutex_unlock(&mgr->qlock);
++	drm_dp_send_up_ack_reply(mgr, mst_primary, up_req->msg.req_type,
+ 				 false);
  
- 	wake_up_all(&mgr->tx_waitq);
+ 	if (up_req->msg.req_type == DP_CONNECTION_STATUS_NOTIFY) {
+@@ -4146,13 +4155,13 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 			    conn_stat->peer_device_type);
+ 
+ 		mutex_lock(&mgr->probe_lock);
+-		handle_csn = mgr->mst_primary->link_address_sent;
++		handle_csn = mst_primary->link_address_sent;
+ 		mutex_unlock(&mgr->probe_lock);
+ 
+ 		if (!handle_csn) {
+ 			drm_dbg_kms(mgr->dev, "Got CSN before finish topology probing. Skip it.");
+ 			kfree(up_req);
+-			goto out;
++			goto out_put_primary;
+ 		}
+ 	} else if (up_req->msg.req_type == DP_RESOURCE_STATUS_NOTIFY) {
+ 		const struct drm_dp_resource_status_notify *res_stat =
+@@ -4169,7 +4178,9 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 	mutex_unlock(&mgr->up_req_lock);
+ 	queue_work(system_long_wq, &mgr->up_req_work);
+ 
+-out:
++out_put_primary:
++	drm_dp_mst_topology_put_mstb(mst_primary);
++out_clear_reply:
+ 	memset(&mgr->up_req_recv, 0, sizeof(struct drm_dp_sideband_msg_rx));
+ 	return 0;
+ }
 -- 
 2.44.2
 
