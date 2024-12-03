@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080529E1E0B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 14:45:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 368949E1E32
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 14:50:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 218F410E13B;
-	Tue,  3 Dec 2024 13:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C6510E0E9;
+	Tue,  3 Dec 2024 13:50:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VC5WjcCH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jjEu8S2j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7747F10E13B
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 13:45:38 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2ffe4569fbeso49179041fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 05:45:38 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4210710E0E9
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 13:50:23 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53de7321675so5929288e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 05:50:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733233537; x=1733838337; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1733233821; x=1733838621; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=h7CuYR8KvWJReWOTnCLxKMKX9kriMN+zYqjEqTbxeIk=;
- b=VC5WjcCH/F+Pk6mJqLOgZPDk999DSTVdb+LNP3l9YUACYWS1JjHsEbFMLPQAdcHv7z
- Ssdllwu4F+kNP56JueG8DH3i4zvw4sGnRrRn8dAibZPUyYAxJcdbMi6gwTy3ob00hkEr
- Yy67yriAxkSLnY78so+LS+WoIjFvsz+Zx18oFB3xIBwWWjqoKpnshuEd6ofmGl2ABDd5
- Mh25HYPomNDpt2UWtJRGnjd7uBBDceeI2kfoQtgUq32kCFASAck9ewxPYURKMpqdfCkK
- /Bv0V0aHgJN1NF0ogOG4kCRgynqTSKFsgaooM9Tu8cqv593UvFq252huKmdV7mD6blsB
- aNRA==
+ bh=i5bRAEVBnLCWLf2N/lte8AbWq1y/ZyDLk/58hb1dzyY=;
+ b=jjEu8S2jX2CckS4GAIEx0VLyg8JWU6g26pVh1/0iWF4av2XQDeVnAZwY+2Mm82wxoX
+ gnGFVXGp2UR/3tItX+5hGo9rwPfcmGPqo6oVR8bDfLIT66uyYWu71RkJ8/XyQg/20JYX
+ GwBgMTuG8Yrj8ilrF21HSG0n6znTMFciqQDNSL5mF4DyANZn9SRfB7ZF3OhUGuqTROEq
+ fAiCuM/9NMycmcJY7xMN0PtAlOBw3ACcn4a25rIysY6qWKHa2aX2dX/l5dlD1oASF54Y
+ 4sg52ZGeIfIBPN8BIQzj/7X3YpjpoNZKmEa1HTpP0vgy8Za7R7EF25VXjkLEuPXPMol3
+ Nr9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733233537; x=1733838337;
+ d=1e100.net; s=20230601; t=1733233821; x=1733838621;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=h7CuYR8KvWJReWOTnCLxKMKX9kriMN+zYqjEqTbxeIk=;
- b=BLJCqeEN3br+7y3T/sCPmJxCnrc0QbLg3LYWJVYoLqQl6OYVSLchf/JAYDXFOKohGC
- jirITkjtHUgK1JI+a3fcuqsbnMz7+vBMMVKjz7MdD4kdxA/an9wwkF5s7wKsPSL/g34l
- joVFawd0QcAHQ4aT+0BwWiLn/NQwpm1hrHC7CHt0Vmv/Mo4EHBSK6O1U0nscPPsesQ1A
- 8SvJscbgGAPty1X8P/RaSvfjDwa6MCJi929H9oNtI/RKwUd8b60zuAX9h6XILFt37bj+
- 9rGF1LZZOd4WfxkDw+dAB1XWxrk36VSWDsqFMn72194Ey+MQgsLwi5TprQ8tYpwRjk3t
- ossw==
+ bh=i5bRAEVBnLCWLf2N/lte8AbWq1y/ZyDLk/58hb1dzyY=;
+ b=dGyfyke5uqbeJl/2zzpyqLVMJg0MHl3VifVGMVytMqEEAfgDjrHYTekPEOLyHxNupG
+ EWZ8P13ECuNd1g6yKD26D2GohGVQ/alrNaxPMjxdj+JhKQ6t5djSFmr1DG1+3TU9MfH6
+ p06tUatd8B6nNGIdKxtKAuQOnKHuADwlA6ZRTzBggl/Gm1Tv07HWloJSdAE/B2OybeG2
+ RkGFHIi3tM9d0Qz6dPKFyuA56zN2+9WzsVUiYvfR7QC028+aJg7IzjEbrcJZhZBAyuKg
+ QNFKfQoZR7fsHeWFMT7DmmhA9k5L1Go29rYHzvSNwy5YAhr8xIJnUGp3Hi9o82wJgYsG
+ KF3A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV1OLQoJLlvVQqyue5dBA+6brpok6qsuaOQwi5cyvNC+v4BciM1ZeqUFapEynxiElT1QIQ09r0Haiw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yym3Or9ProeIR6djFzz/O2LjqLfSiLKDxPvl0TTMCh9X8bHOq8d
- zDhSKEr7kjpzaVI+M8oS8X3cxzJLGgumC4aaVR7rGyAUhwDmbI2I085bjBLlOU0=
-X-Gm-Gg: ASbGncuQoFdK7efaX+culikbX/4U1mxCv31VRmlKXxk+Xp4wLTKG1FeU3odFOa3RN48
- FVLNO9v7rDbUy5fcx/tOqorU2gWQ64VO6/MU4es5YxcRzVwq6SkCVTaloYriNj8YxHbThpHSSlQ
- aZfvVEeQRVFeTnkxabQ8Rh/ah802YgTCGHVkSX1fsw2EBl6foGsJ33HRuImNQMoJ+p0ixwkJY2t
- fxaml9GGvCJ/guX4CtcDDj9I5PxJEWUCWQw5V+P37HRUFuHOfzwGE5EUx0w+ymK33TFFOnpxxYk
- Skgc4s8AmBz7AgHrGrjt/2lWwDbqwQ==
-X-Google-Smtp-Source: AGHT+IEQO2NjaeNHOLixDzUv5WxZZEQUwkB4QYOykvSvxBbAYeu3SAKM3mDIg44l5ud5IGEEf6uCAA==
-X-Received: by 2002:a05:651c:21a:b0:2ff:de64:c44f with SMTP id
- 38308e7fff4ca-2ffde64c57emr59876511fa.1.1733233536627; 
- Tue, 03 Dec 2024 05:45:36 -0800 (PST)
+ AJvYcCWF/hmy/IkIfdKOLcgFpL+NgRIPEvMIBrBQPUh8MuTXK4rfGKJ89iFo0hneV+VuKAjlBmjADzeG1Mo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy88Eem8TVm5nWinBMs9bWCwMIxegKRafdwKKQ6MC8GbSNioMwO
+ 6+pKIdCZDKxRIlhLCYI4k2Nj3tYztUlBepMrDAYzXjmclwYNkktKvTbKbbpBdr8=
+X-Gm-Gg: ASbGncs1CPzVydEt7KPI1ioJQitwXvqUUKm5jbueXeXJAPDw7tkq5XfpF+4th1eWnKp
+ HA5mqAN6oHD+kmYHDW7rvuU5BBVFiuKy2YhlGbQx1Rg9+iUQ8I790UoP3K4jQ54lOTSrkFx1D0Y
+ Mw71wW4G9V/KuBebveBBsWI3N1IcncZIPmn/ZBPkMaMunMsVUCM89eJEcQezN2e/fpgWiTRlGaK
+ 32ZYG94NW2l3n8OgPdmYX1thvhZgjB42JiWCWeVlE2g/9gwe4mZfiAbEnaFoYp3Zawcqka4vFqG
+ aNcb0n1AfkbRDwS8VIWRrWb9+fhirQ==
+X-Google-Smtp-Source: AGHT+IE9N/OcxHC2ukSRbkQj4jXmTNc0VQUObxjzYPEdTf0i7Xv2g8tPoaKlRXy71a7L1/Z26oJOwQ==
+X-Received: by 2002:a05:6512:104f:b0:53d:e780:3ff7 with SMTP id
+ 2adb3069b0e04-53e12a210f0mr1503999e87.39.1733233821319; 
+ Tue, 03 Dec 2024 05:50:21 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30009665bf3sm2615041fa.113.2024.12.03.05.45.34
+ 2adb3069b0e04-53e1b625009sm48584e87.119.2024.12.03.05.50.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2024 05:45:35 -0800 (PST)
-Date: Tue, 3 Dec 2024 15:45:33 +0200
+ Tue, 03 Dec 2024 05:50:20 -0800 (PST)
+Date: Tue, 3 Dec 2024 15:50:17 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -72,13 +72,15 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  freedreno@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>, 
  Doug Anderson <dianders@chromium.org>, Johan Hovold <johan@kernel.org>, 
  Bjorn Andersson <quic_bjorande@quicinc.com>
-Subject: Re: [PATCH 0/4] drm/msm/dp: ST_DISPLAY_OFF hpd cleanup
-Message-ID: <pzj44gbpadhmfbausv2swkzvh6fhbwxj5a6uw6f3orstjqcmnq@jpdhvdthfkju>
+Subject: Re: [PATCH 1/4] drm/msm/dp: remove redundant checks related to
+ ST_DISPLAY_OFF in plug/irq_ipd handlers
+Message-ID: <pa3jwxpnipj7lcusioqnjesz4cpgc2oyqgspqqvk2i5kb6ud4k@fi4grx6w5k7d>
 References: <20241202-hpd_display_off-v1-0-8d0551847753@quicinc.com>
+ <20241202-hpd_display_off-v1-1-8d0551847753@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202-hpd_display_off-v1-0-8d0551847753@quicinc.com>
+In-Reply-To: <20241202-hpd_display_off-v1-1-8d0551847753@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,70 +96,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2024 at 04:38:59PM -0800, Abhinav Kumar wrote:
-> HPD state machine in msm dp display driver manages the state transitions
-> between various HPD events and the expected state of driver to make sure
-> both match up.
+On Mon, Dec 02, 2024 at 04:39:00PM -0800, Abhinav Kumar wrote:
+> In commit 8ede2ecc3e5ee ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets"),
+> checks were introduced to avoid handling any plug or irq hpd events in
+> ST_DISPLAY_OFF state.
 > 
-> Although originally done with the intent of managing userspace interactions
-> and interactions with compliance equipment, over period of time,
-> changes to this piece of code has become quite difficult to manage.
-> 
-> Although, unwinding this logic will take some time and will be spread over
-> various changes, to start things, this series tries to get rid of the
-> ST_DISPLAY_OFF state as firstly, its really not an hpd state but a state
-> of the display overall. Coupled with this, there are quite a few checks
-> in the current code, the origins of which need to be re-visited OR are unclear
-> which seem unlikely or redundant. With DP controller on newer chipsets supporting
-> multiple streams, this has become increasingly difficult to work with.
-> 
-> This series removes the redundant state checks and simplifies the logic as an
-> attempt to get rid of this ST_DISPLAY_OFF state.
-> 
-> Note: This series has been tested with sa8775p and sc7180 devices with multiple
-> monitors and also multiple dongles with no noticeable regressions.
-> Both of these devices use native DP PHY though. Hence, if this series can
-> be verified on some devices with USBC-DP combo PHY with the help of the other
-> developers, that will be great.
+> Even if we do get hpd events, after the bridge was disabled,
+> it should get handled. Moreover, its unclear under what circumstances
+> these events will fire because ST_DISPLAY_OFF means that the link was
+> still connected but only the bridge was disabled. If the link was untouched,
+> then interrupts shouldn't fire.
 
-Don't you also have an RB5 (for pmic-typec) and SM83(?)50-HDK for
-pmic-glink?
-
-What kind of userspace were you testing with? Have you tested pure fbcon
-/ drm_client?
+What about the link being untouched, but the monitor being toggled
+somehow, which might generate HPD / attention events?
 
 > 
-> To: Rob Clark <robdclark@gmail.com>
-> To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> To: Sean Paul <sean@poorly.run>
-> To: Marijn Suijten <marijn.suijten@somainline.org>
-> To: David Airlie <airlied@gmail.com>
-> To: Simona Vetter <simona@ffwll.ch>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: Doug Anderson <dianders@chromium.org>
-> Cc: Johan Hovold <johan@kernel.org>
-> Cc: Bjorn Andersson <quic_bjorande@quicinc.com>
+> Even in the case of the DP compliance equipment, it should be raising these
+> interrupts during the start of the test which is usually accompanied with either
+> a HPD pulse or a IRQ HPD but after the bridge is disabled it should be fine
+> to handle these anyway. In the absence of a better reason to keep these checks,
+> drop these and if any other issues do arise, it should be handled in a different
+> way.
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
-> Abhinav Kumar (4):
->       drm/msm/dp: remove redundant checks related to ST_DISPLAY_OFF in plug/irq_ipd handlers
->       drm/msm/dp: remove redundant ST_DISPLAY_OFF checks in msm_dp_bridge_atomic_enable()
->       drm/msm/dp: replace ST_DISPLAY_OFF with power_on in msm_dp_hpd_unplug_handle()
->       drm/msm/dp: remove ST_DISPLAY_OFF as a hpd_state
+>  drivers/gpu/drm/msm/dp/dp_display.c | 10 ----------
+>  1 file changed, 10 deletions(-)
 > 
->  drivers/gpu/drm/msm/dp/dp_display.c | 23 ++---------------------
->  1 file changed, 2 insertions(+), 21 deletions(-)
-> ---
-> base-commit: 798bb342e0416d846cf67f4725a3428f39bfb96b
-> change-id: 20241202-hpd_display_off-6051aa510f23
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index aba925aab7ad..992184cc17e4 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -562,11 +562,6 @@ static int msm_dp_hpd_plug_handle(struct msm_dp_display_private *dp, u32 data)
+>  	drm_dbg_dp(dp->drm_dev, "Before, type=%d hpd_state=%d\n",
+>  			dp->msm_dp_display.connector_type, state);
+>  
+> -	if (state == ST_DISPLAY_OFF) {
+> -		mutex_unlock(&dp->event_mutex);
+> -		return 0;
+> -	}
+> -
+>  	if (state == ST_MAINLINK_READY || state == ST_CONNECTED) {
+>  		mutex_unlock(&dp->event_mutex);
+>  		return 0;
+> @@ -689,11 +684,6 @@ static int msm_dp_irq_hpd_handle(struct msm_dp_display_private *dp, u32 data)
+>  	drm_dbg_dp(dp->drm_dev, "Before, type=%d hpd_state=%d\n",
+>  			dp->msm_dp_display.connector_type, state);
+>  
+> -	if (state == ST_DISPLAY_OFF) {
+> -		mutex_unlock(&dp->event_mutex);
+> -		return 0;
+> -	}
+> -
+>  	if (state == ST_MAINLINK_READY || state == ST_DISCONNECT_PENDING) {
+>  		/* wait until ST_CONNECTED */
+>  		msm_dp_add_event(dp, EV_IRQ_HPD_INT, 0, 1); /* delay = 1 */
 > 
-> Best regards,
 > -- 
-> Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 2.34.1
 > 
 
 -- 
