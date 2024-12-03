@@ -2,102 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3AD9E14E2
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:01:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5FF9E14EC
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 09:02:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B00C10E924;
-	Tue,  3 Dec 2024 08:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5F5810E935;
+	Tue,  3 Dec 2024 08:02:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tnRpPtR/";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ltH9PsDj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1256610E924;
- Tue,  3 Dec 2024 08:01:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6D473A409E3;
- Tue,  3 Dec 2024 07:59:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 025ABC4CECF;
- Tue,  3 Dec 2024 08:01:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733212900;
- bh=zjPIbEhtW1+E9dxrS28Qf8oLMzie0UIPL/ztZ9hT0ps=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tnRpPtR/vyxrY1PW4DbKl10xGVlpEAXRfoV6NUaXS9O84buoFJmLu4upVx+HohxYR
- RAME+IN6PIpr3FDDcuxRhu4GNRTgscJqSxfXPnojklJUTG+pDhzYGhYXwEILvuSF7o
- vAPN9BnDuz++EKgOItE8UrVLudK0KziIQzJFtMb23FE6u1TyJfHk+KLgkoYBOzEiGF
- 8AQe70FltXppTDF1M/z4TNDrMbqVcnaCbw3Z25igEipcPTjUxBynj5wWP1D7XrNB6J
- DcpRO4YfRlZ0VS/COZlqtDfCC+con7JWCmGEhwwoO1lCsbeG/0kds8XCbEyQ4Ef++Q
- B2JqCRpdRROcA==
-Message-ID: <bfa857c2-cd74-4fe2-a88c-3b35a58710b0@kernel.org>
-Date: Tue, 3 Dec 2024 09:01:31 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBE310E92D
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 08:02:43 +0000 (UTC)
+Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 233F58DB;
+ Tue,  3 Dec 2024 09:02:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1733212934;
+ bh=2TFDLtiJ4hb6STWGz3swnMyQWEhR/dMEt/9LcY5CwGg=;
+ h=From:Subject:Date:To:Cc:From;
+ b=ltH9PsDjxi/U3Z9FuCbpPicUA4UnFEIR9tKi/IostMWm7GaC9GUd8NCo3Xdalz63z
+ rsg4Cxf5HecWV+B1lJGaP2rMlu4+EXgzjyLWumQcgRy+CFLjh8lOxDgoN93hVlilWh
+ gg+Shkpi4A0mnc1PC1it4Ukb2j6v3q3TsS9IRCl0=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 0/9] drm: Add DSI/DP support for Renesas r8a779h0 V4M and
+ grey-hawk board
+Date: Tue, 03 Dec 2024 10:01:34 +0200
+Message-Id: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: display: msm: dp-controller: document
- clock parents better
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Mahadevan <quic_mahap@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com>
- <20241202-dp_mst_bindings-v1-2-9a9a43b0624a@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241202-dp_mst_bindings-v1-2-9a9a43b0624a@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN+6TmcC/x3MQQqAIBBA0avErBtQKbCuEi1ER52NxQgRiHdPW
+ r7F/w0qCVOFfWog9HDlqwzoeQKfXUmEHIbBKLNopSyKd4IpY6iMm1c6roHIeQujuIUiv//tOHv
+ /AI68YgpdAAAA
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ linux-clk@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1756;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=2TFDLtiJ4hb6STWGz3swnMyQWEhR/dMEt/9LcY5CwGg=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnTrsZsJFsSZ2bMQz3u7xv61IffeVxcmu+570Uu
+ L0vlHfSVoiJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ067GQAKCRD6PaqMvJYe
+ 9YjZD/0er445JS4GlFu3tZ77ccTjHZddPJ4N9MKYx0zSoK+a3GQPJnbPcF0fU54R2jOah5UY1su
+ T0NNXVkoRwHgXcuEetU5f03pPSX78wfXspJEgbBFvmuVGdt9NAtM4vYUJHbamZdHoJtdzD0gPJv
+ H+muHkdmF4bUQYd7C1dUsJjJomZ+t9AFIVIzG59hdS32yJ57aeVdo0m9LxDz4rLnUj2KHhSEje4
+ ZoOt4x57rZTN3FmVjyFBN7jc1HVUc3tpsFvQM1iJLhBKEoqandNrI7NnpC+DwBpVKOKkIfu4s1D
+ ho6SNhcOzrDAOydQSloaOLIP/kYorpRX64fzo8Keplg1ZBXIRse3j9R6qFPJsgk4Hq4uhP2atKQ
+ ec6s0AN+9ICJ7/5Ke4ZBUbo1Wb4DdMxZ5KQTJ9nYZeFfIhCjEYFN/JJTH/Fmi+JcCb5VvNqemEp
+ 37dY3S/IIk2eAdXrfgvc3+HC+SDcS7mYMbXvTgoU/PK43e86Pb5MzGr+COCIY9Fvcdsmpow6+Jp
+ rHRAlbFofmJjbbgUP7xsKVX9uPSVDwKl8c12fyWGdHwECDyPumYq5Pu8VRHo+bvY3n7WTL0rqr7
+ BJpRu4MmErhX73H/hwqhU34n5fGDfgpbWSSN2RhmdMpP/2FqciPrJJEnKQj8mS58laK8Q4rYMs+
+ 5KVWq033AHp6GEQ==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,34 +92,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/12/2024 04:31, Abhinav Kumar wrote:
-> Document the assigned-clock-parents better for the DP controller node
-> to indicate its functionality better.
+Add everything needed to support the DSI output on Renesas r8a779h0
+(V4M) SoC, and the DP output (via sn65dsi86 DSI to DP bridge) on the
+Renesas grey-hawk board.
 
+Overall the DSI and the board design is almost identical to Renesas
+r8a779g0 and white-hawk board.
 
-You change the clocks entirely, not "document". I would say that's an
-ABI break if it really is a Linux requirement. You could avoid any
-problems by just dropping the property from binding.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Tomi Valkeinen (9):
+      dt-bindings: display: bridge: renesas,dsi-csi2-tx: Add r8a779h0
+      dt-bindings: display: renesas,du: Add r8a779h0
+      clk: renesas: r8a779h0: Add display clocks
+      drm/rcar-du: dsi: Fix PHY lock bit check
+      drm/rcar-du: dsi: Add r8a779h0 support
+      drm/rcar-du: Add support for r8a779h0
+      arm64: dts: renesas: gray-hawk-single: Fix indentation
+      arm64: dts: renesas: r8a779h0: Add display support
+      arm64: dts: renesas: gray-hawk-single: Add DisplayPort support
 
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> index 35ae2630c2b3..9fe2bf0484d8 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> @@ -72,8 +72,8 @@ properties:
->  
->    assigned-clock-parents:
->      items:
-> -      - description: phy 0 parent
-> -      - description: phy 1 parent
-> +      - description: Link clock PLL output provided by PHY block
-> +      - description: Stream 0 pixel clock PLL output provided by PHY block
-
+ .../display/bridge/renesas,dsi-csi2-tx.yaml        |   1 +
+ .../devicetree/bindings/display/renesas,du.yaml    |   1 +
+ .../boot/dts/renesas/r8a779h0-gray-hawk-single.dts | 119 ++++++++++++++++++---
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi          |  77 +++++++++++++
+ drivers/clk/renesas/r8a779h0-cpg-mssr.c            |   4 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c      |  19 ++++
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h      |   1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c    |  16 +--
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |   4 +-
+ .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h   |   1 -
+ 10 files changed, 223 insertions(+), 20 deletions(-)
+---
+base-commit: adc218676eef25575469234709c2d87185ca223a
+change-id: 20241008-rcar-gh-dsi-9c01f5deeac8
 
 Best regards,
-Krzysztof
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
