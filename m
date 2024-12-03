@@ -2,90 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB0F9E1045
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 01:39:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62AEB9E1086
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2024 01:50:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDDC10E89C;
-	Tue,  3 Dec 2024 00:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0181210E1D0;
+	Tue,  3 Dec 2024 00:50:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Hvcw3jKS";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="QcfPqTiS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9431A10E883;
- Tue,  3 Dec 2024 00:39:29 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B2KU1xK011334;
- Tue, 3 Dec 2024 00:39:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- CGAy285+Ap8X45IoJ32yK9EFvGsvP/RImqPBvNwlEHM=; b=Hvcw3jKSWNnC3B3j
- NwjSUsmcifRxvcXkvNyI6Pzw959GIRT74vSAbhekXW4L+GMWdaH8qKU+KNrsO1Nu
- AMqvqUFX/zkqJjy17MTolrzeVcNbMDMI/lHQ5ZL7qr7Q+ysmTzX2NxyXWzN7a65F
- iDwpSkS2X4LC/S+O19hln7TPCVbursFQTsX3rbQLnwT3m2l+cqnbRyg0Z8AGP7yr
- 1s47JhKQvP2bOh40QOMtStVIbKdPTxDwO8cdS03u0ttjziFUuRMlbYYamwdtc2kw
- 6/6ibYkgDKsQDSBhU2Eqw2fiu+7hUlZElxU6/7RKkK6Fd9EYYxDvEGY+daVk2hj7
- E4o3rg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4393mpb9m5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 03 Dec 2024 00:39:22 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B30dMhG020557
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 3 Dec 2024 00:39:22 GMT
-Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 2 Dec 2024 16:39:21 -0800
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Date: Mon, 2 Dec 2024 16:39:03 -0800
-Subject: [PATCH 4/4] drm/msm/dp: remove ST_DISPLAY_OFF as a hpd_state
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37B5210E1D0
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2024 00:50:19 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-53dd0cb9ce3so4357976e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 16:50:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1733187015; x=1733791815;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8ZcWaBKUD4iBCtIXIZmlq0ZY4HOgABbRlTjwZH9kmDE=;
+ b=QcfPqTiSqucW0kqur9sktBtYDirBL534Y5asocXm1VTcFq3+iaU9BQH0ynnXQfyoh/
+ 8L8uArhXK/9s55lxidejMdFStznD/j7gxYq9pcZaarPFEE/+MOGVAGCPhaSe0OVeQiND
+ LCAw9yF1aQ7hG+YuU3UvGMBEinsgSJGEem/s4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733187015; x=1733791815;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8ZcWaBKUD4iBCtIXIZmlq0ZY4HOgABbRlTjwZH9kmDE=;
+ b=N7r9yQu3hOgbmOS5MLQrL3/0n1wlNvNdf83xwYL2rtMus3pYS7+4lhoRLOTXAkw7g/
+ RsOzVSPvdES3s8INUzxQ0/eXo0sDOi5Cnf0m6FvR07MOlFCsf0enqMuiGK/lgM8L0DJo
+ yG0GprPRBikfMtDrLuv1pz3Zqi5vl8tV6HKNCFyw8DTZK4ESUznkZJUKYz2fjEp5sWAq
+ RuPDkRuWI/v8j/TfiokLhLL0hRlZbbt3lrKUILC9yfiswKEfFQkK41Dgw0f5HTw3f1LF
+ oE7YwCVbN6kGGNZr1ZdYMC/jHmFKZybGEgSwIu4OxS/WBTyJh1SvIW2Q2t4cBii0QQo1
+ +EPg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW7wBoqmMqdInMF7BtuZfgr9Vs/QyBI20t+Mrs9ZN7xUQ3rdJPfKJIs22J0OzVMdS9b3H+dD8zCsgg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyxBKeq9amVZHJzhoeWLdL5ORuJlPZ/5wQ5knRlpjZX4ynf+Nvw
+ n1QOBXiEufcRIb1CVvJw3RovvP/AvenGG/E/ajVAiKzUDZ90RKHa1L+nrgGs+l0CUiYzMW2Ey7v
+ T0Q==
+X-Gm-Gg: ASbGnctJ1Bf5FoLoZlL9Ynpfqy5bwearNC6dlBwVt6A7aqBZ7r8kG8MxUvE9/5wNCXd
+ 3RcoD6GpOGbl7djS6h+R/AEeG38+QDOsI7hn5wScQPi3gKXph3MxILJXq3oqR8EVhMhRycrNC7V
+ QrlTosd77Oo6rhWTYkqGNmVnrmobxxkb0PdNwP3NEQoDJR65FYUjruR2/XLkneCcTFuViQlC+x7
+ hqf2aCFakUdB0Fpvn02s7CzP7t3eNu7L+7qrILL4vuM9J9h7GlnlLfLXcZZyIoECIN7dtEPa0Z/
+ FZbKexje1AT3mg==
+X-Google-Smtp-Source: AGHT+IF3Z9lEg92fLLvAxtuaNSupZu9uFkeUMehe2RNeaVwGjAIq4UDz+kFRAbimwOQAxFol0ja9bQ==
+X-Received: by 2002:a05:6512:3ba4:b0:53d:ee8d:8d86 with SMTP id
+ 2adb3069b0e04-53e12a3927amr141337e87.52.1733187014960; 
+ Mon, 02 Dec 2024 16:50:14 -0800 (PST)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
+ [209.85.167.46]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53df64318c5sm1647137e87.11.2024.12.02.16.50.13
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Dec 2024 16:50:14 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-53df1d1b6e8so5105202e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2024 16:50:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXuXqAOwkJcyhene3mG6H1FOnE89gzcCiQEARMSUeTOfhLSmurxr+jWn/1yNxH3DnCoSSXdgxwFHH8=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:1313:b0:53d:dd6b:8bdc with SMTP id
+ 2adb3069b0e04-53e129ef81emr179847e87.1.1733187013144; Mon, 02 Dec 2024
+ 16:50:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20241202-hpd_display_off-v1-4-8d0551847753@quicinc.com>
-References: <20241202-hpd_display_off-v1-0-8d0551847753@quicinc.com>
-In-Reply-To: <20241202-hpd_display_off-v1-0-8d0551847753@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, Stephen Boyd <swboyd@chromium.org>,
- "Doug Anderson" <dianders@chromium.org>, Johan Hovold <johan@kernel.org>,
- "Bjorn Andersson" <quic_bjorande@quicinc.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733186360; l=1725;
- i=quic_abhinavk@quicinc.com; s=20240509; h=from:subject:message-id;
- bh=JDeyPOy+yLJYgNCcXbssRDVsV9iiD2C0BptxDxcCDCQ=;
- b=+lG1RLKkdCSVtkJ1BBC6V1q7APgWmqraYICOUfKQBxwNGTEE7RhQyEovD1Vhn4Ms8/PHPlbzk
- EyXdKGQBTy1CuoEsN3OETWoY7kTG0GAKYDuM5pFtXfKfl+bycEgKYiz
-X-Developer-Key: i=quic_abhinavk@quicinc.com; a=ed25519;
- pk=SD3D8dOKDDh6BoX3jEYjsHrTFwuIK8+o0cLPgQok9ys=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: _5LUvbaDvYd4A2fVPts6TaBdGveGLhu_
-X-Proofpoint-GUID: _5LUvbaDvYd4A2fVPts6TaBdGveGLhu_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- impostorscore=0 mlxscore=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 priorityscore=1501
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412030002
+References: <20241202114731.1005549-2-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20241202114731.1005549-2-u.kleine-koenig@baylibre.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 2 Dec 2024 16:50:01 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WWqEsqgjqBHb1nVnGhe7c2Su7ugfsF-CLRxCH+cFaDfg@mail.gmail.com>
+Message-ID: <CAD=FV=WWqEsqgjqBHb1nVnGhe7c2Su7ugfsF-CLRxCH+cFaDfg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: Drop explicit initialization of struct
+ i2c_device_id::driver_data to 0
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Liu Ying <victor.liu@nxp.com>, 
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Peter Senna Tschudin <peter.senna@gmail.com>, 
+ Ian Ray <ian.ray@ge.com>, Martyn Welch <martyn.welch@collabora.co.uk>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Russell King <linux@armlinux.org.uk>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>, Jani Nikula <jani.nikula@intel.com>, 
+ Pin-yen Lin <treapking@chromium.org>, "Rob Herring (Arm)" <robh@kernel.org>, 
+ Hsin-Te Yuan <yuanhsinte@chromium.org>, 
+ =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,53 +114,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ST_DISPLAY_OFF check in msm_dp_bridge_atomic_enable() is used to check
-that if the display was disabled while still hotplugged, phy needs
-to be re-initialized. This can be replaced with a different check as
-it just means the hpd_state was still ST_CONNECTED but without display
-being powered on. Replace the ST_DISPLAY_OFF check with a combination
-of connected and power_on checks.
+Hi,
 
-Since all consumers of ST_DISPLAY_OFF have now been removed,
-drop ST_DISPLAY_OFF from the list of hpd_states as technically
-this was never a 'hpd' state anyway.
+On Mon, Dec 2, 2024 at 3:47=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> These drivers don't use the driver_data member of struct i2c_device_id,
+> so don't explicitly initialize this member.
+>
+> This prepares putting driver_data in an anonymous union which requires
+> either no initialization or named designators. But it's also a nice
+> cleanup on its own.
+>
+> While add it, also remove commas after the sentinel entries.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> ---
+> Hello,
+>
+> changes since (implicit) v1
+> (https://lore.kernel.org/dri-devel/20240516123837.81664-2-u.kleine-koenig=
+@pengutronix.de):
+>
+>  - Update author email address
+>  - Rebase (trivially) to latest next
+>  - Also convert drivers/gpu/drm/bridge/ite-it6263.c (which is new since
+>    the series was orginally sent in May)
+>
+> Best regards
+> Uwe
+>
+>  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c       | 2 +-
+>  drivers/gpu/drm/bridge/analogix/anx7625.c                | 2 +-
+>  drivers/gpu/drm/bridge/chrontel-ch7033.c                 | 2 +-
+>  drivers/gpu/drm/bridge/ite-it6263.c                      | 2 +-
+>  drivers/gpu/drm/bridge/ite-it6505.c                      | 2 +-
+>  drivers/gpu/drm/bridge/lontium-lt8912b.c                 | 4 ++--
+>  drivers/gpu/drm/bridge/lontium-lt9611.c                  | 2 +-
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c               | 2 +-
+>  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 8 ++++----
+>  drivers/gpu/drm/bridge/nxp-ptn3460.c                     | 4 ++--
+>  drivers/gpu/drm/bridge/sii902x.c                         | 4 ++--
+>  drivers/gpu/drm/bridge/sii9234.c                         | 4 ++--
+>  drivers/gpu/drm/bridge/sil-sii8620.c                     | 4 ++--
+>  drivers/gpu/drm/bridge/tc358767.c                        | 2 +-
+>  drivers/gpu/drm/bridge/tc358768.c                        | 4 ++--
+>  drivers/gpu/drm/bridge/ti-dlpc3433.c                     | 2 +-
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c                    | 4 ++--
+>  drivers/gpu/drm/bridge/ti-tfp410.c                       | 2 +-
+>  drivers/gpu/drm/i2c/ch7006_drv.c                         | 2 +-
+>  drivers/gpu/drm/i2c/sil164_drv.c                         | 2 +-
+>  drivers/gpu/drm/i2c/tda9950.c                            | 4 ++--
+>  drivers/gpu/drm/i2c/tda998x_drv.c                        | 2 +-
+>  22 files changed, 33 insertions(+), 33 deletions(-)
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+This conflicts with commit dbf7986f8a56 ("drm/bridge: Constify struct
+i2c_device_id"). Can you rebase, please?
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 831876aa5b35..340366bdb277 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -48,7 +48,6 @@ enum {
- 	ST_MAINLINK_READY,
- 	ST_CONNECTED,
- 	ST_DISCONNECT_PENDING,
--	ST_DISPLAY_OFF,
- };
- 
- enum {
-@@ -1522,7 +1521,7 @@ void msm_dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
- 
- 	state =  msm_dp_display->hpd_state;
- 
--	if (state == ST_DISPLAY_OFF) {
-+	if (state == ST_CONNECTED && !dp->power_on) {
- 		msm_dp_display_host_phy_init(msm_dp_display);
- 		force_link_train = true;
- 	}
-@@ -1580,8 +1579,6 @@ void msm_dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
- 	if (state == ST_DISCONNECT_PENDING) {
- 		/* completed disconnection */
- 		msm_dp_display->hpd_state = ST_DISCONNECTED;
--	} else {
--		msm_dp_display->hpd_state = ST_DISPLAY_OFF;
- 	}
- 
- 	drm_dbg_dp(dp->drm_dev, "type=%d Done\n", dp->connector_type);
+Other than that:
 
--- 
-2.34.1
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
