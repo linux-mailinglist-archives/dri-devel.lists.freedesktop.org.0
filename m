@@ -2,93 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FDF9E447A
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 20:21:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2991F9E447E
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 20:21:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68C3810E556;
-	Wed,  4 Dec 2024 19:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 134BC10E563;
+	Wed,  4 Dec 2024 19:21:39 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ajNLWKeG";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
- [209.85.217.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 373BF10E556
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 19:21:01 +0000 (UTC)
-Received: by mail-vs1-f51.google.com with SMTP id
- ada2fe7eead31-4af1578d288so9963137.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 11:21:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733340059; x=1733944859;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=inT4fZZhlTH1i9AqeiQIOnUqbVGNn3i6ScA8tNJSX0o=;
- b=SBW2XjjJ8I0bR7vnGtOXl68OcPIb3yilS7U9N1dqIb5PC+pRyjulTQLIGxliS75CQo
- tT1DzzQu7A1hI+2UEiDwNwPmnM2Ne8OypsKdgRQte02kWni79hKlaZq4XJ+RH59cSsGc
- CZ3kuWltCAUanNTgJ7zkA/sv2/2oHrahfU/xXJGN99GpNsKf5OxA0dA8IdUWAa/N2yxM
- ogejAIFBn8oJnDMAUOYi/+iifCKhprpJfHztlE7kA2XaS2ZuFUuyIbwMP5ii7D7HZ3oI
- llmR3iafPhkON0cib4HKGoKbtbsiB0OXCOjtb17YDZnnouigCcrXM3NjAx+bQ3Q1GFc6
- ZPHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQDm1CUYYLBhbzJOeWj3J7k7pI6gC+QuFZuaBTlfg6HS6RdNYtklyG9S6ENaSnDna8v2Ux5l6hR0Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzPra6VqH+j8U5pWTZU/wKT0eTYKQ9I7kkR5kyIS4qf6eK30TBH
- DbcShn3wJYSi+wCVMba94lKYggWLegdRvQ8s//ZtAeQavHE4Rs6nedshfWQP
-X-Gm-Gg: ASbGncuAg8qhyHOJe/6YpgoQ6uxxZRo284xCX/jCGdeAkoqXw5aSXQOcrlcWraZ5Lqm
- KZE0Pk0Zh3SNyYzlbSdiKfuYsblL0NqunxXF752N+EMVE4HpaykDPrynqN6ikzbeMwsKBe1GNne
- SD+MlPxHXJiAbBfwpwJB9HGRBFNGJH9uiix06CHZkt8268teuk4OksNcKBimXJ3GKCRAu50fC1w
- vyEtY2vDOIAP4eCXehi8HQ0H+VT4pMAsZnw/h3NWAkBwfQaSR2FiFJwBTCKD7HV7YfhN3HgDUfU
- JrrZ93QLonlI
-X-Google-Smtp-Source: AGHT+IGDTJOGr6h+daPDAXo1/XQbFA7yn2cS0Pvz3yNS4lHT9JEfDoRQGhDKoiGa2NNdRlMfNoWWuQ==
-X-Received: by 2002:a05:6102:512c:b0:4af:3973:6b22 with SMTP id
- ada2fe7eead31-4af97375d68mr10163693137.22.1733340059224; 
- Wed, 04 Dec 2024 11:20:59 -0800 (PST)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com.
- [209.85.217.42]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-4af59235208sm2517917137.28.2024.12.04.11.20.56
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Dec 2024 11:20:57 -0800 (PST)
-Received: by mail-vs1-f42.google.com with SMTP id
- ada2fe7eead31-4af1578d288so9938137.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 11:20:56 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVU6IChW+ONUMoydwCOUhpJU0atFYa+0gg5Cj+S6LIka+0aIG5XGI6ZQCCKltk2ZqsObyqpGNMSck=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:3054:b0:4a4:8d45:6839 with SMTP id
- ada2fe7eead31-4af97268516mr11708144137.13.1733340056024; Wed, 04 Dec 2024
- 11:20:56 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 800B610E563;
+ Wed,  4 Dec 2024 19:21:37 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B4GXaCD023317;
+ Wed, 4 Dec 2024 19:21:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 4U2a+iogl9VHRsnyNgkVeDFo4vdPT+GZFNYfMDV4B8Q=; b=ajNLWKeG8XnRXwzR
+ sE/RYcmfZN88Yo0v/2Tsa/B6Yli6kX0pz2ugKKgtTR8XLRZaBiQKW5tnCFzyDUjG
+ hah7gkMHf3/ny2P0+5hTfTmzFSpelJGn2vvpNcM6xky+llTrOhmkuUxx6icNuhE3
+ Dw15nTS7TExFUFgBMKzUhjR/LrcY79Wwo+WC3JpR4KuQkVvO8Et1HvJks5EXKxWu
+ xBPp+vfIhHJrYCL55dzy/iwpbQacAfrcmQ63ZEFzrhjvG8RPCh3LOeqI5rBLdQSg
+ DME20U/hFTlJzfEYu/uYx7VNF2C/U8/pFwKL1gqXx6quBWwfBUXN8tfHdteIFtqA
+ 0uANpQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43aj429ymc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 04 Dec 2024 19:21:29 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B4JLS6K018655
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 4 Dec 2024 19:21:28 GMT
+Received: from [10.71.110.107] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Dec 2024
+ 11:21:27 -0800
+Message-ID: <20a3955e-3d10-47c5-8e68-d70342805010@quicinc.com>
+Date: Wed, 4 Dec 2024 11:21:26 -0800
 MIME-Version: 1.0
-References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
- <20241203-rcar-gh-dsi-v1-8-738ae1a95d2a@ideasonboard.com>
- <20241203093703.GL10736@pendragon.ideasonboard.com>
- <b9a07779-34c3-496f-ac04-d7f6e1e61d82@ideasonboard.com>
-In-Reply-To: <b9a07779-34c3-496f-ac04-d7f6e1e61d82@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 4 Dec 2024 20:20:44 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWa0frtVLJcoz7QRe=ZHa24K9MxyV5-_Ce4AUJo+LDEGA@mail.gmail.com>
-Message-ID: <CAMuHMdWa0frtVLJcoz7QRe=ZHa24K9MxyV5-_Ce4AUJo+LDEGA@mail.gmail.com>
-Subject: Re: [PATCH 8/9] arm64: dts: renesas: r8a779h0: Add display support
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org, 
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ci: add kms_cursor_legacy@torture-bo to apq8016 flakes
+To: Helen Mae Koike Fornazier <helen.koike@collabora.com>
+CC: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, freedreno
+ <freedreno@lists.freedesktop.org>
+References: <20241204-cursor_tor_skip-v1-1-f5f0bba5df7b@quicinc.com>
+ <193931869a5.f923adf2270026.8321075661083367617@collabora.com>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <193931869a5.f923adf2270026.8321075661083367617@collabora.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: -yi9Rln1Vs3X-sbEcRIRKWHjdiusp5_y
+X-Proofpoint-ORIG-GUID: -yi9Rln1Vs3X-sbEcRIRKWHjdiusp5_y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0
+ mlxscore=0 mlxlogscore=999 lowpriorityscore=0 clxscore=1015 malwarescore=0
+ priorityscore=1501 spamscore=0 adultscore=0 suspectscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412040148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,74 +98,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Hi Helen
 
-On Wed, Dec 4, 2024 at 5:04=E2=80=AFPM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
-> On 03/12/2024 11:37, Laurent Pinchart wrote:
-> > On Tue, Dec 03, 2024 at 10:01:42AM +0200, Tomi Valkeinen wrote:
-> >> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >>
-> >> Add the device nodes for supporting DU and DSI.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com=
->
-> >> ---
-> >>   arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 77 +++++++++++++++++++++=
-++++++++++
-> >>   1 file changed, 77 insertions(+)
-> >>
-> >> diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/bo=
-ot/dts/renesas/r8a779h0.dtsi
-> >> index 12d8be3fd579..82df6ee98afb 100644
-> >> --- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> >> +++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> >> @@ -1828,6 +1828,54 @@ csi41isp1: endpoint {
-> >>                      };
-> >>              };
-> >>
-> >> +            fcpvd0: fcp@fea10000 {
-> >> +                    compatible =3D "renesas,fcpv";
-> >> +                    reg =3D <0 0xfea10000 0 0x200>;
-> >> +                    clocks =3D <&cpg CPG_MOD 508>;
-> >> +                    power-domains =3D <&sysc R8A779H0_PD_C4>;
-> >> +                    resets =3D <&cpg 508>;
-> >> +            };
-> >> +
-> >> +            vspd0: vsp@fea20000 {
-> >> +                    compatible =3D "renesas,vsp2";
-> >> +                    reg =3D <0 0xfea20000 0 0x8000>;
-> >> +                    interrupts =3D <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
-> >
-> > The documentation lists this interrupt as being LevelSensitive and
-> > Negative. I wouldn't expect the VSP to work at all with a wrong polarit=
-y
-> > in DT, so the level may get inverted somewhere.
->
-> Indeed... It's the same for V4H. And it also has IRQ_TYPE_LEVEL_HIGH in
-> the dts. I tried changing it to LOW on V4H, but:
->
-> genirq: Setting trigger mode 8 for irq 91 failed
-> vsp1 fea20000.vsp: failed to request IRQ
->
-> I didn't dig further yet.
+On 12/4/2024 11:14 AM, Helen Mae Koike Fornazier wrote:
+> Hi Abhinav,
+> 
+> Thanks for your patch.
+> 
+> 
+> 
+> ---- On Wed, 04 Dec 2024 15:55:17 -0300 Abhinav Kumar  wrote ---
+> 
+>   > From the jobs [1] and [2] of pipeline [3], its clear that
+>   > kms_cursor_legacy@torture-bo is most certainly a flake and
+>   > not a fail for apq8016. Mark the test accordingly to match the results.
+>   >
+>   > [1] : https://gitlab.freedesktop.org/drm/msm/-/jobs/67676481
+>   > [2] : https://gitlab.freedesktop.org/drm/msm/-/jobs/67677430
+>   > [3]: https://gitlab.freedesktop.org/drm/msm/-/pipelines/1322770
+>   >
+>   > Signed-off-by: Abhinav Kumar quic_abhinavk@quicinc.com>
+>   > ---
+>   >  drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt | 5 +++++
+>   >  1 file changed, 5 insertions(+)
+>   >
+>   > diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+>   > new file mode 100644
+>   > index 000000000000..18639853f18f
+>   > --- /dev/null
+>   > +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+>   > @@ -0,0 +1,5 @@
+>   > +# Board Name: msm-apq8016-db410c
+>   > +# Failure Rate: 100
+> 
+> Is failure rate is 100%, isn't it a fail than?
+> (I know we have other cases with Failure Rate: 100, maybe we should fix them as well)
+> 
 
-Yeah, I don't think the GIC supports anything but IRQ_TYPE_LEVEL_HIGH.
-Which brings us to the two ISP nodes on R-Car V4H and V4M, both using
-IRQ_TYPE_LEVEL_LOW.
-Niklas: looks like drivers/media/platform/renesas/rcar-isp.c doesn't
-actually use the IRQ, so I guess that's how this could slip in?
+Maybe I misunderstood the meaning of "Failure rate" for a flake.
 
-Gr{oetje,eeting}s,
+I interpreted this as this test being flaky 100% of the time :)
 
-                        Geert
+Out of the 3 runs of the test, it passed 2/3 times and failed 1/3.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+So its fail % actually is 33.33% in that case.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+I think I saw a Failure rate of 100% on msm-sm8350-hdk-flakes.txt and 
+mistook that as the rate at which flakes are seen.
+
+Let me fix this up as 33%
+
+> Regards,
+> Helen
+> 
+>   > +# IGT Version: 1.28-ga73311079
+>   > +# Linux Version: 6.12.0-rc2
+>   > +kms_cursor_legacy@torture-bo
+>   >
+>   > ---
+>   > base-commit: 798bb342e0416d846cf67f4725a3428f39bfb96b
+>   > change-id: 20241204-cursor_tor_skip-9d128dd62c4f
+>   >
+>   > Best regards,
+>   > --
+>   > Abhinav Kumar quic_abhinavk@quicinc.com>
+>   >
+>   >
+> 
