@@ -2,128 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA0E9E3965
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 13:01:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6649E39CF
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 13:24:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8048B10ECE9;
-	Wed,  4 Dec 2024 12:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A97FD10E4A7;
+	Wed,  4 Dec 2024 12:24:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="NjxamjzG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ojpZ9GOu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xMp+M91r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="shBmRZHn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ifpl5CX5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566B110ECE9
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 12:01:48 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D0B1D1F38E;
- Wed,  4 Dec 2024 12:01:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1733313707; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hdQpCtHb/G8boTtOws0ht3i2N81j+VDcQZjqp9/HdvQ=;
- b=NjxamjzGcjXW6to6l67i6CoFAKcBDp4lGRx+Rds0l5QPKt+rfXLehVdkQTKX94nXvnqWVn
- dpXrLNfg8NxZPLWdXuJH7UspxltmvsLZpTdjk4Xb0x9EFG63mYpAFK9V7Ez1jK5CSIJzXz
- 6JkyLctehKOKOrnNuIQ38QxoDHHBxB8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1733313707;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hdQpCtHb/G8boTtOws0ht3i2N81j+VDcQZjqp9/HdvQ=;
- b=ojpZ9GOuJXNyR/vp6XsHoLsOXhJI4cOfvhNlDca8oGvfzYIRMVPve4oCWqmADqbjdo4M+A
- 0xAwqZEZjWrYLKAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1733313706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hdQpCtHb/G8boTtOws0ht3i2N81j+VDcQZjqp9/HdvQ=;
- b=xMp+M91r2pR9VfINWZDH6sdvftrKE19XFnk96zw5DBlW4nXRAP5NrINq6NY8kLMk1U1CUr
- 030PFr75NrEb++m4vhg+/vZ50LhBHmFpJ0ZxxDMviI0iqFqX2YmVkIRSfFX74bpkwEz6cp
- Coa9deNVsd9x/qtwOsQ3oJzzN1mFGI8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1733313706;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hdQpCtHb/G8boTtOws0ht3i2N81j+VDcQZjqp9/HdvQ=;
- b=shBmRZHndiZc4wVndDm9+gtzuB5CAsfzjQ7mNQFJ5f3zelUPbyWxeNnriDgCHAtmxZeazC
- Wb/ZzNzcpZo2grAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E8B31396E;
- Wed,  4 Dec 2024 12:01:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id lB9jJapEUGdOHgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 04 Dec 2024 12:01:46 +0000
-Message-ID: <bfc97a69-de69-45ec-875d-2f1e652e0f94@suse.de>
-Date: Wed, 4 Dec 2024 13:01:46 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF5FC10E49E;
+ Wed,  4 Dec 2024 12:24:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733315056; x=1764851056;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=3lYBnQXxxj1PmJTsVxH4CL0OhpGmi98GQwy5QH6VFnU=;
+ b=Ifpl5CX5e1JP4g/L1RsbjFfm61H7luCdF8UsI/vucx0a8Qu4z7k6ceB2
+ DelSFbxTP9IAz427bvsDoMqzUhA8JSrCVvQzwOyxsuEP/oKP8aQIU6HM1
+ y8L+E89UfB+lkACFpdFZy5v0qO/A0Uq6YoSAfjqOkhCLqTf7PSYlBiQt7
+ ZdKPImiG3Dn5295iMVnXmTK2yOu7VJjId35JtjXp77hAUpcPCMfhtfzFW
+ 3JRDAlnvZZ4M458QB3AR1WfUo33CNhY4CUH/VnSh0hWKs542BffTb9f99
+ Ua7Lw08eGp9dfG2JLATW6VbNx8fMkXO7G89cipF9VTxGcT72cbHTdlCY/ A==;
+X-CSE-ConnectionGUID: Im1VD7E6TwScEraXRak3jA==
+X-CSE-MsgGUID: ag48df2gSSOrLflIAyaXNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="58992069"
+X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="58992069"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2024 04:24:15 -0800
+X-CSE-ConnectionGUID: wytXcv5DSO2ZQiCXZXIz5A==
+X-CSE-MsgGUID: kdbykQURTE2sxng4HexJxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="93835088"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.246.221])
+ ([10.245.246.221])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2024 04:24:13 -0800
+Message-ID: <4d71459d05a5b34acd3c911c80afbb52cc2cc527.camel@linux.intel.com>
+Subject: Re: [PATCH v14 3/8] drm/ttm/pool: Provide a helper to shrink pages
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ intel-xe@lists.freedesktop.org
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, Matthew Brost
+ <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, Paulo Zanoni
+ <paulo.r.zanoni@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Date: Wed, 04 Dec 2024 13:24:10 +0100
+In-Reply-To: <3130e373-5dbb-4f4b-a24c-a0015a638c3e@amd.com>
+References: <20241115150120.3280-1-thomas.hellstrom@linux.intel.com>
+ <20241115150120.3280-4-thomas.hellstrom@linux.intel.com>
+ <800ee040-7c2e-47d0-81e6-a352f5f689fb@amd.com>
+ <a07c93704bc7f59f51b5a6a13aeb3e13eee28e3c.camel@linux.intel.com>
+ <d1e33436-9c1c-43d4-a86a-956926a7096c@amd.com>
+ <73588525571a68f5638300ef171591de10ba5e5d.camel@linux.intel.com>
+ <0595e4df-86d4-4082-86ab-b77902d3020b@amd.com>
+ <cf722b696676b7383a94c2b846f8230e180ee527.camel@linux.intel.com>
+ <bc762b0c-4fe3-48ff-b8df-14f741c91939@amd.com>
+ <f74a7b678b5013dbcbe090bbff885827d3675247.camel@linux.intel.com>
+ <c74e9f5c-3201-4083-8b79-80fdbbd903f2@amd.com>
+ <5f3c04297fd6f008cad0415d6b6c04ba8c3b5a8c.camel@linux.intel.com>
+ <26747cae-d66a-4bc4-9efb-4fdda4ac766b@amd.com>
+ <e7654f8140ce2bd1afdca20b21b139cf810b6070.camel@linux.intel.com>
+ <1e378253-57f0-46b1-b6a7-a6b8997d7e1b@amd.com>
+ <9e2d75c95a9ed06912490937b1163f2a54d0196a.camel@linux.intel.com>
+ <3130e373-5dbb-4f4b-a24c-a0015a638c3e@amd.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Removing page->index
-To: Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-s390@vger.kernel.org
-References: <Z09hOy-UY9KC8WMb@casper.infradead.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <Z09hOy-UY9KC8WMb@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,60 +89,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Wed, 2024-12-04 at 12:24 +0100, Christian K=C3=B6nig wrote:
+> Am 04.12.24 um 12:09 schrieb Thomas Hellstr=C3=B6m:
+> > [SNIP]
+>=20
+> > > > > BTW I really dislike that tt->restore is allocated
+> > > > > dynamically.
+> > > > > That
+> > > > > is
+> > > > > just another allocation which can cause problems.
+> > > > > We should probably have all the state necessary for the
+> > > > > operation
+> > > > > in
+> > > > > the
+> > > > > TT object.
+> > > > Initially it was done this way. But that meant a pre-allocated
+> > > > struct
+> > > > page-pointer array the of 1 << MAX_PAGE_ORDER size (2MiB) for
+> > > > each
+> > > > ttm_tt. That lead to a patch to reduce the MAX_PAGE_ORDER to
+> > > > PMD
+> > > > size
+> > > > order, but=C2=A0 as you might remember, that needed to be ripped ou=
+t
+> > > > because
+> > > > the PMD size macros aren't constant across all architectures.
+> > > > IIRC
+> > > > it
+> > > > was ARM causing compilation failures, and Linus wasn't happy.
+> > > Yeah, I do remember that. But I don't fully get why you need this
+> > > page-pointer array in the first place?
+> > So the TTM page-pointer array holds the backup handles when backed
+> > up.
+> > During recovery, We allocate a (potentially huge) page and populate
+> > the
+> > TTM page-pointer array with pointers into that. Meanwhile we need
+> > to
+> > keep the backup handles for the recover phase in the restore
+> > structure,
+> > and in the middle of the recover phase you might hit an -EINTR.
+>=20
+> I still don't see the problem to be honest.
+>=20
+> What you basically do on recovery is the following:
+> 1. Allocate a bunch of contiguous memory of order X.
+> 2. Take the first entry from the page_array, convert that to your
+> backup=20
+> handle and copy the data back into the just allocated contiguous
+> memory.
+> 3. Replace the first entry in the page array with the struct page=20
+> pointer of the allocated contiguous memory.
+> 4. Take the next entry from the page_array, convert that to your
+> backup=20
+> handle and copy the data back into the just allocated contiguous
+> memory.
+> 5. Replace the next entry in the page_array with the struct page
+> pointer=20
+> + 1 of the allocated contiguous memory.
+> 6. Repeat until the contiguous memory is fully recovered and we jump
+> to=20
+> 1 again.
+>=20
+> What exactly do you need this pre-allocated struct page-pointer array
+> of=20
+> 1 << MAX_PAGE_ORDER for?
+>=20
+> Sorry, I must really be missing something here.
+
+It was like a year or more ago since I put this patch together, so TBH
+I can't recall the details, other than I'm pretty sure I tried that and
+decided against it. Could have been that the changes were too invasive,
+and it's pretty easy to break this code even without invasive
+changes...
+
+However with an accessor function for the old page pointers and one for
+the new ones I imagine it should be possible.
+
+I'll give it a try and see what can be done.
+
+/Thomas
 
 
-Am 03.12.24 um 20:51 schrieb Matthew Wilcox:
-> I've pushed out a new tree to
-> git://git.infradead.org/users/willy/pagecache.git shrunk-page
-> aka
-> http://git.infradead.org/?p=users/willy/pagecache.git;a=shortlog;h=refs/heads/shrunk-page
->
-> The observant will notice that it doesn't actually shrink struct page
-> yet.  However, we're getting close.  What it does do is rename
-> page->index to page->__folio_index to prevent new users of page->index
-> from showing up.
->
-> There are (I believe) three build failures in that tree:
->
->   - fb_defio
-
-It's only used for helpers of the mm code. So it should be good to change.
-
->   - fbtft
-
-And this reference should be removed IMHO. The driver's display-update 
-code has no business in looking at struct page.
-
-Best regards
-Thomas
-
->   - s390's gmap (and vsie?  is that the same thing?)
->
-> Other than that, allmodconfig builds on x86 and I'm convinced the build
-> bots will tell me about anything else I missed.
->
-> Lorenzo is working on fb_defio and fbtft will come along for the ride
-> (it's a debug printk, so could just be deleted).
->
-> s390 is complicated.  I'd really appreciate some help.
->
-> The next step is to feed most of the patches through the appropriate
-> subsystems.  Some have already gone into various maintainer trees
-> (thanks!)
->
->
-> There are still many more steps to go after this; eliminating memcg_data
-> is closest to complete, and after that will come (in some order)
-> eliminating ->lru, ->mapping, ->refcount and ->mapcount.  We also need
-> to move page_pool out into its own structure.
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Thanks,
+> > Thomas
 
