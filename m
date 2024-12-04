@@ -2,72 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462F19E3D8C
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 16:02:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17A99E3E5E
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 16:33:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB5510E03A;
-	Wed,  4 Dec 2024 15:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF8E610E4CE;
+	Wed,  4 Dec 2024 15:33:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lBUUgytG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KO0W2LUU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA35F10E03A
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 15:02:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1733324519;
- bh=7jcAdzZx2lqQzNAE8QFFcDHmNk++zheRlOY5LIlRKRw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lBUUgytGP51L3LiEeqXIUAZMK/wpp1ibsYPessz78EjYcd5woYyokmkZotqEqt7aA
- PoURH5dI9Xweu2fNwYOzmKYUggYFJ9Tj7mTEa0hp9Ik24SVdj+ghAxCVtkdCULcT66
- t+uB6uSQGLyRscDtSX+6+4PaQw8W8XnowXC5XVUNei6ldUTAqF8M3hcKdsnhThcKXe
- CDyqp393rZ2CvS+Ts158aduOLGMxYWJXN24CuiDgzRLX3V1aT3KwUPRLftUnl++Q1X
- OymoJRqGfs1fQkrGyE5Gokltjj3a4MpTIDsW6nwJnrb5GB0WQjAE38Q2NX18k3k7Gs
- rr3QRbx64tGxA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 148A117E3775;
- Wed,  4 Dec 2024 16:01:58 +0100 (CET)
-Message-ID: <272b76ed-0ccc-46f2-8c43-92c047f2f0d3@collabora.com>
-Date: Wed, 4 Dec 2024 16:01:57 +0100
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com
+ [209.85.221.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF8E10E4CE
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 15:33:01 +0000 (UTC)
+Received: by mail-vk1-f170.google.com with SMTP id
+ 71dfb90a1353d-5154fab9889so1724319e0c.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 07:33:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733326380; x=1733931180; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4BM7g2tnTxffenD3gAnjnDpzGPqkZZJws6+BF+fZajU=;
+ b=KO0W2LUU8mesdovEFoYSJhkhUpoXBkZR6wwJ/bnXA2Sl1JPXGOWrgBuQKTyffloJSS
+ lqgMG1iSyvTvZA6G6RtekROYaWSBss3jUT2hTBEOiqKVhPpq5HYHch5oCe2LkXxCSccp
+ j8vFri7u+j0KE2t0LWJA8zBFQODWBLUOKDb+WdQedpRfzW4aj3TyDpOkR5d0SLJWuVBC
+ fKoL99dpEguOiGwji3bWarHGpvusjBR1wSybW8AxLyQPzDlnSGJA6uuR07z3xS/hus2o
+ yECeINDqqvvDYc9EvciuFY9E2TrnD2xRZuosCdnJDghxDWx1lU9CGHAhqS7JkNGyPkd0
+ gvqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733326380; x=1733931180;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4BM7g2tnTxffenD3gAnjnDpzGPqkZZJws6+BF+fZajU=;
+ b=wakFWa2q/R0u5xqGid1MgPWZ2lQKFprLGhkYm01W4PfiWeFq1VR10Xb1HdII3efO4e
+ SggiZYGvZCz5r9IeM3/Isoj9/Ebq3E91ZSogWLRhXOdfcI49CuNPluSivLRj1JfwOgFl
+ Jtu+6dqKRiTtnO1GT48Dp/Bb1h+ZM5WIewTu9Q3wIaP80fRxcg544SYKTov/L6tUAynR
+ BHHU7lHcp9z+ptvG7fSce3oEl3WF3IgaHVp0ItyewPDT+672T0viy4qIyDdGzIYW86QK
+ IWfcfY8UuVX4Ksyg+TmBR8o896Qhf+XuWyEHscBhCghMkCEk2UE/T0qkYqLbipkaRkok
+ ZUNQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVRcItt1/3BvOH9aw1QToUkkPIOzB/JS7MPdy2b1QnalsYIBkGznu8zFjhyT97FhIiiMRpryX3RWp4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwpJ1Z7TYzRtlAAoBYQcyeR/n4RKvlULcAS7ese7NbH/iuj3dny
+ FvGZ3R5n92BY+sqcvw/QLpz/D4jEm7F/JLtEyqzonJ9C37ikvq/4KDHXy8fkb8kHgcmD4qyn6mx
+ JTpGX76P8lroFLJFOWa96KHHqhzXA3cfTHS5zFg==
+X-Gm-Gg: ASbGncvN4MpGUYaBUEKHw0P9xxBBkkzbj3Iiksmiey2FgjHhVaRsP8jcJWelw+1q/Mz
+ IrM3iSnat8eQc6Me/gUFZsozDb5RNzLs5
+X-Google-Smtp-Source: AGHT+IF0RVZVCMdJkXYjBAAcJHezPOoWCH4jS8XQLyQLEPZuJ7e6SomQNYsR4Mx3bJ489e5yJU/yOjgwrrV33kHvO74=
+X-Received: by 2002:a05:6122:1d04:b0:515:c769:9d33 with SMTP id
+ 71dfb90a1353d-515cf784e53mr6510755e0c.9.1733326380385; Wed, 04 Dec 2024
+ 07:33:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/7] dt-bindings: display: mediatek: Add binding for
- MT8195 HDMI-TX v2
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>
-References: <20241120124512.134278-1-angelogioacchino.delregno@collabora.com>
- <20241120124512.134278-3-angelogioacchino.delregno@collabora.com>
- <721896498fe9a5ba5a942fe837deb90d461b5090.camel@mediatek.com>
- <3d5f7106-6425-420c-abac-39feed11c95c@collabora.com>
- <4b1eb13d027717abaaaf4ee7aa927239ba314572.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <4b1eb13d027717abaaaf4ee7aa927239ba314572.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20241203141923.524658091@linuxfoundation.org>
+ <CA+G9fYtXS+Ze5Y8ddtOjZPiYP1NEDhArQhEJYfS3n5pcLdn9Hw@mail.gmail.com>
+In-Reply-To: <CA+G9fYtXS+Ze5Y8ddtOjZPiYP1NEDhArQhEJYfS3n5pcLdn9Hw@mail.gmail.com>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Wed, 4 Dec 2024 21:02:47 +0530
+Message-ID: <CA+G9fYuDAAZkgNK4_0Y=wDcTUzs7=ggbni4iJDAPbD9ocq992g@mail.gmail.com>
+Subject: Re: [PATCH 4.19 000/138] 4.19.325-rc1 review
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: stable@vger.kernel.org, patches@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, torvalds@linux-foundation.org, 
+ akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org, 
+ patches@kernelci.org, lkft-triage@lists.linaro.org, pavel@denx.de, 
+ jonathanh@nvidia.com, f.fainelli@gmail.com, sudipm.mukherjee@gmail.com, 
+ srw@sladewatkins.net, rwarsow@gmx.de, conor@kernel.org, hargar@microsoft.com, 
+ broonie@kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
+ Anders Roxell <anders.roxell@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Matthias Schiffer <matthias.schiffer@tq-group.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>, noralf@tronnes.org, 
+ Sam Ravnborg <sam@ravnborg.org>, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,170 +93,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 29/11/24 03:51, CK Hu (胡俊光) ha scritto:
-> On Thu, 2024-11-28 at 11:32 +0100, AngeloGioacchino Del Regno wrote:
->> External email : Please do not click links or open attachments until you have verified the sender or the content.
->>
->>
->> Il 28/11/24 07:02, CK Hu (胡俊光) ha scritto:
->>> Hi, Angelo:
->>>
->>> On Wed, 2024-11-20 at 13:45 +0100, AngeloGioacchino Del Regno wrote:
->>>> External email : Please do not click links or open attachments until you have verified the sender or the content.
->>>>
->>>>
->>>> Add a binding for the HDMI TX v2 Encoder found in MediaTek MT8195
->>>> and MT8188 SoCs.
->>>>
->>>> This fully supports the HDMI Specification 2.0b, hence it provides
->>>> support for 3D-HDMI, Polarity inversion, up to 16 bits Deep Color,
->>>> color spaces including RGB444, YCBCR420/422/444 (ITU601/ITU709) and
->>>> xvYCC, with output resolutions up to 3840x2160p@60Hz.
->>>>
->>>> Moreover, it also supports HDCP 1.4 and 2.3, Variable Refresh Rate
->>>> (VRR) and Consumer Electronics Control (CEC).
->>>>
->>>> This IP also includes support for HDMI Audio, including IEC60958
->>>> and IEC61937 SPDIF, 8-channel PCM, DSD, and other lossless audio
->>>> according to HDMI 2.0.
->>>>
->>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>>> ---
->>>>    .../mediatek/mediatek,mt8195-hdmi.yaml        | 150 ++++++++++++++++++
->>>>    1 file changed, 150 insertions(+)
->>>>    create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
->>>> new file mode 100644
->>>> index 000000000000..273a8871461e
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
->>>> @@ -0,0 +1,150 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: https://urldefense.com/v3/__http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi.yaml*__;Iw!!CTRNKA9wMg0ARbw!lu0D_C3TwQ2-02jWYABnMIQ8vEoUwP0O4gbQndJnPUMpdi6wXdAHra9ivCfB7zoelDI7qsS20YdRlmP4bEKAABletXFX$
->>>> +$schema: https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!lu0D_C3TwQ2-02jWYABnMIQ8vEoUwP0O4gbQndJnPUMpdi6wXdAHra9ivCfB7zoelDI7qsS20YdRlmP4bEKAAFlnY-KY$
->>>> +
->>>> +title: MediaTek HDMI-TX v2 Encoder
->>>> +
->>>> +maintainers:
->>>> +  - AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>>> +  - CK Hu <ck.hu@mediatek.com>
->>>> +
->>>> +description: |
->>>> +  The MediaTek HDMI-TX v2 encoder can generate HDMI format data based on
->>>> +  the HDMI Specification 2.0b.
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    enum:
->>>> +      - mediatek,mt8188-hdmi-tx
->>>> +      - mediatek,mt8195-hdmi-tx
->>>> +
->>>> +  reg:
->>>> +    maxItems: 1
->>>> +
->>>> +  interrupts:
->>>> +    maxItems: 1
->>>> +
->>>> +  clocks:
->>>> +    items:
->>>> +      - description: HDMI APB clock
->>>> +      - description: HDCP top clock
->>>> +      - description: HDCP reference clock
->>>> +      - description: VPP HDMI Split clock
->>>
->>> I would like to know more about HDMI v2.
->>> Would you map each v2 clock to v1 clock?
->>> If one clock has no mapping, is it a new feature that v1 does not has?
->>>
->>
->> The HDMIv2 HW block seems to be almost completely different from the v1, and
->> it is also interconnected in a different way compared to MT8173 (the path goes
->> through VPP1, while the v1 is just direct to DPI/MMSYS).
->>
->> The v1 block had specific clocks for the audio (i2s, I believe) and for the SPDIF,
->> and I have no idea how v1 does HDCP, but I don't see any specific clock for that.
->>
->> The v2 block is clocked from the HDCP clock, the (apb) bus has its own clock, and
->> the video out needs the vpp split clock.
->>
->> It's just different, and we can't shove the v2 binding inside of the v1 one, but
->> even if we could, since the v2 block is *that much* different from v1, it'd be a
->> mistake to do so.
->>
->> Since the binding describes hardware, and since this v2 HW is *very* different
->> from v1, it needs a new binding document, that is true even if you find a way to
->> get the clocks to match (which is not possible, anyway).
-> 
+On Wed, 4 Dec 2024 at 19:24, Naresh Kamboju <naresh.kamboju@linaro.org> wro=
+te:
+>
+> On Tue, 3 Dec 2024 at 20:04, Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > ------------------
+> > Note, this is the LAST 4.19.y kernel to be released.  After this one, i=
+t
+> > is end-of-life.  It's been 6 years, everyone should have moved off of i=
+t
+> > by now.
+> > ------------------
+> >
+> > This is the start of the stable review cycle for the 4.19.325 release.
+> > There are 138 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
+> >
+> > Responses should be made by Thu, 05 Dec 2024 14:18:57 +0000.
+> > Anything received after that time might be too late.
+> >
+> > The whole patch series can be found in one patch at:
+> >         https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patc=
+h-4.19.325-rc1.gz
+> > or in the git tree and branch at:
+> >         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stab=
+le-rc.git linux-4.19.y
+> > and the diffstat can be found below.
+> >
+> > thanks,
+> >
+> > greg k-h
+>
+> Results from Linaro=E2=80=99s test farm.
+> Regressions on arm.
+>
+> The arm builds failed with gcc-12 and clang-19 due to following
+> build warnings / errors.
+>
+> Build log:
+> ---------
+> drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c:177:9: error:
+> 'DRM_GEM_CMA_DRIVER_OPS' undeclared here (not in a function)
+>   177 |         DRM_GEM_CMA_DRIVER_OPS,
+>       |         ^~~~~~~~~~~~~~~~~~~~~~
+> make[5]: *** [scripts/Makefile.build:303:
+> drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o] Error 1
+>
 
-Hey. Sorry about the late reply, it's been quite busy days here :-)
+Anders bisected this down to,
 
-> v2 indeed is very different from v1, so it's not necessary to merge binding document.
-> I would like to have more information about the difference in binding document,
-> so that we could clearly understand that v1 and v2 are so different.
-> 
+# first bad commit:
+   [5a8529fd9205b37df58a4fd756498407d956b385]
+   drm/fsl-dcu: Use GEM CMA object functions
 
-Sounds reasonable.
-
-> I think pixel clock is important for HDMI hardware, but I do not see it in HDMI v2.
-> It is better has some documentation about why pixel clock disappear in HDMI v2.
-
-Right. I'll write it in the PHY description.
-
-   phys:
-     maxItems: 1
-     description:
-        The HDMI TX PHY, clocking TMDS and pixel to this controller
-
-> 
-> I've some 'WHY' about v2.
-> Why no audio clock in v2?
-
-It's clocked by the HDCP CGs...
-
-> Audio control part is moved out of HDMI block?
-> 
-> For HDCP, maybe v1 driver has not implement it so forget to add it in binding document.
-> So just skip the HDCP.
-
-...and the controller needs HDCP clocks for register access, so these are
-main clocks and cannot be skipped.
-
-> 
-> The four clock in v2 does not exist in v1, so what is the function of each one?
-> If possible, ask MediaTek staff for more information.
-
-I'll try to ask to shove more information in this binding, let's see.
-
-Cheers,
-Angelo
-
-> 
-> Regards,
-> CK
-> 
->>
->> Cheers,
->> Angelo
->>
->>> Regards,
->>> CK
->>>
->>>> +
->>>> +  clock-names:
->>>> +    items:
->>>> +      - const: bus
->>>> +      - const: hdcp
->>>> +      - const: hdcp24m
->>>> +      - const: hdmi-split
->>>> +
->>>>
->>>> --
->>>> 2.47.0
->>>>
->>
->>
-
-
+- Naresh
