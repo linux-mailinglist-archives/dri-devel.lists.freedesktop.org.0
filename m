@@ -2,63 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CA89E3AE1
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 14:11:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAD59E3AE2
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 14:11:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F8E310E025;
-	Wed,  4 Dec 2024 13:11:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BBCC10E4C8;
+	Wed,  4 Dec 2024 13:11:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lYd6nZeO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gm8sXpuY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4854210E025
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 13:11:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733317890; x=1764853890;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Ofio2GaUo3BYECCkWzkKf022v7VX6gRxDeQfk5OMne8=;
- b=lYd6nZeO3KS7mkT1gmtLPN5d9io1bd5GyU3EnwDJUxvayexItRsrijKR
- Z3bC6gNOIDVzLxGDY4L0R2z2Tnl7DC0SeIvpM5mDMM1rNp0u3ZvpkDjTX
- maNAH6rbA1XWS8MP1dLAzUF5KiB31u97CGQE/qxB2SNH1/DddpEFjB2xx
- ArH8WbAe/j1WMnmUvbJvC3bpn2fWFNR/NnldVEa31gXDav7tSHvJVo0/6
- Z8gTadVLyL8jgJSkVaJWQnGuRzYqDk6jmjn0vrkR/FZGRXO8AfGmRjne4
- d2TJc2wSd0olM7gPKCDVbcB031SYBOxWeDCmeQ7onNQ8Bqy/oYrlFcl9c A==;
-X-CSE-ConnectionGUID: LqE+AuFoT3OgBlYwKUXcsw==
-X-CSE-MsgGUID: DTdfLL4nRpqQo14XqzyIaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33500204"
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="33500204"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2024 05:11:30 -0800
-X-CSE-ConnectionGUID: aE1QXvDHTzaDeAjFKwnf3Q==
-X-CSE-MsgGUID: Ku4mZbNeSTCHzf9fcgKFhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="93610487"
-Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
- by orviesa010.jf.intel.com with ESMTP; 04 Dec 2024 05:11:27 -0800
-Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tIpA4-00032x-2h;
- Wed, 04 Dec 2024 13:11:24 +0000
-Date: Wed, 4 Dec 2024 21:10:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Fei Shao <fshao@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Fei Shao <fshao@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] drm/mediatek: dp: Support flexible length of DP
- calibration data
-Message-ID: <202412042020.FZmfgvza-lkp@intel.com>
-References: <20241204053634.1365491-1-fshao@chromium.org>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0235D10E4C8
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 13:11:33 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-385e96a285eso2254459f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 05:11:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1733317891; x=1733922691; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=N0SZ8kQHAsOIZwkil/k0ov1BrW4/jp+99A2CjCuwyeE=;
+ b=gm8sXpuYbwfQ6ndSo13EKEGN3NSQSyNQiv4gNK9/AdBLV+VwsrJWwiQEeTe20qhp9P
+ Qcv1CdxGHtp4kV5B6BlfOzKJlhdjUd96VEi71D1V2dLG9ZdknhXy+KZeBm3MfvasjeYL
+ Y+C0qmSahZ8hMfeZAqPbnJ3YffKzjQjz/J1La6T8cqp9EdNn7EPU8SG/BQ9RzqpfIdWf
+ SsoRe0YxlWZLcMekb0LBPFrySY0AwfpE7Sx3b918gLqGu9++IjQ0IikBYAVws0L7nOGn
+ CYEJAYu++J/DMl7UlsYSRDoXj5BuREIzInN86Ih42NgyOZvQDqsBrsdHH2qsf3bg78hF
+ B5hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733317891; x=1733922691;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=N0SZ8kQHAsOIZwkil/k0ov1BrW4/jp+99A2CjCuwyeE=;
+ b=niAbulbaDNl3wDs6fEvURzQkkRvOjFvW5h2uwnQOmUJbKWpepNEWYQN9fHnBpgbRDk
+ Wclp64sM7VH0gV/t7dS6UhipmG7xWa/EFiKD3qwa8n7MkswhbklJFmjCuAVDOWSKLg3H
+ vnmwHrdnS7RkiTvL5yQaFRdt2r6aAECBWCLIURMtgZYmCxG6IcbdS6RlU1iptJPCGVE2
+ nH6rpfd8iVlrK3c3C4jkPv2UAEA9BAFp0fY4kbBLYB685DTLW5qWpBmowKL412nrOO3G
+ 15BC2o7xf8X23Co9ao/rE7UBxSGF/tcwI7SSyNoFMpr3Pz3N4El6/d+SkUhrwdvHlz1Q
+ 2onw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVzQoQTkkzZJF+UBpC4lLP6zxRIg2MhNE5P6Hb0gk3Bw76k/V4Y9wcxDaiMxwcKW0ySogP+3VU11CM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy88rwmijB/aaTfhG5J+flNN5qYh+jfPY2lcgwp4j6ffr67/3ve
+ iR5/0up71e6ay9G6uwa1HNB/W7bjojPvjWadDDBG8+F06hFNQjNY
+X-Gm-Gg: ASbGncvgiheETbmOJ3Fim2xQMUoXO8hje80gyVMRfHRucfc0oVmKKbaCg2GO9Bsqo81
+ 8aLDsxgMIzX5/BLdr41UBRjFeg80V8mV43+y2yoyo3O4Hw0xX9YjyNlg2Iw3YewFIw6yb9DKlQY
+ zG2EDawOHuT39XMA5WwXoaLnHwqjmO50mKxYUuPgzMIRzqm2+ZGHZV2IJKke9DqIg0JklIWLmvV
+ eHp+K/qkS8EwEFnCK2msmXso3ISmzG3J/lkMv9sSq1kBteC/LCQP5+SKJODGUaFbEsvOiHcufXr
+ Kc8th+VWcih1E1Y1snCI
+X-Google-Smtp-Source: AGHT+IGuZnkOOfZUxBSm0+r4WvUzWEwuuklRNTCmho0DrzlTwe+kaD62v7h9w5mevqqGbuXembhvLg==
+X-Received: by 2002:a05:6000:18a6:b0:385:f44a:a64 with SMTP id
+ ffacd0b85a97d-38607ad0280mr3654189f8f.24.1733317891110; 
+ Wed, 04 Dec 2024 05:11:31 -0800 (PST)
+Received: from tom-desktop (net-188-217-53-234.cust.vodafonedsl.it.
+ [188.217.53.234]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-385e30c54bfsm13145015f8f.110.2024.12.04.05.11.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2024 05:11:30 -0800 (PST)
+Date: Wed, 4 Dec 2024 14:11:28 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Liu Ying <victor.liu@nxp.com>, linux-renesas-soc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, biju.das.jz@bp.renesas.com,
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
+Message-ID: <Z1BVADAhfENdcc3y@tom-desktop>
+References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+ <834a2690-ca06-4a8b-9a81-c4981074f95c@nxp.com>
+ <Z1Aw0WafGmYDrr8K@tom-desktop>
+ <cnauwpk7myky6zbfcqg5335dqif4vmggzxlq554ye2bykb5iwh@ng4oxd2c5md3>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241204053634.1365491-1-fshao@chromium.org>
+In-Reply-To: <cnauwpk7myky6zbfcqg5335dqif4vmggzxlq554ye2bykb5iwh@ng4oxd2c5md3>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,115 +100,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fei,
+Hi Dmitry,
 
-kernel test robot noticed the following build warnings:
+On Wed, Dec 04, 2024 at 01:53:44PM +0200, Dmitry Baryshkov wrote:
+> On Wed, Dec 04, 2024 at 11:37:05AM +0100, Tommaso Merciai wrote:
+> > Hi Liu Ying,
+> > Thanks for your review.
+> > 
+> > On Wed, Dec 04, 2024 at 11:34:23AM +0800, Liu Ying wrote:
+> > > On 12/04/2024, tomm.merciai@gmail.com wrote:
+> > > > From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > > > 
+> > > > Introduce it6263_is_input_bus_fmt_valid() and refactor the
+> > > > it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
+> > > > format by selecting the LVDS input format based on the LVDS data mapping
+> > > > and thereby support both JEIDA and VESA input formats.
+> > > 
+> > > ite,it6263.yaml says IT6263 supports vesa-24 and vesa-30, while
+> > > this patch actually only adds vesa-24 support.  So, to be more
+> > > specific, the patch subject and commit message should reflect
+> > > this rather than claim "Support VESA input format".
+> > 
+> > Fully agree, thanks.
+> > I will fix that in v2 specifying vesa-24 like you suggest.
+> > 
+> > > 
+> > > > 
+> > > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > > 
+> > > Can you please send this patch with your Renesas email address
+> > > instead of Gmail email address?
+> > > Otherwise, add a Signed-off-by tag with your Gmail email address.
+> > 
+> > Thanks, for the point.
+> > What about adding Acked-by: from my renesas email address?
+> 
+> Acked-by has a different meaning. I'd say that generally it's okay to
+> have this light mismatch, see [1] or any of the emails that B4 generates
+> for web-based submission.
+> 
+> [1] https://lore.kernel.org/dri-devel/20241121164858.457921-1-robdclark@gmail.com/
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.13-rc1 next-20241203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks for sharing this example and for the clarification.
+This is similar to my case :)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fei-Shao/drm-mediatek-dp-Support-flexible-length-of-DP-calibration-data/20241204-133854
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241204053634.1365491-1-fshao%40chromium.org
-patch subject: [PATCH] drm/mediatek: dp: Support flexible length of DP calibration data
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20241204/202412042020.FZmfgvza-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042020.FZmfgvza-lkp@intel.com/reproduce)
+Then v1 procedure is correct?
+I can use the same formatting (From: Sob:) for sending v2?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412042020.FZmfgvza-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/drm/display/drm_dp_aux_bus.h:13,
-                    from drivers/gpu/drm/mediatek/mtk_dp.c:7:
-   drivers/gpu/drm/mediatek/mtk_dp.c: In function 'mtk_dp_get_calibration_data':
->> drivers/gpu/drm/mediatek/mtk_dp.c:1181:34: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    1181 |                                  "Out-of-bound efuse data access, fmt idx = %d, buf len = %lu\n",
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/gpu/drm/mediatek/mtk_dp.c:1180:25: note: in expansion of macro 'dev_warn'
-    1180 |                         dev_warn(mtk_dp->dev,
-         |                         ^~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_dp.c:1181:93: note: format string is defined here
-    1181 |                                  "Out-of-bound efuse data access, fmt idx = %d, buf len = %lu\n",
-         |                                                                                           ~~^
-         |                                                                                             |
-         |                                                                                             long unsigned int
-         |                                                                                           %u
-
-
-vim +1181 drivers/gpu/drm/mediatek/mtk_dp.c
-
-  1148	
-  1149	static void mtk_dp_get_calibration_data(struct mtk_dp *mtk_dp)
-  1150	{
-  1151		const struct mtk_dp_efuse_fmt *fmt;
-  1152		struct device *dev = mtk_dp->dev;
-  1153		struct nvmem_cell *cell;
-  1154		u32 *cal_data = mtk_dp->cal_data;
-  1155		u32 *buf;
-  1156		int i;
-  1157		size_t len;
-  1158	
-  1159		cell = nvmem_cell_get(dev, "dp_calibration_data");
-  1160		if (IS_ERR(cell)) {
-  1161			dev_warn(dev, "Failed to get nvmem cell dp_calibration_data\n");
-  1162			goto use_default_val;
-  1163		}
-  1164	
-  1165		buf = (u32 *)nvmem_cell_read(cell, &len);
-  1166		nvmem_cell_put(cell);
-  1167	
-  1168		if (IS_ERR(buf)) {
-  1169			dev_warn(dev, "Failed to read nvmem_cell_read\n");
-  1170			goto use_default_val;
-  1171		}
-  1172	
-  1173		/* The cell length is in bytes. Convert it to be compatible with u32 buffer. */
-  1174		len /= sizeof(u32);
-  1175	
-  1176		for (i = 0; i < MTK_DP_CAL_MAX; i++) {
-  1177			fmt = &mtk_dp->data->efuse_fmt[i];
-  1178	
-  1179			if (fmt->idx >= len) {
-  1180				dev_warn(mtk_dp->dev,
-> 1181					 "Out-of-bound efuse data access, fmt idx = %d, buf len = %lu\n",
-  1182					 fmt->idx, len);
-  1183				kfree(buf);
-  1184				goto use_default_val;
-  1185			}
-  1186	
-  1187			cal_data[i] = (buf[fmt->idx] >> fmt->shift) & fmt->mask;
-  1188	
-  1189			if (cal_data[i] < fmt->min_val || cal_data[i] > fmt->max_val) {
-  1190				dev_warn(mtk_dp->dev, "Invalid efuse data, idx = %d\n", i);
-  1191				kfree(buf);
-  1192				goto use_default_val;
-  1193			}
-  1194		}
-  1195		kfree(buf);
-  1196	
-  1197		return;
-  1198	
-  1199	use_default_val:
-  1200		dev_warn(mtk_dp->dev, "Use default calibration data\n");
-  1201		for (i = 0; i < MTK_DP_CAL_MAX; i++)
-  1202			cal_data[i] = mtk_dp->data->efuse_fmt[i].default_val;
-  1203	}
-  1204	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks & Regards,
+Tommaso
+> 
+> > 
+> 
+> -- 
+> With best wishes
+> Dmitry
