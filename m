@@ -2,104 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8DD9E37A2
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 11:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA3F9E37A6
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 11:37:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D992110ECC6;
-	Wed,  4 Dec 2024 10:36:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 273EF10ECC2;
+	Wed,  4 Dec 2024 10:37:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gZ3BH4SY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hPG76xYx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07F9310ECC2
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:36:40 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-385eed29d7fso487176f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 02:36:40 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EFC810ECC2
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:37:10 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-434a0fd9778so60811355e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 02:37:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733308599; x=1733913399; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=CEBWDAJs2F15pzwyozxNKYhFYdToRnM6LzIW6iWekBk=;
- b=gZ3BH4SYZVQ5Ax53NNzo5xieuHV9Njyi8BheOX0nRNfPI4ZR8BYzpPpFx8TZ5xQSWF
- ZlwjPaWqr5YYiqcu+9aRPmmvq3NscEdUVZB51hegAisUdcj51xIonBqpFSynVU9xiDcB
- 6jxkScCeEzaKPfDCOU8mB2I6RoQq+bXDyPNHb4mIhs9MaV23W2uZ3BCY75vZDfdR7V7u
- x4vR6UzYDJXszx5fR/Ta69RdNvX8xA16aIQf0/fcdc5KkXkpu1vzlC3bF7jR/gMYwUCB
- NfdR0AWcXQJakBjZpjjZlXm03YDFP/stkTEzvmtjBP0F7VzDyhb4b0ZxU+GbI+WQ43K5
- 0VTQ==
+ d=gmail.com; s=20230601; t=1733308629; x=1733913429; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=L3ttYxp6rhOt03opBOFaCp7oUwpLFGdn3JPE802PBas=;
+ b=hPG76xYxPFCReX7IuvrkNM8O6muzvq3ov9WlRQYzKZqMreYycfvQRn61gMXu2jSVuR
+ u+qliOLxIgXBr7ATTKj0/0evOzDOOy0YTeCR+exTsvm4w/wOniBnONFMHJHVdzwXZygP
+ pUi2wgEWQInkLTo3RHoeW4wTYGQlnRZSPQVjw7VDnZ7XwKc4RWFtpNHzDHKTq5vjQRfr
+ 7bPjT6iAI46tnqOC/P5xoeUtq72BcbHqNSY5wWlkhigsAnEJl/m6nNzDgn8ACHb5+XQY
+ Rtv05RLI7EAvD4gFnWASzrKh7XyKWbh4sb8MeUVUXmoyp4ig8pdmit5CNFGMjQDsmzIB
+ iqjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733308599; x=1733913399;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CEBWDAJs2F15pzwyozxNKYhFYdToRnM6LzIW6iWekBk=;
- b=Wxb0sIOPxqdcrPbplRNx6oOlvhsXHyNZZ/XA3DvAN5aam8lP9tCnWYsQd7Oc6IFyp1
- 6WB47bJMEKHwM70d0RJGPrCNqf1XOXmXNQ9QBilMw6OirIOxQWlLBAzRncrOusuGpCsT
- v6B2dzJ/WzSI35ma6Z/4jdGYmgHBx2UxzMabNY0J/iOA2h918SPU4sLlLtfHRTt/yU31
- KN4MO7bu8E9NlR+mckhnT/1z4TkzrCxTFnP24yCQj4ZGpe8QCtCxQyDaj5giM+3IYpev
- JTipXtkj4REWug4qyAjq1hdhEAc3Mfih0nqrIsITLz+R6G/QCW2G0u6b0XZCegqNW3Sk
- OTjQ==
+ d=1e100.net; s=20230601; t=1733308629; x=1733913429;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=L3ttYxp6rhOt03opBOFaCp7oUwpLFGdn3JPE802PBas=;
+ b=eTmcdp9Nmg7YIs84i6GrPn8nbvbasS0mSmF+2UiMBJXRD2az7rGQN9PBlwBNsZwbej
+ OZmuLfJT6642vwsMFDwaSJO8BjEwmq9C85xHralM58ns67XQJIYYgs/5xAtQ8lwPnld3
+ f+lJEK2AUqIX6XS5m5O3WIj2S6kEfNCUnqnRIr1eVZ6ZzN2iPP6R9/epl6yUEpccED0Y
+ rSMt1IUbxN2B0rCqfX+BaRWk4WHHiGiwmrJ++d1Z+goxfqHOHcUAT5HcDFTFUoRR2/As
+ Nhnzo2l7epGqblBd+ehekGHvLRjG3S2hPs9e9SY8PS4aGAxr8/LUCeLZ7LPwLGHHXMAq
+ fhWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX5f0GedwSqrNxiCJpRhiTFwLqfsmBYhPDMLsTSXF7IDqWXZ8b915Q7RVtg7/5E+fVOJqv7v2836WM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwNbQXaqgxcq8dALPDXDMwgsnT1dkgKYkVTW5StPC/8wBHExoFZ
- IYFP1HTS33pwVQ8WgqnRiB9MUss1wJcDtZW296DBdFzh3VcLT87zOrJS+XlsFVM=
-X-Gm-Gg: ASbGnctNtmyItZ1eH/GWWGgodtXFS2Ag3u8v8w3UDPkc8Yyjem3eXAe+PtOfXN99wfG
- MpsY99N4gJxKv3hLVL+Eph90xj8kC5plRdbhYXlZDxvvVKr8qPtM24p0cBp5jbqAEzLVWa5fijg
- W+unZ9eJnJl/BJW8qwuc7w+uf7rpEbk0BTblELtT5Cuiya7xQ0b8mvaBrfmYa2WCikSR1feC4Kg
- mNuTj4xPs5Yw2oCP2SkL5kVy9p/Md1TbUNZYzq/moFEVLN62CEXKO+iy3jdoDYxwgvKEaY=
-X-Google-Smtp-Source: AGHT+IE1eKytGYhN/G2avEbscWDzaqM2N9y7QbNLOqIY3WvlHqBjWYhCRVwGHZqF/ZoYxBdvoZSCOg==
-X-Received: by 2002:a5d:6c62:0:b0:385:f010:e5f4 with SMTP id
- ffacd0b85a97d-385fd9b6c06mr4026493f8f.28.1733308599326; 
- Wed, 04 Dec 2024 02:36:39 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-385df74157asm15409391f8f.0.2024.12.04.02.36.38
+ AJvYcCWHZTIcSXJu1odjjOgXIti7HHhbIFg8PFYUdMHU3MsVr28BRsX4X/qiSoXo5UeZLUTn7DoeKTORgzg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxUQbzMDkcOSVoxCsvUle2QoxKaQ6Eyo0VbxdWU5PP0cI7yIGVU
+ KOidWpEctGD9CVxx2HI1i4gi95aK/Sqfp+3M4lFTsZWw2YU+R+sc
+X-Gm-Gg: ASbGnctlLtcaLzOrIx+k0fpTjzXiEnpVwseDIeHspgqRGHwsyK3+YxvQZ3faGYHixY9
+ oVW+viG15eVLin2BI9Edd/CXaijyPn4WK7OzvxfIyEgWsOsRZjQrijuJj6OxoZhaYO53+VA/kFm
+ SmrxzJvGhgENyFIQdb6lsQG90TPMxVpbTe4ZQssHjyOv/Ii2f5fFHPdedSeonNrBMYj8byt2hzu
+ xmGNR0jAzX7O8Fc//oHdgje1v50l+a5xJ8cRBq2/Y5R5uJWCxFv/hksf2cBnGnQkAPqr8v01ErE
+ j+bjsxlFHdxAOh2RkHO7
+X-Google-Smtp-Source: AGHT+IFk6yd+S1MM72aq43fUVFUVQJ8IJuecR2VdiHKgNuoOL+p3FwaA3bVzIhygdzDfT4fCU6sesg==
+X-Received: by 2002:a05:600c:1d19:b0:434:a1d3:a306 with SMTP id
+ 5b1f17b1804b1-434d09b2401mr51927465e9.5.1733308628639; 
+ Wed, 04 Dec 2024 02:37:08 -0800 (PST)
+Received: from tom-desktop (net-188-217-53-234.cust.vodafonedsl.it.
+ [188.217.53.234]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-434d527e287sm19861935e9.12.2024.12.04.02.37.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2024 02:36:38 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Wed, 04 Dec 2024 11:36:37 +0100
-Subject: [PATCH] dt-bindings: display: msm: sm8350-mdss: document the third
- interconnect path
+ Wed, 04 Dec 2024 02:37:08 -0800 (PST)
+Date: Wed, 4 Dec 2024 11:37:05 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ biju.das.jz@bp.renesas.com,
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
+Message-ID: <Z1Aw0WafGmYDrr8K@tom-desktop>
+References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+ <834a2690-ca06-4a8b-9a81-c4981074f95c@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241204-topic-misc-sm8350-mdss-bindings-fix-v1-1-aa492a306bdb@linaro.org>
-X-B4-Tracking: v=1; b=H4sIALQwUGcC/x2NwQrCMBAFf6Xs2YVsrFT8FfGQJpv2HZKWrIhQ+
- u8GjzOHmYNMG9ToMRzU9APDVjvIZaC4hrooI3Um7/wo3o383nZELrDIVu7Xm+OSzHhGTaiLcca
- XZXIyh5yjhEC9tDft+n95vs7zB4azNaN1AAAA
-X-Change-ID: 20241204-topic-misc-sm8350-mdss-bindings-fix-1701baffc1aa
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1684;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=peYrt415YULllPSwRUnKU5Qx+NDdGSX6LQbwju+FB9U=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBnUDC1nleUyZQQLS9gEd7//NknovstellbNGR/a7EQ
- eyLt7XiJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZ1AwtQAKCRB33NvayMhJ0YhkD/
- 9U3qDvqecaANAURilULho5J/RjI0flxgZwbAVSkj2UH7c2Ifm0TEJm/PNkwLJgE/jIYZ8DP4o7qTt+
- x4TRZVYeu+QVirVM/e4z8PMgI0scaCwmrwkdjy1dyUlUxXxyZc2tUyOSpsnBmBSqmwb8SCvUoOKhSy
- NTXIvoP2J0YLDMTUryjNP0av/W+9k3Tw8wgy7lse1tXil3MhdXbufiSstkS2MZs9bFuYOvz8leUOR7
- 8QE3Fa7FTMYdTWEU9dEwIPqnMBcmu4C8yfbXiWRnru075t6rcT2BKyvA57BY/PYjSYFqO3BTOt7HND
- YcHxVfEDXY7pNe0j1mZ+HQce2nCGEjtWyS8LUDPfntDpf3PaySc0ESyeu32Xm6Z1+2fvufXlUds3rV
- +Le2js2U5SQq2nFRXXzxLltckVq+6122EV+MD2N9ElD180lTFrNXXqSxEHHG+S+KlhuYTGRX1pHBKg
- iNrRGeE+97Ueyk9r1QXJ0whDnFsz32k/VHI7OkelttMYUdUm3HXDuTqyDN+7GcJdFgLZXwe6FFbBuN
- sPd5SpFM+y42SNCOMeiXfZ+DoACTRda1hBRWWGk2oO685P2uFJV21NN7b32MOQ9CJ04CXRQi/d26aK
- jvUGV67nUXQyNFkZiU2Ndxm28uPmob6GYdVFptyfrE08LgbJ8tRqnB1fB74A==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <834a2690-ca06-4a8b-9a81-c4981074f95c@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,46 +98,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the missing third "cpu-cfg" interconnect path for the MDSS hardware
-found on the Qualcomm SM8350 platform.
+Hi Liu Ying,
+Thanks for your review.
 
-This fixes:
-display-subsystem@ae00000: interconnects: [[121, 7, 0, 77, 1, 0], [121, 8, 0, 77, 1, 0], [78, 2, 3, 79, 16, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8350-mdss.yaml#
-display-subsystem@ae00000: interconnect-names: ['mdp0-mem', 'mdp1-mem', 'cpu-cfg'] is too long
-	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8350-mdss.yaml#
+On Wed, Dec 04, 2024 at 11:34:23AM +0800, Liu Ying wrote:
+> On 12/04/2024, tomm.merciai@gmail.com wrote:
+> > From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > 
+> > Introduce it6263_is_input_bus_fmt_valid() and refactor the
+> > it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
+> > format by selecting the LVDS input format based on the LVDS data mapping
+> > and thereby support both JEIDA and VESA input formats.
+> 
+> ite,it6263.yaml says IT6263 supports vesa-24 and vesa-30, while
+> this patch actually only adds vesa-24 support.  So, to be more
+> specific, the patch subject and commit message should reflect
+> this rather than claim "Support VESA input format".
 
-Fixes: 430e11f42bff ("dt-bindings: display: msm: Add qcom, sm8350-mdss binding")
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Fully agree, thanks.
+I will fix that in v2 specifying vesa-24 like you suggest.
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
-index 163fc83c1e80cf07383f9aef510f2f58a26e1ecc..cd9c6c78413f887c984b522f83cc7e437ce97d25 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
-@@ -38,12 +38,13 @@ properties:
-     maxItems: 1
- 
-   interconnects:
--    maxItems: 2
-+    maxItems: 3
- 
-   interconnect-names:
-     items:
-       - const: mdp0-mem
-       - const: mdp1-mem
-+      - const: cpu-cfg
- 
- patternProperties:
-   "^display-controller@[0-9a-f]+$":
+> 
+> > 
+> > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> 
+> Can you please send this patch with your Renesas email address
+> instead of Gmail email address?
+> Otherwise, add a Signed-off-by tag with your Gmail email address.
 
----
-base-commit: 667ff2368867af7000ce32a8b3fc025c2b3226b3
-change-id: 20241204-topic-misc-sm8350-mdss-bindings-fix-1701baffc1aa
+Thanks, for the point.
+What about adding Acked-by: from my renesas email address?
 
-Best regards,
--- 
-Neil Armstrong <neil.armstrong@linaro.org>
+> 
+> > ---
+> >  drivers/gpu/drm/bridge/ite-it6263.c | 25 ++++++++++++++++++++++---
+> >  1 file changed, 22 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
+> > index cbabd4e20d3e..83d1db29157a 100644
+> > --- a/drivers/gpu/drm/bridge/ite-it6263.c
+> > +++ b/drivers/gpu/drm/bridge/ite-it6263.c
+> > @@ -48,6 +48,7 @@
+> >  #define  REG_COL_DEP			GENMASK(1, 0)
+> >  #define  BIT8				FIELD_PREP(REG_COL_DEP, 1)
+> >  #define  OUT_MAP			BIT(4)
+> > +#define  VESA				BIT(4)
+> >  #define  JEIDA				0
+> >  #define  REG_DESSC_ENB			BIT(6)
+> >  #define  DMODE				BIT(7)
+> > @@ -428,12 +429,30 @@ static inline void it6263_lvds_reset(struct it6263 *it)
+> >  	fsleep(10000);
+> >  }
+> >  
+> > +static bool it6263_is_input_bus_fmt_valid(u32 input_fmt)
+> 
+> 1) Inline this small function.
+> 2) Change the argument input_fmt type from u32 to int to
+>    match the type of it->lvds_data_mapping.
 
+Will fix that in v2, thanks :)
+
+> 
+> static inline bool it6263_is_input_bus_fmt_valid(int input_fmt)
+> 
+> > +{
+> > +	switch (input_fmt) {
+> > +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
+> > +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
+> > +		return true;
+> > +	}
+> > +	return false;
+> > +}
+> > +
+> >  static inline void it6263_lvds_set_interface(struct it6263 *it)
+> >  {
+> > +	u8 fmt;
+> > +
+> >  	/* color depth */
+> >  	regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, REG_COL_DEP, BIT8);
+> > +
+> > +	if (it->lvds_data_mapping == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG)
+> > +		fmt = VESA;
+> > +	else
+> > +		fmt = JEIDA;
+> > +
+> >  	/* output mapping */
+> > -	regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, OUT_MAP, JEIDA);
+> > +	regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, OUT_MAP, fmt);
+> >  
+> >  	if (it->lvds_dual_link) {
+> >  		regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, DMODE, DISO);
+> > @@ -714,14 +733,14 @@ it6263_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> >  
+> >  	*num_input_fmts = 0;
+> >  
+> > -	if (it->lvds_data_mapping != MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA)
+> > +	if (!it6263_is_input_bus_fmt_valid(it->lvds_data_mapping))
+> >  		return NULL;
+> >  
+> >  	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
+> >  	if (!input_fmts)
+> >  		return NULL;
+> >  
+> > -	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
+> > +	input_fmts[0] = it->lvds_data_mapping;
+> >  	*num_input_fmts = 1;
+> >  
+> >  	return input_fmts;
+> 
+> -- 
+> Regards,
+> Liu Ying
+
+Thanks & Regards,
+Tommaso
+
+
+> 
