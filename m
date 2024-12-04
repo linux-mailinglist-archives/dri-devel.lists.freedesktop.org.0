@@ -2,33 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211399E3BBD
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 14:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C359E3B97
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 14:46:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2941610ED32;
-	Wed,  4 Dec 2024 13:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B84D910ED27;
+	Wed,  4 Dec 2024 13:46:13 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="neemGZuE";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1E7C10ED2F
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 13:53:22 +0000 (UTC)
-From: Maarten Lankhorst <dev@lankhorst.se>
-To: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Friedrich Vock <friedrich.vock@gmx.de>, Maxime Ripard <mripard@kernel.org>
-Cc: cgroups@vger.kernel.org, linux-mm@kvack.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maarten Lankhorst <dev@lankhorst.se>
-Subject: [PATCH v2 7/7] drm/gem: Add cgroup memory accounting for VRAM helper.
-Date: Wed,  4 Dec 2024 14:44:07 +0100
-Message-ID: <20241204134410.1161769-8-dev@lankhorst.se>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204134410.1161769-1-dev@lankhorst.se>
-References: <20241204134410.1161769-1-dev@lankhorst.se>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD4610ED27
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 13:46:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D76C55C48E2;
+ Wed,  4 Dec 2024 13:45:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6395C4CECD;
+ Wed,  4 Dec 2024 13:46:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733319971;
+ bh=ENM0SClxUt2lPvodmnrHzeLBV9BDJq1owuP9D1ySOsA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=neemGZuEgTiKvdyK2nqqBYB/8qfQ02WQDlv9wzIByn8tp5P7+i8Bvs1enmvuyV708
+ 2y+DTLhmxW610fCYgDcKAGG1exv2oRBeJCd+yRhFI3hAakWRmsWRFDbnoxEkUyxJql
+ 6ybJkg/fRNts42khtGnjNb6KibyexaOwInuQ2AcYCGUVBUFlYOyDdfT4DP9kl/thF7
+ tf3lDdIN5Ldml9S0Tf7i7Qfz1gitRo4lTNtBsBDGAJAGA5fRtcUweosP505AR1vY0P
+ HbYaYO4wVYkJ+HHS85KZPM/1k8ODE8AfD1lLGjL4v9cGhehM3cwvqdpaYGwe71Kxsp
+ eRmjIsDwlthpg==
+Date: Wed, 4 Dec 2024 19:16:07 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Sandor Yu <Sandor.yu@nxp.com>
+Cc: dmitry.baryshkov@linaro.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
+ daniel@ffwll.ch, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, festevam@gmail.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, mripard@kernel.org,
+ kernel@pengutronix.de, linux-imx@nxp.com, oliver.brown@nxp.com,
+ alexander.stein@ew.tq-group.com, sam@ravnborg.org
+Subject: Re: [PATCH v18 2/8] phy: Add HDMI configuration options
+Message-ID: <Z1BdHzfcnj6XJ9D4@vaman>
+References: <cover.1730172244.git.Sandor.yu@nxp.com>
+ <64f6885b5a5ca89c8214b3138cb58c3133ac2109.1730172244.git.Sandor.yu@nxp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64f6885b5a5ca89c8214b3138cb58c3133ac2109.1730172244.git.Sandor.yu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,51 +67,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxime Ripard <mripard@kernel.org>
+On 29-10-24, 14:02, Sandor Yu wrote:
+> Allow HDMI PHYs to be configured through the generic
+> functions through a custom structure added to the generic union.
+> 
+> The parameters added here are based on HDMI PHY
+> implementation practices.  The current set of parameters
+> should cover the potential users.
 
-This allows any driver using the VRAM helper to set limits on VRAM using
-cgroup.
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
----
- drivers/gpu/drm/drm_gem_vram_helper.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 22b1fe9c03b81..70979523ee984 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -925,6 +925,7 @@ EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
- static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
- 			    uint64_t vram_base, size_t vram_size)
- {
-+	struct ttm_resource_manager *man;
- 	int ret;
- 
- 	vmm->vram_base = vram_base;
-@@ -939,8 +940,20 @@ static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
- 
- 	ret = ttm_range_man_init(&vmm->bdev, TTM_PL_VRAM,
- 				 false, vram_size >> PAGE_SHIFT);
--	if (ret)
-+	if (ret) {
-+		ttm_device_fini(&vmm->bdev);
- 		return ret;
-+	}
-+
-+	man = ttm_manager_type(&vmm->bdev, TTM_PL_VRAM);
-+	man->cg = drmm_register_region(dev, "vram", size);
-+	if (IS_ERR(man->cg)) {
-+		ret = PTR_ERR(man->cg);
-+
-+		ttm_range_man_fini(&vmm->bdev, TTM_PL_VRAM);
-+		ttm_device_fini(&vmm->bdev);
-+		return ret;
-+	}
- 
- 	return 0;
- }
 -- 
-2.43.0
-
+~Vinod
