@@ -2,125 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7655E9E4423
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 20:08:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C479E4427
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 20:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3C8310E0AC;
-	Wed,  4 Dec 2024 19:08:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C624010E14E;
+	Wed,  4 Dec 2024 19:09:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="MQ4vvfr8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d4kojFil";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E50710E0AC
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 19:08:52 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-7250844b0ecso140974b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 11:08:52 -0800 (PST)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
+ [209.85.222.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B55BF10E14E
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 19:09:01 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id
+ af79cd13be357-7b67a94ae87so4966385a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 11:09:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1733339332; x=1733944132;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=CeaxonMXyIRT226phScRmc3Q71XZjLqP8a2LkKst8Q0=;
- b=MQ4vvfr8Npq5q3vVmcUbLrnJz1+9rXaXtuU7PXLFm3tFfJzK9fpFByYDdjamsIBy9H
- 9TKzUmKmNnTNmn8FCPM29vLWnTaxbxdECIkFlJU2dDRRIca6YFwnbpuScz/iSX999ude
- FJpm/oRaBB/trFL+hYovFrLqyf2CloLUDj45I=
+ d=gmail.com; s=20230601; t=1733339341; x=1733944141; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eJLNENIFJ5pLCOro589JKFk1GPrQ6YfBbYsQJlfoWl8=;
+ b=d4kojFilrCu5XJ7lrUUf1tuiZpqf78vtwPOtByldu33WfpgvNhaQRcP1ZH0oA3jDOW
+ qMYR0cHMrSflq9SBOw4TsSAsfHXZVzHJdnJg67zH8t33JesfTsmgWEToahcUR1iZs0R/
+ TvcRGSlpLzW4NiysGwY+7/6i3Og1sXnTEjbMmLjFhW2+Sf1a+MqOri1zFUxK3v91FjrR
+ wwVAtW4QJ36o7OimRJeupy/E6wIG4uKolzOZ/iLG34zNhoyWyXopurXKq2zF2yiadyPs
+ /no/7d6DBCEbD/CKll6ymju6cz3VKXV+ofKXBE2o+7LRtLhGLZVuJ23lGjKROczAXScQ
+ msrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733339332; x=1733944132;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CeaxonMXyIRT226phScRmc3Q71XZjLqP8a2LkKst8Q0=;
- b=rzlxfhegjjsuaEfuR407U6hfZS8cx3rSJTrJ7EnG2g0T2946nSikTFkD4Zki99ZO8N
- a2qqknCrIajFwZtToPQ8V5JyM7G2EaaRQrUV5iNd9bETaYBR3s7V0wKGT4M6/YAllFN4
- zxl3/1J7PxgcvN8i+22P1tcOHuNA86qbCfBDenAGP/7sYJCRB+UCSHAIqee1Ju1zAjgo
- w/gD/NarGz337IKAoQCwIXfKMIbH5SQ/PTvol3cTvah0X8kou7aPYatfyLc6lq4Ceunn
- DFwCUCRrrpRQ3mkZsVPHciBhmpplXCBbALnlMoYwLS+TR8OQ3if2uqlRtXYeK9ph+PX9
- wpYw==
-X-Gm-Message-State: AOJu0YyPS3q+ii4u1gVvDRM/+Rz1i/VAYQ3LjdXbIh1EHwatjMHP+ciN
- K3KzdfiOCC0zuiEQOekfbj1C/v78892PrsktvGh7krGlttOC1ZwqmRBNVyu20Q==
-X-Gm-Gg: ASbGncs3OV7aK5eftSzZ2//wTA0MKyUeNr6Kb+6QU9lKJ+0Quov318vw5jnekDLMctj
- 2VGd4LyldU+EfOEbTAT27DRFqF2k7kxQ81Udqv2MhpQ+EmySu3Yu99vFkKtku9YbY/WyPKs9Zbr
- e3yzZXDCDrWz39lC92Q7WBOjwZW4Q6HxOw3JwwdEmYbjL0SdEnvc8jZgDlw7sBHiyXTEehHdZid
- pPKzlFWdLJ/6f2QpDLOfKyhiP1VaVuPECEeY6MyqG/IOZxKcLTBkbWvhU/rB0QLyAqCU1UYweG8
- eyNvnBgWTZ3rgA==
-X-Google-Smtp-Source: AGHT+IGmY+qzKW/9TmwBPBzx791pCA1vC+Wl3B3mwReYsRw8915lr3trZFeoT08VDI12exU8vOaX7Q==
-X-Received: by 2002:a05:6a00:230a:b0:725:4109:5b5f with SMTP id
- d2e1a72fcca58-7257fa611bfmr12599475b3a.8.1733339331930; 
- Wed, 04 Dec 2024 11:08:51 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-72597347ec0sm946638b3a.48.2024.12.04.11.08.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Dec 2024 11:08:51 -0800 (PST)
-Message-ID: <4ab9673a-03a7-4358-b95d-eef514607bc2@broadcom.com>
-Date: Wed, 4 Dec 2024 11:08:46 -0800
+ d=1e100.net; s=20230601; t=1733339341; x=1733944141;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eJLNENIFJ5pLCOro589JKFk1GPrQ6YfBbYsQJlfoWl8=;
+ b=vowinyAkaY5OylBMvyvLEi5q02XKfv5Bc0zSKrjXZnEQs7nQVGCvh+i+qYrCdwDy4O
+ fqoKbwkEgVUSrhI2mDRx/1kBytvjrl4ucmVJCsLJSHn6retBsBSiuKHKkdkuwfUX9bhG
+ pzbhAjgCbIRv22AzrHac06LT8xKDcqlx6R9Vh/JXRauhiQ2B88S2seMSVzayIWaur+Sx
+ F/zNSqMzCXG173g8C6WkCeLaosYwOl16rrsPtmKOjIjVeA2DQINd6KbPVUL30cvt4Jqr
+ A2q8kjSt6ydQVRvNtltoZshVskMlhZfDstdIopBUHAWh4oRmobFBFoGrz/R03jj9cyyQ
+ K9xw==
+X-Gm-Message-State: AOJu0YzS2sUH+RDgtZi6/udsQPAHOXufdoFTikgI1+t41zejaIH1LnEG
+ WIma1S1NRfZinF0g0VhrjlaeaqOeLkPzzpWOC/VAeHfa1YZri6UdQTP8dg==
+X-Gm-Gg: ASbGncvRTPqFW+TX2wqiQZiUIh3yheObDGOxoiJdtNdznQYX7pOwwREE/y4Kv9FS2g9
+ /o9c0bxAWOW6fHy/cuyPTT6N/p5sSVKIYZGszwAcMbJzLHCwG4CvLSokFgeAG/aJpIAGJ2Dtl6s
+ +dORltt7kf2kpfsO2Sm7iz76+k6+F9qOt3E19PyoBBpWGSFfczXBWMSacb0z5ah3mNHrXO/DDiA
+ f2L3DrXYrFKdl991GZKgYbM/R+JrOqDOQARGOWw3Lw=
+X-Google-Smtp-Source: AGHT+IHpI2ptNAgPNW3AC0kdL88Luf7W2sRWtJkODy8+vkY6t7sE+i1tp+9VGp0e6lBMqgkt8VEg3A==
+X-Received: by 2002:a05:620a:3181:b0:7b6:77c0:a096 with SMTP id
+ af79cd13be357-7b6a61d869dmr903564785a.46.1733339340442; 
+ Wed, 04 Dec 2024 11:09:00 -0800 (PST)
+Received: from localhost ([162.208.5.78]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7b6849b7108sm639509185a.101.2024.12.04.11.08.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2024 11:08:59 -0800 (PST)
+Date: Wed, 4 Dec 2024 14:08:57 -0500
+From: Matt Turner <mattst88@gmail.com>
+To: xorg-announce@lists.x.org
+Cc: dri-devel@lists.freedesktop.org
+Subject: [ANNOUNCE] libdrm 2.4.124
+Message-ID: <cfpt5kyybtgsvszy6tr635emqemaxeccg256anq5turkoxyrs2@zjrh2oh6zln5>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/7] arm64: dts: broadcom: Fix device tree errors on
- BCM2712.
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Eric Anholt <eric@anholt.net>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Doug Berger <opendmb@gmail.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- linux-gpio@vger.kernel.org
-References: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
- <20241202-dt-bcm2712-fixes-v1-7-fac67cc2f98a@raspberrypi.com>
- <44c233d7-87d7-4dbb-a0d0-9e93ea497622@kernel.org>
-Content-Language: en-US
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <44c233d7-87d7-4dbb-a0d0-9e93ea497622@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="diz467znw73a3c4u"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,20 +80,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/2/24 07:24, Krzysztof Kozlowski wrote:
-> On 02/12/2024 15:32, Dave Stevenson wrote:
->> Resolves the issues on clocks and power nodes
-> 
-> Which issues? Be specific. Such commit is unprecise and not really
-> helpful. We see it from the diff that this is "some issue". What we do
-> not see is WHY and WHAT the ISSUE is.
 
-A link to the robot email would have probably been helpful in 
-understanding which dt checker errors are being fixed here. Regardless, 
-as indicated in patch #4, those commit messages will be discarded since 
-I intend to fixup the original commits directly into my tree I would not 
-put too much effort into addressing any comments there, unless there is 
-some piece of information that should have been provided in the original 
-commit, in which case I can squash, rather than fixup.
--- 
-Florian
+--diz467znw73a3c4u
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Alan Coopersmith (1):
+      include/drm/README: update drm-next link to use gitlab instead of cgit
+
+Dmitry Baryshkov (2):
+      modetest: simplify planar YUV handling
+      modetest: add support for YUV422 and YUV444 plane format
+
+Marek Ol=C5=A1=C3=A1k (1):
+      xf86drm: print AMD modifiers properly
+
+Marijn Suijten (1):
+      tests/util: Call `drmGetDevices2()` instead of `drmOpen()`ing all mod=
+ules
+
+Matt Turner (1):
+      build: bump version to 2.4.124
+
+Mauro Rossi (1):
+      android: add genrule for generated_static_table_fourcc.h
+
+Rob Barnes (1):
+      modetest: Make modetest availble to vendor on Android
+
+Simon Ser (1):
+      build: simplify Linux system check
+
+git tag: libdrm-2.4.124
+
+https://dri.freedesktop.org/libdrm/libdrm-2.4.124.tar.xz
+SHA256: ac36293f61ca4aafaf4b16a2a7afff312aa4f5c37c9fbd797de9e3c0863ca379  l=
+ibdrm-2.4.124.tar.xz
+SHA512: 0408c3ae5780c57d19321a9a7b046d656e252b2f48e520b2beb18f83495bea39c44=
+5deb9a9a6795b46194051c2ea4da476e08c63972daf841064099df6dff365  libdrm-2.4.1=
+24.tar.xz
+PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.124.tar.xz.sig
+
+
+--diz467znw73a3c4u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iNUEABYKAH0WIQQWI4p9kkSLArexA0S2sc6uUQPbBwUCZ1CoxV8UgAAAAAAuAChp
+c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MTYy
+MzhBN0Q5MjQ0OEIwMkI3QjEwMzQ0QjZCMUNFQUU1MTAzREIwNwAKCRC2sc6uUQPb
+B19eAQCzIcBRrldv6o8jVr0guotkOt4X1lUp6xO6+cw27qYJWwD+J1bYRP4SzwhH
+GGUStjm13qwSOkyS1mOOwf74NSAeew4=
+=8/mn
+-----END PGP SIGNATURE-----
+
+--diz467znw73a3c4u--
