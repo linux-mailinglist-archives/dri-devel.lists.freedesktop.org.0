@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B77B9E48F2
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 00:29:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275DC9E48FA
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 00:29:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1100110ED7C;
-	Wed,  4 Dec 2024 23:29:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AFCE10ED7E;
+	Wed,  4 Dec 2024 23:29:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lTfGIcS2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YX8W2WJe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5865910ED79;
- Wed,  4 Dec 2024 23:29:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0957810ED7E
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 23:29:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 574C1A41399;
- Wed,  4 Dec 2024 23:27:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40851C4CECD;
- Wed,  4 Dec 2024 23:29:14 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 76C1E5C5706;
+ Wed,  4 Dec 2024 23:29:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6A8FC4CECD;
+ Wed,  4 Dec 2024 23:29:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733354956;
- bh=pFQjjEdkgiRe6I61WhUqrKY6q25ZpHWn+fnlSX5OMTk=;
+ s=k20201202; t=1733354989;
+ bh=4U/41yrQhAgGlFXof3lgFDnpKDOh8dgnlYbwVbFkVHI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lTfGIcS2ZfwDYS2tpsbw9iq6MywlJc33TwCg6+J6mcK2jnry8h24WtsIjWmbDed0D
- Q2xQHwxcOL/4UxQaJdssqrs39drqV56ahd6TtLHc06pXijMUtyOlRow6i+Ijpm7NHk
- Sm7iZBAfaIcrkH0mni/wJb37HFKrZpAiEVsH0Um2Z9sp3gy45ympFJnLXGoNXbLns5
- 2THmr1NmztR0qVDT3CnpiKCfgbQi6ciNjxNDGQpn7uX8I+ROqOadUZkZ64A1HEHsJZ
- JrBn8Td2AZRMKhLd7ySm9voLAFr8zK7hodUFpVbdKefg0gmc4SNI6UwIzgxbgT1PtI
- 3rQmjIgmaEYyQ==
+ b=YX8W2WJeY2k8rHS4Pb68xweHp7QjNGU+hwy3fWi/2Pf5mWQrI6JIkF9gngUlmcH5B
+ 6QVZOxr9EyJ+sfIq5mk6fBnOUttZ5aNJygjNAwf/uRpj7AusAK+mCwcJy6W/n1XxSf
+ ocFQ47zjPFJYFUffhJj1755B9YUdwLa5dv3Dx69b5XmOOsbtI414GqMrdNKUChy1Cv
+ d4T/itPa1096jdbagkV2ldTxNUxe96JAIPtXUfMfuBVxUyPtTOLhCWm4EvURQP3FTZ
+ oe0aj60ziSSxgiuJMmp06BKQ0A9mLojzmhFyiOrnB9zuQxU5mGLwjw96oqzWQpDfzx
+ FbhmMb7jgnuQA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Xiang Liu <xiang.liu@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Stanley . Yang" <Stanley.Yang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, lijo.lazar@amd.com, leo.liu@amd.com,
- Jane.Jian@amd.com, David.Wu3@amd.com, sathishkumar.sundararaju@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 12/15] drm/amdgpu/vcn: reset fw_shared when VCPU
- buffers corrupted on vcn v4.0.3
-Date: Wed,  4 Dec 2024 17:17:06 -0500
-Message-ID: <20241204221726.2247988-12-sashal@kernel.org>
+Cc: Saravana Kannan <saravanak@google.com>,
+ =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+ <nfraprado@collabora.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Thierry Reding <treding@nvidia.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, matthias.bgg@gmail.com, elder@kernel.org,
+ sumit.garg@linaro.org, ricardo@marliere.net,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.6 04/10] drm: display: Set fwnode for aux bus devices
+Date: Wed,  4 Dec 2024 17:18:02 -0500
+Message-ID: <20241204221820.2248367-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204221726.2247988-1-sashal@kernel.org>
-References: <20241204221726.2247988-1-sashal@kernel.org>
+In-Reply-To: <20241204221820.2248367-1-sashal@kernel.org>
+References: <20241204221820.2248367-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.10
+X-stable-base: Linux 6.6.63
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,98 +72,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xiang Liu <xiang.liu@amd.com>
+From: Saravana Kannan <saravanak@google.com>
 
-[ Upstream commit 928cd772e18ffbd7723cb2361db4a8ccf2222235 ]
+[ Upstream commit fe2e59aa5d7077c5c564d55b7e2997e83710c314 ]
 
-It is not necessarily corrupted. When there is RAS fatal error, device
-memory access is blocked. Hence vcpu bo cannot be saved to system memory
-as in a regular suspend sequence before going for reset. In other full
-device reset cases, that gets saved and restored during resume.
+fwnode needs to be set for a device for fw_devlink to be able to
+track/enforce its dependencies correctly. Without this, you'll see error
+messages like this when the supplier has probed and tries to make sure
+all its fwnode consumers are linked to it using device links:
 
-v2: Remove redundant code like vcn_v4_0 did
-v2: Refine commit message
-v3: Drop the volatile
-v3: Refine commit message
+mediatek-drm-dp 1c500000.edp-tx: Failed to create device link (0x180) with backlight-lcd0
 
-Signed-off-by: Xiang Liu <xiang.liu@amd.com>
-Acked-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Stanley.Yang <Stanley.Yang@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Reported-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Closes: https://lore.kernel.org/all/7b995947-4540-4b17-872e-e107adca4598@notapiano/
+Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Signed-off-by: Saravana Kannan <saravanak@google.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Thierry Reding <treding@nvidia.com>
+Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Link: https://lore.kernel.org/r/20241024061347.1771063-2-saravanak@google.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c | 30 ++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/display/drm_dp_aux_bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-index 9bae95538b628..77071967f965a 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-@@ -80,6 +80,20 @@ static int vcn_v4_0_3_early_init(void *handle)
- 	return amdgpu_vcn_early_init(adev);
- }
+diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+index 8a165be1a8214..d15c0f184983b 100644
+--- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
++++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+@@ -292,7 +292,7 @@ int of_dp_aux_populate_bus(struct drm_dp_aux *aux,
+ 	aux_ep->dev.parent = aux->dev;
+ 	aux_ep->dev.bus = &dp_aux_bus_type;
+ 	aux_ep->dev.type = &dp_aux_device_type_type;
+-	aux_ep->dev.of_node = of_node_get(np);
++	device_set_node(&aux_ep->dev, of_fwnode_handle(of_node_get(np)));
+ 	dev_set_name(&aux_ep->dev, "aux-%s", dev_name(aux->dev));
  
-+static int vcn_v4_0_3_fw_shared_init(struct amdgpu_device *adev, int inst_idx)
-+{
-+	struct amdgpu_vcn4_fw_shared *fw_shared;
-+
-+	fw_shared = adev->vcn.inst[inst_idx].fw_shared.cpu_addr;
-+	fw_shared->present_flag_0 = cpu_to_le32(AMDGPU_FW_SHARED_FLAG_0_UNIFIED_QUEUE);
-+	fw_shared->sq.is_enabled = 1;
-+
-+	if (amdgpu_vcnfw_log)
-+		amdgpu_vcn_fwlog_init(&adev->vcn.inst[inst_idx]);
-+
-+	return 0;
-+}
-+
- /**
-  * vcn_v4_0_3_sw_init - sw init for VCN block
-  *
-@@ -110,8 +124,6 @@ static int vcn_v4_0_3_sw_init(void *handle)
- 		return r;
- 
- 	for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
--		volatile struct amdgpu_vcn4_fw_shared *fw_shared;
--
- 		vcn_inst = GET_INST(VCN, i);
- 
- 		ring = &adev->vcn.inst[i].ring_enc[0];
-@@ -134,12 +146,7 @@ static int vcn_v4_0_3_sw_init(void *handle)
- 		if (r)
- 			return r;
- 
--		fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
--		fw_shared->present_flag_0 = cpu_to_le32(AMDGPU_FW_SHARED_FLAG_0_UNIFIED_QUEUE);
--		fw_shared->sq.is_enabled = true;
--
--		if (amdgpu_vcnfw_log)
--			amdgpu_vcn_fwlog_init(&adev->vcn.inst[i]);
-+		vcn_v4_0_3_fw_shared_init(adev, i);
- 	}
- 
- 	if (amdgpu_sriov_vf(adev)) {
-@@ -224,6 +231,8 @@ static int vcn_v4_0_3_hw_init(void *handle)
- 		}
- 	} else {
- 		for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
-+			struct amdgpu_vcn4_fw_shared *fw_shared;
-+
- 			vcn_inst = GET_INST(VCN, i);
- 			ring = &adev->vcn.inst[i].ring_enc[0];
- 
-@@ -247,6 +256,11 @@ static int vcn_v4_0_3_hw_init(void *handle)
- 					regVCN_RB1_DB_CTRL);
- 			}
- 
-+			/* Re-init fw_shared when RAS fatal error occurred */
-+			fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
-+			if (!fw_shared->sq.is_enabled)
-+				vcn_v4_0_3_fw_shared_init(adev, i);
-+
- 			r = amdgpu_ring_test_helper(ring);
- 			if (r)
- 				return r;
+ 	ret = device_register(&aux_ep->dev);
 -- 
 2.43.0
 
