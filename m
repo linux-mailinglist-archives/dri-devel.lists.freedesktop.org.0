@@ -2,73 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC279E3F94
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 17:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249FE9E3F95
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 17:27:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65B9310E4E9;
-	Wed,  4 Dec 2024 16:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D76D10E4F5;
+	Wed,  4 Dec 2024 16:27:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="FqDiAWq2";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="G26Cl7I6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6859A10E4E9
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 16:27:01 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4349ea54db7so61685e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 08:27:01 -0800 (PST)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8066C10E4F5
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 16:27:02 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-434a9f9a225so60225e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 08:27:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1733329620; x=1733934420;
+ d=google.com; s=20230601; t=1733329621; x=1733934421;
  darn=lists.freedesktop.org; 
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KyQtsXmeUdkqec1pltW/92iEDMhCyyh/Xugcf79kOqw=;
- b=FqDiAWq2b2IEcnvRqehPXfubQ2YMzDALUdnyyh/s3qXw4kRmKfY5O+wvZgbHvHiEBh
- PNQgWL7IydYtf8XaDmz6T+5NL08uBrQLHCtyxjUwp9LeGrAJYVIzaS+I6A8swTtJ+jFH
- SeanC0Tg7D8bkdAhzCVivYUPPZmqaFXOWH6OeNwapEGCLBINXFISshoAqorR5EXfTMrt
- TY93+vx7jj450lFgzGDaGFeVdP85sRvu87XX8NKt5tIt5auq84Xis3tfGzV4brqVChIE
- oj9TaSeN/4DDPrJtTt/rjLyp9zEjj24zYPwe7bBaVrTvvIKdhfn9ENXjFe00R/SvJxXu
- fVMg==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=G9G1+IA4HE6z5Jl984QuG0eTi6gYVIS+JAIiJpGUT64=;
+ b=G26Cl7I6u11qdJ22A0ssOZJM2kJIb+FzIBv8JdtkpJ8Oywk73TmKuSUgfypbsUSKiy
+ BQcm3ayzCKxzItiyzmujxd3blbm2mJS/gxrQ6tgUoI+oDEA4r5aifGyeY2AvJHCzCLPi
+ 1FPQU3W/XAmYRllUJdAcHhph7nLKOXJXwcy5kD5djfgutHxvx66frgTLxGFfH0nOikWb
+ Hp9iH9h6B4GAkRps63F++fCNk8WMOX864czuBWOsa0l/gonbQmISGpTpG+fRfFp2DcMO
+ mBxhhltWRuywuJ+GXNDQ2Ee6VPUlcTp6Q78B9HXSkAtROYx1l13foseT8/xGTrjcxJuJ
+ pgcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733329620; x=1733934420;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KyQtsXmeUdkqec1pltW/92iEDMhCyyh/Xugcf79kOqw=;
- b=Artervz/LVmcuONWXqDUX6vtqa/Qi8htwrUqs4Kh4Ig2n+2YFCPSOJiNowS3sqxrNT
- i/bLL4Em3M9f77k0tOQgLIC8ZHdaHzlMzDyK3sjsTOlVxfFbR2bpk/fajQMH/lAsMBUd
- kFoqAD+1gJdwQr7jmt8ZVPmfi/AMIZjdNJuY4jI44tl6d+bWnWUjZM9Fiwg0om2m5ROS
- XAk2JviiIEfnjzgo6fLjvjAMxLzQRNywW2FaMcXXb/lpl3hSOTWVao4KxHybOJK+onl8
- r0BoEfdFErZzGySOcb1vf9V4uoXjK4NXWFVHA7cA1GihzMN06qwi+sPD1RBIwuWAY0WG
- jb3g==
-X-Gm-Message-State: AOJu0YwcHxTk9DGqeP8N8yUFj737XdGVGVhNmbkg06XbxIHxGvEN/9Lt
- DYO0+VKm49HS59Qv5N0rzZML+7WE5iN8MxTKhiF5l0RjaMcLnVOsTDoXF+TWxA==
-X-Gm-Gg: ASbGncsV1hHWFjCBz+raBZ2bTMULuWOAWWMMGN/29jQxm4NsqW7chf0jsOgmbIS21XG
- MbQko9DaMELu+gROqktzod12RAm15UqL6LG2GorB8Zyq8rKLtOjiCYnF+W9Bfozsn3n75YX/tYe
- hDLU4Eq5y3Q7MYju2ydlpepczyKlSCeyfH77v36VYUlMnl7o8A9QVtGNFPwE1SclEjMrfk382X/
- HacysPAGxT/D3TY6TRh4t0OtyH/kaVbfTRB4A==
-X-Google-Smtp-Source: AGHT+IFpzQfGXpeDPtULiRhPLDybLBEA4OSAEcAX75ckbymNW1nJjJIq12WV3lMHghFcvSelG5JPlw==
-X-Received: by 2002:a05:600c:55c5:b0:42b:8ff7:bee2 with SMTP id
- 5b1f17b1804b1-434d52b563dmr1239595e9.5.1733329619368; 
- Wed, 04 Dec 2024 08:26:59 -0800 (PST)
+ d=1e100.net; s=20230601; t=1733329621; x=1733934421;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=G9G1+IA4HE6z5Jl984QuG0eTi6gYVIS+JAIiJpGUT64=;
+ b=Ejj7j2g5qaWamEt+NCQEJWZuaHPWoWUfU/nZUolW0qbXFbllkr8qsOOn6hlhusBwBn
+ xs0udFDWah+y0T1E4B3ECdjyzXpa0J2/8bqaI39xDchCiXDw64kct5Q3PJ8/K5mjaQfi
+ R3zHqDp0B1BjQt8aO+LFuCfzJF9o8oKf2KKLyez0bIj8CL0dPDqhk4HZbtSFd8kZs/sl
+ +csuzP35A9EXbyJKjGSkW0gk4OG7bw6lA44k5HJzWCKpqPHD3VCGhy8UXo3SqM3mnE9b
+ sqBoUExhtg5XJuyi/haxZ2Jo+algSsLyVa6E6qxT6HzTu93xKzx+AvxwaCJVs8rOAxrM
+ jkoA==
+X-Gm-Message-State: AOJu0YwnSzBSqdGrTaODxSmAvuZrmCQ0kUzBEerlZwViSKTIpR3Zh5IA
+ GsJRU6TKKtal6XgCo3F+DXxqVjr5KOqugtC2IPIV52FHwb7GvUQI4DjR1WK+kQ==
+X-Gm-Gg: ASbGncuwHUMUItLuRqSdELnxj8MnkqLA2wN7QVyV+PpDAETrSjVa9OflMVB3Z+rtdiz
+ DjZEjNM2a7pGFy+MH0nDPU6J1HbNlEM4ApNtXI6FMQD/Po//xaf5OBd01QgmuyoAxgE+iK2EyKP
+ GI60HcyP+zuIEj/JlfG1WVK6eXGZcJGvBbjKvSb8gnUA8ukl4by1zsp07Mqx8LRqEkJKaA22KMw
+ si7Deo6CJwrDpxD8BXnj1oycPBP6ubKd57Bog==
+X-Google-Smtp-Source: AGHT+IG9U1RkmAjCsaZkbHJvJ5nu4yp+BcYJp90LiOTeDBKduQ1hWfRCwdTnNEzAhSGitcQ4jLpnsQ==
+X-Received: by 2002:a05:600c:138c:b0:434:9d76:5031 with SMTP id
+ 5b1f17b1804b1-434d52a1a87mr1200475e9.1.1733329620387; 
+ Wed, 04 Dec 2024 08:27:00 -0800 (PST)
 Received: from localhost ([2a00:79e0:9d:4:4606:5fa1:8ade:6950])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-385e17574ebsm14388276f8f.30.2024.12.04.08.26.58
+ ffacd0b85a97d-385dd99504csm16808066f8f.85.2024.12.04.08.26.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2024 08:26:58 -0800 (PST)
+ Wed, 04 Dec 2024 08:26:59 -0800 (PST)
 From: Jann Horn <jannh@google.com>
-Subject: [PATCH v2 0/3] fixes for udmabuf (memfd sealing checks and a leak)
-Date: Wed, 04 Dec 2024 17:26:18 +0100
-Message-Id: <20241204-udmabuf-fixes-v2-0-23887289de1c@google.com>
+Date: Wed, 04 Dec 2024 17:26:19 +0100
+Subject: [PATCH v2 1/3] udmabuf: fix racy memfd sealing check
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKqCUGcC/3WMyw7CIBQFf6W5azG82lhX/ofpgseFkthiwBJNw
- 7+L3bucczKzQ8YUMMO12yFhCTnEtQE/dWBmtXokwTYGTrlknAqy2UXpzREX3piJpVL0qJUeBgH
- NeSY8jqbcp8ZzyK+YPke+sN/6r1QYocSNI78wI2Sv1M3H6B94NnGBqdb6BTX3zp2rAAAA
-X-Change-ID: 20241203-udmabuf-fixes-d0435ebab663
+Message-Id: <20241204-udmabuf-fixes-v2-1-23887289de1c@google.com>
+References: <20241204-udmabuf-fixes-v2-0-23887289de1c@google.com>
+In-Reply-To: <20241204-udmabuf-fixes-v2-0-23887289de1c@google.com>
 To: Gerd Hoffmann <kraxel@redhat.com>, 
  Vivek Kasireddy <vivek.kasireddy@intel.com>, 
  Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -81,11 +79,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  Jann Horn <jannh@google.com>, Julian Orth <ju.orth@gmail.com>, 
  stable@vger.kernel.org
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733329589; l=3258;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733329589; l=1788;
  i=jannh@google.com; s=20240730; h=from:subject:message-id;
- bh=x70cZ6Pnodptk8s8H2UvJEPrrE/aNUkvtZGjOJaEWtk=;
- b=wvi+WMu5XyGongyF0xG2h2EfpSwyL8Ch96wwqWKQwp3k2ZEGtB86dYewh42kVY0ZyLnBTMeKu
- 1GCnV9vQLOPBwlbq+veVUlxDTxbwGjCn5HlM6jDoIcqd5fad7aYhFUZ
+ bh=Tb4zTg8gwUbDaogCnGrqjqwGKOpD1jahUvTB+lbqtzQ=;
+ b=x0rM9Iqs4R9cqZm4OwMo3VWit21K6SeS2leyIeQreRfqXoZoMTJdgc0TRz3BeylxDekXItOM6
+ v3yPm+oXfdYAGerYEcgb+A8uMYKhMtEJ8Hr0uOzDDVLWGCHtKOz9Wou
 X-Developer-Key: i=jannh@google.com; a=ed25519;
  pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,114 +101,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I have tested that patches 2 and 3 work using the following reproducers.
-I did not write a reproducer for the issue described in patch 1.
+The current check_memfd_seals() is racy: Since we first do
+check_memfd_seals() and then udmabuf_pin_folios() without holding any
+relevant lock across both, F_SEAL_WRITE can be set in between.
+This is problematic because we can end up holding pins to pages in a
+write-sealed memfd.
 
-Reproducer for F_SEAL_FUTURE_WRITE not being respected:
-```
-#define _GNU_SOURCE
-#include <err.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <sys/mman.h>
-#include <linux/udmabuf.h>
+Fix it using the inode lock, that's probably the easiest way.
+In the future, we might want to consider moving this logic into memfd,
+especially if anyone else wants to use memfd_pin_folios().
 
-#define SYSCHK(x) ({          \
-  typeof(x) __res = (x);      \
-  if (__res == (typeof(x))-1) \
-    err(1, "SYSCHK(" #x ")"); \
-  __res;                      \
-})
-
-int main(void) {
-  int memfd = SYSCHK(memfd_create("test", MFD_ALLOW_SEALING));
-  SYSCHK(ftruncate(memfd, 0x1000));
-  SYSCHK(fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK|F_SEAL_FUTURE_WRITE));
-  int udmabuf_fd = SYSCHK(open("/dev/udmabuf", O_RDWR));
-  struct udmabuf_create create_arg = {
-    .memfd = memfd,
-    .flags = 0,
-    .offset = 0,
-    .size = 0x1000
-  };
-  int buf_fd = SYSCHK(ioctl(udmabuf_fd, UDMABUF_CREATE, &create_arg));
-  printf("created udmabuf buffer fd %d\n", buf_fd);
-  char *map = SYSCHK(mmap(NULL, 0x1000, PROT_READ|PROT_WRITE, MAP_SHARED, buf_fd, 0));
-  *map = 'a';
-}
-```
-
-Reproducer for the memory leak (if you run this for a while, your memory
-usage will steadily go up, and /sys/kernel/debug/dma_buf/bufinfo will
-contain a ton of entries):
-```
-#define _GNU_SOURCE
-#include <err.h>
-#include <errno.h>
-#include <assert.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <sys/mman.h>
-#include <sys/resource.h>
-#include <linux/udmabuf.h>
-
-#define SYSCHK(x) ({          \
-  typeof(x) __res = (x);      \
-  if (__res == (typeof(x))-1) \
-    err(1, "SYSCHK(" #x ")"); \
-  __res;                      \
-})
-
-int main(void) {
-  int memfd = SYSCHK(memfd_create("test", MFD_ALLOW_SEALING));
-  SYSCHK(ftruncate(memfd, 0x1000));
-  SYSCHK(fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK));
-  int udmabuf_fd = SYSCHK(open("/dev/udmabuf", O_RDWR));
-
-  // prevent creating new FDs
-  struct rlimit rlim = { .rlim_cur = 1, .rlim_max = 1 };
-  SYSCHK(setrlimit(RLIMIT_NOFILE, &rlim));
-
-  while (1) {
-    struct udmabuf_create create_arg = {
-      .memfd = memfd,
-      .flags = 0,
-      .offset = 0,
-      .size = 0x1000
-    };
-    int buf_fd = ioctl(udmabuf_fd, UDMABUF_CREATE, &create_arg);
-    assert(buf_fd == -1);
-    assert(errno == EMFILE);
-  }
-}
-```
-
+Reported-by: Julian Orth <ju.orth@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219106
+Closes: https://lore.kernel.org/r/CAG48ez0w8HrFEZtJkfmkVKFDhE5aP7nz=obrimeTgpD+StkV9w@mail.gmail.com
+Fixes: fbb0de795078 ("Add udmabuf misc device")
+Cc: stable@vger.kernel.org
 Signed-off-by: Jann Horn <jannh@google.com>
 ---
-Changes in v2:
-- patch 1/3: use file_inode instead of ->f_inode (Vivek)
-- patch 1/3: add comment explaining the inode_lock_shared()
-- patch 3/3: remove unused parameter (Vivek)
-- patch 3/3: add comment on cleanup (Vivek)
-- collect Acks
-- Link to v1: https://lore.kernel.org/r/20241203-udmabuf-fixes-v1-0-f99281c345aa@google.com
+ drivers/dma-buf/udmabuf.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
----
-Jann Horn (3):
-      udmabuf: fix racy memfd sealing check
-      udmabuf: also check for F_SEAL_FUTURE_WRITE
-      udmabuf: fix memory leak on last export_udmabuf() error path
-
- drivers/dma-buf/udmabuf.c | 43 +++++++++++++++++++++++++++----------------
- 1 file changed, 27 insertions(+), 16 deletions(-)
----
-base-commit: b86545e02e8c22fb89218f29d381fa8e8b91d815
-change-id: 20241203-udmabuf-fixes-d0435ebab663
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 8ce1f074c2d32a0a9f59ff7184359e37d56548c6..c1d8c2766d6d36fc5fe1b3d73057f6e01ec6678f 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -436,14 +436,19 @@ static long udmabuf_create(struct miscdevice *device,
+ 			goto err;
+ 		}
+ 
++		/*
++		 * Take the inode lock to protect against concurrent
++		 * memfd_add_seals(), which takes this lock in write mode.
++		 */
++		inode_lock_shared(file_inode(memfd));
+ 		ret = check_memfd_seals(memfd);
+-		if (ret < 0) {
+-			fput(memfd);
+-			goto err;
+-		}
++		if (ret)
++			goto out_unlock;
+ 
+ 		ret = udmabuf_pin_folios(ubuf, memfd, list[i].offset,
+ 					 list[i].size, folios);
++out_unlock:
++		inode_unlock_shared(file_inode(memfd));
+ 		fput(memfd);
+ 		if (ret)
+ 			goto err;
 
 -- 
-Jann Horn <jannh@google.com>
+2.47.0.338.g60cca15819-goog
 
