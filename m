@@ -2,108 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8718A9E31FE
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 04:18:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715079E3214
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 04:24:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB50910E244;
-	Wed,  4 Dec 2024 03:18:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2602510EBAC;
+	Wed,  4 Dec 2024 03:24:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XEyrgW9E";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="icfXCgcn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4169F10E287
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 03:18:17 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-53df63230d0so7629204e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 19:18:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733282295; x=1733887095; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ov4oIDApdgx4WHS7bE5m2BIEReCDIeuVyAq9ezmep2w=;
- b=XEyrgW9EFTBdSKFXtrSNurXB8H6A5uMK0v4/Vhr8jJjJ0Sor+gCXCZqM8SUOW1Y6wq
- wgZqDV+8+B/O+bKzoKs09+yqUfxhYwaP8bYSN1G1aghYmM4M7fi1lEf7QwndsBXEuvdt
- pjOu0rovVGOa/FLxRnk6ujPvkON+jl5sZj16CR5aKUytGooJ1QWlxPqZ8YndFBHWVxfm
- Gpsl6DqfylJ+i0gI+TU9+GigUC2QmN8MrhYXsfivE/QoJxe/4SGf/4JB9KVwqKYHz4Ae
- amvIyLY1sfHFNpZT/BmLEp7Ya8hzH0CpjDeV2NxL5E/8lYHHHB1guNt9Yg1Ow+iWF31j
- ll5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733282295; x=1733887095;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ov4oIDApdgx4WHS7bE5m2BIEReCDIeuVyAq9ezmep2w=;
- b=f9yHz5bSe0UEEd16CcuoHg13dRlbOcAGWtSSFLWoBcfoHUDdDXaJtwudj4Clb0gHTk
- iZNKvMdNLuiT46/8Pp4ylnhvDTAjqGsiTsTyPPyKy10FU8et9CpjKYDiiLNHQ6raccDU
- V0hUx7rTzhXrTu1np3GDt61g1p4Vu2dzdFxVo1NNDmlJcHxqiteLQiTC7kKvSWpdKzbN
- B/x7yF0B2KYSOydBI1Qe1b/TRt4Ew0ULc7BpsiOmZ5BjRyb4f5yNihCjmpuV3hUTtBWA
- LM8ZdoKOfUuryVRq4uZVJjVW93XtiiVrzjYWP006HelMTpsNApuBbeYyAroYxIi8ywoU
- wFkg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUSEnIaNhYT0eB59F5hEbfXkWfW+wFHpC5Wj67d0gyJyntws+FfMkFU2OYr3XQaCh471/IKkEdOsXk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyD61B2z8Yx70YC9dURrgptNtQD1pGjHXYmwG0q+41cs4UHlTsY
- w61vDDW6QtAJmXRrXLiAo0ge9HwI4x/06tBiS4PoDzTourqBGz/aqOR8u7EXVkI=
-X-Gm-Gg: ASbGncs49UUVBxmlkNIrMMFQOgcI7XIe+Q39xs2XrozwVj+jkJa2vlzr7pgjHdHFNxf
- G9jRIa8kv4IIXUAqo4/ATymSqHASRDySILGwMIIghN1dkiQNZp28xJrNp1rXH1mi5fiPmmB90Ms
- HebTHoZOyWL7vxt5RYr2E/3JEOhnot7aKt5O5kQWL9pdyQK0Aq5Q/hOjCFNzl18euYwWZL6eM6K
- esE0GZ0xqbcjC/E0xmPaXz2sbZUifkdy2H8Uy9eQ6cW/jwXUJXu7cN8Y1/751GiWB5UCzDsVwpk
- 51MUqaZJ85+kqpYS1OaBtmMnJTuXBw==
-X-Google-Smtp-Source: AGHT+IFJX8QZfHrEBC9Xxxj95DpGajpX3DiwA7TRxy/4ydOL7I3C5fwKfR6CJxAdfz87Jxn9zNInqQ==
-X-Received: by 2002:a05:6512:3a8e:b0:53d:a550:2885 with SMTP id
- 2adb3069b0e04-53e12a34282mr2179215e87.47.1733282295266; 
- Tue, 03 Dec 2024 19:18:15 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df649f13csm2058532e87.230.2024.12.03.19.18.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2024 19:18:14 -0800 (PST)
-Date: Wed, 4 Dec 2024 05:18:11 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Phong LE <ple@baylibre.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 7/9] drm/bridge_connector: hook
- drm_atomic_helper_connector_hdmi_update_edid()
-Message-ID: <txzri7x4pdeakx4juandk3hfhsbx3dhlulxfuehqlmrr7b3wpw@jaunqktsro6x>
-References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
- <20241201-drm-bridge-hdmi-connector-v5-7-b5316e82f61a@linaro.org>
- <87a5dc4zd5.fsf@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5274210EBAC;
+ Wed,  4 Dec 2024 03:24:54 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B3GefrG030963;
+ Wed, 4 Dec 2024 03:24:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Yi546urIkz6lFveQDWq8wCs7jA2kcBqfdVl74TuXpJo=; b=icfXCgcn1wsLRbs9
+ S7u+LYXzvVaPkHpLqNSDWcPg8U3J94LcuhinUTxjREHHu57GsPxQR/tt3U+c8TSo
+ 4qcosO5nuEuV5Xu6wg0ORopJI8SXYH+9evmV2+5w5GBHturuDnfBmFQlsS9DePg4
+ J88e+TAopUUIBFSFGMwKQ9QAWypwuX5fxUcIGPZrZdV8vMzk6bIoEDQitWsR1GmJ
+ uqLdmdz7nNhUDuTICPXsRRI0nUAoq6DCm5y6Di3FUbNU3GGRSQEMJ0sPkP1nbQIi
+ 9RcIZYHQlcgf9Xs0fcAKoOd693z2sl6dqVdlBFR86DDR6OeGS9YsPPUtysQFI5UX
+ muriiw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 439w90twg6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 04 Dec 2024 03:24:48 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B43OlZo008482
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 4 Dec 2024 03:24:47 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Dec 2024
+ 19:24:47 -0800
+Message-ID: <58d28874-0fcc-42f4-831d-1f304f7d9d4f@quicinc.com>
+Date: Tue, 3 Dec 2024 19:24:46 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87a5dc4zd5.fsf@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] drm/msm/dp: remove redundant ST_DISPLAY_OFF checks in
+ msm_dp_bridge_atomic_enable()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, "Stephen Boyd" <swboyd@chromium.org>,
+ Doug Anderson <dianders@chromium.org>, "Johan Hovold" <johan@kernel.org>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>
+References: <20241202-hpd_display_off-v1-0-8d0551847753@quicinc.com>
+ <20241202-hpd_display_off-v1-2-8d0551847753@quicinc.com>
+ <f6oh3kid5dfiqe7jy7j3d4gcv4evbtztzpgiygvzfsu6qlim2j@2vsulwcau6tr>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <f6oh3kid5dfiqe7jy7j3d4gcv4evbtztzpgiygvzfsu6qlim2j@2vsulwcau6tr>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: LMYWga17l-beLuQplgpCkbSrnwK8c8tZ
+X-Proofpoint-GUID: LMYWga17l-beLuQplgpCkbSrnwK8c8tZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 bulkscore=0
+ impostorscore=0 phishscore=0 suspectscore=0 adultscore=0 mlxscore=0
+ spamscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412040026
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,154 +97,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 03, 2024 at 04:25:58PM +0200, Jani Nikula wrote:
-> On Sun, 01 Dec 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> > Extend drm_bridge_connector code to read the EDID and use it to update
-> > connector status if the bridge chain implements HDMI bridge. Performing
-> > it from the generic location minimizes individual bridge's code and
-> > enforces standard behaviour from all corresponding drivers.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/display/drm_bridge_connector.c | 67 ++++++++++++++++++++------
-> >  1 file changed, 53 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-> > index 12ab9f14cc8a8672478ae2804c9a68d766d88ea5..71ae3b2c9049016d1cc0d39a787f6461633efd53 100644
-> > --- a/drivers/gpu/drm/display/drm_bridge_connector.c
-> > +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-> > @@ -17,6 +17,7 @@
-> >  #include <drm/drm_edid.h>
-> >  #include <drm/drm_managed.h>
-> >  #include <drm/drm_modeset_helper_vtables.h>
-> > +#include <drm/drm_print.h>
-> >  #include <drm/drm_probe_helper.h>
-> >  #include <drm/display/drm_hdmi_state_helper.h>
-> >  
-> > @@ -175,17 +176,55 @@ static void drm_bridge_connector_disable_hpd(struct drm_connector *connector)
-> >   * Bridge Connector Functions
-> >   */
-> >  
-> > +static const struct drm_edid *
-> > +drm_bridge_connector_read_edid(struct drm_connector *connector,
-> > +			       enum drm_connector_status status)
-> > +{
-> > +	struct drm_bridge_connector *bridge_connector =
-> > +		to_drm_bridge_connector(connector);
-> > +	const struct drm_edid *drm_edid;
-> > +	struct drm_bridge *bridge;
-> > +
-> > +	bridge = bridge_connector->bridge_edid;
-> > +	if (!bridge)
-> > +		return NULL;
-> > +
-> > +	if (status != connector_status_connected)
-> > +		return NULL;
-> > +
-> > +	drm_edid = drm_bridge_edid_read(bridge, connector);
-> > +	if (!drm_edid_valid(drm_edid)) {
-> 
-> What's the case this check is for?
-> 
-> My preference would be that bridge->funcs->edid_read() uses
-> drm_edid_read*() family of functions that do the checks and return the
-> EDID.
-> 
-> There are some cases that just allocate a blob and return it. Would be
-> nice if they could be converted, but in the mean time could use
-> drm_edid_valid() right there. Additional validity checks are redundant.
 
-This was c&p from drm_bridge_connector_get_modes_edid(). If you think
-that the check is redundant, could you please send a patch dropping the
-check?
 
+On 12/3/2024 5:53 AM, Dmitry Baryshkov wrote:
+> On Mon, Dec 02, 2024 at 04:39:01PM -0800, Abhinav Kumar wrote:
+>> The checks in msm_dp_display_prepare() for making sure that we are in
+>> ST_DISPLAY_OFF OR ST_MAINLINK_READY seem redundant.
+>>
+>> DRM fwk shall not issue any commits if state is not ST_MAINLINK_READY as
+>> msm_dp's atomic_check callback returns a failure if state is not ST_MAINLINK_READY.
 > 
-> BR,
-> Jani.
+> Can the state change between atomic_check() and atomic_commit()?
 > 
-> 
-> > +		drm_edid_free(drm_edid);
-> > +		return NULL;
-> > +	}
-> > +
-> > +	return drm_edid;
-> > +}
-> > +
-> >  static enum drm_connector_status
-> >  drm_bridge_connector_detect(struct drm_connector *connector, bool force)
-> >  {
-> >  	struct drm_bridge_connector *bridge_connector =
-> >  		to_drm_bridge_connector(connector);
-> >  	struct drm_bridge *detect = bridge_connector->bridge_detect;
-> > +	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
-> >  	enum drm_connector_status status;
-> >  
-> >  	if (detect) {
-> >  		status = detect->funcs->detect(detect);
-> >  
-> > +		if (hdmi) {
-> > +			const struct drm_edid *drm_edid;
-> > +			int ret;
-> > +
-> > +			drm_edid = drm_bridge_connector_read_edid(connector, status);
-> > +			ret = drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
-> > +			if (ret)
-> > +				drm_warn(connector->dev, "updating EDID failed with %d\n", ret);
-> > +
-> > +			drm_edid_free(drm_edid);
-> > +		}
-> > +
-> >  		drm_bridge_connector_hpd_notify(connector, status);
-> >  	} else {
-> >  		switch (connector->connector_type) {
-> > @@ -246,29 +285,29 @@ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
-> >  static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
-> >  					       struct drm_bridge *bridge)
-> >  {
-> > +	struct drm_bridge_connector *bridge_connector =
-> > +		to_drm_bridge_connector(connector);
-> > +	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
-> >  	enum drm_connector_status status;
-> >  	const struct drm_edid *drm_edid;
-> > -	int n;
-> >  
-> >  	status = drm_bridge_connector_detect(connector, false);
-> >  	if (status != connector_status_connected)
-> > -		goto no_edid;
-> > +		return 0;
-> >  
-> > -	drm_edid = drm_bridge_edid_read(bridge, connector);
-> > -	if (!drm_edid_valid(drm_edid)) {
-> > +	/* In HDMI setup the EDID has been read and handled as a part of .detect() */
-> > +	if (!hdmi) {
-> > +		drm_edid = drm_bridge_connector_read_edid(connector, status);
-> > +		if (!drm_edid) {
-> > +			drm_edid_connector_update(connector, NULL);
-> > +			return 0;
-> > +		}
-> > +
-> > +		drm_edid_connector_update(connector, drm_edid);
-> >  		drm_edid_free(drm_edid);
-> > -		goto no_edid;
-> >  	}
-> >  
-> > -	drm_edid_connector_update(connector, drm_edid);
-> > -	n = drm_edid_connector_add_modes(connector);
-> > -
-> > -	drm_edid_free(drm_edid);
-> > -	return n;
-> > -
-> > -no_edid:
-> > -	drm_edid_connector_update(connector, NULL);
-> > -	return 0;
-> > +	return drm_edid_connector_add_modes(connector);
-> >  }
-> >  
-> >  static int drm_bridge_connector_get_modes(struct drm_connector *connector)
-> 
-> -- 
-> Jani Nikula, Intel
 
--- 
-With best wishes
-Dmitry
+Good question.
+
+I cannot deny that such a possibility does exist.
+
+ From what I can see in the state machine today, the only possibility I 
+can think of here is if a user very quickly removes the cable as soon as 
+they connect the cable like so fast that the connect was not yet 
+processed before disconnect.
+
+Similarly, if an irq_hpd fires after atomic_check but before 
+atomic_enable(), and moreover if we hit the sink_count == 0 case in 
+msm_dp_display_handle_port_status_changed() during this irq_hpd,
+
+In both these cases, then we will transition to ST_DISCONNECT_PENDING state.
+
+Without this change, we would have bailed out in the 
+ST_DISCONNECT_PENDING case.
+
+But other than this, I cannot atleast think of a case where a different 
+state transition can happen between atomic_check() and atomic_commit() 
+because for other transitions, I think we should be still okay.
+
+But this is purely based on theoretical observation and hypothesis.
+
+Is it better to add a check to bail out in the DISCONNECT_PENDING case?
+
+OR document this as "To-do: Need to bail out if DISCONNECT_PENDING" 
+because even if I add this check, I dont know if can make sure this can 
+be validated as the check could never hit.
+
+
+>>
+>> For the ST_DISPLAY_OFF check, its mainly to guard against a scenario that
+>> there is an atomic_enable() without a prior atomic_disable() which once again
+>> should not really happen.
+>>
+>> To simplify the code, get rid of these checks.
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 6 ------
+>>   1 file changed, 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 992184cc17e4..614fff09e5f2 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -1513,12 +1513,6 @@ void msm_dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
+>>   		return;
+>>   	}
+>>   
+>> -	state = msm_dp_display->hpd_state;
+>> -	if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) {
+>> -		mutex_unlock(&msm_dp_display->event_mutex);
+>> -		return;
+>> -	}
+>> -
+>>   	rc = msm_dp_display_set_mode(dp, &msm_dp_display->msm_dp_mode);
+>>   	if (rc) {
+>>   		DRM_ERROR("Failed to perform a mode set, rc=%d\n", rc);
+>>
+>> -- 
+>> 2.34.1
+>>
+> 
